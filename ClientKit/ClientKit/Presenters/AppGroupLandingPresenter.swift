@@ -123,20 +123,20 @@ open class AppGroupLandingPresenter: NSObject, Presenter {
 }
 
 
-extension AppGroupLandingPresenter: LoginViewControllerDelegate {
+extension AppGroupLandingPresenter: UsernamePasswordDelegate {
 
     public func loginViewControllerDidAppear(_ controller: LoginViewController) {
     }
 
-    public func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String?, password: String?, mode: LoginMode) {
+    public func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
         controller.setLoading(true, animated: true)
 
-        APIManager.shared.accessTokenRequest(for: .credentials(username: username ?? "", password: password ?? "")).then { [weak self] token -> Void in
+        APIManager.shared.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] token -> Void in
             guard let `self` = self else { return }
 
             APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
 
-            UserSession.startSession(user: User(username: username ?? ""), token: token)
+            UserSession.startSession(user: User(username: username), token: token)
             controller.resetFields()
             self.updateInterfaceForUserSession(animated: true)
 
