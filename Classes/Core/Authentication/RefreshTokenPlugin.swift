@@ -79,9 +79,11 @@ open class RefreshTokenPlugin: PluginType {
                     // Update access token
                     APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
                     UserSession.current.updateToken(token)
-                }.catch { error in
+                }.recover { error -> Void in
                     // Allow app to handle fallback
                     self.onRefreshTokenFailed?(error)
+                    // Cancel all chained requests
+                    throw NSError.cancelledError()
                 }.always {
                     self.refreshPromise = nil
                 }
