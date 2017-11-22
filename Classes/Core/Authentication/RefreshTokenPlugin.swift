@@ -70,7 +70,7 @@ open class RefreshTokenPlugin: PluginType {
             // If no refresh token exists, allow app to handle a failed refresh
             guard let refreshToken = UserSession.current.token?.refreshToken else {
                 onRefreshTokenFailed?(response.error)
-                return Promise(value: response)
+                return Promise(error: NSError.cancelledError())
             }
             
             // Create refresh promise
