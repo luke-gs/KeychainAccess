@@ -66,7 +66,11 @@ open class MPOLSplitViewController: PushableSplitViewController {
     }
 
     /// Whether the master view controller is hidden when displaying in compact size
-    public var shouldHideMasterWhenCompact: Bool = true
+    public var shouldHideMasterWhenCompact: Bool = true {
+        didSet {
+            updateSplitViewControllerForTraitChange()
+        }
+    }
 
     /// The KVO observer for right bar button items of the selected view controller
     private var rightBarButtonItemsObservation: NSKeyValueObservation?
@@ -85,6 +89,11 @@ open class MPOLSplitViewController: PushableSplitViewController {
     /// Return the title to use for the master navigation controller for the given traits
     open func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
         return self.title ?? ""
+    }
+    
+    /// Return the subtitle to use for the master navigation controller for the given traits, or nil
+    open func masterNavSubtitleSuitable(for traitCollection: UITraitCollection) -> String? {
+        return nil
     }
 
     /// Notification that paging scroll view has updated
@@ -266,18 +275,32 @@ open class MPOLSplitViewController: PushableSplitViewController {
         // Note: this can move to detail view controller when switching between regular and compact
         masterNavItem.leftBarButtonItems = masterViewController.navigationItem.leftBarButtonItems ?? [backButtonItem()].removeNils()
         detailNavItem?.leftBarButtonItem = nil
-
+        
         if self.isCompact() {
-            // Use the selected detail right button items if compact
-            masterNavItem.rightBarButtonItems = selectedViewController?.navigationItem.rightBarButtonItems
+            if let selectedViewController = selectedViewController {
+                // Use the selected detail right button items if compact
+                masterNavItem.rightBarButtonItems = selectedViewController.navigationItem.rightBarButtonItems
+            } else {
+                // Use the master right button items if compact and no VC selected
+                masterNavItem.rightBarButtonItems = masterViewController.navigationItem.rightBarButtonItems
+            }
         } else {
             // Otherwise use the content of the master view controller
             masterNavItem.rightBarButtonItems = containerMasterViewController.contentViewController?.navigationItem.rightBarButtonItems
         }
 
+        let title = masterNavTitleSuitable(for: traitCollection)
+        
         // Update the navigation bar titles, otherwise they can be shown on wrong side after transition
-        masterNavItem.title = masterNavTitleSuitable(for: traitCollection)
+        masterNavItem.title = title
         detailNavItem?.title = detailNavController.viewControllers.first?.title
+        
+        // Add titleView if we have one, otherwise add subtitle if we have one
+        if let titleView = masterViewController.navigationItem.titleView {
+            masterNavItem.titleView = titleView
+        } else if let subtitle = masterNavSubtitleSuitable(for: traitCollection) {
+            containerMasterViewController.setTitleView(title: title, subtitle: subtitle)
+        }
     }
 
     open func updateNavigationBarForTraitChange() {
