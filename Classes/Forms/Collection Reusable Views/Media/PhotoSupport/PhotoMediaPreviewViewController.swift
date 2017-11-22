@@ -38,7 +38,9 @@ public class PhotoMediaPreviewViewController: UIViewController {
         titleLabel.font = UIFont.preferredFont(forTextStyle: .caption1, compatibleWith: traitCollection)
         titleLabel.textAlignment = .center
         titleLabel.textColor = .white
-        titleLabel.backgroundColor = UIColor(displayP3Red: 51.0 / 255.0, green: 52.0 / 255.0, blue: 58.0 / 255.0, alpha: 0.82)
+
+        titleLabel.backgroundColor = #colorLiteral(red: 0.2, green: 0.2039215686, blue: 0.2274509804, alpha: 0.82)
+
         titleLabel.text = photoMedia.title
         titleLabel.layer.cornerRadius = 6.0
         titleLabel.clipsToBounds = true
