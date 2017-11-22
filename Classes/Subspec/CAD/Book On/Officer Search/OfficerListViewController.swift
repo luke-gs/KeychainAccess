@@ -17,6 +17,7 @@ open class OfficerListViewController: GenericSearchViewController {
     public required init(viewModel: GenericSearchViewModel) {
         super.init(viewModel: viewModel)
         delegate = self
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""), style: .plain, target: self, action: #selector(cancelTapped))
     }
     
     /// Support being transparent when in popover/form sheet
@@ -40,6 +41,10 @@ open class OfficerListViewController: GenericSearchViewController {
         if let header = view as? CollectionViewFormHeaderView {
             header.separatorColor = iOSStandardSeparatorColor
         }
+    }
+    
+    @objc public func cancelTapped() {
+        navigationController?.popViewController(animated: true)
     }
 }
 
