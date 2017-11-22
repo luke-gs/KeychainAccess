@@ -176,7 +176,7 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         
         let titleSize    = titleLabel.sizeThatFits(CGSize(width: contentRect.width - imageInset, height: .greatestFiniteMagnitude))
         let subtitleSize = subtitleLabel.sizeThatFits(CGSize(width: contentRect.width - imageInset, height: .greatestFiniteMagnitude))
-        let detailSize   = detailLabel.sizeThatFits(CGSize(width: contentRect.width, height: .greatestFiniteMagnitude))
+        let detailSize   = detailLabel.sizeThatFits(CGSize(width: contentRect.width - imageInset, height: .greatestFiniteMagnitude))
         
         let showingTitle    = titleSize.isEmpty == false && titleLabel.isHidden == false
         let showingSubtitle = subtitleSize.isEmpty == false && subtitleLabel.isHidden == false
