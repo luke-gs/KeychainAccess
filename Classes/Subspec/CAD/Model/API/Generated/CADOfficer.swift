@@ -26,7 +26,6 @@ class CADOfficer : NSObject, NSCoding{
 	var entityType : String!
 	var events : [AnyObject]!
 	var expiryDate : AnyObject!
-	var externalIdentifiers : CADExternalIdentifier!
 	var firstName : String!
 	var fullName : AnyObject!
 	var id : String!
@@ -78,9 +77,6 @@ class CADOfficer : NSObject, NSCoding{
 		entityType = dictionary["entityType"] as? String
 		events = dictionary["events"] as? [AnyObject]
 		expiryDate = dictionary["expiryDate"] as AnyObject
-		if let externalIdentifiersData = dictionary["externalIdentifiers"] as? [String:Any]{
-			externalIdentifiers = CADExternalIdentifier(fromDictionary: externalIdentifiersData)
-		}
 		firstName = dictionary["firstName"] as? String
 		fullName = dictionary["fullName"] as AnyObject
 		id = dictionary["id"] as? String
@@ -171,9 +167,6 @@ class CADOfficer : NSObject, NSCoding{
 		}
 		if expiryDate != nil{
 			dictionary["expiryDate"] = expiryDate
-		}
-		if externalIdentifiers != nil{
-			dictionary["externalIdentifiers"] = externalIdentifiers.toDictionary()
 		}
 		if firstName != nil{
 			dictionary["firstName"] = firstName
@@ -281,7 +274,6 @@ class CADOfficer : NSObject, NSCoding{
          entityType = aDecoder.decodeObject(forKey: "entityType") as? String
          events = aDecoder.decodeObject(forKey: "events") as? [AnyObject]
          expiryDate = aDecoder.decodeObject(forKey: "expiryDate") as AnyObject
-         externalIdentifiers = aDecoder.decodeObject(forKey: "externalIdentifiers") as? CADExternalIdentifier
          firstName = aDecoder.decodeObject(forKey: "firstName") as? String
          fullName = aDecoder.decodeObject(forKey: "fullName") as AnyObject
          id = aDecoder.decodeObject(forKey: "id") as? String
@@ -373,9 +365,6 @@ class CADOfficer : NSObject, NSCoding{
 		}
 		if expiryDate != nil{
 			aCoder.encode(expiryDate, forKey: "expiryDate")
-		}
-		if externalIdentifiers != nil{
-			aCoder.encode(externalIdentifiers, forKey: "externalIdentifiers")
 		}
 		if firstName != nil{
 			aCoder.encode(firstName, forKey: "firstName")

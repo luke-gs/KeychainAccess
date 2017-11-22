@@ -23,7 +23,6 @@ class CADIncident : NSObject, NSCoding{
 	var entityType : String!
 	var events : [AnyObject]!
 	var expiryDate : AnyObject!
-	var externalIdentifiers : CADExternalIdentifier!
 	var grade : String!
 	var id : String!
 	var incidentResources : [AnyObject]!
@@ -63,9 +62,6 @@ class CADIncident : NSObject, NSCoding{
 		entityType = dictionary["entityType"] as? String
 		events = dictionary["events"] as? [AnyObject]
 		expiryDate = dictionary["expiryDate"] as? AnyObject
-		if let externalIdentifiersData = dictionary["externalIdentifiers"] as? [String:Any]{
-			externalIdentifiers = CADExternalIdentifier(fromDictionary: externalIdentifiersData)
-		}
 		grade = dictionary["grade"] as? String
 		id = dictionary["id"] as? String
 		incidentResources = dictionary["incidentResources"] as? [AnyObject]
@@ -138,9 +134,6 @@ class CADIncident : NSObject, NSCoding{
 		}
 		if expiryDate != nil{
 			dictionary["expiryDate"] = expiryDate
-		}
-		if externalIdentifiers != nil{
-			dictionary["externalIdentifiers"] = externalIdentifiers.toDictionary()
 		}
 		if grade != nil{
 			dictionary["grade"] = grade
@@ -218,7 +211,6 @@ class CADIncident : NSObject, NSCoding{
          entityType = aDecoder.decodeObject(forKey: "entityType") as? String
          events = aDecoder.decodeObject(forKey: "events") as? [AnyObject]
          expiryDate = aDecoder.decodeObject(forKey: "expiryDate") as? AnyObject
-         externalIdentifiers = aDecoder.decodeObject(forKey: "externalIdentifiers") as? CADExternalIdentifier
          grade = aDecoder.decodeObject(forKey: "grade") as? String
          id = aDecoder.decodeObject(forKey: "id") as? String
          incidentResources = aDecoder.decodeObject(forKey: "incidentResources") as? [AnyObject]
@@ -292,9 +284,6 @@ class CADIncident : NSObject, NSCoding{
 		}
 		if expiryDate != nil{
 			aCoder.encode(expiryDate, forKey: "expiryDate")
-		}
-		if externalIdentifiers != nil{
-			aCoder.encode(externalIdentifiers, forKey: "externalIdentifiers")
 		}
 		if grade != nil{
 			aCoder.encode(grade, forKey: "grade")

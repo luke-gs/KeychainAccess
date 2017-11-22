@@ -175,7 +175,6 @@
 		9686FC961F78AC7600C4AB4D /* UIViewController+SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9686FC951F78AC7600C4AB4D /* UIViewController+SafeArea.swift */; };
 		969959661FC2334300CB51EB /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969959651FC2334300CB51EB /* ColorPalette.swift */; };
 		969959691FC2495000CB51EB /* CADStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969959681FC2495000CB51EB /* CADStateManager.swift */; };
-		969959781FC2830C00CB51EB /* CADExternalIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969959741FC2830C00CB51EB /* CADExternalIdentifier.swift */; };
 		969959791FC2830C00CB51EB /* CADIncident.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969959751FC2830C00CB51EB /* CADIncident.swift */; };
 		9699597A1FC2830C00CB51EB /* CADOfficer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969959761FC2830C00CB51EB /* CADOfficer.swift */; };
 		9699597B1FC2830C00CB51EB /* CADSyncSummaries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969959771FC2830C00CB51EB /* CADSyncSummaries.swift */; };
@@ -683,7 +682,6 @@
 		9686FC951F78AC7600C4AB4D /* UIViewController+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+SafeArea.swift"; sourceTree = "<group>"; };
 		969959651FC2334300CB51EB /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		969959681FC2495000CB51EB /* CADStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADStateManager.swift; sourceTree = "<group>"; };
-		969959741FC2830C00CB51EB /* CADExternalIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADExternalIdentifier.swift; sourceTree = "<group>"; };
 		969959751FC2830C00CB51EB /* CADIncident.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADIncident.swift; sourceTree = "<group>"; };
 		969959761FC2830C00CB51EB /* CADOfficer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADOfficer.swift; sourceTree = "<group>"; };
 		969959771FC2830C00CB51EB /* CADSyncSummaries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADSyncSummaries.swift; sourceTree = "<group>"; };
@@ -1485,7 +1483,6 @@
 		969959731FC2830C00CB51EB /* Generated */ = {
 			isa = PBXGroup;
 			children = (
-				969959741FC2830C00CB51EB /* CADExternalIdentifier.swift */,
 				969959751FC2830C00CB51EB /* CADIncident.swift */,
 				969959761FC2830C00CB51EB /* CADOfficer.swift */,
 				969959771FC2830C00CB51EB /* CADSyncSummaries.swift */,
@@ -3047,7 +3044,6 @@
 				BC9C7E4F1F0DED6600DFFE83 /* CircleIconView.swift in Sources */,
 				BCFA067E1F3176A3002FA1FF /* MapCollectionViewLayout.swift in Sources */,
 				BCC5132F1F333B2000413961 /* FormAccessoryView.swift in Sources */,
-				969959781FC2830C00CB51EB /* CADExternalIdentifier.swift in Sources */,
 				191BC4D41F7C203B00C8C218 /* HelpViewController.swift in Sources */,
 				EA445DAA1F73A12200ABF70F /* SummaryListFormItem.swift in Sources */,
 				19C5D9A21FA95ED800527B5A /* ImageResponseSerializer.swift in Sources */,
