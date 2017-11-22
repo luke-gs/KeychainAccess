@@ -159,6 +159,7 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
         
         if type == nil {
             text = searchable.text
+            attemptSearch(delay: !(text?.isEmpty ?? true))
             
             basicOptions.reset()
             advanceOptions?.populate(withOptions: nil, reset: true)
@@ -176,6 +177,7 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
                 options = advanceOptions
             } else {
                 text = searchable.text
+                attemptSearch(delay: !(text?.isEmpty ?? true))
                 options = basicOptions
             }
             return true
@@ -274,11 +276,15 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
     // MARK: - Handle address
     
     private func performSearchOnLocation(withResult result: LookupResult) {
+        text = result.location.textRepresentation
         let search = Searchable(text: text,
-                                    options: nil,
-                                    type: LocationSearchDataSourceSearchableType)
+                                options: nil,
+                                type: LocationSearchDataSourceSearchableType)
 
         let preferredViewModel = searchStrategy.resultModelForSearchOnLocation(withResult: result, andSearchable: search)
+        let radiusSearch = LocationMapSearchType.radiusSearch(from: result.location.coordinate)
+        // preferredViewModel.fetchResults(with: radiusSearch)
+
         updatingDelegate?.searchDataSource(self, didFinishWith: search, andResultViewModel: preferredViewModel)
     }
     

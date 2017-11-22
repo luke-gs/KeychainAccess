@@ -23,12 +23,11 @@ extension APIManager {
 
         let path = "{source}/entity/location/search/typeahead"
         var parameters = request.parameters
-        parameters["source"] = source
+        parameters["source"] = source.serverSourceName
 
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
 
         return try! performRequest(networkRequest)
 
     }
-
 }

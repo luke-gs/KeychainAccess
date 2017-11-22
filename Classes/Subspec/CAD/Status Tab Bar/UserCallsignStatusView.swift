@@ -96,7 +96,7 @@ open class UserCallsignStatusView: UIControl {
         } else {
             let padding = CGSize(width: LayoutConstants.imageMargin, height: LayoutConstants.imageMargin)
             iconImageView.image = viewModel.iconImage?.withCircleBackground(tintColor: .black,
-                                                                            circleColor: #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1),
+                                                                            circleColor: .disabledGray,
                                                                             padding: padding,
                                                                             shrinkImage: true)
         }

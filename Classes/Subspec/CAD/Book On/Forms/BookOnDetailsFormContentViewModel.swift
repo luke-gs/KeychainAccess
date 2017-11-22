@@ -36,7 +36,7 @@ public class BookOnDetailsFormContentViewModel {
         public var isDriver: Bool?
         
         public var subtitle: String {
-            return [rank, officerId, licenseType].removeNils().joined(separator: " : ")
+            return [rank, officerId, licenseType].removeNils().joined(separator: "  •  ")
         }
 
         public var driverStatus: String? {

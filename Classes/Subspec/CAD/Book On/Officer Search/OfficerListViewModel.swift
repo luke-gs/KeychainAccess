@@ -36,6 +36,9 @@ public class OfficerListViewModel: GenericSearchDefaultViewModel {
     open func officerDetailsViewController(for officer: OfficerListItemViewModel) -> UIViewController {
         let officerViewModel = BookOnDetailsFormContentViewModel.Officer()
         officerViewModel.title = officer.title
+        officerViewModel.rank = officer.rank
+        officerViewModel.officerId = officer.callsign
+        
 
         let detailsViewModel = OfficerDetailsViewModel(officer: officerViewModel)
         detailsViewModel.delegate = self
@@ -43,14 +46,14 @@ public class OfficerListViewModel: GenericSearchDefaultViewModel {
     }
     
     private static var sampleData: [GenericSearchable] {
-        let section = "Recently Used"
+        let section = "Recently Used".uppercased()
         return [
-            OfficerListItemViewModel.init(title: "Herli Halim", subtitle: "Senior Sergeant  :  #800256", section: section, image: nil),
-            OfficerListItemViewModel.init(title: "Bryan Hathaway", subtitle: "Constable  :  #8005823", section: section, image: nil),
-            OfficerListItemViewModel.init(title: "James Aramroongrot", subtitle: "Constable  :  #800851", section: section, image: nil),
-            OfficerListItemViewModel.init(title: "Luke Sammut", subtitle: "Constable  :  #820827", section: section, image: nil),
-            OfficerListItemViewModel.init(title: "Gavin Raison", subtitle: "Inspector  :  #820904", section: section, image: nil),
-            OfficerListItemViewModel.init(title: "Amit Benjamin", subtitle: "Senior Sergeant : #800405", section: section, image: nil),
+            OfficerListItemViewModel(firstName: "Herli", lastName: "Halim", rank: "Senior Sergeant", callsign: "800256", section: section, image: nil),
+            OfficerListItemViewModel(firstName: "Bryan", lastName: "Hathaway", rank: "Constable", callsign: "8005823", section: section, image: nil),
+            OfficerListItemViewModel(firstName: "James", lastName: "Aramroongrot", rank: "Constable", callsign: "800851", section: section, image: nil),
+            OfficerListItemViewModel(firstName: "Luke", lastName: "Sammut", rank: "Constable", callsign: "820827", section: section, image: nil),
+            OfficerListItemViewModel(firstName: "Gavin", lastName: "Raison", rank: "Inspector", callsign: "820904", section: section, image: nil),
+            OfficerListItemViewModel(firstName: "Amit", lastName: "Benjamin", rank: "Senior Sergeant", callsign: "800405", section: section, image: nil),
         ]
     }
 

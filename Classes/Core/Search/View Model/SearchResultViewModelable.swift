@@ -57,6 +57,9 @@ public protocol SearchResultViewModelable: SearchResultModelable {
     /// Contains information for each section
     var results: [SearchResultSection] { get set }
     
+    /// Additional actions on search results
+    var additionalBarButtonItems: [UIBarButtonItem]? { get set }
+    
     /// A delegate that will be notified when there are changes to results.
     weak var delegate: SearchResultViewModelDelegate? { get set }
     

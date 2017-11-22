@@ -27,6 +27,8 @@ public class EntitySummarySearchResultViewModel<T: MPOLKitEntity, Decorator: Ent
     
     public var results: [SearchResultSection] = []
     
+    public var additionalBarButtonItems: [UIBarButtonItem]? = nil
+    
     public weak var delegate: SearchResultViewModelDelegate?
     
     public var summarySearchResultsHandler: ((_ entities: [T]) -> [T]) = { return $0 }
