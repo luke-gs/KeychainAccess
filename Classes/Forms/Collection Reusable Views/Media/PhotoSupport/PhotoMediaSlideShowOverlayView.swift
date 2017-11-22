@@ -93,7 +93,7 @@ public class PhotoMediaSlideShowOverlayView: UIView, PhotoMediaOverlayViewable, 
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        MPLCodingNotSupported()
     }
 
     open override func layoutSubviews() {
