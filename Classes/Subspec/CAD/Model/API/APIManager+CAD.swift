@@ -18,27 +18,28 @@ extension APIManager {
     /// - Parameters:
     ///   - username: The officer username
     /// - Returns: A promise to return a X.
-    open func getOfficerByUsername(username: String) -> Promise<Data> {
+    open func cadOfficerByUsername(username: String) -> Promise<[String: Any]> {
 
-        let path = "/officer/username/{username}"
+        let path = "/cad/officer/username/{username}"
         let parameters = ["username": username]
 
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
         return firstly {
-            return try! performRequest(networkRequest)
-        }.then { (data, response) in
-            return data
+            return try! performRequest(networkRequest, using: APIManager.JSONObjectResponseSerializer())
+        }.then { json in
+            // TODO: convert to model object
+            return json
         }
     }
 
-    open func syncSummaries() -> Promise<CADSyncSummaries> {
-        let path = "/sync/summaries"
+    open func cadSyncSummaries() -> Promise<CADSyncSummaries> {
+        let path = "/cad/sync/summaries"
 
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: [:], method: .post)
         return firstly {
             return try! performRequest(networkRequest, using: APIManager.JSONObjectResponseSerializer())
-        }.then { json -> Promise<CADSyncSummaries> in
-            return Promise(value: CADSyncSummaries(fromDictionary: json))
+        }.then { json in
+            return CADSyncSummaries(fromDictionary: json)
         }
     }
 }

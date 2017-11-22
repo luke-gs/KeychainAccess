@@ -41,19 +41,30 @@ open class CADStateManager: NSObject {
         // Perform sync and keep result
         print("Syncing summaries")
         return firstly {
-            return APIManager.shared.syncSummaries()
+            return APIManager.shared.cadSyncSummaries()
         }.then { [unowned self] summaries -> CADSyncSummaries in
             self.lastSync = summaries
             return summaries
         }
     }
+
     /// Perform initial sync after login or launching app
     open func syncInitial() -> Promise<Void> {
+        #if DEBUG
+            return after(interval: 2)
+        #endif
+
+        guard let username = UserSession.current.user?.username else { fatalError("Must be logged in to sync") }
 
         print("Starting initial sync")
         return firstly {
-            return syncSummaries()
+            // Get details about logged in user
+            return APIManager.shared.cadOfficerByUsername(username: username)
+        }.then { [unowned self] _ in
+            // Get sync summaries
+            return self.syncSummaries()
         }.then { [unowned self] _ -> Promise<Void> in
+            // Get new manifest items
             return self.syncManifestItems()
         }.then { _ in
             print("Sync complete")
