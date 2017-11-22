@@ -47,7 +47,7 @@ open class SignatureViewController: UIViewController {
         clearButton.translatesAutoresizingMaskIntoConstraints = false
         clearButton.setTitle("CLEAR SIGNATURE", for: .normal)
         clearButton.setImage(AssetManager.shared.image(forKey: .info), for: .normal)
-        clearButton.imageEdgeInsets = UIEdgeInsets(top: 0.0, left: 5.0, bottom: 0.0, right: 5.0)
+        clearButton.imageEdgeInsets = UIEdgeInsets(top: 0.0, left: -10.0, bottom: 0.0, right: 10.0)
         clearButton.addTarget(self, action: #selector(clearTapped), for: .touchUpInside)
         
         view.addSubview(clearButton)
