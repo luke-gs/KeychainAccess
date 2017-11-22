@@ -84,9 +84,3 @@ open class TasksSplitViewController: MPOLSplitViewController {
         viewModel.presentMapFilter()
     }
 }
-
-extension TasksSplitViewController: MapFilterViewControllerDelegate {
-    public func didSelectDone() {
-        viewModel.applyFilter()
-    }
-}
