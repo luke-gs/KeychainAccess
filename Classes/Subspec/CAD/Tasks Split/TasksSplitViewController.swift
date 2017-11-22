@@ -46,6 +46,10 @@ open class TasksSplitViewController: MPOLSplitViewController {
     open override func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
         return viewModel.navTitle()
     }
+    
+    open override func masterNavSubtitleSuitable(for traitCollection: UITraitCollection) -> String? {
+        return "Updated 2 mins ago"
+    }
 
     open override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)

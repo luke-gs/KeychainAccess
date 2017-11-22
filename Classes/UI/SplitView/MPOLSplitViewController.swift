@@ -90,6 +90,11 @@ open class MPOLSplitViewController: PushableSplitViewController {
     open func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
         return self.title ?? ""
     }
+    
+    /// Return the subtitle to use for the master navigation controller for the given traits, or nil
+    open func masterNavSubtitleSuitable(for traitCollection: UITraitCollection) -> String? {
+        return nil
+    }
 
     /// Notification that paging scroll view has updated
     open func updatedPagingScrollView(percentOffset: CGFloat) {
@@ -270,8 +275,6 @@ open class MPOLSplitViewController: PushableSplitViewController {
         masterNavItem.leftBarButtonItems = masterViewController.navigationItem.leftBarButtonItems ?? [backButtonItem()].removeNils()
         detailNavItem?.leftBarButtonItem = nil
         
-        masterNavItem.titleView = masterViewController.navigationItem.titleView
-
         if self.isCompact() {
             if let selectedViewController = selectedViewController {
                 // Use the selected detail right button items if compact
@@ -285,9 +288,18 @@ open class MPOLSplitViewController: PushableSplitViewController {
             masterNavItem.rightBarButtonItems = containerMasterViewController.contentViewController?.navigationItem.rightBarButtonItems
         }
 
+        let title = masterNavTitleSuitable(for: traitCollection)
+        
         // Update the navigation bar titles, otherwise they can be shown on wrong side after transition
-        masterNavItem.title = masterNavTitleSuitable(for: traitCollection)
+        masterNavItem.title = title
         detailNavItem?.title = detailNavController.viewControllers.first?.title
+        
+        // Add titleView if we have one, otherwise add subtitle if we have one
+        if let titleView = masterViewController.navigationItem.titleView {
+            masterNavItem.titleView = titleView
+        } else if let subtitle = masterNavSubtitleSuitable(for: traitCollection) {
+            containerMasterViewController.setTitleView(title: title, subtitle: subtitle)
+        }
     }
 
     open func updateNavigationBarForTraitChange() {
