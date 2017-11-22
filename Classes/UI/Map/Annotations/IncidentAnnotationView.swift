@@ -57,8 +57,8 @@ open class IncidentAnnotationView: MKAnnotationView {
     public func configure(withAnnotation annotation: MKAnnotation, priorityColor: UIColor, priorityText: String, priorityFilled: Bool, usesDarkBackground: Bool) {
         self.annotation = annotation
         
-        let bubbleColor = usesDarkBackground ? #colorLiteral(red: 0.2549019608, green: 0.2509803922, blue: 0.262745098, alpha: 1) : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        let titleColor = usesDarkBackground ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.2549019608, green: 0.2509803922, blue: 0.262745098, alpha: 1)
+        let bubbleColor = usesDarkBackground ? .primaryGray : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        let titleColor = usesDarkBackground ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : .primaryGray
         
         bubbleView.backgroundColor = bubbleColor
         bottomArrow.color = bubbleColor

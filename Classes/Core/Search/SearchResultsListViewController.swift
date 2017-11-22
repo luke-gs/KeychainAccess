@@ -30,6 +30,8 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
                     viewModel?.registerCells(for: collectionView)
                     collectionView.reloadData()
                 }
+                
+                updateBarItems()
                 updateSearchText()
             }
         }
@@ -102,17 +104,18 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
             constraintAboveSafeAreaOrBelowTopLayout(searchFieldButton)
         ])
 
+        updateBarItems()
         updateSearchText()
     }
 
-    override func viewWillLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         if #available(iOS 11, *) {
             additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
         } else {
             legacy_additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
         }
 
-        super.viewWillLayoutSubviews()
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -308,6 +311,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     func searchResultViewModelDidUpdateResults(_ viewModel: SearchResultViewModelable) {
         //        searchField.resultCountLabel.text = viewModel.status
 
+        updateBarItems()
         updateSearchText()
         collectionView?.reloadData()
     }
@@ -337,6 +341,15 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
         label.sizeToFit()
 
         searchFieldButton?.accessoryView = label
+    }
+    
+    private func updateBarItems() {
+        if var buttons = viewModel?.additionalBarButtonItems {
+            buttons.append(listStateItem)
+            navigationItem.rightBarButtonItems = buttons
+        } else {
+            navigationItem.rightBarButtonItems = [listStateItem]
+        }
     }
 }
 

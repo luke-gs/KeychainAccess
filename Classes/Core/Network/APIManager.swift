@@ -41,7 +41,7 @@ open class APIManager {
     /// - Returns: A promise to return of specified type.
     open func performRequest(_ networkRequest: NetworkRequestType) throws -> Promise<(Data, HTTPURLResponse?)> {
         let request = try urlRequest(from: networkRequest)
-        return dataRequestPromise(request, using: DataHTTPURLResponsePairResponseSerializer())
+        return requestPromise(request, using: DataHTTPURLResponsePairResponseSerializer())
     }
 
     /// Perform specified network request that uses `ResponseSerializing` to map the result.
@@ -52,7 +52,7 @@ open class APIManager {
     /// - Returns: A promise to return result type from `ResponseSerializing`.
     open func performRequest<T: ResponseSerializing>(_ networkRequest: NetworkRequestType, using serializer: T) throws -> Promise<T.ResultType> {
         let request = try urlRequest(from: networkRequest)
-        return dataRequestPromise(request, using: serializer)
+        return requestPromise(request, using: serializer)
     }
     
     /// Request for access token.
@@ -84,13 +84,19 @@ open class APIManager {
         var parameters = request.parameters
         parameters["source"] = source.serverSourceName
         parameters["entityType"] = SearchRequest.ResultClass.serverTypeRepresentation
-        
-        return LocationManager.shared.requestLocation().recover { error -> CLLocation in
-            return LocationManager.shared.lastLocation ?? CLLocation() // Had to keep this in to avoid making the requestLocation optional
-            }.then { _ -> Promise<SearchResult<SearchRequest.ResultClass>> in
-                let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
-                
-                return try! self.performRequest(networkRequest)
+
+        if requiresLocation {
+            return LocationManager.shared.requestLocation().recover { error -> CLLocation in
+                return LocationManager.shared.lastLocation ?? CLLocation() // Had to keep this in to avoid making the requestLocation optional
+                }.then { _ -> Promise<SearchResult<SearchRequest.ResultClass>> in
+                    let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
+                    
+                    return try! self.performRequest(networkRequest)
+            }
+        } else {
+            let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
+            
+            return try! self.performRequest(networkRequest)
         }
     }
     
@@ -109,12 +115,18 @@ open class APIManager {
         parameters["source"] = source.serverSourceName
         parameters["entityType"] = FetchRequest.ResultClass.serverTypeRepresentation
         
-        return LocationManager.shared.requestLocation().recover { error -> CLLocation in
-            return LocationManager.shared.lastLocation ?? CLLocation() // Had to keep this in to avoid making the requestLocation optional
-            }.then { _ -> Promise<FetchRequest.ResultClass> in
-                let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
-                
-                return try! self.performRequest(networkRequest)
+        if requiresLocation {
+            return LocationManager.shared.requestLocation().recover { error -> CLLocation in
+                return LocationManager.shared.lastLocation ?? CLLocation() // Had to keep this in to avoid making the requestLocation optional
+                }.then { _ -> Promise<FetchRequest.ResultClass> in
+                    let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
+                    
+                    return try! self.performRequest(networkRequest)
+            }
+        } else {
+            let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
+            
+            return try! self.performRequest(networkRequest)
         }
     }
     
@@ -135,63 +147,68 @@ open class APIManager {
         }
         
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
-        
         let newRequest = try! urlRequest(from: networkRequest)
-        let dataRequest = self.dataRequest(from: newRequest)
-        let allPlugins = self.allPlugins
-        allPlugins.forEach {
-            $0.willSend(dataRequest)
-        }
-        let mapper = self.errorMapper
-        return Promise { fulfill, reject in
-            dataRequest.validate().responseData(completionHandler: { response in
-                allPlugins.forEach({
-                    $0.didReceiveResponse(response)
-                })
+        
+        return createSessionRequestWithProgress(from: newRequest).then { (request) in
+            let allPlugins = self.allPlugins
+            allPlugins.forEach {
+                $0.willSend(request)
+            }
+            
+            let mapper = self.errorMapper
+            return Promise { fulfill, reject in
                 
-                switch response.result {
-                case .success(_):
-                    do {
-                        if let responseData = response.data{
-                            
-                            let responseArray = try JSONSerialization.jsonObject(with: responseData, options: .allowFragments)
-                            if let manifestArray = responseArray as? [[String : Any]] {
-                                fulfill(manifestArray)
-                            } else {
-                                reject(ManifestError("Manifest response not in desired format"))
-                            }
-                        }
-                    } catch let parseError {
-                        reject (parseError)
-                    }
-                case .failure(let error):
-                    let wrappedError = APIManagerError(underlyingError: error, response: response.toDefaultDataResponse())
-                    if let mapper = mapper {
-                        reject(mapper.mappedError(from: wrappedError))
-                    } else {
-                        reject(wrappedError)
-                    }
+                request.validate().responseData(completionHandler: { response in
                     
-                }
-            })
+                    allPlugins.forEach({
+                        $0.didReceiveResponse(response)
+                    })
+                    
+                    switch response.result {
+                    case .success(_):
+                        do {
+                            if let responseData = response.data{
+                                
+                                let responseArray = try JSONSerialization.jsonObject(with: responseData, options: .allowFragments)
+                                if let manifestArray = responseArray as? [[String : Any]] {
+                                    fulfill(manifestArray)
+                                } else {
+                                    reject(ManifestError("Manifest response not in desired format"))
+                                }
+                            }
+                        } catch let parseError {
+                            reject (parseError)
+                        }
+                    case .failure(let error):
+                        let wrappedError = APIManagerError(underlyingError: error, response: response.toDefaultDataResponse())
+                        if let mapper = mapper {
+                            reject(mapper.mappedError(from: wrappedError))
+                        } else {
+                            reject(wrappedError)
+                        }
+                        
+                    }
+                })
+            }
         }
     }
     
-
     // MARK : - Internal Utilities
-
+    
     private var allPlugins: [PluginType] {
         var allPlugins = plugins
         if let authenticationPlugin = authenticationPlugin {
             allPlugins.append(authenticationPlugin)
-            allPlugins.append(GeolocationPlugin()) // Only add if user is authenticated. i.e: Logged in
-            allPlugins.append(AuditPlugin()) // Only add if user is authenticated. i.e: Logged in
         }
         
         return allPlugins
     }
-
-    private func urlRequest(from networkRequest: NetworkRequestType) throws -> URLRequest {
+    
+    private var requiresLocation: Bool {
+        return allPlugins.contains(where: { $0 is GeolocationPlugin })
+    }
+    
+    private func urlRequest(from networkRequest: NetworkRequestType) throws -> Promise<URLRequest> {
         let path = networkRequest.path
 
         let requestPath: URL
@@ -211,59 +228,77 @@ open class APIManager {
 
         return adaptedRequest(encodedURLRequest, using: allPlugins)
     }
-
-    private func adaptedRequest(_ urlRequest: URLRequest, using plugins: [PluginType]) -> URLRequest {
-        let adaptedRequest = allPlugins.reduce(urlRequest) { $1.adapt($0) }
-        return adaptedRequest
+    
+    private func adaptedRequest(_ urlRequest: URLRequest, using plugins: [PluginType]) -> Promise<URLRequest> {
+        let initial = Promise(value: urlRequest)
+        return plugins.reduce(initial) { (promise, plugin) in
+            return promise.then { return plugin.adapt($0) }
+        }
+    }
+    
+    private func createSessionRequestWithProgress(from urlRequest: Promise<URLRequest>) -> Promise<DataRequest> {
+        return urlRequest.then { [unowned self] request in
+            let dataRequest = self.sessionManager.request(request)
+            let progress = dataRequest.progress
+            progress.cancellationHandler = {
+                dataRequest.cancel()
+            }
+            progress.resumingHandler = {
+                dataRequest.resume()
+            }
+            progress.pausingHandler = {
+                dataRequest.suspend()
+            }
+            return Promise(value: dataRequest)
+        }
+    }
+    
+    /// Performs a request for the `urlRequest` and returns a `Promise` with processed `DataResponse`.
+    public func dataRequest(_ urlRequest: Promise<URLRequest>) -> Promise<DataResponse<Data>> {
+        return createSessionRequestWithProgress(from: urlRequest).then { (request) in
+            
+            // Notify plugins of request
+            let allPlugins = self.allPlugins
+            allPlugins.forEach {
+                $0.willSend(request)
+            }
+            
+            // Perform request
+            return request.validate().responseDataPromise()
+                .then { (response) in
+                    allPlugins.forEach({
+                        $0.didReceiveResponse(response)
+                    })
+                    
+                    var processed = Promise(value: response)
+                    for plugin in allPlugins {
+                        processed = processed.then { return plugin.processResponse($0) }
+                    }
+                    return processed
+                }
+        }
     }
 
-    private func dataRequest(from urlRequest: URLRequest) -> DataRequest {
-        let dataRequest = sessionManager.request(urlRequest)
-        let progress = dataRequest.progress
-        progress.cancellationHandler = {
-            dataRequest.cancel()
-        }
-        progress.resumingHandler = {
-            dataRequest.resume()
-        }
-        progress.pausingHandler = {
-            dataRequest.suspend()
-        }
-        return dataRequest
-    }
+    /// Returns a `Promise` that executes the entire chain of related promises for the network request (including serializing response).
+    private func requestPromise<T: ResponseSerializing>(_ urlRequest: Promise<URLRequest>, using serializer: T) -> Promise<T.ResultType> {
 
-    private func dataRequestPromise<T: ResponseSerializing>(_ urlRequest: URLRequest, using serializer: T) -> Promise<T.ResultType> {
-
-        let request = dataRequest(from: urlRequest)
-        let allPlugins = self.allPlugins
-        allPlugins.forEach {
-            $0.willSend(request)
-        }
-
-        let mapper = errorMapper
+        let mapper = self.errorMapper
         return Promise { fulfill, reject in
-
-            request.validate().responseData(completionHandler: { response in
-
-                allPlugins.forEach({
-                    $0.didReceiveResponse(response)
-                })
-
-                let processedResponse = allPlugins.reduce(response) { $1.processResponse($0) }
+            _ = dataRequest(urlRequest).then { (processedResponse) -> Void in
                 let result = serializer.serializedResponse(from: processedResponse)
 
                 switch result {
                 case .success(let result):
                     fulfill(result)
                 case .failure(let error):
-                    let wrappedError = APIManagerError(underlyingError: error, response: response.toDefaultDataResponse())
+                    let wrappedError = APIManagerError(underlyingError: error, response: processedResponse.toDefaultDataResponse())
                     if let mapper = mapper {
                         reject(mapper.mappedError(from: wrappedError))
                     } else {
                         reject(wrappedError)
                     }
                 }
-            })
+            }
         }
     }
 }
@@ -321,6 +356,16 @@ extension APIManager {
 
         public func serializedResponse(from dataResponse: DataResponse<Data>) -> Alamofire.Result<ResultType> {
             return DataRequest.serializeResponseData(response: dataResponse.response, data: dataResponse.data, error: dataResponse.error)
+        }
+    }
+}
+
+
+extension DataRequest {
+    
+    func responseDataPromise() -> Promise<DataResponse<Data>> {
+        return Promise { (fulfill, _) in
+            self.responseData { fulfill($0) }
         }
     }
 }

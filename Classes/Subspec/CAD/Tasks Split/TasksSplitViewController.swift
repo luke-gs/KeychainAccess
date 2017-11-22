@@ -33,4 +33,5 @@ open class TasksSplitViewController: MPOLSplitViewController {
     open override func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
         return viewModel.navTitle()
     }
+
 }

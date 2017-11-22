@@ -8,15 +8,17 @@
 
 import Foundation
 
+
 open class User: NSObject, NSSecureCoding, ModelVersionable {
 
-    public var username: String
-    public var termsAndConditionsVersionAccepted: String? {
-        didSet {
-            UserSession.current.updateUser()
-        }
-    }
-    public var whatsNewShownVersion: String? {
+    // The application specific key for app settings. Required to be set if accessing appSettings
+    open static var applicationKey: String!
+
+    /// The username, fixed across apps and required after init completes
+    public var username: String!
+
+    /// Locally stored user app settings, keyed by specific mpol application
+    public var appSettings: [String: [AppSettingKey: AnyObject]] = [:] {
         didSet {
             UserSession.current.updateUser()
         }
@@ -30,44 +32,129 @@ open class User: NSObject, NSSecureCoding, ModelVersionable {
         guard let compared = object as? User else {
             return false
         }
-        return username == compared.username
-            && termsAndConditionsVersionAccepted == compared.termsAndConditionsVersionAccepted
-            && whatsNewShownVersion == compared.whatsNewShownVersion
+        return username == compared.username &&
+            NSDictionary(dictionary: appSettings).isEqual(to: compared.appSettings)
     }
     
     // MARK: - NSSecureCoding
     
-    open static var supportsSecureCoding: Bool {
+    open class var supportsSecureCoding: Bool {
         return true
     }
     
     public required init?(coder aDecoder: NSCoder) {
+        super.init()
+
+        // Check model version and do migration here if neccessary
+        let lastModelVersion = aDecoder.decodeInteger(forKey: CodingKeys.modelVersion.rawValue)
+        if lastModelVersion != User.modelVersion {
+            do {
+                if try performMigrationIfNeeded(from: lastModelVersion, to: User.modelVersion, decoder: aDecoder) {
+                    // Migration performed, return
+                    return
+                }
+            } catch {
+                // Failed, so return nil from init
+                print("Failed to migrate old User object")
+                return nil
+            }
+        }
+
+        // Load properties in expected order
         guard let username = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.username.rawValue) as String? else {
             return nil
         }
         self.username = username
-        self.termsAndConditionsVersionAccepted = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.termsAndConditionsVersionAccepted.rawValue) as String?
-        self.whatsNewShownVersion = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.whatsNewShown.rawValue) as String?
+
+        guard let appSettings = aDecoder.decodeObject(of: NSDictionary.self, forKey: CodingKeys.appSettings.rawValue) as? [String: [String: AnyObject]] else {
+            return nil
+        }
+        // Convert app settings back to custom type
+        let settings = appSettings.transform { (appKey, settings) in (appKey, settings.transform { (settingKey, value) in (AppSettingKey(rawValue: settingKey), value) }) }
+        self.appSettings = settings
     }
-    
+
     open func encode(with aCoder: NSCoder) {
+        // Write the latest model version first, followed by current user properties
+        aCoder.encode(User.modelVersion, forKey: CodingKeys.modelVersion.rawValue)
         aCoder.encode(username, forKey: CodingKeys.username.rawValue)
-        aCoder.encode(termsAndConditionsVersionAccepted, forKey: CodingKeys.termsAndConditionsVersionAccepted.rawValue)
-        aCoder.encode(whatsNewShownVersion, forKey: CodingKeys.whatsNewShown.rawValue)
-        aCoder.encode(self.modelVersion, forKey: CodingKeys._modelVersion.rawValue)
+
+        // Convert app setting key before encoding, otherwise struct would need to implement NSObject, NSSecureCoding, NSCopying, etc
+        let settings = appSettings.transform { (appKey, settings) in (appKey, settings.transform { (settingKey, value) in (settingKey.rawValue, value) }) }
+        aCoder.encode(settings, forKey: CodingKeys.appSettings.rawValue)
     }
     
+    // MARK: - App Settings
+    public func appSettingValue(forKey settingKey: AppSettingKey) -> AnyObject? {
+        return appSettings[User.applicationKey]?[settingKey]
+    }
+
+    public func setAppSettingValue(_ newValue: AnyObject?, forKey settingKey: AppSettingKey) {
+        // Update setting and trigger didSet on appSettings
+        var settings = appSettings[User.applicationKey] ?? [:]
+        settings[settingKey] = newValue
+        appSettings[User.applicationKey] = settings
+    }
+
     // MARK: - ModelVersionable
-    open var modelVersion: Int {
-        return 1
+    public static var modelVersion: Int {
+        return 2
     }
-    
+
+    public func performMigrationIfNeeded(from: Int, to: Int, decoder: NSCoder) throws -> Bool {
+        // For previous versions, abort migration
+        if from < 2 {
+            throw ModelVersionableError.migrationNotsupported
+        }
+        return false
+    }
+
     // MARK: - CodingKeys
     private enum CodingKeys: String {
+        case modelVersion = "modelVersion"
         case username = "username"
-        case termsAndConditionsVersionAccepted = "termsAndConditionsVersionAccepted"
-        case whatsNewShown = "whatsNewShown"
+        case appSettings = "appSettings"
+    }
+}
 
-        case _modelVersion = "_modelVersion"
+// MARK: - Convenience methods for common app settings
+extension User {
+
+    public func areTermsAndConditionsAccepted(version: String) -> Bool {
+        // Return true if any mpol based app has accepted the requested version
+        for (_, settings) in appSettings {
+            if let acceptedVersion = settings[.termsAndConditionsVersionAccepted] as? String {
+                if acceptedVersion == version {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    public var termsAndConditionsVersionAccepted: String? {
+        get {
+            return appSettingValue(forKey: .termsAndConditionsVersionAccepted) as? String
+        }
+        set {
+            setAppSettingValue(newValue as AnyObject, forKey: .termsAndConditionsVersionAccepted)
+        }
+    }
+
+    public var whatsNewShownVersion: String? {
+        get {
+            return appSettingValue(forKey: .whatsNewShownVersion) as? String
+        }
+        set {
+            setAppSettingValue(newValue as AnyObject, forKey: .whatsNewShownVersion)
+        }
+    }
+
+}
+
+extension Dictionary {
+    /// Convenience method to map a dictionary's keys and values to a new dictionary with new types
+    public func transform<NewKey, NewValue>(_ transform: ((key: Key, value: Value)) throws -> (NewKey, NewValue)) rethrows -> [NewKey:NewValue] {
+        return Dictionary<NewKey, NewValue>(uniqueKeysWithValues: try self.map(transform))
     }
 }

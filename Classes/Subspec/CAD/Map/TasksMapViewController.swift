@@ -42,12 +42,7 @@ open class TasksMapViewController: MapViewController {
     
     /// Shows the layer filter popover
     @objc private func showMapLayerFilter() {
-        let filterViewController = MapFilterViewController(with: viewModel.filterViewModel)
-        let filterNav = PopoverNavigationController(rootViewController: filterViewController)
-        filterNav.modalPresentationStyle = .popover
-        filterNav.popoverPresentationController?.barButtonItem = mapLayerFilterButton
-        
-        present(filterNav, animated: true, completion: nil)
+        viewModel.splitViewModel?.presentMapFilter()
     }
     
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {

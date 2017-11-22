@@ -28,9 +28,6 @@ open class OfficerDetailsViewController: FormBuilderViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped))
-
-        // Disable content under nav bar as this is not properly supported by PopoverNavigationController
-        edgesForExtendedLayout = []
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -67,7 +64,7 @@ open class OfficerDetailsViewController: FormBuilderViewController {
                 self.viewModel.details.contactNumber = $0
             }
         
-        builder += DropDownFormItem(title: NSLocalizedString("License", comment: ""))
+        builder += DropDownFormItem(title: NSLocalizedString("Licence", comment: ""))
             .options([NSLocalizedString("Gold", comment: ""), NSLocalizedString("Silver", comment: "")])
             .required()
             .allowsMultipleSelection(false)
