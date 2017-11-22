@@ -294,7 +294,7 @@ open class TasksMapViewModel {
                                  pulsing: false),
         ]
         
-        filteredAnnotations = allAnnotations
+        applyFilter()
     }
     
     func isAnnotationViewDisplayedOnTop(_ annotationView: MKAnnotationView) -> Bool {

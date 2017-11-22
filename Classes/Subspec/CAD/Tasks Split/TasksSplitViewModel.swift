@@ -47,11 +47,23 @@ open class TasksSplitViewModel {
         return NSLocalizedString("Tasks", comment: "Tasks navigation title")
     }
     
+    /// Title for the master view to be displayed in the segmented control
+    public func masterSegmentTitle() -> String {
+        return NSLocalizedString("List", comment: "Task list segment title")
+    }
+    
+    /// Title for the detail view to be displayed in the segmented control
+    public func detailSegmentTitle() -> String {
+        return NSLocalizedString("Map", comment: "Map list segment title")
+    }
+    
+    /// Shows the map filter popup
     public func presentMapFilter() {
         let viewController = filterViewModel.createViewController(delegate: self)
         presenter?.presentFormSheet(viewController, animated: true)
     }
     
+    /// Applies the filter to the map and task list
     public func applyFilter() {
         presenter?.dismiss(animated: true, completion: nil)
         mapViewModel.applyFilter()
