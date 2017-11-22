@@ -46,6 +46,8 @@ open class SignatureViewController: UIViewController {
         clearButton.setTitleColor(.darkGray, for: .normal)
         clearButton.translatesAutoresizingMaskIntoConstraints = false
         clearButton.setTitle("CLEAR SIGNATURE", for: .normal)
+
+        // Placeholder icon for the clear button
         clearButton.setImage(AssetManager.shared.image(forKey: .info), for: .normal)
         clearButton.imageEdgeInsets = UIEdgeInsets(top: 0.0, left: -10.0, bottom: 0.0, right: 10.0)
         clearButton.addTarget(self, action: #selector(clearTapped), for: .touchUpInside)
@@ -78,5 +80,17 @@ open class SignatureViewController: UIViewController {
     @objc private func clearTapped() {
         signatureView.clear()
     }
+
+}
+
+extension SignatureViewController: SignatureViewResponder {
+    public func didStartSigning() {
+        print("Did start signing")
+    }
+
+    public func didEndSigning() {
+        print("Did end signing")
+    }
+
 
 }
