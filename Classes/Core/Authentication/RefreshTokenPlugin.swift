@@ -16,22 +16,27 @@ import PromiseKit
 ///       that retries the request, and returns the new response
 open class RefreshTokenPlugin: PluginType {
     
-    public init() { }
-    
 
     // MARK: - Properties
     
-    /// Block that will execute if refresh token fails. (i.e. end session and display login screen)
-    public var onRefreshTokenFailed: ((Error?) -> Void)?
+    /// The paths that will be excluded from refresh logic.
+    public let excludePaths: Set<String>
     
-    /// The paths that will be excluded in the plugin.
-    public var excludePaths: Set<String> = ["login", "refresh"]
+    /// Will execute if refresh token attempt fails (lets the app try to refresh session).
+    public var onRefreshTokenFailed: ((Error?) -> Promise<Void>)?
+    
+    /// Will execute if every attempt fails (should end session and display login screen).
+    public var onEverythingFailed: ((Error?) -> Void)?
     
     /// The promise that is currently executing the refresh token request.
     private var refreshPromise: Promise<Void>?
     
     
     // MARK: - Plugin Type
+    
+    public init(excludePaths: Set<String> = ["login", "refresh"]) {
+        self.excludePaths = excludePaths
+    }
     
     public func adapt(_ urlRequest: URLRequest) -> Promise<URLRequest> {
         // Check for exclude paths
@@ -68,20 +73,44 @@ open class RefreshTokenPlugin: PluginType {
         // after the first 401 will be chained to the refresh promise created).
         if response.response?.statusCode == 401 {
             // If no refresh token exists, allow app to handle a failed refresh
-            guard let refreshToken = UserSession.current.token?.refreshToken else {
-                onRefreshTokenFailed?(response.error)
-                return Promise(error: NSError.cancelledError())
+            guard let token = UserSession.current.token?.refreshToken else {
+                if let fallback = self.onRefreshTokenFailed {
+                    // Begin refresh chain from the app's handler
+                    self.refreshPromise = fallback(response.error)
+                        .recover { error -> Void in
+                            // Let app handle properly ending user session
+                            self.onEverythingFailed?(error)
+                            // Cancel all chained requests
+                            throw NSError.cancelledError()
+                        }.always {
+                            self.refreshPromise = nil
+                        }
+                    
+                    // Retry original request
+                    return self.refreshPromise!.then {
+                        return APIManager.shared.dataRequest(Promise(value: response.request!))
+                    }
+                } else {
+                    onEverythingFailed?(response.error)
+                    return Promise(error: NSError.cancelledError())
+                }
             }
             
             // Create refresh promise
-            self.refreshPromise = APIManager.shared.refreshTokenRequest(for: refreshToken)
+            self.refreshPromise = APIManager.shared.accessTokenRequest(for: .refreshToken(token))
                 .then { token -> Void in
                     // Update access token
                     APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
                     UserSession.current.updateToken(token)
+                }.recover { error -> Promise<Void> in
+                    // Let app try refresh session
+                    if let fallback = self.onRefreshTokenFailed {
+                        return fallback(error)
+                    }
+                    throw error
                 }.recover { error -> Void in
-                    // Allow app to handle fallback
-                    self.onRefreshTokenFailed?(error)
+                    // Let app handle properly ending user session
+                    self.onEverythingFailed?(error)
                     // Cancel all chained requests
                     throw NSError.cancelledError()
                 }.always {
@@ -114,14 +143,14 @@ open class RefreshTokenPlugin: PluginType {
 public extension RefreshTokenPlugin {
     
     @discardableResult
-    public func excludePaths(_ excludePaths: Set<String>) -> Self {
-        self.excludePaths = excludePaths
+    public func onRefreshTokenFailed(_ onRefreshTokenFailed: ((Error?) -> Promise<Void>)?) -> Self {
+        self.onRefreshTokenFailed = onRefreshTokenFailed
         return self
     }
     
     @discardableResult
-    public func onRefreshTokenFailed(_ onRefreshTokenFailed: ((Error?) -> Void)?) -> Self {
-        self.onRefreshTokenFailed = onRefreshTokenFailed
+    public func onEverythingFailed(_ onEverythingFailed: ((Error?) -> Void)?) -> Self {
+        self.onEverythingFailed = onEverythingFailed
         return self
     }
     

@@ -62,29 +62,13 @@ open class APIManager {
     /// - Returns: A promise for access token.
     open func accessTokenRequest(for grant: OAuthAuthorizationGrant) -> Promise<OAuthAccessToken> {
 
-        let path = "login"
+        let path = grant.path
         let parameters = grant.parameters
 
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters, method: .post)
 
         return try! performRequest(networkRequest)
 
-    }
-
-    /// Request a new access token with current refresh token.
-    ///
-    /// Supports implicit `NSProgress` reporting.
-    /// - Parameter grant: The grant type and required field for it.
-    /// - Returns: A promise for access token.
-    open func refreshTokenRequest(for token: String) -> Promise<OAuthAccessToken> {
-        
-        let grant = OAuthAuthorizationGrant.refreshToken(token)
-        let path = "refresh"
-        let parameters = grant.parameters
-        
-        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters, method: .post)
-        
-        return try! performRequest(networkRequest)
     }
     
     /// Search for entity using specified request.
