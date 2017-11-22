@@ -60,7 +60,7 @@ public class UserSession: UserSessionable {
     
     public func updateToken(_ token: OAuthAccessToken?) {
         self.token = token
-        updateUser()
+        saveTokenToKeychain()
     }
 
     public func updateUser() {
