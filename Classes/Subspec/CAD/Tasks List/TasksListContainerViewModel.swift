@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PromiseKit
 
 /// Enum for all task types
 public enum TaskListType: Int {
@@ -68,7 +69,7 @@ open class TasksListContainerViewModel {
         didSet {
             if selectedSourceIndex != oldValue {
                 headerViewModel.selectedSourceIndex = selectedSourceIndex
-                updateListData()
+                updateSections()
             }
         }
     }
@@ -81,7 +82,7 @@ open class TasksListContainerViewModel {
         self.listViewModel = listViewModel
 
         updateSourceItems()
-        updateListData()
+        updateSections()
 
         // Link header view model sources with us
         self.headerViewModel.containerViewModel = self
@@ -94,22 +95,6 @@ open class TasksListContainerViewModel {
 
     // MARK: - Public methods
 
-    /// Update the source items status
-    open func updateSourceItems() {
-
-        // TODO: populate counts from network
-        sourceItems = SampleData.sourceItems()
-        selectedSourceIndex = 0
-    }
-
-    /// Update the task list data
-    open func updateListData() {
-
-        // TODO: fetch from network
-        let type = TaskListType(rawValue: selectedSourceIndex)!
-        listViewModel.sections = SampleData.sectionsForType(type)
-    }
-
     /// Content title shown when no results
     open func noContentTitle() -> String? {
         return NSLocalizedString("No Tasks Found", comment: "")
@@ -118,6 +103,31 @@ open class TasksListContainerViewModel {
     open func noContentSubtitle() -> String? {
         return nil
     }
+
+    // Refresh all tasks list data
+    open func refreshTaskList() -> Promise<Void> {
+        return CADStateManager.shared.syncSummaries().then { _ -> Void in
+        }
+    }
+
+    // MARK: - Internal methods
+
+    /// Update the source items status
+    open func updateSourceItems() {
+
+        // TODO: Map network models to view models
+        sourceItems = SampleData.sourceItems()
+        selectedSourceIndex = 0
+    }
+
+    /// Update the task list data
+    open func updateSections() {
+
+        // TODO: Map network models to view models
+        let type = TaskListType(rawValue: selectedSourceIndex)!
+        listViewModel.sections = SampleData.sectionsForType(type)
+    }
+
 }
 
 public class SampleData {

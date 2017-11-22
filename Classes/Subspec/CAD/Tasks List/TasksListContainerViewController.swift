@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PromiseKit
 
 /// Container view controller for showing task list, source bar and dynamic header
 open class TasksListContainerViewController: UIViewController, LoadableViewController {
@@ -20,7 +21,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
     open let contentView: UIView = UIView(frame: .zero)
 
     /// The list of tasks
-    open private(set) var tasksListViewController: UIViewController!
+    open private(set) var tasksListViewController: FormCollectionViewController!
 
     /// The header for title and nav items
     open var headerViewController: UIViewController? {
@@ -60,7 +61,10 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
     open private(set) var sourceBar: SourceBar!
 
     /// The source bar inset manager
-    open private(set) var sourceInsetManager: ScrollViewInsetManager?
+    open private(set) var sourceInsetManager: ScrollViewInsetManager!
+
+    /// The refresh control for tasks list
+    open private(set) var refreshControl: UIRefreshControl!
 
     /// Constraint for making source bar have no height
     private var sourceBarHiddenConstraint: NSLayoutConstraint?
@@ -115,8 +119,8 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         super.viewDidLayoutSubviews()
 
         // Fix top margin of source bar
-        sourceInsetManager?.standardContentInset    = .zero
-        sourceInsetManager?.standardIndicatorInset  = .zero
+        sourceInsetManager.standardContentInset    = .zero
+        sourceInsetManager.standardIndicatorInset  = .zero
     }
 
     override open func viewWillAppear(_ animated: Bool) {
@@ -151,6 +155,15 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         contentView.addSubview(tasksListViewController.view)
         tasksListViewController.didMove(toParentViewController: self)
 
+        // Add refresh control to task list
+        let theme = ThemeManager.shared.theme(for: .current)
+        refreshControl = UIRefreshControl()
+        refreshControl.tintColor = theme.color(forKey: .tint)
+        refreshControl.addTarget(self, action: #selector(refreshTasks), for: .valueChanged)
+        tasksListViewController.collectionView?.addSubview(refreshControl)
+        tasksListViewController.collectionView?.alwaysBounceVertical = true
+
+        // Set base view color for when content is not shown
         view.backgroundColor = tasksListViewController.view.backgroundColor
 
         // Configure loading state
@@ -158,6 +171,19 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         loadingManager.contentView = contentView
         loadingManager.noContentView.titleLabel.text = viewModel.noContentTitle()
         loadingManager.noContentView.subtitleLabel.text = viewModel.noContentSubtitle()
+    }
+
+    @objc func refreshTasks() {
+        // Refresh the task list from the network
+        firstly {
+            return viewModel.refreshTaskList()
+        }.then { [weak self] () -> Void in
+            self?.tasksListViewController.collectionView?.reloadData()
+        }.always { [weak self] in
+            self?.refreshControl.endRefreshing()
+        }.catch { error in
+            AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
+        }
     }
 
     open func createConstraints() {
@@ -209,9 +235,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
             self.sourceBarHiddenConstraint?.isActive = compact
 
             // Set user interface style based on whether compact
-            if let tasksListViewController = tasksListViewController as? FormCollectionViewController {
-                tasksListViewController.userInterfaceStyle = compact ? .current : .dark
-            }
+            tasksListViewController.userInterfaceStyle = compact ? .current : .dark
 
             // Replace header with one for size class
             headerViewController = viewModel.headerViewModel.createViewController(compact: compact)
