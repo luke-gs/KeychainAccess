@@ -39,7 +39,7 @@ public extension APIManager {
     func fetchManifest(with request: ManifestFetchRequest) -> Promise<ManifestFetchRequest.ResultClass> {
         let networkRequest = try! NetworkRequest(pathTemplate: request.path, parameters: request.parameters)
 
-        return try! APIManager.shared.performRequest(networkRequest, using: APIManager.JSONObjectArrayRespoonseSerializer())
+        return try! APIManager.shared.performRequest(networkRequest, using: APIManager.JSONObjectArrayResponseSerializer())
     }
 }
 

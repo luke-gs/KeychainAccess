@@ -310,7 +310,7 @@ extension DataRequest {
 extension APIManager {
     
     // Serialization of for arrays of dictionaries
-    public struct JSONObjectArrayRespoonseSerializer: ResponseSerializing {
+    public struct JSONObjectArrayResponseSerializer: ResponseSerializing {
         public typealias ResultType = [[String:Any]]
         
         public init() {
