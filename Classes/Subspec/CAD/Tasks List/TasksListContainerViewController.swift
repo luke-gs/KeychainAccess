@@ -268,12 +268,12 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         // Refresh the task list from the network
         firstly {
             return viewModel.refreshTaskList()
-            }.then { [weak self] () -> Void in
-                self?.tasksListViewController.collectionView?.reloadData()
-            }.always { [weak self] in
-                self?.refreshControl.endRefreshing()
-            }.catch { error in
-                AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
+        }.then { [weak self] () -> Void in
+            self?.tasksListViewController.collectionView?.reloadData()
+        }.always { [weak self] in
+            self?.refreshControl.endRefreshing()
+        }.catch { error in
+            AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
         }
     }
 
