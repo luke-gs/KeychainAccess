@@ -263,3 +263,10 @@ extension TasksListContainerViewController: SourceBarDelegate {
     }
 }
 
+// MARK: - TasksListContainerViewModelDelegate
+extension TasksListContainerViewController: TasksListContainerViewModelDelegate {
+    open func sectionsUpdated() {
+        tasksListViewController.collectionView?.reloadData()
+    }
+}
+

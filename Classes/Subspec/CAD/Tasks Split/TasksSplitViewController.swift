@@ -25,6 +25,10 @@ open class TasksSplitViewController: MPOLSplitViewController {
         return UIBarButtonItem(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: self, action: #selector(showMapLayerFilter))
     }
     
+    public required init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
+    }
+
     public init(viewModel: TasksSplitViewModel) {
 
         masterVC = viewModel.createMasterViewController()
@@ -45,6 +49,11 @@ open class TasksSplitViewController: MPOLSplitViewController {
         segmentedControl.addTarget(self, action: #selector(didChangeSegmentedControl), for: .valueChanged)
     }
 
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+        configureSegmentedControl(for: traitCollection)
+    }
+
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -55,13 +64,42 @@ open class TasksSplitViewController: MPOLSplitViewController {
         firstly {
             return CADStateManager.shared.syncInitial()
         }.then { [weak self] () -> Void in
+            // Show full split screen
             self?.setMasterWidth(TasksSplitViewController.defaultSplitWidth)
             self?.tasksListContainer?.loadingManager.state = .loaded
+
+            // Reload header text for time since sync
+            self?.updateNavigationBarForSelection()
         }.catch { [weak self] error in
             // TODO: add support for error state to loading state manager
             self?.tasksListContainer?.loadingManager.state = .noContent
             print("Failed to sync: \(error)")
         }
+    }
+
+    open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+
+        // Update master to still be fullscreen if device is rotated
+        if embeddedSplitViewController.minimumPrimaryColumnWidth > TasksSplitViewController.defaultSplitWidth {
+            setMasterWidth(size.width)
+        }
+    }
+
+    open override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        configureSegmentedControl(for: newCollection)
+    }
+
+    open override func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
+        return viewModel.navTitle()
+    }
+
+    open override func masterNavSubtitleSuitable(for traitCollection: UITraitCollection) -> String? {
+        if let intervalString = CADStateManager.shared.lastSyncTime?.elapsedTimeIntervalForHuman() {
+            return "Updated \(intervalString)"
+        }
+        return nil
     }
 
     open func setMasterWidth(_ width: CGFloat, animated: Bool = true) {
@@ -82,37 +120,6 @@ open class TasksSplitViewController: MPOLSplitViewController {
         }
     }
 
-    open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-
-        // Update master to still be fullscreen if device is rotated
-        if embeddedSplitViewController.minimumPrimaryColumnWidth > TasksSplitViewController.defaultSplitWidth {
-            setMasterWidth(size.width)
-        }
-    }
-
-    public required init?(coder aDecoder: NSCoder) {
-        MPLCodingNotSupported()
-    }
-
-    open override func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
-        return viewModel.navTitle()
-    }
-    
-    open override func masterNavSubtitleSuitable(for traitCollection: UITraitCollection) -> String? {
-        return "Updated 2 mins ago"
-    }
-
-    open override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.willTransition(to: newCollection, with: coordinator)
-        configureSegmentedControl(for: newCollection)
-    }
-    
-    open override func viewDidLoad() {
-        super.viewDidLoad()
-        configureSegmentedControl(for: traitCollection)
-    }
-    
     // MARK: - Segmented control
     
     /// Shows or hides the segmented control based on trait collection
@@ -140,3 +147,12 @@ open class TasksSplitViewController: MPOLSplitViewController {
         viewModel.presentMapFilter()
     }
 }
+
+// MARK: - TasksSplitViewModelDelegate
+extension TasksSplitViewController: TasksSplitViewModelDelegate {
+    open func sectionsUpdated() {
+        // Reload header text for time since sync
+        updateNavigationBarForSelection()
+    }
+}
+

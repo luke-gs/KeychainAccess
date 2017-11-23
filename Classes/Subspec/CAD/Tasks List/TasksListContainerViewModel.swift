@@ -43,6 +43,12 @@ public enum TaskListType: Int {
     }
 }
 
+/// Delegate protocol for updating UI
+public protocol TasksListContainerViewModelDelegate: class {
+    /// Called when the sections data is updated
+    func sectionsUpdated()
+}
+
 /// View model for the task list container, which is the parent of the header and list view models
 ///
 /// This view model owns the sources and current source selection, so changes can be applied to both the header and list
@@ -50,6 +56,9 @@ public enum TaskListType: Int {
 open class TasksListContainerViewModel {
 
     public weak var splitViewModel: TasksSplitViewModel?
+
+    /// Delegate for UI updates
+    open weak var delegate: TasksListContainerViewModelDelegate?
 
     // MARK: - Properties
 
@@ -88,11 +97,18 @@ open class TasksListContainerViewModel {
 
         // Link header view model sources with us
         self.headerViewModel.containerViewModel = self
+
+        // Observe sync changes
+        NotificationCenter.default.addObserver(forName: .CADSyncChanged, object: nil, queue: nil) { [weak self] (notification) in
+            self?.updateSections()
+        }
     }
 
     /// Create the view controller for this view model
     open func createViewController() -> UIViewController {
-        return TasksListContainerViewController(viewModel: self)
+        let vc = TasksListContainerViewController(viewModel: self)
+        delegate = vc
+        return vc
     }
 
     // MARK: - Public methods
@@ -170,6 +186,7 @@ open class TasksListContainerViewModel {
         } else {
             listViewModel.sections = sections
         }
+        delegate?.sectionsUpdated()
     }
 
 }

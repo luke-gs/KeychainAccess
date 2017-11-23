@@ -12,7 +12,8 @@ import PromiseKit
 public extension NSNotification.Name {
 
     /// Notification posted when callsign status changes
-    static let CallsignChanged = NSNotification.Name(rawValue: "CAD_CallsignChanged")
+    static let CADCallsignChanged = NSNotification.Name(rawValue: "CAD_CallsignChanged")
+    static let CADSyncChanged = NSNotification.Name(rawValue: "CAD_SyncChanged")
 }
 
 open class CADStateManager: NSObject {
@@ -23,12 +24,15 @@ open class CADStateManager: NSObject {
     /// The currently booked on callsign, or nil
     open var callsign: String? {
         didSet {
-            NotificationCenter.default.post(name: .CallsignChanged, object: self)
+            NotificationCenter.default.post(name: .CADCallsignChanged, object: self)
         }
     }
 
-    /// The last sync
+    /// The last sync data
     open var lastSync: CADSyncSummaries?
+
+    /// The last sync time
+    open var lastSyncTime: Date?
 
     /// Sync the latest manifest items
     open func syncManifestItems() -> Promise<Void> {
@@ -44,6 +48,8 @@ open class CADStateManager: NSObject {
             return APIManager.shared.cadSyncSummaries()
         }.then { [unowned self] summaries -> CADSyncSummaries in
             self.lastSync = summaries
+            self.lastSyncTime = Date()
+            NotificationCenter.default.post(name: .CADSyncChanged, object: self)
             return summaries
         }
     }
