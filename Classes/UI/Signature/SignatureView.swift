@@ -33,9 +33,18 @@ public class SignatureView: UIView {
         return path.isEmpty
     }
 
+    fileprivate lazy var signatureLayer: CAShapeLayer = {
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.frame = frame
+        shapeLayer.fillColor = UIColor.clear.cgColor
+        shapeLayer.strokeColor = strokeColor.cgColor
+        shapeLayer.lineWidth = strokeWidth
+        layer.addSublayer(shapeLayer)
+        return shapeLayer
+    }()
     fileprivate var path = UIBezierPath()
     fileprivate var points: LineControlPoints = LineControlPoints()
-
+    
     override public func draw(_ rect: CGRect) {
         strokeColor.setStroke()
         path.stroke()
@@ -105,10 +114,22 @@ public class SignatureView: UIView {
     }
 
     func clear() {
-        UIView.animate(withDuration: 0.2) { [unowned self] in
-            self.path.removeAllPoints()
-            self.setNeedsDisplay()
-        }
+        let pathCopy = path.copy() as! UIBezierPath
+
+        path.removeAllPoints()
+        setNeedsDisplay()
+
+        signatureLayer.path = pathCopy.cgPath
+
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.fromValue = 1.0
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        animation.toValue = 0.0
+        animation.duration = 0.3
+        animation.fillMode = kCAFillModeBoth
+        animation.isRemovedOnCompletion = false
+
+        signatureLayer.add(animation, forKey: "reverseSignature")
     }
 
     public func renderedImage(isOpaque: Bool = false, backgroundColor: UIColor? = nil) -> UIImage? {
@@ -125,7 +146,6 @@ public class SignatureView: UIView {
         UIGraphicsEndImageContext()
         return image
     }
-
 }
 
 public enum PointLocation: Int {
