@@ -211,7 +211,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         ])
     }
     
-    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+    override open func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
         
         coordinator.animate(alongsideTransition: { _ in
