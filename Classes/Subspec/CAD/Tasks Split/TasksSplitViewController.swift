@@ -74,6 +74,9 @@ open class TasksSplitViewController: MPOLSplitViewController {
 
             // Reload header text for time since sync
             self?.updateSyncIntervalText()
+            
+            // Zoom to user location
+            self?.viewModel.mapViewModel.delegate?.zoomToUserLocation()
         }.catch { [weak self] error in
             // TODO: add support for error state to loading state manager
             self?.tasksListContainer?.loadingManager.state = .noContent

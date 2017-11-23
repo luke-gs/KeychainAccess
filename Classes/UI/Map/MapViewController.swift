@@ -47,10 +47,6 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     open var isMapTypeButtonHidden: Bool = true {
         didSet {
             mapTypeButton.isHidden = isMapTypeButtonHidden
-
-            // Use layout margin to position legal text above map type button
-            let bottomMargin = isMapTypeButtonHidden ? buttonMargin : buttonMargin + userLocationButton.frame.height
-            mapView.layoutMargins = UIEdgeInsets(top: 0, left: buttonMargin, bottom: bottomMargin, right: 0)
         }
     }
     
@@ -95,7 +91,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         buttonDivider = UIView()
         buttonDivider.backgroundColor = #colorLiteral(red: 0.8549019608, green: 0.8549019608, blue: 0.8470588235, alpha: 1)
         buttonDivider.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(buttonDivider)
+        buttonPill.addSubview(buttonDivider)
 
         userLocationButton = UIButton()
         userLocationButton.setImage(AssetManager.shared.image(forKey: .mapUserLocation), for: .normal)
@@ -135,17 +131,17 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
             buttonPill.widthAnchor.constraint(equalToConstant: buttonSize.width),
             buttonPill.topAnchor.constraint(equalTo: mapView.safeAreaOrFallbackTopAnchor, constant: buttonMargin),
             buttonPill.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -buttonMargin),
-            
+
             userLocationButton.topAnchor.constraint(equalTo: buttonPill.topAnchor),
             userLocationButton.leadingAnchor.constraint(equalTo: buttonPill.leadingAnchor),
             userLocationButton.trailingAnchor.constraint(equalTo: buttonPill.trailingAnchor),
             userLocationButton.heightAnchor.constraint(equalToConstant: buttonSize.height / 2),
-            
+
             buttonDivider.topAnchor.constraint(equalTo: userLocationButton.bottomAnchor),
             buttonDivider.leadingAnchor.constraint(equalTo: buttonPill.leadingAnchor),
             buttonDivider.trailingAnchor.constraint(equalTo: buttonPill.trailingAnchor),
             buttonDivider.heightAnchor.constraint(equalToConstant: dividerHeight),
-            
+
             mapTypeButton.topAnchor.constraint(equalTo: buttonDivider.bottomAnchor),
             mapTypeButton.leadingAnchor.constraint(equalTo: buttonPill.leadingAnchor),
             mapTypeButton.trailingAnchor.constraint(equalTo: buttonPill.trailingAnchor),
@@ -154,7 +150,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
 
             // Make map view fill the view on leading and trailing, even outside safe area so it looks good on iPhone X
             mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor).withPriority(.almostRequired),
+            mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             mapView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
             mapView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
         ])
@@ -218,10 +214,6 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     public func zoomAndCenter(to location: CLLocation, animated: Bool = true) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, defaultZoomDistance, defaultZoomDistance)
         mapView.setRegion(coordinateRegion, animated: animated)
-    }
-    
-    open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
     }
     
 }
