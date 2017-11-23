@@ -8,7 +8,7 @@
 
 import UIKit
 
-public struct TasksListItemViewModel {
+public class TasksListItemViewModel {
     public let title: String
     public let subtitle: String
     public let caption: String
@@ -20,8 +20,9 @@ public struct TasksListItemViewModel {
     
     public let boxColor: UIColor
     public let boxFilled: Bool
+    public var hasUpdates: Bool
     
-    public init(title: String, subtitle: String, caption: String, status: String? = nil, priority: String? = nil, boxColor: UIColor, boxFilled: Bool) {
+    public init(title: String, subtitle: String, caption: String, status: String? = nil, priority: String? = nil, boxColor: UIColor, boxFilled: Bool, hasUpdates: Bool) {
         self.title = title
         self.subtitle = subtitle
         self.caption = caption
@@ -29,5 +30,6 @@ public struct TasksListItemViewModel {
         self.priority = priority
         self.boxColor = boxColor
         self.boxFilled = boxFilled
+        self.hasUpdates = hasUpdates
     }
 }

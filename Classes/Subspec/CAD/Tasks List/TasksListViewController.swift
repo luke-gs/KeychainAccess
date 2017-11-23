@@ -30,6 +30,7 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
             cell.titleLabel.text = viewModel.title
             cell.subtitleLabel.text = viewModel.subtitle
             cell.captionLabel.text = viewModel.caption
+            cell.updatesIndicator.isHidden = !viewModel.hasUpdates
             cell.configurePriority(color: viewModel.boxColor, priorityText: viewModel.boxText, priorityFilled: viewModel.boxFilled)
         }
     }
@@ -43,11 +44,28 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
             cell.captionLabel.textColor = secondaryTextColor
         }
     }
+    
+    open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let view = super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
+        
+        if let header = view as? CollectionViewFormHeaderView, let viewModel = viewModel as? TasksListViewModel {
+            header.showsUpdatesIndicatorWhenCollapsed = viewModel.showsUpdatesIndicator(at: indexPath.section)
+        }
+        
+        return view
+    }
+    
     // MARK: - UICollectionViewDelegate
 
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         // TODO: present details?
+        
+        // Set item as read and reload the section
+        let item = viewModel.item(at: indexPath)
+        item?.hasUpdates = false
+        
+        collectionView.reloadSections(IndexSet(integer: indexPath.section))
     }
 
     override open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {

@@ -188,7 +188,8 @@ public class SampleData {
                                                                              status: "Current Incident",
                                                                              priority: "P1",
                                                                              boxColor: .orangeRed,
-                                                                             boxFilled: true)
+                                                                             boxFilled: true,
+                                                                             hasUpdates: false)
             ]),
             
             CADFormCollectionSectionViewModel(title: "1 Assigned",
@@ -198,7 +199,8 @@ public class SampleData {
                                                                              status: "Assigned",
                                                                              priority: "P3",
                                                                              boxColor: .brightBlue,
-                                                                             boxFilled: false)
+                                                                             boxFilled: false,
+                                                                             hasUpdates: true)
             ]),
             
             
@@ -209,7 +211,8 @@ public class SampleData {
                                                                              status: "Unresourced",
                                                                              priority: "P4",
                                                                              boxColor: .secondaryGray,
-                                                                             boxFilled: false),
+                                                                             boxFilled: false,
+                                                                             hasUpdates: false),
                                                       
                                                       TasksListItemViewModel(title: "Traffic Crash",
                                                                              subtitle: "41 Victoria Parade, Fitzroy",
@@ -217,7 +220,8 @@ public class SampleData {
                                                                              status: "Unresourced",
                                                                              priority: "P3",
                                                                              boxColor: .secondaryGray,
-                                                                             boxFilled: false)
+                                                                             boxFilled: false,
+                                                                             hasUpdates: false)
             ]),
             
             CADFormCollectionSectionViewModel(title: "2 Resourced",
@@ -227,7 +231,8 @@ public class SampleData {
                                                                              status: "Resourced",
                                                                              priority: "P2",
                                                                              boxColor: .sunflowerYellow,
-                                                                             boxFilled: true),
+                                                                             boxFilled: true,
+                                                                             hasUpdates: false),
                                                       
                                                       TasksListItemViewModel(title: "Public Nuisance (1)",
                                                                              subtitle: "AS4012  •  MP00001528",
@@ -235,7 +240,8 @@ public class SampleData {
                                                                              status: "Resourced",
                                                                              priority: "P3",
                                                                              boxColor: .secondaryGray,
-                                                                             boxFilled: false),
+                                                                             boxFilled: false,
+                                                                             hasUpdates: false),
                                                       ]),
             
         ]
@@ -249,7 +255,8 @@ public class SampleData {
                                                                              subtitle: "188 Smith St",
                                                                              caption: "AS4205  :  MP0001529",
                                                                              boxColor: UIColor.clear,
-                                                                             boxFilled: true)])
+                                                                             boxFilled: true,
+                                                                             hasUpdates: false)])
         ]
     }
 
@@ -260,24 +267,28 @@ public class SampleData {
                                                                              subtitle: "Fitzroy",
                                                                              caption: "BC0997  :  10:16",
                                                                              boxColor: UIColor.clear,
-                                                                             boxFilled: true)]),
+                                                                             boxFilled: true,
+                                                                             hasUpdates: false)]),
             CADFormCollectionSectionViewModel(title: "1 Event",
                                               items: [TasksListItemViewModel(title: "Lawful Protest March",
                                                                              subtitle: "Melbourne",
                                                                              caption: "BC0962  :  09:00 - 12:00",
                                                                              boxColor: UIColor.clear,
-                                                                             boxFilled: true)]),
+                                                                             boxFilled: true,
+                                                                             hasUpdates: false)]),
             CADFormCollectionSectionViewModel(title: "2 BOLF",
                                               items: [TasksListItemViewModel(title: "Vehicle: TNS448",
                                                                              subtitle: "Melbourne",
                                                                              caption: "BC0995  :  1 day ago",
                                                                              boxColor: UIColor.clear,
-                                                                             boxFilled: true),
+                                                                             boxFilled: true,
+                                                                             hasUpdates: false),
                                                       TasksListItemViewModel(title: "Vehicle: XNR106",
                                                                              subtitle: "Melbourne",
                                                                              caption: "BC1004  :  4 days ago",
                                                                              boxColor: UIColor.clear,
-                                                                             boxFilled: true)])
+                                                                             boxFilled: true,
+                                                                             hasUpdates: false)])
         ]
     }
 
@@ -289,7 +300,8 @@ public class SampleData {
                                                                              caption: "In Duress 2:45",
                                                                              priority: "P1",
                                                                              boxColor: .orangeRed,
-                                                                             boxFilled: true)]),
+                                                                             boxFilled: true,
+                                                                             hasUpdates: false)]),
             CADFormCollectionSectionViewModel(title: "7 Tasked",
                                               items: [TasksListItemViewModel(title: "P03 (3)",
                                                                              subtitle: "Fitzroy",
@@ -297,28 +309,32 @@ public class SampleData {
                                                                              status: "Tasked",
                                                                              priority: "P1",
                                                                              boxColor: .orangeRed,
-                                                                             boxFilled: true),
+                                                                             boxFilled: true,
+                                                                             hasUpdates: false),
                                                       TasksListItemViewModel(title: "P12 (1)",
                                                                              subtitle: "Fitzroy",
                                                                              caption: "At Incident",
                                                                              status: "Tasked",
                                                                              priority: "P1",
                                                                              boxColor: .orangeRed,
-                                                                             boxFilled: true),
+                                                                             boxFilled: true,
+                                                                             hasUpdates: false),
                                                       TasksListItemViewModel(title: "F05 (4)",
                                                                              subtitle: "Abbotsford",
                                                                              caption: "Processing",
                                                                              status: "Tasked",
                                                                              priority: "P3",
                                                                              boxColor: .brightBlue,
-                                                                             boxFilled: false),
+                                                                             boxFilled: false,
+                                                                             hasUpdates: false),
                                                       TasksListItemViewModel(title: "K14 (2)",
                                                                              subtitle: "Collingwood",
                                                                              caption: "Processing",
                                                                              status: "Tasked",
                                                                              priority: "P3",
                                                                              boxColor: .brightBlue,
-                                                                             boxFilled: false)])
+                                                                             boxFilled: false,
+                                                                             hasUpdates: false)])
         ]
     }
 
