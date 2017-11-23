@@ -153,7 +153,7 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
             titleLabel.leadingAnchor.constraint(equalTo: leftColumn.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: leftColumn.trailingAnchor),
             
-            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
             subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             subtitleLabel.trailingAnchor.constraint(equalTo: leftColumn.trailingAnchor),
             

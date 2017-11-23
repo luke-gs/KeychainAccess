@@ -72,8 +72,8 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
     }
 
     override open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        if let item = viewModel.item(at: indexPath) {
-            return TasksListItemCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection) + 26
+        if let _ = viewModel.item(at: indexPath) {
+            return 64
         }
         return 0
     }
