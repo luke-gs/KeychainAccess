@@ -92,7 +92,7 @@ open class BookOnDetailsFormViewModel {
 
     open func submitForm() -> Promise<()> {
         // Update session
-        CADUserSession.current.callsign = callsignViewModel.callsign
+        CADStateManager.shared.callsign = callsignViewModel.callsign
         BookOnDetailsFormViewModel.lastSaved = details
 
         return firstly {

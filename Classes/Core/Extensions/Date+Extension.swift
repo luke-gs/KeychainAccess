@@ -135,5 +135,56 @@ public extension Date {
         
         return calendar.date(byAdding: components, to: self)!
     }
-    
+
+    func elapsedTimeIntervalForHuman() -> String? {
+
+        let calendar = Calendar.current
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .full
+        formatter.maximumUnitCount = 1
+        formatter.calendar = calendar
+
+        let now = Date()
+
+        // Calculate the time interval as a single date component
+        let interval = calendar.dateComponents([.year, .month, .weekOfYear, .day, .hour, .minute], from: self, to: now)
+        if let year = interval.year, year != 0 {
+            // 1 year
+            formatter.allowedUnits = [.year]
+        } else if let month = interval.month, month != 0 {
+            // 2 months
+            formatter.allowedUnits = [.month]
+        } else if let week = interval.weekOfYear, week != 0 {
+            // 3 weeks
+            formatter.allowedUnits = [.weekOfMonth]
+        } else if let day = interval.day, day != 0 {
+            // 4 days
+            formatter.allowedUnits = [.day]
+        } else if let hour = interval.hour, hour != 0 {
+            // 5 hours
+            formatter.allowedUnits = [.hour]
+        } else if let minute = interval.minute, minute != 0 {
+            // 6 minutes
+            formatter.allowedUnits = [.minute]
+        } else {
+            return NSLocalizedString("just now", comment: "Time interval just now")
+        }
+
+        // Use different wording for whether date is in future or past
+        if self < now {
+            // 8 minutes ago
+            if let intervalString = formatter.string(from: self, to: now) {
+                let suffix = NSLocalizedString("ago", comment: "Time interval suffix")
+                return "\(intervalString) \(suffix)"
+            }
+        } else {
+            // in 4 hours
+            if let intervalString = formatter.string(from: now, to: self) {
+                let prefix = NSLocalizedString("in", comment: "Time interval prefix")
+                return "\(prefix) \(intervalString)"
+            }
+        }
+        return nil
+    }
+
 }
