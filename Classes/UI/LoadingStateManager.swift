@@ -167,7 +167,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     // MARK: - Private methods
 
     /// Return the container view for the given state
-    private func containerViewForState(_ state: LoadingStateManager.State) -> UIStackView? {
+    private func containerViewForState(_ state: LoadingStateManager.State) -> UIView? {
         switch state {
         case .loading:
             return loadingView
@@ -175,6 +175,31 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
             return noContentView
         default:
             return nil
+        }
+    }
+
+    private func createContainerContentGuide(_ scrollView: UIScrollView) -> AnyObject {
+        if #available(iOS 11, *) {
+            scrollView.contentInsetAdjustmentBehavior = .always
+            let contentLayoutGuide = scrollView.contentLayoutGuide
+            NSLayoutConstraint.activate([
+                contentLayoutGuide.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
+            ])
+            return contentLayoutGuide
+        } else {
+            let contentSizingView = UIView(frame: .zero)
+            contentSizingView.translatesAutoresizingMaskIntoConstraints = false
+            contentSizingView.isHidden = true
+            scrollView.addSubview(contentSizingView)
+
+            NSLayoutConstraint.activate([
+                contentSizingView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+                contentSizingView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+                contentSizingView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+                contentSizingView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+                contentSizingView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            ])
+            return contentSizingView
         }
     }
 
@@ -203,68 +228,42 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         guard let baseView = self.baseView, let contentInsetGuide = self.contentInsetGuide else { return }
 
         // Load the stack view for the current state
-        let stackView: UIStackView! = containerViewForState(state)
+        let containerView: UIView! = containerViewForState(state)
 
-        let scrollView: UIScrollView
-        let contentGuide: AnyObject
-        var constraints: [NSLayoutConstraint]
+        // Wrap stack view in a scroll view and add to the base view
+        let scrollView = containerScrollView ?? UIScrollView(frame: baseView.bounds)
+        scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
-        if let currentScrollView = containerScrollView, let containerGuide = self.containerGuide {
-            scrollView = currentScrollView
-            contentGuide = containerGuide
+        let contentGuide = createContainerContentGuide(scrollView)
 
-            constraints = []
-        } else {
-            scrollView = UIScrollView(frame: baseView.bounds)
-            scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-            if #available(iOS 11, *) {
-                scrollView.contentInsetAdjustmentBehavior = .always
-
-                let contentLayoutGuide = scrollView.contentLayoutGuide
-                constraints = [ contentLayoutGuide.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor) ]
-                contentGuide = contentLayoutGuide
-            } else {
-                let contentSizingView = UIView(frame: .zero)
-                contentSizingView.translatesAutoresizingMaskIntoConstraints = false
-                contentSizingView.isHidden = true
-                scrollView.addSubview(contentSizingView)
-
-                constraints = [
-                    contentSizingView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-                    contentSizingView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-                    contentSizingView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-                    contentSizingView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-                    contentSizingView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-                ]
-                contentGuide = contentSizingView
+        // Remove old container from scroll view
+        for view in scrollView.subviews {
+            if view != contentGuide as? UIView {
+                view.removeFromSuperview()
             }
-
-            for view in scrollView.subviews {
-                if view != contentGuide as? UIView {
-                    view.removeFromSuperview()
-                }
-            }
-            stackView.translatesAutoresizingMaskIntoConstraints = false
-            scrollView.addSubview(stackView)
-
-            constraints += [
-                NSLayoutConstraint(item: stackView, attribute: .centerX, relatedBy: .equal, toItem: contentGuide, attribute: .centerX),
-                NSLayoutConstraint(item: stackView, attribute: .centerY, relatedBy: .equal, toItem: contentGuide, attribute: .centerY),
-                NSLayoutConstraint(item: stackView, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: scrollView.readableContentGuide, attribute: .leading),
-                NSLayoutConstraint(item: stackView, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: contentGuide, attribute: .top, constant: 40.0),
-            ]
-
-            containerWidthConstraint = stackView.widthAnchor.constraint(lessThanOrEqualTo: scrollView.readableContentGuide.widthAnchor, multiplier: 0.7).withPriority(UILayoutPriority.defaultHigh)
-
-            if baseView.traitCollection.horizontalSizeClass != .compact {
-                constraints.append(containerWidthConstraint!)
-            }
-
-            containerScrollView = scrollView
-            containerInsetManager = ScrollViewInsetManager(scrollView: scrollView)
-            updateContentInsets()
         }
+
+        // Add new container and constrain to the content guide
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(containerView)
+
+        var constraints: [NSLayoutConstraint] = []
+        constraints += [
+            NSLayoutConstraint(item: containerView, attribute: .centerX, relatedBy: .equal, toItem: contentGuide, attribute: .centerX),
+            NSLayoutConstraint(item: containerView, attribute: .centerY, relatedBy: .equal, toItem: contentGuide, attribute: .centerY),
+            NSLayoutConstraint(item: containerView, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: scrollView.readableContentGuide, attribute: .leading),
+            NSLayoutConstraint(item: containerView, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: contentGuide, attribute: .top, constant: 40.0),
+        ]
+
+        containerWidthConstraint = containerView.widthAnchor.constraint(lessThanOrEqualTo: scrollView.readableContentGuide.widthAnchor, multiplier: 0.7).withPriority(UILayoutPriority.defaultHigh)
+
+        if baseView.traitCollection.horizontalSizeClass != .compact {
+            constraints.append(containerWidthConstraint!)
+        }
+
+        containerScrollView = scrollView
+        containerInsetManager = ScrollViewInsetManager(scrollView: scrollView)
+        updateContentInsets()
 
         if let contentView = self.contentView, let indexOfContentView = baseView.subviews.index(of: contentView) {
             baseView.insertSubview(scrollView, at: indexOfContentView)
