@@ -94,6 +94,9 @@ open class NoContentView: UIStackView {
         subtitleLabel.textColor = .gray
         subtitleLabel.textAlignment = .center
         subtitleLabel.numberOfLines = 0
+
+        actionButton.titleLabel?.font = .systemFont(ofSize: 15.0, weight: UIFont.Weight.semibold)
+        actionButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 16.0, bottom: 10.0, right: 16.0)
         
         alignment = .center
         axis = .vertical
