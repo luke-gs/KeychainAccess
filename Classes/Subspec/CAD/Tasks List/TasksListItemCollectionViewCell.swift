@@ -232,7 +232,7 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
     public func setStatusRows(_ viewModels: [TasksListItemResourceViewModel]?) {
         guard let viewModels = viewModels else { return }
         
-        rightColumn.removeArrangedSubviews()
+        rightColumn.removeArrangedSubviewsFromViewHeirachy()
         
         // Add first 3 view models
         for viewModel in viewModels[0..<min(3, viewModels.count)] {
