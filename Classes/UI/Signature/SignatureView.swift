@@ -20,19 +20,24 @@ public class SignatureView: UIView {
     open var strokeWidth: CGFloat = 4.0 {
         didSet {
             path.lineWidth = strokeWidth
+            signatureLayer.lineWidth = strokeWidth
         }
     }
 
     open var strokeColor: UIColor = .darkGray {
         didSet {
             strokeColor.setStroke()
+            signatureLayer.strokeColor = strokeColor.cgColor
         }
     }
 
+    /// Can be used to determine whether the signature has been started
+    /// Checks that the path is not empty for validation
     public var containsSignature: Bool {
-        return path.isEmpty
+        return !path.isEmpty
     }
 
+    /// Animation layer for the clearing of the signature
     fileprivate lazy var signatureLayer: CAShapeLayer = {
         let shapeLayer = CAShapeLayer()
         shapeLayer.frame = frame
@@ -42,7 +47,9 @@ public class SignatureView: UIView {
         layer.addSublayer(shapeLayer)
         return shapeLayer
     }()
+
     fileprivate var path = UIBezierPath()
+    // Control points for line smoothing
     fileprivate var points: LineControlPoints = LineControlPoints()
     
     override public func draw(_ rect: CGRect) {
@@ -113,7 +120,11 @@ public class SignatureView: UIView {
         delegate?.didEndSigning()
     }
 
-    func clear() {
+    public func clear() {
+        guard containsSignature else {
+            return
+        }
+
         let pathCopy = path.copy() as! UIBezierPath
 
         path.removeAllPoints()
@@ -121,6 +132,9 @@ public class SignatureView: UIView {
 
         signatureLayer.path = pathCopy.cgPath
 
+        // Animate the reverse drawing of the signature
+        // Puts a copy of the actual signature on top, removes the old one and
+        // animates backwards, removing on completion
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.fromValue = 1.0
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
@@ -132,6 +146,13 @@ public class SignatureView: UIView {
         signatureLayer.add(animation, forKey: "reverseSignature")
     }
 
+
+    /// The result image to be supplied
+    ///
+    /// - Parameters:
+    ///   - isOpaque: Whether or not to display the signature on a background
+    ///   - backgroundColor: The colour of the background colour if they want one
+    /// - Returns: An image representation of the signature
     public func renderedImage(isOpaque: Bool = false, backgroundColor: UIColor? = nil) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(frame.size, isOpaque, 0)
 
@@ -155,7 +176,7 @@ public enum PointLocation: Int {
     case trailingControl = 3
     case trailing = 4
 
-    init(_ controlPoint: Int) {
+    public init(_ controlPoint: Int) {
         self = PointLocation(rawValue: controlPoint) ?? .leading
     }
 }

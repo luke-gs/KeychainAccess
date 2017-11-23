@@ -18,13 +18,19 @@ open class SignatureViewController: UIViewController {
     public weak var delegate: SignatureViewControllerDelegate?
     private lazy var signatureView: SignatureView = SignatureView()
 
+    private lazy var doneButton: UIBarButtonItem = {
+        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneTapped))
+        doneButton.isEnabled = false
+        return doneButton
+    }()
+
     public init() {
         super.init(nibName: nil, bundle: nil)
 
         title = "Capture Signature"
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneTapped))
+        navigationItem.rightBarButtonItem = doneButton
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -37,6 +43,7 @@ open class SignatureViewController: UIViewController {
         view.backgroundColor = .gray
 
         signatureView.translatesAutoresizingMaskIntoConstraints = false
+        signatureView.delegate = self
         signatureView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(signatureView)
 
@@ -48,6 +55,7 @@ open class SignatureViewController: UIViewController {
         clearButton.setTitle("CLEAR SIGNATURE", for: .normal)
 
         // Placeholder icon for the clear button
+        // Replace with actual Icon when ready
         clearButton.setImage(AssetManager.shared.image(forKey: .info), for: .normal)
         clearButton.imageEdgeInsets = UIEdgeInsets(top: 0.0, left: -10.0, bottom: 0.0, right: 10.0)
         clearButton.addTarget(self, action: #selector(clearTapped), for: .touchUpInside)
@@ -79,17 +87,18 @@ open class SignatureViewController: UIViewController {
 
     @objc private func clearTapped() {
         signatureView.clear()
+        doneButton.isEnabled = signatureView.containsSignature
     }
 
 }
 
 extension SignatureViewController: SignatureViewResponder {
     public func didStartSigning() {
-        print("Did start signing")
+        doneButton.isEnabled = signatureView.containsSignature
     }
 
     public func didEndSigning() {
-        print("Did end signing")
+        doneButton.isEnabled = signatureView.containsSignature
     }
 
 
