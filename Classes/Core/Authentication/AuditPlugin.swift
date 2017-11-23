@@ -24,12 +24,12 @@ open class AuditPlugin: PluginType {
         
         let session = UserSession.current
         
-        adaptedRequest.addValue(session.sessionID, forHTTPHeaderField: AuditPlugin.auditSessionIdKey)
+        adaptedRequest.setValue(session.sessionID, forHTTPHeaderField: AuditPlugin.auditSessionIdKey)
         
         // Temporary untill we have a Device ID from MDM
-        adaptedRequest.addValue(UIDevice.current.identifierForVendor!.uuidString, forHTTPHeaderField: AuditPlugin.auditDeviceIdKey)
+        adaptedRequest.setValue(UIDevice.current.identifierForVendor!.uuidString, forHTTPHeaderField: AuditPlugin.auditDeviceIdKey)
         // Temporary until we decide how generate and store transaction IDs
-        adaptedRequest.addValue("TestID", forHTTPHeaderField: AuditPlugin.auditTransactionIdKey)
+        adaptedRequest.setValue("TestID", forHTTPHeaderField: AuditPlugin.auditTransactionIdKey)
 
         return Promise(value: adaptedRequest)
     }

@@ -64,14 +64,16 @@ open class RefreshTokenPlugin: PluginType {
         // If refresh is currently executing, chain a retry of the request
         if let refresh = refreshPromise {
             return refresh.then { _ in
-                // Retry original request
-                return APIManager.shared.dataRequest(Promise(value: response.request!))
+                // Reset headers & retry original request
+                self.retry(request: response.request!)
             }
         }
         
         // First instance of 401 response will begin refresh logic (all responses received
         // after the first 401 will be chained to the refresh promise created).
         if response.response?.statusCode == 401 {
+            APIManager.shared.authenticationPlugin = nil
+            
             // If no refresh token exists, allow app to handle a failed refresh
             guard let token = UserSession.current.token?.refreshToken else {
                 if let fallback = self.onRefreshTokenFailed {
@@ -86,9 +88,9 @@ open class RefreshTokenPlugin: PluginType {
                             self.refreshPromise = nil
                         }
                     
-                    // Retry original request
+                    // Reset headers & retry original request
                     return self.refreshPromise!.then {
-                        return APIManager.shared.dataRequest(Promise(value: response.request!))
+                        self.retry(request: response.request!)
                     }
                 } else {
                     onEverythingFailed?(response.error)
@@ -117,9 +119,9 @@ open class RefreshTokenPlugin: PluginType {
                     self.refreshPromise = nil
                 }
             
-            // Retry original request
-            return refreshPromise!.then {
-                return APIManager.shared.dataRequest(Promise(value: response.request!))
+            // Reset headers & retry original request
+            return self.refreshPromise!.then {
+                return self.retry(request: response.request!)
             }
         }
         
@@ -134,6 +136,13 @@ open class RefreshTokenPlugin: PluginType {
             return excludePaths.contains(path)
         }
         return false
+    }
+    
+    private func retry(request: URLRequest) -> Promise<DataResponse<Data>> {
+        // Readapt request with new authentication plugin
+        return APIManager.shared.authenticationPlugin!.adapt(request).then { adaptedRequest in
+            return APIManager.shared.dataRequest(Promise(value: adaptedRequest))
+        }
     }
 }
 
