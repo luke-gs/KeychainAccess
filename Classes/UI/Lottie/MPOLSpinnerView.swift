@@ -44,8 +44,12 @@ public class MPOLSpinnerView: LOTAnimationView {
         self.style = style
 
         let cacheName = MPOLSpinnerView.fileURL.absoluteString
-        let model = LOTAnimationCache.shared().animation(forKey: cacheName)
+        var model = LOTAnimationCache.shared().animation(forKey: cacheName)
 
+        // Load model if not already cached
+        if model == nil {
+            model = LOTAnimationView.loadMPOLAnimation(fileURL: MPOLSpinnerView.fileURL)
+        }
         super.init(model: model, in: Bundle.mpolKit)
 
         loopAnimation = true
