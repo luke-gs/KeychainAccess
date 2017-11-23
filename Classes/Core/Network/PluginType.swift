@@ -8,13 +8,14 @@
 
 import Foundation
 import Alamofire
+import PromiseKit
 
 // Plugin receives callbacks to perform side effects whenever a request is sent or received.
 // It could be used to inject extra headers to the request, network monitoring, etc.
 public protocol PluginType {
 
     // Called to modify the request before it's sent.
-    func adapt(_ urlRequest: URLRequest) -> URLRequest
+    func adapt(_ urlRequest: URLRequest) -> Promise<URLRequest>
 
     // Called immediately before request is sent, after the modification.
     func willSend(_ request: Alamofire.Request)
@@ -30,15 +31,15 @@ public protocol PluginType {
     /// - Remarks: DataResponse<Data> was used instead of DefaultDataResponse to help inspecting whether the
     ///            the network call is successful or not.
     //             Ensure response.data and result.success(data) are consistent when modified.
-    func processResponse(_ response: Alamofire.DataResponse<Data>) -> Alamofire.DataResponse<Data>
+    func processResponse(_ response: Alamofire.DataResponse<Data>) -> Promise<Alamofire.DataResponse<Data>>
 
 }
 
 // Default implementation for PluginType, plugin might necessary only care about particular event.
 public extension PluginType {
 
-    func adapt(_ urlRequest: URLRequest) -> URLRequest {
-        return urlRequest
+    func adapt(_ urlRequest: URLRequest) -> Promise<URLRequest> {
+        return Promise(value: urlRequest)
     }
 
     func willSend(_ request: Alamofire.Request) {
@@ -49,7 +50,7 @@ public extension PluginType {
 
     }
 
-    func processResponse(_ response: Alamofire.DataResponse<Data>) -> Alamofire.DataResponse<Data> {
-        return response
+    func processResponse(_ response: Alamofire.DataResponse<Data>) -> Promise<Alamofire.DataResponse<Data>> {
+        return Promise(value: response)
     }
 }

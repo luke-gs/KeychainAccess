@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PromiseKit
 
 open class AuditPlugin: PluginType {
     
@@ -18,7 +19,7 @@ open class AuditPlugin: PluginType {
         
     }
     
-    open func adapt(_ urlRequest: URLRequest) -> URLRequest {
+    open func adapt(_ urlRequest: URLRequest) -> Promise<URLRequest> {
         var adaptedRequest = urlRequest
         
         let session = UserSession.current
@@ -30,7 +31,7 @@ open class AuditPlugin: PluginType {
         // Temporary until we decide how generate and store transaction IDs
         adaptedRequest.addValue("TestID", forHTTPHeaderField: AuditPlugin.auditTransactionIdKey)
 
-        return adaptedRequest
+        return Promise(value: adaptedRequest)
     }
     
 }
