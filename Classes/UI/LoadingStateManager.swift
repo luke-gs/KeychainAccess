@@ -147,7 +147,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     
     private var containerWidthConstraint: NSLayoutConstraint?
     
-    private var containerGuide: AnyObject? // on iOS 11+, this is the contentLayoutGuide. on iOS 10, it is a UIView.
+    private var containerContentGuide: AnyObject? // on iOS 11+, this is the contentLayoutGuide. on iOS 10, it is a UIView.
     
     private var contentInsetGuide: UILayoutGuide?
     
@@ -178,29 +178,44 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         }
     }
 
+    private func createContainerScrollview() -> UIScrollView {
+        let scrollView = UIScrollView(frame: baseView!.bounds)
+        scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        return scrollView
+    }
+
     private func createContainerContentGuide(_ scrollView: UIScrollView) -> AnyObject {
+        let contentGuide: AnyObject
+        var constraints: [NSLayoutConstraint]
+
         if #available(iOS 11, *) {
             scrollView.contentInsetAdjustmentBehavior = .always
             let contentLayoutGuide = scrollView.contentLayoutGuide
-            NSLayoutConstraint.activate([
-                contentLayoutGuide.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
-            ])
-            return contentLayoutGuide
+            constraints = [contentLayoutGuide.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)]
+            contentGuide = contentLayoutGuide
         } else {
             let contentSizingView = UIView(frame: .zero)
             contentSizingView.translatesAutoresizingMaskIntoConstraints = false
             contentSizingView.isHidden = true
             scrollView.addSubview(contentSizingView)
 
-            NSLayoutConstraint.activate([
+            constraints = [
                 contentSizingView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
                 contentSizingView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
                 contentSizingView.topAnchor.constraint(equalTo: scrollView.topAnchor),
                 contentSizingView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
                 contentSizingView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            ])
-            return contentSizingView
+            ]
+            contentGuide = contentSizingView
         }
+
+        // when we constraint to make sure the content area stays at least full height for the screen,
+        // leave a little off to keep the content appearing a little north of the center. Humans see
+        // center as looking a little low on the screen - it's a psychological thing!
+        constraints.append(NSLayoutConstraint(item: contentGuide, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: contentInsetGuide!, attribute: .height, constant: (contentAdjustmentFromCenterY * 2.0)))
+
+        NSLayoutConstraint.activate(constraints)
+        return contentGuide
     }
 
     private func updateViewState() {
@@ -211,30 +226,33 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
             loadingView.loadingIndicatorView.stop()
         }
 
+        // If we have now loaded content, remove all container UI. Otherwise we re-use what
+        // has already been created but swap out the container for current state
         if state == .loaded {
             // Cleanup views and return
             containerScrollView?.removeFromSuperview()
             containerScrollView = nil
             containerInsetManager = nil
             containerWidthConstraint = nil
-            containerGuide = nil
+            containerContentGuide = nil
             contentView?.isHidden = false
             return
         } else {
-            // Hide content view and add container view for state
             contentView?.isHidden = true
         }
 
-        guard let baseView = self.baseView, let contentInsetGuide = self.contentInsetGuide else { return }
+        guard let baseView = self.baseView, self.contentInsetGuide != nil else { return }
 
-        // Load the stack view for the current state
-        let containerView: UIView! = containerViewForState(state)
+        // Create a scroll view for holding container content, and insert into base view
+        let scrollView = containerScrollView ?? createContainerScrollview()
+        if let contentView = self.contentView, let indexOfContentView = baseView.subviews.index(of: contentView) {
+            baseView.insertSubview(scrollView, at: indexOfContentView)
+        } else {
+            baseView.addSubview(scrollView)
+        }
 
-        // Wrap stack view in a scroll view and add to the base view
-        let scrollView = containerScrollView ?? UIScrollView(frame: baseView.bounds)
-        scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-        let contentGuide = createContainerContentGuide(scrollView)
+        // Create a content guide for laying out
+        let contentGuide = containerContentGuide ?? createContainerContentGuide(scrollView)
 
         // Remove old container from scroll view
         for view in scrollView.subviews {
@@ -243,7 +261,8 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
             }
         }
 
-        // Add new container and constrain to the content guide
+        // Load the container view for the current state and add to scroll view
+        let containerView: UIView! = containerViewForState(state)
         containerView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(containerView)
 
@@ -262,20 +281,11 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         }
 
         containerScrollView = scrollView
-        containerInsetManager = ScrollViewInsetManager(scrollView: scrollView)
+        containerContentGuide = contentGuide
+
+        // Update insets
+        containerInsetManager = containerInsetManager ?? ScrollViewInsetManager(scrollView: scrollView)
         updateContentInsets()
-
-        if let contentView = self.contentView, let indexOfContentView = baseView.subviews.index(of: contentView) {
-            baseView.insertSubview(scrollView, at: indexOfContentView)
-        } else {
-            baseView.addSubview(scrollView)
-        }
-
-        containerGuide = contentGuide
-        // when we constraint to make sure the content area stays at least full height for the screen,
-        // leave a little off to keep the content appearing a little north of the center. Humans see
-        // center as looking a little low on the screen - it's a psychological thing!
-        constraints.append(NSLayoutConstraint(item: contentGuide, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: contentInsetGuide, attribute: .height, constant: (contentAdjustmentFromCenterY * 2.0)))
 
         NSLayoutConstraint.activate(constraints)
     }
