@@ -91,6 +91,8 @@ class TasksListContainerViewController: UIViewController {
     public init(viewModel: TasksListContainerViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        // Add navigation bar buttons
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .map), style: .plain, target: self, action: #selector(toggleFullScreen))
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -145,8 +147,6 @@ class TasksListContainerViewController: UIViewController {
         view.addSubview(tasksListViewController.view)
         tasksListViewController.didMove(toParentViewController: self)
         
-        // Add navigation bar buttons
-        navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Fullscreen", style: .plain, target: self, action: #selector(toggleFullScreen))
     }
     
     @objc public func toggleFullScreen() {
