@@ -20,6 +20,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
     open let detailVC: UIViewController
     open let segmentedControl: UISegmentedControl
     open let tasksListContainer: LoadableViewController?
+    open private(set) var syncIntervalTimer: Timer?
 
     private var filterButton: UIBarButtonItem {
         return UIBarButtonItem(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: self, action: #selector(showMapLayerFilter))
@@ -69,12 +70,23 @@ open class TasksSplitViewController: MPOLSplitViewController {
             self?.tasksListContainer?.loadingManager.state = .loaded
 
             // Reload header text for time since sync
-            self?.updateNavigationBarForSelection()
+            self?.updateSyncIntervalText()
         }.catch { [weak self] error in
             // TODO: add support for error state to loading state manager
             self?.tasksListContainer?.loadingManager.state = .noContent
             print("Failed to sync: \(error)")
         }
+
+        // Setup timer for interval updates
+        syncIntervalTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateSyncIntervalText), userInfo: nil, repeats: true)
+    }
+
+    open override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        // Cancel timer
+        syncIntervalTimer?.invalidate()
+        syncIntervalTimer = nil
     }
 
     open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -100,6 +112,10 @@ open class TasksSplitViewController: MPOLSplitViewController {
             return "Updated \(intervalString)"
         }
         return nil
+    }
+
+    @objc open func updateSyncIntervalText() {
+        updateNavigationBarForSelection()
     }
 
     open func setMasterWidth(_ width: CGFloat, animated: Bool = true) {
@@ -152,7 +168,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
 extension TasksSplitViewController: TasksSplitViewModelDelegate {
     open func sectionsUpdated() {
         // Reload header text for time since sync
-        updateNavigationBarForSelection()
+        updateSyncIntervalText()
     }
 }
 
