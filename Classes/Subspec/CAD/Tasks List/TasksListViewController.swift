@@ -32,6 +32,9 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
             cell.captionLabel.text = viewModel.caption
             cell.updatesIndicator.isHidden = !viewModel.hasUpdates
             cell.configurePriority(color: viewModel.boxColor, priorityText: viewModel.boxText, priorityFilled: viewModel.boxFilled)
+            
+            cell.detailLabel.text = viewModel.description
+            cell.setStatusRows(viewModel.resources)
         }
     }
 

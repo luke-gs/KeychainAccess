@@ -104,14 +104,12 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
         middleColumn.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(middleColumn)
         
-        detailLabel.text = "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah"
-        detailLabel.textColor = #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
+        detailLabel.textColor = .secondaryGray
         detailLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         detailLabel.numberOfLines = 3
         
         detailLabel.translatesAutoresizingMaskIntoConstraints = false
         middleColumn.addSubview(detailLabel)
-        
         
         // Right column
         rightColumn.axis = .vertical
@@ -120,27 +118,6 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
         rightColumn.distribution = .fill
         rightColumn.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(rightColumn)
-
-        let tempRow = TasksListCellStatusRow()
-        tempRow.imageView.image = AssetManager.shared.image(forKey: .resourceCar)?.withRenderingMode(.alwaysTemplate)
-        tempRow.imageView.tintColor = .red
-        tempRow.titleLabel.text = "P08 (2)"
-        tempRow.titleLabel.textColor = #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
-        tempRow.subtitleLabel.text = "Duress"
-        tempRow.subtitleLabel.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
-        tempRow.subtitleLabel.textColor = .red
-        
-        let tempRow2 = TasksListCellStatusRow()
-        tempRow2.imageView.image = AssetManager.shared.image(forKey: .resourceCar)?.withRenderingMode(.alwaysTemplate)
-        tempRow2.imageView.tintColor = #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
-        tempRow2.titleLabel.text = "P24 (2)"
-        tempRow2.titleLabel.textColor = #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
-        tempRow2.subtitleLabel.text = "At Incident"
-        tempRow2.subtitleLabel.textColor = #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
-        
-        rightColumn.addArrangedSubview(tempRow)
-        rightColumn.addArrangedSubview(tempRow2)
-        rightColumn.addArrangedSubview(UIView())
     }
     
     /// Activates view constraints
@@ -213,8 +190,6 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
             rightColumn.leadingAnchor.constraint(equalTo: middleColumn.trailingAnchor, constant: LayoutConstants.columnSpacing),
             rightColumn.trailingAnchor.constraint(equalTo: accessoryView?.leadingAnchor ?? contentView.layoutMarginsGuide.trailingAnchor, constant: -LayoutConstants.verticalMargin).withPriority(.almostRequired),
             rightColumn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            
-            
         ])
     }
     
@@ -224,14 +199,17 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
                 leftColumnTrailing.isActive = false
                 leftColumnWidth.isActive = true
                 middleColumnTrailing.isActive = false
-            } else if bounds.width > 500 {
+                rightColumn.isHidden = false
+            } else if bounds.width > 700 {
                 leftColumnTrailing.isActive = false
                 leftColumnWidth.isActive = true
                 middleColumnTrailing.isActive = true
+                rightColumn.isHidden = true
             } else {
                 middleColumnTrailing.isActive = false
                 leftColumnWidth.isActive = false
                 leftColumnTrailing.isActive = true
+                rightColumn.isHidden = true
             }
         }
     }
@@ -250,5 +228,27 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
             priorityLabel.textColor = priorityColor
         }
     }
-
+    
+    public func setStatusRows(_ viewModels: [TasksListItemResourceViewModel]?) {
+        guard let viewModels = viewModels else { return }
+        
+        rightColumn.removeArrangedSubviews()
+        
+        viewModels.forEach { viewModel in
+            let statusRow = TasksListCellStatusRow()
+            statusRow.imageView.image = viewModel.image?.withRenderingMode(.alwaysTemplate)
+            statusRow.imageView.tintColor = viewModel.tintColor ?? .secondaryGray
+            statusRow.titleLabel.text = viewModel.resourceTitle
+            statusRow.titleLabel.textColor = viewModel.tintColor ?? .secondaryGray
+            statusRow.subtitleLabel.text = viewModel.statusText
+            statusRow.subtitleLabel.font = UIFont.systemFont(ofSize: 13, weight: viewModel.useBoldStatusText ? .semibold : .regular)
+            statusRow.subtitleLabel.textColor = viewModel.tintColor ?? .secondaryGray
+            rightColumn.addArrangedSubview(statusRow)
+        }
+        
+        // Add spacer view if less than 3
+        if rightColumn.arrangedSubviews.count < 3 {
+            rightColumn.addArrangedSubview(UIView())
+        }
+    }
 }

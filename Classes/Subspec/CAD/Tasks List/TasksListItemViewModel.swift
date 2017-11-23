@@ -14,6 +14,9 @@ public class TasksListItemViewModel {
     public let caption: String
     public let status: String?
     public let priority: String?
+    public let description: String?
+    public let resources: [TasksListItemResourceViewModel]?
+
     public var boxText: String {
         return priority ?? ""
     }
@@ -22,10 +25,12 @@ public class TasksListItemViewModel {
     public let boxFilled: Bool
     public var hasUpdates: Bool
     
-    public init(title: String, subtitle: String, caption: String, status: String? = nil, priority: String? = nil, boxColor: UIColor, boxFilled: Bool, hasUpdates: Bool) {
+    public init(title: String, subtitle: String, caption: String, status: String? = nil, priority: String? = nil, description: String? = nil, resources: [TasksListItemResourceViewModel]? = nil, boxColor: UIColor, boxFilled: Bool, hasUpdates: Bool) {
         self.title = title
         self.subtitle = subtitle
         self.caption = caption
+        self.description = description
+        self.resources = resources
         self.status = status
         self.priority = priority
         self.boxColor = boxColor
