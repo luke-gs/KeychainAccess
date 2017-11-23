@@ -100,7 +100,14 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     /// views for whatever effect you like, adding views etc where appropriate.
     open private(set) lazy var noContentView: NoContentView = { [unowned self] in
         self.noContentViewLoaded = true
-        return NoContentView(frame: .zero)
+        let noContentView = NoContentView(frame: .zero)
+
+        // For backwards compatibility, use no content color if explicitly set
+        if let noContentColor = explicitNoContentColor {
+            noContentView.titleLabel.textColor = noContentColor
+            noContentView.subtitleLabel.textColor = noContentColor
+        }
+        return noContentView
     }()
 
     /// The loading view.
@@ -109,7 +116,14 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     /// views for whatever effect you like, adding views etc where appropriate.
     open private(set) lazy var loadingView: LoadingView = { [unowned self] in
         self.loadingViewLoaded = true
-        return LoadingView(frame: .zero)
+        let loadingView = LoadingView(frame: .zero)
+
+        // For backwards compatibility, use no content color if explicitly set
+        if let noContentColor = explicitNoContentColor {
+            loadingView.titleLabel.textColor = noContentColor
+            loadingView.subtitleLabel.textColor = noContentColor
+        }
+        return loadingView
     }()
 
     
@@ -117,6 +131,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     @available(*, deprecated, message: "Single color is no longer used for all UI elements")
     @NSCopying open var noContentColor: UIColor! = .gray {
         didSet {
+            explicitNoContentColor = noContentColor
             if noContentColor == nil {
                 noContentColor = .gray
             }
@@ -127,13 +142,15 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
             if loadingViewLoaded {
                 loadingView.titleLabel.textColor = noContentColor
                 loadingView.subtitleLabel.textColor = noContentColor
-                loadingView.loadingIndicatorView.color = noContentColor
             }
         }
     }
 
     // MARK: - Private properties
-    
+
+    /// Explicitly set no content color, for backwards compatibility for callers not using individual colors
+    private var explicitNoContentColor: UIColor?
+
     private lazy var traitTrackerView: TraitCollectionTracker = { [unowned self] in
         let tracker = TraitCollectionTracker(frame: .zero)
         tracker.isHidden = true
