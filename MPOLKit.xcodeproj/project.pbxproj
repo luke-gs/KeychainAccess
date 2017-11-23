@@ -108,6 +108,7 @@
 		2744EECA1FBEA523008DFA7F /* MapFilterOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744EEC41FBEA523008DFA7F /* MapFilterOption.swift */; };
 		2744EECC1FBEA645008DFA7F /* TaskMapFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744EECB1FBEA645008DFA7F /* TaskMapFilterViewModel.swift */; };
 		2744EED01FC289F5008DFA7F /* Collection+MapFilterSectionCopy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744EECF1FC289F5008DFA7F /* Collection+MapFilterSectionCopy.swift */; };
+		274753F61FC680F200D5FA98 /* UIStackView+RemoveArrangedSubviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274753F51FC680F200D5FA98 /* UIStackView+RemoveArrangedSubviews.swift */; };
 		274C89711F984CB8005B9CF8 /* CallsignListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C89701F984CB8005B9CF8 /* CallsignListViewController.swift */; };
 		274C89731F984CD0005B9CF8 /* CallsignListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C89721F984CD0005B9CF8 /* CallsignListViewModel.swift */; };
 		274C89791F997F94005B9CF8 /* CADStatusTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C89781F997F94005B9CF8 /* CADStatusTabBarViewModel.swift */; };
@@ -625,6 +626,7 @@
 		2744EEC41FBEA523008DFA7F /* MapFilterOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilterOption.swift; sourceTree = "<group>"; };
 		2744EECB1FBEA645008DFA7F /* TaskMapFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskMapFilterViewModel.swift; sourceTree = "<group>"; };
 		2744EECF1FC289F5008DFA7F /* Collection+MapFilterSectionCopy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+MapFilterSectionCopy.swift"; sourceTree = "<group>"; };
+		274753F51FC680F200D5FA98 /* UIStackView+RemoveArrangedSubviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+RemoveArrangedSubviews.swift"; sourceTree = "<group>"; };
 		274C89701F984CB8005B9CF8 /* CallsignListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignListViewController.swift; sourceTree = "<group>"; };
 		274C89721F984CD0005B9CF8 /* CallsignListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignListViewModel.swift; sourceTree = "<group>"; };
 		274C89781F997F94005B9CF8 /* CADStatusTabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADStatusTabBarViewModel.swift; sourceTree = "<group>"; };
@@ -1692,6 +1694,7 @@
 				BC9C7D201F0DED6600DFFE83 /* UserDefaults+MPOL.swift */,
 				2784FDBA1FA1549D007B18B2 /* Optional+Extension.swift */,
 				27F9C96D1FA2D9D000825F88 /* UIViewController+ChildViewController.swift */,
+				274753F51FC680F200D5FA98 /* UIStackView+RemoveArrangedSubviews.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2998,6 +3001,7 @@
 				BC9C7E4E1F0DED6600DFFE83 /* BadgeView.swift in Sources */,
 				BC9C7E121F0DED6600DFFE83 /* TableViewFormExpandingHeaderCell.swift in Sources */,
 				EA76ECF51F57D8AB00524830 /* LookupAddressLocationAdvancedOptions.swift in Sources */,
+				274753F61FC680F200D5FA98 /* UIStackView+RemoveArrangedSubviews.swift in Sources */,
 				19FEC9851F43F7AC005692A9 /* ErrorMapperDefinition.swift in Sources */,
 				9686FC941F78AAED00C4AB4D /* UIView+SafeArea.swift in Sources */,
 				DBE24C411F5CF0FC0088D19B /* SidebarHeaderView.swift in Sources */,
