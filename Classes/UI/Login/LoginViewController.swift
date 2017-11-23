@@ -311,7 +311,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     /// Specifies whether the credentials view is added to the view hierarchy.
     ///
     /// The default value is `.UsernamePassword`, which adds the credentials view.
-    /// `.button` does not add the credentials view.
+    /// `.externalAuth` does not add the credentials view.
     public var loginMode: LoginMode {
         didSet {
             // if credentials view has been instantiated...
