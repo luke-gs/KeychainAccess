@@ -118,7 +118,14 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        performInitialLoadActions()
+        if isInitialViewLoad {
+            isInitialViewLoad = false
+            if zoomsToUserLocationOnLoad {
+                _ = locationManager.requestLocation().then { location in
+                    self.zoomAndCenterToUserLocation(animated: false)
+                }
+            }
+        }
     }
     
     /// Activates the constraints for the views
@@ -152,23 +159,6 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
             mapView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
         ])
         
-    }
-    
-    open override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        performInitialLoadActions()
-    }
-    
-    /// Performs actions required for the initial load of the map
-    open func performInitialLoadActions() {
-        if isInitialViewLoad, view.bounds.size.width >= 1 {
-            isInitialViewLoad = false
-            if zoomsToUserLocationOnLoad {
-                _ = locationManager.requestLocation().then { location in
-                    self.zoomAndCenterToUserLocation(animated: false)
-                }
-            }
-        }
     }
     
     public func mapView(_ mapView: MKMapView, didChange mode: MKUserTrackingMode, animated: Bool) {
