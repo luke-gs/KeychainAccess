@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PromiseKit
 
 /// Enum for all task types
 public enum TaskListType: Int {
@@ -42,6 +43,12 @@ public enum TaskListType: Int {
     }
 }
 
+/// Delegate protocol for updating UI
+public protocol TasksListContainerViewModelDelegate: class {
+    /// Called when the sections data is updated
+    func sectionsUpdated()
+}
+
 /// View model for the task list container, which is the parent of the header and list view models
 ///
 /// This view model owns the sources and current source selection, so changes can be applied to both the header and list
@@ -50,14 +57,17 @@ open class TasksListContainerViewModel {
 
     public weak var splitViewModel: TasksSplitViewModel?
 
+    /// Delegate for UI updates
+    open weak var delegate: TasksListContainerViewModelDelegate?
+
     // MARK: - Properties
 
     // Child view models
-    public let headerViewModel: TasksListHeaderViewModel
-    public let listViewModel: TasksListViewModel
+    open let headerViewModel: TasksListHeaderViewModel
+    open let listViewModel: TasksListViewModel
 
     /// The tasks source items, which are basically the different kinds of tasks (not backend sources)
-    public var sourceItems: [SourceItem] = [] {
+    open var sourceItems: [SourceItem] = [] {
         didSet {
             if sourceItems != oldValue {
                 headerViewModel.sourceItems = sourceItems
@@ -66,11 +76,11 @@ open class TasksListContainerViewModel {
     }
 
     /// The selected source index
-    public var selectedSourceIndex: Int = 0 {
+    open var selectedSourceIndex: Int = 0 {
         didSet {
             if selectedSourceIndex != oldValue {
                 headerViewModel.selectedSourceIndex = selectedSourceIndex
-                updateListData()
+                updateSections()
             }
         }
     }
@@ -83,31 +93,59 @@ open class TasksListContainerViewModel {
         self.listViewModel = listViewModel
 
         updateSourceItems()
-        updateListData()
+        updateSections()
 
         // Link header view model sources with us
         self.headerViewModel.containerViewModel = self
+
+        // Observe sync changes
+        NotificationCenter.default.addObserver(forName: .CADSyncChanged, object: nil, queue: nil) { [weak self] (notification) in
+            self?.updateSections()
+        }
     }
 
     /// Create the view controller for this view model
-    public func createViewController() -> UIViewController {
-        return TasksListContainerViewController(viewModel: self)
+    open func createViewController() -> UIViewController {
+        let vc = TasksListContainerViewController(viewModel: self)
+        delegate = vc
+        return vc
     }
 
     // MARK: - Public methods
 
-    /// Update the source items status
-    public func updateSourceItems() {
+    /// Content title shown when no results
+    open func noContentTitle() -> String? {
+        return NSLocalizedString("No Tasks Found", comment: "")
+    }
 
-        // TODO: populate counts from network
+    open func noContentSubtitle() -> String? {
+        return nil
+    }
+
+    open func loadingTitle() -> String? {
+        return NSLocalizedString("Please wait", comment: "")
+    }
+
+    // Refresh all tasks list data
+    open func refreshTaskList() -> Promise<Void> {
+        return CADStateManager.shared.syncSummaries().then { _ -> Void in
+        }
+    }
+
+    // MARK: - Internal methods
+
+    /// Update the source items status
+    open func updateSourceItems() {
+
+        // TODO: Map network models to view models
         sourceItems = SampleData.sourceItems()
         selectedSourceIndex = 0
     }
 
     /// Update the task list data
-    public func updateListData() {
+    open func updateSections() {
 
-        // TODO: fetch from network
+        // TODO: Map network models to view models
         let type = TaskListType(rawValue: selectedSourceIndex)!
         
         let sections = SampleData.sectionsForType(type)
@@ -148,7 +186,9 @@ open class TasksListContainerViewModel {
         } else {
             listViewModel.sections = sections
         }
+        delegate?.sectionsUpdated()
     }
+
 }
 
 public class SampleData {
