@@ -190,6 +190,8 @@
 		9663D0081F8AD78D006DB672 /* ContainerWithHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D0071F8AD78D006DB672 /* ContainerWithHeaderViewController.swift */; };
 		9663D00B1F8AF666006DB672 /* TasksSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D00A1F8AF666006DB672 /* TasksSplitViewController.swift */; };
 		9663D00D1F8AF6F5006DB672 /* TasksSplitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D00C1F8AF6F5006DB672 /* TasksSplitViewModel.swift */; };
+		9674E0E71FC68015000702F8 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9674E0E61FC68015000702F8 /* LoadingView.swift */; };
+		9674E0E91FC68031000702F8 /* ErrorLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9674E0E81FC68031000702F8 /* ErrorLoadingView.swift */; };
 		9679A6471F9D9D2D007BC806 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9679A6461F9D9D2D007BC806 /* Date+Extension.swift */; };
 		9679A6491F9EEDB7007BC806 /* BookOnDetailsOfficerFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9679A6481F9EEDB7007BC806 /* BookOnDetailsOfficerFormItem.swift */; };
 		9679A64B1F9EEDF8007BC806 /* BookOnDetailsOfficerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9679A64A1F9EEDF8007BC806 /* BookOnDetailsOfficerCell.swift */; };
@@ -720,6 +722,8 @@
 		9663D0071F8AD78D006DB672 /* ContainerWithHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerWithHeaderViewController.swift; sourceTree = "<group>"; };
 		9663D00A1F8AF666006DB672 /* TasksSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksSplitViewController.swift; sourceTree = "<group>"; };
 		9663D00C1F8AF6F5006DB672 /* TasksSplitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksSplitViewModel.swift; sourceTree = "<group>"; };
+		9674E0E61FC68015000702F8 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		9674E0E81FC68031000702F8 /* ErrorLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorLoadingView.swift; sourceTree = "<group>"; };
 		9679A6461F9D9D2D007BC806 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		9679A6481F9EEDB7007BC806 /* BookOnDetailsOfficerFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsOfficerFormItem.swift; sourceTree = "<group>"; };
 		9679A64A1F9EEDF8007BC806 /* BookOnDetailsOfficerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsOfficerCell.swift; sourceTree = "<group>"; };
@@ -1580,6 +1584,16 @@
 			path = "Tasks Split";
 			sourceTree = "<group>";
 		};
+		9674E0E51FC67FC7000702F8 /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				BC5C11EE1F2806890048CBBF /* NoContentView.swift */,
+				9674E0E61FC68015000702F8 /* LoadingView.swift */,
+				9674E0E81FC68031000702F8 /* ErrorLoadingView.swift */,
+			);
+			path = Loading;
+			sourceTree = "<group>";
+		};
 		969959671FC2493500CB51EB /* Session */ = {
 			isa = PBXGroup;
 			children = (
@@ -2072,6 +2086,7 @@
 		BC9C7DBB1F0DED6600DFFE83 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9674E0E51FC67FC7000702F8 /* Loading */,
 				BC9C7DBC1F0DED6600DFFE83 /* AlertIndicatorView.swift */,
 				BC9C7DBD1F0DED6600DFFE83 /* BadgeView.swift */,
 				BC9C7DBE1F0DED6600DFFE83 /* CircleIconView.swift */,
@@ -2079,7 +2094,6 @@
 				BC9C7DBF1F0DED6600DFFE83 /* EntityThumbnailView.swift */,
 				BC9C7DC21F0DED6600DFFE83 /* GradientView.swift */,
 				BC9C7DC31F0DED6600DFFE83 /* NavigationBarExtension.swift */,
-				BC5C11EE1F2806890048CBBF /* NoContentView.swift */,
 				BC5C11F21F2810BA0048CBBF /* RoundedRectButton.swift */,
 				BC9C7DC41F0DED6600DFFE83 /* RoundedRectLabel.swift */,
 				BCA6FD761F22E0AE00EE8F7A /* SearchFieldButton.swift */,
@@ -2995,6 +3009,7 @@
 				C63408561F30E574000747B0 /* MPOLKitEntityProtocol.swift in Sources */,
 				46B3FE7F1F5E496B0012476A /* Logger.swift in Sources */,
 				BC9C7E291F0DED6600DFFE83 /* Bundle+MPOLKit.swift in Sources */,
+				9674E0E91FC68031000702F8 /* ErrorLoadingView.swift in Sources */,
 				EA09A0581F78B9C200BC3C0E /* RegularExpressionSpecification.swift in Sources */,
 				EA09A04C1F78B86A00BC3C0E /* Specification.swift in Sources */,
 				27719E0A1FA92A5B00238059 /* AustralianPhoneSpecification.swift in Sources */,
@@ -3154,6 +3169,7 @@
 				27CBC75A1F8B27B100E387C3 /* ActivityLogItemCell.swift in Sources */,
 				19F8DDB01F4D7C9600D84DA1 /* APIManager+LookupAddress.swift in Sources */,
 				4634B4431FBD6FD200D71E7F /* EntityMapSummaryDecorator.swift in Sources */,
+				9674E0E71FC68015000702F8 /* LoadingView.swift in Sources */,
 				BC9C7E341F0DED6600DFFE83 /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
 				969959691FC2495000CB51EB /* CADStateManager.swift in Sources */,
 				9679A6491F9EEDB7007BC806 /* BookOnDetailsOfficerFormItem.swift in Sources */,
