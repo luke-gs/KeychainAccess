@@ -234,7 +234,8 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
         
         rightColumn.removeArrangedSubviews()
         
-        viewModels.forEach { viewModel in
+        // Add first 3 view models
+        for viewModel in viewModels[0..<min(3, viewModels.count)] {
             let statusRow = TasksListCellStatusRow()
             statusRow.imageView.image = viewModel.image?.withRenderingMode(.alwaysTemplate)
             statusRow.imageView.tintColor = viewModel.tintColor ?? .secondaryGray
@@ -246,8 +247,8 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
             rightColumn.addArrangedSubview(statusRow)
         }
         
-        // Add spacer view if less than 3
-        if rightColumn.arrangedSubviews.count < 3 {
+        // Add spacer view if less than 4 views
+        if rightColumn.arrangedSubviews.count < 4 {
             rightColumn.addArrangedSubview(UIView())
         }
     }
