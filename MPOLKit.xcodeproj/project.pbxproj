@@ -210,7 +210,6 @@
 		96B918401F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B9183F1F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift */; };
 		96CF32211F8C337900140AF8 /* TasksListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32201F8C337900140AF8 /* TasksListViewController.swift */; };
 		96CF32231F8C349700140AF8 /* TasksListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32221F8C349700140AF8 /* TasksListViewModel.swift */; };
-		96CF32251F8C34C700140AF8 /* TasksListItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32241F8C34C700140AF8 /* TasksListItemCell.swift */; };
 		96CF32271F8C34F800140AF8 /* TasksListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32261F8C34F800140AF8 /* TasksListItemViewModel.swift */; };
 		96CF322C1F8C428600140AF8 /* CADFormCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF322B1F8C428600140AF8 /* CADFormCollectionViewModel.swift */; };
 		96CF322E1F8C429D00140AF8 /* CADFormCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF322D1F8C429D00140AF8 /* CADFormCollectionViewController.swift */; };
@@ -746,7 +745,6 @@
 		96B9183F1F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormViewModel.swift; sourceTree = "<group>"; };
 		96CF32201F8C337900140AF8 /* TasksListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListViewController.swift; sourceTree = "<group>"; };
 		96CF32221F8C349700140AF8 /* TasksListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListViewModel.swift; sourceTree = "<group>"; };
-		96CF32241F8C34C700140AF8 /* TasksListItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListItemCell.swift; sourceTree = "<group>"; };
 		96CF32261F8C34F800140AF8 /* TasksListItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListItemViewModel.swift; sourceTree = "<group>"; };
 		96CF322B1F8C428600140AF8 /* CADFormCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADFormCollectionViewModel.swift; sourceTree = "<group>"; };
 		96CF322D1F8C429D00140AF8 /* CADFormCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADFormCollectionViewController.swift; sourceTree = "<group>"; };
@@ -1635,7 +1633,6 @@
 				965CD8AC1F8F14E5007C3EEA /* TasksListHeaderCompactViewController.swift */,
 				96CF32311F8D7C3400140AF8 /* TasksListHeaderRegularViewController.swift */,
 				96CF32331F8D7C7700140AF8 /* TasksListHeaderViewModel.swift */,
-				96CF32241F8C34C700140AF8 /* TasksListItemCell.swift */,
 				96CF32261F8C34F800140AF8 /* TasksListItemViewModel.swift */,
 				96CF32201F8C337900140AF8 /* TasksListViewController.swift */,
 				96CF32221F8C349700140AF8 /* TasksListViewModel.swift */,
@@ -3160,7 +3157,6 @@
 				19DBD5CF1FA8E22B00205EEC /* UnboxResponseSerializer.swift in Sources */,
 				96CF322E1F8C429D00140AF8 /* CADFormCollectionViewController.swift in Sources */,
 				99DB7B0D1FB00622009B936B /* NetworkMonitor.swift in Sources */,
-				96CF32251F8C34C700140AF8 /* TasksListItemCell.swift in Sources */,
 				27CBC7671F8B27D500E387C3 /* UserCallsignStatusViewModel.swift in Sources */,
 				BC9C7E171F0DED6600DFFE83 /* FormTextField.swift in Sources */,
 				BC9C7E041F0DED6600DFFE83 /* UIColor+ActionColors.swift in Sources */,
