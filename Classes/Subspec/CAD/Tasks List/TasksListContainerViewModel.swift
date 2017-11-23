@@ -125,7 +125,7 @@ open class TasksListContainerViewModel {
                         // If status is not in filter options always show
                         let isOther = item.status != "Resourced" && item.status != "Unresourced"
                         
-                        return priorityFilter && (isOther || resourcedFilter)
+                        return isOther || (priorityFilter && resourcedFilter)
                     }
                     return CADFormCollectionSectionViewModel(title: section.title, items: items)
                 }

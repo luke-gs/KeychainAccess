@@ -52,7 +52,7 @@ open class TasksMapViewModel {
                 // If status is not in filter options always show
                 let isOther = model.status != "Resourced" && model.status != "Unresourced"
                 
-                return priorityFilter && (isOther || resourcedFilter)
+                return isOther || (priorityFilter && resourcedFilter)
             }
             
             annotations += taskAnnotations(for: filteredIncidents)
