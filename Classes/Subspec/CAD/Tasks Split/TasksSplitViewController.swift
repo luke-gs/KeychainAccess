@@ -15,6 +15,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
     private let masterVC: UIViewController
     private let detailVC: UIViewController
     private let segmentedControl: UISegmentedControl
+    private var masterRightButtonItems: [UIBarButtonItem]?
     
     private var filterButton: UIBarButtonItem {
         return UIBarButtonItem(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: self, action: #selector(showMapLayerFilter))
@@ -26,7 +27,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
 
         masterVC = viewModel.createMasterViewController()
         detailVC = viewModel.createDetailViewController()
-        
+        masterRightButtonItems = masterVC.navigationItem.rightBarButtonItems
         segmentedControl = UISegmentedControl(items: [viewModel.masterSegmentTitle(), viewModel.detailSegmentTitle()])
         segmentedControl.selectedSegmentIndex = 0
         
@@ -71,7 +72,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
             masterVC.navigationItem.rightBarButtonItem = filterButton
             detailVC.navigationItem.rightBarButtonItem = filterButton
         } else {
-            masterVC.navigationItem.rightBarButtonItem = nil
+            masterVC.navigationItem.rightBarButtonItems = masterRightButtonItems
             masterVC.navigationItem.titleView = nil
         }
     }
