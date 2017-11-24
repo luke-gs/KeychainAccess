@@ -80,8 +80,8 @@ open class TasksSplitViewController: MPOLSplitViewController {
             // Zoom to user location
             self?.viewModel.mapViewModel.delegate?.zoomToUserLocation()
         }.catch { [weak self] error in
-            // TODO: add support for error state to loading state manager
-            self?.tasksListContainer?.loadingManager.state = .noContent
+            self?.tasksListContainer?.loadingManager.state = .error
+            self?.tasksListContainer?.loadingManager.errorView.subtitleLabel.text = error.localizedDescription
             print("Failed to sync: \(error)")
         }
 
