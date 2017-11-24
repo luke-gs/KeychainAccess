@@ -1,8 +1,8 @@
 //
-//  NoContentView.swift
+//  LoadingStateNoContentView.swift
 //  MPOLKit
 //
-//  Created by Rod Brown on 26/7/17.
+//  Created by Trent Fitzgibbon on 23/11/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 

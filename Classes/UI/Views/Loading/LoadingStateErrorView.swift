@@ -1,5 +1,5 @@
 //
-//  ErrorLoadingView.swift
+//  LoadingStateErrorView.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 23/11/17.
