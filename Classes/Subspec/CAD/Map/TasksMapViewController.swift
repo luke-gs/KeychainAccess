@@ -127,4 +127,10 @@ extension TasksMapViewController: TasksMapViewModelDelegate {
             self.mapView.addAnnotations(self.viewModel.filteredAnnotations)
         }
     }
+    
+    public func zoomToUserLocation() {
+        DispatchQueue.main.async {
+            self.zoomAndCenterToUserLocation(animated: true)
+        }
+    }
 }

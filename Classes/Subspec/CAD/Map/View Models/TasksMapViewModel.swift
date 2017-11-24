@@ -305,4 +305,7 @@ open class TasksMapViewModel {
 public protocol TasksMapViewModelDelegate: class {
     /// Called when some data or state has changed
     func viewModelStateChanged()
+    
+    /// Tells the map to zoom to the user location
+    func zoomToUserLocation()
 }
