@@ -11,7 +11,7 @@ import UIKit
 private var contentContext = 1
 
 /// A loading state view for representing load complete but no content
-open class NoContentView: BaseLoadingStateView {
+open class LoadingStateNoContentView: BaseLoadingStateView {
 
     // MARK: - Public properties
     

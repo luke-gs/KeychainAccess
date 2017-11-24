@@ -9,7 +9,7 @@
 import UIKit
 
 /// A loading state view for representing the actual "Loading" state
-open class LoadingView: BaseLoadingStateView {
+open class LoadingStateLoadingView: BaseLoadingStateView {
 
     // MARK: - Public properties
 
@@ -29,6 +29,9 @@ open class LoadingView: BaseLoadingStateView {
     }
 
     private func commonInit() {
+        // Set default loading text
+        titleLabel.text = NSLocalizedString("Loading", bundle: .mpolKit, comment: "Default loading title")
+
         // Add loading indicator to image container and always show
         let theme = ThemeManager.shared.theme(for: .current)
         loadingIndicatorView = MPOLSpinnerView(style: .large, color: theme.color(forKey: .tint))

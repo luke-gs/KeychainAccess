@@ -22,15 +22,17 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     /// The load state within a `LoadingStateManager`.
     public enum State {
         
-        /// The content is loaded. The loading and no content views are hidden.
+        /// The content is loaded. No additional UI is shown.
         case loaded
         
-        /// The content is loading. A loading spinner and the loading label are shown.
+        /// The content is loading. The loadingView is shown.
         case loading
         
-        /// The content failed to load, or there was no content for some reason. The
-        /// no content stack view is shown.
+        /// No content was returned from request. The noContentView is shown.
         case noContent
+
+        /// The content failed to load
+        case error
     }
     
     
@@ -94,54 +96,53 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         return loadingView.titleLabel
     }
 
-    /// The no content view.
-    ///
-    /// This stack view is lazily loaded as needed. You can adjust the internal
-    /// views for whatever effect you like, adding views etc where appropriate.
-    open private(set) lazy var noContentView: NoContentView = { [unowned self] in
-        self.noContentViewLoaded = true
-        let noContentView = NoContentView(frame: .zero)
-
-        // For backwards compatibility, use no content color if explicitly set
-        if let noContentColor = explicitNoContentColor {
-            noContentView.titleLabel.textColor = noContentColor
-            noContentView.subtitleLabel.textColor = noContentColor
-        }
-        return noContentView
-    }()
-
     /// The loading view.
     ///
     /// This stack view is lazily loaded as needed. You can adjust the internal
     /// views for whatever effect you like, adding views etc where appropriate.
-    open private(set) lazy var loadingView: LoadingView = { [unowned self] in
+    open private(set) lazy var loadingView: LoadingStateLoadingView = { [unowned self] in
         self.loadingViewLoaded = true
-        let loadingView = LoadingView(frame: .zero)
-
-        // For backwards compatibility, use no content color if explicitly set
-        if let noContentColor = explicitNoContentColor {
-            loadingView.titleLabel.textColor = noContentColor
-            loadingView.subtitleLabel.textColor = noContentColor
-        }
-        return loadingView
+        return LoadingStateLoadingView(frame: .zero)
     }()
 
-    
+    /// The no content view.
+    ///
+    /// This stack view is lazily loaded as needed. You can adjust the internal
+    /// views for whatever effect you like, adding views etc where appropriate.
+    open private(set) lazy var noContentView: LoadingStateNoContentView = { [unowned self] in
+        self.noContentViewLoaded = true
+        return LoadingStateNoContentView(frame: .zero)
+    }()
+
+    /// The no content view.
+    ///
+    /// This stack view is lazily loaded as needed. You can adjust the internal
+    /// views for whatever effect you like, adding views etc where appropriate.
+    open private(set) lazy var errorView: LoadingStateErrorView = { [unowned self] in
+        self.errorViewLoaded = true
+        return LoadingStateErrorView(frame: .zero)
+    }()
+
     /// The color for the labels.
-    @available(*, deprecated, message: "Single color is no longer used for loading states")
+    /// Deprecated as creative now use different colors for title and subtitle in designs
+    @available(*, deprecated, message: "Single color is no longer advised for loading states")
     @NSCopying open var noContentColor: UIColor! = .gray {
         didSet {
             explicitNoContentColor = noContentColor
             if noContentColor == nil {
                 noContentColor = .gray
             }
+            if loadingViewLoaded {
+                loadingView.titleLabel.textColor = noContentColor
+                loadingView.subtitleLabel.textColor = noContentColor
+            }
             if noContentViewLoaded {
                 noContentView.titleLabel.textColor = noContentColor
                 noContentView.subtitleLabel.textColor = noContentColor
             }
-            if loadingViewLoaded {
-                loadingView.titleLabel.textColor = noContentColor
-                loadingView.subtitleLabel.textColor = noContentColor
+            if errorViewLoaded {
+                errorView.titleLabel.textColor = noContentColor
+                errorView.subtitleLabel.textColor = noContentColor
             }
         }
     }
@@ -176,20 +177,22 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     
     private var contentInsetBottomConstraint: NSLayoutConstraint?
     
-    private var noContentViewLoaded: Bool = false
-    
     private var loadingViewLoaded: Bool = false
-    
+    private var noContentViewLoaded: Bool = false
+    private var errorViewLoaded: Bool = false
+
     
     // MARK: - Private methods
 
     /// Return the container view for the given state
-    private func containerViewForState(_ state: LoadingStateManager.State) -> UIView? {
+    private func containerViewForState(_ state: LoadingStateManager.State) -> BaseLoadingStateView? {
         switch state {
         case .loading:
             return loadingView
         case .noContent:
             return noContentView
+        case .error:
+            return errorView
         default:
             return nil
         }
@@ -279,9 +282,15 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         }
 
         // Load the container view for the current state and add to scroll view
-        let containerView: UIView! = containerViewForState(state)
+        let containerView: BaseLoadingStateView! = containerViewForState(state)
         containerView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(containerView)
+
+        // For backwards compatibility, use no content color if explicitly set
+        if let noContentColor = explicitNoContentColor {
+            containerView.titleLabel.textColor = noContentColor
+            containerView.subtitleLabel.textColor = noContentColor
+        }
 
         var constraints: [NSLayoutConstraint] = []
         constraints += [
