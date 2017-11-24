@@ -75,7 +75,7 @@ open class BaseLoadingStateView: UIStackView {
 
         titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.adjustsFontForContentSizeCategory = true
-        titleLabel.textColor = .gray
+        titleLabel.textColor = .secondaryGray
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 0
 
@@ -88,7 +88,7 @@ open class BaseLoadingStateView: UIStackView {
         subtitleLabel.adjustsFontSizeToFitWidth = true
         subtitleLabel.adjustsFontForContentSizeCategory = true
         subtitleLabel.font = .preferredFont(forTextStyle: .subheadline)
-        subtitleLabel.textColor = .gray
+        subtitleLabel.textColor = .secondaryGray
         subtitleLabel.textAlignment = .center
         subtitleLabel.numberOfLines = 0
 
