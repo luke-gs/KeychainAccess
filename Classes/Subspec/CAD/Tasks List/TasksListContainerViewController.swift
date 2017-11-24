@@ -53,6 +53,8 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
             view.setNeedsLayout()
         }
     }
+    
+    public private(set) var isFullScreen: Bool = false
 
     /// A container view for the header, so layout can be applied relative to it
     open private(set) var headerContainerView: UIView!
@@ -99,6 +101,8 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
     public init(viewModel: TasksListContainerViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        // Add navigation bar buttons
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .map), style: .plain, target: self, action: #selector(toggleFullScreen))
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -173,20 +177,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         loadingManager.noContentView.titleLabel.text = viewModel.noContentTitle()
         loadingManager.noContentView.subtitleLabel.text = viewModel.noContentSubtitle()
     }
-
-    @objc func refreshTasks() {
-        // Refresh the task list from the network
-        firstly {
-            return viewModel.refreshTaskList()
-        }.then { [weak self] () -> Void in
-            self?.tasksListViewController.collectionView?.reloadData()
-        }.always { [weak self] in
-            self?.refreshControl.endRefreshing()
-        }.catch { error in
-            AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
-        }
-    }
-
+    
     open func createConstraints() {
 
         contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -219,15 +210,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
             listView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
     }
-
-    // We need to use viewWillTransition here, as master VC is not told about all trait collection changes
-    override open func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        coordinator.animate(alongsideTransition: { [unowned self] (context) in
-            self.updateConstraintsForSizeChange()
-            }, completion: nil)
-    }
-
+    
     open func updateConstraintsForSizeChange() {
         if let traitCollection = splitViewController?.traitCollection {
             let compact = (traitCollection.horizontalSizeClass == .compact)
@@ -240,6 +223,26 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
 
             // Replace header with one for size class
             headerViewController = viewModel.headerViewModel.createViewController(compact: compact)
+        }
+    }
+    
+    @objc public func toggleFullScreen() {
+        guard let splitViewController = pushableSplitViewController as? TasksSplitViewController else { return }
+        let width = isFullScreen ? TasksSplitViewController.defaultSplitWidth : splitViewController.view.bounds.width
+        splitViewController.setMasterWidth(width, animated: true)
+        isFullScreen = !isFullScreen
+    }
+    
+    @objc func refreshTasks() {
+        // Refresh the task list from the network
+        firstly {
+            return viewModel.refreshTaskList()
+        }.then { [weak self] () -> Void in
+            self?.tasksListViewController.collectionView?.reloadData()
+        }.always { [weak self] in
+            self?.refreshControl.endRefreshing()
+        }.catch { error in
+            AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
         }
     }
 
