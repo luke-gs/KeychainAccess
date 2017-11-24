@@ -29,6 +29,20 @@ open class UserCallsignStatusView: UIControl {
     open var titleLabel: UILabel!
     open var subtitleLabel: UILabel!
     
+    open override var isEnabled: Bool {
+        didSet {
+            if isEnabled {
+                iconImageView.tintColor = .black
+                titleLabel.textColor = .primaryGray
+                subtitleLabel.textColor = .secondaryGray
+            } else {
+                iconImageView.tintColor = .disabledGray
+                titleLabel.textColor = .disabledGray
+                subtitleLabel.textColor = .disabledGray
+            }
+        }
+    }
+
     // MARK: - Setup
 
     public init(viewModel: UserCallsignStatusViewModel) {

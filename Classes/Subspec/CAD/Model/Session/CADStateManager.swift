@@ -57,8 +57,10 @@ open class CADStateManager: NSObject {
     /// Perform initial sync after login or launching app
     open func syncInitial() -> Promise<Void> {
         // Syncing is disabled for now for demoing purposes, due to backend issues
-        return after(interval: 2)
-
+        return after(interval: 2).then {
+            NotificationCenter.default.post(name: .CADSyncChanged, object: self)
+        }
+      
         guard let username = UserSession.current.user?.username else { fatalError("Must be logged in to sync") }
 
         print("Starting initial sync")

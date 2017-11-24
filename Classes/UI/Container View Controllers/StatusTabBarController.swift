@@ -92,6 +92,9 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         }
     }
     
+    /// The view controller that was selected before the current one
+    open private(set) var previousSelectedViewController: UIViewController?
+    
     /// The currently selected view controller. The default is `nil`.
     open var selectedViewController: UIViewController? {
         didSet {
@@ -103,6 +106,8 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
             
             guard selectedViewController != oldValue,
                 let view = viewIfLoaded else { return }
+            
+            previousSelectedViewController = oldValue
             
             if let oldView = oldValue?.viewIfLoaded {
                 oldView.removeFromSuperview()
