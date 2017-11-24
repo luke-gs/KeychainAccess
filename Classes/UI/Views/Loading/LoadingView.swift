@@ -8,52 +8,13 @@
 
 import UIKit
 
-private var contentContext = 1
-
-@available(iOS, introduced: 10.0, obsoleted: 11.0)
-private var hiddenContext = 2
-
-/// A standard view for showing "Loading" screen
-///
-/// `LoadingView` is a UIStackView subclass designed for convenience with
-/// the standard MPOL no content views correctly configured. The standard
-/// views' `isHidden` property is managed by the class when the content
-/// changes to or from nil. You can also adjust them manually where required.
-///
-/// Prior to iOS 11, spacers are used to insert custom space between the image
-/// and title, and subtitle and button. On iOS 11 and later, this is managed
-/// by the UIStackView custom spacing methods.
-open class LoadingView: UIStackView {
+/// A loading state view for representing the actual "Loading" state
+open class LoadingView: BaseLoadingStateView {
 
     // MARK: - Public properties
 
     /// The standard loading indicator.
     open var loadingIndicatorView: MPOLSpinnerView!
-
-    /// The title label.
-    open let titleLabel = UILabel(frame: .zero)
-
-    /// The subtitle label.
-    open let subtitleLabel = UILabel(frame: .zero)
-
-    /// The action button.
-    open let actionButton = RoundedRectButton(frame: .zero)
-
-    /// The spacer used to separate the image and title label.
-    ///
-    /// This property is deprecated in iOS 11+. Please use UIStackView's
-    /// custom spacing methods.
-    @available(iOS, introduced: 10.0, deprecated: 11.0, message: "Use custom sizes in iOS 11")
-    open private(set) lazy var imageSpacer = SpacerView(frame: CGRect(x: 0.0, y: 0.0, width: 8.0, height: 8.0))
-
-
-    /// The spacer used to separate the subtitle label and button.
-    ///
-    /// This property is deprecated in iOS 11+. Please use UIStackView's
-    /// custom spacing methods.
-    @available(iOS, introduced: 10.0, deprecated: 11.0, message: "Use custom sizes in iOS 11")
-    open private(set) lazy var buttonSpacer = SpacerView(frame: CGRect(x: 0.0, y: 0.0, width: 8.0, height: 8.0))
-
 
     // MARK: - Initializers
 
@@ -68,103 +29,19 @@ open class LoadingView: UIStackView {
     }
 
     private func commonInit() {
+        // Add loading indicator to image container and always show
         let theme = ThemeManager.shared.theme(for: .current)
         loadingIndicatorView = MPOLSpinnerView(style: .large, color: theme.color(forKey: .tint))
+        loadingIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        imageContainerView.addSubview(loadingIndicatorView)
+        imageContainerView.isHidden = false
 
-        loadingIndicatorView.isHidden = false
-        titleLabel.isHidden = true
-        subtitleLabel.isHidden = true
-        actionButton.isHidden = true
-
-        titleLabel.adjustsFontSizeToFitWidth = true
-        titleLabel.adjustsFontForContentSizeCategory = true
-        titleLabel.textColor = .white
-        titleLabel.textAlignment = .center
-        titleLabel.numberOfLines = 0
-        titleLabel.text = NSLocalizedString("Loading", bundle: .mpolKit, comment: "Default Loading Title")
-
-        var fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .title3)
-        if let adjusted = fontDescriptor.withSymbolicTraits(.traitBold) {
-            fontDescriptor = adjusted
-        }
-        titleLabel.font = UIFont(descriptor: fontDescriptor, size: 0.0)
-
-        subtitleLabel.adjustsFontSizeToFitWidth = true
-        subtitleLabel.adjustsFontForContentSizeCategory = true
-        subtitleLabel.font = .preferredFont(forTextStyle: .subheadline)
-        subtitleLabel.textColor = .gray
-        subtitleLabel.textAlignment = .center
-        subtitleLabel.numberOfLines = 0
-
-        alignment = .center
-        axis = .vertical
-        spacing = 8.0
-
-        addArrangedSubview(loadingIndicatorView)
-        addArrangedSubview(titleLabel)
-        addArrangedSubview(subtitleLabel)
-        addArrangedSubview(actionButton)
-
-        titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text), context: &contentContext)
-        titleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &contentContext)
-        subtitleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text), context: &contentContext)
-        subtitleLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &contentContext)
-        actionButton.addObserver(self, forKeyPath: #keyPath(RoundedRectButton.titleLabel.text), context: &contentContext)
-        actionButton.addObserver(self, forKeyPath: #keyPath(RoundedRectButton.titleLabel.attributedText), context: &contentContext)
-
-        if #available(iOS 11, *) {
-            setCustomSpacing(8, after: loadingIndicatorView)
-            setCustomSpacing(8, after: subtitleLabel)
-            return
-        }
-
-        imageSpacer.isHidden = false
-        buttonSpacer.isHidden = true
-
-        insertArrangedSubview(imageSpacer, at: 1)
-        insertArrangedSubview(buttonSpacer, at: 4)
-
-        actionButton.addObserver(self, forKeyPath: #keyPath(UIButton.isHidden), context: &hiddenContext)
-    }
-
-    deinit {
-        titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text), context: &contentContext)
-        titleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &contentContext)
-        subtitleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.text), context: &contentContext)
-        subtitleLabel.removeObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &contentContext)
-        actionButton.removeObserver(self, forKeyPath: #keyPath(RoundedRectButton.titleLabel.text), context: &contentContext)
-        actionButton.removeObserver(self, forKeyPath: #keyPath(RoundedRectButton.titleLabel.attributedText), context: &contentContext)
-
-        if #available(iOS 11, *) {
-            return
-        }
-
-        actionButton.removeObserver(self, forKeyPath: #keyPath(UIButton.isHidden), context: &hiddenContext)
-    }
-
-
-    // MARK: - Overrides
-
-    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if context == &contentContext {
-            switch object {
-            case let label as UILabel:
-                label.isHidden = label.text?.isEmpty ?? true
-            case let button as RoundedRectButton:
-                button.isHidden = button.titleLabel?.text?.isEmpty ?? true
-            default:
-                break
-            }
-        } else if context == &hiddenContext {
-            switch object {
-            case let button as RoundedRectButton:
-                buttonSpacer.isHidden = button.isHidden
-            default:
-                break
-            }
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
+        NSLayoutConstraint.activate([
+            loadingIndicatorView.topAnchor.constraint(equalTo: imageContainerView.topAnchor),
+            loadingIndicatorView.leadingAnchor.constraint(equalTo: imageContainerView.leadingAnchor),
+            loadingIndicatorView.trailingAnchor.constraint(equalTo: imageContainerView.trailingAnchor),
+            loadingIndicatorView.bottomAnchor.constraint(equalTo: imageContainerView.bottomAnchor),
+        ])
     }
 }
 

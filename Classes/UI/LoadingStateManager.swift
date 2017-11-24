@@ -128,7 +128,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
 
     
     /// The color for the labels.
-    @available(*, deprecated, message: "Single color is no longer used for all UI elements")
+    @available(*, deprecated, message: "Single color is no longer used for loading states")
     @NSCopying open var noContentColor: UIColor! = .gray {
         didSet {
             explicitNoContentColor = noContentColor
