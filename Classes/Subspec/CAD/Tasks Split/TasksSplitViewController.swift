@@ -12,7 +12,7 @@ import PromiseKit
 /// Split view for top level of CAD application, displaying table of tasks on left and map on right
 open class TasksSplitViewController: MPOLSplitViewController {
     
-    private static let defaultSplitWidth: CGFloat = 320
+    public static let defaultSplitWidth: CGFloat = 320
 
     open let viewModel: TasksSplitViewModel
 
@@ -65,6 +65,8 @@ open class TasksSplitViewController: MPOLSplitViewController {
 
         // Sync data needed for displaying main UI, making master VC full width until loaded
         setMasterWidth(view.bounds.width, animated: false)
+        // Hide the content view
+        self.tasksListContainer?.loadingManager.contentView?.alpha = 0
         firstly {
             return CADStateManager.shared.syncInitial()
         }.then { [weak self] () -> Void in
@@ -126,13 +128,13 @@ open class TasksSplitViewController: MPOLSplitViewController {
 
     open func setMasterWidth(_ width: CGFloat, animated: Bool = true) {
         if animated {
-            // Animate the split moving as well as the content fading in
-            self.tasksListContainer?.loadingManager.contentView?.alpha = 0
+            // Animate the split moving
             UIView.animate(withDuration: 0.3, animations: {
                 self.embeddedSplitViewController.minimumPrimaryColumnWidth = width
                 self.embeddedSplitViewController.maximumPrimaryColumnWidth = width
             }, completion: { _ in
                 UIView.animate(withDuration: 0.3, animations: {
+                    // Animate content back in if required
                     self.tasksListContainer?.loadingManager.contentView?.alpha = 1
                 })
             })

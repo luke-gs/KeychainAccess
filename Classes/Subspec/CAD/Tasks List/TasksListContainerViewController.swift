@@ -211,31 +211,6 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         ])
     }
     
-    override open func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.willTransition(to: newCollection, with: coordinator)
-        
-        coordinator.animate(alongsideTransition: { _ in
-            if self.isFullScreen, let splitViewController = self.pushableSplitViewController {
-                let width = splitViewController.view.bounds.width
-                splitViewController.embeddedSplitViewController.minimumPrimaryColumnWidth = width
-                splitViewController.embeddedSplitViewController.maximumPrimaryColumnWidth = width
-            }
-        }, completion: nil)
-    }
-
-    // We need to use viewWillTransition here, as master VC is not told about all trait collection changes
-    override open func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        coordinator.animate(alongsideTransition: { [unowned self] (context) in
-            if self.isFullScreen, let splitViewController = self.pushableSplitViewController {
-                let width = splitViewController.view.bounds.width
-                splitViewController.embeddedSplitViewController.minimumPrimaryColumnWidth = width
-                splitViewController.embeddedSplitViewController.maximumPrimaryColumnWidth = width
-            }
-            self.updateConstraintsForSizeChange()
-            }, completion: nil)
-    }
-
     open func updateConstraintsForSizeChange() {
         if let traitCollection = splitViewController?.traitCollection {
             let compact = (traitCollection.horizontalSizeClass == .compact)
@@ -252,16 +227,10 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
     }
     
     @objc public func toggleFullScreen() {
-        guard let splitViewController = pushableSplitViewController else { return }
-        
-        let width = isFullScreen ? UISplitViewControllerAutomaticDimension : splitViewController.view.bounds.width
-        
-        UIView.animate(withDuration: 0.3) {
-            splitViewController.embeddedSplitViewController.minimumPrimaryColumnWidth = width
-            splitViewController.embeddedSplitViewController.maximumPrimaryColumnWidth = width
-        }
+        guard let splitViewController = pushableSplitViewController as? TasksSplitViewController else { return }
+        let width = isFullScreen ? TasksSplitViewController.defaultSplitWidth : splitViewController.view.bounds.width
+        splitViewController.setMasterWidth(width, animated: true)
         isFullScreen = !isFullScreen
-        
     }
     
     @objc func refreshTasks() {
