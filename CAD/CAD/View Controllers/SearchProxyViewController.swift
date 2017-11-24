@@ -13,7 +13,9 @@ class SearchProxyViewController: UIViewController {
     
     private let searchAppUrl = URL(string: "\(SEARCH_APP_SCHEME)://")
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         if let url = searchAppUrl {
             UIApplication.shared.open(url, options: [:], completionHandler: { success in
                 if !success {
