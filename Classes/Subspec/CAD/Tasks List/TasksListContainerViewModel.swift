@@ -126,6 +126,10 @@ open class TasksListContainerViewModel {
         return NSLocalizedString("Please wait", comment: "")
     }
 
+    open func loadingSubtitle() -> String? {
+        return NSLocalizedString("We’re retrieving your tasks now", comment: "")
+    }
+
     // Refresh all tasks list data
     open func refreshTaskList() -> Promise<Void> {
         return CADStateManager.shared.syncSummaries().then { _ -> Void in

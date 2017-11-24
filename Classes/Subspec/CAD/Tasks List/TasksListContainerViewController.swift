@@ -173,7 +173,10 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         // Configure loading state
         loadingManager.baseView = view
         loadingManager.contentView = contentView
-        loadingManager.loadingLabel.text = viewModel.loadingTitle()
+        loadingManager.loadingView.titleLabel.textColor = .white
+        loadingManager.loadingView.titleLabel.text = viewModel.loadingTitle()
+        loadingManager.loadingView.subtitleLabel.text = viewModel.loadingSubtitle()
+
         loadingManager.noContentView.titleLabel.text = viewModel.noContentTitle()
         loadingManager.noContentView.subtitleLabel.text = viewModel.noContentSubtitle()
     }

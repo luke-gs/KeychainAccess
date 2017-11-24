@@ -104,8 +104,6 @@ class SearchRecentsViewController: FormCollectionViewController {
         noContentView.titleLabel.text = NSLocalizedString("You don't have any recently viewed entities or recent searches right now.", comment: "")
 
         let actionButton = noContentView.actionButton
-        actionButton.titleLabel?.font = .systemFont(ofSize: 15.0, weight: UIFont.Weight.semibold)
-        actionButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 16.0, bottom: 10.0, right: 16.0)
         actionButton.setTitle(NSLocalizedString("New Search", comment: ""), for: .normal)
         actionButton.addTarget(self, action: #selector(newSearchButtonDidSelect(_:)), for: .primaryActionTriggered)
 
