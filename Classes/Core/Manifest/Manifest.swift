@@ -232,6 +232,11 @@ public final class Manifest: NSObject {
         
         DispatchQueue.main.async {
             self.viewContext.mergeChanges(fromContextDidSave: notification)
+            do {
+                try self.viewContext.save()
+            } catch {
+                print("Failed to save main core data context")
+            }
             NotificationCenter.default.post(name: .ManifestDidUpdate, object: self)
         }
     }
@@ -323,12 +328,12 @@ public final class Manifest: NSObject {
                 
                 do {
                     try context.save()
-                        self.lastUpdateDate = checkedAtDate
-                        fulfill(())
-                        self.isSaving = false
+                    self.lastUpdateDate = checkedAtDate
+                    fulfill(())
+                    self.isSaving = false
                 } catch let error {
-                        reject(error)
-                        self.isSaving = false
+                    reject(error)
+                    self.isSaving = false
                 }
             }
             

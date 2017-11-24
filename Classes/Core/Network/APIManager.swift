@@ -295,6 +295,26 @@ extension APIManager {
             return DataRequest.serializeResponseData(response: dataResponse.response, data: dataResponse.data, error: dataResponse.error)
         }
     }
+
+    // JSON serialization of single object
+    public struct JSONObjectResponseSerializer: ResponseSerializing {
+        public typealias ResultType = [String:Any]
+        public init() {}
+
+        public func serializedResponse(from dataResponse: DataResponse<Data>) -> Alamofire.Result<ResultType> {
+            let result = DataRequest.serializeResponseJSON(options: .allowFragments, response: dataResponse.response, data: dataResponse.data, error: dataResponse.error)
+            switch result {
+            case .success(let json):
+                if let json = json as? ResultType {
+                    return .success(json)
+                } else {
+                    return .failure(ParsingError.notParsable)
+                }
+            case .failure(let error):
+                return .failure(error)
+            }
+        }
+    }
 }
 
 

@@ -20,7 +20,7 @@ open class CompactCallsignViewController: UIViewController {
 
     override open func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(updateChildViewControllerIfRequired), name: .CallsignChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateChildViewControllerIfRequired), name: .CADCallsignChanged, object: nil)
     }
 
     override open func viewWillAppear(_ animated: Bool) {
@@ -31,7 +31,7 @@ open class CompactCallsignViewController: UIViewController {
     @objc private func updateChildViewControllerIfRequired() {
         let newCallsignViewController: UIViewController
         
-        if CADUserSession.current.callsign == nil {
+        if CADStateManager.shared.callsign == nil {
             newCallsignViewController = NotBookedOnViewModel().createViewController()
         } else {
             newCallsignViewController = ManageCallsignStatusViewModel().createViewController()
