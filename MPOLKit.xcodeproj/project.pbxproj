@@ -226,6 +226,7 @@
 		993E3A2E1F86FD65008BBFF8 /* UIImage+Resizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 993E3A2D1F86FD65008BBFF8 /* UIImage+Resizing.swift */; };
 		995D52591F734A1100701992 /* ManifestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 995D52581F734A1100701992 /* ManifestTests.swift */; };
 		995D525A1F7368B100701992 /* manifestItems.json in Resources */ = {isa = PBXBuildFile; fileRef = 995D52571F7344FA00701992 /* manifestItems.json */; };
+		996869821FC502F4007338EE /* ManifestFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996869811FC502F4007338EE /* ManifestFetchRequest.swift */; };
 		9988CE671FAAD965007BE261 /* ManifestCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9988CE661FAAD965007BE261 /* ManifestCollectionTests.swift */; };
 		99DB7B0D1FB00622009B936B /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DB7B0C1FB00622009B936B /* NetworkMonitor.swift */; };
 		99FF8C041F982A22003A8A4B /* AuditPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FF8C031F982A21003A8A4B /* AuditPlugin.swift */; };
@@ -764,6 +765,7 @@
 		993E3A2D1F86FD65008BBFF8 /* UIImage+Resizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Resizing.swift"; sourceTree = "<group>"; };
 		995D52571F7344FA00701992 /* manifestItems.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = manifestItems.json; sourceTree = "<group>"; };
 		995D52581F734A1100701992 /* ManifestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManifestTests.swift; sourceTree = "<group>"; };
+		996869811FC502F4007338EE /* ManifestFetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManifestFetchRequest.swift; sourceTree = "<group>"; };
 		9988CE661FAAD965007BE261 /* ManifestCollectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManifestCollectionTests.swift; sourceTree = "<group>"; };
 		99DB7B0C1FB00622009B936B /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		99FF8C031F982A21003A8A4B /* AuditPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuditPlugin.swift; sourceTree = "<group>"; };
@@ -1809,6 +1811,7 @@
 				DBE24C2D1F5939C90088D19B /* EntityDetailsFetch.swift */,
 				1972FCC91FA6A14800CB68EA /* Image */,
 				DBE24C2C1F5939C90088D19B /* EntityDetailsFetchRequest.swift */,
+				996869811FC502F4007338EE /* ManifestFetchRequest.swift */,
 				99DB7B0C1FB00622009B936B /* NetworkMonitor.swift */,
 				E21CD4731FBD4B3800925A38 /* NetworkMonitorPlugin.swift */,
 				19C625C11F55143900504BD9 /* NetworkRequest.swift */,
@@ -2889,6 +2892,7 @@
 				19B49BBA1F665F2A00502F51 /* SidebarDelegate.swift in Sources */,
 				BC9C7E191F0DED6600DFFE83 /* RadioButton.swift in Sources */,
 				27CBC75D1F8B27C700E387C3 /* BroadcastMapViewModel.swift in Sources */,
+				996869821FC502F4007338EE /* ManifestFetchRequest.swift in Sources */,
 				EA625B191F9703540025EAFB /* DropDownFormItem.swift in Sources */,
 				2768C0461F85EB2A008532ED /* MapSettingsViewModel.swift in Sources */,
 				BC9C7E2C1F0DED6600DFFE83 /* UIColor+Hex.swift in Sources */,
