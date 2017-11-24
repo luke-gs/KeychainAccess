@@ -13,10 +13,12 @@ private let LottieType      = "json"
 
 public enum MPOLSpinnerStyle {
     case regular
+    case large
 
     fileprivate var size: CGSize {
         switch self {
         case .regular: return CGSize(width: 50.0, height: 50.0)
+        case .large: return CGSize(width: 64.0, height: 64.0)
         }
     }
 }
