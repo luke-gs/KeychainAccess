@@ -196,16 +196,19 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
     public override var bounds: CGRect {
         didSet {
             if bounds.width > 800 {
+                // If we can fit 3 columns
                 leftColumnTrailing.isActive = false
                 leftColumnWidth.isActive = true
                 middleColumnTrailing.isActive = false
                 rightColumn.isHidden = false
             } else if bounds.width > 700 {
+                // If we can fit 2 columns but not 3
                 leftColumnTrailing.isActive = false
                 leftColumnWidth.isActive = true
                 middleColumnTrailing.isActive = true
                 rightColumn.isHidden = true
             } else {
+                // If we can only fit 1 column
                 middleColumnTrailing.isActive = false
                 leftColumnWidth.isActive = false
                 leftColumnTrailing.isActive = true
@@ -230,9 +233,9 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
     }
     
     public func setStatusRows(_ viewModels: [TasksListItemResourceViewModel]?) {
-        guard let viewModels = viewModels else { return }
-        
         rightColumn.removeArrangedSubviewsFromViewHeirachy()
+        
+        guard let viewModels = viewModels else { return }
         
         // Add first 3 view models
         for viewModel in viewModels[0..<min(3, viewModels.count)] {
