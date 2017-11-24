@@ -123,34 +123,46 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         return LoadingStateErrorView(frame: .zero)
     }()
 
-    /// The color for the labels.
-    /// Deprecated as creative now use different colors for title and subtitle in designs
-    @available(*, deprecated, message: "Single color is no longer advised for loading states")
-    @NSCopying open var noContentColor: UIColor! = .gray {
+    /// The color for both title and subtitle labels.
+    open var noContentColor: UIColor! = .secondaryGray {
         didSet {
-            explicitNoContentColor = noContentColor
             if noContentColor == nil {
-                noContentColor = .gray
+                noContentColor = .secondaryGray
             }
+            titleColor = noContentColor
+            subtitleColor = noContentColor
+        }
+    }
+
+    open var titleColor: UIColor? {
+        didSet {
             if loadingViewLoaded {
-                loadingView.titleLabel.textColor = noContentColor
-                loadingView.subtitleLabel.textColor = noContentColor
+                loadingView.titleLabel.textColor = titleColor
             }
             if noContentViewLoaded {
-                noContentView.titleLabel.textColor = noContentColor
-                noContentView.subtitleLabel.textColor = noContentColor
+                noContentView.titleLabel.textColor = titleColor
             }
             if errorViewLoaded {
-                errorView.titleLabel.textColor = noContentColor
-                errorView.subtitleLabel.textColor = noContentColor
+                errorView.titleLabel.textColor = titleColor
+            }
+        }
+    }
+
+    open var subtitleColor: UIColor? {
+        didSet {
+            if loadingViewLoaded {
+                loadingView.subtitleLabel.textColor = titleColor
+            }
+            if noContentViewLoaded {
+                noContentView.subtitleLabel.textColor = titleColor
+            }
+            if errorViewLoaded {
+                errorView.subtitleLabel.textColor = titleColor
             }
         }
     }
 
     // MARK: - Private properties
-
-    /// Explicitly set no content color, for backwards compatibility for callers not using individual colors
-    private var explicitNoContentColor: UIColor?
 
     private lazy var traitTrackerView: TraitCollectionTracker = { [unowned self] in
         let tracker = TraitCollectionTracker(frame: .zero)
@@ -286,10 +298,12 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         containerView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(containerView)
 
-        // For backwards compatibility, use no content color if explicitly set
-        if let noContentColor = explicitNoContentColor {
-            containerView.titleLabel.textColor = noContentColor
-            containerView.subtitleLabel.textColor = noContentColor
+        // Override default title and subtitle colors on the container if set
+        if let titleColor = titleColor {
+            containerView.titleLabel.textColor = titleColor
+        }
+        if let subtitleColor = subtitleColor {
+            containerView.subtitleLabel.textColor = subtitleColor
         }
 
         var constraints: [NSLayoutConstraint] = []
