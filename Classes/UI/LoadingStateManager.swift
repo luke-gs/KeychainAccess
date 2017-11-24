@@ -91,7 +91,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         }
     }
 
-    /// The loading label.
+    /// The loading label. Moved to loading view, but kept here for backwards compatibility
     open var loadingLabel: UILabel {
         return loadingView.titleLabel
     }
