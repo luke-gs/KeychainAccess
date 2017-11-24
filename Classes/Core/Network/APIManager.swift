@@ -284,7 +284,7 @@ open class APIManager {
 
         let mapper = self.errorMapper
         return Promise { fulfill, reject in
-            _ = dataRequest(urlRequest).then { (processedResponse) -> Void in
+            dataRequest(urlRequest).then { (processedResponse) -> Void in
                 let result = serializer.serializedResponse(from: processedResponse)
 
                 switch result {
@@ -298,6 +298,11 @@ open class APIManager {
                         reject(wrappedError)
                     }
                 }
+            }.catch { error in
+                // It's used to be the `processedResponse(_:)` used to be APIManager's internal state.
+                // and it'll never throw error due to being wrapped inside `Alamofire.Result(T)`.
+                // However, it's now exposed externally and it's possible that something external is rejecting the promise.
+                reject(error)
             }
         }
     }
