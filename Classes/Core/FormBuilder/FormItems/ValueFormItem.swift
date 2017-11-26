@@ -38,7 +38,7 @@ public class ValueFormItem: BaseFormItem {
         let cell = cell as! CollectionViewFormValueFieldCell
 
         cell.titleLabel.apply(sizable: title, defaultFont: .preferredFont(forTextStyle: .footnote, compatibleWith: cell.traitCollection))
-        cell.valueLabel.apply(sizable: value, defaultFont: .preferredFont(forTextStyle: .headline, compatibleWith: cell.traitCollection))
+        cell.valueLabel.apply(sizable: value, defaultFont: .preferredFont(forTextStyle: .headline, compatibleWith: cell.traitCollection), defaultNumberOfLines: 2)
         cell.imageView.image = image
     }
 
