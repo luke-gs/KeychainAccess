@@ -34,9 +34,11 @@ open class TasksSplitViewModel {
         self.mapViewModel.splitViewModel = self
 
         // Observe sync changes
-        NotificationCenter.default.addObserver(forName: .CADSyncChanged, object: nil, queue: nil) { [weak self] (notification) in
-            self?.delegate?.sectionsUpdated()
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(syncChanged), name: .CADSyncChanged, object: nil)
+    }
+
+    @objc open func syncChanged() {
+        self.delegate?.sectionsUpdated()
     }
 
     /// Create the view controller for this view model

@@ -8,6 +8,10 @@
 
 import UIKit
 
+/// Global var for unique address as the assoc object handle
+private var associatedObjectTitleHandle: UInt8 = 0
+private var associatedObjectSubtitleHandle: UInt8 = 0
+
 /// Extension to support navigation items with title and subtitle
 ///
 /// The reason this is on the view controller and not the navigation item itself is because we
@@ -52,10 +56,36 @@ extension UIViewController {
         navigationItem.titleView = stackView
 
         // Observe changes to the theme
-        NotificationCenter.default.addObserver(forName: .interfaceStyleDidChange, object: nil, queue: nil) { [unowned self] (notification) in
-            titleLabel.textColor = self.themeColor(forKey: .primaryText)!
-            subtitleLabel.textColor = self.themeColor(forKey: .secondaryText)!
+        self.titleLabel = titleLabel
+        self.subtitleLabel = subtitleLabel
+        NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleChanged), name: .interfaceStyleDidChange, object: nil)
+    }
+
+    @objc open func interfaceStyleChanged() {
+        self.titleLabel?.textColor = self.themeColor(forKey: .primaryText)!
+        self.subtitleLabel?.textColor = self.themeColor(forKey: .secondaryText)!
+    }
+
+
+    /// The title label, stored as an associated object, so we can update it on theme changes
+    private var titleLabel: UILabel? {
+        get {
+            return objc_getAssociatedObject(self, &associatedObjectTitleHandle) as? UILabel
+        }
+        set {
+            // Store a weak reference to the label
+            objc_setAssociatedObject(self, &associatedObjectTitleHandle, newValue, .OBJC_ASSOCIATION_ASSIGN)
+        }
+    }
+
+    /// The subtitle label, stored as an associated object, so we can update it on theme changes
+    private var subtitleLabel: UILabel? {
+        get {
+            return objc_getAssociatedObject(self, &associatedObjectSubtitleHandle) as? UILabel
+        }
+        set {
+            // Store a weak reference to the label
+            objc_setAssociatedObject(self, &associatedObjectSubtitleHandle, newValue, .OBJC_ASSOCIATION_ASSIGN)
         }
     }
 }
-
