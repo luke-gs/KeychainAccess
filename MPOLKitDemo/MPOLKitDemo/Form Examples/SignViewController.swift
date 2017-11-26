@@ -13,6 +13,9 @@ class SignupViewController: FormBuilderViewController {
 
     var details = SignupDetails()
 
+    private lazy var viewSignatureButton = UIBarButtonItem(title: "View signature", style: .plain, target: self, action: #selector(viewSignatureTapped))
+    private var signature: UIImage?
+
     override init() {
         super.init()
 
@@ -29,6 +32,11 @@ class SignupViewController: FormBuilderViewController {
             UIBarButtonItem(title: "Signature", style: .plain, target: self, action: #selector(signInTapped))
         ]
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeTapped))
+        viewSignatureButton.isEnabled = false
+        navigationItem.leftBarButtonItems = [
+            UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeTapped)),
+            viewSignatureButton
+        ]
     }
 
     override func construct(builder: FormBuilder) {
@@ -243,12 +251,36 @@ class SignupViewController: FormBuilderViewController {
 }
 
 extension SignupViewController: SignatureViewControllerDelegate {
+
+    @objc private func viewSignatureTapped() {
+        let viewController = UIViewController()
+        viewController.view.backgroundColor = .white
+
+        let view = viewController.view!
+        let imageView = UIImageView(image: signature)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        viewController.view.addSubview(imageView)
+
+        NSLayoutConstraint.activate([
+            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            imageView.topAnchor.constraint(greaterThanOrEqualTo: view.topAnchor),
+            imageView.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor),
+            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+
     func controllerDidCancelIn(_ controller: SignatureViewController) {
-        print("didCancel")
+        print(#function)
     }
 
     func controller(_ controller: SignatureViewController, didFinishWithSignature signature: UIImage?) {
-        print("didFinish")
+        print(#function)
+        self.signature = signature
+        viewSignatureButton.isEnabled = signature != nil
+        
     }
 }
 
