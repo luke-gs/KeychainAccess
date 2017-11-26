@@ -73,9 +73,8 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let callsignViewController = CompactCallsignViewController()
             callsignViewController.tabBarItem = UITabBarItem(title: "Callsign", image: AssetManager.shared.image(forKey: .entityCar), selectedImage: nil)
 
-            let searchProxyViewController = UIViewController() // TODO: Take me back to the search app
+            let searchProxyViewController = SearchProxyViewController()
             searchProxyViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
-            searchProxyViewController.tabBarItem.isEnabled = false
 
             let tasksListContainerViewModel = TasksListContainerViewModel(headerViewModel: TasksListHeaderViewModel(), listViewModel: TasksListViewModel())
             let tasksSplitViewModel = TasksSplitViewModel(listContainerViewModel: tasksListContainerViewModel,

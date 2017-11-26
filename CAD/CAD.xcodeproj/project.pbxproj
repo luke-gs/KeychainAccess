@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		279E967E1FC7C9D20050E3D9 /* SearchProxyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E967D1FC7C9D20050E3D9 /* SearchProxyViewController.swift */; };
 		8C8D6CC41B08BE3F8BD4323A /* Pods_CAD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFE5675329056751C51108DA /* Pods_CAD.framework */; };
 		9624A4161F7C550B00CAE056 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4151F7C550B00CAE056 /* AppDelegate.swift */; };
 		9624A41D1F7C550B00CAE056 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9624A41C1F7C550B00CAE056 /* Assets.xcassets */; };
@@ -18,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		1DE76078EE629AAABB19522F /* Pods-CAD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CAD.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CAD/Pods-CAD.debug.xcconfig"; sourceTree = "<group>"; };
+		279E967D1FC7C9D20050E3D9 /* SearchProxyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchProxyViewController.swift; sourceTree = "<group>"; };
 		938AAB0D0D7D4DF633FAD2DB /* Pods-CAD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CAD.release.xcconfig"; path = "Pods/Target Support Files/Pods-CAD/Pods-CAD.release.xcconfig"; sourceTree = "<group>"; };
 		9624A4121F7C550B00CAE056 /* CAD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CAD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9624A4151F7C550B00CAE056 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				96CED76C1FA7F23D00C0DEB0 /* LandingPresenter.swift */,
+				279E967D1FC7C9D20050E3D9 /* SearchProxyViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -288,6 +291,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96CED76D1FA7F23D00C0DEB0 /* LandingPresenter.swift in Sources */,
+				279E967E1FC7C9D20050E3D9 /* SearchProxyViewController.swift in Sources */,
 				9624A4161F7C550B00CAE056 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
