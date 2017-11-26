@@ -11,6 +11,8 @@ import UIKit
 /// CAD implementation of status tab bar with callsign status
 open class CADStatusTabBarController: StatusTabBarController {
     
+    private var syncObserver: NSObjectProtocol?
+    
     open let viewModel: CADStatusTabBarViewModel
     open var userCallsignStatusView: UserCallsignStatusView!
     
@@ -32,11 +34,34 @@ open class CADStatusTabBarController: StatusTabBarController {
         
         statusView = userCallsignStatusView
         tabBar.isTranslucent = false
+        
+        syncObserver = NotificationCenter.default.addObserver(forName: .CADSyncChanged, object: nil, queue: .main) { _ in
+            self.setTabBarEnabled(true)
+        }
+
+        setTabBarEnabled(false)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(syncObserver, name: .CADSyncChanged, object: nil)
+    }
+    
+    /// Sets all the tabs and status view buttons to be enabled or disabled
+    open func setTabBarEnabled(_ enabled: Bool) {
+        regularViewControllers.forEach {
+            $0.tabBarItem.isEnabled = enabled
+        }
+        compactViewControllers?.forEach {
+            $0.tabBarItem.isEnabled = enabled
+        }
+        
+        userCallsignStatusView.isEnabled = enabled
     }
     
     @objc open func selectedCallsignStatusView() {
-        
-        guard let viewController = viewModel.userCallsignStatusViewModel.createActionViewController() else { return }
+        guard userCallsignStatusView.isEnabled,
+            let viewController = viewModel.userCallsignStatusViewModel.createActionViewController()
+        else { return }
         
         let container = PopoverNavigationController(rootViewController: viewController)
         container.modalPresentationStyle = .formSheet

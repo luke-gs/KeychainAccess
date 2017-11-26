@@ -128,71 +128,8 @@ open class APIManager {
             
             return try! self.performRequest(networkRequest)
         }
-    }
-    
-    /// Fetch manifest data
-    ///
-    /// - Parameters:
-    ///   - date: The date last successful fetch, to only return items changes since this date. If no date, and entire snapshot of the manifest data will be requested.
-    ///
-    /// - Returns: A promis to return the manifest data
-    open func fetchManifest(for date: Date?) -> Promise<[[String : Any]]> {
-        var path = "manifest/app"
-        var parameters:[String: String] = [:]
-        
-        if let date = date{
-            let interval = Int(date.timeIntervalSince1970)
-            path.append("/{interval}")
-            parameters["interval"] = String(interval)
-        }
-        
-        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
-        let newRequest = try! urlRequest(from: networkRequest)
-        
-        return createSessionRequestWithProgress(from: newRequest).then { (request) in
-            let allPlugins = self.allPlugins
-            allPlugins.forEach {
-                $0.willSend(request)
-            }
-            
-            let mapper = self.errorMapper
-            return Promise { fulfill, reject in
-                
-                request.validate().responseData(completionHandler: { response in
-                    
-                    allPlugins.forEach({
-                        $0.didReceiveResponse(response)
-                    })
-                    
-                    switch response.result {
-                    case .success(_):
-                        do {
-                            if let responseData = response.data{
-                                
-                                let responseArray = try JSONSerialization.jsonObject(with: responseData, options: .allowFragments)
-                                if let manifestArray = responseArray as? [[String : Any]] {
-                                    fulfill(manifestArray)
-                                } else {
-                                    reject(ManifestError("Manifest response not in desired format"))
-                                }
-                            }
-                        } catch let parseError {
-                            reject (parseError)
-                        }
-                    case .failure(let error):
-                        let wrappedError = APIManagerError(underlyingError: error, response: response.toDefaultDataResponse())
-                        if let mapper = mapper {
-                            reject(mapper.mappedError(from: wrappedError))
-                        } else {
-                            reject(wrappedError)
-                        }
-                        
-                    }
-                })
-            }
-        }
-    }
-    
+    }    
+
     // MARK : - Internal Utilities
     
     private var allPlugins: [PluginType] {
@@ -352,7 +289,7 @@ extension APIManager {
         }
     }
 
-    public struct DataResponseSerializer: ResponseSerializing {
+    fileprivate struct DataResponseSerializer: ResponseSerializing {
         public typealias ResultType = Data
 
         public init() {
@@ -391,6 +328,32 @@ extension DataRequest {
     func responseDataPromise() -> Promise<DataResponse<Data>> {
         return Promise { (fulfill, _) in
             self.responseData { fulfill($0) }
+        }
+    }
+}
+
+extension APIManager {
+    
+    // Serialization of for arrays of dictionaries
+    public struct JSONObjectArrayResponseSerializer: ResponseSerializing {
+        public typealias ResultType = [[String:Any]]
+        
+        public init() {
+            
+        }
+        
+        public func serializedResponse(from dataResponse: DataResponse<Data>) -> Alamofire.Result<ResultType> {
+            let result = DataRequest.serializeResponseJSON(options: .allowFragments, response: dataResponse.response, data: dataResponse.data, error: dataResponse.error)
+            switch result {
+            case .success(let json):
+                if let json = json as? ResultType {
+                    return .success(json)
+                } else {
+                    return .failure(ParsingError.incorrectFormat)
+                }
+            case .failure(let error):
+                return .failure(error)
+            }
         }
     }
 }

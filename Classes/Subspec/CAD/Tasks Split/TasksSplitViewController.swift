@@ -11,8 +11,8 @@ import PromiseKit
 
 /// Split view for top level of CAD application, displaying table of tasks on left and map on right
 open class TasksSplitViewController: MPOLSplitViewController {
-
-    private static let defaultSplitWidth: CGFloat = 320
+    
+    public static let defaultSplitWidth: CGFloat = 320
 
     open let viewModel: TasksSplitViewModel
 
@@ -20,6 +20,8 @@ open class TasksSplitViewController: MPOLSplitViewController {
     open let detailVC: UIViewController
     open let segmentedControl: UISegmentedControl
     open let tasksListContainer: LoadableViewController?
+    open var masterRightButtonItems: [UIBarButtonItem]?
+
     open private(set) var syncIntervalTimer: Timer?
 
     private var filterButton: UIBarButtonItem {
@@ -38,6 +40,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
         self.viewModel = viewModel
         self.tasksListContainer = masterVC as? LoadableViewController
 
+        masterRightButtonItems = masterVC.navigationItem.rightBarButtonItems
         segmentedControl = UISegmentedControl(items: [viewModel.masterSegmentTitle(), viewModel.detailSegmentTitle()])
         segmentedControl.selectedSegmentIndex = 0
         
@@ -53,29 +56,11 @@ open class TasksSplitViewController: MPOLSplitViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         configureSegmentedControl(for: traitCollection)
+        performInitialSync()
     }
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        tasksListContainer?.loadingManager.state = .loading
-
-        // Sync data needed for displaying main UI, making master VC full width until loaded
-        setMasterWidth(view.bounds.width, animated: false)
-        firstly {
-            return CADStateManager.shared.syncInitial()
-        }.then { [weak self] () -> Void in
-            // Show full split screen
-            self?.setMasterWidth(TasksSplitViewController.defaultSplitWidth)
-            self?.tasksListContainer?.loadingManager.state = .loaded
-
-            // Reload header text for time since sync
-            self?.updateSyncIntervalText()
-        }.catch { [weak self] error in
-            // TODO: add support for error state to loading state manager
-            self?.tasksListContainer?.loadingManager.state = .noContent
-            print("Failed to sync: \(error)")
-        }
 
         // Setup timer for interval updates
         syncIntervalTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateSyncIntervalText), userInfo: nil, repeats: true)
@@ -120,19 +105,47 @@ open class TasksSplitViewController: MPOLSplitViewController {
 
     open func setMasterWidth(_ width: CGFloat, animated: Bool = true) {
         if animated {
-            // Animate the split moving as well as the content fading in
-            self.tasksListContainer?.loadingManager.contentView?.alpha = 0
+            // Animate the split moving
             UIView.animate(withDuration: 0.3, animations: {
                 self.embeddedSplitViewController.minimumPrimaryColumnWidth = width
                 self.embeddedSplitViewController.maximumPrimaryColumnWidth = width
             }, completion: { _ in
                 UIView.animate(withDuration: 0.3, animations: {
+                    // Animate content back in if required
                     self.tasksListContainer?.loadingManager.contentView?.alpha = 1
                 })
             })
         } else {
             self.embeddedSplitViewController.minimumPrimaryColumnWidth = width
             self.embeddedSplitViewController.maximumPrimaryColumnWidth = width
+        }
+    }
+
+    private func performInitialSync() {
+        tasksListContainer?.loadingManager.state = .loading
+
+        // Sync data needed for displaying main UI, making master VC full width until loaded
+        setMasterWidth(view.bounds.width, animated: false)
+
+        // Hide the content view
+        self.tasksListContainer?.loadingManager.contentView?.alpha = 0
+
+        firstly {
+            return CADStateManager.shared.syncInitial()
+        }.then { [weak self] () -> Void in
+            // Show full split screen
+            self?.setMasterWidth(TasksSplitViewController.defaultSplitWidth)
+            self?.tasksListContainer?.loadingManager.state = .loaded
+
+            // Reload header text for time since sync
+            self?.updateSyncIntervalText()
+
+            // Zoom to user location
+            self?.viewModel.mapViewModel.delegate?.zoomToUserLocation()
+        }.catch { [weak self] error in
+            self?.tasksListContainer?.loadingManager.state = .error
+            self?.tasksListContainer?.loadingManager.errorView.subtitleLabel.text = error.localizedDescription
+            print("Failed to sync: \(error)")
         }
     }
 
@@ -146,7 +159,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
             masterVC.navigationItem.rightBarButtonItem = filterButton
             detailVC.navigationItem.rightBarButtonItem = filterButton
         } else {
-            masterVC.navigationItem.rightBarButtonItem = nil
+            masterVC.navigationItem.rightBarButtonItems = masterRightButtonItems
             masterVC.navigationItem.titleView = nil
         }
     }
