@@ -99,9 +99,11 @@ open class TasksListContainerViewModel {
         self.headerViewModel.containerViewModel = self
 
         // Observe sync changes
-        NotificationCenter.default.addObserver(forName: .CADSyncChanged, object: nil, queue: nil) { [weak self] (notification) in
-            self?.updateSections()
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(syncChanged), name: .CADSyncChanged, object: nil)
+    }
+
+    @objc open func syncChanged() {
+        self.updateSections()
     }
 
     /// Create the view controller for this view model
