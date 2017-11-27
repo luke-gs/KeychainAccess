@@ -19,17 +19,11 @@ class ManageCallsignStatusViewCell: UICollectionViewCell, DefaultReusable {
         didSet {
             if isLoading == oldValue { return }
             
-            if isLoading {
-                spinner.isHidden = false
-                spinner.play()
-                titleLabel.isHidden = true
-                imageView.isHidden = true
-            } else {
-                spinner.isHidden = true
-                spinner.pause()
-                titleLabel.isHidden = false
-                imageView.isHidden = false
-            }
+            spinner.isHidden = !isLoading
+            titleLabel.isHidden = isLoading
+            imageView.isHidden = isLoading
+            
+            isLoading ? spinner.play() : spinner.pause()
         }
     }
 
