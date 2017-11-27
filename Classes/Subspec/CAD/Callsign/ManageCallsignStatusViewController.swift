@@ -34,6 +34,9 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
     private var theme: Theme {
         return ThemeManager.shared.theme(for: .current)
     }
+    
+    /// The index path that is currently loading
+    private var loadingIndexPath: IndexPath?
 
     // MARK: - Initializers
 
@@ -156,6 +159,8 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
 
         cell.imageView.image = viewModel.image
         cell.imageView.tintColor = theme.color(forKey: selected ? .tint : .secondaryText)!
+        
+        cell.spinner.color = theme.color(forKey: .tint)
     }
 
     @objc private func didTapDoneButton(_ button: UIBarButtonItem) {
@@ -164,6 +169,17 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
 
     @objc private func didTapActionButton(_ button: UIButton) {
         viewModel.didTapActionButtonAtIndex(button.tag)
+    }
+    
+    // MARK: - Internal
+    
+    private func set(loading: Bool, at indexPath: IndexPath) {
+        self.loadingIndexPath = loading ? indexPath : nil
+        UIView.performWithoutAnimation {
+            collectionView.performBatchUpdates({
+                collectionView.reloadItems(at: [indexPath])
+            }, completion: nil)
+        }
     }
 
 }
@@ -196,6 +212,11 @@ extension ManageCallsignStatusViewController: UICollectionViewDataSource {
             return header
         }
         return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "", for: indexPath)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? ManageCallsignStatusViewCell else { return }
+        cell.isLoading = indexPath == loadingIndexPath
     }
 
 }
@@ -239,10 +260,10 @@ extension ManageCallsignStatusViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: false)
 
-        if indexPath != viewModel.selectedIndexPath {
-
-            // TODO: show progress overlay
+        if indexPath != viewModel.selectedIndexPath, loadingIndexPath == nil {
+            
             let oldIndexPath = viewModel.selectedIndexPath
+            set(loading: true, at: indexPath)
 
             firstly {
                 // Attempt to change state
@@ -254,7 +275,7 @@ extension ManageCallsignStatusViewController: UICollectionViewDelegate {
                     }, completion: nil)
                 }
             }.always {
-                // TODO: Cancel progress overlay
+                self.set(loading: false, at: indexPath)
             }.catch { error in
                 AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
             }
