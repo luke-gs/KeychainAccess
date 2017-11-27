@@ -80,6 +80,7 @@ open class TasksListContainerViewModel {
         didSet {
             if selectedSourceIndex != oldValue {
                 headerViewModel.selectedSourceIndex = selectedSourceIndex
+                splitViewModel?.mapViewModel.applyFilter()
                 updateSections()
             }
         }
