@@ -57,7 +57,8 @@ open class CADStateManager: NSObject {
     /// Perform initial sync after login or launching app
     open func syncInitial() -> Promise<Void> {
         // Syncing is disabled for now for demoing purposes, due to backend issues
-        return after(interval: 2).then {
+        return after(interval: 2).then { [unowned self] () -> Void in
+            self.lastSyncTime = Date()
             NotificationCenter.default.post(name: .CADSyncChanged, object: self)
         }
       
