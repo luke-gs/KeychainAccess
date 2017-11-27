@@ -24,6 +24,17 @@ open class SignatureViewController: UIViewController {
         return doneButton
     }()
 
+    fileprivate lazy var clearButton: UIButton = {
+        let clearButton = UIButton(type: .custom)
+        clearButton.backgroundColor = UIColor(red:0.96, green:0.96, blue:0.96, alpha:1.00)
+        clearButton.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+        clearButton.setTitleColor(.lightGray, for: .normal)
+        clearButton.translatesAutoresizingMaskIntoConstraints = false
+        clearButton.setTitle("CLEAR SIGNATURE", for: .normal)
+        clearButton.isEnabled = false
+        return clearButton
+    }()
+
     public init() {
         super.init(nibName: nil, bundle: nil)
 
@@ -47,12 +58,7 @@ open class SignatureViewController: UIViewController {
         signatureView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(signatureView)
 
-        let clearButton = UIButton(type: .custom)
-        clearButton.backgroundColor = UIColor(red:0.96, green:0.96, blue:0.96, alpha:1.00)
-        clearButton.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .bold)
-        clearButton.setTitleColor(.darkGray, for: .normal)
-        clearButton.translatesAutoresizingMaskIntoConstraints = false
-        clearButton.setTitle("CLEAR SIGNATURE", for: .normal)
+
 
         // Placeholder icon for the clear button
         // Replace with actual Icon when ready
@@ -87,18 +93,28 @@ open class SignatureViewController: UIViewController {
 
     @objc private func clearTapped() {
         signatureView.clear()
-        doneButton.isEnabled = signatureView.containsSignature
+        updateButtonStates()
+    }
+
+    private func updateButtonStates() {
+        let containsSignature = signatureView.containsSignature
+        UIView.animate(withDuration: 0.3) { [unowned self] in
+            self.doneButton.isEnabled = containsSignature
+            self.clearButton.isEnabled = containsSignature
+            self.clearButton.setTitleColor(containsSignature ? .darkGray : .lightGray, for: .normal)
+        }
+
     }
 
 }
 
 extension SignatureViewController: SignatureViewResponder {
     public func didStartSigning() {
-        doneButton.isEnabled = signatureView.containsSignature
+        updateButtonStates()
     }
 
     public func didEndSigning() {
-        doneButton.isEnabled = signatureView.containsSignature
+        updateButtonStates()
     }
 
 
