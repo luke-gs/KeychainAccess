@@ -170,7 +170,7 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
     
     // MARK: - Private properties
     
-    fileprivate let tabBarContainerController: UIViewController
+    open let tabBarContainerController: UIViewController
     
     private lazy var tabBarBackground = UITabBar(frame: .zero)
     

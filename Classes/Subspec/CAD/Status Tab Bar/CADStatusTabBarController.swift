@@ -33,13 +33,25 @@ open class CADStatusTabBarController: StatusTabBarController {
         statusView = userCallsignStatusView
         tabBar.isTranslucent = false
 
+        // Hide tab bar while syncing and match background color to sidebar
         NotificationCenter.default.addObserver(self, selector: #selector(syncChanged), name: .CADSyncChanged, object: nil)
-        setTabBarEnabled(false)
+        view.backgroundColor = ThemeManager.shared.theme(for: .dark).color(forKey: .background)
+        tabBarContainerController.view.isHidden = true
     }
-    
+
     @objc open func syncChanged() {
-        // Re-enable the tab bar
-        self.setTabBarEnabled(true)
+        if tabBarContainerController.view.isHidden {
+            tabBarContainerController.view.isHidden = false
+
+            // Animate in the tab bar now that we are showing content
+            // We use CABasicAnimation here as it allows us to animate the tab bar separately from the split view
+            let animation = CABasicAnimation()
+            animation.keyPath = "transform.translation.y"
+            animation.fromValue = tabBarContainerController.view.frame.height
+            animation.toValue = 0
+            animation.duration = 0.5
+            tabBarContainerController.view.layer.add(animation, forKey: "basic")
+        }
     }
 
     /// Sets all the tabs and status view buttons to be enabled or disabled
