@@ -20,6 +20,10 @@ open class MapFilterSectionView: UIView {
     
     private let section: MapFilterSection
     
+    /// Whether to disable selection of the toggle row items when
+    /// the section's toggle is disabled. Default value is `false`.
+    open var disablesCheckboxesOnSectionDisabled = false
+    
     /// Title label on the left side
     open var titleLabel = UILabel()
     
@@ -126,10 +130,12 @@ open class MapFilterSectionView: UIView {
         // Do nothing if we aren't using a toggle
         guard section.isOn != nil else { return }
         
-        // Disable all checkboxes if toggle is off, otherwise revert to original state
-        toggleRows.forEach { row in
-            for (option, checkbox) in zip(row.toggleRow.options, row.options) {
-                checkbox.isEnabled = toggle.isOn ? option.isEnabled : false
+        if disablesCheckboxesOnSectionDisabled {
+            // Disable all checkboxes if toggle is off, otherwise revert to original state
+            toggleRows.forEach { row in
+                for (option, checkbox) in zip(row.toggleRow.options, row.options) {
+                    checkbox.isEnabled = toggle.isOn ? option.isEnabled : false
+                }
             }
         }
     }

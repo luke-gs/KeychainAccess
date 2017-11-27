@@ -25,4 +25,7 @@ public protocol MapFilterViewModel {
     
     /// Text for footer button
     func footerButtonText() -> String?
+    
+    /// Whether toggling the section off should disable the toggle rows
+    func disablesCheckboxesOnSectionDisabled(for section: Int) -> Bool
 }
