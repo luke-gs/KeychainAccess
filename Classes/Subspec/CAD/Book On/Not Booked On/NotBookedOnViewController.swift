@@ -22,6 +22,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
         static let footerHeight: CGFloat = 64
         
         // MARK: - Button Padding
+        static let centerOffsetButton: CGFloat = 3
         static let verticalButtonPadding: CGFloat = 24
         static let horizontalButtonPadding: CGFloat = 40
         static let edgeButtonPadding: CGFloat = 24
@@ -92,7 +93,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
         stayOffDutyButton = UIButton()
         stayOffDutyButton.contentEdgeInsets = UIEdgeInsets(top: LayoutConstants.verticalButtonPadding,
                                                            left: LayoutConstants.edgeButtonPadding,
-                                                           bottom: LayoutConstants.verticalButtonPadding,
+                                                           bottom: LayoutConstants.verticalButtonPadding - LayoutConstants.centerOffsetButton,
                                                            right: LayoutConstants.horizontalButtonPadding)
         stayOffDutyButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         stayOffDutyButton.setTitleColor(tintColor, for: .normal)
@@ -105,7 +106,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
         allCallsignsButton = UIButton()
         allCallsignsButton.contentEdgeInsets = UIEdgeInsets(top: LayoutConstants.verticalButtonPadding,
                                                             left: LayoutConstants.horizontalButtonPadding,
-                                                            bottom: LayoutConstants.verticalButtonPadding,
+                                                            bottom: LayoutConstants.verticalButtonPadding - LayoutConstants.centerOffsetButton,
                                                             right: LayoutConstants.edgeButtonPadding)
         allCallsignsButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         allCallsignsButton.setTitleColor(tintColor, for: .normal)
@@ -130,7 +131,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
             
             footerDivider.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             footerDivider.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            footerDivider.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -LayoutConstants.footerHeight),
+            footerDivider.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor, constant: -LayoutConstants.footerHeight),
             footerDivider.heightAnchor.constraint(equalToConstant: 1),
             
             stayOffDutyButton.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
@@ -142,7 +143,11 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
     }
     
     @objc open func didSelectStayOffDutyButton() {
-        dismiss(animated: true, completion: nil)
+        if isBeingPresented {
+            dismiss(animated: true, completion: nil)
+        } else {
+            statusTabBarController?.selectedViewController = statusTabBarController?.previousSelectedViewController
+        }
     }
     
     @objc open func didSelectAllCallsignsButton() {

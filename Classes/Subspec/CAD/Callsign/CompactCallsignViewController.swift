@@ -43,6 +43,7 @@ open class CompactCallsignViewController: UIViewController {
         removeChildViewController(callsignViewController)
         
         let navController = UINavigationController(rootViewController: newCallsignViewController)
+        navController.delegate = self
         
         addChildViewController(navController, toView: view)
         callsignViewController = newCallsignViewController
@@ -54,5 +55,11 @@ open class CompactCallsignViewController: UIViewController {
             navController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             navController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
+    }
+}
+
+extension CompactCallsignViewController: UINavigationControllerDelegate {
+    public func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        viewController.edgesForExtendedLayout.remove(.top)
     }
 }
