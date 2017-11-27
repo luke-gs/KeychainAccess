@@ -183,7 +183,7 @@ open class TasksMapViewModel {
     func loadDummyData() {
         incidents = [
             IncidentMapViewModel(identifier: "i1",
-                               title: "Assult",
+                               title: "Assault",
                                subtitle: "(2)",
                                status: "Current Incident",
                                coordinate: CLLocationCoordinate2D(latitude: -37.803166, longitude: 144.983696),
