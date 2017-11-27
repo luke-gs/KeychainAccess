@@ -214,6 +214,14 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         ])
     }
     
+    // We need to use viewWillTransition here, as master VC is not told about all trait collection changes
+    override open func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(alongsideTransition: { [unowned self] (context) in
+            self.updateConstraintsForSizeChange()
+            }, completion: nil)
+    }
+    
     open func updateConstraintsForSizeChange() {
         if let traitCollection = splitViewController?.traitCollection {
             let compact = (traitCollection.horizontalSizeClass == .compact)
