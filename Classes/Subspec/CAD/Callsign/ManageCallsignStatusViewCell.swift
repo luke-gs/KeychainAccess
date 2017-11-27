@@ -13,6 +13,25 @@ class ManageCallsignStatusViewCell: UICollectionViewCell, DefaultReusable {
 
     public let titleLabel = UILabel(frame: .zero)
     public let imageView = UIImageView(frame: .zero)
+    public let spinner = MPOLSpinnerView(style: .regular)
+    
+    public var isLoading: Bool = false {
+        didSet {
+            if isLoading == oldValue { return }
+            
+            if isLoading {
+                spinner.isHidden = false
+                spinner.play()
+                titleLabel.isHidden = true
+                imageView.isHidden = true
+            } else {
+                spinner.isHidden = true
+                spinner.pause()
+                titleLabel.isHidden = false
+                imageView.isHidden = false
+            }
+        }
+    }
 
     private var currentConstraints: [NSLayoutConstraint] = []
 
@@ -26,6 +45,10 @@ class ManageCallsignStatusViewCell: UICollectionViewCell, DefaultReusable {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         contentView.addSubview(imageView)
+        
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        spinner.isHidden = true
+        contentView.addSubview(spinner)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -42,6 +65,9 @@ class ManageCallsignStatusViewCell: UICollectionViewCell, DefaultReusable {
 
             titleLabel.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor),
             titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor),
+            
+            spinner.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ]
     }
 

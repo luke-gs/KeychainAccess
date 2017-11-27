@@ -156,6 +156,8 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
 
         cell.imageView.image = viewModel.image
         cell.imageView.tintColor = theme.color(forKey: selected ? .tint : .secondaryText)!
+        
+        cell.spinner.color = theme.color(forKey: .tint)
     }
 
     @objc private func didTapDoneButton(_ button: UIBarButtonItem) {
@@ -240,9 +242,10 @@ extension ManageCallsignStatusViewController: UICollectionViewDelegate {
         collectionView.deselectItem(at: indexPath, animated: false)
 
         if indexPath != viewModel.selectedIndexPath {
-
-            // TODO: show progress overlay
+            
             let oldIndexPath = viewModel.selectedIndexPath
+            let cell = collectionView.cellForItem(at: indexPath) as? ManageCallsignStatusViewCell
+            cell?.isLoading = true
 
             firstly {
                 // Attempt to change state
@@ -254,7 +257,7 @@ extension ManageCallsignStatusViewController: UICollectionViewDelegate {
                     }, completion: nil)
                 }
             }.always {
-                // TODO: Cancel progress overlay
+                cell?.isLoading = false
             }.catch { error in
                 AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
             }
