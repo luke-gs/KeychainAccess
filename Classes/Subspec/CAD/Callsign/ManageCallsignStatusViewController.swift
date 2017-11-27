@@ -87,7 +87,7 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
     /// Adds or removes bar button items for the curernt presented state
     open func setupNavigationBarButtons() {
         // Create done button
-        if isBeingPresented {
+        if presentingViewController != nil {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton(_:)))
         } else {
             navigationItem.rightBarButtonItem = nil
