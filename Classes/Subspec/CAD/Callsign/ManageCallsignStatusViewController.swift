@@ -61,9 +61,7 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
 
         // Set initial background color (this may change in wantsTransparentBackground)
         view.backgroundColor = theme.color(forKey: .background)!
-
-        // Create done button
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton(_:)))
+        setupNavigationBarButtons()
     }
 
     override func viewDidLayoutSubviews() {
@@ -72,6 +70,7 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
         // Update the item size and title view based on current traits
         updateItemSizeForTraits()
         setTitleView(title: viewModel.navTitle(), subtitle: viewModel.navSubtitle())
+        setupNavigationBarButtons()
     }
 
     /// Update the item size based on size class
@@ -84,6 +83,16 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
         }
         self.collectionViewLayout.invalidateLayout()
     }
+    
+    /// Adds or removes bar button items for the curernt presented state
+    open func setupNavigationBarButtons() {
+        // Create done button
+        if isBeingPresented {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton(_:)))
+        } else {
+            navigationItem.rightBarButtonItem = nil
+        }
+    }
 
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
@@ -91,6 +100,7 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
             // Update the item size and title view based on new traits
             self.updateItemSizeForTraits()
             self.setTitleView(title: self.viewModel.navTitle(), subtitle: self.viewModel.navSubtitle())
+            self.setupNavigationBarButtons()
         }, completion: nil)
     }
 
