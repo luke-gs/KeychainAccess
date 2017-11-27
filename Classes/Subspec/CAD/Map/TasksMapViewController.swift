@@ -123,14 +123,14 @@ open class TasksMapViewController: MapViewController {
 extension TasksMapViewController: TasksSplitViewControllerDelegate {
     public func willChangeSplitWidth(from oldSize: CGFloat, to newSize: CGFloat) {
         // Store the current region if we are growing split
-        if let mapView = mapView, newSize > oldSize {
+        if let mapView = mapView, newSize > oldSize, mapView.bounds.width > 1 {
             savedRegion = mapView.region
         }
     }
     
     public func didChangeSplitWidth(from oldSize: CGFloat, to newSize: CGFloat) {
         // Restore the region if we are shrinking split
-        if let region = savedRegion, let mapView = mapView, newSize < oldSize {
+        if let region = savedRegion, let mapView = mapView, newSize < oldSize, mapView.bounds.width > 1 {
             mapView.setRegion(region, animated: false)
         }
     }
