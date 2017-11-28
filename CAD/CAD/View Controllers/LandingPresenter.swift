@@ -73,7 +73,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let callsignViewController = CompactCallsignViewController()
             callsignViewController.tabBarItem = UITabBarItem(title: "Callsign", image: AssetManager.shared.image(forKey: .entityCar), selectedImage: nil)
 
-            let searchProxyViewController = SearchProxyViewController()
+            let searchProxyViewController = AppProxyViewController(appUrlTypeScheme: SEARCH_APP_SCHEME)
             searchProxyViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
 
             let tasksListContainerViewModel = TasksListContainerViewModel(headerViewModel: TasksListHeaderViewModel(), listViewModel: TasksListViewModel())
@@ -100,6 +100,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             sessionViewController.regularViewControllers = [searchProxyViewController, tasksNavController, activityNavController]
             sessionViewController.compactViewControllers = sessionViewController.viewControllers + [callsignViewController]
             sessionViewController.selectedViewController = tasksNavController
+            sessionViewController.statusTabBarDelegate = self
             return sessionViewController
         }
     }
@@ -111,3 +112,13 @@ public class LandingPresenter: AppGroupLandingPresenter {
     }
 }
 
+// MARK: - StatusTabBarDelegate
+extension LandingPresenter: StatusTabBarDelegate {
+    public func controller(_ controller: StatusTabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if let appProxy = viewController as? AppProxyViewController {
+            appProxy.launchApp()
+            return false
+        }
+        return true
+    }
+}
