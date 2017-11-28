@@ -13,9 +13,8 @@ class SearchProxyViewController: UIViewController {
     
     private let searchAppUrl = URL(string: "\(SEARCH_APP_SCHEME)://")
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         if let url = searchAppUrl {
             UIApplication.shared.open(url, options: [:], completionHandler: { success in
                 if !success {
@@ -23,7 +22,7 @@ class SearchProxyViewController: UIViewController {
                 }
             })
         }
-        statusTabBarController?.selectedViewController = statusTabBarController?.previousSelectedViewController
+        statusTabBarController?.selectPreviousTab()
     }
     
 }
