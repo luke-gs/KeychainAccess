@@ -9,6 +9,11 @@
 import UIKit
 import PromiseKit
 
+public protocol TasksSplitViewControllerDelegate {
+    func willChangeSplitWidth(from oldSize: CGFloat, to newSize: CGFloat)
+    func didChangeSplitWidth(from oldSize: CGFloat, to newSize: CGFloat)
+}
+
 /// Split view for top level of CAD application, displaying table of tasks on left and map on right
 open class TasksSplitViewController: MPOLSplitViewController {
     
@@ -104,6 +109,12 @@ open class TasksSplitViewController: MPOLSplitViewController {
     }
 
     open func setMasterWidth(_ width: CGFloat, animated: Bool = true) {
+        var oldWidth = embeddedSplitViewController.maximumPrimaryColumnWidth
+        if oldWidth == UISplitViewControllerAutomaticDimension {
+            oldWidth = 0
+        }
+        
+        (detailVC as? TasksSplitViewControllerDelegate)?.willChangeSplitWidth(from: oldWidth, to: width)
         if animated {
             // Animate the split moving
             UIView.animate(withDuration: 0.3, animations: {
@@ -119,6 +130,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
             self.embeddedSplitViewController.minimumPrimaryColumnWidth = width
             self.embeddedSplitViewController.maximumPrimaryColumnWidth = width
         }
+        (detailVC as? TasksSplitViewControllerDelegate)?.didChangeSplitWidth(from: oldWidth, to: width)
     }
 
     private func performInitialSync() {
@@ -130,12 +142,23 @@ open class TasksSplitViewController: MPOLSplitViewController {
         // Hide the content view
         self.tasksListContainer?.loadingManager.contentView?.alpha = 0
 
+        // Disable navigation bar items
+        let barButtonArrays = [masterVC.navigationItem.leftBarButtonItems,
+                               masterVC.navigationItem.rightBarButtonItems,
+                               detailVC.navigationItem.leftBarButtonItems,
+                               detailVC.navigationItem.rightBarButtonItems].removeNils()
+        let barButtonItems = barButtonArrays.flatMap { return $0 }
+        barButtonItems.forEach { $0.isEnabled = false }
+
         firstly {
             return CADStateManager.shared.syncInitial()
         }.then { [weak self] () -> Void in
             // Show full split screen
             self?.setMasterWidth(TasksSplitViewController.defaultSplitWidth)
             self?.tasksListContainer?.loadingManager.state = .loaded
+
+            // Enable navigation bar items
+            barButtonItems.forEach { $0.isEnabled = true }
 
             // Reload header text for time since sync
             self?.updateSyncIntervalText()

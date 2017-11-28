@@ -73,8 +73,10 @@ open class MapFilterViewController: UIViewController {
         view.addSubview(scrollView)
         
         // Create section views for sections model
-        sectionViews = viewModel.sections.map {
-            let section = MapFilterSectionView(section: $0)
+        sectionViews = viewModel.sections.enumerated().map { index, sectionViewModel in
+            let section = MapFilterSectionView(section: sectionViewModel)
+            section.disablesCheckboxesOnSectionDisabled = viewModel.disablesCheckboxesOnSectionDisabled(for: index)
+            
             return section
         }
         

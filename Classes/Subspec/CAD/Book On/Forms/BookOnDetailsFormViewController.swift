@@ -53,6 +53,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             return TextFieldFormItem(title: title, text: nil)
                 .width(.column(3))
                 .required("Serial is required.")
+                .keyboardType(.numberPad)
                 .strictValidate(CharacterSetSpecification.decimalDigits, message: "Serial must be a number")
                 .text(viewModel.details.serial)
                 .onValueChanged { [weak self] in
@@ -82,6 +83,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         let title = NSLocalizedString("Odometer", comment: "")
         return TextFieldFormItem(title: title, text: nil)
             .width(.column(3))
+            .keyboardType(.numberPad)
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Odometer must be a number")
             .text(viewModel.details.odometer)
             .onValueChanged { [weak self] in

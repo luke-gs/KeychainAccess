@@ -57,6 +57,7 @@ open class OfficerDetailsViewController: FormBuilderViewController {
             .width(.column(2))
             .text(viewModel.details.contactNumber)
             .required("Contact number is required.")
+            .keyboardType(.numberPad)
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Contact number must be a number")
             .submitValidate(OfficerDetailsViewController.contactPhoneValidation.specification,
                             message: OfficerDetailsViewController.contactPhoneValidation.message)

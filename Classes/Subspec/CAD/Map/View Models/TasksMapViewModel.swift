@@ -43,7 +43,14 @@ open class TasksMapViewModel {
 
         var annotations: [TaskAnnotation] = []
         
-        if filter.showIncidents {
+        let currentListItem: TaskListType?
+        if let selectedListIndex = splitViewModel?.listContainerViewModel.selectedSourceIndex {
+            currentListItem = TaskListType(rawValue: selectedListIndex)
+        } else {
+            currentListItem = nil
+        }
+        
+        if filter.showIncidents || currentListItem == .incident {
             let filteredIncidents = incidents.filter { model in
                 // TODO: Replace with enum when model classes created
                 let priorityFilter = filter.priorities.contains(model.priority)
@@ -58,15 +65,15 @@ open class TasksMapViewModel {
             annotations += taskAnnotations(for: filteredIncidents)
         }
         
-        if filter.showPatrol {
+        if filter.showPatrol || currentListItem == .patrol {
             annotations += taskAnnotations(for: patrol)
         }
         
-        if filter.showBroadcasts {
+        if filter.showBroadcasts || currentListItem == .broadcast {
             annotations += taskAnnotations(for: broadcast)
         }
 
-        if filter.showResources {
+        if filter.showResources || currentListItem == .resource {
             let filteredResources = resources.filter { model in
                 // TODO: Replace with enum when model classes created
                 let taskedFilter = filter.taskedResources.contains(model.status)
@@ -183,7 +190,7 @@ open class TasksMapViewModel {
     func loadDummyData() {
         incidents = [
             IncidentMapViewModel(identifier: "i1",
-                               title: "Assult",
+                               title: "Assault",
                                subtitle: "(2)",
                                status: "Current Incident",
                                coordinate: CLLocationCoordinate2D(latitude: -37.803166, longitude: 144.983696),

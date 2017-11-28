@@ -88,10 +88,11 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
         let newStatus = statusForIndexPath(indexPath)
         if currentStatus.canChangeToStatus(newStatus: newStatus) {
 
-            // TODO: change status on network
-
-            selectedIndexPath = indexPath
-            return Promise(value: currentStatus)
+            // TODO: Insert network call here
+            return after(seconds: 2.0).then {
+                self.selectedIndexPath = indexPath
+                return Promise(value: self.currentStatus)
+            }
         } else {
             let message = NSLocalizedString("Selection not allowed from this state", comment: "")
             return Promise(error: NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: message]))

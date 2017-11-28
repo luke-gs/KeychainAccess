@@ -170,6 +170,8 @@
 		4634B4451FBD6FD200D71E7F /* SearchResultMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634B43F1FBD6FD200D71E7F /* SearchResultMapViewController.swift */; };
 		4634B4461FBD6FD200D71E7F /* EntityMapSummaryDisplayble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634B4401FBD6FD200D71E7F /* EntityMapSummaryDisplayble.swift */; };
 		4634B4471FBD6FD200D71E7F /* TravelEstimationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634B4411FBD6FD200D71E7F /* TravelEstimationPlugin.swift */; };
+		462A788A1FC3C661002AEC05 /* SignatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462A78891FC3C661002AEC05 /* SignatureView.swift */; };
+		462A788C1FC3D097002AEC05 /* SignatureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462A788B1FC3D097002AEC05 /* SignatureViewController.swift */; };
 		4657CAD11F5D0DA9000295F6 /* NetworkLoggingPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4657CAD01F5D0DA9000295F6 /* NetworkLoggingPlugin.swift */; };
 		469EB5811F452FAB0005CAF7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469EB5801F452FAB0005CAF7 /* LoginViewController.swift */; };
 		469EB5831F45320A0005CAF7 /* LoginHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */; };
@@ -686,6 +688,8 @@
 		4634B43F1FBD6FD200D71E7F /* SearchResultMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultMapViewController.swift; sourceTree = "<group>"; };
 		4634B4401FBD6FD200D71E7F /* EntityMapSummaryDisplayble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityMapSummaryDisplayble.swift; sourceTree = "<group>"; };
 		4634B4411FBD6FD200D71E7F /* TravelEstimationPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelEstimationPlugin.swift; sourceTree = "<group>"; };
+		462A78891FC3C661002AEC05 /* SignatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureView.swift; sourceTree = "<group>"; };
+		462A788B1FC3D097002AEC05 /* SignatureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureViewController.swift; sourceTree = "<group>"; };
 		4657CAD01F5D0DA9000295F6 /* NetworkLoggingPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkLoggingPlugin.swift; sourceTree = "<group>"; };
 		469EB5801F452FAB0005CAF7 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHeaderView.swift; sourceTree = "<group>"; };
@@ -1452,6 +1456,15 @@
 			path = "Location Map Search";
 			sourceTree = "<group>";
 		};
+462A78881FC3C643002AEC05 /* Signature */ = {
+			isa = PBXGroup;
+			children = (
+				462A78891FC3C661002AEC05 /* SignatureView.swift */,
+				462A788B1FC3D097002AEC05 /* SignatureViewController.swift */,
+			);
+			path = Signature;
+			sourceTree = "<group>";
+		};
 		4657CACF1F5D0D7F000295F6 /* Logging */ = {
 			isa = PBXGroup;
 			children = (
@@ -1985,6 +1998,7 @@
 				12BDF9141F95CCC70033E60B /* Search */,
 				19B49BAB1F665F0F00502F51 /* Search Help */,
 				BC9C7DAF1F0DED6600DFFE83 /* Sidebar */,
+				462A78881FC3C643002AEC05 /* Signature */,
 				BC9C7DB41F0DED6600DFFE83 /* Source Bar */,
 				9663D0041F86DC9D006DB672 /* SplitView */,
 				BC9C7DBB1F0DED6600DFFE83 /* Views */,
@@ -2863,6 +2877,7 @@
 				BC9C7DD31F0DED6600DFFE83 /* OAuthAuthorizationGrant.swift in Sources */,
 				1948A7B51FBBDB45005AB301 /* OAuth2Error.swift in Sources */,
 				EA11F0221F830DD600BF8BCA /* ItemAccessorisable.swift in Sources */,
+				462A788A1FC3C661002AEC05 /* SignatureView.swift in Sources */,
 				BC9C7E2B1F0DED6600DFFE83 /* String+EmptyFiltering.swift in Sources */,
 				BC9C7E501F0DED6600DFFE83 /* EntityThumbnailView.swift in Sources */,
 				BC0EA3F41F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift in Sources */,
@@ -2930,6 +2945,7 @@
 				270C60FD1FBA5DCB006F11AD /* TasksListItemCollectionViewCell.swift in Sources */,
 				27206B361F8198CD005303A8 /* IncidentAnnotationView.swift in Sources */,
 				278A16311FBBBDC800C01C38 /* MapFilterViewController.swift in Sources */,
+				462A788C1FC3D097002AEC05 /* SignatureViewController.swift in Sources */,
 				BC9C7DF21F0DED6600DFFE83 /* ISO8601DateTransformer+UnboxFormatter.swift in Sources */,
 				1972FCCB1FA6A1EF00CB68EA /* ImageAlamofireResponseSerializer.swift in Sources */,
 				9650CA161F958B330087F5C9 /* ManageCallsignStatusViewController.swift in Sources */,
