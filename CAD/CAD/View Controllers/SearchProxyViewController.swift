@@ -22,9 +22,7 @@ class SearchProxyViewController: UIViewController {
                 }
             })
         }
-        if let previousSelectedViewController = statusTabBarController?.previousSelectedViewController {
-            statusTabBarController?.selectedViewController = previousSelectedViewController
-        }
+        statusTabBarController?.selectPreviousTab()
     }
     
 }
