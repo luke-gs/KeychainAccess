@@ -26,13 +26,33 @@ open class RefreshTokenPlugin: PluginType {
     public var onRefreshTokenFailed: ((Error?) -> Promise<Void>)?
     
     /// The promise that is currently executing the refresh token request.
-    private var refreshPromise: Promise<Void>?
+    private var refreshPromise: Promise<Void>? {
+        get {
+            var promise: Promise<Void>?
+            barrierQueue.sync {
+                promise = _refreshPromise
+            }
+            return promise
+        }
+        set {
+            barrierQueue.async(flags: .barrier) { [weak self] in
+                self?._refreshPromise = newValue
+            }
+        }
+    }
+    
+    /// Internal promise protected by barrier. Use `refreshPromise` for thread safe access.
+    private var _refreshPromise: Promise<Void>?
+    
+    /// Queue to get and set refresh promise ensuring thread safety.
+    private let barrierQueue: DispatchQueue
     
     
     // MARK: - Plugin Type
     
     public init(excludePaths: Set<String> = ["login", "refresh"]) {
         self.excludePaths = excludePaths
+        self.barrierQueue = DispatchQueue(label: "au.com.gridstone.RefreshTokenPlugin.Barrier", attributes: .concurrent)
     }
     
     public func adapt(_ urlRequest: URLRequest) -> Promise<URLRequest> {
@@ -53,8 +73,11 @@ open class RefreshTokenPlugin: PluginType {
     }
     
     public func processResponse(_ response: DataResponse<Data>) -> Promise<DataResponse<Data>> {
+        // If request doesn't exist, then whatever I can't retry it anyway.
+        guard let request = response.request else { return Promise(value: response) }
+        
         // Check for exclude paths
-        if shouldExclude(response.request) {
+        if shouldExclude(request) {
             return Promise(value: response)
         }
         
@@ -62,14 +85,17 @@ open class RefreshTokenPlugin: PluginType {
         if let refresh = refreshPromise {
             return refresh.then { _ in
                 // Reset headers & retry original request
-                self.retry(request: response.request!)
+                self.retry(request: request)
             }
         }
         
         // First instance of 401 response will begin refresh logic (all responses received
         // after the first 401 will be chained to the refresh promise created).
         if response.response?.statusCode == 401 {
-            APIManager.shared.authenticationPlugin = nil
+            // First check if this response has come in after refresh has been executed
+            if request.isOld {
+                return retry(request: request)
+            }
             
             // Create refresh promise
             self.refreshPromise = firstly {
@@ -87,7 +113,7 @@ open class RefreshTokenPlugin: PluginType {
             
             // Reset headers & retry original request
             return self.refreshPromise!.then {
-                return self.retry(request: response.request!)
+                return self.retry(request: request)
             }
         }
         
@@ -99,6 +125,9 @@ open class RefreshTokenPlugin: PluginType {
     
     /// Checks for refresh token and executes refresh request if it exists, otherwise returns original error.
     private func tryRefreshToken(from response: DataResponse<Data>) -> Promise<Void> {
+        // Reset auth plugin (because BE can't ignore headers)
+        APIManager.shared.authenticationPlugin = nil
+        
         // Create refresh token request with current token
         if let token = UserSession.current.token?.refreshToken {
             return APIManager.shared.accessTokenRequest(for: .refreshToken(token))
@@ -126,10 +155,17 @@ open class RefreshTokenPlugin: PluginType {
     
     /// Readapt request with new authentication plugin before retrying.
     private func retry(request: URLRequest) -> Promise<DataResponse<Data>> {
-        return APIManager.shared.authenticationPlugin!.adapt(request).then { adaptedRequest in
-            return APIManager.shared.dataRequest(Promise(value: adaptedRequest))
+        return firstly {
+            if request.isOld {
+                return APIManager.shared.authenticationPlugin!.adapt(request)
+            } else {
+                return Promise(value: request)
+            }
+        }.then { adapted in
+            return APIManager.shared.dataRequest(Promise(value: adapted))
         }
     }
+
 }
 
 
@@ -143,4 +179,16 @@ public extension RefreshTokenPlugin {
         return self
     }
     
+}
+
+
+
+// MARK: - Auth Header Check
+
+private extension URLRequest {
+    
+    var isOld: Bool {
+        guard let header = APIManager.shared.authenticationPlugin?.authenticationMode.authorizationHeader else { return true }
+        return self.allHTTPHeaderFields?[header.key] != header.value
+    }
 }
