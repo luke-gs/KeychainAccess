@@ -53,8 +53,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             return TextFieldFormItem(title: title, text: nil)
                 .width(.column(3))
                 .required("Serial is required.")
-                .keyboardType(.numberPad)
-                .strictValidate(CharacterSetSpecification.decimalDigits, message: "Serial must be a number")
+                .strictValidate(CharacterSetSpecification.alphanumerics, message: "Serial must only use numbers and letters")
                 .text(viewModel.details.serial)
                 .onValueChanged { [weak self] in
                     self?.viewModel.details.serial = $0
