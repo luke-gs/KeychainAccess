@@ -68,8 +68,7 @@ open class Person: Entity {
     open var givenName: String?
     open var surname: String?
     open var middleNames: String?
-    open var initials: String?
-    
+
     open var dateOfBirth: Date?
     open var dateOfDeath: Date?
     open var yearOnlyDateOfBirth: Bool?
@@ -102,7 +101,6 @@ open class Person: Entity {
         givenName = aDecoder.decodeObject(of: NSString.self, forKey: Coding.givenName.rawValue) as String?
         surname = aDecoder.decodeObject(of: NSString.self, forKey: Coding.surname.rawValue) as String?
         middleNames = aDecoder.decodeObject(of: NSString.self, forKey: Coding.middleNames.rawValue) as String?
-        initials = aDecoder.decodeObject(of: NSString.self, forKey: Coding.initials.rawValue) as String?
         dateOfBirth = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.dateOfBirth.rawValue) as Date?
         dateOfDeath = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.dateOfDeath.rawValue) as Date?
         yearOnlyDateOfBirth = aDecoder.decodeObject(forKey: Coding.yearOnlyDateOfBirth.rawValue) as! Bool?
@@ -144,22 +142,6 @@ open class Person: Entity {
 
         criminalHistory = unboxer.unbox(key: "criminalHistory")
 
-        
-        if let initials: String = unboxer.unbox(key: "initials") {
-            self.initials = initials
-        } else {
-            var initials = ""
-            if let givenName = givenName?.ifNotEmpty() {
-                initials += givenName[...givenName.startIndex]
-            }
-            if let surname = surname?.ifNotEmpty() {
-                initials += surname[...surname.startIndex]
-            }
-            if initials.isEmpty == false {
-                self.initials = initials
-            }
-        }
-        
         isAlias = unboxer.unbox(key: "isAlias")
     }
     
@@ -168,7 +150,6 @@ open class Person: Entity {
         aCoder.encode(givenName, forKey: Coding.givenName.rawValue)
         aCoder.encode(surname, forKey: Coding.surname.rawValue)
         aCoder.encode(middleNames, forKey: Coding.middleNames.rawValue)
-        aCoder.encode(initials, forKey: Coding.initials.rawValue)
         aCoder.encode(dateOfBirth, forKey: Coding.dateOfBirth.rawValue)
         aCoder.encode(dateOfDeath, forKey: Coding.dateOfDeath.rawValue)
         if yearOnlyDateOfBirth != nil { aCoder.encode(yearOnlyDateOfBirth!, forKey: Coding.yearOnlyDateOfBirth.rawValue) }
@@ -184,5 +165,23 @@ open class Person: Entity {
     override open class var modelVersion: Int {
         return 0
     }
-    
+
+}
+
+
+extension Person {
+
+    // Moving this to extension for now as `Initials` doesn't really belong in the model.
+    open var initials: String? {
+        var initials = ""
+        if let givenName = givenName?.ifNotEmpty() {
+            initials += givenName[...givenName.startIndex]
+        }
+        if let surname = surname?.ifNotEmpty() {
+            initials += surname[...surname.startIndex]
+        }
+
+        return initials.ifNotEmpty()
+    }
+
 }
