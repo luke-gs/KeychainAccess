@@ -294,6 +294,12 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         }
     }
     
+    /// Selects the previous tab if it is not nil
+    open func selectPreviousTab() {
+        if let previousViewController = previousSelectedViewController {
+            selectedViewController = previousViewController
+        }
+    }
     
     // MARK: - View controller containment
     
