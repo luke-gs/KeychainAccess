@@ -81,9 +81,13 @@ open class RefreshTokenPlugin: PluginType {
                     self.refreshPromise = fallback(response.error)
                         .recover { error -> Void in
                             // Let app handle properly ending user session
-                            self.onEverythingFailed?(error)
-                            // Cancel all chained requests
-                            throw NSError.cancelledError()
+                            if let onEverythingFailed = self.onEverythingFailed {
+                                onEverythingFailed(error)
+                                // Cancel all chained requests
+                                throw NSError.cancelledError()
+                            }
+                            // Otherwise throw original error
+                            throw error
                         }.always {
                             self.refreshPromise = nil
                         }
@@ -93,31 +97,41 @@ open class RefreshTokenPlugin: PluginType {
                         self.retry(request: response.request!)
                     }
                 } else {
-                    onEverythingFailed?(response.error)
-                    return Promise(error: NSError.cancelledError())
+                    // Let app handle properly ending user session
+                    if let onEverythingFailed = self.onEverythingFailed {
+                        onEverythingFailed(response.error)
+                        return Promise(error: NSError.cancelledError())
+                    }
+                    // Otherwise throw original error
+                    return Promise(error: response.error!)
                 }
             }
             
             // Create refresh promise
-            self.refreshPromise = APIManager.shared.accessTokenRequest(for: .refreshToken(token))
-                .then { token -> Void in
-                    // Update access token
-                    APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
-                    UserSession.current.updateToken(token)
-                }.recover { error -> Promise<Void> in
-                    // Let app try refresh session
-                    if let fallback = self.onRefreshTokenFailed {
-                        return fallback(error)
-                    }
-                    throw error
-                }.recover { error -> Void in
-                    // Let app handle properly ending user session
-                    self.onEverythingFailed?(error)
+            self.refreshPromise = firstly {
+                APIManager.shared.accessTokenRequest(for: .refreshToken(token))
+            }.then { token -> Void in
+                // Update access token
+                APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+                UserSession.current.updateToken(token)
+            }.recover { error -> Promise<Void> in
+                // Let app try refresh session
+                if let fallback = self.onRefreshTokenFailed {
+                    return fallback(error)
+                }
+                throw error
+            }.recover { error -> Void in
+                // Let app handle properly ending user session
+                if let onEverythingFailed = self.onEverythingFailed {
+                    onEverythingFailed(error)
                     // Cancel all chained requests
                     throw NSError.cancelledError()
-                }.always {
-                    self.refreshPromise = nil
                 }
+                // Otherwise throw original error
+                throw error
+            }.always {
+                self.refreshPromise = nil
+            }
             
             // Reset headers & retry original request
             return self.refreshPromise!.then {
