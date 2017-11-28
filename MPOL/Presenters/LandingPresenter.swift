@@ -96,12 +96,12 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let actionListNavController = UINavigationController(rootViewController: ActionListViewController())
             let eventListNavController = UINavigationController(rootViewController: eventListVC)
 
-            let tasksProxyViewController = UIViewController()
+            let tasksProxyViewController = AppProxyViewController(appUrlTypeScheme: CAD_APP_SCHEME)
             tasksProxyViewController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tab Bar Item title")
             tasksProxyViewController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarTasks)
-            tasksProxyViewController.tabBarItem.isEnabled = false
 
             let tabBarController = UITabBarController()
+            tabBarController.delegate = self
             tabBarController.viewControllers = [searchNavController, actionListNavController, eventListNavController, tasksProxyViewController]
 
             self.tabBarController = tabBarController
@@ -132,3 +132,14 @@ public class LandingPresenter: AppGroupLandingPresenter {
     }
 }
 
+// MARK: - UITabBarControllerDelegate
+extension LandingPresenter: UITabBarControllerDelegate {
+
+    public func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if let appProxy = viewController as? AppProxyViewController {
+            appProxy.launchApp()
+            return false
+        }
+        return true
+    }
+}
