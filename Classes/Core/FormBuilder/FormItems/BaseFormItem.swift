@@ -112,7 +112,7 @@ open class BaseFormItem: NSObject, FormItem {
 
     // MARK: - Styling
 
-    public var contentMode: UIViewContentMode = .center
+    public var contentMode: UIViewContentMode = .top
 
     public var selectionStyle: CollectionViewFormCell.SelectionStyle = .none
 
