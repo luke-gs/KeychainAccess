@@ -93,7 +93,7 @@ open class RefreshTokenPlugin: PluginType {
         // after the first 401 will be chained to the refresh promise created).
         if response.response?.statusCode == 401 {
             // First check if this response has come in after refresh has been executed
-            if request.isOld {
+            if request.shouldUpdateAuthenticationHeader {
                 return retry(request: request)
             }
             
@@ -131,7 +131,7 @@ open class RefreshTokenPlugin: PluginType {
         // Create refresh token request with current token
         if let token = UserSession.current.token?.refreshToken {
             return APIManager.shared.accessTokenRequest(for: .refreshToken(token))
-                .then {  token -> Void in
+                .then { token -> Void in
                     // Update access token
                     APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
                     UserSession.current.updateToken(token)
@@ -156,8 +156,8 @@ open class RefreshTokenPlugin: PluginType {
     /// Readapt request with new authentication plugin before retrying.
     private func retry(request: URLRequest) -> Promise<DataResponse<Data>> {
         return firstly {
-            if request.isOld {
-                return APIManager.shared.authenticationPlugin!.adapt(request)
+            if request.shouldUpdateAuthenticationHeader, let plugin = APIManager.shared.authenticationPlugin {
+                return plugin.adapt(request)
             } else {
                 return Promise(value: request)
             }
@@ -187,8 +187,8 @@ public extension RefreshTokenPlugin {
 
 private extension URLRequest {
     
-    var isOld: Bool {
-        guard let header = APIManager.shared.authenticationPlugin?.authenticationMode.authorizationHeader else { return true }
+    var shouldUpdateAuthenticationHeader: Bool {
+        guard let header = APIManager.shared.authenticationPlugin?.authenticationMode.authorizationHeader else { return false }
         return self.allHTTPHeaderFields?[header.key] != header.value
     }
 }
