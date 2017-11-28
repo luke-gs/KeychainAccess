@@ -22,11 +22,8 @@ open class RefreshTokenPlugin: PluginType {
     /// The paths that will be excluded from refresh logic.
     public let excludePaths: Set<String>
     
-    /// Will execute if refresh token attempt fails (lets the app try to refresh session).
+    /// Will execute if refresh token attempt fails (lets the app try to refresh session and handle errors).
     public var onRefreshTokenFailed: ((Error?) -> Promise<Void>)?
-    
-    /// Will execute if every attempt fails (should end session and display login screen).
-    public var onEverythingFailed: ((Error?) -> Void)?
     
     /// The promise that is currently executing the refresh token request.
     private var refreshPromise: Promise<Void>?
@@ -84,15 +81,6 @@ open class RefreshTokenPlugin: PluginType {
                 }
                 // Otherwise throw original error
                 throw error
-            }.recover { error -> Void in
-                // Let app handle properly ending user session
-                if let onEverythingFailed = self.onEverythingFailed {
-                    onEverythingFailed(error)
-                    // Cancel all chained requests
-                    throw NSError.cancelledError()
-                }
-                // Otherwise throw original error
-                throw error
             }.always {
                 self.refreshPromise = nil
             }
@@ -115,13 +103,16 @@ open class RefreshTokenPlugin: PluginType {
         if let token = UserSession.current.token?.refreshToken {
             return APIManager.shared.accessTokenRequest(for: .refreshToken(token))
                 .then {  token -> Void in
-                // Update access token
-                APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
-                UserSession.current.updateToken(token)
+                    // Update access token
+                    APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+                    UserSession.current.updateToken(token)
+                }.recover { error -> Promise<Void> in
+                    // Throw 401 error instead of refresh token error
+                    throw response.error!
             }
         }
         
-        // Otherwise return original error
+        // Otherwise return 401 error
         return Promise(error: response.error!)
     }
     
@@ -149,12 +140,6 @@ public extension RefreshTokenPlugin {
     @discardableResult
     public func onRefreshTokenFailed(_ onRefreshTokenFailed: ((Error?) -> Promise<Void>)?) -> Self {
         self.onRefreshTokenFailed = onRefreshTokenFailed
-        return self
-    }
-    
-    @discardableResult
-    public func onEverythingFailed(_ onEverythingFailed: ((Error?) -> Void)?) -> Self {
-        self.onEverythingFailed = onEverythingFailed
         return self
     }
     
