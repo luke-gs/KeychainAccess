@@ -143,7 +143,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
     }
     
     @objc open func didSelectStayOffDutyButton() {
-        if isBeingPresented {
+        if presentingViewController != nil {
             dismiss(animated: true, completion: nil)
         } else {
             statusTabBarController?.selectedViewController = statusTabBarController?.previousSelectedViewController
