@@ -29,7 +29,7 @@ open class CADStateManager: NSObject {
     }
 
     /// The last sync data
-    open var lastSync: CADSyncSummaries?
+    open var lastSync: SyncDetailsResponse?
 
     /// The last sync time
     open var lastSyncTime: Date?
@@ -41,12 +41,12 @@ open class CADStateManager: NSObject {
     }
 
     /// Sync the latest task summaries
-    open func syncSummaries() -> Promise<CADSyncSummaries> {
+    open func syncDetails() -> Promise<SyncDetailsResponse> {
         // Perform sync and keep result
         print("Syncing summaries")
         return firstly {
-            return APIManager.shared.cadSyncSummaries()
-        }.then { [unowned self] summaries -> CADSyncSummaries in
+            return APIManager.shared.cadSyncDetails(request: SyncDetailsRequest())
+        }.then { [unowned self] summaries -> SyncDetailsResponse in
             self.lastSync = summaries
             self.lastSyncTime = Date()
             NotificationCenter.default.post(name: .CADSyncChanged, object: self)
@@ -70,7 +70,7 @@ open class CADStateManager: NSObject {
             return APIManager.shared.cadOfficerByUsername(username: username)
         }.then { [unowned self] _ in
             // Get sync summaries
-            return self.syncSummaries()
+            return self.syncDetails()
         }.then { [unowned self] _ -> Promise<Void> in
             // Get new manifest items
             return self.syncManifestItems()

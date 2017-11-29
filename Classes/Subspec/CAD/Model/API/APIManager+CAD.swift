@@ -13,33 +13,30 @@ import Unbox
 /// Extension for APIManager for CAD specific network requests
 extension APIManager {
 
-    /// Fetch details about an offier by username.
-    ///
-    /// - Parameters:
-    ///   - username: The officer username
-    /// - Returns: A promise to return a X.
-    open func cadOfficerByUsername(username: String) -> Promise<[String: Any]> {
+    /// Fetch details about an officer by username
+    open func cadOfficerByUsername(username: String) -> Promise<OfficerDetailsResponse> {
 
         let path = "/cad/officer/username/{username}"
         let parameters = ["username": username]
 
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
         return firstly {
-            return try! performRequest(networkRequest, using: APIManager.JSONObjectResponseSerializer())
-        }.then { json in
-            // TODO: convert to model object
-            return json
+            return try! performRequest(networkRequest)
+        }.then { (data, response) in
+            return try JSONDecoder.decode(data, to: OfficerDetailsResponse.self)
         }
     }
 
-    open func cadSyncSummaries() -> Promise<CADSyncSummaries> {
-        let path = "/cad/sync/summaries"
+    /// Fetch all sync details
+    open func cadSyncDetails(request: SyncDetailsRequest) -> Promise<SyncDetailsResponse> {
+        // TODO: convert request to params
+        let path = "/cad/sync/details"
 
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: [:], method: .post)
         return firstly {
-            return try! performRequest(networkRequest, using: APIManager.JSONObjectResponseSerializer())
-        }.then { json in
-            return CADSyncSummaries(fromDictionary: json)
+            return try! performRequest(networkRequest)
+        }.then { (data, response) in
+            return try JSONDecoder.decode(data, to: SyncDetailsResponse.self)
         }
     }
 }
