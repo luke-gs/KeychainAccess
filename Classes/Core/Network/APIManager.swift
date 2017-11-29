@@ -62,7 +62,7 @@ open class APIManager {
     /// - Returns: A promise for access token.
     open func accessTokenRequest(for grant: OAuthAuthorizationGrant) -> Promise<OAuthAccessToken> {
 
-        let path = "login"
+        let path = grant.path
         let parameters = grant.parameters
 
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters, method: .post)
@@ -70,7 +70,7 @@ open class APIManager {
         return try! performRequest(networkRequest)
 
     }
-
+    
     /// Search for entity using specified request.
     ///
     /// Supports implicit `NSProgress` reporting.
@@ -221,7 +221,7 @@ open class APIManager {
 
         let mapper = self.errorMapper
         return Promise { fulfill, reject in
-            _ = dataRequest(urlRequest).then { (processedResponse) -> Void in
+            dataRequest(urlRequest).then { (processedResponse) -> Void in
                 let result = serializer.serializedResponse(from: processedResponse)
 
                 switch result {
@@ -235,6 +235,11 @@ open class APIManager {
                         reject(wrappedError)
                     }
                 }
+            }.catch(policy: .allErrors) { error in
+                // It's used to be the `processedResponse(_:)` used to be APIManager's internal state.
+                // and it'll never throw error due to being wrapped inside `Alamofire.Result(T)`.
+                // However, it's now exposed externally and it's possible that something external is rejecting the promise.
+                reject(error)
             }
         }
     }

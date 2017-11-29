@@ -25,8 +25,8 @@ public struct NetworkLoggerConfiguration {
     ///   - excludedPaths: The keys to match the urlRequests path components. Will be removed if found
     /// -----------------------------------------------------------------------------------------------
     public init(showMetrics: Bool = true,
-                excludedHeaders: Set<String> = ["authorization"],
-                excludedPaths: Set<String> = ["login", "access_token", "refresh_token"]) {
+                excludedHeaders: Set<String> = ["authorization", "Authorization"],
+                excludedPaths: Set<String> = ["login", "access_token", "refresh_token", "id_token"]) {
         self.showMetrics = showMetrics
         self.excludedHeaders = excludedHeaders
         self.excludedPaths = excludedPaths
