@@ -9,6 +9,6 @@
 import UIKit
 
 /// Request object for the call to /sync/details
-open class SyncDetailsRequest: Codable {
+public struct SyncDetailsRequest: Codable {
 
 }

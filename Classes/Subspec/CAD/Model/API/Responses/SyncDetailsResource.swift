@@ -9,6 +9,6 @@
 import UIKit
 
 /// Reponse object for a single Resource in the call to /sync/details
-open class SyncDetailsResource: Codable {
+public struct SyncDetailsResource: Codable {
 
 }

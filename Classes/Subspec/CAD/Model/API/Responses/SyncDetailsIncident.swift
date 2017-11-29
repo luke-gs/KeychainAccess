@@ -9,6 +9,6 @@
 import UIKit
 
 /// Reponse object for a single Incident in the call to /sync/details
-open class SyncDetailsIncident: Codable {
+public struct SyncDetailsIncident: Codable {
 
 }

@@ -9,6 +9,6 @@
 import UIKit
 
 /// Reponse object for the call to /officer/<payrollId>
-open class OfficerDetailsResponse: Codable {
+public struct OfficerDetailsResponse: Codable {
 
 }
