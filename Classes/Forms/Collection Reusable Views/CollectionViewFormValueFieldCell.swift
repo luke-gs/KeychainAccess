@@ -365,7 +365,7 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
             valueSizing.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
         }
         if valueSizing.numberOfLines == nil {
-            valueSizing.numberOfLines = 1
+            valueSizing.numberOfLines = 0
         }
         
         var placeholderSizing = placeholder?.sizing()
@@ -374,7 +374,7 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
                 placeholderSizing!.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
             }
             if placeholderSizing!.numberOfLines == nil {
-                placeholderSizing!.numberOfLines = 1
+                placeholderSizing!.numberOfLines = 0
             }
         }
         

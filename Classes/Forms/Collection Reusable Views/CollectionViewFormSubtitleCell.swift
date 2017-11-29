@@ -335,7 +335,7 @@ fileprivate extension CollectionViewFormSubtitleCell {
                 subtitleSizing!.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
             }
             if subtitleSizing!.numberOfLines == nil {
-                subtitleSizing!.numberOfLines = 1
+                subtitleSizing!.numberOfLines = 0
             }
         }
         
