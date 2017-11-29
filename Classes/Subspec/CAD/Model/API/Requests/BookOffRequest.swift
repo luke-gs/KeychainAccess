@@ -9,6 +9,11 @@
 import UIKit
 
 /// Request object for the call to /shift/bookOff
-open class BookOffRequest: Codable {
+public struct BookOffRequest: Codable {
 
+    /// The callsign for the resource.
+    let callsign: String
+
+    /// The payrollId of the currently logged in officer on the mobile device.
+    let loggedInpayrollId: String
 }
