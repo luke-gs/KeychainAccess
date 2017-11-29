@@ -12,8 +12,8 @@ import UIKit
 public struct BookOffRequest: Codable {
 
     /// The callsign for the resource.
-    let callsign: String
+    public var callsign: String!
 
     /// The payrollId of the currently logged in officer on the mobile device.
-    let loggedInpayrollId: String
+    public var loggedInpayrollId: String!
 }

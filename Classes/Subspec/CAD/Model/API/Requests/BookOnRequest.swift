@@ -11,64 +11,64 @@ import UIKit
 public struct BookOnEquipment: Codable {
 
     /// NOT IN API: The equipment manifest item id
-    let equipmentId: String
+    public var equipmentId: String!
 
     /// The count of the item.
-    let count: String
+    public var count: String!
 }
 
 public struct BookOnOfficer: Codable {
 
     /// NOT IN API: The officer payrollId.
-    let officerPayrollId: String
+    public var payrollId: String!
 
     /// NOT IN API: The contact number
-    let contactNumber: String
+    public var phoneNumber: String!
 
     /// NOT IN API: The license type manifest item id
-    let licenseTypeId: String
+    public var licenseTypeId: String!
 
     /// NOT IN API: The capabilities of the officer, list of manifest item ids
-    let capabilities: [String]?
+    public var capabilities: [String]!
 
     /// NOT IN API: The optional remarks
-    let remarks: String?
+    public var remarks: String!
 }
 
 /// Request object for the call to /shift/bookOn
 public struct BookOnRequest: Codable {
 
     /// The callsign of the resource to book on to.
-    let callsign: String
+    public var callsign: String!
 
     /// The shift period expressed in 00-99 hour format.
-    let shift: String
+    public var shift: String!
 
     /// The list of officers to book on
-    let officers: [BookOnOfficer]
+    public var officers: [BookOnOfficer]!
 
     /// The list of equipment items for the resource.
-    let equipment: [BookOnEquipment]
+    public var equipment: [BookOnEquipment]!
 
     /// The fleet number for the resource.
-    let fleetNumber: String?
+    public var fleetNumber: String!
 
     /// The optional remarks to populate as part of this book on.
-    let remarks: String?
+    public var remarks: String!
 
     /// The driver payrolId for the resource (should be one of the officers in the officers array).
-    let driverpayrollId: String?
+    public var driverpayrollId: String!
 
     /// The payrollId of the currently logged in officer on the mobile device.
-    let loggedInpayrollId: String
+    public var loggedInpayrollId: String!
 
     /// NOT IN API: The vehicle rego
-    let serial: String?
+    public var serial: String!
 
     /// NOT IN API: The vehicle category
-    let category: String?
+    public var category: String!
 
     /// NOT IN API: The vehicle odometer
-    let odometer: String?
+    public var odometer: String!
 
 }

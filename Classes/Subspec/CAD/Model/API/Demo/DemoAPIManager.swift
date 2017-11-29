@@ -18,22 +18,40 @@ open class DemoAPIManager: CADAPIManager {
     open static let shared = DemoAPIManager()
 
     open func cadOfficerByUsername(username: String) -> Promise<OfficerDetailsResponse> {
-        let response = OfficerDetailsResponse()
-        return Promise<OfficerDetailsResponse>(value: response)
+        if let data = loadDemoFileAsData(name: "DemoOfficer") {
+            let response = try! JSONDecoder.decode(data, to: OfficerDetailsResponse.self)
+            return Promise<OfficerDetailsResponse>(value: response)
+        }
+        return Promise<OfficerDetailsResponse>(value: OfficerDetailsResponse())
     }
 
     open func cadSyncDetails(request: SyncDetailsRequest) -> Promise<SyncDetailsResponse> {
-        let response = SyncDetailsResponse()
-        return Promise<SyncDetailsResponse>(value: response)
+        if let data = loadDemoFileAsData(name: "DemoSync") {
+            let response = try! JSONDecoder.decode(data, to: SyncDetailsResponse.self)
+            return Promise<SyncDetailsResponse>(value: response)
+        }
+        return Promise<SyncDetailsResponse>(value: SyncDetailsResponse())
     }
 
     open func fetchManifest(with request: ManifestFetchRequest) -> Promise<ManifestFetchRequest.ResultClass> {
-        if let url = Bundle.mpolKit.url(forResource: "DemoManifest", withExtension: "json", subdirectory: "") {
-            let data = try! Data(contentsOf: url)
-            if let json = try! JSONSerialization.jsonObject(with: data, options: []) as? ManifestFetchRequest.ResultClass {
-                return Promise<ManifestFetchRequest.ResultClass>(value: json)
-            }
+        if let json = loadDemoFileAsJson(name: "DemoManifest") as? ManifestFetchRequest.ResultClass {
+            return Promise<ManifestFetchRequest.ResultClass>(value: json)
         }
         return Promise<ManifestFetchRequest.ResultClass>(value: [[:]])
+    }
+
+    open func loadDemoFileAsJson(name: String) -> Any? {
+        if let url = Bundle.mpolKit.url(forResource: name, withExtension: "json") {
+            let data = try! Data(contentsOf: url)
+            return try! JSONSerialization.jsonObject(with: data, options: [])
+        }
+        return nil
+    }
+
+    open func loadDemoFileAsData(name: String) -> Data? {
+        if let url = Bundle.mpolKit.url(forResource: name, withExtension: "json") {
+            return try! Data(contentsOf: url)
+        }
+        return nil
     }
 }
