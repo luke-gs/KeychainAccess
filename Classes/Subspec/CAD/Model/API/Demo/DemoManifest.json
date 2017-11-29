@@ -1,18 +1,43 @@
 [
   {
     "active": true, 
-    "additionalData": null, 
-    "category": "gender", 
-    "dateCreated": "2017-08-08T14:23:12Z", 
-    "dateLastUpdated": "2017-08-08T14:23:21Z", 
-    "effectiveDate": "2017-08-08T14:22:29Z", 
-    "expiryDate": null, 
-    "id": "0453d016-67fd-4b3c-a93c-e1e08966f689", 
-    "sortOrder": 0, 
-    "source": "mpol", 
-    "subtitle": "Female", 
-    "title": "Female", 
-    "value": "0"
+    "category": "equipment", 
+    "id": "equipment1", 
+    "subtitle": "", 
+    "title": "Radar", 
+    "value": "Radar"
+  }, 
+  {
+    "active": true, 
+    "category": "equipment", 
+    "id": "equipment2", 
+    "subtitle": "", 
+    "title": "Shotgun", 
+    "value": "Shotgun"
+  }, 
+  {
+    "active": true, 
+    "category": "equipment", 
+    "id": "equipment3", 
+    "subtitle": "", 
+    "title": "Tyre Deflation Device", 
+    "value": "Tyre Deflation Device"
+  }, 
+  {
+    "active": true, 
+    "category": "equipment", 
+    "id": "equipment4", 
+    "subtitle": "", 
+    "title": "Traffic Direction Cones", 
+    "value": "Traffic Direction Cones"
+  }, 
+  {
+    "active": true, 
+    "category": "equipment", 
+    "id": "equipment5", 
+    "subtitle": "", 
+    "title": "Taser", 
+    "value": "Taser"
   }, 
   {
     "active": true, 

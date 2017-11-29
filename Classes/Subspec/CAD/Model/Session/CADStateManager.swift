@@ -9,11 +9,18 @@
 import UIKit
 import PromiseKit
 
+// Extension for custom notifications
 public extension NSNotification.Name {
-
     /// Notification posted when callsign status changes
     static let CADCallsignChanged = NSNotification.Name(rawValue: "CAD_CallsignChanged")
+
+    /// Notification posted when sync changes
     static let CADSyncChanged = NSNotification.Name(rawValue: "CAD_SyncChanged")
+}
+
+// Extension for custom manifest categories
+public extension ManifestCollection {
+    static let EquipmentCollection = ManifestCollection(rawValue: "equipment")
 }
 
 open class CADStateManager: NSObject {
@@ -68,6 +75,19 @@ open class CADStateManager: NSObject {
     }
 
     // MARK: - Manifest
+
+    /// Fetch the book on equipment items, returning as a dictionary of titles keyed by id
+    open func equipmentItems() -> [String: String] {
+        var result: [String: String] = [:]
+        if let manifestItems = Manifest.shared.entries(for: .EquipmentCollection) {
+            manifestItems.forEach {
+                if let id = $0.id, let title = $0.title {
+                    result[id] = title
+                }
+            }
+        }
+        return result
+    }
 
     /// Sync the latest manifest items
     /// We use our own implementation of update here, so we can use custom API manager
