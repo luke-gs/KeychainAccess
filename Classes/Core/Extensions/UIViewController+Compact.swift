@@ -17,11 +17,11 @@ extension UIViewController {
         if self.traitCollection.horizontalSizeClass != .unspecified {
             return self.traitCollection.horizontalSizeClass == .compact
         }
-        return isWindowCompact()
+        return UIViewController.isWindowCompact()
     }
     
     /// Is the key window being rendered in compact environment
-    public func isWindowCompact() -> Bool {
+    public static func isWindowCompact() -> Bool {
         if let traitCollection = UIApplication.shared.keyWindow?.rootViewController?.traitCollection,
             traitCollection.horizontalSizeClass == .compact {
             return true

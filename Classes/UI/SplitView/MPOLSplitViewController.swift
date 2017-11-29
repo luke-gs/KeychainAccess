@@ -299,7 +299,7 @@ open class MPOLSplitViewController: PushableSplitViewController {
     open func updateHeaderViewController() {
         // Update the current header based on the size class
         // We use window here as can be called before view is initialised
-        masterViewControllerHeader = isWindowCompact() ? masterViewControllerHeaderCompact : masterViewControllerHeaderRegular
+        masterViewControllerHeader = UIViewController.isWindowCompact() ? masterViewControllerHeaderCompact : masterViewControllerHeaderRegular
     }
 
     // MARK: - UISplitViewControllerDelegate methods
