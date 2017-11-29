@@ -35,14 +35,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         MPOLKitInitialize()
-
-        let plugins: [PluginType]?
+        
+        let refreshToken = RefreshTokenPlugin().onRefreshTokenFailed({ [unowned self] error in
+            UserSession.current.endSession()
+            self.landingPresenter.updateInterfaceForUserSession(animated: true)
+            AlertQueue.shared.addSimpleAlert(title: "Session Ended", message: error?.localizedDescription)
+            return Promise(error: error!)
+        })
+        
+        var plugins: [PluginType] = [refreshToken]
         #if DEBUG
-            plugins = [
-                NetworkLoggingPlugin()
-            ]
-        #else
-            plugins = nil
+                plugins.append(NetworkLoggingPlugin())
         #endif
 
         // Set the application key for app specific user settings
