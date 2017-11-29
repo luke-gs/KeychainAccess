@@ -47,26 +47,26 @@ open class IncidentOverviewViewController: UIViewController {
         
         formViewController = viewModel.createFormViewController()
         addChildViewController(formViewController, toView: view)
-        // Change collection view to not use autoresizing mask constraints so it uses intrinsic content height
-        if let collectionView = formViewController.collectionView {
-            collectionView.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                collectionView.topAnchor.constraint(equalTo: formViewController.view.topAnchor),
-                collectionView.leadingAnchor.constraint(equalTo: formViewController.view.leadingAnchor),
-                collectionView.trailingAnchor.constraint(equalTo: formViewController.view.trailingAnchor),
-                collectionView.bottomAnchor.constraint(equalTo: formViewController.view.bottomAnchor),
-            ])
-        }
         formViewController.view.translatesAutoresizingMaskIntoConstraints = false
     }
     
     /// Activates view constraints
     private func setupConstraints() {
+        guard let collectionView = formViewController.collectionView else { return }
+        
+        // Change collection view to not use autoresizing mask constraints so it uses intrinsic content height
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+
         NSLayoutConstraint.activate([
             mapViewController.view.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
             mapViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             mapViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             mapViewController.view.heightAnchor.constraint(greaterThanOrEqualToConstant: 280),
+            
+            collectionView.topAnchor.constraint(equalTo: formViewController.view.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: formViewController.view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: formViewController.view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: formViewController.view.bottomAnchor),
 
             formViewController.view.topAnchor.constraint(equalTo: mapViewController.view.bottomAnchor),
             formViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
