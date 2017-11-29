@@ -154,27 +154,6 @@ open class MPOLSplitViewController: PushableSplitViewController {
         }
     }
 
-    // MARK: - Convenience
-
-    /// Is the split view controller being rendered in compact environment, hence collapsed
-    public func isCompact() -> Bool {
-        // If it is called early enough, `self.traitCollection.horizontalSizeClass` will return .unspecified.
-        // It'll inherit the value from upper chain so delegate that to the window.
-        if self.traitCollection.horizontalSizeClass != .unspecified {
-            return self.traitCollection.horizontalSizeClass == .compact
-        }
-        return MPOLSplitViewController.isWindowCompact()
-    }
-
-    /// Is the key window being rendered in compact environment
-    public static func isWindowCompact() -> Bool {
-        if let traitCollection = UIApplication.shared.keyWindow?.rootViewController?.traitCollection,
-            traitCollection.horizontalSizeClass == .compact {
-            return true
-        }
-        return false
-    }
-
     // MARK: - Selection
 
     private func selectedViewControllerDidChange(oldValue: UIViewController?) {
@@ -320,7 +299,7 @@ open class MPOLSplitViewController: PushableSplitViewController {
     open func updateHeaderViewController() {
         // Update the current header based on the size class
         // We use window here as can be called before view is initialised
-        masterViewControllerHeader = MPOLSplitViewController.isWindowCompact() ? masterViewControllerHeaderCompact : masterViewControllerHeaderRegular
+        masterViewControllerHeader = isWindowCompact() ? masterViewControllerHeaderCompact : masterViewControllerHeaderRegular
     }
 
     // MARK: - UISplitViewControllerDelegate methods
