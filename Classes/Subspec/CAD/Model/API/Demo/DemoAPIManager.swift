@@ -28,7 +28,12 @@ open class DemoAPIManager: CADAPIManager {
     }
 
     open func fetchManifest(with request: ManifestFetchRequest) -> Promise<ManifestFetchRequest.ResultClass> {
-        let response: ManifestFetchRequest.ResultClass = [[:]]
-        return Promise<ManifestFetchRequest.ResultClass>(value: response)
+        if let url = Bundle.mpolKit.url(forResource: "DemoManifest", withExtension: "json", subdirectory: "") {
+            let data = try! Data(contentsOf: url)
+            if let json = try! JSONSerialization.jsonObject(with: data, options: []) as? ManifestFetchRequest.ResultClass {
+                return Promise<ManifestFetchRequest.ResultClass>(value: json)
+            }
+        }
+        return Promise<ManifestFetchRequest.ResultClass>(value: [[:]])
     }
 }
