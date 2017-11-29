@@ -43,8 +43,7 @@ public class ValueFormItem: BaseFormItem {
     }
 
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
-
-        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: title, value: value, placeholder: nil, inWidth: contentWidth, compatibleWith: traitCollection, imageSize: image?.size ?? .zero, imageSeparation: imageSeparation, labelSeparation: labelSeparation, accessoryViewSize: accessory?.size ?? .zero)
+        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: title, value: defaultStringSizing(from: value, in: traitCollection), placeholder: nil, inWidth: contentWidth, compatibleWith: traitCollection, imageSize: image?.size ?? .zero, imageSeparation: imageSeparation, labelSeparation: labelSeparation, accessoryViewSize: accessory?.size ?? .zero)
     }
 
     public override func intrinsicWidth(in collectionView: UICollectionView, layout: CollectionViewFormLayout, sectionEdgeInsets: UIEdgeInsets, for traitCollection: UITraitCollection) -> CGFloat {
@@ -60,6 +59,18 @@ public class ValueFormItem: BaseFormItem {
         cell.valueLabel.textColor = secondaryTextColor
     }
 
+    private func defaultStringSizing(from sizeable: StringSizable?, in traitCollection: UITraitCollection) -> StringSizing? {
+        if sizeable is String || sizeable?.sizing().font == nil || sizeable?.sizing().numberOfLines == nil {
+            let defaultFont = UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+            let defaultNumberOfLines = 0
+            let string = sizeable as? String ?? sizeable?.sizing().string ?? ""
+            
+            return StringSizing(string: string, font: sizeable?.sizing().font ?? defaultFont, numberOfLines: sizeable?.sizing().numberOfLines ?? defaultNumberOfLines)
+        }
+        
+        return sizeable as? StringSizing
+    }
+    
 }
 
 // MARK: - Chaining methods
