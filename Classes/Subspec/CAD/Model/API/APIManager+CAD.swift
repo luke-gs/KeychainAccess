@@ -10,8 +10,21 @@ import PromiseKit
 import Alamofire
 import Unbox
 
+/// Protocol for API manager methods used in CAD
+public protocol CADAPIManager {
+
+    /// Fetch details about an officer by username
+    func cadOfficerByUsername(username: String) -> Promise<OfficerDetailsResponse>
+
+    /// Fetch all sync details
+    func cadSyncDetails(request: SyncDetailsRequest) -> Promise<SyncDetailsResponse>
+
+    /// Fetch manifest items
+    func fetchManifest(with request: ManifestFetchRequest) -> Promise<ManifestFetchRequest.ResultClass>
+}
+
 /// Extension for APIManager for CAD specific network requests
-extension APIManager {
+extension APIManager: CADAPIManager {
 
     /// Fetch details about an officer by username
     open func cadOfficerByUsername(username: String) -> Promise<OfficerDetailsResponse> {

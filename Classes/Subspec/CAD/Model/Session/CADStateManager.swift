@@ -21,6 +21,9 @@ open class CADStateManager: NSObject {
     /// The singleton state monitor.
     open static let shared = CADStateManager()
 
+    /// The API manager to use, by default system one
+    open static var apiManager: CADAPIManager = APIManager.shared
+
     /// The currently booked on callsign, or nil
     open var callsign: String? {
         didSet {
@@ -28,24 +31,60 @@ open class CADStateManager: NSObject {
         }
     }
 
+    /// The logged in officer details
+    open var officerDetails: OfficerDetailsResponse?
+
+    /// The last book on data
+    open var lastBookOn: BookOnRequest?
+
     /// The last sync data
     open var lastSync: SyncDetailsResponse?
 
     /// The last sync time
     open var lastSyncTime: Date?
 
-    /// Sync the latest manifest items
-    open func syncManifestItems() -> Promise<Void> {
-        print("Syncing manifest items")
-        return Manifest.shared.update()
+    // MARK: - Officer
+
+    open func fetchOfficerDetails() -> Promise<OfficerDetailsResponse> {
+        let username = UserSession.current.user?.username
+        return CADStateManager.apiManager.cadOfficerByUsername(username: username!).then { [unowned self] details -> OfficerDetailsResponse in
+            self.officerDetails = details
+            return details
+        }
     }
+
+    // MARK: - Shift
+
+    /// Book on to a shift
+    open func bookOn(request: BookOnRequest) -> Promise<Void> {
+        lastBookOn = request
+        return Promise<Void>()
+    }
+
+    /// Terminate shift
+    open func bookOff(request: BookOffRequest) -> Promise<Void> {
+        lastBookOn = nil
+        return Promise<Void>()
+    }
+
+    // MARK: - Manifest
+
+    /// Sync the latest manifest items
+    /// We use our own implementation of update here, so we can use custom API manager
+    open func syncManifestItems() -> Promise<Void> {
+        let checkedAtDate = Date()
+        return CADStateManager.apiManager.fetchManifest(with: ManifestFetchRequest(date: Manifest.shared.lastUpdateDate)).then { result -> Promise<Void> in
+            return Manifest.shared.saveManifest(with: result, at:checkedAtDate)
+        }
+    }
+
+    // MARK: - Sync
 
     /// Sync the latest task summaries
     open func syncDetails() -> Promise<SyncDetailsResponse> {
         // Perform sync and keep result
-        print("Syncing summaries")
         return firstly {
-            return APIManager.shared.cadSyncDetails(request: SyncDetailsRequest())
+            return CADStateManager.apiManager.cadSyncDetails(request: SyncDetailsRequest())
         }.then { [unowned self] summaries -> SyncDetailsResponse in
             self.lastSync = summaries
             self.lastSyncTime = Date()
@@ -56,26 +95,16 @@ open class CADStateManager: NSObject {
 
     /// Perform initial sync after login or launching app
     open func syncInitial() -> Promise<Void> {
-        // Syncing is disabled for now for demoing purposes, due to backend issues
-        return after(interval: 2).then { [unowned self] () -> Void in
-            self.lastSyncTime = Date()
-            NotificationCenter.default.post(name: .CADSyncChanged, object: self)
-        }
-      
-        guard let username = UserSession.current.user?.username else { fatalError("Must be logged in to sync") }
-
-        print("Starting initial sync")
         return firstly {
             // Get details about logged in user
-            return APIManager.shared.cadOfficerByUsername(username: username)
+            return self.fetchOfficerDetails()
         }.then { [unowned self] _ in
-            // Get sync summaries
-            return self.syncDetails()
-        }.then { [unowned self] _ -> Promise<Void> in
             // Get new manifest items
             return self.syncManifestItems()
-        }.then { _ in
-            print("Sync complete")
+        }.then { [unowned self] _ in
+            // Get sync details
+            return self.syncDetails()
+        }.then { _ -> Void in
         }
     }
 }
