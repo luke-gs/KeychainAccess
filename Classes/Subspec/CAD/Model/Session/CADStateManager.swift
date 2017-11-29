@@ -50,6 +50,15 @@ open class CADStateManager: NSObject {
     /// The last sync time
     open var lastSyncTime: Date?
 
+    /// Incidents retrieved in last sync, keyed by incidentNumber
+    open var incidentsById: [String: SyncDetailsIncident] = [:]
+
+    /// Resources retrieved in last sync, keyed by callsign
+    open var resourcesById: [String: SyncDetailsResource] = [:]
+
+    /// Officers retrieved in last sync, keyed by payrollId
+    open var officersById: [String: SyncDetailsOfficer] = [:]
+
     // MARK: - Officer
 
     open func fetchOfficerDetails() -> Promise<OfficerDetailsResponse> {
@@ -108,6 +117,7 @@ open class CADStateManager: NSObject {
         }.then { [unowned self] summaries -> SyncDetailsResponse in
             self.lastSync = summaries
             self.lastSyncTime = Date()
+            self.processSyncItems()
             NotificationCenter.default.post(name: .CADSyncChanged, object: self)
             return summaries
         }
@@ -126,5 +136,57 @@ open class CADStateManager: NSObject {
             return self.syncDetails()
         }.then { _ -> Void in
         }
+    }
+
+    /// Process the last sync items for fast lookup
+    open func processSyncItems() {
+        if let syncDetails = lastSync {
+            incidentsById.removeAll()
+            for incident in syncDetails.incidents {
+                incidentsById[incident.incidentNumber] = incident
+            }
+            resourcesById.removeAll()
+            for resource in syncDetails.resources {
+                resourcesById[resource.callsign] = resource
+            }
+            officersById.removeAll()
+            for officer in syncDetails.officers {
+                officersById[officer.payrollId] = officer
+            }
+        }
+    }
+
+    /// Return all resources linked to an incident
+    open func resourcesForIncident(incidentNumber: String) -> [SyncDetailsResource] {
+        var resources: [SyncDetailsResource] = []
+        if let syncDetails = lastSync {
+            for resource in syncDetails.resources {
+                if resource.incidentNumber == incidentNumber {
+                    resources.append(resource)
+                }
+            }
+        }
+        return resources
+    }
+
+    /// Return the current incident for a resource
+    open func incidentForResource(callsign: String) -> SyncDetailsIncident? {
+        if let resource = resourcesById[callsign] {
+            return incidentsById[resource.incidentNumber]
+        }
+        return nil
+    }
+
+    /// Return all officers linked to a resource
+    open func officersForResource(callsign: String) -> [SyncDetailsOfficer] {
+        var officers: [SyncDetailsOfficer] = []
+        if let resource = resourcesById[callsign] {
+            for payrollId in resource.payrollIds {
+                if let officer = officersById[payrollId] {
+                    officers.append(officer)
+                }
+            }
+        }
+        return officers
     }
 }
