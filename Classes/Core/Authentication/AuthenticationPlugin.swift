@@ -21,7 +21,7 @@ open class AuthenticationPlugin: PluginType {
         let header = authenticationMode.authorizationHeader
         
         var adaptedRequest = urlRequest
-        adaptedRequest.addValue(header.value, forHTTPHeaderField: header.key)
+        adaptedRequest.setValue(header.value, forHTTPHeaderField: header.key)
 
         return Promise(value: adaptedRequest)
     }
