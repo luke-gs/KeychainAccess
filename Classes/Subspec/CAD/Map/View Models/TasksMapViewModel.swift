@@ -111,7 +111,8 @@ open class TasksMapViewModel {
                                              itemName: "\(annotation.title ?? "") \(annotation.subtitle ?? "")",
                                              lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
         } else if let annotation = annotation as? IncidentAnnotation {
-            return IncidentTaskItemViewModel(iconImage: nil, // TODO: Get image
+            return IncidentTaskItemViewModel(incidentNumber: annotation.identifier,
+                                             iconImage: nil, // TODO: Get image
                                              iconTintColor: .white, // TODO: Get color
                                              color: .disabledGray, // TODO: Get color
                                              statusText: annotation.status, // TODO: Get text
