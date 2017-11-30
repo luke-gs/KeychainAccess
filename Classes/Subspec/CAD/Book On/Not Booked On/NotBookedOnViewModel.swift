@@ -9,7 +9,18 @@
 import UIKit
 
 open class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItemViewModel> {
-    
+
+    private func convertCallsignsToViewModels() -> CADFormCollectionSectionViewModel<NotBookedOnItemViewModel> {
+        // Just use all callsigns for now
+        var recentCallsigns: [NotBookedOnCallsignItemViewModel] = []
+        if let syncDetails = CADStateManager.shared.lastSync {
+            for resource in syncDetails.resources {
+                recentCallsigns.append(NotBookedOnCallsignItemViewModel(resource: resource))
+            }
+        }
+        return CADFormCollectionSectionViewModel(title: "Recently Used Callsigns", items: recentCallsigns)
+    }
+
     public override init() {
         super.init()
         
@@ -23,32 +34,7 @@ open class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItemViewM
                                                                          imageBackgroundColor: nil)
                 ]
             ),
-            
-            CADFormCollectionSectionViewModel(title: "Recently Used Callsigns",
-                                              items: [
-                                                NotBookedOnCallsignItemViewModel(callsign: "B14",
-                                                                                 status: "Off Duty",
-                                                                                 location: "Collingwood Station",
-                                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                 imageColor: .secondaryGray,
-                                                                                 imageBackgroundColor: .disabledGray
-                                                ),
-                                                NotBookedOnCallsignItemViewModel(callsign: "P24",
-                                                                                 status: "Off Duty",
-                                                                                 location: "Collingwood Station",
-                                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                 imageColor: .secondaryGray,
-                                                                                 imageBackgroundColor: .disabledGray
-                                                ),
-                                                NotBookedOnCallsignItemViewModel(callsign: "K94",
-                                                                                 status: "On Air",
-                                                                                 location: "Each Richmond",
-                                                                                 image: AssetManager.shared.image(forKey: .resourceDog),
-                                                                                 imageColor: .black,
-                                                                                 imageBackgroundColor: .midGreen
-                                                )
-                ]
-            )
+            convertCallsignsToViewModels()
         ]
     }
     
