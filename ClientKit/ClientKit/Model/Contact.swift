@@ -76,7 +76,8 @@ open class Contact: NSObject, Serialisable {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        MPLUnimplemented()
+        self.id = UUID().uuidString
+//        MPLUnimplemented()
     }
     
     open func encode(with aCoder: NSCoder) {

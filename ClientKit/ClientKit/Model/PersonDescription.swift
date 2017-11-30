@@ -80,11 +80,13 @@ open class PersonDescription: NSObject, Serialisable {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        MPLUnimplemented()
+        self.id = UUID().uuidString
+        super.init()
+//        MPLUnimplemented()
     }
     
     public func encode(with aCoder: NSCoder) {
-        MPLUnimplemented()
+//        MPLUnimplemented()
     }
     
     public func formatted() -> String? {

@@ -32,15 +32,7 @@ class MPOLSearchRecentsViewModel: SearchRecentsViewModel {
 
     var title: String = "MPOL"
 
-    var recentlyViewed: [MPOLKitEntity] {
-        get {
-            return UserSession.current.recentlyViewed
-        }
-
-        set {
-            UserSession.current.recentlyViewed = newValue
-        }
-    }
+    var recentlyViewed: EntityCache { return UserSession.current.recentlyViewed }
 
     var recentlySearched: [Searchable] {
         get {
@@ -53,7 +45,8 @@ class MPOLSearchRecentsViewModel: SearchRecentsViewModel {
     }
 
     func decorate(_ cell: EntityCollectionViewCell, at indexPath: IndexPath) {
-        let entity = recentlyViewed[indexPath.item]
+        let entities = recentlyViewed.entities
+        let entity = entities[indexPath.item]
 
         cell.style = .detail
 

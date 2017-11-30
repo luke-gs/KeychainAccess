@@ -86,14 +86,27 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 return settingsItem
             }
 
-            let searchViewController = SearchViewController(viewModel: MPOLSearchViewModel())
+            let viewModel = MPOLSearchViewModel()
+
+            let searchViewController = SearchViewController(viewModel: viewModel)
             searchViewController.set(leftBarButtonItem: settingsBarButtonItem())
+
+            let actionListViewModel = EntitySummaryActionListViewModel {
+                switch $0 {
+                case is Person: return (PersonSummaryDisplayable($0), viewModel.presentable(for: $0))
+                case is Vehicle: return (VehicleSummaryDisplayable($0), viewModel.presentable(for: $0))
+                default: return nil
+                }
+            }
+
+            let actionListViewController = ActionListViewController(viewModel: actionListViewModel)
+            actionListViewController.navigationItem.leftBarButtonItem = settingsBarButtonItem()
 
             let eventListVC = EventsListViewController()
             eventListVC.navigationItem.leftBarButtonItem = settingsBarButtonItem()
 
             let searchNavController = UINavigationController(rootViewController: searchViewController)
-            let actionListNavController = UINavigationController(rootViewController: ActionListViewController())
+            let actionListNavController = UINavigationController(rootViewController: actionListViewController)
             let eventListNavController = UINavigationController(rootViewController: eventListVC)
 
             let tasksProxyViewController = UIViewController()

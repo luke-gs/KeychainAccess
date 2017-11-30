@@ -82,9 +82,13 @@ public class EntityPresenter: Presenter {
 
             switch type {
             case .person:
-                title = NSLocalizedString("New Person", comment: "")
+                let personViewController = PersonEditViewController()
+                personViewController.title = "New Person"
+                return UINavigationController(rootViewController: personViewController)
             case .vehicle:
-                title = NSLocalizedString("New Vehicle", comment: "")
+                let vehicleViewController = VehicleEditViewController()
+                vehicleViewController.title = "New Vehicle"
+                return UINavigationController(rootViewController: vehicleViewController)
             case .location:
                 title = NSLocalizedString("New Location", comment: "")
             case .organisation:
@@ -100,7 +104,14 @@ public class EntityPresenter: Presenter {
     }
 
     public func present(_ presentable: Presentable, fromViewController from: UIViewController, toViewController to: UIViewController) {
-        from.show(to, sender: from)
+        guard let presentable = presentable as? EntityScreen else { return }
+
+        switch presentable {
+        case .createEntity:
+            from.present(to, animated: true, completion: nil)
+        default:
+            from.show(to, sender: from)
+        }
     }
 
 

@@ -126,7 +126,7 @@ open class Alert: NSObject, Serialisable {
     
     open func encode(with aCoder: NSCoder) {
         aCoder.encode(Alert.modelVersion, forKey: CodingKey.version.rawValue)
-        aCoder.encode(id, forKey: CodingKey.level.rawValue)
+        aCoder.encode(id, forKey: CodingKey.id.rawValue)
         if let level = self.level?.rawValue {
             aCoder.encode(level, forKey: CodingKey.level.rawValue)
         }

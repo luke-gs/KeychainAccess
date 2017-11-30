@@ -83,7 +83,8 @@ open class Event: MPOLKitEntity {
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init()
+//        fatalError("init(coder:) has not been implemented")
     }
 
 }

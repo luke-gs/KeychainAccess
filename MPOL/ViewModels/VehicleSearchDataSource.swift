@@ -207,7 +207,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                 // Note: generate as many requests as required
                 let request = VehicleSearchRequest(source: .mpol, request: searchParameters)
                 let resultModel = EntitySummarySearchResultViewModel<Vehicle, VehicleSummaryDisplayable>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request]))
-
+                resultModel.additionalBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAddButtonTapped(_:)))]
                 completion(resultModel, nil)
             }
         } catch {
@@ -255,6 +255,12 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
         if endEditing {
             performSearch()
         }
+    }
+
+    // MARK: - Add entity
+
+    @objc private func handleAddButtonTapped(_ item: UIBarButtonItem) {
+        updatingDelegate?.present(EntityScreen.createEntity(type: .vehicle))
     }
 
 }
