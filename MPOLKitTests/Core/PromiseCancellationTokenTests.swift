@@ -37,13 +37,14 @@ class PromiseCancellationTokenTests: XCTestCase {
 
         let (promise, fulfill, reject) = Promise<Int>.pending()
         let token = PromiseCancellationToken {
-            reject(NSError.cancelledError())
+            // Empty block, underlying task isn't really cancellable.
         }
 
         DispatchQueue.global().async {
             var total: Int = 0
             for i in 0 ..< 50 {
                 if token.isCancelled {
+                    reject(NSError.cancelledError())
                     return
                 }
                 sleep(1)
