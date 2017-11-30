@@ -8,6 +8,11 @@
 
 import UIKit
 import PromiseKit
+import MPOLKit
+
+enum APIError: Error {
+    case fileNotFound
+}
 
 /// API manager for demo data. Unfortunately due to Swift sucking i can't make this a subclass
 /// of APIManager and override methods, due to them being in extensions.
@@ -22,7 +27,7 @@ open class DemoAPIManager: CADAPIManager {
             let response = try! JSONDecoder.decode(data, to: OfficerDetailsResponse.self)
             return Promise<OfficerDetailsResponse>(value: response)
         }
-        return Promise<OfficerDetailsResponse>(value: OfficerDetailsResponse())
+        return Promise<OfficerDetailsResponse>(error: APIError.fileNotFound)
     }
 
     open func cadSyncDetails(request: SyncDetailsRequest) -> Promise<SyncDetailsResponse> {
@@ -30,7 +35,7 @@ open class DemoAPIManager: CADAPIManager {
             let response = try! JSONDecoder.decode(data, to: SyncDetailsResponse.self)
             return Promise<SyncDetailsResponse>(value: response)
         }
-        return Promise<SyncDetailsResponse>(value: SyncDetailsResponse())
+        return Promise<SyncDetailsResponse>(error: APIError.fileNotFound)
     }
 
     open func fetchManifest(with request: ManifestFetchRequest) -> Promise<ManifestFetchRequest.ResultClass> {
@@ -41,7 +46,7 @@ open class DemoAPIManager: CADAPIManager {
     }
 
     open func loadDemoFileAsJson(name: String) -> Any? {
-        if let url = Bundle.mpolKit.url(forResource: name, withExtension: "json") {
+        if let url = Bundle.main.url(forResource: name, withExtension: "json") {
             let data = try! Data(contentsOf: url)
             return try! JSONSerialization.jsonObject(with: data, options: [])
         }
@@ -49,7 +54,7 @@ open class DemoAPIManager: CADAPIManager {
     }
 
     open func loadDemoFileAsData(name: String) -> Data? {
-        if let url = Bundle.mpolKit.url(forResource: name, withExtension: "json") {
+        if let url = Bundle.main.url(forResource: name, withExtension: "json") {
             return try! Data(contentsOf: url)
         }
         return nil

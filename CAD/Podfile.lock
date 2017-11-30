@@ -51,7 +51,7 @@ SPEC CHECKSUMS:
   HockeySDK: 82bf8dcbe1af3c87c24dc98924fcf2e2ba5be8c4
   KeychainSwift: 213db04dfe7244988e61f77c72a2afb2f775954a
   lottie-ios: 94fa2d82547ce3adf1e61157653ba99999fd279f
-  MPOLKit: 7d874dda2d86d907e5e87beebcaedd6a9fb1346d
+  MPOLKit: cc388fa871f5a96d301bd3af3a77dc4a0e1a11d3
   PromiseKit: 6178219c4c7457ae90d7d8b34b7ac5eb36916519
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
   Wrap: 9cc7da7551bb81d0846cb3df9fb624c6c32d267d
