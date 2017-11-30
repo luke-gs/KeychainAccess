@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc public class Evaluator: NSObject {
+public class Evaluator: NSObject {
 
     public typealias EvaluationHandler = () -> (Bool)
     public typealias EvaluationIdentifier = String
