@@ -13,7 +13,7 @@ import UIKit
 /// Reponse object for a single Incident in the call to /sync/details
 open class SyncDetailsIncident: Codable {
     open var details : String!
-    open var grade : String!
+    open var grade : IncidentGrade!
     open var incidentNumber : String!
     open var incidentType : String!
     open var informant : SyncDetailsInformant!

@@ -87,6 +87,40 @@ public enum ResourceStatus: String, Codable {
         }
     }
 
+    public func icon() -> UIImage? {
+        return AssetManager.shared.image(forKey: imageKey)
+    }
+
+    // Return icon color and background color
+    var iconColors: (UIColor, UIColor) {
+        switch self {
+        case .unavailable:
+            return (.secondaryGray, .disabledGray)
+        case .onAir:
+            return (.black, .midGreen)
+        case .mealBreak:
+            return (.secondaryGray, .disabledGray)
+        case .trafficStop:
+            return (.secondaryGray, .disabledGray)
+        case .court:
+            return (.secondaryGray, .disabledGray)
+        case .atStation:
+            return (.secondaryGray, .disabledGray)
+        case .onCall:
+            return (.secondaryGray, .disabledGray)
+        case .inquiries1:
+            return (.secondaryGray, .disabledGray)
+        case .proceeding:
+            return (.secondaryGray, .disabledGray)
+        case .atIncident:
+            return (.white, .primaryGray)
+        case .finalise:
+            return (.secondaryGray, .disabledGray)
+        case .inquiries2:
+            return (.secondaryGray, .disabledGray)
+        }
+    }
+
     var canTerminate: Bool {
         switch self {
         // Current state where terminating shift is allowed
@@ -107,10 +141,6 @@ public enum ResourceStatus: String, Codable {
              .inquiries2:
             return false
         }
-    }
-
-    public func icon() -> UIImage? {
-        return AssetManager.shared.image(forKey: imageKey)
     }
 
     public func canChangeToStatus(newStatus: ResourceStatus) -> Bool {
