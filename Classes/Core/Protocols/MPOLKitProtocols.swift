@@ -15,7 +15,7 @@ public protocol SearchRecentsViewModel {
     var title: String { get }
 
     /// Array of recently viewed entities
-    var recentlyViewed: [MPOLKitEntity] { get set }
+    var recentlyViewed: EntityCache { get }
 
     /// Array of recently searched
     var recentlySearched: [Searchable] { get set }

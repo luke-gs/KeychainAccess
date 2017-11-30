@@ -73,6 +73,16 @@ public class EntityDetailSectionsViewModel {
     }
 
     public func setSelectedResult(fetchResult: EntityFetchResult) {
+        if let entity = fetchResult.entity, fetchResult.error == nil {
+            let recentlyViewed = UserSession.current.recentlyViewed
+
+            if recentlyViewed.contains(entity) {
+                recentlyViewed.remove(entity)
+            }
+
+            recentlyViewed.add(entity)
+        }
+
         detailSectionsViewControllers?.forEach {
             // If the error is nil, give the ViewControllers the retrieved entity
             guard let error = fetchResult.error else {
@@ -133,6 +143,11 @@ extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
         }
 
         self.delegate?.entityDetailSectionsDidUpdateResults(self)
+
+        // Update our entity cache
+        if let entity = fetchResult.entity {
+            EntityManager.current.addEntity(entity)
+        }
     }
 
     @objc

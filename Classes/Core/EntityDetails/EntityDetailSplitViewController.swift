@@ -34,6 +34,7 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
         title = "Details"
         updateSourceItems()
         updateHeaderView()
+        updateNavigationBarItems()
 
         regularSidebarViewController.title = NSLocalizedString("Details", comment: "")
         regularSidebarViewController.headerView = headerView
@@ -120,6 +121,7 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
         updateRepresentations()
         updateHeaderView()
         updateSourceItems()
+        updateNavigationBarItems()
     }
 
     /// Enables/Disables sidebar items based on whether or not its source is updating.
@@ -203,6 +205,37 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
         super.allowDetailSelection = isAvailable
     }
 
+    private var pinItem: UIBarButtonItem?
+
+    private func updateNavigationBarItems() {
+        let image: UIImage?
+        if UserSession.current.recentlyActioned.contains(detailViewModel.currentEntity) {
+            image = AssetManager.shared.image(forKey: .filter)
+        } else {
+            image = AssetManager.shared.image(forKey: .pin)
+        }
+
+        if pinItem == nil {
+            pinItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(handlePinButtonTapped(_:)))
+            masterViewController.navigationItem.rightBarButtonItem = pinItem
+        } else {
+            pinItem!.image = image
+        }
+    }
+
+    @objc private func handlePinButtonTapped(_ item: UIBarButtonItem) {
+        let entityCache = UserSession.current.recentlyActioned
+        let entity = detailViewModel.currentEntity
+
+        if entityCache.contains(entity) {
+            entityCache.remove(entity)
+            self.updateNavigationBarItems()
+        } else {
+            entityCache.add(entity)
+            self.updateNavigationBarItems()
+        }
+    }
+
 }
 
 // MARK: - DetailViewModel Delegate
@@ -213,12 +246,14 @@ extension EntityDetailSplitViewController: EntityDetailSectionsDelegate {
         updateRepresentations()
         updateSourceItems()
         updateHeaderView()
+        updateNavigationBarItems()
     }
 
     public func entityDetailSectionDidSelectRetryDownload(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
         updateRepresentations()
         updateSourceItems()
         updateHeaderView()
+        updateNavigationBarItems()
     }
 
 }
