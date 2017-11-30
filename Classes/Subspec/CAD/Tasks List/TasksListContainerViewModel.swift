@@ -342,47 +342,11 @@ public class SampleData {
     }
     
     static func patrols() -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
-        return [
-            CADFormCollectionSectionViewModel(title: "1 Assigned",
-                                              items: [TasksListItemViewModel(title: "Traffic Management",
-                                                                             subtitle: "188 Smith St",
-                                                                             caption: "AS4205  :  MP0001529",
-                                                                             boxColor: UIColor.clear,
-                                                                             boxFilled: true,
-                                                                             hasUpdates: false)])
-        ]
+        return []
     }
 
     static func broadcasts() -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
-        return [
-            CADFormCollectionSectionViewModel(title: "1 Alert",
-                                              items: [TasksListItemViewModel(title: "Impaired Driver",
-                                                                             subtitle: "Fitzroy",
-                                                                             caption: "BC0997  :  10:16",
-                                                                             boxColor: UIColor.clear,
-                                                                             boxFilled: true,
-                                                                             hasUpdates: false)]),
-            CADFormCollectionSectionViewModel(title: "1 Event",
-                                              items: [TasksListItemViewModel(title: "Lawful Protest March",
-                                                                             subtitle: "Melbourne",
-                                                                             caption: "BC0962  :  09:00 - 12:00",
-                                                                             boxColor: UIColor.clear,
-                                                                             boxFilled: true,
-                                                                             hasUpdates: false)]),
-            CADFormCollectionSectionViewModel(title: "2 BOLF",
-                                              items: [TasksListItemViewModel(title: "Vehicle: TNS448",
-                                                                             subtitle: "Melbourne",
-                                                                             caption: "BC0995  :  1 day ago",
-                                                                             boxColor: UIColor.clear,
-                                                                             boxFilled: true,
-                                                                             hasUpdates: false),
-                                                      TasksListItemViewModel(title: "Vehicle: XNR106",
-                                                                             subtitle: "Melbourne",
-                                                                             caption: "BC1004  :  4 days ago",
-                                                                             boxColor: UIColor.clear,
-                                                                             boxFilled: true,
-                                                                             hasUpdates: false)])
-        ]
+        return []
     }
 
     static func resources() -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
