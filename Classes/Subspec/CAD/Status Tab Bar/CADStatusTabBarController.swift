@@ -35,7 +35,8 @@ open class CADStatusTabBarController: StatusTabBarController {
 
         // Hide tab bar while syncing and match background color to sidebar
         NotificationCenter.default.addObserver(self, selector: #selector(syncChanged), name: .CADSyncChanged, object: nil)
-        view.backgroundColor = ThemeManager.shared.theme(for: .dark).color(forKey: .background)
+        let style: UserInterfaceStyle = UIViewController.isWindowCompact() ? .current : .dark
+        view.backgroundColor = ThemeManager.shared.theme(for: style).color(forKey: .background)
         tabBarContainerController.view.isHidden = true
     }
 
@@ -49,7 +50,7 @@ open class CADStatusTabBarController: StatusTabBarController {
             animation.keyPath = "transform.translation.y"
             animation.fromValue = tabBarContainerController.view.frame.height
             animation.toValue = 0
-            animation.duration = 0.5
+            animation.duration = 0.3
             tabBarContainerController.view.layer.add(animation, forKey: "basic")
         }
     }
