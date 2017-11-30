@@ -53,6 +53,7 @@
 		199ECE8F1FAA1B720065E425 /* RemoteResourceDescribing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199ECE8E1FAA1B720065E425 /* RemoteResourceDescribing.swift */; };
 		199ECE951FAA4E410065E425 /* AsynchronousImageSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199ECE941FAA4E400065E425 /* AsynchronousImageSizing.swift */; };
 		199ECE971FAA4FBA0065E425 /* UIImageView+ImageLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199ECE961FAA4FBA0065E425 /* UIImageView+ImageLoadable.swift */; };
+		19B3F35B1FD0742B00245566 /* PromiseCancellationTokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B3F35A1FD0742B00245566 /* PromiseCancellationTokenTests.swift */; };
 		19B49BAA1F665ED100502F51 /* NSMutableAttributedString+Append.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B49BA91F665ED100502F51 /* NSMutableAttributedString+Append.swift */; };
 		19B49BB91F665F2A00502F51 /* CompactSidebarSourceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B49BB01F665F2800502F51 /* CompactSidebarSourceCell.swift */; };
 		19B49BBA1F665F2A00502F51 /* SidebarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B49BB11F665F2800502F51 /* SidebarDelegate.swift */; };
@@ -591,6 +592,7 @@
 		199ECE8E1FAA1B720065E425 /* RemoteResourceDescribing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteResourceDescribing.swift; sourceTree = "<group>"; };
 		199ECE941FAA4E400065E425 /* AsynchronousImageSizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousImageSizing.swift; sourceTree = "<group>"; };
 		199ECE961FAA4FBA0065E425 /* UIImageView+ImageLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+ImageLoadable.swift"; sourceTree = "<group>"; };
+		19B3F35A1FD0742B00245566 /* PromiseCancellationTokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseCancellationTokenTests.swift; sourceTree = "<group>"; };
 		19B49BA91F665ED100502F51 /* NSMutableAttributedString+Append.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Append.swift"; sourceTree = "<group>"; };
 		19B49BB01F665F2800502F51 /* CompactSidebarSourceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompactSidebarSourceCell.swift; sourceTree = "<group>"; };
 		19B49BB11F665F2800502F51 /* SidebarDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarDelegate.swift; sourceTree = "<group>"; };
@@ -2485,6 +2487,7 @@
 				EA5649731F8F061000BEA144 /* FormBuilder */,
 				EA42F8D81F95872200C5C38E /* Specifications */,
 				197FBF6F1F9980CC0086875A /* Network */,
+				19B3F35A1FD0742B00245566 /* PromiseCancellationTokenTests.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -3361,6 +3364,7 @@
 				EAF76C6F1F90573C00405DC9 /* FormSectionTests.swift in Sources */,
 				44F3F14B1F56DBD300D68585 /* FilterDescriptorTests.swift in Sources */,
 				EAF76C891F9445A200405DC9 /* FooterFormItemTests.swift in Sources */,
+				19B3F35B1FD0742B00245566 /* PromiseCancellationTokenTests.swift in Sources */,
 				EAF76C8B1F944A6E00405DC9 /* SubtitleFormItemTests.swift in Sources */,
 				EAF76C751F9080B000405DC9 /* ImageLoadableTests.swift in Sources */,
 				EAF76C971F94689400405DC9 /* SummaryDetailFormItemTests.swift in Sources */,
