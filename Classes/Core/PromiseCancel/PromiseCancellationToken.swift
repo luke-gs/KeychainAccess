@@ -27,7 +27,6 @@ Sample usage:
                 return
             }
             dataTask.cancel()
-            reject(NSError.cancelledError())
         }
 
         dataTask = URLSession.shared.dataTask(with: url) { (data, response, error) in
