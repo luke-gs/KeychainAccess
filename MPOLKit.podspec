@@ -23,7 +23,7 @@ s.source           = { :git => 'https://github.com/Gridstone/mPolKit-iOS.git', :
 s.ios.deployment_target = '10.0'
 
 s.source_files = 'Classes/**/*'
-s.resources = 'Assets/*'
+s.resources = 'Assets/*', 'Classes/**/*.json'
 
 s.dependency 'Alamofire', '4.5.1'
 s.dependency 'Unbox', '2.5.0'
