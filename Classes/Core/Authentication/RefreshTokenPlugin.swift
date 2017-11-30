@@ -26,7 +26,7 @@ open class RefreshTokenPlugin: PluginType {
     public var onRefreshTokenFailed: ((Error?) -> Promise<Void>)?
     
     /// Will execute if a refresh is required. If not set, will attempt default refreshToken call
-    public var requiestRefresh: ((DataResponse<Data>) -> Promise<Void>)?
+    public var attemptRefresh: ((DataResponse<Data>) -> Promise<Void>)?
     
     /// The promise that is currently executing the refresh token request.
     private var refreshPromise: Promise<Void>? {
@@ -103,7 +103,7 @@ open class RefreshTokenPlugin: PluginType {
             // Create refresh promise
             self.refreshPromise = firstly {
                 // Let app try refresh
-                if let refresh = self.requiestRefresh {
+                if let refresh = self.attemptRefresh {
                     return refresh(response)
                 } else { // Default refresh
                     return tryRefreshToken(from: response)
@@ -184,6 +184,12 @@ public extension RefreshTokenPlugin {
     @discardableResult
     public func onRefreshTokenFailed(_ onRefreshTokenFailed: ((Error?) -> Promise<Void>)?) -> Self {
         self.onRefreshTokenFailed = onRefreshTokenFailed
+        return self
+    }
+    
+    @discardableResult
+    public func attemptRefresh(_ attemptRefresh: ((DataResponse<Data>) -> Promise<Void>)?) -> Self {
+        self.attemptRefresh = attemptRefresh
         return self
     }
     
