@@ -15,5 +15,5 @@ public struct BookOffRequest: Codable {
     public var callsign: String!
 
     /// The payrollId of the currently logged in officer on the mobile device.
-    public var loggedInpayrollId: String!
+    public var loggedInPayrollId: String!
 }

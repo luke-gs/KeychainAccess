@@ -61,7 +61,7 @@ open class CADStateManager: NSObject {
 
     // MARK: - Officer
 
-    open func fetchOfficerDetails() -> Promise<OfficerDetailsResponse> {
+    open func fetchCurrentOfficerDetails() -> Promise<OfficerDetailsResponse> {
         let username = UserSession.current.user?.username
         return CADStateManager.apiManager.cadOfficerByUsername(username: username!).then { [unowned self] details -> OfficerDetailsResponse in
             self.officerDetails = details
@@ -127,7 +127,7 @@ open class CADStateManager: NSObject {
     open func syncInitial() -> Promise<Void> {
         return firstly {
             // Get details about logged in user
-            return self.fetchOfficerDetails()
+            return self.fetchCurrentOfficerDetails()
         }.then { [unowned self] _ in
             // Get new manifest items
             return self.syncManifestItems()
