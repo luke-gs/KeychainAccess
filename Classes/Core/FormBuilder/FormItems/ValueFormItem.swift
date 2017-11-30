@@ -43,11 +43,25 @@ public class ValueFormItem: BaseFormItem {
     }
 
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
-        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: title, value: defaultStringSizing(from: value, in: traitCollection), placeholder: nil, inWidth: contentWidth, compatibleWith: traitCollection, imageSize: image?.size ?? .zero, imageSeparation: imageSeparation, labelSeparation: labelSeparation, accessoryViewSize: accessory?.size ?? .zero)
+        return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: defaultTitle(for: traitCollection),
+                                                                     value: defaultValue(for: traitCollection),
+                                                                     placeholder: nil,
+                                                                     inWidth: contentWidth,
+                                                                     compatibleWith: traitCollection,
+                                                                     imageSize: image?.size ?? .zero,
+                                                                     imageSeparation: imageSeparation,
+                                                                     labelSeparation: labelSeparation,
+                                                                     accessoryViewSize: accessory?.size ?? .zero)
     }
 
     public override func intrinsicWidth(in collectionView: UICollectionView, layout: CollectionViewFormLayout, sectionEdgeInsets: UIEdgeInsets, for traitCollection: UITraitCollection) -> CGFloat {
-        return CollectionViewFormValueFieldCell.minimumContentWidth(withTitle: title, value: value, placeholder: nil, compatibleWith: traitCollection, imageSize: image?.size ?? .zero, imageSeparation: CellImageLabelSeparation, accessoryViewSize: accessory?.size ?? .zero)
+        return CollectionViewFormValueFieldCell.minimumContentWidth(withTitle: defaultTitle(for: traitCollection),
+                                                                    value: defaultValue(for: traitCollection),
+                                                                    placeholder: nil,
+                                                                    compatibleWith: traitCollection,
+                                                                    imageSize: image?.size ?? .zero,
+                                                                    imageSeparation: CellImageLabelSeparation,
+                                                                    accessoryViewSize: accessory?.size ?? .zero)
     }
 
     public override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
@@ -58,17 +72,13 @@ public class ValueFormItem: BaseFormItem {
         cell.titleLabel.textColor = secondaryTextColor
         cell.valueLabel.textColor = secondaryTextColor
     }
-
-    private func defaultStringSizing(from sizeable: StringSizable?, in traitCollection: UITraitCollection) -> StringSizing? {
-        if sizeable is String || sizeable?.sizing().font == nil || sizeable?.sizing().numberOfLines == nil {
-            let defaultFont = UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-            let defaultNumberOfLines = 0
-            let string = sizeable as? String ?? sizeable?.sizing().string ?? ""
-            
-            return StringSizing(string: string, font: sizeable?.sizing().font ?? defaultFont, numberOfLines: sizeable?.sizing().numberOfLines ?? defaultNumberOfLines)
-        }
-        
-        return sizeable as? StringSizing
+    
+    private func defaultTitle(for traitCollection: UITraitCollection) -> StringSizable? {
+        return title?.sizing(defaultFont: .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection))
+    }
+    
+    private func defaultValue(for traitCollection: UITraitCollection) -> StringSizable? {
+        return value?.sizing(defaultNumberOfLines: 0, defaultFont: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection))
     }
     
 }
