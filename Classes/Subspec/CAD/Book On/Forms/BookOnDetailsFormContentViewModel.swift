@@ -66,6 +66,15 @@ public class BookOnDetailsFormContentViewModel {
             self.isDriver = officer.isDriver
         }
         
+        public init(withModel officer: OfficerDetailsResponse) {
+            self.title = officer.displayName
+            self.rank = officer.rank
+            self.officerId = officer.payrollId
+            self.licenseType = officer.licenseTypeId
+
+            // Rest of properties are not loaded from backend, user has to enter
+        }
+
         public static func ==(lhs: Officer, rhs: Officer) -> Bool {
             guard lhs.officerId != nil && rhs.officerId != nil else { return false }
             

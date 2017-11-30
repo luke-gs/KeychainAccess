@@ -12,6 +12,7 @@ import UIKit
 
 /// Reponse object for a single Resource in the call to /sync/details
 open class SyncDetailsResource: Codable {
+
     open var callsign : String!
     open var driver : String!
     open var equipment : [SyncDetailsResourceEquipment]!
@@ -23,8 +24,8 @@ open class SyncDetailsResource: Codable {
     open var shiftEnd : String!
     open var shiftStart : String!
     open var station : String!
-    open var status : String!
-    open var type : String!
+    open var status : ResourceStatus!
+    open var type : ResourceType!
     open var zone : String!
 }
 

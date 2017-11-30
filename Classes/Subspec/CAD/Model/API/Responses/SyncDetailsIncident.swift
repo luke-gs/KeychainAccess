@@ -13,44 +13,8 @@ import CoreLocation
 
 /// Reponse object for a single Incident in the call to /sync/details
 open class SyncDetailsIncident: Codable {
-    // TODO: Change this to be some sort of extensible enum/class for client app overrides
-    public enum Grade: String, Codable {
-        case p1 = "P1"
-        case p2 = "P2"
-        case p3 = "P3"
-        case p4 = "P4"
-        
-        public var color: UIColor {
-            switch self {
-            case .p1:
-                return .orangeRed
-            case .p2:
-                return .sunflowerYellow
-            case .p3:
-                return .secondaryGray
-            case .p4:
-                return .secondaryGray
-            }
-        }
-        
-        public var filled: Bool {
-            switch self {
-            case .p1, .p2: return true
-            case .p3, .p4: return false
-            }
-        }
-    }
-    
-    // TODO: Change this to be some sort of extensible enum/class for client app overrides
-    public enum Status: String, Codable {
-        case resourced = "Resourced"
-        case unresourced = "Unresourced"
-        case current = "Current Incident"
-        case assigned = "Assigned"
-    }
-    
     open var details : String!
-    open var grade : Grade!
+    open var grade : IncidentGrade!
     open var incidentNumber : String!
     open var incidentType : String!
     open var informant : SyncDetailsInformant!
