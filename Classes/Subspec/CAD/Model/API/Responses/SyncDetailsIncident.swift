@@ -11,52 +11,52 @@ import UIKit
 // NOTE: This class has been generated from Diederik sample json. Will be updated once API is complete
 
 /// Reponse object for a single Incident in the call to /sync/details
-public struct SyncDetailsIncident: Codable {
-    public var details : String!
-    public var grade : String!
-    public var incidentNumber : String!
-    public var incidentType : String!
-    public var informant : SyncDetailsInformant!
-    public var location : SyncDetailsLocation!
-    public var locations : [SyncDetailsLocation]!
-    public var persons : [SyncDetailsIncidentPerson]!
-    public var revisedType : String!
-    public var severity : Int!
-    public var status : String!
-    public var vehicles : [SyncDetailsIncidentVehicle]!
-    public var zone : String!
+open class SyncDetailsIncident: Codable {
+    open var details : String!
+    open var grade : String!
+    open var incidentNumber : String!
+    open var incidentType : String!
+    open var informant : SyncDetailsInformant!
+    open var location : SyncDetailsLocation!
+    open var locations : [SyncDetailsLocation]!
+    open var persons : [SyncDetailsIncidentPerson]!
+    open var revisedType : String!
+    open var severity : Int!
+    open var status : String!
+    open var vehicles : [SyncDetailsIncidentVehicle]!
+    open var zone : String!
 }
 
 /// Reponse object for a single vehicle in an incident
-public struct SyncDetailsIncidentVehicle: Codable {
-    public var alertLevel : Int!
-    public var associatedAlertLevel : Int!
-    public var jurisdiction : String!
-    public var make : String!
-    public var plateNumber : String!
-    public var registrationExpiryDate : String!
-    public var registrationState : String!
-    public var vehicleDescription : String!
-    public var vehicleType : String!
+open class SyncDetailsIncidentVehicle: Codable {
+    open var alertLevel : Int!
+    open var associatedAlertLevel : Int!
+    open var jurisdiction : String!
+    open var make : String!
+    open var plateNumber : String!
+    open var registrationExpiryDate : String!
+    open var registrationState : String!
+    open var vehicleDescription : String!
+    open var vehicleType : String!
 }
 
 /// Reponse object for a single person in an incident
-public struct SyncDetailsIncidentPerson: Codable {
-    public var alertLevel : Int!
-    public var associatedAlertLevel : Int!
-    public var dateOfBirth : String!
-    public var familyName : String!
-    public var gender : String!
-    public var givenName : String!
-    public var jurisdiction : String!
-    public var middleNames : String!
-    public var thumbnail : String!
-    public var yearOnlyDateOfBirth : String!
+open class SyncDetailsIncidentPerson: Codable {
+    open var alertLevel : Int!
+    open var associatedAlertLevel : Int!
+    open var dateOfBirth : String!
+    open var familyName : String!
+    open var gender : String!
+    open var givenName : String!
+    open var jurisdiction : String!
+    open var middleNames : String!
+    open var thumbnail : String!
+    open var yearOnlyDateOfBirth : String!
 }
 
 /// Reponse object for an informant in an incident
-public struct SyncDetailsInformant: Codable {
-    public var fullName : String!
-    public var primaryPhone : String!
-    public var secondaryPhone : String!
+open class SyncDetailsInformant: Codable {
+    open var fullName : String!
+    open var primaryPhone : String!
+    open var secondaryPhone : String!
 }

@@ -11,17 +11,17 @@ import UIKit
 // NOTE: This class has been generated from Diederik sample json. Will be updated once API is complete
 
 /// Reponse object for a single location in the call to /sync/details
-public struct SyncDetailsLocation: Codable {
-    public var alertLevel : Int!
-    public var associatedAlertLevel : Int!
-    public var country : String!
-    public var fullAddress : String!
-    public var latitude : Float!
-    public var longitude : Float!
-    public var postalCode : String!
-    public var state : String!
-    public var streetName : String!
-    public var streetNumberFirst : String!
-    public var streetType : String!
-    public var suburb : String!
+open class SyncDetailsLocation: Codable {
+    open var alertLevel : Int!
+    open var associatedAlertLevel : Int!
+    open var country : String!
+    open var fullAddress : String!
+    open var latitude : Float!
+    open var longitude : Float!
+    open var postalCode : String!
+    open var state : String!
+    open var streetName : String!
+    open var streetNumberFirst : String!
+    open var streetType : String!
+    open var suburb : String!
 }

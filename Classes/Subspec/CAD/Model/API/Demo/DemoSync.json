@@ -201,7 +201,8 @@
       "surname": "Calwell",
       "alias": "Gecko",
       "rank": "Constable",
-      "station": "Collingwood"
+      "station": "Collingwood",
+      "licenseTypeId": "Gold Licence"
     },
     {
       "incidentNumber": "454000",
@@ -212,7 +213,8 @@
       "surname": "Bleasdale",
       "alias": "Sherlock",
       "rank": "Superintendent",
-      "station": "Collingwood"
+      "station": "Collingwood",
+      "licenseTypeId": "Gold Licence"
     },
     {
       "incidentNumber": "",
@@ -223,7 +225,8 @@
       "surname": "Palmos",
       "alias": "",
       "rank": "Inspector",
-      "station": "Thornbury"
+      "station": "Thornbury",
+      "licenseTypeId": "Gold Licence"
     }
   ]
 }
