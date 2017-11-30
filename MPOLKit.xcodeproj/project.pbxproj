@@ -198,7 +198,7 @@
 		9650CA151F958B320087F5C9 /* ManageCallsignStatusViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA121F958B2D0087F5C9 /* ManageCallsignStatusViewCell.swift */; };
 		9650CA161F958B330087F5C9 /* ManageCallsignStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA131F958B2D0087F5C9 /* ManageCallsignStatusViewController.swift */; };
 		9650CA171F958B330087F5C9 /* ManageCallsignStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA141F958B2D0087F5C9 /* ManageCallsignStatusViewModel.swift */; };
-		9650CA191F95B2520087F5C9 /* ManageCallsignStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA181F95B2520087F5C9 /* ManageCallsignStatus.swift */; };
+		9650CA191F95B2520087F5C9 /* ResourceStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA181F95B2520087F5C9 /* ResourceStatus.swift */; };
 		9650CA1B1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA1A1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift */; };
 		965176141FC792FD003B1B85 /* BaseLoadingStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965176131FC792FD003B1B85 /* BaseLoadingStateView.swift */; };
 		96591E671FCE168300EFCC02 /* AppProxyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96591E661FCE168300EFCC02 /* AppProxyViewController.swift */; };
@@ -222,17 +222,15 @@
 		967E75AC1FCE2F0E00B75CF6 /* SyncDetailsIncident.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967E75AB1FCE2F0E00B75CF6 /* SyncDetailsIncident.swift */; };
 		967E75AE1FCE2F1700B75CF6 /* SyncDetailsResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967E75AD1FCE2F1700B75CF6 /* SyncDetailsResource.swift */; };
 		967E75B01FCE2F4700B75CF6 /* SyncDetailsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967E75AF1FCE2F4700B75CF6 /* SyncDetailsRequest.swift */; };
-		967E75B21FCE5D4300B75CF6 /* DemoAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967E75B11FCE5D4300B75CF6 /* DemoAPIManager.swift */; };
-		967E75B51FCE61C900B75CF6 /* DemoManifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 967E75B41FCE61C900B75CF6 /* DemoManifest.json */; };
-		967E75B71FCE61DE00B75CF6 /* DemoSync.json in Resources */ = {isa = PBXBuildFile; fileRef = 967E75B61FCE61DE00B75CF6 /* DemoSync.json */; };
 		9686FC941F78AAED00C4AB4D /* UIView+SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9686FC931F78AAED00C4AB4D /* UIView+SafeArea.swift */; };
 		9686FC961F78AC7600C4AB4D /* UIViewController+SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9686FC951F78AC7600C4AB4D /* UIViewController+SafeArea.swift */; };
 		969959661FC2334300CB51EB /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969959651FC2334300CB51EB /* ColorPalette.swift */; };
 		969959691FC2495000CB51EB /* CADStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969959681FC2495000CB51EB /* CADStateManager.swift */; };
+		969C2C8A1FCFDB6400E99C85 /* IncidentGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969C2C891FCFDB6400E99C85 /* IncidentGrade.swift */; };
 		969DC68F1FBBAC8400010212 /* ObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 969DC68E1FBBAC8400010212 /* ObjC.m */; };
 		969DC6931FBE6D3900010212 /* APIManager+CAD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969DC6921FBE6D3900010212 /* APIManager+CAD.swift */; };
-		969FC88C1FCF4E8F0023D43B /* DemoOfficer.json in Resources */ = {isa = PBXBuildFile; fileRef = 969FC88B1FCF4E8F0023D43B /* DemoOfficer.json */; };
 		969FC88E1FCF62E60023D43B /* SyncDetailsLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969FC88D1FCF62E60023D43B /* SyncDetailsLocation.swift */; };
+		969FC8911FCFBCA40023D43B /* ResourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969FC8901FCFBCA40023D43B /* ResourceType.swift */; };
 		96B9183E1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B9183D1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift */; };
 		96B918401F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B9183F1F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift */; };
 		96CF32211F8C337900140AF8 /* TasksListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32201F8C337900140AF8 /* TasksListViewController.swift */; };
@@ -761,7 +759,7 @@
 		9650CA121F958B2D0087F5C9 /* ManageCallsignStatusViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignStatusViewCell.swift; sourceTree = "<group>"; };
 		9650CA131F958B2D0087F5C9 /* ManageCallsignStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignStatusViewController.swift; sourceTree = "<group>"; };
 		9650CA141F958B2D0087F5C9 /* ManageCallsignStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignStatusViewModel.swift; sourceTree = "<group>"; };
-		9650CA181F95B2520087F5C9 /* ManageCallsignStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignStatus.swift; sourceTree = "<group>"; };
+		9650CA181F95B2520087F5C9 /* ResourceStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceStatus.swift; sourceTree = "<group>"; };
 		9650CA1A1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Subtitle.swift"; sourceTree = "<group>"; };
 		965176131FC792FD003B1B85 /* BaseLoadingStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLoadingStateView.swift; sourceTree = "<group>"; };
 		96591E661FCE168300EFCC02 /* AppProxyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppProxyViewController.swift; sourceTree = "<group>"; };
@@ -785,19 +783,17 @@
 		967E75AB1FCE2F0E00B75CF6 /* SyncDetailsIncident.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncDetailsIncident.swift; sourceTree = "<group>"; };
 		967E75AD1FCE2F1700B75CF6 /* SyncDetailsResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncDetailsResource.swift; sourceTree = "<group>"; };
 		967E75AF1FCE2F4700B75CF6 /* SyncDetailsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncDetailsRequest.swift; sourceTree = "<group>"; };
-		967E75B11FCE5D4300B75CF6 /* DemoAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAPIManager.swift; sourceTree = "<group>"; };
-		967E75B41FCE61C900B75CF6 /* DemoManifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DemoManifest.json; sourceTree = "<group>"; };
-		967E75B61FCE61DE00B75CF6 /* DemoSync.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DemoSync.json; sourceTree = "<group>"; };
 		9686FC931F78AAED00C4AB4D /* UIView+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+SafeArea.swift"; sourceTree = "<group>"; };
 		9686FC951F78AC7600C4AB4D /* UIViewController+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+SafeArea.swift"; sourceTree = "<group>"; };
 		969959651FC2334300CB51EB /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		969959681FC2495000CB51EB /* CADStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADStateManager.swift; sourceTree = "<group>"; };
+		969C2C891FCFDB6400E99C85 /* IncidentGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentGrade.swift; sourceTree = "<group>"; };
 		969DC68C1FBBAC8400010212 /* MPOLKitTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MPOLKitTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		969DC68D1FBBAC8400010212 /* ObjC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjC.h; sourceTree = "<group>"; };
 		969DC68E1FBBAC8400010212 /* ObjC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjC.m; sourceTree = "<group>"; };
 		969DC6921FBE6D3900010212 /* APIManager+CAD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+CAD.swift"; sourceTree = "<group>"; };
-		969FC88B1FCF4E8F0023D43B /* DemoOfficer.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DemoOfficer.json; sourceTree = "<group>"; };
 		969FC88D1FCF62E60023D43B /* SyncDetailsLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncDetailsLocation.swift; sourceTree = "<group>"; };
+		969FC8901FCFBCA40023D43B /* ResourceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceType.swift; sourceTree = "<group>"; };
 		96B9183D1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormViewController.swift; sourceTree = "<group>"; };
 		96B9183F1F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormViewModel.swift; sourceTree = "<group>"; };
 		96CF32201F8C337900140AF8 /* TasksListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListViewController.swift; sourceTree = "<group>"; };
@@ -1562,6 +1558,7 @@
 		962053111F9960FA000CAD49 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				969FC88F1FCFBA8A0023D43B /* Logic */,
 				969959671FC2493500CB51EB /* Session */,
 				969DC6911FBE6D3900010212 /* API */,
 			);
@@ -1657,7 +1654,6 @@
 				9650CA121F958B2D0087F5C9 /* ManageCallsignStatusViewCell.swift */,
 				9650CA131F958B2D0087F5C9 /* ManageCallsignStatusViewController.swift */,
 				9650CA141F958B2D0087F5C9 /* ManageCallsignStatusViewModel.swift */,
-				9650CA181F95B2520087F5C9 /* ManageCallsignStatus.swift */,
 				27F9C96B1FA2D7E300825F88 /* CompactCallsignViewController.swift */,
 			);
 			path = Callsign;
@@ -1715,17 +1711,6 @@
 			path = Responses;
 			sourceTree = "<group>";
 		};
-		967E75B31FCE61AC00B75CF6 /* Demo */ = {
-			isa = PBXGroup;
-			children = (
-				967E75B11FCE5D4300B75CF6 /* DemoAPIManager.swift */,
-				967E75B41FCE61C900B75CF6 /* DemoManifest.json */,
-				969FC88B1FCF4E8F0023D43B /* DemoOfficer.json */,
-				967E75B61FCE61DE00B75CF6 /* DemoSync.json */,
-			);
-			path = Demo;
-			sourceTree = "<group>";
-		};
 		969959671FC2493500CB51EB /* Session */ = {
 			isa = PBXGroup;
 			children = (
@@ -1737,12 +1722,21 @@
 		969DC6911FBE6D3900010212 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				967E75B31FCE61AC00B75CF6 /* Demo */,
 				967E75A21FCE2D8500B75CF6 /* Responses */,
 				967E75A11FCE2D7E00B75CF6 /* Requests */,
 				969DC6921FBE6D3900010212 /* APIManager+CAD.swift */,
 			);
 			path = API;
+			sourceTree = "<group>";
+		};
+		969FC88F1FCFBA8A0023D43B /* Logic */ = {
+			isa = PBXGroup;
+			children = (
+				9650CA181F95B2520087F5C9 /* ResourceStatus.swift */,
+				969FC8901FCFBCA40023D43B /* ResourceType.swift */,
+				969C2C891FCFDB6400E99C85 /* IncidentGrade.swift */,
+			);
+			path = Logic;
 			sourceTree = "<group>";
 		};
 		96B9183C1F9D6819005DEB1A /* Forms */ = {
@@ -2868,14 +2862,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				969FC88C1FCF4E8F0023D43B /* DemoOfficer.json in Resources */,
 				BCB4731C1F33F60500456491 /* LightTheme.json in Resources */,
 				BCB4731E1F33F63F00456491 /* DarkTheme.json in Resources */,
-				967E75B51FCE61C900B75CF6 /* DemoManifest.json in Resources */,
 				C6A5F0081ECE89A300B0D915 /* VehicleSearch.json in Resources */,
 				C6F5DED21ECD5C62008E7BE2 /* AccessToken.json in Resources */,
 				C605F8A81ECCAD3B001194DD /* Assets.xcassets in Resources */,
-				967E75B71FCE61DE00B75CF6 /* DemoSync.json in Resources */,
 				12413C281F1F23B0001B0B41 /* spinner.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3073,6 +3064,7 @@
 				BC1B26111F20BBD7009674B7 /* UIViewController+ParentSearching.swift in Sources */,
 				BC9C7E491F0DED6600DFFE83 /* SourceItem.swift in Sources */,
 				BC9C7E1B1F0DED6600DFFE83 /* MPOLAssert.swift in Sources */,
+				969FC8911FCFBCA40023D43B /* ResourceType.swift in Sources */,
 				DB88BCDB1F42D0080056FD69 /* SearchOptionsViewController.swift in Sources */,
 				BC39A6831F18A6EC005CA8EE /* LabeledAccessoryView.swift in Sources */,
 				EAB38FFC1F70A73700341BAF /* HeaderFormItem.swift in Sources */,
@@ -3213,7 +3205,6 @@
 				9936C6791F9580500091A61C /* LocationManager.swift in Sources */,
 				BC9C7DD71F0DED6600DFFE83 /* URLQueryBuilder.swift in Sources */,
 				274C89861F9E91B8005B9CF8 /* OfficerDetailsViewController.swift in Sources */,
-				967E75B21FCE5D4300B75CF6 /* DemoAPIManager.swift in Sources */,
 				27CBC7611F8B27C700E387C3 /* TasksMapViewModel.swift in Sources */,
 				DBE24C3D1F593BEF0088D19B /* EntityDetailSectionsViewModel.swift in Sources */,
 				27C9C7611F95692400799855 /* NotBookedOnViewController.swift in Sources */,
@@ -3315,6 +3306,7 @@
 				EA950E4A1F8DBF2200B5A349 /* DebugDumpVisitor.swift in Sources */,
 				DBE24C2F1F5939C90088D19B /* EntityDetailsFetch.swift in Sources */,
 				278A16331FBBF68A00C01C38 /* LabeledSwitch.swift in Sources */,
+				969C2C8A1FCFDB6400E99C85 /* IncidentGrade.swift in Sources */,
 				BC9C7DF91F0DED6600DFFE83 /* CollectionViewFormOptionCell.swift in Sources */,
 				DB88BCE31F42D0110056FD69 /* SearchResultLoadingCell.swift in Sources */,
 				2784FDBB1FA1549D007B18B2 /* Optional+Extension.swift in Sources */,
@@ -3435,7 +3427,7 @@
 				EAB38FFA1F70A73700341BAF /* DetailFormItem.swift in Sources */,
 				BC9C7E181F0DED6600DFFE83 /* FormTextView.swift in Sources */,
 				27CBC75C1F8B27B100E387C3 /* ActivityLogViewModel.swift in Sources */,
-				9650CA191F95B2520087F5C9 /* ManageCallsignStatus.swift in Sources */,
+				9650CA191F95B2520087F5C9 /* ResourceStatus.swift in Sources */,
 				BC9C7E131F0DED6600DFFE83 /* TableViewFormSubtitleCell.swift in Sources */,
 				EA09A0521F78B9A200BC3C0E /* CountSpecification.swift in Sources */,
 				19C625C41F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift in Sources */,

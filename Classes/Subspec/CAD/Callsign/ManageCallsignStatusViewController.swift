@@ -64,6 +64,11 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
         setupNavigationBarButtons()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setTitleView(title: viewModel.navTitle(), subtitle: viewModel.navSubtitle())
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
