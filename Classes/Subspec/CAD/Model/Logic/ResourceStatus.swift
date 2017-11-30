@@ -92,7 +92,7 @@ public enum ResourceStatus: String, Codable {
     }
 
     // Return icon color and background color
-    var iconColors: (UIColor, UIColor) {
+    var iconColors: (icon: UIColor, background: UIColor) {
         switch self {
         case .unavailable:
             return (.secondaryGray, .disabledGray)

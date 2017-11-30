@@ -101,6 +101,7 @@ open class OfficerDetailsViewController: FormBuilderViewController {
         #if DEBUG
             // Skip validation when debug, to keep devs happy
             viewModel.saveForm()
+            if view != nil { return }
         #endif
         
         let result = builder.validate()

@@ -16,7 +16,7 @@ public enum IncidentGrade: String, Codable {
     case p4 = "P4"
 
     // Return badge text, border and fill color
-    var badgeColors: (UIColor, UIColor, UIColor) {
+    var badgeColors: (text: UIColor, border: UIColor, fill: UIColor) {
         switch self {
         case .p1:
             return (.black, .orangeRed, .orangeRed)

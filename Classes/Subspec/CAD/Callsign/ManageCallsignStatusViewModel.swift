@@ -79,8 +79,11 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
 
     /// The subtitle to use in the navigation bar
     open func navSubtitle() -> String {
-        // TODO: get from user session
-        return "10:30 - 18:30"
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        let shiftStart = formatter.string(from: BookOnDetailsFormViewModel.lastSaved!.startTime!)
+        let shiftEnd = formatter.string(from: BookOnDetailsFormViewModel.lastSaved!.endTime!)
+        return "\(shiftStart) - \(shiftEnd)"
     }
 
     /// Attempt to select a new status
@@ -91,6 +94,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
             // TODO: Insert network call here
             return after(seconds: 2.0).then {
                 self.selectedIndexPath = indexPath
+                CADStateManager.shared.updateCallsignStatus(status: newStatus)
                 return Promise(value: self.currentStatus)
             }
         } else {
@@ -109,8 +113,8 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
                 if let bookOn = CADStateManager.shared.lastBookOn {
                     let callsignViewModel = BookOnCallsignViewModel(
                         callsign: bookOn.callsign,
-                        status: CADStateManager.shared.currentIncident?.status ?? "",
-                        location: CADStateManager.shared.currentResource?.location.fullAddress ?? "")
+                        status: CADStateManager.shared.currentResource?.status.rawValue ?? "",
+                        location: CADStateManager.shared.currentResource?.station ?? "")
                     let vc = BookOnDetailsFormViewModel(callsignViewModel: callsignViewModel).createViewController()
                     delegate?.presentPushedViewController(vc, animated: true)
                 }

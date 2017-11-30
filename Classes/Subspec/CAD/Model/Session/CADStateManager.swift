@@ -11,7 +11,10 @@ import PromiseKit
 
 // Extension for custom notifications
 public extension NSNotification.Name {
-    /// Notification posted when callsign status changes
+    /// Notification posted when book on changes
+    static let CADBookOnChanged = NSNotification.Name(rawValue: "CAD_BookOnChanged")
+
+    /// Notification posted when callsign changes
     static let CADCallsignChanged = NSNotification.Name(rawValue: "CAD_CallsignChanged")
 
     /// Notification posted when sync changes
@@ -37,7 +40,7 @@ open class CADStateManager: NSObject {
     /// The last book on data
     open var lastBookOn: BookOnRequest? {
         didSet {
-            NotificationCenter.default.post(name: .CADCallsignChanged, object: self)
+            NotificationCenter.default.post(name: .CADBookOnChanged, object: self)
         }
     }
 
@@ -94,6 +97,12 @@ open class CADStateManager: NSObject {
     open func bookOff(request: BookOffRequest) -> Promise<Void> {
         lastBookOn = nil
         return Promise<Void>()
+    }
+
+    /// Update the status of our callsign
+    open func updateCallsignStatus(status: ResourceStatus) {
+        currentResource?.status = status
+        NotificationCenter.default.post(name: .CADCallsignChanged, object: self)
     }
 
     // MARK: - Manifest

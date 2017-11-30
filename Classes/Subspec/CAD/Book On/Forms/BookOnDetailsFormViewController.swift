@@ -253,6 +253,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         #if DEBUG
             // Skip validation when debug, to keep devs happy
             self.submitForm()
+            if view != nil { return }
         #endif
 
         let result = builder.validate()

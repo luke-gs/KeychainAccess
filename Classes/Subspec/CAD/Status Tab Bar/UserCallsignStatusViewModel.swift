@@ -61,7 +61,6 @@ open class UserCallsignStatusViewModel {
     
     /// The currently selected state
     open var state: CallsignState = UserCallsignStatusViewModel.defaultNotBookedOnState {
-        // TODO: Get this from user session and keep updated
         didSet {
             delegate?.viewModelStateChanged()
         }
@@ -91,13 +90,14 @@ open class UserCallsignStatusViewModel {
     // MARK: - Setup
     
     public init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(callsignChanged), name: .CADBookOnChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(callsignChanged), name: .CADCallsignChanged, object: nil)
     }
 
     @objc open func callsignChanged() {
         if let bookOn = CADStateManager.shared.lastBookOn {
             self.state = .assigned(callsign: bookOn.callsign,
-                                   status: CADStateManager.shared.currentIncident?.status ?? "",
+                                   status: CADStateManager.shared.currentResource?.status.title ?? "",
                                    image: CADStateManager.shared.currentResource?.type.icon())
         } else {
             self.state = UserCallsignStatusViewModel.defaultNotBookedOnState
