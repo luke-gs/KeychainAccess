@@ -25,6 +25,9 @@ open class RefreshTokenPlugin: PluginType {
     /// Will execute if refresh token attempt fails (lets the app try to refresh session and handle errors).
     public var onRefreshTokenFailed: ((Error?) -> Promise<Void>)?
     
+    /// Will execute if a refresh is required. If not set, will attempt default refreshToken call
+    public var requiestRefresh: ((DataResponse<Data>) -> Promise<Void>)?
+    
     /// The promise that is currently executing the refresh token request.
     private var refreshPromise: Promise<Void>? {
         get {
@@ -99,7 +102,12 @@ open class RefreshTokenPlugin: PluginType {
             
             // Create refresh promise
             self.refreshPromise = firstly {
-                tryRefreshToken(from: response)
+                // Let app try refresh
+                if let refresh = self.requiestRefresh {
+                    return refresh(response)
+                } else { // Default refresh
+                    return tryRefreshToken(from: response)
+                }
             }.recover { error -> Promise<Void> in
                 // Let app try refresh session
                 if let fallback = self.onRefreshTokenFailed {
