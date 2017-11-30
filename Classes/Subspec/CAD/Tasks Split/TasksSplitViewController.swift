@@ -176,7 +176,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
     
     /// Shows or hides the segmented control based on trait collection
     private func configureSegmentedControl(for traitCollection: UITraitCollection) {
-        if traitCollection.horizontalSizeClass == .compact {
+        if isCompact() {
             masterVC.navigationItem.titleView = segmentedControl
             
             masterVC.navigationItem.rightBarButtonItem = filterButton
