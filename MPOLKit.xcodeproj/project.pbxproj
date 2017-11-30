@@ -125,7 +125,7 @@
 		274C89861F9E91B8005B9CF8 /* OfficerDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C89851F9E91B8005B9CF8 /* OfficerDetailsViewController.swift */; };
 		274C89881F9EB27A005B9CF8 /* OfficerDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C89871F9EB27A005B9CF8 /* OfficerDetailsViewModel.swift */; };
 		274F10E41FCE0A12001A59A5 /* IncidentTaskItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274F10E31FCE0A12001A59A5 /* IncidentTaskItemViewModel.swift */; };
-		274F10ED1FCE0A86001A59A5 /* IncidentPersonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274F10E51FCE0A85001A59A5 /* IncidentPersonViewModel.swift */; };
+		274F10ED1FCE0A86001A59A5 /* IncidentAssociationItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274F10E51FCE0A85001A59A5 /* IncidentAssociationItemViewModel.swift */; };
 		274F10EE1FCE0A86001A59A5 /* IncidentNarrativeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274F10E61FCE0A85001A59A5 /* IncidentNarrativeViewModel.swift */; };
 		274F10F11FCE0A86001A59A5 /* IncidentAssociationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274F10E91FCE0A85001A59A5 /* IncidentAssociationsViewModel.swift */; };
 		274F10F21FCE0A86001A59A5 /* IncidentOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274F10EA1FCE0A86001A59A5 /* IncidentOverviewViewController.swift */; };
@@ -686,7 +686,7 @@
 		274C89851F9E91B8005B9CF8 /* OfficerDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerDetailsViewController.swift; sourceTree = "<group>"; };
 		274C89871F9EB27A005B9CF8 /* OfficerDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerDetailsViewModel.swift; sourceTree = "<group>"; };
 		274F10E31FCE0A12001A59A5 /* IncidentTaskItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentTaskItemViewModel.swift; sourceTree = "<group>"; };
-		274F10E51FCE0A85001A59A5 /* IncidentPersonViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentPersonViewModel.swift; sourceTree = "<group>"; };
+		274F10E51FCE0A85001A59A5 /* IncidentAssociationItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentAssociationItemViewModel.swift; sourceTree = "<group>"; };
 		274F10E61FCE0A85001A59A5 /* IncidentNarrativeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentNarrativeViewModel.swift; sourceTree = "<group>"; };
 		274F10E91FCE0A85001A59A5 /* IncidentAssociationsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentAssociationsViewModel.swift; sourceTree = "<group>"; };
 		274F10EA1FCE0A86001A59A5 /* IncidentOverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentOverviewViewController.swift; sourceTree = "<group>"; };
@@ -1450,8 +1450,8 @@
 			isa = PBXGroup;
 			children = (
 				274F10E91FCE0A85001A59A5 /* IncidentAssociationsViewModel.swift */,
+				274F10E51FCE0A85001A59A5 /* IncidentAssociationItemViewModel.swift */,
 				274F10E61FCE0A85001A59A5 /* IncidentNarrativeViewModel.swift */,
-				274F10E51FCE0A85001A59A5 /* IncidentPersonViewModel.swift */,
 				2726A81D1FCE6BE600EFB61A /* IncidentOverviewViewModel.swift */,
 				2726A8191FCE5EA000EFB61A /* IncidentOverviewItemViewModel.swift */,
 			);
@@ -3163,7 +3163,7 @@
 				DB88BCDF1F42D00F0056FD69 /* SearchResultViewModelable.swift in Sources */,
 				274C89831F9D9EC3005B9CF8 /* OfficerListViewModel.swift in Sources */,
 				27CBC7661F8B27D500E387C3 /* UserCallsignStatusView.swift in Sources */,
-				274F10ED1FCE0A86001A59A5 /* IncidentPersonViewModel.swift in Sources */,
+				274F10ED1FCE0A86001A59A5 /* IncidentAssociationItemViewModel.swift in Sources */,
 				EAB38FFB1F70A73700341BAF /* ValueFormItem.swift in Sources */,
 				EA76ECF11F578DCA00524830 /* LocationAdvanceOptions.swift in Sources */,
 				12A8DB471F5FD63400A06005 /* DirectoryManager.swift in Sources */,
