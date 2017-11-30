@@ -56,9 +56,6 @@ public class IncidentAssociationItemViewModel: EntitySummaryDisplayable {
         case .vehicle:
             thumbnailImage = AssetManager.shared.image(forKey: .entityCar)
             contentMode = .center
-        case .organisation:
-            thumbnailImage = AssetManager.shared.image(forKey: .entityBuilding)
-            contentMode = .center
         }
         
         if let thumbnailImage = thumbnailImage {
