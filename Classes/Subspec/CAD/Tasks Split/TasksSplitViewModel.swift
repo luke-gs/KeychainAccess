@@ -82,7 +82,7 @@ open class TasksSplitViewModel {
     /// Applies the filter to the map and task list
     public func applyFilter() {
         delegate?.dismiss(animated: true, completion: nil)
-        mapViewModel.applyFilter()
+        mapViewModel.loadTasks()
         listContainerViewModel.updateSections()
     }
 

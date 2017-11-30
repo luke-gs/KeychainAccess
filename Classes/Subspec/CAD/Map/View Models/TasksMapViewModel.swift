@@ -17,7 +17,6 @@ open class TasksMapViewModel {
 
     // MARK: - Data Source
     
-    private var incidents: [IncidentMapViewModel] = []
     private var patrol: [PatrolMapViewModel] = []
     private var broadcast: [BroadcastMapViewModel] = []
     private var resources: [ResourceMapViewModel] = []
@@ -29,7 +28,9 @@ open class TasksMapViewModel {
     
     // MARK: - Init
     
-    public init() {}
+    public init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(loadTasks), name: .CADSyncChanged, object: nil)
+    }
     
     /// Create the view controller for this view model
     public func createViewController() -> UIViewController {
@@ -37,9 +38,12 @@ open class TasksMapViewModel {
     }
     
     // MARK: - Annotations
-
-    public func applyFilter() {
-        guard let filter = splitViewModel?.filterViewModel else { return }
+    
+    /// Loads the tasks from the sync and filters them
+    @objc public func loadTasks() {
+        guard let filter = splitViewModel?.filterViewModel,
+              let sync = CADStateManager.shared.lastSync
+        else { return }
 
         var annotations: [TaskAnnotation] = []
         
@@ -51,13 +55,13 @@ open class TasksMapViewModel {
         }
         
         if filter.showIncidents || currentListItem == .incident {
-            let filteredIncidents = incidents.filter { model in
-                // TODO: Replace with enum when model classes created
-                let priorityFilter = filter.priorities.contains(model.priority)
-                let resourcedFilter = filter.resourcedIncidents.contains(model.status)
+            
+            let filteredIncidents = sync.incidents.filter { incident in
+                let priorityFilter = filter.priorities.contains(incident.grade)
+                let resourcedFilter = filter.resourcedIncidents.contains(incident.status)
 
                 // If status is not in filter options always show
-                let isOther = model.status != "Resourced" && model.status != "Unresourced"
+                let isOther = incident.status != .resourced && incident.status != .unresourced
                 
                 return isOther || (priorityFilter && resourcedFilter)
             }
@@ -97,24 +101,6 @@ open class TasksMapViewModel {
         }
     }
     
-    /// All annotations unfiltered
-    var allAnnotations: [TaskAnnotation] {
-        /// Annotations of the incidents type
-        let incidentsAnnotations = taskAnnotations(for: incidents)
-        
-        /// Annotations of the patrol type
-        let patrolAnnotations = taskAnnotations(for: patrol)
-        
-        /// Annotations of the broadcast type
-        let broadcastAnnotations = taskAnnotations(for: broadcast)
-        
-        /// Annotations of the resource type
-        let resourceAnnotations = taskAnnotations(for: resources)
-        
-        return incidentsAnnotations + patrolAnnotations + broadcastAnnotations + resourceAnnotations
-    }
-    
-    
     /// Creates a view model from an annotation
     public func viewModel(for annotation: TaskAnnotation?) -> TaskItemViewModel? {
         if let annotation = annotation as? ResourceAnnotation {
@@ -139,17 +125,17 @@ open class TasksMapViewModel {
     // MARK: - Mapping
     
     /// Maps incident view models to task annotations
-    func taskAnnotations(for incidents: [IncidentMapViewModel]) -> [TaskAnnotation] {
-        return incidents.map { model in
-            return IncidentAnnotation(identifier: model.identifier,
-                                      coordinate: model.coordinate,
-                                      title: model.title,
-                                      subtitle: model.subtitle,
-                                      status: model.status,
-                                      iconText: model.priority,
-                                      iconColor: model.iconColor,
-                                      iconFilled: model.iconFilled,
-                                      usesDarkBackground: model.usesDarkBackground)
+    func taskAnnotations(for incidents: [SyncDetailsIncident]) -> [TaskAnnotation] {
+        return incidents.map { incident in
+            return IncidentAnnotation(identifier: incident.incidentNumber,
+                                      coordinate: incident.coordinate,
+                                      title: incident.incidentType,
+                                      subtitle: incident.resourceCount > 0 ? "(\(incident.resourceCount))" : "",
+                                      status: nil, // TODO: Remove this property
+                                      iconText: incident.grade.rawValue,
+                                      iconColor: incident.grade.color,
+                                      iconFilled: incident.grade.filled,
+                                      usesDarkBackground: incident.status == .unresourced)
         }
     }
     
@@ -192,70 +178,70 @@ open class TasksMapViewModel {
     // MARK: - Debug
     
     func loadDummyData() {
-        incidents = [
-            IncidentMapViewModel(identifier: "i1",
-                               title: "Assault",
-                               subtitle: "(2)",
-                               status: "Current Incident",
-                               coordinate: CLLocationCoordinate2D(latitude: -37.803166, longitude: 144.983696),
-                               priority: "P1",
-                               iconColor: .orangeRed,
-                               iconFilled: true,
-                               usesDarkBackground: false),
-            
-            IncidentMapViewModel(identifier: "i2",
-                                 title: "Trespassing",
-                                 subtitle: "(1)",
-                                 status: "Resourced",
-                                 coordinate: CLLocationCoordinate2D(latitude: -37.797547, longitude: 144.985428),
-                                 priority: "P3",
-                                 iconColor: .secondaryGray,
-                                 iconFilled: false,
-                                 usesDarkBackground: false),
-            
-            IncidentMapViewModel(identifier: "i3",
-                                 title: "Vandalism",
-                                 subtitle: nil,
-                                 status: "Unresourced",
-                                 coordinate: CLLocationCoordinate2D(latitude: -37.802759, longitude: 144.995149),
-                                 priority: "P4",
-                                 iconColor: .secondaryGray,
-                                 iconFilled: false,
-                                 usesDarkBackground: true),
-            
-            IncidentMapViewModel(identifier: "i4",
-                                 title: "Traffic Crash",
-                                 subtitle: nil,
-                                 status: "Unresourced",
-                                 coordinate: CLLocationCoordinate2D(latitude: -37.807550, longitude: 144.975053),
-                                 priority: "P3",
-                                 iconColor: .secondaryGray,
-                                 iconFilled: false,
-                                 usesDarkBackground: false),
-            
-            
-            IncidentMapViewModel(identifier: "i5",
-                               title: "Domestic Violence",
-                               subtitle: "(2)",
-                               status: "Resourced",
-                               coordinate: CLLocationCoordinate2D(latitude: -37.800077, longitude: 144.976741),
-                               priority: "P2",
-                               iconColor: .sunflowerYellow,
-                               iconFilled: true,
-                               usesDarkBackground: false),
-
-
-            IncidentMapViewModel(identifier: "i6",
-                               title: "Public Nuisance",
-                               subtitle: "(1)",
-                               status: "Resourced",
-                               coordinate: CLLocationCoordinate2D(latitude: -37.808979, longitude: 144.978205),
-                               priority: "P3",
-                               iconColor: .secondaryGray,
-                               iconFilled: false,
-                               usesDarkBackground: true),
-        ]
-        
+//        incidents = [
+//            IncidentMapViewModel(identifier: "i1",
+//                               title: "Assault",
+//                               subtitle: "(2)",
+//                               status: "Current Incident",
+//                               coordinate: CLLocationCoordinate2D(latitude: -37.803166, longitude: 144.983696),
+//                               priority: "P1",
+//                               iconColor: .orangeRed,
+//                               iconFilled: true,
+//                               usesDarkBackground: false),
+//
+//            IncidentMapViewModel(identifier: "i2",
+//                                 title: "Trespassing",
+//                                 subtitle: "(1)",
+//                                 status: "Resourced",
+//                                 coordinate: CLLocationCoordinate2D(latitude: -37.797547, longitude: 144.985428),
+//                                 priority: "P3",
+//                                 iconColor: .secondaryGray,
+//                                 iconFilled: false,
+//                                 usesDarkBackground: false),
+//
+//            IncidentMapViewModel(identifier: "i3",
+//                                 title: "Vandalism",
+//                                 subtitle: nil,
+//                                 status: "Unresourced",
+//                                 coordinate: CLLocationCoordinate2D(latitude: -37.802759, longitude: 144.995149),
+//                                 priority: "P4",
+//                                 iconColor: .secondaryGray,
+//                                 iconFilled: false,
+//                                 usesDarkBackground: true),
+//
+//            IncidentMapViewModel(identifier: "i4",
+//                                 title: "Traffic Crash",
+//                                 subtitle: nil,
+//                                 status: "Unresourced",
+//                                 coordinate: CLLocationCoordinate2D(latitude: -37.807550, longitude: 144.975053),
+//                                 priority: "P3",
+//                                 iconColor: .secondaryGray,
+//                                 iconFilled: false,
+//                                 usesDarkBackground: false),
+//
+//
+//            IncidentMapViewModel(identifier: "i5",
+//                               title: "Domestic Violence",
+//                               subtitle: "(2)",
+//                               status: "Resourced",
+//                               coordinate: CLLocationCoordinate2D(latitude: -37.800077, longitude: 144.976741),
+//                               priority: "P2",
+//                               iconColor: .sunflowerYellow,
+//                               iconFilled: true,
+//                               usesDarkBackground: false),
+//
+//
+//            IncidentMapViewModel(identifier: "i6",
+//                               title: "Public Nuisance",
+//                               subtitle: "(1)",
+//                               status: "Resourced",
+//                               coordinate: CLLocationCoordinate2D(latitude: -37.808979, longitude: 144.978205),
+//                               priority: "P3",
+//                               iconColor: .secondaryGray,
+//                               iconFilled: false,
+//                               usesDarkBackground: true),
+//        ]
+//
         patrol = [
         ]
         
@@ -305,7 +291,7 @@ open class TasksMapViewModel {
                                  pulsing: false),
         ]
         
-        applyFilter()
+        loadTasks()
     }
     
     func isAnnotationViewDisplayedOnTop(_ annotationView: MKAnnotationView) -> Bool {

@@ -80,7 +80,7 @@ open class TasksListContainerViewModel {
         didSet {
             if selectedSourceIndex != oldValue {
                 headerViewModel.selectedSourceIndex = selectedSourceIndex
-                splitViewModel?.mapViewModel.applyFilter()
+                splitViewModel?.mapViewModel.loadTasks()
                 updateSections()
             }
         }
@@ -157,23 +157,20 @@ open class TasksListContainerViewModel {
         
         let sections = SampleData.sectionsForType(type)
         
-        if let filter = self.splitViewModel?.filterViewModel {
+        if let filter = self.splitViewModel?.filterViewModel, let sync = CADStateManager.shared.lastSync {
             switch type {
             case .incident:
-                listViewModel.sections = sections.map { section in
-                    let items = section.items.filter { item in
-                        
-                        // TODO: Replace with enum when model classes created
-                        let priorityFilter = filter.priorities.contains(item.priority ?? "")
-                        let resourcedFilter = filter.resourcedIncidents.contains(item.status ?? "")
-                        
-                        // If status is not in filter options always show
-                        let isOther = item.status != "Resourced" && item.status != "Unresourced"
-                        
-                        return isOther || (priorityFilter && resourcedFilter)
-                    }
-                    return CADFormCollectionSectionViewModel(title: section.title, items: items)
+                let filteredIncidents = sync.incidents.filter { incident in
+                    let priorityFilter = filter.priorities.contains(incident.grade)
+                    let resourcedFilter = filter.resourcedIncidents.contains(incident.status)
+                    
+                    // If status is not in filter options always show
+                    let isOther = incident.status != .resourced && incident.status != .unresourced
+                    
+                    return isOther || (priorityFilter && resourcedFilter)
                 }
+                
+                listViewModel.sections = taskListSections(for: filteredIncidents)
             case .patrol: listViewModel.sections = sections
             case .broadcast: listViewModel.sections = sections
             case .resource:
@@ -194,6 +191,38 @@ open class TasksListContainerViewModel {
             listViewModel.sections = sections
         }
         delegate?.sectionsUpdated()
+    }
+    
+    func taskListSections(for incidents: [SyncDetailsIncident]) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
+        var sectionedIncidents: [String: Array<SyncDetailsIncident>] = [:]
+
+        for incident in incidents {
+            let status = incident.status.rawValue
+            if sectionedIncidents[status] == nil {
+                sectionedIncidents[status] = []
+            }
+            
+            sectionedIncidents[status]?.append(incident)
+        }
+        
+        var sections: [CADFormCollectionSectionViewModel<TasksListItemViewModel>] = []
+        for (status, incidents) in sectionedIncidents {
+            let taskViewModels = incidents.map { incident in
+                return TasksListItemViewModel(title: "\(incident.incidentType ?? "") \(incident.resourceCount > 0 ? String(incident.resourceCount) : "")",
+                                              subtitle: incident.location.fullAddress,
+                                              caption: incident.incidentNumber, // TODO: Find out what second number is
+                                              status: nil, // TODO: Remove value
+                                              priority: incident.grade.rawValue,
+                                              description: incident.details,
+                                              resources: nil, // TODO: Something else
+                                              boxColor: incident.grade.color,
+                                              boxFilled: incident.grade.filled,
+                                              hasUpdates: false) // TODO: Calculate dynamically
+            }
+            sections.append(CADFormCollectionSectionViewModel(title: "\(incidents.count) \(status)", items: taskViewModels))
+        }
+        
+        return sections
     }
 
 }
