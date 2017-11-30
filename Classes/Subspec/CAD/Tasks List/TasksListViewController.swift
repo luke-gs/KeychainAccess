@@ -31,7 +31,10 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
             cell.subtitleLabel.text = viewModel.subtitle
             cell.captionLabel.text = viewModel.caption
             cell.updatesIndicator.isHidden = !viewModel.hasUpdates
-            cell.configurePriority(color: viewModel.boxColor, priorityText: viewModel.boxText, priorityFilled: viewModel.boxFilled)
+            cell.configurePriority(text: viewModel.badgeText,
+                                   textColor: viewModel.badgeTextColor,
+                                   fillColor: viewModel.badgeFillColor,
+                                   borderColor: viewModel.badgeBorderColor)
             
             cell.detailLabel.text = viewModel.description
             cell.setStatusRows(viewModel.resources)

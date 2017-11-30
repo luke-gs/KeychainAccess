@@ -132,9 +132,10 @@ open class TasksMapViewModel {
                                       title: incident.incidentType,
                                       subtitle: incident.resourceCount > 0 ? "(\(incident.resourceCount))" : "",
                                       status: nil, // TODO: Remove this property
-                                      iconText: incident.grade.rawValue,
-                                      iconColor: incident.grade.color,
-                                      iconFilled: incident.grade.filled,
+                                      badgeText: incident.grade.rawValue,
+                                      badgeTextColor: incident.grade.badgeColors.text,
+                                      badgeFillColor: incident.grade.badgeColors.fill,
+                                      badgeBorderColor: incident.grade.badgeColors.border,
                                       usesDarkBackground: incident.status == .unresourced)
         }
     }

@@ -69,9 +69,10 @@ open class TasksMapViewController: MapViewController {
             }
 
             annotationView?.configure(withAnnotation: annotation,
-                                      priorityColor: annotation.iconColor,
-                                      priorityText: annotation.iconText,
-                                      priorityFilled: annotation.iconFilled,
+                                      priorityText: annotation.badgeText,
+                                      priorityTextColor: annotation.badgeTextColor,
+                                      priorityFillColor: annotation.badgeFillColor,
+                                      priorityBorderColor: annotation.badgeBorderColor,
                                       usesDarkBackground: annotation.usesDarkBackground)
             
             return annotationView

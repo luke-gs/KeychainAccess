@@ -209,15 +209,16 @@ open class TasksListContainerViewModel {
         for (status, incidents) in sectionedIncidents {
             let taskViewModels = incidents.map { incident in
                 return TasksListItemViewModel(title: "\(incident.incidentType ?? "") \(incident.resourceCount > 0 ? String(incident.resourceCount) : "")",
-                                              subtitle: incident.location.fullAddress,
-                                              caption: incident.incidentNumber, // TODO: Find out what second number is
-                                              status: nil, // TODO: Remove value
-                                              priority: incident.grade.rawValue,
-                                              description: incident.details,
-                                              resources: nil, // TODO: Something else
-                                              boxColor: incident.grade.color,
-                                              boxFilled: incident.grade.filled,
-                                              hasUpdates: false) // TODO: Calculate dynamically
+                    subtitle: incident.location.fullAddress,
+                    caption: incident.incidentNumber, // TODO: Find out what second number is
+                    status: nil, // TODO: Remove value
+                    priority: incident.grade.rawValue,
+                    description: incident.details,
+                    resources: nil, // TODO: Something else
+                    badgeTextColor: incident.grade.badgeColors.text,
+                    badgeFillColor: incident.grade.badgeColors.fill,
+                    badgeBorderColor: incident.grade.badgeColors.border,
+                    hasUpdates: false) // TODO: Calculate dynamically
             }
             sections.append(CADFormCollectionSectionViewModel(title: "\(incidents.count) \(status)", items: taskViewModels))
         }
@@ -245,7 +246,7 @@ public class SampleData {
     static func sectionsForType(_ type: TaskListType) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
         switch type {
         case .incident:
-            return SampleData.incidents()
+            return []
         case .patrol:
             return SampleData.patrols()
         case .broadcast:
@@ -254,121 +255,8 @@ public class SampleData {
             return SampleData.resources()
         }
     }
-
-    static func incidents() -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
-        return [
-            CADFormCollectionSectionViewModel(title: "Current Incident",
-                                              items: [TasksListItemViewModel(title: "Assault (2)",
-                                                                             subtitle: "188 Smith Street, Fitzroy VIC 3065",
-                                                                             caption: "AS4205  •  MP0001529",
-                                                                             status: "Current Incident",
-                                                                             priority: "P1",
-                                                                             description: "An armed group of men are currently barricaded within the lobby of Orion Central Bank, Collingwood. Communication channels has yet to be established.",
-                                                                             resources: [
-                                                                                TasksListItemResourceViewModel(image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                                               resourceTitle: "P24 (2)",
-                                                                                                               statusText: "At Incident",
-                                                                                                               tintColor: nil,
-                                                                                                               useBoldStatusText: false),
-                                                                                
-                                                                                TasksListItemResourceViewModel(image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                                               resourceTitle: "P12 (1)",
-                                                                                                               statusText: "Proceeding 1:25",
-                                                                                                               tintColor: nil,
-                                                                                                               useBoldStatusText: false)
-                                                                             ],
-                                                                             boxColor: .orangeRed,
-                                                                             boxFilled: true,
-                                                                             hasUpdates: false)
-            ]),
-            
-            CADFormCollectionSectionViewModel(title: "1 Assigned",
-                                              items: [TasksListItemViewModel(title: "Trespassing (1)",
-                                                                             subtitle: "16 Easey Street, Collingwood VIC 3066",
-                                                                             caption: "AS4217  •  MP0001540",
-                                                                             status: "Assigned",
-                                                                             priority: "P3",
-                                                                             description: "Building owner has reported that a group of individuals have forcefully entered the premises and are now refusing to leave. There have been recent",
-
-                                                                             resources: [
-                                                                                TasksListItemResourceViewModel(image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                                               resourceTitle: "P22 (1)",
-                                                                                                               statusText: "Proceeding 3:30",
-                                                                                                               tintColor: nil,
-                                                                                                               useBoldStatusText: false)
-                                                                             ],
-                                                                             boxColor: .brightBlue,
-                                                                             boxFilled: false,
-                                                                             hasUpdates: true)
-            ]),
-            
-            
-            CADFormCollectionSectionViewModel(title: "2 Unresourced",
-                                              items: [TasksListItemViewModel(title: "Vandalism",
-                                                                             subtitle: "160 Vere Street, Collingwood VIC 3066",
-                                                                             caption: "AS4224  •  MP0001548",
-                                                                             status: "Unresourced",
-                                                                             priority: "P4",
-                                                                             description: "Multiple letterboxes that belong to a group of units have been damaged with what witnesses have described to be a baseball bat. Offenders have fled on foot and are thought to be residing in the area.",
-                                                                             boxColor: .secondaryGray,
-                                                                             boxFilled: false,
-                                                                             hasUpdates: false),
-                                                      
-                                                      TasksListItemViewModel(title: "Traffic Crash",
-                                                                             subtitle: "41 Victoria Parade, Fitzroy VIC 3065",
-                                                                             caption: "AS4227  •  MP0001551",
-                                                                             status: "Unresourced",
-                                                                             priority: "P3",
-                                                                             description: "A multi-vehicle collision has occured outside St. Vincent’s Hospital. No injuries have been reported but traffic has been reduced from 3 to 1 lane due to wreckage. Officers are required on scene to re-direct traffic.",
-                                                                             boxColor: .secondaryGray,
-                                                                             boxFilled: false,
-                                                                             hasUpdates: false)
-            ]),
-            
-            CADFormCollectionSectionViewModel(title: "2 Resourced",
-                                              items: [TasksListItemViewModel(title: "Domestic Violence (2)",
-                                                                             subtitle: "57 Bell Street, Fitzroy VIC 3065",
-                                                                             caption: "AS4203  :  MP0001517",
-                                                                             status: "Resourced",
-                                                                             priority: "P2",
-                                                                             description: "Multiple witnesses have reported a couple arguing in public and disturbing the peace. They appear to be either intoxicated or under the influence of an illicit drugs",
-                                                                             resources: [
-                                                                                TasksListItemResourceViewModel(image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                                               resourceTitle: "P08 (2)",
-                                                                                                               statusText: "Duress",
-                                                                                                               tintColor: .orangeRed,
-                                                                                                               useBoldStatusText: true),
-                                                                                
-                                                                                TasksListItemResourceViewModel(image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                                               resourceTitle: "P03 (3)",
-                                                                                                               statusText: "Proceeding 0:47",
-                                                                                                               tintColor: nil,
-                                                                                                               useBoldStatusText: false),
-                                                                                
-                                                                                TasksListItemResourceViewModel(image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                                               resourceTitle: "P14 (2)",
-                                                                                                               statusText: "Proceeding 2:41",
-                                                                                                               tintColor: nil,
-                                                                                                               useBoldStatusText: false),
-                                                                             ],
-                                                                             boxColor: .sunflowerYellow,
-                                                                             boxFilled: true,
-                                                                             hasUpdates: false),
-                                                      
-                                                      TasksListItemViewModel(title: "Public Nuisance (1)",
-                                                                             subtitle: "27 Lansdowne Street, East Melbourne VIC 3002",
-                                                                             caption: "AS4012  •  MP00001528",
-                                                                             status: "Resourced",
-                                                                             priority: "P3",
-                                                                             description: "A group of intoxicated individuals are verbally abusing patrons as they enter and leave",
-                                                                             boxColor: .secondaryGray,
-                                                                             boxFilled: false,
-                                                                             hasUpdates: false),
-                                                      ]),
-            
-        ]
-        
-    }
+    
+    
     
     static func patrols() -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
         return [
@@ -376,40 +264,45 @@ public class SampleData {
                                               items: [TasksListItemViewModel(title: "Traffic Management",
                                                                              subtitle: "188 Smith St",
                                                                              caption: "AS4205  :  MP0001529",
-                                                                             boxColor: UIColor.clear,
-                                                                             boxFilled: true,
+                                                                             badgeTextColor: UIColor.clear,
+                                                                             badgeFillColor: UIColor.clear,
+                                                                             badgeBorderColor: UIColor.clear,
                                                                              hasUpdates: false)])
         ]
     }
-
+    
     static func broadcasts() -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
         return [
             CADFormCollectionSectionViewModel(title: "1 Alert",
                                               items: [TasksListItemViewModel(title: "Impaired Driver",
                                                                              subtitle: "Fitzroy",
                                                                              caption: "BC0997  :  10:16",
-                                                                             boxColor: UIColor.clear,
-                                                                             boxFilled: true,
+                                                                             badgeTextColor: UIColor.clear,
+                                                                             badgeFillColor: UIColor.clear,
+                                                                             badgeBorderColor: UIColor.clear,
                                                                              hasUpdates: false)]),
             CADFormCollectionSectionViewModel(title: "1 Event",
                                               items: [TasksListItemViewModel(title: "Lawful Protest March",
                                                                              subtitle: "Melbourne",
                                                                              caption: "BC0962  :  09:00 - 12:00",
-                                                                             boxColor: UIColor.clear,
-                                                                             boxFilled: true,
+                                                                             badgeTextColor: UIColor.clear,
+                                                                             badgeFillColor: UIColor.clear,
+                                                                             badgeBorderColor: UIColor.clear,
                                                                              hasUpdates: false)]),
             CADFormCollectionSectionViewModel(title: "2 BOLF",
                                               items: [TasksListItemViewModel(title: "Vehicle: TNS448",
                                                                              subtitle: "Melbourne",
                                                                              caption: "BC0995  :  1 day ago",
-                                                                             boxColor: UIColor.clear,
-                                                                             boxFilled: true,
+                                                                             badgeTextColor: UIColor.clear,
+                                                                             badgeFillColor: UIColor.clear,
+                                                                             badgeBorderColor: UIColor.clear,
                                                                              hasUpdates: false),
                                                       TasksListItemViewModel(title: "Vehicle: XNR106",
                                                                              subtitle: "Melbourne",
                                                                              caption: "BC1004  :  4 days ago",
-                                                                             boxColor: UIColor.clear,
-                                                                             boxFilled: true,
+                                                                             badgeTextColor: UIColor.clear,
+                                                                             badgeFillColor: UIColor.clear,
+                                                                             badgeBorderColor: UIColor.clear,
                                                                              hasUpdates: false)])
         ]
     }
@@ -421,8 +314,9 @@ public class SampleData {
                                                                              subtitle: "Fitzroy",
                                                                              caption: "In Duress 2:45",
                                                                              priority: "P1",
-                                                                             boxColor: .orangeRed,
-                                                                             boxFilled: true,
+                                                                             badgeTextColor: .black,
+                                                                             badgeFillColor: .orangeRed,
+                                                                             badgeBorderColor: .orangeRed,
                                                                              hasUpdates: false)]),
             CADFormCollectionSectionViewModel(title: "7 Tasked",
                                               items: [TasksListItemViewModel(title: "P03 (3)",
@@ -430,34 +324,39 @@ public class SampleData {
                                                                              caption: "Proceeding",
                                                                              status: "Tasked",
                                                                              priority: "P1",
-                                                                             boxColor: .orangeRed,
-                                                                             boxFilled: true,
+                                                                             badgeTextColor: .black,
+                                                                             badgeFillColor: .orangeRed,
+                                                                             badgeBorderColor: .orangeRed,
                                                                              hasUpdates: false),
                                                       TasksListItemViewModel(title: "P12 (1)",
                                                                              subtitle: "Fitzroy",
                                                                              caption: "At Incident",
                                                                              status: "Tasked",
                                                                              priority: "P1",
-                                                                             boxColor: .orangeRed,
-                                                                             boxFilled: true,
+                                                                             badgeTextColor: .black,
+                                                                             badgeFillColor: .orangeRed,
+                                                                             badgeBorderColor: .orangeRed,
                                                                              hasUpdates: false),
                                                       TasksListItemViewModel(title: "F05 (4)",
                                                                              subtitle: "Abbotsford",
                                                                              caption: "Processing",
                                                                              status: "Tasked",
                                                                              priority: "P3",
-                                                                             boxColor: .brightBlue,
-                                                                             boxFilled: false,
+                                                                             badgeTextColor: .primaryGray,
+                                                                             badgeFillColor: .primaryGray,
+                                                                             badgeBorderColor: .clear,
                                                                              hasUpdates: false),
                                                       TasksListItemViewModel(title: "K14 (2)",
                                                                              subtitle: "Collingwood",
                                                                              caption: "Processing",
                                                                              status: "Tasked",
                                                                              priority: "P3",
-                                                                             boxColor: .brightBlue,
-                                                                             boxFilled: false,
+                                                                             badgeTextColor: .primaryGray,
+                                                                             badgeFillColor: .primaryGray,
+                                                                             badgeBorderColor: .clear,
                                                                              hasUpdates: false)])
         ]
     }
 
 }
+

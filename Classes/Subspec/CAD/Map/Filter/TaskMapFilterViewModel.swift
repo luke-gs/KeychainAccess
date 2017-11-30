@@ -87,15 +87,15 @@ public class TaskMapFilterViewModel: MapFilterViewModel {
     }
     
     /// Which priorities to show
-    public var priorities: [SyncDetailsIncident.Grade] {
+    public var priorities: [IncidentGrade] {
         let options = sections[Indexes.incidents].toggleRows[Indexes.ToggleRows.incidentsPriority].options
         
         return (options.map { option in
             if option.isOn, let text = option.text {
-                return SyncDetailsIncident.Grade(rawValue: text)
+                return IncidentGrade(rawValue: text)
             }
             return nil
-        } as [SyncDetailsIncident.Grade?]).removeNils()
+        } as [IncidentGrade?]).removeNils()
     }
     
     /// Which type of incidents to show

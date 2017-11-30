@@ -54,7 +54,7 @@ open class IncidentAnnotationView: MKAnnotationView {
         setupConstraints()
     }
     
-    public func configure(withAnnotation annotation: MKAnnotation, priorityColor: UIColor, priorityText: String, priorityFilled: Bool, usesDarkBackground: Bool) {
+    public func configure(withAnnotation annotation: MKAnnotation, priorityText: String, priorityTextColor: UIColor, priorityFillColor: UIColor, priorityBorderColor: UIColor, usesDarkBackground: Bool) {
         self.annotation = annotation
         
         let bubbleColor = usesDarkBackground ? .primaryGray : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
@@ -67,16 +67,9 @@ open class IncidentAnnotationView: MKAnnotationView {
         titleLabel.text = [annotation.title ?? "", annotation.subtitle ?? ""].removeNils().joined(separator: " ")
         priorityLabel.text = priorityText
         
-        // If we want a filled in priority icon
-        if priorityFilled {
-            priorityBackground.backgroundColor = priorityColor
-            priorityBackground.layer.borderColor = UIColor.clear.cgColor
-            priorityLabel.textColor = .black
-        } else {
-            priorityBackground.backgroundColor = .clear
-            priorityBackground.layer.borderColor = priorityColor.cgColor
-            priorityLabel.textColor = priorityColor
-        }
+        priorityBackground.backgroundColor = priorityFillColor
+        priorityBackground.layer.borderColor = priorityBorderColor.cgColor
+        priorityLabel.textColor = priorityTextColor
     }
     
     required public init?(coder aDecoder: NSCoder) {
