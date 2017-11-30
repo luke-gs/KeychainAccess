@@ -12,6 +12,22 @@ import UIKit
 
 /// Reponse object for a single Resource in the call to /sync/details
 open class SyncDetailsResource: Codable {
+
+    /// Enum for resource types
+    public enum ResourceType: String, Codable {
+        case vehicle = "Vehicle"
+        case dogSquad = "DogSquad"
+
+        public func icon() -> UIImage? {
+            switch self {
+            case .vehicle:
+                return AssetManager.shared.image(forKey: .resourceCar)
+            case .dogSquad:
+                return AssetManager.shared.image(forKey: .resourceDog)
+            }
+        }
+    }
+
     open var callsign : String!
     open var driver : String!
     open var equipment : [SyncDetailsResourceEquipment]!
@@ -24,7 +40,7 @@ open class SyncDetailsResource: Codable {
     open var shiftStart : String!
     open var station : String!
     open var status : String!
-    open var type : String!
+    open var type : ResourceType!
     open var zone : String!
 }
 

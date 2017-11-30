@@ -31,33 +31,46 @@ open class CADStateManager: NSObject {
     /// The API manager to use, by default system one
     open static var apiManager: CADAPIManager = APIManager.shared
 
-    /// The currently booked on callsign, or nil
-    open var callsign: String? {
+    /// The logged in officer details
+    open var officerDetails: OfficerDetailsResponse?
+
+    /// The last book on data
+    open var lastBookOn: BookOnRequest? {
         didSet {
             NotificationCenter.default.post(name: .CADCallsignChanged, object: self)
         }
     }
 
-    /// The logged in officer details
-    open var officerDetails: OfficerDetailsResponse?
+    /// The currently booked on resource
+    open var currentResource: SyncDetailsResource? {
+        if let bookOn = CADStateManager.shared.lastBookOn {
+            return CADStateManager.shared.resourcesById[bookOn.callsign]
+        }
+        return nil
+    }
 
-    /// The last book on data
-    open var lastBookOn: BookOnRequest?
+    /// The current incident for my callsign
+    open var currentIncident: SyncDetailsIncident? {
+        if let bookOn = CADStateManager.shared.lastBookOn {
+            return CADStateManager.shared.incidentForResource(callsign: bookOn.callsign)
+        }
+        return nil
+    }
 
     /// The last sync data
-    open var lastSync: SyncDetailsResponse?
+    open private(set) var lastSync: SyncDetailsResponse?
 
     /// The last sync time
-    open var lastSyncTime: Date?
+    open private(set) var lastSyncTime: Date?
 
     /// Incidents retrieved in last sync, keyed by incidentNumber
-    open var incidentsById: [String: SyncDetailsIncident] = [:]
+    open private(set) var incidentsById: [String: SyncDetailsIncident] = [:]
 
     /// Resources retrieved in last sync, keyed by callsign
-    open var resourcesById: [String: SyncDetailsResource] = [:]
+    open private(set) var resourcesById: [String: SyncDetailsResource] = [:]
 
     /// Officers retrieved in last sync, keyed by payrollId
-    open var officersById: [String: SyncDetailsOfficer] = [:]
+    open private(set) var officersById: [String: SyncDetailsOfficer] = [:]
 
     // MARK: - Officer
 

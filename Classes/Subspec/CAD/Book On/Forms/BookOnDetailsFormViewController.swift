@@ -250,6 +250,11 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     }
 
     @objc private func submitFormTapped() {
+        #if DEBUG
+            // Skip validation when debug, to keep devs happy
+            self.submitForm()
+        #endif
+
         let result = builder.validate()
 
         switch result {

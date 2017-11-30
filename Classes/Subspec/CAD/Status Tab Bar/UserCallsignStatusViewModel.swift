@@ -95,8 +95,10 @@ open class UserCallsignStatusViewModel {
     }
 
     @objc open func callsignChanged() {
-        if let callsign = CADStateManager.shared.callsign {
-            self.state = .assigned(callsign: callsign, status: "At Incident", image: AssetManager.shared.image(forKey: .entityCarSmall))
+        if let bookOn = CADStateManager.shared.lastBookOn {
+            self.state = .assigned(callsign: bookOn.callsign,
+                                   status: CADStateManager.shared.currentIncident?.status ?? "",
+                                   image: CADStateManager.shared.currentResource?.type.icon())
         } else {
             self.state = UserCallsignStatusViewModel.defaultNotBookedOnState
         }
