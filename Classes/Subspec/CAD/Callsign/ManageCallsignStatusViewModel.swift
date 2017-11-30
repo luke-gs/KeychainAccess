@@ -55,7 +55,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
         return vc
     }
 
-    public var currentStatus: ManageCallsignStatus {
+    public var currentStatus: ResourceStatus {
         return statusForIndexPath(selectedIndexPath)
     }
 
@@ -84,7 +84,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
     }
 
     /// Attempt to select a new status
-    open func setSelectedIndexPath(_ indexPath: IndexPath) -> Promise<ManageCallsignStatus> {
+    open func setSelectedIndexPath(_ indexPath: IndexPath) -> Promise<ResourceStatus> {
         let newStatus = statusForIndexPath(indexPath)
         if currentStatus.canChangeToStatus(newStatus: newStatus) {
 
@@ -132,9 +132,9 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
 
     // MARK: - Internal
 
-    private func statusForIndexPath(_ indexPath: IndexPath) -> ManageCallsignStatus {
+    private func statusForIndexPath(_ indexPath: IndexPath) -> ResourceStatus {
         let index = indexPath.section * numberOfItems(for: 0) + indexPath.row
-        return ManageCallsignStatus(rawValue: index)!
+        return ResourceStatus.allCases[index]
     }
 
     // MARK: - Override
@@ -151,8 +151,8 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
 
     // MARK: - Data
 
-    private func itemFromStatus(_ status: ManageCallsignStatus) -> ManageCallsignStatusItemViewModel {
-        return ManageCallsignStatusItemViewModel(title: status.title, image: AssetManager.shared.image(forKey: status.imageKey)!)
+    private func itemFromStatus(_ status: ResourceStatus) -> ManageCallsignStatusItemViewModel {
+        return ManageCallsignStatusItemViewModel(title: status.title, image: status.icon()!)
     }
 
     open func updateData() {

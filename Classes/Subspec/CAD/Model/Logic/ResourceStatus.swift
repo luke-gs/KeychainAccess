@@ -1,5 +1,5 @@
 //
-//  ManageCallsignStatus.swift
+//  ResourceStatus.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 17/10/17.
@@ -9,22 +9,25 @@
 import UIKit
 
 /// Enum for callsign status states and logic from https://gridstone.atlassian.net/browse/MPOLA-520
-public enum ManageCallsignStatus: Int {
+public enum ResourceStatus: String, Codable {
     // General
-    case unavailable
-    case onAir
-    case mealBreak
-    case trafficStop
-    case court
-    case atStation
-    case onCall
-    case inquiries1
+    case unavailable    = "Unavailable"
+    case onAir          = "On Air"
+    case mealBreak      = "Meal Break"
+    case trafficStop    = "Traffic Stop"
+    case court          = "Court"
+    case atStation      = "At Station"
+    case onCall         = "On Call"
+    case inquiries1     = "Inquiries1"
 
     // Current task
-    case proceeding
-    case atIncident
-    case finalise
-    case inquiries2
+    case proceeding     = "Proceeding"
+    case atIncident     = "At Incident"
+    case finalise       = "Finalise"
+    case inquiries2     = "Inquiries2"
+
+    /// All enum cases, in order of display
+    public static let allCases: [ResourceStatus] = [.unavailable,.onAir,.mealBreak,.trafficStop,.court,.atStation,.onCall,.inquiries1,.proceeding,.atIncident,.finalise,.inquiries2]
 
     var title: String {
         switch self {
@@ -106,7 +109,11 @@ public enum ManageCallsignStatus: Int {
         }
     }
 
-    func canChangeToStatus(newStatus: ManageCallsignStatus) -> Bool {
+    public func icon() -> UIImage? {
+        return AssetManager.shared.image(forKey: imageKey)
+    }
+
+    public func canChangeToStatus(newStatus: ResourceStatus) -> Bool {
         // Rather than write entire matrix of true/falses, just check for the few that aren't allowed
         switch (self, newStatus) {
         case (.proceeding, .finalise),
