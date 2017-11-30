@@ -44,7 +44,7 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
         }
         
         // Use a generic sidebar title
-        return NSLocalizedString("Details", comment: "Title for for entity details")
+        return NSLocalizedString("Details", comment: "Title for for task details")
     }
     
     /// Updates the header view with the details for the latest selected representation.

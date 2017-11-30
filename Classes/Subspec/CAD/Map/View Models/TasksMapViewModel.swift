@@ -43,7 +43,14 @@ open class TasksMapViewModel {
 
         var annotations: [TaskAnnotation] = []
         
-        if filter.showIncidents {
+        let currentListItem: TaskListType?
+        if let selectedListIndex = splitViewModel?.listContainerViewModel.selectedSourceIndex {
+            currentListItem = TaskListType(rawValue: selectedListIndex)
+        } else {
+            currentListItem = nil
+        }
+        
+        if filter.showIncidents || currentListItem == .incident {
             let filteredIncidents = incidents.filter { model in
                 // TODO: Replace with enum when model classes created
                 let priorityFilter = filter.priorities.contains(model.priority)
@@ -58,15 +65,15 @@ open class TasksMapViewModel {
             annotations += taskAnnotations(for: filteredIncidents)
         }
         
-        if filter.showPatrol {
+        if filter.showPatrol || currentListItem == .patrol {
             annotations += taskAnnotations(for: patrol)
         }
         
-        if filter.showBroadcasts {
+        if filter.showBroadcasts || currentListItem == .broadcast {
             annotations += taskAnnotations(for: broadcast)
         }
 
-        if filter.showResources {
+        if filter.showResources || currentListItem == .resource {
             let filteredResources = resources.filter { model in
                 // TODO: Replace with enum when model classes created
                 let taskedFilter = filter.taskedResources.contains(model.status)
@@ -112,14 +119,18 @@ open class TasksMapViewModel {
     public func viewModel(for annotation: TaskAnnotation?) -> TaskItemViewModel? {
         if let annotation = annotation as? ResourceAnnotation {
             return ResourceTaskItemViewModel(iconImage: annotation.icon,
-                                                  iconTintColor: .white,
-                                                  color: .disabledGray, // TODO: Find out which to use
-                statusText: annotation.status, // FIXME: Get real text
-                itemName: "\(annotation.title ?? "") \(annotation.subtitle ?? "")",
-                lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
-        } else if let _ = annotation as? IncidentAnnotation {
-            // TODO: Hook up in CAD Sprint 3
-            return nil
+                                             iconTintColor: .white,
+                                             color: .disabledGray, // TODO: Find out which to use
+                                             statusText: annotation.status, // FIXME: Get real text
+                                             itemName: "\(annotation.title ?? "") \(annotation.subtitle ?? "")",
+                                             lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
+        } else if let annotation = annotation as? IncidentAnnotation {
+            return IncidentTaskItemViewModel(iconImage: nil, // TODO: Get image
+                                             iconTintColor: .white, // TODO: Get color
+                                             color: .disabledGray, // TODO: Get color
+                                             statusText: annotation.status, // TODO: Get text
+                                             itemName: "\(annotation.title ?? "") \(annotation.subtitle ?? "")", // TODO: Get text
+                                             lastUpdated: "Updated 2 mins ago")
         }
         
         return nil

@@ -155,4 +155,9 @@ public class TaskMapFilterViewModel: MapFilterViewModel {
     public func footerButtonText() -> String? {
         return NSLocalizedString("Reset Filter", comment: "")
     }
+    
+    public func disablesCheckboxesOnSectionDisabled(for section: Int) -> Bool {
+        return false
+    }
+
 }

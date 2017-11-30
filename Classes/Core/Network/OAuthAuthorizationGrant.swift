@@ -34,6 +34,16 @@ public enum OAuthAuthorizationGrant: Parameterisable {
     /// - Parameters:
     ///    - parameters: The parameters for the request.
     case custom([String: Any])
+    
+    /// Returns the path to use for the grant type.
+    public var path: String {
+        switch self {
+        case .refreshToken:
+            return "refresh"
+        default:
+            return "login"
+        }
+    }
         
     /// Returns the authorization grant's parameters.
     public var parameters: [String: Any] {

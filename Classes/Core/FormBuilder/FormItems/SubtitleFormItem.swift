@@ -43,11 +43,26 @@ public class SubtitleFormItem: BaseFormItem {
     }
 
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
-        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: title, subtitle: subtitle, inWidth: contentWidth, compatibleWith: traitCollection, imageSize: image?.size ?? .zero, style: .default, imageSeparation: CellImageLabelSeparation, labelSeparation: CellImageLabelSeparation, accessoryViewSize: accessory?.size ?? .zero)
+        return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: defaultTitle(for: traitCollection),
+                                                                   subtitle: defaultSubtitle(for: traitCollection),
+                                                                   inWidth: contentWidth,
+                                                                   compatibleWith: traitCollection,
+                                                                   imageSize: image?.size ?? .zero,
+                                                                   style: .default,
+                                                                   imageSeparation: CellImageLabelSeparation,
+                                                                   labelSeparation: CellImageLabelSeparation,
+                                                                   accessoryViewSize: accessory?.size ?? .zero)
     }
 
     public override func intrinsicWidth(in collectionView: UICollectionView, layout: CollectionViewFormLayout, sectionEdgeInsets: UIEdgeInsets, for traitCollection: UITraitCollection) -> CGFloat {
-        return CollectionViewFormSubtitleCell.minimumContentWidth(withTitle: title, subtitle: subtitle, compatibleWith: traitCollection, imageSize: image?.size ?? .zero, style: .default, imageSeparation: CellImageLabelSeparation, labelSeparation: CellTitleSubtitleSeparation, accessoryViewSize: accessory?.size ?? .zero)
+        return CollectionViewFormSubtitleCell.minimumContentWidth(withTitle: defaultTitle(for: traitCollection),
+                                                                  subtitle: defaultSubtitle(for: traitCollection),
+                                                                  compatibleWith: traitCollection,
+                                                                  imageSize: image?.size ?? .zero,
+                                                                  style: .default,
+                                                                  imageSeparation: CellImageLabelSeparation,
+                                                                  labelSeparation: CellTitleSubtitleSeparation,
+                                                                  accessoryViewSize: accessory?.size ?? .zero)
     }
 
     public override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
@@ -58,6 +73,14 @@ public class SubtitleFormItem: BaseFormItem {
 
         cell.titleLabel.textColor = primaryTextColor
         cell.subtitleLabel.textColor = secondaryTextColor
+    }
+    
+    private func defaultTitle(for traitCollection: UITraitCollection) -> StringSizable? {
+        return title?.sizing(defaultFont: .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection))
+    }
+    
+    private func defaultSubtitle(for traitCollection: UITraitCollection) -> StringSizable? {
+        return subtitle?.sizing(defaultNumberOfLines: 0, defaultFont: .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection))
     }
 
 }
