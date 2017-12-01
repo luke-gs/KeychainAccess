@@ -58,6 +58,9 @@ public class PromiseCancellationToken: PromiseCancelling {
     }
 
     public func cancel() {
+        guard !isCancelled else {
+            return
+        }
         isCancelled = true
         cancelAction()
     }
