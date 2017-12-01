@@ -32,11 +32,19 @@ public class EntityBucket {
 
     private var entitiesSnapshots: [EntitySnapshot] = []
 
+    /// Initialize an entity bucket.
+    ///
+    /// - Parameters:
+    ///   - limit: The maximum of entities that this bucket can hold. 0 means no limit.
+    ///   - entityManager: The entity manager to keep all entities up to date.
     public init(limit: Int = 0, entityManager: EntityManager = EntityManager.default) {
         self.limit = limit
         self.entityManager = entityManager
     }
 
+    /// Adds an entity to this bucket.
+    ///
+    /// - Parameter entity: The entity.
     public func add(_ entity: MPOLKitEntity) {
         if entitiesSnapshots.index(where: { $0.entity.canAssumeToBeTheSameAs(otherEntity: entity) }) == nil {
             let entitySnapshot = EntitySnapshot(initialEntity: entity, entityManager: entityManager)
@@ -50,6 +58,9 @@ public class EntityBucket {
         }
     }
 
+    /// Adds a collection of entities to this bucket.
+    ///
+    /// - Parameter entities: A collection of entities.
     public func add(_ entities: [MPOLKitEntity]) {
         entities.forEach { entity in
             if entitiesSnapshots.index(where: { $0.entity.canAssumeToBeTheSameAs(otherEntity: entity) }) == nil {
@@ -65,6 +76,9 @@ public class EntityBucket {
         NotificationCenter.default.post(name: EntityBucket.didUpdateNotificationName, object: self, userInfo: userInfo)
     }
 
+    /// Removes an entity ffrom the bucket.
+    ///
+    /// - Parameter entity: The entity to remove.
     public func remove(_ entity: MPOLKitEntity) {
         if let index = entitiesSnapshots.index(where: { $0.entity.canAssumeToBeTheSameAs(otherEntity: entity) }) {
             let entity = entitiesSnapshots.remove(at: index)
@@ -74,6 +88,7 @@ public class EntityBucket {
         }
     }
 
+    /// Removes all entities from the bucket.
     public func removeAll() {
         let entities = entitiesSnapshots.map({ $0.entity })
         entitiesSnapshots.removeAll()
@@ -82,6 +97,11 @@ public class EntityBucket {
                                         userInfo: [EntityBucket.removedEntitiesKey: entities])
     }
 
+
+    /// Checks if the bucket contains this entity.
+    ///
+    /// - Parameter entity: The entity to check.
+    /// - Returns: True if it is in the bucket. False otherwise.
     public func contains(_ entity: MPOLKitEntity) -> Bool {
         return entitiesSnapshots.contains(where: { $0.entity.canAssumeToBeTheSameAs(otherEntity: entity) })
     }

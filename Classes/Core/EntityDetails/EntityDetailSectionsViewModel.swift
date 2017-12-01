@@ -142,7 +142,6 @@ extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
 
         self.delegate?.entityDetailSectionsDidUpdateResults(self)
 
-        // Update our entity cache
         if let entity = fetchResult.entity {
             if let entityManager = self.recentlyViewed?.entityManager {
                 entityManager.addEntity(entity)
