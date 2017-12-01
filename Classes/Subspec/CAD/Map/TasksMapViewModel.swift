@@ -108,7 +108,8 @@ open class TasksMapViewModel {
                 let resource = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.incidentNumber).first
             else { return nil }
             
-            return IncidentTaskItemViewModel(iconImage: resource.status.icon,
+            return IncidentTaskItemViewModel(incidentNumber: incident.incidentNumber,
+                                             iconImage: resource.status.icon,
                                              iconTintColor: resource.status.iconColors.icon,
                                              color: resource.status.iconColors.background,
                                              statusText: resource.status.title,

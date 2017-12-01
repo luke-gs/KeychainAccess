@@ -51,6 +51,17 @@ open class SyncDetailsIncidentPerson: Codable {
     open var middleNames : String!
     open var thumbnail : String!
     open var yearOnlyDateOfBirth : String!
+    
+    open var initials: String {
+        return "\(givenName.prefix(1))\(familyName.prefix(1))"
+    }
+    
+    open var fullName: String {
+        let lastFirst = [familyName, givenName].removeNils().joined(separator: ", ")
+        let middle = middleNames != nil ? "\(middleNames.prefix(1))." : ""
+        
+        return "\(lastFirst) \(middle)"
+    }
 }
 
 /// Reponse object for an informant in an incident

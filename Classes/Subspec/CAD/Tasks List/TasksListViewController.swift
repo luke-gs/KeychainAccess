@@ -98,7 +98,8 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
         } else if let incident = CADStateManager.shared.incidentsById[item.identifier],
             let resource = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.incidentNumber).first
         {
-            return IncidentTaskItemViewModel(iconImage: resource.status.icon,
+            return IncidentTaskItemViewModel(incidentNumber: incident.incidentNumber,
+                                             iconImage: resource.status.icon,
                                              iconTintColor: resource.status.iconColors.icon,
                                              color: resource.status.iconColors.background,
                                              statusText: resource.status.title,

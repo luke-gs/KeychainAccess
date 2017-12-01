@@ -10,63 +10,58 @@ import UIKit
 
 public class IncidentAssociationsViewModel: CADFormCollectionViewModel<EntitySummaryDisplayable>, TaskDetailsViewModel {
     
-    public override init() {
+    /// The identifier for this incident
+    open let incidentNumber: String
+    
+    public init(incidentNumber: String) {
+        self.incidentNumber = incidentNumber
         super.init()
-        sections = dummyData
+        loadData()
     }
     
     /// Create the view controller for this view model
     public func createViewController() -> UIViewController {
-        return IncidentAssociationsViewController(viewModel: self)
+        let viewController = IncidentAssociationsViewController(viewModel: self)
+        delegate = viewController
+        return viewController
     }
     
-    /// Lazy var for creating view model content
-    private lazy var dummyData: [CADFormCollectionSectionViewModel<EntitySummaryDisplayable>] = {
-        return [
-            CADFormCollectionSectionViewModel(title: "4 People",
-                                              items: [
-                                                IncidentAssociationItemViewModel(category: "DS1",
-                                                                                 entityType: .person(initials: "JC"),
-                                                                                 title: "Citizen, John R.",
-                                                                                 detail1: "08/05/87 (29 Male)",
-                                                                                 detail2: "8 Catherine Street, Southbank VIC 3006",
-                                                                                 borderColor: .orangeRed,
-                                                                                 badge: 0),
-                                                IncidentAssociationItemViewModel(category: "DS1",
-                                                                                 entityType: .person(initials: "NK"),
-                                                                                 title: "Kim, Nari S.",
-                                                                                 detail1: "04/11/92 (24 Female)",
-                                                                                 detail2: "23 Somerset Street, Richmond VIC 3121",
-                                                                                 borderColor: nil,
-                                                                                 badge: 0),
-                                                IncidentAssociationItemViewModel(category: "DS1",
-                                                                                 entityType: .person(initials: "TK"),
-                                                                                 title: "Lazeron, Timo K.",
-                                                                                 detail1: "27/02/1998 (29 Male)",
-                                                                                 detail2: "27 Corsair Street, Richmond VIC 3121",
-                                                                                 borderColor: .brightBlue,
-                                                                                 badge: 0),
-                                                IncidentAssociationItemViewModel(category: "DS1",
-                                                                                 entityType: .person(initials: "RW"),
-                                                                                 title: "Wang, Rocky T.",
-                                                                                 detail1: "23/09/81 (35 Male)",
-                                                                                 detail2: "302 Chandler Road, Keysborough VIC 3173",
-                                                                                 borderColor: nil,
-                                                                                 badge: 0)
-            ]),
-            CADFormCollectionSectionViewModel(title: "1 Vehicle",
-                                              items: [
-                                                IncidentAssociationItemViewModel(category: "DS1",
-                                                                                 entityType: .vehicle,
-                                                                                 title: "ARP067",
-                                                                                 detail1: "2017 Tesla Model S",
-                                                                                 detail2: "Coupe • Black / Black",
-                                                                                 borderColor: .orangeRed,
-                                                                                 iconColor: .orangeRed,
-                                                                                 badge: 0)
-            ])
-        ]
-    }()
+    open func loadData() {
+        guard let incident = CADStateManager.shared.incidentsById[incidentNumber] else { return }
+        sections = []
+        
+        let personsViewModels = incident.persons?.map { person in
+            return IncidentAssociationItemViewModel(category: "DS1",
+                                                    entityType: .person(initials: person.initials),
+                                                    title: person.fullName,
+                                                    detail1: "\(person.dateOfBirth ?? "") \(person.gender ?? "")",
+                                                    detail2: person.jurisdiction, // TODO: Get address
+                                                    borderColor: nil,
+                                                    iconColor: nil,
+                                                    badge: 0)
+        } ?? []
+        
+        let vehiclesViewModels = incident.vehicles?.map { vehicle in
+            return IncidentAssociationItemViewModel(category: "DS1",
+                                                    entityType: .vehicle,
+                                                    title: vehicle.plateNumber,
+                                                    detail1: vehicle.vehicleType,
+                                                    detail2: vehicle.vehicleDescription,
+                                                    borderColor: nil,
+                                                    iconColor: nil,
+                                                    badge: 0)
+        } ?? []
+        
+        if personsViewModels.count > 0 {
+            sections.append(CADFormCollectionSectionViewModel(title: "\(personsViewModels.count) People", items: personsViewModels))
+        }
+        
+        if vehiclesViewModels.count > 0 {
+            sections.append(CADFormCollectionSectionViewModel(title: "\(vehiclesViewModels.count) Vehicles", items: vehiclesViewModels))
+        }
+        
+        delegate?.sectionsUpdated()
+    }
     
     /// The title to use in the navigation bar
     override open func navTitle() -> String {
