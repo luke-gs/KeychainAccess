@@ -39,6 +39,7 @@ extension Request {
             return .failure(ImageError.imageSerializationFailed)
         }
         let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
         do {
             return .success(try decoder.decode(T.self, from: data))
         } catch let error {
