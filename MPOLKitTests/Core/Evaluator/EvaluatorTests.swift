@@ -13,6 +13,13 @@ fileprivate extension Notification.Name {
     static let testNotification = Notification.Name("test")
 }
 
+fileprivate extension EvaluatorKey {
+    static let test1 = EvaluatorKey(rawValue: "test1")
+    static let test2 = EvaluatorKey(rawValue: "test2")
+    static let test3 = EvaluatorKey(rawValue: "test3")
+    static let test4 = EvaluatorKey(rawValue: "test4")
+}
+
 class EvaluatorTests: XCTestCase {
     private var evaluatable: DummyEvaluatable?
 
@@ -25,12 +32,12 @@ class EvaluatorTests: XCTestCase {
     }
 
     func testAddIdentifier() {
-        evaluatable?.evaluator.registerIdentifier("test", withHandler: { [unowned self] () -> (Bool) in
+        evaluatable?.evaluator.registerKey(.test1, withHandler: { [unowned self] () -> (Bool) in
             return self.evaluatable?.isValid == true
         })
         XCTAssertTrue(evaluatable?.evaluator.totalCount == 1, "Should have a single Identifier")
 
-        evaluatable?.evaluator.registerIdentifier("test2", withHandler: { [unowned self] () -> (Bool) in
+        evaluatable?.evaluator.registerKey(.test2, withHandler: { [unowned self] () -> (Bool) in
             return self.evaluatable?.isValid == true
         })
         XCTAssertTrue(evaluatable?.evaluator.totalCount == 2, "Should have multiple Identifier")
@@ -38,7 +45,7 @@ class EvaluatorTests: XCTestCase {
     }
 
     func testSingleValidState() {
-        evaluatable?.evaluator.registerIdentifier("test", withHandler: { () -> (Bool) in
+        evaluatable?.evaluator.registerKey(.test1, withHandler: { () -> (Bool) in
             return true
         })
 
@@ -47,10 +54,10 @@ class EvaluatorTests: XCTestCase {
 
     func testValidWithMultipleIdentifiers() {
 
-        evaluatable?.evaluator.registerIdentifier("test2", withHandler: { () -> (Bool) in
+        evaluatable?.evaluator.registerKey(.test2, withHandler: { () -> (Bool) in
             return true
         })
-        evaluatable?.evaluator.registerIdentifier("test3", withHandler: { () -> (Bool) in
+        evaluatable?.evaluator.registerKey(.test3, withHandler: { () -> (Bool) in
             return true
         })
 
@@ -58,29 +65,29 @@ class EvaluatorTests: XCTestCase {
     }
 
     func testEvaluationState() {
-        evaluatable?.evaluator.registerIdentifier("test3", withHandler: { () -> (Bool) in
+        evaluatable?.evaluator.registerKey(.test3, withHandler: { () -> (Bool) in
             return true
         })
 
-        XCTAssertTrue(evaluatable?.evaluator.evaluationState(for: "test3") == true, "Should return the correct state for test3 identifier")
+        XCTAssertTrue(evaluatable?.evaluator.evaluationState(for: .test3) == true, "Should return the correct state for test3 identifier")
     }
 
     func testInvalidEvaluationState() {
-        evaluatable?.evaluator.registerIdentifier("test4", withHandler: { () -> (Bool) in
+        evaluatable?.evaluator.registerKey(.test4, withHandler: { () -> (Bool) in
             return false
         })
 
-        XCTAssertTrue(evaluatable?.evaluator.evaluationState(for: "test4") == false, "Should return the false for test4 identifier")
+        XCTAssertTrue(evaluatable?.evaluator.evaluationState(for: .test4) == false, "Should return the false for test4 identifier")
     }
 
     func testInvalidWithMultipleIdentifiers() {
-        evaluatable?.evaluator.registerIdentifier("test2", withHandler: { () -> (Bool) in
+        evaluatable?.evaluator.registerKey(.test2, withHandler: { () -> (Bool) in
             return true
         })
-        evaluatable?.evaluator.registerIdentifier("test3", withHandler: { () -> (Bool) in
+        evaluatable?.evaluator.registerKey(.test3, withHandler: { () -> (Bool) in
             return true
         })
-        evaluatable?.evaluator.registerIdentifier("test4", withHandler: { () -> (Bool) in
+        evaluatable?.evaluator.registerKey(.test4, withHandler: { () -> (Bool) in
             return false
         })
 
@@ -93,13 +100,13 @@ class EvaluatorTests: XCTestCase {
     }
 
     func testValidCompletionCount() {
-        evaluatable?.evaluator.registerIdentifier("test", withHandler: { () -> (Bool) in
+        evaluatable?.evaluator.registerKey(.test1, withHandler: { () -> (Bool) in
             return true
         })
-        evaluatable?.evaluator.registerIdentifier("test2", withHandler: { () -> (Bool) in
+        evaluatable?.evaluator.registerKey(.test2, withHandler: { () -> (Bool) in
             return true
         })
-        evaluatable?.evaluator.registerIdentifier("test3", withHandler: { () -> (Bool) in
+        evaluatable?.evaluator.registerKey(.test3, withHandler: { () -> (Bool) in
             return true
         })
 
@@ -108,16 +115,16 @@ class EvaluatorTests: XCTestCase {
     }
 
     func testInvalidCompletionCount() {
-        evaluatable?.evaluator.registerIdentifier("test", withHandler: { () -> (Bool) in
+        evaluatable?.evaluator.registerKey(.test1, withHandler: { () -> (Bool) in
             return true
         })
-        evaluatable?.evaluator.registerIdentifier("test2", withHandler: { () -> (Bool) in
+        evaluatable?.evaluator.registerKey(.test2, withHandler: { () -> (Bool) in
             return true
         })
-        evaluatable?.evaluator.registerIdentifier("test3", withHandler: { () -> (Bool) in
+        evaluatable?.evaluator.registerKey(.test3, withHandler: { () -> (Bool) in
             return true
         })
-        evaluatable?.evaluator.registerIdentifier("test4", withHandler: { () -> (Bool) in
+        evaluatable?.evaluator.registerKey(.test4, withHandler: { () -> (Bool) in
             return false
         })
         XCTAssertTrue(evaluatable?.evaluator.validEvaluations == 3, "Should have 3 completed evaluations, event with one false")
@@ -126,7 +133,7 @@ class EvaluatorTests: XCTestCase {
     }
 
     func testObserversNotified() {
-        evaluatable?.evaluator.registerIdentifier("test", withHandler: { [weak self] () -> (Bool) in
+        evaluatable?.evaluator.registerKey(.test1, withHandler: { [weak self] () -> (Bool) in
             return self?.evaluatable?.isValid == true
         })
 
@@ -150,6 +157,7 @@ class EvaluatorTests: XCTestCase {
         // Evaluatable is set up with itself as an observer
         // Adding another object with the same reference should not create a new observer
         evaluatable?.evaluator.addObserver(evaluatable!)
+        evaluatable?.evaluator.addObserver(evaluatable!)
         XCTAssert(evaluatable?.evaluator.observerCount == 1, "Should still only have one unique observer")
     }
 
@@ -165,12 +173,12 @@ fileprivate class DummyEvaluatable: EvaluationObserverable {
 
     var isValid: Bool = false {
         didSet {
-            evaluator.updateEvaluation(for: "test")
+            evaluator.updateEvaluation(for: .test1)
         }
     }
 
     // Dummy notifcation is posted to ensure that observers are ntoified upon changes
-    func evaluationChanged(in evaluator: Evaluator, for identifier: String, evaluationState: Bool) {
+    func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
         NotificationCenter.default.post(name: .testNotification, object: self, userInfo: nil)
     }
 }

@@ -8,6 +8,6 @@
 
 import Foundation
 
-@objc public protocol EvaluationObserverable: class {
-    func evaluationChanged(in evaluator: Evaluator, for identifier: String, evaluationState: Bool)
+public protocol EvaluationObserverable: class {
+    func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool)
 }

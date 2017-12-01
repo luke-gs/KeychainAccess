@@ -8,17 +8,14 @@
 
 import Foundation
 
-public class Evaluator: NSObject {
+final public class Evaluator {
 
     public typealias EvaluationHandler = () -> (Bool)
-    public typealias EvaluationIdentifier = String
 
-    private var evaluators: [EvaluationIdentifier: EvaluationHandler] = [:]
-    private var evaluationStates: [EvaluationIdentifier: Bool] = [:]
+    private var evaluators: [EvaluatorKey: EvaluationHandler] = [:]
+    private var evaluationStates: [EvaluatorKey: Bool] = [:]
 
-    // Using a hashtable allows for weak references to
-    // be held for the blocks avoiding retain cycle
-    private var observers = NSHashTable<EvaluationObserverable>(options: .weakMemory)
+    private var observers = [WeakObservableWrapper]()
 
     // MARK: - Completion
 
@@ -55,23 +52,23 @@ public class Evaluator: NSObject {
 
     // MARK: - Registration
 
-    /// Registers an identifier with a block to be called when changes occur
+    /// Registers a key with a block to be called when changes occur
     ///
     /// - Parameters:
     ///   - identifier: String The value to store the block against
     ///   - handler: The block that will be called when an soemthing triggers a change to occur
-    public func registerIdentifier(_ identifier: EvaluationIdentifier, withHandler handler: @escaping EvaluationHandler) {
-        evaluators[identifier] = handler
-        evaluationStates[identifier] = handler()
+    public func registerKey(_ key: EvaluatorKey, withHandler handler: @escaping EvaluationHandler) {
+        evaluators[key] = handler
+        evaluationStates[key] = handler()
     }
 
 
-    /// The last stored value of the validation state for a specific identifier
+    /// The last stored value of the validation state for a specific key
     ///
-    /// - Parameter identifier: A key used to check for a specific validation state
+    /// - Parameter key: A key used to check for a specific validation state
     /// - Returns: The state of validation, either true or false
-    public func evaluationState(for identifier: EvaluationIdentifier) -> Bool {
-        return evaluationStates[identifier] ?? true
+    public func evaluationState(for key: EvaluatorKey) -> Bool {
+        return evaluationStates[key] ?? true
     }
 
     /// Adds a validation state given that the state exists
@@ -79,29 +76,29 @@ public class Evaluator: NSObject {
     /// - Parameters:
     ///   - validationState: The state passed in to be set
     ///   - identifier: The key for the specific validation state
-    public func addEvaluation(_ evaluationState: Bool, for identifier: EvaluationIdentifier) {
-        if let state = evaluationStates[identifier] {
+    public func addEvaluation(_ evaluationState: Bool, for key: EvaluatorKey) {
+        if let state = evaluationStates[key] {
             if state != evaluationState {
-                evaluationStates[identifier] = evaluationState
-                notifyObservers(that: identifier, changedTo: evaluationState)
+                evaluationStates[key] = evaluationState
+                notifyObservers(that: key, changedTo: evaluationState)
             }
         }
     }
 
     /// Update the validation state for each identifier provided
     ///
-    /// - Parameter identifiers: An array of identifiers used to know which
+    /// - Parameter keys: An array of keys used to know which
     ///             state to update
-    public func updateEvaluation(for identifiers: [EvaluationIdentifier]) {
-        identifiers.forEach { evaluate(for: $0) }
+    public func updateEvaluation(for keys: [EvaluatorKey]) {
+        keys.forEach { evaluate(for: $0) }
     }
 
     /// Update the validation state for the identifier provided
     ///
-    /// - Parameter identifier: An single instance of an identifiers used to know which
+    /// - Parameter key: An single instance of a key used to know which
     ///             state to update
-    public func updateEvaluation(for identifier: EvaluationIdentifier) {
-        evaluate(for: identifier)
+    public func updateEvaluation(for key: EvaluatorKey) {
+        evaluate(for: key)
     }
 
     /// Notify all the observers that a change has occurred for an identifier
@@ -109,9 +106,9 @@ public class Evaluator: NSObject {
     /// - Parameters:
     ///   - identifier: The specific key for the change
     ///   - state: The state that the change caused to be set
-    public func notifyObservers(that identifier: EvaluationIdentifier, changedTo state: Bool) {
-        observers.allObjects.forEach {
-            $0.evaluationChanged(in: self, for: identifier, evaluationState: state)
+    public func notifyObservers(that key: EvaluatorKey, changedTo state: Bool) {
+        observers.forEach {
+            $0.value?.evaluationChanged(in: self, for: key, evaluationState: state)
         }
     }
 
@@ -119,14 +116,18 @@ public class Evaluator: NSObject {
     ///
     /// - Parameter observer: The observer must be an ObserverProtocol
     public func addObserver(_ observer: EvaluationObserverable) {
-        observers.add(observer)
+        if observers.contains(where: { $0.value === observer }) == false {
+            observers.append(WeakObservableWrapper(value: observer))
+        }
     }
 
     /// Removes an observer from the hashTable of observers
     ///
     /// - Parameter observer: The observer must be an ObserverProtocol
     public func removeObserver(_ observer: EvaluationObserverable) {
-        observers.remove(observer)
+        if let index = observers.index(where: { $0.value === observer }) {
+            observers.remove(at: index)
+        }
     }
 
     /// Evaluates and returns the state of the stored block for a specific identifier
@@ -135,19 +136,34 @@ public class Evaluator: NSObject {
     /// If it does not contain a block anymore (may have gone out of scope), returns the
     /// last known state if it exists
     ///
-    /// - Parameter identifier: The key to the specific identifier
-    /// - Returns: The state of the validation for that identifier
+    /// - Parameter key: The key to the specific key
+    /// - Returns: The state of the validation for that key
     @discardableResult
-    private func evaluate(for identifier: EvaluationIdentifier) -> Bool {
+    private func evaluate(for key: EvaluatorKey) -> Bool {
         var isValid = true
-        if let handler = evaluators[identifier] {
+        if let handler = evaluators[key] {
             isValid = handler()
-            addEvaluation(isValid, for: identifier)
+            addEvaluation(isValid, for: key)
         } else {
-            if let state = evaluationStates[identifier] {
+            if let state = evaluationStates[key] {
                 isValid = state
             }
         }
         return isValid
+    }
+}
+
+/// Instead of using a Hashtable, wrap the EvaluationObserverable in a container
+/// that holds a weak reference to the value
+fileprivate struct WeakObservableWrapper {
+
+    private weak var _value: EvaluationObserverable?
+
+    init(value: EvaluationObserverable) {
+        _value = value
+    }
+
+    var value: EvaluationObserverable? {
+        return _value
     }
 }
