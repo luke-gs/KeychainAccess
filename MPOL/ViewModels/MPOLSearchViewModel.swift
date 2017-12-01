@@ -32,7 +32,7 @@ class MPOLSearchRecentsViewModel: SearchRecentsViewModel {
 
     var title: String = "MPOL"
 
-    var recentlyViewed: EntityCache { return UserSession.current.recentlyViewed }
+    var recentlyViewed: EntityBucket { return UserSession.current.recentlyViewed }
 
     var recentlySearched: [Searchable] {
         get {
