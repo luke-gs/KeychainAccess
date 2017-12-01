@@ -45,8 +45,11 @@ public class EntityPresenter: Presenter {
                 let viewModel = EntityDetailSectionsViewModel(initialSource: entity.source!,
                                                               dataSources: dataSources,
                                                               andMatchMaker: PersonMatchMaker())
+                viewModel.recentlyViewed = UserSession.current.recentlyViewed
 
-                return EntityDetailSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(viewModel: viewModel)
+                let entityDetailViewController = EntityDetailSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(viewModel: viewModel)
+                entityDetailViewController.delegate = self
+                return entityDetailViewController
 
             } else {
                 dataSources = [
@@ -57,8 +60,11 @@ public class EntityPresenter: Presenter {
                 let viewModel = EntityDetailSectionsViewModel(initialSource: entity.source!,
                                                               dataSources: dataSources,
                                                               andMatchMaker: VehicleMatchMaker())
+                viewModel.recentlyViewed = UserSession.current.recentlyViewed
 
-                return EntityDetailSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(viewModel: viewModel)
+                let entityDetailViewController = EntityDetailSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(viewModel: viewModel)
+                entityDetailViewController.delegate = self
+                return entityDetailViewController
             }
 
         case .help(let type):
@@ -117,6 +123,24 @@ public class EntityPresenter: Presenter {
 
     public func supportPresentable(_ presentableType: Presentable.Type) -> Bool {
         return presentableType is EntityScreen.Type
+    }
+
+}
+
+extension EntityPresenter: EntityDetailSplitViewControllerDelegate {
+
+    public func entityDetailSplitViewController<Details, Summary>(_ entityDetailSplitViewController: EntityDetailSplitViewController<Details, Summary>, didPresentEntity entity: MPOLKitEntity) {
+    }
+
+    public func entityDetailSplitViewController<Details, Summary>(_ entityDetailSplitViewController: EntityDetailSplitViewController<Details, Summary>, didActionOnEntity entity: MPOLKitEntity) {
+
+        // Temporary implementation of this action. Change to suit
+        let entityCache = UserSession.current.recentlyActioned
+        if entityCache.contains(entity) {
+            entityCache.remove(entity)
+        } else {
+            entityCache.add(entity)
+        }
     }
 
 }
