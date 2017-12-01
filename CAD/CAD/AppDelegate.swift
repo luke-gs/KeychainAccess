@@ -43,6 +43,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let host = APP_HOST_URL
         APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)", plugins: plugins, trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
 
+        // Use demo data
+        CADStateManager.apiManager = DemoAPIManager.shared
+
         landingPresenter = LandingPresenter()
         let presenter = PresenterGroup(presenters: [SystemPresenter(), landingPresenter])
         let director = Director(presenter: presenter)

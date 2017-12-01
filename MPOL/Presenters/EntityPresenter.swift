@@ -36,7 +36,8 @@ public class EntityPresenter: Presenter {
         case .entityDetails(let entity, let delegate):
             let dataSources: [EntityDetailSectionsDataSource]
 
-            if entity is Person {
+            switch entity {
+            case is Person:
                 dataSources = [
                     PersonMPOLDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
                     PersonFNCDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
@@ -50,8 +51,7 @@ public class EntityPresenter: Presenter {
                 let entityDetailViewController = EntityDetailSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(viewModel: viewModel)
                 entityDetailViewController.delegate = self
                 return entityDetailViewController
-
-            } else {
+            case is Vehicle:
                 dataSources = [
                     VehicleMPOLDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
                     VehicleFNCDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
@@ -63,10 +63,20 @@ public class EntityPresenter: Presenter {
                 viewModel.recentlyViewed = UserSession.current.recentlyViewed
 
                 let entityDetailViewController = EntityDetailSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(viewModel: viewModel)
+                 entityDetailViewController.delegate = self
+                return entityDetailViewController
+            case is Address:
+                dataSources = [LocationMPOLDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)]
+                let viewModel = EntityDetailSectionsViewModel(initialSource: MPOLSource.mpol,
+                                                              dataSources: dataSources,
+                                                              andMatchMaker: nil)
+                let entityDetailViewController = EntityDetailSplitViewController<EntityDetailsDisplayable, AddressSummaryDisplayable>(viewModel: viewModel)
                 entityDetailViewController.delegate = self
                 return entityDetailViewController
+            default:
+                break
             }
-
+            return UIViewController()
         case .help(let type):
             let content: HelpContent
 
