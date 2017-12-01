@@ -44,16 +44,25 @@ open class PhoneNumber: NSObject, Serialisable {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        MPLUnimplemented()
+        id = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String!
+
+        super.init()
+
+        type = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String?
+        areaCode = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.areaCode.rawValue) as String?
+        phoneNumber = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.phoneNumber.rawValue) as String?
     }
     
     open func encode(with aCoder: NSCoder) {
-        MPLUnimplemented()
+        aCoder.encode(PhoneNumber.modalVersion, forKey: CodingKey.version.rawValue)
+        aCoder.encode(id, forKey: CodingKey.id.rawValue)
+        aCoder.encode(areaCode, forKey: CodingKey.areaCode.rawValue)
+        aCoder.encode(phoneNumber, forKey: CodingKey.phoneNumber.rawValue)
     }
     
-    open static var supportsSecureCoding: Bool {
-        return true
-    }
+    open static var supportsSecureCoding: Bool { return true }
+
+    open static var modalVersion: Int { return 0 }
     
     
     // MARK: - Temp Formatters
@@ -78,5 +87,13 @@ open class PhoneNumber: NSObject, Serialisable {
         case "OTHR":    return "Other"
         default:        return "Unknown"      // Should default types be "Unknown" or "Other"
         }
+    }
+
+    private enum CodingKey: String {
+        case version
+        case id
+        case type
+        case areaCode
+        case phoneNumber
     }
 }

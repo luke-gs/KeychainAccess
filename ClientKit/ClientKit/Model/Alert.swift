@@ -109,7 +109,9 @@ open class Alert: NSObject, Serialisable {
         }
         
         self.id = id
-        
+
+        super.init()
+
         title = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.title.rawValue) as String?
         details = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.details.rawValue) as String?
         effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.effectiveDate.rawValue) as Date?
@@ -117,19 +119,37 @@ open class Alert: NSObject, Serialisable {
         if aDecoder.containsValue(forKey: CodingKey.level.rawValue),
             let level = Level(rawValue: aDecoder.decodeInteger(forKey: CodingKey.level.rawValue)) {
             self.level = level
-        } else {
-            level = nil
         }
-        
-        super.init()
+
+        dateCreated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateCreated.rawValue) as Date?
+        dateUpdated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateUpdated.rawValue) as Date?
+        expiryDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.expiryDate.rawValue) as Date?
+        createdBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.createdBy.rawValue) as String?
+        updatedBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.updatedBy.rawValue) as String?
+        entityType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.entityType.rawValue) as String?
+        isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
+
+        if let source = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.source.rawValue) as String? {
+            self.source = MPOLSource(rawValue: source)
+        }
     }
     
     open func encode(with aCoder: NSCoder) {
         aCoder.encode(Alert.modelVersion, forKey: CodingKey.version.rawValue)
         aCoder.encode(id, forKey: CodingKey.id.rawValue)
-        if let level = self.level?.rawValue {
+
+        if let level = level?.rawValue {
             aCoder.encode(level, forKey: CodingKey.level.rawValue)
         }
+
+        aCoder.encode(dateCreated, forKey: CodingKey.dateCreated.rawValue)
+        aCoder.encode(dateUpdated, forKey: CodingKey.dateUpdated.rawValue)
+        aCoder.encode(expiryDate, forKey: CodingKey.expiryDate.rawValue)
+        aCoder.encode(createdBy, forKey: CodingKey.createdBy.rawValue)
+        aCoder.encode(updatedBy, forKey: CodingKey.updatedBy.rawValue)
+        aCoder.encode(entityType, forKey: CodingKey.entityType.rawValue)
+        aCoder.encode(isSummary, forKey: CodingKey.isSummary.rawValue)
+        aCoder.encode(source?.rawValue, forKey: CodingKey.source.rawValue)
     }
     
     public static var supportsSecureCoding: Bool {
@@ -161,5 +181,13 @@ private enum CodingKey: String {
     case title
     case details
     case effectiveDate
+    case dateCreated
+    case dateUpdated
+    case createdBy
+    case updatedBy
+    case expiryDate
+    case entityType
+    case isSummary
+    case source
 }
 

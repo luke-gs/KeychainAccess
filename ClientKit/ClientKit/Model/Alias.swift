@@ -17,6 +17,8 @@ open class Alias: NSObject, Serialisable {
     public static var supportsSecureCoding: Bool {
         return true
     }
+
+    open static var modalVersion: Int { return 0 }
     
     open var id: String
     
@@ -72,11 +74,52 @@ open class Alias: NSObject, Serialisable {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        MPLUnimplemented()
+        id = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String!
+
+        super.init()
+
+        dateCreated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateCreated.rawValue) as Date?
+        dateUpdated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateUpdated.rawValue) as Date?
+        effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.effectiveDate.rawValue) as Date?
+        expiryDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.expiryDate.rawValue) as Date?
+        createdBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.createdBy.rawValue) as String?
+        updatedBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.updatedBy.rawValue) as String?
+        entityType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.entityType.rawValue) as String?
+        isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
+
+        if let source = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.source.rawValue) as String? {
+            self.source = MPOLSource(rawValue: source)
+        }
+
+        type = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.type.rawValue) as String?
+        firstName = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.firstName.rawValue) as String?
+        middleNames = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.middleNames.rawValue) as String?
+        lastName = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.lastName.rawValue) as String?
+        dateOfBirth = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateOfBirth.rawValue) as Date?
+        ethnicity = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.ethnicity.rawValue) as String?
+        title = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.title.rawValue) as String?
     }
     
-    public func encode(with aCoder: NSCoder) {
-        MPLUnimplemented()
+    open func encode(with aCoder: NSCoder) {
+        aCoder.encode(Alias.modelVersion, forKey: CodingKey.version.rawValue)
+
+        aCoder.encode(id, forKey: CodingKey.id.rawValue)
+        aCoder.encode(dateCreated, forKey: CodingKey.dateCreated.rawValue)
+        aCoder.encode(dateUpdated, forKey: CodingKey.dateUpdated.rawValue)
+        aCoder.encode(expiryDate, forKey: CodingKey.expiryDate.rawValue)
+        aCoder.encode(createdBy, forKey: CodingKey.createdBy.rawValue)
+        aCoder.encode(updatedBy, forKey: CodingKey.updatedBy.rawValue)
+        aCoder.encode(entityType, forKey: CodingKey.entityType.rawValue)
+        aCoder.encode(isSummary, forKey: CodingKey.isSummary.rawValue)
+        aCoder.encode(source?.rawValue, forKey: CodingKey.source.rawValue)
+
+        aCoder.encode(type, forKey: CodingKey.type.rawValue)
+        aCoder.encode(firstName, forKey: CodingKey.firstName.rawValue)
+        aCoder.encode(middleNames, forKey: CodingKey.middleNames.rawValue)
+        aCoder.encode(lastName, forKey: CodingKey.lastName.rawValue)
+        aCoder.encode(dateOfBirth, forKey: CodingKey.dateOfBirth.rawValue)
+        aCoder.encode(ethnicity, forKey: CodingKey.ethnicity.rawValue)
+        aCoder.encode(title, forKey: CodingKey.title.rawValue)
     }
     
     
@@ -107,5 +150,26 @@ open class Alias: NSObject, Serialisable {
         return formattedName
 
     }
-    
+
+    private enum CodingKey: String {
+        case version
+        case id
+        case dateCreated
+        case dateUpdated
+        case createdBy
+        case updatedBy
+        case effectiveDate
+        case expiryDate
+        case entityType
+        case isSummary
+        case source
+
+        case type
+        case firstName
+        case middleNames
+        case lastName
+        case dateOfBirth
+        case ethnicity
+        case title
+    }
 }

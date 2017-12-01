@@ -81,18 +81,101 @@ open class Licence: NSObject, Serialisable {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        self.id = UUID().uuidString
-//        MPLUnimplemented()
+        self.id = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String!
+
+        super.init()
+
+        dateCreated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateCreated.rawValue) as Date?
+        dateUpdated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateUpdated.rawValue) as Date?
+        effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.effectiveDate.rawValue) as Date?
+        expiryDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.expiryDate.rawValue) as Date?
+        createdBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.createdBy.rawValue) as String?
+        updatedBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.updatedBy.rawValue) as String?
+        entityType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.entityType.rawValue) as String?
+        isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
+
+        if let source = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.source.rawValue) as String? {
+            self.source = MPOLSource(rawValue: source)
+        }
+
+        number = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.number.rawValue) as String?
+        isSuspended = aDecoder.decodeBool(forKey: CodingKey.isSuspended.rawValue)
+        status = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.status.rawValue) as String?
+        statusDescription = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.statusDescription.rawValue) as String?
+        statusFromDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.statusFromDate.rawValue) as Date?
+        state = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.state.rawValue) as String?
+        country = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.country.rawValue) as String?
+        type = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.type.rawValue) as String?
+        remarks = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.remarks.rawValue) as String?
+
+        licenceClass = aDecoder.decodeObject(of: NSArray.self, forKey: CodingKey.status.rawValue) as? [LicenceClass]
+        conditions = aDecoder.decodeObject(of: NSArray.self, forKey: CodingKey.status.rawValue) as? [Condition]
+        restrictions = aDecoder.decodeObject(of: NSArray.self, forKey: CodingKey.status.rawValue) as? [Restriction]
     }
     
     open func encode(with aCoder: NSCoder) {
-        
+        aCoder.encode(Licence.modelVersion, forKey: CodingKey.version.rawValue)
+        aCoder.encode(id, forKey: CodingKey.id.rawValue)
+        aCoder.encode(dateCreated, forKey: CodingKey.dateCreated.rawValue)
+        aCoder.encode(dateUpdated, forKey: CodingKey.dateUpdated.rawValue)
+        aCoder.encode(expiryDate, forKey: CodingKey.expiryDate.rawValue)
+        aCoder.encode(createdBy, forKey: CodingKey.createdBy.rawValue)
+        aCoder.encode(updatedBy, forKey: CodingKey.updatedBy.rawValue)
+        aCoder.encode(entityType, forKey: CodingKey.entityType.rawValue)
+        aCoder.encode(isSummary, forKey: CodingKey.isSummary.rawValue)
+        aCoder.encode(source?.rawValue, forKey: CodingKey.source.rawValue)
+
+        aCoder.encode(number, forKey: CodingKey.number.rawValue)
+        aCoder.encode(isSuspended, forKey: CodingKey.isSuspended.rawValue)
+        aCoder.encode(status, forKey: CodingKey.status.rawValue)
+        aCoder.encode(statusDescription, forKey: CodingKey.statusDescription.rawValue)
+        aCoder.encode(statusFromDate, forKey: CodingKey.statusFromDate.rawValue)
+        aCoder.encode(state, forKey: CodingKey.state.rawValue)
+        aCoder.encode(country, forKey: CodingKey.country.rawValue)
+        aCoder.encode(type, forKey: CodingKey.type.rawValue)
+        aCoder.encode(remarks, forKey: CodingKey.remarks.rawValue)
+
+        aCoder.encode(licenceClass, forKey: CodingKey.licenceClass.rawValue)
+        aCoder.encode(conditions, forKey: CodingKey.conditions.rawValue)
+        aCoder.encode(restrictions, forKey: CodingKey.restrictions.rawValue)
     }
     
     open static var supportsSecureCoding: Bool {
         return true
     }
 
+    // MARK: - Model Versionable
+    open static var modelVersion: Int {
+        return 0
+    }
+
+    private enum CodingKey: String {
+        case version
+        case id
+        case dateCreated
+        case dateUpdated
+        case createdBy
+        case updatedBy
+        case expiryDate
+        case effectiveDate
+        case entityType
+        case isSummary
+        case source
+
+        case number
+        case isSuspended
+        case status
+        case statusDescription
+        case statusFromDate
+        case state
+        case country
+        case type
+        case remarks
+
+        case licenceClass
+        case conditions
+        case restrictions
+    }
 }
 
 
@@ -120,15 +203,11 @@ extension Licence {
         open static var supportsSecureCoding: Bool {
             return true
         }
-        
-        public required init?(coder aDecoder: NSCoder) {
-            MPLUnimplemented()
+
+        open static var modelVersion: Int {
+            return 0
         }
-        
-        open func encode(with aCoder: NSCoder) {
-            
-        }
-        
+
         public required init(id: String = UUID().uuidString) {
             self.id = id
             super.init()
@@ -158,6 +237,56 @@ extension Licence {
             
             super.init()
         }
+
+        public required init?(coder aDecoder: NSCoder) {
+            self.id = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String!
+
+            super.init()
+
+            dateCreated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateCreated.rawValue) as Date?
+            dateUpdated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateUpdated.rawValue) as Date?
+            effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.effectiveDate.rawValue) as Date?
+            expiryDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.expiryDate.rawValue) as Date?
+            createdBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.createdBy.rawValue) as String?
+            updatedBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.updatedBy.rawValue) as String?
+            entityType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.entityType.rawValue) as String?
+            isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
+
+            if let source = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.source.rawValue) as String? {
+                self.source = MPOLSource(rawValue: source)
+            }
+
+            classDescription = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.classDescription.rawValue) as String?
+        }
+
+        open func encode(with aCoder: NSCoder) {
+            aCoder.encode(LicenceClass.modelVersion, forKey: CodingKey.version.rawValue)
+            aCoder.encode(id, forKey: CodingKey.id.rawValue)
+            aCoder.encode(dateCreated, forKey: CodingKey.dateCreated.rawValue)
+            aCoder.encode(dateUpdated, forKey: CodingKey.dateUpdated.rawValue)
+            aCoder.encode(expiryDate, forKey: CodingKey.expiryDate.rawValue)
+            aCoder.encode(createdBy, forKey: CodingKey.createdBy.rawValue)
+            aCoder.encode(updatedBy, forKey: CodingKey.updatedBy.rawValue)
+            aCoder.encode(entityType, forKey: CodingKey.entityType.rawValue)
+            aCoder.encode(isSummary, forKey: CodingKey.isSummary.rawValue)
+            aCoder.encode(source?.rawValue, forKey: CodingKey.source.rawValue)
+            aCoder.encode(classDescription, forKey: CodingKey.classDescription.rawValue)
+        }
+
+        private enum CodingKey: String {
+            case version
+            case id
+            case dateCreated
+            case dateUpdated
+            case createdBy
+            case updatedBy
+            case expiryDate
+            case effectiveDate
+            case entityType
+            case isSummary
+            case source
+            case classDescription
+        }
     }
     
     /// Licence Condition
@@ -181,15 +310,11 @@ extension Licence {
         open static var supportsSecureCoding: Bool {
             return true
         }
-        
-        public required init?(coder aDecoder: NSCoder) {
-            MPLUnimplemented()
+
+        open static var modelVersion: Int {
+            return 0
         }
-        
-        open func encode(with aCoder: NSCoder) {
-            
-        }
-        
+
         public required init(id: String = UUID().uuidString) {
             self.id = id
             super.init()
@@ -231,6 +356,56 @@ extension Licence {
 
             return value
         }
+
+        public required init?(coder aDecoder: NSCoder) {
+            self.id = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String!
+
+            super.init()
+
+            dateCreated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateCreated.rawValue) as Date?
+            dateUpdated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateUpdated.rawValue) as Date?
+            effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.effectiveDate.rawValue) as Date?
+            expiryDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.expiryDate.rawValue) as Date?
+            createdBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.createdBy.rawValue) as String?
+            updatedBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.updatedBy.rawValue) as String?
+            entityType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.entityType.rawValue) as String?
+            isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
+
+            if let source = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.source.rawValue) as String? {
+                self.source = MPOLSource(rawValue: source)
+            }
+
+            condition = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.condition.rawValue) as String?
+        }
+
+        open func encode(with aCoder: NSCoder) {
+            aCoder.encode(Condition.modelVersion, forKey: CodingKey.version.rawValue)
+            aCoder.encode(id, forKey: CodingKey.id.rawValue)
+            aCoder.encode(dateCreated, forKey: CodingKey.dateCreated.rawValue)
+            aCoder.encode(dateUpdated, forKey: CodingKey.dateUpdated.rawValue)
+            aCoder.encode(expiryDate, forKey: CodingKey.expiryDate.rawValue)
+            aCoder.encode(createdBy, forKey: CodingKey.createdBy.rawValue)
+            aCoder.encode(updatedBy, forKey: CodingKey.updatedBy.rawValue)
+            aCoder.encode(entityType, forKey: CodingKey.entityType.rawValue)
+            aCoder.encode(isSummary, forKey: CodingKey.isSummary.rawValue)
+            aCoder.encode(source?.rawValue, forKey: CodingKey.source.rawValue)
+            aCoder.encode(condition, forKey: CodingKey.condition.rawValue)
+        }
+
+        private enum CodingKey: String {
+            case version
+            case id
+            case dateCreated
+            case dateUpdated
+            case createdBy
+            case updatedBy
+            case expiryDate
+            case effectiveDate
+            case entityType
+            case isSummary
+            case source
+            case condition
+        }
     }
     
     /// Licence Restriction
@@ -254,15 +429,11 @@ extension Licence {
         open static var supportsSecureCoding: Bool {
             return true
         }
-        
-        public required init?(coder aDecoder: NSCoder) {
-            MPLUnimplemented()
+
+        open static var modelVersion: Int {
+            return 0
         }
-        
-        open func encode(with aCoder: NSCoder) {
-            
-        }
-        
+
         public required init(id: String = UUID().uuidString) {
             self.id = id
             super.init()
@@ -289,6 +460,56 @@ extension Licence {
             restriction = unboxer.unbox(key: "restriction")
             
             super.init()
+        }
+
+        public required init?(coder aDecoder: NSCoder) {
+            self.id = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String!
+
+            super.init()
+
+            dateCreated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateCreated.rawValue) as Date?
+            dateUpdated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateUpdated.rawValue) as Date?
+            effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.effectiveDate.rawValue) as Date?
+            expiryDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.expiryDate.rawValue) as Date?
+            createdBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.createdBy.rawValue) as String?
+            updatedBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.updatedBy.rawValue) as String?
+            entityType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.entityType.rawValue) as String?
+            isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
+
+            if let source = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.source.rawValue) as String? {
+                self.source = MPOLSource(rawValue: source)
+            }
+
+            restriction = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.restriction.rawValue) as String?
+        }
+
+        open func encode(with aCoder: NSCoder) {
+            aCoder.encode(Restriction.modelVersion, forKey: CodingKey.version.rawValue)
+            aCoder.encode(id, forKey: CodingKey.id.rawValue)
+            aCoder.encode(dateCreated, forKey: CodingKey.dateCreated.rawValue)
+            aCoder.encode(dateUpdated, forKey: CodingKey.dateUpdated.rawValue)
+            aCoder.encode(expiryDate, forKey: CodingKey.expiryDate.rawValue)
+            aCoder.encode(createdBy, forKey: CodingKey.createdBy.rawValue)
+            aCoder.encode(updatedBy, forKey: CodingKey.updatedBy.rawValue)
+            aCoder.encode(entityType, forKey: CodingKey.entityType.rawValue)
+            aCoder.encode(isSummary, forKey: CodingKey.isSummary.rawValue)
+            aCoder.encode(source?.rawValue, forKey: CodingKey.source.rawValue)
+            aCoder.encode(restriction, forKey: CodingKey.restriction.rawValue)
+        }
+
+        private enum CodingKey: String {
+            case version
+            case id
+            case dateCreated
+            case dateUpdated
+            case createdBy
+            case updatedBy
+            case expiryDate
+            case effectiveDate
+            case entityType
+            case isSummary
+            case source
+            case restriction
         }
     }
     
