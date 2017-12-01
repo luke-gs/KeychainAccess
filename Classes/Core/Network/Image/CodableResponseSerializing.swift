@@ -36,7 +36,7 @@ extension Request {
             return .failure(error)
         }
         guard let data = data else {
-            return
+            return .failure(ImageError.imageSerializationFailed)
         }
         let decoder = JSONDecoder()
         do {
