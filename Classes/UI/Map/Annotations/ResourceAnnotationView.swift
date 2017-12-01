@@ -132,8 +132,7 @@ open class ResourceAnnotationView: MKAnnotationView {
             detailsSubtitleLabel.centerYAnchor.constraint(equalTo: detailsTitleLabel.centerYAnchor),
 
             circleView.topAnchor.constraint(equalTo: detailsView.bottomAnchor, constant: 8),
-            circleView.leadingAnchor.constraint(greaterThanOrEqualTo: self.leadingAnchor),
-            circleView.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor),
+            circleView.centerXAnchor.constraint(greaterThanOrEqualTo: self.centerXAnchor),
             circleView.bottomAnchor.constraint(greaterThanOrEqualTo: self.bottomAnchor),
 
             circleView.heightAnchor.constraint(equalToConstant: LayoutConstants.circleSize),
