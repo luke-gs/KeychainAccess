@@ -15,7 +15,7 @@ public protocol SearchRecentsViewModel {
     var title: String { get }
 
     /// Array of recently viewed entities
-    var recentlyViewed: EntityCache { get }
+    var recentlyViewed: EntityBucket { get }
 
     /// Array of recently searched
     var recentlySearched: [Searchable] { get set }

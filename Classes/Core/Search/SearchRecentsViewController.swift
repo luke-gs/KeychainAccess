@@ -65,7 +65,7 @@ class SearchRecentsViewController: FormCollectionViewController {
         self.title = viewModel.title
         formLayout.pinsGlobalHeaderWhenBouncing = true
 
-        NotificationCenter.default.addObserver(self, selector: #selector(handleRecentlyViewedChanged), name: EntityCache.didUpdateNotificationName, object: viewModel.recentlyViewed)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleRecentlyViewedChanged), name: EntityBucket.didUpdateNotificationName, object: viewModel.recentlyViewed)
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {

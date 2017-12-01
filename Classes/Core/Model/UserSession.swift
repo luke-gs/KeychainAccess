@@ -23,7 +23,7 @@ public class UserSession: UserSessionable {
     // Use the app group user defaults for sharing between apps by default
     public static var userDefaults: UserDefaults = AppGroup.appUserDefaults()
 
-    public var recentlyViewed: EntityCache = EntityCache(limit: 6, entityManager: EntityManager.current)
+    public var recentlyViewed: EntityBucket = EntityBucket(limit: 6)
 
     public var recentlySearched: [Searchable] = [] {
         didSet {
@@ -31,7 +31,7 @@ public class UserSession: UserSessionable {
         }
     }
 
-    public let recentlyActioned: EntityCache = EntityCache(limit: 20, entityManager: EntityManager.current)
+    public let recentlyActioned: EntityBucket = EntityBucket(limit: 20)
 
     public var isActive: Bool {
         return UserSession.userDefaults.string(forKey: UserSession.latestSessionKey) != nil
@@ -47,8 +47,8 @@ public class UserSession: UserSessionable {
 
     public init() {
         let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(handleRecentlyActionedChanged), name: EntityCache.didUpdateNotificationName, object: recentlyActioned)
-        notificationCenter.addObserver(self, selector: #selector(handleRecentlyViewedChanged), name: EntityCache.didUpdateNotificationName, object: recentlyViewed)
+        notificationCenter.addObserver(self, selector: #selector(handleRecentlyActionedChanged), name: EntityBucket.didUpdateNotificationName, object: recentlyActioned)
+        notificationCenter.addObserver(self, selector: #selector(handleRecentlyViewedChanged), name: EntityBucket.didUpdateNotificationName, object: recentlyViewed)
     }
 
     public static func startSession(user: User, token: OAuthAccessToken) {
@@ -242,13 +242,13 @@ public protocol UserSessionable {
     var user: User? { get }
 
     /// The recently viewed entities for this session
-    var recentlyViewed: EntityCache { get }
+    var recentlyViewed: EntityBucket { get }
 
     /// The recently searched entities for this session
     var recentlySearched: [Searchable] { get set }
 
     /// The recently actioned entities for this session
-    var recentlyActioned: EntityCache { get }
+    var recentlyActioned: EntityBucket { get }
 
     /// Whether the session is active
     var isActive: Bool { get }

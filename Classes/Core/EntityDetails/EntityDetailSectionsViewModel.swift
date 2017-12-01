@@ -31,6 +31,7 @@ public class EntityDetailSectionsViewModel {
     public var results: [String: EntityFetchResult] = [:]
     public weak var delegate: EntityDetailSectionsDelegate?
     public var selectedSource: EntitySource
+    public var recentlyViewed: EntityBucket?
 
     public var detailSectionsViewControllers: [EntityDetailSectionUpdatable]? {
         return detailSectionsDataSources.filter{$0.source == selectedSource}.first?.detailViewControllers
@@ -73,14 +74,13 @@ public class EntityDetailSectionsViewModel {
     }
 
     public func setSelectedResult(fetchResult: EntityFetchResult) {
-        if let entity = fetchResult.entity, fetchResult.error == nil {
-            let recentlyViewed = UserSession.current.recentlyViewed
-
-            if recentlyViewed.contains(entity) {
-                recentlyViewed.remove(entity)
+        if let recentlyViewed = recentlyViewed {
+            if let entity = fetchResult.entity, fetchResult.error == nil {
+                if recentlyViewed.contains(entity) {
+                    recentlyViewed.remove(entity)
+                }
+                recentlyViewed.add(entity)
             }
-
-            recentlyViewed.add(entity)
         }
 
         detailSectionsViewControllers?.forEach {
@@ -146,7 +146,9 @@ extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
 
         // Update our entity cache
         if let entity = fetchResult.entity {
-            EntityManager.current.addEntity(entity)
+            if let entityManager = self.recentlyViewed?.entityManager {
+                entityManager.addEntity(entity)
+            }
         }
     }
 

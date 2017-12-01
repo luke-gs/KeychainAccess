@@ -474,7 +474,7 @@
 		EABAB8021F3429D90071A401 /* AggregatedSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABAB8011F3429D90071A401 /* AggregatedSearch.swift */; };
 		EABAB8041F342E450071A401 /* AggregatedSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABAB8031F342E450071A401 /* AggregatedSearchRequest.swift */; };
 		EADC4FF31F81E0810066AA2F /* OptionGroupFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADC4FF21F81E0810066AA2F /* OptionGroupFormItem.swift */; };
-		EAE12B081FC3CE3500851619 /* EntityCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE12B071FC3CE3500851619 /* EntityCache.swift */; };
+		EAE12B081FC3CE3500851619 /* EntityBucket.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE12B071FC3CE3500851619 /* EntityBucket.swift */; };
 		EAE806DB1F98534000C9AA85 /* FormSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE806DA1F98534000C9AA85 /* FormSection.swift */; };
 		EAE806DF1F9859E700C9AA85 /* DateFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE806DE1F9859E700C9AA85 /* DateFormItemTests.swift */; };
 		EAE806E11F985FD400C9AA85 /* RangeFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE806E01F985FD400C9AA85 /* RangeFormItemTests.swift */; };
@@ -994,7 +994,7 @@
 		EABAB8011F3429D90071A401 /* AggregatedSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregatedSearch.swift; sourceTree = "<group>"; };
 		EABAB8031F342E450071A401 /* AggregatedSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregatedSearchRequest.swift; sourceTree = "<group>"; };
 		EADC4FF21F81E0810066AA2F /* OptionGroupFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionGroupFormItem.swift; sourceTree = "<group>"; };
-		EAE12B071FC3CE3500851619 /* EntityCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityCache.swift; sourceTree = "<group>"; };
+		EAE12B071FC3CE3500851619 /* EntityBucket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityBucket.swift; sourceTree = "<group>"; };
 		EAE806DA1F98534000C9AA85 /* FormSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormSection.swift; sourceTree = "<group>"; };
 		EAE806DE1F9859E700C9AA85 /* DateFormItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormItemTests.swift; sourceTree = "<group>"; };
 		EAE806E01F985FD400C9AA85 /* RangeFormItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeFormItemTests.swift; sourceTree = "<group>"; };
@@ -2478,7 +2478,7 @@
 		EAE12B061FC3CE2400851619 /* EntityCache */ = {
 			isa = PBXGroup;
 			children = (
-				EAE12B071FC3CE3500851619 /* EntityCache.swift */,
+				EAE12B071FC3CE3500851619 /* EntityBucket.swift */,
 				EA7194E01FCBA61A00A2980B /* EntityManager.swift */,
 			);
 			path = EntityCache;
@@ -2746,7 +2746,7 @@
 				BC9C7E481F0DED6600DFFE83 /* SourceBarCell.swift in Sources */,
 				96CF32341F8D7C7700140AF8 /* TasksListHeaderViewModel.swift in Sources */,
 				BC9C7E3D1F0DED6600DFFE83 /* PickerTableViewController.swift in Sources */,
-				EAE12B081FC3CE3500851619 /* EntityCache.swift in Sources */,
+				EAE12B081FC3CE3500851619 /* EntityBucket.swift in Sources */,
 				BC9C7DC71F0DED6600DFFE83 /* HTTPAuthenticationMode.swift in Sources */,
 				C634085B1F30E5B5000747B0 /* EntityFetchRequestable.swift in Sources */,
 				BC9C7DFA1F0DED6600DFFE83 /* CollectionViewFormSubtitleCell.swift in Sources */,

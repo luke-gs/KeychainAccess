@@ -13,7 +13,7 @@ public protocol ActionListViewModelable: class {
 
     weak var actionListViewController: UIViewController? { get set }
 
-    func formItems(forEntitiesInCache cache: EntityCache, in traitCollection: UITraitCollection) -> [FormItem]
+    func formItems(forEntitiesInCache cache: EntityBucket, in traitCollection: UITraitCollection) -> [FormItem]
 
 }
 
@@ -35,7 +35,7 @@ public class ActionListViewController: FormBuilderViewController {
         loadingManager.noContentView.titleLabel.text = "No Pinned Entities"
         loadingManager.noContentView.subtitleLabel.text = "Any pinned entities will show up here."
 
-        NotificationCenter.default.addObserver(self, selector: #selector(handleEntityCacheUpdate(_:)), name: EntityCache.didUpdateNotificationName, object: UserSession.current.recentlyActioned)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleEntityCacheUpdate(_:)), name: EntityBucket.didUpdateNotificationName, object: UserSession.current.recentlyActioned)
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {

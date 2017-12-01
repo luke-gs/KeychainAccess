@@ -1,5 +1,5 @@
 //
-//  EntityCache.swift
+//  EntityBucket.swift
 //  MPOLKit
 //
 //  Created by KGWH78 on 21/11/17.
@@ -10,18 +10,17 @@ import Foundation
 import PromiseKit
 
 
-public enum EntityCacheError: Error {
+public enum EntityBucketError: Error {
     case notFound
     case duplicate
 }
 
-public class EntityCache {
+
+public class EntityBucket {
 
     public static let didUpdateNotificationName = Notification.Name(rawValue: "EntityCacheDidUpdateNotification")
     public static let addedEntitiesKey: String = "EntityCacheAddedEntitiesKey"
     public static let removedEntitiesKey: String = "EntityCacheRemovedEntitiesKey"
-
-    public static let `default` = EntityCache()
 
     public let entityManager: EntityManager
 
@@ -33,7 +32,7 @@ public class EntityCache {
 
     private var entitiesSnapshots: [EntitySnapshot] = []
 
-    public init(limit: Int = 0, entityManager: EntityManager = EntityManager.current) {
+    public init(limit: Int = 0, entityManager: EntityManager = EntityManager.default) {
         self.limit = limit
         self.entityManager = entityManager
     }
@@ -44,10 +43,10 @@ public class EntityCache {
             entitySnapshot.delegate = self
             entitiesSnapshots.append(entitySnapshot)
 
-            var userInfo = [EntityCache.addedEntitiesKey: [entity]]
-            userInfo[EntityCache.removedEntitiesKey] = trimToSize()
+            var userInfo = [EntityBucket.addedEntitiesKey: [entity]]
+            userInfo[EntityBucket.removedEntitiesKey] = trimToSize()
 
-            NotificationCenter.default.post(name: EntityCache.didUpdateNotificationName, object: self, userInfo: userInfo)
+            NotificationCenter.default.post(name: EntityBucket.didUpdateNotificationName, object: self, userInfo: userInfo)
         }
     }
 
@@ -60,27 +59,27 @@ public class EntityCache {
             }
         }
 
-        var userInfo = [EntityCache.addedEntitiesKey: entities]
-        userInfo[EntityCache.removedEntitiesKey] = trimToSize()
+        var userInfo = [EntityBucket.addedEntitiesKey: entities]
+        userInfo[EntityBucket.removedEntitiesKey] = trimToSize()
 
-        NotificationCenter.default.post(name: EntityCache.didUpdateNotificationName, object: self, userInfo: userInfo)
+        NotificationCenter.default.post(name: EntityBucket.didUpdateNotificationName, object: self, userInfo: userInfo)
     }
 
     public func remove(_ entity: MPOLKitEntity) {
         if let index = entitiesSnapshots.index(where: { $0.entity.canAssumeToBeTheSameAs(otherEntity: entity) }) {
             let entity = entitiesSnapshots.remove(at: index)
-            NotificationCenter.default.post(name: EntityCache.didUpdateNotificationName,
+            NotificationCenter.default.post(name: EntityBucket.didUpdateNotificationName,
                                             object: self,
-                                            userInfo: [EntityCache.removedEntitiesKey: [entity]])
+                                            userInfo: [EntityBucket.removedEntitiesKey: [entity]])
         }
     }
 
     public func removeAll() {
         let entities = entitiesSnapshots.map({ $0.entity })
         entitiesSnapshots.removeAll()
-        NotificationCenter.default.post(name: EntityCache.didUpdateNotificationName,
+        NotificationCenter.default.post(name: EntityBucket.didUpdateNotificationName,
                                         object: self,
-                                        userInfo: [EntityCache.removedEntitiesKey: entities])
+                                        userInfo: [EntityBucket.removedEntitiesKey: entities])
     }
 
     public func contains(_ entity: MPOLKitEntity) -> Bool {
@@ -105,10 +104,10 @@ public class EntityCache {
 
 }
 
-extension EntityCache: EntitySnapshotDelegate {
+extension EntityBucket: EntitySnapshotDelegate {
 
     public func entitySnapshotDidChange(_ entitySnapshot: EntitySnapshot) {
-        NotificationCenter.default.post(name: EntityCache.didUpdateNotificationName, object: self, userInfo: [EntityCache.addedEntitiesKey: [entitySnapshot.entity]])
+        NotificationCenter.default.post(name: EntityBucket.didUpdateNotificationName, object: self, userInfo: [EntityBucket.addedEntitiesKey: [entitySnapshot.entity]])
     }
 
 }

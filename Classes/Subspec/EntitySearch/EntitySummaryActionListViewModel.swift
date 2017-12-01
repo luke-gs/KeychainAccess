@@ -19,7 +19,7 @@ public class EntitySummaryActionListViewModel: ActionListViewModelable {
         self.displayableForEntity = displayableForEntity
     }
 
-    public func formItems(forEntitiesInCache cache: EntityCache, in traitCollection: UITraitCollection) -> [FormItem] {
+    public func formItems(forEntitiesInCache cache: EntityBucket, in traitCollection: UITraitCollection) -> [FormItem] {
         let summaryDisplayable = displayableForEntity
 
         let isCompact = traitCollection.horizontalSizeClass == .compact
