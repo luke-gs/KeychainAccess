@@ -151,34 +151,20 @@ open class TasksListContainerViewModel {
 
     /// Update the task list data
     open func updateSections() {
-
-        // TODO: Map network models to view models
         let type = TaskListType(rawValue: selectedSourceIndex)!
         
-        if let filter = self.splitViewModel?.filterViewModel, let sync = CADStateManager.shared.lastSync {
+        if let splitViewModel = self.splitViewModel {
             switch type {
             case .incident:
-                let filteredIncidents = sync.incidents.filter { incident in
-                    let priorityFilter = filter.priorities.contains(incident.grade)
-                    let resourcedFilter = filter.resourcedIncidents.contains(incident.status)
-                    
-                    // If status is not in filter options always show
-                    let isOther = incident.status != .resourced && incident.status != .unresourced
-                    
-                    return isOther || (priorityFilter && resourcedFilter)
-                }
-                
-                listViewModel.sections = taskListSections(for: filteredIncidents)
-            case .patrol: listViewModel.sections = []
-            case .broadcast: listViewModel.sections = []
+                listViewModel.sections = taskListSections(for: splitViewModel.filteredIncidents)
+            case .patrol:
+                // TODO: Get from sync
+                listViewModel.sections = []
+            case .broadcast:
+                // TODO: Get from sync
+                listViewModel.sections = []
             case .resource:
-                let filteredResources = sync.resources.filter { resource in
-                    let isTasked = resource.incidentNumber != nil
-                    
-                    // TODO: Duress check
-                    return filter.taskedResources.tasked && isTasked || filter.taskedResources.untasked && !isTasked
-                }
-                listViewModel.sections = taskListSections(for: filteredResources)
+                listViewModel.sections = taskListSections(for: splitViewModel.filteredResources)
             }
         } else {
             listViewModel.sections = []

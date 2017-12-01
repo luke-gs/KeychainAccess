@@ -35,32 +35,16 @@ open class TasksMapViewModel {
     
     /// Loads the tasks from the sync and filters them
     @objc public func loadTasks() {
-        guard let filter = splitViewModel?.filterViewModel,
-              let sync = CADStateManager.shared.lastSync
-        else { return }
-
+        guard let splitViewModel = self.splitViewModel else { return }
+        
+        let filter = splitViewModel.filterViewModel
+        let selectedListIndex = splitViewModel.listContainerViewModel.selectedSourceIndex
+        let currentListItem = TaskListType(rawValue: selectedListIndex)
+        
         var annotations: [TaskAnnotation] = []
         
-        let currentListItem: TaskListType?
-        if let selectedListIndex = splitViewModel?.listContainerViewModel.selectedSourceIndex {
-            currentListItem = TaskListType(rawValue: selectedListIndex)
-        } else {
-            currentListItem = nil
-        }
-        
         if filter.showIncidents || currentListItem == .incident {
-            
-            let filteredIncidents = sync.incidents.filter { incident in
-                let priorityFilter = filter.priorities.contains(incident.grade)
-                let resourcedFilter = filter.resourcedIncidents.contains(incident.status)
-
-                // If status is not in filter options always show
-                let isOther = incident.status != .resourced && incident.status != .unresourced
-                
-                return isOther || (priorityFilter && resourcedFilter)
-            }
-            
-            annotations += taskAnnotations(for: filteredIncidents)
+            annotations += taskAnnotations(for: splitViewModel.filteredIncidents)
         }
         
         if filter.showPatrol || currentListItem == .patrol {
@@ -72,14 +56,7 @@ open class TasksMapViewModel {
         }
 
         if filter.showResources || currentListItem == .resource {
-            let filteredResources = sync.resources.filter { resource in
-                let isTasked = resource.incidentNumber != nil
-                
-                // TODO: Duress check
-                return filter.taskedResources.tasked && isTasked || filter.taskedResources.untasked && !isTasked
-            }
-            
-            annotations += taskAnnotations(for: filteredResources)
+            annotations += taskAnnotations(for: splitViewModel.filteredResources)
         }
         
         filteredAnnotations = annotations
