@@ -74,7 +74,7 @@ open class Address: NSObject, Serialisable {
     open var effectiveDate: Date?
     open var expiryDate: Date?
     open var entityType: String?
-    open var isSummary: Bool?
+    open var isSummary: Bool = false
     open var arn: String?
     open var jurisdiction: String?
 
@@ -146,7 +146,7 @@ open class Address: NSObject, Serialisable {
         effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: Address.dateTransformer)
         expiryDate = unboxer.unbox(key: "expiryDate", formatter: Address.dateTransformer)
         entityType = unboxer.unbox(key: "entityType")
-        isSummary = unboxer.unbox(key: "isSummary")
+        isSummary = unboxer.unbox(key: "isSummary") ?? false
         arn = unboxer.unbox(key: "arn")
         jurisdiction = unboxer.unbox(key: "jurisdiction")
         
@@ -201,7 +201,7 @@ open class Address: NSObject, Serialisable {
         effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.effectiveDate.rawValue) as Date?
         expiryDate = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.expiryDate.rawValue) as Date?
         entityType = aDecoder.decodeObject(of: NSString.self, forKey: Coding.entityType.rawValue) as String?
-        isSummary = aDecoder.decodeObject(forKey: Coding.isSummary.rawValue) as! Bool?
+        isSummary = aDecoder.decodeBool(forKey: Coding.isSummary.rawValue)
         arn = aDecoder.decodeObject(of: NSString.self, forKey: Coding.arn.rawValue) as String?
         jurisdiction = aDecoder.decodeObject(of: NSString.self, forKey: Coding.jurisdiction.rawValue) as String?
         alerts = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.alerts.rawValue) as? [Alert]

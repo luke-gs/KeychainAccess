@@ -35,7 +35,7 @@ open class Contact: NSObject, Serialisable {
     open var effectiveDate: Date?
     open var expiryDate: Date?
     open var entityType: String?
-    open var isSummary: Bool?
+    open var isSummary: Bool = false
     open var source: MPOLSource?
     
     open var type: Contact.ContactType?
@@ -46,6 +46,8 @@ open class Contact: NSObject, Serialisable {
 
     public required init(id: String = UUID().uuidString) {
         self.id = id
+        self.isSummary = false
+
         super.init()
     }
     
@@ -64,7 +66,7 @@ open class Contact: NSObject, Serialisable {
         effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: Contact.dateTransformer)
         expiryDate = unboxer.unbox(key: "expiryDate", formatter: Contact.dateTransformer)
         entityType = unboxer.unbox(key: "entityType")
-        isSummary = unboxer.unbox(key: "isSummary")
+        isSummary = unboxer.unbox(key: "isSummary") ?? false
         source = unboxer.unbox(key: "source")
         
         type = unboxer.unbox(key: "contactType")
@@ -75,6 +77,7 @@ open class Contact: NSObject, Serialisable {
     
     public required init?(coder aDecoder: NSCoder) {
         id = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String!
+        isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
 
         super.init()
 
@@ -85,7 +88,6 @@ open class Contact: NSObject, Serialisable {
         createdBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.createdBy.rawValue) as String?
         updatedBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.updatedBy.rawValue) as String?
         entityType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.entityType.rawValue) as String?
-        isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
 
         if let source = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.source.rawValue) as String? {
             self.source = MPOLSource(rawValue: source)

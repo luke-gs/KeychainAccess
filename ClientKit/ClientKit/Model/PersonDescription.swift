@@ -21,7 +21,7 @@ open class PersonDescription: NSObject, Serialisable {
     open var effectiveDate: Date?
     open var expiryDate: Date?
     open var entityType: String?
-    open var isSummary: Bool?
+    open var isSummary: Bool = false
     open var source: MPOLSource?
     
     open var height: Int?
@@ -52,7 +52,7 @@ open class PersonDescription: NSObject, Serialisable {
         effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: PersonDescription.dateTransformer)
         expiryDate = unboxer.unbox(key: "expiryDate", formatter: PersonDescription.dateTransformer)
         entityType = unboxer.unbox(key: "entityType")
-        isSummary = unboxer.unbox(key: "isSummary")
+        isSummary = unboxer.unbox(key: "isSummary") ?? false
         source = unboxer.unbox(key: "source")
         
         height = unboxer.unbox(key: "height")
@@ -93,7 +93,10 @@ open class PersonDescription: NSObject, Serialisable {
             self.source = MPOLSource(rawValue: source)
         }
 
-        height = aDecoder.decodeInteger(forKey: CodingKey.height.rawValue)
+        if let height = aDecoder.decodeObject(of: NSNumber.self, forKey: CodingKey.height.rawValue) {
+            self.height = height.intValue
+        }
+
         weight = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.weight.rawValue) as String?
         ethnicity = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.ethnicity.rawValue) as String?
         race = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.race.rawValue) as String?
@@ -120,7 +123,10 @@ open class PersonDescription: NSObject, Serialisable {
         aCoder.encode(isSummary, forKey: CodingKey.isSummary.rawValue)
         aCoder.encode(source?.rawValue, forKey: CodingKey.source.rawValue)
 
-        aCoder.encode(height, forKey: CodingKey.height.rawValue)
+        if let height = height {
+            aCoder.encode(NSNumber(value: height), forKey: CodingKey.height.rawValue)
+        }
+
         aCoder.encode(weight, forKey: CodingKey.weight.rawValue)
         aCoder.encode(ethnicity, forKey: CodingKey.ethnicity.rawValue)
         aCoder.encode(race, forKey: CodingKey.race.rawValue)

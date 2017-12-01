@@ -29,7 +29,7 @@ open class Alias: NSObject, Serialisable {
     open var effectiveDate: Date?
     open var expiryDate: Date?
     open var entityType: String?
-    open var isSummary: Bool?
+    open var isSummary: Bool = false
     open var source: MPOLSource?
     
     open var type: String?
@@ -42,6 +42,7 @@ open class Alias: NSObject, Serialisable {
     
     public required init(id: String = UUID().uuidString) {
         self.id = id
+
         super.init()
     }
     
@@ -60,7 +61,7 @@ open class Alias: NSObject, Serialisable {
         effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: Alias.dateTransformer)
         expiryDate = unboxer.unbox(key: "expiryDate", formatter: Alias.dateTransformer)
         entityType = unboxer.unbox(key: "entityType")
-        isSummary = unboxer.unbox(key: "isSummary")
+        isSummary = unboxer.unbox(key: "isSummary") ?? false
         source = unboxer.unbox(key: "source")
 
         type = unboxer.unbox(key: "nameType")

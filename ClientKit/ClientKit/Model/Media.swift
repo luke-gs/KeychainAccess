@@ -30,7 +30,7 @@ open class Media: NSObject, Serialisable {
     open var effectiveDate: Date?
     open var expiryDate: Date?
     open var entityType: String?
-    open var isSummary: Bool?
+    open var isSummary: Bool = false
     
     open var mimeType: String?
     open var uri: URL?
@@ -51,7 +51,7 @@ open class Media: NSObject, Serialisable {
         effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: Media.dateTransformer)
         expiryDate    = unboxer.unbox(key: "expiryDate", formatter: Media.dateTransformer)
         entityType    = unboxer.unbox(key: "entityType")
-        isSummary     = unboxer.unbox(key: "isSummary")
+        isSummary     = unboxer.unbox(key: "isSummary") ?? false
         
         mimeType      = unboxer.unbox(key: "mimeType")
         uri           = unboxer.unbox(key: "uri")
@@ -66,7 +66,8 @@ open class Media: NSObject, Serialisable {
     
     public required init?(coder aDecoder: NSCoder) {
         id = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String!
-
+        isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
+        
         super.init()
 
         dateCreated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateCreated.rawValue) as Date?
@@ -76,7 +77,6 @@ open class Media: NSObject, Serialisable {
         createdBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.createdBy.rawValue) as String?
         updatedBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.updatedBy.rawValue) as String?
         entityType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.entityType.rawValue) as String?
-        isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
 
         if let source = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.source.rawValue) as String? {
             self.source = MPOLSource(rawValue: source)

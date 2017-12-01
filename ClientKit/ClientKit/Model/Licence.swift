@@ -21,11 +21,11 @@ open class Licence: NSObject, Serialisable {
     open var effectiveDate: Date?
     open var expiryDate: Date?
     open var entityType: String?
-    open var isSummary: Bool?
+    open var isSummary: Bool = false
     open var source: MPOLSource?
     
     open var number: String?
-    open var isSuspended: Bool?
+    open var isSuspended: Bool = false
     open var status: String?
     open var statusDescription: String?
     open var statusFromDate: Date?
@@ -60,11 +60,11 @@ open class Licence: NSObject, Serialisable {
         effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: Licence.dateTransformer)
         expiryDate = unboxer.unbox(key: "expiryDate", formatter: Licence.dateTransformer)
         entityType = unboxer.unbox(key: "entityType")
-        isSummary = unboxer.unbox(key: "isSummary")
+        isSummary = unboxer.unbox(key: "isSummary") ?? false
         source = unboxer.unbox(key: "source")
         
         number = unboxer.unbox(key: "licenceNumber")
-        isSuspended = unboxer.unbox(key: "isSuspended")
+        isSuspended = unboxer.unbox(key: "isSuspended") ?? false
         status = unboxer.unbox(key: "status")
         statusDescription = unboxer.unbox(key: "statusDescription")
         statusFromDate = unboxer.unbox(key: "statusFromDate", formatter: Licence.dateTransformer)
@@ -193,7 +193,7 @@ extension Licence {
         open var effectiveDate: Date?
         open var expiryDate: Date?
         open var entityType: String?
-        open var isSummary: Bool?
+        open var isSummary: Bool = false
         open var source: MPOLSource?
         
         open var code: String?
@@ -228,7 +228,7 @@ extension Licence {
             effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: Licence.dateTransformer)
             expiryDate = unboxer.unbox(key: "expiryDate", formatter: Licence.dateTransformer)
             entityType = unboxer.unbox(key: "entityType")
-            isSummary = unboxer.unbox(key: "isSummary")
+            isSummary = unboxer.unbox(key: "isSummary") ?? false
             source = unboxer.unbox(key: "source")
             
             code = unboxer.unbox(key: "code")
@@ -302,7 +302,7 @@ extension Licence {
         open var effectiveDate: Date?
         open var expiryDate: Date?
         open var entityType: String?
-        open var isSummary: Bool?
+        open var isSummary: Bool = false
         open var source: MPOLSource?
         
         open var condition: String?
@@ -335,7 +335,7 @@ extension Licence {
             effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: Licence.dateTransformer)
             expiryDate = unboxer.unbox(key: "expiryDate", formatter: Licence.dateTransformer)
             entityType = unboxer.unbox(key: "entityType")
-            isSummary = unboxer.unbox(key: "isSummary")
+            isSummary = unboxer.unbox(key: "isSummary") ?? false
             source = unboxer.unbox(key: "source")
             
             condition = unboxer.unbox(key: "condition")
@@ -421,7 +421,7 @@ extension Licence {
         open var effectiveDate: Date?
         open var expiryDate: Date?
         open var entityType: String?
-        open var isSummary: Bool?
+        open var isSummary: Bool = false
         open var source: MPOLSource?
         
         open var restriction: String?
@@ -454,7 +454,7 @@ extension Licence {
             effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: Licence.dateTransformer)
             expiryDate = unboxer.unbox(key: "expiryDate", formatter: Licence.dateTransformer)
             entityType = unboxer.unbox(key: "entityType")
-            isSummary = unboxer.unbox(key: "isSummary")
+            isSummary = unboxer.unbox(key: "isSummary") ?? false
             source = unboxer.unbox(key: "source")
             
             restriction = unboxer.unbox(key: "restriction")

@@ -25,7 +25,7 @@ open class Event: MPOLKitEntity {
     open var effectiveDate: Date?
     open var expiryDate: Date?
     open var entityType: String?
-    open var isSummary: Bool?
+    open var isSummary: Bool = false
     open var arn: String?
     open var jurisdiction: String?
     
@@ -59,7 +59,7 @@ open class Event: MPOLKitEntity {
         effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: Event.dateTransformer)
         expiryDate = unboxer.unbox(key: "expiryDate", formatter: Event.dateTransformer)
         entityType = unboxer.unbox(key: "entityType")
-        isSummary = unboxer.unbox(key: "isSummary")
+        isSummary = unboxer.unbox(key: "isSummary") ?? false
         arn = unboxer.unbox(key: "arn")
         jurisdiction = unboxer.unbox(key: "jurisdiction")
         

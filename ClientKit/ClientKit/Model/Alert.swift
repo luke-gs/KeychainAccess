@@ -48,7 +48,7 @@ open class Alert: NSObject, Serialisable {
     open var effectiveDate: Date?
     open var expiryDate: Date?
     open var entityType: String?
-    open var isSummary: Bool?
+    open var isSummary: Bool = false
     
     open var source: MPOLSource?
     open var title: String?
@@ -92,7 +92,7 @@ open class Alert: NSObject, Serialisable {
         effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: Alert.dateTransformer)
         expiryDate    = unboxer.unbox(key: "expiryDate", formatter: Alert.dateTransformer)
         entityType    = unboxer.unbox(key: "entityType")
-        isSummary     = unboxer.unbox(key: "isSummary")
+        isSummary     = unboxer.unbox(key: "isSummary") ?? false
 
         source        = unboxer.unbox(key: "source")
         title         = unboxer.unbox(key: "title")
@@ -109,7 +109,8 @@ open class Alert: NSObject, Serialisable {
         }
         
         self.id = id
-
+        isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
+        
         super.init()
 
         title = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.title.rawValue) as String?
@@ -127,7 +128,6 @@ open class Alert: NSObject, Serialisable {
         createdBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.createdBy.rawValue) as String?
         updatedBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.updatedBy.rawValue) as String?
         entityType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.entityType.rawValue) as String?
-        isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
 
         if let source = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.source.rawValue) as String? {
             self.source = MPOLSource(rawValue: source)
