@@ -62,6 +62,11 @@ public class UserSession: UserSessionable {
         UserSession.current.loadUserFromCache()
         UserSession.current.saveUserToCache()
     }
+    
+    public func updateToken(_ token: OAuthAccessToken?) {
+        self.token = token
+        saveTokenToKeychain()
+    }
 
     public func updateUser() {
         saveUserToCache()

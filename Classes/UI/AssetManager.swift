@@ -149,6 +149,7 @@ extension AssetManager {
         public static let tactical       = ImageKey("iconGeneralTactical")
         public static let journey        = ImageKey("iconGeneralJourney")
         public static let mass           = ImageKey("iconGeneralMass")
+        public static let map            = ImageKey("iconGeneralMap")
         public static let folder         = ImageKey("iconFormFolder")
         public static let refresh        = ImageKey("iconGeneralRefreshMagnify")
         public static let email          = ImageKey("iconFormEmail")
@@ -209,6 +210,9 @@ extension AssetManager {
         public static let mapUserTracking            = ImageKey("iconUserTracking")
         public static let mapUserTrackingWithHeading = ImageKey("iconUserTrackingWithHeading")
         public static let mapCurrentLocation         = ImageKey("iconCurrentLocation")
+
+        // Loading states
+        public static let iconLoadingFailed          = ImageKey("iconLoadingFailed")
 
         // CAD status
         public static let iconStatusAtIncident   = ImageKey("iconStatusAtIncident")

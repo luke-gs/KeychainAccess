@@ -7,17 +7,24 @@
 //
 
 import UIKit
+import PromiseKit
 
 /// Container view controller for showing task list, source bar and dynamic header
-class TasksListContainerViewController: UIViewController {
+open class TasksListContainerViewController: UIViewController, LoadableViewController {
 
-    public let viewModel: TasksListContainerViewModel
+    open let viewModel: TasksListContainerViewModel
+
+    /// The loading state manager for when tasks are being loaded
+    open let loadingManager: LoadingStateManager = LoadingStateManager()
+
+    /// The content view that is shown once data is loaded
+    open let contentView: UIView = UIView(frame: .zero)
 
     /// The list of tasks
-    private var tasksListViewController: UIViewController!
+    open private(set) var tasksListViewController: FormCollectionViewController!
 
     /// The header for title and nav items
-    private var headerViewController: UIViewController? {
+    open var headerViewController: UIViewController? {
         didSet {
             guard oldValue != headerViewController else { return }
 
@@ -30,7 +37,7 @@ class TasksListContainerViewController: UIViewController {
             // Add the new header view controller as a child
             if let headerViewController = headerViewController {
                 addChildViewController(headerViewController)
-                view.addSubview(headerViewController.view)
+                headerContainerView.addSubview(headerViewController.view)
                 headerViewController.didMove(toParentViewController: self)
 
                 // Constrain header to top
@@ -46,21 +53,26 @@ class TasksListContainerViewController: UIViewController {
             view.setNeedsLayout()
         }
     }
+    
+    public private(set) var isFullScreen: Bool = false
 
     /// A container view for the header, so layout can be applied relative to it
-    private var headerContainerView: UIView!
+    open private(set) var headerContainerView: UIView!
 
     /// The source bar used to choose task type
-    private var sourceBar: SourceBar!
+    open private(set) var sourceBar: SourceBar!
 
     /// The source bar inset manager
-    private var sourceInsetManager: ScrollViewInsetManager?
+    open private(set) var sourceInsetManager: ScrollViewInsetManager!
+
+    /// The refresh control for tasks list
+    open private(set) var refreshControl: UIRefreshControl!
 
     /// Constraint for making source bar have no height
     private var sourceBarHiddenConstraint: NSLayoutConstraint?
 
     /// The current sources available to display
-    public var sourceItems: [SourceItem] = [] {
+    open var sourceItems: [SourceItem] = [] {
         didSet {
             viewIfLoaded?.setNeedsLayout()
             sourceBar?.items = sourceItems
@@ -75,7 +87,7 @@ class TasksListContainerViewController: UIViewController {
     }
 
     /// The selected source index.
-    public var selectedSourceIndex: Int? = nil {
+    open var selectedSourceIndex: Int? = nil {
         didSet {
             if let selectedSourceIndex = selectedSourceIndex {
                 precondition(selectedSourceIndex < sourceItems.count)
@@ -89,6 +101,8 @@ class TasksListContainerViewController: UIViewController {
     public init(viewModel: TasksListContainerViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        // Add navigation bar buttons
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .map), style: .plain, target: self, action: #selector(toggleFullScreen))
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -109,16 +123,18 @@ class TasksListContainerViewController: UIViewController {
         super.viewDidLayoutSubviews()
 
         // Fix top margin of source bar
-        sourceInsetManager?.standardContentInset    = .zero
-        sourceInsetManager?.standardIndicatorInset  = .zero
+        sourceInsetManager.standardContentInset    = .zero
+        sourceInsetManager.standardIndicatorInset  = .zero
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.updateConstraintsForSizeChange()
     }
 
-    public func createSubviews() {
+    open func createSubviews() {
+        view.addSubview(contentView)
+
         let sourceBackground = GradientView(frame: .zero)
         sourceBackground.gradientColors = [.black, .sidebarBlack]
 
@@ -128,56 +144,85 @@ class TasksListContainerViewController: UIViewController {
         sourceBar.sourceBarDelegate = self
         sourceBar.items = sourceItems
         sourceBar.selectedIndex = selectedSourceIndex
-        view.addSubview(sourceBar)
+        contentView.addSubview(sourceBar)
 
         // Use inset manager to fix top margin
         sourceInsetManager = ScrollViewInsetManager(scrollView: sourceBar)
 
         // Add container for header
         headerContainerView = UIView(frame: .zero)
-        view.addSubview(headerContainerView)
+        contentView.addSubview(headerContainerView)
 
         // Add task list
         tasksListViewController = viewModel.listViewModel.createViewController()
         addChildViewController(tasksListViewController)
-        view.addSubview(tasksListViewController.view)
+        contentView.addSubview(tasksListViewController.view)
         tasksListViewController.didMove(toParentViewController: self)
+
+        // Add refresh control to task list
+        let theme = ThemeManager.shared.theme(for: .current)
+        refreshControl = UIRefreshControl()
+        refreshControl.tintColor = theme.color(forKey: .tint)
+        refreshControl.addTarget(self, action: #selector(refreshTasks), for: .valueChanged)
+        tasksListViewController.collectionView?.addSubview(refreshControl)
+        tasksListViewController.collectionView?.alwaysBounceVertical = true
+
+        // Set base view color for when content is not shown
+        view.backgroundColor = tasksListViewController.view.backgroundColor
+
+        // Configure loading state
+        loadingManager.baseView = view
+        loadingManager.contentView = contentView
+        loadingManager.loadingView.titleLabel.textColor = .white
+        loadingManager.loadingView.titleLabel.text = viewModel.loadingTitle()
+        loadingManager.loadingView.subtitleLabel.text = viewModel.loadingSubtitle()
+
+        loadingManager.noContentView.titleLabel.text = viewModel.noContentTitle()
+        loadingManager.noContentView.subtitleLabel.text = viewModel.noContentSubtitle()
     }
+    
+    open func createConstraints() {
 
-    public func createConstraints() {
-        // Layout sidebar on left, header on top right, list bottom right
-        let listView = tasksListViewController.view!
-
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         sourceBar.translatesAutoresizingMaskIntoConstraints = false
-        listView.translatesAutoresizingMaskIntoConstraints = false
         headerContainerView.translatesAutoresizingMaskIntoConstraints = false
+
+        let listView = tasksListViewController.view!
+        listView.translatesAutoresizingMaskIntoConstraints = false
 
         sourceBarHiddenConstraint = sourceBar.widthAnchor.constraint(equalToConstant: 0)
 
+        // Layout sidebar on left, header on top right, list bottom right
         NSLayoutConstraint.activate([
-            sourceBar.topAnchor.constraint(equalTo: view.topAnchor),
-            sourceBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            sourceBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            contentView.topAnchor.constraint(equalTo: view.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
-            headerContainerView.topAnchor.constraint(equalTo: safeAreaOrLayoutGuideTopAnchor),
+            sourceBar.topAnchor.constraint(equalTo: contentView.topAnchor),
+            sourceBar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            sourceBar.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            sourceBar.widthAnchor.constraint(equalToConstant: 64),
+
+            headerContainerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             headerContainerView.leadingAnchor.constraint(equalTo: sourceBar.trailingAnchor),
-            headerContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            headerContainerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
 
             listView.topAnchor.constraint(equalTo: headerContainerView.bottomAnchor),
             listView.leadingAnchor.constraint(equalTo: sourceBar.trailingAnchor),
-            listView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            listView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            listView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            listView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
     }
-
+    
     // We need to use viewWillTransition here, as master VC is not told about all trait collection changes
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    override open func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         coordinator.animate(alongsideTransition: { [unowned self] (context) in
             self.updateConstraintsForSizeChange()
             }, completion: nil)
     }
-
+    
     open func updateConstraintsForSizeChange() {
         if let traitCollection = splitViewController?.traitCollection {
             let compact = (traitCollection.horizontalSizeClass == .compact)
@@ -186,18 +231,36 @@ class TasksListContainerViewController: UIViewController {
             self.sourceBarHiddenConstraint?.isActive = compact
 
             // Set user interface style based on whether compact
-            if let tasksListViewController = tasksListViewController as? FormCollectionViewController {
-                tasksListViewController.userInterfaceStyle = compact ? .current : .dark
-            }
+            tasksListViewController.userInterfaceStyle = compact ? .current : .dark
 
             // Replace header with one for size class
             headerViewController = viewModel.headerViewModel.createViewController(compact: compact)
         }
     }
+    
+    @objc public func toggleFullScreen() {
+        guard let splitViewController = pushableSplitViewController as? TasksSplitViewController else { return }
+        let width = isFullScreen ? TasksSplitViewController.defaultSplitWidth : splitViewController.view.bounds.width
+        splitViewController.setMasterWidth(width, animated: true)
+        isFullScreen = !isFullScreen
+    }
+    
+    @objc func refreshTasks() {
+        // Refresh the task list from the network
+        firstly {
+            return viewModel.refreshTaskList()
+        }.then { [weak self] () -> Void in
+            self?.tasksListViewController.collectionView?.reloadData()
+        }.always { [weak self] in
+            self?.refreshControl.endRefreshing()
+        }.catch { error in
+            AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
+        }
+    }
 
     // MARK: - Data model
 
-    public func updateFromViewModel() {
+    open func updateFromViewModel() {
         sourceItems = viewModel.sourceItems
         selectedSourceIndex = viewModel.selectedSourceIndex
     }
@@ -206,12 +269,19 @@ class TasksListContainerViewController: UIViewController {
 // MARK: - SourceBarDelegate
 extension TasksListContainerViewController: SourceBarDelegate {
 
-    public func sourceBar(_ bar: SourceBar, didSelectItemAt index: Int) {
+    open func sourceBar(_ bar: SourceBar, didSelectItemAt index: Int) {
         selectedSourceIndex = index
         viewModel.selectedSourceIndex = index
     }
 
-    public func sourceBar(_ bar: SourceBar, didRequestToLoadItemAt index: Int) {
+    open func sourceBar(_ bar: SourceBar, didRequestToLoadItemAt index: Int) {
+    }
+}
+
+// MARK: - TasksListContainerViewModelDelegate
+extension TasksListContainerViewController: TasksListContainerViewModelDelegate {
+    open func sectionsUpdated() {
+        tasksListViewController.collectionView?.reloadData()
     }
 }
 

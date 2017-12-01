@@ -61,6 +61,11 @@ open class PushableSplitViewController: UIViewController, UISplitViewControllerD
         if let splitView = embeddedSplitViewController.view {
             splitView.frame = view.bounds
             splitView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+            // Use explicit clear background here, as default is a shade of grey
+            // that can be visible in a complex view layout
+            splitView.backgroundColor = .clear
+
             view.addSubview(splitView)
         }
     }

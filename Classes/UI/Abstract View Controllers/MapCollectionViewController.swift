@@ -53,6 +53,8 @@ open class MapCollectionViewController: FormCollectionViewController {
         }
     }
     
+    open var searchFieldButton: SearchFieldButton?
+    
     
     // MARK: - Subclass override points
     

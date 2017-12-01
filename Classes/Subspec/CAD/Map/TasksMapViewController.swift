@@ -11,6 +11,8 @@ import MapKit
 
 open class TasksMapViewController: MapViewController {
     
+    private var savedRegion: MKCoordinateRegion?
+    
     let viewModel: TasksMapViewModel
     var mapLayerFilterButton: UIBarButtonItem!
     var zPositionObservers: [NSKeyValueObservation] = []
@@ -42,12 +44,7 @@ open class TasksMapViewController: MapViewController {
     
     /// Shows the layer filter popover
     @objc private func showMapLayerFilter() {
-        let filterViewController = MapFilterViewController(with: viewModel.filterViewModel)
-        let filterNav = PopoverNavigationController(rootViewController: filterViewController)
-        filterNav.modalPresentationStyle = .popover
-        filterNav.popoverPresentationController?.barButtonItem = mapLayerFilterButton
-        
-        present(filterNav, animated: true, completion: nil)
+        viewModel.splitViewModel?.presentMapFilter()
     }
     
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -121,7 +118,22 @@ open class TasksMapViewController: MapViewController {
             }
         }
     }
+}
 
+extension TasksMapViewController: TasksSplitViewControllerDelegate {
+    public func willChangeSplitWidth(from oldSize: CGFloat, to newSize: CGFloat) {
+        // Store the current region if we are growing split
+        if let mapView = mapView, newSize > oldSize, mapView.bounds.width > 1 {
+            savedRegion = mapView.region
+        }
+    }
+    
+    public func didChangeSplitWidth(from oldSize: CGFloat, to newSize: CGFloat) {
+        // Restore the region if we are shrinking split
+        if let region = savedRegion, let mapView = mapView, newSize < oldSize, mapView.bounds.width > 1 {
+            mapView.setRegion(region, animated: false)
+        }
+    }
 }
 
 extension TasksMapViewController: TasksMapViewModelDelegate {
@@ -130,6 +142,12 @@ extension TasksMapViewController: TasksMapViewModelDelegate {
             self.zPositionObservers.removeAll()
             self.mapView.removeAnnotations(self.mapView.annotations)
             self.mapView.addAnnotations(self.viewModel.filteredAnnotations)
+        }
+    }
+    
+    public func zoomToUserLocation() {
+        DispatchQueue.main.async {
+            self.zoomAndCenterToUserLocation(animated: true)
         }
     }
 }

@@ -37,4 +37,15 @@ public class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewMod
     override open func noContentSubtitle() -> String? {
         return nil
     }
+    
+    open func showsUpdatesIndicator(at section: Int) -> Bool {
+        if let sectionViewModel = sections[ifExists: section] {
+            for item in sectionViewModel.items {
+                if item.hasUpdates {
+                    return true
+                }
+            }
+        }
+        return false
+    }
 }

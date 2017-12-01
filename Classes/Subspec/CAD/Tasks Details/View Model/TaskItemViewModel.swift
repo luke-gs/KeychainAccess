@@ -8,34 +8,34 @@
 
 import UIKit
 
-public class TaskItemViewModel {
+open class TaskItemViewModel {
     
     /// Icon image to display in the header
-    var iconImage: UIImage?
+    open var iconImage: UIImage?
 
     /// Icon image color (not the background!)
-    var iconTintColor: UIColor?
+    open var iconTintColor: UIColor?
     
     /// Color to use for the icon image background and status text
-    var color: UIColor?
+    open var color: UIColor?
     
     /// Status text to display below the icon (e.g. 'In Duress')
-    var statusText: String?
+    open var statusText: String?
     
     /// Name of the item (e.g. 'P08')
-    var itemName: String?
+    open var itemName: String?
     
     /// Last updated time string (e.g. '2 mins ago')
-    var lastUpdated: String?
+    open var lastUpdated: String?
 
     /// View controllers to show in the list
-    func detailViewControllers() -> [UIViewController] {
+    open func detailViewControllers() -> [UIViewController] {
         return viewModels.map {
             $0.createViewController()
         }
     }
     
-    public var viewModels: [TaskDetailsViewModel]
+    open var viewModels: [TaskDetailsViewModel]
     
     /// Init
     ///

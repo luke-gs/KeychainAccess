@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PromiseKit
 
 open class AuditPlugin: PluginType {
     
@@ -18,19 +19,19 @@ open class AuditPlugin: PluginType {
         
     }
     
-    open func adapt(_ urlRequest: URLRequest) -> URLRequest {
+    open func adapt(_ urlRequest: URLRequest) -> Promise<URLRequest> {
         var adaptedRequest = urlRequest
         
         let session = UserSession.current
         
-        adaptedRequest.addValue(session.sessionID, forHTTPHeaderField: AuditPlugin.auditSessionIdKey)
+        adaptedRequest.setValue(session.sessionID, forHTTPHeaderField: AuditPlugin.auditSessionIdKey)
         
         // Temporary untill we have a Device ID from MDM
-        adaptedRequest.addValue(UIDevice.current.identifierForVendor!.uuidString, forHTTPHeaderField: AuditPlugin.auditDeviceIdKey)
+        adaptedRequest.setValue(UIDevice.current.identifierForVendor!.uuidString, forHTTPHeaderField: AuditPlugin.auditDeviceIdKey)
         // Temporary until we decide how generate and store transaction IDs
-        adaptedRequest.addValue("TestID", forHTTPHeaderField: AuditPlugin.auditTransactionIdKey)
+        adaptedRequest.setValue("TestID", forHTTPHeaderField: AuditPlugin.auditTransactionIdKey)
 
-        return adaptedRequest
+        return Promise(value: adaptedRequest)
     }
     
 }
