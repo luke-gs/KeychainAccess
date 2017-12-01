@@ -114,7 +114,7 @@ open class Contact: NSObject, Serialisable {
         aCoder.encode(source?.rawValue, forKey: CodingKey.source.rawValue)
 
         if let type = type?.rawValue {
-            aCoder.encode(NSNumber(value: type), forKey: CodingKey.subType.rawValue)
+            aCoder.encode(NSNumber(value: type), forKey: CodingKey.type.rawValue)
         }
 
         aCoder.encode(subType, forKey: CodingKey.subType.rawValue)
