@@ -202,6 +202,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
             sourceBar.topAnchor.constraint(equalTo: contentView.topAnchor),
             sourceBar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             sourceBar.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            sourceBar.widthAnchor.constraint(equalToConstant: 64),
 
             headerContainerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             headerContainerView.leadingAnchor.constraint(equalTo: sourceBar.trailingAnchor),

@@ -27,6 +27,7 @@
 		12F869ED1F5FD2350006EC5C /* ActiveUserSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F869EB1F5FD2350006EC5C /* ActiveUserSessionTests.swift */; };
 		12F869EE1F5FD24B0006EC5C /* OAuthAccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = 19DE98CE1F4265540063F394 /* OAuthAccessToken.json */; };
 		12F869EF1F5FD47E0006EC5C /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D566F51F5790BC001E74CA /* UserSession.swift */; };
+		190503EC1FCFDB09002EBC89 /* RefreshTokenPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190503EB1FCFDB09002EBC89 /* RefreshTokenPlugin.swift */; };
 		1908EF831F57CAFC00382B1C /* AuthenticationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1908EF821F57CAFC00382B1C /* AuthenticationPlugin.swift */; };
 		1908EF861F57CDEB00382B1C /* AuthenticationPluginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1908EF851F57CDEB00382B1C /* AuthenticationPluginTests.swift */; };
 		1908EF8B1F57D79A00382B1C /* ThemeManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1908EF871F57D79A00382B1C /* ThemeManagerTests.swift */; };
@@ -581,6 +582,7 @@
 		12F057291F3C106D00CAD6F6 /* QueryParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryParserTests.swift; sourceTree = "<group>"; };
 		12F869EA1F5FD2340006EC5C /* NewUserSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewUserSessionTests.swift; sourceTree = "<group>"; };
 		12F869EB1F5FD2350006EC5C /* ActiveUserSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveUserSessionTests.swift; sourceTree = "<group>"; };
+		190503EB1FCFDB09002EBC89 /* RefreshTokenPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshTokenPlugin.swift; sourceTree = "<group>"; };
 		1908EF821F57CAFC00382B1C /* AuthenticationPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationPlugin.swift; sourceTree = "<group>"; };
 		1908EF851F57CDEB00382B1C /* AuthenticationPluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationPluginTests.swift; sourceTree = "<group>"; };
 		1908EF871F57D79A00382B1C /* ThemeManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeManagerTests.swift; sourceTree = "<group>"; };
@@ -1851,6 +1853,7 @@
 				1908EF821F57CAFC00382B1C /* AuthenticationPlugin.swift */,
 				BC9C7D1A1F0DED6600DFFE83 /* HTTPAuthenticationMode.swift */,
 				BC9C7D1B1F0DED6600DFFE83 /* OAuthAccessToken.swift */,
+				190503EB1FCFDB09002EBC89 /* RefreshTokenPlugin.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -3160,6 +3163,7 @@
 				EAAEB3481F661806002D6C65 /* SystemPresenter.swift in Sources */,
 				96E492021FB3F98D0051C3A1 /* AppSettingKey.swift in Sources */,
 				EA53B2711F9D905800B891D8 /* StepperFormItem.swift in Sources */,
+				190503EC1FCFDB09002EBC89 /* RefreshTokenPlugin.swift in Sources */,
 				2726A81A1FCE5EA000EFB61A /* IncidentOverviewItemViewModel.swift in Sources */,
 				96CF322C1F8C428600140AF8 /* CADFormCollectionViewModel.swift in Sources */,
 				BC9C7E3E1F0DED6600DFFE83 /* PopoverDatePickerViewController.swift in Sources */,
