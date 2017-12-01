@@ -66,7 +66,11 @@ open class MPOLSplitViewController: PushableSplitViewController {
     }
 
     /// Whether the master view controller is hidden when displaying in compact size
-    public var shouldHideMasterWhenCompact: Bool = true
+    public var shouldHideMasterWhenCompact: Bool = true {
+        didSet {
+            updateSplitViewControllerForTraitChange()
+        }
+    }
 
     /// The KVO observer for right bar button items of the selected view controller
     private var rightBarButtonItemsObservation: NSKeyValueObservation?
@@ -85,6 +89,11 @@ open class MPOLSplitViewController: PushableSplitViewController {
     /// Return the title to use for the master navigation controller for the given traits
     open func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
         return self.title ?? ""
+    }
+    
+    /// Return the subtitle to use for the master navigation controller for the given traits, or nil
+    open func masterNavSubtitleSuitable(for traitCollection: UITraitCollection) -> String? {
+        return nil
     }
 
     /// Notification that paging scroll view has updated
@@ -142,29 +151,7 @@ open class MPOLSplitViewController: PushableSplitViewController {
         if selectedViewController == nil {
             // Get the default selected view controller from the subclass and apply the selection
             selectedViewController = defaultSelectedViewController()
-            selectedViewControllerDidChange(oldValue: nil)
         }
-    }
-
-    // MARK: - Convenience
-
-    /// Is the split view controller being rendered in compact environment, hence collapsed
-    public func isCompact() -> Bool {
-        // If it is called early enough, `self.traitCollection.horizontalSizeClass` will return .unspecified.
-        // It'll inherit the value from upper chain so delegate that to the window.
-        if self.traitCollection.horizontalSizeClass != .unspecified {
-            return self.traitCollection.horizontalSizeClass == .compact
-        }
-        return MPOLSplitViewController.isWindowCompact()
-    }
-
-    /// Is the key window being rendered in compact environment
-    public static func isWindowCompact() -> Bool {
-        if let traitCollection = UIApplication.shared.keyWindow?.rootViewController?.traitCollection,
-            traitCollection.horizontalSizeClass == .compact {
-            return true
-        }
-        return false
     }
 
     // MARK: - Selection
@@ -182,8 +169,11 @@ open class MPOLSplitViewController: PushableSplitViewController {
                 self.updateNavigationBarForSelection()
             }
         }
-        // Update the split view content
-        updateSplitViewControllerForSelection()
+        
+        if oldValue != nil {
+            // Update the split view content
+            updateSplitViewControllerForSelection()
+        }
     }
 
     // MARK: - Adaptive UI Support
@@ -264,18 +254,32 @@ open class MPOLSplitViewController: PushableSplitViewController {
         // Note: this can move to detail view controller when switching between regular and compact
         masterNavItem.leftBarButtonItems = masterViewController.navigationItem.leftBarButtonItems ?? [backButtonItem()].removeNils()
         detailNavItem?.leftBarButtonItem = nil
-
+        
         if self.isCompact() {
-            // Use the selected detail right button items if compact
-            masterNavItem.rightBarButtonItems = selectedViewController?.navigationItem.rightBarButtonItems
+            if let selectedViewController = selectedViewController {
+                // Use the selected detail right button items if compact
+                masterNavItem.rightBarButtonItems = selectedViewController.navigationItem.rightBarButtonItems
+            } else {
+                // Use the master right button items if compact and no VC selected
+                masterNavItem.rightBarButtonItems = masterViewController.navigationItem.rightBarButtonItems
+            }
         } else {
             // Otherwise use the content of the master view controller
             masterNavItem.rightBarButtonItems = containerMasterViewController.contentViewController?.navigationItem.rightBarButtonItems
         }
 
+        let title = masterNavTitleSuitable(for: traitCollection)
+        
         // Update the navigation bar titles, otherwise they can be shown on wrong side after transition
-        masterNavItem.title = masterNavTitleSuitable(for: traitCollection)
+        masterNavItem.title = title
         detailNavItem?.title = detailNavController.viewControllers.first?.title
+        
+        // Add titleView if we have one, otherwise add subtitle if we have one
+        if let titleView = masterViewController.navigationItem.titleView {
+            masterNavItem.titleView = titleView
+        } else if let subtitle = masterNavSubtitleSuitable(for: traitCollection) {
+            containerMasterViewController.setTitleView(title: title, subtitle: subtitle)
+        }
     }
 
     open func updateNavigationBarForTraitChange() {
@@ -295,7 +299,7 @@ open class MPOLSplitViewController: PushableSplitViewController {
     open func updateHeaderViewController() {
         // Update the current header based on the size class
         // We use window here as can be called before view is initialised
-        masterViewControllerHeader = MPOLSplitViewController.isWindowCompact() ? masterViewControllerHeaderCompact : masterViewControllerHeaderRegular
+        masterViewControllerHeader = UIViewController.isWindowCompact() ? masterViewControllerHeaderCompact : masterViewControllerHeaderRegular
     }
 
     // MARK: - UISplitViewControllerDelegate methods

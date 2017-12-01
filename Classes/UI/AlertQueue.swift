@@ -100,13 +100,13 @@ public final class AlertQueue: NSObject {
     }
 
     /// Add a simple alert with OK button
-    public func addSimpleAlert(title: String?, message: String?) {
+    public func addSimpleAlert(title: String?, message: String?, handler: ((UIAlertAction) -> ())? = nil) {
         let buttonTitle = NSLocalizedString("OK", comment: "Alert OK button")
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: buttonTitle, style: .cancel, handler: nil))
+        let action = UIAlertAction(title: buttonTitle, style: .cancel, handler: handler)
+        alertController.addAction(action)
         AlertQueue.shared.add(alertController)
     }
-    
     
     // MARK: - Private methods
     

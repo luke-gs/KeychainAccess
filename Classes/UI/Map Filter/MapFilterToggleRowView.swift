@@ -11,7 +11,8 @@ import UIKit
 open class MapFilterToggleRowView: UIView {
     
     public struct LayoutConstants {
-        public static let checkboxSpacing: CGFloat = 32
+        public static let checkboxSpacingRegular: CGFloat = 32
+        public static let checkboxSpacingCompact: CGFloat = 16
         public static let topMargin: CGFloat = 12
         public static let titleMargin: CGFloat = 8
         /// Checkbox class strangely has a slight leading offset
@@ -24,6 +25,9 @@ open class MapFilterToggleRowView: UIView {
     open private(set) var options: [CheckBox] = []
     open var optionsStackView: UIStackView!
     private var separator: UIView!
+    
+    /// Spacer for checkbox stack view when in compact
+    private let spacer = UIView()
     
     
     private let showsSeparator: Bool
@@ -53,12 +57,11 @@ open class MapFilterToggleRowView: UIView {
             return checkbox
         }
         
-        // Add options and spacer
-        optionsStackView = UIStackView(arrangedSubviews: options + [UIView()])
+        optionsStackView = UIStackView(arrangedSubviews: options)
         optionsStackView.axis = .horizontal
         optionsStackView.alignment = .leading
-        optionsStackView.distribution = .fill
-        optionsStackView.spacing = LayoutConstants.checkboxSpacing
+        optionsStackView.distribution = .fillEqually
+        optionsStackView.spacing = traitCollection.horizontalSizeClass == .compact ? LayoutConstants.checkboxSpacingCompact : LayoutConstants.checkboxSpacingRegular
         optionsStackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(optionsStackView)
         
@@ -93,6 +96,24 @@ open class MapFilterToggleRowView: UIView {
             separator.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             separator.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5),
         ])
+    }
+    
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard traitCollection.horizontalSizeClass != .unspecified else { return }
+        
+        if traitCollection.horizontalSizeClass == .compact {
+            optionsStackView.spacing = LayoutConstants.checkboxSpacingCompact
+            // Remove spacer if in compact
+            optionsStackView.removeArrangedSubview(spacer)
+        } else {
+            optionsStackView.spacing = LayoutConstants.checkboxSpacingRegular
+            // Add spacer if not in compact and contains more than 1 view
+            if !optionsStackView.arrangedSubviews.contains(spacer)  && optionsStackView.arrangedSubviews.count > 1 {
+                optionsStackView.addArrangedSubview(spacer)
+            }
+        }
+        
     }
     
     /// Save the view's values to the model

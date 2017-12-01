@@ -8,13 +8,22 @@
 
 import UIKit
 
+/// Delegate protocol for updating UI
+public protocol TasksSplitViewModelDelegate: PopoverPresenter {
+    /// Called when the sections data is updated
+    func sectionsUpdated()
+}
+
+
 open class TasksSplitViewModel {
+
+    /// Delegate for UI updates
+    open weak var delegate: TasksSplitViewModelDelegate?
 
     /// Container view model
     public let listContainerViewModel: TasksListContainerViewModel
     public let mapViewModel: TasksMapViewModel
     public let filterViewModel: TaskMapFilterViewModel
-    public weak var presenter: PopoverPresenter?
 
     public init(listContainerViewModel: TasksListContainerViewModel, mapViewModel: TasksMapViewModel, filterViewModel: TaskMapFilterViewModel) {
         self.listContainerViewModel = listContainerViewModel
@@ -23,12 +32,19 @@ open class TasksSplitViewModel {
         
         self.listContainerViewModel.splitViewModel = self
         self.mapViewModel.splitViewModel = self
+
+        // Observe sync changes
+        NotificationCenter.default.addObserver(self, selector: #selector(syncChanged), name: .CADSyncChanged, object: nil)
+    }
+
+    @objc open func syncChanged() {
+        self.delegate?.sectionsUpdated()
     }
 
     /// Create the view controller for this view model
     public func createViewController() -> UIViewController {
         let vc = TasksSplitViewController(viewModel: self)
-        presenter = vc
+        delegate = vc
         return vc
     }
 
@@ -47,15 +63,27 @@ open class TasksSplitViewModel {
         return NSLocalizedString("Tasks", comment: "Tasks navigation title")
     }
     
-    public func presentMapFilter() {
-        let viewController = filterViewModel.createViewController(delegate: self)
-        presenter?.presentFormSheet(viewController, animated: true)
+    /// Title for the master view to be displayed in the segmented control
+    public func masterSegmentTitle() -> String {
+        return NSLocalizedString("List", comment: "Task list segment title")
     }
     
+    /// Title for the detail view to be displayed in the segmented control
+    public func detailSegmentTitle() -> String {
+        return NSLocalizedString("Map", comment: "Map list segment title")
+    }
+    
+    /// Shows the map filter popup
+    public func presentMapFilter() {
+        let viewController = filterViewModel.createViewController(delegate: self)
+        delegate?.presentFormSheet(viewController, animated: true)
+    }
+    
+    /// Applies the filter to the map and task list
     public func applyFilter() {
-        presenter?.dismiss(animated: true, completion: nil)
+        delegate?.dismiss(animated: true, completion: nil)
         mapViewModel.applyFilter()
-        listContainerViewModel.updateListData()
+        listContainerViewModel.updateSections()
     }
 
 }

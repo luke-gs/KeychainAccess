@@ -13,10 +13,12 @@ private let LottieType      = "json"
 
 public enum MPOLSpinnerStyle {
     case regular
+    case large
 
     fileprivate var size: CGSize {
         switch self {
         case .regular: return CGSize(width: 50.0, height: 50.0)
+        case .large: return CGSize(width: 64.0, height: 64.0)
         }
     }
 }
@@ -44,8 +46,12 @@ public class MPOLSpinnerView: LOTAnimationView {
         self.style = style
 
         let cacheName = MPOLSpinnerView.fileURL.absoluteString
-        let model = LOTAnimationCache.shared().animation(forKey: cacheName)
+        var model = LOTAnimationCache.shared().animation(forKey: cacheName)
 
+        // Load model if not already cached
+        if model == nil {
+            model = LOTAnimationView.loadMPOLAnimation(fileURL: MPOLSpinnerView.fileURL)
+        }
         super.init(model: model, in: Bundle.mpolKit)
 
         loopAnimation = true

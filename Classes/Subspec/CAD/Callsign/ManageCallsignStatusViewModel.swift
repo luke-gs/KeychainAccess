@@ -88,10 +88,11 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
         let newStatus = statusForIndexPath(indexPath)
         if currentStatus.canChangeToStatus(newStatus: newStatus) {
 
-            // TODO: change status on network
-
-            selectedIndexPath = indexPath
-            return Promise(value: currentStatus)
+            // TODO: Insert network call here
+            return after(seconds: 2.0).then {
+                self.selectedIndexPath = indexPath
+                return Promise(value: self.currentStatus)
+            }
         } else {
             let message = NSLocalizedString("Selection not allowed from this state", comment: "")
             return Promise(error: NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: message]))
@@ -105,7 +106,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
             case .viewCallsign:
                 break
             case .manageCallsign:
-                if let callsign = CADUserSession.current.callsign {
+                if let callsign = CADStateManager.shared.callsign {
                     let callsignViewModel = BookOnCallsignViewModel(callsign: callsign, status: nil, location: nil)
                     let vc = BookOnDetailsFormViewModel(callsignViewModel: callsignViewModel).createViewController()
                     delegate?.presentPushedViewController(vc, animated: true)
@@ -114,7 +115,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
             case .terminateShift:
                 if currentStatus.canTerminate {
                     // Update session and dismiss screen
-                    CADUserSession.current.callsign = nil
+                    CADStateManager.shared.callsign = nil
                     BookOnDetailsFormViewModel.lastSaved = nil
                     delegate?.dismiss()
                 } else {
@@ -137,7 +138,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
 
     /// The title to use in the navigation bar
     open override func navTitle() -> String {
-        return CADUserSession.current.callsign ?? ""
+        return CADStateManager.shared.callsign ?? ""
     }
 
     /// Hide arrows

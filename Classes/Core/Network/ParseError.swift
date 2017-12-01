@@ -9,4 +9,5 @@
 public enum ParsingError: Error {
     case notParsable
     case missingRequiredField
+    case incorrectFormat
 }

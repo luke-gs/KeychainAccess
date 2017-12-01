@@ -11,21 +11,28 @@ import UIKit
 // The preferred adjustment content is from the center Y when not displaying content.
 fileprivate let contentAdjustmentFromCenterY: CGFloat = -16.0
 
+/// Protocol for a view controller containing a loading state manager
+public protocol LoadableViewController {
+    var loadingManager: LoadingStateManager { get }
+}
+
 /// A manager for a loading view on a base view.
 open class LoadingStateManager: TraitCollectionTrackerDelegate {
     
     /// The load state within a `LoadingStateManager`.
     public enum State {
         
-        /// The content is loaded. The loading and no content views are hidden.
+        /// The content is loaded. No additional UI is shown.
         case loaded
         
-        /// The content is loading. A loading spinner and the loading label are shown.
+        /// The content is loading. The loadingView is shown.
         case loading
         
-        /// The content failed to load, or there was no content for some reason. The
-        /// no content stack view is shown.
+        /// No content was returned from request. The noContentView is shown.
         case noContent
+
+        /// The content failed to load
+        case error
     }
     
     
@@ -83,58 +90,80 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
             }
         }
     }
-    
-    
-    /// The loading label.
-    open private(set) lazy var loadingLabel: UILabel = { [unowned self] in
-        let label = UILabel()
-        label.adjustsFontSizeToFitWidth = true
-        label.adjustsFontForContentSizeCategory = true
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        label.text = NSLocalizedString("Loading", bundle: .mpolKit, comment: "Default Loading Title")
-        label.textColor = self.noContentColor
-        
-        var fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .title3)
-        if let adjusted = fontDescriptor.withSymbolicTraits(.traitBold) {
-            fontDescriptor = adjusted
-        }
-        label.font = UIFont(descriptor: fontDescriptor, size: 0.0)
-        
-        return label
+
+    /// The loading label. Moved to loading view, but kept here for backwards compatibility
+    open var loadingLabel: UILabel {
+        return loadingView.titleLabel
+    }
+
+    /// The loading view.
+    ///
+    /// This stack view is lazily loaded as needed. You can adjust the internal
+    /// views for whatever effect you like, adding views etc where appropriate.
+    open private(set) lazy var loadingView: LoadingStateLoadingView = { [unowned self] in
+        self.loadingViewLoaded = true
+        return LoadingStateLoadingView(frame: .zero)
     }()
-    
-    
+
     /// The no content view.
     ///
     /// This stack view is lazily loaded as needed. You can adjust the internal
     /// views for whatever effect you like, adding views etc where appropriate.
-    open private(set) lazy var noContentView: NoContentView = { [unowned self] in
+    open private(set) lazy var noContentView: LoadingStateNoContentView = { [unowned self] in
         self.noContentViewLoaded = true
-        return NoContentView(frame: .zero)
+        return LoadingStateNoContentView(frame: .zero)
     }()
-    
-    
-    /// The color for the labels.
-    @NSCopying open var noContentColor: UIColor! = .gray {
+
+    /// The no content view.
+    ///
+    /// This stack view is lazily loaded as needed. You can adjust the internal
+    /// views for whatever effect you like, adding views etc where appropriate.
+    open private(set) lazy var errorView: LoadingStateErrorView = { [unowned self] in
+        self.errorViewLoaded = true
+        return LoadingStateErrorView(frame: .zero)
+    }()
+
+    /// The color for both title and subtitle labels.
+    open var noContentColor: UIColor! = .secondaryGray {
         didSet {
             if noContentColor == nil {
-                noContentColor = .gray
+                noContentColor = .secondaryGray
             }
-            if noContentViewLoaded {
-                noContentView.titleLabel.textColor = noContentColor
-                noContentView.subtitleLabel.textColor = noContentColor
-            }
-            if loadingLabelLoaded {
-                loadingLabel.textColor = noContentColor
-            }
-            loadingIndicatorView?.color = noContentColor
+            titleColor = noContentColor
+            subtitleColor = noContentColor
         }
     }
-    
-    
+
+    open var titleColor: UIColor? {
+        didSet {
+            if loadingViewLoaded {
+                loadingView.titleLabel.textColor = titleColor
+            }
+            if noContentViewLoaded {
+                noContentView.titleLabel.textColor = titleColor
+            }
+            if errorViewLoaded {
+                errorView.titleLabel.textColor = titleColor
+            }
+        }
+    }
+
+    open var subtitleColor: UIColor? {
+        didSet {
+            if loadingViewLoaded {
+                loadingView.subtitleLabel.textColor = titleColor
+            }
+            if noContentViewLoaded {
+                noContentView.subtitleLabel.textColor = titleColor
+            }
+            if errorViewLoaded {
+                errorView.subtitleLabel.textColor = titleColor
+            }
+        }
+    }
+
     // MARK: - Private properties
-    
+
     private lazy var traitTrackerView: TraitCollectionTracker = { [unowned self] in
         let tracker = TraitCollectionTracker(frame: .zero)
         tracker.isHidden = true
@@ -142,17 +171,13 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         return tracker
     }()
     
-    private var noContentScrollView: UIScrollView?
+    private var containerScrollView: UIScrollView?
     
-    private var noContentInsetManager: ScrollViewInsetManager?
+    private var containerInsetManager: ScrollViewInsetManager?
     
-    private var noContentRegularConstraint: NSLayoutConstraint?
+    private var containerWidthConstraint: NSLayoutConstraint?
     
-    private var noContentGuide: Any? // on iOS 11+, this is the contentLayoutGuide. on iOS 10, it is a UIView.
-    
-    private var loadingIndicatorView: MPOLSpinnerView?
-    
-    private var loadingStackView: UIStackView?
+    private var containerContentGuide: AnyObject? // on iOS 11+, this is the contentLayoutGuide. on iOS 10, it is a UIView.
     
     private var contentInsetGuide: UILayoutGuide?
     
@@ -164,143 +189,145 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     
     private var contentInsetBottomConstraint: NSLayoutConstraint?
     
+    private var loadingViewLoaded: Bool = false
     private var noContentViewLoaded: Bool = false
-    
-    private var loadingLabelLoaded: Bool = false
-    
+    private var errorViewLoaded: Bool = false
+
     
     // MARK: - Private methods
-    
-    private func updateViewState() {
-        if state != .loading {
-            loadingIndicatorView?.stop()
-            loadingStackView?.removeFromSuperview()
-            loadingIndicatorView = nil
-            loadingStackView = nil
-        }
-        if state != .noContent {
-            noContentScrollView?.removeFromSuperview()
-            noContentScrollView = nil
-            noContentInsetManager = nil
-            noContentRegularConstraint = nil
-            noContentGuide = nil
-        }
-        contentView?.isHidden = state != .loaded
-        
-        guard let baseView = self.baseView, let contentInsetGuide = self.contentInsetGuide else { return }
-        
+
+    /// Return the container view for the given state
+    private func containerViewForState(_ state: LoadingStateManager.State) -> BaseLoadingStateView? {
         switch state {
-        case .loaded:
-            // Views have been shown and removed as necessary.
-            break
         case .loading:
-            let loadingStackView: UIStackView
-            
-            if let currentStackView = self.loadingStackView {
-                loadingStackView = currentStackView
-            } else {
-                let manager = ThemeManager.shared
-                let color = manager.theme(for: manager.currentInterfaceStyle).color(forKey: .tint)
-                let loadingIndicatorView = MPOLSpinnerView(style: .regular, color: color)
-                loadingIndicatorView.play()
-
-                loadingStackView = UIStackView(arrangedSubviews: [loadingIndicatorView, loadingLabel])
-                loadingStackView.translatesAutoresizingMaskIntoConstraints = false
-                loadingStackView.axis = .vertical
-                loadingStackView.alignment = .center
-                loadingStackView.spacing = 12.0
-                
-                self.loadingStackView = loadingStackView
-                self.loadingIndicatorView = loadingIndicatorView
-            }
-            
-            
-            if let contentView = self.contentView, let indexOfContentView = baseView.subviews.index(of: contentView) {
-                baseView.insertSubview(loadingStackView, at: indexOfContentView)
-            } else {
-                baseView.addSubview(loadingStackView)
-            }
-            
-            NSLayoutConstraint.activate([
-                loadingStackView.centerYAnchor.constraint(equalTo: contentInsetGuide.centerYAnchor, constant: contentAdjustmentFromCenterY),
-                loadingStackView.leadingAnchor.constraint(greaterThanOrEqualTo: baseView.readableContentGuide.leadingAnchor),
-                loadingStackView.widthAnchor.constraint(lessThanOrEqualTo: baseView.readableContentGuide.widthAnchor),
-                loadingStackView.centerXAnchor.constraint(equalTo: baseView.centerXAnchor)
-            ])
+            return loadingView
         case .noContent:
-            
-            let scrollView: UIScrollView
-            let contentGuide: Any
-            
-            var constraints: [NSLayoutConstraint]
-            
-            if let currentScrollView = noContentScrollView, let noContentGuide = self.noContentGuide {
-                scrollView = currentScrollView
-                contentGuide = noContentGuide
-                
-                constraints = []
-            } else {
-                scrollView = UIScrollView(frame: baseView.bounds)
-                scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-                
-                if #available(iOS 11, *) {
-                    scrollView.contentInsetAdjustmentBehavior = .always
-
-                    let contentLayoutGuide = scrollView.contentLayoutGuide
-                    constraints = [ contentLayoutGuide.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor) ]
-                    contentGuide = contentLayoutGuide
-                } else {
-                    let contentSizingView = UIView(frame: .zero)
-                    contentSizingView.translatesAutoresizingMaskIntoConstraints = false
-                    contentSizingView.isHidden = true
-                    scrollView.addSubview(contentSizingView)
-                    
-                    constraints = [
-                        contentSizingView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-                        contentSizingView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-                        contentSizingView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-                        contentSizingView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-                        contentSizingView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-                    ]
-                    contentGuide = contentSizingView
-                }
-
-                let noContentView = self.noContentView
-                noContentView.translatesAutoresizingMaskIntoConstraints = false
-                scrollView.addSubview(noContentView)
-                
-                constraints += [
-                    NSLayoutConstraint(item: noContentView, attribute: .centerX, relatedBy: .equal, toItem: contentGuide, attribute: .centerX),
-                    NSLayoutConstraint(item: noContentView, attribute: .centerY, relatedBy: .equal, toItem: contentGuide, attribute: .centerY),
-                    NSLayoutConstraint(item: noContentView, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: scrollView.readableContentGuide, attribute: .leading),
-                    NSLayoutConstraint(item: noContentView, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: contentGuide, attribute: .top, constant: 40.0),
-                ]
-                
-                noContentRegularConstraint = noContentView.widthAnchor.constraint(lessThanOrEqualTo: scrollView.readableContentGuide.widthAnchor, multiplier: 0.7).withPriority(UILayoutPriority.defaultHigh)
-                
-                if baseView.traitCollection.horizontalSizeClass != .compact {
-                    constraints.append(noContentRegularConstraint!)
-                }
-                
-                noContentScrollView = scrollView
-                noContentInsetManager = ScrollViewInsetManager(scrollView: scrollView)
-                updateContentInsets()
-            }
-            
-            if let contentView = self.contentView, let indexOfContentView = baseView.subviews.index(of: contentView) {
-                baseView.insertSubview(scrollView, at: indexOfContentView)
-            } else {
-                baseView.addSubview(scrollView)
-            }
-            
-            noContentGuide = contentGuide
-            // when we constraint to make sure the content area stays at least full height for the screen,
-            // leave a little off to keep the content appearing a little north of the center. Humans see
-            // center as looking a little low on the screen - it's a psychological thing!
-            constraints.append(NSLayoutConstraint(item: contentGuide, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: contentInsetGuide, attribute: .height, constant: (contentAdjustmentFromCenterY * 2.0)))
-            
-            NSLayoutConstraint.activate(constraints)
+            return noContentView
+        case .error:
+            return errorView
+        default:
+            return nil
         }
+    }
+
+    private func createContainerScrollview() -> UIScrollView {
+        let scrollView = UIScrollView(frame: baseView!.bounds)
+        scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        return scrollView
+    }
+
+    private func createContainerContentGuide(_ scrollView: UIScrollView) -> AnyObject {
+        let contentGuide: AnyObject
+        var constraints: [NSLayoutConstraint]
+
+        if #available(iOS 11, *) {
+            scrollView.contentInsetAdjustmentBehavior = .always
+            let contentLayoutGuide = scrollView.contentLayoutGuide
+            constraints = [contentLayoutGuide.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)]
+            contentGuide = contentLayoutGuide
+        } else {
+            let contentSizingView = UIView(frame: .zero)
+            contentSizingView.translatesAutoresizingMaskIntoConstraints = false
+            contentSizingView.isHidden = true
+            scrollView.addSubview(contentSizingView)
+
+            constraints = [
+                contentSizingView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+                contentSizingView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+                contentSizingView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+                contentSizingView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+                contentSizingView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            ]
+            contentGuide = contentSizingView
+        }
+
+        // when we constraint to make sure the content area stays at least full height for the screen,
+        // leave a little off to keep the content appearing a little north of the center. Humans see
+        // center as looking a little low on the screen - it's a psychological thing!
+        constraints.append(NSLayoutConstraint(item: contentGuide, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: contentInsetGuide!, attribute: .height, constant: (contentAdjustmentFromCenterY * 2.0)))
+
+        NSLayoutConstraint.activate(constraints)
+        return contentGuide
+    }
+
+    private func updateViewState() {
+        // Update loading indicator
+        if state == .loading {
+            loadingView.loadingIndicatorView.play()
+        } else if loadingViewLoaded {
+            loadingView.loadingIndicatorView.stop()
+        }
+
+        // If we have now loaded content, remove all container UI. Otherwise we re-use what
+        // has already been created but swap out the container for current state
+        if state == .loaded {
+            // Cleanup views and return
+            containerScrollView?.removeFromSuperview()
+            containerScrollView = nil
+            containerInsetManager = nil
+            containerWidthConstraint = nil
+            containerContentGuide = nil
+            contentView?.isHidden = false
+            return
+        } else {
+            contentView?.isHidden = true
+        }
+
+        guard let baseView = self.baseView, self.contentInsetGuide != nil else { return }
+
+        // Create a scroll view for holding container content, and insert into base view
+        let scrollView = containerScrollView ?? createContainerScrollview()
+        if let contentView = self.contentView, let indexOfContentView = baseView.subviews.index(of: contentView) {
+            baseView.insertSubview(scrollView, at: indexOfContentView)
+        } else {
+            baseView.addSubview(scrollView)
+        }
+
+        // Create a content guide for laying out
+        let contentGuide = containerContentGuide ?? createContainerContentGuide(scrollView)
+
+        // Remove old container from scroll view
+        for view in scrollView.subviews {
+            if view != contentGuide as? UIView {
+                view.removeFromSuperview()
+            }
+        }
+
+        // Load the container view for the current state and add to scroll view
+        let containerView: BaseLoadingStateView! = containerViewForState(state)
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(containerView)
+
+        // Override default title and subtitle colors on the container if set
+        if let titleColor = titleColor {
+            containerView.titleLabel.textColor = titleColor
+        }
+        if let subtitleColor = subtitleColor {
+            containerView.subtitleLabel.textColor = subtitleColor
+        }
+
+        var constraints: [NSLayoutConstraint] = []
+        constraints += [
+            NSLayoutConstraint(item: containerView, attribute: .centerX, relatedBy: .equal, toItem: contentGuide, attribute: .centerX),
+            NSLayoutConstraint(item: containerView, attribute: .centerY, relatedBy: .equal, toItem: contentGuide, attribute: .centerY),
+            NSLayoutConstraint(item: containerView, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: scrollView.readableContentGuide, attribute: .leading),
+            NSLayoutConstraint(item: containerView, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: contentGuide, attribute: .top, constant: 40.0),
+        ]
+
+        containerWidthConstraint = containerView.widthAnchor.constraint(lessThanOrEqualTo: scrollView.readableContentGuide.widthAnchor, multiplier: 0.7).withPriority(UILayoutPriority.defaultHigh)
+
+        if baseView.traitCollection.horizontalSizeClass != .compact {
+            constraints.append(containerWidthConstraint!)
+        }
+
+        containerScrollView = scrollView
+        containerContentGuide = contentGuide
+
+        // Update insets
+        containerInsetManager = containerInsetManager ?? ScrollViewInsetManager(scrollView: scrollView)
+        updateContentInsets()
+
+        NSLayoutConstraint.activate(constraints)
     }
     
     private func switchBaseViews(from fromView: UIView?, to newView: UIView?) {
@@ -309,8 +336,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         if let contentInsetGuide = self.contentInsetGuide {
             fromView?.removeLayoutGuide(contentInsetGuide)
         }
-        noContentScrollView?.removeFromSuperview()
-        loadingStackView?.removeFromSuperview()
+        containerScrollView?.removeFromSuperview()
         traitTrackerView.removeFromSuperview()
         
         if let newView = newView {
@@ -350,12 +376,12 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         contentInsetTopConstraint?.constant = insets.top
         contentInsetBottomConstraint?.constant = -insets.bottom
         
-        noContentInsetManager?.standardContentInset = insets
-        noContentInsetManager?.standardIndicatorInset = insets
+        containerInsetManager?.standardContentInset = insets
+        containerInsetManager?.standardIndicatorInset = insets
     }
     
     fileprivate func traitCollectionTracker(_ tracker: TraitCollectionTracker, traitCollectionDidChange previousTraitCollection: UITraitCollection?) {
-        noContentRegularConstraint?.isActive = baseView?.traitCollection.horizontalSizeClass ?? .regular == .regular
+        containerWidthConstraint?.isActive = baseView?.traitCollection.horizontalSizeClass ?? .regular == .regular
     }
     
 }
