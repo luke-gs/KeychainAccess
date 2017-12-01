@@ -22,6 +22,12 @@ open class DemoAPIManager: CADAPIManager {
 
     open static let shared = DemoAPIManager()
 
+    open func accessTokenRequest(for grant: OAuthAuthorizationGrant) -> Promise<OAuthAccessToken> {
+        // Create dummy token
+        let token = OAuthAccessToken(accessToken: "123", type: "Bearer")
+        return Promise<OAuthAccessToken>(value: token)
+    }
+
     open func cadOfficerByUsername(username: String) -> Promise<OfficerDetailsResponse> {
         if let data = loadDemoFileAsData(name: "DemoOfficer") {
             let response = try! JSONDecoder.decode(data, to: OfficerDetailsResponse.self)
