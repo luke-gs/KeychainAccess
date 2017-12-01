@@ -105,6 +105,31 @@ public class LandingPresenter: AppGroupLandingPresenter {
         }
     }
 
+    /// Custom login using the CAD API manager
+    override open func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
+        #if DEBUG
+            controller.setLoading(true, animated: true)
+            CADStateManager.apiManager.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] token -> Void in
+                guard let `self` = self else { return }
+
+                APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+                UserSession.startSession(user: User(username: username), token: token)
+                controller.resetFields()
+                self.updateInterfaceForUserSession(animated: true)
+
+            }.catch { error in
+                let error = error as NSError
+                let title = error.localizedFailureReason ?? "Error"
+                let message = error.localizedDescription
+                controller.present(SystemScreen.serverError(title: title, message: message))
+            }.always {
+                controller.setLoading(false, animated: true)
+            }
+        #else
+            super.loginViewController(controller, didFinishWithUsername: username, password: password)
+        #endif
+    }
+
     // MARK: - Private
 
     @objc private func settingsButtonItemDidSelect(_ item: UIBarButtonItem) {
