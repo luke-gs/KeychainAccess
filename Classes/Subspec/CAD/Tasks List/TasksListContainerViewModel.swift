@@ -256,7 +256,7 @@ open class TasksListContainerViewModel {
                     badgeTextColor: incident?.grade.badgeColors.text,
                     badgeFillColor: incident?.grade.badgeColors.fill,
                     badgeBorderColor: incident?.grade.badgeColors.border,
-                    hasUpdates: false) // TODO: Calculate dynamically
+                    hasUpdates: true) // TODO: Calculate dynamically
             }
             if resources.count > 0 {
                 return CADFormCollectionSectionViewModel(title: "\(resources.count) \(section)", items: taskViewModels)
