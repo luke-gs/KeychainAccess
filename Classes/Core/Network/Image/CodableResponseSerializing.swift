@@ -35,17 +35,12 @@ extension Request {
         if let error = error {
             return .failure(error)
         }
-
-        let jsonResponseSerializer = DataRequest.jsonResponseSerializer(options: options)
-        let result = jsonResponseSerializer.serializeResponse(nil, response, data, error)
-
-        guard let json = result.value as? Data else {
-            // Todo: Fix
-            return .failure(ImageError.imageSerializationFailed)
+        guard let data = data else {
+            return
         }
         let decoder = JSONDecoder()
         do {
-            return .success(try decoder.decode(T.self, from: json))
+            return .success(try decoder.decode(T.self, from: data))
         } catch let error {
             return .failure(error)
         }
