@@ -70,7 +70,7 @@ open class NotBookedOnCallsignItemViewModel: NotBookedOnItemViewModel, BookOnCal
             callsign: resource.callsign,
             status: resource.status.rawValue,
             location: resource.location.fullAddress,
-            image: resource.status.icon(),
+            image: resource.status.icon,
             imageColor: imageColor,
             imageBackgroundColor: imageBackgroundColor,
             badgeText: incident?.grade.rawValue,

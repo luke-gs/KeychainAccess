@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CoreLocation
 
 // NOTE: This class has been generated from Diederik sample json. Will be updated once API is complete
 
@@ -25,32 +24,6 @@ open class SyncDetailsIncident: Codable {
     open var severity : Int!
     open var vehicles : [SyncDetailsIncidentVehicle]!
     open var zone : String!
-    
-    // MARK: - Computed
-    
-    open var status: Status {
-        if let resourceId = CADStateManager.shared.lastBookOn?.callsign,
-            let resource = CADStateManager.shared.resourcesById[resourceId]
-        {
-            if resource.incidentNumber == incidentNumber {
-                return .current
-            } else {
-                return .assigned
-            }
-        } else if CADStateManager.shared.resourcesForIncident(incidentNumber: incidentNumber).count > 0 {
-            return .resourced
-        } else {
-            return .unresourced
-        }
-    }
-    
-    open var coordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))
-    }
-    
-    open var resourceCount: Int {
-        return CADStateManager.shared.resourcesForIncident(incidentNumber: incidentNumber).count
-    }
 }
 
 /// Reponse object for a single vehicle in an incident

@@ -38,7 +38,7 @@ open class TasksMapViewController: MapViewController {
         mapLayerFilterButton = UIBarButtonItem.init(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: self, action: #selector(showMapLayerFilter))
         navigationItem.rightBarButtonItem = mapLayerFilterButton
         
-        viewModel.loadDummyData()
+        viewModel.loadTasks()
         mapView.addAnnotations(viewModel.filteredAnnotations)
     }
     

@@ -22,7 +22,7 @@ public enum ResourceType: String, Codable {
         }
     }
 
-    public func icon() -> UIImage? {
+    public var icon: UIImage? {
         return AssetManager.shared.image(forKey: imageKey)
     }
 }

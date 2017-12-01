@@ -156,7 +156,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
     // MARK: - Data
 
     private func itemFromStatus(_ status: ResourceStatus) -> ManageCallsignStatusItemViewModel {
-        return ManageCallsignStatusItemViewModel(title: status.title, image: status.icon()!)
+        return ManageCallsignStatusItemViewModel(title: status.title, image: status.icon!)
     }
 
     open func updateData() {

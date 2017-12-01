@@ -17,12 +17,12 @@ public class IncidentAnnotation: TaskAnnotation {
     public var badgeBorderColor: UIColor
     public var usesDarkBackground: Bool
     
-    public init(identifier: String, coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?, status: String?, badgeText: String, badgeTextColor: UIColor, badgeFillColor: UIColor, badgeBorderColor: UIColor, usesDarkBackground: Bool) {
+    public init(identifier: String, coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?,badgeText: String, badgeTextColor: UIColor, badgeFillColor: UIColor, badgeBorderColor: UIColor, usesDarkBackground: Bool) {
         self.badgeText = badgeText
         self.badgeTextColor = badgeTextColor
         self.badgeFillColor = badgeFillColor
         self.badgeBorderColor = badgeBorderColor
         self.usesDarkBackground = usesDarkBackground
-        super.init(identifier: identifier, coordinate: coordinate, title: title, subtitle: subtitle, status: status)
+        super.init(identifier: identifier, coordinate: coordinate, title: title, subtitle: subtitle)
     }
 }

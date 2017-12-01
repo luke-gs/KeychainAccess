@@ -132,12 +132,12 @@ public class TaskMapFilterViewModel: MapFilterViewModel {
     }
     
     /// Which type of resources to show
-    public var taskedResources: [String] {
+    public var taskedResources: (tasked: Bool, untasked: Bool) {
         let options = sections[Indexes.resources].toggleRows[Indexes.ToggleRows.resourcesTasked].options
-        let tasked = options[0].isOn ? options[0].text : nil
-        let untasked = options[1].isOn ? options[1].text : nil
+        let tasked = options[0].isOn
+        let untasked = options[1].isOn
         
-        return [tasked, untasked].removeNils()
+        return (tasked, untasked)
     }
     
     // MARK: - View controller info
