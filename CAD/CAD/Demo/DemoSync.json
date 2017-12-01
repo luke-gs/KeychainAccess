@@ -126,8 +126,9 @@
       "status": "At Incident",
       "incidentNumber": "454000",
       "location": {
-        "lat": -37.764664,
-        "long": 145.0138
+        "suburb": "Thornbury",
+        "latitude": -37.764664,
+        "longitude": 145.0138
       },
       "zone": "Collingwood",
       "driver": "777122",
@@ -158,11 +159,12 @@
     },
     {
       "callsign": "904011",
-      "status": "On Air",
-      "incidentNumber": "",
+      "status": "At Incident",
+      "incidentNumber": "454240",
       "location": {
-        "lat": -37.798354,
-        "long": 144.979391
+        "suburb": "Fitzroy",
+        "latitude": -37.798354,
+        "longitude": 144.979391
       },
       "zone": "Collingwood",
       "driver": "777636",
