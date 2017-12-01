@@ -98,6 +98,12 @@ open class OfficerDetailsViewController: FormBuilderViewController {
     }
     
     @objc func doneButtonTapped () {
+        #if DEBUG
+            // Skip validation when debug, to keep devs happy
+            viewModel.saveForm()
+            if view != nil { return }
+        #endif
+        
         let result = builder.validate()
         
         switch result {

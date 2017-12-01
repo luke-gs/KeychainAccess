@@ -155,8 +155,6 @@ open class TasksListContainerViewModel {
         // TODO: Map network models to view models
         let type = TaskListType(rawValue: selectedSourceIndex)!
         
-        let sections = SampleData.sectionsForType(type)
-        
         if let filter = self.splitViewModel?.filterViewModel, let sync = CADStateManager.shared.lastSync {
             switch type {
             case .incident:
@@ -171,31 +169,28 @@ open class TasksListContainerViewModel {
                 }
                 
                 listViewModel.sections = taskListSections(for: filteredIncidents)
-            case .patrol: listViewModel.sections = sections
-            case .broadcast: listViewModel.sections = sections
+            case .patrol: listViewModel.sections = []
+            case .broadcast: listViewModel.sections = []
             case .resource:
-                listViewModel.sections = sections.map { section in
-                    let items = section.items.filter { item in
-                        // TODO: Replace with enum when model classes created
-                        let taskedFilter = filter.taskedResources.contains(item.status ?? "")
-                        
-                        // If status is not in filter options always show
-                        let isOther = item.status != "Tasked" && item.status != "Untasked"
-                        
-                        return isOther || taskedFilter
-                    }
-                    return CADFormCollectionSectionViewModel(title: section.title, items: items)
+                let filteredResources = sync.resources.filter { resource in
+                    let isTasked = resource.incidentNumber != nil
+                    
+                    // TODO: Duress check
+                    return filter.taskedResources.tasked && isTasked || filter.taskedResources.untasked && !isTasked
                 }
+                listViewModel.sections = taskListSections(for: filteredResources)
             }
         } else {
-            listViewModel.sections = sections
+            listViewModel.sections = []
         }
         delegate?.sectionsUpdated()
     }
     
+    /// Maps sync models to view models
     func taskListSections(for incidents: [SyncDetailsIncident]) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
         var sectionedIncidents: [String: Array<SyncDetailsIncident>] = [:]
 
+        // Map incidents to sections
         for incident in incidents {
             let status = incident.status.rawValue
             if sectionedIncidents[status] == nil {
@@ -205,25 +200,70 @@ open class TasksListContainerViewModel {
             sectionedIncidents[status]?.append(incident)
         }
         
-        var sections: [CADFormCollectionSectionViewModel<TasksListItemViewModel>] = []
-        for (status, incidents) in sectionedIncidents {
+        // Make view models from sections
+        return sectionedIncidents.map { arg in
+            let (status, incidents) = arg
+            
             let taskViewModels = incidents.map { incident in
-                return TasksListItemViewModel(title: "\(incident.incidentType ?? "") \(incident.resourceCount > 0 ? String(incident.resourceCount) : "")",
+                return TasksListItemViewModel(identifier: incident.incidentNumber,
+                    title: "\(incident.incidentType ?? "") \(incident.resourceCountString)",
                     subtitle: incident.location.fullAddress,
                     caption: incident.incidentNumber, // TODO: Find out what second number is
-                    status: nil, // TODO: Remove value
                     priority: incident.grade.rawValue,
                     description: incident.details,
-                    resources: nil, // TODO: Something else
+                    resources: nil, // TODO: Get resources
                     badgeTextColor: incident.grade.badgeColors.text,
                     badgeFillColor: incident.grade.badgeColors.fill,
                     badgeBorderColor: incident.grade.badgeColors.border,
                     hasUpdates: false) // TODO: Calculate dynamically
             }
-            sections.append(CADFormCollectionSectionViewModel(title: "\(incidents.count) \(status)", items: taskViewModels))
+            return CADFormCollectionSectionViewModel(title: "\(incidents.count) \(status)", items: taskViewModels)
+        }
+    }
+    
+    /// Maps sync models to view models
+    func taskListSections(for resources: [SyncDetailsResource]) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
+        // Map resources to sections
+        let tasked = NSLocalizedString("Tasked", comment: "")
+        let untasked = NSLocalizedString("Untasked", comment: "")
+        
+        var sectionedResources: [String: Array<SyncDetailsResource>] = [
+            tasked: [],
+            untasked: []
+        ]
+        
+        for resource in resources {
+            if resource.incidentNumber != nil {
+                sectionedResources[tasked]?.append(resource)
+            } else {
+                sectionedResources[untasked]?.append(resource)
+            }
         }
         
-        return sections
+        // Make view models from sections
+        return sectionedResources.map { arg -> CADFormCollectionSectionViewModel<TasksListItemViewModel>? in
+            let (section, resources) = arg
+            
+            let taskViewModels: [TasksListItemViewModel] = resources.map { resource in
+                let incident = CADStateManager.shared.incidentForResource(callsign: resource.callsign)
+                
+                return TasksListItemViewModel(identifier: resource.callsign,
+                    title: "\(resource.callsign ?? "") \(resource.officerCountString ?? "")",
+                    subtitle: resource.location.suburb,
+                    caption: resource.status.title,
+                    priority: incident?.grade.rawValue,
+                    description: incident?.details,
+                    badgeTextColor: incident?.grade.badgeColors.text,
+                    badgeFillColor: incident?.grade.badgeColors.fill,
+                    badgeBorderColor: incident?.grade.badgeColors.border,
+                    hasUpdates: false) // TODO: Calculate dynamically
+            }
+            if resources.count > 0 {
+                return CADFormCollectionSectionViewModel(title: "\(resources.count) \(section)", items: taskViewModels)
+            } else {
+                return nil
+            }
+        }.removeNils()
     }
 
 }
@@ -242,121 +282,5 @@ public class SampleData {
             sourceItemForType(type: .resource,  count: 9, color: .orangeRed)
         ]
     }
-
-    static func sectionsForType(_ type: TaskListType) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
-        switch type {
-        case .incident:
-            return []
-        case .patrol:
-            return SampleData.patrols()
-        case .broadcast:
-            return SampleData.broadcasts()
-        case .resource:
-            return SampleData.resources()
-        }
-    }
-    
-    
-    
-    static func patrols() -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
-        return [
-            CADFormCollectionSectionViewModel(title: "1 Assigned",
-                                              items: [TasksListItemViewModel(title: "Traffic Management",
-                                                                             subtitle: "188 Smith St",
-                                                                             caption: "AS4205  :  MP0001529",
-                                                                             badgeTextColor: UIColor.clear,
-                                                                             badgeFillColor: UIColor.clear,
-                                                                             badgeBorderColor: UIColor.clear,
-                                                                             hasUpdates: false)])
-        ]
-    }
-    
-    static func broadcasts() -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
-        return [
-            CADFormCollectionSectionViewModel(title: "1 Alert",
-                                              items: [TasksListItemViewModel(title: "Impaired Driver",
-                                                                             subtitle: "Fitzroy",
-                                                                             caption: "BC0997  :  10:16",
-                                                                             badgeTextColor: UIColor.clear,
-                                                                             badgeFillColor: UIColor.clear,
-                                                                             badgeBorderColor: UIColor.clear,
-                                                                             hasUpdates: false)]),
-            CADFormCollectionSectionViewModel(title: "1 Event",
-                                              items: [TasksListItemViewModel(title: "Lawful Protest March",
-                                                                             subtitle: "Melbourne",
-                                                                             caption: "BC0962  :  09:00 - 12:00",
-                                                                             badgeTextColor: UIColor.clear,
-                                                                             badgeFillColor: UIColor.clear,
-                                                                             badgeBorderColor: UIColor.clear,
-                                                                             hasUpdates: false)]),
-            CADFormCollectionSectionViewModel(title: "2 BOLF",
-                                              items: [TasksListItemViewModel(title: "Vehicle: TNS448",
-                                                                             subtitle: "Melbourne",
-                                                                             caption: "BC0995  :  1 day ago",
-                                                                             badgeTextColor: UIColor.clear,
-                                                                             badgeFillColor: UIColor.clear,
-                                                                             badgeBorderColor: UIColor.clear,
-                                                                             hasUpdates: false),
-                                                      TasksListItemViewModel(title: "Vehicle: XNR106",
-                                                                             subtitle: "Melbourne",
-                                                                             caption: "BC1004  :  4 days ago",
-                                                                             badgeTextColor: UIColor.clear,
-                                                                             badgeFillColor: UIColor.clear,
-                                                                             badgeBorderColor: UIColor.clear,
-                                                                             hasUpdates: false)])
-        ]
-    }
-
-    static func resources() -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
-        return [
-            CADFormCollectionSectionViewModel(title: "1 Duress",
-                                              items: [TasksListItemViewModel(title: "P08 (2)",
-                                                                             subtitle: "Fitzroy",
-                                                                             caption: "In Duress 2:45",
-                                                                             priority: "P1",
-                                                                             badgeTextColor: .black,
-                                                                             badgeFillColor: .orangeRed,
-                                                                             badgeBorderColor: .orangeRed,
-                                                                             hasUpdates: false)]),
-            CADFormCollectionSectionViewModel(title: "7 Tasked",
-                                              items: [TasksListItemViewModel(title: "P03 (3)",
-                                                                             subtitle: "Fitzroy",
-                                                                             caption: "Proceeding",
-                                                                             status: "Tasked",
-                                                                             priority: "P1",
-                                                                             badgeTextColor: .black,
-                                                                             badgeFillColor: .orangeRed,
-                                                                             badgeBorderColor: .orangeRed,
-                                                                             hasUpdates: false),
-                                                      TasksListItemViewModel(title: "P12 (1)",
-                                                                             subtitle: "Fitzroy",
-                                                                             caption: "At Incident",
-                                                                             status: "Tasked",
-                                                                             priority: "P1",
-                                                                             badgeTextColor: .black,
-                                                                             badgeFillColor: .orangeRed,
-                                                                             badgeBorderColor: .orangeRed,
-                                                                             hasUpdates: false),
-                                                      TasksListItemViewModel(title: "F05 (4)",
-                                                                             subtitle: "Abbotsford",
-                                                                             caption: "Processing",
-                                                                             status: "Tasked",
-                                                                             priority: "P3",
-                                                                             badgeTextColor: .primaryGray,
-                                                                             badgeFillColor: .primaryGray,
-                                                                             badgeBorderColor: .clear,
-                                                                             hasUpdates: false),
-                                                      TasksListItemViewModel(title: "K14 (2)",
-                                                                             subtitle: "Collingwood",
-                                                                             caption: "Processing",
-                                                                             status: "Tasked",
-                                                                             priority: "P3",
-                                                                             badgeTextColor: .primaryGray,
-                                                                             badgeFillColor: .primaryGray,
-                                                                             badgeBorderColor: .clear,
-                                                                             hasUpdates: false)])
-        ]
-    }
-
 }
 

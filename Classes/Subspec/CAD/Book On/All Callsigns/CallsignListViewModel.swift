@@ -9,100 +9,32 @@
 import UIKit
 
 open class CallsignListViewModel: CADFormCollectionViewModel<NotBookedOnCallsignItemViewModel> {
-    
-    private var data: [CADFormCollectionSectionViewModel<NotBookedOnCallsignItemViewModel>] = {
-        return [
-            CADFormCollectionSectionViewModel(title: "2 Off Duty",
-                                              items: [
-                                                NotBookedOnCallsignItemViewModel(callsign: "B14",
-                                                                                 status: "Off Duty",
-                                                                                 location: "Collingwood Station",
-                                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                 imageColor: .secondaryGray,
-                                                                                 imageBackgroundColor: .disabledGray
-                                                ),
-                                                NotBookedOnCallsignItemViewModel(callsign: "P24",
-                                                                                 status: "Off Duty",
-                                                                                 location: "Collingwood Station",
-                                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                 imageColor: .secondaryGray,
-                                                                                 imageBackgroundColor: .disabledGray
-                                                ),
-                                                NotBookedOnCallsignItemViewModel(callsign: "P29",
-                                                                                 status: "Off Duty",
-                                                                                 location: "Collingwood Station",
-                                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                 imageColor: .secondaryGray,
-                                                                                 imageBackgroundColor: .disabledGray
-                                                ),
-                                                ]
-            ),
-            
-            CADFormCollectionSectionViewModel(title: "6 Booked On",
-                                              items: [
-                                                NotBookedOnCallsignItemViewModel(callsign: "K94 (1)",
-                                                                                 status: "On Air",
-                                                                                 location: "Each Richmond",
-                                                                                 image: AssetManager.shared.image(forKey: .resourceDog),
-                                                                                 imageColor: .black,
-                                                                                 imageBackgroundColor: .midGreen
-                                                ),
-                                                NotBookedOnCallsignItemViewModel(callsign: "P03 (3)",
-                                                                                 status: "At Incident",
-                                                                                 location: "Fitzroy",
-                                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                 imageColor: .white,
-                                                                                 imageBackgroundColor: .primaryGray,
-                                                                                 badgeText: "P3",
-                                                                                 badgeTextColor: .brightBlue,
-                                                                                 badgeBorderColor: .brightBlue
-                                                ),
-                                                NotBookedOnCallsignItemViewModel(callsign: "P12 (1)",
-                                                                                 status: "At Incident",
-                                                                                 location: "Collingwood",
-                                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                 imageColor: .secondaryGray,
-                                                                                 imageBackgroundColor: .disabledGray,
-                                                                                 badgeText: "P2",
-                                                                                 badgeTextColor: .black,
-                                                                                 badgeFillColor: .sunflowerYellow
-                                                ),
-                                                NotBookedOnCallsignItemViewModel(callsign: "P17 (2)",
-                                                                                 status: "At Incident",
-                                                                                 location: "Richmond",
-                                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                 imageColor: .secondaryGray,
-                                                                                 imageBackgroundColor: .disabledGray,
-                                                                                 badgeText: "P2",
-                                                                                 badgeTextColor: .black,
-                                                                                 badgeFillColor: .sunflowerYellow
-                                                ),
-                                                NotBookedOnCallsignItemViewModel(callsign: "P14 (3)",
-                                                                                 status: "At Incident",
-                                                                                 location: "Abbotsford",
-                                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                 imageColor: .secondaryGray,
-                                                                                 imageBackgroundColor: .disabledGray,
-                                                                                 badgeText: "P3",
-                                                                                 badgeTextColor: .brightBlue,
-                                                                                 badgeBorderColor: .brightBlue
-                                                ),
-                                                NotBookedOnCallsignItemViewModel(callsign: "B18 (2)",
-                                                                                 status: "On Air",
-                                                                                 location: "North Richmond",
-                                                                                 image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                 imageColor: .black,
-                                                                                 imageBackgroundColor: .midGreen
-                                                ),
-                                            ]
-            )
-        ]
+
+    private func convertCallsignsToViewModels() -> [CADFormCollectionSectionViewModel<NotBookedOnCallsignItemViewModel>] {
+        var offDuty: [NotBookedOnCallsignItemViewModel] = []
+        var bookedOn: [NotBookedOnCallsignItemViewModel] = []
+
+        if let syncDetails = CADStateManager.shared.lastSync {
+            for resource in syncDetails.resources {
+                let viewModel = NotBookedOnCallsignItemViewModel(resource: resource)
+                if resource.shiftStart == nil {
+                    offDuty.append(viewModel)
+                } else {
+                    bookedOn.append(viewModel)
+                }
+            }
+        }
+        return [CADFormCollectionSectionViewModel(title: "\(offDuty.count) Off Duty", items: offDuty),
+                CADFormCollectionSectionViewModel(title: "\(bookedOn.count) Booked On", items: bookedOn)]
+
+    }
+    private lazy var viewModels: [CADFormCollectionSectionViewModel<NotBookedOnCallsignItemViewModel>] = {
+        return convertCallsignsToViewModels()
     }()
-    
+
     public override init() {
         super.init()
-        
-        sections = sortedSections(from: data)
+        sections = sortedSections(from: viewModels)
     }
     
     /// Create the book on view controller for a selected callsign
@@ -144,12 +76,12 @@ open class CallsignListViewModel: CADFormCollectionViewModel<NotBookedOnCallsign
     /// array to match. If no results found, an empty array will be set for `sections`.
     open func applyFilter(withText text: String?) {
         guard let text = text, text.count > 0 else {
-            sections = data
+            sections = viewModels
             return
         }
         
         // Map sections
-        let filteredData = (data.map { section in
+        let filteredData = (viewModels.map { section in
             // Map items
             let filteredItems = (section.items.map { item in
                 // Map if title contains case-insensitive match
