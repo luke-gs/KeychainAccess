@@ -9,6 +9,8 @@
 import Foundation
 
 
+/// Default implementation of the action list view model. The app to supply displayableForEntity which should
+/// returns a summary displayable for each type of entity.
 public class EntitySummaryActionListViewModel: ActionListViewModelable {
 
     public weak var actionListViewController: UIViewController?
