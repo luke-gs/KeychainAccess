@@ -74,9 +74,13 @@ open class ResourceAnnotationView: MKAnnotationView {
         translatesAutoresizingMaskIntoConstraints = false
         
         detailsView = UIView()
-        detailsView.backgroundColor = UIColor(red: 86.0 / 255.0, green: 88.0 / 255.0, blue: 98.0 / 255.0, alpha: 1.0)
+        detailsView.backgroundColor = #colorLiteral(red: 0.2, green: 0.2039215686, blue: 0.2274509804, alpha: 1)
         detailsView.layer.cornerRadius = LayoutConstants.detailsViewRadius
         detailsView.translatesAutoresizingMaskIntoConstraints = false
+        detailsView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        detailsView.layer.shadowColor = UIColor.black.withAlphaComponent(0.3).cgColor
+        detailsView.layer.shadowOpacity = 1
+        detailsView.layer.shadowRadius = 4
         addSubview(detailsView)
         
         detailsTitleLabel = UILabel()
@@ -113,7 +117,7 @@ open class ResourceAnnotationView: MKAnnotationView {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: 64),
-            widthAnchor.constraint(equalToConstant: 50),
+            widthAnchor.constraint(greaterThanOrEqualToConstant: 50),
             
             detailsView.topAnchor.constraint(greaterThanOrEqualTo: self.topAnchor),
             detailsView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
