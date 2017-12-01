@@ -150,6 +150,8 @@ open class CADStateManager: NSObject {
         return firstly {
             // Get details about logged in user
             return self.fetchCurrentOfficerDetails()
+        }.then { _ in
+            return after(seconds: 2.0)
         }.then { [unowned self] _ in
             // Get new manifest items
             return self.syncManifestItems()

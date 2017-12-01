@@ -61,7 +61,8 @@ open class TasksSplitViewController: MPOLSplitViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         configureSegmentedControl(for: traitCollection)
-        performInitialSync()
+
+        self.performInitialSync()
     }
 
     open override func viewWillAppear(_ animated: Bool) {
@@ -108,7 +109,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
         updateNavigationBarForSelection()
     }
 
-    open func setMasterWidth(_ width: CGFloat, animated: Bool = true) {
+    open func setMasterWidth(_ width: CGFloat, animated: Bool = true, completion: ((Bool) -> Swift.Void)? = nil) {
         var oldWidth = embeddedSplitViewController.maximumPrimaryColumnWidth
         if oldWidth == UISplitViewControllerAutomaticDimension {
             oldWidth = 0
@@ -120,15 +121,11 @@ open class TasksSplitViewController: MPOLSplitViewController {
             UIView.animate(withDuration: 0.3, animations: {
                 self.embeddedSplitViewController.minimumPrimaryColumnWidth = width
                 self.embeddedSplitViewController.maximumPrimaryColumnWidth = width
-            }, completion: { _ in
-                UIView.animate(withDuration: 0.3, animations: {
-                    // Animate content back in if required
-                    self.tasksListContainer?.loadingManager.contentView?.alpha = 1
-                })
-            })
+            }, completion: completion)
         } else {
             self.embeddedSplitViewController.minimumPrimaryColumnWidth = width
             self.embeddedSplitViewController.maximumPrimaryColumnWidth = width
+            completion?(true)
         }
         (detailVC as? TasksSplitViewControllerDelegate)?.didChangeSplitWidth(from: oldWidth, to: width)
     }
@@ -138,9 +135,6 @@ open class TasksSplitViewController: MPOLSplitViewController {
 
         // Sync data needed for displaying main UI, making master VC full width until loaded
         setMasterWidth(view.bounds.width, animated: false)
-
-        // Hide the content view
-        self.tasksListContainer?.loadingManager.contentView?.alpha = 0
 
         // Disable navigation bar items
         let barButtonArrays = [masterVC.navigationItem.leftBarButtonItems,
@@ -153,10 +147,17 @@ open class TasksSplitViewController: MPOLSplitViewController {
         firstly {
             return CADStateManager.shared.syncInitial()
         }.then { [weak self] () -> Void in
-            // Show full split screen
-            self?.setMasterWidth(TasksSplitViewController.defaultSplitWidth)
-            self?.tasksListContainer?.loadingManager.state = .loaded
+            // Hide the content view
+            self?.tasksListContainer?.loadingManager.contentView?.alpha = 0
 
+            // Show full split screen
+            self?.setMasterWidth(TasksSplitViewController.defaultSplitWidth, animated: true, completion: { _ in
+                UIView.animate(withDuration: 0.3, delay: 0.3, options: [], animations: {
+                    // Remove loading state and animate content back in
+                    self?.tasksListContainer?.loadingManager.state = .loaded
+                    self?.tasksListContainer?.loadingManager.contentView?.alpha = 1
+                }, completion: nil)
+            })
             // Enable navigation bar items
             barButtonItems.forEach { $0.isEnabled = true }
 
@@ -165,6 +166,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
 
             // Zoom to user location
             self?.viewModel.mapViewModel.delegate?.zoomToUserLocation()
+
         }.catch { [weak self] error in
             self?.tasksListContainer?.loadingManager.state = .error
             self?.tasksListContainer?.loadingManager.errorView.subtitleLabel.text = error.localizedDescription
