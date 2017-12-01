@@ -35,11 +35,11 @@ public class RemoteResourceDownloader<T: Codable> {
         barrierQueue = DispatchQueue(label: "au.com.gridstone.RemoteResourceDownloader.Barrier.\(diskCacheConfig.name)", attributes: .concurrent)
     }
 
-    /// Fetch image using the the `RemoteResourceDescribing`. The result will be cached
+    /// Fetch resource using the the `RemoteResourceDescribing`. The result will be cached
     /// and used for the subsequent requests.
     ///
-    /// - Parameter imageResourceDescription: The description to download and cache the image
-    /// - Returns: Promise to return a UIImage when the fetch is completed.
+    /// - Parameter resourceDescription: The description to download and cache the resource
+    /// - Returns: Promise to return a resource that is Codable when the fetch is completed.
     @discardableResult
     public func fetchResource(using resourceDescription: RemoteResourceDescribing) -> Promise<T> {
 
@@ -70,14 +70,14 @@ public class RemoteResourceDownloader<T: Codable> {
         func retrieveAndCacheResourcePromise() -> Promise<T> {
             let networkRequest = try! NetworkRequest(pathTemplate: resourceDescription.downloadURL.absoluteString, parameters: [:], isRelativePath: false)
             let promise: Promise<T> = try! _actualAPIManager.performRequest(networkRequest, using: CodableResponseSerializing())
-            return promise.then { [weak self] image -> Promise<T> in
+            return promise.then { [weak self] resource -> Promise<T> in
 
                 if let strongSelf = self {
                     // Do nothing with the completion, it's not that important anyway.
-                    strongSelf.resourceCache.async.setObject(image, forKey: resourceDescription.cacheKey, completion: { _ in })
+                    strongSelf.resourceCache.async.setObject(resource, forKey: resourceDescription.cacheKey, completion: { _ in })
                 }
 
-                return Promise(value: image)
+                return Promise(value: resource)
             }
         }
 
