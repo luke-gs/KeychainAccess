@@ -12,45 +12,48 @@ import UIKit
 
 /// Reponse object for a single Incident in the call to /sync/details
 open class SyncDetailsIncident: Codable {
-    open var details : String!
-    open var grade : IncidentGrade!
-    open var incidentNumber : String!
-    open var incidentType : String!
-    open var informant : SyncDetailsInformant!
+    open var number: String!
+    open var secondaryCode: String!
+    open var type: String!
+    open var grade: IncidentGrade!
+    open var patrolGroup: String!
     open var location : SyncDetailsLocation!
-    open var locations : [SyncDetailsLocation]!
+    open var createdAt: Date!
+    open var lastUpdated: Date!
+    open var details: String!
+    open var informant : SyncDetailsInformant!
+    open var associations : SyncDetailsIncidentAssociations!
+    open var narrative: [SyncDetailsActivityLogItem]!
+}
+
+/// Response object for associations in an incident
+open class SyncDetailsIncidentAssociations: Codable {
     open var persons : [SyncDetailsIncidentPerson]!
-    open var revisedType : String!
-    open var severity : Int!
     open var vehicles : [SyncDetailsIncidentVehicle]!
-    open var zone : String!
 }
 
 /// Reponse object for a single vehicle in an incident
 open class SyncDetailsIncidentVehicle: Codable {
     open var alertLevel : Int!
-    open var associatedAlertLevel : Int!
-    open var jurisdiction : String!
-    open var make : String!
-    open var plateNumber : String!
-    open var registrationExpiryDate : String!
-    open var registrationState : String!
     open var vehicleDescription : String!
     open var vehicleType : String!
+    open var color: String!
+    open var bodyType: String!
+    open var stolen: Bool!
+    open var plateNumber : String!
 }
 
 /// Reponse object for a single person in an incident
 open class SyncDetailsIncidentPerson: Codable {
-    open var alertLevel : Int!
-    open var associatedAlertLevel : Int!
-    open var dateOfBirth : String!
-    open var familyName : String!
-    open var gender : String!
-    open var givenName : String!
-    open var jurisdiction : String!
-    open var middleNames : String!
-    open var thumbnail : String!
-    open var yearOnlyDateOfBirth : String!
+    open var alertLevel: Int!
+    open var dateOfBirth: String!
+    
+    open var firstName: String!
+    open var middleNames: String!
+    open var lastName: String!
+    open var fullAddress: String!
+    open var gender: String!
+    open var thumbnail: String!
 }
 
 /// Reponse object for an informant in an incident

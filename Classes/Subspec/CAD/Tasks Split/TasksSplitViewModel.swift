@@ -110,7 +110,7 @@ open class TasksSplitViewModel {
         guard let sync = CADStateManager.shared.lastSync else { return [] }
 
         return sync.resources.filter { resource in
-            let isTasked = resource.incidentNumber != nil
+            let isTasked = resource.currentIncident != nil
             
             // TODO: Duress check
             return filterViewModel.taskedResources.tasked && isTasked || filterViewModel.taskedResources.untasked && !isTasked
