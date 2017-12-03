@@ -1,234 +1,138 @@
 {
-  "incidents": [
-    {
-      "informant": {
-        "fullName": "Cody McCue Curry",
-        "primaryPhone": "(02) 6755 4863",
-        "secondaryPhone": "(02) 6755 4863"
-      },
-      "status": "At Incident",
-      "grade": "P1",
-      "details": "An armed group of men are currently barricaded within the lobby of Orion Central Bank, Collingwood.",
-      "zone": "Collingwood",
-      "severity": 1,
-      "incidentType": "303 Shots fired",
-      "revisedType": "305 Hostage taken",
-      "incidentNumber": "454000",
-      "location": {
-        "streetNumberFirst": "225",
-        "streetName": "Derebin",
-        "streetType": "Road",
-        "suburb": "Thornbury",
-        "state": "Vic",
-        "postalCode": "3071",
-        "country": "Australia",
-        "fullAddress": "225 Darebin Road Thorbury VIC 3071 Australia",
-        "latitude": -37.7645808,
-        "longitude": 145.015549,
-        "alertLevel": 1,
-        "associatedAlertLevel": 1
-      },
-      "locations": [
+    "incidents": [
         {
-          "streetNumberFirst": "225",
-          "streetName": "Derebin",
-          "streetType": "Road",
-          "suburb": "Thornbury",
-          "state": "Vic",
-          "postalCode": "3071",
-          "country": "Australia",
-          "fullAddress": "225 Darebin Road Thorbury VIC 3071 Australia",
-          "latitude": -37.7645808,
-          "longitude": 145.015549,
-          "alertLevel": 1,
-          "associatedAlertLevel": 1
+            "number": "454000",
+            "secondaryCode": "MP0001529",
+            "type": "Assault",
+            "grade": "P1",
+            "patrolGroup": "Collingwood",
+            "location": {
+                "streetNumberFirst": "137",
+                "streetNumberLast": "141",
+                "streetName": "Johnston",
+                "streetType": "Street",
+                "suburb": "Fitzroy",
+                "state": "Vic",
+                "postalCode": "3065",
+                "country": "Australia",
+                "fullAddress": "137-141 Johnston Street Fitzroy VIC 3065 Australia",
+                "latitude": -37.798341,
+                "longitude": 144.979427
+            },
+            "createdAt": "2017-12-02T01:01:07Z",
+            "lastUpdated": "2017-12-02T01:01:07Z",
+            "details": "An armed group of men are currently barricaded within the lobby of Orion Central Bank. Initial communication has not been established and the current situation is approaching a critical level.",
+            "informant": {
+                "fullName": "Cody McCue Curry",
+                "primaryPhone": "(02) 6755 4863",
+                "secondaryPhone": "0426 123 456"
+            },
+            "associations": {
+                "persons": [
+                    {
+                        "firstName": "Daniel",
+                        "middleNames": "Vaele",
+                        "lastName": "Clift",
+                        "gender": "Male",
+                        "thumbnail": null,
+                        "dateOfBirth": "18/06/1997",
+                        "alertLevel": 2,
+                        "fullAddress": "8 Catherine Street, Southbank VIC 3006"
+                    }
+                ],
+                "vehicles": [
+                    {
+                        "plateNumber": "1HF22I",
+                        "vehicleType": "Car",
+                        "vehicleDescription": "2017 Tesla Model S P100D",
+                        "bodyType": "Coupe",
+                        "color": "Black / Black",
+                        "alertLevel": 3,
+                        "stolen": false
+                    }
+                ]
+            },
+            "narrative": [
+                {
+                    "title": "Incident Details Updated",
+                    "description": "Dispatch",
+                    "source": "Dispatch",
+                    "timestamp": "2017-12-02T01:01:07Z"
+                },
+                {
+                    "title": "Status: At Incident",
+                    "description": "P24(2) • J. Chieng and A. Benjamin",
+                    "source": "P24",
+                    "timestamp": "2017-12-02T01:01:07Z"
+                }
+            ]
         }
-      ],
-      "persons:": [
+    ],
+    "resources": [
         {
-          "givenName": "Daniel",
-          "middleNames": "Vaele",
-          "familyName": "Clift",
-          "gender": "Male",
-          "thumbnail": "string",
-          "dateOfBirth": "June 18, 1997",
-          "yearOnlyDateOfBirth ": "1997",
-          "alertLevel": 2,
-          "associatedAlertLevel": 1,
-          "jurisdiction": "Collingwood"
-        },
-        {
-          "givenName": "Gerogia",
-          "middleNames": "Galea",
-          "familyName": "Ling",
-          "gender": "Female",
-          "thumbnail": "string",
-          "dateOfBirth": "November 8, 1985",
-          "yearOnlyDateOfBirth ": "1985",
-          "alertLevel": 1,
-          "associatedAlertLevel": 3,
-          "jurisdiction": "Collingwood"
+            "callsign": "P24",
+            "status": "At Incident",
+            "patrolGroup": "Collingwood",
+            "station": "Collingwood Station",
+            "currentIncident": "454000",
+            "assignedIncidents": [
+                "454000",
+                "454240"
+            ],
+            "location": {
+                "streetNumberFirst": "137",
+                "streetNumberLast": "141",
+                "streetName": "Johnston",
+                "streetType": "Street",
+                "suburb": "Fitzroy",
+                "commonName": "Orion Central Bank",
+                "state": "Vic",
+                "postalCode": "3065",
+                "country": "Australia",
+                "fullAddress": "137-141 Johnston Street Fitzroy VIC 3065 Australia",
+                "latitude": -37.798341,
+                "longitude": 144.979427
+            },
+            "driver": "777122",
+            "payrollIds": [
+                "777122",
+                "777453"
+            ],
+            "shiftStart": "2017-12-02T01:01:07Z",
+            "shiftEnd": "2017-12-02T01:01:07Z",
+            "type": "Vehicle",
+            "serial": "ARP015",
+            "vehicleCategory": "2",
+            "equipment": [
+                {
+                    "description": "Shotgun",
+                    "count": 4
+                }
+            ],
+            "remarks": "",
+            "lastUpdated": "2017-12-02T01:01:07Z",
+            "activityLog": [
+                {
+                    "title": "Search: Person (Huish, Joseph)",
+                    "description": "P08 (2) @ 57 Bell Street, Fitzroy VIC 3066",
+                    "timestamp": "2017-12-02T01:01:07Z"
+                }
+            ]
         }
-      ],
-      "vehicles": [
+    ],
+    "officers": [
         {
-          "plateNumber": "1HF22I",
-          "vehicleType": "Car",
-          "vehicleDescription": "string",
-          "make": "Holden",
-          "registrationState": "VIC",
-          "registrationExpiryDate": "string",
-          "alertLevel": 3,
-          "associatedAlertLevel": 3,
-          "jurisdiction": "Collingwood"
+            "payrollId": "777122",
+            "rank": "Senior Constable",
+            "firstName": "Dean",
+            "middleName": "F.",
+            "lastName": "McCrae",
+            "patrolGroup": "Collingwood",
+            "station": "Collingwood Station",
+            "licenceTypeId": "Gold License",
+            "contactNumber": "0432000000",
+            "remarks": "",
+            "capabilities": ""
         }
-      ]
-    },
-    {
-      "informant": {
-        "fullName": "Cody McCue Curry",
-        "primaryPhone": "(02) 6755 4863",
-        "secondaryPhone": "(02) 6755 4863"
-      },
-      "status": "Proceeding",
-      "grade": "P2",
-      "details": "Multiple witnesses have reported a couple arguing in public and disturbing the peace. They appear to be either intoxicated or under the influence of an illicit drugs.",
-      "incidentResources": [],
-      "zone": "Collingwood",
-      "severity": 2,
-      "incidentType": "703 Police general",
-      "revisedType": "",
-      "incidentNumber": "454240",
-      "location": {
-        "streetNumberFirst": "137",
-        "streetNumberLast": "141",
-        "streetName": "Johnston",
-        "streetType": "Street",
-        "suburb": "Fitzroy",
-        "commonName": "The Night Cat",
-        "state": "Vic",
-        "postalCode": "3065",
-        "country": "Australia",
-        "fullAddress": "137-141 Johnston Street Fitzroy VIC 3065 Australia",
-        "latitude": -37.798341,
-        "longitude": 144.979427,
-        "alertLevel": 2,
-        "associatedAlertLevel": 1
-      },
-      "locations": [],
-      "persons:": [],
-      "vehicles": []
-    }
-  ],
-  "resources": [
-    {
-      "callsign": "902111",
-      "status": "At Incident",
-      "incidentNumber": "454000",
-      "location": {
-        "suburb": "Thornbury",
-        "latitude": -37.764664,
-        "longitude": 145.0138
-      },
-      "zone": "Collingwood",
-      "driver": "777122",
-      "payrollIds": [
-        "777122",
-        "777453"
-      ],
-      "equipment": [
-        {
-          "description": "Shotgun",
-          "count": 4
-        },
-        {
-          "description": "Breach Kit",
-          "count": 1
-        },
-        {
-          "description": "Tyre deflation device",
-          "count": 10
-        }
-      ],
-      "shiftStart": "0800",
-      "shiftEnd": "2245",
-      "type": "Vehicle",
-      "station": "Collingwood",
-      "remarks": "",
-      "lastUpdated": ""
-    },
-    {
-      "callsign": "904011",
-      "status": "At Incident",
-      "incidentNumber": "454240",
-      "location": {
-        "suburb": "Fitzroy",
-        "latitude": -37.798354,
-        "longitude": 144.979391
-      },
-      "zone": "Collingwood",
-      "driver": "777636",
-      "payrollIds": [
-        "777636"
-      ],
-      "equipment": [
-        {
-          "description": "Shotgun",
-          "count": 4
-        },
-        {
-          "description": "Taser",
-          "count": 1
-        },
-        {
-          "description": "M16",
-          "count": 10
-        }
-      ],
-      "shiftStart": "1200",
-      "shiftEnd": "2200",
-      "type": "DogSquad",
-      "station": "Collingwood",
-      "remarks": "",
-      "lastUpdated": ""
-    }
-  ],
-  "officers": [
-    {
-      "incidentNumber": "454000",
-      "zone": "Collingwood",
-      "payrollId": "777122",
-      "firstName": "Jeremy",
-      "middleName": "Petrie",
-      "surname": "Calwell",
-      "alias": "Gecko",
-      "rank": "Constable",
-      "station": "Collingwood",
-      "licenseTypeId": "Gold Licence"
-    },
-    {
-      "incidentNumber": "454000",
-      "zone": "Collingwood",
-      "payrollId": "777453",
-      "firstName": "Nathan",
-      "middleName": "J",
-      "surname": "Bleasdale",
-      "alias": "Sherlock",
-      "rank": "Superintendent",
-      "station": "Collingwood",
-      "licenseTypeId": "Gold Licence"
-    },
-    {
-      "incidentNumber": "",
-      "zone": "Collingwood",
-      "payrollId": "777636",
-      "firstName": "Annabelle",
-      "middleName": "Julie",
-      "surname": "Palmos",
-      "alias": "",
-      "rank": "Inspector",
-      "station": "Thornbury",
-      "licenseTypeId": "Gold Licence"
-    }
-  ]
+    ]
 }
