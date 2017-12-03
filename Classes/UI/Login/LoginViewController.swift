@@ -13,21 +13,7 @@ fileprivate var kvoContext = 1
 
 
 open class LoginViewController: UIViewController, UITextFieldDelegate {
-    
-    /// The login delegate.
-    ///
-    /// This object receives callback notifications when the login button is triggered.
-    open weak var delegate: LoginViewControllerDelegate? {
-        didSet {
-            let wantsForgotPassword = delegate?.responds(to: #selector(LoginViewControllerDelegate.loginViewController(_:didTapForgotPasswordButton:))) ?? false
-            if isLoginButtonLoaded {
-                forgotPasswordButton.isHidden = wantsForgotPassword == false
-            }
-            forgotPasswordSeparation?.constant = wantsForgotPassword ? 14.0 : 0.0
-        }
-    }
-    
-    
+
     /// The image to present behind the login screen.
     open var backgroundImage: UIImage? {
         didSet {
@@ -106,7 +92,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             }
         }
     }
-    
+
+    open private(set) lazy var credentialsView: UIView? = nil
     
     open private(set) lazy var usernameLabel: UILabel = {
         let label = UILabel(frame: .zero)
@@ -166,8 +153,10 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         button.setTitleColor(UIColor(white: 1.0, alpha: 0.64), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 11.0, weight: UIFont.Weight.medium)
         button.addTarget(self, action: #selector(forgotPasswordButtonTriggered), for: .primaryActionTriggered)
-        button.isHidden = self.delegate?.responds(to: #selector(LoginViewControllerDelegate.loginViewController(_:didTapForgotPasswordButton:))) ?? false == false
-        
+        if case LoginMode.externalAuth = loginMode {
+            button.isHidden = true
+        }
+
         return button
         }()
     
@@ -318,14 +307,45 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             setNeedsStatusBarAppearanceUpdate()
         }
     }
-    
+
+    /// Specifies whether the credentials view is added to the view hierarchy.
+    ///
+    /// The default value is `.UsernamePassword`, which adds the credentials view.
+    /// `.externalAuth` does not add the credentials view.
+    public var loginMode: LoginMode {
+        didSet {
+            // if credentials view has been instantiated...
+            if let credentialsView = self.credentialsView {
+                // hide
+                if case LoginMode.externalAuth = loginMode {
+                    credentialsView.isHidden = true
+                }
+                else {
+                    credentialsView.isHidden = false
+                }
+            }
+
+            // otherwise, check that the context for its creation exists
+            else if let contentStackView = self.contentStackView {
+                // create a new credentials view
+                credentialsView = createCredentialsView()
+                // insert into stack
+                contentStackView.insertArrangedSubview(credentialsView!, at: 0)
+                // apply constraints
+                NSLayoutConstraint.activate([credentialsView!.topAnchor.constraint(greaterThanOrEqualTo: contentView!.topAnchor, constant: 20.0),
+                                             credentialsView!.widthAnchor.constraint(equalToConstant: 256.0),
+                                             usernameLabel.widthAnchor.constraint(equalTo: credentialsView!.widthAnchor),
+                                             usernameLabel.leadingAnchor.constraint(equalTo: credentialsView!.leadingAnchor)])
+            }
+        }
+    }
     
     // MARK: - Private properties
     
     private var _preferredStatusBarStyle: UIStatusBarStyle = .lightContent
     
     private var _prefersStatusBarHidden: Bool = false
-    
+
     private var backgroundView: UIImageView?
     
     private var scrollView: UIScrollView?
@@ -393,12 +413,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Initializers
 
-    public convenience init(name: String) {
-        self.init()
-        usernameField.text = name
-    }
-
-    public init() {
+    public init(mode: LoginMode) {
+        loginMode = mode
         super.init(nibName: nil, bundle: nil)
         
         automaticallyAdjustsScrollViewInsets = false
@@ -410,7 +426,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     public required convenience init(coder aDecoder: NSCoder) {
-        self.init()
+        MPLCodingNotSupported()
     }
     
     deinit {
@@ -439,7 +455,10 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         contentView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(contentView)
         
-        let credentialsView = createCredentialsView()
+        var credentialsView: UIView? = nil
+        if case LoginMode.usernamePassword = loginMode {
+            credentialsView = createCredentialsView()
+        }
         
         let versionLabel = self.versionLabel
         versionLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -467,6 +486,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         self.contentView       = contentView
         self.contentStackView  = contentStackView
         self.accessoryView     = accessoryView
+        self.credentialsView   = credentialsView
         self.loginStackView    = loginStackView
         
         self.view = backgroundView
@@ -476,45 +496,50 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         
         let showingHeaderConstraint = contentStackView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 20.0)
         let showingAccessoryConstraint = accessoryView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24.0)
-        
-        NSLayoutConstraint.activate([
-            
+
+        var constraints = [
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
+
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             preferredLayoutGuideBottomConstraint,
-            
-            credentialsView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 20.0),
-            credentialsView.widthAnchor.constraint(equalToConstant: 256.0),
-            usernameLabel.widthAnchor.constraint(equalTo: credentialsView.widthAnchor),
-            usernameLabel.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
-            
+
             showingHeaderConstraint,
             contentStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             contentStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).withPriority(.defaultHigh - 2),
             contentStackView.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, constant: -20.0),
             contentStackView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -20.0),
-            
+
             accessoryView.topAnchor.constraint(greaterThanOrEqualTo: contentStackView.bottomAnchor, constant: 15.0),
             accessoryView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24.0),
             accessoryView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24.0),
             showingAccessoryConstraint,
-            
+
             termsAndConditionsLabel.widthAnchor.constraint(equalToConstant: 256.0),
-            
+
             loginButton.widthAnchor.constraint(equalToConstant: 256.0),
             loginButton.heightAnchor.constraint(equalToConstant: 48.0).withPriority(UILayoutPriority.defaultHigh),
-            
+
             loginStackView.leadingAnchor.constraint(greaterThanOrEqualTo: view.readableContentGuide.leadingAnchor),
             loginStackView.trailingAnchor.constraint(lessThanOrEqualTo: view.readableContentGuide.trailingAnchor),
-        ])
+            ]
+
+        if let credentialsView = self.credentialsView {
+            constraints += [
+                credentialsView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 20.0),
+                credentialsView.widthAnchor.constraint(equalToConstant: 256.0),
+                usernameLabel.widthAnchor.constraint(equalTo: credentialsView.widthAnchor),
+                usernameLabel.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor)
+            ]
+        }
+
+        NSLayoutConstraint.activate(constraints)
         
         self.preferredLayoutGuideBottomConstraint = preferredLayoutGuideBottomConstraint
         self.showingHeaderConstraint              = showingHeaderConstraint
@@ -676,7 +701,12 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
 
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        delegate?.loginViewControllerDidAppear(self)
+        switch loginMode {
+        case .usernamePassword(let delegate):
+            delegate?.loginViewControllerDidAppear(self)
+        case .externalAuth(let delegate):
+            delegate?.loginViewControllerDidAppear(self)
+        }
     }
     
     open override func viewDidDisappear(_ animated: Bool) {
@@ -777,15 +807,23 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc private func loginButtonTriggered() {
-        guard let username = usernameField.text, let password = passwordField.text else { return }
-        
-        view.endEditing(true)
-        
-        delegate?.loginViewController(self, didFinishWithUsername: username, password: password)
+        if case let LoginMode.usernamePassword(delegate: delegate) = loginMode {
+            guard let username = usernameField.text, let password = passwordField.text else { return }
+            view.endEditing(true)
+
+            delegate?.loginViewController(self, didFinishWithUsername: username, password: password)
+        }
+        else if case let LoginMode.externalAuth(delegate: delegate) = loginMode {
+            delegate?.loginViewControllerDidCommenceExternalAuth(self)
+        }
+
+
     }
     
     @objc private func forgotPasswordButtonTriggered() {
-        delegate?.loginViewController?(self, didTapForgotPasswordButton: forgotPasswordButton)
+        if case let LoginMode.usernamePassword(delegate: delegate) = loginMode {
+            delegate?.loginViewController(self, didTapForgotPasswordButton: forgotPasswordButton)
+        }
     }
     
     @objc private func textFieldTextDidChange(_ textField: UITextField) {
@@ -796,11 +834,16 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     private func updateLoginButtonState() {
         if isLoginButtonLoaded == false { return }
-        
-        let isUsernameValid: Bool = isUsernameFieldLoaded && usernameField.text?.count ?? 0 >= minimumUsernameLength
+
+        switch loginMode {
+        case .usernamePassword(let delegate):
+            let isUsernameValid: Bool = isUsernameFieldLoaded && usernameField.text?.count ?? 0 >= minimumUsernameLength
             let isPasswordValid: Bool = isPasswordFieldLoaded && passwordField.text?.count ?? 0 >= minimumPasswordLength
-        
-        loginButton.isEnabled = isUsernameValid && isPasswordValid
+            loginButton.isEnabled = isUsernameValid && isPasswordValid
+            forgotPasswordButton.isHidden = !(delegate?.wantsForgotPassword ?? true)
+        case .externalAuth:
+            loginButton.isEnabled = true
+        }
     }
     
     private func newTextField() -> UITextField {
@@ -815,13 +858,24 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
 }
 
 
-@objc public protocol LoginViewControllerDelegate: NSObjectProtocol {
-    
-    func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String)
-
+public protocol LoginViewControllerDelegate {
     func loginViewControllerDidAppear(_ controller: LoginViewController)
-
-    @objc optional func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton)
-    
 }
 
+public enum LoginMode {
+    case usernamePassword(delegate: UsernamePasswordDelegate?)
+    case externalAuth(delegate: ExternalAuthDelegate?)
+}
+
+public protocol UsernamePasswordDelegate: LoginViewControllerDelegate {
+
+    var wantsForgotPassword: Bool { get }
+
+    func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String)
+    func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton)
+}
+
+public protocol ExternalAuthDelegate: LoginViewControllerDelegate {
+
+    func loginViewControllerDidCommenceExternalAuth(_ controller: LoginViewController)
+}
