@@ -167,7 +167,7 @@ open class CADStateManager: NSObject {
         if let syncDetails = lastSync {
             incidentsById.removeAll()
             for incident in syncDetails.incidents {
-                incidentsById[incident.number] = incident
+                incidentsById[incident.identifier] = incident
             }
             resourcesById.removeAll()
             for resource in syncDetails.resources {

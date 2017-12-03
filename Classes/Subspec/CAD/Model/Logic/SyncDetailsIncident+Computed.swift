@@ -25,12 +25,12 @@ extension SyncDetailsIncident {
         if let resourceId = CADStateManager.shared.lastBookOn?.callsign,
             let resource = CADStateManager.shared.resourcesById[resourceId]
         {
-            if resource.currentIncident == number {
+            if resource.currentIncident == identifier {
                 return .current
             } else {
                 return .assigned
             }
-        } else if CADStateManager.shared.resourcesForIncident(incidentNumber: number).count > 0 {
+        } else if CADStateManager.shared.resourcesForIncident(incidentNumber: identifier).count > 0 {
             return .resourced
         } else {
             return .unresourced
@@ -42,7 +42,7 @@ extension SyncDetailsIncident {
     }
     
     open var resourceCount: Int {
-        return CADStateManager.shared.resourcesForIncident(incidentNumber: number).count
+        return CADStateManager.shared.resourcesForIncident(incidentNumber: identifier).count
     }
     
     open var resourceCountString: String? {
@@ -72,8 +72,8 @@ extension SyncDetailsIncidentPerson {
     
     open var fullName: String {
         let lastFirst = [lastName, firstName].removeNils().joined(separator: ", ")
-        let middle = middleNames != nil ? "\(middleNames.prefix(1))." : ""
+        let middle = middleNames != nil ? "\(middleNames.prefix(1))." : nil
         
-        return "\(lastFirst) \(middle)"
+        return [lastFirst, middle].removeNils().joined(separator: " ")
     }
 }

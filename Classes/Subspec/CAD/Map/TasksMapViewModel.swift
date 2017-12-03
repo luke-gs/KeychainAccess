@@ -82,15 +82,15 @@ open class TasksMapViewModel {
                                              lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
         } else if let annotation = annotation as? IncidentAnnotation {
             guard let incident = CADStateManager.shared.incidentsById[annotation.identifier],
-                let resource = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.number).first
+                let resource = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier).first
             else { return nil }
             
-            return IncidentTaskItemViewModel(incidentNumber: incident.number,
+            return IncidentTaskItemViewModel(incidentNumber: incident.identifier,
                                              iconImage: resource.status.icon,
                                              iconTintColor: resource.status.iconColors.icon,
                                              color: resource.status.iconColors.background,
                                              statusText: resource.status.title,
-                                             itemName: [incident.incidentType, incident.resourceCountString].removeNils().joined(separator: " "),
+                                             itemName: [incident.type, incident.resourceCountString].removeNils().joined(separator: " "),
                                              lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
         }
         
@@ -102,7 +102,7 @@ open class TasksMapViewModel {
     /// Maps incident view models to task annotations
     func taskAnnotations(for incidents: [SyncDetailsIncident]) -> [TaskAnnotation] {
         return incidents.map { incident in
-            return IncidentAnnotation(identifier: incident.number,
+            return IncidentAnnotation(identifier: incident.identifier,
                                       coordinate: incident.coordinate,
                                       title: incident.type,
                                       subtitle: incident.resourceCountString,

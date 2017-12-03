@@ -12,7 +12,7 @@ import UIKit
 
 /// Reponse object for a single Incident in the call to /sync/details
 open class SyncDetailsIncident: Codable {
-    open var number: String!
+    open var identifier: String!
     open var secondaryCode: String!
     open var type: String!
     open var grade: IncidentGrade!
@@ -22,14 +22,10 @@ open class SyncDetailsIncident: Codable {
     open var lastUpdated: Date!
     open var details: String!
     open var informant : SyncDetailsInformant!
-    open var associations : SyncDetailsIncidentAssociations!
+    open var locations: [SyncDetailsLocation]!
+    open var persons: [SyncDetailsIncidentPerson]!
+    open var vehicles: [SyncDetailsIncidentVehicle]!
     open var narrative: [SyncDetailsActivityLogItem]!
-}
-
-/// Response object for associations in an incident
-open class SyncDetailsIncidentAssociations: Codable {
-    open var persons : [SyncDetailsIncidentPerson]!
-    open var vehicles : [SyncDetailsIncidentVehicle]!
 }
 
 /// Reponse object for a single vehicle in an incident

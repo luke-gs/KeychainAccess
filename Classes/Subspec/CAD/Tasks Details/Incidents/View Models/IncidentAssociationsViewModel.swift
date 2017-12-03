@@ -30,7 +30,7 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<EntitySum
         guard let incident = CADStateManager.shared.incidentsById[incidentNumber] else { return }
         sections = []
         
-        let personsViewModels = incident.associations.persons?.map { person in
+        let personsViewModels = incident.persons?.map { person in
             return IncidentAssociationItemViewModel(category: "DS1",
                                                     entityType: .person(initials: person.initials),
                                                     title: person.fullName,
@@ -41,7 +41,7 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<EntitySum
                                                     badge: 0)
         } ?? []
         
-        let vehiclesViewModels = incident.associations.vehicles?.map { vehicle in
+        let vehiclesViewModels = incident.vehicles?.map { vehicle in
             return IncidentAssociationItemViewModel(category: "DS1",
                                                     entityType: .vehicle,
                                                     title: vehicle.plateNumber,

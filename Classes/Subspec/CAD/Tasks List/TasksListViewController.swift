@@ -93,17 +93,17 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
                                              iconTintColor: resource.status.iconColors.icon,
                                              color: resource.status.iconColors.background,
                                              statusText: resource.status.title,
-                                             itemName: "\(resource.callsign ?? "") \(resource.officerCountString ?? "")",
+                                             itemName: [resource.callsign, resource.officerCountString].removeNils().joined(separator: " "),
                                              lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
         } else if let incident = CADStateManager.shared.incidentsById[item.identifier],
-            let resource = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.number).first
+            let resource = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier).first
         {
-            return IncidentTaskItemViewModel(incidentNumber: incident.number,
+            return IncidentTaskItemViewModel(incidentNumber: incident.identifier,
                                              iconImage: resource.status.icon,
                                              iconTintColor: resource.status.iconColors.icon,
                                              color: resource.status.iconColors.background,
                                              statusText: resource.status.title,
-                                             itemName: "\(incident.type ?? "") \(incident.resourceCountString)",
+                                             itemName: [incident.type, incident.resourceCountString].removeNils().joined(separator: " "),
                 lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
         }
         

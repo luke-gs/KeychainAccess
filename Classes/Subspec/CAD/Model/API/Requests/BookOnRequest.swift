@@ -25,7 +25,7 @@ open class BookOnOfficer: Codable {
     /// NOT IN API: The contact number
     open var phoneNumber: String!
 
-    /// NOT IN API: The license type manifest item id
+    /// NOT IN API: The licence type manifest item id
     open var licenceTypeId: String!
 
     /// NOT IN API: The capabilities of the officer, list of manifest item ids
