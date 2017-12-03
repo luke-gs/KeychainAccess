@@ -19,7 +19,7 @@ open class SyncDetailsOfficer: Codable {
     open var lastName: String!
     open var patrolGroup: String!
     open var station: String!
-    open var licenseTypeId: String!
+    open var licenceTypeId: String!
     open var contactNumber: String!
     open var remarks: String!
     open var capabilties: String!
