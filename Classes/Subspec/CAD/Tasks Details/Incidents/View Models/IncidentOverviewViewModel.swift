@@ -69,7 +69,7 @@ open class IncidentOverviewViewModel: TaskDetailsViewModel {
                                                                               width: .column(4)),
                                                 
                                                 IncidentOverviewItemViewModel(title: "Last Updated",
-                                                                              value: incident.lastUpdatedString,
+                                                                              value: incident.lastUpdated.elapsedTimeIntervalForHuman(),
                                                                               width: .column(4)),
             ]),
             

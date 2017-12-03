@@ -57,12 +57,6 @@ extension SyncDetailsIncident {
         
         return formatter.string(from: createdAt)
     }
-    
-    open var lastUpdatedString: String {
-        let timeInterval = Int(abs(lastUpdated.timeIntervalSinceNow))
-        // TODO: Convert to mins hours etc.
-        return "\(timeInterval) seconds ago"
-    }
 }
 
 extension SyncDetailsIncidentPerson {
