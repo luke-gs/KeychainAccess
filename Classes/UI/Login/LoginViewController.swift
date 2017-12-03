@@ -857,14 +857,13 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
 }
 
-
-public protocol LoginViewControllerDelegate {
-    func loginViewControllerDidAppear(_ controller: LoginViewController)
-}
-
 public enum LoginMode {
     case usernamePassword(delegate: UsernamePasswordDelegate?)
     case externalAuth(delegate: ExternalAuthDelegate?)
+}
+
+public protocol LoginViewControllerDelegate {
+    func loginViewControllerDidAppear(_ controller: LoginViewController)
 }
 
 public protocol UsernamePasswordDelegate: LoginViewControllerDelegate {
@@ -873,6 +872,14 @@ public protocol UsernamePasswordDelegate: LoginViewControllerDelegate {
 
     func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String)
     func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton)
+}
+
+public extension UsernamePasswordDelegate {
+
+    public var wantsForgotPassword: Bool {
+        return true
+    }
+
 }
 
 public protocol ExternalAuthDelegate: LoginViewControllerDelegate {
