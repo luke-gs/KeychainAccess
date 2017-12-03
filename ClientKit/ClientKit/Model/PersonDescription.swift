@@ -107,7 +107,7 @@ open class PersonDescription: NSObject, Serialisable {
         remarks = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.remarks.rawValue) as String?
 
         imageThumbnail = aDecoder.decodeObject(of: Media.self, forKey: CodingKey.imageThumbnail.rawValue)
-        image = aDecoder.decodeObject(of: Media.self, forKey: CodingKey.entityType.rawValue)
+        image = aDecoder.decodeObject(of: Media.self, forKey: CodingKey.image.rawValue)
     }
     
     open func encode(with aCoder: NSCoder) {

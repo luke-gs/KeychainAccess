@@ -83,7 +83,7 @@ open class MissingPersonReport: Event {
         reportingStation = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.reportingStation.rawValue) as String?
         locatingMemberID = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.locatingMemberID.rawValue) as String?
         locatingMemberOrganisationalUnit = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.locatingMemberOrganisationalUnit.rawValue) as String?
-        missingPersonReports = aDecoder.decodeObject(of: NSArray.self, forKey: CodingKey.phoneNumbers.rawValue) as? [String]
+        missingPersonReports = aDecoder.decodeObject(of: NSArray.self, forKey: CodingKey.missingPersonReports.rawValue) as? [String]
         probableDestination = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.probableDestination.rawValue) as String?
     }
 

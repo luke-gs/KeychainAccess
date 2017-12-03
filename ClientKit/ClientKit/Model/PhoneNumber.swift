@@ -48,21 +48,22 @@ open class PhoneNumber: NSObject, Serialisable {
 
         super.init()
 
-        type = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String?
+        type = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.type.rawValue) as String?
         areaCode = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.areaCode.rawValue) as String?
         phoneNumber = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.phoneNumber.rawValue) as String?
     }
     
     open func encode(with aCoder: NSCoder) {
-        aCoder.encode(PhoneNumber.modalVersion, forKey: CodingKey.version.rawValue)
+        aCoder.encode(PhoneNumber.modelVersion, forKey: CodingKey.version.rawValue)
         aCoder.encode(id, forKey: CodingKey.id.rawValue)
+        aCoder.encode(type, forKey: CodingKey.type.rawValue)
         aCoder.encode(areaCode, forKey: CodingKey.areaCode.rawValue)
         aCoder.encode(phoneNumber, forKey: CodingKey.phoneNumber.rawValue)
     }
     
     open static var supportsSecureCoding: Bool { return true }
 
-    open static var modalVersion: Int { return 0 }
+    open static var modelVersion: Int { return 0 }
     
     
     // MARK: - Temp Formatters

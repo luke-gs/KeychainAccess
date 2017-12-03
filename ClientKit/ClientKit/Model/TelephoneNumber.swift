@@ -64,7 +64,7 @@ open class TelephoneNumber: NSObject, Serialisable {
     }
     
     open func encode(with aCoder: NSCoder) {
-        aCoder.encode(TelephoneNumber.modalVersion, forKey: CodingKey.version.rawValue)
+        aCoder.encode(TelephoneNumber.modelVersion, forKey: CodingKey.version.rawValue)
         aCoder.encode(id, forKey: CodingKey.id.rawValue)
         aCoder.encode(suffix, forKey: CodingKey.suffix.rawValue)
         aCoder.encode(cityCode, forKey: CodingKey.cityCode.rawValue)
@@ -78,7 +78,7 @@ open class TelephoneNumber: NSObject, Serialisable {
     }
     
     open static var supportsSecureCoding: Bool { return true }
-    open static var modalVersion: Int { return 0 }
+    open static var modelVersion: Int { return 0 }
 
     private enum CodingKey: String {
         case version

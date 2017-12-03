@@ -13,7 +13,7 @@ import Unbox
 open class CriminalHistory: NSObject, Serialisable {
     
     public static var supportsSecureCoding: Bool { return true }
-    open static var modalVersion: Int { return 0 }
+    open static var modelVersion: Int { return 0 }
     
     var offenceDescription: String?
     var offenceCount: Int?
@@ -33,7 +33,7 @@ open class CriminalHistory: NSObject, Serialisable {
     }
     
     public func encode(with aCoder: NSCoder) {
-        aCoder.encode(CriminalHistory.modalVersion, forKey: CodingKey.version.rawValue)
+        aCoder.encode(CriminalHistory.modelVersion, forKey: CodingKey.version.rawValue)
 
         aCoder.encode(offenceDescription, forKey: CodingKey.offenceDescription.rawValue)
         aCoder.encode(offenceCount, forKey: CodingKey.offenceCount.rawValue)

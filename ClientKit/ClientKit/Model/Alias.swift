@@ -18,7 +18,7 @@ open class Alias: NSObject, Serialisable {
         return true
     }
 
-    open static var modalVersion: Int { return 0 }
+    open static var modelVersion: Int { return 0 }
     
     open var id: String
     
