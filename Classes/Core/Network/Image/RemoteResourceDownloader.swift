@@ -59,9 +59,7 @@ public class RemoteResourceDownloader<T: Codable> {
 
         // Catch the error, it's very likely use case
         // that the fetcher wouldn't handle the error. So catch it here and do nothing.
-        return resourceRequest.catch { error in
-            print(error)
-        }
+        return resourceRequest.catch { _ in }
     }
 
     private func fetchAndCacheResource(using resourceDescription: RemoteResourceDescribing) -> Promise<T> {

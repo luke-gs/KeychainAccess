@@ -9,6 +9,10 @@
 import UIKit
 import Alamofire
 
+public enum ResourceError: Error {
+    case invalidResourceData
+}
+
 class CodableResponseSerializing<T: Codable>: ResponseSerializing {
     public typealias ResultType = T
     public let keyPath: String?
@@ -20,6 +24,7 @@ class CodableResponseSerializing<T: Codable>: ResponseSerializing {
         return DataRequest.serializeResponseCodable(keyPath: keyPath, response: dataResponse.response, data: dataResponse.data, error: dataResponse.error)
     }
 }
+
 extension Request {
 
     /// Creates a response serializer that returns an object that comforms to Codable from response/
@@ -36,7 +41,7 @@ extension Request {
             return .failure(error)
         }
         guard let data = data else {
-            return .failure(ImageError.imageSerializationFailed)
+            return .failure(ResourceError.invalidResourceData)
         }
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
