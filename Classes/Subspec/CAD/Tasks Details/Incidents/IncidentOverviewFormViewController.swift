@@ -35,3 +35,9 @@ open class IncidentOverviewFormViewController: FormBuilderViewController {
         return IntrinsicHeightCollectionView.self
     }
 }
+
+extension IncidentOverviewFormViewController: IncidentOverviewViewModelDelegate {
+    public func didUpdateSections() {
+        reloadForm()
+    }
+}

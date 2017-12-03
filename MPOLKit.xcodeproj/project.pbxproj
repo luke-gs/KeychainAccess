@@ -139,6 +139,7 @@
 		276C21061F60C2100003B860 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C21051F60C2100003B860 /* MapViewController.swift */; };
 		276C21081F60C44B0003B860 /* MapOverlayImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C21071F60C44B0003B860 /* MapOverlayImageButton.swift */; };
 		27719E0A1FA92A5B00238059 /* AustralianPhoneSpecification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27719E091FA92A5B00238059 /* AustralianPhoneSpecification.swift */; };
+		27774FE71FD3B9AC007DCDCC /* SyncDetailsActivityLogItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27774FE61FD3B9AC007DCDCC /* SyncDetailsActivityLogItem.swift */; };
 		2784FDBB1FA1549D007B18B2 /* Optional+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2784FDBA1FA1549D007B18B2 /* Optional+Extension.swift */; };
 		278A16251FBAB17400C01C38 /* TasksListCellStatusRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A16241FBAB17400C01C38 /* TasksListCellStatusRow.swift */; };
 		278A16311FBBBDC800C01C38 /* MapFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A16301FBBBDC800C01C38 /* MapFilterViewController.swift */; };
@@ -695,6 +696,7 @@
 		276C21051F60C2100003B860 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		276C21071F60C44B0003B860 /* MapOverlayImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverlayImageButton.swift; sourceTree = "<group>"; };
 		27719E091FA92A5B00238059 /* AustralianPhoneSpecification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AustralianPhoneSpecification.swift; sourceTree = "<group>"; };
+		27774FE61FD3B9AC007DCDCC /* SyncDetailsActivityLogItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncDetailsActivityLogItem.swift; sourceTree = "<group>"; };
 		2784FDBA1FA1549D007B18B2 /* Optional+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Extension.swift"; sourceTree = "<group>"; };
 		278A16241FBAB17400C01C38 /* TasksListCellStatusRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListCellStatusRow.swift; sourceTree = "<group>"; };
 		278A16301FBBBDC800C01C38 /* MapFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapFilterViewController.swift; sourceTree = "<group>"; };
@@ -1691,6 +1693,7 @@
 				967E75AD1FCE2F1700B75CF6 /* SyncDetailsResource.swift */,
 				967E75A31FCE2DA400B75CF6 /* SyncDetailsResponse.swift */,
 				969FC88D1FCF62E60023D43B /* SyncDetailsLocation.swift */,
+				27774FE61FD3B9AC007DCDCC /* SyncDetailsActivityLogItem.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -3303,6 +3306,7 @@
 				DBE24C3C1F593BEF0088D19B /* EntityDetailSplitViewController.swift in Sources */,
 				EAE806DB1F98534000C9AA85 /* FormSection.swift in Sources */,
 				19B49BBE1F665F2A00502F51 /* ScrollAwarePageViewController.swift in Sources */,
+				27774FE71FD3B9AC007DCDCC /* SyncDetailsActivityLogItem.swift in Sources */,
 				191BC4D51F7C203B00C8C218 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				DB88BCDC1F42D0080056FD69 /* SearchRecentsViewController.swift in Sources */,
 				BC9C7E511F0DED6600DFFE83 /* FormAccessoryCheckmark.swift in Sources */,

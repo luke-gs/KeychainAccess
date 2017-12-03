@@ -167,7 +167,7 @@ open class CADStateManager: NSObject {
         if let syncDetails = lastSync {
             incidentsById.removeAll()
             for incident in syncDetails.incidents {
-                incidentsById[incident.incidentNumber] = incident
+                incidentsById[incident.identifier] = incident
             }
             resourcesById.removeAll()
             for resource in syncDetails.resources {
@@ -185,7 +185,7 @@ open class CADStateManager: NSObject {
         var resources: [SyncDetailsResource] = []
         if let syncDetails = lastSync {
             for resource in syncDetails.resources {
-                if resource.incidentNumber == incidentNumber {
+                if resource.assignedIncidents.contains(incidentNumber) {
                     resources.append(resource)
                 }
             }
@@ -196,7 +196,7 @@ open class CADStateManager: NSObject {
     /// Return the current incident for a resource
     open func incidentForResource(callsign: String) -> SyncDetailsIncident? {
         if let resource = resourcesById[callsign] {
-            return incidentsById[resource.incidentNumber]
+            return incidentsById[resource.currentIncident]
         }
         return nil
     }

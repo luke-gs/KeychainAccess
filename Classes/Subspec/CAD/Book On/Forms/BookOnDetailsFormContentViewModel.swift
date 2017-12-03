@@ -70,7 +70,7 @@ public class BookOnDetailsFormContentViewModel {
             self.title = officer.displayName
             self.rank = officer.rank
             self.officerId = officer.payrollId
-            self.licenseType = officer.licenseTypeId
+            self.licenseType = officer.licenceTypeId
 
             // Rest of properties are not loaded from backend, user has to enter
         }

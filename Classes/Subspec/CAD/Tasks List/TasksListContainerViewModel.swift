@@ -191,10 +191,10 @@ open class TasksListContainerViewModel {
             let (status, incidents) = arg
             
             let taskViewModels = incidents.map { incident in
-                return TasksListItemViewModel(identifier: incident.incidentNumber,
-                    title: [incident.incidentType, incident.resourceCountString].removeNils().joined(separator: " "),
+                return TasksListItemViewModel(identifier: incident.identifier,
+                    title: [incident.type, incident.resourceCountString].removeNils().joined(separator: " "),
                     subtitle: incident.location.fullAddress,
-                    caption: incident.incidentNumber, // TODO: Find out what second number is
+                    caption: [incident.identifier, incident.secondaryCode].removeNils().joined(separator: " • "),
                     priority: incident.grade.rawValue,
                     description: incident.details,
                     resources: nil, // TODO: Get resources
@@ -219,7 +219,7 @@ open class TasksListContainerViewModel {
         ]
         
         for resource in resources {
-            if resource.incidentNumber != nil {
+            if resource.currentIncident != nil {
                 sectionedResources[tasked]?.append(resource)
             } else {
                 sectionedResources[untasked]?.append(resource)
