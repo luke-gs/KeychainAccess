@@ -42,6 +42,8 @@ public protocol StatusTabBarDelegate {
 /// if required.
 open class StatusTabBarController: UIViewController, UITabBarDelegate {
 
+    open let tabBarItemHeight: CGFloat = 48
+
     open var statusTabBarDelegate: StatusTabBarDelegate?
     
     /// An array of the current root view controllers displayed by the tab bar interface in the current trait collection.
@@ -243,16 +245,17 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         constraints += [
             tabBarContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tabBarContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tabBarContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor).withPriority(.almostRequired),
+            tabBarContainerView.heightAnchor.constraint(greaterThanOrEqualToConstant: tabBarItemHeight),
             constraintBelowSafeAreaOrAboveBottomLayout(tabBarContainerView),
-
-            tabBar.leadingAnchor.constraint(equalTo: tabBarBackground.leadingAnchor),
-            tabBar.centerYAnchor.constraint(equalTo: tabBarBackground.centerYAnchor),
-            tabBar.topAnchor.constraint(equalTo: tabBarBackground.topAnchor),
 
             tabBarBackground.leadingAnchor.constraint(equalTo: tabBarContainerView.leadingAnchor),
             tabBarBackground.trailingAnchor.constraint(equalTo: tabBarContainerView.trailingAnchor),
+            tabBarBackground.topAnchor.constraint(equalTo: tabBarContainerView.topAnchor),
             tabBarBackground.bottomAnchor.constraint(equalTo: tabBarContainerView.bottomAnchor),
-            tabBarBackground.topAnchor.constraint(equalTo: tabBarContainerView.topAnchor)
+
+            tabBar.leadingAnchor.constraint(equalTo: tabBarContainerView.leadingAnchor),
+            tabBar.topAnchor.constraint(equalTo: tabBarContainerView.topAnchor),
         ]
         
         NSLayoutConstraint.activate(constraints)
@@ -262,11 +265,11 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
     
     open override func viewDidLayoutSubviews() {
         if #available(iOS 11, *) {
-            additionalSafeAreaInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: tabBar.frame.height, right: 0.0)
+            additionalSafeAreaInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: tabBarItemHeight, right: 0.0)
         } else {
             if let selectedView = selectedViewController?.view {
                 selectedView.autoresizingMask = []
-                selectedView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - tabBar.frame.height)
+                selectedView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - tabBarItemHeight)
             }
         }
         super.viewDidLayoutSubviews()

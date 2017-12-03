@@ -150,6 +150,8 @@ open class CADStateManager: NSObject {
         return firstly {
             // Get details about logged in user
             return self.fetchCurrentOfficerDetails()
+        }.then { _ in
+            return after(seconds: 2.0)
         }.then { [unowned self] _ in
             // Get new manifest items
             return self.syncManifestItems()
@@ -165,7 +167,7 @@ open class CADStateManager: NSObject {
         if let syncDetails = lastSync {
             incidentsById.removeAll()
             for incident in syncDetails.incidents {
-                incidentsById[incident.incidentNumber] = incident
+                incidentsById[incident.number] = incident
             }
             resourcesById.removeAll()
             for resource in syncDetails.resources {
@@ -183,7 +185,7 @@ open class CADStateManager: NSObject {
         var resources: [SyncDetailsResource] = []
         if let syncDetails = lastSync {
             for resource in syncDetails.resources {
-                if resource.incidentNumber == incidentNumber {
+                if resource.currentIncident == incidentNumber {
                     resources.append(resource)
                 }
             }
@@ -194,7 +196,7 @@ open class CADStateManager: NSObject {
     /// Return the current incident for a resource
     open func incidentForResource(callsign: String) -> SyncDetailsIncident? {
         if let resource = resourcesById[callsign] {
-            return incidentsById[resource.incidentNumber]
+            return incidentsById[resource.currentIncident]
         }
         return nil
     }

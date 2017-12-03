@@ -27,6 +27,7 @@
 		12F869ED1F5FD2350006EC5C /* ActiveUserSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F869EB1F5FD2350006EC5C /* ActiveUserSessionTests.swift */; };
 		12F869EE1F5FD24B0006EC5C /* OAuthAccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = 19DE98CE1F4265540063F394 /* OAuthAccessToken.json */; };
 		12F869EF1F5FD47E0006EC5C /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D566F51F5790BC001E74CA /* UserSession.swift */; };
+		190503EC1FCFDB09002EBC89 /* RefreshTokenPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190503EB1FCFDB09002EBC89 /* RefreshTokenPlugin.swift */; };
 		1908EF831F57CAFC00382B1C /* AuthenticationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1908EF821F57CAFC00382B1C /* AuthenticationPlugin.swift */; };
 		1908EF861F57CDEB00382B1C /* AuthenticationPluginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1908EF851F57CDEB00382B1C /* AuthenticationPluginTests.swift */; };
 		1908EF8B1F57D79A00382B1C /* ThemeManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1908EF871F57D79A00382B1C /* ThemeManagerTests.swift */; };
@@ -138,6 +139,7 @@
 		276C21061F60C2100003B860 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C21051F60C2100003B860 /* MapViewController.swift */; };
 		276C21081F60C44B0003B860 /* MapOverlayImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C21071F60C44B0003B860 /* MapOverlayImageButton.swift */; };
 		27719E0A1FA92A5B00238059 /* AustralianPhoneSpecification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27719E091FA92A5B00238059 /* AustralianPhoneSpecification.swift */; };
+		27774FE71FD3B9AC007DCDCC /* SyncDetailsActivityLogItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27774FE61FD3B9AC007DCDCC /* SyncDetailsActivityLogItem.swift */; };
 		2784FDBB1FA1549D007B18B2 /* Optional+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2784FDBA1FA1549D007B18B2 /* Optional+Extension.swift */; };
 		278A16251FBAB17400C01C38 /* TasksListCellStatusRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A16241FBAB17400C01C38 /* TasksListCellStatusRow.swift */; };
 		278A16311FBBBDC800C01C38 /* MapFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A16301FBBBDC800C01C38 /* MapFilterViewController.swift */; };
@@ -581,6 +583,7 @@
 		12F057291F3C106D00CAD6F6 /* QueryParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryParserTests.swift; sourceTree = "<group>"; };
 		12F869EA1F5FD2340006EC5C /* NewUserSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewUserSessionTests.swift; sourceTree = "<group>"; };
 		12F869EB1F5FD2350006EC5C /* ActiveUserSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveUserSessionTests.swift; sourceTree = "<group>"; };
+		190503EB1FCFDB09002EBC89 /* RefreshTokenPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshTokenPlugin.swift; sourceTree = "<group>"; };
 		1908EF821F57CAFC00382B1C /* AuthenticationPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationPlugin.swift; sourceTree = "<group>"; };
 		1908EF851F57CDEB00382B1C /* AuthenticationPluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationPluginTests.swift; sourceTree = "<group>"; };
 		1908EF871F57D79A00382B1C /* ThemeManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeManagerTests.swift; sourceTree = "<group>"; };
@@ -693,6 +696,7 @@
 		276C21051F60C2100003B860 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		276C21071F60C44B0003B860 /* MapOverlayImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverlayImageButton.swift; sourceTree = "<group>"; };
 		27719E091FA92A5B00238059 /* AustralianPhoneSpecification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AustralianPhoneSpecification.swift; sourceTree = "<group>"; };
+		27774FE61FD3B9AC007DCDCC /* SyncDetailsActivityLogItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncDetailsActivityLogItem.swift; sourceTree = "<group>"; };
 		2784FDBA1FA1549D007B18B2 /* Optional+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Extension.swift"; sourceTree = "<group>"; };
 		278A16241FBAB17400C01C38 /* TasksListCellStatusRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListCellStatusRow.swift; sourceTree = "<group>"; };
 		278A16301FBBBDC800C01C38 /* MapFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapFilterViewController.swift; sourceTree = "<group>"; };
@@ -1689,6 +1693,7 @@
 				967E75AD1FCE2F1700B75CF6 /* SyncDetailsResource.swift */,
 				967E75A31FCE2DA400B75CF6 /* SyncDetailsResponse.swift */,
 				969FC88D1FCF62E60023D43B /* SyncDetailsLocation.swift */,
+				27774FE61FD3B9AC007DCDCC /* SyncDetailsActivityLogItem.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -1851,6 +1856,7 @@
 				1908EF821F57CAFC00382B1C /* AuthenticationPlugin.swift */,
 				BC9C7D1A1F0DED6600DFFE83 /* HTTPAuthenticationMode.swift */,
 				BC9C7D1B1F0DED6600DFFE83 /* OAuthAccessToken.swift */,
+				190503EB1FCFDB09002EBC89 /* RefreshTokenPlugin.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -3160,6 +3166,7 @@
 				EAAEB3481F661806002D6C65 /* SystemPresenter.swift in Sources */,
 				96E492021FB3F98D0051C3A1 /* AppSettingKey.swift in Sources */,
 				EA53B2711F9D905800B891D8 /* StepperFormItem.swift in Sources */,
+				190503EC1FCFDB09002EBC89 /* RefreshTokenPlugin.swift in Sources */,
 				2726A81A1FCE5EA000EFB61A /* IncidentOverviewItemViewModel.swift in Sources */,
 				96CF322C1F8C428600140AF8 /* CADFormCollectionViewModel.swift in Sources */,
 				BC9C7E3E1F0DED6600DFFE83 /* PopoverDatePickerViewController.swift in Sources */,
@@ -3299,6 +3306,7 @@
 				DBE24C3C1F593BEF0088D19B /* EntityDetailSplitViewController.swift in Sources */,
 				EAE806DB1F98534000C9AA85 /* FormSection.swift in Sources */,
 				19B49BBE1F665F2A00502F51 /* ScrollAwarePageViewController.swift in Sources */,
+				27774FE71FD3B9AC007DCDCC /* SyncDetailsActivityLogItem.swift in Sources */,
 				191BC4D51F7C203B00C8C218 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				DB88BCDC1F42D0080056FD69 /* SearchRecentsViewController.swift in Sources */,
 				BC9C7E511F0DED6600DFFE83 /* FormAccessoryCheckmark.swift in Sources */,

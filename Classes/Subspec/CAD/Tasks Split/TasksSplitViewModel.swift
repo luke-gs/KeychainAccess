@@ -73,6 +73,8 @@ open class TasksSplitViewModel {
         return NSLocalizedString("Map", comment: "Map list segment title")
     }
     
+    // MARK: - Filter
+    
     /// Shows the map filter popup
     public func presentMapFilter() {
         let viewController = filterViewModel.createViewController(delegate: self)
@@ -85,7 +87,35 @@ open class TasksSplitViewModel {
         mapViewModel.loadTasks()
         listContainerViewModel.updateSections()
     }
+    
+    // MARK: Filter Data
+    
+    /// Sync incidents filtered
+    open var filteredIncidents: [SyncDetailsIncident] {
+        guard let sync = CADStateManager.shared.lastSync else { return [] }
+        
+        return sync.incidents.filter { incident in
+            let priorityFilter = filterViewModel.priorities.contains(incident.grade)
+            let resourcedFilter = filterViewModel.resourcedIncidents.contains(incident.status)
+            
+            // If status is not in filter options always show
+            let isOther = incident.status != .resourced && incident.status != .unresourced
+            
+            return isOther || (priorityFilter && resourcedFilter)
+        }
+    }
+    
+    /// Sync incidents filtered
+    open var filteredResources: [SyncDetailsResource] {
+        guard let sync = CADStateManager.shared.lastSync else { return [] }
 
+        return sync.resources.filter { resource in
+            let isTasked = resource.currentIncident != nil
+            
+            // TODO: Duress check
+            return filterViewModel.taskedResources.tasked && isTasked || filterViewModel.taskedResources.untasked && !isTasked
+        }
+    }
 }
 
 

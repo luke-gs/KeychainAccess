@@ -25,12 +25,12 @@ extension SyncDetailsIncident {
         if let resourceId = CADStateManager.shared.lastBookOn?.callsign,
             let resource = CADStateManager.shared.resourcesById[resourceId]
         {
-            if resource.incidentNumber == incidentNumber {
+            if resource.currentIncident == number {
                 return .current
             } else {
                 return .assigned
             }
-        } else if CADStateManager.shared.resourcesForIncident(incidentNumber: incidentNumber).count > 0 {
+        } else if CADStateManager.shared.resourcesForIncident(incidentNumber: number).count > 0 {
             return .resourced
         } else {
             return .unresourced
@@ -42,7 +42,7 @@ extension SyncDetailsIncident {
     }
     
     open var resourceCount: Int {
-        return CADStateManager.shared.resourcesForIncident(incidentNumber: incidentNumber).count
+        return CADStateManager.shared.resourcesForIncident(incidentNumber: number).count
     }
     
     open var resourceCountString: String {
