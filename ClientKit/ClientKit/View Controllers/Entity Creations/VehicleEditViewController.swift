@@ -50,49 +50,49 @@ public class VehicleEditViewController: FormBuilderViewController {
 
         builder += TextFieldFormItem()
             .title("VIN")
-            .onValueChanged({ self.finalVehicle.vin = $0 })
+            .onValueChanged { self.finalVehicle.vin = $0 }
             .width(.column(2))
 
         builder += TextFieldFormItem()
             .title("Engine Number")
-            .onValueChanged({ self.finalVehicle.engineNumber = $0 })
+            .onValueChanged { self.finalVehicle.engineNumber = $0 }
             .width(.column(2))
 
         builder += TextFieldFormItem()
             .title("Make")
-            .onValueChanged({ self.finalVehicle.make = $0 })
+            .onValueChanged { self.finalVehicle.make = $0 }
             .width(.column(2))
 
         builder += TextFieldFormItem()
             .title("Model")
-            .onValueChanged({ self.finalVehicle.model = $0 })
+            .onValueChanged { self.finalVehicle.model = $0 }
             .width(.column(2))
 
         builder += TextFieldFormItem()
             .title("Year")
-            .onValueChanged({ self.finalVehicle.year = $0 })
+            .onValueChanged { self.finalVehicle.year = $0 }
             .width(.column(2))
 
         builder += TextFieldFormItem()
             .title("Type")
-            .onValueChanged({ self.finalVehicle.vehicleType = $0 })
+            .onValueChanged { self.finalVehicle.vehicleType = $0 }
             .width(.column(2))
 
         builder += TextFieldFormItem()
             .title("Body Type")
-            .onValueChanged({ self.finalVehicle.bodyType = $0 })
+            .onValueChanged { self.finalVehicle.bodyType = $0 }
             .width(.column(2))
 
         builder += DropDownFormItem()
             .options(["White", "Black", "Silver", "Gray", "Yellow", "Red", "Green", "Blue", "Brown"])
             .title("Colour")
-            .onValueChanged({ self.finalVehicle.primaryColor = $0?.first })
+            .onValueChanged { self.finalVehicle.primaryColor = $0?.first }
             .width(.column(2))
 
         builder += TextFieldFormItem()
             .title("Remarks")
             .placeholder("eg. decals, modifications or damage.")
-            .onValueChanged({ self.finalVehicle.remarks = $0 })
+            .onValueChanged { self.finalVehicle.remarks = $0 }
             .width(.column(1))
 
     }

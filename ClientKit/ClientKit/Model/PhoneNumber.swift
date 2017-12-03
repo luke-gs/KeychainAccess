@@ -12,7 +12,7 @@ import MPOLKit
 @objc(MPLPhoneNumber)
 open class PhoneNumber: NSObject, Serialisable {
     
-    open let id : String
+    open let id: String
     
     open var type: String?
     open var areaCode: String?
@@ -82,11 +82,11 @@ open class PhoneNumber: NSObject, Serialisable {
     func formattedType() -> String {
         guard let type = type else { return "Unknown" }
         switch type {
-        case "MOBL":    return "Mobile"
-        case "HOME":    return "Home"
-        case "BUS":     return "Business"
-        case "OTHR":    return "Other"
-        default:        return "Unknown"      // Should default types be "Unknown" or "Other"
+        case "MOBL": return "Mobile"
+        case "HOME": return "Home"
+        case "BUS": return "Business"
+        case "OTHR": return "Other"
+        default: return "Unknown"      // Should default types be "Unknown" or "Other"
         }
     }
 

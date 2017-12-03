@@ -13,15 +13,15 @@ import MPOLKit
 open class Contact: NSObject, Serialisable {
 
     public enum ContactType: Int, UnboxableEnum {
-        case phone  = 0
+        case phone = 0
         case mobile = 1
-        case email  = 2
+        case email = 2
 
         public func localizedDescription() -> String {
             switch self {
-            case .phone:  return "Phone"
+            case .phone: return "Phone"
             case .mobile: return "Mobile"
-            case .email:  return "Email"
+            case .email: return "Email"
             }
         }
     }

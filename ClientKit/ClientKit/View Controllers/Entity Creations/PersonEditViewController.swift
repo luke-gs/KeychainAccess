@@ -69,20 +69,20 @@ public class PersonEditViewController: FormBuilderViewController {
         builder += TextFieldFormItem()
             .title("First Name")
             .text(initialPerson?.givenName)
-            .onValueChanged({ self.finalPerson.givenName = $0 })
+            .onValueChanged { self.finalPerson.givenName = $0 }
             .required()
             .width(.column(4))
 
         builder += TextFieldFormItem()
             .title("Middle Name")
             .text(initialPerson?.middleNames)
-            .onValueChanged({ self.finalPerson.middleNames = $0 })
+            .onValueChanged { self.finalPerson.middleNames = $0 }
             .width(.column(4))
 
         builder += TextFieldFormItem()
             .title("Family Name")
             .text(initialPerson?.surname)
-            .onValueChanged({ self.finalPerson.surname = $0 })
+            .onValueChanged { self.finalPerson.surname = $0 }
             .required()
             .width(.column(4))
 
@@ -96,7 +96,7 @@ public class PersonEditViewController: FormBuilderViewController {
             .title("Gender")
             .options(Person.Gender.allCases)
             .selectedValue(selectedGender)
-            .onValueChanged({ self.finalPerson.gender = $0?.first })
+            .onValueChanged { self.finalPerson.gender = $0?.first }
             .required()
             .width(.column(2))
 
@@ -104,7 +104,7 @@ public class PersonEditViewController: FormBuilderViewController {
             .title("Date Of Birth")
             .dateFormatter(.formDate)
             .selectedValue(initialPerson?.dateOfBirth)
-            .onValueChanged({ self.finalPerson.dateOfBirth = $0 })
+            .onValueChanged { self.finalPerson.dateOfBirth = $0 }
             .required()
             .width(.column(2))
 
@@ -112,20 +112,20 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += TextFieldFormItem()
             .title("Height (cm)")
-            .onValueChanged({
+            .onValueChanged {
                 if let text = $0, let value = self.numberFormatter.number(from: text)?.intValue {
                     self.finalDescription.height = value
                 } else {
                     self.finalDescription.height = nil
                 }
-            })
+            }
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Height can only be number.")
             .strictValidate(CountSpecification.max(3), message: "Maximum number of characters reached.")
             .width(.column(3))
 
         builder += TextFieldFormItem()
             .title("Weight (Kg)")
-            .onValueChanged({ self.finalDescription.weight = $0 })
+            .onValueChanged { self.finalDescription.weight = $0 }
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Weight can only be number.")
             .strictValidate(CountSpecification.max(3), message: "Maximum number of characters reached.")
             .width(.column(3))
@@ -133,25 +133,25 @@ public class PersonEditViewController: FormBuilderViewController {
         builder += DropDownFormItem()
             .title("Build")
             .options(["Light", "Medium", "Heavy"])
-            .onValueChanged({ self.finalDescription.build = $0?.first })
+            .onValueChanged { self.finalDescription.build = $0?.first }
             .width(.column(3))
 
         builder += DropDownFormItem()
             .title("Race")
             .options(["Asian", "African", "Causcasian", "European", "Aboriginal"])
-            .onValueChanged({ self.finalDescription.race = $0?.first })
+            .onValueChanged { self.finalDescription.race = $0?.first }
             .width(.column(3))
 
         builder += DropDownFormItem()
             .title("Hair Colour")
             .options(["Black", "Blond", "Light Brown", "Dark Brown", "Red", "Gray", "White"])
-            .onValueChanged({ self.finalDescription.hairColour = $0?.first })
+            .onValueChanged { self.finalDescription.hairColour = $0?.first }
             .width(.column(3))
 
         builder += DropDownFormItem()
             .title("Eye Colour")
             .options(["Black", "Brown", "Blue", "Green", "Gray", "Amber", "Hazel"])
-            .onValueChanged({ self.finalDescription.eyeColour = $0?.first })
+            .onValueChanged { self.finalDescription.eyeColour = $0?.first }
             .width(.column(3))
 
         builder += HeaderFormItem(text: "ADDRESSES")
@@ -169,23 +169,23 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += TextFieldFormItem()
             .title("Mobile Number")
-            .onValueChanged({ self.mobile.value = $0 })
+            .onValueChanged { self.mobile.value = $0 }
             .required()
             .width(.column(2))
 
         builder += TextFieldFormItem()
             .title("Home Number")
-            .onValueChanged({ self.home.value = $0 })
+            .onValueChanged { self.home.value = $0 }
             .width(.column(2))
 
         builder += TextFieldFormItem()
             .title("Work Number")
-            .onValueChanged({ self.work.value = $0 })
+            .onValueChanged { self.work.value = $0 }
             .width(.column(2))
 
         builder += TextFieldFormItem()
             .title("Email Address")
-            .onValueChanged({ self.email.value = $0 })
+            .onValueChanged { self.email.value = $0 }
             .width(.column(2))
             .softValidate(EmailSpecification(), message: "Invalid email address.")
 

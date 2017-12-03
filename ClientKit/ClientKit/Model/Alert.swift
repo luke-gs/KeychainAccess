@@ -20,20 +20,20 @@ open class Alert: NSObject, Serialisable {
         case high   = 2
         
         public static let allCases: [Level] = [.low, .medium, .high]
-        
+
         public var color: UIColor? {
             switch self {
-            case .high:   return #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1)
+            case .high: return #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1)
             case .medium: return #colorLiteral(red: 1, green: 0.8, blue: 0, alpha: 1)
-            case .low:    return #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+            case .low: return #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
             }
         }
         
         public func localizedDescription() -> String? {
             switch self {
-            case .high:   return NSLocalizedString("High",     bundle: .mpolKit, comment: "Alert Level Title")
+            case .high: return NSLocalizedString("High", bundle: .mpolKit, comment: "Alert Level Title")
             case .medium: return NSLocalizedString("Medium", bundle: .mpolKit, comment: "Alert Level Title")
-            case .low:    return NSLocalizedString("Low",      bundle: .mpolKit, comment: "Alert Level Title")
+            case .low: return NSLocalizedString("Low", bundle: .mpolKit, comment: "Alert Level Title")
             }
         }
     }
