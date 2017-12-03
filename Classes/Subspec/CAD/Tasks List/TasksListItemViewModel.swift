@@ -9,32 +9,34 @@
 import UIKit
 
 public class TasksListItemViewModel {
+    public let identifier: String
     public let title: String
     public let subtitle: String
     public let caption: String
-    public let status: String?
     public let priority: String?
     public let description: String?
     public let resources: [TasksListItemResourceViewModel]?
 
-    public var boxText: String {
-        return priority ?? ""
+    public var badgeText: String? {
+        return priority
     }
     
-    public let boxColor: UIColor
-    public let boxFilled: Bool
+    public let badgeTextColor: UIColor?
+    public let badgeFillColor: UIColor?
+    public let badgeBorderColor: UIColor?
     public var hasUpdates: Bool
     
-    public init(title: String, subtitle: String, caption: String, status: String? = nil, priority: String? = nil, description: String? = nil, resources: [TasksListItemResourceViewModel]? = nil, boxColor: UIColor, boxFilled: Bool, hasUpdates: Bool) {
+    public init(identifier: String, title: String, subtitle: String, caption: String, priority: String? = nil, description: String? = nil, resources: [TasksListItemResourceViewModel]? = nil, badgeTextColor: UIColor?, badgeFillColor: UIColor?, badgeBorderColor: UIColor?, hasUpdates: Bool) {
+        self.identifier = identifier
         self.title = title
         self.subtitle = subtitle
         self.caption = caption
         self.description = description
         self.resources = resources
-        self.status = status
         self.priority = priority
-        self.boxColor = boxColor
-        self.boxFilled = boxFilled
+        self.badgeTextColor = badgeTextColor
+        self.badgeFillColor = badgeFillColor
+        self.badgeBorderColor = badgeBorderColor
         self.hasUpdates = hasUpdates
     }
 }

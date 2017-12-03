@@ -90,10 +90,11 @@ open class BookOnDetailsFormViewModel {
     open func submitForm() -> Promise<()> {
         // Update session
         // TODO: convert view model to BookOnRequest
+        BookOnDetailsFormViewModel.lastSaved = details
+
         let bookOnRequest = BookOnRequest()
         bookOnRequest.callsign = callsignViewModel.callsign
         CADStateManager.shared.lastBookOn = bookOnRequest
-        BookOnDetailsFormViewModel.lastSaved = details
 
         return firstly {
             // TODO: submit to network

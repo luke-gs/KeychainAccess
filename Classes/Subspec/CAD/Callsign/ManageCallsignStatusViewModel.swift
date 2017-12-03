@@ -45,7 +45,11 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
     public override init() {
         selectedIndexPath = IndexPath(row: 0, section: 0)
         super.init()
+
         updateData()
+        if let currentStatus = CADStateManager.shared.currentResource?.status {
+            selectedIndexPath = indexPathForStatus(currentStatus)
+        }
     }
 
     /// Create the view controller for this view model
@@ -92,7 +96,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
         if currentStatus.canChangeToStatus(newStatus: newStatus) {
 
             // TODO: Insert network call here
-            return after(seconds: 2.0).then {
+            return after(seconds: 1.0).then {
                 self.selectedIndexPath = indexPath
                 CADStateManager.shared.updateCallsignStatus(status: newStatus)
                 return Promise(value: self.currentStatus)
@@ -141,6 +145,13 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
         return ResourceStatus.allCases[index]
     }
 
+    private func indexPathForStatus(_ status: ResourceStatus) -> IndexPath {
+        let rawIndex = ResourceStatus.allCases.index(of: status) ?? 0
+        let section = Int(rawIndex / numberOfItems(for: 0))
+        let row = rawIndex % numberOfItems(for: 0)
+        return IndexPath(row: row, section: section)
+    }
+
     // MARK: - Override
 
     /// The title to use in the navigation bar
@@ -156,7 +167,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
     // MARK: - Data
 
     private func itemFromStatus(_ status: ResourceStatus) -> ManageCallsignStatusItemViewModel {
-        return ManageCallsignStatusItemViewModel(title: status.title, image: status.icon()!)
+        return ManageCallsignStatusItemViewModel(title: status.title, image: status.icon!)
     }
 
     open func updateData() {
