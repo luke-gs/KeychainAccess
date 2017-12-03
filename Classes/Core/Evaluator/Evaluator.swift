@@ -64,24 +64,30 @@ final public class Evaluator {
 
 
     /// The last stored value of the validation state for a specific key
+    /// Will throw when attempting to retrieve state for a key that doesn't exist
     ///
     /// - Parameter key: A key used to check for a specific validation state
     /// - Returns: The state of validation, either true or false
-    public func evaluationState(for key: EvaluatorKey) -> Bool {
-        return evaluationStates[key] ?? true
+    public func evaluationState(for key: EvaluatorKey) throws -> Bool {
+        guard let state = evaluationStates[key] else {
+            throw EvaluationError.invalidKey
+        }
+        return state
     }
 
     /// Adds a validation state given that the state exists
+    /// Will throw when provided a key that doesn't exist in the stored states
     ///
     /// - Parameters:
     ///   - validationState: The state passed in to be set
     ///   - identifier: The key for the specific validation state
-    public func addEvaluation(_ evaluationState: Bool, for key: EvaluatorKey) {
-        if let state = evaluationStates[key] {
-            if state != evaluationState {
-                evaluationStates[key] = evaluationState
-                notifyObservers(that: key, changedTo: evaluationState)
-            }
+    public func addEvaluation(_ evaluationState: Bool, for key: EvaluatorKey) throws {
+        guard let state = evaluationStates[key] else {
+            throw EvaluationError.invalidKey
+        }
+        if state != evaluationState {
+            evaluationStates[key] = evaluationState
+            notifyObservers(that: key, changedTo: evaluationState)
         }
     }
 
@@ -112,9 +118,9 @@ final public class Evaluator {
         }
     }
 
-    /// Adds an observer to the hashTable of observers
-    ///
-    /// - Parameter observer: The observer must be an ObserverProtocol
+    /// Adds an observer to the array of observers, an array of weak wrappers
+    /// around evaluationObservables
+    /// - Parameter observer: The observer must be an EvaluationObserverable
     public func addObserver(_ observer: EvaluationObserverable) {
         if observers.contains(where: { $0.value === observer }) == false {
             observers.append(WeakObservableWrapper(value: observer))
@@ -143,13 +149,33 @@ final public class Evaluator {
         var isValid = true
         if let handler = evaluators[key] {
             isValid = handler()
-            addEvaluation(isValid, for: key)
+            do {
+                try addEvaluation(isValid, for: key)
+            } catch {
+                isValid = false
+            }
         } else {
             if let state = evaluationStates[key] {
                 isValid = state
             }
         }
         return isValid
+    }
+}
+
+public enum EvaluationError: Error {
+    case invalidKey
+    case nonExistentState
+}
+
+extension EvaluationError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .invalidKey:
+            return "The key provided is invalid."
+        case .nonExistentState:
+            return "The state you are trying to retrieve or the key is invalid."
+        }
     }
 }
 

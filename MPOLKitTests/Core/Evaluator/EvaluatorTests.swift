@@ -18,6 +18,7 @@ fileprivate extension EvaluatorKey {
     static let test2 = EvaluatorKey(rawValue: "test2")
     static let test3 = EvaluatorKey(rawValue: "test3")
     static let test4 = EvaluatorKey(rawValue: "test4")
+    static let testThrow = EvaluatorKey(rawValue: "testThrow")
 }
 
 class EvaluatorTests: XCTestCase {
@@ -68,8 +69,12 @@ class EvaluatorTests: XCTestCase {
         evaluatable?.evaluator.registerKey(.test3, withHandler: { () -> (Bool) in
             return true
         })
+        XCTAssertNoThrow(try evaluatable?.evaluator.evaluationState(for: .test3) == true)
+        XCTAssertThrowsError(try evaluatable?.evaluator.evaluationState(for: .testThrow) == true)
 
-        XCTAssertTrue(evaluatable?.evaluator.evaluationState(for: .test3) == true, "Should return the correct state for test3 identifier")
+        do {
+            XCTAssertTrue(try evaluatable?.evaluator.evaluationState(for: .test3) == true, "Should return the correct state for test3 identifier")
+        }
     }
 
     func testInvalidEvaluationState() {
@@ -77,7 +82,10 @@ class EvaluatorTests: XCTestCase {
             return false
         })
 
-        XCTAssertTrue(evaluatable?.evaluator.evaluationState(for: .test4) == false, "Should return the false for test4 identifier")
+        do {
+            XCTAssertTrue(try evaluatable?.evaluator.evaluationState(for: .test4) == false, "Should return the false for test4 identifier")
+        }
+
     }
 
     func testInvalidWithMultipleIdentifiers() {
