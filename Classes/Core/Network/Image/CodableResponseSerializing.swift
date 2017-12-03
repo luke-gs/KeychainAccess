@@ -9,10 +9,6 @@
 import UIKit
 import Alamofire
 
-public enum ResourceError: Error {
-    case invalidResourceData
-}
-
 class CodableResponseSerializing<T: Codable>: ResponseSerializing {
     public typealias ResultType = T
     public let keyPath: String?
