@@ -185,7 +185,7 @@ open class CADStateManager: NSObject {
         var resources: [SyncDetailsResource] = []
         if let syncDetails = lastSync {
             for resource in syncDetails.resources {
-                if resource.currentIncident == incidentNumber {
+                if resource.assignedIncidents.contains(incidentNumber) {
                     resources.append(resource)
                 }
             }

@@ -48,4 +48,32 @@ extension SyncDetailsIncident {
     open var resourceCountString: String {
         return resourceCount > 0 ? "(\(resourceCount))" : ""
     }
+    
+    open var createdAtString: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        formatter.doesRelativeDateFormatting = true
+        
+        return formatter.string(from: createdAt)
+    }
+    
+    open var lastUpdatedString: String {
+        let timeInterval = Int(abs(lastUpdated.timeIntervalSinceNow))
+        // TODO: Convert to mins hours etc.
+        return "\(timeInterval) seconds ago"
+    }
+}
+
+extension SyncDetailsIncidentPerson {
+    open var initials: String {
+        return "\(firstName.prefix(1))\(lastName.prefix(1))"
+    }
+    
+    open var fullName: String {
+        let lastFirst = [lastName, firstName].removeNils().joined(separator: ", ")
+        let middle = middleNames != nil ? "\(middleNames.prefix(1))." : ""
+        
+        return "\(lastFirst) \(middle)"
+    }
 }

@@ -30,23 +30,23 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<EntitySum
         guard let incident = CADStateManager.shared.incidentsById[incidentNumber] else { return }
         sections = []
         
-        let personsViewModels = incident.persons?.map { person in
+        let personsViewModels = incident.associations.persons?.map { person in
             return IncidentAssociationItemViewModel(category: "DS1",
                                                     entityType: .person(initials: person.initials),
                                                     title: person.fullName,
                                                     detail1: "\(person.dateOfBirth ?? "") \(person.gender ?? "")",
-                                                    detail2: person.jurisdiction, // TODO: Get address
+                                                    detail2: person.fullAddress,
                                                     borderColor: nil,
                                                     iconColor: nil,
                                                     badge: 0)
         } ?? []
         
-        let vehiclesViewModels = incident.vehicles?.map { vehicle in
+        let vehiclesViewModels = incident.associations.vehicles?.map { vehicle in
             return IncidentAssociationItemViewModel(category: "DS1",
                                                     entityType: .vehicle,
                                                     title: vehicle.plateNumber,
-                                                    detail1: vehicle.vehicleType,
-                                                    detail2: vehicle.vehicleDescription,
+                                                    detail1: vehicle.vehicleDescription,
+                                                    detail2: [vehicle.bodyType, vehicle.color].removeNils().joined(separator: " • "),
                                                     borderColor: nil,
                                                     iconColor: nil,
                                                     badge: 0)

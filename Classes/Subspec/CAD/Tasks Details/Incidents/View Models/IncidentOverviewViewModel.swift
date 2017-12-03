@@ -53,23 +53,23 @@ open class IncidentOverviewViewModel: TaskDetailsViewModel {
                                                                               width: .column(4)),
                                                 
                                                 IncidentOverviewItemViewModel(title: "Primary Code",
-                                                                              value: incident.incidentNumber,
+                                                                              value: incident.number,
                                                                               width: .column(4)),
                                                 
                                                 IncidentOverviewItemViewModel(title: "Secondary Code",
-                                                                              value: "", // TODO: Get this
+                                                                              value: incident.secondaryCode,
                                                                               width: .column(4)),
                                                 
                                                 IncidentOverviewItemViewModel(title: "Patrol Area",
-                                                                              value: incident.zone,
+                                                                              value: incident.patrolGroup,
                                                                               width: .column(4)),
                                                 
                                                 IncidentOverviewItemViewModel(title: "Created",
-                                                                              value: "", // TODO: Get this
+                                                                              value: incident.createdAtString,
                                                                               width: .column(4)),
                                                 
                                                 IncidentOverviewItemViewModel(title: "Last Updated",
-                                                                              value: "", // TODO: Get thiss
+                                                                              value: incident.lastUpdatedString,
                                                                               width: .column(4)),
             ]),
             
