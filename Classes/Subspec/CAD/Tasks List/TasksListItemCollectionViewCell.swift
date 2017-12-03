@@ -217,7 +217,7 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
         }
     }
     
-    public func configurePriority(text: String, textColor: UIColor?, fillColor: UIColor?, borderColor: UIColor?) {
+    public func configurePriority(text: String?, textColor: UIColor?, fillColor: UIColor?, borderColor: UIColor?) {
         priorityLabel.text = text
         priorityLabel.textColor = textColor
         priorityBackground.backgroundColor = fillColor
