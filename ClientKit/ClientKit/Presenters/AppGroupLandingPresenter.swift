@@ -123,7 +123,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter {
 }
 
 
-extension AppGroupLandingPresenter: LoginViewControllerDelegate {
+extension AppGroupLandingPresenter: UsernamePasswordDelegate {
 
     open func loginViewControllerDidAppear(_ controller: LoginViewController) {
     }
