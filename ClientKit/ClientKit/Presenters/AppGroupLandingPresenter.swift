@@ -125,6 +125,12 @@ open class AppGroupLandingPresenter: NSObject, Presenter {
 
 extension AppGroupLandingPresenter: UsernamePasswordDelegate {
 
+    public var wantsForgotPassword: Bool {
+        get {
+            return true
+        }
+    }
+
     public func loginViewControllerDidAppear(_ controller: LoginViewController) {
     }
 
