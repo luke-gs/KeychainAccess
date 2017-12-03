@@ -194,7 +194,7 @@ open class TasksListContainerViewModel {
                 return TasksListItemViewModel(identifier: incident.identifier,
                     title: [incident.type, incident.resourceCountString].removeNils().joined(separator: " "),
                     subtitle: incident.location.fullAddress,
-                    caption: [incident.identifier, incident.secondaryCode].removeNils().joined(separator: " "),
+                    caption: [incident.identifier, incident.secondaryCode].removeNils().joined(separator: " • "),
                     priority: incident.grade.rawValue,
                     description: incident.details,
                     resources: nil, // TODO: Get resources
