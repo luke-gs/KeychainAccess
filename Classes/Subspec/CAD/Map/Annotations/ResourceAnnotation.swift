@@ -16,11 +16,11 @@ public class ResourceAnnotation: TaskAnnotation {
     public var iconTintColor: UIColor?
     public var pulsing: Bool
     
-    public init(identifier: String, coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?, status: String, icon: UIImage?, iconBackgroundColor: UIColor, iconTintColor: UIColor?, pulsing: Bool) {
+    public init(identifier: String, coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?, icon: UIImage?, iconBackgroundColor: UIColor, iconTintColor: UIColor?, pulsing: Bool) {
         self.icon = icon
         self.iconBackgroundColor = iconBackgroundColor
         self.iconTintColor = iconTintColor
         self.pulsing = pulsing
-        super.init(identifier: identifier, coordinate: coordinate, title: title, subtitle: subtitle, status: status)
+        super.init(identifier: identifier, coordinate: coordinate, title: title, subtitle: subtitle)
     }
 }

@@ -98,7 +98,7 @@ open class UserCallsignStatusViewModel {
         if let bookOn = CADStateManager.shared.lastBookOn {
             self.state = .assigned(callsign: bookOn.callsign,
                                    status: CADStateManager.shared.currentResource?.status.title ?? "",
-                                   image: CADStateManager.shared.currentResource?.type.icon())
+                                   image: CADStateManager.shared.currentResource?.type.icon)
         } else {
             self.state = UserCallsignStatusViewModel.defaultNotBookedOnState
         }

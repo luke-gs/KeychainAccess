@@ -22,7 +22,6 @@ open class SyncDetailsIncident: Codable {
     open var persons : [SyncDetailsIncidentPerson]!
     open var revisedType : String!
     open var severity : Int!
-    open var status : String!
     open var vehicles : [SyncDetailsIncidentVehicle]!
     open var zone : String!
 }
