@@ -36,12 +36,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         MPOLKitInitialize()
         
-        let refreshToken = RefreshTokenPlugin().onRefreshTokenFailed({ [unowned self] error in
+        let refreshToken = RefreshTokenPlugin().onRefreshTokenFailed { [unowned self] error in
             UserSession.current.endSession()
             self.landingPresenter.updateInterfaceForUserSession(animated: true)
             AlertQueue.shared.addSimpleAlert(title: "Session Ended", message: error?.localizedDescription)
             return Promise(error: error!)
-        })
+        }
         
         var plugins: [PluginType] = [refreshToken]
         #if DEBUG
@@ -216,7 +216,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     #if !EXTERNAL
 
-    //MARK: Endpoints
+    // MARK: - Endpoints
     @objc private func endpointChanged() {
 
         guard let endpoint = EndpointManager.selectedEndpoint?.url?.absoluteString else { return }
