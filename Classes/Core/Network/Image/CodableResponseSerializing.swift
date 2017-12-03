@@ -9,7 +9,8 @@
 import UIKit
 import Alamofire
 
-class CodableResponseSerializing<T: Codable>: ResponseSerializing {
+public class CodableResponseSerializing<T: Codable>: ResponseSerializing {
+
     public typealias ResultType = T
     public let keyPath: String?
     public init(keyPath: String? = nil) {
