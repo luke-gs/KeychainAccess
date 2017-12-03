@@ -191,8 +191,8 @@ open class TasksListContainerViewModel {
             let (status, incidents) = arg
             
             let taskViewModels = incidents.map { incident in
-                return TasksListItemViewModel(identifier: incident.number,
-                    title: "\(incident.type ?? "") \(incident.resourceCountString)",
+                return TasksListItemViewModel(identifier: incident.incidentNumber,
+                    title: [incident.incidentType, incident.resourceCountString].removeNils().joined(separator: " "),
                     subtitle: incident.location.fullAddress,
                     caption: incident.number, // TODO: Find out what second number is
                     priority: incident.grade.rawValue,

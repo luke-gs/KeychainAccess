@@ -17,8 +17,8 @@ public class TasksListItemViewModel {
     public let description: String?
     public let resources: [TasksListItemResourceViewModel]?
 
-    public var badgeText: String {
-        return priority ?? ""
+    public var badgeText: String? {
+        return priority
     }
     
     public let badgeTextColor: UIColor?
