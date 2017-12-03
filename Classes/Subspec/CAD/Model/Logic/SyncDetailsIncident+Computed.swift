@@ -45,7 +45,7 @@ extension SyncDetailsIncident {
         return CADStateManager.shared.resourcesForIncident(incidentNumber: incidentNumber).count
     }
     
-    open var resourceCountString: String {
-        return resourceCount > 0 ? "(\(resourceCount))" : ""
+    open var resourceCountString: String? {
+        return resourceCount > 0 ? "(\(resourceCount))" : nil
     }
 }
