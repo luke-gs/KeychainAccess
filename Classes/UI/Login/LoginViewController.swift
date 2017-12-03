@@ -836,10 +836,11 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         if isLoginButtonLoaded == false { return }
 
         switch loginMode {
-        case .usernamePassword:
+        case .usernamePassword(let delegate):
             let isUsernameValid: Bool = isUsernameFieldLoaded && usernameField.text?.count ?? 0 >= minimumUsernameLength
             let isPasswordValid: Bool = isPasswordFieldLoaded && passwordField.text?.count ?? 0 >= minimumPasswordLength
             loginButton.isEnabled = isUsernameValid && isPasswordValid
+            forgotPasswordButton.isHidden = !(delegate?.wantsForgotPassword ?? true)
         case .externalAuth:
             loginButton.isEnabled = true
         }
@@ -858,17 +859,17 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
 
 
 public protocol LoginViewControllerDelegate {
-
     func loginViewControllerDidAppear(_ controller: LoginViewController)
 }
 
-// names are open to feedback
 public enum LoginMode {
     case usernamePassword(delegate: UsernamePasswordDelegate?)
     case externalAuth(delegate: ExternalAuthDelegate?)
 }
 
 public protocol UsernamePasswordDelegate: LoginViewControllerDelegate {
+
+    var wantsForgotPassword: Bool { get }
 
     func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String)
     func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton)
