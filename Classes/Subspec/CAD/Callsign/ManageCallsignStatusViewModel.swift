@@ -94,17 +94,10 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
 
     public var incidentTaskViewModel: IncidentTaskItemViewModel? {
         if let incident = CADStateManager.shared.currentIncident, let resource = CADStateManager.shared.currentResource {
-            return IncidentTaskItemViewModel(incidentNumber: incident.identifier,
-                                             iconImage: resource.status.icon,
-                                             iconTintColor: resource.status.iconColors.icon,
-                                             color: resource.status.iconColors.background,
-                                             statusText: resource.status.title,
-                                             itemName: [incident.type, incident.resourceCountString].removeNils().joined(separator: " "),
-                                             lastUpdated: resource.lastUpdated.elapsedTimeIntervalForHuman())
+            return IncidentTaskItemViewModel(incident: incident, resource: resource)
         }
         return nil
     }
-
 
     /// The subtitle to use in the navigation bar
     open func navSubtitle() -> String {
