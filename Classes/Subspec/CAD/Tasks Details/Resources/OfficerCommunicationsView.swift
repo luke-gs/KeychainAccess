@@ -31,6 +31,7 @@ open class OfficerCommunicationsView: UIView {
         stackView = UIStackView(arrangedSubviews: [messageButton, callButton])
         
         stackView.spacing = 24
+        stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
         addSubview(stackView)

@@ -30,11 +30,11 @@ open class IncidentResourcesViewModel: CADFormCollectionViewModel<IncidentResour
                                                     subtitle: [officer.rank, officer.payrollIdDisplayString, officer.licenceTypeId]
                                                         .removeNils().joined(separator: "  •  "),
                                                     badgeText: resource.driver == officer.payrollId ? "DRIVER": nil,
-                                                    commsEnabled: (false, false))
+                                                    commsEnabled: (false, officer.contactNumber != nil))
                 }
                 
-                let resourceViewModel = IncidentResourceItemViewModel(title: [resource.callsign,
-                                                                              resource.officerCountString].removeNils().joined(separator: " "),
+                let resourceViewModel = IncidentResourceItemViewModel(title: [resource.callsign, resource.officerCountString]
+                                                                             .removeNils().joined(separator: " "),
                                                                       subtitle: resource.status.title,
                                                                       officers: officerViewModels)
                 

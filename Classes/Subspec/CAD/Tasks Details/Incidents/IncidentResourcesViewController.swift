@@ -32,7 +32,7 @@ open class IncidentResourcesViewController: FormBuilderViewController {
                 for officer in item.officers {
                     builder += CustomFormItem(cellType: OfficerCell.self, reuseIdentifier: "OfficerCell").onConfigured { cell in
                         guard let cell = cell as? OfficerCell else { return }
-                        let commsView = OfficerCommunicationsView(frame: CGRect(x: 0, y: 0, width: 72, height: 48))
+                        let commsView = OfficerCommunicationsView(frame: CGRect(x: 0, y: 0, width: 88, height: 32))
                         if self.traitCollection.horizontalSizeClass == .compact {
                             cell.accessoryView = FormAccessoryView(style: .overflow)
                         } else {
