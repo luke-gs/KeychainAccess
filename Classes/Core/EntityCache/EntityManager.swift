@@ -150,10 +150,10 @@ public class EntitySnapshot: EntitySnapshotable {
             return Promise(error: EntitySnapshotError.InvalidManager)
         }
 
-        return entityManager.fetch(entity).then(execute: { [weak self] (entity) -> MPOLKitEntity in
+        return entityManager.fetch(entity).then { [weak self] (entity) -> MPOLKitEntity in
             self?.entity = entity
             return entity
-        })
+        }
     }
 
     deinit {
