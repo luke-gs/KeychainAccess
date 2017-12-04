@@ -67,6 +67,9 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setTitleView(title: viewModel.navTitle(), subtitle: viewModel.navSubtitle())
+        
+        // Forces any loading cell to keep playing the animation.
+        collectionView.reloadData()
     }
 
     override func viewDidLayoutSubviews() {

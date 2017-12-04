@@ -94,9 +94,26 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
     open func setSelectedIndexPath(_ indexPath: IndexPath) -> Promise<ResourceStatus> {
         let newStatus = statusForIndexPath(indexPath)
         if currentStatus.canChangeToStatus(newStatus: newStatus) {
-
-            // TODO: Insert network call here
-            return after(seconds: 1.0).then {
+            
+            return firstly {
+                // Traffic stop requires extra information
+                if case .trafficStop = newStatus {
+                    return firstly { [weak self] in
+                        SelectStoppedVehicleViewModel.prompt(using: self?.delegate)
+                    }.then { [weak self] in
+                        TrafficStopViewModel.prompt(using: self?.delegate)
+                    }.then { [weak self] _ -> Void in
+//                        _ = self?.delegate?.popPushedViewController(animated: false)
+                        _ = self?.delegate?.popPushedViewController(animated: true)
+                    }
+                }
+                
+                // Otherwise start from next block
+                return Promise<Void>()
+            }.then {
+                // TODO: Insert network call here
+                after(seconds: 1.0)
+            }.then {
                 self.selectedIndexPath = indexPath
                 CADStateManager.shared.updateCallsignStatus(status: newStatus)
                 return Promise(value: self.currentStatus)
