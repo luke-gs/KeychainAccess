@@ -15,18 +15,20 @@ open class OfficerCommunicationsView: UIView {
     public let messageButton = DisableableButton(frame: .zero)
     public let callButton = DisableableButton(frame: .zero)
     
-    public override init(frame: CGRect) {
+    public init(frame: CGRect, commsEnabled: (text: Bool, call: Bool)) {
         super.init(frame: frame)
         
         messageButton.setImage(AssetManager.shared.image(forKey: .message), for: .normal)
         messageButton.imageView?.contentMode = .scaleAspectFit
         messageButton.enabledColor = .brightBlue
         messageButton.disabledColor = .disabledGray
+        messageButton.isEnabled = commsEnabled.text
         
         callButton.setImage(AssetManager.shared.image(forKey: .audioCall), for: .normal)
         callButton.imageView?.contentMode = .scaleAspectFit
         callButton.enabledColor = .brightBlue
         callButton.disabledColor = .disabledGray
+        callButton.isEnabled = commsEnabled.call
         
         stackView = UIStackView(arrangedSubviews: [messageButton, callButton])
         
