@@ -10,10 +10,19 @@ import UIKit
 
 extension SyncDetailsOfficer {
     
-    /// Concatenation of first and last name
-    open var firstLastName: String {
-        return [firstName, lastName].removeNils().joined(separator: " ")
+    open var displayName: String {
+        var nameComponents = PersonNameComponents()
+        nameComponents.givenName = firstName
+        nameComponents.middleName = middleName
+        nameComponents.familyName = lastName
+        return OfficerDetailsResponse.nameFormatter.string(from: nameComponents)
     }
+    
+    open static var nameFormatter: PersonNameComponentsFormatter = {
+        let nameFormatter = PersonNameComponentsFormatter()
+        nameFormatter.style = .medium
+        return nameFormatter
+    }()
     
     open var payrollIdDisplayString: String? {
         if let payrollId = payrollId {
