@@ -24,20 +24,3 @@ open class SyncDetailsOfficer: Codable {
     open var remarks: String!
     open var capabilties: String!
 }
-
-/// Extension for utility methods
-extension SyncDetailsOfficer {
-    open var displayName: String {
-        var nameComponents = PersonNameComponents()
-        nameComponents.givenName = firstName
-        nameComponents.middleName = middleName
-        nameComponents.familyName = lastName
-        return OfficerDetailsResponse.nameFormatter.string(from: nameComponents)
-    }
-
-    open static var nameFormatter: PersonNameComponentsFormatter = {
-        let nameFormatter = PersonNameComponentsFormatter()
-        nameFormatter.style = .medium
-        return nameFormatter
-    }()
-}

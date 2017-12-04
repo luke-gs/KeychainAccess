@@ -9,33 +9,32 @@
 import UIKit
 
 open class OfficerCommunicationsView: UIView {
-
+    
     private var stackView: UIStackView!
 
-    public let messageButton = UIButton(frame: .zero)
-    public let callButton = UIButton(frame: .zero)
-    public let videoButton = UIButton(frame: .zero)
+    public let messageButton = DisableableButton(frame: .zero)
+    public let callButton = DisableableButton(frame: .zero)
     
-    public override init(frame: CGRect) {
+    public init(frame: CGRect, commsEnabled: (text: Bool, call: Bool)) {
         super.init(frame: frame)
         
-        // TODO: Get real image from creative (waiting on exportable...)
-        messageButton.setImage(AssetManager.shared.image(forKey: .email), for: .normal)
-        messageButton.tintColor = .brightBlue
+        messageButton.setImage(AssetManager.shared.image(forKey: .message), for: .normal)
+        messageButton.imageView?.contentMode = .scaleAspectFit
+        messageButton.enabledColor = .brightBlue
+        messageButton.disabledColor = .disabledGray
+        messageButton.isEnabled = commsEnabled.text
         
         callButton.setImage(AssetManager.shared.image(forKey: .audioCall), for: .normal)
-        callButton.contentMode = .scaleAspectFit
-        callButton.tintColor = .brightBlue
+        callButton.imageView?.contentMode = .scaleAspectFit
+        callButton.enabledColor = .brightBlue
+        callButton.disabledColor = .disabledGray
+        callButton.isEnabled = commsEnabled.call
         
-        videoButton.setImage(AssetManager.shared.image(forKey: .videoCall), for: .normal)
-        videoButton.tintColor = .brightBlue
-
-        stackView = UIStackView(arrangedSubviews: [messageButton, callButton, videoButton])
+        stackView = UIStackView(arrangedSubviews: [messageButton, callButton])
         
         stackView.spacing = 24
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
-//        stackView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
         addSubview(stackView)
         
