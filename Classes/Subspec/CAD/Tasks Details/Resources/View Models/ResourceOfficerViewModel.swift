@@ -13,5 +13,5 @@ public struct ResourceOfficerViewModel {
     public var title: String
     public var subtitle: String
     public var badgeText: String?
-    public var commsEnabled: (text: Bool, call: Bool, video: Bool)
+    public var commsEnabled: (text: Bool, call: Bool)
 }
