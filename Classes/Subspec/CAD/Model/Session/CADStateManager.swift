@@ -195,8 +195,8 @@ open class CADStateManager: NSObject {
 
     /// Return the current incident for a resource
     open func incidentForResource(callsign: String) -> SyncDetailsIncident? {
-        if let resource = resourcesById[callsign] {
-            return incidentsById[resource.currentIncident]
+        if let resource = resourcesById[callsign], let incidentId = resource.currentIncident {
+            return incidentsById[incidentId]
         }
         return nil
     }
