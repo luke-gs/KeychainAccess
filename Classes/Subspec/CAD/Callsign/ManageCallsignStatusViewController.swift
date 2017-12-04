@@ -39,7 +39,7 @@ open class ManageCallsignStatusViewController: UIViewController, PopoverViewCont
     open var incidentFormHeight: NSLayoutConstraint!
 
     /// Support being transparent when in popover/form sheet
-    open var wantsTransparentBackground: Bool = true {
+    open var wantsTransparentBackground: Bool = false {
         didSet {
             view.backgroundColor = wantsTransparentBackground ? UIColor.clear : theme.color(forKey: .background)!
             incidentFormVC.wantsTransparentBackground = wantsTransparentBackground
@@ -252,6 +252,8 @@ open class ManageCallsignStatusViewController: UIViewController, PopoverViewCont
     }
 
     open func apply(_ theme: Theme) {
+        view.backgroundColor = wantsTransparentBackground ? .clear : theme.color(forKey: .background)
+
         // Theme button separators
         for separatorView in buttonSeparatorViews {
             separatorView.backgroundColor = theme.color(forKey: .separator)
