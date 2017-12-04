@@ -35,7 +35,7 @@ public class ActionListViewController: FormBuilderViewController {
         loadingManager.noContentView.titleLabel.text = "No Pinned Entities"
         loadingManager.noContentView.subtitleLabel.text = "Any pinned entities will show up here."
 
-        NotificationCenter.default.addObserver(self, selector: #selector(handleEntityCacheUpdate(_:)), name: EntityBucket.didUpdateNotificationName, object: UserSession.current.recentlyActioned)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleRecentlyActionedUpdate(_:)), name: EntityBucket.didUpdateNotificationName, object: UserSession.current.recentlyActioned)
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -49,8 +49,8 @@ public class ActionListViewController: FormBuilderViewController {
     // MARK: - Layout
 
     public override func construct(builder: FormBuilder) {
-        let entityCache = UserSession.current.recentlyActioned
-        builder += viewModel.formItems(forEntitiesInCache: entityCache, in: traitCollection)
+        let recentlyActioned = UserSession.current.recentlyActioned
+        builder += viewModel.formItems(forEntitiesInCache: recentlyActioned, in: traitCollection)
     }
 
     public override func viewDidLoad() {
@@ -73,13 +73,13 @@ public class ActionListViewController: FormBuilderViewController {
     // MARK: - Private
 
     private func updateLoadingManageState() {
-        let entityCache = UserSession.current.recentlyActioned
-        let numberOfEntities = entityCache.entities.count
+        let recentlyActioned = UserSession.current.recentlyActioned
+        let numberOfEntities = recentlyActioned.entities.count
         tabBarItem.badgeValue = numberOfEntities > 0 ? "\(numberOfEntities)" : nil
         loadingManager.state = numberOfEntities > 0 ? .loaded : .noContent
     }
 
-    @objc private func handleEntityCacheUpdate(_ notification: Notification) {
+    @objc private func handleRecentlyActionedUpdate(_ notification: Notification) {
         reloadForm()
         updateLoadingManageState()
     }

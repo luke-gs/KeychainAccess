@@ -18,9 +18,9 @@ public enum EntityBucketError: Error {
 
 public class EntityBucket {
 
-    public static let didUpdateNotificationName = Notification.Name(rawValue: "EntityCacheDidUpdateNotification")
-    public static let addedEntitiesKey: String = "EntityCacheAddedEntitiesKey"
-    public static let removedEntitiesKey: String = "EntityCacheRemovedEntitiesKey"
+    public static let didUpdateNotificationName = Notification.Name(rawValue: "EntityBucketDidUpdateNotification")
+    public static let addedEntitiesKey: String = "EntityBucketAddedEntitiesKey"
+    public static let removedEntitiesKey: String = "EntityBucketRemovedEntitiesKey"
 
     public let entityManager: EntityManager
 
