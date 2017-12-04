@@ -20,6 +20,15 @@ open class MapFilterSectionView: UIView {
     
     private let section: MapFilterSection
     
+    /// Whether to disable selection of the toggle row items when
+    /// the section's toggle is disabled. Default value is `false`.
+    open var disablesCheckboxesOnSectionDisabled = false {
+        didSet {
+            // Update the toggle rows for toggle state and this property
+            updateToggleRows()
+        }
+    }
+    
     /// Title label on the left side
     open var titleLabel = UILabel()
     
@@ -69,7 +78,7 @@ open class MapFilterSectionView: UIView {
         toggle.offTintColor = #colorLiteral(red: 0.8431087136, green: 0.8431568742, blue: 0.8508625627, alpha: 1)
         toggle.onBorderTintColor = .clear
         toggle.offBorderTintColor = .clear
-        toggle.addTarget(self, action: #selector(toggleChanged), for: .valueChanged)
+        toggle.addTarget(self, action: #selector(updateToggleRows), for: .valueChanged)
         toggle.isHidden = section.isOn != nil
         toggle.translatesAutoresizingMaskIntoConstraints = false
         addSubview(toggle)
@@ -121,15 +130,19 @@ open class MapFilterSectionView: UIView {
         ])
     }
     
-    /// Called when the toggle has changed value
-    @objc open func toggleChanged() {
+    /// Updates the toggle rows for the section toggle's state
+    @objc open func updateToggleRows() {
         // Do nothing if we aren't using a toggle
         guard section.isOn != nil else { return }
         
         // Disable all checkboxes if toggle is off, otherwise revert to original state
         toggleRows.forEach { row in
             for (option, checkbox) in zip(row.toggleRow.options, row.options) {
-                checkbox.isEnabled = toggle.isOn ? option.isEnabled : false
+                if disablesCheckboxesOnSectionDisabled {
+                    checkbox.isEnabled = toggle.isOn ? option.isEnabled : false
+                } else {
+                    checkbox.isEnabled = option.isEnabled
+                }
             }
         }
     }

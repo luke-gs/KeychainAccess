@@ -44,12 +44,13 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
         }
         
         // Use a generic sidebar title
-        return NSLocalizedString("Details", comment: "Title for for entity details")
+        return NSLocalizedString("Details", comment: "Title for for task details")
     }
     
     /// Updates the header view with the details for the latest selected representation.
     /// Call this methodwhen the selected representation changes.
     private func updateHeaderView() {
+        headerView.iconView.tintColor = detailViewModel.iconTintColor
         headerView.iconView.image = detailViewModel.iconImage
         headerView.iconView.contentMode = .center
         headerView.captionLabel.text = detailViewModel.statusText?.localizedUppercase

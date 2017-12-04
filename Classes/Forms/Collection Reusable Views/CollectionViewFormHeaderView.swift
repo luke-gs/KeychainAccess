@@ -16,7 +16,9 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
     // MARK: - Sizing
     
     public static let minimumHeight: CGFloat = 36.0
-    
+
+    private let updatesIndicatorSize: CGFloat = 10
+    private let updatesIndicatorOffset: CGFloat = 16
     
     // MARK: - Public properties
     
@@ -53,6 +55,14 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
         }
     }
     
+    /// A boolean value indication whether the updates indicator dot should be shown when collapsed.
+    ///
+    /// The default is `false`.
+    public var showsUpdatesIndicatorWhenCollapsed: Bool = false {
+        didSet {
+            updatesIndicatorView.isHidden = !(showsUpdatesIndicatorWhenCollapsed && !isExpanded)
+        }
+    }
     
     /// A boolean value indicating whether the expand arrow should be in an expanded state.
     ///
@@ -61,6 +71,7 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
         didSet {
             if isExpanded != oldValue {
                 arrowView.transform = isExpanded ? .identity :  CGAffineTransform(rotationAngle: CGFloat.pi * (isRightToLeft ? 0.5 : -0.5))
+                updatesIndicatorView.isHidden = !(showsUpdatesIndicatorWhenCollapsed && !isExpanded)
             }
         }
     }
@@ -131,6 +142,8 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
     
     private let arrowView = UIImageView(image: AssetManager.shared.image(forKey: .dropDown))
     
+    private let updatesIndicatorView = UIImageView(frame: .zero)
+    
     private var indexPath: IndexPath?
     
     private var separatorHeightConstraint: NSLayoutConstraint!
@@ -169,6 +182,10 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
         arrowView.translatesAutoresizingMaskIntoConstraints = false
         arrowView.transform = CGAffineTransform(rotationAngle: CGFloat.pi * (isRightToLeft ? 0.5 : -0.5))
         arrowView.isHidden = true
+
+        updatesIndicatorView.isHidden = true
+        updatesIndicatorView.image = UIImage.statusDot(withColor: .secondaryGray)
+        updatesIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textColor = tintColor
@@ -180,6 +197,7 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
         addSubview(separatorView)
         addSubview(titleLabel)
         addSubview(arrowView)
+        addSubview(updatesIndicatorView)
         
         isUserInteractionEnabled = showsExpandArrow
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(performTapAction)))
@@ -193,6 +211,12 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
         NSLayoutConstraint.activate([
             arrowView.centerXAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor, constant: (arrowView.image?.size.width ?? 0.0) / 2.0),
             arrowView.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            
+            updatesIndicatorView.centerYAnchor.constraint(equalTo: arrowView.centerYAnchor),
+            updatesIndicatorView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor, constant: -updatesIndicatorOffset),
+            updatesIndicatorView.heightAnchor.constraint(equalToConstant: updatesIndicatorSize),
+            updatesIndicatorView.widthAnchor.constraint(equalToConstant: updatesIndicatorSize),
+            
             titleLabel.centerYAnchor.constraint(equalTo: separatorView.centerYAnchor),
             
             separatorView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),

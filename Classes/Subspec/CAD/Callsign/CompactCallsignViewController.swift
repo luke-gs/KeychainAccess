@@ -20,7 +20,7 @@ open class CompactCallsignViewController: UIViewController {
 
     override open func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(updateChildViewControllerIfRequired), name: .CallsignChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateChildViewControllerIfRequired), name: .CADBookOnChanged, object: nil)
     }
 
     override open func viewWillAppear(_ animated: Bool) {
@@ -31,7 +31,7 @@ open class CompactCallsignViewController: UIViewController {
     @objc private func updateChildViewControllerIfRequired() {
         let newCallsignViewController: UIViewController
         
-        if CADUserSession.current.callsign == nil {
+        if CADStateManager.shared.lastBookOn == nil {
             newCallsignViewController = NotBookedOnViewModel().createViewController()
         } else {
             newCallsignViewController = ManageCallsignStatusViewModel().createViewController()
@@ -43,6 +43,7 @@ open class CompactCallsignViewController: UIViewController {
         removeChildViewController(callsignViewController)
         
         let navController = UINavigationController(rootViewController: newCallsignViewController)
+        navController.delegate = self
         
         addChildViewController(navController, toView: view)
         callsignViewController = newCallsignViewController
@@ -54,5 +55,11 @@ open class CompactCallsignViewController: UIViewController {
             navController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             navController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
+    }
+}
+
+extension CompactCallsignViewController: UINavigationControllerDelegate {
+    public func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        viewController.edgesForExtendedLayout.remove(.top)
     }
 }

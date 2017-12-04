@@ -87,23 +87,27 @@ public class TaskMapFilterViewModel: MapFilterViewModel {
     }
     
     /// Which priorities to show
-    public var priorities: [String] {
+    public var priorities: [IncidentGrade] {
         let options = sections[Indexes.incidents].toggleRows[Indexes.ToggleRows.incidentsPriority].options
-        let p1 = options[0].isOn ? options[0].text : nil
-        let p2 = options[1].isOn ? options[1].text : nil
-        let p3 = options[2].isOn ? options[2].text : nil
-        let p4 = options[3].isOn ? options[3].text : nil
         
-        return [p1, p2, p3, p4].removeNils()
+        return (options.map { option in
+            if option.isOn, let text = option.text {
+                return IncidentGrade(rawValue: text)
+            }
+            return nil
+        } as [IncidentGrade?]).removeNils()
     }
     
     /// Which type of incidents to show
-    public var resourcedIncidents: [String] {
+    public var resourcedIncidents: [SyncDetailsIncident.Status] {
         let options = sections[Indexes.incidents].toggleRows[Indexes.ToggleRows.incidentsResourced].options
-        let resourced = options[0].isOn ? options[0].text : nil
-        let unresourced = options[1].isOn ? options[1].text : nil
         
-        return [resourced, unresourced].removeNils()
+        return (options.map { option in
+            if option.isOn, let text = option.text {
+                return SyncDetailsIncident.Status(rawValue: text)
+            }
+            return nil
+        } as [SyncDetailsIncident.Status?]).removeNils()
     }
     
     // MARK: Patrol
@@ -128,12 +132,12 @@ public class TaskMapFilterViewModel: MapFilterViewModel {
     }
     
     /// Which type of resources to show
-    public var taskedResources: [String] {
+    public var taskedResources: (tasked: Bool, untasked: Bool) {
         let options = sections[Indexes.resources].toggleRows[Indexes.ToggleRows.resourcesTasked].options
-        let tasked = options[0].isOn ? options[0].text : nil
-        let untasked = options[1].isOn ? options[1].text : nil
+        let tasked = options[0].isOn
+        let untasked = options[1].isOn
         
-        return [tasked, untasked].removeNils()
+        return (tasked, untasked)
     }
     
     // MARK: - View controller info
@@ -155,4 +159,9 @@ public class TaskMapFilterViewModel: MapFilterViewModel {
     public func footerButtonText() -> String? {
         return NSLocalizedString("Reset Filter", comment: "")
     }
+    
+    public func disablesCheckboxesOnSectionDisabled(for section: Int) -> Bool {
+        return false
+    }
+
 }

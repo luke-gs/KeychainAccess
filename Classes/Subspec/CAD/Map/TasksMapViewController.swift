@@ -11,6 +11,8 @@ import MapKit
 
 open class TasksMapViewController: MapViewController {
     
+    private var savedRegion: MKCoordinateRegion?
+    
     let viewModel: TasksMapViewModel
     var mapLayerFilterButton: UIBarButtonItem!
     var zPositionObservers: [NSKeyValueObservation] = []
@@ -36,7 +38,7 @@ open class TasksMapViewController: MapViewController {
         mapLayerFilterButton = UIBarButtonItem.init(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: self, action: #selector(showMapLayerFilter))
         navigationItem.rightBarButtonItem = mapLayerFilterButton
         
-        viewModel.loadDummyData()
+        viewModel.loadTasks()
         mapView.addAnnotations(viewModel.filteredAnnotations)
     }
     
@@ -67,9 +69,10 @@ open class TasksMapViewController: MapViewController {
             }
 
             annotationView?.configure(withAnnotation: annotation,
-                                      priorityColor: annotation.iconColor,
-                                      priorityText: annotation.iconText,
-                                      priorityFilled: annotation.iconFilled,
+                                      priorityText: annotation.badgeText,
+                                      priorityTextColor: annotation.badgeTextColor,
+                                      priorityFillColor: annotation.badgeFillColor,
+                                      priorityBorderColor: annotation.badgeBorderColor,
                                       usesDarkBackground: annotation.usesDarkBackground)
             
             return annotationView
@@ -116,7 +119,22 @@ open class TasksMapViewController: MapViewController {
             }
         }
     }
+}
 
+extension TasksMapViewController: TasksSplitViewControllerDelegate {
+    public func willChangeSplitWidth(from oldSize: CGFloat, to newSize: CGFloat) {
+        // Store the current region if we are growing split
+        if let mapView = mapView, newSize > oldSize, mapView.bounds.width > 1 {
+            savedRegion = mapView.region
+        }
+    }
+    
+    public func didChangeSplitWidth(from oldSize: CGFloat, to newSize: CGFloat) {
+        // Restore the region if we are shrinking split
+        if let region = savedRegion, let mapView = mapView, newSize < oldSize, mapView.bounds.width > 1 {
+            mapView.setRegion(region, animated: false)
+        }
+    }
 }
 
 extension TasksMapViewController: TasksMapViewModelDelegate {
@@ -125,6 +143,12 @@ extension TasksMapViewController: TasksMapViewModelDelegate {
             self.zPositionObservers.removeAll()
             self.mapView.removeAnnotations(self.mapView.annotations)
             self.mapView.addAnnotations(self.viewModel.filteredAnnotations)
+        }
+    }
+    
+    public func zoomToUserLocation() {
+        DispatchQueue.main.async {
+            self.zoomAndCenterToUserLocation(animated: true)
         }
     }
 }

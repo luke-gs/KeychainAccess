@@ -17,7 +17,7 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
     // MARK: - Override
 
     override open func cellType() -> CollectionViewFormCell.Type {
-        return TasksListItemCell.self
+        return TasksListItemCollectionViewCell.self
     }
 
     override open func decorate(cell: CollectionViewFormCell, with viewModel: TasksListItemViewModel) {
@@ -26,34 +26,88 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
         cell.contentMode = .top
         cell.accessoryView = FormAccessoryView(style: .disclosure)
 
-        if let cell = cell as? TasksListItemCell {
+        if let cell = cell as? TasksListItemCollectionViewCell {
             cell.titleLabel.text = viewModel.title
             cell.subtitleLabel.text = viewModel.subtitle
             cell.captionLabel.text = viewModel.caption
-            cell.configurePriority(color: viewModel.boxColor, priorityText: viewModel.boxText, priorityFilled: viewModel.boxFilled)
+            cell.updatesIndicator.isHidden = !viewModel.hasUpdates
+            cell.configurePriority(text: viewModel.badgeText,
+                                   textColor: viewModel.badgeTextColor,
+                                   fillColor: viewModel.badgeFillColor,
+                                   borderColor: viewModel.badgeBorderColor)
+            
+            cell.detailLabel.text = viewModel.description
+            cell.setStatusRows(viewModel.resources)
         }
     }
 
     open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
 
-        if let cell = cell as? TasksListItemCell {
+        if let cell = cell as? TasksListItemCollectionViewCell {
+            cell.titleLabel.textColor = primaryTextColor
             cell.subtitleLabel.textColor = primaryTextColor
             cell.captionLabel.textColor = secondaryTextColor
         }
     }
+    
+    open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let view = super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
+        
+        if let header = view as? CollectionViewFormHeaderView, let viewModel = viewModel as? TasksListViewModel {
+            header.showsUpdatesIndicatorWhenCollapsed = viewModel.showsUpdatesIndicator(at: indexPath.section)
+        }
+        
+        return view
+    }
+    
     // MARK: - UICollectionViewDelegate
 
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        // TODO: present details?
-    }
+        
+        // Set item as read and reload the section
+        guard let item = viewModel.item(at: indexPath) else { return }
+        item.hasUpdates = false
+        
+        collectionView.reloadSections(IndexSet(integer: indexPath.section))
+        
+        if let viewModel = viewModel(for: item) {
+            let vc = TasksItemSidebarViewController.init(viewModel: viewModel)
+            splitViewController?.navigationController?.pushViewController(vc, animated: true)
+        }
 
+    }
+    
     override open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        if let item = viewModel.item(at: indexPath) {
-            return TasksListItemCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection) + 26
+        if let _ = viewModel.item(at: indexPath) {
+            return 64
         }
         return 0
+    }
+    
+    /// Creates a view model from an annotation
+    public func viewModel(for item: TasksListItemViewModel) -> TaskItemViewModel? {
+        if let resource = CADStateManager.shared.resourcesById[item.identifier] {
+            return ResourceTaskItemViewModel(iconImage: resource.status.icon,
+                                             iconTintColor: resource.status.iconColors.icon,
+                                             color: resource.status.iconColors.background,
+                                             statusText: resource.status.title,
+                                             itemName: [resource.callsign, resource.officerCountString].removeNils().joined(separator: " "),
+                                             lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
+        } else if let incident = CADStateManager.shared.incidentsById[item.identifier],
+            let resource = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier).first
+        {
+            return IncidentTaskItemViewModel(incidentNumber: incident.identifier,
+                                             iconImage: resource.status.icon,
+                                             iconTintColor: resource.status.iconColors.icon,
+                                             color: resource.status.iconColors.background,
+                                             statusText: resource.status.title,
+                                             itemName: [incident.type, incident.resourceCountString].removeNils().joined(separator: " "),
+                lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
+        }
+        
+        return nil
     }
 }
 

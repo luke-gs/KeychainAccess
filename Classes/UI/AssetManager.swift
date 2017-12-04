@@ -213,6 +213,9 @@ extension AssetManager {
         public static let mapUserTrackingWithHeading = ImageKey("iconUserTrackingWithHeading")
         public static let mapCurrentLocation         = ImageKey("iconCurrentLocation")
 
+        // Loading states
+        public static let iconLoadingFailed          = ImageKey("iconLoadingFailed")
+
         // CAD status
         public static let iconStatusAtIncident   = ImageKey("iconStatusAtIncident")
         public static let iconStatusCourt        = ImageKey("iconStatusCourt")

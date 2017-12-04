@@ -17,6 +17,23 @@ public protocol StringSizable {
     
 }
 
+extension StringSizable {
+    
+    func sizing(defaultNumberOfLines: Int? = nil, defaultFont: UIFont? = nil) -> StringSizing {
+        var sizing = self.sizing()
+        
+        if sizing.font == nil, let defaultFont = defaultFont {
+            sizing.font = defaultFont
+        }
+        
+        if sizing.numberOfLines == nil, let defaultNumberOfLines = defaultNumberOfLines {
+            sizing.numberOfLines = defaultNumberOfLines
+        }
+        
+        return sizing
+    }
+}
+
 extension String: StringSizable {
     
     /// Returns a StringSizing initialized with the represented string.

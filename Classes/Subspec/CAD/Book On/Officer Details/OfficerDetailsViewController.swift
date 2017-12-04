@@ -57,6 +57,7 @@ open class OfficerDetailsViewController: FormBuilderViewController {
             .width(.column(2))
             .text(viewModel.details.contactNumber)
             .required("Contact number is required.")
+            .keyboardType(.numberPad)
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Contact number must be a number")
             .submitValidate(OfficerDetailsViewController.contactPhoneValidation.specification,
                             message: OfficerDetailsViewController.contactPhoneValidation.message)
@@ -97,6 +98,12 @@ open class OfficerDetailsViewController: FormBuilderViewController {
     }
     
     @objc func doneButtonTapped () {
+        #if DEBUG
+            // Skip validation when debug, to keep devs happy
+            viewModel.saveForm()
+            if view != nil { return }
+        #endif
+        
         let result = builder.validate()
         
         switch result {

@@ -47,10 +47,6 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     open var isMapTypeButtonHidden: Bool = true {
         didSet {
             mapTypeButton.isHidden = isMapTypeButtonHidden
-
-            // Use layout margin to position legal text above map type button
-            let bottomMargin = isMapTypeButtonHidden ? buttonMargin : buttonMargin + userLocationButton.frame.height
-            mapView.layoutMargins = UIEdgeInsets(top: 0, left: buttonMargin, bottom: bottomMargin, right: 0)
         }
     }
     
@@ -95,7 +91,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         buttonDivider = UIView()
         buttonDivider.backgroundColor = #colorLiteral(red: 0.8549019608, green: 0.8549019608, blue: 0.8470588235, alpha: 1)
         buttonDivider.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(buttonDivider)
+        buttonPill.addSubview(buttonDivider)
 
         userLocationButton = UIButton()
         userLocationButton.setImage(AssetManager.shared.image(forKey: .mapUserLocation), for: .normal)
@@ -118,12 +114,11 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         if isInitialViewLoad {
             isInitialViewLoad = false
             if zoomsToUserLocationOnLoad {
                 _ = locationManager.requestLocation().then { location in
-                    self.zoomAndCenterToUserLocation()
+                    self.zoomAndCenterToUserLocation(animated: false)
                 }
             }
         }
@@ -136,17 +131,17 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
             buttonPill.widthAnchor.constraint(equalToConstant: buttonSize.width),
             buttonPill.topAnchor.constraint(equalTo: mapView.safeAreaOrFallbackTopAnchor, constant: buttonMargin),
             buttonPill.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -buttonMargin),
-            
+
             userLocationButton.topAnchor.constraint(equalTo: buttonPill.topAnchor),
             userLocationButton.leadingAnchor.constraint(equalTo: buttonPill.leadingAnchor),
             userLocationButton.trailingAnchor.constraint(equalTo: buttonPill.trailingAnchor),
             userLocationButton.heightAnchor.constraint(equalToConstant: buttonSize.height / 2),
-            
+
             buttonDivider.topAnchor.constraint(equalTo: userLocationButton.bottomAnchor),
             buttonDivider.leadingAnchor.constraint(equalTo: buttonPill.leadingAnchor),
             buttonDivider.trailingAnchor.constraint(equalTo: buttonPill.trailingAnchor),
             buttonDivider.heightAnchor.constraint(equalToConstant: dividerHeight),
-            
+
             mapTypeButton.topAnchor.constraint(equalTo: buttonDivider.bottomAnchor),
             mapTypeButton.leadingAnchor.constraint(equalTo: buttonPill.leadingAnchor),
             mapTypeButton.trailingAnchor.constraint(equalTo: buttonPill.trailingAnchor),
@@ -159,6 +154,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
             mapView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
             mapView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
         ])
+        
     }
     
     public func mapView(_ mapView: MKMapView, didChange mode: MKUserTrackingMode, animated: Bool) {
@@ -184,6 +180,9 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         // Cycle through the user tracking mode enum
         switch mapView.userTrackingMode {
         case .none:
+            if let location = mapView.userLocation.location {
+                zoomAndCenter(to: location)
+            }
             mapView.setUserTrackingMode(.follow, animated: true)
         case .follow:
             mapView.setUserTrackingMode(.followWithHeading, animated: true)
@@ -201,24 +200,25 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     }
 
     /// Centers the map to the user's location. Note: this method does not zoom.
-    public func centerToUserLocation() {
+    public func centerToUserLocation(animated: Bool = true) {
         if let coordinate = locationManager.lastLocation?.coordinate {
-            mapView.setCenter(coordinate, animated: true)
+            mapView.setCenter(coordinate, animated: animated)
         }
     }
     
     /// Centers and zooms the map to the user's location
-    @objc public func zoomAndCenterToUserLocation() {
+    @objc public func zoomAndCenterToUserLocation(animated: Bool = true) {
         if let location = locationManager.lastLocation {
-            zoomAndCenter(to: location)
+            zoomAndCenter(to: location, animated: animated)
         }
     }
     
     /// Centers and zooms the map to a location
-    public func zoomAndCenter(to location: CLLocation) {
+    public func zoomAndCenter(to location: CLLocation, animated: Bool = true) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, defaultZoomDistance, defaultZoomDistance)
-        mapView.setRegion(coordinateRegion, animated: true)
+        mapView.setRegion(coordinateRegion, animated: animated)
     }
+    
 }
 
 extension MapViewController: MapSettingsViewModelDelegate {

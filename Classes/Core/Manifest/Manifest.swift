@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import PromiseKit
+import Alamofire
 
 fileprivate let manifestLastUpdateKey = "Manifest_LastUpdate"
 
@@ -231,6 +232,11 @@ public final class Manifest: NSObject {
         
         DispatchQueue.main.async {
             self.viewContext.mergeChanges(fromContextDidSave: notification)
+            do {
+                try self.viewContext.save()
+            } catch {
+                print("Failed to save main core data context")
+            }
             NotificationCenter.default.post(name: .ManifestDidUpdate, object: self)
         }
     }
@@ -322,12 +328,12 @@ public final class Manifest: NSObject {
                 
                 do {
                     try context.save()
-                        self.lastUpdateDate = checkedAtDate
-                        fulfill(())
-                        self.isSaving = false
+                    self.lastUpdateDate = checkedAtDate
+                    fulfill(())
+                    self.isSaving = false
                 } catch let error {
-                        reject(error)
-                        self.isSaving = false
+                    reject(error)
+                    self.isSaving = false
                 }
             }
             
@@ -348,9 +354,7 @@ public final class Manifest: NSObject {
         } else {
             let checkedAtDate = Date()
             
-            /// Remove 60 seconds from any last date to ensure we get an overlap.
-            /// It's better to catch more items and update them again than to miss any. This may change in the back end later for the server to handle this buffer.. or return a time stamp for the updated time.
-            let newPromise = APIManager.shared.fetchManifest(for: self.lastUpdateDate?.addingTimeInterval(-60.0)).then { [weak self] result -> Promise<Void> in
+            let newPromise = APIManager.shared.fetchManifest(with: ManifestFetchRequest(date: self.lastUpdateDate)).then { [weak self] result -> Promise<Void> in
                 guard let `self` = self else { return Promise<Void>(value: ()) }
                 guard result.isEmpty == false else {
                     self.lastUpdateDate = checkedAtDate
@@ -368,4 +372,3 @@ public final class Manifest: NSObject {
         }
     }
 }
-
