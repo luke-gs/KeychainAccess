@@ -23,5 +23,4 @@ extension ImageError: LocalizedError {
             return "Failed to serialize data into image."
         }
     }
-
 }
