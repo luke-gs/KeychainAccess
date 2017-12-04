@@ -22,10 +22,7 @@ final public class Evaluator {
     /// Checks and returns whether all the registered validation states
     /// for this validator are valid. Returns false if any are false and true only if all are true
     public var isComplete: Bool {
-        for state in evaluationStates.values where state == false {
-            return state
-        }
-        return true
+        return !evaluationStates.values.contains(false)
     }
 
     /// The percentage completion of the validator
@@ -41,9 +38,7 @@ final public class Evaluator {
 
     /// The current count of the completion of the validator
     public var validEvaluations: Int {
-        var count = 0
-        evaluationStates.values.forEach { if $0 { count += 1 } }
-        return count
+        return evaluationStates.values.filter { $0 }.count
     }
 
     public var observerCount: Int {
