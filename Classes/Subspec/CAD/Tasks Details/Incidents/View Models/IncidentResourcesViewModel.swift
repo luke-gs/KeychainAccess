@@ -26,11 +26,7 @@ open class IncidentResourcesViewModel: CADFormCollectionViewModel<IncidentResour
         let resourceViewModels = CADStateManager.shared.resourcesForIncident(incidentNumber: incidentNumber)
             .map { resource -> CADFormCollectionSectionViewModel<IncidentResourceItemViewModel> in
                 let officerViewModels = CADStateManager.shared.officersForResource(callsign: resource.callsign).map { officer in
-                    return ResourceOfficerViewModel(title: officer.displayName,
-                                                    subtitle: [officer.rank, officer.payrollIdDisplayString, officer.licenceTypeId]
-                                                        .removeNils().joined(separator: "  •  "),
-                                                    badgeText: resource.driver == officer.payrollId ? "DRIVER": nil,
-                                                    commsEnabled: (false, officer.contactNumber != nil))
+                    return ResourceOfficerViewModel(officer: officer, resource: resource)
                 }
                 
                 let resourceViewModel = IncidentResourceItemViewModel(title: [resource.callsign, resource.officerCountString]
