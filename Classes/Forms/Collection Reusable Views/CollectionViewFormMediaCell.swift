@@ -25,9 +25,9 @@ public protocol MediaPreviewRenderer: DefaultReusable {
 
 public let CollectionViewFormMediaCellMinimumItemHeight: CGFloat = 96.0
 
-open class CollectionViewFormMediaCell<T, U: MediaPreviewableDelegate>: CollectionViewFormCell, UICollectionViewDelegate, UICollectionViewDataSource, UIViewControllerPreviewingDelegate where U.Media == T {
+open class CollectionViewFormMediaCell<U: MediaPreviewableDelegate>: CollectionViewFormCell, UICollectionViewDelegate, UICollectionViewDataSource, UIViewControllerPreviewingDelegate {
 
-    public weak var dataSource: MediaDataSource<T>? {
+    public weak var dataSource: MediaDataSource<U.Media>? {
         didSet {
             guard dataSource !== oldValue else { return }
 

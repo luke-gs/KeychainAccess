@@ -18,12 +18,12 @@ public class MediaFormItem: BaseFormItem {
     public weak var previewingController: UIViewController?
 
     public init() {
-        super.init(cellType: CollectionViewFormMediaCell<PhotoMedia, PhotoMediaPreviewHandler>.self, reuseIdentifier: CollectionViewFormMediaCell<PhotoMedia, PhotoMediaPreviewHandler>.defaultReuseIdentifier)
+        super.init(cellType: CollectionViewFormMediaCell<PhotoMediaPreviewHandler>.self, reuseIdentifier: CollectionViewFormMediaCell<PhotoMediaPreviewHandler>.defaultReuseIdentifier)
         separatorStyle = .none
     }
 
     public override func configure(_ cell: CollectionViewFormCell) {
-        let cell = cell as! CollectionViewFormMediaCell<PhotoMedia, PhotoMediaPreviewHandler>
+        let cell = cell as! CollectionViewFormMediaCell<PhotoMediaPreviewHandler>
         cell.dataSource = dataSource
         cell.delegate = delegate
         cell.previewingController = previewingController
