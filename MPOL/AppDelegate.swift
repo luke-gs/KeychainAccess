@@ -45,8 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         var plugins: [PluginType] = [refreshToken]
         #if DEBUG
-                plugins.append(NetworkLoggingPlugin())
-                plugins.append(NetworkMonitorPlugin())
+            plugins.append([NetworkLoggingPlugin(), NetworkMonitorPlugin()])
         #endif
 
         // Set the application key for app specific user settings
