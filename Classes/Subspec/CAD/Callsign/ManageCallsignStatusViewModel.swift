@@ -85,7 +85,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
         return (CADStateManager.shared.currentResource?.currentIncident != nil)
     }
 
-    public var incidentViewModel: TasksListItemViewModel? {
+    public var incidentListViewModel: TasksListItemViewModel? {
         if let incident = CADStateManager.shared.currentIncident {
             return TasksListItemViewModel(identifier: incident.identifier,
                                           title: [incident.type, incident.resourceCountString].removeNils().joined(separator: " "),
@@ -93,7 +93,6 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
                                           caption: [incident.identifier, incident.secondaryCode].removeNils().joined(separator: " • "),
                                           priority: incident.grade.rawValue,
                                           description: incident.details,
-                                          resources: nil,
                                           badgeTextColor: incident.grade.badgeColors.text,
                                           badgeFillColor: incident.grade.badgeColors.fill,
                                           badgeBorderColor: incident.grade.badgeColors.border,
@@ -101,6 +100,20 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
         }
         return nil
     }
+
+    public var incidentTaskViewModel: IncidentTaskItemViewModel? {
+        if let incident = CADStateManager.shared.currentIncident, let resource = CADStateManager.shared.currentResource {
+            return IncidentTaskItemViewModel(incidentNumber: incident.identifier,
+                                             iconImage: resource.status.icon,
+                                             iconTintColor: resource.status.iconColors.icon,
+                                             color: resource.status.iconColors.background,
+                                             statusText: resource.status.title,
+                                             itemName: [incident.type, incident.resourceCountString].removeNils().joined(separator: " "),
+                                             lastUpdated: resource.lastUpdated.elapsedTimeIntervalForHuman())
+        }
+        return nil
+    }
+
 
     /// The subtitle to use in the navigation bar
     open func navSubtitle() -> String {

@@ -11,12 +11,15 @@ import UIKit
 /// Form view controller for displaying current incident of callsign
 open class CallsignIncidentFormViewController: FormBuilderViewController {
 
-    open let viewModel: TasksListItemViewModel?
+    open let listViewModel: TasksListItemViewModel?
+
+    open let taskViewModel: IncidentTaskItemViewModel?
 
     // MARK: - Initializers
 
-    public init(viewModel: TasksListItemViewModel?) {
-        self.viewModel = viewModel
+    public init(listViewModel: TasksListItemViewModel?, taskViewModel: IncidentTaskItemViewModel?) {
+        self.listViewModel = listViewModel
+        self.taskViewModel = taskViewModel
         super.init()
     }
 
@@ -28,16 +31,24 @@ open class CallsignIncidentFormViewController: FormBuilderViewController {
 
     override open func construct(builder: FormBuilder) {
         // Show current incident with header if set
-        if let viewModel = self.viewModel {
+        if let listViewModel = self.listViewModel {
             builder += HeaderFormItem(text: NSLocalizedString("Current Incident", comment: "").uppercased(), style: .plain)
             builder += CustomFormItem(cellType: TasksListItemCollectionViewCell.self, reuseIdentifier: "cell")
                 .onConfigured({ [unowned self] (cell) in
+                    // Configure the cell
                     if let cell = cell as? TasksListItemCollectionViewCell {
-                        self.decorate(cell: cell, with: viewModel)
+                        self.decorate(cell: cell, with: listViewModel)
                     }
                 })
                 .accessory(ItemAccessory.disclosure)
                 .height(.fixed(64))
+                .onSelection({ [unowned self] cell in
+                    // Present the incident split view controller
+                    if let taskViewModel = self.taskViewModel {
+                        let vc = TasksItemSidebarViewController.init(viewModel: taskViewModel)
+                        self.present(vc, animated: true, completion: nil)
+                    }
+                })
         }
     }
 
@@ -60,7 +71,6 @@ open class CallsignIncidentFormViewController: FormBuilderViewController {
 
     open func decorate(cell: TasksListItemCollectionViewCell, with viewModel: TasksListItemViewModel) {
         cell.highlightStyle = .fade
-        cell.selectionStyle = .fade
         cell.separatorStyle = .fullWidth
 
         cell.titleLabel.text = viewModel.title

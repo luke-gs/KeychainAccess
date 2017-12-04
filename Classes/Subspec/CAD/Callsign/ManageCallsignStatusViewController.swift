@@ -138,7 +138,8 @@ open class ManageCallsignStatusViewController: UIViewController, PopoverViewCont
         contentView = UIView(frame: .zero)
         scrollView.addSubview(contentView)
 
-        incidentFormVC = CallsignIncidentFormViewController(viewModel: viewModel.incidentViewModel)
+        incidentFormVC = CallsignIncidentFormViewController(listViewModel: viewModel.incidentListViewModel,
+                                                            taskViewModel: viewModel.incidentTaskViewModel)
         incidentFormVC.view.backgroundColor = UIColor.clear
         self.addChildViewController(incidentFormVC, toView: contentView)
 
