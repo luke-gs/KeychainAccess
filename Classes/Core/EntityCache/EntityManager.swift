@@ -110,15 +110,21 @@ public protocol EntitySnapshotDelegate: class {
 
 }
 
+public enum EntitySnapshotError: LocalizedError {
+    /// This is thrown when the entityManager of this snapshot is no longer valid.
+    case InvalidManager
+    
+    public var errorDescription: String? {
+        switch self {
+        case .InvalidManager:
+            return "Invalid Manager. Manager may have been deallocated."
+        }
+    }
+}
 
 /// Creates a snapshot of an entity. This entity will be automatically updated when an updated version of the same
 /// entity is added to the entity manager.
 public class EntitySnapshot: EntitySnapshotable {
-
-    public enum EntitySnapshotError: Error {
-        /// This is thrown when the entityManager of this snapshot is no longer valid.
-        case InvalidManager
-    }
 
     /// The snapshot of entity.
     public private(set) var entity: MPOLKitEntity
