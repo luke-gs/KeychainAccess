@@ -16,7 +16,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         self.viewModels = [
             IncidentOverviewViewModel(incidentNumber: incidentNumber),
             IncidentAssociationsViewModel(incidentNumber: incidentNumber),
-            IncidentNarrativeViewModel(),
+            IncidentNarrativeViewModel(incidentNumber: incidentNumber),
         ]
     }
 
