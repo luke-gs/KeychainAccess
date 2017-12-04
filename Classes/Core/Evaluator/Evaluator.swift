@@ -108,6 +108,7 @@ final public class Evaluator {
     }
 
     /// Notify all the observers that a change has occurred for an identifier
+    /// and removes any observer that has been released
     ///
     /// - Parameters:
     ///   - identifier: The specific key for the change
@@ -116,24 +117,28 @@ final public class Evaluator {
         observers.forEach {
             $0.value?.evaluationChanged(in: self, for: key, evaluationState: state)
         }
+        observers = observers.removeNilObservers()
     }
 
     /// Adds an observer to the array of observers, an array of weak wrappers
-    /// around evaluationObservables
+    /// around evaluationObservables, removes any observer that has been released
     /// - Parameter observer: The observer must be an EvaluationObserverable
     public func addObserver(_ observer: EvaluationObserverable) {
         if observers.contains(where: { $0.value === observer }) == false {
             observers.append(WeakObservableWrapper(value: observer))
         }
+        observers = observers.removeNilObservers()
     }
 
-    /// Removes an observer from the hashTable of observers
+    /// Removes an observer from the hashTable of observers and
+    /// removes any observer that has been released
     ///
     /// - Parameter observer: The observer must be an ObserverProtocol
     public func removeObserver(_ observer: EvaluationObserverable) {
         if let index = observers.index(where: { $0.value === observer }) {
             observers.remove(at: index)
         }
+        observers = observers.removeNilObservers()
     }
 
     /// Evaluates and returns the state of the stored block for a specific identifier
@@ -163,25 +168,19 @@ final public class Evaluator {
     }
 }
 
-public enum EvaluationError: Error {
-    case invalidKey
-    case nonExistentState
-}
+fileprivate extension Array where Element == WeakObservableWrapper {
 
-extension EvaluationError: LocalizedError {
-    public var errorDescription: String? {
-        switch self {
-        case .invalidKey:
-            return "The key provided is invalid."
-        case .nonExistentState:
-            return "The state you are trying to retrieve or the key is invalid."
-        }
+    /// This function is needed to ensure that if the values of the Weak
+    /// observerable Wrapper are nil they are removed from the array, much
+    /// like how NSHashTable works.
+    func removeNilObservers() -> [Element] {
+        return filter { $0.value != nil }
     }
 }
 
 /// Instead of using a Hashtable, wrap the EvaluationObserverable in a container
 /// that holds a weak reference to the value
-fileprivate struct WeakObservableWrapper {
+fileprivate class WeakObservableWrapper {
 
     private weak var _value: EvaluationObserverable?
 
