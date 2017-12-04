@@ -3,18 +3,18 @@ PODS:
   - Cache (4.1.2)
   - KeychainSwift (8.0.2)
   - lottie-ios (2.1.4)
-  - PromiseKit (4.4.3):
-    - PromiseKit/Foundation (= 4.4.3)
-    - PromiseKit/QuartzCore (= 4.4.3)
-    - PromiseKit/UIKit (= 4.4.3)
-  - PromiseKit/CoreLocation (4.4.3):
+  - PromiseKit (4.4.4):
+    - PromiseKit/Foundation (= 4.4.4)
+    - PromiseKit/QuartzCore (= 4.4.4)
+    - PromiseKit/UIKit (= 4.4.4)
+  - PromiseKit/CoreLocation (4.4.4):
     - PromiseKit/CorePromise
-  - PromiseKit/CorePromise (4.4.3)
-  - PromiseKit/Foundation (4.4.3):
+  - PromiseKit/CorePromise (4.4.4)
+  - PromiseKit/Foundation (4.4.4):
     - PromiseKit/CorePromise
-  - PromiseKit/QuartzCore (4.4.3):
+  - PromiseKit/QuartzCore (4.4.4):
     - PromiseKit/CorePromise
-  - PromiseKit/UIKit (4.4.3):
+  - PromiseKit/UIKit (4.4.4):
     - PromiseKit/CorePromise
   - Unbox (2.5.0)
   - Wrap (2.1.1)
@@ -34,7 +34,7 @@ SPEC CHECKSUMS:
   Cache: bd0233fc688b5e83a27bcd87807db7e6f23adcc5
   KeychainSwift: 213db04dfe7244988e61f77c72a2afb2f775954a
   lottie-ios: 94fa2d82547ce3adf1e61157653ba99999fd279f
-  PromiseKit: fbb52a0d154402c57eeb6eccd36dd7724fcf6117
+  PromiseKit: 6178219c4c7457ae90d7d8b34b7ac5eb36916519
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
   Wrap: 9cc7da7551bb81d0846cb3df9fb624c6c32d267d
 

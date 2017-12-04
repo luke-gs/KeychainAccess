@@ -11,16 +11,18 @@ import CoreLocation
 
 public class IncidentAnnotation: TaskAnnotation {
     
-    public var iconText: String
-    public var iconColor: UIColor
-    public var iconFilled: Bool
+    public var badgeText: String
+    public var badgeTextColor: UIColor
+    public var badgeFillColor: UIColor
+    public var badgeBorderColor: UIColor
     public var usesDarkBackground: Bool
     
-    public init(identifier: String, coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?, status: String?, iconText: String, iconColor: UIColor, iconFilled: Bool, usesDarkBackground: Bool) {
-        self.iconText = iconText
-        self.iconColor = iconColor
-        self.iconFilled = iconFilled
+    public init(identifier: String, coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?,badgeText: String, badgeTextColor: UIColor, badgeFillColor: UIColor, badgeBorderColor: UIColor, usesDarkBackground: Bool) {
+        self.badgeText = badgeText
+        self.badgeTextColor = badgeTextColor
+        self.badgeFillColor = badgeFillColor
+        self.badgeBorderColor = badgeBorderColor
         self.usesDarkBackground = usesDarkBackground
-        super.init(identifier: identifier, coordinate: coordinate, title: title, subtitle: subtitle, status: status)
+        super.init(identifier: identifier, coordinate: coordinate, title: title, subtitle: subtitle)
     }
 }

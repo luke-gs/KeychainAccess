@@ -11,7 +11,10 @@ import PromiseKit
 
 // Extension for custom notifications
 public extension NSNotification.Name {
-    /// Notification posted when callsign status changes
+    /// Notification posted when book on changes
+    static let CADBookOnChanged = NSNotification.Name(rawValue: "CAD_BookOnChanged")
+
+    /// Notification posted when callsign changes
     static let CADCallsignChanged = NSNotification.Name(rawValue: "CAD_CallsignChanged")
 
     /// Notification posted when sync changes
@@ -31,33 +34,46 @@ open class CADStateManager: NSObject {
     /// The API manager to use, by default system one
     open static var apiManager: CADAPIManager = APIManager.shared
 
-    /// The currently booked on callsign, or nil
-    open var callsign: String? {
-        didSet {
-            NotificationCenter.default.post(name: .CADCallsignChanged, object: self)
-        }
-    }
-
     /// The logged in officer details
     open var officerDetails: OfficerDetailsResponse?
 
     /// The last book on data
-    open var lastBookOn: BookOnRequest?
+    open var lastBookOn: BookOnRequest? {
+        didSet {
+            NotificationCenter.default.post(name: .CADBookOnChanged, object: self)
+        }
+    }
+
+    /// The currently booked on resource
+    open var currentResource: SyncDetailsResource? {
+        if let bookOn = CADStateManager.shared.lastBookOn {
+            return CADStateManager.shared.resourcesById[bookOn.callsign]
+        }
+        return nil
+    }
+
+    /// The current incident for my callsign
+    open var currentIncident: SyncDetailsIncident? {
+        if let bookOn = CADStateManager.shared.lastBookOn {
+            return CADStateManager.shared.incidentForResource(callsign: bookOn.callsign)
+        }
+        return nil
+    }
 
     /// The last sync data
-    open var lastSync: SyncDetailsResponse?
+    open private(set) var lastSync: SyncDetailsResponse?
 
     /// The last sync time
-    open var lastSyncTime: Date?
+    open private(set) var lastSyncTime: Date?
 
     /// Incidents retrieved in last sync, keyed by incidentNumber
-    open var incidentsById: [String: SyncDetailsIncident] = [:]
+    open private(set) var incidentsById: [String: SyncDetailsIncident] = [:]
 
     /// Resources retrieved in last sync, keyed by callsign
-    open var resourcesById: [String: SyncDetailsResource] = [:]
+    open private(set) var resourcesById: [String: SyncDetailsResource] = [:]
 
     /// Officers retrieved in last sync, keyed by payrollId
-    open var officersById: [String: SyncDetailsOfficer] = [:]
+    open private(set) var officersById: [String: SyncDetailsOfficer] = [:]
 
     // MARK: - Officer
 
@@ -81,6 +97,12 @@ open class CADStateManager: NSObject {
     open func bookOff(request: BookOffRequest) -> Promise<Void> {
         lastBookOn = nil
         return Promise<Void>()
+    }
+
+    /// Update the status of our callsign
+    open func updateCallsignStatus(status: ResourceStatus) {
+        currentResource?.status = status
+        NotificationCenter.default.post(name: .CADCallsignChanged, object: self)
     }
 
     // MARK: - Manifest
@@ -128,6 +150,8 @@ open class CADStateManager: NSObject {
         return firstly {
             // Get details about logged in user
             return self.fetchCurrentOfficerDetails()
+        }.then { _ in
+            return after(seconds: 2.0)
         }.then { [unowned self] _ in
             // Get new manifest items
             return self.syncManifestItems()
@@ -143,7 +167,7 @@ open class CADStateManager: NSObject {
         if let syncDetails = lastSync {
             incidentsById.removeAll()
             for incident in syncDetails.incidents {
-                incidentsById[incident.incidentNumber] = incident
+                incidentsById[incident.identifier] = incident
             }
             resourcesById.removeAll()
             for resource in syncDetails.resources {
@@ -161,7 +185,7 @@ open class CADStateManager: NSObject {
         var resources: [SyncDetailsResource] = []
         if let syncDetails = lastSync {
             for resource in syncDetails.resources {
-                if resource.incidentNumber == incidentNumber {
+                if resource.assignedIncidents.contains(incidentNumber) {
                     resources.append(resource)
                 }
             }
@@ -172,7 +196,7 @@ open class CADStateManager: NSObject {
     /// Return the current incident for a resource
     open func incidentForResource(callsign: String) -> SyncDetailsIncident? {
         if let resource = resourcesById[callsign] {
-            return incidentsById[resource.incidentNumber]
+            return incidentsById[resource.currentIncident]
         }
         return nil
     }

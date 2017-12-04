@@ -13,6 +13,9 @@ import Unbox
 /// Protocol for API manager methods used in CAD
 public protocol CADAPIManager {
 
+    /// Perform login
+    func accessTokenRequest(for grant: OAuthAuthorizationGrant) -> Promise<OAuthAccessToken>
+
     /// Fetch details about an officer by username
     func cadOfficerByUsername(username: String) -> Promise<OfficerDetailsResponse>
 

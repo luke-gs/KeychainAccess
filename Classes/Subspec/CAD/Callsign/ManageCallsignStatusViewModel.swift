@@ -45,7 +45,11 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
     public override init() {
         selectedIndexPath = IndexPath(row: 0, section: 0)
         super.init()
+
         updateData()
+        if let currentStatus = CADStateManager.shared.currentResource?.status {
+            selectedIndexPath = indexPathForStatus(currentStatus)
+        }
     }
 
     /// Create the view controller for this view model
@@ -55,7 +59,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
         return vc
     }
 
-    public var currentStatus: ManageCallsignStatus {
+    public var currentStatus: ResourceStatus {
         return statusForIndexPath(selectedIndexPath)
     }
 
@@ -79,18 +83,22 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
 
     /// The subtitle to use in the navigation bar
     open func navSubtitle() -> String {
-        // TODO: get from user session
-        return "10:30 - 18:30"
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        let shiftStart = formatter.string(from: BookOnDetailsFormViewModel.lastSaved!.startTime!)
+        let shiftEnd = formatter.string(from: BookOnDetailsFormViewModel.lastSaved!.endTime!)
+        return "\(shiftStart) - \(shiftEnd)"
     }
 
     /// Attempt to select a new status
-    open func setSelectedIndexPath(_ indexPath: IndexPath) -> Promise<ManageCallsignStatus> {
+    open func setSelectedIndexPath(_ indexPath: IndexPath) -> Promise<ResourceStatus> {
         let newStatus = statusForIndexPath(indexPath)
         if currentStatus.canChangeToStatus(newStatus: newStatus) {
 
             // TODO: Insert network call here
-            return after(seconds: 2.0).then {
+            return after(seconds: 1.0).then {
                 self.selectedIndexPath = indexPath
+                CADStateManager.shared.updateCallsignStatus(status: newStatus)
                 return Promise(value: self.currentStatus)
             }
         } else {
@@ -106,8 +114,11 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
             case .viewCallsign:
                 break
             case .manageCallsign:
-                if let callsign = CADStateManager.shared.callsign {
-                    let callsignViewModel = BookOnCallsignViewModel(callsign: callsign, status: nil, location: nil)
+                if let bookOn = CADStateManager.shared.lastBookOn {
+                    let callsignViewModel = BookOnCallsignViewModel(
+                        callsign: bookOn.callsign,
+                        status: CADStateManager.shared.currentResource?.status.rawValue ?? "",
+                        location: CADStateManager.shared.currentResource?.station ?? "")
                     let vc = BookOnDetailsFormViewModel(callsignViewModel: callsignViewModel).createViewController()
                     delegate?.presentPushedViewController(vc, animated: true)
                 }
@@ -115,7 +126,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
             case .terminateShift:
                 if currentStatus.canTerminate {
                     // Update session and dismiss screen
-                    CADStateManager.shared.callsign = nil
+                    CADStateManager.shared.lastBookOn = nil
                     BookOnDetailsFormViewModel.lastSaved = nil
                     delegate?.dismiss()
                 } else {
@@ -129,16 +140,23 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
 
     // MARK: - Internal
 
-    private func statusForIndexPath(_ indexPath: IndexPath) -> ManageCallsignStatus {
+    private func statusForIndexPath(_ indexPath: IndexPath) -> ResourceStatus {
         let index = indexPath.section * numberOfItems(for: 0) + indexPath.row
-        return ManageCallsignStatus(rawValue: index)!
+        return ResourceStatus.allCases[index]
+    }
+
+    private func indexPathForStatus(_ status: ResourceStatus) -> IndexPath {
+        let rawIndex = ResourceStatus.allCases.index(of: status) ?? 0
+        let section = Int(rawIndex / numberOfItems(for: 0))
+        let row = rawIndex % numberOfItems(for: 0)
+        return IndexPath(row: row, section: section)
     }
 
     // MARK: - Override
 
     /// The title to use in the navigation bar
     open override func navTitle() -> String {
-        return CADStateManager.shared.callsign ?? ""
+        return CADStateManager.shared.lastBookOn?.callsign ?? ""
     }
 
     /// Hide arrows
@@ -148,8 +166,8 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
 
     // MARK: - Data
 
-    private func itemFromStatus(_ status: ManageCallsignStatus) -> ManageCallsignStatusItemViewModel {
-        return ManageCallsignStatusItemViewModel(title: status.title, image: AssetManager.shared.image(forKey: status.imageKey)!)
+    private func itemFromStatus(_ status: ResourceStatus) -> ManageCallsignStatusItemViewModel {
+        return ManageCallsignStatusItemViewModel(title: status.title, image: status.icon!)
     }
 
     open func updateData() {
