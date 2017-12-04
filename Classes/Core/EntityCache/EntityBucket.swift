@@ -46,16 +46,7 @@ public class EntityBucket {
     ///
     /// - Parameter entity: The entity.
     public func add(_ entity: MPOLKitEntity) {
-        if entitiesSnapshots.index(where: { $0.entity.canAssumeToBeTheSameAs(otherEntity: entity) }) == nil {
-            let entitySnapshot = EntitySnapshot(initialEntity: entity, entityManager: entityManager)
-            entitySnapshot.delegate = self
-            entitiesSnapshots.append(entitySnapshot)
-
-            var userInfo = [EntityBucket.addedEntitiesKey: [entity]]
-            userInfo[EntityBucket.removedEntitiesKey] = trimToSize()
-
-            NotificationCenter.default.post(name: EntityBucket.didUpdateNotificationName, object: self, userInfo: userInfo)
-        }
+        add([entity])
     }
 
     /// Adds a collection of entities to this bucket.
@@ -70,9 +61,25 @@ public class EntityBucket {
             }
         }
 
-        var userInfo = [EntityBucket.addedEntitiesKey: entities]
-        userInfo[EntityBucket.removedEntitiesKey] = trimToSize()
-
+        // Trim entities to fit the limit
+        var removedEntities: [MPOLKitEntity]?
+        if limit > 0 && entitiesSnapshots.count > limit {
+            let range = 0..<(entitiesSnapshots.count - limit)
+            removedEntities = entitiesSnapshots[range].flatMap({ return $0.entity })
+            entitiesSnapshots.removeSubrange(range)
+        }
+        
+        // Check for removed entities
+        let addedEntities: [MPOLKitEntity]
+        if let removedEntities = removedEntities {
+            addedEntities = entities.filter { !removedEntities.contains($0) }
+        } else {
+            addedEntities = entities
+        }
+        
+        var userInfo = [EntityBucket.addedEntitiesKey: addedEntities]
+        userInfo[EntityBucket.removedEntitiesKey] = removedEntities
+        
         NotificationCenter.default.post(name: EntityBucket.didUpdateNotificationName, object: self, userInfo: userInfo)
     }
 
@@ -110,18 +117,6 @@ public class EntityBucket {
         return entitiesSnapshots.flatMap({ $0.entity as? T })
     }
 
-    // MARK: - Private
-
-    private func trimToSize() -> [MPOLKitEntity]? {
-        var entities: [MPOLKitEntity]?
-        if limit > 0 && entitiesSnapshots.count > limit {
-            let range = 0..<(entitiesSnapshots.count - limit)
-            entities = entitiesSnapshots[range].flatMap({ return $0.entity })
-            entitiesSnapshots.removeSubrange(range)
-        }
-        return entities
-    }
-
 }
 
 extension EntityBucket: EntitySnapshotDelegate {
@@ -131,5 +126,3 @@ extension EntityBucket: EntitySnapshotDelegate {
     }
 
 }
-
-
