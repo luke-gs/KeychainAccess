@@ -102,6 +102,9 @@
 		27094CCC1FAFFBDA00D4C3D4 /* ResourceTaskItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27094CB61FAFFBDA00D4C3D4 /* ResourceTaskItemViewModel.swift */; };
 		270C60FD1FBA5DCB006F11AD /* TasksListItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270C60FC1FBA5DCB006F11AD /* TasksListItemCollectionViewCell.swift */; };
 		2715D63D1FD4FEDB00BD0E95 /* SyncDetailsActivityLogItem+Computed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715D63C1FD4FEDB00BD0E95 /* SyncDetailsActivityLogItem+Computed.swift */; };
+		2715D63F1FD505D500BD0E95 /* IncidentResourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715D63E1FD505D500BD0E95 /* IncidentResourcesViewController.swift */; };
+		2715D6411FD505F300BD0E95 /* IncidentResourcesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715D6401FD505F300BD0E95 /* IncidentResourcesViewModel.swift */; };
+		2715D6431FD5064C00BD0E95 /* IncidentResourceItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715D6421FD5064C00BD0E95 /* IncidentResourceItemViewModel.swift */; };
 		27206B361F8198CD005303A8 /* IncidentAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27206B351F8198CD005303A8 /* IncidentAnnotationView.swift */; };
 		2726A8161FCE2BB000EFB61A /* IncidentOverviewFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726A8151FCE2BB000EFB61A /* IncidentOverviewFormViewController.swift */; };
 		2726A81A1FCE5EA000EFB61A /* IncidentOverviewItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726A8191FCE5EA000EFB61A /* IncidentOverviewItemViewModel.swift */; };
@@ -165,6 +168,8 @@
 		27CBC7671F8B27D500E387C3 /* UserCallsignStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4641F83555A00CAE056 /* UserCallsignStatusViewModel.swift */; };
 		27D921E31FD0BBF0009C6DCC /* SyncDetailsIncident+Computed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D921E21FD0BBF0009C6DCC /* SyncDetailsIncident+Computed.swift */; };
 		27D921E51FD0C18E009C6DCC /* SyncDetailsResource+Computed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D921E41FD0C18E009C6DCC /* SyncDetailsResource+Computed.swift */; };
+		27DC60951FD50B950033BC0B /* SyncDetailsOfficer+Computed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DC60941FD50B940033BC0B /* SyncDetailsOfficer+Computed.swift */; };
+		27DC60971FD513D80033BC0B /* DisableableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DC60961FD513D80033BC0B /* DisableableButton.swift */; };
 		27F9C96C1FA2D7E300825F88 /* CompactCallsignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F9C96B1FA2D7E300825F88 /* CompactCallsignViewController.swift */; };
 		27F9C96E1FA2D9D000825F88 /* UIViewController+ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F9C96D1FA2D9D000825F88 /* UIViewController+ChildViewController.swift */; };
 		27FDABB51FB90FF6003466AF /* TaskDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FDABB41FB90FF6003466AF /* TaskDetailsViewModel.swift */; };
@@ -665,6 +670,9 @@
 		27094CB61FAFFBDA00D4C3D4 /* ResourceTaskItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceTaskItemViewModel.swift; sourceTree = "<group>"; };
 		270C60FC1FBA5DCB006F11AD /* TasksListItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		2715D63C1FD4FEDB00BD0E95 /* SyncDetailsActivityLogItem+Computed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SyncDetailsActivityLogItem+Computed.swift"; sourceTree = "<group>"; };
+		2715D63E1FD505D500BD0E95 /* IncidentResourcesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentResourcesViewController.swift; sourceTree = "<group>"; };
+		2715D6401FD505F300BD0E95 /* IncidentResourcesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentResourcesViewModel.swift; sourceTree = "<group>"; };
+		2715D6421FD5064C00BD0E95 /* IncidentResourceItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentResourceItemViewModel.swift; sourceTree = "<group>"; };
 		27206B351F8198CD005303A8 /* IncidentAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentAnnotationView.swift; sourceTree = "<group>"; };
 		2726A8151FCE2BB000EFB61A /* IncidentOverviewFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentOverviewFormViewController.swift; sourceTree = "<group>"; };
 		2726A8191FCE5EA000EFB61A /* IncidentOverviewItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentOverviewItemViewModel.swift; sourceTree = "<group>"; };
@@ -713,6 +721,8 @@
 		27C9C7661F95737C00799855 /* NotBookedOnItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBookedOnItemViewModel.swift; sourceTree = "<group>"; };
 		27D921E21FD0BBF0009C6DCC /* SyncDetailsIncident+Computed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SyncDetailsIncident+Computed.swift"; sourceTree = "<group>"; };
 		27D921E41FD0C18E009C6DCC /* SyncDetailsResource+Computed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SyncDetailsResource+Computed.swift"; sourceTree = "<group>"; };
+		27DC60941FD50B940033BC0B /* SyncDetailsOfficer+Computed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SyncDetailsOfficer+Computed.swift"; sourceTree = "<group>"; };
+		27DC60961FD513D80033BC0B /* DisableableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisableableButton.swift; sourceTree = "<group>"; };
 		27F9C96B1FA2D7E300825F88 /* CompactCallsignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactCallsignViewController.swift; sourceTree = "<group>"; };
 		27F9C96D1FA2D9D000825F88 /* UIViewController+ChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ChildViewController.swift"; sourceTree = "<group>"; };
 		27FDABB41FB90FF6003466AF /* TaskDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsViewModel.swift; sourceTree = "<group>"; };
@@ -1335,6 +1345,7 @@
 			isa = PBXGroup;
 			children = (
 				27094CA91FAFFBDA00D4C3D4 /* TaskItemsSidebarViewController.swift */,
+				2715D6441FD507FF00BD0E95 /* Shared */,
 				274F10E21FCE0A07001A59A5 /* Incidents */,
 				27094CAA1FAFFBDA00D4C3D4 /* Resources */,
 				27094CB31FAFFBDA00D4C3D4 /* View Model */,
@@ -1347,7 +1358,6 @@
 			children = (
 				27094CAC1FAFFBDA00D4C3D4 /* View Models */,
 				27094CB01FAFFBDA00D4C3D4 /* ResourceOfficerListViewController.swift */,
-				27094CB11FAFFBDA00D4C3D4 /* OfficerCell.swift */,
 				27094CB21FAFFBDA00D4C3D4 /* ResourceActivityLogViewController.swift */,
 				27FDABB61FB91B02003466AF /* OfficerCommunicationsView.swift */,
 			);
@@ -1373,6 +1383,14 @@
 				27FDABB41FB90FF6003466AF /* TaskDetailsViewModel.swift */,
 			);
 			path = "View Model";
+			sourceTree = "<group>";
+		};
+		2715D6441FD507FF00BD0E95 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				27094CB11FAFFBDA00D4C3D4 /* OfficerCell.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		2744EEBD1FBEA50A008DFA7F /* Map Filter */ = {
@@ -1445,6 +1463,7 @@
 				274F10EC1FCE0A86001A59A5 /* IncidentNarrativeViewController.swift */,
 				274F10EA1FCE0A86001A59A5 /* IncidentOverviewViewController.swift */,
 				2726A8151FCE2BB000EFB61A /* IncidentOverviewFormViewController.swift */,
+				2715D63E1FD505D500BD0E95 /* IncidentResourcesViewController.swift */,
 			);
 			path = Incidents;
 			sourceTree = "<group>";
@@ -1457,6 +1476,8 @@
 				274F10E61FCE0A85001A59A5 /* IncidentNarrativeViewModel.swift */,
 				2726A81D1FCE6BE600EFB61A /* IncidentOverviewViewModel.swift */,
 				2726A8191FCE5EA000EFB61A /* IncidentOverviewItemViewModel.swift */,
+				2715D6401FD505F300BD0E95 /* IncidentResourcesViewModel.swift */,
+				2715D6421FD5064C00BD0E95 /* IncidentResourceItemViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -1746,6 +1767,7 @@
 				27D921E21FD0BBF0009C6DCC /* SyncDetailsIncident+Computed.swift */,
 				27D921E41FD0C18E009C6DCC /* SyncDetailsResource+Computed.swift */,
 				2715D63C1FD4FEDB00BD0E95 /* SyncDetailsActivityLogItem+Computed.swift */,
+				27DC60941FD50B940033BC0B /* SyncDetailsOfficer+Computed.swift */,
 			);
 			path = Logic;
 			sourceTree = "<group>";
@@ -2238,6 +2260,7 @@
 				BC6CB6D51F19C638001549F8 /* SidebarHeaderView.swift */,
 				BCF4B59B1F2849D00022132D /* SpacerView.swift */,
 				BC9C7DC51F0DED6600DFFE83 /* TabStripView.swift */,
+				27DC60961FD513D80033BC0B /* DisableableButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3040,8 +3063,10 @@
 				12D8E2A01F9ED12100EEE214 /* GenericSearchViewController.swift in Sources */,
 				BC9C7DF31F0DED6600DFFE83 /* ISO8601DateTransformer.swift in Sources */,
 				274F10F71FCE0B88001A59A5 /* IncidentAssociationsViewController.swift in Sources */,
+				27DC60971FD513D80033BC0B /* DisableableButton.swift in Sources */,
 				BC9C7E281F0DED6600DFFE83 /* StatsOverviewCollectionViewCell.swift in Sources */,
 				BC9C7DEC1F0DED6600DFFE83 /* ModelVersionable.swift in Sources */,
+				2715D63F1FD505D500BD0E95 /* IncidentResourcesViewController.swift in Sources */,
 				96B9183E1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift in Sources */,
 				BC9C7E101F0DED6600DFFE83 /* TableViewFormCell.swift in Sources */,
 				2742CD2F1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift in Sources */,
@@ -3375,6 +3400,7 @@
 				9679A6491F9EEDB7007BC806 /* BookOnDetailsOfficerFormItem.swift in Sources */,
 				4634B4441FBD6FD200D71E7F /* APIManager+LocationSearch.swift in Sources */,
 				12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */,
+				2715D6411FD505F300BD0E95 /* IncidentResourcesViewModel.swift in Sources */,
 				EA11F0261F83357D00BF8BCA /* ImageSizing.swift in Sources */,
 				EA8B66461F37FF5900F09716 /* EntitySummarySearchResultViewModel.swift in Sources */,
 				BC9C7E2E1F0DED6600DFFE83 /* UIImage+Initials.swift in Sources */,
@@ -3428,6 +3454,7 @@
 				EA4806B71F56A0DC00B42313 /* LocationSearchStrategy.swift in Sources */,
 				BC9C7E021F0DED6600DFFE83 /* NSLayoutConstraint+Conveniences.swift in Sources */,
 				46DDAB451F78CF1300ED72DC /* FormAccessoryImageView.swift in Sources */,
+				2715D6431FD5064C00BD0E95 /* IncidentResourceItemViewModel.swift in Sources */,
 				19B49BC71F665F5A00502F51 /* WhatsNewTheme.swift in Sources */,
 				46B3FE7B1F5E3B0C0012476A /* FileLogger.swift in Sources */,
 				DBE24C3B1F593BEF0088D19B /* EntityDetailSectionsDataSource.swift in Sources */,
@@ -3436,6 +3463,7 @@
 				BC9C7E181F0DED6600DFFE83 /* FormTextView.swift in Sources */,
 				27CBC75C1F8B27B100E387C3 /* ActivityLogViewModel.swift in Sources */,
 				9650CA191F95B2520087F5C9 /* ResourceStatus.swift in Sources */,
+				27DC60951FD50B950033BC0B /* SyncDetailsOfficer+Computed.swift in Sources */,
 				BC9C7E131F0DED6600DFFE83 /* TableViewFormSubtitleCell.swift in Sources */,
 				EA09A0521F78B9A200BC3C0E /* CountSpecification.swift in Sources */,
 				19C625C41F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift in Sources */,
