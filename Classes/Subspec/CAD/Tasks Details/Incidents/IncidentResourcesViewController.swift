@@ -53,4 +53,9 @@ open class IncidentResourcesViewController: FormBuilderViewController {
             }
         }
     }
+    
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        reloadForm()
+    }
 }
