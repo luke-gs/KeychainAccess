@@ -30,7 +30,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
         switch presentable {
 
         case .login:
-            let loginViewController = LoginViewController()
+            let loginViewController = LoginViewController(mode: .usernamePassword(delegate: self))
 
             loginViewController.minimumUsernameLength = 1
             loginViewController.minimumPasswordLength = 1
@@ -38,8 +38,6 @@ public class LandingPresenter: AppGroupLandingPresenter {
             loginViewController.backgroundImage = #imageLiteral(resourceName: "Login")
             loginViewController.headerView = LoginHeaderView(title: NSLocalizedString("PSCore", comment: "Login screen header title"),
                                                              subtitle: NSLocalizedString("Public Safety Mobile Platform", comment: "Login screen header subtitle"), image: #imageLiteral(resourceName: "MPOLIcon"))
-
-            loginViewController.delegate = self
 
             #if DEBUG
                 loginViewController.usernameField.text = "matt"
@@ -128,6 +126,10 @@ public class LandingPresenter: AppGroupLandingPresenter {
         #else
             super.loginViewController(controller, didFinishWithUsername: username, password: password)
         #endif
+    }
+    
+    public var wantsForgotPassword: Bool {
+        return false
     }
 
     // MARK: - Private

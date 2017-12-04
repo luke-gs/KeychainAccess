@@ -28,7 +28,7 @@ public enum LandingScreen: Presentable {
 }
 
 /// Presenter for a standard MPOL app that shares the app group settings of the user session
-open class AppGroupLandingPresenter: NSObject, Presenter {
+open class AppGroupLandingPresenter: NSObject, Presenter, UsernamePasswordDelegate {
 
     open func updateInterfaceForUserSession(animated: Bool) {
         let screen = screenForUserSession()
@@ -120,10 +120,6 @@ open class AppGroupLandingPresenter: NSObject, Presenter {
         }
         return currentViewController
     }
-}
-
-
-extension AppGroupLandingPresenter: UsernamePasswordDelegate {
 
     open func loginViewControllerDidAppear(_ controller: LoginViewController) {
     }
