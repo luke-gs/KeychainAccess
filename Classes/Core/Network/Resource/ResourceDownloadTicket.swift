@@ -1,5 +1,5 @@
 //
-//  ImageDownloadTicket.swift
+//  ResourceDownloadTicket.swift
 //  MPOLKit
 //
 //  Created by Herli Halim on 30/10/17.
@@ -8,7 +8,7 @@
 
 import Alamofire
 
-public class ImageDownloadTicket {
+public class ResourceDownloadTicket {
     public let ticketID: String
     public let request: Request
 
