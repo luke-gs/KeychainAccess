@@ -18,5 +18,14 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
             ResourceActivityLogViewModel()
         ]
     }
-   
+
+    public convenience init(resource: SyncDetailsResource) {
+        self.init(
+            iconImage: resource.status.icon,
+            iconTintColor: resource.status.iconColors.icon,
+            color: resource.status.iconColors.background,
+            statusText: resource.status.title,
+            itemName: [resource.callsign, resource.officerCountString].removeNils().joined(separator: " "),
+            lastUpdated: resource.lastUpdated.elapsedTimeIntervalForHuman())
+    }
 }

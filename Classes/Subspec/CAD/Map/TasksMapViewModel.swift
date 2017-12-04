@@ -84,14 +84,7 @@ open class TasksMapViewModel {
             guard let incident = CADStateManager.shared.incidentsById[annotation.identifier],
                 let resource = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier).first
             else { return nil }
-            
-            return IncidentTaskItemViewModel(incidentNumber: incident.identifier,
-                                             iconImage: resource.status.icon,
-                                             iconTintColor: resource.status.iconColors.icon,
-                                             color: resource.status.iconColors.background,
-                                             statusText: resource.status.title,
-                                             itemName: [incident.type, incident.resourceCountString].removeNils().joined(separator: " "),
-                                             lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
+            return IncidentTaskItemViewModel(incident: incident, resource: resource)
         }
         
         return nil

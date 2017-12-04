@@ -87,16 +87,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
 
     public var incidentListViewModel: TasksListItemViewModel? {
         if let incident = CADStateManager.shared.currentIncident {
-            return TasksListItemViewModel(identifier: incident.identifier,
-                                          title: [incident.type, incident.resourceCountString].removeNils().joined(separator: " "),
-                                          subtitle: incident.location.fullAddress,
-                                          caption: [incident.identifier, incident.secondaryCode].removeNils().joined(separator: " • "),
-                                          priority: incident.grade.rawValue,
-                                          description: incident.details,
-                                          badgeTextColor: incident.grade.badgeColors.text,
-                                          badgeFillColor: incident.grade.badgeColors.fill,
-                                          badgeBorderColor: incident.grade.badgeColors.border,
-                                          hasUpdates: false)
+            return TasksListItemViewModel(incident: incident, hasUpdates: false)
         }
         return nil
     }

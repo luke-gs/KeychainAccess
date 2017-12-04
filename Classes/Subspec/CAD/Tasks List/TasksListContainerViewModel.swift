@@ -191,17 +191,7 @@ open class TasksListContainerViewModel {
             let (status, incidents) = arg
             
             let taskViewModels = incidents.map { incident in
-                return TasksListItemViewModel(identifier: incident.identifier,
-                    title: [incident.type, incident.resourceCountString].removeNils().joined(separator: " "),
-                    subtitle: incident.location.fullAddress,
-                    caption: [incident.identifier, incident.secondaryCode].removeNils().joined(separator: " • "),
-                    priority: incident.grade.rawValue,
-                    description: incident.details,
-                    resources: nil, // TODO: Get resources
-                    badgeTextColor: incident.grade.badgeColors.text,
-                    badgeFillColor: incident.grade.badgeColors.fill,
-                    badgeBorderColor: incident.grade.badgeColors.border,
-                    hasUpdates: true) // TODO: Calculate dynamically
+                return TasksListItemViewModel(incident: incident, hasUpdates: true)
             }
             return CADFormCollectionSectionViewModel(title: "\(incidents.count) \(status)", items: taskViewModels)
         }
@@ -232,17 +222,7 @@ open class TasksListContainerViewModel {
             
             let taskViewModels: [TasksListItemViewModel] = resources.map { resource in
                 let incident = CADStateManager.shared.incidentForResource(callsign: resource.callsign)
-                
-                return TasksListItemViewModel(identifier: resource.callsign,
-                    title: "\(resource.callsign ?? "") \(resource.officerCountString ?? "")",
-                    subtitle: resource.location.suburb,
-                    caption: resource.status.title,
-                    priority: incident?.grade.rawValue,
-                    description: incident?.details,
-                    badgeTextColor: incident?.grade.badgeColors.text,
-                    badgeFillColor: incident?.grade.badgeColors.fill,
-                    badgeBorderColor: incident?.grade.badgeColors.border,
-                    hasUpdates: true) // TODO: Calculate dynamically
+                return TasksListItemViewModel(resource: resource, incident: incident, hasUpdates: true)
             }
             if resources.count > 0 {
                 return CADFormCollectionSectionViewModel(title: "\(resources.count) \(section)", items: taskViewModels)
