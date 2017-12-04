@@ -81,6 +81,27 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
         }
     }
 
+    public var shouldShowIncident: Bool {
+        return (CADStateManager.shared.currentResource?.currentIncident != nil)
+    }
+
+    public var incidentViewModel: TasksListItemViewModel? {
+        if let incident = CADStateManager.shared.currentIncident {
+            return TasksListItemViewModel(identifier: incident.identifier,
+                                          title: [incident.type, incident.resourceCountString].removeNils().joined(separator: " "),
+                                          subtitle: incident.location.fullAddress,
+                                          caption: [incident.identifier, incident.secondaryCode].removeNils().joined(separator: " • "),
+                                          priority: incident.grade.rawValue,
+                                          description: incident.details,
+                                          resources: nil,
+                                          badgeTextColor: incident.grade.badgeColors.text,
+                                          badgeFillColor: incident.grade.badgeColors.fill,
+                                          badgeBorderColor: incident.grade.badgeColors.border,
+                                          hasUpdates: false)
+        }
+        return nil
+    }
+
     /// The subtitle to use in the navigation bar
     open func navSubtitle() -> String {
         let formatter = DateFormatter()
@@ -198,7 +219,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
 
     open func updateData() {
         var data: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>] = []
-        if CADStateManager.shared.currentResource?.currentIncident != nil {
+        if shouldShowIncident {
             data.append(CADFormCollectionSectionViewModel(title: NSLocalizedString("Incident Status", comment: "Incident Status header text"),
                                                           items: [
                                                             itemFromStatus(.proceeding),
