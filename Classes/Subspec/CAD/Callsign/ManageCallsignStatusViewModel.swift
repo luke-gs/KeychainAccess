@@ -130,9 +130,16 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
         if let actionButton = ActionButton(rawValue: index) {
             switch actionButton {
             case .viewCallsign:
+                if let resource = CADStateManager.shared.currentResource {
+                    // Show split view controller for booked on resource
+                    let vm = ResourceTaskItemViewModel(resource: resource)
+                    let vc = TasksItemSidebarViewController.init(viewModel: vm)
+                    delegate?.present(vc, animated: true, completion: nil)
+                }
                 break
             case .manageCallsign:
                 if let bookOn = CADStateManager.shared.lastBookOn {
+                    // Edit the book on details
                     let callsignViewModel = BookOnCallsignViewModel(
                         callsign: bookOn.callsign,
                         status: CADStateManager.shared.currentResource?.status.rawValue ?? "",
