@@ -10,12 +10,6 @@ import Foundation
 import PromiseKit
 
 
-public enum EntityBucketError: Error {
-    case notFound
-    case duplicate
-}
-
-
 public class EntityBucket {
 
     public static let didUpdateNotificationName = Notification.Name(rawValue: "EntityBucketDidUpdateNotification")
