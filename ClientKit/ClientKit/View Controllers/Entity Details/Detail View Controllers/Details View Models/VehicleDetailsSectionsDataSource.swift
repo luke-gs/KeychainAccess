@@ -32,8 +32,8 @@ public class VehicleMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSourc
                                         VehicleOccurrencesViewController()
         ]
     }
-
 }
+
 public class VehicleFNCDetailsSectionsDataSource: EntityDetailSectionsDataSource {
 
     public var source: EntitySource = MPOLSource.fnc

@@ -11,6 +11,10 @@
 		9624A4161F7C550B00CAE056 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4151F7C550B00CAE056 /* AppDelegate.swift */; };
 		9624A41D1F7C550B00CAE056 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9624A41C1F7C550B00CAE056 /* Assets.xcassets */; };
 		9624A4201F7C550B00CAE056 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9624A41E1F7C550B00CAE056 /* LaunchScreen.storyboard */; };
+		969C2C851FCFD7B700E99C85 /* DemoAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969C2C811FCFD7B700E99C85 /* DemoAPIManager.swift */; };
+		969C2C861FCFD7B700E99C85 /* DemoManifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 969C2C821FCFD7B700E99C85 /* DemoManifest.json */; };
+		969C2C871FCFD7B700E99C85 /* DemoOfficer.json in Resources */ = {isa = PBXBuildFile; fileRef = 969C2C831FCFD7B700E99C85 /* DemoOfficer.json */; };
+		969C2C881FCFD7B700E99C85 /* DemoSync.json in Resources */ = {isa = PBXBuildFile; fileRef = 969C2C841FCFD7B700E99C85 /* DemoSync.json */; };
 		96CED76D1FA7F23D00C0DEB0 /* LandingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CED76C1FA7F23D00C0DEB0 /* LandingPresenter.swift */; };
 		96CED76F1FA7FE4C00C0DEB0 /* termsandconditions.html in Resources */ = {isa = PBXBuildFile; fileRef = 96CED76E1FA7F9AA00C0DEB0 /* termsandconditions.html */; };
 		96CED7751FA8456A00C0DEB0 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 96CED7741FA8456600C0DEB0 /* Localizable.stringsdict */; };
@@ -29,6 +33,10 @@
 		96553FD51F98554E006E063E /* AppConfig-cad-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-cad-release.xcconfig"; sourceTree = "<group>"; };
 		96553FD71F98554E006E063E /* AppConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppConfiguration.h; sourceTree = "<group>"; };
 		96553FD81F98554E006E063E /* CAD-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CAD-Bridging-Header.h"; sourceTree = "<group>"; };
+		969C2C811FCFD7B700E99C85 /* DemoAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAPIManager.swift; sourceTree = "<group>"; };
+		969C2C821FCFD7B700E99C85 /* DemoManifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DemoManifest.json; sourceTree = "<group>"; };
+		969C2C831FCFD7B700E99C85 /* DemoOfficer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DemoOfficer.json; sourceTree = "<group>"; };
+		969C2C841FCFD7B700E99C85 /* DemoSync.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DemoSync.json; sourceTree = "<group>"; };
 		96CED76C1FA7F23D00C0DEB0 /* LandingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPresenter.swift; sourceTree = "<group>"; };
 		96CED76E1FA7F9AA00C0DEB0 /* termsandconditions.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = termsandconditions.html; sourceTree = "<group>"; };
 		96CED7741FA8456600C0DEB0 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
@@ -95,6 +103,7 @@
 			children = (
 				9624A4151F7C550B00CAE056 /* AppDelegate.swift */,
 				96553FC21F9849AC006E063E /* CAD.entitlements */,
+				969C2C801FCFD7B700E99C85 /* Demo */,
 				96553FCE1F98554E006E063E /* Configuration */,
 				9624A4281F7C583D00CAE056 /* Resources */,
 				9624A4291F7C585A00CAE056 /* Supporting Files */,
@@ -131,6 +140,17 @@
 				96553FD81F98554E006E063E /* CAD-Bridging-Header.h */,
 			);
 			path = Configuration;
+			sourceTree = "<group>";
+		};
+		969C2C801FCFD7B700E99C85 /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				969C2C811FCFD7B700E99C85 /* DemoAPIManager.swift */,
+				969C2C821FCFD7B700E99C85 /* DemoManifest.json */,
+				969C2C831FCFD7B700E99C85 /* DemoOfficer.json */,
+				969C2C841FCFD7B700E99C85 /* DemoSync.json */,
+			);
+			path = Demo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -203,7 +223,10 @@
 				9624A4201F7C550B00CAE056 /* LaunchScreen.storyboard in Resources */,
 				9624A41D1F7C550B00CAE056 /* Assets.xcassets in Resources */,
 				96CED76F1FA7FE4C00C0DEB0 /* termsandconditions.html in Resources */,
+				969C2C871FCFD7B700E99C85 /* DemoOfficer.json in Resources */,
 				96CED7751FA8456A00C0DEB0 /* Localizable.stringsdict in Resources */,
+				969C2C881FCFD7B700E99C85 /* DemoSync.json in Resources */,
+				969C2C861FCFD7B700E99C85 /* DemoManifest.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,6 +310,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				969C2C851FCFD7B700E99C85 /* DemoAPIManager.swift in Sources */,
 				96CED76D1FA7F23D00C0DEB0 /* LandingPresenter.swift in Sources */,
 				9624A4161F7C550B00CAE056 /* AppDelegate.swift in Sources */,
 			);

@@ -28,13 +28,15 @@ public enum LandingScreen: Presentable {
 }
 
 /// Presenter for a standard MPOL app that shares the app group settings of the user session
-open class AppGroupLandingPresenter: NSObject, Presenter {
+open class AppGroupLandingPresenter: NSObject, Presenter, UsernamePasswordDelegate {
 
     open func updateInterfaceForUserSession(animated: Bool) {
         let screen = screenForUserSession()
         if screen == .termsAndConditions {
             // Switch to login screen if not current, then present modal for terms and conditions
             if let loginViewController = updateInterface(withScreen: .login, animated: false) {
+                // Set current screen to terms and conditions, so changes back to plain login can still be detected
+                currentScreen = screen
                 DispatchQueue.main.async {
                     loginViewController.present(screen)
                 }
@@ -118,15 +120,11 @@ open class AppGroupLandingPresenter: NSObject, Presenter {
         }
         return currentViewController
     }
-}
 
-
-extension AppGroupLandingPresenter: LoginViewControllerDelegate {
-
-    public func loginViewControllerDidAppear(_ controller: LoginViewController) {
+    open func loginViewControllerDidAppear(_ controller: LoginViewController) {
     }
 
-    public func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
+    open func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
         controller.setLoading(true, animated: true)
 
         APIManager.shared.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] token -> Void in
@@ -150,13 +148,13 @@ extension AppGroupLandingPresenter: LoginViewControllerDelegate {
         }
     }
 
-    public func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton) {
+    open func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton) {
     }
 }
 
 extension AppGroupLandingPresenter: TermsConditionsViewControllerDelegate {
 
-    public func termsConditionsController(_ controller: TermsConditionsViewController, didFinishAcceptingConditions accept: Bool) {
+    open func termsConditionsController(_ controller: TermsConditionsViewController, didFinishAcceptingConditions accept: Bool) {
         controller.dismiss(animated: true) { [weak self] in
             guard let `self` = self else { return }
 
@@ -172,11 +170,11 @@ extension AppGroupLandingPresenter: TermsConditionsViewControllerDelegate {
 
 extension AppGroupLandingPresenter: WhatsNewViewControllerDelegate {
 
-    public func whatsNewViewControllerDidAppear(_ whatsNewViewController: WhatsNewViewController) {
+    open func whatsNewViewControllerDidAppear(_ whatsNewViewController: WhatsNewViewController) {
         UserSession.current.user?.whatsNewShownVersion = whatsNewVersion
     }
 
-    public func whatsNewViewControllerDidTapDoneButton(_ whatsNewViewController: WhatsNewViewController) {
+    open func whatsNewViewControllerDidTapDoneButton(_ whatsNewViewController: WhatsNewViewController) {
         self.updateInterfaceForUserSession(animated: true)
     }
 }

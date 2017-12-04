@@ -30,7 +30,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
         switch presentable {
 
         case .login:
-            let loginViewController = LoginViewController()
+            let loginViewController = LoginViewController(mode: .usernamePassword(delegate: self))
 
             loginViewController.minimumUsernameLength = 1
             loginViewController.minimumPasswordLength = 1
@@ -38,8 +38,6 @@ public class LandingPresenter: AppGroupLandingPresenter {
             loginViewController.backgroundImage = #imageLiteral(resourceName: "Login")
             loginViewController.headerView = LoginHeaderView(title: NSLocalizedString("PSCore", comment: "Login screen header title"),
                                                              subtitle: NSLocalizedString("Public Safety Mobile Platform", comment: "Login screen header subtitle"), image: #imageLiteral(resourceName: "MPOLIcon"))
-
-            loginViewController.delegate = self
 
             #if DEBUG
                 loginViewController.usernameField.text = "matt"
@@ -73,13 +71,13 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let callsignViewController = CompactCallsignViewController()
             callsignViewController.tabBarItem = UITabBarItem(title: "Callsign", image: AssetManager.shared.image(forKey: .entityCar), selectedImage: nil)
 
-            let searchProxyViewController = UIViewController() // TODO: Take me back to the search app
+            let searchProxyViewController = AppProxyViewController(appUrlTypeScheme: SEARCH_APP_SCHEME)
             searchProxyViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
-            searchProxyViewController.tabBarItem.isEnabled = false
 
             let tasksListContainerViewModel = TasksListContainerViewModel(headerViewModel: TasksListHeaderViewModel(), listViewModel: TasksListViewModel())
             let tasksSplitViewModel = TasksSplitViewModel(listContainerViewModel: tasksListContainerViewModel,
-                                                          mapViewModel: TasksMapViewModel())
+                                                          mapViewModel: TasksMapViewModel(),
+                                                          filterViewModel: TaskMapFilterViewModel())
             let tasksNavController = UINavigationController(rootViewController: tasksSplitViewModel.createViewController())
             tasksNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarTasks)
             tasksNavController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tasks Tab Bar Item")
@@ -100,8 +98,38 @@ public class LandingPresenter: AppGroupLandingPresenter {
             sessionViewController.regularViewControllers = [searchProxyViewController, tasksNavController, activityNavController]
             sessionViewController.compactViewControllers = sessionViewController.viewControllers + [callsignViewController]
             sessionViewController.selectedViewController = tasksNavController
+            sessionViewController.statusTabBarDelegate = self
             return sessionViewController
         }
+    }
+
+    /// Custom login using the CAD API manager
+    override open func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
+        #if DEBUG
+            controller.setLoading(true, animated: true)
+            CADStateManager.apiManager.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] token -> Void in
+                guard let `self` = self else { return }
+
+                APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+                UserSession.startSession(user: User(username: username), token: token)
+                controller.resetFields()
+                self.updateInterfaceForUserSession(animated: true)
+
+            }.catch { error in
+                let error = error as NSError
+                let title = error.localizedFailureReason ?? "Error"
+                let message = error.localizedDescription
+                controller.present(SystemScreen.serverError(title: title, message: message))
+            }.always {
+                controller.setLoading(false, animated: true)
+            }
+        #else
+            super.loginViewController(controller, didFinishWithUsername: username, password: password)
+        #endif
+    }
+    
+    public var wantsForgotPassword: Bool {
+        return false
     }
 
     // MARK: - Private
@@ -111,3 +139,13 @@ public class LandingPresenter: AppGroupLandingPresenter {
     }
 }
 
+// MARK: - StatusTabBarDelegate
+extension LandingPresenter: StatusTabBarDelegate {
+    public func controller(_ controller: StatusTabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if let appProxy = viewController as? AppProxyViewController {
+            appProxy.launchApp()
+            return false
+        }
+        return true
+    }
+}

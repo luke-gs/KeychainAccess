@@ -36,7 +36,8 @@ public class EntityPresenter: Presenter {
         case .entityDetails(let entity, let delegate):
             let dataSources: [EntityDetailSectionsDataSource]
 
-            if entity is Person {
+            switch entity {
+            case is Person:
                 dataSources = [
                     PersonMPOLDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
                     PersonFNCDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
@@ -47,8 +48,7 @@ public class EntityPresenter: Presenter {
                                                               andMatchMaker: PersonMatchMaker())
 
                 return EntityDetailSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(viewModel: viewModel)
-
-            } else {
+            case is Vehicle:
                 dataSources = [
                     VehicleMPOLDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
                     VehicleFNCDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
@@ -59,7 +59,16 @@ public class EntityPresenter: Presenter {
                                                               andMatchMaker: VehicleMatchMaker())
 
                 return EntityDetailSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(viewModel: viewModel)
+            case is Address:
+                dataSources = [LocationMPOLDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)]
+                let viewModel = EntityDetailSectionsViewModel(initialSource: MPOLSource.mpol,
+                                                              dataSources: dataSources,
+                                                              andMatchMaker: nil)
+                return EntityDetailSplitViewController<EntityDetailsDisplayable, AddressSummaryDisplayable>(viewModel: viewModel)
+            default:
+                break
             }
+            return UIViewController()
 
         case .help(let type):
             let content: HelpContent

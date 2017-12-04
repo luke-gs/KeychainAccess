@@ -1,0 +1,245 @@
+{
+    "incidents": [
+        {
+            "identifier": "AS4205",
+            "secondaryCode": "MP0001529",
+            "type": "Assault",
+            "grade": "P1",
+            "patrolGroup": "Collingwood",
+            "location": {
+                "streetNumberFirst": "188",
+                "streetName": "Smith",
+                "streetType": "Street",
+                "suburb": "Collingwood",
+                "state": "VIC",
+                "postalCode": "3066",
+                "country": "Australia",
+                "fullAddress": "188 Smith Street, Collingwood VIC 3066",
+                "latitude": -37.8031731,
+                "longitude": 144.9837496
+            },
+            "createdAt": "2017-12-02T01:01:07Z",
+            "lastUpdated": "2017-12-02T01:01:07Z",
+            "details": "An armed group of men are currently barricaded within the lobby of Orion Central Bank. Initial communication has not been established and the current situation is approaching a critical level.",
+            "informant": {
+                "fullName": "Toby Sellheim",
+                "primaryPhone": "(03) 5301 6714",
+                "secondaryPhone": "0412 345 678"
+            },
+            "persons": [
+                {
+                    "firstName": "Daniel",
+                    "middleNames": "Vaele",
+                    "lastName": "Clift",
+                    "gender": "Male",
+                    "thumbnail": null,
+                    "dateOfBirth": "18/06/1997",
+                    "alertLevel": 2,
+                    "fullAddress": "8 Catherine Street, Southbank VIC 3006"
+                }
+            ],
+            "vehicles": [
+                {
+                    "plateNumber": "1HF22I",
+                    "vehicleType": "Car",
+                    "vehicleDescription": "2017 Tesla Model S P100D",
+                    "bodyType": "Coupe",
+                    "color": "Black / Black",
+                    "alertLevel": 3,
+                    "stolen": true
+                }
+            ],
+            "narrative": [
+                {
+                    "title": "Incident Created",
+                    "description": "Dispatch",
+                    "source": "Dispatch",
+                    "timestamp": "2017-12-02T01:14:00Z"
+                },
+                {
+                    "title": "Incident Details Updated",
+                    "description": "Dispatch",
+                    "source": "Dispatch",
+                    "timestamp": "2017-12-02T01:14:30Z"
+                },
+                {
+                    "title": "Incident Details Updated",
+                    "description": "Dispatch",
+                    "source": "Dispatch",
+                    "timestamp": "2017-12-02T01:17:00Z"
+                },
+                {
+                    "title": "Incident Details Updated",
+                    "description": "Dispatch",
+                    "source": "Dispatch",
+                    "timestamp": "2017-12-02T01:18:00Z"
+                },
+                {
+                    "title": "Status: Proceeding",
+                    "description": "P12 (1) • B. Cooper",
+                    "source": "P12",
+                    "timestamp": "2017-12-02T01:20:00Z"
+                },
+                {
+                    "title": "Status: Proceeding",
+                    "description": "P24 (2) • T. Baily and D. Fisher",
+                    "source": "P24",
+                    "timestamp": "2017-12-02T01:24:00Z"
+                },
+                {
+                    "title": "Status: At Incident",
+                    "description": "P24 (2) • T. Baily and D. Fisher",
+                    "source": "P24",
+                    "timestamp": "2017-12-02T01:28:00Z"
+                },
+                {
+                    "title": "Incident Details Updated",
+                    "description": "Dispatch",
+                    "source": "Dispatch",
+                    "timestamp": "2017-12-02T01:30:00Z"
+                }
+            ]
+        },
+        {
+            "identifier": "AS4217",
+            "secondaryCode": "MP0001517",
+            "type": "Vandalism",
+            "grade": "P4",
+            "patrolGroup": "Collingwood",
+            "location": {
+                "streetNumberFirst": "12",
+                "streetName": "Vere",
+                "streetType": "Street",
+                "suburb": "Richmond",
+                "state": "VIC",
+                "postalCode": "3121",
+                "country": "Australia",
+                "fullAddress": "12 Vere Street, Richmond VIC 3121",
+                "latitude": -37.8138419,
+                "longitude": 144.9970649
+            },
+            "createdAt": "2017-12-01T23:41:07Z",
+            "lastUpdated": "2017-12-01T23:41:07Z",
+            "details": "Multiple letterboxes that belong to a group of units have been damaged with what witnesses have described to be a baseball bat. Offenders have fled on foot and are thought to be residing in the area.",
+            "informant": {
+                "fullName": "Joel Stanford",
+                "primaryPhone": "(02) 6123 9347",
+                "secondaryPhone": "0423 456 789"
+            },
+            "persons": [],
+            "vehicles": [],
+            "narrative": [
+                {
+                    "title": "Incident Created",
+                    "description": "Dispatch",
+                    "source": "Dispatch",
+                    "timestamp": "2017-12-01T23:41:07Z"
+                },
+                {
+                    "title": "Incident Details Updated",
+                    "description": "Dispatch",
+                    "source": "Dispatch",
+                    "timestamp": "2017-12-01T23:41:30Z"
+                }
+            ]
+        }
+    ],
+    "resources": [
+        {
+            "callsign": "P24",
+            "status": "At Incident",
+            "patrolGroup": "Collingwood",
+            "station": "Collingwood Station",
+            "currentIncident": "AS4205",
+            "assignedIncidents": [
+                "AS4205",
+                "AS4217"
+            ],
+            "location": {
+                "streetNumberFirst": "188",
+                "streetName": "Smith",
+                "streetType": "Street",
+                "suburb": "Collingwood",
+                "state": "VIC",
+                "postalCode": "3066",
+                "country": "Australia",
+                "fullAddress": "188 Smith Street, Collingwood VIC 3066",
+                "latitude": -37.8031731,
+                "longitude": 144.9837496
+            },
+            "driver": "777122",
+            "payrollIds": [
+                "777122",
+                "777453"
+            ],
+            "shiftStart": "2017-12-02T01:00:00Z",
+            "shiftEnd": "2017-12-02T12:00:00Z",
+            "type": "Vehicle",
+            "serial": "ARP015",
+            "vehicleCategory": "2",
+            "equipment": [
+                {
+                    "description": "Shotgun",
+                    "count": 4
+                }
+            ],
+            "remarks": "",
+            "lastUpdated": "2017-12-02T01:28:00Z",
+            "activityLog": [
+                {
+                    "title": "Status: Proceeding (Assault #AS4205)",
+                    "description": "T. Baily and D. Fisher",
+                    "source": "P24",
+                    "timestamp": "2017-12-02T01:24:00Z"
+                },
+                {
+                    "title": "Status: At Incident (Assault #AS4205)",
+                    "description": "T. Baily and D. Fisher",
+                    "source": "P24",
+                    "timestamp": "2017-12-02T01:28:00Z"
+                }
+            ]
+        }
+    ],
+    "officers": [
+    {
+        "payrollId": "777122",
+        "rank": "Senior Constable",
+        "firstName": "Tina",
+        "middleName": "F.",
+        "lastName": "Bailey",
+        "patrolGroup": "Collingwood",
+        "station": "Collingwood Station",
+        "licenceTypeId": "Gold License",
+        "contactNumber": "0491 570 156",
+        "remarks": "",
+        "capabilities": ""
+    },
+    {
+        "payrollId": "777453",
+        "rank": "First Constable",
+        "firstName": "Darren",
+        "middleName": "A.",
+        "lastName": "Fisher",
+        "patrolGroup": "Collingwood",
+        "station": "Collingwood Station",
+        "licenceTypeId": "Silver License",
+        "contactNumber": "0491 570 110",
+        "remarks": "",
+        "capabilities": ""
+    },
+    {
+        "payrollId": "777032",
+        "rank": "Leading Senior Constable",
+        "firstName": "Bill",
+        "middleName": "O.",
+        "lastName": "Cooper",
+        "patrolGroup": "Collingwood",
+        "station": "Collingwood Station",
+        "licenceTypeId": "Gold License",
+        "contactNumber": "0491 570 157",
+        "remarks": "",
+        "capabilities": ""
+    },
+]
+}
