@@ -56,7 +56,7 @@ final public class Evaluator {
     ///
     /// - Parameters:
     ///   - identifier: String The value to store the block against
-    ///   - handler: The block that will be called when an soemthing triggers a change to occur
+    ///   - handler: The block that will be called when something triggers a change to occur
     public func registerKey(_ key: EvaluatorKey, withHandler handler: @escaping EvaluationHandler) {
         evaluators[key] = handler
         evaluationStates[key] = handler()
