@@ -29,7 +29,7 @@ public protocol EntitySnapshotable: class {
 /// This manages snapshots and entities and ensuring that the snapshots are notified when an entity is added.
 public class EntityManager {
 
-    private enum EntityManagerError: Error {
+    public enum EntityManagerError: Error {
         case EntityNotFound
     }
 
