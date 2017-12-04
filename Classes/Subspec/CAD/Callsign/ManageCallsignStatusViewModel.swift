@@ -98,14 +98,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
             return firstly {
                 // Traffic stop requires extra information
                 if case .trafficStop = newStatus {
-                    return firstly { [weak self] in
-                        SelectStoppedVehicleViewModel.prompt(using: self?.delegate)
-                    }.then { [weak self] in
-                        TrafficStopViewModel.prompt(using: self?.delegate)
-                    }.then { [weak self] _ -> Void in
-//                        _ = self?.delegate?.popPushedViewController(animated: false)
-                        _ = self?.delegate?.popPushedViewController(animated: true)
-                    }
+                    return promptForTrafficStopDetails()
                 }
                 
                 // Otherwise start from next block
@@ -167,6 +160,17 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
         let section = Int(rawIndex / numberOfItems(for: 0))
         let row = rawIndex % numberOfItems(for: 0)
         return IndexPath(row: row, section: section)
+    }
+    
+    private func promptForTrafficStopDetails() -> Promise<Void> {
+        return firstly { [weak self] in
+                SelectStoppedVehicleViewModel.prompt(using: self?.delegate)
+            }.then { [weak self] in
+                TrafficStopViewModel.prompt(using: self?.delegate)
+            }.then { [weak self] _ -> Void in
+                _ = self?.delegate?.popPushedViewController(animated: true)
+                _ = self?.delegate?.popPushedViewController(animated: false)
+        }
     }
 
     // MARK: - Override

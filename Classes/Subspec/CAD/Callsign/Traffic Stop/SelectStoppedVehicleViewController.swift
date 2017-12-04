@@ -21,7 +21,7 @@ open class SelectStoppedVehicleViewController: CADFormCollectionViewController<S
         static let edgeButtonPadding: CGFloat = 24
     }
     
-    // MARKL - Views
+    // MARK - Views
     
     open var footerDivider: UIView!
     open var searchButton: UIButton!
