@@ -38,8 +38,9 @@ open class ResourceOverviewFormViewController: FormBuilderViewController {
                     guard let resource = CADStateManager.shared.resourcesById[self.viewModel.callsign],
                         let incident = CADStateManager.shared.incidentsById[currentIncident.identifier]
                     else {
-                            return
+                        return
                     }
+                    
                     // Present the resource split view controller
                     let viewModel = IncidentTaskItemViewModel(incident: incident, resource: resource)
                     let vc = TasksItemSidebarViewController(viewModel: viewModel)
