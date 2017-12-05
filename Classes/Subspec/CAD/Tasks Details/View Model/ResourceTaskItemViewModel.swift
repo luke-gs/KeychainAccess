@@ -22,6 +22,7 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
 
     public convenience init(resource: SyncDetailsResource) {
         self.init(
+            callsign: resource.callsign,
             iconImage: resource.status.icon,
             iconTintColor: resource.status.iconColors.icon,
             color: resource.status.iconColors.background,

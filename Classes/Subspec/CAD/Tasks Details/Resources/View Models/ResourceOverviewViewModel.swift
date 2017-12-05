@@ -44,7 +44,7 @@ open class ResourceOverviewViewModel: TaskDetailsViewModel {
         else {
             return nil
         }
-        return TasksListItemViewModel(incident: incident)
+        return TasksListItemViewModel(incident: incident, hasUpdates: false)
     }
     
     open func loadSections() {
