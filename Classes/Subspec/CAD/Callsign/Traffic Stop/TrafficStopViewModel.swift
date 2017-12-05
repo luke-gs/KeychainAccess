@@ -9,19 +9,7 @@ import PromiseKit
 
 open class TrafficStopViewModel {
     
-    // MARK: - Class Methods
-    
-    open static func prompt(using delegate: CADFormCollectionViewModelDelegate?) -> Promise<Void> {
-        let viewModel = TrafficStopViewModel()
-        delegate?.presentPushedViewController(viewModel.createViewController(), animated: true)
-        return viewModel.promiseTuple.promise
-    }
-    
-    // MARK: - Properties
-    
-    /// The promise that completes on user interaction.
-    // TODO: Create traffic stop model and return in this promise
-    open let promiseTuple: Promise<Void>.PendingTuple = Promise<Void>.pending()
+    open private(set) var entities: [SelectStoppedEntityItemViewModel] = []
     
     // MARK: - Lifecycle
     

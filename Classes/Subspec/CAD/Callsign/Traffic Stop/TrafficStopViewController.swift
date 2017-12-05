@@ -43,18 +43,21 @@ open class TrafficStopViewController: FormBuilderViewController {
     open override func construct(builder: FormBuilder) {
         builder.title = viewModel.navTitle()
         
-        builder += HeaderFormItem(text: "STOPPED VEHICLE")
-        builder += SummaryListFormItem()
-            .title("ARP067")
-            .subtitle("2017 Model S P100D  •  Coupe  •  Black/Black")
-            .image(AssetManager.shared.image(forKey: .entityCarSmall))
-            .imageTintColor(.red)
-            .borderColor(.red)
-            .accessory(FormAccessoryView(style: .disclosure))
-            .onSelection({ [weak self] _ in
-                _ = self?.popPushedViewController(animated: true)
+        builder += HeaderFormItem(text: "STOPPED ENTITIES")
+            .actionButton(title: NSLocalizedString("ADD", comment: "").uppercased(), handler: { [unowned self] in
+                let viewModel = SelectStoppedEntityViewModel()
+                self.navigationController?.pushViewController(viewModel.createViewController(), animated: true)
             })
-            .width(.column(1))
+        viewModel.entities.forEach { item in
+            builder += SummaryListFormItem()
+                .category(item.category)
+                .title(item.title)
+                .subtitle(item.subtitle)
+                .image(item.image)
+                .imageTintColor(item.imageColor ?? .primaryGray)
+                .borderColor(item.borderColor)
+                .width(.column(1))
+        }
         
         builder += HeaderFormItem(text: "GENERAL")
         builder += ValueFormItem()
@@ -64,7 +67,6 @@ open class TrafficStopViewController: FormBuilderViewController {
             .width(.column(1))
         builder += OptionFormItem()
             .title("Create an incident".sizing(withNumberOfLines: 0, font: UIFont.systemFont(ofSize: 15, weight: .semibold)))
-            .isChecked(true)
             .width(.column(1))
         
         builder += HeaderFormItem(text: "INCIDENT DETAILS")
@@ -92,14 +94,10 @@ open class TrafficStopViewController: FormBuilderViewController {
     
     @objc private func didTapCancelButton(_ button: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
-        
-        // Reject view model's promise with cancelled error
-        viewModel.promiseTuple.reject(NSError.cancelledError())
     }
     
     @objc private func didTapDoneButton(_ button: UIBarButtonItem) {
-        // TODO: Fulfill with selected vehicle
-        viewModel.promiseTuple.fulfill(())
+        navigationController?.popViewController(animated: true)
     }
 
 }

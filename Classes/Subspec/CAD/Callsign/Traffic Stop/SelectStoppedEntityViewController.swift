@@ -1,5 +1,5 @@
 //
-//  SelectStoppedVehicleViewController.swift
+//  SelectStoppedEntityViewController.swift
 //  MPOLKit
 //
 //  Created by Megan Efron on 30/11/17.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class SelectStoppedVehicleViewController: CADFormCollectionViewController<SelectStoppedVehicleItemViewModel> {
+open class SelectStoppedEntityViewController: CADFormCollectionViewController<SelectStoppedEntityItemViewModel> {
     
     /// Layout sizing constants
     public struct LayoutConstants {
@@ -27,8 +27,8 @@ open class SelectStoppedVehicleViewController: CADFormCollectionViewController<S
     open var searchButton: UIButton!
     
     /// `super.viewModel` typecasted to our type
-    open var selectStoppedVehicleViewModel: SelectStoppedVehicleViewModel? {
-        return viewModel as? SelectStoppedVehicleViewModel
+    open var selectStoppedEntityViewModel: SelectStoppedEntityViewModel? {
+        return viewModel as? SelectStoppedEntityViewModel
     }
     
     /// Support being transparent when in popover/form sheet
@@ -41,7 +41,7 @@ open class SelectStoppedVehicleViewController: CADFormCollectionViewController<S
     
     // MARK: - Setup
     
-    public init(viewModel: SelectStoppedVehicleViewModel) {
+    public init(viewModel: SelectStoppedEntityViewModel) {
         super.init(viewModel: viewModel)
         
         setupViews()
@@ -90,7 +90,7 @@ open class SelectStoppedVehicleViewController: CADFormCollectionViewController<S
         searchButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         searchButton.setTitleColor(tintColor, for: .normal)
         searchButton.setTitleColor(tintColor.withAlphaComponent(0.5), for: .highlighted)
-        searchButton.setTitle(selectStoppedVehicleViewModel?.searchButtonText(), for: .normal)
+        searchButton.setTitle(selectStoppedEntityViewModel?.searchButtonText(), for: .normal)
         searchButton.addTarget(self, action: #selector(didSelectSearchButton), for: .touchUpInside)
         searchButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(searchButton)
@@ -112,13 +112,10 @@ open class SelectStoppedVehicleViewController: CADFormCollectionViewController<S
 
     @objc private func didTapCancelButton(_ button: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
-        
-        // Reject view model's promise with cancelled error
-        selectStoppedVehicleViewModel?.promiseTuple.reject(NSError.cancelledError())
     }
     
     @objc open func didSelectSearchButton() {
-        // TODO: Present search screen for vehicles
+        // TODO: Present search screen for entities
     }
     
     // MARK: - Override
@@ -127,12 +124,11 @@ open class SelectStoppedVehicleViewController: CADFormCollectionViewController<S
         return EntityListCollectionViewCell.self
     }
     
-    open override func decorate(cell: CollectionViewFormCell, with viewModel: SelectStoppedVehicleItemViewModel) {
+    open override func decorate(cell: CollectionViewFormCell, with viewModel: SelectStoppedEntityItemViewModel) {
         cell.highlightStyle = .fade
         cell.selectionStyle = .fade
         cell.separatorStyle = .indented
         cell.separatorColor = UIColor.red
-        cell.accessoryView = FormAccessoryView(style: .disclosure)
         
         if let cell = cell as? EntityListCollectionViewCell {
             cell.sourceLabel.text = viewModel.category
@@ -164,9 +160,7 @@ open class SelectStoppedVehicleViewController: CADFormCollectionViewController<S
     
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        
-        // TODO: Fulfill with selected vehicle
-        selectStoppedVehicleViewModel?.promiseTuple.fulfill(())
+        navigationController?.popViewController(animated: true)
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {

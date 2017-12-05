@@ -95,21 +95,23 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
         let newStatus = statusForIndexPath(indexPath)
         if currentStatus.canChangeToStatus(newStatus: newStatus) {
             
-            return firstly {
-                // Traffic stop requires extra information
-                if case .trafficStop = newStatus {
-                    return promptForTrafficStopDetails()
-                }
-                
-                // Otherwise start from next block
-                return Promise<Void>()
-            }.then {
-                // TODO: Insert network call here
+            let promise = firstly {
+                // TODO: Insert network request here
                 after(seconds: 1.0)
-            }.then {
+            }.then { _ -> Promise<ResourceStatus> in
+                // Update UI
                 self.selectedIndexPath = indexPath
                 CADStateManager.shared.updateCallsignStatus(status: newStatus)
                 return Promise(value: self.currentStatus)
+            }
+            
+            // Traffic stop requires extra information
+            if case .trafficStop = newStatus {
+                return self.promptForTrafficStopDetails().then {
+                    return promise
+                }
+            } else {
+                return promise
             }
         } else {
             let message = NSLocalizedString("Selection not allowed from this state", comment: "")
@@ -147,6 +149,14 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
             }
         }
     }
+    
+    // Prompts the user for more details when tapping on "Traffic Stop" status
+    open func promptForTrafficStopDetails() -> Promise<Void> {
+        // TODO: Implement properly
+        let viewModel = TrafficStopViewModel()
+        delegate?.presentPushedViewController(viewModel.createViewController(), animated: true)
+        return Promise<Void>()
+    }
 
     // MARK: - Internal
 
@@ -160,17 +170,6 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
         let section = Int(rawIndex / numberOfItems(for: 0))
         let row = rawIndex % numberOfItems(for: 0)
         return IndexPath(row: row, section: section)
-    }
-    
-    private func promptForTrafficStopDetails() -> Promise<Void> {
-        return firstly { [weak self] in
-                SelectStoppedVehicleViewModel.prompt(using: self?.delegate)
-            }.then { [weak self] in
-                TrafficStopViewModel.prompt(using: self?.delegate)
-            }.then { [weak self] _ -> Void in
-                _ = self?.delegate?.popPushedViewController(animated: true)
-                _ = self?.delegate?.popPushedViewController(animated: false)
-        }
     }
 
     // MARK: - Override
