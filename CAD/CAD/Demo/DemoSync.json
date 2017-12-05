@@ -1,30 +1,30 @@
 {
     "incidents": [
         {
-            "identifier": "AS4205",
-            "secondaryCode": "MP0001529",
-            "type": "Assault",
+            "identifier": "AS4217",
+            "secondaryCode": "MP0001517",
+            "type": "Bank Robbery",
             "grade": "P1",
             "patrolGroup": "Collingwood",
             "location": {
-                "streetNumberFirst": "188",
+                "streetNumberFirst": "231",
                 "streetName": "Smith",
                 "streetType": "Street",
-                "suburb": "Collingwood",
+                "suburb": "Fitzroy",
                 "state": "VIC",
-                "postalCode": "3066",
+                "postalCode": "3065",
                 "country": "Australia",
-                "fullAddress": "188 Smith Street, Collingwood VIC 3066",
-                "latitude": -37.8031731,
-                "longitude": 144.9837496
+                "fullAddress": "406 Smith Street, Fitzroy VIC 3065",
+                "latitude": -37.8016534,
+                "longitude": 144.9838772
             },
-            "createdAt": "2017-12-02T01:01:07Z",
-            "lastUpdated": "2017-12-02T01:01:07Z",
-            "details": "An armed group of men are currently barricaded within the lobby of Orion Central Bank. Initial communication has not been established and the current situation is approaching a critical level.",
+            "createdAt": "2017-12-01T23:41:07Z",
+            "lastUpdated": "2017-12-01T23:41:07Z",
+            "details": "An armed group of men are currently barricaded within the lobby of Orion Central Bank, Collingwood. Communication channels has yet to be established.",
             "informant": {
-                "fullName": "Toby Sellheim",
-                "primaryPhone": "(03) 5301 6714",
-                "secondaryPhone": "0412 345 678"
+                "fullName": "Joel Stanford",
+                "primaryPhone": "(02) 6123 9347",
+                "secondaryPhone": "0423 456 789"
             },
             "persons": [
                 {
@@ -101,22 +101,109 @@
             ]
         },
         {
-            "identifier": "AS4217",
+            "identifier": "AS4104",
             "secondaryCode": "MP0001517",
-            "type": "Vandalism",
-            "grade": "P4",
+            "type": "Public Disturbance",
+            "grade": "P1",
             "patrolGroup": "Collingwood",
             "location": {
-                "streetNumberFirst": "12",
-                "streetName": "Vere",
+                "streetNumberFirst": "167",
+                "streetName": "Islington",
                 "streetType": "Street",
-                "suburb": "Richmond",
+                "suburb": "Collingwood",
                 "state": "VIC",
-                "postalCode": "3121",
+                "postalCode": "3066",
                 "country": "Australia",
-                "fullAddress": "12 Vere Street, Richmond VIC 3121",
-                "latitude": -37.8138419,
-                "longitude": 144.9970649
+                "fullAddress": "167 Islington Street, Collingwood VIC 3066",
+                "latitude": -37.8030667,
+                "longitude": 144.9901705
+            },
+            "createdAt": "2017-12-01T23:41:07Z",
+            "lastUpdated": "2017-12-01T23:41:07Z",
+            "details": "Multiple witnesses have reported a couple arguing in public and disturbing the peace. They appear to be either intoxicated or under the influence of an illicit drugs.",
+            "informant": {
+                "fullName": "Joel Stanford",
+                "primaryPhone": "(02) 6123 9347",
+                "secondaryPhone": "0423 456 789"
+            },
+            "persons": [],
+            "vehicles": [],
+            "narrative": [
+                {
+                    "title": "Incident Created",
+                    "description": "Dispatch",
+                    "source": "Dispatch",
+                    "timestamp": "2017-12-01T23:41:07Z"
+                },
+                {
+                    "title": "Incident Details Updated",
+                    "description": "Dispatch",
+                    "source": "Dispatch",
+                    "timestamp": "2017-12-01T23:41:30Z"
+                }
+            ]
+        },
+        {
+            "identifier": "AS3110",
+            "secondaryCode": "MP0001517",
+            "type": "Public Nuisance",
+            "grade": "P2",
+            "patrolGroup": "Collingwood",
+            "location": {
+                "streetNumberFirst": "1",
+                "streetNumberLast": "13",
+                "streetName": "Victoria",
+                "streetType": "Parade",
+                "suburb": "Collingwood",
+                "state": "VIC",
+                "postalCode": "3066",
+                "country": "Australia",
+                "fullAddress": "1-13 Victoria Parade, Collingwood VIC 3066",
+                "latitude": -37.807711,
+                "longitude": 144.9833266
+            },
+            "createdAt": "2017-12-01T23:41:07Z",
+            "lastUpdated": "2017-12-01T23:41:07Z",
+            "details": "Building owner has reported that a group of individuals have forcefully entered the premises and are now refusing to leave.",
+            "informant": {
+                "fullName": "Joel Stanford",
+                "primaryPhone": "(02) 6123 9347",
+                "secondaryPhone": "0423 456 789"
+            },
+            "persons": [],
+            "vehicles": [],
+            "narrative": [
+                {
+                    "title": "Incident Created",
+                    "description": "Dispatch",
+                    "source": "Dispatch",
+                    "timestamp": "2017-12-01T23:41:07Z"
+                },
+                {
+                    "title": "Incident Details Updated",
+                    "description": "Dispatch",
+                    "source": "Dispatch",
+                    "timestamp": "2017-12-01T23:41:30Z"
+                }
+            ]
+        },
+        {
+            "identifier": "AS4096",
+            "secondaryCode": "MP0001517",
+            "type": "Willful Destruction",
+            "grade": "P2",
+            "patrolGroup": "Collingwood",
+            "location": {
+                "streetNumberFirst": "48",
+                "streetName": "Easey",
+                "streetType": "Street",
+                "suburb": "Collingwood",
+                "state": "VIC",
+                "postalCode": "3066",
+                "country": "Australia",
+                "fullAddress": "48 Easey Street, Collingwood VIC 3066",
+                "latitude": -37.7975583,
+                "longitude": 144.9858495
             },
             "createdAt": "2017-12-01T23:41:07Z",
             "lastUpdated": "2017-12-01T23:41:07Z",
@@ -142,66 +229,522 @@
                     "timestamp": "2017-12-01T23:41:30Z"
                 }
             ]
-        }
-    ],
-    "resources": [
+        },
         {
-            "callsign": "P24",
-            "status": "At Incident",
+            "identifier": "AS4414",
+            "secondaryCode": "MP0001517",
+            "type": "Traffic Crash No Injury",
+            "grade": "P3",
             "patrolGroup": "Collingwood",
-            "station": "Collingwood Station",
-            "currentIncident": "AS4205",
-            "assignedIncidents": [
-                "AS4205",
-                "AS4217"
-            ],
             "location": {
-                "streetNumberFirst": "188",
+                "streetNumberFirst": "51",
+                "streetName": "Gipps",
+                "streetType": "Street",
+                "suburb": "Collingwood",
+                "state": "VIC",
+                "postalCode": "3066",
+                "country": "Australia",
+                "fullAddress": "51 Gipps Street, Collingwood VIC 3066",
+                "latitude": -37.804733,
+                "longitude": 144.988533
+            },
+            "createdAt": "2017-12-01T23:41:07Z",
+            "lastUpdated": "2017-12-01T23:41:07Z",
+            "details": "A multi-vehicle collision has occured. No injuries have been reported but traffic has been reduced from 3 to 1 lane due to wreckage. Officers are required on scene to re-direct traffic.",
+            "informant": {
+                "fullName": "Joel Stanford",
+                "primaryPhone": "(02) 6123 9347",
+                "secondaryPhone": "0423 456 789"
+            },
+            "persons": [],
+            "vehicles": [],
+            "narrative": [
+                {
+                    "title": "Incident Created",
+                    "description": "Dispatch",
+                    "source": "Dispatch",
+                    "timestamp": "2017-12-01T23:41:07Z"
+                },
+                {
+                    "title": "Incident Details Updated",
+                    "description": "Dispatch",
+                    "source": "Dispatch",
+                    "timestamp": "2017-12-01T23:41:30Z"
+                }
+            ]
+        },
+        {
+            "identifier": "AS3092",
+            "secondaryCode": "MP0001517",
+            "type": "Industrial Accident",
+            "grade": "P3",
+            "patrolGroup": "Collingwood",
+            "location": {
+                "streetNumberFirst": "406",
                 "streetName": "Smith",
                 "streetType": "Street",
                 "suburb": "Collingwood",
                 "state": "VIC",
                 "postalCode": "3066",
                 "country": "Australia",
-                "fullAddress": "188 Smith Street, Collingwood VIC 3066",
-                "latitude": -37.8031731,
-                "longitude": 144.9837496
+                "fullAddress": "406 Smith Street, Collingwood VIC 3066",
+                "latitude": -37.7966731,
+                "longitude": 144.9847604
             },
-            "driver": "777122",
-            "payrollIds": [
-                "777122",
-                "777453"
-            ],
-            "shiftStart": "2017-12-02T01:00:00Z",
-            "shiftEnd": "2017-12-02T12:00:00Z",
-            "type": "Vehicle",
-            "serial": "ARP015",
-            "vehicleCategory": "2",
-            "equipment": [
+            "createdAt": "2017-12-01T23:41:07Z",
+            "lastUpdated": "2017-12-01T23:41:07Z",
+            "details": "A crane has broken and dropped its load injurying multiple persons in the vicinity. Reports say no serious injuries.",
+            "informant": {
+                "fullName": "Joel Stanford",
+                "primaryPhone": "(02) 6123 9347",
+                "secondaryPhone": "0423 456 789"
+            },
+            "persons": [],
+            "vehicles": [],
+            "narrative": [
                 {
-                    "description": "Shotgun",
-                    "count": 4
-                }
-            ],
-            "remarks": "",
-            "lastUpdated": "2017-12-02T01:28:00Z",
-            "activityLog": [
-                {
-                    "title": "Status: Proceeding (Assault #AS4205)",
-                    "description": "T. Baily and D. Fisher",
-                    "source": "P24",
-                    "timestamp": "2017-12-02T01:24:00Z"
+                    "title": "Incident Created",
+                    "description": "Dispatch",
+                    "source": "Dispatch",
+                    "timestamp": "2017-12-01T23:41:07Z"
                 },
                 {
-                    "title": "Status: At Incident (Assault #AS4205)",
-                    "description": "T. Baily and D. Fisher",
-                    "source": "P24",
-                    "timestamp": "2017-12-02T01:28:00Z"
+                    "title": "Incident Details Updated",
+                    "description": "Dispatch",
+                    "source": "Dispatch",
+                    "timestamp": "2017-12-01T23:41:30Z"
+                }
+            ]
+        },
+        {
+            "identifier": "AS4911",
+            "secondaryCode": "MP0001517",
+            "type": "Stealing Offences",
+            "grade": "P4",
+            "patrolGroup": "Collingwood",
+            "location": {
+                "streetNumberFirst": "58",
+                "streetNumberLast": "70",
+                "streetName": "Perry",
+                "streetType": "Street",
+                "suburb": "Collingwood",
+                "state": "VIC",
+                "postalCode": "3066",
+                "country": "Australia",
+                "fullAddress": "58-70 Perry Street, Collingwood VIC 3066",
+                "latitude": -37.8005437,
+                "longitude": 144.9870475
+            },
+            "createdAt": "2017-12-01T23:41:07Z",
+            "lastUpdated": "2017-12-01T23:41:07Z",
+            "details": "A group of teenagers have stolen a purse from an old lady. A tradesman has intervened and has apprehended the teenagers. Police required to attend and sort out the matter.",
+            "informant": {
+                "fullName": "Joel Stanford",
+                "primaryPhone": "(02) 6123 9347",
+                "secondaryPhone": "0423 456 789"
+            },
+            "persons": [],
+            "vehicles": [],
+            "narrative": [
+                {
+                    "title": "Incident Created",
+                    "description": "Dispatch",
+                    "source": "Dispatch",
+                    "timestamp": "2017-12-01T23:41:07Z"
+                },
+                {
+                    "title": "Incident Details Updated",
+                    "description": "Dispatch",
+                    "source": "Dispatch",
+                    "timestamp": "2017-12-01T23:41:30Z"
                 }
             ]
         }
     ],
-    "officers": [
+"resources": [
+    {
+        "callsign": "V01",
+        "status": "At Incident",
+        "patrolGroup": "Collingwood",
+        "station": "Collingwood Station",
+        "currentIncident": "AS4217",
+        "assignedIncidents": [
+            "AS4217",
+            "AS3110",
+            "AS4096"
+        ],
+        "location": {
+            "streetNumberFirst": "221",
+            "streetNumberLast": "231",
+            "streetName": "Moor",
+            "streetType": "Street",
+            "suburb": "Fitzroy",
+            "state": "VIC",
+            "postalCode": "3065",
+            "country": "Australia",
+            "fullAddress": "406 Smith Street, Fitzroy VIC 3065",
+            "latitude": -37.8021476,
+            "longitude": 144.9835266
+        },
+        "driver": "777122",
+        "payrollIds": [
+            "777122",
+            "777453"
+        ],
+        "shiftStart": "2017-12-02T01:00:00Z",
+        "shiftEnd": "2017-12-02T12:00:00Z",
+        "type": "Vehicle",
+        "serial": "ARP015",
+        "vehicleCategory": "2",
+        "equipment": [
+            {
+                "description": "Shotgun",
+                "count": 4
+            }
+        ],
+        "remarks": "",
+        "lastUpdated": "2017-12-02T01:28:00Z",
+        "activityLog": [
+            {
+                "title": "Status: Proceeding (Assault #AS4205)",
+                "description": "T. Baily and D. Fisher",
+                "source": "V01",
+                "timestamp": "2017-12-02T01:24:00Z"
+            },
+            {
+                "title": "Status: At Incident (Assault #AS4205)",
+                "description": "T. Baily and D. Fisher",
+                "source": "V01",
+                "timestamp": "2017-12-02T01:28:00Z"
+            }
+        ]
+    },
+    {
+        "callsign": "M24",
+        "status": "Duress",
+        "patrolGroup": "Collingwood",
+        "station": "Collingwood Station",
+        "currentIncident": "AS4217",
+        "assignedIncidents": [
+            "AS4217"
+        ],
+        "location": {
+            "streetNumberFirst": "231",
+            "streetName": "Smith",
+            "streetType": "Street",
+            "suburb": "Fitzroy",
+            "state": "VIC",
+            "postalCode": "3065",
+            "country": "Australia",
+            "fullAddress": "406 Smith Street, Fitzroy VIC 3065",
+            "latitude": 37.8019214,
+            "longitude": 144.9837017
+        },
+        "driver": "777032",
+        "payrollIds": [
+            "777032"
+        ],
+        "shiftStart": "2017-12-02T01:00:00Z",
+        "shiftEnd": "2017-12-02T12:00:00Z",
+        "type": "Motorcycle",
+        "serial": "ARP015",
+        "vehicleCategory": "2",
+        "equipment": [
+            {
+                "description": "Shotgun",
+                "count": 4
+            }
+        ],
+        "remarks": "",
+        "lastUpdated": "2017-12-02T01:28:00Z",
+        "activityLog": [
+            {
+                "title": "Status: Proceeding (Assault #AS4217)",
+                "description": "B. Cooper",
+                "source": "M24",
+                "timestamp": "2017-12-02T01:24:00Z"
+            },
+            {
+                "title": "Status: At Incident (Assault #AS4217)",
+                "description": "B. Cooper",
+                "source": "M24",
+                "timestamp": "2017-12-02T01:28:00Z"
+            },
+            {
+                "title": "Status: Duress (Assault #AS4217)",
+                "description": "B. Cooper",
+                "source": "M24",
+                "timestamp": "2017-12-02T02:28:00Z"
+            }
+        ]
+    },
+    {
+        "callsign": "V44",
+        "status": "At Incident",
+        "patrolGroup": "Collingwood",
+        "station": "Collingwood Station",
+        "currentIncident": "AS4104",
+        "assignedIncidents": [
+            "AS4104"
+        ],
+        "location": {
+            "streetNumberFirst": "130",
+            "streetName": "Islington",
+            "streetType": "Street",
+            "suburb": "Collingwood",
+            "state": "VIC",
+            "postalCode": "3066",
+            "country": "Australia",
+            "fullAddress": "130 Islington Street, Collingwood VIC 3066",
+            "latitude": -37.8032625,
+            "longitude": 144.9909579
+        },
+        "driver": "777001",
+        "payrollIds": [
+            "777001"
+        ],
+        "shiftStart": "2017-12-02T01:00:00Z",
+        "shiftEnd": "2017-12-02T12:00:00Z",
+        "type": "Vehicle",
+        "serial": "ARP120",
+        "vehicleCategory": "2",
+        "equipment": [
+            {
+                "description": "Shotgun",
+                "count": 4
+            }
+        ],
+        "remarks": "",
+        "lastUpdated": "2017-12-02T01:28:00Z",
+        "activityLog": [
+            {
+                "title": "Status: Proceeding (Assault #AS4104)",
+                "description": "J. Burnell",
+                "source": "V44",
+                "timestamp": "2017-12-02T01:24:00Z"
+            },
+            {
+                "title": "Status: At Incident (Assault #AS4104)",
+                "description": "J. Burnell",
+                "source": "V44",
+                "timestamp": "2017-12-02T01:28:00Z"
+            }
+        ]
+    },
+    {
+        "callsign": "V16",
+        "status": "On Air",
+        "patrolGroup": "Collingwood",
+        "station": "Collingwood Station",
+        "currentIncident": "AS3110",
+        "assignedIncidents": [
+            "AS3110"
+        ],
+        "location": {
+            "streetNumberFirst": "1",
+            "streetName": "Eddy",
+            "streetType": "Crescent",
+            "suburb": "Abbotsford",
+            "state": "VIC",
+            "postalCode": "3067",
+            "country": "Australia",
+            "fullAddress": "1 Eddy Crescent, Abbotsford VIC 3067",
+            "latitude": -37.803931,
+            "longitude": 144.9924967
+        },
+        "driver": "777019",
+        "payrollIds": [
+            "777019"
+        ],
+        "shiftStart": "2017-12-02T01:00:00Z",
+        "shiftEnd": "2017-12-02T12:00:00Z",
+        "type": "Vehicle",
+        "serial": "ARP007",
+        "vehicleCategory": "2",
+        "equipment": [
+            {
+                "description": "Shotgun",
+                "count": 4
+            }
+        ],
+        "remarks": "",
+        "lastUpdated": "2017-12-02T01:28:00Z",
+        "activityLog": [
+            {
+                "title": "Status: Proceeding (Assault #AS3110)",
+                "description": "H. Gadget",
+                "source": "V16",
+                "timestamp": "2017-12-02T01:24:00Z"
+            },
+            {
+                "title": "Status: At Incident (Assault #AS3110)",
+                "description": "H. Gadget",
+                "source": "V16",
+                "timestamp": "2017-12-02T01:28:00Z"
+            },
+            {
+                "title": "Status: Duress (Assault #AS3110)",
+                "description": "H. Gadget",
+                "source": "V16",
+                "timestamp": "2017-12-02T02:28:00Z"
+            }
+        ]
+    },
+    {
+        "callsign": "D20",
+        "status": "On Air",
+        "patrolGroup": "Collingwood",
+        "station": "Collingwood Station",
+        "currentIncident": "AS4096",
+        "assignedIncidents": [
+            "AS4096"
+        ],
+        "location": {
+            "streetNumberFirst": "67",
+            "streetName": "Rupert",
+            "streetType": "Street",
+            "suburb": "Collingwood",
+            "state": "VIC",
+            "postalCode": "3066",
+            "country": "Australia",
+            "fullAddress": "67 Rupert Street, Collingwood VIC 3066",
+            "latitude": -37.8062467,
+            "longitude": 144.9896011
+        },
+        "driver": "777202",
+        "payrollIds": [
+            "777202"
+        ],
+        "shiftStart": "2017-12-02T01:00:00Z",
+        "shiftEnd": "2017-12-02T12:00:00Z",
+        "type": "DogSquad",
+        "serial": "ARPK99",
+        "vehicleCategory": "2",
+        "equipment": [
+            {
+                "description": "Shotgun",
+                "count": 4
+            }
+        ],
+        "remarks": "",
+        "lastUpdated": "2017-12-02T01:28:00Z",
+        "activityLog": [
+            {
+                "title": "Status: On Air",
+                "description": "E. Saltau",
+                "source": "D20",
+                "timestamp": "2017-12-02T01:24:00Z"
+            }
+        ]
+    },
+    {
+        "callsign": "D99",
+        "status": "Proceeding",
+        "patrolGroup": "Collingwood",
+        "station": "Collingwood Station",
+        "currentIncident": "AS4911",
+        "assignedIncidents": [
+            "AS4911"
+        ],
+        "location": {
+            "streetNumberFirst": "12",
+            "streetName": "Langridge",
+            "streetType": "Street",
+            "suburb": "Collingwood",
+            "state": "VIC",
+            "postalCode": "3066",
+            "country": "Australia",
+            "fullAddress": "12 Langridge Street, Collingwood VIC 3066",
+            "latitude": -37.8067097,
+            "longitude": 144.9831584
+        },
+        "driver": "777791",
+        "payrollIds": [
+            "777791"
+        ],
+        "shiftStart": "2017-12-02T01:00:00Z",
+        "shiftEnd": "2017-12-02T12:00:00Z",
+        "type": "DogSquad",
+        "serial": "ARPK91",
+        "vehicleCategory": "2",
+        "equipment": [
+            {
+                "description": "Shotgun",
+                "count": 4
+            }
+        ],
+        "remarks": "",
+        "lastUpdated": "2017-12-02T01:28:00Z",
+        "activityLog": [
+            {
+                "title": "Status: On Air",
+                "description": "T. Singh",
+                "source": "D20",
+                "timestamp": "2017-12-02T01:24:00Z"
+            },
+            {
+                "title": "Status: Proceeding (Assault #AS4911)",
+                "description": "T. Singh",
+                "source": "D20",
+                "timestamp": "2017-12-02T02:24:00Z"
+            }
+        ]
+    },
+    {
+        "callsign": "P23",
+        "status": "Proceeding",
+        "patrolGroup": "Collingwood",
+        "station": "Collingwood Station",
+        "currentIncident": "AS4911",
+        "assignedIncidents": [
+            "AS4911"
+        ],
+        "location": {
+            "streetNumberFirst": "111",
+            "streetName": "Wellington",
+            "streetType": "Street",
+            "suburb": "Collingwood",
+            "state": "VIC",
+            "postalCode": "3066",
+            "country": "Australia",
+            "fullAddress": "111 Wellington Street, Collingwood VIC 3066",
+            "latitude": -37.8048407,
+            "longitude": 144.9855181
+        },
+        "driver": "777199",
+        "payrollIds": [
+            "777199"
+        ],
+        "shiftStart": "2017-12-02T01:00:00Z",
+        "shiftEnd": "2017-12-02T12:00:00Z",
+        "type": "PoliceOfficer",
+        "serial": "ARP059",
+        "vehicleCategory": "2",
+        "equipment": [
+            {
+                "description": "Shotgun",
+                "count": 4
+            }
+        ],
+        "remarks": "",
+        "lastUpdated": "2017-12-02T01:28:00Z",
+        "activityLog": [
+            {
+                "title": "Status: On Air",
+                "description": "J. Smart",
+                "source": "D20",
+                "timestamp": "2017-12-02T01:24:00Z"
+            },
+            {
+                "title": "Status: Proceeding (Assault #AS4911)",
+                "description": "J. Smart",
+                "source": "D20",
+                "timestamp": "2017-12-02T02:24:00Z"
+            }
+        ]
+    }
+],
+"officers": [
     {
         "payrollId": "777122",
         "rank": "Senior Constable",
@@ -241,5 +784,70 @@
         "remarks": "",
         "capabilities": ""
     },
+    {
+        "payrollId": "777001",
+        "rank": "Sergeant",
+        "firstName": "Joel",
+        "middleName": "F.",
+        "lastName": "Burnell",
+        "patrolGroup": "Collingwood",
+        "station": "Collingwood Station",
+        "licenceTypeId": "Gold License",
+        "contactNumber": "0467 933 518",
+        "remarks": "",
+        "capabilities": ""
+    },
+    {
+        "payrollId": "777019",
+        "rank": "Inspector",
+        "firstName": "Hamish",
+        "middleName": "Whittingham",
+        "lastName": "Gadget",
+        "patrolGroup": "Collingwood",
+        "station": "Fitzroy Station",
+        "licenceTypeId": "Silver License",
+        "contactNumber": "0240 796 388",
+        "remarks": "",
+        "capabilities": ""
+    },
+    {
+        "payrollId": "777202",
+        "rank": "First Constable",
+        "firstName": "Eva",
+        "middleName": "",
+        "lastName": "Saltau",
+        "patrolGroup": "Collingwood",
+        "station": "Kilmore Station",
+        "licenceTypeId": "Silver License",
+        "contactNumber": "0240 745 026",
+        "remarks": "",
+        "capabilities": ""
+    },
+    {
+        "payrollId": "777791",
+        "rank": "Leading Senior Constable",
+        "firstName": "Taj",
+        "middleName": "Rajesh",
+        "lastName": "Singh",
+        "patrolGroup": "Collingwood",
+        "station": "Richmond Station",
+        "licenceTypeId": "Gold License",
+        "contactNumber": "0240 894 617",
+        "remarks": "",
+        "capabilities": ""
+    },
+    {
+        "payrollId": "777199",
+        "rank": "Leading Senior Constable",
+        "firstName": "Jack",
+        "middleName": "",
+        "lastName": "Smart",
+        "patrolGroup": "Collingwood",
+        "station": "Collingwood Station",
+        "licenceTypeId": "Gold License",
+        "contactNumber": "0202 111 903",
+        "remarks": "",
+        "capabilities": ""
+    }
 ]
 }
