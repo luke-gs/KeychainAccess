@@ -170,6 +170,9 @@
 		27D921E51FD0C18E009C6DCC /* SyncDetailsResource+Computed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D921E41FD0C18E009C6DCC /* SyncDetailsResource+Computed.swift */; };
 		27DC60951FD50B950033BC0B /* SyncDetailsOfficer+Computed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DC60941FD50B940033BC0B /* SyncDetailsOfficer+Computed.swift */; };
 		27DC60971FD513D80033BC0B /* DisableableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DC60961FD513D80033BC0B /* DisableableButton.swift */; };
+		27DC60991FD60F350033BC0B /* ResourceOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DC60981FD60F350033BC0B /* ResourceOverviewViewController.swift */; };
+		27DC609B1FD60F3D0033BC0B /* ResourceOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DC609A1FD60F3D0033BC0B /* ResourceOverviewViewModel.swift */; };
+		27DC609D1FD610000033BC0B /* ResourceOverviewFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DC609C1FD610000033BC0B /* ResourceOverviewFormViewController.swift */; };
 		27F9C96C1FA2D7E300825F88 /* CompactCallsignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F9C96B1FA2D7E300825F88 /* CompactCallsignViewController.swift */; };
 		27F9C96E1FA2D9D000825F88 /* UIViewController+ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F9C96D1FA2D9D000825F88 /* UIViewController+ChildViewController.swift */; };
 		27FDABB51FB90FF6003466AF /* TaskDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FDABB41FB90FF6003466AF /* TaskDetailsViewModel.swift */; };
@@ -745,6 +748,9 @@
 		27D921E41FD0C18E009C6DCC /* SyncDetailsResource+Computed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SyncDetailsResource+Computed.swift"; sourceTree = "<group>"; };
 		27DC60941FD50B940033BC0B /* SyncDetailsOfficer+Computed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SyncDetailsOfficer+Computed.swift"; sourceTree = "<group>"; };
 		27DC60961FD513D80033BC0B /* DisableableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisableableButton.swift; sourceTree = "<group>"; };
+		27DC60981FD60F350033BC0B /* ResourceOverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceOverviewViewController.swift; sourceTree = "<group>"; };
+		27DC609A1FD60F3D0033BC0B /* ResourceOverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceOverviewViewModel.swift; sourceTree = "<group>"; };
+		27DC609C1FD610000033BC0B /* ResourceOverviewFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceOverviewFormViewController.swift; sourceTree = "<group>"; };
 		27F9C96B1FA2D7E300825F88 /* CompactCallsignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactCallsignViewController.swift; sourceTree = "<group>"; };
 		27F9C96D1FA2D9D000825F88 /* UIViewController+ChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ChildViewController.swift"; sourceTree = "<group>"; };
 		27FDABB41FB90FF6003466AF /* TaskDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsViewModel.swift; sourceTree = "<group>"; };
@@ -1403,7 +1409,8 @@
 				27094CAC1FAFFBDA00D4C3D4 /* View Models */,
 				27094CB01FAFFBDA00D4C3D4 /* ResourceOfficerListViewController.swift */,
 				27094CB21FAFFBDA00D4C3D4 /* ResourceActivityLogViewController.swift */,
-				27FDABB61FB91B02003466AF /* OfficerCommunicationsView.swift */,
+				27DC60981FD60F350033BC0B /* ResourceOverviewViewController.swift */,
+				27DC609C1FD610000033BC0B /* ResourceOverviewFormViewController.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1414,6 +1421,7 @@
 				27094CAD1FAFFBDA00D4C3D4 /* ResourceActivityLogViewModel.swift */,
 				27094CAE1FAFFBDA00D4C3D4 /* ResourceOfficerListViewModel.swift */,
 				27094CAF1FAFFBDA00D4C3D4 /* ResourceOfficerViewModel.swift */,
+				27DC609A1FD60F3D0033BC0B /* ResourceOverviewViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -1461,6 +1469,7 @@
 		2715D6441FD507FF00BD0E95 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				27FDABB61FB91B02003466AF /* OfficerCommunicationsView.swift */,
 				27094CB11FAFFBDA00D4C3D4 /* OfficerCell.swift */,
 			);
 			path = Shared;
@@ -3268,6 +3277,7 @@
 				969DC6931FBE6D3900010212 /* APIManager+CAD.swift in Sources */,
 				9936C67D1F96C5580091A61C /* GeolocationPlugin.swift in Sources */,
 				4634B4471FBD6FD200D71E7F /* TravelEstimationPlugin.swift in Sources */,
+				27DC609B1FD60F3D0033BC0B /* ResourceOverviewViewModel.swift in Sources */,
 				BC1B25BA1F2707270090C0AA /* MPOLBarButtonItems.swift in Sources */,
 				19B49BBB1F665F2A00502F51 /* CompactSidebarItemView.swift in Sources */,
 				9650CA151F958B320087F5C9 /* ManageCallsignStatusViewCell.swift in Sources */,
@@ -3343,6 +3353,7 @@
 				EA32A8561FBD1A7900CC37FB /* PhotoMediaSlideShowOverlayView.swift in Sources */,
 				BC9C7E431F0DED6600DFFE83 /* SidebarItem.swift in Sources */,
 				9650CA171F958B330087F5C9 /* ManageCallsignStatusViewModel.swift in Sources */,
+				27DC609D1FD610000033BC0B /* ResourceOverviewFormViewController.swift in Sources */,
 				9936C6791F9580500091A61C /* LocationManager.swift in Sources */,
 				BC9C7DD71F0DED6600DFFE83 /* URLQueryBuilder.swift in Sources */,
 				2715D63D1FD4FEDB00BD0E95 /* SyncDetailsActivityLogItem+Computed.swift in Sources */,
@@ -3381,6 +3392,7 @@
 				967E75A81FCE2E1000B75CF6 /* BookOffRequest.swift in Sources */,
 				274C89711F984CB8005B9CF8 /* CallsignListViewController.swift in Sources */,
 				12048FC81F7881C50014748E /* MatchMaker.swift in Sources */,
+				27DC60991FD60F350033BC0B /* ResourceOverviewViewController.swift in Sources */,
 				BC9C7DEA1F0DED6600DFFE83 /* DefaultCustomStringConvertible.swift in Sources */,
 				DB88BCE01F42D0110056FD69 /* SearchEntityListCell.swift in Sources */,
 				27094CC61FAFFBDA00D4C3D4 /* ResourceOfficerViewModel.swift in Sources */,

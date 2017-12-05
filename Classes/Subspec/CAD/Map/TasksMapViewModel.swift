@@ -76,7 +76,8 @@ open class TasksMapViewModel {
         if let annotation = annotation as? ResourceAnnotation {
             guard let resource = CADStateManager.shared.resourcesById[annotation.identifier] else { return nil }
             
-            return ResourceTaskItemViewModel(iconImage: annotation.icon,
+            return ResourceTaskItemViewModel(callsign: resource.callsign,
+                                             iconImage: annotation.icon,
                                              iconTintColor: resource.status.iconColors.icon,
                                              color: resource.status.iconColors.background,
                                              statusText: resource.status.title,

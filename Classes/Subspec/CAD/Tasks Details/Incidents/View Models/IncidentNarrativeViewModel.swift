@@ -34,7 +34,7 @@ public class IncidentNarrativeViewModel: CADFormCollectionViewModel<ActivityLogI
                                      timestamp: item.timestampString,
                                      title: item.title,
                                      subtitle: item.description)
-            }.sorted { return $0.timestamp < $1.timestamp }
+            }.sorted { return $0.timestamp > $1.timestamp }
         
         sections.append(CADFormCollectionSectionViewModel(title: "READ", items: activityLogItemsViewModels))
     }

@@ -28,15 +28,15 @@ open class IncidentResourcesViewController: FormBuilderViewController {
         for section in viewModel.sections {
             builder += HeaderFormItem(text: section.title, style: viewModel.shouldShowExpandArrow() ? .collapsible : .plain)
             for item in section.items {
-                builder += SubtitleFormItem(title: item.title, subtitle: item.subtitle)
+                builder += SubtitleFormItem(title: item.title, subtitle: item.subtitle, image: item.icon)
                     .width(.column(1))
                 for officer in item.officers {
                     builder += CustomFormItem(cellType: OfficerCell.self, reuseIdentifier: "OfficerCell").onConfigured { cell in
                         guard let cell = cell as? OfficerCell else { return }
 
                         let commsView = OfficerCommunicationsView(frame: CGRect(x: 0, y: 0, width: 72, height: 32),
-                                                                  commsEnabled: officer.commsEnabled)
-                        
+                                                                  commsEnabled: officer.commsEnabled,
+                                                                  contactNumber: officer.contactNumber)
                         if self.traitCollection.horizontalSizeClass == .compact {
                             cell.accessoryView = FormAccessoryView(style: .overflow)
                         } else {
@@ -46,8 +46,8 @@ open class IncidentResourcesViewController: FormBuilderViewController {
                         cell.titleLabel.text = officer.title
                         cell.subtitleLabel.text = officer.subtitle
                         cell.badgeLabel.text = officer.badgeText
-                        cell.layoutMargins.left = 80
-                        cell.contentView.layoutMargins.left = 80
+                        cell.layoutMargins.left = 88
+                        cell.contentView.layoutMargins.left = 88
                     }
                 }
             }
