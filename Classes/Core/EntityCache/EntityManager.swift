@@ -62,7 +62,7 @@ public class EntityManager {
     ///
     /// - Parameter entity: The entity.
     public func addEntity(_ entity: MPOLKitEntity) {
-        if let index = entities.index(where: { $0.isIdentityMatching(otherEntity: entity) }) {
+        if let index = entities.index(where: { $0.isEssentiallyTheSameAs(otherEntity: entity) }) {
             entities.remove(at: index)
         }
 
@@ -78,7 +78,7 @@ public class EntityManager {
     /// - Returns: A Promise.
     public func fetch(_ existingEntity: MPOLKitEntity) -> Promise<MPOLKitEntity> {
         if let cachedEntity = entities.first(where: {
-            $0.isIdentityMatching(otherEntity: existingEntity)
+            $0.isEssentiallyTheSameAs(otherEntity: existingEntity)
         }), cachedEntity !== existingEntity {
             return Promise(value: cachedEntity)
         }
@@ -164,7 +164,7 @@ public class EntitySnapshot: EntitySnapshotable {
     public func handleEntityChanged(updatedEntity: MPOLKitEntity) {
         guard entity !== updatedEntity else { return }
 
-        if entity.isIdentityMatching(otherEntity: updatedEntity) {
+        if entity.isEssentiallyTheSameAs(otherEntity: updatedEntity) {
             entity = updatedEntity
             delegate?.entitySnapshotDidChange(self)
         }

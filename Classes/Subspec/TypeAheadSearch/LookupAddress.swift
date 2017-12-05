@@ -103,7 +103,7 @@ public struct LookupAddress: MPOLKitEntityProtocol, Unboxable {
         case unitType = "unitType"
     }
 
-    public func isIdentityMatching(otherEntity: MPOLKitEntityProtocol) -> Bool {
+    public func isEssentiallyTheSameAs(otherEntity: MPOLKitEntityProtocol) -> Bool {
         return type(of: self) == type(of: otherEntity) && id == otherEntity.id
     }
 }
