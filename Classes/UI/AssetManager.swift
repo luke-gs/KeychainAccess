@@ -182,6 +182,8 @@ extension AssetManager {
         public static let entityTrailerMedium = ImageKey("iconEntityAutomotiveTrailer48")
         public static let entityTrailerLarge = ImageKey("iconEntityAutomotiveTrailer96")
 
+        public static let entityPlaceholder = ImageKey("EntityThumbnailBackground")
+
         // Resource
         public static let resourceGeneral   = ImageKey("iconResourceGeneral")
         public static let resourceCar       = ImageKey("iconResourceCar")

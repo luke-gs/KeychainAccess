@@ -81,6 +81,24 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
         }
     }
 
+    public var shouldShowIncident: Bool {
+        return (CADStateManager.shared.currentResource?.currentIncident != nil)
+    }
+
+    public var incidentListViewModel: TasksListItemViewModel? {
+        if let incident = CADStateManager.shared.currentIncident {
+            return TasksListItemViewModel(incident: incident, hasUpdates: false)
+        }
+        return nil
+    }
+
+    public var incidentTaskViewModel: IncidentTaskItemViewModel? {
+        if let incident = CADStateManager.shared.currentIncident, let resource = CADStateManager.shared.currentResource {
+            return IncidentTaskItemViewModel(incident: incident, resource: resource)
+        }
+        return nil
+    }
+
     /// The subtitle to use in the navigation bar
     open func navSubtitle() -> String {
         let formatter = DateFormatter()
@@ -112,9 +130,16 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
         if let actionButton = ActionButton(rawValue: index) {
             switch actionButton {
             case .viewCallsign:
+                if let resource = CADStateManager.shared.currentResource {
+                    // Show split view controller for booked on resource
+                    let vm = ResourceTaskItemViewModel(resource: resource)
+                    let vc = TasksItemSidebarViewController.init(viewModel: vm)
+                    delegate?.present(vc, animated: true, completion: nil)
+                }
                 break
             case .manageCallsign:
                 if let bookOn = CADStateManager.shared.lastBookOn {
+                    // Edit the book on details
                     let callsignViewModel = BookOnCallsignViewModel(
                         callsign: bookOn.callsign,
                         status: CADStateManager.shared.currentResource?.status.rawValue ?? "",
@@ -138,18 +163,42 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
         }
     }
 
-    // MARK: - Internal
-
-    private func statusForIndexPath(_ indexPath: IndexPath) -> ResourceStatus {
-        let index = indexPath.section * numberOfItems(for: 0) + indexPath.row
-        return ResourceStatus.allCases[index]
+    open func statusForIndexPath(_ indexPath: IndexPath) -> ResourceStatus {
+        for status in ResourceStatus.allCases {
+            if indexPathForStatus(status) == indexPath {
+                return status
+            }
+        }
+        return .unavailable
     }
 
-    private func indexPathForStatus(_ status: ResourceStatus) -> IndexPath {
-        let rawIndex = ResourceStatus.allCases.index(of: status) ?? 0
-        let section = Int(rawIndex / numberOfItems(for: 0))
-        let row = rawIndex % numberOfItems(for: 0)
-        return IndexPath(row: row, section: section)
+    open func indexPathForStatus(_ status: ResourceStatus) -> IndexPath {
+        switch status {
+        case .unavailable:
+            return IndexPath(row: 0, section: 1)
+        case .onAir:
+            return IndexPath(row: 1, section: 1)
+        case .mealBreak:
+            return IndexPath(row: 2, section: 1)
+        case .trafficStop:
+            return IndexPath(row: 3, section: 1)
+        case .court:
+            return IndexPath(row: 4, section: 1)
+        case .atStation:
+            return IndexPath(row: 5, section: 1)
+        case .onCall:
+            return IndexPath(row: 6, section: 1)
+        case .inquiries1:
+            return IndexPath(row: 7, section: 1)
+        case .proceeding:
+            return IndexPath(row: 0, section: 0)
+        case .atIncident:
+            return IndexPath(row: 1, section: 0)
+        case .finalise:
+            return IndexPath(row: 2, section: 0)
+        case .inquiries2:
+            return IndexPath(row: 3, section: 0)
+        }
     }
 
     // MARK: - Override
@@ -171,26 +220,26 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
     }
 
     open func updateData() {
-        sections = [
-            CADFormCollectionSectionViewModel(title: NSLocalizedString("General", comment: "General status header text"),
-                                              items: [
-                                                itemFromStatus(.unavailable),
-                                                itemFromStatus(.onAir),
-                                                itemFromStatus(.mealBreak),
-                                                itemFromStatus(.trafficStop),
-                                                itemFromStatus(.court),
-                                                itemFromStatus(.atStation),
-                                                itemFromStatus(.onCall),
-                                                itemFromStatus(.inquiries1)
-                ]),
+        var data: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>] = []
+        if shouldShowIncident {
+            data.append(CADFormCollectionSectionViewModel(title: NSLocalizedString("Incident Status", comment: "Incident Status header text"),
+                                                          items: [
+                                                            itemFromStatus(.proceeding),
+                                                            itemFromStatus(.atIncident),
+                                                            itemFromStatus(.finalise),
+                                                            itemFromStatus(.inquiries2) ]))
 
-            CADFormCollectionSectionViewModel(title: NSLocalizedString("Current Task", comment: "Current task status header text"),
-                                              items: [
-                                                itemFromStatus(.proceeding),
-                                                itemFromStatus(.atIncident),
-                                                itemFromStatus(.finalise),
-                                                itemFromStatus(.inquiries2)
-                ])
-        ]
+        }
+        data.append(CADFormCollectionSectionViewModel(title: NSLocalizedString("General", comment: "General status header text"),
+                                                      items: [
+                                                        itemFromStatus(.unavailable),
+                                                        itemFromStatus(.onAir),
+                                                        itemFromStatus(.mealBreak),
+                                                        itemFromStatus(.trafficStop),
+                                                        itemFromStatus(.court),
+                                                        itemFromStatus(.atStation),
+                                                        itemFromStatus(.onCall),
+                                                        itemFromStatus(.inquiries1) ]))
+        sections = data
     }
 }

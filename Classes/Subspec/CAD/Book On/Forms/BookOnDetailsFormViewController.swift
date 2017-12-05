@@ -69,7 +69,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         } else {
             return DropDownFormItem(title: title)
                 .options(["1", "2", "3"])
-                .required()
+                .required("Category is required.")
                 .width(.column(3))
                 .selectedValue([viewModel.details.category].removeNils())
                 .onValueChanged { [weak self] in
@@ -124,7 +124,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         } else {
             return DateFormItem(title: title)
                 .width(.column(3))
-                .required()
+                .required("Start time is required.")
                 .datePickerMode(.dateAndTime)
                 .dateFormatter(.formTime)
                 .minimumDate(Date().rounded(minutes: 15, rounding: .ceil))
@@ -145,7 +145,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         let title = NSLocalizedString("Est. End Time", comment: "")
         return DateFormItem(title: title)
             .width(.column(3))
-            .required()
+            .required("End time is required.")
             .datePickerMode(.dateAndTime)
             .dateFormatter(.formTime)
             .minimumDate(Date().rounded(minutes: 15, rounding: .ceil))

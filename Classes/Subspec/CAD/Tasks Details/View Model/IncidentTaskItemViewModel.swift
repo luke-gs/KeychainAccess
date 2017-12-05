@@ -20,7 +20,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
             IncidentNarrativeViewModel(incidentNumber: incidentNumber),
         ]
     }
-    
+
     public convenience init(incident: SyncDetailsIncident, resource: SyncDetailsResource) {
         self.init(incidentNumber: incident.identifier,
                   iconImage: resource.status.icon,
