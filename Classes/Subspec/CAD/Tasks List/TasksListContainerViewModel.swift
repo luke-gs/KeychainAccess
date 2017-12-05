@@ -216,10 +216,26 @@ open class TasksListContainerViewModel {
         ]
         
         for resource in resources {
-            if resource.currentIncident != nil {
-                sectionedResources[tasked]?.append(resource)
+
+            // Apply search text filter to type or address
+            var shouldAppend: Bool = false
+            if let searchText = searchText?.lowercased(), !searchText.isEmpty {
+                let matchedValues = [resource.callsign].removeNils().filter {
+                    return $0.lowercased().contains(searchText)
+                }
+                if !matchedValues.isEmpty {
+                    shouldAppend = true
+                }
             } else {
-                sectionedResources[untasked]?.append(resource)
+                shouldAppend = true
+            }
+
+            if shouldAppend {
+                if resource.currentIncident != nil {
+                    sectionedResources[tasked]?.append(resource)
+                } else {
+                    sectionedResources[untasked]?.append(resource)
+                }
             }
         }
         
