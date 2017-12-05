@@ -59,10 +59,12 @@ public enum AccessoryTextStyle {
     }
 }
 
-public final class FormAccessoryView: UIView {
+public final class FormAccessoryView: UIControl {
 
     fileprivate var label: UILabel?
     fileprivate let imageView: FormAccessoryImageView
+    private var onTappedBlock: ((FormAccessoryView) -> ())?
+    
     public var labelStyle: AccessoryTextStyle?
     public var style: Style {
         didSet {
@@ -76,9 +78,9 @@ public final class FormAccessoryView: UIView {
         self.style = style
         self.labelStyle = labelStyle
         self.imageView = FormAccessoryImageView(style: style)
-
         super.init(frame: .zero)
 
+        addTarget(self, action: #selector(didTapView), for: .touchUpInside)
         addSubview(imageView)
         if let labelStyle = labelStyle {
             let label = labelStyle.view()
@@ -117,6 +119,18 @@ public final class FormAccessoryView: UIView {
             imageView.center = CGPoint(x: imageView.center.x, y: centerY)
         }
     }
+    
+    @discardableResult
+    /// Called when the view is tapped
+    public func onTapped(_ tapped: ((FormAccessoryView) -> ())?) -> Self {
+        self.onTappedBlock = tapped
+        return self
+    }
+    
+    @objc private func didTapView() {
+        self.onTappedBlock?(self)
+    }
+
 }
 
 /// Extension to support using a form accessory view in a form item

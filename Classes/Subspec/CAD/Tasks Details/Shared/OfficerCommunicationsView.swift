@@ -12,6 +12,10 @@ open class OfficerCommunicationsView: UIView {
     
     private var stackView: UIStackView!
     private var contactNumber: String
+    
+    private var onTappedMessageBlock: ((UIButton) -> ())?
+    private var onTappedCallBlock: ((UIButton) -> ())?
+
 
     public let messageButton = DisableableButton(frame: .zero)
     public let callButton = DisableableButton(frame: .zero)
@@ -25,7 +29,8 @@ open class OfficerCommunicationsView: UIView {
         messageButton.enabledColor = .brightBlue
         messageButton.disabledColor = .disabledGray
         messageButton.isEnabled = commsEnabled.text
-        
+        messageButton.addTarget(self, action: #selector(didSelectMessage), for: .touchUpInside)
+
         callButton.setImage(AssetManager.shared.image(forKey: .audioCall), for: .normal)
         callButton.imageView?.contentMode = .scaleAspectFit
         callButton.enabledColor = .brightBlue
@@ -54,20 +59,26 @@ open class OfficerCommunicationsView: UIView {
     }
     
     
-    @objc open func didSelectCall() {
-        if let url = URL(string: "tel://\(contactNumber.trimmingPhoneNumber())"), UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        } else {
-            AlertQueue.shared.addSimpleAlert(title: contactNumber, message: "This device does not support calling or the phone number is invalid.")
-        }
+    @objc private func didSelectCall() {
+        onTappedCallBlock?(callButton)
     }
     
-    @objc open func didSelectMessage() {
-        if let url = URL(string: "sms:\(contactNumber.trimmingPhoneNumber())"), UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        } else {
-            AlertQueue.shared.addSimpleAlert(title: contactNumber, message: "This device does not support messaging or the phone number is invalid.")
-        }
+    @objc private func didSelectMessage() {
+        onTappedMessageBlock?(messageButton)
     }
     
+    
+    @discardableResult
+    /// Called when the call button is tapped
+    public func onTappedCall(_ tapped: ((UIButton) -> ())?) -> Self {
+        self.onTappedCallBlock = tapped
+        return self
+    }
+    
+    @discardableResult
+    /// Called when the message button is tapped
+    public func onTappedMessage(_ tapped: ((UIButton) -> ())?) -> Self {
+        self.onTappedMessageBlock = tapped
+        return self
+    }
 }
