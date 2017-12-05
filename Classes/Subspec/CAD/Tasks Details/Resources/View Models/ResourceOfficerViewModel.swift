@@ -25,7 +25,7 @@ public class ResourceOfficerViewModel {
     convenience public init(officer: SyncDetailsOfficer, resource: SyncDetailsResource?) {
         self.init(title: officer.displayName,
                   subtitle: [officer.rank, officer.payrollIdDisplayString, officer.licenceTypeId]
-                    .removeNils().joined(separator: "  •  "),
+                    .joined(separator: "  •  "),
                   badgeText: resource?.driver == officer.payrollId ? "DRIVER": nil,
                   commsEnabled: (false, officer.contactNumber != nil))
     }

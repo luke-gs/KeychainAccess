@@ -25,7 +25,7 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
             iconTintColor: resource.status.iconColors.icon,
             color: resource.status.iconColors.background,
             statusText: resource.status.title,
-            itemName: [resource.callsign, resource.officerCountString].removeNils().joined(separator: " "),
+            itemName: [resource.callsign, resource.officerCountString].joined(),
             lastUpdated: resource.lastUpdated.elapsedTimeIntervalForHuman())
     }
 }

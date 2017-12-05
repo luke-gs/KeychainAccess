@@ -29,8 +29,7 @@ open class IncidentResourcesViewModel: CADFormCollectionViewModel<IncidentResour
                     return ResourceOfficerViewModel(officer: officer, resource: resource)
                 }
                 
-                let resourceViewModel = IncidentResourceItemViewModel(title: [resource.callsign, resource.officerCountString]
-                                                                             .removeNils().joined(separator: " "),
+                let resourceViewModel = IncidentResourceItemViewModel(title: [resource.callsign, resource.officerCountString].joined(),
                                                                       subtitle: resource.status.title,
                                                                       officers: officerViewModels)
                 

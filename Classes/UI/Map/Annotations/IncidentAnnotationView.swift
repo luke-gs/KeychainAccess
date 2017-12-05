@@ -64,7 +64,7 @@ open class IncidentAnnotationView: MKAnnotationView {
         bottomArrow.color = bubbleColor
         titleLabel.textColor = titleColor
         
-        titleLabel.text = [annotation.title ?? "", annotation.subtitle ?? ""].removeNils().joined(separator: " ")
+        titleLabel.text = [annotation.title ?? "", annotation.subtitle ?? ""].joined()
         priorityLabel.text = priorityText
         
         priorityBackground.backgroundColor = priorityFillColor
