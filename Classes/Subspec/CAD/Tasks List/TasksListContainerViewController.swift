@@ -69,7 +69,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
     open private(set) var refreshControl: UIRefreshControl!
 
     /// Constraint for making source bar have no height
-    private var sourceBarHiddenConstraint: NSLayoutConstraint?
+    private var sourceBarWidthConstraint: NSLayoutConstraint!
 
     /// The current sources available to display
     open var sourceItems: [SourceItem] = [] {
@@ -190,7 +190,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         let listView = tasksListViewController.view!
         listView.translatesAutoresizingMaskIntoConstraints = false
 
-        sourceBarHiddenConstraint = sourceBar.widthAnchor.constraint(equalToConstant: 0)
+        sourceBarWidthConstraint = sourceBar.widthAnchor.constraint(equalToConstant: 64)
 
         // Layout sidebar on left, header on top right, list bottom right
         NSLayoutConstraint.activate([
@@ -202,7 +202,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
             sourceBar.topAnchor.constraint(equalTo: contentView.topAnchor),
             sourceBar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             sourceBar.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            sourceBar.widthAnchor.constraint(equalToConstant: 64),
+            sourceBarWidthConstraint,
 
             headerContainerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             headerContainerView.leadingAnchor.constraint(equalTo: sourceBar.trailingAnchor),
@@ -228,7 +228,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
             let compact = (traitCollection.horizontalSizeClass == .compact)
 
             // Hide source bar if compact
-            self.sourceBarHiddenConstraint?.isActive = compact
+            self.sourceBarWidthConstraint.constant = compact ? 0 : 64
 
             // Set user interface style based on whether compact
             tasksListViewController.userInterfaceStyle = compact ? .current : .dark
