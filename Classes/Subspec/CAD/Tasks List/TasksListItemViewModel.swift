@@ -43,9 +43,9 @@ public class TasksListItemViewModel {
     public convenience init(incident: SyncDetailsIncident, hasUpdates: Bool) {
         self.init(
             identifier: incident.identifier,
-            title: [incident.type, incident.resourceCountString].removeNils().joined(separator: " "),
+            title: [incident.type, incident.resourceCountString].joined(),
             subtitle: incident.location.fullAddress,
-            caption: [incident.identifier, incident.secondaryCode].removeNils().joined(separator: " • "),
+            caption: [incident.identifier, incident.secondaryCode].joined(separator: " • "),
             priority: incident.grade.rawValue,
             description: incident.details,
             resources: nil, // TODO: Get resources
@@ -58,7 +58,7 @@ public class TasksListItemViewModel {
     public convenience init(resource: SyncDetailsResource, incident: SyncDetailsIncident?, hasUpdates: Bool) {
         self.init(
             identifier: resource.callsign,
-            title: [resource.callsign, resource.officerCountString].removeNils().joined(separator: " "),
+            title: [resource.callsign, resource.officerCountString].joined(),
             subtitle: resource.location.suburb,
             caption: resource.status.title,
             priority: incident?.grade.rawValue,

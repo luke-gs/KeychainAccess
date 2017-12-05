@@ -9,10 +9,14 @@
 import UIKit
 
 public class ResourceActivityLogViewModel: CADFormCollectionViewModel<ActivityLogItemViewModel>, TaskDetailsViewModel {
+   
+    /// The identifier for this resource
+    open let callsign: String
     
-    public override init() {
+    public init(callsign: String) {
+        self.callsign = callsign
         super.init()
-        sections = dummyData
+        loadData()
     }
     
     /// Create the view controller for this view model
@@ -20,48 +24,21 @@ public class ResourceActivityLogViewModel: CADFormCollectionViewModel<ActivityLo
         return ResourceActivityLogViewController(viewModel: self)
     }
     
-    /// Lazy var for creating view model content
-    private lazy var dummyData: [CADFormCollectionSectionViewModel<ActivityLogItemViewModel>] = {
-        return [
-            CADFormCollectionSectionViewModel(title: "Friday July 15, 2017",
-                                              items: [ActivityLogItemViewModel(dotFillColor: .orangeRed,
-                                                                               dotStrokeColor: .clear,
-                                                                               timestamp: "10:27",
-                                                                               title: "Duress Triggered",
-                                                                               subtitle: "P08 (2) @ 57 Bell Street, Fitzroy VIC 3066"
-                                                ),
-                                                      ActivityLogItemViewModel(dotFillColor: .white,
-                                                                               dotStrokeColor: .brightBlue,
-                                                                               timestamp: "10:20",
-                                                                               title: "Search: Person (Huish, Joseph)",
-                                                                               subtitle: "P08 (2) @ 57 Bell Street, Fitzroy VIC 3066"
-                                                ),
-                                                      ActivityLogItemViewModel(dotFillColor: .disabledGray,
-                                                                               dotStrokeColor: .clear,
-                                                                               timestamp: "10:16",
-                                                                               title: "Status: At Incident (Domestic Violence #AS4203)",
-                                                                               subtitle: "P08 (2) @ 57 Bell Street, Fitzroy VIC 3066"
-                                                ),
-                                                      ActivityLogItemViewModel(dotFillColor: .disabledGray,
-                                                                               dotStrokeColor: .clear,
-                                                                               timestamp: "10:05",
-                                                                               title: "Status: Proceeding (Domestic Violence #AS4203)",
-                                                                               subtitle: "P08 (2) @ Richmond Station, 217 Church Street, Richmond VIC 3121"
-                                                ),
-                                                      ActivityLogItemViewModel(dotFillColor: .midGreen,
-                                                                               dotStrokeColor: .clear,
-                                                                               timestamp: "08:04",
-                                                                               title: "Status: At Station",
-                                                                               subtitle: "P08 (2) @ Richmond Station, 217 Church Street, Richmond VIC 3121"
-                                                ),
-                                                      ActivityLogItemViewModel(dotFillColor: .white,
-                                                                                 dotStrokeColor: .midGreen,
-                                                                                 timestamp: "07:57",
-                                                                                 title: "Status: Booked On",
-                                                                                 subtitle: "Dean McRae and Sarah Worrall  @ Richmond Station, 217 Church Street, Richmond VIC 3121"
-                                                )])
-        ]
-    }()
+    open func loadData() {
+        guard let resource = CADStateManager.shared.resourcesById[callsign] else { return }
+        
+        sections = []
+        
+        let activityLogItemsViewModels = resource.activityLog.map { item in
+            return ActivityLogItemViewModel(dotFillColor: item.color,
+                                            dotStrokeColor: .clear,
+                                            timestamp: item.timestampString,
+                                            title: item.title,
+                                            subtitle: item.description)
+            }.sorted { return $0.timestamp > $1.timestamp }
+        
+        sections.append(CADFormCollectionSectionViewModel(title: "READ", items: activityLogItemsViewModels))
+    }
     
     /// The title to use in the navigation bar
     override open func navTitle() -> String {
@@ -76,5 +53,6 @@ public class ResourceActivityLogViewModel: CADFormCollectionViewModel<ActivityLo
     override open func noContentSubtitle() -> String? {
         return nil
     }
+
 
 }

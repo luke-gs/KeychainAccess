@@ -53,7 +53,7 @@ open class NotBookedOnCallsignItemViewModel: NotBookedOnItemViewModel, BookOnCal
         self.badgeFillColor = badgeFillColor
         self.badgeBorderColor = badgeBorderColor
 
-        let subtitle = [location, status].removeNils().joined(separator: " : ")
+        let subtitle = [location, status].joined(separator: " : ")
         super.init(title: callsign, subtitle: subtitle, image: image, imageColor: imageColor, imageBackgroundColor: imageBackgroundColor)
     }
 
