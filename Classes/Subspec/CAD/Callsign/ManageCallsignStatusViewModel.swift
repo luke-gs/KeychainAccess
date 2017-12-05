@@ -173,23 +173,24 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
     }
 
     open func indexPathForStatus(_ status: ResourceStatus) -> IndexPath {
+        let generalSection = shouldShowIncident ? 1 : 0
         switch status {
         case .unavailable:
-            return IndexPath(row: 0, section: 1)
+            return IndexPath(row: 0, section: generalSection)
         case .onAir:
-            return IndexPath(row: 1, section: 1)
+            return IndexPath(row: 1, section: generalSection)
         case .mealBreak:
-            return IndexPath(row: 2, section: 1)
+            return IndexPath(row: 2, section: generalSection)
         case .trafficStop:
-            return IndexPath(row: 3, section: 1)
+            return IndexPath(row: 3, section: generalSection)
         case .court:
-            return IndexPath(row: 4, section: 1)
+            return IndexPath(row: 4, section: generalSection)
         case .atStation:
-            return IndexPath(row: 5, section: 1)
+            return IndexPath(row: 5, section: generalSection)
         case .onCall:
-            return IndexPath(row: 6, section: 1)
+            return IndexPath(row: 6, section: generalSection)
         case .inquiries1:
-            return IndexPath(row: 7, section: 1)
+            return IndexPath(row: 7, section: generalSection)
         case .proceeding:
             return IndexPath(row: 0, section: 0)
         case .atIncident:
@@ -200,7 +201,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
             return IndexPath(row: 3, section: 0)
         default:
             // unavailable
-            return IndexPath(row: 0, section: 1)
+            return IndexPath(row: 0, section: generalSection)
         }
     }
 
