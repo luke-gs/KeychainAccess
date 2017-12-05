@@ -63,7 +63,12 @@ public final class FormAccessoryView: UIControl {
 
     fileprivate var label: UILabel?
     fileprivate let imageView: FormAccessoryImageView
-    private var onTappedBlock: ((FormAccessoryView) -> ())?
+    private var onTappedBlock: ((FormAccessoryView) -> ())? {
+        didSet {
+            // Ensure tapping passes through back to cell if no on tap action
+            isUserInteractionEnabled = onTappedBlock != nil
+        }
+    }
     
     public var labelStyle: AccessoryTextStyle?
     public var style: Style {
@@ -79,8 +84,11 @@ public final class FormAccessoryView: UIControl {
         self.labelStyle = labelStyle
         self.imageView = FormAccessoryImageView(style: style)
         super.init(frame: .zero)
-
+        
+        // Off by default until a tap block is added
+        isUserInteractionEnabled = false
         addTarget(self, action: #selector(didTapView), for: .touchUpInside)
+        
         addSubview(imageView)
         if let labelStyle = labelStyle {
             let label = labelStyle.view()
