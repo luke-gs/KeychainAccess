@@ -70,7 +70,7 @@ open class ResourceOverviewViewModel: TaskDetailsViewModel {
                                                                               width: .column(4)),
                                                 
                                                 IncidentOverviewItemViewModel(title: "Equipment",
-                                                                              value: "", // TODO
+                                                                              value: resource.equipmentListString(separator: ", "),
                                                                               width: .column(2)),
                                                 
                                                 IncidentOverviewItemViewModel(title: "Remarks",
