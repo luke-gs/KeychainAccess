@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             self.landingPresenter.updateInterfaceForUserSession(animated: true)
             AlertQueue.shared.addSimpleAlert(title: "Session Ended", message: error?.localizedDescription)
             return Promise(error: error!)
-        })
+        }
 
         var plugins: [PluginType] = [refreshToken, NetworkMonitorPlugin()]
         #if DEBUG
