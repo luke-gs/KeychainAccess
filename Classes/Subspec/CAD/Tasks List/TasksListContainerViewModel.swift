@@ -194,9 +194,10 @@ open class TasksListContainerViewModel {
 
             // Apply search text filter to type or address
             if let searchText = searchText?.lowercased(), !searchText.isEmpty {
-                if let type = incident.type?.lowercased(), type.contains(searchText) {
-                    sectionedIncidents[status]?.append(incident)
-                } else if let address = incident.location?.fullAddress?.lowercased(), address.contains(searchText) {
+                let matchedValues = [incident.type, incident.location?.fullAddress].removeNils().filter {
+                    return $0.lowercased().contains(searchText)
+                }
+                if !matchedValues.isEmpty {
                     sectionedIncidents[status]?.append(incident)
                 }
             } else {
