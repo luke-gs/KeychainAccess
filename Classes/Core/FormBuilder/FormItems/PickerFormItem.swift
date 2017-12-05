@@ -230,12 +230,6 @@ extension PickerFormItem {
     }
 
     @discardableResult
-    public func required(_ message: String = FormRequired.default.message) -> Self {
-        self.requiredSpecification = ValidatorRule.submit(specification: NotNilSpecification(), message: message)
-        return self
-    }
-
-    @discardableResult
     public func notRequired() -> Self {
         self.requiredSpecification = nil
         return self
@@ -284,3 +278,22 @@ extension PickerFormItem {
     }
 
 }
+
+/// For standard picker, required means value not nil
+extension PickerFormItem where T: Any {
+    @discardableResult
+    public func required(_ message: String = FormRequired.default.message) -> Self {
+        self.requiredSpecification = ValidatorRule.submit(specification: NotNilSpecification(), message: message)
+        return self
+    }
+}
+
+/// For array selection, required means at least one item selected (ie empty array is not enough)
+extension PickerFormItem where T: ExpressibleByArrayLiteral {
+    @discardableResult
+    public func required(_ message: String = FormRequired.default.message) -> Self {
+        self.requiredSpecification = ValidatorRule.submit(specification: CountSpecification.min(1), message: message)
+        return self
+    }
+}
+

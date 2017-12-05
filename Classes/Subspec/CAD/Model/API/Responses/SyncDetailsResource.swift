@@ -12,25 +12,28 @@ import UIKit
 
 /// Reponse object for a single Resource in the call to /sync/details
 open class SyncDetailsResource: Codable {
-
-    open var callsign : String!
-    open var driver : String!
-    open var equipment : [SyncDetailsResourceEquipment]!
-    open var incidentNumber : String!
-    open var lastUpdated : String!
-    open var location : SyncDetailsLocation!
-    open var payrollIds : [String]!
+    open var callsign: String!
+    open var status: ResourceStatus!
+    open var patrolGroup: String!
+    open var station: String!
+    open var currentIncident: String!
+    open var assignedIncidents: [String]!
+    open var location: SyncDetailsLocation!
+    open var driver: String!
+    open var payrollIds: [String]!
+    open var shiftEnd: Date!
+    open var shiftStart: Date!
+    open var type: ResourceType!
+    open var serial: String!
+    open var vehicleCategory: String!
+    open var equipment: [SyncDetailsResourceEquipment]!
     open var remarks : String!
-    open var shiftEnd : String!
-    open var shiftStart : String!
-    open var station : String!
-    open var status : ResourceStatus!
-    open var type : ResourceType!
-    open var zone : String!
+    open var lastUpdated : Date!
+    open var activityLog: [SyncDetailsActivityLogItem]!
 }
 
 /// Reponse object for a single Equipment item in the resource
 open class SyncDetailsResourceEquipment: Codable {
-    open var count : Int!
-    open var descriptionField : String!
+    open var count: Int!
+    open var description: String!
 }

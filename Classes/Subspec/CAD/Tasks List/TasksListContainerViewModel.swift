@@ -80,7 +80,7 @@ open class TasksListContainerViewModel {
         didSet {
             if selectedSourceIndex != oldValue {
                 headerViewModel.selectedSourceIndex = selectedSourceIndex
-                splitViewModel?.mapViewModel.applyFilter()
+                splitViewModel?.mapViewModel.loadTasks()
                 updateSections()
             }
         }
@@ -151,49 +151,105 @@ open class TasksListContainerViewModel {
 
     /// Update the task list data
     open func updateSections() {
-
-        // TODO: Map network models to view models
         let type = TaskListType(rawValue: selectedSourceIndex)!
         
-        let sections = SampleData.sectionsForType(type)
-        
-        if let filter = self.splitViewModel?.filterViewModel {
+        if let splitViewModel = self.splitViewModel {
             switch type {
             case .incident:
-                listViewModel.sections = sections.map { section in
-                    let items = section.items.filter { item in
-                        
-                        // TODO: Replace with enum when model classes created
-                        let priorityFilter = filter.priorities.contains(item.priority ?? "")
-                        let resourcedFilter = filter.resourcedIncidents.contains(item.status ?? "")
-                        
-                        // If status is not in filter options always show
-                        let isOther = item.status != "Resourced" && item.status != "Unresourced"
-                        
-                        return isOther || (priorityFilter && resourcedFilter)
-                    }
-                    return CADFormCollectionSectionViewModel(title: section.title, items: items)
-                }
-            case .patrol: listViewModel.sections = sections
-            case .broadcast: listViewModel.sections = sections
+                listViewModel.sections = taskListSections(for: splitViewModel.filteredIncidents)
+            case .patrol:
+                // TODO: Get from sync
+                listViewModel.sections = []
+            case .broadcast:
+                // TODO: Get from sync
+                listViewModel.sections = []
             case .resource:
-                listViewModel.sections = sections.map { section in
-                    let items = section.items.filter { item in
-                        // TODO: Replace with enum when model classes created
-                        let taskedFilter = filter.taskedResources.contains(item.status ?? "")
-                        
-                        // If status is not in filter options always show
-                        let isOther = item.status != "Tasked" && item.status != "Untasked"
-                        
-                        return isOther || taskedFilter
-                    }
-                    return CADFormCollectionSectionViewModel(title: section.title, items: items)
-                }
+                listViewModel.sections = taskListSections(for: splitViewModel.filteredResources)
             }
         } else {
-            listViewModel.sections = sections
+            listViewModel.sections = []
         }
         delegate?.sectionsUpdated()
+    }
+    
+    /// Maps sync models to view models
+    func taskListSections(for incidents: [SyncDetailsIncident]) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
+        var sectionedIncidents: [String: Array<SyncDetailsIncident>] = [:]
+
+        // Map incidents to sections
+        for incident in incidents {
+            let status = incident.status.rawValue
+            if sectionedIncidents[status] == nil {
+                sectionedIncidents[status] = []
+            }
+            
+            sectionedIncidents[status]?.append(incident)
+        }
+        
+        // Make view models from sections
+        return sectionedIncidents.map { arg in
+            let (status, incidents) = arg
+            
+            let taskViewModels = incidents.map { incident in
+                return TasksListItemViewModel(identifier: incident.identifier,
+                    title: [incident.type, incident.resourceCountString].removeNils().joined(separator: " "),
+                    subtitle: incident.location.fullAddress,
+                    caption: [incident.identifier, incident.secondaryCode].removeNils().joined(separator: " • "),
+                    priority: incident.grade.rawValue,
+                    description: incident.details,
+                    resources: nil, // TODO: Get resources
+                    badgeTextColor: incident.grade.badgeColors.text,
+                    badgeFillColor: incident.grade.badgeColors.fill,
+                    badgeBorderColor: incident.grade.badgeColors.border,
+                    hasUpdates: true) // TODO: Calculate dynamically
+            }
+            return CADFormCollectionSectionViewModel(title: "\(incidents.count) \(status)", items: taskViewModels)
+        }
+    }
+    
+    /// Maps sync models to view models
+    func taskListSections(for resources: [SyncDetailsResource]) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
+        // Map resources to sections
+        let tasked = NSLocalizedString("Tasked", comment: "")
+        let untasked = NSLocalizedString("Untasked", comment: "")
+        
+        var sectionedResources: [String: Array<SyncDetailsResource>] = [
+            tasked: [],
+            untasked: []
+        ]
+        
+        for resource in resources {
+            if resource.currentIncident != nil {
+                sectionedResources[tasked]?.append(resource)
+            } else {
+                sectionedResources[untasked]?.append(resource)
+            }
+        }
+        
+        // Make view models from sections
+        return sectionedResources.map { arg -> CADFormCollectionSectionViewModel<TasksListItemViewModel>? in
+            let (section, resources) = arg
+            
+            let taskViewModels: [TasksListItemViewModel] = resources.map { resource in
+                let incident = CADStateManager.shared.incidentForResource(callsign: resource.callsign)
+                
+                return TasksListItemViewModel(identifier: resource.callsign,
+                    title: "\(resource.callsign ?? "") \(resource.officerCountString ?? "")",
+                    subtitle: resource.location.suburb,
+                    caption: resource.status.title,
+                    priority: incident?.grade.rawValue,
+                    description: incident?.details,
+                    badgeTextColor: incident?.grade.badgeColors.text,
+                    badgeFillColor: incident?.grade.badgeColors.fill,
+                    badgeBorderColor: incident?.grade.badgeColors.border,
+                    hasUpdates: true) // TODO: Calculate dynamically
+            }
+            if resources.count > 0 {
+                return CADFormCollectionSectionViewModel(title: "\(resources.count) \(section)", items: taskViewModels)
+            } else {
+                return nil
+            }
+        }.removeNils()
     }
 
 }
@@ -212,187 +268,5 @@ public class SampleData {
             sourceItemForType(type: .resource,  count: 9, color: .orangeRed)
         ]
     }
-
-    static func sectionsForType(_ type: TaskListType) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
-        switch type {
-        case .incident:
-            return SampleData.incidents()
-        case .patrol:
-            return SampleData.patrols()
-        case .broadcast:
-            return SampleData.broadcasts()
-        case .resource:
-            return SampleData.resources()
-        }
-    }
-
-    static func incidents() -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
-        return [
-            CADFormCollectionSectionViewModel(title: "Current Incident",
-                                              items: [TasksListItemViewModel(title: "Assault (2)",
-                                                                             subtitle: "188 Smith Street, Fitzroy VIC 3065",
-                                                                             caption: "AS4205  •  MP0001529",
-                                                                             status: "Current Incident",
-                                                                             priority: "P1",
-                                                                             description: "An armed group of men are currently barricaded within the lobby of Orion Central Bank, Collingwood. Communication channels has yet to be established.",
-                                                                             resources: [
-                                                                                TasksListItemResourceViewModel(image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                                               resourceTitle: "P24 (2)",
-                                                                                                               statusText: "At Incident",
-                                                                                                               tintColor: nil,
-                                                                                                               useBoldStatusText: false),
-                                                                                
-                                                                                TasksListItemResourceViewModel(image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                                               resourceTitle: "P12 (1)",
-                                                                                                               statusText: "Proceeding 1:25",
-                                                                                                               tintColor: nil,
-                                                                                                               useBoldStatusText: false)
-                                                                             ],
-                                                                             boxColor: .orangeRed,
-                                                                             boxFilled: true,
-                                                                             hasUpdates: false)
-            ]),
-            
-            CADFormCollectionSectionViewModel(title: "1 Assigned",
-                                              items: [TasksListItemViewModel(title: "Trespassing (1)",
-                                                                             subtitle: "16 Easey Street, Collingwood VIC 3066",
-                                                                             caption: "AS4217  •  MP0001540",
-                                                                             status: "Assigned",
-                                                                             priority: "P3",
-                                                                             description: "Building owner has reported that a group of individuals have forcefully entered the premises and are now refusing to leave. There have been recent",
-
-                                                                             resources: [
-                                                                                TasksListItemResourceViewModel(image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                                               resourceTitle: "P22 (1)",
-                                                                                                               statusText: "Proceeding 3:30",
-                                                                                                               tintColor: nil,
-                                                                                                               useBoldStatusText: false)
-                                                                             ],
-                                                                             boxColor: .brightBlue,
-                                                                             boxFilled: false,
-                                                                             hasUpdates: true)
-            ]),
-            
-            
-            CADFormCollectionSectionViewModel(title: "2 Unresourced",
-                                              items: [TasksListItemViewModel(title: "Vandalism",
-                                                                             subtitle: "160 Vere Street, Collingwood VIC 3066",
-                                                                             caption: "AS4224  •  MP0001548",
-                                                                             status: "Unresourced",
-                                                                             priority: "P4",
-                                                                             description: "Multiple letterboxes that belong to a group of units have been damaged with what witnesses have described to be a baseball bat. Offenders have fled on foot and are thought to be residing in the area.",
-                                                                             boxColor: .secondaryGray,
-                                                                             boxFilled: false,
-                                                                             hasUpdates: false),
-                                                      
-                                                      TasksListItemViewModel(title: "Traffic Crash",
-                                                                             subtitle: "41 Victoria Parade, Fitzroy VIC 3065",
-                                                                             caption: "AS4227  •  MP0001551",
-                                                                             status: "Unresourced",
-                                                                             priority: "P3",
-                                                                             description: "A multi-vehicle collision has occured outside St. Vincent’s Hospital. No injuries have been reported but traffic has been reduced from 3 to 1 lane due to wreckage. Officers are required on scene to re-direct traffic.",
-                                                                             boxColor: .secondaryGray,
-                                                                             boxFilled: false,
-                                                                             hasUpdates: false)
-            ]),
-            
-            CADFormCollectionSectionViewModel(title: "2 Resourced",
-                                              items: [TasksListItemViewModel(title: "Domestic Violence (2)",
-                                                                             subtitle: "57 Bell Street, Fitzroy VIC 3065",
-                                                                             caption: "AS4203  :  MP0001517",
-                                                                             status: "Resourced",
-                                                                             priority: "P2",
-                                                                             description: "Multiple witnesses have reported a couple arguing in public and disturbing the peace. They appear to be either intoxicated or under the influence of an illicit drugs",
-                                                                             resources: [
-                                                                                TasksListItemResourceViewModel(image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                                               resourceTitle: "P08 (2)",
-                                                                                                               statusText: "Duress",
-                                                                                                               tintColor: .orangeRed,
-                                                                                                               useBoldStatusText: true),
-                                                                                
-                                                                                TasksListItemResourceViewModel(image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                                               resourceTitle: "P03 (3)",
-                                                                                                               statusText: "Proceeding 0:47",
-                                                                                                               tintColor: nil,
-                                                                                                               useBoldStatusText: false),
-                                                                                
-                                                                                TasksListItemResourceViewModel(image: AssetManager.shared.image(forKey: .resourceCar),
-                                                                                                               resourceTitle: "P14 (2)",
-                                                                                                               statusText: "Proceeding 2:41",
-                                                                                                               tintColor: nil,
-                                                                                                               useBoldStatusText: false),
-                                                                             ],
-                                                                             boxColor: .sunflowerYellow,
-                                                                             boxFilled: true,
-                                                                             hasUpdates: false),
-                                                      
-                                                      TasksListItemViewModel(title: "Public Nuisance (1)",
-                                                                             subtitle: "27 Lansdowne Street, East Melbourne VIC 3002",
-                                                                             caption: "AS4012  •  MP00001528",
-                                                                             status: "Resourced",
-                                                                             priority: "P3",
-                                                                             description: "A group of intoxicated individuals are verbally abusing patrons as they enter and leave",
-                                                                             boxColor: .secondaryGray,
-                                                                             boxFilled: false,
-                                                                             hasUpdates: false),
-                                                      ]),
-            
-        ]
-        
-    }
-    
-    static func patrols() -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
-        return []
-    }
-
-    static func broadcasts() -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
-        return []
-    }
-
-    static func resources() -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
-        return [
-            CADFormCollectionSectionViewModel(title: "1 Duress",
-                                              items: [TasksListItemViewModel(title: "P08 (2)",
-                                                                             subtitle: "Fitzroy",
-                                                                             caption: "In Duress 2:45",
-                                                                             priority: "P1",
-                                                                             boxColor: .orangeRed,
-                                                                             boxFilled: true,
-                                                                             hasUpdates: false)]),
-            CADFormCollectionSectionViewModel(title: "7 Tasked",
-                                              items: [TasksListItemViewModel(title: "P03 (3)",
-                                                                             subtitle: "Fitzroy",
-                                                                             caption: "Proceeding",
-                                                                             status: "Tasked",
-                                                                             priority: "P1",
-                                                                             boxColor: .orangeRed,
-                                                                             boxFilled: true,
-                                                                             hasUpdates: false),
-                                                      TasksListItemViewModel(title: "P12 (1)",
-                                                                             subtitle: "Fitzroy",
-                                                                             caption: "At Incident",
-                                                                             status: "Tasked",
-                                                                             priority: "P1",
-                                                                             boxColor: .orangeRed,
-                                                                             boxFilled: true,
-                                                                             hasUpdates: false),
-                                                      TasksListItemViewModel(title: "F05 (4)",
-                                                                             subtitle: "Abbotsford",
-                                                                             caption: "Processing",
-                                                                             status: "Tasked",
-                                                                             priority: "P3",
-                                                                             boxColor: .brightBlue,
-                                                                             boxFilled: false,
-                                                                             hasUpdates: false),
-                                                      TasksListItemViewModel(title: "K14 (2)",
-                                                                             subtitle: "Collingwood",
-                                                                             caption: "Processing",
-                                                                             status: "Tasked",
-                                                                             priority: "P3",
-                                                                             boxColor: .brightBlue,
-                                                                             boxFilled: false,
-                                                                             hasUpdates: false)])
-        ]
-    }
-
 }
+

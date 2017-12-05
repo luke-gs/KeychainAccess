@@ -14,14 +14,12 @@ open class TaskAnnotation: NSObject, MKAnnotation {
     open var coordinate: CLLocationCoordinate2D
     open var title: String?
     open var subtitle: String?
-    open var status: String?
     open var identifier: String
 
-    public init(identifier: String, coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?, status: String?) {
+    public init(identifier: String, coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?) {
         self.identifier = identifier
         self.coordinate = coordinate
         self.title = title
         self.subtitle = subtitle
-        self.status = status
     }
 }

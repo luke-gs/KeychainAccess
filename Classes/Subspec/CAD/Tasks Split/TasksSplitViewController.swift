@@ -105,6 +105,11 @@ open class TasksSplitViewController: MPOLSplitViewController {
         return nil
     }
 
+    open override func defaultSelectedViewController() -> UIViewController? {
+        // No default selection is wanted for this view controller.
+        return nil
+    }
+
     @objc open func updateSyncIntervalText() {
         updateNavigationBarForSelection()
     }

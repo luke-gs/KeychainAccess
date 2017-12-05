@@ -217,19 +217,11 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
         }
     }
     
-    public func configurePriority(color priorityColor: UIColor, priorityText: String, priorityFilled: Bool) {
-        priorityLabel.text = priorityText
-        
-        // Set background color or border color depending on whether filled
-        if priorityFilled {
-            priorityBackground.backgroundColor = priorityColor
-            priorityBackground.layer.borderColor = UIColor.clear.cgColor
-            priorityLabel.textColor = .black
-        } else {
-            priorityBackground.backgroundColor = .clear
-            priorityBackground.layer.borderColor = priorityColor.cgColor
-            priorityLabel.textColor = priorityColor
-        }
+    public func configurePriority(text: String?, textColor: UIColor?, fillColor: UIColor?, borderColor: UIColor?) {
+        priorityLabel.text = text
+        priorityLabel.textColor = textColor
+        priorityBackground.backgroundColor = fillColor
+        priorityBackground.layer.borderColor = borderColor?.cgColor
     }
     
     public func setStatusRows(_ viewModels: [TasksListItemResourceViewModel]?) {
