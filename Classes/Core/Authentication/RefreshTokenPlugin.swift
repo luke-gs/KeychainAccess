@@ -16,17 +16,15 @@ import PromiseKit
 ///       that retries the request, and returns the new response
 open class RefreshTokenPlugin: PluginType {
     
+    public typealias RefreshHandler = (DataResponse<Data>) -> Promise<Void>
 
     // MARK: - Properties
     
     /// The paths that will be excluded from refresh logic.
     public let excludePaths: Set<String>
     
-    /// Will execute if refresh token attempt fails (lets the app try to refresh session and handle errors).
-    public var onRefreshTokenFailed: ((Error?) -> Promise<Void>)?
-    
-    /// Will execute if a refresh is required. If not set, will attempt default refreshToken call
-    public var attemptRefresh: ((DataResponse<Data>) -> Promise<Void>)?
+    /// Will execute on 401 to create a refresh attempt promise.
+    public let refreshHandler: RefreshHandler
     
     /// The promise that is currently executing the refresh token request.
     private var refreshPromise: Promise<Void>? {
@@ -53,7 +51,8 @@ open class RefreshTokenPlugin: PluginType {
     
     // MARK: - Plugin Type
     
-    public init(excludePaths: Set<String> = ["login", "refresh"]) {
+    public init(excludePaths: Set<String> = ["login", "refresh"], _ refreshHandler: @escaping RefreshHandler) {
+        self.refreshHandler = refreshHandler
         self.excludePaths = excludePaths
         self.barrierQueue = DispatchQueue(label: "au.com.gridstone.RefreshTokenPlugin.Barrier", attributes: .concurrent)
     }
@@ -102,19 +101,8 @@ open class RefreshTokenPlugin: PluginType {
             
             // Create refresh promise
             self.refreshPromise = firstly {
-                // Let app try refresh
-                if let refresh = self.attemptRefresh {
-                    return refresh(response)
-                } else { // Default refresh
-                    return tryRefreshToken(from: response)
-                }
-            }.recover { error -> Promise<Void> in
-                // Let app try refresh session
-                if let fallback = self.onRefreshTokenFailed {
-                    return fallback(error)
-                }
-                // Otherwise throw original error
-                throw error
+                // Let app attempt refresh
+                return self.refreshHandler(response)
             }.always {
                 self.refreshPromise = nil
             }
@@ -175,26 +163,6 @@ open class RefreshTokenPlugin: PluginType {
     }
 
 }
-
-
-// MARK: - Chaining methods
-
-public extension RefreshTokenPlugin {
-    
-    @discardableResult
-    public func onRefreshTokenFailed(_ onRefreshTokenFailed: ((Error?) -> Promise<Void>)?) -> Self {
-        self.onRefreshTokenFailed = onRefreshTokenFailed
-        return self
-    }
-    
-    @discardableResult
-    public func attemptRefresh(_ attemptRefresh: ((DataResponse<Data>) -> Promise<Void>)?) -> Self {
-        self.attemptRefresh = attemptRefresh
-        return self
-    }
-    
-}
-
 
 
 // MARK: - Auth Header Check
