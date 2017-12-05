@@ -48,7 +48,7 @@ public class EntityBucket {
     /// - Parameter entities: A collection of entities.
     public func add(_ entities: [MPOLKitEntity]) {
         entities.forEach { entity in
-            if entitiesSnapshots.index(where: { $0.entity.canAssumeToBeTheSameAs(otherEntity: entity) }) == nil {
+            if entitiesSnapshots.index(where: { $0.entity.isIdentityMatching(otherEntity: entity) }) == nil {
                 let entitySnapshot = EntitySnapshot(initialEntity: entity, entityManager: entityManager)
                 entitySnapshot.delegate = self
                 entitiesSnapshots.append(entitySnapshot)
@@ -81,7 +81,7 @@ public class EntityBucket {
     ///
     /// - Parameter entity: The entity to remove.
     public func remove(_ entity: MPOLKitEntity) {
-        if let index = entitiesSnapshots.index(where: { $0.entity.canAssumeToBeTheSameAs(otherEntity: entity) }) {
+        if let index = entitiesSnapshots.index(where: { $0.entity.isIdentityMatching(otherEntity: entity) }) {
             let entity = entitiesSnapshots.remove(at: index)
             NotificationCenter.default.post(name: EntityBucket.didUpdateNotificationName,
                                             object: self,
@@ -104,7 +104,7 @@ public class EntityBucket {
     /// - Parameter entity: The entity to check.
     /// - Returns: True if it is in the bucket. False otherwise.
     public func contains(_ entity: MPOLKitEntity) -> Bool {
-        return entitiesSnapshots.contains(where: { $0.entity.canAssumeToBeTheSameAs(otherEntity: entity) })
+        return entitiesSnapshots.contains(where: { $0.entity.isIdentityMatching(otherEntity: entity) })
     }
 
     public func entities<T>(for entityType: T.Type) -> [T] where T: MPOLKitEntity {

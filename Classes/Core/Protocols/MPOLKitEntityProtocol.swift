@@ -42,7 +42,7 @@ open class MPOLKitEntity: NSObject, Serialisable, MPOLKitEntityProtocol {
         return true
     }
 
-    open func canAssumeToBeTheSameAs(otherEntity: MPOLKitEntityProtocol) -> Bool {
+    open func isIdentityMatching(otherEntity: MPOLKitEntityProtocol) -> Bool {
         return type(of: self) == type(of: otherEntity) && id == otherEntity.id
     }
 }
@@ -50,7 +50,7 @@ open class MPOLKitEntity: NSObject, Serialisable, MPOLKitEntityProtocol {
 public protocol MPOLKitEntityProtocol: Unboxable {
     var id: String { get }
     static var serverTypeRepresentation: String { get }
-    func canAssumeToBeTheSameAs(otherEntity: MPOLKitEntityProtocol) -> Bool
+    func isIdentityMatching(otherEntity: MPOLKitEntityProtocol) -> Bool
 }
 
 private enum CodingKey: String {
