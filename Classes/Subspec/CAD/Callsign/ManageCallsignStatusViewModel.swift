@@ -198,6 +198,9 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
             return IndexPath(row: 2, section: 0)
         case .inquiries2:
             return IndexPath(row: 3, section: 0)
+        default:
+            // unavailable
+            return IndexPath(row: 0, section: 1)
         }
     }
 

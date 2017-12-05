@@ -16,13 +16,13 @@ extension SyncDetailsResource {
         return CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))
     }
     
-    private static var shiftTimeFormatter: DateFormatter = {
+    open static var shiftTimeFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"
         return formatter
     }()
     
-    private static var durationTimeFormatter: DateComponentsFormatter = {
+    open static var durationTimeFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.day, .hour, .minute]
         formatter.unitsStyle = .short
