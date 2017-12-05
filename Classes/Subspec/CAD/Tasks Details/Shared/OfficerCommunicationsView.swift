@@ -55,7 +55,7 @@ open class OfficerCommunicationsView: UIView {
     
     
     @objc open func didSelectCall() {
-        if let url = URL(string: "tel://\(contactNumber)"), UIApplication.shared.canOpenURL(url) {
+        if let url = URL(string: "tel://\(contactNumber.trimmingPhoneNumber())"), UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         } else {
             AlertQueue.shared.addSimpleAlert(title: contactNumber, message: "This device does not support calling or the phone number is invalid.")
@@ -63,7 +63,7 @@ open class OfficerCommunicationsView: UIView {
     }
     
     @objc open func didSelectMessage() {
-        if let url = URL(string: "sms:\(contactNumber)"), UIApplication.shared.canOpenURL(url) {
+        if let url = URL(string: "sms:\(contactNumber.trimmingPhoneNumber())"), UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         } else {
             AlertQueue.shared.addSimpleAlert(title: contactNumber, message: "This device does not support messaging or the phone number is invalid.")
