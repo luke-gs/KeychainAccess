@@ -9,14 +9,6 @@
 import Foundation
 import PromiseKit
 
-extension MPOLKitEntity {
-
-    func canAssumeToBeTheSameAs(otherEntity: MPOLKitEntity) -> Bool {
-        return type(of: self) == type(of: otherEntity) && id == otherEntity.id
-    }
-
-}
-
 
 /// Implement this protocol to handle any changes to the entity
 public protocol EntitySnapshotable: class {

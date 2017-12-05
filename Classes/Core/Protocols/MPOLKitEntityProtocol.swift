@@ -41,11 +41,16 @@ open class MPOLKitEntity: NSObject, Serialisable, MPOLKitEntityProtocol {
     open static var supportsSecureCoding: Bool {
         return true
     }
+
+    open func canAssumeToBeTheSameAs(otherEntity: MPOLKitEntityProtocol) -> Bool {
+        return type(of: self) == type(of: otherEntity) && id == otherEntity.id
+    }
 }
 
 public protocol MPOLKitEntityProtocol: Unboxable {
     var id: String { get }
     static var serverTypeRepresentation: String { get }
+    func canAssumeToBeTheSameAs(otherEntity: MPOLKitEntityProtocol) -> Bool
 }
 
 private enum CodingKey: String {
