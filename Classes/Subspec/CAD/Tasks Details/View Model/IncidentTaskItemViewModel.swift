@@ -27,7 +27,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
                   iconTintColor: resource.status.iconColors.icon,
                   color: resource.status.iconColors.background,
                   statusText: resource.status.title,
-                  itemName: [incident.type, incident.resourceCountString].removeNils().joined(separator: " "),
+                  itemName: [incident.type, incident.resourceCountString].joined(),
                   lastUpdated: incident.lastUpdated.elapsedTimeIntervalForHuman())
     }
 }

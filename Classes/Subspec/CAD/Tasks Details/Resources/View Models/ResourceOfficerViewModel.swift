@@ -29,7 +29,7 @@ public class ResourceOfficerViewModel {
         
         self.init(title: officer.displayName,
                   subtitle: [officer.rank, officer.payrollIdDisplayString, officer.licenceTypeId]
-                    .removeNils().joined(separator: "  •  "),
+                    .joined(separator: "  •  "),
                   badgeText: resource?.driver == officer.payrollId ? "DRIVER": nil,
                   commsEnabled: (text: commsEnabled, call: commsEnabled),
                   contactNumber: officer.contactNumber

@@ -81,7 +81,7 @@ open class TasksMapViewModel {
                                              iconTintColor: resource.status.iconColors.icon,
                                              color: resource.status.iconColors.background,
                                              statusText: resource.status.title,
-                                             itemName: [annotation.title, annotation.subtitle].removeNils().joined(separator: " "),
+                                             itemName: [annotation.title, annotation.subtitle].joined(),
                                              lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
         } else if let annotation = annotation as? IncidentAnnotation {
             guard let incident = CADStateManager.shared.incidentsById[annotation.identifier],
