@@ -43,12 +43,6 @@ public enum TaskListType: Int {
     }
 }
 
-/// Delegate protocol for updating UI
-public protocol TasksListContainerViewModelDelegate: class {
-    /// Called when the sections data is updated
-    func sectionsUpdated()
-}
-
 /// View model for the task list container, which is the parent of the header and list view models
 ///
 /// This view model owns the sources and current source selection, so changes can be applied to both the header and list
@@ -56,9 +50,6 @@ public protocol TasksListContainerViewModelDelegate: class {
 open class TasksListContainerViewModel {
 
     public weak var splitViewModel: TasksSplitViewModel?
-
-    /// Delegate for UI updates
-    open weak var delegate: TasksListContainerViewModelDelegate?
 
     // MARK: - Properties
 
@@ -118,9 +109,7 @@ open class TasksListContainerViewModel {
 
     /// Create the view controller for this view model
     open func createViewController() -> UIViewController {
-        let vc = TasksListContainerViewController(viewModel: self)
-        delegate = vc
-        return vc
+        return TasksListContainerViewController(viewModel: self)
     }
 
     // MARK: - Public methods
@@ -178,7 +167,6 @@ open class TasksListContainerViewModel {
         } else {
             listViewModel.sections = []
         }
-        delegate?.sectionsUpdated()
     }
     
     /// Maps sync models to view models

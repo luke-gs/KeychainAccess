@@ -8,17 +8,95 @@
 
 import UIKit
 
+/// Delegate for task list UI events
+public protocol TasksListViewControllerDelegate: class {
+
+    /// Called when user pulls to refresh the task list
+    func taskListDidPullToRefresh()
+
+    /// Called when user changes the search text
+    func taskListDidChangeSearchText(searchText: String)
+}
+
 /// View controller for displaying a list of tasks in the left hand side of the CAD split view controller
 ///
 /// This uses CADFormCollectionViewController for consistent styling and reduced boilerplate.
 ///
-open class TasksListViewController: CADFormCollectionViewController<TasksListItemViewModel> {
+open class TasksListViewController: CADFormCollectionViewController<TasksListItemViewModel>, UISearchBarDelegate {
 
-    /// The global header height for offsetting content in list
-    open var globalHeaderHeight: CGFloat = 0
+    /// Delegate for UI events
+    open weak var delegate: TasksListViewControllerDelegate?
+
+    /// The refresh control for tasks list
+    open private(set) var refreshControl: UIRefreshControl!
+
+    /// The search bar for filtering tasks
+    open private(set) var searchBar: UISearchBar!
+
+    // MARK: - View lifecycle
+
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+
+        createSubviews()
+        createConstraints()
+    }
+
+    open func createSubviews() {
+        // Add refresh control to task list
+        let theme = ThemeManager.shared.theme(for: .current)
+        refreshControl = UIRefreshControl()
+        refreshControl.tintColor = theme.color(forKey: .tint)
+        refreshControl.addTarget(self, action: #selector(refreshTasks), for: .valueChanged)
+        collectionView?.addSubview(refreshControl)
+        collectionView?.alwaysBounceVertical = true
+
+        // Add search bar for filtering task list
+        searchBar = UISearchBar(frame: .zero)
+        searchBar.barStyle = .black
+        searchBar.showsCancelButton = false
+        searchBar.searchBarStyle = .minimal
+        searchBar.placeholder = NSLocalizedString("Search", comment: "Search placeholder")
+        searchBar.delegate = self
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        collectionView?.addSubview(searchBar)
+
+        // Disable the inset manager, as it breaks things
+        collectionViewInsetManager = nil
+    }
+
+    open func createConstraints() {
+        NSLayoutConstraint.activate([
+            searchBar.topAnchor.constraint(equalTo: collectionView!.topAnchor, constant: 10),
+            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 14),
+            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -14),
+            searchBar.heightAnchor.constraint(equalToConstant: 32)
+        ])
+    }
+
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        // Hide search bar during initial layout or rotation
+        DispatchQueue.main.async {
+            self.hideSearchBar()
+        }
+    }
 
     // MARK: - Override
 
+    override open func reloadContent() {
+        let wasFocused = searchBar?.isFirstResponder ?? false
+
+        // Refresh the task list
+        collectionView?.reloadData()
+
+        // Reloading list loses any search bar keyboard focus, so refocus if necessary
+        if wasFocused {
+            searchBar.becomeFirstResponder()
+        }
+    }
+    
     override open func cellType() -> CollectionViewFormCell.Type {
         return TasksListItemCollectionViewCell.self
     }
@@ -105,6 +183,28 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
     // MARK: - CollectionViewDelegateFormLayout methods
 
     func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
-        return viewModel.sections.isEmpty ? 0 : globalHeaderHeight
+        // Make space for search bar using the form global header
+        return viewModel.sections.isEmpty ? 0 : 32
+    }
+
+    // MARK: - UISearchBarDelegate (cannot be in extension)
+
+    open func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        delegate?.taskListDidChangeSearchText(searchText: searchText)
+    }
+
+    open func hideSearchBar() {
+        // Clear the search text
+        searchBar.text = nil
+        searchBar(searchBar, textDidChange: "")
+
+        // Hide the search bar
+        if let collectionView = collectionView, collectionView.contentOffset.y < self.searchBar.bounds.height {
+            collectionView.contentOffset = CGPoint(x: 0, y: self.searchBar.frame.maxY)
+        }
+    }
+
+    @objc open func refreshTasks() {
+        delegate?.taskListDidPullToRefresh()
     }
 }
