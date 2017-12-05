@@ -28,7 +28,7 @@ open class IncidentResourcesViewController: FormBuilderViewController {
         for section in viewModel.sections {
             builder += HeaderFormItem(text: section.title, style: viewModel.shouldShowExpandArrow() ? .collapsible : .plain)
             for item in section.items {
-                builder += SubtitleFormItem(title: item.title, subtitle: item.subtitle)
+                builder += SubtitleFormItem(title: item.title, subtitle: item.subtitle, image: item.icon)
                     .width(.column(1))
                 for officer in item.officers {
                     builder += CustomFormItem(cellType: OfficerCell.self, reuseIdentifier: "OfficerCell").onConfigured { cell in
