@@ -10,17 +10,19 @@ import UIKit
 
 public class ResourceTaskItemViewModel: TaskItemViewModel {
     
-    public init(iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor, statusText: String?, itemName: String?, lastUpdated: String?) {
+    public init(callsign: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor, statusText: String?, itemName: String?, lastUpdated: String?) {
         super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, lastUpdated: lastUpdated)
         
         self.viewModels = [
-            ResourceOfficerListViewModel(),
-            ResourceActivityLogViewModel()
+            ResourceOverviewViewModel(callsign: callsign),
+            ResourceOfficerListViewModel(callsign: callsign),
+            ResourceActivityLogViewModel(callsign: callsign)
         ]
     }
 
     public convenience init(resource: SyncDetailsResource) {
         self.init(
+            callsign: resource.callsign,
             iconImage: resource.status.icon,
             iconTintColor: resource.status.iconColors.icon,
             color: resource.status.iconColors.background,
