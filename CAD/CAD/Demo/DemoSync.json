@@ -103,7 +103,7 @@
                   {
                   "identifier": "AS4104",
                   "secondaryCode": "MP0001517",
-                  "type": "Public disturbance",
+                  "type": "Public Disturbance",
                   "grade": "P1",
                   "patrolGroup": "Collingwood",
                   "location": {
@@ -146,11 +146,10 @@
                   {
                   "identifier": "AS3110",
                   "secondaryCode": "MP0001517",
-                  "type": "Public nuisance",
+                  "type": "Public Nuisance",
                   "grade": "P2",
                   "patrolGroup": "Collingwood",
                   "location": {
-                  "type": "mcds",
                   "streetNumberFirst": "1",
                   "streetNumberLast": "13",
                   "streetName": "Victoria",
@@ -191,7 +190,7 @@
                   {
                   "identifier": "AS4096",
                   "secondaryCode": "MP0001517",
-                  "type": "Willful destruction",
+                  "type": "Willful Destruction",
                   "grade": "P2",
                   "patrolGroup": "Collingwood",
                   "location": {
@@ -234,11 +233,10 @@
                   {
                   "identifier": "AS4414",
                   "secondaryCode": "MP0001517",
-                  "type": "Traffic crash no injury",
+                  "type": "Traffic Crash No Injury",
                   "grade": "P3",
                   "patrolGroup": "Collingwood",
                   "location": {
-                  "type": "nothing",
                   "streetNumberFirst": "51",
                   "streetName": "Gipps",
                   "streetType": "Street",
@@ -278,7 +276,7 @@
                   {
                   "identifier": "AS3092",
                   "secondaryCode": "MP0001517",
-                  "type": "Industrial accident",
+                  "type": "Industrial Accident",
                   "grade": "P3",
                   "patrolGroup": "Collingwood",
                   "location": {
@@ -321,11 +319,10 @@
                   {
                   "identifier": "AS4911",
                   "secondaryCode": "MP0001517",
-                  "type": "Stealing offences",
+                  "type": "Stealing Offences",
                   "grade": "P3",
                   "patrolGroup": "Collingwood",
                   "location": {
-                  "type": "park",
                   "streetNumberFirst": "58",
                   "streetNumberLast": "70",
                   "streetName": "Perry",
