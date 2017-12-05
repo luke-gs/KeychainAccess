@@ -84,9 +84,8 @@ open class TasksMapViewModel {
                                              itemName: [annotation.title, annotation.subtitle].joined(),
                                              lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
         } else if let annotation = annotation as? IncidentAnnotation {
-            guard let incident = CADStateManager.shared.incidentsById[annotation.identifier],
-                let resource = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier).first
-            else { return nil }
+            guard let incident = CADStateManager.shared.incidentsById[annotation.identifier] else { return nil }
+            let resource = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier).first
             return IncidentTaskItemViewModel(incident: incident, resource: resource)
         }
         
