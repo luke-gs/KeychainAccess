@@ -18,7 +18,9 @@ open class IntrinsicHeightCollectionView: UICollectionView {
     
     open override var contentSize: CGSize {
         didSet {
-            invalidateIntrinsicContentSize()
+            if contentSize != oldValue {
+                invalidateIntrinsicContentSize()
+            }
         }
     }
     

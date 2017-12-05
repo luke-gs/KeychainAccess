@@ -19,6 +19,7 @@ public enum ResourceStatus: String, Codable {
     case atStation      = "At Station"
     case onCall         = "On Call"
     case inquiries1     = "Inquiries1"
+    case duress         = "Duress"
 
     // Current task
     case proceeding     = "Proceeding"
@@ -55,6 +56,8 @@ public enum ResourceStatus: String, Codable {
             return NSLocalizedString("Finalise", comment: "")
         case .inquiries2:
             return NSLocalizedString("Inquiries", comment: "")
+        case .duress:
+            return NSLocalizedString("Duress", comment: "")
         }
     }
 
@@ -84,10 +87,12 @@ public enum ResourceStatus: String, Codable {
             return .iconStatusFinalise
         case .inquiries2:
             return .iconStatusInquiries
+        case .duress:
+            return .duress
         }
     }
 
-    public func icon() -> UIImage? {
+    public var icon: UIImage? {
         return AssetManager.shared.image(forKey: imageKey)
     }
 
@@ -118,6 +123,8 @@ public enum ResourceStatus: String, Codable {
             return (.secondaryGray, .disabledGray)
         case .inquiries2:
             return (.secondaryGray, .disabledGray)
+        case .duress:
+            return (.orangeRed, .disabledGray)
         }
     }
 
@@ -138,7 +145,8 @@ public enum ResourceStatus: String, Codable {
         case .proceeding,
              .atIncident,
              .finalise,
-             .inquiries2:
+             .inquiries2,
+             .duress:
             return false
         }
     }

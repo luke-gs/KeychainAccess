@@ -10,8 +10,10 @@ import UIKit
 
 /// Enum for resource types
 public enum ResourceType: String, Codable {
-    case vehicle    = "Vehicle"
-    case dogSquad   = "DogSquad"
+    case vehicle        = "Vehicle"
+    case dogSquad       = "DogSquad"
+    case motorcycle     = "Motorcycle"
+    case policeOfficer  = "PoliceOfficer"
 
     var imageKey: AssetManager.ImageKey {
         switch self {
@@ -19,10 +21,14 @@ public enum ResourceType: String, Codable {
             return .resourceCar
         case .dogSquad:
             return .resourceDog
+        case .motorcycle:
+            return .entityMotorbikeSmall
+        case .policeOfficer:
+            return .resourceSegway
         }
     }
 
-    public func icon() -> UIImage? {
+    public var icon: UIImage? {
         return AssetManager.shared.image(forKey: imageKey)
     }
 }

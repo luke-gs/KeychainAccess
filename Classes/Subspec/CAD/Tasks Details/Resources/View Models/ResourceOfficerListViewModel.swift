@@ -10,9 +10,13 @@ import UIKit
 
 open class ResourceOfficerListViewModel: CADFormCollectionViewModel<ResourceOfficerViewModel>, TaskDetailsViewModel {
     
-    public override init() {
+    /// The identifier for this resource
+    open let callsign: String
+    
+    public init(callsign: String) {
+        self.callsign = callsign
         super.init()
-        sections = dummyData
+        loadData()
     }
 
     /// Create the view controller for this view model
@@ -20,16 +24,19 @@ open class ResourceOfficerListViewModel: CADFormCollectionViewModel<ResourceOffi
         return ResourceOfficerListViewController(viewModel: self)
     }
     
-    /// Lazy var for creating view model content
-    private lazy var dummyData: [CADFormCollectionSectionViewModel<ResourceOfficerViewModel>] = {
-        return [
-            CADFormCollectionSectionViewModel(title: "2 Officers",
-                                              items: [
-                                                ResourceOfficerViewModel(title: "Dean McCrae", subtitle: "Senior Constable  :  #820904  :  Gold License", badgeText: "DRIVER", commsEnabled: (text: true, call: true, video: false)),
-                                                ResourceOfficerViewModel(title: "Sarah Worrall", subtitle: "Constable  :  #800560  :  Silver License", badgeText: nil, commsEnabled: (text: true, call: true, video: true)),
-                ])
+    open func loadData() {
+        guard let resource = CADStateManager.shared.resourcesById[callsign] else { return }
+        
+        let officers = CADStateManager.shared.officersForResource(callsign: callsign)
+        
+        let officerViewModels = officers.map { officer in
+            return ResourceOfficerViewModel(officer: officer, resource: resource)
+        }
+        
+        sections = [
+            CADFormCollectionSectionViewModel(title: "\(officers.count) Officers", items: officerViewModels)
         ]
-    }()
+    }
     
     /// The title to use in the navigation bar
     override open func navTitle() -> String {
@@ -43,6 +50,10 @@ open class ResourceOfficerListViewModel: CADFormCollectionViewModel<ResourceOffi
     
     override open func noContentSubtitle() -> String? {
         return nil
+    }
+    
+    open override func shouldShowExpandArrow() -> Bool {
+        return false
     }
 
 }

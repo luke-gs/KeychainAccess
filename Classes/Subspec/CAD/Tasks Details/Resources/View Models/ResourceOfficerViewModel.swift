@@ -8,10 +8,31 @@
 
 import UIKit
 
-public struct ResourceOfficerViewModel {
+public class ResourceOfficerViewModel {
     
     public var title: String
     public var subtitle: String
     public var badgeText: String?
-    public var commsEnabled: (text: Bool, call: Bool, video: Bool)
+    public var commsEnabled: (text: Bool, call: Bool)
+    public var contactNumber: String
+    
+    public init(title: String, subtitle: String, badgeText: String?, commsEnabled: (text: Bool, call: Bool), contactNumber: String) {
+        self.title = title
+        self.subtitle = subtitle
+        self.badgeText = badgeText
+        self.commsEnabled = commsEnabled
+        self.contactNumber = contactNumber
+    }
+    
+    convenience public init(officer: SyncDetailsOfficer, resource: SyncDetailsResource? = nil) {
+        let commsEnabled = officer.contactNumber != nil
+        
+        self.init(title: officer.displayName,
+                  subtitle: [officer.rank, officer.payrollIdDisplayString, officer.licenceTypeId]
+                    .joined(separator: "  •  "),
+                  badgeText: resource?.driver == officer.payrollId ? "DRIVER": nil,
+                  commsEnabled: (text: commsEnabled, call: commsEnabled),
+                  contactNumber: officer.contactNumber
+        )
+    }
 }

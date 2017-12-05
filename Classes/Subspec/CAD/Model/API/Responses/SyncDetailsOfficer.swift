@@ -12,33 +12,15 @@ import UIKit
 
 /// Reponse object for a single Officer in the call to /sync/details
 open class SyncDetailsOfficer: Codable {
-    open var alias : String!
-    open var firstName : String!
-    open var incidentNumber : String!
-    open var middleName : String!
-    open var payrollId : String!
-    open var rank : String!
-    open var station : String!
-    open var surname : String!
-    open var zone : String!
-
-    /// Missing from API, needed for book on
-    open var licenseTypeId : String!
-}
-
-/// Extension for utility methods
-extension SyncDetailsOfficer {
-    open var displayName: String {
-        var nameComponents = PersonNameComponents()
-        nameComponents.givenName = firstName
-        nameComponents.middleName = middleName
-        nameComponents.familyName = surname
-        return OfficerDetailsResponse.nameFormatter.string(from: nameComponents)
-    }
-
-    open static var nameFormatter: PersonNameComponentsFormatter = {
-        let nameFormatter = PersonNameComponentsFormatter()
-        nameFormatter.style = .medium
-        return nameFormatter
-    }()
+    open var payrollId: String!
+    open var rank: String!
+    open var firstName: String!
+    open var middleName: String!
+    open var lastName: String!
+    open var patrolGroup: String!
+    open var station: String!
+    open var licenceTypeId: String!
+    open var contactNumber: String!
+    open var remarks: String!
+    open var capabilties: String!
 }

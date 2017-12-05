@@ -9,13 +9,13 @@
 import UIKit
 
 /// Collection view cell for showing a status image and title
-class ManageCallsignStatusViewCell: UICollectionViewCell, DefaultReusable {
+open class ManageCallsignStatusViewCell: UICollectionViewCell, DefaultReusable {
 
-    public let titleLabel = UILabel(frame: .zero)
-    public let imageView = UIImageView(frame: .zero)
-    public let spinner = MPOLSpinnerView(style: .regular)
+    open let titleLabel = UILabel(frame: .zero)
+    open let imageView = UIImageView(frame: .zero)
+    open let spinner = MPOLSpinnerView(style: .regular)
     
-    public var isLoading: Bool = false {
+    open var isLoading: Bool = false {
         didSet {
             if isLoading == oldValue { return }
             
@@ -29,7 +29,7 @@ class ManageCallsignStatusViewCell: UICollectionViewCell, DefaultReusable {
 
     private var currentConstraints: [NSLayoutConstraint] = []
 
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
 
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -45,7 +45,7 @@ class ManageCallsignStatusViewCell: UICollectionViewCell, DefaultReusable {
         contentView.addSubview(spinner)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
 
@@ -87,7 +87,7 @@ class ManageCallsignStatusViewCell: UICollectionViewCell, DefaultReusable {
         ]
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    override open func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
         if previousTraitCollection != traitCollection {

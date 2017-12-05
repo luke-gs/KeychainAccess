@@ -182,7 +182,10 @@ extension AssetManager {
         public static let entityTrailerMedium = ImageKey("iconEntityAutomotiveTrailer48")
         public static let entityTrailerLarge = ImageKey("iconEntityAutomotiveTrailer96")
 
+        public static let entityPlaceholder = ImageKey("EntityThumbnailBackground")
+
         // Resource
+        public static let resourceGeneral   = ImageKey("iconResourceGeneral")
         public static let resourceCar       = ImageKey("iconResourceCar")
         public static let resourceWater     = ImageKey("iconResourceWater")
         public static let resourceBicycle   = ImageKey("iconResourceBicycle")
@@ -193,7 +196,8 @@ extension AssetManager {
         // Comms
         public static let audioCall      = ImageKey("iconCommsCall")
         public static let videoCall      = ImageKey("iconCommsVideo")
-        
+        public static let message        = ImageKey("iconCommsMessage")
+
         // Forms
         public static let checkbox             = ImageKey("iconFormCheckbox")
         public static let checkboxSelected     = ImageKey("iconFormCheckboxSelected")
