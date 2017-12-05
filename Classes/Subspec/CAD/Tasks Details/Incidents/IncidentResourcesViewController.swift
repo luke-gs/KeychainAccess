@@ -46,8 +46,7 @@ open class IncidentResourcesViewController: FormBuilderViewController {
                         cell.titleLabel.text = officer.title
                         cell.subtitleLabel.text = officer.subtitle
                         cell.badgeLabel.text = officer.badgeText
-                        cell.layoutMargins.left = 88
-                        cell.contentView.layoutMargins.left = 88
+                        cell.leftLayoutMargin = 88
                     }
                 }
             }
