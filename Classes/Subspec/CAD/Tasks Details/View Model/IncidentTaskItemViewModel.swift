@@ -20,4 +20,14 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
             IncidentNarrativeViewModel(incidentNumber: incidentNumber),
         ]
     }
+    
+    public convenience init(incident: SyncDetailsIncident, resource: SyncDetailsResource) {
+        self.init(incidentNumber: incident.identifier,
+                  iconImage: resource.status.icon,
+                  iconTintColor: resource.status.iconColors.icon,
+                  color: resource.status.iconColors.background,
+                  statusText: resource.status.title,
+                  itemName: [incident.type, incident.resourceCountString].removeNils().joined(separator: " "),
+                  lastUpdated: incident.lastUpdated.elapsedTimeIntervalForHuman())
+    }
 }

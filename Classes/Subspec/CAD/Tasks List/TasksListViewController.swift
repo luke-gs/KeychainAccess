@@ -89,7 +89,8 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
     /// Creates a view model from an annotation
     public func viewModel(for item: TasksListItemViewModel) -> TaskItemViewModel? {
         if let resource = CADStateManager.shared.resourcesById[item.identifier] {
-            return ResourceTaskItemViewModel(iconImage: resource.status.icon,
+            return ResourceTaskItemViewModel(callsign: resource.callsign,
+                                             iconImage: resource.status.icon,
                                              iconTintColor: resource.status.iconColors.icon,
                                              color: resource.status.iconColors.background,
                                              statusText: resource.status.title,

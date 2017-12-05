@@ -13,7 +13,6 @@ open class ResourceOfficerListViewController: CADFormCollectionViewController<Re
     override public init(viewModel: CADFormCollectionViewModel<ResourceOfficerViewModel>) {
         super.init(viewModel: viewModel)
         
-        // TODO: Get real image
         sidebarItem.image = AssetManager.shared.image(forKey: .entityOfficer)
     }
     

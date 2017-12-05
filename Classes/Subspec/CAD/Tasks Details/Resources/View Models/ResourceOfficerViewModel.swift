@@ -22,7 +22,7 @@ public class ResourceOfficerViewModel {
         self.commsEnabled = commsEnabled
     }
     
-    convenience public init(officer: SyncDetailsOfficer, resource: SyncDetailsResource?) {
+    convenience public init(officer: SyncDetailsOfficer, resource: SyncDetailsResource? = nil) {
         self.init(title: officer.displayName,
                   subtitle: [officer.rank, officer.payrollIdDisplayString, officer.licenceTypeId]
                     .removeNils().joined(separator: "  •  "),

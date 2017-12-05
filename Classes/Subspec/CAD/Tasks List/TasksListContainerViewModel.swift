@@ -191,17 +191,7 @@ open class TasksListContainerViewModel {
             let (status, incidents) = arg
             
             let taskViewModels = incidents.map { incident in
-                return TasksListItemViewModel(identifier: incident.identifier,
-                    title: [incident.type, incident.resourceCountString].removeNils().joined(separator: " "),
-                    subtitle: incident.location.fullAddress,
-                    caption: [incident.identifier, incident.secondaryCode].removeNils().joined(separator: " • "),
-                    priority: incident.grade.rawValue,
-                    description: incident.details,
-                    resources: nil, // TODO: Get resources
-                    badgeTextColor: incident.grade.badgeColors.text,
-                    badgeFillColor: incident.grade.badgeColors.fill,
-                    badgeBorderColor: incident.grade.badgeColors.border,
-                    hasUpdates: true) // TODO: Calculate dynamically
+                return TasksListItemViewModel(incident: incident)
             }
             return CADFormCollectionSectionViewModel(title: "\(incidents.count) \(status)", items: taskViewModels)
         }
