@@ -130,10 +130,8 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         sourceInsetManager.standardIndicatorInset  = .zero
 
         // Hide search bar during initial layout or rotation
-        if let collectionView = tasksListViewController.collectionView, collectionView.contentOffset.y < self.searchBar.bounds.height {
-            DispatchQueue.main.async {
-                collectionView.contentOffset = CGPoint(x: 0, y: self.searchBar.frame.maxY)
-            }
+        DispatchQueue.main.async {
+            self.hideSearchBar()
         }
     }
 
@@ -276,14 +274,21 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         isFullScreen = !isFullScreen
     }
     
+    open func hideSearchBar() {
+        if let collectionView = tasksListViewController.collectionView, collectionView.contentOffset.y < self.searchBar.bounds.height {
+            collectionView.contentOffset = CGPoint(x: 0, y: self.searchBar.frame.maxY)
+        }
+    }
+
     @objc func refreshTasks() {
         // Refresh the task list from the network
         firstly {
             return viewModel.refreshTaskList()
-        }.then { [weak self] () -> Void in
-            self?.tasksListViewController.collectionView?.reloadData()
         }.always { [weak self] in
             self?.refreshControl.endRefreshing()
+        }.then { [weak self] () -> Void in
+            // We need to reload sections again here or form content offset is wrong for some reason
+            self?.sectionsUpdated()
         }.catch { error in
             AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
         }
@@ -303,6 +308,10 @@ extension TasksListContainerViewController: SourceBarDelegate {
     open func sourceBar(_ bar: SourceBar, didSelectItemAt index: Int) {
         selectedSourceIndex = index
         viewModel.selectedSourceIndex = index
+
+        // Reset to top when switching types
+        tasksListViewController.collectionView?.contentOffset = .zero
+        hideSearchBar()
     }
 
     open func sourceBar(_ bar: SourceBar, didRequestToLoadItemAt index: Int) {
@@ -312,14 +321,20 @@ extension TasksListContainerViewController: SourceBarDelegate {
 // MARK: - TasksListContainerViewModelDelegate
 extension TasksListContainerViewController: TasksListContainerViewModelDelegate {
     open func sectionsUpdated() {
+        // Refresh the task list
         tasksListViewController.collectionView?.reloadData()
+
+        // Reloading list loses any search bar keyboard focus, so refocus if filtering
+        if let searchText = searchBar.text, !searchText.isEmpty {
+            searchBar.becomeFirstResponder()
+        }
     }
 }
 
 // MARK: - UISearchBarDelegate
 extension TasksListContainerViewController: UISearchBarDelegate {
     public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-
+        viewModel.searchText = searchText
     }
 }
 

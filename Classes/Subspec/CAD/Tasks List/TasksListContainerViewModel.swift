@@ -66,6 +66,15 @@ open class TasksListContainerViewModel {
     open let headerViewModel: TasksListHeaderViewModel
     open let listViewModel: TasksListViewModel
 
+    /// The search filter text
+    open var searchText: String? {
+        didSet {
+            if searchText != oldValue {
+                updateSections()
+            }
+        }
+    }
+
     /// The tasks source items, which are basically the different kinds of tasks (not backend sources)
     open var sourceItems: [SourceItem] = [] {
         didSet {
@@ -182,8 +191,17 @@ open class TasksListContainerViewModel {
             if sectionedIncidents[status] == nil {
                 sectionedIncidents[status] = []
             }
-            
-            sectionedIncidents[status]?.append(incident)
+
+            // Apply search text filter to type or address
+            if let searchText = searchText?.lowercased(), !searchText.isEmpty {
+                if let type = incident.type?.lowercased(), type.contains(searchText) {
+                    sectionedIncidents[status]?.append(incident)
+                } else if let address = incident.location?.fullAddress?.lowercased(), address.contains(searchText) {
+                    sectionedIncidents[status]?.append(incident)
+                }
+            } else {
+                sectionedIncidents[status]?.append(incident)
+            }
         }
         
         // Make view models from sections
