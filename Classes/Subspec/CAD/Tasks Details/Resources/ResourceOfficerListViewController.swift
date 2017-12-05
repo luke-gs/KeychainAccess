@@ -32,7 +32,8 @@ open class ResourceOfficerListViewController: CADFormCollectionViewController<Re
         cell.separatorStyle = .indented
         
         let commsView = OfficerCommunicationsView(frame: CGRect(x: 0, y: 0, width: 72, height: 32),
-                                                  commsEnabled: viewModel.commsEnabled)
+                                                  commsEnabled: viewModel.commsEnabled,
+                                                  contactNumber: viewModel.contactNumber)
         if traitCollection.horizontalSizeClass == .compact {
             cell.accessoryView = FormAccessoryView(style: .overflow)
         } else {
