@@ -42,6 +42,12 @@ open class CallsignIncidentFormViewController: FormBuilderViewController {
                 })
                 .accessory(ItemAccessory.disclosure)
                 .height(.fixed(64))
+                .onThemeChanged({ (cell, theme) in
+                    guard let cell = cell as? TasksListItemCollectionViewCell else { return }
+                    cell.titleLabel.textColor = theme.color(forKey: .primaryText)
+                    cell.subtitleLabel.textColor = theme.color(forKey: .secondaryText)
+                    cell.captionLabel.textColor = theme.color(forKey: .secondaryText)
+                })
                 .onSelection({ [unowned self] cell in
                     // Present the incident split view controller
                     if let taskViewModel = self.taskViewModel {
@@ -53,21 +59,6 @@ open class CallsignIncidentFormViewController: FormBuilderViewController {
     }
 
     // MARK: - Theme
-
-    private var theme: Theme {
-        return ThemeManager.shared.theme(for: .current)
-    }
-
-    open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
-
-        // Apply theme to custom cell
-        if let cell = cell as? TasksListItemCollectionViewCell {
-            cell.titleLabel.textColor = theme.color(forKey: .primaryText)
-            cell.subtitleLabel.textColor = theme.color(forKey: .secondaryText)
-            cell.captionLabel.textColor = theme.color(forKey: .secondaryText)
-        }
-    }
 
     open func decorate(cell: TasksListItemCollectionViewCell, with viewModel: TasksListItemViewModel) {
         cell.highlightStyle = .fade

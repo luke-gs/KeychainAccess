@@ -58,7 +58,7 @@ public class TasksListItemViewModel {
     public convenience init(resource: SyncDetailsResource, incident: SyncDetailsIncident?, hasUpdates: Bool) {
         self.init(
             identifier: resource.callsign,
-            title: "\(resource.callsign ?? "") \(resource.officerCountString ?? "")",
+            title: [resource.callsign, resource.officerCountString].removeNils().joined(separator: " "),
             subtitle: resource.location.suburb,
             caption: resource.status.title,
             priority: incident?.grade.rawValue,

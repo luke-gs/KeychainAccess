@@ -163,9 +163,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
         }
     }
 
-    // MARK: - Internal
-
-    private func statusForIndexPath(_ indexPath: IndexPath) -> ResourceStatus {
+    open func statusForIndexPath(_ indexPath: IndexPath) -> ResourceStatus {
         for status in ResourceStatus.allCases {
             if indexPathForStatus(status) == indexPath {
                 return status
@@ -174,7 +172,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
         return .unavailable
     }
 
-    private func indexPathForStatus(_ status: ResourceStatus) -> IndexPath {
+    open func indexPathForStatus(_ status: ResourceStatus) -> IndexPath {
         switch status {
         case .unavailable:
             return IndexPath(row: 0, section: 1)
