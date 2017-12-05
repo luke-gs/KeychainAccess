@@ -54,13 +54,10 @@ open class BookOnDetailsFormViewModel {
             isEditing = false
 
             // Initial form has self as one of officers to be book on to callsign
-            let selfOfficer = BookOnDetailsFormContentViewModel.Officer()
-            selfOfficer.title = "Herli Halim"
-            selfOfficer.rank = "Senior Sergeant"
-            selfOfficer.officerId = "#800256"
-            selfOfficer.licenseType = "Gold Licence"
-            selfOfficer.isDriver = true
-            details.officers = [selfOfficer]
+            if let model = CADStateManager.shared.officerDetails {
+                let officer = BookOnDetailsFormContentViewModel.Officer(withModel: model)
+                details.officers = [officer]
+            }
         }
     }
 
@@ -92,8 +89,12 @@ open class BookOnDetailsFormViewModel {
 
     open func submitForm() -> Promise<()> {
         // Update session
-        CADStateManager.shared.callsign = callsignViewModel.callsign
+        // TODO: convert view model to BookOnRequest
         BookOnDetailsFormViewModel.lastSaved = details
+
+        let bookOnRequest = BookOnRequest()
+        bookOnRequest.callsign = callsignViewModel.callsign
+        CADStateManager.shared.lastBookOn = bookOnRequest
 
         return firstly {
             // TODO: submit to network

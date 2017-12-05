@@ -67,7 +67,7 @@ open class OfficerDetailsViewController: FormBuilderViewController {
         
         builder += DropDownFormItem(title: NSLocalizedString("Licence", comment: ""))
             .options([NSLocalizedString("Gold", comment: ""), NSLocalizedString("Silver", comment: "")])
-            .required()
+            .required("Licence is required.")
             .allowsMultipleSelection(false)
             .width(.column(2))
             .selectedValue([viewModel.details.licenseType].removeNils())
@@ -98,6 +98,12 @@ open class OfficerDetailsViewController: FormBuilderViewController {
     }
     
     @objc func doneButtonTapped () {
+        #if DEBUG
+            // Skip validation when debug, to keep devs happy
+            viewModel.saveForm()
+            if view != nil { return }
+        #endif
+        
         let result = builder.validate()
         
         switch result {

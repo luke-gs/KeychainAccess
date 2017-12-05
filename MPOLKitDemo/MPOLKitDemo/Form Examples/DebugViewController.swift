@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MPOLKit
 
 public class DebugViewController: UIViewController {
 
@@ -23,7 +24,7 @@ public class DebugViewController: UIViewController {
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        MPLCodingNotSupported()
     }
 
     public override func loadView() {

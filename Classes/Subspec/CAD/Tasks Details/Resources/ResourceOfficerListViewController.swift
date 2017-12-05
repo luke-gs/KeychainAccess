@@ -13,7 +13,6 @@ open class ResourceOfficerListViewController: CADFormCollectionViewController<Re
     override public init(viewModel: CADFormCollectionViewModel<ResourceOfficerViewModel>) {
         super.init(viewModel: viewModel)
         
-        // TODO: Get real image
         sidebarItem.image = AssetManager.shared.image(forKey: .entityOfficer)
     }
     
@@ -32,7 +31,9 @@ open class ResourceOfficerListViewController: CADFormCollectionViewController<Re
         cell.selectionStyle = .fade
         cell.separatorStyle = .indented
         
-        let commsView = OfficerCommunicationsView(frame: CGRect(x: 0, y: 0, width: 120, height: 24))
+        let commsView = OfficerCommunicationsView(frame: CGRect(x: 0, y: 0, width: 72, height: 32),
+                                                  commsEnabled: viewModel.commsEnabled,
+                                                  contactNumber: viewModel.contactNumber)
         if traitCollection.horizontalSizeClass == .compact {
             cell.accessoryView = FormAccessoryView(style: .overflow)
         } else {
@@ -40,12 +41,6 @@ open class ResourceOfficerListViewController: CADFormCollectionViewController<Re
         }
         
         if let cell = cell as? OfficerCell {
-            let (messageEnabled, callEnabled, videoEnabled) = viewModel.commsEnabled
-            
-            commsView.messageButton.isEnabled = messageEnabled
-            commsView.callButton.isEnabled = callEnabled
-            commsView.videoButton.isEnabled = videoEnabled
-            
             cell.titleLabel.text = viewModel.title
             cell.subtitleLabel.text = viewModel.subtitle
             cell.badgeLabel.text = viewModel.badgeText

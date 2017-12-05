@@ -170,7 +170,7 @@ open class MPOLSplitViewController: PushableSplitViewController {
             }
         }
         
-        if oldValue != nil {
+        if oldValue != selectedViewController {
             // Update the split view content
             updateSplitViewControllerForSelection()
         }

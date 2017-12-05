@@ -53,7 +53,29 @@ open class NotBookedOnCallsignItemViewModel: NotBookedOnItemViewModel, BookOnCal
         self.badgeFillColor = badgeFillColor
         self.badgeBorderColor = badgeBorderColor
 
-        let subtitle = [location, status].removeNils().joined(separator: " : ")
+        let subtitle = [location, status].joined(separator: " : ")
         super.init(title: callsign, subtitle: subtitle, image: image, imageColor: imageColor, imageBackgroundColor: imageBackgroundColor)
+    }
+
+    /// Create a view model from the callsign resource
+    public convenience init(resource: SyncDetailsResource) {
+        // Get icon colors
+        let (imageColor, imageBackgroundColor) = resource.status.iconColors
+
+        // Fetch current incident, for badge text and colors
+        let incident = CADStateManager.shared.incidentForResource(callsign: resource.callsign)
+        let (badgeTextColor, badgeBorderColor, badgeFillColor) = incident?.grade.badgeColors ?? (.clear, .clear, .clear)
+
+        self.init(
+            callsign: resource.callsign,
+            status: resource.status.rawValue,
+            location: resource.location.fullAddress,
+            image: resource.status.icon,
+            imageColor: imageColor,
+            imageBackgroundColor: imageBackgroundColor,
+            badgeText: incident?.grade.rawValue,
+            badgeTextColor: badgeTextColor,
+            badgeFillColor: badgeFillColor,
+            badgeBorderColor: badgeBorderColor)
     }
 }

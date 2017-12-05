@@ -49,7 +49,7 @@ open class CADStatusTabBarController: StatusTabBarController {
             animation.keyPath = "transform.translation.y"
             animation.fromValue = tabBarContainerController.view.frame.height
             animation.toValue = 0
-            animation.duration = 0.5
+            animation.duration = 0.3
             tabBarContainerController.view.layer.add(animation, forKey: "basic")
         }
     }

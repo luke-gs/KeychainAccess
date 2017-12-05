@@ -54,29 +54,22 @@ open class IncidentAnnotationView: MKAnnotationView {
         setupConstraints()
     }
     
-    public func configure(withAnnotation annotation: MKAnnotation, priorityColor: UIColor, priorityText: String, priorityFilled: Bool, usesDarkBackground: Bool) {
+    public func configure(withAnnotation annotation: MKAnnotation, priorityText: String, priorityTextColor: UIColor, priorityFillColor: UIColor, priorityBorderColor: UIColor, usesDarkBackground: Bool) {
         self.annotation = annotation
         
-        let bubbleColor = usesDarkBackground ? .primaryGray : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        let titleColor = usesDarkBackground ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : .primaryGray
+        let bubbleColor = usesDarkBackground ? #colorLiteral(red: 0.2, green: 0.2039215686, blue: 0.2274509804, alpha: 1) : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        let titleColor = usesDarkBackground ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.2, green: 0.2039215686, blue: 0.2274509804, alpha: 1)
         
         bubbleView.backgroundColor = bubbleColor
         bottomArrow.color = bubbleColor
         titleLabel.textColor = titleColor
         
-        titleLabel.text = [annotation.title ?? "", annotation.subtitle ?? ""].removeNils().joined(separator: " ")
+        titleLabel.text = [annotation.title ?? "", annotation.subtitle ?? ""].joined()
         priorityLabel.text = priorityText
         
-        // If we want a filled in priority icon
-        if priorityFilled {
-            priorityBackground.backgroundColor = priorityColor
-            priorityBackground.layer.borderColor = UIColor.clear.cgColor
-            priorityLabel.textColor = .black
-        } else {
-            priorityBackground.backgroundColor = .clear
-            priorityBackground.layer.borderColor = priorityColor.cgColor
-            priorityLabel.textColor = priorityColor
-        }
+        priorityBackground.backgroundColor = priorityFillColor
+        priorityBackground.layer.borderColor = priorityBorderColor.cgColor
+        priorityLabel.textColor = priorityTextColor
     }
     
     required public init?(coder aDecoder: NSCoder) {

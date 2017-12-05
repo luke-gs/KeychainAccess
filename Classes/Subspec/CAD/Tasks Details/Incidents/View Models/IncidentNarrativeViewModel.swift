@@ -10,9 +10,13 @@ import UIKit
 
 public class IncidentNarrativeViewModel: CADFormCollectionViewModel<ActivityLogItemViewModel>, TaskDetailsViewModel {
     
-    public override init() {
+    /// The identifier for this incident
+    open let incidentNumber: String
+    
+    public init(incidentNumber: String) {
+        self.incidentNumber = incidentNumber
         super.init()
-        sections = dummyData
+        loadData()
     }
     
     /// Create the view controller for this view model
@@ -20,65 +24,20 @@ public class IncidentNarrativeViewModel: CADFormCollectionViewModel<ActivityLogI
         return IncidentNarrativeViewController(viewModel: self)
     }
     
-    /// Lazy var for creating view model content
-    private lazy var dummyData: [CADFormCollectionSectionViewModel<ActivityLogItemViewModel>] = {
-        return [
-            CADFormCollectionSectionViewModel(title: "3 New Updates",
-                                              items: [
-                                                ActivityLogItemViewModel(dotFillColor: .white,
-                                                                               dotStrokeColor: .sunflowerYellow,
-                                                                               timestamp: "10:30",
-                                                                               title: "Incident Details Updated",
-                                                                               subtitle: "Dispatch"
-                                                ),
-                                                      ActivityLogItemViewModel(dotFillColor: .disabledGray,
-                                                                               dotStrokeColor: .clear,
-                                                                               timestamp: "10:30",
-                                                                               title: "Status: At Incident [Assault - AS4205]",
-                                                                               subtitle: "P24 (2) @ 188 Smith Street, Fitzroy VIC 3066"
-                                                ),
-                                                      ActivityLogItemViewModel(dotFillColor: .disabledGray,
-                                                                               dotStrokeColor: .clear,
-                                                                               timestamp: "10:24",
-                                                                               title: "Status: Proceeding [Assault - AS4205]",
-                                                                               subtitle: "P24 (2)"
-                                                )
-                ]),
-            CADFormCollectionSectionViewModel(title: "Read",
-                                              items: [
-                                                ActivityLogItemViewModel(dotFillColor: .disabledGray,
-                                                                         dotStrokeColor: .clear,
-                                                                         timestamp: "10:20",
-                                                                         title: "Status: Proceeding [Assault - AS4205]",
-                                                                         subtitle: "P12 (1)"
-                                                ),
-                                                ActivityLogItemViewModel(dotFillColor: .white,
-                                                                               dotStrokeColor: .sunflowerYellow,
-                                                                               timestamp: "10:18",
-                                                                               title: "Incident Details Updated",
-                                                                               subtitle: "Dispatch"
-                                                ),
-                                                ActivityLogItemViewModel(dotFillColor: .white,
-                                                                         dotStrokeColor: .sunflowerYellow,
-                                                                         timestamp: "10:17",
-                                                                         title: "Incident Details Updated",
-                                                                         subtitle: "Dispatch"
-                                                ),
-                                                ActivityLogItemViewModel(dotFillColor: .white,
-                                                                         dotStrokeColor: .sunflowerYellow,
-                                                                         timestamp: "10:14",
-                                                                         title: "Priority updated to P1",
-                                                                         subtitle: "Dispatch"
-                                                ),
-                                                ActivityLogItemViewModel(dotFillColor: .white,
-                                                                         dotStrokeColor: .sunflowerYellow,
-                                                                         timestamp: "10:12",
-                                                                         title: "Incident Created",
-                                                                         subtitle: "Dispatch"
-                                                ),
-                ])
-        ]
-    }()
+    open func loadData() {
+        guard let incident = CADStateManager.shared.incidentsById[incidentNumber] else { return }
+        sections = []
+        
+        let activityLogItemsViewModels = incident.narrative.map { item in
+            return ActivityLogItemViewModel(dotFillColor: item.color,
+                                     dotStrokeColor: .clear,
+                                     timestamp: item.timestampString,
+                                     title: item.title,
+                                     subtitle: item.description)
+            }.sorted { return $0.timestamp > $1.timestamp }
+        
+        sections.append(CADFormCollectionSectionViewModel(title: "READ", items: activityLogItemsViewModels))
+    }
     
     /// The title to use in the navigation bar
     override open func navTitle() -> String {

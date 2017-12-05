@@ -210,9 +210,15 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         }
     }
 
-    private func createContainerScrollview() -> UIScrollView {
-        let scrollView = UIScrollView(frame: baseView!.bounds)
+    private func createContainerScrollview(_ baseView: UIView) -> UIScrollView {
+        let scrollView = UIScrollView(frame: baseView.bounds)
         scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+        if let contentView = self.contentView, let indexOfContentView = baseView.subviews.index(of: contentView) {
+            baseView.insertSubview(scrollView, at: indexOfContentView)
+        } else {
+            baseView.addSubview(scrollView)
+        }
         return scrollView
     }
 
@@ -276,12 +282,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         guard let baseView = self.baseView, self.contentInsetGuide != nil else { return }
 
         // Create a scroll view for holding container content, and insert into base view
-        let scrollView = containerScrollView ?? createContainerScrollview()
-        if let contentView = self.contentView, let indexOfContentView = baseView.subviews.index(of: contentView) {
-            baseView.insertSubview(scrollView, at: indexOfContentView)
-        } else {
-            baseView.addSubview(scrollView)
-        }
+        let scrollView = containerScrollView ?? createContainerScrollview(baseView)
 
         // Create a content guide for laying out
         let contentGuide = containerContentGuide ?? createContainerContentGuide(scrollView)

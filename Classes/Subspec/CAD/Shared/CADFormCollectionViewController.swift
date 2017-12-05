@@ -49,6 +49,8 @@ open class CADFormCollectionViewController<ItemType>: FormCollectionViewControll
 
         collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.register(cellType())
+        
+        sectionsUpdated()
     }
 
     // MARK: - UICollectionViewDataSource
