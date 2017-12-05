@@ -21,6 +21,7 @@ public class EntityAlertsViewModel: EntityDetailViewModelable {
             delegate?.updateSidebarItemCount(UInt(count))
             
             let color = entity?.alertLevel?.color
+            
             delegate?.updateSidebarAlertColor(color)
             delegate?.updateNoContentDetails(title: noContentTitle(), subtitle: noContentSubtitle())
         }

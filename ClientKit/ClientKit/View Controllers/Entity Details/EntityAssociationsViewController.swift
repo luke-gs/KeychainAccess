@@ -224,6 +224,10 @@ extension EntityAssociationsViewController: EntityDetailViewModelDelegate {
         sidebarItem.count = count
     }
     
+    public func updateSidebarAlertColor(_ color: UIColor?) {
+        sidebarItem.alertColor = color
+    }
+    
     public func updateLoadingState(_ state: LoadingStateManager.State) {
         loadingManager.state = state
     }

@@ -41,11 +41,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             self.landingPresenter.updateInterfaceForUserSession(animated: true)
             AlertQueue.shared.addSimpleAlert(title: "Session Ended", message: error?.localizedDescription)
             return Promise(error: error!)
-        }
-        
-        var plugins: [PluginType] = [refreshToken]
+        })
+
+        var plugins: [PluginType] = [refreshToken, NetworkMonitorPlugin()]
         #if DEBUG
-                plugins.append(NetworkLoggingPlugin())
+            plugins.append(NetworkLoggingPlugin())
         #endif
 
         // Set the application key for app specific user settings
@@ -221,14 +221,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         guard let endpoint = EndpointManager.selectedEndpoint?.url?.absoluteString else { return }
 
-        let plugins: [PluginType]?
+        var plugins: [PluginType] = [NetworkMonitorPlugin()]
 
         #if DEBUG
-            plugins = [
-                NetworkLoggingPlugin()
-            ]
-        #else
-            plugins = nil
+            plugins.append(NetworkLoggingPlugin())
         #endif
 
         APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(endpoint)", plugins: plugins, trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
