@@ -43,12 +43,6 @@ public enum TaskListType: Int {
     }
 }
 
-/// Delegate protocol for updating UI
-public protocol TasksListContainerViewModelDelegate: class {
-    /// Called when the sections data is updated
-    func sectionsUpdated()
-}
-
 /// View model for the task list container, which is the parent of the header and list view models
 ///
 /// This view model owns the sources and current source selection, so changes can be applied to both the header and list
@@ -57,14 +51,20 @@ open class TasksListContainerViewModel {
 
     public weak var splitViewModel: TasksSplitViewModel?
 
-    /// Delegate for UI updates
-    open weak var delegate: TasksListContainerViewModelDelegate?
-
     // MARK: - Properties
 
     // Child view models
     open let headerViewModel: TasksListHeaderViewModel
     open let listViewModel: TasksListViewModel
+
+    /// The search filter text
+    open var searchText: String? {
+        didSet {
+            if searchText != oldValue {
+                updateSections()
+            }
+        }
+    }
 
     /// The tasks source items, which are basically the different kinds of tasks (not backend sources)
     open var sourceItems: [SourceItem] = [] {
@@ -109,9 +109,7 @@ open class TasksListContainerViewModel {
 
     /// Create the view controller for this view model
     open func createViewController() -> UIViewController {
-        let vc = TasksListContainerViewController(viewModel: self)
-        delegate = vc
-        return vc
+        return TasksListContainerViewController(viewModel: self)
     }
 
     // MARK: - Public methods
@@ -169,7 +167,6 @@ open class TasksListContainerViewModel {
         } else {
             listViewModel.sections = []
         }
-        delegate?.sectionsUpdated()
     }
     
     /// Maps sync models to view models
@@ -182,8 +179,18 @@ open class TasksListContainerViewModel {
             if sectionedIncidents[status] == nil {
                 sectionedIncidents[status] = []
             }
-            
-            sectionedIncidents[status]?.append(incident)
+
+            // Apply search text filter to type or address
+            if let searchText = searchText?.lowercased(), !searchText.isEmpty {
+                let matchedValues = [incident.type, incident.location?.fullAddress].removeNils().filter {
+                    return $0.lowercased().contains(searchText)
+                }
+                if !matchedValues.isEmpty {
+                    sectionedIncidents[status]?.append(incident)
+                }
+            } else {
+                sectionedIncidents[status]?.append(incident)
+            }
         }
         
         // Make view models from sections
@@ -209,10 +216,26 @@ open class TasksListContainerViewModel {
         ]
         
         for resource in resources {
-            if resource.currentIncident != nil {
-                sectionedResources[tasked]?.append(resource)
+
+            // Apply search text filter to type or address
+            var shouldAppend: Bool = false
+            if let searchText = searchText?.lowercased(), !searchText.isEmpty {
+                let matchedValues = [resource.callsign].removeNils().filter {
+                    return $0.lowercased().contains(searchText)
+                }
+                if !matchedValues.isEmpty {
+                    shouldAppend = true
+                }
             } else {
-                sectionedResources[untasked]?.append(resource)
+                shouldAppend = true
+            }
+
+            if shouldAppend {
+                if resource.currentIncident != nil {
+                    sectionedResources[tasked]?.append(resource)
+                } else {
+                    sectionedResources[untasked]?.append(resource)
+                }
             }
         }
         
