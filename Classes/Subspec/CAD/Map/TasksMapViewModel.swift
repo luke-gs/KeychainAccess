@@ -65,7 +65,9 @@ open class TasksMapViewModel {
     /// Annotations matching the current filter
     var filteredAnnotations: [TaskAnnotation] = [] {
         didSet {
-            delegate?.viewModelStateChanged()
+            if oldValue != filteredAnnotations {
+                delegate?.viewModelStateChanged()
+            }
         }
     }
     
