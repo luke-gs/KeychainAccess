@@ -68,6 +68,9 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
     /// The refresh control for tasks list
     open private(set) var refreshControl: UIRefreshControl!
 
+    /// The search bar for filtering tasks
+    open private(set) var searchBar: UISearchBar!
+
     /// Constraint for making source bar have no height
     private var sourceBarWidthConstraint: NSLayoutConstraint!
 
@@ -125,6 +128,13 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         // Fix top margin of source bar
         sourceInsetManager.standardContentInset    = .zero
         sourceInsetManager.standardIndicatorInset  = .zero
+
+        // Hide search bar during initial layout or rotation
+        if let collectionView = tasksListViewController.collectionView, collectionView.contentOffset.y < self.searchBar.bounds.height {
+            DispatchQueue.main.async {
+                collectionView.contentOffset = CGPoint(x: 0, y: self.searchBar.frame.maxY)
+            }
+        }
     }
 
     override open func viewWillAppear(_ animated: Bool) {
@@ -167,6 +177,21 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         tasksListViewController.collectionView?.addSubview(refreshControl)
         tasksListViewController.collectionView?.alwaysBounceVertical = true
 
+        // Add search bar for filtering task list
+        searchBar = UISearchBar(frame: .zero)
+        searchBar.barStyle = .black
+        searchBar.showsCancelButton = false
+        searchBar.searchBarStyle = .minimal
+        searchBar.placeholder = NSLocalizedString("Search", comment: "Search placeholder")
+        searchBar.delegate = self
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        tasksListViewController.collectionView?.addSubview(searchBar)
+
+        if let tasksListViewController = tasksListViewController as? TasksListViewController {
+            // Make space for search bar using the form global header
+            tasksListViewController.globalHeaderHeight = 32
+        }
+
         // Set base view color for when content is not shown
         view.backgroundColor = tasksListViewController.view.backgroundColor
 
@@ -187,6 +212,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         sourceBar.translatesAutoresizingMaskIntoConstraints = false
         headerContainerView.translatesAutoresizingMaskIntoConstraints = false
 
+        let listCollectionView = tasksListViewController.collectionView!
         let listView = tasksListViewController.view!
         listView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -212,6 +238,11 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
             listView.leadingAnchor.constraint(equalTo: sourceBar.trailingAnchor),
             listView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             listView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+
+            searchBar.topAnchor.constraint(equalTo: listCollectionView.topAnchor, constant: 10),
+            searchBar.leadingAnchor.constraint(equalTo: listView.leadingAnchor, constant: 14),
+            searchBar.trailingAnchor.constraint(equalTo: listView.trailingAnchor, constant: -14),
+            searchBar.heightAnchor.constraint(equalToConstant: 32),
         ])
     }
     
@@ -228,7 +259,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
             let compact = (traitCollection.horizontalSizeClass == .compact)
 
             // Hide source bar if compact
-            self.sourceBarWidthConstraint.constant = compact ? 0 : 64
+            sourceBarWidthConstraint.constant = compact ? 0 : 64
 
             // Set user interface style based on whether compact
             tasksListViewController.userInterfaceStyle = compact ? .current : .dark
@@ -282,6 +313,13 @@ extension TasksListContainerViewController: SourceBarDelegate {
 extension TasksListContainerViewController: TasksListContainerViewModelDelegate {
     open func sectionsUpdated() {
         tasksListViewController.collectionView?.reloadData()
+    }
+}
+
+// MARK: - UISearchBarDelegate
+extension TasksListContainerViewController: UISearchBarDelegate {
+    public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+
     }
 }
 

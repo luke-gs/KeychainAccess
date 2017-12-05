@@ -14,6 +14,9 @@ import UIKit
 ///
 open class TasksListViewController: CADFormCollectionViewController<TasksListItemViewModel> {
 
+    /// The global header height for offsetting content in list
+    open var globalHeaderHeight: CGFloat = 0
+
     // MARK: - Override
 
     override open func cellType() -> CollectionViewFormCell.Type {
@@ -98,5 +101,10 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
         
         return nil
     }
-}
 
+    // MARK: - CollectionViewDelegateFormLayout methods
+
+    func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
+        return viewModel.sections.isEmpty ? 0 : globalHeaderHeight
+    }
+}
