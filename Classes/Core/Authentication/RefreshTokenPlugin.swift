@@ -10,12 +10,19 @@ import PromiseKit
 
 
 /// Plugin that checks responses for 401 and begins refresh logic:
-///     - Creates a refresh promise that calls `APIManager.shared.refreshTokenRequest(..)`
+///     - The app will provide a promise that handles refreshing token
 ///     - Chains all incoming adapt() requests to the refresh promise
 ///     - Chains all incoming processResponse() to the refresh promise with a new promise
 ///       that retries the request, and returns the new response
 open class RefreshTokenPlugin: PluginType {
     
+    /// This block will execute when a 401 is received, to create a promise that will
+    /// re-authenticate the app. This should handle:
+    /// - Refreshing the auth token
+    /// - Updating the APIManager's authentication plugin
+    /// - Handling any errors that are received and throwing them appropriately
+    /// Keep in mind that network requests may be chained to this response, so correct error
+    /// propogation is important, as the error you throw will be caught in the chain.
     public typealias RefreshHandler = (DataResponse<Data>) -> Promise<Void>
 
     // MARK: - Properties
