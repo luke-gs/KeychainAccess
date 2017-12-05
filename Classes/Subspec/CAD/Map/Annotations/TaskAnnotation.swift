@@ -22,4 +22,9 @@ open class TaskAnnotation: NSObject, MKAnnotation {
         self.title = title
         self.subtitle = subtitle
     }
+    
+    override open func isEqual(_ object: Any?) -> Bool {
+        return identifier == (object as? TaskAnnotation)?.identifier
+    }
+
 }

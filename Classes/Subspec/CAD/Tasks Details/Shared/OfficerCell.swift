@@ -32,6 +32,8 @@ open class OfficerCell: CollectionViewFormSubtitleCell {
         addSubview(badgeLabel)
         
         imageAlignment = .title
+        titleLabel.textColor = .primaryGray
+        subtitleLabel.textColor = .secondaryGray
     }
     
     public required init?(coder aDecoder: NSCoder) {
