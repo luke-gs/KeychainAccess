@@ -12,10 +12,6 @@ public class IncidentAssociationsViewController: CADFormCollectionViewController
     
     private let listStateItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .list), style: .plain, target: nil, action: nil)
 
-    var associationsViewModel: IncidentAssociationsViewModel? {
-        return viewModel as? IncidentAssociationsViewModel
-    }
-    
     override public init(viewModel: CADFormCollectionViewModel<EntitySummaryDisplayable>) {
         super.init(viewModel: viewModel)
         
@@ -47,8 +43,6 @@ public class IncidentAssociationsViewController: CADFormCollectionViewController
             
             listStateItem.image = AssetManager.shared.image(forKey: wantsThumbnails ? .list : .thumbnail)
             
-            associationsViewModel?.style = wantsThumbnails ? .grid : .list
-            
             if traitCollection.horizontalSizeClass != .compact {
                 collectionView?.reloadData()
             }
@@ -56,7 +50,7 @@ public class IncidentAssociationsViewController: CADFormCollectionViewController
     }
     
     private var shouldShowGrid: Bool {
-        return associationsViewModel?.style == .grid && traitCollection.horizontalSizeClass != .compact
+        return wantsThumbnails && traitCollection.horizontalSizeClass != .compact
     }
     
     @objc private func toggleThumbnails() {

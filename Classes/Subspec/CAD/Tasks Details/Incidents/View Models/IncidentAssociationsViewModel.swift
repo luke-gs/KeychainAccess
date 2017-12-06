@@ -10,8 +10,6 @@ import UIKit
 
 public class IncidentAssociationsViewModel: CADFormCollectionViewModel<EntitySummaryDisplayable>, TaskDetailsViewModel {
     
-    open var style: SearchResultStyle = .list
-
     /// The identifier for this incident
     open let incidentNumber: String
     
