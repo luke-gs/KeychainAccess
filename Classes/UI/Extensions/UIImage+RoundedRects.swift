@@ -107,7 +107,10 @@ public extension UIImage {
         UIGraphicsBeginImageContextWithOptions(circle.size, false, 0)
         
         // Prepare rect sizing
-        let circleRect: CGRect
+        let circleRect: CGRect = CGRect(x: 0,
+                                        y: 0,
+                                        width: circle.size.width,
+                                        height: circle.size.height)
         let imageRect: CGRect
         
         // Determine the new size for drawing the image
@@ -116,38 +119,32 @@ public extension UIImage {
         
         let paddedX = padding.width / 2
         let paddedY = padding.height / 2
+        let centeredX: CGFloat
+        let centeredY: CGFloat
+        
+        
+        let imageSize: CGSize
         
         if shrinkImage {
-            circleRect = CGRect(x: 0,
-                                y: 0,
-                                width: circle.size.width,
-                                height: circle.size.height)
-            
             // Get the center
-            let centeredX = circleRect.size.width - newSize.width - (padding.width / 2)
-            let centeredY = circleRect.size.height - newSize.height - (padding.height / 2)
+            centeredX = circleRect.size.width - newSize.width - (padding.width / 2)
+            centeredY = circleRect.size.height - newSize.height - (padding.height / 2)
             
             // Pad on equally on both sides, leave image size as-is
-            imageRect = CGRect(x: shouldCenterImage ? centeredX : paddedX,
-                               y: shouldCenterImage ? centeredY : paddedY,
-                               width: newSize.width,
-                               height: newSize.height)
+            imageSize = newSize
         } else {
-            circleRect = CGRect(x: 0,
-                                y: 0,
-                                width: circle.size.width,
-                                height: circle.size.height)
-            
             // Get the center
-            let centeredX = (circleRect.size.width / 2) - (image.size.width / 2)
-            let centeredY = (circleRect.size.height / 2) - (image.size.height / 2)
+            centeredX = (circleRect.size.width / 2) - (image.size.width / 2)
+            centeredY = (circleRect.size.height / 2) - (image.size.height / 2)
             
             // Pad on both sides, leave image size as-is
-            imageRect = CGRect(x: shouldCenterImage ? centeredX : paddedX,
-                               y: shouldCenterImage ? centeredY : paddedY,
-                               width: image.size.width,
-                               height: image.size.height)
+            imageSize = image.size
         }
+        
+        imageRect = CGRect(x: shouldCenterImage ? centeredX : paddedX,
+                           y: shouldCenterImage ? centeredY : paddedY,
+                           width: imageSize.width,
+                           height: imageSize.height)
         
         // Draw the circle first
         circle.draw(in: circleRect)
