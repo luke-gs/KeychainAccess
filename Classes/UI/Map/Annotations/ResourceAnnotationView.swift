@@ -59,8 +59,10 @@ open class ResourceAnnotationView: MKAnnotationView {
         detailsSubtitleLabel.text = annotation.subtitle ?? ""
         imageView.image = resourceImage?.withCircleBackground(tintColor: imageTintColor,
                                                               circleColor: circleBackgroundColor,
-                                                              padding: CGSize(width: LayoutConstants.imagePadding, height: LayoutConstants.imagePadding),
-                                                              shrinkImage: true)
+                                                              style: .auto(padding: CGSize(width: LayoutConstants.imagePadding,
+                                                                                           height: LayoutConstants.imagePadding),
+                                                                           shrinkImage: true),
+                                                              shouldCenterImage: true)
         circleView.backgroundColor = circleBackgroundColor
         circleView.layer.borderColor = circleBorderColor.cgColor
     }
