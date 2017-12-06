@@ -365,15 +365,15 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
 
     // MARK: - SearchResultsDelegate
 
-    func searchResultsControllerDidRequestToEdit(_ controller: UIViewController) {
+    public func searchResultsControllerDidRequestToEdit(_ controller: UIViewController) {
         setShowingSearchOptions(true, animated: true)
     }
 
-    func searchResultsControllerDidCancel(_ controller: UIViewController) {
+    public func searchResultsControllerDidCancel(_ controller: UIViewController) {
         setCurrentResultsViewController(nil, animated: true)
     }
 
-    func searchResultsController(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity) {
+    public func searchResultsController(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity) {
         didSelectEntity(entity)
     }
     

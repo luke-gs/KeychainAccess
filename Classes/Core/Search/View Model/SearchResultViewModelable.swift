@@ -42,8 +42,24 @@ public struct SearchResultSection {
     }
 }
 
+extension SearchResultSection: Equatable {
+
+    public static func ==(lhs: SearchResultSection, rhs: SearchResultSection) -> Bool {
+        return lhs.title == rhs.title &&
+            lhs.entities == rhs.entities &&
+            lhs.isExpanded == rhs.isExpanded &&
+            lhs.state == rhs.state &&
+            (lhs.error as NSError?) == (rhs.error as NSError?)
+    }
+
+}
+
 public protocol SearchResultViewModelDelegate: class {
+
     func searchResultViewModelDidUpdateResults(_ viewModel: SearchResultViewModelable) -> ()
+
+    func searchResultViewModel(_ viewModel: SearchResultViewModelable, didSelectEntity entity: MPOLKitEntity)
+
 }
 
 public protocol SearchResultViewModelable: SearchResultModelable {
@@ -61,22 +77,13 @@ public protocol SearchResultViewModelable: SearchResultModelable {
     var additionalBarButtonItems: [UIBarButtonItem]? { get set }
     
     /// A delegate that will be notified when there are changes to results.
-    weak var delegate: SearchResultViewModelDelegate? { get set }
-    
-    /// Registers cells used that will be used by the results.
-    func registerCells(for collectionView: UICollectionView)
-    
-    /// Returns a cell at index path.
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, for traitCollection: UITraitCollection) ->
-    UICollectionViewCell
-    
-    /// Returns a minimum width for a cell at index path.
-    func collectionView(_ collectionView: UICollectionView, minimumContentWidthForItemAt indexPath: IndexPath, for traitCollection: UITraitCollection) -> CGFloat
-    
-    /// Returns a minimum height for a cell at index path.
-    func collectionView(_ collectionView: UICollectionView, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat
-    
-    /// Retry a specific result section
-    func retry(section: Int)
+    weak var delegate: (SearchResultViewModelDelegate & SearchResultsListViewController)? { get set }
+
+    /// Returns a list of form items for a specific section. This should include a header item if required.
+    ///
+    /// - Parameter section: The result section to generate the items
+    /// - Returns: A collection of form items.
+    func itemsForResultsInSection(_ section: SearchResultSection) -> [FormItem]
+
 }
 

@@ -11,14 +11,14 @@ import Unbox
 
 fileprivate let alertCellID = "alertCell"
 
-class SearchResultsListViewController: FormCollectionViewController, SearchResultViewModelDelegate {
+public class SearchResultsListViewController: FormBuilderViewController, SearchResultViewModelDelegate {
 
     private enum CellIdentifier: String {
         case empty   = "SearchResultsViewControllerEmpty"
         case loading = "SearchResultsViewControllerLoading"
     }
     
-    var viewModel: SearchResultViewModelable? {
+    public var viewModel: SearchResultViewModelable? {
         didSet {
             viewModel?.style       = wantsThumbnails ? .grid : .list
             viewModel?.delegate    = self
@@ -26,10 +26,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
             if isViewLoaded {
                 searchFieldButton?.text = viewModel?.title
 
-                if let collectionView = collectionView {
-                    viewModel?.registerCells(for: collectionView)
-                    collectionView.reloadData()
-                }
+                reloadForm()
                 
                 updateBarItems()
                 updateSearchText()
@@ -37,7 +34,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
         }
     }
     
-    weak var delegate: SearchResultsDelegate?
+    public weak var delegate: SearchResultsDelegate?
 
     private var wantsThumbnails: Bool = true {
         didSet {
@@ -48,7 +45,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
             viewModel?.style = wantsThumbnails ? .grid : .list
             
             if traitCollection.horizontalSizeClass != .compact {
-                collectionView?.reloadData()
+                reloadForm()
             }
         }
     }
@@ -57,7 +54,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
 
     private var searchFieldButton: SearchFieldButton?
 
-    override init() {
+    public override init() {
         super.init()
 
         title = NSLocalizedString("Search Results", comment: "Search Results - Navigation Bar Title")
@@ -76,7 +73,9 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
 
     // MARK: - View lifecycle
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+
         let searchFieldButton = SearchFieldButton(frame: .zero)
         searchFieldButton.text = viewModel?.title
         searchFieldButton.translatesAutoresizingMaskIntoConstraints = false
@@ -84,16 +83,6 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
         searchFieldButton.addTarget(self, action: #selector(searchFieldButtonDidSelect), for: .primaryActionTriggered)
         view.addSubview(searchFieldButton)
         self.searchFieldButton = searchFieldButton
-
-        super.viewDidLoad()
-
-        guard let view = self.view, let collectionView = self.collectionView else { return }
-
-        collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
-        collectionView.register(SearchResultErrorCell.self, forCellWithReuseIdentifier: CellIdentifier.empty.rawValue)
-        collectionView.register(SearchResultLoadingCell.self, forCellWithReuseIdentifier: CellIdentifier.loading.rawValue)
-        
-        viewModel?.registerCells(for: collectionView)
 
         NSLayoutConstraint.activate([
             searchFieldButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -108,7 +97,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
         updateSearchText()
     }
 
-    override func viewDidLayoutSubviews() {
+    public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if #available(iOS 11, *) {
             additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
@@ -118,204 +107,60 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
 
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
         let isCompact = traitCollection.horizontalSizeClass == .compact
         if isCompact != (previousTraitCollection?.horizontalSizeClass == .compact) {
             if wantsThumbnails {
-                collectionView?.reloadData()
+                reloadForm()
             }
             navigationItem.rightBarButtonItems = isCompact ? nil : [listStateItem]
         }
     }
 
-    override func apply(_ theme: Theme) {
+    public override func apply(_ theme: Theme) {
         super.apply(theme)
         
         guard let searchField = searchFieldButton else { return }
         
         searchField.backgroundColor = theme.color(forKey: .searchFieldBackground)
         searchField.fieldColor = theme.color(forKey: .searchField)
-        searchField.textColor  = primaryTextColor
-        searchField.placeholderTextColor = placeholderTextColor
-    }
-    
 
-    // MARK: - UICollectionViewDataSource methods
+        // TODO: - Fix me
+        searchField.textColor  = .black // primaryTextColor
+        searchField.placeholderTextColor = .gray // placeholderTextColor
+    }
 
-    open override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return viewModel?.results.count ?? 0
+    public override func construct(builder: FormBuilder) {
+        guard let viewModel = viewModel else { return }
+        builder += viewModel.results.flatMap { viewModel.itemsForResultsInSection($0) }
     }
-    
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let result = viewModel?.results[section] {
-            if result.isExpanded == false {
-                return 0
-            }
-            
-            switch result.state {
-            case .finished where result.error != nil || result.entities.count  == 0:
-                return 1
-            case .finished:
-                return result.entities.count
-            case .searching:
-                return 1
-            default:
-                break
-            }
-            
-            return 0
-        }
-        
-        return 0
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        switch kind {
-        case UICollectionElementKindSectionHeader:
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
-            
-            let sectionResult = viewModel!.results[indexPath.section]
-            
-            header.text = sectionResult.title
-            
-            header.showsExpandArrow = true
-            header.isExpanded = sectionResult.isExpanded
-            
-            header.tapHandler = { [weak self] headerView, indexPath in
-                guard let `self` = self else { return }
-                
-                let shouldBeExpanded = headerView.isExpanded == false
-                
-                self.viewModel!.results[indexPath.section].isExpanded = shouldBeExpanded
-                self.collectionView?.reloadSections(IndexSet(integer: indexPath.section))
-            }
-            
-            return header
-        default:
-            return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
-        }
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let result = viewModel!.results[indexPath.section]
-        switch result.state {
-        case .finished where result.error != nil || result.entities.count == 0:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.empty.rawValue, for: indexPath) as! SearchResultErrorCell
-            let message = result.error != nil ? result.error!.localizedDescription : "No records matching your search description have been returned"
-            let hasError = result.error != nil
 
-            cell.titleLabel.text = message.isEmpty == false ? message : NSLocalizedString("Unknown error has occurred.", comment: "[Search result screen] - Unknown error message when error doesn't contain localized description")
-            cell.actionButton.setTitle(hasError ? "Try Again" : "New Search", for: .normal)
-            cell.actionButtonHandler = { [weak self] (cell) in
-                guard let `self` = self else {  return }
-                if hasError {
-                    self.viewModel!.retry(section: indexPath.section)
-                } else {
-                    self.delegate?.searchResultsControllerDidRequestToEdit(self)
-                }
-            }
-            cell.readMoreButtonHandler = { [weak self] (cell) in
-                guard let `self` = self else {  return }
-                let messageVC = SearchResultMessageViewController(message: cell.titleLabel.text!)
-                let navController = PopoverNavigationController(rootViewController: messageVC)
-                navController.modalPresentationStyle = .formSheet
-                self.present(navController, animated: true, completion: nil)
-            }
-
-            cell.apply(theme: ThemeManager.shared.theme(for: userInterfaceStyle))
-            return cell
-        case .searching:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier.loading.rawValue, for: indexPath) as! SearchResultLoadingCell
-            cell.titleLabel.text = NSLocalizedString("Retrieving results", comment: "[Search result screen] - Retrieving results")
-            cell.activityIndicator.play()
-            cell.apply(theme: ThemeManager.shared.theme(for: userInterfaceStyle))
-            return cell
-        default:
-            return viewModel!.collectionView(collectionView, cellForItemAt: indexPath, for: traitCollection)
-        }
-    }
-    
-    
-    // MARK: - UICollectionViewDelegate methods
-    
-    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        let result = viewModel!.results[indexPath.section]
-        switch result.state {
-        case .finished where result.error != nil,
-             .finished where result.entities.count == 0,
-             .searching:
-            return false
-        default:
-            return true
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
-
-        // Note: If this ever crashes, Bryan and Luke get to slap James.
-        let entity = viewModel!.results[indexPath.section].entities[indexPath.item]
-        delegate?.searchResultsController(self, didSelectEntity: entity)
-    }
-    
-    
     // MARK: - CollectionViewDelegateFormLayout methods
-    
-    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
-        return CollectionViewFormHeaderView.minimumHeight
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int) -> UIEdgeInsets {
-        var inset = super.collectionView(collectionView, layout: layout, insetForSection: section)
-        inset.top    = 4.0
-        inset.bottom = 0
-        return inset
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
-        let result = viewModel!.results[indexPath.section]
-        switch result.state {
-        case .finished where result.error != nil,
-             .finished where result.entities.count == 0,
-             .searching:
-            return collectionView.bounds.width
-        default:
-            break
-        }
-        
-        return viewModel!.collectionView(collectionView, minimumContentWidthForItemAt: indexPath, for: traitCollection)
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        let result = viewModel!.results[indexPath.section]
-        switch result.state {
-        case .finished where result.error != nil,
-             .finished where result.entities.count == 0,
-             .searching:
-            return SearchResultErrorCell.contentHeight
-        default:
-            break
-        }
-        
-        return viewModel!.collectionView(collectionView, minimumContentHeightForItemAt: indexPath, givenContentWidth: itemWidth, for: traitCollection)
+
+//    public override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int) -> UIEdgeInsets {
+//        var inset = super.collectionView(collectionView, layout: layout, insetForSection: section)
+//        inset.top    = 4.0
+//        inset.bottom = 0
+//        return inset
+//    }
+
+    public func requestToEdit() {
+        delegate?.searchResultsControllerDidRequestToEdit(self)
     }
 
     // MARK: - SearchResultRendererDelegate
     
-    func searchResultViewModelDidUpdateResults(_ viewModel: SearchResultViewModelable) {
-        //        searchField.resultCountLabel.text = viewModel.status
-
+    public func searchResultViewModelDidUpdateResults(_ viewModel: SearchResultViewModelable) {
         updateBarItems()
         updateSearchText()
-        collectionView?.reloadData()
+        reloadForm()
     }
 
+    public func searchResultViewModel(_ viewModel: SearchResultViewModelable, didSelectEntity entity: MPOLKitEntity) {
+        delegate?.searchResultsController(self, didSelectEntity: entity)
+    }
 
     // MARK: - Private methods
 
@@ -366,7 +211,7 @@ public protocol EntityDetailsDelegate: class {
     func controller(_ controller: UIViewController, searchFor searchable: Searchable)
 }
 
-protocol SearchResultsDelegate: class {
+public protocol SearchResultsDelegate: class {
     func searchResultsControllerDidRequestToEdit(_ controller: UIViewController)
     func searchResultsController(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity)
     func searchResultsControllerDidCancel(_ controller: UIViewController)

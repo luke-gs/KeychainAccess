@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class SearchResultLoadingCell: UICollectionViewCell, DefaultReusable {
+public class SearchResultLoadingCell: CollectionViewFormCell {
     public let titleLabel = UILabel(frame: .zero)
     
     public let activityIndicator = MPOLSpinnerView(style: .regular)
