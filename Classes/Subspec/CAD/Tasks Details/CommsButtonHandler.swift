@@ -34,7 +34,9 @@ open class CommsButtonHandler {
     
     /// Opens the phone or FaceTime app or throws an error if the device does not support calling
     @objc open static func didSelectCall(for contactNumber: String) {
-        if let url = URL(string: "tel://\(contactNumber.trimmingPhoneNumber())"), UIApplication.shared.canOpenURL(url) {
+        if let contactNumber = contactNumber.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+            let url = URL(string: "tel://\(contactNumber)"), UIApplication.shared.canOpenURL(url)
+        {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         } else {
             AlertQueue.shared.addSimpleAlert(title: contactNumber, message: "This device does not support calling or the phone number is invalid.")
@@ -43,7 +45,8 @@ open class CommsButtonHandler {
     
     /// Opens the message app or throws an error if the device does not support calling
     @objc open static func didSelectMessage(for contactNumber: String) {
-        if let url = URL(string: "sms:\(contactNumber.trimmingPhoneNumber())"), UIApplication.shared.canOpenURL(url) {
+        if let contactNumber = contactNumber.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+            let url = URL(string: "sms:\(contactNumber)"), UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         } else {
             AlertQueue.shared.addSimpleAlert(title: contactNumber, message: "This device does not support messaging or the phone number is invalid.")
