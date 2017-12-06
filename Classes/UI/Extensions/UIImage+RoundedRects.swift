@@ -38,25 +38,49 @@ public extension UIImage {
         return image.resizableImage(withCapInsets: UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset), resizingMode: .stretch)
     }
     
+    enum CircleBackgroundSizingStyle {
+        /// Using padding size to create the image size
+        /// - Parameters:
+        ///   - padding: the size of the padding to use
+        ///   - shrinkImage: whether to maintain the original image size and shrink the image to fit in the circle, otherwise grow the circle
+        case auto(padding: CGSize, shrinkImage: Bool)
+        
+        /// Use a fixed circle size
+        /// - Parameters:
+        ///   - size: the size to use for the circle frame
+        ///   - padding: the size of the padding to use
+        case fixed(size: CGSize, padding: CGSize)
+    }
+    
     /// Creates an image with a circle background behind the existing image
     ///
     /// - Parameters:
     ///   - tintColor: color to tint the image
     ///   - circleColor: the fill color of the circle
-    ///   - padding: additional sizing for the circle or to shrink the image
-    ///   - shrinkImage: whether to maintain the original image size and shrink the image to fit in the circle, otherwise grow the circle
-    func withCircleBackground(tintColor: UIColor?, circleColor: UIColor?, padding: CGSize = .zero, shrinkImage: Bool = false) -> UIImage? {
+    ///   - style: the sizing style to use
+    ///   - shouldCenterImage: whether to center the image in the circle. This will override positioning set by the padding
+    func withCircleBackground(tintColor: UIColor?, circleColor: UIColor?, style: CircleBackgroundSizingStyle, shouldCenterImage: Bool) -> UIImage? {
         let circleColor = circleColor ?? .clear
         
         // Prepare circle sizing
-        let circleSize: CGSize
+        var circleSize: CGSize = .zero
+        var padding: CGSize = .zero
+        var shrinkImage: Bool = false
         
-        if shrinkImage {
-            circleSize = self.size
-        } else {
-            circleSize = CGSize(width: self.size.width + padding.width, height: self.size.height + padding.height)
+        if case let CircleBackgroundSizingStyle.auto(_padding, _shrinkImage) = style {
+            padding = _padding
+            shrinkImage = _shrinkImage
+            
+            if shrinkImage {
+                circleSize = self.size
+            } else {
+                circleSize = CGSize(width: self.size.width + padding.width, height: self.size.height + padding.height)
+            }
+        } else if case let CircleBackgroundSizingStyle.fixed(size, _padding) = style {
+            circleSize = size
+            padding = _padding
+            shrinkImage = true
         }
-        
         
         // Make the circle even (i.e. not an oval)
         let largestSide = max(circleSize.width, circleSize.height)
@@ -90,26 +114,37 @@ public extension UIImage {
         let newSize = CGSize(width: circle.size.width - padding.width,
                              height: circle.size.height - padding.height)
         
+        let paddedX = padding.width / 2
+        let paddedY = padding.height / 2
+        
         if shrinkImage {
             circleRect = CGRect(x: 0,
                                 y: 0,
                                 width: circle.size.width,
                                 height: circle.size.height)
             
-            // Pad equally on both sides, then calculate the shrinking percentage
-            imageRect = CGRect(x: padding.width / 2,
-                               y: padding.height / 2,
-                               width: (newSize.width / image.size.width) * image.size.width,
-                               height: (newSize.height / image.size.height) * image.size.height)
+            // Get the center
+            let centeredX = (circleRect.size.width) - newSize.width - (padding.width / 2)
+            let centeredY = (circleRect.size.height) - newSize.height - (padding.height / 2)
+            
+            // Pad on equally on both sides, leave image size as-is
+            imageRect = CGRect(x: shouldCenterImage ? centeredX : paddedX,
+                               y: shouldCenterImage ? centeredY : paddedY,
+                               width: newSize.width,
+                               height: newSize.height)
         } else {
             circleRect = CGRect(x: 0,
                                 y: 0,
                                 width: circle.size.width,
                                 height: circle.size.height)
             
+            // Get the center
+            let centeredX = (circleRect.size.width / 2) - (image.size.width / 2)
+            let centeredY = (circleRect.size.height / 2) - (image.size.height / 2)
+            
             // Pad on both sides, leave image size as-is
-            imageRect = CGRect(x: padding.width / 2,
-                               y: padding.height / 2,
+            imageRect = CGRect(x: shouldCenterImage ? centeredX : paddedX,
+                               y: shouldCenterImage ? centeredY : paddedY,
                                width: image.size.width,
                                height: image.size.height)
         }
