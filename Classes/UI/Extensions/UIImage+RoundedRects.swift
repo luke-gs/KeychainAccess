@@ -38,7 +38,7 @@ public extension UIImage {
         return image.resizableImage(withCapInsets: UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset), resizingMode: .stretch)
     }
     
-    enum CircleBackgroundSizingStyle {
+    public enum CircleBackgroundSizingStyle {
         /// Using padding size to create the image size
         /// - Parameters:
         ///   - padding: the size of the padding to use
@@ -59,7 +59,7 @@ public extension UIImage {
     ///   - circleColor: the fill color of the circle
     ///   - style: the sizing style to use
     ///   - shouldCenterImage: whether to center the image in the circle. This will override positioning set by the padding
-    func withCircleBackground(tintColor: UIColor?, circleColor: UIColor?, style: CircleBackgroundSizingStyle, shouldCenterImage: Bool) -> UIImage? {
+    public func withCircleBackground(tintColor: UIColor?, circleColor: UIColor?, style: CircleBackgroundSizingStyle, shouldCenterImage: Bool) -> UIImage? {
         let circleColor = circleColor ?? .clear
         
         // Prepare circle sizing
