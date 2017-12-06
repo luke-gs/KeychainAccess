@@ -171,9 +171,8 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
     public func viewModel(for item: TasksListItemViewModel) -> TaskItemViewModel? {
         if let resource = CADStateManager.shared.resourcesById[item.identifier] {
             return ResourceTaskItemViewModel(resource: resource)
-        } else if let incident = CADStateManager.shared.incidentsById[item.identifier],
+        } else if let incident = CADStateManager.shared.incidentsById[item.identifier] {
             let resource = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier).first
-        {
             return IncidentTaskItemViewModel(incident: incident, resource: resource)
         }
         
