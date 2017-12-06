@@ -66,3 +66,80 @@ public class PromiseCancellationToken: PromiseCancelling {
     }
 
 }
+
+public protocol CancelCommandType {
+    func cancel()
+}
+
+public class CancellationToken: PromiseCancelling {
+
+    private var mutex = pthread_mutex_t()
+    private var _isCancelled = false
+
+    private var cancelCommands = [CancelCommandType]()
+
+    public var isCancelled: Bool {
+        return _isCancelled
+    }
+
+    public init() {
+        var attribute = pthread_mutexattr_t()
+
+        guard pthread_mutexattr_init(&attribute) == 0 else {
+            preconditionFailure()
+        }
+
+        pthread_mutexattr_settype(&attribute, Int32(PTHREAD_MUTEX_NORMAL))
+
+        guard pthread_mutex_init(&mutex, &attribute) == 0 else {
+            preconditionFailure()
+        }
+
+        pthread_mutexattr_destroy(&attribute)
+    }
+
+    public func addCancelCommand(_ cancelCommand: CancelCommandType) {
+        pthread_mutex_lock(&mutex)
+
+        defer {
+            pthread_mutex_unlock(&mutex)
+        }
+
+        guard !_isCancelled else {
+            return
+        }
+        cancelCommands.append(cancelCommand)
+    }
+
+    public func cancel() {
+
+        pthread_mutex_lock(&mutex)
+
+        defer {
+            pthread_mutex_unlock(&mutex)
+        }
+
+        guard !_isCancelled else {
+            return
+        }
+        _isCancelled = true
+        for command in cancelCommands {
+            command.cancel()
+        }
+    }
+
+}
+
+public struct ClosureCancelCommand: CancelCommandType {
+
+    public let cancelAction: () -> Void
+
+    public init(action: @escaping () -> Void) {
+        self.cancelAction = action
+    }
+
+    public func cancel() {
+        cancelAction()
+    }
+
+}
