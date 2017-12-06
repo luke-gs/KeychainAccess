@@ -1,3 +1,5 @@
+# Promise Cancelllation
+
 By default, PromiseKit doesn't support cancellation. To quote the PromiseKit documentation.
 
 > Promises don’t have a cancel function because you don’t want code outside of your control to be able to cancel your operations unless you explicitly want that. In cases where you want it, then it varies how it should work depending on how the underlying task supports cancellation. Thus we have provided primitives but not concrete API.
@@ -8,7 +10,7 @@ So the way that it's going to be supported in MPOLKit framework will be through 
 
 Sample usage:
 
-    ```
+    
     func cancellableFetchData(with url: URL, cancellationToken: PromiseCancellationToken? = nil) -> Promise<Data> {
 
         var dataTask: URLSessionDataTask?
@@ -43,9 +45,8 @@ Sample usage:
 
         return promise
     }
-    ```
+    
 
-    ```
     func noncancellableFetchData(with url: URL) -> Promise<Data> {
 
         var dataTask: URLSessionDataTask?
@@ -62,9 +63,8 @@ Sample usage:
 
         return promise
     }
-    ```
+    
 
-    ```
     func doSomeChaining() {
         let token = PromiseCancellationToken()
         let url = URL(string: "https://www.google.com")!
@@ -92,4 +92,4 @@ Sample usage:
             }
         }
     }
-    ```
+    
