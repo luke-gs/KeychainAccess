@@ -135,7 +135,6 @@
 		274F10F21FCE0A86001A59A5 /* IncidentOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274F10EA1FCE0A86001A59A5 /* IncidentOverviewViewController.swift */; };
 		274F10F41FCE0A86001A59A5 /* IncidentNarrativeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274F10EC1FCE0A86001A59A5 /* IncidentNarrativeViewController.swift */; };
 		274F10F71FCE0B88001A59A5 /* IncidentAssociationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274F10F61FCE0B88001A59A5 /* IncidentAssociationsViewController.swift */; };
-		275561C31FD667860070877D /* String+Trimming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275561C21FD667860070877D /* String+Trimming.swift */; };
 		275F0A681FA19694002BB9C5 /* BookOnDetailsFormContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275F0A671FA19694002BB9C5 /* BookOnDetailsFormContentViewModel.swift */; };
 		2768C0461F85EB2A008532ED /* MapSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2768C0451F85EB2A008532ED /* MapSettingsViewModel.swift */; };
 		2768C0481F86D60A008532ED /* MapSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2768C0471F86D60A008532ED /* MapSettingsViewController.swift */; };
@@ -150,6 +149,7 @@
 		278A16331FBBF68A00C01C38 /* LabeledSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A16321FBBF68A00C01C38 /* LabeledSwitch.swift */; };
 		278CA1051F7CA4A00073DFBA /* ResourceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CA1041F7CA4A00073DFBA /* ResourceAnnotationView.swift */; };
 		27B4A9EC1FCF597300975A45 /* UIViewController+Compact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B4A9EB1FCF597300975A45 /* UIViewController+Compact.swift */; };
+		27BE96541FD75A0D0092A771 /* CommsButtonHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27BE96531FD75A0D0092A771 /* CommsButtonHandler.swift */; };
 		27C9C7611F95692400799855 /* NotBookedOnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7601F95692400799855 /* NotBookedOnViewController.swift */; };
 		27C9C7651F95736500799855 /* NotBookedOnViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7641F95736500799855 /* NotBookedOnViewModel.swift */; };
 		27C9C7671F95737C00799855 /* NotBookedOnItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7661F95737C00799855 /* NotBookedOnItemViewModel.swift */; };
@@ -729,7 +729,6 @@
 		274F10EA1FCE0A86001A59A5 /* IncidentOverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentOverviewViewController.swift; sourceTree = "<group>"; };
 		274F10EC1FCE0A86001A59A5 /* IncidentNarrativeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentNarrativeViewController.swift; sourceTree = "<group>"; };
 		274F10F61FCE0B88001A59A5 /* IncidentAssociationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentAssociationsViewController.swift; sourceTree = "<group>"; };
-		275561C21FD667860070877D /* String+Trimming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Trimming.swift"; sourceTree = "<group>"; };
 		275F0A671FA19694002BB9C5 /* BookOnDetailsFormContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormContentViewModel.swift; sourceTree = "<group>"; };
 		2768C0451F85EB2A008532ED /* MapSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettingsViewModel.swift; sourceTree = "<group>"; };
 		2768C0471F86D60A008532ED /* MapSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettingsViewController.swift; sourceTree = "<group>"; };
@@ -743,6 +742,7 @@
 		278A16321FBBF68A00C01C38 /* LabeledSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledSwitch.swift; sourceTree = "<group>"; };
 		278CA1041F7CA4A00073DFBA /* ResourceAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceAnnotationView.swift; sourceTree = "<group>"; };
 		27B4A9EB1FCF597300975A45 /* UIViewController+Compact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Compact.swift"; sourceTree = "<group>"; };
+		27BE96531FD75A0D0092A771 /* CommsButtonHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommsButtonHandler.swift; sourceTree = "<group>"; };
 		27C9C7601F95692400799855 /* NotBookedOnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBookedOnViewController.swift; sourceTree = "<group>"; };
 		27C9C7641F95736500799855 /* NotBookedOnViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBookedOnViewModel.swift; sourceTree = "<group>"; };
 		27C9C7661F95737C00799855 /* NotBookedOnItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBookedOnItemViewModel.swift; sourceTree = "<group>"; };
@@ -1401,6 +1401,7 @@
 				274F10E21FCE0A07001A59A5 /* Incidents */,
 				27094CAA1FAFFBDA00D4C3D4 /* Resources */,
 				27094CB31FAFFBDA00D4C3D4 /* View Model */,
+				27BE96531FD75A0D0092A771 /* CommsButtonHandler.swift */,
 			);
 			path = "Tasks Details";
 			sourceTree = "<group>";
@@ -2260,7 +2261,6 @@
 				BC9C7D9B1F0DED6600DFFE83 /* UITextView+NotificationWorkaround.m */,
 				BC9C7D9C1F0DED6600DFFE83 /* UIViewAnimationCurve+OptionConversion.swift */,
 				BC1B26101F20BBA9009674B7 /* UIViewController+ParentSearching.swift */,
-				275561C21FD667860070877D /* String+Trimming.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -3188,7 +3188,6 @@
 				2744EEC51FBEA523008DFA7F /* MapFilterSectionView.swift in Sources */,
 				BC9C7E1E1F0DED6600DFFE83 /* FormCollectionViewController.swift in Sources */,
 				C65927741F33045300854C60 /* Lottie+MPOLAnimationStyle.swift in Sources */,
-				275561C31FD667860070877D /* String+Trimming.swift in Sources */,
 				BC9C7DF41F0DED6600DFFE83 /* CollectionViewFormCell.swift in Sources */,
 				EA4806B01F56939100B42313 /* LocationBasicSearchOptions.swift in Sources */,
 				BC9C7E261F0DED6600DFFE83 /* EntityListCollectionViewCell.swift in Sources */,
@@ -3483,6 +3482,7 @@
 				99FF8C041F982A22003A8A4B /* AuditPlugin.swift in Sources */,
 				44F3F14E1F56DDDC00D68585 /* FilterDescriptor.swift in Sources */,
 				EA445DA21F73578500ABF70F /* TextFieldFormItem.swift in Sources */,
+				27BE96541FD75A0D0092A771 /* CommsButtonHandler.swift in Sources */,
 				464A5E8D1FD11B5600B4C0F9 /* EvaluatorKey.swift in Sources */,
 				274F10EE1FCE0A86001A59A5 /* IncidentNarrativeViewModel.swift in Sources */,
 				DBE24C3C1F593BEF0088D19B /* EntityDetailSplitViewController.swift in Sources */,

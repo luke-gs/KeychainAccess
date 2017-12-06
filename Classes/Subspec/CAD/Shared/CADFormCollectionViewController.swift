@@ -98,6 +98,11 @@ open class CADFormCollectionViewController<ItemType>: FormCollectionViewControll
     @objc open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         return CollectionViewFormHeaderView.minimumHeight
     }
+
+    // Reload the content in the collection view. Can be overridden in subclass
+    open func reloadContent() {
+        collectionView?.reloadData()
+    }
 }
 
 // MARK: - CADFormCollectionViewModelDelegate
@@ -108,7 +113,7 @@ extension CADFormCollectionViewController: CADFormCollectionViewModelDelegate {
         loadingManager.state = viewModel.numberOfSections() == 0 ? .noContent : .loaded
 
         // Reload content
-        collectionView?.reloadData()
+        reloadContent()
     }
 
     public func dismiss() {

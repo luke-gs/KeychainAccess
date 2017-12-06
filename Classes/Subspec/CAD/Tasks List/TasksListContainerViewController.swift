@@ -21,7 +21,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
     open let contentView: UIView = UIView(frame: .zero)
 
     /// The list of tasks
-    open private(set) var tasksListViewController: FormCollectionViewController!
+    open private(set) var tasksListViewController: TasksListViewController!
 
     /// The header for title and nav items
     open var headerViewController: UIViewController? {
@@ -64,9 +64,6 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
 
     /// The source bar inset manager
     open private(set) var sourceInsetManager: ScrollViewInsetManager!
-
-    /// The refresh control for tasks list
-    open private(set) var refreshControl: UIRefreshControl!
 
     /// Constraint for making source bar have no height
     private var sourceBarWidthConstraint: NSLayoutConstraint!
@@ -155,17 +152,8 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
 
         // Add task list
         tasksListViewController = viewModel.listViewModel.createViewController()
-        addChildViewController(tasksListViewController)
-        contentView.addSubview(tasksListViewController.view)
-        tasksListViewController.didMove(toParentViewController: self)
-
-        // Add refresh control to task list
-        let theme = ThemeManager.shared.theme(for: .current)
-        refreshControl = UIRefreshControl()
-        refreshControl.tintColor = theme.color(forKey: .tint)
-        refreshControl.addTarget(self, action: #selector(refreshTasks), for: .valueChanged)
-        tasksListViewController.collectionView?.addSubview(refreshControl)
-        tasksListViewController.collectionView?.alwaysBounceVertical = true
+        addChildViewController(tasksListViewController, toView: contentView)
+        tasksListViewController.delegate = self
 
         // Set base view color for when content is not shown
         view.backgroundColor = tasksListViewController.view.backgroundColor
@@ -211,7 +199,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
             listView.topAnchor.constraint(equalTo: headerContainerView.bottomAnchor),
             listView.leadingAnchor.constraint(equalTo: sourceBar.trailingAnchor),
             listView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            listView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            listView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
     
@@ -228,7 +216,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
             let compact = (traitCollection.horizontalSizeClass == .compact)
 
             // Hide source bar if compact
-            self.sourceBarWidthConstraint.constant = compact ? 0 : 64
+            sourceBarWidthConstraint.constant = compact ? 0 : 64
 
             // Set user interface style based on whether compact
             tasksListViewController.userInterfaceStyle = compact ? .current : .dark
@@ -245,14 +233,12 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         isFullScreen = !isFullScreen
     }
     
-    @objc func refreshTasks() {
+    open func refreshTasks() {
         // Refresh the task list from the network
         firstly {
             return viewModel.refreshTaskList()
-        }.then { [weak self] () -> Void in
-            self?.tasksListViewController.collectionView?.reloadData()
         }.always { [weak self] in
-            self?.refreshControl.endRefreshing()
+            self?.tasksListViewController.refreshControl.endRefreshing()
         }.catch { error in
             AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
         }
@@ -272,16 +258,22 @@ extension TasksListContainerViewController: SourceBarDelegate {
     open func sourceBar(_ bar: SourceBar, didSelectItemAt index: Int) {
         selectedSourceIndex = index
         viewModel.selectedSourceIndex = index
+
+        // Reset to top and cancel search when switching types
+        tasksListViewController.collectionView?.contentOffset = .zero
+        tasksListViewController.hideSearchBar()
     }
 
     open func sourceBar(_ bar: SourceBar, didRequestToLoadItemAt index: Int) {
     }
 }
 
-// MARK: - TasksListContainerViewModelDelegate
-extension TasksListContainerViewController: TasksListContainerViewModelDelegate {
-    open func sectionsUpdated() {
-        tasksListViewController.collectionView?.reloadData()
+extension TasksListContainerViewController: TasksListViewControllerDelegate {
+    public func taskListDidPullToRefresh() {
+        refreshTasks()
+    }
+
+    public func taskListDidChangeSearchText(searchText: String) {
+        viewModel.searchText = searchText
     }
 }
-

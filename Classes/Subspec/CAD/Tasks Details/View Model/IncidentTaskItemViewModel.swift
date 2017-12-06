@@ -10,7 +10,7 @@ import UIKit
 
 open class IncidentTaskItemViewModel: TaskItemViewModel {
     
-    public init(incidentNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor, statusText: String?, itemName: String?, lastUpdated: String?) {
+    public init(incidentNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?, lastUpdated: String?) {
         super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, lastUpdated: lastUpdated)
         
         self.viewModels = [
@@ -21,12 +21,12 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         ]
     }
 
-    public convenience init(incident: SyncDetailsIncident, resource: SyncDetailsResource) {
+    public convenience init(incident: SyncDetailsIncident, resource: SyncDetailsResource?) {
         self.init(incidentNumber: incident.identifier,
-                  iconImage: resource.status.icon,
-                  iconTintColor: resource.status.iconColors.icon,
-                  color: resource.status.iconColors.background,
-                  statusText: resource.status.title,
+                  iconImage: resource?.status.icon ?? ResourceStatus.unavailable.icon,
+                  iconTintColor: resource?.status.iconColors.icon ?? .white,
+                  color: resource?.status.iconColors.background,
+                  statusText: resource?.status.title ?? incident.status.rawValue,
                   itemName: [incident.type, incident.resourceCountString].joined(),
                   lastUpdated: incident.lastUpdated.elapsedTimeIntervalForHuman())
     }

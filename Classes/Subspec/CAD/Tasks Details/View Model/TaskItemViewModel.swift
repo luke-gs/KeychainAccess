@@ -46,7 +46,7 @@ open class TaskItemViewModel {
     ///   - statusText: Status text to display below the icon
     ///   - itemName: Name of the item
     ///   - lastUpdated: Last updated time string
-    public init(iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor, statusText: String?, itemName: String?, lastUpdated: String?, viewModels: [TaskDetailsViewModel] = []) {
+    public init(iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?, lastUpdated: String?, viewModels: [TaskDetailsViewModel] = []) {
         self.iconImage = iconImage
         self.iconTintColor = iconTintColor
         self.color = color
