@@ -9,31 +9,34 @@
 import Foundation
 import PromiseKit
 
+
 /**
-Concrete implementation of PromiseCancelling. The cancellable operation
-will provide its custom cancellation code inside the `cancelAction` closure.
+ Used as a token for Promise that's cancellable. The cancellable operation
+ will provide its custom cancellation code inside the `cancelAction` closure.
 
-Sample usage:
+ Sample usage:
 
-    func fetchData(with url: URL) -> CancellablePromise<Data> {
+    ````
+    func cancellableFetchData(with url: URL, cancellationToken: PromiseCancellationToken? = nil) -> Promise<Data> {
 
         var dataTask: URLSessionDataTask?
         let (promise, fulfill, reject) = Promise<Data>.pending()
 
-        // Inside the `cancelAction` closure, cancel the underlying
-        // asynchronous task.
-        let token = PromiseCancellationToken {
-            guard let dataTask = dataTask else {
-                return
+        cancellationToken?.addCancelCommand(ClosureCancelCommand {
+            dataTask?.cancel()
+            // Check if the promise has been resolved, no point of rejecting
+            // if it has been completed
+            if !promise.isFulfilled {
+                reject(NSError.cancelledError())
             }
-            dataTask.cancel()
-        }
+        })
 
         dataTask = URLSession.shared.dataTask(with: url) { (data, response, error) in
             // On the completion of the asynchronous task, to maintain consistency,
             // check whether the token has been cancelled, in case the cancellation request
             // didn't come in time for the underlying task to be cancelled.
-            if token.isCancelled {
+
+            if let token = cancellationToken, token.isCancelled, !promise.isFulfilled {
                 reject(NSError.cancelledError())
             } else {
                 if let data = data {
@@ -41,43 +44,74 @@ Sample usage:
                 } else if let error = error {
                     reject(error)
                 }
+
             }
         }
         dataTask?.resume()
 
-        return (promise, token)
+        return promise
     }
-*/
-public class PromiseCancellationToken: PromiseCancelling {
+    ````
 
-    public var isCancelled: Bool = false
-    public let cancelAction: () -> Void
+    ````
+    func noncancellableFetchData(with url: URL) -> Promise<Data> {
 
-    public init(action: @escaping () -> Void) {
-        self.cancelAction = action
-    }
+        var dataTask: URLSessionDataTask?
+        let (promise, fulfill, reject) = Promise<Data>.pending()
 
-    public func cancel() {
-        guard !isCancelled else {
-            return
+        dataTask = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            if let data = data {
+                fulfill(data)
+            } else if let error = error {
+                reject(error)
+            }
         }
-        isCancelled = true
-        cancelAction()
+        dataTask?.resume()
+
+        return promise
     }
+    ````
 
+    ````
+    func doSomeChaining() {
+        let token = PromiseCancellationToken()
+        let url = URL(string: "https://www.google.com")!
+
+        cancellableFetchData(with: url, cancellationToken: token).then { data -> Promise<Data> in
+
+            // Do something with the result.
+            print(data)
+
+            // Chain another cancellable request, pass the token along.
+            let differentURL = URL(string: "https://www.apple.com")!
+            return self.cancellableFetchData(with: differentURL, cancellationToken: token)
+        }.then { data -> Promise<Data> in
+
+            // Maybe actually do something with the result.
+            print(data.count)
+
+            // Chain to non cancellable request.
+            return self.noncancellableFetchData(with: url)
+        }.then { data -> Promise<Data> in
+            return self.cancellableFetchData(with: url, cancellationToken: token)
+        }.catch(policy: .allErrors) { error in
+            if error.isCancelledError {
+                // Working, I guess.
+            }
+        }
+    }
+    ````
 }
-
-public protocol CancelCommandType {
-    func cancel()
-}
-
-public class CancellationToken: PromiseCancelling {
+ */
+public class PromiseCancellationToken {
 
     private var mutex = pthread_mutex_t()
     private var _isCancelled = false
 
     private var cancelCommands = [CancelCommandType]()
 
+    // Used by the operation that is cancellable so it could check
+    // before fulfilling/rejecting the Promise.
     public var isCancelled: Bool {
         return _isCancelled
     }
@@ -98,9 +132,11 @@ public class CancellationToken: PromiseCancelling {
         pthread_mutexattr_destroy(&attribute)
     }
 
+    /// Add an instruction of how to cancel the underlying task to be executed on `cancel()`
+    ///
+    /// - Parameter cancelCommand: The command that will cancel its underlying task.
     public func addCancelCommand(_ cancelCommand: CancelCommandType) {
         pthread_mutex_lock(&mutex)
-
         defer {
             pthread_mutex_unlock(&mutex)
         }
@@ -111,6 +147,8 @@ public class CancellationToken: PromiseCancelling {
         cancelCommands.append(cancelCommand)
     }
 
+
+    /// Calling cancel() will cause propagate the cancel to all `CancelCommandType`.
     public func cancel() {
 
         pthread_mutex_lock(&mutex)
@@ -130,6 +168,14 @@ public class CancellationToken: PromiseCancelling {
 
 }
 
+
+/// Protocol to formally add a type of command that the `PromiseCancellationToken`
+/// can use to add cancellable tasks.
+public protocol CancelCommandType {
+    func cancel()
+}
+
+/// Default implementation of `CancelCommandType` for convenience.
 public struct ClosureCancelCommand: CancelCommandType {
 
     public let cancelAction: () -> Void
