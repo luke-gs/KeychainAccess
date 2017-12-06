@@ -11,6 +11,10 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Requirements
 
+## [Documentation](Documentation)
+
+  * [PromiseCancellation](Documentation/PromiseCancellation.md)
+
 ## Installation
 
 MPOLKit is available through [CocoaPods](http://cocoapods.org). To install
