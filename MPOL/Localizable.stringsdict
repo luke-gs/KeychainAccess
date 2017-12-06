@@ -31,9 +31,9 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>d</string>
 			<key>one</key>
-			<string>%d Result Found</string>
+			<string>%d RESULT FOUND</string>
 			<key>other</key>
-			<string>%d Results Found</string>
+			<string>%d RESULTS FOUND</string>
 		</dict>
 	</dict>
 	<key>%1$d Result(s) in %2$@</key>
@@ -47,9 +47,9 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>d</string>
 			<key>one</key>
-			<string>%1$d Result in %2$@</string>
+			<string>%1$d RESULT IN %2$@</string>
 			<key>other</key>
-			<string>%1$d Results in %2$@</string>
+			<string>%1$d RESULTS IN %2$@</string>
 		</dict>
 	</dict>
 </dict>
