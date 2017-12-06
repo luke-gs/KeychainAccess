@@ -52,6 +52,9 @@ open class TasksListContainerViewModel {
     public weak var splitViewModel: TasksSplitViewModel?
 
     // MARK: - Properties
+    
+    /// Ordered array of incident statuses for the list to follow
+    open let incidentSortOrder: [SyncDetailsIncident.Status] = [.current, .assigned, .resourced, .unresourced]
 
     // Child view models
     open let headerViewModel: TasksListHeaderViewModel
@@ -178,7 +181,7 @@ open class TasksListContainerViewModel {
     }
     
     /// Maps sync models to view models
-    func taskListSections(for incidents: [SyncDetailsIncident]) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
+    open func taskListSections(for incidents: [SyncDetailsIncident]) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
         var sectionedIncidents: [String: Array<SyncDetailsIncident>] = [:]
 
         // Map incidents to sections
@@ -200,22 +203,23 @@ open class TasksListContainerViewModel {
                 sectionedIncidents[status]?.append(incident)
             }
         }
-        
-        // Make view models from sections
-        return sectionedIncidents.map { arg in
-            let (status, incidents) = arg
+  
+        let sortedIncidents = incidentSortOrder.map { status -> CADFormCollectionSectionViewModel<TasksListItemViewModel>? in
+            guard let incidents = sectionedIncidents[status.rawValue] else { return nil }
             
             let taskViewModels = incidents.map { incident in
                 return TasksListItemViewModel(incident: incident, hasUpdates: true)
             }
-            return CADFormCollectionSectionViewModel(title: "\(incidents.count) \(status)", items: taskViewModels)
-        }.sorted { first, second in
-            return first.title.contains(SyncDetailsIncident.Status.current.rawValue)
+            return CADFormCollectionSectionViewModel(title: "\(incidents.count) \(status)",
+                items: taskViewModels
+            )
         }
+            
+        return sortedIncidents.removeNils()
     }
     
     /// Maps sync models to view models
-    func taskListSections(for resources: [SyncDetailsResource]) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
+    open func taskListSections(for resources: [SyncDetailsResource]) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
         // Map resources to sections
         let tasked = NSLocalizedString("Tasked", comment: "")
         let untasked = NSLocalizedString("Untasked", comment: "")
