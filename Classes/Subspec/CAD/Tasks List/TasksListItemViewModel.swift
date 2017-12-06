@@ -59,7 +59,7 @@ public class TasksListItemViewModel {
         self.init(
             identifier: resource.callsign,
             title: [resource.callsign, resource.officerCountString].joined(),
-            subtitle: resource.location.suburb,
+            subtitle: resource.location?.suburb ?? "",
             caption: resource.status.title,
             priority: incident?.grade.rawValue,
             description: incident?.details,

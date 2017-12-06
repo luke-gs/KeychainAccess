@@ -69,7 +69,7 @@ open class NotBookedOnCallsignItemViewModel: NotBookedOnItemViewModel, BookOnCal
         self.init(
             callsign: resource.callsign,
             status: resource.status.rawValue,
-            location: resource.location.fullAddress,
+            location: resource.location?.fullAddress ?? "",
             image: resource.status.icon,
             imageColor: imageColor,
             imageBackgroundColor: imageBackgroundColor,
