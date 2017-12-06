@@ -6,6 +6,8 @@ By default, PromiseKit doesn't support cancellation. To quote the PromiseKit doc
 
 So the way that it's going to be supported in MPOLKit framework will be through `PromiseCancellationToken`. Any methods in MPOLKit that can support cancellation will declare itself as such explicitly by taking `PromiseCancellingToken` as parameter, and it will then utilise the token to cancel the underlying task.
 
+It's recommended that the method should make the `PromiseCancellationToken` optional and provide default value of `nil`. In case of the caller doesn't care about cancellation in particular, it won't pollute the call site with unnecessary clutter. 
+
 ## Sample Usage
 
 Sample usage:
