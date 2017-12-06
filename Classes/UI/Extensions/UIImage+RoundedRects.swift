@@ -113,10 +113,6 @@ public extension UIImage {
                                         height: circle.size.height)
         let imageRect: CGRect
         
-        // Determine the new size for drawing the image
-        let newSize = CGSize(width: circle.size.width - padding.width,
-                             height: circle.size.height - padding.height)
-        
         let paddedX = padding.width / 2
         let paddedY = padding.height / 2
         let centeredX: CGFloat
@@ -126,9 +122,28 @@ public extension UIImage {
         let imageSize: CGSize
         
         if shrinkImage {
+            var widthRatio: CGFloat = 1
+            var heightRatio: CGFloat = 1
+            
+            // Manage non-square images
+            if image.size.width < image.size.height {
+                widthRatio = image.size.width / image.size.height
+            } else if image.size.height < image.size.width {
+                heightRatio = image.size.height / image.size.width
+            }
+            
+            let width = circle.size.width * widthRatio
+            let height = circle.size.height * heightRatio
+            let paddingWidth = padding.width * widthRatio
+            let paddingHeight = padding.height * heightRatio
+            
+            // Determine the new size for drawing the image
+            let newSize = CGSize(width: width - paddingWidth,
+                                 height: height - paddingHeight)
+            
             // Get the center
-            centeredX = circleRect.size.width - newSize.width - (padding.width / 2)
-            centeredY = circleRect.size.height - newSize.height - (padding.height / 2)
+            centeredX = circleRect.size.width / 2  - newSize.width / 2
+            centeredY = circleRect.size.height / 2 - newSize.height / 2
             
             // Pad on equally on both sides, leave image size as-is
             imageSize = newSize
