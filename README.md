@@ -11,9 +11,9 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Requirements
 
-## [Documentation](Documentation)
+## Documentation
 
-  * [PromiseCancellation](Documentation/PromiseCancellation.md)
+Some core concepts and utilities documentation can be found [here](Documentation)
 
 ## Installation
 
