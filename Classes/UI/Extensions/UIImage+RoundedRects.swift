@@ -58,8 +58,8 @@ public extension UIImage {
     ///   - tintColor: color to tint the image
     ///   - circleColor: the fill color of the circle
     ///   - style: the sizing style to use
-    ///   - shouldCenterImage: whether to center the image in the circle. This will override positioning set by the padding
-    public func withCircleBackground(tintColor: UIColor?, circleColor: UIColor?, style: CircleBackgroundSizingStyle, shouldCenterImage: Bool) -> UIImage? {
+    ///   - shouldCenterImage: whether to center the image in the circle. This will override positioning set by the padding and the default is `true`
+    public func withCircleBackground(tintColor: UIColor?, circleColor: UIColor?, style: CircleBackgroundSizingStyle, shouldCenterImage: Bool = true) -> UIImage? {
         let circleColor = circleColor ?? .clear
         
         // Prepare circle sizing
@@ -124,8 +124,8 @@ public extension UIImage {
                                 height: circle.size.height)
             
             // Get the center
-            let centeredX = (circleRect.size.width) - newSize.width - (padding.width / 2)
-            let centeredY = (circleRect.size.height) - newSize.height - (padding.height / 2)
+            let centeredX = circleRect.size.width - newSize.width - (padding.width / 2)
+            let centeredY = circleRect.size.height - newSize.height - (padding.height / 2)
             
             // Pad on equally on both sides, leave image size as-is
             imageRect = CGRect(x: shouldCenterImage ? centeredX : paddedX,
