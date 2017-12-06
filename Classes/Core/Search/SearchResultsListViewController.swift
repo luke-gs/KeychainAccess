@@ -46,7 +46,7 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
             listStateItem.image = AssetManager.shared.image(forKey: wantsThumbnails ? .list : .thumbnail)
 
             viewModel?.style = wantsThumbnails ? .grid : .list
-            
+
             if traitCollection.horizontalSizeClass != .compact {
                 collectionView?.reloadData()
             }
@@ -344,10 +344,13 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     }
     
     private func updateBarItems() {
+        let isCompact = traitCollection.horizontalSizeClass == .compact
         if var buttons = viewModel?.additionalBarButtonItems {
-            buttons.append(listStateItem)
+            if !isCompact {
+                buttons.append(listStateItem)
+            }
             navigationItem.rightBarButtonItems = buttons
-        } else {
+        } else if !isCompact {
             navigationItem.rightBarButtonItems = [listStateItem]
         }
     }
