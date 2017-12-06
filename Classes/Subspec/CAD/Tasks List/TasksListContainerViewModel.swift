@@ -101,10 +101,18 @@ open class TasksListContainerViewModel {
 
         // Observe sync changes
         NotificationCenter.default.addObserver(self, selector: #selector(syncChanged), name: .CADSyncChanged, object: nil)
+        
+        /// Observe book-on changes to show assigned incidents
+        NotificationCenter.default.addObserver(self, selector: #selector(bookOnChanged), name: .CADBookOnChanged, object: nil)
+
     }
 
     @objc open func syncChanged() {
         self.updateSections()
+    }
+    
+    @objc open func bookOnChanged() {
+        updateSections()
     }
 
     /// Create the view controller for this view model
@@ -201,6 +209,8 @@ open class TasksListContainerViewModel {
                 return TasksListItemViewModel(incident: incident, hasUpdates: true)
             }
             return CADFormCollectionSectionViewModel(title: "\(incidents.count) \(status)", items: taskViewModels)
+        }.sorted { first, second in
+            return first.title.contains(SyncDetailsIncident.Status.current.rawValue)
         }
     }
     
@@ -216,7 +226,6 @@ open class TasksListContainerViewModel {
         ]
         
         for resource in resources {
-
             // Apply search text filter to type or address
             var shouldAppend: Bool = false
             if let searchText = searchText?.lowercased(), !searchText.isEmpty {
