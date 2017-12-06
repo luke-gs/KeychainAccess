@@ -346,10 +346,10 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
     private func updateBarItems() {
         let isCompact = traitCollection.horizontalSizeClass == .compact
         if var buttons = viewModel?.additionalBarButtonItems {
+            navigationItem.rightBarButtonItems = buttons
             if !isCompact {
                 buttons.append(listStateItem)
             }
-            navigationItem.rightBarButtonItems = buttons
         } else if !isCompact {
             navigationItem.rightBarButtonItems = [listStateItem]
         }
