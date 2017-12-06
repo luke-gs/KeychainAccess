@@ -31,7 +31,7 @@ public class ResourceOfficerViewModel {
                   subtitle: [officer.rank, officer.payrollIdDisplayString, officer.licenceTypeId]
                     .joined(separator: "  •  "),
                   badgeText: resource?.driver == officer.payrollId ? "DRIVER": nil,
-                  commsEnabled: (text: commsEnabled, call: commsEnabled),
+                  commsEnabled: (text: false, call: commsEnabled), // TODO: Set text enabled later on
                   contactNumber: officer.contactNumber
         )
     }
