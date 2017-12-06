@@ -118,8 +118,11 @@ public class PromiseCancellationToken {
 
     public init() {
         var attribute = pthread_mutexattr_t()
-        
-        pthread_mutexattr_settype(&attribute, Int32(PTHREAD_MUTEX_NORMAL))
+
+        if pthread_mutexattr_init(&attribute) == 0 {
+            pthread_mutexattr_settype(&attribute, Int32(PTHREAD_MUTEX_NORMAL))
+            pthread_mutex_init(&mutex, &attribute)
+        }
 
         pthread_mutexattr_destroy(&attribute)
     }
