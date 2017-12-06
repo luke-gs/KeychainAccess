@@ -41,23 +41,9 @@ public class IncidentAssociationsViewController: CADFormCollectionViewController
     
     // MARK: - Thumbnail support
     
-    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        
-        let isCompact = traitCollection.horizontalSizeClass == .compact
-        if isCompact != (previousTraitCollection?.horizontalSizeClass == .compact) {
-            if wantsThumbnails {
-                collectionView?.reloadData()
-            }
-            navigationItem.rightBarButtonItems = isCompact ? nil : [listStateItem]
-        }
-    }
-    
     private var wantsThumbnails: Bool = false {
         didSet {
-            if wantsThumbnails == oldValue {
-                return
-            }
+            guard wantsThumbnails != oldValue else { return }
             
             listStateItem.image = AssetManager.shared.image(forKey: wantsThumbnails ? .list : .thumbnail)
             
@@ -69,14 +55,32 @@ public class IncidentAssociationsViewController: CADFormCollectionViewController
         }
     }
     
+    private var shouldShowGrid: Bool {
+        return associationsViewModel?.style == .grid && traitCollection.horizontalSizeClass != .compact
+    }
+    
     @objc private func toggleThumbnails() {
         wantsThumbnails = !wantsThumbnails
     }
     
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        let isCompact = traitCollection.horizontalSizeClass == .compact
+        
+        if isCompact != (previousTraitCollection?.horizontalSizeClass == .compact) {
+            if wantsThumbnails {
+                collectionView?.reloadData()
+            }
+            navigationItem.rightBarButtonItems = isCompact ? nil : [listStateItem]
+        }
+    }
+    
+    
     // MARK: - Override
     
     override open func cellType() -> CollectionViewFormCell.Type {
-        if associationsViewModel?.style == .grid && traitCollection.horizontalSizeClass != .compact {
+        if shouldShowGrid {
             return EntityCollectionViewCell.self
         } else {
             return EntityListCollectionViewCell.self
@@ -105,7 +109,7 @@ public class IncidentAssociationsViewController: CADFormCollectionViewController
     
     
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
-        if associationsViewModel?.style == .grid && traitCollection.horizontalSizeClass != .compact {
+        if shouldShowGrid {
             return EntityCollectionViewCell.minimumContentWidth(forStyle: .hero)
         }
         return collectionView.bounds.width
@@ -113,7 +117,7 @@ public class IncidentAssociationsViewController: CADFormCollectionViewController
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         if let _ = viewModel.item(at: indexPath) {
-            if associationsViewModel?.style == .grid && traitCollection.horizontalSizeClass != .compact {
+            if shouldShowGrid {
                 return EntityCollectionViewCell.minimumContentHeight(forStyle: .hero, compatibleWith: traitCollection)
             } else {
                 return EntityListCollectionViewCell.minimumContentHeight(compatibleWith: traitCollection)
