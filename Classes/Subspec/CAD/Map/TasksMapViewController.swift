@@ -86,7 +86,7 @@ open class TasksMapViewController: MapViewController {
         mapView.deselectAnnotation(view.annotation, animated: false)
        
         if let viewModel = viewModel.viewModel(for: view.annotation as? TaskAnnotation) {
-            let vc = TasksItemSidebarViewController.init(viewModel: viewModel)
+            let vc = TasksItemSidebarViewController(viewModel: viewModel)
             splitViewController?.navigationController?.pushViewController(vc, animated: true)
         }
     }

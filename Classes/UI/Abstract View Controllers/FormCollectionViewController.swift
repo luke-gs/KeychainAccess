@@ -37,9 +37,9 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     open var formLayout: CollectionViewFormLayout!
     
+    open var collectionViewInsetManager: ScrollViewInsetManager?
+
     open private(set) var collectionView: UICollectionView?
-    
-    open private(set) var collectionViewInsetManager: ScrollViewInsetManager?
     
     open private(set) lazy var loadingManager: LoadingStateManager = LoadingStateManager()
     
