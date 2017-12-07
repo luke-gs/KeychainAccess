@@ -8,8 +8,6 @@
 
 import Foundation
 
-fileprivate let reuseIdentifier = "reuseIdentifier"
-
 public protocol QuantityPickable: Pickable {
     var maximumQuantity: Int? { get }
     var minimumQuantity: Int? { get }
