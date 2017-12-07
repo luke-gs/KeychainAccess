@@ -13,16 +13,20 @@ import PromiseKit
 
 class PromiseCancellationTokenTests: XCTestCase {
 
-    func testCancellationToken() {
+    func testThatTheTokenCancels() {
+
+        // Given
         let cancelExpectation = expectation(description: "testCancellation")
 
         let token = PromiseCancellationToken()
         let promise = generatePromise(cancelToken: token)
 
+        // When
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 2, execute: {
             token.cancel()
         })
 
+        // Then
         promise.then { _ -> Void in
             XCTAssert(false, "This operation should be cancelled and should never reach the `.then`.")
             return ()
@@ -34,7 +38,9 @@ class PromiseCancellationTokenTests: XCTestCase {
         waitForExpectations(timeout: 15000, handler: nil)
     }
 
-    func testCancellationTokenCommandIsExecuted() {
+    func testThatCancellationTokenCommandIsExecuted() {
+
+        // Given
         let cancelExpectation = expectation(description: "testCancellationTokenCommandIsExecuted")
 
         let token = PromiseCancellationToken()
@@ -46,10 +52,12 @@ class PromiseCancellationTokenTests: XCTestCase {
 
         let promise = generatePromise(cancelToken: token)
 
+        // When
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 2, execute: {
             token.cancel()
         })
 
+        // Then
         promise.then { _ -> Void in
             XCTAssert(false, "This operation should be cancelled and should never reach the `.then`.")
             return ()
@@ -62,13 +70,16 @@ class PromiseCancellationTokenTests: XCTestCase {
         XCTAssertTrue(actuallyCancelled)
     }
 
-    func testAddingCommandAfterCancelledNotExecuted() {
+    func testThatAddingCommandAfterCancelledNotExecuted() {
+
+        // Given
         let cancelExpectation = expectation(description: "testAddingCommandAfterCancelledNotExecuted")
 
         let token = PromiseCancellationToken()
 
         let promise = generatePromise(cancelToken: token)
 
+        // Then
         promise.then { _ -> Void in
             XCTAssert(false, "This operation should be cancelled and should never reach the `.then`.")
             return ()
@@ -77,19 +88,22 @@ class PromiseCancellationTokenTests: XCTestCase {
                 cancelExpectation.fulfill()
         }
 
+        // When
         var actuallyCancelled = false
         // Cancel first
         token.cancel()
         // Add the command, this shouldn't be executed.
         token.addCancelCommand(ClosureCancelCommand {
             actuallyCancelled = true
+            XCTAssertTrue(actuallyCancelled, "Shouldn't ever executed.")
         })
 
         waitForExpectations(timeout: 15000, handler: nil)
-        XCTAssertFalse(actuallyCancelled)
     }
 
-    func testCancellingTwiceNotTriggeringMultipleCancelCommandsMultipleTimes() {
+    func testThatCancellingTwiceNotTriggeringMultipleCancelCommandsMultipleTimes() {
+
+        // Given
         let cancelExpectation = expectation(description: "testCancellingTwiceNotTriggeringMultipleCancelCommandsMultipleTimes")
 
         let token = PromiseCancellationToken()
@@ -100,23 +114,25 @@ class PromiseCancellationTokenTests: XCTestCase {
             cancelledCount += 1
         })
 
+        let promise = generatePromise(cancelToken: token)
+
+        // When
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 2, execute: {
             token.cancel()
             token.cancel()
         })
 
-        let promise = generatePromise(cancelToken: token)
-
+        // Then
         promise.then { _ -> Void in
             XCTAssert(false, "This operation should be cancelled and should never reach the `.then`.")
             return ()
             }.catch(policy: .allErrors) { error in
                 XCTAssert(error.isCancelledError, "Error is not due to cancellation.")
+                XCTAssertEqual(cancelledCount, 1)
                 cancelExpectation.fulfill()
         }
 
         waitForExpectations(timeout: 15000, handler: nil)
-        XCTAssertEqual(cancelledCount, 1)
     }
 
     func generatePromise(cancelToken: PromiseCancellationToken? = nil) -> Promise<Int> {
