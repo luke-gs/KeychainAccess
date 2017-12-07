@@ -27,8 +27,8 @@ open class TasksMapViewModel {
     }
     
     /// Create the view controller for this view model
-    public func createViewController() -> UIViewController {
-        return TasksMapViewController(viewModel: self)
+    public func createViewController() -> MapViewController {
+        return TasksMapViewController(viewModel: self, initialLoadZoomStyle: .userLocation(animated: true))
     }
     
     // MARK: - Annotations
@@ -133,5 +133,5 @@ public protocol TasksMapViewModelDelegate: class {
     func viewModelStateChanged()
     
     /// Tells the map to zoom to the user location
-    func zoomToUserLocation()
+    func zoomToUserLocation()    
 }

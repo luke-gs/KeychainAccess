@@ -101,6 +101,7 @@
 		27094CCB1FAFFBDA00D4C3D4 /* TaskItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27094CB51FAFFBDA00D4C3D4 /* TaskItemViewModel.swift */; };
 		27094CCC1FAFFBDA00D4C3D4 /* ResourceTaskItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27094CB61FAFFBDA00D4C3D4 /* ResourceTaskItemViewModel.swift */; };
 		270C60FD1FBA5DCB006F11AD /* TasksListItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270C60FC1FBA5DCB006F11AD /* TasksListItemCollectionViewCell.swift */; };
+		27102F4E1FD908530000DD80 /* ResourceOverviewMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27102F4D1FD908530000DD80 /* ResourceOverviewMapViewModel.swift */; };
 		2715D63D1FD4FEDB00BD0E95 /* SyncDetailsActivityLogItem+Computed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715D63C1FD4FEDB00BD0E95 /* SyncDetailsActivityLogItem+Computed.swift */; };
 		2715D63F1FD505D500BD0E95 /* IncidentResourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715D63E1FD505D500BD0E95 /* IncidentResourcesViewController.swift */; };
 		2715D6411FD505F300BD0E95 /* IncidentResourcesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715D6401FD505F300BD0E95 /* IncidentResourcesViewModel.swift */; };
@@ -167,6 +168,7 @@
 		27CBC7651F8B27D500E387C3 /* CADStatusTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4621F83555A00CAE056 /* CADStatusTabBarController.swift */; };
 		27CBC7661F8B27D500E387C3 /* UserCallsignStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4631F83555A00CAE056 /* UserCallsignStatusView.swift */; };
 		27CBC7671F8B27D500E387C3 /* UserCallsignStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4641F83555A00CAE056 /* UserCallsignStatusViewModel.swift */; };
+		27D444D21FD8BA640092245C /* IncidentOverviewMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D444D11FD8BA640092245C /* IncidentOverviewMapViewModel.swift */; };
 		27D921E31FD0BBF0009C6DCC /* SyncDetailsIncident+Computed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D921E21FD0BBF0009C6DCC /* SyncDetailsIncident+Computed.swift */; };
 		27D921E51FD0C18E009C6DCC /* SyncDetailsResource+Computed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D921E41FD0C18E009C6DCC /* SyncDetailsResource+Computed.swift */; };
 		27DC60951FD50B950033BC0B /* SyncDetailsOfficer+Computed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DC60941FD50B940033BC0B /* SyncDetailsOfficer+Computed.swift */; };
@@ -695,6 +697,7 @@
 		27094CB51FAFFBDA00D4C3D4 /* TaskItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskItemViewModel.swift; sourceTree = "<group>"; };
 		27094CB61FAFFBDA00D4C3D4 /* ResourceTaskItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceTaskItemViewModel.swift; sourceTree = "<group>"; };
 		270C60FC1FBA5DCB006F11AD /* TasksListItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListItemCollectionViewCell.swift; sourceTree = "<group>"; };
+		27102F4D1FD908530000DD80 /* ResourceOverviewMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceOverviewMapViewModel.swift; sourceTree = "<group>"; };
 		2715D63C1FD4FEDB00BD0E95 /* SyncDetailsActivityLogItem+Computed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SyncDetailsActivityLogItem+Computed.swift"; sourceTree = "<group>"; };
 		2715D63E1FD505D500BD0E95 /* IncidentResourcesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentResourcesViewController.swift; sourceTree = "<group>"; };
 		2715D6401FD505F300BD0E95 /* IncidentResourcesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentResourcesViewModel.swift; sourceTree = "<group>"; };
@@ -746,6 +749,7 @@
 		27C9C7601F95692400799855 /* NotBookedOnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBookedOnViewController.swift; sourceTree = "<group>"; };
 		27C9C7641F95736500799855 /* NotBookedOnViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBookedOnViewModel.swift; sourceTree = "<group>"; };
 		27C9C7661F95737C00799855 /* NotBookedOnItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotBookedOnItemViewModel.swift; sourceTree = "<group>"; };
+		27D444D11FD8BA640092245C /* IncidentOverviewMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentOverviewMapViewModel.swift; sourceTree = "<group>"; };
 		27D921E21FD0BBF0009C6DCC /* SyncDetailsIncident+Computed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SyncDetailsIncident+Computed.swift"; sourceTree = "<group>"; };
 		27D921E41FD0C18E009C6DCC /* SyncDetailsResource+Computed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SyncDetailsResource+Computed.swift"; sourceTree = "<group>"; };
 		27DC60941FD50B940033BC0B /* SyncDetailsOfficer+Computed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SyncDetailsOfficer+Computed.swift"; sourceTree = "<group>"; };
@@ -1425,6 +1429,7 @@
 				27094CAE1FAFFBDA00D4C3D4 /* ResourceOfficerListViewModel.swift */,
 				27094CAF1FAFFBDA00D4C3D4 /* ResourceOfficerViewModel.swift */,
 				27DC609A1FD60F3D0033BC0B /* ResourceOverviewViewModel.swift */,
+				27102F4D1FD908530000DD80 /* ResourceOverviewMapViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -1534,6 +1539,7 @@
 				2726A8191FCE5EA000EFB61A /* IncidentOverviewItemViewModel.swift */,
 				2715D6401FD505F300BD0E95 /* IncidentResourcesViewModel.swift */,
 				2715D6421FD5064C00BD0E95 /* IncidentResourceItemViewModel.swift */,
+				27D444D11FD8BA640092245C /* IncidentOverviewMapViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -3307,6 +3313,7 @@
 				274C89831F9D9EC3005B9CF8 /* OfficerListViewModel.swift in Sources */,
 				27CBC7661F8B27D500E387C3 /* UserCallsignStatusView.swift in Sources */,
 				274F10ED1FCE0A86001A59A5 /* IncidentAssociationItemViewModel.swift in Sources */,
+				27102F4E1FD908530000DD80 /* ResourceOverviewMapViewModel.swift in Sources */,
 				EAB38FFB1F70A73700341BAF /* ValueFormItem.swift in Sources */,
 				EA76ECF11F578DCA00524830 /* LocationAdvanceOptions.swift in Sources */,
 				12A8DB471F5FD63400A06005 /* DirectoryManager.swift in Sources */,
@@ -3388,6 +3395,7 @@
 				EA445DA61F73734300ABF70F /* SummaryThumbnailFormItem.swift in Sources */,
 				19E1347D1F57A88900F4D48C /* PluginType.swift in Sources */,
 				BC9C7DFC1F0DED6600DFFE83 /* CollectionViewFormTextViewCell.swift in Sources */,
+				27D444D21FD8BA640092245C /* IncidentOverviewMapViewModel.swift in Sources */,
 				EA2189F21F5FE8B50057048E /* Presenter.swift in Sources */,
 				4634B4421FBD6FD200D71E7F /* MapSummarySearchResultViewModel.swift in Sources */,
 				BC9C7E1D1F0DED6600DFFE83 /* MPOLKitInitialize.swift in Sources */,

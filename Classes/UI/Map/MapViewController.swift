@@ -8,16 +8,33 @@
 
 import UIKit
 import MapKit
+import PromiseKit
 
 /// A `UIViewController` subclass implementing `MKMapViewDelegate` which
 /// contains a `MKMapView` constrained to the view edges.
 open class MapViewController: UIViewController, MKMapViewDelegate {
 
-    private var isInitialViewLoad: Bool = true
+    /// The zoom style when first loading the map
+    ///
+    /// - userLocation: zoom to the user's location
+    /// - coordinate: zoom to a specified coordinate
+    /// - annotations: zoom to display all the annotations
+    /// - none: do not zoom on load
+    public enum InitialLoadZoomStyle {
+        case userLocation(animated: Bool)
+        case coordinate(_: CLLocation, animated: Bool)
+        case annotations(animated: Bool)
+        case none
+    }
+    
+    private var performedInitialLoadAction: Bool = false
     
     private let locationManager = LocationManager.shared
-    private let zoomsToUserLocationOnLoad: Bool
+    private var initialLoadZoomStyle: InitialLoadZoomStyle = .none
+    private let startingRegion: MKCoordinateRegion?
     private let settingsViewModel: MapSettingsViewModel
+    
+    private var initialLocation: CLLocation?
     
     // MARK: - Constants
     
@@ -52,9 +69,10 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: - Setup
     
-    public init(zoomsToUserLocationOnLoad: Bool = true, settingsViewModel: MapSettingsViewModel = MapSettingsViewModel()) {
-        self.zoomsToUserLocationOnLoad = zoomsToUserLocationOnLoad
+    public init(initialLoadZoomStyle: InitialLoadZoomStyle, startingRegion: MKCoordinateRegion? = nil, settingsViewModel: MapSettingsViewModel = MapSettingsViewModel()) {
+        self.initialLoadZoomStyle = initialLoadZoomStyle
         self.settingsViewModel = settingsViewModel
+        self.startingRegion = startingRegion
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -76,6 +94,9 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         mapView.userTrackingMode = .none
         mapView.showsUserLocation = true
         mapView.translatesAutoresizingMaskIntoConstraints = false
+        if let startingRegion = startingRegion {
+            mapView.setRegion(startingRegion, animated: false)
+        }
         view.addSubview(mapView)
         
         buttonPill = UIView()
@@ -95,7 +116,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
 
         userLocationButton = UIButton()
         userLocationButton.setImage(AssetManager.shared.image(forKey: .mapUserLocation), for: .normal)
-        userLocationButton.tintColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+        userLocationButton.tintColor = .brightBlue
         userLocationButton.translatesAutoresizingMaskIntoConstraints = false
         userLocationButton.addTarget(self, action: #selector(didSelectUserTrackingButton), for: .touchUpInside)
         buttonPill.addSubview(userLocationButton)
@@ -109,21 +130,27 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         buttonPill.addSubview(mapTypeButton)
         
         setupConstraints()
-        
     }
     
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if isInitialViewLoad {
-            isInitialViewLoad = false
-            if zoomsToUserLocationOnLoad {
-                _ = locationManager.requestLocation().then { location in
-                    self.zoomAndCenterToUserLocation(animated: false)
+        if !performedInitialLoadAction {
+            switch initialLoadZoomStyle {
+            case .userLocation(_):
+                _ = locationManager.requestLocation().then { location -> () in
+                    self.zoomAndCenter(to: location, animated: animated)
+                    self.performedInitialLoadAction = true
                 }
+            case .annotations(_):
+                break
+            case .coordinate(let location, let animated):
+                zoomAndCenter(to: location, animated: animated)
+                performedInitialLoadAction = true
+            case .none:
+                performedInitialLoadAction = true
             }
         }
     }
-    
     /// Activates the constraints for the views
     private func setupConstraints() {
         NSLayoutConstraint.activate([
@@ -154,7 +181,6 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
             mapView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
             mapView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
         ])
-        
     }
     
     public func mapView(_ mapView: MKMapView, didChange mode: MKUserTrackingMode, animated: Bool) {
@@ -217,6 +243,19 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     public func zoomAndCenter(to location: CLLocation, animated: Bool = true) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, defaultZoomDistance, defaultZoomDistance)
         mapView.setRegion(coordinateRegion, animated: animated)
+    }
+    
+    public func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+        if !performedInitialLoadAction {
+            switch initialLoadZoomStyle {
+            case .annotations(let animated):
+                let annotations = self.mapView.annotations + [self.mapView.userLocation]
+                self.mapView.showAnnotations(annotations, animated: animated)
+                performedInitialLoadAction = true
+            case .none, .coordinate(_, _), .userLocation(_):
+                break
+            }
+        }
     }
     
 }
