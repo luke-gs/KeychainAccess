@@ -15,7 +15,7 @@ public protocol QuantityPickable: Pickable {
 
 public struct QuantityPicked {
     let object: Pickable
-    var value: Int
+    var count: Int
 }
 
 open class QuantityPickerViewController<T: Pickable>: FormBuilderViewController {
@@ -42,7 +42,7 @@ open class QuantityPickerViewController<T: Pickable>: FormBuilderViewController 
     public init(items: [T]) {
         super.init()
 
-        self.items = items.map { QuantityPicked(object: $0, value: 0) }
+        self.items = items.map { QuantityPicked(object: $0, count: 0) }
 
         wantsTransparentBackground = true
 
@@ -105,11 +105,11 @@ open class QuantityPickerViewController<T: Pickable>: FormBuilderViewController 
         var count = 0
 
         for item in items {
-            guard item.value > 0 else { continue }
+            guard item.count > 0 else { continue }
             if string.count > 0 {
                 string += ", "
             }
-            string += "\(item.object.title ?? "")(\(item.value))"
+            string += "\(item.object.title ?? "")(\(item.count))"
             count += 1
         }
         headerView.titleLabel.text = "\(count) \(subjectMatter)"
@@ -129,11 +129,11 @@ open class QuantityPickerViewController<T: Pickable>: FormBuilderViewController 
 
             let formItem = StepperFormItem(title: item.object.title)
             .minimumValue(0)
-            .value(Double(item.value))
+            .value(Double(item.count))
             .width(.column(1))
             .displaysZeroValue(false)
             .onValueChanged { [unowned self] (value) in
-                self.items[index].value = Int(value)
+                self.items[index].count = Int(value)
                 self.updateHeaderText()
             }
 
