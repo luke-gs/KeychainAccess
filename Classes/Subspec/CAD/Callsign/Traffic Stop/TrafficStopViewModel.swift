@@ -22,8 +22,8 @@ open class TrafficStopViewModel {
     
     // Model representing UI
     open var entities: [SelectStoppedEntityItemViewModel] = []
-    open var location: String?
-    open var createIncident: Bool
+    open var location: CLPlacemark?
+    open var createIncident: Bool = false
     open var priority: IncidentGrade?
     open var primaryCode: String?
     open var secondaryCode: String?
@@ -44,15 +44,8 @@ open class TrafficStopViewModel {
     
     // MARK: - Lifecycle
     
-    public init(location: String? = nil, createIncident: Bool = false, priority: IncidentGrade? = nil, primaryCode: String? = nil, secondaryCode: String? = nil, remark: String? = nil) {
+    public init() {
         promise = Promise<TrafficStopRequest>.pending()
-        
-        self.location = location
-        self.createIncident = createIncident
-        self.priority = priority
-        self.primaryCode = primaryCode
-        self.secondaryCode = secondaryCode
-        self.remark = remark
     }
     
     /// Create the view controller for this view model
@@ -75,6 +68,17 @@ open class TrafficStopViewModel {
     /// Title for VC
     open func navTitle() -> String {
         return NSLocalizedString("Traffic Stop", comment: "Traffic Stop title")
+    }
+    
+    /// The formatted title for the location
+    open func formattedLocation() -> String {
+        if let location = location {
+            return (location.addressDictionary?["FormattedAddressLines"] as? [String])?
+                .joined(separator: ", ")
+                .ifNotEmpty() ?? "Unknown Location"
+        } else {
+            return "Required"
+        }
     }
     
     /// MARK: - Actions

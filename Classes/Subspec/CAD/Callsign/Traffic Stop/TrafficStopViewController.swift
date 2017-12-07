@@ -5,6 +5,8 @@
 //  Created by Megan Efron on 4/12/17.
 //
 
+import PromiseKit
+
 open class TrafficStopViewController: FormBuilderViewController {
     
     // MARK: - Properties
@@ -19,10 +21,22 @@ open class TrafficStopViewController: FormBuilderViewController {
         self.viewModel.delegate = self
         
         setupNavigationBarButtons()
+        fetchLocation()
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
+    }
+    
+    open func fetchLocation() {
+        _ = firstly {
+            LocationManager.shared.requestPlacemark()
+        }.then { [unowned self] placemark -> Void in
+            self.viewModel.location = placemark
+            self.reloadForm()
+        }.catch { _ in
+            
+        }
     }
     
     /// Support being transparent when in popover/form sheet
@@ -69,7 +83,7 @@ open class TrafficStopViewController: FormBuilderViewController {
         builder += HeaderFormItem(text: "GENERAL")
         builder += ValueFormItem()  // TODO: Implement selecting location
             .title("Location")
-            .value(viewModel.location)
+            .value(viewModel.formattedLocation())
             .accessory(FormAccessoryView(style: .disclosure))
             .width(.column(1))
         builder += OptionFormItem()
