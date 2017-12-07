@@ -112,9 +112,20 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
     open func setSelectedIndexPath(_ indexPath: IndexPath) -> Promise<ResourceStatus> {
         let newStatus = statusForIndexPath(indexPath)
         if currentStatus.canChangeToStatus(newStatus: newStatus) {
-
-            // TODO: Insert network call here
-            return after(seconds: 1.0).then {
+            var promise: Promise<Void> = Promise<Void>()
+            
+            // Traffic stop requires further details
+            if case .trafficStop = newStatus {
+                promise = promptForTrafficStopDetails().then { _ -> Void in
+                    // TODO: Submit traffic stop details
+                }
+            }
+            
+            return promise.then {
+                // TODO: Submit callsign request
+                return after(seconds: 1.0)
+            }.then { _ -> Promise<ResourceStatus> in
+                // Update UI
                 self.selectedIndexPath = indexPath
                 CADStateManager.shared.updateCallsignStatus(status: newStatus)
                 return Promise(value: self.currentStatus)
@@ -161,6 +172,13 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
                 break
             }
         }
+    }
+    
+    // Prompts the user for more details when tapping on "Traffic Stop" status
+    open func promptForTrafficStopDetails() -> Promise<TrafficStopRequest> {
+        let viewModel = TrafficStopViewModel()
+        delegate?.presentPushedViewController(viewModel.createViewController(), animated: true)
+        return viewModel.promise.promise
     }
 
     open func statusForIndexPath(_ indexPath: IndexPath) -> ResourceStatus {
