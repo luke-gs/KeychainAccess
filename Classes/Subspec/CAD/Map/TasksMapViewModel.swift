@@ -111,9 +111,9 @@ open class TasksMapViewModel {
     
     /// Maps resource view models to task annotations
     func taskAnnotations(for resources: [SyncDetailsResource]) -> [TaskAnnotation] {
-        return resources.map { resource in
+        return resources.filter{$0.location != nil}.map { resource in
             return ResourceAnnotation(identifier: resource.callsign,
-                                      coordinate: resource.coordinate,
+                                      coordinate: resource.coordinate!,
                                       title: resource.callsign,
                                       subtitle: resource.officerCountString,
                                       icon: resource.type.icon,
