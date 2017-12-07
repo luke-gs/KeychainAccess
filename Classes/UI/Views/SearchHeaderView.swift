@@ -128,4 +128,8 @@ extension SearchHeaderView: UISearchBarDelegate {
         searchHandler?(searchText)
     }
 
+    public func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
+    }
+
 }
