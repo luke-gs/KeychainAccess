@@ -125,6 +125,7 @@ open class QuantityPickerViewController<T>: FormBuilderViewController where T: P
             .minimumValue(0)
             .value(Double(item.value))
             .width(.column(1))
+            .displaysZeroValue(false)
             .onValueChanged({ [unowned self] (value) in
                 self.items[index].value = Int(value)
                 self.updateHeaderText()
