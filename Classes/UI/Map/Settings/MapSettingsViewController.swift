@@ -24,7 +24,7 @@ open class MapSettingsViewController: UIViewController, PopoverViewController {
     private var trafficLabel: UILabel!
     private var trafficSwitch: UISwitch!
     
-    var wantsTransparentBackground: Bool = true {
+    public var wantsTransparentBackground: Bool = true {
         didSet {
             view.backgroundColor = wantsTransparentBackground ? .clear : .white
         }
