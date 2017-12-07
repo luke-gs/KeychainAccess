@@ -52,11 +52,11 @@ open class SearchHeaderView: UIView {
     }
 
     private func commonInit() {
-        backgroundColor = UIColor.primaryGray
+        backgroundColor = UIColor.overlayGray
         translatesAutoresizingMaskIntoConstraints = false
 
         let circleView = UIView()
-        circleView.backgroundColor = #colorLiteral(red: 0.3364340067, green: 0.344623208, blue: 0.3837811649, alpha: 1)
+        circleView.backgroundColor = UIColor.primaryGray
         circleView.clipsToBounds = true
         circleView.layer.cornerRadius = 24.0
         circleView.layer.shouldRasterize = true
