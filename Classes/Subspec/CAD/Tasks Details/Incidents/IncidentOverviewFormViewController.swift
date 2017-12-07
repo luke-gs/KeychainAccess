@@ -26,7 +26,11 @@ open class IncidentOverviewFormViewController: FormBuilderViewController {
                                       style: .collapsible)
             
             for item in section.items {
-                builder += ValueFormItem(title: item.title, value: item.value, image: item.image).width(item.width)
+                builder += ValueFormItem(title: item.title, value: item.value, image: item.image)
+                    .width(item.width)
+                    .onSelection({ cell in
+                        item.selectAction?(cell)
+                    })
             }
         }
     }

@@ -46,7 +46,10 @@ open class IncidentOverviewViewModel: TaskDetailsViewModel {
                                                 IncidentOverviewItemViewModel(title: "Incident Location",
                                                                               value: incident.location.fullAddress,
                                                                               image: AssetManager.shared.image(forKey: .location),
-                                                                              width: .column(1)),
+                                                                              width: .column(1),
+                                                                              selectAction: { [unowned self] cell in
+                                                                                self.presentAddressPopover(from: cell)
+                                                                              }),
                                                 
                                                 IncidentOverviewItemViewModel(title: "Priority",
                                                                               value: incident.grade.rawValue,
@@ -97,9 +100,14 @@ open class IncidentOverviewViewModel: TaskDetailsViewModel {
     open func navTitle() -> String {
         return NSLocalizedString("Overview", comment: "Overview sidebar title")
     }
+    
+    open func presentAddressPopover(from cell: CollectionViewFormCell) {
+        let viewController = UIViewController()
+        delegate?.presentPopover(viewController, sourceView: cell, sourceRect: cell.bounds, animated: true)
+    }
 }
 
-public protocol IncidentOverviewViewModelDelegate: class {
+public protocol IncidentOverviewViewModelDelegate: class, PopoverPresenter {
     /// Called when the section data changed
     func didUpdateSections()
 }
