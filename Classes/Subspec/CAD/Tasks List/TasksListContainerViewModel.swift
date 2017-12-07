@@ -43,6 +43,13 @@ public enum TaskListType: Int {
     }
 }
 
+/// Protocol for notifying UI of updated view model data
+public protocol TasksListContainerViewModelDelegate: class {
+
+    // Called when source items are updated
+    func updateSourceItems()
+}
+
 /// View model for the task list container, which is the parent of the header and list view models
 ///
 /// This view model owns the sources and current source selection, so changes can be applied to both the header and list
@@ -50,6 +57,7 @@ public enum TaskListType: Int {
 open class TasksListContainerViewModel {
 
     public weak var splitViewModel: TasksSplitViewModel?
+    public weak var delegate: TasksListContainerViewModelDelegate?
 
     // MARK: - Properties
     
@@ -96,7 +104,6 @@ open class TasksListContainerViewModel {
         self.headerViewModel = headerViewModel
         self.listViewModel = listViewModel
 
-        updateSourceItems()
         updateSections()
 
         // Link header view model sources with us
@@ -111,7 +118,7 @@ open class TasksListContainerViewModel {
     }
 
     @objc open func syncChanged() {
-        self.updateSections()
+        updateSections()
     }
     
     @objc open func bookOnChanged() {
@@ -120,7 +127,9 @@ open class TasksListContainerViewModel {
 
     /// Create the view controller for this view model
     open func createViewController() -> UIViewController {
-        return TasksListContainerViewController(viewModel: self)
+        let vc = TasksListContainerViewController(viewModel: self)
+        delegate = vc
+        return vc
     }
 
     // MARK: - Public methods
@@ -150,22 +159,24 @@ open class TasksListContainerViewModel {
 
     // MARK: - Internal methods
 
-    /// Update the source items status
-    open func updateSourceItems() {
-
-        // TODO: Map network models to view models
-        sourceItems = SampleData.sourceItems()
-        selectedSourceIndex = 0
+    func sourceItemForType(type: TaskListType, count: Int, color: UIColor) -> SourceItem {
+        return SourceItem(title: type.title, shortTitle: type.shortTitle, state: .loaded(count: UInt(count), color: color))
     }
 
     /// Update the task list data
     open func updateSections() {
         let type = TaskListType(rawValue: selectedSourceIndex)!
-        
-        if let splitViewModel = self.splitViewModel {
+
+        if let splitViewModel = splitViewModel {
+
+            // Load filtered data once
+            let filteredIncidents = splitViewModel.filteredIncidents
+            let filteredResources = splitViewModel.filteredResources
+
+            // Apply filtered data to sources and sections
             switch type {
             case .incident:
-                listViewModel.sections = taskListSections(for: splitViewModel.filteredIncidents)
+                listViewModel.sections = taskListSections(for: filteredIncidents)
             case .patrol:
                 // TODO: Get from sync
                 listViewModel.sections = []
@@ -173,11 +184,27 @@ open class TasksListContainerViewModel {
                 // TODO: Get from sync
                 listViewModel.sections = []
             case .resource:
-                listViewModel.sections = taskListSections(for: splitViewModel.filteredResources)
+                listViewModel.sections = taskListSections(for: filteredResources)
             }
+
+            // Update the source items status
+            // TODO: calculate colors based on priorities
+            sourceItems = [
+                sourceItemForType(type: .incident,  count: filteredIncidents.count, color: .orangeRed),
+                sourceItemForType(type: .patrol,    count: 0, color: .secondaryGray),
+                sourceItemForType(type: .broadcast, count: 0, color: .secondaryGray),
+                sourceItemForType(type: .resource,  count: filteredResources.count, color: .orangeRed)
+            ]
         } else {
             listViewModel.sections = []
+            sourceItems = [
+                sourceItemForType(type: .incident,  count: 0, color: .secondaryGray),
+                sourceItemForType(type: .patrol,    count: 0, color: .secondaryGray),
+                sourceItemForType(type: .broadcast, count: 0, color: .secondaryGray),
+                sourceItemForType(type: .resource,  count: 0, color: .secondaryGray)
+            ]
         }
+        delegate?.updateSourceItems()
     }
     
     /// Maps sync models to view models
@@ -265,20 +292,3 @@ open class TasksListContainerViewModel {
     }
 
 }
-
-public class SampleData {
-
-    static func sourceItemForType(type: TaskListType, count: UInt, color: UIColor) -> SourceItem {
-        return SourceItem(title: type.title, shortTitle: type.shortTitle, state: .loaded(count: count, color: color))
-    }
-
-    static func sourceItems() -> [SourceItem] {
-        return [
-            sourceItemForType(type: .incident,  count: 6, color: .orangeRed),
-            sourceItemForType(type: .patrol,    count: 1, color: .secondaryGray),
-            sourceItemForType(type: .broadcast, count: 4, color: .secondaryGray),
-            sourceItemForType(type: .resource,  count: 9, color: .orangeRed)
-        ]
-    }
-}
-
