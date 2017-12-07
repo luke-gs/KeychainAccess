@@ -559,6 +559,7 @@
 		EABAB8021F3429D90071A401 /* AggregatedSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABAB8011F3429D90071A401 /* AggregatedSearch.swift */; };
 		EABAB8041F342E450071A401 /* AggregatedSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABAB8031F342E450071A401 /* AggregatedSearchRequest.swift */; };
 		EAC0256C1FD8DAF600E45DB6 /* EntitySummaryDisplayFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC0256B1FD8DAF600E45DB6 /* EntitySummaryDisplayFormatter.swift */; };
+		EAC0256F1FD8F49800E45DB6 /* EntitySummaryDisplayFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC0256E1FD8F49800E45DB6 /* EntitySummaryDisplayFormatterTests.swift */; };
 		EADC4FF31F81E0810066AA2F /* OptionGroupFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADC4FF21F81E0810066AA2F /* OptionGroupFormItem.swift */; };
 		EAE806DB1F98534000C9AA85 /* FormSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE806DA1F98534000C9AA85 /* FormSection.swift */; };
 		EAE806DF1F9859E700C9AA85 /* DateFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE806DE1F9859E700C9AA85 /* DateFormItemTests.swift */; };
@@ -1163,6 +1164,7 @@
 		EABAB8011F3429D90071A401 /* AggregatedSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregatedSearch.swift; sourceTree = "<group>"; };
 		EABAB8031F342E450071A401 /* AggregatedSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregatedSearchRequest.swift; sourceTree = "<group>"; };
 		EAC0256B1FD8DAF600E45DB6 /* EntitySummaryDisplayFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummaryDisplayFormatter.swift; sourceTree = "<group>"; };
+		EAC0256E1FD8F49800E45DB6 /* EntitySummaryDisplayFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummaryDisplayFormatterTests.swift; sourceTree = "<group>"; };
 		EADC4FF21F81E0810066AA2F /* OptionGroupFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionGroupFormItem.swift; sourceTree = "<group>"; };
 		EAE806DA1F98534000C9AA85 /* FormSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormSection.swift; sourceTree = "<group>"; };
 		EAE806DE1F9859E700C9AA85 /* DateFormItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormItemTests.swift; sourceTree = "<group>"; };
@@ -1269,13 +1271,6 @@
 				197FBF701F9980F20086875A /* URLQueryBuilderTests.swift */,
 			);
 			path = Network;
-			sourceTree = "<group>";
-		};
-		199571C91FB91D6100950EAB /* ExternalAuthenticator */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ExternalAuthenticator;
 			sourceTree = "<group>";
 		};
 		199ECE931FAA4E280065E425 /* Image */ = {
@@ -2401,7 +2396,6 @@
 				C63F71731F3332CC004F5047 /* Model */,
 				19DE98CA1F42651C0063F394 /* SortDescriptor */,
 				C605F9F01ECCB5C4001194DD /* UnboxableAlamofireResponseSerializerTests */,
-				199571C91FB91D6100950EAB /* ExternalAuthenticator */,
 				19FEC98A1F440DD7005692A9 /* ErrorMapping */,
 				12F057271F3C0F5600CAD6F6 /* EntitySearchRequestTests.swift */,
 				1211E3681F3AD7620012E2E6 /* EpochDateTransformerTests.swift */,
@@ -2578,6 +2572,7 @@
 		E2552CA21FCBA7D2007376C5 /* Subspec */ = {
 			isa = PBXGroup;
 			children = (
+				EAC0256D1FD8F3DD00E45DB6 /* EntitySearch */,
 				E2552CA31FCBA7EB007376C5 /* CAD */,
 			);
 			path = Subspec;
@@ -2895,6 +2890,14 @@
 				EABAB8031F342E450071A401 /* AggregatedSearchRequest.swift */,
 			);
 			path = "Aggregated Search";
+			sourceTree = "<group>";
+		};
+		EAC0256D1FD8F3DD00E45DB6 /* EntitySearch */ = {
+			isa = PBXGroup;
+			children = (
+				EAC0256E1FD8F49800E45DB6 /* EntitySummaryDisplayFormatterTests.swift */,
+			);
+			path = EntitySearch;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -3681,6 +3684,7 @@
 				44F3F14B1F56DBD300D68585 /* FilterDescriptorTests.swift in Sources */,
 				EAF76C891F9445A200405DC9 /* FooterFormItemTests.swift in Sources */,
 				EAF76C8B1F944A6E00405DC9 /* SubtitleFormItemTests.swift in Sources */,
+				EAC0256F1FD8F49800E45DB6 /* EntitySummaryDisplayFormatterTests.swift in Sources */,
 				EAF76C751F9080B000405DC9 /* ImageLoadableTests.swift in Sources */,
 				EAF76C971F94689400405DC9 /* SummaryDetailFormItemTests.swift in Sources */,
 				EA42F8D11F95810200C5C38E /* ImageSizingTests.swift in Sources */,

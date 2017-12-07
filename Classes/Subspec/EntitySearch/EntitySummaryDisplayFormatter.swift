@@ -24,6 +24,8 @@ public class EntitySummaryDisplayFormatter {
 
     private var entityMap = [ObjectIdentifier: (summary: SummaryType, presentable: PresentableType)]()
 
+    public init() { }
+
     public func registerEntityType(_ entityType: MPOLKitEntity.Type, forSummary summaryType: SummaryType, andPresentable presentableType: PresentableType) {
         entityMap[ObjectIdentifier(entityType)] = (summary: summaryType, presentable: presentableType)
     }
