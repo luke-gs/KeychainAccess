@@ -126,8 +126,8 @@ class SearchResultsListViewController: FormCollectionViewController, SearchResul
             if wantsThumbnails {
                 collectionView?.reloadData()
             }
-            navigationItem.rightBarButtonItems = isCompact ? nil : [listStateItem]
         }
+        navigationItem.rightBarButtonItems = isCompact ? nil : [listStateItem]
     }
 
     override func apply(_ theme: Theme) {
