@@ -139,8 +139,8 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
             case .userLocation(_):
                 _ = locationManager.requestLocation().then { location -> () in
                     self.zoomAndCenter(to: location, animated: animated)
-                    self.performedInitialLoadAction = true
                 }
+                performedInitialLoadAction = true
             case .annotations(_):
                 break
             case .coordinate(let location, let animated):
