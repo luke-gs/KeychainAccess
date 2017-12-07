@@ -79,7 +79,9 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
 
         // Hide search bar during initial layout or rotation
         DispatchQueue.main.async {
-            self.hideSearchBar()
+            if self.searchBar.text?.ifNotEmpty() == nil {
+                self.hideSearchBar()
+            }
         }
     }
 

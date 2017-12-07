@@ -260,11 +260,7 @@ open class TasksListContainerViewModel {
                 let incident = CADStateManager.shared.incidentForResource(callsign: resource.callsign)
                 return TasksListItemViewModel(resource: resource, incident: incident, hasUpdates: true)
             }
-            if resources.count > 0 {
-                return CADFormCollectionSectionViewModel(title: "\(resources.count) \(section)", items: taskViewModels)
-            } else {
-                return nil
-            }
+            return CADFormCollectionSectionViewModel(title: "\(resources.count) \(section)", items: taskViewModels)
         }.removeNils()
     }
 
