@@ -47,7 +47,7 @@ open class TrafficStopViewController: FormBuilderViewController {
             .actionButton(title: NSLocalizedString("ADD", comment: "").uppercased(), handler: { [unowned self] in
                 let viewModel = SelectStoppedEntityViewModel()
                 viewModel.onSelectEntity = { [unowned self] entity -> Void in
-                    if !self.viewModel.entities.contains(where: { $0 == entity }) {
+                    if !self.viewModel.entities.contains(entity) {
                         self.viewModel.entities.append(entity)
                     }
                     self.reloadForm()
