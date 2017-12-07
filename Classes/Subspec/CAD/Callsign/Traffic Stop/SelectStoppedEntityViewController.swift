@@ -160,6 +160,7 @@ open class SelectStoppedEntityViewController: CADFormCollectionViewController<Se
     
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        selectStoppedEntityViewModel?.didSelectItem(at: indexPath)
         navigationController?.popViewController(animated: true)
     }
     

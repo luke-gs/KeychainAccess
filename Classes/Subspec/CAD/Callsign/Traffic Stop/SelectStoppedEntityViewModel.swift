@@ -8,7 +8,9 @@
 import PromiseKit
 
 /// View model for a single select stopped entity item
-open class SelectStoppedEntityItemViewModel {
+open class SelectStoppedEntityItemViewModel: Equatable {
+    
+    public let id: String // TODO: Swap out with MPOLKITEntity or Entity for comparing
     public let category: String
     public let title: String
     public let subtitle: String?
@@ -16,7 +18,8 @@ open class SelectStoppedEntityItemViewModel {
     public let borderColor: UIColor?
     public let imageColor: UIColor?
     
-    public init(category: String, title: String, subtitle: String? = nil, image: UIImage, borderColor: UIColor? = nil, imageColor: UIColor? = nil) {
+    public init(id: String, category: String, title: String, subtitle: String? = nil, image: UIImage, borderColor: UIColor? = nil, imageColor: UIColor? = nil) {
+        self.id = id
         self.category = category
         self.title = title
         self.subtitle = subtitle
@@ -24,10 +27,19 @@ open class SelectStoppedEntityItemViewModel {
         self.borderColor = borderColor
         self.imageColor = imageColor
     }
+    
+    public static func ==(lhs: SelectStoppedEntityItemViewModel, rhs: SelectStoppedEntityItemViewModel) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 /// View model for adding a stopped entity.
 open class SelectStoppedEntityViewModel: CADFormCollectionViewModel<SelectStoppedEntityItemViewModel> {
+    
+    // MARK: - Properties
+    
+    /// Delegate action to interested party
+    open var onSelectEntity: ((SelectStoppedEntityItemViewModel) -> Void)?
     
     // MARK: - Lifecycle
     
@@ -36,11 +48,17 @@ open class SelectStoppedEntityViewModel: CADFormCollectionViewModel<SelectStoppe
         
         self.sections = [
             CADFormCollectionSectionViewModel(title: "RECENTLY VIEWED", items: [
-                SelectStoppedEntityItemViewModel(category: "DS1", title: "NLJ400", subtitle: "2009 Bentley Continental GTC  •  Sedan  •  Red/Black", image: AssetManager.shared.image(forKey: .entityCarSmall)!),
-                SelectStoppedEntityItemViewModel(category: "DS1", title: "JAN258", subtitle: "2015 Toyota Avalon  •  Sedan  •  White/White", image: AssetManager.shared.image(forKey: .entityCarSmall)!),
-                SelectStoppedEntityItemViewModel(category: "DS1", title: "KSO196", subtitle: "2010 Ford Escape  •  SUV  •  Green/Black", image: AssetManager.shared.image(forKey: .entityCarSmall)!)
+                SelectStoppedEntityItemViewModel(id: "1", category: "DS1", title: "NLJ400", subtitle: "2009 Bentley Continental GTC  •  Sedan  •  Red/Black", image: AssetManager.shared.image(forKey: .entityCarSmall)!),
+                SelectStoppedEntityItemViewModel(id: "2", category: "DS1", title: "JAN258", subtitle: "2015 Toyota Avalon  •  Sedan  •  White/White", image: AssetManager.shared.image(forKey: .entityCarSmall)!),
+                SelectStoppedEntityItemViewModel(id: "3", category: "DS1", title: "KSO196", subtitle: "2010 Ford Escape  •  SUV  •  Green/Black", image: AssetManager.shared.image(forKey: .entityCarSmall)!)
             ])
         ]
+    }
+    
+    /// Gets called from view controller when index path is selected
+    open func didSelectItem(at indexPath: IndexPath) {
+        let entity = item(at: indexPath)!
+        self.onSelectEntity?(entity)
     }
     
     /// Create the view controller for this view model

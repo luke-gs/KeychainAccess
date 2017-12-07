@@ -112,24 +112,23 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
     open func setSelectedIndexPath(_ indexPath: IndexPath) -> Promise<ResourceStatus> {
         let newStatus = statusForIndexPath(indexPath)
         if currentStatus.canChangeToStatus(newStatus: newStatus) {
+            var promise: Promise<Void> = Promise<Void>()
             
-            let promise = firstly {
-                // TODO: Insert network request here
-                after(seconds: 1.0)
+            // Traffic stop requires further details
+            if case .trafficStop = newStatus {
+                promise = promptForTrafficStopDetails().then { _ -> Void in
+                    // TODO: Submit traffic stop details
+                }
+            }
+            
+            return promise.then {
+                // TODO: Submit callsign request
+                return after(seconds: 1.0)
             }.then { _ -> Promise<ResourceStatus> in
                 // Update UI
                 self.selectedIndexPath = indexPath
                 CADStateManager.shared.updateCallsignStatus(status: newStatus)
                 return Promise(value: self.currentStatus)
-            }
-            
-            // Traffic stop requires extra information
-            if case .trafficStop = newStatus {
-                return self.promptForTrafficStopDetails().then {
-                    return promise
-                }
-            } else {
-                return promise
             }
         } else {
             let message = NSLocalizedString("Selection not allowed from this state", comment: "")
@@ -176,11 +175,12 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
     }
     
     // Prompts the user for more details when tapping on "Traffic Stop" status
-    open func promptForTrafficStopDetails() -> Promise<Void> {
-        // TODO: Implement properly
-        let viewModel = TrafficStopViewModel()
+    open func promptForTrafficStopDetails() -> Promise<TrafficStopRequest> {
+        let viewModel = TrafficStopViewModel(location: "188 Smith Street, Fitzroy VIC 3065",
+                                             priority: "P4",
+                                             primaryCode: "Traffic")
         delegate?.presentPushedViewController(viewModel.createViewController(), animated: true)
-        return Promise<Void>()
+        return viewModel.promise.promise
     }
 
     open func statusForIndexPath(_ indexPath: IndexPath) -> ResourceStatus {

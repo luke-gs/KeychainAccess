@@ -33,10 +33,10 @@ open class TrafficStopViewController: FormBuilderViewController {
     
     open func setupNavigationBarButtons() {
         // Create cancel button
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didTapCancelButton(_:)))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonTapped(_:)))
         
         // Create done button
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(didTapDoneButton(_:)))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped(_:)))
     }
     
     /// Form builder implementation
@@ -46,6 +46,12 @@ open class TrafficStopViewController: FormBuilderViewController {
         builder += HeaderFormItem(text: "STOPPED ENTITIES")
             .actionButton(title: NSLocalizedString("ADD", comment: "").uppercased(), handler: { [unowned self] in
                 let viewModel = SelectStoppedEntityViewModel()
+                viewModel.onSelectEntity = { [unowned self] entity -> Void in
+                    if !self.viewModel.entities.contains(where: { $0 == entity }) {
+                        self.viewModel.entities.append(entity)
+                    }
+                    self.reloadForm()
+                }
                 self.navigationController?.pushViewController(viewModel.createViewController(), animated: true)
             })
         viewModel.entities.forEach { item in
@@ -57,47 +63,89 @@ open class TrafficStopViewController: FormBuilderViewController {
                 .imageTintColor(item.imageColor ?? .primaryGray)
                 .borderColor(item.borderColor)
                 .width(.column(1))
+                .editActions([
+                    CollectionViewFormEditAction(title: "Remove", color: .orangeRed, handler: { [unowned self] (cell, indexPath) in
+                        self.viewModel.entities.remove(at: indexPath.item)
+                        self.reloadForm()
+                })])
         }
         
         builder += HeaderFormItem(text: "GENERAL")
-        builder += ValueFormItem()
+        builder += ValueFormItem()  // TODO: Implement selecting location
             .title("Location")
-            .value("188 Smith Street, Collingwood VIC 3066")
+            .value(viewModel.location)
             .accessory(FormAccessoryView(style: .disclosure))
             .width(.column(1))
         builder += OptionFormItem()
             .title("Create an incident".sizing(withNumberOfLines: 0, font: UIFont.systemFont(ofSize: 15, weight: .semibold)))
+            .isChecked(viewModel.createIncident)
+            .onValueChanged({ [unowned self] in
+                self.viewModel.createIncident = $0
+            })
             .width(.column(1))
         
         builder += HeaderFormItem(text: "INCIDENT DETAILS")
         builder += DropDownFormItem(title: "Priority")
-            .options(["P1", "P2", "P3", "P4"])
+            .options(viewModel.priorityOptions)
             .required("Priority is required")
-            .selectedValue(["P4"])
+            .selectedValue([viewModel.priority].removeNils())
+            .onValueChanged({ [unowned self] in
+                self.viewModel.priority = $0?.first
+            })
             .width(.fixed(100))
         builder += DropDownFormItem(title: "Primary Code")
-            .options(["Traffic", "Crash", "Other"])
+            .options(viewModel.primaryCodeOptions)
             .required("Primary Code is required")
-            .selectedValue(["Traffic"])
+            .selectedValue([viewModel.primaryCode].removeNils())
+            .onValueChanged({ [unowned self] in
+                self.viewModel.primaryCode = $0?.first
+            })
             .width(.fixed(150))
         builder += DropDownFormItem(title: "Secondary Code")
-            .options(["Traffic", "Crash", "Other"])
+            .options(viewModel.secondaryCodeOptions)
+            .selectedValue([viewModel.secondaryCode].removeNils())
             .placeholder("Optional")
+            .onValueChanged({ [unowned self] in
+                self.viewModel.secondaryCode = $0?.first
+            })
             .width(.fixed(150))
         builder += TextFieldFormItem(title: "Remark")
+            .text(viewModel.remark)
             .placeholder("Required")
             .required("Remark is required")
+            .onValueChanged({ [unowned self] in
+                self.viewModel.remark = $0
+            })
             .width(.column(1))
     }
     
     // MARK: - Actions
     
-    @objc private func didTapCancelButton(_ button: UIBarButtonItem) {
+    @objc private func cancelButtonTapped(_ button: UIBarButtonItem) {
+        viewModel.cancel()
         navigationController?.popViewController(animated: true)
     }
     
-    @objc private func didTapDoneButton(_ button: UIBarButtonItem) {
-        navigationController?.popViewController(animated: true)
+    @objc private func doneButtonTapped(_ button: UIBarButtonItem) {
+        let result = builder.validate()
+        
+        switch result {
+        case .invalid(_, let message):
+            builder.validateAndUpdateUI()
+            AlertQueue.shared.addErrorAlert(message: message)
+        case .valid:
+            // Let VM do final validation
+            let (valid, message) = viewModel.validateForm()
+            
+            if valid {
+                viewModel.submit()
+                navigationController?.popViewController(animated: true)
+            } else {
+                if let message = message {
+                    AlertQueue.shared.addErrorAlert(message: message)
+                }
+            }
+        }
     }
 
 }
