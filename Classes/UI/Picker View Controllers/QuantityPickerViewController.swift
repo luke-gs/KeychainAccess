@@ -10,12 +10,17 @@ import Foundation
 
 fileprivate let reuseIdentifier = "reuseIdentifier"
 
+public protocol QuantityPickable: Pickable {
+    var maximumQuantity: Int? { get }
+    var minimumQuantity: Int? { get }
+}
+
 public struct QuantityPicked {
     let object: Pickable
     var value: Int
 }
 
-open class QuantityPickerViewController<T>: FormBuilderViewController where T: Pickable {
+open class QuantityPickerViewController<T: Pickable>: FormBuilderViewController {
 
     private let headerHeight: CGFloat = 144
     private let cellFont: UIFont = .systemFont(ofSize: 17.0, weight: .semibold)
@@ -29,24 +34,22 @@ open class QuantityPickerViewController<T>: FormBuilderViewController where T: P
 
     open var completionHandler: (([QuantityPicked]) -> Void)?
 
+    // MARK: - Initializers
+
     public init(items: [T]) {
         super.init()
 
-        self.items = items.map { (pickable) -> QuantityPicked in
-            return QuantityPicked(object: pickable, value: 0)
-        }
+        self.items = items.map { QuantityPicked(object: $0, value: 0) }
 
         wantsTransparentBackground = true
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(onCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(onDone))
-
     }
 
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-
 
     // MARK: - View Lifecycle
 
@@ -121,16 +124,27 @@ open class QuantityPickerViewController<T>: FormBuilderViewController where T: P
                 continue
             }
 
-            builder += StepperFormItem(title: item.object.title)
+            let formItem = StepperFormItem(title: item.object.title)
             .minimumValue(0)
             .value(Double(item.value))
             .width(.column(1))
             .displaysZeroValue(false)
-            .onValueChanged({ [unowned self] (value) in
+            .onValueChanged { [unowned self] (value) in
                 self.items[index].value = Int(value)
                 self.updateHeaderText()
-            })
+            }
 
+            if let quantityPickable = item.object as? QuantityPickable {
+                if let maximumQuantity = quantityPickable.maximumQuantity {
+                    formItem.maximumValue(Double(maximumQuantity))
+                }
+
+                if let minimumQuantity = quantityPickable.minimumQuantity {
+                    formItem.maximumValue(Double(minimumQuantity))
+                }
+            }
+
+            builder += formItem
         }
     }
 
