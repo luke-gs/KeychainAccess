@@ -46,7 +46,7 @@ open class IncidentResourcesViewController: FormBuilderViewController {
                             if self.traitCollection.horizontalSizeClass == .compact {
                                 cell.accessoryView = FormAccessoryView(style: .overflow)
                                     .onTapped { _ in
-                                        CommsButtonHandler.didSelectCompactCommsButton(for: officer.contactNumber)
+                                        CommsButtonHandler.didSelectCompactCommsButton(for: officer.contactNumber, enabled: officer.commsEnabled)
                                     }
                            } else {
                                 cell.accessoryView = commsView

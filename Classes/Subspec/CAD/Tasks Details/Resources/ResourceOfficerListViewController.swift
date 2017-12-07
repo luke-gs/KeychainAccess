@@ -43,7 +43,7 @@ open class ResourceOfficerListViewController: CADFormCollectionViewController<Re
         if traitCollection.horizontalSizeClass == .compact {
             cell.accessoryView = FormAccessoryView(style: .overflow)
                 .onTapped { _ in
-                    CommsButtonHandler.didSelectCompactCommsButton(for: viewModel.contactNumber)
+                    CommsButtonHandler.didSelectCompactCommsButton(for: viewModel.contactNumber, enabled: viewModel.commsEnabled)
                 }
         } else {
             cell.accessoryView = commsView
