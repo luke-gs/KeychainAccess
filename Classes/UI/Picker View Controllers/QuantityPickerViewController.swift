@@ -122,8 +122,8 @@ open class QuantityPickerViewController<T: Pickable>: FormBuilderViewController 
         for index in 0..<items.count {
             let item = items[index]
 
-            // Skip if there is a search term that is not matched with item title.
-            if let text = filterText, text.count > 0 && item.object.title?.range(of: text, options: .caseInsensitive) == nil {
+            // Rule is that matched items start with the search term.
+            if let filterText = filterText, filterText.count > 0 && item.object.title?.lowercased().hasPrefix(filterText.lowercased()) != true {
                 continue
             }
 
