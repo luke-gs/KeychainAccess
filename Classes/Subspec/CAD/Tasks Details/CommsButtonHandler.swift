@@ -11,17 +11,19 @@ import UIKit
 open class CommsButtonHandler {
     
     /// Displays an action sheet with the comms buttons
-    @objc open static func didSelectCompactCommsButton(for contactNumber: String) {
+    open static func didSelectCompactCommsButton(for contactNumber: String, enabled: (text: Bool, call: Bool)) {
         let actionSheet = UIAlertController(title: contactNumber, message: nil, preferredStyle: .actionSheet)
         let text = UIAlertAction(title: "Message", style: .default) { _ in
             self.didSelectMessage(for: contactNumber)
         }
         text.setValue(AssetManager.shared.image(forKey: .message), forKey: "image")
+        text.isEnabled = enabled.text
         
         let call = UIAlertAction(title: "Call", style: .default) { _ in
             self.didSelectCall(for: contactNumber)
         }
         call.setValue(AssetManager.shared.image(forKey: .audioCall), forKey: "image")
+        call.isEnabled = enabled.call
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
