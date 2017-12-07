@@ -30,9 +30,13 @@ open class IncidentResourcesViewModel: CADFormCollectionViewModel<IncidentResour
                 }
                 
                 let (tintColor, circleColor) = resource.status.iconColors
-                let iconImage = resource.type.icon?.withCircleBackground(tintColor: tintColor,
-                                                                           circleColor: circleColor,
-                                                                           padding: CGSize(width: 24, height: 24))
+                let iconImage = resource.type.icon?
+                    .withCircleBackground(tintColor: tintColor,
+                                          circleColor: circleColor,
+                                          style: .auto(padding: CGSize(width: 24, height: 24),
+                                                       shrinkImage: false),
+                                          shouldCenterImage: true)
+                
                 let resourceViewModel = IncidentResourceItemViewModel(title: [resource.callsign, resource.officerCountString].joined(),
                                                                       subtitle: resource.status.title,
                                                                       icon: iconImage,
