@@ -174,10 +174,6 @@ public class EntitySummarySearchResultViewModel<T: MPOLKitEntity, Decorator: Ent
     
     // MARK: - Private
 
-    private func entityStyle(for style: SearchResultStyle) -> EntityCollectionViewCell.Style {
-        return style == .grid ? .hero : .detail
-    }
-    
     private func processedResults(from rawResults: [AggregatedResult<T>]) -> [SearchResultSection] {
         
         let processedResults: [SearchResultSection] = rawResults.map { (rawResult) -> SearchResultSection in
