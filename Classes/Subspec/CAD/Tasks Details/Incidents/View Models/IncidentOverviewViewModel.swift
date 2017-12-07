@@ -48,7 +48,7 @@ open class IncidentOverviewViewModel: TaskDetailsViewModel {
                                                                               image: AssetManager.shared.image(forKey: .location),
                                                                               width: .column(1),
                                                                               selectAction: { [unowned self] cell in
-                                                                                self.presentAddressPopover(from: cell)
+                                                                                self.presentAddressPopover(from: cell, for: incident)
                                                                               }),
                                                 
                                                 IncidentOverviewItemViewModel(title: "Priority",
@@ -101,13 +101,21 @@ open class IncidentOverviewViewModel: TaskDetailsViewModel {
         return NSLocalizedString("Overview", comment: "Overview sidebar title")
     }
     
-    open func presentAddressPopover(from cell: CollectionViewFormCell) {
-        let viewController = UIViewController()
-        delegate?.presentPopover(viewController, sourceView: cell, sourceRect: cell.bounds, animated: true)
+    /// Present "Directions, Street View, Search" options on address
+    open func presentAddressPopover(from cell: CollectionViewFormCell, for incident: SyncDetailsIncident) {
+        let actionSheetVC = ActionSheetViewController(buttons: [
+            ActionSheetButton(title: "Directions", icon: AssetManager.shared.image(forKey: .route), action: {
+                let url = "http://maps.apple.com/"
+                print("Something")
+            }),
+            ActionSheetButton(title: "Street View", icon: AssetManager.shared.image(forKey: .streetView), action: nil),
+            ActionSheetButton(title: "Search", icon: AssetManager.shared.image(forKey: .tabBarSearch), action: nil),
+        ])
+        delegate?.presentPopover(actionSheetVC, sourceView: cell, sourceRect: cell.bounds, animated: true)
     }
 }
 
-public protocol IncidentOverviewViewModelDelegate: class, PopoverPresenter {
+public protocol IncidentOverviewViewModelDelegate: PopoverPresenter {
     /// Called when the section data changed
     func didUpdateSections()
 }
