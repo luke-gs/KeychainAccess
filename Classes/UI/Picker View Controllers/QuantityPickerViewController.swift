@@ -114,14 +114,14 @@ open class QuantityPickerViewController<T>: FormBuilderViewController where T: P
 
     override open func construct(builder: FormBuilder) {
         for index in 0..<items.count {
-            var item = items[index]
+            let item = items[index]
 
             // Skip if there is a search term that is not matched with item title.
             if let text = filterText, text.count > 0 && item.object.title?.range(of: text, options: .caseInsensitive) == nil {
                 continue
             }
 
-            let formItem = StepperFormItem(title: item.object.title)
+            builder += StepperFormItem(title: item.object.title)
             .minimumValue(0)
             .value(Double(item.value))
             .width(.column(1))
@@ -129,9 +129,7 @@ open class QuantityPickerViewController<T>: FormBuilderViewController where T: P
                 self.items[index].value = Int(value)
                 self.updateHeaderText()
             })
-//            .customValueFont(cellFont)
 
-            builder += formItem
         }
     }
 
