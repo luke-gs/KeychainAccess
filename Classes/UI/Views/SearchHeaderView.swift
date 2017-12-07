@@ -52,11 +52,10 @@ open class SearchHeaderView: UIView {
     }
 
     private func commonInit() {
-        backgroundColor = UIColor.primaryGray
         translatesAutoresizingMaskIntoConstraints = false
 
         let circleView = UIView()
-        circleView.backgroundColor = #colorLiteral(red: 0.3364340067, green: 0.344623208, blue: 0.3837811649, alpha: 1)
+        circleView.backgroundColor = UIColor.primaryGray
         circleView.clipsToBounds = true
         circleView.layer.cornerRadius = 24.0
         circleView.layer.shouldRasterize = true
@@ -71,7 +70,6 @@ open class SearchHeaderView: UIView {
 
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = .systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
-        titleLabel.textColor = UIColor.primaryGray
         titleLabel.numberOfLines = 1
         addSubview(titleLabel)
 
@@ -118,6 +116,26 @@ open class SearchHeaderView: UIView {
             searchBar.heightAnchor.constraint(equalToConstant: 32.0)
 
             ])
+
+        NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
+        apply(ThemeManager.shared.theme(for: .current))
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    // MARK: - Theme
+
+    @objc private func interfaceStyleDidChange() {
+        apply(ThemeManager.shared.theme(for: .current))
+    }
+
+    private func apply(_ theme: Theme) {
+        backgroundColor = theme.color(forKey: .headerBackground)?.withAlphaComponent(0.16)
+        titleLabel.textColor = theme.color(forKey: .headerTitleText)
+        subtitleLabel.textColor = theme.color(forKey: .headerSubtitleText)
+
     }
 
 }
