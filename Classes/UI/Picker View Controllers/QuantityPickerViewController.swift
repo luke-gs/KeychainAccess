@@ -101,19 +101,11 @@ open class QuantityPickerViewController<T: Pickable>: FormBuilderViewController 
 
     /// Updates the title and subtitle based on the selected values of items
     private func updateHeaderText() {
-        var string = ""
-        var count = 0
-
-        for item in items {
-            guard item.count > 0 else { continue }
-            if string.count > 0 {
-                string += ", "
-            }
-            string += "\(item.object.title ?? "")(\(item.count))"
-            count += 1
-        }
-        headerView.titleLabel.text = "\(count) \(subjectMatter)"
-        headerView.subtitleLabel.text = string
+        headerView.titleLabel.text = "\(items.count) \(subjectMatter)"
+        headerView.subtitleLabel.text = items.map {
+            guard let title = $0.object.title else { return "" }
+            return "\(title) (\($0.count))"
+        }.joined(separator: ", ")
     }
 
     // MARK: - Form
