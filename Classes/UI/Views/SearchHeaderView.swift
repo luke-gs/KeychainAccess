@@ -52,7 +52,7 @@ open class SearchHeaderView: UIView {
     }
 
     private func commonInit() {
-        backgroundColor = UIColor(red: 133.0/255.0, green: 134.0/255.0, blue: 141.0/255.0, alpha: 0.16)
+        backgroundColor = UIColor.primaryGray
         translatesAutoresizingMaskIntoConstraints = false
 
         let circleView = UIView()
@@ -71,14 +71,14 @@ open class SearchHeaderView: UIView {
 
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = .systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
-        titleLabel.textColor = #colorLiteral(red: 0.3364340067, green: 0.344623208, blue: 0.3837811649, alpha: 1)
+        titleLabel.textColor = UIColor.primaryGray
         titleLabel.numberOfLines = 1
         addSubview(titleLabel)
 
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         subtitleLabel.numberOfLines = 1
         subtitleLabel.font = .systemFont(ofSize: 13.0, weight: UIFont.Weight.regular)
-        subtitleLabel.textColor = #colorLiteral(red: 0.5212343931, green: 0.5251564384, blue: 0.5512983203, alpha: 1)
+        subtitleLabel.textColor = UIColor.secondaryGray
         addSubview(subtitleLabel)
 
         searchBar.translatesAutoresizingMaskIntoConstraints = false
