@@ -73,6 +73,7 @@ open class PushableSplitViewController: UIViewController, UISplitViewControllerD
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
         
         if let masterNavController = embeddedSplitViewController.viewControllers.first as? UINavigationController,
            let rootNavItem = masterNavController.viewControllers.first?.navigationItem,

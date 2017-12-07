@@ -152,6 +152,13 @@ open class MPOLSplitViewController: PushableSplitViewController {
             // Get the default selected view controller from the subclass and apply the selection
             selectedViewController = defaultSelectedViewController()
         }
+        
+        // Let swipe to go back still work
+        if let interactiveGesture = navigationController?.interactivePopGestureRecognizer {
+            if let scrollView = pageViewController.scrollView {
+                scrollView.panGestureRecognizer.require(toFail: interactiveGesture)
+            }
+        }
     }
 
     // MARK: - Selection
