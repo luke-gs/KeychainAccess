@@ -88,9 +88,9 @@ open class TrafficStopViewController: FormBuilderViewController {
         builder += DropDownFormItem(title: "Priority")
             .options(viewModel.priorityOptions)
             .required("Priority is required")
-            .selectedValue([viewModel.priority].removeNils())
+            .selectedValue([viewModel.priority?.rawValue].removeNils())
             .onValueChanged({ [unowned self] in
-                self.viewModel.priority = $0?.first
+                self.viewModel.priority = IncidentGrade(rawValue: $0?.first ?? "")
             })
             .width(.fixed(100))
         builder += DropDownFormItem(title: "Primary Code")

@@ -18,14 +18,14 @@ open class TrafficStopViewModel {
     open var entities: [SelectStoppedEntityItemViewModel] = []
     open var location: String?
     open var createIncident: Bool
-    open var priority: String?
+    open var priority: IncidentGrade?
     open var primaryCode: String?
     open var secondaryCode: String?
     open var remark: String?
     
     // Options - where are these coming from?
     open var priorityOptions: [String] {
-        return ["P1", "P2", "P3", "P4"]
+        return IncidentGrade.allCases.map({ $0.rawValue })
     }
     
     open var primaryCodeOptions: [String] {
@@ -38,7 +38,7 @@ open class TrafficStopViewModel {
     
     // MARK: - Lifecycle
     
-    public init(location: String? = nil, createIncident: Bool = false, priority: String? = nil, primaryCode: String? = nil, secondaryCode: String? = nil, remark: String? = nil) {
+    public init(location: String? = nil, createIncident: Bool = false, priority: IncidentGrade? = nil, primaryCode: String? = nil, secondaryCode: String? = nil, remark: String? = nil) {
         promise = Promise<TrafficStopRequest>.pending()
         
         self.location = location
