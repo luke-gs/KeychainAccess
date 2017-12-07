@@ -18,15 +18,14 @@ open class ResourceOverviewMapViewModel: TasksMapViewModel {
     }
     
     override open func loadTasks() {
-        guard let resource = CADStateManager.shared.resourcesById[callsign],
-            let incident = CADStateManager.shared.incidentsById[resource.currentIncident ?? ""]
-        else {
-            return
-        }
+        guard let resource = CADStateManager.shared.resourcesById[callsign] else { return }
         
         var annotations: [TaskAnnotation] = []
-        annotations += taskAnnotations(for: [incident])
         annotations += taskAnnotations(for: [resource])
+        
+        if let incident = CADStateManager.shared.incidentsById[resource.currentIncident ?? ""] {
+            annotations += taskAnnotations(for: [incident])
+        }
         
         filteredAnnotations = annotations
     }
