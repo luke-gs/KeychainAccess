@@ -181,6 +181,11 @@
 		4420D2801F66428D00E20304 /* Sequence+Nils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4420D27F1F66428D00E20304 /* Sequence+Nils.swift */; };
 		44621FF61F59239C007C3150 /* FilterRangeDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44621FF41F59239C007C3150 /* FilterRangeDescriptor.swift */; };
 		44621FF71F59239C007C3150 /* FilterValueDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44621FF51F59239C007C3150 /* FilterValueDescriptor.swift */; };
+		4492C04B1FD8C917009D26BD /* TrafficStopViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4492C0471FD8C917009D26BD /* TrafficStopViewModel.swift */; };
+		4492C04C1FD8C917009D26BD /* SelectStoppedEntityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4492C0481FD8C917009D26BD /* SelectStoppedEntityViewModel.swift */; };
+		4492C04D1FD8C917009D26BD /* SelectStoppedEntityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4492C0491FD8C917009D26BD /* SelectStoppedEntityViewController.swift */; };
+		4492C04E1FD8C917009D26BD /* TrafficStopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4492C04A1FD8C917009D26BD /* TrafficStopViewController.swift */; };
+		4492C0501FD8C92E009D26BD /* TrafficStopRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4492C04F1FD8C92E009D26BD /* TrafficStopRequest.swift */; };
 		44F3F14B1F56DBD300D68585 /* FilterDescriptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F3F14A1F56DBD300D68585 /* FilterDescriptorTests.swift */; };
 		44F3F14E1F56DDDC00D68585 /* FilterDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F3F14D1F56DDC000D68585 /* FilterDescriptor.swift */; };
 		44F72B2A1F85E5F000A6FE6B /* SearchResultMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F72B291F85E5F000A6FE6B /* SearchResultMessageViewController.swift */; };
@@ -760,6 +765,11 @@
 		4420D27F1F66428D00E20304 /* Sequence+Nils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence+Nils.swift"; sourceTree = "<group>"; };
 		44621FF41F59239C007C3150 /* FilterRangeDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterRangeDescriptor.swift; sourceTree = "<group>"; };
 		44621FF51F59239C007C3150 /* FilterValueDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterValueDescriptor.swift; sourceTree = "<group>"; };
+		4492C0471FD8C917009D26BD /* TrafficStopViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficStopViewModel.swift; sourceTree = "<group>"; };
+		4492C0481FD8C917009D26BD /* SelectStoppedEntityViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectStoppedEntityViewModel.swift; sourceTree = "<group>"; };
+		4492C0491FD8C917009D26BD /* SelectStoppedEntityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectStoppedEntityViewController.swift; sourceTree = "<group>"; };
+		4492C04A1FD8C917009D26BD /* TrafficStopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficStopViewController.swift; sourceTree = "<group>"; };
+		4492C04F1FD8C92E009D26BD /* TrafficStopRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficStopRequest.swift; sourceTree = "<group>"; };
 		44F3F14A1F56DBD300D68585 /* FilterDescriptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDescriptorTests.swift; sourceTree = "<group>"; };
 		44F3F14D1F56DDC000D68585 /* FilterDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDescriptor.swift; sourceTree = "<group>"; };
 		44F72B291F85E5F000A6FE6B /* SearchResultMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultMessageViewController.swift; sourceTree = "<group>"; };
@@ -1587,6 +1597,17 @@
 			path = "Book On";
 			sourceTree = "<group>";
 		};
+		4492C0461FD8C917009D26BD /* Traffic Stop */ = {
+			isa = PBXGroup;
+			children = (
+				4492C0471FD8C917009D26BD /* TrafficStopViewModel.swift */,
+				4492C0481FD8C917009D26BD /* SelectStoppedEntityViewModel.swift */,
+				4492C0491FD8C917009D26BD /* SelectStoppedEntityViewController.swift */,
+				4492C04A1FD8C917009D26BD /* TrafficStopViewController.swift */,
+			);
+			path = "Traffic Stop";
+			sourceTree = "<group>";
+		};
 		44F3F14C1F56DDC000D68585 /* FilterDescriptor */ = {
 			isa = PBXGroup;
 			children = (
@@ -1759,6 +1780,7 @@
 				9650CA141F958B2D0087F5C9 /* ManageCallsignStatusViewModel.swift */,
 				27F9C96B1FA2D7E300825F88 /* CompactCallsignViewController.swift */,
 				96D731721FD535EA0068F3AF /* CallsignIncidentFormViewController.swift */,
+				4492C0461FD8C917009D26BD /* Traffic Stop */,
 			);
 			path = Callsign;
 			sourceTree = "<group>";
@@ -1795,6 +1817,7 @@
 		967E75A11FCE2D7E00B75CF6 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
+				4492C04F1FD8C92E009D26BD /* TrafficStopRequest.swift */,
 				967E759F1FCE2D0500B75CF6 /* BookOnRequest.swift */,
 				967E75A71FCE2E1000B75CF6 /* BookOffRequest.swift */,
 				967E75AF1FCE2F4700B75CF6 /* SyncDetailsRequest.swift */,
@@ -3277,6 +3300,7 @@
 				EAFBC8BC1F57DF8700F0004B /* LookupAddressValidator.swift in Sources */,
 				278A16251FBAB17400C01C38 /* TasksListCellStatusRow.swift in Sources */,
 				BC9C7E051F0DED6600DFFE83 /* UIEdgeInsets+Convenience.swift in Sources */,
+				4492C04B1FD8C917009D26BD /* TrafficStopViewModel.swift in Sources */,
 				969DC6931FBE6D3900010212 /* APIManager+CAD.swift in Sources */,
 				9936C67D1F96C5580091A61C /* GeolocationPlugin.swift in Sources */,
 				4634B4471FBD6FD200D71E7F /* TravelEstimationPlugin.swift in Sources */,
@@ -3529,7 +3553,9 @@
 				19F8DDB01F4D7C9600D84DA1 /* APIManager+LookupAddress.swift in Sources */,
 				4634B4431FBD6FD200D71E7F /* EntityMapSummaryDecorator.swift in Sources */,
 				9674E0E71FC68015000702F8 /* LoadingStateLoadingView.swift in Sources */,
+				4492C04C1FD8C917009D26BD /* SelectStoppedEntityViewModel.swift in Sources */,
 				BC9C7E341F0DED6600DFFE83 /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
+				4492C0501FD8C92E009D26BD /* TrafficStopRequest.swift in Sources */,
 				969959691FC2495000CB51EB /* CADStateManager.swift in Sources */,
 				9679A6491F9EEDB7007BC806 /* BookOnDetailsOfficerFormItem.swift in Sources */,
 				4634B4441FBD6FD200D71E7F /* APIManager+LocationSearch.swift in Sources */,
@@ -3594,6 +3620,7 @@
 				46B3FE7B1F5E3B0C0012476A /* FileLogger.swift in Sources */,
 				DBE24C3B1F593BEF0088D19B /* EntityDetailSectionsDataSource.swift in Sources */,
 				191BC4D61F7C203B00C8C218 /* TagCollectionView.swift in Sources */,
+				4492C04D1FD8C917009D26BD /* SelectStoppedEntityViewController.swift in Sources */,
 				EAB38FFA1F70A73700341BAF /* DetailFormItem.swift in Sources */,
 				BC9C7E181F0DED6600DFFE83 /* FormTextView.swift in Sources */,
 				27CBC75C1F8B27B100E387C3 /* ActivityLogViewModel.swift in Sources */,
@@ -3606,6 +3633,7 @@
 				464A5E8F1FD4A8F900B4C0F9 /* ResourceError.swift in Sources */,
 				27FDABB71FB91B02003466AF /* OfficerCommunicationsView.swift in Sources */,
 				965CD8A81F8ECDBA007C3EEA /* TasksListContainerViewController.swift in Sources */,
+				4492C04E1FD8C917009D26BD /* TrafficStopViewController.swift in Sources */,
 				BC9C7E4D1F0DED6600DFFE83 /* AlertIndicatorView.swift in Sources */,
 				199ECE8F1FAA1B720065E425 /* RemoteResourceDescribing.swift in Sources */,
 				BC79ADAEABB2D9BDDC997334 /* MPOLSpinnerView.swift in Sources */,
