@@ -76,7 +76,7 @@ open class SearchHeaderView: UIView {
         addSubview(titleLabel)
 
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        subtitleLabel.numberOfLines = 0
+        subtitleLabel.numberOfLines = 1
         subtitleLabel.font = .systemFont(ofSize: 13.0, weight: UIFont.Weight.regular)
         subtitleLabel.textColor = #colorLiteral(red: 0.5212343931, green: 0.5251564384, blue: 0.5512983203, alpha: 1)
         addSubview(subtitleLabel)
