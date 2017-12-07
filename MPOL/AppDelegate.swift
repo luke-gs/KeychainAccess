@@ -45,6 +45,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             plugins.append(NetworkLoggingPlugin())
         #endif
 
+        // Set up entity summary and presentable
+        let entityFormatter = EntitySummaryDisplayFormatter.default
+
+        entityFormatter.registerEntityType(Person.self,
+                                           forSummary: .function({ return PersonSummaryDisplayable($0) }),
+                                           andPresentable: .function({ return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: nil ) }))
+
+        entityFormatter.registerEntityType(Vehicle.self,
+                                           forSummary: .function({ return VehicleSummaryDisplayable($0) }),
+                                           andPresentable: .function({ return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: nil ) }))
+
+
         // Set the application key for app specific user settings
         User.applicationKey = "Search"
 
