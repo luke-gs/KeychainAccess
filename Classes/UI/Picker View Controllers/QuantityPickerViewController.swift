@@ -28,7 +28,12 @@ open class QuantityPickerViewController<T: Pickable>: FormBuilderViewController 
 
     private var filterText: String?
 
-    open var subjectMatter: String = NSLocalizedString("Items", comment: "Default Quantity Picker Subject Matter")
+    open var subjectMatter: String = NSLocalizedString("Items", comment: "Default Quantity Picker Subject Matter") {
+        didSet {
+            let format = NSLocalizedString("Add %@", comment:"Action of Add")
+            builder.title = String.localizedStringWithFormat(format, subjectMatter)
+        }
+    }
 
     open var items: [QuantityPicked] = []
 
