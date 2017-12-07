@@ -49,21 +49,6 @@ open class SelectStoppedEntityViewController: CADFormCollectionViewController<Se
         setupNavigationBarButtons()
     }
     
-    open override func loadView() {
-        super.loadView()
-        
-        collectionView?.translatesAutoresizingMaskIntoConstraints = false
-        
-        if let collectionView = collectionView {
-            NSLayoutConstraint.activate([
-                collectionView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
-                collectionView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
-                collectionView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
-                collectionView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor, constant: -LayoutConstants.footerHeight).withPriority(.almostRequired)
-                ])
-        }
-    }
-    
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
@@ -76,6 +61,8 @@ open class SelectStoppedEntityViewController: CADFormCollectionViewController<Se
     open func setupViews() {
         let theme = ThemeManager.shared.theme(for: .current)
         let tintColor = theme.color(forKey: .tint)!
+        
+        collectionView?.translatesAutoresizingMaskIntoConstraints = false
         
         footerDivider = UIView()
         footerDivider.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
@@ -105,7 +92,12 @@ open class SelectStoppedEntityViewController: CADFormCollectionViewController<Se
             
             searchButton.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
             searchButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-        ])
+            
+            collectionView?.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
+            collectionView?.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
+            collectionView?.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
+            collectionView?.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor, constant: -LayoutConstants.footerHeight).withPriority(.almostRequired)
+        ].removeNils())
     }
     
     // MARK: - Actions
@@ -128,7 +120,6 @@ open class SelectStoppedEntityViewController: CADFormCollectionViewController<Se
         cell.highlightStyle = .fade
         cell.selectionStyle = .fade
         cell.separatorStyle = .indented
-        cell.separatorColor = UIColor.red
         
         if let cell = cell as? EntityListCollectionViewCell {
             cell.sourceLabel.text = viewModel.category
@@ -138,21 +129,6 @@ open class SelectStoppedEntityViewController: CADFormCollectionViewController<Se
             cell.thumbnailView.tintColor = viewModel.imageColor ?? .primaryGray
             cell.thumbnailView.imageView.image = viewModel.image
             cell.thumbnailView.imageView.contentMode = .center
-        }
-    }
-    
-    open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
-        
-        if let cell = cell as? CollectionViewFormCell {
-            cell.separatorColor = iOSStandardSeparatorColor
-        }
-    }
-    
-    override open func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
-        super.collectionView(collectionView, willDisplaySupplementaryView: view, forElementKind: elementKind, at: indexPath)
-        if let header = view as? CollectionViewFormHeaderView {
-            header.separatorColor = iOSStandardSeparatorColor
         }
     }
     

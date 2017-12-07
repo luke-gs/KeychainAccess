@@ -16,6 +16,8 @@ open class TrafficStopViewController: FormBuilderViewController {
         self.viewModel = viewModel
         super.init()
         
+        self.viewModel.delegate = self
+        
         setupNavigationBarButtons()
     }
     
@@ -45,14 +47,8 @@ open class TrafficStopViewController: FormBuilderViewController {
         
         builder += HeaderFormItem(text: "STOPPED ENTITIES")
             .actionButton(title: NSLocalizedString("ADD", comment: "").uppercased(), handler: { [unowned self] in
-                let viewModel = SelectStoppedEntityViewModel()
-                viewModel.onSelectEntity = { [unowned self] entity -> Void in
-                    if !self.viewModel.entities.contains(entity) {
-                        self.viewModel.entities.append(entity)
-                    }
-                    self.reloadForm()
-                }
-                self.navigationController?.pushViewController(viewModel.createViewController(), animated: true)
+                let addEntityVM = self.viewModel.viewModelForAddingEntity()
+                self.navigationController?.pushViewController(addEntityVM.createViewController(), animated: true)
             })
         viewModel.entities.forEach { item in
             builder += SummaryListFormItem()
@@ -88,6 +84,7 @@ open class TrafficStopViewController: FormBuilderViewController {
         builder += DropDownFormItem(title: "Priority")
             .options(viewModel.priorityOptions)
             .required("Priority is required")
+            .placeholder("Required")
             .selectedValue([viewModel.priority?.rawValue].removeNils())
             .onValueChanged({ [unowned self] in
                 self.viewModel.priority = IncidentGrade(rawValue: $0?.first ?? "")
@@ -96,6 +93,7 @@ open class TrafficStopViewController: FormBuilderViewController {
         builder += DropDownFormItem(title: "Primary Code")
             .options(viewModel.primaryCodeOptions)
             .required("Primary Code is required")
+            .placeholder("Required")
             .selectedValue([viewModel.primaryCode].removeNils())
             .onValueChanged({ [unowned self] in
                 self.viewModel.primaryCode = $0?.first
@@ -148,4 +146,12 @@ open class TrafficStopViewController: FormBuilderViewController {
         }
     }
 
+}
+
+
+extension TrafficStopViewController: TrafficStopViewModelDelegate {
+    
+    open func reloadData() {
+        reloadForm()
+    }
 }

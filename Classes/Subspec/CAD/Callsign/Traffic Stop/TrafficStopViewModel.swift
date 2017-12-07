@@ -7,9 +7,15 @@
 
 import PromiseKit
 
+public protocol TrafficStopViewModelDelegate: class {
+    func reloadData()
+}
+
 open class TrafficStopViewModel {
     
     // MARK: - Properties
+    
+    open weak var delegate: TrafficStopViewModelDelegate?
     
     /// The promise that fulfills/cancels on form submission
     open let promise: Promise<TrafficStopRequest>.PendingTuple
@@ -54,6 +60,18 @@ open class TrafficStopViewModel {
         return TrafficStopViewController(viewModel: self)
     }
     
+    /// View model for adding an entity
+    open func viewModelForAddingEntity() -> SelectStoppedEntityViewModel {
+        let viewModel = SelectStoppedEntityViewModel()
+        viewModel.onSelectEntity = { [unowned self] entity -> Void in
+            if !self.entities.contains(entity) {
+                self.entities.append(entity)
+                self.delegate?.reloadData()
+            }
+        }
+        return viewModel
+    }
+    
     /// Title for VC
     open func navTitle() -> String {
         return NSLocalizedString("Traffic Stop", comment: "Traffic Stop title")
@@ -64,7 +82,7 @@ open class TrafficStopViewModel {
     /// Final validation after form builder passes validation.
     open func validateForm() -> (success: Bool, message: String?) {
         if entities.isEmpty {
-            return (false, NSLocalizedString("Entity is required", comment: ""))
+            return (false, NSLocalizedString("Please select an entity", comment: ""))
         }
         
         return (true, nil)

@@ -176,9 +176,7 @@ open class ManageCallsignStatusViewModel: CADFormCollectionViewModel<ManageCalls
     
     // Prompts the user for more details when tapping on "Traffic Stop" status
     open func promptForTrafficStopDetails() -> Promise<TrafficStopRequest> {
-        let viewModel = TrafficStopViewModel(location: "188 Smith Street, Fitzroy VIC 3065",
-                                             priority: .p4,
-                                             primaryCode: "Traffic")
+        let viewModel = TrafficStopViewModel(location: "188 Smith Street, Fitzroy VIC 3065")
         delegate?.presentPushedViewController(viewModel.createViewController(), animated: true)
         return viewModel.promise.promise
     }
