@@ -33,7 +33,7 @@ open class QuantityPickerViewController<T: Pickable>: FormBuilderViewController 
         }
     }
 
-    open var items: [QuantityPicked] = []
+    private var items: [QuantityPicked] = []
 
     open var completionHandler: (([QuantityPicked]) -> Void)?
 
@@ -88,12 +88,12 @@ open class QuantityPickerViewController<T: Pickable>: FormBuilderViewController 
     // MARK: - Actions
 
     @objc
-    func onCancel() {
+    private func onCancel() {
         dismiss(animated: true, completion: nil)
     }
 
     @objc
-    func onDone() {
+    private func onDone() {
         completionHandler?(items)
     }
 
