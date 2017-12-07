@@ -12,12 +12,18 @@ fileprivate let reuseIdentifier = "reuseIdentifier"
 
 public struct QuantityPicked {
     let object: Pickable
-    let count: Int
+    var value: Int
 }
 
-open class QuantityPickerViewController<T>: FormCollectionViewController where T: Pickable {
+open class QuantityPickerViewController<T>: FormBuilderViewController where T: Pickable {
 
     private let headerHeight: CGFloat = 144
+    private let cellFont: UIFont = .systemFont(ofSize: 17.0, weight: .semibold)
+    private let headerView = SearchHeaderView()
+
+    private var filterText: String?
+
+    open var subjectMatter: String = NSLocalizedString("Items", comment: "Default Quantity Picker Subject Matter")
 
     open var items: [QuantityPicked] = []
 
@@ -27,15 +33,13 @@ open class QuantityPickerViewController<T>: FormCollectionViewController where T
         super.init()
 
         self.items = items.map { (pickable) -> QuantityPicked in
-            return QuantityPicked(object: pickable, count: 0)
+            return QuantityPicked(object: pickable, value: 0)
         }
 
         wantsTransparentBackground = true
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(onCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(onDone))
-
-        title = "Add Equipment"
 
     }
 
@@ -52,21 +56,23 @@ open class QuantityPickerViewController<T>: FormCollectionViewController where T
         view.backgroundColor = UIColor.clear
 
         collectionView?.translatesAutoresizingMaskIntoConstraints = false
-        collectionView?.register(CollectionViewFormStepperCell.self)
         guard let collectionView = collectionView else { return }
 
-        let header = SearchHeaderView()
-        header.titleLabel.text = "3 Equipment"
-        header.subtitleLabel.text = "Radar (1), Traffic Direction Cones (8), Tyre Deflation Device (2)"
-        view.addSubview(header)
+        headerView.titleLabel.text = "0 \(subjectMatter)"
+        headerView.subtitleLabel.text = ""
+        headerView.searchHandler = { [unowned self] (searchText) in
+            self.filterText = searchText
+            self.reloadForm()
+        }
+        view.addSubview(headerView)
 
         NSLayoutConstraint.activate([
-            header.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
-            header.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
-            header.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
-            header.heightAnchor.constraint(equalToConstant: headerHeight),
+            headerView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
+            headerView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
+            headerView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
+            headerView.heightAnchor.constraint(equalToConstant: headerHeight),
 
-            collectionView.topAnchor.constraint(equalTo: header.bottomAnchor),
+            collectionView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor).withPriority(.almostRequired)
@@ -85,59 +91,48 @@ open class QuantityPickerViewController<T>: FormCollectionViewController where T
         completionHandler?(items)
     }
 
-    // MARK: - CollectionView
+    // MARK: - Convenience
 
-    open override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+    /// Updates the title and subtitle based on the selected values of items
+    private func updateHeaderText() {
+        var string = ""
+        var count = 0
+
+        for item in items {
+            guard item.value > 0 else { continue }
+            if string.count > 0 {
+                string += ", "
+            }
+            string += "\(item.object.title ?? "")(\(item.value))"
+            count += 1
+        }
+        headerView.titleLabel.text = "\(count) \(subjectMatter)"
+        headerView.subtitleLabel.text = string
     }
 
-    open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items.count
-    }
+    // MARK: - Form
 
-    open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
-        let cell = collectionView.dequeueReusableCell(of: CollectionViewFormStepperCell.self, for: indexPath)
-        cell.separatorColor = iOSStandardSeparatorColor
-        let item = self.items[indexPath.row]
-        cell.titleLabel.text = item.object.title
-        cell.stepper.value = Double(item.count)
+    override open func construct(builder: FormBuilder) {
+        for index in 0..<items.count {
+            var item = items[index]
 
+            // Skip if there is a search term that is not matched with item title.
+            if let text = filterText, text.count > 0 && item.object.title?.range(of: text, options: .caseInsensitive) == nil {
+                continue
+            }
 
-    }
+            let formItem = StepperFormItem(title: item.object.title)
+            .minimumValue(0)
+            .value(Double(item.value))
+            .width(.column(1))
+            .onValueChanged({ [unowned self] (value) in
+                self.items[index].value = Int(value)
+                self.updateHeaderText()
+            })
+//            .customValueFont(cellFont)
 
-    open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionView.dequeueReusableCell(of: CollectionViewFormStepperCell.self, for: indexPath)
-    }
-
-    override open func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
-        super.collectionView(collectionView, willDisplaySupplementaryView: view, forElementKind: elementKind, at: indexPath)
-
-    }
-
-    override open func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.willTransition(to: newCollection, with: coordinator)
-        coordinator.animate(alongsideTransition: { (context) in
-            // Update title view based on new traits
-//            if let subtitle = self.callsignListViewModel?.navSubtitle() {
-//                self.setTitleView(title: self.viewModel.navTitle(), subtitle: subtitle)
-//            }
-        }, completion: nil)
-    }
-
-    // MARK: - UICollectionViewDelegate
-
-    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
-    }
-
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        let item = self.items[indexPath.row]
-        return CollectionViewFormStepperCell.minimumContentHeight(withTitle: item.object.title, value: Double(item.count), valueFont: .systemFont(ofSize: 17.0), numberOfDecimalPlaces: 0, inWidth: itemWidth, compatibleWith: traitCollection)
-    }
-
-    public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//        callsignListViewModel?.applyFilter(withText: searchText)
+            builder += formItem
+        }
     }
 
 }
