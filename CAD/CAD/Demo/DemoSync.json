@@ -388,9 +388,9 @@
         },
         "driver": "777122",
         "payrollIds": [
-            "777122",
-            "777453"
-        ],
+           "777122",
+           "777453"
+       ],
         "shiftStart": "2017-12-02T01:00:00Z",
         "shiftEnd": "2017-12-02T12:00:00Z",
         "type": "Vehicle",
@@ -405,19 +405,19 @@
         "remarks": "",
         "lastUpdated": "2017-12-02T01:28:00Z",
         "activityLog": [
-            {
-                "title": "Status: Proceeding (Assault #AS4205)",
-                "description": "T. Baily and D. Fisher",
-                "source": "V01",
-                "timestamp": "2017-12-02T01:24:00Z"
-            },
-            {
-                "title": "Status: At Incident (Assault #AS4205)",
-                "description": "T. Baily and D. Fisher",
-                "source": "V01",
-                "timestamp": "2017-12-02T01:28:00Z"
-            }
-        ]
+          {
+              "title": "Status: Proceeding (Assault #AS4205)",
+              "description": "T. Baily and D. Fisher",
+              "source": "V01",
+              "timestamp": "2017-12-02T01:24:00Z"
+          },
+          {
+              "title": "Status: At Incident (Assault #AS4205)",
+              "description": "T. Baily and D. Fisher",
+              "source": "V01",
+              "timestamp": "2017-12-02T01:28:00Z"
+          }
+      ]
     },
     {
         "callsign": "M24",
@@ -442,8 +442,8 @@
         },
         "driver": "777032",
         "payrollIds": [
-            "777032"
-        ],
+           "777032"
+       ],
         "shiftStart": "2017-12-02T01:00:00Z",
         "shiftEnd": "2017-12-02T12:00:00Z",
         "type": "Motorcycle",
@@ -458,25 +458,25 @@
         "remarks": "",
         "lastUpdated": "2017-12-02T01:28:00Z",
         "activityLog": [
-            {
-                "title": "Status: Proceeding (Assault #AS4217)",
-                "description": "B. Cooper",
-                "source": "M24",
-                "timestamp": "2017-12-02T01:24:00Z"
-            },
-            {
-                "title": "Status: At Incident (Assault #AS4217)",
-                "description": "B. Cooper",
-                "source": "M24",
-                "timestamp": "2017-12-02T01:28:00Z"
-            },
-            {
-                "title": "Status: Duress (Assault #AS4217)",
-                "description": "B. Cooper",
-                "source": "M24",
-                "timestamp": "2017-12-02T02:28:00Z"
-            }
-        ]
+          {
+              "title": "Status: Proceeding (Assault #AS4217)",
+              "description": "B. Cooper",
+              "source": "M24",
+              "timestamp": "2017-12-02T01:24:00Z"
+          },
+          {
+              "title": "Status: At Incident (Assault #AS4217)",
+              "description": "B. Cooper",
+              "source": "M24",
+              "timestamp": "2017-12-02T01:28:00Z"
+          },
+          {
+              "title": "Status: Duress (Assault #AS4217)",
+              "description": "B. Cooper",
+              "source": "M24",
+              "timestamp": "2017-12-02T02:28:00Z"
+          }
+      ]
     },
     {
         "callsign": "V44",
@@ -501,8 +501,8 @@
         },
         "driver": "777001",
         "payrollIds": [
-            "777001"
-        ],
+           "777001"
+       ],
         "shiftStart": "2017-12-02T01:00:00Z",
         "shiftEnd": "2017-12-02T12:00:00Z",
         "type": "Vehicle",
@@ -517,19 +517,19 @@
         "remarks": "",
         "lastUpdated": "2017-12-02T01:28:00Z",
         "activityLog": [
-            {
-                "title": "Status: Proceeding (Assault #AS4104)",
-                "description": "J. Burnell",
-                "source": "V44",
-                "timestamp": "2017-12-02T01:24:00Z"
-            },
-            {
-                "title": "Status: At Incident (Assault #AS4104)",
-                "description": "J. Burnell",
-                "source": "V44",
-                "timestamp": "2017-12-02T01:28:00Z"
-            }
-        ]
+          {
+              "title": "Status: Proceeding (Assault #AS4104)",
+              "description": "J. Burnell",
+              "source": "V44",
+              "timestamp": "2017-12-02T01:24:00Z"
+          },
+          {
+              "title": "Status: At Incident (Assault #AS4104)",
+              "description": "J. Burnell",
+              "source": "V44",
+              "timestamp": "2017-12-02T01:28:00Z"
+          }
+      ]
     },
     {
         "callsign": "V16",
@@ -554,8 +554,8 @@
         },
         "driver": "777019",
         "payrollIds": [
-            "777019"
-        ],
+           "777019"
+       ],
         "shiftStart": "2017-12-02T01:00:00Z",
         "shiftEnd": "2017-12-02T12:00:00Z",
         "type": "Vehicle",
@@ -570,25 +570,25 @@
         "remarks": "",
         "lastUpdated": "2017-12-02T01:28:00Z",
         "activityLog": [
-            {
-                "title": "Status: Proceeding (Assault #AS3110)",
-                "description": "H. Gadget",
-                "source": "V16",
-                "timestamp": "2017-12-02T01:24:00Z"
-            },
-            {
-                "title": "Status: At Incident (Assault #AS3110)",
-                "description": "H. Gadget",
-                "source": "V16",
-                "timestamp": "2017-12-02T01:28:00Z"
-            },
-            {
-                "title": "Status: Duress (Assault #AS3110)",
-                "description": "H. Gadget",
-                "source": "V16",
-                "timestamp": "2017-12-02T02:28:00Z"
-            }
-        ]
+          {
+              "title": "Status: Proceeding (Assault #AS3110)",
+              "description": "H. Gadget",
+              "source": "V16",
+              "timestamp": "2017-12-02T01:24:00Z"
+          },
+          {
+              "title": "Status: At Incident (Assault #AS3110)",
+              "description": "H. Gadget",
+              "source": "V16",
+              "timestamp": "2017-12-02T01:28:00Z"
+          },
+          {
+              "title": "Status: Duress (Assault #AS3110)",
+              "description": "H. Gadget",
+              "source": "V16",
+              "timestamp": "2017-12-02T02:28:00Z"
+          }
+      ]
     },
     {
         "callsign": "D20",
@@ -613,8 +613,8 @@
         },
         "driver": "777202",
         "payrollIds": [
-            "777202"
-        ],
+           "777202"
+       ],
         "shiftStart": "2017-12-02T01:00:00Z",
         "shiftEnd": "2017-12-02T12:00:00Z",
         "type": "DogSquad",
@@ -629,13 +629,13 @@
         "remarks": "",
         "lastUpdated": "2017-12-02T01:28:00Z",
         "activityLog": [
-            {
-                "title": "Status: On Air",
-                "description": "E. Saltau",
-                "source": "D20",
-                "timestamp": "2017-12-02T01:24:00Z"
-            }
-        ]
+          {
+              "title": "Status: On Air",
+              "description": "E. Saltau",
+              "source": "D20",
+              "timestamp": "2017-12-02T01:24:00Z"
+          }
+      ]
     },
     {
         "callsign": "D99",
@@ -660,8 +660,8 @@
         },
         "driver": "777791",
         "payrollIds": [
-            "777791"
-        ],
+           "777791"
+       ],
         "shiftStart": "2017-12-02T01:00:00Z",
         "shiftEnd": "2017-12-02T12:00:00Z",
         "type": "DogSquad",
@@ -676,19 +676,19 @@
         "remarks": "",
         "lastUpdated": "2017-12-02T01:28:00Z",
         "activityLog": [
-            {
-                "title": "Status: On Air",
-                "description": "T. Singh",
-                "source": "D20",
-                "timestamp": "2017-12-02T01:24:00Z"
-            },
-            {
-                "title": "Status: Proceeding (Assault #AS4911)",
-                "description": "T. Singh",
-                "source": "D20",
-                "timestamp": "2017-12-02T02:24:00Z"
-            }
-        ]
+          {
+              "title": "Status: On Air",
+              "description": "T. Singh",
+              "source": "D20",
+              "timestamp": "2017-12-02T01:24:00Z"
+          },
+          {
+              "title": "Status: Proceeding (Assault #AS4911)",
+              "description": "T. Singh",
+              "source": "D20",
+              "timestamp": "2017-12-02T02:24:00Z"
+          }
+      ]
     },
     {
         "callsign": "P23",
@@ -713,8 +713,8 @@
         },
         "driver": "777199",
         "payrollIds": [
-            "777199"
-        ],
+           "777199"
+       ],
         "shiftStart": "2017-12-02T01:00:00Z",
         "shiftEnd": "2017-12-02T12:00:00Z",
         "type": "PoliceOfficer",
@@ -729,19 +729,46 @@
         "remarks": "",
         "lastUpdated": "2017-12-02T01:28:00Z",
         "activityLog": [
-            {
-                "title": "Status: On Air",
-                "description": "J. Smart",
-                "source": "D20",
-                "timestamp": "2017-12-02T01:24:00Z"
-            },
-            {
-                "title": "Status: Proceeding (Assault #AS4911)",
-                "description": "J. Smart",
-                "source": "D20",
-                "timestamp": "2017-12-02T02:24:00Z"
-            }
-        ]
+          {
+              "title": "Status: On Air",
+              "description": "J. Smart",
+              "source": "D20",
+              "timestamp": "2017-12-02T01:24:00Z"
+          },
+          {
+              "title": "Status: Proceeding (Assault #AS4911)",
+              "description": "J. Smart",
+              "source": "D20",
+              "timestamp": "2017-12-02T02:24:00Z"
+          }
+      ]
+    },
+    {
+        "callsign": "V23",
+        "status": "Off Duty",
+        "patrolGroup": "Collingwood",
+        "station": "Collingwood Station",
+        "type": "Vehicle",
+        "serial": "ARP442",
+        "vehicleCategory": "2"
+    },
+    {
+        "callsign": "P23",
+        "status": "Off Duty",
+        "patrolGroup": "Collingwood",
+        "station": "Collingwood Station",
+        "type": "PoliceOfficer",
+        "serial": "ARP590",
+        "vehicleCategory": "2"
+    },
+    {
+        "callsign": "D11",
+        "status": "Off Duty",
+        "patrolGroup": "Collingwood",
+        "station": "Collingwood Station",
+        "type": "DogSquad",
+        "serial": "ARPK91",
+        "vehicleCategory": "1"
     }
 ],
 "officers": [
