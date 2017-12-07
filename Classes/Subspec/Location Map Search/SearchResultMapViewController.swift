@@ -12,7 +12,7 @@ import MapKit
 
 protocol LocationMapSearchDelegate: class {
     func locationMapViewController(_ controller: UIViewController, didRequestToEdit search: Searchable?)
-    func searchResultsController(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity)
+    func locationMapViewController(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity)
 }
 
 open class SearchResultMapViewController: MapCollectionViewController, MapResultViewModelDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate, CLLocationManagerDelegate {
@@ -140,7 +140,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         collectionView.deselectItem(at: indexPath, animated: true)
 
         if let selectedAnnotation = selectedAnnotation, let entity = viewModel?.entity(for: selectedAnnotation) {
-            delegate?.searchResultsController(self, didSelectEntity: entity)
+            delegate?.locationMapViewController(self, didSelectEntity: entity)
         }
     }
     

@@ -24,6 +24,7 @@ fileprivate let navigationItemKeyPaths: [String] = [
 
 public class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchOptionsViewControllerDelegate, EntityDetailsDelegate, LocationMapSearchDelegate {
 
+
     private var recentsViewController: SearchRecentsViewController
     public var viewModel: SearchViewModel
 
@@ -320,11 +321,10 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             
             setShowingSearchOptions(false, animated: true)
             setCurrentResultsViewController(resultsListViewController, animated: true)
+
         } else if let viewModel = viewModel as? MapResultViewModelable {
-            // ToDo: - Use the view model
-            print(viewModel)
             mapResultsViewController.viewModel = viewModel
-            // End ToDo:
+
             setShowingSearchOptions(false, animated: true)
             setCurrentResultsViewController(mapResultsViewController, animated: true)
         }
@@ -373,8 +373,8 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         setCurrentResultsViewController(nil, animated: true)
     }
 
-    public func searchResultsController(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity) {
-        didSelectEntity(entity)
+    public func searchResultsController(_ controller: SearchResultsListViewController, didSelectPresentable presentable: Presentable) {
+        present(presentable)
     }
     
     // MARK: LocationMapSearchDelegate
@@ -383,6 +383,10 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         setCurrentResultsViewController(nil, animated: true)
         searchOptionsViewController.setCurrent(searchable: search)
         setShowingSearchOptions(true, animated: true)
+    }
+
+    func locationMapViewController(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity) {
+        didSelectEntity(entity)
     }
     
     // MARK: - KVO

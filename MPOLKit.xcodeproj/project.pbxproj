@@ -558,6 +558,7 @@
 		EAB38FFE1F71EA4E00341BAF /* BaseSupplementaryFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB38FFD1F71EA4E00341BAF /* BaseSupplementaryFormItem.swift */; };
 		EABAB8021F3429D90071A401 /* AggregatedSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABAB8011F3429D90071A401 /* AggregatedSearch.swift */; };
 		EABAB8041F342E450071A401 /* AggregatedSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABAB8031F342E450071A401 /* AggregatedSearchRequest.swift */; };
+		EAC0256C1FD8DAF600E45DB6 /* EntitySummaryDisplayFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC0256B1FD8DAF600E45DB6 /* EntitySummaryDisplayFormatter.swift */; };
 		EADC4FF31F81E0810066AA2F /* OptionGroupFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADC4FF21F81E0810066AA2F /* OptionGroupFormItem.swift */; };
 		EAE806DB1F98534000C9AA85 /* FormSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE806DA1F98534000C9AA85 /* FormSection.swift */; };
 		EAE806DF1F9859E700C9AA85 /* DateFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE806DE1F9859E700C9AA85 /* DateFormItemTests.swift */; };
@@ -1161,6 +1162,7 @@
 		EAB38FFD1F71EA4E00341BAF /* BaseSupplementaryFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSupplementaryFormItem.swift; sourceTree = "<group>"; };
 		EABAB8011F3429D90071A401 /* AggregatedSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregatedSearch.swift; sourceTree = "<group>"; };
 		EABAB8031F342E450071A401 /* AggregatedSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregatedSearchRequest.swift; sourceTree = "<group>"; };
+		EAC0256B1FD8DAF600E45DB6 /* EntitySummaryDisplayFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummaryDisplayFormatter.swift; sourceTree = "<group>"; };
 		EADC4FF21F81E0810066AA2F /* OptionGroupFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionGroupFormItem.swift; sourceTree = "<group>"; };
 		EAE806DA1F98534000C9AA85 /* FormSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormSection.swift; sourceTree = "<group>"; };
 		EAE806DE1F9859E700C9AA85 /* DateFormItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormItemTests.swift; sourceTree = "<group>"; };
@@ -2873,6 +2875,7 @@
 				EA8B66451F37FF5900F09716 /* EntitySummarySearchResultViewModel.swift */,
 				EA8B66471F38014000F09716 /* EntitySummaryDisplayable.swift */,
 				EA8B66491F38021100F09716 /* EntitySummaryDecorator.swift */,
+				EAC0256B1FD8DAF600E45DB6 /* EntitySummaryDisplayFormatter.swift */,
 			);
 			path = EntitySearch;
 			sourceTree = "<group>";
@@ -3294,6 +3297,7 @@
 				191BC4D31F7C203B00C8C218 /* HelpContent.swift in Sources */,
 				BC9C7E2F1F0DED6600DFFE83 /* UIImage+RoundedRects.swift in Sources */,
 				BC9C7DFE1F0DED6600DFFE83 /* Array+IfExists.swift in Sources */,
+				EAC0256C1FD8DAF600E45DB6 /* EntitySummaryDisplayFormatter.swift in Sources */,
 				96CF32211F8C337900140AF8 /* TasksListViewController.swift in Sources */,
 				274C897F1F9D9E88005B9CF8 /* OfficerListItemViewModel.swift in Sources */,
 				2744EECC1FBEA645008DFA7F /* TaskMapFilterViewModel.swift in Sources */,

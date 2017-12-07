@@ -29,9 +29,12 @@ public class EntitySummarySearchResultViewModel<T: MPOLKitEntity, Decorator: Ent
     
     public let aggregatedSearch: AggregatedSearch<T>
 
-    public init(title: String, aggregatedSearch: AggregatedSearch<T>) {
+    public let summaryDisplayFormatter: EntitySummaryDisplayFormatter
+
+    public init(title: String, aggregatedSearch: AggregatedSearch<T>, summaryDisplayFormatter: EntitySummaryDisplayFormatter = .default) {
         self.title = title
         self.aggregatedSearch = aggregatedSearch
+        self.summaryDisplayFormatter = summaryDisplayFormatter
 
         super.init()
         
@@ -49,11 +52,6 @@ public class EntitySummarySearchResultViewModel<T: MPOLKitEntity, Decorator: Ent
         switch section.state {
         case .finished where section.entities.count > 0:
             items += summaryItemsForSection(section)
-            items += summaryItemsForSection(section)
-            items += summaryItemsForSection(section)
-            items += summaryItemsForSection(section)
-            items += summaryItemsForSection(section)
-            items += summaryItemsForSection(section)
         default:
             if let statusItem = statusItemForSection(section) {
                 items.append(statusItem)
@@ -70,8 +68,8 @@ public class EntitySummarySearchResultViewModel<T: MPOLKitEntity, Decorator: Ent
     }
 
     open func summaryItemsForSection(_ section: SearchResultSection) -> [FormItem] {
-        return section.entities.map {
-            let summary = Decorator($0)
+        return section.entities.flatMap { entity in
+            guard let summary = summaryDisplayFormatter.summaryDisplayForEntity(entity) else { return nil }
 
             if style == .list || delegate?.traitCollection.horizontalSizeClass == .compact {
                 let subtitleComponents = [summary.detail1, summary.detail2].flatMap({$0})
@@ -84,7 +82,10 @@ public class EntitySummarySearchResultViewModel<T: MPOLKitEntity, Decorator: Ent
                     .badgeColor(summary.iconColor)
                     .borderColor(summary.borderColor)
                     .image(summary.thumbnail(ofSize: .small))
-
+                    .onSelection { [weak self] _ in
+                        guard let `self` = self, let presentable = self.summaryDisplayFormatter.presentableForEntity(entity) else { return }
+                        self.delegate?.requestToPresent(presentable)
+                    }
             } else {
                 return SummaryThumbnailFormItem()
                     .style(.hero)
@@ -96,6 +97,10 @@ public class EntitySummarySearchResultViewModel<T: MPOLKitEntity, Decorator: Ent
                     .badgeColor(summary.iconColor)
                     .borderColor(summary.borderColor)
                     .image(summary.thumbnail(ofSize: .large))
+                    .onSelection { [weak self] _ in
+                        guard let `self` = self, let presentable = self.summaryDisplayFormatter.presentableForEntity(entity) else { return }
+                        self.delegate?.requestToPresent(presentable)
+                    }
             }
         }
     }

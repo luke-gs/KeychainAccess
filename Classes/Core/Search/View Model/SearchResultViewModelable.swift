@@ -58,8 +58,6 @@ public protocol SearchResultViewModelDelegate: class {
 
     func searchResultViewModelDidUpdateResults(_ viewModel: SearchResultViewModelable) -> ()
 
-    func searchResultViewModel(_ viewModel: SearchResultViewModelable, didSelectEntity entity: MPOLKitEntity)
-
 }
 
 public protocol SearchResultViewModelable: SearchResultModelable {

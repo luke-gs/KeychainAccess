@@ -139,15 +139,20 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
 
     // MARK: - CollectionViewDelegateFormLayout methods
 
-//    public override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int) -> UIEdgeInsets {
-//        var inset = super.collectionView(collectionView, layout: layout, insetForSection: section)
-//        inset.top    = 4.0
-//        inset.bottom = 0
-//        return inset
-//    }
+    public override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int) -> UIEdgeInsets {
+        var inset = super.collectionView(collectionView, layout: layout, insetForSection: section)
+        inset.top = 4.0
+        return inset
+    }
+
+    // MARK: - Common methods
 
     public func requestToEdit() {
         delegate?.searchResultsControllerDidRequestToEdit(self)
+    }
+
+    public func requestToPresent(_ presentable: Presentable) {
+        delegate?.searchResultsController(self, didSelectPresentable: presentable)
     }
 
     // MARK: - SearchResultRendererDelegate
@@ -158,8 +163,8 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
         reloadForm()
     }
 
-    public func searchResultViewModel(_ viewModel: SearchResultViewModelable, didSelectEntity entity: MPOLKitEntity) {
-        delegate?.searchResultsController(self, didSelectEntity: entity)
+    public func searchResultViewModel(_ viewModel: SearchResultViewModelable, didSelectPresentable presentable: Presentable) {
+        delegate?.searchResultsController(self, didSelectPresentable: presentable)
     }
 
     // MARK: - Private methods
@@ -196,6 +201,7 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
             navigationItem.rightBarButtonItems = [listStateItem]
         }
     }
+
 }
 
 /// A delegate to notify that an entity was selected
@@ -213,8 +219,8 @@ public protocol EntityDetailsDelegate: class {
 
 public protocol SearchResultsDelegate: class {
     func searchResultsControllerDidRequestToEdit(_ controller: UIViewController)
-    func searchResultsController(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity)
     func searchResultsControllerDidCancel(_ controller: UIViewController)
+    func searchResultsController(_ controller: SearchResultsListViewController, didSelectPresentable presentable: Presentable)
 }
 
 
