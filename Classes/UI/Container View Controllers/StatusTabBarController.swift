@@ -288,6 +288,19 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
     // MARK: - Tab bar delegate
     
     open func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        if tabBar.selectedItem == item {
+            let navigationController: UINavigationController?
+            if let navController = selectedViewController as? UINavigationController {
+                navigationController = navController
+            } else if let navController = selectedViewController?.navigationController {
+                navigationController = navController
+            } else if let navController = pushableSplitViewController?.navigationController {
+                navigationController = navController
+            } else {
+                navigationController = nil
+            }
+            navigationController?.popToRootViewController(animated: true)
+        }
         if let newSelectedVC = viewControllers.first(where: { $0.tabBarItem == item }) {
             if statusTabBarDelegate?.controller(self, shouldSelect: newSelectedVC) == false {
                 tabBar.selectedItem = selectedViewController?.tabBarItem
