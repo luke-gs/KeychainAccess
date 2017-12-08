@@ -15,6 +15,7 @@ open class CompactCallsignViewController: UIViewController {
     private var callsignViewController = UIViewController()
     private var navController: UINavigationController?
     
+    /// Override navigation controller so `StatusTabBarController` can pop the correct nav controller
     open override var navigationController: UINavigationController? {
         return navController
     }
