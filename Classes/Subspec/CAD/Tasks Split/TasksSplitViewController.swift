@@ -60,7 +60,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        configureSegmentedControl(for: traitCollection)
+        configureSegmentedControl(for: nil)
 
         self.performInitialSync()
     }
@@ -181,9 +181,10 @@ open class TasksSplitViewController: MPOLSplitViewController {
 
     // MARK: - Segmented control
     
-    /// Shows or hides the segmented control based on trait collection
-    private func configureSegmentedControl(for traitCollection: UITraitCollection) {
-        if isCompact() {
+    /// Shows or hides the segmented control based on trait collection passed in.
+    /// If `nil` is passed in, the current trait collection will be used.
+    private func configureSegmentedControl(for traitCollection: UITraitCollection?) {
+        if traitCollection?.horizontalSizeClass == .compact || (traitCollection == nil && isCompact()) {
             masterVC.navigationItem.titleView = segmentedControl
             
             masterVC.navigationItem.rightBarButtonItem = filterButton
