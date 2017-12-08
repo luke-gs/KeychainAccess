@@ -22,8 +22,14 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
         title = "Details"
         updateHeaderView()
         
+        // Add gesture for tapping icon
+        headerView.iconView.isUserInteractionEnabled = true
+        headerView.iconView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapHeaderIcon)))
+
         regularSidebarViewController.title = NSLocalizedString("Details", comment: "")
         regularSidebarViewController.headerView = headerView
+
+        NotificationCenter.default.addObserver(self, selector: #selector(callsignChanged), name: .CADCallsignChanged, object: nil)
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -34,7 +40,7 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
         super.viewDidLoad()
         apply(ThemeManager.shared.theme(for: userInterfaceStyle))
     }
-    
+
     open override func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
         // Ask the data source for an appropriate title
         if traitCollection.horizontalSizeClass == .compact {
@@ -56,10 +62,6 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
         headerView.captionLabel.text = detailViewModel.statusText?.localizedUppercase
         headerView.titleLabel.text = detailViewModel.itemName
 
-        // Add gesture for tapping icon
-        headerView.iconView.isUserInteractionEnabled = true
-        headerView.iconView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapHeaderIcon)))
-        
         if let lastUpdated = detailViewModel.lastUpdated {
             headerView.subtitleLabel.text = lastUpdated
         } else {
@@ -70,6 +72,11 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
             headerView.iconView.backgroundColor = color
             headerView.captionLabel.textColor = color
         }
+    }
+
+    @objc open func callsignChanged() {
+        detailViewModel.reloadFromModel()
+        updateHeaderView()
     }
 
     @objc open func didTapHeaderIcon() {
