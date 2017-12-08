@@ -234,3 +234,15 @@ extension CallsignStatusViewController: UICollectionViewDelegate {
         }
     }
 }
+
+// MARK: - CADFormCollectionViewModelDelegate
+extension CallsignStatusViewController: CADFormCollectionViewModelDelegate {
+
+    open func sectionsUpdated() {
+        collectionView.reloadData()
+    }
+
+    open func dismiss() {
+        dismiss(animated: true, completion: nil)
+    }
+}

@@ -30,7 +30,9 @@ open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignSta
 
     /// Create the view controller for this view model
     public func createViewController() -> CallsignStatusViewController {
-        return CallsignStatusViewController(viewModel: self)
+        let vc = CallsignStatusViewController(viewModel: self)
+        self.delegate = vc
+        return vc
     }
 
     /// Attempt to select a new status
