@@ -69,4 +69,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         }
         return false
     }
+
+    /// Swift compiler complains if this doesn't exist, even though it's never called!
+    @objc public func dismissAnimated() {}
 }
