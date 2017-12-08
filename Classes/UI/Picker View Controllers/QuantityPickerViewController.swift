@@ -16,9 +16,14 @@ public protocol QuantityPickable: Pickable {
 public struct QuantityPicked {
     let object: Pickable
     var count: Int
+
+    public init(object: Pickable, count: Int = 0) {
+        self.object = object
+        self.count = count
+    }
 }
 
-open class QuantityPickerViewController<T: Pickable>: FormBuilderViewController {
+open class QuantityPickerViewController: FormBuilderViewController {
 
     private let headerHeight: CGFloat = 144
     private let cellFont: UIFont = .systemFont(ofSize: 17.0, weight: .semibold)
@@ -26,23 +31,17 @@ open class QuantityPickerViewController<T: Pickable>: FormBuilderViewController 
 
     private var filterText: String?
 
-    open var subjectMatter: String = NSLocalizedString("Items", comment: "Default Quantity Picker Subject Matter") {
-        didSet {
-            let format = NSLocalizedString("Add %@", comment:"Action of Add")
-            builder.title = String.localizedStringWithFormat(format, subjectMatter)
-        }
-    }
-
-    private var items: [QuantityPicked] = []
+    private let viewModel: QuantityPickerViewModel
 
     open var completionHandler: (([QuantityPicked]) -> Void)?
 
     // MARK: - Initializers
-
-    public init(items: [T]) {
+    public init(viewModel: QuantityPickerViewModel) {
+        self.viewModel = viewModel
         super.init()
 
-        self.items = items.map { QuantityPicked(object: $0, count: 0) }
+        let format = NSLocalizedString("Add %@", comment:"Action of Add")
+        builder.title = String.localizedStringWithFormat(format, viewModel.subjectMatter)
 
         wantsTransparentBackground = true
 
@@ -64,7 +63,7 @@ open class QuantityPickerViewController<T: Pickable>: FormBuilderViewController 
         collectionView?.translatesAutoresizingMaskIntoConstraints = false
         guard let collectionView = collectionView else { return }
 
-        headerView.titleLabel.text = "0 \(subjectMatter)"
+        headerView.titleLabel.text = "0 \(viewModel.subjectMatter)"
         headerView.subtitleLabel.text = ""
         headerView.searchHandler = { [unowned self] (searchText) in
             self.filterText = searchText
@@ -94,23 +93,28 @@ open class QuantityPickerViewController<T: Pickable>: FormBuilderViewController 
 
     @objc
     private func onDone() {
-        completionHandler?(items)
+        completionHandler?(viewModel.items)
     }
 
     // MARK: - Convenience
 
     /// Updates the title and subtitle based on the selected values of items
     private func updateHeaderText() {
-        headerView.titleLabel.text = "\(items.count) \(subjectMatter)"
-        headerView.subtitleLabel.text = items.map {
-            guard let title = $0.object.title else { return "" }
+        let items = viewModel.items
+        let includedItems = items.flatMap {
+            guard let title = $0.object.title else { return nil }
+            guard $0.count != 0 else { return nil }
             return "\(title) (\($0.count))"
-        }.joined(separator: ", ")
+            } as [String?]
+
+        headerView.titleLabel.text = "\(includedItems.count) \(viewModel.subjectMatter)"
+        headerView.subtitleLabel.text = includedItems.joined(separator: ", ")
     }
 
     // MARK: - Form
 
     override open func construct(builder: FormBuilder) {
+        let items = viewModel.items
         for index in 0..<items.count {
             let item = items[index]
 
@@ -125,7 +129,7 @@ open class QuantityPickerViewController<T: Pickable>: FormBuilderViewController 
             .width(.column(1))
             .displaysZeroValue(false)
             .onValueChanged { [unowned self] (value) in
-                self.items[index].count = Int(value)
+                self.viewModel.items[index].count = Int(value)
                 self.updateHeaderText()
             }
 

@@ -450,6 +450,7 @@
 		DB88BCE41F42D0150056FD69 /* QueryParserDefinitionSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88BCC81F42CE970056FD69 /* QueryParserDefinitionSelector.swift */; };
 		DB88BCE51F42D01C0056FD69 /* SortDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88BCCA1F42CEA40056FD69 /* SortDescriptor.swift */; };
 		DBCD01031FD76B270000E0DF /* SearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCD01021FD76B270000E0DF /* SearchHeaderView.swift */; };
+		DBD626271FDA25D200C3E809 /* QuantityPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD626261FDA25D200C3E809 /* QuantityPickerViewModel.swift */; };
 		DBE24C2E1F5939C90088D19B /* EntityDetailsFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE24C2C1F5939C90088D19B /* EntityDetailsFetchRequest.swift */; };
 		DBE24C2F1F5939C90088D19B /* EntityDetailsFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE24C2D1F5939C90088D19B /* EntityDetailsFetch.swift */; };
 		DBE24C391F593BEF0088D19B /* EntityDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE24C311F593AB30088D19B /* EntityDetailCollectionViewCell.swift */; };
@@ -1056,6 +1057,7 @@
 		DB88BCD71F42CEAA0056FD69 /* SearchResultErrorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultErrorCell.swift; sourceTree = "<group>"; };
 		DB88BCD81F42CEAA0056FD69 /* SearchResultLoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultLoadingCell.swift; sourceTree = "<group>"; };
 		DBCD01021FD76B270000E0DF /* SearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeaderView.swift; sourceTree = "<group>"; };
+		DBD626261FDA25D200C3E809 /* QuantityPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityPickerViewModel.swift; sourceTree = "<group>"; };
 		DBE24C2C1F5939C90088D19B /* EntityDetailsFetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailsFetchRequest.swift; sourceTree = "<group>"; };
 		DBE24C2D1F5939C90088D19B /* EntityDetailsFetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailsFetch.swift; sourceTree = "<group>"; };
 		DBE24C311F593AB30088D19B /* EntityDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -2285,6 +2287,7 @@
 				BC9C7DA81F0DED6600DFFE83 /* PickerTableViewController.swift */,
 				BC9C7DA91F0DED6600DFFE83 /* PopoverDatePickerViewController.swift */,
 				DB6C89EB1FD4D818006F9AD2 /* QuantityPickerViewController.swift */,
+				DBD626261FDA25D200C3E809 /* QuantityPickerViewModel.swift */,
 			);
 			path = "Picker View Controllers";
 			sourceTree = "<group>";
@@ -3290,6 +3293,7 @@
 				BC1B25BA1F2707270090C0AA /* MPOLBarButtonItems.swift in Sources */,
 				19B49BBB1F665F2A00502F51 /* CompactSidebarItemView.swift in Sources */,
 				9650CA151F958B320087F5C9 /* ManageCallsignStatusViewCell.swift in Sources */,
+				DBD626271FDA25D200C3E809 /* QuantityPickerViewModel.swift in Sources */,
 				EA32A85E1FBD564200CC37FB /* PhotoMediaDetailViewController.swift in Sources */,
 				BC9C7DFB1F0DED6600DFFE83 /* CollectionViewFormTextFieldCell.swift in Sources */,
 				BC9C7E361F0DED6600DFFE83 /* KeyboardNumberBar.swift in Sources */,
