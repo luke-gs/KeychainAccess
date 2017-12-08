@@ -88,11 +88,14 @@ open class TasksSplitViewController: MPOLSplitViewController {
             setMasterWidth(size.width)
         }
     }
-    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        configureSegmentedControlForTraitCollection()
-    }
 
+    open override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        coordinator.animate(alongsideTransition: { (context) in
+            self.configureSegmentedControlForTraitCollection()
+        }, completion: nil)
+    }
+    
     open override func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
         return viewModel.navTitle()
     }
