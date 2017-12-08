@@ -141,6 +141,11 @@ open class MPOLSplitViewController: PushableSplitViewController {
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
+    
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
+    }
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

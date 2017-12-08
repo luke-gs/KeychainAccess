@@ -288,7 +288,8 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
     // MARK: - Tab bar delegate
     
     open func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        if tabBar.selectedItem == item {
+        // If we are selecting the same tab, pop to root
+        if selectedViewController?.tabBarItem == item {
             let navigationController: UINavigationController?
             if let navController = selectedViewController as? UINavigationController {
                 navigationController = navController
