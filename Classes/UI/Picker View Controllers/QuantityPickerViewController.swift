@@ -110,6 +110,14 @@ open class QuantityPickerViewController: FormBuilderViewController {
         headerView.subtitleLabel.text = includedItems.joined(separator: ", ")
     }
 
+    private func shouldDisplayItem(_ item: QuantityPicked) -> Bool {
+        guard let filterText = filterText?.lowercased() else { return true }
+        guard filterText.count > 0 else { return true }
+        guard let title = item.object.title?.lowercased() else { return false }
+
+        return title.hasPrefix(filterText)
+    }
+
     // MARK: - Form
 
     override open func construct(builder: FormBuilder) {
@@ -118,9 +126,8 @@ open class QuantityPickerViewController: FormBuilderViewController {
             let item = items[index]
 
             // Rule is that matched items start with the search term.
-            if let filterText = filterText, filterText.count > 0 && item.object.title?.lowercased().hasPrefix(filterText.lowercased()) != true {
-                continue
-            }
+
+            guard shouldDisplayItem(item) == true else { continue }
 
             let formItem = StepperFormItem(title: item.object.title)
             .minimumValue(0)
