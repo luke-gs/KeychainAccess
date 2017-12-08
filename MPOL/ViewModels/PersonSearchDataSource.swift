@@ -133,7 +133,7 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                         // Note: generate as many requests as required
                         let request = PersonSearchRequest(source: .mpol, request: searchParameters)
                         let fncRequest = PersonSearchRequest(source: .fnc, request: searchParameters)
-                        let resultModel = EntitySummarySearchResultViewModel<Person, PersonSummaryDisplayable>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, fncRequest]))
+                        let resultModel = EntitySummarySearchResultViewModel<Person>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, fncRequest]))
                         completion(resultModel, nil)
                     }
                 } else {
