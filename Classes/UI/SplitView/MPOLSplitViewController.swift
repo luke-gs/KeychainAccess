@@ -142,11 +142,6 @@ open class MPOLSplitViewController: PushableSplitViewController {
         MPLCodingNotSupported()
     }
     
-    open override func viewDidLoad() {
-        super.viewDidLoad()
-        navigationController?.interactivePopGestureRecognizer?.delegate = nil
-    }
-
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateNavigationBarForTraitChange()
@@ -378,5 +373,4 @@ extension MPOLSplitViewController: ScrollAwarePageViewControllerDelegate {
         }
     }
 }
-
 
