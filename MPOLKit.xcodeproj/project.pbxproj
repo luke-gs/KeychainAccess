@@ -271,6 +271,7 @@
 		96D731731FD535EA0068F3AF /* CallsignIncidentFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D731721FD535EA0068F3AF /* CallsignIncidentFormViewController.swift */; };
 		96E492021FB3F98D0051C3A1 /* AppSettingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E492011FB3F98D0051C3A1 /* AppSettingKey.swift */; };
 		96ED81011FD9F2E100C7C960 /* CallsignStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ED81001FD9F2E100C7C960 /* CallsignStatusViewModel.swift */; };
+		96ED81031FDA0AAF00C7C960 /* ThemedPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ED81021FDA0AAF00C7C960 /* ThemedPopoverViewController.swift */; };
 		9936C6781F9573B50091A61C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9936C6771F9573B50091A61C /* CoreLocation.framework */; };
 		9936C6791F9580500091A61C /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9936C6761F956D0E0091A61C /* LocationManager.swift */; };
 		9936C67D1F96C5580091A61C /* GeolocationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9936C67C1F96C5580091A61C /* GeolocationPlugin.swift */; };
@@ -878,6 +879,7 @@
 		96D731721FD535EA0068F3AF /* CallsignIncidentFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignIncidentFormViewController.swift; sourceTree = "<group>"; };
 		96E492011FB3F98D0051C3A1 /* AppSettingKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingKey.swift; sourceTree = "<group>"; };
 		96ED81001FD9F2E100C7C960 /* CallsignStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignStatusViewModel.swift; sourceTree = "<group>"; };
+		96ED81021FDA0AAF00C7C960 /* ThemedPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemedPopoverViewController.swift; sourceTree = "<group>"; };
 		9936C6761F956D0E0091A61C /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		9936C6771F9573B50091A61C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		9936C67C1F96C5580091A61C /* GeolocationPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeolocationPlugin.swift; sourceTree = "<group>"; };
@@ -2333,6 +2335,7 @@
 				BC9C7DAB1F0DED6600DFFE83 /* PopoverFormSheetPresentationController.swift */,
 				BC9C7DAC1F0DED6600DFFE83 /* PopoverNavigationController.swift */,
 				BC9C7DAD1F0DED6600DFFE83 /* PopoverViewController.swift */,
+				96ED81021FDA0AAF00C7C960 /* ThemedPopoverViewController.swift */,
 			);
 			path = "Popover & Form Sheet";
 			sourceTree = "<group>";
@@ -3641,6 +3644,7 @@
 				2715D6431FD5064C00BD0E95 /* IncidentResourceItemViewModel.swift in Sources */,
 				19B49BC71F665F5A00502F51 /* WhatsNewTheme.swift in Sources */,
 				46B3FE7B1F5E3B0C0012476A /* FileLogger.swift in Sources */,
+				96ED81031FDA0AAF00C7C960 /* ThemedPopoverViewController.swift in Sources */,
 				DBE24C3B1F593BEF0088D19B /* EntityDetailSectionsDataSource.swift in Sources */,
 				191BC4D61F7C203B00C8C218 /* TagCollectionView.swift in Sources */,
 				4492C04D1FD8C917009D26BD /* SelectStoppedEntityViewController.swift in Sources */,

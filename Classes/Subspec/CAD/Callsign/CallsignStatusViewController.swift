@@ -9,7 +9,7 @@
 import UIKit
 import PromiseKit
 
-open class CallsignStatusViewController: UIViewController, PopoverViewController {
+open class CallsignStatusViewController: ThemedPopoverViewController {
 
     open let viewModel: CallsignStatusViewModel
 
@@ -22,18 +22,6 @@ open class CallsignStatusViewController: UIViewController, PopoverViewController
     /// The index path that is currently loading
     private var loadingIndexPath: IndexPath?
 
-    /// Support being transparent when in popover/form sheet
-    open var wantsTransparentBackground: Bool = false {
-        didSet {
-            view.backgroundColor = wantsTransparentBackground ? UIColor.clear : theme.color(forKey: .background)!
-        }
-    }
-
-    /// Return the current theme
-    private var theme: Theme {
-        return ThemeManager.shared.theme(for: .current)
-    }
-
     // MARK: - Initializers
 
     public init(viewModel: CallsignStatusViewModel) {
@@ -42,9 +30,6 @@ open class CallsignStatusViewController: UIViewController, PopoverViewController
 
         createSubviews()
         createConstraints()
-
-        // Observe theme changes for custom collection view
-        NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -133,12 +118,8 @@ open class CallsignStatusViewController: UIViewController, PopoverViewController
 
     // MARK: - Theme
 
-    @objc private func interfaceStyleDidChange() {
-        apply(ThemeManager.shared.theme(for: .current))
-    }
-
-    open func apply(_ theme: Theme) {
-        view.backgroundColor = wantsTransparentBackground ? .clear : theme.color(forKey: .background)
+    override open func apply(_ theme: Theme) {
+        super.apply(theme)
 
         // Theme headers
         let sectionHeaderIndexPaths = collectionView.indexPathsForVisibleSupplementaryElements(ofKind: UICollectionElementKindSectionHeader)
@@ -159,7 +140,6 @@ open class CallsignStatusViewController: UIViewController, PopoverViewController
             }, completion: nil)
         }
     }
-
 }
 
 // MARK: - UICollectionViewDataSource
