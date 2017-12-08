@@ -56,8 +56,9 @@ open class SearchHeaderView: UIView {
 
         let image = AssetManager.shared.image(forKey: .edit)?.withCircleBackground(tintColor: UIColor.white,
                                                                                    circleColor: UIColor.primaryGray,
-                                                                                   padding: CGSize(width: 14, height: 14),
+                                                                                   style: .auto(padding:  CGSize(width: 14, height: 14),
                                                                                    shrinkImage: true)
+        )
         imageView = UIImageView(image: image)
         imageView.tintColor = UIColor.white
         imageView.translatesAutoresizingMaskIntoConstraints = false
