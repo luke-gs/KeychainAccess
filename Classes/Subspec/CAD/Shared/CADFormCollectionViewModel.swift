@@ -13,9 +13,6 @@ public protocol CADFormCollectionViewModelDelegate: PopoverPresenter, Navigation
 
     // Notify form that sections were updated
     func sectionsUpdated()
-
-    /// Dismiss the UI representing this view model
-    func dismiss()
 }
 
 /// Abstract base class for CAD form collection view models

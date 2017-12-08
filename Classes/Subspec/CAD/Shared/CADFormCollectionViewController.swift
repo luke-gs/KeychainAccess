@@ -115,8 +115,4 @@ extension CADFormCollectionViewController: CADFormCollectionViewModelDelegate {
         // Reload content
         reloadContent()
     }
-
-    public func dismiss() {
-        dismiss(animated: true, completion: nil)
-    }
 }
