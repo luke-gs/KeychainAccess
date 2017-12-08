@@ -63,7 +63,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
 
             // Add done button
             if let dismisser = presenter as? TargetActionDismisser {
-                viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: dismisser, action: #selector(dismissAnimated))
+                viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: dismisser, action: #selector(dismisser.dismissAnimated))
             }
 
             // Manually create form sheet to give custom size
@@ -82,7 +82,4 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         }
         return false
     }
-
-    /// Swift compiler complains if this doesn't exist, even though it's never called!
-    @objc public func dismissAnimated() {}
 }
