@@ -9,7 +9,7 @@
 import UIKit
 
 open class TasksItemSidebarViewController: SidebarSplitViewController {
-    
+
     private let headerView = SidebarHeaderView(frame: .zero)
     private let detailViewModel: TaskItemViewModel
     
@@ -55,6 +55,10 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
         headerView.iconView.contentMode = .center
         headerView.captionLabel.text = detailViewModel.statusText?.localizedUppercase
         headerView.titleLabel.text = detailViewModel.itemName
+
+        // Add gesture for tapping icon
+        headerView.iconView.isUserInteractionEnabled = true
+        headerView.iconView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapHeaderIcon)))
         
         if let lastUpdated = detailViewModel.lastUpdated {
             headerView.subtitleLabel.text = lastUpdated
@@ -66,5 +70,9 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
             headerView.iconView.backgroundColor = color
             headerView.captionLabel.textColor = color
         }
+    }
+
+    @objc open func didTapHeaderIcon() {
+        detailViewModel.didTapTaskStatus(presenter: self)
     }
 }
