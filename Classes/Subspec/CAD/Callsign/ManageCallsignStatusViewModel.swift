@@ -14,6 +14,12 @@ public struct ManageCallsignStatusItemViewModel {
     public let title: String
     public let image: UIImage
     public let status: ResourceStatus
+
+    init(_ status: ResourceStatus) {
+        self.title = status.title
+        self.image = status.icon!
+        self.status = status
+    }
 }
 
 /// Protocol for UI backing view model
@@ -147,33 +153,29 @@ open class ManageCallsignStatusViewModel {
     
     // MARK: - Data
 
-    private func itemFromStatus(_ status: ResourceStatus) -> ManageCallsignStatusItemViewModel {
-        return ManageCallsignStatusItemViewModel(title: status.title, image: status.icon!, status: status)
-    }
-
     open func callsignSectionsForState() -> [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>] {
         var sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>] = []
         if shouldShowIncident {
             sections.append(CADFormCollectionSectionViewModel(
                 title: NSLocalizedString("Incident Status", comment: "Incident Status header text"),
                 items: [
-                    itemFromStatus(.proceeding),
-                    itemFromStatus(.atIncident),
-                    itemFromStatus(.finalise),
-                    itemFromStatus(.inquiries2) ]))
+                    ManageCallsignStatusItemViewModel(.proceeding),
+                    ManageCallsignStatusItemViewModel(.atIncident),
+                    ManageCallsignStatusItemViewModel(.finalise),
+                    ManageCallsignStatusItemViewModel(.inquiries2) ]))
 
         }
         sections.append(CADFormCollectionSectionViewModel(
             title: NSLocalizedString("General", comment: "General status header text"),
             items: [
-                itemFromStatus(.unavailable),
-                itemFromStatus(.onAir),
-                itemFromStatus(.mealBreak),
-                itemFromStatus(.trafficStop),
-                itemFromStatus(.court),
-                itemFromStatus(.atStation),
-                itemFromStatus(.onCall),
-                itemFromStatus(.inquiries1) ]))
+                ManageCallsignStatusItemViewModel(.unavailable),
+                ManageCallsignStatusItemViewModel(.onAir),
+                ManageCallsignStatusItemViewModel(.mealBreak),
+                ManageCallsignStatusItemViewModel(.trafficStop),
+                ManageCallsignStatusItemViewModel(.court),
+                ManageCallsignStatusItemViewModel(.atStation),
+                ManageCallsignStatusItemViewModel(.onCall),
+                ManageCallsignStatusItemViewModel(.inquiries1) ]))
         
         return sections
     }
