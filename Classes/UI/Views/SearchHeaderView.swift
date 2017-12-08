@@ -34,7 +34,7 @@ open class SearchHeaderView: UIView {
 
     // MARK: - Private Properties
 
-    private var imageView: UIImageView = UIImageView(image: AssetManager.shared.image(forKey: .edit))
+    private var imageView: UIImageView = UIImageView()
     private let searchBar: UISearchBar = UISearchBar(frame: .zero)
 
     private let imageWidth: CGFloat = 48.0
@@ -54,15 +54,11 @@ open class SearchHeaderView: UIView {
     private func commonInit() {
         translatesAutoresizingMaskIntoConstraints = false
 
-        let circleView = UIView()
-        circleView.backgroundColor = UIColor.primaryGray
-        circleView.clipsToBounds = true
-        circleView.layer.cornerRadius = 24.0
-        circleView.layer.shouldRasterize = true
-        circleView.layer.rasterizationScale = traitCollection.currentDisplayScale
-        circleView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(circleView)
-
+        let image = AssetManager.shared.image(forKey: .edit)?.withCircleBackground(tintColor: UIColor.white,
+                                                                                   circleColor: UIColor.primaryGray,
+                                                                                   padding: CGSize(width: 14, height: 14),
+                                                                                   shrinkImage: true)
+        imageView = UIImageView(image: image)
         imageView.tintColor = UIColor.white
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
@@ -91,17 +87,12 @@ open class SearchHeaderView: UIView {
         let quarterWidth = imageWidth / 4.0
 
         NSLayoutConstraint.activate([
-            circleView.heightAnchor.constraint(equalToConstant: imageWidth),
-            circleView.widthAnchor.constraint(equalToConstant: imageWidth),
-            circleView.topAnchor.constraint(equalTo: self.topAnchor, constant: halfWidth),
-            circleView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: halfWidth),
+            imageView.heightAnchor.constraint(equalToConstant: imageWidth),
+            imageView.widthAnchor.constraint(equalToConstant: imageWidth),
+            imageView.topAnchor.constraint(equalTo: self.topAnchor, constant: halfWidth),
+            imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: halfWidth),
 
-            imageView.topAnchor.constraint(equalTo: circleView.topAnchor, constant: quarterWidth),
-            imageView.leadingAnchor.constraint(equalTo: circleView.leadingAnchor, constant: quarterWidth),
-            imageView.bottomAnchor.constraint(equalTo: circleView.bottomAnchor, constant: -quarterWidth),
-            imageView.trailingAnchor.constraint(equalTo: circleView.trailingAnchor, constant: -quarterWidth),
-
-            titleLabel.leadingAnchor.constraint(equalTo: circleView.trailingAnchor, constant: 16.0),
+            titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 16.0),
             titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24.0),
             titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 28.0),
 
@@ -110,7 +101,7 @@ open class SearchHeaderView: UIView {
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
 
             searchBar.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 20.0),
-            searchBar.leadingAnchor.constraint(equalTo: circleView.leadingAnchor),
+            searchBar.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
             searchBar.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
             searchBar.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -24.0),
             searchBar.heightAnchor.constraint(equalToConstant: 32.0)
