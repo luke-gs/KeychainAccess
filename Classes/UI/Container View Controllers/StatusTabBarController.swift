@@ -290,17 +290,9 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
     open func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         // If we are selecting the same tab, pop to root
         if selectedViewController?.tabBarItem == item {
-            let navigationController: UINavigationController?
-            if let navController = selectedViewController as? UINavigationController {
-                navigationController = navController
-            } else if let navController = selectedViewController?.navigationController {
-                navigationController = navController
-            } else if let navController = pushableSplitViewController?.navigationController {
-                navigationController = navController
-            } else {
-                navigationController = nil
+            if let popToRootable = selectedViewController as? PopToRootable {
+                popToRootable.popToRoot(animated: true)
             }
-            navigationController?.popToRootViewController(animated: true)
         }
         if let newSelectedVC = viewControllers.first(where: { $0.tabBarItem == item }) {
             if statusTabBarDelegate?.controller(self, shouldSelect: newSelectedVC) == false {
