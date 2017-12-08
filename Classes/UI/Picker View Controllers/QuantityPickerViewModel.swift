@@ -14,10 +14,10 @@ public class QuantityPickerViewModel {
     public var items: [QuantityPicked] = []
 
     /// Used in Navigation Bar title as "Add <SubjectMatter>" and in the Search header title as "X <SubjectMatter>" selected.
-    public var subjectMatter: String = NSLocalizedString("Items", comment: "Default Quantity Picker Subject Matter")
+    public var subjectMatter: String
 
-    public required init(items: [QuantityPicked], subjectMatter: String) {
+    public required init(items: [QuantityPicked], subjectMatter: String? = nil) {
         self.items = items
-        self.subjectMatter = subjectMatter
+        self.subjectMatter = subjectMatter ?? NSLocalizedString("Items", comment: "Default Quantity Picker Subject Matter")
     }
 }

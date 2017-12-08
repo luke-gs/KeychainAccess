@@ -40,8 +40,7 @@ open class QuantityPickerViewController: FormBuilderViewController {
         self.viewModel = viewModel
         super.init()
 
-        let format = NSLocalizedString("Add %@", comment:"Action of Add")
-        builder.title = String.localizedStringWithFormat(format, viewModel.subjectMatter)
+        builder.title = viewModel.subjectMatter
 
         wantsTransparentBackground = true
 
