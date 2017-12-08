@@ -188,7 +188,10 @@ extension CallsignStatusViewController: UICollectionViewDataSource {
 extension CallsignStatusViewController: UICollectionViewDelegateFlowLayout {
 
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: CollectionViewFormHeaderView.minimumHeight)
+        if let headerText = viewModel.headerText(at: section), !headerText.isEmpty {
+            return CGSize(width: collectionView.bounds.width, height: CollectionViewFormHeaderView.minimumHeight)
+        }
+        return .zero
     }
 }
 
