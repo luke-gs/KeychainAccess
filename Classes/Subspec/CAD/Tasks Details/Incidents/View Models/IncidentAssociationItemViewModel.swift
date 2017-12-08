@@ -54,7 +54,18 @@ public class IncidentAssociationItemViewModel: EntitySummaryDisplayable {
             thumbnailImage = UIImage.thumbnail(withInitials: initials)
             contentMode = .scaleAspectFill
         case .vehicle:
-            thumbnailImage = AssetManager.shared.image(forKey: .entityCar)
+            let imageName: String
+            
+            switch size {
+            case .small:
+                imageName = "iconEntityAutomotiveCar"
+            case .medium:
+                imageName = "iconEntityAutomotiveCar48"
+            case .large:
+                imageName = "iconEntityAutomotiveCar96"
+            }
+            
+            thumbnailImage = UIImage(named: imageName, in: .mpolKit, compatibleWith: nil)
             contentMode = .center
         }
         

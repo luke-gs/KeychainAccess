@@ -113,7 +113,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
 
         createSubviews()
         createConstraints()
-        updateFromViewModel()
+        updateSourceItems()
     }
 
     open override func viewDidLayoutSubviews() {
@@ -243,10 +243,11 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
             AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
         }
     }
+}
 
-    // MARK: - Data model
-
-    open func updateFromViewModel() {
+// MARK: - TasksListContainerViewModelDelegate
+extension TasksListContainerViewController: TasksListContainerViewModelDelegate {
+    open func updateSourceItems() {
         sourceItems = viewModel.sourceItems
         selectedSourceIndex = viewModel.selectedSourceIndex
     }

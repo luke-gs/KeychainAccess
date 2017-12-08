@@ -185,7 +185,7 @@ open class CADStateManager: NSObject {
         var resources: [SyncDetailsResource] = []
         if let syncDetails = lastSync {
             for resource in syncDetails.resources {
-                if resource.assignedIncidents.contains(incidentNumber) {
+                if resource.assignedIncidents?.contains(incidentNumber) == true {
                     resources.append(resource)
                 }
             }
@@ -204,8 +204,8 @@ open class CADStateManager: NSObject {
     /// Return all officers linked to a resource
     open func officersForResource(callsign: String) -> [SyncDetailsOfficer] {
         var officers: [SyncDetailsOfficer] = []
-        if let resource = resourcesById[callsign] {
-            for payrollId in resource.payrollIds {
+        if let resource = resourcesById[callsign], let payrollIds = resource.payrollIds {
+            for payrollId in payrollIds {
                 if let officer = officersById[payrollId] {
                     officers.append(officer)
                 }
