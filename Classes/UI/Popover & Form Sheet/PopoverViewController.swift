@@ -9,7 +9,7 @@
 
 /// A `UIViewController` protocol for classes designed to be compatible with
 /// MPOL background translucency, and PopoverNavigationController.
-protocol PopoverViewController: class {
+public protocol PopoverViewController: class {
     
     /// A boolean value indicating whether the view controller (and its children)
     /// should be translayed with a transparent background.
