@@ -91,10 +91,10 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     }()
 
     private lazy var equipmentItem: BaseFormItem = {
+        let viewModel = QuantityPickerViewModel(items: self.viewModel.details.equipment ?? [], subjectMatter: NSLocalizedString("Equipment", comment: ""))
         let title = NSLocalizedString("Equipment", comment: "")
-        return TextFieldFormItem(title: title, text: nil)
+        return QuantityPickerFormItem(viewModel: viewModel, title: title)
             .width(.column(1))
-            .text(viewModel.details.equipment)
             .onValueChanged { [weak self] in
                 self?.viewModel.details.equipment = $0
         }

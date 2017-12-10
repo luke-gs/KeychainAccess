@@ -50,7 +50,12 @@ class QuantityPickerAction: ValueSelectionAction<[QuantityPicked]> {
 
     public override func displayText() -> String? {
         guard let selectedValue = selectedValue else { return nil }
-        return selectedValue.flatMap({ return "\($0.object.title ?? "") (\($0.count)" }).joined(separator: ", ")
+        return selectedValue.flatMap({ item in
+            if let title = item.object.title, item.count > 0 {
+                return "\(title) (\(item.count))"
+            }
+            return nil
+        }).joined(separator: ", ")
     }
 
 }
