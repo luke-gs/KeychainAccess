@@ -238,6 +238,7 @@
 		9663D0081F8AD78D006DB672 /* ContainerWithHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D0071F8AD78D006DB672 /* ContainerWithHeaderViewController.swift */; };
 		9663D00B1F8AF666006DB672 /* TasksSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D00A1F8AF666006DB672 /* TasksSplitViewController.swift */; };
 		9663D00D1F8AF6F5006DB672 /* TasksSplitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D00C1F8AF6F5006DB672 /* TasksSplitViewModel.swift */; };
+		96699BCC1FDDE547006BB024 /* QuantityPickerFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96699BCB1FDDE547006BB024 /* QuantityPickerFormItem.swift */; };
 		9674E0E71FC68015000702F8 /* LoadingStateLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9674E0E61FC68015000702F8 /* LoadingStateLoadingView.swift */; };
 		9674E0E91FC68031000702F8 /* LoadingStateErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9674E0E81FC68031000702F8 /* LoadingStateErrorView.swift */; };
 		9679A6471F9D9D2D007BC806 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9679A6461F9D9D2D007BC806 /* Date+Extension.swift */; };
@@ -850,6 +851,7 @@
 		9663D0071F8AD78D006DB672 /* ContainerWithHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerWithHeaderViewController.swift; sourceTree = "<group>"; };
 		9663D00A1F8AF666006DB672 /* TasksSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksSplitViewController.swift; sourceTree = "<group>"; };
 		9663D00C1F8AF6F5006DB672 /* TasksSplitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksSplitViewModel.swift; sourceTree = "<group>"; };
+		96699BCB1FDDE547006BB024 /* QuantityPickerFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityPickerFormItem.swift; sourceTree = "<group>"; };
 		9674E0E61FC68015000702F8 /* LoadingStateLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStateLoadingView.swift; sourceTree = "<group>"; };
 		9674E0E81FC68031000702F8 /* LoadingStateErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStateErrorView.swift; sourceTree = "<group>"; };
 		9679A6461F9D9D2D007BC806 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -2912,6 +2914,7 @@
 				EA625B181F9703540025EAFB /* DropDownFormItem.swift */,
 				EA53B2701F9D905800B891D8 /* StepperFormItem.swift */,
 				EA7C50A31FA0677A004930BF /* MediaFormItem.swift */,
+				96699BCB1FDDE547006BB024 /* QuantityPickerFormItem.swift */,
 			);
 			path = FormItems;
 			sourceTree = "<group>";
@@ -3630,6 +3633,7 @@
 				EA8904B01F6A0C720050DB84 /* FormBuilderViewController.swift in Sources */,
 				EA53B26F1F9D7F0200B891D8 /* CollectionViewFormStepperCell.swift in Sources */,
 				993E3A2E1F86FD65008BBFF8 /* UIImage+Resizing.swift in Sources */,
+				96699BCC1FDDE547006BB024 /* QuantityPickerFormItem.swift in Sources */,
 				BCED8C761F1488EE004C3C71 /* CollectionViewFormHeaderView.swift in Sources */,
 				BC9C7E0A1F0DED6600DFFE83 /* UITraitCollection+CurrentDisplayScale.swift in Sources */,
 				BC9C7E4F1F0DED6600DFFE83 /* CircleIconView.swift in Sources */,
