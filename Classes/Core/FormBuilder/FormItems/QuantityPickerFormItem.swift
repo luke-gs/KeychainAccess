@@ -24,7 +24,7 @@ public class QuantityPickerFormItem: PickerFormItem<[QuantityPicked]> {
 
 class QuantityPickerAction: ValueSelectionAction<[QuantityPicked]> {
 
-    public var viewModel: QuantityPickerViewModel?
+    public var viewModel: QuantityPickerViewModel
 
     public init(viewModel: QuantityPickerViewModel) {
         self.viewModel = viewModel
@@ -32,7 +32,7 @@ class QuantityPickerAction: ValueSelectionAction<[QuantityPicked]> {
     }
 
     public override func viewController() -> UIViewController {
-        let viewController = QuantityPickerViewController(viewModel: viewModel!)
+        let viewController = QuantityPickerViewController(viewModel: viewModel)
         viewController.title = title
         viewController.doneHandler = { [weak self] picked in
             viewController.navigationController?.popViewController(animated: true)
@@ -40,8 +40,11 @@ class QuantityPickerAction: ValueSelectionAction<[QuantityPicked]> {
             self?.updateHandler?()
             self?.dismissHandler?()
         }
-        viewController.cancelHandler = { [weak self] in
+        viewController.cancelHandler = { [weak self] previousItems in
             viewController.navigationController?.popViewController(animated: true)
+            self?.viewModel.items = previousItems
+            self?.selectedValue = previousItems
+            self?.updateHandler?()
             self?.dismissHandler?()
         }
         viewController.modalPresentationStyle = .none
