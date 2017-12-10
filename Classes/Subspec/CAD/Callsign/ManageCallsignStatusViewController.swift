@@ -189,7 +189,7 @@ open class ManageCallsignStatusViewController: ThemedPopoverViewController, Mana
 
             buttonStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             buttonStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            buttonStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            buttonStackView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
         ])
     }
 
