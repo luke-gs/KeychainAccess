@@ -92,13 +92,13 @@ extension OptionFormItem {
     }
 
     @discardableResult
-    public func title(_ title: String?) -> Self {
+    public func title(_ title: StringSizable?) -> Self {
         self.title = title
         return self
     }
 
     @discardableResult
-    public func subtitle(_ subtitle: String?) -> Self {
+    public func subtitle(_ subtitle: StringSizable?) -> Self {
         self.subtitle = subtitle
         return self
     }

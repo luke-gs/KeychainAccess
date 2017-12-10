@@ -288,6 +288,12 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
     // MARK: - Tab bar delegate
     
     open func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        // If we are selecting the same tab, pop to root
+        if selectedViewController?.tabBarItem == item {
+            if let popToRootable = selectedViewController as? PopToRootable {
+                popToRootable.popToRoot(animated: true)
+            }
+        }
         if let newSelectedVC = viewControllers.first(where: { $0.tabBarItem == item }) {
             if statusTabBarDelegate?.controller(self, shouldSelect: newSelectedVC) == false {
                 tabBar.selectedItem = selectedViewController?.tabBarItem

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 open class ResourceOverviewViewController: UIViewController {
     
@@ -40,8 +41,17 @@ open class ResourceOverviewViewController: UIViewController {
         
         view.backgroundColor = .white
         
-        let mapViewModel = TasksMapViewModel()
-        mapViewController = mapViewModel.createViewController()
+        var region: MKCoordinateRegion?
+        
+        // Get region from main map view and use as starting point
+        if let splitView = pushableSplitViewController?.navigationController?.viewControllers.first as? TasksSplitViewController,
+            let mapViewController = splitView.detailVC as? MapViewController
+        {
+            region = mapViewController.mapView.region
+        }
+        
+        let mapViewModel = ResourceOverviewMapViewModel(callsign: viewModel.callsign)
+        mapViewController = mapViewModel.createViewController(startingMapRegion: region)
         addChildViewController(mapViewController, toView: view)
         mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
         

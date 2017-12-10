@@ -10,9 +10,10 @@ import UIKit
 
 /// Used for switching between not booked on and manage callsign
 /// status view controllers as an item in the tab bar in compact mode
-open class CompactCallsignViewController: UIViewController {
+open class CompactCallsignViewController: UIViewController, PopToRootable {
 
     private var callsignViewController = UIViewController()
+    private var navController: UINavigationController?
     
     open override var preferredStatusBarStyle: UIStatusBarStyle {
         return UIStatusBarStyle.lightContent
@@ -55,6 +56,12 @@ open class CompactCallsignViewController: UIViewController {
             navController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             navController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
+        
+        self.navController = navController
+    }
+    
+    public func popToRoot(animated: Bool) {
+        navController?.popToRootViewController(animated: animated)
     }
 }
 

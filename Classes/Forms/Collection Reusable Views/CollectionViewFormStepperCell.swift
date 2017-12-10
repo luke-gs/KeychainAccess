@@ -24,6 +24,8 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
 
     open var numberOfDecimalPlaces: Int = 0
 
+    open var displaysZeroValue: Bool = true
+
     /// The horizontal separation between labels.
     open var labelSeparation: CGFloat = CellTitleSubtitleSeparation {
         didSet {
@@ -115,6 +117,11 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
 
     private func updateTextField(force: Bool = false) {
         if !textField.isFirstResponder || force {
+            let value = stepper.value
+            if value ==~ 0.0  && !displaysZeroValue {
+                textField.text = ""
+                return
+            }
             textField.text = CollectionViewFormStepperCell.textForValue(stepper.value, numberOfDecimalPlaces: numberOfDecimalPlaces)
         }
     }

@@ -60,7 +60,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        configureSegmentedControl(for: traitCollection)
+        configureSegmentedControlForTraitCollection()
 
         self.performInitialSync()
     }
@@ -91,9 +91,11 @@ open class TasksSplitViewController: MPOLSplitViewController {
 
     open override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
-        configureSegmentedControl(for: newCollection)
+        coordinator.animate(alongsideTransition: { (context) in
+            self.configureSegmentedControlForTraitCollection()
+        }, completion: nil)
     }
-
+    
     open override func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
         return viewModel.navTitle()
     }
@@ -181,9 +183,9 @@ open class TasksSplitViewController: MPOLSplitViewController {
 
     // MARK: - Segmented control
     
-    /// Shows or hides the segmented control based on trait collection
-    private func configureSegmentedControl(for traitCollection: UITraitCollection) {
-        if isCompact() {
+    /// Shows or hides the segmented control based on trait collection.
+    private func configureSegmentedControlForTraitCollection() {
+        if isCompact()  {
             masterVC.navigationItem.titleView = segmentedControl
             
             masterVC.navigationItem.rightBarButtonItem = filterButton

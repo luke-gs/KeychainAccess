@@ -141,7 +141,7 @@ open class MPOLSplitViewController: PushableSplitViewController {
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-
+    
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateNavigationBarForTraitChange()
@@ -151,6 +151,13 @@ open class MPOLSplitViewController: PushableSplitViewController {
         if selectedViewController == nil {
             // Get the default selected view controller from the subclass and apply the selection
             selectedViewController = defaultSelectedViewController()
+        }
+        
+        // Let swipe to go back still work
+        if let interactiveGesture = navigationController?.interactivePopGestureRecognizer {
+            if let scrollView = pageViewController.scrollView {
+                scrollView.panGestureRecognizer.require(toFail: interactiveGesture)
+            }
         }
     }
 
@@ -366,5 +373,4 @@ extension MPOLSplitViewController: ScrollAwarePageViewControllerDelegate {
         }
     }
 }
-
 

@@ -65,7 +65,7 @@ public final class AlertQueue: NSObject {
     
     // MARK: - Private properties
     
-    private var alertContainerViewController: AlertContainerViewController?
+    public private(set) var alertContainerViewController: AlertContainerViewController?
     
     
     private var window: UIWindow? {
@@ -178,9 +178,9 @@ public final class AlertQueue: NSObject {
 
 /// A private class that handles detecting the dismiss operation, and updating the
 /// status bar style.
-fileprivate class AlertContainerViewController: UIViewController {
+public class AlertContainerViewController: UIViewController {
     
-    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+    override public func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
         if presentedViewController == nil {
             super.dismiss(animated: flag, completion: completion)
             return
@@ -192,7 +192,7 @@ fileprivate class AlertContainerViewController: UIViewController {
         }
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
+    override public var preferredStatusBarStyle: UIStatusBarStyle {
         return AlertQueue.shared.preferredStatusBarStyle
     }
 }
