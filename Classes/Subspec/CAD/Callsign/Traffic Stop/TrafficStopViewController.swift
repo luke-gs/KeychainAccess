@@ -133,6 +133,24 @@ open class TrafficStopViewController: FormBuilderViewController {
     
     // MARK: - Actions
     
+    open override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if isMovingFromParentViewController {
+            cancelPromise()
+        }
+    }
+    
+    deinit {
+        cancelPromise()
+    }
+    
+    private func cancelPromise() {
+        // Cancel promise if it's not cancelled
+        if viewModel.promise.promise.isPending {
+            viewModel.cancel()
+        }
+    }
+    
     @objc private func cancelButtonTapped(_ button: UIBarButtonItem) {
         viewModel.cancel()
         navigationController?.popViewController(animated: true)
