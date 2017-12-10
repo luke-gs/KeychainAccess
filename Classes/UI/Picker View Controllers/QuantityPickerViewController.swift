@@ -33,7 +33,11 @@ open class QuantityPickerViewController: FormBuilderViewController {
 
     private let viewModel: QuantityPickerViewModel
 
-    open var completionHandler: (([QuantityPicked]) -> Void)?
+    // Closure called when user cancels selection
+    open var cancelHandler: (() -> Void)?
+
+    // Closure called when user accepts selection
+    open var doneHandler: (([QuantityPicked]) -> Void)?
 
     // MARK: - Initializers
     public init(viewModel: QuantityPickerViewModel) {
@@ -87,12 +91,12 @@ open class QuantityPickerViewController: FormBuilderViewController {
 
     @objc
     private func onCancel() {
-        dismiss(animated: true, completion: nil)
+        cancelHandler?()
     }
 
     @objc
     private func onDone() {
-        completionHandler?(viewModel.items)
+        doneHandler?(viewModel.items)
     }
 
     // MARK: - Convenience
