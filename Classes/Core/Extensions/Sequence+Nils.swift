@@ -19,7 +19,7 @@ public protocol OptionalType {
 extension Optional: OptionalType {}
 
 public extension Sequence where Iterator.Element: OptionalType {
-    func removeNils() -> [Iterator.Element.Wrapped] {
+    public func removeNils() -> [Iterator.Element.Wrapped] {
         var result: [Iterator.Element.Wrapped] = []
         for element in self {
             if let element = element.map({ $0 }) {
@@ -27,5 +27,11 @@ public extension Sequence where Iterator.Element: OptionalType {
             }
         }
         return result
+    }
+}
+
+public extension Sequence where Iterator.Element == String? {
+    public func joined(separator: String = " ") -> String {
+        return removeNils().joined(separator: separator)
     }
 }

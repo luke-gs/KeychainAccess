@@ -11,11 +11,17 @@ import UIKit
 open class OfficerCommunicationsView: UIView {
     
     private var stackView: UIStackView!
+    private var contactNumber: String
+    
+    private var onTappedMessageBlock: ((UIButton) -> ())?
+    private var onTappedCallBlock: ((UIButton) -> ())?
+
 
     public let messageButton = DisableableButton(frame: .zero)
     public let callButton = DisableableButton(frame: .zero)
     
-    public init(frame: CGRect, commsEnabled: (text: Bool, call: Bool)) {
+    public init(frame: CGRect, commsEnabled: (text: Bool, call: Bool), contactNumber: String) {
+        self.contactNumber = contactNumber
         super.init(frame: frame)
         
         messageButton.setImage(AssetManager.shared.image(forKey: .message), for: .normal)
@@ -23,12 +29,14 @@ open class OfficerCommunicationsView: UIView {
         messageButton.enabledColor = .brightBlue
         messageButton.disabledColor = .disabledGray
         messageButton.isEnabled = commsEnabled.text
-        
+        messageButton.addTarget(self, action: #selector(didSelectMessage), for: .touchUpInside)
+
         callButton.setImage(AssetManager.shared.image(forKey: .audioCall), for: .normal)
         callButton.imageView?.contentMode = .scaleAspectFit
         callButton.enabledColor = .brightBlue
         callButton.disabledColor = .disabledGray
         callButton.isEnabled = commsEnabled.call
+        callButton.addTarget(self, action: #selector(didSelectCall), for: .touchUpInside)
         
         stackView = UIStackView(arrangedSubviews: [messageButton, callButton])
         
@@ -50,4 +58,27 @@ open class OfficerCommunicationsView: UIView {
         MPLCodingNotSupported()
     }
     
+    
+    @objc private func didSelectCall() {
+        onTappedCallBlock?(callButton)
+    }
+    
+    @objc private func didSelectMessage() {
+        onTappedMessageBlock?(messageButton)
+    }
+    
+    
+    @discardableResult
+    /// Called when the call button is tapped
+    public func onTappedCall(_ tapped: ((UIButton) -> ())?) -> Self {
+        self.onTappedCallBlock = tapped
+        return self
+    }
+    
+    @discardableResult
+    /// Called when the message button is tapped
+    public func onTappedMessage(_ tapped: ((UIButton) -> ())?) -> Self {
+        self.onTappedMessageBlock = tapped
+        return self
+    }
 }

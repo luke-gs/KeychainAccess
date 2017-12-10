@@ -137,7 +137,9 @@ extension Theme {
         public static let primaryText         = ColorKey(rawValue: "primaryText")
         public static let secondaryText       = ColorKey(rawValue: "secondaryText")
         public static let placeholderText     = ColorKey(rawValue: "placeholderText")
-        
+        public static let headerTitleText     = ColorKey(rawValue: "headerTitleText")
+        public static let headerSubtitleText  = ColorKey(rawValue: "headerSubtitleText")
+
         // System
         public static let background            = ColorKey(rawValue: "background")
         public static let separator             = ColorKey(rawValue: "separator")
@@ -147,6 +149,7 @@ extension Theme {
         public static let popoverBackground     = ColorKey(rawValue: "popoverBackground")
         public static let searchField           = ColorKey(rawValue: "searchField")
         public static let searchFieldBackground = ColorKey(rawValue: "searchFieldBackground")
+        public static let headerBackground      = ColorKey(rawValue: "headerBackground")
         
         // Grouped Table specific
         public static let groupedTableBackground     = ColorKey(rawValue: "groupedTableBackground")

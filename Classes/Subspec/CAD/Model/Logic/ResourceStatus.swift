@@ -19,6 +19,8 @@ public enum ResourceStatus: String, Codable {
     case atStation      = "At Station"
     case onCall         = "On Call"
     case inquiries1     = "Inquiries1"
+    case duress         = "Duress"
+    case offDuty        = "Off Duty"
 
     // Current task
     case proceeding     = "Proceeding"
@@ -55,6 +57,10 @@ public enum ResourceStatus: String, Codable {
             return NSLocalizedString("Finalise", comment: "")
         case .inquiries2:
             return NSLocalizedString("Inquiries", comment: "")
+        case .duress:
+            return NSLocalizedString("Duress", comment: "")
+        case .offDuty:
+            return NSLocalizedString("Off Duty", comment: "")
         }
     }
 
@@ -84,6 +90,10 @@ public enum ResourceStatus: String, Codable {
             return .iconStatusFinalise
         case .inquiries2:
             return .iconStatusInquiries
+        case .duress:
+            return .duress
+        case .offDuty:
+            return .iconStatusOnAir
         }
     }
 
@@ -118,6 +128,10 @@ public enum ResourceStatus: String, Codable {
             return (.secondaryGray, .disabledGray)
         case .inquiries2:
             return (.secondaryGray, .disabledGray)
+        case .duress:
+            return (.orangeRed, .disabledGray)
+        case .offDuty:
+            return (.secondaryGray, .disabledGray)
         }
     }
 
@@ -131,14 +145,16 @@ public enum ResourceStatus: String, Codable {
              .court,
              .atStation,
              .onCall,
-             .inquiries1:
+             .inquiries1,
+             .offDuty:
             return true
 
         // Current state where terminating shift is NOT allowed
         case .proceeding,
              .atIncident,
              .finalise,
-             .inquiries2:
+             .inquiries2,
+             .duress:
             return false
         }
     }

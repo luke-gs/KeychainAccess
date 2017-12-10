@@ -10,20 +10,28 @@ import PromiseKit
 
 
 /// Plugin that checks responses for 401 and begins refresh logic:
-///     - Creates a refresh promise that calls `APIManager.shared.refreshTokenRequest(..)`
+///     - The app will provide a promise that handles refreshing token
 ///     - Chains all incoming adapt() requests to the refresh promise
 ///     - Chains all incoming processResponse() to the refresh promise with a new promise
 ///       that retries the request, and returns the new response
 open class RefreshTokenPlugin: PluginType {
     
+    /// This block will execute when a 401 is received, to create a promise that will
+    /// re-authenticate the app. This should handle:
+    /// - Refreshing the auth token
+    /// - Updating the APIManager's authentication plugin
+    /// - Handling any errors that are received and throwing them appropriately
+    /// Keep in mind that network requests may be chained to this response, so correct error
+    /// propogation is important, as the error you throw will be caught in the chain.
+    public typealias RefreshHandler = (DataResponse<Data>) -> Promise<Void>
 
     // MARK: - Properties
     
     /// The paths that will be excluded from refresh logic.
     public let excludePaths: Set<String>
     
-    /// Will execute if refresh token attempt fails (lets the app try to refresh session and handle errors).
-    public var onRefreshTokenFailed: ((Error?) -> Promise<Void>)?
+    /// Will execute on 401 to create a refresh attempt promise.
+    public let refreshHandler: RefreshHandler
     
     /// The promise that is currently executing the refresh token request.
     private var refreshPromise: Promise<Void>? {
@@ -50,7 +58,8 @@ open class RefreshTokenPlugin: PluginType {
     
     // MARK: - Plugin Type
     
-    public init(excludePaths: Set<String> = ["login", "refresh"]) {
+    public init(excludePaths: Set<String> = ["login", "refresh"], _ refreshHandler: @escaping RefreshHandler) {
+        self.refreshHandler = refreshHandler
         self.excludePaths = excludePaths
         self.barrierQueue = DispatchQueue(label: "au.com.gridstone.RefreshTokenPlugin.Barrier", attributes: .concurrent)
     }
@@ -99,14 +108,8 @@ open class RefreshTokenPlugin: PluginType {
             
             // Create refresh promise
             self.refreshPromise = firstly {
-                tryRefreshToken(from: response)
-            }.recover { error -> Promise<Void> in
-                // Let app try refresh session
-                if let fallback = self.onRefreshTokenFailed {
-                    return fallback(error)
-                }
-                // Otherwise throw original error
-                throw error
+                // Let app attempt refresh
+                return self.refreshHandler(response)
             }.always {
                 self.refreshPromise = nil
             }
@@ -167,20 +170,6 @@ open class RefreshTokenPlugin: PluginType {
     }
 
 }
-
-
-// MARK: - Chaining methods
-
-public extension RefreshTokenPlugin {
-    
-    @discardableResult
-    public func onRefreshTokenFailed(_ onRefreshTokenFailed: ((Error?) -> Promise<Void>)?) -> Self {
-        self.onRefreshTokenFailed = onRefreshTokenFailed
-        return self
-    }
-    
-}
-
 
 
 // MARK: - Auth Header Check

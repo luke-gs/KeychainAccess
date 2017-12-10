@@ -14,7 +14,7 @@ public class UserSession: UserSessionable {
     public static let latestSessionKey = "LatestSessionKey"
 
     public static let current = UserSession()
-    private(set) var token: OAuthAccessToken?
+    open private(set) var token: OAuthAccessToken?
     private(set) public var user: User?
 
     // Use the app group base path for sharing between apps by default

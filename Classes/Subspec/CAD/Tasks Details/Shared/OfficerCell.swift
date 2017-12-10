@@ -20,6 +20,11 @@ open class OfficerCell: CollectionViewFormSubtitleCell {
 
     /// Badge label
     public let badgeLabel = RoundedRectLabel(frame: .zero)
+    public var leftLayoutMargin: CGFloat? {
+        didSet {
+            applyLeftLayoutMargin()
+        }
+    }
     
     // MARK: - Initialization
     
@@ -64,6 +69,18 @@ open class OfficerCell: CollectionViewFormSubtitleCell {
             self.badgeLabel.frame = badgeFrame
             self.titleLabel.frame = titleFrame
         }
-
     }
+    
+    open override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
+        super.apply(layoutAttributes)
+        applyLeftLayoutMargin()
+    }
+    
+    private func applyLeftLayoutMargin() {
+        if let leftLayoutMargin = leftLayoutMargin {
+            layoutMargins.left = leftLayoutMargin
+            contentView.layoutMargins.left = leftLayoutMargin
+        }
+    }
+    
 }

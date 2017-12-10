@@ -13,7 +13,6 @@ open class ResourceOfficerListViewController: CADFormCollectionViewController<Re
     override public init(viewModel: CADFormCollectionViewModel<ResourceOfficerViewModel>) {
         super.init(viewModel: viewModel)
         
-        // TODO: Get real image
         sidebarItem.image = AssetManager.shared.image(forKey: .entityOfficer)
     }
     
@@ -33,9 +32,19 @@ open class ResourceOfficerListViewController: CADFormCollectionViewController<Re
         cell.separatorStyle = .indented
         
         let commsView = OfficerCommunicationsView(frame: CGRect(x: 0, y: 0, width: 72, height: 32),
-                                                  commsEnabled: viewModel.commsEnabled)
+                                                  commsEnabled: viewModel.commsEnabled,
+                                                  contactNumber: viewModel.contactNumber)
+            .onTappedCall { _ in
+                CommsButtonHandler.didSelectCall(for: viewModel.contactNumber)
+            }.onTappedMessage { _ in
+                CommsButtonHandler.didSelectMessage(for: viewModel.contactNumber)
+            }
+        
         if traitCollection.horizontalSizeClass == .compact {
             cell.accessoryView = FormAccessoryView(style: .overflow)
+                .onTapped { _ in
+                    CommsButtonHandler.didSelectCompactCommsButton(for: viewModel.contactNumber, enabled: viewModel.commsEnabled)
+                }
         } else {
             cell.accessoryView = commsView
         }

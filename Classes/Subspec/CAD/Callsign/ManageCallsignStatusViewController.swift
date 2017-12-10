@@ -10,33 +10,38 @@ import UIKit
 import PromiseKit
 
 /// View controller for managing the current callsign status
-class ManageCallsignStatusViewController: UIViewController, PopoverViewController {
+open class ManageCallsignStatusViewController: ThemedPopoverViewController, ManageCallsignStatusViewModelDelegate {
 
-    public let viewModel: ManageCallsignStatusViewModel
+    open let viewModel: ManageCallsignStatusViewModel
 
-    /// Flow layout
-    public var collectionViewLayout: UICollectionViewFlowLayout!
+    /// Scroll view for content view
+    open var scrollView: UIScrollView!
 
-    /// Collection view for status items
-    public var collectionView: UICollectionView!
+    /// Content view for all content above buttons
+    open var contentView: UIView!
 
     /// Stack view for action buttons
-    public var buttonStackView: UIStackView!
+    open var buttonStackView: UIStackView!
 
-    /// Support being transparent when in popover/form sheet
-    open var wantsTransparentBackground: Bool = true {
+    /// The button separator views
+    open var buttonSeparatorViews: [UIView]!
+
+    /// Form for displaying the current incident (or nothing)
+    open var incidentFormVC: CallsignIncidentFormViewController!
+
+    /// Collection of callsign statuses
+    open var callsignStatusVC: CallsignStatusViewController!
+
+    /// Height constraint for current incident form
+    open var incidentFormHeight: NSLayoutConstraint!
+
+    override open var wantsTransparentBackground: Bool {
         didSet {
-            view.backgroundColor = wantsTransparentBackground ? UIColor.clear : theme.color(forKey: .background)!
+            /// Apply transparent background to child VCs
+            incidentFormVC.wantsTransparentBackground = wantsTransparentBackground
+            callsignStatusVC.wantsTransparentBackground = wantsTransparentBackground
         }
     }
-
-    /// Return the current theme
-    private var theme: Theme {
-        return ThemeManager.shared.theme(for: .current)
-    }
-    
-    /// The index path that is currently loading
-    private var loadingIndexPath: IndexPath?
 
     // MARK: - Initializers
 
@@ -52,6 +57,7 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
         MPLCodingNotSupported()
     }
 
+
     // MARK: - View lifecycle
 
     open override func viewDidLoad() {
@@ -64,31 +70,31 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
         setupNavigationBarButtons()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setTitleView(title: viewModel.navTitle(), subtitle: viewModel.navSubtitle())
     }
 
-    override func viewDidLayoutSubviews() {
+    /// We need to override viewDidLayoutSubviews as well as willTransition due to behaviour of popover controller
+    override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        // Update the item size and title view based on current traits
-        updateItemSizeForTraits()
+        // Update the title view based on current traits
         setTitleView(title: viewModel.navTitle(), subtitle: viewModel.navSubtitle())
         setupNavigationBarButtons()
+
+        incidentFormHeight.constant = viewModel.shouldShowIncident ? incidentFormVC.calculatedContentHeight() : 0
     }
 
-    /// Update the item size based on size class
-    open func updateItemSizeForTraits() {
-        let availableWidth = collectionView.bounds.width - collectionViewLayout.sectionInset.left - collectionViewLayout.sectionInset.right
-        if self.traitCollection.horizontalSizeClass == .compact {
-            self.collectionViewLayout.itemSize = CGSize(width: availableWidth / 2, height: 45)
-        } else {
-            self.collectionViewLayout.itemSize = CGSize(width: availableWidth / 4, height: 75)
-        }
-        self.collectionViewLayout.invalidateLayout()
+    override open func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        coordinator.animate(alongsideTransition: { (context) in
+            // Update the item size and title view based on new traits
+            self.setTitleView(title: self.viewModel.navTitle(), subtitle: self.viewModel.navSubtitle())
+            self.setupNavigationBarButtons()
+        }, completion: nil)
     }
-    
+
     /// Adds or removes bar button items for the curernt presented state
     open func setupNavigationBarButtons() {
         // Create done button
@@ -99,29 +105,20 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
         }
     }
 
-    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.willTransition(to: newCollection, with: coordinator)
-        coordinator.animate(alongsideTransition: { (context) in
-            // Update the item size and title view based on new traits
-            self.updateItemSizeForTraits()
-            self.setTitleView(title: self.viewModel.navTitle(), subtitle: self.viewModel.navSubtitle())
-            self.setupNavigationBarButtons()
-        }, completion: nil)
-    }
+    open func createSubviews() {
+        scrollView = UIScrollView(frame: .zero)
+        view.addSubview(scrollView)
 
-    public func createSubviews() {
-        collectionViewLayout = UICollectionViewFlowLayout()
-        collectionViewLayout.sectionInset = UIEdgeInsets(top: 16, left: 24, bottom: 0, right: 24)
-        collectionViewLayout.minimumInteritemSpacing = 0
-        collectionViewLayout.minimumLineSpacing = 10
+        contentView = UIView(frame: .zero)
+        scrollView.addSubview(contentView)
 
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.backgroundColor = .clear
-        collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
-        collectionView.register(ManageCallsignStatusViewCell.self)
-        view.addSubview(collectionView)
+        incidentFormVC = CallsignIncidentFormViewController(listViewModel: viewModel.incidentListViewModel,
+                                                            taskViewModel: viewModel.incidentTaskViewModel)
+        incidentFormVC.view.backgroundColor = UIColor.clear
+        addChildViewController(incidentFormVC, toView: contentView)
+
+        callsignStatusVC = viewModel.callsignViewModel.createViewController()
+        addChildViewController(callsignStatusVC, toView: contentView)
 
         buttonStackView = UIStackView(frame: .zero)
         buttonStackView.axis = .vertical
@@ -131,11 +128,13 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
 
         let tintColor = theme.color(forKey: .tint)!
 
+        buttonSeparatorViews = []
         for (index, buttonText) in viewModel.actionButtons.enumerated() {
             let separatorView = UIView(frame: .zero)
-            separatorView.backgroundColor = iOSStandardSeparatorColor
+            separatorView.backgroundColor = theme.color(forKey: .separator)
             separatorView.translatesAutoresizingMaskIntoConstraints = false
             separatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+            buttonSeparatorViews.append(separatorView)
             buttonStackView.addArrangedSubview(separatorView)
 
             let button = UIButton(type: .custom)
@@ -151,31 +150,47 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
         }
     }
 
-    public func createConstraints() {
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
+    open func createConstraints() {
+        let incidentFormView = incidentFormVC.view!
+        incidentFormView.translatesAutoresizingMaskIntoConstraints = false
+
+        let callsignStatusView = callsignStatusVC.view!
+        callsignStatusView.translatesAutoresizingMaskIntoConstraints = false
+
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         buttonStackView.translatesAutoresizingMaskIntoConstraints = false
 
+        buttonStackView.setContentCompressionResistancePriority(.required, for: .vertical)
+        incidentFormView.setContentCompressionResistancePriority(.required, for: .vertical)
+
+        incidentFormHeight = incidentFormView.heightAnchor.constraint(equalToConstant: 0)
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: buttonStackView.topAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: buttonStackView.topAnchor),
+
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+
+            incidentFormView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            incidentFormView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            incidentFormView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            incidentFormHeight,
+
+            callsignStatusView.topAnchor.constraint(equalTo: incidentFormView.bottomAnchor),
+            callsignStatusView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            callsignStatusView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            callsignStatusView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
 
             buttonStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             buttonStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            buttonStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor).withPriority(.almostRequired),
+            buttonStackView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
         ])
-    }
-
-    open func decorate(cell: ManageCallsignStatusViewCell, with viewModel: ManageCallsignStatusItemViewModel, selected: Bool) {
-        cell.titleLabel.text = viewModel.title
-        cell.titleLabel.font = .systemFont(ofSize: 13.0, weight: selected ? UIFont.Weight.semibold : UIFont.Weight.regular)
-        cell.titleLabel.textColor = theme.color(forKey: .secondaryText)!
-
-        cell.imageView.image = viewModel.image
-        cell.imageView.tintColor = theme.color(forKey: selected ? .tint : .secondaryText)!
-        
-        cell.spinner.color = theme.color(forKey: .tint)
     }
 
     @objc private func didTapDoneButton(_ button: UIBarButtonItem) {
@@ -186,115 +201,14 @@ class ManageCallsignStatusViewController: UIViewController, PopoverViewControlle
         viewModel.didTapActionButtonAtIndex(button.tag)
     }
     
-    // MARK: - Internal
-    
-    private func set(loading: Bool, at indexPath: IndexPath) {
-        self.loadingIndexPath = loading ? indexPath : nil
-        UIView.performWithoutAnimation {
-            collectionView.performBatchUpdates({
-                collectionView.reloadItems(at: [indexPath])
-            }, completion: nil)
+    // MARK: - Theme
+
+    override open func apply(_ theme: Theme) {
+        super.apply(theme)
+
+        // Theme button separators
+        for separatorView in buttonSeparatorViews {
+            separatorView.backgroundColor = theme.color(forKey: .separator)
         }
     }
-
-}
-
-// MARK: - UICollectionViewDataSource
-extension ManageCallsignStatusViewController: UICollectionViewDataSource {
-
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return viewModel.numberOfSections()
-    }
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.numberOfItems(for: section)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(of: ManageCallsignStatusViewCell.self, for: indexPath)
-        if let item = viewModel.item(at: indexPath) {
-            decorate(cell: cell, with: item, selected: viewModel.selectedIndexPath == indexPath)
-        }
-        return cell
-    }
-
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionElementKindSectionHeader {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
-            header.text = viewModel.headerText(at: indexPath.section)
-            header.tintColor = theme.color(forKey: .secondaryText)!
-            header.layoutMargins = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
-            return header
-        }
-        return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "", for: indexPath)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cell = cell as? ManageCallsignStatusViewCell else { return }
-        cell.isLoading = indexPath == loadingIndexPath
-    }
-
-}
-
-// MARK: - CADFormCollectionViewModelDelegate
-extension ManageCallsignStatusViewController: CADFormCollectionViewModelDelegate {
-
-    public func sectionsUpdated() {
-        collectionView.reloadData()
-    }
-
-    public func dismiss() {
-        dismiss(animated: true, completion: nil)
-    }
-
-}
-
-// MARK: - UICollectionViewDelegateFlowLayout
-extension ManageCallsignStatusViewController: UICollectionViewDelegateFlowLayout {
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: CollectionViewFormHeaderView.minimumHeight)
-    }
-}
-
-// MARK: - UICollectionViewDelegate
-extension ManageCallsignStatusViewController: UICollectionViewDelegate {
-
-    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath), indexPath != viewModel.selectedIndexPath {
-            cell.contentView.alpha = 0.5
-        }
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) {
-            cell.contentView.alpha = 1
-        }
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: false)
-
-        if indexPath != viewModel.selectedIndexPath, loadingIndexPath == nil {
-            
-            let oldIndexPath = viewModel.selectedIndexPath
-            set(loading: true, at: indexPath)
-
-            firstly {
-                // Attempt to change state
-                return viewModel.setSelectedIndexPath(indexPath)
-            }.then { _ in
-                UIView.performWithoutAnimation {
-                    collectionView.performBatchUpdates({
-                        collectionView.reloadItems(at: [indexPath, oldIndexPath])
-                    }, completion: nil)
-                }
-            }.always {
-                self.set(loading: false, at: indexPath)
-            }.catch { error in
-                AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
-            }
-        }
-    }
-
 }

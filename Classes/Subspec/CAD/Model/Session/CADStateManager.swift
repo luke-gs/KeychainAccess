@@ -135,6 +135,8 @@ open class CADStateManager: NSObject {
     open func syncDetails() -> Promise<SyncDetailsResponse> {
         // Perform sync and keep result
         return firstly {
+            return after(seconds: 1.0)
+        }.then { _ in
             return CADStateManager.apiManager.cadSyncDetails(request: SyncDetailsRequest())
         }.then { [unowned self] summaries -> SyncDetailsResponse in
             self.lastSync = summaries
@@ -150,8 +152,6 @@ open class CADStateManager: NSObject {
         return firstly {
             // Get details about logged in user
             return self.fetchCurrentOfficerDetails()
-        }.then { _ in
-            return after(seconds: 2.0)
         }.then { [unowned self] _ in
             // Get new manifest items
             return self.syncManifestItems()
@@ -185,7 +185,7 @@ open class CADStateManager: NSObject {
         var resources: [SyncDetailsResource] = []
         if let syncDetails = lastSync {
             for resource in syncDetails.resources {
-                if resource.assignedIncidents.contains(incidentNumber) {
+                if resource.assignedIncidents?.contains(incidentNumber) == true {
                     resources.append(resource)
                 }
             }
@@ -195,8 +195,8 @@ open class CADStateManager: NSObject {
 
     /// Return the current incident for a resource
     open func incidentForResource(callsign: String) -> SyncDetailsIncident? {
-        if let resource = resourcesById[callsign] {
-            return incidentsById[resource.currentIncident]
+        if let resource = resourcesById[callsign], let incidentId = resource.currentIncident {
+            return incidentsById[incidentId]
         }
         return nil
     }
@@ -204,8 +204,8 @@ open class CADStateManager: NSObject {
     /// Return all officers linked to a resource
     open func officersForResource(callsign: String) -> [SyncDetailsOfficer] {
         var officers: [SyncDetailsOfficer] = []
-        if let resource = resourcesById[callsign] {
-            for payrollId in resource.payrollIds {
+        if let resource = resourcesById[callsign], let payrollIds = resource.payrollIds {
+            for payrollId in payrollIds {
                 if let officer = officersById[payrollId] {
                     officers.append(officer)
                 }

@@ -27,6 +27,8 @@ public class StepperFormItem: BaseFormItem {
 
     public var customValueFont: UIFont?
 
+    public var displaysZeroValue: Bool = true
+
     public init() {
         super.init(cellType: CollectionViewFormStepperCell.self, reuseIdentifier: CollectionViewFormStepperCell.defaultReuseIdentifier)
         self.selectionStyle = .underline
@@ -41,6 +43,7 @@ public class StepperFormItem: BaseFormItem {
     public override func configure(_ cell: CollectionViewFormCell) {
         let cell = cell as! CollectionViewFormStepperCell
 
+        cell.displaysZeroValue = displaysZeroValue
         cell.titleLabel.apply(sizable: title, defaultFont: .preferredFont(forTextStyle: .subheadline, compatibleWith: cell.traitCollection))
         cell.textField.font = customValueFont ?? .preferredFont(forTextStyle: .headline, compatibleWith: cell.traitCollection)
 
@@ -123,6 +126,12 @@ extension StepperFormItem {
     @discardableResult
     public func customValueFont(_ customValueFont: UIFont?) -> Self {
         self.customValueFont = customValueFont
+        return self
+    }
+
+    @discardableResult
+    public func displaysZeroValue(_ displaysZeroValue: Bool) -> Self {
+        self.displaysZeroValue = displaysZeroValue
         return self
     }
 

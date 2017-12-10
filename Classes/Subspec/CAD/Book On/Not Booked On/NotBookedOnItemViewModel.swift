@@ -25,8 +25,9 @@ open class NotBookedOnItemViewModel {
         if imageBackgroundColor != nil {
             self.image = image?.withCircleBackground(tintColor: imageColor,
                                                      circleColor: imageBackgroundColor,
-                                                     padding: CGSize(width: 25, height: 25),
-                                                     shrinkImage: false)
+                                                     style: .fixed(size: CGSize(width: 48, height: 48),
+                                                                   padding: CGSize(width: 25, height: 25)),
+                                                     shouldCenterImage: true)
         } else {
             self.image = image
         }
@@ -53,7 +54,7 @@ open class NotBookedOnCallsignItemViewModel: NotBookedOnItemViewModel, BookOnCal
         self.badgeFillColor = badgeFillColor
         self.badgeBorderColor = badgeBorderColor
 
-        let subtitle = [location, status].removeNils().joined(separator: " : ")
+        let subtitle = [location, status].joined(separator: " : ")
         super.init(title: callsign, subtitle: subtitle, image: image, imageColor: imageColor, imageBackgroundColor: imageBackgroundColor)
     }
 
@@ -69,7 +70,7 @@ open class NotBookedOnCallsignItemViewModel: NotBookedOnItemViewModel, BookOnCal
         self.init(
             callsign: resource.callsign,
             status: resource.status.rawValue,
-            location: resource.location.fullAddress,
+            location: resource.location?.fullAddress ?? "",
             image: resource.status.icon,
             imageColor: imageColor,
             imageBackgroundColor: imageBackgroundColor,

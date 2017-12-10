@@ -28,4 +28,8 @@ public enum IncidentGrade: String, Codable {
             return (.secondaryGray, .secondaryGray, .clear)
         }
     }
+    
+    public static var allCases: [IncidentGrade] {
+        return [.p1, .p2, .p3, .p4]
+    }
 }

@@ -39,4 +39,33 @@ public class TasksListItemViewModel {
         self.badgeBorderColor = badgeBorderColor
         self.hasUpdates = hasUpdates
     }
+
+    public convenience init(incident: SyncDetailsIncident, hasUpdates: Bool) {
+        self.init(
+            identifier: incident.identifier,
+            title: [incident.type, incident.resourceCountString].joined(),
+            subtitle: incident.location.fullAddress,
+            caption: [incident.identifier, incident.secondaryCode].joined(separator: " • "),
+            priority: incident.grade.rawValue,
+            description: incident.details,
+            resources: nil, // TODO: Get resources
+            badgeTextColor: incident.grade.badgeColors.text,
+            badgeFillColor: incident.grade.badgeColors.fill,
+            badgeBorderColor: incident.grade.badgeColors.border,
+            hasUpdates: hasUpdates)
+    }
+
+    public convenience init(resource: SyncDetailsResource, incident: SyncDetailsIncident?, hasUpdates: Bool) {
+        self.init(
+            identifier: resource.callsign,
+            title: [resource.callsign, resource.officerCountString].joined(),
+            subtitle: resource.location?.suburb ?? "",
+            caption: resource.status.title,
+            priority: incident?.grade.rawValue,
+            description: incident?.details,
+            badgeTextColor: incident?.grade.badgeColors.text,
+            badgeFillColor: incident?.grade.badgeColors.fill,
+            badgeBorderColor: incident?.grade.badgeColors.border,
+            hasUpdates: hasUpdates)
+    }
 }

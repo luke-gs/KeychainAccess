@@ -65,9 +65,9 @@ extension SyncDetailsIncidentPerson {
     }
     
     open var fullName: String {
-        let lastFirst = [lastName, firstName].removeNils().joined(separator: ", ")
+        let lastFirst = [lastName, firstName].joined(separator: ", ")
         let middle = middleNames != nil ? "\(middleNames.prefix(1))." : nil
         
-        return [lastFirst, middle].removeNils().joined(separator: " ")
+        return [lastFirst, middle].joined()
     }
 }

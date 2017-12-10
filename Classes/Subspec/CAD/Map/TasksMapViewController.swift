@@ -17,9 +17,9 @@ open class TasksMapViewController: MapViewController {
     var mapLayerFilterButton: UIBarButtonItem!
     var zPositionObservers: [NSKeyValueObservation] = []
 
-    public init(viewModel: TasksMapViewModel, locationManager: CLLocationManager? = nil, zoomsToUserLocationOnLoad: Bool = true, settingsViewModel: MapSettingsViewModel = MapSettingsViewModel()) {
+    public init(viewModel: TasksMapViewModel, initialLoadZoomStyle: InitialLoadZoomStyle, startingRegion: MKCoordinateRegion? = nil, settingsViewModel: MapSettingsViewModel = MapSettingsViewModel()) {
         self.viewModel = viewModel
-        super.init(zoomsToUserLocationOnLoad: zoomsToUserLocationOnLoad, settingsViewModel: settingsViewModel)
+        super.init(initialLoadZoomStyle: initialLoadZoomStyle, startingRegion: startingRegion, settingsViewModel: settingsViewModel)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -86,11 +86,10 @@ open class TasksMapViewController: MapViewController {
         mapView.deselectAnnotation(view.annotation, animated: false)
        
         if let viewModel = viewModel.viewModel(for: view.annotation as? TaskAnnotation) {
-            let vc = TasksItemSidebarViewController.init(viewModel: viewModel)
+            let vc = TasksItemSidebarViewController(viewModel: viewModel)
             splitViewController?.navigationController?.pushViewController(vc, animated: true)
         }
     }
-    
     
     public func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
         // Keep resource annotations on top by observing changes to the layer's zPosition

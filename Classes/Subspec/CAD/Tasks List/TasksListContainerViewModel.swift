@@ -43,10 +43,11 @@ public enum TaskListType: Int {
     }
 }
 
-/// Delegate protocol for updating UI
+/// Protocol for notifying UI of updated view model data
 public protocol TasksListContainerViewModelDelegate: class {
-    /// Called when the sections data is updated
-    func sectionsUpdated()
+
+    // Called when source items are updated
+    func updateSourceItems()
 }
 
 /// View model for the task list container, which is the parent of the header and list view models
@@ -56,15 +57,25 @@ public protocol TasksListContainerViewModelDelegate: class {
 open class TasksListContainerViewModel {
 
     public weak var splitViewModel: TasksSplitViewModel?
-
-    /// Delegate for UI updates
-    open weak var delegate: TasksListContainerViewModelDelegate?
+    public weak var delegate: TasksListContainerViewModelDelegate?
 
     // MARK: - Properties
+    
+    /// Ordered array of incident statuses for the list to follow
+    open let incidentSortOrder: [SyncDetailsIncident.Status] = [.current, .assigned, .resourced, .unresourced]
 
     // Child view models
     open let headerViewModel: TasksListHeaderViewModel
     open let listViewModel: TasksListViewModel
+
+    /// The search filter text
+    open var searchText: String? {
+        didSet {
+            if searchText != oldValue {
+                updateSections()
+            }
+        }
+    }
 
     /// The tasks source items, which are basically the different kinds of tasks (not backend sources)
     open var sourceItems: [SourceItem] = [] {
@@ -93,7 +104,6 @@ open class TasksListContainerViewModel {
         self.headerViewModel = headerViewModel
         self.listViewModel = listViewModel
 
-        updateSourceItems()
         updateSections()
 
         // Link header view model sources with us
@@ -101,10 +111,18 @@ open class TasksListContainerViewModel {
 
         // Observe sync changes
         NotificationCenter.default.addObserver(self, selector: #selector(syncChanged), name: .CADSyncChanged, object: nil)
+        
+        /// Observe book-on changes to show assigned incidents
+        NotificationCenter.default.addObserver(self, selector: #selector(bookOnChanged), name: .CADBookOnChanged, object: nil)
+
     }
 
     @objc open func syncChanged() {
-        self.updateSections()
+        updateSections()
+    }
+    
+    @objc open func bookOnChanged() {
+        updateSections()
     }
 
     /// Create the view controller for this view model
@@ -141,22 +159,24 @@ open class TasksListContainerViewModel {
 
     // MARK: - Internal methods
 
-    /// Update the source items status
-    open func updateSourceItems() {
-
-        // TODO: Map network models to view models
-        sourceItems = SampleData.sourceItems()
-        selectedSourceIndex = 0
+    func sourceItemForType(type: TaskListType, count: Int, color: UIColor) -> SourceItem {
+        return SourceItem(title: type.title, shortTitle: type.shortTitle, state: .loaded(count: UInt(count), color: color))
     }
 
     /// Update the task list data
     open func updateSections() {
         let type = TaskListType(rawValue: selectedSourceIndex)!
-        
-        if let splitViewModel = self.splitViewModel {
+
+        if let splitViewModel = splitViewModel {
+
+            // Load filtered data once
+            let filteredIncidents = splitViewModel.filteredIncidents
+            let filteredResources = splitViewModel.filteredResources
+
+            // Apply filtered data to sources and sections
             switch type {
             case .incident:
-                listViewModel.sections = taskListSections(for: splitViewModel.filteredIncidents)
+                listViewModel.sections = taskListSections(for: filteredIncidents)
             case .patrol:
                 // TODO: Get from sync
                 listViewModel.sections = []
@@ -164,16 +184,31 @@ open class TasksListContainerViewModel {
                 // TODO: Get from sync
                 listViewModel.sections = []
             case .resource:
-                listViewModel.sections = taskListSections(for: splitViewModel.filteredResources)
+                listViewModel.sections = taskListSections(for: filteredResources)
             }
+
+            // Update the source items status
+            // TODO: calculate colors based on priorities
+            sourceItems = [
+                sourceItemForType(type: .incident,  count: filteredIncidents.count, color: .orangeRed),
+                sourceItemForType(type: .patrol,    count: 0, color: .secondaryGray),
+                sourceItemForType(type: .broadcast, count: 0, color: .secondaryGray),
+                sourceItemForType(type: .resource,  count: filteredResources.count, color: .orangeRed)
+            ]
         } else {
             listViewModel.sections = []
+            sourceItems = [
+                sourceItemForType(type: .incident,  count: 0, color: .secondaryGray),
+                sourceItemForType(type: .patrol,    count: 0, color: .secondaryGray),
+                sourceItemForType(type: .broadcast, count: 0, color: .secondaryGray),
+                sourceItemForType(type: .resource,  count: 0, color: .secondaryGray)
+            ]
         }
-        delegate?.sectionsUpdated()
+        delegate?.updateSourceItems()
     }
     
     /// Maps sync models to view models
-    func taskListSections(for incidents: [SyncDetailsIncident]) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
+    open func taskListSections(for incidents: [SyncDetailsIncident]) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
         var sectionedIncidents: [String: Array<SyncDetailsIncident>] = [:]
 
         // Map incidents to sections
@@ -182,33 +217,36 @@ open class TasksListContainerViewModel {
             if sectionedIncidents[status] == nil {
                 sectionedIncidents[status] = []
             }
-            
-            sectionedIncidents[status]?.append(incident)
+
+            // Apply search text filter to type or address
+            if let searchText = searchText?.lowercased(), !searchText.isEmpty {
+                let matchedValues = [incident.type, incident.location?.fullAddress].removeNils().filter {
+                    return $0.lowercased().contains(searchText)
+                }
+                if !matchedValues.isEmpty {
+                    sectionedIncidents[status]?.append(incident)
+                }
+            } else {
+                sectionedIncidents[status]?.append(incident)
+            }
         }
-        
-        // Make view models from sections
-        return sectionedIncidents.map { arg in
-            let (status, incidents) = arg
+  
+        let sortedIncidents = incidentSortOrder.map { status -> CADFormCollectionSectionViewModel<TasksListItemViewModel>? in
+            guard let incidents = sectionedIncidents[status.rawValue] else { return nil }
             
             let taskViewModels = incidents.map { incident in
-                return TasksListItemViewModel(identifier: incident.identifier,
-                    title: [incident.type, incident.resourceCountString].removeNils().joined(separator: " "),
-                    subtitle: incident.location.fullAddress,
-                    caption: [incident.identifier, incident.secondaryCode].removeNils().joined(separator: " • "),
-                    priority: incident.grade.rawValue,
-                    description: incident.details,
-                    resources: nil, // TODO: Get resources
-                    badgeTextColor: incident.grade.badgeColors.text,
-                    badgeFillColor: incident.grade.badgeColors.fill,
-                    badgeBorderColor: incident.grade.badgeColors.border,
-                    hasUpdates: true) // TODO: Calculate dynamically
+                return TasksListItemViewModel(incident: incident, hasUpdates: true)
             }
-            return CADFormCollectionSectionViewModel(title: "\(incidents.count) \(status)", items: taskViewModels)
+            return CADFormCollectionSectionViewModel(title: "\(incidents.count) \(status)",
+                items: taskViewModels
+            )
         }
+            
+        return sortedIncidents.removeNils()
     }
     
     /// Maps sync models to view models
-    func taskListSections(for resources: [SyncDetailsResource]) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
+    open func taskListSections(for resources: [SyncDetailsResource]) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
         // Map resources to sections
         let tasked = NSLocalizedString("Tasked", comment: "")
         let untasked = NSLocalizedString("Untasked", comment: "")
@@ -219,10 +257,25 @@ open class TasksListContainerViewModel {
         ]
         
         for resource in resources {
-            if resource.currentIncident != nil {
-                sectionedResources[tasked]?.append(resource)
+            // Apply search text filter to type or address
+            var shouldAppend: Bool = false
+            if let searchText = searchText?.lowercased(), !searchText.isEmpty {
+                let matchedValues = [resource.callsign].removeNils().filter {
+                    return $0.lowercased().contains(searchText)
+                }
+                if !matchedValues.isEmpty {
+                    shouldAppend = true
+                }
             } else {
-                sectionedResources[untasked]?.append(resource)
+                shouldAppend = true
+            }
+
+            if shouldAppend {
+                if resource.currentIncident != nil {
+                    sectionedResources[tasked]?.append(resource)
+                } else {
+                    sectionedResources[untasked]?.append(resource)
+                }
             }
         }
         
@@ -232,41 +285,10 @@ open class TasksListContainerViewModel {
             
             let taskViewModels: [TasksListItemViewModel] = resources.map { resource in
                 let incident = CADStateManager.shared.incidentForResource(callsign: resource.callsign)
-                
-                return TasksListItemViewModel(identifier: resource.callsign,
-                    title: "\(resource.callsign ?? "") \(resource.officerCountString ?? "")",
-                    subtitle: resource.location.suburb,
-                    caption: resource.status.title,
-                    priority: incident?.grade.rawValue,
-                    description: incident?.details,
-                    badgeTextColor: incident?.grade.badgeColors.text,
-                    badgeFillColor: incident?.grade.badgeColors.fill,
-                    badgeBorderColor: incident?.grade.badgeColors.border,
-                    hasUpdates: true) // TODO: Calculate dynamically
+                return TasksListItemViewModel(resource: resource, incident: incident, hasUpdates: true)
             }
-            if resources.count > 0 {
-                return CADFormCollectionSectionViewModel(title: "\(resources.count) \(section)", items: taskViewModels)
-            } else {
-                return nil
-            }
+            return CADFormCollectionSectionViewModel(title: "\(resources.count) \(section)", items: taskViewModels)
         }.removeNils()
     }
 
 }
-
-public class SampleData {
-
-    static func sourceItemForType(type: TaskListType, count: UInt, color: UIColor) -> SourceItem {
-        return SourceItem(title: type.title, shortTitle: type.shortTitle, state: .loaded(count: count, color: color))
-    }
-
-    static func sourceItems() -> [SourceItem] {
-        return [
-            sourceItemForType(type: .incident,  count: 6, color: .orangeRed),
-            sourceItemForType(type: .patrol,    count: 1, color: .secondaryGray),
-            sourceItemForType(type: .broadcast, count: 4, color: .secondaryGray),
-            sourceItemForType(type: .resource,  count: 9, color: .orangeRed)
-        ]
-    }
-}
-
