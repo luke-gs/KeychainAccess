@@ -49,6 +49,10 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
             statusText = resource?.status.title ?? incident.status.rawValue
             itemName = [incident.type, incident.resourceCountString].joined()
             lastUpdated = incident.lastUpdated.elapsedTimeIntervalForHuman()
+
+            viewModels.forEach {
+                $0.reloadFromModel()
+            }
         }
     }
 

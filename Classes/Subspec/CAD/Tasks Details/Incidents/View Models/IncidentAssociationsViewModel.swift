@@ -20,12 +20,16 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<EntitySum
     }
     
     /// Create the view controller for this view model
-    public func createViewController() -> UIViewController {
+    open func createViewController() -> UIViewController {
         let viewController = IncidentAssociationsViewController(viewModel: self)
         delegate = viewController
         return viewController
     }
     
+    open func reloadFromModel() {
+        loadData()
+    }
+
     open func loadData() {
         guard let incident = CADStateManager.shared.incidentsById[incidentNumber] else { return }
         sections = []

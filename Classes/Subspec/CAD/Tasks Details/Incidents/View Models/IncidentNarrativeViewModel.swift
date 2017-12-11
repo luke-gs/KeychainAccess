@@ -20,10 +20,14 @@ public class IncidentNarrativeViewModel: CADFormCollectionViewModel<ActivityLogI
     }
     
     /// Create the view controller for this view model
-    public func createViewController() -> UIViewController {
+    open func createViewController() -> UIViewController {
         return IncidentNarrativeViewController(viewModel: self)
     }
     
+    open func reloadFromModel() {
+        loadData()
+    }
+
     open func loadData() {
         guard let incident = CADStateManager.shared.incidentsById[incidentNumber] else { return }
         sections = []

@@ -20,10 +20,14 @@ open class ResourceOfficerListViewModel: CADFormCollectionViewModel<ResourceOffi
     }
 
     /// Create the view controller for this view model
-    public func createViewController() -> UIViewController {
+    open func createViewController() -> UIViewController {
         return ResourceOfficerListViewController(viewModel: self)
     }
     
+    open func reloadFromModel() {
+        loadData()
+    }
+
     open func loadData() {
         guard let resource = CADStateManager.shared.resourcesById[callsign] else { return }
         

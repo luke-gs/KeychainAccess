@@ -17,13 +17,17 @@ open class ResourceOverviewViewModel: TaskDetailsViewModel {
     
     public init(callsign: String) {
         self.callsign = callsign
-        loadSections()
+        loadData()
     }
     
-    public func createViewController() -> UIViewController {
+    open func createViewController() -> UIViewController {
         return ResourceOverviewViewController(viewModel: self)
     }
     
+    open func reloadFromModel() {
+        loadData()
+    }
+
     open func createFormViewController() -> FormBuilderViewController {
         let viewController = ResourceOverviewFormViewController(viewModel: self)
         delegate = viewController
@@ -47,7 +51,7 @@ open class ResourceOverviewViewModel: TaskDetailsViewModel {
         return TasksListItemViewModel(incident: incident, hasUpdates: false)
     }
     
-    open func loadSections() {
+    open func loadData() {
         guard let resource = CADStateManager.shared.resourcesById[callsign] else { return }
         
         sections = [

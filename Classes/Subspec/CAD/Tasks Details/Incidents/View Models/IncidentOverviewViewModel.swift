@@ -17,13 +17,17 @@ open class IncidentOverviewViewModel: TaskDetailsViewModel {
     
     public init(incidentNumber: String) {
         self.incidentNumber = incidentNumber
-        loadSections()
+        loadData()
     }
     
-    public func createViewController() -> UIViewController {
+    open func createViewController() -> UIViewController {
         return IncidentOverviewViewController(viewModel: self)
     }
     
+    open func reloadFromModel() {
+        loadData()
+    }
+
     open func createFormViewController() -> FormBuilderViewController {
         let viewController = IncidentOverviewFormViewController(viewModel: self)
         delegate = viewController
@@ -37,7 +41,7 @@ open class IncidentOverviewViewModel: TaskDetailsViewModel {
         }
     }
     
-    open func loadSections() {
+    open func loadData() {
         guard let incident = CADStateManager.shared.incidentsById[incidentNumber] else { return }
         
         sections = [

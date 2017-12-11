@@ -20,10 +20,14 @@ public class ResourceActivityLogViewModel: CADFormCollectionViewModel<ActivityLo
     }
     
     /// Create the view controller for this view model
-    public func createViewController() -> UIViewController {
+    open func createViewController() -> UIViewController {
         return ResourceActivityLogViewController(viewModel: self)
     }
     
+    open func reloadFromModel() {
+        loadData()
+    }
+
     open func loadData() {
         guard let resource = CADStateManager.shared.resourcesById[callsign] else { return }
         guard let activityLog = resource.activityLog else { return }
