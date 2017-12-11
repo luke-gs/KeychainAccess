@@ -35,12 +35,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         MPOLKitInitialize()
-        
-        let refreshToken = RefreshTokenPlugin().onRefreshTokenFailed { [unowned self] error in
-            UserSession.current.endSession()
-            self.landingPresenter.updateInterfaceForUserSession(animated: true)
-            AlertQueue.shared.addSimpleAlert(title: "Session Ended", message: error?.localizedDescription)
-            return Promise(error: error!)
+
+        let refreshToken = RefreshTokenPlugin { response -> Promise<Void> in
+            self.attemptRefresh(response: response)
         }
 
         var plugins: [PluginType] = [refreshToken, NetworkMonitorPlugin()]
@@ -164,6 +161,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Failed to register for push notification: \(error)")
+    }
+    
+    private func attemptRefresh(response: DataResponse<Data>) -> Promise<Void> {
+        // Reset auth plugin (because BE can't ignore headers)
+        APIManager.shared.authenticationPlugin = nil
+        
+        let promise: Promise<Void>
+        
+        // Create refresh token request with current token
+        if let token = UserSession.current.token?.refreshToken {
+            promise = APIManager.shared.accessTokenRequest(for: .refreshToken(token))
+                .then { token -> Void in
+                    // Update access token
+                    APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+                    UserSession.current.updateToken(token)
+                }.recover { error -> Promise<Void> in
+                    // Throw 401 error instead of refresh token error
+                    throw response.error!
+            }
+        } else {
+            promise = Promise(error: response.error!)
+        }
+        
+        return promise.catch { error in
+            UserSession.current.endSession()
+            self.landingPresenter.updateInterfaceForUserSession(animated: true)
+            AlertQueue.shared.addSimpleAlert(title: "Session Ended", message: error.localizedDescription)
+        }
     }
 
     // TEMP
