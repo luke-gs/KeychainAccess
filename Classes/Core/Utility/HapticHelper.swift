@@ -42,8 +42,8 @@ public class HapticHelper {
         // Initialise a new generator
         let generator: UIFeedbackGenerator
         switch (type) {
-        case .error: generator = UINotificationFeedbackGenerator()
-        case .success: generator = UINotificationFeedbackGenerator()
+        case .error: fallthrough
+        case .success: fallthrough
         case .warning: generator = UINotificationFeedbackGenerator()
 
         case .light: generator = UIImpactFeedbackGenerator(style: .light)
