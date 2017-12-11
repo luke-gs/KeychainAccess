@@ -137,11 +137,14 @@ open class TasksMapViewController: MapViewController {
             let inset = -zoomRect.size.width
             
             mapView.setVisibleMapRect(MKMapRectInset(zoomRect, inset, inset), animated: animated)
+            performedInitialLoadAction = true
         }
     }
     
     public func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        self.zoomToAnnotations()
+        if addedFirstAnnotations {
+            zoomToAnnotations()
+        }
     }
 }
 

@@ -30,7 +30,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     private var performedInitialLoadAction: Bool = false
     
     private let locationManager = LocationManager.shared
-    private(set) public var initialLoadZoomStyle: InitialLoadZoomStyle = .none
+    public let initialLoadZoomStyle: InitialLoadZoomStyle
     private let startingRegion: MKCoordinateRegion?
     private let settingsViewModel: MapSettingsViewModel
     
@@ -69,7 +69,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: - Setup
     
-    public init(initialLoadZoomStyle: InitialLoadZoomStyle, startingRegion: MKCoordinateRegion? = nil, settingsViewModel: MapSettingsViewModel = MapSettingsViewModel()) {
+    public init(initialLoadZoomStyle: InitialLoadZoomStyle = .none, startingRegion: MKCoordinateRegion? = nil, settingsViewModel: MapSettingsViewModel = MapSettingsViewModel()) {
         self.initialLoadZoomStyle = initialLoadZoomStyle
         self.settingsViewModel = settingsViewModel
         self.startingRegion = startingRegion
