@@ -124,7 +124,8 @@ open class TasksMapViewController: MapViewController {
     private func zoomToAnnotations() {
         if case let InitialLoadZoomStyle.annotations(animated) = initialLoadZoomStyle,
             mapView.userLocation.location != nil,
-            !performedInitialLoadAction
+            !performedInitialLoadAction,
+            addedFirstAnnotations
         {
             let annotations = self.mapView.annotations
             
@@ -142,9 +143,7 @@ open class TasksMapViewController: MapViewController {
     }
     
     public func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        if addedFirstAnnotations {
-            zoomToAnnotations()
-        }
+        zoomToAnnotations()
     }
 }
 
