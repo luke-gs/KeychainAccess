@@ -44,7 +44,12 @@ open class GeolocationPlugin: PluginType {
                 adaptedRequest.setValue(String(location.speed), forHTTPHeaderField: GeolocationPlugin.locationSpeed)
             }
         }
-        
-        return Promise(value: adaptedRequest)
+
+        return LocationManager.shared.requestLocation().recover { error -> CLLocation in
+            return LocationManager.shared.lastLocation ?? CLLocation()
+            }.then { _ -> Promise<URLRequest> in
+                return Promise(value: adaptedRequest)
+        }
     }
+
 }
