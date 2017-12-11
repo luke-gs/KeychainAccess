@@ -23,32 +23,63 @@ public enum HapticType {
 
 public class HapticHelper {
 
-    public func trigger(type: HapticType) {
+    public static let shared = HapticHelper()
+
+    private var generator: UIFeedbackGenerator?
+
+    /// Initialises and prepares a new generator based on the passed HapticType
+    public func prepare(type: HapticType) {
+        let generator: UIFeedbackGenerator
         switch (type) {
-        case .error:
-            UINotificationFeedbackGenerator().notificationOccurred(.error)
+        case .error: generator = StoredNotificationGenerator(type: .error)
+        case .success: generator = StoredNotificationGenerator(type: .success)
+        case .warning: generator = StoredNotificationGenerator(type: .warning)
 
-        case .success:
-            UINotificationFeedbackGenerator().notificationOccurred(.success)
+        case .light: generator = UIImpactFeedbackGenerator(style: .light)
+        case .medium: generator = UIImpactFeedbackGenerator(style: .medium)
+        case .heavy: generator = UIImpactFeedbackGenerator(style: .heavy)
 
-        case .warning:
-            UINotificationFeedbackGenerator().notificationOccurred(.warning)
-
-
-        case .light:
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
-
-        case .medium:
-            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-
-        case .heavy:
-            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-
-
-        case .change:
-            UISelectionFeedbackGenerator().selectionChanged()
+        case .change: generator = UISelectionFeedbackGenerator()
         }
 
+        generator.prepare()
+        self.generator = generator
     }
 
+    /// Triggers haptic feedback according to the currently prepared feedback generator.
+    public func trigger() {
+        if let generator = generator as? StoredNotificationGenerator {
+            generator.notificationOccurred(.success)
+            return
+
+        } else if let generator = generator as? UIImpactFeedbackGenerator {
+            generator.impactOccurred()
+            return
+
+        } else if let generator = generator as? UISelectionFeedbackGenerator {
+            generator.selectionChanged()
+            return
+
+        }
+    }
+
+    /// Prepares a new haptic type and fires immediately. Shouldn't technically be used, but the difference isn't particularly noticeable for single-use haptics.
+    public func prepareAndTrigger(type: HapticType) {
+        prepare(type: type)
+        trigger()
+    }
+
+}
+
+fileprivate class StoredNotificationGenerator: UINotificationFeedbackGenerator {
+    private let feedbackType: UINotificationFeedbackType
+
+    public required init(type: UINotificationFeedbackType) {
+        self.feedbackType = type
+        super.init()
+    }
+
+    public func trigger() {
+        self.notificationOccurred(self.feedbackType)
+    }
 }

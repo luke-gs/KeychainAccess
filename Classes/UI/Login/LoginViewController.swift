@@ -423,6 +423,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         notificationCenter.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
         notificationCenter.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
         notificationCenter.addObserver(self, selector: #selector(keyboardDidHide(_:)),  name: .UIKeyboardDidHide,  object: nil)
+
+        HapticHelper.shared.prepare(type: .medium)
     }
     
     public required convenience init(coder aDecoder: NSCoder) {
@@ -807,6 +809,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc private func loginButtonTriggered() {
+        HapticHelper.shared.trigger()
         if case let LoginMode.usernamePassword(delegate: delegate) = loginMode {
             guard let username = usernameField.text, let password = passwordField.text else { return }
             view.endEditing(true)
