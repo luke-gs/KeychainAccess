@@ -11,7 +11,7 @@ import MapKit
 
 open class IncidentOverviewViewController: UIViewController {
 
-    open var mapViewController: MapViewController!
+    open var mapViewController: TasksMapViewController!
     open var formViewController: FormBuilderViewController!
     
     open let viewModel: IncidentOverviewViewModel
@@ -41,18 +41,11 @@ open class IncidentOverviewViewController: UIViewController {
         
         view.backgroundColor = .white
         
-        var region: MKCoordinateRegion?
-        
-        // Get region from main map view and use as starting point
-        if let splitView = pushableSplitViewController?.navigationController?.viewControllers.first as? TasksSplitViewController,
-            let mapViewController = splitView.detailVC as? MapViewController
-        {
-            region = mapViewController.mapView.region
-        }
-        
         let mapViewModel = IncidentOverviewMapViewModel(incidentNumber: viewModel.incidentNumber)
-        mapViewController = mapViewModel.createViewController(startingMapRegion: region)
+        mapViewController = mapViewModel.createViewController()
         addChildViewController(mapViewController, toView: view)
+        mapViewController.canSelectAnnotations = false
+        mapViewController.showsMapButtons = false
         mapViewController.mapView.isZoomEnabled = false
         mapViewController.mapView.isPitchEnabled = false
         mapViewController.mapView.isRotateEnabled = false

@@ -56,14 +56,9 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     /// The default zoom distance to use when showing the user location
     open var defaultZoomDistance: CLLocationDistance = 3000
     
-    open var isUserLocationButtonHidden: Bool = true {
+    open var showsMapButtons: Bool = true {
         didSet {
-            userLocationButton.isHidden = isUserLocationButtonHidden
-        }
-    }
-    open var isMapTypeButtonHidden: Bool = true {
-        didSet {
-            mapTypeButton.isHidden = isMapTypeButtonHidden
+            buttonPill.isHidden = !showsMapButtons
         }
     }
     
@@ -100,6 +95,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         view.addSubview(mapView)
         
         buttonPill = UIView()
+        buttonPill.isHidden = !showsMapButtons
         buttonPill.layer.shadowColor = UIColor.black.withAlphaComponent(0.5).cgColor
         buttonPill.layer.shadowRadius = 4
         buttonPill.layer.shadowOffset = CGSize(width: 0, height: 2)
@@ -124,7 +120,6 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         mapTypeButton = UIButton()
         mapTypeButton.setImage(AssetManager.shared.image(forKey: .info), for: .normal)
         mapTypeButton.tintColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
-        mapTypeButton.isHidden = isMapTypeButtonHidden
         mapTypeButton.translatesAutoresizingMaskIntoConstraints = false
         mapTypeButton.addTarget(self, action: #selector(showMapTypePopup), for: .touchUpInside)
         buttonPill.addSubview(mapTypeButton)
