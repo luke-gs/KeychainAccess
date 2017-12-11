@@ -137,7 +137,7 @@ open class ManageCallsignStatusViewModel {
                 }
                 break
             case .terminateShift:
-                if callsignViewModel.currentStatus.canTerminate {
+                if callsignViewModel.currentStatus?.canTerminate == true {
                     // Update session and dismiss screen
                     CADStateManager.shared.lastBookOn = nil
                     BookOnDetailsFormViewModel.lastSaved = nil
