@@ -85,19 +85,9 @@ open class APIManager {
         parameters["source"] = source.serverSourceName
         parameters["entityType"] = SearchRequest.ResultClass.serverTypeRepresentation
 
-        if requiresLocation {
-            return LocationManager.shared.requestLocation().recover { error -> CLLocation in
-                return LocationManager.shared.lastLocation ?? CLLocation() // Had to keep this in to avoid making the requestLocation optional
-                }.then { _ -> Promise<SearchResult<SearchRequest.ResultClass>> in
-                    let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
-                    
-                    return try! self.performRequest(networkRequest)
-            }
-        } else {
-            let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
-            
-            return try! self.performRequest(networkRequest)
-        }
+        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
+
+        return try! self.performRequest(networkRequest)
     }
     
     /// Fetch entity details using specified request.
@@ -114,21 +104,11 @@ open class APIManager {
         var parameters = request.parameters
         parameters["source"] = source.serverSourceName
         parameters["entityType"] = FetchRequest.ResultClass.serverTypeRepresentation
-        
-        if requiresLocation {
-            return LocationManager.shared.requestLocation().recover { error -> CLLocation in
-                return LocationManager.shared.lastLocation ?? CLLocation() // Had to keep this in to avoid making the requestLocation optional
-                }.then { _ -> Promise<FetchRequest.ResultClass> in
-                    let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
-                    
-                    return try! self.performRequest(networkRequest)
-            }
-        } else {
-            let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
+
+        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
             
-            return try! self.performRequest(networkRequest)
-        }
-    }    
+        return try! self.performRequest(networkRequest)
+    }
 
     // MARK : - Internal Utilities
     
@@ -139,10 +119,6 @@ open class APIManager {
         }
         
         return allPlugins
-    }
-    
-    private var requiresLocation: Bool {
-        return allPlugins.contains(where: { $0 is GeolocationPlugin })
     }
     
     private func urlRequest(from networkRequest: NetworkRequestType) throws -> Promise<URLRequest> {

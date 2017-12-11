@@ -14,10 +14,11 @@ open class TasksMapViewController: MapViewController {
     private var performedInitialLoadAction: Bool = false
     private var addedFirstAnnotations: Bool = false
     private var savedRegion: MKCoordinateRegion?
-    
-    let viewModel: TasksMapViewModel
-    var mapLayerFilterButton: UIBarButtonItem!
-    var zPositionObservers: [NSKeyValueObservation] = []
+    private var zPositionObservers: [NSKeyValueObservation] = []
+
+    public let viewModel: TasksMapViewModel
+    public var mapLayerFilterButton: UIBarButtonItem!
+    public var canSelectAnnotations: Bool = true
 
     public init(viewModel: TasksMapViewModel, initialLoadZoomStyle: InitialLoadZoomStyle, startingRegion: MKCoordinateRegion? = nil, settingsViewModel: MapSettingsViewModel = MapSettingsViewModel()) {
         self.viewModel = viewModel
@@ -33,8 +34,6 @@ open class TasksMapViewController: MapViewController {
         viewModel.delegate = self
         
         navigationItem.title = "Activities"
-        isUserLocationButtonHidden = false
-        isMapTypeButtonHidden = false
         mapView.showsCompass = false
         
         mapLayerFilterButton = UIBarButtonItem.init(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: self, action: #selector(showMapLayerFilter))
@@ -87,7 +86,7 @@ open class TasksMapViewController: MapViewController {
     public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         mapView.deselectAnnotation(view.annotation, animated: false)
        
-        if let viewModel = viewModel.viewModel(for: view.annotation as? TaskAnnotation) {
+        if canSelectAnnotations, let viewModel = viewModel.viewModel(for: view.annotation as? TaskAnnotation) {
             let vc = TasksItemSidebarViewController(viewModel: viewModel)
             splitViewController?.navigationController?.pushViewController(vc, animated: true)
         }

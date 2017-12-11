@@ -11,7 +11,7 @@ import MapKit
 
 open class IncidentOverviewViewController: UIViewController {
 
-    open var mapViewController: MapViewController!
+    open var mapViewController: TasksMapViewController!
     open var formViewController: FormBuilderViewController!
     
     open let viewModel: IncidentOverviewViewModel
@@ -44,6 +44,8 @@ open class IncidentOverviewViewController: UIViewController {
         let mapViewModel = IncidentOverviewMapViewModel(incidentNumber: viewModel.incidentNumber)
         mapViewController = mapViewModel.createViewController()
         addChildViewController(mapViewController, toView: view)
+        mapViewController.canSelectAnnotations = false
+        mapViewController.showsMapButtons = false
         mapViewController.mapView.isZoomEnabled = false
         mapViewController.mapView.isPitchEnabled = false
         mapViewController.mapView.isRotateEnabled = false

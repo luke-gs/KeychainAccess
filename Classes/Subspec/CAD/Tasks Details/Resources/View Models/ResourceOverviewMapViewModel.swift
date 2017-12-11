@@ -30,7 +30,7 @@ open class ResourceOverviewMapViewModel: TasksMapViewModel {
         filteredAnnotations = annotations
     }
     
-    open func createViewController(startingMapRegion: MKCoordinateRegion?) -> MapViewController {
+    override open func createViewController() -> TasksMapViewController {
         return TasksMapViewController(viewModel: self, initialLoadZoomStyle: .annotations(animated: true))
     }
 }

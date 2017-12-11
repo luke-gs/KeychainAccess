@@ -28,7 +28,7 @@ open class IncidentOverviewMapViewModel: TasksMapViewModel {
         filteredAnnotations = annotations
     }
     
-    override open func createViewController() -> MapViewController {
+    override open func createViewController() -> TasksMapViewController {
         return TasksMapViewController(viewModel: self, initialLoadZoomStyle: .annotations(animated: true))
     }
 }

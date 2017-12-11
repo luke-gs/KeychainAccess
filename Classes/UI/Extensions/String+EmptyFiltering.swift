@@ -16,4 +16,10 @@ extension String {
         return nil
     }
     
+    /// Optional `Substring` or `String.SubSequence` init
+    init?(_ substring: Substring?) {
+        guard let substring = substring else { return nil }
+        
+        self.init(substring)
+    }
 }

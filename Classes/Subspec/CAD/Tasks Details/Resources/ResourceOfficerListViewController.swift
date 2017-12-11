@@ -53,6 +53,9 @@ open class ResourceOfficerListViewController: CADFormCollectionViewController<Re
             cell.titleLabel.text = viewModel.title
             cell.subtitleLabel.text = viewModel.subtitle
             cell.badgeLabel.text = viewModel.badgeText
+            if let thumbnail = viewModel.thumbnail() {
+                cell.imageView.setImage(with: thumbnail)
+            }
         }
     }
     
