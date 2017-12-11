@@ -46,7 +46,7 @@ public class HapticHelper {
         self.generator = generator
     }
 
-    /// Triggers haptic feedback according to the currently prepared feedback generator.
+    /// Triggers haptic feedback according to the currently prepared feedback generator. If no feedback has been prepared, no feedback will trigger.
     public func trigger() {
         if let generator = generator as? StoredNotificationGenerator {
             generator.notificationOccurred(.success)
