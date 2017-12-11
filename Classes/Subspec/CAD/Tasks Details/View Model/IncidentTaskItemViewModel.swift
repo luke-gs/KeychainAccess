@@ -37,6 +37,11 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
     }
 
     override open func reloadFromModel() {
+        // Reload resource for incident if current incident
+        if incident?.identifier == CADStateManager.shared.currentIncident?.identifier {
+            resource = CADStateManager.shared.currentResource
+        }
+
         if let incident = incident {
             iconImage = resource?.status.icon ?? ResourceStatus.unavailable.icon
             iconTintColor = resource?.status.iconColors.icon ?? .white
@@ -58,7 +63,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
                     ManageCallsignStatusItemViewModel(.finalise),
                     ManageCallsignStatusItemViewModel(.inquiries2) ])
             ]
-            let viewModel = CallsignStatusViewModel(sections: sections, selectedStatus: callsignStatus)
+            let viewModel = CallsignStatusViewModel(sections: sections, selectedStatus: callsignStatus, incident: incident)
             let viewController = viewModel.createViewController()
 
             // Add done button
@@ -76,8 +81,10 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
     }
 
     open func allowChangeResourceStatus() -> Bool {
-        // If this task is the current incident for our booked on resource, allow changing resource state
-        if let incident = incident, incident.identifier == CADStateManager.shared.currentIncident?.identifier {
+        // If this task is the current incident for our booked on resource,
+        // or we have no current incident, allow changing resource state
+        let currentIncidentId = CADStateManager.shared.currentIncident?.identifier
+        if let incident = incident, (incident.identifier == currentIncidentId || currentIncidentId == nil) {
             return true
         }
         return false

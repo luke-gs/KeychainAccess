@@ -126,7 +126,11 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
 
     override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         self.updateConstraintsForSizeChange()
+
+        // Update view model based on current state
+        viewModel.updateSections()
     }
 
     open func createSubviews() {
