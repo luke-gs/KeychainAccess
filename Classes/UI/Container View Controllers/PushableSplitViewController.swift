@@ -18,7 +18,7 @@ import UIKit
 open class PushableSplitViewController: UIViewController, UISplitViewControllerDelegate {
 
     /// Delegate for swipe to go back
-    private var interactivePopRecognizer: InteractivePopRecognizer?
+    private var interactivePopRecognizerDelegate: InteractivePopRecognizerDelegate?
 
     
     /// The split view controller embedded within the container.
@@ -78,8 +78,8 @@ open class PushableSplitViewController: UIViewController, UISplitViewControllerD
 
         navigationController?.setNavigationBarHidden(true, animated: animated)
         
-        interactivePopRecognizer = InteractivePopRecognizer(controller: self.navigationController)
-        navigationController?.interactivePopGestureRecognizer?.delegate = interactivePopRecognizer
+        interactivePopRecognizerDelegate = InteractivePopRecognizerDelegate(controller: self.navigationController)
+        navigationController?.interactivePopGestureRecognizer?.delegate = interactivePopRecognizerDelegate
         
         if let masterNavController = embeddedSplitViewController.viewControllers.first as? UINavigationController,
            let rootNavItem = masterNavController.viewControllers.first?.navigationItem,

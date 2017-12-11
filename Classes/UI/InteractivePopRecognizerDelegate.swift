@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class InteractivePopRecognizer: NSObject, UIGestureRecognizerDelegate {
+public class InteractivePopRecognizerDelegate: NSObject, UIGestureRecognizerDelegate {
     
     private let navigationController: UINavigationController?
     
