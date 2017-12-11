@@ -75,7 +75,7 @@ open class ManageCallsignStatusViewModel {
     /// The callsign view model for changing status
     open lazy var callsignViewModel: CallsignStatusViewModel = {
         let callsignStatus = CADStateManager.shared.currentResource?.status ?? .unavailable
-        return CallsignStatusViewModel(sections: callsignSectionsForState(), selectedStatus: callsignStatus)
+        return CallsignStatusViewModel(sections: callsignSectionsForState(), selectedStatus: callsignStatus, incident: nil)
     }()
 
     public var incidentListViewModel: TasksListItemViewModel? {

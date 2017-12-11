@@ -100,8 +100,23 @@ open class CADStateManager: NSObject {
     }
 
     /// Update the status of our callsign
-    open func updateCallsignStatus(status: ResourceStatus) {
+    open func updateCallsignStatus(status: ResourceStatus, incident: SyncDetailsIncident?) {
         currentResource?.status = status
+
+        // Update current incident if setting status without one
+        // TODO: remove this when we have a real CAD system
+        if let incident = incident, currentIncident == nil {
+            if let syncDetails = lastSync, let resource = currentResource {
+                resource.currentIncident = incident.identifier
+                resource.assignedIncidents = [incident.identifier]
+
+                // Reposition resource at top so it is first one found assigned to incident
+                if let index = syncDetails.resources.index(of: resource) {
+                    syncDetails.resources.remove(at: index)
+                    syncDetails.resources.insert(resource, at: 0)
+                }
+            }
+        }
         NotificationCenter.default.post(name: .CADCallsignChanged, object: self)
     }
 

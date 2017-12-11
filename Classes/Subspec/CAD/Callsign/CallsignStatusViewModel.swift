@@ -12,6 +12,9 @@ import PromiseKit
 /// View model for the callsign status screen
 open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignStatusItemViewModel> {
 
+    /// The incident related to the resource status
+    open private(set) var incident: SyncDetailsIncident?
+
     /// The currently selected state
     open private(set) var selectedIndexPath: IndexPath!
 
@@ -21,11 +24,13 @@ open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignSta
     }
 
     /// Init with sectioned statuses to display, and current selection
-    public init(sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>], selectedStatus: ResourceStatus) {
+    public init(sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>],
+                selectedStatus: ResourceStatus, incident: SyncDetailsIncident?) {
         super.init()
 
         self.sections = sections
         self.selectedIndexPath = indexPathForStatus(selectedStatus)
+        self.incident = incident
     }
 
     /// Create the view controller for this view model
@@ -54,7 +59,7 @@ open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignSta
                 }.then { _ -> Promise<ResourceStatus> in
                     // Update UI
                     self.selectedIndexPath = indexPath
-                    CADStateManager.shared.updateCallsignStatus(status: newStatus)
+                    CADStateManager.shared.updateCallsignStatus(status: newStatus, incident: self.incident)
                     return Promise(value: self.currentStatus)
             }
         } else {
