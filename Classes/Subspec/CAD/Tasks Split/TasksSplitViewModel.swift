@@ -101,7 +101,7 @@ open class TasksSplitViewModel {
             // If status is not in filter options always show
             let isOther = incident.status != .resourced && incident.status != .unresourced
             
-            return isOther || (priorityFilter && resourcedFilter)
+            return priorityFilter && (resourcedFilter || isOther)
         }
     }
     
