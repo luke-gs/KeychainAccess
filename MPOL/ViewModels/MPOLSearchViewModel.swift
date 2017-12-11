@@ -54,6 +54,15 @@ class MPOLSearchViewModel: SearchViewModel {
 
 class MPOLSearchRecentsViewModel: SearchRecentsViewModel {
 
+    func recentlySearchedItems() -> [FormItem] {
+        return []
+    }
+
+    func recentlyViewedItems() -> [FormItem] {
+        return []
+    }
+
+
     var title: String = "MPOL"
 
     var recentlyViewed: [MPOLKitEntity] {
