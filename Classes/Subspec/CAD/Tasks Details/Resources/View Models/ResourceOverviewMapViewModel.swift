@@ -31,6 +31,6 @@ open class ResourceOverviewMapViewModel: TasksMapViewModel {
     }
     
     open func createViewController(startingMapRegion: MKCoordinateRegion?) -> MapViewController {
-        return TasksMapViewController(viewModel: self, initialLoadZoomStyle: .annotations(animated: true), startingRegion: startingMapRegion)
+        return TasksMapViewController(viewModel: self, initialLoadZoomStyle: .annotations(animated: true))
     }
 }

@@ -11,6 +11,8 @@ import MapKit
 
 open class TasksMapViewController: MapViewController {
     
+    private var performedInitialLoadAction: Bool = false
+    private var addedFirstAnnotations: Bool = false
     private var savedRegion: MKCoordinateRegion?
     
     let viewModel: TasksMapViewModel
@@ -118,6 +120,29 @@ open class TasksMapViewController: MapViewController {
             }
         }
     }
+    
+    private func zoomToAnnotations() {
+        if case let InitialLoadZoomStyle.annotations(animated) = initialLoadZoomStyle,
+            mapView.userLocation.location != nil,
+            !performedInitialLoadAction
+        {
+            let annotations = self.mapView.annotations
+            
+            var zoomRect = MKMapRectNull
+            for annotation in annotations {
+                let annotationPoint = MKMapPointForCoordinate(annotation.coordinate)
+                let pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0.1, 0.1)
+                zoomRect = MKMapRectUnion(zoomRect, pointRect)
+            }
+            let inset = -zoomRect.size.width
+            
+            mapView.setVisibleMapRect(MKMapRectInset(zoomRect, inset, inset), animated: animated)
+        }
+    }
+    
+    public func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+        self.zoomToAnnotations()
+    }
 }
 
 extension TasksMapViewController: TasksSplitViewControllerDelegate {
@@ -142,6 +167,8 @@ extension TasksMapViewController: TasksMapViewModelDelegate {
             self.zPositionObservers.removeAll()
             self.mapView.removeAnnotations(self.mapView.annotations)
             self.mapView.addAnnotations(self.viewModel.filteredAnnotations)
+            self.addedFirstAnnotations = true
+            self.zoomToAnnotations()
         }
     }
     
