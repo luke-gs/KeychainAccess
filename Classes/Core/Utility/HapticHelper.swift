@@ -29,17 +29,14 @@ public class HapticHelper {
 
     private init() { }
 
-    /// Initialises and prepares a new generator based on the passed HapticType
-    /// You should call this just before the haptic is expected to fire, otherwise iOS will return the generator to idle state after a few seconds.
-    public func prepare(_ type: HapticType) {
-
-        // If already initialised, just prepare it again.
+    /// Returns the generator for the given HapticType, initializing it if necessary.
+    private func generatorForType(_ type: HapticType) -> UIFeedbackGenerator {
+        // If exists, return it
         if let generator = generators[type] {
-            generator.prepare()
-            return
+            return generator
         }
 
-        // Initialise a new generator
+        // Otherwise, intialize new generator
         let generator: UIFeedbackGenerator
         switch (type) {
         case .error: fallthrough
@@ -52,20 +49,23 @@ public class HapticHelper {
 
         case .change: generator = UISelectionFeedbackGenerator()
         }
-
-        generator.prepare()
         generators[type] = generator
+
+        return generator
     }
 
-    /// Triggers haptic feedback according to the currently prepared feedback generator. If no feedback has been prepared, no feedback will trigger.
-    public func trigger(_ type: HapticType) {
+    /// Prepares a generator based on the given HapticType.
+    /// You should call this just before the haptic is expected to fire, otherwise iOS will return the generator to idle state after a few seconds.
+    public func prepare(_ type: HapticType) {
+        let generator = generatorForType(type)
 
-        // If not in the dictionary, call prepare first.
-        guard let generator = generators[type] else {
-            prepare(type)
-            trigger(type)
-            return
-        }
+        generator.prepare()
+    }
+
+    /// Triggers haptic feedback according to the given HapticType.
+    /// You should ideally call prepare() before using this.
+    public func trigger(_ type: HapticType) {
+        let generator = generatorForType(type)
 
         if let generator = generator as? UINotificationFeedbackGenerator {
             generator.trigger(type)
