@@ -33,7 +33,91 @@ public protocol SearchRecentsViewModel {
     /// - Returns: the image to use
     func summaryIcon(for searchable: Searchable) -> UIImage?
 
+
+    // New Stuffs
+
+    func recentlyViewedItems() -> [FormItem]
+
+    func recentlySearchedItems() -> [FormItem]
+
 }
+
+
+public class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
+
+    public var recentlyViewed: [MPOLKitEntity] {
+        get {
+            return UserSession.current.recentlyViewed
+        }
+
+        set {
+            UserSession.current.recentlyViewed = newValue
+        }
+    }
+
+    public var recentlySearched: [Searchable] {
+        get {
+            return UserSession.current.recentlySearched
+        }
+
+        set {
+            UserSession.current.recentlySearched = newValue
+        }
+    }
+
+    public func decorate(_ cell: EntityCollectionViewCell, at indexPath: IndexPath) { }
+
+    // New stuffs
+
+    public let title: String
+
+    public let summaryDisplayFormatter: EntitySummaryDisplayFormatter
+
+    public let userSession: UserSession
+
+    public var imageForSearchable: ((Searchable) -> UIImage?)?
+
+    public init(title: String, userSession: UserSession = .current, summaryDisplayFormatter: EntitySummaryDisplayFormatter = .default) {
+        self.title = title
+        self.userSession = userSession
+        self.summaryDisplayFormatter = summaryDisplayFormatter
+    }
+
+    open func recentlyViewedItems() -> [FormItem] {
+        return userSession.recentlyViewed.flatMap { entity in
+            guard let summary = self.summaryDisplayFormatter.summaryDisplayForEntity(entity) else { return nil }
+            return SummaryThumbnailFormItem()
+                .style(.detail)
+                .category(summary.category)
+                .title(summary.title)
+                .subtitle(summary.detail1)
+                .detail(summary.detail2)
+                .badge(summary.badge)
+                .badgeColor(summary.iconColor)
+                .borderColor(summary.borderColor)
+                .image(summary.thumbnail(ofSize: .medium))
+//                .onSelection { [weak self] _ in
+//                    guard let `self` = self, let presentable = self.summaryDisplayFormatter.presentableForEntity(entity) else { return }
+//                    self.delegate?.requestToPresent(presentable)
+//                }
+        }
+    }
+
+    open func recentlySearchedItems() -> [FormItem] {
+        return userSession.recentlySearched.flatMap { searchable in
+            return SubtitleFormItem()
+                .title(searchable.text?.ifNotEmpty() ?? NSLocalizedString("(No Search Term)", comment: "[Recently Searched] - No search term"))
+                .subtitle(searchable.type?.ifNotEmpty() ?? NSLocalizedString("(No Search Category)", comment: "[Recently Searched] - No search category"))
+                .image(imageForSearchable?(searchable))
+        }
+    }
+
+    public func summaryIcon(for searchable: Searchable) -> UIImage? {
+        return nil
+    }
+
+}
+
 
 
 /// The main search view model container
