@@ -43,7 +43,7 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
             listStateItem.image = AssetManager.shared.image(forKey: wantsThumbnails ? .list : .thumbnail)
 
             viewModel?.style = wantsThumbnails ? .grid : .list
-            
+
             if traitCollection.horizontalSizeClass != .compact {
                 reloadForm()
             }
@@ -115,8 +115,8 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
             if wantsThumbnails {
                 reloadForm()
             }
-            navigationItem.rightBarButtonItems = isCompact ? nil : [listStateItem]
         }
+        updateBarItems()
     }
 
     public override func apply(_ theme: Theme) {
@@ -194,11 +194,16 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
     }
     
     private func updateBarItems() {
+        let isCompact = traitCollection.horizontalSizeClass == .compact
         if var buttons = viewModel?.additionalBarButtonItems {
-            buttons.append(listStateItem)
+            if !isCompact {
+                buttons.insert(listStateItem, at: 0)
+            }
             navigationItem.rightBarButtonItems = buttons
-        } else {
+        } else if !isCompact {
             navigationItem.rightBarButtonItems = [listStateItem]
+        } else {
+            navigationItem.rightBarButtonItems = nil
         }
     }
 

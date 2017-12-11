@@ -27,8 +27,8 @@ open class TasksMapViewModel {
     }
     
     /// Create the view controller for this view model
-    public func createViewController() -> UIViewController {
-        return TasksMapViewController(viewModel: self)
+    public func createViewController() -> MapViewController {
+        return TasksMapViewController(viewModel: self, initialLoadZoomStyle: .userLocation(animated: true))
     }
     
     // MARK: - Annotations
@@ -84,9 +84,8 @@ open class TasksMapViewModel {
                                              itemName: [annotation.title, annotation.subtitle].joined(),
                                              lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
         } else if let annotation = annotation as? IncidentAnnotation {
-            guard let incident = CADStateManager.shared.incidentsById[annotation.identifier],
-                let resource = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier).first
-            else { return nil }
+            guard let incident = CADStateManager.shared.incidentsById[annotation.identifier] else { return nil }
+            let resource = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier).first
             return IncidentTaskItemViewModel(incident: incident, resource: resource)
         }
         
@@ -112,9 +111,9 @@ open class TasksMapViewModel {
     
     /// Maps resource view models to task annotations
     func taskAnnotations(for resources: [SyncDetailsResource]) -> [TaskAnnotation] {
-        return resources.map { resource in
+        return resources.filter{$0.location != nil}.map { resource in
             return ResourceAnnotation(identifier: resource.callsign,
-                                      coordinate: resource.coordinate,
+                                      coordinate: resource.coordinate!,
                                       title: resource.callsign,
                                       subtitle: resource.officerCountString,
                                       icon: resource.type.icon,
@@ -134,5 +133,5 @@ public protocol TasksMapViewModelDelegate: class {
     func viewModelStateChanged()
     
     /// Tells the map to zoom to the user location
-    func zoomToUserLocation()
+    func zoomToUserLocation()    
 }

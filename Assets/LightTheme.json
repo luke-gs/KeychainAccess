@@ -17,6 +17,9 @@
         "searchFieldBackground":  "#E9EBED",
         "groupedTableBackground": "#EFEFF4",
         "groupedTableCellBackground": "#FFFFFF",
+        "headerBackground": "#85868d",
+        "headerTitleText": "#565862",
+        "headerSubtitleText": "#85868d",
     },
     "images": {
         "navigationBar": "NavigationBarLight",

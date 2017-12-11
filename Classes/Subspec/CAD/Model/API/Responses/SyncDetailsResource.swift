@@ -16,20 +16,20 @@ open class SyncDetailsResource: Codable {
     open var status: ResourceStatus!
     open var patrolGroup: String!
     open var station: String!
-    open var currentIncident: String!
-    open var assignedIncidents: [String]!
-    open var location: SyncDetailsLocation!
-    open var driver: String!
-    open var payrollIds: [String]!
-    open var shiftEnd: Date!
-    open var shiftStart: Date!
+    open var currentIncident: String?
+    open var assignedIncidents: [String]?
+    open var location: SyncDetailsLocation?
+    open var driver: String?
+    open var payrollIds: [String]?
+    open var shiftEnd: Date?
+    open var shiftStart: Date?
     open var type: ResourceType!
     open var serial: String!
     open var vehicleCategory: String!
-    open var equipment: [SyncDetailsResourceEquipment]!
-    open var remarks : String!
+    open var equipment: [SyncDetailsResourceEquipment]?
+    open var remarks : String?
     open var lastUpdated : Date!
-    open var activityLog: [SyncDetailsActivityLogItem]!
+    open var activityLog: [SyncDetailsActivityLogItem]?
 }
 
 /// Reponse object for a single Equipment item in the resource

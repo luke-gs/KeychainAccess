@@ -53,6 +53,11 @@ open class BookOnDetailsFormViewModel {
             details = BookOnDetailsFormContentViewModel()
             isEditing = false
 
+            // Create equipment selection pickables from manifest items
+            details.equipment = CADStateManager.shared.equipmentItems().map { item in
+                return QuantityPicked(object: item, count: 0)
+            }
+
             // Initial form has self as one of officers to be book on to callsign
             if let model = CADStateManager.shared.officerDetails {
                 let officer = BookOnDetailsFormContentViewModel.Officer(withModel: model)
