@@ -32,7 +32,7 @@ extension SyncDetailsOfficer {
     }
     
     open var initials: String {
-        return "\(firstName.prefix(1))\(lastName.prefix(1))"
+        return [String(firstName?.prefix(1)), String(lastName?.prefix(1))].joined(separator: "")
     }
 
 }
