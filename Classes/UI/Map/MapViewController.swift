@@ -44,7 +44,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: - Views
     
-    open private(set) var mapView: MKMapView! = MKMapView()
+    open private(set) var mapView = MKMapView()
     
     private var buttonPill: UIView!
     private var buttonDivider: UIView!
