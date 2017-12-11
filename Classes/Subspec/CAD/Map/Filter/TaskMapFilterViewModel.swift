@@ -15,7 +15,7 @@ public class TaskMapFilterViewModel: MapFilterViewModel {
     public let defaultSections: [MapFilterSection] = [
         MapFilterSection(title: "General", isOn: nil, toggleRows: [
             MapFilterToggleRow(options: [
-                MapFilterOption(text: "Show results outside my Patrol Area", isOn: true)
+                MapFilterOption(text: "Show results outside my Patrol Area", isOn: false)
             ])
         ]),
         
@@ -33,9 +33,9 @@ public class TaskMapFilterViewModel: MapFilterViewModel {
             ]),
         ]),
         
-        MapFilterSection(title: "Patrol", isOn: false),
+        MapFilterSection(title: "Patrol", isOn: true),
         
-        MapFilterSection(title: "Broadcasts", isOn: false),
+        MapFilterSection(title: "Broadcasts", isOn: true),
         
         MapFilterSection(title: "Resources", isOn: true, toggleRows: [
             MapFilterToggleRow(title: "Show resources that are", options: [

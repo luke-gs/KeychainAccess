@@ -23,7 +23,9 @@ extension SyncDetailsIncident {
     
     open var status: Status {
         if let resourceId = CADStateManager.shared.lastBookOn?.callsign,
-            let resource = CADStateManager.shared.resourcesById[resourceId]
+            let resource = CADStateManager.shared.resourcesById[resourceId],
+            let assignedIncidents = resource.assignedIncidents,
+            assignedIncidents.contains(identifier)
         {
             if resource.currentIncident == identifier {
                 return .current
