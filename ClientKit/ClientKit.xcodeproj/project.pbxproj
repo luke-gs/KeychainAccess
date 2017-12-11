@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		193ED08F1FDEA190002F2837 /* DefaultFilterRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193ED08E1FDEA190002F2837 /* DefaultFilterRules.swift */; };
 		199ECE9E1FAA5ACD0065E425 /* PersonImageSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199ECE9D1FAA5ACD0065E425 /* PersonImageSizing.swift */; };
 		19FA22AF1F8603F000BE0E03 /* MatchMakers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12048FCA1F788EC20014748E /* MatchMakers.swift */; };
 		19FA22B01F86041800BE0E03 /* Matches.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12048FCC1F788ECA0014748E /* Matches.swift */; };
@@ -113,6 +114,7 @@
 		12048FCA1F788EC20014748E /* MatchMakers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchMakers.swift; sourceTree = "<group>"; };
 		12048FCC1F788ECA0014748E /* Matches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matches.swift; sourceTree = "<group>"; };
 		1542E603389AAEE96EC1C25A /* Pods-ClientKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.debug.xcconfig"; sourceTree = "<group>"; };
+		193ED08E1FDEA190002F2837 /* DefaultFilterRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFilterRules.swift; sourceTree = "<group>"; };
 		199ECE9D1FAA5ACD0065E425 /* PersonImageSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonImageSizing.swift; sourceTree = "<group>"; };
 		1A159F0C1F4B1C7500075330 /* PersonFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonFetchRequest.swift; sourceTree = "<group>"; };
 		1A159F0E1F4B1CA700075330 /* VehicleFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleFetchRequest.swift; sourceTree = "<group>"; };
@@ -532,6 +534,7 @@
 			children = (
 				1A290C811F3D630700DD9ED5 /* PersonFetchParameter.swift */,
 				1A290C831F3D649500DD9ED5 /* VehicleFetchParameter.swift */,
+				193ED08E1FDEA190002F2837 /* DefaultFilterRules.swift */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -802,6 +805,7 @@
 				BCAEFEDD1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift in Sources */,
 				1AB825341F610D04001C4BCE /* Address+EntityMapSummaryDisplayable.swift in Sources */,
 				1A2E8A741F3835CB0062FEA5 /* PersonCriminalHistoryViewModel.swift in Sources */,
+				193ED08F1FDEA190002F2837 /* DefaultFilterRules.swift in Sources */,
 				BCAEFEA01F03150800C97F9C /* MissingPersonReport.swift in Sources */,
 				DB0C94AA1F5F9C7E00DE1C29 /* Entity+EntityDetailDisplayable.swift in Sources */,
 				BCAEFE961F03150800C97F9C /* Contact.swift in Sources */,
