@@ -50,7 +50,7 @@ open class QuantityPickerViewController: FormBuilderViewController {
 
         super.init()
 
-        builder.title = viewModel.subjectMatter
+        builder.title = builder.title ?? viewModel.subjectMatter
 
         wantsTransparentBackground = true
 

@@ -37,7 +37,7 @@ class QuantityPickerAction: ValueSelectionAction<[QuantityPicked]> {
 
     public override func viewController() -> UIViewController {
         let viewController = QuantityPickerViewController(viewModel: viewModel)
-        viewController.title = title
+        viewController.builder.title = title
         viewController.doneHandler = { [weak self] picked in
             viewController.navigationController?.popViewController(animated: true)
             self?.selectedValue = picked
