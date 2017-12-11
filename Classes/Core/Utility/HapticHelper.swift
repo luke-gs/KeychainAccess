@@ -27,6 +27,8 @@ public class HapticHelper {
 
     private var generator: UIFeedbackGenerator?
 
+    private init() { }
+
     /// Initialises and prepares a new generator based on the passed HapticType
     public func prepare(type: HapticType) {
         let generator: UIFeedbackGenerator
