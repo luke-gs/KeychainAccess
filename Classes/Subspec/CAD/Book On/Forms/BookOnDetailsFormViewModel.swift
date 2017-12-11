@@ -141,6 +141,16 @@ extension BookOnDetailsFormViewModel: OfficerDetailsViewModelDelegate {
         } else {
             details.officers.append(officer)
         }
+
+        // Make sure only one officer is marked as driver
+        if officer.isDriver.isTrue {
+            for otherOfficer in details.officers {
+                if otherOfficer != officer {
+                    otherOfficer.isDriver = false
+                }
+            }
+        }
+
         delegate?.didUpdateDetails()
     }
 }
