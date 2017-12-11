@@ -40,9 +40,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             self.attemptRefresh(response: response)
         }
 
-        var plugins: [PluginType] = [refreshToken, NetworkMonitorPlugin()]
+        var plugins: [FilterablePlugin] = [FilterablePlugin(refreshToken, rule: .blacklist(DefaultFilterRules.authenticationFilterRules)), FilterablePlugin(NetworkMonitorPlugin())]
         #if DEBUG
-            plugins.append(NetworkLoggingPlugin())
+            plugins.append(FilterablePlugin(NetworkLoggingPlugin()))
         #endif
 
         // Set the application key for app specific user settings
@@ -107,7 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Reload user from shared storage if logged in, in case updated by another mpol app
         if UserSession.current.isActive == true {
             UserSession.current.restoreSession { token in
-                APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+                APIManager.shared.authenticationPlugin = FilterablePlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)), rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
             }
         }
 
@@ -174,7 +174,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             promise = APIManager.shared.accessTokenRequest(for: .refreshToken(token))
                 .then { token -> Void in
                     // Update access token
-                    APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+                    APIManager.shared.authenticationPlugin = FilterablePlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)), rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
                     UserSession.current.updateToken(token)
                 }.recover { error -> Promise<Void> in
                     // Throw 401 error instead of refresh token error
