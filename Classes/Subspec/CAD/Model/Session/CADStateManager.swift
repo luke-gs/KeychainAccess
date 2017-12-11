@@ -107,17 +107,9 @@ open class CADStateManager: NSObject {
 
     // MARK: - Manifest
 
-    /// Fetch the book on equipment items, returning as a dictionary of titles keyed by id
-    open func equipmentItems() -> [String: String] {
-        var result: [String: String] = [:]
-        if let manifestItems = Manifest.shared.entries(for: .EquipmentCollection) {
-            manifestItems.forEach {
-                if let id = $0.id, let title = $0.title {
-                    result[id] = title
-                }
-            }
-        }
-        return result
+    /// Fetch the book on equipment items
+    open func equipmentItems() -> [ManifestEntry] {
+        return Manifest.shared.entries(for: .EquipmentCollection) ?? []
     }
 
     /// Sync the latest manifest items

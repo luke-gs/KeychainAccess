@@ -458,7 +458,11 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
                 action.dismissHandler = nil
             }
 
-            present(viewController, animated: true, completion: nil)
+            if viewController.modalPresentationStyle == .none {
+                navigationController?.pushViewController(viewController, animated: true)
+            } else {
+                present(viewController, animated: true, completion: nil)
+            }
         }
 
         if let cell = collectionView.cellForItem(at: indexPath) as? CollectionViewFormCell {
