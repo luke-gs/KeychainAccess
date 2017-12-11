@@ -51,7 +51,7 @@ public final class LocationManager: NSObject {
     ///
     @discardableResult
     open func requestLocation() -> Promise<CLLocation> {
-        // Used to avoit requesting authorisation from PromiseKit, due to a bug where it never fulfills or rejects
+        // Used to avoid requesting authorisation from PromiseKit, due to a bug where it never fulfills or rejects
         if CLLocationManager.authorizationStatus() == .notDetermined {
             func hasInfoPlistKey(_ key: String) -> Bool {
                 let value = Bundle.main.object(forInfoDictionaryKey: key) as? String ?? ""
