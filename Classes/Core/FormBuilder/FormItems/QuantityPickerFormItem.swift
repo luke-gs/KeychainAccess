@@ -18,6 +18,10 @@ public class QuantityPickerFormItem: PickerFormItem<[QuantityPicked]> {
 
         self.accessory = ItemAccessory.disclosure
         self.title = title
+
+        // Format display text for initial values
+        action.selectedValue = viewModel.items
+        action.updateHandler?()
     }
 
 }
