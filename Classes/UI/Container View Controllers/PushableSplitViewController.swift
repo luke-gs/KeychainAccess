@@ -105,7 +105,8 @@ open class PushableSplitViewController: UIViewController, UISplitViewControllerD
         
         if isBeingDismissed || presentedViewController?.isBeingPresented ?? false || transitionCoordinator?.viewController(forKey: .to) is PushableSplitViewController { return }
         
-        navigationController?.setNavigationBarHidden(false, animated: animated)
+        // Don't use `setNavigationBarHidden` as this disables the `interactivePopGestureRecognizer`
+        navigationController?.navigationBar.isHidden = false
     }
     
     
