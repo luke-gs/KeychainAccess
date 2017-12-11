@@ -99,6 +99,9 @@ public class LandingPresenter: AppGroupLandingPresenter {
             sessionViewController.compactViewControllers = sessionViewController.viewControllers + [callsignViewController]
             sessionViewController.selectedViewController = tasksNavController
             sessionViewController.statusTabBarDelegate = self
+
+            self.tabBarController = sessionViewController
+
             return sessionViewController
         }
     }
@@ -134,8 +137,17 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
     // MARK: - Private
 
+    private weak var tabBarController: UIViewController?
+
     @objc private func settingsButtonItemDidSelect(_ item: UIBarButtonItem) {
-        (UIApplication.shared.delegate as! AppDelegate).logOut()
+        let settingsNavController = PopoverNavigationController(rootViewController: SettingsViewController())
+        settingsNavController.modalPresentationStyle = .popover
+
+        if let popoverController = settingsNavController.popoverPresentationController {
+            popoverController.barButtonItem = item
+        }
+
+        tabBarController?.show(settingsNavController, sender: self)
     }
 }
 
