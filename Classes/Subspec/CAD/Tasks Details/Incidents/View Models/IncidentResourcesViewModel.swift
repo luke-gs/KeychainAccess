@@ -21,8 +21,7 @@ open class IncidentResourcesViewModel: CADFormCollectionViewModel<IncidentResour
     
     open func loadData() {
         guard CADStateManager.shared.incidentsById[incidentNumber] != nil else { return }
-        sections = []
-        
+
         let resourceViewModels = CADStateManager.shared.resourcesForIncident(incidentNumber: incidentNumber)
             .map { resource -> CADFormCollectionSectionViewModel<IncidentResourceItemViewModel> in
                 let officerViewModels = CADStateManager.shared.officersForResource(callsign: resource.callsign).map { officer in
@@ -49,7 +48,9 @@ open class IncidentResourcesViewModel: CADFormCollectionViewModel<IncidentResour
     }
     
     open func createViewController() -> UIViewController {
-        return IncidentResourcesViewController(viewModel: self)
+        let vc = IncidentResourcesViewController(viewModel: self)
+        delegate = vc
+        return vc
     }
     
     open func reloadFromModel() {

@@ -69,3 +69,11 @@ open class IncidentResourcesViewController: FormBuilderViewController {
         reloadForm()
     }
 }
+
+// MARK: - CADFormCollectionViewModelDelegate
+extension IncidentResourcesViewController: CADFormCollectionViewModelDelegate {
+
+    open func sectionsUpdated() {
+        reloadForm()
+    }
+}
