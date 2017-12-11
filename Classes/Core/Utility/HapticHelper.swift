@@ -80,6 +80,9 @@ public class HapticHelper {
             return
 
         }
+
+        // Generators typically only fire once. Remove when used.
+        generators[type] = nil
     }
 }
 
