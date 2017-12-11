@@ -17,7 +17,7 @@ import UIKit
 /// provided by the header itself or via page gestures on detail view controllers.
 ///
 open class MPOLSplitViewController: PushableSplitViewController {
-
+    
     // MARK: - Properties
 
     // The navigation controller for the master side of split view
@@ -112,7 +112,7 @@ open class MPOLSplitViewController: PushableSplitViewController {
         self.masterViewController = masterViewController
         self.detailViewControllers = detailViewControllers
         self.containerMasterViewController = ContainerWithHeaderViewController()
-
+        
         // Set up the page controller
         pageViewController = ScrollAwarePageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         pageViewController.view.backgroundColor = UIColor.white
@@ -133,7 +133,7 @@ open class MPOLSplitViewController: PushableSplitViewController {
         embeddedSplitViewController.minimumPrimaryColumnWidth = 288.0
         embeddedSplitViewController.preferredPrimaryColumnWidthFraction = 320.0 / 1024.0
         embeddedSplitViewController.delegate = self
-
+        
         // Force early application of trait collection so presentation animation looks good
         updateSplitViewControllerForTraitChange()
     }
