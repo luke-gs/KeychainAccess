@@ -69,15 +69,12 @@ public class HapticHelper {
 
         if let generator = generator as? UINotificationFeedbackGenerator {
             generator.trigger(type)
-            return
 
         } else if let generator = generator as? UIImpactFeedbackGenerator {
             generator.impactOccurred()
-            return
 
         } else if let generator = generator as? UISelectionFeedbackGenerator {
             generator.selectionChanged()
-            return
 
         }
 
