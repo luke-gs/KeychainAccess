@@ -33,11 +33,21 @@ open class QuantityPickerViewController: FormBuilderViewController {
 
     private let viewModel: QuantityPickerViewModel
 
-    open var completionHandler: (([QuantityPicked]) -> Void)?
+    private var initialItems: [QuantityPicked]
+
+    // Closure called when user cancels selection. Argument is initial items before any changes
+    open var cancelHandler: (([QuantityPicked]) -> Void)?
+
+    // Closure called when user accepts selection. Argument is updated items
+    open var doneHandler: (([QuantityPicked]) -> Void)?
 
     // MARK: - Initializers
     public init(viewModel: QuantityPickerViewModel) {
         self.viewModel = viewModel
+
+        // Keep a copy of initial item counts, for cancellation case
+        self.initialItems = viewModel.items
+
         super.init()
 
         builder.title = viewModel.subjectMatter
@@ -83,16 +93,21 @@ open class QuantityPickerViewController: FormBuilderViewController {
             ])
     }
 
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateHeaderText()
+    }
+
     // MARK: - Actions
 
     @objc
     private func onCancel() {
-        dismiss(animated: true, completion: nil)
+        cancelHandler?(initialItems)
     }
 
     @objc
     private func onDone() {
-        completionHandler?(viewModel.items)
+        doneHandler?(viewModel.items)
     }
 
     // MARK: - Convenience
