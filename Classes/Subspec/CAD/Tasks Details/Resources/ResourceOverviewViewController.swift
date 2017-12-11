@@ -11,7 +11,7 @@ import MapKit
 
 open class ResourceOverviewViewController: UIViewController {
     
-    open var mapViewController: UIViewController!
+    open var mapViewController: TasksMapViewController!
     open var formViewController: FormBuilderViewController!
     
     open let viewModel: ResourceOverviewViewModel
@@ -53,6 +53,12 @@ open class ResourceOverviewViewController: UIViewController {
         let mapViewModel = ResourceOverviewMapViewModel(callsign: viewModel.callsign)
         mapViewController = mapViewModel.createViewController(startingMapRegion: region)
         addChildViewController(mapViewController, toView: view)
+        mapViewController.canSelectAnnotations = false
+        mapViewController.showsMapButtons = false
+        mapViewController.mapView.isZoomEnabled = false
+        mapViewController.mapView.isPitchEnabled = false
+        mapViewController.mapView.isRotateEnabled = false
+        mapViewController.mapView.isScrollEnabled = false
         mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
         
         formViewController = viewModel.createFormViewController()
