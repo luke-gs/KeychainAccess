@@ -27,6 +27,7 @@ target 'MPOL' do
     project 'MPOL.xcodeproj'
     mpol_kit
     pod "HockeySDK", :configurations => ['internal-release', 'internal-debug']
+    pod "HyperioniOS", :configurations => ['Debug']
 end
 
 # Workaround, swift is hard...

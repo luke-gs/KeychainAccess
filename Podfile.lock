@@ -4,6 +4,18 @@ PODS:
   - HockeySDK (5.0.0):
     - HockeySDK/DefaultLib (= 5.0.0)
   - HockeySDK/DefaultLib (5.0.0)
+  - HyperioniOS (1.0.1):
+    - HyperioniOS/AttributesInspector (= 1.0.1)
+    - HyperioniOS/Core (= 1.0.1)
+    - HyperioniOS/Measurements (= 1.0.1)
+    - HyperioniOS/SlowAnimations (= 1.0.1)
+  - HyperioniOS/AttributesInspector (1.0.1):
+    - HyperioniOS/Core
+  - HyperioniOS/Core (1.0.1)
+  - HyperioniOS/Measurements (1.0.1):
+    - HyperioniOS/Core
+  - HyperioniOS/SlowAnimations (1.0.1):
+    - HyperioniOS/Core
   - KeychainSwift (8.0.2)
   - lottie-ios (2.1.4)
   - MPOLKit (0.3.2):
@@ -33,6 +45,7 @@ PODS:
 
 DEPENDENCIES:
   - HockeySDK
+  - HyperioniOS
   - MPOLKit (from `../mPolKit-iOS`)
 
 EXTERNAL SOURCES:
@@ -43,6 +56,7 @@ SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   Cache: bd0233fc688b5e83a27bcd87807db7e6f23adcc5
   HockeySDK: 82bf8dcbe1af3c87c24dc98924fcf2e2ba5be8c4
+  HyperioniOS: 755640b9b12e0739a9135a9976a070d8fda1cca4
   KeychainSwift: 213db04dfe7244988e61f77c72a2afb2f775954a
   lottie-ios: 94fa2d82547ce3adf1e61157653ba99999fd279f
   MPOLKit: cc388fa871f5a96d301bd3af3a77dc4a0e1a11d3
@@ -50,6 +64,6 @@ SPEC CHECKSUMS:
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
   Wrap: 9cc7da7551bb81d0846cb3df9fb624c6c32d267d
 
-PODFILE CHECKSUM: a4fc491eff8973f3f9447c04bd9a144ed0262259
+PODFILE CHECKSUM: 7c6e5078ec1eb9e6756b58ca995a1b87b4dc6f73
 
 COCOAPODS: 1.3.1
