@@ -19,10 +19,17 @@ open class IncidentResourcesViewModel: CADFormCollectionViewModel<IncidentResour
         loadData()
     }
     
+    open func createViewController() -> TaskDetailsViewController {
+        return IncidentResourcesViewController(viewModel: self)
+    }
+
+    open func reloadFromModel() {
+        loadData()
+    }
+
     open func loadData() {
         guard CADStateManager.shared.incidentsById[incidentNumber] != nil else { return }
-        sections = []
-        
+
         let resourceViewModels = CADStateManager.shared.resourcesForIncident(incidentNumber: incidentNumber)
             .map { resource -> CADFormCollectionSectionViewModel<IncidentResourceItemViewModel> in
                 let officerViewModels = CADStateManager.shared.officersForResource(callsign: resource.callsign).map { officer in
@@ -46,10 +53,6 @@ open class IncidentResourcesViewModel: CADFormCollectionViewModel<IncidentResour
         }
         
         sections = resourceViewModels
-    }
-    
-    public func createViewController() -> UIViewController {
-        return IncidentResourcesViewController(viewModel: self)
     }
     
     /// The title to use in the navigation bar

@@ -11,7 +11,7 @@ import MapKit
 
 open class ResourceOverviewViewController: UIViewController {
     
-    open var mapViewController: UIViewController!
+    open var mapViewController: TasksMapViewController!
     open var formViewController: FormBuilderViewController!
     
     open let viewModel: ResourceOverviewViewModel
@@ -41,18 +41,15 @@ open class ResourceOverviewViewController: UIViewController {
         
         view.backgroundColor = .white
         
-        var region: MKCoordinateRegion?
-        
-        // Get region from main map view and use as starting point
-        if let splitView = pushableSplitViewController?.navigationController?.viewControllers.first as? TasksSplitViewController,
-            let mapViewController = splitView.detailVC as? MapViewController
-        {
-            region = mapViewController.mapView.region
-        }
-        
         let mapViewModel = ResourceOverviewMapViewModel(callsign: viewModel.callsign)
-        mapViewController = mapViewModel.createViewController(startingMapRegion: region)
+        mapViewController = mapViewModel.createViewController()
         addChildViewController(mapViewController, toView: view)
+        mapViewController.canSelectAnnotations = false
+        mapViewController.showsMapButtons = false
+        mapViewController.mapView.isZoomEnabled = false
+        mapViewController.mapView.isPitchEnabled = false
+        mapViewController.mapView.isRotateEnabled = false
+        mapViewController.mapView.isScrollEnabled = false
         mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
         
         formViewController = viewModel.createFormViewController()
@@ -83,5 +80,14 @@ open class ResourceOverviewViewController: UIViewController {
             formViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             formViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
+    }
+}
+
+// MARK: - CADFormCollectionViewModelDelegate
+extension ResourceOverviewViewController: CADFormCollectionViewModelDelegate {
+
+    public func sectionsUpdated() {
+        // Reload content
+        formViewController.reloadForm()
     }
 }

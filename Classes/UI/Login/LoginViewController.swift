@@ -175,7 +175,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         button.setTitleColor(UIColor(white: 1.0, alpha: 0.5), for: .disabled)
         button.adjustsImageWhenDisabled = true
         button.addTarget(self, action: #selector(loginButtonTriggered), for: .primaryActionTriggered)
-        
+        button.addTarget(self, action: #selector(loginButtonTouchDown), for: .touchDown)
+
         self.isLoginButtonLoaded = true
         return button
     }()
@@ -423,6 +424,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         notificationCenter.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
         notificationCenter.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
         notificationCenter.addObserver(self, selector: #selector(keyboardDidHide(_:)),  name: .UIKeyboardDidHide,  object: nil)
+
     }
     
     public required convenience init(coder aDecoder: NSCoder) {
@@ -805,8 +807,13 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     @objc private func resetKeyboardInset() {
         setKeyboardInset(0.0, animationDuration: 0.0, curve: .curveLinear)
     }
-    
+
+    @objc private func loginButtonTouchDown() {
+        HapticHelper.shared.prepare(.medium)
+    }
+
     @objc private func loginButtonTriggered() {
+        HapticHelper.shared.trigger(.medium)
         if case let LoginMode.usernamePassword(delegate: delegate) = loginMode {
             guard let username = usernameField.text, let password = passwordField.text else { return }
             view.endEditing(true)

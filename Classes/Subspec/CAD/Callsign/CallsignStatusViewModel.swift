@@ -12,20 +12,28 @@ import PromiseKit
 /// View model for the callsign status screen
 open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignStatusItemViewModel> {
 
-    /// The currently selected state
-    open private(set) var selectedIndexPath: IndexPath!
+    /// The incident related to the resource status
+    open private(set) var incident: SyncDetailsIncident?
+
+    /// The currently selected state, can be nil
+    open private(set) var selectedIndexPath: IndexPath?
 
     /// The current status
-    open var currentStatus: ResourceStatus {
-        return statusForIndexPath(selectedIndexPath)
+    open var currentStatus: ResourceStatus? {
+        if let selectedIndexPath = selectedIndexPath {
+            return statusForIndexPath(selectedIndexPath)
+        }
+        return nil
     }
 
     /// Init with sectioned statuses to display, and current selection
-    public init(sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>], selectedStatus: ResourceStatus) {
+    public init(sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>],
+                selectedStatus: ResourceStatus, incident: SyncDetailsIncident?) {
         super.init()
 
         self.sections = sections
         self.selectedIndexPath = indexPathForStatus(selectedStatus)
+        self.incident = incident
     }
 
     /// Create the view controller for this view model
@@ -38,7 +46,7 @@ open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignSta
     /// Attempt to select a new status
     open func setSelectedIndexPath(_ indexPath: IndexPath) -> Promise<ResourceStatus> {
         let newStatus = statusForIndexPath(indexPath)
-        if currentStatus.canChangeToStatus(newStatus: newStatus) {
+        if (currentStatus ?? .unavailable).canChangeToStatus(newStatus: newStatus) {
             var promise: Promise<Void> = Promise<Void>()
 
             // Traffic stop requires further details
@@ -54,8 +62,8 @@ open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignSta
                 }.then { _ -> Promise<ResourceStatus> in
                     // Update UI
                     self.selectedIndexPath = indexPath
-                    CADStateManager.shared.updateCallsignStatus(status: newStatus)
-                    return Promise(value: self.currentStatus)
+                    CADStateManager.shared.updateCallsignStatus(status: newStatus, incident: self.incident)
+                    return Promise(value: newStatus)
             }
         } else {
             let message = NSLocalizedString("Selection not allowed from this state", comment: "")
@@ -74,7 +82,7 @@ open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignSta
         return sections[indexPath.section].items[indexPath.item].status
     }
 
-    open func indexPathForStatus(_ status: ResourceStatus) -> IndexPath {
+    open func indexPathForStatus(_ status: ResourceStatus) -> IndexPath? {
         // Find the status in the section data
         for (sectionIndex, section) in sections.enumerated() {
             for (itemIndex, item) in section.items.enumerated() {
@@ -83,8 +91,7 @@ open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignSta
                 }
             }
         }
-        // Fallback
-        return IndexPath(item: 0, section: 0)
+        return nil
     }
 
     // MARK: - Override

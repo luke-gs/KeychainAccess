@@ -36,7 +36,7 @@ open class OfficerCell: CollectionViewFormSubtitleCell {
         badgeLabel.textColor = badgeColor
         addSubview(badgeLabel)
         
-        imageAlignment = .title
+        imageAlignment = .center
         titleLabel.textColor = .primaryGray
         subtitleLabel.textColor = .secondaryGray
     }
