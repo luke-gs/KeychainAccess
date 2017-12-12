@@ -82,7 +82,8 @@ public class FormBuilder {
     /// Generates a collection of sections containing header, footer and items.
     ///
     /// - Returns: A collection of sections.
-    public func generateSections() -> [FormSection] {
+    public func generateSections() -> (sections: [FormSection], globalHeader: FormItem?) {
+        var globalHeader: FormItem?
         var sections = [FormSection]()
 
         var header: FormItem?
@@ -122,6 +123,8 @@ public class FormBuilder {
                     }
                     
                     footer = item
+                } else if item.kind == collectionElementKindGlobalHeader {
+                    globalHeader = item
                 }
             }
         }
@@ -130,7 +133,7 @@ public class FormBuilder {
             sections.append(FormSection(formHeader: header, formItems: items, formFooter: footer))
         }
 
-        return sections
+        return (sections: sections, globalHeader: globalHeader)
     }
 
     // MARK: - Convenience methods
