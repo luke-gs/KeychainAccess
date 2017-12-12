@@ -25,6 +25,8 @@ public class HapticHelper {
 
     public static let shared = HapticHelper()
 
+    // MARK: - Private
+
     private var generators: [HapticType : UIFeedbackGenerator] = [:]
 
     private init() { }
@@ -54,6 +56,12 @@ public class HapticHelper {
         return generator
     }
 
+    private func removeGenerator(_ type: HapticType) {
+        generators[type] = nil
+    }
+
+    // MARK: - Public
+
     /// Prepares a generator based on the given HapticType.
     /// You should call this just before the haptic is expected to fire, otherwise iOS will return the generator to idle state after a few seconds.
     public func prepare(_ type: HapticType) {
@@ -79,9 +87,11 @@ public class HapticHelper {
         }
 
         // Generators typically only fire once. Remove when used.
-        generators[type] = nil
+        removeGenerator(type)
     }
 }
+
+// MARK: - Extension
 
 // Convenience to map our enum to this generator's enum.
 fileprivate extension UINotificationFeedbackGenerator {
