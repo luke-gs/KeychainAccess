@@ -83,3 +83,12 @@ open class IncidentOverviewViewController: UIViewController {
         
     }
 }
+
+// MARK: - CADFormCollectionViewModelDelegate
+extension IncidentOverviewViewController: CADFormCollectionViewModelDelegate {
+
+    public func sectionsUpdated() {
+        // Reload content
+        formViewController.reloadForm()
+    }
+}

@@ -156,7 +156,7 @@ extension CallsignStatusViewController: UICollectionViewDataSource {
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(of: ManageCallsignStatusViewCell.self, for: indexPath)
         if let item = viewModel.item(at: indexPath) {
-            decorate(cell: cell, with: item, selected: viewModel.selectedIndexPath == indexPath)
+            decorate(cell: cell, with: item, selected: indexPath == viewModel.selectedIndexPath)
         }
         return cell
     }
@@ -215,7 +215,7 @@ extension CallsignStatusViewController: UICollectionViewDelegate {
 
         if indexPath != viewModel.selectedIndexPath, loadingIndexPath == nil {
 
-            let oldIndexPath = viewModel.selectedIndexPath!
+            let oldIndexPath = viewModel.selectedIndexPath
             set(loading: true, at: indexPath)
 
             firstly {
@@ -225,7 +225,7 @@ extension CallsignStatusViewController: UICollectionViewDelegate {
                 // Update selection
                 UIView.performWithoutAnimation {
                     collectionView.performBatchUpdates({
-                        collectionView.reloadItems(at: [indexPath, oldIndexPath])
+                        collectionView.reloadItems(at: [indexPath, oldIndexPath].removeNils())
                     }, completion: nil)
                 }
             }.always {

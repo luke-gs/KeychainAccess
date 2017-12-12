@@ -35,7 +35,7 @@ public class ResourceOfficerViewModel {
                   initials: officer.initials,
                   badgeText: resource?.driver == officer.payrollId ? "DRIVER": nil,
                   commsEnabled: (text: false, call: commsEnabled), // TODO: Set text enabled later on
-                  contactNumber: officer.contactNumber
+                  contactNumber: officer.contactNumber ?? ""
         )
     }
     
