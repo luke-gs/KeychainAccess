@@ -27,6 +27,13 @@ public class OptionFormItem: BaseFormItem {
             cell.isChecked = isChecked
         }
     }
+    
+    public var isEnabled: Bool = true {
+        didSet {
+            guard let cell = cell as? CollectionViewFormOptionCell else { return }
+            cell.isEnabled = isEnabled
+        }
+    }
 
     public var onValueChanged: ((Bool) -> ())?
 
@@ -47,6 +54,7 @@ public class OptionFormItem: BaseFormItem {
 
         cell.optionStyle = optionStyle
         cell.isChecked = isChecked
+        cell.isEnabled = isEnabled
         cell.imageSeparation = imageSeparation
         cell.labelSeparation = labelSeparation
 
@@ -118,6 +126,12 @@ extension OptionFormItem {
     @discardableResult
     public func isChecked(_ isChecked: Bool) -> Self {
         self.isChecked = isChecked
+        return self
+    }
+    
+    @discardableResult
+    public func isEnabled(_ isEnabled: Bool) -> Self {
+        self.isEnabled = isEnabled
         return self
     }
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class MapSettingsViewController: UIViewController, PopoverViewController {
+open class MapSettingsViewController: ThemedPopoverViewController {
 
     private var viewModel: MapSettingsViewModel!
     
@@ -18,15 +18,15 @@ open class MapSettingsViewController: UIViewController, PopoverViewController {
     private let topMargin: CGFloat = 8
 
     // MARK: - Views
-    
+    private var typeLabel: UILabel!
+    private var layersLabel: UILabel!
+    private var layersDescriptionLabel: UILabel!
     private var modeSegmentedControl: UISegmentedControl!
-    private var divider: UIView!
-    private var trafficLabel: UILabel!
-    private var trafficSwitch: UISwitch!
+    private var mapLayerCollectionView: MapSettingsLayersCollectionView!
     
-    public var wantsTransparentBackground: Bool = true {
+    open override var wantsTransparentBackground: Bool {
         didSet {
-            view.backgroundColor = wantsTransparentBackground ? .clear : .white
+            mapLayerCollectionView?.wantsTransparentBackground = wantsTransparentBackground
         }
     }
     
@@ -53,53 +53,64 @@ open class MapSettingsViewController: UIViewController, PopoverViewController {
         
         navigationItem.rightBarButtonItem  = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(close))
 
+        typeLabel = UILabel()
+        typeLabel.font = UIFont.systemFont(ofSize: 22, weight: .semibold)
+        typeLabel.text = viewModel.typeLabelText()
+        typeLabel.textColor = .primaryGray
+        typeLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(typeLabel)
+        
         modeSegmentedControl = UISegmentedControl(items: viewModel.segments())
         modeSegmentedControl.selectedSegmentIndex = viewModel.selectedIndex()
         modeSegmentedControl.addTarget(self, action: #selector(segmentedControlDidChange), for: .valueChanged)
         modeSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(modeSegmentedControl)
         
-        divider = UIView()
-        divider.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
-        divider.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(divider)
+        layersLabel = UILabel()
+        layersLabel.font = UIFont.systemFont(ofSize: 22, weight: .semibold)
+        layersLabel.text = viewModel.layersLabelText()
+        layersLabel.textColor = .primaryGray
+        layersLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(layersLabel)
         
-        trafficLabel = UILabel()
-        trafficLabel.text = "Traffic"
-        trafficLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(trafficLabel)
+        layersDescriptionLabel = UILabel()
+        layersDescriptionLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        layersDescriptionLabel.text = viewModel.layersDescriptionLabelText()
+        layersDescriptionLabel.textColor = .secondaryGray
+        layersDescriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(layersDescriptionLabel)
         
-        trafficSwitch = UISwitch()
-        trafficSwitch.isOn = viewModel.isTrafficEnabled()
-        trafficSwitch.addTarget(self, action: #selector(trafficSwitchDidChange), for: .valueChanged)
-        trafficSwitch.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(trafficSwitch)
-        
-        preferredContentSize = CGSize(width: 340, height: 100)
+        mapLayerCollectionView = MapSettingsLayersCollectionView(viewModel: viewModel)
+        mapLayerCollectionView.view.backgroundColor = .clear
+        mapLayerCollectionView.view.translatesAutoresizingMaskIntoConstraints = false
+        addChildViewController(mapLayerCollectionView, toView: self.view)
     }
     
     /// Activates view constraints
     private func setupConstraints() {
         modeSegmentedControl.setContentHuggingPriority(.defaultHigh, for: .vertical)
         NSLayoutConstraint.activate([
-            modeSegmentedControl.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: topMargin),
-            modeSegmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: sideMargin),
-            modeSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -sideMargin),
+            typeLabel.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: 24),
+            typeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            typeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
             
-            divider.topAnchor.constraint(equalTo: modeSegmentedControl.bottomAnchor, constant: topMargin),
-            divider.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: sideMargin),
-            divider.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -sideMargin),
-            divider.heightAnchor.constraint(equalToConstant: 1),
+            modeSegmentedControl.topAnchor.constraint(equalTo: typeLabel.bottomAnchor, constant: 20),
+            modeSegmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            modeSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            
+            layersLabel.topAnchor.constraint(equalTo: modeSegmentedControl.bottomAnchor, constant: 40),
+            layersLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            layersLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
 
-            trafficLabel.topAnchor.constraint(greaterThanOrEqualTo: divider.bottomAnchor),
-            trafficLabel.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -sideMargin),
-            trafficLabel.centerYAnchor.constraint(equalTo: trafficSwitch.centerYAnchor),
-            trafficLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: sideMargin),
-            trafficLabel.trailingAnchor.constraint(lessThanOrEqualTo: trafficSwitch.leadingAnchor, constant: -sideMargin),
             
-            trafficSwitch.topAnchor.constraint(equalTo: divider.bottomAnchor, constant: topMargin),
-            trafficSwitch.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -sideMargin),
-            trafficSwitch.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -sideMargin),
+            layersDescriptionLabel.topAnchor.constraint(equalTo: layersLabel.bottomAnchor, constant: 4),
+            layersDescriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            layersDescriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+
+            mapLayerCollectionView.view.topAnchor.constraint(equalTo: layersDescriptionLabel.bottomAnchor, constant: 10),
+            mapLayerCollectionView.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mapLayerCollectionView.view.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            mapLayerCollectionView.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -24),
         ])
     }
     
@@ -107,15 +118,36 @@ open class MapSettingsViewController: UIViewController, PopoverViewController {
     
     @objc private func segmentedControlDidChange() {
         viewModel.setMode(at: modeSegmentedControl.selectedSegmentIndex)
-        trafficSwitch.isEnabled = viewModel.isTrafficSupported(at: modeSegmentedControl.selectedSegmentIndex)
-        trafficSwitch.isOn = viewModel.isTrafficEnabled()
-    }
-    
-    @objc private func trafficSwitchDidChange() {
-        viewModel.setTrafficEnabled(trafficSwitch.isOn)
+        mapLayerCollectionView.reloadForm()
     }
     
     @objc private func close() {
         dismiss(animated: true, completion: nil)
+    }
+}
+
+open class MapSettingsLayersCollectionView: FormBuilderViewController {
+    
+    let viewModel: MapSettingsViewModel
+    
+    init(viewModel: MapSettingsViewModel) {
+        self.viewModel = viewModel
+        super.init()
+    }
+    
+    public required convenience init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
+    }
+    
+    open override func construct(builder: FormBuilder) {
+        for (index, layer) in viewModel.layers.enumerated() {
+            builder += OptionFormItem(title: layer.title)
+                .width(.column(1))
+                .onValueChanged { value in
+                    self.viewModel.changedLayer(at: index, to: value)
+            }.isChecked(viewModel.isLayerOn(at: index))
+            .isEnabled(viewModel.isLayerEnabled(at: index))
+            .separatorStyle(.none)
+        }
     }
 }
