@@ -52,8 +52,6 @@ open class QuantityPickerViewController: FormBuilderViewController {
 
         builder.title = builder.title ?? viewModel.subjectMatter
 
-        wantsTransparentBackground = true
-
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(onCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(onDone))
     }
