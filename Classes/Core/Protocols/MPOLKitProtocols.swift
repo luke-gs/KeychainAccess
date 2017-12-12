@@ -9,7 +9,7 @@
 import UIKit
 
 /// The recent searches view controller view model (pretty much just a container)
-public protocol SearchRecentsViewModel {
+public protocol SearchRecentsViewModel: class {
 
     /// The title of the view cotroller
     var title: String { get }
@@ -36,9 +36,19 @@ public protocol SearchRecentsViewModel {
 
     // New Stuffs
 
+    weak var delegate: (SearchRecentsViewModelDelegate & UIViewController)? { get set }
+
     func recentlyViewedItems() -> [FormItem]
 
     func recentlySearchedItems() -> [FormItem]
+
+}
+
+public protocol SearchRecentsViewModelDelegate: class {
+
+    func searchRecentsViewModel(_ searchRecentsViewModel: SearchRecentsViewModel, didSelectPresentable presentable: Presentable)
+
+    func searchRecentsViewModel(_ searchRecentsViewModel: SearchRecentsViewModel, didSelectSearchable searchable: Searchable)
 
 }
 
@@ -46,36 +56,49 @@ public protocol SearchRecentsViewModel {
 public class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
 
     public var recentlyViewed: [MPOLKitEntity] {
-        get {
-            return UserSession.current.recentlyViewed
-        }
-
-        set {
-            UserSession.current.recentlyViewed = newValue
-        }
+        get { return UserSession.current.recentlyViewed }
+        set { UserSession.current.recentlyViewed = newValue }
     }
 
     public var recentlySearched: [Searchable] {
-        get {
-            return UserSession.current.recentlySearched
-        }
+        get { return UserSession.current.recentlySearched }
+        set { UserSession.current.recentlySearched = newValue }
+    }
 
-        set {
-            UserSession.current.recentlySearched = newValue
+    public func decorate(_ cell: EntityCollectionViewCell, at indexPath: IndexPath) {
+        let entity = recentlyViewed[indexPath.item]
+
+        cell.style = .detail
+
+        if let entity = entity as? EntitySummaryDisplayable {
+            cell.decorate(with: entity)
         }
     }
 
-    public func decorate(_ cell: EntityCollectionViewCell, at indexPath: IndexPath) { }
+    public func summaryIcon(for searchable: Searchable) -> UIImage? {
+        guard let type = searchable.type else { return nil }
+
+        switch type {
+        case "Person":
+            return AssetManager.shared.image(forKey: .entityPerson)
+        case "Vehicle":
+            return AssetManager.shared.image(forKey: .entityCar)
+        case "Organisation":
+            return AssetManager.shared.image(forKey: .location)
+        default:
+            return AssetManager.shared.image(forKey: .info)
+        }
+    }
 
     // New stuffs
+
+    public weak var delegate: (SearchRecentsViewModelDelegate & UIViewController)?
 
     public let title: String
 
     public let summaryDisplayFormatter: EntitySummaryDisplayFormatter
 
     public let userSession: UserSession
-
-    public var imageForSearchable: ((Searchable) -> UIImage?)?
 
     public init(title: String, userSession: UserSession = .current, summaryDisplayFormatter: EntitySummaryDisplayFormatter = .default) {
         self.title = title
@@ -84,7 +107,27 @@ public class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
     }
 
     open func recentlyViewedItems() -> [FormItem] {
-        return userSession.recentlyViewed.flatMap { entity in
+        let isCompact = (delegate?.traitCollection.horizontalSizeClass ?? .compact) == .compact
+
+        let theme = ThemeManager.shared.theme(for: .dark)
+        let separatorColor = theme.color(forKey: .separator) ?? .gray
+        let primaryColor = theme.color(forKey: .primaryText)
+        let secondaryColor = theme.color(forKey: .secondaryText)
+
+        var items: [FormItem] = []
+
+        if !isCompact {
+            items.append(HeaderFormItem(text: NSLocalizedString("RECENTLY VIEWED", comment: ""))
+                .separatorColor(separatorColor))
+        }
+
+        let maximum = 5
+        var recentlyViewed = userSession.recentlyViewed
+        if recentlyViewed.count > maximum {
+            recentlyViewed = Array(recentlyViewed[0...5])
+        }
+
+        items += recentlyViewed.flatMap { entity in
             guard let summary = self.summaryDisplayFormatter.summaryDisplayForEntity(entity) else { return nil }
             return SummaryThumbnailFormItem()
                 .style(.detail)
@@ -96,24 +139,50 @@ public class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
                 .badgeColor(summary.iconColor)
                 .borderColor(summary.borderColor)
                 .image(summary.thumbnail(ofSize: .medium))
-//                .onSelection { [weak self] _ in
-//                    guard let `self` = self, let presentable = self.summaryDisplayFormatter.presentableForEntity(entity) else { return }
-//                    self.delegate?.requestToPresent(presentable)
-//                }
+                .titleTextColor(!isCompact ? primaryColor : nil)
+                .subtitleTextColor(!isCompact ? secondaryColor : nil)
+                .detailTextColor(!isCompact ? secondaryColor : nil)
+                .onSelection { [weak self] _ in
+                    guard let `self` = self, let presentable = self.summaryDisplayFormatter.presentableForEntity(entity) else { return }
+                    self.delegate?.searchRecentsViewModel(self, didSelectPresentable: presentable)
+                }
+                .width(.dynamic { info in
+                    return info.layout.columnContentWidth(forMinimumItemContentWidth: EntityCollectionViewCell.minimumContentWidth(forStyle: .detail), maximumColumnCount: 3, sectionEdgeInsets: info.edgeInsets)
+                })
+                .separatorStyle(isCompact ? .indented : .none)
+                .accessory(isCompact ? ItemAccessory.disclosure : nil)
         }
+
+        return items
     }
 
     open func recentlySearchedItems() -> [FormItem] {
-        return userSession.recentlySearched.flatMap { searchable in
+        let isCompact = (delegate?.traitCollection.horizontalSizeClass ?? .compact) == .compact
+
+        var items: [FormItem] = []
+
+        if !isCompact {
+            items.append(HeaderFormItem(text: NSLocalizedString("RECENTLY SEARCHED", comment: "")))
+        }
+
+        let assetManager = AssetManager.shared
+
+        items += userSession.recentlySearched.flatMap { searchable -> FormItem in
             return SubtitleFormItem()
                 .title(searchable.text?.ifNotEmpty() ?? NSLocalizedString("(No Search Term)", comment: "[Recently Searched] - No search term"))
                 .subtitle(searchable.type?.ifNotEmpty() ?? NSLocalizedString("(No Search Category)", comment: "[Recently Searched] - No search category"))
-                .image(imageForSearchable?(searchable))
+                .labelSeparation(2.0)
+                .image(searchable.imageKey != nil ? assetManager.image(forKey: searchable.imageKey!) : nil)
+                .accessory(ItemAccessory.disclosure)
+                .width(.column(1))
+                .highlightStyle(.fade)
+                .onSelection { [weak self] _ in
+                    guard let `self` = self else { return }
+                    self.delegate?.searchRecentsViewModel(self, didSelectSearchable: searchable)
+                }
         }
-    }
 
-    public func summaryIcon(for searchable: Searchable) -> UIImage? {
-        return nil
+        return items
     }
 
 }

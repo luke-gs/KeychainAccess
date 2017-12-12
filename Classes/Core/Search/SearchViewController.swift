@@ -24,7 +24,6 @@ fileprivate let navigationItemKeyPaths: [String] = [
 
 public class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchOptionsViewControllerDelegate, EntityDetailsDelegate, LocationMapSearchDelegate {
 
-
     private var recentsViewController: SearchRecentsViewController
     public var viewModel: SearchViewModel
 
@@ -298,19 +297,18 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
 
     // MARK: - SearchRecentsViewControllerDelegate
 
-    func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentEntity recentEntity: MPOLKitEntity) {
-        didSelectEntity(recentEntity)
+    func searchRecentsController(_ searchRecentsController: SearchRecentsViewController, didSelectPresentable presentable: Presentable) {
+        present(presentable)
     }
 
-    func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentSearch recentSearch: Searchable) {
-        searchOptionsViewController.setCurrent(searchable: recentSearch)
+    func searchRecentsController(_ searchRecentsController: SearchRecentsViewController, didSelectSearchable searchable: Searchable) {
+        searchOptionsViewController.setCurrent(searchable: searchable)
         setShowingSearchOptions(true, animated: true)
     }
 
-    func searchRecentsControllerDidSelectNewSearch(_ controller: SearchRecentsViewController) {
+    func searchRecentsControllerDidSelectNewSearch(_ searchRecentsController: SearchRecentsViewController) {
         displaySearchTriggered()
     }
-
     
     // MARK: - SearchOptionsViewControllerDelegate
 
