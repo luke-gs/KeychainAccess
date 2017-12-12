@@ -119,7 +119,7 @@ open class TasksMapViewModel {
                                       icon: resource.type.icon,
                                       iconBackgroundColor: resource.status.iconColors.background,
                                       iconTintColor: resource.status.iconColors.icon,
-                                      pulsing: false) // TODO: Get duress state
+                                      duress: resource.status == .duress)
         }
     }
  

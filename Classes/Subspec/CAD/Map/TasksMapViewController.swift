@@ -59,7 +59,8 @@ open class TasksMapViewController: MapViewController {
             annotationView?.configure(withAnnotation: annotation,
                                       circleBackgroundColor: annotation.iconBackgroundColor,
                                       resourceImage: annotation.icon,
-                                      imageTintColor: annotation.iconTintColor)
+                                      imageTintColor: annotation.iconTintColor,
+                                      duress: annotation.duress)
             
             return annotationView
         } else if let annotation = annotation as? IncidentAnnotation {
@@ -101,6 +102,11 @@ open class TasksMapViewController: MapViewController {
                     zPositionObservers.append(annotationView.layer.observe(\.zPosition) { (layer, change) in
                         if layer.zPosition < 1000 {
                             layer.zPosition += 1000
+                            
+                            // Bring duress to front
+                            if (annotationView as? ResourceAnnotationView)?.duress == true {
+                                layer.zPosition += 1000
+                            }
                         }
                     })
                 }
@@ -117,6 +123,15 @@ open class TasksMapViewController: MapViewController {
             if viewModel.isAnnotationViewDisplayedOnTop(annotationView) {
                 annotationView.superview?.bringSubview(toFront: annotationView)
             }
+        }
+        
+        // Bring duress to front
+        for annotation in mapView.annotations {
+            guard (annotation as? ResourceAnnotationView)?.duress == true,
+                let annotationView = mapView.view(for: annotation)
+            else { continue }
+
+            annotationView.superview?.bringSubview(toFront: annotationView)
         }
     }
     
