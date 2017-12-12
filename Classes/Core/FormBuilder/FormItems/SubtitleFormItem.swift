@@ -19,6 +19,11 @@ public class SubtitleFormItem: BaseFormItem {
 
     public var style: CollectionViewFormSubtitleStyle = .default
 
+    public var imageSeparation: CGFloat = CellImageLabelSeparation
+
+    public var labelSeparation: CGFloat = CellTitleSubtitleSeparation
+
+
     // Enforce subtitle cell, but allow subclasses
     public init(cellType: CollectionViewFormSubtitleCell.Type, reuseIdentifier: String) {
         super.init(cellType: cellType, reuseIdentifier: reuseIdentifier)
@@ -40,6 +45,8 @@ public class SubtitleFormItem: BaseFormItem {
         cell.subtitleLabel.apply(sizable: subtitle, defaultFont: .preferredFont(forTextStyle: .footnote, compatibleWith: cell.traitCollection), defaultNumberOfLines: 0)
         cell.imageView.image = image
         cell.style = style
+        cell.imageSeparation = imageSeparation
+        cell.labelSeparation = labelSeparation
     }
 
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
@@ -49,8 +56,8 @@ public class SubtitleFormItem: BaseFormItem {
                                                                    compatibleWith: traitCollection,
                                                                    imageSize: image?.size ?? .zero,
                                                                    style: .default,
-                                                                   imageSeparation: CellImageLabelSeparation,
-                                                                   labelSeparation: CellImageLabelSeparation,
+                                                                   imageSeparation: imageSeparation,
+                                                                   labelSeparation: labelSeparation,
                                                                    accessoryViewSize: accessory?.size ?? .zero)
     }
 
@@ -60,8 +67,8 @@ public class SubtitleFormItem: BaseFormItem {
                                                                   compatibleWith: traitCollection,
                                                                   imageSize: image?.size ?? .zero,
                                                                   style: .default,
-                                                                  imageSeparation: CellImageLabelSeparation,
-                                                                  labelSeparation: CellTitleSubtitleSeparation,
+                                                                  imageSeparation: imageSeparation,
+                                                                  labelSeparation: labelSeparation,
                                                                   accessoryViewSize: accessory?.size ?? .zero)
     }
 
@@ -110,6 +117,18 @@ extension SubtitleFormItem {
     @discardableResult
     public func style(_ style: CollectionViewFormSubtitleStyle) -> Self {
         self.style = style
+        return self
+    }
+
+    @discardableResult
+    public func imageSeparation(_ imageSeparation: CGFloat) -> Self {
+        self.imageSeparation = imageSeparation
+        return self
+    }
+
+    @discardableResult
+    public func labelSeparation(_ labelSeparation: CGFloat) -> Self {
+        self.labelSeparation = labelSeparation
         return self
     }
 

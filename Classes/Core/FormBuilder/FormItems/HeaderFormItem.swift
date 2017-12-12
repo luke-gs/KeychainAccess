@@ -91,7 +91,7 @@ extension HeaderFormItem {
     }
 
     @discardableResult
-    public func separatorColor(_ color: UIColor) -> Self {
+    public func separatorColor(_ color: UIColor?) -> Self {
         self.separatorColor = color
         return self
     }
