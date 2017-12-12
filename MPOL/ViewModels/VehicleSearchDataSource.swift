@@ -143,7 +143,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     let vinParser          = QueryParser(parserDefinition: VINParserDefinition(range: 10...17))
     let engineParser       = QueryParser(parserDefinition: EngineNumberParserDefinition(range: 10...20))
 
-    weak var updatingDelegate: SearchDataSourceUpdating?
+    weak var updatingDelegate: (SearchDataSourceUpdating & UIViewController)?
 
     var localizedDisplayName: String {
         return NSLocalizedString("Vehicle", comment: "")
@@ -181,7 +181,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     }
 
     @objc private func didTapHelpButton(_ button: UIButton) {
-        (self.updatingDelegate as? UIViewController)?.present(EntityScreen.help(type: .vehicle))
+        updatingDelegate?.present(EntityScreen.help(type: .vehicle))
     }
 
     private func generateResultModel(_ text: String?, completion: ((SearchResultViewModelable?, Error?) -> ())) {
@@ -207,7 +207,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                 // Note: generate as many requests as required
                 let request = VehicleSearchRequest(source: .mpol, request: searchParameters)
                 let resultModel = EntitySummarySearchResultViewModel<Vehicle>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request]))
-
+                resultModel.additionalBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAddButtonTapped(_:)))]
                 completion(resultModel, nil)
             }
         } catch {
@@ -255,6 +255,12 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
         if endEditing {
             performSearch()
         }
+    }
+
+    // MARK: - Add entity
+
+    @objc private func handleAddButtonTapped(_ item: UIBarButtonItem) {
+        updatingDelegate?.present(EntityScreen.createEntity(type: .vehicle))
     }
 
 }

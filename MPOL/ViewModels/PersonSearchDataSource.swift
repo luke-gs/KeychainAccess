@@ -90,7 +90,7 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
         return dateFormatter
     }()
 
-    weak var updatingDelegate: SearchDataSourceUpdating?
+    weak var updatingDelegate: (SearchDataSourceUpdating & UIViewController)?
 
     var localizedDisplayName: String {
         return NSLocalizedString("Person", comment: "")
@@ -99,7 +99,7 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     // MARK: - Private
 
     @objc private func didTapHelpButton(_ button: UIButton) {
-        (self.updatingDelegate as? UIViewController)?.present(EntityScreen.help(type: .person))
+        updatingDelegate?.present(EntityScreen.help(type: .person))
     }
 
     private func generateResultModel(_ text: String?, completion: ((SearchResultViewModelable?, Error?) -> ())) {
@@ -134,6 +134,7 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                         let request = PersonSearchRequest(source: .mpol, request: searchParameters)
                         let fncRequest = PersonSearchRequest(source: .fnc, request: searchParameters)
                         let resultModel = EntitySummarySearchResultViewModel<Person>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, fncRequest]))
+                        resultModel.additionalBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAddButtonTapped(_:)))]
                         completion(resultModel, nil)
                     }
                 } else {
@@ -179,6 +180,12 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
     @objc private func searchButtonItemTapped() {
         performSearch()
+    }
+
+    // MARK: - Add entity
+
+    @objc private func handleAddButtonTapped(_ item: UIBarButtonItem) {
+        updatingDelegate?.present(EntityScreen.createEntity(type: .person))
     }
 
 }
