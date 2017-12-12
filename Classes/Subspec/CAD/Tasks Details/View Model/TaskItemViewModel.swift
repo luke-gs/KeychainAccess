@@ -31,7 +31,7 @@ open class TaskItemViewModel {
     /// View controllers to show in the list
     open func detailViewControllers() -> [UIViewController] {
         return viewModels.map {
-            $0.createViewController()
+            $0.createDelegateViewController()
         }
     }
     

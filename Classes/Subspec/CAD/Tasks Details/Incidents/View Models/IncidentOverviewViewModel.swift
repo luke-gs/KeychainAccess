@@ -21,9 +21,7 @@ open class IncidentOverviewViewModel: TaskDetailsViewModel {
     }
     
     open func createViewController() -> TaskDetailsViewController {
-        let vc = IncidentOverviewViewController(viewModel: self)
-        delegate = vc
-        return vc
+        return IncidentOverviewViewController(viewModel: self)
     }
     
     open func reloadFromModel() {

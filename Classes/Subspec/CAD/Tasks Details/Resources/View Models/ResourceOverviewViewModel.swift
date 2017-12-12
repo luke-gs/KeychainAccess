@@ -21,9 +21,7 @@ open class ResourceOverviewViewModel: TaskDetailsViewModel {
     }
     
     open func createViewController() -> TaskDetailsViewController {
-        let vc = ResourceOverviewViewController(viewModel: self)
-        delegate = vc
-        return vc
+        return ResourceOverviewViewController(viewModel: self)
     }
     
     open func reloadFromModel() {

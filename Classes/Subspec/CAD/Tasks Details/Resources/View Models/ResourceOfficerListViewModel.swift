@@ -21,9 +21,7 @@ open class ResourceOfficerListViewModel: CADFormCollectionViewModel<ResourceOffi
 
     /// Create the view controller for this view model
     open func createViewController() -> TaskDetailsViewController {
-        let vc = ResourceOfficerListViewController(viewModel: self)
-        delegate = vc
-        return vc
+        return ResourceOfficerListViewController(viewModel: self)
     }
     
     open func reloadFromModel() {

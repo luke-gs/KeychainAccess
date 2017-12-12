@@ -21,9 +21,7 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<EntitySum
     
     /// Create the view controller for this view model
     open func createViewController() -> TaskDetailsViewController {
-        let vc = IncidentAssociationsViewController(viewModel: self)
-        delegate = vc
-        return vc
+        return IncidentAssociationsViewController(viewModel: self)
     }
 
     open func reloadFromModel() {
@@ -32,7 +30,8 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<EntitySum
 
     open func loadData() {
         guard let incident = CADStateManager.shared.incidentsById[incidentNumber] else { return }
-        sections = []
+
+        var sections: [CADFormCollectionSectionViewModel<EntitySummaryDisplayable>] = []
         
         let personsViewModels = incident.persons?.map { person in
             return IncidentAssociationItemViewModel(category: "DS1",
@@ -63,8 +62,7 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<EntitySum
         if vehiclesViewModels.count > 0 {
             sections.append(CADFormCollectionSectionViewModel(title: "\(vehiclesViewModels.count) Vehicles", items: vehiclesViewModels))
         }
-        
-        delegate?.sectionsUpdated()
+        self.sections = sections
     }
     
     /// The title to use in the navigation bar

@@ -20,9 +20,7 @@ open class IncidentResourcesViewModel: CADFormCollectionViewModel<IncidentResour
     }
     
     open func createViewController() -> TaskDetailsViewController {
-        let vc = IncidentResourcesViewController(viewModel: self)
-        delegate = vc
-        return vc
+        return IncidentResourcesViewController(viewModel: self)
     }
 
     open func reloadFromModel() {

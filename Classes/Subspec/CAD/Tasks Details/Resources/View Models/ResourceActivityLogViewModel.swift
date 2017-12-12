@@ -21,9 +21,7 @@ public class ResourceActivityLogViewModel: CADFormCollectionViewModel<ActivityLo
     
     /// Create the view controller for this view model
     open func createViewController() -> TaskDetailsViewController {
-        let vc = ResourceActivityLogViewController(viewModel: self)
-        delegate = vc
-        return vc
+        return ResourceActivityLogViewController(viewModel: self)
     }
     
     open func reloadFromModel() {
