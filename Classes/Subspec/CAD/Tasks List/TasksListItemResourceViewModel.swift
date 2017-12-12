@@ -29,7 +29,7 @@ public struct TasksListItemResourceViewModel {
                   resourceTitle: [resource.callsign, resource.officerCountString].joined(),
                   statusText: resource.status.title,
                   tintColor: inDuress ? .orangeRed : nil,
-            useBoldStatusText: inDuress)
+                  useBoldStatusText: inDuress)
     }
     
 }
