@@ -21,7 +21,7 @@ open class PersonDescription: NSObject, Serialisable {
     open var effectiveDate: Date?
     open var expiryDate: Date?
     open var entityType: String?
-    open var isSummary: Bool?
+    open var isSummary: Bool = false
     open var source: MPOLSource?
     
     open var height: Int?
@@ -38,15 +38,11 @@ open class PersonDescription: NSObject, Serialisable {
     open var image: Media?
     
     open static var supportsSecureCoding: Bool { return true }
+    open static var modelVersion: Int { return 0 }
     
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 
     public required init(unboxer: Unboxer) throws {
-//        guard let id: String = unboxer.unbox(key: "id") else {
-//            throw ParsingError.missingRequiredField
-//        }
-//        self.id = id
-        
         id = unboxer.unbox(key: "id") ?? UUID().uuidString
         
         dateCreated = unboxer.unbox(key: "dateCreated", formatter: PersonDescription.dateTransformer)
@@ -56,7 +52,7 @@ open class PersonDescription: NSObject, Serialisable {
         effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: PersonDescription.dateTransformer)
         expiryDate = unboxer.unbox(key: "expiryDate", formatter: PersonDescription.dateTransformer)
         entityType = unboxer.unbox(key: "entityType")
-        isSummary = unboxer.unbox(key: "isSummary")
+        isSummary = unboxer.unbox(key: "isSummary") ?? false
         source = unboxer.unbox(key: "source")
         
         height = unboxer.unbox(key: "height")
@@ -80,11 +76,68 @@ open class PersonDescription: NSObject, Serialisable {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        MPLUnimplemented()
+        id = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String!
+        
+        super.init()
+        
+        dateCreated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateCreated.rawValue) as Date?
+        dateUpdated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateUpdated.rawValue) as Date?
+        effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.effectiveDate.rawValue) as Date?
+        expiryDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.expiryDate.rawValue) as Date?
+        createdBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.createdBy.rawValue) as String?
+        updatedBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.updatedBy.rawValue) as String?
+        entityType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.entityType.rawValue) as String?
+        isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
+        
+        if let source = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.source.rawValue) as String? {
+            self.source = MPOLSource(rawValue: source)
+        }
+
+        if let height = aDecoder.decodeObject(of: NSNumber.self, forKey: CodingKey.height.rawValue) {
+            self.height = height.intValue
+        }
+
+        weight = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.weight.rawValue) as String?
+        ethnicity = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.ethnicity.rawValue) as String?
+        race = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.race.rawValue) as String?
+        build = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.build.rawValue) as String?
+        hairColour = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.hairColour.rawValue) as String?
+        eyeColour = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.eyeColour.rawValue) as String?
+        marks = aDecoder.decodeObject(of: NSArray.self, forKey: CodingKey.marks.rawValue) as? [String]
+        remarks = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.remarks.rawValue) as String?
+
+        imageThumbnail = aDecoder.decodeObject(of: Media.self, forKey: CodingKey.imageThumbnail.rawValue)
+        image = aDecoder.decodeObject(of: Media.self, forKey: CodingKey.image.rawValue)
     }
     
-    public func encode(with aCoder: NSCoder) {
-        MPLUnimplemented()
+    open func encode(with aCoder: NSCoder) {
+        aCoder.encode(PersonDescription.modelVersion, forKey: CodingKey.version.rawValue)
+
+        aCoder.encode(id, forKey: CodingKey.id.rawValue)
+        aCoder.encode(dateCreated, forKey: CodingKey.dateCreated.rawValue)
+        aCoder.encode(dateUpdated, forKey: CodingKey.dateUpdated.rawValue)
+        aCoder.encode(expiryDate, forKey: CodingKey.expiryDate.rawValue)
+        aCoder.encode(createdBy, forKey: CodingKey.createdBy.rawValue)
+        aCoder.encode(updatedBy, forKey: CodingKey.updatedBy.rawValue)
+        aCoder.encode(entityType, forKey: CodingKey.entityType.rawValue)
+        aCoder.encode(isSummary, forKey: CodingKey.isSummary.rawValue)
+        aCoder.encode(source?.rawValue, forKey: CodingKey.source.rawValue)
+
+        if let height = height {
+            aCoder.encode(NSNumber(value: height), forKey: CodingKey.height.rawValue)
+        }
+
+        aCoder.encode(weight, forKey: CodingKey.weight.rawValue)
+        aCoder.encode(ethnicity, forKey: CodingKey.ethnicity.rawValue)
+        aCoder.encode(race, forKey: CodingKey.race.rawValue)
+        aCoder.encode(build, forKey: CodingKey.build.rawValue)
+        aCoder.encode(hairColour, forKey: CodingKey.hairColour.rawValue)
+        aCoder.encode(eyeColour, forKey: CodingKey.eyeColour.rawValue)
+        aCoder.encode(marks, forKey: CodingKey.marks.rawValue)
+        aCoder.encode(remarks, forKey: CodingKey.remarks.rawValue)
+
+        aCoder.encode(imageThumbnail, forKey: CodingKey.imageThumbnail.rawValue)
+        aCoder.encode(image, forKey: CodingKey.image.rawValue)
     }
     
     public func formatted() -> String? {
@@ -132,5 +185,31 @@ open class PersonDescription: NSObject, Serialisable {
 
         return formattedComponents.joined(separator: ", ")
     }
-    
+
+    private enum CodingKey: String {
+        case version
+        case id
+        case dateCreated
+        case dateUpdated
+        case createdBy
+        case updatedBy
+        case effectiveDate
+        case expiryDate
+        case entityType
+        case isSummary
+        case source
+
+        case height
+        case weight
+        case ethnicity
+        case race
+        case build
+        case hairColour
+        case eyeColour
+        case marks
+        case remarks
+        case imageThumbnail
+        case image
+    }
+
 }

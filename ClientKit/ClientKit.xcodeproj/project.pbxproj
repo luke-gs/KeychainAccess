@@ -94,6 +94,8 @@
 		EA9FB2681F417C4100F8015B /* RegistrationParserDefinitionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA9FB2671F417C4100F8015B /* RegistrationParserDefinitionsTests.swift */; };
 		EA9FB26A1F4186C000F8015B /* VINParserDefinitionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA9FB2691F4186C000F8015B /* VINParserDefinitionsTests.swift */; };
 		EA9FB26C1F41879C00F8015B /* EngineNumberParserDefinitionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA9FB26B1F41879C00F8015B /* EngineNumberParserDefinitionsTests.swift */; };
+		EAE12B031FC2548800851619 /* PersonEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE12B021FC2548800851619 /* PersonEditViewController.swift */; };
+		EAE12B051FC2A66500851619 /* VehicleEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE12B041FC2A66500851619 /* VehicleEditViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -210,6 +212,8 @@
 		EA9FB2671F417C4100F8015B /* RegistrationParserDefinitionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationParserDefinitionsTests.swift; sourceTree = "<group>"; };
 		EA9FB2691F4186C000F8015B /* VINParserDefinitionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VINParserDefinitionsTests.swift; sourceTree = "<group>"; };
 		EA9FB26B1F41879C00F8015B /* EngineNumberParserDefinitionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EngineNumberParserDefinitionsTests.swift; sourceTree = "<group>"; };
+		EAE12B021FC2548800851619 /* PersonEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonEditViewController.swift; sourceTree = "<group>"; };
+		EAE12B041FC2A66500851619 /* VehicleEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleEditViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -448,6 +452,7 @@
 		BCAEFE761F03150800C97F9C /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				EAE12B011FC2525800851619 /* Entity Creations */,
 				BCAEFE771F03150800C97F9C /* Entity Details */,
 			);
 			path = "View Controllers";
@@ -555,6 +560,15 @@
 				1AB825331F610D04001C4BCE /* Address+EntityMapSummaryDisplayable.swift */,
 			);
 			path = EntitySummary;
+			sourceTree = "<group>";
+		};
+		EAE12B011FC2525800851619 /* Entity Creations */ = {
+			isa = PBXGroup;
+			children = (
+				EAE12B021FC2548800851619 /* PersonEditViewController.swift */,
+				EAE12B041FC2A66500851619 /* VehicleEditViewController.swift */,
+			);
+			path = "Entity Creations";
 			sourceTree = "<group>";
 		};
 		FB4E17C2967B152090CB72FB /* Pods */ = {
@@ -816,6 +830,7 @@
 				BC75A7AE1F1C3D48004D46F1 /* EntityAssociationsViewController.swift in Sources */,
 				EA8B66621F3831C900F09716 /* LicenceSearchParameters.swift in Sources */,
 				199ECE9E1FAA5ACD0065E425 /* PersonImageSizing.swift in Sources */,
+				EAE12B051FC2A66500851619 /* VehicleEditViewController.swift in Sources */,
 				BC75A7BA1F1C3D58004D46F1 /* PersonInfoViewController.swift in Sources */,
 				BC75A7B21F1C3D50004D46F1 /* EventDetailViewController.swift in Sources */,
 				BCAEFE9A1F03150800C97F9C /* Event.swift in Sources */,
@@ -861,6 +876,7 @@
 				1A2E8A781F3942FE0062FEA5 /* EntityAlertsViewModel.swift in Sources */,
 				C681A3851F21AEA800F4AC13 /* LicenceParserDefinition.swift in Sources */,
 				EA8B665E1F382D2B00F09716 /* PersonSearchParameters.swift in Sources */,
+				EAE12B031FC2548800851619 /* PersonEditViewController.swift in Sources */,
 				46A192FD1FB93A4000FED201 /* LocationFetchRequest.swift in Sources */,
 				1A2E8A7A1F39734E0062FEA5 /* EntityAssociationsViewModel.swift in Sources */,
 				1A2E8A701F37E3380062FEA5 /* PersonDescriptionViewModel.swift in Sources */,

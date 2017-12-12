@@ -46,8 +46,11 @@ public class EntityPresenter: Presenter {
                 let viewModel = EntityDetailSectionsViewModel(initialSource: entity.source!,
                                                               dataSources: dataSources,
                                                               andMatchMaker: PersonMatchMaker())
+                viewModel.recentlyViewed = UserSession.current.recentlyViewed
 
-                return EntityDetailSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(viewModel: viewModel)
+                let entityDetailViewController = EntityDetailSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(viewModel: viewModel)
+                entityDetailViewController.delegate = self
+                return entityDetailViewController
             case is Vehicle:
                 dataSources = [
                     VehicleMPOLDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
@@ -57,19 +60,23 @@ public class EntityPresenter: Presenter {
                 let viewModel = EntityDetailSectionsViewModel(initialSource: entity.source!,
                                                               dataSources: dataSources,
                                                               andMatchMaker: VehicleMatchMaker())
+                viewModel.recentlyViewed = UserSession.current.recentlyViewed
 
-                return EntityDetailSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(viewModel: viewModel)
+                let entityDetailViewController = EntityDetailSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(viewModel: viewModel)
+                 entityDetailViewController.delegate = self
+                return entityDetailViewController
             case is Address:
                 dataSources = [LocationMPOLDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)]
                 let viewModel = EntityDetailSectionsViewModel(initialSource: MPOLSource.mpol,
                                                               dataSources: dataSources,
                                                               andMatchMaker: nil)
-                return EntityDetailSplitViewController<EntityDetailsDisplayable, AddressSummaryDisplayable>(viewModel: viewModel)
+                let entityDetailViewController = EntityDetailSplitViewController<EntityDetailsDisplayable, AddressSummaryDisplayable>(viewModel: viewModel)
+                entityDetailViewController.delegate = self
+                return entityDetailViewController
             default:
                 break
             }
             return UIViewController()
-
         case .help(let type):
             let content: HelpContent
 
@@ -91,9 +98,13 @@ public class EntityPresenter: Presenter {
 
             switch type {
             case .person:
-                title = NSLocalizedString("New Person", comment: "")
+                let personViewController = PersonEditViewController()
+                personViewController.title = "New Person"
+                return UINavigationController(rootViewController: personViewController)
             case .vehicle:
-                title = NSLocalizedString("New Vehicle", comment: "")
+                let vehicleViewController = VehicleEditViewController()
+                vehicleViewController.title = "New Vehicle"
+                return UINavigationController(rootViewController: vehicleViewController)
             case .location:
                 title = NSLocalizedString("New Location", comment: "")
             case .organisation:
@@ -109,12 +120,37 @@ public class EntityPresenter: Presenter {
     }
 
     public func present(_ presentable: Presentable, fromViewController from: UIViewController, toViewController to: UIViewController) {
-        from.show(to, sender: from)
+        guard let presentable = presentable as? EntityScreen else { return }
+
+        switch presentable {
+        case .createEntity:
+            from.present(to, animated: true, completion: nil)
+        default:
+            from.show(to, sender: from)
+        }
     }
 
 
     public func supportPresentable(_ presentableType: Presentable.Type) -> Bool {
         return presentableType is EntityScreen.Type
+    }
+
+}
+
+extension EntityPresenter: EntityDetailSplitViewControllerDelegate {
+
+    public func entityDetailSplitViewController<Details, Summary>(_ entityDetailSplitViewController: EntityDetailSplitViewController<Details, Summary>, didPresentEntity entity: MPOLKitEntity) {
+    }
+
+    public func entityDetailSplitViewController<Details, Summary>(_ entityDetailSplitViewController: EntityDetailSplitViewController<Details, Summary>, didActionOnEntity entity: MPOLKitEntity) {
+
+        // Temporary implementation of this action. Change to suit
+        let recentlyActioned = UserSession.current.recentlyActioned
+        if recentlyActioned.contains(entity) {
+            recentlyActioned.remove(entity)
+        } else {
+            recentlyActioned.add(entity)
+        }
     }
 
 }

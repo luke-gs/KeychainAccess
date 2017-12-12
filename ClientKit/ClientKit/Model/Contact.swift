@@ -12,18 +12,16 @@ import MPOLKit
 @objc(MPLContact)
 open class Contact: NSObject, Serialisable {
 
-    public enum contactType: Int, UnboxableEnum {
-        case phone  = 0
+    public enum ContactType: Int, UnboxableEnum {
+        case phone = 0
         case mobile = 1
-        case email  = 2
-        
-        public static let allCases: [contactType] = [.phone, .mobile, .email]
-        
+        case email = 2
+
         public func localizedDescription() -> String {
             switch self {
-            case .phone:  return "Phone"
+            case .phone: return "Phone"
             case .mobile: return "Mobile"
-            case .email:  return "Email"
+            case .email: return "Email"
             }
         }
     }
@@ -37,10 +35,10 @@ open class Contact: NSObject, Serialisable {
     open var effectiveDate: Date?
     open var expiryDate: Date?
     open var entityType: String?
-    open var isSummary: Bool?
+    open var isSummary: Bool = false
     open var source: MPOLSource?
     
-    open var type: Contact.contactType?
+    open var type: Contact.ContactType?
     open var subType: String?
     open var value: String?
     
@@ -48,6 +46,8 @@ open class Contact: NSObject, Serialisable {
 
     public required init(id: String = UUID().uuidString) {
         self.id = id
+        self.isSummary = false
+
         super.init()
     }
     
@@ -66,7 +66,7 @@ open class Contact: NSObject, Serialisable {
         effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: Contact.dateTransformer)
         expiryDate = unboxer.unbox(key: "expiryDate", formatter: Contact.dateTransformer)
         entityType = unboxer.unbox(key: "entityType")
-        isSummary = unboxer.unbox(key: "isSummary")
+        isSummary = unboxer.unbox(key: "isSummary") ?? false
         source = unboxer.unbox(key: "source")
         
         type = unboxer.unbox(key: "contactType")
@@ -76,15 +76,75 @@ open class Contact: NSObject, Serialisable {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        MPLUnimplemented()
+        id = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String!
+        isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
+
+        super.init()
+
+        dateCreated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateCreated.rawValue) as Date?
+        dateUpdated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateUpdated.rawValue) as Date?
+        effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.effectiveDate.rawValue) as Date?
+        expiryDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.expiryDate.rawValue) as Date?
+        createdBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.createdBy.rawValue) as String?
+        updatedBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.updatedBy.rawValue) as String?
+        entityType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.entityType.rawValue) as String?
+
+        if let source = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.source.rawValue) as String? {
+            self.source = MPOLSource(rawValue: source)
+        }
+
+        if let type = aDecoder.decodeObject(of: NSNumber.self, forKey: CodingKey.type.rawValue) {
+            self.type = ContactType(rawValue: type.intValue)
+        }
+
+        subType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.subType.rawValue) as String?
+        value = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.value.rawValue) as String?
     }
     
     open func encode(with aCoder: NSCoder) {
-        
+        aCoder.encode(Contact.modelVersion, forKey: CodingKey.version.rawValue)
+        aCoder.encode(id, forKey: CodingKey.id.rawValue)
+        aCoder.encode(dateCreated, forKey: CodingKey.dateCreated.rawValue)
+        aCoder.encode(dateUpdated, forKey: CodingKey.dateUpdated.rawValue)
+        aCoder.encode(expiryDate, forKey: CodingKey.expiryDate.rawValue)
+        aCoder.encode(createdBy, forKey: CodingKey.createdBy.rawValue)
+        aCoder.encode(updatedBy, forKey: CodingKey.updatedBy.rawValue)
+        aCoder.encode(entityType, forKey: CodingKey.entityType.rawValue)
+        aCoder.encode(isSummary, forKey: CodingKey.isSummary.rawValue)
+        aCoder.encode(source?.rawValue, forKey: CodingKey.source.rawValue)
+
+        if let type = type?.rawValue {
+            aCoder.encode(NSNumber(value: type), forKey: CodingKey.type.rawValue)
+        }
+
+        aCoder.encode(subType, forKey: CodingKey.subType.rawValue)
+        aCoder.encode(value, forKey: CodingKey.value.rawValue)
     }
     
     open static var supportsSecureCoding: Bool {
         return true
     }
+
+    // MARK: - Model Versionable
+    open static var modelVersion: Int {
+        return 0
+    }
  
+}
+
+private enum CodingKey: String {
+    case version
+    case id
+    case dateCreated
+    case dateUpdated
+    case createdBy
+    case updatedBy
+    case effectiveDate
+    case expiryDate
+    case entityType
+    case isSummary
+    case source
+    case type
+    case subType
+    case value
 }

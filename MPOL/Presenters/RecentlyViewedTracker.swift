@@ -17,18 +17,13 @@ public class RecentlyViewedTracker: PresenterObserving {
         if let presentable = presentable as? EntityScreen {
             switch presentable {
             case .entityDetails(let entity, _):
-                var recents = UserSession.current.recentlyViewed
-                guard recents.first != entity else { return }
-                
-                for (index, oldEntity) in recents.enumerated() {
-                    if oldEntity == entity {
-                        recents.remove(at: index)
-                        break
-                    }
+                let recentlyViewed = UserSession.current.recentlyViewed
+
+                if recentlyViewed.contains(entity) {
+                    recentlyViewed.remove(entity)
                 }
-                recents.insert(entity, at: 0)
-                
-                UserSession.current.recentlyViewed = recents
+
+                recentlyViewed.add(entity)
             default: break
             }
         }
