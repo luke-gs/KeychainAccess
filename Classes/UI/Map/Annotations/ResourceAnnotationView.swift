@@ -45,6 +45,8 @@ open class ResourceAnnotationView: MKAnnotationView {
     /// The image view inside the circle
     private var imageView: UIImageView!
     
+    public private(set) var duress: Bool = false
+    
     // MARK: - Setup
     public override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
@@ -52,8 +54,9 @@ open class ResourceAnnotationView: MKAnnotationView {
         setupConstraints()
     }
     
-    public func configure(withAnnotation annotation: MKAnnotation, circleBorderColor: UIColor = .white, circleBackgroundColor: UIColor, resourceImage: UIImage?, imageTintColor: UIColor?) {
+    public func configure(withAnnotation annotation: MKAnnotation, circleBorderColor: UIColor = .white, circleBackgroundColor: UIColor, resourceImage: UIImage?, imageTintColor: UIColor?, duress: Bool) {
         self.annotation = annotation
+        self.duress = duress
         
         detailsTitleLabel.text = annotation.title ?? ""
         detailsSubtitleLabel.text = annotation.subtitle ?? ""
