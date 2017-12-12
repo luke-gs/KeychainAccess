@@ -195,7 +195,7 @@ open class APIManager {
     
     private func adaptedRequest(_ urlRequest: URLRequest, using plugins: [PluginType]) -> Promise<URLRequest> {
         let initial = Promise(value: urlRequest)
-        return applicablePlugins(for: urlRequest.url).reduce(initial) { (promise, plugin) in
+        return plugins.reduce(initial) { (promise, plugin) in
             return promise.then { return plugin.adapt($0) }
         }
     }
