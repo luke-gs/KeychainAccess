@@ -116,7 +116,13 @@ open class CADStateManager: NSObject {
         if let incident = incident, currentIncident == nil {
             if let syncDetails = lastSync, let resource = currentResource {
                 resource.currentIncident = incident.identifier
-                resource.assignedIncidents = [incident.identifier]
+
+                // Make sure incident is also assigned to resource
+                var assignedIncidents = resource.assignedIncidents ?? []
+                if !assignedIncidents.contains(incident.identifier) {
+                    assignedIncidents.append(incident.identifier)
+                    resource.assignedIncidents = assignedIncidents
+                }
 
                 // Reposition resource at top so it is first one found assigned to incident
                 if let index = syncDetails.resources.index(of: resource) {
