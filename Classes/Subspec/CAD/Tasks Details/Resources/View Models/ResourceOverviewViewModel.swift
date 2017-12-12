@@ -13,15 +13,17 @@ open class ResourceOverviewViewModel: TaskDetailsViewModel {
     /// The identifier for this resource
     open let callsign: String
     
-    weak var delegate: ResourceOverviewViewModelDelegate?
+    open weak var delegate: CADFormCollectionViewModelDelegate?
     
     public init(callsign: String) {
         self.callsign = callsign
         loadData()
     }
     
-    open func createViewController() -> UIViewController {
-        return ResourceOverviewViewController(viewModel: self)
+    open func createViewController() -> TaskDetailsViewController {
+        let vc = ResourceOverviewViewController(viewModel: self)
+        delegate = vc
+        return vc
     }
     
     open func reloadFromModel() {
@@ -29,15 +31,13 @@ open class ResourceOverviewViewModel: TaskDetailsViewModel {
     }
 
     open func createFormViewController() -> FormBuilderViewController {
-        let viewController = ResourceOverviewFormViewController(viewModel: self)
-        delegate = viewController
-        return viewController
+        return ResourceOverviewFormViewController(viewModel: self)
     }
     
     /// Lazy var for creating view model content
     open var sections: [CADFormCollectionSectionViewModel<IncidentOverviewItemViewModel>] = [] {
         didSet {
-            delegate?.didUpdateSections()
+            delegate?.sectionsUpdated()
         }
     }
     
@@ -109,7 +109,3 @@ open class ResourceOverviewViewModel: TaskDetailsViewModel {
     }
 }
 
-public protocol ResourceOverviewViewModelDelegate: class {
-    /// Called when the section data changed
-    func didUpdateSections()
-}

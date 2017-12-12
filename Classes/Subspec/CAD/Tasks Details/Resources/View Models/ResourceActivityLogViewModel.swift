@@ -20,8 +20,10 @@ public class ResourceActivityLogViewModel: CADFormCollectionViewModel<ActivityLo
     }
     
     /// Create the view controller for this view model
-    open func createViewController() -> UIViewController {
-        return ResourceActivityLogViewController(viewModel: self)
+    open func createViewController() -> TaskDetailsViewController {
+        let vc = ResourceActivityLogViewController(viewModel: self)
+        delegate = vc
+        return vc
     }
     
     open func reloadFromModel() {
@@ -32,8 +34,6 @@ public class ResourceActivityLogViewModel: CADFormCollectionViewModel<ActivityLo
         guard let resource = CADStateManager.shared.resourcesById[callsign] else { return }
         guard let activityLog = resource.activityLog else { return }
 
-        sections = []
-        
         let activityLogItemsViewModels = activityLog.map { item in
             return ActivityLogItemViewModel(dotFillColor: item.color,
                                             dotStrokeColor: .clear,
@@ -42,7 +42,7 @@ public class ResourceActivityLogViewModel: CADFormCollectionViewModel<ActivityLo
                                             subtitle: item.description)
             }.sorted { return $0.timestamp > $1.timestamp }
         
-        sections.append(CADFormCollectionSectionViewModel(title: "READ", items: activityLogItemsViewModels))
+        sections = [CADFormCollectionSectionViewModel(title: "READ", items: activityLogItemsViewModels)]
     }
     
     /// The title to use in the navigation bar
@@ -58,6 +58,5 @@ public class ResourceActivityLogViewModel: CADFormCollectionViewModel<ActivityLo
     override open func noContentSubtitle() -> String? {
         return nil
     }
-
-
 }
+

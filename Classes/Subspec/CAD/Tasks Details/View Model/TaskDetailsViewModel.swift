@@ -8,10 +8,12 @@
 
 import Foundation
 
+public typealias TaskDetailsViewController = UIViewController & CADFormCollectionViewModelDelegate
+
 public protocol TaskDetailsViewModel {
 
     // Create view controller for the view model
-    func createViewController() -> UIViewController
+    func createViewController() -> TaskDetailsViewController
 
     // Reload the content of view model from data model
     func reloadFromModel()

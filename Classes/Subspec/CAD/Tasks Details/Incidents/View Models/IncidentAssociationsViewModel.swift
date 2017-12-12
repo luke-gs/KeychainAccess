@@ -20,12 +20,12 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<EntitySum
     }
     
     /// Create the view controller for this view model
-    open func createViewController() -> UIViewController {
-        let viewController = IncidentAssociationsViewController(viewModel: self)
-        delegate = viewController
-        return viewController
+    open func createViewController() -> TaskDetailsViewController {
+        let vc = IncidentAssociationsViewController(viewModel: self)
+        delegate = vc
+        return vc
     }
-    
+
     open func reloadFromModel() {
         loadData()
     }

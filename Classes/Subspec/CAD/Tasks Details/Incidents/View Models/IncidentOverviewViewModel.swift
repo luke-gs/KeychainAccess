@@ -13,15 +13,17 @@ open class IncidentOverviewViewModel: TaskDetailsViewModel {
     /// The identifier for this incident
     open let incidentNumber: String
     
-    weak var delegate: IncidentOverviewViewModelDelegate?
+    open weak var delegate: CADFormCollectionViewModelDelegate?
     
     public init(incidentNumber: String) {
         self.incidentNumber = incidentNumber
         loadData()
     }
     
-    open func createViewController() -> UIViewController {
-        return IncidentOverviewViewController(viewModel: self)
+    open func createViewController() -> TaskDetailsViewController {
+        let vc = IncidentOverviewViewController(viewModel: self)
+        delegate = vc
+        return vc
     }
     
     open func reloadFromModel() {
@@ -29,15 +31,13 @@ open class IncidentOverviewViewModel: TaskDetailsViewModel {
     }
 
     open func createFormViewController() -> FormBuilderViewController {
-        let viewController = IncidentOverviewFormViewController(viewModel: self)
-        delegate = viewController
-        return viewController
+        return IncidentOverviewFormViewController(viewModel: self)
     }
     
     /// Lazy var for creating view model content
     open var sections: [CADFormCollectionSectionViewModel<IncidentOverviewItemViewModel>] = [] {
         didSet {
-            delegate?.didUpdateSections()
+            delegate?.sectionsUpdated()
         }
     }
     
@@ -101,10 +101,5 @@ open class IncidentOverviewViewModel: TaskDetailsViewModel {
     open func navTitle() -> String {
         return NSLocalizedString("Overview", comment: "Overview sidebar title")
     }
-}
-
-public protocol IncidentOverviewViewModelDelegate: class {
-    /// Called when the section data changed
-    func didUpdateSections()
 }
 

@@ -83,10 +83,3 @@ open class ResourceOverviewFormViewController: FormBuilderViewController {
                                borderColor: viewModel.badgeBorderColor)
     }
 }
-
-extension ResourceOverviewFormViewController: ResourceOverviewViewModelDelegate {
-    public func didUpdateSections() {
-        reloadForm()
-    }
-}
-

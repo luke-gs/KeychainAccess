@@ -20,8 +20,10 @@ public class IncidentNarrativeViewModel: CADFormCollectionViewModel<ActivityLogI
     }
     
     /// Create the view controller for this view model
-    open func createViewController() -> UIViewController {
-        return IncidentNarrativeViewController(viewModel: self)
+    open func createViewController() -> TaskDetailsViewController {
+        let vc = IncidentNarrativeViewController(viewModel: self)
+        delegate = vc
+        return vc
     }
     
     open func reloadFromModel() {

@@ -19,6 +19,16 @@ open class IncidentResourcesViewModel: CADFormCollectionViewModel<IncidentResour
         loadData()
     }
     
+    open func createViewController() -> TaskDetailsViewController {
+        let vc = IncidentResourcesViewController(viewModel: self)
+        delegate = vc
+        return vc
+    }
+
+    open func reloadFromModel() {
+        loadData()
+    }
+
     open func loadData() {
         guard CADStateManager.shared.incidentsById[incidentNumber] != nil else { return }
 
@@ -47,16 +57,6 @@ open class IncidentResourcesViewModel: CADFormCollectionViewModel<IncidentResour
         sections = resourceViewModels
     }
     
-    open func createViewController() -> UIViewController {
-        let vc = IncidentResourcesViewController(viewModel: self)
-        delegate = vc
-        return vc
-    }
-    
-    open func reloadFromModel() {
-        loadData()
-    }
-
     /// The title to use in the navigation bar
     override open func navTitle() -> String {
         return NSLocalizedString("Resources", comment: "Resources sidebar title")

@@ -85,3 +85,12 @@ open class ResourceOverviewViewController: UIViewController {
         ])
     }
 }
+
+// MARK: - CADFormCollectionViewModelDelegate
+extension ResourceOverviewViewController: CADFormCollectionViewModelDelegate {
+
+    public func sectionsUpdated() {
+        // Reload content
+        formViewController.reloadForm()
+    }
+}
