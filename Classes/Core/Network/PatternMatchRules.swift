@@ -17,6 +17,8 @@ public struct PatternMatchRules: RulesMatching {
     }
 
     public func isMatch(_ urlToMatch: URL) -> Bool {
+        // TODO: - Not implemented yet.
+        // Should be something along the lines of https://developer.chrome.com/extensions/match_patterns.
         return true
     }
 }

@@ -6,6 +6,8 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
+
+/// Wrapper to PluginType and the rule that the `APIManager` will apply the plugin to.
 public struct Plugin {
 
     public let plugin: PluginType
@@ -33,6 +35,9 @@ public struct Plugin {
 
 }
 
+
+// MARK: - Convenience extension
+/// Extension to `PluginType` so it could be constructed and added in conveniently.
 extension PluginType {
 
     public func allowAll() -> Plugin {

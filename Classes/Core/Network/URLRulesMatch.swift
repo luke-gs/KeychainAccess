@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// Implementation of `RulesMatching` that's based on `URL` comparison.
+/// Implementation of `RulesMatching` that's based on `URL` comparison using closure.
 public struct URLRulesMatch: RulesMatching {
 
     public let rules: (URL) -> Bool

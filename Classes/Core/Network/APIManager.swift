@@ -136,6 +136,12 @@ open class APIManager {
         }
     }
 
+
+    /// Set the authentication plugin for this manager with the the rule of what requests it'll apply to.
+    ///
+    /// - Parameters:
+    ///   - plugin: The authentication plugin to use.
+    ///   - rule: The filter rule that the plugin should apply to.
     public func setAuthenticationPlugin(_ plugin: AuthenticationPlugin, rule: PluginFilterRule = .allowAll) {
         authenticationPlugin = plugin
         authenticationPluginFilterRule = rule
