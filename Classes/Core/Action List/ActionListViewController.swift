@@ -28,12 +28,12 @@ public class ActionListViewController: FormBuilderViewController {
 
         viewModel.actionListViewController = self
 
-        title = NSLocalizedString("Action List", comment: "Title")
+        title = NSLocalizedString("Action List", comment: "[Action List] - Navigation bar title")
 
         tabBarItem.image = AssetManager.shared.image(forKey: .tabBarActionList)
 
-        loadingManager.noContentView.titleLabel.text = "No Pinned Entities"
-        loadingManager.noContentView.subtitleLabel.text = "Any pinned entities will show up here."
+        loadingManager.noContentView.titleLabel.text = NSLocalizedString("No Pinned Entities", comment: "[Action List] - No pinned entities title")
+        loadingManager.noContentView.subtitleLabel.text = NSLocalizedString("Any pinned entities will show up here.", comment: "[Action List] - No pinned entities description")
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleRecentlyActionedUpdate(_:)), name: EntityBucket.didUpdateNotificationName, object: UserSession.current.recentlyActioned)
     }
