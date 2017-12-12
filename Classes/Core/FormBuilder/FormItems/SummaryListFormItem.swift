@@ -43,7 +43,11 @@ public class SummaryListFormItem: BaseFormItem {
         cell.actionCount = badge
         cell.thumbnailView.borderColor = borderColor
         cell.thumbnailView.tintColor = imageTintColor
-        cell.thumbnailView.imageView.image = image?.sizing().image
+
+        if let sizing = image?.sizing() {
+            cell.thumbnailView.imageView.image = sizing.image
+            cell.thumbnailView.imageView.contentMode = sizing.contentMode ?? .center
+        }
 
         image?.loadImage(completion: { (imageSizable) in
             let sizing = imageSizable.sizing()

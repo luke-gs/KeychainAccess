@@ -46,7 +46,7 @@ class NewUserSessionTests: XCTestCase {
 
     func testSessionRecentlyViewedIsEmpty() {
         UserSession.startSession(user: user, token: token)
-        XCTAssertEqual([], UserSession.current.recentlyViewed)
+        XCTAssertEqual([], UserSession.current.recentlyViewed.entities)
     }
 
     func testSessionRecentlySearchedIsEmpty() {

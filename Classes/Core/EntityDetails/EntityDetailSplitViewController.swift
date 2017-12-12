@@ -12,6 +12,9 @@ import PromiseKit
 public protocol EntityDetailSplitViewControllerDelegate: class {
     
     func entityDetailSplitViewController<Details, Summary>(_ entityDetailSplitViewController: EntityDetailSplitViewController<Details, Summary>, didPresentEntity entity: MPOLKitEntity)
+
+    func entityDetailSplitViewController<Details, Summary>(_ entityDetailSplitViewController: EntityDetailSplitViewController<Details, Summary>, didActionOnEntity entity: MPOLKitEntity)
+
 }
 
 open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Summary: EntitySummaryDisplayable>: SidebarSplitViewController {
@@ -20,6 +23,8 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
     fileprivate let detailViewModel: EntityDetailSectionsViewModel
     
     public weak var delegate: EntityDetailSplitViewControllerDelegate?
+
+    private let actionBarItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .pin), style: .plain, target: self, action: #selector(handleActionButtonTapped(_:)))
 
     public init(viewModel: EntityDetailSectionsViewModel) {
 
@@ -37,6 +42,7 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
         regularSidebarViewController.title = NSLocalizedString("Details", comment: "")
         regularSidebarViewController.headerView = headerView
+        regularSidebarViewController.navigationItem.rightBarButtonItem = actionBarItem
     }
 
     open override func viewDidLoad() {
@@ -201,6 +207,11 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
     private func updateDetailSectionsAvailability(_ isAvailable: Bool) {
         super.allowDetailSelection = isAvailable
+    }
+
+    @objc private func handleActionButtonTapped(_ item: UIBarButtonItem) {
+        let entity = detailViewModel.currentEntity
+        delegate?.entityDetailSplitViewController(self, didActionOnEntity: entity)
     }
 
 }

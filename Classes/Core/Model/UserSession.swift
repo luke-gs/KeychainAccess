@@ -23,17 +23,15 @@ public class UserSession: UserSessionable {
     // Use the app group user defaults for sharing between apps by default
     public static var userDefaults: UserDefaults = AppGroup.appUserDefaults()
 
-    public var recentlyViewed: [MPOLKitEntity] = [] {
-        didSet {
-            directoryManager.write(recentlyViewed as NSArray, to: paths.recentlyViewed)
-        }
-    }
+    public var recentlyViewed: EntityBucket = EntityBucket(limit: 6)
 
     public var recentlySearched: [Searchable] = [] {
         didSet {
             directoryManager.write(recentlySearched as NSArray, to: paths.recentlySearched)
         }
     }
+
+    public let recentlyActioned: EntityBucket = EntityBucket(limit: 20)
 
     public var isActive: Bool {
         return UserSession.userDefaults.string(forKey: UserSession.latestSessionKey) != nil
@@ -45,12 +43,19 @@ public class UserSession: UserSessionable {
         return sessionID
     }
 
+    private var isRestoringSession: Bool = false
+
+    public init() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(handleRecentlyActionedChanged), name: EntityBucket.didUpdateNotificationName, object: recentlyActioned)
+        notificationCenter.addObserver(self, selector: #selector(handleRecentlyViewedChanged), name: EntityBucket.didUpdateNotificationName, object: recentlyViewed)
+    }
+
     public static func startSession(user: User, token: OAuthAccessToken) {
         UserSession.current.paths = UserSessionPaths(baseUrl: UserSession.basePath, sessionId: UserSession.current.sessionID)
         
         UserSession.current.token = token
         UserSession.current.user = user
-        UserSession.current.recentlyViewed = []
         UserSession.current.recentlySearched = []
 
         UserSession.current.saveTokenToKeychain()
@@ -72,8 +77,9 @@ public class UserSession: UserSessionable {
 
         user = nil
         token = nil
-        recentlyViewed = []
         recentlySearched = []
+        recentlyViewed.removeAll()
+        recentlyActioned.removeAll()
         directoryManager.write(nil, toKeyChain: "token")
 
         try! directoryManager.remove(at: paths.session)
@@ -84,12 +90,14 @@ public class UserSession: UserSessionable {
     }
 
     public func restoreSession(completion: @escaping RestoreSessionCompletion) {
+        isRestoringSession = true
         // Recreate paths, as session ID may have changed in another app
         paths = UserSessionPaths(baseUrl: UserSession.basePath, sessionId: UserSession.current.sessionID)
 
         let userWrapper = directoryManager.read(from: paths.userWrapperPath) as? FileWrapper
         let viewed = directoryManager.read(from: paths.recentlyViewed) as? [MPOLKitEntity] ?? []
         let searched = directoryManager.read(from: paths.recentlySearched) as? [Searchable] ?? []
+        let actioned = directoryManager.read(from: paths.recentlyActioned) as? [MPOLKitEntity] ?? []
 
         var token: OAuthAccessToken?
 
@@ -110,8 +118,12 @@ public class UserSession: UserSessionable {
         let userPath = UserSession.basePath.appendingPathComponent(first).appendingPathComponent(second)
 
         self.user = NSKeyedUnarchiver.MPL_securelyUnarchiveObject(from: userPath.path)
-        self.recentlyViewed = viewed
         self.recentlySearched = searched
+
+        recentlyViewed.add(viewed)
+        recentlyActioned.add(actioned)
+
+        isRestoringSession = false
 
         if let token = self.token, self.user != nil {
             completion(token)
@@ -145,6 +157,16 @@ public class UserSession: UserSessionable {
 
     private func saveTokenToKeychain() {
         directoryManager.write(token, toKeyChain: "token")
+    }
+
+    @objc private func handleRecentlyActionedChanged() {
+        guard !isRestoringSession else { return }
+        directoryManager.write(recentlyActioned.entities as NSArray, to: paths.recentlyActioned)
+    }
+
+    @objc private func handleRecentlyViewedChanged() {
+        guard !isRestoringSession else { return }
+        directoryManager.write(recentlyViewed.entities as NSArray, to: paths.recentlyViewed)
     }
 
     //MARK: RESTORING
@@ -189,6 +211,11 @@ public struct UserSessionPaths {
         return array.joined(separator: "/")
     }
 
+    var recentlyActioned: String {
+        let array = ["session", "\(sessionId)", "actioned"]
+        return array.joined(separator: "/")
+    }
+
     var userWrapperPath: String {
         let array = ["session", "\(sessionId)", "user"]
         return array.joined(separator: "/")
@@ -220,10 +247,13 @@ public protocol UserSessionable {
     var user: User? { get }
 
     /// The recently viewed entities for this session
-    var recentlyViewed: [MPOLKitEntity] { get set }
+    var recentlyViewed: EntityBucket { get }
 
     /// The recently searched entities for this session
     var recentlySearched: [Searchable] { get set }
+
+    /// The recently actioned entities for this session
+    var recentlyActioned: EntityBucket { get }
 
     /// Whether the session is active
     var isActive: Bool { get }
