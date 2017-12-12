@@ -59,7 +59,7 @@ public class EntityBucket {
         var removedEntities: [MPOLKitEntity]?
         if limit > 0 && entitiesSnapshots.count > limit {
             let range = 0..<(entitiesSnapshots.count - limit)
-            removedEntities = entitiesSnapshots[range].flatMap({ return $0.entity })
+            removedEntities = entitiesSnapshots[range].flatMap { return $0.entity }
             entitiesSnapshots.removeSubrange(range)
         }
         
