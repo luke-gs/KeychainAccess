@@ -32,6 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)"))
 
+        EntitySummaryDisplayFormatter.default.registerEntityType(Person.self, forSummary: .function { return $0 as! EntitySummaryDisplayable }, andPresentable: .function { _ in return SystemScreen.serverError(title: "Nothing to see here", message: "Good bye.") })
+
         let theme = ThemeManager.shared.theme(for: .current)
 
         let navBar = UINavigationBar.appearance()
@@ -74,7 +76,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let tabBarController = UITabBarController()
 
+        UserSession.current.recentlySearched = [
+            Searchable(text: "Jeff Kiedir", options: nil, type: "Person", imageKey: AssetManager.ImageKey.entityPerson),
+            Searchable(text: "Scott Hocker", options: nil, type: "Person", imageKey: AssetManager.ImageKey.entityPerson),
+            Searchable(text: "milah Ilreh", options: nil, type: "Vehicle", imageKey: AssetManager.ImageKey.entityCar),
+            Searchable(text: "Jeff", options: nil, type: "Organisation", imageKey: AssetManager.ImageKey.entityBuilding),
+            Searchable(text: "Heartsland Blvd", options: nil, type: "Location", imageKey: AssetManager.ImageKey.location)
+        ]
+
+        UserSession.current.recentlyViewed = [
+            Person(),
+            Person(),
+            Person(),
+            Person(),
+        ]
+
+        let recent = SearchRecentsViewController(viewModel: EntitySummaryRecentsViewModel(title: "Jefff Barber"))
+
+
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 4.0) {
+            recent.recentlyViewed = [Person(), Person()]
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 4.0) {
+            recent.recentlyViewed = [Person(), Person(), Person(), Person(), Person(), Person(), Person()]
+            print(UserSession.current.recentlyViewed.count)
+        }
+
         tabBarController.viewControllers = [
+            UINavigationController(rootViewController: recent),
             pushableSVNavController,
             UINavigationController(rootViewController: sidebarSplitViewController),
             UINavigationController(rootViewController: SearchLookupAddressTableViewController(style: .plain)),
