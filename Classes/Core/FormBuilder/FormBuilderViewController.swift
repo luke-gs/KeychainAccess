@@ -175,7 +175,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         builder.removeAll()
 
         construct(builder: builder)
-        title = builder.title
+        title = builder.title ?? title
 
         let form = builder.generateSections()
 

@@ -24,11 +24,11 @@ open class SyncDetailsResource: Codable {
     open var shiftEnd: Date?
     open var shiftStart: Date?
     open var type: ResourceType!
-    open var serial: String!
-    open var vehicleCategory: String!
+    open var serial: String?
+    open var vehicleCategory: String?
     open var equipment: [SyncDetailsResourceEquipment]?
     open var remarks : String?
-    open var lastUpdated : Date!
+    open var lastUpdated : Date?
     open var activityLog: [SyncDetailsActivityLogItem]?
 }
 

@@ -20,14 +20,17 @@ public class IncidentNarrativeViewModel: CADFormCollectionViewModel<ActivityLogI
     }
     
     /// Create the view controller for this view model
-    public func createViewController() -> UIViewController {
+    open func createViewController() -> TaskDetailsViewController {
         return IncidentNarrativeViewController(viewModel: self)
     }
     
+    open func reloadFromModel() {
+        loadData()
+    }
+
     open func loadData() {
         guard let incident = CADStateManager.shared.incidentsById[incidentNumber] else { return }
-        sections = []
-        
+
         let activityLogItemsViewModels = incident.narrative.map { item in
             return ActivityLogItemViewModel(dotFillColor: item.color,
                                      dotStrokeColor: .clear,
@@ -36,7 +39,7 @@ public class IncidentNarrativeViewModel: CADFormCollectionViewModel<ActivityLogI
                                      subtitle: item.description)
             }.sorted { return $0.timestamp > $1.timestamp }
         
-        sections.append(CADFormCollectionSectionViewModel(title: "READ", items: activityLogItemsViewModels))
+        sections = [CADFormCollectionSectionViewModel(title: "READ", items: activityLogItemsViewModels)]
     }
     
     /// The title to use in the navigation bar

@@ -15,7 +15,7 @@ public protocol SearchRecentsViewModel: class {
     var title: String { get }
 
     /// Array of recently viewed entities
-    var recentlyViewed: [MPOLKitEntity] { get set }
+    var recentlyViewed: EntityBucket { get }
 
     /// Array of recently searched
     var recentlySearched: [Searchable] { get set }
@@ -55,9 +55,8 @@ public protocol SearchRecentsViewModelDelegate: class {
 
 public class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
 
-    public var recentlyViewed: [MPOLKitEntity] {
-        get { return UserSession.current.recentlyViewed }
-        set { UserSession.current.recentlyViewed = newValue }
+    public var recentlyViewed: EntityBucket {
+        return UserSession.current.recentlyViewed
     }
 
     public var recentlySearched: [Searchable] {
@@ -66,7 +65,7 @@ public class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
     }
 
     public func decorate(_ cell: EntityCollectionViewCell, at indexPath: IndexPath) {
-        let entity = recentlyViewed[indexPath.item]
+        let entity = recentlyViewed.entities[indexPath.item]
 
         cell.style = .detail
 
@@ -122,7 +121,7 @@ public class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
         }
 
         let maximum = 5
-        var recentlyViewed = userSession.recentlyViewed
+        var recentlyViewed = userSession.recentlyViewed.entities
         if recentlyViewed.count > maximum {
             recentlyViewed = Array(recentlyViewed[0...5])
         }

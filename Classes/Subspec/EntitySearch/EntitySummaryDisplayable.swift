@@ -36,3 +36,51 @@ public protocol EntitySummaryDecoratable {
     
 }
 
+extension EntitySummaryDisplayable {
+
+
+    /// Configures and returns a SummaryThumbnailFormItem if `isCompact` is `false`.
+    /// Otherwise returns SummaryListFormItem.
+    ///
+    /// - Parameter isCompact: Indicates the style of the form item.
+    /// - Returns: A BaseFormItem
+    public func summaryFormItem(isCompact: Bool) -> BaseFormItem {
+        return isCompact ? summaryListFormItem() : summaryThumbnailFormItem(with: .hero)
+    }
+
+
+    /// Configures and returns a SummaryThubmnailFormItem
+    ///
+    /// - Parameter style: The style to display.
+    /// - Returns: A preconfigured SummaryThumbnailFormItem.
+    public func summaryThumbnailFormItem(with style: EntityCollectionViewCell.Style) -> SummaryThumbnailFormItem {
+        return SummaryThumbnailFormItem()
+            .style(style)
+            .category(category)
+            .title(title)
+            .subtitle(detail1)
+            .detail(detail2)
+            .badge(badge)
+            .badgeColor(borderColor)
+            .image(thumbnail(ofSize: style == .hero ? .large : .medium))
+            .borderColor(borderColor)
+    }
+
+
+    /// Configures and returns a SummaryListFormItem
+    ///
+    /// - Returns: A preconfigured SummaryListFormItem.
+    public func summaryListFormItem() -> SummaryListFormItem {
+        let subtitle = [detail1, detail2].flatMap({$0}).joined(separator: " : ")
+        return SummaryListFormItem()
+            .category(category)
+            .title(title)
+            .subtitle(subtitle)
+            .badge(badge)
+            .badgeColor(borderColor)
+            .image(thumbnail(ofSize: .small))
+            .borderColor(borderColor)
+            .accessory(ItemAccessory.disclosure)
+    }
+
+}

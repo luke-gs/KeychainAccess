@@ -15,23 +15,24 @@ public class SearchRecentsViewController: FormBuilderViewController, SearchRecen
 
     weak var delegate: SearchRecentsViewControllerDelegate?
 
-    public var recentlyViewed: [MPOLKitEntity] {
-        get {
-            return self.viewModel.recentlyViewed
-        }
-        set {
-            self.viewModel.recentlyViewed = newValue
-
-            updateLoadingManagerState()
-
-            if traitCollection.horizontalSizeClass == .compact {
-                if showsRecentSearchesWhenCompact == false {
-                    reloadForm()
-                }
-            } else {
-                reloadForm()
-            }
-        }
+    public var recentlyViewed: EntityBucket {
+        return viewModel.recentlyViewed
+//        get {
+//            return self.viewModel.recentlyViewed
+//        }
+//        set {
+//            self.viewModel.recentlyViewed = newValue
+//
+//            updateLoadingManagerState()
+//
+//            if traitCollection.horizontalSizeClass == .compact {
+//                if showsRecentSearchesWhenCompact == false {
+//                    reloadForm()
+//                }
+//            } else {
+//                reloadForm()
+//            }
+//        }
     }
 
     public var recentlySearched: [Searchable] {
@@ -256,7 +257,7 @@ public class SearchRecentsViewController: FormBuilderViewController, SearchRecen
     }
 
     private func updateLoadingManagerState() {
-        loadingManager.state = recentlyViewed.isEmpty == false || recentlySearched.isEmpty == false ? .loaded : .noContent
+        loadingManager.state = recentlyViewed.entities.isEmpty == false || recentlySearched.isEmpty == false ? .loaded : .noContent
     }
 
     private func isRecentlySearched(for collectionView: UICollectionView) -> Bool {
@@ -353,7 +354,7 @@ private class RecentEntitiesFormItem: BaseSupplementaryFormItem {
     }
 
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, for traitCollection: UITraitCollection) -> CGFloat {
-        guard let recentlyViewed = recentViewModel?.recentlyViewed, recentlyViewed.count > 0 else { return 0.0 }
+        guard let recentlyViewed = recentViewModel?.recentlyViewed, recentlyViewed.entities.count > 0 else { return 0.0 }
 
         if traitCollection.horizontalSizeClass == .compact { return 0.0 }
 

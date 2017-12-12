@@ -62,6 +62,7 @@ public class SummaryThumbnailFormItem: BaseFormItem {
         cell.thumbnailView.imageView.image = sizing?.image
         cell.thumbnailView.imageView.contentMode = sizing?.contentMode ?? .center
         
+
         image?.loadImage(completion: { (imageSizable) in
             let sizing = imageSizable.sizing()
             cell.thumbnailView.imageView.image = sizing.image

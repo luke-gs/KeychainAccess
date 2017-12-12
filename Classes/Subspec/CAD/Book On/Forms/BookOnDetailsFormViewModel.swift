@@ -56,7 +56,7 @@ open class BookOnDetailsFormViewModel {
             // Create equipment selection pickables from manifest items
             details.equipment = CADStateManager.shared.equipmentItems().map { item in
                 return QuantityPicked(object: item, count: 0)
-            }
+            }.sorted(using: [SortDescriptor<QuantityPicked>(ascending: true) { $0.object.title }])
 
             // Initial form has self as one of officers to be book on to callsign
             if let model = CADStateManager.shared.officerDetails {
@@ -141,6 +141,16 @@ extension BookOnDetailsFormViewModel: OfficerDetailsViewModelDelegate {
         } else {
             details.officers.append(officer)
         }
+
+        // Make sure only one officer is marked as driver
+        if officer.isDriver.isTrue {
+            for otherOfficer in details.officers {
+                if otherOfficer != officer {
+                    otherOfficer.isDriver = false
+                }
+            }
+        }
+
         delegate?.didUpdateDetails()
     }
 }

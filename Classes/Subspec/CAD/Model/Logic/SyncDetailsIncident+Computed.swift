@@ -23,7 +23,9 @@ extension SyncDetailsIncident {
     
     open var status: Status {
         if let resourceId = CADStateManager.shared.lastBookOn?.callsign,
-            let resource = CADStateManager.shared.resourcesById[resourceId]
+            let resource = CADStateManager.shared.resourcesById[resourceId],
+            let assignedIncidents = resource.assignedIncidents,
+            assignedIncidents.contains(identifier)
         {
             if resource.currentIncident == identifier {
                 return .current
@@ -61,7 +63,7 @@ extension SyncDetailsIncident {
 
 extension SyncDetailsIncidentPerson {
     open var initials: String {
-        return "\(firstName.prefix(1))\(lastName.prefix(1))"
+        return [String(firstName?.prefix(1)), String(lastName?.prefix(1))].joined(separator: "")
     }
     
     open var fullName: String {

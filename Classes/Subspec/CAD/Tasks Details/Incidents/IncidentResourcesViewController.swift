@@ -51,7 +51,9 @@ open class IncidentResourcesViewController: FormBuilderViewController {
                            } else {
                                 cell.accessoryView = commsView
                             }
-                            
+                            if let thumbnail = officer.thumbnail() {
+                                cell.imageView.setImage(with: thumbnail)
+                            }
                             cell.titleLabel.text = officer.title
                             cell.subtitleLabel.text = officer.subtitle
                             cell.badgeLabel.text = officer.badgeText
@@ -64,6 +66,14 @@ open class IncidentResourcesViewController: FormBuilderViewController {
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
+        reloadForm()
+    }
+}
+
+// MARK: - CADFormCollectionViewModelDelegate
+extension IncidentResourcesViewController: CADFormCollectionViewModelDelegate {
+
+    open func sectionsUpdated() {
         reloadForm()
     }
 }

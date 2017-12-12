@@ -10,8 +10,12 @@ import UIKit
 import CoreLocation
 
 /// Adds computed properties to `SyncDetailsResource`
-extension SyncDetailsResource {
-    
+extension SyncDetailsResource: Equatable {
+
+    public static func ==(lhs: SyncDetailsResource, rhs: SyncDetailsResource) -> Bool {
+        return lhs.callsign == rhs.callsign
+    }
+
     public var coordinate: CLLocationCoordinate2D? {
         guard let location = location else { return nil }
         return CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))

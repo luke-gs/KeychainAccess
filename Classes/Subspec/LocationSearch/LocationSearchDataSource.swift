@@ -102,7 +102,7 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
     public let advanceOptions: T?
     public let searchStrategy: U
 
-    public weak var updatingDelegate: SearchDataSourceUpdating?
+    public weak var updatingDelegate: (SearchDataSourceUpdating & UIViewController)?
     
     public var localizedDisplayName: String {
         return NSLocalizedString("Location", comment: "")
@@ -189,7 +189,7 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
     // MARK: - Private
     
     @objc private func didTapHelpButton() {
-        (self.updatingDelegate as? UIViewController)?.present(searchStrategy.helpPresentable)
+        updatingDelegate?.present(searchStrategy.helpPresentable)
     }
     
     @objc private func didTapSimpleSearchButton() {
