@@ -55,6 +55,61 @@ open class APIManager {
         return requestPromise(request, using: serializer)
     }
 
+    /// Request for access token.
+    ///
+    /// Supports implicit `NSProgress` reporting.
+    /// - Parameter grant: The grant type and required field for it.
+    /// - Returns: A promise for access token.
+    open func accessTokenRequest(for grant: OAuthAuthorizationGrant) -> Promise<OAuthAccessToken> {
+
+        let path = grant.path
+        let parameters = grant.parameters
+
+        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters, method: .post)
+
+        return try! performRequest(networkRequest)
+
+    }
+
+    /// Search for entity using specified request.
+    ///
+    /// Supports implicit `NSProgress` reporting.
+    /// - Parameters:
+    ///   - source: The data source of the entity to be searched.
+    ///   - request: The request with the parameters to search the entity.
+    /// - Returns: A promise to return search result of specified entity.
+    open func searchEntity<SearchRequest: EntitySearchRequestable>(in source: EntitySource, with request: SearchRequest) -> Promise<SearchResult<SearchRequest.ResultClass>> {
+
+        let path = "{source}/entity/{entityType}/search"
+        var parameters = request.parameters
+        parameters["source"] = source.serverSourceName
+        parameters["entityType"] = SearchRequest.ResultClass.serverTypeRepresentation
+
+        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
+
+        return try! self.performRequest(networkRequest)
+    }
+
+    /// Fetch entity details using specified request.
+    ///
+    /// Supports implicit `NSProgress` reporting.
+    /// - Parameters:
+    ///   - source: The data source of entity to be fetched.
+    ///   - request: The request with the parameters to fetch the entity.
+    /// - Returns: A promise to return specified entity details.
+    open func fetchEntityDetails<FetchRequest: EntityFetchRequestable>(in source: EntitySource, with request: FetchRequest) -> Promise<FetchRequest.ResultClass> {
+
+        let path = "{source}/entity/{entityType}/{id}"
+
+        var parameters = request.parameters
+        parameters["source"] = source.serverSourceName
+        parameters["entityType"] = FetchRequest.ResultClass.serverTypeRepresentation
+
+        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
+
+        return try! self.performRequest(networkRequest)
+    }
+
     /// Performs a request for the `urlRequest` and returns a `Promise` with processed `DataResponse`.
     open func dataRequest(_ urlRequest: Promise<URLRequest>) -> Promise<DataResponse<Data>> {
         return createSessionRequestWithProgress(from: urlRequest).then { (dataRequest) in
@@ -297,63 +352,4 @@ extension DataRequest {
             self.responseData { fulfill($0) }
         }
     }
-}
-
-// TO-DO: Move this to different files.
-extension APIManager {
-    /// Request for access token.
-    ///
-    /// Supports implicit `NSProgress` reporting.
-    /// - Parameter grant: The grant type and required field for it.
-    /// - Returns: A promise for access token.
-    public func accessTokenRequest(for grant: OAuthAuthorizationGrant) -> Promise<OAuthAccessToken> {
-
-        let path = grant.path
-        let parameters = grant.parameters
-
-        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters, method: .post)
-
-        return try! performRequest(networkRequest)
-
-    }
-
-    /// Search for entity using specified request.
-    ///
-    /// Supports implicit `NSProgress` reporting.
-    /// - Parameters:
-    ///   - source: The data source of the entity to be searched.
-    ///   - request: The request with the parameters to search the entity.
-    /// - Returns: A promise to return search result of specified entity.
-    public func searchEntity<SearchRequest: EntitySearchRequestable>(in source: EntitySource, with request: SearchRequest) -> Promise<SearchResult<SearchRequest.ResultClass>> {
-
-        let path = "{source}/entity/{entityType}/search"
-        var parameters = request.parameters
-        parameters["source"] = source.serverSourceName
-        parameters["entityType"] = SearchRequest.ResultClass.serverTypeRepresentation
-
-        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
-
-        return try! self.performRequest(networkRequest)
-    }
-
-    /// Fetch entity details using specified request.
-    ///
-    /// Supports implicit `NSProgress` reporting.
-    /// - Parameters:
-    ///   - source: The data source of entity to be fetched.
-    ///   - request: The request with the parameters to fetch the entity.
-    /// - Returns: A promise to return specified entity details.
-    public func fetchEntityDetails<FetchRequest: EntityFetchRequestable>(in source: EntitySource, with request: FetchRequest) -> Promise<FetchRequest.ResultClass> {
-
-        let path = "{source}/entity/{entityType}/{id}"
-
-        var parameters = request.parameters
-        parameters["source"] = source.serverSourceName
-        parameters["entityType"] = FetchRequest.ResultClass.serverTypeRepresentation
-
-        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
-
-        return try! self.performRequest(networkRequest)
-    }
-
 }
