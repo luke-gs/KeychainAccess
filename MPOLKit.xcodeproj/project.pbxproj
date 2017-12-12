@@ -41,6 +41,10 @@
 		191BC4D71F7C203B00C8C218 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191BC4D21F7C202300C8C218 /* TagCollectionViewCell.swift */; };
 		1923275E1FCCDFB80001D623 /* PromiseCancellationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1923275D1FCCDFB80001D623 /* PromiseCancellationToken.swift */; };
 		193ED0851FDE02ED002F2837 /* PluginFilterRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193ED0841FDE02ED002F2837 /* PluginFilterRules.swift */; };
+		193ED0871FDE6AD7002F2837 /* URLRulesMatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193ED0861FDE6AD7002F2837 /* URLRulesMatch.swift */; };
+		193ED0891FDE73A6002F2837 /* Plugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193ED0881FDE73A6002F2837 /* Plugin.swift */; };
+		193ED08B1FDE7508002F2837 /* PatternMatchRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193ED08A1FDE7508002F2837 /* PatternMatchRules.swift */; };
+		193ED08D1FDE9AD7002F2837 /* PluginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193ED08C1FDE9AD7002F2837 /* PluginTests.swift */; };
 		1948A7B51FBBDB45005AB301 /* OAuth2Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1948A7B41FBBDB45005AB301 /* OAuth2Error.swift */; };
 		196ED03A1F7C0207005F3F7C /* UILayoutPriority+Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196ED0391F7C0207005F3F7C /* UILayoutPriority+Math.swift */; };
 		196ED03C1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196ED03B1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift */; };
@@ -653,6 +657,10 @@
 		191F77411F44F6C5008BBA44 /* MPOLKitPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MPOLKitPlayground.playground; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		1923275D1FCCDFB80001D623 /* PromiseCancellationToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseCancellationToken.swift; sourceTree = "<group>"; };
 		193ED0841FDE02ED002F2837 /* PluginFilterRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginFilterRules.swift; sourceTree = "<group>"; };
+		193ED0861FDE6AD7002F2837 /* URLRulesMatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRulesMatch.swift; sourceTree = "<group>"; };
+		193ED0881FDE73A6002F2837 /* Plugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plugin.swift; sourceTree = "<group>"; };
+		193ED08A1FDE7508002F2837 /* PatternMatchRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternMatchRules.swift; sourceTree = "<group>"; };
+		193ED08C1FDE9AD7002F2837 /* PluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginTests.swift; sourceTree = "<group>"; };
 		1948A7B41FBBDB45005AB301 /* OAuth2Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Error.swift; sourceTree = "<group>"; };
 		196ED0391F7C0207005F3F7C /* UILayoutPriority+Math.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILayoutPriority+Math.swift"; sourceTree = "<group>"; };
 		196ED03B1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILayoutPriorityMathExtensionTests.swift; sourceTree = "<group>"; };
@@ -2104,8 +2112,11 @@
 				BC9C7D291F0DED6600DFFE83 /* OAuthAuthorizationGrant.swift */,
 				BC9C7D2A1F0DED6600DFFE83 /* Parameterisable.swift */,
 				BC9C7D2B1F0DED6600DFFE83 /* ParseError.swift */,
+				193ED08A1FDE7508002F2837 /* PatternMatchRules.swift */,
+				193ED0881FDE73A6002F2837 /* Plugin.swift */,
 				19E1347C1F57A88900F4D48C /* PluginType.swift */,
 				193ED0841FDE02ED002F2837 /* PluginFilterRules.swift */,
+				193ED0861FDE6AD7002F2837 /* URLRulesMatch.swift */,
 				BC9C7D2C1F0DED6600DFFE83 /* QueryParser.swift */,
 				BC9C7D2D1F0DED6600DFFE83 /* URLQueryBuilder.swift */,
 				19C625C31F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift */,
@@ -2474,6 +2485,7 @@
 				19FEC98A1F440DD7005692A9 /* ErrorMapping */,
 				12F057271F3C0F5600CAD6F6 /* EntitySearchRequestTests.swift */,
 				1211E3681F3AD7620012E2E6 /* EpochDateTransformerTests.swift */,
+				193ED08C1FDE9AD7002F2837 /* PluginTests.swift */,
 				1908EF891F57D79A00382B1C /* KeyboardInputManagerTests.swift */,
 				1211E36C1F3AE0E50012E2E6 /* MiscTests.swift */,
 				1908EF8A1F57D79A00382B1C /* ModelVersionableTests.swift */,
@@ -3274,6 +3286,7 @@
 				BC9C7E2C1F0DED6600DFFE83 /* UIColor+Hex.swift in Sources */,
 				27094CA71FAFFBCA00D4C3D4 /* CADGroupedFormCollectionSectionViewModel.swift in Sources */,
 				BC2C97481F31FEF7006A0727 /* ThemeManager.swift in Sources */,
+				193ED0891FDE73A6002F2837 /* Plugin.swift in Sources */,
 				BC9C7E0B1F0DED6600DFFE83 /* UIView+Convenience.swift in Sources */,
 				EA09A0501F78B95D00BC3C0E /* CharacterSetSpecification.swift in Sources */,
 				EA6CF5421F7494C1002063D8 /* TextViewFormItem.swift in Sources */,
@@ -3336,6 +3349,7 @@
 				C6CD6A181F31663500771B8C /* EntitySearchRequest.swift in Sources */,
 				19D8D7981FB520930002332D /* AuthenticationProvider.swift in Sources */,
 				BC9C7DD61F0DED6600DFFE83 /* QueryParser.swift in Sources */,
+				193ED0871FDE6AD7002F2837 /* URLRulesMatch.swift in Sources */,
 				EAB38FF91F70A73700341BAF /* SubtitleFormItem.swift in Sources */,
 				274C89811F9D9EAE005B9CF8 /* OfficerListViewController.swift in Sources */,
 				BC9C7DCB1F0DED6600DFFE83 /* UnboxableAlamofireResponseSerializer.swift in Sources */,
@@ -3371,6 +3385,7 @@
 				BC9C7E2F1F0DED6600DFFE83 /* UIImage+RoundedRects.swift in Sources */,
 				BC9C7DFE1F0DED6600DFFE83 /* Array+IfExists.swift in Sources */,
 				96CF32211F8C337900140AF8 /* TasksListViewController.swift in Sources */,
+				193ED08B1FDE7508002F2837 /* PatternMatchRules.swift in Sources */,
 				274C897F1F9D9E88005B9CF8 /* OfficerListItemViewModel.swift in Sources */,
 				2744EECC1FBEA645008DFA7F /* TaskMapFilterViewModel.swift in Sources */,
 				274C89881F9EB27A005B9CF8 /* OfficerDetailsViewModel.swift in Sources */,
@@ -3558,6 +3573,7 @@
 				2744EECA1FBEA523008DFA7F /* MapFilterOption.swift in Sources */,
 				27CBC7581F8B277E00E387C3 /* TimelineView.swift in Sources */,
 				96B918401F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift in Sources */,
+				193ED0851FDE02ED002F2837 /* PluginFilterRules.swift in Sources */,
 				2744EED01FC289F5008DFA7F /* Collection+MapFilterSectionCopy.swift in Sources */,
 				DB88BCE41F42D0150056FD69 /* QueryParserDefinitionSelector.swift in Sources */,
 				9644B1D21F6785E200D031F2 /* CompactFormSheetNavigationController.swift in Sources */,
@@ -3758,6 +3774,7 @@
 				EA42F8E41F95910400C5C38E /* PredicateSpecificationTests.swift in Sources */,
 				EA0540081F94950A00F6E63C /* OptionGroupFormItemTests.swift in Sources */,
 				EAF76C711F90640300405DC9 /* FromRequiredTests.swift in Sources */,
+				193ED08D1FDE9AD7002F2837 /* PluginTests.swift in Sources */,
 				19DE98CC1F42651C0063F394 /* SortDescriptorTests.swift in Sources */,
 				12F0571E1F3AE5FC00CAD6F6 /* HTTPAuthenticationModeTests.swift in Sources */,
 				EAF76C871F943D8200405DC9 /* HeaderFormItemTests.swift in Sources */,
