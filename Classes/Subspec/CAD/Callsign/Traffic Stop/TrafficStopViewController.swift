@@ -157,8 +157,6 @@ open class TrafficStopViewController: FormBuilderViewController {
     }
     
     @objc private func doneButtonTapped(_ button: UIBarButtonItem) {
-        reloadForm()
-        
         let result = builder.validate()
         
         switch result {
