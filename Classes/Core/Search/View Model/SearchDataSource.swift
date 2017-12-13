@@ -133,6 +133,13 @@ public protocol SearchOptions {
     /// - Returns:         The default value for the filter.
     func defaultValue(at index: Int) -> String
 
+
+    /// The indexes of the option fields that are required to be updated when
+    /// the field related to the index passed in is changed.
+    ///
+    /// - Parameter index: The index of the field that is in question
+    /// - Returns: The indezes of the fields that are conditionally required
+    /// and need to be updated based on changes to the field relating to the index
     func conditionalRequiredFields(for index: Int) -> [Int]?
     
     /// The error message for the filter
