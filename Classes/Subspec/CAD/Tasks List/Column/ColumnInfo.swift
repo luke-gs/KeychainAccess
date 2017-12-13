@@ -8,7 +8,7 @@
 
 import UIKit
 
-public struct ColumnInfo {
+public struct ColumnInfo: Equatable {
 
     /// `ColumnInfo` initialized with zero width
     public static let zero = ColumnInfo(minimumWidth: 0, maximumWidth: 0)
@@ -22,12 +22,24 @@ public struct ColumnInfo {
     /// Actual calculated width of the column
     public var actualWidth: CGFloat = 0
     
-    init(minimumWidth: CGFloat, maximumWidth: CGFloat) {
+    public init(minimumWidth: CGFloat, maximumWidth: CGFloat) {
+        assert(minimumWidth <= maximumWidth, "Minimum width cannot be greater than the maximum width")
+        
         self.minimumWidth = minimumWidth
         self.maximumWidth = maximumWidth
     }
     
-    public static func calculateWidths(for columns: [ColumnInfo], in width: CGFloat) -> [ColumnInfo] {
+    public init(width: CGFloat) {
+        self.minimumWidth = width
+        self.maximumWidth = width
+    }
+    
+    public static func ==(lhs: ColumnInfo, rhs: ColumnInfo) -> Bool {
+        return (lhs.minimumWidth == rhs.minimumWidth) && (lhs.maximumWidth == rhs.maximumWidth)
+    }
+    
+    /// Calculates the widths for columns in a specified width
+    public static func calculateWidths(for columns: [ColumnInfo], in width: CGFloat) -> [CGFloat] {
         var totalMinWidth: CGFloat = 0
         var visibleColumns: [ColumnInfo] = []
         
@@ -45,18 +57,17 @@ public struct ColumnInfo {
         // Get the remaining space we can use to grow our columns
         var remainingSpace = width - totalMinWidth
         
-        return visibleColumns.map { column -> ColumnInfo? in
-            if remainingSpace > 0 {
-                // Get the amount we can grow
-                let extra = min(column.maximumWidth - column.minimumWidth, remainingSpace)
-                remainingSpace -= extra
-                
-                var column = column
-                column.actualWidth = column.minimumWidth + extra
-                return column
+        return columns.map { column in
+            guard visibleColumns.contains(column) else {
+                return 0
             }
             
-            return nil
-        }.removeNils()
+            // Get the amount we can grow
+            let extra = min(column.maximumWidth - column.minimumWidth, remainingSpace)
+            
+            remainingSpace -= extra
+            
+            return column.minimumWidth + extra
+        }
     }
 }
