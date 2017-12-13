@@ -17,12 +17,12 @@ open class IncidentResourcesViewController: FormBuilderViewController {
         
         title = viewModel.navTitle()
         sidebarItem.image = AssetManager.shared.image(forKey: .resourceGeneral)
+        sidebarItem.count = UInt(viewModel.totalNumberOfItems())
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-    
     
     open override func construct(builder: FormBuilder) {
         for section in viewModel.sections {
@@ -82,5 +82,8 @@ extension IncidentResourcesViewController: CADFormCollectionViewModelDelegate {
 
     open func sectionsUpdated() {
         reloadForm()
+
+        // Update sidebar count when data changes
+        sidebarItem.count = UInt(viewModel.totalNumberOfItems())
     }
 }
