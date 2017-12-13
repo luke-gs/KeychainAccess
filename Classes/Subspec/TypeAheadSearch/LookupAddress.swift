@@ -102,6 +102,10 @@ public struct LookupAddress: MPOLKitEntityProtocol, Unboxable {
         case unitNumber = "unitNumber"
         case unitType = "unitType"
     }
+
+    public func isEssentiallyTheSameAs(otherEntity: MPOLKitEntityProtocol) -> Bool {
+        return type(of: self) == type(of: otherEntity) && id == otherEntity.id
+    }
 }
 
 extension LookupAddress: DefaultCustomStringConvertible {

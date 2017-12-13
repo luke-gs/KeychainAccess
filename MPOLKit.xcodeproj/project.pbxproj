@@ -451,6 +451,7 @@
 		C6F5DED21ECD5C62008E7BE2 /* AccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */; };
 		C6F640ED1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F640EC1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift */; };
 		DB6C89EC1FD4D818006F9AD2 /* QuantityPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6C89EB1FD4D818006F9AD2 /* QuantityPickerViewController.swift */; };
+		DB2A05E11FD9142E005B7BFD /* HapticHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2A05E01FD9142E005B7BFD /* HapticHelper.swift */; };
 		DB88BCD91F42CFFC0056FD69 /* SearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88BCD21F42CEAA0056FD69 /* SearchDataSource.swift */; };
 		DB88BCDA1F42D0080056FD69 /* NumberRangePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88BCCC1F42CEAA0056FD69 /* NumberRangePickerViewController.swift */; };
 		DB88BCDB1F42D0080056FD69 /* SearchOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88BCCD1F42CEAA0056FD69 /* SearchOptionsViewController.swift */; };
@@ -552,6 +553,8 @@
 		EA69F8291F7C8EAD0092380B /* PickerFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA69F8281F7C8EAD0092380B /* PickerFormItem.swift */; };
 		EA6CF5421F7494C1002063D8 /* TextViewFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6CF5411F7494C1002063D8 /* TextViewFormItem.swift */; };
 		EA70ADF41F7B41100040E34B /* CollectionViewFormFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA70ADF31F7B41100040E34B /* CollectionViewFormFooterView.swift */; };
+		EA7194E11FCBA61A00A2980B /* EntityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7194E01FCBA61A00A2980B /* EntityManager.swift */; };
+		EA7194E51FCE72C200A2980B /* EntitySummaryActionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7194E41FCE72C200A2980B /* EntitySummaryActionListViewModel.swift */; };
 		EA76ECF11F578DCA00524830 /* LocationAdvanceOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA76ECF01F578DCA00524830 /* LocationAdvanceOptions.swift */; };
 		EA76ECF31F57D64E00524830 /* LookupAddressLocationSearchStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA76ECF21F57D64E00524830 /* LookupAddressLocationSearchStrategy.swift */; };
 		EA76ECF51F57D8AB00524830 /* LookupAddressLocationAdvancedOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA76ECF41F57D8AB00524830 /* LookupAddressLocationAdvancedOptions.swift */; };
@@ -576,7 +579,9 @@
 		EAB38FFE1F71EA4E00341BAF /* BaseSupplementaryFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB38FFD1F71EA4E00341BAF /* BaseSupplementaryFormItem.swift */; };
 		EABAB8021F3429D90071A401 /* AggregatedSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABAB8011F3429D90071A401 /* AggregatedSearch.swift */; };
 		EABAB8041F342E450071A401 /* AggregatedSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABAB8031F342E450071A401 /* AggregatedSearchRequest.swift */; };
+		EAC025701FDDFFA700E45DB6 /* ActionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7194E31FCE525900A2980B /* ActionListViewController.swift */; };
 		EADC4FF31F81E0810066AA2F /* OptionGroupFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADC4FF21F81E0810066AA2F /* OptionGroupFormItem.swift */; };
+		EAE12B081FC3CE3500851619 /* EntityBucket.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE12B071FC3CE3500851619 /* EntityBucket.swift */; };
 		EAE806DB1F98534000C9AA85 /* FormSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE806DA1F98534000C9AA85 /* FormSection.swift */; };
 		EAE806DF1F9859E700C9AA85 /* DateFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE806DE1F9859E700C9AA85 /* DateFormItemTests.swift */; };
 		EAE806E11F985FD400C9AA85 /* RangeFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE806E01F985FD400C9AA85 /* RangeFormItemTests.swift */; };
@@ -1073,6 +1078,7 @@
 		C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AccessToken.json; sourceTree = "<group>"; };
 		C6F640EC1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSArchiver+SecureArchiver.swift"; sourceTree = "<group>"; };
 		DB6C89EB1FD4D818006F9AD2 /* QuantityPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityPickerViewController.swift; sourceTree = "<group>"; };
+		DB2A05E01FD9142E005B7BFD /* HapticHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticHelper.swift; sourceTree = "<group>"; };
 		DB88BCC81F42CE970056FD69 /* QueryParserDefinitionSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryParserDefinitionSelector.swift; sourceTree = "<group>"; };
 		DB88BCCA1F42CEA40056FD69 /* SortDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortDescriptor.swift; sourceTree = "<group>"; };
 		DB88BCCC1F42CEAA0056FD69 /* NumberRangePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberRangePickerViewController.swift; sourceTree = "<group>"; };
@@ -1173,6 +1179,9 @@
 		EA69F8281F7C8EAD0092380B /* PickerFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerFormItem.swift; sourceTree = "<group>"; };
 		EA6CF5411F7494C1002063D8 /* TextViewFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewFormItem.swift; sourceTree = "<group>"; };
 		EA70ADF31F7B41100040E34B /* CollectionViewFormFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewFormFooterView.swift; sourceTree = "<group>"; };
+		EA7194E01FCBA61A00A2980B /* EntityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityManager.swift; sourceTree = "<group>"; };
+		EA7194E31FCE525900A2980B /* ActionListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionListViewController.swift; sourceTree = "<group>"; };
+		EA7194E41FCE72C200A2980B /* EntitySummaryActionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummaryActionListViewModel.swift; sourceTree = "<group>"; };
 		EA76ECF01F578DCA00524830 /* LocationAdvanceOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAdvanceOptions.swift; sourceTree = "<group>"; };
 		EA76ECF21F57D64E00524830 /* LookupAddressLocationSearchStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupAddressLocationSearchStrategy.swift; sourceTree = "<group>"; };
 		EA76ECF41F57D8AB00524830 /* LookupAddressLocationAdvancedOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupAddressLocationAdvancedOptions.swift; sourceTree = "<group>"; };
@@ -1198,6 +1207,7 @@
 		EABAB8011F3429D90071A401 /* AggregatedSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregatedSearch.swift; sourceTree = "<group>"; };
 		EABAB8031F342E450071A401 /* AggregatedSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregatedSearchRequest.swift; sourceTree = "<group>"; };
 		EADC4FF21F81E0810066AA2F /* OptionGroupFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionGroupFormItem.swift; sourceTree = "<group>"; };
+		EAE12B071FC3CE3500851619 /* EntityBucket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityBucket.swift; sourceTree = "<group>"; };
 		EAE806DA1F98534000C9AA85 /* FormSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormSection.swift; sourceTree = "<group>"; };
 		EAE806DE1F9859E700C9AA85 /* DateFormItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormItemTests.swift; sourceTree = "<group>"; };
 		EAE806E01F985FD400C9AA85 /* RangeFormItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeFormItemTests.swift; sourceTree = "<group>"; };
@@ -2007,11 +2017,13 @@
 		BC9C7D181F0DED6600DFFE83 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				EA7194E21FCE525900A2980B /* Action List */,
 				46A60F581FCFAEF400EE32CA /* Evaluator */,
 				EA85C0041F68B5EB002EEB49 /* FormBuilder */,
 				EABAB7FE1F3427570071A401 /* Aggregated Search */,
 				BC9C7D191F0DED6600DFFE83 /* Authentication */,
 				DBE24C301F593AB30088D19B /* EntityDetails */,
+				EAE12B061FC3CE2400851619 /* EntityCache */,
 				19FEC9801F43F6BA005692A9 /* ErrorMapping */,
 				BC9C7D1C1F0DED6600DFFE83 /* Extensions */,
 				44F3F14C1F56DDC000D68585 /* FilterDescriptor */,
@@ -2575,6 +2587,7 @@
 				EA4806B21F56961F00B42313 /* Array+Searching.swift */,
 				DB88BCC81F42CE970056FD69 /* QueryParserDefinitionSelector.swift */,
 				12A8DB461F5FD63400A06005 /* DirectoryManager.swift */,
+				DB2A05E01FD9142E005B7BFD /* HapticHelper.swift */,
 				1212B54C1F60F2ED00F90CA0 /* TestingDirective.swift */,
 				12048FC71F7881C50014748E /* MatchMaker.swift */,
 				9620530C1F988239000CAD49 /* AppGroup.swift */,
@@ -2867,6 +2880,14 @@
 			path = Actions;
 			sourceTree = "<group>";
 		};
+		EA7194E21FCE525900A2980B /* Action List */ = {
+			isa = PBXGroup;
+			children = (
+				EA7194E31FCE525900A2980B /* ActionListViewController.swift */,
+			);
+			path = "Action List";
+			sourceTree = "<group>";
+		};
 		EA85BFE81F678945002EEB49 /* ThemeGesture */ = {
 			isa = PBXGroup;
 			children = (
@@ -2943,6 +2964,7 @@
 				EA8B66451F37FF5900F09716 /* EntitySummarySearchResultViewModel.swift */,
 				EA8B66471F38014000F09716 /* EntitySummaryDisplayable.swift */,
 				EA8B66491F38021100F09716 /* EntitySummaryDecorator.swift */,
+				EA7194E41FCE72C200A2980B /* EntitySummaryActionListViewModel.swift */,
 			);
 			path = EntitySearch;
 			sourceTree = "<group>";
@@ -2962,6 +2984,15 @@
 				EABAB8031F342E450071A401 /* AggregatedSearchRequest.swift */,
 			);
 			path = "Aggregated Search";
+			sourceTree = "<group>";
+		};
+		EAE12B061FC3CE2400851619 /* EntityCache */ = {
+			isa = PBXGroup;
+			children = (
+				EAE12B071FC3CE3500851619 /* EntityBucket.swift */,
+				EA7194E01FCBA61A00A2980B /* EntityManager.swift */,
+			);
+			path = EntityCache;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -3234,12 +3265,14 @@
 				BC9C7E481F0DED6600DFFE83 /* SourceBarCell.swift in Sources */,
 				96CF32341F8D7C7700140AF8 /* TasksListHeaderViewModel.swift in Sources */,
 				BC9C7E3D1F0DED6600DFFE83 /* PickerTableViewController.swift in Sources */,
+				EAE12B081FC3CE3500851619 /* EntityBucket.swift in Sources */,
 				2792F11E1FDA55AE00A14CFB /* PopToRootable.swift in Sources */,
 				BC9C7DC71F0DED6600DFFE83 /* HTTPAuthenticationMode.swift in Sources */,
 				EA32A8541FBD1A7900CC37FB /* PhotoMediaPreviewViewController.swift in Sources */,
 				EA32A8571FBD1A7900CC37FB /* PhotoMediaGalleryTransitionAnimator.swift in Sources */,
 				C634085B1F30E5B5000747B0 /* EntityFetchRequestable.swift in Sources */,
 				BC9C7DFA1F0DED6600DFFE83 /* CollectionViewFormSubtitleCell.swift in Sources */,
+				EA7194E11FCBA61A00A2980B /* EntityManager.swift in Sources */,
 				27B4A9EC1FCF597300975A45 /* UIViewController+Compact.swift in Sources */,
 				EA76ECF31F57D64E00524830 /* LookupAddressLocationSearchStrategy.swift in Sources */,
 				EA8B664A1F38021100F09716 /* EntitySummaryDecorator.swift in Sources */,
@@ -3511,6 +3544,7 @@
 				19FEC9851F43F7AC005692A9 /* ErrorMapperDefinition.swift in Sources */,
 				9686FC941F78AAED00C4AB4D /* UIView+SafeArea.swift in Sources */,
 				DBE24C411F5CF0FC0088D19B /* SidebarHeaderView.swift in Sources */,
+				EA7194E51FCE72C200A2980B /* EntitySummaryActionListViewModel.swift in Sources */,
 				C61AC91A1F32FAF100F82FF6 /* User.swift in Sources */,
 				EA7C50A21FA05C7D004930BF /* CollectionViewFormMediaCell.swift in Sources */,
 				27CBC75B1F8B27B100E387C3 /* ActivityLogItemViewModel.swift in Sources */,
@@ -3530,6 +3564,7 @@
 				EABAB8041F342E450071A401 /* AggregatedSearchRequest.swift in Sources */,
 				BC9C7DCD1F0DED6600DFFE83 /* ArchivedManifestEntry.swift in Sources */,
 				2768C0481F86D60A008532ED /* MapSettingsViewController.swift in Sources */,
+				DB2A05E11FD9142E005B7BFD /* HapticHelper.swift in Sources */,
 				BCC6F74E1F2FF91200F05F65 /* MapCollectionViewController.swift in Sources */,
 				19F8DDB11F4D7CB800D84DA1 /* LookupAddress.swift in Sources */,
 				BCBA82141F19D7E8000BBF82 /* StringSizing.swift in Sources */,
@@ -3633,6 +3668,7 @@
 				BC9C7E0F1F0DED6600DFFE83 /* DefaultReusable.swift in Sources */,
 				19C9C7501FC289BC003C8CE4 /* CustomSubtitleButton.swift in Sources */,
 				EAFACCBC1F4BACE900B93CBA /* SearchFieldAdvanceCell.swift in Sources */,
+				EAC025701FDDFFA700E45DB6 /* ActionListViewController.swift in Sources */,
 				96CF32301F8C4AD300140AF8 /* CADFormCollectionSectionViewModel.swift in Sources */,
 				EA8904B01F6A0C720050DB84 /* FormBuilderViewController.swift in Sources */,
 				EA53B26F1F9D7F0200B891D8 /* CollectionViewFormStepperCell.swift in Sources */,

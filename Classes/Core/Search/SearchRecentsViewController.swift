@@ -15,25 +15,6 @@ class SearchRecentsViewController: FormCollectionViewController {
 
     weak var delegate: SearchRecentsViewControllerDelegate?
 
-    var recentlyViewed: [MPOLKitEntity] {
-        get {
-            return self.viewModel.recentlyViewed
-        }
-        set {
-            self.viewModel.recentlyViewed = newValue
-
-            updateLoadingManagerState()
-
-            if traitCollection.horizontalSizeClass == .compact {
-                if showsRecentSearchesWhenCompact == false {
-                    collectionView?.reloadSections(IndexSet(integer: 0))
-                }
-            } else {
-                collectionView?.reloadSections(IndexSet(integer: 0))
-            }
-        }
-    }
-
     var recentlySearched: [Searchable] {
         get {
             return self.viewModel.recentlySearched
@@ -83,6 +64,8 @@ class SearchRecentsViewController: FormCollectionViewController {
         super.init()
         self.title = viewModel.title
         formLayout.pinsGlobalHeaderWhenBouncing = true
+
+        NotificationCenter.default.addObserver(self, selector: #selector(handleRecentlyViewedChanged), name: EntityBucket.didUpdateNotificationName, object: viewModel.recentlyViewed)
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -177,7 +160,7 @@ class SearchRecentsViewController: FormCollectionViewController {
     // MARK: - UICollectionViewDataSource methods
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return isRecentlySearched(for: collectionView) ? recentlySearched.count : min(recentlyViewed.count, 6)
+        return isRecentlySearched(for: collectionView) ? recentlySearched.count : min(viewModel.recentlyViewed.entities.count, 6)
     }
 
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -217,6 +200,8 @@ class SearchRecentsViewController: FormCollectionViewController {
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(of: EntityCollectionViewCell.self, for: indexPath)
+
+            let indexPath = itemIndexPath(for: indexPath)
             viewModel.decorate(cell, at: indexPath)
 
             return cell
@@ -258,7 +243,8 @@ class SearchRecentsViewController: FormCollectionViewController {
         if isRecentlySearched(for: collectionView) {
             delegate?.searchRecentsController(self, didSelectRecentSearch: recentlySearched[indexPath.item])
         } else {
-            delegate?.searchRecentsController(self, didSelectRecentEntity: recentlyViewed[indexPath.item])
+            let indexPath = itemIndexPath(for: indexPath)
+            delegate?.searchRecentsController(self, didSelectRecentEntity: viewModel.recentlyViewed.entities[indexPath.item])
         }
     }
 
@@ -267,7 +253,7 @@ class SearchRecentsViewController: FormCollectionViewController {
 
     func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
         if collectionView != self.collectionView { return 0.0 }
-        if recentlyViewed.count == 0 { return 0.0 }
+        if viewModel.recentlyViewed.entities.count == 0 { return 0.0 }
         
         let traitCollection = self.traitCollection
         if traitCollection.horizontalSizeClass == .compact { return 0.0 }
@@ -334,7 +320,7 @@ class SearchRecentsViewController: FormCollectionViewController {
     }
 
     private func updateLoadingManagerState() {
-        loadingManager.state = recentlyViewed.isEmpty == false || recentlySearched.isEmpty == false ? .loaded : .noContent
+        loadingManager.state = viewModel.recentlyViewed.entities.isEmpty == false || recentlySearched.isEmpty == false ? .loaded : .noContent
     }
 
     private func isRecentlySearched(for collectionView: UICollectionView) -> Bool {
@@ -343,6 +329,24 @@ class SearchRecentsViewController: FormCollectionViewController {
         } else {
             return collectionView == self.collectionView
         }
+    }
+
+    @objc private func handleRecentlyViewedChanged() {
+        updateLoadingManagerState()
+
+        if isViewLoaded {
+            if traitCollection.horizontalSizeClass == .compact {
+                if showsRecentSearchesWhenCompact == false {
+                    collectionView?.reloadSections(IndexSet(integer: 0))
+                }
+            } else {
+                collectionView?.reloadSections(IndexSet(integer: 0))
+            }
+        }
+    }
+
+    private func itemIndexPath(for indexPath: IndexPath) -> IndexPath {
+        return IndexPath(item: viewModel.recentlyViewed.entities.count - indexPath.item - 1, section: indexPath.section)
     }
 
 }

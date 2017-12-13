@@ -11,11 +11,13 @@ import MapKit
 
 open class TasksMapViewController: MapViewController {
     
+    private var performedInitialLoadAction: Bool = false
+    private var addedFirstAnnotations: Bool = false
     private var savedRegion: MKCoordinateRegion?
-    
-    let viewModel: TasksMapViewModel
-    var mapLayerFilterButton: UIBarButtonItem!
-    var zPositionObservers: [NSKeyValueObservation] = []
+    private var zPositionObservers: [NSKeyValueObservation] = []
+
+    public let viewModel: TasksMapViewModel
+    public var mapLayerFilterButton: UIBarButtonItem!
 
     public init(viewModel: TasksMapViewModel, initialLoadZoomStyle: InitialLoadZoomStyle, startingRegion: MKCoordinateRegion? = nil, settingsViewModel: MapSettingsViewModel = MapSettingsViewModel()) {
         self.viewModel = viewModel
@@ -31,8 +33,6 @@ open class TasksMapViewController: MapViewController {
         viewModel.delegate = self
         
         navigationItem.title = "Activities"
-        isUserLocationButtonHidden = false
-        isMapTypeButtonHidden = false
         mapView.showsCompass = false
         
         mapLayerFilterButton = UIBarButtonItem.init(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: self, action: #selector(showMapLayerFilter))
@@ -58,7 +58,8 @@ open class TasksMapViewController: MapViewController {
             annotationView?.configure(withAnnotation: annotation,
                                       circleBackgroundColor: annotation.iconBackgroundColor,
                                       resourceImage: annotation.icon,
-                                      imageTintColor: annotation.iconTintColor)
+                                      imageTintColor: annotation.iconTintColor,
+                                      duress: annotation.duress)
             
             return annotationView
         } else if let annotation = annotation as? IncidentAnnotation {
@@ -84,7 +85,8 @@ open class TasksMapViewController: MapViewController {
     
     public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         mapView.deselectAnnotation(view.annotation, animated: false)
-       
+        guard viewModel.canSelectAnnotationView(view) else { return }
+        
         if let viewModel = viewModel.viewModel(for: view.annotation as? TaskAnnotation) {
             let vc = TasksItemSidebarViewController(viewModel: viewModel)
             splitViewController?.navigationController?.pushViewController(vc, animated: true)
@@ -100,6 +102,11 @@ open class TasksMapViewController: MapViewController {
                     zPositionObservers.append(annotationView.layer.observe(\.zPosition) { (layer, change) in
                         if layer.zPosition < 1000 {
                             layer.zPosition += 1000
+                            
+                            // Bring duress to front
+                            if (annotationView as? ResourceAnnotationView)?.duress == true {
+                                layer.zPosition += 1000
+                            }
                         }
                     })
                 }
@@ -117,20 +124,54 @@ open class TasksMapViewController: MapViewController {
                 annotationView.superview?.bringSubview(toFront: annotationView)
             }
         }
+        
+        // Bring duress to front
+        for annotation in mapView.annotations {
+            guard (annotation as? ResourceAnnotationView)?.duress == true,
+                let annotationView = mapView.view(for: annotation)
+            else { continue }
+
+            annotationView.superview?.bringSubview(toFront: annotationView)
+        }
+    }
+    
+    private func zoomToAnnotations() {
+        if case let InitialLoadZoomStyle.annotations(animated) = initialLoadZoomStyle,
+            mapView.userLocation.location != nil,
+            !performedInitialLoadAction,
+            addedFirstAnnotations
+        {
+            let annotations = self.mapView.annotations
+            
+            var zoomRect = MKMapRectNull
+            for annotation in annotations {
+                let annotationPoint = MKMapPointForCoordinate(annotation.coordinate)
+                let pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0.1, 0.1)
+                zoomRect = MKMapRectUnion(zoomRect, pointRect)
+            }
+            let inset = -zoomRect.size.width
+            
+            mapView.setVisibleMapRect(MKMapRectInset(zoomRect, inset, inset), animated: animated)
+            performedInitialLoadAction = true
+        }
+    }
+    
+    public func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+        zoomToAnnotations()
     }
 }
 
 extension TasksMapViewController: TasksSplitViewControllerDelegate {
     public func willChangeSplitWidth(from oldSize: CGFloat, to newSize: CGFloat) {
         // Store the current region if we are growing split
-        if let mapView = mapView, newSize > oldSize, mapView.bounds.width > 1 {
+        if newSize > oldSize && mapView.bounds.width > 1 {
             savedRegion = mapView.region
         }
     }
     
     public func didChangeSplitWidth(from oldSize: CGFloat, to newSize: CGFloat) {
         // Restore the region if we are shrinking split
-        if let region = savedRegion, let mapView = mapView, newSize < oldSize, mapView.bounds.width > 1 {
+        if let region = savedRegion, newSize < oldSize, mapView.bounds.width > 1 {
             mapView.setRegion(region, animated: false)
         }
     }
@@ -142,6 +183,8 @@ extension TasksMapViewController: TasksMapViewModelDelegate {
             self.zPositionObservers.removeAll()
             self.mapView.removeAnnotations(self.mapView.annotations)
             self.mapView.addAnnotations(self.viewModel.filteredAnnotations)
+            self.addedFirstAnnotations = true
+            self.zoomToAnnotations()
         }
     }
     

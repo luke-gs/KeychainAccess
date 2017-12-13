@@ -11,13 +11,6 @@ import XCTest
 
 class TaskItemViewModelTests: XCTestCase {
 
-    // blank implementation of TaskDetailsViewModel for testing
-    class TaskDetailsViewModelTestImplementation: TaskDetailsViewModel {
-        func createViewController() -> UIViewController {
-            return UIViewController()
-        }
-    }
-
     func testInitialiser() {
         // Arrange
         let iconImage: UIImage? = UIImage()
@@ -26,7 +19,7 @@ class TaskItemViewModelTests: XCTestCase {
         let statusText: String? = "Active"
         let itemName: String? = "Test Item"
         let lastUpdated: String? = "12 June 2009"
-        let viewModels: [TaskDetailsViewModel] = [TaskDetailsViewModelTestImplementation()]
+        let viewModels: [TaskDetailsViewModel] = [IncidentOverviewViewModel(incidentNumber: "1")]
         
         // Act
         let testModel = TaskItemViewModel(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, lastUpdated: lastUpdated, viewModels: viewModels)
@@ -45,7 +38,10 @@ class TaskItemViewModelTests: XCTestCase {
 
     func testDetailViewControllers() {
         // Arrange
-        let viewModels: [TaskDetailsViewModel] = [TaskDetailsViewModelTestImplementation(), TaskDetailsViewModelTestImplementation()]
+        let viewModels: [TaskDetailsViewModel] = [
+            IncidentOverviewViewModel(incidentNumber: "1"),
+            IncidentOverviewViewModel(incidentNumber: "2")
+        ]
         let testModel = TaskItemViewModel(iconImage: nil, iconTintColor: nil, color: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), statusText: nil, itemName: nil, lastUpdated: nil, viewModels: viewModels)
 
         // Act

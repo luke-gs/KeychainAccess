@@ -50,6 +50,13 @@ open class CADFormCollectionViewModel<ItemType> {
 
     private var collapsedSections: Set<Int> = []
 
+    /// Return the total number of items in all sections
+    open func totalNumberOfItems() -> Int {
+        return stride(from: 0, to: numberOfSections(), by: 1).reduce(0, { (result, index) -> Int in
+            return result + numberOfItems(for: index)
+        })
+    }
+
     open func numberOfSections() -> Int {
         return sections.count
     }

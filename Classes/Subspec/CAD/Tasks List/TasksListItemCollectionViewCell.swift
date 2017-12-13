@@ -40,11 +40,11 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
     /// The subtitle label for the cell
     public let subtitleLabel = UILabel()
     
-    /// Rounded rect showing the priority level colour
-    public let priorityBackground = UIView()
+    /// Stack view for the priority and caption labels
+    public let priorityCaptionView = UIStackView()
     
-    /// Label inside priority rect showing the priority level text
-    public let priorityLabel = UILabel()
+    /// Priority rounded rect label
+    public let priorityLabel = RoundedRectLabel()
     
     /// Label next to priority icon
     public let captionLabel = UILabel()
@@ -85,25 +85,29 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         leftColumn.addSubview(subtitleLabel)
         
-        priorityBackground.layer.cornerRadius = 2
-        priorityBackground.layer.borderWidth = 1
-        priorityBackground.backgroundColor = .green
-        priorityBackground.translatesAutoresizingMaskIntoConstraints = false
-        leftColumn.addSubview(priorityBackground)
+        priorityCaptionView.axis = .horizontal
+        priorityCaptionView.spacing = 8
+        priorityCaptionView.translatesAutoresizingMaskIntoConstraints = false
+        leftColumn.addSubview(priorityCaptionView)
         
+        var edgeInsets = RoundedRectLabel.defaultLayoutMargins
+        edgeInsets.left = 6
+        edgeInsets.right = 6
+        
+        priorityLabel.layoutMargins = edgeInsets
         priorityLabel.font = UIFont.systemFont(ofSize: 10, weight: UIFont.Weight.bold)
         priorityLabel.textAlignment = .center
         priorityLabel.translatesAutoresizingMaskIntoConstraints = false
-        priorityBackground.addSubview(priorityLabel)
+        priorityCaptionView.addArrangedSubview(priorityLabel)
         
         captionLabel.font = UIFont.systemFont(ofSize: 11, weight: UIFont.Weight.regular)
         captionLabel.translatesAutoresizingMaskIntoConstraints = false
-        leftColumn.addSubview(captionLabel)
+        priorityCaptionView.addArrangedSubview(captionLabel)
+        
         
         // Middle column
         middleColumn.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(middleColumn)
-        
         detailLabel.textColor = .secondaryGray
         detailLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         detailLabel.numberOfLines = 3
@@ -123,7 +127,6 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
     /// Activates view constraints
     private func setupConstraints() {
         titleLabel.setContentHuggingPriority(.required, for: .vertical)
-        priorityBackground.setContentHuggingPriority(.required, for: .horizontal)
         priorityLabel.setContentHuggingPriority(.required, for: .horizontal)
         captionLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         leftColumn.setContentCompressionResistancePriority(.required, for: .horizontal)
@@ -148,30 +151,19 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
             leftColumn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             leftColumnWidth,
             leftColumnTrailing,
-            
+
             titleLabel.topAnchor.constraint(equalTo: leftColumn.topAnchor, constant: LayoutConstants.verticalMargin),
             titleLabel.leadingAnchor.constraint(equalTo: leftColumn.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: leftColumn.trailingAnchor),
-            
+
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
             subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             subtitleLabel.trailingAnchor.constraint(equalTo: leftColumn.trailingAnchor),
-            
-            priorityBackground.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 6),
-            priorityBackground.leadingAnchor.constraint(equalTo: subtitleLabel.leadingAnchor),
-            priorityBackground.bottomAnchor.constraint(equalTo: leftColumn.bottomAnchor, constant: -LayoutConstants.verticalMargin),
-            priorityBackground.heightAnchor.constraint(equalToConstant: LayoutConstants.priorityHeight),
-            priorityBackground.widthAnchor.constraint(greaterThanOrEqualToConstant: LayoutConstants.priorityWidth),
-            
-            priorityLabel.topAnchor.constraint(equalTo: priorityBackground.topAnchor, constant: LayoutConstants.textMargin),
-            priorityLabel.leadingAnchor.constraint(equalTo: priorityBackground.leadingAnchor, constant: LayoutConstants.textMargin),
-            priorityLabel.trailingAnchor.constraint(equalTo: priorityBackground.trailingAnchor, constant: -LayoutConstants.textMargin),
-            priorityLabel.bottomAnchor.constraint(equalTo: priorityBackground.bottomAnchor, constant: -LayoutConstants.textMargin),
-            
-            captionLabel.topAnchor.constraint(equalTo: priorityBackground.topAnchor),
-            captionLabel.leadingAnchor.constraint(equalTo: priorityBackground.trailingAnchor, constant: LayoutConstants.horizontalMargin),
-            captionLabel.trailingAnchor.constraint(equalTo: leftColumn.trailingAnchor),
-            captionLabel.bottomAnchor.constraint(equalTo: priorityBackground.bottomAnchor),
+
+            priorityCaptionView.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 6),
+            priorityCaptionView.leadingAnchor.constraint(equalTo: subtitleLabel.leadingAnchor),
+            priorityCaptionView.bottomAnchor.constraint(equalTo: leftColumn.bottomAnchor, constant: -LayoutConstants.verticalMargin),
+            priorityCaptionView.trailingAnchor.constraint(equalTo: leftColumn.trailingAnchor),
             
             // Middle column
             
@@ -220,8 +212,10 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
     public func configurePriority(text: String?, textColor: UIColor?, fillColor: UIColor?, borderColor: UIColor?) {
         priorityLabel.text = text
         priorityLabel.textColor = textColor
-        priorityBackground.backgroundColor = fillColor
-        priorityBackground.layer.borderColor = borderColor?.cgColor
+        priorityLabel.backgroundColor = fillColor
+        priorityLabel.borderColor = borderColor
+        
+        priorityLabel.isHidden = text == nil
     }
     
     public func setStatusRows(_ viewModels: [TasksListItemResourceViewModel]?) {
