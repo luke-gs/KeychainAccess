@@ -34,7 +34,7 @@ open class TasksMapViewModel {
     // MARK: - Annotations
     
     /// Loads the tasks from the sync and filters them
-    @objc public func loadTasks() {
+    @objc open func loadTasks() {
         guard let splitViewModel = self.splitViewModel else { return }
         
         let filter = splitViewModel.filterViewModel
@@ -72,7 +72,7 @@ open class TasksMapViewModel {
     }
     
     /// Creates a view model from an annotation
-    public func viewModel(for annotation: TaskAnnotation?) -> TaskItemViewModel? {
+    open func viewModel(for annotation: TaskAnnotation?) -> TaskItemViewModel? {
         if let annotation = annotation as? ResourceAnnotation {
             guard let resource = CADStateManager.shared.resourcesById[annotation.identifier] else { return nil }
             
@@ -95,7 +95,7 @@ open class TasksMapViewModel {
     // MARK: - Mapping
     
     /// Maps incident view models to task annotations
-    func taskAnnotations(for incidents: [SyncDetailsIncident]) -> [TaskAnnotation] {
+    open func taskAnnotations(for incidents: [SyncDetailsIncident]) -> [TaskAnnotation] {
         return incidents.map { incident in
             return IncidentAnnotation(identifier: incident.identifier,
                                       coordinate: incident.coordinate,
@@ -110,7 +110,7 @@ open class TasksMapViewModel {
     }
     
     /// Maps resource view models to task annotations
-    func taskAnnotations(for resources: [SyncDetailsResource]) -> [TaskAnnotation] {
+    open func taskAnnotations(for resources: [SyncDetailsResource]) -> [TaskAnnotation] {
         return resources.filter{$0.location != nil}.map { resource in
             return ResourceAnnotation(identifier: resource.callsign,
                                       coordinate: resource.coordinate!,
@@ -123,7 +123,7 @@ open class TasksMapViewModel {
         }
     }
  
-    func isAnnotationViewDisplayedOnTop(_ annotationView: MKAnnotationView) -> Bool {
+    open func isAnnotationViewDisplayedOnTop(_ annotationView: MKAnnotationView) -> Bool {
         return type(of: annotationView) == priorityAnnotationType
     }
 }
