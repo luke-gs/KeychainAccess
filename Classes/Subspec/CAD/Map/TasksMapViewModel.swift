@@ -92,6 +92,11 @@ open class TasksMapViewModel {
         return nil
     }
     
+    /// Whether the specified annotation view can be selected
+    open func canSelectAnnotationView(_ view: MKAnnotationView) -> Bool {
+        return true
+    }
+    
     // MARK: - Mapping
     
     /// Maps incident view models to task annotations
