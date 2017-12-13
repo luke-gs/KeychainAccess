@@ -150,7 +150,8 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
     public func textChanged(forFilterAt index: Int, text: String?, didEndEditing ended: Bool) {
         if let options = options as? T {
             options.populate(withOptions: [index: text ?? ""], reset: false)
-            updatingDelegate?.searchDataSource(self, didUpdateComponent: .filterErrorMessage(index: index))
+            let indexes: [Int] = [index] + (options.conditionalRequiredFields(for: index) ?? [])
+            updatingDelegate?.searchDataSource(self, didUpdateComponent: .filterErrorMessages(indexes: indexes))
         }
     }
     

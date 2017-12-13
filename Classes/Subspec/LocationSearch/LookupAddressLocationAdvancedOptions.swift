@@ -73,6 +73,10 @@ public enum StateType: String, Pickable {
 
 open class LookupAddressLocationAdvancedOptions: LocationAdvancedOptions {
 
+    public func conditionalRequiredFields(for index: Int) -> [Int]? {
+        return nil
+    }
+
     public var delegate: LocationAdvancedOptionDelegate?
     
     public typealias Location = LookupAddress

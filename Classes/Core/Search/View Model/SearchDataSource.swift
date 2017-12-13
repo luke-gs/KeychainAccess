@@ -132,6 +132,8 @@ public protocol SearchOptions {
     /// - Parameter index: The filter index.
     /// - Returns:         The default value for the filter.
     func defaultValue(at index: Int) -> String
+
+    func conditionalRequiredFields(for index: Int) -> [Int]?
     
     /// The error message for the filter
     ///
@@ -214,6 +216,9 @@ public enum SearchDataSourceComponent {
     
     /// The error message of a filter at a specific index. Use this to avoid reloading issue.
     case filterErrorMessage(index: Int)
+
+    /// The error message of a filter for specific indexes. Use this to avoid reloading issue.
+    case filterErrorMessages(indexes: [Int])
 }
 
 public protocol SearchDataSourceUpdating: class {
