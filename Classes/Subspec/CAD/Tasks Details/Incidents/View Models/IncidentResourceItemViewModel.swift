@@ -10,12 +10,14 @@ import UIKit
 
 open class IncidentResourceItemViewModel {
     
+    open let callsign: String
     open let title: String
     open let subtitle: String
     open let icon: UIImage?
     open let officers: [ResourceOfficerViewModel]
     
-    init(title: String, subtitle: String, icon: UIImage?, officers: [ResourceOfficerViewModel]) {
+    init(callsign: String, title: String, subtitle: String, icon: UIImage?, officers: [ResourceOfficerViewModel]) {
+        self.callsign = callsign
         self.title = title
         self.subtitle = subtitle
         self.icon = icon

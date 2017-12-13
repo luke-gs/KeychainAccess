@@ -29,6 +29,13 @@ open class IncidentResourcesViewController: FormBuilderViewController {
             builder += HeaderFormItem(text: section.title, style: viewModel.shouldShowExpandArrow() ? .collapsible : .plain)
             for item in section.items {
                 builder += SubtitleFormItem(title: item.title, subtitle: item.subtitle, image: item.icon).width(.column(1))
+                    .onSelection { _ in
+                        if let resource = CADStateManager.shared.resourcesById[item.callsign] {
+                            let viewModel = ResourceTaskItemViewModel(resource: resource)
+                            let vc = TasksItemSidebarViewController(viewModel: viewModel)
+                            self.pushableSplitViewController?.navigationController?.pushViewController(vc, animated: true)
+                        }
+                }
                 for officer in item.officers {
                     builder += CustomFormItem(cellType: OfficerCell.self, reuseIdentifier: "OfficerCell")
                         .onConfigured { cell in
