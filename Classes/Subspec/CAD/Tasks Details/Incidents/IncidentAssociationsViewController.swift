@@ -26,14 +26,21 @@ public class IncidentAssociationsViewController: CADFormCollectionViewController
         listStateItem.imageInsets = .zero
     }
     
+    public required convenience init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
+    }
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         collectionView?.register(EntityCollectionViewCell.self)
         collectionView?.register(EntityListCollectionViewCell.self)
     }
     
-    public required convenience init?(coder aDecoder: NSCoder) {
-        MPLCodingNotSupported()
+    override public func reloadContent() {
+        super.reloadContent()
+
+        // Update sidebar count when data changes
+        sidebarItem.count = UInt(viewModel.totalNumberOfItems())
     }
     
     // MARK: - Thumbnail support

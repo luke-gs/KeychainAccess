@@ -24,7 +24,6 @@ open class IncidentResourcesViewController: FormBuilderViewController {
         MPLCodingNotSupported()
     }
     
-    
     open override func construct(builder: FormBuilder) {
         for section in viewModel.sections {
             builder += HeaderFormItem(text: section.title, style: viewModel.shouldShowExpandArrow() ? .collapsible : .plain)
@@ -76,5 +75,8 @@ extension IncidentResourcesViewController: CADFormCollectionViewModelDelegate {
 
     open func sectionsUpdated() {
         reloadForm()
+
+        // Update sidebar count when data changes
+        sidebarItem.count = UInt(viewModel.totalNumberOfItems())
     }
 }
