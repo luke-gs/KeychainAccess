@@ -145,9 +145,10 @@ open class MapSettingsLayersCollectionView: FormBuilderViewController {
                 .width(.column(1))
                 .onValueChanged { value in
                     self.viewModel.changedLayer(at: index, to: value)
-            }.isChecked(viewModel.isLayerOn(at: index))
-            .isEnabled(viewModel.isLayerEnabled(at: index))
-            .separatorStyle(.none)
+                }
+                .isEnabled(viewModel.isLayerEnabled(at: index))
+                .isChecked(viewModel.isLayerOn(at: index))
+                .separatorStyle(.none)
         }
     }
 }

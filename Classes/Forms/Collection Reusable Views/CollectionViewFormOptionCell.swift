@@ -116,6 +116,8 @@ open class CollectionViewFormOptionCell: CollectionViewFormSubtitleCell {
     }
 
     @objc private func performTapAction() {
+        guard isEnabled else { return }
+        
         isChecked = !isChecked
         valueChangedHandler?(isChecked)
     }
