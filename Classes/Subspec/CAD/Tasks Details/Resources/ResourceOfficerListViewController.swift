@@ -14,6 +14,7 @@ open class ResourceOfficerListViewController: CADFormCollectionViewController<Re
         super.init(viewModel: viewModel)
         
         sidebarItem.image = AssetManager.shared.image(forKey: .entityOfficer)
+        sidebarItem.count = UInt(viewModel.totalNumberOfItems())
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {

@@ -17,6 +17,7 @@ public class IncidentAssociationsViewController: CADFormCollectionViewController
         
         // TODO: Add red dot
         sidebarItem.image = AssetManager.shared.image(forKey: .association)
+        sidebarItem.count = UInt(viewModel.totalNumberOfItems())
         
         navigationItem.rightBarButtonItem = listStateItem
         

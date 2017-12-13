@@ -14,6 +14,7 @@ public class ResourceActivityLogViewController: ActivityLogViewController {
         super.init(viewModel: viewModel)
         
         sidebarItem.image = AssetManager.shared.image(forKey: .list)
+        sidebarItem.count = UInt(viewModel.totalNumberOfItems())
     }
     
     public required init?(coder aDecoder: NSCoder) {
