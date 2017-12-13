@@ -120,6 +120,14 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
                 oldValue.removeFromSuperview()
             }
             if let actionButton = actionButton {
+                // Make sure action button is not being used in another cell due to cell reuse
+                // Ideally we would just clear this in prepareForReuse(), but collection view
+                // sometimes configures a new cell before calling that method on old one :(
+                if let previousCell = actionButton.superview as? CollectionViewFormHeaderView {
+                    // Remove button from old cell
+                    previousCell.actionButton = nil
+                }
+
                 // Add new button and constaints to shorten separator line at beginning of button
                 addSubview(actionButton)
                 actionButton.translatesAutoresizingMaskIntoConstraints = false
