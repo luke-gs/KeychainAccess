@@ -18,7 +18,6 @@ open class TasksMapViewController: MapViewController {
 
     public let viewModel: TasksMapViewModel
     public var mapLayerFilterButton: UIBarButtonItem!
-    public var canSelectAnnotations: Bool = true
 
     public init(viewModel: TasksMapViewModel, initialLoadZoomStyle: InitialLoadZoomStyle, startingRegion: MKCoordinateRegion? = nil, settingsViewModel: MapSettingsViewModel = MapSettingsViewModel()) {
         self.viewModel = viewModel
@@ -86,8 +85,9 @@ open class TasksMapViewController: MapViewController {
     
     public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         mapView.deselectAnnotation(view.annotation, animated: false)
-       
-        if canSelectAnnotations, let viewModel = viewModel.viewModel(for: view.annotation as? TaskAnnotation) {
+        guard viewModel.canSelectAnnotationView(view) else { return }
+        
+        if let viewModel = viewModel.viewModel(for: view.annotation as? TaskAnnotation) {
             let vc = TasksItemSidebarViewController(viewModel: viewModel)
             splitViewController?.navigationController?.pushViewController(vc, animated: true)
         }

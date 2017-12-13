@@ -44,7 +44,6 @@ open class ResourceOverviewViewController: UIViewController {
         let mapViewModel = ResourceOverviewMapViewModel(callsign: viewModel.callsign)
         mapViewController = mapViewModel.createViewController()
         addChildViewController(mapViewController, toView: view)
-        mapViewController.canSelectAnnotations = false
         mapViewController.showsMapButtons = false
         mapViewController.mapView.isZoomEnabled = false
         mapViewController.mapView.isPitchEnabled = false
