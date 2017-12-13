@@ -14,8 +14,7 @@ open class MapSettingsViewController: ThemedPopoverViewController {
     
     // MARK: - Constants
     
-    private let sideMargin: CGFloat = 16
-    private let topMargin: CGFloat = 8
+    private let margin: CGFloat = 24
 
     // MARK: - Views
     private var typeLabel: UILabel!
@@ -90,27 +89,27 @@ open class MapSettingsViewController: ThemedPopoverViewController {
     private func setupConstraints() {
         modeSegmentedControl.setContentHuggingPriority(.defaultHigh, for: .vertical)
         NSLayoutConstraint.activate([
-            typeLabel.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: 24),
-            typeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            typeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            typeLabel.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: margin),
+            typeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: margin),
+            typeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -margin),
             
             modeSegmentedControl.topAnchor.constraint(equalTo: typeLabel.bottomAnchor, constant: 20),
-            modeSegmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            modeSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            modeSegmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: margin),
+            modeSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -margin),
             
             layersLabel.topAnchor.constraint(equalTo: modeSegmentedControl.bottomAnchor, constant: 40),
-            layersLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            layersLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            layersLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: margin),
+            layersLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -margin),
 
             
             layersDescriptionLabel.topAnchor.constraint(equalTo: layersLabel.bottomAnchor, constant: 4),
-            layersDescriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            layersDescriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            layersDescriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: margin),
+            layersDescriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -margin),
 
             mapLayerCollectionView.view.topAnchor.constraint(equalTo: layersDescriptionLabel.bottomAnchor, constant: 10),
             mapLayerCollectionView.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            mapLayerCollectionView.view.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
-            mapLayerCollectionView.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -24),
+            mapLayerCollectionView.view.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -margin),
+            mapLayerCollectionView.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -margin),
         ])
     }
     
