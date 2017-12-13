@@ -60,10 +60,9 @@ public class OptionFormItem: BaseFormItem {
 
         cell.valueChangedHandler = { [weak self] isChecked in
             guard let `self` = self else { return }
-            if self.isEnabled {
-                self.isChecked = isChecked
-                self.onValueChanged?(isChecked)
-            }
+            
+            self.isChecked = isChecked
+            self.onValueChanged?(isChecked)
         }
 
         cell.titleLabel.apply(sizable: title, defaultFont: SelectableButton.font(compatibleWith: cell.traitCollection))
