@@ -21,6 +21,13 @@ open class ResourceOfficerListViewController: CADFormCollectionViewController<Re
         MPLCodingNotSupported()
     }
     
+    override open func reloadContent() {
+        super.reloadContent()
+
+        // Update sidebar count when data changes
+        sidebarItem.count = UInt(viewModel.totalNumberOfItems())
+    }
+
     // MARK: - Override
     
     override open func cellType() -> CollectionViewFormCell.Type {

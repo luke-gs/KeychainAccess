@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class IncidentAssociationsViewController: CADFormCollectionViewController<EntitySummaryDisplayable> {
+open class IncidentAssociationsViewController: CADFormCollectionViewController<EntitySummaryDisplayable> {
     
     private let listStateItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .list), style: .plain, target: nil, action: nil)
 
@@ -30,13 +30,13 @@ public class IncidentAssociationsViewController: CADFormCollectionViewController
         MPLCodingNotSupported()
     }
 
-    public override func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
         collectionView?.register(EntityCollectionViewCell.self)
         collectionView?.register(EntityListCollectionViewCell.self)
     }
     
-    override public func reloadContent() {
+    override open func reloadContent() {
         super.reloadContent()
 
         // Update sidebar count when data changes
