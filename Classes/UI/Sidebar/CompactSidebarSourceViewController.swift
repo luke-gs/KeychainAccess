@@ -59,8 +59,6 @@ open class CompactSidebarSourceViewController: UITableViewController {
         view.backgroundColor = UIColor.white
         title = NSLocalizedString("Other Data Sources", comment: "")
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton(_:)))
-
         let theme = ThemeManager.shared.theme(for: .current)
         tableView.backgroundColor = theme.color(forKey: .background)
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -77,11 +75,6 @@ open class CompactSidebarSourceViewController: UITableViewController {
         set {
             super.preferredContentSize = newValue
         }
-    }
-
-    @objc private func didTapDoneButton(_ item: UIBarButtonItem) {
-        self.delegate?.sourceViewControllerWillClose(self)
-        dismiss(animated: true, completion:nil)
     }
 }
 
@@ -124,6 +117,9 @@ extension CompactSidebarSourceViewController {
         case .loaded:
             delegate?.sourceViewController(self, didSelectItemAt: indexPath.row)
             selectedIndex = indexPath.row
+
+            self.delegate?.sourceViewControllerWillClose(self)
+            dismiss(animated: true, completion:nil)
         default:
             break
         }

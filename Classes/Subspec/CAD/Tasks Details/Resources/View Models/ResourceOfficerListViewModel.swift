@@ -37,8 +37,9 @@ open class ResourceOfficerListViewModel: CADFormCollectionViewModel<ResourceOffi
             return ResourceOfficerViewModel(officer: officer, resource: resource)
         }
         
+        let title = String.localizedStringWithFormat(NSLocalizedString("%d Officer(s)", comment: ""), officers.count)
         sections = [
-            CADFormCollectionSectionViewModel(title: "\(officers.count) Officers", items: officerViewModels)
+            CADFormCollectionSectionViewModel(title: title, items: officerViewModels)
         ]
     }
     

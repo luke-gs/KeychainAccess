@@ -17,18 +17,25 @@ open class IncidentResourcesViewController: FormBuilderViewController {
         
         title = viewModel.navTitle()
         sidebarItem.image = AssetManager.shared.image(forKey: .resourceGeneral)
+        sidebarItem.count = UInt(viewModel.totalNumberOfItems())
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
     
-    
     open override func construct(builder: FormBuilder) {
         for section in viewModel.sections {
             builder += HeaderFormItem(text: section.title, style: viewModel.shouldShowExpandArrow() ? .collapsible : .plain)
             for item in section.items {
                 builder += SubtitleFormItem(title: item.title, subtitle: item.subtitle, image: item.icon).width(.column(1))
+                    .onSelection { _ in
+                        if let resource = CADStateManager.shared.resourcesById[item.callsign] {
+                            let viewModel = ResourceTaskItemViewModel(resource: resource)
+                            let vc = TasksItemSidebarViewController(viewModel: viewModel)
+                            self.pushableSplitViewController?.navigationController?.pushViewController(vc, animated: true)
+                        }
+                }
                 for officer in item.officers {
                     builder += CustomFormItem(cellType: OfficerCell.self, reuseIdentifier: "OfficerCell")
                         .onConfigured { cell in
@@ -75,5 +82,8 @@ extension IncidentResourcesViewController: CADFormCollectionViewModelDelegate {
 
     open func sectionsUpdated() {
         reloadForm()
+
+        // Update sidebar count when data changes
+        sidebarItem.count = UInt(viewModel.totalNumberOfItems())
     }
 }

@@ -162,9 +162,7 @@ public protocol SearchDataSource: class {
     
     /// The updating delegate is set on becoming active in the SearchOptionsViewController 
     /// and is guaranteed to be a kind of UIViewController.
-    ///
-    /// FIXME: This will be constrained to be a UIViewController and SearchDataSourceUpdating in Swift 4.
-    weak var updatingDelegate: SearchDataSourceUpdating? { get set }
+    weak var updatingDelegate: (SearchDataSourceUpdating & UIViewController)? { get set }
 
     /// The action for filter. The method is called on selection of each option field. Typically used
     /// to generate dropdown action. But the datasource can intercept and perform other task if required.

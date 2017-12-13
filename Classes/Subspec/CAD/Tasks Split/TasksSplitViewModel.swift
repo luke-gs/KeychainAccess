@@ -112,8 +112,11 @@ open class TasksSplitViewModel {
         return sync.resources.filter { resource in
             let isTasked = resource.currentIncident != nil
             
-            // TODO: Duress check
-            return filterViewModel.taskedResources.tasked && isTasked || filterViewModel.taskedResources.untasked && !isTasked
+            let isDuress = resource.status == .duress
+            
+            return filterViewModel.taskedResources.tasked && isTasked ||
+                filterViewModel.taskedResources.untasked && !isTasked ||
+                isDuress
         }
     }
 }
