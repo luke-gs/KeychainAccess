@@ -10,11 +10,6 @@ import MPOLKit
 
 public struct DefaultFilterRules {
 
-    static private let excludeAuthentication: Set<String> = ["login", "refresh"]
-
     /// Rules that will match `login` and `refresh` as last path component of a URL.
-    static public let authenticationFilterRules = URLRulesMatch { url -> Bool in
-        return excludeAuthentication.contains(url.lastPathComponent)
-    }
-
+    static public let authenticationFilterRules = PatternsMatchRules(patterns: ["https://*/refresh", "https://*/login"])
 }
