@@ -107,7 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Reload user from shared storage if logged in, in case updated by another mpol app
         if UserSession.current.isActive == true {
             UserSession.current.restoreSession { token in
-                APIManager.shared.authenticationPlugin = Plugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)), rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
+                APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)), rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
             }
         }
 
@@ -165,7 +165,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     private func attemptRefresh(response: DataResponse<Data>) -> Promise<Void> {
         // Reset auth plugin (because BE can't ignore headers)
-        APIManager.shared.authenticationPlugin = nil
+        APIManager.shared.setAuthenticationPlugin(nil)
         
         let promise: Promise<Void>
         
@@ -174,7 +174,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             promise = APIManager.shared.accessTokenRequest(for: .refreshToken(token))
                 .then { token -> Void in
                     // Update access token
-                    APIManager.shared.authenticationPlugin = Plugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)), rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
+                    APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)), rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
                     UserSession.current.updateToken(token)
                 }.recover { error -> Promise<Void> in
                     // Throw 401 error instead of refresh token error
@@ -194,7 +194,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // TEMP
     func logOut() {
         UserSession.current.endSession()
-        APIManager.shared.authenticationPlugin = nil
+        APIManager.shared.setAuthenticationPlugin(nil)
         landingPresenter.updateInterfaceForUserSession(animated: false)
     }
 

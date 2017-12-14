@@ -130,7 +130,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter, UsernamePasswordDelega
         APIManager.shared.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] token -> Void in
             guard let `self` = self else { return }
 
-            APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)).withRule(.blacklist(DefaultFilterRules.authenticationFilterRules))
+            APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)), rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
 
             UserSession.startSession(user: User(username: username), token: token)
             controller.resetFields()
