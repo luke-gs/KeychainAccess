@@ -209,7 +209,7 @@ extension TasksListHeaderCompactViewController: TasksListHeaderViewModelDelegate
 
     public func presentPopover(_ viewController: UIViewController, barButtonIndex: Int, animated: Bool) {
         if let buttonView = buttonStackView.arrangedSubviews[ifExists: barButtonIndex] {
-            presentPopover(viewController, sourceView: buttonView, sourceRect: buttonView.bounds, animated: animated)
+            presentPopover(viewController, inNavigationController: true, sourceView: buttonView, sourceRect: buttonView.bounds, animated: animated)
         }
     }
 }

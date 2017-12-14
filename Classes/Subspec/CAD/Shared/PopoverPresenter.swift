@@ -13,9 +13,8 @@ public protocol PopoverPresenter: class {
     func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Swift.Void)?)
     func dismiss(animated flag: Bool, completion: (() -> Void)?)
 
-    func presentPopover(_ viewController: UIViewController, sourceView: UIView, sourceRect:CGRect, animated: Bool)
-    func presentPopover(_ viewController: UIViewController, barButton: UIBarButtonItem, animated: Bool)
-    func presentFormSheet(_ viewController: UIViewController, animated: Bool)
+    func presentPopover(_ viewController: UIViewController, inNavigationController: Bool, sourceView: UIView, sourceRect:CGRect, animated: Bool)
+    func presentPopover(_ viewController: UIViewController, inNavigationController: Bool, barButton: UIBarButtonItem, animated: Bool)
 }
 
 // Protocol for a class that can present view controllers using a navigation controller
@@ -38,19 +37,29 @@ extension UIViewController: PopoverPresenter, NavigationPresenter, TargetActionD
         present(nav, animated: true, completion: nil)
     }
 
-    public func presentPopover(_ viewController: UIViewController, sourceView: UIView, sourceRect:CGRect, animated: Bool) {
-        let nav = PopoverNavigationController(rootViewController: viewController)
-        nav.modalPresentationStyle = .popover
-        nav.popoverPresentationController?.sourceView = sourceView
-        nav.popoverPresentationController?.sourceRect = sourceRect
-        present(nav, animated: true, completion: nil)
+    public func presentPopover(_ viewController: UIViewController, inNavigationController: Bool, sourceView: UIView, sourceRect:CGRect, animated: Bool) {
+        let vc: UIViewController
+        if inNavigationController {
+            vc = PopoverNavigationController(rootViewController: viewController)
+        } else {
+            vc = viewController
+        }
+        vc.modalPresentationStyle = .popover
+        vc.popoverPresentationController?.sourceView = sourceView
+        vc.popoverPresentationController?.sourceRect = sourceRect
+        present(vc, animated: true, completion: nil)
     }
 
-    public func presentPopover(_ viewController: UIViewController, barButton: UIBarButtonItem, animated: Bool) {
-        let nav = PopoverNavigationController(rootViewController: viewController)
-        nav.modalPresentationStyle = .popover
-        nav.popoverPresentationController?.barButtonItem = barButton
-        present(nav, animated: true, completion: nil)
+    public func presentPopover(_ viewController: UIViewController, inNavigationController: Bool, barButton: UIBarButtonItem, animated: Bool) {
+        let vc: UIViewController
+        if inNavigationController {
+            vc = PopoverNavigationController(rootViewController: viewController)
+        } else {
+            vc = viewController
+        }
+        vc.modalPresentationStyle = .popover
+        vc.popoverPresentationController?.barButtonItem = barButton
+        present(vc, animated: true, completion: nil)
     }
 
     public func presentPushedViewController(_ viewController: UIViewController, animated: Bool) {

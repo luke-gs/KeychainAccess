@@ -59,4 +59,14 @@ open class ActionSheetViewController: FormBuilderViewController {
             view.backgroundColor = wantsTransparentBackground ? .clear : theme.color(forKey: .background)!
         }
     }
+    
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.reloadForm()
+        collectionView?.setNeedsLayout()
+        collectionView?.layoutIfNeeded()
+        
+        preferredContentSize = collectionView?.collectionViewLayout.collectionViewContentSize ?? .zero
+    }
 }

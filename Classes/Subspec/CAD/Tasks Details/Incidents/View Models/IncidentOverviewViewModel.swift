@@ -107,13 +107,19 @@ open class IncidentOverviewViewModel: TaskDetailsViewModel {
     open func presentAddressPopover(from cell: CollectionViewFormCell, for incident: SyncDetailsIncident) {
         let actionSheetVC = ActionSheetViewController(buttons: [
             ActionSheetButton(title: "Directions", icon: AssetManager.shared.image(forKey: .route), action: {
-                let url = "http://maps.apple.com/"
-                print("Something")
+                let parameters = "?ll=\(incident.coordinate.latitude),\(incident.coordinate.longitude)"
+                let path = "http://maps.apple.com/" + parameters
+                
+                if let url = URL(string: path), UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                } else {
+                    AlertQueue.shared.addErrorAlert(message: "Unable to get directions to this incident")
+                }
             }),
             ActionSheetButton(title: "Street View", icon: AssetManager.shared.image(forKey: .streetView), action: nil),
             ActionSheetButton(title: "Search", icon: AssetManager.shared.image(forKey: .tabBarSearch), action: nil),
         ])
-        delegate?.presentPopover(actionSheetVC, sourceView: cell, sourceRect: cell.bounds, animated: true)
+        delegate?.presentPopover(actionSheetVC, inNavigationController: false, sourceView: cell, sourceRect: cell.bounds, animated: true)
     }
 }
 
