@@ -15,6 +15,7 @@ public protocol PopoverPresenter: class {
 
     func presentPopover(_ viewController: UIViewController, inNavigationController: Bool, sourceView: UIView, sourceRect:CGRect, animated: Bool)
     func presentPopover(_ viewController: UIViewController, inNavigationController: Bool, barButton: UIBarButtonItem, animated: Bool)
+    func presentFormSheet(_ viewController: UIViewController, animated: Bool)
 }
 
 // Protocol for a class that can present view controllers using a navigation controller

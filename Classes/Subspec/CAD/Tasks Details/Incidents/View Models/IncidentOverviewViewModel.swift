@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 open class IncidentOverviewViewModel: TaskDetailsViewModel {
     
@@ -107,14 +108,8 @@ open class IncidentOverviewViewModel: TaskDetailsViewModel {
     open func presentAddressPopover(from cell: CollectionViewFormCell, for incident: SyncDetailsIncident) {
         let actionSheetVC = ActionSheetViewController(buttons: [
             ActionSheetButton(title: "Directions", icon: AssetManager.shared.image(forKey: .route), action: {
-                let parameters = "?ll=\(incident.coordinate.latitude),\(incident.coordinate.longitude)"
-                let path = "http://maps.apple.com/" + parameters
-                
-                if let url = URL(string: path), UIApplication.shared.canOpenURL(url) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                } else {
-                    AlertQueue.shared.addErrorAlert(message: "Unable to get directions to this incident")
-                }
+                let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: incident.coordinate, addressDictionary:nil))
+                mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving])
             }),
             ActionSheetButton(title: "Street View", icon: AssetManager.shared.image(forKey: .streetView), action: nil),
             ActionSheetButton(title: "Search", icon: AssetManager.shared.image(forKey: .tabBarSearch), action: nil),
