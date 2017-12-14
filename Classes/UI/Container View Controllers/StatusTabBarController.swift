@@ -65,10 +65,10 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
             if let selectedViewController = self.selectedViewController {
                 if !viewControllers.contains(selectedViewController) {
                     selectedViewController.viewIfLoaded?.removeFromSuperview()
-                    self.selectedViewController = viewControllers.first { $0.tabBarItem.isEnabled }
+                    self.selectedViewController = viewControllers[ifExists: defaultSelectedViewControllerIndex]
                 }
             } else {
-                selectedViewController = viewControllers.first { $0.tabBarItem.isEnabled }
+                selectedViewController = viewControllers[ifExists: defaultSelectedViewControllerIndex]
             }
             
             for vc in oldValue where !viewControllers.contains(vc) {
@@ -76,6 +76,11 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
                 vc.removeFromParentViewController()
             }
         }
+    }
+    
+    /// The index of the view controller to select when changing the view controllers array
+    open var defaultSelectedViewControllerIndex: Int {
+        return viewControllers.first { $0.tabBarItem.isEnabled }
     }
     
     /// An array of the root view controllers displayed by the tab bar interface in **regular** mode.
