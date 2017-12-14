@@ -80,7 +80,8 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
     
     /// The index of the view controller to select when changing the view controllers array
     open var defaultSelectedViewControllerIndex: Int {
-        return viewControllers.first { $0.tabBarItem.isEnabled }
+        guard let viewController = viewControllers.first (where: { $0.tabBarItem.isEnabled }) else { return 0 }
+        return viewControllers.index(of: viewController) ?? 0
     }
     
     /// An array of the root view controllers displayed by the tab bar interface in **regular** mode.
