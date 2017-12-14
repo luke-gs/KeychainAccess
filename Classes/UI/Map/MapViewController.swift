@@ -203,9 +203,6 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         // Cycle through the user tracking mode enum
         switch mapView.userTrackingMode {
         case .none:
-            if let location = mapView.userLocation.location {
-                zoomAndCenter(to: location)
-            }
             mapView.setUserTrackingMode(.follow, animated: true)
         case .follow:
             mapView.setUserTrackingMode(.followWithHeading, animated: true)
