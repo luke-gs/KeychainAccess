@@ -142,7 +142,7 @@ open class APIManager {
     /// - Parameters:
     ///   - plugin: The authentication plugin to use.
     ///   - rule: The filter rule that the plugin should apply to.
-    public func setAuthenticationPlugin(_ plugin: AuthenticationPlugin, rule: PluginFilterRule = .allowAll) {
+    public func setAuthenticationPlugin(_ plugin: AuthenticationPlugin?, rule: PluginFilterRule = .allowAll) {
         authenticationPlugin = plugin
         authenticationPluginFilterRule = rule
     }
