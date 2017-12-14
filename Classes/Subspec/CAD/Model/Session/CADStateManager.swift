@@ -40,6 +40,14 @@ open class CADStateManager: NSObject {
     /// The last book on data
     open var lastBookOn: BookOnRequest? {
         didSet {
+            // Add officers to resource
+            // TODO: remove this when we have a real CAD system
+            if let resource = self.currentResource {
+                let officerIds = BookOnDetailsFormViewModel.lastSaved!.officers.map { return $0.officerId! }
+                var payrollIds = resource.payrollIds ?? []
+                payrollIds.append(contentsOf: officerIds)
+                resource.payrollIds = payrollIds
+            }
             NotificationCenter.default.post(name: .CADBookOnChanged, object: self)
         }
     }
@@ -100,24 +108,37 @@ open class CADStateManager: NSObject {
     }
 
     /// Update the status of our callsign
-    open func updateCallsignStatus(status: ResourceStatus) {
+    open func updateCallsignStatus(status: ResourceStatus, incident: SyncDetailsIncident?) {
         currentResource?.status = status
+
+        // Update current incident if setting status without one
+        // TODO: remove this when we have a real CAD system
+        if let incident = incident, currentIncident == nil {
+            if let syncDetails = lastSync, let resource = currentResource {
+                resource.currentIncident = incident.identifier
+
+                // Make sure incident is also assigned to resource
+                var assignedIncidents = resource.assignedIncidents ?? []
+                if !assignedIncidents.contains(incident.identifier) {
+                    assignedIncidents.append(incident.identifier)
+                    resource.assignedIncidents = assignedIncidents
+                }
+
+                // Reposition resource at top so it is first one found assigned to incident
+                if let index = syncDetails.resources.index(of: resource) {
+                    syncDetails.resources.remove(at: index)
+                    syncDetails.resources.insert(resource, at: 0)
+                }
+            }
+        }
         NotificationCenter.default.post(name: .CADCallsignChanged, object: self)
     }
 
     // MARK: - Manifest
 
-    /// Fetch the book on equipment items, returning as a dictionary of titles keyed by id
-    open func equipmentItems() -> [String: String] {
-        var result: [String: String] = [:]
-        if let manifestItems = Manifest.shared.entries(for: .EquipmentCollection) {
-            manifestItems.forEach {
-                if let id = $0.id, let title = $0.title {
-                    result[id] = title
-                }
-            }
-        }
-        return result
+    /// Fetch the book on equipment items
+    open func equipmentItems() -> [ManifestEntry] {
+        return Manifest.shared.entries(for: .EquipmentCollection) ?? []
     }
 
     /// Sync the latest manifest items
@@ -176,6 +197,11 @@ open class CADStateManager: NSObject {
             officersById.removeAll()
             for officer in syncDetails.officers {
                 officersById[officer.payrollId] = officer
+            }
+
+            // Make sure logged in officer is in cache too
+            if let officerDetails = officerDetails {
+                officersById[officerDetails.payrollId] = officerDetails
             }
         }
     }

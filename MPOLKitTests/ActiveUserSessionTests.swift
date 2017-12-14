@@ -40,9 +40,13 @@ class ActiveUserSessionTests: XCTestCase {
         return searchable
     }()
 
+    override func setUp() {
+        UserSession.current.recentlyViewed.removeAll()
+    }
+
     func testSessionRecentlyViewed() {
-        UserSession.current.recentlyViewed = [testEntity]
-        XCTAssertEqual([testEntity], UserSession.current.recentlyViewed)
+        UserSession.current.recentlyViewed.add(testEntity)
+        XCTAssertEqual([testEntity], UserSession.current.recentlyViewed.entities)
     }
 
     func testSessionRecentlySearched() {
@@ -53,7 +57,7 @@ class ActiveUserSessionTests: XCTestCase {
     func testRestoreSession() {
         let expectation = XCTestExpectation(description: "Session should be restored successfully")
 
-        UserSession.current.recentlyViewed = [testEntity]
+        UserSession.current.recentlyViewed.add(testEntity)
         UserSession.current.recentlySearched = [testSearchable]
 
         UserSession.current.restoreSession { token in
@@ -64,7 +68,7 @@ class ActiveUserSessionTests: XCTestCase {
 
         XCTAssertEqual(user.username, UserSession.current.user?.username)
         XCTAssertEqual(testSearchable.type, UserSession.current.recentlySearched.first?.type)
-        XCTAssertEqual(testEntity.id, UserSession.current.recentlyViewed.first?.id)
+        XCTAssertEqual(testEntity.id, UserSession.current.recentlyViewed.entities.first?.id)
     }
 
     func testUserUpdateTC() {

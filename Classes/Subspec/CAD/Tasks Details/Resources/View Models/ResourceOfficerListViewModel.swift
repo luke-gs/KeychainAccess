@@ -20,10 +20,14 @@ open class ResourceOfficerListViewModel: CADFormCollectionViewModel<ResourceOffi
     }
 
     /// Create the view controller for this view model
-    public func createViewController() -> UIViewController {
+    open func createViewController() -> TaskDetailsViewController {
         return ResourceOfficerListViewController(viewModel: self)
     }
     
+    open func reloadFromModel() {
+        loadData()
+    }
+
     open func loadData() {
         guard let resource = CADStateManager.shared.resourcesById[callsign] else { return }
         
@@ -33,8 +37,9 @@ open class ResourceOfficerListViewModel: CADFormCollectionViewModel<ResourceOffi
             return ResourceOfficerViewModel(officer: officer, resource: resource)
         }
         
+        let title = String.localizedStringWithFormat(NSLocalizedString("%d Officer(s)", comment: ""), officers.count)
         sections = [
-            CADFormCollectionSectionViewModel(title: "\(officers.count) Officers", items: officerViewModels)
+            CADFormCollectionSectionViewModel(title: title, items: officerViewModels)
         ]
     }
     

@@ -31,6 +31,7 @@ public class EntityDetailSectionsViewModel {
     public var results: [String: EntityFetchResult] = [:]
     public weak var delegate: EntityDetailSectionsDelegate?
     public var selectedSource: EntitySource
+    public var recentlyViewed: EntityBucket?
 
     public var detailSectionsViewControllers: [EntityDetailSectionUpdatable]? {
         return detailSectionsDataSources.filter{$0.source == selectedSource}.first?.detailViewControllers
@@ -73,6 +74,15 @@ public class EntityDetailSectionsViewModel {
     }
 
     public func setSelectedResult(fetchResult: EntityFetchResult) {
+        if let recentlyViewed = recentlyViewed {
+            if let entity = fetchResult.entity, fetchResult.error == nil {
+                if recentlyViewed.contains(entity) {
+                    recentlyViewed.remove(entity)
+                }
+                recentlyViewed.add(entity)
+            }
+        }
+
         detailSectionsViewControllers?.forEach {
             // If the error is nil, give the ViewControllers the retrieved entity
             guard let error = fetchResult.error else {
@@ -131,6 +141,12 @@ extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
         }
 
         self.delegate?.entityDetailSectionsDidUpdateResults(self)
+
+        if let entity = fetchResult.entity {
+            if let entityManager = self.recentlyViewed?.entityManager {
+                entityManager.addEntity(entity)
+            }
+        }
     }
 
     @objc

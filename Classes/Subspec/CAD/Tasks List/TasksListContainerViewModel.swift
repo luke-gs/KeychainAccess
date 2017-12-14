@@ -248,10 +248,12 @@ open class TasksListContainerViewModel {
     /// Maps sync models to view models
     open func taskListSections(for resources: [SyncDetailsResource]) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
         // Map resources to sections
+        let duress = NSLocalizedString("Duress", comment: "")
         let tasked = NSLocalizedString("Tasked", comment: "")
         let untasked = NSLocalizedString("Untasked", comment: "")
         
         var sectionedResources: [String: Array<SyncDetailsResource>] = [
+            duress: [],
             tasked: [],
             untasked: []
         ]
@@ -271,7 +273,9 @@ open class TasksListContainerViewModel {
             }
 
             if shouldAppend {
-                if resource.currentIncident != nil {
+                if resource.status == .duress {
+                    sectionedResources[duress]?.append(resource)
+                } else if resource.currentIncident != nil {
                     sectionedResources[tasked]?.append(resource)
                 } else {
                     sectionedResources[untasked]?.append(resource)
@@ -283,10 +287,16 @@ open class TasksListContainerViewModel {
         return sectionedResources.map { arg -> CADFormCollectionSectionViewModel<TasksListItemViewModel>? in
             let (section, resources) = arg
             
+            // Don't add duress section if there is no duress
+            if section == duress && resources.isEmpty {
+                return nil
+            }
+            
             let taskViewModels: [TasksListItemViewModel] = resources.map { resource in
                 let incident = CADStateManager.shared.incidentForResource(callsign: resource.callsign)
                 return TasksListItemViewModel(resource: resource, incident: incident, hasUpdates: true)
             }
+            
             return CADFormCollectionSectionViewModel(title: "\(resources.count) \(section)", items: taskViewModels)
         }.removeNils()
     }

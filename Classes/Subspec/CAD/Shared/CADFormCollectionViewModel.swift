@@ -13,9 +13,6 @@ public protocol CADFormCollectionViewModelDelegate: PopoverPresenter, Navigation
 
     // Notify form that sections were updated
     func sectionsUpdated()
-
-    /// Dismiss the UI representing this view model
-    func dismiss()
 }
 
 /// Abstract base class for CAD form collection view models
@@ -52,6 +49,13 @@ open class CADFormCollectionViewModel<ItemType> {
     // MARK: - Data Source
 
     private var collapsedSections: Set<Int> = []
+
+    /// Return the total number of items in all sections
+    open func totalNumberOfItems() -> Int {
+        return stride(from: 0, to: numberOfSections(), by: 1).reduce(0, { (result, index) -> Int in
+            return result + numberOfItems(for: index)
+        })
+    }
 
     open func numberOfSections() -> Int {
         return sections.count

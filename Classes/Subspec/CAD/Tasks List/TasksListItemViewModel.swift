@@ -39,8 +39,12 @@ public class TasksListItemViewModel {
         self.badgeBorderColor = badgeBorderColor
         self.hasUpdates = hasUpdates
     }
-
+    
     public convenience init(incident: SyncDetailsIncident, hasUpdates: Bool) {
+        let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier).map {
+            return TasksListItemResourceViewModel(with: $0)
+        }
+        
         self.init(
             identifier: incident.identifier,
             title: [incident.type, incident.resourceCountString].joined(),
@@ -48,7 +52,7 @@ public class TasksListItemViewModel {
             caption: [incident.identifier, incident.secondaryCode].joined(separator: " • "),
             priority: incident.grade.rawValue,
             description: incident.details,
-            resources: nil, // TODO: Get resources
+            resources: resources,
             badgeTextColor: incident.grade.badgeColors.text,
             badgeFillColor: incident.grade.badgeColors.fill,
             badgeBorderColor: incident.grade.badgeColors.border,

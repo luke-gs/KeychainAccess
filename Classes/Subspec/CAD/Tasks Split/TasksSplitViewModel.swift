@@ -100,8 +100,9 @@ open class TasksSplitViewModel {
             
             // If status is not in filter options always show
             let isOther = incident.status != .resourced && incident.status != .unresourced
+            let isCurrent = incident.status == .current
             
-            return isOther || (priorityFilter && resourcedFilter)
+            return isCurrent || (priorityFilter && (resourcedFilter || isOther))
         }
     }
     
@@ -112,8 +113,11 @@ open class TasksSplitViewModel {
         return sync.resources.filter { resource in
             let isTasked = resource.currentIncident != nil
             
-            // TODO: Duress check
-            return filterViewModel.taskedResources.tasked && isTasked || filterViewModel.taskedResources.untasked && !isTasked
+            let isDuress = resource.status == .duress
+            
+            return filterViewModel.taskedResources.tasked && isTasked ||
+                filterViewModel.taskedResources.untasked && !isTasked ||
+                isDuress
         }
     }
 }

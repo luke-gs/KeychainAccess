@@ -19,5 +19,4 @@ public class IncidentNarrativeViewController: ActivityLogViewController {
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-
 }

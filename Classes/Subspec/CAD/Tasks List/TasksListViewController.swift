@@ -174,7 +174,12 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
         if let resource = CADStateManager.shared.resourcesById[item.identifier] {
             return ResourceTaskItemViewModel(resource: resource)
         } else if let incident = CADStateManager.shared.incidentsById[item.identifier] {
-            let resource = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier).first
+            // Show details of our resource if we are assigned to incident
+            let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier)
+            var resource: SyncDetailsResource? = nil
+            if let currentResource = CADStateManager.shared.currentResource {
+                resource = resources.contains(currentResource) ? currentResource : nil
+            }
             return IncidentTaskItemViewModel(incident: incident, resource: resource)
         }
         

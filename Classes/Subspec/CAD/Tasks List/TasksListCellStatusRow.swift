@@ -62,15 +62,15 @@ open class TasksListCellStatusRow: UIView {
             imageView.topAnchor.constraint(equalTo: self.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            imageView.widthAnchor.constraint(equalToConstant: LayoutConstants.imageSize.width),
-            imageView.heightAnchor.constraint(equalToConstant: LayoutConstants.imageSize.height),
+            imageView.widthAnchor.constraint(equalToConstant: LayoutConstants.imageSize.width).withPriority(.almostRequired),
+            imageView.heightAnchor.constraint(equalToConstant: LayoutConstants.imageSize.height).withPriority(.almostRequired),
             
             titleLabel.topAnchor.constraint(equalTo: self.topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: LayoutConstants.imageSpacing),
+            titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: LayoutConstants.imageSpacing).withPriority(.almostRequired),
             titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             
             subtitleLabel.topAnchor.constraint(equalTo: self.topAnchor),
-            subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: LayoutConstants.textSpacing),
+            subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: LayoutConstants.textSpacing).withPriority(.almostRequired),
             subtitleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             subtitleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
         ])

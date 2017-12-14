@@ -28,6 +28,6 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
             color: resource.status.iconColors.background,
             statusText: resource.status.title,
             itemName: [resource.callsign, resource.officerCountString].joined(),
-            lastUpdated: resource.lastUpdated.elapsedTimeIntervalForHuman())
+            lastUpdated: resource.lastUpdated?.elapsedTimeIntervalForHuman())
     }
 }

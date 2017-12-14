@@ -30,5 +30,9 @@ extension SyncDetailsOfficer {
         }
         return nil
     }
+    
+    open var initials: String {
+        return [String(firstName?.prefix(1)), String(lastName?.prefix(1))].joined(separator: "")
+    }
 
 }

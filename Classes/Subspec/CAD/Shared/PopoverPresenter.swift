@@ -24,8 +24,13 @@ public protocol NavigationPresenter: class {
     func popPushedViewController(animated: Bool) -> UIViewController?
 }
 
+// Convenience for target/action
+@objc public protocol TargetActionDismisser: class {
+    func dismissAnimated()
+}
+
 /// Extension to add support to any view controller
-extension UIViewController: PopoverPresenter, NavigationPresenter {
+extension UIViewController: PopoverPresenter, NavigationPresenter, TargetActionDismisser {
 
     public func presentFormSheet(_ viewController: UIViewController, animated: Bool) {
         let nav = PopoverNavigationController(rootViewController: viewController)
@@ -54,6 +59,10 @@ extension UIViewController: PopoverPresenter, NavigationPresenter {
 
     public func popPushedViewController(animated: Bool) -> UIViewController? {
         return navigationController?.popViewController(animated: animated)
+    }
+
+    @objc public func dismissAnimated() {
+        dismiss(animated: true, completion: nil)
     }
 }
 

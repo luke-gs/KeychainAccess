@@ -14,7 +14,7 @@ public class BookOnDetailsFormContentViewModel {
     public var serial: String?
     public var category: String?
     public var odometer: String?
-    public var equipment: String?
+    public var equipment: [QuantityPicked]?
     public var remarks: String?
     public var startTime: Date?
     public var endTime: Date?

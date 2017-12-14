@@ -31,7 +31,7 @@ open class TaskItemViewModel {
     /// View controllers to show in the list
     open func detailViewControllers() -> [UIViewController] {
         return viewModels.map {
-            $0.createViewController()
+            $0.createDelegateViewController()
         }
     }
     
@@ -55,4 +55,14 @@ open class TaskItemViewModel {
         self.lastUpdated = lastUpdated
         self.viewModels = viewModels
     }
+
+    /// Called when the view model data should be refreshed from model data
+    open func reloadFromModel() {
+    }
+
+    /// Called when a user taps the task status of a task item
+    open func didTapTaskStatus(presenter: PopoverPresenter) {
+        // Do nothing by default
+    }
+
 }

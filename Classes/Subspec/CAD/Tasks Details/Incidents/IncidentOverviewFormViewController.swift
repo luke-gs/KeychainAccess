@@ -40,8 +40,3 @@ open class IncidentOverviewFormViewController: FormBuilderViewController {
     }
 }
 
-extension IncidentOverviewFormViewController: IncidentOverviewViewModelDelegate {
-    public func didUpdateSections() {
-        reloadForm()
-    }
-}

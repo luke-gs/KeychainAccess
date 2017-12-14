@@ -14,13 +14,13 @@ public class ResourceAnnotation: TaskAnnotation {
     public var icon: UIImage?
     public var iconBackgroundColor: UIColor
     public var iconTintColor: UIColor?
-    public var pulsing: Bool
+    public var duress: Bool
     
-    public init(identifier: String, coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?, icon: UIImage?, iconBackgroundColor: UIColor, iconTintColor: UIColor?, pulsing: Bool) {
+    public init(identifier: String, coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?, icon: UIImage?, iconBackgroundColor: UIColor, iconTintColor: UIColor?, duress: Bool) {
         self.icon = icon
         self.iconBackgroundColor = iconBackgroundColor
         self.iconTintColor = iconTintColor
-        self.pulsing = pulsing
+        self.duress = duress
         super.init(identifier: identifier, coordinate: coordinate, title: title, subtitle: subtitle)
     }
 }

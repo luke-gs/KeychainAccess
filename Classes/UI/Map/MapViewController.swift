@@ -30,7 +30,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     private var performedInitialLoadAction: Bool = false
     
     private let locationManager = LocationManager.shared
-    private var initialLoadZoomStyle: InitialLoadZoomStyle = .none
+    public let initialLoadZoomStyle: InitialLoadZoomStyle
     private let startingRegion: MKCoordinateRegion?
     private let settingsViewModel: MapSettingsViewModel
     
@@ -44,7 +44,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: - Views
     
-    open private(set) var mapView: MKMapView!
+    open private(set) var mapView = MKMapView()
     
     private var buttonPill: UIView!
     private var buttonDivider: UIView!
@@ -56,20 +56,15 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     /// The default zoom distance to use when showing the user location
     open var defaultZoomDistance: CLLocationDistance = 3000
     
-    open var isUserLocationButtonHidden: Bool = true {
+    open var showsMapButtons: Bool = true {
         didSet {
-            userLocationButton.isHidden = isUserLocationButtonHidden
-        }
-    }
-    open var isMapTypeButtonHidden: Bool = true {
-        didSet {
-            mapTypeButton.isHidden = isMapTypeButtonHidden
+            buttonPill.isHidden = !showsMapButtons
         }
     }
     
     // MARK: - Setup
     
-    public init(initialLoadZoomStyle: InitialLoadZoomStyle, startingRegion: MKCoordinateRegion? = nil, settingsViewModel: MapSettingsViewModel = MapSettingsViewModel()) {
+    public init(initialLoadZoomStyle: InitialLoadZoomStyle = .none, startingRegion: MKCoordinateRegion? = nil, settingsViewModel: MapSettingsViewModel = MapSettingsViewModel()) {
         self.initialLoadZoomStyle = initialLoadZoomStyle
         self.settingsViewModel = settingsViewModel
         self.startingRegion = startingRegion
@@ -89,7 +84,6 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         // Use background color for when non safe area is visible
         view.backgroundColor = .white
         
-        mapView = MKMapView()
         mapView.delegate = self
         mapView.userTrackingMode = .none
         mapView.showsUserLocation = true
@@ -100,6 +94,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         view.addSubview(mapView)
         
         buttonPill = UIView()
+        buttonPill.isHidden = !showsMapButtons
         buttonPill.layer.shadowColor = UIColor.black.withAlphaComponent(0.5).cgColor
         buttonPill.layer.shadowRadius = 4
         buttonPill.layer.shadowOffset = CGSize(width: 0, height: 2)
@@ -124,7 +119,6 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         mapTypeButton = UIButton()
         mapTypeButton.setImage(AssetManager.shared.image(forKey: .info), for: .normal)
         mapTypeButton.tintColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
-        mapTypeButton.isHidden = isMapTypeButtonHidden
         mapTypeButton.translatesAutoresizingMaskIntoConstraints = false
         mapTypeButton.addTarget(self, action: #selector(showMapTypePopup), for: .touchUpInside)
         buttonPill.addSubview(mapTypeButton)
@@ -136,13 +130,16 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         super.viewDidAppear(animated)
         if !performedInitialLoadAction {
             switch initialLoadZoomStyle {
-            case .userLocation(_):
+            case .userLocation(let animated):
                 _ = locationManager.requestLocation().then { location -> () in
                     self.zoomAndCenter(to: location, animated: animated)
                 }
                 performedInitialLoadAction = true
             case .annotations(_):
-                break
+                if let location = locationManager.lastLocation {
+                    zoomAndCenter(to: location, animated: false)
+                    performedInitialLoadAction = true
+                }
             case .coordinate(let location, let animated):
                 zoomAndCenter(to: location, animated: animated)
                 performedInitialLoadAction = true
@@ -243,19 +240,6 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     public func zoomAndCenter(to location: CLLocation, animated: Bool = true) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, defaultZoomDistance, defaultZoomDistance)
         mapView.setRegion(coordinateRegion, animated: animated)
-    }
-    
-    public func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        if !performedInitialLoadAction {
-            switch initialLoadZoomStyle {
-            case .annotations(let animated):
-                let annotations = self.mapView.annotations + [self.mapView.userLocation]
-                self.mapView.showAnnotations(annotations, animated: animated)
-                performedInitialLoadAction = true
-            case .none, .coordinate(_, _), .userLocation(_):
-                break
-            }
-        }
     }
     
 }

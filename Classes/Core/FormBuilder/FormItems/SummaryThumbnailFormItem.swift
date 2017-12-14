@@ -50,10 +50,16 @@ public class SummaryThumbnailFormItem: BaseFormItem {
         cell.borderColor = badgeColor
         cell.badgeCount = badge
         cell.thumbnailView.borderColor = borderColor
-        cell.thumbnailView.imageView.image = image?.sizing().image
-        
+
+        if let sizing = image?.sizing() {
+            cell.thumbnailView.imageView.image = sizing.image
+            cell.thumbnailView.imageView.contentMode = sizing.contentMode ?? .center
+        }
+
         image?.loadImage(completion: { (imageSizable) in
-            cell.thumbnailView.imageView.image = imageSizable.sizing().image
+            let sizing = imageSizable.sizing()
+            cell.thumbnailView.imageView.image = sizing.image
+            cell.thumbnailView.imageView.contentMode = sizing.contentMode ?? .center
         })
     }
 

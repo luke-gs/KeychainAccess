@@ -17,7 +17,7 @@ import UIKit
 /// provided by the header itself or via page gestures on detail view controllers.
 ///
 open class MPOLSplitViewController: PushableSplitViewController {
-
+    
     // MARK: - Properties
 
     // The navigation controller for the master side of split view
@@ -112,7 +112,7 @@ open class MPOLSplitViewController: PushableSplitViewController {
         self.masterViewController = masterViewController
         self.detailViewControllers = detailViewControllers
         self.containerMasterViewController = ContainerWithHeaderViewController()
-
+        
         // Set up the page controller
         pageViewController = ScrollAwarePageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         pageViewController.view.backgroundColor = UIColor.white
@@ -133,7 +133,7 @@ open class MPOLSplitViewController: PushableSplitViewController {
         embeddedSplitViewController.minimumPrimaryColumnWidth = 288.0
         embeddedSplitViewController.preferredPrimaryColumnWidthFraction = 320.0 / 1024.0
         embeddedSplitViewController.delegate = self
-
+        
         // Force early application of trait collection so presentation animation looks good
         updateSplitViewControllerForTraitChange()
     }
@@ -141,7 +141,7 @@ open class MPOLSplitViewController: PushableSplitViewController {
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-
+    
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateNavigationBarForTraitChange()
@@ -151,6 +151,13 @@ open class MPOLSplitViewController: PushableSplitViewController {
         if selectedViewController == nil {
             // Get the default selected view controller from the subclass and apply the selection
             selectedViewController = defaultSelectedViewController()
+        }
+        
+        // Let swipe to go back still work
+        if let interactiveGesture = navigationController?.interactivePopGestureRecognizer {
+            if let scrollView = pageViewController.scrollView {
+                scrollView.panGestureRecognizer.require(toFail: interactiveGesture)
+            }
         }
     }
 
@@ -366,5 +373,4 @@ extension MPOLSplitViewController: ScrollAwarePageViewControllerDelegate {
         }
     }
 }
-
 

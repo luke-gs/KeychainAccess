@@ -129,7 +129,7 @@ public enum ResourceStatus: String, Codable {
         case .inquiries2:
             return (.secondaryGray, .disabledGray)
         case .duress:
-            return (.orangeRed, .disabledGray)
+            return (.black, .orangeRed)
         case .offDuty:
             return (.secondaryGray, .disabledGray)
         }

@@ -13,31 +13,33 @@ open class IncidentOverviewViewModel: TaskDetailsViewModel {
     /// The identifier for this incident
     open let incidentNumber: String
     
-    weak var delegate: IncidentOverviewViewModelDelegate?
+    open weak var delegate: CADFormCollectionViewModelDelegate?
     
     public init(incidentNumber: String) {
         self.incidentNumber = incidentNumber
-        loadSections()
+        loadData()
     }
     
-    public func createViewController() -> UIViewController {
+    open func createViewController() -> TaskDetailsViewController {
         return IncidentOverviewViewController(viewModel: self)
     }
     
+    open func reloadFromModel() {
+        loadData()
+    }
+
     open func createFormViewController() -> FormBuilderViewController {
-        let viewController = IncidentOverviewFormViewController(viewModel: self)
-        delegate = viewController
-        return viewController
+        return IncidentOverviewFormViewController(viewModel: self)
     }
     
     /// Lazy var for creating view model content
     open var sections: [CADFormCollectionSectionViewModel<IncidentOverviewItemViewModel>] = [] {
         didSet {
-            delegate?.didUpdateSections()
+            delegate?.sectionsUpdated()
         }
     }
     
-    open func loadSections() {
+    open func loadData() {
         guard let incident = CADStateManager.shared.incidentsById[incidentNumber] else { return }
         
         sections = [
@@ -113,10 +115,5 @@ open class IncidentOverviewViewModel: TaskDetailsViewModel {
         ])
         delegate?.presentPopover(actionSheetVC, sourceView: cell, sourceRect: cell.bounds, animated: true)
     }
-}
-
-public protocol IncidentOverviewViewModelDelegate: PopoverPresenter {
-    /// Called when the section data changed
-    func didUpdateSections()
 }
 

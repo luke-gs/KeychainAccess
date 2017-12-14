@@ -20,15 +20,18 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<EntitySum
     }
     
     /// Create the view controller for this view model
-    public func createViewController() -> UIViewController {
-        let viewController = IncidentAssociationsViewController(viewModel: self)
-        delegate = viewController
-        return viewController
+    open func createViewController() -> TaskDetailsViewController {
+        return IncidentAssociationsViewController(viewModel: self)
     }
-    
+
+    open func reloadFromModel() {
+        loadData()
+    }
+
     open func loadData() {
         guard let incident = CADStateManager.shared.incidentsById[incidentNumber] else { return }
-        sections = []
+
+        var sections: [CADFormCollectionSectionViewModel<EntitySummaryDisplayable>] = []
         
         let personsViewModels = incident.persons?.map { person in
             return IncidentAssociationItemViewModel(category: "DS1",
@@ -53,14 +56,15 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<EntitySum
         } ?? []
         
         if personsViewModels.count > 0 {
-            sections.append(CADFormCollectionSectionViewModel(title: "\(personsViewModels.count) People", items: personsViewModels))
+            let title = String.localizedStringWithFormat(NSLocalizedString("%d Person(s)", comment: ""), personsViewModels.count)
+            sections.append(CADFormCollectionSectionViewModel(title: title, items: personsViewModels))
         }
         
         if vehiclesViewModels.count > 0 {
-            sections.append(CADFormCollectionSectionViewModel(title: "\(vehiclesViewModels.count) Vehicles", items: vehiclesViewModels))
+            let title = String.localizedStringWithFormat(NSLocalizedString("%d Vehicle(s)", comment: ""), vehiclesViewModels.count)
+            sections.append(CADFormCollectionSectionViewModel(title: title, items: vehiclesViewModels))
         }
-        
-        delegate?.sectionsUpdated()
+        self.sections = sections
     }
     
     /// The title to use in the navigation bar
