@@ -25,9 +25,6 @@ class ColumnTests: XCTestCase {
         
         let calculated = ColumnInfo.calculateWidths(for: columns, in: width)
         
-        // Assert all columns made it in
-        XCTAssert(calculated.count == 2)
-        
         // Assert widths are expected
         XCTAssertEqual(calculated[0], 200)
         XCTAssertEqual(calculated[1], 600)
