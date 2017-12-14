@@ -67,6 +67,6 @@ open class ActionSheetViewController: FormBuilderViewController {
         collectionView?.setNeedsLayout()
         collectionView?.layoutIfNeeded()
         
-        preferredContentSize = collectionView?.collectionViewLayout.collectionViewContentSize ?? .zero
+        preferredContentSize = collectionView?.contentSize ?? .zero
     }
 }
