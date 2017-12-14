@@ -4,7 +4,7 @@
 //
 //  Created by Kyle May on 13/12/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
-//
+//`
 
 import UIKit
 
@@ -74,7 +74,10 @@ public struct ColumnInfo: Equatable {
             let leadingMargin: CGFloat
             let trailingMargin: CGFloat
             
-            if index == 0 {
+            if visibleColumns.count == 1 {
+                leadingMargin = 0
+                trailingMargin = 0
+            } else if index == 0 {
                 leadingMargin = 0
                 trailingMargin = margin / 2
             } else if index == columns.count - 1 {
