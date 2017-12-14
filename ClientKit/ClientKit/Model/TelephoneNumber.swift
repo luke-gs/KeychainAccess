@@ -48,15 +48,50 @@ open class TelephoneNumber: NSObject, Serialisable {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        MPLUnimplemented()
+        id = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String!
+
+        super.init()
+
+        suffix = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.suffix.rawValue) as String?
+        cityCode = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.cityCode.rawValue) as String?
+        fullNumber = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.fullNumber.rawValue) as String?
+        prefix = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.prefix.rawValue) as String?
+        subscriber = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.subscriber.rawValue) as String?
+        areaCode = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.areaCode.rawValue) as String?
+        exchange = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.exchange.rawValue) as String?
+        numberType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.numberType.rawValue) as String?
+        countryCode = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.countryCode.rawValue) as String?
     }
     
     open func encode(with aCoder: NSCoder) {
-        
+        aCoder.encode(TelephoneNumber.modelVersion, forKey: CodingKey.version.rawValue)
+        aCoder.encode(id, forKey: CodingKey.id.rawValue)
+        aCoder.encode(suffix, forKey: CodingKey.suffix.rawValue)
+        aCoder.encode(cityCode, forKey: CodingKey.cityCode.rawValue)
+        aCoder.encode(fullNumber, forKey: CodingKey.fullNumber.rawValue)
+        aCoder.encode(prefix, forKey: CodingKey.prefix.rawValue)
+        aCoder.encode(subscriber, forKey: CodingKey.subscriber.rawValue)
+        aCoder.encode(areaCode, forKey: CodingKey.areaCode.rawValue)
+        aCoder.encode(exchange, forKey: CodingKey.exchange.rawValue)
+        aCoder.encode(numberType, forKey: CodingKey.numberType.rawValue)
+        aCoder.encode(countryCode, forKey: CodingKey.countryCode.rawValue)
     }
     
-    open static var supportsSecureCoding: Bool {
-        return true
+    open static var supportsSecureCoding: Bool { return true }
+    open static var modelVersion: Int { return 0 }
+
+    private enum CodingKey: String {
+        case version
+        case id
+        case suffix
+        case cityCode
+        case fullNumber
+        case prefix
+        case subscriber
+        case areaCode
+        case exchange
+        case numberType
+        case countryCode
     }
-    
+
 }

@@ -49,11 +49,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         User.applicationKey = "Search"
 
         landingPresenter = LandingPresenter()
-        let presenter = PresenterGroup(presenters: [SystemPresenter(), landingPresenter, EntityPresenter()])
+        let presenter = PresenterGroup(presenters: [SystemPresenter(), landingPresenter, EntityPresenter(), EventPresenter()])
 
         let director = Director(presenter: presenter)
-        director.addPresenterObserver(RecentlyViewedTracker())
-        
+//        director.addPresenterObserver(RecentlyViewedTracker())
+
         Director.shared = director
 
         #if !EXTERNAL
@@ -241,7 +241,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     #if !EXTERNAL
 
-    // MARK: Endpoints
+    // MARK: - Endpoints
     @objc private func endpointChanged() {
 
         guard let endpoint = EndpointManager.selectedEndpoint?.url?.absoluteString else { return }

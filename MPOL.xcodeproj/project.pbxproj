@@ -21,7 +21,6 @@
 		445A8A3E1F673C8B005ABEB8 /* VehicleSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A3B1F673C8B005ABEB8 /* VehicleSearchHelp.json */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
 		BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E81101EBEE38400188181 /* SettingsViewController.swift */; };
-		BC8B26F31EDC07430022B0AD /* ActionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8B26F21EDC07430022B0AD /* ActionListViewController.swift */; };
 		BC8B26F61EDC08460022B0AD /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8B26F51EDC08460022B0AD /* EventsListViewController.swift */; };
 		BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */; };
 		BCD4EA941E515ACE000B993D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCD4EA931E515ACE000B993D /* Assets.xcassets */; };
@@ -32,6 +31,7 @@
 		DB0CA7D51F72018A006EB1A7 /* AppConfig-mpol-debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = DB0CA7D21F720185006EB1A7 /* AppConfig-mpol-debug.xcconfig */; };
 		EA2189F61F60F64A0057048E /* LandingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2189F51F60F64A0057048E /* LandingPresenter.swift */; };
 		EA3C89061F32E34300F38461 /* termsandconditions.html in Resources */ = {isa = PBXBuildFile; fileRef = EA3C89051F32E34300F38461 /* termsandconditions.html */; };
+		EA7194DD1FC5098200A2980B /* EventPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7194DC1FC5098200A2980B /* EventPresenter.swift */; };
 		EAAEB34A1F664705002D6C65 /* EntityPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAEB3491F664705002D6C65 /* EntityPresenter.swift */; };
 		EAAFAD531F665C5C00AA2F94 /* RecentlyViewedTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAFAD521F665C5C00AA2F94 /* RecentlyViewedTracker.swift */; };
 /* End PBXBuildFile section */
@@ -72,7 +72,6 @@
 		59CEC38145149253B388125F /* Pods-MPOL.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOL.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOL/Pods-MPOL.release.xcconfig"; sourceTree = "<group>"; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		BC4E81101EBEE38400188181 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		BC8B26F21EDC07430022B0AD /* ActionListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionListViewController.swift; sourceTree = "<group>"; };
 		BC8B26F51EDC08460022B0AD /* EventsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
 		BCD4EA891E515ACE000B993D /* Fish.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fish.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +85,7 @@
 		DB26793E1F70FAD300F87410 /* PSCore-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PSCore-Bridging-Header.h"; sourceTree = "<group>"; };
 		EA2189F51F60F64A0057048E /* LandingPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPresenter.swift; sourceTree = "<group>"; };
 		EA3C89051F32E34300F38461 /* termsandconditions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = termsandconditions.html; sourceTree = "<group>"; };
+		EA7194DC1FC5098200A2980B /* EventPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPresenter.swift; sourceTree = "<group>"; };
 		EAAEB3491F664705002D6C65 /* EntityPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPresenter.swift; sourceTree = "<group>"; };
 		EAAFAD521F665C5C00AA2F94 /* RecentlyViewedTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentlyViewedTracker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -139,19 +139,10 @@
 		BC0D8E821E94067800EDFC45 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				BC8B26F11EDC07360022B0AD /* Action List */,
 				BC8B26F41EDC083A0022B0AD /* Events */,
 				BC4E81101EBEE38400188181 /* SettingsViewController.swift */,
 			);
 			path = "View Controllers";
-			sourceTree = "<group>";
-		};
-		BC8B26F11EDC07360022B0AD /* Action List */ = {
-			isa = PBXGroup;
-			children = (
-				BC8B26F21EDC07430022B0AD /* ActionListViewController.swift */,
-			);
-			path = "Action List";
 			sourceTree = "<group>";
 		};
 		BC8B26F41EDC083A0022B0AD /* Events */ = {
@@ -231,6 +222,7 @@
 				EAAFAD521F665C5C00AA2F94 /* RecentlyViewedTracker.swift */,
 				EA2189F51F60F64A0057048E /* LandingPresenter.swift */,
 				EAAEB3491F664705002D6C65 /* EntityPresenter.swift */,
+				EA7194DC1FC5098200A2980B /* EventPresenter.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -338,7 +330,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-MPOL/Pods-MPOL-resources.sh",
-				"$PODS_CONFIGURATION_BUILD_DIR/HockeySDK/HockeySDKResources.bundle",
+				$PODS_CONFIGURATION_BUILD_DIR/HockeySDK/HockeySDKResources.bundle,
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -422,9 +414,9 @@
 				BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */,
 				1A27C6871F70747A00A58635 /* LocationMapSummarySearchResultViewModel.swift in Sources */,
 				EAAEB34A1F664705002D6C65 /* EntityPresenter.swift in Sources */,
-				BC8B26F31EDC07430022B0AD /* ActionListViewController.swift in Sources */,
 				12ADD4361F32C0FA00CA8B4D /* MPOLSearchViewModel.swift in Sources */,
 				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
+				EA7194DD1FC5098200A2980B /* EventPresenter.swift in Sources */,
 				12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */,
 				EAAFAD531F665C5C00AA2F94 /* RecentlyViewedTracker.swift in Sources */,
 				BC8B26F61EDC08460022B0AD /* EventsListViewController.swift in Sources */,
