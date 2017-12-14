@@ -44,7 +44,6 @@ open class IncidentOverviewViewController: UIViewController {
         let mapViewModel = IncidentOverviewMapViewModel(incidentNumber: viewModel.incidentNumber)
         mapViewController = mapViewModel.createViewController()
         addChildViewController(mapViewController, toView: view)
-        mapViewController.canSelectAnnotations = false
         mapViewController.showsMapButtons = false
         mapViewController.mapView.isZoomEnabled = false
         mapViewController.mapView.isPitchEnabled = false

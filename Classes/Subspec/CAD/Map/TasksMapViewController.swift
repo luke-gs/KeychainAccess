@@ -18,7 +18,6 @@ open class TasksMapViewController: MapViewController {
 
     public let viewModel: TasksMapViewModel
     public var mapLayerFilterButton: UIBarButtonItem!
-    public var canSelectAnnotations: Bool = true
 
     public init(viewModel: TasksMapViewModel, initialLoadZoomStyle: InitialLoadZoomStyle, startingRegion: MKCoordinateRegion? = nil, settingsViewModel: MapSettingsViewModel = MapSettingsViewModel()) {
         self.viewModel = viewModel
@@ -86,8 +85,9 @@ open class TasksMapViewController: MapViewController {
     
     public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         mapView.deselectAnnotation(view.annotation, animated: false)
-       
-        if canSelectAnnotations, let viewModel = viewModel.viewModel(for: view.annotation as? TaskAnnotation) {
+        guard viewModel.canSelectAnnotationView(view) else { return }
+        
+        if let viewModel = viewModel.viewModel(for: view.annotation as? TaskAnnotation) {
             let vc = TasksItemSidebarViewController(viewModel: viewModel)
             splitViewController?.navigationController?.pushViewController(vc, animated: true)
         }
@@ -149,9 +149,12 @@ open class TasksMapViewController: MapViewController {
                 let pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0.1, 0.1)
                 zoomRect = MKMapRectUnion(zoomRect, pointRect)
             }
-            let inset = -zoomRect.size.width
+
+            // Inset the map rect to make a buffer around the annotations
+            let inset = max(zoomRect.size.width, zoomRect.size.height) / 2
+            zoomRect = MKMapRectInset(zoomRect, -inset, -inset)
             
-            mapView.setVisibleMapRect(MKMapRectInset(zoomRect, inset, inset), animated: animated)
+            mapView.setVisibleMapRect(zoomRect, animated: animated)
             performedInitialLoadAction = true
         }
     }

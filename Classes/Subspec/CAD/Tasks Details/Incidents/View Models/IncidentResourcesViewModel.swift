@@ -44,7 +44,8 @@ open class IncidentResourcesViewModel: CADFormCollectionViewModel<IncidentResour
                                                        shrinkImage: false),
                                           shouldCenterImage: true)
                 
-                let resourceViewModel = IncidentResourceItemViewModel(title: [resource.callsign, resource.officerCountString].joined(),
+                let resourceViewModel = IncidentResourceItemViewModel(callsign: resource.callsign,
+                                                                      title: [resource.callsign, resource.officerCountString].joined(),
                                                                       subtitle: resource.status.title,
                                                                       icon: iconImage,
                                                                       officers: officerViewModels)
