@@ -38,7 +38,7 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
     private let middleColumnContentView = UIView()
     
     /// Stack view for resources, content view for right column
-    private let resourcesStack = UIStackView()
+    private let rightColumnContentView = UIStackView()
     
     /// View for showing updates indicator
     public let updatesIndicator = UIImageView()
@@ -140,12 +140,12 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
         rightColumn.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(rightColumn)
         
-        resourcesStack.axis = .vertical
-        resourcesStack.alignment = .top
-        resourcesStack.spacing = 10
-        resourcesStack.distribution = .fill
-        resourcesStack.translatesAutoresizingMaskIntoConstraints = false
-        rightColumn.addSubview(resourcesStack)
+        rightColumnContentView.axis = .vertical
+        rightColumnContentView.alignment = .top
+        rightColumnContentView.spacing = 10
+        rightColumnContentView.distribution = .fill
+        rightColumnContentView.translatesAutoresizingMaskIntoConstraints = false
+        rightColumn.addSubview(rightColumnContentView)
     }
     
     /// Activates view constraints
@@ -213,11 +213,11 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
             
             // Right column
             
-            resourcesStack.topAnchor.constraint(equalTo: rightColumn.topAnchor),
-            resourcesStack.bottomAnchor.constraint(equalTo: rightColumn.bottomAnchor),
-            resourcesStack.leadingAnchor.constraint(equalTo: rightColumn.leadingAnchor,
+            rightColumnContentView.topAnchor.constraint(equalTo: rightColumn.topAnchor),
+            rightColumnContentView.bottomAnchor.constraint(equalTo: rightColumn.bottomAnchor),
+            rightColumnContentView.leadingAnchor.constraint(equalTo: rightColumn.leadingAnchor,
                                                     constant: LayoutConstants.columnSpacing).withPriority(.defaultHigh),
-            resourcesStack.trailingAnchor.constraint(equalTo: rightColumn.trailingAnchor),
+            rightColumnContentView.trailingAnchor.constraint(equalTo: rightColumn.trailingAnchor),
             
             rightColumn.topAnchor.constraint(equalTo: contentView.topAnchor, constant: LayoutConstants.verticalMargin),
             rightColumn.leadingAnchor.constraint(equalTo: middleColumn.trailingAnchor),
@@ -259,7 +259,7 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
     }
     
     public func setStatusRows(_ viewModels: [TasksListItemResourceViewModel]?) {
-        resourcesStack.removeArrangedSubviewsFromViewHeirachy()
+        rightColumnContentView.removeArrangedSubviewsFromViewHeirachy()
         
         guard let viewModels = viewModels else { return }
         
@@ -273,12 +273,12 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
             statusRow.subtitleLabel.text = viewModel.statusText
             statusRow.subtitleLabel.font = UIFont.systemFont(ofSize: 13, weight: viewModel.useBoldStatusText ? .semibold : .regular)
             statusRow.subtitleLabel.textColor = viewModel.tintColor ?? .secondaryGray
-            resourcesStack.addArrangedSubview(statusRow)
+            rightColumnContentView.addArrangedSubview(statusRow)
         }
         
         // Add spacer view if less than 4 views
-        if resourcesStack.arrangedSubviews.count < 4 {
-            resourcesStack.addArrangedSubview(UIView())
+        if rightColumnContentView.arrangedSubviews.count < 4 {
+            rightColumnContentView.addArrangedSubview(UIView())
         }
     }
 }
