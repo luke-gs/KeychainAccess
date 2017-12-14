@@ -232,11 +232,10 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
         didSet {
             let views = [leftColumn, middleColumn, rightColumn]
             
-            let calculatedWidths = ColumnInfo.calculateWidths(for: views.map { $0.columnInfo }, in: bounds.width - 56)
+            let calculatedInfo = ColumnInfo.calculateWidths(for: views.map { $0.columnInfo }, in: bounds.width - 56)
             
-            for (width, view) in zip(calculatedWidths, views) {
-                view.columnInfo.actualWidth = width
-                view.isHidden = width == 0
+            for (info, view) in zip(calculatedInfo, views) {
+                view.isHidden = info.actualWidth == 0
             }
             
             leftColumnWidth.priority = .required
