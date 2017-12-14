@@ -108,6 +108,9 @@
 		27094CC91FAFFBDA00D4C3D4 /* ResourceActivityLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27094CB21FAFFBDA00D4C3D4 /* ResourceActivityLogViewController.swift */; };
 		27094CCB1FAFFBDA00D4C3D4 /* TaskItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27094CB51FAFFBDA00D4C3D4 /* TaskItemViewModel.swift */; };
 		27094CCC1FAFFBDA00D4C3D4 /* ResourceTaskItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27094CB61FAFFBDA00D4C3D4 /* ResourceTaskItemViewModel.swift */; };
+		270961791FE0CBE000D19F40 /* ColumnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270961781FE0CBE000D19F40 /* ColumnView.swift */; };
+		2709617B1FE0CBFB00D19F40 /* ColumnInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2709617A1FE0CBFB00D19F40 /* ColumnInfo.swift */; };
+		2709617E1FE0DD7F00D19F40 /* ColumnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2709617D1FE0DD7F00D19F40 /* ColumnTests.swift */; };
 		270C60FD1FBA5DCB006F11AD /* TasksListItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270C60FC1FBA5DCB006F11AD /* TasksListItemCollectionViewCell.swift */; };
 		27102F4E1FD908530000DD80 /* ResourceOverviewMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27102F4D1FD908530000DD80 /* ResourceOverviewMapViewModel.swift */; };
 		2715D63D1FD4FEDB00BD0E95 /* SyncDetailsActivityLogItem+Computed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715D63C1FD4FEDB00BD0E95 /* SyncDetailsActivityLogItem+Computed.swift */; };
@@ -731,6 +734,9 @@
 		27094CB21FAFFBDA00D4C3D4 /* ResourceActivityLogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceActivityLogViewController.swift; sourceTree = "<group>"; };
 		27094CB51FAFFBDA00D4C3D4 /* TaskItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskItemViewModel.swift; sourceTree = "<group>"; };
 		27094CB61FAFFBDA00D4C3D4 /* ResourceTaskItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceTaskItemViewModel.swift; sourceTree = "<group>"; };
+		270961781FE0CBE000D19F40 /* ColumnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnView.swift; sourceTree = "<group>"; };
+		2709617A1FE0CBFB00D19F40 /* ColumnInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnInfo.swift; sourceTree = "<group>"; };
+		2709617D1FE0DD7F00D19F40 /* ColumnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnTests.swift; sourceTree = "<group>"; };
 		270C60FC1FBA5DCB006F11AD /* TasksListItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		27102F4D1FD908530000DD80 /* ResourceOverviewMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceOverviewMapViewModel.swift; sourceTree = "<group>"; };
 		2715D63C1FD4FEDB00BD0E95 /* SyncDetailsActivityLogItem+Computed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SyncDetailsActivityLogItem+Computed.swift"; sourceTree = "<group>"; };
@@ -1507,6 +1513,23 @@
 			path = "View Model";
 			sourceTree = "<group>";
 		};
+		270961771FE0CBB300D19F40 /* Column */ = {
+			isa = PBXGroup;
+			children = (
+				270961781FE0CBE000D19F40 /* ColumnView.swift */,
+				2709617A1FE0CBFB00D19F40 /* ColumnInfo.swift */,
+			);
+			path = Column;
+			sourceTree = "<group>";
+		};
+		2709617C1FE0DD6D00D19F40 /* Columns */ = {
+			isa = PBXGroup;
+			children = (
+				2709617D1FE0DD7F00D19F40 /* ColumnTests.swift */,
+			);
+			path = Columns;
+			sourceTree = "<group>";
+		};
 		2715D6441FD507FF00BD0E95 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
@@ -1946,6 +1969,7 @@
 		96CF32281F8C352000140AF8 /* Tasks List */ = {
 			isa = PBXGroup;
 			children = (
+				270961771FE0CBB300D19F40 /* Column */,
 				965CD8A71F8ECDBA007C3EEA /* TasksListContainerViewController.swift */,
 				965CD8AE1F902872007C3EEA /* TasksListContainerViewModel.swift */,
 				965CD8AC1F8F14E5007C3EEA /* TasksListHeaderCompactViewController.swift */,
@@ -2486,6 +2510,7 @@
 		C605F8931ECCAB2C001194DD /* MPOLKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				2709617C1FE0DD6D00D19F40 /* Columns */,
 				EA5649721F8F061000BEA144 /* Core */,
 				C605F8961ECCAB2C001194DD /* Info.plist */,
 				C65927761F332F7300854C60 /* ModelCodingTestUtility.swift */,
@@ -3299,6 +3324,7 @@
 				12D8E2A01F9ED12100EEE214 /* GenericSearchViewController.swift in Sources */,
 				BC9C7DF31F0DED6600DFFE83 /* ISO8601DateTransformer.swift in Sources */,
 				274F10F71FCE0B88001A59A5 /* IncidentAssociationsViewController.swift in Sources */,
+				270961791FE0CBE000D19F40 /* ColumnView.swift in Sources */,
 				27DC60971FD513D80033BC0B /* DisableableButton.swift in Sources */,
 				BC9C7E281F0DED6600DFFE83 /* StatsOverviewCollectionViewCell.swift in Sources */,
 				BC9C7DEC1F0DED6600DFFE83 /* ModelVersionable.swift in Sources */,
@@ -3666,6 +3692,7 @@
 				27CBC75A1F8B27B100E387C3 /* ActivityLogItemCell.swift in Sources */,
 				19F8DDB01F4D7C9600D84DA1 /* APIManager+LookupAddress.swift in Sources */,
 				4634B4431FBD6FD200D71E7F /* EntityMapSummaryDecorator.swift in Sources */,
+				2709617B1FE0CBFB00D19F40 /* ColumnInfo.swift in Sources */,
 				9674E0E71FC68015000702F8 /* LoadingStateLoadingView.swift in Sources */,
 				4492C04C1FD8C917009D26BD /* SelectStoppedEntityViewModel.swift in Sources */,
 				BC9C7E341F0DED6600DFFE83 /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
@@ -3789,6 +3816,7 @@
 				C60C890B1ECCB94F00785932 /* SimplePerson.swift in Sources */,
 				EA53B2791F9EF9BB00B891D8 /* NotNilSpecificationTests.swift in Sources */,
 				197FBF711F9980F20086875A /* URLQueryBuilderTests.swift in Sources */,
+				2709617E1FE0DD7F00D19F40 /* ColumnTests.swift in Sources */,
 				EAF76C771F90839000405DC9 /* StringSizing+LabelTests.swift in Sources */,
 				EA05400C1F95781C00F6E63C /* StringSizingTests.swift in Sources */,
 				EA42F8E81F95929100C5C38E /* CharacterSetSpecificationTests.swift in Sources */,
