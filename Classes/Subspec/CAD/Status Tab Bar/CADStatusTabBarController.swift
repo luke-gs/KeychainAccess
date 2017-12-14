@@ -14,6 +14,10 @@ open class CADStatusTabBarController: StatusTabBarController {
     open let viewModel: CADStatusTabBarViewModel
     open var userCallsignStatusView: UserCallsignStatusView!
     
+    open override var defaultSelectedViewControllerIndex: Int {
+        return 1
+    }
+    
     public init(viewModel: CADStatusTabBarViewModel) {
         self.viewModel = viewModel
         super.init()
