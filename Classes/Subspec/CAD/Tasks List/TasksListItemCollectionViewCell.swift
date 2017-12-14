@@ -23,13 +23,22 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
     // MARK: - Views
 
     /// Column on the left
-    private let leftColumn = UIView()
+    private let leftColumn = ColumnView()
     
     /// Column in the middle
-    private let middleColumn = UIView()
+    private let middleColumn = ColumnView()
     
     /// Column on the right
-    private let rightColumn = UIStackView()
+    private let rightColumn = ColumnView()
+    
+    /// Content view for left column
+    private let leftColumnContentView = UIView()
+    
+    /// Content view for middle column
+    private let middleColumnContentView = UIView()
+    
+    /// Stack view for resources, content view for right column
+    private let rightColumnContentView = UIStackView()
     
     /// View for showing updates indicator
     public let updatesIndicator = UIImageView()
@@ -53,8 +62,8 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
     public let detailLabel = UILabel()
     
     public var leftColumnWidth: NSLayoutConstraint!
-    public var leftColumnTrailing: NSLayoutConstraint!
-    public var middleColumnTrailing: NSLayoutConstraint!
+    public var middleColumnWidth: NSLayoutConstraint!
+    public var rightColumnWidth: NSLayoutConstraint!
 
     public override func commonInit() {
         super.commonInit()
@@ -72,23 +81,28 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
         contentView.addSubview(updatesIndicator)
         
         // Left column
+        
+        leftColumn.columnInfo = ColumnInfo(minimumWidth: 200, maximumWidth: 280)
         leftColumn.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(leftColumn)
+        
+        leftColumnContentView.translatesAutoresizingMaskIntoConstraints = false
+        leftColumn.addSubview(leftColumnContentView)
         
         titleLabel.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
         titleLabel.adjustsFontForContentSizeCategory = true
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        leftColumn.addSubview(titleLabel)
+        leftColumnContentView.addSubview(titleLabel)
         
         subtitleLabel.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
         subtitleLabel.adjustsFontForContentSizeCategory = true
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        leftColumn.addSubview(subtitleLabel)
+        leftColumnContentView.addSubview(subtitleLabel)
         
         priorityCaptionView.axis = .horizontal
         priorityCaptionView.spacing = 8
         priorityCaptionView.translatesAutoresizingMaskIntoConstraints = false
-        leftColumn.addSubview(priorityCaptionView)
+        leftColumnContentView.addSubview(priorityCaptionView)
         
         var edgeInsets = RoundedRectLabel.defaultLayoutMargins
         edgeInsets.left = 6
@@ -104,24 +118,34 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
         captionLabel.translatesAutoresizingMaskIntoConstraints = false
         priorityCaptionView.addArrangedSubview(captionLabel)
         
-        
         // Middle column
+        
+        middleColumn.columnInfo = ColumnInfo(minimumWidth: 300, maximumWidth: 1000)
         middleColumn.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(middleColumn)
+        
+        middleColumnContentView.translatesAutoresizingMaskIntoConstraints = false
+        middleColumn.addSubview(middleColumnContentView)
+        
         detailLabel.textColor = .secondaryGray
         detailLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         detailLabel.numberOfLines = 3
         
         detailLabel.translatesAutoresizingMaskIntoConstraints = false
-        middleColumn.addSubview(detailLabel)
+        middleColumnContentView.addSubview(detailLabel)
         
         // Right column
-        rightColumn.axis = .vertical
-        rightColumn.alignment = .top
-        rightColumn.spacing = 10
-        rightColumn.distribution = .fill
+        
+        rightColumn.columnInfo = ColumnInfo(minimumWidth: 192, maximumWidth: 192)
         rightColumn.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(rightColumn)
+        
+        rightColumnContentView.axis = .vertical
+        rightColumnContentView.alignment = .top
+        rightColumnContentView.spacing = 10
+        rightColumnContentView.distribution = .fill
+        rightColumnContentView.translatesAutoresizingMaskIntoConstraints = false
+        rightColumn.addSubview(rightColumnContentView)
     }
     
     /// Activates view constraints
@@ -129,15 +153,12 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
         titleLabel.setContentHuggingPriority(.required, for: .vertical)
         priorityLabel.setContentHuggingPriority(.required, for: .horizontal)
         captionLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        leftColumn.setContentCompressionResistancePriority(.required, for: .horizontal)
         detailLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        middleColumn.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        rightColumn.setContentCompressionResistancePriority(.required, for: .horizontal)
-        
-        leftColumnWidth = leftColumn.widthAnchor.constraint(equalToConstant: 280).withPriority(.defaultHigh)
-        leftColumnTrailing = leftColumn.trailingAnchor.constraint(equalTo: accessoryView?.leadingAnchor ?? contentView.layoutMarginsGuide.trailingAnchor, constant: -LayoutConstants.verticalMargin)
-        middleColumnTrailing = middleColumn.trailingAnchor.constraint(equalTo: accessoryView?.leadingAnchor ?? contentView.layoutMarginsGuide.trailingAnchor, constant: -LayoutConstants.verticalMargin)
 
+        leftColumnWidth = leftColumn.widthAnchor.constraint(equalToConstant: 0)
+        middleColumnWidth = middleColumn.widthAnchor.constraint(equalToConstant: 0)
+        rightColumnWidth = rightColumn.widthAnchor.constraint(equalToConstant: 0)
+        
         NSLayoutConstraint.activate([
             updatesIndicator.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             updatesIndicator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: LayoutConstants.horizontalMargin),
@@ -150,62 +171,81 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
             leftColumn.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
             leftColumn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             leftColumnWidth,
-            leftColumnTrailing,
 
-            titleLabel.topAnchor.constraint(equalTo: leftColumn.topAnchor, constant: LayoutConstants.verticalMargin),
-            titleLabel.leadingAnchor.constraint(equalTo: leftColumn.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: leftColumn.trailingAnchor),
+            leftColumnContentView.topAnchor.constraint(equalTo: leftColumn.topAnchor),
+            leftColumnContentView.bottomAnchor.constraint(equalTo: leftColumn.bottomAnchor),
+            leftColumnContentView.leadingAnchor.constraint(equalTo: leftColumn.leadingAnchor),
+            leftColumnContentView.trailingAnchor.constraint(equalTo: leftColumn.trailingAnchor),
+            
+            titleLabel.topAnchor.constraint(equalTo: leftColumnContentView.topAnchor, constant: LayoutConstants.verticalMargin),
+            titleLabel.leadingAnchor.constraint(equalTo: leftColumnContentView.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: leftColumnContentView.trailingAnchor),
 
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
             subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            subtitleLabel.trailingAnchor.constraint(equalTo: leftColumn.trailingAnchor),
+            subtitleLabel.trailingAnchor.constraint(equalTo: leftColumnContentView.trailingAnchor),
 
             priorityCaptionView.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 6),
             priorityCaptionView.leadingAnchor.constraint(equalTo: subtitleLabel.leadingAnchor),
-            priorityCaptionView.bottomAnchor.constraint(equalTo: leftColumn.bottomAnchor, constant: -LayoutConstants.verticalMargin),
-            priorityCaptionView.trailingAnchor.constraint(equalTo: leftColumn.trailingAnchor),
+            priorityCaptionView.bottomAnchor.constraint(equalTo: leftColumnContentView.bottomAnchor,
+                                                        constant: -LayoutConstants.verticalMargin),
+            priorityCaptionView.trailingAnchor.constraint(equalTo: leftColumnContentView.trailingAnchor),
             
             // Middle column
             
             middleColumn.topAnchor.constraint(equalTo: contentView.topAnchor),
-            middleColumn.leadingAnchor.constraint(equalTo: leftColumn.trailingAnchor, constant: LayoutConstants.columnSpacing),
+            middleColumn.leadingAnchor.constraint(equalTo: leftColumn.trailingAnchor),
             middleColumn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            middleColumnWidth,
             
-            detailLabel.topAnchor.constraint(equalTo: middleColumn.topAnchor, constant: LayoutConstants.verticalMargin),
-            detailLabel.leadingAnchor.constraint(equalTo: middleColumn.leadingAnchor),
-            detailLabel.trailingAnchor.constraint(equalTo: middleColumn.trailingAnchor),
-            detailLabel.bottomAnchor.constraint(equalTo: middleColumn.bottomAnchor, constant: -LayoutConstants.verticalMargin),
+            middleColumnContentView.topAnchor.constraint(equalTo: middleColumn.topAnchor),
+            middleColumnContentView.bottomAnchor.constraint(equalTo: middleColumn.bottomAnchor),
+            middleColumnContentView.leadingAnchor.constraint(equalTo: middleColumn.leadingAnchor,
+                                                             constant: LayoutConstants.columnSpacing).withPriority(.defaultHigh),
+            middleColumnContentView.trailingAnchor.constraint(equalTo: middleColumn.trailingAnchor),
+            
+            detailLabel.topAnchor.constraint(equalTo: middleColumnContentView.topAnchor,
+                                             constant: LayoutConstants.verticalMargin),
+            detailLabel.leadingAnchor.constraint(equalTo: middleColumnContentView.leadingAnchor),
+            detailLabel.trailingAnchor.constraint(equalTo: middleColumnContentView.trailingAnchor),
+            detailLabel.bottomAnchor.constraint(equalTo: middleColumnContentView.bottomAnchor,
+                                                constant: -LayoutConstants.verticalMargin),
             
             // Right column
             
+            rightColumnContentView.topAnchor.constraint(equalTo: rightColumn.topAnchor),
+            rightColumnContentView.bottomAnchor.constraint(equalTo: rightColumn.bottomAnchor),
+            rightColumnContentView.leadingAnchor.constraint(equalTo: rightColumn.leadingAnchor,
+                                                    constant: LayoutConstants.columnSpacing).withPriority(.defaultHigh),
+            rightColumnContentView.trailingAnchor.constraint(equalTo: rightColumn.trailingAnchor),
+            
             rightColumn.topAnchor.constraint(equalTo: contentView.topAnchor, constant: LayoutConstants.verticalMargin),
-            rightColumn.leadingAnchor.constraint(equalTo: middleColumn.trailingAnchor, constant: LayoutConstants.columnSpacing),
-            rightColumn.trailingAnchor.constraint(equalTo: accessoryView?.leadingAnchor ?? contentView.layoutMarginsGuide.trailingAnchor, constant: -LayoutConstants.verticalMargin).withPriority(.almostRequired),
+            rightColumn.leadingAnchor.constraint(equalTo: middleColumn.trailingAnchor),
+            rightColumn.trailingAnchor.constraint(equalTo: accessoryView?.leadingAnchor ?? contentView.trailingAnchor)
+                .withPriority(.almostRequired),
             rightColumn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            rightColumnWidth,
         ])
     }
     
     public override var bounds: CGRect {
         didSet {
-            if bounds.width > 800 {
-                // If we can fit 3 columns
-                leftColumnTrailing.isActive = false
-                leftColumnWidth.isActive = true
-                middleColumnTrailing.isActive = false
-                rightColumn.isHidden = false
-            } else if bounds.width > 700 {
-                // If we can fit 2 columns but not 3
-                leftColumnTrailing.isActive = false
-                leftColumnWidth.isActive = true
-                middleColumnTrailing.isActive = true
-                rightColumn.isHidden = true
-            } else {
-                // If we can only fit 1 column
-                middleColumnTrailing.isActive = false
-                leftColumnWidth.isActive = false
-                leftColumnTrailing.isActive = true
-                rightColumn.isHidden = true
+            let views = [leftColumn, middleColumn, rightColumn]
+            
+            let calculatedWidths = ColumnInfo.calculateWidths(for: views.map { $0.columnInfo }, in: bounds.width - 56)
+            
+            for (width, view) in zip(calculatedWidths, views) {
+                view.columnInfo.actualWidth = width
+                view.isHidden = width == 0
             }
+            
+            leftColumnWidth.priority = .required
+            middleColumnWidth.priority = .required
+            rightColumnWidth.priority = .required
+            
+            leftColumnWidth.constant = leftColumn.columnInfo.actualWidth
+            middleColumnWidth.constant = middleColumn.columnInfo.actualWidth
+            rightColumnWidth.constant = rightColumn.columnInfo.actualWidth
         }
     }
     
@@ -219,7 +259,7 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
     }
     
     public func setStatusRows(_ viewModels: [TasksListItemResourceViewModel]?) {
-        rightColumn.removeArrangedSubviewsFromViewHeirachy()
+        rightColumnContentView.removeArrangedSubviewsFromViewHeirachy()
         
         guard let viewModels = viewModels else { return }
         
@@ -233,12 +273,12 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
             statusRow.subtitleLabel.text = viewModel.statusText
             statusRow.subtitleLabel.font = UIFont.systemFont(ofSize: 13, weight: viewModel.useBoldStatusText ? .semibold : .regular)
             statusRow.subtitleLabel.textColor = viewModel.tintColor ?? .secondaryGray
-            rightColumn.addArrangedSubview(statusRow)
+            rightColumnContentView.addArrangedSubview(statusRow)
         }
         
         // Add spacer view if less than 4 views
-        if rightColumn.arrangedSubviews.count < 4 {
-            rightColumn.addArrangedSubview(UIView())
+        if rightColumnContentView.arrangedSubviews.count < 4 {
+            rightColumnContentView.addArrangedSubview(UIView())
         }
     }
 }
