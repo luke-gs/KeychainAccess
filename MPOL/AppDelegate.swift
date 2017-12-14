@@ -164,9 +164,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     private func attemptRefresh(response: DataResponse<Data>) -> Promise<Void> {
-        // Reset auth plugin (because BE can't ignore headers)
-        APIManager.shared.setAuthenticationPlugin(nil)
-        
+
         let promise: Promise<Void>
         
         // Create refresh token request with current token
