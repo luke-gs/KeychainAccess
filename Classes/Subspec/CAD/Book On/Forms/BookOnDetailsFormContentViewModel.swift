@@ -20,7 +20,50 @@ public class BookOnDetailsFormContentViewModel {
     public var endTime: Date?
     public var duration: String?
     public var officers: [Officer] = []
-    
+
+    public init() {
+    }
+
+    public init(withModel request: BookOnRequest) {
+        self.serial = request.serial
+        self.category = request.category
+        self.odometer = request.odometer
+        self.remarks = request.remarks
+        self.startTime = request.shiftStart
+        self.endTime = request.shiftEnd
+
+        self.officers = request.officers.map { officer in
+            let isDriver = officer.payrollId == request.driverpayrollId
+            return Officer(withModel: officer, initial: false, isDriver: isDriver)
+        }
+        // Lookup equipment items from manifest
+        let equipmentItemsByTitle = CADStateManager.shared.equipmentItemsByTitle()
+        self.equipment = request.equipment.flatMap { item in
+            if let pickable = equipmentItemsByTitle[item.description] {
+                return QuantityPicked(object: pickable, count: item.count)
+            }
+            return nil
+        }
+    }
+
+    public func createRequest() -> BookOnRequest {
+        var request = BookOnRequest()
+        request.serial = self.serial
+        request.category = self.category
+        request.odometer = self.odometer
+        request.remarks = self.remarks
+        request.shiftStart = self.startTime
+        request.shiftEnd = self.endTime
+
+        request.officers = self.officers.flatMap { officer in
+            return CADStateManager.shared.officersById[officer.officerId!]
+        }
+        request.equipment = self.equipment.flatMap { item in
+            return SyncDetailsResourceEquipment(count: item.count, description: item.object.title)
+        }
+        return request
+    }
+
     public class Officer: Equatable {
         
         // From sync
@@ -66,13 +109,20 @@ public class BookOnDetailsFormContentViewModel {
             self.isDriver = officer.isDriver
         }
         
-        public init(withModel officer: OfficerDetailsResponse) {
+        public init(withModel officer: SyncDetailsOfficer, initial: Bool, isDriver: Bool = false) {
             self.title = officer.displayName
             self.rank = officer.rank
             self.officerId = officer.payrollId
             self.licenseType = officer.licenceTypeId
+            self.isDriver = isDriver
 
-            // Rest of properties are not loaded from backend, user has to enter
+            if initial {
+                // On initial add of officer, some properties user has to enter
+            } else {
+                self.contactNumber = officer.contactNumber
+                self.capabilities = officer.capabilities
+                self.remarks = officer.remarks
+            }
         }
 
         public static func ==(lhs: Officer, rhs: Officer) -> Bool {
