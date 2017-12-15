@@ -22,5 +22,5 @@ open class SyncDetailsOfficer: Codable {
     open var licenceTypeId: String!
     open var contactNumber: String!
     open var remarks: String!
-    open var capabilties: String!
+    open var capabilities: String!
 }
