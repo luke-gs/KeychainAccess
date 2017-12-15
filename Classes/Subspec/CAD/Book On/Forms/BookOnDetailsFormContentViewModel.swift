@@ -14,11 +14,11 @@ public class BookOnDetailsFormContentViewModel {
     public var serial: String?
     public var category: String?
     public var odometer: String?
-    public var equipment: [QuantityPicked]?
     public var remarks: String?
     public var startTime: Date?
     public var endTime: Date?
     public var duration: String?
+    public var equipment: [QuantityPicked] = []
     public var officers: [Officer] = []
 
     public init() {
@@ -36,6 +36,7 @@ public class BookOnDetailsFormContentViewModel {
             let isDriver = officer.payrollId == request.driverpayrollId
             return Officer(withModel: officer, initial: false, isDriver: isDriver)
         }
+
         // Lookup equipment items from manifest
         let equipmentItemsByTitle = CADStateManager.shared.equipmentItemsByTitle()
         self.equipment = request.equipment.flatMap { item in
@@ -47,7 +48,7 @@ public class BookOnDetailsFormContentViewModel {
     }
 
     public func createRequest() -> BookOnRequest {
-        var request = BookOnRequest()
+        let request = BookOnRequest()
         request.serial = self.serial
         request.category = self.category
         request.odometer = self.odometer
