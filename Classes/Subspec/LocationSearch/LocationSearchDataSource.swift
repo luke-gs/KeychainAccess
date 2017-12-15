@@ -279,7 +279,8 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
         text = result.location.textRepresentation
         let search = Searchable(text: text,
                                 options: nil,
-                                type: LocationSearchDataSourceSearchableType)
+                                type: LocationSearchDataSourceSearchableType,
+                                imageKey: AssetManager.ImageKey.location)
 
         let preferredViewModel = searchStrategy.resultModelForSearchOnLocation(withResult: result, andSearchable: search)
         let radiusSearch = LocationMapSearchType.radiusSearch(from: result.location.coordinate)
