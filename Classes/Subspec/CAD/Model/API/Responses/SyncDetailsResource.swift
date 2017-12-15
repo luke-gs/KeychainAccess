@@ -36,4 +36,9 @@ open class SyncDetailsResource: Codable {
 open class SyncDetailsResourceEquipment: Codable {
     open var count: Int!
     open var description: String!
+
+    init(count: Int!, description: String!) {
+        self.count = count
+        self.description = description
+    }
 }
