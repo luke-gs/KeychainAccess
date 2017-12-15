@@ -106,11 +106,14 @@ open class ManageCallsignStatusViewModel {
 
     /// The subtitle to use in the navigation bar
     open func navSubtitle() -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
-        let shiftStart = formatter.string(from: BookOnDetailsFormViewModel.lastSaved!.startTime!)
-        let shiftEnd = formatter.string(from: BookOnDetailsFormViewModel.lastSaved!.endTime!)
-        return "\(shiftStart) - \(shiftEnd)"
+        if let lastBookOn = CADStateManager.shared.lastBookOn {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "HH:mm"
+            let shiftStart = formatter.string(from: lastBookOn.shiftStart!)
+            let shiftEnd = formatter.string(from: lastBookOn.shiftEnd!)
+            return "\(shiftStart) - \(shiftEnd)"
+        }
+        return ""
     }
 
     /// Method for handling button actions
@@ -140,7 +143,6 @@ open class ManageCallsignStatusViewModel {
                 if callsignViewModel.currentStatus?.canTerminate == true {
                     // Update session and dismiss screen
                     CADStateManager.shared.lastBookOn = nil
-                    BookOnDetailsFormViewModel.lastSaved = nil
                     delegate?.dismiss(animated: true, completion: nil)
                 } else {
                     let message = NSLocalizedString("Terminating shift is not allowed from this state", comment: "")

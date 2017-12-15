@@ -40,14 +40,11 @@ open class BookOnDetailsFormViewModel {
     /// Whether to show vehicle fields
     public let showVehicleFields: Bool = true
 
-    // TODO: replace with something in session
-    public static var lastSaved: BookOnDetailsFormContentViewModel?
-
     public init(callsignViewModel: BookOnCallsignViewModelType) {
         self.callsignViewModel = callsignViewModel
 
-        if let lastSaved = BookOnDetailsFormViewModel.lastSaved {
-            details = lastSaved
+        if let lastSaved = CADStateManager.shared.lastBookOn {
+            details = BookOnDetailsFormContentViewModel(withModel: lastSaved)
             isEditing = true
         } else {
             details = BookOnDetailsFormContentViewModel()
@@ -60,7 +57,7 @@ open class BookOnDetailsFormViewModel {
 
             // Initial form has self as one of officers to be book on to callsign
             if let model = CADStateManager.shared.officerDetails {
-                let officer = BookOnDetailsFormContentViewModel.Officer(withModel: model)
+                let officer = BookOnDetailsFormContentViewModel.Officer(withModel: model, initial: true)
                 details.officers = [officer]
             }
         }
@@ -94,10 +91,7 @@ open class BookOnDetailsFormViewModel {
 
     open func submitForm() -> Promise<()> {
         // Update session
-        // TODO: convert view model to BookOnRequest
-        BookOnDetailsFormViewModel.lastSaved = details
-
-        let bookOnRequest = BookOnRequest()
+        let bookOnRequest = details.createRequest()
         bookOnRequest.callsign = callsignViewModel.callsign
         CADStateManager.shared.lastBookOn = bookOnRequest
 
