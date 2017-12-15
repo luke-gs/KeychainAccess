@@ -104,11 +104,10 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         textField.returnKeyType = .next
         textField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
         textField.addObserver(self, forKeyPath: #keyPath(UITextField.text), context: &kvoContext)
-        textField.font = .systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
         textField.autocapitalizationType = .none
+        textField.delegate = self
         textField.clearButtonMode = .whileEditing
         textField.textColor = .white
-        textField.autocorrectionType = .no
         textField.autocorrectionType = .no
         self.isUsernameFieldLoaded = true
 
@@ -132,7 +131,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
         textField.clearButtonMode = .whileEditing
-        textField.autocorrectionType = .no
         self.isPasswordFieldLoaded = true
 
         return field
@@ -677,10 +675,10 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Text field delegate
     
     open func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if isUsernameFieldLoaded && textField == usernameField {
-            passwordField.becomeFirstResponder()
-        } else if isPasswordFieldLoaded && textField == passwordField {
-            passwordField.resignFirstResponder()
+        if isUsernameFieldLoaded && textField == usernameField.textField {
+            passwordField.textField.becomeFirstResponder()
+        } else if isPasswordFieldLoaded && textField == passwordField.textField {
+            passwordField.textField.resignFirstResponder()
             
             if loginButton.isEnabled {
                 loginButtonTriggered()

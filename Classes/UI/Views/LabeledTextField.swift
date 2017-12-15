@@ -26,10 +26,10 @@ open class LabeledTextField: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.isAccessibilityElement = false
         label.font = .systemFont(ofSize: 14.0, weight: UIFont.Weight.regular)
-        label.textColor = .white
         addSubview(label)
 
         textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.font = .systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
         addSubview(textField)
 
         separator.translatesAutoresizingMaskIntoConstraints = false
@@ -54,7 +54,7 @@ open class LabeledTextField: UIView {
     }
 
     required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        MPLCodingNotSupported()
     }
 
     @objc private func viewTapped(sender: UIView) {
