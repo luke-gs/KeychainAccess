@@ -17,7 +17,7 @@ public struct URLRulesMatch: RulesMatching {
         self.rules = rules
     }
 
-    public func isMatch(_ urlToMatch: URL) -> Bool {
+    public func isMatching(_ urlToMatch: URL) -> Bool {
         return rules(urlToMatch)
     }
 }

@@ -20,5 +20,5 @@ public enum PluginFilterRule {
 }
 
 public protocol RulesMatching {
-    func isMatch(_ urlToMatch: URL) -> Bool
+    func isMatching(_ urlToMatch: URL) -> Bool
 }

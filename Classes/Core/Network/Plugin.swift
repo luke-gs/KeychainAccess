@@ -27,9 +27,9 @@ public struct Plugin {
         case .allowAll:
             return true
         case .blacklist(let matcher):
-            return !matcher.isMatch(url)
+            return !matcher.isMatching(url)
         case .whitelist(let matcher):
-            return matcher.isMatch(url)
+            return matcher.isMatching(url)
         }
     }
 

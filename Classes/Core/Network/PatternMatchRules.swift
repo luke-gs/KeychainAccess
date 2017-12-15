@@ -22,7 +22,7 @@ public struct PatternMatchRules: RulesMatching {
         predicate = NSPredicate(format: "SELF.absoluteString like[cd] %@", pattern)
     }
 
-    public func isMatch(_ urlToMatch: URL) -> Bool {
+    public func isMatching(_ urlToMatch: URL) -> Bool {
         return predicate.evaluate(with: urlToMatch)
     }
 }
@@ -39,7 +39,7 @@ public struct PatternsMatchRules: RulesMatching {
         predicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
     }
 
-    public func isMatch(_ urlToMatch: URL) -> Bool {
+    public func isMatching(_ urlToMatch: URL) -> Bool {
         return predicate.evaluate(with: urlToMatch)
     }
 }
