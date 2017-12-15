@@ -17,7 +17,7 @@ class PatternMatchRulesTests: XCTestCase {
         let matchTestURLs = urls(from: ["http://www.google.com/foo", "http://example.com/foo/bar.html"])
 
         for testURL in matchTestURLs {
-            XCTAssertTrue(matcher.isMatch(testURL))
+            XCTAssertTrue(matcher.isMatching(testURL))
         }
     }
 
@@ -27,7 +27,7 @@ class PatternMatchRulesTests: XCTestCase {
         let matchTestURLs = urls(from: ["https://www.google.com/foo/baz/bar", "https://docs.google.com/foobar"])
 
         for testURL in matchTestURLs {
-            XCTAssertTrue(matcher.isMatch(testURL))
+            XCTAssertTrue(matcher.isMatching(testURL))
         }
     }
 
@@ -37,7 +37,7 @@ class PatternMatchRulesTests: XCTestCase {
         let matchTestURLs = urls(from: ["http://www.google.com/", "http://example.org/foo/bar.html"])
 
         for testURL in matchTestURLs {
-            XCTAssertTrue(matcher.isMatch(testURL))
+            XCTAssertTrue(matcher.isMatching(testURL))
         }
     }
 
@@ -47,7 +47,7 @@ class PatternMatchRulesTests: XCTestCase {
         let matchTestURLs = urls(from: ["http://mail.google.com/foo/baz/bar", "https://mail.google.com/foobar"])
 
         for testURL in matchTestURLs {
-            XCTAssertTrue(matcher.isMatch(testURL))
+            XCTAssertTrue(matcher.isMatching(testURL))
         }
     }
 
@@ -57,11 +57,11 @@ class PatternMatchRulesTests: XCTestCase {
         let matchTestURLs = urls(from: ["http://example.org/foo/bar.html"])
 
         for testURL in matchTestURLs {
-            XCTAssertTrue(matcher.isMatch(testURL))
+            XCTAssertTrue(matcher.isMatching(testURL))
         }
 
         let failURL = URL(string: "http://example.org/foo/bar.aspx")!
-        XCTAssertFalse(matcher.isMatch(failURL))
+        XCTAssertFalse(matcher.isMatching(failURL))
     }
 
 
@@ -73,11 +73,11 @@ class PatternMatchRulesTests: XCTestCase {
         let matchTestURLs = urls(from: ["http://www.google.com/foo", "http://example.com/foo/bar.html", "http://mail.google.com/foo/baz/bar", "https://mail.google.com/foobar", "http://example.org/foo/bar.html"])
 
         for testURL in matchTestURLs {
-            XCTAssertTrue(matcher.isMatch(testURL))
+            XCTAssertTrue(matcher.isMatching(testURL))
         }
 
         let failURL = URL(string: "http://example.org/test/bar.aspx")!
-        XCTAssertFalse(matcher.isMatch(failURL))
+        XCTAssertFalse(matcher.isMatching(failURL))
 
     }
 
