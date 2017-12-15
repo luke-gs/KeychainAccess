@@ -702,19 +702,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Overrides
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-
-        print(context)
-        print(keyPath)
-        print(object)
-        print("Password: \(passwordField.textField)")
-        print("Username: \(usernameField.textField)")
-
         if context == &kvoContext {
-            print("wooo")
-            print((object as? UITextField) != nil)
-
             if keyPath == #keyPath(UITextField.text), let field = object as? UITextField {
-                print("weee")
                 textFieldTextDidChange(field)
             }
         } else {
@@ -795,7 +784,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc private func textFieldTextDidChange(_ textField: UITextField) {
-        print("hooooo")
         if (isUsernameFieldLoaded && textField == usernameField.textField) || (isPasswordFieldLoaded && textField == passwordField.textField) {
             updateLoginButtonState()
         }
@@ -808,9 +796,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         case .usernamePassword(let delegate):
             let isUsernameValid: Bool = isUsernameFieldLoaded && usernameField.textField.text?.count ?? 0 >= minimumUsernameLength
             let isPasswordValid: Bool = isPasswordFieldLoaded && passwordField.textField.text?.count ?? 0 >= minimumPasswordLength
-
-            print("username valid \(isUsernameValid)")
-            print("password valid \(isPasswordValid)")
 
             loginButton.isEnabled = isUsernameValid && isPasswordValid
             forgotPasswordButton.isHidden = !(delegate?.wantsForgotPassword ?? true)
