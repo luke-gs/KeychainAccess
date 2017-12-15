@@ -46,13 +46,20 @@ public struct ColumnInfo: Equatable {
     
     /// Calculates the widths for columns in a specified width
     public static func calculateWidths(for columns: [ColumnInfo], in width: CGFloat, margin: CGFloat = 0) -> [ColumnInfo] {
+        var totalMargin: CGFloat = 0//CGFloat(columns.count - 1) * margin
+
+        print("Width: \(width)")
+        print("Columns: \(columns.count)")
+        print("Margin: \(margin)")
+        print("Total margin: \(totalMargin)")
+        
         var totalMinWidth: CGFloat = 0
         var visibleColumns: [ColumnInfo] = []
         
         // Calculate the total min width and the visible columns
-        for column in columns {
+        for (index, column) in columns.enumerated() {
             // If the the existing min cell widths plus current cell width will fit in our total width
-            if totalMinWidth + column.minimumWidth <= width {
+            if totalMinWidth + column.minimumWidth <= width + (CGFloat(index) * margin) {
                 totalMinWidth += column.minimumWidth
                 visibleColumns.append(column)
             } else {
@@ -60,8 +67,19 @@ public struct ColumnInfo: Equatable {
             }
         }
         
+        totalMargin = (CGFloat(visibleColumns.count - 1) * margin)
+        
         // Get the remaining space we can use to grow our columns
-        var remainingSpace = width - totalMinWidth
+        
+        let totalColumnSpace = width - totalMargin
+
+        var remainingSpace = totalColumnSpace - totalMinWidth
+        
+        
+        print("Total column space: \(totalColumnSpace)")
+        print("Total min width: \(totalMinWidth)")
+        print("Total remaining: \(remainingSpace)")
+        print()
         
         return columns.enumerated().map { (index, column) in
             var column = column
@@ -79,17 +97,17 @@ public struct ColumnInfo: Equatable {
                 trailingMargin = 0
             } else if index == 0 {
                 leadingMargin = 0
-                trailingMargin = margin / 2
+                trailingMargin = margin
             } else if index == columns.count - 1 {
-                leadingMargin = margin / 2
+                leadingMargin = margin
                 trailingMargin = 0
             } else {
-                leadingMargin = margin / 2
-                trailingMargin = margin / 2
+                leadingMargin = margin
+                trailingMargin = margin
             }
             
             // Get the amount we can grow
-            let extra = min(column.maximumWidth - column.minimumWidth, remainingSpace) - leadingMargin -  trailingMargin
+            let extra = min(column.maximumWidth - column.minimumWidth, remainingSpace)
             
             remainingSpace -= extra
             

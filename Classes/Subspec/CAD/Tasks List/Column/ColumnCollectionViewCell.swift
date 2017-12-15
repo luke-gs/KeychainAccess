@@ -42,20 +42,20 @@ open class ColumnCollectionViewCell: CollectionViewFormCell {
         columnLeadingConstraints.removeAll()
         columnTrailingConstraints.removeAll()
         columnWidthConstraints.removeAll()
-        
         for (index, (columnInfo, columnView)) in zip(columnsInfo, columnContentViews).enumerated() {
+            
             let leadingViewAnchor = columnContentViews[ifExists: index - 1]?.trailingAnchor ?? self.layoutMarginsGuide.leadingAnchor
             let trailingViewAnchor = columnContentViews[ifExists: index + 1]?.leadingAnchor ?? self.layoutMarginsGuide.trailingAnchor
             
-            let leadingMargin = columnView.leadingAnchor.constraint(equalTo: leadingViewAnchor, constant: columnInfo.leadingMargin)
-                .withPriority(.defaultHigh)
+            let leadingMargin = columnView.leadingAnchor.constraint(lessThanOrEqualTo: leadingViewAnchor, constant: columnInfo.leadingMargin)
+                .withPriority(.required)
             
-            let trailingMargin = columnView.trailingAnchor.constraint(equalTo: trailingViewAnchor, constant: columnInfo.trailingMargin)
-                .withPriority(.defaultHigh)
+            let trailingMargin = columnView.trailingAnchor.constraint(lessThanOrEqualTo: trailingViewAnchor, constant: -columnInfo.trailingMargin)
+                .withPriority(.required)
             
             columnLeadingConstraints.insert(leadingMargin, at: index)
             columnTrailingConstraints.insert(trailingMargin, at: index)
-            columnWidthConstraints.insert(columnView.widthAnchor.constraint(equalToConstant: columnInfo.actualWidth), at: index)
+            columnWidthConstraints.insert(columnView.widthAnchor.constraint(equalToConstant: columnInfo.actualWidth).withPriority(.required), at: index)
 
             NSLayoutConstraint.activate([
                 columnView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -69,18 +69,36 @@ open class ColumnCollectionViewCell: CollectionViewFormCell {
     
     open override var bounds: CGRect {
         didSet {
+            guard superview?.bounds.size.width == bounds.size.width else { return }
+
+            print("Bounds: \(bounds.size.width)")
+            
+            let width = bounds.width - layoutMargins.left - layoutMargins.right - (dataSource?.widthOffset() ?? 0)
             let calculatedInfo = ColumnInfo.calculateWidths(for: columnsInfo,
-                                                            in: bounds.width - (dataSource?.widthOffset() ?? 0),
+                                                            in: width,
                                                             margin: dataSource?.columnSpacing() ?? 0)
             
+            NSLayoutConstraint.deactivate(columnLeadingConstraints + columnTrailingConstraints + columnWidthConstraints)
+
             for (index, (info, view)) in zip(calculatedInfo, columnContentViews).enumerated() {
                 columnLeadingConstraints[index].constant = info.leadingMargin
-                columnTrailingConstraints[index].constant = info.trailingMargin
+                columnTrailingConstraints[index].constant = -info.trailingMargin
                 columnWidthConstraints[index].constant = info.actualWidth
+                
+                print("Column at index \(index):")
+                print("Leading: \(info.leadingMargin)")
+                print("Trailing: \(info.trailingMargin)")
+                print("Width: \(info.actualWidth)")
+                print()
                 
                 view.isHidden = info.actualWidth == 0
             }
-
+            
+            NSLayoutConstraint.activate(columnLeadingConstraints + columnTrailingConstraints + columnWidthConstraints)
+            
+            
+            setNeedsLayout()
+            layoutIfNeeded()
         }
     }
 }
@@ -99,7 +117,7 @@ public protocol ColumnCollectionViewCellDataSource: class {
     /// The spacing to use between columns
     func columnSpacing() -> CGFloat
     
-    /// The offset for the default bounds width (e.g. width of accessory view)
+    /// Any additional width to subtract from the width (e.g. accessory view width)
     func widthOffset() -> CGFloat
 }
 
