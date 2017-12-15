@@ -69,8 +69,6 @@ open class ColumnCollectionViewCell: CollectionViewFormCell {
     
     open override var bounds: CGRect {
         didSet {
-            guard superview?.bounds.size.width == bounds.size.width else { return }
-
             print("Bounds: \(bounds.size.width)")
             
             let width = bounds.width - layoutMargins.left - layoutMargins.right - (dataSource?.widthOffset() ?? 0)

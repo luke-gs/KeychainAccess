@@ -15,7 +15,7 @@ public class TasksListItemCollectionViewCell: ColumnCollectionViewCell {
         static let verticalMargin: CGFloat = 16
         static let horizontalMargin: CGFloat = 8
         static let columnSpacing: CGFloat = 24
-        static let accessorySize: CGFloat = 56
+        static let accessorySize: CGFloat = 16
     }
     
     // MARK: - Views

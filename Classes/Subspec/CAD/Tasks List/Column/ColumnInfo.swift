@@ -57,9 +57,9 @@ public struct ColumnInfo: Equatable {
         var visibleColumns: [ColumnInfo] = []
         
         // Calculate the total min width and the visible columns
-        for (index, column) in columns.enumerated() {
+        for column in columns {
             // If the the existing min cell widths plus current cell width will fit in our total width
-            if totalMinWidth + column.minimumWidth <= width + (CGFloat(index) * margin) {
+            if totalMinWidth + column.minimumWidth <= width {
                 totalMinWidth += column.minimumWidth
                 visibleColumns.append(column)
             } else {
