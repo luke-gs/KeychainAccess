@@ -84,24 +84,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Searchable(text: "Heartsland Blvd", options: nil, type: "Location", imageKey: AssetManager.ImageKey.location)
         ]
 
-        UserSession.current.recentlyViewed = [
-            Person(),
-            Person(),
-            Person(),
-            Person(),
-        ]
-
-        let recent = SearchRecentsViewController(viewModel: EntitySummaryRecentsViewModel(title: "Jefff Barber"))
-
-
+        let recentlyViewed = UserSession.current.recentlyViewed
+        recentlyViewed.removeAll()
+        
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 4.0) {
-            recent.recentlyViewed = [Person(), Person()]
+            recentlyViewed.add([Person(), Person(), Person(), Person(), Person(), Person()])
+            
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 4.0) {
+                recentlyViewed.removeAll()
+                
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 4.0) {
+                    recentlyViewed.add([Person(), Person()])
+                }
+            }
         }
+        
+        
 
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 4.0) {
-            recent.recentlyViewed = [Person(), Person(), Person(), Person(), Person(), Person(), Person()]
-            print(UserSession.current.recentlyViewed.count)
-        }
+        let recent = SearchRecentsViewController(viewModel: EntitySummaryRecentsViewModel(title: "Recents"))
 
         tabBarController.viewControllers = [
             UINavigationController(rootViewController: recent),
@@ -112,7 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UINavigationController(rootViewController: formSplitViewController)
         ]
 
-        tabBarController.selectedIndex = 4
+        tabBarController.selectedIndex = 0
 
         self.window?.rootViewController = tabBarController
 

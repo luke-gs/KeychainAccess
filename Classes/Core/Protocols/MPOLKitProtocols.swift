@@ -20,20 +20,6 @@ public protocol SearchRecentsViewModel: class {
     /// Array of recently searched
     var recentlySearched: [Searchable] { get set }
 
-    /// Decorate the recently viewed cell
-    ///
-    /// - Parameters:
-    ///   - cell: the cell to decorate
-    ///   - indexPath: the indexPath of the cell (most likely will correlate to the recently viewed entities)
-    func decorate(_ cell: EntityCollectionViewCell, at indexPath: IndexPath)
-
-    /// Summary icon to be used in the recently viewed cells
-    ///
-    /// - Parameter searchable: the searchable object which will most likely contain the type of entity
-    /// - Returns: the image to use
-    func summaryIcon(for searchable: Searchable) -> UIImage?
-
-
     // New Stuffs
 
     weak var delegate: (SearchRecentsViewModelDelegate & UIViewController)? { get set }
@@ -49,6 +35,8 @@ public protocol SearchRecentsViewModelDelegate: class {
     func searchRecentsViewModel(_ searchRecentsViewModel: SearchRecentsViewModel, didSelectPresentable presentable: Presentable)
 
     func searchRecentsViewModel(_ searchRecentsViewModel: SearchRecentsViewModel, didSelectSearchable searchable: Searchable)
+    
+    func searchRecentsViewModelDidChange(_ searchRecentsViewModel: SearchRecentsViewModel)
 
 }
 
@@ -63,34 +51,7 @@ public class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
         get { return UserSession.current.recentlySearched }
         set { UserSession.current.recentlySearched = newValue }
     }
-
-    public func decorate(_ cell: EntityCollectionViewCell, at indexPath: IndexPath) {
-        let entity = recentlyViewed.entities[indexPath.item]
-
-        cell.style = .detail
-
-        if let entity = entity as? EntitySummaryDisplayable {
-            cell.decorate(with: entity)
-        }
-    }
-
-    public func summaryIcon(for searchable: Searchable) -> UIImage? {
-        guard let type = searchable.type else { return nil }
-
-        switch type {
-        case "Person":
-            return AssetManager.shared.image(forKey: .entityPerson)
-        case "Vehicle":
-            return AssetManager.shared.image(forKey: .entityCar)
-        case "Organisation":
-            return AssetManager.shared.image(forKey: .location)
-        default:
-            return AssetManager.shared.image(forKey: .info)
-        }
-    }
-
-    // New stuffs
-
+    
     public weak var delegate: (SearchRecentsViewModelDelegate & UIViewController)?
 
     public let title: String
@@ -103,41 +64,65 @@ public class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
         self.title = title
         self.userSession = userSession
         self.summaryDisplayFormatter = summaryDisplayFormatter
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleRecentlyViewedUpdate(_:)), name: EntityBucket.didUpdateNotificationName, object: userSession.recentlyViewed)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
-    open func recentlyViewedItems() -> [FormItem] {
-        let isCompact = (delegate?.traitCollection.horizontalSizeClass ?? .compact) == .compact
-
-        let theme = ThemeManager.shared.theme(for: .dark)
-        let separatorColor = theme.color(forKey: .separator) ?? .gray
-        let primaryColor = theme.color(forKey: .primaryText)
-        let secondaryColor = theme.color(forKey: .secondaryText)
-
+    public func recentlyViewedItems() -> [FormItem] {
         var items: [FormItem] = []
-
-        if !isCompact {
-            items.append(HeaderFormItem(text: NSLocalizedString("RECENTLY VIEWED", comment: ""))
-                .separatorColor(separatorColor))
+        
+        if let header = headerItemForRecentlyViewed() {
+            items.append(header)
         }
 
+        items += summaryItemsForRecentlyViewed()
+
+        return items
+    }
+
+    public func recentlySearchedItems() -> [FormItem] {
+        var items: [FormItem] = []
+
+        if let header = headerItemForRecentlySearched() {
+            items.append(header)
+        }
+
+        items += summaryItemsForRecentlySearched()
+        
+        return items
+    }
+
+    // MARK: - Subclass can override these methods
+    
+    open func headerItemForRecentlyViewed() -> FormItem? {
+        guard (delegate?.traitCollection.horizontalSizeClass ?? .compact) == .compact else { return nil }
+        
+        let theme = ThemeManager.shared.theme(for: .dark)
+        let separatorColor = theme.color(forKey: .separator) ?? .gray
+        return HeaderFormItem(text: NSLocalizedString("RECENTLY VIEWED", comment: ""))
+            .separatorColor(separatorColor)
+    }
+    
+    open func summaryItemsForRecentlyViewed() -> [FormItem] {
+        let isCompact = (delegate?.traitCollection.horizontalSizeClass ?? .compact) == .compact
+        
+        let theme = ThemeManager.shared.theme(for: .dark)
+        let primaryColor = theme.color(forKey: .primaryText)
+        let secondaryColor = theme.color(forKey: .secondaryText)
+        
         let maximum = 5
         var recentlyViewed = userSession.recentlyViewed.entities
         if recentlyViewed.count > maximum {
             recentlyViewed = Array(recentlyViewed[0...5])
         }
-
-        items += recentlyViewed.flatMap { entity in
+        
+        return recentlyViewed.flatMap { entity in
             guard let summary = self.summaryDisplayFormatter.summaryDisplayForEntity(entity) else { return nil }
-            return SummaryThumbnailFormItem()
-                .style(.detail)
-                .category(summary.category)
-                .title(summary.title)
-                .subtitle(summary.detail1)
-                .detail(summary.detail2)
-                .badge(summary.badge)
-                .badgeColor(summary.iconColor)
-                .borderColor(summary.borderColor)
-                .image(summary.thumbnail(ofSize: .medium))
+            return summary.summaryThumbnailFormItem(with: .detail)
                 .titleTextColor(!isCompact ? primaryColor : nil)
                 .subtitleTextColor(!isCompact ? secondaryColor : nil)
                 .detailTextColor(!isCompact ? secondaryColor : nil)
@@ -147,26 +132,22 @@ public class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
                 }
                 .width(.dynamic { info in
                     return info.layout.columnContentWidth(forMinimumItemContentWidth: EntityCollectionViewCell.minimumContentWidth(forStyle: .detail), maximumColumnCount: 3, sectionEdgeInsets: info.edgeInsets)
-                })
+                    })
                 .separatorStyle(isCompact ? .indented : .none)
                 .accessory(isCompact ? ItemAccessory.disclosure : nil)
         }
-
-        return items
     }
-
-    open func recentlySearchedItems() -> [FormItem] {
-        let isCompact = (delegate?.traitCollection.horizontalSizeClass ?? .compact) == .compact
-
-        var items: [FormItem] = []
-
-        if !isCompact {
-            items.append(HeaderFormItem(text: NSLocalizedString("RECENTLY SEARCHED", comment: "")))
-        }
-
+    
+    open func headerItemForRecentlySearched() -> FormItem? {
+        guard (delegate?.traitCollection.horizontalSizeClass ?? .compact) != .compact else { return nil }
+        
+        return HeaderFormItem(text: NSLocalizedString("RECENTLY SEARCHED", comment: ""))
+    }
+    
+    open func summaryItemsForRecentlySearched() -> [FormItem] {
         let assetManager = AssetManager.shared
-
-        items += userSession.recentlySearched.flatMap { searchable -> FormItem in
+        
+        return userSession.recentlySearched.flatMap { searchable -> FormItem in
             return SubtitleFormItem()
                 .title(searchable.text?.ifNotEmpty() ?? NSLocalizedString("(No Search Term)", comment: "[Recently Searched] - No search term"))
                 .subtitle(searchable.type?.ifNotEmpty() ?? NSLocalizedString("(No Search Category)", comment: "[Recently Searched] - No search category"))
@@ -178,12 +159,16 @@ public class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
                 .onSelection { [weak self] _ in
                     guard let `self` = self else { return }
                     self.delegate?.searchRecentsViewModel(self, didSelectSearchable: searchable)
-                }
+            }
         }
-
-        return items
     }
-
+    
+    // MARK: - Private
+    
+    @objc private func handleRecentlyViewedUpdate(_ notification: Notification) {
+        delegate?.searchRecentsViewModelDidChange(self)
+    }
+    
 }
 
 

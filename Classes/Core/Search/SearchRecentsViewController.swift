@@ -17,22 +17,6 @@ public class SearchRecentsViewController: FormBuilderViewController, SearchRecen
 
     public var recentlyViewed: EntityBucket {
         return viewModel.recentlyViewed
-//        get {
-//            return self.viewModel.recentlyViewed
-//        }
-//        set {
-//            self.viewModel.recentlyViewed = newValue
-//
-//            updateLoadingManagerState()
-//
-//            if traitCollection.horizontalSizeClass == .compact {
-//                if showsRecentSearchesWhenCompact == false {
-//                    reloadForm()
-//                }
-//            } else {
-//                reloadForm()
-//            }
-//        }
     }
 
     public var recentlySearched: [Searchable] {
@@ -94,7 +78,6 @@ public class SearchRecentsViewController: FormBuilderViewController, SearchRecen
         MPLCodingNotSupported()
     }
 
-
     // MARK: - View lifecycle
 
     public override func viewDidLoad() {
@@ -116,7 +99,7 @@ public class SearchRecentsViewController: FormBuilderViewController, SearchRecen
 
         updateLoadingManagerState()
 
-        guard let view = self.view, let collectionView = self.collectionView else { return }
+        guard let view = self.view else { return }
 
         // Setup compact views.
 
@@ -206,30 +189,6 @@ public class SearchRecentsViewController: FormBuilderViewController, SearchRecen
         }
     }
 
-
-    // MARK: - UICollectionViewDelegate methods
-
-//    public override func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
-//        super.collectionView(collectionView, willDisplaySupplementaryView: view, forElementKind: elementKind, at: indexPath)
-//
-//
-//        if traitCollection.horizontalSizeClass != .compact && userInterfaceStyle.isDark == false && collectionView != self.collectionView,
-//            let header = view as? CollectionViewFormHeaderView {
-//            header.separatorColor = ThemeManager.shared.theme(for: .dark).color(forKey: .separator)
-//        }
-//    }
-
-//    public override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int) -> UIEdgeInsets {
-//        var inset = super.collectionView(collectionView, layout: layout, insetForSection: section)
-//
-//        if collectionView != self.collectionView {
-//            inset.top    = 10.0
-//            inset.bottom = 10.0
-//        }
-//
-//        return inset
-//    }
-
     // MARK: - SearchRecentsViewModelDelegate
 
     public func searchRecentsViewModel(_ searchRecentsViewModel: SearchRecentsViewModel, didSelectSearchable searchable: Searchable) {
@@ -239,12 +198,13 @@ public class SearchRecentsViewController: FormBuilderViewController, SearchRecen
     public func searchRecentsViewModel(_ searchRecentsViewModel: SearchRecentsViewModel, didSelectPresentable presentable: Presentable) {
         delegate?.searchRecentsController(self, didSelectPresentable: presentable)
     }
+    
+    public func searchRecentsViewModelDidChange(_ searchRecentsViewModel: SearchRecentsViewModel) {
+        updateLoadingManagerState()
+        reloadForm()
+    }
 
     // MARK: - Private methods
-
-    private func summaryIcon(for searchRequest: Searchable) -> UIImage? {
-        return viewModel.summaryIcon(for: searchRequest)
-    }
 
     @objc private func segmentedControlValueDidChange(_ control: UISegmentedControl) {
         if control == compactSegmentedControl {
@@ -267,7 +227,7 @@ public class SearchRecentsViewController: FormBuilderViewController, SearchRecen
             return collectionView == self.collectionView
         }
     }
-
+    
 }
 
 protocol SearchRecentsViewControllerDelegate: class {
@@ -360,8 +320,6 @@ private class RecentEntitiesFormItem: BaseSupplementaryFormItem {
 
         let visibleRegion = collectionView.bounds.insetBy(collectionView.contentInset)
         let itemsStackedVertically = visibleRegion.width >= visibleRegion.height ? 2 : 3
-
-        print(itemsStackedVertically)
 
         let itemInsets = layout.itemLayoutMargins
         let itemHeight = EntityCollectionViewCell.minimumContentHeight(forStyle: .detail, compatibleWith: traitCollection) + itemInsets.top + itemInsets.bottom
