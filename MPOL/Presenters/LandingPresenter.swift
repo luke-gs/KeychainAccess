@@ -89,13 +89,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let searchViewController = SearchViewController(viewModel: viewModel)
             searchViewController.set(leftBarButtonItem: settingsBarButtonItem())
 
-            let actionListViewModel = EntitySummaryActionListViewModel {
-                switch $0 {
-                case is Person: return (PersonSummaryDisplayable($0), viewModel.presentable(for: $0))
-                case is Vehicle: return (VehicleSummaryDisplayable($0), viewModel.presentable(for: $0))
-                default: return nil
-                }
-            }
+            let actionListViewModel = EntitySummaryActionListViewModel()
 
             let actionListViewController = ActionListViewController(viewModel: actionListViewModel)
             actionListViewController.navigationItem.leftBarButtonItem = settingsBarButtonItem()

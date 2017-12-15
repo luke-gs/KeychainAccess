@@ -152,7 +152,7 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                 self.errorMessage = error.localizedDescription
             } else {
                 // Generate Searchable
-                let search = Searchable(text: text, options: nil, type: PersonSearchDataSource.searchableType)
+                let search = Searchable(text: text, options: nil, type: PersonSearchDataSource.searchableType, imageKey: AssetManager.ImageKey.entityPerson)
                 updatingDelegate?.searchDataSource(self, didFinishWith: search, andResultViewModel: resultModel)
             }
         }
