@@ -23,12 +23,36 @@ open class FormCollectionViewHandler: NSObject, UICollectionViewDataSource, Coll
     public init(sections: [FormSection], globalHeader: FormItem?) {
         self.sections = sections
         self.globalHeader = globalHeader
+
         super.init()
+
+        if userInterfaceStyle == .current {
+            NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
+        }
     }
 
-    // MARK: - Methods
+    open weak var collectionView: UICollectionView?
+
+    open var userInterfaceStyle: UserInterfaceStyle = .current {
+        didSet {
+            if userInterfaceStyle == oldValue { return }
+
+            if userInterfaceStyle == .current {
+                NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
+            } else if oldValue == .current {
+                NotificationCenter.default.removeObserver(self, name: .interfaceStyleDidChange, object: nil)
+            }
+
+            collectionView?.apply(ThemeManager.shared.theme(for: userInterfaceStyle))
+        }
+    }
 
     open func registerWithCollectionView(_ collectionView: UICollectionView) {
+        self.collectionView = collectionView
+
+        collectionView.delegate = self
+        collectionView.dataSource = self
+
         var supplementaryRegistrations = [(UICollectionReusableView.Type, String, String)]()
 
         if let globalHeader = globalHeader as? BaseSupplementaryFormItem {
@@ -60,7 +84,7 @@ open class FormCollectionViewHandler: NSObject, UICollectionViewDataSource, Coll
         }
     }
 
-    // MARK: - Delegate
+    // MARK: - UICollectionViewDelegate
 
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return sections.count
@@ -143,10 +167,10 @@ open class FormCollectionViewHandler: NSObject, UICollectionViewDataSource, Coll
     // MARK: - UICollectionViewDelegate methods
 
     open func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let item = sections[indexPath] as! BaseFormItem
+        guard let item = sections[indexPath] as? BaseFormItem else { return }
 
         if let cell = cell as? CollectionViewFormCell {
-            let theme = ThemeManager.shared.theme(for: .current)
+            let theme = ThemeManager.shared.theme(for: userInterfaceStyle)
             item.cell = cell
             item.decorate(cell, withTheme: theme)
 
@@ -157,8 +181,9 @@ open class FormCollectionViewHandler: NSObject, UICollectionViewDataSource, Coll
     }
 
     public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        let item = sections[indexPath] as! BaseFormItem
-//        item.cell = nil
+        guard let item = sections[indexPath] as? BaseFormItem else { return }
+
+        item.cell = nil
     }
 
     open func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
@@ -168,11 +193,11 @@ open class FormCollectionViewHandler: NSObject, UICollectionViewDataSource, Coll
         switch elementKind {
         case UICollectionElementKindSectionHeader:
             if let item = section.formHeader as? BaseSupplementaryFormItem {
-                item.apply(theme: ThemeManager.shared.theme(for: .current), toView: view)
+                item.apply(theme: ThemeManager.shared.theme(for: userInterfaceStyle), toView: view)
             }
         case UICollectionElementKindSectionFooter:
             if let item = section.formFooter as? BaseSupplementaryFormItem {
-                item.apply(theme: ThemeManager.shared.theme(for: .current), toView: view)
+                item.apply(theme: ThemeManager.shared.theme(for: userInterfaceStyle), toView: view)
             }
         default:
             break
@@ -209,7 +234,7 @@ open class FormCollectionViewHandler: NSObject, UICollectionViewDataSource, Coll
         }
     }
 
-    // MARK: - DataSource
+    // MARK: - UICollectionViewDataSource
 
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int) -> UIEdgeInsets {
         return sectionInsets
@@ -234,39 +259,45 @@ open class FormCollectionViewHandler: NSObject, UICollectionViewDataSource, Coll
         return item.heightForValidationAccessory(givenContentWidth: contentWidth, for: collectionView.traitCollection)
     }
 
-    // MARK: - Theme
+    @objc private func interfaceStyleDidChange() {
+        if userInterfaceStyle != .current { return }
+        collectionView?.apply(ThemeManager.shared.theme(for: userInterfaceStyle))
+    }
 
-//    private var backgroundColor: UIColor?
-//    open func apply(_ theme: Theme) {
-//        backgroundColor = theme.color(forKey: .background)
-//        let secondaryTextColor = theme.color(forKey: .secondaryText)
-//
-//        for cell in collectionView.visibleCells {
-//            if let indexPath = collectionView.indexPath(for: cell) {
-//                self.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
-//            }
-//        }
-//
-//        if let globalHeader = collectionView.visibleSupplementaryViews(ofKind: collectionElementKindGlobalHeader).first {
-//            self.collectionView(collectionView, willDisplaySupplementaryView: globalHeader, forElementKind: collectionElementKindGlobalHeader, at: IndexPath(item: 0, section: 0))
-//        }
-//        if let globalFooter = collectionView.visibleSupplementaryViews(ofKind: collectionElementKindGlobalFooter).first {
-//            self.collectionView(collectionView, willDisplaySupplementaryView: globalFooter, forElementKind: collectionElementKindGlobalFooter, at: IndexPath(item: 0, section: 0))
-//        }
-//
-//        let sectionHeaderIndexPaths = collectionView.indexPathsForVisibleSupplementaryElements(ofKind: UICollectionElementKindSectionHeader)
-//        for indexPath in sectionHeaderIndexPaths {
-//            if let headerView = collectionView.supplementaryView(forElementKind: UICollectionElementKindSectionHeader, at: indexPath) {
-//                self.collectionView(collectionView, willDisplaySupplementaryView: headerView, forElementKind: UICollectionElementKindSectionHeader, at: indexPath)
-//            }
-//        }
-//
-//        let sectionFooterIndexPaths = collectionView.indexPathsForVisibleSupplementaryElements(ofKind: UICollectionElementKindSectionFooter)
-//        for indexPath in sectionFooterIndexPaths {
-//            if let footerView = collectionView.supplementaryView(forElementKind: UICollectionElementKindSectionFooter, at: indexPath) {
-//                self.collectionView(collectionView, willDisplaySupplementaryView: footerView, forElementKind: UICollectionElementKindSectionFooter, at: indexPath)
-//            }
-//        }
-//    }
+}
+
+
+extension UICollectionView {
+
+    open func apply(_ theme: Theme) {
+        guard let delegate = delegate else { return }
+
+        for cell in visibleCells {
+            if let indexPath = indexPath(for: cell) {
+                delegate.collectionView?(self, willDisplay: cell, forItemAt: indexPath)
+            }
+        }
+
+        if let globalHeader = visibleSupplementaryViews(ofKind: collectionElementKindGlobalHeader).first {
+            delegate.collectionView?(self, willDisplaySupplementaryView: globalHeader, forElementKind: collectionElementKindGlobalHeader, at: IndexPath(item: 0, section: 0))
+        }
+        if let globalFooter = visibleSupplementaryViews(ofKind: collectionElementKindGlobalFooter).first {
+            delegate.collectionView?(self, willDisplaySupplementaryView: globalFooter, forElementKind: collectionElementKindGlobalFooter, at: IndexPath(item: 0, section: 0))
+        }
+
+        let sectionHeaderIndexPaths = indexPathsForVisibleSupplementaryElements(ofKind: UICollectionElementKindSectionHeader)
+        for indexPath in sectionHeaderIndexPaths {
+            if let headerView = supplementaryView(forElementKind: UICollectionElementKindSectionHeader, at: indexPath) {
+                delegate.collectionView?(self, willDisplaySupplementaryView: headerView, forElementKind: UICollectionElementKindSectionHeader, at: indexPath)
+            }
+        }
+
+        let sectionFooterIndexPaths = indexPathsForVisibleSupplementaryElements(ofKind: UICollectionElementKindSectionFooter)
+        for indexPath in sectionFooterIndexPaths {
+            if let footerView = supplementaryView(forElementKind: UICollectionElementKindSectionFooter, at: indexPath) {
+                delegate.collectionView?(self, willDisplaySupplementaryView: footerView, forElementKind: UICollectionElementKindSectionFooter, at: indexPath)
+            }
+        }
+    }
 
 }

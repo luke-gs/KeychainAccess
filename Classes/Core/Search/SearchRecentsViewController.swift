@@ -307,9 +307,6 @@ private class RecentEntitiesFormItem: BaseSupplementaryFormItem {
         let collectionView = view.collectionView
 
         handler?.registerWithCollectionView(collectionView)
-
-        collectionView.dataSource = handler
-        collectionView.delegate = handler
         collectionView.reloadData()
     }
 

@@ -308,32 +308,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
 
         view.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
 
-        for cell in collectionView.visibleCells {
-            if let indexPath = collectionView.indexPath(for: cell) {
-                self.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
-            }
-        }
-
-        if let globalHeader = collectionView.visibleSupplementaryViews(ofKind: collectionElementKindGlobalHeader).first {
-            self.collectionView(collectionView, willDisplaySupplementaryView: globalHeader, forElementKind: collectionElementKindGlobalHeader, at: IndexPath(item: 0, section: 0))
-        }
-        if let globalFooter = collectionView.visibleSupplementaryViews(ofKind: collectionElementKindGlobalFooter).first {
-            self.collectionView(collectionView, willDisplaySupplementaryView: globalFooter, forElementKind: collectionElementKindGlobalFooter, at: IndexPath(item: 0, section: 0))
-        }
-
-        let sectionHeaderIndexPaths = collectionView.indexPathsForVisibleSupplementaryElements(ofKind: UICollectionElementKindSectionHeader)
-        for indexPath in sectionHeaderIndexPaths {
-            if let headerView = collectionView.supplementaryView(forElementKind: UICollectionElementKindSectionHeader, at: indexPath) {
-                self.collectionView(collectionView, willDisplaySupplementaryView: headerView, forElementKind: UICollectionElementKindSectionHeader, at: indexPath)
-            }
-        }
-
-        let sectionFooterIndexPaths = collectionView.indexPathsForVisibleSupplementaryElements(ofKind: UICollectionElementKindSectionFooter)
-        for indexPath in sectionFooterIndexPaths {
-            if let footerView = collectionView.supplementaryView(forElementKind: UICollectionElementKindSectionFooter, at: indexPath) {
-                self.collectionView(collectionView, willDisplaySupplementaryView: footerView, forElementKind: UICollectionElementKindSectionFooter, at: indexPath)
-            }
-        }
+        collectionView.apply(theme)
     }
 
     open override var preferredStatusBarStyle : UIStatusBarStyle {

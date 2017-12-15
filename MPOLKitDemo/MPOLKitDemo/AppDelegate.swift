@@ -94,7 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 recentlyViewed.removeAll()
                 
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 4.0) {
-                    recentlyViewed.add([Person(), Person()])
+                    recentlyViewed.add([Person(), Person(), Person(), Person(), Person(), Person()])
                 }
             }
         }
