@@ -97,7 +97,9 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
 
     open private(set) lazy var usernameField: LabeledTextField = {
         let field = LabeledTextField()
+        
         field.label.text = NSLocalizedString("Username", comment: "")
+        field.label.textColor = .white
 
         let textField = field.textField
         textField.accessibilityLabel = NSLocalizedString("Username Field", comment: "Accessibility")
@@ -116,6 +118,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
 
     open private(set) lazy var passwordField: LabeledTextField = {
         let field = LabeledTextField()
+
+        field.label.textColor = .white
         field.label.text = NSLocalizedString("Password", comment: "")
 
         let textField = field.textField
