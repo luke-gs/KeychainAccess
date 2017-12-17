@@ -22,8 +22,8 @@ open class ColumnContainerView: UIView {
     open func construct() {
         guard let dataSource = dataSource else { return }
         
+        // Clean up old views
         columnContentViews.forEach { $0.removeFromSuperview() }
-        
         columnsInfo.removeAll()
         columnContentViews.removeAll()
         
@@ -79,9 +79,7 @@ open class ColumnContainerView: UIView {
             
             let trailingMargin: NSLayoutConstraint
             // If we are the last content view, allow the trailing to be less than the edge and margin
-            if info.actualWidth == 0 {
-                trailingMargin = view.trailingAnchor.constraint(lessThanOrEqualTo: trailingViewAnchor)
-            } else if index == columnContentViews.count - 1 {
+            if index == columnContentViews.count - 1 {
                 trailingMargin = view.trailingAnchor.constraint(lessThanOrEqualTo: trailingViewAnchor, constant: -info.trailingMargin)
             } else {
                 trailingMargin = view.trailingAnchor.constraint(equalTo: trailingViewAnchor, constant: -info.trailingMargin)
@@ -116,6 +114,3 @@ public protocol ColumnCollectionViewCellDataSource: class {
     /// The spacing to use between columns
     func columnSpacing() -> CGFloat
 }
-
-
-
