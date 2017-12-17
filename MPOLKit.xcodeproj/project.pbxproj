@@ -104,6 +104,7 @@
 		27094CCC1FAFFBDA00D4C3D4 /* ResourceTaskItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27094CB61FAFFBDA00D4C3D4 /* ResourceTaskItemViewModel.swift */; };
 		2709617B1FE0CBFB00D19F40 /* ColumnInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2709617A1FE0CBFB00D19F40 /* ColumnInfo.swift */; };
 		2709617E1FE0DD7F00D19F40 /* ColumnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2709617D1FE0DD7F00D19F40 /* ColumnTests.swift */; };
+		270A9E471FE66A3B00B93C48 /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270A9E461FE66A3B00B93C48 /* ActionSheetViewController.swift */; };
 		270C60FD1FBA5DCB006F11AD /* TasksListItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270C60FC1FBA5DCB006F11AD /* TasksListItemCollectionViewCell.swift */; };
 		270F6B2F1FE222A7001B920A /* ColumnContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270F6B2E1FE222A7001B920A /* ColumnContainerView.swift */; };
 		27102F4E1FD908530000DD80 /* ResourceOverviewMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27102F4D1FD908530000DD80 /* ResourceOverviewMapViewModel.swift */; };
@@ -724,6 +725,7 @@
 		27094CB61FAFFBDA00D4C3D4 /* ResourceTaskItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceTaskItemViewModel.swift; sourceTree = "<group>"; };
 		2709617A1FE0CBFB00D19F40 /* ColumnInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnInfo.swift; sourceTree = "<group>"; };
 		2709617D1FE0DD7F00D19F40 /* ColumnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnTests.swift; sourceTree = "<group>"; };
+		270A9E461FE66A3B00B93C48 /* ActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewController.swift; sourceTree = "<group>"; };
 		270C60FC1FBA5DCB006F11AD /* TasksListItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		270F6B2E1FE222A7001B920A /* ColumnContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnContainerView.swift; sourceTree = "<group>"; };
 		27102F4D1FD908530000DD80 /* ResourceOverviewMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceOverviewMapViewModel.swift; sourceTree = "<group>"; };
@@ -2280,6 +2282,7 @@
 			isa = PBXGroup;
 			children = (
 				2744EEBD1FBEA50A008DFA7F /* Map Filter */,
+				270A9E461FE66A3B00B93C48 /* ActionSheetViewController.swift */,
 				BC9C7D891F0DED6600DFFE83 /* AlertQueue.swift */,
 				96591E661FCE168300EFCC02 /* AppProxyViewController.swift */,
 				BC0448931F219A70005FB857 /* AssetManager.swift */,
@@ -3707,6 +3710,7 @@
 				BCFA067E1F3176A3002FA1FF /* MapCollectionViewLayout.swift in Sources */,
 				BCC5132F1F333B2000413961 /* FormAccessoryView.swift in Sources */,
 				191BC4D41F7C203B00C8C218 /* HelpViewController.swift in Sources */,
+				270A9E471FE66A3B00B93C48 /* ActionSheetViewController.swift in Sources */,
 				EA445DAA1F73A12200ABF70F /* SummaryListFormItem.swift in Sources */,
 				EA2F1A631FA6D587001F7812 /* MediaPreviewableCell.swift in Sources */,
 				19C5D9A21FA95ED800527B5A /* ImageResponseSerializer.swift in Sources */,
