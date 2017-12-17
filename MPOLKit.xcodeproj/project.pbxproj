@@ -454,6 +454,7 @@
 		C6E833AB1F334A4700A21F6D /* NSArchiverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E833AA1F334A4700A21F6D /* NSArchiverTests.swift */; };
 		C6F5DED21ECD5C62008E7BE2 /* AccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */; };
 		C6F640ED1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F640EC1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift */; };
+		DB0897FD1FE73B7100FBE919 /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0897FC1FE73B7100FBE919 /* ActionSheetViewController.swift */; };
 		DB2A05E11FD9142E005B7BFD /* HapticHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2A05E01FD9142E005B7BFD /* HapticHelper.swift */; };
 		DB6C89EC1FD4D818006F9AD2 /* QuantityPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6C89EB1FD4D818006F9AD2 /* QuantityPickerViewController.swift */; };
 		DB88BCD91F42CFFC0056FD69 /* SearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88BCD21F42CEAA0056FD69 /* SearchDataSource.swift */; };
@@ -1085,6 +1086,7 @@
 		C6E833AA1F334A4700A21F6D /* NSArchiverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSArchiverTests.swift; sourceTree = "<group>"; };
 		C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AccessToken.json; sourceTree = "<group>"; };
 		C6F640EC1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSArchiver+SecureArchiver.swift"; sourceTree = "<group>"; };
+		DB0897FC1FE73B7100FBE919 /* ActionSheetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionSheetViewController.swift; sourceTree = "<group>"; };
 		DB2A05E01FD9142E005B7BFD /* HapticHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticHelper.swift; sourceTree = "<group>"; };
 		DB6C89EB1FD4D818006F9AD2 /* QuantityPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityPickerViewController.swift; sourceTree = "<group>"; };
 		DB88BCC81F42CE970056FD69 /* QueryParserDefinitionSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryParserDefinitionSelector.swift; sourceTree = "<group>"; };
@@ -2283,6 +2285,7 @@
 			children = (
 				2744EEBD1FBEA50A008DFA7F /* Map Filter */,
 				BC9C7D891F0DED6600DFFE83 /* AlertQueue.swift */,
+				DB0897FC1FE73B7100FBE919 /* ActionSheetViewController.swift */,
 				96591E661FCE168300EFCC02 /* AppProxyViewController.swift */,
 				BC0448931F219A70005FB857 /* AssetManager.swift */,
 				969959651FC2334300CB51EB /* ColorPalette.swift */,
@@ -3666,6 +3669,7 @@
 				96CF322E1F8C429D00140AF8 /* CADFormCollectionViewController.swift in Sources */,
 				99DB7B0D1FB00622009B936B /* NetworkMonitor.swift in Sources */,
 				27CBC7671F8B27D500E387C3 /* UserCallsignStatusViewModel.swift in Sources */,
+				DB0897FD1FE73B7100FBE919 /* ActionSheetViewController.swift in Sources */,
 				BC9C7E171F0DED6600DFFE83 /* FormTextField.swift in Sources */,
 				BC9C7E041F0DED6600DFFE83 /* UIColor+ActionColors.swift in Sources */,
 				BC9C7DD01F0DED6600DFFE83 /* ManifestEntry+Location.swift in Sources */,
