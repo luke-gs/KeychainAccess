@@ -10,7 +10,7 @@ import UIKit
 
 open class ColumnContainerView: UIView {
 
-    open var dataSource: ColumnCollectionViewCellDataSource?
+    open var dataSource: ColumnContainerViewDataSource?
 
     open private(set) var columnsInfo: [ColumnInfo] = []
     open private(set) var columnContentViews: [UIView] = []
@@ -27,9 +27,9 @@ open class ColumnContainerView: UIView {
         columnsInfo.removeAll()
         columnContentViews.removeAll()
         
-        for index in 0 ..< dataSource.numberOfColumns() {
-            columnsInfo.insert(dataSource.columnInfo(at: index), at: index)
-            columnContentViews.insert(dataSource.viewForColumn(at: index), at: index)
+        for index in 0 ..< dataSource.numberOfColumns(self) {
+            columnsInfo.insert(dataSource.columnInfo(self, at: index), at: index)
+            columnContentViews.insert(dataSource.viewForColumn(self, at: index), at: index)
             columnContentViews[index].translatesAutoresizingMaskIntoConstraints = false
 
             addSubview(columnContentViews[index])
@@ -61,7 +61,7 @@ open class ColumnContainerView: UIView {
         // Calculate the width
         let calculatedInfo = ColumnInfo.calculateWidths(for: columnsInfo,
                                                         in: width,
-                                                        margin: dataSource?.columnSpacing() ?? 0)
+                                                        margin: dataSource?.columnSpacing(self) ?? 0)
         
         // Remove all old constraints
         NSLayoutConstraint.deactivate(columnLeadingConstraints + columnTrailingConstraints + columnWidthConstraints)
@@ -100,17 +100,17 @@ open class ColumnContainerView: UIView {
     }
 }
 
-public protocol ColumnCollectionViewCellDataSource: class {
+public protocol ColumnContainerViewDataSource: class {
     
     /// The number of columns to display in the cell
-    func numberOfColumns() -> Int
+    func numberOfColumns(_ columnContainerView: ColumnContainerView) -> Int
     
     /// The column info item at the specified index
-    func columnInfo(at index: Int) -> ColumnInfo
+    func columnInfo(_ columnContainerView: ColumnContainerView, at index: Int) -> ColumnInfo
     
     /// The view to use for the column at the specified index
-    func viewForColumn(at index: Int) -> UIView
+    func viewForColumn(_ columnContainerView: ColumnContainerView, at index: Int) -> UIView
     
     /// The spacing to use between columns
-    func columnSpacing() -> CGFloat
+    func columnSpacing(_ columnContainerView: ColumnContainerView) -> CGFloat
 }

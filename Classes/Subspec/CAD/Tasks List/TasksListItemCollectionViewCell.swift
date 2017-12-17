@@ -284,21 +284,21 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
     }
 }
 
-extension TasksListItemCollectionViewCell: ColumnCollectionViewCellDataSource {
+extension TasksListItemCollectionViewCell: ColumnContainerViewDataSource {
     
-    public func numberOfColumns() -> Int {
+    public func numberOfColumns(_ columnContainerView: ColumnContainerView) -> Int {
         return columns.count
     }
     
-    public func columnInfo(at index: Int) -> ColumnInfo {
-        if numberOfColumns() == 1 {
+    public func columnInfo(_ columnContainerView: ColumnContainerView, at index: Int) -> ColumnInfo {
+        if numberOfColumns(columnContainerView) == 1 {
             return ColumnInfo(minimumWidth: 200, maximumWidth: 1000)
         }
         
         return Column(rawValue: index)?.columnInfo ?? .zero
     }
     
-    private func contentView(for column: Column?) -> UIView {
+    private func contentView(_ columnContainerView: ColumnContainerView, for column: Column?) -> UIView {
         guard let column = column else { return UIView() }
         switch column {
         case .overview:
@@ -310,11 +310,11 @@ extension TasksListItemCollectionViewCell: ColumnCollectionViewCellDataSource {
         }
     }
     
-    public func viewForColumn(at index: Int) -> UIView {
-        return contentView(for: Column(rawValue: index))
+    public func viewForColumn(_ columnContainerView: ColumnContainerView, at index: Int) -> UIView {
+        return contentView(columnContainerView, for: Column(rawValue: index))
     }
     
-    public func columnSpacing() -> CGFloat {
+    public func columnSpacing(_ columnContainerView: ColumnContainerView) -> CGFloat {
         return LayoutConstants.columnSpacing
     }
 }
