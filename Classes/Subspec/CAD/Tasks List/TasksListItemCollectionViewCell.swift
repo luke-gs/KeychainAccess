@@ -166,44 +166,50 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
 
         NSLayoutConstraint.deactivate(contentConstraints)
         contentConstraints = [
-
             updatesIndicator.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             updatesIndicator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: LayoutConstants.horizontalMargin),
             updatesIndicator.heightAnchor.constraint(equalToConstant: LayoutConstants.updatesIndicatorSize),
             updatesIndicator.widthAnchor.constraint(equalToConstant: LayoutConstants.updatesIndicatorSize),
-
-            // Left column
-
-            titleLabel.topAnchor.constraint(equalTo: leftColumnContentView.topAnchor, constant: LayoutConstants.verticalMargin),
-            titleLabel.leadingAnchor.constraint(equalTo: leftColumnContentView.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: leftColumnContentView.trailingAnchor),
-
-            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
-            subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            subtitleLabel.trailingAnchor.constraint(equalTo: leftColumnContentView.trailingAnchor),
-
-            priorityCaptionView.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 6),
-            priorityCaptionView.leadingAnchor.constraint(equalTo: subtitleLabel.leadingAnchor),
-            priorityCaptionView.bottomAnchor.constraint(equalTo: leftColumnContentView.bottomAnchor,
-                                                        constant: -LayoutConstants.verticalMargin),
-            priorityCaptionView.trailingAnchor.constraint(equalTo: leftColumnContentView.trailingAnchor),
-
-            // Middle column
-
-            detailLabel.topAnchor.constraint(equalTo: middleColumnContentView.topAnchor,
-                                             constant: LayoutConstants.verticalMargin),
-            detailLabel.leadingAnchor.constraint(equalTo: middleColumnContentView.leadingAnchor),
-            detailLabel.trailingAnchor.constraint(equalTo: middleColumnContentView.trailingAnchor),
-            detailLabel.bottomAnchor.constraint(equalTo: middleColumnContentView.bottomAnchor,
-                                                constant: -LayoutConstants.verticalMargin),
-
-            // Right column
-
-            resourcesStackView.topAnchor.constraint(equalTo: rightColumnContentView.topAnchor, constant: LayoutConstants.verticalMargin),
-            resourcesStackView.leadingAnchor.constraint(equalTo: rightColumnContentView.leadingAnchor),
-            resourcesStackView.trailingAnchor.constraint(equalTo: rightColumnContentView.trailingAnchor),
-            resourcesStackView.bottomAnchor.constraint(equalTo: rightColumnContentView.bottomAnchor),
         ]
+        
+        // Left column
+        if columns.contains(.overview) {
+            contentConstraints += [
+                titleLabel.topAnchor.constraint(equalTo: leftColumnContentView.topAnchor, constant: LayoutConstants.verticalMargin),
+                titleLabel.leadingAnchor.constraint(equalTo: leftColumnContentView.leadingAnchor),
+                titleLabel.trailingAnchor.constraint(equalTo: leftColumnContentView.trailingAnchor),
+                
+                subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
+                subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+                subtitleLabel.trailingAnchor.constraint(equalTo: leftColumnContentView.trailingAnchor),
+                
+                priorityCaptionView.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 6),
+                priorityCaptionView.leadingAnchor.constraint(equalTo: subtitleLabel.leadingAnchor),
+                priorityCaptionView.bottomAnchor.constraint(equalTo: leftColumnContentView.bottomAnchor,
+                                                            constant: -LayoutConstants.verticalMargin),
+                priorityCaptionView.trailingAnchor.constraint(equalTo: leftColumnContentView.trailingAnchor), 
+            ]
+        }
+        
+        if columns.contains(.detail) {
+            contentConstraints += [
+                detailLabel.topAnchor.constraint(equalTo: middleColumnContentView.topAnchor,
+                                                 constant: LayoutConstants.verticalMargin),
+                detailLabel.leadingAnchor.constraint(equalTo: middleColumnContentView.leadingAnchor),
+                detailLabel.trailingAnchor.constraint(equalTo: middleColumnContentView.trailingAnchor),
+                detailLabel.bottomAnchor.constraint(equalTo: middleColumnContentView.bottomAnchor,
+                                                    constant: -LayoutConstants.verticalMargin),
+            ]
+        }
+
+        if columns.contains(.resources) {
+            contentConstraints += [
+                resourcesStackView.topAnchor.constraint(equalTo: rightColumnContentView.topAnchor, constant: LayoutConstants.verticalMargin),
+                resourcesStackView.leadingAnchor.constraint(equalTo: rightColumnContentView.leadingAnchor),
+                resourcesStackView.trailingAnchor.constraint(equalTo: rightColumnContentView.trailingAnchor),
+                resourcesStackView.bottomAnchor.constraint(equalTo: rightColumnContentView.bottomAnchor),
+            ]
+        }
         
         NSLayoutConstraint.activate(contentConstraints)
     }
@@ -240,13 +246,13 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
         } else {
             columns.remove(.detail)
         }
-        
+
         if viewModel.hasResources {
             columns.insert(.resources)
         } else {
             columns.remove(.resources)
         }
-        
+
         columnContainer.construct()
         addContentViewConstraints()
     }
