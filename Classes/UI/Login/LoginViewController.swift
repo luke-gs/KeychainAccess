@@ -94,59 +94,52 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     }
 
     open private(set) lazy var credentialsView: UIView? = nil
-    
-    open private(set) lazy var usernameLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.text = NSLocalizedString("Username", comment: "")
-        label.isAccessibilityElement = false
-        label.font = .systemFont(ofSize: 14.0, weight: UIFont.Weight.regular)
-        label.textColor = .white
-        return label
-    }()
-    
-    
-    open private(set) lazy var usernameField: UITextField = { [unowned self] in
-        let usernameField = self.newTextField()
-        usernameField.delegate = self
-        usernameField.accessibilityLabel = NSLocalizedString("Username Field", comment: "Accessibility")
-        usernameField.returnKeyType      = .next
-        usernameField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
-        usernameField.addObserver(self, forKeyPath: #keyPath(UITextField.text), context: &kvoContext)
-        usernameField.font = .systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
-        usernameField.autocapitalizationType = .none
-        usernameField.autocorrectionType = .no
+
+    open private(set) lazy var usernameField: LabeledTextField = {
+        let field = LabeledTextField()
+        
+        field.label.text = NSLocalizedString("Username", comment: "")
+        field.label.textColor = .white
+
+        let textField = field.textField
+        textField.accessibilityLabel = NSLocalizedString("Username Field", comment: "Accessibility")
+        textField.returnKeyType = .next
+        textField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
+        textField.addObserver(self, forKeyPath: #keyPath(UITextField.text), context: &kvoContext)
+        textField.autocapitalizationType = .none
+        textField.delegate = self
+        textField.clearButtonMode = .whileEditing
+        textField.textColor = .white
+        textField.autocorrectionType = .no
         self.isUsernameFieldLoaded = true
-        
-        return usernameField
+
+        return field
     }()
-    
-    
-    open private(set) lazy var passwordLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.text = NSLocalizedString("Password", comment: "")
-        label.isAccessibilityElement = false
-        label.font = .systemFont(ofSize: 14.0, weight: UIFont.Weight.regular)
-        label.textColor = .white
-        return label
-    }()
-    
-    
-    open private(set) lazy var passwordField: UITextField = { [unowned self] in
-        let passwordField = self.newTextField()
-        passwordField.accessibilityLabel = NSLocalizedString("Password Field", comment: "Accessibility")
-        passwordField.isSecureTextEntry = true
-        passwordField.delegate = self
-        passwordField.returnKeyType = .done
-        passwordField.clearsOnBeginEditing = true
-        passwordField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
-        passwordField.addObserver(self, forKeyPath: #keyPath(UITextField.text), context: &kvoContext)
-        passwordField.font = .systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
+
+    open private(set) lazy var passwordField: LabeledTextField = {
+        let field = LabeledTextField()
+
+        field.label.textColor = .white
+        field.label.text = NSLocalizedString("Password", comment: "")
+
+        let textField = field.textField
+        textField.accessibilityLabel = NSLocalizedString("Password Field", comment: "Accessibility")
+        textField.isSecureTextEntry = true
+        textField.delegate = self
+        textField.returnKeyType = .done
+        textField.clearsOnBeginEditing = true
+        textField.textColor = .white
+        textField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
+        textField.addObserver(self, forKeyPath: #keyPath(UITextField.text), context: &kvoContext)
+        textField.font = .systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
+        textField.autocapitalizationType = .none
+        textField.autocorrectionType = .no
+        textField.clearButtonMode = .whileEditing
         self.isPasswordFieldLoaded = true
-        
-        return passwordField
+
+        return field
     }()
-    
-    
+
     open private(set) lazy var forgotPasswordButton: UIButton = { [unowned self] in
         let button = UIButton(type: UIButtonType.system)
         button.setTitle("FORGOT YOUR PASSWORD?", for: .normal)
@@ -335,8 +328,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
                 // apply constraints
                 NSLayoutConstraint.activate([credentialsView!.topAnchor.constraint(greaterThanOrEqualTo: contentView!.topAnchor, constant: 20.0),
                                              credentialsView!.widthAnchor.constraint(equalToConstant: 256.0),
-                                             usernameLabel.widthAnchor.constraint(equalTo: credentialsView!.widthAnchor),
-                                             usernameLabel.leadingAnchor.constraint(equalTo: credentialsView!.leadingAnchor)])
+                                             usernameField.widthAnchor.constraint(equalTo: credentialsView!.widthAnchor),
+                                             usernameField.leadingAnchor.constraint(equalTo: credentialsView!.leadingAnchor)])
             }
         }
     }
@@ -433,13 +426,12 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     deinit {
         if isUsernameFieldLoaded {
-            usernameField.removeObserver(self, forKeyPath:#keyPath(UITextField.text), context: &kvoContext)
+            usernameField.textField.removeObserver(self, forKeyPath:#keyPath(UITextField.text), context: &kvoContext)
         }
         if isPasswordFieldLoaded {
-            passwordField.removeObserver(self, forKeyPath:#keyPath(UITextField.text), context: &kvoContext)
+            passwordField.textField.removeObserver(self, forKeyPath:#keyPath(UITextField.text), context: &kvoContext)
         }
     }
-    
     
     // MARK: - View lifecycle
     
@@ -536,8 +528,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             constraints += [
                 credentialsView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 20.0),
                 credentialsView.widthAnchor.constraint(equalToConstant: 256.0),
-                usernameLabel.widthAnchor.constraint(equalTo: credentialsView.widthAnchor),
-                usernameLabel.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor)
+                usernameField.widthAnchor.constraint(equalTo: credentialsView.widthAnchor),
+                usernameField.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor)
             ]
         }
 
@@ -552,67 +544,30 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         let credentialsView = UIView(frame: .zero)
         
         // Creating views
-        let usernameLabel = self.usernameLabel
-        let passwordLabel = self.passwordLabel
-        let usernameField = self.usernameField
-        let passwordField = self.passwordField
         let forgotPasswordButton = self.forgotPasswordButton
-        
-        let usernameSeparator = UIView(frame: .zero)
-        let passwordSeparator = UIView(frame: .zero)
-        
-        usernameSeparator.backgroundColor = #colorLiteral(red: 0.7630171865, green: 0.7580402272, blue: 0.7838609132, alpha: 0.8041923415)
-        passwordSeparator.backgroundColor = #colorLiteral(red: 0.7630171865, green: 0.7580402272, blue: 0.7838609132, alpha: 0.8041923415)
-        
-        usernameLabel.translatesAutoresizingMaskIntoConstraints = false
-        passwordLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        credentialsView.translatesAutoresizingMaskIntoConstraints = false
         usernameField.translatesAutoresizingMaskIntoConstraints = false
         passwordField.translatesAutoresizingMaskIntoConstraints = false
         forgotPasswordButton.translatesAutoresizingMaskIntoConstraints = false
-        usernameSeparator.translatesAutoresizingMaskIntoConstraints = false
-        passwordSeparator.translatesAutoresizingMaskIntoConstraints = false
-        credentialsView.translatesAutoresizingMaskIntoConstraints = false
-        
-        credentialsView.addSubview(usernameSeparator)
-        credentialsView.addSubview(passwordSeparator)
-        credentialsView.addSubview(usernameLabel)
-        credentialsView.addSubview(passwordLabel)
+
         credentialsView.addSubview(usernameField)
         credentialsView.addSubview(passwordField)
         credentialsView.addSubview(forgotPasswordButton)
         
         // Creating constraints
-        let separatorHeightConstraint = usernameSeparator.heightAnchor.constraint(equalToConstant: 1.0 / traitCollection.currentDisplayScale )
-        let forgotPasswordSeparation = forgotPasswordButton.topAnchor.constraint(equalTo: passwordSeparator.bottomAnchor, constant: forgotPasswordButton.isHidden ? 0.0 : 14.0)
+        let forgotPasswordSeparation = forgotPasswordButton.topAnchor.constraint(equalTo: passwordField.bottomAnchor, constant: forgotPasswordButton.isHidden ? 0.0 : 14.0)
         
         let constraints = [
-            usernameLabel.topAnchor.constraint(equalTo: credentialsView.topAnchor),
-            usernameLabel.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
-            usernameLabel.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
-            
-            usernameField.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 4),
+            usernameField.topAnchor.constraint(equalTo: credentialsView.topAnchor),
             usernameField.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
             usernameField.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
-            
-            usernameSeparator.topAnchor.constraint(equalTo: usernameField.bottomAnchor, constant: 11),
-            usernameSeparator.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
-            usernameSeparator.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
-            separatorHeightConstraint,
-            
-            passwordLabel.topAnchor.constraint(equalTo: usernameSeparator.bottomAnchor, constant: 18),
-            passwordLabel.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
-            passwordLabel.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
-            
-            passwordField.topAnchor.constraint(equalTo: passwordLabel.bottomAnchor, constant: 4),
+
+            passwordField.topAnchor.constraint(equalTo: usernameField.bottomAnchor, constant: 18),
             passwordField.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
             passwordField.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
-            
-            passwordSeparator.topAnchor.constraint(equalTo: passwordField.bottomAnchor, constant: 11),
-            passwordSeparator.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
-            passwordSeparator.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
-            passwordSeparator.heightAnchor.constraint(equalTo: usernameSeparator.heightAnchor),
-            
-            forgotPasswordButton.topAnchor.constraint(greaterThanOrEqualTo: passwordSeparator.bottomAnchor),
+
+            forgotPasswordButton.topAnchor.constraint(greaterThanOrEqualTo: passwordField.bottomAnchor),
             forgotPasswordButton.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
             forgotPasswordButton.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
             forgotPasswordButton.bottomAnchor.constraint(equalTo: credentialsView.bottomAnchor),
@@ -620,8 +575,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         ]
         
         NSLayoutConstraint.activate(constraints)
-        
-        self.separatorHeightConstraint = separatorHeightConstraint
         self.forgotPasswordSeparation  = forgotPasswordSeparation
         
         return credentialsView
@@ -715,22 +668,21 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         super.viewDidDisappear(animated)
     }
     
-    
     // MARK: - Action
     
     open func resetFields() {
-        usernameField.text = nil
-        passwordField.text = nil
+        usernameField.textField.text = nil
+        passwordField.textField.text = nil
     }
     
     
     // MARK: - Text field delegate
     
     open func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if isUsernameFieldLoaded && textField == usernameField {
-            passwordField.becomeFirstResponder()
-        } else if isPasswordFieldLoaded && textField == passwordField {
-            passwordField.resignFirstResponder()
+        if isUsernameFieldLoaded && textField == usernameField.textField {
+            passwordField.textField.becomeFirstResponder()
+        } else if isPasswordFieldLoaded && textField == passwordField.textField {
+            passwordField.textField.resignFirstResponder()
             
             if loginButton.isEnabled {
                 loginButtonTriggered()
@@ -740,7 +692,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     open func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == passwordField {
+        if textField == passwordField.textField {
             let text = textField.text as NSString?
             let newText = text?.replacingCharacters(in: range, with: string)
             textField.text = newText
@@ -815,7 +767,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     @objc private func loginButtonTriggered() {
         HapticHelper.shared.trigger(.medium)
         if case let LoginMode.usernamePassword(delegate: delegate) = loginMode {
-            guard let username = usernameField.text, let password = passwordField.text else { return }
+            guard let username = usernameField.textField.text, let password = passwordField.textField.text else { return }
             view.endEditing(true)
 
             delegate?.loginViewController(self, didFinishWithUsername: username, password: password)
@@ -834,7 +786,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc private func textFieldTextDidChange(_ textField: UITextField) {
-        if (isUsernameFieldLoaded && textField == usernameField) || (isPasswordFieldLoaded && textField == passwordField) {
+        if (isUsernameFieldLoaded && textField == usernameField.textField) || (isPasswordFieldLoaded && textField == passwordField.textField) {
             updateLoginButtonState()
         }
     }
@@ -844,8 +796,9 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
 
         switch loginMode {
         case .usernamePassword(let delegate):
-            let isUsernameValid: Bool = isUsernameFieldLoaded && usernameField.text?.count ?? 0 >= minimumUsernameLength
-            let isPasswordValid: Bool = isPasswordFieldLoaded && passwordField.text?.count ?? 0 >= minimumPasswordLength
+            let isUsernameValid: Bool = isUsernameFieldLoaded && usernameField.textField.text?.count ?? 0 >= minimumUsernameLength
+            let isPasswordValid: Bool = isPasswordFieldLoaded && passwordField.textField.text?.count ?? 0 >= minimumPasswordLength
+
             loginButton.isEnabled = isUsernameValid && isPasswordValid
             forgotPasswordButton.isHidden = !(delegate?.wantsForgotPassword ?? true)
         case .externalAuth:
