@@ -52,21 +52,17 @@ open class ActionSheetViewController: FormBuilderViewController {
         MPLCodingNotSupported()
     }
     
-    /// Support being transparent when in popover/form sheet
-    open override var wantsTransparentBackground: Bool {
-        didSet {
-            let theme = ThemeManager.shared.theme(for: .current)
-            view.backgroundColor = wantsTransparentBackground ? .clear : theme.color(forKey: .background)!
-        }
-    }
-    
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        // We need to set this manually because we are not presenting this in a PopoverNavigationController
+        wantsTransparentBackground = !UIViewController.isWindowCompact()
         
         self.reloadForm()
         collectionView?.setNeedsLayout()
         collectionView?.layoutIfNeeded()
         
         preferredContentSize = collectionView?.contentSize ?? .zero
+        preferredContentSize.width = 200
     }
 }
