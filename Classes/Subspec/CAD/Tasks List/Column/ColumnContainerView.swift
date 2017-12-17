@@ -17,6 +17,7 @@ open class ColumnContainerView: UIView {
     open private(set) var columnLeadingConstraints: [NSLayoutConstraint] = []
     open private(set) var columnTrailingConstraints: [NSLayoutConstraint] = []
     open private(set) var columnWidthConstraints: [NSLayoutConstraint] = []
+    open private(set) var columnTopBottomConstraints: [NSLayoutConstraint] = []
     
     /// Builds the columns
     open func construct() {
@@ -40,23 +41,8 @@ open class ColumnContainerView: UIView {
     
     /// Lays out the columns, called by `construct()`
     open func layout() {
-        // Remove all old constraints
-        NSLayoutConstraint.deactivate(columnLeadingConstraints + columnTrailingConstraints + columnWidthConstraints)
-        columnLeadingConstraints.removeAll()
-        columnTrailingConstraints.removeAll()
-        columnWidthConstraints.removeAll()
-        
-        for columnView in columnContentViews {
-            NSLayoutConstraint.activate([
-                columnView.topAnchor.constraint(equalTo: self.topAnchor),
-                columnView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            ])
-        }
-    }
-    
-    open override func layoutSubviews() {
-        super.layoutSubviews()
         let width = bounds.width
+        guard width > 0 else { return }
         
         // Calculate the width
         let calculatedInfo = ColumnInfo.calculateWidths(for: columnsInfo,
@@ -68,6 +54,7 @@ open class ColumnContainerView: UIView {
         columnLeadingConstraints.removeAll()
         columnTrailingConstraints.removeAll()
         columnWidthConstraints.removeAll()
+        columnTopBottomConstraints.removeAll()
         
         // Set up new constraints
         for (index, (info, view)) in zip(calculatedInfo, columnContentViews).enumerated() {
@@ -76,27 +63,28 @@ open class ColumnContainerView: UIView {
             let trailingViewAnchor = columnContentViews[ifExists: index + 1]?.leadingAnchor ?? self.trailingAnchor
             
             let leadingMargin = view.leadingAnchor.constraint(equalTo: leadingViewAnchor, constant: info.leadingMargin)
-            
-            let trailingMargin: NSLayoutConstraint
-            // If we are the last content view, allow the trailing to be less than the edge and margin
-            if index == columnContentViews.count - 1 {
-                trailingMargin = view.trailingAnchor.constraint(lessThanOrEqualTo: trailingViewAnchor, constant: -info.trailingMargin)
-            } else {
-                trailingMargin = view.trailingAnchor.constraint(equalTo: trailingViewAnchor, constant: -info.trailingMargin)
-            }
-            
-            // Add new constraints
+            let trailingMargin = view.trailingAnchor.constraint(lessThanOrEqualTo: trailingViewAnchor, constant: -info.trailingMargin).withPriority(.almostRequired)
+
+            // Insert new constraints
             columnLeadingConstraints.insert(leadingMargin, at: index)
             columnTrailingConstraints.insert(trailingMargin, at: index)
-            columnWidthConstraints.insert(view.widthAnchor.constraint(equalToConstant: info.actualWidth).withPriority(.almostRequired),
-                                          at: index)
+            columnWidthConstraints.insert(view.widthAnchor.constraint(equalToConstant: info.actualWidth), at: index)
+            columnTopBottomConstraints += [
+                view.topAnchor.constraint(equalTo: self.topAnchor),
+                view.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            ]
             
             // Hide the view if its with is 0
             view.isHidden = info.actualWidth == 0
         }
         
         // Activate new constraints
-        NSLayoutConstraint.activate(columnLeadingConstraints + columnTrailingConstraints + columnWidthConstraints)
+        NSLayoutConstraint.activate(columnLeadingConstraints + columnTrailingConstraints + columnWidthConstraints + columnTopBottomConstraints)
+    }
+    
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        layout()
     }
 }
 
