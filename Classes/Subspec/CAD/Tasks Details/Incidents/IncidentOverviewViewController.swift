@@ -13,6 +13,7 @@ open class IncidentOverviewViewController: UIViewController {
 
     open var mapViewController: TasksMapViewController!
     open var formViewController: FormBuilderViewController!
+    open var scrollView: UIScrollView!
     
     open let viewModel: IncidentOverviewViewModel
     
@@ -41,10 +42,13 @@ open class IncidentOverviewViewController: UIViewController {
         
         view.backgroundColor = .white
         
+        scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scrollView)
+        
         let mapViewModel = IncidentOverviewMapViewModel(incidentNumber: viewModel.incidentNumber)
         mapViewController = mapViewModel.createViewController()
-        addChildViewController(mapViewController, toView: view)
-        mapViewController.canSelectAnnotations = false
+        addChildViewController(mapViewController, toView: scrollView)
         mapViewController.showsMapButtons = false
         mapViewController.mapView.isZoomEnabled = false
         mapViewController.mapView.isPitchEnabled = false
@@ -53,8 +57,9 @@ open class IncidentOverviewViewController: UIViewController {
         mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
         
         formViewController = viewModel.createFormViewController()
-        addChildViewController(formViewController, toView: view)
+        addChildViewController(formViewController, toView: scrollView)
         formViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        formViewController.collectionView?.isScrollEnabled = false
     }
     
     /// Activates view constraints
@@ -65,10 +70,17 @@ open class IncidentOverviewViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            mapViewController.view.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
-            mapViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            mapViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            mapViewController.view.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            mapViewController.view.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            mapViewController.view.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             mapViewController.view.heightAnchor.constraint(greaterThanOrEqualToConstant: 280),
+            mapViewController.view.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+
             
             collectionView.topAnchor.constraint(equalTo: formViewController.view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: formViewController.view.leadingAnchor),
@@ -76,9 +88,10 @@ open class IncidentOverviewViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: formViewController.view.bottomAnchor),
 
             formViewController.view.topAnchor.constraint(equalTo: mapViewController.view.bottomAnchor),
-            formViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            formViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            formViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            formViewController.view.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            formViewController.view.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            formViewController.view.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            formViewController.view.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
         ])
         
     }

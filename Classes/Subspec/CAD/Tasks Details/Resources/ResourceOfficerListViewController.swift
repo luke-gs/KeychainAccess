@@ -14,12 +14,20 @@ open class ResourceOfficerListViewController: CADFormCollectionViewController<Re
         super.init(viewModel: viewModel)
         
         sidebarItem.image = AssetManager.shared.image(forKey: .entityOfficer)
+        sidebarItem.count = UInt(viewModel.totalNumberOfItems())
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
     
+    override open func reloadContent() {
+        super.reloadContent()
+
+        // Update sidebar count when data changes
+        sidebarItem.count = UInt(viewModel.totalNumberOfItems())
+    }
+
     // MARK: - Override
     
     override open func cellType() -> CollectionViewFormCell.Type {
