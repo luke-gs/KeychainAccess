@@ -15,7 +15,7 @@ public struct TasksListItemResourceViewModel {
     public let tintColor: UIColor?
     public let useBoldStatusText: Bool
     
-    init(image: UIImage?, resourceTitle: String, statusText: String, tintColor: UIColor?, useBoldStatusText: Bool) {
+    public init(image: UIImage?, resourceTitle: String, statusText: String, tintColor: UIColor?, useBoldStatusText: Bool) {
         self.image = image
         self.resourceTitle = resourceTitle
         self.statusText = statusText
@@ -23,7 +23,7 @@ public struct TasksListItemResourceViewModel {
         self.useBoldStatusText = useBoldStatusText
     }
     
-    init(with resource: SyncDetailsResource) {
+    public init(with resource: SyncDetailsResource) {
         let inDuress = resource.status == .duress
         self.init(image: resource.type.icon,
                   resourceTitle: [resource.callsign, resource.officerCountString].joined(),

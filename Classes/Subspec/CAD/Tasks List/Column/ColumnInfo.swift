@@ -46,44 +46,30 @@ public struct ColumnInfo: Equatable {
     
     /// Calculates the widths for columns in a specified width
     public static func calculateWidths(for columns: [ColumnInfo], in width: CGFloat, margin: CGFloat = 0) -> [ColumnInfo] {
-        var totalMargin: CGFloat = 0//CGFloat(columns.count - 1) * margin
-
-        print("Width: \(width)")
-        print("Columns: \(columns.count)")
-        print("Margin: \(margin)")
-        print("Total margin: \(totalMargin)")
-        
         var totalMinWidth: CGFloat = 0
         var visibleColumns: [ColumnInfo] = []
         
         // Calculate the total min width and the visible columns
         for column in columns {
+            // Margin if not first column
+            let margin = column == columns.first ? 0 : margin
+            let columnWidth = column.minimumWidth + margin
             // If the the existing min cell widths plus current cell width will fit in our total width
-            if totalMinWidth + column.minimumWidth <= width {
-                totalMinWidth += column.minimumWidth
+            if totalMinWidth + columnWidth <= width {
+                totalMinWidth += columnWidth
                 visibleColumns.append(column)
             } else {
                 break
             }
         }
         
-        totalMargin = (CGFloat(visibleColumns.count - 1) * margin)
-        
         // Get the remaining space we can use to grow our columns
-        
-        let totalColumnSpace = width - totalMargin
-
-        var remainingSpace = totalColumnSpace - totalMinWidth
-        
-        
-        print("Total column space: \(totalColumnSpace)")
-        print("Total min width: \(totalMinWidth)")
-        print("Total remaining: \(remainingSpace)")
-        print()
+        var remainingSpace = width - totalMinWidth
         
         return columns.enumerated().map { (index, column) in
             var column = column
 
+            // If this column is not visible, give it 0 width
             guard visibleColumns.contains(column) else {
                 column.actualWidth = 0
                 return column
@@ -93,12 +79,15 @@ public struct ColumnInfo: Equatable {
             let trailingMargin: CGFloat
             
             if visibleColumns.count == 1 {
+                // No leading or trailing for single column
                 leadingMargin = 0
                 trailingMargin = 0
             } else if index == 0 {
+                // No leading for first column
                 leadingMargin = 0
                 trailingMargin = margin
-            } else if index == columns.count - 1 {
+            } else if index == visibleColumns.count - 1 {
+                // No trailing for final column
                 leadingMargin = margin
                 trailingMargin = 0
             } else {

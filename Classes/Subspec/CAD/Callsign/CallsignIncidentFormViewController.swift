@@ -64,15 +64,7 @@ open class CallsignIncidentFormViewController: FormBuilderViewController {
         cell.highlightStyle = .fade
         cell.separatorStyle = .fullWidth
 
-        cell.titleLabel.text = viewModel.title
-        cell.subtitleLabel.text = viewModel.subtitle
-        cell.captionLabel.text = viewModel.caption
-        cell.updatesIndicator.isHidden = true
-
-        cell.configurePriority(text: viewModel.badgeText,
-                               textColor: viewModel.badgeTextColor,
-                               fillColor: viewModel.badgeFillColor,
-                               borderColor: viewModel.badgeBorderColor)
+        cell.decorate(with: viewModel)
     }
 }
 

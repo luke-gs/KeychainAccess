@@ -1,5 +1,5 @@
 //
-//  ColumnCollectionViewCell.swift
+//  ColumnContainerView.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 14/12/17.
@@ -8,9 +8,9 @@
 
 import UIKit
 
-open class ColumnCollectionViewCell: CollectionViewFormCell {
+open class ColumnContainerView: UIView {
 
-    open weak var dataSource: ColumnCollectionViewCellDataSource?
+    open var dataSource: ColumnCollectionViewCellDataSource?
 
     open private(set) var columnsInfo: [ColumnInfo] = []
     open private(set) var columnContentViews: [UIView] = []
@@ -18,6 +18,7 @@ open class ColumnCollectionViewCell: CollectionViewFormCell {
     open private(set) var columnTrailingConstraints: [NSLayoutConstraint] = []
     open private(set) var columnWidthConstraints: [NSLayoutConstraint] = []
     
+    /// Builds the columns
     open func construct() {
         guard let dataSource = dataSource else { return }
         
@@ -37,67 +38,69 @@ open class ColumnCollectionViewCell: CollectionViewFormCell {
         layout()
     }
     
+    /// Lays out the columns, called by `construct()`
     open func layout() {
-        NSLayoutConstraint.deactivate(columnLeadingConstraints + columnTrailingConstraints + columnWidthConstraints)
-        columnLeadingConstraints.removeAll()
-        columnTrailingConstraints.removeAll()
-        columnWidthConstraints.removeAll()
-        for (index, (columnInfo, columnView)) in zip(columnsInfo, columnContentViews).enumerated() {
-            
-            let leadingViewAnchor = columnContentViews[ifExists: index - 1]?.trailingAnchor ?? self.layoutMarginsGuide.leadingAnchor
-            let trailingViewAnchor = columnContentViews[ifExists: index + 1]?.leadingAnchor ?? self.layoutMarginsGuide.trailingAnchor
-            
-            let leadingMargin = columnView.leadingAnchor.constraint(lessThanOrEqualTo: leadingViewAnchor, constant: columnInfo.leadingMargin)
-                .withPriority(.required)
-            
-            let trailingMargin = columnView.trailingAnchor.constraint(lessThanOrEqualTo: trailingViewAnchor, constant: -columnInfo.trailingMargin)
-                .withPriority(.required)
-            
-            columnLeadingConstraints.insert(leadingMargin, at: index)
-            columnTrailingConstraints.insert(trailingMargin, at: index)
-            columnWidthConstraints.insert(columnView.widthAnchor.constraint(equalToConstant: columnInfo.actualWidth).withPriority(.required), at: index)
-
+        for columnView in columnContentViews {
             NSLayoutConstraint.activate([
                 columnView.topAnchor.constraint(equalTo: self.topAnchor),
                 columnView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-                columnLeadingConstraints[index],
-                columnTrailingConstraints[index],
-                columnWidthConstraints[index],
             ])
         }
     }
     
+    
     open override var bounds: CGRect {
         didSet {
-            print("Bounds: \(bounds.size.width)")
+            let width = bounds.width
             
-            let width = bounds.width - layoutMargins.left - layoutMargins.right - (dataSource?.widthOffset() ?? 0)
+            // Calculate the width
             let calculatedInfo = ColumnInfo.calculateWidths(for: columnsInfo,
                                                             in: width,
                                                             margin: dataSource?.columnSpacing() ?? 0)
-            
-            NSLayoutConstraint.deactivate(columnLeadingConstraints + columnTrailingConstraints + columnWidthConstraints)
 
+            // Remove all old constraints
+            NSLayoutConstraint.deactivate(columnLeadingConstraints + columnTrailingConstraints + columnWidthConstraints)
+            columnLeadingConstraints.removeAll()
+            columnTrailingConstraints.removeAll()
+            columnWidthConstraints.removeAll()
+
+            // Set up new constraints
             for (index, (info, view)) in zip(calculatedInfo, columnContentViews).enumerated() {
-                columnLeadingConstraints[index].constant = info.leadingMargin
-                columnTrailingConstraints[index].constant = -info.trailingMargin
-                columnWidthConstraints[index].constant = info.actualWidth
-                
-                print("Column at index \(index):")
-                print("Leading: \(info.leadingMargin)")
-                print("Trailing: \(info.trailingMargin)")
-                print("Width: \(info.actualWidth)")
-                print()
-                
+                // Constrain to neighbor view (self if first or last content view)
+                let leadingViewAnchor = columnContentViews[ifExists: index - 1]?.trailingAnchor ?? self.leadingAnchor
+                let trailingViewAnchor = columnContentViews[ifExists: index + 1]?.leadingAnchor ?? self.trailingAnchor
+
+                let leadingMargin = view.leadingAnchor.constraint(equalTo: leadingViewAnchor, constant: info.leadingMargin)
+
+                let trailingMargin: NSLayoutConstraint
+                // If we are the last content view, allow the trailing to be less than the edge and margin
+                if info.actualWidth == 0 {
+                    trailingMargin = view.trailingAnchor.constraint(lessThanOrEqualTo: trailingViewAnchor)
+                } else if index == columnContentViews.count - 1 {
+                    trailingMargin = view.trailingAnchor.constraint(lessThanOrEqualTo: trailingViewAnchor, constant: -info.trailingMargin)
+                } else {
+                    trailingMargin = view.trailingAnchor.constraint(equalTo: trailingViewAnchor, constant: -info.trailingMargin)
+                }
+
+                // Add new constraints
+                columnLeadingConstraints.insert(leadingMargin, at: index)
+                columnTrailingConstraints.insert(trailingMargin, at: index)
+                columnWidthConstraints.insert(view.widthAnchor.constraint(equalToConstant: info.actualWidth).withPriority(.almostRequired),
+                                              at: index)
+
+                // Hide the view if its with is 0
                 view.isHidden = info.actualWidth == 0
             }
-            
+
+            // Activate new constraints
             NSLayoutConstraint.activate(columnLeadingConstraints + columnTrailingConstraints + columnWidthConstraints)
-            
-            
-            setNeedsLayout()
-            layoutIfNeeded()
         }
+    }
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        // Fix for autolayout getting cooked when view disappears
+        NSLayoutConstraint.deactivate(columnLeadingConstraints + columnTrailingConstraints + columnWidthConstraints)
+        NSLayoutConstraint.activate(columnLeadingConstraints + columnTrailingConstraints + columnWidthConstraints)
     }
 }
 
@@ -114,9 +117,6 @@ public protocol ColumnCollectionViewCellDataSource: class {
     
     /// The spacing to use between columns
     func columnSpacing() -> CGFloat
-    
-    /// Any additional width to subtract from the width (e.g. accessory view width)
-    func widthOffset() -> CGFloat
 }
 
 

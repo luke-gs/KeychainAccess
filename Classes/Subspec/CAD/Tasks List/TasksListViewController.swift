@@ -110,17 +110,7 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
         cell.accessoryView = FormAccessoryView(style: .disclosure)
 
         if let cell = cell as? TasksListItemCollectionViewCell {
-            cell.titleLabel.text = viewModel.title
-            cell.subtitleLabel.text = viewModel.subtitle
-            cell.captionLabel.text = viewModel.caption
-            cell.updatesIndicator.isHidden = !viewModel.hasUpdates
-            cell.configurePriority(text: viewModel.badgeText,
-                                   textColor: viewModel.badgeTextColor,
-                                   fillColor: viewModel.badgeFillColor,
-                                   borderColor: viewModel.badgeBorderColor)
-            
-            cell.detailLabel.text = viewModel.description
-            cell.setStatusRows(viewModel.resources)
+            cell.decorate(with: viewModel)
         }
     }
 

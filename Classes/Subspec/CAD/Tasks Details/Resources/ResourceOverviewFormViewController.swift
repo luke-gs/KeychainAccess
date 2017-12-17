@@ -69,17 +69,10 @@ open class ResourceOverviewFormViewController: FormBuilderViewController {
         cell.highlightStyle = .fade
         cell.separatorStyle = .fullWidth
         
-        cell.titleLabel.text = viewModel.title
+        cell.decorate(with: viewModel)
+
         cell.titleLabel.textColor = .primaryGray
-        cell.subtitleLabel.text = viewModel.subtitle
         cell.subtitleLabel.textColor = .secondaryGray
-        cell.captionLabel.text = viewModel.caption
         cell.captionLabel.textColor = .secondaryGray
-        cell.updatesIndicator.isHidden = true
-        
-        cell.configurePriority(text: viewModel.badgeText,
-                               textColor: viewModel.badgeTextColor,
-                               fillColor: viewModel.badgeFillColor,
-                               borderColor: viewModel.badgeBorderColor)
     }
 }
