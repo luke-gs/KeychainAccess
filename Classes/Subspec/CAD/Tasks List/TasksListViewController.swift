@@ -118,9 +118,9 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
 
         if let cell = cell as? TasksListItemCollectionViewCell {
-            cell.titleLabel.textColor = primaryTextColor
-            cell.subtitleLabel.textColor = primaryTextColor
-            cell.captionLabel.textColor = secondaryTextColor
+            cell.summaryView.titleLabel.textColor = primaryTextColor
+            cell.summaryView.subtitleLabel.textColor = primaryTextColor
+            cell.summaryView.captionLabel.textColor = secondaryTextColor
         }
     }
     

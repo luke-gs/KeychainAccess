@@ -44,9 +44,9 @@ open class CallsignIncidentFormViewController: FormBuilderViewController {
                 .height(.fixed(64))
                 .onThemeChanged({ (cell, theme) in
                     guard let cell = cell as? TasksListItemCollectionViewCell else { return }
-                    cell.titleLabel.textColor = theme.color(forKey: .primaryText)
-                    cell.subtitleLabel.textColor = theme.color(forKey: .secondaryText)
-                    cell.captionLabel.textColor = theme.color(forKey: .secondaryText)
+                    cell.summaryView.titleLabel.textColor = theme.color(forKey: .primaryText)
+                    cell.summaryView.subtitleLabel.textColor = theme.color(forKey: .secondaryText)
+                    cell.summaryView.captionLabel.textColor = theme.color(forKey: .secondaryText)
                 })
                 .onSelection({ [unowned self] cell in
                     // Present the incident split view controller

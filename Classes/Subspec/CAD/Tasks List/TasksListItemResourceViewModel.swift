@@ -1,5 +1,5 @@
 //
-//  TasksListItemResourceViewModel.swift
+//  TasksListItemStatusRowViewModel.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 23/11/17.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct TasksListItemResourceViewModel {
+public struct TasksListItemStatusRowViewModel {
     public let image: UIImage?
     public let resourceTitle: String
     public let statusText: String

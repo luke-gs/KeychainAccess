@@ -71,8 +71,8 @@ open class ResourceOverviewFormViewController: FormBuilderViewController {
         
         cell.decorate(with: viewModel)
 
-        cell.titleLabel.textColor = .primaryGray
-        cell.subtitleLabel.textColor = .secondaryGray
-        cell.captionLabel.textColor = .secondaryGray
+        cell.summaryView.titleLabel.textColor = .primaryGray
+        cell.summaryView.subtitleLabel.textColor = .secondaryGray
+        cell.summaryView.captionLabel.textColor = .secondaryGray
     }
 }
