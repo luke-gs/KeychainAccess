@@ -47,4 +47,22 @@ open class BookOnRequest: Codable {
     /// NOT IN API: The vehicle odometer
     open var odometer: String!
 
+    /// Default constructor
+    public init() { }
+
+    /// Copy constructor (deep copy)
+    public init(request: BookOnRequest) {
+        self.callsign = request.callsign
+        self.shiftStart = request.shiftStart
+        self.shiftEnd = request.shiftEnd
+        self.officers = request.officers.map { return SyncDetailsOfficer(officer: $0) }
+        self.equipment = request.equipment.map { return SyncDetailsResourceEquipment(equipment: $0) }
+        self.fleetNumber = request.fleetNumber
+        self.remarks = request.remarks
+        self.driverpayrollId = request.driverpayrollId
+        self.loggedInpayrollId = request.loggedInpayrollId
+        self.serial = request.serial
+        self.category = request.category
+        self.odometer = request.odometer
+    }
 }
