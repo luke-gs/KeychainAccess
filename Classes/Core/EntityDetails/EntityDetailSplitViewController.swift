@@ -42,7 +42,9 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
         regularSidebarViewController.title = NSLocalizedString("Details", comment: "")
         regularSidebarViewController.headerView = headerView
-        regularSidebarViewController.navigationItem.rightBarButtonItem = actionBarItem
+        regularSidebarViewController.navigationItem.rightBarButtonItem = detailViewModel.showsActionButton ? actionBarItem : nil
+        // due to the fact that events are not implemented yet
+//        regularSidebarViewController.navigationItem.rightBarButtonItem = actionBarItem
     }
 
     open override func viewDidLoad() {

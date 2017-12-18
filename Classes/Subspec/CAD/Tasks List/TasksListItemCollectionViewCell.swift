@@ -10,26 +10,34 @@ import UIKit
 
 public class TasksListItemCollectionViewCell: CollectionViewFormCell {
     
+    enum Column: Int {
+        case overview = 0
+        case detail = 1
+        case resources = 2
+        
+        var columnInfo: ColumnInfo {
+            switch self {
+            case .overview:
+                return ColumnInfo(minimumWidth: 200, maximumWidth: 280)
+            case .detail:
+                return ColumnInfo(minimumWidth: 300, maximumWidth: 1000)
+            case .resources:
+                return ColumnInfo(minimumWidth: 192, maximumWidth: 192)
+            }
+        }
+    }
+    
     private struct LayoutConstants {
         static let updatesIndicatorSize: CGFloat = 10
         static let verticalMargin: CGFloat = 16
         static let horizontalMargin: CGFloat = 8
-        static let textMargin: CGFloat = 4
         static let columnSpacing: CGFloat = 24
-        static let priorityHeight: CGFloat = 16
-        static let priorityWidth: CGFloat = 24
+        static let accessorySize: CGFloat = 16
     }
     
     // MARK: - Views
-
-    /// Column on the left
-    private let leftColumn = ColumnView()
     
-    /// Column in the middle
-    private let middleColumn = ColumnView()
-    
-    /// Column on the right
-    private let rightColumn = ColumnView()
+    private let columnContainer = ColumnContainerView()
     
     /// Content view for left column
     private let leftColumnContentView = UIView()
@@ -37,8 +45,11 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
     /// Content view for middle column
     private let middleColumnContentView = UIView()
     
-    /// Stack view for resources, content view for right column
-    private let rightColumnContentView = UIStackView()
+    /// Content view for right column
+    private let rightColumnContentView = UIView()
+    
+    /// Stack view for resources
+    private let resourcesStackView = UIStackView()
     
     /// View for showing updates indicator
     public let updatesIndicator = UIImageView()
@@ -61,19 +72,29 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
     /// The label for the middle details section of the cell where space is available
     public let detailLabel = UILabel()
     
-    public var leftColumnWidth: NSLayoutConstraint!
-    public var middleColumnWidth: NSLayoutConstraint!
-    public var rightColumnWidth: NSLayoutConstraint!
-
+    // MARK: - Properties
+    
+    /// Constraints for the content views
+    private var contentConstraints: [NSLayoutConstraint] = []
+    
+    /// Columns to show
+    private var columns: Set<Column> = [.overview]
+    
     public override func commonInit() {
         super.commonInit()
-        
+        columnContainer.dataSource = self
         setupViews()
-        setupConstraints()
     }
     
     /// Creates and styles views
     private func setupViews() {
+        leftColumnContentView.translatesAutoresizingMaskIntoConstraints = false
+        middleColumnContentView.translatesAutoresizingMaskIntoConstraints = false
+        rightColumnContentView.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(columnContainer)
+        columnContainer.translatesAutoresizingMaskIntoConstraints = false
+        
         // Hide updates indicator by default
         updatesIndicator.isHidden = true
         updatesIndicator.image = UIImage.statusDot(withColor: #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1))
@@ -81,13 +102,6 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
         contentView.addSubview(updatesIndicator)
         
         // Left column
-        
-        leftColumn.columnInfo = ColumnInfo(minimumWidth: 200, maximumWidth: 280)
-        leftColumn.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(leftColumn)
-        
-        leftColumnContentView.translatesAutoresizingMaskIntoConstraints = false
-        leftColumn.addSubview(leftColumnContentView)
         
         titleLabel.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
         titleLabel.adjustsFontForContentSizeCategory = true
@@ -120,148 +134,135 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
         
         // Middle column
         
-        middleColumn.columnInfo = ColumnInfo(minimumWidth: 300, maximumWidth: 1000)
-        middleColumn.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(middleColumn)
-        
-        middleColumnContentView.translatesAutoresizingMaskIntoConstraints = false
-        middleColumn.addSubview(middleColumnContentView)
-        
         detailLabel.textColor = .secondaryGray
         detailLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         detailLabel.numberOfLines = 3
-        
         detailLabel.translatesAutoresizingMaskIntoConstraints = false
         middleColumnContentView.addSubview(detailLabel)
         
         // Right column
         
-        rightColumn.columnInfo = ColumnInfo(minimumWidth: 192, maximumWidth: 192)
-        rightColumn.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(rightColumn)
+        resourcesStackView.axis = .vertical
+        resourcesStackView.alignment = .top
+        resourcesStackView.spacing = 10
+        resourcesStackView.distribution = .fill
+        resourcesStackView.translatesAutoresizingMaskIntoConstraints = false
+        rightColumnContentView.addSubview(resourcesStackView)
         
-        rightColumnContentView.axis = .vertical
-        rightColumnContentView.alignment = .top
-        rightColumnContentView.spacing = 10
-        rightColumnContentView.distribution = .fill
-        rightColumnContentView.translatesAutoresizingMaskIntoConstraints = false
-        rightColumn.addSubview(rightColumnContentView)
+        NSLayoutConstraint.activate([
+            columnContainer.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
+            columnContainer.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor, constant: -LayoutConstants.accessorySize),
+            columnContainer.topAnchor.constraint(equalTo: contentView.topAnchor),
+            columnContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
     }
     
-    /// Activates view constraints
-    private func setupConstraints() {
+    /// Activates content view constraints
+    private func addContentViewConstraints() {
         titleLabel.setContentHuggingPriority(.required, for: .vertical)
         priorityLabel.setContentHuggingPriority(.required, for: .horizontal)
         captionLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         detailLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
-        leftColumnWidth = leftColumn.widthAnchor.constraint(equalToConstant: 0)
-        middleColumnWidth = middleColumn.widthAnchor.constraint(equalToConstant: 0)
-        rightColumnWidth = rightColumn.widthAnchor.constraint(equalToConstant: 0)
-        
-        NSLayoutConstraint.activate([
+        NSLayoutConstraint.deactivate(contentConstraints)
+        contentConstraints = [
             updatesIndicator.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             updatesIndicator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: LayoutConstants.horizontalMargin),
             updatesIndicator.heightAnchor.constraint(equalToConstant: LayoutConstants.updatesIndicatorSize),
             updatesIndicator.widthAnchor.constraint(equalToConstant: LayoutConstants.updatesIndicatorSize),
-            
-            // Left column
-            
-            leftColumn.topAnchor.constraint(equalTo: contentView.topAnchor),
-            leftColumn.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-            leftColumn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            leftColumnWidth,
-
-            leftColumnContentView.topAnchor.constraint(equalTo: leftColumn.topAnchor),
-            leftColumnContentView.bottomAnchor.constraint(equalTo: leftColumn.bottomAnchor),
-            leftColumnContentView.leadingAnchor.constraint(equalTo: leftColumn.leadingAnchor),
-            leftColumnContentView.trailingAnchor.constraint(equalTo: leftColumn.trailingAnchor),
-            
-            titleLabel.topAnchor.constraint(equalTo: leftColumnContentView.topAnchor, constant: LayoutConstants.verticalMargin),
-            titleLabel.leadingAnchor.constraint(equalTo: leftColumnContentView.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: leftColumnContentView.trailingAnchor),
-
-            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
-            subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            subtitleLabel.trailingAnchor.constraint(equalTo: leftColumnContentView.trailingAnchor),
-
-            priorityCaptionView.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 6),
-            priorityCaptionView.leadingAnchor.constraint(equalTo: subtitleLabel.leadingAnchor),
-            priorityCaptionView.bottomAnchor.constraint(equalTo: leftColumnContentView.bottomAnchor,
-                                                        constant: -LayoutConstants.verticalMargin),
-            priorityCaptionView.trailingAnchor.constraint(equalTo: leftColumnContentView.trailingAnchor),
-            
-            // Middle column
-            
-            middleColumn.topAnchor.constraint(equalTo: contentView.topAnchor),
-            middleColumn.leadingAnchor.constraint(equalTo: leftColumn.trailingAnchor),
-            middleColumn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            middleColumnWidth,
-            
-            middleColumnContentView.topAnchor.constraint(equalTo: middleColumn.topAnchor),
-            middleColumnContentView.bottomAnchor.constraint(equalTo: middleColumn.bottomAnchor),
-            middleColumnContentView.leadingAnchor.constraint(equalTo: middleColumn.leadingAnchor,
-                                                             constant: LayoutConstants.columnSpacing).withPriority(.defaultHigh),
-            middleColumnContentView.trailingAnchor.constraint(equalTo: middleColumn.trailingAnchor),
-            
-            detailLabel.topAnchor.constraint(equalTo: middleColumnContentView.topAnchor,
-                                             constant: LayoutConstants.verticalMargin),
-            detailLabel.leadingAnchor.constraint(equalTo: middleColumnContentView.leadingAnchor),
-            detailLabel.trailingAnchor.constraint(equalTo: middleColumnContentView.trailingAnchor),
-            detailLabel.bottomAnchor.constraint(equalTo: middleColumnContentView.bottomAnchor,
-                                                constant: -LayoutConstants.verticalMargin),
-            
-            // Right column
-            
-            rightColumnContentView.topAnchor.constraint(equalTo: rightColumn.topAnchor),
-            rightColumnContentView.bottomAnchor.constraint(equalTo: rightColumn.bottomAnchor),
-            rightColumnContentView.leadingAnchor.constraint(equalTo: rightColumn.leadingAnchor,
-                                                    constant: LayoutConstants.columnSpacing).withPriority(.defaultHigh),
-            rightColumnContentView.trailingAnchor.constraint(equalTo: rightColumn.trailingAnchor),
-            
-            rightColumn.topAnchor.constraint(equalTo: contentView.topAnchor, constant: LayoutConstants.verticalMargin),
-            rightColumn.leadingAnchor.constraint(equalTo: middleColumn.trailingAnchor),
-            rightColumn.trailingAnchor.constraint(equalTo: accessoryView?.leadingAnchor ?? contentView.trailingAnchor)
-                .withPriority(.almostRequired),
-            rightColumn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            rightColumnWidth,
-        ])
-    }
-    
-    public override var bounds: CGRect {
-        didSet {
-            let views = [leftColumn, middleColumn, rightColumn]
-            
-            let calculatedWidths = ColumnInfo.calculateWidths(for: views.map { $0.columnInfo }, in: bounds.width - 56)
-            
-            for (width, view) in zip(calculatedWidths, views) {
-                view.columnInfo.actualWidth = width
-                view.isHidden = width == 0
-            }
-            
-            leftColumnWidth.priority = .required
-            middleColumnWidth.priority = .required
-            rightColumnWidth.priority = .required
-            
-            leftColumnWidth.constant = leftColumn.columnInfo.actualWidth
-            middleColumnWidth.constant = middleColumn.columnInfo.actualWidth
-            rightColumnWidth.constant = rightColumn.columnInfo.actualWidth
+        ]
+        
+        // Left column
+        if columns.contains(.overview) {
+            contentConstraints += [
+                titleLabel.topAnchor.constraint(equalTo: leftColumnContentView.topAnchor, constant: LayoutConstants.verticalMargin),
+                titleLabel.leadingAnchor.constraint(equalTo: leftColumnContentView.leadingAnchor),
+                titleLabel.trailingAnchor.constraint(equalTo: leftColumnContentView.trailingAnchor),
+                
+                subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
+                subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+                subtitleLabel.trailingAnchor.constraint(equalTo: leftColumnContentView.trailingAnchor),
+                
+                priorityCaptionView.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 6),
+                priorityCaptionView.leadingAnchor.constraint(equalTo: subtitleLabel.leadingAnchor),
+                priorityCaptionView.bottomAnchor.constraint(equalTo: leftColumnContentView.bottomAnchor,
+                                                            constant: -LayoutConstants.verticalMargin),
+                priorityCaptionView.trailingAnchor.constraint(equalTo: leftColumnContentView.trailingAnchor), 
+            ]
         }
+        
+        if columns.contains(.detail) {
+            contentConstraints += [
+                detailLabel.topAnchor.constraint(equalTo: middleColumnContentView.topAnchor,
+                                                 constant: LayoutConstants.verticalMargin),
+                detailLabel.leadingAnchor.constraint(equalTo: middleColumnContentView.leadingAnchor),
+                detailLabel.trailingAnchor.constraint(equalTo: middleColumnContentView.trailingAnchor),
+                detailLabel.bottomAnchor.constraint(equalTo: middleColumnContentView.bottomAnchor,
+                                                    constant: -LayoutConstants.verticalMargin),
+            ]
+        }
+
+        if columns.contains(.resources) {
+            contentConstraints += [
+                resourcesStackView.topAnchor.constraint(equalTo: rightColumnContentView.topAnchor, constant: LayoutConstants.verticalMargin),
+                resourcesStackView.leadingAnchor.constraint(equalTo: rightColumnContentView.leadingAnchor),
+                resourcesStackView.trailingAnchor.constraint(equalTo: rightColumnContentView.trailingAnchor),
+                resourcesStackView.bottomAnchor.constraint(equalTo: rightColumnContentView.bottomAnchor),
+            ]
+        }
+        
+        NSLayoutConstraint.activate(contentConstraints)
     }
     
-    public func configurePriority(text: String?, textColor: UIColor?, fillColor: UIColor?, borderColor: UIColor?) {
-        priorityLabel.text = text
-        priorityLabel.textColor = textColor
-        priorityLabel.backgroundColor = fillColor
-        priorityLabel.borderColor = borderColor
-        
-        priorityLabel.isHidden = text == nil
-    }
+    // MARK: - Configuration
     
-    public func setStatusRows(_ viewModels: [TasksListItemResourceViewModel]?) {
-        rightColumnContentView.removeArrangedSubviewsFromViewHeirachy()
+    public func decorate(with viewModel: TasksListItemViewModel) {
+        // Left column
         
-        guard let viewModels = viewModels else { return }
+        titleLabel.text = viewModel.title
+        subtitleLabel.text = viewModel.subtitle
+        captionLabel.text = viewModel.caption
+        
+        priorityLabel.text = viewModel.badgeText
+        priorityLabel.textColor = viewModel.badgeTextColor
+        priorityLabel.backgroundColor = viewModel.badgeFillColor
+        priorityLabel.borderColor = viewModel.badgeBorderColor
+        priorityLabel.isHidden = viewModel.badgeText == nil
+        
+        updatesIndicator.isHidden = !viewModel.hasUpdates
+        
+        // Middle column
+        
+        detailLabel.text = viewModel.description
+        
+        // Right column
+        
+        setStatusRows(viewModel.resources)
+        
+        // Conditional display
+        
+        if viewModel.description != nil {
+            columns.insert(.detail)
+        } else {
+            columns.remove(.detail)
+        }
+
+        if viewModel.hasResources {
+            columns.insert(.resources)
+        } else {
+            columns.remove(.resources)
+        }
+
+        columnContainer.construct()
+        addContentViewConstraints()
+    }
+
+    private func setStatusRows(_ viewModels: [TasksListItemResourceViewModel]?) {
+        resourcesStackView.removeArrangedSubviewsFromViewHierarchy()
+        
+        guard let viewModels = viewModels, viewModels.count > 0 else {
+            return
+        }
         
         // Add first 3 view models
         for viewModel in viewModels[0..<min(3, viewModels.count)] {
@@ -273,12 +274,47 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
             statusRow.subtitleLabel.text = viewModel.statusText
             statusRow.subtitleLabel.font = UIFont.systemFont(ofSize: 13, weight: viewModel.useBoldStatusText ? .semibold : .regular)
             statusRow.subtitleLabel.textColor = viewModel.tintColor ?? .secondaryGray
-            rightColumnContentView.addArrangedSubview(statusRow)
+            resourcesStackView.addArrangedSubview(statusRow)
         }
         
         // Add spacer view if less than 4 views
-        if rightColumnContentView.arrangedSubviews.count < 4 {
-            rightColumnContentView.addArrangedSubview(UIView())
+        if resourcesStackView.arrangedSubviews.count < 4 {
+            resourcesStackView.addArrangedSubview(UIView())
         }
+    }
+}
+
+extension TasksListItemCollectionViewCell: ColumnContainerViewDataSource {
+    
+    public func numberOfColumns(_ columnContainerView: ColumnContainerView) -> Int {
+        return columns.count
+    }
+    
+    public func columnInfo(_ columnContainerView: ColumnContainerView, at index: Int) -> ColumnInfo {
+        if numberOfColumns(columnContainerView) == 1 {
+            return ColumnInfo(minimumWidth: 200, maximumWidth: 1000)
+        }
+        
+        return Column(rawValue: index)?.columnInfo ?? .zero
+    }
+    
+    private func contentView(_ columnContainerView: ColumnContainerView, for column: Column?) -> UIView {
+        guard let column = column else { return UIView() }
+        switch column {
+        case .overview:
+            return leftColumnContentView
+        case .detail:
+            return middleColumnContentView
+        case .resources:
+            return rightColumnContentView
+        }
+    }
+    
+    public func viewForColumn(_ columnContainerView: ColumnContainerView, at index: Int) -> UIView {
+        return contentView(columnContainerView, for: Column(rawValue: index))
+    }
+    
+    public func columnSpacing(_ columnContainerView: ColumnContainerView) -> CGFloat {
+        return LayoutConstants.columnSpacing
     }
 }

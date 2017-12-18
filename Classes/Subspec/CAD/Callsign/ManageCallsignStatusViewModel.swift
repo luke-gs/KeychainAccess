@@ -80,7 +80,7 @@ open class ManageCallsignStatusViewModel {
 
     public var incidentListViewModel: TasksListItemViewModel? {
         if let incident = CADStateManager.shared.currentIncident {
-            return TasksListItemViewModel(incident: incident, hasUpdates: false)
+            return TasksListItemViewModel(incident: incident, showsDescription: false, showsResources: false, hasUpdates: false)
         }
         return nil
     }

@@ -46,7 +46,7 @@ open class ResourceOverviewViewModel: TaskDetailsViewModel {
         else {
             return nil
         }
-        return TasksListItemViewModel(incident: incident, hasUpdates: false)
+        return TasksListItemViewModel(incident: incident, showsDescription: false, showsResources: false, hasUpdates: false)
     }
     
     open func loadData() {

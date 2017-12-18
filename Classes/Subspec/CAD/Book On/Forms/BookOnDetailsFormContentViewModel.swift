@@ -91,7 +91,7 @@ public class BookOnDetailsFormContentViewModel {
         }
 
         public var incompleteStatus: String? {
-            if contactNumber == nil || licenseType == nil {
+            if licenseType == nil {
                 return NSLocalizedString("Incomplete", comment: "").uppercased()
             }
             return nil
