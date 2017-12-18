@@ -14,10 +14,12 @@ public class EntitySummaryDisplayFormatter {
 
     public enum PresentableType {
         case function((MPOLKitEntity) -> Presentable)
+        case none
     }
 
     public enum SummaryType {
         case function((MPOLKitEntity) -> EntitySummaryDisplayable)
+        case none
     }
 
     public static let `default` = EntitySummaryDisplayFormatter()
@@ -45,6 +47,8 @@ public class EntitySummaryDisplayFormatter {
         switch summary {
         case .function(let handler):
             return handler(entity)
+        case .none:
+            return nil
         }
     }
 
@@ -59,6 +63,8 @@ public class EntitySummaryDisplayFormatter {
         switch presentable {
         case .function(let handler):
             return handler(entity)
+        case .none:
+            return nil
         }
     }
 

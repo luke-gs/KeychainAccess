@@ -13,7 +13,7 @@ private let maxRecentViewedCount = 6
 
 public class SearchRecentsViewController: FormBuilderViewController, SearchRecentsViewModelDelegate {
 
-    weak var delegate: SearchRecentsViewControllerDelegate?
+    weak var delegate: SearchDelegate?
 
     public var recentlyViewed: EntityBucket {
         return viewModel.recentlyViewed
@@ -192,11 +192,11 @@ public class SearchRecentsViewController: FormBuilderViewController, SearchRecen
     // MARK: - SearchRecentsViewModelDelegate
 
     public func searchRecentsViewModel(_ searchRecentsViewModel: SearchRecentsViewModel, didSelectSearchable searchable: Searchable) {
-        delegate?.searchRecentsController(self, didSelectSearchable: searchable)
+        delegate?.beginSearch(with: searchable)
     }
 
     public func searchRecentsViewModel(_ searchRecentsViewModel: SearchRecentsViewModel, didSelectPresentable presentable: Presentable) {
-        delegate?.searchRecentsController(self, didSelectPresentable: presentable)
+        delegate?.handlePresentable(presentable)
     }
     
     public func searchRecentsViewModelDidChange(_ searchRecentsViewModel: SearchRecentsViewModel) {
@@ -213,7 +213,7 @@ public class SearchRecentsViewController: FormBuilderViewController, SearchRecen
     }
 
     @objc private func newSearchButtonDidSelect(_ button: UIButton) {
-        delegate?.searchRecentsControllerDidSelectNewSearch(self)
+        delegate?.beginSearch(reset: true)
     }
 
     private func updateLoadingManagerState() {
@@ -230,11 +230,6 @@ public class SearchRecentsViewController: FormBuilderViewController, SearchRecen
     
 }
 
-protocol SearchRecentsViewControllerDelegate: class {
-    func searchRecentsController(_ searchRecentsController: SearchRecentsViewController, didSelectSearchable searchable: Searchable)
-    func searchRecentsController(_ searchRecentsController: SearchRecentsViewController, didSelectPresentable: Presentable)
-    func searchRecentsControllerDidSelectNewSearch(_ searchRecentsController: SearchRecentsViewController)
-}
 
 private class RecentEntitiesHeaderView: UICollectionReusableView, DefaultReusable {
 

@@ -34,7 +34,7 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
         }
     }
     
-    public weak var delegate: SearchResultsDelegate?
+    public weak var delegate: SearchDelegate?
 
     private var wantsThumbnails: Bool = true {
         didSet {
@@ -66,7 +66,6 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
         listStateItem.action = #selector(toggleThumbnails)
         listStateItem.imageInsets = .zero
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem.backBarButtonItem(target: self, action: #selector(backButtonItemDidSelect))
         navigationItem.rightBarButtonItems = [listStateItem]
     }
 
@@ -148,11 +147,11 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
     // MARK: - Common methods
 
     public func requestToEdit() {
-        delegate?.searchResultsControllerDidRequestToEdit(self)
+        delegate?.beginSearch(reset: false)
     }
 
     public func requestToPresent(_ presentable: Presentable) {
-        delegate?.searchResultsController(self, didSelectPresentable: presentable)
+        delegate?.handlePresentable(presentable)
     }
 
     // MARK: - SearchResultRendererDelegate
@@ -163,18 +162,10 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
         reloadForm()
     }
 
-    public func searchResultViewModel(_ viewModel: SearchResultViewModelable, didSelectPresentable presentable: Presentable) {
-        delegate?.searchResultsController(self, didSelectPresentable: presentable)
-    }
-
     // MARK: - Private methods
 
     @objc private func searchFieldButtonDidSelect() {
-        delegate?.searchResultsControllerDidRequestToEdit(self)
-    }
-
-    @objc private func backButtonItemDidSelect() {
-        delegate?.searchResultsControllerDidCancel(self)
+        delegate?.beginSearch(reset: false)
     }
 
     @objc private func toggleThumbnails() {
@@ -208,24 +199,4 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
     }
 
 }
-
-/// A delegate to notify that an entity was selected
-public protocol EntityDetailsDelegate: class {
-
-    /// Notify the delegate that an entity was selected
-    ///
-    /// - Parameters:
-    ///   - controller: the controller that the entity was selected on
-    ///   - entity: the entity that was selected
-    func controller(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity)
-
-    func controller(_ controller: UIViewController, searchFor searchable: Searchable)
-}
-
-public protocol SearchResultsDelegate: class {
-    func searchResultsControllerDidRequestToEdit(_ controller: UIViewController)
-    func searchResultsControllerDidCancel(_ controller: UIViewController)
-    func searchResultsController(_ controller: SearchResultsListViewController, didSelectPresentable presentable: Presentable)
-}
-
 

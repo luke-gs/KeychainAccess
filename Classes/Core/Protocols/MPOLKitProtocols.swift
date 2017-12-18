@@ -43,19 +43,20 @@ public protocol SearchRecentsViewModelDelegate: class {
 /// Only reason this really exists is that once we pass this in to MPOLKit's main SearchViewController we don't have control over this object's properties
 public protocol SearchViewModel {
 
-    /// A delegate back to the search view controller
-    var entityDelegate: EntityDetailsDelegate? { get set }
-
     /// The recent view model
     var recentViewModel: SearchRecentsViewModel { get }
 
     /// The data sources to be used
     var dataSources: [SearchDataSource] { get }
-    
-    /// Creates a presentable for entity
-    ///
-    /// - Parameter entity: The entity
-    /// - Returns: The presentable
-    func presentable(for entity: MPOLKitEntity) -> Presentable
+
+}
+
+public protocol SearchDelegate: class {
+
+    func beginSearch(reset: Bool)
+
+    func beginSearch(with searchable: Searchable)
+
+    func handlePresentable(_ presentable: Presentable)
 
 }
