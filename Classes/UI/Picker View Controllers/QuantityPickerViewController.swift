@@ -13,13 +13,17 @@ public protocol QuantityPickable: Pickable {
     var minimumQuantity: Int? { get }
 }
 
-public struct QuantityPicked {
+public struct QuantityPicked: Equatable {
     let object: Pickable
     var count: Int
 
     public init(object: Pickable, count: Int = 0) {
         self.object = object
         self.count = count
+    }
+
+    public static func ==(lhs: QuantityPicked, rhs: QuantityPicked) -> Bool {
+        return lhs.object.title == rhs.object.title
     }
 }
 

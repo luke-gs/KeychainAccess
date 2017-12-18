@@ -43,17 +43,33 @@ open class BookOnDetailsFormViewModel {
     public init(callsignViewModel: BookOnCallsignViewModelType) {
         self.callsignViewModel = callsignViewModel
 
+        // Create equipment selection pickables from manifest items
+        let defaultEquipment = CADStateManager.shared.equipmentItems().map { item in
+            return QuantityPicked(object: item, count: 0)
+        }.sorted(using: [SortDescriptor<QuantityPicked>(ascending: true) { $0.object.title }])
+
         if let lastSaved = CADStateManager.shared.lastBookOn {
             details = BookOnDetailsFormContentViewModel(withModel: lastSaved)
             isEditing = true
+
+            // Apply the previously stored equipment counts to latest manifest data
+            var mergedEquipment = defaultEquipment
+            for equipment in details.equipment {
+                if equipment.count > 0 {
+                    if let index = mergedEquipment.index(of: equipment) {
+                        mergedEquipment[index].count = equipment.count
+                    } else {
+                        mergedEquipment.append(equipment)
+                    }
+                }
+            }
+            details.equipment = mergedEquipment.sorted(using: [SortDescriptor<QuantityPicked>(ascending: true) { $0.object.title }])
+
         } else {
             details = BookOnDetailsFormContentViewModel()
             isEditing = false
 
-            // Create equipment selection pickables from manifest items
-            details.equipment = CADStateManager.shared.equipmentItems().map { item in
-                return QuantityPicked(object: item, count: 0)
-            }.sorted(using: [SortDescriptor<QuantityPicked>(ascending: true) { $0.object.title }])
+            details.equipment = defaultEquipment
 
             // Initial form has self as one of officers to be book on to callsign
             if let model = CADStateManager.shared.officerDetails {
