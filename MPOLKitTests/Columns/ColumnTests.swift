@@ -11,91 +11,104 @@ import XCTest
 
 class ColumnTests: XCTestCase {
     
-    func testTruncatesColumns() {
-        var columns: [ColumnInfo] = []
+    // MARK: - No margins
+    
+    /// Tests all columns with no margin
+    func testNoMargin_fit() {
+        let width: CGFloat = 960
         
-        let width: CGFloat = 800
-        
-        /// Not all columns should fit
-        columns = [
-            ColumnInfo(minimumWidth: 200, maximumWidth: 200),
-            ColumnInfo(minimumWidth: 400, maximumWidth: 1000),
-            ColumnInfo(minimumWidth: 500, maximumWidth: 1000),
+        /// All these columns should fit
+        let columns = [
+            ColumnInfo(minimumWidth: 200, maximumWidth: 280),
+            ColumnInfo(minimumWidth: 300, maximumWidth: 1000),
+            ColumnInfo(minimumWidth: 192, maximumWidth: 192),
         ]
+        
         
         let calculated = ColumnInfo.calculateWidths(for: columns, in: width)
         
-        // Assert widths are expected
-        XCTAssertEqual(calculated[0], 200)
-        XCTAssertEqual(calculated[1], 600)
-    }
-
-    func testWidths_FirstAuto() {
-        var columns: [ColumnInfo] = []
-        
-        let width: CGFloat = 850
-        
-        /// All these columns should fit in the widths
-        columns = [
-            ColumnInfo(minimumWidth: 400, maximumWidth: 1000),
-            ColumnInfo(minimumWidth: 200, maximumWidth: 200),
-            ColumnInfo(minimumWidth: 200, maximumWidth: 200),
-        ]
-        
-        let calculated = ColumnInfo.calculateWidths(for: columns, in: width)
-        
-        // Assert all columns made it in
-        XCTAssert(columns.count == calculated.count)
-
-        // Assert widths are expected
-        XCTAssertEqual(calculated[0], 450)
-        XCTAssertEqual(calculated[1], 200)
-        XCTAssertEqual(calculated[2], 200)
+        // Check widths match expectation
+        XCTAssert(calculated[0].actualWidth == 280)
+        XCTAssert(calculated[1].actualWidth == 488)
+        XCTAssert(calculated[2].actualWidth == 192)
     }
     
-    func testWidths_MiddleAuto() {
-        var columns: [ColumnInfo] = []
+    /// Tests one column with no margin fits
+    func testNoMargin_fit_1() {
+        let width: CGFloat = 240
         
-        let width: CGFloat = 850
-        
-        /// All these columns should fit in the widths
-        columns = [
-            ColumnInfo(minimumWidth: 200, maximumWidth: 200),
-            ColumnInfo(minimumWidth: 400, maximumWidth: 1000),
-            ColumnInfo(minimumWidth: 200, maximumWidth: 200),
+        /// Only 1 column should fit
+        let columns = [
+            ColumnInfo(minimumWidth: 200, maximumWidth: 280),
+            ColumnInfo(minimumWidth: 300, maximumWidth: 1000),
+            ColumnInfo(minimumWidth: 192, maximumWidth: 192),
         ]
+        
         
         let calculated = ColumnInfo.calculateWidths(for: columns, in: width)
         
-        // Assert all columns made it in
-        XCTAssert(columns.count == calculated.count)
-        
-        // Assert widths are expected
-        XCTAssertEqual(calculated[0], 200)
-        XCTAssertEqual(calculated[1], 450)
-        XCTAssertEqual(calculated[2], 200)
+        // Check widths match expectation
+        XCTAssert(calculated[0].actualWidth == 240)
+        XCTAssert(calculated[1].actualWidth == 0)
+        XCTAssert(calculated[2].actualWidth == 0)
     }
     
-    func testWidths_EndAuto() {
-        var columns: [ColumnInfo] = []
+    // MARK: - With margins
+    
+    /// Tests all columns fit with a margin
+    func testWithMargin_fit() {
+        let width: CGFloat = 960
+        let margin: CGFloat = 24
         
-        let width: CGFloat = 850
-        
-        /// All these columns should fit in the widths
-        columns = [
-            ColumnInfo(minimumWidth: 200, maximumWidth: 200),
-            ColumnInfo(minimumWidth: 200, maximumWidth: 200),
-            ColumnInfo(minimumWidth: 400, maximumWidth: 1000),
+        /// All these columns should fit
+        let columns = [
+            ColumnInfo(minimumWidth: 200, maximumWidth: 280),
+            ColumnInfo(minimumWidth: 300, maximumWidth: 1000),
+            ColumnInfo(minimumWidth: 192, maximumWidth: 192),
         ]
         
-        let calculated = ColumnInfo.calculateWidths(for: columns, in: width)
+        let calculated = ColumnInfo.calculateWidths(for: columns, in: width, margin: margin)
         
-        // Assert all columns made it in
-        XCTAssert(columns.count == calculated.count)
+        // Check widths match expectation
+        XCTAssert(calculated[0].actualWidth == 280)
+        XCTAssert(calculated[1].actualWidth == 440)
+        XCTAssert(calculated[2].actualWidth == 192)
         
-        // Assert widths are expected
-        XCTAssertEqual(calculated[0], 200)
-        XCTAssertEqual(calculated[1], 200)
-        XCTAssertEqual(calculated[2], 450)
+        // Check margins match expectation
+        XCTAssert(calculated[0].leadingMargin == 0)
+        XCTAssert(calculated[0].trailingMargin == 24)
+        XCTAssert(calculated[1].leadingMargin == 24)
+        XCTAssert(calculated[1].trailingMargin == 24)
+        XCTAssert(calculated[2].leadingMargin == 24)
+        XCTAssert(calculated[2].trailingMargin == 0)
     }
+    
+    /// Tests all columns fit with a margin
+    func testWithMargin_fit_1() {
+        let width: CGFloat = 240
+        let margin: CGFloat = 24
+        
+        /// Only one column should fit
+        let columns = [
+            ColumnInfo(minimumWidth: 200, maximumWidth: 280),
+            ColumnInfo(minimumWidth: 300, maximumWidth: 1000),
+            ColumnInfo(minimumWidth: 192, maximumWidth: 192),
+        ]
+        
+        let calculated = ColumnInfo.calculateWidths(for: columns, in: width, margin: margin)
+        
+        // Check widths match expectation
+        XCTAssert(calculated[0].actualWidth == 240)
+        XCTAssert(calculated[1].actualWidth == 0)
+        XCTAssert(calculated[2].actualWidth == 0)
+        
+        // Check margins match expectation
+        XCTAssert(calculated[0].leadingMargin == 0)
+        XCTAssert(calculated[0].trailingMargin == 0)
+        XCTAssert(calculated[1].leadingMargin == 0)
+        XCTAssert(calculated[1].trailingMargin == 0)
+        XCTAssert(calculated[2].leadingMargin == 0)
+        XCTAssert(calculated[2].trailingMargin == 0)
+    }
+    
 }

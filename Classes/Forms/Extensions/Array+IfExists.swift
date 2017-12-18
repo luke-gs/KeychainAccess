@@ -18,7 +18,7 @@ public extension Array {
     ///
     /// - Complexity: O(1).
     subscript (ifExists index: Int) -> Element? {
-        return index < count ? self[index] : nil
+        return (index < count && index >= 0) ? self[index] : nil
     }
     
 }
