@@ -95,7 +95,10 @@ open class TasksListHeaderCompactViewController: UIViewController {
 
         createSubviews()
         createConstraints()
-        updateFromViewModel()
+
+        sourceItems = viewModel.sourceItems
+        selectedSourceIndex = viewModel.selectedSourceIndex
+        reloadButtons()
     }
 
     public func createSubviews() {
@@ -161,15 +164,14 @@ open class TasksListHeaderCompactViewController: UIViewController {
 
     // MARK: - Data model
 
-    public func updateFromViewModel() {
+    public func reloadButtons() {
+        buttonStackView.removeArrangedSubviewsFromViewHierarchy()
         for barButtonItem in viewModel.barButtonItems {
             let button = UIButton(type: .custom)
             button.setImage(barButtonItem.image, for: .normal)
             button.addTarget(barButtonItem.target, action: barButtonItem.action!, for: .touchUpInside)
             buttonStackView.addArrangedSubview(button)
         }
-        sourceItems = viewModel.sourceItems
-        selectedSourceIndex = viewModel.selectedSourceIndex
     }
     
     @objc private func didTapSourceButton(_ item: UIBarButtonItem) {
@@ -205,6 +207,10 @@ extension TasksListHeaderCompactViewController: TasksListHeaderViewModelDelegate
 
     public func selectedSourceItemChanged(_ selectedSourceIndex: Int) {
         self.selectedSourceIndex = selectedSourceIndex
+    }
+
+    public func barButtonItemsChanged() {
+        reloadButtons()
     }
 
     public func presentPopover(_ viewController: UIViewController, barButtonIndex: Int, animated: Bool) {

@@ -40,13 +40,18 @@ open class CADStateManager: NSObject {
     /// The last book on data
     open var lastBookOn: BookOnRequest? {
         didSet {
-            // Add officers to resource
             // TODO: remove this when we have a real CAD system
             if let resource = self.currentResource {
+                // Add officers to resource
                 let officerIds = BookOnDetailsFormViewModel.lastSaved!.officers.map { return $0.officerId! }
                 var payrollIds = resource.payrollIds ?? []
                 payrollIds.append(contentsOf: officerIds)
                 resource.payrollIds = payrollIds
+
+                // Set state if callsign was off duty
+                if resource.status == .offDuty {
+                    resource.status = .onAir
+                }
             }
             NotificationCenter.default.post(name: .CADBookOnChanged, object: self)
         }

@@ -45,15 +45,15 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     // MARK: - Form
 
     private lazy var serialItem: BaseFormItem = {
-        let title = NSLocalizedString("Serial", comment: "")
+        let title = NSLocalizedString("Fleet ID", comment: "")
         if self.viewModel.isEditing {
             return ValueFormItem(title: title, value: viewModel.details.serial)
                 .width(.column(3))
         } else {
             return TextFieldFormItem(title: title, text: nil)
                 .width(.column(3))
-                .required("Serial is required.")
-                .strictValidate(CharacterSetSpecification.alphanumerics, message: "Serial must only use numbers and letters")
+                .required("Fleet ID is required.")
+                .strictValidate(CharacterSetSpecification.alphanumerics, message: "Fleet ID must only use numbers and letters")
                 .text(viewModel.details.serial)
                 .onValueChanged { [weak self] in
                     self?.viewModel.details.serial = $0
