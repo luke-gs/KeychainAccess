@@ -42,7 +42,7 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
         regularSidebarViewController.title = NSLocalizedString("Details", comment: "")
         regularSidebarViewController.headerView = headerView
-        // Commented out the event button for the time being
+        regularSidebarViewController.navigationItem.rightBarButtonItem = detailViewModel.showsActionButton ? actionBarItem : nil
         // due to the fact that events are not implemented yet
 //        regularSidebarViewController.navigationItem.rightBarButtonItem = actionBarItem
     }
