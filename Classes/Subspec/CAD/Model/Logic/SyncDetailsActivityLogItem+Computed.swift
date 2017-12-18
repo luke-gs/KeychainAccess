@@ -11,9 +11,12 @@ import UIKit
 extension SyncDetailsActivityLogItem {
     
     open var color: UIColor {
-        if source == "Dispatch" {
+        switch source {
+        case "Duress":
+            return .orangeRed
+        case "Dispatch":
             return .disabledGray
-        } else {
+        default:
             return .primaryGray
         }
     }
