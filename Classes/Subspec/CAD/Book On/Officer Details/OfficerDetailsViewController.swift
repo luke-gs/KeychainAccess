@@ -56,7 +56,6 @@ open class OfficerDetailsViewController: FormBuilderViewController {
         builder += TextFieldFormItem(title: NSLocalizedString("Contact Number", comment: ""), text: nil)
             .width(.column(2))
             .text(viewModel.details.contactNumber)
-            .required("Contact number is required.")
             .keyboardType(.numberPad)
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Contact number must be a number")
             .submitValidate(OfficerDetailsViewController.contactPhoneValidation.specification,
@@ -66,7 +65,10 @@ open class OfficerDetailsViewController: FormBuilderViewController {
             }
         
         builder += DropDownFormItem(title: NSLocalizedString("Licence", comment: ""))
-            .options([NSLocalizedString("Gold", comment: ""), NSLocalizedString("Silver", comment: "")])
+            // TODO: get these from manifest
+            .options([NSLocalizedString("Gold", comment: ""),
+                      NSLocalizedString("Silver", comment: ""),
+                      NSLocalizedString("Nil", comment: "")])
             .required("Licence is required.")
             .allowsMultipleSelection(false)
             .width(.column(2))

@@ -16,6 +16,9 @@ public protocol TasksListHeaderViewModelDelegate: PopoverPresenter {
     /// The selected source item has changed
     func selectedSourceItemChanged(_ selectedSourceIndex: Int)
 
+    /// The displayed bar button items changed
+    func barButtonItemsChanged()
+
     /// Present a popover from the given bar button item index
     func presentPopover(_ viewController: UIViewController, barButtonIndex: Int, animated: Bool)
 }
@@ -26,13 +29,13 @@ open class TasksListHeaderViewModel {
     // MARK: - Properties
 
     /// Container view model used for keeping source items and selection in sync
-    public var containerViewModel: TasksListContainerViewModel?
+    open var containerViewModel: TasksListContainerViewModel?
 
     /// Delegate for updating VC
-    public weak var delegate: TasksListHeaderViewModelDelegate?
+    open weak var delegate: TasksListHeaderViewModelDelegate?
 
     /// The tasks source items
-    public var sourceItems: [SourceItem] {
+    open var sourceItems: [SourceItem] {
         get {
             return containerViewModel?.sourceItems ?? []
         }
@@ -44,7 +47,7 @@ open class TasksListHeaderViewModel {
     }
 
     /// The selected source item
-    public var selectedSourceIndex: Int {
+    open var selectedSourceIndex: Int {
         get {
             return containerViewModel?.selectedSourceIndex ?? 0
         }
@@ -56,26 +59,30 @@ open class TasksListHeaderViewModel {
     }
 
     /// The bar button items to display in header
-    public var barButtonItems: [UIBarButtonItem]!
+    open var barButtonItems: [UIBarButtonItem]! {
+        didSet {
+            delegate?.barButtonItemsChanged()
+        }
+    }
 
     /// Compact header, created if needed
-    public lazy var compactHeaderViewController: UIViewController = {
+    open lazy var compactHeaderViewController: UIViewController = {
         return TasksListHeaderCompactViewController(viewModel: self)
     }()
 
     /// Regular header, created if needed
-    public lazy var regularHeaderViewController: UIViewController = {
+    open lazy var regularHeaderViewController: UIViewController = {
         return TasksListHeaderRegularViewController(viewModel: self)
     }()
 
     // MARK: - Initialization
 
     public init() {
-        createBarButtonItems()
+        setAddButtonVisible(true)
     }
 
     /// Create the view controller for this view model
-    public func createViewController(compact: Bool) -> UIViewController {
+    open func createViewController(compact: Bool) -> UIViewController {
         let vc: UIViewController = compact ? compactHeaderViewController : regularHeaderViewController
         if let vc = vc as? TasksListHeaderViewModelDelegate {
             self.delegate = vc
@@ -83,15 +90,19 @@ open class TasksListHeaderViewModel {
         return vc
     }
 
-    /// Create the bar button items for header
-    public func createBarButtonItems() {
-        let addButton = UIBarButtonItem(image: AssetManager.shared.image(forKey: .add), style: .plain, target: self, action: #selector(showAdd))
-        barButtonItems = [addButton]
+    /// Create an Add bar button item used in header
+    open func setAddButtonVisible(_ visible: Bool) {
+        if visible {
+            let addButton = UIBarButtonItem(image: AssetManager.shared.image(forKey: .add), style: .plain, target: self, action: #selector(showAdd))
+            barButtonItems = [addButton]
+        } else {
+            barButtonItems = []
+        }
     }
 
     // MARK: - Public methods
 
-    public func titleText() -> String? {
+    open func titleText() -> String? {
         if let sourceItem = sourceItems[ifExists: selectedSourceIndex] {
             return sourceItem.title
         }
