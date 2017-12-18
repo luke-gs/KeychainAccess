@@ -24,7 +24,7 @@ public class PersonMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSource
         return EntityDetailFetch<Person>(request: request)
     }
 
-    public init(baseEntity: Entity, delegate: EntityDetailsDelegate?) {
+    public init(baseEntity: Entity, delegate: SearchDelegate?) {
         self.entity = baseEntity
         self.detailViewControllers = [ PersonInfoViewController(),
                                        EntityAlertsViewController(),
@@ -49,7 +49,7 @@ public class PersonFNCDetailsSectionsDataSource: EntityDetailSectionsDataSource 
         return EntityDetailFetch<Person>(request: request)
     }
 
-    public init(baseEntity: Entity, delegate: EntityDetailsDelegate?) {
+    public init(baseEntity: Entity, delegate: SearchDelegate?) {
         self.entity = baseEntity
         self.detailViewControllers = [ PersonInfoViewController(),
                                        EntityAlertsViewController(),

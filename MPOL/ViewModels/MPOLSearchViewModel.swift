@@ -12,7 +12,7 @@ import ClientKit
 
 class MPOLSearchViewModel: SearchViewModel {
 
-    public var entityDelegate: EntityDetailsDelegate?
+//    public var entityDelegate: EntityDetailsDelegate?
 
     var recentViewModel: SearchRecentsViewModel = EntitySummaryRecentsViewModel(title: "MPOL")
 
@@ -46,8 +46,8 @@ class MPOLSearchViewModel: SearchViewModel {
         ]
     }
 
-    func presentable(for entity: MPOLKitEntity) -> Presentable {
-        return EntityScreen.entityDetails(entity: entity as! Entity, delegate: entityDelegate)
-    }
+//    func presentable(for entity: MPOLKitEntity) -> Presentable {
+//        return EntityScreen.entityDetails(entity: entity as! Entity, delegate: entityDelegate)
+//    }
 
 }

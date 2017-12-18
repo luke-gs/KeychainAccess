@@ -24,7 +24,7 @@ public class LocationMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSour
         return EntityDetailFetch<Address>(request: request)
     }
 
-    public init(baseEntity: Entity, delegate: EntityDetailsDelegate?) {
+    public init(baseEntity: Entity, delegate: SearchDelegate?) {
         self.entity = baseEntity
         self.detailViewControllers =  [
                                         EntityAlertsViewController(),
