@@ -71,37 +71,12 @@ public class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Sea
         return section.entities.flatMap { entity in
             guard let summary = summaryDisplayFormatter.summaryDisplayForEntity(entity) else { return nil }
 
-            if style == .list || delegate?.traitCollection.horizontalSizeClass == .compact {
-                let subtitleComponents = [summary.detail1, summary.detail2].flatMap({$0})
-
-                return SummaryListFormItem()
-                    .category(summary.category)
-                    .title(summary.title)
-                    .subtitle(subtitleComponents.isEmpty ? nil : subtitleComponents.joined(separator: " : "))
-                    .badge(summary.badge)
-                    .badgeColor(summary.iconColor)
-                    .borderColor(summary.borderColor)
-                    .image(summary.thumbnail(ofSize: .small))
-                    .onSelection { [weak self] _ in
-                        guard let `self` = self, let presentable = self.summaryDisplayFormatter.presentableForEntity(entity) else { return }
-                        self.delegate?.requestToPresent(presentable)
-                    }
-            } else {
-                return SummaryThumbnailFormItem()
-                    .style(.hero)
-                    .category(summary.category)
-                    .title(summary.title)
-                    .subtitle(summary.detail1)
-                    .detail(summary.detail2)
-                    .badge(summary.badge)
-                    .badgeColor(summary.iconColor)
-                    .borderColor(summary.borderColor)
-                    .image(summary.thumbnail(ofSize: .large))
-                    .onSelection { [weak self] _ in
-                        guard let `self` = self, let presentable = self.summaryDisplayFormatter.presentableForEntity(entity) else { return }
-                        self.delegate?.requestToPresent(presentable)
-                    }
-            }
+            let isCompact = style == .list || delegate?.traitCollection.horizontalSizeClass == .compact
+            return summary.summaryFormItem(isCompact: isCompact)
+                .onSelection { [weak self] _ in
+                    guard let `self` = self, let presentable = self.summaryDisplayFormatter.presentableForEntity(entity) else { return }
+                    self.delegate?.requestToPresent(presentable)
+                }
         }
     }
 
