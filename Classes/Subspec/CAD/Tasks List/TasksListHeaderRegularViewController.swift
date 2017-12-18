@@ -55,13 +55,6 @@ open class TasksListHeaderRegularViewController: UIViewController {
         buttonStackView.spacing = 16
         view.addSubview(buttonStackView)
 
-        for barButtonItem in viewModel.barButtonItems {
-            let button = UIButton(type: .custom)
-            button.setImage(barButtonItem.image, for: .normal)
-            button.addTarget(barButtonItem.target, action: barButtonItem.action!, for: .touchUpInside)
-            buttonStackView.addArrangedSubview(button)
-        }
-
         // Shrink label, not buttons if not enough space
         buttonStackView.setContentCompressionResistancePriority(.required, for: .horizontal)
         titleLabel.setContentCompressionResistancePriority(.fittingSizeLevel, for: .horizontal)
@@ -86,7 +79,17 @@ open class TasksListHeaderRegularViewController: UIViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        reloadButtons()
+    }
+
+    public func reloadButtons() {
+        buttonStackView.removeArrangedSubviewsFromViewHierarchy()
+        for barButtonItem in viewModel.barButtonItems {
+            let button = UIButton(type: .custom)
+            button.setImage(barButtonItem.image, for: .normal)
+            button.addTarget(barButtonItem.target, action: barButtonItem.action!, for: .touchUpInside)
+            buttonStackView.addArrangedSubview(button)
+        }
     }
 }
 
@@ -98,6 +101,10 @@ extension TasksListHeaderRegularViewController: TasksListHeaderViewModelDelegate
 
     public func selectedSourceItemChanged(_ selectedSourceIndex: Int) {
         titleLabel.text = viewModel.titleText()
+    }
+
+    public func barButtonItemsChanged() {
+        reloadButtons()
     }
 
     public func presentPopover(_ viewController: UIViewController, barButtonIndex: Int, animated: Bool) {

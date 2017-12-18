@@ -10,8 +10,8 @@ import Foundation
 
 extension UIStackView {
     
-    /// Removes all arranged subviews from the stack view and the view heirachy
-    public func removeArrangedSubviewsFromViewHeirachy() {
+    /// Removes all arranged subviews from the stack view and the view hierarchy
+    public func removeArrangedSubviewsFromViewHierarchy() {
         self.arrangedSubviews.forEach {
             self.removeArrangedSubview($0)
             $0.removeFromSuperview()

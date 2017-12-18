@@ -258,7 +258,7 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
     }
 
     private func setStatusRows(_ viewModels: [TasksListItemResourceViewModel]?) {
-        resourcesStackView.removeArrangedSubviewsFromViewHeirachy()
+        resourcesStackView.removeArrangedSubviewsFromViewHierarchy()
         
         guard let viewModels = viewModels, viewModels.count > 0 else {
             return
