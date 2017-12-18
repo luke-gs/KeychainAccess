@@ -57,16 +57,27 @@ public class BookOnDetailsFormContentViewModel {
         request.shiftEnd = self.endTime
 
         request.officers = self.officers.flatMap { officer in
-            return CADStateManager.shared.officersById[officer.officerId!]
+            if let existingOfficer = CADStateManager.shared.officersById[officer.officerId!] {
+                let updatedOfficer = SyncDetailsOfficer(officer: existingOfficer)
+                updatedOfficer.licenceTypeId = officer.licenseType
+                updatedOfficer.contactNumber = officer.contactNumber
+                updatedOfficer.capabilities = officer.capabilities
+                updatedOfficer.remarks = officer.remarks
+                return updatedOfficer
+            }
+            return nil
         }
         request.equipment = self.equipment.flatMap { item in
-            return SyncDetailsResourceEquipment(count: item.count, description: item.object.title)
+            if item.count > 0 {
+                return SyncDetailsResourceEquipment(count: item.count, description: item.object.title)
+            }
+            return nil
         }
         return request
     }
 
     public class Officer: Equatable {
-        
+
         // From sync
         public var title: String?
         public var rank: String?
