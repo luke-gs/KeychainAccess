@@ -1,5 +1,5 @@
 //
-//  TasksListCellStatusRow.swift
+//  TasksListInfoRowView.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 14/11/17.
@@ -9,7 +9,7 @@
 import UIKit
 
 /// Row for the status column in landscape on tasks list
-open class TasksListCellStatusRow: UIView {
+open class TasksListInfoRowView: UIView {
 
     private struct LayoutConstants {
         static let imageSize = CGSize(width: 16, height: 16)

@@ -1,5 +1,5 @@
 //
-//  TasksListItemCollectionViewCell.swift
+//  TasksListIncidentCollectionViewCell.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 14/11/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class TasksListItemCollectionViewCell: CollectionViewFormCell {
+open class TasksListIncidentCollectionViewCell: CollectionViewFormCell {
     
     enum Column: Int {
         case summary = 0
@@ -41,23 +41,23 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
     private let columnContainer = ColumnContainerView()
     
     /// View for showing updates indicator
-    public let updatesIndicator = UIImageView()
+    open let updatesIndicator = UIImageView()
     
     /// View for summary column
-    public let summaryView = TasksListIncidentSummaryView()
+    open let summaryView = TasksListIncidentSummaryView()
     
     /// View for details
-    public let detailView = TasksListDetailView()
+    open let detailView = TasksListDetailView()
     
     /// View for status rows
-    public let statusRowView = TasksListStatusRowsView(maxViews: 3)
+    open let statusRowView = TasksListInfoRowStackView(maxViews: 3)
     
     // MARK: - Properties
-        
+    
     /// Columns to show
     private var columns: Set<Column> = [.summary]
     
-    public override func commonInit() {
+    open override func commonInit() {
         super.commonInit()
         columnContainer.dataSource = self
         setupViews()
@@ -89,7 +89,7 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
     
     // MARK: - Configuration
     
-    public func decorate(with viewModel: TasksListItemViewModel) {
+    open func decorate(with viewModel: TasksListIncidentViewModel) {
         // Left column
         
         summaryView.titleLabel.text = viewModel.title
@@ -110,7 +110,7 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
         
         // Right column
         
-        statusRowView.setStatusRows(viewModel.resources)
+        statusRowView.setRows(viewModel.resources)
         
         // Conditional display
         
@@ -131,7 +131,7 @@ public class TasksListItemCollectionViewCell: CollectionViewFormCell {
 
 }
 
-extension TasksListItemCollectionViewCell: ColumnContainerViewDataSource {
+extension TasksListIncidentCollectionViewCell: ColumnContainerViewDataSource {
     
     public func numberOfColumns(_ columnContainerView: ColumnContainerView) -> Int {
         return columns.count

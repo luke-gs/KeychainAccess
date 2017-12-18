@@ -22,7 +22,7 @@ public protocol TasksListViewControllerDelegate: class {
 ///
 /// This uses CADFormCollectionViewController for consistent styling and reduced boilerplate.
 ///
-open class TasksListViewController: CADFormCollectionViewController<TasksListItemViewModel>, UISearchBarDelegate {
+open class TasksListViewController: CADFormCollectionViewController<TasksListIncidentViewModel>, UISearchBarDelegate {
 
     /// Delegate for UI events
     open weak var delegate: TasksListViewControllerDelegate?
@@ -100,16 +100,16 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
     }
     
     override open func cellType() -> CollectionViewFormCell.Type {
-        return TasksListItemCollectionViewCell.self
+        return TasksListIncidentCollectionViewCell.self
     }
 
-    override open func decorate(cell: CollectionViewFormCell, with viewModel: TasksListItemViewModel) {
+    override open func decorate(cell: CollectionViewFormCell, with viewModel: TasksListIncidentViewModel) {
         cell.highlightStyle = .fade
         cell.selectionStyle = .fade
         cell.contentMode = .top
         cell.accessoryView = FormAccessoryView(style: .disclosure)
 
-        if let cell = cell as? TasksListItemCollectionViewCell {
+        if let cell = cell as? TasksListIncidentCollectionViewCell {
             cell.decorate(with: viewModel)
         }
     }
@@ -117,7 +117,7 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
     open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
 
-        if let cell = cell as? TasksListItemCollectionViewCell {
+        if let cell = cell as? TasksListIncidentCollectionViewCell {
             cell.summaryView.titleLabel.textColor = primaryTextColor
             cell.summaryView.subtitleLabel.textColor = primaryTextColor
             cell.summaryView.captionLabel.textColor = secondaryTextColor
@@ -160,7 +160,7 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListIte
     }
     
     /// Creates a view model from an annotation
-    public func viewModel(for item: TasksListItemViewModel) -> TaskItemViewModel? {
+    public func viewModel(for item: TasksListIncidentViewModel) -> TaskItemViewModel? {
         if let resource = CADStateManager.shared.resourcesById[item.identifier] {
             return ResourceTaskItemViewModel(resource: resource)
         } else if let incident = CADStateManager.shared.incidentsById[item.identifier] {

@@ -13,7 +13,7 @@ import UIKit
 /// * Resources
 /// * Patrol
 /// * Broadcast
-public class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewModel> {
+public class TasksListViewModel: CADFormCollectionViewModel<TasksListIncidentViewModel> {
 
     /// Create the view controller for this view model
     public func createViewController() -> TasksListViewController {

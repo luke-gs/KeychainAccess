@@ -1,5 +1,5 @@
 //
-//  TasksListStatusRowsView.swift
+//  TasksListInfoRowStackView.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 18/12/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class TasksListStatusRowsView: UIView {
+open class TasksListInfoRowStackView: UIView {
 
     private struct LayoutConstants {
         static let verticalMargin: CGFloat = 16
@@ -17,7 +17,7 @@ open class TasksListStatusRowsView: UIView {
     // MARK: - Views
     
     /// Stack view for resources
-    open let resourcesStackView = UIStackView()
+    open let stackView = UIStackView()
     
     // MARK: - Properties
     
@@ -46,28 +46,28 @@ open class TasksListStatusRowsView: UIView {
     
     /// Creates and styles views
     private func setupViews() {
-        resourcesStackView.axis = .vertical
-        resourcesStackView.alignment = .top
-        resourcesStackView.spacing = 10
-        resourcesStackView.distribution = .fill
-        resourcesStackView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(resourcesStackView)
+        stackView.axis = .vertical
+        stackView.alignment = .top
+        stackView.spacing = 10
+        stackView.distribution = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(stackView)
     }
     
     /// Activates view constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            resourcesStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: LayoutConstants.verticalMargin),
-            resourcesStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            resourcesStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            resourcesStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            stackView.topAnchor.constraint(equalTo: self.topAnchor, constant: LayoutConstants.verticalMargin),
+            stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
         ])
     }
     
     // MARK: - Config
     
-    open func setStatusRows(_ viewModels: [TasksListItemStatusRowViewModel]?) {
-        resourcesStackView.removeArrangedSubviewsFromViewHeirachy()
+    open func setRows(_ viewModels: [TasksListInformationRowViewModel]?) {
+        stackView.removeArrangedSubviewsFromViewHeirachy()
         
         guard let viewModels = viewModels, viewModels.count > 0 else {
             return
@@ -75,20 +75,21 @@ open class TasksListStatusRowsView: UIView {
         
         // Add first (max) view models
         for viewModel in viewModels[0..<min(maxViews, viewModels.count)] {
-            let statusRow = TasksListCellStatusRow()
+            let statusRow = TasksListInfoRowView()
             statusRow.imageView.image = viewModel.image?.withRenderingMode(.alwaysTemplate)
             statusRow.imageView.tintColor = viewModel.tintColor ?? .secondaryGray
-            statusRow.titleLabel.text = viewModel.resourceTitle
+            statusRow.titleLabel.text = viewModel.title
             statusRow.titleLabel.textColor = viewModel.tintColor ?? .secondaryGray
-            statusRow.subtitleLabel.text = viewModel.statusText
-            statusRow.subtitleLabel.font = UIFont.systemFont(ofSize: 13, weight: viewModel.useBoldStatusText ? .semibold : .regular)
+            statusRow.subtitleLabel.text = viewModel.detail
+            statusRow.subtitleLabel.font = UIFont.systemFont(ofSize: 13, weight: viewModel.useBoldDetailText
+                ? .semibold : .regular)
             statusRow.subtitleLabel.textColor = viewModel.tintColor ?? .secondaryGray
-            resourcesStackView.addArrangedSubview(statusRow)
+            stackView.addArrangedSubview(statusRow)
         }
         
         // Add spacer view if less than max views
-        if resourcesStackView.arrangedSubviews.count < maxViews + 1 {
-            resourcesStackView.addArrangedSubview(UIView())
+        if stackView.arrangedSubviews.count < maxViews + 1 {
+            stackView.addArrangedSubview(UIView())
         }
     }
 }

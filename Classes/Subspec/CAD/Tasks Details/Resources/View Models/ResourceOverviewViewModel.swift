@@ -39,14 +39,14 @@ open class ResourceOverviewViewModel: TaskDetailsViewModel {
         }
     }
     
-    open var currentIncidentViewModel: TasksListItemViewModel? {
+    open var currentIncidentViewModel: TasksListIncidentViewModel? {
         guard let resource = CADStateManager.shared.resourcesById[callsign],
             let incidentNumber = resource.currentIncident,
             let incident = CADStateManager.shared.incidentsById[incidentNumber]
         else {
             return nil
         }
-        return TasksListItemViewModel(incident: incident, showsDescription: false, showsResources: false, hasUpdates: false)
+        return TasksListIncidentViewModel(incident: incident, showsDescription: false, showsResources: false, hasUpdates: false)
     }
     
     open func loadData() {

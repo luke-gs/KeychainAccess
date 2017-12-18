@@ -25,10 +25,10 @@ open class ResourceOverviewFormViewController: FormBuilderViewController {
         if let currentIncident = viewModel.currentIncidentViewModel {
             builder += HeaderFormItem(text: viewModel.respondingToHeaderTitle(), style: .collapsible)
             
-            builder += CustomFormItem(cellType: TasksListItemCollectionViewCell.self, reuseIdentifier: "CurrentTaskCell")
+            builder += CustomFormItem(cellType: TasksListIncidentCollectionViewCell.self, reuseIdentifier: "CurrentTaskCell")
                 .onConfigured({ [unowned self] (cell) in
                     // Configure the cell
-                    if let cell = cell as? TasksListItemCollectionViewCell {
+                    if let cell = cell as? TasksListIncidentCollectionViewCell {
                         self.decorate(cell: cell, with: currentIncident)
                     }
                 })
@@ -65,7 +65,7 @@ open class ResourceOverviewFormViewController: FormBuilderViewController {
         return IntrinsicHeightCollectionView.self
     }
     
-    open func decorate(cell: TasksListItemCollectionViewCell, with viewModel: TasksListItemViewModel) {
+    open func decorate(cell: TasksListIncidentCollectionViewCell, with viewModel: TasksListIncidentViewModel) {
         cell.highlightStyle = .fade
         cell.separatorStyle = .fullWidth
         
