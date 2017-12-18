@@ -55,11 +55,7 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         selectionStyle = .underline
         
         textField.clearButtonMode = .whileEditing
-
-        // Allow tapping on cell
-        isUserInteractionEnabled = true
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(formItemTapped(sender:))))
-
+        
         titleLabel.adjustsFontForContentSizeCategory = true
         textField.adjustsFontForContentSizeCategory = true
         
@@ -87,12 +83,7 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
         }
         textField.removeObserver(self, forKeyPath: #keyPath(UITextField.font), context: &kvoContext)
     }
-
-    @objc private func formItemTapped(sender: UIView) {
-        if !textField.isFirstResponder && textField.canBecomeFirstResponder {
-            textField.becomeFirstResponder()
-        }
-    }
+    
     
     // MARK: - Overrides
     
