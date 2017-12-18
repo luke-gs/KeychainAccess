@@ -74,7 +74,7 @@ open class ColumnContainerView: UIView {
                 view.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             ]
             
-            // Hide the view if its with is 0
+            // Hide the view if its width is 0
             view.isHidden = info.actualWidth == 0
         }
         
