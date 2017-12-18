@@ -54,10 +54,6 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         
         let titleLabel = self.titleLabel
         let textView   = self.textView
-
-        // Allow for selection
-        isUserInteractionEnabled = true
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(formItemTapped(sender:))))
         
         titleLabel.adjustsFontForContentSizeCategory = true
         textView.adjustsFontForContentSizeCategory = true
@@ -93,12 +89,6 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         keyPathsAffectingLabelLayout.forEach {
             titleLabel.removeObserver(self, forKeyPath: $0, context: &kvoContext)
             placeholderLabel.removeObserver(self, forKeyPath: $0, context: &kvoContext)
-        }
-    }
-
-    @objc private func formItemTapped(sender: UIView) {
-        if !textView.isFirstResponder && textView.canBecomeFirstResponder {
-            textView.becomeFirstResponder()
         }
     }
     
