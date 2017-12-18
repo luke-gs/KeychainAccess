@@ -641,7 +641,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 cell.setRequiresValidation(message != nil || isRequired == true, validationText: message, animated: true)
             }
         case .filterErrorMessages(let indexes):
-            let indexPaths = indexes.map{ IndexPath(item: $0, section: Section.filters.rawValue) }
+            let indexPaths = indexes.map { IndexPath(item: $0, section: Section.filters.rawValue) }
 
             for indexPath in indexPaths {
                 if let cell = self.collectionView?.cellForItem(at: indexPath) as? CollectionViewFormCell {
