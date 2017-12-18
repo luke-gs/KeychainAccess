@@ -279,13 +279,13 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         // TODO: show progress overlay
         firstly {
             return viewModel.submitForm()
-            }.then { [unowned self] status in
-                self.closeForm(submitted: true)
-            }.always {
-                // TODO: Cancel progress overlay
-            }.catch { error in
-                let title = NSLocalizedString("Failed to submit form", comment: "")
-                AlertQueue.shared.addSimpleAlert(title: title, message: error.localizedDescription)
+        }.then { [unowned self] status in
+            self.closeForm(submitted: true)
+        }.always {
+            // TODO: Cancel progress overlay
+        }.catch { error in
+            let title = NSLocalizedString("Failed to submit form", comment: "")
+            AlertQueue.shared.addSimpleAlert(title: title, message: error.localizedDescription)
         }
     }
 
