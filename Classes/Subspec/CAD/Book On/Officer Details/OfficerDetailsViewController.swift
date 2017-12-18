@@ -56,7 +56,6 @@ open class OfficerDetailsViewController: FormBuilderViewController {
         builder += TextFieldFormItem(title: NSLocalizedString("Contact Number", comment: ""), text: nil)
             .width(.column(2))
             .text(viewModel.details.contactNumber)
-            .required("Contact number is required.")
             .keyboardType(.numberPad)
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Contact number must be a number")
             .submitValidate(OfficerDetailsViewController.contactPhoneValidation.specification,
