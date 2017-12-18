@@ -634,7 +634,6 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         case .filterErrorMessage(let index):
             let indexPath = IndexPath(item: index, section: Section.filters.rawValue)
 
-
             if let cell = self.collectionView?.cellForItem(at: indexPath) as? CollectionViewFormCell {
                 let message = selectedDataSource.options?.errorMessage(at: index)
                 let isRequired = selectedDataSource.options?.isRequired(at: index)
