@@ -47,16 +47,16 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     private lazy var serialItem: BaseFormItem = {
         let title = NSLocalizedString("Fleet ID", comment: "")
         if self.viewModel.isEditing {
-            return ValueFormItem(title: title, value: viewModel.details.serial)
+            return ValueFormItem(title: title, value: viewModel.content.serial)
                 .width(.column(3))
         } else {
             return TextFieldFormItem(title: title, text: nil)
                 .width(.column(3))
                 .required("Fleet ID is required.")
                 .strictValidate(CharacterSetSpecification.alphanumerics, message: "Fleet ID must only use numbers and letters")
-                .text(viewModel.details.serial)
+                .text(viewModel.content.serial)
                 .onValueChanged { [weak self] in
-                    self?.viewModel.details.serial = $0
+                    self?.viewModel.content.serial = $0
             }
         }
     }()
@@ -64,16 +64,16 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     private lazy var categoryItem: BaseFormItem = {
         let title = NSLocalizedString("Category", comment: "")
         if self.viewModel.isEditing {
-            return ValueFormItem(title: title, value: viewModel.details.category)
+            return ValueFormItem(title: title, value: viewModel.content.category)
                 .width(.column(3))
         } else {
             return DropDownFormItem(title: title)
                 .options(["1", "2", "3"])
                 .required("Category is required.")
                 .width(.column(3))
-                .selectedValue([viewModel.details.category].removeNils())
+                .selectedValue([viewModel.content.category].removeNils())
                 .onValueChanged { [weak self] in
-                    self?.viewModel.details.category = $0?.first
+                    self?.viewModel.content.category = $0?.first
             }
         }
     }()
@@ -84,20 +84,20 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             .width(.column(3))
             .keyboardType(.numberPad)
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Odometer must be a number")
-            .text(viewModel.details.odometer)
+            .text(viewModel.content.odometer)
             .onValueChanged { [weak self] in
-                self?.viewModel.details.odometer = $0
+                self?.viewModel.content.odometer = $0
         }
     }()
 
     private lazy var equipmentItem: BaseFormItem = {
-        let viewModel = QuantityPickerViewModel(items: self.viewModel.details.equipment ?? [], subjectMatter: NSLocalizedString("Equipment", comment: ""))
+        let viewModel = QuantityPickerViewModel(items: self.viewModel.content.equipment, subjectMatter: NSLocalizedString("Equipment", comment: ""))
         let title = NSLocalizedString("Equipment", comment: "")
         return QuantityPickerFormItem(viewModel: viewModel, title: title)
             .width(.column(1))
             .pickerTitle(NSLocalizedString("Add Equipment", comment: ""))
             .onValueChanged { [weak self] in
-                self?.viewModel.details.equipment = $0
+                self?.viewModel.content.equipment = $0 ?? []
         }
     }()
 
@@ -106,20 +106,20 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         return TextFieldFormItem(title: title, text: nil)
             .width(.column(1))
             .softValidate(CountSpecification.max(1000), message: "Must be no more than 1000 characters")
-            .text(viewModel.details.remarks)
+            .text(viewModel.content.remarks)
             .onValueChanged { [weak self] in
-                self?.viewModel.details.remarks = $0
+                self?.viewModel.content.remarks = $0
         }
     }()
 
     /// Start time of shift
     private lazy var startTimeItem: BaseFormItem = {
         // Set default start time to next hour if not set
-        viewModel.details.startTime = viewModel.details.startTime ?? Date().rounded(minutes: 60, rounding: .ceil)
+        viewModel.content.startTime = viewModel.content.startTime ?? Date().rounded(minutes: 60, rounding: .ceil)
 
         let title = NSLocalizedString("Start Time", comment: "")
         if self.viewModel.isEditing {
-            let value = DateFormatter.formTime.string(from: viewModel.details.startTime!)
+            let value = DateFormatter.formTime.string(from: viewModel.content.startTime!)
             return ValueFormItem(title: title, value: value)
                 .width(.column(3))
         } else {
@@ -130,9 +130,9 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
                 .dateFormatter(.formTime)
                 .minimumDate(Date().rounded(minutes: 15, rounding: .ceil))
                 .minuteInterval(15)
-                .selectedValue(viewModel.details.startTime)
+                .selectedValue(viewModel.content.startTime)
                 .onValueChanged { [weak self] in
-                    self?.viewModel.details.startTime = $0
+                    self?.viewModel.content.startTime = $0
                     self?.updateDuration()
             }
         }
@@ -141,7 +141,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     /// End time of shift
     private lazy var endTimeItem: DateFormItem = {
         // Set default end time to start time plus 8 hours if not set
-        viewModel.details.endTime = viewModel.details.endTime ?? Date().rounded(minutes: 60, rounding: .ceil).adding(hours: 8)
+        viewModel.content.endTime = viewModel.content.endTime ?? Date().rounded(minutes: 60, rounding: .ceil).adding(hours: 8)
 
         let title = NSLocalizedString("Est. End Time", comment: "")
         return DateFormItem(title: title)
@@ -151,9 +151,9 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             .dateFormatter(.formTime)
             .minimumDate(Date().rounded(minutes: 15, rounding: .ceil))
             .minuteInterval(15)
-            .selectedValue(viewModel.details.endTime)
+            .selectedValue(viewModel.content.endTime)
             .onValueChanged { [weak self] in
-                self?.viewModel.details.endTime = $0
+                self?.viewModel.content.endTime = $0
                 self?.updateDuration()
         }
     }()
@@ -170,7 +170,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         // Show list of officers first, followed by shift details then optional sections
 
         let officersTitleFormat = NSLocalizedString("%d Officer(s)", comment: "")
-        let officersTitle = String.localizedStringWithFormat(officersTitleFormat, viewModel.details.officers.count)
+        let officersTitle = String.localizedStringWithFormat(officersTitleFormat, viewModel.content.officers.count)
 
         builder += HeaderFormItem(text: officersTitle.uppercased(), style: .plain)
             .actionButton(title: NSLocalizedString("Add", comment: "").uppercased(), handler: { [unowned self] in
@@ -184,7 +184,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             self.reloadForm()
         })
 
-        for (index, officer) in viewModel.details.officers.enumerated() {
+        for (index, officer) in viewModel.content.officers.enumerated() {
             let accessoryLabel = AccessoryTextStyle.roundedRect(AccessoryLabelDetail(text: officer.incompleteStatus, textColour: .orangeRed, borderColour: .orangeRed))
             builder += BookOnDetailsOfficerFormItem(title: officer.title,
                                                     subtitle: officer.subtitle,
@@ -228,7 +228,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
     private func updateDuration() {
         // Update the generated duration field
-        if let startTime = viewModel.details.startTime, var endTime = viewModel.details.endTime {
+        if let startTime = viewModel.content.startTime, var endTime = viewModel.content.endTime {
             if endTime < startTime {
                 // If endtime is before start time, clip it and reload the cell
                 endTime = startTime
@@ -265,7 +265,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             AlertQueue.shared.addErrorAlert(message: message)
         case .valid:
             // Check officer forms are also valid
-            for officer in viewModel.details.officers {
+            for officer in viewModel.content.officers {
                 if officer.incompleteStatus != nil {
                     AlertQueue.shared.addErrorAlert(message: NSLocalizedString("Please complete details for officers", comment: ""))
                     return
@@ -279,13 +279,13 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         // TODO: show progress overlay
         firstly {
             return viewModel.submitForm()
-            }.then { [unowned self] status in
-                self.closeForm(submitted: true)
-            }.always {
-                // TODO: Cancel progress overlay
-            }.catch { error in
-                let title = NSLocalizedString("Failed to submit form", comment: "")
-                AlertQueue.shared.addSimpleAlert(title: title, message: error.localizedDescription)
+        }.then { [unowned self] status in
+            self.closeForm(submitted: true)
+        }.always {
+            // TODO: Cancel progress overlay
+        }.catch { error in
+            let title = NSLocalizedString("Failed to submit form", comment: "")
+            AlertQueue.shared.addSimpleAlert(title: title, message: error.localizedDescription)
         }
     }
 

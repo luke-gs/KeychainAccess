@@ -36,4 +36,15 @@ open class SyncDetailsResource: Codable {
 open class SyncDetailsResourceEquipment: Codable {
     open var count: Int!
     open var description: String!
+
+    public init(count: Int!, description: String!) {
+        self.count = count
+        self.description = description
+    }
+
+    /// Copy constructor
+    public init(equipment: SyncDetailsResourceEquipment) {
+        self.count = equipment.count
+        self.description = equipment.description
+    }
 }
