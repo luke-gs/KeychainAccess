@@ -14,6 +14,10 @@ public enum LocationBasicSearchResultType: String {
 
 /// Implementation of basic search options that allows results to be provided the client.
 open class LocationBasicSearchOptions: SearchOptions {
+    public func conditionalRequiredFields(for index: Int) -> [Int]? {
+        return nil
+    }
+
     open var headerText: String? {
         return results.count > 0 ? NSLocalizedString("SELECT AN ADDRESS TO CONTINUE", comment: "Location Search - type ahead results") : NSLocalizedString("OTHER", comment: "Location Search - others")
     }
