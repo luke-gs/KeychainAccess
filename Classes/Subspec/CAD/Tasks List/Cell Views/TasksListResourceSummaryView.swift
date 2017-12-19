@@ -11,12 +11,13 @@ import UIKit
 open class TasksListResourceSummaryView: UIView {
 
     private struct LayoutConstants {
-        static let imageSize: CGFloat = 48
+        static let resourceImageSize: CGFloat = 48
+        static let statusImageSize: CGFloat = 32
         static let margin: CGFloat = 16
     }
     
     /// Image view for the resource image
-    open let imageView = UIImageView()
+    open let resourceImageView = UIImageView()
     
     /// Label for the resource title
     open let titleLabel = UILabel()
@@ -33,6 +34,9 @@ open class TasksListResourceSummaryView: UIView {
     /// Label for the resource status
     open let captionLabel = UILabel()
     
+    /// Image view for the status image
+    open let statusImageView = UIImageView()
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -45,8 +49,11 @@ open class TasksListResourceSummaryView: UIView {
     
     /// Creates and styles views
     private func setupViews() {
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(imageView)
+        resourceImageView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(resourceImageView)
+        
+        statusImageView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(statusImageView)
         
         titleLabel.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
         titleLabel.adjustsFontForContentSizeCategory = true
@@ -82,27 +89,35 @@ open class TasksListResourceSummaryView: UIView {
     private func setupConstraints() {
         titleLabel.setContentHuggingPriority(.required, for: .vertical)
         priorityLabel.setContentHuggingPriority(.required, for: .horizontal)
+        priorityLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        captionLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         captionLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         
         NSLayoutConstraint.activate([
-            imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: LayoutConstants.imageSize),
-            imageView.widthAnchor.constraint(equalToConstant: LayoutConstants.imageSize),
+            resourceImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            resourceImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            resourceImageView.heightAnchor.constraint(equalToConstant: LayoutConstants.resourceImageSize),
+            resourceImageView.widthAnchor.constraint(equalToConstant: LayoutConstants.resourceImageSize),
             
             titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: LayoutConstants.margin),
-            titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: LayoutConstants.margin),
-            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: resourceImageView.trailingAnchor, constant: LayoutConstants.margin),
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: statusImageView.leadingAnchor, constant: -LayoutConstants.margin),
             
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
             subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            subtitleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            subtitleLabel.trailingAnchor.constraint(lessThanOrEqualTo: statusImageView.leadingAnchor, constant: -LayoutConstants.margin),
             
             priorityCaptionView.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 6),
             priorityCaptionView.leadingAnchor.constraint(equalTo: subtitleLabel.leadingAnchor),
             priorityCaptionView.bottomAnchor.constraint(equalTo: self.bottomAnchor,
                                                         constant: -LayoutConstants.margin),
-            priorityCaptionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).withPriority(.almostRequired),
+            priorityCaptionView.trailingAnchor.constraint(lessThanOrEqualTo: statusImageView.leadingAnchor, constant: -LayoutConstants.margin)
+                .withPriority(.almostRequired),
+            
+            statusImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            statusImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            statusImageView.heightAnchor.constraint(equalToConstant: LayoutConstants.statusImageSize),
+            statusImageView.widthAnchor.constraint(equalToConstant: LayoutConstants.statusImageSize),
         ])
     }
     

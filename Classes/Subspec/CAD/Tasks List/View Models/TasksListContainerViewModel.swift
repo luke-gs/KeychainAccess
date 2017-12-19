@@ -297,7 +297,15 @@ open class TasksListContainerViewModel {
                 return TasksListResourceViewModel(resource: resource, incident: incident)
             }
             
-            return CADFormCollectionSectionViewModel(title: "\(resources.count) \(section)", items: taskViewModels)
+            var title = "\(resources.count) \(section)"
+            
+            if section == duress {
+                title = String.localizedStringWithFormat(NSLocalizedString("%d Resource(s)", comment: ""), resources.count) + " In Duress"
+            }
+            
+            
+
+            return CADFormCollectionSectionViewModel(title: title, items: taskViewModels)
         }.removeNils()
     }
 

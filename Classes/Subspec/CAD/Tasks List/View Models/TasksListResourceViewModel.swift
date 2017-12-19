@@ -10,7 +10,8 @@ import UIKit
 
 open class TasksListResourceViewModel: TasksListItemViewModel {
 
-    open let image: UIImage?
+    open let resourceImage: UIImage?
+    open let statusImage: UIImage?
     open let informationRows: [TasksListInformationRowViewModel]?
     open let incidentViewModel: TasksListIncidentViewModel?
     
@@ -18,10 +19,11 @@ open class TasksListResourceViewModel: TasksListItemViewModel {
         return informationRows?.count ?? 0 > 0
     }
     
-    init(identifier: String, title: String, subtitle: String, caption: String, image: UIImage?,
+    init(identifier: String, title: String, subtitle: String, caption: String, resourceImage: UIImage?, statusImage: UIImage?,
          informationRows: [TasksListInformationRowViewModel]?, incidentViewModel: TasksListIncidentViewModel?)
     {
-        self.image = image
+        self.resourceImage = resourceImage
+        self.statusImage = statusImage
         self.informationRows = informationRows
         self.incidentViewModel = incidentViewModel
         
@@ -56,7 +58,8 @@ open class TasksListResourceViewModel: TasksListItemViewModel {
             title: [resource.callsign, resource.officerCountString].joined(),
             subtitle: resource.location?.suburb ?? "",
             caption: resource.status.title,
-            image: iconImage,
+            resourceImage: iconImage,
+            statusImage: resource.status.icon,
             informationRows: infoViewModels,
             incidentViewModel: incidentViewModel
         )

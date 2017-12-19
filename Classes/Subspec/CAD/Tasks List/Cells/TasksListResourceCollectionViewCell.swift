@@ -92,11 +92,12 @@ open class TasksListResourceCollectionViewCell: CollectionViewFormCell {
     open func decorate(with viewModel: TasksListResourceViewModel) {
         // Left column
         
-        summaryView.imageView.image = viewModel.image
+        summaryView.resourceImageView.image = viewModel.resourceImage
         summaryView.titleLabel.text = viewModel.title
         summaryView.subtitleLabel.text = viewModel.subtitle
         summaryView.captionLabel.text = viewModel.caption
-        
+        summaryView.statusImageView.image = viewModel.statusImage
+
         summaryView.priorityLabel.text = viewModel.incidentViewModel?.badgeText
         summaryView.priorityLabel.textColor = viewModel.incidentViewModel?.badgeTextColor
         summaryView.priorityLabel.backgroundColor = viewModel.incidentViewModel?.badgeFillColor
@@ -140,7 +141,8 @@ open class TasksListResourceCollectionViewCell: CollectionViewFormCell {
         summaryView.titleLabel.textColor = theme.color(forKey: .primaryText)
         summaryView.subtitleLabel.textColor = theme.color(forKey: .primaryText)
         summaryView.captionLabel.textColor = theme.color(forKey: .secondaryText)
-        
+        summaryView.statusImageView.tintColor = theme.color(forKey: .secondaryText)
+
         incidentView.titleLabel.textColor = theme.color(forKey: .primaryText)
         incidentView.subtitleLabel.textColor = theme.color(forKey: .primaryText)
         incidentView.captionLabel.textColor = theme.color(forKey: .secondaryText)
@@ -150,11 +152,16 @@ open class TasksListResourceCollectionViewCell: CollectionViewFormCell {
         didSet {
             // This could be done better...
             if bounds.width <= Column.summary.columnInfo.minimumWidth + Column.information.columnInfo.minimumWidth {
-                // If only showing summary column
+                // If space doesn't allow for info column, show the summary priority label if we have text for it
                 summaryView.priorityLabel.isHidden = summaryView.priorityLabel.text == nil
+                // Hide the status image if we only have one column
+                summaryView.statusImageView.isHidden = true
             } else {
-                // Showing more columns
+                // Info column should fit, hide summary priority label
                 summaryView.priorityLabel.isHidden = true
+                
+                // Show the status image if it exists
+                summaryView.statusImageView.isHidden = summaryView.statusImageView.image == nil
             }
         }
     }
