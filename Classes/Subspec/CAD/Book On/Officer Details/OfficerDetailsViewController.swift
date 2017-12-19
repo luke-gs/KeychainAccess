@@ -55,47 +55,47 @@ open class OfficerDetailsViewController: FormBuilderViewController {
         
         builder += TextFieldFormItem(title: NSLocalizedString("Contact Number", comment: ""), text: nil)
             .width(.column(2))
-            .text(viewModel.details.contactNumber)
+            .text(viewModel.content.contactNumber)
             .keyboardType(.numberPad)
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Contact number must be a number")
             .submitValidate(OfficerDetailsViewController.contactPhoneValidation.specification,
                             message: OfficerDetailsViewController.contactPhoneValidation.message)
             .onValueChanged {
-                self.viewModel.details.contactNumber = $0
+                self.viewModel.content.contactNumber = $0
             }
         
         builder += DropDownFormItem(title: NSLocalizedString("Licence", comment: ""))
             // TODO: get these from manifest
-            .options([NSLocalizedString("Gold", comment: ""),
-                      NSLocalizedString("Silver", comment: ""),
+            .options([NSLocalizedString("Gold Licence", comment: ""),
+                      NSLocalizedString("Silver Licence", comment: ""),
                       NSLocalizedString("Nil", comment: "")])
             .required("Licence is required.")
             .allowsMultipleSelection(false)
             .width(.column(2))
-            .selectedValue([viewModel.details.licenseType].removeNils())
+            .selectedValue([viewModel.content.licenceTypeId].removeNils())
             .onValueChanged {
-                self.viewModel.details.licenseType = $0?.first
+                self.viewModel.content.licenceTypeId = $0?.first
             }
         
         builder += TextFieldFormItem(title: NSLocalizedString("Capabilities", comment: ""))
             .width(.column(1))
-            .text(viewModel.details.capabilities)
+            .text(viewModel.content.capabilities)
             .onValueChanged {
-                self.viewModel.details.capabilities = $0
+                self.viewModel.content.capabilities = $0
             }
         
         builder += TextFieldFormItem(title: NSLocalizedString("Remarks", comment: ""))
             .width(.column(1))
-            .text(viewModel.details.remarks)
+            .text(viewModel.content.remarks)
             .onValueChanged {
-                self.viewModel.details.remarks = $0
+                self.viewModel.content.remarks = $0
             }
         
         builder += OptionFormItem(title: NSLocalizedString("This officer is the driver", comment: ""))
             .width(.column(1))
-            .isChecked(viewModel.details.isDriver.isTrue)
+            .isChecked(viewModel.content.isDriver.isTrue)
             .onValueChanged {
-                self.viewModel.details.isDriver = $0
+                self.viewModel.content.isDriver = $0
             }
     }
     

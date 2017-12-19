@@ -22,5 +22,23 @@ open class SyncDetailsOfficer: Codable {
     open var licenceTypeId: String!
     open var contactNumber: String!
     open var remarks: String!
-    open var capabilties: String!
+    open var capabilities: String!
+
+    /// Default constructor
+    public init() { }
+
+    /// Copy constructor
+    public init(officer: SyncDetailsOfficer) {
+        self.payrollId = officer.payrollId
+        self.rank = officer.rank
+        self.firstName = officer.firstName
+        self.middleName = officer.middleName
+        self.lastName = officer.lastName
+        self.patrolGroup = officer.patrolGroup
+        self.station = officer.station
+        self.licenceTypeId = officer.licenceTypeId
+        self.contactNumber = officer.contactNumber
+        self.remarks = officer.remarks
+        self.capabilities = officer.capabilities
+    }
 }
