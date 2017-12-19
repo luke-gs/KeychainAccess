@@ -28,11 +28,11 @@ open class BookOnDetailsFormViewModel {
     /// Delegate for UI updates
     open weak var delegate: BookOnDetailsFormViewModelDelegate?
 
+    /// The form content
+    public var content: BookOnDetailsFormContentMainViewModel
+
     /// View model of selected callsign to book on to
     private var callsignViewModel: BookOnCallsignViewModelType
-
-    /// Details of book on, edited by form
-    public let details: BookOnDetailsFormContentViewModel
 
     /// Whether we are editing an existing bookon
     public let isEditing: Bool
@@ -49,32 +49,30 @@ open class BookOnDetailsFormViewModel {
         }.sorted(using: [SortDescriptor<QuantityPicked>(ascending: true) { $0.object.title }])
 
         if let lastSaved = CADStateManager.shared.lastBookOn {
-            details = BookOnDetailsFormContentViewModel(withModel: lastSaved)
+            content = BookOnDetailsFormContentMainViewModel(withModel: lastSaved)
             isEditing = true
 
             // Apply the previously stored equipment counts to latest manifest data
             var mergedEquipment = defaultEquipment
-            for equipment in details.equipment {
+            for equipment in content.equipment {
                 if equipment.count > 0 {
+                    // Update count if manifest item still exists
                     if let index = mergedEquipment.index(of: equipment) {
                         mergedEquipment[index].count = equipment.count
-                    } else {
-                        mergedEquipment.append(equipment)
                     }
                 }
             }
-            details.equipment = mergedEquipment.sorted(using: [SortDescriptor<QuantityPicked>(ascending: true) { $0.object.title }])
-
+            content.equipment = mergedEquipment
         } else {
-            details = BookOnDetailsFormContentViewModel()
+            content = BookOnDetailsFormContentMainViewModel()
             isEditing = false
 
-            details.equipment = defaultEquipment
+            content.equipment = defaultEquipment
 
             // Initial form has self as one of officers to be book on to callsign
             if let model = CADStateManager.shared.officerDetails {
-                let officer = BookOnDetailsFormContentViewModel.Officer(withModel: model, initial: true)
-                details.officers = [officer]
+                let officer = BookOnDetailsFormContentOfficerViewModel(withModel: model, initial: true)
+                content.officers = [officer]
             }
         }
     }
@@ -107,7 +105,7 @@ open class BookOnDetailsFormViewModel {
 
     open func submitForm() -> Promise<()> {
         // Update session
-        let bookOnRequest = details.createRequest()
+        let bookOnRequest = content.createModel()
         bookOnRequest.callsign = callsignViewModel.callsign
         CADStateManager.shared.lastBookOn = bookOnRequest
 
@@ -118,12 +116,12 @@ open class BookOnDetailsFormViewModel {
     }
 
     open func officerDetailsViewController(at index: Int? = nil) -> UIViewController {
-        let officer: BookOnDetailsFormContentViewModel.Officer
+        let officer: BookOnDetailsFormContentOfficerViewModel
         
-        if let index = index, let existingOfficer = details.officers[ifExists: index] {
+        if let index = index, let existingOfficer = content.officers[ifExists: index] {
             officer = existingOfficer
         } else {
-            officer = BookOnDetailsFormContentViewModel.Officer()
+            officer = BookOnDetailsFormContentOfficerViewModel()
         }
             
         let detailsViewModel = OfficerDetailsViewModel(officer: officer)
@@ -138,23 +136,23 @@ open class BookOnDetailsFormViewModel {
     }
 
     open func removeOfficer(at index: Int) {
-        details.officers.remove(at: index)
+        content.officers.remove(at: index)
     }
 }
 
 extension BookOnDetailsFormViewModel: OfficerDetailsViewModelDelegate {
-    public func didFinishEditing(with officer: BookOnDetailsFormContentViewModel.Officer, shouldSave: Bool) {
+    public func didFinishEditing(with officer: BookOnDetailsFormContentOfficerViewModel, shouldSave: Bool) {
         guard shouldSave else { return }
         
-        if let index = details.officers.index(of: officer) {
-            details.officers[index] = officer
+        if let index = content.officers.index(of: officer) {
+            content.officers[index] = officer
         } else {
-            details.officers.append(officer)
+            content.officers.append(officer)
         }
 
         // Make sure only one officer is marked as driver
         if officer.isDriver.isTrue {
-            for otherOfficer in details.officers {
+            for otherOfficer in content.officers {
                 if otherOfficer != officer {
                     otherOfficer.isDriver = false
                 }

@@ -34,7 +34,7 @@ public class OfficerListViewModel: GenericSearchDefaultViewModel {
     }
     
     open func officerDetailsViewController(for officer: OfficerListItemViewModel) -> UIViewController {
-        let officerViewModel = BookOnDetailsFormContentViewModel.Officer()
+        let officerViewModel = BookOnDetailsFormContentOfficerViewModel()
         officerViewModel.title = officer.title
         officerViewModel.rank = officer.rank
         officerViewModel.officerId = officer.callsign
@@ -59,7 +59,7 @@ public class OfficerListViewModel: GenericSearchDefaultViewModel {
 }
 
 extension OfficerListViewModel: OfficerDetailsViewModelDelegate {
-    public func didFinishEditing(with officer: BookOnDetailsFormContentViewModel.Officer, shouldSave: Bool) {
+    public func didFinishEditing(with officer: BookOnDetailsFormContentOfficerViewModel, shouldSave: Bool) {
         detailsDelegate?.didFinishEditing(with: officer, shouldSave: shouldSave)
         // If should save then let the VC know we are done
         if shouldSave {
