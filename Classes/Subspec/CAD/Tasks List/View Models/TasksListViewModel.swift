@@ -19,6 +19,7 @@ public class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewMod
     public func createViewController() -> TasksListViewController {
         let tasksListViewController = TasksListViewController(viewModel: self)
         tasksListViewController.userInterfaceStyle = .dark
+        delegate = tasksListViewController
         return tasksListViewController
     }
 

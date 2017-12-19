@@ -38,7 +38,6 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
     public init(viewModel: TasksListViewModel) {
         self.viewModel = viewModel
         super.init()
-        self.viewModel.delegate = self
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
