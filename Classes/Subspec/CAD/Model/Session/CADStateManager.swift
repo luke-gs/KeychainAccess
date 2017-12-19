@@ -40,13 +40,17 @@ open class CADStateManager: NSObject {
     /// The last book on data
     open var lastBookOn: BookOnRequest? {
         didSet {
-            // Add officers to resource
             // TODO: remove this when we have a real CAD system
-            if let resource = self.currentResource {
-                let officerIds = BookOnDetailsFormViewModel.lastSaved!.officers.map { return $0.officerId! }
+            if let lastBookOn = lastBookOn, let resource = self.currentResource {
+                let officerIds = lastBookOn.officers.map { return $0.payrollId! }
                 var payrollIds = resource.payrollIds ?? []
                 payrollIds.append(contentsOf: officerIds)
                 resource.payrollIds = payrollIds
+
+                // Set state if callsign was off duty
+                if resource.status == .offDuty {
+                    resource.status = .onAir
+                }
             }
             NotificationCenter.default.post(name: .CADBookOnChanged, object: self)
         }
@@ -139,6 +143,16 @@ open class CADStateManager: NSObject {
     /// Fetch the book on equipment items
     open func equipmentItems() -> [ManifestEntry] {
         return Manifest.shared.entries(for: .EquipmentCollection) ?? []
+    }
+
+    open func equipmentItemsByTitle() -> [String: ManifestEntry] {
+        var result: [String: ManifestEntry] = [:]
+        for item in equipmentItems() {
+            if let title = item.title {
+                result[title] = item
+            }
+        }
+        return result
     }
 
     /// Sync the latest manifest items

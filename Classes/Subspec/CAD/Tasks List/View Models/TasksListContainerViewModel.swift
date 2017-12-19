@@ -93,6 +93,10 @@ open class TasksListContainerViewModel {
                 headerViewModel.selectedSourceIndex = selectedSourceIndex
                 splitViewModel?.mapViewModel.loadTasks()
                 updateSections()
+
+                // Show/hide add button
+                let type = TaskListType(rawValue: selectedSourceIndex)!
+                headerViewModel.setAddButtonVisible(type == .incident)
             }
         }
     }

@@ -114,10 +114,7 @@ open class IncidentOverviewViewModel: TaskDetailsViewModel {
             ActionSheetButton(title: "Street View", icon: AssetManager.shared.image(forKey: .streetView), action: nil),
             ActionSheetButton(title: "Search", icon: AssetManager.shared.image(forKey: .tabBarSearch), action: nil),
         ])
-        actionSheetVC.modalPresentationStyle = .popover
-        actionSheetVC.popoverPresentationController?.sourceView = cell
-        actionSheetVC.popoverPresentationController?.sourceRect = cell.bounds
-        delegate?.present(actionSheetVC, animated: true, completion: nil)
+        delegate?.presentActionSheetPopover(actionSheetVC, sourceView: cell, sourceRect: cell.bounds, animated: true)
     }
 }
 

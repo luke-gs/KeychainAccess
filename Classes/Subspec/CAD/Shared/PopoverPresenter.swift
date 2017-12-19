@@ -16,6 +16,7 @@ public protocol PopoverPresenter: class {
     func presentPopover(_ viewController: UIViewController, sourceView: UIView, sourceRect:CGRect, animated: Bool)
     func presentPopover(_ viewController: UIViewController, barButton: UIBarButtonItem, animated: Bool)
     func presentFormSheet(_ viewController: UIViewController, animated: Bool)
+    func presentActionSheetPopover(_ actionSheet: ActionSheetViewController, sourceView: UIView, sourceRect: CGRect, animated: Bool)
 }
 
 // Protocol for a class that can present view controllers using a navigation controller
@@ -35,7 +36,7 @@ extension UIViewController: PopoverPresenter, NavigationPresenter, TargetActionD
     public func presentFormSheet(_ viewController: UIViewController, animated: Bool) {
         let nav = PopoverNavigationController(rootViewController: viewController)
         nav.modalPresentationStyle = .formSheet
-        present(nav, animated: true, completion: nil)
+        present(nav, animated: animated, completion: nil)
     }
 
     public func presentPopover(_ viewController: UIViewController, sourceView: UIView, sourceRect:CGRect, animated: Bool) {
@@ -43,14 +44,23 @@ extension UIViewController: PopoverPresenter, NavigationPresenter, TargetActionD
         nav.modalPresentationStyle = .popover
         nav.popoverPresentationController?.sourceView = sourceView
         nav.popoverPresentationController?.sourceRect = sourceRect
-        present(nav, animated: true, completion: nil)
+        present(nav, animated: animated, completion: nil)
     }
 
     public func presentPopover(_ viewController: UIViewController, barButton: UIBarButtonItem, animated: Bool) {
         let nav = PopoverNavigationController(rootViewController: viewController)
         nav.modalPresentationStyle = .popover
         nav.popoverPresentationController?.barButtonItem = barButton
-        present(nav, animated: true, completion: nil)
+        present(nav, animated: animated, completion: nil)
+    }
+    
+    public func presentActionSheetPopover(_ actionSheet: ActionSheetViewController, sourceView: UIView, sourceRect: CGRect, animated: Bool) {
+        let delegate = ForcedPopoverPresentationControllerDelegate()
+        actionSheet.modalPresentationStyle = .popover
+        actionSheet.popoverPresentationController?.sourceView = sourceView
+        actionSheet.popoverPresentationController?.sourceRect = sourceRect
+        actionSheet.popoverPresentationController?.delegate = delegate
+        present(actionSheet, animated: animated, completion: nil)
     }
 
     public func presentPushedViewController(_ viewController: UIViewController, animated: Bool) {
