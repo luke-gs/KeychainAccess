@@ -634,11 +634,20 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         case .filterErrorMessage(let index):
             let indexPath = IndexPath(item: index, section: Section.filters.rawValue)
 
-
             if let cell = self.collectionView?.cellForItem(at: indexPath) as? CollectionViewFormCell {
                 let message = selectedDataSource.options?.errorMessage(at: index)
                 let isRequired = selectedDataSource.options?.isRequired(at: index)
                 cell.setRequiresValidation(message != nil || isRequired == true, validationText: message, animated: true)
+            }
+        case .filterErrorMessages(let indexes):
+            let indexPaths = indexes.map { IndexPath(item: $0, section: Section.filters.rawValue) }
+
+            for indexPath in indexPaths {
+                if let cell = self.collectionView?.cellForItem(at: indexPath) as? CollectionViewFormCell {
+                    let message = selectedDataSource.options?.errorMessage(at: indexPath.row)
+                    let isRequired = selectedDataSource.options?.isRequired(at: indexPath.row)
+                    cell.setRequiresValidation(message != nil || isRequired == true, validationText: message, animated: true)
+                }
             }
         case .filter(_):
             reloadCollectionViewRetainingEditing()

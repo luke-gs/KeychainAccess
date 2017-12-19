@@ -39,9 +39,9 @@ open class APIManager {
     ///
     /// - Parameter networkRequest: The network request to be executed.
     /// - Returns: A promise to return of specified type.
-    open func performRequest(_ networkRequest: NetworkRequestType) throws -> Promise<(Data, HTTPURLResponse?)> {
+    open func performRequest(_ networkRequest: NetworkRequestType, cancelToken: PromiseCancellationToken? = nil) throws -> Promise<(Data, HTTPURLResponse?)> {
         let request = try urlRequest(from: networkRequest)
-        return requestPromise(request, using: DataHTTPURLResponsePairResponseSerializer())
+        return requestPromise(request, using: DataHTTPURLResponsePairResponseSerializer(), cancelToken: cancelToken)
     }
 
     /// Perform specified network request that uses `ResponseSerializing` to map the result.
@@ -50,9 +50,9 @@ open class APIManager {
     ///   - networkRequest: The network request to be executed.
     ///   - serializer: `ResponseSerializing` conformer.
     /// - Returns: A promise to return result type from `ResponseSerializing`.
-    open func performRequest<T: ResponseSerializing>(_ networkRequest: NetworkRequestType, using serializer: T) throws -> Promise<T.ResultType> {
+    open func performRequest<T: ResponseSerializing>(_ networkRequest: NetworkRequestType, using serializer: T, cancelToken: PromiseCancellationToken? = nil) throws -> Promise<T.ResultType> {
         let request = try urlRequest(from: networkRequest)
-        return requestPromise(request, using: serializer)
+        return requestPromise(request, using: serializer, cancelToken: cancelToken)
     }
 
     /// Request for access token.
@@ -111,7 +111,62 @@ open class APIManager {
     }
 
     /// Performs a request for the `urlRequest` and returns a `Promise` with processed `DataResponse`.
-    open func dataRequest(_ urlRequest: Promise<URLRequest>) -> Promise<DataResponse<Data>> {
+    open func dataRequest(_ urlRequest: Promise<URLRequest>, cancelToken: PromiseCancellationToken? = nil) -> Promise<DataResponse<Data>> {
+
+        let (promise, fulfill, reject) = Promise<DataResponse<Data>>.pending()
+
+        _ = createSessionRequestWithProgress(from: urlRequest).then { (request) -> Void in
+
+            cancelToken?.addCancelCommand(ClosureCancelCommand(action: {
+                request.cancel()
+                if promise.isFulfilled == false {
+                    reject(NSError.cancelledError())
+                }
+            }))
+
+            // Notify plugins of request
+            let allPlugins = self.applicablePlugins(for: request.request?.url)
+            allPlugins.forEach {
+                $0.willSend(request)
+            }
+
+            // Perform request
+            request.validate().responseDataPromise().then { (response) -> Void in
+
+                // Notify plugins response was received
+                allPlugins.forEach({
+                    $0.didReceiveResponse(response)
+                })
+
+                // Check if was cancelled, reject if so.
+                if let token = cancelToken, token.isCancelled, !promise.isFulfilled {
+                    reject(NSError.cancelledError())
+                    return
+                }
+
+                // Notifiy plugins to process and modify the response.
+                var processed = Promise(value: response)
+                for plugin in allPlugins {
+                    processed = processed.then { return plugin.processResponse($0) }
+                }
+
+                _ = processed.then { (dataResponse) -> Void in
+                    // Handle errors that were still technically responses.
+                    if let error = dataResponse.result.error {
+                        reject(error)
+                        return
+                    }
+
+                    fulfill(dataResponse)
+                }
+
+                }.catch(policy: .allErrors) { error in
+                    reject(error)
+            }
+        }
+
+        return promise
+
         return createSessionRequestWithProgress(from: urlRequest).then { (dataRequest) in
 
             // Notify plugins of request
@@ -135,7 +190,6 @@ open class APIManager {
             }
         }
     }
-
 
     /// Set the authentication plugin for this manager with the the rule of what requests it'll apply to.
     ///
@@ -218,11 +272,11 @@ open class APIManager {
     }
 
     /// Returns a `Promise` that executes the entire chain of related promises for the network request (including serializing response).
-    private func requestPromise<T: ResponseSerializing>(_ urlRequest: Promise<URLRequest>, using serializer: T) -> Promise<T.ResultType> {
+    private func requestPromise<T: ResponseSerializing>(_ urlRequest: Promise<URLRequest>, using serializer: T, cancelToken: PromiseCancellationToken? = nil) -> Promise<T.ResultType> {
 
         let mapper = self.errorMapper
         return Promise { fulfill, reject in
-            dataRequest(urlRequest).then { (processedResponse) -> Void in
+            dataRequest(urlRequest, cancelToken: cancelToken).then { (processedResponse) -> Void in
                 let result = serializer.serializedResponse(from: processedResponse)
 
                 switch result {

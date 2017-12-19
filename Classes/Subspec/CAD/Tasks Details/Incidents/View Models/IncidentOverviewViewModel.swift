@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 open class IncidentOverviewViewModel: TaskDetailsViewModel {
     
@@ -48,7 +49,10 @@ open class IncidentOverviewViewModel: TaskDetailsViewModel {
                                                 IncidentOverviewItemViewModel(title: "Incident Location",
                                                                               value: incident.location.fullAddress,
                                                                               image: AssetManager.shared.image(forKey: .location),
-                                                                              width: .column(1)),
+                                                                              width: .column(1),
+                                                                              selectAction: { [unowned self] cell in
+                                                                                self.presentAddressPopover(from: cell, for: incident)
+                                                                              }),
                                                 
                                                 IncidentOverviewItemViewModel(title: "Priority",
                                                                               value: incident.grade.rawValue,
@@ -98,6 +102,19 @@ open class IncidentOverviewViewModel: TaskDetailsViewModel {
     /// The title to use in the navigation bar
     open func navTitle() -> String {
         return NSLocalizedString("Overview", comment: "Overview sidebar title")
+    }
+    
+    /// Present "Directions, Street View, Search" options on address
+    open func presentAddressPopover(from cell: CollectionViewFormCell, for incident: SyncDetailsIncident) {
+        let actionSheetVC = ActionSheetViewController(buttons: [
+            ActionSheetButton(title: "Directions", icon: AssetManager.shared.image(forKey: .route), action: {
+                let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: incident.coordinate, addressDictionary:nil))
+                mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving])
+            }),
+            ActionSheetButton(title: "Street View", icon: AssetManager.shared.image(forKey: .streetView), action: nil),
+            ActionSheetButton(title: "Search", icon: AssetManager.shared.image(forKey: .tabBarSearch), action: nil),
+        ])
+        delegate?.presentActionSheetPopover(actionSheetVC, sourceView: cell, sourceRect: cell.bounds, animated: true)
     }
 }
 

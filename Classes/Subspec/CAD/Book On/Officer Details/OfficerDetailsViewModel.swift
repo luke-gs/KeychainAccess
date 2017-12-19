@@ -10,13 +10,15 @@ import UIKit
 import PromiseKit
 
 public class OfficerDetailsViewModel {
-    
-    public var details: BookOnDetailsFormContentViewModel.Officer
-    
+
+    /// Delegate for saving changes
     public weak var delegate: OfficerDetailsViewModelDelegate?
-    
-    public init(officer: BookOnDetailsFormContentViewModel.Officer) {
-        details = BookOnDetailsFormContentViewModel.Officer(withOfficer: officer)
+
+    /// The form content
+    public var content: BookOnDetailsFormContentOfficerViewModel
+
+    public init(officer: BookOnDetailsFormContentOfficerViewModel) {
+        content = BookOnDetailsFormContentOfficerViewModel(withOfficer: officer)
     }
     
     /// Create the view controller for this view model
@@ -27,25 +29,25 @@ public class OfficerDetailsViewModel {
     
     /// The title to use in the navigation bar
     open func navTitle() -> String {
-        return details.title ?? ""
+        return content.title ?? ""
     }
     
     /// The subtitle to use in the navigation bar
     open func navSubtitle() -> String {
-        return details.subtitle
+        return content.subtitle
     }
 
     /// Submits the form
     public func saveForm() {
-        delegate?.didFinishEditing(with: details, shouldSave: true)
+        delegate?.didFinishEditing(with: content, shouldSave: true)
     }
     
     /// Cancels submitting the form
     public func cancelForm() {
-        delegate?.didFinishEditing(with: details, shouldSave: false)
+        delegate?.didFinishEditing(with: content, shouldSave: false)
     }
 }
 
 public protocol OfficerDetailsViewModelDelegate: class {
-    func didFinishEditing(with officer: BookOnDetailsFormContentViewModel.Officer, shouldSave: Bool)
+    func didFinishEditing(with officer: BookOnDetailsFormContentOfficerViewModel, shouldSave: Bool)
 }

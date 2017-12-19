@@ -18,9 +18,15 @@ public struct ColumnInfo: Equatable {
     
     /// Maxmimum width of the column
     public var maximumWidth: CGFloat
+    
+    /// Margin for the leading
+    public private(set) var leadingMargin: CGFloat = 0
+    
+    /// Margin for the trailing
+    public private(set) var trailingMargin: CGFloat = 0
 
     /// Actual calculated width of the column
-    public var actualWidth: CGFloat = 0
+    public private(set) var actualWidth: CGFloat = 0
     
     public init(minimumWidth: CGFloat, maximumWidth: CGFloat) {
         assert(minimumWidth <= maximumWidth, "Minimum width cannot be greater than the maximum width")
@@ -39,15 +45,18 @@ public struct ColumnInfo: Equatable {
     }
     
     /// Calculates the widths for columns in a specified width
-    public static func calculateWidths(for columns: [ColumnInfo], in width: CGFloat) -> [CGFloat] {
+    public static func calculateWidths(for columns: [ColumnInfo], in width: CGFloat, margin: CGFloat = 0) -> [ColumnInfo] {
         var totalMinWidth: CGFloat = 0
         var visibleColumns: [ColumnInfo] = []
         
         // Calculate the total min width and the visible columns
         for column in columns {
+            // Margin if not first column
+            let margin = column == columns.first ? 0 : margin
+            let columnWidth = column.minimumWidth + margin
             // If the the existing min cell widths plus current cell width will fit in our total width
-            if totalMinWidth + column.minimumWidth <= width {
-                totalMinWidth += column.minimumWidth
+            if totalMinWidth + columnWidth <= width {
+                totalMinWidth += columnWidth
                 visibleColumns.append(column)
             } else {
                 break
@@ -57,9 +66,33 @@ public struct ColumnInfo: Equatable {
         // Get the remaining space we can use to grow our columns
         var remainingSpace = width - totalMinWidth
         
-        return columns.map { column in
+        return columns.enumerated().map { (index, column) in
+            var column = column
+
+            // If this column is not visible, give it 0 width
             guard visibleColumns.contains(column) else {
-                return 0
+                column.actualWidth = 0
+                return column
+            }
+            
+            let leadingMargin: CGFloat
+            let trailingMargin: CGFloat
+            
+            if visibleColumns.count == 1 {
+                // No leading or trailing for single column
+                leadingMargin = 0
+                trailingMargin = 0
+            } else if index == 0 {
+                // No leading for first column
+                leadingMargin = 0
+                trailingMargin = margin
+            } else if index == visibleColumns.count - 1 {
+                // No trailing for final column
+                leadingMargin = margin
+                trailingMargin = 0
+            } else {
+                leadingMargin = margin
+                trailingMargin = margin
             }
             
             // Get the amount we can grow
@@ -67,7 +100,11 @@ public struct ColumnInfo: Equatable {
             
             remainingSpace -= extra
             
-            return column.minimumWidth + extra
+            column.actualWidth = column.minimumWidth + extra
+            column.leadingMargin = leadingMargin
+            column.trailingMargin = trailingMargin
+            
+            return column
         }
     }
 }
