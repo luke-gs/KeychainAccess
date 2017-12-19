@@ -66,8 +66,8 @@ open class OfficerDetailsViewController: FormBuilderViewController {
         
         builder += DropDownFormItem(title: NSLocalizedString("Licence", comment: ""))
             // TODO: get these from manifest
-            .options([NSLocalizedString("Gold License", comment: ""),
-                      NSLocalizedString("Silver License", comment: ""),
+            .options([NSLocalizedString("Gold Licence", comment: ""),
+                      NSLocalizedString("Silver Licence", comment: ""),
                       NSLocalizedString("Nil", comment: "")])
             .required("Licence is required.")
             .allowsMultipleSelection(false)

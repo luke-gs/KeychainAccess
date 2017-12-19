@@ -32,7 +32,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     }
 
     open var driverStatus: String? {
-        if let isDriver = isDriver, isDriver {
+        if isDriver.isTrue {
             return NSLocalizedString("DRIVER", comment: "").uppercased()
         }
         return nil
