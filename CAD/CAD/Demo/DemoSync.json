@@ -140,7 +140,7 @@
       {
         "createdAt": "2017-12-01T23:41:07Z", 
         "details": "Multiple witnesses have reported a couple arguing in public and disturbing the peace. They appear to be either intoxicated or under the influence of an illicit drugs.", 
-        "grade": "P1", 
+        "grade": "P3", 
         "identifier": "AS4104", 
         "informant": {
           "fullName": "Joel Stanford", 
@@ -300,7 +300,7 @@
       {
         "createdAt": "2017-12-01T23:41:07Z", 
         "details": "Multiple letterboxes that belong to a group of units have been damaged with what witnesses have described to be a baseball bat. Offenders have fled on foot and are thought to be residing in the area.", 
-        "grade": "P2", 
+        "grade": "P3", 
         "identifier": "AS4096", 
         "informant": {
           "fullName": "Joel Stanford", 
@@ -757,16 +757,16 @@
           }, 
           {
             "description": "B. Cooper", 
-            "source": "M24", 
+            "source": "Duress", 
             "timestamp": "2017-12-02T02:28:00Z", 
             "title": "Status: Duress (Assault #AS4217)"
           }
         ], 
         "assignedIncidents": [
-          "AS4217"
+          "AS3110"
         ], 
         "callsign": "M24", 
-        "currentIncident": "AS4217", 
+        "currentIncident": "AS3110", 
         "driver": "777032", 
         "equipment": [
           {
@@ -869,7 +869,7 @@
           }, 
           {
             "description": "H. Gadget", 
-            "source": "V16", 
+            "source": "Duress", 
             "timestamp": "2017-12-02T02:28:00Z", 
             "title": "Status: Duress (Assault #AS3110)"
           }
