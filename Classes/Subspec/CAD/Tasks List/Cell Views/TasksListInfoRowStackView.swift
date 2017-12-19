@@ -26,14 +26,7 @@ open class TasksListInfoRowStackView: UIView {
 
     // MARK: - Setup
     
-    public override init(frame: CGRect) {
-        self.maxViews = 0
-        super.init(frame: frame)
-        setupViews()
-        setupConstraints()
-    }
-    
-    public init(frame: CGRect = .zero, maxViews: Int) {
+    public init(frame: CGRect = .zero, maxViews: Int = 0) {
         self.maxViews = maxViews
         super.init(frame: frame)
         setupViews()

@@ -83,7 +83,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
     }
 
     open override func construct(builder: FormBuilder) {
-        for (_, section) in viewModel.sections.enumerated() {
+        for (sectionIndex, section) in viewModel.sections.enumerated() {
             builder += HeaderFormItem(text: section.title.uppercased(),
                                       style: viewModel.shouldShowExpandArrow() ? .collapsible : .plain)
             
@@ -109,6 +109,17 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
                     .height(.fixed(64))
                     .onThemeChanged({ (cell, theme) in
                         self.apply(theme: theme, to: cell)
+                    })
+                    .onSelection({ [weak self] (cell) in
+                        // Set item as read and reload the section
+                        (item as? TasksListIncidentViewModel)?.hasUpdates = false
+                        
+                        self?.collectionView?.reloadSections(IndexSet(integer: sectionIndex))
+                        
+                        if let viewModel = self?.viewModel(for: item) {
+                            let vc = TasksItemSidebarViewController.init(viewModel: viewModel)
+                            self?.splitViewController?.navigationController?.pushViewController(vc, animated: true)
+                        }
                     })
             }
         }
@@ -167,30 +178,6 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
         if wasFocused {
             searchBar.becomeFirstResponder()
         }
-    }
-
-    // MARK: - UICollectionViewDelegate
-
-    open override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
-
-        // Set item as read and reload the section
-        guard let item = viewModel.item(at: indexPath) else { return }
-        (item as? TasksListIncidentViewModel)?.hasUpdates = false
-
-        collectionView.reloadSections(IndexSet(integer: indexPath.section))
-
-        if let viewModel = viewModel(for: item) {
-            let vc = TasksItemSidebarViewController.init(viewModel: viewModel)
-            splitViewController?.navigationController?.pushViewController(vc, animated: true)
-        }
-    }
-    
-    override open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        if let _ = viewModel.item(at: indexPath) {
-            return 64
-        }
-        return 0
     }
 
     public func viewModel(for item: TasksListItemViewModel) -> TaskItemViewModel? {
