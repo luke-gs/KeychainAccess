@@ -307,8 +307,6 @@ open class TasksListContainerViewModel {
                 title = String.localizedStringWithFormat(NSLocalizedString("%d Resource(s)", comment: ""), resources.count) + " In Duress"
             }
             
-            
-
             return CADFormCollectionSectionViewModel(title: title, items: taskViewModels)
         }.removeNils()
     }

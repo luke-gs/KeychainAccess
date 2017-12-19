@@ -110,14 +110,6 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
                     .onThemeChanged({ (cell, theme) in
                         self.apply(theme: theme, to: cell)
                     })
-//                    .onSelection({ [unowned self] cell in
-//                        // Present the incident split view controller
-//                        if let taskViewModel = self.taskViewModel {
-//                            let vc = TasksItemSidebarViewController.init(viewModel: taskViewModel)
-//                            self.present(vc, animated: true, completion: nil)
-//                        }
-//                    })
-                
             }
         }
     }
@@ -132,7 +124,6 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
     
     open func decorate(cell: CollectionViewFormCell, with viewModel: TasksListItemViewModel) {
         cell.highlightStyle = .fade
-//        cell.separatorStyle = .fullWidth
         cell.selectionStyle = .fade
         cell.contentMode = .top
         
@@ -169,51 +160,15 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
     open func reloadContent() {
         let wasFocused = searchBar?.isFirstResponder ?? false
 
-        reloadForm()
         // Refresh the task list
-//        collectionView?.reloadData()
+        reloadForm()
 
         // Reloading list loses any search bar keyboard focus, so refocus if necessary
         if wasFocused {
             searchBar.becomeFirstResponder()
         }
     }
-    
-//    override open func cellType() -> CollectionViewFormCell.Type {
-//        return TasksListIncidentCollectionViewCell.self
-//    }
-//
-//    override open func decorate(cell: CollectionViewFormCell, with viewModel: TasksListIncidentViewModel) {
-//        cell.highlightStyle = .fade
-//        cell.selectionStyle = .fade
-//        cell.contentMode = .top
-//        cell.accessoryView = FormAccessoryView(style: .disclosure)
-//
-//        if let cell = cell as? TasksListIncidentCollectionViewCell {
-//            cell.decorate(with: viewModel)
-//        }
-//    }
 
-//    open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
-//
-//        if let cell = cell as? TasksListIncidentCollectionViewCell {
-//            cell.summaryView.titleLabel.textColor = primaryTextColor
-//            cell.summaryView.subtitleLabel.textColor = primaryTextColor
-//            cell.summaryView.captionLabel.textColor = secondaryTextColor
-//        }
-//    }
-    
-//    open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-//        let view = super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
-//
-//        if let header = view as? CollectionViewFormHeaderView, let viewModel = viewModel as? TasksListViewModel {
-//            header.showsUpdatesIndicatorWhenCollapsed = viewModel.showsUpdatesIndicator(at: indexPath.section)
-//        }
-//
-//        return view
-//    }
-//
     // MARK: - UICollectionViewDelegate
 
     open override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -221,7 +176,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
 
         // Set item as read and reload the section
         guard let item = viewModel.item(at: indexPath) else { return }
-//        item.hasUpdates = false
+        (item as? TasksListIncidentViewModel)?.hasUpdates = false
 
         collectionView.reloadSections(IndexSet(integer: indexPath.section))
 
@@ -255,7 +210,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
     }
 
     // MARK: - CollectionViewDelegateFormLayout methods
-//
+
     func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
         // Make space for search bar using the form global header
         return viewModel.sections.isEmpty ? 0 : 32
