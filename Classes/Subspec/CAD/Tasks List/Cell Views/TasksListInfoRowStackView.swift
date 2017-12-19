@@ -67,7 +67,7 @@ open class TasksListInfoRowStackView: UIView {
     // MARK: - Config
     
     open func setRows(_ viewModels: [TasksListInformationRowViewModel]?) {
-        stackView.removeArrangedSubviewsFromViewHeirachy()
+        stackView.removeArrangedSubviewsFromViewHierarchy()
         
         guard let viewModels = viewModels, viewModels.count > 0 else {
             return
