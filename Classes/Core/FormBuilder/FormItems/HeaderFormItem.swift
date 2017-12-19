@@ -25,7 +25,7 @@ public class HeaderFormItem: BaseSupplementaryFormItem {
 
     public var actionButton: UIButton?
 
-    private var actionButtonHandler: (() -> Void)?
+    private var actionButtonHandler: ((UIButton) -> Void)?
 
     public init() {
         super.init(viewType: CollectionViewFormHeaderView.self, kind: UICollectionElementKindSectionHeader, reuseIdentifier: CollectionViewFormHeaderView.defaultReuseIdentifier)
@@ -103,7 +103,7 @@ extension HeaderFormItem {
     }
 
     @discardableResult
-    public func actionButton(title: String, handler: @escaping (() -> Void)) -> Self {
+    public func actionButton(title: String, handler: @escaping ((UIButton) -> Void)) -> Self {
         let button = UIButton(type: .custom)
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
@@ -115,7 +115,7 @@ extension HeaderFormItem {
     }
 
     @objc private func actionButtonTapped(button: UIButton) {
-        actionButtonHandler?()
+        actionButtonHandler?(button)
     }
 
 }

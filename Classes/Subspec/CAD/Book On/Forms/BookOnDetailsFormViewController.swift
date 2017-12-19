@@ -173,7 +173,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         let officersTitle = String.localizedStringWithFormat(officersTitleFormat, viewModel.details.officers.count)
 
         builder += HeaderFormItem(text: officersTitle.uppercased(), style: .plain)
-            .actionButton(title: NSLocalizedString("Add", comment: "").uppercased(), handler: { [unowned self] in
+            .actionButton(title: NSLocalizedString("Add", comment: "").uppercased(), handler: { [unowned self] _ in
                 let viewController = self.viewModel.officerSearchViewController()
                 self.navigationController?.pushViewController(viewController, animated: true)
             })
