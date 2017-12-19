@@ -65,6 +65,8 @@ open class ColumnContainerView: UIView {
             let leadingMargin = view.leadingAnchor.constraint(equalTo: leadingViewAnchor, constant: info.leadingMargin)
             let trailingMargin = view.trailingAnchor.constraint(lessThanOrEqualTo: trailingViewAnchor, constant: -info.trailingMargin).withPriority(.almostRequired)
 
+            view.translatesAutoresizingMaskIntoConstraints = false
+
             // Insert new constraints
             columnLeadingConstraints.insert(leadingMargin, at: index)
             columnTrailingConstraints.insert(trailingMargin, at: index)
