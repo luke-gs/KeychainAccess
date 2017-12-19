@@ -208,7 +208,7 @@ open class TasksListContainerViewModel {
     }
     
     /// Maps sync models to view models
-    open func taskListSections(for incidents: [SyncDetailsIncident]) -> [CADFormCollectionSectionViewModel<TasksListIncidentViewModel>] {
+    open func taskListSections(for incidents: [SyncDetailsIncident]) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
         var sectionedIncidents: [String: Array<SyncDetailsIncident>] = [:]
 
         // Map incidents to sections
@@ -231,7 +231,7 @@ open class TasksListContainerViewModel {
             }
         }
   
-        let sortedIncidents = incidentSortOrder.map { status -> CADFormCollectionSectionViewModel<TasksListIncidentViewModel>? in
+        let sortedIncidents = incidentSortOrder.map { status -> CADFormCollectionSectionViewModel<TasksListItemViewModel>? in
             guard let incidents = sectionedIncidents[status.rawValue] else { return nil }
             
             let taskViewModels = incidents.map { incident in
@@ -246,7 +246,7 @@ open class TasksListContainerViewModel {
     }
     
     /// Maps sync models to view models
-    open func taskListSections(for resources: [SyncDetailsResource]) -> [CADFormCollectionSectionViewModel<TasksListIncidentViewModel>] {
+    open func taskListSections(for resources: [SyncDetailsResource]) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
         // Map resources to sections
         let duress = NSLocalizedString("Duress", comment: "")
         let tasked = NSLocalizedString("Tasked", comment: "")
@@ -284,7 +284,7 @@ open class TasksListContainerViewModel {
         }
         
         // Make view models from sections
-        return sectionedResources.map { arg -> CADFormCollectionSectionViewModel<TasksListIncidentViewModel>? in
+        return sectionedResources.map { arg -> CADFormCollectionSectionViewModel<TasksListItemViewModel>? in
             let (section, resources) = arg
             
             // Don't add duress section if there is no duress
@@ -292,12 +292,12 @@ open class TasksListContainerViewModel {
                 return nil
             }
             
-//            let taskViewModels: [TasksListIncidentViewModel] = resources.map { resource in
-//                let incident = CADStateManager.shared.incidentForResource(callsign: resource.callsign)
-//                return TasksListIncidentViewModel(resource: resource, incident: incident, hasUpdates: true)
-//            }
+            let taskViewModels: [TasksListResourceViewModel] = resources.map { resource in
+                let incident = CADStateManager.shared.incidentForResource(callsign: resource.callsign)
+                return TasksListResourceViewModel(resource: resource, incident: incident)
+            }
             
-            return CADFormCollectionSectionViewModel(title: "\(resources.count) \(section)", items: [])
+            return CADFormCollectionSectionViewModel(title: "\(resources.count) \(section)", items: taskViewModels)
         }.removeNils()
     }
 

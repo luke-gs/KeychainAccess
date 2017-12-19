@@ -92,15 +92,22 @@ open class TasksListResourceCollectionViewCell: CollectionViewFormCell {
     open func decorate(with viewModel: TasksListResourceViewModel) {
         // Left column
         
+        summaryView.imageView.image = viewModel.image
         summaryView.titleLabel.text = viewModel.title
         summaryView.subtitleLabel.text = viewModel.subtitle
         summaryView.captionLabel.text = viewModel.caption
         
+        summaryView.priorityLabel.text = viewModel.incidentViewModel?.badgeText
+        summaryView.priorityLabel.textColor = viewModel.incidentViewModel?.badgeTextColor
+        summaryView.priorityLabel.backgroundColor = viewModel.incidentViewModel?.badgeFillColor
+        summaryView.priorityLabel.borderColor = viewModel.incidentViewModel?.badgeBorderColor
+        summaryView.priorityLabel.isHidden = viewModel.incidentViewModel?.badgeText == nil
+        
         // Middle column
         
-        incidentView.titleLabel.text = viewModel.title
-        incidentView.subtitleLabel.text = viewModel.subtitle
-        incidentView.captionLabel.text = viewModel.caption
+        incidentView.titleLabel.text = viewModel.incidentViewModel?.title
+        incidentView.subtitleLabel.text = viewModel.incidentViewModel?.subtitle
+        incidentView.captionLabel.text = viewModel.incidentViewModel?.caption
         
         incidentView.priorityLabel.text = viewModel.incidentViewModel?.badgeText
         incidentView.priorityLabel.textColor = viewModel.incidentViewModel?.badgeTextColor
@@ -129,6 +136,28 @@ open class TasksListResourceCollectionViewCell: CollectionViewFormCell {
         columnContainer.construct()
     }
     
+    open func apply(theme: Theme) {
+        summaryView.titleLabel.textColor = theme.color(forKey: .primaryText)
+        summaryView.subtitleLabel.textColor = theme.color(forKey: .primaryText)
+        summaryView.captionLabel.textColor = theme.color(forKey: .secondaryText)
+        
+        incidentView.titleLabel.textColor = theme.color(forKey: .primaryText)
+        incidentView.subtitleLabel.textColor = theme.color(forKey: .primaryText)
+        incidentView.captionLabel.textColor = theme.color(forKey: .secondaryText)
+    }
+    
+    open override var bounds: CGRect {
+        didSet {
+            // This could be done better...
+            if bounds.width <= Column.summary.columnInfo.minimumWidth + Column.information.columnInfo.minimumWidth {
+                // If only showing summary column
+                summaryView.priorityLabel.isHidden = summaryView.priorityLabel.text == nil
+            } else {
+                // Showing more columns
+                summaryView.priorityLabel.isHidden = true
+            }
+        }
+    }
 }
 
 extension TasksListResourceCollectionViewCell: ColumnContainerViewDataSource {

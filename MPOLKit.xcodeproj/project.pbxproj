@@ -156,6 +156,7 @@
 		276C21081F60C44B0003B860 /* MapOverlayImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C21071F60C44B0003B860 /* MapOverlayImageButton.swift */; };
 		27719E0A1FA92A5B00238059 /* AustralianPhoneSpecification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27719E091FA92A5B00238059 /* AustralianPhoneSpecification.swift */; };
 		27774FE71FD3B9AC007DCDCC /* SyncDetailsActivityLogItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27774FE61FD3B9AC007DCDCC /* SyncDetailsActivityLogItem.swift */; };
+		27775F4E1FE881FA00439551 /* TasksListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27775F4D1FE881FA00439551 /* TasksListItemViewModel.swift */; };
 		2784FDBB1FA1549D007B18B2 /* Optional+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2784FDBA1FA1549D007B18B2 /* Optional+Extension.swift */; };
 		278A16251FBAB17400C01C38 /* TasksListInfoRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A16241FBAB17400C01C38 /* TasksListInfoRowView.swift */; };
 		278A16311FBBBDC800C01C38 /* MapFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A16301FBBBDC800C01C38 /* MapFilterViewController.swift */; };
@@ -783,6 +784,7 @@
 		276C21071F60C44B0003B860 /* MapOverlayImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverlayImageButton.swift; sourceTree = "<group>"; };
 		27719E091FA92A5B00238059 /* AustralianPhoneSpecification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AustralianPhoneSpecification.swift; sourceTree = "<group>"; };
 		27774FE61FD3B9AC007DCDCC /* SyncDetailsActivityLogItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncDetailsActivityLogItem.swift; sourceTree = "<group>"; };
+		27775F4D1FE881FA00439551 /* TasksListItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListItemViewModel.swift; sourceTree = "<group>"; };
 		2784FDBA1FA1549D007B18B2 /* Optional+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Extension.swift"; sourceTree = "<group>"; };
 		278A16241FBAB17400C01C38 /* TasksListInfoRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListInfoRowView.swift; sourceTree = "<group>"; };
 		278A16301FBBBDC800C01C38 /* MapFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapFilterViewController.swift; sourceTree = "<group>"; };
@@ -1570,6 +1572,7 @@
 			children = (
 				96CF32261F8C34F800140AF8 /* TasksListIncidentViewModel.swift */,
 				273C538E1FE8688F00BF994B /* TasksListResourceViewModel.swift */,
+				27775F4D1FE881FA00439551 /* TasksListItemViewModel.swift */,
 				96CF32221F8C349700140AF8 /* TasksListViewModel.swift */,
 				965CD8AE1F902872007C3EEA /* TasksListContainerViewModel.swift */,
 				96CF32331F8D7C7700140AF8 /* TasksListHeaderViewModel.swift */,
@@ -3597,6 +3600,7 @@
 				DBE24C2E1F5939C90088D19B /* EntityDetailsFetchRequest.swift in Sources */,
 				BC9C7E231F0DED6600DFFE83 /* AlertQueue.swift in Sources */,
 				BC9C7DF71F0DED6600DFFE83 /* CollectionViewFormEditAction.swift in Sources */,
+				27775F4E1FE881FA00439551 /* TasksListItemViewModel.swift in Sources */,
 				967E75AE1FCE2F1700B75CF6 /* SyncDetailsResource.swift in Sources */,
 				DB88BCDA1F42D0080056FD69 /* NumberRangePickerViewController.swift in Sources */,
 				199ECE951FAA4E410065E425 /* AsynchronousImageSizing.swift in Sources */,

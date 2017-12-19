@@ -48,7 +48,7 @@ open class TasksListInfoRowStackView: UIView {
     private func setupViews() {
         stackView.axis = .vertical
         stackView.alignment = .top
-        stackView.spacing = 10
+        stackView.spacing = 8
         stackView.distribution = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(stackView)
@@ -75,16 +75,9 @@ open class TasksListInfoRowStackView: UIView {
         
         // Add first (max) view models
         for viewModel in viewModels[0..<min(maxViews, viewModels.count)] {
-            let statusRow = TasksListInfoRowView()
-            statusRow.imageView.image = viewModel.image?.withRenderingMode(.alwaysTemplate)
-            statusRow.imageView.tintColor = viewModel.tintColor ?? .secondaryGray
-            statusRow.titleLabel.text = viewModel.title
-            statusRow.titleLabel.textColor = viewModel.tintColor ?? .secondaryGray
-            statusRow.subtitleLabel.text = viewModel.detail
-            statusRow.subtitleLabel.font = UIFont.systemFont(ofSize: 13, weight: viewModel.useBoldDetailText
-                ? .semibold : .regular)
-            statusRow.subtitleLabel.textColor = viewModel.tintColor ?? .secondaryGray
-            stackView.addArrangedSubview(statusRow)
+            let infoRow = TasksListInfoRowView()
+            infoRow.decorate(with: viewModel)
+            stackView.addArrangedSubview(infoRow)
         }
         
         // Add spacer view if less than max views

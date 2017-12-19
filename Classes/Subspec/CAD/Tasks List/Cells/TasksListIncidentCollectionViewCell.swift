@@ -129,6 +129,12 @@ open class TasksListIncidentCollectionViewCell: CollectionViewFormCell {
         columnContainer.construct()
     }
 
+    open func apply(theme: Theme) {
+        summaryView.titleLabel.textColor = theme.color(forKey: .primaryText)
+        summaryView.subtitleLabel.textColor = theme.color(forKey: .primaryText)
+        summaryView.captionLabel.textColor = theme.color(forKey: .secondaryText)
+    }
+    
 }
 
 extension TasksListIncidentCollectionViewCell: ColumnContainerViewDataSource {

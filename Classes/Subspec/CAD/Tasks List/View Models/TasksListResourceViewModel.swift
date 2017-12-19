@@ -8,11 +8,9 @@
 
 import UIKit
 
-open class TasksListResourceViewModel: NSObject {
-    open let identifier: String
-    open let title: String
-    open let subtitle: String
-    open let caption: String
+open class TasksListResourceViewModel: TasksListItemViewModel {
+
+    open let image: UIImage?
     open let informationRows: [TasksListInformationRowViewModel]?
     open let incidentViewModel: TasksListIncidentViewModel?
     
@@ -20,15 +18,14 @@ open class TasksListResourceViewModel: NSObject {
         return informationRows?.count ?? 0 > 0
     }
     
-    init(identifier: String, title: String, subtitle: String, caption: String,
+    init(identifier: String, title: String, subtitle: String, caption: String, image: UIImage?,
          informationRows: [TasksListInformationRowViewModel]?, incidentViewModel: TasksListIncidentViewModel?)
     {
-        self.identifier = identifier
-        self.title = title
-        self.subtitle = subtitle
-        self.caption = caption
+        self.image = image
         self.informationRows = informationRows
         self.incidentViewModel = incidentViewModel
+        
+        super.init(identifier: identifier, title: title, subtitle: subtitle, caption: caption)
     }
 
     public convenience init(resource: SyncDetailsResource, incident: SyncDetailsIncident?) {
@@ -36,12 +33,31 @@ open class TasksListResourceViewModel: NSObject {
         if let incident = incident {
             incidentViewModel = TasksListIncidentViewModel(incident: incident, hasUpdates: false)
         }
+        
+        let iconImage = resource.type.icon?
+            .withCircleBackground(tintColor: resource.status.iconColors.icon,
+                                  circleColor: resource.status.iconColors.background,
+                                  style: .auto(padding: CGSize(width: 24, height: 24),
+                                               shrinkImage: false),
+                                  shouldCenterImage: true)
+        
+        let officers = CADStateManager.shared.officersForResource(callsign: resource.callsign).map {
+            $0.displayName
+        }.joined(separator: ", ")
+        
+        let infoViewModels = [
+            TasksListInformationRowViewModel(image: AssetManager.shared.image(forKey: .resourceGeneral), title: officers),
+            TasksListInformationRowViewModel(image: AssetManager.shared.image(forKey: .info),
+                                             title: resource.equipmentListString(separator: ", ")?.ifNotEmpty() ?? "–" ),
+        ]
+        
         self.init(
             identifier: resource.callsign,
             title: [resource.callsign, resource.officerCountString].joined(),
             subtitle: resource.location?.suburb ?? "",
             caption: resource.status.title,
-            informationRows: nil, // TODO: Get officer list and equipment list
+            image: iconImage,
+            informationRows: infoViewModels,
             incidentViewModel: incidentViewModel
         )
     }

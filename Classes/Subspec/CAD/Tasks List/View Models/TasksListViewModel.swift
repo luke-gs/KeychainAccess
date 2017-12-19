@@ -13,7 +13,7 @@ import UIKit
 /// * Resources
 /// * Patrol
 /// * Broadcast
-public class TasksListViewModel: CADFormCollectionViewModel<TasksListIncidentViewModel> {
+public class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewModel> {
 
     /// Create the view controller for this view model
     public func createViewController() -> TasksListViewController {
@@ -41,7 +41,7 @@ public class TasksListViewModel: CADFormCollectionViewModel<TasksListIncidentVie
     open func showsUpdatesIndicator(at section: Int) -> Bool {
         if let sectionViewModel = sections[ifExists: section] {
             for item in sectionViewModel.items {
-                if item.hasUpdates {
+                if (item as? TasksListIncidentViewModel)?.hasUpdates == true {
                     return true
                 }
             }

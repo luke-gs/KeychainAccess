@@ -94,7 +94,7 @@ open class TasksListIncidentSummaryView: UIView {
             priorityCaptionView.leadingAnchor.constraint(equalTo: subtitleLabel.leadingAnchor),
             priorityCaptionView.bottomAnchor.constraint(equalTo: self.bottomAnchor,
                                                         constant: -LayoutConstants.verticalMargin),
-            priorityCaptionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            priorityCaptionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).withPriority(.almostRequired),
         ])
     }
     

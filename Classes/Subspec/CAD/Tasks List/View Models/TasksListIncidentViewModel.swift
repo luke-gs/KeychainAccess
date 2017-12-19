@@ -8,11 +8,7 @@
 
 import UIKit
 
-public class TasksListIncidentViewModel {
-    public let identifier: String
-    public let title: String
-    public let subtitle: String
-    public let caption: String
+public class TasksListIncidentViewModel: TasksListItemViewModel {
     public let priority: String?
     public let description: String?
     public let resources: [TasksListInformationRowViewModel]?
@@ -34,10 +30,6 @@ public class TasksListIncidentViewModel {
                 description: String? = nil, resources: [TasksListInformationRowViewModel]? = nil, badgeTextColor: UIColor?,
                 badgeFillColor: UIColor?, badgeBorderColor: UIColor?, hasUpdates: Bool)
     {
-        self.identifier = identifier
-        self.title = title
-        self.subtitle = subtitle
-        self.caption = caption
         self.description = description
         self.resources = resources
         self.priority = priority
@@ -45,6 +37,8 @@ public class TasksListIncidentViewModel {
         self.badgeFillColor = badgeFillColor
         self.badgeBorderColor = badgeBorderColor
         self.hasUpdates = hasUpdates
+        
+        super.init(identifier: identifier, title: title, subtitle: subtitle, caption: caption)
     }
     
     public convenience init(incident: SyncDetailsIncident, showsDescription: Bool = true, showsResources: Bool = true, hasUpdates: Bool) {

@@ -22,8 +22,10 @@ public protocol TasksListViewControllerDelegate: class {
 ///
 /// This uses CADFormCollectionViewController for consistent styling and reduced boilerplate.
 ///
-open class TasksListViewController: CADFormCollectionViewController<TasksListIncidentViewModel>, UISearchBarDelegate {
+open class TasksListViewController: FormBuilderViewController, UISearchBarDelegate {
 
+    open var viewModel: TasksListViewModel
+    
     /// Delegate for UI events
     open weak var delegate: TasksListViewControllerDelegate?
 
@@ -33,6 +35,16 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListInc
     /// The search bar for filtering tasks
     open private(set) var searchBar: UISearchBar!
 
+    public init(viewModel: TasksListViewModel) {
+        self.viewModel = viewModel
+        super.init()
+        self.viewModel.delegate = self
+    }
+    
+    public required convenience init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
+    }
+    
     // MARK: - View lifecycle
 
     open override func viewDidLoad() {
@@ -40,6 +52,11 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListInc
 
         createSubviews()
         createConstraints()
+        
+        loadingManager.noContentView.titleLabel.text = viewModel.noContentTitle()
+        loadingManager.noContentView.subtitleLabel.text = viewModel.noContentSubtitle()
+        
+        sectionsUpdated()
     }
 
     open func createSubviews() {
@@ -65,6 +82,68 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListInc
         collectionViewInsetManager = nil
     }
 
+    open override func construct(builder: FormBuilder) {
+        for (_, section) in viewModel.sections.enumerated() {
+            builder += HeaderFormItem(text: section.title.uppercased(),
+                                      style: viewModel.shouldShowExpandArrow() ? .collapsible : .plain)
+            
+            for item in section.items {
+                let formItem: BaseFormItem
+                if item is TasksListIncidentViewModel {
+                    formItem = CustomFormItem(cellType: TasksListIncidentCollectionViewCell.self,
+                                              reuseIdentifier: TasksListIncidentCollectionViewCell.defaultReuseIdentifier)
+                } else if item is TasksListResourceViewModel {
+                    formItem = CustomFormItem(cellType: TasksListResourceCollectionViewCell.self,
+                                              reuseIdentifier: TasksListResourceCollectionViewCell.defaultReuseIdentifier)
+                } else {
+                    continue
+                }
+                
+                
+                builder += formItem
+                    .onConfigured({ [unowned self] (cell) in
+                        // Configure the cell
+                        self.decorate(cell: cell, with: item)
+                    })
+                    .accessory(ItemAccessory.disclosure)
+                    .height(.fixed(64))
+                    .onThemeChanged({ (cell, theme) in
+                        self.apply(theme: theme, to: cell)
+                    })
+//                    .onSelection({ [unowned self] cell in
+//                        // Present the incident split view controller
+//                        if let taskViewModel = self.taskViewModel {
+//                            let vc = TasksItemSidebarViewController.init(viewModel: taskViewModel)
+//                            self.present(vc, animated: true, completion: nil)
+//                        }
+//                    })
+                
+            }
+        }
+    }
+    
+    open func apply(theme: Theme, to cell: CollectionViewFormCell) {
+        if let cell = cell as? TasksListIncidentCollectionViewCell {
+            cell.apply(theme: theme)
+        } else if let cell = cell as? TasksListResourceCollectionViewCell {
+            cell.apply(theme: theme)
+        }
+    }
+    
+    open func decorate(cell: CollectionViewFormCell, with viewModel: TasksListItemViewModel) {
+        cell.highlightStyle = .fade
+//        cell.separatorStyle = .fullWidth
+        cell.selectionStyle = .fade
+        cell.contentMode = .top
+        
+        
+        if let cell = cell as? TasksListIncidentCollectionViewCell, let viewModel = viewModel as? TasksListIncidentViewModel {
+            cell.decorate(with: viewModel)
+        } else if let cell = cell as? TasksListResourceCollectionViewCell, let viewModel = viewModel as? TasksListResourceViewModel {
+            cell.decorate(with: viewModel)
+        }
+    }
+    
     open func createConstraints() {
         NSLayoutConstraint.activate([
             searchBar.topAnchor.constraint(equalTo: collectionView!.topAnchor, constant: 10),
@@ -87,11 +166,12 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListInc
 
     // MARK: - Override
 
-    override open func reloadContent() {
+    open func reloadContent() {
         let wasFocused = searchBar?.isFirstResponder ?? false
 
+        reloadForm()
         // Refresh the task list
-        collectionView?.reloadData()
+//        collectionView?.reloadData()
 
         // Reloading list loses any search bar keyboard focus, so refocus if necessary
         if wasFocused {
@@ -99,57 +179,56 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListInc
         }
     }
     
-    override open func cellType() -> CollectionViewFormCell.Type {
-        return TasksListIncidentCollectionViewCell.self
-    }
+//    override open func cellType() -> CollectionViewFormCell.Type {
+//        return TasksListIncidentCollectionViewCell.self
+//    }
+//
+//    override open func decorate(cell: CollectionViewFormCell, with viewModel: TasksListIncidentViewModel) {
+//        cell.highlightStyle = .fade
+//        cell.selectionStyle = .fade
+//        cell.contentMode = .top
+//        cell.accessoryView = FormAccessoryView(style: .disclosure)
+//
+//        if let cell = cell as? TasksListIncidentCollectionViewCell {
+//            cell.decorate(with: viewModel)
+//        }
+//    }
 
-    override open func decorate(cell: CollectionViewFormCell, with viewModel: TasksListIncidentViewModel) {
-        cell.highlightStyle = .fade
-        cell.selectionStyle = .fade
-        cell.contentMode = .top
-        cell.accessoryView = FormAccessoryView(style: .disclosure)
-
-        if let cell = cell as? TasksListIncidentCollectionViewCell {
-            cell.decorate(with: viewModel)
-        }
-    }
-
-    open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
-
-        if let cell = cell as? TasksListIncidentCollectionViewCell {
-            cell.summaryView.titleLabel.textColor = primaryTextColor
-            cell.summaryView.subtitleLabel.textColor = primaryTextColor
-            cell.summaryView.captionLabel.textColor = secondaryTextColor
-        }
-    }
+//    open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
+//
+//        if let cell = cell as? TasksListIncidentCollectionViewCell {
+//            cell.summaryView.titleLabel.textColor = primaryTextColor
+//            cell.summaryView.subtitleLabel.textColor = primaryTextColor
+//            cell.summaryView.captionLabel.textColor = secondaryTextColor
+//        }
+//    }
     
-    open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let view = super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
-        
-        if let header = view as? CollectionViewFormHeaderView, let viewModel = viewModel as? TasksListViewModel {
-            header.showsUpdatesIndicatorWhenCollapsed = viewModel.showsUpdatesIndicator(at: indexPath.section)
-        }
-        
-        return view
-    }
-    
+//    open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+//        let view = super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
+//
+//        if let header = view as? CollectionViewFormHeaderView, let viewModel = viewModel as? TasksListViewModel {
+//            header.showsUpdatesIndicatorWhenCollapsed = viewModel.showsUpdatesIndicator(at: indexPath.section)
+//        }
+//
+//        return view
+//    }
+//
     // MARK: - UICollectionViewDelegate
 
-    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    open override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        
+
         // Set item as read and reload the section
         guard let item = viewModel.item(at: indexPath) else { return }
-        item.hasUpdates = false
-        
+//        item.hasUpdates = false
+
         collectionView.reloadSections(IndexSet(integer: indexPath.section))
-        
+
         if let viewModel = viewModel(for: item) {
             let vc = TasksItemSidebarViewController.init(viewModel: viewModel)
             splitViewController?.navigationController?.pushViewController(vc, animated: true)
         }
-
     }
     
     override open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
@@ -158,9 +237,8 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListInc
         }
         return 0
     }
-    
-    /// Creates a view model from an annotation
-    public func viewModel(for item: TasksListIncidentViewModel) -> TaskItemViewModel? {
+
+    public func viewModel(for item: TasksListItemViewModel) -> TaskItemViewModel? {
         if let resource = CADStateManager.shared.resourcesById[item.identifier] {
             return ResourceTaskItemViewModel(resource: resource)
         } else if let incident = CADStateManager.shared.incidentsById[item.identifier] {
@@ -172,12 +250,12 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListInc
             }
             return IncidentTaskItemViewModel(incident: incident, resource: resource)
         }
-        
+
         return nil
     }
 
     // MARK: - CollectionViewDelegateFormLayout methods
-
+//
     func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
         // Make space for search bar using the form global header
         return viewModel.sections.isEmpty ? 0 : 32
@@ -202,5 +280,15 @@ open class TasksListViewController: CADFormCollectionViewController<TasksListInc
 
     @objc open func refreshTasks() {
         delegate?.taskListDidPullToRefresh()
+    }
+}
+
+extension TasksListViewController: CADFormCollectionViewModelDelegate {
+    public func sectionsUpdated() {
+        // Update loading state
+        loadingManager.state = viewModel.numberOfSections() == 0 ? .noContent : .loaded
+        
+        // Reload content
+        reloadContent()
     }
 }
