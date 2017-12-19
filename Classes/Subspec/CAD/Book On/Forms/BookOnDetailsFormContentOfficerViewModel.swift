@@ -18,7 +18,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     open var title: String?
     open var rank: String?
     open var officerId: String?
-    open var licenseType: String?
+    open var licenceTypeId: String?
     open var contactNumber: String?
     open var capabilities: String?
     open var remarks: String?
@@ -28,7 +28,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     open var isDriver: Bool?
 
     open var subtitle: String {
-        return [rank, officerId, licenseType].joined(separator: "  •  ")
+        return [rank, officerId, licenceTypeId].joined(separator: "  •  ")
     }
 
     open var driverStatus: String? {
@@ -39,7 +39,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     }
 
     open var incompleteStatus: String? {
-        if licenseType == nil {
+        if licenceTypeId == nil {
             return NSLocalizedString("Incomplete", comment: "").uppercased()
         }
         return nil
@@ -52,7 +52,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
         self.title = officer.title
         self.rank = officer.rank
         self.officerId = officer.officerId
-        self.licenseType = officer.licenseType
+        self.licenceTypeId = officer.licenceTypeId
         self.contactNumber = officer.contactNumber
         self.capabilities = officer.capabilities
         self.remarks = officer.remarks
@@ -64,12 +64,12 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
         self.title = officer.displayName
         self.rank = officer.rank
         self.officerId = officer.payrollId
-        self.licenseType = officer.licenceTypeId
         self.isDriver = isDriver
 
         if initial {
             // On initial add of officer, some properties user is forced to enter
         } else {
+            self.licenceTypeId = officer.licenceTypeId
             self.contactNumber = officer.contactNumber
             self.capabilities = officer.capabilities
             self.remarks = officer.remarks

@@ -68,7 +68,7 @@ open class BookOnDetailsFormContentMainViewModel {
         request.officers = self.officers.flatMap { officer in
             if let existingOfficer = CADStateManager.shared.officersById[officer.officerId!] {
                 let updatedOfficer = SyncDetailsOfficer(officer: existingOfficer)
-                updatedOfficer.licenceTypeId = officer.licenseType
+                updatedOfficer.licenceTypeId = officer.licenceTypeId
                 updatedOfficer.contactNumber = officer.contactNumber
                 updatedOfficer.capabilities = officer.capabilities
                 updatedOfficer.remarks = officer.remarks

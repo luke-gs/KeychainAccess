@@ -66,15 +66,15 @@ open class OfficerDetailsViewController: FormBuilderViewController {
         
         builder += DropDownFormItem(title: NSLocalizedString("Licence", comment: ""))
             // TODO: get these from manifest
-            .options([NSLocalizedString("Gold", comment: ""),
-                      NSLocalizedString("Silver", comment: ""),
+            .options([NSLocalizedString("Gold License", comment: ""),
+                      NSLocalizedString("Silver License", comment: ""),
                       NSLocalizedString("Nil", comment: "")])
             .required("Licence is required.")
             .allowsMultipleSelection(false)
             .width(.column(2))
-            .selectedValue([viewModel.content.licenseType].removeNils())
+            .selectedValue([viewModel.content.licenceTypeId].removeNils())
             .onValueChanged {
-                self.viewModel.content.licenseType = $0?.first
+                self.viewModel.content.licenceTypeId = $0?.first
             }
         
         builder += TextFieldFormItem(title: NSLocalizedString("Capabilities", comment: ""))
