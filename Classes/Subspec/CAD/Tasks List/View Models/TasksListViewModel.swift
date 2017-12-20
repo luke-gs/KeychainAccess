@@ -19,6 +19,7 @@ public class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewMod
     public func createViewController() -> TasksListViewController {
         let tasksListViewController = TasksListViewController(viewModel: self)
         tasksListViewController.userInterfaceStyle = .dark
+        delegate = tasksListViewController
         return tasksListViewController
     }
 
@@ -41,7 +42,7 @@ public class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewMod
     open func showsUpdatesIndicator(at section: Int) -> Bool {
         if let sectionViewModel = sections[ifExists: section] {
             for item in sectionViewModel.items {
-                if item.hasUpdates {
+                if (item as? TasksListIncidentViewModel)?.hasUpdates == true {
                     return true
                 }
             }

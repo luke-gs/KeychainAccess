@@ -1,5 +1,5 @@
 //
-//  TasksListCellStatusRow.swift
+//  TasksListInfoRowView.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 14/11/17.
@@ -9,7 +9,7 @@
 import UIKit
 
 /// Row for the status column in landscape on tasks list
-open class TasksListCellStatusRow: UIView {
+open class TasksListInfoRowView: UIView {
 
     private struct LayoutConstants {
         static let imageSize = CGSize(width: 16, height: 16)
@@ -47,7 +47,7 @@ open class TasksListCellStatusRow: UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(imageView)
         
-        titleLabel.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
+        titleLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(titleLabel)
         
@@ -67,6 +67,7 @@ open class TasksListCellStatusRow: UIView {
             
             titleLabel.topAnchor.constraint(equalTo: self.topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: LayoutConstants.imageSpacing).withPriority(.almostRequired),
+            titleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 35),
             titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             
             subtitleLabel.topAnchor.constraint(equalTo: self.topAnchor),
@@ -74,6 +75,17 @@ open class TasksListCellStatusRow: UIView {
             subtitleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             subtitleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
         ])
+    }
+    
+    open func decorate(with viewModel: TasksListInformationRowViewModel) {
+        imageView.image = viewModel.image?.withRenderingMode(.alwaysTemplate)
+        imageView.tintColor = viewModel.tintColor ?? .secondaryGray
+        titleLabel.text = viewModel.title
+        titleLabel.font = UIFont.systemFont(ofSize: 13, weight: viewModel.useBoldTitleText ? .semibold : .regular)
+        titleLabel.textColor = viewModel.tintColor ?? .secondaryGray
+        subtitleLabel.text = viewModel.detail
+        subtitleLabel.font = UIFont.systemFont(ofSize: 13, weight: viewModel.useBoldDetailText ? .semibold : .regular)
+        subtitleLabel.textColor = viewModel.tintColor ?? .secondaryGray
     }
     
 }

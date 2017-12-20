@@ -14,9 +14,7 @@ open class ThemedPopoverViewController: UIViewController, PopoverViewController 
     /// Support for being transparent when in popover/form sheet
     open var wantsTransparentBackground: Bool = false {
         didSet {
-            if isViewLoaded {
-                view.backgroundColor = wantsTransparentBackground ? UIColor.clear : theme.color(forKey: .background)!
-            }
+            view.backgroundColor = wantsTransparentBackground ? UIColor.clear : theme.color(forKey: .background)!
         }
     }
 

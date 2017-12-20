@@ -1,5 +1,5 @@
 //
-//  TasksListItemViewModel.swift
+//  TasksListIncidentViewModel.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 10/10/17.
@@ -8,14 +8,10 @@
 
 import UIKit
 
-public class TasksListItemViewModel {
-    public let identifier: String
-    public let title: String
-    public let subtitle: String
-    public let caption: String
+public class TasksListIncidentViewModel: TasksListItemViewModel {
     public let priority: String?
     public let description: String?
-    public let resources: [TasksListItemResourceViewModel]?
+    public let resources: [TasksListInformationRowViewModel]?
 
     public var badgeText: String? {
         return priority
@@ -30,11 +26,10 @@ public class TasksListItemViewModel {
     public let badgeBorderColor: UIColor?
     public var hasUpdates: Bool
     
-    public init(identifier: String, title: String, subtitle: String, caption: String, priority: String? = nil, description: String? = nil, resources: [TasksListItemResourceViewModel]? = nil, badgeTextColor: UIColor?, badgeFillColor: UIColor?, badgeBorderColor: UIColor?, hasUpdates: Bool) {
-        self.identifier = identifier
-        self.title = title
-        self.subtitle = subtitle
-        self.caption = caption
+    public init(identifier: String, title: String, subtitle: String, caption: String, priority: String? = nil,
+                description: String? = nil, resources: [TasksListInformationRowViewModel]? = nil, badgeTextColor: UIColor?,
+                badgeFillColor: UIColor?, badgeBorderColor: UIColor?, hasUpdates: Bool)
+    {
         self.description = description
         self.resources = resources
         self.priority = priority
@@ -42,11 +37,13 @@ public class TasksListItemViewModel {
         self.badgeFillColor = badgeFillColor
         self.badgeBorderColor = badgeBorderColor
         self.hasUpdates = hasUpdates
+        
+        super.init(identifier: identifier, title: title, subtitle: subtitle, caption: caption)
     }
     
     public convenience init(incident: SyncDetailsIncident, showsDescription: Bool = true, showsResources: Bool = true, hasUpdates: Bool) {
         let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier).map {
-            return TasksListItemResourceViewModel(with: $0)
+            return TasksListInformationRowViewModel(with: $0)
         }
         
         self.init(
@@ -60,20 +57,6 @@ public class TasksListItemViewModel {
             badgeTextColor: incident.grade.badgeColors.text,
             badgeFillColor: incident.grade.badgeColors.fill,
             badgeBorderColor: incident.grade.badgeColors.border,
-            hasUpdates: hasUpdates)
-    }
-
-    public convenience init(resource: SyncDetailsResource, incident: SyncDetailsIncident?, hasUpdates: Bool) {
-        self.init(
-            identifier: resource.callsign,
-            title: [resource.callsign, resource.officerCountString].joined(),
-            subtitle: resource.location?.suburb ?? "",
-            caption: resource.status.title,
-            priority: incident?.grade.rawValue,
-            description: incident?.details,
-            badgeTextColor: incident?.grade.badgeColors.text,
-            badgeFillColor: incident?.grade.badgeColors.fill,
-            badgeBorderColor: incident?.grade.badgeColors.border,
             hasUpdates: hasUpdates)
     }
 }
