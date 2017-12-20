@@ -113,7 +113,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             CADStateManager.apiManager.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] token -> Void in
                 guard let `self` = self else { return }
 
-                APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+                APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)))
                 UserSession.startSession(user: User(username: username), token: token)
                 controller.resetFields()
                 self.updateInterfaceForUserSession(animated: true)

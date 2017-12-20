@@ -36,13 +36,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         MPOLKitInitialize()
 
-        let refreshToken = RefreshTokenPlugin { response -> Promise<Void> in
+        let refreshTokenPlugin = RefreshTokenPlugin { response -> Promise<Void> in
             self.attemptRefresh(response: response)
-        }
+        }.withRule(.blacklist((DefaultFilterRules.authenticationFilterRules)))
 
-        var plugins: [PluginType] = [refreshToken, NetworkMonitorPlugin()]
+        var plugins: [Plugin] = [refreshTokenPlugin, NetworkMonitorPlugin().allowAll()]
         #if DEBUG
-            plugins.append(NetworkLoggingPlugin())
+            plugins.append(NetworkLoggingPlugin().allowAll())
         #endif
 
         // Set the application key for app specific user settings
@@ -107,7 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Reload user from shared storage if logged in, in case updated by another mpol app
         if UserSession.current.isActive == true {
             UserSession.current.restoreSession { token in
-                APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+                APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)), rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
             }
         }
 
@@ -164,9 +164,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     private func attemptRefresh(response: DataResponse<Data>) -> Promise<Void> {
-        // Reset auth plugin (because BE can't ignore headers)
-        APIManager.shared.authenticationPlugin = nil
-        
+
         let promise: Promise<Void>
         
         // Create refresh token request with current token
@@ -174,7 +172,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             promise = APIManager.shared.accessTokenRequest(for: .refreshToken(token))
                 .then { token -> Void in
                     // Update access token
-                    APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+                    APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)), rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
                     UserSession.current.updateToken(token)
                 }.recover { error -> Promise<Void> in
                     // Throw 401 error instead of refresh token error
@@ -194,7 +192,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // TEMP
     func logOut() {
         UserSession.current.endSession()
-        APIManager.shared.authenticationPlugin = nil
+        APIManager.shared.setAuthenticationPlugin(nil)
         landingPresenter.updateInterfaceForUserSession(animated: false)
     }
 

@@ -28,11 +28,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         MPOLKitInitialize()
 
-        let plugins: [PluginType]?
+        var plugins = [NetworkMonitorPlugin().allowAll()]
         #if DEBUG
-            plugins = [
-                NetworkLoggingPlugin()
-            ]
+            plugins.append(NetworkLoggingPlugin().allowAll())
         #else
             plugins = nil
         #endif
@@ -72,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Reload user from shared storage if logged in, in case updated by another mpol app
         if UserSession.current.isActive == true {
             UserSession.current.restoreSession { token in
-                APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+                APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)))
             }
         }
 
@@ -82,7 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func logOut() {
         UserSession.current.endSession()
-        APIManager.shared.authenticationPlugin = nil
+        APIManager.shared.setAuthenticationPlugin(nil)
         landingPresenter.updateInterfaceForUserSession(animated: false)
     }
 
