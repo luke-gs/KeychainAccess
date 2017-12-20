@@ -20,9 +20,9 @@ open class APIManager {
     private let errorMapper: ErrorMapper?
     private let sessionManager: SessionManager
 
-    private let plugins: [PluginType]
-
-    open var authenticationPlugin: AuthenticationPlugin? = nil
+    private var plugins: [Plugin] = []
+    public private(set) var authenticationPlugin: AuthenticationPlugin? = nil
+    public private(set) var authenticationPluginFilterRule: PluginFilterRule = .allowAll
 
     public init(configuration: APIManagerConfigurable) {
         self.configuration = configuration
@@ -54,7 +54,7 @@ open class APIManager {
         let request = try urlRequest(from: networkRequest)
         return requestPromise(request, using: serializer, cancelToken: cancelToken)
     }
-    
+
     /// Request for access token.
     ///
     /// Supports implicit `NSProgress` reporting.
@@ -70,7 +70,7 @@ open class APIManager {
         return try! performRequest(networkRequest)
 
     }
-    
+
     /// Search for entity using specified request.
     ///
     /// Supports implicit `NSProgress` reporting.
@@ -79,7 +79,7 @@ open class APIManager {
     ///   - request: The request with the parameters to search the entity.
     /// - Returns: A promise to return search result of specified entity.
     open func searchEntity<SearchRequest: EntitySearchRequestable>(in source: EntitySource, with request: SearchRequest) -> Promise<SearchResult<SearchRequest.ResultClass>> {
-        
+
         let path = "{source}/entity/{entityType}/search"
         var parameters = request.parameters
         parameters["source"] = source.serverSourceName
@@ -89,7 +89,7 @@ open class APIManager {
 
         return try! self.performRequest(networkRequest)
     }
-    
+
     /// Fetch entity details using specified request.
     ///
     /// Supports implicit `NSProgress` reporting.
@@ -98,76 +98,20 @@ open class APIManager {
     ///   - request: The request with the parameters to fetch the entity.
     /// - Returns: A promise to return specified entity details.
     open func fetchEntityDetails<FetchRequest: EntityFetchRequestable>(in source: EntitySource, with request: FetchRequest) -> Promise<FetchRequest.ResultClass> {
-        
+
         let path = "{source}/entity/{entityType}/{id}"
-        
+
         var parameters = request.parameters
         parameters["source"] = source.serverSourceName
         parameters["entityType"] = FetchRequest.ResultClass.serverTypeRepresentation
 
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
-            
+
         return try! self.performRequest(networkRequest)
     }
 
-    // MARK : - Internal Utilities
-    
-    private var allPlugins: [PluginType] {
-        var allPlugins = plugins
-        if let authenticationPlugin = authenticationPlugin {
-            allPlugins.append(authenticationPlugin)
-        }
-        
-        return allPlugins
-    }
-    
-    private func urlRequest(from networkRequest: NetworkRequestType) throws -> Promise<URLRequest> {
-        let path = networkRequest.path
-
-        let requestPath: URL
-        if networkRequest.isRelativePath {
-            requestPath = baseURL.appendingPathComponent(path)
-        } else {
-            guard let urlPath = URL(string: path) else {
-                throw AFError.invalidURL(url: path)
-            }
-            requestPath = urlPath
-        }
-
-        let parameters = networkRequest.parameters
-
-        let request = try URLRequest(url: requestPath, method: networkRequest.method)
-        let encodedURLRequest = try networkRequest.parameterEncoding.encode(request, with: parameters)
-
-        return adaptedRequest(encodedURLRequest, using: allPlugins)
-    }
-    
-    private func adaptedRequest(_ urlRequest: URLRequest, using plugins: [PluginType]) -> Promise<URLRequest> {
-        let initial = Promise(value: urlRequest)
-        return plugins.reduce(initial) { (promise, plugin) in
-            return promise.then { return plugin.adapt($0) }
-        }
-    }
-    
-    private func createSessionRequestWithProgress(from urlRequest: Promise<URLRequest>) -> Promise<DataRequest> {
-        return urlRequest.then { [unowned self] request in
-            let dataRequest = self.sessionManager.request(request)
-            let progress = dataRequest.progress
-            progress.cancellationHandler = {
-                dataRequest.cancel()
-            }
-            progress.resumingHandler = {
-                dataRequest.resume()
-            }
-            progress.pausingHandler = {
-                dataRequest.suspend()
-            }
-            return Promise(value: dataRequest)
-        }
-    }
-    
     /// Performs a request for the `urlRequest` and returns a `Promise` with processed `DataResponse`.
-    public func dataRequest(_ urlRequest: Promise<URLRequest>, cancelToken: PromiseCancellationToken? = nil) -> Promise<DataResponse<Data>> {
+    open func dataRequest(_ urlRequest: Promise<URLRequest>, cancelToken: PromiseCancellationToken? = nil) -> Promise<DataResponse<Data>> {
 
         let (promise, fulfill, reject) = Promise<DataResponse<Data>>.pending()
 
@@ -181,11 +125,11 @@ open class APIManager {
             }))
 
             // Notify plugins of request
-            let allPlugins = self.allPlugins
+            let allPlugins = self.applicablePlugins(for: request.request?.url)
             allPlugins.forEach {
                 $0.willSend(request)
             }
-            
+
             // Perform request
             request.validate().responseDataPromise().then { (response) -> Void in
 
@@ -216,12 +160,115 @@ open class APIManager {
                     fulfill(dataResponse)
                 }
 
-            }.catch(policy: .allErrors) { error in
-                reject(error)
+                }.catch(policy: .allErrors) { error in
+                    reject(error)
             }
         }
 
         return promise
+
+        return createSessionRequestWithProgress(from: urlRequest).then { (dataRequest) in
+
+            // Notify plugins of request
+            let allPlugins = self.applicablePlugins(for: dataRequest.request?.url)
+            allPlugins.forEach {
+                $0.willSend(dataRequest)
+            }
+
+            // Perform request
+            return dataRequest.validate().responseDataPromise()
+                .then { (response) in
+                    allPlugins.forEach({
+                        $0.didReceiveResponse(response)
+                    })
+
+                    var processed = Promise(value: response)
+                    for plugin in allPlugins {
+                        processed = processed.then { return plugin.processResponse($0) }
+                    }
+                    return processed
+            }
+        }
+    }
+
+    /// Set the authentication plugin for this manager with the the rule of what requests it'll apply to.
+    ///
+    /// - Parameters:
+    ///   - plugin: The authentication plugin to use.
+    ///   - rule: The filter rule that the plugin should apply to.
+    public func setAuthenticationPlugin(_ plugin: AuthenticationPlugin?, rule: PluginFilterRule = .allowAll) {
+        authenticationPlugin = plugin
+        authenticationPluginFilterRule = rule
+    }
+
+    // MARK : - Internal Utilities
+
+    private var allPlugins: [Plugin] {
+
+        var allPlugins = plugins
+
+        if let authenticationPlugin = authenticationPlugin {
+            allPlugins.append(authenticationPlugin.withRule(authenticationPluginFilterRule))
+        }
+
+        return allPlugins
+    }
+
+    private func applicablePlugins(for url: URL?) -> [PluginType] {
+
+        guard let url = url else {
+            // No URL specified, allow all.
+            return allPlugins.map { $0.plugin }
+        }
+
+        return allPlugins.flatMap {
+            return $0.isApplicable(to: url) ? $0.plugin : nil
+        }
+    }
+
+    private func urlRequest(from networkRequest: NetworkRequestType) throws -> Promise<URLRequest> {
+        let path = networkRequest.path
+
+        let requestPath: URL
+        if networkRequest.isRelativePath {
+            requestPath = baseURL.appendingPathComponent(path)
+        } else {
+            guard let urlPath = URL(string: path) else {
+                throw AFError.invalidURL(url: path)
+            }
+            requestPath = urlPath
+        }
+
+        let parameters = networkRequest.parameters
+
+        let request = try URLRequest(url: requestPath, method: networkRequest.method)
+        let encodedURLRequest = try networkRequest.parameterEncoding.encode(request, with: parameters)
+
+        return adaptedRequest(encodedURLRequest, using: applicablePlugins(for: requestPath))
+    }
+    
+    private func adaptedRequest(_ urlRequest: URLRequest, using plugins: [PluginType]) -> Promise<URLRequest> {
+        let initial = Promise(value: urlRequest)
+        return plugins.reduce(initial) { (promise, plugin) in
+            return promise.then { return plugin.adapt($0) }
+        }
+    }
+    
+    private func createSessionRequestWithProgress(from urlRequest: Promise<URLRequest>) -> Promise<DataRequest> {
+        return urlRequest.then { [unowned self] request in
+            let dataRequest = self.sessionManager.request(request)
+            let progress = dataRequest.progress
+            progress.cancellationHandler = {
+                dataRequest.cancel()
+            }
+            progress.resumingHandler = {
+                dataRequest.resume()
+            }
+            progress.pausingHandler = {
+                dataRequest.suspend()
+            }
+            return Promise(value: dataRequest)
+        }
     }
 
     /// Returns a `Promise` that executes the entire chain of related promises for the network request (including serializing response).
@@ -253,7 +300,9 @@ open class APIManager {
     }
 }
 
-public extension APIManager {
+// MARK: - Shared manager configuration
+/// Allows setting a global sharedManager for convenience.
+extension APIManager {
 
     private static var _sharedManager: APIManager?
 
@@ -272,7 +321,9 @@ public extension APIManager {
 
 // MARK: - ResponseSerializing
 
-// Name-spaced default implementation `ResponseSerializing` that handles data.
+/// Name-spaced default implementation of `ResponseSerializing`.
+/// `JSONObjectResponseSerializer` and `JSONObjectResponseSerializer`, for example,
+/// are very generic name.
 extension APIManager {
 
     fileprivate struct DataHTTPURLResponsePairResponseSerializer: ResponseSerializing {
@@ -321,35 +372,22 @@ extension APIManager {
                 if let json = json as? ResultType {
                     return .success(json)
                 } else {
-                    return .failure(ParsingError.notParsable)
+                    return .failure(ParsingError.incorrectFormat)
                 }
             case .failure(let error):
                 return .failure(error)
             }
         }
     }
-}
 
-
-extension DataRequest {
-    
-    func responseDataPromise() -> Promise<DataResponse<Data>> {
-        return Promise { (fulfill, _) in
-            self.responseData { fulfill($0) }
-        }
-    }
-}
-
-extension APIManager {
-    
     // Serialization of for arrays of dictionaries
     public struct JSONObjectArrayResponseSerializer: ResponseSerializing {
         public typealias ResultType = [[String:Any]]
-        
+
         public init() {
-            
+
         }
-        
+
         public func serializedResponse(from dataResponse: DataResponse<Data>) -> Alamofire.Result<ResultType> {
             let result = DataRequest.serializeResponseJSON(options: .allowFragments, response: dataResponse.response, data: dataResponse.data, error: dataResponse.error)
             switch result {
@@ -362,6 +400,16 @@ extension APIManager {
             case .failure(let error):
                 return .failure(error)
             }
+        }
+    }
+    
+}
+
+extension DataRequest {
+    
+    fileprivate func responseDataPromise() -> Promise<DataResponse<Data>> {
+        return Promise { (fulfill, _) in
+            self.responseData { fulfill($0) }
         }
     }
 }
