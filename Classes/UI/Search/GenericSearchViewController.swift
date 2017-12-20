@@ -60,6 +60,8 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
                 }
             }
         }
+        // Update loading state based on whether there is any content
+        loadingManager.state = builder.formItems.isEmpty ? .noContent : .loaded
     }
 
     open override func viewDidLayoutSubviews() {
