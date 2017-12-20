@@ -128,6 +128,8 @@
 		273DE2D71FEA0286000C46DD /* CreateIncidentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2D61FEA0286000C46DD /* CreateIncidentRequest.swift */; };
 		273DE2D91FEA0355000C46DD /* IntrinsicHeightFormBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2D81FEA0355000C46DD /* IntrinsicHeightFormBuilderViewController.swift */; };
 		273DE2DB1FEA0713000C46DD /* CreateIncidentDetailsContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2DA1FEA0713000C46DD /* CreateIncidentDetailsContentViewModel.swift */; };
+		273DE2E11FEA1199000C46DD /* CADStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2E01FEA1199000C46DD /* CADStatusViewController.swift */; };
+		273DE2E31FEA155F000C46DD /* IndexPathSelectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2E21FEA155F000C46DD /* IndexPathSelectable.swift */; };
 		2742CD2F1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2742CD2E1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift */; };
 		2744EEC51FBEA523008DFA7F /* MapFilterSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744EEBE1FBEA523008DFA7F /* MapFilterSectionView.swift */; };
 		2744EEC61FBEA523008DFA7F /* MapFilterToggleRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744EEBF1FBEA523008DFA7F /* MapFilterToggleRowView.swift */; };
@@ -2068,6 +2070,7 @@
 				96CF322F1F8C4AD300140AF8 /* CADFormCollectionSectionViewModel.swift */,
 				27094CA61FAFFBCA00D4C3D4 /* CADGroupedFormCollectionSectionViewModel.swift */,
 				962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */,
+				273DE2E21FEA155F000C46DD /* IndexPathSelectable.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -3693,6 +3696,7 @@
 				DB2A05E11FD9142E005B7BFD /* HapticHelper.swift in Sources */,
 				BCC6F74E1F2FF91200F05F65 /* MapCollectionViewController.swift in Sources */,
 				19F8DDB11F4D7CB800D84DA1 /* LookupAddress.swift in Sources */,
+				273DE2E11FEA1199000C46DD /* CADStatusViewController.swift in Sources */,
 				BCBA82141F19D7E8000BBF82 /* StringSizing.swift in Sources */,
 				27CBC7561F8B277E00E387C3 /* TimelineCollectionViewFormLayout.swift in Sources */,
 				BC9C7E031F0DED6600DFFE83 /* UICollectionView+DefaultReuse.swift in Sources */,
@@ -3726,6 +3730,7 @@
 				27BE96541FD75A0D0092A771 /* CommsButtonHandler.swift in Sources */,
 				464A5E8D1FD11B5600B4C0F9 /* EvaluatorKey.swift in Sources */,
 				274F10EE1FCE0A86001A59A5 /* IncidentNarrativeViewModel.swift in Sources */,
+				273DE2E31FEA155F000C46DD /* IndexPathSelectable.swift in Sources */,
 				DBE24C3C1F593BEF0088D19B /* EntityDetailSplitViewController.swift in Sources */,
 				EAE806DB1F98534000C9AA85 /* FormSection.swift in Sources */,
 				19B49BBE1F665F2A00502F51 /* ScrollAwarePageViewController.swift in Sources */,
