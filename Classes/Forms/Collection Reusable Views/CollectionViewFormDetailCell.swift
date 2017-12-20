@@ -109,7 +109,7 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         detailLabel.font   = defaultFonts.detailFont
         
         titleLabel.numberOfLines = 1
-        titleLabel.numberOfLines = 1
+        subtitleLabel.numberOfLines = 1
         detailLabel.numberOfLines = 0
         
         let contentView = self.contentView
