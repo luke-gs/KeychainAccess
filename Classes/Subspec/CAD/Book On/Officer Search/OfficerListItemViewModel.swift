@@ -31,7 +31,7 @@ public struct OfficerListItemViewModel: GenericSearchable {
     }
     
     public var subtitle: String? {
-        return "\(rank)  •  #\(callsign)"
+        return "\(rank)\(UIConstants.dividerSeparator)#\(callsign)"
     }
     
     public var section: String?

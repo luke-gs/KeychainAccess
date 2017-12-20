@@ -31,7 +31,7 @@ public class ResourceOfficerViewModel {
         
         self.init(title: officer.displayName,
                   subtitle: [officer.rank, officer.payrollIdDisplayString, officer.licenceTypeId]
-                    .joined(separator: "  •  "),
+                    .joined(separator: UIConstants.dividerSeparator),
                   initials: officer.initials,
                   badgeText: resource?.driver == officer.payrollId ? "DRIVER": nil,
                   commsEnabled: (text: false, call: commsEnabled), // TODO: Set text enabled later on

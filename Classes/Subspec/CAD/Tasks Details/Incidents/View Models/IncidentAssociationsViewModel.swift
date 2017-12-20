@@ -49,7 +49,7 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<EntitySum
                                                     entityType: .vehicle,
                                                     title: vehicle.plateNumber,
                                                     detail1: vehicle.vehicleDescription,
-                                                    detail2: [vehicle.bodyType, vehicle.color].joined(separator: " • "),
+                                                    detail2: [vehicle.bodyType, vehicle.color].joined(separator: UIConstants.dividerSeparator),
                                                     borderColor: nil,
                                                     iconColor: nil,
                                                     badge: 0)
