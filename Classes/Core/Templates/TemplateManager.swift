@@ -62,7 +62,7 @@ public class TemplateManager {
         templates = [:]
     }
 
-    /// Do any async things that are required to maintain the network copy's parity.
+    /// Do any async things that are required to maintain the source copy's parity.
     private func dictionaryModified(forKey key: Key) {
         delegate?.templatesModified(templates: templates, forKey: key)
     }
