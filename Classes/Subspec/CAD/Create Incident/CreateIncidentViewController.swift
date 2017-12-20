@@ -19,7 +19,7 @@ open class CreateIncidentViewController: ThemedPopoverViewController {
     open var contentView: UIView!
 
     /// Collection of callsign statuses
-    open var callsignStatusVC: CallsignStatusViewController!
+    open var callsignStatusVC: CreateIncidentStatusViewController!
     
     /// Form for details
     open var detailsFormVC: IncidentDetailsFormViewController!
@@ -119,7 +119,7 @@ open class CreateIncidentViewController: ThemedPopoverViewController {
         case .invalid(_, let message):
             builder.validateAndUpdateUI()
             AlertQueue.shared.addErrorAlert(message: message)
-        case .valid: break
+        case .valid:
             viewModel.submitForm()
         }
     }

@@ -61,6 +61,10 @@ open class CreateIncidentStatusViewModel: CADFormCollectionViewModel<ManageCalls
     
     // MARK: - Override
     
+    open override func navTitle() -> String {
+        return "Initial Status"
+    }
+    
     /// Hide arrows
     open override func shouldShowExpandArrow() -> Bool {
         return false

@@ -20,13 +20,13 @@ open class CreateIncidentViewModel {
     open weak var delegate: CreateIncidentViewModelDelegate?
     
     init() {
-        _ = LocationManager.shared.requestPlacemark().then { [unowned self] placemark -> Void in
+        _ = LocationManager.shared.requestPlacemark().then { [weak self] placemark -> Void in
             let address = (placemark.addressDictionary?["FormattedAddressLines"] as? [String])?
                 .joined(separator: ", ")
                 .ifNotEmpty() ?? "Unknown Location"
             
-            self.contentViewModel.location = address
-            self.delegate?.contentChanged()
+            self?.contentViewModel.location = address
+            self?.delegate?.contentChanged()
 
             return ()
         }
@@ -50,7 +50,7 @@ open class CreateIncidentViewModel {
         return NSLocalizedString("Create New Incident", comment: "")
     }
     
-    open func createStatusViewController() -> CallsignStatusViewController {
+    open func createStatusViewController() -> CreateIncidentStatusViewController {
         let initialStatus = ResourceStatus.atIncident
         let sections = [CADFormCollectionSectionViewModel(
             title: NSLocalizedString("Initial Status", comment: "").uppercased(),
@@ -60,7 +60,7 @@ open class CreateIncidentViewModel {
                 ManageCallsignStatusItemViewModel(.finalise),
                 ManageCallsignStatusItemViewModel(.inquiries2) ])
         ]
-        let viewModel = CallsignStatusViewModel(sections: sections, selectedStatus: initialStatus, incident: nil)
+        let viewModel = CreateIncidentStatusViewModel(sections: sections, selectedStatus: initialStatus)
         
         return viewModel.createViewController()
     }
