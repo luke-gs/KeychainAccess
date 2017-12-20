@@ -41,13 +41,13 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         let titleImageHeight = max(titleSubtitleHeight, imageSize?.height ?? 0.0)
         
         let imageInset = (imageSize?.isEmpty).isTrue ? 0.0 : (imageSize?.width ?? 0.0) + CellImageLabelSeparation.ceiled(toScale: displayScale)
-        let detailSizing = detail?.sizing(defaultNumberOfLines: 2, defaultFont: fonts.detailFont)
+        let detailSizing = detail?.sizing(defaultNumberOfLines: 0, defaultFont: fonts.detailFont)
         let detailHeight = detailSizing?.minimumHeight(inWidth: width - imageInset, compatibleWith: traitCollection) ?? 0.0
 
         return titleImageHeight + (detailHeight + fonts.detailFont.leading).ceiled(toScale: displayScale) + titleDetailSeparation
     }
     
-    private class func defaultFonts(compatibleWith traitCollection: UITraitCollection) -> (titleFont: UIFont, subtitleFont: UIFont, detailFont: UIFont) {
+    public class func defaultFonts(compatibleWith traitCollection: UITraitCollection) -> (titleFont: UIFont, subtitleFont: UIFont, detailFont: UIFont) {
         return (.preferredFont(forTextStyle: .headline,    compatibleWith: traitCollection),
                 .preferredFont(forTextStyle: .footnote,    compatibleWith: traitCollection),
                 .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection))

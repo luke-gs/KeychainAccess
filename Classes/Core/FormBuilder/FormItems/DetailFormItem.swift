@@ -34,15 +34,17 @@ public class DetailFormItem: BaseFormItem {
 
     public override func configure(_ cell: CollectionViewFormCell) {
         let cell = cell as! CollectionViewFormDetailCell
+        let fonts = CollectionViewFormDetailCell.defaultFonts(compatibleWith: cell.traitCollection)
 
-        cell.titleLabel.apply(sizable: title, defaultFont: .preferredFont(forTextStyle: .headline, compatibleWith: cell.traitCollection), defaultNumberOfLines: 1)
-        cell.subtitleLabel.apply(sizable: subtitle, defaultFont: .preferredFont(forTextStyle: .footnote, compatibleWith: cell.traitCollection), defaultNumberOfLines: 1)
-        cell.detailLabel.apply(sizable: detail, defaultFont: .preferredFont(forTextStyle: .subheadline, compatibleWith: cell.traitCollection), defaultNumberOfLines: 2)
+        cell.titleLabel.apply(sizable: title, defaultFont: fonts.titleFont, defaultNumberOfLines: 1)
+        cell.subtitleLabel.apply(sizable: subtitle, defaultFont: fonts.subtitleFont, defaultNumberOfLines: 1)
+        cell.detailLabel.apply(sizable: detail, defaultFont: fonts.detailFont, defaultNumberOfLines: 0)
         cell.imageView.image = image
     }
 
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
-        return CollectionViewFormDetailCell.minimumContentHeight(withTitle: title, subtitle: subtitle, detail: detail, imageSize: image?.size, inWidth: contentWidth, compatibleWith: traitCollection)
+        let fonts = CollectionViewFormDetailCell.defaultFonts(compatibleWith: traitCollection)
+        return CollectionViewFormDetailCell.minimumContentHeight(withTitle: title?.sizing(defaultNumberOfLines: 1, defaultFont: fonts.titleFont), subtitle: subtitle?.sizing(defaultNumberOfLines: 1, defaultFont: fonts.subtitleFont), detail: detail?.sizing(defaultNumberOfLines: 0, defaultFont: fonts.detailFont), imageSize: image?.size, inWidth: contentWidth, compatibleWith: traitCollection)
     }
 
     public override func intrinsicWidth(in collectionView: UICollectionView, layout: CollectionViewFormLayout, sectionEdgeInsets: UIEdgeInsets, for traitCollection: UITraitCollection) -> CGFloat {
