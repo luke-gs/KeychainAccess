@@ -18,7 +18,7 @@ public class OfficerListViewModel: GenericSearchDefaultViewModel {
     open weak var delegate: OfficerListViewModelDelegate?
     
     public init() {
-        super.init(items: OfficerListViewModel.sampleData) // TODO: Get from network or something
+        super.init(items: viewModelData)
         title = NSLocalizedString("Add Officer", comment: "")
     }
     
@@ -33,8 +33,12 @@ public class OfficerListViewModel: GenericSearchDefaultViewModel {
         return vc
     }
     
+    open func noContentTitle() -> String? {
+        return NSLocalizedString("No Officers Found", comment: "")
+    }
+
     open func officerDetailsViewController(for officer: OfficerListItemViewModel) -> UIViewController {
-        let officerViewModel = BookOnDetailsFormContentViewModel.Officer()
+        let officerViewModel = BookOnDetailsFormContentOfficerViewModel()
         officerViewModel.title = officer.title
         officerViewModel.rank = officer.rank
         officerViewModel.officerId = officer.callsign
@@ -45,22 +49,21 @@ public class OfficerListViewModel: GenericSearchDefaultViewModel {
         return detailsViewModel.createViewController()
     }
     
-    private static var sampleData: [GenericSearchable] {
+    private lazy var viewModelData: [GenericSearchable] = {
         let section = "Recently Used".uppercased()
-        return [
-            OfficerListItemViewModel(firstName: "Herli", lastName: "Halim", rank: "Senior Sergeant", callsign: "800256", section: section, image: nil),
-            OfficerListItemViewModel(firstName: "Bryan", lastName: "Hathaway", rank: "Constable", callsign: "8005823", section: section, image: nil),
-            OfficerListItemViewModel(firstName: "James", lastName: "Aramroongrot", rank: "Constable", callsign: "800851", section: section, image: nil),
-            OfficerListItemViewModel(firstName: "Luke", lastName: "Sammut", rank: "Constable", callsign: "820827", section: section, image: nil),
-            OfficerListItemViewModel(firstName: "Gavin", lastName: "Raison", rank: "Inspector", callsign: "820904", section: section, image: nil),
-            OfficerListItemViewModel(firstName: "Amit", lastName: "Benjamin", rank: "Senior Sergeant", callsign: "800405", section: section, image: nil),
-        ]
-    }
-
+        var result: [GenericSearchable] = []
+        if let syncDetails = CADStateManager.shared.lastSync {
+            for officer in syncDetails.officers {
+                let viewModel = OfficerListItemViewModel(firstName: officer.firstName, lastName: officer.lastName, rank: officer.rank, callsign: officer.payrollId, section: section, image: nil)
+                result.append(viewModel)
+            }
+        }
+        return result
+    }()
 }
 
 extension OfficerListViewModel: OfficerDetailsViewModelDelegate {
-    public func didFinishEditing(with officer: BookOnDetailsFormContentViewModel.Officer, shouldSave: Bool) {
+    public func didFinishEditing(with officer: BookOnDetailsFormContentOfficerViewModel, shouldSave: Bool) {
         detailsDelegate?.didFinishEditing(with: officer, shouldSave: shouldSave)
         // If should save then let the VC know we are done
         if shouldSave {

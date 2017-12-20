@@ -239,7 +239,7 @@ open class TasksListContainerViewModel {
             guard let incidents = sectionedIncidents[status.rawValue] else { return nil }
             
             let taskViewModels = incidents.map { incident in
-                return TasksListItemViewModel(incident: incident, hasUpdates: true)
+                return TasksListIncidentViewModel(incident: incident, hasUpdates: true)
             }
             return CADFormCollectionSectionViewModel(title: "\(incidents.count) \(status)",
                 items: taskViewModels
@@ -296,12 +296,18 @@ open class TasksListContainerViewModel {
                 return nil
             }
             
-            let taskViewModels: [TasksListItemViewModel] = resources.map { resource in
+            let taskViewModels: [TasksListResourceViewModel] = resources.map { resource in
                 let incident = CADStateManager.shared.incidentForResource(callsign: resource.callsign)
-                return TasksListItemViewModel(resource: resource, incident: incident, hasUpdates: true)
+                return TasksListResourceViewModel(resource: resource, incident: incident)
             }
             
-            return CADFormCollectionSectionViewModel(title: "\(resources.count) \(section)", items: taskViewModels)
+            var title = "\(resources.count) \(section)"
+            
+            if section == duress {
+                title = String.localizedStringWithFormat(NSLocalizedString("%d Resource(s)", comment: ""), resources.count) + " In Duress"
+            }
+            
+            return CADFormCollectionSectionViewModel(title: title, items: taskViewModels)
         }.removeNils()
     }
 

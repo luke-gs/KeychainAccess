@@ -150,6 +150,12 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
                 oldValue?.removeFromSuperview()
                 
                 if let accessoryView = self.accessoryView {
+                    // Make sure accessoryView is removed from previous cell before we add it to this cell.
+                    // Would ideally call in `prepareForReuse()` but apparently sometimes collectionView
+                    // configures new cells before calling that method.
+                    if let previousCell = accessoryView.superview(of: CollectionViewFormCell.self) {
+                        previousCell.accessoryView = nil
+                    }
                     contentView.addSubview(accessoryView)
                 } else {
                     contentModeLayoutTrailingConstraint?.constant = 0.0
