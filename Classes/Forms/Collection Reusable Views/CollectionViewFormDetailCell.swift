@@ -27,25 +27,22 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
     ///   - width: The available width.
     ///   - traitCollection: The trait collection.
     /// - Returns: The correct height for the cell.
-    public class func minimumContentHeight(withDetail detail: StringSizable?, imageSize: CGSize? = nil, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
+    public class func minimumContentHeight(withTitle title: StringSizable? = nil, subtitle: StringSizable? = nil, detail: StringSizable?, imageSize: CGSize? = nil, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
         let fonts = defaultFonts(compatibleWith: traitCollection)
         let displayScale = traitCollection.currentDisplayScale
         
-        let titleFontHeight = fonts.titleFont.lineHeight.ceiled(toScale: displayScale) + fonts.subtitleFont.lineHeight.ceiled(toScale: displayScale) + CellTitleSubtitleSeparation.ceiled(toScale: displayScale)
-        let titleImageHeight = max(titleFontHeight, imageSize?.height ?? 0.0)
-
-        var detailHeight: CGFloat = fonts.detailFont.lineHeight * 2.0
-
-        if var detailSizing = detail?.sizing() {
-            if detailSizing.font == nil {
-                detailSizing.font = fonts.detailFont
-            }
-
-            if detailSizing.numberOfLines != nil {
-                let imageInset = imageSize?.isEmpty ?? false ? 0.0 : (imageSize?.width ?? 0.0) + CellImageLabelSeparation.ceiled(toScale: displayScale)
-                detailHeight = max(detailSizing.minimumHeight(inWidth: width - imageInset, compatibleWith: traitCollection), detailHeight)
-            }
-        }
+        var titleSizing = title?.sizing(defaultNumberOfLines: 1, defaultFont: fonts.titleFont)
+        let titleHeight = titleSizing?.minimumHeight(inWidth: width, compatibleWith: traitCollection) ?? 0.0
+    
+        var subtitleSizing = subtitle?.sizing(defaultNumberOfLines: 1, defaultFont: fonts.subtitleFont)
+        let subtitleHeight = subtitleSizing?.minimumHeight(inWidth: width, compatibleWith: traitCollection) ?? 0.0
+        
+        let titleSubtitleHeight = titleHeight + subtitleHeight + CellTitleSubtitleSeparation.ceiled(toScale: displayScale)
+        let titleImageHeight = max(titleSubtitleHeight, imageSize?.height ?? 0.0)
+        
+        let imageInset = (imageSize?.isEmpty).isTrue ? 0.0 : (imageSize?.width ?? 0.0) + CellImageLabelSeparation.ceiled(toScale: displayScale)
+        var detailSizing = detail?.sizing(defaultNumberOfLines: 2, defaultFont: fonts.detailFont)
+        var detailHeight = detailSizing?.minimumHeight(inWidth: width - imageInset, compatibleWith: traitCollection) ?? 0.0
 
         return titleImageHeight + (detailHeight + fonts.detailFont.leading).ceiled(toScale: displayScale) + titleDetailSeparation
     }
@@ -111,7 +108,12 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         subtitleLabel.font = defaultFonts.subtitleFont
         detailLabel.font   = defaultFonts.detailFont
         
+        titleLabel.numberOfLines = 1
+        titleLabel.numberOfLines = 1
         detailLabel.numberOfLines = 2
+        
+        titleLabel.lineBreakMode = .byWordWrapping
+        subtitleLabel.lineBreakMode = .byWordWrapping
         
         let contentView = self.contentView
         contentView.addSubview(detailLabel)

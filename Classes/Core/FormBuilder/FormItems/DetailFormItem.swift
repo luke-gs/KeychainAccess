@@ -11,9 +11,9 @@ import Foundation
 
 public class DetailFormItem: BaseFormItem {
 
-    public var title: String?
+    public var title: StringSizable?
 
-    public var subtitle: String?
+    public var subtitle: StringSizable?
 
     public var detail: StringSizable?
 
@@ -23,7 +23,7 @@ public class DetailFormItem: BaseFormItem {
         super.init(cellType: CollectionViewFormDetailCell.self, reuseIdentifier: CollectionViewFormDetailCell.defaultReuseIdentifier)
     }
 
-    public convenience init(title: String? = nil, subtitle: String? = nil, detail: StringSizable? = nil, image: UIImage? = nil) {
+    public convenience init(title: StringSizable? = nil, subtitle: StringSizable? = nil, detail: StringSizable? = nil, image: UIImage? = nil) {
         self.init()
 
         self.title = title
@@ -35,14 +35,14 @@ public class DetailFormItem: BaseFormItem {
     public override func configure(_ cell: CollectionViewFormCell) {
         let cell = cell as! CollectionViewFormDetailCell
 
-        cell.titleLabel.text = title
-        cell.subtitleLabel.text = subtitle
+        cell.titleLabel.apply(sizable: title, defaultFont: .preferredFont(forTextStyle: .headline, compatibleWith: cell.traitCollection), defaultNumberOfLines: 1)
+        cell.subtitleLabel.apply(sizable: subtitle, defaultFont: .preferredFont(forTextStyle: .footnote, compatibleWith: cell.traitCollection), defaultNumberOfLines: 1)
         cell.detailLabel.apply(sizable: detail, defaultFont: .preferredFont(forTextStyle: .subheadline, compatibleWith: cell.traitCollection), defaultNumberOfLines: 2)
         cell.imageView.image = image
     }
 
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
-        return CollectionViewFormDetailCell.minimumContentHeight(withDetail: detail, inWidth: contentWidth, compatibleWith: traitCollection)
+        return CollectionViewFormDetailCell.minimumContentHeight(withTitle: title, subtitle: subtitle, detail: detail, imageSize: image?.size, inWidth: contentWidth, compatibleWith: traitCollection)
     }
 
     public override func intrinsicWidth(in collectionView: UICollectionView, layout: CollectionViewFormLayout, sectionEdgeInsets: UIEdgeInsets, for traitCollection: UITraitCollection) -> CGFloat {
@@ -67,13 +67,13 @@ public class DetailFormItem: BaseFormItem {
 extension DetailFormItem {
 
     @discardableResult
-    public func title(_ title: String?) -> Self {
+    public func title(_ title: StringSizable?) -> Self {
         self.title = title
         return self
     }
 
     @discardableResult
-    public func subtitle(_ subtitle: String?) -> Self {
+    public func subtitle(_ subtitle: StringSizable?) -> Self {
         self.subtitle = subtitle
         return self
     }
