@@ -18,7 +18,7 @@ open class TasksListResourceCollectionViewCell: CollectionViewFormCell {
         var columnInfo: ColumnInfo {
             switch self {
             case .summary:
-                return ColumnInfo(minimumWidth: 200, maximumWidth: 200)
+                return ColumnInfo(minimumWidth: 200, maximumWidth: 220)
             case .incident:
                 return ColumnInfo(minimumWidth: 200, maximumWidth: 280)
             case .information:
