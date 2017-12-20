@@ -110,10 +110,7 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         
         titleLabel.numberOfLines = 1
         titleLabel.numberOfLines = 1
-        detailLabel.numberOfLines = 2
-        
-        titleLabel.lineBreakMode = .byWordWrapping
-        subtitleLabel.lineBreakMode = .byWordWrapping
+        detailLabel.numberOfLines = 0
         
         let contentView = self.contentView
         contentView.addSubview(detailLabel)
