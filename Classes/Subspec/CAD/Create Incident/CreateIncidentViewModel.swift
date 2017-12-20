@@ -76,10 +76,7 @@ open class CreateIncidentViewModel {
     }
     
     open func submitForm() {
-        
-    }
-    
-    open func cancel() {
+        // TODO: Create network request, get content data and status data
         
     }
 }
