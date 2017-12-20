@@ -51,6 +51,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
                 .width(.column(3))
         } else {
             return TextFieldFormItem(title: title, text: nil)
+                .autocapitalizationType(.allCharacters)
                 .width(.column(3))
                 .required("Fleet ID is required.")
                 .strictValidate(CharacterSetSpecification.alphanumerics, message: "Fleet ID must only use numbers and letters")
