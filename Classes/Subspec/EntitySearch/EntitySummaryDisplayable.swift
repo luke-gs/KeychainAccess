@@ -71,7 +71,7 @@ extension EntitySummaryDisplayable {
     ///
     /// - Returns: A preconfigured SummaryListFormItem.
     public func summaryListFormItem() -> SummaryListFormItem {
-        let subtitle = [detail1, detail2].flatMap({$0}).joined(separator: " : ")
+        let subtitle = [detail1, detail2].flatMap({$0}).joined(separator: UIConstants.dividerSeparator)
         return SummaryListFormItem()
             .category(category)
             .title(title)
