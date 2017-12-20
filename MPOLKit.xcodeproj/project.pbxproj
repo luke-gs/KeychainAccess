@@ -122,6 +122,12 @@
 		273C53871FE8648B00BF994B /* TasksListResourceSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273C53861FE8648B00BF994B /* TasksListResourceSummaryView.swift */; };
 		273C538C1FE866B700BF994B /* TasksListResourceCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273C538B1FE866B700BF994B /* TasksListResourceCollectionViewCell.swift */; };
 		273C538F1FE8688F00BF994B /* TasksListResourceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273C538E1FE8688F00BF994B /* TasksListResourceViewModel.swift */; };
+		273DE2D11FE9D855000C46DD /* CreateIncidentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2D01FE9D855000C46DD /* CreateIncidentViewModel.swift */; };
+		273DE2D31FE9DAC7000C46DD /* IncidentDetailsFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2D21FE9DAC7000C46DD /* IncidentDetailsFormViewController.swift */; };
+		273DE2D51FE9DE4B000C46DD /* CreateIncidentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2D41FE9DE4B000C46DD /* CreateIncidentViewController.swift */; };
+		273DE2D71FEA0286000C46DD /* CreateIncidentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2D61FEA0286000C46DD /* CreateIncidentRequest.swift */; };
+		273DE2D91FEA0355000C46DD /* IntrinsicHeightFormBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2D81FEA0355000C46DD /* IntrinsicHeightFormBuilderViewController.swift */; };
+		273DE2DB1FEA0713000C46DD /* CreateIncidentDetailsContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2DA1FEA0713000C46DD /* CreateIncidentDetailsContentViewModel.swift */; };
 		2742CD2F1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2742CD2E1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift */; };
 		2744EEC51FBEA523008DFA7F /* MapFilterSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744EEBE1FBEA523008DFA7F /* MapFilterSectionView.swift */; };
 		2744EEC61FBEA523008DFA7F /* MapFilterToggleRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744EEBF1FBEA523008DFA7F /* MapFilterToggleRowView.swift */; };
@@ -753,6 +759,12 @@
 		273C53861FE8648B00BF994B /* TasksListResourceSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListResourceSummaryView.swift; sourceTree = "<group>"; };
 		273C538B1FE866B700BF994B /* TasksListResourceCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListResourceCollectionViewCell.swift; sourceTree = "<group>"; };
 		273C538E1FE8688F00BF994B /* TasksListResourceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListResourceViewModel.swift; sourceTree = "<group>"; };
+		273DE2D01FE9D855000C46DD /* CreateIncidentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateIncidentViewModel.swift; sourceTree = "<group>"; };
+		273DE2D21FE9DAC7000C46DD /* IncidentDetailsFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentDetailsFormViewController.swift; sourceTree = "<group>"; };
+		273DE2D41FE9DE4B000C46DD /* CreateIncidentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateIncidentViewController.swift; sourceTree = "<group>"; };
+		273DE2D61FEA0286000C46DD /* CreateIncidentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateIncidentRequest.swift; sourceTree = "<group>"; };
+		273DE2D81FEA0355000C46DD /* IntrinsicHeightFormBuilderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrinsicHeightFormBuilderViewController.swift; sourceTree = "<group>"; };
+		273DE2DA1FEA0713000C46DD /* CreateIncidentDetailsContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateIncidentDetailsContentViewModel.swift; sourceTree = "<group>"; };
 		2742CD2E1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = IntrinsicHeightCollectionView.swift; path = Classes/UI/IntrinsicHeightCollectionView.swift; sourceTree = SOURCE_ROOT; };
 		2744EEBE1FBEA523008DFA7F /* MapFilterSectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilterSectionView.swift; sourceTree = "<group>"; };
 		2744EEBF1FBEA523008DFA7F /* MapFilterToggleRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilterToggleRowView.swift; sourceTree = "<group>"; };
@@ -1595,6 +1607,17 @@
 			path = "View Controllers";
 			sourceTree = "<group>";
 		};
+		273DE2CF1FE9D83D000C46DD /* Create Incident */ = {
+			isa = PBXGroup;
+			children = (
+				273DE2D01FE9D855000C46DD /* CreateIncidentViewModel.swift */,
+				273DE2D21FE9DAC7000C46DD /* IncidentDetailsFormViewController.swift */,
+				273DE2D41FE9DE4B000C46DD /* CreateIncidentViewController.swift */,
+				273DE2DA1FEA0713000C46DD /* CreateIncidentDetailsContentViewModel.swift */,
+			);
+			path = "Create Incident";
+			sourceTree = "<group>";
+		};
 		2744EEBD1FBEA50A008DFA7F /* Map Filter */ = {
 			isa = PBXGroup;
 			children = (
@@ -1844,6 +1867,7 @@
 				9624A4591F83555A00CAE056 /* ActivityLog */,
 				27C9C75F1F95690A00799855 /* Book On */,
 				9650CA111F958B2D0087F5C9 /* Callsign */,
+				273DE2CF1FE9D83D000C46DD /* Create Incident */,
 				9624A4651F83555A00CAE056 /* Map */,
 				962053111F9960FA000CAD49 /* Model */,
 				96CF322A1F8C426F00140AF8 /* Shared */,
@@ -1960,6 +1984,7 @@
 				967E759F1FCE2D0500B75CF6 /* BookOnRequest.swift */,
 				967E75A71FCE2E1000B75CF6 /* BookOffRequest.swift */,
 				967E75AF1FCE2F4700B75CF6 /* SyncDetailsRequest.swift */,
+				273DE2D61FEA0286000C46DD /* CreateIncidentRequest.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -2999,6 +3024,7 @@
 				EA11F0201F830D8B00BF8BCA /* Protocols */,
 				EA85C0051F68BAAE002EEB49 /* FormBuilder.swift */,
 				EA8904AF1F6A0C720050DB84 /* FormBuilderViewController.swift */,
+				273DE2D81FEA0355000C46DD /* IntrinsicHeightFormBuilderViewController.swift */,
 				EAE806DA1F98534000C9AA85 /* FormSection.swift */,
 			);
 			path = FormBuilder;
@@ -3383,6 +3409,7 @@
 				2744EEC51FBEA523008DFA7F /* MapFilterSectionView.swift in Sources */,
 				BC9C7E1E1F0DED6600DFFE83 /* FormCollectionViewController.swift in Sources */,
 				C65927741F33045300854C60 /* Lottie+MPOLAnimationStyle.swift in Sources */,
+				273DE2D31FE9DAC7000C46DD /* IncidentDetailsFormViewController.swift in Sources */,
 				BC9C7DF41F0DED6600DFFE83 /* CollectionViewFormCell.swift in Sources */,
 				EA4806B01F56939100B42313 /* LocationBasicSearchOptions.swift in Sources */,
 				BC9C7E261F0DED6600DFFE83 /* EntityListCollectionViewCell.swift in Sources */,
@@ -3444,6 +3471,7 @@
 				46B3FE811F5E49FB0012476A /* ConsoleLogger.swift in Sources */,
 				BC1B260D1F20BB3A009674B7 /* StatusTabBarController.swift in Sources */,
 				19F8DDB21F4D7D2400D84DA1 /* APIManager.swift in Sources */,
+				273DE2D11FE9D855000C46DD /* CreateIncidentViewModel.swift in Sources */,
 				199571C81FB913D400950EAB /* OAuth2.swift in Sources */,
 				19D8D7961FB5207A0002332D /* ExternalAuthenticator.swift in Sources */,
 				EA76ECF91F57DB8E00524830 /* LookupAddressAdvancedParameters.swift in Sources */,
@@ -3719,6 +3747,7 @@
 				19C9C74E1FC2898B003C8CE4 /* LocationMapDirectionCollectionViewCell.swift in Sources */,
 				27E424401FDE10BC00B5BE47 /* InteractivePopRecognizerDelegate.swift in Sources */,
 				965CD8AF1F902872007C3EEA /* TasksListContainerViewModel.swift in Sources */,
+				273DE2D91FEA0355000C46DD /* IntrinsicHeightFormBuilderViewController.swift in Sources */,
 				46A60F5E1FCFAFAF00EE32CA /* Evaluatable.swift in Sources */,
 				1212B54D1F60F2ED00F90CA0 /* TestingDirective.swift in Sources */,
 				E21CD4741FBD4B3800925A38 /* NetworkMonitorPlugin.swift in Sources */,
@@ -3758,6 +3787,7 @@
 				BC9C7E2E1F0DED6600DFFE83 /* UIImage+Initials.swift in Sources */,
 				BC9C7E551F0DED6600DFFE83 /* RoundedRectLabel.swift in Sources */,
 				EA4E33561F8F51B90027E431 /* LabeledItemAccessory.swift in Sources */,
+				273DE2D51FE9DE4B000C46DD /* CreateIncidentViewController.swift in Sources */,
 				BC9C7E241F0DED6600DFFE83 /* CollectionViewFormProgressCell.swift in Sources */,
 				27094CC21FAFFBDA00D4C3D4 /* TaskItemsSidebarViewController.swift in Sources */,
 				27094CC81FAFFBDA00D4C3D4 /* OfficerCell.swift in Sources */,
@@ -3800,6 +3830,7 @@
 				EAB38FFE1F71EA4E00341BAF /* BaseSupplementaryFormItem.swift in Sources */,
 				967E75AA1FCE2F0300B75CF6 /* SyncDetailsOfficer.swift in Sources */,
 				EA4806B11F56939100B42313 /* LocationSearchDataSource.swift in Sources */,
+				273DE2DB1FEA0713000C46DD /* CreateIncidentDetailsContentViewModel.swift in Sources */,
 				EA2189EF1F5FB2280057048E /* MapResultViewModelable.swift in Sources */,
 				BC9C7E561F0DED6600DFFE83 /* TabStripView.swift in Sources */,
 				19F2579E1FBB98F700769B26 /* Bundle+URLSchemeVerifier.swift in Sources */,
@@ -3831,6 +3862,7 @@
 				464A5E8F1FD4A8F900B4C0F9 /* ResourceError.swift in Sources */,
 				27FDABB71FB91B02003466AF /* OfficerCommunicationsView.swift in Sources */,
 				965CD8A81F8ECDBA007C3EEA /* TasksListContainerViewController.swift in Sources */,
+				273DE2D71FEA0286000C46DD /* CreateIncidentRequest.swift in Sources */,
 				4492C04E1FD8C917009D26BD /* TrafficStopViewController.swift in Sources */,
 				BC9C7E4D1F0DED6600DFFE83 /* AlertIndicatorView.swift in Sources */,
 				199ECE8F1FAA1B720065E425 /* RemoteResourceDescribing.swift in Sources */,

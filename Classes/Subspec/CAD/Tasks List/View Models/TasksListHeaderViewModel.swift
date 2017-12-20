@@ -113,7 +113,8 @@ open class TasksListHeaderViewModel {
 
     /// Shows the add new form sheet
     @objc private func showAdd() {
-        // TODO
-        // delegate?.presentFormSheet(vc, animated: true)
+        let viewModel = CreateIncidentViewModel()
+        let vc = viewModel.createViewController()
+        delegate?.presentFormSheet(vc, animated: true)
     }
 }
