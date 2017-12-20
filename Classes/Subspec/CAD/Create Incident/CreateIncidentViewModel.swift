@@ -20,6 +20,10 @@ open class CreateIncidentViewModel {
     open weak var delegate: CreateIncidentViewModelDelegate?
     
     init() {
+        getLocation()
+    }
+    
+    private func getLocation() {
         _ = LocationManager.shared.requestPlacemark().then { [weak self] placemark -> Void in
             let address = (placemark.addressDictionary?["FormattedAddressLines"] as? [String])?
                 .joined(separator: ", ")
@@ -27,7 +31,7 @@ open class CreateIncidentViewModel {
             
             self?.contentViewModel.location = address
             self?.delegate?.contentChanged()
-
+            
             return ()
         }
     }
