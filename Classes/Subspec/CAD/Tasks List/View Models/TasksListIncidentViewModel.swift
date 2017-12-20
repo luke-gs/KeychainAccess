@@ -50,7 +50,7 @@ public class TasksListIncidentViewModel: TasksListItemViewModel {
             identifier: incident.identifier,
             title: [incident.type, incident.resourceCountString].joined(),
             subtitle: incident.location.fullAddress,
-            caption: [incident.identifier, incident.secondaryCode].joined(separator: UIConstants.dividerSeparator),
+            caption: [incident.identifier, incident.secondaryCode].joined(separator: ThemeConstants.dividerSeparator),
             priority: incident.grade.rawValue,
             description: showsDescription ? incident.details : nil,
             resources: showsResources ? resources : nil,

@@ -99,7 +99,7 @@ open class BookOnDetailsFormViewModel {
             return NSLocalizedString("Manage Callsign", comment: "")
         } else {
             let components = [callsignViewModel.location, callsignViewModel.status].removeNils()
-            return components.joined(separator: UIConstants.dividerSeparator)
+            return components.joined(separator: ThemeConstants.dividerSeparator)
         }
     }
 

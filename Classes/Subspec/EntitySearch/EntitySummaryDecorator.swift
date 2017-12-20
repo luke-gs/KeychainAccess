@@ -34,7 +34,7 @@ extension EntityListCollectionViewCell: EntitySummaryDecoratable {
         let subtitleComponents = [entitySummary.detail1, entitySummary.detail2].flatMap({$0})
         
         titleLabel.text    = entitySummary.title
-        subtitleLabel.text = subtitleComponents.isEmpty ? nil : subtitleComponents.joined(separator: UIConstants.dividerSeparator)
+        subtitleLabel.text = subtitleComponents.isEmpty ? nil : subtitleComponents.joined(separator: ThemeConstants.dividerSeparator)
         
         borderColor        = entitySummary.borderColor
         actionCount        = entitySummary.badge

@@ -1,5 +1,5 @@
 //
-//  UIConstants.swift
+//  ThemeConstants.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 20/12/17.
@@ -8,8 +8,8 @@
 
 import UIKit
 
-/// UI constants that may be overriden by client app
-open class UIConstants {
+/// Theme UI constants that may be overriden by client app
+open class ThemeConstants {
 
     // Default UI separator used when joining sequence of different data
     open static var dividerSeparator = "  •  "
