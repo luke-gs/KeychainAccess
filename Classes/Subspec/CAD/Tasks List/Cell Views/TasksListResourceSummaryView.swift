@@ -114,7 +114,7 @@ open class TasksListResourceSummaryView: UIView {
             priorityCaptionView.trailingAnchor.constraint(lessThanOrEqualTo: statusImageView.leadingAnchor, constant: -LayoutConstants.margin)
                 .withPriority(.almostRequired),
             
-            statusImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            statusImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -LayoutConstants.margin),
             statusImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             statusImageView.heightAnchor.constraint(equalToConstant: LayoutConstants.statusImageSize),
             statusImageView.widthAnchor.constraint(equalToConstant: LayoutConstants.statusImageSize),
