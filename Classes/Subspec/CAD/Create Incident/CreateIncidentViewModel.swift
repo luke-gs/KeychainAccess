@@ -84,11 +84,8 @@ open class CreateIncidentViewModel {
     
     open func submitForm() -> Promise<Void> {
         return firstly {
-            
             // TODO: Create network request, get content data and status data
-            return after(seconds: 5.0)
-        }/*.then {
-            throw NSError(domain: "", code: 0, userInfo: ["NSLocalizedDescription": "HI FAIL"])
-        }*/
+            return after(seconds: 2.0)
+        }
     }
 }
