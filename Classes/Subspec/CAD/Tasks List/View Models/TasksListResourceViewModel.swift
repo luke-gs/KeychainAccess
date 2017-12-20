@@ -56,7 +56,7 @@ open class TasksListResourceViewModel: TasksListItemViewModel {
         self.init(
             identifier: resource.callsign,
             title: [resource.callsign, resource.officerCountString].joined(),
-            subtitle: resource.location?.suburb ?? "",
+            subtitle: resource.location?.suburb ?? "—",
             caption: resource.status.title,
             resourceImage: iconImage,
             statusImage: resource.status.icon,

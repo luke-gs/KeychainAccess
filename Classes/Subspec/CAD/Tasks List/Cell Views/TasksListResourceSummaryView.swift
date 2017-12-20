@@ -37,6 +37,8 @@ open class TasksListResourceSummaryView: UIView {
     /// Image view for the status image
     open let statusImageView = UIImageView()
     
+    open private(set) var statusImageWidthConstraint: NSLayoutConstraint?
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -93,6 +95,8 @@ open class TasksListResourceSummaryView: UIView {
         captionLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         captionLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         
+        statusImageWidthConstraint = statusImageView.widthAnchor.constraint(equalToConstant: LayoutConstants.statusImageSize)
+        
         NSLayoutConstraint.activate([
             resourceImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             resourceImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
@@ -101,7 +105,7 @@ open class TasksListResourceSummaryView: UIView {
             
             titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: LayoutConstants.margin),
             titleLabel.leadingAnchor.constraint(equalTo: resourceImageView.trailingAnchor, constant: LayoutConstants.margin),
-            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: statusImageView.leadingAnchor, constant: -LayoutConstants.margin),
+            titleLabel.trailingAnchor.constraint(equalTo: statusImageView.leadingAnchor, constant: -LayoutConstants.margin),
             
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
             subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
@@ -114,11 +118,11 @@ open class TasksListResourceSummaryView: UIView {
             priorityCaptionView.trailingAnchor.constraint(lessThanOrEqualTo: statusImageView.leadingAnchor, constant: -LayoutConstants.margin)
                 .withPriority(.almostRequired),
             
-            statusImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            statusImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -LayoutConstants.margin),
             statusImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             statusImageView.heightAnchor.constraint(equalToConstant: LayoutConstants.statusImageSize),
-            statusImageView.widthAnchor.constraint(equalToConstant: LayoutConstants.statusImageSize),
-        ])
+            statusImageWidthConstraint,
+        ].removeNils())
     }
     
 }
