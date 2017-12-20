@@ -8,8 +8,6 @@
 
 import UIKit
 
-public typealias CADStatusViewModel = CADFormCollectionViewModel<ManageCallsignStatusItemViewModel> & IndexPathSelectable
-
 open class CADStatusViewController: ThemedPopoverViewController {
     
     private let viewModel: CADStatusViewModel

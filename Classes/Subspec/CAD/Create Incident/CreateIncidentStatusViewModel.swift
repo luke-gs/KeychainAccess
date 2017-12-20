@@ -9,11 +9,8 @@
 import UIKit
 
 /// View model for the status section in the create incident screen
-open class CreateIncidentStatusViewModel: CADFormCollectionViewModel<ManageCallsignStatusItemViewModel>, IndexPathSelectable {
-    
-    /// The currently selected state, can be nil
-    public private(set) var selectedIndexPath: IndexPath?
-    
+open class CreateIncidentStatusViewModel: CADStatusViewModel {
+
     /// The current status
     open var currentStatus: ResourceStatus? {
         if let selectedIndexPath = selectedIndexPath {
