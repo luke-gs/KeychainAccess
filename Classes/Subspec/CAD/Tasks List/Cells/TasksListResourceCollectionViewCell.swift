@@ -18,9 +18,9 @@ open class TasksListResourceCollectionViewCell: CollectionViewFormCell {
         var columnInfo: ColumnInfo {
             switch self {
             case .summary:
-                return ColumnInfo(minimumWidth: 200, maximumWidth: 220)
+                return ColumnInfo(minimumWidth: 200, maximumWidth: 260)
             case .incident:
-                return ColumnInfo(minimumWidth: 200, maximumWidth: 280)
+                return ColumnInfo(minimumWidth: 200, maximumWidth: 360)
             case .information:
                 return ColumnInfo(minimumWidth: 200, maximumWidth: 1000)
             }
@@ -155,15 +155,13 @@ open class TasksListResourceCollectionViewCell: CollectionViewFormCell {
                 // If space doesn't allow for info column, show the summary priority label if we have text for it
                 summaryView.priorityLabel.isHidden = summaryView.priorityLabel.text == nil
                 // Hide the status image if we only have one column
-                summaryView.statusImageView.isHidden = true
-                summaryView.statusImageWidthConstraint?.isActive = false
+                summaryView.setStatusImageViewHidden(true)
             } else {
                 // Info column should fit, hide summary priority label
                 summaryView.priorityLabel.isHidden = true
                 
                 // Show the status image if it exists
-                summaryView.statusImageView.isHidden = summaryView.statusImageView.image == nil
-                summaryView.statusImageWidthConstraint?.isActive = true
+                summaryView.setStatusImageViewHidden(summaryView.statusImageView.image == nil)
             }
         }
     }

@@ -37,7 +37,8 @@ open class TasksListResourceSummaryView: UIView {
     /// Image view for the status image
     open let statusImageView = UIImageView()
     
-    open private(set) var statusImageWidthConstraint: NSLayoutConstraint?
+    private var statusImageWidthConstraint: NSLayoutConstraint?
+    private var statusImageTrailingConstraint: NSLayoutConstraint?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -95,6 +96,7 @@ open class TasksListResourceSummaryView: UIView {
         captionLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         captionLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         
+        statusImageTrailingConstraint = statusImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -LayoutConstants.margin)
         statusImageWidthConstraint = statusImageView.widthAnchor.constraint(equalToConstant: LayoutConstants.statusImageSize)
         
         NSLayoutConstraint.activate([
@@ -118,11 +120,19 @@ open class TasksListResourceSummaryView: UIView {
             priorityCaptionView.trailingAnchor.constraint(lessThanOrEqualTo: statusImageView.leadingAnchor, constant: -LayoutConstants.margin)
                 .withPriority(.almostRequired),
             
-            statusImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -LayoutConstants.margin),
+            statusImageTrailingConstraint,
             statusImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             statusImageView.heightAnchor.constraint(equalToConstant: LayoutConstants.statusImageSize),
+            statusImageView.widthAnchor.constraint(equalToConstant: 0).withPriority(.almostRequired),
             statusImageWidthConstraint,
         ].removeNils())
+    }
+    
+    /// Hides or shows the status image view
+    open func setStatusImageViewHidden(_ hidden: Bool ) {
+        statusImageView.isHidden = hidden
+        statusImageWidthConstraint?.isActive = !hidden
+        statusImageTrailingConstraint?.constant = hidden ? 0 : -LayoutConstants.margin
     }
     
 }
