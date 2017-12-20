@@ -11,12 +11,12 @@ import UIKit
 /// View model of not booked on screen items
 open class NotBookedOnItemViewModel {
     open var title: String
-    open var subtitle: String
+    open var subtitle: String?
     open var image: UIImage?
     open var imageColor: UIColor?
     open var imageBackgroundColor: UIColor?
 
-    public init(title: String, subtitle: String, image: UIImage?, imageColor: UIColor?, imageBackgroundColor: UIColor?) {
+    public init(title: String, subtitle: String?, image: UIImage?, imageColor: UIColor?, imageBackgroundColor: UIColor?) {
         self.title = title
         self.subtitle = subtitle
         self.imageColor = imageColor

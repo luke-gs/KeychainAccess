@@ -218,10 +218,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        if let item = viewModel.item(at: indexPath) {
-            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection, imageSize: item.image?.size ?? .zero)
-        }
-        return 0
+        return 64
     }
     
     @objc open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
