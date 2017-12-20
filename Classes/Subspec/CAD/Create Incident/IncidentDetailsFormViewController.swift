@@ -86,6 +86,7 @@ open class IncidentDetailsFormViewController: IntrinsicHeightFormBuilderViewCont
             .required("A contact number is required")
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Contact number must be a number")
             .text(viewModel.contentViewModel.informantPhone)
+            .keyboardType(.numberPad)
             .onValueChanged { [unowned self] in
                 self.viewModel.contentViewModel.informantPhone = $0
             }

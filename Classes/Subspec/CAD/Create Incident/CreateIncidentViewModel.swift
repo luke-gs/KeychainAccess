@@ -75,8 +75,20 @@ open class CreateIncidentViewModel {
         return vc
     }
     
-    open func submitForm() {
-        // TODO: Create network request, get content data and status data
-        
+    open func configureLoadingManager(_ loadingManager: LoadingStateManager) {
+        loadingManager.loadingView.titleLabel.text = NSLocalizedString("Please Wait", comment: "")
+        loadingManager.loadingView.subtitleLabel.text =  NSLocalizedString("We're creating your incident", comment: "")
+        loadingManager.loadingView.actionButton.setTitle(NSLocalizedString("Cancel", comment: ""), for: .normal)
+        loadingManager.errorView.titleLabel.text =  NSLocalizedString("Network Error", comment: "")
+    }
+    
+    open func submitForm() -> Promise<Void> {
+        return firstly {
+            
+            // TODO: Create network request, get content data and status data
+            return after(seconds: 5.0)
+        }/*.then {
+            throw NSError(domain: "", code: 0, userInfo: ["NSLocalizedDescription": "HI FAIL"])
+        }*/
     }
 }

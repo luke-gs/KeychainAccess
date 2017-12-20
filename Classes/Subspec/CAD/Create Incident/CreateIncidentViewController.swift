@@ -24,6 +24,9 @@ open class CreateIncidentViewController: ThemedPopoverViewController {
     /// Form for details
     open var detailsFormVC: IncidentDetailsFormViewController!
     
+    open let loadingManager = LoadingStateManager()
+
+    
     override open var wantsTransparentBackground: Bool {
         didSet {
             /// Apply transparent background to child VCs
@@ -69,6 +72,10 @@ open class CreateIncidentViewController: ThemedPopoverViewController {
         detailsFormVC = viewModel.createFormViewController()
         detailsFormVC.collectionView?.isScrollEnabled = false
         addChildViewController(detailsFormVC, toView: contentView)
+        
+        loadingManager.baseView = view
+        loadingManager.contentView = scrollView
+        viewModel.configureLoadingManager(loadingManager)
     }
     
     /// Activates view constraints
@@ -113,14 +120,25 @@ open class CreateIncidentViewController: ThemedPopoverViewController {
     @objc private func doneButtonTapped(_ button: UIBarButtonItem) {
         let builder = detailsFormVC.builder
         
-        let result = builder.validate()
+        var result = builder.validate()
+        #if DEBUG
+            if true {
+                result = .valid
+            }
+        #endif
         
         switch result {
         case .invalid(_, let message):
             builder.validateAndUpdateUI()
             AlertQueue.shared.addErrorAlert(message: message)
         case .valid:
-            viewModel.submitForm()
+            loadingManager.state = .loading
+            _ = viewModel.submitForm().then {
+                self.dismissAnimated()
+            }.catch { error in
+                self.loadingManager.state = .error
+                self.loadingManager.errorView.subtitleLabel.text = error.localizedDescription
+            }
         }
     }
 }

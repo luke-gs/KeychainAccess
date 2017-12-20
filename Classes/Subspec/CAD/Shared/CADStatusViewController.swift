@@ -56,7 +56,7 @@ open class CADStatusViewController: ThemedPopoverViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            ])
+        ])
     }
     
     // MARK: - View lifecycle
