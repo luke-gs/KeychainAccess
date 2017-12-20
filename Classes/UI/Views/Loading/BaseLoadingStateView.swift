@@ -68,6 +68,8 @@ open class BaseLoadingStateView: UIStackView {
     }
 
     private func commonInit() {
+        let theme = ThemeManager.shared.theme(for: .current)
+
         imageContainerView.isHidden = true
         titleLabel.isHidden = true
         subtitleLabel.isHidden = true
@@ -77,7 +79,7 @@ open class BaseLoadingStateView: UIStackView {
         titleLabel.adjustsFontForContentSizeCategory = true
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 0
-
+        titleLabel.textColor = theme.color(forKey: .primaryText)
         titleLabel.font = .systemFont(ofSize: 28, weight: .bold)
         
         subtitleLabel.adjustsFontSizeToFitWidth = true
@@ -136,12 +138,6 @@ open class BaseLoadingStateView: UIStackView {
 
         imageContainerView.removeObserver(self, forKeyPath: #keyPath(UIView.isHidden), context: &hiddenContext)
         actionButton.removeObserver(self, forKeyPath: #keyPath(UIButton.isHidden), context: &hiddenContext)
-    }
-
-    open override func layoutSubviews() {
-        super.layoutSubviews()
-        let theme = ThemeManager.shared.theme(for: .current)
-        titleLabel.textColor = theme.color(forKey: .primaryText)
     }
 
     // MARK: - Overrides
