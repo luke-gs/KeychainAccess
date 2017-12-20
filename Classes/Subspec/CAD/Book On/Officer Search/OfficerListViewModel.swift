@@ -33,6 +33,10 @@ public class OfficerListViewModel: GenericSearchDefaultViewModel {
         return vc
     }
     
+    open func noContentTitle() -> String? {
+        return NSLocalizedString("No Officers Found", comment: "")
+    }
+
     open func officerDetailsViewController(for officer: OfficerListItemViewModel) -> UIViewController {
         let officerViewModel = BookOnDetailsFormContentOfficerViewModel()
         officerViewModel.title = officer.title

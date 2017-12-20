@@ -37,6 +37,9 @@ open class TasksListResourceSummaryView: UIView {
     /// Image view for the status image
     open let statusImageView = UIImageView()
     
+    private var statusImageWidthConstraint: NSLayoutConstraint?
+    private var statusImageTrailingConstraint: NSLayoutConstraint?
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -93,6 +96,9 @@ open class TasksListResourceSummaryView: UIView {
         captionLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         captionLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         
+        statusImageTrailingConstraint = statusImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -LayoutConstants.margin)
+        statusImageWidthConstraint = statusImageView.widthAnchor.constraint(equalToConstant: LayoutConstants.statusImageSize)
+        
         NSLayoutConstraint.activate([
             resourceImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             resourceImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
@@ -101,7 +107,7 @@ open class TasksListResourceSummaryView: UIView {
             
             titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: LayoutConstants.margin),
             titleLabel.leadingAnchor.constraint(equalTo: resourceImageView.trailingAnchor, constant: LayoutConstants.margin),
-            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: statusImageView.leadingAnchor, constant: -LayoutConstants.margin),
+            titleLabel.trailingAnchor.constraint(equalTo: statusImageView.leadingAnchor, constant: -LayoutConstants.margin),
             
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
             subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
@@ -114,11 +120,19 @@ open class TasksListResourceSummaryView: UIView {
             priorityCaptionView.trailingAnchor.constraint(lessThanOrEqualTo: statusImageView.leadingAnchor, constant: -LayoutConstants.margin)
                 .withPriority(.almostRequired),
             
-            statusImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -LayoutConstants.margin),
+            statusImageTrailingConstraint,
             statusImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             statusImageView.heightAnchor.constraint(equalToConstant: LayoutConstants.statusImageSize),
-            statusImageView.widthAnchor.constraint(equalToConstant: LayoutConstants.statusImageSize),
-        ])
+            statusImageView.widthAnchor.constraint(equalToConstant: 0).withPriority(.almostRequired),
+            statusImageWidthConstraint,
+        ].removeNils())
+    }
+    
+    /// Hides or shows the status image view
+    open func setStatusImageViewHidden(_ hidden: Bool ) {
+        statusImageView.isHidden = hidden
+        statusImageWidthConstraint?.isActive = !hidden
+        statusImageTrailingConstraint?.constant = hidden ? 0 : -LayoutConstants.margin
     }
     
 }
