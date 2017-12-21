@@ -244,10 +244,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         guard let endpoint = EndpointManager.selectedEndpoint?.url?.absoluteString else { return }
 
-        var plugins: [PluginType] = [NetworkMonitorPlugin()]
+        let refreshTokenPlugin = RefreshTokenPlugin { response -> Promise<Void> in
+            self.attemptRefresh(response: response)
+        }.withRule(.blacklist((DefaultFilterRules.authenticationFilterRules)))
 
+        var plugins: [Plugin] = [refreshTokenPlugin, NetworkMonitorPlugin().allowAll()]
         #if DEBUG
-            plugins.append(NetworkLoggingPlugin())
+        plugins.append(NetworkLoggingPlugin().allowAll())
         #endif
 
         APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(endpoint)", plugins: plugins, trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
