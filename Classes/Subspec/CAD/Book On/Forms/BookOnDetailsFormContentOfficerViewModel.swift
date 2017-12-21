@@ -28,7 +28,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     open var isDriver: Bool?
 
     open var subtitle: String {
-        return [rank, officerId, licenceTypeId].joined(separator: "  •  ")
+        return [rank, officerId, licenceTypeId].joined(separator: ThemeConstants.dividerSeparator)
     }
 
     open var driverStatus: String? {
