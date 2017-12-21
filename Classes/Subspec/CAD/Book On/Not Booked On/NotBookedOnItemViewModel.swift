@@ -39,6 +39,7 @@ open class NotBookedOnCallsignItemViewModel: NotBookedOnItemViewModel, BookOnCal
     public var callsign: String
     public var status: String?
     public var location: String?
+    public var caption: String?
     public var type: ResourceType?
 
     open var badgeText: String?
@@ -46,7 +47,7 @@ open class NotBookedOnCallsignItemViewModel: NotBookedOnItemViewModel, BookOnCal
     open var badgeBorderColor: UIColor?
     open var badgeFillColor: UIColor?
     
-    public init(callsign: String, status: String?, location: String?, type: ResourceType?, image: UIImage?, imageColor: UIColor?, imageBackgroundColor: UIColor?, badgeText: String? = nil, badgeTextColor: UIColor? = .clear, badgeFillColor: UIColor? = .clear, badgeBorderColor: UIColor? = .clear) {
+    public init(title: String, subtitle: String?, caption: String?, callsign: String, status: String?, location: String?, type: ResourceType?, image: UIImage?, imageColor: UIColor?, imageBackgroundColor: UIColor?, badgeText: String? = nil, badgeTextColor: UIColor? = .clear, badgeFillColor: UIColor? = .clear, badgeBorderColor: UIColor? = .clear) {
         self.callsign = callsign
         self.status = status
         self.location = location
@@ -55,9 +56,9 @@ open class NotBookedOnCallsignItemViewModel: NotBookedOnItemViewModel, BookOnCal
         self.badgeTextColor = badgeTextColor
         self.badgeFillColor = badgeFillColor
         self.badgeBorderColor = badgeBorderColor
+        self.caption = caption
 
-        let subtitle = [location, status].joined(separator: ThemeConstants.dividerSeparator)
-        super.init(title: callsign, subtitle: subtitle, image: image, imageColor: imageColor, imageBackgroundColor: imageBackgroundColor)
+        super.init(title: title, subtitle: subtitle, image: image, imageColor: imageColor, imageBackgroundColor: imageBackgroundColor)
     }
 
     /// Create a view model from the callsign resource
@@ -69,12 +70,19 @@ open class NotBookedOnCallsignItemViewModel: NotBookedOnItemViewModel, BookOnCal
         let incident = CADStateManager.shared.incidentForResource(callsign: resource.callsign)
         let (badgeTextColor, badgeBorderColor, badgeFillColor) = incident?.grade.badgeColors ?? (.clear, .clear, .clear)
 
+        let title = [resource.callsign, resource.officerCountString].joined()
+        let subtitle = resource.location?.suburb ?? resource.station ?? ThemeConstants.longDash
+        let caption = [resource.status.rawValue, resource.currentIncident?.title].joined(separator: ThemeConstants.dividerSeparator)
+        
         self.init(
+            title: title,
+            subtitle: subtitle,
+            caption: caption,
             callsign: resource.callsign,
             status: resource.status.rawValue,
             location: resource.location?.fullAddress.ifNotEmpty(),
             type: resource.type,
-            image: resource.status.icon,
+            image: resource.type.icon,
             imageColor: imageColor,
             imageBackgroundColor: imageBackgroundColor,
             badgeText: incident?.grade.rawValue,

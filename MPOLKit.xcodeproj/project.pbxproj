@@ -165,6 +165,7 @@
 		274F10F41FCE0A86001A59A5 /* IncidentNarrativeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274F10EC1FCE0A86001A59A5 /* IncidentNarrativeViewController.swift */; };
 		274F10F71FCE0B88001A59A5 /* IncidentAssociationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274F10F61FCE0B88001A59A5 /* IncidentAssociationsViewController.swift */; };
 		275F0A681FA19694002BB9C5 /* BookOnDetailsFormContentMainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275F0A671FA19694002BB9C5 /* BookOnDetailsFormContentMainViewModel.swift */; };
+		2766CE331FEB5C5400895B3A /* CallsignCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2766CE321FEB5C5400895B3A /* CallsignCollectionViewCell.swift */; };
 		2768C0461F85EB2A008532ED /* MapSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2768C0451F85EB2A008532ED /* MapSettingsViewModel.swift */; };
 		2768C0481F86D60A008532ED /* MapSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2768C0471F86D60A008532ED /* MapSettingsViewController.swift */; };
 		2768C0491F86E78A008532ED /* TasksMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A46A1F83555A00CAE056 /* TasksMapViewController.swift */; };
@@ -813,6 +814,7 @@
 		274F10EC1FCE0A86001A59A5 /* IncidentNarrativeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentNarrativeViewController.swift; sourceTree = "<group>"; };
 		274F10F61FCE0B88001A59A5 /* IncidentAssociationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentAssociationsViewController.swift; sourceTree = "<group>"; };
 		275F0A671FA19694002BB9C5 /* BookOnDetailsFormContentMainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormContentMainViewModel.swift; sourceTree = "<group>"; };
+		2766CE321FEB5C5400895B3A /* CallsignCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignCollectionViewCell.swift; sourceTree = "<group>"; };
 		2768C0451F85EB2A008532ED /* MapSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettingsViewModel.swift; sourceTree = "<group>"; };
 		2768C0471F86D60A008532ED /* MapSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettingsViewController.swift; sourceTree = "<group>"; };
 		276C21051F60C2100003B860 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -1777,6 +1779,7 @@
 				274C896E1F984693005B9CF8 /* Not Booked On */,
 				274C89841F9E919F005B9CF8 /* Officer Details */,
 				274C897D1F9D9E72005B9CF8 /* Officer Search */,
+				2766CE321FEB5C5400895B3A /* CallsignCollectionViewCell.swift */,
 			);
 			path = "Book On";
 			sourceTree = "<group>";
@@ -3630,6 +3633,7 @@
 				2715D63D1FD4FEDB00BD0E95 /* SyncDetailsActivityLogItem+Computed.swift in Sources */,
 				274C89861F9E91B8005B9CF8 /* OfficerDetailsViewController.swift in Sources */,
 				27CBC7611F8B27C700E387C3 /* TasksMapViewModel.swift in Sources */,
+				2766CE331FEB5C5400895B3A /* CallsignCollectionViewCell.swift in Sources */,
 				DBE24C3D1F593BEF0088D19B /* EntityDetailSectionsViewModel.swift in Sources */,
 				27C9C7611F95692400799855 /* NotBookedOnViewController.swift in Sources */,
 				BC9C7E1A1F0DED6600DFFE83 /* SelectableButton.swift in Sources */,

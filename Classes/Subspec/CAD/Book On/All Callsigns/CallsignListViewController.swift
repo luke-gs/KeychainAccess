@@ -119,44 +119,32 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
     // MARK: - Override
     
     override open func cellType() -> CollectionViewFormCell.Type {
-        return CollectionViewFormSubtitleCell.self
+        return CallsignCollectionViewCell.self
     }
     
-    override open func decorate(cell: CollectionViewFormCell, with viewModel: NotBookedOnItemViewModel) {
+    override open func decorate(cell: CollectionViewFormCell, with viewModel: NotBookedOnCallsignItemViewModel) {
         cell.highlightStyle = .fade
         cell.selectionStyle = .fade
         cell.separatorStyle = .indented
         cell.separatorColor = UIColor.red
         cell.accessoryView = FormAccessoryView(style: .disclosure)
         
-        if let cell = cell as? CollectionViewFormSubtitleCell {
+        if let cell = cell as? CallsignCollectionViewCell {
+            cell.decorate(with: viewModel)
             cell.titleLabel.text = viewModel.title
             cell.subtitleLabel.text = viewModel.subtitle
             cell.imageView.image = viewModel.image
             cell.imageView.tintColor = viewModel.imageColor
-            
-            if let viewModel = viewModel as? NotBookedOnCallsignItemViewModel, viewModel.badgeText != nil {
-                var edgeInsets = RoundedRectLabel.defaultLayoutMargins
-                edgeInsets.left = 6
-                edgeInsets.right = 6
-                
-                let accessoryLabelDetail = AccessoryLabelDetail.init(text: viewModel.badgeText,
-                                                                     textColour: viewModel.badgeTextColor,
-                                                                     borderColour: viewModel.badgeBorderColor,
-                                                                     backgroundColour: viewModel.badgeFillColor,
-                                                                     layoutMargins: edgeInsets)
-                let accessoryTextStyle = AccessoryTextStyle.roundedRect(accessoryLabelDetail)
-                let accessoryView = FormAccessoryView(style: .disclosure, labelStyle: accessoryTextStyle)
-                cell.accessoryView = accessoryView
-            }
+            cell.accessoryView = FormAccessoryView(style: .disclosure)
         }
     }
     
     open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
         
-        if let cell = cell as? CollectionViewFormCell {
+        if let cell = cell as? CallsignCollectionViewCell {
             cell.separatorColor = iOSStandardSeparatorColor
+            cell.apply(theme: ThemeManager.shared.theme(for: .current))
         }
     }
     
@@ -188,10 +176,7 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        if let item = viewModel.item(at: indexPath) {
-            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection, imageSize: item.image?.size ?? .zero)
-        }
-        return 0
+        return 64
     }
 
     public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
