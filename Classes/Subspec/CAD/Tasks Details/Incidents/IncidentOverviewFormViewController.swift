@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class IncidentOverviewFormViewController: FormBuilderViewController {
+open class IncidentOverviewFormViewController: IntrinsicHeightFormBuilderViewController {
     
     public let viewModel: IncidentOverviewViewModel
     
@@ -33,10 +33,6 @@ open class IncidentOverviewFormViewController: FormBuilderViewController {
                     })
             }
         }
-    }
-    
-    open override func collectionViewClass() -> UICollectionView.Type {
-        return IntrinsicHeightCollectionView.self
     }
 }
 

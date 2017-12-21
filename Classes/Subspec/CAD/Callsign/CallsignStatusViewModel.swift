@@ -10,13 +10,10 @@ import UIKit
 import PromiseKit
 
 /// View model for the callsign status screen
-open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignStatusItemViewModel> {
+open class CallsignStatusViewModel: CADStatusViewModel {
 
     /// The incident related to the resource status
     open private(set) var incident: SyncDetailsIncident?
-
-    /// The currently selected state, can be nil
-    open private(set) var selectedIndexPath: IndexPath?
 
     /// The current status
     open var currentStatus: ResourceStatus? {
