@@ -148,21 +148,20 @@ open class TasksListResourceCollectionViewCell: CollectionViewFormCell {
         incidentView.captionLabel.textColor = theme.color(forKey: .secondaryText)
     }
     
-    open override var bounds: CGRect {
-        didSet {
-            // This could be done better...
-            if bounds.width <= Column.summary.columnInfo.minimumWidth + Column.information.columnInfo.minimumWidth {
-                // If space doesn't allow for info column, show the summary priority label if we have text for it
-                summaryView.priorityLabel.isHidden = summaryView.priorityLabel.text == nil
-                // Hide the status image if we only have one column
-                summaryView.setStatusImageViewHidden(true)
-            } else {
-                // Info column should fit, hide summary priority label
-                summaryView.priorityLabel.isHidden = true
-                
-                // Show the status image if it exists
-                summaryView.setStatusImageViewHidden(summaryView.statusImageView.image == nil)
-            }
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        // This could be done better...
+        if bounds.width <= Column.summary.columnInfo.minimumWidth + Column.information.columnInfo.minimumWidth {
+            // If space doesn't allow for info column, show the summary priority label if we have text for it
+            summaryView.priorityLabel.isHidden = summaryView.priorityLabel.text == nil
+            // Hide the status image if we only have one column
+            summaryView.setStatusImageViewHidden(true)
+        } else {
+            // Info column should fit, hide summary priority label
+            summaryView.priorityLabel.isHidden = true
+            
+            // Show the status image if it exists
+            summaryView.setStatusImageViewHidden(summaryView.statusImageView.image == nil)
         }
     }
 }
