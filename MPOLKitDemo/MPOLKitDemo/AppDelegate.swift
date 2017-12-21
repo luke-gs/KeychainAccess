@@ -99,8 +99,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        
-
         let recent = SearchRecentsViewController(viewModel: EntitySummaryRecentsViewModel(title: "Recents"))
 
         tabBarController.viewControllers = [

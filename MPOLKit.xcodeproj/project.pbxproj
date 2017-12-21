@@ -220,6 +220,7 @@
 		46C430CC1FC5252D0047396B /* CodableResponseSerializing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C430CB1FC5252D0047396B /* CodableResponseSerializing.swift */; };
 		46C430D01FC544310047396B /* RemoteResourceDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C430CF1FC544310047396B /* RemoteResourceDownloader.swift */; };
 		46DDAB451F78CF1300ED72DC /* FormAccessoryImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DDAB441F78CF1300ED72DC /* FormAccessoryImageView.swift */; };
+		47BC24DD1FE886F900BAB46C /* EntitySummarySearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BC24DC1FE886F900BAB46C /* EntitySummarySearchViewModel.swift */; };
 		8CDAFFA6E9DC54A4594C01FE /* Pods_MPOLKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE1AAA01D6AE18F86693DF8 /* Pods_MPOLKitTests.framework */; };
 		9620530D1F988239000CAD49 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620530C1F988239000CAD49 /* AppGroup.swift */; };
 		9624A43F1F81BBEB00CAE056 /* UIFont+Digits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A43E1F81BBEB00CAE056 /* UIFont+Digits.swift */; };
@@ -826,6 +827,7 @@
 		46C430CB1FC5252D0047396B /* CodableResponseSerializing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableResponseSerializing.swift; sourceTree = "<group>"; };
 		46C430CF1FC544310047396B /* RemoteResourceDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteResourceDownloader.swift; sourceTree = "<group>"; };
 		46DDAB441F78CF1300ED72DC /* FormAccessoryImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormAccessoryImageView.swift; sourceTree = "<group>"; };
+		47BC24DC1FE886F900BAB46C /* EntitySummarySearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummarySearchViewModel.swift; sourceTree = "<group>"; };
 		70E8FDF2F522A8C05328E451 /* Pods-MPOLKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitTests/Pods-MPOLKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		792BA6D7922A9D3748B70A23 /* Pods-MPOLKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.release.xcconfig"; sourceTree = "<group>"; };
 		9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2969,6 +2971,7 @@
 				EAC0256B1FD8DAF600E45DB6 /* EntitySummaryDisplayFormatter.swift */,
 				EA7194E41FCE72C200A2980B /* EntitySummaryActionListViewModel.swift */,
 				EA42F6791FE3585300130DA5 /* EntitySummaryRecentsViewModel.swift */,
+				47BC24DC1FE886F900BAB46C /* EntitySummarySearchViewModel.swift */,
 			);
 			path = EntitySearch;
 			sourceTree = "<group>";
@@ -3672,6 +3675,7 @@
 				EA8B66461F37FF5900F09716 /* EntitySummarySearchResultViewModel.swift in Sources */,
 				BC9C7E2E1F0DED6600DFFE83 /* UIImage+Initials.swift in Sources */,
 				BC9C7E551F0DED6600DFFE83 /* RoundedRectLabel.swift in Sources */,
+				47BC24DD1FE886F900BAB46C /* EntitySummarySearchViewModel.swift in Sources */,
 				EA4E33561F8F51B90027E431 /* LabeledItemAccessory.swift in Sources */,
 				BC9C7E241F0DED6600DFFE83 /* CollectionViewFormProgressCell.swift in Sources */,
 				27094CC21FAFFBDA00D4C3D4 /* TaskItemsSidebarViewController.swift in Sources */,
