@@ -64,7 +64,7 @@ open class CallsignListViewModel: CADFormCollectionViewModel<NotBookedOnCallsign
     
     /// Content title shown when no results
     override open func noContentTitle() -> String? {
-        return NSLocalizedString("No Callsigns Found", comment: "")
+        return NSLocalizedString("No Call Signs Found", comment: "")
     }
     
     override open func noContentSubtitle() -> String? {

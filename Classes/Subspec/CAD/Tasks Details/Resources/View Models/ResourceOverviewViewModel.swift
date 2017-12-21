@@ -53,7 +53,7 @@ open class ResourceOverviewViewModel: TaskDetailsViewModel {
         guard let resource = CADStateManager.shared.resourcesById[callsign] else { return }
         
         sections = [
-            CADFormCollectionSectionViewModel(title: "Callsign Details",
+            CADFormCollectionSectionViewModel(title: "Call Sign Details",
                                               items: [
                                                 IncidentOverviewItemViewModel(title: "Type",
                                                                               value: resource.type.rawValue,

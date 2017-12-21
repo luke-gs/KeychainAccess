@@ -18,7 +18,7 @@ open class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItemViewM
                 recentCallsigns.append(NotBookedOnCallsignItemViewModel(resource: resource))
             }
         }
-        return CADFormCollectionSectionViewModel(title: "Recently Used Callsigns", items: recentCallsigns)
+        return CADFormCollectionSectionViewModel(title: "Recently Used Call Signs", items: recentCallsigns)
     }
 
     public override init() {
@@ -60,7 +60,7 @@ open class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItemViewM
     }
     
     open func allCallsignsButtonText() -> String? {
-        return NSLocalizedString("View All Callsigns", comment: "")
+        return NSLocalizedString("View All Call Signs", comment: "")
     }
     
     // MARK: - Override
@@ -72,7 +72,7 @@ open class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItemViewM
     
     /// Content title shown when no results
     override open func noContentTitle() -> String? {
-        return NSLocalizedString("No Callsigns Found", comment: "")
+        return NSLocalizedString("No Call Signs Found", comment: "")
     }
     
     override open func noContentSubtitle() -> String? {
