@@ -31,8 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var plugins = [NetworkMonitorPlugin().allowAll()]
         #if DEBUG
             plugins.append(NetworkLoggingPlugin().allowAll())
-        #else
-            plugins = nil
         #endif
 
         // Set the application key for app specific user settings
