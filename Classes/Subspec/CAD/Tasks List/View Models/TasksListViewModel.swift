@@ -38,6 +38,9 @@ public class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewMod
     override open func noContentSubtitle() -> String? {
         return nil
     }
+
+    /// Sections to not collapse
+    open var indexesForNonCollapsibleSections: Set<Int> = []
     
     open func showsUpdatesIndicator(at section: Int) -> Bool {
         if let sectionViewModel = sections[ifExists: section] {
