@@ -46,9 +46,9 @@ open class ManageCallsignStatusViewModel {
         var title: String {
             switch self {
             case .viewCallsign:
-                return NSLocalizedString("View My Callsign", comment: "View callsign button text")
+                return NSLocalizedString("View My Call Sign", comment: "View call sign button text")
             case .manageCallsign:
-                return NSLocalizedString("Manage Callsign", comment: "Manage callsign button text")
+                return NSLocalizedString("Manage Call Sign", comment: "Manage call sign button text")
             case .terminateShift:
                 return NSLocalizedString("Terminate Shift", comment: "Terminate shift button text")
             }

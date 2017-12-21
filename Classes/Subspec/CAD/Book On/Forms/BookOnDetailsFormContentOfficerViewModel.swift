@@ -28,21 +28,21 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     open var isDriver: Bool?
 
     open var subtitle: String {
+        if inComplete {
+            return NSLocalizedString("Additional details required", comment: "")
+        }
         return [rank, officerId, licenceTypeId].joined(separator: ThemeConstants.dividerSeparator)
     }
 
     open var driverStatus: String? {
         if isDriver.isTrue {
-            return NSLocalizedString("DRIVER", comment: "").uppercased()
+            return NSLocalizedString("D", comment: "Driver abbreviation")
         }
         return nil
     }
 
-    open var incompleteStatus: String? {
-        if licenceTypeId == nil {
-            return NSLocalizedString("Incomplete", comment: "").uppercased()
-        }
-        return nil
+    open var inComplete: Bool {
+        return licenceTypeId?.ifNotEmpty() == nil
     }
 
     // MARK: - Conversion
