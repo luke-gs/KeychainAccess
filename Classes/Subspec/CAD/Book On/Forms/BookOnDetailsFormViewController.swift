@@ -186,13 +186,12 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         })
 
         for (index, officer) in viewModel.content.officers.enumerated() {
-            let accessoryLabel = AccessoryTextStyle.roundedRect(AccessoryLabelDetail(text: officer.incompleteStatus, textColour: .orangeRed, borderColour: .orangeRed))
             builder += BookOnDetailsOfficerFormItem(title: officer.title,
                                                     subtitle: officer.subtitle,
                                                     status: officer.driverStatus)
                 .width(.column(1))
                 .height(.fixed(60))
-                .accessory(FormAccessoryView(style: .disclosure, labelStyle: accessoryLabel))
+                .accessory(FormAccessoryView(style: .pencil))
                 .editActions([index > 0 ? deleteAction : nil].removeNils())
                 .onSelection { [unowned self] cell in
                     let viewController = self.viewModel.officerDetailsViewController(at: index)
@@ -267,7 +266,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         case .valid:
             // Check officer forms are also valid
             for officer in viewModel.content.officers {
-                if officer.incompleteStatus != nil {
+                if officer.inComplete {
                     AlertQueue.shared.addErrorAlert(message: NSLocalizedString("Please complete details for officers", comment: ""))
                     return
                 }
