@@ -66,15 +66,11 @@ open class NotBookedOnViewModel {
     }
     
     /// Content title shown when no results
-    override open func noContentTitle() -> String? {
+    open func noContentTitle() -> String? {
         return NSLocalizedString("No Call Signs Found", comment: "")
     }
     
-    override open func noContentSubtitle() -> String? {
-        return nil
-    }
-    
-    open override func shouldShowExpandArrow() -> Bool {
+    func shouldShowExpandArrow() -> Bool {
         return false
     }
 }
