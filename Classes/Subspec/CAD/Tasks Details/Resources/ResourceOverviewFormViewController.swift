@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class ResourceOverviewFormViewController: FormBuilderViewController {
+open class ResourceOverviewFormViewController: IntrinsicHeightFormBuilderViewController {
     
     public let viewModel: ResourceOverviewViewModel
     
@@ -59,10 +59,6 @@ open class ResourceOverviewFormViewController: FormBuilderViewController {
                 }
             }
         }
-    }
-    
-    open override func collectionViewClass() -> UICollectionView.Type {
-        return IntrinsicHeightCollectionView.self
     }
     
     open func decorate(cell: TasksListIncidentCollectionViewCell, with viewModel: TasksListIncidentViewModel) {

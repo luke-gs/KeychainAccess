@@ -31,9 +31,9 @@ open class TrafficStopViewController: FormBuilderViewController {
     open func fetchLocation() {
         _ = firstly {
             LocationManager.shared.requestPlacemark()
-        }.then { [unowned self] placemark -> Void in
-            self.viewModel.location = placemark
-            self.reloadForm()
+        }.then { [weak self] placemark -> Void in
+            self?.viewModel.location = placemark
+            self?.reloadForm()
         }.catch { _ in
             
         }
