@@ -20,6 +20,7 @@ public protocol BookOnCallsignViewModelType {
     var callsign: String {get}
     var status: String? {get}
     var location: String? {get}
+    var type: ResourceType? {get}
 }
 
 /// View model for the book on details form screen
@@ -98,8 +99,7 @@ open class BookOnDetailsFormViewModel {
         if isEditing {
             return NSLocalizedString("Manage Callsign", comment: "")
         } else {
-            let components = [callsignViewModel.location, callsignViewModel.status].removeNils()
-            return components.joined(separator: ThemeConstants.dividerSeparator)
+            return [CADStateManager.shared.officerDetails?.patrolGroup, callsignViewModel.type?.title].joined(separator: ThemeConstants.dividerSeparator)
         }
     }
 

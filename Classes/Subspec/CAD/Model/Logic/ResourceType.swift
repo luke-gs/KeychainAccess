@@ -28,6 +28,19 @@ public enum ResourceType: String, Codable {
         }
     }
 
+    var title: String {
+        switch self {
+        case .vehicle:
+            return NSLocalizedString("Vehicle", comment: "")
+        case .dogSquad:
+            return NSLocalizedString("Dog Squad", comment: "")
+        case .motorcycle:
+            return NSLocalizedString("Motorcycle", comment: "")
+        case .policeOfficer:
+            return NSLocalizedString("Patrol", comment: "")
+        }
+    }
+
     public var icon: UIImage? {
         return AssetManager.shared.image(forKey: imageKey)
     }
