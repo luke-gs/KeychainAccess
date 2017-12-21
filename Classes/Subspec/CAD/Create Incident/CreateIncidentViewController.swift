@@ -76,6 +76,7 @@ open class CreateIncidentViewController: ThemedPopoverViewController {
         loadingManager.baseView = view
         loadingManager.contentView = scrollView
         viewModel.configureLoadingManager(loadingManager)
+        // TOOD: Add support for cancel and retry actions buttons
     }
     
     /// Activates view constraints
