@@ -126,6 +126,7 @@ extension AssetManager {
         public static let add            = ImageKey("iconSystemAdd")
         public static let close          = ImageKey("iconSystemClose")
         public static let edit           = ImageKey("iconSystemEdit")
+        public static let editCell       = ImageKey("iconSystemEditCell")
         public static let info           = ImageKey("iconSystemInfo")
         public static let time           = ImageKey("iconSystemTime")
         public static let date           = ImageKey("iconSystemDate")

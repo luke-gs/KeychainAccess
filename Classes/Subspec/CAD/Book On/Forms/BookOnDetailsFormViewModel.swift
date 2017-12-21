@@ -97,7 +97,7 @@ open class BookOnDetailsFormViewModel {
     /// The subtitle to use in the navigation bar
     open func navSubtitle() -> String {
         if isEditing {
-            return NSLocalizedString("Manage Callsign", comment: "")
+            return NSLocalizedString("Manage Call Sign", comment: "")
         } else {
             return [CADStateManager.shared.officerDetails?.patrolGroup, callsignViewModel.type?.title].joined(separator: ThemeConstants.dividerSeparator)
         }

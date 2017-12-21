@@ -18,7 +18,7 @@ open class NotBookedOnViewModel {
                 recentCallsigns.append(NotBookedOnCallsignItemViewModel(resource: resource))
             }
         }
-        return CADFormCollectionSectionViewModel(title: "Recently Used Callsigns", items: recentCallsigns)
+        return CADFormCollectionSectionViewModel(title: "Recently Used Call Signs", items: recentCallsigns)
     }
     
     func callsignSection() -> CADFormCollectionSectionViewModel<NotBookedOnCallsignItemViewModel> {
@@ -57,7 +57,7 @@ open class NotBookedOnViewModel {
     }
     
     open func allCallsignsButtonText() -> String? {
-        return NSLocalizedString("View All Callsigns", comment: "")
+        return NSLocalizedString("View All Call Signs", comment: "")
     }
     
     /// The title to use in the navigation bar
@@ -65,7 +65,16 @@ open class NotBookedOnViewModel {
         return NSLocalizedString("You are not booked on", comment: "Not Booked On title")
     }
     
-    open func shouldShowExpandArrow() -> Bool {
+    /// Content title shown when no results
+    override open func noContentTitle() -> String? {
+        return NSLocalizedString("No Call Signs Found", comment: "")
+    }
+    
+    override open func noContentSubtitle() -> String? {
+        return nil
+    }
+    
+    open override func shouldShowExpandArrow() -> Bool {
         return false
     }
 }
