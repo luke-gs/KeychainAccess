@@ -84,8 +84,22 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 return settingsItem
             }
 
-            let viewModel = MPOLSearchViewModel()
-
+            
+            let strategy = LookupAddressLocationSearchStrategy<Address, AddressSummaryDisplayable>(source: MPOLSource.gnaf, helpPresentable: EntityScreen.help(type: .location))
+            let locationDataSource = LocationSearchDataSource(strategy: strategy, advanceOptions: LookupAddressLocationAdvancedOptions())
+            strategy.onResultModelForMap = {
+                return LocationMapSummarySearchResultViewModel()
+            }
+            strategy.onResultModelForResult = { (lookupResult, searchable) in
+                return LocationMapSummarySearchResultViewModel()
+            }
+            
+            let viewModel = EntitySummarySearchViewModel(title: "MPOL", dataSources: [
+                PersonSearchDataSource(),
+                VehicleSearchDataSource(),
+                locationDataSource
+            ])
+            
             let searchViewController = SearchViewController(viewModel: viewModel)
             searchViewController.set(leftBarButtonItem: settingsBarButtonItem())
 

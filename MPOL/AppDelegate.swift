@@ -52,7 +52,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let presenter = PresenterGroup(presenters: [SystemPresenter(), landingPresenter, EntityPresenter(), EventPresenter()])
 
         let director = Director(presenter: presenter)
-//        director.addPresenterObserver(RecentlyViewedTracker())
 
         Director.shared = director
 
