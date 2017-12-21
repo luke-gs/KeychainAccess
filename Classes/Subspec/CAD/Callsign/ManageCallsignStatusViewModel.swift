@@ -34,6 +34,7 @@ open class ManageCallsignStatusViewModel {
         var callsign: String
         var status: String?
         var location: String?
+        var type: ResourceType?
     }
 
     /// Enum for action button types
@@ -133,8 +134,9 @@ open class ManageCallsignStatusViewModel {
                     // Edit the book on details
                     let callsignViewModel = BookOnCallsignViewModel(
                         callsign: bookOn.callsign,
-                        status: CADStateManager.shared.currentResource?.status.rawValue ?? "",
-                        location: CADStateManager.shared.currentResource?.station ?? "")
+                        status: CADStateManager.shared.currentResource?.status.title ?? "",
+                        location: CADStateManager.shared.currentResource?.station ?? "",
+                        type: CADStateManager.shared.currentResource?.type)
                     let vc = BookOnDetailsFormViewModel(callsignViewModel: callsignViewModel).createViewController()
                     delegate?.presentPushedViewController(vc, animated: true)
                 }

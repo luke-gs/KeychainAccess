@@ -39,16 +39,18 @@ open class NotBookedOnCallsignItemViewModel: NotBookedOnItemViewModel, BookOnCal
     public var callsign: String
     public var status: String?
     public var location: String?
-    
+    public var type: ResourceType?
+
     open var badgeText: String?
     open var badgeTextColor: UIColor?
     open var badgeBorderColor: UIColor?
     open var badgeFillColor: UIColor?
     
-    public init(callsign: String, status: String?, location: String?, image: UIImage?, imageColor: UIColor?, imageBackgroundColor: UIColor?, badgeText: String? = nil, badgeTextColor: UIColor? = .clear, badgeFillColor: UIColor? = .clear, badgeBorderColor: UIColor? = .clear) {
+    public init(callsign: String, status: String?, location: String?, type: ResourceType?, image: UIImage?, imageColor: UIColor?, imageBackgroundColor: UIColor?, badgeText: String? = nil, badgeTextColor: UIColor? = .clear, badgeFillColor: UIColor? = .clear, badgeBorderColor: UIColor? = .clear) {
         self.callsign = callsign
         self.status = status
         self.location = location
+        self.type = type
         self.badgeText = badgeText
         self.badgeTextColor = badgeTextColor
         self.badgeFillColor = badgeFillColor
@@ -71,6 +73,7 @@ open class NotBookedOnCallsignItemViewModel: NotBookedOnItemViewModel, BookOnCal
             callsign: resource.callsign,
             status: resource.status.rawValue,
             location: resource.location?.fullAddress.ifNotEmpty(),
+            type: resource.type,
             image: resource.status.icon,
             imageColor: imageColor,
             imageBackgroundColor: imageBackgroundColor,
