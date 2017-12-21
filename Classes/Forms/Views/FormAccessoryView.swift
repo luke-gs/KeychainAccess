@@ -157,6 +157,7 @@ extension FormAccessoryView: ItemAccessorisable {
         case .disclosure: view.tintColor = theme.color(forKey: .disclosure)
         case .dropDown:   view.tintColor = theme.color(forKey: .primaryText)
         case .overflow:   view.tintColor = theme.color(forKey: .tint)
+        case .pencil:     view.tintColor = theme.color(forKey: .secondaryText)
         }
     }
 }
