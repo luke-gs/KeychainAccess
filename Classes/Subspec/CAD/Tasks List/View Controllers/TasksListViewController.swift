@@ -83,8 +83,9 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
 
     open override func construct(builder: FormBuilder) {
         for (sectionIndex, section) in viewModel.sections.enumerated() {
+            let sectionCollapsible = viewModel.shouldShowExpandArrow() && !viewModel.indexesForNonCollapsibleSections.contains(sectionIndex)
             builder += HeaderFormItem(text: section.title.uppercased(),
-                                      style: viewModel.shouldShowExpandArrow() ? .collapsible : .plain)
+                                      style: sectionCollapsible ? .collapsible : .plain)
             
             for item in section.items {
                 let formItem: BaseFormItem
