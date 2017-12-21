@@ -8,9 +8,9 @@
 
 import UIKit
 
-open class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItemViewModel> {
+open class NotBookedOnViewModel {
 
-    private func convertCallsignsToViewModels() -> CADFormCollectionSectionViewModel<NotBookedOnItemViewModel> {
+    private func convertCallsignsToViewModels() -> CADFormCollectionSectionViewModel<NotBookedOnCallsignItemViewModel> {
         // Just use all callsigns for now
         var recentCallsigns: [NotBookedOnCallsignItemViewModel] = []
         if let syncDetails = CADStateManager.shared.lastSync {
@@ -20,22 +20,22 @@ open class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItemViewM
         }
         return CADFormCollectionSectionViewModel(title: "Recently Used Call Signs", items: recentCallsigns)
     }
-
-    public override init() {
-        super.init()
-        
-        sections = [
-            CADFormCollectionSectionViewModel(title: "Patrol Area",
-                                              items: [
-                                                NotBookedOnItemViewModel(title: "Collingwood",
-                                                                         subtitle: nil,
-                                                                         image:  AssetManager.shared.image(forKey: .location),
-                                                                         imageColor: .brightBlue,
-                                                                         imageBackgroundColor: nil)
-                ]
-            ),
-            convertCallsignsToViewModels()
-        ]
+    
+    func callsignSection() -> CADFormCollectionSectionViewModel<NotBookedOnCallsignItemViewModel> {
+        return convertCallsignsToViewModels()
+    }
+    
+    func patrolAreaSection() -> CADFormCollectionSectionViewModel<NotBookedOnItemViewModel> {
+        // TODO: Get dynamically
+        return CADFormCollectionSectionViewModel(title: "Patrol Area",
+                                                 items: [
+                                                    NotBookedOnItemViewModel(title: "Collingwood",
+                                                                             subtitle: nil,
+                                                                             image:  AssetManager.shared.image(forKey: .location),
+                                                                             imageColor: .brightBlue,
+                                                                             imageBackgroundColor: nil)
+            ]
+        )
     }
     
     /// Create the view controller for this view model
@@ -44,11 +44,8 @@ open class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItemViewM
     }
 
     /// Create the book on view controller for a selected callsign
-    open func bookOnViewControllerForItem(_ indexPath: IndexPath) -> UIViewController? {
-        if let itemViewModel = item(at: indexPath) as? NotBookedOnCallsignItemViewModel {
-            return BookOnDetailsFormViewModel(callsignViewModel: itemViewModel).createViewController()
-        }
-        return nil
+    open func bookOnViewControllerForItem(_ viewModel: NotBookedOnCallsignItemViewModel) -> UIViewController {
+        return BookOnDetailsFormViewModel(callsignViewModel: viewModel).createViewController()
     }
     
     open func headerText() -> String? {
@@ -63,24 +60,17 @@ open class NotBookedOnViewModel: CADFormCollectionViewModel<NotBookedOnItemViewM
         return NSLocalizedString("View All Call Signs", comment: "")
     }
     
-    // MARK: - Override
-
     /// The title to use in the navigation bar
-    override open func navTitle() -> String {
+    open func navTitle() -> String {
         return NSLocalizedString("You are not booked on", comment: "Not Booked On title")
     }
     
     /// Content title shown when no results
-    override open func noContentTitle() -> String? {
+    open func noContentTitle() -> String? {
         return NSLocalizedString("No Call Signs Found", comment: "")
     }
     
-    override open func noContentSubtitle() -> String? {
-        return nil
-    }
-    
-    open override func shouldShowExpandArrow() -> Bool {
+    func shouldShowExpandArrow() -> Bool {
         return false
     }
-    
 }
