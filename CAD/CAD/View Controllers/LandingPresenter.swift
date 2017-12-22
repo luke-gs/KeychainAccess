@@ -69,7 +69,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 return settingsItem
             }
             let callsignViewController = CompactCallsignViewController()
-            callsignViewController.tabBarItem = UITabBarItem(title: "Callsign", image: AssetManager.shared.image(forKey: .entityCar), selectedImage: nil)
+            callsignViewController.tabBarItem = UITabBarItem(title: "Call Sign", image: AssetManager.shared.image(forKey: .entityCar), selectedImage: nil)
 
             let searchProxyViewController = AppProxyViewController(appUrlTypeScheme: SEARCH_APP_SCHEME)
             searchProxyViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
