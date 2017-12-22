@@ -75,6 +75,9 @@ open class MPOLSplitViewController: PushableSplitViewController {
     /// The KVO observer for right bar button items of the selected view controller
     private var rightBarButtonItemsObservation: NSKeyValueObservation?
 
+    /// The KVO observer for right bar button items of the master view controller
+    private var masterRightBarButtonItemsObservation: NSKeyValueObservation?
+    
     /// The selected view controller.
     public var selectedViewController: UIViewController? {
         didSet {
@@ -122,6 +125,11 @@ open class MPOLSplitViewController: PushableSplitViewController {
 
         super.init(viewControllers: [masterNavController, detailNavController])
 
+        // Use KVO to update bar button items
+        masterRightBarButtonItemsObservation = masterViewController.navigationItem.observe(\.rightBarButtonItems) { [unowned self] (navItem, change) in
+            self.updateNavigationBarForSelection()
+        }
+        
         // Handle all page view delegates
         pageViewController.scrollDelegate = self
         pageViewController.dataSource = self

@@ -68,6 +68,16 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
     /// Constraint for making source bar have no height
     private var sourceBarWidthConstraint: NSLayoutConstraint!
 
+    /// Button for toggling full screen
+    private lazy var fullScreenButton: UIBarButtonItem = {
+        return UIBarButtonItem(image: AssetManager.shared.image(forKey: .map), style: .plain, target: self, action: #selector(toggleFullScreen))
+    }()
+
+    /// Button for showing map layer filter
+    private lazy var filterButton: UIBarButtonItem = {
+        return UIBarButtonItem(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: self, action: #selector(showMapLayerFilter))
+    }()
+
     /// The current sources available to display
     open var sourceItems: [SourceItem] = [] {
         didSet {
@@ -99,7 +109,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         // Add navigation bar buttons
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .map), style: .plain, target: self, action: #selector(toggleFullScreen))
+        navigationItem.rightBarButtonItems = [fullScreenButton]
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -235,6 +245,13 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         let width = isFullScreen ? TasksSplitViewController.defaultSplitWidth : splitViewController.view.bounds.width
         splitViewController.setMasterWidth(width, animated: true)
         isFullScreen = !isFullScreen
+        
+        let buttons = isFullScreen ? [filterButton, fullScreenButton] : [fullScreenButton]
+        navigationItem.rightBarButtonItems = buttons
+    }
+    
+    @objc public func showMapLayerFilter() {
+        viewModel.splitViewModel?.presentMapFilter()
     }
     
     open func refreshTasks() {
