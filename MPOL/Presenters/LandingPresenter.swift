@@ -85,7 +85,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             }
 
             
-            let strategy = LookupAddressLocationSearchStrategy<Address, AddressSummaryDisplayable>(source: MPOLSource.gnaf, helpPresentable: EntityScreen.help(type: .location))
+            let strategy = LookupAddressLocationSearchStrategy<Address>(source: MPOLSource.gnaf, helpPresentable: EntityScreen.help(type: .location))
             let locationDataSource = LocationSearchDataSource(strategy: strategy, advanceOptions: LookupAddressLocationAdvancedOptions())
             strategy.onResultModelForMap = {
                 return LocationMapSummarySearchResultViewModel()
@@ -138,7 +138,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                                                andPresentable: .function({ return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: searchViewController ) }))
 
             entityFormatter.registerEntityType(Address.self,
-                                               forSummary: .none,
+                                               forSummary: .function({ return AddressSummaryDisplayable($0) }),
                                                andPresentable: .function({ return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: searchViewController) }))
 
             return tabBarController
