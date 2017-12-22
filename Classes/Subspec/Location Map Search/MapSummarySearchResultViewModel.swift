@@ -9,7 +9,7 @@
 import Foundation
 import MapKit
 
-open class MapSummarySearchResultViewModel<T: MPOLKitEntity, U : EntityMapSummaryDisplayable>: MapResultViewModelable, AggregatedSearchDelegate {
+open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModelable, AggregatedSearchDelegate {
 
     private var _entityAnnotationMappings: [EntityAnnotationMapping]? = []
 
@@ -48,7 +48,11 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity, U : EntityMapSummar
         }
     }
 
-    public required init() { }
+    public let summaryDisplayFormatter: EntitySummaryDisplayFormatter
+
+    public required init(summaryDisplayFormatter: EntitySummaryDisplayFormatter = .default) {
+        self.summaryDisplayFormatter = summaryDisplayFormatter
+    }
 
     open func numberOfSections() -> Int {
         return results.count
@@ -100,7 +104,19 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity, U : EntityMapSummar
     /// - Returns: The first entity matches the same coordinate
 
     open func entityDisplayable(for annotation: MKAnnotation) -> EntityMapSummaryDisplayable? {
-        MPLRequiresConcreteImplementation()
+        guard let entity = entity(for: annotation), let summary = summaryDisplayFormatter.summaryDisplayForEntity(entity) as? EntityMapSummaryDisplayable else {
+            return nil
+        }
+
+        return summary
+    }
+
+    open func entityPresentable(for annotation: MKAnnotation) -> Presentable? {
+        guard let entity = entity(for: annotation), let presentable = summaryDisplayFormatter.presentableForEntity(entity) else {
+            return nil
+        }
+
+        return presentable
     }
 
     open func mapAnnotation(for entity: MPOLKitEntity) -> MKAnnotation? {

@@ -48,8 +48,6 @@ public protocol MapResultViewModelDelegate: class {
 
 public protocol MapResultViewModelable: SearchResultModelable {
 
-    init()
-    
     /// Plugin for ETA calucation
     var travelEstimationPlugin: TravelEstimationPlugable { get set }
     
@@ -72,6 +70,12 @@ public protocol MapResultViewModelable: SearchResultModelable {
     ///
     /// - Parameter coordinate: The coordinate of target location
     func entityDisplayable(for annotation: MKAnnotation) -> EntityMapSummaryDisplayable?
+
+    /// Returns a presentablefor for the annotation
+    ///
+    /// - Parameter annotation: The annotation
+    /// - Returns: The presentable 
+    func entityPresentable(for annotation: MKAnnotation) -> Presentable?
 
     func entity(for annotation: MKAnnotation) -> MPOLKitEntity?
 

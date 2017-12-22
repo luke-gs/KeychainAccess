@@ -134,10 +134,8 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
 
-        if let selectedAnnotation = selectedAnnotation, let entity = viewModel?.entity(for: selectedAnnotation) {
-            if let presentable = EntitySummaryDisplayFormatter.default.presentableForEntity(entity) {
-                delegate?.handlePresentable(presentable)
-            }
+        if let selectedAnnotation = selectedAnnotation, let presentable = viewModel?.entityPresentable(for: selectedAnnotation) {
+            delegate?.handlePresentable(presentable)
         }
     }
     
@@ -298,7 +296,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
             delegate?.beginSearch(reset: false)
         }
     }
-    
+
     private func drawMapOverlays(){
         
         /// Remove all of existing map overlays
