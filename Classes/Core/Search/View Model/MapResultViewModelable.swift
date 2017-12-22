@@ -74,7 +74,7 @@ public protocol MapResultViewModelable: SearchResultModelable {
     /// Returns a presentablefor for the annotation
     ///
     /// - Parameter annotation: The annotation
-    /// - Returns: The presentable 
+    /// - Returns: The presentable
     func entityPresentable(for annotation: MKAnnotation) -> Presentable?
 
     func entity(for annotation: MKAnnotation) -> MPOLKitEntity?

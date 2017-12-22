@@ -30,9 +30,9 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
         }
     }
     
-    open var travelEstimationPlugin: TravelEstimationPlugable = TravelEstimationPlugin()
+    public var travelEstimationPlugin: TravelEstimationPlugable = TravelEstimationPlugin()
     
-    open var results: [SearchResultSection]  = [] {
+    public var results: [SearchResultSection]  = [] {
         didSet {
             var mapAnnotations = [EntityAnnotationMapping]()
             for section in results {
@@ -50,15 +50,15 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
 
     public let summaryDisplayFormatter: EntitySummaryDisplayFormatter
 
-    public required init(summaryDisplayFormatter: EntitySummaryDisplayFormatter = .default) {
+    public init(summaryDisplayFormatter: EntitySummaryDisplayFormatter = .default) {
         self.summaryDisplayFormatter = summaryDisplayFormatter
     }
 
-    open func numberOfSections() -> Int {
+    public func numberOfSections() -> Int {
         return results.count
     }
 
-    open func numberOfItems(in section: Int) -> Int {
+    public func numberOfItems(in section: Int) -> Int {
         let result = results[section]
         switch result.state {
         case .finished where result.error != nil:
@@ -89,7 +89,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
         MPLRequiresConcreteImplementation()
     }
 
-    open func entity(for annotation: MKAnnotation) -> MPOLKitEntity? {
+    public func entity(for annotation: MKAnnotation) -> MPOLKitEntity? {
         guard let index = _entityAnnotationMappings?.index(where: { mapping -> Bool in
             return mapping.annotation === annotation
         }) else {
@@ -103,7 +103,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
     /// - Parameter coordinate: The coordinate of target location
     /// - Returns: The first entity matches the same coordinate
 
-    open func entityDisplayable(for annotation: MKAnnotation) -> EntityMapSummaryDisplayable? {
+    public func entityDisplayable(for annotation: MKAnnotation) -> EntityMapSummaryDisplayable? {
         guard let entity = entity(for: annotation), let summary = summaryDisplayFormatter.summaryDisplayForEntity(entity) as? EntityMapSummaryDisplayable else {
             return nil
         }
@@ -111,7 +111,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
         return summary
     }
 
-    open func entityPresentable(for annotation: MKAnnotation) -> Presentable? {
+    public func entityPresentable(for annotation: MKAnnotation) -> Presentable? {
         guard let entity = entity(for: annotation), let presentable = summaryDisplayFormatter.presentableForEntity(entity) else {
             return nil
         }
@@ -132,7 +132,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
         MPLRequiresConcreteImplementation()
     }
 
-    open var allAnnotations: [MKAnnotation]? {
+    public var allAnnotations: [MKAnnotation]? {
         return _entityAnnotationMappings?.map({ return $0.annotation })
     }
 
