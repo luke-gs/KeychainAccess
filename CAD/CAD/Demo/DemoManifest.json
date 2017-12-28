@@ -188,20 +188,5 @@
         "subtitle": null,
         "title": "Collingwood",
         "value": "Collingwood"
-    },
-    {
-        "active": true,
-        "additionalData": null,
-        "category": "patrolgroup",
-        "dateCreated": "2017-11-16T10:00:00Z",
-        "dateLastUpdated": "2017-11-16T10:00:00Z",
-        "effectiveDate": "2017-11-16T10:00:00Z",
-        "expiryDate": null,
-        "id": "eda83766-3a61-4628-a263-27970c2a61a5",
-        "sortOrder": 0,
-        "source": "mpol",
-        "subtitle": null,
-        "title": "North Melbourne",
-        "value": "North Melbourne"
     }
 ]
