@@ -9,6 +9,11 @@ import UIKit
 
 public class PatrolAreaListViewModel: GenericSearchDefaultViewModel {
     
+    // MARK: - Properties
+    
+    public var selectedPatrolArea: String?
+    public private(set) var items: [PatrolAreaListItemViewModel] = []
+    
     // MARK: - Setup
     
     public convenience init() {
@@ -26,6 +31,9 @@ public class PatrolAreaListViewModel: GenericSearchDefaultViewModel {
     public required init(items: [GenericSearchable]) {
         super.init(items: items)
         title = NSLocalizedString("Patrol Area", comment: "")
+        hasSections = false
+        
+        self.items = items as? [PatrolAreaListItemViewModel] ?? []
     }
     
     open func createViewController() -> PatrolAreaListViewController {
@@ -34,6 +42,15 @@ public class PatrolAreaListViewModel: GenericSearchDefaultViewModel {
     
     open func noContentTitle() -> String? {
         return NSLocalizedString("No Patrol Areas Found", comment: "")
+    }
+    
+    open override func accessory(for indexPath: IndexPath) -> ItemAccessory? {
+        if let selected = selectedPatrolArea {
+            let patrolArea = items[indexPath.row].patrolArea
+            return patrolArea == selected ? ItemAccessory.checkmark : nil
+        }
+        
+        return nil
     }
     
 }

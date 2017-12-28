@@ -40,7 +40,7 @@ open class CADStateManager: NSObject {
     
     /// The patrol group
     // TODO: Find out when to set/clear this value and where it's coming from
-    open var patrolGroup: String?
+    open var patrolGroup: String = "Collingwood"
 
     /// The last book on data
     open var lastBookOn: BookOnRequest? {

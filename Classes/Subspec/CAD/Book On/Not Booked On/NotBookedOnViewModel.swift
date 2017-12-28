@@ -29,7 +29,7 @@ open class NotBookedOnViewModel {
         // TODO: Get dynamically
         return CADFormCollectionSectionViewModel(title: "Patrol Area",
                                                  items: [
-                                                    NotBookedOnItemViewModel(title: "Collingwood",
+                                                    NotBookedOnItemViewModel(title: CADStateManager.shared.patrolGroup,
                                                                              subtitle: nil,
                                                                              image:  AssetManager.shared.image(forKey: .location),
                                                                              imageColor: .brightBlue,

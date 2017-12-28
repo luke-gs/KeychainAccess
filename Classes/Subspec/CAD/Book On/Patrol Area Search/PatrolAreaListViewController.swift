@@ -45,6 +45,9 @@ open class PatrolAreaListViewController: GenericSearchViewController {
 
 extension PatrolAreaListViewController: GenericSearchDelegate {
     public func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath, withSearchable searchable: GenericSearchable) {
-        
+        if let patrolArea = searchable as? PatrolAreaListItemViewModel {
+            patrolAreaListViewModel?.selectedPatrolArea = patrolArea.patrolArea
+            reloadForm()
+        }
     }
 }
