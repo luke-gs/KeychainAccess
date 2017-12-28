@@ -53,7 +53,7 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
                                             subtitle: viewModel.description(for: indexPath),
                                             image: viewModel.image(for: indexPath),
                                             style: .default)
-                    .accessory(viewModel.accessory(for: indexPath)) // TODO: Fix for indexPath when results are filtered
+                    .accessory(viewModel.accessory(for: viewModel.searchable(for: indexPath)))
                     .onSelection { [unowned self] cell in
                         let searchable = self.viewModel.searchable(for: indexPath)
                         self.delegate?.genericSearchViewController(self, didSelectRowAt: indexPath, withSearchable: searchable)

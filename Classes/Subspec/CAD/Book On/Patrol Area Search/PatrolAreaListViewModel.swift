@@ -44,10 +44,9 @@ public class PatrolAreaListViewModel: GenericSearchDefaultViewModel {
         return NSLocalizedString("No Patrol Areas Found", comment: "")
     }
     
-    open override func accessory(for indexPath: IndexPath) -> ItemAccessory? {
+    public override func accessory(for searchable: GenericSearchable) -> ItemAccessorisable? {
         if let selected = selectedPatrolArea {
-            let patrolArea = items[indexPath.row].patrolArea
-            return patrolArea == selected ? ItemAccessory.checkmark : nil
+            return searchable.title == selected ? ItemAccessory.checkmark : nil
         }
         
         return nil

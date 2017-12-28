@@ -117,7 +117,7 @@ public class GenericSearchDefaultViewModel: GenericSearchViewModel {
         return row.image
     }
     
-    public func accessory(for indexPath: IndexPath) -> ItemAccessory? {
+    public func accessory(for searchable: GenericSearchable) -> ItemAccessorisable? {
         return ItemAccessory.disclosure
     }
 
@@ -182,11 +182,12 @@ public protocol GenericSearchViewModel {
     /// - Returns: the image for the row
     func image(for indexPath: IndexPath) -> UIImage?
     
-    /// Accessory for the row at indexPath
+    /// Accessory for the searchable's row.
+    /// To be overriden by subclass for custom dynamic accessories.
     ///
-    /// - Parameter indexPath: the indexPath
-    /// - Returns: the accessory for the row
-    func accessory(for indexPath: IndexPath) -> ItemAccessory?
+    /// - Parameter searchable: the searchable
+    /// - Returns: the accessory for the searchable's row
+    func accessory(for searchable: GenericSearchable) -> ItemAccessorisable?
 
     /// The `GenericSearchable` object for a particular indexPath
     ///
