@@ -171,6 +171,10 @@ open class NotBookedOnViewController: FormBuilderViewController {
                     (cell as? CollectionViewFormValueFieldCell)?.valueLabel.textColor = theme.color(forKey: .primaryText)
                 })
                 .contentMode(.center)
+                .onSelection({ [weak self] _ in
+                    let viewModel = PatrolAreaListViewModel()
+                    self?.navigationController?.pushViewController(viewModel.createViewController(), animated: true)
+                })
         }
         
         let callsignSection = viewModel.callsignSection()

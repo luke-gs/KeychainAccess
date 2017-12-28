@@ -106,5 +106,5 @@ public protocol GenericSearchDelegate {
     ///   - viewController: the view controller that the tap came form
     ///   - indexPath: the indexPath that was tapped
     ///   - withSearchable: teh searchable object for that indexPath
-    func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath, withSearchable: GenericSearchable)
+    func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath, withSearchable searchable: GenericSearchable)
 }
