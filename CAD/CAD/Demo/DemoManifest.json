@@ -152,41 +152,11 @@
         "dateLastUpdated": "2017-11-16T10:00:00Z",
         "effectiveDate": "2017-11-16T10:00:00Z",
         "expiryDate": null,
-        "id": "42fda5dc-8187-4ed9-b90b-2523278670d0",
-        "sortOrder": 0,
-        "source": "mpol",
-        "subtitle": null,
-        "title": "Richmond",
-        "value": "Richmond"
-    },
-    {
-        "active": true,
-        "additionalData": null,
-        "category": "patrolgroup",
-        "dateCreated": "2017-11-16T10:00:00Z",
-        "dateLastUpdated": "2017-11-16T10:00:00Z",
-        "effectiveDate": "2017-11-16T10:00:00Z",
-        "expiryDate": null,
         "id": "4389b9af-1526-4222-aa76-db29bb75848c",
         "sortOrder": 0,
         "source": "mpol",
         "subtitle": null,
         "title": "East Melbourne",
         "value": "East Melbourne"
-    },
-    {
-        "active": true,
-        "additionalData": null,
-        "category": "patrolgroup",
-        "dateCreated": "2017-11-16T10:00:00Z",
-        "dateLastUpdated": "2017-11-16T10:00:00Z",
-        "effectiveDate": "2017-11-16T10:00:00Z",
-        "expiryDate": null,
-        "id": "c3896cc5-b1e7-48ae-836a-bbd34103fe5f",
-        "sortOrder": 0,
-        "source": "mpol",
-        "subtitle": null,
-        "title": "Collingwood",
-        "value": "Collingwood"
     }
 ]
