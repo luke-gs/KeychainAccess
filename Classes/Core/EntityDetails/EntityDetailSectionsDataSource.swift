@@ -12,10 +12,10 @@ import Foundation
 /// of the new data.
 public protocol EntityDetailSectionUpdatable: class {
 
-    /// A generic entity
-    var genericEntity: MPOLKitEntity? { get set }
+    /// The entity
+    var entity: MPOLKitEntity? { get set }
 
-    /// the loading manager
+    /// The loading manager
     var loadingManager: LoadingStateManager { get }
 }
 
@@ -32,7 +32,7 @@ public protocol EntityDetailSectionsDataSource {
     var localizedDisplayName: String { get }
 
     /// An array of view controllers that are shown as sections in the sidebar of the entity details screen
-    var detailViewControllers: [EntityDetailSectionUpdatable] { get }
+    var detailViewControllers: [(UIViewController & EntityDetailSectionUpdatable)] { get }
 
     /// Generates a fetchable objects for the initial fetch of data in the entity details screen
     ///
