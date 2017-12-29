@@ -37,7 +37,7 @@ open class PatrolAreaListViewController: GenericSearchViewController {
     }
     
     @objc public func doneTapped() {
-        // TODO: Change patrol area
+        patrolAreaListViewModel?.doneTapped()
         navigationController?.popViewController(animated: true)
     }
 

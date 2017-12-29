@@ -174,6 +174,7 @@ open class NotBookedOnViewController: FormBuilderViewController {
                 .onSelection({ [weak self] _ in
                     let viewModel = PatrolAreaListViewModel()
                     viewModel.selectedPatrolArea = item.title
+                    viewModel.delegate = self
                     self?.navigationController?.pushViewController(viewModel.createViewController(), animated: true)
                 })
         }
@@ -202,4 +203,14 @@ open class NotBookedOnViewController: FormBuilderViewController {
         }
     }
     
+}
+
+extension NotBookedOnViewController: PatrolAreaListViewModelDelegate {
+    
+    public func patrolAreaListViewModel(_ viewModel: PatrolAreaListViewModel, didSelectPatrolArea patrolArea: String?) {
+        if let patrolArea = patrolArea {
+            CADStateManager.shared.patrolGroup = patrolArea
+            reloadForm()
+        }
+    }
 }

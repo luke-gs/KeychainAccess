@@ -7,12 +7,18 @@
 
 import UIKit
 
+public protocol PatrolAreaListViewModelDelegate: class {
+    func patrolAreaListViewModel(_ viewModel: PatrolAreaListViewModel, didSelectPatrolArea patrolArea: String?)
+}
+
 public class PatrolAreaListViewModel: GenericSearchDefaultViewModel {
     
     // MARK: - Properties
     
     public var selectedPatrolArea: String?
     public private(set) var items: [PatrolAreaListItemViewModel] = []
+    
+    public weak var delegate: PatrolAreaListViewModelDelegate?
     
     // MARK: - Setup
     
@@ -50,6 +56,10 @@ public class PatrolAreaListViewModel: GenericSearchDefaultViewModel {
         }
         
         return nil
+    }
+    
+    public func doneTapped() {
+        delegate?.patrolAreaListViewModel(self, didSelectPatrolArea: selectedPatrolArea)
     }
     
 }

@@ -21,10 +21,7 @@ public struct PatrolAreaListItemViewModel: GenericSearchable {
         return patrolArea
     }
     
-    public var section: String? {
-        return "PATROL AREAS"
-    }
-    
+    public var section: String?
     public var subtitle: String?
     public var image: UIImage?
     
