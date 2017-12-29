@@ -16,8 +16,6 @@ public class PatrolAreaListViewModel: GenericSearchDefaultViewModel {
     // MARK: - Properties
     
     public var selectedPatrolArea: String?
-    public private(set) var items: [PatrolAreaListItemViewModel] = []
-    
     public weak var delegate: PatrolAreaListViewModelDelegate?
     
     // MARK: - Setup
@@ -35,11 +33,12 @@ public class PatrolAreaListViewModel: GenericSearchDefaultViewModel {
     }
     
     public required init(items: [GenericSearchable]) {
-        super.init(items: items)
+        // Sort items alphabetically by title
+        let sorted = items.sorted(using: [SortDescriptor<GenericSearchable> { $0.title }])
+        super.init(items: sorted)
+        
         title = NSLocalizedString("Patrol Area", comment: "")
         hasSections = false
-        
-        self.items = items as? [PatrolAreaListItemViewModel] ?? []
     }
     
     open func createViewController() -> PatrolAreaListViewController {
