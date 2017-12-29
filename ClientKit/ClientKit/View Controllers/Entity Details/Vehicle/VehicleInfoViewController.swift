@@ -9,9 +9,9 @@
 import UIKit
 import MPOLKit
 
-open class VehicleInfoViewController: EntityDetailCollectionViewController {
+open class VehicleInfoViewController: FormCollectionViewController, EntityDetailSectionUpdatable {
     
-    open override var entity: Entity? {
+    open var entity: MPOLKitEntity? {
         get {
             return viewModel.vehicle
         }

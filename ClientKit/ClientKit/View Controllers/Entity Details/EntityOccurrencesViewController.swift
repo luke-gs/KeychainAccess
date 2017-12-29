@@ -9,9 +9,9 @@
 import UIKit
 import MPOLKit
 
-open class EntityOccurrencesViewController: EntityDetailCollectionViewController {
+open class EntityOccurrencesViewController: FormCollectionViewController, EntityDetailSectionUpdatable {
 
-    open override var entity: Entity? {
+    open var entity: MPOLKitEntity? {
         didSet {
             updateNoContentSubtitle()
             loadingManager.state = .noContent // Temp
@@ -44,7 +44,7 @@ open class EntityOccurrencesViewController: EntityDetailCollectionViewController
     
     private func updateNoContentSubtitle() {
         let entityDisplayName: String
-        if let entity = entity {
+        if let entity = entity as? Entity {
             entityDisplayName = type(of: entity).localizedDisplayName.localizedLowercase
         } else {
             entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")

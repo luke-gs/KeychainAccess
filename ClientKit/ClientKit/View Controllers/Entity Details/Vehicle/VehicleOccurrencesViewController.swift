@@ -15,12 +15,12 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
     
     // MARK: - Public properties
     
-    open override var entity: Entity? {
+    open override var entity: MPOLKitEntity? {
         get {
             return viewModel.entity
         }
         set {
-            viewModel.entity = newValue
+            viewModel.entity = newValue as? Entity
             reloadSections()
         }
     }

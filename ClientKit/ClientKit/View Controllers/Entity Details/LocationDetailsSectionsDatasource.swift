@@ -13,7 +13,7 @@ public class LocationMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSour
 
     public var source: EntitySource = MPOLSource.mpol
     public var entity: MPOLKitEntity
-    public var detailViewControllers: [EntityDetailSectionUpdatable]
+    public var detailViewControllers: [(UIViewController & EntityDetailSectionUpdatable)]
 
     public var localizedDisplayName: String {
         return NSLocalizedString("Location", comment: "")

@@ -10,7 +10,7 @@ import UIKit
 import MPOLKit
 
 /// A view controller for presenting a person's criminal history.
-open class PersonCriminalHistoryViewController: EntityDetailCollectionViewController, FilterViewControllerDelegate {
+open class PersonCriminalHistoryViewController: FormCollectionViewController, EntityDetailSectionUpdatable, FilterViewControllerDelegate {
     
     // Probably refactor sorting and date sorting into a more general sorting?
     public enum Sorting: Pickable {
@@ -50,7 +50,7 @@ open class PersonCriminalHistoryViewController: EntityDetailCollectionViewContro
     
     // MARK: - Public Properties
     
-    open override var entity: Entity? {
+    open var entity: MPOLKitEntity? {
         get {
             return viewModel.person
         }

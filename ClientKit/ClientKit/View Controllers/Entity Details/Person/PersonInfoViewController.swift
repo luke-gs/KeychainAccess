@@ -9,9 +9,9 @@
 import UIKit
 import MPOLKit
 
-open class PersonInfoViewController: EntityDetailCollectionViewController {
+open class PersonInfoViewController: FormCollectionViewController, EntityDetailSectionUpdatable {
     
-    open override var entity: Entity? {
+    open var entity: MPOLKitEntity? {
         get {
             return self.viewModel.person
         }

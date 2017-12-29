@@ -9,14 +9,13 @@
 import UIKit
 import MPOLKit
 
-open class EntityAlertsViewController: EntityDetailCollectionViewController, FilterViewControllerDelegate {
-    
+open class EntityAlertsViewController: FormCollectionViewController, EntityDetailSectionUpdatable, FilterViewControllerDelegate {
     
     // MARK: - Public Properties
     
-    open override var entity: Entity? {
+    open var entity: MPOLKitEntity? {
         didSet {
-            viewModel.entity = entity
+            viewModel.entity = entity as? Entity
             reloadSections()
         }
     }

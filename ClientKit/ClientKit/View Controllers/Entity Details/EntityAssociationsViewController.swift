@@ -9,12 +9,12 @@
 import UIKit
 import MPOLKit
 
-open class EntityAssociationsViewController: EntityDetailCollectionViewController {
+open class EntityAssociationsViewController: FormCollectionViewController, EntityDetailSectionUpdatable {
     
-    open override var entity: Entity? {
+    open var entity: MPOLKitEntity? {
         didSet {
             updateNoContentSubtitle()
-            viewModel.entity = entity
+            viewModel.entity = entity as? Entity
         }
     }
     
@@ -204,7 +204,7 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     
     private func updateNoContentSubtitle() {
         let entityDisplayName: String
-        if let entity = entity {
+        if let entity = entity as? Entity {
             entityDisplayName = type(of: entity).localizedDisplayName.localizedLowercase
         } else {
             entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
