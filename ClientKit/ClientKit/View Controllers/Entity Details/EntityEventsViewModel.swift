@@ -1,5 +1,5 @@
 //
-//  EntityEventViewModel.swift
+//  EntityEventsViewModel.swift
 //  ClientKit
 //
 //  Created by RUI WANG on 16/8/17.
@@ -9,7 +9,7 @@
 import Foundation
 import MPOLKit
 
-public class EntityEventViewModel: EntityDetailViewModelable {
+public class EntityEventsViewModel: EntityDetailViewModelable {
     
     public typealias DetailsType = EventInfo
     

@@ -9,7 +9,7 @@
 import UIKit
 import MPOLKit
 
-open class EntityOccurrencesViewController: FormCollectionViewController, EntityDetailSectionUpdatable {
+open class EntityEventsViewController: FormCollectionViewController, EntityDetailSectionUpdatable {
 
     open var entity: MPOLKitEntity? {
         didSet {

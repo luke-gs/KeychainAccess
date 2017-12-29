@@ -10,7 +10,7 @@ import Foundation
 import MPOLKit
 
 // TEMP stuff
-open class VehicleOccurrencesViewController: EntityOccurrencesViewController, FilterViewControllerDelegate {
+open class VehicleOccurrencesViewController: EntityEventsViewController, FilterViewControllerDelegate {
     
     
     // MARK: - Public properties
@@ -27,8 +27,8 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
     
     
     // MARK: - Private properties
-    private lazy var viewModel: VehicleOccurrencesViewModel = {
-        var vm = VehicleOccurrencesViewModel()
+    private lazy var viewModel: EntityEventsViewModel = {
+        var vm = EntityEventsViewModel()
         vm.delegate = self
         return vm
     }()

@@ -11,7 +11,7 @@ import Foundation
 import MPOLKit
 
 // TEMP stuff
-open class PersonOccurrencesViewController: EntityOccurrencesViewController, FilterViewControllerDelegate {
+open class PersonOccurrencesViewController: EntityEventsViewController, FilterViewControllerDelegate {
     
     
     // MARK: - Public properties
@@ -28,8 +28,8 @@ open class PersonOccurrencesViewController: EntityOccurrencesViewController, Fil
     
     
     // MARK: - Private properties
-    private lazy var viewModel: PersonOccurrencesViewModel = {
-        var vm = PersonOccurrencesViewModel()
+    private lazy var viewModel: EntityEventsViewModel = {
+        var vm = EntityEventsViewModel()
         vm.delegate = self
         return vm
     }()
