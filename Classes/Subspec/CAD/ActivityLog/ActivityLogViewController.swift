@@ -21,8 +21,8 @@ public class ActivityLogViewController: TimelineFormCollectionViewController<Act
     }
 
     override open func decorate(cell: CollectionViewFormCell, with viewModel: ActivityLogItemViewModel) {
-        cell.highlightStyle = .fade
-        cell.selectionStyle = .fade
+        cell.highlightStyle = FadeStyle.highlight()
+        cell.selectionStyle = FadeStyle.selection()
         cell.separatorStyle = .none
         cell.accessoryView = FormAccessoryView(style: .disclosure)
 

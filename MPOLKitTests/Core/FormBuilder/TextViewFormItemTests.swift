@@ -25,7 +25,7 @@ class TextViewFormItemTests: XCTestCase {
         XCTAssertEqual(item.text?.sizing().string, text)
         XCTAssertEqual(item.placeholder?.sizing().string, placeholder)
         XCTAssertEqual(item.contentMode, .top)
-        XCTAssertEqual(item.selectionStyle, .underline)
+        XCTAssertEqual(item.selectionStyle, UnderlineStyle.selection())
         XCTAssertTrue(item.cellType == CollectionViewFormTextViewCell.self)
         XCTAssertEqual(item.reuseIdentifier, CollectionViewFormTextViewCell.defaultReuseIdentifier)
     }

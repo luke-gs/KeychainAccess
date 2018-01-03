@@ -447,8 +447,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 let filterCell = collectionView.dequeueReusableCell(of: CollectionViewFormValueFieldCell.self, for: indexPath)
                 filterCell.isEditable = true
                 filterCell.valueLabel.numberOfLines = 1
-                filterCell.selectionStyle = .underline
-                filterCell.highlightStyle = .fade
+                filterCell.selectionStyle = UnderlineStyle.selection()
+                filterCell.highlightStyle = FadeStyle.highlight()
                 filterCell.accessoryView = FormAccessoryView(style: .dropDown)
                 
                 filterCell.titleLabel.text = title
@@ -459,8 +459,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 return filterCell
             case .text(let configure):
                 let filterCell = collectionView.dequeueReusableCell(of: CollectionViewFormTextFieldCell.self, for: indexPath)
-                filterCell.selectionStyle = .underline
-                filterCell.highlightStyle = .fade
+                filterCell.selectionStyle = UnderlineStyle.selection()
+                filterCell.highlightStyle = FadeStyle.highlight()
                 
                 let textField = filterCell.textField
                 configure?(textField)
@@ -483,7 +483,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 
                 filterCell.style = .value
                 filterCell.selectionStyle = .none
-                filterCell.highlightStyle = .fade
+                filterCell.highlightStyle = FadeStyle.highlight()
                 filterCell.accessoryView  = FormAccessoryView(style: .disclosure)
                 filterCell.imageView.image = image
                 filterCell.titleLabel.text = title

@@ -35,8 +35,8 @@ open class ResourceOfficerListViewController: CADFormCollectionViewController<Re
     }
 
     override open func decorate(cell: CollectionViewFormCell, with viewModel: ResourceOfficerViewModel) {
-        cell.highlightStyle = .fade
-        cell.selectionStyle = .fade
+        cell.highlightStyle = FadeStyle.highlight()
+        cell.selectionStyle = FadeStyle.selection()
         cell.separatorStyle = .indented
         
         let commsView = OfficerCommunicationsView(frame: CGRect(x: 0, y: 0, width: 72, height: 32),

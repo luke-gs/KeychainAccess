@@ -62,7 +62,7 @@ open class ResourceOverviewFormViewController: IntrinsicHeightFormBuilderViewCon
     }
     
     open func decorate(cell: TasksListIncidentCollectionViewCell, with viewModel: TasksListIncidentViewModel) {
-        cell.highlightStyle = .fade
+        cell.highlightStyle = FadeStyle.highlight()
         cell.separatorStyle = .fullWidth
         
         cell.decorate(with: viewModel)

@@ -134,8 +134,8 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
     }
     
     open func decorate(cell: CollectionViewFormCell, with viewModel: TasksListItemViewModel) {
-        cell.highlightStyle = .fade
-        cell.selectionStyle = .fade
+        cell.highlightStyle = FadeStyle.highlight()
+        cell.selectionStyle = FadeStyle.selection()
         cell.contentMode = .top
         
         

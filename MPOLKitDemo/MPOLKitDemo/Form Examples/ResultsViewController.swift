@@ -14,7 +14,6 @@ class ResultsViewController: FormBuilderViewController {
 
     override init() {
         super.init()
-
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refresh))
     }
 

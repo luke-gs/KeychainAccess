@@ -9,6 +9,146 @@
 import UIKit
 import UIKit.UIGestureRecognizerSubclass
 
+public protocol CellSelectionStyle {
+    func configure(for cell: CollectionViewFormCell)
+}
+
+public enum HighlightStyle: Equatable {
+    case none
+    case fade(CellSelectionProtocol)
+
+    public static func ==(lhs: HighlightStyle, rhs: HighlightStyle) -> Bool {
+        switch (lhs, rhs) {
+        case (.none, .none):
+            return true
+        case (.fade(_), .fade(_)):
+            return true
+        default:
+            return false
+        }
+    }
+
+    func configure(for cell: CollectionViewFormCell) {
+        switch self {
+        case .none:
+            break
+        case .fade(let style):
+            style.configure(cell: cell)
+        }
+    }
+}
+
+public enum SelectionStyle: Equatable {
+    case none
+    case fade(CellSelectionProtocol)
+    case underline(CellSelectionProtocol)
+
+    public static func ==(lhs: SelectionStyle, rhs: SelectionStyle) -> Bool {
+        switch (lhs, rhs) {
+        case (.none, .none):
+            return true
+        case (.fade(_), .fade(_)):
+            return true
+        case (.underline(_), .underline(_)):
+            return true
+        default:
+            return false
+        }
+    }
+
+    func configure(for cell: CollectionViewFormCell) {
+        switch self {
+        case .none:
+            break
+        case .underline(let style):
+            style.configure(cell: cell)
+        case .fade(let style):
+            style.configure(cell: cell)
+        }
+    }
+}
+
+public protocol CellSelectionProtocol {
+    func configure(cell: CollectionViewFormCell)
+}
+
+public protocol CellSelectionConfigurable {
+    static func selection() -> SelectionStyle
+}
+
+public protocol CellHighlightConfigurable {
+    static func highlight() -> HighlightStyle
+}
+
+public struct UnderlineStyle: CellSelectionProtocol, CellSelectionConfigurable {
+    public func configure(cell: CollectionViewFormCell) {
+        let validationColor: UIColor? = cell.requiresValidation ? cell.validationColor : nil
+        let finalColor = validationColor ?? cell.separatorColor
+        cell.separatorView.backgroundColor = finalColor
+
+        let wantsUnderline = cell.isSelected
+        if (cell.separatorView.bounds.height >~ 1.0) != wantsUnderline {
+            cell.setNeedsLayout()
+        }
+    }
+
+    public static func selection() -> SelectionStyle {
+        return .underline(UnderlineStyle())
+    }
+}
+
+public class CustomFadeStyle: CellSelectionProtocol, CellSelectionConfigurable, CellHighlightConfigurable {
+    public func configure(cell: CollectionViewFormCell) {
+        let isSelected = cell.isSelected
+        let isHighlighted = cell.isHighlighted
+
+        let contentView = cell.contentView
+        UIView.animate(withDuration: 0.3, animations: {
+            let isFocus = isSelected || isHighlighted
+            let transform = isFocus ? CGAffineTransform(scaleX: 1.05, y: 1.05) : CGAffineTransform.identity
+            contentView.transform = transform
+            let cornerRadius: CGFloat = isFocus ? 10.0 : 0.0
+            contentView.layer.cornerRadius = cornerRadius
+        })
+
+        let validationColor: UIColor? = cell.requiresValidation ? cell.validationColor : nil
+        let finalColor = validationColor ?? cell.separatorColor
+        cell.separatorView.backgroundColor = finalColor
+    }
+
+    public static func selection() -> SelectionStyle {
+        return SelectionStyle.fade(CustomFadeStyle())
+    }
+
+    public static func highlight() -> HighlightStyle {
+        return HighlightStyle.fade(CustomFadeStyle())
+    }
+}
+
+public class FadeStyle: CellSelectionProtocol {
+    public func configure(cell: CollectionViewFormCell) {
+        let isSelected     = cell.isSelected
+        let isHighlighted = cell.isHighlighted
+
+        let alpha: CGFloat = isSelected || isHighlighted ? 0.5 : 1.0
+
+        // Don't set unless necessary to avoid interfering with inflight animations.
+        if cell.contentView.alpha !=~ alpha {
+            cell.contentView.alpha = alpha
+        }
+
+        let validationColor: UIColor? = cell.requiresValidation ? cell.validationColor : nil
+        let finalColor = validationColor ?? cell.separatorColor
+        cell.separatorView.backgroundColor = finalColor
+    }
+
+    static func highlight() -> HighlightStyle {
+        return .fade(CustomFadeStyle())
+    }
+    static func selection() -> SelectionStyle {
+        return .fade(CustomFadeStyle())
+    }
+}
 
 /// A basic cell that implements common form elements, including swipe-to-edit actions.
 ///
@@ -44,24 +184,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         
         case fullWidth
     }
-    
-    
-    @objc(CollectionViewFormHighlightStyle) public enum HighlightStyle: Int {
-        case none
-        
-        case fade
-    }
-    
-    
-    @objc(CollectionViewFormSelectionStyle) public enum SelectionStyle: Int {
-        case none
-        
-        case fade
-        
-        case underline
-    }
-    
-    
+
     // MARK: - Public properties
     
     
@@ -94,8 +217,8 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             if requiresValidation && validationColor != nil {
                 return
             }
-            if selectionStyle != .underline || isSelected == false {
-                updateSeparatorColor()
+            if selectionStyle != UnderlineStyle.selection() || isSelected == false {
+                selectionStyle.configure(for: self)
             }
         }
     }
@@ -103,8 +226,8 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     @NSCopying open var separatorTintColor: UIColor? = nil {
         didSet {
             separatorView.tintColor = separatorTintColor
-            if requiresValidation && validationColor != nil && selectionStyle == .underline && isSelected {
-                updateSeparatorColor()
+            if requiresValidation && validationColor != nil && selectionStyle == UnderlineStyle.selection() && isSelected {
+                selectionStyle.configure(for: self)
             }
         }
     }    
@@ -112,28 +235,32 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     open override var isHighlighted: Bool {
         didSet {
             if isHighlighted == oldValue || highlightStyle == .none { return }
-            updateSelectionHighlightAppearance()
+            highlightStyle.configure(for: self)
+            selectionStyle.configure(for: self)
         }
     }
     
     open var highlightStyle: HighlightStyle = .none {
         didSet {
             if isHighlighted == false || highlightStyle == oldValue { return }
-            updateSelectionHighlightAppearance()
+            highlightStyle.configure(for: self)
+            selectionStyle.configure(for: self)
         }
     }
     
     open override var isSelected: Bool {
         didSet {
             if isSelected == oldValue || selectionStyle == .none { return }
-            updateSelectionHighlightAppearance()
+            highlightStyle.configure(for: self)
+            selectionStyle.configure(for: self)
         }
     }
     
     open var selectionStyle: SelectionStyle = .none {
         didSet {
             if selectionStyle == oldValue || isSelected == false { return }
-            updateSelectionHighlightAppearance()
+            highlightStyle.configure(for: self)
+            selectionStyle.configure(for: self)
         }
     }
     
@@ -225,7 +352,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         didSet {
             if requiresValidation == false { return }
             
-            updateSeparatorColor()
+            selectionStyle.configure(for: self)
             validationAccessoryLabel?.textColor = validationColor ?? .gray
         }
     }
@@ -396,17 +523,17 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     internal var actionView: CollectionViewFormCellActionView?
     
-    private let separatorView = UIView()
+    public let separatorView = UIView()
     
-    private var requiresValidation: Bool = false {
+    public private(set) var requiresValidation: Bool = false {
         didSet {
             if requiresValidation == oldValue { return }
             
-            updateSeparatorColor()
-            
-            if isSelected == false || selectionStyle != .underline {
-                setNeedsLayout()
-            }
+            selectionStyle.configure(for: self)
+//
+//            if isSelected == false || selectionStyle != .underline(FadeStyle()) {
+//                setNeedsLayout()
+//            }
         }
     }
     
@@ -642,7 +769,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             separatorInset = .zero
         }
         
-        let separatorHeight = 1.0 / traitCollection.currentDisplayScale + ((isSelected && selectionStyle == .underline) || requiresValidation ? 1.0 : 0.0)
+        let separatorHeight = 1.0 / traitCollection.currentDisplayScale + ((isSelected && selectionStyle == UnderlineStyle.selection()) || requiresValidation ? 1.0 : 0.0)
         let separatorFrame = CGRect(x: separatorInset.left, y: bounds.height - separatorHeight, width: bounds.width - separatorInset.left - separatorInset.right, height: separatorHeight)
         if separatorView.frame != separatorFrame {
             separatorView.frame = separatorFrame
@@ -727,40 +854,11 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     open override func tintColorDidChange() {
         super.tintColorDidChange()
-        if isSelected && selectionStyle == .underline && validationColor == nil {
-            updateSeparatorColor()
+        if isSelected && selectionStyle == UnderlineStyle.selection() && validationColor == nil {
+            selectionStyle.configure(for: self)
         }
     }
-    
-    
-    // MARK: - Private methods
-    
-    private func updateSelectionHighlightAppearance() {
-        let isSelected     = self.isSelected
-        let selectionStyle = self.selectionStyle
-        
-        let correctAlpha: CGFloat = (isSelected && selectionStyle == .fade) || (isHighlighted && highlightStyle == .fade) ? 0.5 : 1.0
-        
-        // Don't set unless necessary to avoid interfering with inflight animations.
-        if contentView.alpha !=~ correctAlpha {
-            contentView.alpha = correctAlpha
-        }
-        
-        updateSeparatorColor()
-        
-        let wantsUnderline = isSelected && selectionStyle == .underline
-        if (separatorView.bounds.height >~ 1.0) != wantsUnderline {
-            setNeedsLayout()
-        }
-    }
-    
-    private func updateSeparatorColor() {
-        let wantsUnderline = isSelected && selectionStyle == .underline
-        let validationColor: UIColor? = requiresValidation ? self.validationColor : nil
-        let finalColor = validationColor ?? (wantsUnderline ? separatorView.tintColor : separatorColor)
-        separatorView.backgroundColor = finalColor
-    }
-    
+
     @objc private func touchTriggerDidActivate(_ trigger: TouchRecognizer) {
         // Don't fire the trigger if it's within a view in the action view.
         if let hitTestedView = actionView?.hitTest(trigger.location(in: actionView), with: nil),

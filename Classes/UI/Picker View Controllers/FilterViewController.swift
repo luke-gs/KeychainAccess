@@ -145,7 +145,7 @@ open class FilterViewController: FormCollectionViewController {
             }
             
             let cell = collectionView.dequeueReusableCell(of: CollectionViewFormValueFieldCell.self, for: indexPath)
-            cell.highlightStyle = .fade
+            cell.highlightStyle = FadeStyle.highlight()
             cell.titleLabel.text = title
             if let date = date {
                 cell.valueLabel.text = DateFormatter.shortDate.string(from: date)
