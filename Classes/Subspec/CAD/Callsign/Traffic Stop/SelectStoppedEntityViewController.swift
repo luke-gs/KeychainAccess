@@ -117,8 +117,8 @@ open class SelectStoppedEntityViewController: CADFormCollectionViewController<Se
     }
     
     open override func decorate(cell: CollectionViewFormCell, with viewModel: SelectStoppedEntityItemViewModel) {
-        cell.highlightStyle = FadeStyle.highlight()
-        cell.selectionStyle = FadeStyle.selection()
+        cell.highlightStyle = .animated(style: .fade)
+        cell.selectionStyle = .animated(style: .fade)
         cell.separatorStyle = .indented
         
         if let cell = cell as? EntityListCollectionViewCell {

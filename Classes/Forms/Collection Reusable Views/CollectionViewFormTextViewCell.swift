@@ -50,7 +50,7 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
     override open func commonInit() {
         super.commonInit()
         
-        selectionStyle = UnderlineStyle.selection()
+        selectionStyle = .animated(style: .underline)
         
         let titleLabel = self.titleLabel
         let textView   = self.textView

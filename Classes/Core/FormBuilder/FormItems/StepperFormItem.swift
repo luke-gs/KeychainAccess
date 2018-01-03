@@ -31,7 +31,7 @@ public class StepperFormItem: BaseFormItem {
 
     public init() {
         super.init(cellType: CollectionViewFormStepperCell.self, reuseIdentifier: CollectionViewFormStepperCell.defaultReuseIdentifier)
-        self.selectionStyle = UnderlineStyle.selection()
+        self.selectionStyle = .animated(style: .underline)
     }
 
     public convenience init(title: StringSizable? = nil) {

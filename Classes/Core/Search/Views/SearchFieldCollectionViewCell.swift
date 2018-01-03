@@ -49,7 +49,7 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
     internal override func commonInit() {
         super.commonInit()
         
-        selectionStyle = UnderlineStyle.selection()
+        selectionStyle = .animated(style: .underline)
         
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.font = .systemFont(ofSize: 28.0, weight: UIFont.Weight.bold)

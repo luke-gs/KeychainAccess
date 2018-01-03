@@ -16,7 +16,7 @@ extension EntityCollectionViewCell: EntitySummaryDecoratable {
         borderColor        = entitySummary.borderColor
         badgeCount         = entitySummary.badge
         sourceLabel.text   = entitySummary.category
-        highlightStyle     = .fade(FadeStyle())
+        highlightStyle     = .animated(style: .fade)
         
         if let thumbnailInfo = entitySummary.thumbnail(ofSize: style == .hero ? .large : .medium) {
             self.thumbnailView.imageView.setImage(with: thumbnailInfo)
@@ -39,7 +39,7 @@ extension EntityListCollectionViewCell: EntitySummaryDecoratable {
         borderColor        = entitySummary.borderColor
         actionCount        = entitySummary.badge
         sourceLabel.text   = entitySummary.category
-        highlightStyle     = .fade(FadeStyle())
+        highlightStyle     = .animated(style: .fade)
         
         accessoryView      = accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
 
@@ -61,7 +61,7 @@ extension EntityListCollectionViewCell: EntityMapSummaryDecoratable {
         borderColor        = entitySummary.iconColor
         actionCount        = entitySummary.badge
         sourceLabel.text   = entitySummary.category
-        highlightStyle     = .fade(FadeStyle())
+        highlightStyle     = .animated(style: .fade)
         separatorStyle     = .none
 
         accessoryView      = accessoryView as? FormAccessoryView ?? FormAccessoryView(style: .disclosure)
