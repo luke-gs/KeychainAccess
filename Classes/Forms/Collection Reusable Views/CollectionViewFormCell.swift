@@ -97,7 +97,7 @@ public struct UnderlineStyle: CellSelectionProtocol, CellSelectionConfigurable {
     }
 }
 
-public class CustomFadeStyle: CellSelectionProtocol, CellSelectionConfigurable, CellHighlightConfigurable {
+public class EnlargeStyle: CellSelectionProtocol, CellSelectionConfigurable, CellHighlightConfigurable {
     public func configure(cell: CollectionViewFormCell) {
         let isSelected = cell.isSelected
         let isHighlighted = cell.isHighlighted
@@ -117,17 +117,17 @@ public class CustomFadeStyle: CellSelectionProtocol, CellSelectionConfigurable, 
     }
 
     public static func selection() -> SelectionStyle {
-        return SelectionStyle.fade(CustomFadeStyle())
+        return SelectionStyle.fade(EnlargeStyle())
     }
 
     public static func highlight() -> HighlightStyle {
-        return HighlightStyle.fade(CustomFadeStyle())
+        return HighlightStyle.fade(EnlargeStyle())
     }
 }
 
 public class FadeStyle: CellSelectionProtocol {
     public func configure(cell: CollectionViewFormCell) {
-        let isSelected     = cell.isSelected
+        let isSelected = cell.isSelected
         let isHighlighted = cell.isHighlighted
 
         let alpha: CGFloat = isSelected || isHighlighted ? 0.5 : 1.0
@@ -143,10 +143,10 @@ public class FadeStyle: CellSelectionProtocol {
     }
 
     static func highlight() -> HighlightStyle {
-        return .fade(CustomFadeStyle())
+        return .fade(FadeStyle())
     }
     static func selection() -> SelectionStyle {
-        return .fade(CustomFadeStyle())
+        return .fade(FadeStyle())
     }
 }
 
@@ -242,7 +242,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     open var highlightStyle: HighlightStyle = .none {
         didSet {
-            if isHighlighted == false || highlightStyle == oldValue { return }
+            if highlightStyle == oldValue || highlightStyle == .none { return }
             highlightStyle.configure(for: self)
             selectionStyle.configure(for: self)
         }
