@@ -19,7 +19,9 @@ public struct EnlargeStyle: CellSelectionAnimatable {
             let transform = isFocus ? CGAffineTransform(scaleX: 1.05, y: 1.05) : CGAffineTransform.identity
             contentView.transform = transform
             let cornerRadius: CGFloat = isFocus ? 10.0 : 0.0
-            contentView.layer.cornerRadius = cornerRadius
+            cell.layer.zPosition = isFocus ? 1 : 0
+            cell.layer.cornerRadius = cornerRadius
+            cell.backgroundColor = isFocus ? contentView.tintColor.withAlphaComponent(0.1) : nil
         })
 
         let validationColor: UIColor? = cell.requiresValidation ? cell.validationColor : nil
