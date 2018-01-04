@@ -109,7 +109,16 @@ class ResultsViewController: FormBuilderViewController {
                     self.showSecretScreen()
                 })
         }
+    }
 
+    // Allow for only single selection
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        if collectionView.cellForItem(at: indexPath)?.isSelected == true {
+            collectionView.deselectItem(at: indexPath, animated: true)
+            return false
+        }
+
+        return true
     }
 
     // MARK: - Private
