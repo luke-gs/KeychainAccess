@@ -238,6 +238,10 @@
 		464A5E951FD4ACEB00B4C0F9 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464A5E941FD4ACEB00B4C0F9 /* ImageDownloader.swift */; };
 		464A5E971FD4D0E200B4C0F9 /* EvaluationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464A5E961FD4D0E200B4C0F9 /* EvaluationError.swift */; };
 		4657CAD11F5D0DA9000295F6 /* NetworkLoggingPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4657CAD01F5D0DA9000295F6 /* NetworkLoggingPlugin.swift */; };
+		4677EE241FFDAB0B004634B5 /* AnimationStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4677EE231FFDAB0B004634B5 /* AnimationStyle.swift */; };
+		4677EE261FFDAB0E004634B5 /* EnlargeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4677EE251FFDAB0E004634B5 /* EnlargeStyle.swift */; };
+		4677EE281FFDAB20004634B5 /* FadeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4677EE271FFDAB20004634B5 /* FadeStyle.swift */; };
+		4677EE2A1FFDAB29004634B5 /* UnderlineStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4677EE291FFDAB29004634B5 /* UnderlineStyle.swift */; };
 		469EB5811F452FAB0005CAF7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469EB5801F452FAB0005CAF7 /* LoginViewController.swift */; };
 		469EB5831F45320A0005CAF7 /* LoginHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */; };
 		46A60F5A1FCFAF0D00EE32CA /* Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A60F591FCFAF0D00EE32CA /* Evaluator.swift */; };
@@ -872,6 +876,10 @@
 		464A5E941FD4ACEB00B4C0F9 /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		464A5E961FD4D0E200B4C0F9 /* EvaluationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationError.swift; sourceTree = "<group>"; };
 		4657CAD01F5D0DA9000295F6 /* NetworkLoggingPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkLoggingPlugin.swift; sourceTree = "<group>"; };
+		4677EE231FFDAB0B004634B5 /* AnimationStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationStyle.swift; sourceTree = "<group>"; };
+		4677EE251FFDAB0E004634B5 /* EnlargeStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnlargeStyle.swift; sourceTree = "<group>"; };
+		4677EE271FFDAB20004634B5 /* FadeStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeStyle.swift; sourceTree = "<group>"; };
+		4677EE291FFDAB29004634B5 /* UnderlineStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineStyle.swift; sourceTree = "<group>"; };
 		469EB5801F452FAB0005CAF7 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHeaderView.swift; sourceTree = "<group>"; };
 		46A60F591FCFAF0D00EE32CA /* Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Evaluator.swift; sourceTree = "<group>"; };
@@ -1849,6 +1857,17 @@
 			path = Logging;
 			sourceTree = "<group>";
 		};
+		4677EE221FFDAAF8004634B5 /* Cell Animations */ = {
+			isa = PBXGroup;
+			children = (
+				4677EE231FFDAB0B004634B5 /* AnimationStyle.swift */,
+				4677EE251FFDAB0E004634B5 /* EnlargeStyle.swift */,
+				4677EE271FFDAB20004634B5 /* FadeStyle.swift */,
+				4677EE291FFDAB29004634B5 /* UnderlineStyle.swift */,
+			);
+			path = "Cell Animations";
+			sourceTree = "<group>";
+		};
 		469EB57F1F452F950005CAF7 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -2295,6 +2314,7 @@
 		BC9C7D511F0DED6600DFFE83 /* Forms */ = {
 			isa = PBXGroup;
 			children = (
+				4677EE221FFDAAF8004634B5 /* Cell Animations */,
 				BC9C7D521F0DED6600DFFE83 /* Collection Reusable Views */,
 				BC9C7D5D1F0DED6600DFFE83 /* Extensions */,
 				BC9C7D6C1F0DED6600DFFE83 /* FormDefines.swift */,
@@ -3394,6 +3414,7 @@
 				EA32A85C1FBD285A00CC37FB /* PhotoMediaPickerSource.swift in Sources */,
 				BC9C7E201F0DED6600DFFE83 /* FormTableViewController.swift in Sources */,
 				DB88BCDD1F42D0080056FD69 /* SearchResultsListViewController.swift in Sources */,
+				4677EE261FFDAB0E004634B5 /* EnlargeStyle.swift in Sources */,
 				96CF32231F8C349700140AF8 /* TasksListViewModel.swift in Sources */,
 				4657CAD11F5D0DA9000295F6 /* NetworkLoggingPlugin.swift in Sources */,
 				44621FF61F59239C007C3150 /* FilterRangeDescriptor.swift in Sources */,
@@ -3405,6 +3426,7 @@
 				965CD8AD1F8F14E5007C3EEA /* TasksListHeaderCompactViewController.swift in Sources */,
 				BC9C7DF11F0DED6600DFFE83 /* EpochDateTransformer.swift in Sources */,
 				BC9C7DD31F0DED6600DFFE83 /* OAuthAuthorizationGrant.swift in Sources */,
+				4677EE2A1FFDAB29004634B5 /* UnderlineStyle.swift in Sources */,
 				1948A7B51FBBDB45005AB301 /* OAuth2Error.swift in Sources */,
 				EA11F0221F830DD600BF8BCA /* ItemAccessorisable.swift in Sources */,
 				967E75A61FCE2DDA00B75CF6 /* OfficerDetailsResponse.swift in Sources */,
@@ -3812,6 +3834,7 @@
 				BC9C7E171F0DED6600DFFE83 /* FormTextField.swift in Sources */,
 				BC9C7E041F0DED6600DFFE83 /* UIColor+ActionColors.swift in Sources */,
 				BC9C7DD01F0DED6600DFFE83 /* ManifestEntry+Location.swift in Sources */,
+				4677EE241FFDAB0B004634B5 /* AnimationStyle.swift in Sources */,
 				2744EEC61FBEA523008DFA7F /* MapFilterToggleRowView.swift in Sources */,
 				BC9C7DCC1F0DED6600DFFE83 /* UserDefaults+MPOL.swift in Sources */,
 				27CBC75A1F8B27B100E387C3 /* ActivityLogItemCell.swift in Sources */,
@@ -3833,6 +3856,7 @@
 				BC9C7E551F0DED6600DFFE83 /* RoundedRectLabel.swift in Sources */,
 				EA4E33561F8F51B90027E431 /* LabeledItemAccessory.swift in Sources */,
 				273DE2D51FE9DE4B000C46DD /* CreateIncidentViewController.swift in Sources */,
+				4677EE281FFDAB20004634B5 /* FadeStyle.swift in Sources */,
 				BC9C7E241F0DED6600DFFE83 /* CollectionViewFormProgressCell.swift in Sources */,
 				27094CC21FAFFBDA00D4C3D4 /* TaskItemsSidebarViewController.swift in Sources */,
 				27094CC81FAFFBDA00D4C3D4 /* OfficerCell.swift in Sources */,

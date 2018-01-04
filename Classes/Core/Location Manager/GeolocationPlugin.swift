@@ -26,7 +26,7 @@ open class GeolocationPlugin: PluginType {
     
     open func adapt(_ urlRequest: URLRequest) -> Promise<URLRequest> {
         var adaptedRequest = urlRequest
-        
+
         if let location = LocationManager.shared.lastLocation {
             adaptedRequest.setValue(String(location.coordinate.latitude), forHTTPHeaderField: GeolocationPlugin.locationLatitudeKey)
             adaptedRequest.setValue(String(location.coordinate.longitude), forHTTPHeaderField: GeolocationPlugin.locationLongitudeKey)

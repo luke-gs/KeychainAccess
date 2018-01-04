@@ -114,9 +114,9 @@ open class BaseFormItem: NSObject, FormItem {
 
     public var contentMode: UIViewContentMode = .top
 
-    public var selectionStyle: AnimationStyle<SelectionAnimation> = .none
+    public var selectionStyle: AnimationStyle = .none
 
-    public var highlightStyle: AnimationStyle<HighlightAnimation> = .none
+    public var highlightStyle: AnimationStyle = .none
 
     public var separatorStyle: CollectionViewFormCell.SeparatorStyle = .indented
 
@@ -353,13 +353,13 @@ extension BaseFormItem {
     }
 
     @discardableResult
-    public func selectionStyle(_ selectionStyle: AnimationStyle<SelectionAnimation>) -> Self {
+    public func selectionStyle(_ selectionStyle: AnimationStyle) -> Self {
         self.selectionStyle = selectionStyle
         return self
     }
 
     @discardableResult
-    public func highlightStyle(_ highlightStyle: AnimationStyle<HighlightAnimation>) -> Self {
+    public func highlightStyle(_ highlightStyle: AnimationStyle) -> Self {
         self.highlightStyle = highlightStyle
         return self
     }

@@ -56,7 +56,7 @@ public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusab
 
         super.init(cellType: CollectionViewFormValueFieldCell.self, reuseIdentifier: PickerFormItem.defaultReuseIdentifier)
 
-        selectionStyle = .animated(style: .underline)
+        selectionStyle = .animated(style: UnderlineStyle())
         accessory = ItemAccessory.dropDown
 
         pickerAction.updateHandler = { [weak self] in

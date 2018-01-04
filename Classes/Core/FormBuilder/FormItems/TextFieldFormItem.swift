@@ -29,7 +29,7 @@ public class TextFieldFormItem: BaseFormItem, FormValidatable {
         super.init(cellType: CollectionViewFormTextFieldCell.self, reuseIdentifier: CollectionViewFormTextFieldCell.defaultReuseIdentifier)
 
         contentMode = .top
-        selectionStyle = .animated(style: .underline)
+        selectionStyle = .animated(style: UnderlineStyle())
     }
 
     public convenience init(title: StringSizable?, text: StringSizable? = nil, placeholder: StringSizable? = nil) {

@@ -36,8 +36,8 @@ public class SummaryThumbnailFormItem: BaseFormItem {
         super.init(cellType: EntityCollectionViewCell.self, reuseIdentifier: EntityCollectionViewCell.defaultReuseIdentifier)
 
         separatorStyle = .none
-        highlightStyle = .animated(style: .enlarge)
-        selectionStyle = .animated(style: .enlarge)
+        highlightStyle = .animated(style: EnlargeStyle())
+        selectionStyle = .animated(style: EnlargeStyle())
     }
 
     public override func configure(_ cell: CollectionViewFormCell) {

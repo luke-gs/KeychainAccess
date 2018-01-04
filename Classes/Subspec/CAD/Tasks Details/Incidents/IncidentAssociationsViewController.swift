@@ -90,8 +90,8 @@ open class IncidentAssociationsViewController: CADFormCollectionViewController<E
     }
     
     override open func decorate(cell: CollectionViewFormCell, with viewModel: EntitySummaryDisplayable) {
-        cell.highlightStyle = .animated(style: .fade)
-        cell.selectionStyle = .animated(style: .fade)
+        cell.highlightStyle = .animated(style: FadeStyle())
+        cell.selectionStyle = .animated(style: FadeStyle())
         cell.separatorStyle = .indented
         cell.accessoryView = nil
         

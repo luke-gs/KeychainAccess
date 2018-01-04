@@ -52,7 +52,7 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
     override open func commonInit() {
         super.commonInit()
         
-        selectionStyle = .animated(style: .underline)
+        selectionStyle = .animated(style: UnderlineStyle())
         
         textField.clearButtonMode = .whileEditing
         
