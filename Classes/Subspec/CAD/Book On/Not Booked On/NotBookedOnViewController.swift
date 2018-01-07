@@ -171,6 +171,12 @@ open class NotBookedOnViewController: FormBuilderViewController {
                     (cell as? CollectionViewFormValueFieldCell)?.valueLabel.textColor = theme.color(forKey: .primaryText)
                 })
                 .contentMode(.center)
+                .onSelection({ [weak self] _ in
+                    let viewModel = PatrolAreaListViewModel()
+                    viewModel.selectedPatrolArea = item.title
+                    viewModel.delegate = self
+                    self?.navigationController?.pushViewController(viewModel.createViewController(), animated: true)
+                })
         }
         
         let callsignSection = viewModel.callsignSection()
@@ -197,4 +203,14 @@ open class NotBookedOnViewController: FormBuilderViewController {
         }
     }
     
+}
+
+extension NotBookedOnViewController: PatrolAreaListViewModelDelegate {
+    
+    public func patrolAreaListViewModel(_ viewModel: PatrolAreaListViewModel, didSelectPatrolArea patrolArea: String?) {
+        if let patrolArea = patrolArea {
+            CADStateManager.shared.patrolGroup = patrolArea
+            reloadForm()
+        }
+    }
 }
