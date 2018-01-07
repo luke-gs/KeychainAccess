@@ -24,6 +24,7 @@ public extension NSNotification.Name {
 // Extension for custom manifest categories
 public extension ManifestCollection {
     static let EquipmentCollection = ManifestCollection(rawValue: "equipment")
+    static let PatrolGroupCollection = ManifestCollection(rawValue: "patrolgroup")
 }
 
 open class CADStateManager: NSObject {
@@ -36,6 +37,10 @@ open class CADStateManager: NSObject {
 
     /// The logged in officer details
     open var officerDetails: OfficerDetailsResponse?
+    
+    /// The patrol group
+    // TODO: Find out when to set/clear this value and where it's coming from
+    open var patrolGroup: String = "Collingwood"
 
     /// The last book on data
     open var lastBookOn: BookOnRequest? {
@@ -153,6 +158,11 @@ open class CADStateManager: NSObject {
             }
         }
         return result
+    }
+    
+    /// Fetch the patrol groups
+    open func patrolGroups() -> [ManifestEntry] {
+        return Manifest.shared.entries(for: .PatrolGroupCollection) ?? []
     }
 
     /// Sync the latest manifest items
