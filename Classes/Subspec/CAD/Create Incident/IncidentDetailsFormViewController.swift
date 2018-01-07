@@ -58,7 +58,7 @@ open class IncidentDetailsFormViewController: IntrinsicHeightFormBuilderViewCont
             }
         
         builder += ValueFormItem() // TODO: Implement selecting location
-            .title("Location")
+            .title("Address")
             .value(viewModel.contentViewModel.location)
             .accessory(FormAccessoryView(style: .disclosure))
             .width(.column(1))
