@@ -13,14 +13,6 @@ open class PatrolAreaListViewController: GenericSearchViewController {
         return viewModel as? PatrolAreaListViewModel
     }
     
-    /// Support being transparent when in popover/form sheet
-    open override var wantsTransparentBackground: Bool {
-        didSet {
-            let theme = ThemeManager.shared.theme(for: .current)
-            view.backgroundColor = wantsTransparentBackground ? .clear : theme.color(forKey: .background)!
-        }
-    }
-    
     // MARK: - Setup
 
     required public init(viewModel: GenericSearchViewModel) {
