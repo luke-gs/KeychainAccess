@@ -26,28 +26,32 @@ open class GeolocationPlugin: PluginType {
     
     open func adapt(_ urlRequest: URLRequest) -> Promise<URLRequest> {
         var adaptedRequest = urlRequest
-        
-        if let location = LocationManager.shared.lastLocation {
-            adaptedRequest.setValue(String(location.coordinate.latitude), forHTTPHeaderField: GeolocationPlugin.locationLatitudeKey)
-            adaptedRequest.setValue(String(location.coordinate.longitude), forHTTPHeaderField: GeolocationPlugin.locationLongitudeKey)
-            adaptedRequest.setValue(String(location.altitude), forHTTPHeaderField: GeolocationPlugin.locationAltitudeKey)
-            adaptedRequest.setValue(String(location.horizontalAccuracy), forHTTPHeaderField: GeolocationPlugin.locationHorizontalAccuracyKey)
-            adaptedRequest.setValue(String(location.verticalAccuracy), forHTTPHeaderField: GeolocationPlugin.locationVerticalAccuracyKey)
-            adaptedRequest.setValue(String(location.timestamp.minutesSinceMidnight()), forHTTPHeaderField: GeolocationPlugin.locationTimeOfDayKey)
-            adaptedRequest.setValue(String(location.timestamp.timeSinceNow()), forHTTPHeaderField: GeolocationPlugin.locationDataAge)
 
-            if location.course >= 0.0 { // Check if valid
-                adaptedRequest.setValue(String(location.course), forHTTPHeaderField: GeolocationPlugin.locationDirectionOfTravelKey)
-            }
-            
-            if location.speed >= 0.0 { // Check if valid
-                adaptedRequest.setValue(String(location.speed), forHTTPHeaderField: GeolocationPlugin.locationSpeed)
+        func injectLocation(into request: inout URLRequest) {
+            if let location = LocationManager.shared.lastLocation {
+                request.setValue(String(location.coordinate.latitude), forHTTPHeaderField: GeolocationPlugin.locationLatitudeKey)
+                request.setValue(String(location.coordinate.longitude), forHTTPHeaderField: GeolocationPlugin.locationLongitudeKey)
+                request.setValue(String(location.altitude), forHTTPHeaderField: GeolocationPlugin.locationAltitudeKey)
+                request.setValue(String(location.horizontalAccuracy), forHTTPHeaderField: GeolocationPlugin.locationHorizontalAccuracyKey)
+                request.setValue(String(location.verticalAccuracy), forHTTPHeaderField: GeolocationPlugin.locationVerticalAccuracyKey)
+                request.setValue(String(location.timestamp.minutesSinceMidnight()), forHTTPHeaderField: GeolocationPlugin.locationTimeOfDayKey)
+                request.setValue(String(location.timestamp.timeSinceNow()), forHTTPHeaderField: GeolocationPlugin.locationDataAge)
+
+                if location.course >= 0.0 { // Check if valid
+                    request.setValue(String(location.course), forHTTPHeaderField: GeolocationPlugin.locationDirectionOfTravelKey)
+                }
+
+                if location.speed >= 0.0 { // Check if valid        if location.speed >= 0.0 { // Check if valid
+                    request.setValue(String(location.speed), forHTTPHeaderField: GeolocationPlugin.locationSpeed)
+                }
             }
         }
 
         return LocationManager.shared.requestLocation().recover { error -> CLLocation in
-            return LocationManager.shared.lastLocation ?? CLLocation()
-            }.then { _ -> Promise<URLRequest> in
+            return LocationManager.shared.errorManager.recover(error)
+            }.always {
+                injectLocation(into: &adaptedRequest)
+            } .then { _ -> Promise<URLRequest> in
                 return Promise(value: adaptedRequest)
         }
     }
