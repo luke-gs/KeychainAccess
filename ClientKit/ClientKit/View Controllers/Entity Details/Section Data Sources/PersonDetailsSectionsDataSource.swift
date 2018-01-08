@@ -13,7 +13,7 @@ public class PersonMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSource
 
     public var source: EntitySource = MPOLSource.mpol
     public var entity: MPOLKitEntity
-    public var detailViewControllers: [(UIViewController & EntityDetailSectionUpdatable)]
+    public var detailViewControllers: [EntityDetailViewController]
 
     public var localizedDisplayName: String {
         return NSLocalizedString("Person", comment: "")
@@ -38,7 +38,7 @@ public class PersonFNCDetailsSectionsDataSource: EntityDetailSectionsDataSource 
 
     public var source: EntitySource = MPOLSource.fnc
     public var entity: MPOLKitEntity
-    public var detailViewControllers: [(UIViewController & EntityDetailSectionUpdatable)]
+    public var detailViewControllers: [EntityDetailViewController]
 
     public var localizedDisplayName: String {
         return NSLocalizedString("FNC PERSON", comment: "")

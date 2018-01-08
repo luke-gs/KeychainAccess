@@ -13,7 +13,7 @@ public class VehicleMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSourc
 
     public var source: EntitySource = MPOLSource.mpol
     public var entity: MPOLKitEntity
-    public var detailViewControllers: [(UIViewController & EntityDetailSectionUpdatable)]
+    public var detailViewControllers: [EntityDetailViewController]
 
     public var localizedDisplayName: String {
         return NSLocalizedString("Vehicle", comment: "")
@@ -38,7 +38,7 @@ public class VehicleFNCDetailsSectionsDataSource: EntityDetailSectionsDataSource
 
     public var source: EntitySource = MPOLSource.fnc
     public var entity: MPOLKitEntity
-    public var detailViewControllers: [(UIViewController & EntityDetailSectionUpdatable)]
+    public var detailViewControllers: [EntityDetailViewController]
 
     public var localizedDisplayName: String {
         return NSLocalizedString("Vehicle", comment: "")
