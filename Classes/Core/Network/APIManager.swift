@@ -166,29 +166,6 @@ open class APIManager {
         }
 
         return promise
-
-        return createSessionRequestWithProgress(from: urlRequest).then { (dataRequest) in
-
-            // Notify plugins of request
-            let allPlugins = self.applicablePlugins(for: dataRequest.request?.url)
-            allPlugins.forEach {
-                $0.willSend(dataRequest)
-            }
-
-            // Perform request
-            return dataRequest.validate().responseDataPromise()
-                .then { (response) in
-                    allPlugins.forEach({
-                        $0.didReceiveResponse(response)
-                    })
-
-                    var processed = Promise(value: response)
-                    for plugin in allPlugins {
-                        processed = processed.then { return plugin.processResponse($0) }
-                    }
-                    return processed
-            }
-        }
     }
 
     /// Set the authentication plugin for this manager with the the rule of what requests it'll apply to.
