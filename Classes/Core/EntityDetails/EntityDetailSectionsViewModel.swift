@@ -88,12 +88,12 @@ public class EntityDetailSectionsViewModel {
         detailSectionsViewControllers?.forEach {
             // If the error is nil, give the ViewControllers the retrieved entity
             guard let error = fetchResult.error else {
-                $0.entity = fetchResult.entity
+                $0.genericEntity = fetchResult.entity
                 return
             }
 
             // ... Otherwise display the error
-            $0.entity = nil
+            $0.genericEntity = nil
 
             let noContentView = $0.loadingManager.noContentView
             noContentView.imageView.image = AssetManager.shared.image(forKey: .refresh)

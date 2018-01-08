@@ -13,7 +13,7 @@ import Foundation
 public protocol EntityDetailSectionUpdatable: class {
 
     /// The entity
-    var entity: MPOLKitEntity? { get set }
+    var genericEntity: MPOLKitEntity? { get set }
 
     /// The loading manager
     var loadingManager: LoadingStateManager { get }
