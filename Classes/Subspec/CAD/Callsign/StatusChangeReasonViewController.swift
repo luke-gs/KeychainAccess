@@ -8,11 +8,13 @@
 
 import Foundation
 
-/// View controller for managing the current callsign status
-open class StatusChangeReasonViewController: ThemedPopoverViewController, UITextViewDelegate {
+/// View controller for entering a reason for changing callsign status
+open class StatusChangeReasonViewController: ThemedPopoverViewController {
 
     open let textView: UITextView = UITextView(frame: .zero)
     open let placeholder: UILabel = UILabel(frame: .zero)
+
+    open var completionHandler: ((String?) -> Void)?
 
     open override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +24,9 @@ open class StatusChangeReasonViewController: ThemedPopoverViewController, UIText
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancelButton(_:)))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton(_:)))
+
+        // Disable done button until text entered
+        navigationItem.rightBarButtonItem?.isEnabled = false
     }
 
     open override var wantsTransparentBackground: Bool {
@@ -37,6 +42,7 @@ open class StatusChangeReasonViewController: ThemedPopoverViewController, UIText
     }
 
     open func setupViews() {
+        textView.textContainerInset = .zero
         textView.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.delegate = self
@@ -62,11 +68,17 @@ open class StatusChangeReasonViewController: ThemedPopoverViewController, UIText
 
     @objc private func didTapCancelButton(_ button: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
+        completionHandler?(nil)
     }
 
     @objc private func didTapDoneButton(_ button: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
+        completionHandler?(textView.text)
     }
+
+}
+
+extension StatusChangeReasonViewController: UITextViewDelegate {
 
     open func textViewDidBeginEditing(_ textView: UITextView) {
         placeholder.isHidden = true
@@ -78,4 +90,7 @@ open class StatusChangeReasonViewController: ThemedPopoverViewController, UIText
         }
     }
 
+    open func textViewDidChange(_ textView: UITextView) {
+        navigationItem.rightBarButtonItem?.isEnabled = !textView.text.isEmpty
+    }
 }

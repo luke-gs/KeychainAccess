@@ -93,7 +93,15 @@ open class CallsignStatusViewModel: CADStatusViewModel {
         nav.preferredContentSize = CGSize(width: 448, height: 256)
         delegate?.present(nav, animated: true, completion: nil)
 
-        return Promise<String>(value: "test")
+        let (promise, fulfill, reject) = Promise<String>.pending()
+        viewController.completionHandler = { text in
+            if let text = text {
+                fulfill(text)
+            } else {
+                reject(NSError.cancelledError())
+            }
+        }
+        return promise
     }
 
     open func statusForIndexPath(_ indexPath: IndexPath) -> ResourceStatus {
