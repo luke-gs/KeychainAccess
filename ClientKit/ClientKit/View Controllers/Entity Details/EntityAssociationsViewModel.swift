@@ -86,6 +86,10 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
         return buttons
     }
     
+    open override func traitCollectionDidChange(_ traitCollection: UITraitCollection, previousTraitCollection: UITraitCollection?) {
+        self.traitCollection = traitCollection
+    }
+    
     // MARK: - Filtering (currently disabled)
     
     open override var filterApplied: Bool {
@@ -149,7 +153,7 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
     
     // MARK: - Thumbnails / List
     
-    open override var traitCollection: UITraitCollection? {
+    private var traitCollection: UITraitCollection? {
         didSet {
             delegate?.reloadData()
             delegate?.updateBarButtonItems()

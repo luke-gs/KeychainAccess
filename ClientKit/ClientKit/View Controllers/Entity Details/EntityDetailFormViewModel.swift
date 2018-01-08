@@ -59,20 +59,17 @@ open class EntityDetailFormViewModel {
         }
     }
     
-    // The view controllers trait collection (gets updated by viewController)
-    open var traitCollection: UITraitCollection?
-    
-    /// The view controllers title
+    /// The view controllers title.
     open var title: String? {
         return nil
     }
     
-    /// The left bar button items for the view controller
+    /// The left bar button items for the view controller.
     open var leftBarButtonItems: [UIBarButtonItem]? {
         return nil
     }
     
-    /// The right bar button items for the view controller
+    /// The right bar button items for the view controller.
     open var rightBarButtonItems: [UIBarButtonItem]? {
         return nil
     }
@@ -82,12 +79,12 @@ open class EntityDetailFormViewModel {
         MPLRequiresConcreteImplementation()
     }
     
-    /// The sidebar title in regular size class
+    /// The sidebar title in regular size class.
     open var regularTitle: String? {
         return title
     }
     
-    /// The sidebar title in compact size class
+    /// The sidebar title in compact size class.
     open var compactTitle: String? {
         return title
     }
@@ -107,9 +104,14 @@ open class EntityDetailFormViewModel {
         return nil
     }
     
-    /// The count on the sidebar
+    /// The count on the sidebar.
     open var sidebarCount: UInt? {
         return nil
+    }
+    
+    /// Gets called when the view controller's trait collection changes.
+    open func traitCollectionDidChange(_ traitCollection: UITraitCollection, previousTraitCollection: UITraitCollection?) {
+        // Override to provide implementation
     }
     
     open func displaysCompact(in controller: FormBuilderViewController) -> Bool {
