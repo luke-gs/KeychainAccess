@@ -13,7 +13,6 @@
 		12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */; };
 		12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */; };
 		1A27C6871F70747A00A58635 /* LocationMapSummarySearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A27C6861F70747A00A58635 /* LocationMapSummarySearchResultViewModel.swift */; };
-		3597F18ADBC8910958FB8CED /* Pods_MPOL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17144B68BB155A127F8ED5B8 /* Pods_MPOL.framework */; };
 		397B77011E52CEDA00696677 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397B77001E52CEDA00696677 /* UserNotifications.framework */; };
 		445A8A381F667A56005ABEB8 /* PersonSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */; };
 		445A8A3C1F673C8B005ABEB8 /* LocationSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A391F673C8B005ABEB8 /* LocationSearchHelp.json */; };
@@ -32,6 +31,7 @@
 		EA2189F61F60F64A0057048E /* LandingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2189F51F60F64A0057048E /* LandingPresenter.swift */; };
 		EA3C89061F32E34300F38461 /* termsandconditions.html in Resources */ = {isa = PBXBuildFile; fileRef = EA3C89051F32E34300F38461 /* termsandconditions.html */; };
 		EA7194DD1FC5098200A2980B /* EventPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7194DC1FC5098200A2980B /* EventPresenter.swift */; };
+		EA8923550DA023B64142DEF7 /* Pods_MPOL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98286F47FF0E675D611C2782 /* Pods_MPOL.framework */; };
 		EAAEB34A1F664705002D6C65 /* EntityPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAEB3491F664705002D6C65 /* EntityPresenter.swift */; };
 		EAAFAD531F665C5C00AA2F94 /* RecentlyViewedTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAFAD521F665C5C00AA2F94 /* RecentlyViewedTracker.swift */; };
 /* End PBXBuildFile section */
@@ -56,9 +56,7 @@
 		12ADD4301F32C0FA00CA8B4D /* MPOLSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLSearchViewModel.swift; sourceTree = "<group>"; };
 		12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchDataSource.swift; sourceTree = "<group>"; };
 		12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchDataSource.swift; sourceTree = "<group>"; };
-		17144B68BB155A127F8ED5B8 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A27C6861F70747A00A58635 /* LocationMapSummarySearchResultViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapSummarySearchResultViewModel.swift; sourceTree = "<group>"; };
-		1D27A2F65F8C83373197EBC3 /* Pods-MPOL.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOL.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOL/Pods-MPOL.debug.xcconfig"; sourceTree = "<group>"; };
 		397B76FF1E52C23600696677 /* MPOL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MPOL.entitlements; sourceTree = "<group>"; };
 		397B77001E52CEDA00696677 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PersonSearchHelp.json; sourceTree = "<group>"; };
@@ -69,7 +67,7 @@
 		463D402A1F4BC7D4005F9A1C /* AppConfig-internal-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-internal-debug.xcconfig"; sourceTree = "<group>"; };
 		463D402B1F4BC844005F9A1C /* AppConfig-external-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-external-debug.xcconfig"; sourceTree = "<group>"; };
 		463D402C1F4BC84F005F9A1C /* AppConfig-external-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-external-release.xcconfig"; sourceTree = "<group>"; };
-		59CEC38145149253B388125F /* Pods-MPOL.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOL.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOL/Pods-MPOL.release.xcconfig"; sourceTree = "<group>"; };
+		98286F47FF0E675D611C2782 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		BC4E81101EBEE38400188181 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		BC8B26F51EDC08460022B0AD /* EventsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
@@ -98,7 +96,7 @@
 				BCEEA5611F03205800C884A4 /* ClientKit.framework in Frameworks */,
 				127F45E11F74C7A9008F8E12 /* EndpointManager.framework in Frameworks */,
 				397B77011E52CEDA00696677 /* UserNotifications.framework in Frameworks */,
-				3597F18ADBC8910958FB8CED /* Pods_MPOL.framework in Frameworks */,
+				EA8923550DA023B64142DEF7 /* Pods_MPOL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,24 +114,22 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		3C534FA68E46E1F1622CC13C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		81566B659C78AD148E9B8520 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				123D29E31F73A35800113221 /* EndpointManager.framework */,
 				BCEEA5601F03205800C884A4 /* ClientKit.framework */,
 				397B77001E52CEDA00696677 /* UserNotifications.framework */,
-				17144B68BB155A127F8ED5B8 /* Pods_MPOL.framework */,
+				98286F47FF0E675D611C2782 /* Pods_MPOL.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		94B397E37C630B0C23D02198 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				1D27A2F65F8C83373197EBC3 /* Pods-MPOL.debug.xcconfig */,
-				59CEC38145149253B388125F /* Pods-MPOL.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		BC0D8E821E94067800EDFC45 /* View Controllers */ = {
@@ -160,7 +156,7 @@
 				BCD4EA8A1E515ACE000B993D /* Products */,
 				81566B659C78AD148E9B8520 /* Frameworks */,
 				DB88BCE81F43CBC00056FD69 /* Configuration */,
-				94B397E37C630B0C23D02198 /* Pods */,
+				3C534FA68E46E1F1622CC13C /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -234,14 +230,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BCD4EA9B1E515ACE000B993D /* Build configuration list for PBXNativeTarget "MPOL" */;
 			buildPhases = (
-				D8C711FC38F1712FFB500038 /* [CP] Check Pods Manifest.lock */,
+				F69783374302E47A5348358A /* [CP] Check Pods Manifest.lock */,
 				BCD4EA851E515ACE000B993D /* Sources */,
 				BCD4EA861E515ACE000B993D /* Frameworks */,
 				BCD4EA871E515ACE000B993D /* Resources */,
 				BCEEA5631F03205800C884A4 /* Embed Frameworks */,
-				D21DC578391C0CA63CBC80D8 /* [CP] Embed Pods Frameworks */,
-				C1D46AED3802785E61E14A0E /* [CP] Copy Pods Resources */,
 				DB3E2AE81F568C8D00E35300 /* ShellScript */,
+				D7D445236626DC052A83995E /* [CP] Embed Pods Frameworks */,
+				3EF16DC44624F0BC932A6527 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -323,7 +319,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		C1D46AED3802785E61E14A0E /* [CP] Copy Pods Resources */ = {
+		3EF16DC44624F0BC932A6527 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -341,7 +337,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MPOL/Pods-MPOL-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D21DC578391C0CA63CBC80D8 /* [CP] Embed Pods Frameworks */ = {
+		D7D445236626DC052A83995E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -373,7 +369,20 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MPOL/Pods-MPOL-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D8C711FC38F1712FFB500038 /* [CP] Check Pods Manifest.lock */ = {
+		DB3E2AE81F568C8D00E35300 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"${CONFIGURATION}\" = \"Internal-Debug\" ]; then\n    if hash tailor 2>/dev/null; then\n        tailor\n    else\n        echo \"warning: Please install Tailor from https://tailor.sh\"\n    fi\nfi";
+		};
+		F69783374302E47A5348358A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -390,19 +399,6 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
-		};
-		DB3E2AE81F568C8D00E35300 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ \"${CONFIGURATION}\" = \"Internal-Debug\" ]; then\n    if hash tailor 2>/dev/null; then\n        tailor\n    else\n        echo \"warning: Please install Tailor from https://tailor.sh\"\n    fi\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -733,6 +729,7 @@
 		};
 		BCD4EA991E515ACE000B993D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DB0CA7D21F720185006EB1A7 /* AppConfig-mpol-debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -790,6 +787,7 @@
 		};
 		BCD4EA9A1E515ACE000B993D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DB0CA7D31F720186006EB1A7 /* AppConfig-mpol-release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

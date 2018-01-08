@@ -7,15 +7,15 @@ source 'https://github.com/Gridstone/SpecRepo-iOS.git'
 
 workspace 'MPOL'
 project 'MPOL.xcodeproj'
-project 'ClientKit/ClientKit.xcodeproj'
+project '../ClientKit/ClientKit.xcodeproj'
 
 def mpol_kit
     #pod 'MPOLKit', :git=> 'https://github.com/Gridstone/mPolKit-iOS'
-    pod 'MPOLKit', :path => '../mPolKit-iOS', :inhibit_warnings => false
+    pod 'MPOLKit', :path => '../../mPolKit-iOS', :inhibit_warnings => false
 end
 
 target 'ClientKit' do
-    project 'ClientKit/ClientKit.xcodeproj'
+    project '../ClientKit/ClientKit.xcodeproj'
     mpol_kit
     
     target 'ClientKitTests' do
