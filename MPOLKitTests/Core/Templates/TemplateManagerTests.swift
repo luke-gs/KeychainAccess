@@ -11,9 +11,38 @@ import XCTest
 
 public class TemplateManagerTests: XCTestCase {
 
+    let template1 = Template(name: "test1", description: "The first test template.", value: "This is a test template.")
+    let template2 = Template(name: "test2", description: "The second test template.", value: "This is another test template.")
+
+    static let cachedTemplate = Template(name: "cached", description: "A cached network template.", value: "This is a cached network template.")
+    static let template9 = Template(name: "test9", description: "The ninth test template.", value: "This is yet another test template.")
+    static let networkTemplate = Template(name: "networktemplate", description: "A network template.", value: "This template comes from the network!")
+
+    class DummyTemplateDelegate: TemplateDelegate {
+        var url: URL = try! "http://google.com".asURL()
+
+        func retrieveCachedTemplates() -> Set<Template> {
+            return [cachedTemplate]
+        }
+        func retrieveDeletedNetworkKeys() -> Set<String> {
+            return ["DeletedKey"]
+        }
+        func retrieveLocalTemplates() -> Set<Template> {
+            return [template9]
+        }
+        func retrieveNetworkTemplates() -> Set<Template> {
+            return [networkTemplate]
+        }
+    }
+
+    let delegate = DummyTemplateDelegate()
+
     override public func setUp() {
-        TemplateManager.shared.add(template: "template 1", forKey: "test1")
-        TemplateManager.shared.add(template: "template 2", forKey: "test2")
+        TemplateManager.shared.delegate = delegate
+        TemplateManager.shared.add(template: template1)
+        TemplateManager.shared.add(template: template2)
+
+        print("test")
     }
 
     override public func tearDown() {
@@ -22,10 +51,12 @@ public class TemplateManagerTests: XCTestCase {
 
     func testGetTemplate() {
         // Act
-        let template = TemplateManager.shared.template(forKey: "test1")
+        let template = TemplateManager.shared.template(withName: template1.name)!
 
         // Assert
-        XCTAssertEqual(template, "template 1")
+        XCTAssert(template.name == template1.name
+            && template.description == template1.description
+            && template.value == template1.value)
     }
 
     func testGetAllTemplates() {
@@ -33,7 +64,10 @@ public class TemplateManagerTests: XCTestCase {
         let templates = TemplateManager.shared.allTemplates()
 
         // Assert
-        XCTAssertEqual(["template 1", "template 2"], templates)
+        XCTAssertEqual(templates, [template1, template2,
+                        TemplateManagerTests.cachedTemplate,
+                        TemplateManagerTests.template9,
+                        TemplateManagerTests.networkTemplate])
     }
 
     func testAddTemplate() {
@@ -41,7 +75,7 @@ public class TemplateManagerTests: XCTestCase {
         let templateCount = TemplateManager.shared.allTemplates().count
 
         // Act
-        TemplateManager.shared.add(template: "template 3", forKey: "test3")
+        TemplateManager.shared.add(template: Template(name: "test3"))
 
         // Assert
         XCTAssertEqual(templateCount, TemplateManager.shared.allTemplates().count - 1)
@@ -49,20 +83,24 @@ public class TemplateManagerTests: XCTestCase {
 
     func testEditTemplate() {
         // Arrange
-        let originalTemplate = TemplateManager.shared.template(forKey: "test1")
+        let oldTemplate = TemplateManager.shared.template(withName: template1.name)!
 
         // Act
-        TemplateManager.shared.edit(template: "modified template 1", forKey: "test1")
+        TemplateManager.shared.edit(template: Template(name: template1.name, description: "A modified description.", value: "A modified value."))
+
+        let newTemplate = TemplateManager.shared.template(withName: template1.name)!
 
         // Assert
-        XCTAssertNotEqual(originalTemplate, TemplateManager.shared.template(forKey: "test1"))
+        XCTAssert(oldTemplate.name != newTemplate.name
+            || oldTemplate.description != newTemplate.description
+            || oldTemplate.value != newTemplate.value)
     }
 
     func testRemoveTemplate() {
         // Act
-        TemplateManager.shared.remove(templateForKey: "test2")
+        TemplateManager.shared.remove(templateWithName: template1.name)
 
         // Assert
-        XCTAssertNil(TemplateManager.shared.template(forKey: "test2"))
+        XCTAssertNil(TemplateManager.shared.template(withName: template1.name))
     }
 }

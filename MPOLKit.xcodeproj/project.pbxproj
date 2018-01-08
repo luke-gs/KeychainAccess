@@ -492,6 +492,7 @@
 		DBE24C411F5CF0FC0088D19B /* SidebarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6CB6D51F19C638001549F8 /* SidebarHeaderView.swift */; };
 		E21CD4741FBD4B3800925A38 /* NetworkMonitorPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21CD4731FBD4B3800925A38 /* NetworkMonitorPlugin.swift */; };
 		E2552CA81FCBA818007376C5 /* TaskItemViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2552CA71FCBA818007376C5 /* TaskItemViewModelTests.swift */; };
+		E283D2841FEB6BFA0040702C /* Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = E283D2831FEB6BFA0040702C /* Template.swift */; };
 		E2CD47AA1FE9FC8F00934367 /* TemplateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CD47A91FE9FC8F00934367 /* TemplateManager.swift */; };
 		E2CD47AC1FE9FE2000934367 /* TemplateDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CD47AB1FE9FE2000934367 /* TemplateDelegate.swift */; };
 		E2CD47AF1FEA0B2200934367 /* TemplateManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CD47AE1FEA0B2200934367 /* TemplateManagerTests.swift */; };
@@ -1135,6 +1136,7 @@
 		DBE24C381F593AB30088D19B /* EntityDetailViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailViewModelable.swift; sourceTree = "<group>"; };
 		E21CD4731FBD4B3800925A38 /* NetworkMonitorPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitorPlugin.swift; sourceTree = "<group>"; };
 		E2552CA71FCBA818007376C5 /* TaskItemViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemViewModelTests.swift; sourceTree = "<group>"; };
+		E283D2831FEB6BFA0040702C /* Template.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Template.swift; sourceTree = "<group>"; };
 		E2CD47A91FE9FC8F00934367 /* TemplateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateManager.swift; sourceTree = "<group>"; };
 		E2CD47AB1FE9FE2000934367 /* TemplateDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateDelegate.swift; sourceTree = "<group>"; };
 		E2CD47AE1FEA0B2200934367 /* TemplateManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateManagerTests.swift; sourceTree = "<group>"; };
@@ -2786,6 +2788,7 @@
 		E2CD47A81FE9FC7500934367 /* Templates */ = {
 			isa = PBXGroup;
 			children = (
+				E283D2831FEB6BFA0040702C /* Template.swift */,
 				E2CD47A91FE9FC8F00934367 /* TemplateManager.swift */,
 				E2CD47AB1FE9FE2000934367 /* TemplateDelegate.swift */,
 			);
@@ -3380,6 +3383,7 @@
 				BC0EA3F41F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift in Sources */,
 				EA32A85A1FBD1A7900CC37FB /* PhotoMediaPreviewHandler.swift in Sources */,
 				BC9C7E481F0DED6600DFFE83 /* SourceBarCell.swift in Sources */,
+				E283D2841FEB6BFA0040702C /* Template.swift in Sources */,
 				96CF32341F8D7C7700140AF8 /* TasksListHeaderViewModel.swift in Sources */,
 				BC9C7E3D1F0DED6600DFFE83 /* PickerTableViewController.swift in Sources */,
 				EAE12B081FC3CE3500851619 /* EntityBucket.swift in Sources */,
