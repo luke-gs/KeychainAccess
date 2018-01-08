@@ -387,12 +387,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     public private(set) var requiresValidation: Bool = false {
         didSet {
             if requiresValidation == oldValue { return }
-            
             selectionStyle.configure(self)
-//
-//            if isSelected == false || selectionStyle != .underline(FadeStyle()) {
-//                setNeedsLayout()
-//            }
         }
     }
     
