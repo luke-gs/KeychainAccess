@@ -18,7 +18,7 @@ class SummaryThumbnailFormItemTests: XCTestCase {
         // Then
         XCTAssertEqual(item.style, .hero)
         XCTAssertEqual(item.separatorStyle, .none)
-        XCTAssertEqual(item.highlightStyle, FadeStyle.highlight())
+        XCTAssertEqual(item.highlightStyle, .animated(style: EnlargeStyle()))
         XCTAssertEqual(item.badge, 0)
         XCTAssertTrue(item.cellType == EntityCollectionViewCell.self)
         XCTAssertEqual(item.reuseIdentifier, EntityCollectionViewCell.defaultReuseIdentifier)

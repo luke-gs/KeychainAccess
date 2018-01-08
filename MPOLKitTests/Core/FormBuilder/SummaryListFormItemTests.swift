@@ -16,7 +16,7 @@ class SummaryListFormItemTests: XCTestCase {
         let item = SummaryListFormItem()
 
         // Then
-        XCTAssertEqual(item.highlightStyle, FadeStyle.highlight())
+        XCTAssertEqual(item.highlightStyle, .animated(style: EnlargeStyle()))
         XCTAssertEqual(item.badge, 0)
         XCTAssertTrue(item.cellType == EntityListCollectionViewCell.self)
         XCTAssertEqual(item.reuseIdentifier, EntityListCollectionViewCell.defaultReuseIdentifier)
