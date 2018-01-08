@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import PromiseKit
 @testable import MPOLKit
 
 public class TemplateManagerTests: XCTestCase {
@@ -19,19 +20,23 @@ public class TemplateManagerTests: XCTestCase {
     static let networkTemplate = Template(name: "networktemplate", description: "A network template.", value: "This template comes from the network!")
 
     class DummyTemplateDelegate: TemplateDelegate {
+
+        func storeCachedTemplates() {}
+
+        func storeLocalTemplates() {}
+
         var url: URL = try! "http://google.com".asURL()
 
         func retrieveCachedTemplates() -> Set<Template> {
             return [cachedTemplate]
         }
-        func retrieveDeletedNetworkKeys() -> Set<String> {
-            return ["DeletedKey"]
-        }
         func retrieveLocalTemplates() -> Set<Template> {
             return [template9]
         }
-        func retrieveNetworkTemplates() -> Set<Template> {
-            return [networkTemplate]
+        func retrieveNetworkTemplates() -> Promise<Set<Template>> {
+            return Promise<Set<Template>> { fulfil, reject in
+                fulfil([networkTemplate])
+            }
         }
     }
 
@@ -41,8 +46,6 @@ public class TemplateManagerTests: XCTestCase {
         TemplateManager.shared.delegate = delegate
         TemplateManager.shared.add(template: template1)
         TemplateManager.shared.add(template: template2)
-
-        print("test")
     }
 
     override public func tearDown() {
@@ -64,10 +67,7 @@ public class TemplateManagerTests: XCTestCase {
         let templates = TemplateManager.shared.allTemplates()
 
         // Assert
-        XCTAssertEqual(templates, [template1, template2,
-                        TemplateManagerTests.cachedTemplate,
-                        TemplateManagerTests.template9,
-                        TemplateManagerTests.networkTemplate])
+        XCTAssert(templates.isSuperset(of: [template1, template2, TemplateManagerTests.cachedTemplate, TemplateManagerTests.template9]))
     }
 
     func testAddTemplate() {
@@ -78,7 +78,7 @@ public class TemplateManagerTests: XCTestCase {
         TemplateManager.shared.add(template: Template(name: "test3"))
 
         // Assert
-        XCTAssertEqual(templateCount, TemplateManager.shared.allTemplates().count - 1)
+        XCTAssertEqual(TemplateManager.shared.allTemplates().count, templateCount + 1)
     }
 
     func testEditTemplate() {

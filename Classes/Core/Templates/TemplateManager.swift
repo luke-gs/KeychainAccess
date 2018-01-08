@@ -34,15 +34,6 @@ public class TemplateManager {
         }
     }
 
-    // a list of deleted network template keys - retrieved from last session
-    private var deletedNetworkKeys: Set<String> = [] {
-        didSet {
-            if deletedNetworkKeys != oldValue {
-                createCombinedTemplates()
-            }
-        }
-    }
-
     // a list of user-created templates - retrieved from last session
     private var localTemplates: Set<Template> = [] {
         didSet {
@@ -55,6 +46,7 @@ public class TemplateManager {
     // the complete list of templates presented to the user
     private var combinedTemplates: Set<Template> = []
 
+    // delegate reloads its data when it's assigned
     var delegate: TemplateDelegate? {
         didSet {
             loadExternalTemplates()
@@ -65,65 +57,80 @@ public class TemplateManager {
         loadExternalTemplates()
     }
 
-    func loadExternalTemplates() {
+    // reload "external" data from delegate - cached, local and network templates
+    private func loadExternalTemplates() {
         cachedTemplates = delegate?.retrieveCachedTemplates() ?? []
-        deletedNetworkKeys = delegate?.retrieveDeletedNetworkKeys() ?? []
         localTemplates = delegate?.retrieveLocalTemplates() ?? []
 
         // load online things
-        networkTemplates = delegate?.retrieveNetworkTemplates() ?? []
+        delegate?.retrieveNetworkTemplates().then { result in
+            self.networkTemplates = result
+        }.always{}
     }
 
-    func createCombinedTemplates() {
+    /// Store the current templates according to the delegate's logic for future sessions.
+    /// This must be called by any dependents in order to allow any templates to be saved
+    /// between sessions.
+    func saveExternalTemplates() {
+        delegate?.storeCachedTemplates(templates: networkTemplates)
+        delegate?.storeLocalTemplates(templates: localTemplates)
+    }
+
+    // combines all template sets to form the set presented to users
+    private func createCombinedTemplates() {
         // fill in blanks in network templates with cached templates
         networkTemplates.formUnion(cachedTemplates)
 
-        // combined templates begins with the merged network templates
-        combinedTemplates = networkTemplates
-
-        // remove all deleted keys
-        combinedTemplates.subtract(deletedNetworkKeys.map { key in Template(name: key)})
-
         // merge in local templates, overwriting existing templates
-        combinedTemplates = localTemplates.union(combinedTemplates)
+        combinedTemplates = localTemplates.union(networkTemplates)
 
         // combinedTemplates is now up to date!
     }
 
+    // get a template with a name
     func template(withName name: String) -> Template? {
         return combinedTemplates.first { template in template.name == name }
     }
 
+    // get all templates
     func allTemplates() -> Set<Template> {
         return combinedTemplates
     }
 
+    /// Adds a template if no local template with that name exists.
+    /// Returns true if successful, false otherwise.
     @discardableResult
     func add(template: Template) -> Bool {
+        let exists = localTemplates.contains { localTemplate in localTemplate.name == template.name }
         localTemplates.insert(template)
-        return true
+        return !exists
     }
 
+    /// Replaces a template that has this template's name with this template.
+    /// Returns true if successful, false otherwise.
     @discardableResult
     func edit(template: Template) -> Bool {
+        let exists = localTemplates.contains { localTemplate in localTemplate.name == template.name }
         // insert does nothing while the template exists within the set,
-        // hence it must be removed to provide "editing" behaviour.
+        // hence it must be removed first to provide "editing" behaviour.
         localTemplates.remove(template)
         localTemplates.insert(template)
-        return true
+        return exists
     }
 
+    /// Removes a template with a given name if it exists.
+    /// Returns true if successful, false otherwise.
     @discardableResult
     func remove(templateWithName name: String) -> Bool {
         if let template = localTemplates.first(where: { template in template.name == name }) {
             localTemplates.remove(template)
+            return true
         }
-        return true
+        return false
     }
 
+    // remove all local templates
     func removeAll() {
         localTemplates.removeAll()
     }
-
-
 }

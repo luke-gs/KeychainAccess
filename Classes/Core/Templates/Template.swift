@@ -2,7 +2,7 @@
 //  Template.swift
 //  MPOLKit
 //
-//  Template struct, probably used for (de)serialisation.
+//  Template struct. The primary data object in the Template system.
 //  Overrides equality behaviour for set comparison reasons.
 //
 //  Created by Kara Valentine on 21/12/17.
