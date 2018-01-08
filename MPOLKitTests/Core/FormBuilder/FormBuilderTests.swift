@@ -177,11 +177,11 @@ class FormBuilderTests: XCTestCase {
         builder.add([item1, item2])
 
         // When
-        let sections = builder.generateSections()
+        let form = builder.generateSections()
 
         // Then
-        let mainSection = sections.first
-        XCTAssertEqual(sections.count, 1)
+        let mainSection = form.sections.first
+        XCTAssertEqual(form.sections.count, 1)
         XCTAssertNil(mainSection!.formHeader)
         XCTAssertNil(mainSection!.formFooter)
         XCTAssertEqual(mainSection!.formItems.count, 2)
@@ -196,11 +196,11 @@ class FormBuilderTests: XCTestCase {
         builder.add([header, item1, item2])
 
         // When
-        let sections = builder.generateSections()
+        let form = builder.generateSections()
 
         // Then
-        let mainSection = sections.first
-        XCTAssertEqual(sections.count, 1)
+        let mainSection = form.sections.first
+        XCTAssertEqual(form.sections.count, 1)
         XCTAssertNotNil(mainSection!.formHeader)
         XCTAssertNil(mainSection!.formFooter)
         XCTAssertEqual(mainSection!.formItems.count, 2)
@@ -215,11 +215,11 @@ class FormBuilderTests: XCTestCase {
         builder.add([item1, item2, footer])
 
         // When
-        let sections = builder.generateSections()
+        let form = builder.generateSections()
 
         // Then
-        let mainSection = sections.first
-        XCTAssertEqual(sections.count, 1)
+        let mainSection = form.sections.first
+        XCTAssertEqual(form.sections.count, 1)
         XCTAssertNil(mainSection!.formHeader)
         XCTAssertNotNil(mainSection!.formFooter)
         XCTAssertEqual(mainSection!.formItems.count, 2)
@@ -233,11 +233,11 @@ class FormBuilderTests: XCTestCase {
         builder.add([header, footer])
 
         // When
-        let sections = builder.generateSections()
+        let form = builder.generateSections()
 
         // Then
-        let mainSection = sections.first
-        XCTAssertEqual(sections.count, 1)
+        let mainSection = form.sections.first
+        XCTAssertEqual(form.sections.count, 1)
         XCTAssertNotNil(mainSection!.formHeader)
         XCTAssertNotNil(mainSection!.formFooter)
         XCTAssertEqual(mainSection!.formItems.count, 0)
@@ -253,11 +253,11 @@ class FormBuilderTests: XCTestCase {
         builder.add([header, item1, item2, footer])
 
         // When
-        let sections = builder.generateSections()
+        let form = builder.generateSections()
 
         // Then
-        let mainSection = sections.first
-        XCTAssertEqual(sections.count, 1)
+        let mainSection = form.sections.first
+        XCTAssertEqual(form.sections.count, 1)
         XCTAssertNotNil(mainSection!.formHeader)
         XCTAssertNotNil(mainSection!.formFooter)
         XCTAssertEqual(mainSection!.formItems.count, 2)
@@ -291,9 +291,9 @@ class FormBuilderTests: XCTestCase {
         builder += [header2, item2_1, item2_2, item2_3, footer2]
 
         // When
-        let sections = builder.generateSections()
-        let firstSection = sections[0]
-        let secondSection = sections[1]
+        let form = builder.generateSections()
+        let firstSection = form.sections[0]
+        let secondSection = form.sections[1]
 
         // Then
         let expectedFirstSection = FormSection(formHeader: header1, formItems: [item1_1, item1_2], formFooter: footer1)
@@ -329,9 +329,9 @@ class FormBuilderTests: XCTestCase {
         builder += [header2, item2_1, item2_2, item2_3, footer2]
 
         // When
-        let sections = builder.generateSections()
-        let firstSection = sections[0]
-        let secondSection = sections[1]
+        let form = builder.generateSections()
+        let firstSection = form.sections[0]
+        let secondSection = form.sections[1]
 
         // Then
         let expectedFirstSection = FormSection(formHeader: header1, formItems: [item1_1, item1_2], formFooter: nil)
@@ -367,9 +367,9 @@ class FormBuilderTests: XCTestCase {
         builder += [header2, item2_1, item2_2, item2_3, footer2]
 
         // When
-        let sections = builder.generateSections()
-        let firstSection = sections[0]
-        let secondSection = sections[1]
+        let form = builder.generateSections()
+        let firstSection = form.sections[0]
+        let secondSection = form.sections[1]
 
         // Then
         let expectedFirstSection = FormSection(formHeader: nil, formItems: [item1_1, item1_2], formFooter: footer1)
@@ -403,9 +403,9 @@ class FormBuilderTests: XCTestCase {
         builder += [header2, item2_1, item2_2, item2_3, footer2]
 
         // When
-        let sections = builder.generateSections()
-        let firstSection = sections[0]
-        let secondSection = sections[1]
+        let form = builder.generateSections()
+        let firstSection = form.sections[0]
+        let secondSection = form.sections[1]
 
         // Then
         let expectedFirstSection = FormSection(formHeader: nil, formItems: [item1_1, item1_2], formFooter: nil)
@@ -441,9 +441,9 @@ class FormBuilderTests: XCTestCase {
         builder += [item2_1, item2_2, item2_3, footer2]
 
         // When
-        let sections = builder.generateSections()
-        let firstSection = sections[0]
-        let secondSection = sections[1]
+        let form = builder.generateSections()
+        let firstSection = form.sections[0]
+        let secondSection = form.sections[1]
 
         // Then
         let expectedFirstSection = FormSection(formHeader: header1, formItems: [item1_1, item1_2], formFooter: footer1)
@@ -470,9 +470,9 @@ class FormBuilderTests: XCTestCase {
         builder += footer2
 
         // When
-        let sections = builder.generateSections()
-        let firstSection = sections[0]
-        let secondSection = sections[1]
+        let form = builder.generateSections()
+        let firstSection = form.sections[0]
+        let secondSection = form.sections[1]
 
         // Then
         let expectedFirstSection = FormSection(formHeader: nil, formItems: [], formFooter: footer1)
@@ -499,9 +499,9 @@ class FormBuilderTests: XCTestCase {
         builder += header2
 
         // When
-        let sections = builder.generateSections()
-        let firstSection = sections[0]
-        let secondSection = sections[1]
+        let form = builder.generateSections()
+        let firstSection = form.sections[0]
+        let secondSection = form.sections[1]
 
         // Then
         let expectedFirstSection = FormSection(formHeader: header1, formItems: [], formFooter: nil)
@@ -537,9 +537,9 @@ class FormBuilderTests: XCTestCase {
         builder += [header2, item2_1, item2_2, item2_3]
 
         // When
-        let sections = builder.generateSections()
-        let firstSection = sections[0]
-        let secondSection = sections[1]
+        let form = builder.generateSections()
+        let firstSection = form.sections[0]
+        let secondSection = form.sections[1]
 
         // Then
         let expectedFirstSection = FormSection(formHeader: header1, formItems: [item1_1, item1_2], formFooter: footer1)
@@ -573,9 +573,9 @@ class FormBuilderTests: XCTestCase {
         builder += [item2_1, item2_2, item2_3]
 
         // When
-        let sections = builder.generateSections()
-        let firstSection = sections[0]
-        let secondSection = sections[1]
+        let form = builder.generateSections()
+        let firstSection = form.sections[0]
+        let secondSection = form.sections[1]
 
         // Then
         let expectedFirstSection = FormSection(formHeader: header1, formItems: [item1_1, item1_2], formFooter: footer1)
@@ -623,10 +623,10 @@ class FormBuilderTests: XCTestCase {
         builder += [header3, item3_1, footer3]
 
         // When
-        let sections = builder.generateSections()
-        let firstSection = sections[0]
-        let secondSection = sections[1]
-        let thirdSection = sections[2]
+        let form = builder.generateSections()
+        let firstSection = form.sections[0]
+        let secondSection = form.sections[1]
+        let thirdSection = form.sections[2]
 
         // Then
         let expectedFirstSection = FormSection(formHeader: header1, formItems: [item1_1, item1_2], formFooter: footer1)
@@ -674,10 +674,10 @@ class FormBuilderTests: XCTestCase {
         builder += [header3, item3_1, footer3]
 
         // When
-        let sections = builder.generateSections()
-        let firstSection = sections[0]
-        let secondSection = sections[1]
-        let thirdSection = sections[2]
+        let form = builder.generateSections()
+        let firstSection = form.sections[0]
+        let secondSection = form.sections[1]
+        let thirdSection = form.sections[2]
 
         // Then
         let expectedFirstSection = FormSection(formHeader: header1, formItems: [item1_1, item1_2], formFooter: footer1)
@@ -723,10 +723,10 @@ class FormBuilderTests: XCTestCase {
         builder += [header3, item3_1, footer3]
 
         // When
-        let sections = builder.generateSections()
-        let firstSection = sections[0]
-        let secondSection = sections[1]
-        let thirdSection = sections[2]
+        let form = builder.generateSections()
+        let firstSection = form.sections[0]
+        let secondSection = form.sections[1]
+        let thirdSection = form.sections[2]
 
         // Then
         let expectedFirstSection = FormSection(formHeader: header1, formItems: [item1_1, item1_2], formFooter: footer1)
