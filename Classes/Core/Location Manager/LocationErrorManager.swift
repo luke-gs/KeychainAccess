@@ -8,30 +8,25 @@
 
 import Foundation
 import CoreLocation
+import PromiseKit
 
 public enum LocationErrorRecoveryPolicy {
     case indeterminateLocation
+    case lastLocation
     case customLocation(CLLocation)
     case calculated(() -> CLLocation)
-
-    var location: CLLocation {
-        switch self {
-        case .indeterminateLocation:
-            return CLLocation.indeterminateLocation
-        case .customLocation(let location):
-            return location
-        case .calculated(let block):
-            return block()
-        }
-    }
 }
 
-public protocol LocationErrorManagable {
+public protocol LocationErrorManageable {
     var failurePolicy: LocationErrorRecoveryPolicy { get }
-    func recover(_ error: Error) -> CLLocation
+    func handleError(_ error: Error) -> Promise<CLLocation>
 }
 
-public final class LocationErrorManager: LocationErrorManagable {
+public enum LocationErrorManagerError: Error {
+    case recoveryFailed
+}
+
+public final class LocationErrorManager: LocationErrorManageable {
 
     public init(failurePolicy policy: LocationErrorRecoveryPolicy = .indeterminateLocation) {
         self.failurePolicy = policy
@@ -39,27 +34,35 @@ public final class LocationErrorManager: LocationErrorManagable {
 
     public var failurePolicy: LocationErrorRecoveryPolicy = .indeterminateLocation
 
-    public func recover(_ error: Error) -> CLLocation {
-        if let location = LocationManager.shared.lastLocation {
-            return location
-        } else {
-            var location: CLLocation?
-            // Better error handling here
-            switch CLError(_nsError: error as NSError).code {
-            case .denied:
-                if let url = URL(string: UIApplicationOpenSettingsURLString) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    public func handleError(_ error: Error) -> Promise<CLLocation> {
+
+        switch CLError(_nsError: error as NSError).code {
+        case .denied:
+            return Promise<CLLocation>(error: LocationErrorManagerError.recoveryFailed)
+        default:
+            return Promise<CLLocation> { fufill, reject in
+                switch failurePolicy {
+                case .indeterminateLocation:
+                    reject(LocationErrorManagerError.recoveryFailed)
+                case .customLocation(let location):
+                    fufill(location)
+                case .calculated(let block):
+                    fufill(block())
+                case .lastLocation:
+                    if let location = LocationManager.shared.lastLocation {
+                        fufill(location)
+                    } else {
+                        reject(LocationErrorManagerError.recoveryFailed)
+                    }
                 }
-            default:
-                break
             }
-            return location ?? failurePolicy.location
         }
     }
 }
 
-fileprivate extension CLLocation {
+extension CLLocation {
     static var indeterminateLocation: CLLocation {
-        return CLLocation(latitude: 0.0, longitude: 0.0)
+        let location2d = kCLLocationCoordinate2DInvalid
+        return CLLocation(latitude: location2d.latitude, longitude: location2d.longitude)
     }
 }

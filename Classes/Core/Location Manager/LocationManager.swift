@@ -36,7 +36,7 @@ public final class LocationManager: NSObject {
         }
     }
 
-    open var errorManager: LocationErrorManagable = LocationErrorManager()
+    open var errorManager: LocationErrorManageable = LocationErrorManager()
     
     /// Used to get the last saved location.
     open var lastLocation: CLLocation? = nil
