@@ -9,69 +9,22 @@
 import Foundation
 import MPOLKit
 
-open class EntityAlertsViewModel {
+open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
     
-    // MARK: - Properties
-    
-    open var entity: Entity? {
-        didSet {
-            let count = alerts.count
-            delegate?.updateSidebarItemCount(UInt(count))
-            
-            let color = entity?.alertLevel?.color
-            delegate?.updateSidebarAlertColor(color)
-            
-            delegate?.updateLoadingState(alerts.isEmpty ? .noContent : .loaded)
-            delegate?.reloadData()
-        }
-    }
+    // MARK: - EntityDetailFormViewModel
     
     open var alerts: [Alert] {
         return entity?.alerts ?? []
     }
     
-    open var filteredAlerts: [[Alert]] {
-        var filtered = self.alerts
-        
-        var filters: [FilterDescriptor<Alert>] = [FilterValueDescriptor<Alert, Alert.Level>(key: { $0.level }, values: self.filteredAlertLevels)]
-        
-        if let dateRange = self.filterDateRange {
-            filters.append(FilterRangeDescriptor<Alert, Date>(key: { $0.effectiveDate }, start: dateRange.startDate, end: dateRange.endDate))
+    open override var entity: Entity? {
+        didSet {
+            delegate?.updateSidebarAlertColor(entity?.alertLevel?.color)
         }
-        
-        let sort = SortDescriptor<Alert>(ascending: dateSorting == .oldest) { $0.effectiveDate }
-        
-        filtered = filtered.filter(using: filters)
-        filtered = filtered.sorted(using: [sort])
-        
-        // Group alerts by alert level
-        var map: [Alert.Level: [Alert]] = [:]
-        filtered.forEach { alert in
-            guard let level = alert.level else { return }
-            if map[level] != nil {
-                map[level]!.append(alert)
-            } else {
-                map[level] = [alert]
-            }
-        }
-        
-        let sectionSort = SortDescriptor<Array<Alert>>(ascending: false) { $0.first?.level?.rawValue }
-        return Array(map.values).sorted(using: [sectionSort])
     }
     
-    open weak var delegate: EntityDetailViewModelDelegate?
-    
-    private var statusDotCache: [Alert.Level: UIImage] = [:]
-    private var expandedAlerts: Set<Alert> = []
-    
-    private var filteredAlertLevels: Set<Alert.Level> = Set(Alert.Level.allCases)
-    private var filterDateRange: FilterDateRange?
-    private var dateSorting: DateSorting = .newest
-    
-    // MARK: - Methods
-    
-    open func construct(builder: FormBuilder) {
-        builder.title = NSLocalizedString("Alerts", bundle: .mpolKit, comment: "")
+    open override func construct(for viewController: FormBuilderViewController, with builder: FormBuilder) {
+        builder.title = title
         builder.forceLinearLayout = true
         
         let filteredAlerts = self.filteredAlerts
@@ -98,11 +51,15 @@ open class EntityAlertsViewModel {
         delegate?.updateLoadingState(filteredAlerts.isEmpty ? .noContent : .loaded)
     }
     
-    open func noContentTitle() -> String? {
+    open override var title: String? {
+        return NSLocalizedString("Alerts", bundle: .mpolKit, comment: "")
+    }
+    
+    open override var noContentTitle: String? {
         return NSLocalizedString("No Alerts Found", bundle: .mpolKit, comment: "")
     }
     
-    open func noContentSubtitle() -> String? {
+    open override var noContentSubtitle: String? {
         if entity?.alerts?.isEmpty ?? true {
             let name: String
             if let entity = entity {
@@ -117,14 +74,59 @@ open class EntityAlertsViewModel {
         }
     }
     
+    open override var sidebarImage: UIImage? {
+        return AssetManager.shared.image(forKey: .alert)
+    }
+    
+    open override var sidebarCount: UInt? {
+        return UInt(alerts.count)
+    }
+    
     // MARK: - Filtering
     
-    open func isFiltered() -> Bool {
+    private var filteredAlertLevels: Set<Alert.Level> = Set(Alert.Level.allCases)
+    private var filterDateRange: FilterDateRange?
+    private var dateSorting: DateSorting = .newest
+    
+    open var filteredAlerts: [[Alert]] {
+        var filtered = self.alerts
+        
+        // Always filtering by alert level (default is all levels)
+        var filters: [FilterDescriptor<Alert>] = [FilterValueDescriptor<Alert, Alert.Level>(key: { $0.level }, values: self.filteredAlertLevels)]
+        
+        // Apply date range filter if applicable
+        if let dateRange = self.filterDateRange {
+            filters.append(FilterRangeDescriptor<Alert, Date>(key: { $0.effectiveDate }, start: dateRange.startDate, end: dateRange.endDate))
+        }
+        
+        // Always sorting (default is newest - oldest)
+        let sort = SortDescriptor<Alert>(ascending: dateSorting == .oldest) { $0.effectiveDate }
+        
+        filtered = filtered.filter(using: filters)
+        filtered = filtered.sorted(using: [sort])
+        
+        // Group alerts by alert level
+        var map: [Alert.Level: [Alert]] = [:]
+        filtered.forEach { alert in
+            guard let level = alert.level else { return }
+            if map[level] != nil {
+                map[level]!.append(alert)
+            } else {
+                map[level] = [alert]
+            }
+        }
+        
+        // Sort grouped alerts by alert level (highest to lowest)
+        let sectionSort = SortDescriptor<Array<Alert>>(ascending: false) { $0.first?.level?.rawValue }
+        return Array(map.values).sorted(using: [sectionSort])
+    }
+    
+    open override var filterApplied: Bool {
         let isFilteredByAlertLevel = filteredAlertLevels != Set(Alert.Level.allCases)
         return isFilteredByAlertLevel || filterDateRange != nil
     }
     
-    open func filterOptions() -> [FilterOption] {
+    open override var filterOptions: [FilterOption] {
         let alertLevels: [Alert.Level] = Alert.Level.all
         
         let filterLevels = FilterList(title: NSLocalizedString("Alert Types", comment: ""), displayStyle: .checkbox, options: alertLevels, selectedIndexes: alertLevels.indexes(where: { filteredAlertLevels.contains($0) }))
@@ -132,9 +134,10 @@ open class EntityAlertsViewModel {
         let sorting = FilterList(title: "Sort By", displayStyle: .list, options: DateSorting.allCases, selectedIndexes: [DateSorting.allCases.index(of: dateSorting) ?? 0])
         
         return [filterLevels, dateRange, sorting]
+
     }
     
-    public func filterViewControllerDidFinish(_ controller: FilterViewController, applyingChanges: Bool) {
+    open override func filterViewControllerDidFinish(_ controller: FilterViewController, applyingChanges: Bool) {
         controller.presentingViewController?.dismiss(animated: true)
         
         guard applyingChanges else { return }
@@ -160,11 +163,14 @@ open class EntityAlertsViewModel {
             }
         }
         
-        delegate?.updateFilterBarButtonItemActivity()
+        delegate?.updateBarButtonItems()
         delegate?.reloadData()
     }
     
     // MARK: - Internal
+    
+    private var statusDotCache: [Alert.Level: UIImage] = [:]
+    private var expandedAlerts: Set<Alert> = []
     
     private func header(for alerts: [Alert]) -> String? {
         if let level = alerts.first?.level, let levelDescription = level.localizedDescription() {

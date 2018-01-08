@@ -27,7 +27,7 @@ public class VehicleMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSourc
     public init(baseEntity: Entity, delegate: EntityDetailsDelegate?) {
         self.entity = baseEntity
         self.detailViewControllers =  [ VehicleInfoViewController(),
-                                        EntityAlertsViewController(),
+                                        EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
                                         EntityAssociationsViewController(delegate: delegate),
                                         VehicleOccurrencesViewController()
         ]

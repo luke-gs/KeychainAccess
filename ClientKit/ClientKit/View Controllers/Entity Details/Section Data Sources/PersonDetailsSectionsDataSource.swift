@@ -27,7 +27,7 @@ public class PersonMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSource
     public init(baseEntity: Entity, delegate: EntityDetailsDelegate?) {
         self.entity = baseEntity
         self.detailViewControllers = [ PersonInfoViewController(),
-                                       EntityAlertsViewController(),
+                                       EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
                                        EntityAssociationsViewController(delegate: delegate),
                                        PersonOccurrencesViewController(),
                                        PersonCriminalHistoryViewController()]
@@ -52,7 +52,7 @@ public class PersonFNCDetailsSectionsDataSource: EntityDetailSectionsDataSource 
     public init(baseEntity: Entity, delegate: EntityDetailsDelegate?) {
         self.entity = baseEntity
         self.detailViewControllers = [ PersonInfoViewController(),
-                                       EntityAlertsViewController(),
+                                       EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
                                        EntityAssociationsViewController(delegate: delegate)]
     }
 }
