@@ -58,12 +58,12 @@ open class IncidentDetailsFormViewController: IntrinsicHeightFormBuilderViewCont
             }
         
         builder += ValueFormItem() // TODO: Implement selecting location
-            .title("Location")
+            .title(NSLocalizedString("Address", comment: ""))
             .value(viewModel.contentViewModel.location)
             .accessory(FormAccessoryView(style: .disclosure))
             .width(.column(1))
         
-        builder += TextFieldFormItem(title: "Description")
+        builder += TextFieldFormItem(title: NSLocalizedString("Description", comment: ""))
             .placeholder("Required")
             .text(viewModel.contentViewModel.description)
             .required("Description is required")
@@ -73,7 +73,7 @@ open class IncidentDetailsFormViewController: IntrinsicHeightFormBuilderViewCont
             .width(.column(1))
         
         builder += HeaderFormItem(text: NSLocalizedString("Informant Details", comment: "").uppercased())
-        builder += TextFieldFormItem(title: "Full Name")
+        builder += TextFieldFormItem(title: NSLocalizedString("Full Name", comment: ""))
             .placeholder("Required")
             .text(viewModel.contentViewModel.informantName)
             .required("Name is required")
@@ -82,7 +82,7 @@ open class IncidentDetailsFormViewController: IntrinsicHeightFormBuilderViewCont
             }
             .width(.column(2))
         
-        builder += TextFieldFormItem(title: "Contact Number")
+        builder += TextFieldFormItem(title: NSLocalizedString("Contact Number", comment: ""))
             .required("A contact number is required")
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Contact number must be a number")
             .text(viewModel.contentViewModel.informantPhone)
