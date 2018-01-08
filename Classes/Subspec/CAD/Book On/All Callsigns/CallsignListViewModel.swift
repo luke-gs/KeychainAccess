@@ -52,19 +52,19 @@ open class CallsignListViewModel: CADFormCollectionViewModel<NotBookedOnCallsign
     
     /// The subtitle to use in the navigation bar
     open func navSubtitle() -> String? {
-        return NSLocalizedString("Melbourne", comment: "") // TODO: Get from somewhere else
+        return [NSLocalizedString("Patrol Area", comment: ""), CADStateManager.shared.officerDetails?.patrolGroup].joined(separator: ": ")
     }
     
     // MARK: - Override
     
     /// The title to use in the navigation bar
     override open func navTitle() -> String {
-        return NSLocalizedString("All Callsigns", comment: "All Callsigns title")
+        return NSLocalizedString("Select Call Sign", comment: "")
     }
     
     /// Content title shown when no results
     override open func noContentTitle() -> String? {
-        return NSLocalizedString("No Callsigns Found", comment: "")
+        return NSLocalizedString("No Call Signs Found", comment: "")
     }
     
     override open func noContentSubtitle() -> String? {

@@ -30,7 +30,12 @@ open class ResourceOverviewMapViewModel: TasksMapViewModel {
         filteredAnnotations = annotations
     }
     
+    open override func canSelectAnnotationView(_ view: MKAnnotationView) -> Bool {
+        // Only allow selecting incidents
+        return view is IncidentAnnotationView
+    }
+    
     override open func createViewController() -> TasksMapViewController {
-        return TasksMapViewController(viewModel: self, initialLoadZoomStyle: .annotations(animated: true))
+        return TasksMapViewController(viewModel: self, initialLoadZoomStyle: .annotations(animated: false))
     }
 }

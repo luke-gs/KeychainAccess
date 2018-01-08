@@ -32,6 +32,7 @@ public class EntityDetailSectionsViewModel {
     public weak var delegate: EntityDetailSectionsDelegate?
     public var selectedSource: EntitySource
     public var recentlyViewed: EntityBucket?
+    public var showsActionButton: Bool = true 
 
     public var detailSectionsViewControllers: [EntityDetailSectionUpdatable]? {
         return detailSectionsDataSources.filter{$0.source == selectedSource}.first?.detailViewControllers
@@ -54,8 +55,9 @@ public class EntityDetailSectionsViewModel {
     private var entityFetch: Fetchable?
     fileprivate let initialSource: EntitySource
 
-    public init(initialSource: EntitySource, dataSources: [EntityDetailSectionsDataSource], andMatchMaker matchMaker: MatchMaker?) {
+    public init(initialSource: EntitySource, dataSources: [EntityDetailSectionsDataSource], andMatchMaker matchMaker: MatchMaker?, showsActionButton: Bool = true) {
         self.initialSource = initialSource
+        self.showsActionButton = showsActionButton
         self.selectedSource = initialSource
         self.detailSectionsDataSources = dataSources
         self.matchMaker = matchMaker

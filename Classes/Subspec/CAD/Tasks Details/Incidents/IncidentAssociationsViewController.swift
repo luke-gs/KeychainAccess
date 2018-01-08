@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class IncidentAssociationsViewController: CADFormCollectionViewController<EntitySummaryDisplayable> {
+open class IncidentAssociationsViewController: CADFormCollectionViewController<EntitySummaryDisplayable> {
     
     private let listStateItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .list), style: .plain, target: nil, action: nil)
 
@@ -17,6 +17,7 @@ public class IncidentAssociationsViewController: CADFormCollectionViewController
         
         // TODO: Add red dot
         sidebarItem.image = AssetManager.shared.image(forKey: .association)
+        sidebarItem.count = UInt(viewModel.totalNumberOfItems())
         
         navigationItem.rightBarButtonItem = listStateItem
         
@@ -25,14 +26,21 @@ public class IncidentAssociationsViewController: CADFormCollectionViewController
         listStateItem.imageInsets = .zero
     }
     
-    public override func viewDidLoad() {
+    public required convenience init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
+    }
+
+    override open func viewDidLoad() {
         super.viewDidLoad()
         collectionView?.register(EntityCollectionViewCell.self)
         collectionView?.register(EntityListCollectionViewCell.self)
     }
     
-    public required convenience init?(coder aDecoder: NSCoder) {
-        MPLCodingNotSupported()
+    override open func reloadContent() {
+        super.reloadContent()
+
+        // Update sidebar count when data changes
+        sidebarItem.count = UInt(viewModel.totalNumberOfItems())
     }
     
     // MARK: - Thumbnail support

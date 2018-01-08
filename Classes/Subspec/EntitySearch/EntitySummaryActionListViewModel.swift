@@ -34,7 +34,7 @@ public class EntitySummaryActionListViewModel: ActionListViewModelable {
         let numberOfEntities = items.count
         let headerText = "\(numberOfEntities) \(numberOfEntities == 1 ? "ENTITY" : "ENTITIES")"
 
-        return [HeaderFormItem(text: headerText).actionButton(title: "CLEAR", handler: {
+        return [HeaderFormItem(text: headerText).actionButton(title: "CLEAR", handler: { _ in
             cache.removeAll()
         })] + items
     }

@@ -24,6 +24,7 @@ public extension NSNotification.Name {
 // Extension for custom manifest categories
 public extension ManifestCollection {
     static let EquipmentCollection = ManifestCollection(rawValue: "equipment")
+    static let PatrolGroupCollection = ManifestCollection(rawValue: "patrolgroup")
 }
 
 open class CADStateManager: NSObject {
@@ -36,17 +37,23 @@ open class CADStateManager: NSObject {
 
     /// The logged in officer details
     open var officerDetails: OfficerDetailsResponse?
+    
+    /// The patrol group
+    // TODO: Find out when to set/clear this value and where it's coming from
+    open var patrolGroup: String = "Collingwood"
 
     /// The last book on data
     open var lastBookOn: BookOnRequest? {
         didSet {
-            // Add officers to resource
             // TODO: remove this when we have a real CAD system
-            if let resource = self.currentResource {
-                let officerIds = BookOnDetailsFormViewModel.lastSaved!.officers.map { return $0.officerId! }
-                var payrollIds = resource.payrollIds ?? []
-                payrollIds.append(contentsOf: officerIds)
-                resource.payrollIds = payrollIds
+            if let lastBookOn = lastBookOn, let resource = self.currentResource {
+                let officerIds = lastBookOn.officers.map { return $0.payrollId! }
+                resource.payrollIds = officerIds
+
+                // Set state if callsign was off duty
+                if resource.status == .offDuty {
+                    resource.status = .onAir
+                }
             }
             NotificationCenter.default.post(name: .CADBookOnChanged, object: self)
         }
@@ -139,6 +146,21 @@ open class CADStateManager: NSObject {
     /// Fetch the book on equipment items
     open func equipmentItems() -> [ManifestEntry] {
         return Manifest.shared.entries(for: .EquipmentCollection) ?? []
+    }
+
+    open func equipmentItemsByTitle() -> [String: ManifestEntry] {
+        var result: [String: ManifestEntry] = [:]
+        for item in equipmentItems() {
+            if let title = item.title {
+                result[title] = item
+            }
+        }
+        return result
+    }
+    
+    /// Fetch the patrol groups
+    open func patrolGroups() -> [ManifestEntry] {
+        return Manifest.shared.entries(for: .PatrolGroupCollection) ?? []
     }
 
     /// Sync the latest manifest items

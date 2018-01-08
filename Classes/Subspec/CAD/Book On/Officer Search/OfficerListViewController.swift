@@ -19,6 +19,12 @@ open class OfficerListViewController: GenericSearchViewController {
         delegate = self
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""), style: .plain, target: self, action: #selector(cancelTapped))
     }
+
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+
+        loadingManager.noContentView.titleLabel.text = officerListViewModel?.noContentTitle()
+    }
     
     /// Support being transparent when in popover/form sheet
     open override var wantsTransparentBackground: Bool {
@@ -49,8 +55,8 @@ open class OfficerListViewController: GenericSearchViewController {
 }
 
 extension OfficerListViewController: GenericSearchDelegate {
-    public func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath, withSearchable: GenericSearchable) {
-        if let officer = withSearchable as? OfficerListItemViewModel {
+    public func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath, withSearchable searchable: GenericSearchable) {
+        if let officer = searchable as? OfficerListItemViewModel {
 
             if let officerDetailsViewController = officerListViewModel?.officerDetailsViewController(for: officer) {
                 self.navigationController?.pushViewController(officerDetailsViewController, animated: true)

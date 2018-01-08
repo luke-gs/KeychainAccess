@@ -55,14 +55,6 @@ open class MapSettingsViewModel {
         return isTrafficSupported(for: mode) && showTraffic
     }
     
-    /// Whether the mode at the index supports traffic
-    public func isTrafficSupported(at index: Int) -> Bool {
-        guard index < availableModes.count else { return false }
-        
-        let indexMode = availableModes[index]
-        return isTrafficSupported(for: indexMode)
-    }
-    
     /// Whether the specified mode supports traffic
     private func isTrafficSupported(for mode: MKMapType) -> Bool {
         switch mode {
@@ -88,10 +80,58 @@ open class MapSettingsViewModel {
         mode = availableModes[index]
     }
     
+    // MARK: - Layers
+    
+    public enum Layers {
+        case traffic
+        
+        var title: String {
+            return NSLocalizedString("Traffic", comment: "Traffic Layer")
+        }
+    }
+    
+    open var layers: [Layers] {
+        return [.traffic]
+    }
+    
+    /// Called when a layer value is changed
+    open func changedLayer(at index: Int, to enabled: Bool) {
+        guard let layer = layers[ifExists: index] else { return }
+        
+        switch layer {
+        case .traffic:
+            setTrafficEnabled(enabled)
+        }
+    }
+    
+    /// Whether the layer toggle is in the on state at the index
+    open func isLayerOn(at index: Int) -> Bool {
+        guard let layer = layers[ifExists: index] else { return false }
+
+        switch layer {
+        case .traffic:
+            return isTrafficEnabled()
+        }
+    }
+    
+    /// Whether the layer toggle is enabled (toggleable) at the index
+    open func isLayerEnabled(at index: Int) -> Bool {
+        guard let layer = layers[ifExists: index] else { return false }
+        
+        switch layer {
+        case .traffic:
+            return isTrafficSupported(for: mode)
+        }
+    }
+    
     /// Updates the traffic setting to match the switch
     public func setTrafficEnabled(_ enabled: Bool) {
+        // Toggle to off first for stupid Apple bug
+        showTraffic = false
         showTraffic = enabled
     }
+    
+    // MARK: - Strings
     
     /// Title for navigation bar
     public func navTitle() -> String {
@@ -102,6 +142,22 @@ open class MapSettingsViewModel {
     public func settingsViewController() -> UIViewController {
         return MapSettingsViewController(viewModel: self)
     }
+    
+    /// Text for the type label
+    public func typeLabelText() -> String {
+        return NSLocalizedString("Type", comment: "Map Type")
+    }
+    
+    /// Text for the layers label
+    public func layersLabelText() -> String {
+        return NSLocalizedString("Additional Layers", comment: "Map Layers")
+    }
+    
+    /// Text for the layers description label
+    public func layersDescriptionLabelText() -> String {
+        return NSLocalizedString("Show these layers on the map", comment: "Map Layers Description")
+    }
+    
 }
 
 public protocol MapSettingsViewModelDelegate: class {

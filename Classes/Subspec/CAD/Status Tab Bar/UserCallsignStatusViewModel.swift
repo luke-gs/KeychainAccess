@@ -79,7 +79,7 @@ open class UserCallsignStatusViewModel {
     /// Default text for not booked on state
     open static let defaultNotBookedOnState: CallsignState = {
         return .unassigned(title: NSLocalizedString("Not Booked On", comment: ""),
-                           subtitle: NSLocalizedString("View All Callsigns", comment: "")
+                           subtitle: NSLocalizedString("View All Call Signs", comment: "")
         )
     }()
 

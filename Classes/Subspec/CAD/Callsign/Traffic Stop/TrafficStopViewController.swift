@@ -31,9 +31,9 @@ open class TrafficStopViewController: FormBuilderViewController {
     open func fetchLocation() {
         _ = firstly {
             LocationManager.shared.requestPlacemark()
-        }.then { [unowned self] placemark -> Void in
-            self.viewModel.location = placemark
-            self.reloadForm()
+        }.then { [weak self] placemark -> Void in
+            self?.viewModel.location = placemark
+            self?.reloadForm()
         }.catch { _ in
             
         }
@@ -60,7 +60,7 @@ open class TrafficStopViewController: FormBuilderViewController {
         builder.title = viewModel.navTitle()
         
         builder += HeaderFormItem(text: "STOPPED ENTITIES")
-            .actionButton(title: NSLocalizedString("ADD", comment: "").uppercased(), handler: { [unowned self] in
+            .actionButton(title: NSLocalizedString("ADD", comment: "").uppercased(), handler: { [unowned self] _ in
                 let addEntityVM = self.viewModel.viewModelForAddingEntity()
                 self.navigationController?.pushViewController(addEntityVM.createViewController(), animated: true)
             })

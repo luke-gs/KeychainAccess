@@ -9,7 +9,7 @@
 import Foundation
 
 fileprivate var contentHeightContext = 1
-
+fileprivate let tempID = "temp"
 
 open class FormBuilderViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, CollectionViewDelegateFormLayout, PopoverViewController {
 
@@ -19,7 +19,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
 
     open private(set) var collectionView: UICollectionView?
 
-    open private(set) var collectionViewInsetManager: ScrollViewInsetManager?
+    open var collectionViewInsetManager: ScrollViewInsetManager?
 
     open private(set) lazy var loadingManager: LoadingStateManager = LoadingStateManager()
 
@@ -93,9 +93,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
 
     open var wantsTransparentBackground: Bool = false {
         didSet {
-            if isViewLoaded {
-                view.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
-            }
+            view.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
         }
     }
 
@@ -213,6 +211,9 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
             collectionView?.register(item.0, forCellWithReuseIdentifier: item.1)
         }
 
+        collectionView?.register(UICollectionReusableView.self, forSupplementaryViewOfKind: collectionElementKindGlobalHeader,
+                                 withReuseIdentifier: tempID)
+        
         self.sections = sections
 
         collectionView?.reloadData()
@@ -337,11 +338,11 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
     }
 
     open func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let section = sections[indexPath.section]
+        let section = sections[ifExists: indexPath.section]
 
         switch kind {
         case UICollectionElementKindSectionHeader:
-            if let item = section.formHeader as? BaseSupplementaryFormItem {
+            if let section = section, let item = section.formHeader as? BaseSupplementaryFormItem {
                 let view = item.view(in: collectionView, for: indexPath)
 
                 if let item = item as? HeaderFormItem, let headerView = view as? CollectionViewFormHeaderView {
@@ -360,7 +361,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
                 return view
             }
         case UICollectionElementKindSectionFooter:
-            if let item = section.formFooter as? BaseSupplementaryFormItem {
+            if let section = section, let item = section.formFooter as? BaseSupplementaryFormItem {
                 let view = item.view(in: collectionView, for: indexPath)
                 return view
             }
@@ -372,7 +373,9 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
             break
         }
 
-        return UICollectionReusableView()
+        let defaultView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: tempID, for: indexPath)
+        defaultView.isUserInteractionEnabled = false
+        return defaultView
     }
 
     open func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
@@ -402,7 +405,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         let item = sections[indexPath] as! BaseFormItem
 
         if let cell = cell as? CollectionViewFormCell {
-            let theme = ThemeManager.shared.theme(for: .current)
+            let theme = ThemeManager.shared.theme(for: userInterfaceStyle)
             item.cell = cell
             item.decorate(cell, withTheme: theme)
 
@@ -426,11 +429,11 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         switch elementKind {
         case UICollectionElementKindSectionHeader:
             if let item = section.formHeader as? BaseSupplementaryFormItem {
-                item.apply(theme: ThemeManager.shared.theme(for: .current), toView: view)
+                item.apply(theme: ThemeManager.shared.theme(for: userInterfaceStyle), toView: view)
             }
         case UICollectionElementKindSectionFooter:
             if let item = section.formFooter as? BaseSupplementaryFormItem {
-                item.apply(theme: ThemeManager.shared.theme(for: .current), toView: view)
+                item.apply(theme: ThemeManager.shared.theme(for: userInterfaceStyle), toView: view)
             }
         default:
             break

@@ -20,9 +20,9 @@ open class APIManager {
     private let errorMapper: ErrorMapper?
     private let sessionManager: SessionManager
 
-    private let plugins: [PluginType]
-
-    open var authenticationPlugin: AuthenticationPlugin? = nil
+    private var plugins: [Plugin] = []
+    public private(set) var authenticationPlugin: AuthenticationPlugin? = nil
+    public private(set) var authenticationPluginFilterRule: PluginFilterRule = .allowAll
 
     public init(configuration: APIManagerConfigurable) {
         self.configuration = configuration
@@ -39,9 +39,9 @@ open class APIManager {
     ///
     /// - Parameter networkRequest: The network request to be executed.
     /// - Returns: A promise to return of specified type.
-    open func performRequest(_ networkRequest: NetworkRequestType) throws -> Promise<(Data, HTTPURLResponse?)> {
+    open func performRequest(_ networkRequest: NetworkRequestType, cancelToken: PromiseCancellationToken? = nil) throws -> Promise<(Data, HTTPURLResponse?)> {
         let request = try urlRequest(from: networkRequest)
-        return requestPromise(request, using: DataHTTPURLResponsePairResponseSerializer())
+        return requestPromise(request, using: DataHTTPURLResponsePairResponseSerializer(), cancelToken: cancelToken)
     }
 
     /// Perform specified network request that uses `ResponseSerializing` to map the result.
@@ -50,11 +50,11 @@ open class APIManager {
     ///   - networkRequest: The network request to be executed.
     ///   - serializer: `ResponseSerializing` conformer.
     /// - Returns: A promise to return result type from `ResponseSerializing`.
-    open func performRequest<T: ResponseSerializing>(_ networkRequest: NetworkRequestType, using serializer: T) throws -> Promise<T.ResultType> {
+    open func performRequest<T: ResponseSerializing>(_ networkRequest: NetworkRequestType, using serializer: T, cancelToken: PromiseCancellationToken? = nil) throws -> Promise<T.ResultType> {
         let request = try urlRequest(from: networkRequest)
-        return requestPromise(request, using: serializer)
+        return requestPromise(request, using: serializer, cancelToken: cancelToken)
     }
-    
+
     /// Request for access token.
     ///
     /// Supports implicit `NSProgress` reporting.
@@ -70,7 +70,7 @@ open class APIManager {
         return try! performRequest(networkRequest)
 
     }
-    
+
     /// Search for entity using specified request.
     ///
     /// Supports implicit `NSProgress` reporting.
@@ -79,7 +79,7 @@ open class APIManager {
     ///   - request: The request with the parameters to search the entity.
     /// - Returns: A promise to return search result of specified entity.
     open func searchEntity<SearchRequest: EntitySearchRequestable>(in source: EntitySource, with request: SearchRequest) -> Promise<SearchResult<SearchRequest.ResultClass>> {
-        
+
         let path = "{source}/entity/{entityType}/search"
         var parameters = request.parameters
         parameters["source"] = source.serverSourceName
@@ -89,7 +89,7 @@ open class APIManager {
 
         return try! self.performRequest(networkRequest)
     }
-    
+
     /// Fetch entity details using specified request.
     ///
     /// Supports implicit `NSProgress` reporting.
@@ -98,29 +98,134 @@ open class APIManager {
     ///   - request: The request with the parameters to fetch the entity.
     /// - Returns: A promise to return specified entity details.
     open func fetchEntityDetails<FetchRequest: EntityFetchRequestable>(in source: EntitySource, with request: FetchRequest) -> Promise<FetchRequest.ResultClass> {
-        
+
         let path = "{source}/entity/{entityType}/{id}"
-        
+
         var parameters = request.parameters
         parameters["source"] = source.serverSourceName
         parameters["entityType"] = FetchRequest.ResultClass.serverTypeRepresentation
 
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
-            
+
         return try! self.performRequest(networkRequest)
     }
 
-    // MARK : - Internal Utilities
-    
-    private var allPlugins: [PluginType] {
-        var allPlugins = plugins
-        if let authenticationPlugin = authenticationPlugin {
-            allPlugins.append(authenticationPlugin)
+    /// Performs a request for the `urlRequest` and returns a `Promise` with processed `DataResponse`.
+    open func dataRequest(_ urlRequest: Promise<URLRequest>, cancelToken: PromiseCancellationToken? = nil) -> Promise<DataResponse<Data>> {
+
+        let (promise, fulfill, reject) = Promise<DataResponse<Data>>.pending()
+
+        _ = createSessionRequestWithProgress(from: urlRequest).then { (request) -> Void in
+
+            cancelToken?.addCancelCommand(ClosureCancelCommand(action: {
+                request.cancel()
+                if promise.isFulfilled == false {
+                    reject(NSError.cancelledError())
+                }
+            }))
+
+            // Notify plugins of request
+            let allPlugins = self.applicablePlugins(for: request.request?.url)
+            allPlugins.forEach {
+                $0.willSend(request)
+            }
+
+            // Perform request
+            request.validate().responseDataPromise().then { (response) -> Void in
+
+                // Notify plugins response was received
+                allPlugins.forEach({
+                    $0.didReceiveResponse(response)
+                })
+
+                // Check if was cancelled, reject if so.
+                if let token = cancelToken, token.isCancelled, !promise.isFulfilled {
+                    reject(NSError.cancelledError())
+                    return
+                }
+
+                // Notifiy plugins to process and modify the response.
+                var processed = Promise(value: response)
+                for plugin in allPlugins {
+                    processed = processed.then { return plugin.processResponse($0) }
+                }
+
+                _ = processed.then { (dataResponse) -> Void in
+                    // Handle errors that were still technically responses.
+                    if let error = dataResponse.result.error {
+                        reject(error)
+                        return
+                    }
+
+                    fulfill(dataResponse)
+                }
+
+                }.catch(policy: .allErrors) { error in
+                    reject(error)
+            }
         }
-        
+
+        return promise
+
+        return createSessionRequestWithProgress(from: urlRequest).then { (dataRequest) in
+
+            // Notify plugins of request
+            let allPlugins = self.applicablePlugins(for: dataRequest.request?.url)
+            allPlugins.forEach {
+                $0.willSend(dataRequest)
+            }
+
+            // Perform request
+            return dataRequest.validate().responseDataPromise()
+                .then { (response) in
+                    allPlugins.forEach({
+                        $0.didReceiveResponse(response)
+                    })
+
+                    var processed = Promise(value: response)
+                    for plugin in allPlugins {
+                        processed = processed.then { return plugin.processResponse($0) }
+                    }
+                    return processed
+            }
+        }
+    }
+
+    /// Set the authentication plugin for this manager with the the rule of what requests it'll apply to.
+    ///
+    /// - Parameters:
+    ///   - plugin: The authentication plugin to use.
+    ///   - rule: The filter rule that the plugin should apply to.
+    public func setAuthenticationPlugin(_ plugin: AuthenticationPlugin?, rule: PluginFilterRule = .allowAll) {
+        authenticationPlugin = plugin
+        authenticationPluginFilterRule = rule
+    }
+
+    // MARK : - Internal Utilities
+
+    private var allPlugins: [Plugin] {
+
+        var allPlugins = plugins
+
+        if let authenticationPlugin = authenticationPlugin {
+            allPlugins.append(authenticationPlugin.withRule(authenticationPluginFilterRule))
+        }
+
         return allPlugins
     }
-    
+
+    private func applicablePlugins(for url: URL?) -> [PluginType] {
+
+        guard let url = url else {
+            // No URL specified, allow all.
+            return allPlugins.map { $0.plugin }
+        }
+
+        return allPlugins.flatMap {
+            return $0.isApplicable(to: url) ? $0.plugin : nil
+        }
+    }
+
     private func urlRequest(from networkRequest: NetworkRequestType) throws -> Promise<URLRequest> {
         let path = networkRequest.path
 
@@ -139,7 +244,7 @@ open class APIManager {
         let request = try URLRequest(url: requestPath, method: networkRequest.method)
         let encodedURLRequest = try networkRequest.parameterEncoding.encode(request, with: parameters)
 
-        return adaptedRequest(encodedURLRequest, using: allPlugins)
+        return adaptedRequest(encodedURLRequest, using: applicablePlugins(for: requestPath))
     }
     
     private func adaptedRequest(_ urlRequest: URLRequest, using plugins: [PluginType]) -> Promise<URLRequest> {
@@ -165,39 +270,13 @@ open class APIManager {
             return Promise(value: dataRequest)
         }
     }
-    
-    /// Performs a request for the `urlRequest` and returns a `Promise` with processed `DataResponse`.
-    public func dataRequest(_ urlRequest: Promise<URLRequest>) -> Promise<DataResponse<Data>> {
-        return createSessionRequestWithProgress(from: urlRequest).then { (request) in
-            
-            // Notify plugins of request
-            let allPlugins = self.allPlugins
-            allPlugins.forEach {
-                $0.willSend(request)
-            }
-            
-            // Perform request
-            return request.validate().responseDataPromise()
-                .then { (response) in
-                    allPlugins.forEach({
-                        $0.didReceiveResponse(response)
-                    })
-                    
-                    var processed = Promise(value: response)
-                    for plugin in allPlugins {
-                        processed = processed.then { return plugin.processResponse($0) }
-                    }
-                    return processed
-                }
-        }
-    }
 
     /// Returns a `Promise` that executes the entire chain of related promises for the network request (including serializing response).
-    private func requestPromise<T: ResponseSerializing>(_ urlRequest: Promise<URLRequest>, using serializer: T) -> Promise<T.ResultType> {
+    private func requestPromise<T: ResponseSerializing>(_ urlRequest: Promise<URLRequest>, using serializer: T, cancelToken: PromiseCancellationToken? = nil) -> Promise<T.ResultType> {
 
         let mapper = self.errorMapper
         return Promise { fulfill, reject in
-            dataRequest(urlRequest).then { (processedResponse) -> Void in
+            dataRequest(urlRequest, cancelToken: cancelToken).then { (processedResponse) -> Void in
                 let result = serializer.serializedResponse(from: processedResponse)
 
                 switch result {
@@ -221,7 +300,9 @@ open class APIManager {
     }
 }
 
-public extension APIManager {
+// MARK: - Shared manager configuration
+/// Allows setting a global sharedManager for convenience.
+extension APIManager {
 
     private static var _sharedManager: APIManager?
 
@@ -240,7 +321,9 @@ public extension APIManager {
 
 // MARK: - ResponseSerializing
 
-// Name-spaced default implementation `ResponseSerializing` that handles data.
+/// Name-spaced default implementation of `ResponseSerializing`.
+/// `JSONObjectResponseSerializer` and `JSONObjectResponseSerializer`, for example,
+/// are very generic name.
 extension APIManager {
 
     fileprivate struct DataHTTPURLResponsePairResponseSerializer: ResponseSerializing {
@@ -289,35 +372,22 @@ extension APIManager {
                 if let json = json as? ResultType {
                     return .success(json)
                 } else {
-                    return .failure(ParsingError.notParsable)
+                    return .failure(ParsingError.incorrectFormat)
                 }
             case .failure(let error):
                 return .failure(error)
             }
         }
     }
-}
 
-
-extension DataRequest {
-    
-    func responseDataPromise() -> Promise<DataResponse<Data>> {
-        return Promise { (fulfill, _) in
-            self.responseData { fulfill($0) }
-        }
-    }
-}
-
-extension APIManager {
-    
     // Serialization of for arrays of dictionaries
     public struct JSONObjectArrayResponseSerializer: ResponseSerializing {
         public typealias ResultType = [[String:Any]]
-        
+
         public init() {
-            
+
         }
-        
+
         public func serializedResponse(from dataResponse: DataResponse<Data>) -> Alamofire.Result<ResultType> {
             let result = DataRequest.serializeResponseJSON(options: .allowFragments, response: dataResponse.response, data: dataResponse.data, error: dataResponse.error)
             switch result {
@@ -330,6 +400,16 @@ extension APIManager {
             case .failure(let error):
                 return .failure(error)
             }
+        }
+    }
+    
+}
+
+extension DataRequest {
+    
+    fileprivate func responseDataPromise() -> Promise<DataResponse<Data>> {
+        return Promise { (fulfill, _) in
+            self.responseData { fulfill($0) }
         }
     }
 }

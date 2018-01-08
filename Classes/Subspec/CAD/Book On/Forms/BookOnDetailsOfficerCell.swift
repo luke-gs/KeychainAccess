@@ -26,9 +26,11 @@ class BookOnDetailsOfficerCell: CollectionViewFormSubtitleCell {
         super.commonInit()
 
         let theme = ThemeManager.shared.theme(for: .current)
-        statusLabel.textColor = theme.color(forKey: .primaryText)
-        statusLabel.borderColor = statusLabel.textColor
-        statusLabel.backgroundColor = .clear
+        statusLabel.textColor = theme.color(forKey: .background)
+        statusLabel.borderColor = theme.color(forKey: .primaryText)
+        statusLabel.backgroundColor = theme.color(forKey: .primaryText)
+        statusLabel.layoutMargins.left = 4
+        statusLabel.layoutMargins.right = 4
         contentView.addSubview(statusLabel)
     }
 

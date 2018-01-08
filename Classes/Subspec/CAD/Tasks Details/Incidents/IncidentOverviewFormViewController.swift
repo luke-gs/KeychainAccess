@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class IncidentOverviewFormViewController: FormBuilderViewController {
+open class IncidentOverviewFormViewController: IntrinsicHeightFormBuilderViewController {
     
     public let viewModel: IncidentOverviewViewModel
     
@@ -26,13 +26,13 @@ open class IncidentOverviewFormViewController: FormBuilderViewController {
                                       style: .collapsible)
             
             for item in section.items {
-                builder += ValueFormItem(title: item.title, value: item.value, image: item.image).width(item.width)
+                builder += ValueFormItem(title: item.title, value: item.value, image: item.image)
+                    .width(item.width)
+                    .onSelection({ cell in
+                        item.selectAction?(cell)
+                    })
             }
         }
-    }
-    
-    open override func collectionViewClass() -> UICollectionView.Type {
-        return IntrinsicHeightCollectionView.self
     }
 }
 

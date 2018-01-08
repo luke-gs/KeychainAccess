@@ -150,6 +150,12 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
                 oldValue?.removeFromSuperview()
                 
                 if let accessoryView = self.accessoryView {
+                    // Make sure accessoryView is removed from previous cell before we add it to this cell.
+                    // Would ideally call in `prepareForReuse()` but apparently sometimes collectionView
+                    // configures new cells before calling that method.
+                    if let previousCell = accessoryView.superview(of: CollectionViewFormCell.self) {
+                        previousCell.accessoryView = nil
+                    }
                     contentView.addSubview(accessoryView)
                 } else {
                     contentModeLayoutTrailingConstraint?.constant = 0.0
@@ -506,18 +512,28 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     }
     
     
+    func animateAccessoryViewVisible(_ visible: Bool) {
+        if let accessoryView = accessoryView {
+            UIView.animate(withDuration: 0.2, animations: {
+                accessoryView.alpha = visible ? 1 : 0
+            })
+        }
+    }
+
     // MARK: - CollectionViewFormCellActionDelegate methods
     
     func actionViewShouldBeginDragging(_ actionView: CollectionViewFormCellActionView) -> Bool {
         return firstResponderSubview() == nil
     }
-    
+
     func actionViewWillShowActions(_ actionView: CollectionViewFormCellActionView) {
+        animateAccessoryViewVisible(false)
         superview(of: UICollectionView.self)?.endEditing(false)
         applyTouchTrigger()
     }
     
     func actionViewDidHideActions(_ actionView: CollectionViewFormCellActionView) {
+        animateAccessoryViewVisible(true)
         removeTouchTrigger()
     }
     

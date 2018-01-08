@@ -49,18 +49,20 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<EntitySum
                                                     entityType: .vehicle,
                                                     title: vehicle.plateNumber,
                                                     detail1: vehicle.vehicleDescription,
-                                                    detail2: [vehicle.bodyType, vehicle.color].joined(separator: " • "),
+                                                    detail2: [vehicle.bodyType, vehicle.color].joined(separator: ThemeConstants.dividerSeparator),
                                                     borderColor: nil,
                                                     iconColor: nil,
                                                     badge: 0)
         } ?? []
         
         if personsViewModels.count > 0 {
-            sections.append(CADFormCollectionSectionViewModel(title: "\(personsViewModels.count) People", items: personsViewModels))
+            let title = String.localizedStringWithFormat(NSLocalizedString("%d Person(s)", comment: ""), personsViewModels.count)
+            sections.append(CADFormCollectionSectionViewModel(title: title, items: personsViewModels))
         }
         
         if vehiclesViewModels.count > 0 {
-            sections.append(CADFormCollectionSectionViewModel(title: "\(vehiclesViewModels.count) Vehicles", items: vehiclesViewModels))
+            let title = String.localizedStringWithFormat(NSLocalizedString("%d Vehicle(s)", comment: ""), vehiclesViewModels.count)
+            sections.append(CADFormCollectionSectionViewModel(title: title, items: vehiclesViewModels))
         }
         self.sections = sections
     }

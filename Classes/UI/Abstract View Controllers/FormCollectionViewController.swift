@@ -366,6 +366,8 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
                         view.tintColor = primaryTextColor
                     case .overflow:
                         view.tintColor = tintColor
+                    case .pencil:
+                        view.tintColor = secondaryTextColor
                     }
                 }
                 

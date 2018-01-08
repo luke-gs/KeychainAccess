@@ -191,7 +191,8 @@ public class SearchViewController: UIViewController, SearchDelegate, SearchOptio
                 topOffset = topLayoutGuide.length
             }
 
-            let viewFrame = CGRect(x: 0, y: 0, width: viewBounds.width, height: min(searchPreferredHeight + topOffset, viewBounds.height))
+            let height: CGFloat = UIDevice.current.userInterfaceIdiom == .phone ? viewBounds.height : min(searchPreferredHeight + topOffset, viewBounds.height)
+            let viewFrame = CGRect(x: 0, y: 0, width: viewBounds.width, height: height)
 
             searchOptionsView.frame = viewFrame
             searchOptionsView.layoutIfNeeded()

@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedOnItemViewModel> {
+open class NotBookedOnViewController: FormBuilderViewController {
 
     /// Layout sizing constants
     public struct LayoutConstants {
@@ -36,9 +36,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
     open var allCallsignsButton: UIButton!
     
     /// `super.viewModel` typecasted to our type
-    open var notBookedOnViewModel: NotBookedOnViewModel? {
-        return viewModel as? NotBookedOnViewModel
-    }
+    open var viewModel: NotBookedOnViewModel
     
     /// Support being transparent when in popover/form sheet
     open override var wantsTransparentBackground: Bool {
@@ -51,10 +49,16 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
     // MARK: - Setup
     
     public init(viewModel: NotBookedOnViewModel) {
-        super.init(viewModel: viewModel)
+        self.viewModel = viewModel
+        super.init()
         
+        title = viewModel.navTitle()
         setupViews()
         setupConstraints()
+    }
+    
+    public required convenience init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
     }
     
     open override func loadView() {
@@ -71,11 +75,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
             ])
         }
     }
-    
-    public required convenience init?(coder aDecoder: NSCoder) {
-        MPLCodingNotSupported()
-    }
-    
+
     /// Creates and styles views
     open func setupViews() {
         let theme = ThemeManager.shared.theme(for: .current)
@@ -83,7 +83,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
         
         titleLabel = UILabel()
         titleLabel.font = UIFont.systemFont(ofSize: 15)
-        titleLabel.text = notBookedOnViewModel?.headerText()
+        titleLabel.text = viewModel.headerText()
         titleLabel.textColor = ThemeManager.shared.theme(for: .current).color(forKey: .primaryText)
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 2
@@ -98,7 +98,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
         stayOffDutyButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         stayOffDutyButton.setTitleColor(tintColor, for: .normal)
         stayOffDutyButton.setTitleColor(tintColor.withAlphaComponent(0.5), for: .highlighted)
-        stayOffDutyButton.setTitle(notBookedOnViewModel?.stayOffDutyButtonText(), for: .normal)
+        stayOffDutyButton.setTitle(viewModel.stayOffDutyButtonText(), for: .normal)
         stayOffDutyButton.addTarget(self, action: #selector(didSelectStayOffDutyButton), for: .touchUpInside)
         stayOffDutyButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(stayOffDutyButton)
@@ -111,7 +111,7 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
         allCallsignsButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         allCallsignsButton.setTitleColor(tintColor, for: .normal)
         allCallsignsButton.setTitleColor(tintColor.withAlphaComponent(0.5), for: .highlighted)
-        allCallsignsButton.setTitle(notBookedOnViewModel?.allCallsignsButtonText(), for: .normal)
+        allCallsignsButton.setTitle(viewModel.allCallsignsButtonText(), for: .normal)
         allCallsignsButton.addTarget(self, action: #selector(didSelectAllCallsignsButton), for: .touchUpInside)
         allCallsignsButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(allCallsignsButton)
@@ -155,81 +155,62 @@ open class NotBookedOnViewController: CADFormCollectionViewController<NotBookedO
         self.navigationController?.pushViewController(CallsignListViewModel().createViewController(), animated: true)
     }
     
-    // MARK: - Override
-    
-    override open func cellType() -> CollectionViewFormCell.Type {
-        return CollectionViewFormSubtitleCell.self
-    }
-    
-    override open func decorate(cell: CollectionViewFormCell, with viewModel: NotBookedOnItemViewModel) {
-        cell.highlightStyle = .fade
-        cell.selectionStyle = .fade
-        cell.separatorStyle = .indented
-        cell.separatorColor = UIColor.red
-        cell.accessoryView = FormAccessoryView(style: .disclosure)
+    // MARK: - Form Builder
+    open override func construct(builder: FormBuilder) {
+        let patrolAreaSection = viewModel.patrolAreaSection()
+
+        builder += HeaderFormItem(text: patrolAreaSection.title.uppercased(),
+                                  style: viewModel.shouldShowExpandArrow() ? .collapsible : .plain)
+
+        for item in patrolAreaSection.items {
+            builder += ValueFormItem(title: nil, value: item.title, image: item.image)
+                .accessory(ItemAccessory.disclosure)
+                .width(.column(1))
+                .height(.fixed(44))
+                .onThemeChanged({ (cell, theme) in
+                    (cell as? CollectionViewFormValueFieldCell)?.valueLabel.textColor = theme.color(forKey: .primaryText)
+                })
+                .contentMode(.center)
+                .onSelection({ [weak self] _ in
+                    let viewModel = PatrolAreaListViewModel()
+                    viewModel.selectedPatrolArea = item.title
+                    viewModel.delegate = self
+                    self?.navigationController?.pushViewController(viewModel.createViewController(), animated: true)
+                })
+        }
         
-        if let cell = cell as? CollectionViewFormSubtitleCell {
-            cell.titleLabel.text = viewModel.title
-            cell.subtitleLabel.text = viewModel.subtitle
-            cell.imageView.image = viewModel.image
-            cell.imageView.tintColor = viewModel.imageColor
+        let callsignSection = viewModel.callsignSection()
 
-            if let viewModel = viewModel as? NotBookedOnCallsignItemViewModel, viewModel.badgeText != nil {
-                var edgeInsets = RoundedRectLabel.defaultLayoutMargins
-                edgeInsets.left = 6
-                edgeInsets.right = 6
+        builder += HeaderFormItem(text: callsignSection.title.uppercased(),
+                                  style: viewModel.shouldShowExpandArrow() ? .collapsible : .plain)
 
-                let accessoryLabelDetail = AccessoryLabelDetail.init(text: viewModel.badgeText,
-                                                                     textColour: viewModel.badgeTextColor,
-                                                                     borderColour: viewModel.badgeBorderColor,
-                                                                     backgroundColour: viewModel.badgeFillColor,
-                                                                     layoutMargins: edgeInsets)
-                let accessoryTextStyle = AccessoryTextStyle.roundedRect(accessoryLabelDetail)
-                let accessoryView = FormAccessoryView(style: .disclosure, labelStyle: accessoryTextStyle)
-                cell.accessoryView = accessoryView
-            }
+        for item in callsignSection.items {
+            builder += CustomFormItem(cellType: CallsignCollectionViewCell.self,
+                                      reuseIdentifier: CallsignCollectionViewCell.defaultReuseIdentifier)
+                .accessory(ItemAccessory.disclosure)
+                .height(.fixed(64))
+                .onConfigured({ (cell) in
+                    (cell as? CallsignCollectionViewCell)?.decorate(with: item)
+                })
+                .onThemeChanged({ (cell, theme) in
+                    (cell as? CallsignCollectionViewCell)?.apply(theme: theme)
+                })
+                .onSelection({ [weak self] (cell) in
+                    if let viewController = self?.viewModel.bookOnViewControllerForItem(item) {
+                        self?.navigationController?.pushViewController(viewController, animated: true)
+                    }
+                })
+        }
+    }
+    
+}
 
+extension NotBookedOnViewController: PatrolAreaListViewModelDelegate {
+    
+    public func patrolAreaListViewModel(_ viewModel: PatrolAreaListViewModel, didSelectPatrolArea patrolArea: String?) {
+        if let patrolArea = patrolArea {
+            CADStateManager.shared.patrolGroup = patrolArea
+            reloadForm()
         }
     }
-    
-    open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
-        
-        if let cell = cell as? CollectionViewFormCell {
-            cell.separatorColor = iOSStandardSeparatorColor
-        }
-    }
-    
-    override open func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
-        super.collectionView(collectionView, willDisplaySupplementaryView: view, forElementKind: elementKind, at: indexPath)
-        if let header = view as? CollectionViewFormHeaderView {
-            header.separatorColor = iOSStandardSeparatorColor
-        }
-    }
-    
-    // MARK: - UICollectionViewDelegate
-    
-    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
-
-        if let bookOnViewController = notBookedOnViewModel?.bookOnViewControllerForItem(indexPath) {
-            navigationController?.pushViewController(bookOnViewController, animated: true)
-        }
-    }
-    
-    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        if let item = viewModel.item(at: indexPath) {
-            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection, imageSize: item.image?.size ?? .zero)
-        }
-        return 0
-    }
-    
-    @objc open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
-        /// Set first header to have less height as we have too much top padding below the header text
-        if section == 0 {
-            return 16
-        }
-        return CollectionViewFormHeaderView.minimumHeight
-    }
-
 }

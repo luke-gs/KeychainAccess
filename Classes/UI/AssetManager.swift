@@ -113,6 +113,7 @@ extension AssetManager {
         public static let tabBarResources  = ImageKey("iconTabBarResources")
         public static let tabBarComms      = ImageKey("iconTabBarComms")
         public static let tabBarActivity   = ImageKey("iconTabBarActivityLog")
+        public static let tabBarSearch     = ImageKey("iconTabBarSearch")
 
         // Nav Bar Icons
         public static let back           = ImageKey("iconNavBarBack")
@@ -125,6 +126,7 @@ extension AssetManager {
         public static let add            = ImageKey("iconSystemAdd")
         public static let close          = ImageKey("iconSystemClose")
         public static let edit           = ImageKey("iconSystemEdit")
+        public static let editCell       = ImageKey("iconSystemEditCell")
         public static let info           = ImageKey("iconSystemInfo")
         public static let time           = ImageKey("iconSystemTime")
         public static let date           = ImageKey("iconSystemDate")
@@ -154,6 +156,8 @@ extension AssetManager {
         public static let refresh        = ImageKey("iconGeneralRefreshMagnify")
         public static let email          = ImageKey("iconFormEmail")
         public static let duress         = ImageKey("iconDuress")
+        public static let route          = ImageKey("iconGeneralRoute")
+        public static let streetView     = ImageKey("iconGeneralStreetView")
 
         public static let generalLocation = ImageKey("iconGeneralLocation")
         public static let otherPatrolArea = ImageKey("iconOtherPatrolArea")

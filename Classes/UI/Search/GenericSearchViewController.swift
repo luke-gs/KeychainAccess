@@ -53,13 +53,15 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
                                             subtitle: viewModel.description(for: indexPath),
                                             image: viewModel.image(for: indexPath),
                                             style: .default)
-                    .accessory(ItemAccessory.disclosure)
+                    .accessory(viewModel.accessory(for: viewModel.searchable(for: indexPath)))
                     .onSelection { [unowned self] cell in
                         let searchable = self.viewModel.searchable(for: indexPath)
                         self.delegate?.genericSearchViewController(self, didSelectRowAt: indexPath, withSearchable: searchable)
                 }
             }
         }
+        // Update loading state based on whether there is any content
+        loadingManager.state = builder.formItems.isEmpty ? .noContent : .loaded
     }
 
     open override func viewDidLayoutSubviews() {
@@ -104,5 +106,5 @@ public protocol GenericSearchDelegate {
     ///   - viewController: the view controller that the tap came form
     ///   - indexPath: the indexPath that was tapped
     ///   - withSearchable: teh searchable object for that indexPath
-    func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath, withSearchable: GenericSearchable)
+    func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath, withSearchable searchable: GenericSearchable)
 }
