@@ -102,7 +102,16 @@ open class TasksSplitViewModel {
             let isOther = incident.status != .resourced && incident.status != .unresourced
             let isCurrent = incident.status == .current
             
-            return isCurrent || (priorityFilter && (resourcedFilter || isOther))
+            var hasResourceInDuress: Bool = false
+            
+            for resource in CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier) {
+                if resource.status == .duress {
+                    hasResourceInDuress = true
+                    break
+                }
+            }
+            
+            return isCurrent || hasResourceInDuress || (priorityFilter && (resourcedFilter || isOther))
         }
     }
     
