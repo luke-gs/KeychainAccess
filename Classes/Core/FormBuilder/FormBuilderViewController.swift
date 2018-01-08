@@ -91,9 +91,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
 
     open var wantsTransparentBackground: Bool = false {
         didSet {
-            if isViewLoaded {
-                view.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
-            }
+            view.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
         }
     }
 
