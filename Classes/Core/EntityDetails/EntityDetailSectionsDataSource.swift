@@ -21,6 +21,8 @@ public protocol EntityDetailSectionUpdatable: class {
 
 /// Data source defining the entity details
 public protocol EntityDetailSectionsDataSource {
+    
+    typealias EntityDetailViewController = (UIViewController & EntityDetailSectionUpdatable)
 
     /// The source of the data
     var source: EntitySource { get }
@@ -32,7 +34,7 @@ public protocol EntityDetailSectionsDataSource {
     var localizedDisplayName: String { get }
 
     /// An array of view controllers that are shown as sections in the sidebar of the entity details screen
-    var detailViewControllers: [(UIViewController & EntityDetailSectionUpdatable)] { get }
+    var detailViewControllers: [EntityDetailViewController] { get }
 
     /// Generates a fetchable objects for the initial fetch of data in the entity details screen
     ///
