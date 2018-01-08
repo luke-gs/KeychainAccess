@@ -2,6 +2,60 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>%d Resource(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@resources@</string>
+		<key>resources</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%d Resource</string>
+			<key>zero</key>
+			<string>No Resources</string>
+			<key>other</key>
+			<string>%d Resources</string>
+		</dict>
+	</dict>
+	<key>%d Vehicle(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@vehicles@</string>
+		<key>vehicles</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%d Vehicle</string>
+			<key>zero</key>
+			<string>No Vehicles</string>
+			<key>other</key>
+			<string>%d Vehicles</string>
+		</dict>
+	</dict>
+	<key>%d Person(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@persons@</string>
+		<key>persons</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%d Person</string>
+			<key>zero</key>
+			<string>No People</string>
+			<key>other</key>
+			<string>%d People</string>
+		</dict>
+	</dict>
 	<key>%d Officer(s)</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>

@@ -44,8 +44,8 @@ public class LandingPresenter: AppGroupLandingPresenter {
                                                              subtitle: NSLocalizedString("Public Safety Mobile Platform", comment: "Login screen header subtitle"), image: #imageLiteral(resourceName: "MPOLIcon"))
 
             #if DEBUG
-                loginViewController.usernameField.text = "matt"
-                loginViewController.passwordField.text = "vicroads"
+                loginViewController.usernameField.textField.text = "matt"
+                loginViewController.passwordField.textField.text = "vicroads"
             #endif
 
             #if !EXTERNAL

@@ -80,6 +80,10 @@ fileprivate class VehicleSearchOptions: SearchOptions {
         return nil
     }
 
+    func conditionalRequiredFields(for index: Int) -> [Int]? {
+        return nil
+    }
+
     weak var delegate: VehicleSearchOptionsDelegate?
 }
 

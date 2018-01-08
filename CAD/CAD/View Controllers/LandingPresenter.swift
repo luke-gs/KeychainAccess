@@ -40,8 +40,8 @@ public class LandingPresenter: AppGroupLandingPresenter {
                                                              subtitle: NSLocalizedString("Public Safety Mobile Platform", comment: "Login screen header subtitle"), image: #imageLiteral(resourceName: "MPOLIcon"))
 
             #if DEBUG
-                loginViewController.usernameField.text = "matt"
-                loginViewController.passwordField.text = "vicroads"
+                loginViewController.usernameField.textField.text = "matt"
+                loginViewController.passwordField.textField.text = "vicroads"
             #endif
 
             return loginViewController
@@ -69,7 +69,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 return settingsItem
             }
             let callsignViewController = CompactCallsignViewController()
-            callsignViewController.tabBarItem = UITabBarItem(title: "Callsign", image: AssetManager.shared.image(forKey: .entityCar), selectedImage: nil)
+            callsignViewController.tabBarItem = UITabBarItem(title: "Call Sign", image: AssetManager.shared.image(forKey: .entityCar), selectedImage: nil)
 
             let searchProxyViewController = AppProxyViewController(appUrlTypeScheme: SEARCH_APP_SCHEME)
             searchProxyViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
@@ -113,7 +113,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             CADStateManager.apiManager.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] token -> Void in
                 guard let `self` = self else { return }
 
-                APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
+                APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)))
                 UserSession.startSession(user: User(username: username), token: token)
                 controller.resetFields()
                 self.updateInterfaceForUserSession(animated: true)
