@@ -21,9 +21,9 @@ public class TemplateManagerTests: XCTestCase {
 
     class DummyTemplateDelegate: TemplateDelegate {
 
-        func storeCachedTemplates() {}
+        func storeCachedTemplates(templates: Set<Template>) {}
 
-        func storeLocalTemplates() {}
+        func storeLocalTemplates(templates: Set<Template>) {}
 
         var url: URL = try! "http://google.com".asURL()
 
