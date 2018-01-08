@@ -40,7 +40,7 @@ open class GeolocationPlugin: PluginType {
                 request.setValue(String(location.course), forHTTPHeaderField: GeolocationPlugin.locationDirectionOfTravelKey)
             }
 
-            if location.speed >= 0.0 { // Check if valid        if location.speed >= 0.0 { // Check if valid
+            if location.speed >= 0.0 { // Check if valid
                 request.setValue(String(location.speed), forHTTPHeaderField: GeolocationPlugin.locationSpeed)
             }
         }
@@ -49,7 +49,7 @@ open class GeolocationPlugin: PluginType {
             return LocationManager.shared.errorManager.handleError(error).then { location in
                 return location
             }.catch { error in
-                return CLLocation.indeterminateLocation
+                return CLLocation.invalidLocation
             }
 
         }.then { location -> Promise<URLRequest> in

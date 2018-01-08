@@ -61,7 +61,7 @@ public final class LocationErrorManager: LocationErrorManageable {
 }
 
 extension CLLocation {
-    static var indeterminateLocation: CLLocation {
+    static var invalidLocation: CLLocation {
         let location2d = kCLLocationCoordinate2DInvalid
         return CLLocation(latitude: location2d.latitude, longitude: location2d.longitude)
     }
