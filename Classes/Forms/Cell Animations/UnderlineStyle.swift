@@ -19,4 +19,6 @@ public struct UnderlineStyle: CellSelectionAnimatable {
             cell.setNeedsLayout()
         }
     }
+
+    public init() {}
 }

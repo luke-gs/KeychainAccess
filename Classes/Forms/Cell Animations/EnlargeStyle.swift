@@ -28,4 +28,6 @@ public struct EnlargeStyle: CellSelectionAnimatable {
         let finalColor = validationColor ?? cell.separatorColor
         cell.separatorView.backgroundColor = finalColor
     }
+
+    public init() {}
 }
