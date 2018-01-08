@@ -5,7 +5,7 @@
       location = "group:MPOL.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:ClientKit/ClientKit.xcodeproj">
+      location = "group:../ClientKit/ClientKit.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
