@@ -13,9 +13,9 @@ open class EntityAlertsViewController: FormBuilderViewController, EntityDetailSe
     
     // MARK: - EntityDetailSectionUpdatable
     
-    open var entity: MPOLKitEntity? {
+    open var genericEntity: MPOLKitEntity? {
         didSet {
-            viewModel.entity = entity as? Entity
+            viewModel.entity = genericEntity as? Entity
         }
     }
     

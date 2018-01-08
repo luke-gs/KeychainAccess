@@ -11,7 +11,7 @@ import MPOLKit
 
 open class EntityEventsViewController: FormCollectionViewController, EntityDetailSectionUpdatable {
 
-    open var entity: MPOLKitEntity? {
+    open var genericEntity: MPOLKitEntity? {
         didSet {
             updateNoContentSubtitle()
             loadingManager.state = .noContent // Temp
@@ -44,7 +44,7 @@ open class EntityEventsViewController: FormCollectionViewController, EntityDetai
     
     private func updateNoContentSubtitle() {
         let entityDisplayName: String
-        if let entity = entity as? Entity {
+        if let entity = genericEntity as? Entity {
             entityDisplayName = type(of: entity).localizedDisplayName.localizedLowercase
         } else {
             entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")

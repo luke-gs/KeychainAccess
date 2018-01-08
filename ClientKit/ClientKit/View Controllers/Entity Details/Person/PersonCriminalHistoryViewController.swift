@@ -50,7 +50,7 @@ open class PersonCriminalHistoryViewController: FormCollectionViewController, En
     
     // MARK: - Public Properties
     
-    open var entity: MPOLKitEntity? {
+    open var genericEntity: MPOLKitEntity? {
         get {
             return viewModel.person
         }

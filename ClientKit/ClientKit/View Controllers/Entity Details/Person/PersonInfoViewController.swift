@@ -11,7 +11,7 @@ import MPOLKit
 
 open class PersonInfoViewController: FormCollectionViewController, EntityDetailSectionUpdatable {
     
-    open var entity: MPOLKitEntity? {
+    open var genericEntity: MPOLKitEntity? {
         get {
             return self.viewModel.person
         }
@@ -272,7 +272,7 @@ open class PersonInfoViewController: FormCollectionViewController, EntityDetailS
     }
     
     private func updateLoadingManagerState() {
-        loadingManager.state = entity != nil ? .loaded : .noContent
+        loadingManager.state = genericEntity != nil ? .loaded : .noContent
     }
 
 }

@@ -11,7 +11,7 @@ import MPOLKit
 
 open class OrganizationInfoViewController: FormCollectionViewController, EntityDetailSectionUpdatable {
     
-    open var entity: MPOLKitEntity?
+    open var genericEntity: MPOLKitEntity?
     
     // MARK: - Initializers
     
@@ -64,7 +64,7 @@ open class OrganizationInfoViewController: FormCollectionViewController, EntityD
             
             if section == .header {
                 let lastUpdatedString: String
-                if let lastUpdated = (entity as? Entity)?.lastUpdated {
+                if let lastUpdated = (genericEntity as? Entity)?.lastUpdated {
                     lastUpdatedString = DateFormatter.shortDate.string(from: lastUpdated)
                 } else {
                     lastUpdatedString = NSLocalizedString("UNKNOWN", bundle: .mpolKit, comment: "Unknown Date")
@@ -100,7 +100,7 @@ open class OrganizationInfoViewController: FormCollectionViewController, EntityD
                 cell.thumbnailView.addTarget(self, action: #selector(entityThumbnailDidSelect(_:)), for: .primaryActionTriggered)
             }
             
-            cell.sourceLabel.text = (entity as? Entity)?.source?.localizedBadgeTitle
+            cell.sourceLabel.text = (genericEntity as? Entity)?.source?.localizedBadgeTitle
             cell.titleLabel.text = "Citizen, John R."
             cell.subtitleLabel.text = "08/05/1987 (29 Male)"
             cell.descriptionLabel.text = "196 cm proportionate european male with short brown hair and brown eyes"

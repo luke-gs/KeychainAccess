@@ -15,7 +15,7 @@ open class VehicleOccurrencesViewController: EntityEventsViewController, FilterV
     
     // MARK: - Public properties
     
-    open override var entity: MPOLKitEntity? {
+    open override var genericEntity: MPOLKitEntity? {
         get {
             return viewModel.entity
         }

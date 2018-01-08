@@ -11,10 +11,10 @@ import MPOLKit
 
 open class EntityAssociationsViewController: FormCollectionViewController, EntityDetailSectionUpdatable {
     
-    open var entity: MPOLKitEntity? {
+    open var genericEntity: MPOLKitEntity? {
         didSet {
             updateNoContentSubtitle()
-            viewModel.entity = entity as? Entity
+            viewModel.entity = genericEntity as? Entity
         }
     }
     
@@ -204,7 +204,7 @@ open class EntityAssociationsViewController: FormCollectionViewController, Entit
     
     private func updateNoContentSubtitle() {
         let entityDisplayName: String
-        if let entity = entity as? Entity {
+        if let entity = genericEntity as? Entity {
             entityDisplayName = type(of: entity).localizedDisplayName.localizedLowercase
         } else {
             entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")

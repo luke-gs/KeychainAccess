@@ -16,7 +16,7 @@ open class PersonOccurrencesViewController: EntityEventsViewController, FilterVi
     
     // MARK: - Public properties
     
-    open override var entity: MPOLKitEntity? {
+    open override var genericEntity: MPOLKitEntity? {
         get {
             return viewModel.entity
         }
