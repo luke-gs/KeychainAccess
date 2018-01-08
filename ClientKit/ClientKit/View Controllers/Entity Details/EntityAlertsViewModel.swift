@@ -11,11 +11,11 @@ import MPOLKit
 
 open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
     
-    // MARK: - EntityDetailFormViewModel
-    
     open var alerts: [Alert] {
         return entity?.alerts ?? []
     }
+    
+    // MARK: - EntityDetailFormViewModel
     
     open override var entity: Entity? {
         didSet {

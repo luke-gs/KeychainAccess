@@ -6,110 +6,172 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
-import Foundation
 import MPOLKit
 
-public class EntityAssociationsViewModel: EntityDetailViewModelable {
+open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
     
-    public typealias DetailsType  = Section
+    /// Associated persons
+    private var persons: [Person] {
+        return entity?.associatedPersons ?? []
+    }
     
-    // MARK: Initialize
-    private var associatedPersons: [Person]  = []
-    private var associatedVehicles: [Vehicle] = []
+    /// Associated vehicles
+    private var vehicles: [Vehicle] {
+        return entity?.associatedVehicles ?? []
+    }
     
-    public weak var delegate: EntityDetailViewModelDelegate?
-
-    public var entity: Entity? {
-        didSet {
-            associatedPersons = entity?.associatedPersons ?? []
-            associatedVehicles = entity?.associatedVehicles ?? []
+    /// Total associations count
+    private var count: Int {
+        return persons.count + vehicles.count
+    }
+    
+    // MARK: - EntityDetailFormViewModel
+    
+    open override func construct(for viewController: FormBuilderViewController, with builder: FormBuilder) {
+        builder.title = title
+        
+        if !persons.isEmpty {
+            builder += HeaderFormItem(text: String(format: (count == 1 ? "%d PERSON" : "%d PEOPLE"), persons.count), style: .collapsible)
             
-            let count = associatedPersons.count + associatedVehicles.count
-            delegate?.updateSidebarItemCount(UInt(count))
-
-            let color = entity?.associatedAlertLevel?.color
-            delegate?.updateSidebarAlertColor(color)
+            for person in persons {
+                builder += formItem(for: person, in: viewController)
+            }
+        }
+        
+        if !vehicles.isEmpty {
+            builder += HeaderFormItem(text: String(format: (count == 1 ? "%d VEHICLE" : "%d VEHICLES"), vehicles.count), style: .collapsible)
             
-            var sections: [Section] = []
-            if associatedPersons.isEmpty == false {
-                sections.append(.people(associatedPersons))
+            for vehicle in vehicles {
+                builder += formItem(for: vehicle, in: viewController)
             }
-            if associatedVehicles.isEmpty == false {
-                sections.append(.vehicles(associatedVehicles))
-            }
-            self.sections = sections
+        }
+        
+        delegate?.updateLoadingState(count == 0 ? .noContent : .loaded)
+    }
+    
+    open override var title: String? {
+        return NSLocalizedString("Associations", bundle: .mpolKit, comment: "")
+    }
+    
+    open override var noContentTitle: String? {
+        return NSLocalizedString("No Associations Found", comment: "")
+    }
+    
+    open override var noContentSubtitle: String? {
+        let name: String
+        if let entity = entity {
+            name = type(of: entity).localizedDisplayName.localizedLowercase
+        } else {
+            name = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
+        }
+        return String(format: NSLocalizedString("This %@ has no associations", bundle: .mpolKit, comment: ""), name)
+    }
+    
+    open override var sidebarImage: UIImage? {
+        return AssetManager.shared.image(forKey: .alert)
+    }
+    
+    open override var sidebarCount: UInt? {
+        return UInt(count)
+    }
+    
+    open override var rightBarButtonItems: [UIBarButtonItem]? {
+        filterButton.isEnabled = false
+        
+        var buttons: [UIBarButtonItem] = [filterButton]
+        if !isCompact {
+            let image = AssetManager.shared.image(forKey: wantsThumbnails ? .list : .thumbnail)
+            buttons.append(UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(toggleThumbnails)))
+        }
+        return buttons
+    }
+    
+    // MARK: - Filtering (currently disabled)
+    
+    open override var filterApplied: Bool {
+        return false
+    }
+    
+    open override var filterOptions: [FilterOption] {
+        return []
+    }
+    
+    open override func filterViewControllerDidFinish(_ controller: FilterViewController, applyingChanges: Bool) {
+        
+    }
+    
+    // MARK: - Internal
+    
+    private func formItem(for entity: Entity, in viewController: UIViewController) -> BaseFormItem {
+        
+        // Create displayable
+        let displayable: EntitySummaryDisplayable
+        switch entity {
+        case is Person:     displayable = PersonSummaryDisplayable(entity)
+        case is Vehicle:    displayable = VehicleSummaryDisplayable(entity)
+        default:            fatalError()
+        }
+        
+        // Create form item
+        if isCompact || !wantsThumbnails {
+            return SummaryListFormItem()
+                .category(displayable.category)
+                .title(displayable.title)
+                .subtitle([displayable.detail1, displayable.detail2].joined(separator: ThemeConstants.dividerSeparator).ifNotEmpty())
+                .badge(displayable.badge)
+                .badgeColor(displayable.borderColor)
+                .borderColor(displayable.borderColor)
+                .image(displayable.thumbnail(ofSize: .small))
+                .imageTintColor(displayable.iconColor)
+                .highlightStyle(.fade)
+                .accessory(ItemAccessory(style: .disclosure))
+                .onSelection({ [unowned self] _ in
+                    self.entityDetailsDelegate?.controller(viewController, didSelectEntity: entity)
+                })
+        } else {
+            return SummaryThumbnailFormItem()
+                .style(.hero)
+                .category(displayable.category)
+                .title(displayable.title)
+                .subtitle(displayable.detail1 ?? displayable.detail2)
+                .detail(displayable.detail1?.isEmpty ?? true ? nil : displayable.detail2)
+                .badge(displayable.badge)
+                .badgeColor(displayable.borderColor)
+                .borderColor(displayable.borderColor)
+                .image(displayable.thumbnail(ofSize: .large))
+                .imageTintColor(displayable.iconColor)
+                .highlightStyle(.fade)
+                .onSelection({ [unowned self] _ in
+                    self.entityDetailsDelegate?.controller(viewController, didSelectEntity: entity)
+                })
         }
     }
     
-    public var sections: [DetailsType] = [] {
+    // MARK: - Thumbnails / List
+    
+    open override var traitCollection: UITraitCollection? {
         didSet {
-            let state: LoadingStateManager.State = sections.isEmpty ? .noContent : .loaded
-            delegate?.updateLoadingState(state)
             delegate?.reloadData()
-        }
-    }
-
-    public lazy var collapsedSections: Set<Int> = []
-    
-    public var style: SearchResultStyle = .grid
-
-    // MARK: - Public methods
-    
-    public func numberOfSections() -> Int {
-        return sections.count
-    }
-    
-    public func numberOfItems(for section: Int) -> Int {
-        if collapsedSections.contains(section) {
-            return 0
-        }
-        return sections[section].count
-    }
-    
-    public func associate(at indexPath: IndexPath) -> EntitySummaryDisplayable {
-        let itemSection = item(at: indexPath.section)!
-        
-        switch itemSection {
-        case .people(let persons):
-            return PersonSummaryDisplayable(persons[indexPath.item])
-        case .vehicles(let vehicles):
-            return VehicleSummaryDisplayable(vehicles[indexPath.item])
+            delegate?.updateBarButtonItems()
         }
     }
     
-    /// Section type 
-    public enum Section {
-        case people([Person])
-        case vehicles([Vehicle])
-        
-        var title: String {
-            switch self {
-            case .people(let associates):
-                let count = associates.count
-                return String(format: (count == 1 ? "%d PERSON" : "%d PEOPLE"), count)
-            case .vehicles(let associates):
-                let count = associates.count
-                return String(format: (count == 1 ? "%d VEHICLE" : "%d VEHICLES"), count)
+    private var isCompact: Bool {
+        return traitCollection?.horizontalSizeClass == .compact
+    }
+    
+    private var wantsThumbnails: Bool = true {
+        didSet {
+            if wantsThumbnails == oldValue { return }
+            
+            if !isCompact {
+                delegate?.updateBarButtonItems()
+                delegate?.reloadData()
             }
         }
-        
-        var count: Int {
-            switch self {
-            case .people(let associates):
-                return associates.count
-            case .vehicles(let associates):
-                return associates.count
-            }
-        }
-        
-        func associate(at index: Int) -> Entity {
-            switch self {
-            case .people(let associates):
-                return associates[index]
-            case .vehicles(let associates):
-                return associates[index]
-            }
-        }
-        
+    }
+    
+    @objc private func toggleThumbnails() {
+        wantsThumbnails = !wantsThumbnails
     }
 }

@@ -59,6 +59,9 @@ open class EntityDetailFormViewModel {
         }
     }
     
+    // The view controllers trait collection (gets updated by viewController)
+    open var traitCollection: UITraitCollection?
+    
     /// The view controllers title
     open var title: String? {
         return nil

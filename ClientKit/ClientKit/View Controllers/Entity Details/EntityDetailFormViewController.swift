@@ -38,6 +38,7 @@ open class EntityDetailFormViewController: FormBuilderViewController, EntityDeta
         
         viewModel.delegate = self
         viewModel.entityDetailsDelegate = delegate
+        viewModel.traitCollection = traitCollection
         
         title = viewModel.title
         updateNoContentDetails(title: viewModel.noContentTitle, subtitle: viewModel.noContentSubtitle)
@@ -53,6 +54,11 @@ open class EntityDetailFormViewController: FormBuilderViewController, EntityDeta
     
     required convenience public init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
+    }
+    
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        viewModel.traitCollection = traitCollection
     }
     
     // MARK: - Form Builder
