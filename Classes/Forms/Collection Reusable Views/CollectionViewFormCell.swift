@@ -512,18 +512,28 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     }
     
     
+    func animateAccessoryViewVisible(_ visible: Bool) {
+        if let accessoryView = accessoryView {
+            UIView.animate(withDuration: 0.2, animations: {
+                accessoryView.alpha = visible ? 1 : 0
+            })
+        }
+    }
+
     // MARK: - CollectionViewFormCellActionDelegate methods
     
     func actionViewShouldBeginDragging(_ actionView: CollectionViewFormCellActionView) -> Bool {
         return firstResponderSubview() == nil
     }
-    
+
     func actionViewWillShowActions(_ actionView: CollectionViewFormCellActionView) {
+        animateAccessoryViewVisible(false)
         superview(of: UICollectionView.self)?.endEditing(false)
         applyTouchTrigger()
     }
     
     func actionViewDidHideActions(_ actionView: CollectionViewFormCellActionView) {
+        animateAccessoryViewVisible(true)
         removeTouchTrigger()
     }
     
