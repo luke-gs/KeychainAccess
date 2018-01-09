@@ -274,6 +274,7 @@
 		9663D00B1F8AF666006DB672 /* TasksSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D00A1F8AF666006DB672 /* TasksSplitViewController.swift */; };
 		9663D00D1F8AF6F5006DB672 /* TasksSplitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D00C1F8AF6F5006DB672 /* TasksSplitViewModel.swift */; };
 		96699BCC1FDDE547006BB024 /* QuantityPickerFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96699BCB1FDDE547006BB024 /* QuantityPickerFormItem.swift */; };
+		9672C7E7200429C1005DE6BE /* StatusChangeReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9672C7E6200429C1005DE6BE /* StatusChangeReasonViewController.swift */; };
 		9674E0E71FC68015000702F8 /* LoadingStateLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9674E0E61FC68015000702F8 /* LoadingStateLoadingView.swift */; };
 		9674E0E91FC68031000702F8 /* LoadingStateErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9674E0E81FC68031000702F8 /* LoadingStateErrorView.swift */; };
 		9679A6471F9D9D2D007BC806 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9679A6461F9D9D2D007BC806 /* Date+Extension.swift */; };
@@ -928,6 +929,7 @@
 		9663D00A1F8AF666006DB672 /* TasksSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksSplitViewController.swift; sourceTree = "<group>"; };
 		9663D00C1F8AF6F5006DB672 /* TasksSplitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksSplitViewModel.swift; sourceTree = "<group>"; };
 		96699BCB1FDDE547006BB024 /* QuantityPickerFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityPickerFormItem.swift; sourceTree = "<group>"; };
+		9672C7E6200429C1005DE6BE /* StatusChangeReasonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusChangeReasonViewController.swift; sourceTree = "<group>"; };
 		9674E0E61FC68015000702F8 /* LoadingStateLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStateLoadingView.swift; sourceTree = "<group>"; };
 		9674E0E81FC68031000702F8 /* LoadingStateErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStateErrorView.swift; sourceTree = "<group>"; };
 		9679A6461F9D9D2D007BC806 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -1988,6 +1990,7 @@
 				4492C0461FD8C917009D26BD /* Traffic Stop */,
 				96C51C8F1FD9EB35002C4640 /* CallsignStatusViewController.swift */,
 				96ED81001FD9F2E100C7C960 /* CallsignStatusViewModel.swift */,
+				9672C7E6200429C1005DE6BE /* StatusChangeReasonViewController.swift */,
 			);
 			path = Callsign;
 			sourceTree = "<group>";
@@ -3471,6 +3474,7 @@
 				BC9C7E261F0DED6600DFFE83 /* EntityListCollectionViewCell.swift in Sources */,
 				1972FCCD1FA6A7FC00CB68EA /* ImageError.swift in Sources */,
 				19B49BBA1F665F2A00502F51 /* SidebarDelegate.swift in Sources */,
+				9672C7E7200429C1005DE6BE /* StatusChangeReasonViewController.swift in Sources */,
 				BC9C7E191F0DED6600DFFE83 /* RadioButton.swift in Sources */,
 				996869821FC502F4007338EE /* ManifestFetchRequest.swift in Sources */,
 				EA625B191F9703540025EAFB /* DropDownFormItem.swift in Sources */,
