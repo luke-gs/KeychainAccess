@@ -24,9 +24,6 @@ open class StatusChangeReasonViewController: ThemedPopoverViewController {
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancelButton(_:)))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton(_:)))
-
-        // Disable done button until text entered
-        navigationItem.rightBarButtonItem?.isEnabled = false
     }
 
     open override var wantsTransparentBackground: Bool {
@@ -88,9 +85,5 @@ extension StatusChangeReasonViewController: UITextViewDelegate {
         if textView.text.isEmpty {
             placeholder.isHidden = false
         }
-    }
-
-    open func textViewDidChange(_ textView: UITextView) {
-        navigationItem.rightBarButtonItem?.isEnabled = !textView.text.isEmpty
     }
 }
