@@ -118,11 +118,11 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
             entityFormatter.registerEntityType(Person.self,
                                                forSummary: .function { return PersonSummaryDisplayable($0) },
-                                               andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: searchViewController ) })
+                                               andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: searchViewController) })
 
             entityFormatter.registerEntityType(Vehicle.self,
                                                forSummary: .function { return VehicleSummaryDisplayable($0) },
-                                               andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: searchViewController ) })
+                                               andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: searchViewController) })
 
             entityFormatter.registerEntityType(Address.self,
                                                forSummary: .function { return AddressSummaryDisplayable($0) },
