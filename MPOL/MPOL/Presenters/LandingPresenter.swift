@@ -10,10 +10,6 @@ import Foundation
 import MPOLKit
 import ClientKit
 
-#if !EXTERNAL
-import EndpointManager
-#endif
-
 public class LandingPresenter: AppGroupLandingPresenter {
 
     override public var termsAndConditionsVersion: String {
@@ -46,15 +42,6 @@ public class LandingPresenter: AppGroupLandingPresenter {
             #if DEBUG
                 loginViewController.usernameField.textField.text = "matt"
                 loginViewController.passwordField.textField.text = "vicroads"
-            #endif
-
-            #if !EXTERNAL
-                let configButton = UIButton(type: .system)
-                configButton.setImage(#imageLiteral(resourceName: "endpoint"), for: .normal)
-                configButton.setTitle(EndpointManager.selectedEndpoint?.name, for: .normal)
-                configButton.addTarget(self, action: #selector(showEndpointManager), for: .touchUpInside)
-
-                loginViewController.leftAccessoryView = configButton
             #endif
 
             return loginViewController
@@ -158,12 +145,6 @@ public class LandingPresenter: AppGroupLandingPresenter {
         }
 
         tabBarController?.show(settingsNavController, sender: self)
-    }
-
-    @objc private func showEndpointManager() {
-        #if !EXTERNAL
-        EndpointManager.presentEndpointManagerFrom(UIApplication.shared.keyWindow!)
-        #endif
     }
 }
 
