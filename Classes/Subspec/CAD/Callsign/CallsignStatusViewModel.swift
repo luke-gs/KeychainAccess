@@ -57,6 +57,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
             // Requires reason needs further details
             if requiresReason {
                 promise = promptForStatusReason().then { _ -> Void in
+                    // TODO: Do something with reason text
                 }
             }
 
