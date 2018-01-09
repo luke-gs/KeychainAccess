@@ -331,24 +331,6 @@ public class SearchViewController: UIViewController, SearchDelegate, SearchOptio
         present(presentable)
     }
 
-    // MARK: - SearchRecentsViewControllerDelegate
-
-//    func searchRecentsController(_ searchRecentsController: SearchRecentsViewController, didSelectPresentable presentable: Presentable) {
-//        handlePresentable(presentable)
-////        present(presentable)
-//    }
-//
-//    func searchRecentsController(_ searchRecentsController: SearchRecentsViewController, didSelectSearchable searchable: Searchable) {
-//        beginSearch(with: searchable)
-////        searchOptionsViewController.setCurrent(searchable: searchable)
-////        setShowingSearchOptions(true, animated: true)
-//    }
-//
-//    func searchRecentsControllerDidSelectNewSearch(_ searchRecentsController: SearchRecentsViewController) {
-//        beginSearch(reset: true)
-////        displaySearchTriggered()
-//    }
-
     // MARK: - SearchOptionsViewControllerDelegate
 
     func searchOptionsController(_ controller: SearchOptionsViewController, didFinishWith searchable: Searchable?, andResultViewModel viewModel: SearchResultModelable?) {
@@ -389,16 +371,6 @@ public class SearchViewController: UIViewController, SearchDelegate, SearchOptio
         cancelSearchTriggered()
     }
 
-    // MARK: LocationMapSearchDelegate
-    
-    func locationMapViewController(_ controller: UIViewController, didRequestToEdit search: Searchable?) {
-        beginSearch(reset: false)
-    }
-
-    func locationMapViewController(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity) {
-        didSelectEntity(entity)
-    }
-    
     // MARK: - KVO
     
     override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -541,11 +513,6 @@ public class SearchViewController: UIViewController, SearchDelegate, SearchOptio
         navigationItem.prompt = prompt
         navigationItem.setLeftBarButtonItems(leftBarButtonItems,   animated: animated)
         navigationItem.setRightBarButtonItems(rightBarButtonItems, animated: animated)
-    }
-
-    private func didSelectEntity(_ entity: MPOLKitEntity) {
-//        let presentable = viewModel.presentable(for: entity)
-//        present(presentable)
     }
 
 }
