@@ -73,8 +73,6 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
     // MARK: - View lifecycle
 
     public override func viewDidLoad() {
-        super.viewDidLoad()
-
         let searchFieldButton = SearchFieldButton(frame: .zero)
         searchFieldButton.text = viewModel?.title
         searchFieldButton.translatesAutoresizingMaskIntoConstraints = false
@@ -82,6 +80,8 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
         searchFieldButton.addTarget(self, action: #selector(searchFieldButtonDidSelect), for: .primaryActionTriggered)
         view.addSubview(searchFieldButton)
         self.searchFieldButton = searchFieldButton
+
+        super.viewDidLoad()
 
         NSLayoutConstraint.activate([
             searchFieldButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -125,10 +125,8 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
         
         searchField.backgroundColor = theme.color(forKey: .searchFieldBackground)
         searchField.fieldColor = theme.color(forKey: .searchField)
-
-        // TODO: - Fix me
-        searchField.textColor  = .black // primaryTextColor
-        searchField.placeholderTextColor = .gray // placeholderTextColor
+        searchField.textColor  = theme.color(forKey: .primaryText)
+        searchField.placeholderTextColor = theme.color(forKey: .placeholderText)
     }
 
     public override func construct(builder: FormBuilder) {
