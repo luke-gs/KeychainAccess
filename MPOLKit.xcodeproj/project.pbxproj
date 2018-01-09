@@ -485,6 +485,7 @@
 		C6E833AB1F334A4700A21F6D /* NSArchiverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E833AA1F334A4700A21F6D /* NSArchiverTests.swift */; };
 		C6F5DED21ECD5C62008E7BE2 /* AccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */; };
 		C6F640ED1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F640EC1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift */; };
+		DB168CDE20032B6B00322F7F /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB168CDD20032B6B00322F7F /* Validator.swift */; };
 		DB2A05E11FD9142E005B7BFD /* HapticHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2A05E01FD9142E005B7BFD /* HapticHelper.swift */; };
 		DB6C89EC1FD4D818006F9AD2 /* QuantityPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6C89EB1FD4D818006F9AD2 /* QuantityPickerViewController.swift */; };
 		DB88BCD91F42CFFC0056FD69 /* SearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88BCD21F42CEAA0056FD69 /* SearchDataSource.swift */; };
@@ -519,7 +520,7 @@
 		EA0540081F94950A00F6E63C /* OptionGroupFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0540071F94950A00F6E63C /* OptionGroupFormItemTests.swift */; };
 		EA05400A1F94988000F6E63C /* PickerFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0540091F94988000F6E63C /* PickerFormItemTests.swift */; };
 		EA05400C1F95781C00F6E63C /* StringSizingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA05400B1F95781C00F6E63C /* StringSizingTests.swift */; };
-		EA09A0481F78B6D400BC3C0E /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA09A0471F78B6D400BC3C0E /* Validator.swift */; };
+		EA09A0481F78B6D400BC3C0E /* FormValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA09A0471F78B6D400BC3C0E /* FormValidator.swift */; };
 		EA09A04C1F78B86A00BC3C0E /* Specification.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA09A04B1F78B86A00BC3C0E /* Specification.swift */; };
 		EA09A04E1F78B92100BC3C0E /* SpecificationOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA09A04D1F78B92100BC3C0E /* SpecificationOperator.swift */; };
 		EA09A0501F78B95D00BC3C0E /* CharacterSetSpecification.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA09A04F1F78B95D00BC3C0E /* CharacterSetSpecification.swift */; };
@@ -1147,6 +1148,7 @@
 		C6E833AA1F334A4700A21F6D /* NSArchiverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSArchiverTests.swift; sourceTree = "<group>"; };
 		C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AccessToken.json; sourceTree = "<group>"; };
 		C6F640EC1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSArchiver+SecureArchiver.swift"; sourceTree = "<group>"; };
+		DB168CDD20032B6B00322F7F /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		DB2A05E01FD9142E005B7BFD /* HapticHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticHelper.swift; sourceTree = "<group>"; };
 		DB6C89EB1FD4D818006F9AD2 /* QuantityPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityPickerViewController.swift; sourceTree = "<group>"; };
 		DB88BCC81F42CE970056FD69 /* QueryParserDefinitionSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryParserDefinitionSelector.swift; sourceTree = "<group>"; };
@@ -1180,7 +1182,7 @@
 		EA0540071F94950A00F6E63C /* OptionGroupFormItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionGroupFormItemTests.swift; sourceTree = "<group>"; };
 		EA0540091F94988000F6E63C /* PickerFormItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerFormItemTests.swift; sourceTree = "<group>"; };
 		EA05400B1F95781C00F6E63C /* StringSizingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringSizingTests.swift; sourceTree = "<group>"; };
-		EA09A0471F78B6D400BC3C0E /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
+		EA09A0471F78B6D400BC3C0E /* FormValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormValidator.swift; sourceTree = "<group>"; };
 		EA09A04B1F78B86A00BC3C0E /* Specification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Specification.swift; sourceTree = "<group>"; };
 		EA09A04D1F78B92100BC3C0E /* SpecificationOperator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificationOperator.swift; sourceTree = "<group>"; };
 		EA09A04F1F78B95D00BC3C0E /* CharacterSetSpecification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterSetSpecification.swift; sourceTree = "<group>"; };
@@ -2197,6 +2199,7 @@
 				BC9C7D4C1F0DED6600DFFE83 /* Transformers */,
 				DB88BCC71F42CE970056FD69 /* Utility */,
 				EA2189F01F5FE88E0057048E /* Presenter */,
+				DB168CDC20032AD800322F7F /* Validation */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -2749,6 +2752,14 @@
 			path = "Mock JSONs";
 			sourceTree = "<group>";
 		};
+		DB168CDC20032AD800322F7F /* Validation */ = {
+			isa = PBXGroup;
+			children = (
+				DB168CDD20032B6B00322F7F /* Validator.swift */,
+			);
+			path = Validation;
+			sourceTree = "<group>";
+		};
 		DB88BCC71F42CE970056FD69 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
@@ -2880,7 +2891,7 @@
 		EA11F0201F830D8B00BF8BCA /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				EA09A0471F78B6D400BC3C0E /* Validator.swift */,
+				EA09A0471F78B6D400BC3C0E /* FormValidator.swift */,
 				EA11F0211F830DD600BF8BCA /* ItemAccessorisable.swift */,
 				EA11F0231F830EEC00BF8BCA /* ImageLoadable.swift */,
 				EA11F0251F83357D00BF8BCA /* ImageSizing.swift */,
@@ -3803,6 +3814,7 @@
 				9679A64B1F9EEDF8007BC806 /* BookOnDetailsOfficerCell.swift in Sources */,
 				44020FD61FE86C5800EA057C /* ForcedPopoverPresentationControllerDelegate.swift in Sources */,
 				BC9C7E151F0DED6600DFFE83 /* TableViewFormTextViewCell.swift in Sources */,
+				DB168CDE20032B6B00322F7F /* Validator.swift in Sources */,
 				EA2F1A6F1FA7F7C6001F7812 /* MediaDataSource.swift in Sources */,
 				C63408551F30E541000747B0 /* EntitySearchRequestable.swift in Sources */,
 				469EB5831F45320A0005CAF7 /* LoginHeaderView.swift in Sources */,
@@ -3933,7 +3945,7 @@
 				BC9C7E4D1F0DED6600DFFE83 /* AlertIndicatorView.swift in Sources */,
 				199ECE8F1FAA1B720065E425 /* RemoteResourceDescribing.swift in Sources */,
 				BC79ADAEABB2D9BDDC997334 /* MPOLSpinnerView.swift in Sources */,
-				EA09A0481F78B6D400BC3C0E /* Validator.swift in Sources */,
+				EA09A0481F78B6D400BC3C0E /* FormValidator.swift in Sources */,
 				EA950E4C1F8DBF5700B5A349 /* SubmissionValidationVisitor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

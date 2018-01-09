@@ -118,7 +118,7 @@ public class TextFieldFormItem: BaseFormItem, FormValidatable {
 
     // MARK: - Form validatable
 
-    public private(set) var validator = Validator()
+    public private(set) var validator = FormValidator()
 
     public var candidate: Any? { return text?.sizing().string.ifNotEmpty() }
 
@@ -135,7 +135,7 @@ public class TextFieldFormItem: BaseFormItem, FormValidatable {
         if let specification = requiredSpecification {
             rules.insert(specification, at: 0)
         }
-        validator = Validator(rules: rules)
+        validator = FormValidator(rules: rules)
     }
 
     // MARK: - Text input traits
