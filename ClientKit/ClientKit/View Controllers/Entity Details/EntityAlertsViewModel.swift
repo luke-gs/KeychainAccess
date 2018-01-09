@@ -60,7 +60,7 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
     }
     
     open override var noContentSubtitle: String? {
-        if entity?.alerts?.isEmpty ?? true {
+        if alerts.isEmpty {
             let name: String
             if let entity = entity {
                 name = type(of: entity).localizedDisplayName.localizedLowercase

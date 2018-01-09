@@ -9,7 +9,7 @@
 import MPOLKit
 
 /// A delegate for updating the view (PopoverPresenter so we can present new views from view model)
-public protocol EntityDetailFormViewModelDelegate: PopoverPresenter {
+public protocol EntityDetailFormViewModelDelegate: PopoverPresenter, NavigationPresenter {
     
     /// Update the sidebar count
     func updateSidebarItemCount(_ count: UInt?)

@@ -29,7 +29,7 @@ public class LocationMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSour
         self.detailViewControllers =  [
                                         EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
                                         EntityDetailFormViewController(viewModel: EntityAssociationViewModel(), delegate: delegate),
-                                        VehicleOccurrencesViewController()
+                                        EntityDetailFormViewController(viewModel: EntityEventsViewModel())
         ]
     }
 }

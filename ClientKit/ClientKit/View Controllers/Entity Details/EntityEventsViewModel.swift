@@ -9,143 +9,181 @@
 import Foundation
 import MPOLKit
 
-public class EntityEventsViewModel: EntityDetailViewModelable {
+open class EntityEventsViewModel: EntityDetailFilterableFormViewModel {
     
-    public typealias DetailsType = EventInfo
-    
-    weak public var delegate: EntityDetailViewModelDelegate?
-    
-    public var entity: Entity? {
-        didSet {
-            let count = sections.first?.events.count ?? 0
-            delegate?.updateSidebarItemCount(UInt(count))
-            delegate?.updateNoContentDetails(title: noContentTitle(), subtitle: noContentSubtitle())
-        }
+    open var events: [Event] {
+        return entity?.events ?? []
     }
     
-    public var sections: [DetailsType] = [] {
-        didSet {
-            let count = sections.first?.events.count ?? 0
-            delegate?.updateSidebarItemCount(UInt(count))
-            
-            let state: LoadingStateManager.State  = sections.isEmpty ? .noContent : .loaded
-            delegate?.updateLoadingState(state)
-            delegate?.reloadData()
-        }
-    }
-
-    public lazy var collapsedSections: Set<Int> = []
-
-    public func numberOfItems(for section: Int = 0) -> Int {
-        if collapsedSections.contains(section) {
-            return 0
-        }
-        return sections[section].events.count
-    }
-
+    // MARK: - EntityDetailFormViewModel
     
-    public var allEventTypes: Set<String> {
-        var allTypes = Set<String>()
-        entity?.events?.forEach {
-            if let type = $0.eventType {
-                allTypes.insert(type)
+    open override func construct(for viewController: FormBuilderViewController, with builder: FormBuilder) {
+        let events = filteredEvents
+        
+        builder.title = title
+        builder.forceLinearLayout = true
+        
+        if !events.isEmpty {
+            builder += HeaderFormItem(text: header())
+            for event in events {
+                builder += DetailFormItem(title: event.eventType, subtitle: formattedSubtitle(for: event), detail: event.eventDescription?.ifNotEmpty())
+                    .selectionStyle(.fade)
+                    .highlightStyle(.fade)
+                    .accessory(ItemAccessory(style: .disclosure))
+                    .onSelection({ [weak self] _ in
+                        if let source = event.source {
+                            let detailVC = EventDetailViewController(source: source, eventId: event.id)
+                            self?.delegate?.presentPushedViewController(detailVC, animated: true)
+                        }
+                    })
             }
         }
-        return allTypes
-    }
-
-    public struct EventInfo {
-        var type: SectionType
-        var events: [Event]
-    }
-
-    public enum SectionType {
-        case event
-    }
-
-    public func header(for section: Int) -> String? {
-        let section = item(at: section)!
-        let count = section.events.count
-
-        if count > 0 {
-            let baseString = count > 1 ? NSLocalizedString("%d EVENTS", bundle: .mpolKit, comment: "") : NSLocalizedString("%d EVENT", bundle: .mpolKit, comment: "")
-            return String(format: baseString, count)
-        }
-        return nil
-    }
-
-    public func itemsCount() -> UInt {
-        return UInt(entity?.events?.count ?? 0)
-    }
-    
-    func noContentTitle() -> String {
-        return NSLocalizedString("No Events Found", bundle: .mpolKit, comment: "")
-    }
-    
-    public func noContentSubtitle() -> String? {
-        var subtitle: String?
         
-        if entity?.events?.isEmpty ?? true {
-            let entityDisplayName: String
+        delegate?.updateLoadingState(filteredEvents.isEmpty ? .noContent : .loaded)
+    }
+    
+    open override var title: String? {
+        return NSLocalizedString("Events", comment: "")
+    }
+    
+    open override var noContentTitle: String? {
+        return NSLocalizedString("No Events Found", comment: "")
+    }
+    
+    open override var noContentSubtitle: String? {
+        if events.isEmpty {
+            let name: String
             if let entity = entity {
-                entityDisplayName = type(of: entity).localizedDisplayName.localizedLowercase
+                name = type(of: entity).localizedDisplayName.localizedLowercase
             } else {
-                entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
+                name = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
             }
             
-            subtitle = String(format: NSLocalizedString("This %@ has no events", bundle: .mpolKit, comment: ""), entityDisplayName)
+            return String(format: NSLocalizedString("This %@ has no related events", bundle: .mpolKit, comment: ""), name)
         } else {
-            subtitle = NSLocalizedString("This filter has no matching events", comment: "")
+            return NSLocalizedString("This filter has no matching events", comment: "")
         }
-        return subtitle
     }
     
-    public func cellInfo(for indexPath: IndexPath) -> CellInfo {
-        let event = item(at: indexPath.section)?.events[indexPath.item]
-
-
-        let title = event?.eventType
-        let subtitle = formattedTitle(for: event?.occurredDate)
-        let detail = event?.eventDescription
+    open override var sidebarImage: UIImage? {
+        return AssetManager.shared.image(forKey: .list)
+    }
+    
+    open override var sidebarCount: UInt? {
+        return UInt(events.count)
+    }
+    
+    // MARK: - Filtering
+    
+    var filterTypes: Set<String>?
+    var filterDateRange: FilterDateRange?
+    var sorting: DateSorting = .newest
+    
+    open var filteredEvents: [Event] {
+        var filtered = self.events
+        var filters: [FilterDescriptor<Event>] = []
         
-        return CellInfo(title: title, subtitle: subtitle, detail: detail)
-    }
-    
-    public func reloadSections(withFilterDescriptors filters: [FilterDescriptor<Event>]?, sortDescriptors: [SortDescriptor<Event>]?) {
-        if var events = entity?.events, !events.isEmpty {
-            if let filters = filters {
-                events = events.filter(using: filters)
-            }
-
-            if let sorts = sortDescriptors {
-                events = events.sorted(using: sorts)
-            }
-
-            sections = [EventInfo(type: .event, events: events)]
-            delegate?.updateFilterBarButtonItemActivity()
-        } else {
-            sections = []
+        if let types = filterTypes {
+            filters.append(FilterValueDescriptor<Event, String>(key: { $0.eventType }, values: types))
         }
-        delegate?.updateNoContentDetails(title: noContentTitle(), subtitle: noContentSubtitle())
-    }
-    
-    // MARK: - Private methods
-    
-    private func formattedTitle(for date: Date?) -> String {
-        let text: String
-        if let date = date {
-            text = DateFormatter.mediumNumericDate.string(from: date)
-        } else {
-            text = "unknown"
+        
+        if let dateRange = filterDateRange {
+            filters.append(FilterRangeDescriptor<Event, Date>(key: { $0.occurredDate }, start: dateRange.startDate, end: dateRange.endDate))
         }
-        return "Occurred on \(text)"
+        
+        let dateSort = SortDescriptor<Event>(ascending: sorting == .oldest) { $0.occurredDate }
+        
+        filtered = filtered.filter(using: filters)
+        filtered = filtered.sorted(using: [dateSort])
+        
+        return filtered
     }
     
-    /// MARK: - CellText Model
+    open override var filterApplied: Bool {
+        return filterTypes != nil || filterDateRange != nil || sorting != .newest
+    }
     
-    public struct CellInfo {
-        let title: String?
-        let subtitle: String?
-        let detail: String?
+    open override var filterOptions: [FilterOption] {
+        // Extract and sort all event types from events
+        let types = Set(events.flatMap({ $0.eventType }))
+        let sortedTypes = types.sorted { $0.localizedStandardCompare($1) == .orderedAscending }
+        
+        // Calculate indexes of currently selected types
+        var selectedIndexes: IndexSet
+        if let filterTypes = self.filterTypes {
+            if filterTypes.isEmpty == false {
+                selectedIndexes = sortedTypes.indexes(where: { filterTypes.contains($0) })
+            } else {
+                selectedIndexes = IndexSet()
+            }
+        } else {
+            selectedIndexes = IndexSet(integersIn: 0..<types.count)
+        }
+        
+        let typesFilter = FilterList(title: NSLocalizedString("Events Types", comment: ""), displayStyle: .detailList, options: sortedTypes, selectedIndexes: selectedIndexes, allowsNoSelection: true, allowsMultipleSelection: true)
+        
+        let dateRangeFilter = filterDateRange ?? FilterDateRange(title: NSLocalizedString("Date Range", comment: ""), startDate: nil, endDate: nil, requiresStartDate: false, requiresEndDate: false)
+        let sorting = FilterList(title: "Sort By", displayStyle: .list, options: DateSorting.allCases, selectedIndexes: [DateSorting.allCases.index(of: self.sorting) ?? 0])
+        
+        return [typesFilter, dateRangeFilter, sorting]
+    }
+    
+    open override func filterViewControllerDidFinish(_ controller: FilterViewController, applyingChanges: Bool) {
+        controller.presentingViewController?.dismiss(animated: true)
+        
+        guard applyingChanges else { return }
+        
+        controller.filterOptions.forEach {
+            switch $0 {
+            case let filterList as FilterList where filterList.options.first is String:
+                let selectedIndexes = filterList.selectedIndexes
+                let indexCount = selectedIndexes.count
+                if indexCount != filterList.options.count {
+                    if indexCount == 0 {
+                        filterTypes = []
+                    } else {
+                        filterTypes = Set(filterList.options[selectedIndexes] as! [String])
+                    }
+                } else {
+                    filterTypes = nil
+                }
+            case let dateRange as FilterDateRange:
+                if dateRange.startDate == nil && dateRange.endDate == nil {
+                    filterDateRange = nil
+                } else {
+                    filterDateRange = dateRange
+                }
+            case let filterList as FilterList where filterList.options.first is DateSorting:
+                guard let selectedIndex = filterList.selectedIndexes.first else {
+                    sorting = .newest
+                    return
+                }
+                sorting = filterList.options[selectedIndex] as! DateSorting
+            default:
+                break
+            }
+        }
+        
+        delegate?.updateBarButtonItems()
+        delegate?.reloadData()
+    }
+    
+    // MARK: - Internal
+    
+    public func header() -> String? {
+        let count = filteredEvents.count
+        
+        // TODO: Get from stringsDict
+        let base = count != 1 ? NSLocalizedString("%d EVENTS", bundle: .mpolKit, comment: "") : NSLocalizedString("%d EVENT", bundle: .mpolKit, comment: "")
+        return String(format: base, count)
+    }
+    
+    private func formattedSubtitle(for event: Event) -> String {
+        if let date = event.occurredDate {
+            let subtitle = DateFormatter.mediumNumericDate.string(from: date)
+            return "Occurred on \(subtitle)"
+        } else {
+            return "Occurred date unknown"
+        }
     }
 }

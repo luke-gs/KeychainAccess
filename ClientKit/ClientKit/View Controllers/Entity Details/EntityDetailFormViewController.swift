@@ -16,16 +16,11 @@ open class EntityDetailFormViewController: FormBuilderViewController, EntityDeta
     
     public var genericEntity: MPOLKitEntity? {
         get {
-            return entity
+            return viewModel.entity
         }
         set {
-            entity = newValue as? Entity
+            viewModel.entity = newValue as? Entity
         }
-    }
-    
-    open var entity: Entity? {
-        get { return viewModel.entity }
-        set { viewModel.entity = newValue }
     }
     
     internal let viewModel: EntityDetailFormViewModel
