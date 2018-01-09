@@ -122,6 +122,7 @@
 		2726A8161FCE2BB000EFB61A /* IncidentOverviewFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726A8151FCE2BB000EFB61A /* IncidentOverviewFormViewController.swift */; };
 		2726A81A1FCE5EA000EFB61A /* IncidentOverviewItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726A8191FCE5EA000EFB61A /* IncidentOverviewItemViewModel.swift */; };
 		2726A81E1FCE6BE600EFB61A /* IncidentOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726A81D1FCE6BE600EFB61A /* IncidentOverviewViewModel.swift */; };
+		273A5C1820057B2E0009D9A0 /* SystemVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273A5C1720057B2E0009D9A0 /* SystemVersion.swift */; };
 		273A72DB1FE7767E0097691B /* TasksListIncidentSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273A72DA1FE7767E0097691B /* TasksListIncidentSummaryView.swift */; };
 		273C53831FE7837800BF994B /* TasksListInfoRowStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273C53821FE7837800BF994B /* TasksListInfoRowStackView.swift */; };
 		273C53851FE785BF00BF994B /* TasksListDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273C53841FE785BF00BF994B /* TasksListDetailView.swift */; };
@@ -775,6 +776,7 @@
 		2726A8151FCE2BB000EFB61A /* IncidentOverviewFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentOverviewFormViewController.swift; sourceTree = "<group>"; };
 		2726A8191FCE5EA000EFB61A /* IncidentOverviewItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentOverviewItemViewModel.swift; sourceTree = "<group>"; };
 		2726A81D1FCE6BE600EFB61A /* IncidentOverviewViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentOverviewViewModel.swift; sourceTree = "<group>"; };
+		273A5C1720057B2E0009D9A0 /* SystemVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemVersion.swift; sourceTree = "<group>"; };
 		273A72DA1FE7767E0097691B /* TasksListIncidentSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListIncidentSummaryView.swift; sourceTree = "<group>"; };
 		273C53821FE7837800BF994B /* TasksListInfoRowStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListInfoRowStackView.swift; sourceTree = "<group>"; };
 		273C53841FE785BF00BF994B /* TasksListDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListDetailView.swift; sourceTree = "<group>"; };
@@ -2762,6 +2764,7 @@
 				1212B54C1F60F2ED00F90CA0 /* TestingDirective.swift */,
 				12048FC71F7881C50014748E /* MatchMaker.swift */,
 				9620530C1F988239000CAD49 /* AppGroup.swift */,
+				273A5C1720057B2E0009D9A0 /* SystemVersion.swift */,
 			);
 			name = Utility;
 			path = Classes/Core/Utility;
@@ -3638,6 +3641,7 @@
 				C63408561F30E574000747B0 /* MPOLKitEntityProtocol.swift in Sources */,
 				46B3FE7F1F5E496B0012476A /* Logger.swift in Sources */,
 				BC9C7E291F0DED6600DFFE83 /* Bundle+MPOLKit.swift in Sources */,
+				273A5C1820057B2E0009D9A0 /* SystemVersion.swift in Sources */,
 				9674E0E91FC68031000702F8 /* LoadingStateErrorView.swift in Sources */,
 				EA32A8551FBD1A7900CC37FB /* PhotoMediaGalleryViewController.swift in Sources */,
 				EA09A0581F78B9C200BC3C0E /* RegularExpressionSpecification.swift in Sources */,
