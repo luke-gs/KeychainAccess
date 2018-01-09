@@ -81,13 +81,13 @@ public class SummaryThumbnailFormItem: BaseFormItem {
     public override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
         let primaryTextColor = titleTextColor ?? theme.color(forKey: .primaryText)
         let secondaryTextColor = subtitleTextColor ?? theme.color(forKey: .secondaryText)
-        let thirdaryTextColor = detailTextColor ?? theme.color(forKey: .secondaryText)
+        let tertiaryTextColor = detailTextColor ?? theme.color(forKey: .secondaryText)
 
         let cell = cell as! EntityCollectionViewCell
 
         cell.titleLabel.textColor    = primaryTextColor
         cell.subtitleLabel.textColor = secondaryTextColor
-        cell.detailLabel.textColor   = thirdaryTextColor
+        cell.detailLabel.textColor   = tertiaryTextColor
     }
 
 }
