@@ -9,53 +9,48 @@
 import Foundation
 import MPOLKit
 
-public class PersonDescriptionViewModel: EntityDetailViewModelable {
-    // Specify the concrete type
-    public typealias DetailsType = PersonDescription
-    public typealias SectionType = (year: String, descriptions: [PersonDescription])
+open class PersonDescriptionViewModel {
     
-    public weak var delegate: EntityDetailViewModelDelegate?
+    // MARK: - Properties
     
-    // MARK: - Initialize
-
-    public var sections: [PersonDescription] = [] {
+    open weak var delegate: EntityDetailFormViewModelDelegate?
+    
+    open var descriptions: [PersonDescription]? {
         didSet {
-            if sections.isEmpty {
-                self.orderedSections = []
-                return
-            }
+            guard let descriptions = descriptions, !descriptions.isEmpty else { return }
             
-            var sectionsMap: [String: [PersonDescription]] = [:]
-            for description in sections {
-                // mapping description to report date's year
-                let year = description.effectiveDate == nil ? "" : yearDateFormatter.string(from: description.effectiveDate!)
-                var yearsDescriptions = sectionsMap[year] ?? []
+            var map: [String: [PersonDescription]] = [:]
+            
+            for description in descriptions {
+                let year = self.year(from: description.effectiveDate)
+                var yearsDescriptions = map[year] ?? []
                 yearsDescriptions.append(description)
-                sectionsMap[year] = yearsDescriptions
+                map[year] = yearsDescriptions
             }
             
-            // add each years descriptions to sections array in order of year
-            var orderedSections: [SectionType] = []
-            let years = sectionsMap.keys.sorted(by: { $0.localizedCompare($1) == .orderedDescending })
+            // Add each years descriptions to sections array in order of year
+            var sections: [(String, [PersonDescription])] = []
+            let years = map.keys.sorted(by: { $0.localizedCompare($1) == .orderedDescending })
             for year in years {
                 if year.count == 0 {
-                    orderedSections.append(("Unknown Year", sectionsMap[year]!))
+                    sections.append(("Unknown Year", map[year]!))
                 } else {
-                    orderedSections.append((year, sectionsMap[year]!))
+                    sections.append((year, map[year]!))
                 }
             }
-            self.orderedSections = orderedSections
+            
+            self.sections = sections
         }
     }
     
-    // MARK: - Private property
-    
-    public var collapsedSections: Set<Int> = []
-    
-    private var orderedSections: [SectionType] = [] {
+    private var sections: [(title: String, descriptions: [PersonDescription])] = [] {
         didSet {
             delegate?.reloadData()
         }
+    }
+    
+    open var title: String? {
+        return NSLocalizedString("More Descriptions", bundle: .mpolKit, comment: "")
     }
     
     private var yearDateFormatter: DateFormatter {
@@ -65,77 +60,30 @@ public class PersonDescriptionViewModel: EntityDetailViewModelable {
         return formatter
     }
     
-    // MARK: - Public methods
+    // MARK: - Methods
     
-    public func numberOfSections() -> Int {
-        return orderedSections.count
-    }
-    
-    public func numberOfItems(for section: Int) -> Int {
-        return collapsedSections.contains(section) ? 0 : numberOfDescriptions(for: section)
-    }
-    
-    public func numberOfDescriptions(for section: Int) -> Int {
-        return orderedSections[ifExists: section]?.descriptions.count ?? 0
-    }
-    
-    public func description(for indexPath: IndexPath) -> PersonDescription? {
-        return orderedSections[ifExists: indexPath.section]?.descriptions[ifExists: indexPath.row]
-    }
-    
-    public func cellInfo(for indexPath: IndexPath) -> CellInfo {
-        let description = self.description(for: indexPath)
+    open func construct(builder: FormBuilder) {
+        builder.title = title
+        builder.forceLinearLayout = true
         
-        let cellTitle = title(for: description)
-        let cellValue = formatedDescription(for: description)
-        
-        return CellInfo(title: cellTitle, value: cellValue, image: nil)
+        for section in sections {
+            builder += HeaderFormItem(text: section.title, style: .collapsible)
+            for description in section.descriptions {
+                builder += ValueFormItem(title: title(for: description), value: description.formatted())
+            }
+        }
     }
     
-    /// Section header
-    public func year(for section: Int) -> String? {
-        return orderedSections[ifExists: section]?.year
+    private func year(from date: Date?) -> String {
+        if let date = date {
+            return yearDateFormatter.string(from: date)
+        } else {
+            return ""
+        }
     }
     
-    /// Provide info to cal the minimum content height for collectionView
-    public func itemForCalculateContentHeight(at indexPath: IndexPath) -> (title: String?, value: String?) {
-        let description = item(at: indexPath.row)!
-        
-        let title = titleForCalculateContentHeight(with: description)
-        let value = valueForCalculateContentHeight(with: description)
-        
-        return (title: title, value: value)
-    }
-
-    // MARK: - Private methods
-
-    /// Provides custom formated cell title
-    private func title(for description: PersonDescription?) -> String? {
-        
-        guard let description = description,
-            let effectiveDate = description.effectiveDate else { return nil }
-        
-        return DateFormatter.shortDate.string(from: effectiveDate)
-    }
-    
-    /// Provides custom formated description
-    private func formatedDescription(for description: PersonDescription?) -> String? {
-        return description?.formatted()
-    }
-    
-    private func titleForCalculateContentHeight(with description: PersonDescription) -> String? {
-        return title(for: description)
-    }
-    
-    private func valueForCalculateContentHeight(with description: PersonDescription) -> String? {
-        return formatedDescription(for: description)
-    }
-    
-    
-    // MARK: - Cell Information Models
-    public struct CellInfo {
-        let title: String?
-        let value: String?
-        let image: UIImage?
+    private func title(for description: PersonDescription) -> String? {
+        guard let date = description.effectiveDate else { return nil }
+        return DateFormatter.shortDate.string(from: date)
     }
 }

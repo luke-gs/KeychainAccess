@@ -150,8 +150,8 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
     // MARK: - Actions
     
     @objc private func didTapAdditionalDetails() {
-        let moreDescriptionsVC = PersonDescriptionsViewController()
-        moreDescriptionsVC.descriptions = person?.descriptions
+        guard let descriptions = person?.descriptions else { return }
+        let moreDescriptionsVC = PersonDescriptionViewController(descriptions: descriptions)
         delegate?.presentPushedViewController(moreDescriptionsVC, animated: true)
     }
     
