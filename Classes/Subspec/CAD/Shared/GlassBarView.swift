@@ -28,8 +28,7 @@ open class GlassBarView: UIControl {
         self.actionImageView = UIImageView()
         
         super.init(frame: frame)
-        backgroundView.frame = bounds
-        backgroundView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+
         addSubview(backgroundView)
         
         imageView.tintColor = .primaryGray
@@ -52,6 +51,11 @@ open class GlassBarView: UIControl {
         backgroundView.contentView.addSubview(actionImageView)
         
         NSLayoutConstraint.activate([
+            backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            backgroundView.topAnchor.constraint(equalTo: topAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
             imageView.leadingAnchor.constraint(equalTo: backgroundView.contentView.leadingAnchor, constant: 24),
             imageView.centerYAnchor.constraint(equalTo: backgroundView.contentView.centerYAnchor),
             imageView.widthAnchor.constraint(equalToConstant: 20),
