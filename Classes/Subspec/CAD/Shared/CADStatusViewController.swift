@@ -94,7 +94,7 @@ open class CADStatusViewController: ThemedPopoverViewController {
     open func updateItemSizeForTraits() {
         let availableWidth = collectionView.bounds.width - collectionViewLayout.sectionInset.left - collectionViewLayout.sectionInset.right
         if self.isCompact() {
-            self.collectionViewLayout.itemSize = CGSize(width: availableWidth / 2, height: 45)
+            self.collectionViewLayout.itemSize = CGSize(width: availableWidth / 2, height: viewModel.showsCompactHorizontal ? 45 : 75)
         } else {
             self.collectionViewLayout.itemSize = CGSize(width: availableWidth / 4, height: 75)
         }
@@ -102,6 +102,7 @@ open class CADStatusViewController: ThemedPopoverViewController {
     }
     
     open func decorate(cell: ManageCallsignStatusViewCell, with viewModel: ManageCallsignStatusItemViewModel, selected: Bool) {
+        cell.showsCompactHorizontal = self.viewModel.showsCompactHorizontal
         cell.titleLabel.text = viewModel.title
         cell.titleLabel.font = .systemFont(ofSize: 13.0, weight: selected ? UIFont.Weight.semibold : UIFont.Weight.regular)
         cell.titleLabel.textColor = theme.color(forKey: .secondaryText)!

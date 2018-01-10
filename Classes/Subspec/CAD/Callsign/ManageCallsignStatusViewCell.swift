@@ -15,6 +15,12 @@ open class ManageCallsignStatusViewCell: UICollectionViewCell, DefaultReusable {
     open let imageView = UIImageView(frame: .zero)
     open let spinner = MPOLSpinnerView(style: .regular)
     
+    open var showsCompactHorizontal: Bool = true {
+        didSet {
+            configureConstraints()
+        }
+    }
+    
     open var isLoading: Bool = false {
         didSet {
             if isLoading == oldValue { return }
@@ -86,18 +92,22 @@ open class ManageCallsignStatusViewCell: UICollectionViewCell, DefaultReusable {
             titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
         ]
     }
+    
+    private func configureConstraints() {
+        NSLayoutConstraint.deactivate(currentConstraints)
+        if super.traitCollection.horizontalSizeClass == .compact && showsCompactHorizontal {
+            currentConstraints = commonConstraints + compactConstraints
+        } else {
+            currentConstraints = commonConstraints + regularConstraints
+        }
+        NSLayoutConstraint.activate(currentConstraints)
+    }
 
     override open func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
         if previousTraitCollection != traitCollection {
-            NSLayoutConstraint.deactivate(currentConstraints)
-            if super.traitCollection.horizontalSizeClass == .compact {
-                currentConstraints = commonConstraints + compactConstraints
-            } else {
-                currentConstraints = commonConstraints + regularConstraints
-            }
-            NSLayoutConstraint.activate(currentConstraints)
+            configureConstraints()
         }
     }
 }

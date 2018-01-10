@@ -8,7 +8,13 @@
 
 import UIKit
 
+public protocol TaskItemViewModelDelegate: class {
+    func presentStatusSelector(viewController: UIViewController)
+}
+
 open class IncidentTaskItemViewModel: TaskItemViewModel {
+
+    open weak var delegate: TaskItemViewModelDelegate?
 
     open private(set) var incident: SyncDetailsIncident?
     open private(set) var resource: SyncDetailsResource?
@@ -35,6 +41,12 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         self.incident = incident
         self.resource = resource
     }
+    
+    open override func createViewController() -> UIViewController {
+        let vc = TasksItemSidebarViewController(viewModel: self)
+        delegate = vc
+        return vc
+    }
 
     override open func reloadFromModel() {
         // Reload resource for incident if current incident
@@ -56,7 +68,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         }
     }
 
-    override open func didTapTaskStatus(presenter: PopoverPresenter) {
+    override open func didTapTaskStatus() {
         if allowChangeResourceStatus() {
             let callsignStatus = CADStateManager.shared.currentResource?.status ?? .unavailable
             let sections = [CADFormCollectionSectionViewModel(
@@ -68,19 +80,10 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
                     ManageCallsignStatusItemViewModel(.inquiries2) ])
             ]
             let viewModel = CallsignStatusViewModel(sections: sections, selectedStatus: callsignStatus, incident: incident)
+            viewModel.showsCompactHorizontal = false
             let viewController = viewModel.createViewController()
-
-            // Add done button
-            if let dismisser = presenter as? TargetActionDismisser {
-                viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: dismisser, action: #selector(dismisser.dismissAnimated))
-            }
-
-            // Manually create form sheet to give custom size
-            let nav = PopoverNavigationController(rootViewController: viewController)
-            nav.modalPresentationStyle = .formSheet
-            nav.preferredContentSize = CGSize(width: 540.0, height: 120)
-
-            presenter.present(nav, animated: true, completion: nil)
+            
+            delegate?.presentStatusSelector(viewController: viewController)
         }
     }
 
