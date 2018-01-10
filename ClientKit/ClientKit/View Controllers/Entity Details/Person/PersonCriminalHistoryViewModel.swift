@@ -9,72 +9,195 @@
 import Foundation
 import MPOLKit
 
-public class PersonCriminalHistoryViewModel: PersonDetailsViewModel<CriminalHistory> {
+open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
     
-    // MARK: - Public methods
-    
-    public func cellInfo(for indexPath: IndexPath) -> CellInfo {
-        let history = item(at: indexPath.item)!
-        
-        let titleText    = title(for: history)
-        let subtitleText = subtitle(for: history)
-        
-        return CellInfo(title: titleText, subtitle: subtitleText)
+    private var person: Person? {
+        return entity as? Person
     }
     
-    // MARK: - Private methods
-    
-    public override func items() -> [CriminalHistory]? {
-        return person?.criminalHistory
+    private var criminalHistory: [CriminalHistory] {
+        return person?.criminalHistory ?? []
     }
     
-    public override func noContentTitle() -> String? {
+    // MARK: - EntityDetailFormViewModel
+    
+    open override func construct(for viewController: FormBuilderViewController, with builder: FormBuilder) {
+        let criminalHistory = filteredCriminalHistory
+        
+        builder.title = title
+        builder.forceLinearLayout = true
+        
+        if !criminalHistory.isEmpty {
+            builder += HeaderFormItem(text: header())
+            
+            for item in criminalHistory {
+                builder += SubtitleFormItem()
+                    .highlightStyle(.fade)
+                    .selectionStyle(.fade)
+                    .title(title(for: item))
+                    .subtitle(subtitle(for: item))
+                    .accessory(ItemAccessory(style: .disclosure))
+            }
+        }
+        
+        delegate?.updateLoadingState(criminalHistory.isEmpty ? .noContent : .loaded)
+    }
+    
+    open override var title: String? {
+        return NSLocalizedString("Criminal History", comment: "")
+    }
+    
+    open override var noContentTitle: String? {
         return NSLocalizedString("No Criminal History Found", bundle: .mpolKit, comment: "")
     }
     
-    public override func noContentSubtitle() -> String? {
-        var subtitle: String?
-        
-        if person?.criminalHistory?.isEmpty ?? true {
-            let entityDisplayName: String
+    open override var noContentSubtitle: String? {
+        if criminalHistory.isEmpty {
+            let name: String
             if let entity = person {
-                entityDisplayName = type(of: entity).localizedDisplayName.localizedLowercase
+                name = type(of: entity).localizedDisplayName.localizedLowercase
             } else {
-                entityDisplayName = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
+                name = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
             }
             
-            subtitle = String(format: NSLocalizedString("This %@ has no criminal history", bundle: .mpolKit, comment: ""), entityDisplayName)
+            return String(format: NSLocalizedString("This %@ has no criminal history", bundle: .mpolKit, comment: ""), name)
         } else {
-            subtitle = NSLocalizedString("This filter has no matching history", comment: "")
+            return NSLocalizedString("This filter has no matching history", comment: "")
         }
-        
-        return subtitle
     }
     
-    
-    private func title(for history: CriminalHistory) -> String? {
-        var offenceCountText = ""
-        if let offenceCount = history.offenceCount {
-            offenceCountText = "(\(offenceCount)) "
-        }
-        
-        return offenceCountText + (history.offenceDescription?.ifNotEmpty() ?? NSLocalizedString("Unknown Offence", bundle: .mpolKit, comment: ""))
+    open override  var sidebarImage: UIImage? {
+        return AssetManager.shared.image(forKey: .list)
     }
     
-    private func subtitle(for history: CriminalHistory) -> String? {
-        let lastOccurredDateString: String
-        if let lastOccurred = history.lastOccurred {
-            lastOccurredDateString = DateFormatter.mediumNumericDate.string(from: lastOccurred)
-        } else {
-            lastOccurredDateString = NSLocalizedString("Unknown", bundle: .mpolKit, comment: "Unknown date")
-        }
-        return String(format: NSLocalizedString("Last occurred: %@", bundle: .mpolKit, comment: ""), lastOccurredDateString)
+    open override var sidebarCount: UInt? {
+        return UInt(criminalHistory.count)
     }
     
-    /// MARK: - CellText Model
+    // MARK: - Filtering
+    
+    fileprivate var filterDateRange: FilterDateRange?
+    fileprivate var sorting: Sorting = .dateNewest
+    
+    var filteredCriminalHistory: [CriminalHistory] {
+        var filtered = self.criminalHistory
+        var filters: [FilterDescriptor<CriminalHistory>] = []
+        if let dateRange = self.filterDateRange {
+            filters.append(FilterRangeDescriptor<CriminalHistory, Date>(key: { $0.lastOccurred }, start: dateRange.startDate, end: dateRange.endDate))
+        }
 
-    public struct CellInfo {
-        let title: String?
-        let subtitle: String?
+        let sort: SortDescriptor<CriminalHistory>
+        switch self.sorting {
+        case .dateNewest, .dateOldest:
+            sort = SortDescriptor<CriminalHistory>(ascending: self.sorting == .dateOldest) { $0.lastOccurred }
+        case .title:
+            sort = SortDescriptor<CriminalHistory>(ascending: true) { $0.offenceDescription }
+        }
+
+        filtered = filtered.filter(using: filters)
+        filtered = filtered.sorted(using: [sort])
+        
+        return filtered
+    }
+    
+    open override var filterApplied: Bool {
+        return filterDateRange != nil || sorting != .dateNewest
+    }
+    
+    open override var filterOptions: [FilterOption] {
+        let dateRange = filterDateRange ?? FilterDateRange(title: NSLocalizedString("Date Range", comment: ""), startDate: nil, endDate: nil, requiresStartDate: false, requiresEndDate: false)
+        let sorting = FilterList(title: NSLocalizedString("Sort By", comment: ""), displayStyle: .list, options: Sorting.allCases, selectedIndexes: Sorting.allCases.indexes(where: { self.sorting == $0 }))
+        
+        return [dateRange, sorting]
+    }
+    
+    open override func filterViewControllerDidFinish(_ controller: FilterViewController, applyingChanges: Bool) {
+        controller.presentingViewController?.dismiss(animated: true)
+        
+        guard applyingChanges else { return }
+        
+        controller.filterOptions.forEach {
+            switch $0 {
+            case let filterList as FilterList where filterList.options.first is Sorting:
+                self.sorting = filterList.options[filterList.selectedIndexes].first as? Sorting ?? self.sorting
+            case let dateRange as FilterDateRange:
+                if dateRange.startDate == nil && dateRange.endDate == nil {
+                    self.filterDateRange = nil
+                } else {
+                    self.filterDateRange = dateRange
+                }
+            default:
+                break
+            }
+        }
+        
+        delegate?.updateBarButtonItems()
+        delegate?.reloadData()
+    }
+    
+    // MARK: - Internal
+    
+    open func header() -> String? {
+        let count = criminalHistory.count
+        if count > 0 {
+            let baseString = count > 1 ? NSLocalizedString("%d ITEMS", bundle: .mpolKit, comment: "") : NSLocalizedString("%d ITEM", bundle: .mpolKit, comment: "")
+            return String(format: baseString, count)
+        }
+        return nil
+    }
+    
+    open func title(for item: CriminalHistory) -> String? {
+        var offenceCount = ""
+        if let count = item.offenceCount {
+            offenceCount = "(\(count)) "
+        }
+        return offenceCount + (item.offenceDescription?.ifNotEmpty() ?? NSLocalizedString("Unknown Offence", bundle: .mpolKit, comment: ""))
+    }
+    
+    open func subtitle(for item: CriminalHistory) -> String? {
+        let lastOccurred: String
+        if let date = item.lastOccurred {
+            lastOccurred = DateFormatter.mediumNumericDate.string(from: date)
+        } else {
+            lastOccurred = NSLocalizedString("Unknown", bundle: .mpolKit, comment: "Unknown date")
+        }
+        return String(format: NSLocalizedString("Last occurred: %@", bundle: .mpolKit, comment: ""), lastOccurred)
+    }
+    
+    // MARK: - Sorting
+    // TODO: Refactor
+    
+    public enum Sorting: Pickable {
+        case dateNewest
+        case dateOldest
+        case title
+        
+        func compare(_ h1: CriminalHistory, _ h2: CriminalHistory) -> Bool {
+            switch self {
+            case .dateNewest:
+                return DateSorting.newest.compare(h1.lastOccurred ?? .distantPast, h2.lastOccurred ?? .distantPast)
+            case .dateOldest:
+                return DateSorting.oldest.compare(h1.lastOccurred ?? .distantPast, h2.lastOccurred ?? .distantPast)
+            case .title:
+                if let h2Title = h2.offenceDescription {
+                    return h1.offenceDescription?.localizedStandardCompare(h2Title) == .orderedAscending
+                }
+                return h1.offenceDescription != nil
+            }
+        }
+        
+        public var title: String? {
+            switch self {
+            case .dateNewest: return NSLocalizedString("Newest", comment: "")
+            case .dateOldest: return NSLocalizedString("Oldest", comment: "")
+            case .title: return NSLocalizedString("Title", comment: "")
+            }
+        }
+        
+        public var subtitle: String? {
+            return nil
+        }
+        
+        static let allCases: [Sorting] = [.dateNewest, .dateOldest, .title]
     }
 }

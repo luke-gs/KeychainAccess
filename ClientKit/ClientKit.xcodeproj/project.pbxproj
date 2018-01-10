@@ -46,7 +46,6 @@
 		BC75A7B21F1C3D50004D46F1 /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7981F1C3BF9004D46F1 /* EventDetailViewController.swift */; };
 		BC75A7B61F1C3D50004D46F1 /* OrganizationInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7A81F1C3BF9004D46F1 /* OrganizationInfoViewController.swift */; };
 		BC75A7B91F1C3D55004D46F1 /* PersonDescriptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7A11F1C3BF9004D46F1 /* PersonDescriptionsViewController.swift */; };
-		BC75A7BB1F1C3D58004D46F1 /* PersonCriminalHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7A51F1C3BF9004D46F1 /* PersonCriminalHistoryViewController.swift */; };
 		BC75A7BD1F1C3D5F004D46F1 /* VehicleInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A79D1F1C3BF9004D46F1 /* VehicleInfoViewController.swift */; };
 		BCA1793C1F03542900AD1F5F /* PersonParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1793A1F03542900AD1F5F /* PersonParserDefinition.swift */; };
 		BCAEFE921F03150800C97F9C /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE551F03150800C97F9C /* Address.swift */; };
@@ -155,7 +154,6 @@
 		BC75A7981F1C3BF9004D46F1 /* EventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
 		BC75A79D1F1C3BF9004D46F1 /* VehicleInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleInfoViewController.swift; sourceTree = "<group>"; };
 		BC75A7A11F1C3BF9004D46F1 /* PersonDescriptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonDescriptionsViewController.swift; sourceTree = "<group>"; };
-		BC75A7A51F1C3BF9004D46F1 /* PersonCriminalHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonCriminalHistoryViewController.swift; sourceTree = "<group>"; };
 		BC75A7A81F1C3BF9004D46F1 /* OrganizationInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationInfoViewController.swift; sourceTree = "<group>"; };
 		BCA1793A1F03542900AD1F5F /* PersonParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonParserDefinition.swift; sourceTree = "<group>"; };
 		BCAEFE551F03150800C97F9C /* Address.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
@@ -352,7 +350,6 @@
 				1A2FF6FE1F32BE5100D63956 /* PersonInfoViewModel.swift */,
 				BC75A7A11F1C3BF9004D46F1 /* PersonDescriptionsViewController.swift */,
 				1A2E8A6F1F37E3380062FEA5 /* PersonDescriptionViewModel.swift */,
-				BC75A7A51F1C3BF9004D46F1 /* PersonCriminalHistoryViewController.swift */,
 				1A2E8A731F3835CB0062FEA5 /* PersonCriminalHistoryViewModel.swift */,
 			);
 			path = Person;
@@ -821,7 +818,6 @@
 				BCAEFEAF1F03150800C97F9C /* Vehicle.swift in Sources */,
 				BCAEFEAE1F03150800C97F9C /* TelephoneNumber.swift in Sources */,
 				1A2FF6FF1F32BE5100D63956 /* PersonInfoViewModel.swift in Sources */,
-				BC75A7BB1F1C3D58004D46F1 /* PersonCriminalHistoryViewController.swift in Sources */,
 				1AB8251C1F5E4CFF001C4BCE /* LocationMapRadiusSearchParameters.swift in Sources */,
 				C63408531F30DA15000747B0 /* MPOLSource.swift in Sources */,
 				1A2E8A781F3942FE0062FEA5 /* EntityAlertsViewModel.swift in Sources */,

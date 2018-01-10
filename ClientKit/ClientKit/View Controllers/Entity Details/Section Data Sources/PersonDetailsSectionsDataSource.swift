@@ -30,7 +30,7 @@ public class PersonMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSource
                                        EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(), delegate: delegate),
                                        EntityDetailFormViewController(viewModel: EntityEventsViewModel()),
-                                       PersonCriminalHistoryViewController()]
+                                       EntityDetailFormViewController(viewModel: PersonCriminalHistoryViewModel())]
     }
 }
 
