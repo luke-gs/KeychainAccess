@@ -124,7 +124,7 @@ open class SearchHeaderView: UIView {
     }
 
     private func apply(_ theme: Theme) {
-        backgroundColor = theme.color(forKey: .headerBackground)?.withAlphaComponent(0.16)
+        backgroundColor = theme.color(forKey: .headerBackground)
         titleLabel.textColor = theme.color(forKey: .headerTitleText)
         subtitleLabel.textColor = theme.color(forKey: .headerSubtitleText)
 

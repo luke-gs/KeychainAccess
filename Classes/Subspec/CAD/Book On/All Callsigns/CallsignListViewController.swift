@@ -90,7 +90,7 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
 
     open override func apply(_ theme: Theme) {
         super.apply(theme)
-        barBackground.backgroundColor = theme.color(forKey: .headerBackground)?.withAlphaComponent(0.16)
+        barBackground.backgroundColor = theme.color(forKey: .headerBackground)
     }
 
     /// Activates view constraints
