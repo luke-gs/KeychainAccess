@@ -41,6 +41,8 @@ open class CADStatusTabBarController: StatusTabBarController {
         NotificationCenter.default.addObserver(self, selector: #selector(syncChanged), name: .CADSyncChanged, object: nil)
         view.backgroundColor = ThemeManager.shared.theme(for: .dark).color(forKey: .background)
         tabBarContainerController.view.isHidden = true
+        
+        tabBar.barTintColor = .tabBarWhite
     }
 
     @objc open func syncChanged() {
