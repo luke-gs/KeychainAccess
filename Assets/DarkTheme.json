@@ -18,7 +18,6 @@
         "searchFieldBackground":  "#000000",
         "groupedTableBackground": "#161718",
         "groupedTableCellBackground": "#1B1C1E",
-        "headerBackground":       "#232323B3",
         "headerTitleText":        "#e0e0e2",
         "headerSubtitleText":     "#8A919E",
     },
