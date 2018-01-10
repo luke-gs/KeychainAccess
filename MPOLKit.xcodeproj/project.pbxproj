@@ -485,6 +485,7 @@
 		C6E833AB1F334A4700A21F6D /* NSArchiverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E833AA1F334A4700A21F6D /* NSArchiverTests.swift */; };
 		C6F5DED21ECD5C62008E7BE2 /* AccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */; };
 		C6F640ED1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F640EC1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift */; };
+		DB0F44862005D06500F82C5F /* ValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0F44852005D06500F82C5F /* ValidatorTests.swift */; };
 		DB168CDE20032B6B00322F7F /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB168CDD20032B6B00322F7F /* Validator.swift */; };
 		DB2A05E11FD9142E005B7BFD /* HapticHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2A05E01FD9142E005B7BFD /* HapticHelper.swift */; };
 		DB528ECF20046BFC008914EB /* ValidationRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB528ECE20046BFC008914EB /* ValidationRules.swift */; };
@@ -1150,6 +1151,7 @@
 		C6E833AA1F334A4700A21F6D /* NSArchiverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSArchiverTests.swift; sourceTree = "<group>"; };
 		C6F5DED11ECD5C62008E7BE2 /* AccessToken.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AccessToken.json; sourceTree = "<group>"; };
 		C6F640EC1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSArchiver+SecureArchiver.swift"; sourceTree = "<group>"; };
+		DB0F44852005D06500F82C5F /* ValidatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatorTests.swift; sourceTree = "<group>"; };
 		DB168CDD20032B6B00322F7F /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		DB2A05E01FD9142E005B7BFD /* HapticHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticHelper.swift; sourceTree = "<group>"; };
 		DB528ECE20046BFC008914EB /* ValidationRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationRules.swift; sourceTree = "<group>"; };
@@ -2756,6 +2758,14 @@
 			path = "Mock JSONs";
 			sourceTree = "<group>";
 		};
+		DB0F44842005D05800F82C5F /* Validator */ = {
+			isa = PBXGroup;
+			children = (
+				DB0F44852005D06500F82C5F /* ValidatorTests.swift */,
+			);
+			path = Validator;
+			sourceTree = "<group>";
+		};
 		DB168CDC20032AD800322F7F /* Validation */ = {
 			isa = PBXGroup;
 			children = (
@@ -3011,6 +3021,7 @@
 				EA5649731F8F061000BEA144 /* FormBuilder */,
 				EA42F8D81F95872200C5C38E /* Specifications */,
 				197FBF6F1F9980CC0086875A /* Network */,
+				DB0F44842005D05800F82C5F /* Validator */,
 				19B3F35A1FD0742B00245566 /* PromiseCancellationTokenTests.swift */,
 			);
 			path = Core;
@@ -4036,6 +4047,7 @@
 				EA05400A1F94988000F6E63C /* PickerFormItemTests.swift in Sources */,
 				EA42F8DE1F958A7200C5C38E /* NotSpecificationTests.swift in Sources */,
 				EAF76C931F94562A00405DC9 /* SummaryListFormItemTests.swift in Sources */,
+				DB0F44862005D06500F82C5F /* ValidatorTests.swift in Sources */,
 				EAF76C911F94545400405DC9 /* DetailFormItemTests.swift in Sources */,
 				EA42F8DC1F9588C500C5C38E /* OrSpecificationTests.swift in Sources */,
 				12F057241F3BFCBC00CAD6F6 /* SearchResultsTests.swift in Sources */,
