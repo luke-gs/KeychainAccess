@@ -8,92 +8,58 @@
 
 import Foundation
 
-/// Validation Result.
-///
-/// - valid: This indicates that the item has passed all validation rules.
-/// - softInvalid: Indicates an invalid result with a soft validation rule.
-/// - strictInvalid: Indicates an invalid result with a strict validation rule.
-public enum ValidateResult: Equatable {
-    case valid
-    case softInvalid(message: String)
-    case strictInvalid(message: String)
+public enum ValidationError: Error {
+    case invalid(errors: [ValidateResult])
+}
 
-    /// Returns true if the result is valid.
-    ///
-    /// - Returns: True if valid.
-    public func isValid() -> Bool {
-        switch self {
-        case .valid:
-            return true
-        case .softInvalid, .strictInvalid:
-            return false
-        }
+public class ValidationRuleSet {
+    public let candidate: Any
+    public var rules: [Specification]?
+
+    public init(candidate: Any, rules: [Specification]?) {
+        self.candidate = candidate
+        self.rules = rules
     }
 
-    /// Returns a message if the result is invalid.
-    ///
-    /// - Returns: String if invalid.
-    public func message() -> String? {
-        switch self {
-        case .valid:
-            return nil
-        case .softInvalid(let message), .strictInvalid(let message):
-            return message
-        }
-    }
+    public var validationResults: [ValidateResult] {
+        var results = [ValidateResult]()
+        guard let rules = rules else { return [] }
 
+        for rule in rules {
+            if rule.isSatisfiedBy(candidate) == false {
+                results.append(.strictInvalid(message: ""))
+            }
+        }
+
+        return results
+    }
+}
+
+/// Validatable objects provide a list of values and their applicable validation rules
+public protocol Validatable {
+    var validationRules: [ValidationRuleSet] { get }
 }
 
 
-/// Comparison of two validation results. Results are considered to be equal if the case
-/// and the meesage are the same.
-///
-/// - Parameters:
-///   - lhs: ValidateResult
-///   - rhs: ValidateResult
-/// - Returns: True if the same. False otherwise.
-public func ==(lhs: ValidateResult, rhs: ValidateResult) -> Bool {
-    switch (lhs, rhs) {
-    case (.valid, .valid):
+public class Validator {
+    private let candidate: Validatable
+
+    public init(candidate: Validatable) {
+        self.candidate = candidate
+    }
+
+    public func valid() throws -> Bool {
+        var results = [ValidateResult]()
+
+        for ruleSet in candidate.validationRules {
+            results.append(contentsOf: ruleSet.validationResults)
+        }
+
+        guard results.count == 0 else {
+            throw ValidationError.invalid(errors: results)
+        }
+
         return true
-    case let (.softInvalid(messageA), .softInvalid(messageB)):
-        return messageA == messageB
-    case let (.strictInvalid(messageA), .strictInvalid(messageB)):
-        return messageA == messageB
-    default:
-        return false
     }
-}
-
-
-/// The rule for validation.
-///
-/// - soft: This is used for live validation of text without preventing text input.
-/// - strict: This will prevent the text input if it doesn't pass the strict rule.
-/// - submit: Validations on submission or on end editing.
-public enum ValidatorRule: Equatable {
-    case soft(specification: Specification, message: String)
-    case strict(specification: Specification, message: String)
-    case submit(specification: Specification, message: String)
-}
-
-
-/// Comparion of two rules. Rules are considered the same if the case, spec and message
-/// are equal.
-///
-/// - Parameters:
-///   - lhs: ValidatorRule
-///   - rhs: ValidatorRule
-/// - Returns: True if the same. False otherwise.
-public func ==(lhs: ValidatorRule, rhs: ValidatorRule) -> Bool {
-    switch (lhs, rhs) {
-    case (.soft(let specification1, let message1), .soft(let specification2, let message2)):
-        return specification1 == specification2 && message1 == message2
-    case (.strict(let specification1, let message1), .strict(let specification2, let message2)):
-        return specification1 == specification2 && message1 == message2
-    case (.submit(let specification1, let message1), .submit(let specification2, let message2)):
-        return specification1 == specification2 && message1 == message2
-    default:
-        return false
-    }
+    
 }

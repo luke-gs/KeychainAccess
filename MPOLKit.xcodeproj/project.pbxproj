@@ -487,6 +487,8 @@
 		C6F640ED1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F640EC1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift */; };
 		DB168CDE20032B6B00322F7F /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB168CDD20032B6B00322F7F /* Validator.swift */; };
 		DB2A05E11FD9142E005B7BFD /* HapticHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2A05E01FD9142E005B7BFD /* HapticHelper.swift */; };
+		DB528ECF20046BFC008914EB /* ValidationRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB528ECE20046BFC008914EB /* ValidationRules.swift */; };
+		DB528ED120046C13008914EB /* ValidationResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB528ED020046C13008914EB /* ValidationResults.swift */; };
 		DB6C89EC1FD4D818006F9AD2 /* QuantityPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6C89EB1FD4D818006F9AD2 /* QuantityPickerViewController.swift */; };
 		DB88BCD91F42CFFC0056FD69 /* SearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88BCD21F42CEAA0056FD69 /* SearchDataSource.swift */; };
 		DB88BCDA1F42D0080056FD69 /* NumberRangePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88BCCC1F42CEAA0056FD69 /* NumberRangePickerViewController.swift */; };
@@ -1150,6 +1152,8 @@
 		C6F640EC1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSArchiver+SecureArchiver.swift"; sourceTree = "<group>"; };
 		DB168CDD20032B6B00322F7F /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		DB2A05E01FD9142E005B7BFD /* HapticHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticHelper.swift; sourceTree = "<group>"; };
+		DB528ECE20046BFC008914EB /* ValidationRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationRules.swift; sourceTree = "<group>"; };
+		DB528ED020046C13008914EB /* ValidationResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationResults.swift; sourceTree = "<group>"; };
 		DB6C89EB1FD4D818006F9AD2 /* QuantityPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityPickerViewController.swift; sourceTree = "<group>"; };
 		DB88BCC81F42CE970056FD69 /* QueryParserDefinitionSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryParserDefinitionSelector.swift; sourceTree = "<group>"; };
 		DB88BCCA1F42CEA40056FD69 /* SortDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortDescriptor.swift; sourceTree = "<group>"; };
@@ -2756,6 +2760,8 @@
 			isa = PBXGroup;
 			children = (
 				DB168CDD20032B6B00322F7F /* Validator.swift */,
+				DB528ECE20046BFC008914EB /* ValidationRules.swift */,
+				DB528ED020046C13008914EB /* ValidationResults.swift */,
 			);
 			path = Validation;
 			sourceTree = "<group>";
@@ -3574,6 +3580,7 @@
 				BC9C7E051F0DED6600DFFE83 /* UIEdgeInsets+Convenience.swift in Sources */,
 				4492C04B1FD8C917009D26BD /* TrafficStopViewModel.swift in Sources */,
 				969DC6931FBE6D3900010212 /* APIManager+CAD.swift in Sources */,
+				DB528ED120046C13008914EB /* ValidationResults.swift in Sources */,
 				9936C67D1F96C5580091A61C /* GeolocationPlugin.swift in Sources */,
 				4634B4471FBD6FD200D71E7F /* TravelEstimationPlugin.swift in Sources */,
 				27DC609B1FD60F3D0033BC0B /* ResourceOverviewViewModel.swift in Sources */,
@@ -3666,6 +3673,7 @@
 				2766CE331FEB5C5400895B3A /* CallsignCollectionViewCell.swift in Sources */,
 				DBE24C3D1F593BEF0088D19B /* EntityDetailSectionsViewModel.swift in Sources */,
 				27C9C7611F95692400799855 /* NotBookedOnViewController.swift in Sources */,
+				DB528ECF20046BFC008914EB /* ValidationRules.swift in Sources */,
 				BC9C7E1A1F0DED6600DFFE83 /* SelectableButton.swift in Sources */,
 				BC9C7E251F0DED6600DFFE83 /* EntityCollectionViewCell.swift in Sources */,
 				BC8A99611F22EBD700387AB6 /* UIColor+Brightness.swift in Sources */,
