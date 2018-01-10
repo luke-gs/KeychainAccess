@@ -8,30 +8,44 @@
 
 import Foundation
 
+/// ValidationError
+///
+/// - invalid: Indicates that a candidate was deemed invalid. Contains descriptions of all errors if provided. An error with a nil description still represents an invalid candidate.
 public enum ValidationError: Error {
-    case invalid(errors: [ValidateResult])
+    case invalid(descriptions: [String?])
 }
 
+/// ValidationState
+///
+/// - valid: State is valid
+/// - invalid: State is invalid, details can be provided in errorDescription
+public enum ValidationState {
+    case valid
+    case invalid(errorDescription: String?)
+}
+
+/// A ValidationRuleSet is a general validation object that determines if any of its specifications are invalid.
+/// If one is invalid, the whole object is invalid.
 public class ValidationRuleSet {
     public let candidate: Any
-    public var rules: [Specification]?
+    public var invalidMessage: String?
+    public var rules: [Specification]
 
-    public init(candidate: Any, rules: [Specification]?) {
+    public init(candidate: Any, rules: [Specification], invalidMessage: String? = nil) {
         self.candidate = candidate
         self.rules = rules
+        self.invalidMessage = invalidMessage
     }
 
-    public var validationResults: [ValidateResult] {
-        var results = [ValidateResult]()
-        guard let rules = rules else { return [] }
+    public var validityState: ValidationState {
 
         for rule in rules {
             if rule.isSatisfiedBy(candidate) == false {
-                results.append(.strictInvalid(message: ""))
+                return .invalid(errorDescription: invalidMessage)
             }
         }
 
-        return results
+        return .valid
     }
 }
 
@@ -41,6 +55,7 @@ public protocol Validatable {
 }
 
 
+/// Validator accepts a Validatable object and validates each ruleset within it.
 public class Validator {
     private let candidate: Validatable
 
@@ -49,14 +64,17 @@ public class Validator {
     }
 
     public func valid() throws -> Bool {
-        var results = [ValidateResult]()
+        var errorMessages = [String?]()
 
+        // Validate all ruleSets.
         for ruleSet in candidate.validationRules {
-            results.append(contentsOf: ruleSet.validationResults)
+            if case .invalid(let description) = ruleSet.validityState {
+                errorMessages.append(description)
+            }
         }
 
-        guard results.count == 0 else {
-            throw ValidationError.invalid(errors: results)
+        guard errorMessages.count == 0 else {
+            throw ValidationError.invalid(descriptions: errorMessages)
         }
 
         return true
