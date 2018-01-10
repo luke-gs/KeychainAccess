@@ -72,7 +72,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                 .progress(progress)
                 .progressTintColor(progress > 1.0 ? #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1) : #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1))
                 .isProgressHidden(licence.expiryDate == nil)
-                .width(.fixed(250))
+                .width(.column(2))
             
             builder += ValueFormItem(title: NSLocalizedString("Conditions", bundle: .mpolKit, comment: ""), value: licence.conditions?.flatMap({ $0.displayValue() }).joined(separator: "\n")).width(.column(1))
         }

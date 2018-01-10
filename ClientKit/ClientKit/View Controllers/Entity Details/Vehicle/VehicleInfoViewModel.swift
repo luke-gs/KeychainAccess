@@ -9,319 +9,121 @@
 import Foundation
 import MPOLKit
 
-public class VehicleInfoViewModel: EntityDetailViewModelable {
-
-    public typealias DetailsType = VehicleInfo
+open class VehicleInfoViewModel: EntityDetailFormViewModel {
     
-    public weak var delegate: EntityDetailViewModelDelegate?
-    
-    // MARK - Entity
-    public var vehicle: Vehicle? {
-        didSet {
-            guard let _ = self.vehicle else {
-                self.sections = []
-                return
-            }
-            
-            let sections: [DetailsType] = [
-                VehicleInfo(type: .header, items: nil),
-                VehicleInfo(type: .registration, items: [
-                    RegistrationItem.status,
-                    RegistrationItem.validity,
-                    RegistrationItem.manufactured,
-                    RegistrationItem.make,
-                    RegistrationItem.model,
-                    RegistrationItem.vin,
-                    RegistrationItem.engine,
-                    RegistrationItem.fuel,
-                    RegistrationItem.transmission,
-                    RegistrationItem.color1,
-                    RegistrationItem.color2,
-                    RegistrationItem.weight,
-                    RegistrationItem.tare,
-                    RegistrationItem.seating])
-            ]
-            
-            self.sections = sections
-        }
+    private var vehicle: Vehicle? {
+        return entity as? Vehicle
     }
     
-    public var sections: [DetailsType] = [] {
-        didSet {
-            delegate?.reloadData()
-        }
-    }
-
-    public lazy var collapsedSections: Set<Int> = []
+    // MARK: - EntityDetailFormViewModel
     
-    // MARK: - Public methods
-    
-    public func numberOfSections() -> Int {
-        return sections.count
-    }
-    
-    public func numberOfItems(for section: Int) -> Int {
-        if collapsedSections.contains(section) {
-            return 0
-        }
-        return sections[section].items?.count ?? 1
-    }
-    
-    public func detailItem(at indexPath: IndexPath) -> Any? {
-        return sections[ifExists: indexPath.section]?.items?[indexPath.item]
-    }
-    
-    /// Header section
-    public func header(for section: Int) -> String? {
-        let section = item(at: section)!
-        switch section.type {
-        case .header:
-            let lastUpdatedString: String
-            if let lastUpdated = vehicle?.lastUpdated {
-                lastUpdatedString = DateFormatter.shortDate.string(from: lastUpdated)
-            } else {
-                lastUpdatedString = NSLocalizedString("UNKNOWN", bundle: .mpolKit, comment: "Unknown Date")
-            }
-            return NSLocalizedString("LAST UPDATED: ", bundle: .mpolKit, comment: "") + lastUpdatedString
-        default:
-            return section.type.localizedTitle
-        }
-    }
-    
-    public func headerCellInfo() -> HeaderSectionCellInfo {
-        let description   = vehicle?.vehicleDescription ?? "No Description"
+    open override func construct(for viewController: FormBuilderViewController, with builder: FormBuilder) {
+        builder.title = title
         
-        return HeaderSectionCellInfo(vehicle: VehicleSummaryDisplayable(vehicle!),
-                                     description: description)
-    }
-
-    public func cellInfo(for section: DetailsType, at indexPath: IndexPath) -> SectionCellInfo {
-        var title: String?
-        var value: String?
-        var isEditable: Bool?
-        var isProgressCell: Bool?
-        var progress: Float?
-        var isProgressViewHidden: Bool?
-        var multiLineSubtitle: Bool = false
+        guard let vehicle = vehicle else { return }
         
-        let item = section.items![indexPath.item]
-
-        switch section.type {
-        case .registration:
-            let item = item as! RegistrationItem
-            title    = item.localizedTitle
-            value = item.value(from: vehicle!)
-            isProgressCell = (item == .validity)
-            multiLineSubtitle = false
-            
-            if let _ = isProgressCell {
-                isProgressViewHidden = true
-                isEditable = false
-                
-//                if let startDate = vehicle!.registrationEffectiveDate, let endDate = vehicle!.registrationExpiryDate {
-//                    isProgressViewHidden = false
-//                    let timeIntervalBetween = endDate.timeIntervalSince(startDate)
-//                    let timeIntervalToNow   = startDate.timeIntervalSinceNow * -1.0
-//                    progress = Float(timeIntervalToNow / timeIntervalBetween)
-//                }
-                
-                if let expiryDate = vehicle!.registrationExpiryDate {
-                    isProgressViewHidden = false
-                    progress = Float((Date().timeIntervalSince1970 / expiryDate.timeIntervalSince1970))
-                }
-            }
-        default:
-            break
+        // ---------- HEADER ----------
+        
+        let displayable = VehicleSummaryDisplayable(vehicle)
+        
+        builder += HeaderFormItem(text: header(for: .header), style: .collapsible)
+        builder += SummaryDetailFormItem()
+            .category(displayable.category)
+            .title(displayable.title)
+            .subtitle(displayable.detail1)
+            .detail(vehicle.vehicleDescription ?? "No Description")
+            .borderColor(displayable.borderColor)
+            .image(displayable.thumbnail(ofSize: .large))
+        
+        // ---------- DETAILS ----------
+        
+        builder += HeaderFormItem(text: header(for: .details), style: .collapsible)
+        builder += ValueFormItem(title: NSLocalizedString("Status", bundle: .mpolKit, comment: ""), value: vehicle.registrationStatus ?? "-")
+            .width(.column(3))
+        
+        var progress: Float = 0
+        if let date = vehicle.registrationExpiryDate {
+            progress = Float((Date().timeIntervalSince1970 / date.timeIntervalSince1970))
         }
         
-        return SectionCellInfo(title: title,
-                               value: value,
-                               isEditable: isEditable,
-                               isProgressCell: isProgressCell,
-                               progress: progress,
-                               isProgressViewHidden: isProgressViewHidden,
-                               multiLineSubtitle: multiLineSubtitle)
-    }
-    
-    /// Calculate the filling columns for Licence section
-    public func regoItemFillingColumns(at indexPath: IndexPath) -> Int {
-        let regoItem = detailItem(at: indexPath)! as! RegistrationItem
-        return (regoItem == .validity) ? 2 : 1
-    }
-    
-    
-    public func registrationItem(at index: Int) -> RegistrationItem? {
-        return RegistrationItem(rawValue: index)
-    }
-    
-    public func owerItem(at index: Int) -> OwnerItem? {
-        return OwnerItem(rawValue: index)
-    }
-    
-    // MARK: Private methods
-    
-    // MARK: Section Cell
-    
-    public struct HeaderSectionCellInfo {
-        let vehicle: EntitySummaryDisplayable?
-        let description: String?
-    }
-    
-    public struct SectionCellInfo {
-        let title: String?
-        var value: String?
-        let isEditable: Bool?
-        
-        let isProgressCell: Bool?
-        let progress: Float?
-        let isProgressViewHidden: Bool?
-        let multiLineSubtitle: Bool
-
-        var progressTintColor: UIColor? {
-            guard let progress = progress else {
-                return nil
-            }
-            return progress > 1.0 ? #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1) : #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1)
-        }
-    }
-    
-    // MARK: - Section & Item Enum
-        
-    public struct VehicleInfo {
-        var type: SectionType
-        var items: [Any]?
-    }
-    
-    public enum SectionType {
-        case header
-        case registration
-        
-        var localizedTitle: String {
-            switch self {
-            case .header: return NSLocalizedString("LAST UPDATED", bundle: .mpolKit, comment: "")
-            case .registration: return NSLocalizedString("REGISTRATION DETAILS", bundle: .mpolKit, comment: "")
-            }
-        }
-    }
-    
-    public enum RegistrationItem: Int {
-        case status
-        case validity
-        
-        case manufactured
-        case make
-        case model
-        
-        case vin
-        case engine
-        case fuel
-        
-        case transmission
-        case color1
-        case color2
-        
-        case weight
-        case tare
-        case seating
-        
-        static func registrationItems() -> [RegistrationItem] {
-            return [.status,
-                    .validity,
-                    .manufactured,
-                    .make,
-                    .model,
-                    .vin,
-                    .engine,
-                    .fuel,
-                    .transmission,
-                    .color1,
-                    .color2,
-                    .weight,
-                    .tare,
-                    .seating]
-        }
-        
-        var localizedTitle: String {
-            switch self {
-            case .status: return NSLocalizedString("Status", bundle: .mpolKit, comment: "")
-            case .validity: return NSLocalizedString("Valid until", bundle: .mpolKit, comment: "")
-            case .manufactured: return NSLocalizedString("Manufactured in", bundle: .mpolKit, comment: "")
-            case .make: return NSLocalizedString("Make", bundle: .mpolKit, comment: "")
-            case .model: return NSLocalizedString("Model", bundle: .mpolKit, comment: "")
-            case .vin: return NSLocalizedString("VIN/Chassis Number", bundle: .mpolKit, comment: "")
-            case .engine: return NSLocalizedString("Engine Number", bundle: .mpolKit, comment: "")
-            case .fuel: return NSLocalizedString("Fuel Type", bundle: .mpolKit, comment: "")
-            case .transmission: return NSLocalizedString("Transmission", bundle: .mpolKit, comment: "")
-            case .color1: return NSLocalizedString("Primary Colour", bundle: .mpolKit, comment: "")
-            case .color2: return NSLocalizedString("Secondary Colour", bundle: .mpolKit, comment: "")
-            case .weight: return NSLocalizedString("Gross Vehicle Mass", bundle: .mpolKit, comment: "")
-            case .tare: return NSLocalizedString("TARE", bundle: .mpolKit, comment: "")
-            case .seating: return NSLocalizedString("Seating Capacity", bundle: .mpolKit, comment: "")
-            }
-        }
-        
-        func value(from vehicle: Vehicle?) -> String? {
-            // TODO: Fill these details in
-            switch self {
-            case .status: return vehicle?.registrationStatus ?? "-"
-            case .validity:
-                if let effectiveDate = vehicle?.registrationExpiryDate {
-                    return DateFormatter.mediumNumericDate.string(from: effectiveDate)
+        builder += ProgressFormItem(title: NSLocalizedString("Valid until", bundle: .mpolKit, comment: ""))
+            .value({
+                if let date = vehicle.registrationExpiryDate {
+                    return DateFormatter.mediumNumericDate.string(from: date)
                 }
                 return "-"
-            case .manufactured: return vehicle?.year ?? "-"
-            case .make: return vehicle?.make ?? "-"
-            case .model: return vehicle?.model ?? "-"
-            case .vin: return vehicle?.vin ?? "-"
-            case .engine: return vehicle?.engineNumber ?? "-"
-            case .fuel: return "-"
-            case .transmission: return vehicle?.transmission ?? "-"
-            case .color1: return vehicle?.primaryColor ?? "-"
-            case .color2: return vehicle?.secondaryColor ?? "-"
-            case .weight:
-                guard let weight = vehicle?.weight, weight > 0 else { return "-" }
-                return String(describing: weight) + " kg"
-            case .tare: return "-"
-            case .seating:
-                guard let seatCapacity = vehicle?.seatingCapacity, seatCapacity > 0 else { return "-" }
-                return String(describing: seatCapacity)
-
-            }
-        }
+                }())
+            .progress(progress)
+            .progressTintColor(progress > 1.0 ? #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1) : #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1))
+            .isProgressHidden(vehicle.registrationExpiryDate == nil)
+            .width(.column(2))
+        
+        builder += ValueFormItem(title: NSLocalizedString("Manufactured in", bundle: .mpolKit, comment: ""), value: vehicle.year ?? "-")
+            .width(.column(3))
+        builder += ValueFormItem(title: NSLocalizedString("Make", bundle: .mpolKit, comment: ""), value: vehicle.make ?? "-")
+            .width(.column(3))
+        builder += ValueFormItem(title: NSLocalizedString("Model", bundle: .mpolKit, comment: ""), value: vehicle.model ?? "-")
+            .width(.column(3))
+        builder += ValueFormItem(title: NSLocalizedString("VIN/Chassis Number", bundle: .mpolKit, comment: ""), value: vehicle.vin ?? "-")
+            .width(.column(3))
+        builder += ValueFormItem(title: NSLocalizedString("Engine Number", bundle: .mpolKit, comment: ""), value: vehicle.engineNumber ?? "-")
+            .width(.column(3))
+        builder += ValueFormItem(title: NSLocalizedString("Fuel Type", bundle: .mpolKit, comment: ""), value: "-")
+            .width(.column(3))
+        builder += ValueFormItem(title: NSLocalizedString("Transmission", bundle: .mpolKit, comment: ""), value: vehicle.transmission ?? "-")
+            .width(.column(3))
+        builder += ValueFormItem(title: NSLocalizedString("Primary Colour", bundle: .mpolKit, comment: ""), value: vehicle.primaryColor ?? "-")
+            .width(.column(3))
+        builder += ValueFormItem(title: NSLocalizedString("Secondary Colour", bundle: .mpolKit, comment: ""), value: vehicle.secondaryColor ?? "-")
+            .width(.column(3))
+        builder += ValueFormItem(title: NSLocalizedString("Gross Vehicle Mass", bundle: .mpolKit, comment: ""), value: {
+            guard let weight = vehicle.weight, weight > 0 else { return "-" }
+            return "\(weight) kg"
+        }())
+            .width(.column(3))
+        builder += ValueFormItem(title: NSLocalizedString("TARE", bundle: .mpolKit, comment: ""), value: "-")
+            .width(.column(3))
+        builder += ValueFormItem(title: NSLocalizedString("Seating Capacity", bundle: .mpolKit, comment: ""), value: {
+            guard let seatCapacity = vehicle.seatingCapacity, seatCapacity > 0 else { return "-" }
+            return String(describing: seatCapacity)
+        }()).width(.column(3))
     }
     
-    public enum OwnerItem: Int {
-        case name
-        case dob
-        case gender
-        case address
-        
-        static let count: Int = 4
-        
-        var localizedTitle: String {
-            switch self {
-            case .name: return NSLocalizedString("Name", bundle: .mpolKit, comment: "")
-            case .dob: return NSLocalizedString("Date of Birth", bundle: .mpolKit, comment: "")
-            case .gender: return NSLocalizedString("Gender", bundle: .mpolKit, comment: "")
-            case .address: return NSLocalizedString("Address", bundle: .mpolKit, comment: "")
+    open override var title: String? {
+        return NSLocalizedString("Information", bundle: .mpolKit, comment: "")
+    }
+    
+    open override var noContentTitle: String? {
+        return NSLocalizedString("No Vehicle Found", bundle: .mpolKit, comment: "")
+    }
+    
+    open override var noContentSubtitle: String? {
+        return NSLocalizedString("There are no details for this vehicle", bundle: .mpolKit, comment: "")
+    }
+    
+    open override var sidebarImage: UIImage? {
+        return AssetManager.shared.image(forKey: .info)
+    }
+    
+    // MARK: - Internal
+    
+    private enum Section {
+        case header
+        case details
+    }
+    
+    private func header(for section: Section) -> String? {
+        switch section {
+        case .header:
+            let lastUpdated: String
+            if let date = vehicle?.lastUpdated {
+                lastUpdated = DateFormatter.shortDate.string(from: date)
+            } else {
+                lastUpdated = NSLocalizedString("UNKNOWN", bundle: .mpolKit, comment: "Unknown Date")
             }
-        }
-        
-        func value(for vehicle: Any?) -> String {
-            // TODO: Fill these details in
-            switch self {
-            case .name: return "Citizen, John R"
-            case .dob: return "08/05/1987 (29)"
-            case .gender: return "Male"
-            case .address: return "8 Catherine Street, Southbank VIC 3006"
-            }
-        }
-        
-        var wantsMultiLineDetail: Bool {
-            switch self {
-            case .address: return true
-            default: return false
-            }
+            return String(format: NSLocalizedString("LAST UPDATED: %@", bundle: .mpolKit, comment: ""), lastUpdated)
+        case .details:
+            return NSLocalizedString("REGISTRATION DETAILS", bundle: .mpolKit, comment: "")
         }
     }
 }

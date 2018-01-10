@@ -31,7 +31,6 @@
 		1AB8251A1F5E485F001C4BCE /* LocationMapSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB825191F5E485F001C4BCE /* LocationMapSearchRequest.swift */; };
 		1AB8251C1F5E4CFF001C4BCE /* LocationMapRadiusSearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8251B1F5E4CFF001C4BCE /* LocationMapRadiusSearchParameters.swift */; };
 		1AB825341F610D04001C4BCE /* Address+EntityMapSummaryDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB825331F610D04001C4BCE /* Address+EntityMapSummaryDisplayable.swift */; };
-		1ABF4EAD1F3B446100C70E62 /* PersonDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABF4EAC1F3B446000C70E62 /* PersonDetailsViewModel.swift */; };
 		31E04B86B8693C856591D017 /* Pods_ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6FAB7E5ED55CBB22E20D7C9 /* Pods_ClientKit.framework */; };
 		4421347220030416009A931A /* EntityDetailFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4421347120030416009A931A /* EntityDetailFormViewController.swift */; };
 		4421347420030B99009A931A /* EntityDetailFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4421347320030B99009A931A /* EntityDetailFormViewModel.swift */; };
@@ -46,7 +45,6 @@
 		BC75A7B21F1C3D50004D46F1 /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7981F1C3BF9004D46F1 /* EventDetailViewController.swift */; };
 		BC75A7B61F1C3D50004D46F1 /* OrganizationInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7A81F1C3BF9004D46F1 /* OrganizationInfoViewController.swift */; };
 		BC75A7B91F1C3D55004D46F1 /* PersonDescriptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A7A11F1C3BF9004D46F1 /* PersonDescriptionsViewController.swift */; };
-		BC75A7BD1F1C3D5F004D46F1 /* VehicleInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC75A79D1F1C3BF9004D46F1 /* VehicleInfoViewController.swift */; };
 		BCA1793C1F03542900AD1F5F /* PersonParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1793A1F03542900AD1F5F /* PersonParserDefinition.swift */; };
 		BCAEFE921F03150800C97F9C /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE551F03150800C97F9C /* Address.swift */; };
 		BCAEFE931F03150800C97F9C /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFE561F03150800C97F9C /* Alert.swift */; };
@@ -128,7 +126,6 @@
 		1AB825191F5E485F001C4BCE /* LocationMapSearchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapSearchRequest.swift; sourceTree = "<group>"; };
 		1AB8251B1F5E4CFF001C4BCE /* LocationMapRadiusSearchParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapRadiusSearchParameters.swift; sourceTree = "<group>"; };
 		1AB825331F610D04001C4BCE /* Address+EntityMapSummaryDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Address+EntityMapSummaryDisplayable.swift"; sourceTree = "<group>"; };
-		1ABF4EAC1F3B446000C70E62 /* PersonDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDetailsViewModel.swift; sourceTree = "<group>"; };
 		2384F21D9A64FC2D8E4DE828 /* Pods-ClientKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.debug.xcconfig"; path = "../MPOL/Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.debug.xcconfig"; sourceTree = "<group>"; };
 		4421347120030416009A931A /* EntityDetailFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailFormViewController.swift; sourceTree = "<group>"; };
 		4421347320030B99009A931A /* EntityDetailFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailFormViewModel.swift; sourceTree = "<group>"; };
@@ -152,7 +149,6 @@
 		BC12DC9A1F023EF0001A5BB7 /* ClientKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientKitTests.swift; sourceTree = "<group>"; };
 		BC12DC9C1F023EF0001A5BB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC75A7981F1C3BF9004D46F1 /* EventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
-		BC75A79D1F1C3BF9004D46F1 /* VehicleInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleInfoViewController.swift; sourceTree = "<group>"; };
 		BC75A7A11F1C3BF9004D46F1 /* PersonDescriptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonDescriptionsViewController.swift; sourceTree = "<group>"; };
 		BC75A7A81F1C3BF9004D46F1 /* OrganizationInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationInfoViewController.swift; sourceTree = "<group>"; };
 		BCA1793A1F03542900AD1F5F /* PersonParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonParserDefinition.swift; sourceTree = "<group>"; };
@@ -337,7 +333,6 @@
 		BC75A79C1F1C3BF9004D46F1 /* Vehicle */ = {
 			isa = PBXGroup;
 			children = (
-				BC75A79D1F1C3BF9004D46F1 /* VehicleInfoViewController.swift */,
 				1A2E8A7F1F397E2B0062FEA5 /* VehicleInfoViewModel.swift */,
 			);
 			path = Vehicle;
@@ -346,7 +341,6 @@
 		BC75A79E1F1C3BF9004D46F1 /* Person */ = {
 			isa = PBXGroup;
 			children = (
-				1ABF4EAC1F3B446000C70E62 /* PersonDetailsViewModel.swift */,
 				1A2FF6FE1F32BE5100D63956 /* PersonInfoViewModel.swift */,
 				BC75A7A11F1C3BF9004D46F1 /* PersonDescriptionsViewController.swift */,
 				1A2E8A6F1F37E3380062FEA5 /* PersonDescriptionViewModel.swift */,
@@ -766,7 +760,6 @@
 				1A290C861F3F097E00DD9ED5 /* Media.swift in Sources */,
 				19FA22B01F86041800BE0E03 /* Matches.swift in Sources */,
 				EA1CC2541F4132D200FE8BAE /* VINParserDefinition.swift in Sources */,
-				BC75A7BD1F1C3D5F004D46F1 /* VehicleInfoViewController.swift in Sources */,
 				BCAEFEDD1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift in Sources */,
 				1AB825341F610D04001C4BCE /* Address+EntityMapSummaryDisplayable.swift in Sources */,
 				1A2E8A741F3835CB0062FEA5 /* PersonCriminalHistoryViewModel.swift in Sources */,
@@ -793,7 +786,6 @@
 				1AB8251A1F5E485F001C4BCE /* LocationMapSearchRequest.swift in Sources */,
 				BCC7AEE11F0BA9E70091AAEA /* DateSorting.swift in Sources */,
 				BCAEFEA71F03150800C97F9C /* PersonDescription.swift in Sources */,
-				1ABF4EAD1F3B446100C70E62 /* PersonDetailsViewModel.swift in Sources */,
 				1A159F171F4B1DFE00075330 /* PersonDetailsSectionsDataSource.swift in Sources */,
 				1A159F151F4B1DE200075330 /* VehicleDetailsSectionsDataSource.swift in Sources */,
 				1A290C821F3D630700DD9ED5 /* PersonFetchParameter.swift in Sources */,
