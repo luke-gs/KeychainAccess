@@ -38,11 +38,11 @@ open class NotBookedOnViewController: FormBuilderViewController {
     /// `super.viewModel` typecasted to our type
     open var viewModel: NotBookedOnViewModel
     
-    /// Support being transparent when in popover/form sheet
+    /// Update label based on theme
     open override var wantsTransparentBackground: Bool {
         didSet {
             let theme = ThemeManager.shared.theme(for: .current)
-            view.backgroundColor = wantsTransparentBackground ? UIColor.clear : theme.color(forKey: .background)!
+            titleLabel.textColor = theme.color(forKey: .primaryText)
         }
     }
     
