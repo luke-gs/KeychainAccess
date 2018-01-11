@@ -12,8 +12,145 @@ import XCTest
 // MARK: - Validator
 
 class ValidatorTests: XCTestCase {
+    func testThatItValidatesWithNoRules() {
+        // Given
+        let candidate = ValidatableObject(rules: [])
+
+        // ...
+        validatorValidate(candidate: candidate, expectedOutcome: true)
+    }
+
+    func testThatItValidatesValidRule() {
+        // Given
+        let rules = [
+            ValidationRuleSet(candidate: 0, rules: [TrueSpecification()])
+        ]
+        let candidate = ValidatableObject(rules: rules)
+
+        // ...
+        validatorValidate(candidate: candidate, expectedOutcome: true)
+    }
+
+    func testThatItValidatesInvalidRule() {
+        // Given
+        let rules = [
+            ValidationRuleSet(candidate: 0, rules: [FalseSpecification()])
+        ]
+        let candidate = ValidatableObject(rules: rules)
+
+        // ...
+        validatorValidate(candidate: candidate, expectedOutcome: false)
+    }
+
+    func testThatItValidatesInvalidRuleWithErrorMessages() {
+        // Given
+        let rules = [
+            ValidationRuleSet(candidate: 0, rules: [FalseSpecification()], invalidMessage: "Message")
+        ]
+        let candidate = ValidatableObject(rules: rules)
+
+        // When
+        let validator = Validator(candidate: candidate)
+
+        // Then
+        do {
+            _ = try validator.valid()
+            XCTAssert(false)
+        } catch ValidationError.invalid(let descriptions) {
+            XCTAssert(descriptions.contains(where: { (string) -> Bool in
+                string == "Message"
+            }))
+
+        } catch {
+            XCTAssert(false)
+        }
+    }
+
+    func testThatOneInvalidTestProducesOneErrorMessage() {
+        // Given
+        let rules = [
+            ValidationRuleSet(candidate: 0, rules: [FalseSpecification()], invalidMessage: "Message"),
+            ValidationRuleSet(candidate: 0, rules: [TrueSpecification()], invalidMessage: "True Message")
+        ]
+        let candidate = ValidatableObject(rules: rules)
+
+        // When
+        let validator = Validator(candidate: candidate)
+
+        // Then
+        do {
+            _ = try validator.valid()
+            XCTAssert(false)
+        } catch ValidationError.invalid(let descriptions) {
+            XCTAssert(descriptions.count == 1)
+
+        } catch {
+            XCTAssert(false)
+        }
+    }
+
+    func testThatTwoInvalidTestsProducesTwoErrorMessages() {
+        // Given
+        let rules = [
+            ValidationRuleSet(candidate: 0, rules: [FalseSpecification()], invalidMessage: "Message"),
+            ValidationRuleSet(candidate: 0, rules: [FalseSpecification()], invalidMessage: "False Message")
+        ]
+        let candidate = ValidatableObject(rules: rules)
+
+        // When
+        let validator = Validator(candidate: candidate)
+
+        // Then
+        do {
+            _ = try validator.valid()
+            XCTAssert(false)
+        } catch ValidationError.invalid(let descriptions) {
+            XCTAssert(descriptions.count == 2)
+
+        } catch {
+            XCTAssert(false)
+        }
+    }
+
+    func testThatNonProvidedErrorMessageProducesNil() {
+        // Given
+        let rules = [
+            ValidationRuleSet(candidate: 0, rules: [FalseSpecification()])
+        ]
+        let candidate = ValidatableObject(rules: rules)
+
+        // When
+        let validator = Validator(candidate: candidate)
+
+        // Then
+        do {
+            _ = try validator.valid()
+            XCTAssert(false)
+        } catch ValidationError.invalid(let descriptions) {
+            XCTAssert(descriptions[0] == nil)
+
+        } catch {
+            XCTAssert(false)
+        }
+    }
 
 
+    // MARK: Helper
+
+    func validatorValidate(candidate: Validatable, expectedOutcome: Bool) {
+        // When
+        let validator = Validator(candidate: candidate)
+
+        do {
+            let validationResult = try validator.valid()
+            // Then
+            XCTAssert(validationResult == expectedOutcome)
+
+        } catch {
+            // Then
+            XCTAssert(expectedOutcome == false)
+        }
+    }
 
 
 }
@@ -106,4 +243,14 @@ class ValidationRuleSetTests: XCTestCase {
             return false
         }
     }
+}
+
+// MARK: - Test Object
+fileprivate class ValidatableObject: Validatable {
+    var validationRules: [ValidationRuleSet]
+
+    init (rules: [ValidationRuleSet]) {
+        self.validationRules = rules
+    }
+
 }
