@@ -81,12 +81,12 @@ public class TemplateManagerTests: XCTestCase {
         XCTAssertEqual(TemplateManager.shared.allTemplates().count, templateCount + 1)
     }
 
-    func testEditTemplate() {
+    func testReplaceTemplate() {
         // Arrange
         let oldTemplate = TemplateManager.shared.template(withName: template1.name)!
 
         // Act
-        TemplateManager.shared.edit(template: Template(name: template1.name, description: "A modified description.", value: "A modified value."))
+        TemplateManager.shared.replace(template: Template(name: template1.name, description: "A modified description.", value: "A modified value."))
 
         let newTemplate = TemplateManager.shared.template(withName: template1.name)!
 
