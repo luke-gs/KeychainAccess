@@ -16,6 +16,7 @@ public protocol PopoverPresenter: class {
     func presentPopover(_ viewController: UIViewController, sourceView: UIView, sourceRect:CGRect, animated: Bool)
     func presentPopover(_ viewController: UIViewController, barButton: UIBarButtonItem, animated: Bool)
     func presentFormSheet(_ viewController: UIViewController, animated: Bool)
+    func presentFormSheet(_ viewController: UIViewController, animated: Bool, size: CGSize?, forced: Bool)
     func presentActionSheetPopover(_ actionSheet: ActionSheetViewController, sourceView: UIView, sourceRect: CGRect, animated: Bool)
 }
 
@@ -34,8 +35,21 @@ public protocol NavigationPresenter: class {
 extension UIViewController: PopoverPresenter, NavigationPresenter, TargetActionDismisser {
 
     public func presentFormSheet(_ viewController: UIViewController, animated: Bool) {
+        presentFormSheet(viewController, animated: animated, size: nil, forced: false)
+    }
+
+    public func presentFormSheet(_ viewController: UIViewController, animated: Bool, size: CGSize?, forced: Bool) {
         let nav = PopoverNavigationController(rootViewController: viewController)
         nav.modalPresentationStyle = .formSheet
+        
+        if forced {
+            nav.presentationController?.delegate = ForcedPopoverPresentationControllerDelegate()
+        }
+        
+        if let size = size {
+            nav.preferredContentSize = size
+        }
+        
         present(nav, animated: animated, completion: nil)
     }
 

@@ -117,7 +117,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
                         self?.collectionView?.reloadSections(IndexSet(integer: sectionIndex))
                         
                         if let viewModel = self?.viewModel(for: item) {
-                            let vc = TasksItemSidebarViewController.init(viewModel: viewModel)
+                            let vc = viewModel.createViewController()
                             self?.splitViewController?.navigationController?.pushViewController(vc, animated: true)
                         }
                     })

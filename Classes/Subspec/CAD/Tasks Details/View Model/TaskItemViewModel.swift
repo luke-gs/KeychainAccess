@@ -37,6 +37,10 @@ open class TaskItemViewModel {
     
     open var viewModels: [TaskDetailsViewModel]
     
+    open func createViewController() -> UIViewController {
+        MPLRequiresConcreteImplementation()
+    }
+    
     /// Init
     ///
     /// - Parameters:
@@ -61,7 +65,7 @@ open class TaskItemViewModel {
     }
 
     /// Called when a user taps the task status of a task item
-    open func didTapTaskStatus(presenter: PopoverPresenter) {
+    open func didTapTaskStatus() {
         // Do nothing by default
     }
 
