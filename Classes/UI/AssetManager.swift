@@ -137,7 +137,9 @@ extension AssetManager {
         public static let disclosure     = ImageKey("iconSystemDisclosure")
         public static let overflow       = ImageKey("iconSystemOverflow")
         public static let advancedSearch = ImageKey("iconSystemAdvancedSearch")
-        
+
+        public static let faceId         = ImageKey("iconBiometricFaceId")
+        public static let touchId        = ImageKey("iconBiometricTouchId")
 
         // General
         public static let alert          = ImageKey("iconGeneralAlert")
