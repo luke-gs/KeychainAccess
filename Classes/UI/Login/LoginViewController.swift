@@ -8,6 +8,7 @@
 
 import UIKit
 import Lottie
+import LocalAuthentication
 
 fileprivate var kvoContext = 1
 
@@ -152,8 +153,35 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
 
         return button
         }()
-    
-    
+
+    open private(set) lazy var biometricButton: UIButton = { [unowned self] in
+        let button = UIButton(type: .system)
+
+        var imageKey: AssetManager.ImageKey = .touchId
+        if #available(iOS 11, *) {
+            if authenticationContext.biometryType == .faceID {
+                imageKey = .faceId
+            }
+        }
+
+        button.setImage(AssetManager.shared.image(forKey: imageKey), for: .normal)
+        button.addTarget(self, action: #selector(biometricButtonTriggered), for: .primaryActionTriggered)
+        button.addTarget(self, action: #selector(biometricButtonTouchDown), for: .touchDown)
+        button.tintColor = .white
+        return button
+    }()
+
+    open private(set) lazy var changeUserButton: UIButton = { [unowned self] in
+        let button = UIButton(type: .system)
+        button.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .medium)
+        button.setTitle("Not you? Change username.", for: .normal)
+        button.setTitleColor(UIColor(white: 1.0, alpha: 0.64), for: .normal)
+
+        button.addTarget(self, action: #selector(changeUserButtonTriggered), for: .primaryActionTriggered)
+        button.addTarget(self, action: #selector(changeUserButtonTouchDown), for: .touchDown)
+        return button
+    }()
+
     /// The login button.
     ///
     /// To default background image for this button is a template image and will adapt to the standard tintColor.
@@ -303,34 +331,10 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     }
 
     /// Specifies whether the credentials view is added to the view hierarchy.
-    ///
-    /// The default value is `.UsernamePassword`, which adds the credentials view.
-    /// `.externalAuth` does not add the credentials view.
     public var loginMode: LoginMode {
         didSet {
-            // if credentials view has been instantiated...
-            if let credentialsView = self.credentialsView {
-                // hide
-                if case LoginMode.externalAuth = loginMode {
-                    credentialsView.isHidden = true
-                }
-                else {
-                    credentialsView.isHidden = false
-                }
-            }
-
-            // otherwise, check that the context for its creation exists
-            else if let contentStackView = self.contentStackView {
-                // create a new credentials view
-                credentialsView = createCredentialsView()
-                // insert into stack
-                contentStackView.insertArrangedSubview(credentialsView!, at: 0)
-                // apply constraints
-                NSLayoutConstraint.activate([credentialsView!.topAnchor.constraint(greaterThanOrEqualTo: contentView!.topAnchor, constant: 20.0),
-                                             credentialsView!.widthAnchor.constraint(equalToConstant: 256.0),
-                                             usernameField.widthAnchor.constraint(equalTo: credentialsView!.widthAnchor),
-                                             usernameField.leadingAnchor.constraint(equalTo: credentialsView!.leadingAnchor)])
-            }
+            guard isViewLoaded else { return }
+            updateLoginMode()
         }
     }
     
@@ -403,7 +407,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    
+    private lazy var authenticationContext = LAContext()
     
     // MARK: - Initializers
 
@@ -449,16 +453,13 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         contentView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(contentView)
         
-        var credentialsView: UIView? = nil
-        if case LoginMode.usernamePassword = loginMode {
-            credentialsView = createCredentialsView()
-        }
-        
+        let credentialsView: UIView = createCredentialsView()
+
         let versionLabel = self.versionLabel
         versionLabel.translatesAutoresizingMaskIntoConstraints = false
         backgroundView.addSubview(versionLabel)
         
-        let loginStackView = UIStackView(arrangedSubviews: [loginButton, termsAndConditionsLabel])
+        let loginStackView = UIStackView(arrangedSubviews: [loginButton, changeUserButton, termsAndConditionsLabel])
         loginStackView.axis      = .vertical
         loginStackView.alignment = .center
         loginStackView.spacing   = 20.0
@@ -519,6 +520,9 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
 
             loginButton.widthAnchor.constraint(equalToConstant: 256.0),
             loginButton.heightAnchor.constraint(equalToConstant: 48.0).withPriority(UILayoutPriority.defaultHigh),
+
+            changeUserButton.widthAnchor.constraint(equalTo: loginButton.widthAnchor),
+            changeUserButton.heightAnchor.constraint(equalToConstant: 20.0),
 
             loginStackView.leadingAnchor.constraint(greaterThanOrEqualTo: view.readableContentGuide.leadingAnchor),
             loginStackView.trailingAnchor.constraint(lessThanOrEqualTo: view.readableContentGuide.trailingAnchor),
@@ -618,7 +622,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-        
+        updateLoginMode()
         updateLoginButtonState()
     }
     
@@ -660,6 +664,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         case .usernamePassword(let delegate):
             delegate?.loginViewControllerDidAppear(self)
         case .externalAuth(let delegate):
+            delegate?.loginViewControllerDidAppear(self)
+        case .reauthentication(let delegate):
             delegate?.loginViewControllerDidAppear(self)
         }
     }
@@ -760,23 +766,44 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         setKeyboardInset(0.0, animationDuration: 0.0, curve: .curveLinear)
     }
 
+    @objc private func biometricButtonTriggered() {
+        authenticateWithBiometric(title: "Login to account \"\(usernameField.textField.text!)\"")
+    }
+
+    @objc private func biometricButtonTouchDown() {
+        HapticHelper.shared.prepare(.medium)
+    }
+
+    @objc private func changeUserButtonTriggered() {
+        HapticHelper.shared.prepare(.medium)
+
+        guard case .reauthentication(let delegate) = loginMode else { return }
+        loginMode = .usernamePassword(delegate: delegate)
+    }
+
+    @objc private func changeUserButtonTouchDown() {
+        HapticHelper.shared.prepare(.medium)
+    }
+
     @objc private func loginButtonTouchDown() {
         HapticHelper.shared.prepare(.medium)
     }
 
     @objc private func loginButtonTriggered() {
         HapticHelper.shared.trigger(.medium)
-        if case let LoginMode.usernamePassword(delegate: delegate) = loginMode {
+
+        switch loginMode {
+        case .usernamePassword(let delegate):
             guard let username = usernameField.textField.text, let password = passwordField.textField.text else { return }
             view.endEditing(true)
-
             delegate?.loginViewController(self, didFinishWithUsername: username, password: password)
-        }
-        else if case let LoginMode.externalAuth(delegate: delegate) = loginMode {
+        case .reauthentication(let delegate):
+            guard let username = usernameField.textField.text, let password = passwordField.textField.text else { return }
+            view.endEditing(true)
+            delegate?.loginViewController(self, didFinishWithUsername: username, password: password)
+        case .externalAuth(let delegate):
             delegate?.loginViewControllerDidCommenceExternalAuth(self)
         }
-
-
     }
     
     @objc private func forgotPasswordButtonTriggered() {
@@ -801,6 +828,12 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
 
             loginButton.isEnabled = isUsernameValid && isPasswordValid
             forgotPasswordButton.isHidden = !(delegate?.wantsForgotPassword ?? true)
+        case .reauthentication(let delegate):
+            let isUsernameValid: Bool = isUsernameFieldLoaded && usernameField.textField.text?.count ?? 0 >= minimumUsernameLength
+            let isPasswordValid: Bool = isPasswordFieldLoaded && passwordField.textField.text?.count ?? 0 >= minimumPasswordLength
+
+            loginButton.isEnabled = isUsernameValid && isPasswordValid
+            forgotPasswordButton.isHidden = !(delegate?.wantsForgotPassword ?? true)
         case .externalAuth:
             loginButton.isEnabled = true
         }
@@ -814,11 +847,54 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         textField.autocorrectionType   = .no
         return textField
     }
-    
+
+    private func updateLoginMode() {
+        switch loginMode {
+        case .usernamePassword(_):
+            credentialsView?.isHidden = false
+            usernameField.textField.isEnabled = true
+            passwordField.textField.rightView = nil
+            usernameField.textField.textColor = .white
+
+            changeUserButton.isHidden = true
+        case .reauthentication(_):
+            credentialsView?.isHidden = false
+            usernameField.textField.isEnabled = false
+            usernameField.textField.textColor = .lightGray
+            changeUserButton.isHidden = false
+
+            if authenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
+                biometricButton.sizeToFit()
+                passwordField.textField.rightView = biometricButton
+                passwordField.textField.rightViewMode = .unlessEditing
+            }
+        case .externalAuth(_):
+            credentialsView?.isHidden = true
+            usernameField.textField.isEnabled = true
+            changeUserButton.isHidden = true
+        }
+    }
+
+    // MARK: - Biometric authentication
+
+    private func authenticateWithBiometric(title: String) {
+        guard case .reauthentication(let delegate) = loginMode else { return }
+
+        authenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: title, reply: { [weak self] (success, error) in
+            guard let `self` = self else { return }
+            DispatchQueue.main.async {
+                if success {
+                    delegate?.loginViewControllerDidAuthenticateWithBiometric(self)
+                }
+            }
+        })
+    }
+
 }
 
 public enum LoginMode {
     case usernamePassword(delegate: UsernamePasswordDelegate?)
+    case reauthentication(delegate: UsernamePasswordDelegate?)
     case externalAuth(delegate: ExternalAuthDelegate?)
 }
 
@@ -832,6 +908,7 @@ public protocol UsernamePasswordDelegate: LoginViewControllerDelegate {
 
     func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String)
     func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton)
+    func loginViewControllerDidAuthenticateWithBiometric(_ controller: LoginViewController)
 }
 
 public extension UsernamePasswordDelegate {
