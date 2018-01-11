@@ -12,13 +12,13 @@ import Foundation
 public enum BookOnScreen: Presentable {
 
     // All patrol areas list screen
-    case patrolAreaList
+    case patrolAreaList(current: String, delegate: PatrolAreaListViewModelDelegate?)
 
     // All callsigns list screen
     case callSignList
 
     // All officers list screen
-    case officerList
+    case officerList(detailsDelegate: OfficerDetailsViewModelDelegate?)
 
     // Initial screen shown when booking on
     case notBookedOn

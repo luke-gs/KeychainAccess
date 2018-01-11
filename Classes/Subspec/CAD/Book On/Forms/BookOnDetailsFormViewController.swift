@@ -175,8 +175,8 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
         builder += HeaderFormItem(text: officersTitle.uppercased(), style: .plain)
             .actionButton(title: NSLocalizedString("Add", comment: "").uppercased(), handler: { [unowned self] _ in
-                let viewController = self.viewModel.officerSearchViewController()
-                self.navigationController?.pushViewController(viewController, animated: true)
+                let screen = self.viewModel.officerSearchScreen()
+                self.present(screen)
             })
 
         // Button to delete officer (only available for additional officers)

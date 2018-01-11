@@ -127,10 +127,8 @@ open class BookOnDetailsFormViewModel {
         return BookOnScreen.officerDetailsForm(officerViewModel: officerViewModel, delegate: self)
     }
     
-    open func officerSearchViewController() -> UIViewController {
-        let searchViewModel = OfficerListViewModel()
-        searchViewModel.detailsDelegate = self
-        return searchViewModel.createViewController()
+    open func officerSearchScreen() -> Presentable {
+        return BookOnScreen.officerList(detailsDelegate: self)
     }
 
     open func removeOfficer(at index: Int) {

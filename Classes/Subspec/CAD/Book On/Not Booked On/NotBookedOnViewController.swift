@@ -164,10 +164,8 @@ open class NotBookedOnViewController: FormBuilderViewController {
                 })
                 .contentMode(.center)
                 .onSelection({ [weak self] _ in
-                    let viewModel = PatrolAreaListViewModel()
-                    viewModel.selectedPatrolArea = item.title
-                    viewModel.delegate = self
-                    self?.navigationController?.pushViewController(viewModel.createViewController(), animated: true)
+                    let screen = BookOnScreen.patrolAreaList(current: item.title, delegate: self)
+                    self?.present(screen)
                 })
         }
         
