@@ -27,8 +27,10 @@ public class BookOnPresenter: Presenter {
         case .bookOnDetailsForm(let callsignViewModel):
             return BookOnDetailsFormViewModel(callsignViewModel: callsignViewModel).createViewController()
 
-        case .officerDetailsForm(let officerViewModel):
-            return OfficerDetailsViewModel(officer: officerViewModel).createViewController()
+        case .officerDetailsForm(let officerViewModel, let delegate):
+            let viewModel = OfficerDetailsViewModel(officer: officerViewModel)
+            viewModel.delegate = delegate
+            return viewModel.createViewController()
 
         case .officerList:
             return OfficerListViewModel().createViewController()
