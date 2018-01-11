@@ -37,16 +37,13 @@ public class OfficerListViewModel: GenericSearchDefaultViewModel {
         return NSLocalizedString("No Officers Found", comment: "")
     }
 
-    open func officerDetailsViewController(for officer: OfficerListItemViewModel) -> UIViewController {
+    open func officerDetailsScreen(for officer: OfficerListItemViewModel) -> Presentable {
         let officerViewModel = BookOnDetailsFormContentOfficerViewModel()
         officerViewModel.title = officer.title
         officerViewModel.rank = officer.rank
         officerViewModel.officerId = officer.callsign
-        
 
-        let detailsViewModel = OfficerDetailsViewModel(officer: officerViewModel)
-        detailsViewModel.delegate = self
-        return detailsViewModel.createViewController()
+        return BookOnScreen.officerDetailsForm(officerViewModel: officerViewModel, delegate: self)
     }
     
     private lazy var viewModelData: [GenericSearchable] = {

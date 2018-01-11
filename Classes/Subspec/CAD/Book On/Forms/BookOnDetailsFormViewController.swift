@@ -194,8 +194,8 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
                 .accessory(FormAccessoryView(style: .pencil))
                 .editActions([index > 0 ? deleteAction : nil].removeNils())
                 .onSelection { [unowned self] cell in
-                    let viewController = self.viewModel.officerDetailsViewController(at: index)
-                    self.navigationController?.pushViewController(viewController, animated: true)
+                    let screen = self.viewModel.officerDetailsScreen(at: index)
+                    self.present(screen)
             }
         }
 

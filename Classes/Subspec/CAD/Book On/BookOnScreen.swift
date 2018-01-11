@@ -10,11 +10,26 @@ import Foundation
 
 /// Enum for all CAD book on screens that are presented
 public enum BookOnScreen: Presentable {
-    case notBookedOn
-    case manageBookOn
-    case callSignList
-    case bookOnDetailsForm(callsignViewModel: BookOnCallsignViewModelType)
-    case officerDetailsForm(officerViewModel: BookOnDetailsFormContentOfficerViewModel)
-    case officerList
+
+    // All patrol areas list screen
     case patrolAreaList
+
+    // All callsigns list screen
+    case callSignList
+
+    // All officers list screen
+    case officerList
+
+    // Initial screen shown when booking on
+    case notBookedOn
+
+    // Manage current book on landing screen
+    case manageBookOn
+
+    // Create/edit book on details screen
+    case bookOnDetailsForm(callsignViewModel: BookOnCallsignViewModelType)
+
+    // Create/edit book on officer details screen
+    case officerDetailsForm(officerViewModel: BookOnDetailsFormContentOfficerViewModel, delegate: OfficerDetailsViewModelDelegate?)
+
 }
