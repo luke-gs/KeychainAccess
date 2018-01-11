@@ -11,11 +11,13 @@ import Foundation
 public struct UnderlineStyle: CellSelectionAnimatable {
     public func configure(_ cell: CollectionViewFormCell) {
         let validationColor: UIColor? = cell.requiresValidation ? cell.validationColor : nil
-        let finalColor = validationColor ?? cell.separatorColor
-        cell.separatorView.backgroundColor = finalColor
 
+        let separatorView = cell.separatorView
         let wantsUnderline = cell.isSelected
-        if (cell.separatorView.bounds.height >~ 1.0) != wantsUnderline {
+
+        let finalColor = validationColor ?? (wantsUnderline ? separatorView.tintColor : cell.separatorColor)
+        separatorView.backgroundColor = finalColor
+        if (separatorView.bounds.height >~ 1.0) != wantsUnderline {
             cell.setNeedsLayout()
         }
     }
