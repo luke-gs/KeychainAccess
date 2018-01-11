@@ -165,10 +165,10 @@ public enum ResourceStatus: String, Codable {
     // Return whether status change is allowed, and whether a reason needs to be provided
     public func canChangeToStatus(newStatus: ResourceStatus) -> (allowed: Bool, requiresReason: Bool) {
 
-        // Currently all status changes are allowed, but a reason is needed if going from no incident
-        // to an incident status. Leaving allowed component of tuple as this is likely to change...
+        // Currently all status changes are allowed, but a reason is needed if going from an incident
+        // to a non incident status. Leaving allowed component of tuple as this is likely to change...
 
-        if !ResourceStatus.incidentCases.contains(self) && ResourceStatus.incidentCases.contains(newStatus) {
+        if ResourceStatus.incidentCases.contains(self) && !ResourceStatus.incidentCases.contains(newStatus) {
             // Assigning to incident, requires reason
             return (true, true)
         } else if self != newStatus {
