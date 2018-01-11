@@ -14,7 +14,7 @@ public struct Template: Hashable {
         return name.hashValue
     }
 
-    public init(name: String, description: String = "", value: String = "") {
+    public init(name: String, description: String, value: String) {
         self.name = name
         self.description = description
         self.value = value

@@ -75,7 +75,7 @@ public class TemplateManagerTests: XCTestCase {
         let templateCount = TemplateManager.shared.allTemplates().count
 
         // Act
-        TemplateManager.shared.add(template: Template(name: "test3"))
+        TemplateManager.shared.add(template: Template(name: "test3", description: "The third test template.", value: "This is one of several test templates."))
 
         // Assert
         XCTAssertEqual(TemplateManager.shared.allTemplates().count, templateCount + 1)
