@@ -34,7 +34,7 @@ public enum ResourceStatus: String, Codable {
     /// Cases related to an incident
     public static let incidentCases: [ResourceStatus] = [.proceeding,.atIncident,.finalise,.inquiries2]
 
-    var title: String {
+    public var title: String {
         switch self {
         case .unavailable:
             return NSLocalizedString("Unavailable", comment: "")
@@ -67,7 +67,7 @@ public enum ResourceStatus: String, Codable {
         }
     }
 
-    var imageKey: AssetManager.ImageKey {
+    public var imageKey: AssetManager.ImageKey {
         switch self {
         case .unavailable:
             return .iconStatusUnavailable
@@ -105,7 +105,7 @@ public enum ResourceStatus: String, Codable {
     }
 
     // Return icon color and background color
-    var iconColors: (icon: UIColor, background: UIColor) {
+    public var iconColors: (icon: UIColor, background: UIColor) {
         switch self {
         case .unavailable:
             return (.secondaryGray, .disabledGray)
@@ -138,7 +138,8 @@ public enum ResourceStatus: String, Codable {
         }
     }
 
-    var canTerminate: Bool {
+    /// Return whether shift can be terminated from current status
+    public var canTerminate: Bool {
         switch self {
         // Current state where terminating shift is allowed
         case .unavailable,
@@ -162,7 +163,7 @@ public enum ResourceStatus: String, Codable {
         }
     }
 
-    // Return whether status change is allowed, and whether a reason needs to be provided
+    /// Return whether status change is allowed, and whether a reason needs to be provided
     public func canChangeToStatus(newStatus: ResourceStatus) -> (allowed: Bool, requiresReason: Bool) {
 
         // Currently all status changes are allowed, but a reason is needed if going from an incident
@@ -179,6 +180,14 @@ public enum ResourceStatus: String, Codable {
             return (false, false)
         }
     }
+
+    /// Return whether patrol area can be changed from current status
+    public var canChangePatrolArea: Bool {
+        return !ResourceStatus.incidentCases.contains(self)
+    }
+
+    /// Return whether an incident can be created from current status
+    public var canCreateIncident: Bool {
+        return !ResourceStatus.incidentCases.contains(self)
+    }
 }
-
-
