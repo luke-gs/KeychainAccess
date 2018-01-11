@@ -122,6 +122,8 @@
 		2726A8161FCE2BB000EFB61A /* IncidentOverviewFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726A8151FCE2BB000EFB61A /* IncidentOverviewFormViewController.swift */; };
 		2726A81A1FCE5EA000EFB61A /* IncidentOverviewItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726A8191FCE5EA000EFB61A /* IncidentOverviewItemViewModel.swift */; };
 		2726A81E1FCE6BE600EFB61A /* IncidentOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726A81D1FCE6BE600EFB61A /* IncidentOverviewViewModel.swift */; };
+		273A5C1820057B2E0009D9A0 /* SystemVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273A5C1720057B2E0009D9A0 /* SystemVersion.swift */; };
+		273A5C1A2005B8DC0009D9A0 /* GlassBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273A5C192005B8DC0009D9A0 /* GlassBarView.swift */; };
 		273A72DB1FE7767E0097691B /* TasksListIncidentSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273A72DA1FE7767E0097691B /* TasksListIncidentSummaryView.swift */; };
 		273C53831FE7837800BF994B /* TasksListInfoRowStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273C53821FE7837800BF994B /* TasksListInfoRowStackView.swift */; };
 		273C53851FE785BF00BF994B /* TasksListDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273C53841FE785BF00BF994B /* TasksListDetailView.swift */; };
@@ -274,6 +276,7 @@
 		9663D00B1F8AF666006DB672 /* TasksSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D00A1F8AF666006DB672 /* TasksSplitViewController.swift */; };
 		9663D00D1F8AF6F5006DB672 /* TasksSplitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D00C1F8AF6F5006DB672 /* TasksSplitViewModel.swift */; };
 		96699BCC1FDDE547006BB024 /* QuantityPickerFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96699BCB1FDDE547006BB024 /* QuantityPickerFormItem.swift */; };
+		9672C7E7200429C1005DE6BE /* StatusChangeReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9672C7E6200429C1005DE6BE /* StatusChangeReasonViewController.swift */; };
 		9674E0E71FC68015000702F8 /* LoadingStateLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9674E0E61FC68015000702F8 /* LoadingStateLoadingView.swift */; };
 		9674E0E91FC68031000702F8 /* LoadingStateErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9674E0E81FC68031000702F8 /* LoadingStateErrorView.swift */; };
 		9679A6471F9D9D2D007BC806 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9679A6461F9D9D2D007BC806 /* Date+Extension.swift */; };
@@ -308,6 +311,7 @@
 		96CF32301F8C4AD300140AF8 /* CADFormCollectionSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF322F1F8C4AD300140AF8 /* CADFormCollectionSectionViewModel.swift */; };
 		96CF32321F8D7C3400140AF8 /* TasksListHeaderRegularViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32311F8D7C3400140AF8 /* TasksListHeaderRegularViewController.swift */; };
 		96CF32341F8D7C7700140AF8 /* TasksListHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32331F8D7C7700140AF8 /* TasksListHeaderViewModel.swift */; };
+		96D3415C2005D38000CEDDFF /* StandardSearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D3415B2005D38000CEDDFF /* StandardSearchBarView.swift */; };
 		96D731731FD535EA0068F3AF /* CallsignIncidentFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D731721FD535EA0068F3AF /* CallsignIncidentFormViewController.swift */; };
 		96E492021FB3F98D0051C3A1 /* AppSettingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E492011FB3F98D0051C3A1 /* AppSettingKey.swift */; };
 		96ED81011FD9F2E100C7C960 /* CallsignStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ED81001FD9F2E100C7C960 /* CallsignStatusViewModel.swift */; };
@@ -774,6 +778,8 @@
 		2726A8151FCE2BB000EFB61A /* IncidentOverviewFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentOverviewFormViewController.swift; sourceTree = "<group>"; };
 		2726A8191FCE5EA000EFB61A /* IncidentOverviewItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentOverviewItemViewModel.swift; sourceTree = "<group>"; };
 		2726A81D1FCE6BE600EFB61A /* IncidentOverviewViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentOverviewViewModel.swift; sourceTree = "<group>"; };
+		273A5C1720057B2E0009D9A0 /* SystemVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemVersion.swift; sourceTree = "<group>"; };
+		273A5C192005B8DC0009D9A0 /* GlassBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassBarView.swift; sourceTree = "<group>"; };
 		273A72DA1FE7767E0097691B /* TasksListIncidentSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListIncidentSummaryView.swift; sourceTree = "<group>"; };
 		273C53821FE7837800BF994B /* TasksListInfoRowStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListInfoRowStackView.swift; sourceTree = "<group>"; };
 		273C53841FE785BF00BF994B /* TasksListDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListDetailView.swift; sourceTree = "<group>"; };
@@ -928,6 +934,7 @@
 		9663D00A1F8AF666006DB672 /* TasksSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksSplitViewController.swift; sourceTree = "<group>"; };
 		9663D00C1F8AF6F5006DB672 /* TasksSplitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksSplitViewModel.swift; sourceTree = "<group>"; };
 		96699BCB1FDDE547006BB024 /* QuantityPickerFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityPickerFormItem.swift; sourceTree = "<group>"; };
+		9672C7E6200429C1005DE6BE /* StatusChangeReasonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusChangeReasonViewController.swift; sourceTree = "<group>"; };
 		9674E0E61FC68015000702F8 /* LoadingStateLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStateLoadingView.swift; sourceTree = "<group>"; };
 		9674E0E81FC68031000702F8 /* LoadingStateErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStateErrorView.swift; sourceTree = "<group>"; };
 		9679A6461F9D9D2D007BC806 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -964,6 +971,7 @@
 		96CF322F1F8C4AD300140AF8 /* CADFormCollectionSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADFormCollectionSectionViewModel.swift; sourceTree = "<group>"; };
 		96CF32311F8D7C3400140AF8 /* TasksListHeaderRegularViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListHeaderRegularViewController.swift; sourceTree = "<group>"; };
 		96CF32331F8D7C7700140AF8 /* TasksListHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListHeaderViewModel.swift; sourceTree = "<group>"; };
+		96D3415B2005D38000CEDDFF /* StandardSearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardSearchBarView.swift; sourceTree = "<group>"; };
 		96D731721FD535EA0068F3AF /* CallsignIncidentFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignIncidentFormViewController.swift; sourceTree = "<group>"; };
 		96E492011FB3F98D0051C3A1 /* AppSettingKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingKey.swift; sourceTree = "<group>"; };
 		96ED81001FD9F2E100C7C960 /* CallsignStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignStatusViewModel.swift; sourceTree = "<group>"; };
@@ -1988,6 +1996,7 @@
 				4492C0461FD8C917009D26BD /* Traffic Stop */,
 				96C51C8F1FD9EB35002C4640 /* CallsignStatusViewController.swift */,
 				96ED81001FD9F2E100C7C960 /* CallsignStatusViewModel.swift */,
+				9672C7E6200429C1005DE6BE /* StatusChangeReasonViewController.swift */,
 			);
 			path = Callsign;
 			sourceTree = "<group>";
@@ -2114,6 +2123,7 @@
 				962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */,
 				273DE2E01FEA1199000C46DD /* CADStatusViewController.swift */,
 				273DE2E41FEB266F000C46DD /* CADStatusViewModel.swift */,
+				273A5C192005B8DC0009D9A0 /* GlassBarView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -2585,6 +2595,7 @@
 				BC9C7DC51F0DED6600DFFE83 /* TabStripView.swift */,
 				27DC60961FD513D80033BC0B /* DisableableButton.swift */,
 				463FEF5C1FE1FFF10093E303 /* LabeledTextField.swift */,
+				96D3415B2005D38000CEDDFF /* StandardSearchBarView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2759,6 +2770,7 @@
 				1212B54C1F60F2ED00F90CA0 /* TestingDirective.swift */,
 				12048FC71F7881C50014748E /* MatchMaker.swift */,
 				9620530C1F988239000CAD49 /* AppGroup.swift */,
+				273A5C1720057B2E0009D9A0 /* SystemVersion.swift */,
 			);
 			name = Utility;
 			path = Classes/Core/Utility;
@@ -3471,6 +3483,7 @@
 				BC9C7E261F0DED6600DFFE83 /* EntityListCollectionViewCell.swift in Sources */,
 				1972FCCD1FA6A7FC00CB68EA /* ImageError.swift in Sources */,
 				19B49BBA1F665F2A00502F51 /* SidebarDelegate.swift in Sources */,
+				9672C7E7200429C1005DE6BE /* StatusChangeReasonViewController.swift in Sources */,
 				BC9C7E191F0DED6600DFFE83 /* RadioButton.swift in Sources */,
 				996869821FC502F4007338EE /* ManifestFetchRequest.swift in Sources */,
 				EA625B191F9703540025EAFB /* DropDownFormItem.swift in Sources */,
@@ -3592,6 +3605,7 @@
 				4420D2801F66428D00E20304 /* Sequence+Nils.swift in Sources */,
 				DB88BCDF1F42D00F0056FD69 /* SearchResultViewModelable.swift in Sources */,
 				274C89831F9D9EC3005B9CF8 /* OfficerListViewModel.swift in Sources */,
+				96D3415C2005D38000CEDDFF /* StandardSearchBarView.swift in Sources */,
 				27CBC7661F8B27D500E387C3 /* UserCallsignStatusView.swift in Sources */,
 				274F10ED1FCE0A86001A59A5 /* IncidentAssociationItemViewModel.swift in Sources */,
 				27102F4E1FD908530000DD80 /* ResourceOverviewMapViewModel.swift in Sources */,
@@ -3634,6 +3648,7 @@
 				C63408561F30E574000747B0 /* MPOLKitEntityProtocol.swift in Sources */,
 				46B3FE7F1F5E496B0012476A /* Logger.swift in Sources */,
 				BC9C7E291F0DED6600DFFE83 /* Bundle+MPOLKit.swift in Sources */,
+				273A5C1820057B2E0009D9A0 /* SystemVersion.swift in Sources */,
 				9674E0E91FC68031000702F8 /* LoadingStateErrorView.swift in Sources */,
 				EA32A8551FBD1A7900CC37FB /* PhotoMediaGalleryViewController.swift in Sources */,
 				EA09A0581F78B9C200BC3C0E /* RegularExpressionSpecification.swift in Sources */,
@@ -3930,6 +3945,7 @@
 				965CD8A81F8ECDBA007C3EEA /* TasksListContainerViewController.swift in Sources */,
 				273DE2D71FEA0286000C46DD /* CreateIncidentRequest.swift in Sources */,
 				4492C04E1FD8C917009D26BD /* TrafficStopViewController.swift in Sources */,
+				273A5C1A2005B8DC0009D9A0 /* GlassBarView.swift in Sources */,
 				BC9C7E4D1F0DED6600DFFE83 /* AlertIndicatorView.swift in Sources */,
 				199ECE8F1FAA1B720065E425 /* RemoteResourceDescribing.swift in Sources */,
 				BC79ADAEABB2D9BDDC997334 /* MPOLSpinnerView.swift in Sources */,

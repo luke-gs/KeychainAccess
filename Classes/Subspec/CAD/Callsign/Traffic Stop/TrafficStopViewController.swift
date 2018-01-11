@@ -39,14 +39,6 @@ open class TrafficStopViewController: FormBuilderViewController {
         }
     }
     
-    /// Support being transparent when in popover/form sheet
-    open override var wantsTransparentBackground: Bool {
-        didSet {
-            let theme = ThemeManager.shared.theme(for: .current)
-            view.backgroundColor = wantsTransparentBackground ? UIColor.clear : theme.color(forKey: .background)!
-        }
-    }
-    
     open func setupNavigationBarButtons() {
         // Create cancel button
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonTapped(_:)))

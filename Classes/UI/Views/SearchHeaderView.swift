@@ -85,7 +85,6 @@ open class SearchHeaderView: UIView {
         addSubview(searchBar)
 
         let halfWidth = imageWidth / 2.0
-        let quarterWidth = imageWidth / 4.0
 
         NSLayoutConstraint.activate([
             imageView.heightAnchor.constraint(equalToConstant: imageWidth),
@@ -124,10 +123,11 @@ open class SearchHeaderView: UIView {
     }
 
     private func apply(_ theme: Theme) {
-        backgroundColor = theme.color(forKey: .headerBackground)?.withAlphaComponent(0.16)
+        backgroundColor = theme.color(forKey: .searchFieldBackground)
+        searchBar.textField?.backgroundColor = theme.color(forKey: .searchField)
+
         titleLabel.textColor = theme.color(forKey: .headerTitleText)
         subtitleLabel.textColor = theme.color(forKey: .headerSubtitleText)
-
     }
 
 }

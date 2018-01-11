@@ -31,14 +31,6 @@ open class SelectStoppedEntityViewController: CADFormCollectionViewController<Se
         return viewModel as? SelectStoppedEntityViewModel
     }
     
-    /// Support being transparent when in popover/form sheet
-    open override var wantsTransparentBackground: Bool {
-        didSet {
-            let theme = ThemeManager.shared.theme(for: .current)
-            view.backgroundColor = wantsTransparentBackground ? UIColor.clear : theme.color(forKey: .background)!
-        }
-    }
-    
     // MARK: - Setup
     
     public init(viewModel: SelectStoppedEntityViewModel) {
