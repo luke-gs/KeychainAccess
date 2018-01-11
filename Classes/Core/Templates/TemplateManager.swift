@@ -106,10 +106,10 @@ public class TemplateManager {
         return !exists
     }
 
-    /// Replaces a template that has this template's name with this template.
+    /// Replaces an existing template that has a given name with a new template that shares its name.
     /// Returns true if successful, false otherwise.
     @discardableResult
-    func edit(template: Template) -> Bool {
+    func replace(template: Template) -> Bool {
         let exists = localTemplates.contains { localTemplate in localTemplate.name == template.name }
         // insert does nothing while the template exists within the set,
         // hence it must be removed first to provide "editing" behaviour.
