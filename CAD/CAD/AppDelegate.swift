@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         CADStateManager.apiManager = DemoAPIManager.shared
 
         landingPresenter = LandingPresenter()
-        let presenter = PresenterGroup(presenters: [SystemPresenter(), landingPresenter])
+        let presenter = PresenterGroup(presenters: [SystemPresenter(), landingPresenter, BookOnPresenter()])
         let director = Director(presenter: presenter)
         Director.shared = director
 
