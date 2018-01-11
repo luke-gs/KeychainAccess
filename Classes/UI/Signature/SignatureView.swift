@@ -50,7 +50,7 @@ public class SignatureView: UIView {
 
     fileprivate var path = UIBezierPath()
     // Control points for line smoothing
-    fileprivate var points: LineControlPoints = LineControlPoints()
+    fileprivate var pathBuilder: PathBuilder = PathBuilder()
     
     override public func draw(_ rect: CGRect) {
         strokeColor.setStroke()
@@ -80,8 +80,8 @@ public class SignatureView: UIView {
 
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
-            points.controlPoint = 0
-            points.setPoint(.leading, to: touch.location(in: self))
+            pathBuilder.controlPoint = 0
+            pathBuilder.setPoint(.leading, to: touch.location(in: self))
         }
         delegate?.didStartSigning()
     }
@@ -89,19 +89,19 @@ public class SignatureView: UIView {
     override public func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
             let point = touch.location(in: self)
-            points.controlPoint += 1
-            points.setPoint(PointLocation(points.controlPoint), to: point)
-            if points.isAtLastPoint() {
+            pathBuilder.controlPoint += 1
+            pathBuilder.setPoint(PointLocation(pathBuilder.controlPoint), to: point)
+            if pathBuilder.isAtLastPoint {
 
                 // Calculate the center of the points, set the middle point to the calculated value and add a curve to it
-                let centerPoint = CGPoint(x: (points.middle.x + points.trailing.x) * 0.5, y: (points.middle.y + points.trailing.y) * 0.5)
-                points.setPoint(.trailingControl, to: centerPoint)
-                path.move(to: points.leading)
-                path.addCurve(to: points.trailingControl, controlPoint1: points.leadingControl, controlPoint2: points.middle)
+                let centerPoint = pathBuilder.calculatedCenterPoint
+                pathBuilder.setPoint(.trailingControl, to: centerPoint)
+                path.move(to: pathBuilder.leading)
+                path.addCurve(to: pathBuilder.trailingControl, controlPoint1: pathBuilder.leadingControl, controlPoint2: pathBuilder.middle)
 
-                points.setPoint(.leading, to: points.trailingControl)
-                points.setPoint(.leadingControl, to: points.trailing)
-                points.controlPoint = 1
+                pathBuilder.setPoint(.leading, to: pathBuilder.trailingControl)
+                pathBuilder.setPoint(.leadingControl, to: pathBuilder.trailing)
+                pathBuilder.controlPoint = 1
             }
 
             setNeedsDisplay()
@@ -109,13 +109,13 @@ public class SignatureView: UIView {
     }
 
     override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if points.controlPoint < 4 {
-            let touchPoint = points.leading
+        if pathBuilder.controlPoint < 4 {
+            let touchPoint = pathBuilder.leading
             path.move(to: touchPoint)
             path.addLine(to: touchPoint)
             setNeedsDisplay()
         } else {
-            points.controlPoint = 0
+            pathBuilder.controlPoint = 0
         }
         delegate?.didEndSigning()
     }
@@ -166,55 +166,5 @@ public class SignatureView: UIView {
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image
-    }
-}
-
-public enum PointLocation: Int {
-    case leading = 0
-    case leadingControl = 1
-    case middle = 2
-    case trailingControl = 3
-    case trailing = 4
-
-    public init(_ controlPoint: Int) {
-        self = PointLocation(rawValue: controlPoint) ?? .leading
-    }
-}
-
-
-/// How to understand the line breakup
-/// ******************************************************************************
-///
-///    |----------------*-----------------*--------------*------------------|
-///    Leading    LeadingControl       Middle     TrailingControl    Trailing
-///
-/// ******************************************************************************
-private class LineControlPoints {
-
-    var controlPoint: Int = 0
-    private var points: [CGPoint] = [CGPoint(), CGPoint(), CGPoint(), CGPoint(), CGPoint()]
-
-    var leading: CGPoint {
-        return points[0]
-    }
-    var leadingControl: CGPoint {
-        return points[1]
-    }
-    var middle: CGPoint {
-        return points[2]
-    }
-    var trailingControl: CGPoint {
-        return points[3]
-    }
-    var trailing: CGPoint {
-        return points[4]
-    }
-
-    func setPoint(_ location: PointLocation, to newValue: CGPoint) {
-        points[location.rawValue] = newValue
-    }
-
-    func isAtLastPoint() -> Bool {
-        return controlPoint == PointLocation.trailing.rawValue
     }
 }
