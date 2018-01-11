@@ -36,14 +36,32 @@ public class PhotoMediaSlideShowOverlayView: UIView, PhotoMediaOverlayViewable, 
     public let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 
     private let titleLabel = UILabel()
+    private let commentsLabel = UILabel()
 
     private let titleBackgroundView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
 
     private let compactItemWidth: CGFloat = 30.0
 
+    private let textPadding: CGFloat = 24
+
     private let mainItemInsets = UIEdgeInsets(top: 0, left: 16.0, bottom: 0, right: 16.0)
 
+    private let constraintCommentsBottomBackgroundBottom: NSLayoutConstraint
+    private let constraintTitleBottomCommentsTop: NSLayoutConstraint
+    private let constraintTitleBottomBackgroundBottom: NSLayoutConstraint
+
+    private let tabletLandscapeWidth: CGFloat = max(UIScreen.main.bounds.width, UIScreen.main.bounds.height) * 0.8
+    private let constraintTitleWidth: NSLayoutConstraint
+    private let constraintCommentsWidth: NSLayoutConstraint
+
     public override init(frame: CGRect) {
+        constraintCommentsBottomBackgroundBottom = commentsLabel.bottomAnchor.constraint(equalTo: titleBackgroundView.bottomAnchor, constant: -textPadding)
+        constraintTitleBottomCommentsTop = titleLabel.bottomAnchor.constraint(equalTo: commentsLabel.topAnchor, constant: -16)
+        constraintTitleBottomBackgroundBottom = titleLabel.bottomAnchor.constraint(equalTo: titleBackgroundView.bottomAnchor, constant: -textPadding)
+
+        constraintTitleWidth = titleLabel.widthAnchor.constraint(lessThanOrEqualToConstant: tabletLandscapeWidth)
+        constraintCommentsWidth = commentsLabel.widthAnchor.constraint(lessThanOrEqualToConstant: tabletLandscapeWidth)
+
         super.init(frame: frame)
 
         toolbar.frame = CGRect(origin: CGPoint(x: 0.0, y: frame.height - toolbar.frame.height), size: CGSize(width: frame.width, height: toolbar.frame.height))
@@ -66,34 +84,64 @@ public class PhotoMediaSlideShowOverlayView: UIView, PhotoMediaOverlayViewable, 
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         toolbar.addSubview(collectionView)
 
-        titleLabel.textColor = .white
-        titleLabel.font = UIFont.preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
-
-        titleBackgroundView.contentView.addSubview(titleLabel)
-        titleBackgroundView.layer.cornerRadius = 8.0
         titleBackgroundView.clipsToBounds = true
+        titleBackgroundView.alpha = 0.75
         addSubview(titleBackgroundView)
 
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.textColor = .white
+        titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+//        titleLabel.font = UIFont.preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        titleLabel.textAlignment = .center
+        titleLabel.numberOfLines = 1
+        addSubview(titleLabel)
+
+        commentsLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        commentsLabel.font = UIFont.preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        commentsLabel.textAlignment = .center
+        commentsLabel.numberOfLines = 4
+        addSubview(commentsLabel)
+
         titleBackgroundView.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        commentsLabel.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: titleBackgroundView.contentView.layoutMarginsGuide.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: titleBackgroundView.contentView.layoutMarginsGuide.trailingAnchor),
-            titleLabel.topAnchor.constraint(equalTo: titleBackgroundView.contentView.layoutMarginsGuide.topAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: titleBackgroundView.contentView.layoutMarginsGuide.bottomAnchor),
+            titleBackgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            titleBackgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            titleBackgroundView.bottomAnchor.constraint(equalTo: toolbar.topAnchor),
+            titleBackgroundView.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -textPadding),
 
-            titleBackgroundView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            titleBackgroundView.bottomAnchor.constraint(equalTo: toolbar.topAnchor, constant: -16.0),
+            commentsLabel.leadingAnchor.constraint(equalTo: titleBackgroundView.leadingAnchor, constant: textPadding).withPriority(UILayoutPriority.almostRequired),
+            commentsLabel.trailingAnchor.constraint(equalTo: titleBackgroundView.trailingAnchor, constant: -textPadding).withPriority(UILayoutPriority.almostRequired),
+            commentsLabel.centerXAnchor.constraint(equalTo: titleBackgroundView.centerXAnchor),
+            constraintCommentsBottomBackgroundBottom,
+
+            titleLabel.leadingAnchor.constraint(equalTo: titleBackgroundView.leadingAnchor, constant: textPadding).withPriority(UILayoutPriority.almostRequired),
+            titleLabel.trailingAnchor.constraint(equalTo: titleBackgroundView.trailingAnchor, constant: -textPadding).withPriority(UILayoutPriority.almostRequired),
+            titleLabel.centerXAnchor.constraint(equalTo: titleBackgroundView.centerXAnchor),
+            constraintTitleBottomCommentsTop,
 
             toolbar.bottomAnchor.constraint(equalTo: bottomAnchor),
             toolbar.leadingAnchor.constraint(equalTo: leadingAnchor),
             toolbar.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
+
+        if UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad {
+            constraintCommentsWidth.isActive = true
+            constraintTitleWidth.isActive = true
+        }
     }
 
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
+    }
+
+    override public func updateConstraints() {
+        super.updateConstraints()
+        let commentsNil = commentsLabel.text == nil
+        constraintCommentsBottomBackgroundBottom.isActive = !commentsNil
+        constraintTitleBottomCommentsTop.isActive = !commentsNil
+        constraintTitleBottomBackgroundBottom.isActive = commentsNil
     }
 
     open override func layoutSubviews() {
@@ -152,7 +200,11 @@ public class PhotoMediaSlideShowOverlayView: UIView, PhotoMediaOverlayViewable, 
 
         galleryViewController?.navigationItem.title = "Photo \(index + 1) of \(dataSource.numberOfMediaItems())"
         titleLabel.text = photo.title
+        commentsLabel.text = photo.comments
+
         titleBackgroundView.isHidden = photo.title?.isEmpty ?? true
+
+        setNeedsUpdateConstraints()
     }
 
     public func populateWithPhoto(_ photo: PhotoMedia) {
