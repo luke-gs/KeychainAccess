@@ -149,7 +149,6 @@ extension Theme {
         public static let popoverBackground     = ColorKey(rawValue: "popoverBackground")
         public static let searchField           = ColorKey(rawValue: "searchField")
         public static let searchFieldBackground = ColorKey(rawValue: "searchFieldBackground")
-        public static let headerBackground      = ColorKey(rawValue: "headerBackground")
         
         // Grouped Table specific
         public static let groupedTableBackground     = ColorKey(rawValue: "groupedTableBackground")
