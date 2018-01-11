@@ -32,11 +32,16 @@ public class BookOnPresenter: Presenter {
             viewModel.delegate = delegate
             return viewModel.createViewController()
 
-        case .officerList:
-            return OfficerListViewModel().createViewController()
+        case .officerList(let detailsDelegate):
+            let viewModel = OfficerListViewModel()
+            viewModel.detailsDelegate = detailsDelegate
+            return viewModel.createViewController()
 
-        case .patrolAreaList:
-            return PatrolAreaListViewModel().createViewController()
+        case .patrolAreaList(let current, let delegate):
+            let viewModel = PatrolAreaListViewModel()
+            viewModel.selectedPatrolArea = current
+            viewModel.delegate = delegate
+            return viewModel.createViewController()
         }
     }
 
