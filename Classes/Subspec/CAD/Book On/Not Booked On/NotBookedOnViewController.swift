@@ -38,14 +38,6 @@ open class NotBookedOnViewController: FormBuilderViewController {
     /// `super.viewModel` typecasted to our type
     open var viewModel: NotBookedOnViewModel
     
-    /// Update label based on theme
-    open override var wantsTransparentBackground: Bool {
-        didSet {
-            let theme = ThemeManager.shared.theme(for: .current)
-            titleLabel.textColor = theme.color(forKey: .primaryText)
-        }
-    }
-    
     // MARK: - Setup
     
     public init(viewModel: NotBookedOnViewModel) {
@@ -201,6 +193,13 @@ open class NotBookedOnViewController: FormBuilderViewController {
                     }
                 })
         }
+    }
+
+    open override func apply(_ theme: Theme) {
+        super.apply(theme)
+
+        /// Update label based on theme
+        titleLabel.textColor = theme.color(forKey: .primaryText)
     }
     
 }
