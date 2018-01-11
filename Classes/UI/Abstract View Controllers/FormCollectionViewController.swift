@@ -110,9 +110,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     open var wantsTransparentBackground: Bool = false {
         didSet {
-            if isViewLoaded {
-                collectionView?.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
-            }
+            view.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
         }
     }
     
