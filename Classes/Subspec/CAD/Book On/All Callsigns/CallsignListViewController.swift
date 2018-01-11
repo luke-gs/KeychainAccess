@@ -133,8 +133,8 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         
-        if let bookOnViewController = callsignListViewModel?.bookOnViewControllerForItem(indexPath) {
-            navigationController?.pushViewController(bookOnViewController, animated: true)
+        if let screen = callsignListViewModel?.bookOnScreenForItem(indexPath) {
+            present(screen)
         }
     }
     

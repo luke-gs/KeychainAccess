@@ -10,6 +10,8 @@ import UIKit
 
 // Protocol for a class that can present view controllers using the PopoverNavigationController
 public protocol PopoverPresenter: class {
+    func present(_ presentable: Presentable)
+
     func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Swift.Void)?)
     func dismiss(animated flag: Bool, completion: (() -> Void)?)
 

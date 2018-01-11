@@ -143,8 +143,8 @@ open class NotBookedOnViewController: FormBuilderViewController {
     }
     
     @objc open func didSelectAllCallsignsButton() {
-        // TODO: Push to all callsigns VC
-        self.navigationController?.pushViewController(CallsignListViewModel().createViewController(), animated: true)
+        // Present all callsigns screen
+        present(BookOnScreen.callSignList)
     }
     
     // MARK: - Form Builder
@@ -188,8 +188,8 @@ open class NotBookedOnViewController: FormBuilderViewController {
                     (cell as? CallsignCollectionViewCell)?.apply(theme: theme)
                 })
                 .onSelection({ [weak self] (cell) in
-                    if let viewController = self?.viewModel.bookOnViewControllerForItem(item) {
-                        self?.navigationController?.pushViewController(viewController, animated: true)
+                    if let screen = self?.viewModel.bookOnScreenForItem(item) {
+                        self?.present(screen)
                     }
                 })
         }

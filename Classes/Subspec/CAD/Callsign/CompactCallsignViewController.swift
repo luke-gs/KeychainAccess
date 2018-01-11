@@ -31,7 +31,8 @@ open class CompactCallsignViewController: UIViewController, PopToRootable {
 
     @objc private func updateChildViewControllerIfRequired() {
         let newCallsignViewController: UIViewController
-        
+
+        // TODO: add child VC support to Director class?
         if CADStateManager.shared.lastBookOn == nil {
             newCallsignViewController = NotBookedOnViewModel().createViewController()
         } else {

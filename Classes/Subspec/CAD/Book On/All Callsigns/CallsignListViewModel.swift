@@ -38,9 +38,9 @@ open class CallsignListViewModel: CADFormCollectionViewModel<NotBookedOnCallsign
     }
     
     /// Create the book on view controller for a selected callsign
-    open func bookOnViewControllerForItem(_ indexPath: IndexPath) -> UIViewController? {
+    open func bookOnScreenForItem(_ indexPath: IndexPath) -> Presentable? {
         if let itemViewModel = item(at: indexPath) {
-            return BookOnDetailsFormViewModel(callsignViewModel: itemViewModel).createViewController()
+            return BookOnScreen.bookOnDetailsForm(callsignViewModel: itemViewModel)
         }
         return nil
     }

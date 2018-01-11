@@ -29,6 +29,8 @@ public protocol ManageCallsignStatusViewModelDelegate: PopoverPresenter, Navigat
 /// View model for the callsign status screen
 open class ManageCallsignStatusViewModel {
 
+    public init() {}
+
     /// Concrete view model used to present book on details form
     struct BookOnCallsignViewModel: BookOnCallsignViewModelType {
         var callsign: String
@@ -137,8 +139,7 @@ open class ManageCallsignStatusViewModel {
                         status: CADStateManager.shared.currentResource?.status.title ?? "",
                         location: CADStateManager.shared.currentResource?.station ?? "",
                         type: CADStateManager.shared.currentResource?.type)
-                    let vc = BookOnDetailsFormViewModel(callsignViewModel: callsignViewModel).createViewController()
-                    delegate?.presentPushedViewController(vc, animated: true)
+                    delegate?.present(BookOnScreen.bookOnDetailsForm(callsignViewModel: callsignViewModel))
                 }
                 break
             case .terminateShift:
