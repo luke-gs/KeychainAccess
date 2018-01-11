@@ -113,13 +113,18 @@ open class TasksListHeaderViewModel {
 
     /// Shows the add new form sheet
     @objc private func showAdd() {
-        guard CADStateManager.shared.currentIncident == nil else {
-            AlertQueue.shared.addSimpleAlert(title: "Cannot create a new incident",
-                                             message: "You cannot create a new incident while already responding to an incident")
-            return
+        if let resource = CADStateManager.shared.currentResource {
+            guard CADStateManager.shared.currentIncident == nil && resource.status.canCreateIncident else {
+                AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Create Incident", comment: ""),
+                                                 message: NSLocalizedString("Your call sign is currently responding to an active incident that must first be finalised.", comment: ""))
+                return
+            }
+            let viewModel = CreateIncidentViewModel()
+            let vc = viewModel.createViewController()
+            delegate?.presentFormSheet(vc, animated: true)
+        } else {
+            AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Create Incident", comment: ""),
+                                             message: NSLocalizedString("You need to Book On to create a new incident.", comment: ""))
         }
-        let viewModel = CreateIncidentViewModel()
-        let vc = viewModel.createViewController()
-        delegate?.presentFormSheet(vc, animated: true)
     }
 }

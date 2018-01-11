@@ -147,8 +147,8 @@ open class ManageCallsignStatusViewModel {
                     CADStateManager.shared.lastBookOn = nil
                     delegate?.dismiss(animated: true, completion: nil)
                 } else {
-                    let message = NSLocalizedString("Terminating shift is not allowed from this state", comment: "")
-                    AlertQueue.shared.addErrorAlert(message: message)
+                    AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Terminate Shift", comment: ""),
+                                                     message: NSLocalizedString("Your call sign is currently responding to an active incident that must first be finalised.", comment: ""))
                 }
                 break
             }
