@@ -31,6 +31,9 @@ public enum ResourceStatus: String, Codable {
     /// All enum cases, in order of display
     public static let allCases: [ResourceStatus] = [.unavailable,.onAir,.mealBreak,.trafficStop,.court,.atStation,.onCall,.inquiries1,.proceeding,.atIncident,.finalise,.inquiries2]
 
+    /// Cases related to an incident
+    public static let incidentCases: [ResourceStatus] = [.proceeding,.atIncident,.finalise,.inquiries2]
+
     var title: String {
         switch self {
         case .unavailable:
@@ -159,14 +162,21 @@ public enum ResourceStatus: String, Codable {
         }
     }
 
-    public func canChangeToStatus(newStatus: ResourceStatus) -> Bool {
-        // Rather than write entire matrix of true/falses, just check for the few that aren't allowed
-        switch (self, newStatus) {
-        case (.proceeding, .finalise),
-             (.atIncident, .proceeding):
-            return false
-        default:
-            return true
+    // Return whether status change is allowed, and whether a reason needs to be provided
+    public func canChangeToStatus(newStatus: ResourceStatus) -> (allowed: Bool, requiresReason: Bool) {
+
+        // Currently all status changes are allowed, but a reason is needed if going from no incident
+        // to an incident status. Leaving allowed component of tuple as this is likely to change...
+
+        if !ResourceStatus.incidentCases.contains(self) && ResourceStatus.incidentCases.contains(newStatus) {
+            // Assigning to incident, requires reason
+            return (true, true)
+        } else if self != newStatus {
+            // New status
+            return (true, false)
+        } else {
+            // No change
+            return (false, false)
         }
     }
 }

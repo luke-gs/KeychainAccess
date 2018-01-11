@@ -224,10 +224,10 @@ open class TasksListContainerViewModel {
                 sectionedIncidents[status] = []
             }
 
-            // Apply search text filter to type or address
+            // Apply search text filter to type, primary code, secondary code or suburb
             if let searchText = searchText?.lowercased(), !searchText.isEmpty {
-                let matchedValues = [incident.type, incident.location?.fullAddress].removeNils().filter {
-                    return $0.lowercased().contains(searchText)
+                let matchedValues = [incident.type, incident.identifier, incident.secondaryCode, incident.location?.suburb].removeNils().filter {
+                    return $0.lowercased().hasPrefix(searchText)
                 }
                 if !matchedValues.isEmpty {
                     sectionedIncidents[status]?.append(incident)
@@ -281,8 +281,8 @@ open class TasksListContainerViewModel {
             // Apply search text filter to type or address
             var shouldAppend: Bool = false
             if let searchText = searchText?.lowercased(), !searchText.isEmpty {
-                let matchedValues = [resource.callsign].removeNils().filter {
-                    return $0.lowercased().contains(searchText)
+                let matchedValues = [resource.callsign, resource.type.rawValue, resource.location?.suburb].removeNils().filter {
+                    return $0.lowercased().hasPrefix(searchText)
                 }
                 if !matchedValues.isEmpty {
                     shouldAppend = true

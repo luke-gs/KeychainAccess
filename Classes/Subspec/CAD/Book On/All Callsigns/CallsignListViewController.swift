@@ -17,7 +17,7 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
     
     // MARK: - Views
     
-    open var toolBar: UIToolbar!
+    open var barBackground: UIView!
     open var searchBar: UISearchBar!
 
     /// `super.viewModel` typecasted to our type
@@ -51,7 +51,6 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
         if let subtitle = callsignListViewModel?.navSubtitle() {
             setTitleView(title: viewModel.navTitle(), subtitle: subtitle)
         }
-        setupSearchbarColorForTraitCollection()
     }
     
     open override func loadView() {
@@ -75,40 +74,37 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
         // Replace default back button with 'Back'
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .done, target: self, action: #selector(goBack))
         
-        toolBar = UIToolbar()
-        toolBar.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(toolBar)
+        barBackground = UIView()
+        barBackground.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(barBackground)
         
         searchBar = UISearchBar()
         searchBar.delegate = self
-        searchBar.searchBarStyle = .minimal
+        searchBar.barTintColor = UIColor.white
+        searchBar.backgroundColor = UIColor.clear
+        searchBar.backgroundImage = UIImage()
         searchBar.placeholder = NSLocalizedString("Search", comment: "Search Text Placeholder")
         searchBar.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(searchBar)
+        barBackground.addSubview(searchBar)
     }
-    
-    private func setupSearchbarColorForTraitCollection() {
-        if traitCollection.horizontalSizeClass == .regular {
-            toolBar.isHidden = false
-            searchBar.searchBarStyle = .minimal
-        } else {
-            toolBar.isHidden = true
-            searchBar.searchBarStyle = .default
-        }
+
+    open override func apply(_ theme: Theme) {
+        super.apply(theme)
+        barBackground.backgroundColor = theme.color(forKey: .headerBackground)?.withAlphaComponent(0.16)
     }
 
     /// Activates view constraints
     open func setupConstraints() {
         NSLayoutConstraint.activate([
-            toolBar.topAnchor.constraint(equalTo: view.topAnchor),
-            toolBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            toolBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            toolBar.heightAnchor.constraint(equalToConstant: LayoutConstants.searchBarHeight),
+            barBackground.topAnchor.constraint(equalTo: view.topAnchor),
+            barBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            barBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            barBackground.heightAnchor.constraint(equalToConstant: LayoutConstants.searchBarHeight),
             
-            searchBar.topAnchor.constraint(equalTo: view.topAnchor),
-            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            searchBar.heightAnchor.constraint(equalToConstant: LayoutConstants.searchBarHeight)
+            searchBar.topAnchor.constraint(equalTo: barBackground.topAnchor),
+            searchBar.leadingAnchor.constraint(equalTo: barBackground.leadingAnchor, constant: 8),
+            searchBar.trailingAnchor.constraint(equalTo: barBackground.trailingAnchor, constant: -8),
+            searchBar.bottomAnchor.constraint(equalTo: barBackground.bottomAnchor)
         ])
     }
     

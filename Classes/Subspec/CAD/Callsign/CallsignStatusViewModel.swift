@@ -43,13 +43,21 @@ open class CallsignStatusViewModel: CADStatusViewModel {
     /// Attempt to select a new status
     open func setSelectedIndexPath(_ indexPath: IndexPath) -> Promise<ResourceStatus> {
         let newStatus = statusForIndexPath(indexPath)
-        if (currentStatus ?? .unavailable).canChangeToStatus(newStatus: newStatus) {
+        let (allowed, requiresReason) = (currentStatus ?? .unavailable).canChangeToStatus(newStatus: newStatus)
+        if allowed {
             var promise: Promise<Void> = Promise<Void>()
 
             // Traffic stop requires further details
             if case .trafficStop = newStatus {
                 promise = promptForTrafficStopDetails().then { _ -> Void in
                     // TODO: Submit traffic stop details
+                }
+            }
+
+            // Requires reason needs further details
+            if requiresReason {
+                promise = promptForStatusReason().then { _ -> Void in
+                    // TODO: Do something with reason text
                 }
             }
 
@@ -73,6 +81,28 @@ open class CallsignStatusViewModel: CADStatusViewModel {
         let viewModel = TrafficStopViewModel()
         delegate?.presentPushedViewController(viewModel.createViewController(), animated: true)
         return viewModel.promise.promise
+    }
+
+    // Prompts the user for reason for status change
+    open func promptForStatusReason() -> Promise<String> {
+
+        let viewController = StatusChangeReasonViewController()
+
+        // Manually create form sheet to give custom size
+        let nav = PopoverNavigationController(rootViewController: viewController)
+        nav.modalPresentationStyle = .formSheet
+        nav.preferredContentSize = CGSize(width: 448, height: 256)
+        delegate?.present(nav, animated: true, completion: nil)
+
+        let (promise, fulfill, reject) = Promise<String>.pending()
+        viewController.completionHandler = { text in
+            if let text = text {
+                fulfill(text)
+            } else {
+                reject(NSError.cancelledError())
+            }
+        }
+        return promise
     }
 
     open func statusForIndexPath(_ indexPath: IndexPath) -> ResourceStatus {
