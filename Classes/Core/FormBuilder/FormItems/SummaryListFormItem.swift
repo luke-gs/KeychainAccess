@@ -79,6 +79,21 @@ public class SummaryListFormItem: BaseFormItem {
 // MARK: - Chaining methods
 
 extension SummaryListFormItem {
+    
+    @discardableResult
+    public func decorate(_ displayable: EntitySummaryDisplayable) -> Self {
+        self.title = displayable.title
+        self.subtitle = [displayable.detail1, displayable.detail2].joined(separator: ThemeConstants.dividerSeparator)
+        self.category = displayable.category
+        self.badge = displayable.badge
+        self.borderColor = displayable.borderColor
+        self.badgeColor = displayable.borderColor
+        self.highlightStyle = .fade
+        self.image = displayable.thumbnail(ofSize: .small)
+        self.imageTintColor = displayable.iconColor
+        self.accessory = ItemAccessory(style: .disclosure)
+        return self
+    }
 
     @discardableResult
     public func category(_ category: String?) -> Self {
