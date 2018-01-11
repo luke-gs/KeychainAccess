@@ -86,6 +86,9 @@ open class SearchHeaderView: UIView {
 
         let halfWidth = imageWidth / 2.0
 
+        // The search bar has implicit padding, use this to line up search bar with icon
+        let searchBarImplicitInset = 8.0 as CGFloat
+
         NSLayoutConstraint.activate([
             imageView.heightAnchor.constraint(equalToConstant: imageWidth),
             imageView.widthAnchor.constraint(equalToConstant: imageWidth),
@@ -101,8 +104,8 @@ open class SearchHeaderView: UIView {
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
 
             searchBar.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 20.0),
-            searchBar.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
-            searchBar.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+            searchBar.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: -searchBarImplicitInset),
+            searchBar.centerXAnchor.constraint(equalTo: centerXAnchor),
             searchBar.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -24.0),
             searchBar.heightAnchor.constraint(equalToConstant: 32.0)
 
