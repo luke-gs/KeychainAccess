@@ -27,14 +27,14 @@ open class EntityEventsViewModel: EntityDetailFilterableFormViewModel {
             builder += HeaderFormItem(text: header())
             for event in events {
                 builder += DetailFormItem(title: event.eventType, subtitle: formattedSubtitle(for: event), detail: event.eventDescription?.ifNotEmpty())
-                    .selectionStyle(.fade)
                     .highlightStyle(.fade)
                     .accessory(ItemAccessory(style: .disclosure))
                     .onSelection({ [weak self] _ in
-                        if let source = event.source {
-                            let detailVC = EventDetailViewController(source: source, eventId: event.id)
-                            self?.delegate?.presentPushedViewController(detailVC, animated: true)
-                        }
+//                            if let detailsVM = EventDetailsViewModelRouter.getViewModel(for: event) {
+                        let detailsVM = EventDetailsViewModel(event: event)
+                        let detailVC = EventDetailViewController(viewModel: detailsVM)
+                        self?.delegate?.presentPushedViewController(detailVC, animated: true)
+//                            }
                     })
             }
         }
