@@ -20,20 +20,20 @@ open class Alert: NSObject, Serialisable {
         case high   = 2
         
         public static let allCases: [Level] = [.low, .medium, .high]
-        
+
         public var color: UIColor? {
             switch self {
-            case .high:   return #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1)
+            case .high: return #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1)
             case .medium: return #colorLiteral(red: 1, green: 0.8, blue: 0, alpha: 1)
-            case .low:    return #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+            case .low: return #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
             }
         }
         
         public func localizedDescription() -> String? {
             switch self {
-            case .high:   return NSLocalizedString("High",     bundle: .mpolKit, comment: "Alert Level Title")
+            case .high: return NSLocalizedString("High", bundle: .mpolKit, comment: "Alert Level Title")
             case .medium: return NSLocalizedString("Medium", bundle: .mpolKit, comment: "Alert Level Title")
-            case .low:    return NSLocalizedString("Low",      bundle: .mpolKit, comment: "Alert Level Title")
+            case .low: return NSLocalizedString("Low", bundle: .mpolKit, comment: "Alert Level Title")
             }
         }
     }
@@ -48,7 +48,7 @@ open class Alert: NSObject, Serialisable {
     open var effectiveDate: Date?
     open var expiryDate: Date?
     open var entityType: String?
-    open var isSummary: Bool?
+    open var isSummary: Bool = false
     
     open var source: MPOLSource?
     open var title: String?
@@ -92,7 +92,7 @@ open class Alert: NSObject, Serialisable {
         effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: Alert.dateTransformer)
         expiryDate    = unboxer.unbox(key: "expiryDate", formatter: Alert.dateTransformer)
         entityType    = unboxer.unbox(key: "entityType")
-        isSummary     = unboxer.unbox(key: "isSummary")
+        isSummary     = unboxer.unbox(key: "isSummary") ?? false
 
         source        = unboxer.unbox(key: "source")
         title         = unboxer.unbox(key: "title")
@@ -109,7 +109,10 @@ open class Alert: NSObject, Serialisable {
         }
         
         self.id = id
+        isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
         
+        super.init()
+
         title = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.title.rawValue) as String?
         details = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.details.rawValue) as String?
         effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.effectiveDate.rawValue) as Date?
@@ -117,19 +120,36 @@ open class Alert: NSObject, Serialisable {
         if aDecoder.containsValue(forKey: CodingKey.level.rawValue),
             let level = Level(rawValue: aDecoder.decodeInteger(forKey: CodingKey.level.rawValue)) {
             self.level = level
-        } else {
-            level = nil
         }
-        
-        super.init()
+
+        dateCreated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateCreated.rawValue) as Date?
+        dateUpdated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateUpdated.rawValue) as Date?
+        expiryDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.expiryDate.rawValue) as Date?
+        createdBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.createdBy.rawValue) as String?
+        updatedBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.updatedBy.rawValue) as String?
+        entityType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.entityType.rawValue) as String?
+
+        if let source = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.source.rawValue) as String? {
+            self.source = MPOLSource(rawValue: source)
+        }
     }
     
     open func encode(with aCoder: NSCoder) {
         aCoder.encode(Alert.modelVersion, forKey: CodingKey.version.rawValue)
-        aCoder.encode(id, forKey: CodingKey.level.rawValue)
-        if let level = self.level?.rawValue {
+        aCoder.encode(id, forKey: CodingKey.id.rawValue)
+
+        if let level = level?.rawValue {
             aCoder.encode(level, forKey: CodingKey.level.rawValue)
         }
+
+        aCoder.encode(dateCreated, forKey: CodingKey.dateCreated.rawValue)
+        aCoder.encode(dateUpdated, forKey: CodingKey.dateUpdated.rawValue)
+        aCoder.encode(expiryDate, forKey: CodingKey.expiryDate.rawValue)
+        aCoder.encode(createdBy, forKey: CodingKey.createdBy.rawValue)
+        aCoder.encode(updatedBy, forKey: CodingKey.updatedBy.rawValue)
+        aCoder.encode(entityType, forKey: CodingKey.entityType.rawValue)
+        aCoder.encode(isSummary, forKey: CodingKey.isSummary.rawValue)
+        aCoder.encode(source?.rawValue, forKey: CodingKey.source.rawValue)
     }
     
     public static var supportsSecureCoding: Bool {
@@ -161,5 +181,13 @@ private enum CodingKey: String {
     case title
     case details
     case effectiveDate
+    case dateCreated
+    case dateUpdated
+    case createdBy
+    case updatedBy
+    case expiryDate
+    case entityType
+    case isSummary
+    case source
 }
 

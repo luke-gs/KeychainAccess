@@ -12,7 +12,7 @@ import MPOLKit
 @objc(MPLPhoneNumber)
 open class PhoneNumber: NSObject, Serialisable {
     
-    open let id : String
+    open let id: String
     
     open var type: String?
     open var areaCode: String?
@@ -44,16 +44,26 @@ open class PhoneNumber: NSObject, Serialisable {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        MPLUnimplemented()
+        id = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String!
+
+        super.init()
+
+        type = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.type.rawValue) as String?
+        areaCode = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.areaCode.rawValue) as String?
+        phoneNumber = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.phoneNumber.rawValue) as String?
     }
     
     open func encode(with aCoder: NSCoder) {
-        MPLUnimplemented()
+        aCoder.encode(PhoneNumber.modelVersion, forKey: CodingKey.version.rawValue)
+        aCoder.encode(id, forKey: CodingKey.id.rawValue)
+        aCoder.encode(type, forKey: CodingKey.type.rawValue)
+        aCoder.encode(areaCode, forKey: CodingKey.areaCode.rawValue)
+        aCoder.encode(phoneNumber, forKey: CodingKey.phoneNumber.rawValue)
     }
     
-    open static var supportsSecureCoding: Bool {
-        return true
-    }
+    open static var supportsSecureCoding: Bool { return true }
+
+    open static var modelVersion: Int { return 0 }
     
     
     // MARK: - Temp Formatters
@@ -72,11 +82,19 @@ open class PhoneNumber: NSObject, Serialisable {
     func formattedType() -> String {
         guard let type = type else { return "Unknown" }
         switch type {
-        case "MOBL":    return "Mobile"
-        case "HOME":    return "Home"
-        case "BUS":     return "Business"
-        case "OTHR":    return "Other"
-        default:        return "Unknown"      // Should default types be "Unknown" or "Other"
+        case "MOBL": return "Mobile"
+        case "HOME": return "Home"
+        case "BUS": return "Business"
+        case "OTHR": return "Other"
+        default: return "Unknown"      // Should default types be "Unknown" or "Other"
         }
+    }
+
+    private enum CodingKey: String {
+        case version
+        case id
+        case type
+        case areaCode
+        case phoneNumber
     }
 }

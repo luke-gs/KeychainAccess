@@ -145,7 +145,7 @@ open class EntityAlertsViewController: EntityDetailCollectionViewController, Fil
             detail?.numberOfLines = 0
         }
 
-        return CollectionViewFormDetailCell.minimumContentHeight(withDetail: detail, imageSize: UIImage.statusDotFrameSize, inWidth: itemWidth, compatibleWith: traitCollection)
+        return CollectionViewFormDetailCell.minimumContentHeight(withTitle: cellInfo.title, subtitle: cellInfo.subtitle, detail: detail, imageSize: UIImage.statusDotFrameSize, inWidth: itemWidth, compatibleWith: traitCollection)
     }
     
     

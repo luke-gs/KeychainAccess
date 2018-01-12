@@ -141,7 +141,7 @@ open class VehicleOccurrencesViewController: EntityOccurrencesViewController, Fi
 
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         let cellInfo = viewModel.cellInfo(for: indexPath)
-        return CollectionViewFormDetailCell.minimumContentHeight(withDetail: cellInfo.detail, imageSize: UIImage.statusDotFrameSize, inWidth: itemWidth, compatibleWith: traitCollection)
+        return CollectionViewFormDetailCell.minimumContentHeight(withTitle: cellInfo.title, subtitle: cellInfo.subtitle, detail: cellInfo.detail, imageSize: UIImage.statusDotFrameSize, inWidth: itemWidth, compatibleWith: traitCollection)
     }
     
     
