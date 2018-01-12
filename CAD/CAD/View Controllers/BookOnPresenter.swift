@@ -42,6 +42,11 @@ public class BookOnPresenter: Presenter {
             viewModel.selectedPatrolArea = current
             viewModel.delegate = delegate
             return viewModel.createViewController()
+
+        case .statusChangeReason(let completionHandler):
+            let vc = StatusChangeReasonViewController()
+            vc.completionHandler = completionHandler
+            return vc
         }
     }
 
@@ -57,6 +62,10 @@ public class BookOnPresenter: Presenter {
             container.modalPresentationStyle = .formSheet
             container.lightTransparentBackground = UIColor(white: 1, alpha: 0.5)
             from.present(container, animated: true)
+
+        case .statusChangeReason:
+            // Present form sheet with custom size
+            from.presentFormSheet(to, animated: true, size: CGSize(width: 448, height: 256), forced: true)
 
         // Default presentation, based on container class (eg push if in navigation controller)
         default:
