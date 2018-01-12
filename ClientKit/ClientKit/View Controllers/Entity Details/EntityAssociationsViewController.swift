@@ -41,10 +41,12 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     }
     
     private let listStateItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .list), style: .plain, target: nil, action: nil)
-    private var delegate: EntityDetailsDelegate?
+    private var delegate: SearchDelegate?
+    public let summaryDisplayFormatter: EntitySummaryDisplayFormatter
 
-    public init(delegate: EntityDetailsDelegate?) {
+    public init(delegate: SearchDelegate?, summaryDisplayFormatter: EntitySummaryDisplayFormatter = .default) {
         self.delegate = delegate
+        self.summaryDisplayFormatter = summaryDisplayFormatter
         super.init()
         title = "Associations"
         
@@ -168,7 +170,9 @@ open class EntityAssociationsViewController: EntityDetailCollectionViewControlle
     
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let associate = viewModel.sections[indexPath.section].associate(at: indexPath.item)
-        delegate?.controller(self, didSelectEntity: associate)
+        if let presentable = summaryDisplayFormatter.presentableForEntity(associate) {
+            delegate?.handlePresentable(presentable)
+        }
     }
 
     // MARK: - CollectionViewDelegateFormLayout methods

@@ -16,7 +16,7 @@ public enum EntityScreen: Presentable {
 
     case createEntity(type: EntityType)
 
-    case entityDetails(entity: Entity, delegate: EntityDetailsDelegate?)
+    case entityDetails(entity: Entity, delegate: SearchDelegate?)
 
     public enum EntityType {
         case person, vehicle, organisation, location

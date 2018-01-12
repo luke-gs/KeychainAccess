@@ -71,18 +71,26 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 return settingsItem
             }
 
-            let viewModel = MPOLSearchViewModel()
-
+            
+            let strategy = LookupAddressLocationSearchStrategy<Address>(source: MPOLSource.gnaf, helpPresentable: EntityScreen.help(type: .location))
+            let locationDataSource = LocationSearchDataSource(strategy: strategy, advanceOptions: LookupAddressLocationAdvancedOptions())
+            strategy.onResultModelForMap = {
+                return LocationMapSummarySearchResultViewModel()
+            }
+            strategy.onResultModelForResult = { (lookupResult, searchable) in
+                return LocationMapSummarySearchResultViewModel()
+            }
+            
+            let viewModel = EntitySummarySearchViewModel(title: "MPOL", dataSources: [
+                PersonSearchDataSource(),
+                VehicleSearchDataSource(),
+                locationDataSource
+            ])
+            
             let searchViewController = SearchViewController(viewModel: viewModel)
             searchViewController.set(leftBarButtonItem: settingsBarButtonItem())
 
-            let actionListViewModel = EntitySummaryActionListViewModel {
-                switch $0 {
-                case is Person: return (PersonSummaryDisplayable($0), viewModel.presentable(for: $0))
-                case is Vehicle: return (VehicleSummaryDisplayable($0), viewModel.presentable(for: $0))
-                default: return nil
-                }
-            }
+            let actionListViewModel = EntitySummaryActionListViewModel()
 
             let actionListViewController = ActionListViewController(viewModel: actionListViewModel)
             actionListViewController.navigationItem.leftBarButtonItem = settingsBarButtonItem()
@@ -103,6 +111,22 @@ public class LandingPresenter: AppGroupLandingPresenter {
             tabBarController.viewControllers = [searchNavController, actionListNavController, eventListNavController, tasksProxyViewController]
 
             self.tabBarController = tabBarController
+
+
+            // Set up entity summary and presentable
+            let entityFormatter = EntitySummaryDisplayFormatter.default
+
+            entityFormatter.registerEntityType(Person.self,
+                                               forSummary: .function { return PersonSummaryDisplayable($0) },
+                                               andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: searchViewController) })
+
+            entityFormatter.registerEntityType(Vehicle.self,
+                                               forSummary: .function { return VehicleSummaryDisplayable($0) },
+                                               andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: searchViewController) })
+
+            entityFormatter.registerEntityType(Address.self,
+                                               forSummary: .function { return AddressSummaryDisplayable($0) },
+                                               andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: searchViewController) })
 
             return tabBarController
         }
