@@ -158,7 +158,9 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         let button = UIButton(type: .system)
 
         var imageKey: AssetManager.ImageKey = .touchId
-        if #available(iOS 11, *) {
+        // Apple lies, it's not @available(iOS 11.0, *), it's later.
+        // Crash on iOS 11.0
+        if #available(iOS 11.0.1, *) {
             if authenticationContext.biometryType == .faceID {
                 imageKey = .faceId
             }
