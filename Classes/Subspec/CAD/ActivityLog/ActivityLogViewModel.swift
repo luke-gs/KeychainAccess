@@ -18,7 +18,8 @@ public class ActivityLogViewModel: CADFormCollectionViewModel<ActivityLogItemVie
 
     /// Create the view controller for this view model
     public func createViewController() -> UIViewController {
-        return ActivityLogViewController(viewModel: self)
+        return DatedActivityLogViewController(viewModel: self)
+//        return ActivityLogViewController(viewModel: self)
     }
 
     /// Update the task list

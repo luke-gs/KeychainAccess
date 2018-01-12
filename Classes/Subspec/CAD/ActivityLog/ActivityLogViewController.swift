@@ -12,7 +12,7 @@ import UIKit
 ///
 /// This uses CADFormCollectionViewController for consistent styling and reduced boilerplate.
 ///
-public class ActivityLogViewController: TimelineFormCollectionViewController<ActivityLogItemViewModel> {
+open class ActivityLogViewController: TimelineFormCollectionViewController<ActivityLogItemViewModel> {
 
     // MARK: - Override
 
