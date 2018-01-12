@@ -19,6 +19,11 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
             ResourceActivityLogViewModel(callsign: callsign)
         ]
     }
+    
+    open override func createViewController() -> UIViewController {
+        let vc = TasksItemSidebarViewController(viewModel: self)
+        return vc
+    }
 
     public convenience init(resource: SyncDetailsResource) {
         self.init(

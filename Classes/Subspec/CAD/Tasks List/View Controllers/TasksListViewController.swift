@@ -198,7 +198,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
 
     // MARK: - CollectionViewDelegateFormLayout methods
 
-    func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
+    override open func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
         // Make space for search bar using the form global header
         return viewModel.sections.isEmpty ? 0 : 32
     }

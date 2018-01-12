@@ -10,11 +10,6 @@ import Foundation
 import CoreLocation
 import MapKit
 
-protocol LocationMapSearchDelegate: class {
-    func locationMapViewController(_ controller: UIViewController, didRequestToEdit search: Searchable?)
-    func searchResultsController(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity)
-}
-
 open class SearchResultMapViewController: MapCollectionViewController, MapResultViewModelDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate, CLLocationManagerDelegate {
     
     private enum LocationOverview: Int {
@@ -29,7 +24,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         }
     }
     
-    weak var delegate: LocationMapSearchDelegate?
+    weak var delegate: SearchDelegate?
     var sidebarDelegate: LocationSearchSidebarDelegate?
 
     public var selectedAnnotation: MKAnnotation? {
@@ -139,8 +134,8 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
 
-        if let selectedAnnotation = selectedAnnotation, let entity = viewModel?.entity(for: selectedAnnotation) {
-            delegate?.searchResultsController(self, didSelectEntity: entity)
+        if let selectedAnnotation = selectedAnnotation, let presentable = viewModel?.entityPresentable(for: selectedAnnotation) {
+            delegate?.handlePresentable(presentable)
         }
     }
     
@@ -293,13 +288,15 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     
     @objc
     private func searchFieldButtonDidSelect() {
-        var search: Searchable?
+
         if let text = searchFieldButton?.placeholder, !text.isEmpty {
-            search = Searchable(text: text, type: LocationSearchDataSourceSearchableType)
+            let search = Searchable(text: text, type: LocationSearchDataSourceSearchableType)
+            delegate?.beginSearch(with: search)
+        } else {
+            delegate?.beginSearch(reset: false)
         }
-        delegate?.locationMapViewController(self, didRequestToEdit: search)
     }
-    
+
     private func drawMapOverlays(){
         
         /// Remove all of existing map overlays
