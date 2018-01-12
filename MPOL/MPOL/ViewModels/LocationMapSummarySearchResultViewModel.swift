@@ -20,12 +20,7 @@ class EntityMapAnnotation: MKPointAnnotation {
     }
 }
 
-public class LocationMapSummarySearchResultViewModel: MapSummarySearchResultViewModel<Address, AddressSummaryDisplayable> {
-
-    public override func entityDisplayable(for annotation: MKAnnotation) -> EntityMapSummaryDisplayable? {
-        guard let entity = entity(for: annotation) else { return nil }
-        return AddressSummaryDisplayable(entity)
-    }
+public class LocationMapSummarySearchResultViewModel: MapSummarySearchResultViewModel<Address> {
 
     public override func mapAnnotation(for entity: MPOLKitEntity) -> MKAnnotation? {
         let displayable = AddressSummaryDisplayable(entity)
