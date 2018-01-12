@@ -82,9 +82,16 @@ open class CallsignStatusViewModel: CADStatusViewModel {
 
     // Prompts the user for more details when tapping on "Traffic Stop" status
     open func promptForTrafficStopDetails() -> Promise<TrafficStopRequest> {
-        let viewModel = TrafficStopViewModel()
-        delegate?.presentPushedViewController(viewModel.createViewController(), animated: true)
-        return viewModel.promise.promise
+        let (promise, fulfill, reject) = Promise<TrafficStopRequest>.pending()
+        let completionHandler: ((TrafficStopRequest?) -> Void) = { request in
+            if let request = request {
+                fulfill(request)
+            } else {
+                reject(NSError.cancelledError())
+            }
+        }
+        delegate?.present(BookOnScreen.trafficStop(completionHandler: completionHandler))
+        return promise
     }
 
     // Prompts the user for reason for status change

@@ -34,4 +34,7 @@ public enum BookOnScreen: Presentable {
 
     /// Enter reason for resource status change
     case statusChangeReason(completionHandler: ((String?) -> Void)?)
+
+    /// Create traffic stop incident
+    case trafficStop(completionHandler: ((TrafficStopRequest?) -> Void)?)
 }
