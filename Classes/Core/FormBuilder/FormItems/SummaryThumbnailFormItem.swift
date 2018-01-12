@@ -98,21 +98,6 @@ public class SummaryThumbnailFormItem: BaseFormItem {
 // MARK: - Chaining methods
 
 extension SummaryThumbnailFormItem {
-    
-    @discardableResult
-    public func decorate(_ displayable: EntitySummaryDisplayable) -> Self {
-        self.title = displayable.title
-        self.subtitle = displayable.detail1
-        self.detail = displayable.detail2
-        self.category = displayable.category
-        self.badge = displayable.badge
-        self.borderColor = displayable.borderColor
-        self.badgeColor = displayable.borderColor
-        self.highlightStyle = .fade
-        self.image = displayable.thumbnail(ofSize: style == .hero ? .large : .medium)
-        self.imageTintColor = displayable.iconColor
-        return self
-    }
 
     @discardableResult
     public func style(_ style: EntityCollectionViewCell.Style) -> Self {
