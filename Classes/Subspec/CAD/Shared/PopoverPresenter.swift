@@ -48,7 +48,9 @@ extension UIViewController: PopoverPresenter, NavigationPresenter, TargetActionD
             nav.presentationController?.delegate = ForcedPopoverPresentationControllerDelegate()
         }
         
-        if let size = size {
+        if var size = size {
+            // Cap form sheet width at 90% of parent width
+            size.width = min(size.width, view.bounds.width * 0.9)
             nav.preferredContentSize = size
         }
         
