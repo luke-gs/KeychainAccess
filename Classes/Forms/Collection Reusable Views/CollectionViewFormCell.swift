@@ -76,7 +76,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             if requiresValidation && validationColor != nil {
                 return
             }
-            if selectionStyle != .animated(style: UnderlineStyle()) || isSelected == false {
+            if selectionStyle != .underline || isSelected == false {
                 selectionStyle.configure(self)
             }
         }
@@ -85,7 +85,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     @NSCopying open var separatorTintColor: UIColor? = nil {
         didSet {
             separatorView.tintColor = separatorTintColor
-            if requiresValidation && validationColor != nil && selectionStyle == .animated(style: UnderlineStyle()) && isSelected {
+            if requiresValidation && validationColor != nil && selectionStyle == .underline && isSelected {
                 selectionStyle.configure(self)
             }
         }
@@ -633,7 +633,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
             separatorInset = .zero
         }
         
-        let separatorHeight = 1.0 / traitCollection.currentDisplayScale + ((isSelected && selectionStyle == .animated(style: UnderlineStyle())) || requiresValidation ? 1.0 : 0.0)
+        let separatorHeight = 1.0 / traitCollection.currentDisplayScale + ((isSelected && selectionStyle == .underline) || requiresValidation ? 1.0 : 0.0)
         let separatorFrame = CGRect(x: separatorInset.left, y: bounds.height - separatorHeight, width: bounds.width - separatorInset.left - separatorInset.right, height: separatorHeight)
         if separatorView.frame != separatorFrame {
             separatorView.frame = separatorFrame
@@ -718,7 +718,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     open override func tintColorDidChange() {
         super.tintColorDidChange()
-        if isSelected && selectionStyle == .animated(style: UnderlineStyle()) && validationColor == nil {
+        if isSelected && selectionStyle == .underline && validationColor == nil {
             selectionStyle.configure(self)
         }
     }

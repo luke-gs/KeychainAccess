@@ -9,7 +9,7 @@
 import Foundation
 
 public class FadeStyle: CellSelectionAnimatable {
-    public func configure(_ cell: CollectionViewFormCell) {
+    public static func configure(_ cell: CollectionViewFormCell) {
         let isSelected = cell.isSelected
         let isHighlighted = cell.isHighlighted
 

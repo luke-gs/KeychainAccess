@@ -30,8 +30,8 @@ public class SummaryListFormItem: BaseFormItem {
     public init() {
         super.init(cellType: EntityListCollectionViewCell.self, reuseIdentifier: EntityListCollectionViewCell.defaultReuseIdentifier)
 
-        highlightStyle = .animated(style: EnlargeStyle())
-        selectionStyle = .animated(style: EnlargeStyle())
+        highlightStyle = .enlarge
+        selectionStyle = .enlarge
     }
 
     public override func configure(_ cell: CollectionViewFormCell) {

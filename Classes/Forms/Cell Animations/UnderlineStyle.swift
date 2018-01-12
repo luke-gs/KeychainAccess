@@ -8,8 +8,8 @@
 
 import Foundation
 
-public struct UnderlineStyle: CellSelectionAnimatable {
-    public func configure(_ cell: CollectionViewFormCell) {
+public class UnderlineStyle: CellSelectionAnimatable {
+    public class func configure(_ cell: CollectionViewFormCell) {
         let validationColor: UIColor? = cell.requiresValidation ? cell.validationColor : nil
 
         let separatorView = cell.separatorView

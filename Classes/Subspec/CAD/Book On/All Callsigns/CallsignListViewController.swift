@@ -119,8 +119,8 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
     }
     
     override open func decorate(cell: CollectionViewFormCell, with viewModel: NotBookedOnCallsignItemViewModel) {
-        cell.highlightStyle = .animated(style: FadeStyle())
-        cell.selectionStyle = .animated(style: FadeStyle())
+        cell.highlightStyle = .fade
+        cell.selectionStyle = .fade
         cell.separatorStyle = .indented
         cell.separatorColor = UIColor.red
         cell.accessoryView = FormAccessoryView(style: .disclosure)
