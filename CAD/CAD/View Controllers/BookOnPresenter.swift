@@ -44,9 +44,15 @@ public class BookOnPresenter: Presenter {
             return viewModel.createViewController()
 
         case .statusChangeReason(let completionHandler):
+            // No view model, so use VC directly
             let vc = StatusChangeReasonViewController()
             vc.completionHandler = completionHandler
             return vc
+
+        case .trafficStop(let completionHandler):
+            let viewModel = TrafficStopViewModel()
+            viewModel.completionHandler = completionHandler
+            return viewModel.createViewController()
         }
     }
 
