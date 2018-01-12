@@ -45,7 +45,13 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
             builder += HeaderFormItem(text: String(format: (count == 1 ? "%d PERSON" : "%d PEOPLE"), persons.count), style: .collapsible)
             
             for person in persons {
-                builder += formItem(for: person, in: viewController)
+                let displayable = PersonSummaryDisplayable(person)
+                builder += displayable.summaryFormItem(isCompact: isCompact || !wantsThumbnails)
+                    .onSelection({ [weak self] _ in
+                        if let presentable = self?.summaryDisplayFormatter.presentableForEntity(person) {
+                            self?.searchDelegate?.handlePresentable(presentable)
+                        }
+                    })
             }
         }
         
@@ -53,7 +59,13 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
             builder += HeaderFormItem(text: String(format: (count == 1 ? "%d VEHICLE" : "%d VEHICLES"), vehicles.count), style: .collapsible)
             
             for vehicle in vehicles {
-                builder += formItem(for: vehicle, in: viewController)
+                let displayable = VehicleSummaryDisplayable(vehicle)
+                builder += displayable.summaryFormItem(isCompact: isCompact || !wantsThumbnails)
+                    .onSelection({ [weak self] _ in
+                        if let presentable = self?.summaryDisplayFormatter.presentableForEntity(vehicle) {
+                            self?.searchDelegate?.handlePresentable(presentable)
+                        }
+                    })
             }
         }
         
@@ -113,57 +125,6 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
     
     open override func filterViewControllerDidFinish(_ controller: FilterViewController, applyingChanges: Bool) {
         
-    }
-    
-    // MARK: - Internal
-    
-    private func formItem(for entity: Entity, in viewController: UIViewController) -> BaseFormItem {
-        
-        // Create displayable
-        let displayable: EntitySummaryDisplayable
-        switch entity {
-        case is Person:     displayable = PersonSummaryDisplayable(entity)
-        case is Vehicle:    displayable = VehicleSummaryDisplayable(entity)
-        default:            fatalError()
-        }
-        
-        // Create form item
-        if isCompact || !wantsThumbnails {
-            return SummaryListFormItem()
-                .category(displayable.category)
-                .title(displayable.title)
-                .subtitle([displayable.detail1, displayable.detail2].joined(separator: ThemeConstants.dividerSeparator).ifNotEmpty())
-                .badge(displayable.badge)
-                .badgeColor(displayable.borderColor)
-                .borderColor(displayable.borderColor)
-                .image(displayable.thumbnail(ofSize: .small))
-                .imageTintColor(displayable.iconColor)
-                .highlightStyle(.fade)
-                .accessory(ItemAccessory(style: .disclosure))
-                .onSelection({ [weak self] _ in
-                    if let presentable = self?.summaryDisplayFormatter.presentableForEntity(entity) {
-                        self?.searchDelegate?.handlePresentable(presentable)
-                    }
-                })
-        } else {
-            return SummaryThumbnailFormItem()
-                .style(.hero)
-                .category(displayable.category)
-                .title(displayable.title)
-                .subtitle(displayable.detail1 ?? displayable.detail2)
-                .detail(displayable.detail1?.isEmpty ?? true ? nil : displayable.detail2)
-                .badge(displayable.badge)
-                .badgeColor(displayable.borderColor)
-                .borderColor(displayable.borderColor)
-                .image(displayable.thumbnail(ofSize: .large))
-                .imageTintColor(displayable.iconColor)
-                .highlightStyle(.fade)
-                .onSelection({ [weak self] _ in
-                    if let presentable = self?.summaryDisplayFormatter.presentableForEntity(entity) {
-                        self?.searchDelegate?.handlePresentable(presentable)
-                    }
-                })
-        }
     }
     
     // MARK: - Thumbnails / List

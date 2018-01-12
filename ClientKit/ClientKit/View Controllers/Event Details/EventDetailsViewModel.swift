@@ -97,11 +97,7 @@ open class EventDetailsViewModel {
             builder += HeaderFormItem(text: "\(associatedPersons.count) \(associatedPersons.count == 1 ? "PERSON" : "PEOPLE")")
             for person in associatedPersons {
                 let displayable = PersonSummaryDisplayable(person)
-                if traitCollection?.horizontalSizeClass != .compact {
-                    builder += SummaryThumbnailFormItem().decorate(displayable)
-                } else {
-                    builder += SummaryListFormItem().decorate(displayable)
-                }
+                builder += displayable.summaryFormItem(isCompact: traitCollection?.horizontalSizeClass != .compact)
             }
         }
         
@@ -109,11 +105,7 @@ open class EventDetailsViewModel {
             builder += HeaderFormItem(text: "\(associatedVehicles.count) \(associatedVehicles.count == 1 ? "VEHICLE" : "VEHICLES")")
             for vehicle in associatedVehicles {
                 let displayable = VehicleSummaryDisplayable(vehicle)
-                if traitCollection?.horizontalSizeClass != .compact {
-                    builder += SummaryThumbnailFormItem().decorate(displayable)
-                } else {
-                    builder += SummaryListFormItem().decorate(displayable)
-                }
+                builder += displayable.summaryFormItem(isCompact: traitCollection?.horizontalSizeClass != .compact)
             }
         }
     }
