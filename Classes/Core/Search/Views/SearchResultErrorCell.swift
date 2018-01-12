@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class SearchResultErrorCell: UICollectionViewCell, DefaultReusable {
+public class SearchResultErrorCell: CollectionViewFormCell {
     
     public typealias SearchResultErrorCellButtonHandler = (SearchResultErrorCell) -> ()
     
