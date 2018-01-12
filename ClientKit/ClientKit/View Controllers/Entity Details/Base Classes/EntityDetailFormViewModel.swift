@@ -46,9 +46,6 @@ open class EntityDetailFormViewModel {
     /// The delegate.
     open weak var delegate: EntityDetailFormViewModelDelegate?
     
-    /// The entity delegate.
-    public weak var entityDetailsDelegate: EntityDetailsDelegate?
-    
     /// The entity to display.
     open var entity: Entity? {
         didSet {

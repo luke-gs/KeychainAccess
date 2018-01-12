@@ -27,12 +27,11 @@ open class EntityDetailFormViewController: FormBuilderViewController, EntityDeta
     
     // MARK: - Lifecycle
     
-    public init(viewModel: EntityDetailFormViewModel, delegate: EntityDetailsDelegate? = nil) {
+    public init(viewModel: EntityDetailFormViewModel) {
         self.viewModel = viewModel
         super.init()
         
         viewModel.delegate = self
-        viewModel.entityDetailsDelegate = delegate
         viewModel.traitCollectionDidChange(traitCollection, previousTraitCollection: nil)
         
         title = viewModel.title

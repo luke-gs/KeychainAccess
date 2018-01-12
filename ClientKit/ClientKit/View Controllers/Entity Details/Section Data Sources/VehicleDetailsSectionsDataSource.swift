@@ -28,7 +28,7 @@ public class VehicleMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSourc
         self.entity = baseEntity
         self.detailViewControllers =  [ EntityDetailFormViewController(viewModel: VehicleInfoViewModel()),
                                         EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
-                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(), delegate: delegate),
+                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
                                         EntityDetailFormViewController(viewModel: EntityEventsViewModel())
         ]
     }
@@ -52,7 +52,7 @@ public class VehicleFNCDetailsSectionsDataSource: EntityDetailSectionsDataSource
     public init(baseEntity: Entity, delegate: SearchDelegate?) {
         self.entity = baseEntity
         self.detailViewControllers =  [ EntityDetailFormViewController(viewModel: VehicleInfoViewModel()),
-                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(), delegate: delegate),
+                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
                                         EntityDetailFormViewController(viewModel: EntityEventsViewModel()),
         ]
     }

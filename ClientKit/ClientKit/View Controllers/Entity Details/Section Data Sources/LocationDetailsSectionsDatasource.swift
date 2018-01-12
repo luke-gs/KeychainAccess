@@ -28,7 +28,7 @@ public class LocationMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSour
         self.entity = baseEntity
         self.detailViewControllers =  [
                                         EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
-                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(), delegate: delegate),
+                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
                                         EntityDetailFormViewController(viewModel: EntityEventsViewModel())
         ]
     }

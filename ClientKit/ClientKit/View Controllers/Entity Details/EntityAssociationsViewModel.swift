@@ -24,6 +24,17 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
     private var count: Int {
         return persons.count + vehicles.count
     }
+
+    private weak var searchDelegate: SearchDelegate?
+
+    private let summaryDisplayFormatter: EntitySummaryDisplayFormatter
+    
+    // MARK: - Lifecycle
+    
+    public init(delegate: SearchDelegate?, summaryDisplayFormatter: EntitySummaryDisplayFormatter = .default) {
+        self.searchDelegate = delegate
+        self.summaryDisplayFormatter = summaryDisplayFormatter
+    }
     
     // MARK: - EntityDetailFormViewModel
     
@@ -129,8 +140,10 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
                 .imageTintColor(displayable.iconColor)
                 .highlightStyle(.fade)
                 .accessory(ItemAccessory(style: .disclosure))
-                .onSelection({ [unowned self] _ in
-                    self.entityDetailsDelegate?.controller(viewController, didSelectEntity: entity)
+                .onSelection({ [weak self] _ in
+                    if let presentable = self?.summaryDisplayFormatter.presentableForEntity(entity) {
+                        self?.searchDelegate?.handlePresentable(presentable)
+                    }
                 })
         } else {
             return SummaryThumbnailFormItem()
@@ -145,8 +158,10 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
                 .image(displayable.thumbnail(ofSize: .large))
                 .imageTintColor(displayable.iconColor)
                 .highlightStyle(.fade)
-                .onSelection({ [unowned self] _ in
-                    self.entityDetailsDelegate?.controller(viewController, didSelectEntity: entity)
+                .onSelection({ [weak self] _ in
+                    if let presentable = self?.summaryDisplayFormatter.presentableForEntity(entity) {
+                        self?.searchDelegate?.handlePresentable(presentable)
+                    }
                 })
         }
     }
