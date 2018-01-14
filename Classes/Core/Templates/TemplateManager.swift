@@ -62,10 +62,15 @@ public class TemplateManager {
         cachedTemplates = delegate?.retrieveCachedTemplates() ?? []
         localTemplates = delegate?.retrieveLocalTemplates() ?? []
 
+        loadNetworkTemplates()
+    }
+
+    // load templates from the network source
+    func loadNetworkTemplates() {
         // load online things
         delegate?.retrieveNetworkTemplates().then { result in
             self.networkTemplates = result
-        }.always{}
+            }.always{}
     }
 
     /// Store the current templates according to the delegate's logic for future sessions.

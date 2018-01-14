@@ -72,13 +72,13 @@ public class TemplateManagerTests: XCTestCase {
 
     func testAddTemplate() {
         // Arrange
-        let templateCount = TemplateManager.shared.allTemplates().count
+        let template3 = Template(name: "test3", description: "The third test template.", value: "This is one of several test templates.")
 
         // Act
-        TemplateManager.shared.add(template: Template(name: "test3", description: "The third test template.", value: "This is one of several test templates."))
+        TemplateManager.shared.add(template: template3)
 
         // Assert
-        XCTAssertEqual(TemplateManager.shared.allTemplates().count, templateCount + 1)
+        XCTAssert(TemplateManager.shared.allTemplates().contains { template in template.name == template3.name })
     }
 
     func testReplaceTemplate() {
