@@ -10,7 +10,9 @@ import UIKit
 
 open class NotBookedOnViewModel {
 
-    private func convertCallsignsToViewModels() -> CADFormCollectionSectionViewModel<NotBookedOnCallsignItemViewModel> {
+    public init() {}
+
+    open func convertCallsignsToViewModels() -> CADFormCollectionSectionViewModel<NotBookedOnCallsignItemViewModel> {
         // Just use all callsigns for now
         var recentCallsigns: [NotBookedOnCallsignItemViewModel] = []
         if let syncDetails = CADStateManager.shared.lastSync {
@@ -21,11 +23,11 @@ open class NotBookedOnViewModel {
         return CADFormCollectionSectionViewModel(title: "Recently Used Call Signs", items: recentCallsigns)
     }
     
-    func callsignSection() -> CADFormCollectionSectionViewModel<NotBookedOnCallsignItemViewModel> {
+    open func callsignSection() -> CADFormCollectionSectionViewModel<NotBookedOnCallsignItemViewModel> {
         return convertCallsignsToViewModels()
     }
     
-    func patrolAreaSection() -> CADFormCollectionSectionViewModel<NotBookedOnItemViewModel> {
+    open func patrolAreaSection() -> CADFormCollectionSectionViewModel<NotBookedOnItemViewModel> {
         // TODO: Get dynamically
         return CADFormCollectionSectionViewModel(title: "Patrol Area",
                                                  items: [
@@ -44,8 +46,8 @@ open class NotBookedOnViewModel {
     }
 
     /// Create the book on view controller for a selected callsign
-    open func bookOnViewControllerForItem(_ viewModel: NotBookedOnCallsignItemViewModel) -> UIViewController {
-        return BookOnDetailsFormViewModel(callsignViewModel: viewModel).createViewController()
+    open func bookOnScreenForItem(_ callsignViewModel: NotBookedOnCallsignItemViewModel) -> Presentable {
+        return BookOnScreen.bookOnDetailsForm(callsignViewModel: callsignViewModel)
     }
     
     open func headerText() -> String? {
@@ -70,7 +72,7 @@ open class NotBookedOnViewModel {
         return NSLocalizedString("No Call Signs Found", comment: "")
     }
     
-    func shouldShowExpandArrow() -> Bool {
+    open func shouldShowExpandArrow() -> Bool {
         return false
     }
 }

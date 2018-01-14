@@ -175,8 +175,8 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
         builder += HeaderFormItem(text: officersTitle.uppercased(), style: .plain)
             .actionButton(title: NSLocalizedString("Add", comment: "").uppercased(), handler: { [unowned self] _ in
-                let viewController = self.viewModel.officerSearchViewController()
-                self.navigationController?.pushViewController(viewController, animated: true)
+                let screen = self.viewModel.officerSearchScreen()
+                self.present(screen)
             })
 
         // Button to delete officer (only available for additional officers)
@@ -194,8 +194,8 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
                 .accessory(FormAccessoryView(style: .pencil))
                 .editActions([index > 0 ? deleteAction : nil].removeNils())
                 .onSelection { [unowned self] cell in
-                    let viewController = self.viewModel.officerDetailsViewController(at: index)
-                    self.navigationController?.pushViewController(viewController, animated: true)
+                    let screen = self.viewModel.officerDetailsScreen(at: index)
+                    self.present(screen)
             }
         }
 

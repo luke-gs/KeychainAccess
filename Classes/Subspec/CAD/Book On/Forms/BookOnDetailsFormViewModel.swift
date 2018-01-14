@@ -115,24 +115,20 @@ open class BookOnDetailsFormViewModel {
         }
     }
 
-    open func officerDetailsViewController(at index: Int? = nil) -> UIViewController {
-        let officer: BookOnDetailsFormContentOfficerViewModel
+    open func officerDetailsScreen(at index: Int? = nil) -> Presentable {
+        let officerViewModel: BookOnDetailsFormContentOfficerViewModel
         
         if let index = index, let existingOfficer = content.officers[ifExists: index] {
-            officer = existingOfficer
+            officerViewModel = existingOfficer
         } else {
-            officer = BookOnDetailsFormContentOfficerViewModel()
+            officerViewModel = BookOnDetailsFormContentOfficerViewModel()
         }
-            
-        let detailsViewModel = OfficerDetailsViewModel(officer: officer)
-        detailsViewModel.delegate = self
-        return detailsViewModel.createViewController()
+
+        return BookOnScreen.officerDetailsForm(officerViewModel: officerViewModel, delegate: self)
     }
     
-    open func officerSearchViewController() -> UIViewController {
-        let searchViewModel = OfficerListViewModel()
-        searchViewModel.detailsDelegate = self
-        return searchViewModel.createViewController()
+    open func officerSearchScreen() -> Presentable {
+        return BookOnScreen.officerList(detailsDelegate: self)
     }
 
     open func removeOfficer(at index: Int) {

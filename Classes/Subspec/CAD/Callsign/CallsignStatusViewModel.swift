@@ -47,17 +47,21 @@ open class CallsignStatusViewModel: CADStatusViewModel {
         if allowed {
             var promise: Promise<Void> = Promise<Void>()
 
-            // Traffic stop requires further details
-            if case .trafficStop = newStatus {
-                promise = promptForTrafficStopDetails().then { _ -> Void in
-                    // TODO: Submit traffic stop details
+            // Requires reason needs further details
+            if requiresReason {
+                promise = promise.then {
+                    return self.promptForStatusReason()
+                }.then { _ -> Void in
+                    // TODO: Do something with reason text
                 }
             }
 
-            // Requires reason needs further details
-            if requiresReason {
-                promise = promptForStatusReason().then { _ -> Void in
-                    // TODO: Do something with reason text
+            // Traffic stop requires further details
+            if case .trafficStop = newStatus {
+                promise = promise.then {
+                    return self.promptForTrafficStopDetails()
+                }.then { _ -> Void in
+                    // TODO: Submit traffic stop details
                 }
             }
 
@@ -78,30 +82,30 @@ open class CallsignStatusViewModel: CADStatusViewModel {
 
     // Prompts the user for more details when tapping on "Traffic Stop" status
     open func promptForTrafficStopDetails() -> Promise<TrafficStopRequest> {
-        let viewModel = TrafficStopViewModel()
-        delegate?.presentPushedViewController(viewModel.createViewController(), animated: true)
-        return viewModel.promise.promise
+        let (promise, fulfill, reject) = Promise<TrafficStopRequest>.pending()
+        let completionHandler: ((TrafficStopRequest?) -> Void) = { request in
+            if let request = request {
+                fulfill(request)
+            } else {
+                reject(NSError.cancelledError())
+            }
+        }
+        delegate?.present(BookOnScreen.trafficStop(completionHandler: completionHandler))
+        return promise
     }
 
     // Prompts the user for reason for status change
     open func promptForStatusReason() -> Promise<String> {
 
-        let viewController = StatusChangeReasonViewController()
-
-        // Manually create form sheet to give custom size
-        let nav = PopoverNavigationController(rootViewController: viewController)
-        nav.modalPresentationStyle = .formSheet
-        nav.preferredContentSize = CGSize(width: 448, height: 256)
-        delegate?.present(nav, animated: true, completion: nil)
-
         let (promise, fulfill, reject) = Promise<String>.pending()
-        viewController.completionHandler = { text in
+        let completionHandler: ((String?) -> Void) = { text in
             if let text = text {
                 fulfill(text)
             } else {
                 reject(NSError.cancelledError())
             }
         }
+        delegate?.present(BookOnScreen.statusChangeReason(completionHandler: completionHandler))
         return promise
     }
 

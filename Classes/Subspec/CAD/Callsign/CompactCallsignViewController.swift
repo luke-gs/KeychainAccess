@@ -31,11 +31,11 @@ open class CompactCallsignViewController: UIViewController, PopToRootable {
 
     @objc private func updateChildViewControllerIfRequired() {
         let newCallsignViewController: UIViewController
-        
+
         if CADStateManager.shared.lastBookOn == nil {
-            newCallsignViewController = NotBookedOnViewModel().createViewController()
+            newCallsignViewController = Director.shared.viewController(forPresentable: BookOnScreen.notBookedOn)
         } else {
-            newCallsignViewController = ManageCallsignStatusViewModel().createViewController()
+            newCallsignViewController = Director.shared.viewController(forPresentable: BookOnScreen.manageBookOn)
         }
         
         // Do nothing if new VC is the same type as the old one
