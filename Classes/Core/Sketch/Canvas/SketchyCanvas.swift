@@ -15,16 +15,19 @@ public enum SketchMode: Int {
 }
 
 public protocol Sketchable {
-    var currentTool: TouchTool { get set }
+    var currentTool: TouchTool { get }
     var sketchMode: SketchMode { get set }
     func renderedImage() -> UIImage?
+
+    func setToolColor(_ color: UIColor)
+    func setToolWidth(_ width: CGFloat)
 }
 
 class SketchyCanvas: UIView, Sketchable {
 
     private let eraser: SketchyEraser
     private let pen: SketchyPen
-    public var currentTool: TouchTool
+    public private(set) var currentTool: TouchTool
 
     private lazy var canvas: UIImageView = {
         let imageView = UIImageView(frame: bounds)
@@ -88,6 +91,14 @@ class SketchyCanvas: UIView, Sketchable {
         if let touch = touches.first {
             currentTool.ended(touch: touch)
         }
+    }
+
+    func setToolColor(_ color: UIColor) {
+        currentTool.toolColor = color
+    }
+
+    func setToolWidth(_ width: CGFloat) {
+        currentTool.toolWidth = width
     }
 
     func renderedImage() -> UIImage? {

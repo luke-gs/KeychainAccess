@@ -13,7 +13,7 @@ protocol SketchPickerControllerDelegate: class {
     func sketchPickerControllerDidCancel(_ picker: SketchPickerController)
 }
 
-class SketchPickerController: UIViewController {
+class SketchPickerController: UIViewController, SketchControlPanelDelegate {
 
     weak var delegate: SketchPickerControllerDelegate?
     
@@ -23,6 +23,7 @@ class SketchPickerController: UIViewController {
         canvas.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         return canvas
     }()
+    lazy var controlPanel: SketchControlPanel = SketchControlPanel()
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -40,7 +41,37 @@ class SketchPickerController: UIViewController {
 
         view.backgroundColor = .white
         view.addSubview(canvas)
+
+        controlPanel.delegate = self
+        controlPanel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(controlPanel)
+
+        NSLayoutConstraint.activate([
+            controlPanel.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
+            controlPanel.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
+            controlPanel.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
+            controlPanel.heightAnchor.constraint(equalToConstant: 60.0)
+        ])
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        controlPanel.setSelectedMode(mode: canvas.sketchMode)
+        controlPanel.setSelectedColor(.black)
+    }
+
+    // MARK: - Sketch Control Panel Delegate
+
+    func controlPanel(_ panel: SketchControlPanel, didSelectColor color: UIColor) {
+        canvas.sketchMode = .draw
+        canvas.setToolColor(color)
+    }
+
+    func controlPanel(_ panel: SketchControlPanel, didChangeDrawMode mode: SketchMode) {
+        canvas.sketchMode = mode
+    }
+
+    // Private functions
 
     @objc private func closeTapped() {
         delegate?.sketchPickerControllerDidCancel(self)
