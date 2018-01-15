@@ -777,7 +777,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     }
 
     @objc private func changeUserButtonTriggered() {
-        HapticHelper.shared.prepare(.medium)
+        HapticHelper.shared.trigger(.medium)
 
         guard case .usernamePasswordWithBiometric(let delegate) = loginMode else { return }
         loginMode = .usernamePassword(delegate: delegate)
