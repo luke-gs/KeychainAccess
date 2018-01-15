@@ -36,6 +36,7 @@ public class ResourceActivityLogViewModel: CADFormCollectionViewModel<ActivityLo
             return ActivityLogItemViewModel(dotFillColor: item.color,
                                             dotStrokeColor: .clear,
                                             timestamp: item.timestampString,
+                                            date: Date(),
                                             title: item.title,
                                             subtitle: item.description)
             }.sorted { return $0.timestamp > $1.timestamp }

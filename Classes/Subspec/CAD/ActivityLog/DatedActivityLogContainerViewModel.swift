@@ -1,5 +1,5 @@
 //
-//  DatedActivityLogContainerViewModel.swift
+//  DatedActivityLogViewModel.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 12/1/18.
@@ -8,25 +8,53 @@
 
 import UIKit
 
-open class DatedActivityLogContainerViewModel {
-
-    open var activityLogViewModels: [DatedActivityLogItemViewModel]
+/// Subclass of `ActivityLogViewModel` intended for use with the large dates at the top
+public class DatedActivityLogViewModel: ActivityLogViewModel {
+//
+//    public init(viewModels: [ActivityLogItemViewModel]) {
+//        super.init()
+//        sections = DatedActivityLogViewModel.sortedSectionsByDate(from: viewModels)
+//    }
     
-    public init(activityLogViewModels: [DatedActivityLogItemViewModel]) {
-        self.activityLogViewModels = activityLogViewModels
-    }
-    
-    open func createViewController() -> UIViewController? {
-        let viewControllers = activityLogViewModels.map { $0.activityLogViewModel.createViewController() }
+    public func sortedSectionsByDate(from viewModels: [ActivityLogItemViewModel]) -> [CADFormCollectionSectionViewModel<ActivityLogItemViewModel>] {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.doesRelativeDateFormatting = true
         
-        if let viewControllers = viewControllers as? [DatedActivityLogViewController] {
-            return DatedActivityLogContainerViewController(viewControllers: viewControllers, viewModel: self)
+        // Map the keys to an array index, e.g. ['15 Jan, 2018': 0, '14 Jan, 2018': 1]
+        var keyMap = [String: Int]()
+        for (index, item) in viewModels.enumerated() {
+            let key = dateFormatter.string(from: item.date)
+            if keyMap[key] == nil {
+                keyMap[key] = index
+            }
         }
         
-        return nil
-    }
-    
-    open func title() -> String {
-        return NSLocalizedString("Activity Log", comment: "")
+        // Map the keys to view models
+        var arr = [[String: [ActivityLogItemViewModel]]]()
+        for item in viewModels {
+            let key = dateFormatter.string(from: item.date)
+            // Get the index to use for the key
+            let keyIndex = keyMap[key]!
+            
+            // Create the dictionary entry if it doesn't exist
+            if arr[ifExists: keyIndex] == nil {
+                arr.insert([key: []], at: keyIndex)
+            }
+            
+            // Add the item to the array
+            arr[keyIndex][key]?.append(item)
+        }
+        
+        var sections = [CADFormCollectionSectionViewModel<ActivityLogItemViewModel>]()
+        for dict in arr {
+            for (key, value) in dict {
+                sections.append(ActivityLogDateCollectionSectionViewModel(title: key, items: value))
+                // TODO: Read, unread
+            }
+        }
+        
+        return sections
     }
 }
+

@@ -182,6 +182,9 @@
 		278A16331FBBF68A00C01C38 /* LabeledSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A16321FBBF68A00C01C38 /* LabeledSwitch.swift */; };
 		278CA1051F7CA4A00073DFBA /* ResourceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CA1041F7CA4A00073DFBA /* ResourceAnnotationView.swift */; };
 		2792F11E1FDA55AE00A14CFB /* PopToRootable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2792F11D1FDA55AE00A14CFB /* PopToRootable.swift */; };
+		279B0571200C2B9900C3EFB0 /* LargeTextHeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279B0570200C2B9900C3EFB0 /* LargeTextHeaderCollectionViewCell.swift */; };
+		279B0573200C2D0300C3EFB0 /* LargeHeaderFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279B0572200C2D0300C3EFB0 /* LargeHeaderFormItem.swift */; };
+		279B0575200C634D00C3EFB0 /* ActivityLogDateCollectionSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279B0574200C634D00C3EFB0 /* ActivityLogDateCollectionSectionViewModel.swift */; };
 		27B4A9EC1FCF597300975A45 /* UIViewController+Compact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B4A9EB1FCF597300975A45 /* UIViewController+Compact.swift */; };
 		27BE96541FD75A0D0092A771 /* CommsButtonHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27BE96531FD75A0D0092A771 /* CommsButtonHandler.swift */; };
 		27C0220F200836EF0040B9D9 /* DatedActivityLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C0220E200836EF0040B9D9 /* DatedActivityLogViewController.swift */; };
@@ -841,6 +844,9 @@
 		278A16321FBBF68A00C01C38 /* LabeledSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledSwitch.swift; sourceTree = "<group>"; };
 		278CA1041F7CA4A00073DFBA /* ResourceAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceAnnotationView.swift; sourceTree = "<group>"; };
 		2792F11D1FDA55AE00A14CFB /* PopToRootable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopToRootable.swift; sourceTree = "<group>"; };
+		279B0570200C2B9900C3EFB0 /* LargeTextHeaderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeTextHeaderCollectionViewCell.swift; sourceTree = "<group>"; };
+		279B0572200C2D0300C3EFB0 /* LargeHeaderFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeHeaderFormItem.swift; sourceTree = "<group>"; };
+		279B0574200C634D00C3EFB0 /* ActivityLogDateCollectionSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityLogDateCollectionSectionViewModel.swift; sourceTree = "<group>"; };
 		27B4A9EB1FCF597300975A45 /* UIViewController+Compact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Compact.swift"; sourceTree = "<group>"; };
 		27BE96531FD75A0D0092A771 /* CommsButtonHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommsButtonHandler.swift; sourceTree = "<group>"; };
 		27C0220E200836EF0040B9D9 /* DatedActivityLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatedActivityLogViewController.swift; sourceTree = "<group>"; };
@@ -1951,6 +1957,9 @@
 				27C02210200837690040B9D9 /* DatedActivityLogContainerViewController.swift */,
 				27C02214200869890040B9D9 /* DatedActivityLogItemViewModel.swift */,
 				27C0221620086A3E0040B9D9 /* DatedActivityLogContainerViewModel.swift */,
+				279B0570200C2B9900C3EFB0 /* LargeTextHeaderCollectionViewCell.swift */,
+				279B0572200C2D0300C3EFB0 /* LargeHeaderFormItem.swift */,
+				279B0574200C634D00C3EFB0 /* ActivityLogDateCollectionSectionViewModel.swift */,
 			);
 			path = ActivityLog;
 			sourceTree = "<group>";
@@ -3458,6 +3467,7 @@
 				BC0EA3F41F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift in Sources */,
 				EA32A85A1FBD1A7900CC37FB /* PhotoMediaPreviewHandler.swift in Sources */,
 				BC9C7E481F0DED6600DFFE83 /* SourceBarCell.swift in Sources */,
+				279B0575200C634D00C3EFB0 /* ActivityLogDateCollectionSectionViewModel.swift in Sources */,
 				96CF32341F8D7C7700140AF8 /* TasksListHeaderViewModel.swift in Sources */,
 				BC9C7E3D1F0DED6600DFFE83 /* PickerTableViewController.swift in Sources */,
 				EAE12B081FC3CE3500851619 /* EntityBucket.swift in Sources */,
@@ -3468,6 +3478,7 @@
 				EA32A8571FBD1A7900CC37FB /* PhotoMediaGalleryTransitionAnimator.swift in Sources */,
 				C634085B1F30E5B5000747B0 /* EntityFetchRequestable.swift in Sources */,
 				BC9C7DFA1F0DED6600DFFE83 /* CollectionViewFormSubtitleCell.swift in Sources */,
+				279B0573200C2D0300C3EFB0 /* LargeHeaderFormItem.swift in Sources */,
 				EA7194E11FCBA61A00A2980B /* EntityManager.swift in Sources */,
 				27B4A9EC1FCF597300975A45 /* UIViewController+Compact.swift in Sources */,
 				EA76ECF31F57D64E00524830 /* LookupAddressLocationSearchStrategy.swift in Sources */,
@@ -3560,6 +3571,7 @@
 				EA76ECF91F57DB8E00524830 /* LookupAddressAdvancedParameters.swift in Sources */,
 				EA09A0561F78B9C200BC3C0E /* EmailSpecification.swift in Sources */,
 				C63408591F30E5A0000747B0 /* SearchResult.swift in Sources */,
+				279B0571200C2B9900C3EFB0 /* LargeTextHeaderCollectionViewCell.swift in Sources */,
 				2744EEC81FBEA523008DFA7F /* MapFilterToggleRow.swift in Sources */,
 				BC9C7DC81F0DED6600DFFE83 /* OAuthAccessToken.swift in Sources */,
 				BC9C7DFF1F0DED6600DFFE83 /* CoreGraphics+Convenience.swift in Sources */,

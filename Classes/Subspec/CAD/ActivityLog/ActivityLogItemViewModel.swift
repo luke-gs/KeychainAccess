@@ -13,6 +13,7 @@ public struct ActivityLogItemViewModel {
     public let dotFillColor: UIColor
     public let dotStrokeColor: UIColor
     public let timestamp: String
+    public let date: Date
     public let title: String
     public let subtitle: String
 

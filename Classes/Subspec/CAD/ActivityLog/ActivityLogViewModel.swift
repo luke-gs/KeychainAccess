@@ -18,47 +18,54 @@ public class ActivityLogViewModel: CADFormCollectionViewModel<ActivityLogItemVie
 
     /// Create the view controller for this view model
     public func createViewController() -> UIViewController {
-        return DatedActivityLogViewController(viewModel: self)
-//        return ActivityLogViewController(viewModel: self)
+        return ActivityLogViewController(viewModel: self)
     }
 
     /// Update the task list
     public func updateData() {
         // TODO: fetch from network
         sections = [
+            CADFormCollectionSectionViewModel(title: "TODAY", items: []),
             CADFormCollectionSectionViewModel(title: "10:24 - Now: Assault - AS4205",
                                               items: [ActivityLogItemViewModel(dotFillColor: .disabledGray,
                                                                                dotStrokeColor: .clear,
                                                                                timestamp: "10:30",
+                                                                               date: Date(),
                                                                                title: "Status: At Incident [Assault - AS4205]",
                                                                                subtitle: "Jason Chieng, Herli Halim @ 188 Smith Street, Fitzroy VIC 3065"),
                                                       ActivityLogItemViewModel(dotFillColor: .disabledGray,
                                                                                dotStrokeColor: .clear,
                                                                                timestamp: "10:24",
+                                                                               date: Date(),
                                                                                title: "Status: Proceeding [Assault - AS4205]",
                                                                                subtitle: "Jason Chieng, Herli Halim")]),
             CADFormCollectionSectionViewModel(title: "10:17: Status Update",
                                               items: [ActivityLogItemViewModel(dotFillColor: .midGreen,
                                                                                dotStrokeColor: .clear,
                                                                                timestamp: "10:17",
+                                                                               date: Date(),
                                                                                title: "Status: On Air",
                                                                                subtitle: "Jason Chieng, Herli Halim @ 28 Wellington Street, Collingwood VIC 3066")]),
             CADFormCollectionSectionViewModel(title: "09:16 - 10:14: Traffic Crash - AS4197",
                                               items: [ActivityLogItemViewModel(dotFillColor: .brightBlue,
                                                                                dotStrokeColor: .clear,
                                                                                timestamp: "10:14",
+                                                                               date: Date(),
                                                                                title: "Incident: Finalise [Traffic Crash - AS4197]",
                                                                                subtitle: "Jason Chieng, Herli Halim @ 28 Wellington Street, Collingwood VIC 3066"),
                                                       ActivityLogItemViewModel(dotFillColor: .white,
                                                                                dotStrokeColor: .brightBlue,
                                                                                timestamp: "10:02",
+                                                                               date: Date(),
                                                                                title: "Event: Submit Event [Incident Report - EV105-160717]",
                                                                                subtitle: "Jason Chieng, Herli Halim @ 28 Wellington Street, Collingwood VIC 3066"),
                                                       ActivityLogItemViewModel(dotFillColor: .white,
                                                                                dotStrokeColor: .brightBlue,
                                                                                timestamp: "09:40",
+                                                                               date: Date(),
                                                                                title: "Event: Create Event [Incident Report - EV105-160717]",
-                                                                               subtitle: "Jason Chieng, Herli Halim @ 28 Wellington Street, Collingwood VIC 3066")])
+                                                                               subtitle: "Jason Chieng, Herli Halim @ 28 Wellington Street, Collingwood VIC 3066")]),
+            CADFormCollectionSectionViewModel(title: "YESTY", items: []),
         ]
     }
 

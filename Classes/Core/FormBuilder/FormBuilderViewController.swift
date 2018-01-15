@@ -15,7 +15,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
 
     // MARK: - Public properties
 
-    open let formLayout: CollectionViewFormLayout
+    open var formLayout: CollectionViewFormLayout!
 
     open private(set) var collectionView: UICollectionView?
 
@@ -66,6 +66,11 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
                 updateCalculatedContentHeight()
             }
         }
+    }
+    
+    /// Allows subclasses to return a custom subclass of CollectionViewFormLayout
+    open func collectionViewLayoutClass() -> CollectionViewFormLayout.Type {
+        return CollectionViewFormLayout.self
     }
 
 
@@ -128,9 +133,9 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
     // MARK: - Initializers
 
     public init() {
-        formLayout = CollectionViewFormLayout()
-
         super.init(nibName: nil, bundle: nil)
+
+        formLayout = collectionViewLayoutClass().init()
 
         automaticallyAdjustsScrollViewInsets = false // we manage this ourselves.
 
