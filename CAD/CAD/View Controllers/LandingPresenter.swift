@@ -68,7 +68,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 settingsItem.accessibilityLabel = NSLocalizedString("Settings", comment: "SettingsIconAccessibility")
                 return settingsItem
             }
-            let callsignViewController = CompactCallsignViewController()
+            let callsignViewController = CompactCallsignContainerViewController()
             callsignViewController.tabBarItem = UITabBarItem(title: "Call Sign", image: AssetManager.shared.image(forKey: .entityCar), selectedImage: nil)
 
             let searchProxyViewController = AppProxyViewController(appUrlTypeScheme: SEARCH_APP_SCHEME)
