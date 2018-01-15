@@ -107,7 +107,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UINavigationController(rootViewController: sidebarSplitViewController),
             UINavigationController(rootViewController: SearchLookupAddressTableViewController(style: .plain)),
             UINavigationController(rootViewController: genericSearchViewController()),
-            UINavigationController(rootViewController: formSplitViewController)
+            UINavigationController(rootViewController: formSplitViewController),
+            UINavigationController(rootViewController: TemplateManagerViewController())
         ]
 
         tabBarController.selectedIndex = 0

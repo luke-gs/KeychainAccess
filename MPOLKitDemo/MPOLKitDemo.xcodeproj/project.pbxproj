@@ -17,6 +17,7 @@
 		BCAD1EFD1F262B680033AD66 /* CollectionDemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFF7D101F262A4F00AB0A5A /* CollectionDemoListViewController.swift */; };
 		BCAD1EFE1F262B680033AD66 /* HeadersBasicFormCellsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFF7D0D1F262A4F00AB0A5A /* HeadersBasicFormCellsController.swift */; };
 		BCAD1EFF1F262B680033AD66 /* NoContentCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFF7D0E1F262A4F00AB0A5A /* NoContentCollectionController.swift */; };
+		E25A5907200C742100DA7F84 /* TemplateManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25A5906200C742100DA7F84 /* TemplateManagerViewController.swift */; };
 		EA11F0291F83566A00BF8BCA /* AccessoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA11F0281F83566A00BF8BCA /* AccessoryViewController.swift */; };
 		EA1B3C9D1F72538A00574A41 /* PersonDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1B3C9C1F72538A00574A41 /* PersonDetailViewController.swift */; };
 		EA1B3C9F1F7257B100574A41 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA1B3C9E1F7257B100574A41 /* ListViewController.swift */; };
@@ -48,6 +49,7 @@
 		BCFF7D0F1F262A4F00AB0A5A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCFF7D101F262A4F00AB0A5A /* CollectionDemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDemoListViewController.swift; sourceTree = "<group>"; };
 		BECA0FB8F0943957022C002E /* Pods_MPOLKitDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKitDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E25A5906200C742100DA7F84 /* TemplateManagerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateManagerViewController.swift; sourceTree = "<group>"; };
 		EA11F0281F83566A00BF8BCA /* AccessoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessoryViewController.swift; sourceTree = "<group>"; };
 		EA1B3C9C1F72538A00574A41 /* PersonDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonDetailViewController.swift; sourceTree = "<group>"; };
 		EA1B3C9E1F7257B100574A41 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 				BCFF7D0D1F262A4F00AB0A5A /* HeadersBasicFormCellsController.swift */,
 				BCFF7D0E1F262A4F00AB0A5A /* NoContentCollectionController.swift */,
 				19EFD2F71F4D35FD00422F2A /* SearchLookupAddressTableViewController.swift */,
+				E25A5906200C742100DA7F84 /* TemplateManagerViewController.swift */,
 				EA1B3C9B1F72538A00574A41 /* Form Examples */,
 			);
 			name = Classes;
@@ -322,6 +325,7 @@
 				EA1B3C9F1F7257B100574A41 /* ListViewController.swift in Sources */,
 				EA445DA41F735D2B00ABF70F /* SignViewController.swift in Sources */,
 				EA1B3C9D1F72538A00574A41 /* PersonDetailViewController.swift in Sources */,
+				E25A5907200C742100DA7F84 /* TemplateManagerViewController.swift in Sources */,
 				EA53B2751F9EF0E600B891D8 /* StepperViewController.swift in Sources */,
 				EA950E441F86EEE600B5A349 /* SubscriptionViewController.swift in Sources */,
 				BCAD1EFC1F262B680033AD66 /* AppDelegate.swift in Sources */,

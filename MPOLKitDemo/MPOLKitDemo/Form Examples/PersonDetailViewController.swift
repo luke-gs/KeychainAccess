@@ -39,7 +39,7 @@ class PersonDetailViewController: FormBuilderViewController {
 
         builder += HeaderFormItem(text: "PHOTOS").actionButton(title: "ADD", handler: { button in
             if let viewController = mediaItem.delegate.viewControllerForMediaDataSource(dataSource) {
-                self?.present(viewController, animated: true, completion: nil)
+                self.present(viewController, animated: true, completion: nil)
             }
         })
 
