@@ -46,6 +46,9 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
     /// The top constraint for the search bar
     private var searchBarTopConstraint: NSLayoutConstraint!
 
+    /// Whether to ignore syncing the search bar to the collection view
+    private var ignoreCollectionViewTracking: Bool = false
+
     public init(viewModel: TasksListViewModel) {
         self.viewModel = viewModel
         super.init()
@@ -180,19 +183,30 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
     }
     
     open func syncSearchBarWithCollectionView(_ collectionView: UICollectionView) {
+        guard !ignoreCollectionViewTracking else { return }
+
         // Position search bar relative to scrolled content
         let contentOffset = collectionView.contentOffset
         self.searchBarTopConstraint.constant = -contentOffset.y + LayoutConstants.searchBarTopMargin
 
-        // If no longer scrolling and only showing partial search bar, hide it
+        // If no longer scrolling and only showing partial search bar, show or hide it completely (like Mail app)
         if contentOffset.y > 0 && collectionView.isTracking {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                 if contentOffset == collectionView.contentOffset {
                     let searchOffset = LayoutConstants.searchBarHeight + LayoutConstants.searchBarTopMargin
-                    if contentOffset.y > LayoutConstants.searchBarTopMargin && contentOffset.y < searchOffset {
+                    if contentOffset.y > 0 && contentOffset.y < searchOffset {
+                        // Ignore updates to content offset while animating show/hide
+                        self.ignoreCollectionViewTracking = true
                         UIView.animate(withDuration: 0.3, animations: {
-                            collectionView.contentOffset.y = searchOffset
+                            if contentOffset.y > searchOffset / 2 {
+                                collectionView.contentOffset.y = searchOffset
+                            } else {
+                                collectionView.contentOffset.y = 0
+                            }
+                            self.searchBarTopConstraint.constant = -collectionView.contentOffset.y + LayoutConstants.searchBarTopMargin
+                            self.view.layoutIfNeeded()
                         })
+                        self.ignoreCollectionViewTracking = false
                     }
                 }
             })
