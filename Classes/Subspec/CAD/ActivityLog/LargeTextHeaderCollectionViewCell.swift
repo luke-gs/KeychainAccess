@@ -11,7 +11,7 @@ import UIKit
 open class LargeTextHeaderCollectionViewCell: UICollectionViewCell, DefaultReusable {
     public let titleLabel = UILabel()
     
-    public static let minimumHeight: CGFloat = 86.0
+    public static let minimumHeight: CGFloat = 72
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,8 +24,8 @@ open class LargeTextHeaderCollectionViewCell: UICollectionViewCell, DefaultReusa
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24).withPriority(.almostRequired),
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24),
-            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24),
         ])
     }
     
