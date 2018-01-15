@@ -16,7 +16,7 @@ public class BookOnPresenter: Presenter {
 
         switch presentable {
         case .notBookedOn:
-            return NotBookedOnViewModel().createViewController()
+            return BookOnLandingViewModel().createViewController()
 
         case .manageBookOn:
             return ManageCallsignStatusViewModel().createViewController()
