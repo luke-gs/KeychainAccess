@@ -1,5 +1,5 @@
 //
-//  LargeHeaderFormItem.swift
+//  LargeTextHeaderFormItem.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 15/1/18.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class LargeHeaderFormItem: BaseSupplementaryFormItem {
+open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
     
     public var text: String?
     
