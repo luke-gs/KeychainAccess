@@ -31,7 +31,10 @@ public enum ResourceStatus: String, Codable {
     /// All enum cases, in order of display
     public static let allCases: [ResourceStatus] = [.unavailable,.onAir,.mealBreak,.trafficStop,.court,.atStation,.onCall,.inquiries1,.proceeding,.atIncident,.finalise,.inquiries2]
 
-    var title: String {
+    /// Cases related to an incident
+    public static let incidentCases: [ResourceStatus] = [.proceeding,.atIncident,.finalise,.inquiries2]
+
+    public var title: String {
         switch self {
         case .unavailable:
             return NSLocalizedString("Unavailable", comment: "")
@@ -64,7 +67,7 @@ public enum ResourceStatus: String, Codable {
         }
     }
 
-    var imageKey: AssetManager.ImageKey {
+    public var imageKey: AssetManager.ImageKey {
         switch self {
         case .unavailable:
             return .iconStatusUnavailable
@@ -102,7 +105,7 @@ public enum ResourceStatus: String, Codable {
     }
 
     // Return icon color and background color
-    var iconColors: (icon: UIColor, background: UIColor) {
+    public var iconColors: (icon: UIColor, background: UIColor) {
         switch self {
         case .unavailable:
             return (.secondaryGray, .disabledGray)
@@ -135,7 +138,8 @@ public enum ResourceStatus: String, Codable {
         }
     }
 
-    var canTerminate: Bool {
+    /// Return whether shift can be terminated from current status
+    public var canTerminate: Bool {
         switch self {
         // Current state where terminating shift is allowed
         case .unavailable,
@@ -159,16 +163,31 @@ public enum ResourceStatus: String, Codable {
         }
     }
 
-    public func canChangeToStatus(newStatus: ResourceStatus) -> Bool {
-        // Rather than write entire matrix of true/falses, just check for the few that aren't allowed
-        switch (self, newStatus) {
-        case (.proceeding, .finalise),
-             (.atIncident, .proceeding):
-            return false
-        default:
-            return true
+    /// Return whether status change is allowed, and whether a reason needs to be provided
+    public func canChangeToStatus(newStatus: ResourceStatus) -> (allowed: Bool, requiresReason: Bool) {
+
+        // Currently all status changes are allowed, but a reason is needed if going from an incident
+        // to a non incident status. Leaving allowed component of tuple as this is likely to change...
+
+        if ResourceStatus.incidentCases.contains(self) && !ResourceStatus.incidentCases.contains(newStatus) {
+            // Assigning to incident, requires reason
+            return (true, true)
+        } else if self != newStatus {
+            // New status
+            return (true, false)
+        } else {
+            // No change
+            return (false, false)
         }
     }
+
+    /// Return whether patrol area can be changed from current status
+    public var canChangePatrolArea: Bool {
+        return !ResourceStatus.incidentCases.contains(self)
+    }
+
+    /// Return whether an incident can be created from current status
+    public var canCreateIncident: Bool {
+        return !ResourceStatus.incidentCases.contains(self)
+    }
 }
-
-

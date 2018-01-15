@@ -17,9 +17,9 @@ open class TrafficStopViewModel {
     
     open weak var delegate: TrafficStopViewModelDelegate?
     
-    /// The promise that fulfills/cancels on form submission
-    open let promise: Promise<TrafficStopRequest>.PendingTuple
-    
+    /// The completion handler for creating new traffic stop incident
+    open var completionHandler: ((TrafficStopRequest?) -> Void)?
+
     // Model representing UI
     open var entities: [SelectStoppedEntityItemViewModel] = []
     open var location: CLPlacemark?
@@ -44,9 +44,7 @@ open class TrafficStopViewModel {
     
     // MARK: - Lifecycle
     
-    public init() {
-        promise = Promise<TrafficStopRequest>.pending()
-    }
+    public init() {}
     
     /// Create the view controller for this view model
     open func createViewController() -> UIViewController {
@@ -97,14 +95,16 @@ open class TrafficStopViewModel {
         // TODO: Fill request object with details
         let trafficStop = TrafficStopRequest()
         
-        // Fulfill promise with details
-        self.promise.fulfill(trafficStop)
+        // Complete with new request
+        completionHandler?(trafficStop)
+        completionHandler = nil
     }
     
     /// Perform any logic when cancelling
     open func cancel() {
-        // Cancel promise
-        promise.reject(NSError.cancelledError())
+        // Complete with nothing
+        completionHandler?(nil)
+        completionHandler = nil
     }
 
 }
