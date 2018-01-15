@@ -11,7 +11,7 @@ import CoreLocation
 import PromiseKit
 
 public enum LocationErrorRecoveryPolicy {
-    case indeterminateLocation
+    case invalidLocation
     case lastLocation
     case customLocation(CLLocation)
     case calculated(() -> CLLocation)
@@ -28,11 +28,11 @@ public enum LocationErrorManagerError: Error {
 
 public final class LocationErrorManager: LocationErrorManageable {
 
-    public init(failurePolicy policy: LocationErrorRecoveryPolicy = .indeterminateLocation) {
+    public init(failurePolicy policy: LocationErrorRecoveryPolicy = .invalidLocation) {
         self.failurePolicy = policy
     }
 
-    public var failurePolicy: LocationErrorRecoveryPolicy = .indeterminateLocation
+    public var failurePolicy: LocationErrorRecoveryPolicy = .invalidLocation
 
     public func handleError(_ error: Error) -> Promise<CLLocation> {
 
@@ -42,7 +42,7 @@ public final class LocationErrorManager: LocationErrorManageable {
         default:
             return Promise<CLLocation> { fulfill, reject in
                 switch failurePolicy {
-                case .indeterminateLocation:
+                case .invalidLocation:
                     reject(LocationErrorManagerError.recoveryFailed)
                 case .customLocation(let location):
                     fulfill(location)
