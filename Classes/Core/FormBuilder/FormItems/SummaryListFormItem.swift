@@ -45,10 +45,9 @@ public class SummaryListFormItem: BaseFormItem {
         cell.thumbnailView.borderColor = borderColor
         cell.thumbnailView.tintColor = imageTintColor
 
-        if let sizing = image?.sizing() {
-            cell.thumbnailView.imageView.image = sizing.image
-            cell.thumbnailView.imageView.contentMode = sizing.contentMode ?? .center
-        }
+        let sizing = image?.sizing()
+        cell.thumbnailView.imageView.image = sizing?.image
+        cell.thumbnailView.imageView.contentMode = sizing?.contentMode ?? .center
 
         image?.loadImage(completion: { (imageSizable) in
             let sizing = imageSizable.sizing()

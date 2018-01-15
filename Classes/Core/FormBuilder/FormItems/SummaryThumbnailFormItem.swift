@@ -29,6 +29,13 @@ public class SummaryThumbnailFormItem: BaseFormItem {
 
     public var image: ImageLoadable?
 
+    // MARK: - Customization
+
+    public var titleTextColor: UIColor?
+
+    public var subtitleTextColor: UIColor?
+
+    public var detailTextColor: UIColor?
 
     public init(style: EntityCollectionViewCell.Style = .hero) {
         self.style = style
@@ -52,10 +59,10 @@ public class SummaryThumbnailFormItem: BaseFormItem {
         cell.badgeCount = badge
         cell.thumbnailView.borderColor = borderColor
 
-        if let sizing = image?.sizing() {
-            cell.thumbnailView.imageView.image = sizing.image
-            cell.thumbnailView.imageView.contentMode = sizing.contentMode ?? .center
-        }
+        let sizing = image?.sizing()
+        cell.thumbnailView.imageView.image = sizing?.image
+        cell.thumbnailView.imageView.contentMode = sizing?.contentMode ?? .center
+        
 
         image?.loadImage(completion: { (imageSizable) in
             let sizing = imageSizable.sizing()
@@ -73,14 +80,15 @@ public class SummaryThumbnailFormItem: BaseFormItem {
     }
 
     public override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
-        let primaryTextColor = theme.color(forKey: .primaryText)
-        let secondaryTextColor = theme.color(forKey: .secondaryText)
+        let primaryTextColor = titleTextColor ?? theme.color(forKey: .primaryText)
+        let secondaryTextColor = subtitleTextColor ?? theme.color(forKey: .secondaryText)
+        let tertiaryTextColor = detailTextColor ?? theme.color(forKey: .secondaryText)
 
         let cell = cell as! EntityCollectionViewCell
 
         cell.titleLabel.textColor    = primaryTextColor
         cell.subtitleLabel.textColor = secondaryTextColor
-        cell.detailLabel.textColor   = secondaryTextColor
+        cell.detailLabel.textColor   = tertiaryTextColor
     }
 
 }
@@ -140,6 +148,24 @@ extension SummaryThumbnailFormItem {
     @discardableResult
     public func image(_ image: ImageLoadable?) -> Self {
         self.image = image
+        return self
+    }
+
+    @discardableResult
+    public func titleTextColor(_ titleTextColor: UIColor?) -> Self {
+        self.titleTextColor = titleTextColor
+        return self
+    }
+
+    @discardableResult
+    public func subtitleTextColor(_ subtitleTextColor: UIColor?) -> Self {
+        self.subtitleTextColor = subtitleTextColor
+        return self
+    }
+
+    @discardableResult
+    public func detailTextColor(_ detailTextColor: UIColor?) -> Self {
+        self.detailTextColor = detailTextColor
         return self
     }
 

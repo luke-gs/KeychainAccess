@@ -18,7 +18,7 @@ extension LookupAddress: Locatable {
 }
 
 /// A default implementation of the search strategy that uses APIManager's type ahead search address.
-open class LookupAddressLocationSearchStrategy<T: MPOLKitEntity, U: EntityMapSummaryDisplayable>: LocationSearchStrategy {
+open class LookupAddressLocationSearchStrategy<T: MPOLKitEntity>: LocationSearchStrategy {
 
     public typealias Location = LookupAddress
 
@@ -29,17 +29,17 @@ open class LookupAddressLocationSearchStrategy<T: MPOLKitEntity, U: EntityMapSum
     public let helpPresentable: Presentable
 
     public var onResultModelForMap: (() -> MapResultViewModelable)? = {
-        return MapSummarySearchResultViewModel<T, U>()
+        return MapSummarySearchResultViewModel<T>()
     }
 
     public var onResultModelForResult: ((LookupResult, Searchable) -> SearchResultModelable)? = { (result, searchable) in
-        let preferredViewModel = MapSummarySearchResultViewModel<T, U>()
+        let preferredViewModel = MapSummarySearchResultViewModel<T>()
         preferredViewModel.fetchResults(withCoordinate: result.location.coordinate)
         return preferredViewModel
     }
 
     public var onResultModelForParameters: ((Parameterisable, Searchable) -> SearchResultModelable)? = { (parameterisable, searchable) in
-        let preferredViewModel = MapSummarySearchResultViewModel<T, U>()
+        let preferredViewModel = MapSummarySearchResultViewModel<T>()
         preferredViewModel.fetchResults(withParameters: parameterisable)
         return preferredViewModel
     }

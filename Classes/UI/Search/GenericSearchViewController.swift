@@ -15,15 +15,9 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
 
     public let viewModel: GenericSearchViewModel
 
-    private lazy var searchBar: UISearchBar = {
-        let searchBar = UISearchBar()
-        searchBar.placeholder = "Search"
-        searchBar.delegate = self
-        searchBar.autoresizingMask = [.flexibleWidth]
-        searchBar.sizeToFit()
-        return searchBar
-    }()
-    
+    // Search bar in a container view
+    public let searchBarView = StandardSearchBarView(frame: .zero)
+
     public required init(viewModel: GenericSearchViewModel) {
         self.viewModel = viewModel
         super.init()
@@ -35,8 +29,14 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.addSubview(searchBar)
-        updateColour(for: traitCollection)
+
+        view.addSubview(searchBarView)
+
+        searchBarView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            searchBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchBarView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
 
     override open func construct(builder: FormBuilder) {
@@ -68,19 +68,15 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
         super.viewDidLayoutSubviews()
 
         if #available(iOS 11.0, *) {
-            searchBar.frame.origin.y = self.view.safeAreaInsets.top - searchBar.frame.height
-            additionalSafeAreaInsets.top = searchBar.frame.height
+            additionalSafeAreaInsets.top = searchBarView.frame.height
+            searchBarView.frame.origin.y = view.safeAreaInsets.top - searchBarView.frame.height
         } else {
-            searchBar.frame.origin.y = topLayoutGuide.length
-            legacy_additionalSafeAreaInsets.top = searchBar.frame.size.height
+            legacy_additionalSafeAreaInsets.top = searchBarView.frame.height
+            searchBarView.frame.origin.y = topLayoutGuide.length
         }
+        // Update layout if safe area changed constraints
+        view.layoutIfNeeded()
     }
-
-    private func updateColour(for traitCollection: UITraitCollection) {
-        let shouldBeWhite = traitCollection.horizontalSizeClass == .compact || !self.isBeingPresented
-        view.backgroundColor = shouldBeWhite ? .white : UIColor.white.withAlphaComponent(0.64)
-    }
-
 
     // MARK: Searchbar delegate
 
@@ -89,12 +85,6 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
         reloadForm()
     }
 
-    // MARK: Traits
-
-    open override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.willTransition(to: newCollection, with: coordinator)
-        updateColour(for: newCollection)
-    }
 }
 
 /// The generic search delegate
