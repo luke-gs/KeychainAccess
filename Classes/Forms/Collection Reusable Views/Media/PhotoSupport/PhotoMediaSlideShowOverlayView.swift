@@ -40,7 +40,7 @@ public class PhotoMediaSlideShowOverlayView: UIView, PhotoMediaOverlayViewable, 
 
     private let titleBackgroundView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
 
-    private let textStackView = UIStackView()
+    private lazy var textStackView = UIStackView(arrangedSubviews: [titleLabel, commentsLabel])
 
     private let compactItemWidth: CGFloat = 30.0
 
@@ -49,11 +49,9 @@ public class PhotoMediaSlideShowOverlayView: UIView, PhotoMediaOverlayViewable, 
     private let mainItemInsets = UIEdgeInsets(top: 0, left: 16.0, bottom: 0, right: 16.0)
 
     private let tabletLandscapeWidth: CGFloat = max(UIScreen.main.bounds.width, UIScreen.main.bounds.height) * 0.8
-    private let constraintTextAreaWidth: NSLayoutConstraint
+    private lazy var constraintTextAreaWidth = textStackView.widthAnchor.constraint(lessThanOrEqualToConstant: tabletLandscapeWidth)
 
     public override init(frame: CGRect) {
-        constraintTextAreaWidth = textStackView.widthAnchor.constraint(lessThanOrEqualToConstant: tabletLandscapeWidth)
-
         super.init(frame: frame)
 
         toolbar.frame = CGRect(origin: CGPoint(x: 0.0, y: frame.height - toolbar.frame.height), size: CGSize(width: frame.width, height: toolbar.frame.height))
@@ -95,8 +93,6 @@ public class PhotoMediaSlideShowOverlayView: UIView, PhotoMediaOverlayViewable, 
         textStackView.distribution = .fill
         textStackView.spacing = textPadding
         addSubview(textStackView)
-        textStackView.addArrangedSubview(titleLabel)
-        textStackView.addArrangedSubview(commentsLabel)
 
         titleBackgroundView.translatesAutoresizingMaskIntoConstraints = false
         textStackView.translatesAutoresizingMaskIntoConstraints = false
