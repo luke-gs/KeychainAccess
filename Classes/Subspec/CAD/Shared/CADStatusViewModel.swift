@@ -11,4 +11,7 @@ import UIKit
 open class CADStatusViewModel: CADFormCollectionViewModel<ManageCallsignStatusItemViewModel> {
     /// The currently selected state, can be nil
     public var selectedIndexPath: IndexPath?
+    
+    /// Whether statuses should be horizontally aligned in compact. `true` by defualt.
+    public var showsCompactHorizontal: Bool = true
 }

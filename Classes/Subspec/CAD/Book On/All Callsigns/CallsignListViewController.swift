@@ -10,27 +10,13 @@ import UIKit
 
 open class CallsignListViewController: CADFormCollectionViewController<NotBookedOnCallsignItemViewModel>, UISearchBarDelegate {
 
-    /// Layout sizing constants
-    public struct LayoutConstants {
-        static let searchBarHeight: CGFloat = 64
-    }
-    
     // MARK: - Views
     
-    open var toolBar: UIToolbar!
-    open var searchBar: UISearchBar!
+    open var searchBarView: StandardSearchBarView!
 
     /// `super.viewModel` typecasted to our type
     open var callsignListViewModel: CallsignListViewModel? {
         return viewModel as? CallsignListViewModel
-    }
-    
-    /// Support being transparent when in popover/form sheet
-    open override var wantsTransparentBackground: Bool {
-        didSet {
-            let theme = ThemeManager.shared.theme(for: .current)
-            view.backgroundColor = wantsTransparentBackground ? UIColor.clear : theme.color(forKey: .background)!
-        }
     }
     
     // MARK: - Setup
@@ -51,7 +37,6 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
         if let subtitle = callsignListViewModel?.navSubtitle() {
             setTitleView(title: viewModel.navTitle(), subtitle: subtitle)
         }
-        setupSearchbarColorForTraitCollection()
     }
     
     open override func loadView() {
@@ -62,7 +47,7 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
 
         if let collectionView = collectionView {
             NSLayoutConstraint.activate([
-                collectionView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: LayoutConstants.searchBarHeight),
+                collectionView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: StandardSearchBarView.LayoutConstants.searchBarHeight),
                 collectionView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
                 collectionView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
                 collectionView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor).withPriority(.almostRequired)
@@ -75,40 +60,18 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
         // Replace default back button with 'Back'
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .done, target: self, action: #selector(goBack))
         
-        toolBar = UIToolbar()
-        toolBar.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(toolBar)
-        
-        searchBar = UISearchBar()
-        searchBar.delegate = self
-        searchBar.searchBarStyle = .minimal
-        searchBar.placeholder = NSLocalizedString("Search", comment: "Search Text Placeholder")
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(searchBar)
-    }
-    
-    private func setupSearchbarColorForTraitCollection() {
-        if traitCollection.horizontalSizeClass == .regular {
-            toolBar.isHidden = false
-            searchBar.searchBarStyle = .minimal
-        } else {
-            toolBar.isHidden = true
-            searchBar.searchBarStyle = .default
-        }
+        searchBarView = StandardSearchBarView()
+        searchBarView.searchBar.delegate = self
+        searchBarView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(searchBarView)
     }
 
     /// Activates view constraints
     open func setupConstraints() {
         NSLayoutConstraint.activate([
-            toolBar.topAnchor.constraint(equalTo: view.topAnchor),
-            toolBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            toolBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            toolBar.heightAnchor.constraint(equalToConstant: LayoutConstants.searchBarHeight),
-            
-            searchBar.topAnchor.constraint(equalTo: view.topAnchor),
-            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            searchBar.heightAnchor.constraint(equalToConstant: LayoutConstants.searchBarHeight)
+            searchBarView.topAnchor.constraint(equalTo: view.topAnchor),
+            searchBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchBarView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
     

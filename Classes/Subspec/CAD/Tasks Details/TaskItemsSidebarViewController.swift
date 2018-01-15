@@ -12,6 +12,7 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
 
     private let headerView = SidebarHeaderView(frame: .zero)
     private let detailViewModel: TaskItemViewModel
+    private var compactStatusChangeBar: GlassBarView?
     
     public init(viewModel: TaskItemViewModel) {
         
@@ -24,7 +25,7 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
         
         // Add gesture for tapping icon
         headerView.iconView.isUserInteractionEnabled = true
-        headerView.iconView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapHeaderIcon)))
+        headerView.iconView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapStatusChangeButton)))
 
         regularSidebarViewController.title = NSLocalizedString("Details", comment: "")
         regularSidebarViewController.headerView = headerView
@@ -39,6 +40,16 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         apply(ThemeManager.shared.theme(for: userInterfaceStyle))
+    }
+    
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        configureCompactChangeStatusBar()
+    }
+    
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        configureCompactChangeStatusBar()
     }
 
     open override func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
@@ -74,12 +85,67 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
         }
     }
 
+    /// Hides or shows compact change status bar based on trait collection, and configures views
+    open func configureCompactChangeStatusBar() {
+        guard isCompact() else {
+            compactStatusChangeBar?.removeFromSuperview()
+            compactStatusChangeBar = nil
+            return
+        }
+        
+        if compactStatusChangeBar == nil {
+            let compactStatusChangeBar = GlassBarView(blurEffectStyle: .prominent)
+            compactStatusChangeBar.translatesAutoresizingMaskIntoConstraints = false
+            masterNavController.view.addSubview(compactStatusChangeBar)
+            
+            NSLayoutConstraint.activate([
+                compactStatusChangeBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                compactStatusChangeBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                compactStatusChangeBar.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
+                compactStatusChangeBar.heightAnchor.constraint(equalToConstant: 72),
+            ])
+            
+            self.compactStatusChangeBar = compactStatusChangeBar
+        }
+        
+        compactStatusChangeBar?.titleLabel.text = detailViewModel.statusText
+        // TODO: Add subtitle label
+        compactStatusChangeBar?.subtitleLabel.isHidden = true
+        compactStatusChangeBar?.imageView.image = detailViewModel.iconImage
+        
+        if (detailViewModel as? IncidentTaskItemViewModel)?.allowChangeResourceStatus() == true {
+            compactStatusChangeBar?.actionImageView.image = AssetManager.shared.image(forKey: .editCell)
+            compactStatusChangeBar?.addTarget(self, action: #selector(didTapStatusChangeButton), for: .touchUpInside)
+        } else {
+            compactStatusChangeBar?.actionImageView.image = nil
+            compactStatusChangeBar?.removeTarget(self, action: #selector(didTapStatusChangeButton), for: .touchUpInside)
+        }
+    }
+    
     @objc open func callsignChanged() {
         detailViewModel.reloadFromModel()
         updateHeaderView()
     }
 
-    @objc open func didTapHeaderIcon() {
-        detailViewModel.didTapTaskStatus(presenter: self)
+    @objc open func didTapStatusChangeButton() {
+        detailViewModel.didTapTaskStatus()
     }
+}
+
+extension TasksItemSidebarViewController: TaskItemViewModelDelegate {
+    public func presentStatusSelector(viewController: UIViewController) {
+        let size: CGSize
+        
+        if isCompact() {
+            size = CGSize(width: 312, height: 224)
+        } else {
+            size = CGSize(width: 540, height: 120)
+        }
+        
+        // Add done button
+        viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissAnimated))
+        
+        self.presentFormSheet(viewController, animated: true, size: size, forced: true)
+    }
+    
 }

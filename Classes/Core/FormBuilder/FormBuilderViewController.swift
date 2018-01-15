@@ -27,6 +27,8 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
 
     public let builder = FormBuilder()
 
+    private var globalHeader: FormItem?
+
     private var sections: [FormSection] = []
 
     private var isUnderContruction: Bool = true
@@ -159,6 +161,8 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
     open func reloadForm() {
         isUnderContruction = true
 
+        globalHeader = nil
+
         let items = builder.formItems
         items.forEach({
             if let item = $0 as? BaseFormItem {
@@ -171,9 +175,16 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         construct(builder: builder)
         title = builder.title ?? title
 
-        let sections = builder.generateSections()
+        let form = builder.generateSections()
 
         var supplementaryRegistrations = [(UICollectionReusableView.Type, String, String)]()
+
+        if let globalHeader = form.globalHeader as? BaseSupplementaryFormItem {
+            self.globalHeader = globalHeader
+            supplementaryRegistrations.append((globalHeader.viewType, globalHeader.kind, globalHeader.reuseIdentifier))
+        }
+
+        let sections = form.sections
 
         let cellRegistrations = sections.flatMap { section -> [(CollectionViewFormCell.Type, String)] in
 
@@ -298,32 +309,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
 
         view.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
 
-        for cell in collectionView.visibleCells {
-            if let indexPath = collectionView.indexPath(for: cell) {
-                self.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
-            }
-        }
-
-        if let globalHeader = collectionView.visibleSupplementaryViews(ofKind: collectionElementKindGlobalHeader).first {
-            self.collectionView(collectionView, willDisplaySupplementaryView: globalHeader, forElementKind: collectionElementKindGlobalHeader, at: IndexPath(item: 0, section: 0))
-        }
-        if let globalFooter = collectionView.visibleSupplementaryViews(ofKind: collectionElementKindGlobalFooter).first {
-            self.collectionView(collectionView, willDisplaySupplementaryView: globalFooter, forElementKind: collectionElementKindGlobalFooter, at: IndexPath(item: 0, section: 0))
-        }
-
-        let sectionHeaderIndexPaths = collectionView.indexPathsForVisibleSupplementaryElements(ofKind: UICollectionElementKindSectionHeader)
-        for indexPath in sectionHeaderIndexPaths {
-            if let headerView = collectionView.supplementaryView(forElementKind: UICollectionElementKindSectionHeader, at: indexPath) {
-                self.collectionView(collectionView, willDisplaySupplementaryView: headerView, forElementKind: UICollectionElementKindSectionHeader, at: indexPath)
-            }
-        }
-
-        let sectionFooterIndexPaths = collectionView.indexPathsForVisibleSupplementaryElements(ofKind: UICollectionElementKindSectionFooter)
-        for indexPath in sectionFooterIndexPaths {
-            if let footerView = collectionView.supplementaryView(forElementKind: UICollectionElementKindSectionFooter, at: indexPath) {
-                self.collectionView(collectionView, willDisplaySupplementaryView: footerView, forElementKind: UICollectionElementKindSectionFooter, at: indexPath)
-            }
-        }
+        collectionView.apply(theme)
     }
 
     open override var preferredStatusBarStyle : UIStatusBarStyle {
@@ -379,6 +365,10 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
                 let view = item.view(in: collectionView, for: indexPath)
                 return view
             }
+        case collectionElementKindGlobalHeader:
+            if let item = globalHeader as? BaseSupplementaryFormItem {
+                return item.view(in: collectionView, for: indexPath)
+            }
         default:
             break
         }
@@ -388,14 +378,21 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         return defaultView
     }
 
-    public func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
+    open func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
+        if let item = globalHeader as? BaseSupplementaryFormItem {
+            return item.intrinsicHeight(in: collectionView, layout: layout, for: traitCollection)
+        }
+        return 0.0
+    }
+
+    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
         if let item = sections[section].formHeader as? BaseSupplementaryFormItem {
             return item.intrinsicHeight(in: collectionView, layout: layout, for: traitCollection)
         }
         return 0.0
     }
 
-    public func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForFooterInSection section: Int) -> CGFloat {
+    open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForFooterInSection section: Int) -> CGFloat {
         if let item = sections[section].formFooter as? BaseSupplementaryFormItem {
             return item.intrinsicHeight(in: collectionView, layout: layout, for: traitCollection)
         }
