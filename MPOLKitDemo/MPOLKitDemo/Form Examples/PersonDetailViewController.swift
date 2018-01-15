@@ -37,7 +37,7 @@ class PersonDetailViewController: FormBuilderViewController {
             mediaItem.previewingController(viewController)
         }
 
-        builder += HeaderFormItem(text: "PHOTOS").actionButton(title: "ADD", handler: { [weak self] _ in
+        builder += HeaderFormItem(text: "PHOTOS").actionButton(title: "ADD", handler: { button in
             if let viewController = mediaItem.delegate.viewControllerForMediaDataSource(dataSource) {
                 self?.present(viewController, animated: true, completion: nil)
             }
