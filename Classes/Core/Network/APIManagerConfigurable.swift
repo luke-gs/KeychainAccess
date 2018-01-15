@@ -15,7 +15,7 @@ public protocol APIManagerConfigurable {
     var url: URLConvertible { get }
 
     var urlSessionConfiguration: URLSessionConfiguration { get }
-    var plugins: [PluginType]? { get }
+    var plugins: [Plugin]? { get }
     var errorMapper: ErrorMapper? { get }
     var trustPolicyManager: ServerTrustPolicyManager? { get }
 
@@ -25,13 +25,13 @@ public struct APIManagerDefaultConfiguration: APIManagerConfigurable {
     
     public let url: URLConvertible
     public let urlSessionConfiguration: URLSessionConfiguration
-    public let plugins: [PluginType]?
+    public let plugins: [Plugin]?
     public let errorMapper: ErrorMapper?
     public let trustPolicyManager: ServerTrustPolicyManager?
 
     public init(url: URLConvertible,
                 urlSessionConfiguration: URLSessionConfiguration = APIManagerDefaultConfiguration.defaultConfiguration(),
-                plugins: [PluginType]? = nil,
+                plugins: [Plugin]? = nil,
                 errorMapper: ErrorMapper? = APIManagerDefaultConfiguration.defaultErrorMapper(),
                 trustPolicyManager: ServerTrustPolicyManager? = nil) {
 

@@ -27,8 +27,11 @@ public struct FormSection {
         self.formFooter = formFooter
     }
 
-    public subscript(index: Int) -> FormItem {
-        get { return formItems[index] }
+    public subscript(index: Int) -> FormItem? {
+        get {
+            guard index < formItems.count else { return nil }
+            return formItems[index]
+        }
     }
 
 }
@@ -43,8 +46,11 @@ extension FormSection: Equatable {
 
 public extension Array where Element == FormSection {
 
-    public subscript(indexPath: IndexPath) -> FormItem {
-        get { return self[indexPath.section][indexPath.item] }
+    public subscript(indexPath: IndexPath) -> FormItem? {
+        get {
+            guard indexPath.section < count else { return nil }
+            return self[indexPath.section][indexPath.item]
+        }
     }
 
 }

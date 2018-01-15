@@ -188,6 +188,11 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
     
     private var isResettingTabBarAppearance: Bool = false
     
+    private var tabBarLeadingConstraint: NSLayoutConstraint?
+    
+    private var tabBarLeadingOffset: CGFloat {
+        return isCompact() || SystemVersion.isLessThanIOS11() ? 0 : -30
+    }
     
     // MARK: - Initializers
     
@@ -197,9 +202,6 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         
         addChildViewController(tabBarContainerController)
         tabBarContainerController.didMove(toParentViewController: self)
-        
-        let overrideTraitCollection = UITraitCollection(traitsFrom: [UITraitCollection(horizontalSizeClass: .compact), UITraitCollection(userInterfaceIdiom: .pad)])
-        setOverrideTraitCollection(overrideTraitCollection, forChildViewController: tabBarContainerController)
     }
     
     // `StatusTabBarController` does not support `NSCoding`.
@@ -248,8 +250,10 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         } 
         self.view = view
         
+        tabBarLeadingConstraint = tabBarContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: tabBarLeadingOffset)
+        
         constraints += [
-            tabBarContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tabBarLeadingConstraint,
             tabBarContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tabBarContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor).withPriority(.almostRequired),
             tabBarContainerView.heightAnchor.constraint(greaterThanOrEqualToConstant: tabBarItemHeight),
@@ -262,7 +266,8 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
 
             tabBar.leadingAnchor.constraint(equalTo: tabBarContainerView.leadingAnchor),
             tabBar.topAnchor.constraint(equalTo: tabBarContainerView.topAnchor),
-        ]
+            tabBar.bottomAnchor.constraint(equalTo: tabBarContainerView.bottomAnchor),
+        ].removeNils()
         
         NSLayoutConstraint.activate(constraints)
         
@@ -284,11 +289,12 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
+        updateViewControllersForTraits()
+
         if previousTraitCollection?.horizontalSizeClass != traitCollection.horizontalSizeClass {
             updateBarConstraints()
         }
         
-        updateViewControllersForTraits()
     }
     
     // MARK: - Tab bar delegate
@@ -357,7 +363,6 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         isResettingTabBarAppearance = false
     }
     
-    
     // MARK: - Private methods
     
     private func updateBarConstraints() {
@@ -371,6 +376,8 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
         
         var newConstraints: [NSLayoutConstraint]
         
+        tabBarLeadingConstraint?.constant = tabBarLeadingOffset
+        
         if traitCollection.horizontalSizeClass == .compact {
             newConstraints = [
                 tabBar.trailingAnchor.constraint(equalTo: tabBarBackground.trailingAnchor),
@@ -383,8 +390,16 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
                 ]
             }
         } else {
+            let width: CGFloat
+            
+            if isCompact() || SystemVersion.isLessThanIOS11() {
+                width = 108
+            } else {
+                width = 158
+            }
+            
             newConstraints = [
-                tabBar.widthAnchor.constraint(equalToConstant: CGFloat(tabBar.items?.count ?? 0) * 108.0).withPriority(UILayoutPriority(rawValue: 800)),
+                tabBar.widthAnchor.constraint(equalToConstant: CGFloat(tabBar.items?.count ?? 0) * width).withPriority(.almostRequired),
             ]
             
             if let statusView = self.statusView {

@@ -10,12 +10,15 @@ import UIKit
 
 // Protocol for a class that can present view controllers using the PopoverNavigationController
 public protocol PopoverPresenter: class {
+    func present(_ presentable: Presentable)
+
     func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Swift.Void)?)
     func dismiss(animated flag: Bool, completion: (() -> Void)?)
 
     func presentPopover(_ viewController: UIViewController, sourceView: UIView, sourceRect:CGRect, animated: Bool)
     func presentPopover(_ viewController: UIViewController, barButton: UIBarButtonItem, animated: Bool)
     func presentFormSheet(_ viewController: UIViewController, animated: Bool)
+    func presentFormSheet(_ viewController: UIViewController, animated: Bool, size: CGSize?, forced: Bool)
     func presentActionSheetPopover(_ actionSheet: ActionSheetViewController, sourceView: UIView, sourceRect: CGRect, animated: Bool)
 }
 
@@ -34,8 +37,23 @@ public protocol NavigationPresenter: class {
 extension UIViewController: PopoverPresenter, NavigationPresenter, TargetActionDismisser {
 
     public func presentFormSheet(_ viewController: UIViewController, animated: Bool) {
+        presentFormSheet(viewController, animated: animated, size: nil, forced: false)
+    }
+
+    public func presentFormSheet(_ viewController: UIViewController, animated: Bool, size: CGSize?, forced: Bool) {
         let nav = PopoverNavigationController(rootViewController: viewController)
         nav.modalPresentationStyle = .formSheet
+        
+        if forced {
+            nav.presentationController?.delegate = ForcedPopoverPresentationControllerDelegate()
+        }
+        
+        if var size = size {
+            // Cap form sheet width at 90% of parent width
+            size.width = min(size.width, view.bounds.width * 0.9)
+            nav.preferredContentSize = size
+        }
+        
         present(nav, animated: animated, completion: nil)
     }
 

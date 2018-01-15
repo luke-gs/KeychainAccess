@@ -44,7 +44,7 @@ open class BaseLoadingStateView: UIStackView {
     /// This property is deprecated in iOS 11+. Please use UIStackView's
     /// custom spacing methods.
     @available(iOS, introduced: 10.0, deprecated: 11.0, message: "Use custom sizes in iOS 11")
-    public private(set) lazy var imageSpacer = SpacerView(frame: CGRect(x: 0.0, y: 0.0, width: 8.0, height: 8.0))
+    public private(set) lazy var imageSpacer = SpacerView(frame: CGRect(x: 0.0, y: 0.0, width: 8.0, height: 16.0))
 
 
     /// The spacer used to separate the subtitle label and button.
@@ -52,7 +52,7 @@ open class BaseLoadingStateView: UIStackView {
     /// This property is deprecated in iOS 11+. Please use UIStackView's
     /// custom spacing methods.
     @available(iOS, introduced: 10.0, deprecated: 11.0, message: "Use custom sizes in iOS 11")
-    public private(set) lazy var buttonSpacer = SpacerView(frame: CGRect(x: 0.0, y: 0.0, width: 8.0, height: 8.0))
+    public private(set) lazy var buttonSpacer = SpacerView(frame: CGRect(x: 0.0, y: 0.0, width: 8.0, height: 20.0))
 
 
     // MARK: - Initializers
@@ -68,6 +68,8 @@ open class BaseLoadingStateView: UIStackView {
     }
 
     private func commonInit() {
+        let theme = ThemeManager.shared.theme(for: .current)
+
         imageContainerView.isHidden = true
         titleLabel.isHidden = true
         subtitleLabel.isHidden = true
@@ -75,29 +77,25 @@ open class BaseLoadingStateView: UIStackView {
 
         titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.adjustsFontForContentSizeCategory = true
-        titleLabel.textColor = .secondaryGray
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 0
-
-        var fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .title3)
-        if let adjusted = fontDescriptor.withSymbolicTraits(.traitBold) {
-            fontDescriptor = adjusted
-        }
-        titleLabel.font = UIFont(descriptor: fontDescriptor, size: 0.0)
-
+        titleLabel.textColor = theme.color(forKey: .primaryText)
+        titleLabel.font = .systemFont(ofSize: 28, weight: .bold)
+        
         subtitleLabel.adjustsFontSizeToFitWidth = true
         subtitleLabel.adjustsFontForContentSizeCategory = true
-        subtitleLabel.font = .preferredFont(forTextStyle: .subheadline)
+        subtitleLabel.font = .systemFont(ofSize: 17, weight: .regular)
         subtitleLabel.textColor = .secondaryGray
         subtitleLabel.textAlignment = .center
         subtitleLabel.numberOfLines = 0
 
-        actionButton.titleLabel?.font = .systemFont(ofSize: 15.0, weight: UIFont.Weight.semibold)
-        actionButton.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 16.0, bottom: 10.0, right: 16.0)
-
+        actionButton.layer.cornerRadius = 4
+        actionButton.titleLabel?.font = .systemFont(ofSize: 13, weight: .semibold)
+        actionButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 48, bottom: 6, right: 48)
+        
         alignment = .center
         axis = .vertical
-        spacing = 8.0
+        spacing = 16
 
         addArrangedSubview(imageContainerView)
         addArrangedSubview(titleLabel)
@@ -112,15 +110,14 @@ open class BaseLoadingStateView: UIStackView {
         actionButton.addObserver(self, forKeyPath: #keyPath(RoundedRectButton.titleLabel.attributedText), context: &contentContext)
 
         if #available(iOS 11, *) {
-            setCustomSpacing(8, after: imageContainerView)
-            setCustomSpacing(8, after: subtitleLabel)
+            setCustomSpacing(16, after: imageSpacer)
+            setCustomSpacing(20, after: subtitleLabel)
             return
         }
 
         imageSpacer.isHidden = true
         buttonSpacer.isHidden = true
 
-        insertArrangedSubview(imageSpacer, at: 1)
         insertArrangedSubview(buttonSpacer, at: 4)
 
         imageContainerView.addObserver(self, forKeyPath: #keyPath(UIView.isHidden), context: &hiddenContext)
@@ -142,7 +139,6 @@ open class BaseLoadingStateView: UIStackView {
         imageContainerView.removeObserver(self, forKeyPath: #keyPath(UIView.isHidden), context: &hiddenContext)
         actionButton.removeObserver(self, forKeyPath: #keyPath(UIButton.isHidden), context: &hiddenContext)
     }
-
 
     // MARK: - Overrides
 

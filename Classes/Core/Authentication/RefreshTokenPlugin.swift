@@ -26,10 +26,7 @@ open class RefreshTokenPlugin: PluginType {
     public typealias RefreshHandler = (DataResponse<Data>) -> Promise<Void>
 
     // MARK: - Properties
-    
-    /// The paths that will be excluded from refresh logic.
-    public let excludePaths: Set<String>
-    
+
     /// Will execute on 401 to create a refresh attempt promise.
     public let refreshHandler: RefreshHandler
     
@@ -58,18 +55,13 @@ open class RefreshTokenPlugin: PluginType {
     
     // MARK: - Plugin Type
     
-    public init(excludePaths: Set<String> = ["login", "refresh"], _ refreshHandler: @escaping RefreshHandler) {
+    public init(refreshHandler: @escaping RefreshHandler) {
         self.refreshHandler = refreshHandler
-        self.excludePaths = excludePaths
         self.barrierQueue = DispatchQueue(label: "au.com.gridstone.RefreshTokenPlugin.Barrier", attributes: .concurrent)
     }
     
     public func adapt(_ urlRequest: URLRequest) -> Promise<URLRequest> {
-        // Check for exclude paths
-        if shouldExclude(urlRequest) {
-            return Promise(value: urlRequest)
-        }
-        
+
         // If refresh is currently executing, chain returning the promise
         if let refresh = refreshPromise {
             return refresh.then {
@@ -84,12 +76,7 @@ open class RefreshTokenPlugin: PluginType {
     public func processResponse(_ response: DataResponse<Data>) -> Promise<DataResponse<Data>> {
         // If request doesn't exist, then whatever I can't retry it anyway.
         guard let request = response.request else { return Promise(value: response) }
-        
-        // Check for exclude paths
-        if shouldExclude(request) {
-            return Promise(value: response)
-        }
-        
+
         // If refresh is currently executing, chain a retry of the request
         if let refresh = refreshPromise {
             return refresh.then { _ in
@@ -125,39 +112,11 @@ open class RefreshTokenPlugin: PluginType {
     }
     
     // MARK: - Internal
-    
-    /// Checks for refresh token and executes refresh request if it exists, otherwise returns original error.
-    private func tryRefreshToken(from response: DataResponse<Data>) -> Promise<Void> {
-        // Reset auth plugin (because BE can't ignore headers)
-        APIManager.shared.authenticationPlugin = nil
-        
-        // Create refresh token request with current token
-        if let token = UserSession.current.token?.refreshToken {
-            return APIManager.shared.accessTokenRequest(for: .refreshToken(token))
-                .then { token -> Void in
-                    // Update access token
-                    APIManager.shared.authenticationPlugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token))
-                    UserSession.current.updateToken(token)
-                }.recover { error -> Promise<Void> in
-                    // Throw 401 error instead of refresh token error
-                    throw response.error!
-            }
-        }
-        
-        // Otherwise return 401 error
-        return Promise(error: response.error!)
-    }
-    
-    /// Determines whether request path is specified in `excludePaths`.
-    private func shouldExclude(_ request: URLRequest?) -> Bool {
-        if let path = request?.url?.lastPathComponent {
-            return excludePaths.contains(path)
-        }
-        return false
-    }
+
     
     /// Readapt request with new authentication plugin before retrying.
     private func retry(request: URLRequest) -> Promise<DataResponse<Data>> {
+
         return firstly {
             if request.shouldUpdateAuthenticationHeader, let plugin = APIManager.shared.authenticationPlugin {
                 return plugin.adapt(request)

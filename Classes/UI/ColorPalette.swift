@@ -23,6 +23,8 @@ open class ColorPalette: NSObject {
     open var secondaryGray     = #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
     open var disabledGray      = #colorLiteral(red: 0.8431372549, green: 0.8431372549, blue: 0.8509803922, alpha: 1)
     open var sidebarBlack      = #colorLiteral(red: 0.1058823529, green: 0.1176470588, blue: 0.1411764706, alpha: 1)
+    
+    open var tabBarWhite       = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
 }
 
 /// Convenience extension to UIColor
@@ -37,4 +39,6 @@ extension UIColor {
     open static var secondaryGray     = ColorPalette.shared.secondaryGray
     open static var disabledGray      = ColorPalette.shared.disabledGray
     open static var sidebarBlack      = ColorPalette.shared.sidebarBlack
+    
+    open static var tabBarWhite       = ColorPalette.shared.tabBarWhite
 }

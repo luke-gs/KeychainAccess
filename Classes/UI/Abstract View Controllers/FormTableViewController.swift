@@ -408,6 +408,8 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
                     view.tintColor = primaryTextColor
                 case .overflow:
                     view.tintColor = tintColor
+                case .pencil:
+                    view.tintColor = secondaryTextColor
                 }
             }
             

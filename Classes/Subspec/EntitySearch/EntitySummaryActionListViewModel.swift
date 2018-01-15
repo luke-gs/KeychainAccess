@@ -15,28 +15,26 @@ public class EntitySummaryActionListViewModel: ActionListViewModelable {
 
     public weak var actionListViewController: UIViewController?
 
-    public let displayableForEntity: (MPOLKitEntity) -> (displayable: EntitySummaryDisplayable, presentable: Presentable)?
+    public let summaryDisplayFormatter: EntitySummaryDisplayFormatter
 
-    public init(displayableForEntity: @escaping (MPOLKitEntity) -> (displayable: EntitySummaryDisplayable, presentable: Presentable)?) {
-        self.displayableForEntity = displayableForEntity
+    public init(summaryDisplayFormatter: EntitySummaryDisplayFormatter = .default) {
+        self.summaryDisplayFormatter = summaryDisplayFormatter
     }
 
     public func formItems(forEntitiesInCache cache: EntityBucket, in traitCollection: UITraitCollection) -> [FormItem] {
-        let summaryDisplayable = displayableForEntity
-
         let isCompact = traitCollection.horizontalSizeClass == .compact
         let items = cache.entities.flatMap({ entity -> BaseFormItem? in
-            guard let summary = summaryDisplayable(entity) else { return nil }
-
-            return summary.displayable.summaryFormItem(isCompact: isCompact).onSelection({ [weak self] _ in
-                self?.actionListViewController?.present(summary.presentable)
+            guard let summary = self.summaryDisplayFormatter.summaryDisplayForEntity(entity) else { return nil }
+            return summary.summaryFormItem(isCompact: isCompact).onSelection({ [weak self] _ in
+                guard let presentable = self?.summaryDisplayFormatter.presentableForEntity(entity) else { return }
+                self?.actionListViewController?.present(presentable)
             })
         })
 
         let numberOfEntities = items.count
         let headerText = "\(numberOfEntities) \(numberOfEntities == 1 ? "ENTITY" : "ENTITIES")"
 
-        return [HeaderFormItem(text: headerText).actionButton(title: "CLEAR", handler: {
+        return [HeaderFormItem(text: headerText).actionButton(title: "CLEAR", handler: { _ in
             cache.removeAll()
         })] + items
     }

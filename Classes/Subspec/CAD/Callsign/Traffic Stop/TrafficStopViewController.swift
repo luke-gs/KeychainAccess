@@ -13,7 +13,7 @@ open class TrafficStopViewController: FormBuilderViewController {
     
     /// View model of the view controller
     open let viewModel: TrafficStopViewModel
-    
+
     public init(viewModel: TrafficStopViewModel) {
         self.viewModel = viewModel
         super.init()
@@ -31,19 +31,11 @@ open class TrafficStopViewController: FormBuilderViewController {
     open func fetchLocation() {
         _ = firstly {
             LocationManager.shared.requestPlacemark()
-        }.then { [unowned self] placemark -> Void in
-            self.viewModel.location = placemark
-            self.reloadForm()
+        }.then { [weak self] placemark -> Void in
+            self?.viewModel.location = placemark
+            self?.reloadForm()
         }.catch { _ in
             
-        }
-    }
-    
-    /// Support being transparent when in popover/form sheet
-    open override var wantsTransparentBackground: Bool {
-        didSet {
-            let theme = ThemeManager.shared.theme(for: .current)
-            view.backgroundColor = wantsTransparentBackground ? UIColor.clear : theme.color(forKey: .background)!
         }
     }
     
@@ -60,7 +52,7 @@ open class TrafficStopViewController: FormBuilderViewController {
         builder.title = viewModel.navTitle()
         
         builder += HeaderFormItem(text: "STOPPED ENTITIES")
-            .actionButton(title: NSLocalizedString("ADD", comment: "").uppercased(), handler: { [unowned self] in
+            .actionButton(title: NSLocalizedString("ADD", comment: "").uppercased(), handler: { [unowned self] _ in
                 let addEntityVM = self.viewModel.viewModelForAddingEntity()
                 self.navigationController?.pushViewController(addEntityVM.createViewController(), animated: true)
             })
@@ -146,7 +138,7 @@ open class TrafficStopViewController: FormBuilderViewController {
     
     private func cancelPromise() {
         // Cancel promise if it's not cancelled
-        if viewModel.promise.promise.isPending {
+        if viewModel.completionHandler != nil {
             viewModel.cancel()
         }
     }

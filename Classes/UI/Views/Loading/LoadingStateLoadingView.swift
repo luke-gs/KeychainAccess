@@ -38,6 +38,12 @@ open class LoadingStateLoadingView: BaseLoadingStateView {
         loadingIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         imageContainerView.addSubview(loadingIndicatorView)
         imageContainerView.isHidden = false
+        
+        actionButton.tintColor = .clear
+        actionButton.titleLabel?.font = .systemFont(ofSize: 13.0, weight: .medium)
+        actionButton.setTitleColor(.secondaryGray, for: .normal)
+        actionButton.layer.borderColor = UIColor.secondaryGray.cgColor
+        actionButton.layer.borderWidth = 1
 
         NSLayoutConstraint.activate([
             loadingIndicatorView.topAnchor.constraint(equalTo: imageContainerView.topAnchor),

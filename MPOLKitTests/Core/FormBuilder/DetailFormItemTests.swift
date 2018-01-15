@@ -22,8 +22,8 @@ class DetailFormItemTests: XCTestCase {
         let item = DetailFormItem(title: title, subtitle: subtitle, detail: detail, image: image)
 
         // Then
-        XCTAssertEqual(item.title, title)
-        XCTAssertEqual(item.subtitle, subtitle)
+        XCTAssertEqual(item.title?.sizing().string, title)
+        XCTAssertEqual(item.subtitle?.sizing().string, subtitle)
         XCTAssertEqual(item.detail?.sizing().string, detail)
         XCTAssertEqual(item.image, image)
         XCTAssertTrue(item.cellType == CollectionViewFormDetailCell.self)
@@ -41,8 +41,8 @@ class DetailFormItemTests: XCTestCase {
             .image(AssetManager.shared.image(forKey: .info))
 
         // Then
-        XCTAssertEqual(item.title, "Hello")
-        XCTAssertEqual(item.subtitle, "Bye")
+        XCTAssertEqual(item.title?.sizing().string, "Hello")
+        XCTAssertEqual(item.subtitle?.sizing().string, "Bye")
         XCTAssertEqual(item.detail?.sizing().string, "Detail")
         XCTAssertEqual(item.image, AssetManager.shared.image(forKey: .info))
     }

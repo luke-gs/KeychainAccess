@@ -19,13 +19,11 @@ open class OfficerListViewController: GenericSearchViewController {
         delegate = self
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""), style: .plain, target: self, action: #selector(cancelTapped))
     }
-    
-    /// Support being transparent when in popover/form sheet
-    open override var wantsTransparentBackground: Bool {
-        didSet {
-            let theme = ThemeManager.shared.theme(for: .current)
-            view.backgroundColor = wantsTransparentBackground ? UIColor.clear : theme.color(forKey: .background)!
-        }
+
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+
+        loadingManager.noContentView.titleLabel.text = officerListViewModel?.noContentTitle()
     }
     
     open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -49,11 +47,11 @@ open class OfficerListViewController: GenericSearchViewController {
 }
 
 extension OfficerListViewController: GenericSearchDelegate {
-    public func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath, withSearchable: GenericSearchable) {
-        if let officer = withSearchable as? OfficerListItemViewModel {
+    public func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath, withSearchable searchable: GenericSearchable) {
+        if let officer = searchable as? OfficerListItemViewModel {
 
-            if let officerDetailsViewController = officerListViewModel?.officerDetailsViewController(for: officer) {
-                self.navigationController?.pushViewController(officerDetailsViewController, animated: true)
+            if let screen = officerListViewModel?.officerDetailsScreen(for: officer) {
+                self.present(screen)
             }
         }
     }

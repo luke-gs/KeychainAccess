@@ -110,9 +110,7 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
     
     open var wantsTransparentBackground: Bool = false {
         didSet {
-            if isViewLoaded {
-                collectionView?.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
-            }
+            view.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
         }
     }
     
@@ -366,6 +364,8 @@ open class FormCollectionViewController: UIViewController, UICollectionViewDataS
                         view.tintColor = primaryTextColor
                     case .overflow:
                         view.tintColor = tintColor
+                    case .pencil:
+                        view.tintColor = secondaryTextColor
                     }
                 }
                 

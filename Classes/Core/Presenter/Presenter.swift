@@ -99,6 +99,14 @@ public final class Director {
         self.presenter = presenter
     }
 
+    /// Create a view controller for a customised presentation (eg child view controller)
+    ///
+    /// - Parameter presentable: The presentable
+    /// - Returns: A view controller for this presentable
+    public func viewController(forPresentable presentable: Presentable) -> UIViewController {
+        return presenter.viewController(forPresentable: presentable)
+    }
+
     /// Navigate to the presentable
     ///
     /// - Parameters:

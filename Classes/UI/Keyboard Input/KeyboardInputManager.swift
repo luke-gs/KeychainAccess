@@ -163,6 +163,8 @@ public class KeyboardInputManager: NSObject {
             activeTextControl = nil
             if let textField = control as? UITextField {
                 textField.inputAccessoryView = nil
+            } else if let textView = control as? UITextView {
+                textView.inputAccessoryView = nil
             }
         }
     }

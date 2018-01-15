@@ -13,6 +13,7 @@ public enum Style {
     case dropDown
     case checkmark
     case overflow
+    case pencil
     
     var image: UIImage? {
         let key: AssetManager.ImageKey
@@ -21,6 +22,7 @@ public enum Style {
         case .dropDown:   key = .dropDown
         case .checkmark:  key = .checkmark
         case .overflow:   key = .overflow
+        case .pencil:     key = .editCell
         }
         return AssetManager.shared.image(forKey: key)
     }

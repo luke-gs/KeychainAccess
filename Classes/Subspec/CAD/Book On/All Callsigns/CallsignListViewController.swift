@@ -8,29 +8,15 @@
 
 import UIKit
 
-open class CallsignListViewController: CADFormCollectionViewController<NotBookedOnCallsignItemViewModel>, UISearchBarDelegate {
+open class CallsignListViewController: CADFormCollectionViewController<BookOnLandingCallsignItemViewModel>, UISearchBarDelegate {
 
-    /// Layout sizing constants
-    public struct LayoutConstants {
-        static let searchBarHeight: CGFloat = 64
-    }
-    
     // MARK: - Views
     
-    open var toolBar: UIToolbar!
-    open var searchBar: UISearchBar!
+    open var searchBarView: StandardSearchBarView!
 
     /// `super.viewModel` typecasted to our type
     open var callsignListViewModel: CallsignListViewModel? {
         return viewModel as? CallsignListViewModel
-    }
-    
-    /// Support being transparent when in popover/form sheet
-    open override var wantsTransparentBackground: Bool {
-        didSet {
-            let theme = ThemeManager.shared.theme(for: .current)
-            view.backgroundColor = wantsTransparentBackground ? UIColor.clear : theme.color(forKey: .background)!
-        }
     }
     
     // MARK: - Setup
@@ -51,7 +37,6 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
         if let subtitle = callsignListViewModel?.navSubtitle() {
             setTitleView(title: viewModel.navTitle(), subtitle: subtitle)
         }
-        setupSearchbarColorForTraitCollection()
     }
     
     open override func loadView() {
@@ -62,7 +47,7 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
 
         if let collectionView = collectionView {
             NSLayoutConstraint.activate([
-                collectionView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: LayoutConstants.searchBarHeight),
+                collectionView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: StandardSearchBarView.LayoutConstants.searchBarHeight),
                 collectionView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
                 collectionView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
                 collectionView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor).withPriority(.almostRequired)
@@ -75,40 +60,18 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
         // Replace default back button with 'Back'
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .done, target: self, action: #selector(goBack))
         
-        toolBar = UIToolbar()
-        toolBar.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(toolBar)
-        
-        searchBar = UISearchBar()
-        searchBar.delegate = self
-        searchBar.searchBarStyle = .minimal
-        searchBar.placeholder = NSLocalizedString("Search", comment: "Search Text Placeholder")
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(searchBar)
-    }
-    
-    private func setupSearchbarColorForTraitCollection() {
-        if traitCollection.horizontalSizeClass == .regular {
-            toolBar.isHidden = false
-            searchBar.searchBarStyle = .minimal
-        } else {
-            toolBar.isHidden = true
-            searchBar.searchBarStyle = .default
-        }
+        searchBarView = StandardSearchBarView()
+        searchBarView.searchBar.delegate = self
+        searchBarView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(searchBarView)
     }
 
     /// Activates view constraints
     open func setupConstraints() {
         NSLayoutConstraint.activate([
-            toolBar.topAnchor.constraint(equalTo: view.topAnchor),
-            toolBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            toolBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            toolBar.heightAnchor.constraint(equalToConstant: LayoutConstants.searchBarHeight),
-            
-            searchBar.topAnchor.constraint(equalTo: view.topAnchor),
-            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            searchBar.heightAnchor.constraint(equalToConstant: LayoutConstants.searchBarHeight)
+            searchBarView.topAnchor.constraint(equalTo: view.topAnchor),
+            searchBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchBarView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
     
@@ -119,44 +82,32 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
     // MARK: - Override
     
     override open func cellType() -> CollectionViewFormCell.Type {
-        return CollectionViewFormSubtitleCell.self
+        return CallsignCollectionViewCell.self
     }
     
-    override open func decorate(cell: CollectionViewFormCell, with viewModel: NotBookedOnItemViewModel) {
+    override open func decorate(cell: CollectionViewFormCell, with viewModel: BookOnLandingCallsignItemViewModel) {
         cell.highlightStyle = .fade
         cell.selectionStyle = .fade
         cell.separatorStyle = .indented
         cell.separatorColor = UIColor.red
         cell.accessoryView = FormAccessoryView(style: .disclosure)
         
-        if let cell = cell as? CollectionViewFormSubtitleCell {
+        if let cell = cell as? CallsignCollectionViewCell {
+            cell.decorate(with: viewModel)
             cell.titleLabel.text = viewModel.title
             cell.subtitleLabel.text = viewModel.subtitle
             cell.imageView.image = viewModel.image
             cell.imageView.tintColor = viewModel.imageColor
-            
-            if let viewModel = viewModel as? NotBookedOnCallsignItemViewModel, viewModel.badgeText != nil {
-                var edgeInsets = RoundedRectLabel.defaultLayoutMargins
-                edgeInsets.left = 6
-                edgeInsets.right = 6
-                
-                let accessoryLabelDetail = AccessoryLabelDetail.init(text: viewModel.badgeText,
-                                                                     textColour: viewModel.badgeTextColor,
-                                                                     borderColour: viewModel.badgeBorderColor,
-                                                                     backgroundColour: viewModel.badgeFillColor,
-                                                                     layoutMargins: edgeInsets)
-                let accessoryTextStyle = AccessoryTextStyle.roundedRect(accessoryLabelDetail)
-                let accessoryView = FormAccessoryView(style: .disclosure, labelStyle: accessoryTextStyle)
-                cell.accessoryView = accessoryView
-            }
+            cell.accessoryView = FormAccessoryView(style: .disclosure)
         }
     }
     
     open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
         
-        if let cell = cell as? CollectionViewFormCell {
+        if let cell = cell as? CallsignCollectionViewCell {
             cell.separatorColor = iOSStandardSeparatorColor
+            cell.apply(theme: ThemeManager.shared.theme(for: .current))
         }
     }
     
@@ -182,16 +133,13 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         
-        if let bookOnViewController = callsignListViewModel?.bookOnViewControllerForItem(indexPath) {
-            navigationController?.pushViewController(bookOnViewController, animated: true)
+        if let screen = callsignListViewModel?.bookOnScreenForItem(indexPath) {
+            present(screen)
         }
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        if let item = viewModel.item(at: indexPath) {
-            return CollectionViewFormSubtitleCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection, imageSize: item.image?.size ?? .zero)
-        }
-        return 0
+        return 64
     }
 
     public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
