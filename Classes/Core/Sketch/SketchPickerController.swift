@@ -71,6 +71,19 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate {
         canvas.sketchMode = mode
     }
 
+    func controlPanelDidSelectWidth(_ panel: SketchControlPanel) {
+        let viewController = PixelWidthSelectionViewController()
+        viewController.modalPresentationStyle = .popover
+        viewController.modalPresentationStyle = .popover
+        viewController.popoverPresentationController?.sourceView = panel.pixelWidthView
+        viewController.preferredContentSize = CGSize(width: 400, height: 150)
+        viewController.selectionHandler = { [unowned self] nibSize in
+            self.canvas.setToolWidth(nibSize.rawValue)
+            self.controlPanel.pixelWidthView.update(with: nibSize)
+        }
+        navigationController?.present(viewController, animated: true, completion: nil)
+    }
+
     // Private functions
 
     @objc private func closeTapped() {

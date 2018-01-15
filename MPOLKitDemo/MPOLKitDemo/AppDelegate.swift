@@ -110,7 +110,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UINavigationController(rootViewController: formSplitViewController)
         ]
 
-        tabBarController.selectedIndex = 0
+        tabBarController.selectedIndex = 5
 
         self.window?.rootViewController = tabBarController
 
