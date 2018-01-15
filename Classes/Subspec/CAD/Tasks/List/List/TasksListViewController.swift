@@ -65,13 +65,9 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
         
         loadingManager.noContentView.titleLabel.text = viewModel.noContentTitle()
         loadingManager.noContentView.subtitleLabel.text = viewModel.noContentSubtitle()
+        loadingManager.delegate = self
         
         sectionsUpdated()
-    }
-
-    open override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.hideSearchBar()
     }
 
     open func createSubviews() {
@@ -100,21 +96,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
 
         // Use KVO to update search bar, rather than hijacking scroll delegate
         scrollBarObservation = collectionView!.observe(\.contentOffset) { [unowned self] (view, change) in
-            let contentOffset = self.collectionView!.contentOffset
-            self.searchBarTopConstraint.constant = -contentOffset.y + LayoutConstants.searchBarTopMargin
-            if contentOffset.y > 0 && self.collectionView!.isTracking {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                    if contentOffset == self.collectionView!.contentOffset {
-                        // No longer scrolling, don't allow partial search bar
-                        let searchOffset = LayoutConstants.searchBarHeight + LayoutConstants.searchBarTopMargin
-                        if contentOffset.y > 0 && contentOffset.y < searchOffset {
-                            UIView.animate(withDuration: 0.3, animations: {
-                                self.collectionView!.contentOffset.y = searchOffset
-                            })
-                        }
-                    }
-                })
-            }
+            self.syncSearchBarWithCollectionView(self.collectionView!)
         }
 
         // Disable the inset manager, as it breaks things
@@ -197,6 +179,26 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
         }
     }
     
+    open func syncSearchBarWithCollectionView(_ collectionView: UICollectionView) {
+        // Position search bar relative to scrolled content
+        let contentOffset = collectionView.contentOffset
+        self.searchBarTopConstraint.constant = -contentOffset.y + LayoutConstants.searchBarTopMargin
+
+        // If no longer scrolling and only showing partial search bar, hide it
+        if contentOffset.y > 0 && collectionView.isTracking {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                if contentOffset == collectionView.contentOffset {
+                    let searchOffset = LayoutConstants.searchBarHeight + LayoutConstants.searchBarTopMargin
+                    if contentOffset.y > LayoutConstants.searchBarTopMargin && contentOffset.y < searchOffset {
+                        UIView.animate(withDuration: 0.3, animations: {
+                            collectionView.contentOffset.y = searchOffset
+                        })
+                    }
+                }
+            })
+        }
+    }
+
     // MARK: - Override
 
     open func reloadContent() {
@@ -247,6 +249,15 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
 
     @objc open func refreshTasks() {
         delegate?.taskListDidPullToRefresh()
+    }
+}
+
+extension TasksListViewController: LoadingStateManagerDelegate {
+    public func loadingStateManager(_ stateManager: LoadingStateManager, didChangeState state: LoadingStateManager.State) {
+        if state == .loaded {
+            // Hide search bar when first loaded
+            hideSearchBar()
+        }
     }
 }
 
