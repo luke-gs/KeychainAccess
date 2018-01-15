@@ -8,7 +8,7 @@
 
 import Foundation
 import MPOLKit
-
+import Unbox
 
 class ResultsViewController: FormBuilderViewController {
 
@@ -136,7 +136,13 @@ class ResultsViewController: FormBuilderViewController {
 }
 
 
-class Person {
+class Person: MPOLKitEntity, EntitySummaryDisplayable {
+
+    var detail1: String? = "Bird"
+
+    var detail2: String? = "Super bird"
+
+    var borderColor: UIColor? = .red
 
     var category: String? = "NOOB"
 
@@ -149,6 +155,28 @@ class Person {
     var badgeColor: UIColor? = .red
 
     var badge: UInt = UInt(arc4random_uniform(100))
+
+    var iconColor: UIColor? = .red
+
+    func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
+        return nil
+    }
+
+    init() {
+        super.init()
+    }
+
+    required init(_ entity: MPOLKitEntity) {
+        super.init()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    required init(unboxer: Unboxer) throws {
+        fatalError("init(unboxer:) has not been implemented")
+    }
 
 }
 

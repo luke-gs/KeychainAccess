@@ -23,24 +23,35 @@ public class Searchable: NSObject, NSSecureCoding {
     /// The type of search
     public var type: String?
 
+    /// The image key for this searchable
+    public var imageKey: AssetManager.ImageKey?
+
     override init() { super.init() }
 
-    public init(text: String? = nil, options: [Int: String]? = nil, type: String? = nil) {
+    public init(text: String? = nil, options: [Int: String]? = nil, type: String? = nil, imageKey: AssetManager.ImageKey? = nil) {
         self.text = text
         self.options = options
         self.type = type
+        self.imageKey = imageKey
     }
 
     public required init?(coder aDecoder: NSCoder) {
         text = aDecoder.decodeObject(of: NSString.self, forKey: "searchText") as String?
         type = aDecoder.decodeObject(of: NSString.self, forKey: "type") as String?
         options = aDecoder.decodeObject(of: NSDictionary.self, forKey: "options") as! [Int: String]?
+        if let key = aDecoder.decodeObject(of: NSString.self, forKey: "imageKey") as String? {
+            imageKey = AssetManager.ImageKey(rawValue: key)
+        }
     }
 
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(text, forKey: "searchText")
         aCoder.encode(options, forKey: "options")
         aCoder.encode(type, forKey: "type")
+
+        if let key = imageKey {
+            aCoder.encode(key.rawValue, forKey: "imageKey")
+        }
     }
 
     public static var supportsSecureCoding: Bool = true
