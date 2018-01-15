@@ -133,7 +133,7 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                         // Note: generate as many requests as required
                         let request = PersonSearchRequest(source: .mpol, request: searchParameters)
                         let fncRequest = PersonSearchRequest(source: .fnc, request: searchParameters)
-                        let resultModel = EntitySummarySearchResultViewModel<Person, PersonSummaryDisplayable>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, fncRequest]))
+                        let resultModel = EntitySummarySearchResultViewModel<Person>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, fncRequest]))
                         resultModel.additionalBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAddButtonTapped(_:)))]
                         completion(resultModel, nil)
                     }
@@ -152,7 +152,7 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                 self.errorMessage = error.localizedDescription
             } else {
                 // Generate Searchable
-                let search = Searchable(text: text, options: nil, type: PersonSearchDataSource.searchableType)
+                let search = Searchable(text: text, options: nil, type: PersonSearchDataSource.searchableType, imageKey: AssetManager.ImageKey.entityPerson)
                 updatingDelegate?.searchDataSource(self, didFinishWith: search, andResultViewModel: resultModel)
             }
         }

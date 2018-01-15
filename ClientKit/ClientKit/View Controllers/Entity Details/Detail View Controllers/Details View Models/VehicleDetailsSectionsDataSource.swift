@@ -24,7 +24,7 @@ public class VehicleMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSourc
         return EntityDetailFetch<Vehicle>(request: request)
     }
 
-    public init(baseEntity: Entity, delegate: EntityDetailsDelegate?) {
+    public init(baseEntity: Entity, delegate: SearchDelegate?) {
         self.entity = baseEntity
         self.detailViewControllers =  [ VehicleInfoViewController(),
                                         EntityAlertsViewController(),
@@ -49,7 +49,7 @@ public class VehicleFNCDetailsSectionsDataSource: EntityDetailSectionsDataSource
         return EntityDetailFetch<Vehicle>(request: request)
     }
 
-    public init(baseEntity: Entity, delegate: EntityDetailsDelegate?) {
+    public init(baseEntity: Entity, delegate: SearchDelegate?) {
         self.entity = baseEntity
         self.detailViewControllers =  [ VehicleInfoViewController(),
                                         EntityAssociationsViewController(delegate: delegate),
