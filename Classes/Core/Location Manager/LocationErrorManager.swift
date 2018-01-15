@@ -40,17 +40,17 @@ public final class LocationErrorManager: LocationErrorManageable {
         case .denied:
             return Promise<CLLocation>(error: LocationErrorManagerError.recoveryFailed)
         default:
-            return Promise<CLLocation> { fufill, reject in
+            return Promise<CLLocation> { fulfill, reject in
                 switch failurePolicy {
                 case .indeterminateLocation:
                     reject(LocationErrorManagerError.recoveryFailed)
                 case .customLocation(let location):
-                    fufill(location)
+                    fulfill(location)
                 case .calculated(let block):
-                    fufill(block())
+                    fulfill(block())
                 case .lastLocation:
                     if let location = LocationManager.shared.lastLocation {
-                        fufill(location)
+                        fulfill(location)
                     } else {
                         reject(LocationErrorManagerError.recoveryFailed)
                     }
