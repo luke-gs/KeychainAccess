@@ -8,7 +8,7 @@
 
 import UIKit
 
-/// Collection view cell for a header with 
+/// Collection view cell for a header with large text
 open class LargeTextHeaderCollectionViewCell: UICollectionViewCell, DefaultReusable {
     public let titleLabel = UILabel()
     

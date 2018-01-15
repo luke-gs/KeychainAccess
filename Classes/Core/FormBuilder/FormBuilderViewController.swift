@@ -69,12 +69,6 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
             }
         }
     }
-    
-    /// Allows subclasses to return a custom subclass of CollectionViewFormLayout
-    open func collectionViewLayoutClass() -> CollectionViewFormLayout.Type {
-        return CollectionViewFormLayout.self
-    }
-
 
     // MARK: - Appearance properties
 
@@ -111,6 +105,11 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
     ///            The default returns `UICollectionView` itself.
     open func collectionViewClass() -> UICollectionView.Type {
         return UICollectionView.self
+    }
+    
+    /// Allows subclasses to return a custom subclass of CollectionViewFormLayout
+    open func collectionViewLayoutClass() -> CollectionViewFormLayout.Type {
+        return CollectionViewFormLayout.self
     }
 
     // MARK: - Legacy support

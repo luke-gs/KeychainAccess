@@ -34,8 +34,7 @@ public class IncidentNarrativeViewModel: DatedActivityLogViewModel, TaskDetailsV
         let activityLogItemsViewModels = incident.narrative.map { item in
             return ActivityLogItemViewModel(dotFillColor: item.color,
                                      dotStrokeColor: .clear,
-                                     timestamp: item.timestampString,
-                                     date: item.timestamp,
+                                     timestamp: item.timestamp,
                                      title: item.title,
                                      subtitle: item.description)
             }.sorted { return $0.timestamp > $1.timestamp }

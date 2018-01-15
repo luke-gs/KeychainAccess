@@ -13,8 +13,8 @@ open class SyncDetailsActivityLogItem: Codable {
     open var title: String!
     open var description: String!
     open var source: String!
-    
     open var timestamp: Date!
+    
     public init(title: String!, description: String!, source: String!, timestamp: Date!) {
         self.title = title
         self.description = description

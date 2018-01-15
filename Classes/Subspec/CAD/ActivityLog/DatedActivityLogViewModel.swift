@@ -20,7 +20,7 @@ public class DatedActivityLogViewModel: CADFormCollectionViewModel<ActivityLogIt
         // Map the keys to an array index, e.g. ['15 Jan, 2018': 0, '14 Jan, 2018': 1]
         var keyMap = [String: Int]()
         for (index, item) in viewModels.enumerated() {
-            let key = dateFormatter.string(from: item.date)
+            let key = dateFormatter.string(from: item.timestamp)
             if keyMap[key] == nil {
                 keyMap[key] = index
             }
@@ -29,7 +29,7 @@ public class DatedActivityLogViewModel: CADFormCollectionViewModel<ActivityLogIt
         // Map the keys to view models
         var arr = [[String: [ActivityLogItemViewModel]]]()
         for item in viewModels {
-            let key = dateFormatter.string(from: item.date)
+            let key = dateFormatter.string(from: item.timestamp)
             // Get the index to use for the key
             let keyIndex = keyMap[key]!
             

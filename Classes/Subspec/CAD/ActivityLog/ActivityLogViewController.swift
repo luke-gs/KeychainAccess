@@ -58,7 +58,7 @@ open class ActivityLogViewController: FormBuilderViewController {
         cell.separatorStyle = .none
         
         if let cell = cell as? ActivityLogItemCell {
-            cell.timeLabel.text = viewModel.timestamp
+            cell.timeLabel.text = viewModel.timestampString
             cell.titleLabel.text = viewModel.title
             cell.subtitleLabel.text = viewModel.subtitle
             cell.imageView.image = viewModel.dotImage()
