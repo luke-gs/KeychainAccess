@@ -15,12 +15,19 @@ open class ActivityLogViewController: FormBuilderViewController {
         self.viewModel = viewModel
         super.init()
         title = viewModel.navTitle()
-
-        // TODO: Loading manager. If this is in the PR then please request changes and tell me I'm an idiot
     }
-    
+
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
+    }
+    
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        loadingManager.noContentView.titleLabel.text = viewModel.noContentTitle()
+        loadingManager.noContentView.subtitleLabel.text = viewModel.noContentSubtitle()
+        
+        sectionsUpdated()
     }
     
     open override func construct(builder: FormBuilder) {
@@ -80,6 +87,10 @@ open class ActivityLogViewController: FormBuilderViewController {
 
 extension ActivityLogViewController: CADFormCollectionViewModelDelegate {
     public func sectionsUpdated() {
+        // Update loading state
+        loadingManager.state = viewModel.numberOfSections() == 0 ? .noContent : .loaded
+        
+        // Reload content
         reloadForm()
     }
 }
