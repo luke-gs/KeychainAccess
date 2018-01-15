@@ -9,11 +9,10 @@
 import Foundation
 
 public class EnlargeStyle: CellSelectionAnimatable {
-    public class func configure(_ cell: CollectionViewFormCell) {
+    public static func configure(_ cell: CollectionViewFormCell) {
         let isSelected = cell.isSelected
         let isHighlighted = cell.isHighlighted
 
-        let contentView = cell.contentView
         UIView.animate(withDuration: 0.3, animations: {
             let isFocus = isSelected || isHighlighted
             let transform = isFocus ? CGAffineTransform(scaleX: 1.05, y: 1.05) : CGAffineTransform.identity
@@ -28,27 +27,6 @@ public class EnlargeStyle: CellSelectionAnimatable {
         let finalColor = validationColor ?? cell.separatorColor
         cell.separatorView.backgroundColor = finalColor
     }
-
-
-    public func configure(_ cell: CollectionViewFormCell) {
-        let isSelected = cell.isSelected
-        let isHighlighted = cell.isHighlighted
-
-        let contentView = cell.contentView
-        UIView.animate(withDuration: 0.3, animations: {
-            let isFocus = isSelected || isHighlighted
-            let transform = isFocus ? CGAffineTransform(scaleX: 1.05, y: 1.05) : CGAffineTransform.identity
-            cell.transform = transform
-            cell.layer.zPosition = isFocus ? 1 : 0
-            cell.layer.shadowOffset = isFocus ? CGSize(width: -10, height: 10) : CGSize.zero
-            cell.layer.shadowRadius = isFocus ? 5 : 0
-            cell.layer.shadowOpacity = isFocus ? 0.1 : 0
-        })
-
-        let validationColor: UIColor? = cell.requiresValidation ? cell.validationColor : nil
-        let finalColor = validationColor ?? cell.separatorColor
-        cell.separatorView.backgroundColor = finalColor
-    }
-
+    
     public init() {}
 }
