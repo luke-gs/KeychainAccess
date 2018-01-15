@@ -32,11 +32,11 @@ public class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewMod
 
     /// Content title shown when no results
     override open func noContentTitle() -> String? {
-        return NSLocalizedString("No Tasks Found", comment: "")
+        return nil
     }
 
     override open func noContentSubtitle() -> String? {
-        return nil
+        return NSLocalizedString("No Tasks Found", comment: "")
     }
 
     /// Sections to not collapse
