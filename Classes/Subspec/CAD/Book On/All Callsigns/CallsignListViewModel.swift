@@ -8,15 +8,15 @@
 
 import UIKit
 
-open class CallsignListViewModel: CADFormCollectionViewModel<NotBookedOnCallsignItemViewModel> {
+open class CallsignListViewModel: CADFormCollectionViewModel<BookedOnLandingCallsignItemViewModel> {
 
-    private func convertCallsignsToViewModels() -> [CADFormCollectionSectionViewModel<NotBookedOnCallsignItemViewModel>] {
-        var offDuty: [NotBookedOnCallsignItemViewModel] = []
-        var bookedOn: [NotBookedOnCallsignItemViewModel] = []
+    private func convertCallsignsToViewModels() -> [CADFormCollectionSectionViewModel<BookedOnLandingCallsignItemViewModel>] {
+        var offDuty: [BookedOnLandingCallsignItemViewModel] = []
+        var bookedOn: [BookedOnLandingCallsignItemViewModel] = []
 
         if let syncDetails = CADStateManager.shared.lastSync {
             for resource in syncDetails.resources {
-                let viewModel = NotBookedOnCallsignItemViewModel(resource: resource)
+                let viewModel = BookedOnLandingCallsignItemViewModel(resource: resource)
                 if resource.shiftStart == nil {
                     offDuty.append(viewModel)
                 } else {
@@ -28,7 +28,7 @@ open class CallsignListViewModel: CADFormCollectionViewModel<NotBookedOnCallsign
                 CADFormCollectionSectionViewModel(title: "\(bookedOn.count) Booked On", items: bookedOn)]
 
     }
-    private lazy var viewModels: [CADFormCollectionSectionViewModel<NotBookedOnCallsignItemViewModel>] = {
+    private lazy var viewModels: [CADFormCollectionSectionViewModel<BookedOnLandingCallsignItemViewModel>] = {
         return convertCallsignsToViewModels()
     }()
 
@@ -89,7 +89,7 @@ open class CallsignListViewModel: CADFormCollectionViewModel<NotBookedOnCallsign
                     return item
                 }
                 return nil
-            } as [NotBookedOnCallsignItemViewModel?]).removeNils()
+            } as [BookedOnLandingCallsignItemViewModel?]).removeNils()
             
             // Return the section if items were found
             if filteredItems.count > 0 {
@@ -97,7 +97,7 @@ open class CallsignListViewModel: CADFormCollectionViewModel<NotBookedOnCallsign
             }
             
             return nil
-        } as [CADFormCollectionSectionViewModel<NotBookedOnCallsignItemViewModel>?]).removeNils()
+        } as [CADFormCollectionSectionViewModel<BookedOnLandingCallsignItemViewModel>?]).removeNils()
         
         sections = filteredData
     }
@@ -107,7 +107,7 @@ open class CallsignListViewModel: CADFormCollectionViewModel<NotBookedOnCallsign
     ///
     /// - Parameter unsorted: the unsorted array
     /// - Returns: a sorted array
-    open func sortedSections(from unsorted: [CADFormCollectionSectionViewModel<NotBookedOnCallsignItemViewModel>]) -> [CADFormCollectionSectionViewModel<NotBookedOnCallsignItemViewModel>] {
+    open func sortedSections(from unsorted: [CADFormCollectionSectionViewModel<BookedOnLandingCallsignItemViewModel>]) -> [CADFormCollectionSectionViewModel<BookedOnLandingCallsignItemViewModel>] {
         // Map sections
         return unsorted.map { section in
             // Sort items

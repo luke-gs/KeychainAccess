@@ -22,7 +22,7 @@ open class CreateIncidentViewController: ThemedPopoverViewController {
     open var callsignStatusVC: CreateIncidentStatusViewController!
     
     /// Form for details
-    open var detailsFormVC: IncidentDetailsFormViewController!
+    open var detailsFormVC: CreateIncidentFormViewController!
     
     open let loadingManager = LoadingStateManager()
 
