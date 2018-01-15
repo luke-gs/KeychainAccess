@@ -24,6 +24,11 @@ public protocol TasksListViewControllerDelegate: class {
 ///
 open class TasksListViewController: FormBuilderViewController, UISearchBarDelegate {
 
+    private struct LayoutConstants {
+        static let searchBarHeight: CGFloat = 32
+        static let searchBarTopMargin: CGFloat = 10
+    }
+
     open var viewModel: TasksListViewModel
     
     /// Delegate for UI events
@@ -34,6 +39,12 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
 
     /// The search bar for filtering tasks
     open private(set) var searchBar: UISearchBar!
+
+    /// Observer for scroll bar movement
+    private var scrollBarObservation: NSKeyValueObservation?
+
+    /// The top constraint for the search bar
+    private var searchBarTopConstraint: NSLayoutConstraint!
 
     public init(viewModel: TasksListViewModel) {
         self.viewModel = viewModel
@@ -58,6 +69,11 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
         sectionsUpdated()
     }
 
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.hideSearchBar()
+    }
+
     open func createSubviews() {
         // Add refresh control to task list
         let theme = ThemeManager.shared.theme(for: .current)
@@ -75,11 +91,46 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
         searchBar.placeholder = NSLocalizedString("Search", comment: "Search placeholder")
         searchBar.delegate = self
         searchBar.translatesAutoresizingMaskIntoConstraints = false
-        collectionView?.addSubview(searchBar)
+
+        // We can't add this to collection view for simpler scrolling, as the keyboard gets dismissed on any reload of data which makes noticeable performance issue (MPOLA-1289)
+        view.addSubview(searchBar)
+
+        // Prevent search bar going under header
+        view.clipsToBounds = true
+
+        // Use KVO to update search bar, rather than hijacking scroll delegate
+        scrollBarObservation = collectionView!.observe(\.contentOffset) { [unowned self] (view, change) in
+            let contentOffset = self.collectionView!.contentOffset
+            self.searchBarTopConstraint.constant = -contentOffset.y + LayoutConstants.searchBarTopMargin
+            if contentOffset.y > 0 && self.collectionView!.isTracking {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    if contentOffset == self.collectionView!.contentOffset {
+                        // No longer scrolling, don't allow partial search bar
+                        let searchOffset = LayoutConstants.searchBarHeight + LayoutConstants.searchBarTopMargin
+                        if contentOffset.y > 0 && contentOffset.y < searchOffset {
+                            UIView.animate(withDuration: 0.3, animations: {
+                                self.collectionView!.contentOffset.y = searchOffset
+                            })
+                        }
+                    }
+                })
+            }
+        }
 
         // Disable the inset manager, as it breaks things
         collectionViewInsetManager = nil
     }
+
+    open func createConstraints() {
+        searchBarTopConstraint = searchBar.topAnchor.constraint(equalTo: view.topAnchor)
+        NSLayoutConstraint.activate([
+            searchBarTopConstraint,
+            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 14),
+            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -14),
+            searchBar.heightAnchor.constraint(equalToConstant: LayoutConstants.searchBarHeight)
+        ])
+    }
+    
 
     open override func construct(builder: FormBuilder) {
         for (sectionIndex, section) in viewModel.sections.enumerated() {
@@ -146,38 +197,11 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
         }
     }
     
-    open func createConstraints() {
-        NSLayoutConstraint.activate([
-            searchBar.topAnchor.constraint(equalTo: collectionView!.topAnchor, constant: 10),
-            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 14),
-            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -14),
-            searchBar.heightAnchor.constraint(equalToConstant: 32)
-        ])
-    }
-
-    open override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        // Hide search bar during initial layout or rotation
-        DispatchQueue.main.async {
-            if self.searchBar.text?.ifNotEmpty() == nil {
-                self.hideSearchBar()
-            }
-        }
-    }
-
     // MARK: - Override
 
     open func reloadContent() {
-        let wasFocused = searchBar?.isFirstResponder ?? false
-
         // Refresh the task list
         reloadForm()
-
-        // Reloading list loses any search bar keyboard focus, so refocus if necessary
-        if wasFocused {
-            searchBar.becomeFirstResponder()
-        }
     }
 
     public func viewModel(for item: TasksListItemViewModel) -> TaskItemViewModel? {
@@ -200,7 +224,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
 
     override open func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
         // Make space for search bar using the form global header
-        return viewModel.sections.isEmpty ? 0 : 32
+        return viewModel.sections.isEmpty ? 0 : LayoutConstants.searchBarHeight
     }
 
     // MARK: - UISearchBarDelegate (cannot be in extension)
@@ -215,8 +239,9 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
         searchBar(searchBar, textDidChange: "")
 
         // Hide the search bar
-        if let collectionView = collectionView, collectionView.contentOffset.y < self.searchBar.bounds.height {
-            collectionView.contentOffset = CGPoint(x: 0, y: self.searchBar.frame.maxY)
+        let searchOffset = LayoutConstants.searchBarHeight + LayoutConstants.searchBarTopMargin
+        if let collectionView = collectionView, collectionView.contentOffset.y < searchOffset {
+            collectionView.contentOffset = CGPoint(x: 0, y: searchOffset)
         }
     }
 
@@ -228,8 +253,10 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
 extension TasksListViewController: CADFormCollectionViewModelDelegate {
     public func sectionsUpdated() {
         // Update loading state
-        loadingManager.state = viewModel.numberOfSections() == 0 ? .noContent : .loaded
-        
+        let noSections = (viewModel.numberOfSections() == 0)
+        loadingManager.state = noSections ? .noContent : .loaded
+        searchBar.isHidden = noSections
+
         // Reload content
         reloadContent()
     }
