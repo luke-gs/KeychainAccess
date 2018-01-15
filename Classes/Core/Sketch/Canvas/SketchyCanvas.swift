@@ -14,9 +14,14 @@ public enum SketchMode: Int {
     case erase
 }
 
+public protocol SketchCanvasDelegate: class {
+    func canvasDidStartSketching(_ canvas: Sketchable)
+}
+
 public protocol Sketchable {
     var currentTool: TouchTool { get }
     var sketchMode: SketchMode { get set }
+    var isEmpty: Bool { get }
     func renderedImage() -> UIImage?
 
     func setToolColor(_ color: UIColor)
@@ -28,6 +33,7 @@ class SketchyCanvas: UIView, Sketchable {
     private let eraser: SketchyEraser
     private let pen: SketchyPen
     public private(set) var currentTool: TouchTool
+    weak var delegate: SketchCanvasDelegate?
 
     private lazy var canvas: UIImageView = {
         let imageView = UIImageView(frame: bounds)
@@ -70,6 +76,7 @@ class SketchyCanvas: UIView, Sketchable {
         if let touch = touches.first {
             currentTool.touch(touch, beganIn: canvas)
         }
+        delegate?.canvasDidStartSketching(self)
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -103,5 +110,15 @@ class SketchyCanvas: UIView, Sketchable {
 
     func renderedImage() -> UIImage? {
         return canvas.image
+    }
+
+    func clearCanvas() {
+        pen.endDrawing()
+        eraser.endDrawing()
+        canvas.image = nil
+    }
+
+    var isEmpty: Bool {
+        return pen.isEmpty
     }
 }

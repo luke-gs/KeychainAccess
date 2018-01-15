@@ -200,7 +200,8 @@ extension AssetManager {
         // Sketch
         public static let penStub = ImageKey("penStub")
         public static let penNib = ImageKey("penNib")
-        public static let rubber = ImageKey("rubber") 
+        public static let rubber = ImageKey("rubber")
+        public static let trash = ImageKey("trash")
         
         // Comms
         public static let audioCall      = ImageKey("iconCommsCall")

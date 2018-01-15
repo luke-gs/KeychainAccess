@@ -13,7 +13,7 @@ protocol SketchPickerControllerDelegate: class {
     func sketchPickerControllerDidCancel(_ picker: SketchPickerController)
 }
 
-class SketchPickerController: UIViewController, SketchControlPanelDelegate {
+class SketchPickerController: UIViewController, SketchControlPanelDelegate, SketchCanvasDelegate {
 
     weak var delegate: SketchPickerControllerDelegate?
     
@@ -25,11 +25,21 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate {
     }()
     lazy var controlPanel: SketchControlPanel = SketchControlPanel()
 
+    lazy var doneButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneTapped))
+        button.isEnabled = false
+        return button
+    }()
+
     init() {
         super.init(nibName: nil, bundle: nil)
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneTapped))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.stop, target: self, action: #selector(closeTapped))
+        navigationItem.rightBarButtonItems = [
+            doneButton,
+            UIBarButtonItem(image: AssetManager.shared.image(forKey: .trash), style: .plain, target: self, action: #selector(clearTapped))
+        ]
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -38,6 +48,8 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        canvas.delegate = self
 
         view.backgroundColor = .white
         view.addSubview(canvas)
@@ -84,6 +96,12 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate {
         navigationController?.present(viewController, animated: true, completion: nil)
     }
 
+    // MARK: - Sketch Canvas Delegate
+
+    func canvasDidStartSketching(_ canvas: Sketchable) {
+        doneButton.isEnabled = !canvas.isEmpty
+    }
+
     // Private functions
 
     @objc private func closeTapped() {
@@ -94,5 +112,10 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate {
         if let image = canvas.renderedImage() {
             delegate?.sketchPickerController(self, didFinishPickingSketch: image)
         }
+    }
+
+    @objc private func clearTapped() {
+        canvas.clearCanvas()
+        doneButton.isEnabled = false
     }
 }

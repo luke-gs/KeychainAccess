@@ -244,6 +244,8 @@
 		4634B4451FBD6FD200D71E7F /* SearchResultMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634B43F1FBD6FD200D71E7F /* SearchResultMapViewController.swift */; };
 		4634B4461FBD6FD200D71E7F /* EntityMapSummaryDisplayble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634B4401FBD6FD200D71E7F /* EntityMapSummaryDisplayble.swift */; };
 		4634B4471FBD6FD200D71E7F /* TravelEstimationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634B4411FBD6FD200D71E7F /* TravelEstimationPlugin.swift */; };
+		463F88D8200C6E5D0007A311 /* PixelWidthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463F88D7200C6E5D0007A311 /* PixelWidthView.swift */; };
+		463F88DA200C6EDF0007A311 /* SimpleColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463F88D9200C6EDF0007A311 /* SimpleColorPicker.swift */; };
 		463FEF5D1FE1FFF10093E303 /* LabeledTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463FEF5C1FE1FFF10093E303 /* LabeledTextField.swift */; };
 		4641F10420085EDC00C1899B /* SketchControlPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4641F10320085EDC00C1899B /* SketchControlPanel.swift */; };
 		464A5E8D1FD11B5600B4C0F9 /* EvaluatorKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464A5E8C1FD11B5600B4C0F9 /* EvaluatorKey.swift */; };
@@ -898,6 +900,8 @@
 		4634B43F1FBD6FD200D71E7F /* SearchResultMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultMapViewController.swift; sourceTree = "<group>"; };
 		4634B4401FBD6FD200D71E7F /* EntityMapSummaryDisplayble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityMapSummaryDisplayble.swift; sourceTree = "<group>"; };
 		4634B4411FBD6FD200D71E7F /* TravelEstimationPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelEstimationPlugin.swift; sourceTree = "<group>"; };
+		463F88D7200C6E5D0007A311 /* PixelWidthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelWidthView.swift; sourceTree = "<group>"; };
+		463F88D9200C6EDF0007A311 /* SimpleColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleColorPicker.swift; sourceTree = "<group>"; };
 		463FEF5C1FE1FFF10093E303 /* LabeledTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledTextField.swift; sourceTree = "<group>"; };
 		4641F10320085EDC00C1899B /* SketchControlPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SketchControlPanel.swift; sourceTree = "<group>"; };
 		464A5E8C1FD11B5600B4C0F9 /* EvaluatorKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatorKey.swift; sourceTree = "<group>"; };
@@ -1906,6 +1910,8 @@
 			isa = PBXGroup;
 			children = (
 				4641F10320085EDC00C1899B /* SketchControlPanel.swift */,
+				463F88D7200C6E5D0007A311 /* PixelWidthView.swift */,
+				463F88D9200C6EDF0007A311 /* SimpleColorPicker.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -3589,6 +3595,7 @@
 				BC9C7E351F0DED6600DFFE83 /* KeyboardInputManager.swift in Sources */,
 				DB88BCDE1F42D0080056FD69 /* SearchViewController.swift in Sources */,
 				BC9C7E111F0DED6600DFFE83 /* TableViewFormCheckboxCell.swift in Sources */,
+				463F88DA200C6EDF0007A311 /* SimpleColorPicker.swift in Sources */,
 				EA69F8291F7C8EAD0092380B /* PickerFormItem.swift in Sources */,
 				96BFD1B01FE8B322009AF6B5 /* BookOnDetailsFormContentOfficerViewModel.swift in Sources */,
 				27F9C96C1FA2D7E300825F88 /* CompactCallsignViewController.swift in Sources */,
@@ -3966,6 +3973,7 @@
 				EA8904B01F6A0C720050DB84 /* FormBuilderViewController.swift in Sources */,
 				EA53B26F1F9D7F0200B891D8 /* CollectionViewFormStepperCell.swift in Sources */,
 				993E3A2E1F86FD65008BBFF8 /* UIImage+Resizing.swift in Sources */,
+				463F88D8200C6E5D0007A311 /* PixelWidthView.swift in Sources */,
 				96699BCC1FDDE547006BB024 /* QuantityPickerFormItem.swift in Sources */,
 				BCED8C761F1488EE004C3C71 /* CollectionViewFormHeaderView.swift in Sources */,
 				BC9C7E0A1F0DED6600DFFE83 /* UITraitCollection+CurrentDisplayScale.swift in Sources */,

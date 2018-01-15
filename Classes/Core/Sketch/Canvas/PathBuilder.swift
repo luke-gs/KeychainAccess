@@ -26,6 +26,9 @@ public class PathBuilder {
         return pathLength > maximumPathLength
     }
 
+    var isEmpty: Bool {
+        return lastPoint == nil
+    }
 
     var controlPoint: Int = 0
     private var points: [CGPoint] = [CGPoint(), CGPoint(), CGPoint(), CGPoint(), CGPoint()]

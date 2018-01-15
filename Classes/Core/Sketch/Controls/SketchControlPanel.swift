@@ -24,7 +24,7 @@ class SketchControlPanel: UIView, SketchColorPickable {
 
     private let penView: PenView = PenView()
     private let eraserView: UIImageView = UIImageView(image: AssetManager.shared.image(forKey: .rubber))
-    private(set) var colors: [UIColor] = [.red, .blue, .green, .black, .yellow]
+    private(set) var colors: [UIColor] = [.red, .blue, .black]
     private(set) lazy var colorPicker: SimpleColorPicker = SimpleColorPicker(colors: colors)
     lazy var pixelWidthView: PixelWidthView = PixelWidthView()
 
@@ -100,6 +100,7 @@ class SketchControlPanel: UIView, SketchColorPickable {
             colorPicker.leadingAnchor.constraint(equalTo: eraserView.trailingAnchor, constant: 20.0),
             colorPicker.centerYAnchor.constraint(equalTo: container.centerYAnchor),
             colorPicker.trailingAnchor.constraint(lessThanOrEqualTo: container.trailingAnchor, constant: -8.0),
+
 
             container.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor),
             container.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
@@ -179,95 +180,6 @@ class PixelWidthSelectionViewController: UIViewController {
     }
 }
 
-class PixelWidthView: UIView {
-
-    public enum NibSize: CGFloat {
-        case small = 5
-        case medium = 25
-        case large = 50
-        case giant = 100
-
-
-        init(value: CGFloat) {
-            switch value {
-            case 5: self = .small
-            case 25: self = .medium
-            case 50: self = .large
-            case 100: self = .giant
-            default:
-                let values = NibSize.allCases
-                var closestMatch = NibSize.giant
-                var closestDelta = CGFloat.infinity
-                values.forEach {
-                    let delta: CGFloat = CGFloat(fabs(Double($0.rawValue - value)))
-                    if delta < closestDelta {
-                        closestMatch = $0
-                        closestDelta = CGFloat(delta)
-                    }
-                }
-                self = closestMatch
-            }
-        }
-
-        var image: UIImage? {
-            return UIImage.circle(diameter: rawValue, color: .darkGray)
-        }
-
-        static var allCases: [NibSize] = [.small, .medium, .large, .giant]
-    }
-
-    var selectionHandler: (() -> ())?
-
-    let label: UILabel = UILabel()
-    let imageView: UIImageView = UIImageView()
-    let nibSize: NibSize
-
-    init(nibSize: NibSize = .giant) {
-        self.nibSize = nibSize
-
-        super.init(frame: .zero)
-
-        isUserInteractionEnabled = true
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewTapped(gesture:))))
-
-        label.textAlignment = .center
-        label.textColor = .darkGray
-        label.font = UIFont.systemFont(ofSize: 14.0, weight: .bold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.setContentCompressionResistancePriority(.required, for: .vertical)
-        label.setContentCompressionResistancePriority(.required, for: .horizontal)
-        label.text = "\(Int(nibSize.rawValue)) px"
-        addSubview(label)
-
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = nibSize.image
-        addSubview(imageView)
-
-        NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: topAnchor),
-            imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-
-            label.leadingAnchor.constraint(equalTo: leadingAnchor),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor),
-            label.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8.0),
-            label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8.0),
-        ])
-    }
-
-    func update(with nibSize: NibSize) {
-        imageView.image = nibSize.image
-        label.text = "\(Int(nibSize.rawValue)) px"
-    }
-
-    @objc private func viewTapped(gesture: UITapGestureRecognizer) {
-        selectionHandler?()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
 
 fileprivate class PenView: UIView {
 
@@ -306,95 +218,7 @@ fileprivate class PenView: UIView {
     }
 }
 
-class SimpleColorPicker: UIView {
-
-    static let circleDiameter: CGFloat = 40.0
-
-    private(set) var colors: [UIColor] = []
-    var colorSelectionHandler: ((UIColor) -> ())?
-    private var buttons: [UIButton] = []
-    private var selectedColor: UIButton? {
-        didSet {
-            if selectedColor == oldValue {
-                selectedColor?.shake()
-                return
-            }
-
-            self.resetCircle(oldValue)
-            UIView.animate(withDuration: 0.3) {
-                self.selectedColor?.layer.shadowRadius = 5
-                self.selectedColor?.layer.shadowOffset = CGSize(width: 0, height: 5)
-                self.selectedColor?.layer.shadowOpacity = 0.5
-                self.selectedColor?.layer.masksToBounds = false
-            }
-
-            self.selectedColor?.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-        }
-    }
-
-    init(colors: [UIColor]) {
-        self.colors = colors
-        super.init(frame: .zero)
-        commonInit()
-    }
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-
-        commonInit()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    func set(_ color: UIColor) {
-        if let index = colors.index(of: color) {
-            selectedColor = buttons[index]
-        }
-    }
-
-    private func resetCircle(_ view: UIButton?) {
-        guard let view = view else { return }
-        view.transform = CGAffineTransform.identity
-        UIView.animate(withDuration: 0.1) {
-            view.layer.shadowRadius = 0
-            view.layer.shadowOffset = .zero
-            view.layer.shadowOpacity = 0
-            view.layer.masksToBounds = false
-        }
-    }
-
-    private func commonInit() {
-        buttons = colors.enumerated().map {
-            let button = UIButton(type: .custom)
-            button.setImage(UIImage.circle(diameter: SimpleColorPicker.circleDiameter, color: $0.element), for: .normal)
-            button.addTarget(self, action: #selector(buttonTapped(button:)), for: .touchUpInside)
-            button.tag = $0.offset
-            return button
-        }
-
-        let stackView = UIStackView(arrangedSubviews: buttons)
-        stackView.axis = .horizontal
-        stackView.spacing = 10
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(stackView)
-
-        NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: safeAreaOrFallbackLeadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: safeAreaOrFallbackTrailingAnchor),
-            stackView.topAnchor.constraint(equalTo: safeAreaOrFallbackTopAnchor),
-            stackView.bottomAnchor.constraint(equalTo: safeAreaOrFallbackBottomAnchor),
-        ])
-    }
-
-    @objc private func buttonTapped(button: UIButton) {
-        selectedColor = button
-        colorSelectionHandler?(colors[button.tag])
-    }
-}
-
-fileprivate extension UIView {
+extension UIView {
     func shake() {
         let animation = CABasicAnimation(keyPath: "position")
         animation.duration = 0.06

@@ -24,8 +24,13 @@ public class SketchyPen: TouchTool {
     public var imageView: UIImageView?
     public var image: UIImage?
     weak private var canvas: UIImageView?
-    internal var context: CGContext?
-
+    private var context: CGContext?
+    var isEmpty: Bool {
+        return pathBuilder.isEmpty
+    }
+    var bufferedDrawing: Bool {
+        return true
+    }
     private var path: CGMutablePath = CGMutablePath() {
         didSet {
             pathBuilder.pathLength = 0.0
@@ -33,9 +38,6 @@ public class SketchyPen: TouchTool {
     }
 
     private var pathBuilder: PathBuilder = PathBuilder()
-    var bufferedDrawing: Bool {
-        return true
-    }
 
     public func touch(_ touch: UITouch, beganIn canvas: UIImageView) {
         self.canvas = canvas
