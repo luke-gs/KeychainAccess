@@ -10,6 +10,8 @@ import UIKit
 
 // Protocol for a class that can present view controllers using the PopoverNavigationController
 public protocol PopoverPresenter: class {
+    func present(_ presentable: Presentable)
+
     func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Swift.Void)?)
     func dismiss(animated flag: Bool, completion: (() -> Void)?)
 
@@ -46,7 +48,9 @@ extension UIViewController: PopoverPresenter, NavigationPresenter, TargetActionD
             nav.presentationController?.delegate = ForcedPopoverPresentationControllerDelegate()
         }
         
-        if let size = size {
+        if var size = size {
+            // Cap form sheet width at 90% of parent width
+            size.width = min(size.width, view.bounds.width * 0.9)
             nav.preferredContentSize = size
         }
         

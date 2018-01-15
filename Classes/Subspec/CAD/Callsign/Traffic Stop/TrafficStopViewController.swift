@@ -13,7 +13,7 @@ open class TrafficStopViewController: FormBuilderViewController {
     
     /// View model of the view controller
     open let viewModel: TrafficStopViewModel
-    
+
     public init(viewModel: TrafficStopViewModel) {
         self.viewModel = viewModel
         super.init()
@@ -138,7 +138,7 @@ open class TrafficStopViewController: FormBuilderViewController {
     
     private func cancelPromise() {
         // Cancel promise if it's not cancelled
-        if viewModel.promise.promise.isPending {
+        if viewModel.completionHandler != nil {
             viewModel.cancel()
         }
     }
