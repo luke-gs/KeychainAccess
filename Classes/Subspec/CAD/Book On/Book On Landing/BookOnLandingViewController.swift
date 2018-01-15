@@ -1,5 +1,5 @@
 //
-//  BookedOnLandingViewController.swift
+//  BookOnLandingViewController.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 17/10/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class BookedOnLandingViewController: FormBuilderViewController {
+open class BookOnLandingViewController: FormBuilderViewController {
 
     /// Layout sizing constants
     public struct LayoutConstants {
@@ -36,11 +36,11 @@ open class BookedOnLandingViewController: FormBuilderViewController {
     open var allCallsignsButton: UIButton!
     
     /// `super.viewModel` typecasted to our type
-    open var viewModel: BookedOnLandingViewModel
+    open var viewModel: BookOnLandingViewModel
     
     // MARK: - Setup
     
-    public init(viewModel: BookedOnLandingViewModel) {
+    public init(viewModel: BookOnLandingViewModel) {
         self.viewModel = viewModel
         super.init()
         
@@ -202,7 +202,7 @@ open class BookedOnLandingViewController: FormBuilderViewController {
     
 }
 
-extension BookedOnLandingViewController: PatrolAreaListViewModelDelegate {
+extension BookOnLandingViewController: PatrolAreaListViewModelDelegate {
     
     public func patrolAreaListViewModel(_ viewModel: PatrolAreaListViewModel, didSelectPatrolArea patrolArea: String?) {
         if let patrolArea = patrolArea {

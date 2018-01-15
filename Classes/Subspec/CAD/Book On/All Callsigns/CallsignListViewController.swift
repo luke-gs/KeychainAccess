@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class CallsignListViewController: CADFormCollectionViewController<BookedOnLandingCallsignItemViewModel>, UISearchBarDelegate {
+open class CallsignListViewController: CADFormCollectionViewController<BookOnLandingCallsignItemViewModel>, UISearchBarDelegate {
 
     // MARK: - Views
     
@@ -85,7 +85,7 @@ open class CallsignListViewController: CADFormCollectionViewController<BookedOnL
         return CallsignCollectionViewCell.self
     }
     
-    override open func decorate(cell: CollectionViewFormCell, with viewModel: BookedOnLandingCallsignItemViewModel) {
+    override open func decorate(cell: CollectionViewFormCell, with viewModel: BookOnLandingCallsignItemViewModel) {
         cell.highlightStyle = .fade
         cell.selectionStyle = .fade
         cell.separatorStyle = .indented

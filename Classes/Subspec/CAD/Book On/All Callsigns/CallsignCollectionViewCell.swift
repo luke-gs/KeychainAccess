@@ -100,7 +100,7 @@ open class CallsignCollectionViewCell: CollectionViewFormCell {
         ])
     }
     
-    open func decorate(with viewModel: BookedOnLandingCallsignItemViewModel) {
+    open func decorate(with viewModel: BookOnLandingCallsignItemViewModel) {
         titleLabel.text = viewModel.title
         subtitleLabel.text = viewModel.subtitle
         captionLabel.text = viewModel.caption

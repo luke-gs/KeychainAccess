@@ -1,5 +1,5 @@
 //
-//  BookedOnLandingViewModel.swift
+//  BookOnLandingViewModel.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 17/10/17.
@@ -8,30 +8,30 @@
 
 import UIKit
 
-open class BookedOnLandingViewModel {
+open class BookOnLandingViewModel {
 
     public init() {}
 
-    open func convertCallsignsToViewModels() -> CADFormCollectionSectionViewModel<BookedOnLandingCallsignItemViewModel> {
+    open func convertCallsignsToViewModels() -> CADFormCollectionSectionViewModel<BookOnLandingCallsignItemViewModel> {
         // Just use all callsigns for now
-        var recentCallsigns: [BookedOnLandingCallsignItemViewModel] = []
+        var recentCallsigns: [BookOnLandingCallsignItemViewModel] = []
         if let syncDetails = CADStateManager.shared.lastSync {
             for resource in syncDetails.resources {
-                recentCallsigns.append(BookedOnLandingCallsignItemViewModel(resource: resource))
+                recentCallsigns.append(BookOnLandingCallsignItemViewModel(resource: resource))
             }
         }
         return CADFormCollectionSectionViewModel(title: "Recently Used Call Signs", items: recentCallsigns)
     }
     
-    open func callsignSection() -> CADFormCollectionSectionViewModel<BookedOnLandingCallsignItemViewModel> {
+    open func callsignSection() -> CADFormCollectionSectionViewModel<BookOnLandingCallsignItemViewModel> {
         return convertCallsignsToViewModels()
     }
     
-    open func patrolAreaSection() -> CADFormCollectionSectionViewModel<BookedOnLandingItemViewModel> {
+    open func patrolAreaSection() -> CADFormCollectionSectionViewModel<BookOnLandingItemViewModel> {
         // TODO: Get dynamically
         return CADFormCollectionSectionViewModel(title: "Patrol Area",
                                                  items: [
-                                                    BookedOnLandingItemViewModel(title: CADStateManager.shared.patrolGroup,
+                                                    BookOnLandingItemViewModel(title: CADStateManager.shared.patrolGroup,
                                                                              subtitle: nil,
                                                                              image:  AssetManager.shared.image(forKey: .location),
                                                                              imageColor: .brightBlue,
@@ -42,11 +42,11 @@ open class BookedOnLandingViewModel {
     
     /// Create the view controller for this view model
     open func createViewController() -> UIViewController {
-        return BookedOnLandingViewController(viewModel: self)
+        return BookOnLandingViewController(viewModel: self)
     }
 
     /// Create the book on view controller for a selected callsign
-    open func bookOnScreenForItem(_ callsignViewModel: BookedOnLandingCallsignItemViewModel) -> Presentable {
+    open func bookOnScreenForItem(_ callsignViewModel: BookOnLandingCallsignItemViewModel) -> Presentable {
         return BookOnScreen.bookOnDetailsForm(callsignViewModel: callsignViewModel)
     }
     

@@ -183,9 +183,9 @@
 		2792F11E1FDA55AE00A14CFB /* PopToRootable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2792F11D1FDA55AE00A14CFB /* PopToRootable.swift */; };
 		27B4A9EC1FCF597300975A45 /* UIViewController+Compact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B4A9EB1FCF597300975A45 /* UIViewController+Compact.swift */; };
 		27BE96541FD75A0D0092A771 /* CommsButtonHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27BE96531FD75A0D0092A771 /* CommsButtonHandler.swift */; };
-		27C9C7611F95692400799855 /* BookedOnLandingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7601F95692400799855 /* BookedOnLandingViewController.swift */; };
-		27C9C7651F95736500799855 /* BookedOnLandingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7641F95736500799855 /* BookedOnLandingViewModel.swift */; };
-		27C9C7671F95737C00799855 /* BookedOnLandingItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7661F95737C00799855 /* BookedOnLandingItemViewModel.swift */; };
+		27C9C7611F95692400799855 /* BookOnLandingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7601F95692400799855 /* BookOnLandingViewController.swift */; };
+		27C9C7651F95736500799855 /* BookOnLandingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7641F95736500799855 /* BookOnLandingViewModel.swift */; };
+		27C9C7671F95737C00799855 /* BookOnLandingItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7661F95737C00799855 /* BookOnLandingItemViewModel.swift */; };
 		27CBC7561F8B277E00E387C3 /* TimelineCollectionViewFormLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A45E1F83555A00CAE056 /* TimelineCollectionViewFormLayout.swift */; };
 		27CBC7571F8B277E00E387C3 /* TimelineFormCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A45F1F83555A00CAE056 /* TimelineFormCollectionViewController.swift */; };
 		27CBC7581F8B277E00E387C3 /* TimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4601F83555A00CAE056 /* TimelineView.swift */; };
@@ -843,9 +843,9 @@
 		2792F11D1FDA55AE00A14CFB /* PopToRootable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopToRootable.swift; sourceTree = "<group>"; };
 		27B4A9EB1FCF597300975A45 /* UIViewController+Compact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Compact.swift"; sourceTree = "<group>"; };
 		27BE96531FD75A0D0092A771 /* CommsButtonHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommsButtonHandler.swift; sourceTree = "<group>"; };
-		27C9C7601F95692400799855 /* BookedOnLandingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookedOnLandingViewController.swift; sourceTree = "<group>"; };
-		27C9C7641F95736500799855 /* BookedOnLandingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookedOnLandingViewModel.swift; sourceTree = "<group>"; };
-		27C9C7661F95737C00799855 /* BookedOnLandingItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookedOnLandingItemViewModel.swift; sourceTree = "<group>"; };
+		27C9C7601F95692400799855 /* BookOnLandingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnLandingViewController.swift; sourceTree = "<group>"; };
+		27C9C7641F95736500799855 /* BookOnLandingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnLandingViewModel.swift; sourceTree = "<group>"; };
+		27C9C7661F95737C00799855 /* BookOnLandingItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnLandingItemViewModel.swift; sourceTree = "<group>"; };
 		27D444D11FD8BA640092245C /* IncidentOverviewMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentOverviewMapViewModel.swift; sourceTree = "<group>"; };
 		27D921E21FD0BBF0009C6DCC /* SyncDetailsIncident+Computed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SyncDetailsIncident+Computed.swift"; sourceTree = "<group>"; };
 		27D921E41FD0C18E009C6DCC /* SyncDetailsResource+Computed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SyncDetailsResource+Computed.swift"; sourceTree = "<group>"; };
@@ -1623,9 +1623,9 @@
 		274C896E1F984693005B9CF8 /* Book On Landing */ = {
 			isa = PBXGroup;
 			children = (
-				27C9C7601F95692400799855 /* BookedOnLandingViewController.swift */,
-				27C9C7641F95736500799855 /* BookedOnLandingViewModel.swift */,
-				27C9C7661F95737C00799855 /* BookedOnLandingItemViewModel.swift */,
+				27C9C7601F95692400799855 /* BookOnLandingViewController.swift */,
+				27C9C7641F95736500799855 /* BookOnLandingViewModel.swift */,
+				27C9C7661F95737C00799855 /* BookOnLandingItemViewModel.swift */,
 			);
 			path = "Book On Landing";
 			sourceTree = "<group>";
@@ -3658,7 +3658,7 @@
 				BC9C7DCB1F0DED6600DFFE83 /* UnboxableAlamofireResponseSerializer.swift in Sources */,
 				BC9C7DF51F0DED6600DFFE83 /* CollectionViewFormCellActionView.swift in Sources */,
 				BC9C7E401F0DED6600DFFE83 /* PopoverNavigationController.swift in Sources */,
-				27C9C7671F95737C00799855 /* BookedOnLandingItemViewModel.swift in Sources */,
+				27C9C7671F95737C00799855 /* BookOnLandingItemViewModel.swift in Sources */,
 				BC0448941F219A70005FB857 /* AssetManager.swift in Sources */,
 				BC9C7E271F0DED6600DFFE83 /* GalleryCollectionViewCell.swift in Sources */,
 				C605F8A91ECCAD3B001194DD /* Manifest.xcdatamodeld in Sources */,
@@ -3708,7 +3708,7 @@
 				EAB38FFB1F70A73700341BAF /* ValueFormItem.swift in Sources */,
 				EA76ECF11F578DCA00524830 /* LocationAdvanceOptions.swift in Sources */,
 				12A8DB471F5FD63400A06005 /* DirectoryManager.swift in Sources */,
-				27C9C7651F95736500799855 /* BookedOnLandingViewModel.swift in Sources */,
+				27C9C7651F95736500799855 /* BookOnLandingViewModel.swift in Sources */,
 				EA8B66481F38014000F09716 /* EntitySummaryDisplayable.swift in Sources */,
 				19FEC9891F440326005692A9 /* NetworkErrorDefinition.swift in Sources */,
 				BC9C7DCE1F0DED6600DFFE83 /* Manifest.swift in Sources */,
@@ -3765,7 +3765,7 @@
 				27CBC7611F8B27C700E387C3 /* TasksMapViewModel.swift in Sources */,
 				2766CE331FEB5C5400895B3A /* CallsignCollectionViewCell.swift in Sources */,
 				DBE24C3D1F593BEF0088D19B /* EntityDetailSectionsViewModel.swift in Sources */,
-				27C9C7611F95692400799855 /* BookedOnLandingViewController.swift in Sources */,
+				27C9C7611F95692400799855 /* BookOnLandingViewController.swift in Sources */,
 				BC9C7E1A1F0DED6600DFFE83 /* SelectableButton.swift in Sources */,
 				BC9C7E251F0DED6600DFFE83 /* EntityCollectionViewCell.swift in Sources */,
 				BC8A99611F22EBD700387AB6 /* UIColor+Brightness.swift in Sources */,

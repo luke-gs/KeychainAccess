@@ -1,5 +1,5 @@
 //
-//  BookedOnLandingItemViewModel.swift
+//  BookOnLandingItemViewModel.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 17/10/17.
@@ -9,7 +9,7 @@
 import UIKit
 
 /// View model of not booked on screen items
-open class BookedOnLandingItemViewModel {
+open class BookOnLandingItemViewModel {
     open var title: String
     open var subtitle: String?
     open var image: UIImage?
@@ -35,7 +35,7 @@ open class BookedOnLandingItemViewModel {
 }
 
 /// View model of callsign section of not booked on screen
-open class BookedOnLandingCallsignItemViewModel: BookedOnLandingItemViewModel, BookOnCallsignViewModelType {
+open class BookOnLandingCallsignItemViewModel: BookOnLandingItemViewModel, BookOnCallsignViewModelType {
     public var callsign: String
     public var status: String?
     public var location: String?
