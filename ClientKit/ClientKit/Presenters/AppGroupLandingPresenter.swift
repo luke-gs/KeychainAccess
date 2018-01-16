@@ -125,6 +125,21 @@ open class AppGroupLandingPresenter: NSObject, Presenter, UsernamePasswordDelega
     }
 
     open func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
+        authenticateWithUsername(username, password: password, inController: controller)
+    }
+
+    open func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton) {
+    }
+
+    open func loginViewControllerDidAuthenticateWithBiometric(_ controller: LoginViewController) {
+        #if DEBUG
+        let username = "matt"
+        let password = "vicroads"
+        authenticateWithUsername(username, password: password, inController: controller)
+        #endif
+    }
+
+    private func authenticateWithUsername(_ username: String, password: String, inController controller: LoginViewController) {
         controller.setLoading(true, animated: true)
 
         APIManager.shared.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] token -> Void in
@@ -138,17 +153,14 @@ open class AppGroupLandingPresenter: NSObject, Presenter, UsernamePasswordDelega
 
             }.catch { error in
                 let error = error as NSError
-
+                
                 let title = error.localizedFailureReason ?? "Error"
                 let message = error.localizedDescription
-
+                
                 controller.present(SystemScreen.serverError(title: title, message: message))
             }.always {
                 controller.setLoading(false, animated: true)
         }
-    }
-
-    open func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton) {
     }
 }
 

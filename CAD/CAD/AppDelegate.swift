@@ -77,6 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func logOut() {
+        CADStateManager.shared.setOffDuty()
         UserSession.current.endSession()
         APIManager.shared.setAuthenticationPlugin(nil)
         landingPresenter.updateInterfaceForUserSession(animated: false)
