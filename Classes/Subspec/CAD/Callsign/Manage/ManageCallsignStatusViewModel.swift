@@ -145,7 +145,7 @@ open class ManageCallsignStatusViewModel {
             case .terminateShift:
                 if callsignViewModel.currentStatus?.canTerminate == true {
                     // Update session and dismiss screen
-                    CADStateManager.shared.lastBookOn = nil
+                    CADStateManager.shared.setOffDuty()
                     delegate?.dismiss(animated: true, completion: nil)
                 } else {
                     AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Terminate Shift", comment: ""),
