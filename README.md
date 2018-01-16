@@ -20,7 +20,7 @@ pod "MPOLKit"
 
 
 ## Documentation
-* Things
+* Components
   * [Asset Manager](Documentation/AssetManager.md)
   * [Data Matching](Documentation/DataMatching.md)
   * [Manifest](Documentation/Manifest.md)
