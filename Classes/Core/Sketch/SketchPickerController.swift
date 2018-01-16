@@ -86,12 +86,15 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
     func controlPanelDidSelectWidth(_ panel: SketchControlPanel) {
         let viewController = PixelWidthSelectionViewController()
         viewController.modalPresentationStyle = .popover
+        viewController.popoverPresentationController?.delegate = viewController
         viewController.modalPresentationStyle = .popover
+        viewController.popoverPresentationController?.permittedArrowDirections = [.down]
         viewController.popoverPresentationController?.sourceView = panel.pixelWidthView
         viewController.preferredContentSize = CGSize(width: 400, height: 150)
         viewController.selectionHandler = { [unowned self] nibSize in
             self.canvas.setToolWidth(nibSize.rawValue)
             self.controlPanel.pixelWidthView.update(with: nibSize)
+            self.dismiss(animated: false, completion: nil)
         }
         navigationController?.present(viewController, animated: true, completion: nil)
     }

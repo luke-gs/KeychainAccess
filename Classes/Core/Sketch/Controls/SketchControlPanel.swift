@@ -28,6 +28,10 @@ class SketchControlPanel: UIView, SketchColorPickable {
     private(set) lazy var colorPicker: SimpleColorPicker = SimpleColorPicker(colors: colors)
     lazy var pixelWidthView: PixelWidthView = PixelWidthView()
 
+    var penTopConstraint: NSLayoutConstraint?
+    var eraserTopConstraint: NSLayoutConstraint?
+
+
     weak var delegate: SketchControlPanelDelegate?
 
     private var selectedView: UIView? {
@@ -36,17 +40,22 @@ class SketchControlPanel: UIView, SketchColorPickable {
                 return
             }
 
+            if oldValue == self.eraserView {
+                self.eraserTopConstraint?.constant += 25
+            } else {
+                self.penTopConstraint?.constant += 25
+            }
+            guard let selectedView = self.selectedView else {
+                return
+            }
+            if selectedView == self.eraserView {
+                self.eraserTopConstraint?.constant -= 25
+            } else {
+                self.penTopConstraint?.constant -= 25
+            }
+
             UIView.animate(withDuration: 0.3) { [unowned self] in
-                if var oldFrame = oldValue?.frame {
-                    oldFrame.origin.y += 25.0
-                    oldValue?.frame = oldFrame
-                }
-                guard let selectedView = self.selectedView else {
-                    return
-                }
-                var frame = selectedView.frame
-                frame.origin.y -= 25.0
-                selectedView.frame = frame
+                self.layoutIfNeeded()
             }
         }
     }
@@ -85,6 +94,12 @@ class SketchControlPanel: UIView, SketchColorPickable {
         }
         container.addSubview(colorPicker)
 
+        // Constraints
+        let penTopConstraint = penView.topAnchor.constraint(equalTo: container.topAnchor, constant: -20)
+        self.penTopConstraint = penTopConstraint
+        let eraserTopConstraint = eraserView.topAnchor.constraint(equalTo: container.topAnchor, constant: -20)
+        self.eraserTopConstraint = eraserTopConstraint
+
         NSLayoutConstraint.activate([
 
             pixelWidthView.leadingAnchor.constraint(greaterThanOrEqualTo: container.leadingAnchor, constant: 8.0),
@@ -93,14 +108,12 @@ class SketchControlPanel: UIView, SketchColorPickable {
 
             penView.leadingAnchor.constraint(equalTo: pixelWidthView.trailingAnchor, constant: 20.0),
             penView.trailingAnchor.constraint(equalTo: eraserView.leadingAnchor, constant: -20.0),
-            penView.topAnchor.constraint(equalTo: container.topAnchor),
-
-            eraserView.topAnchor.constraint(equalTo: container.topAnchor, constant: -20),
+            penTopConstraint,
+            eraserTopConstraint,
 
             colorPicker.leadingAnchor.constraint(equalTo: eraserView.trailingAnchor, constant: 20.0),
             colorPicker.centerYAnchor.constraint(equalTo: container.centerYAnchor),
             colorPicker.trailingAnchor.constraint(lessThanOrEqualTo: container.trailingAnchor, constant: -8.0),
-
 
             container.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor),
             container.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
@@ -137,49 +150,6 @@ class SketchControlPanel: UIView, SketchColorPickable {
         colorPicker.set(color)
     }
 }
-
-class PixelWidthSelectionViewController: UIViewController {
-
-    var selectionHandler: ((PixelWidthView.NibSize) -> ())?
-
-    let pixelViews: [PixelWidthView] = [
-        PixelWidthView(nibSize: .small),
-        PixelWidthView(nibSize: .medium),
-        PixelWidthView(nibSize: .large),
-        PixelWidthView(nibSize: .giant)
-    ]
-
-    init() {
-        super.init(nibName: nil, bundle: nil)
-
-        pixelViews.forEach {
-            $0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pixelTouched(gesture:))))
-        }
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func viewDidLoad() {
-        let stackView = UIStackView(arrangedSubviews: pixelViews)
-        stackView.axis = .horizontal
-        stackView.spacing = 10
-        stackView.frame = view.frame
-        stackView.alignment = .bottom
-        stackView.distribution = .fillProportionally
-        stackView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(stackView)
-    }
-
-    @objc private func pixelTouched(gesture: UITapGestureRecognizer) {
-        if let pixelView = gesture.view as? PixelWidthView {
-            selectionHandler?(pixelView.nibSize)
-        }
-        dismiss(animated: true, completion: nil)
-    }
-}
-
 
 fileprivate class PenView: UIView {
 
