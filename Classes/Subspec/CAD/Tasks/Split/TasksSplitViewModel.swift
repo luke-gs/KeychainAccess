@@ -120,10 +120,12 @@ open class TasksSplitViewModel {
         guard let sync = CADStateManager.shared.lastSync else { return [] }
 
         return sync.resources.filter { resource in
+            // Ignore off duty resources
+            guard resource.status != .offDuty else { return false }
+
             let isTasked = resource.currentIncident != nil
-            
             let isDuress = resource.status == .duress
-            
+
             return filterViewModel.taskedResources.tasked && isTasked ||
                 filterViewModel.taskedResources.untasked && !isTasked ||
                 isDuress
