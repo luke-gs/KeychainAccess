@@ -64,12 +64,15 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
             controlPanel.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
             controlPanel.heightAnchor.constraint(equalToConstant: 60.0)
         ])
+
+        if let color = controlPanel.colors.first {
+            controlPanel.setSelectedColor(color)
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         controlPanel.setSelectedMode(mode: canvas.sketchMode)
-        controlPanel.setSelectedColor(.black)
     }
 
     // MARK: - Sketch Control Panel Delegate
@@ -87,9 +90,9 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
         let viewController = PixelWidthSelectionViewController()
         viewController.modalPresentationStyle = .popover
         viewController.popoverPresentationController?.delegate = viewController
-        viewController.modalPresentationStyle = .popover
         viewController.popoverPresentationController?.permittedArrowDirections = [.down]
         viewController.popoverPresentationController?.sourceView = panel.pixelWidthView
+        viewController.popoverPresentationController?.sourceRect = panel.pixelWidthView.imageView.frame
         viewController.preferredContentSize = CGSize(width: 400, height: 150)
         viewController.selectionHandler = { [unowned self] nibSize in
             self.canvas.setToolWidth(nibSize.rawValue)

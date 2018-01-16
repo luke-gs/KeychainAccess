@@ -244,6 +244,8 @@
 		4634B4451FBD6FD200D71E7F /* SearchResultMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634B43F1FBD6FD200D71E7F /* SearchResultMapViewController.swift */; };
 		4634B4461FBD6FD200D71E7F /* EntityMapSummaryDisplayble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634B4401FBD6FD200D71E7F /* EntityMapSummaryDisplayble.swift */; };
 		4634B4471FBD6FD200D71E7F /* TravelEstimationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634B4411FBD6FD200D71E7F /* TravelEstimationPlugin.swift */; };
+		463694E0200EA9A700C51BB4 /* ControlPanelPenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463694DF200EA9A700C51BB4 /* ControlPanelPenView.swift */; };
+		463694E2200EAE1C00C51BB4 /* NibSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463694E1200EAE1C00C51BB4 /* NibSize.swift */; };
 		463F88D8200C6E5D0007A311 /* PixelWidthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463F88D7200C6E5D0007A311 /* PixelWidthView.swift */; };
 		463F88DA200C6EDF0007A311 /* SimpleColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463F88D9200C6EDF0007A311 /* SimpleColorPicker.swift */; };
 		463FEF5D1FE1FFF10093E303 /* LabeledTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463FEF5C1FE1FFF10093E303 /* LabeledTextField.swift */; };
@@ -901,6 +903,8 @@
 		4634B43F1FBD6FD200D71E7F /* SearchResultMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultMapViewController.swift; sourceTree = "<group>"; };
 		4634B4401FBD6FD200D71E7F /* EntityMapSummaryDisplayble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityMapSummaryDisplayble.swift; sourceTree = "<group>"; };
 		4634B4411FBD6FD200D71E7F /* TravelEstimationPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelEstimationPlugin.swift; sourceTree = "<group>"; };
+		463694DF200EA9A700C51BB4 /* ControlPanelPenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlPanelPenView.swift; sourceTree = "<group>"; };
+		463694E1200EAE1C00C51BB4 /* NibSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibSize.swift; sourceTree = "<group>"; };
 		463F88D7200C6E5D0007A311 /* PixelWidthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelWidthView.swift; sourceTree = "<group>"; };
 		463F88D9200C6EDF0007A311 /* SimpleColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleColorPicker.swift; sourceTree = "<group>"; };
 		463FEF5C1FE1FFF10093E303 /* LabeledTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledTextField.swift; sourceTree = "<group>"; };
@@ -1915,6 +1919,8 @@
 				463F88D7200C6E5D0007A311 /* PixelWidthView.swift */,
 				463F88D9200C6EDF0007A311 /* SimpleColorPicker.swift */,
 				46F77071200D688600BA6614 /* PixelWidthSelectionViewController.swift */,
+				463694DF200EA9A700C51BB4 /* ControlPanelPenView.swift */,
+				463694E1200EAE1C00C51BB4 /* NibSize.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -3970,6 +3976,7 @@
 				BC9C7E471F0DED6600DFFE83 /* SourceBar.swift in Sources */,
 				960CBB441FEA191E00A33E95 /* ThemeConstants.swift in Sources */,
 				BC9C7E0F1F0DED6600DFFE83 /* DefaultReusable.swift in Sources */,
+				463694E0200EA9A700C51BB4 /* ControlPanelPenView.swift in Sources */,
 				19C9C7501FC289BC003C8CE4 /* CustomSubtitleButton.swift in Sources */,
 				EAFACCBC1F4BACE900B93CBA /* SearchFieldAdvanceCell.swift in Sources */,
 				EAC025701FDDFFA700E45DB6 /* ActionListViewController.swift in Sources */,
@@ -4046,6 +4053,7 @@
 				BC79ADAEABB2D9BDDC997334 /* MPOLSpinnerView.swift in Sources */,
 				EA09A0481F78B6D400BC3C0E /* Validator.swift in Sources */,
 				EA950E4C1F8DBF5700B5A349 /* SubmissionValidationVisitor.swift in Sources */,
+				463694E2200EAE1C00C51BB4 /* NibSize.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

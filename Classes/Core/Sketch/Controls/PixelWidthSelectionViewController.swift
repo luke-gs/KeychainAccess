@@ -10,7 +10,7 @@ import UIKit
 
 class PixelWidthSelectionViewController: UIViewController, UIPopoverPresentationControllerDelegate {
 
-    var selectionHandler: ((PixelWidthView.NibSize) -> ())?
+    var selectionHandler: ((NibSize) -> ())?
 
     let pixelViews: [PixelWidthView] = [
         PixelWidthView(nibSize: .small),
@@ -40,7 +40,7 @@ class PixelWidthSelectionViewController: UIViewController, UIPopoverPresentation
         stackView.axis = .horizontal
         stackView.spacing = 10
         stackView.frame = view.frame
-        stackView.alignment = .center
+        stackView.alignment = .bottom
         stackView.distribution = .fillProportionally
         stackView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(stackView)

@@ -15,17 +15,17 @@ protocol SketchControlPanelDelegate: class {
 }
 
 protocol SketchColorPickable {
-    var colors: [UIColor] { get }
-    var colorPicker: SimpleColorPicker { get }
+    typealias ColorPicker = ColorPickable & UIView
+    var colorPicker: ColorPicker { get set }
     func setSelectedColor(_ color: UIColor)
 }
 
 class SketchControlPanel: UIView, SketchColorPickable {
-
-    private let penView: PenView = PenView()
+    private let penView: ControlPanelPenView = ControlPanelPenView()
     private let eraserView: UIImageView = UIImageView(image: AssetManager.shared.image(forKey: .rubber))
     private(set) var colors: [UIColor] = [.red, .blue, .black]
-    private(set) lazy var colorPicker: SimpleColorPicker = SimpleColorPicker(colors: colors)
+
+    lazy var colorPicker: ColorPicker = SimpleColorPicker(colors: colors)
     lazy private(set) var pixelWidthView: PixelWidthView = PixelWidthView()
 
     var penTopConstraint: NSLayoutConstraint?
@@ -84,7 +84,7 @@ class SketchControlPanel: UIView, SketchColorPickable {
         eraserView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(toolTapped(gesture:))))
         container.addSubview(eraserView)
 
-        let colorPicker = SimpleColorPicker(colors: colors)
+
         colorPicker.translatesAutoresizingMaskIntoConstraints = false
         colorPicker.colorSelectionHandler = { [unowned self] color in
             self.setSelectedMode(mode: .draw)
@@ -150,43 +150,6 @@ class SketchControlPanel: UIView, SketchColorPickable {
     }
 }
 
-fileprivate class PenView: UIView {
-
-    let stub = UIImageView(image: AssetManager.shared.image(forKey: .penStub))
-    let nib = UIImageView(image: AssetManager.shared.image(forKey: .penNib))
-
-    init() {
-        super.init(frame: .zero)
-
-        isUserInteractionEnabled = true
-
-        stub.translatesAutoresizingMaskIntoConstraints = false
-        stub.isUserInteractionEnabled = true
-        addSubview(stub)
-
-        nib.translatesAutoresizingMaskIntoConstraints = false
-        nib.isUserInteractionEnabled = true
-        addSubview(nib)
-
-        NSLayoutConstraint.activate([
-            nib.topAnchor.constraint(equalTo: stub.topAnchor),
-            nib.centerXAnchor.constraint(equalTo: stub.centerXAnchor),
-
-            stub.leadingAnchor.constraint(equalTo: leadingAnchor),
-            stub.centerXAnchor.constraint(equalTo: centerXAnchor),
-            stub.topAnchor.constraint(equalTo: topAnchor, constant: -20.0)
-        ])
-    }
-
-    override var intrinsicContentSize: CGSize {
-        return stub.frame.size
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
 extension UIView {
     func shake() {
         let animation = CABasicAnimation(keyPath: "position")
@@ -211,10 +174,10 @@ extension UIImage {
         ctx.fillEllipse(in: rect)
 
         ctx.restoreGState()
-        let img = UIGraphicsGetImageFromCurrentImageContext()!
+        let image = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
 
-        return img
+        return image
     }
 
     // Overlay the image with given color

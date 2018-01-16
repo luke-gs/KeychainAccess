@@ -8,39 +8,33 @@
 
 import UIKit
 
-class SimpleColorPicker: UIView {
+protocol ColorPickable {
+    static var circleDiameter: CGFloat { get }
+    var colorSelectionHandler: ((UIColor) -> ())? { get set }
+    var colors: [UIColor] { get }
+    func set(_ color: UIColor)
+}
+
+class SimpleColorPicker: UIView, ColorPickable {
 
     static let circleDiameter: CGFloat = 40.0
 
     private(set) var colors: [UIColor] = []
+
     var colorSelectionHandler: ((UIColor) -> ())?
     private var buttons: [UIButton] = []
-    private var selectedColor: UIButton? {
+    private var selectedColorButton: UIButton? {
         didSet {
-            if selectedColor == oldValue {
-                selectedColor?.shake()
+            if selectedColorButton == oldValue {
+                selectedColorButton?.shake()
                 return
             }
 
             self.resetCircle(oldValue)
             UIView.animate(withDuration: 0.3) {
-
-                if let image = self.selectedColor?.imageView?.image {
-                    let size = CGSize(width: image.size.width + 10, height: image.size.height + 10)
-                    UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.main.scale)
-                    let context = UIGraphicsGetCurrentContext()!
-                    image.draw(in: CGRect(origin: CGPoint(x: 5, y: 5), size: image.size))
-
-                    context.setStrokeColor(UIColor.darkGray.cgColor)
-                    context.setLineWidth(1.0)
-                    context.strokeEllipse(in: CGRect(origin: CGPoint(x: 2.5, y: 2.5), size: CGSize(width: size.width - 5, height: size.height - 5)))
-                    let image = UIGraphicsGetImageFromCurrentImageContext()
-
-                    self.selectedColor?.setImage(image, for: .normal)
-                    UIGraphicsEndImageContext()
-                }
+                self.selectedColorButton?.setImage(self.outlinedCircle(around: self.selectedColorButton?.imageView?.image), for: .normal)
             }
-            self.selectedColor?.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            self.selectedColorButton?.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
         }
     }
 
@@ -61,8 +55,9 @@ class SimpleColorPicker: UIView {
     }
 
     func set(_ color: UIColor) {
-        if let index = colors.index(of: color) {
-            selectedColor = buttons[index]
+        if let index = colors.index(where: { $0.isEqual(color) }) {
+            selectedColorButton = buttons[index]
+            colorSelectionHandler?(color)
         }
     }
 
@@ -74,6 +69,23 @@ class SimpleColorPicker: UIView {
                 view.setImage(UIImage.circle(diameter: SimpleColorPicker.circleDiameter, color: self.colors[index]), for: .normal)
             }
         }
+    }
+
+    private func outlinedCircle(around image: UIImage?) -> UIImage? {
+        guard let image = image else { return nil }
+        let size = CGSize(width: image.size.width + 10, height: image.size.height + 10)
+        UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.main.scale)
+        let context = UIGraphicsGetCurrentContext()!
+        image.draw(in: CGRect(origin: CGPoint(x: 5, y: 5), size: image.size))
+
+        context.setStrokeColor(UIColor.darkGray.cgColor)
+        context.setLineWidth(1.0)
+        context.strokeEllipse(in: CGRect(origin: CGPoint(x: 2.5, y: 2.5), size: CGSize(width: size.width - 5, height: size.height - 5)))
+        let outlinedImage = UIGraphicsGetImageFromCurrentImageContext()
+
+        UIGraphicsEndImageContext()
+
+        return outlinedImage
     }
 
     private func commonInit() {
@@ -100,7 +112,13 @@ class SimpleColorPicker: UIView {
     }
 
     @objc private func buttonTapped(button: UIButton) {
-        selectedColor = button
+        selectedColorButton = button
         colorSelectionHandler?(colors[button.tag])
+    }
+}
+
+fileprivate extension UIColor {
+    func isEqual(_ object: UIColor) -> Bool {
+        return self.cgColor == object.cgColor
     }
 }
