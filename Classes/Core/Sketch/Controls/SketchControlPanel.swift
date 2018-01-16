@@ -26,11 +26,10 @@ class SketchControlPanel: UIView, SketchColorPickable {
     private let eraserView: UIImageView = UIImageView(image: AssetManager.shared.image(forKey: .rubber))
     private(set) var colors: [UIColor] = [.red, .blue, .black]
     private(set) lazy var colorPicker: SimpleColorPicker = SimpleColorPicker(colors: colors)
-    lazy var pixelWidthView: PixelWidthView = PixelWidthView()
+    lazy private(set) var pixelWidthView: PixelWidthView = PixelWidthView()
 
     var penTopConstraint: NSLayoutConstraint?
     var eraserTopConstraint: NSLayoutConstraint?
-
 
     weak var delegate: SketchControlPanelDelegate?
 

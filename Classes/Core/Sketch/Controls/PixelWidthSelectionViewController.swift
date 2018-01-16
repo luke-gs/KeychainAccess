@@ -40,7 +40,7 @@ class PixelWidthSelectionViewController: UIViewController, UIPopoverPresentation
         stackView.axis = .horizontal
         stackView.spacing = 10
         stackView.frame = view.frame
-        stackView.alignment = .bottom
+        stackView.alignment = .center
         stackView.distribution = .fillProportionally
         stackView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(stackView)
