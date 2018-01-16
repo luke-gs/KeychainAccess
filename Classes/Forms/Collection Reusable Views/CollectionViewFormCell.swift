@@ -9,7 +9,6 @@
 import UIKit
 import UIKit.UIGestureRecognizerSubclass
 
-
 /// A basic cell that implements common form elements, including swipe-to-edit actions.
 ///
 /// `CollectionViewFormCell` implements handling for `CollectionViewFormItemAttributes`. When used with a layout that
@@ -44,24 +43,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         
         case fullWidth
     }
-    
-    
-    @objc(CollectionViewFormHighlightStyle) public enum HighlightStyle: Int {
-        case none
-        
-        case fade
-    }
-    
-    
-    @objc(CollectionViewFormSelectionStyle) public enum SelectionStyle: Int {
-        case none
-        
-        case fade
-        
-        case underline
-    }
-    
-    
+
     // MARK: - Public properties
     
     
@@ -95,7 +77,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
                 return
             }
             if selectionStyle != .underline || isSelected == false {
-                updateSeparatorColor()
+                selectionStyle.configure(self)
             }
         }
     }
@@ -104,7 +86,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         didSet {
             separatorView.tintColor = separatorTintColor
             if requiresValidation && validationColor != nil && selectionStyle == .underline && isSelected {
-                updateSeparatorColor()
+                selectionStyle.configure(self)
             }
         }
     }    
@@ -112,28 +94,32 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     open override var isHighlighted: Bool {
         didSet {
             if isHighlighted == oldValue || highlightStyle == .none { return }
-            updateSelectionHighlightAppearance()
+            highlightStyle.configure(self)
+            selectionStyle.configure(self)
         }
     }
     
-    open var highlightStyle: HighlightStyle = .none {
+    open var highlightStyle: AnimationStyle = .none {
         didSet {
-            if isHighlighted == false || highlightStyle == oldValue { return }
-            updateSelectionHighlightAppearance()
+            if highlightStyle == oldValue || highlightStyle == .none { return }
+            highlightStyle.configure(self)
+            selectionStyle.configure(self)
         }
     }
     
     open override var isSelected: Bool {
         didSet {
             if isSelected == oldValue || selectionStyle == .none { return }
-            updateSelectionHighlightAppearance()
+            highlightStyle.configure(self)
+            selectionStyle.configure(self)
         }
     }
     
-    open var selectionStyle: SelectionStyle = .none {
+    open var selectionStyle: AnimationStyle = .none {
         didSet {
             if selectionStyle == oldValue || isSelected == false { return }
-            updateSelectionHighlightAppearance()
+            highlightStyle.configure(self)
+            selectionStyle.configure(self)
         }
     }
     
@@ -225,7 +211,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         didSet {
             if requiresValidation == false { return }
             
-            updateSeparatorColor()
+            selectionStyle.configure(self)
             validationAccessoryLabel?.textColor = validationColor ?? .gray
         }
     }
@@ -396,17 +382,12 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     internal var actionView: CollectionViewFormCellActionView?
     
-    private let separatorView = UIView()
+    public let separatorView = UIView()
     
-    private var requiresValidation: Bool = false {
+    public private(set) var requiresValidation: Bool = false {
         didSet {
             if requiresValidation == oldValue { return }
-            
-            updateSeparatorColor()
-            
-            if isSelected == false || selectionStyle != .underline {
-                setNeedsLayout()
-            }
+            selectionStyle.configure(self)
         }
     }
     
@@ -738,39 +719,10 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     open override func tintColorDidChange() {
         super.tintColorDidChange()
         if isSelected && selectionStyle == .underline && validationColor == nil {
-            updateSeparatorColor()
+            selectionStyle.configure(self)
         }
     }
-    
-    
-    // MARK: - Private methods
-    
-    private func updateSelectionHighlightAppearance() {
-        let isSelected     = self.isSelected
-        let selectionStyle = self.selectionStyle
-        
-        let correctAlpha: CGFloat = (isSelected && selectionStyle == .fade) || (isHighlighted && highlightStyle == .fade) ? 0.5 : 1.0
-        
-        // Don't set unless necessary to avoid interfering with inflight animations.
-        if contentView.alpha !=~ correctAlpha {
-            contentView.alpha = correctAlpha
-        }
-        
-        updateSeparatorColor()
-        
-        let wantsUnderline = isSelected && selectionStyle == .underline
-        if (separatorView.bounds.height >~ 1.0) != wantsUnderline {
-            setNeedsLayout()
-        }
-    }
-    
-    private func updateSeparatorColor() {
-        let wantsUnderline = isSelected && selectionStyle == .underline
-        let validationColor: UIColor? = requiresValidation ? self.validationColor : nil
-        let finalColor = validationColor ?? (wantsUnderline ? separatorView.tintColor : separatorColor)
-        separatorView.backgroundColor = finalColor
-    }
-    
+
     @objc private func touchTriggerDidActivate(_ trigger: TouchRecognizer) {
         // Don't fire the trigger if it's within a view in the action view.
         if let hitTestedView = actionView?.hitTest(trigger.location(in: actionView), with: nil),
