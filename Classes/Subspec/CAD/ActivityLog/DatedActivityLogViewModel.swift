@@ -17,29 +17,19 @@ public class DatedActivityLogViewModel: CADFormCollectionViewModel<ActivityLogIt
         dateFormatter.dateStyle = .medium
         dateFormatter.doesRelativeDateFormatting = true
         
-        // Map the keys to an array index, e.g. ['15 Jan, 2018': 0, '14 Jan, 2018': 1]
+        // Map the keys to an array index, e.g. ['15 Jan, 2018': 0, '14 Jan, 2018': 1], and then keys to view models
         var keyMap = [String: Int]()
-        for (index, item) in viewModels.enumerated() {
+        var arr = [[String: [ActivityLogItemViewModel]]]()
+
+        var index = 0
+        for item in viewModels {
             let key = dateFormatter.string(from: item.timestamp)
             if keyMap[key] == nil {
                 keyMap[key] = index
+                arr.insert([key: []], at: index)
+                index += 1
             }
-        }
-        
-        // Map the keys to view models
-        var arr = [[String: [ActivityLogItemViewModel]]]()
-        for item in viewModels {
-            let key = dateFormatter.string(from: item.timestamp)
-            // Get the index to use for the key
-            let keyIndex = keyMap[key]!
-            
-            // Create the dictionary entry if it doesn't exist
-            if arr[ifExists: keyIndex] == nil {
-                arr.insert([key: []], at: keyIndex)
-            }
-            
-            // Add the item to the array
-            arr[keyIndex][key]?.append(item)
+            arr[arr.count - 1][key]?.append(item)
         }
         
         var sections = [CADFormCollectionSectionViewModel<ActivityLogItemViewModel>]()
