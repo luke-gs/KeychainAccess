@@ -20,13 +20,4 @@ extension SyncDetailsActivityLogItem {
             return .primaryGray
         }
     }
-    
-    /// Timestamp string
-    open var timestampString: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeZone = TimeZone.current
-        dateFormatter.dateFormat = "HH:mm"
-        
-        return dateFormatter.string(from: timestamp)
-    }
 }

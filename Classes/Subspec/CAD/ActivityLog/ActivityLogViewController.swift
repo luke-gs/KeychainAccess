@@ -8,44 +8,90 @@
 
 import UIKit
 
-/// View controller for displaying the activity log in the CAD tab bar controller
-///
-/// This uses CADFormCollectionViewController for consistent styling and reduced boilerplate.
-///
-public class ActivityLogViewController: TimelineFormCollectionViewController<ActivityLogItemViewModel> {
-
-    // MARK: - Override
-
-    override open func cellType() -> CollectionViewFormCell.Type {
-        return ActivityLogItemCell.self
+open class ActivityLogViewController: FormBuilderViewController {
+    public let viewModel: CADFormCollectionViewModel<ActivityLogItemViewModel>
+    
+    public init(viewModel: CADFormCollectionViewModel<ActivityLogItemViewModel>) {
+        self.viewModel = viewModel
+        super.init()
+        title = viewModel.navTitle()
     }
 
-    override open func decorate(cell: CollectionViewFormCell, with viewModel: ActivityLogItemViewModel) {
-        cell.highlightStyle = .fade
-        cell.selectionStyle = .fade
-        cell.separatorStyle = .none
-        cell.accessoryView = FormAccessoryView(style: .disclosure)
-
-        if let cell = cell as? ActivityLogItemCell {
-            cell.timeLabel.text = viewModel.timestamp
-            cell.titleLabel.text = viewModel.title
-            cell.subtitleLabel.text = viewModel.subtitle
-            cell.imageView.image = viewModel.dotImage()
+    public required convenience init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
+    }
+    
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        loadingManager.noContentView.titleLabel.text = viewModel.noContentTitle()
+        loadingManager.noContentView.subtitleLabel.text = viewModel.noContentSubtitle()
+        
+        sectionsUpdated()
+    }
+    
+    open override func construct(builder: FormBuilder) {
+        for section in viewModel.sections {
+            if section is ActivityLogDateCollectionSectionViewModel {
+                builder += LargeTextHeaderFormItem(text: section.title)
+            } else {
+                builder += HeaderFormItem(text: section.title, style: .collapsible)
+            }
+            
+            for item in section.items {
+                builder += CustomFormItem(cellType: ActivityLogItemCell.self, reuseIdentifier: "hi")
+                    .onConfigured({ (cell) in
+                        self.decorate(cell: cell, with: item)
+                    })
+                    .onThemeChanged({ (cell, theme) in
+                        self.apply(theme: theme, to: cell)
+                    })
+                .accessory(ItemAccessory.disclosure)
+            }
         }
+        
     }
-
-    // MARK: - UICollectionViewDelegate
-
-    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
-        // TODO: present details?
-    }
-
+    
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         if let item = viewModel.item(at: indexPath) {
             return ActivityLogItemCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection)
         }
         return 0
+    }
+    
+    open func decorate(cell: CollectionViewFormCell, with viewModel: ActivityLogItemViewModel) {
+        cell.highlightStyle = .fade
+        cell.selectionStyle = .fade
+        cell.separatorStyle = .none
+        
+        if let cell = cell as? ActivityLogItemCell {
+            cell.timeLabel.text = viewModel.timestampString
+            cell.titleLabel.text = viewModel.title
+            cell.subtitleLabel.text = viewModel.subtitle
+            cell.imageView.image = viewModel.dotImage()
+        }
+    }
+        
+    open override func collectionViewLayoutClass() -> CollectionViewFormLayout.Type {
+        return TimelineCollectionViewFormLayout.self
+    }
+
+    func apply(theme: Theme, to cell: UICollectionViewCell) {
+        if let cell = cell as? CollectionViewFormSubtitleCell {
+            cell.titleLabel.textColor    = theme.color(forKey: .primaryText)
+            cell.subtitleLabel.textColor = theme.color(forKey: .secondaryText)
+        }
+    }
+    
+}
+
+extension ActivityLogViewController: CADFormCollectionViewModelDelegate {
+    public func sectionsUpdated() {
+        // Update loading state
+        loadingManager.state = viewModel.numberOfSections() == 0 ? .noContent : .loaded
+        
+        // Reload content
+        reloadForm()
     }
 }
 
