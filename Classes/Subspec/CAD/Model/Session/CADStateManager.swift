@@ -48,9 +48,7 @@ open class CADStateManager: NSObject {
             // TODO: remove this when we have a real CAD system
             if let lastBookOn = lastBookOn, let resource = self.currentResource {
                 let officerIds = lastBookOn.officers.map { return $0.payrollId! }
-                var payrollIds = resource.payrollIds ?? []
-                payrollIds.append(contentsOf: officerIds)
-                resource.payrollIds = payrollIds
+                resource.payrollIds = officerIds
 
                 // Set state if callsign was off duty
                 if resource.status == .offDuty {

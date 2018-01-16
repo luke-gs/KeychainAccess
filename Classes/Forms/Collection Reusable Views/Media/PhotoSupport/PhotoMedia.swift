@@ -17,13 +17,15 @@ public class PhotoMedia: MediaPreviewable {
     public let image: ImageLoadable?
 
     public var title: String?
+    public var comments: String?
 
     public var sensitive: Bool
 
-    public init(thumbnailImage: ImageLoadable?, image: ImageLoadable?, title: String? = nil, sensitive: Bool = false) {
+    public init(thumbnailImage: ImageLoadable?, image: ImageLoadable?, title: String? = nil, comments: String? = nil, sensitive: Bool = false) {
         self.thumbnailImage = thumbnailImage
         self.image = image
         self.title = title
+        self.comments = comments
         self.sensitive = sensitive
     }
 

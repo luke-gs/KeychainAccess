@@ -22,7 +22,7 @@ fileprivate let navigationItemKeyPaths: [String] = [
     #keyPath(UINavigationItem.prompt)
 ]
 
-public class SearchViewController: UIViewController, SearchRecentsViewControllerDelegate, SearchResultsDelegate, SearchOptionsViewControllerDelegate, EntityDetailsDelegate, LocationMapSearchDelegate {
+public class SearchViewController: UIViewController, SearchDelegate, SearchOptionsViewControllerDelegate {
 
     private var recentsViewController: SearchRecentsViewController
     public var viewModel: SearchViewModel
@@ -66,6 +66,7 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
     private lazy var resultsListViewController: SearchResultsListViewController = { [unowned self] in
         let resultsController = SearchResultsListViewController()
         resultsController.delegate = self
+        resultsController.navigationItem.leftBarButtonItem = UIBarButtonItem.backBarButtonItem(target: self, action: #selector(backButtonItemDidSelect))
         return resultsController
     }()
     
@@ -100,8 +101,6 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         self.recentsViewController = SearchRecentsViewController(viewModel: viewModel.recentViewModel)
 
         super.init(nibName: nil, bundle: nil)
-
-        self.viewModel.entityDelegate = self
 
         automaticallyAdjustsScrollViewInsets = false
         
@@ -294,24 +293,44 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             }
         }
     }
-    
 
-    // MARK: - SearchRecentsViewControllerDelegate
 
-    func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentEntity recentEntity: MPOLKitEntity) {
-        didSelectEntity(recentEntity)
+    // MARK: - SearchDelegate
+
+    public func beginSearch(reset: Bool) {
+        if navigationController?.topViewController != self {
+            navigationController?.popToRootViewController(animated: true)
+        }
+
+        func showSearchDetails() {
+            // Reset every data source prior to presenting.
+            if reset {
+                searchOptionsViewController.resetSearch()
+            }
+
+            setShowingSearchOptions(true, animated: true)
+        }
+
+        if presentedViewController != nil {
+            dismiss(animated: true, completion: showSearchDetails)
+        } else {
+            showSearchDetails()
+        }
     }
 
-    func searchRecentsController(_ controller: SearchRecentsViewController, didSelectRecentSearch recentSearch: Searchable) {
-        searchOptionsViewController.setCurrent(searchable: recentSearch)
+    public func beginSearch(with searchable: Searchable) {
+        if navigationController?.topViewController != self {
+            navigationController?.popToRootViewController(animated: true)
+        }
+
+        searchOptionsViewController.setCurrent(searchable: searchable)
         setShowingSearchOptions(true, animated: true)
     }
 
-    func searchRecentsControllerDidSelectNewSearch(_ controller: SearchRecentsViewController) {
-        displaySearchTriggered()
+    public func handlePresentable(_ presentable: Presentable) {
+        present(presentable)
     }
 
-    
     // MARK: - SearchOptionsViewControllerDelegate
 
     func searchOptionsController(_ controller: SearchOptionsViewController, didFinishWith searchable: Searchable?, andResultViewModel viewModel: SearchResultModelable?) {
@@ -321,17 +340,16 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
             
             setShowingSearchOptions(false, animated: true)
             setCurrentResultsViewController(resultsListViewController, animated: true)
+
         } else if let viewModel = viewModel as? MapResultViewModelable {
-            // ToDo: - Use the view model
-            print(viewModel)
             mapResultsViewController.viewModel = viewModel
-            // End ToDo:
+
             setShowingSearchOptions(false, animated: true)
             setCurrentResultsViewController(mapResultsViewController, animated: true)
         }
 
         if let searchable = searchable {
-            var viewModel = self.viewModel.recentViewModel
+            let viewModel = self.viewModel.recentViewModel
 
             // Add to recently searched list
             let existingIndex = viewModel.recentlySearched.index(of: searchable)
@@ -353,39 +371,6 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         cancelSearchTriggered()
     }
 
-    // MARK: Entity Delegate
-    public func controller(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity) {
-        didSelectEntity(entity)
-    }
-
-    public func controller(_ controller: UIViewController, searchFor searchable: Searchable) {
-        navigationController?.popToRootViewController(animated: true)
-        searchOptionsViewController.setCurrent(searchable: searchable)
-        setShowingSearchOptions(true, animated: true)
-    }
-
-    // MARK: - SearchResultsDelegate
-
-    func searchResultsControllerDidRequestToEdit(_ controller: UIViewController) {
-        setShowingSearchOptions(true, animated: true)
-    }
-
-    func searchResultsControllerDidCancel(_ controller: UIViewController) {
-        setCurrentResultsViewController(nil, animated: true)
-    }
-
-    func searchResultsController(_ controller: UIViewController, didSelectEntity entity: MPOLKitEntity) {
-        didSelectEntity(entity)
-    }
-    
-    // MARK: LocationMapSearchDelegate
-    
-    func locationMapViewController(_ controller: UIViewController, didRequestToEdit search: Searchable?) {
-        setCurrentResultsViewController(nil, animated: true)
-        searchOptionsViewController.setCurrent(searchable: search)
-        setShowingSearchOptions(true, animated: true)
-    }
-    
     // MARK: - KVO
     
     override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -528,11 +513,6 @@ public class SearchViewController: UIViewController, SearchRecentsViewController
         navigationItem.prompt = prompt
         navigationItem.setLeftBarButtonItems(leftBarButtonItems,   animated: animated)
         navigationItem.setRightBarButtonItems(rightBarButtonItems, animated: animated)
-    }
-
-    private func didSelectEntity(_ entity: MPOLKitEntity) {
-        let presentable = viewModel.presentable(for: entity)
-        present(presentable)
     }
 
 }
