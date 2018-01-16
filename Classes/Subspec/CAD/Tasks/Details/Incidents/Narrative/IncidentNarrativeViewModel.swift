@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class IncidentNarrativeViewModel: CADFormCollectionViewModel<ActivityLogItemViewModel>, TaskDetailsViewModel {
+public class IncidentNarrativeViewModel: DatedActivityLogViewModel, TaskDetailsViewModel {
     
     /// The identifier for this incident
     open let incidentNumber: String
@@ -34,12 +34,12 @@ public class IncidentNarrativeViewModel: CADFormCollectionViewModel<ActivityLogI
         let activityLogItemsViewModels = incident.narrative.map { item in
             return ActivityLogItemViewModel(dotFillColor: item.color,
                                      dotStrokeColor: .clear,
-                                     timestamp: item.timestampString,
+                                     timestamp: item.timestamp,
                                      title: item.title,
                                      subtitle: item.description)
             }.sorted { return $0.timestamp > $1.timestamp }
         
-        sections = [CADFormCollectionSectionViewModel(title: "READ", items: activityLogItemsViewModels)]
+        sections = sortedSectionsByDate(from: activityLogItemsViewModels)
     }
     
     /// The title to use in the navigation bar
