@@ -140,7 +140,7 @@
       {
         "createdAt": "2017-12-01T23:41:07Z", 
         "details": "Multiple witnesses have reported a couple arguing in public and disturbing the peace. They appear to be either intoxicated or under the influence of an illicit drugs.", 
-        "grade": "P3", 
+        "grade": "P1", 
         "identifier": "AS4104", 
         "informant": {
           "fullName": "Joel Stanford", 
@@ -300,7 +300,7 @@
       {
         "createdAt": "2017-12-01T23:41:07Z", 
         "details": "Multiple letterboxes that belong to a group of units have been damaged with what witnesses have described to be a baseball bat. Offenders have fled on foot and are thought to be residing in the area.", 
-        "grade": "P3", 
+        "grade": "P2", 
         "identifier": "AS4096", 
         "informant": {
           "fullName": "Joel Stanford", 
@@ -589,7 +589,7 @@
         "payrollId": "777122", 
         "rank": "Senior Constable", 
         "remarks": "", 
-        "station": "Collingwood Station"
+        "station": "Collingwood"
       }, 
       {
         "capabilities": "", 
@@ -602,7 +602,7 @@
         "payrollId": "777453", 
         "rank": "First Constable", 
         "remarks": "", 
-        "station": "Collingwood Station"
+        "station": "Collingwood"
       }, 
       {
         "capabilities": "", 
@@ -615,7 +615,7 @@
         "payrollId": "777032", 
         "rank": "Leading Senior Constable", 
         "remarks": "", 
-        "station": "Collingwood Station"
+        "station": "Collingwood"
       }, 
       {
         "capabilities": "", 
@@ -641,7 +641,7 @@
         "payrollId": "777019", 
         "rank": "Inspector", 
         "remarks": "", 
-        "station": "Fitzroy Station"
+        "station": "Fitzroy"
       }, 
       {
         "capabilities": "", 
@@ -654,7 +654,7 @@
         "payrollId": "777202", 
         "rank": "First Constable", 
         "remarks": "", 
-        "station": "Kilmore Station"
+        "station": "Kilmore"
       }, 
       {
         "capabilities": "", 
@@ -667,7 +667,7 @@
         "payrollId": "777791", 
         "rank": "Leading Senior Constable", 
         "remarks": "", 
-        "station": "Richmond Station"
+        "station": "Richmond"
       }, 
       {
         "capabilities": "", 
@@ -680,7 +680,7 @@
         "payrollId": "777199", 
         "rank": "Leading Senior Constable", 
         "remarks": "", 
-        "station": "Collingwood Station"
+        "station": "Collingwood"
       }
     ], 
     "resources": [
@@ -736,7 +736,7 @@
         "serial": "ARP015", 
         "shiftEnd": "2017-12-02T12:00:00Z", 
         "shiftStart": "2017-12-02T01:00:00Z", 
-        "station": "Collingwood Station", 
+        "station": "Collingwood", 
         "status": "At Incident", 
         "type": "Vehicle", 
         "vehicleCategory": "2"
@@ -763,10 +763,10 @@
           }
         ], 
         "assignedIncidents": [
-          "AS3110"
+          "AS4217"
         ], 
         "callsign": "M24", 
-        "currentIncident": "AS3110", 
+        "currentIncident": "AS4217", 
         "driver": "777032", 
         "equipment": [
           {
@@ -795,7 +795,7 @@
         "serial": "ARP015", 
         "shiftEnd": "2017-12-02T12:00:00Z", 
         "shiftStart": "2017-12-02T01:00:00Z", 
-        "station": "Collingwood Station", 
+        "station": "Collingwood", 
         "status": "Duress", 
         "type": "Motorcycle", 
         "vehicleCategory": "2"
@@ -848,7 +848,7 @@
         "serial": "ARP120", 
         "shiftEnd": "2017-12-02T12:00:00Z", 
         "shiftStart": "2017-12-02T01:00:00Z", 
-        "station": "Collingwood Station", 
+        "station": "Collingwood", 
         "status": "At Incident", 
         "type": "Vehicle", 
         "vehicleCategory": "2"
@@ -907,7 +907,7 @@
         "serial": "ARP007", 
         "shiftEnd": "2017-12-02T12:00:00Z", 
         "shiftStart": "2017-12-02T01:00:00Z", 
-        "station": "Collingwood Station", 
+        "station": "Collingwood", 
         "status": "On Air", 
         "type": "Vehicle", 
         "vehicleCategory": "2"
@@ -954,7 +954,7 @@
         "serial": "ARPK99", 
         "shiftEnd": "2017-12-02T12:00:00Z", 
         "shiftStart": "2017-12-02T01:00:00Z", 
-        "station": "Collingwood Station", 
+        "station": "Collingwood", 
         "status": "On Air", 
         "type": "DogSquad", 
         "vehicleCategory": "2"
@@ -1007,7 +1007,7 @@
         "serial": "ARPK91", 
         "shiftEnd": "2017-12-02T12:00:00Z", 
         "shiftStart": "2017-12-02T01:00:00Z", 
-        "station": "Collingwood Station", 
+        "station": "Collingwood", 
         "status": "Proceeding", 
         "type": "DogSquad", 
         "vehicleCategory": "2"
@@ -1060,7 +1060,7 @@
         "serial": "ARP059", 
         "shiftEnd": "2017-12-02T12:00:00Z", 
         "shiftStart": "2017-12-02T01:00:00Z", 
-        "station": "Collingwood Station", 
+        "station": "Collingwood", 
         "status": "Proceeding", 
         "type": "PoliceOfficer", 
         "vehicleCategory": "2"
@@ -1069,7 +1069,7 @@
         "callsign": "V23", 
         "patrolGroup": "Collingwood", 
         "serial": "ARP442", 
-        "station": "Collingwood Station", 
+        "station": "Collingwood", 
         "status": "Off Duty", 
         "type": "Vehicle", 
         "vehicleCategory": "2"
@@ -1078,7 +1078,7 @@
         "callsign": "P48", 
         "patrolGroup": "Collingwood", 
         "serial": "ARP590", 
-        "station": "Collingwood Station", 
+        "station": "Collingwood", 
         "status": "Off Duty", 
         "type": "PoliceOfficer", 
         "vehicleCategory": "2"
@@ -1087,11 +1087,10 @@
         "callsign": "D11", 
         "patrolGroup": "Collingwood", 
         "serial": "ARPK91", 
-        "station": "Collingwood Station", 
+        "station": "Collingwood", 
         "status": "Off Duty", 
         "type": "DogSquad", 
         "vehicleCategory": "1"
       }
     ]
-  }
-  
+}
