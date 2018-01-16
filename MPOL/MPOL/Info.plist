@@ -44,6 +44,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSFaceIDUsageDescription </key>
+	<string>Login using FaceID</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>The App need to access the current location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
