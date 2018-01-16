@@ -24,12 +24,22 @@ class SimpleColorPicker: UIView {
 
             self.resetCircle(oldValue)
             UIView.animate(withDuration: 0.3) {
-                self.selectedColor?.layer.shadowRadius = 5
-                self.selectedColor?.layer.shadowOffset = CGSize(width: 0, height: 5)
-                self.selectedColor?.layer.shadowOpacity = 0.5
-                self.selectedColor?.layer.masksToBounds = false
-            }
 
+                if let image = self.selectedColor?.imageView?.image {
+                    let size = CGSize(width: image.size.width + 10, height: image.size.height + 10)
+                    UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.main.scale)
+                    let context = UIGraphicsGetCurrentContext()!
+                    image.draw(in: CGRect(origin: CGPoint(x: 5, y: 5), size: image.size))
+
+                    context.setStrokeColor(UIColor.darkGray.cgColor)
+                    context.setLineWidth(1.0)
+                    context.strokeEllipse(in: CGRect(origin: CGPoint(x: 2.5, y: 2.5), size: CGSize(width: size.width - 5, height: size.height - 5)))
+                    let image = UIGraphicsGetImageFromCurrentImageContext()
+
+                    self.selectedColor?.setImage(image, for: .normal)
+                    UIGraphicsEndImageContext()
+                }
+            }
             self.selectedColor?.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
         }
     }
@@ -60,10 +70,9 @@ class SimpleColorPicker: UIView {
         guard let view = view else { return }
         view.transform = CGAffineTransform.identity
         UIView.animate(withDuration: 0.1) {
-            view.layer.shadowRadius = 0
-            view.layer.shadowOffset = .zero
-            view.layer.shadowOpacity = 0
-            view.layer.masksToBounds = false
+            if let index = self.buttons.index(of: view) {
+                view.setImage(UIImage.circle(diameter: SimpleColorPicker.circleDiameter, color: self.colors[index]), for: .normal)
+            }
         }
     }
 
