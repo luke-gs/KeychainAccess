@@ -48,7 +48,7 @@ public protocol MapResultViewModelDelegate: class {
 
 public protocol MapResultViewModelable: SearchResultModelable {
 
-    /// Plugin for ETA calucation
+    /// Plugin for ETA calculation
     var travelEstimationPlugin: TravelEstimationPlugable { get set }
     
     /// Contains all the results for each section
@@ -60,7 +60,7 @@ public protocol MapResultViewModelable: SearchResultModelable {
     /// The number of items in the sidebar collection view
     func numberOfItems(in section: Int) -> Int
     
-    /// Search enum, to identifiy the seach type and parameters
+    /// Search enum, to identify the search type and parameters
     var searchType: LocationMapSearchType! { get set }
 
     /// Return all the annotations available on the map
@@ -71,7 +71,7 @@ public protocol MapResultViewModelable: SearchResultModelable {
     /// - Parameter coordinate: The coordinate of target location
     func entityDisplayable(for annotation: MKAnnotation) -> EntityMapSummaryDisplayable?
 
-    /// Returns a presentablefor for the annotation
+    /// Returns a presentable for for the annotation
     ///
     /// - Parameter annotation: The annotation
     /// - Returns: The presentable
@@ -82,7 +82,7 @@ public protocol MapResultViewModelable: SearchResultModelable {
     func mapAnnotation(for entity: MPOLKitEntity) -> MKAnnotation?
 
     /// The view for each annotation view for the specific mapView
-    /// Subclasses will need to provode their own implementations to provide annotations
+    /// Subclasses will need to provide their own implementations to provide annotations
     func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView?
     
     /// A delegate that will be notified when there are changes to the results.

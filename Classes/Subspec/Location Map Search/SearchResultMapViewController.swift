@@ -297,7 +297,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         }
     }
 
-    private func drawMapOverlays(){
+    private func drawMapOverlays() {
         
         /// Remove all of existing map overlays
         removeMapOverlays()
@@ -332,8 +332,8 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     private func addAnnotations() {
         /// Remove all the existing annotations, except current user location
         if let annotations = mapView?.annotations {
-            let anotationsToRemove = annotations.filter { !($0 is MKUserLocation) }
-            mapView?.removeAnnotations(anotationsToRemove)
+            let annotationsToRemove = annotations.filter { !($0 is MKUserLocation) }
+            mapView?.removeAnnotations(annotationsToRemove)
         }
         if let annotations = viewModel?.allAnnotations {
             mapView?.addAnnotations(annotations)
