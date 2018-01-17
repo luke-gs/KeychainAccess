@@ -50,8 +50,8 @@ extension OfficerListViewController: GenericSearchDelegate {
     public func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath, withSearchable searchable: GenericSearchable) {
         if let officer = searchable as? OfficerListItemViewModel {
 
-            if let officerDetailsViewController = officerListViewModel?.officerDetailsViewController(for: officer) {
-                self.navigationController?.pushViewController(officerDetailsViewController, animated: true)
+            if let screen = officerListViewModel?.officerDetailsScreen(for: officer) {
+                self.present(screen)
             }
         }
     }

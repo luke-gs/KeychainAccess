@@ -35,6 +35,8 @@ public final class LocationManager: NSObject {
             return lastLocation?.timestamp
         }
     }
+
+    open var errorManager: LocationErrorManageable = LocationErrorManager()
     
     /// Used to get the last saved location.
     open var lastLocation: CLLocation? = nil

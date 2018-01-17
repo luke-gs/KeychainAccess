@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class CallsignListViewController: CADFormCollectionViewController<NotBookedOnCallsignItemViewModel>, UISearchBarDelegate {
+open class CallsignListViewController: CADFormCollectionViewController<BookOnLandingCallsignItemViewModel>, UISearchBarDelegate {
 
     // MARK: - Views
     
@@ -85,7 +85,7 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
         return CallsignCollectionViewCell.self
     }
     
-    override open func decorate(cell: CollectionViewFormCell, with viewModel: NotBookedOnCallsignItemViewModel) {
+    override open func decorate(cell: CollectionViewFormCell, with viewModel: BookOnLandingCallsignItemViewModel) {
         cell.highlightStyle = .fade
         cell.selectionStyle = .fade
         cell.separatorStyle = .indented
@@ -133,8 +133,8 @@ open class CallsignListViewController: CADFormCollectionViewController<NotBooked
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         
-        if let bookOnViewController = callsignListViewModel?.bookOnViewControllerForItem(indexPath) {
-            navigationController?.pushViewController(bookOnViewController, animated: true)
+        if let screen = callsignListViewModel?.bookOnScreenForItem(indexPath) {
+            present(screen)
         }
     }
     

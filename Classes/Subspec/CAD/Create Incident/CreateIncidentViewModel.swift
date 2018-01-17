@@ -15,7 +15,7 @@ public protocol CreateIncidentViewModelDelegate: class {
 
 open class CreateIncidentViewModel {
 
-    open let contentViewModel = CreateIncidentDetailsContentViewModel()
+    open let contentViewModel = CreateIncidentFormViewModel()
 
     open weak var delegate: CreateIncidentViewModelDelegate?
     
@@ -69,8 +69,8 @@ open class CreateIncidentViewModel {
         return viewModel.createViewController()
     }
 
-    open func createFormViewController() -> IncidentDetailsFormViewController {
-        return IncidentDetailsFormViewController(viewModel: self)
+    open func createFormViewController() -> CreateIncidentFormViewController {
+        return CreateIncidentFormViewController(viewModel: self)
     }
     
     open func createViewController() -> CreateIncidentViewController {

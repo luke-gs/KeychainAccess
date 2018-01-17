@@ -100,6 +100,12 @@ open class CADStateManager: NSObject {
         }
     }
 
+    /// Set logged in officer as off duty
+    open func setOffDuty() {
+        currentResource?.status = .offDuty
+        lastBookOn = nil
+    }
+
     // MARK: - Shift
 
     /// Book on to a shift

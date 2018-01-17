@@ -295,7 +295,8 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
 
         let search = Searchable(text: advanceOptions.textRepresentation(),
                                 options: advanceOptions.state(),
-                                type: LocationSearchDataSourceSearchableType)
+                                type: LocationSearchDataSourceSearchableType,
+                                imageKey: AssetManager.ImageKey.location)
 
         let preferredViewModel = searchStrategy.resultModelForSearchOnLocation(withParameters: parameters, andSearchable: search)
         updatingDelegate?.searchDataSource(self, didFinishWith: search, andResultViewModel: preferredViewModel)

@@ -17,8 +17,8 @@ class PersonDetailViewController: FormBuilderViewController {
         builder.title = "Person Details"
 
         let dataSource: MediaDataSource<PhotoMedia> = [
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), title: "Jeff Handerson", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Login"), image: #imageLiteral(resourceName: "Login"), title: "Background of some random screen", sensitive: false),
+            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), title: "Jeff Handerson", comments: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sit amet suscipit dolor. Aenean egestas ligula id dictum aliquam. Maecenas a aliquam mauris. Nullam facilisis elit metus, eu imperdiet sem aliquet eu. Nullam dapibus justo vitae enim viverra, eget sollicitudin ligula efficitur. Cras ut blandit odio. Pellentesque tempor bibendum diam eget eleifend.", sensitive: false),
+            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Login"), image: #imageLiteral(resourceName: "Login"), title: "Background of some random screen", comments: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sit amet suscipit dolor.", sensitive: false),
             PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "SidebarInfoFilled"), image: #imageLiteral(resourceName: "SidebarInfoFilled"), title: "The davin ci icon", sensitive: false),
             PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), title: "Jeff Handerson in the fresh.", sensitive: false),
             PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Login"), image: #imageLiteral(resourceName: "Login"), title: "A group of officers pretending to be working", sensitive: false),
@@ -50,7 +50,7 @@ class PersonDetailViewController: FormBuilderViewController {
         builder += SubtitleFormItem(title: "Name", subtitle: StringSizing(string: "Herli Halim", font: .boldSystemFont(ofSize: 20)), image: #imageLiteral(resourceName: "SidebarInfo"))
         builder += SubtitleFormItem(title: "Spouse", subtitle: "Marianna", image: #imageLiteral(resourceName: "SidebarInfo"))
         builder += ValueFormItem(title: "Age", value: "2", image: #imageLiteral(resourceName: "SidebarInfo"))
-        builder += ValueFormItem(title: "Sex", value: "Confused", image: #imageLiteral(resourceName: "SidebarInfo"))
+        builder += ValueFormItem(title: "Sex", value: "Male", image: #imageLiteral(resourceName: "SidebarInfo"))
         builder += DetailFormItem(title: "Property", subtitle: "44 Heartlands Blv", detail: "Current PPOR", image: #imageLiteral(resourceName: "SidebarInfo"))
         builder += DetailFormItem(title: "Property", subtitle: "108 Flinders St", detail: "Previous PPOR")
 

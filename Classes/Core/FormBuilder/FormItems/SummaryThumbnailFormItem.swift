@@ -26,6 +26,8 @@ public class SummaryThumbnailFormItem: BaseFormItem {
     public var badgeColor: UIColor?
 
     public var borderColor: UIColor?
+    
+    public var imageTintColor: UIColor?
 
     public var image: ImageLoadable?
 
@@ -43,7 +45,8 @@ public class SummaryThumbnailFormItem: BaseFormItem {
         super.init(cellType: EntityCollectionViewCell.self, reuseIdentifier: EntityCollectionViewCell.defaultReuseIdentifier)
 
         separatorStyle = .none
-        highlightStyle = .fade
+        highlightStyle = .enlarge
+        selectionStyle = .enlarge
     }
 
     public override func configure(_ cell: CollectionViewFormCell) {
@@ -57,6 +60,7 @@ public class SummaryThumbnailFormItem: BaseFormItem {
         cell.borderColor = badgeColor
         cell.badgeCount = badge
         cell.thumbnailView.borderColor = borderColor
+        cell.thumbnailView.tintColor = imageTintColor
 
         let sizing = image?.sizing()
         cell.thumbnailView.imageView.image = sizing?.image
@@ -141,6 +145,12 @@ extension SummaryThumbnailFormItem {
     @discardableResult
     public func borderColor(_ borderColor: UIColor?) -> Self {
         self.borderColor = borderColor
+        return self
+    }
+    
+    @discardableResult
+    public func imageTintColor(_ imageTintColor: UIColor?) -> Self {
+        self.imageTintColor = imageTintColor
         return self
     }
 

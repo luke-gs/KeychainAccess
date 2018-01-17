@@ -64,7 +64,8 @@ extension EntitySummaryDisplayable {
             .badgeColor(borderColor)
             .image(thumbnail(ofSize: style == .hero ? .large : .medium))
             .borderColor(borderColor)
-        
+            .highlightStyle(.fade)
+            .imageTintColor(iconColor)
     }
 
 
@@ -72,7 +73,7 @@ extension EntitySummaryDisplayable {
     ///
     /// - Returns: A preconfigured SummaryListFormItem.
     public func summaryListFormItem() -> SummaryListFormItem {
-        let subtitle = [detail1, detail2].flatMap({$0}).joined(separator: ThemeConstants.dividerSeparator)
+        let subtitle = [detail1, detail2].joined(separator: ThemeConstants.dividerSeparator)
         return SummaryListFormItem()
             .category(category)
             .title(title)
@@ -81,6 +82,8 @@ extension EntitySummaryDisplayable {
             .badgeColor(borderColor)
             .image(thumbnail(ofSize: .small))
             .borderColor(borderColor)
+            .highlightStyle(.fade)
+            .imageTintColor(iconColor)
             .accessory(ItemAccessory.disclosure)
     }
 
