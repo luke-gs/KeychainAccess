@@ -25,8 +25,13 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
     }()
     lazy var controlPanel: SketchControlPanel = SketchControlPanel()
 
-    lazy var doneButton: UIBarButtonItem = {
+    lazy var doneItem: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneTapped))
+        button.isEnabled = false
+        return button
+    }()
+    lazy var trashItem: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(clearTapped))
         button.isEnabled = false
         return button
     }()
@@ -37,8 +42,8 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneTapped))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.stop, target: self, action: #selector(closeTapped))
         navigationItem.rightBarButtonItems = [
-            doneButton,
-            UIBarButtonItem(image: AssetManager.shared.image(forKey: .trash), style: .plain, target: self, action: #selector(clearTapped))
+            doneItem,
+            trashItem
         ]
     }
     
@@ -105,7 +110,9 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
     // MARK: - Sketch Canvas Delegate
 
     func canvasDidStartSketching(_ canvas: Sketchable) {
-        doneButton.isEnabled = !canvas.isEmpty
+        let isEmptyCanvas = canvas.isEmpty
+        doneItem.isEnabled = !isEmptyCanvas
+        trashItem.isEnabled = !isEmptyCanvas
     }
 
     // Private functions
@@ -122,6 +129,7 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
 
     @objc private func clearTapped() {
         canvas.clearCanvas()
-        doneButton.isEnabled = false
+        doneItem.isEnabled = false
+        trashItem.isEnabled = false
     }
 }
