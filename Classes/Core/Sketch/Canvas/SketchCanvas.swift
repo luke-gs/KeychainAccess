@@ -32,7 +32,7 @@ public protocol SketchCanvasDelegate: class {
     func canvasDidFinishSketching(_ canvas: Sketchable)
 }
 
-class SketchyCanvas: UIView, Sketchable {
+class SketchCanvas: UIView, Sketchable {
 
     private let eraser: SketchEraser
     private let pen: SketchPen

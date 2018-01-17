@@ -17,8 +17,8 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
 
     weak var delegate: SketchPickerControllerDelegate?
     
-    lazy var canvas: SketchyCanvas = {
-        let canvas = SketchyCanvas()
+    lazy var canvas: SketchCanvas = {
+        let canvas = SketchCanvas()
         canvas.frame = view.frame
         canvas.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         return canvas
