@@ -78,7 +78,10 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 return LocationMapSummarySearchResultViewModel()
             }
             strategy.onResultModelForResult = { (lookupResult, searchable) in
-                return LocationMapSummarySearchResultViewModel()
+                let radiusSearch = LocationMapSearchType.radiusSearch(from: lookupResult.location.coordinate)
+                let viewModel = LocationMapSummarySearchResultViewModel()
+                viewModel.fetchResults(with: radiusSearch)
+                return viewModel
             }
             
             let viewModel = EntitySummarySearchViewModel(title: "MPOL", dataSources: [
