@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class SketchyPen: TouchTool {
+public class SketchPen: TouchTool {
 
     public var toolColor: UIColor = .darkGray {
         didSet {

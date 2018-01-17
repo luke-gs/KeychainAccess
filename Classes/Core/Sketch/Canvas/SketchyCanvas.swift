@@ -15,23 +15,17 @@ public enum SketchMode: Int {
 }
 
 public protocol SketchCanvasDelegate: class {
+
+    /// Triggered when the canvas did start sketching in order to
+    /// let the delegate know when drawing starts on the canvas
+    /// Potentially called on every touch began
     func canvasDidStartSketching(_ canvas: Sketchable)
-}
-
-public protocol Sketchable {
-    var currentTool: TouchTool { get }
-    var sketchMode: SketchMode { get set }
-    var isEmpty: Bool { get }
-    func renderedImage() -> UIImage?
-
-    func setToolColor(_ color: UIColor)
-    func setToolWidth(_ width: CGFloat)
 }
 
 class SketchyCanvas: UIView, Sketchable {
 
-    private let eraser: SketchyEraser
-    private let pen: SketchyPen
+    private let eraser: SketchEraser
+    private let pen: SketchPen
     public private(set) var currentTool: TouchTool
     weak var delegate: SketchCanvasDelegate?
 
@@ -42,6 +36,8 @@ class SketchyCanvas: UIView, Sketchable {
         return imageView
     }()
 
+    // The current mode of the canvas
+    // When it changes, the current tool endsDrawing
     public var sketchMode: SketchMode = .draw {
         didSet {
             if oldValue == sketchMode { return }
@@ -56,7 +52,7 @@ class SketchyCanvas: UIView, Sketchable {
         }
     }
 
-    init(pen: SketchyPen = SketchyPen(), eraser: SketchyEraser = SketchyEraser()) {
+    init(pen: SketchPen = SketchPen(), eraser: SketchEraser = SketchEraser()) {
 
         self.eraser = eraser
         self.pen = pen
@@ -71,6 +67,8 @@ class SketchyCanvas: UIView, Sketchable {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Touches
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
@@ -99,6 +97,8 @@ class SketchyCanvas: UIView, Sketchable {
             currentTool.ended(touch: touch)
         }
     }
+
+    // MARK: - Sketchable
 
     func setToolColor(_ color: UIColor) {
         currentTool.toolColor = color

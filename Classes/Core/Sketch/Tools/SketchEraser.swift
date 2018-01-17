@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class SketchyEraser: SketchyPen {
+public class SketchEraser: SketchPen {
 
     override init() {
         super.init()

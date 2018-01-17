@@ -8,12 +8,15 @@
 
 import Foundation
 
+
+/// The enum defining the size of the width of the tool
+/// Has 4 predefined values, and the ability to initialise
+/// with a value that will be converted to the closest value
 public enum NibSize: CGFloat {
     case small = 5
     case medium = 25
     case large = 50
     case giant = 100
-
 
     init(value: CGFloat) {
         switch value {

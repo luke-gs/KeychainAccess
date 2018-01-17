@@ -8,6 +8,10 @@
 
 import UIKit
 
+/// This protocol defines the functionality required for a basic tool
+/// that is used to draw onto a canvas
+/// It essentially responds to touches from a view that are passed
+/// down and determines how to draw between the points
 public protocol TouchTool {
     func touch(_ touch: UITouch, beganIn canvas: UIImageView)
     func moved(touch: UITouch)

@@ -8,31 +8,28 @@
 
 import UIKit
 
-protocol SketchControlPanelDelegate: class {
-    func controlPanel(_ panel: SketchControlPanel, didSelectColor color: UIColor)
-    func controlPanel(_ panel: SketchControlPanel, didChangeDrawMode mode: SketchMode)
-    func controlPanelDidSelectWidth(_ panel: SketchControlPanel)
-}
-
-protocol SketchColorPickable {
-    typealias ColorPicker = ColorPickable & UIView
-    var colorPicker: ColorPicker { get set }
-    func setSelectedColor(_ color: UIColor)
-}
-
+/// Basic implementation of a control panel that allows the user to
+/// change pen mode, the size of the pen and choose from a selection of
+/// 3 colours.
 class SketchControlPanel: UIView, SketchColorPickable {
+
+    let colors: [UIColor]
     private let penView: ControlPanelPenView = ControlPanelPenView()
     private let eraserView: UIImageView = UIImageView(image: AssetManager.shared.image(forKey: .rubber))
-    private(set) var colors: [UIColor] = [.red, .blue, .black]
 
     lazy var colorPicker: ColorPicker = SimpleColorPicker(colors: colors)
     lazy private(set) var pixelWidthView: PixelWidthView = PixelWidthView()
 
+    // Constraints to manage the animations of the pen and eraser
+    // Was using frame based but caused issues when layouts occured
     var penTopConstraint: NSLayoutConstraint?
     var eraserTopConstraint: NSLayoutConstraint?
 
     weak var delegate: SketchControlPanelDelegate?
 
+    // The current selected view the represents the mode of the control panel
+    // Either pen or eraser
+    // When this is changed animate the change between the two
     private var selectedView: UIView? {
         didSet {
             if oldValue == selectedView {
@@ -59,7 +56,9 @@ class SketchControlPanel: UIView, SketchColorPickable {
         }
     }
 
-    init() {
+    init(colors: [UIColor] = [.red, .blue, .darkGray]) {
+        self.colors = colors
+
         super.init(frame: .zero)
 
         backgroundColor = UIColor.white
@@ -150,6 +149,8 @@ class SketchControlPanel: UIView, SketchColorPickable {
     }
 }
 
+/// Any UIView is able to "shake", which will cause the view to slightly jiggle
+/// in position, drawing attention that something has occurred
 extension UIView {
     func shake() {
         let animation = CABasicAnimation(keyPath: "position")
@@ -164,7 +165,15 @@ extension UIView {
 
 extension UIImage {
 
+
+    /// Returns an image of a circle of a certain diameter and color
+    ///
+    /// - Parameters:
+    ///   - diameter: The diameter of the circle
+    ///   - color: The color to draw the circle
+    /// - Returns: An image of a circle
     class func circle(diameter: CGFloat, color: UIColor) -> UIImage {
+
         UIGraphicsBeginImageContextWithOptions(CGSize(width: diameter, height: diameter), false, 0)
         let ctx = UIGraphicsGetCurrentContext()!
         ctx.saveGState()
@@ -180,8 +189,8 @@ extension UIImage {
         return image
     }
 
-    // Overlay the image with given color
-    // white will stay white and black will stay black as the lightness of the image is preserved
+    /// Overlay the image with given color
+    /// white will stay white and black will stay black as the lightness of the image is preserved
     func overlayed(with color: UIColor) -> UIImage? {
 
         return modifiedImage { context, rect in
