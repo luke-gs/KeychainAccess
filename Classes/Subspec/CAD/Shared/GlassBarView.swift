@@ -22,6 +22,7 @@ open class GlassBarView: UIControl {
         self.blurEffect = UIBlurEffect(style: blurEffectStyle)
         self.backgroundView = UIVisualEffectView(effect: blurEffect)
         self.backgroundView.isUserInteractionEnabled = false
+        self.backgroundView.translatesAutoresizingMaskIntoConstraints = false
         self.titleLabel = UILabel()
         self.subtitleLabel = UILabel()
         self.imageView = UIImageView()
