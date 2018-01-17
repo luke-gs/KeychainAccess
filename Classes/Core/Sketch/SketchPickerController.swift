@@ -118,19 +118,25 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
     func canvas(_ canvas: Sketchable, touchMovedTo position: CGPoint) {
 
         // Calculates whether the control panel should be hidden whilst panning
-
         let position = view.convert(position, to: view)
         let hidingHeight = controlPanel.frame.height + 100.0
         let shouldHide = position.y >= view.frame.maxY - hidingHeight
 
-        // If the panel should hide set its alpha to a percentage of the control height
-        controlPanel.alpha = shouldHide ? 1 - ((hidingHeight - (view.frame.maxY - 100 - position.y)) / hidingHeight) : 1
+        // Animate the hiding of the control panel when the users touch
+        // enter the area. Once in the area, the control panel will remain
+        if shouldHide && controlPanel.alpha == 1 {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.controlPanel.alpha = 0
+            })
+        }
     }
 
     func canvasDidFinishSketching(_ canvas: Sketchable) {
         // When touches finish ensure that the control panel has an alpha
         // value of 1
-        controlPanel.alpha = 1
+        UIView.animate(withDuration: 0.3, animations: {
+            self.controlPanel.alpha = 1
+        })
     }
 
     // Private functions
