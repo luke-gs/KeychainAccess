@@ -11,14 +11,6 @@ import MPOLKit
 
 class TemplateManagerViewController: FormBuilderViewController {
 
-    // todo
-    // - plus button to add template
-    // - add template dialog
-    // - sort templates alphabetically when selecting
-    // - add sections on left like form examples
-    // - add text field for further editing
-    // - second formview for listing and editing templates
-
     lazy var templateDropDown: DropDownFormItem<Template> = DropDownFormItem().title("Select a template").options(Array(TemplateManager.shared.allTemplates()))
 
     lazy var templateTextField = TextViewFormItem()
