@@ -18,7 +18,7 @@ public protocol TemplateDelegate {
     func storeCachedTemplates(templates: Set<Template>)
     func storeLocalTemplates(templates: Set<Template>)
 
-    func retrieveCachedTemplates() -> Set<Template>
-    func retrieveLocalTemplates() -> Set<Template>
-    func retrieveNetworkTemplates() -> Promise<Set<Template>>
+    func retrieveCachedTemplates() -> Set<Template>?
+    func retrieveLocalTemplates() -> Set<Template>?
+    func retrieveNetworkTemplates() -> Promise<Set<Template>?>
 }

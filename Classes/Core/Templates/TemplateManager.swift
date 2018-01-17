@@ -14,7 +14,7 @@ import PromiseKit
 
 public class TemplateManager {
 
-    static let shared: TemplateManager = TemplateManager()
+    public static let shared: TemplateManager = TemplateManager()
 
     // cached network templates - retrieved from last session
     private var cachedTemplates: Set<Template> = [] {
@@ -30,6 +30,7 @@ public class TemplateManager {
         didSet {
             if networkTemplates != oldValue {
                 networkTemplates.formUnion(cachedTemplates)
+                createCombinedTemplates()
             }
         }
     }
@@ -47,7 +48,7 @@ public class TemplateManager {
     private var combinedTemplates: Set<Template> = []
 
     // delegate reloads its data when it's assigned
-    var delegate: TemplateDelegate? {
+    public var delegate: TemplateDelegate? {
         didSet {
             loadExternalTemplates()
         }
@@ -66,17 +67,17 @@ public class TemplateManager {
     }
 
     // load templates from the network source
-    func loadNetworkTemplates() {
+    public func loadNetworkTemplates() {
         // load online things
         delegate?.retrieveNetworkTemplates().then { result in
-            self.networkTemplates = result
+            self.networkTemplates = result ?? self.networkTemplates
             }.always{}
     }
 
     /// Store the current templates according to the delegate's logic for future sessions.
     /// This must be called by any dependents in order to allow any templates to be saved
     /// between sessions.
-    func saveExternalTemplates() {
+    public func saveExternalTemplates() {
         delegate?.storeCachedTemplates(templates: networkTemplates)
         delegate?.storeLocalTemplates(templates: localTemplates)
     }
@@ -93,19 +94,19 @@ public class TemplateManager {
     }
 
     // get a template with a name
-    func template(withName name: String) -> Template? {
+    public func template(withName name: String) -> Template? {
         return combinedTemplates.first { template in template.name == name }
     }
 
     // get all templates
-    func allTemplates() -> Set<Template> {
+    public func allTemplates() -> Set<Template> {
         return combinedTemplates
     }
 
     /// Adds a template if no local template with that name exists.
     /// Returns true if successful, false otherwise.
     @discardableResult
-    func add(template: Template) -> Bool {
+    public func add(template: Template) -> Bool {
         let exists = localTemplates.contains { localTemplate in localTemplate.name == template.name }
         localTemplates.insert(template)
         return !exists
@@ -114,7 +115,7 @@ public class TemplateManager {
     /// Replaces an existing template that has a given name with a new template that shares its name.
     /// Returns true if successful, false otherwise.
     @discardableResult
-    func replace(template: Template) -> Bool {
+    public func replace(template: Template) -> Bool {
         let exists = localTemplates.contains { localTemplate in localTemplate.name == template.name }
         // insert does nothing while the template exists within the set,
         // hence it must be removed first to provide "editing" behaviour.
@@ -126,7 +127,7 @@ public class TemplateManager {
     /// Removes a template with a given name if it exists.
     /// Returns true if successful, false otherwise.
     @discardableResult
-    func remove(templateWithName name: String) -> Bool {
+    public func remove(templateWithName name: String) -> Bool {
         if let template = localTemplates.first(where: { template in template.name == name }) {
             localTemplates.remove(template)
             return true
@@ -135,7 +136,7 @@ public class TemplateManager {
     }
 
     // remove all local templates
-    func removeAll() {
+    public func removeAll() {
         localTemplates.removeAll()
     }
 }
