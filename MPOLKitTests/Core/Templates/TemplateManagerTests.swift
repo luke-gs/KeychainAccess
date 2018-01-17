@@ -20,21 +20,20 @@ public class TemplateManagerTests: XCTestCase {
     static let networkTemplate = Template(name: "networktemplate", description: "A network template.", value: "This template comes from the network!")
 
     class DummyTemplateDelegate: TemplateDelegate {
-
         func storeCachedTemplates(templates: Set<Template>) {}
 
         func storeLocalTemplates(templates: Set<Template>) {}
 
         var url: URL = try! "http://google.com".asURL()
 
-        func retrieveCachedTemplates() -> Set<Template> {
+        func retrieveCachedTemplates() -> Set<Template>? {
             return [cachedTemplate]
         }
-        func retrieveLocalTemplates() -> Set<Template> {
+        func retrieveLocalTemplates() -> Set<Template>? {
             return [template9]
         }
-        func retrieveNetworkTemplates() -> Promise<Set<Template>> {
-            return Promise<Set<Template>> { fulfil, reject in
+        func retrieveNetworkTemplates() -> Promise<Set<Template>?> {
+            return Promise<Set<Template>?> { fulfil, reject in
                 fulfil([networkTemplate])
             }
         }
