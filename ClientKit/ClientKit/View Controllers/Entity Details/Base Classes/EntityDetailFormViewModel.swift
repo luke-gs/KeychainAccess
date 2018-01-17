@@ -110,18 +110,5 @@ open class EntityDetailFormViewModel {
     open func traitCollectionDidChange(_ traitCollection: UITraitCollection, previousTraitCollection: UITraitCollection?) {
         // Override to provide implementation
     }
-    
-    open func displaysCompact(in controller: FormBuilderViewController) -> Bool {
-        let formLayout = controller.formLayout
-        let collectionView = controller.collectionView
-        let itemInsets = formLayout.itemLayoutMargins
-        let horizontalInsets = UIEdgeInsets(top: 0,
-                                            left: collectionView?.layoutMargins.left ?? 0,
-                                            bottom: 0,
-                                            right: collectionView?.layoutMargins.right ?? 0)
-        let calculatedWidth = formLayout.collectionViewContentSize.width - itemInsets.left - itemInsets.right - horizontalInsets.left - horizontalInsets.right
-        
-        return EntityDetailCollectionViewCell.displaysAsCompact(withContentWidth: calculatedWidth)
-    }
 
 }
