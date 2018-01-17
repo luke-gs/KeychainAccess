@@ -200,6 +200,13 @@ open class BookOnLandingViewController: FormBuilderViewController {
         titleLabel.textColor = theme.color(forKey: .primaryText)
     }
     
+    open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            // Fix padding being wrong at top due to first header being too large
+            return 10
+        }
+        return super.collectionView(collectionView, layout: layout, heightForHeaderInSection: section)
+    }
 }
 
 extension BookOnLandingViewController: PatrolAreaListViewModelDelegate {
