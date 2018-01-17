@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, SearchResultViewModelable, AggregatedSearchDelegate {
+open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, SearchResultViewModelable, AggregatedSearchDelegate {
 
     public let title: String
     
@@ -153,7 +153,8 @@ public class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Sea
         return style == .grid ? .hero : .detail
     }
     
-    private func processedResults(from rawResults: [AggregatedResult<T>]) -> [SearchResultSection] {
+    // Temporararily open until better solution implemented to process externally
+    open func processedResults(from rawResults: [AggregatedResult<T>]) -> [SearchResultSection] {
         
         let processedResults: [SearchResultSection] = rawResults.map { (rawResult) -> SearchResultSection in
             let entities = summarySearchResultsHandler(rawResult.entities)
@@ -168,7 +169,7 @@ public class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Sea
     }
 }
 
-private extension AggregatedResult  {
+public extension AggregatedResult  {
     func titleForCurrentState() -> String {
         switch state {
         case .idle:
