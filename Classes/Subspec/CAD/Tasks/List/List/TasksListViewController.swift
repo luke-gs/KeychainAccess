@@ -268,7 +268,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
 
 extension TasksListViewController: LoadingStateManagerDelegate {
     public func loadingStateManager(_ stateManager: LoadingStateManager, didChangeState state: LoadingStateManager.State) {
-        if state == .loaded {
+        if state == .loaded && !searchBar.isFirstResponder {
             // Hide search bar when first loaded
             hideSearchBar()
         }
@@ -280,7 +280,7 @@ extension TasksListViewController: CADFormCollectionViewModelDelegate {
         // Update loading state
         let noSections = (viewModel.numberOfSections() == 0)
         loadingManager.state = noSections ? .noContent : .loaded
-        searchBar.isHidden = noSections
+        searchBar.isHidden = noSections && searchBar.text?.isEmpty == true
 
         // Reload content
         reloadContent()
