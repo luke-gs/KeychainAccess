@@ -133,6 +133,20 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
         default: return nil
         }
     }
+    
+    open func processedResults(from rawResults: [AggregatedResult<T>]) -> [SearchResultSection] {
+        
+        let processedResults: [SearchResultSection] = rawResults.map { (rawResult) -> SearchResultSection in
+            let entities = summarySearchResultsHandler(rawResult.entities)
+            return SearchResultSection(title: titleForResult(rawResult),
+                                       entities: entities,
+                                       isExpanded: true,
+                                       state: rawResult.state,
+                                       error: rawResult.error)
+        }
+        
+        return processedResults
+    }
 
     // MARK: - AggregatedSearchDelegate
     
@@ -153,35 +167,18 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
         return style == .grid ? .hero : .detail
     }
     
-    // Temporararily open until better solution implemented to process externally
-    open func processedResults(from rawResults: [AggregatedResult<T>]) -> [SearchResultSection] {
-        
-        let processedResults: [SearchResultSection] = rawResults.map { (rawResult) -> SearchResultSection in
-            let entities = summarySearchResultsHandler(rawResult.entities)
-            return SearchResultSection(title: rawResult.titleForCurrentState(),
-                                       entities: entities,
-                                       isExpanded: true,
-                                       state: rawResult.state,
-                                       error: rawResult.error)
-        }
-        
-        return processedResults
-    }
-}
-
-public extension AggregatedResult  {
-    func titleForCurrentState() -> String {
-        switch state {
+    public func titleForResult(_ result: AggregatedResult<T>) -> String {
+        switch result.state {
         case .idle:
-            return String.localizedStringWithFormat(NSLocalizedString("%2$@", comment: ""), request.source.localizedBadgeTitle.uppercased(with: .current))
+            return String.localizedStringWithFormat(NSLocalizedString("%2$@", comment: ""), result.request.source.localizedBadgeTitle.uppercased(with: .current))
         case .searching:
-            return String.localizedStringWithFormat(NSLocalizedString("Searching %2$@", comment: ""), request.source.localizedBadgeTitle.uppercased(with: .current))
-        case .finished where error != nil:
+            return String.localizedStringWithFormat(NSLocalizedString("Searching %2$@", comment: ""), result.request.source.localizedBadgeTitle.uppercased(with: .current))
+        case .finished where result.error != nil:
             fallthrough
         case .failed:
-            return String.localizedStringWithFormat(NSLocalizedString("%2$@", comment: ""), request.source.localizedBadgeTitle.uppercased(with: .current))
+            return String.localizedStringWithFormat(NSLocalizedString("%2$@", comment: ""), result.request.source.localizedBadgeTitle.uppercased(with: .current))
         case .finished:
-            return String.localizedStringWithFormat(NSLocalizedString("%1$d Result(s) in %2$@", comment: ""), entities.count, request.source.localizedBadgeTitle.uppercased(with: .current))
+            return String.localizedStringWithFormat(NSLocalizedString("%1$d Result(s) in %2$@", comment: ""), result.entities.count, result.request.source.localizedBadgeTitle.uppercased(with: .current))
         }
     }
 }
