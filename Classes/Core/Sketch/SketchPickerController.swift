@@ -65,8 +65,8 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
 
         NSLayoutConstraint.activate([
             controlPanel.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
-            controlPanel.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
-            controlPanel.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
+            controlPanel.widthAnchor.constraint(lessThanOrEqualTo: view.widthAnchor, multiplier: 1.0),
+            controlPanel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             controlPanel.heightAnchor.constraint(equalToConstant: 60.0)
         ])
 
@@ -113,6 +113,24 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
         let isEmptyCanvas = canvas.isEmpty
         doneItem.isEnabled = !isEmptyCanvas
         trashItem.isEnabled = !isEmptyCanvas
+    }
+
+    func canvas(_ canvas: Sketchable, touchMovedTo position: CGPoint) {
+
+        // Calculates whether the control panel should be hidden whilst panning
+
+        let position = view.convert(position, to: view)
+        let hidingHeight = controlPanel.frame.height + 100.0
+        let shouldHide = position.y >= view.frame.maxY - hidingHeight
+
+        // If the panel should hide set its alpha to a percentage of the control height
+        controlPanel.alpha = shouldHide ? 1 - ((hidingHeight - (view.frame.maxY - 100 - position.y)) / hidingHeight) : 1
+    }
+
+    func canvasDidFinishSketching(_ canvas: Sketchable) {
+        // When touches finish ensure that the control panel has an alpha
+        // value of 1
+        controlPanel.alpha = 1
     }
 
     // Private functions

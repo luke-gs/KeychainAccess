@@ -20,6 +20,16 @@ public protocol SketchCanvasDelegate: class {
     /// let the delegate know when drawing starts on the canvas
     /// Potentially called on every touch began
     func canvasDidStartSketching(_ canvas: Sketchable)
+
+    /// Called whenever the user moves there touch over the canvas
+    /// This allows the delegate to do any sort of operation, for
+    /// example hiding the panel in certain positions
+    func canvas(_ canvas: Sketchable, touchMovedTo position: CGPoint)
+
+    /// Called whenever the sketch canvas did stop drawing touches
+    /// Every time a new touch begins this will be called when the touch ends
+    /// or is cancelled
+    func canvasDidFinishSketching(_ canvas: Sketchable)
 }
 
 class SketchyCanvas: UIView, Sketchable {
@@ -83,6 +93,8 @@ class SketchyCanvas: UIView, Sketchable {
             if let predictiveTouch = event?.predictedTouches(for: currentTouch)?.last {
                 currentTool.moved(touch: predictiveTouch)
             }
+
+            delegate?.canvas(self, touchMovedTo: currentTouch.location(in: canvas))
         }
     }
 
@@ -90,12 +102,14 @@ class SketchyCanvas: UIView, Sketchable {
         if let touch = touches.first {
             currentTool.ended(touch: touch)
         }
+        delegate?.canvasDidFinishSketching(self)
     }
 
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
             currentTool.ended(touch: touch)
         }
+        delegate?.canvasDidFinishSketching(self)
     }
 
     // MARK: - Sketchable

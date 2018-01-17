@@ -61,7 +61,7 @@ class SketchControlPanel: UIView, SketchColorPickable {
 
         super.init(frame: .zero)
 
-        backgroundColor = UIColor.white
+        backgroundColor = .white
 
         let container = UIView()
         container.translatesAutoresizingMaskIntoConstraints = false
