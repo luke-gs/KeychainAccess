@@ -13,7 +13,7 @@ public class VehicleMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSourc
 
     public var source: EntitySource = MPOLSource.mpol
     public var entity: MPOLKitEntity
-    public var detailViewControllers: [EntityDetailSectionUpdatable]
+    public var detailViewControllers: [EntityDetailViewController]
 
     public var localizedDisplayName: String {
         return NSLocalizedString("Vehicle", comment: "")
@@ -26,10 +26,10 @@ public class VehicleMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSourc
 
     public init(baseEntity: Entity, delegate: SearchDelegate?) {
         self.entity = baseEntity
-        self.detailViewControllers =  [ VehicleInfoViewController(),
-                                        EntityAlertsViewController(),
-                                        EntityAssociationsViewController(delegate: delegate),
-                                        VehicleOccurrencesViewController()
+        self.detailViewControllers =  [ EntityDetailFormViewController(viewModel: VehicleInfoViewModel()),
+                                        EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
+                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
+                                        EntityDetailFormViewController(viewModel: EntityEventsViewModel())
         ]
     }
 }
@@ -38,7 +38,7 @@ public class VehicleFNCDetailsSectionsDataSource: EntityDetailSectionsDataSource
 
     public var source: EntitySource = MPOLSource.fnc
     public var entity: MPOLKitEntity
-    public var detailViewControllers: [EntityDetailSectionUpdatable]
+    public var detailViewControllers: [EntityDetailViewController]
 
     public var localizedDisplayName: String {
         return NSLocalizedString("Vehicle", comment: "")
@@ -51,9 +51,9 @@ public class VehicleFNCDetailsSectionsDataSource: EntityDetailSectionsDataSource
 
     public init(baseEntity: Entity, delegate: SearchDelegate?) {
         self.entity = baseEntity
-        self.detailViewControllers =  [ VehicleInfoViewController(),
-                                        EntityAssociationsViewController(delegate: delegate),
-                                        VehicleOccurrencesViewController(),
+        self.detailViewControllers =  [ EntityDetailFormViewController(viewModel: VehicleInfoViewModel()),
+                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
+                                        EntityDetailFormViewController(viewModel: EntityEventsViewModel()),
         ]
     }
 

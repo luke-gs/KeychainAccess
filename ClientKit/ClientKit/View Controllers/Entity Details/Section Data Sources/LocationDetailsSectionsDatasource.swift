@@ -13,7 +13,7 @@ public class LocationMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSour
 
     public var source: EntitySource = MPOLSource.mpol
     public var entity: MPOLKitEntity
-    public var detailViewControllers: [EntityDetailSectionUpdatable]
+    public var detailViewControllers: [EntityDetailViewController]
 
     public var localizedDisplayName: String {
         return NSLocalizedString("Location", comment: "")
@@ -27,9 +27,9 @@ public class LocationMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSour
     public init(baseEntity: Entity, delegate: SearchDelegate?) {
         self.entity = baseEntity
         self.detailViewControllers =  [
-                                        EntityAlertsViewController(),
-                                        EntityAssociationsViewController(delegate: delegate),
-                                        VehicleOccurrencesViewController()
+                                        EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
+                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
+                                        EntityDetailFormViewController(viewModel: EntityEventsViewModel())
         ]
     }
 }

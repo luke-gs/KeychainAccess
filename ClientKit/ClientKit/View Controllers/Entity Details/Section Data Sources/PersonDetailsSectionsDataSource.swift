@@ -13,7 +13,7 @@ public class PersonMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSource
 
     public var source: EntitySource = MPOLSource.mpol
     public var entity: MPOLKitEntity
-    public var detailViewControllers: [EntityDetailSectionUpdatable]
+    public var detailViewControllers: [EntityDetailViewController]
 
     public var localizedDisplayName: String {
         return NSLocalizedString("Person", comment: "")
@@ -26,11 +26,11 @@ public class PersonMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSource
 
     public init(baseEntity: Entity, delegate: SearchDelegate?) {
         self.entity = baseEntity
-        self.detailViewControllers = [ PersonInfoViewController(),
-                                       EntityAlertsViewController(),
-                                       EntityAssociationsViewController(delegate: delegate),
-                                       PersonOccurrencesViewController(),
-                                       PersonCriminalHistoryViewController()]
+        self.detailViewControllers = [ EntityDetailFormViewController(viewModel: PersonInfoViewModel()),
+                                       EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
+                                       EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
+                                       EntityDetailFormViewController(viewModel: EntityEventsViewModel()),
+                                       EntityDetailFormViewController(viewModel: PersonCriminalHistoryViewModel())]
     }
 }
 
@@ -38,7 +38,7 @@ public class PersonFNCDetailsSectionsDataSource: EntityDetailSectionsDataSource 
 
     public var source: EntitySource = MPOLSource.fnc
     public var entity: MPOLKitEntity
-    public var detailViewControllers: [EntityDetailSectionUpdatable]
+    public var detailViewControllers: [EntityDetailViewController]
 
     public var localizedDisplayName: String {
         return NSLocalizedString("FNC PERSON", comment: "")
@@ -51,9 +51,9 @@ public class PersonFNCDetailsSectionsDataSource: EntityDetailSectionsDataSource 
 
     public init(baseEntity: Entity, delegate: SearchDelegate?) {
         self.entity = baseEntity
-        self.detailViewControllers = [ PersonInfoViewController(),
-                                       EntityAlertsViewController(),
-                                       EntityAssociationsViewController(delegate: delegate)]
+        self.detailViewControllers = [ EntityDetailFormViewController(viewModel: PersonInfoViewModel()),
+                                       EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
+                                       EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate))]
     }
 }
 
