@@ -36,6 +36,8 @@ open class Alert: NSObject, Serialisable {
             case .low: return NSLocalizedString("Low", bundle: .mpolKit, comment: "Alert Level Title")
             }
         }
+        
+        public static var all: [Level] = [.high, .medium, .low]
     }
     
     open var id: String
