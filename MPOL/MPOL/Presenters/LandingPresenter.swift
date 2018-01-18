@@ -75,15 +75,24 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let strategy = LookupAddressLocationSearchStrategy<Address>(source: MPOLSource.gnaf, helpPresentable: EntityScreen.help(type: .location))
             let locationDataSource = LocationSearchDataSource(strategy: strategy, advanceOptions: LookupAddressLocationAdvancedOptions())
             strategy.onResultModelForMap = {
-                return LocationMapSummarySearchResultViewModel()
+                return LocationMapSummarySearchResultViewModel(searchStrategy: strategy)
             }
             strategy.onResultModelForResult = { (lookupResult, searchable) in
-                let radiusSearch = LocationMapSearchType.radiusSearch(from: lookupResult.location.coordinate)
-                let viewModel = LocationMapSummarySearchResultViewModel()
-                viewModel.fetchResults(with: radiusSearch)
-                return viewModel
+                let coordinate = lookupResult.location.coordinate
+                let searchType = LocationMapSearchType.radiusSearch(from: coordinate)
+                let parameters = LocationMapRadiusSearchParameters(latitude: coordinate.latitude, longitude: coordinate.longitude, radius: searchType.radius)
+                let request = LocationMapSearchRequest(source: .gnaf, request: parameters)
+                let aggregatedSearch = AggregatedSearch<Address>(requests: [request])
+                return LocationMapSummarySearchResultViewModel(searchStrategy: strategy, title: searchable.text ?? "", aggregatedSearch: aggregatedSearch)
             }
-            
+            strategy.onResultModelForSearchType = { searchType in
+                let coordinate = searchType.coordinate
+                let parameters = LocationMapRadiusSearchParameters(latitude: coordinate.latitude, longitude: coordinate.longitude, radius: searchType.radius)
+                let request = LocationMapSearchRequest(source: .gnaf, request: parameters)
+                let aggregatedSearch = AggregatedSearch<Address>(requests: [request])
+                return LocationMapSummarySearchResultViewModel(searchStrategy: strategy, title: "Dropped Pin at (\(coordinate.latitude), \(coordinate.longitude))", aggregatedSearch: aggregatedSearch)
+            }
+
             let viewModel = EntitySummarySearchViewModel(title: "MPOL", dataSources: [
                 PersonSearchDataSource(),
                 VehicleSearchDataSource(),

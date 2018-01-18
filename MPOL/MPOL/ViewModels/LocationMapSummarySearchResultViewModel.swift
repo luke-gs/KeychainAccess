@@ -59,12 +59,4 @@ public class LocationMapSummarySearchResultViewModel: MapSummarySearchResultView
         return nil
     }
 
-    public override func fetchResults(with searchType: LocationMapSearchType) {
-        self.searchType = searchType
-        let coordinate = searchType.coordinate
-        let parameters = LocationMapRadiusSearchParameters(latitude: coordinate.latitude, longitude: coordinate.longitude, radius: searchType.radius)
-        let request = LocationMapSearchRequest(source: .gnaf, request: parameters)
-        aggregatedSearch = AggregatedSearch(requests: [request])
-    }
-
 }
