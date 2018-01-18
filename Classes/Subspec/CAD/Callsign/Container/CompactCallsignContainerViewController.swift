@@ -47,7 +47,7 @@ open class CompactCallsignContainerViewController: UIViewController, PopToRootab
         navController.delegate = self
         
         addChildViewController(navController, toView: view)
-        callsignViewController = newCallsignViewController
+        callsignViewController = navController
         
         navController.view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
