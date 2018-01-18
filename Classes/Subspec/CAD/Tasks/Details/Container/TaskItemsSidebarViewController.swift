@@ -124,6 +124,7 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
     
     @objc open func callsignChanged() {
         detailViewModel.reloadFromModel()
+        configureCompactChangeStatusBar()
         updateHeaderView()
     }
 
