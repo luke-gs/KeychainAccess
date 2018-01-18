@@ -894,9 +894,11 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
 
 }
 
+// MARK: - Login Mode and Delegates
+
 public enum LoginMode {
     case usernamePassword(delegate: UsernamePasswordDelegate?)
-    case usernamePasswordWithBiometric(delegate: UsernamePasswordDelegate?)
+    case usernamePasswordWithBiometric(delegate: BiometricDelegate?)
     case externalAuth(delegate: ExternalAuthDelegate?)
 }
 
@@ -910,6 +912,10 @@ public protocol UsernamePasswordDelegate: LoginViewControllerDelegate {
 
     func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String)
     func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton)
+    
+}
+
+public protocol BiometricDelegate: UsernamePasswordDelegate {
     func loginViewControllerDidAuthenticateWithBiometric(_ controller: LoginViewController)
 }
 
@@ -922,6 +928,5 @@ public extension UsernamePasswordDelegate {
 }
 
 public protocol ExternalAuthDelegate: LoginViewControllerDelegate {
-
     func loginViewControllerDidCommenceExternalAuth(_ controller: LoginViewController)
 }
