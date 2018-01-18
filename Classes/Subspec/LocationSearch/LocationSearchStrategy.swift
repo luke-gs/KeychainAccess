@@ -9,16 +9,13 @@
 import Foundation
 import PromiseKit
 
-/// Defines a search strategy for location search data source.
-public protocol LocationSearchStrategy {
-    
+/// Defines a typeahead strategy for location search data source.
+public protocol LocationTypeaheadStrategy {
+
     associatedtype Location: Locatable
 
     /// The search configuration containing the frequency of typeahead search.
     var configuration: LocationSearchConfiguration { get }
-
-    /// The help presentable
-    var helpPresentable: Presentable { get }
 
     /// The search promise that performs the look up.
     ///
@@ -26,6 +23,10 @@ public protocol LocationSearchStrategy {
     ///   - text: The text entered.
     /// - Returns: The promise object
     func locationTypeaheadPromise(text: String) -> Promise<[Location]>?
+
+}
+
+public protocol LocationSearchModelStrategy {
 
     /// The map result view model for map action.
     /// If nil, the map option will not be displayed.
@@ -46,5 +47,21 @@ public protocol LocationSearchStrategy {
     ///             searchable: The searchable
     /// - Returns: The view model
     func resultModelForSearchOnLocation(withParameters parameters: Parameterisable, andSearchable searchable: Searchable) -> SearchResultModelable?
+
+
+    /// The view model for a specific search type
+    ///
+    /// - Parameter searchType: The search type
+    /// - Returns: The view model
+    func resultModelForSearchOnLocation(withSearchType searchType: LocationMapSearchType) -> MapResultViewModelable?
+
+
+}
+
+/// Defines a search strategy for location search data source.
+public protocol LocationSearchStrategy: LocationTypeaheadStrategy, LocationSearchModelStrategy {
+
+    /// The help presentable
+    var helpPresentable: Presentable { get }
 
 }

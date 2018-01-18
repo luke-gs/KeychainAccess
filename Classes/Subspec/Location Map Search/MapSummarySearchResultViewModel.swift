@@ -11,24 +11,21 @@ import MapKit
 
 open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModelable, AggregatedSearchDelegate {
 
-    private var _entityAnnotationMappings: [EntityAnnotationMapping]? = []
+    public let title: String
 
-    public var searchType: LocationMapSearchType!
-
-    public var title: String = "OVERVIEW"
-    
     public var status: SearchState? {
         return aggregatedSearch?.state
     }
 
+    public let searchStrategy: LocationSearchModelStrategy
+
+    private var _entityAnnotationMappings: [EntityAnnotationMapping]? = []
+
+    public var searchType: LocationMapSearchType!
+
     public weak var delegate: MapResultViewModelDelegate?
     
-    public var aggregatedSearch: AggregatedSearch<T>! {
-        didSet {
-            aggregatedSearch?.delegate = self
-            aggregatedSearch?.performSearch()
-        }
-    }
+    public private(set) var aggregatedSearch: AggregatedSearch<T>?
     
     public var travelEstimationPlugin: TravelEstimationPlugable = TravelEstimationPlugin()
     
@@ -50,8 +47,15 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
 
     public let summaryDisplayFormatter: EntitySummaryDisplayFormatter
 
-    public init(summaryDisplayFormatter: EntitySummaryDisplayFormatter = .default) {
+    public init(searchStrategy: LocationSearchModelStrategy, title: String = "", aggregatedSearch: AggregatedSearch<T>? = nil, summaryDisplayFormatter: EntitySummaryDisplayFormatter = .default) {
+
+        self.searchStrategy = searchStrategy
+        self.title = title
+        self.aggregatedSearch = aggregatedSearch
         self.summaryDisplayFormatter = summaryDisplayFormatter
+
+        aggregatedSearch?.delegate = self
+        aggregatedSearch?.performSearch()
     }
 
     public func numberOfSections() -> Int {
@@ -74,19 +78,6 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
         }
         return 0
 
-    }
-
-    // TODO: - These could be refactored.
-    open func fetchResults(withParameters parameters: Parameterisable) {
-        MPLRequiresConcreteImplementation()
-    }
-    
-    open func fetchResults(withCoordinate coordinate: CLLocationCoordinate2D) {
-        MPLRequiresConcreteImplementation()
-    }
-    
-    open func fetchResults(with searchType: LocationMapSearchType) {
-        MPLRequiresConcreteImplementation()
     }
 
     public func entity(for annotation: MKAnnotation) -> MPOLKitEntity? {
@@ -139,12 +130,14 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
     // MARK: - AggregateSearchDelegate 
     
     public func aggregatedSearch<T>(_ aggregatedSearch: AggregatedSearch<T>, didBeginSearch request: AggregatedSearchRequest<T>) {
-        self.results = self.processedResults(from: self.aggregatedSearch.results)
+        guard let currentAggregatedSearch = self.aggregatedSearch else { return }
+        self.results = self.processedResults(from: currentAggregatedSearch.results)
         delegate?.mapResultViewModelDidUpdateResults(self)
     }
     
     public func aggregatedSearch<T>(_ aggregatedSearch: AggregatedSearch<T>, didEndSearch request: AggregatedSearchRequest<T>) {
-        self.results = self.processedResults(from: self.aggregatedSearch.results)
+        guard let currentAggregatedSearch = self.aggregatedSearch else { return }
+        self.results = self.processedResults(from: currentAggregatedSearch.results)
         delegate?.mapResultViewModelDidUpdateResults(self)
     }
     

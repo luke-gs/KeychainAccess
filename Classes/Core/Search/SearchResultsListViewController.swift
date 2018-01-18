@@ -76,7 +76,6 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
         let searchFieldButton = SearchFieldButton(frame: .zero)
         searchFieldButton.text = viewModel?.title
         searchFieldButton.translatesAutoresizingMaskIntoConstraints = false
-        searchFieldButton.titleLabel?.font = .systemFont(ofSize: 15, weight: UIFont.Weight.regular)
         searchFieldButton.addTarget(self, action: #selector(searchFieldButtonDidSelect), for: .primaryActionTriggered)
         view.addSubview(searchFieldButton)
         self.searchFieldButton = searchFieldButton

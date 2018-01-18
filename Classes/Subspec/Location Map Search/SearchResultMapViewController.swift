@@ -20,7 +20,12 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     public var viewModel: MapResultViewModelable? {
         didSet {
             cleanAndRefreshMapView()
+
             viewModel?.delegate = self
+
+            if isViewLoaded {
+                searchFieldButton?.text = viewModel?.title
+            }
         }
     }
     
@@ -55,6 +60,8 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
             searchFieldButton?.placeholder = searchFieldPlaceholder
         }
     }
+
+    private var searchFieldButton: SearchFieldButton?
     
     public init(layout: LocationSearchMapCollectionViewSideBarLayout = LocationSearchMapCollectionViewSideBarLayout()) {
         super.init(layout: layout)
@@ -67,19 +74,23 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     }
     
     open override func viewDidLoad() {
+        guard let mapView = self.mapView, let collectionView = self.collectionView else { return }
+
+        collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView.register(EntityListCollectionViewCell.self)
+        collectionView.register(LocationMapDirectionCollectionViewCell.self)
+
         super.viewDidLoad()
 
         let searchFieldButton = SearchFieldButton(frame: .zero)
+        searchFieldButton.text = viewModel?.title
         searchFieldButton.placeholder = searchFieldPlaceholder
         searchFieldButton.translatesAutoresizingMaskIntoConstraints = false
-        searchFieldButton.titleLabel?.font = .systemFont(ofSize: 15, weight: UIFont.Weight.regular)
         searchFieldButton.addTarget(self, action: #selector(searchFieldButtonDidSelect), for: .primaryActionTriggered)
         self.searchFieldButton = searchFieldButton
 
         view.addSubview(searchFieldButton)
 
-        guard let mapView = self.mapView, let collectionView = self.collectionView else { return }
-        
         mapView.delegate = self
         mapView.showsUserLocation = true
         trackMyLocation()
@@ -88,9 +99,6 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         longPressGesture.minimumPressDuration = 0.5
         mapView.addGestureRecognizer(longPressGesture)
 
-        collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
-        collectionView.register(EntityListCollectionViewCell.self)
-        collectionView.register(LocationMapDirectionCollectionViewCell.self)
 
         NSLayoutConstraint.activate([
             searchFieldButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -204,6 +212,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
     // MapResultViewModelDelegate
     
     public func mapResultViewModelDidUpdateResults(_ viewModel: MapResultViewModelable) {
+        guard isViewLoaded else { return }
         cleanAndRefreshMapView()
     }
     
@@ -351,7 +360,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
             let point = gesture.location(in: mapView)
             if let coordinate = mapView?.convert(point, toCoordinateFrom: mapView) {
                 let radiusSearch = LocationMapSearchType.radiusSearch(from: coordinate)
-                viewModel?.fetchResults(with: radiusSearch)
+//                viewModel?.fetchResults(with: radiusSearch)
             }
         }
     }

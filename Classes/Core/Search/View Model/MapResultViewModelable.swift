@@ -88,19 +88,7 @@ public protocol MapResultViewModelable: SearchResultModelable {
     /// A delegate that will be notified when there are changes to the results.
     weak var delegate: MapResultViewModelDelegate? { get set }
 
-    /// Fetch results with the given parameters.
-    ///
-    /// - Parameter parameters: Dictionary containing look up information.
-    func fetchResults(withParameters parameters: Parameterisable)
+    /// A search strategy to handle searches
+    var searchStrategy: LocationSearchModelStrategy { get }
 
-    /// Fetch results with the given coordinate.
-    ///
-    /// - Parameter coordinate: Look up coordinate.
-    func fetchResults(withCoordinate coordinate: CLLocationCoordinate2D)
-
-    /// Fetch results with the searchType.
-    ///
-    /// - Parameter searchType: SearchType with associate value.
-    func fetchResults(with searchType: LocationMapSearchType)
-    
 }

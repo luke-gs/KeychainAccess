@@ -284,9 +284,6 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
                                 imageKey: AssetManager.ImageKey.location)
 
         let preferredViewModel = searchStrategy.resultModelForSearchOnLocation(withResult: result, andSearchable: search)
-        let radiusSearch = LocationMapSearchType.radiusSearch(from: result.location.coordinate)
-        // preferredViewModel.fetchResults(with: radiusSearch)
-
         updatingDelegate?.searchDataSource(self, didFinishWith: search, andResultViewModel: preferredViewModel)
     }
     

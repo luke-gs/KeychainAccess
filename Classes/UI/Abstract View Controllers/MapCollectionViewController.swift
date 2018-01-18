@@ -52,10 +52,7 @@ open class MapCollectionViewController: FormCollectionViewController {
             layout?.accessoryViewDidChange(oldValue)
         }
     }
-    
-    open var searchFieldButton: SearchFieldButton?
-    
-    
+
     // MARK: - Subclass override points
     
     /// Returns the `MKMapView` class to use for the map view.

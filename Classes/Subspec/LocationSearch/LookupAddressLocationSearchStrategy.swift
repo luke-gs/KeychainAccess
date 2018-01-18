@@ -28,19 +28,22 @@ open class LookupAddressLocationSearchStrategy<T: MPOLKitEntity>: LocationSearch
 
     public let helpPresentable: Presentable
 
-    public var onResultModelForMap: (() -> MapResultViewModelable)? = {
-        return MapSummarySearchResultViewModel<T>()
+    public lazy var onResultModelForMap: (() -> MapResultViewModelable)? = {
+        return MapSummarySearchResultViewModel<T>(searchStrategy: self)
     }
 
-    public var onResultModelForResult: ((LookupResult, Searchable) -> SearchResultModelable)? = { (result, searchable) in
-        let preferredViewModel = MapSummarySearchResultViewModel<T>()
-        preferredViewModel.fetchResults(withCoordinate: result.location.coordinate)
+    public lazy var onResultModelForResult: ((LookupResult, Searchable) -> SearchResultModelable)? = { (result, searchable) in
+        let preferredViewModel = MapSummarySearchResultViewModel<T>(searchStrategy: self, title: searchable.text ?? "")
         return preferredViewModel
     }
 
-    public var onResultModelForParameters: ((Parameterisable, Searchable) -> SearchResultModelable)? = { (parameterisable, searchable) in
-        let preferredViewModel = MapSummarySearchResultViewModel<T>()
-        preferredViewModel.fetchResults(withParameters: parameterisable)
+    public lazy var onResultModelForParameters: ((Parameterisable, Searchable) -> SearchResultModelable)? = { (parameterisable, searchable) in
+        let preferredViewModel = MapSummarySearchResultViewModel<T>(searchStrategy: self, title: searchable.text ?? "")
+        return preferredViewModel
+    }
+
+    public lazy var onResultModelForSearchType: ((LocationMapSearchType) -> MapResultViewModelable)? = { searchType in
+        let preferredViewModel = MapSummarySearchResultViewModel<T>(searchStrategy: self, title: "Dropped Pin")
         return preferredViewModel
     }
 
@@ -64,6 +67,10 @@ open class LookupAddressLocationSearchStrategy<T: MPOLKitEntity>: LocationSearch
 
     open func resultModelForSearchOnLocation(withParameters parameters: Parameterisable, andSearchable searchable: Searchable) -> SearchResultModelable? {
         return onResultModelForParameters?(parameters, searchable)
+    }
+
+    open func resultModelForSearchOnLocation(withSearchType searchType: LocationMapSearchType) -> MapResultViewModelable? {
+        return onResultModelForSearchType?(searchType)
     }
 
 }
