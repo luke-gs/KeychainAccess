@@ -45,6 +45,7 @@ public class SketchPen: TouchTool {
         if bufferedDrawing {
             image = nil
             let imageView = UIImageView(frame: canvas.bounds)
+            imageView.contentMode = .scaleAspectFit
             canvas.addSubview(imageView)
             self.imageView = imageView
         } else {

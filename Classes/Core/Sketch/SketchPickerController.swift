@@ -16,11 +16,18 @@ protocol SketchPickerControllerDelegate: class {
 class SketchPickerController: UIViewController, SketchControlPanelDelegate, SketchCanvasDelegate {
 
     weak var delegate: SketchPickerControllerDelegate?
-    
+
+    var initialOrientation: CGSize? {
+        didSet {
+            if initialOrientation == nil && oldValue != nil {
+                initialOrientation = oldValue
+            }
+        }
+    }
+
     lazy var canvas: SketchCanvas = {
         let canvas = SketchCanvas()
         canvas.frame = view.frame
-        canvas.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         return canvas
     }()
     lazy var controlPanel: SketchControlPanel = SketchControlPanel()
@@ -54,9 +61,10 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        canvas.delegate = self
+        initialOrientation = canvas.frame.size
 
-        view.backgroundColor = .white
+        canvas.delegate = self
+        view.backgroundColor = .lightGray
         view.addSubview(canvas)
 
         controlPanel.delegate = self
@@ -73,6 +81,18 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
         if let color = controlPanel.colors.first {
             controlPanel.setSelectedColor(color)
         }
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        guard let orientation = initialOrientation else { return }
+        var frame = canvas.frame
+
+        coordinator.animate(alongsideTransition: { (context) in
+            frame.size.width = orientation.width
+            frame.size.height = orientation.height
+            self.canvas.center = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+        }, completion: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {

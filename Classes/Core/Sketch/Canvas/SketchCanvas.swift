@@ -42,6 +42,7 @@ class SketchCanvas: UIView, Sketchable {
     private lazy var canvas: UIImageView = {
         let imageView = UIImageView(frame: bounds)
         imageView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        imageView.contentMode = .scaleAspectFit
         addSubview(imageView)
         return imageView
     }()
