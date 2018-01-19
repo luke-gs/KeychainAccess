@@ -48,6 +48,12 @@ public protocol MapResultViewModelDelegate: class {
 
 public protocol MapResultViewModelable: SearchResultModelable {
 
+    // NEW STUFFS
+
+    func itemsForResultsInSection(_ section: SearchResultSection) -> [FormItem]
+
+    // OLD STUFFS
+
     /// Plugin for ETA calculation
     var travelEstimationPlugin: TravelEstimationPlugable { get set }
     
@@ -86,7 +92,7 @@ public protocol MapResultViewModelable: SearchResultModelable {
     func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView?
     
     /// A delegate that will be notified when there are changes to the results.
-    weak var delegate: MapResultViewModelDelegate? { get set }
+    weak var delegate: (MapResultViewModelDelegate & SearchResultMapViewController)? { get set }
 
     /// A search strategy to handle searches
     var searchStrategy: LocationSearchModelStrategy { get }

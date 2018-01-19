@@ -9,15 +9,9 @@
 import UIKit
 import Unbox
 
-fileprivate let alertCellID = "alertCell"
 
 public class SearchResultsListViewController: FormBuilderViewController, SearchResultViewModelDelegate {
 
-    private enum CellIdentifier: String {
-        case empty   = "SearchResultsViewControllerEmpty"
-        case loading = "SearchResultsViewControllerLoading"
-    }
-    
     public var viewModel: SearchResultViewModelable? {
         didSet {
             viewModel?.style       = wantsThumbnails ? .grid : .list

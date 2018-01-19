@@ -10,13 +10,13 @@ import Foundation
 import CoreLocation
 import MapKit
 
-open class SearchResultMapViewController: MapCollectionViewController, MapResultViewModelDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate, CLLocationManagerDelegate {
+public class SearchResultMapViewController: MapFormBuilderViewController, MapResultViewModelDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate, CLLocationManagerDelegate {
     
     private enum LocationOverview: Int {
         case detail
         case direction
     }
-    
+
     public var viewModel: MapResultViewModelable? {
         didSet {
             cleanAndRefreshMapView()
@@ -73,15 +73,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         MPLCodingNotSupported()
     }
     
-    open override func viewDidLoad() {
-        guard let mapView = self.mapView, let collectionView = self.collectionView else { return }
-
-        collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
-        collectionView.register(EntityListCollectionViewCell.self)
-        collectionView.register(LocationMapDirectionCollectionViewCell.self)
-
-        super.viewDidLoad()
-
+    public override func viewDidLoad() {
         let searchFieldButton = SearchFieldButton(frame: .zero)
         searchFieldButton.text = viewModel?.title
         searchFieldButton.placeholder = searchFieldPlaceholder
@@ -89,26 +81,30 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         searchFieldButton.addTarget(self, action: #selector(searchFieldButtonDidSelect), for: .primaryActionTriggered)
         self.searchFieldButton = searchFieldButton
 
+        super.viewDidLoad()
+
         view.addSubview(searchFieldButton)
+
+        guard let mapView = self.mapView else { return }
 
         mapView.delegate = self
         mapView.showsUserLocation = true
         trackMyLocation()
 
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(performRadiusSearchOnLongPress(gesture:)))
-        longPressGesture.minimumPressDuration = 0.5
         mapView.addGestureRecognizer(longPressGesture)
-
 
         NSLayoutConstraint.activate([
             searchFieldButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchFieldButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             constraintAboveSafeAreaOrBelowTopLayout(searchFieldButton)
         ])
+
+        updateSearchText()
     }
 
-    open override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
 
         if #available(iOS 11, *) {
             additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
@@ -128,87 +124,66 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         }
         return true
     }
-    
-    // MARK: - UICollectionViewDataSource methods
-    
-    override open func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return viewModel?.numberOfSections() ?? 0
-    }
-    
-    open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel?.numberOfItems(in: section) ?? 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
 
-        if let selectedAnnotation = selectedAnnotation, let presentable = viewModel?.entityPresentable(for: selectedAnnotation) {
-            delegate?.handlePresentable(presentable)
-        }
+    public override func construct(builder: FormBuilder) {
+        guard let viewModel = viewModel else { return }
+        builder += viewModel.results.flatMap { viewModel.itemsForResultsInSection($0) }
     }
-    
-    open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionElementKindSectionHeader {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
-            let sectionResult = viewModel!.results[indexPath.section]
-            header.text = sectionResult.title
-            header.isExpanded = true
-            header.showsExpandArrow = false
-            return header
-        }
-        
-        return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
-    }
-    
-    open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let displayable = viewModel!.entityDisplayable(for: selectedAnnotation!)!
 
-        if indexPath.item == LocationOverview.detail.rawValue {
-            let cell = collectionView.dequeueReusableCell(of: EntityListCollectionViewCell.self, for: indexPath)
-            cell.decorate(with: displayable)
-            return cell
-        }
-        
-        let cell = collectionView.dequeueReusableCell(of: LocationMapDirectionCollectionViewCell.self, for: indexPath)
-        cell.decorate(with: displayable)
-        cell.streetViewHandler = {
+    public override func apply(_ theme: Theme) {
+        super.apply(theme)
 
-            // Implement google maps handler?
-        }
+        guard let searchField = searchFieldButton else { return }
 
-        if let destination = selectedAnnotation, let currentLocation = mapView?.userLocation.location {
-            let coordinate = destination.coordinate
-            let destinationLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-            viewModel?.travelEstimationPlugin.calculateDistance(from: currentLocation, to: destinationLocation)
-                .then { cell.distanceLabel.text = $0 }
-                .catch { _ in cell.distanceLabel.text = "Unknown" }
-            viewModel?.travelEstimationPlugin.calculateETA(from: currentLocation, to: destinationLocation, transportType: .walking)
-                .then { cell.walkingEstButton.bottomLabel.text = $0 }
-                .catch { _ in cell.distanceLabel.text = "Unknown" }
-            viewModel?.travelEstimationPlugin.calculateETA(from: currentLocation, to: destinationLocation, transportType: .automobile)
-                .then { cell.automobileEstButton.bottomLabel.text = $0 }
-                .catch { _ in cell.distanceLabel.text = "Unknown" }
-        }
-        return cell
+        searchField.backgroundColor = theme.color(forKey: .searchFieldBackground)
+        searchField.fieldColor = theme.color(forKey: .searchField)
+        searchField.textColor  = theme.color(forKey: .primaryText)
+        searchField.placeholderTextColor = theme.color(forKey: .placeholderText)
     }
-    
-    // MARK: - CollectionViewDelegateFormLayout methods
-    
-    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
-        return CollectionViewFormHeaderView.minimumHeight
+
+    // MARK: - Common methods
+
+    public func requestToEdit() {
+        delegate?.beginSearch(reset: false)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
-        return collectionView.bounds.width
+
+    public func requestToPresent(_ presentable: Presentable) {
+        delegate?.handlePresentable(presentable)
     }
-    
-    override open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        if indexPath.item == LocationOverview.direction.rawValue {
-            return LocationMapDirectionCollectionViewCell.minimumContentHeight(compatibleWith: traitCollection)
-        }
-        return EntityListCollectionViewCell.minimumContentHeight(compatibleWith: traitCollection)
-    }
-    
+
+//
+//    open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let displayable = viewModel!.entityDisplayable(for: selectedAnnotation!)!
+//
+//        if indexPath.item == LocationOverview.detail.rawValue {
+//            let cell = collectionView.dequeueReusableCell(of: EntityListCollectionViewCell.self, for: indexPath)
+//            cell.decorate(with: displayable)
+//            return cell
+//        }
+//
+//        let cell = collectionView.dequeueReusableCell(of: LocationMapDirectionCollectionViewCell.self, for: indexPath)
+//        cell.decorate(with: displayable)
+//        cell.streetViewHandler = {
+//
+//            // Implement google maps handler?
+//        }
+//
+//        if let destination = selectedAnnotation, let currentLocation = mapView?.userLocation.location {
+//            let coordinate = destination.coordinate
+//            let destinationLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+//            viewModel?.travelEstimationPlugin.calculateDistance(from: currentLocation, to: destinationLocation)
+//                .then { cell.distanceLabel.text = $0 }
+//                .catch { _ in cell.distanceLabel.text = "Unknown" }
+//            viewModel?.travelEstimationPlugin.calculateETA(from: currentLocation, to: destinationLocation, transportType: .walking)
+//                .then { cell.walkingEstButton.bottomLabel.text = $0 }
+//                .catch { _ in cell.distanceLabel.text = "Unknown" }
+//            viewModel?.travelEstimationPlugin.calculateETA(from: currentLocation, to: destinationLocation, transportType: .automobile)
+//                .then { cell.automobileEstButton.bottomLabel.text = $0 }
+//                .catch { _ in cell.distanceLabel.text = "Unknown" }
+//        }
+//        return cell
+//    }
+
     // MapResultViewModelDelegate
     
     public func mapResultViewModelDidUpdateResults(_ viewModel: MapResultViewModelable) {
@@ -222,7 +197,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         if let annotation = view.annotation as? MKPointAnnotation {
             sidebarDelegate?.showSidebar(adjustMapInsets: selectedAnnotation == nil)
             selectedAnnotation = annotation
-            collectionView?.reloadData()
+            reloadForm()
         }
     }
     
@@ -257,7 +232,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         
         /// Update ETA information
         if let _ = selectedAnnotation {
-            collectionView?.reloadData()
+            reloadForm()
         }
     }
     
@@ -329,8 +304,21 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         setMapRegion()
         drawMapOverlays()
         addAnnotations()
+        updateSearchText()
     }
-    
+
+    private func updateSearchText() {
+        let label = RoundedRectLabel(frame: CGRect(x: 10, y: 10, width: 120, height: 16))
+        label.backgroundColor = .clear
+        label.borderColor = viewModel?.status?.colour
+        label.textColor = viewModel?.status?.colour
+        label.text = viewModel?.status?.searchText
+        label.cornerRadius = 2.0
+        label.sizeToFit()
+
+        searchFieldButton?.accessoryView = label
+    }
+
     /// Center the map region to the search location
     private func setMapRegion() {
         guard let mapSearchType = viewModel?.searchType else { return }
@@ -360,7 +348,8 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
             let point = gesture.location(in: mapView)
             if let coordinate = mapView?.convert(point, toCoordinateFrom: mapView) {
                 let radiusSearch = LocationMapSearchType.radiusSearch(from: coordinate)
-//                viewModel?.fetchResults(with: radiusSearch)
+                let newModel = viewModel?.searchStrategy.resultModelForSearchOnLocation(withSearchType: radiusSearch)
+                self.viewModel = newModel
             }
         }
     }

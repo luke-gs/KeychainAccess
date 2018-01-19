@@ -23,7 +23,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
 
     public var searchType: LocationMapSearchType!
 
-    public weak var delegate: MapResultViewModelDelegate?
+    public weak var delegate: (MapResultViewModelDelegate & SearchResultMapViewController)?
     
     public private(set) var aggregatedSearch: AggregatedSearch<T>?
     
@@ -142,15 +142,52 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
     }
     
     private func processedResults(from rawResults: [AggregatedResult<T>]) -> [SearchResultSection] {
-        let processedResults: [SearchResultSection] = rawResults.map { (rawResult) -> SearchResultSection in
-            return SearchResultSection(title: "OVERVIEW",
-                                       entities: rawResult.entities,
+        let processedResults: [SearchResultSection] = rawResults.map { (result) -> SearchResultSection in
+            return SearchResultSection(title: String.localizedStringWithFormat(NSLocalizedString("%1$d Result(s)", comment: ""), result.entities.count),
+                                       entities: result.entities,
                                        isExpanded: true,
-                                       state: rawResult.state,
-                                       error: rawResult.error)
+                                       state: result.state,
+                                       error: result.error)
         }
         
         return processedResults
+    }
+
+    // NEW STUFFS
+
+    // MARK: - SearchResultViewModelable
+
+    public func itemsForResultsInSection(_ section: SearchResultSection) -> [FormItem] {
+        var items = [FormItem]()
+
+        items.append(headerItemForSection(section))
+
+        switch section.state {
+        case .finished where section.entities.count > 0:
+            items += summaryItemsForSection(section)
+        default:
+            break
+        }
+
+        return items
+    }
+
+    // MARK: - Subclass can override these methods
+
+    open func headerItemForSection(_ section: SearchResultSection) -> HeaderFormItem {
+        return HeaderFormItem(text: section.title)
+    }
+
+    open func summaryItemsForSection(_ section: SearchResultSection) -> [FormItem] {
+        return section.entities.flatMap { entity in
+            guard let summary = summaryDisplayFormatter.summaryDisplayForEntity(entity) as? EntityMapSummaryDisplayable else { return nil }
+
+            return summary.summaryListFormItem()
+                .onSelection { [weak self] _ in
+                    guard let `self` = self, let presentable = self.summaryDisplayFormatter.presentableForEntity(entity) else { return }
+                    self.delegate?.requestToPresent(presentable)
+            }
+        }
     }
 }
 

@@ -31,12 +31,12 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
 
     private var sections: [FormSection] = []
 
-    private var isUnderContruction: Bool = true
+    private var isUnderConstruction: Bool = true
 
     // MARK: - Height Calculations
 
     /// A boolean value indicating whether the collection view should automatically calculate
-    /// its `preferreContentSize`'s height property from the collection view's content height.
+    /// its `preferredContentSize`'s height property from the collection view's content height.
     ///
     /// The default is `false`.
     open var calculatesContentHeight = false {
@@ -74,7 +74,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
 
     /// The user interface style for the collection view.
     ///
-    /// When set to `.current`, the theme autoupdates when the interface
+    /// When set to `.current`, the theme auto updates when the interface
     /// style changes.
     open var userInterfaceStyle: UserInterfaceStyle = .current {
         didSet {
@@ -163,7 +163,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
     }
 
     open func reloadForm() {
-        isUnderContruction = true
+        isUnderConstruction = true
 
         globalHeader = nil
 
@@ -222,7 +222,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
 
         collectionView?.reloadData()
 
-        isUnderContruction = false
+        isUnderConstruction = false
     }
 
     open func scrollTo(_ formItem: FormItem) {
@@ -420,7 +420,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
     }
 
     public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard isUnderContruction == false else { return }
+        guard isUnderConstruction == false else { return }
 
         let item = sections[indexPath] as! BaseFormItem
         item.cell = nil
