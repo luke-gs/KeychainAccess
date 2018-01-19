@@ -43,7 +43,7 @@ public class PathBuilder {
     }
 
     var controlPoint: Int = 0
-    private var points: [CGPoint] = [CGPoint(), CGPoint(), CGPoint(), CGPoint(), CGPoint()]
+    private var points: [CGPoint] = Array(repeating: CGPoint(), count: 5)
 
     var leading: CGPoint {
         return points[0]

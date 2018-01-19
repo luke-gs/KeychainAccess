@@ -64,39 +64,35 @@ class SketchControlPanel: UIView, SketchColorPickable {
         backgroundColor = .white
 
         let container = UIView()
-        container.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(container)
+        container.setContentHuggingPriority(.required, for: .horizontal)
 
         pixelWidthView.selectionHandler = {
             self.delegate?.controlPanelDidSelectWidth(self)
         }
-        pixelWidthView.translatesAutoresizingMaskIntoConstraints = false
-        container.addSubview(pixelWidthView)
 
-        penView.translatesAutoresizingMaskIntoConstraints = false
         penView.isUserInteractionEnabled = true
         penView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(toolTapped(gesture:))))
-        container.addSubview(penView)
 
-        eraserView.translatesAutoresizingMaskIntoConstraints = false
         eraserView.isUserInteractionEnabled = true
         eraserView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(toolTapped(gesture:))))
-        container.addSubview(eraserView)
 
-
-        colorPicker.translatesAutoresizingMaskIntoConstraints = false
         colorPicker.colorSelectionHandler = { [unowned self] color in
             self.setSelectedMode(mode: .draw)
             self.penView.nib.image = self.penView.nib.image?.overlayed(with: color)
             self.delegate?.controlPanel(self, didSelectColor: color)
         }
-        container.addSubview(colorPicker)
 
         // Constraints
         let penTopConstraint = penView.topAnchor.constraint(equalTo: container.topAnchor, constant: -20)
         self.penTopConstraint = penTopConstraint
         let eraserTopConstraint = eraserView.topAnchor.constraint(equalTo: container.topAnchor, constant: -20)
         self.eraserTopConstraint = eraserTopConstraint
+
+        // Boilerplate constraints
+        [container, penView, eraserView, colorPicker, pixelWidthView].forEach { (view: UIView) in
+            view.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(view)
+        }
 
         NSLayoutConstraint.activate([
 
@@ -122,7 +118,7 @@ class SketchControlPanel: UIView, SketchColorPickable {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        MPLCodingNotSupported()
     }
 
     @objc func toolTapped(gesture: UITapGestureRecognizer) {

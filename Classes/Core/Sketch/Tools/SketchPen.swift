@@ -24,7 +24,8 @@ public class SketchPen: TouchTool {
     public var imageView: UIImageView?
     public var image: UIImage?
     weak private var canvas: UIImageView?
-    private var context: CGContext?
+    public private(set) var context: CGContext?
+    
     var isEmpty: Bool {
         return pathBuilder.isEmpty
     }
@@ -45,7 +46,7 @@ public class SketchPen: TouchTool {
         if bufferedDrawing {
             image = nil
             let imageView = UIImageView(frame: canvas.bounds)
-            imageView.contentMode = .scaleAspectFit
+            imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             canvas.addSubview(imageView)
             self.imageView = imageView
         } else {
@@ -93,7 +94,7 @@ public class SketchPen: TouchTool {
         UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, UIScreen.main.scale)
         imageView.image?.draw(in: imageView.bounds)
 
-        let context = UIGraphicsGetCurrentContext()
+        context = UIGraphicsGetCurrentContext()
         context?.setLineCap(.round)
         context?.setLineWidth(toolWidth)
         context?.setLineJoin(.round)

@@ -28,7 +28,7 @@ class PixelWidthSelectionViewController: UIViewController, UIPopoverPresentation
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        MPLCodingNotSupported()
     }
 
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {

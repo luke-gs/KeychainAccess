@@ -39,13 +39,29 @@ class SketchCanvas: UIView, Sketchable {
     public private(set) var currentTool: TouchTool
     weak var delegate: SketchCanvasDelegate?
 
-    private lazy var canvas: UIImageView = {
+    lazy var canvas: UIImageView = {
         let imageView = UIImageView(frame: bounds)
-        imageView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         imageView.contentMode = .scaleAspectFit
         addSubview(imageView)
         return imageView
     }()
+
+    var currentContext: CGContext? {
+        return currentTool.context
+    }
+
+    override var frame: CGRect {
+        didSet {
+            let oldHeight = oldValue.size.height
+            let oldWidth = oldValue.size.width
+
+            let xRatio = oldWidth / frame.width
+            let yRatio = oldHeight / frame.height
+
+            currentContext?.scaleBy(x: xRatio, y: yRatio)
+        }
+    }
 
     // The current mode of the canvas
     // When it changes, the current tool endsDrawing

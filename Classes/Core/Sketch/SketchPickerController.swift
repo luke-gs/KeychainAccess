@@ -17,16 +17,9 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
 
     weak var delegate: SketchPickerControllerDelegate?
 
-    var initialOrientation: CGSize? {
-        didSet {
-            if initialOrientation == nil && oldValue != nil {
-                initialOrientation = oldValue
-            }
-        }
-    }
-
     lazy var canvas: SketchCanvas = {
         let canvas = SketchCanvas()
+        canvas.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         canvas.frame = view.frame
         return canvas
     }()
@@ -55,16 +48,15 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        MPLCodingNotSupported()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        initialOrientation = canvas.frame.size
-
+        edgesForExtendedLayout = []
         canvas.delegate = self
-        view.backgroundColor = .lightGray
+        view.backgroundColor = #colorLiteral(red: 0.9450874925, green: 0.9411465526, blue: 0.9451001287, alpha: 1)
         view.addSubview(canvas)
 
         controlPanel.delegate = self
@@ -85,13 +77,15 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        guard let orientation = initialOrientation else { return }
-        var frame = canvas.frame
-
         coordinator.animate(alongsideTransition: { (context) in
-            frame.size.width = orientation.width
-            frame.size.height = orientation.height
-            self.canvas.center = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+            if let image = self.canvas.renderedImage() {
+                let newSize = image.sizeFittingAspect(scaledTo: size)
+                var frame = self.canvas.frame
+                frame.size.height = newSize.height
+                frame.size.width = newSize.width
+                self.canvas.frame = frame
+                self.canvas.center = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+            }
         }, completion: nil)
     }
 
@@ -175,5 +169,30 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
         canvas.clearCanvas()
         doneItem.isEnabled = false
         trashItem.isEnabled = false
+    }
+}
+
+fileprivate extension UIImage {
+
+    // Calculate a new size of the image that fits into the provided rect
+    // that respects the aspect ratio of the image
+    func sizeFittingAspect(scaledTo toSize: CGSize) -> CGSize {
+
+        let widthRatio  = toSize.width  / size.width
+        let heightRatio = toSize.height / size.height
+
+        var newSize: CGSize
+        if(widthRatio > heightRatio) {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
+        }
+
+        UIGraphicsBeginImageContextWithOptions(newSize, false, UIScreen.main.scale)
+        draw(in: CGRect(origin: .zero, size: newSize))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return newSize
     }
 }

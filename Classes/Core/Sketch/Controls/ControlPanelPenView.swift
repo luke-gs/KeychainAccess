@@ -18,13 +18,11 @@ class ControlPanelPenView: UIView {
 
         isUserInteractionEnabled = true
 
-        stub.translatesAutoresizingMaskIntoConstraints = false
-        stub.isUserInteractionEnabled = true
-        addSubview(stub)
-
-        nib.translatesAutoresizingMaskIntoConstraints = false
-        nib.isUserInteractionEnabled = true
-        addSubview(nib)
+        [stub, nib].forEach { (view: UIView) in
+            view.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(view)
+            view.isUserInteractionEnabled = true
+        }
 
         NSLayoutConstraint.activate([
             nib.topAnchor.constraint(equalTo: stub.topAnchor),
@@ -41,6 +39,6 @@ class ControlPanelPenView: UIView {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        MPLCodingNotSupported()
     }
 }

@@ -24,19 +24,20 @@ class PixelWidthView: UIView {
         isUserInteractionEnabled = true
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewTapped(gesture:))))
 
+        [label, imageView].forEach { (view: UIView) in
+            view.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(view)
+        }
+
         label.textAlignment = .center
         label.textColor = .darkGray
         label.font = UIFont.systemFont(ofSize: 14.0, weight: .bold)
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentCompressionResistancePriority(.required, for: .vertical)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
         label.text = "\(Int(nibSize.rawValue)) px"
-        addSubview(label)
 
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.image = nibSize.image
-        addSubview(imageView)
 
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: topAnchor),
@@ -46,7 +47,7 @@ class PixelWidthView: UIView {
             label.trailingAnchor.constraint(equalTo: trailingAnchor),
             label.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8.0),
             label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8.0),
-            ])
+        ])
     }
 
     func update(with nibSize: NibSize) {
@@ -59,6 +60,6 @@ class PixelWidthView: UIView {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        MPLCodingNotSupported()
     }
 }
