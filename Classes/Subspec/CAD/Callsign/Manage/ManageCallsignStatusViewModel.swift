@@ -24,12 +24,15 @@ public struct ManageCallsignStatusItemViewModel {
 
 /// Protocol for UI backing view model
 public protocol ManageCallsignStatusViewModelDelegate: PopoverPresenter, NavigationPresenter {
+    func callsignDidChange()
 }
 
 /// View model for the callsign status screen
 open class ManageCallsignStatusViewModel {
 
-    public init() {}
+    public init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(notifyDataChanged), name: .CADCallsignChanged, object: nil)
+    }
 
     /// Concrete view model used to present book on details form
     struct BookOnCallsignViewModel: BookOnCallsignViewModelType {
@@ -95,6 +98,10 @@ open class ManageCallsignStatusViewModel {
         return nil
     }
 
+    @objc private func notifyDataChanged() {
+        delegate?.callsignDidChange()
+    }
+    
     /// Create the view controller for this view model
     public func createViewController() -> UIViewController {
         let vc = ManageCallsignStatusViewController(viewModel: self)
