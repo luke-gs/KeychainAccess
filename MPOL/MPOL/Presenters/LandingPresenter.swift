@@ -83,14 +83,18 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 let parameters = LocationMapRadiusSearchParameters(latitude: coordinate.latitude, longitude: coordinate.longitude, radius: searchType.radius)
                 let request = LocationMapSearchRequest(source: .gnaf, request: parameters)
                 let aggregatedSearch = AggregatedSearch<Address>(requests: [request])
-                return LocationMapSummarySearchResultViewModel(searchStrategy: strategy, title: searchable.text ?? "", aggregatedSearch: aggregatedSearch)
+                let viewModel = LocationMapSummarySearchResultViewModel(searchStrategy: strategy, title: searchable.text ?? "", aggregatedSearch: aggregatedSearch)
+                viewModel.searchType = searchType
+                return viewModel
             }
             strategy.onResultModelForSearchType = { searchType in
                 let coordinate = searchType.coordinate
                 let parameters = LocationMapRadiusSearchParameters(latitude: coordinate.latitude, longitude: coordinate.longitude, radius: searchType.radius)
                 let request = LocationMapSearchRequest(source: .gnaf, request: parameters)
                 let aggregatedSearch = AggregatedSearch<Address>(requests: [request])
-                return LocationMapSummarySearchResultViewModel(searchStrategy: strategy, title: "Dropped Pin at (\(coordinate.latitude), \(coordinate.longitude))", aggregatedSearch: aggregatedSearch)
+                let viewModel = LocationMapSummarySearchResultViewModel(searchStrategy: strategy, title: "Dropped Pin at (\(coordinate.latitude), \(coordinate.longitude))", aggregatedSearch: aggregatedSearch)
+                viewModel.searchType = searchType
+                return viewModel
             }
 
             let viewModel = EntitySummarySearchViewModel(title: "MPOL", dataSources: [
