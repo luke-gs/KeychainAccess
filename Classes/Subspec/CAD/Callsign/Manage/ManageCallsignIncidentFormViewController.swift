@@ -11,9 +11,9 @@ import UIKit
 /// Form view controller for displaying current incident of callsign
 open class ManageCallsignIncidentFormViewController: FormBuilderViewController {
 
-    open let listViewModel: TasksListIncidentViewModel?
+    open var listViewModel: TasksListIncidentViewModel?
 
-    open let taskViewModel: IncidentTaskItemViewModel?
+    open var taskViewModel: IncidentTaskItemViewModel?
 
     // MARK: - Initializers
 

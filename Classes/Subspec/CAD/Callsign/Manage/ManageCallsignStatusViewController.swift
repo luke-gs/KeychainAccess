@@ -104,6 +104,13 @@ open class ManageCallsignStatusViewController: ThemedPopoverViewController, Mana
             navigationItem.rightBarButtonItem = nil
         }
     }
+    
+    
+    open func reloadIncident() {
+        incidentFormVC.listViewModel = viewModel.incidentListViewModel
+        incidentFormVC.taskViewModel = viewModel.incidentTaskViewModel
+        incidentFormVC.reloadForm()
+    }
 
     open func createSubviews() {
         scrollView = UIScrollView(frame: .zero)
@@ -210,5 +217,9 @@ open class ManageCallsignStatusViewController: ThemedPopoverViewController, Mana
         for separatorView in buttonSeparatorViews {
             separatorView.backgroundColor = theme.color(forKey: .separator)
         }
+    }
+    
+    public func callsignDidChange() {
+        reloadIncident()
     }
 }
