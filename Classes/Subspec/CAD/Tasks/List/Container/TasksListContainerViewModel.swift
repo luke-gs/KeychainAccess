@@ -238,7 +238,7 @@ open class TasksListContainerViewModel {
         }
   
         let sortedIncidents = incidentSortOrder.map { status -> CADFormCollectionSectionViewModel<TasksListItemViewModel>? in
-            guard let incidents = sectionedIncidents[status.rawValue] else { return nil }
+            guard let incidents = sectionedIncidents[status.rawValue], !incidents.isEmpty else { return nil }
             
             if status == .current {
                 isShowingCurrentIncident = true

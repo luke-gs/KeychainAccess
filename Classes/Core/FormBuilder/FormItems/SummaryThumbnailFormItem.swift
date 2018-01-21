@@ -46,7 +46,6 @@ public class SummaryThumbnailFormItem: BaseFormItem {
 
         separatorStyle = .none
         highlightStyle = .enlarge
-        selectionStyle = .enlarge
     }
 
     public override func configure(_ cell: CollectionViewFormCell) {

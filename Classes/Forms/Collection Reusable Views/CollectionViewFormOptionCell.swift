@@ -11,7 +11,7 @@ import UIKit
 
 private var kvoContext = 1
 
-private let unselectedTintColor = #colorLiteral(red: 0.7490196078, green: 0.7490196078, blue: 0.7490196078, alpha: 1)
+private let unselectedTintColor = #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
 
 // MARK: - Optimized prerendered images.
 

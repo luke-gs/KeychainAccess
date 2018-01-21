@@ -95,7 +95,6 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         didSet {
             if isHighlighted == oldValue || highlightStyle == .none { return }
             highlightStyle.configure(self)
-            selectionStyle.configure(self)
         }
     }
     
@@ -103,14 +102,12 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         didSet {
             if highlightStyle == oldValue || highlightStyle == .none { return }
             highlightStyle.configure(self)
-            selectionStyle.configure(self)
         }
     }
     
     open override var isSelected: Bool {
         didSet {
             if isSelected == oldValue || selectionStyle == .none { return }
-            highlightStyle.configure(self)
             selectionStyle.configure(self)
         }
     }
@@ -118,7 +115,6 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     open var selectionStyle: AnimationStyle = .none {
         didSet {
             if selectionStyle == oldValue || isSelected == false { return }
-            highlightStyle.configure(self)
             selectionStyle.configure(self)
         }
     }

@@ -64,7 +64,6 @@ extension EntitySummaryDisplayable {
             .badgeColor(borderColor)
             .image(thumbnail(ofSize: style == .hero ? .large : .medium))
             .borderColor(borderColor)
-            .highlightStyle(.fade)
             .imageTintColor(iconColor)
     }
 
