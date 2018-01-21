@@ -73,6 +73,7 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
         if let color = controlPanel.colors.first {
             controlPanel.setSelectedColor(color)
         }
+        controlPanel.setSelectedNibSize(NibSize(value: canvas.currentTool.toolWidth))
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -103,6 +104,7 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
 
     func controlPanel(_ panel: SketchControlPanel, didChangeDrawMode mode: SketchMode) {
         canvas.sketchMode = mode
+        controlPanel.setSelectedNibSize(NibSize(value: canvas.currentTool.toolWidth))
     }
 
     func controlPanelDidSelectWidth(_ panel: SketchControlPanel) {

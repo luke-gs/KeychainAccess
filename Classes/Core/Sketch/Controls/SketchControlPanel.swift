@@ -138,10 +138,15 @@ class SketchControlPanel: UIView, SketchColorPickable {
         case .erase:
             selectedView = eraserView
         }
+
     }
 
     func setSelectedColor(_ color: UIColor) {
         colorPicker.set(color)
+    }
+
+    func setSelectedNibSize(_ size: NibSize) {
+        pixelWidthView.update(with: size)
     }
 }
 
