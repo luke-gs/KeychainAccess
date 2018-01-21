@@ -65,7 +65,7 @@ public class SketchPen: TouchTool {
         guard pathBuilder.shouldDraw(to: point) == true else {
             return
         }
-        imageView?.image = image
+//        imageView?.image = image
         drawCurve(to: touch)
         if pathBuilder.exceedsMaxPathLength {
             self.image = imageView?.image
