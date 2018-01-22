@@ -306,8 +306,9 @@ open class TasksListContainerViewModel {
         let sections = sectionedResources.map { arg -> CADFormCollectionSectionViewModel<TasksListItemViewModel>? in
             let (section, resources) = arg
             
-            // Don't add duress section if there is no duress
-            if section == duress && resources.isEmpty {
+            
+            // Don't add section if section is empty
+            if resources.isEmpty {
                 return nil
             }
             
