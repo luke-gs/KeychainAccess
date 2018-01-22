@@ -36,11 +36,14 @@ public enum AnimationStyle: Equatable {
     case enlarge
     case underline
 
-
     /// Called to configure the cell when it is either highlighted or selected
     /// The app can provide its own custom animations with .animated, or use
     /// the ones provided such as .fade or .underline
-    /// - Parameter cell: The cell that is to be configured.
+    /// - Parameters:
+    ///   - cell: The cell to be animatedanimations
+    ///   - state: This is passed in to deteremine whether to perform animations
+    ///     eg when isSelected is called - forState: isSelected
+    ///
     func configure(_ cell: CollectionViewFormCell, forState state: Bool) {
         switch self {
         case .none:
