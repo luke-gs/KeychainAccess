@@ -77,7 +77,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
                 return
             }
             if selectionStyle != .underline || isSelected == false {
-                selectionStyle.configure(self)
+                selectionStyle.configure(self, forState: isSelected)
             }
         }
     }
@@ -86,39 +86,38 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         didSet {
             separatorView.tintColor = separatorTintColor
             if requiresValidation && validationColor != nil && selectionStyle == .underline && isSelected {
-                selectionStyle.configure(self)
+                selectionStyle.configure(self, forState: isSelected)
             }
         }
     }    
     
     open override var isHighlighted: Bool {
         didSet {
-            if isHighlighted == oldValue || highlightStyle == .none { return }
-            highlightStyle.configure(self)
+            if highlightStyle == .none { return }
+            highlightStyle.configure(self, forState: isHighlighted)
         }
     }
     
     open var highlightStyle: AnimationStyle = .none {
         didSet {
             if highlightStyle == oldValue || highlightStyle == .none { return }
-            highlightStyle.configure(self)
+            highlightStyle.configure(self, forState: isHighlighted)
         }
     }
     
     open override var isSelected: Bool {
         didSet {
-            if isSelected == oldValue || selectionStyle == .none { return }
-            selectionStyle.configure(self)
+            if selectionStyle == .none { return }
+            selectionStyle.configure(self, forState: isSelected)
         }
     }
     
     open var selectionStyle: AnimationStyle = .none {
         didSet {
             if selectionStyle == oldValue || isSelected == false { return }
-            selectionStyle.configure(self)
+            selectionStyle.configure(self, forState: isSelected)
         }
     }
-    
     
     /// The accessory view for the cell.
     ///
@@ -207,7 +206,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
         didSet {
             if requiresValidation == false { return }
             
-            selectionStyle.configure(self)
+            selectionStyle.configure(self, forState: isSelected)
             validationAccessoryLabel?.textColor = validationColor ?? .gray
         }
     }
@@ -383,7 +382,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     public private(set) var requiresValidation: Bool = false {
         didSet {
             if requiresValidation == oldValue { return }
-            selectionStyle.configure(self)
+            selectionStyle.configure(self, forState: isSelected)
         }
     }
     
@@ -715,7 +714,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     open override func tintColorDidChange() {
         super.tintColorDidChange()
         if isSelected && selectionStyle == .underline && validationColor == nil {
-            selectionStyle.configure(self)
+            selectionStyle.configure(self, forState: isSelected)
         }
     }
 
