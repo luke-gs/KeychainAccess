@@ -69,7 +69,8 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
                 .width(.column(3))
         } else {
             return DropDownFormItem(title: title)
-                .options(["1", "2", "3"])
+                // TODO: get these from manifest
+                .options(["1", "2", "3", "4"])
                 .required("Category is required.")
                 .width(.column(3))
                 .selectedValue([viewModel.content.category].removeNils())
