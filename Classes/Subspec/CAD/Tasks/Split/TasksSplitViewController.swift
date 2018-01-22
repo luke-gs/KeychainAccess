@@ -75,11 +75,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
             segmentedControl.leadingAnchor.constraint(equalTo: navBarExtension.leadingAnchor, constant: 24),
             segmentedControl.trailingAnchor.constraint(equalTo: navBarExtension.trailingAnchor, constant: -24),
             segmentedControl.bottomAnchor.constraint(equalTo: navBarExtension.bottomAnchor, constant: -10),
-        ])
-        
-        // You gotta do what you gotta do
-        compactNavBarExtension?.setNeedsLayout()
-        compactNavBarExtension?.layoutIfNeeded()
+        ])        
     }
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
