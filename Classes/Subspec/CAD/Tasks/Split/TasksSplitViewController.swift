@@ -18,7 +18,8 @@ public protocol TasksSplitViewControllerDelegate {
 open class TasksSplitViewController: MPOLSplitViewController {
     
     public static let defaultSplitWidth: CGFloat = 320
-
+    public let extendedNavbarHeight: CGFloat = 44
+    
     open let viewModel: TasksSplitViewModel
 
     open let masterVC: UIViewController
@@ -69,7 +70,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
             navBarExtension.topAnchor.constraint(equalTo: masterNavController.navigationBar.bottomAnchor),
             navBarExtension.leadingAnchor.constraint(equalTo: masterNavController.view.leadingAnchor),
             navBarExtension.trailingAnchor.constraint(equalTo: masterNavController.view.trailingAnchor),
-            navBarExtension.heightAnchor.constraint(equalToConstant: 44),
+            navBarExtension.heightAnchor.constraint(equalToConstant: extendedNavbarHeight),
             
             segmentedControl.topAnchor.constraint(equalTo: navBarExtension.topAnchor, constant: 8),
             segmentedControl.leadingAnchor.constraint(equalTo: navBarExtension.leadingAnchor, constant: 24),
@@ -107,7 +108,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
     
     open override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        let height = isCompact() ? compactNavBarExtension?.frame.height ?? 0 : 0
+        let height = isCompact() ? extendedNavbarHeight : 0
         if #available(iOS 11, *) {
             masterNavController.additionalSafeAreaInsets.top = height
         } else {
