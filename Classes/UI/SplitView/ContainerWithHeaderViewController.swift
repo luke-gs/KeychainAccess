@@ -22,6 +22,16 @@ open class ContainerWithHeaderViewController: UIViewController {
         }
     }
 
+    /// Offset for above the header, or content if no header
+    open var headerOffset: CGFloat = 0 {
+        didSet {
+            updateHeaderVisibility()
+        }
+    }
+    
+    /// Constraint for header offset
+    private var headerTopConstraint: NSLayoutConstraint?
+
     /// The top layout constraint of the content view
     private var contentTopConstraint: NSLayoutConstraint?
 
@@ -45,8 +55,9 @@ open class ContainerWithHeaderViewController: UIViewController {
                 // Constrain header to top
                 let headerView = headerViewController.view!
                 headerView.translatesAutoresizingMaskIntoConstraints = false
+                headerTopConstraint = headerView.topAnchor.constraint(equalTo: safeAreaOrLayoutGuideTopAnchor, constant: 0)
                 NSLayoutConstraint.activate([
-                    headerView.topAnchor.constraint(equalTo: safeAreaOrLayoutGuideTopAnchor),
+                    headerTopConstraint!,
                     headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                     headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 ])
@@ -103,15 +114,17 @@ open class ContainerWithHeaderViewController: UIViewController {
 
     open func updateHeaderVisibility() {
         // Inset the content view the size of the header if visible, otherwise hide
-        if let headerView = headerViewController?.view, shouldShowHeaderView() {
+        if let headerView = headerViewController?.view {
             // Force layout of header for sizing
             headerView.isHidden = false
             headerView.setNeedsLayout()
             headerView.layoutIfNeeded()
-            contentTopConstraint?.constant = headerView.bounds.height
+            headerTopConstraint?.constant = headerOffset
+            contentTopConstraint?.constant = headerView.bounds.height + headerOffset
         } else {
+            headerTopConstraint?.constant = 0
             headerViewController?.view?.isHidden = true
-            contentTopConstraint?.constant = 0
+            contentTopConstraint?.constant = headerOffset
         }
     }
 }
