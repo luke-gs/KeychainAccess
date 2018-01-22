@@ -30,10 +30,13 @@ open class OfficerCell: CollectionViewFormSubtitleCell {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        let badgeColor = ThemeManager.shared.theme(for: .current).color(forKey: .primaryText)
-        badgeLabel.backgroundColor = .clear
-        badgeLabel.borderColor = badgeColor
-        badgeLabel.textColor = badgeColor
+
+        let theme = ThemeManager.shared.theme(for: .current)
+        badgeLabel.textColor = theme.color(forKey: .background)
+        badgeLabel.borderColor = theme.color(forKey: .primaryText)
+        badgeLabel.backgroundColor = theme.color(forKey: .primaryText)
+        badgeLabel.layoutMargins.left = 4
+        badgeLabel.layoutMargins.right = 4
         addSubview(badgeLabel)
         
         imageAlignment = .center
