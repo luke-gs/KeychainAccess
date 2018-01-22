@@ -97,6 +97,7 @@ class SketchControlPanel: UIView, SketchColorPickable {
         NSLayoutConstraint.activate([
 
             pixelWidthView.leadingAnchor.constraint(greaterThanOrEqualTo: container.leadingAnchor, constant: 8.0),
+            pixelWidthView.widthAnchor.constraint(equalToConstant: 50.0),
             pixelWidthView.topAnchor.constraint(equalTo: container.topAnchor),
             pixelWidthView.bottomAnchor.constraint(equalTo: container.bottomAnchor),
 

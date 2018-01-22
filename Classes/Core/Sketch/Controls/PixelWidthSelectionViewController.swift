@@ -44,6 +44,8 @@ class PixelWidthSelectionViewController: UIViewController, UIPopoverPresentation
         stackView.distribution = .fillProportionally
         stackView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(stackView)
+
+        NSLayoutConstraint.activate(pixelViews.map({ $0.heightAnchor.constraint(equalTo: stackView.heightAnchor) }))
     }
 
     @objc private func pixelTouched(gesture: UITapGestureRecognizer) {

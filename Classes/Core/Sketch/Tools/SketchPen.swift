@@ -65,7 +65,6 @@ public class SketchPen: TouchTool {
         guard pathBuilder.shouldDraw(to: point) == true else {
             return
         }
-//        imageView?.image = image
         drawCurve(to: touch)
         if pathBuilder.exceedsMaxPathLength {
             self.image = imageView?.image
@@ -82,7 +81,7 @@ public class SketchPen: TouchTool {
         image = nil
 
         if bufferedDrawing {
-            bufferedImageView()
+            drawStaticImage()
         }
     }
 
@@ -102,7 +101,7 @@ public class SketchPen: TouchTool {
         context?.setStrokeColor(toolColor.cgColor)
     }
 
-    private func bufferedImageView() {
+    private func drawStaticImage() {
         if let canvas = canvas {
             UIGraphicsBeginImageContextWithOptions(canvas.bounds.size, false, UIScreen.main.scale)
             canvas.image?.draw(in: canvas.bounds)

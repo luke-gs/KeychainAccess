@@ -61,11 +61,11 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
 
         controlPanel.delegate = self
         controlPanel.translatesAutoresizingMaskIntoConstraints = false
+        controlPanel.setContentHuggingPriority(.required, for: .horizontal)
         view.addSubview(controlPanel)
 
         NSLayoutConstraint.activate([
             controlPanel.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
-            controlPanel.widthAnchor.constraint(lessThanOrEqualTo: view.widthAnchor, multiplier: 1.0),
             controlPanel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             controlPanel.heightAnchor.constraint(equalToConstant: 60.0)
         ])

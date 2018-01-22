@@ -34,13 +34,15 @@ class PixelWidthView: UIView {
         label.font = UIFont.systemFont(ofSize: 14.0, weight: .bold)
         label.setContentCompressionResistancePriority(.required, for: .vertical)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.setContentHuggingPriority(.required, for: .vertical)
         label.text = "\(Int(nibSize.rawValue)) px"
 
         imageView.contentMode = .scaleAspectFit
+        imageView.setContentHuggingPriority(.required, for: .vertical)
         imageView.image = nibSize.image
 
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: topAnchor),
+            imageView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor),
             imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
 
             label.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -51,7 +53,7 @@ class PixelWidthView: UIView {
     }
 
     func update(with nibSize: NibSize) {
-        imageView.image = nibSize.image
+        imageView.image = nibSize.scaledImage
         label.text = "\(Int(nibSize.rawValue)) px"
     }
 

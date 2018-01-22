@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 /// The enum defining the size of the width of the tool
 /// Has 4 predefined values, and the ability to initialise
 /// with a value that will be converted to the closest value
@@ -25,6 +24,11 @@ public enum NibSize: CGFloat {
         case 50: self = .large
         case 100: self = .giant
         default:
+
+            /// Calculate the closest match the value provided
+            /// eg a value of 88 will be set to giant and a value
+            /// of 26 woud be set to medium.
+
             let values = NibSize.allCases
             var closestMatch = NibSize.giant
             var closestDelta = CGFloat.infinity
@@ -39,6 +43,24 @@ public enum NibSize: CGFloat {
         }
     }
 
+    /// Hardcoded diameters to be displayed in views which the full
+    /// diameter would be too large to encase. This is done to
+    /// preserve the difference in sizes in smaller views.
+    var scaledImage: UIImage? {
+        let diameter: CGFloat
+        switch self {
+        case .small: diameter = 10.0
+        case .medium: diameter = 15.0
+        case .large: diameter = 20.0
+        case .giant: diameter = 25.0
+        }
+
+        return UIImage.circle(diameter: diameter, color: .darkGray)
+    }
+
+    /// The default image that displays the nibSize in real sizes.
+    /// Can be used when selecting a new size, to show the ratio's
+    /// between the different options.
     var image: UIImage? {
         return UIImage.circle(diameter: rawValue, color: .darkGray)
     }

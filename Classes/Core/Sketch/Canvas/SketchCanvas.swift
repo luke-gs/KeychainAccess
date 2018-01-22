@@ -146,7 +146,15 @@ class SketchCanvas: UIView, Sketchable {
     func clearCanvas() {
         pen.endDrawing()
         eraser.endDrawing()
-        canvas.image = nil
+
+        // Animate the clearing of the drawing
+        UIView.animate(withDuration: 0.3, animations: {
+            self.canvas.alpha = 0.0
+        }, completion: { (success) in
+            self.canvas.image = nil
+            self.canvas.alpha = 1.0
+        })
+
     }
 
     var isEmpty: Bool {
