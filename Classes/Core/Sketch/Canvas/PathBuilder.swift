@@ -43,26 +43,22 @@ public class PathBuilder {
     }
 
     var controlPoint: Int = 0
-    private var points: [CGPoint] = Array(repeating: CGPoint(), count: 5)
 
-    var leading: CGPoint {
-        return points[0]
-    }
-    var leadingControl: CGPoint {
-        return points[1]
-    }
-    var middle: CGPoint {
-        return points[2]
-    }
-    var trailingControl: CGPoint {
-        return points[3]
-    }
-    var trailing: CGPoint {
-        return points[4]
-    }
+    private(set) var leading: CGPoint = .zero
+    private(set) var leadingControl: CGPoint = .zero
+    private(set) var middle: CGPoint = .zero
+    private(set) var trailingControl: CGPoint = .zero
+    private(set) var trailing: CGPoint = .zero
 
     func setPoint(_ location: PointLocation, to newValue: CGPoint) {
-        points[location.rawValue] = newValue
+        switch location {
+        case .leading: leading = newValue
+        case .leadingControl: leadingControl = newValue
+        case .middle: middle = newValue
+        case .trailingControl: trailingControl = newValue
+        case .trailing: trailing = newValue
+
+        }
     }
 
     var isAtLastPoint: Bool {
