@@ -8,14 +8,25 @@
 
 import Foundation
 
+/// This transformer allows the app to recognize the following formats of
+/// ISO8601 dates, as apparently the default one only recognizes one format
+///
+/// Supported date formats are:
+/// • FullIsoWithTimezone  - "2018-07-01T12:30:30+10:00"
+/// • FullIsoNoTimezone - "2018-07-01T12:30:30"
+/// • OnlyDate - "2018-07-01"
+
 public class ISO8601DateTransformer: OptionalTransformer {
 
     // Not specified anywhere whether it's thread safe, but no reason
     // to believe it's not.
+
+    // Full ISO with time zone - 2018-07-01T12:30:30+10:00
     private lazy var dateFormatter: ISO8601DateFormatter = {
         return ISO8601DateFormatter()
     }()
 
+    // Full ISO without a timezone - 2018-07-01T12:30:30
     private lazy var noTimeZoneDateFormatter: ISO8601DateFormatter = {
         let dateFormatter = ISO8601DateFormatter()
         dateFormatter.formatOptions = [.withYear,
@@ -28,6 +39,7 @@ public class ISO8601DateTransformer: OptionalTransformer {
         return dateFormatter
     }()
 
+    // Date only ISO format - 2018-07-01
     private lazy var dateOnlyFormatter: ISO8601DateFormatter = {
         let dateFormatter = ISO8601DateFormatter()
         dateFormatter.formatOptions = [.withYear,
