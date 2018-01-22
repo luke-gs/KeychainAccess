@@ -9,7 +9,13 @@
 import UIKit
 
 open class TaskItemViewModel {
-    
+
+    /// The navigation title for this type of task item details
+    open var navTitle: String?
+
+    /// The navigation title for this type of task item details when compact
+    open var compactNavTitle: String?
+
     /// Icon image to display in the header
     open var iconImage: UIImage?
 
