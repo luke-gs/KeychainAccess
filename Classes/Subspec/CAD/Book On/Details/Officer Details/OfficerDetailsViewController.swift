@@ -79,9 +79,10 @@ open class OfficerDetailsViewController: FormBuilderViewController {
         
         builder += TextFieldFormItem(title: NSLocalizedString("Capabilities", comment: ""))
             .width(.column(1))
-            .text(viewModel.content.capabilities)
+            .text(viewModel.content.capabilities?.joined(separator: ", "))
             .onValueChanged {
-                self.viewModel.content.capabilities = $0
+                let something = $0?.split(separator: ",").map{String($0)}
+                self.viewModel.content.capabilities = something
             }
         
         builder += TextFieldFormItem(title: NSLocalizedString("Remarks", comment: ""))

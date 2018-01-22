@@ -20,7 +20,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     open var officerId: String?
     open var licenceTypeId: String?
     open var contactNumber: String?
-    open var capabilities: String?
+    open var capabilities: [String]?
     open var remarks: String?
 
     // MARK: - Derived properties
