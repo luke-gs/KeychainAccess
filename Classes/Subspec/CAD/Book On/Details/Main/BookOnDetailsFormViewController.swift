@@ -123,10 +123,10 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         if self.viewModel.isEditing {
             let value = DateFormatter.formTime.string(from: viewModel.content.startTime!)
             return ValueFormItem(title: title, value: value)
-                .width(.column(3))
+                .width(.column(2))
         } else {
             return DateFormItem(title: title)
-                .width(.column(3))
+                .width(.column(2))
                 .required("Start time is required.")
                 .datePickerMode(.dateAndTime)
                 .dateFormatter(.formTime)
@@ -147,7 +147,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
         let title = NSLocalizedString("Est. End Time", comment: "")
         return DateFormItem(title: title)
-            .width(.column(3))
+            .width(.column(2))
             .required("End time is required.")
             .datePickerMode(.dateAndTime)
             .dateFormatter(.formTime)
@@ -163,7 +163,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     /// Calculated duration of shift
     private lazy var durationItem: ValueFormItem = {
         return ValueFormItem(title: NSLocalizedString("Duration", comment: ""), value: "")
-            .width(.column(3))
+            .width(.column(1))
     }()
 
     /// Construct the form
