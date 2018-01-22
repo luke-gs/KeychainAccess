@@ -107,34 +107,15 @@ public enum ResourceStatus: String, Codable {
     // Return icon color and background color
     public var iconColors: (icon: UIColor, background: UIColor) {
         switch self {
-        case .unavailable:
-            return (.secondaryGray, .disabledGray)
-        case .onAir:
-            return (.black, .midGreen)
-        case .mealBreak:
-            return (.secondaryGray, .disabledGray)
-        case .trafficStop:
-            return (.secondaryGray, .disabledGray)
-        case .court:
-            return (.secondaryGray, .disabledGray)
-        case .atStation:
-            return (.secondaryGray, .disabledGray)
-        case .onCall:
-            return (.secondaryGray, .disabledGray)
-        case .inquiries1:
-            return (.secondaryGray, .disabledGray)
-        case .proceeding:
-            return (.secondaryGray, .disabledGray)
-        case .atIncident:
-            return (.white, .primaryGray)
-        case .finalise:
-            return (.secondaryGray, .disabledGray)
-        case .inquiries2:
-            return (.secondaryGray, .disabledGray)
+        // Duress
         case .duress:
             return (.black, .orangeRed)
-        case .offDuty:
-            return (.secondaryGray, .disabledGray)
+        // Responding
+        case .proceeding, .atIncident, .finalise, .inquiries2:
+            return (.white, .primaryGray)
+        // Not Responding
+        case .unavailable, .onAir, .mealBreak, .trafficStop, .court, .atStation, .onCall, .inquiries1, .offDuty:
+            return (.black, .midGreen)
         }
     }
 
