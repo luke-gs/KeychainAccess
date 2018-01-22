@@ -26,13 +26,29 @@ public enum PointLocation: Int {
 ///    |----------------*-----------------*--------------*------------------|
 ///    Leading    LeadingControl       Middle     TrailingControl    Trailing
 ///
+///
+///                 ..O..
+///              ...      ...
+///            ..             ..
+///          ..                 .
+///       ..                      .
+///     .                          ..
+///    ..                            ..                                O
+///    O                               O                              ..
+///                                     ..                           ..
+///                                      ..                       ..
+///                                        ..                   ..
+///                                          ..              ..
+///                                            ...        ...
+///                                               ...O...
+///
 /// ******************************************************************************
 public class PathBuilder {
 
     var lastPoint: CGPoint?
     var pathLength: CGFloat = 0.0
     var minimumDrawDistance: CGFloat = 25.0
-    var maximumPathLength: CGFloat = 80.0
+    var maximumPathLength: CGFloat = 150.0
 
     var exceedsMaxPathLength: Bool {
         return pathLength > maximumPathLength
