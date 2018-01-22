@@ -272,6 +272,7 @@
 		46A60F5C1FCFAF4A00EE32CA /* EvaluationObserverable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A60F5B1FCFAF4A00EE32CA /* EvaluationObserverable.swift */; };
 		46A60F5E1FCFAFAF00EE32CA /* Evaluatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A60F5D1FCFAFAF00EE32CA /* Evaluatable.swift */; };
 		46A60F611FCFB03200EE32CA /* EvaluatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A60F601FCFB03200EE32CA /* EvaluatorTests.swift */; };
+		46A8AA2720157CEA00F24B37 /* SketchNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A8AA2620157CEA00F24B37 /* SketchNavigationController.swift */; };
 		46B3FE7B1F5E3B0C0012476A /* FileLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B3FE7A1F5E3B0C0012476A /* FileLogger.swift */; };
 		46B3FE7F1F5E496B0012476A /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B3FE7E1F5E496B0012476A /* Logger.swift */; };
 		46B3FE811F5E49FB0012476A /* ConsoleLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B3FE801F5E49FB0012476A /* ConsoleLogger.swift */; };
@@ -946,6 +947,7 @@
 		46A60F5B1FCFAF4A00EE32CA /* EvaluationObserverable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationObserverable.swift; sourceTree = "<group>"; };
 		46A60F5D1FCFAFAF00EE32CA /* Evaluatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Evaluatable.swift; sourceTree = "<group>"; };
 		46A60F601FCFB03200EE32CA /* EvaluatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatorTests.swift; sourceTree = "<group>"; };
+		46A8AA2620157CEA00F24B37 /* SketchNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SketchNavigationController.swift; sourceTree = "<group>"; };
 		46B3FE7A1F5E3B0C0012476A /* FileLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileLogger.swift; sourceTree = "<group>"; };
 		46B3FE7E1F5E496B0012476A /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		46B3FE801F5E49FB0012476A /* ConsoleLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsoleLogger.swift; sourceTree = "<group>"; };
@@ -1817,6 +1819,7 @@
 				460B5BB32007175300AB7D12 /* Tools */,
 				460B5BB22007174B00AB7D12 /* Canvas */,
 				460B5BB02007172900AB7D12 /* SketchPickerController.swift */,
+				46A8AA2620157CEA00F24B37 /* SketchNavigationController.swift */,
 			);
 			path = Sketch;
 			sourceTree = "<group>";
@@ -3658,6 +3661,7 @@
 			files = (
 				BC9C7E371F0DED6600DFFE83 /* KeyboardAnimationDetails.swift in Sources */,
 				EA3BA38C1F7B2B5D000E4AD8 /* FooterFormItem.swift in Sources */,
+				46A8AA2720157CEA00F24B37 /* SketchNavigationController.swift in Sources */,
 				965176141FC792FD003B1B85 /* BaseLoadingStateView.swift in Sources */,
 				27094CCB1FAFFBDA00D4C3D4 /* TaskItemViewModel.swift in Sources */,
 				EA4E33581F8F51DF0027E431 /* CustomItemAccessory.swift in Sources */,

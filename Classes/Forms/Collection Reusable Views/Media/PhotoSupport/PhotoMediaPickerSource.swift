@@ -37,8 +37,7 @@ public class SketchMediaPicker: NSObject, PhotoMediaPickerSource, SketchPickerCo
     public func viewController() -> UIViewController {
         let sketchPickerController = SketchPickerController()
         sketchPickerController.delegate = self
-
-        let navigationController = UINavigationController(rootViewController: sketchPickerController)
+        let navigationController = SketchNavigationController(rootViewController: sketchPickerController)
         return navigationController
     }
     

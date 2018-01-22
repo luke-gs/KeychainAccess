@@ -76,6 +76,10 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
         controlPanel.setSelectedNibSize(NibSize(value: canvas.currentTool.toolWidth))
     }
 
+    override var shouldAutorotate: Bool {
+        return UIDevice.current.userInterfaceIdiom != .phone
+    }
+
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         coordinator.animate(alongsideTransition: { (context) in
@@ -189,11 +193,6 @@ fileprivate extension UIImage {
         } else {
             newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
         }
-
-        UIGraphicsBeginImageContextWithOptions(newSize, false, UIScreen.main.scale)
-        draw(in: CGRect(origin: .zero, size: newSize))
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
 
         return newSize
     }
