@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-open class IncidentAnnotationView: MKAnnotationView {
+open class IncidentAnnotationView: AutoLayoutAnnotationView {
 
     public static let defaultReuseIdentifier = "IncidentAnnotationView"
     
@@ -78,8 +78,6 @@ open class IncidentAnnotationView: MKAnnotationView {
     
     /// Creates and styles views
     private func setupViews() {
-        translatesAutoresizingMaskIntoConstraints = false
-        
         layer.shadowOffset = CGSize(width: 0, height: 2)
         layer.shadowColor = UIColor.black.withAlphaComponent(0.3).cgColor
         layer.shadowOpacity = 1
@@ -88,11 +86,11 @@ open class IncidentAnnotationView: MKAnnotationView {
         bubbleView = UIView()
         bubbleView.layer.cornerRadius = 10
         bubbleView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(bubbleView)
+        contentView.addSubview(bubbleView)
         
         bottomArrow = CalloutArrow(color: .white)
         bottomArrow.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(bottomArrow)
+        contentView.addSubview(bottomArrow)
         
         titleLabel = UILabel()
         titleLabel.font = UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.semibold)
@@ -117,8 +115,8 @@ open class IncidentAnnotationView: MKAnnotationView {
     /// Activates view constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            widthAnchor.constraint(greaterThanOrEqualToConstant: LayoutConstants.minimumWidth),
-            heightAnchor.constraint(equalToConstant: LayoutConstants.height),
+            contentView.widthAnchor.constraint(greaterThanOrEqualToConstant: LayoutConstants.minimumWidth),
+            contentView.heightAnchor.constraint(equalToConstant: LayoutConstants.height),
             
             titleLabel.centerYAnchor.constraint(equalTo: bubbleView.centerYAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: priorityBackground.trailingAnchor, constant: LayoutConstants.largeMargin),
@@ -134,12 +132,12 @@ open class IncidentAnnotationView: MKAnnotationView {
             priorityLabel.trailingAnchor.constraint(equalTo: priorityBackground.trailingAnchor, constant: -LayoutConstants.priorityIconTextMargin),
             priorityLabel.bottomAnchor.constraint(equalTo: priorityBackground.bottomAnchor, constant: -LayoutConstants.priorityIconTextMargin),
             
-            bubbleView.topAnchor.constraint(equalTo: self.topAnchor),
-            bubbleView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            bubbleView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            bubbleView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            bubbleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            bubbleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
             bottomArrow.topAnchor.constraint(equalTo: bubbleView.bottomAnchor),
-            bottomArrow.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            bottomArrow.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             bottomArrow.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -LayoutConstants.arrowWidth),
             bottomArrow.widthAnchor.constraint(equalToConstant: LayoutConstants.arrowWidth),
             bottomArrow.heightAnchor.constraint(equalToConstant: LayoutConstants.arrowHeight),
