@@ -185,6 +185,7 @@
 		279B057A200D572300C3EFB0 /* LargeTextHeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279B0577200D572200C3EFB0 /* LargeTextHeaderCollectionViewCell.swift */; };
 		279B057B200D572300C3EFB0 /* LargeTextHeaderFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279B0578200D572300C3EFB0 /* LargeTextHeaderFormItem.swift */; };
 		279B057D200D591200C3EFB0 /* ActivityLogDateCollectionSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279B057C200D591200C3EFB0 /* ActivityLogDateCollectionSectionViewModel.swift */; };
+		27AC86A62016958A0067DB8C /* AutoLayoutAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AC86A52016958A0067DB8C /* AutoLayoutAnnotationView.swift */; };
 		27B4A9EC1FCF597300975A45 /* UIViewController+Compact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B4A9EB1FCF597300975A45 /* UIViewController+Compact.swift */; };
 		27BE96541FD75A0D0092A771 /* CommsButtonHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27BE96531FD75A0D0092A771 /* CommsButtonHandler.swift */; };
 		27C9C7611F95692400799855 /* BookOnLandingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C9C7601F95692400799855 /* BookOnLandingViewController.swift */; };
@@ -857,6 +858,7 @@
 		279B0577200D572200C3EFB0 /* LargeTextHeaderCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LargeTextHeaderCollectionViewCell.swift; sourceTree = "<group>"; };
 		279B0578200D572300C3EFB0 /* LargeTextHeaderFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LargeTextHeaderFormItem.swift; sourceTree = "<group>"; };
 		279B057C200D591200C3EFB0 /* ActivityLogDateCollectionSectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityLogDateCollectionSectionViewModel.swift; sourceTree = "<group>"; };
+		27AC86A52016958A0067DB8C /* AutoLayoutAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayoutAnnotationView.swift; sourceTree = "<group>"; };
 		27B4A9EB1FCF597300975A45 /* UIViewController+Compact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Compact.swift"; sourceTree = "<group>"; };
 		27BE96531FD75A0D0092A771 /* CommsButtonHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommsButtonHandler.swift; sourceTree = "<group>"; };
 		27C9C7601F95692400799855 /* BookOnLandingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnLandingViewController.swift; sourceTree = "<group>"; };
@@ -1574,38 +1576,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		27094CAC1FAFFBDA00D4C3D4 /* View Models */ = {
-			isa = PBXGroup;
-			children = (
-				27094CAD1FAFFBDA00D4C3D4 /* ResourceActivityLogViewModel.swift */,
-				27094CAE1FAFFBDA00D4C3D4 /* ResourceOfficerListViewModel.swift */,
-				27094CAF1FAFFBDA00D4C3D4 /* ResourceOfficerViewModel.swift */,
-				27DC609A1FD60F3D0033BC0B /* ResourceOverviewViewModel.swift */,
-				27102F4D1FD908530000DD80 /* ResourceOverviewMapViewModel.swift */,
-			);
-			path = "View Models";
-			sourceTree = "<group>";
-		};
-		27094CB31FAFFBDA00D4C3D4 /* View Model */ = {
-			isa = PBXGroup;
-			children = (
-				27094CB51FAFFBDA00D4C3D4 /* TaskItemViewModel.swift */,
-				274F10E31FCE0A12001A59A5 /* IncidentTaskItemViewModel.swift */,
-				27094CB61FAFFBDA00D4C3D4 /* ResourceTaskItemViewModel.swift */,
-				27FDABB41FB90FF6003466AF /* TaskDetailsViewModel.swift */,
-			);
-			path = "View Model";
-			sourceTree = "<group>";
-		};
-		270961771FE0CBB300D19F40 /* Column */ = {
-			isa = PBXGroup;
-			children = (
-				2709617A1FE0CBFB00D19F40 /* ColumnInfo.swift */,
-				270F6B2E1FE222A7001B920A /* ColumnContainerView.swift */,
-			);
-			path = Column;
-			sourceTree = "<group>";
-		};
 		2709617C1FE0DD6D00D19F40 /* Columns */ = {
 			isa = PBXGroup;
 			children = (
@@ -1638,17 +1608,6 @@
 				96CF32221F8C349700140AF8 /* TasksListViewModel.swift */,
 			);
 			path = List;
-			sourceTree = "<group>";
-		};
-		273C53901FE86C1000BF994B /* View Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				965CD8A71F8ECDBA007C3EEA /* TasksListContainerViewController.swift */,
-				965CD8AC1F8F14E5007C3EEA /* TasksListHeaderCompactViewController.swift */,
-				96CF32311F8D7C3400140AF8 /* TasksListHeaderRegularViewController.swift */,
-				96CF32201F8C337900140AF8 /* TasksListViewController.swift */,
-			);
-			path = "View Controllers";
 			sourceTree = "<group>";
 		};
 		273DE2CF1FE9D83D000C46DD /* Create Incident */ = {
@@ -1740,21 +1699,6 @@
 			path = Incidents;
 			sourceTree = "<group>";
 		};
-		274F10F51FCE0A8B001A59A5 /* View Models */ = {
-			isa = PBXGroup;
-			children = (
-				274F10E91FCE0A85001A59A5 /* IncidentAssociationsViewModel.swift */,
-				274F10E51FCE0A85001A59A5 /* IncidentAssociationItemViewModel.swift */,
-				274F10E61FCE0A85001A59A5 /* IncidentNarrativeViewModel.swift */,
-				2726A81D1FCE6BE600EFB61A /* IncidentOverviewViewModel.swift */,
-				2726A8191FCE5EA000EFB61A /* IncidentOverviewItemViewModel.swift */,
-				2715D6401FD505F300BD0E95 /* IncidentResourcesViewModel.swift */,
-				2715D6421FD5064C00BD0E95 /* IncidentResourceItemViewModel.swift */,
-				27D444D11FD8BA640092245C /* IncidentOverviewMapViewModel.swift */,
-			);
-			path = "View Models";
-			sourceTree = "<group>";
-		};
 		2768C04A1F86E7A1008532ED /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -1771,6 +1715,7 @@
 				278CA1031F7CA4500073DFBA /* Annotations */,
 				276C21051F60C2100003B860 /* MapViewController.swift */,
 				276C21071F60C44B0003B860 /* MapOverlayImageButton.swift */,
+				27AC86A52016958A0067DB8C /* AutoLayoutAnnotationView.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -3632,6 +3577,7 @@
 				27094CCB1FAFFBDA00D4C3D4 /* TaskItemViewModel.swift in Sources */,
 				EA4E33581F8F51DF0027E431 /* CustomItemAccessory.swift in Sources */,
 				BC9C7DD51F0DED6600DFFE83 /* ParseError.swift in Sources */,
+				27AC86A62016958A0067DB8C /* AutoLayoutAnnotationView.swift in Sources */,
 				19B49BC01F665F2A00502F51 /* RegularSidebarViewController.swift in Sources */,
 				EA32A85C1FBD285A00CC37FB /* PhotoMediaPickerSource.swift in Sources */,
 				BC9C7E201F0DED6600DFFE83 /* FormTableViewController.swift in Sources */,
