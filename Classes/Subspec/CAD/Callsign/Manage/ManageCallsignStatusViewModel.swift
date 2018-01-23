@@ -134,7 +134,7 @@ open class ManageCallsignStatusViewModel {
                 if let resource = CADStateManager.shared.currentResource {
                     // Show split view controller for booked on resource
                     let vm = ResourceTaskItemViewModel(resource: resource)
-                    let vc = TasksItemSidebarViewController.init(viewModel: vm)
+                    let vc = TaskItemSidebarSplitViewController.init(viewModel: vm)
                     delegate?.present(vc, animated: true, completion: nil)
                 }
                 break
