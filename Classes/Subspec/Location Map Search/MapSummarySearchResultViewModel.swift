@@ -8,6 +8,7 @@
 
 import Foundation
 import MapKit
+import PromiseKit
 
 open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModelable, AggregatedSearchDelegate {
 
@@ -58,69 +59,44 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
         aggregatedSearch?.performSearch()
     }
 
-    public func numberOfSections() -> Int {
-        return results.count
-    }
-
-    public func numberOfItems(in section: Int) -> Int {
-        let result = results[section]
-        switch result.state {
-        case .finished where result.error != nil:
-            return 0
-        case .finished:
-            if section == 0 {
-                return 2
-            } else {
-                return result.entities.count
-            }
-        default:
-            break
-        }
-        return 0
-
-    }
-
-    public func entity(for annotation: MKAnnotation) -> MPOLKitEntity? {
-        guard let index = _entityAnnotationMappings?.index(where: { mapping -> Bool in
-            return mapping.annotation === annotation
-        }) else {
-            return nil
-        }
-        return _entityAnnotationMappings?[index].entity
-    }
-
-    /// Lookup the first entity matches the coordinate
-    ///
-    /// - Parameter coordinate: The coordinate of target location
-    /// - Returns: The first entity matches the same coordinate
-
-    public func entityDisplayable(for annotation: MKAnnotation) -> EntityMapSummaryDisplayable? {
-        guard let entity = entity(for: annotation), let summary = summaryDisplayFormatter.summaryDisplayForEntity(entity) as? EntityMapSummaryDisplayable else {
-            return nil
-        }
-
-        return summary
-    }
-
-    public func entityPresentable(for annotation: MKAnnotation) -> Presentable? {
-        guard let entity = entity(for: annotation), let presentable = summaryDisplayFormatter.presentableForEntity(entity) else {
-            return nil
-        }
-
-        return presentable
-    }
+    // MARK: - Map related
 
     open func mapAnnotation(for entity: MPOLKitEntity) -> MKAnnotation? {
-        guard let index = _entityAnnotationMappings?.index(where: { mapping -> Bool in
-            return mapping.entity === entity
-        }) else {
-            return nil
-        }
-        return _entityAnnotationMappings?[index].annotation
+        guard let displayable = summaryDisplayFormatter.summaryDisplayForEntity(entity) as? EntityMapSummaryDisplayable else { return nil }
+        guard let coordinate = displayable.coordinate else { return nil }
+
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinate
+        annotation.title = displayable.title
+        return annotation
     }
 
     open func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView? {
-        MPLRequiresConcreteImplementation()
+        var pinView: MKPinAnnotationView
+        let identifier = "locationPinAnnotationView"
+
+        if annotation is MKPointAnnotation {
+            if let dequeueView =  mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView {
+                dequeueView.annotation = annotation
+                pinView = dequeueView
+            } else {
+                pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                pinView.animatesDrop = false
+                pinView.canShowCallout = true
+                pinView.leftCalloutAccessoryView = UIImageView(image: AssetManager.shared.image(forKey: .location))
+            }
+
+            return pinView
+        }
+
+        return nil
+    }
+
+    open func mapDidSelectAnnotationView(for annotationView: MKAnnotationView) {
+        guard let annotation = annotationView.annotation,
+            let entity = _entityAnnotationMappings?.first(where: { $0.annotation === annotation })?.entity,
+            let presentable = self.summaryDisplayFormatter.presentableForEntity(entity) else { return }
+        self.delegate?.requestToPresent(presentable)
     }
 
     public var allAnnotations: [MKAnnotation]? {
@@ -182,13 +158,29 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
         return section.entities.flatMap { entity in
             guard let summary = summaryDisplayFormatter.summaryDisplayForEntity(entity) as? EntityMapSummaryDisplayable else { return nil }
 
-            return summary.summaryListFormItem()
+            let summaryItem = summary.summaryListFormItem()
+                .subtitle("Calculating")
+                .accessory(nil)
                 .onSelection { [weak self] _ in
                     guard let `self` = self, let presentable = self.summaryDisplayFormatter.presentableForEntity(entity) else { return }
                     self.delegate?.requestToPresent(presentable)
+                }
+
+            if let userLocation = delegate?.mapView?.userLocation.location, let coordinate = summary.coordinate {
+                let destinationLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+                travelEstimationPlugin.calculateDistance(from: userLocation, to: destinationLocation).then { [weak summaryItem] text -> Void in
+                    summaryItem?.subtitle(text)
+                    summaryItem?.reloadItem()
+                }.catch { [weak summaryItem] (error) in
+                    summaryItem?.subtitle("Unknown")
+                    summaryItem?.reloadItem()
+                }
             }
+
+            return summaryItem
         }
     }
+
 }
 
 fileprivate struct EntityAnnotationMapping {

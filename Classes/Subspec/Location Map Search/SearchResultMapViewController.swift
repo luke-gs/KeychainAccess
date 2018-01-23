@@ -34,14 +34,14 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
 
     public var selectedAnnotation: MKAnnotation? {
         didSet {
-            guard let selectedAnnotation = selectedAnnotation else {
+            guard let _ = selectedAnnotation else {
                 sidebarDelegate?.hideSidebar(adjustMapInsets: true)
                 searchFieldPlaceholder = nil
                 return
             }
 
-            let entity = viewModel?.entityDisplayable(for: selectedAnnotation)
-            searchFieldPlaceholder = entity?.title
+//            let entity = viewModel?.entityDisplayable(for: selectedAnnotation)
+//            searchFieldPlaceholder = entity?.title
         }
     }
     
@@ -61,46 +61,52 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         }
     }
 
-    private var searchFieldButton: SearchFieldButton?
+    internal private(set) var searchFieldButton: SearchFieldButton?
     
     public init(layout: LocationSearchMapCollectionViewSideBarLayout = LocationSearchMapCollectionViewSideBarLayout()) {
         super.init(layout: layout)
         sidebarDelegate = layout
         title = NSLocalizedString("Location Search", comment: "Location Search Title")
+        userInterfaceStyle = .light
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-    
-    public override func viewDidLoad() {
+
+    public override func loadView() {
+        super.loadView()
+
         let searchFieldButton = SearchFieldButton(frame: .zero)
         searchFieldButton.text = viewModel?.title
         searchFieldButton.placeholder = searchFieldPlaceholder
         searchFieldButton.translatesAutoresizingMaskIntoConstraints = false
         searchFieldButton.addTarget(self, action: #selector(searchFieldButtonDidSelect), for: .primaryActionTriggered)
         self.searchFieldButton = searchFieldButton
-
-        super.viewDidLoad()
-
         view.addSubview(searchFieldButton)
-
-        guard let mapView = self.mapView else { return }
-
-        mapView.delegate = self
-        mapView.showsUserLocation = true
-        trackMyLocation()
-
-        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(performRadiusSearchOnLongPress(gesture:)))
-        mapView.addGestureRecognizer(longPressGesture)
 
         NSLayoutConstraint.activate([
             searchFieldButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchFieldButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             constraintAboveSafeAreaOrBelowTopLayout(searchFieldButton)
         ])
+    }
+    
+    public override func viewDidLoad() {
+        super.viewDidLoad()
 
+        guard let mapView = self.mapView else { return }
+        mapView.delegate = self
+        mapView.showsUserLocation = true
+        trackMyLocation()
+
+        view.bringSubview(toFront: searchFieldButton!)
+
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(performRadiusSearchOnLongPress(gesture:)))
+        mapView.addGestureRecognizer(longPressGesture)
         updateSearchText()
+
+
     }
 
     public override func viewDidLayoutSubviews() {
@@ -151,39 +157,6 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         delegate?.handlePresentable(presentable)
     }
 
-//
-//    open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let displayable = viewModel!.entityDisplayable(for: selectedAnnotation!)!
-//
-//        if indexPath.item == LocationOverview.detail.rawValue {
-//            let cell = collectionView.dequeueReusableCell(of: EntityListCollectionViewCell.self, for: indexPath)
-//            cell.decorate(with: displayable)
-//            return cell
-//        }
-//
-//        let cell = collectionView.dequeueReusableCell(of: LocationMapDirectionCollectionViewCell.self, for: indexPath)
-//        cell.decorate(with: displayable)
-//        cell.streetViewHandler = {
-//
-//            // Implement google maps handler?
-//        }
-//
-//        if let destination = selectedAnnotation, let currentLocation = mapView?.userLocation.location {
-//            let coordinate = destination.coordinate
-//            let destinationLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-//            viewModel?.travelEstimationPlugin.calculateDistance(from: currentLocation, to: destinationLocation)
-//                .then { cell.distanceLabel.text = $0 }
-//                .catch { _ in cell.distanceLabel.text = "Unknown" }
-//            viewModel?.travelEstimationPlugin.calculateETA(from: currentLocation, to: destinationLocation, transportType: .walking)
-//                .then { cell.walkingEstButton.bottomLabel.text = $0 }
-//                .catch { _ in cell.distanceLabel.text = "Unknown" }
-//            viewModel?.travelEstimationPlugin.calculateETA(from: currentLocation, to: destinationLocation, transportType: .automobile)
-//                .then { cell.automobileEstButton.bottomLabel.text = $0 }
-//                .catch { _ in cell.distanceLabel.text = "Unknown" }
-//        }
-//        return cell
-//    }
-
     // MapResultViewModelDelegate
     
     public func mapResultViewModelDidUpdateResults(_ viewModel: MapResultViewModelable) {
@@ -197,7 +170,6 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         if let annotation = view.annotation as? MKPointAnnotation {
             sidebarDelegate?.showSidebar(adjustMapInsets: selectedAnnotation == nil)
             selectedAnnotation = annotation
-            reloadForm()
         }
     }
     
@@ -305,6 +277,7 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         drawMapOverlays()
         addAnnotations()
         updateSearchText()
+        reloadForm()
     }
 
     private func updateSearchText() {

@@ -58,39 +58,22 @@ public protocol MapResultViewModelable: SearchResultModelable {
     var travelEstimationPlugin: TravelEstimationPlugable { get set }
     
     /// Contains all the results for each section
-    var results: [SearchResultSection] { get set }
+    var results: [SearchResultSection] { get }
 
-    /// The number of sections in the sidebar collection view
-    func numberOfSections() -> Int
-
-    /// The number of items in the sidebar collection view
-    func numberOfItems(in section: Int) -> Int
-    
     /// Search enum, to identify the search type and parameters
     var searchType: LocationMapSearchType! { get set }
 
     /// Return all the annotations available on the map
     var allAnnotations: [MKAnnotation]? { get }
 
-    /// Return a displayable value for the first entity matches the coordinate
-    ///
-    /// - Parameter coordinate: The coordinate of target location
-    func entityDisplayable(for annotation: MKAnnotation) -> EntityMapSummaryDisplayable?
-
-    /// Returns a presentable for for the annotation
-    ///
-    /// - Parameter annotation: The annotation
-    /// - Returns: The presentable
-    func entityPresentable(for annotation: MKAnnotation) -> Presentable?
-
-    func entity(for annotation: MKAnnotation) -> MPOLKitEntity?
-
     func mapAnnotation(for entity: MPOLKitEntity) -> MKAnnotation?
 
     /// The view for each annotation view for the specific mapView
     /// Subclasses will need to provide their own implementations to provide annotations
     func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView?
-    
+
+    func mapDidSelectAnnotationView(for annotationView: MKAnnotationView)
+
     /// A delegate that will be notified when there are changes to the results.
     weak var delegate: (MapResultViewModelDelegate & SearchResultMapViewController)? { get set }
 
@@ -98,3 +81,5 @@ public protocol MapResultViewModelable: SearchResultModelable {
     var searchStrategy: LocationSearchModelStrategy { get }
 
 }
+
+

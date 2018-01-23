@@ -69,7 +69,7 @@ public protocol SearchResultViewModelable: SearchResultModelable {
     var style: SearchResultStyle { get set }
     
     /// Contains information for each section
-    var results: [SearchResultSection] { get set }
+    var results: [SearchResultSection] { get }
     
     /// Additional actions on search results
     var additionalBarButtonItems: [UIBarButtonItem]? { get set }

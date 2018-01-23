@@ -63,22 +63,22 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapFormBuilderViewLayou
     
     private var sidebarLayoutGuide: UILayoutGuide?
     
-    private var sidebarBackgroundView: UIView?
+    private var sidebarBackgroundView: UIVisualEffectView?
     
     private var sidebarMinimumWidthConstraint: NSLayoutConstraint?
     
     private var sidebarPreferredWidthConstraint: NSLayoutConstraint?
     
-    private var collectionLeadingConstraint: NSLayoutConstraint?
-    
-    private var sidebarTrailingConstraint: NSLayoutConstraint? {
-        didSet {
-            if oldValue != sidebarLayoutGuideLeadingConstraint {
-                self.controller?.viewIfLoaded?.layoutIfNeeded()
-            }
-        }
-    }
-    
+//    private var collectionLeadingConstraint: NSLayoutConstraint?
+
+//    private var sidebarTrailingConstraint: NSLayoutConstraint? {
+//        didSet {
+//            if oldValue != sidebarLayoutGuideLeadingConstraint {
+//                self.controller?.viewIfLoaded?.layoutIfNeeded()
+//            }
+//        }
+//    }
+
     public var sidebarLayoutGuideLeadingConstraint: NSLayoutConstraint? {
         didSet {
             if oldValue != sidebarLayoutGuideLeadingConstraint {
@@ -91,47 +91,60 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapFormBuilderViewLayou
     // MARK: - View lifecycle
     
     open override func viewDidLoad() {
-        let controller = self.controller!
+        guard let controller = controller as? SearchResultMapViewController, let searchFieldButton = controller.searchFieldButton else { return }
+
         view = controller.view!
         
         var constraints: [NSLayoutConstraint] = []
         
         let collectionView = controller.collectionView!
         let mapView = controller.mapView!
-        
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        mapView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let backingView = UIView(frame: view.bounds)
-        backingView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(backingView)
-        
-        let sidebarBackground = UIView(frame: .zero)
-        sidebarBackground.translatesAutoresizingMaskIntoConstraints = false
-
+        mapView.frame = view.bounds
+        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(mapView)
+
+        let shadowBackground = UIView(frame: .zero)
+        shadowBackground.translatesAutoresizingMaskIntoConstraints = false
+        shadowBackground.backgroundColor = UIColor(white: 1.0, alpha: 0.1)
+        view.addSubview(shadowBackground)
+
+        let layer = shadowBackground.layer
+        layer.cornerRadius = 8.0
+        layer.shadowRadius = 4.0
+        layer.shadowColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 1.0).cgColor
+        layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        layer.shadowOpacity = 1.0
+        layer.masksToBounds = false
+
+        let sidebarBackground = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+        sidebarBackground.translatesAutoresizingMaskIntoConstraints = false
+        sidebarBackground.layer.cornerRadius = 8.0
+        sidebarBackground.layer.masksToBounds = true
         view.addSubview(sidebarBackground)
-        sidebarBackground.addSubview(collectionView)
-        
+
+        collectionView.frame = sidebarBackground.bounds
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        sidebarBackground.contentView.addSubview(collectionView)
+
         self.sidebarBackgroundView = sidebarBackground
-        
-        if let accessoryView = controller.accessoryView {
-            accessoryView.translatesAutoresizingMaskIntoConstraints = false
-            sidebarBackground.addSubview(accessoryView)
-            
-            collectionLeadingConstraint = accessoryView.trailingAnchor.constraint(equalTo: collectionView.leadingAnchor)
-            
-            constraints += [
-                accessoryView.leadingAnchor.constraint(equalTo: sidebarBackground.safeAreaOrFallbackLeadingAnchor),
-                accessoryView.topAnchor.constraint(equalTo: controller.safeAreaOrLayoutGuideTopAnchor),
-                accessoryView.bottomAnchor.constraint(lessThanOrEqualTo: controller.safeAreaOrLayoutGuideBottomAnchor),
-                collectionLeadingConstraint!
-            ]
-        } else {
-            collectionLeadingConstraint = collectionView.leadingAnchor.constraint(equalTo: sidebarBackground.leadingAnchor)
-            constraints.append(collectionLeadingConstraint!)
-        }
-        
+
+//        if let accessoryView = controller.accessoryView {
+//            accessoryView.translatesAutoresizingMaskIntoConstraints = false
+//            sidebarBackground.addSubview(accessoryView)
+//
+//            collectionLeadingConstraint = accessoryView.trailingAnchor.constraint(equalTo: collectionView.leadingAnchor)
+//
+//            constraints += [
+//                accessoryView.leadingAnchor.constraint(equalTo: sidebarBackground.safeAreaOrFallbackLeadingAnchor),
+//                accessoryView.topAnchor.constraint(equalTo: controller.safeAreaOrLayoutGuideTopAnchor),
+//                accessoryView.bottomAnchor.constraint(lessThanOrEqualTo: controller.safeAreaOrLayoutGuideBottomAnchor),
+//                collectionLeadingConstraint!
+//            ]
+//        } else {
+//            collectionLeadingConstraint = collectionView.leadingAnchor.constraint(equalTo: sidebarBackground.leadingAnchor)
+//            constraints.append(collectionLeadingConstraint!)
+//        }
+
         let sidebarLayoutGuide = UILayoutGuide()
         self.sidebarLayoutGuide = sidebarLayoutGuide
         view.addLayoutGuide(sidebarLayoutGuide)
@@ -145,37 +158,27 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapFormBuilderViewLayou
         
         if controller.traitCollection.horizontalSizeClass == .compact || hidesMapInRegularEnvironment {
             sidebarLayoutGuideLeadingConstraint = sidebarLayoutGuide.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor)
-            sidebarTrailingConstraint = sidebarBackground.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor)
         } else {
             sidebarLayoutGuideLeadingConstraint = sidebarLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -sideBarWidth)
-            sidebarTrailingConstraint = sidebarBackground.trailingAnchor.constraint(equalTo: sidebarLayoutGuide.trailingAnchor)
         }
 
-        if #available(iOS 11.0, *) {
-            constraints += [
-                sidebarLayoutGuideLeadingConstraint!,
-                sidebarLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-                sidebarLayoutGuide.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-                sidebarMinimumWidthConstraint!,
-                sidebarPreferredWidthConstraint!,
-                sidebarTrailingConstraint!,
+        constraints += [
+            sidebarLayoutGuideLeadingConstraint!,
+            sidebarLayoutGuide.topAnchor.constraint(equalTo: searchFieldButton.bottomAnchor, constant: 16.0),
+            sidebarLayoutGuide.bottomAnchor.constraint(equalTo: controller.bottomLayoutGuide.topAnchor, constant: -16.0),
+            sidebarMinimumWidthConstraint!,
+            sidebarPreferredWidthConstraint!,
 
-                sidebarBackground.topAnchor.constraint(equalTo: sidebarLayoutGuide.topAnchor),
-                sidebarBackground.bottomAnchor.constraint(equalTo: sidebarLayoutGuide.bottomAnchor),
-                sidebarBackground.leadingAnchor.constraint(equalTo: sidebarLayoutGuide.leadingAnchor),
+            sidebarBackground.topAnchor.constraint(equalTo: sidebarLayoutGuide.topAnchor),
+            sidebarBackground.bottomAnchor.constraint(equalTo: sidebarLayoutGuide.bottomAnchor),
+            sidebarBackground.leadingAnchor.constraint(equalTo: sidebarLayoutGuide.leadingAnchor),
+            sidebarBackground.trailingAnchor.constraint(equalTo: sidebarLayoutGuide.trailingAnchor),
 
-                collectionView.topAnchor.constraint(equalTo: sidebarBackground.topAnchor),
-                collectionView.bottomAnchor.constraint(equalTo: sidebarBackground.bottomAnchor),
-                collectionView.trailingAnchor.constraint(equalTo: sidebarBackground.trailingAnchor),
-
-                mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                mapView.topAnchor.constraint(equalTo: view.topAnchor),
-                mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            ]
-        } else {
-            // Fallback on earlier versions
-        }
+            shadowBackground.topAnchor.constraint(equalTo: sidebarLayoutGuide.topAnchor),
+            shadowBackground.bottomAnchor.constraint(equalTo: sidebarLayoutGuide.bottomAnchor),
+            shadowBackground.leadingAnchor.constraint(equalTo: sidebarLayoutGuide.leadingAnchor),
+            shadowBackground.trailingAnchor.constraint(equalTo: sidebarLayoutGuide.trailingAnchor),
+        ]
         
         NSLayoutConstraint.activate(constraints)
     }
@@ -183,8 +186,7 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapFormBuilderViewLayou
     open override func apply(_ theme: Theme) {
         super.apply(theme)
 
-        sidebarBackgroundView?.backgroundColor = .red
-//        sidebarBackgroundView?.backgroundColor = theme.color(forKey: .background)
+//        sidebarBackgroundView?.contentView.backgroundColor = theme.color(forKey: .background)
     }
 
     open func showSideBar(shouldInsetMapView: Bool = true) {
@@ -215,6 +217,10 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapFormBuilderViewLayou
             view.layoutIfNeeded()
         }
     }
+
+    open override func viewDidLayoutSubviews() -> Bool {
+        return false
+    }
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
@@ -227,43 +233,43 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapFormBuilderViewLayou
     }
 
     private func updateSidebarTrailingConstraint(shouldHide: Bool) {
-        guard let sidebarBackground = sidebarBackgroundView,
-            let sidebarLayoutGuide = sidebarLayoutGuide,
-            let view = controller?.viewIfLoaded else { return }
+//        guard let sidebarBackground = sidebarBackgroundView,
+//            let sidebarLayoutGuide = sidebarLayoutGuide,
+//            let view = controller?.viewIfLoaded else { return }
 
-        sidebarTrailingConstraint?.isActive = false
-        sidebarTrailingConstraint = sidebarBackground.trailingAnchor.constraint(equalTo: shouldHide ? view.trailingAnchor : sidebarLayoutGuide.trailingAnchor)
-        sidebarTrailingConstraint!.isActive = true
+//        sidebarTrailingConstraint?.isActive = false
+//        sidebarTrailingConstraint = sidebarBackground.trailingAnchor.constraint(equalTo: shouldHide ? view.trailingAnchor : sidebarLayoutGuide.trailingAnchor)
+//        sidebarTrailingConstraint!.isActive = true
     }
     
     open override func accessoryViewDidChange(_ previousAccessoryView: UIView?) {
         super.accessoryViewDidChange(previousAccessoryView)
         
-        let controller = self.controller!
-        
-        guard let sidebarBackgroundView = sidebarBackgroundView,
-            let collectionView = controller.collectionView else { return }
-        
-        previousAccessoryView?.removeFromSuperview()
-        
-        collectionLeadingConstraint?.isActive = false
-        
-        if let newAccessory = controller.accessoryView {
-            newAccessory.translatesAutoresizingMaskIntoConstraints = false
-            sidebarBackgroundView.addSubview(newAccessory)
-            
-            collectionLeadingConstraint = collectionView.leadingAnchor.constraint(equalTo: newAccessory.trailingAnchor)
-            
-            NSLayoutConstraint.activate([
-                newAccessory.topAnchor.constraint(equalTo: controller.topLayoutGuide.bottomAnchor),
-                newAccessory.bottomAnchor.constraint(lessThanOrEqualTo: controller.bottomLayoutGuide.topAnchor),
-                newAccessory.leadingAnchor.constraint(equalTo: sidebarBackgroundView.leadingAnchor),
-                collectionLeadingConstraint!
-                ])
-        } else {
-            collectionLeadingConstraint = collectionView.leadingAnchor.constraint(equalTo: sidebarBackgroundView.leadingAnchor)
-            collectionLeadingConstraint!.isActive = true
-        }
+//        let controller = self.controller!
+
+//        guard let sidebarBackgroundView = sidebarBackgroundView,
+//            let collectionView = controller.collectionView else { return }
+
+//        previousAccessoryView?.removeFromSuperview()
+
+//        collectionLeadingConstraint?.isActive = false
+
+//        if let newAccessory = controller.accessoryView {
+//            newAccessory.translatesAutoresizingMaskIntoConstraints = false
+//            sidebarBackgroundView.addSubview(newAccessory)
+//
+//            collectionLeadingConstraint = collectionView.leadingAnchor.constraint(equalTo: newAccessory.trailingAnchor)
+//
+//            NSLayoutConstraint.activate([
+//                newAccessory.topAnchor.constraint(equalTo: controller.topLayoutGuide.bottomAnchor),
+//                newAccessory.bottomAnchor.constraint(lessThanOrEqualTo: controller.bottomLayoutGuide.topAnchor),
+//                newAccessory.leadingAnchor.constraint(equalTo: sidebarBackgroundView.leadingAnchor),
+//                collectionLeadingConstraint!
+//                ])
+//        } else {
+//            collectionLeadingConstraint = collectionView.leadingAnchor.constraint(equalTo: sidebarBackgroundView.leadingAnchor)
+//            collectionLeadingConstraint!.isActive = true
+//        }
     }
 }
 
