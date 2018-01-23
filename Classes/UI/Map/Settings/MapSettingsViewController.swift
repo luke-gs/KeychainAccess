@@ -44,6 +44,10 @@ open class MapSettingsViewController: ThemedPopoverViewController {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
+        
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
+        preferredContentSize = CGSize(width: 512, height: view.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height)
     }
 
     /// Creates and styles views
@@ -125,7 +129,7 @@ open class MapSettingsViewController: ThemedPopoverViewController {
     }
 }
 
-open class MapSettingsLayersCollectionView: FormBuilderViewController {
+open class MapSettingsLayersCollectionView: IntrinsicHeightFormBuilderViewController {
     
     let viewModel: MapSettingsViewModel
     
