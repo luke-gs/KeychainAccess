@@ -53,6 +53,21 @@ open class ResourceOverviewViewModel: TaskDetailsViewModel {
         guard let resource = CADStateManager.shared.resourcesById[callsign] else { return }
         
         sections = [
+            CADFormCollectionSectionViewModel(title: NSLocalizedString("Shift Details", comment: ""),
+                                              items: [
+                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Start Time", comment: ""),
+                                                                              value: resource.shiftStartString,
+                                                                              width: .column(3)),
+
+                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Estimated End Time", comment: ""),
+                                                                              value: resource.shiftEndString,
+                                                                              width: .column(3)),
+
+                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Duration", comment: ""),
+                                                                              value: resource.shiftDuration,
+                                                                              width: .column(3)),
+                                                ]),
+
             CADFormCollectionSectionViewModel(title: NSLocalizedString("Call Sign Details", comment: ""),
                                               items: [
                                                 IncidentOverviewItemViewModel(title: NSLocalizedString("Type", comment: ""),
@@ -67,33 +82,18 @@ open class ResourceOverviewViewModel: TaskDetailsViewModel {
                                                                               value: resource.serial,
                                                                               width: .column(4)),
                                                 
-                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Vehicle Category", comment: ""),
+                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Category", comment: ""),
                                                                               value: resource.vehicleCategory,
                                                                               width: .column(4)),
                                                 
                                                 IncidentOverviewItemViewModel(title: NSLocalizedString("Equipment", comment: ""),
                                                                               value: resource.equipmentListString(separator: ", "),
-                                                                              width: .column(2)),
+                                                                              width: .column(1)),
                                                 
                                                 IncidentOverviewItemViewModel(title: NSLocalizedString("Remarks", comment: ""),
                                                                               value: resource.remarks ?? "–",
-                                                                              width: .column(2)),
-                                                ]),
-            
-            CADFormCollectionSectionViewModel(title: NSLocalizedString("Shift Details", comment: ""),
-                                              items: [
-                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Start Time", comment: ""),
-                                                                              value: resource.shiftStartString,
-                                                                              width: .column(3)),
-                                                
-                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Estimated End Time", comment: ""),
-                                                                              value: resource.shiftEndString,
-                                                                              width: .column(3)),
-                                                
-                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Duration", comment: ""),
-                                                                              value: resource.shiftDuration,
-                                                                              width: .column(3)),
-                                                ]),
+                                                                              width: .column(1)),
+                                                ])
         ]
     }
     

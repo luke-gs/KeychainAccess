@@ -68,6 +68,7 @@ open class OfficerDetailsViewController: FormBuilderViewController {
             // TODO: get these from manifest
             .options([NSLocalizedString("Gold Licence", comment: ""),
                       NSLocalizedString("Silver Licence", comment: ""),
+                      NSLocalizedString("Bronze Licence", comment: ""),
                       NSLocalizedString("Nil", comment: "")])
             .required("Licence is required.")
             .allowsMultipleSelection(false)

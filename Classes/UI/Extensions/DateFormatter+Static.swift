@@ -64,6 +64,23 @@ extension DateFormatter {
         return formatter
     }()
 
+    // MARK: - Y2K dates, (MPOLA-1325)
+
+    public static let shortDateFullYear: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = .autoupdatingCurrent
+        formatter.setLocalizedDateFormatFromTemplate("dd/MM/yyyy")
+        return formatter
+    }()
+
+    public static let shortDateAndTimeFullYear: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = .autoupdatingCurrent
+        formatter.setLocalizedDateFormatFromTemplate("dd/MM/yyyy HH:mm")
+        return formatter
+    }()
+
+
     // MARK: - Locale changes
     
     private static var isListeningForLocaleChanges: Bool = false {

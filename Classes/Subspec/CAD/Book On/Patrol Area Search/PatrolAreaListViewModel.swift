@@ -37,7 +37,7 @@ public class PatrolAreaListViewModel: GenericSearchDefaultViewModel {
         let sorted = items.sorted(using: [SortDescriptor<GenericSearchable> { $0.title }])
         super.init(items: sorted)
         
-        title = NSLocalizedString("Patrol Area", comment: "")
+        title = NSLocalizedString("Select Patrol Area", comment: "")
         hasSections = false
     }
     
