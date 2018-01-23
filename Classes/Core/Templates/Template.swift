@@ -6,26 +6,24 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
-
-///  Template struct. The primary data object in the Template system.
+///  Base template class. Extend this for your own templates!
 ///  Overrides equality behaviour for set comparison reasons.
-public struct Template: Hashable {
+public class Template: Hashable, Codable {
+    public let id: String
+    public let timestamp: Date
+
     public var hashValue: Int {
-        return name.hashValue
+        return id.hashValue
     }
 
-    public init(name: String, description: String, value: String) {
-        self.name = name
-        self.description = description
-        self.value = value
+    // disallow initialising base templates
+    internal init(id: String = UUID().uuidString, timestamp: Date = Date()) {
+        self.id = id
+        self.timestamp = timestamp
     }
-
-    public let name: String
-    public let description: String
-    public let value: String
 
     // overrides default behaviour for set comparisons
     public static func ==(lhs: Template, rhs: Template) -> Bool {
-        return lhs.name == rhs.name
+        return lhs.id == rhs.id
     }
 }

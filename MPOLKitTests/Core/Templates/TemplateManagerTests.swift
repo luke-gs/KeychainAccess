@@ -12,94 +12,85 @@ import PromiseKit
 
 public class TemplateManagerTests: XCTestCase {
 
-    let template1 = Template(name: "test1", description: "The first test template.", value: "This is a test template.")
-    let template2 = Template(name: "test2", description: "The second test template.", value: "This is another test template.")
+    static let testKey = "unittest"
+    var handler: TemplateHandler<UserDefaultsDataSource> = TemplateHandler<UserDefaultsDataSource>(source: UserDefaultsDataSource(sourceKey: testKey))
 
-    static let cachedTemplate = Template(name: "cached", description: "A cached network template.", value: "This is a cached network template.")
-    static let template9 = Template(name: "test9", description: "The ninth test template.", value: "This is yet another test template.")
-    static let networkTemplate = Template(name: "networktemplate", description: "A network template.", value: "This template comes from the network!")
+    public override func setUp() {
+        handler = TemplateHandler<UserDefaultsDataSource>(source: UserDefaultsDataSource(sourceKey: TemplateManagerTests.testKey))
+    }
 
-    class DummyTemplateDelegate: TemplateDelegate {
-        func storeCachedTemplates(templates: Set<Template>) {}
-
-        func storeLocalTemplates(templates: Set<Template>) {}
-
-        var url: URL = try! "http://google.com".asURL()
-
-        func retrieveCachedTemplates() -> Set<Template>? {
-            return [cachedTemplate]
-        }
-        func retrieveLocalTemplates() -> Set<Template>? {
-            return [template9]
-        }
-        func retrieveNetworkTemplates() -> Promise<Set<Template>?> {
-            return Promise<Set<Template>?> { fulfil, reject in
-                fulfil([networkTemplate])
+    public override class func tearDown() {
+        let handler = TemplateHandler<UserDefaultsDataSource>(source: UserDefaultsDataSource(sourceKey: TemplateManagerTests.testKey))
+        handler.source.retrieve().then { result in
+            result?.forEach { template in
+                handler.source.delete(template: template)
             }
-        }
+        }.always {}
     }
 
-    let delegate = DummyTemplateDelegate()
-
-    override public func setUp() {
-        TemplateManager.shared.delegate = delegate
-        TemplateManager.shared.add(template: template1)
-        TemplateManager.shared.add(template: template2)
-    }
-
-    override public func tearDown() {
-        TemplateManager.shared.removeAll()
-    }
-
-    func testGetTemplate() {
-        // Act
-        let template = TemplateManager.shared.template(withName: template1.name)!
-
-        // Assert
-        XCTAssert(template.name == template1.name
-            && template.description == template1.description
-            && template.value == template1.value)
-    }
-
-    func testGetAllTemplates() {
-        // Act
-        let templates = TemplateManager.shared.allTemplates()
-
-        // Assert
-        XCTAssert(templates.isSuperset(of: [template1, template2, TemplateManagerTests.cachedTemplate, TemplateManagerTests.template9]))
-    }
-
-    func testAddTemplate() {
+    func testStoreRetrieveTemplate() {
         // Arrange
-        let template3 = Template(name: "test3", description: "The third test template.", value: "This is one of several test templates.")
+        let template = TextTemplate(name: "name", description: "desc", value: "value")
+        let expect = expectation(description: "Retrieval works.")
 
         // Act
-        TemplateManager.shared.add(template: template3)
+        handler.source.store(template: template)
 
         // Assert
-        XCTAssert(TemplateManager.shared.allTemplates().contains { template in template.name == template3.name })
+        handler.source.retrieve().then { result in
+            XCTAssert(result?.contains(template) ?? false)
+            expect.fulfill()
+            return AnyPromise(Promise<Void>())
+        }.always {}
+
+        waitForExpectations(timeout: 5, handler: nil)
     }
 
-    func testReplaceTemplate() {
+    func testDeleteTemplate() {
         // Arrange
-        let oldTemplate = TemplateManager.shared.template(withName: template1.name)!
+        let template = TextTemplate(name: "name", description: "desc", value: "value")
+        let expect = expectation(description: "Deleting templates works.")
+        handler.source.store(template: template)
 
         // Act
-        TemplateManager.shared.replace(template: Template(name: template1.name, description: "A modified description.", value: "A modified value."))
-
-        let newTemplate = TemplateManager.shared.template(withName: template1.name)!
+        handler.source.delete(template: template)
 
         // Assert
-        XCTAssert(oldTemplate.name != newTemplate.name
-            || oldTemplate.description != newTemplate.description
-            || oldTemplate.value != newTemplate.value)
+        handler.source.retrieve().then { result in
+            XCTAssertFalse(result?.contains(template) ?? true)
+            expect.fulfill()
+            return AnyPromise(Promise<Void>())
+            }.always {}
+
+        waitForExpectations(timeout: 5, handler: nil)
     }
 
-    func testRemoveTemplate() {
-        // Act
-        TemplateManager.shared.remove(templateWithName: template1.name)
+    func testDecodeTemplates() {
+        // Arrange
+        let template = TextTemplate(name: "name", description: "desc", value: "value")
+        let expect = expectation(description: "Encoding and decoding works.")
+        handler.source.store(template: template) // encode and store
+
+        // Act - retrieve and decode
+        handler = TemplateHandler<UserDefaultsDataSource>(source: UserDefaultsDataSource(sourceKey: TemplateManagerTests.testKey))
 
         // Assert
-        XCTAssertNil(TemplateManager.shared.template(withName: template1.name))
+        handler.source.retrieve().then { result in
+            if let templateResult = result?.filter({ filterTemplate in filterTemplate.id == template.id }), !templateResult.isEmpty {
+                let first = templateResult.first!
+                XCTAssert(first.id == template.id &&
+                    first.name == template.name &&
+                    first.description == template.description &&
+                    first.value == template.value &&
+                    first.timestamp == template.timestamp)
+                expect.fulfill()
+                return AnyPromise(Promise<Void>())
+            }
+            XCTFail()
+            return AnyPromise(Promise<Void>())
+
+        }.always {}
+
+        waitForExpectations(timeout: 5, handler: nil)
     }
 }

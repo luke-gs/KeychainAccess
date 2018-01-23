@@ -518,9 +518,11 @@
 		DBE24C411F5CF0FC0088D19B /* SidebarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6CB6D51F19C638001549F8 /* SidebarHeaderView.swift */; };
 		E21CD4741FBD4B3800925A38 /* NetworkMonitorPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21CD4731FBD4B3800925A38 /* NetworkMonitorPlugin.swift */; };
 		E2552CA81FCBA818007376C5 /* TaskItemViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2552CA71FCBA818007376C5 /* TaskItemViewModelTests.swift */; };
+		E26BCADE201169930028F228 /* TemplateDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26BCADD201169930028F228 /* TemplateDataSource.swift */; };
+		E26BCAE020116A8A0028F228 /* UserDefaultsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26BCADF20116A8A0028F228 /* UserDefaultsDataSource.swift */; };
+		E26BCAE220117D420028F228 /* TextTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26BCAE120117D420028F228 /* TextTemplate.swift */; };
 		E283D2841FEB6BFA0040702C /* Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = E283D2831FEB6BFA0040702C /* Template.swift */; };
-		E2CD47AA1FE9FC8F00934367 /* TemplateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CD47A91FE9FC8F00934367 /* TemplateManager.swift */; };
-		E2CD47AC1FE9FE2000934367 /* TemplateDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CD47AB1FE9FE2000934367 /* TemplateDelegate.swift */; };
+		E28566B220154A9200266472 /* TemplateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28566B120154A9200266472 /* TemplateHandler.swift */; };
 		E2CD47AF1FEA0B2200934367 /* TemplateManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CD47AE1FEA0B2200934367 /* TemplateManagerTests.swift */; };
 		EA0540021F9485B000F6E63C /* OptionFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0540011F9485B000F6E63C /* OptionFormItemTests.swift */; };
 		EA0540041F94895800F6E63C /* TextFieldFormItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0540031F94895800F6E63C /* TextFieldFormItemTests.swift */; };
@@ -1192,9 +1194,11 @@
 		DBE24C381F593AB30088D19B /* EntityDetailViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailViewModelable.swift; sourceTree = "<group>"; };
 		E21CD4731FBD4B3800925A38 /* NetworkMonitorPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitorPlugin.swift; sourceTree = "<group>"; };
 		E2552CA71FCBA818007376C5 /* TaskItemViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemViewModelTests.swift; sourceTree = "<group>"; };
+		E26BCADD201169930028F228 /* TemplateDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateDataSource.swift; sourceTree = "<group>"; };
+		E26BCADF20116A8A0028F228 /* UserDefaultsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsDataSource.swift; sourceTree = "<group>"; };
+		E26BCAE120117D420028F228 /* TextTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTemplate.swift; sourceTree = "<group>"; };
 		E283D2831FEB6BFA0040702C /* Template.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Template.swift; sourceTree = "<group>"; };
-		E2CD47A91FE9FC8F00934367 /* TemplateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateManager.swift; sourceTree = "<group>"; };
-		E2CD47AB1FE9FE2000934367 /* TemplateDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateDelegate.swift; sourceTree = "<group>"; };
+		E28566B120154A9200266472 /* TemplateHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateHandler.swift; sourceTree = "<group>"; };
 		E2CD47AE1FEA0B2200934367 /* TemplateManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateManagerTests.swift; sourceTree = "<group>"; };
 		EA0540011F9485B000F6E63C /* OptionFormItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionFormItemTests.swift; sourceTree = "<group>"; };
 		EA0540031F94895800F6E63C /* TextFieldFormItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldFormItemTests.swift; sourceTree = "<group>"; };
@@ -2962,8 +2966,10 @@
 			isa = PBXGroup;
 			children = (
 				E283D2831FEB6BFA0040702C /* Template.swift */,
-				E2CD47A91FE9FC8F00934367 /* TemplateManager.swift */,
-				E2CD47AB1FE9FE2000934367 /* TemplateDelegate.swift */,
+				E26BCAE120117D420028F228 /* TextTemplate.swift */,
+				E26BCADD201169930028F228 /* TemplateDataSource.swift */,
+				E26BCADF20116A8A0028F228 /* UserDefaultsDataSource.swift */,
+				E28566B120154A9200266472 /* TemplateHandler.swift */,
 			);
 			path = Templates;
 			sourceTree = "<group>";
@@ -3540,7 +3546,6 @@
 				EA3BA38C1F7B2B5D000E4AD8 /* FooterFormItem.swift in Sources */,
 				965176141FC792FD003B1B85 /* BaseLoadingStateView.swift in Sources */,
 				27094CCB1FAFFBDA00D4C3D4 /* TaskItemViewModel.swift in Sources */,
-				E2CD47AC1FE9FE2000934367 /* TemplateDelegate.swift in Sources */,
 				EA4E33581F8F51DF0027E431 /* CustomItemAccessory.swift in Sources */,
 				BC9C7DD51F0DED6600DFFE83 /* ParseError.swift in Sources */,
 				19B49BC01F665F2A00502F51 /* RegularSidebarViewController.swift in Sources */,
@@ -3560,6 +3565,7 @@
 				BC9C7DF11F0DED6600DFFE83 /* EpochDateTransformer.swift in Sources */,
 				BC9C7DD31F0DED6600DFFE83 /* OAuthAuthorizationGrant.swift in Sources */,
 				1948A7B51FBBDB45005AB301 /* OAuth2Error.swift in Sources */,
+				E26BCADE201169930028F228 /* TemplateDataSource.swift in Sources */,
 				EA11F0221F830DD600BF8BCA /* ItemAccessorisable.swift in Sources */,
 				967E75A61FCE2DDA00B75CF6 /* OfficerDetailsResponse.swift in Sources */,
 				462A788A1FC3C661002AEC05 /* SignatureView.swift in Sources */,
@@ -3625,6 +3631,7 @@
 				BC9C7E491F0DED6600DFFE83 /* SourceItem.swift in Sources */,
 				BC9C7E1B1F0DED6600DFFE83 /* MPOLAssert.swift in Sources */,
 				969FC8911FCFBCA40023D43B /* ResourceType.swift in Sources */,
+				E26BCAE220117D420028F228 /* TextTemplate.swift in Sources */,
 				DB88BCDB1F42D0080056FD69 /* SearchOptionsViewController.swift in Sources */,
 				BC39A6831F18A6EC005CA8EE /* LabeledAccessoryView.swift in Sources */,
 				EAB38FFC1F70A73700341BAF /* HeaderFormItem.swift in Sources */,
@@ -3640,6 +3647,7 @@
 				BC9C7E351F0DED6600DFFE83 /* KeyboardInputManager.swift in Sources */,
 				DB88BCDE1F42D0080056FD69 /* SearchViewController.swift in Sources */,
 				BC9C7E111F0DED6600DFFE83 /* TableViewFormCheckboxCell.swift in Sources */,
+				E28566B220154A9200266472 /* TemplateHandler.swift in Sources */,
 				EA69F8291F7C8EAD0092380B /* PickerFormItem.swift in Sources */,
 				96BFD1B01FE8B322009AF6B5 /* BookOnDetailsFormContentOfficerViewModel.swift in Sources */,
 				27F9C96C1FA2D7E300825F88 /* CompactCallsignContainerViewController.swift in Sources */,
@@ -3652,6 +3660,7 @@
 				96CF32271F8C34F800140AF8 /* TasksListIncidentViewModel.swift in Sources */,
 				EA09A04E1F78B92100BC3C0E /* SpecificationOperator.swift in Sources */,
 				BC9C7E061F0DED6600DFFE83 /* UIFont+Convenience.swift in Sources */,
+				E26BCAE020116A8A0028F228 /* UserDefaultsDataSource.swift in Sources */,
 				270C60FD1FBA5DCB006F11AD /* TasksListIncidentCollectionViewCell.swift in Sources */,
 				27206B361F8198CD005303A8 /* IncidentAnnotationView.swift in Sources */,
 				278A16311FBBBDC800C01C38 /* MapFilterViewController.swift in Sources */,
@@ -4080,7 +4089,6 @@
 				BC79ADAEABB2D9BDDC997334 /* MPOLSpinnerView.swift in Sources */,
 				EA09A0481F78B6D400BC3C0E /* Validator.swift in Sources */,
 				EA950E4C1F8DBF5700B5A349 /* SubmissionValidationVisitor.swift in Sources */,
-				E2CD47AA1FE9FC8F00934367 /* TemplateManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
