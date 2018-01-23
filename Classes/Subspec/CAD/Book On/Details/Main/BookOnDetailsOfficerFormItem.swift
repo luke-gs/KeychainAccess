@@ -16,10 +16,11 @@ class BookOnDetailsOfficerFormItem: SubtitleFormItem {
         super.init(cellType: cellType, reuseIdentifier: reuseIdentifier)
     }
 
-    public convenience init(title: StringSizable? = nil, subtitle: StringSizable? = nil, status: String? = nil, style: CollectionViewFormSubtitleStyle = .default) {
+    public convenience init(title: StringSizable? = nil, subtitle: StringSizable? = nil, status: String? = nil, image: UIImage? = nil, style: CollectionViewFormSubtitleStyle = .default) {
         self.init(cellType: BookOnDetailsOfficerCell.self, reuseIdentifier: BookOnDetailsOfficerCell.defaultReuseIdentifier)
 
         self.title = title
+        self.image = image
         self.subtitle = subtitle
         self.status = status
         self.style = style
@@ -30,6 +31,7 @@ class BookOnDetailsOfficerFormItem: SubtitleFormItem {
 
         let cell = cell as! BookOnDetailsOfficerCell
         cell.statusLabel.text = status
+        cell.imageView.image = image
     }
 
 }
