@@ -55,15 +55,19 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
     open override func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
         // Ask the data source for an appropriate title
         if traitCollection.horizontalSizeClass == .compact {
-            if let title = detailViewModel.itemName {
-                return title
-            }
+            return detailViewModel.compactNavTitle ?? ""
+        } else {
+            return detailViewModel.navTitle ?? ""
         }
-        
-        // Use a generic sidebar title
-        return NSLocalizedString("Details", comment: "Title for for task details")
     }
-    
+
+    open override func masterNavSubtitleSuitable(for traitCollection: UITraitCollection) -> String? {
+        if let lastUpdated = detailViewModel.lastUpdated {
+            return "Updated \(lastUpdated)"
+        }
+        return nil
+    }
+
     /// Updates the header view with the details for the latest selected representation.
     /// Call this methodwhen the selected representation changes.
     private func updateHeaderView() {
@@ -73,12 +77,6 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
         headerView.captionLabel.text = detailViewModel.statusText?.localizedUppercase
         headerView.titleLabel.text = detailViewModel.itemName
 
-        if let lastUpdated = detailViewModel.lastUpdated {
-            headerView.subtitleLabel.text = lastUpdated
-        } else {
-            headerView.subtitleLabel.text = nil
-        }
-        
         if let color = detailViewModel.color {
             headerView.iconView.backgroundColor = color
             headerView.captionLabel.textColor = color

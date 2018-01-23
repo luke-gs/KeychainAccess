@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-open class ResourceAnnotationView: MKAnnotationView {
+open class ResourceAnnotationView: AutoLayoutAnnotationView {
 
     public static let defaultReuseIdentifier = "ResourceAnnotationView"
     
@@ -76,8 +76,6 @@ open class ResourceAnnotationView: MKAnnotationView {
     
     /// Creates and styles views
     private func setupViews() {
-        translatesAutoresizingMaskIntoConstraints = false
-        
         detailsView = UIView()
         detailsView.backgroundColor = #colorLiteral(red: 0.2, green: 0.2039215686, blue: 0.2274509804, alpha: 1)
         detailsView.layer.cornerRadius = LayoutConstants.detailsViewRadius
@@ -86,7 +84,7 @@ open class ResourceAnnotationView: MKAnnotationView {
         detailsView.layer.shadowColor = UIColor.black.withAlphaComponent(0.3).cgColor
         detailsView.layer.shadowOpacity = 1
         detailsView.layer.shadowRadius = 4
-        addSubview(detailsView)
+        contentView.addSubview(detailsView)
         
         detailsTitleLabel = UILabel()
         detailsTitleLabel.textColor = .white
@@ -107,7 +105,7 @@ open class ResourceAnnotationView: MKAnnotationView {
         circleView.layer.shadowColor = UIColor.black.withAlphaComponent(0.5).cgColor
         circleView.layer.shadowOpacity = 1
         circleView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(circleView)
+        contentView.addSubview(circleView)
         
         imageView = UIImageView()
         imageView.tintColor = .black
@@ -121,12 +119,12 @@ open class ResourceAnnotationView: MKAnnotationView {
     /// Activates view constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            heightAnchor.constraint(equalToConstant: 64),
-            widthAnchor.constraint(greaterThanOrEqualToConstant: 50),
+            contentView.heightAnchor.constraint(equalToConstant: 64),
+            contentView.widthAnchor.constraint(greaterThanOrEqualToConstant: 50),
             
-            detailsView.topAnchor.constraint(greaterThanOrEqualTo: self.topAnchor),
-            detailsView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            detailsView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            detailsView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor),
+            detailsView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            detailsView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             detailsView.heightAnchor.constraint(equalToConstant: LayoutConstants.detailsViewHeight),
 
             detailsTitleLabel.centerYAnchor.constraint(equalTo: detailsView.centerYAnchor),
@@ -137,8 +135,8 @@ open class ResourceAnnotationView: MKAnnotationView {
             detailsSubtitleLabel.centerYAnchor.constraint(equalTo: detailsTitleLabel.centerYAnchor),
 
             circleView.topAnchor.constraint(equalTo: detailsView.bottomAnchor, constant: 8),
-            circleView.centerXAnchor.constraint(greaterThanOrEqualTo: self.centerXAnchor),
-            circleView.bottomAnchor.constraint(greaterThanOrEqualTo: self.bottomAnchor),
+            circleView.centerXAnchor.constraint(greaterThanOrEqualTo: contentView.centerXAnchor),
+            circleView.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.bottomAnchor),
 
             circleView.heightAnchor.constraint(equalToConstant: LayoutConstants.circleSize),
             circleView.widthAnchor.constraint(equalToConstant: LayoutConstants.circleSize),

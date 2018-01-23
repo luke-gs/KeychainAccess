@@ -64,7 +64,7 @@ open class BookOnLandingViewModel {
     
     /// The title to use in the navigation bar
     open func navTitle() -> String {
-        return NSLocalizedString("You are not booked on", comment: "Not Booked On title")
+        return NSLocalizedString("Book On", comment: "Not Booked On title")
     }
     
     /// Content title shown when no results

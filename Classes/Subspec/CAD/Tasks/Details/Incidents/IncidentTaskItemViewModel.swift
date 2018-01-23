@@ -21,7 +21,10 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
 
     public init(incidentNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?, lastUpdated: String?) {
         super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, lastUpdated: lastUpdated)
-        
+
+        self.navTitle =  NSLocalizedString("Incident details", comment: "")
+        self.compactNavTitle = itemName
+
         self.viewModels = [
             IncidentOverviewViewModel(incidentNumber: incidentNumber),
             IncidentAssociationsViewModel(incidentNumber: incidentNumber),
