@@ -121,7 +121,6 @@ open class UserCallsignStatusView: UIControl {
         countLabel.text = viewModel.state.officerCount
         subtitleLabel.text = viewModel.subtitleText
         
-        // Set circle background only if callsign is assigned
         iconImageView.image = viewModel.iconImage
         iconImageView.tintColor = .secondaryGray
     }
