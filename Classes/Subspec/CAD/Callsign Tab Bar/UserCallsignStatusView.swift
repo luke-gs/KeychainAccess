@@ -26,7 +26,9 @@ open class UserCallsignStatusView: UIControl {
     
     open var iconImageView: UIImageView!
     open var textStackView: UIStackView!
+    open var titleStackView: UIStackView!
     open var titleLabel: UILabel!
+    open var countLabel: UILabel!
     open var subtitleLabel: UILabel!
     
     open override var isEnabled: Bool {
@@ -68,16 +70,29 @@ open class UserCallsignStatusView: UIControl {
         addSubview(iconImageView)
         
         titleLabel = UILabel()
-        titleLabel.font = UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.semibold)
-        titleLabel.textColor = ThemeManager.shared.theme(for: .current).color(forKey: .primaryText)
+        titleLabel.font = UIFont.systemFont(ofSize: 13, weight: .bold)
+        titleLabel.textColor = .primaryGray
         titleLabel.isUserInteractionEnabled = false
-
+        
+        countLabel = UILabel()
+        countLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        countLabel.textColor = .primaryGray
+        countLabel.isUserInteractionEnabled = false
+        
         subtitleLabel = UILabel()
-        subtitleLabel.font = UIFont.systemFont(ofSize: 11, weight: UIFont.Weight.regular)
-        subtitleLabel.textColor = ThemeManager.shared.theme(for: .current).color(forKey: .secondaryText)
+        subtitleLabel.font = UIFont.systemFont(ofSize: 10, weight: .regular)
+        subtitleLabel.textColor = .secondaryGray
         subtitleLabel.isUserInteractionEnabled = false
+        
+        titleStackView = UIStackView(arrangedSubviews: [titleLabel, countLabel])
+        titleStackView.distribution = .fill
+        titleStackView.spacing = 2
+        titleStackView.axis = .horizontal
+        titleStackView.isUserInteractionEnabled = false
+        titleStackView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(titleStackView)
 
-        textStackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
+        textStackView = UIStackView(arrangedSubviews: [titleStackView, subtitleLabel])
         textStackView.axis = .vertical
         textStackView.isUserInteractionEnabled = false
         textStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -86,6 +101,8 @@ open class UserCallsignStatusView: UIControl {
     
     /// Activates view constraints
     open func setupConstraints() {
+        titleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+
         NSLayoutConstraint.activate([
             iconImageView.heightAnchor.constraint(equalToConstant: LayoutConstants.iconSize),
             iconImageView.widthAnchor.constraint(equalToConstant: LayoutConstants.iconSize),
@@ -100,20 +117,13 @@ open class UserCallsignStatusView: UIControl {
     }
     
     open func updateViews() {
-        titleLabel.text = viewModel.titleText
+        titleLabel.text = viewModel.state.title
+        countLabel.text = viewModel.state.officerCount
         subtitleLabel.text = viewModel.subtitleText
         
         // Set circle background only if callsign is assigned
-        if case UserCallsignStatusViewModel.CallsignState.unassigned(_, _) = viewModel.state {
-            iconImageView.image = viewModel.iconImage
-            iconImageView.tintColor = .darkGray
-        } else {
-            let padding = CGSize(width: LayoutConstants.imageMargin, height: LayoutConstants.imageMargin)
-            iconImageView.image = viewModel.iconImage?.withCircleBackground(tintColor: .black,
-                                                                            circleColor: .disabledGray,
-                                                                            style: .auto(padding: padding, shrinkImage: true),
-                                                                            shouldCenterImage: true)
-        }
+        iconImageView.image = viewModel.iconImage
+        iconImageView.tintColor = .secondaryGray
     }
 }
 
