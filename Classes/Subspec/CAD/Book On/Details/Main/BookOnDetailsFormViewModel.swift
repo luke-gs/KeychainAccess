@@ -124,6 +124,11 @@ open class BookOnDetailsFormViewModel {
             officerViewModel = BookOnDetailsFormContentOfficerViewModel()
         }
 
+        // Set custom title if logged in officer details
+        if officerViewModel.officerId == CADStateManager.shared.officerDetails?.payrollId {
+            officerViewModel.title = NSLocalizedString("My Details", comment: "")
+        }
+
         return BookOnScreen.officerDetailsForm(officerViewModel: officerViewModel, delegate: self)
     }
     
