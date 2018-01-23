@@ -45,6 +45,8 @@ open class MapSettingsViewController: ThemedPopoverViewController {
         setupViews()
         setupConstraints()
         
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
         preferredContentSize = CGSize(width: 512, height: view.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height)
     }
 
