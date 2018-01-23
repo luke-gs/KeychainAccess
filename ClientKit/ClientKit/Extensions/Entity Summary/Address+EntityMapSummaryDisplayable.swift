@@ -27,11 +27,11 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable {
     }
     
     public var detail1: String? {
-        return type(of: address).serverTypeRepresentation
+        return nil
     }
     
     public var detail2: String? {
-        return address.formatted()
+        return nil
     }
     
     public var borderColor: UIColor? {
@@ -46,28 +46,6 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable {
         return 0
     }
 
-    public var streetViewButtonTitle: String? {
-        return "Street View"
-    }
-
-    public var walkingLabelPlaceholder: String? {
-        return "Calculating"
-    }
-
-    public var automobileLabelPlaceholder: String? {
-        return "Calculating"
-    }
-
-    public func mapAnnotationThumbnail() -> UIImage? {
-        
-        // TODO: Check alertLevel to assign different image
-        if let image = AssetManager.shared.image(forKey: .location) {
-            return image
-        }
-        return nil
-    }
-    
-    
     public var coordinate: CLLocationCoordinate2D? {
         guard let latitude = address.latitude, let longitude = address.longitude else {
             return nil

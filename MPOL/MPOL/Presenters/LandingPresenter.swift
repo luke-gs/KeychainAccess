@@ -74,16 +74,13 @@ public class LandingPresenter: AppGroupLandingPresenter {
             
             let strategy = LookupAddressLocationSearchStrategy<Address>(source: MPOLSource.gnaf, helpPresentable: EntityScreen.help(type: .location))
             let locationDataSource = LocationSearchDataSource(strategy: strategy, advanceOptions: LookupAddressLocationAdvancedOptions())
-            strategy.onResultModelForMap = {
-                return LocationMapSummarySearchResultViewModel(searchStrategy: strategy)
-            }
             strategy.onResultModelForResult = { (lookupResult, searchable) in
                 let coordinate = lookupResult.location.coordinate
                 let searchType = LocationMapSearchType.radiusSearch(from: coordinate)
                 let parameters = LocationMapRadiusSearchParameters(latitude: coordinate.latitude, longitude: coordinate.longitude, radius: searchType.radius)
                 let request = LocationMapSearchRequest(source: .gnaf, request: parameters)
                 let aggregatedSearch = AggregatedSearch<Address>(requests: [request])
-                let viewModel = LocationMapSummarySearchResultViewModel(searchStrategy: strategy, title: searchable.text ?? "", aggregatedSearch: aggregatedSearch)
+                let viewModel = MapSummarySearchResultViewModel(searchStrategy: strategy, title: searchable.text ?? "", aggregatedSearch: aggregatedSearch)
                 viewModel.searchType = searchType
                 return viewModel
             }
@@ -92,7 +89,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 let parameters = LocationMapRadiusSearchParameters(latitude: coordinate.latitude, longitude: coordinate.longitude, radius: searchType.radius)
                 let request = LocationMapSearchRequest(source: .gnaf, request: parameters)
                 let aggregatedSearch = AggregatedSearch<Address>(requests: [request])
-                let viewModel = LocationMapSummarySearchResultViewModel(searchStrategy: strategy, title: "Dropped Pin at (\(coordinate.latitude), \(coordinate.longitude))", aggregatedSearch: aggregatedSearch)
+                let viewModel = MapSummarySearchResultViewModel(searchStrategy: strategy, title: "Dropped Pin at (\(coordinate.latitude), \(coordinate.longitude))", aggregatedSearch: aggregatedSearch)
                 viewModel.searchType = searchType
                 return viewModel
             }
