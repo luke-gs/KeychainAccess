@@ -155,6 +155,8 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
     }
 
     open func summaryItemsForSection(_ section: SearchResultSection) -> [FormItem] {
+        let userLocation = delegate?.mapView?.userLocation.location
+
         return section.entities.flatMap { entity in
             guard let summary = summaryDisplayFormatter.summaryDisplayForEntity(entity) as? EntityMapSummaryDisplayable else { return nil }
 
@@ -166,7 +168,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
                     self.delegate?.requestToPresent(presentable)
                 }
 
-            if let userLocation = delegate?.mapView?.userLocation.location, let coordinate = summary.coordinate {
+            if let userLocation = userLocation, let coordinate = summary.coordinate {
                 let destinationLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
                 travelEstimationPlugin.calculateDistance(from: userLocation, to: destinationLocation).then { [weak summaryItem] text -> Void in
                     summaryItem?.subtitle(text)

@@ -128,22 +128,20 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapFormBuilderViewLayou
 
         self.sidebarBackgroundView = sidebarBackground
 
-//        if let accessoryView = controller.accessoryView {
-//            accessoryView.translatesAutoresizingMaskIntoConstraints = false
-//            sidebarBackground.addSubview(accessoryView)
-//
+        if let accessoryView = controller.accessoryView {
+            accessoryView.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(accessoryView)
+
 //            collectionLeadingConstraint = accessoryView.trailingAnchor.constraint(equalTo: collectionView.leadingAnchor)
 //
-//            constraints += [
-//                accessoryView.leadingAnchor.constraint(equalTo: sidebarBackground.safeAreaOrFallbackLeadingAnchor),
-//                accessoryView.topAnchor.constraint(equalTo: controller.safeAreaOrLayoutGuideTopAnchor),
-//                accessoryView.bottomAnchor.constraint(lessThanOrEqualTo: controller.safeAreaOrLayoutGuideBottomAnchor),
-//                collectionLeadingConstraint!
-//            ]
-//        } else {
+            constraints += [
+                accessoryView.topAnchor.constraint(equalTo: searchFieldButton.bottomAnchor, constant: 16.0),
+                accessoryView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+            ]
+        } else {
 //            collectionLeadingConstraint = collectionView.leadingAnchor.constraint(equalTo: sidebarBackground.leadingAnchor)
 //            constraints.append(collectionLeadingConstraint!)
-//        }
+        }
 
         let sidebarLayoutGuide = UILayoutGuide()
         self.sidebarLayoutGuide = sidebarLayoutGuide
@@ -244,16 +242,16 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapFormBuilderViewLayou
     
     open override func accessoryViewDidChange(_ previousAccessoryView: UIView?) {
         super.accessoryViewDidChange(previousAccessoryView)
-        
+//
 //        let controller = self.controller!
-
+//
 //        guard let sidebarBackgroundView = sidebarBackgroundView,
 //            let collectionView = controller.collectionView else { return }
-
+//
 //        previousAccessoryView?.removeFromSuperview()
-
+//
 //        collectionLeadingConstraint?.isActive = false
-
+//
 //        if let newAccessory = controller.accessoryView {
 //            newAccessory.translatesAutoresizingMaskIntoConstraints = false
 //            sidebarBackgroundView.addSubview(newAccessory)

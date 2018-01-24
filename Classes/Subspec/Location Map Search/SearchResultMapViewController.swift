@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 import MapKit
 
-public class SearchResultMapViewController: MapFormBuilderViewController, MapResultViewModelDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate, CLLocationManagerDelegate {
+public class SearchResultMapViewController: MapFormBuilderViewController, MapResultViewModelDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate {
     
     private enum LocationOverview: Int {
         case detail
@@ -18,14 +18,18 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     }
 
     public var viewModel: MapResultViewModelable? {
-        didSet {
-            cleanAndRefreshMapView()
+        willSet {
+            viewModel?.delegate = nil
+        }
 
+        didSet {
             viewModel?.delegate = self
 
             if isViewLoaded {
                 searchFieldButton?.text = viewModel?.title
             }
+
+            cleanAndRefreshMapView()
         }
     }
     
@@ -49,9 +53,6 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     
     public lazy var locationManager: CLLocationManager = {
         let locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.distanceFilter = 10.0
         return locationManager
     }()
 
@@ -90,6 +91,28 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
             searchFieldButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             constraintAboveSafeAreaOrBelowTopLayout(searchFieldButton)
         ])
+
+        let locateButton = UIButton(type: .system)
+        locateButton.setImage(AssetManager.shared.image(forKey: .info), for: .normal)
+
+        let optionButton = UIButton(type: .system)
+        optionButton.setImage(AssetManager.shared.image(forKey: .info), for: .normal)
+
+        let accessoryView = UIView(frame: .zero)
+        accessoryView.addSubview(locateButton)
+        accessoryView.addSubview(optionButton)
+        accessoryView.backgroundColor = .white
+
+        locateButton.translatesAutoresizingMaskIntoConstraints = false
+        optionButton.translatesAutoresizingMaskIntoConstraints = false
+
+        let views = ["lb": locateButton, "ob": optionButton]
+
+        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[lb(48,==ob)][ob]|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: views)
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|[lb(48,==ob)]|", options: [], metrics: nil, views: views)
+        NSLayoutConstraint.activate(constraints)
+
+        self.accessoryView = accessoryView
     }
     
     public override func viewDidLoad() {
@@ -98,15 +121,13 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         guard let mapView = self.mapView else { return }
         mapView.delegate = self
         mapView.showsUserLocation = true
-        trackMyLocation()
+        requestLocationServices()
 
         view.bringSubview(toFront: searchFieldButton!)
 
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(performRadiusSearchOnLongPress(gesture:)))
         mapView.addGestureRecognizer(longPressGesture)
         updateSearchText()
-
-
     }
 
     public override func viewDidLayoutSubviews() {
@@ -188,59 +209,47 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         return viewModel?.annotationView(for: annotation, in: mapView)
     }
-    
-    // MARK: CLLocationManagerDelegate
 
-    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let userLocation = locations.first else { return }
-        
+    public func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+
         /// Zoom to the current user location if no specific searchType request at the beginning.
         guard let _ = viewModel?.searchType else {
             let span = MKCoordinateSpanMake(0.05, 0.05)
             let region = MKCoordinateRegionMake(userLocation.coordinate, span)
-            mapView?.setRegion(region, animated: true)
+            mapView.setRegion(region, animated: true)
             return
         }
-        
+
         /// Update ETA information
-        if let _ = selectedAnnotation {
+        if isViewLoaded {
             reloadForm()
         }
-    }
-    
-    public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        switch status {
-        case .notDetermined:
-            locationManager.requestAlwaysAuthorization()
-        case .authorizedWhenInUse, .authorizedAlways:
-            locationManager.startUpdatingLocation()
-        default:
-            break
-        }
+
     }
     
     // MARK: - Private methods
     
-    private func trackMyLocation() {
-        if CLLocationManager.locationServicesEnabled() {
-            let status = CLLocationManager.authorizationStatus()
-            switch status {
-            case .authorizedAlways, .authorizedWhenInUse:
-                locationManager.startUpdatingLocation()
-            case .notDetermined:
-                locationManager.requestWhenInUseAuthorization()
-            case .restricted, .denied:
-                let alertController = UIAlertController(title: "Location Services Disabled", message: "You need to enable location services in settings.", preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "Okay", style: .default))
-                AlertQueue.shared.add(alertController)
-            }
-        } else {
-            let alertController = UIAlertController(title: "Location Services Disabled", message: "You need to enable location services in settings.", preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "Okay", style: .default))
-            AlertQueue.shared.add(alertController)
+    private func requestLocationServices() {
+        guard CLLocationManager.locationServicesEnabled() else {
+            showLocationServicesDisabledPrompt()
+            return
+        }
+
+        let status = CLLocationManager.authorizationStatus()
+        switch status {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted, .denied:
+            showLocationServicesDisabledPrompt()
+        default: break
         }
     }
-    
+
+    private func showLocationServicesDisabledPrompt() {
+        let alertController = UIAlertController(title: "Location Services Disabled", message: "You need to enable location services in settings.", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Okay", style: .default))
+        AlertQueue.shared.add(alertController)
+    }
     
     @objc
     private func searchFieldButtonDidSelect() {
