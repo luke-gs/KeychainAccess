@@ -25,7 +25,7 @@
 /* Begin PBXFileReference section */
 		1DE76078EE629AAABB19522F /* Pods-CAD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CAD.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CAD/Pods-CAD.debug.xcconfig"; sourceTree = "<group>"; };
 		938AAB0D0D7D4DF633FAD2DB /* Pods-CAD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CAD.release.xcconfig"; path = "Pods/Target Support Files/Pods-CAD/Pods-CAD.release.xcconfig"; sourceTree = "<group>"; };
-		9624A4121F7C550B00CAE056 /* CAD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CAD.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9624A4121F7C550B00CAE056 /* Tasks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tasks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9624A4151F7C550B00CAE056 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9624A41C1F7C550B00CAE056 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9624A41F1F7C550B00CAE056 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -99,7 +99,7 @@
 		9624A4131F7C550B00CAE056 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9624A4121F7C550B00CAE056 /* CAD.app */,
+				9624A4121F7C550B00CAE056 /* Tasks.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -179,7 +179,7 @@
 			);
 			name = CAD;
 			productName = CAD;
-			productReference = 9624A4121F7C550B00CAE056 /* CAD.app */;
+			productReference = 9624A4121F7C550B00CAE056 /* Tasks.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -458,7 +458,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.pscore.cad;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(PRODUCT_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "CAD/Configuration/CAD-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -478,7 +478,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.pscore.cad;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(PRODUCT_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "CAD/Configuration/CAD-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
