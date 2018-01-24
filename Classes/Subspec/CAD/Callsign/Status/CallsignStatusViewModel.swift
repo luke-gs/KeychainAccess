@@ -56,6 +56,15 @@ open class CallsignStatusViewModel: CADStatusViewModel {
                 }
             }
 
+            // Finalise requires further details
+            if newStatus == .finalise {
+                promise = promise.then {
+                    return self.promptForFinaliseDetails()
+                }.then { _ -> Void in
+                    // TODO: Do something with this data
+                }
+            }
+            
             // Traffic stop requires further details
             if case .trafficStop = newStatus {
                 promise = promise.then {
@@ -106,6 +115,21 @@ open class CallsignStatusViewModel: CADStatusViewModel {
             }
         }
         delegate?.present(BookOnScreen.statusChangeReason(completionHandler: completionHandler))
+        return promise
+    }
+    
+    // Prompts the user for finalise details
+    open func promptForFinaliseDetails() -> Promise<(String, String)> {
+        
+        let (promise, fulfill, reject) = Promise<(String, String)>.pending()
+        let completionHandler: ((String?, String?) -> Void) = { (secondaryCode, remark) in
+            if let secondaryCode = secondaryCode, let remark = remark {
+                fulfill((secondaryCode, remark))
+            } else {
+                reject(NSError.cancelledError())
+            }
+        }
+        delegate?.present(BookOnScreen.finaliseDetails(primaryCode: incident?.identifier ?? "", completionHandler: completionHandler))
         return promise
     }
 
