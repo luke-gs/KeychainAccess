@@ -575,11 +575,112 @@
             "vehicleType": "Car"
           }
         ]
+      }, 
+      {
+        "createdAt": "2017-12-01T23:41:07Z", 
+        "details": "Some men in masks stole some lipstick from the crown casino. Please attend.", 
+        "grade": "P2", 
+        "identifier": "INC0012", 
+        "informant": {
+          "fullName": "Crabone Stanley", 
+          "primaryPhone": "(02) 8264 1266", 
+          "secondaryPhone": ""
+        }, 
+        "lastUpdated": "2017-12-01T23:41:07Z", 
+        "location": {
+          "country": "Australia", 
+          "fullAddress": "8 Whiteman Street, Southbank VIC 3006", 
+          "latitude": -37.8284142, 
+          "longitude": 144.9579434, 
+          "postalCode": "3006", 
+          "state": "VIC", 
+          "streetName": "Whiteman", 
+          "streetNumberFirst": "8", 
+          "streetType": "Street", 
+          "suburb": "Southbank"
+        }, 
+        "narrative": [
+          {
+            "description": "Dispatch", 
+            "source": "Dispatch", 
+            "timestamp": "2017-12-01T23:41:07Z", 
+            "title": "Incident Created"
+          }, 
+          {
+            "description": "Dispatch", 
+            "source": "Dispatch", 
+            "timestamp": "2017-12-01T23:41:30Z", 
+            "title": "Incident Details Updated"
+          }
+        ], 
+        "patrolGroup": "South Melbourne", 
+        "persons": [], 
+        "secondaryCode": "SEC0012", 
+        "type": "Burglary", 
+        "vehicles": []
+      }, 
+      {
+        "createdAt": "2017-12-01T23:41:07Z", 
+        "details": "A dark blue sedan was stolen by two men of indistinct character without setting off the alarm and breaking any of the car windows. Very mysterious.", 
+        "grade": "P2", 
+        "identifier": "INC0016", 
+        "informant": {
+          "fullName": "Stu Proding", 
+          "primaryPhone": "(02) 7283 4211", 
+          "secondaryPhone": ""
+        }, 
+        "lastUpdated": "2017-12-01T23:41:07Z", 
+        "location": {
+          "country": "Australia", 
+          "fullAddress": "70 Market Street, South Melbourne VIC 3205", 
+          "latitude": -37.8299802, 
+          "longitude": 144.9587475, 
+          "postalCode": "3205", 
+          "state": "VIC", 
+          "streetName": "Market", 
+          "streetNumberFirst": "70", 
+          "streetType": "Street", 
+          "suburb": "South Melbourne"
+        }, 
+        "narrative": [
+          {
+            "description": "Dispatch", 
+            "source": "Dispatch", 
+            "timestamp": "2017-12-01T23:41:07Z", 
+            "title": "Incident Created"
+          }, 
+          {
+            "description": "Dispatch", 
+            "source": "Dispatch", 
+            "timestamp": "2017-12-01T23:41:30Z", 
+            "title": "Incident Details Updated"
+          }
+        ], 
+        "patrolGroup": "South Melbourne", 
+        "persons": [], 
+        "secondaryCode": "", 
+        "type": "Steal Motor Vehicle", 
+        "vehicles": [
+          {
+            "alertLevel": 2, 
+            "bodyType": "Sedan", 
+            "color": "Blue", 
+            "id": "58530e3e-830b-4f57-a99a-779e0eaedb47", 
+            "plateNumber": "MOCK01", 
+            "source": "mpol", 
+            "stolen": true, 
+            "vehicleDescription": "2015 BMW 320i", 
+            "vehicleType": "Car"
+          }
+        ]
       }
     ], 
     "officers": [
       {
-        "capabilities": "", 
+        "capabilities": [
+          "Negotiator", 
+          "Public Order Qualified"
+        ], 
         "contactNumber": "0491 570 156", 
         "firstName": "Tina", 
         "lastName": "Bailey", 
@@ -587,12 +688,16 @@
         "middleName": "F.", 
         "patrolGroup": "Collingwood", 
         "payrollId": "777122", 
+        "radioId": "38754276", 
         "rank": "Senior Constable", 
         "remarks": "", 
         "station": "Collingwood"
       }, 
       {
-        "capabilities": "", 
+        "capabilities": [
+          "TDD Qualified", 
+          "LIDAR Qualified"
+        ], 
         "contactNumber": "0491 570 110", 
         "firstName": "Darren", 
         "lastName": "Fisher", 
@@ -600,12 +705,15 @@
         "middleName": "A.", 
         "patrolGroup": "Collingwood", 
         "payrollId": "777453", 
+        "radioId": "82654386", 
         "rank": "First Constable", 
         "remarks": "", 
         "station": "Collingwood"
       }, 
       {
-        "capabilities": "", 
+        "capabilities": [
+          "Negotiator"
+        ], 
         "contactNumber": "0491 570 157", 
         "firstName": "Bill", 
         "lastName": "Cooper", 
@@ -613,12 +721,15 @@
         "middleName": "O.", 
         "patrolGroup": "Collingwood", 
         "payrollId": "777032", 
+        "radioId": "19975433", 
         "rank": "Leading Senior Constable", 
         "remarks": "", 
         "station": "Collingwood"
       }, 
       {
-        "capabilities": "", 
+        "capabilities": [
+          "Public Order Qualified"
+        ], 
         "contactNumber": "0467 933 518", 
         "firstName": "Joel", 
         "lastName": "Burnell", 
@@ -626,12 +737,15 @@
         "middleName": "F.", 
         "patrolGroup": "Collingwood", 
         "payrollId": "777001", 
+        "radioId": "09769388", 
         "rank": "Sergeant", 
         "remarks": "", 
         "station": "Collingwood Station"
       }, 
       {
-        "capabilities": "", 
+        "capabilities": [
+          "TDD Qualified"
+        ], 
         "contactNumber": "0240 796 388", 
         "firstName": "Hamish", 
         "lastName": "Gadget", 
@@ -639,12 +753,16 @@
         "middleName": "Whittingham", 
         "patrolGroup": "Collingwood", 
         "payrollId": "777019", 
+        "radioId": "13975544", 
         "rank": "Inspector", 
         "remarks": "", 
         "station": "Fitzroy"
       }, 
       {
-        "capabilities": "", 
+        "capabilities": [
+          "TDD Qualified", 
+          "Negotiator"
+        ], 
         "contactNumber": "0240 745 026", 
         "firstName": "Eva", 
         "lastName": "Saltau", 
@@ -652,12 +770,15 @@
         "middleName": "", 
         "patrolGroup": "Collingwood", 
         "payrollId": "777202", 
+        "radioId": "87247643", 
         "rank": "First Constable", 
         "remarks": "", 
         "station": "Kilmore"
       }, 
       {
-        "capabilities": "", 
+        "capabilities": [
+          "Public Order Qualified"
+        ], 
         "contactNumber": "0240 894 617", 
         "firstName": "Taj", 
         "lastName": "Singh", 
@@ -665,12 +786,13 @@
         "middleName": "Rajesh", 
         "patrolGroup": "Collingwood", 
         "payrollId": "777791", 
+        "radioId": "65476229", 
         "rank": "Leading Senior Constable", 
         "remarks": "", 
         "station": "Richmond"
       }, 
       {
-        "capabilities": "", 
+        "capabilities": [], 
         "contactNumber": "0202 111 903", 
         "firstName": "Jack", 
         "lastName": "Smart", 
@@ -678,9 +800,71 @@
         "middleName": "", 
         "patrolGroup": "Collingwood", 
         "payrollId": "777199", 
+        "radioId": "18654354", 
         "rank": "Leading Senior Constable", 
         "remarks": "", 
         "station": "Collingwood"
+      }, 
+      {
+        "capabilities": [], 
+        "contactNumber": "0202 021 032", 
+        "firstName": "Scott", 
+        "lastName": "Garett", 
+        "licenceTypeId": "Silver Licence", 
+        "middleName": "Warwick", 
+        "patrolGroup": "South Melbourne", 
+        "payrollId": "182732", 
+        "radioId": "83646297", 
+        "rank": "First Constable", 
+        "remarks": "", 
+        "station": "South Melbourne"
+      }, 
+      {
+        "capabilities": [], 
+        "contactNumber": "0200 513 188", 
+        "firstName": "James", 
+        "lastName": "Logan", 
+        "licenceTypeId": "Gold Licence", 
+        "middleName": "James", 
+        "patrolGroup": "South Melbourne", 
+        "payrollId": "183728", 
+        "radioId": "92747297", 
+        "rank": "Leading Senior Constable", 
+        "remarks": "", 
+        "station": "South Melbourne"
+      }, 
+      {
+        "capabilities": [
+          "Negotiator"
+        ], 
+        "contactNumber": "0202 190 404", 
+        "firstName": "Riccardo", 
+        "lastName": "Lopez", 
+        "licenceTypeId": "Bronze Licence", 
+        "middleName": "", 
+        "patrolGroup": "South Melbourne", 
+        "payrollId": "182992", 
+        "radioId": "28462827", 
+        "rank": "Senior Constable", 
+        "remarks": "", 
+        "station": "South Melbourne"
+      }, 
+      {
+        "capabilities": [
+          "TDD Qualified", 
+          "LIDAR Qualified"
+        ], 
+        "contactNumber": "0200 990 332", 
+        "firstName": "Diana", 
+        "lastName": "Wales", 
+        "licenceTypeId": "Silver Licence", 
+        "middleName": "E", 
+        "patrolGroup": "South Melbourne", 
+        "payrollId": "188278", 
+        "radioId": "93462834", 
+        "rank": "Inspector", 
+        "remarks": "", 
+        "station": "South Melbourne"
       }
     ], 
     "resources": [
@@ -757,7 +941,7 @@
           }, 
           {
             "description": "B. Cooper", 
-            "source": "Duress", 
+            "source": "M24", 
             "timestamp": "2017-12-02T02:28:00Z", 
             "title": "Status: Duress (Assault #AS4217)"
           }
@@ -869,7 +1053,7 @@
           }, 
           {
             "description": "H. Gadget", 
-            "source": "Duress", 
+            "source": "V16", 
             "timestamp": "2017-12-02T02:28:00Z", 
             "title": "Status: Duress (Assault #AS3110)"
           }
@@ -1090,6 +1274,146 @@
         "station": "Collingwood", 
         "status": "Off Duty", 
         "type": "DogSquad", 
+        "vehicleCategory": "1"
+      }, 
+      {
+        "activityLog": [
+          {
+            "description": "S. Garett and J. Logan", 
+            "source": "SS42", 
+            "timestamp": "2017-12-02T01:24:00Z", 
+            "title": "Status: Proceeding (Assault #INC0012)"
+          }, 
+          {
+            "description": "S. Garett and J. Logan", 
+            "source": "SS42", 
+            "timestamp": "2017-12-02T01:28:00Z", 
+            "title": "Status: At Incident (Assault #INC0012)"
+          }
+        ], 
+        "assignedIncidents": [
+          "INC0012"
+        ], 
+        "callsign": "SS42", 
+        "currentIncident": "INC0012", 
+        "driver": "182732", 
+        "equipment": [
+          {
+            "count": 4, 
+            "description": "Shotgun"
+          }
+        ], 
+        "lastUpdated": "2017-12-02T01:28:00Z", 
+        "location": {
+          "country": "Australia", 
+          "fullAddress": "8 Whiteman Street, Southbank VIC 3006", 
+          "latitude": -37.8284142, 
+          "longitude": 144.9579434, 
+          "postalCode": "3006", 
+          "state": "VIC", 
+          "streetName": "Whiteman", 
+          "streetNumberFirst": "8", 
+          "streetType": "Street", 
+          "suburb": "Southbank"
+        }, 
+        "patrolGroup": "South Melbourne", 
+        "payrollIds": [
+          "182732", 
+          "183728"
+        ], 
+        "remarks": "", 
+        "serial": "DOR0102", 
+        "shiftEnd": "2017-12-02T12:00:00Z", 
+        "shiftStart": "2017-12-02T01:00:00Z", 
+        "station": "Southbank", 
+        "status": "At Incident", 
+        "type": "Vehicle", 
+        "vehicleCategory": "1"
+      }, 
+      {
+        "activityLog": [
+          {
+            "description": "R. Lopez", 
+            "source": "SS20", 
+            "timestamp": "2017-12-02T01:24:00Z", 
+            "title": "Status: On Air"
+          }
+        ], 
+        "assignedIncidents": [], 
+        "callsign": "SS20", 
+        "currentIncident": "", 
+        "driver": "182992", 
+        "equipment": [], 
+        "lastUpdated": "2017-12-02T01:28:00Z", 
+        "location": {
+          "country": "Australia", 
+          "fullAddress": "70 Market Street, South Melbourne VIC 3205", 
+          "latitude": -37.8299802, 
+          "longitude": 144.9587475, 
+          "postalCode": "3205", 
+          "state": "VIC", 
+          "streetName": "Market", 
+          "streetNumberFirst": "70", 
+          "streetType": "Street", 
+          "suburb": "South Melbourne"
+        }, 
+        "patrolGroup": "South Melbourne", 
+        "payrollIds": [
+          "182992"
+        ], 
+        "remarks": "", 
+        "serial": "DOR1101", 
+        "shiftEnd": "2017-12-02T12:00:00Z", 
+        "shiftStart": "2017-12-02T01:00:00Z", 
+        "station": "South Melbourne", 
+        "status": "On Air", 
+        "type": "DogSquad", 
+        "vehicleCategory": "2"
+      }, 
+      {
+        "activityLog": [
+          {
+            "description": "D. Wales", 
+            "source": "SS09", 
+            "timestamp": "2017-12-02T01:24:00Z", 
+            "title": "Status: On Air"
+          }, 
+          {
+            "description": "D. Wales", 
+            "source": "SS09", 
+            "timestamp": "2017-12-02T01:24:00Z", 
+            "title": "Status: Inquiries"
+          }
+        ], 
+        "assignedIncidents": [], 
+        "callsign": "SS09", 
+        "currentIncident": "", 
+        "driver": "188278", 
+        "equipment": [], 
+        "lastUpdated": "2017-12-02T01:28:00Z", 
+        "location": {
+          "country": "Australia", 
+          "fullAddress": "28 Wellington Street, Collingwood VIC 3066", 
+          "latitude": -37.8079139, 
+          "longitude": 144.9861147, 
+          "postalCode": "3066", 
+          "state": "VIC", 
+          "streetName": "Wellington", 
+          "streetNumberFirst": "28", 
+          "streetType": "Street", 
+          "suburb": "Collingwood"
+        }, 
+        "patrolGroup": "South Melbourne", 
+        "payrollIds": [
+          "188278"
+        ], 
+        "remarks": "", 
+        "serial": "DOR0119", 
+        "shiftEnd": "2017-12-02T12:00:00Z", 
+        "shiftStart": "2017-12-02T01:00:00Z", 
+        "station": "South Melbourne", 
+        "status": "Inquiries1", 
+        "type": "Motorcycle", 
         "vehicleCategory": "1"
       }
     ]
