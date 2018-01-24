@@ -46,7 +46,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
     }
     
     open override func createViewController() -> UIViewController {
-        let vc = TasksItemSidebarViewController(viewModel: self)
+        let vc = TaskItemSidebarSplitViewController(viewModel: self)
         delegate = vc
         return vc
     }

@@ -98,7 +98,7 @@
 		19FEC9861F43F827005692A9 /* MappedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FEC9811F43F6BA005692A9 /* MappedError.swift */; };
 		19FEC9891F440326005692A9 /* NetworkErrorDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FEC9881F440326005692A9 /* NetworkErrorDefinition.swift */; };
 		19FEC98C1F440E2E005692A9 /* MappedErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FEC98B1F440E2E005692A9 /* MappedErrorTests.swift */; };
-		27094CC21FAFFBDA00D4C3D4 /* TaskItemsSidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27094CA91FAFFBDA00D4C3D4 /* TaskItemsSidebarViewController.swift */; };
+		27094CC21FAFFBDA00D4C3D4 /* TaskItemSidebarSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27094CA91FAFFBDA00D4C3D4 /* TaskItemSidebarSplitViewController.swift */; };
 		27094CC41FAFFBDA00D4C3D4 /* ResourceActivityLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27094CAD1FAFFBDA00D4C3D4 /* ResourceActivityLogViewModel.swift */; };
 		27094CC51FAFFBDA00D4C3D4 /* ResourceOfficerListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27094CAE1FAFFBDA00D4C3D4 /* ResourceOfficerListViewModel.swift */; };
 		27094CC61FAFFBDA00D4C3D4 /* ResourceOfficerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27094CAF1FAFFBDA00D4C3D4 /* ResourceOfficerViewModel.swift */; };
@@ -774,7 +774,7 @@
 		19FEC9881F440326005692A9 /* NetworkErrorDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorDefinition.swift; sourceTree = "<group>"; };
 		19FEC98B1F440E2E005692A9 /* MappedErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappedErrorTests.swift; sourceTree = "<group>"; };
 		1FE1AAA01D6AE18F86693DF8 /* Pods_MPOLKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		27094CA91FAFFBDA00D4C3D4 /* TaskItemsSidebarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskItemsSidebarViewController.swift; sourceTree = "<group>"; };
+		27094CA91FAFFBDA00D4C3D4 /* TaskItemSidebarSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskItemSidebarSplitViewController.swift; sourceTree = "<group>"; };
 		27094CAD1FAFFBDA00D4C3D4 /* ResourceActivityLogViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceActivityLogViewModel.swift; sourceTree = "<group>"; };
 		27094CAE1FAFFBDA00D4C3D4 /* ResourceOfficerListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceOfficerListViewModel.swift; sourceTree = "<group>"; };
 		27094CAF1FAFFBDA00D4C3D4 /* ResourceOfficerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceOfficerViewModel.swift; sourceTree = "<group>"; };
@@ -2079,7 +2079,7 @@
 		966F350A200C512000661870 /* Container */ = {
 			isa = PBXGroup;
 			children = (
-				27094CA91FAFFBDA00D4C3D4 /* TaskItemsSidebarViewController.swift */,
+				27094CA91FAFFBDA00D4C3D4 /* TaskItemSidebarSplitViewController.swift */,
 			);
 			path = Container;
 			sourceTree = "<group>";
@@ -4058,7 +4058,7 @@
 				27F7477A20182DD6009D47AB /* FinaliseDetailsViewController.swift in Sources */,
 				4677EE281FFDAB20004634B5 /* FadeStyle.swift in Sources */,
 				BC9C7E241F0DED6600DFFE83 /* CollectionViewFormProgressCell.swift in Sources */,
-				27094CC21FAFFBDA00D4C3D4 /* TaskItemsSidebarViewController.swift in Sources */,
+				27094CC21FAFFBDA00D4C3D4 /* TaskItemSidebarSplitViewController.swift in Sources */,
 				27094CC81FAFFBDA00D4C3D4 /* OfficerCell.swift in Sources */,
 				EA2189ED1F5FAF110057048E /* SearchResultModelable.swift in Sources */,
 				19F8DDB31F4D7D2400D84DA1 /* APIManagerConfigurable.swift in Sources */,

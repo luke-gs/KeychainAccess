@@ -23,8 +23,12 @@ open class ResourceOverviewViewController: UIViewController {
         
         title = viewModel.navTitle()
         sidebarItem.image = AssetManager.shared.image(forKey: .info)
+
+        if viewModel.showManageButton() {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Manage", comment: ""), style: .done, target: self, action: #selector(manageButtonTapped))
+        }
     }
-    
+
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
@@ -95,6 +99,11 @@ open class ResourceOverviewViewController: UIViewController {
             formViewController.view.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
         ])
     }
+
+    @objc func manageButtonTapped () {
+        viewModel.manageCallsign()
+    }
+
 }
 
 // MARK: - CADFormCollectionViewModelDelegate

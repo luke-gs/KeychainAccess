@@ -12,8 +12,13 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
     
     public init(callsign: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?, lastUpdated: String?) {
         super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, lastUpdated: lastUpdated)
-        
-        self.navTitle =  NSLocalizedString("Resource details", comment: "")
+
+        if callsign == CADStateManager.shared.currentResource?.callsign {
+            self.navTitle = NSLocalizedString("My call sign", comment: "")
+        } else {
+            self.navTitle = NSLocalizedString("Resource details", comment: "")
+        }
+
         self.compactNavTitle = itemName
 
         self.viewModels = [
@@ -24,7 +29,7 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
     }
     
     open override func createViewController() -> UIViewController {
-        let vc = TasksItemSidebarViewController(viewModel: self)
+        let vc = TaskItemSidebarSplitViewController(viewModel: self)
         return vc
     }
 
