@@ -135,7 +135,8 @@ open class ManageCallsignStatusViewModel {
                     // Show split view controller for booked on resource
                     let vm = ResourceTaskItemViewModel(resource: resource)
                     let vc = TasksItemSidebarViewController.init(viewModel: vm)
-                    delegate?.present(vc, animated: true, completion: nil)
+                    let nav = UINavigationController(rootViewController: vc)
+                    delegate?.present(nav, animated: true, completion: nil)
                 }
                 break
             case .manageCallsign:
