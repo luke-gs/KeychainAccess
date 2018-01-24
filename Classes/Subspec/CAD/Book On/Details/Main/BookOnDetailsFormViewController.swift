@@ -173,7 +173,8 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         for (index, officer) in viewModel.content.officers.enumerated() {
             builder += BookOnDetailsOfficerFormItem(title: officer.title,
                                                     subtitle: officer.subtitle,
-                                                    status: officer.driverStatus)
+                                                    status: officer.driverStatus,
+                                                    image: officer.thumbnail())
                 .width(.column(1))
                 .height(.fixed(60))
                 .accessory(FormAccessoryView(style: .pencil))

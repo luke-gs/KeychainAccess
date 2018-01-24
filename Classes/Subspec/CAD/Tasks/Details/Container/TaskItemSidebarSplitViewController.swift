@@ -13,7 +13,8 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
     private let headerView = SidebarHeaderView(frame: .zero)
     private let detailViewModel: TaskItemViewModel
     private var compactStatusChangeBar: GlassBarView?
-    
+    private let pencilCircleView = UIImageView()
+
     public init(viewModel: TaskItemViewModel) {
         
         detailViewModel = viewModel
@@ -26,11 +27,36 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
         // Add gesture for tapping icon
         headerView.iconView.isUserInteractionEnabled = true
         headerView.iconView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapStatusChangeButton)))
-
+        
         regularSidebarViewController.title = NSLocalizedString("Details", comment: "")
         regularSidebarViewController.headerView = headerView
+        
+        // Add pencil icon
+        let circleImage = AssetManager.shared.image(forKey: .edit)?
+            .withCircleBackground(tintColor: .primaryGray,
+                                  circleColor: .white,
+                                  style: .fixed(size: CGSize(width: 32, height: 32),
+                                                padding: CGSize(width: 20, height: 20)),
+                                  shouldCenterImage: true)
+        
+        pencilCircleView.layer.shadowRadius = 4
+        pencilCircleView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        pencilCircleView.layer.shadowColor = UIColor.black.cgColor
+        pencilCircleView.layer.shadowOpacity = 0.5
+        pencilCircleView.image = circleImage
+        pencilCircleView.isUserInteractionEnabled = false
+        pencilCircleView.translatesAutoresizingMaskIntoConstraints = false
+        headerView.addSubview(pencilCircleView)
+        
+        NSLayoutConstraint.activate([
+            pencilCircleView.topAnchor.constraint(equalTo: headerView.iconView.topAnchor, constant: -8),
+            pencilCircleView.trailingAnchor.constraint(equalTo: headerView.iconView.trailingAnchor, constant: 8),
+            pencilCircleView.heightAnchor.constraint(equalToConstant: 32),
+            pencilCircleView.widthAnchor.constraint(equalTo: pencilCircleView.heightAnchor),
+        ])
 
         NotificationCenter.default.addObserver(self, selector: #selector(callsignChanged), name: .CADCallsignChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(callsignChanged), name: .CADBookOnChanged, object: nil)
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -44,11 +70,13 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
     
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        updateHeaderView()
         configureCompactChangeStatusBar()
     }
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
+        updateHeaderView()
         configureCompactChangeStatusBar()
     }
 
@@ -81,6 +109,9 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
             headerView.iconView.backgroundColor = color
             headerView.captionLabel.textColor = color
         }
+        
+        // Hide pencil icon if is compact or view model doesn't allow status changes
+        pencilCircleView.isHidden = isCompact() || !((detailViewModel as? IncidentTaskItemViewModel)?.allowChangeResourceStatus()).isTrue
     }
 
     /// Hides or shows compact change status bar based on trait collection, and configures views
