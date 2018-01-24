@@ -111,7 +111,7 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
         }
         
         // Hide pencil icon if is compact or view model doesn't allow status changes
-        pencilCircleView.isHidden = isCompact() || (detailViewModel as? IncidentTaskItemViewModel)?.allowChangeResourceStatus() == false
+        pencilCircleView.isHidden = isCompact() || !((detailViewModel as? IncidentTaskItemViewModel)?.allowChangeResourceStatus()).isTrue
     }
 
     /// Hides or shows compact change status bar based on trait collection, and configures views
