@@ -132,15 +132,10 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapFormBuilderViewLayou
             accessoryView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(accessoryView)
 
-//            collectionLeadingConstraint = accessoryView.trailingAnchor.constraint(equalTo: collectionView.leadingAnchor)
-//
             constraints += [
                 accessoryView.topAnchor.constraint(equalTo: searchFieldButton.bottomAnchor, constant: 16.0),
                 accessoryView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
             ]
-        } else {
-//            collectionLeadingConstraint = collectionView.leadingAnchor.constraint(equalTo: sidebarBackground.leadingAnchor)
-//            constraints.append(collectionLeadingConstraint!)
         }
 
         let sidebarLayoutGuide = UILayoutGuide()

@@ -93,23 +93,51 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         ])
 
         let locateButton = UIButton(type: .system)
-        locateButton.setImage(AssetManager.shared.image(forKey: .info), for: .normal)
+        locateButton.setImage(AssetManager.shared.image(forKey: .mapUserLocation), for: .normal)
+        locateButton.addTarget(self, action: #selector(locateButtonTapped(_:)), for: .touchUpInside)
 
         let optionButton = UIButton(type: .system)
         optionButton.setImage(AssetManager.shared.image(forKey: .info), for: .normal)
+        optionButton.addTarget(self, action: #selector(optionButtonTapped(_:)), for: .touchUpInside)
+
+        let mapControlView = UIView(frame: .zero)
+        mapControlView.backgroundColor = UIColor(white: 1.0, alpha: 0.9)
+        mapControlView.layer.cornerRadius = 8.0
+        mapControlView.layer.shadowRadius = 4.0
+        mapControlView.layer.shadowColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 1.0).cgColor
+        mapControlView.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        mapControlView.layer.shadowOpacity = 0.1
+        mapControlView.addSubview(locateButton)
+        mapControlView.addSubview(optionButton)
+
+        let radiusButton = UIButton(type: .system)
+        radiusButton.titleLabel?.font = UIFont.systemFont(ofSize: 13.0, weight: .bold)
+        radiusButton.addTarget(self, action: #selector(radiusButtonTapped(_:)), for: .touchUpInside)
+        radiusButton.setTitle("100M", for: .normal)
+        radiusButton.backgroundColor = UIColor(white: 1.0, alpha: 0.9)
+        radiusButton.layer.cornerRadius = 24.0
+        radiusButton.layer.shadowRadius = 4.0
+        radiusButton.layer.shadowColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 1.0).cgColor
+        radiusButton.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        radiusButton.layer.shadowOpacity = 0.1
 
         let accessoryView = UIView(frame: .zero)
-        accessoryView.addSubview(locateButton)
-        accessoryView.addSubview(optionButton)
-        accessoryView.backgroundColor = .white
+        accessoryView.addSubview(mapControlView)
+        accessoryView.addSubview(radiusButton)
 
         locateButton.translatesAutoresizingMaskIntoConstraints = false
         optionButton.translatesAutoresizingMaskIntoConstraints = false
+        mapControlView.translatesAutoresizingMaskIntoConstraints = false
+        radiusButton.translatesAutoresizingMaskIntoConstraints = false
 
-        let views = ["lb": locateButton, "ob": optionButton]
+        let views = ["lb": locateButton, "ob": optionButton, "rb": radiusButton, "mv": mapControlView]
+        let metrics = ["size": 48.0, "padding": 16.0]
 
-        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[lb(48,==ob)][ob]|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: views)
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|[lb(48,==ob)]|", options: [], metrics: nil, views: views)
+        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[lb(size,==ob,==rb)][ob]|", options: [.alignAllLeading, .alignAllTrailing], metrics: metrics, views: views)
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|[lb(size)]|", options: [], metrics: metrics, views: views)
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[mv]-padding-[rb(size)]|", options: [.alignAllLeading, .alignAllTrailing], metrics: metrics, views: views)
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|[rb(size)]|", options: [], metrics: metrics, views: views)
+
         NSLayoutConstraint.activate(constraints)
 
         self.accessoryView = accessoryView
@@ -335,4 +363,57 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
             }
         }
     }
+
+    // MARK: - Private
+
+    @objc private func locateButtonTapped(_ button: UIButton) {
+        guard let mapView = mapView else { return }
+
+        let coordinate = mapView.userLocation.coordinate
+        if CLLocationCoordinate2DIsValid(coordinate) {
+            mapView.setCenter(coordinate, animated: true)
+        }
+    }
+
+    @objc private func optionButtonTapped(_ button: UIButton) {
+        let items = ["Standard", "Hybrid", "Satelite"]
+
+        let viewController = PickerTableViewController(style: .plain, items: items)
+        viewController.title = "Map Type"
+        viewController.selectionUpdateHandler = { [weak self] _, selected in
+            guard let value = items[selected].first else { return }
+
+            switch value {
+            case "Standard": self?.mapView?.mapType = .standard
+            case "Hybrid": self?.mapView?.mapType = .hybrid
+            case "Satelite": self?.mapView?.mapType = .satellite
+            default: break
+            }
+        }
+
+        let navigationController = PopoverNavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .popover
+
+        if let presentationController = navigationController.popoverPresentationController {
+            presentationController.sourceView = button
+            presentationController.sourceRect = button.bounds
+        }
+
+        present(navigationController, animated: true, completion: nil)
+    }
+
+    @objc private func radiusButtonTapped(_ button: UIButton) {
+        let viewController = PickerTableViewController(style: .plain, items: ["100m", "500m", "1km"])
+        viewController.title = "Radius"
+        let navigationController = PopoverNavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .popover
+
+        if let presentationController = navigationController.popoverPresentationController {
+            presentationController.sourceView = button
+            presentationController.sourceRect = button.bounds
+        }
+
+        present(navigationController, animated: true, completion: nil)
+    }
+
 }
