@@ -9,7 +9,7 @@
 import Foundation
 
 /// A class that provides access to a TemplateDataSource.
-final class TemplateHandler<T: TemplateDataSource> {
+public final class TemplateHandler<T: TemplateDataSource> {
 
     public let source: T
 

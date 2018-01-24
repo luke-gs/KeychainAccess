@@ -10,15 +10,15 @@ import Foundation
 import PromiseKit
 
 /// Sample implementation of TemplateDataSource that uses UserDefaults.
-class UserDefaultsDataSource: TemplateDataSource {
+public class UserDefaultsDataSource: TemplateDataSource {
 
-    typealias TemplateType = TextTemplate
+    public typealias TemplateType = TextTemplate
     var templates: Set<TextTemplate> = []
 
     /// Used for storing and retrieving from UserDefaults.
     let sourceKey: String
 
-    init(sourceKey: String) {
+    public init(sourceKey: String) {
         self.sourceKey = sourceKey
 
         // load templates from user defaults
@@ -34,24 +34,24 @@ class UserDefaultsDataSource: TemplateDataSource {
         templates = Set(templatesFromData)
     }
 
-    func retrieve() -> Promise<Set<TextTemplate>?> {
+    public func retrieve() -> Promise<Set<TextTemplate>?> {
         return Promise<Set<TextTemplate>?> { fulfil, reject in
             fulfil(templates)
         }
     }
 
-    func store(template: TextTemplate) {
+    public func store(template: TextTemplate) {
         templates.remove(template)
         templates.insert(template)
         updateUserDefaults()
     }
 
-    func delete(template: TextTemplate) {
+    public func delete(template: TextTemplate) {
         templates.remove(template)
         updateUserDefaults()
     }
 
-    func updateUserDefaults() {
+    private func updateUserDefaults() {
         let encoder = PropertyListEncoder()
         let propertyList = templates.map { template in
             return try? encoder.encode(template)

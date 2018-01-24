@@ -17,7 +17,6 @@
 		BCAD1EFD1F262B680033AD66 /* CollectionDemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFF7D101F262A4F00AB0A5A /* CollectionDemoListViewController.swift */; };
 		BCAD1EFE1F262B680033AD66 /* HeadersBasicFormCellsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFF7D0D1F262A4F00AB0A5A /* HeadersBasicFormCellsController.swift */; };
 		BCAD1EFF1F262B680033AD66 /* NoContentCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFF7D0E1F262A4F00AB0A5A /* NoContentCollectionController.swift */; };
-		E253FDB4200D5C9A0054F36E /* TemplateDemoDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E253FDB3200D5C9A0054F36E /* TemplateDemoDelegate.swift */; };
 		E253FDB6200D8E130054F36E /* TemplatePickable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E253FDB5200D8E130054F36E /* TemplatePickable.swift */; };
 		E25A5907200C742100DA7F84 /* TemplateManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25A5906200C742100DA7F84 /* TemplateManagerViewController.swift */; };
 		E26404CD200ED5D200639034 /* TemplateAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26404CC200ED5D200639034 /* TemplateAddViewController.swift */; };
@@ -52,7 +51,6 @@
 		BCFF7D0F1F262A4F00AB0A5A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCFF7D101F262A4F00AB0A5A /* CollectionDemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDemoListViewController.swift; sourceTree = "<group>"; };
 		BECA0FB8F0943957022C002E /* Pods_MPOLKitDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKitDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E253FDB3200D5C9A0054F36E /* TemplateDemoDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateDemoDelegate.swift; sourceTree = "<group>"; };
 		E253FDB5200D8E130054F36E /* TemplatePickable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePickable.swift; sourceTree = "<group>"; };
 		E25A5906200C742100DA7F84 /* TemplateManagerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateManagerViewController.swift; sourceTree = "<group>"; };
 		E26404CC200ED5D200639034 /* TemplateAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateAddViewController.swift; sourceTree = "<group>"; };
@@ -151,7 +149,6 @@
 			isa = PBXGroup;
 			children = (
 				E25A5906200C742100DA7F84 /* TemplateManagerViewController.swift */,
-				E253FDB3200D5C9A0054F36E /* TemplateDemoDelegate.swift */,
 				E253FDB5200D8E130054F36E /* TemplatePickable.swift */,
 				E26404CC200ED5D200639034 /* TemplateAddViewController.swift */,
 			);
@@ -359,7 +356,6 @@
 				EAFF89FD1F9D6BC40050C471 /* DateViewController.swift in Sources */,
 				EAE806D91F98328B00C9AA85 /* PickerViewController.swift in Sources */,
 				E26404CD200ED5D200639034 /* TemplateAddViewController.swift in Sources */,
-				E253FDB4200D5C9A0054F36E /* TemplateDemoDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

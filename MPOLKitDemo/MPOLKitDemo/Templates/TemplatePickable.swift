@@ -9,7 +9,7 @@
 import Foundation
 import MPOLKit
 
-extension Template: Pickable {
+extension TextTemplate: Pickable {
     public var title: String? {
         return name
     }

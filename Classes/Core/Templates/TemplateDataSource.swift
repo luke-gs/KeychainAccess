@@ -10,7 +10,7 @@ import Foundation
 import PromiseKit
 
 /// A data source responsible for providing templates to a TemplateHandler.
-protocol TemplateDataSource {
+public protocol TemplateDataSource {
     associatedtype TemplateType: Template
     
     func retrieve() -> Promise<Set<TemplateType>?>

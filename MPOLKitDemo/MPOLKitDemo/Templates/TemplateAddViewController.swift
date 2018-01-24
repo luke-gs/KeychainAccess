@@ -19,12 +19,20 @@ class TemplateAddViewController: FormBuilderViewController {
 
     public var completion: () -> Void = {}
 
-    override init() {
+    var handler: TemplateHandler<UserDefaultsDataSource>?
+
+    init(handler: TemplateHandler<UserDefaultsDataSource>) {
+        self.handler = handler
+
         super.init()
 
         doneButton.isEnabled = false
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(backTapped))
         navigationItem.rightBarButtonItem = doneButton
+    }
+
+    required convenience init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
     }
 
     override func construct(builder: FormBuilder) {
@@ -43,10 +51,9 @@ class TemplateAddViewController: FormBuilderViewController {
     }
 
     @objc func doneTapped() {
-        TemplateManager.shared.add(template: Template(name: nameField.text as! String,
+        handler?.source.store(template: TextTemplate(name: nameField.text as! String,
                                                       description: descriptionField.text as! String,
                                                       value: valueField.text as! String))
-        TemplateManager.shared.saveExternalTemplates()
         completion()
         dismissAnimated()
     }

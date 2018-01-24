@@ -8,14 +8,17 @@
 
 import UIKit
 import MPOLKit
+import PromiseKit
 
 class TemplateManagerViewController: FormBuilderViewController {
-
-    lazy var templateDropDown: DropDownFormItem<Template> = DropDownFormItem().title("Select a template").options(Array(TemplateManager.shared.allTemplates()))
+       
+    lazy var templateDropDown: DropDownFormItem<TextTemplate> = DropDownFormItem().title("Select a template")
 
     lazy var templateTextField = TextViewFormItem()
         .title("Template Text")
         .height(.fixed(120.0))
+
+    var handler: TemplateHandler<UserDefaultsDataSource> = TemplateHandler<UserDefaultsDataSource>(source: UserDefaultsDataSource(sourceKey: "testKey"))
 
     override init() {
         super.init()
@@ -26,11 +29,11 @@ class TemplateManagerViewController: FormBuilderViewController {
             UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped)),
             UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(trashTapped))
         ]
+
+        updateDropDown()
     }
 
     override func construct(builder: FormBuilder) {
-        TemplateManager.shared.delegate = TemplateDemoDelegate()
-
         builder.title = "Templates"
         builder.forceLinearLayout = true
 
@@ -46,16 +49,18 @@ class TemplateManagerViewController: FormBuilderViewController {
         builder += templateTextField
         builder += SubtitleFormItem(title: "Add templates!", subtitle: "Tap the top-right plus button to add a template.", image: nil)
         builder += SubtitleFormItem(title: "Remove all templates!", subtitle: "Tap the top-right trash button to remove all templates.", image: nil)
-
-        TemplateManager.shared.saveExternalTemplates()
     }
 
     func updateDropDown() {
-        templateDropDown.options = Array(TemplateManager.shared.allTemplates())
+        handler.source.retrieve().then { result in
+            let templateArray = Array(result ?? [])
+            self.templateDropDown.options = templateArray
+            return AnyPromise(Promise<Void>())
+        }.always {}
     }
 
     @objc func addTapped() {
-        let templateAddViewController = TemplateAddViewController()
+        let templateAddViewController = TemplateAddViewController(handler: handler)
         templateAddViewController.completion = { self.updateDropDown() }
         let navigationController = UINavigationController(rootViewController: templateAddViewController)
         navigationController.modalPresentationStyle = .formSheet
@@ -63,8 +68,12 @@ class TemplateManagerViewController: FormBuilderViewController {
     }
 
     @objc func trashTapped() {
-        TemplateManager.shared.removeAll()
-        TemplateManager.shared.saveExternalTemplates()
+        handler.source.retrieve().then { result in
+            if let templates = result {
+                templates.forEach { self.handler.source.delete(template: $0) }
+            }
+            return AnyPromise(Promise<Void>())
+        }.always {}
         updateDropDown()
         templateDropDown.selectedValue = nil
         templateDropDown.reloadItem()
