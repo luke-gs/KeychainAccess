@@ -264,8 +264,8 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         // TODO: show progress overlay
         firstly {
             return viewModel.submitForm()
-        }.then { [unowned self] status in
-            self.closeForm(submitted: true)
+        }.then { [weak self] status in
+            self?.closeForm(submitted: true)
         }.always {
             // TODO: Cancel progress overlay
         }.catch { error in
@@ -284,7 +284,9 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             }
         } else {
             // Not pushed, so dismiss
-            dismiss(animated: true, completion: nil)
+            if presentingViewController != nil {
+                dismiss(animated: true, completion: nil)
+            }
         }
     }
 
