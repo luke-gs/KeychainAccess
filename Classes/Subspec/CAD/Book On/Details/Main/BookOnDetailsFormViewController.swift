@@ -275,11 +275,16 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     }
 
     private func closeForm(submitted: Bool) {
-        // Dismiss the modal if we are booking on and got presented, go back to previous screen otherwise
-        if submitted && !viewModel.isEditing && presentingViewController != nil {
-            dismiss(animated: true, completion: nil)
+        // If pushed view, dismiss the modal if we are booking on and got presented, go back to previous screen otherwise
+        if navigationController?.viewControllers.count ?? 0 > 1 {
+            if submitted && !viewModel.isEditing && presentingViewController != nil {
+                dismiss(animated: true, completion: nil)
+            } else {
+                navigationController?.popViewController(animated: true)
+            }
         } else {
-            navigationController?.popViewController(animated: true)
+            // Not pushed, so dismiss
+            dismiss(animated: true, completion: nil)
         }
     }
 

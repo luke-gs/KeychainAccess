@@ -12,7 +12,7 @@ import Foundation
 public enum BookOnScreen: Presentable {
 
     /// Create/edit book on details screen
-    case bookOnDetailsForm(callsignViewModel: BookOnCallsignViewModelType)
+    case bookOnDetailsForm(callsignViewModel: BookOnCallsignViewModelType, formSheet: Bool)
 
     /// All callsigns list screen
     case callSignList

@@ -34,14 +34,6 @@ open class ManageCallsignStatusViewModel {
         NotificationCenter.default.addObserver(self, selector: #selector(notifyDataChanged), name: .CADCallsignChanged, object: nil)
     }
 
-    /// Concrete view model used to present book on details form
-    struct BookOnCallsignViewModel: BookOnCallsignViewModelType {
-        var callsign: String
-        var status: String?
-        var location: String?
-        var type: ResourceType?
-    }
-
     /// Enum for action button types
     enum ActionButton: Int {
         case viewCallsign
@@ -146,7 +138,7 @@ open class ManageCallsignStatusViewModel {
                         status: CADStateManager.shared.currentResource?.status.title ?? "",
                         location: CADStateManager.shared.currentResource?.station ?? "",
                         type: CADStateManager.shared.currentResource?.type)
-                    delegate?.present(BookOnScreen.bookOnDetailsForm(callsignViewModel: callsignViewModel))
+                    delegate?.present(BookOnScreen.bookOnDetailsForm(callsignViewModel: callsignViewModel, formSheet: false))
                 }
                 break
             case .terminateShift:

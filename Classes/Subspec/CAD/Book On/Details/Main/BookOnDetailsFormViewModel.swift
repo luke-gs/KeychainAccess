@@ -23,6 +23,14 @@ public protocol BookOnCallsignViewModelType {
     var type: ResourceType? {get}
 }
 
+/// Concrete callsign details view model
+struct BookOnCallsignViewModel: BookOnCallsignViewModelType {
+    var callsign: String
+    var status: String?
+    var location: String?
+    var type: ResourceType?
+}
+
 /// View model for the book on details form screen
 open class BookOnDetailsFormViewModel {
 
