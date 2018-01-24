@@ -163,6 +163,8 @@ open class APIManager {
                 }.catch(policy: .allErrors) { error in
                     reject(error)
             }
+        }.catch(policy: .allErrors) { error in
+            reject(error)
         }
 
         return promise
