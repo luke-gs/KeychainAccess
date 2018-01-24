@@ -73,7 +73,7 @@ open class ManageCallsignStatusViewModel {
     /// The callsign view model for changing status
     open lazy var callsignViewModel: CallsignStatusViewModel = {
         let callsignStatus = CADStateManager.shared.currentResource?.status ?? .unavailable
-        return CallsignStatusViewModel(sections: callsignSectionsForState(), selectedStatus: callsignStatus, incident: nil)
+        return CallsignStatusViewModel(sections: callsignSectionsForState(), selectedStatus: callsignStatus, incident: CADStateManager.shared.currentIncident)
     }()
 
     public var incidentListViewModel: TasksListIncidentViewModel? {
@@ -127,7 +127,8 @@ open class ManageCallsignStatusViewModel {
                     // Show split view controller for booked on resource
                     let vm = ResourceTaskItemViewModel(resource: resource)
                     let vc = TaskItemSidebarSplitViewController.init(viewModel: vm)
-                    delegate?.present(vc, animated: true, completion: nil)
+                    let nav = UINavigationController(rootViewController: vc)
+                    delegate?.present(nav, animated: true, completion: nil)
                 }
                 break
             case .manageCallsign:

@@ -119,8 +119,14 @@ open class PushableSplitViewController: UIViewController, UISplitViewControllerD
     open func backButtonItem() -> UIBarButtonItem? {
         if let navigationController = self.navigationController {
             
-            // If we're the root view controller, hide this.
+            // If we're the root view controller
             if navigationController.viewControllers.first == self {
+                // If modal, show the close button
+                if presentingViewController != nil || isBeingPresented || isBeingDismissed {
+                    return closeButtonItem()
+                }
+                
+                // Hide this if not being presented
                 return nil
             }
             
@@ -128,11 +134,15 @@ open class PushableSplitViewController: UIViewController, UISplitViewControllerD
             return .backBarButtonItem(target: self, action: #selector(backButtonItemDidSelect))
         } else if presentingViewController != nil || isBeingPresented || isBeingDismissed {
             // show close icon with dismiss action
-            let closeItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeButtonItemDidSelect))
-            closeItem.accessibilityLabel = NSLocalizedString("Close", comment: "Navigation bar button item accessibility")
-            return closeItem
+            return closeButtonItem()
         }
         return nil
+    }
+    
+    open func closeButtonItem() -> UIBarButtonItem {
+        let closeItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeButtonItemDidSelect))
+        closeItem.accessibilityLabel = NSLocalizedString("Close", comment: "Navigation bar button item accessibility")
+        return closeItem
     }
     
     open override var childViewControllerForStatusBarStyle: UIViewController? {
