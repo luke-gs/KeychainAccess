@@ -32,8 +32,15 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
             cleanAndRefreshMapView()
         }
     }
+
+    private lazy var mapSettingModel: MapSettingsViewModel = { [unowned self] in
+        let model = MapSettingsViewModel()
+        model.delegate = self
+        return model
+    }()
     
     weak var delegate: SearchDelegate?
+
     var sidebarDelegate: LocationSearchSidebarDelegate?
 
     public var selectedAnnotation: MKAnnotation? {
@@ -376,20 +383,7 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     }
 
     @objc private func optionButtonTapped(_ button: UIButton) {
-        let items = ["Standard", "Hybrid", "Satelite"]
-
-        let viewController = PickerTableViewController(style: .plain, items: items)
-        viewController.title = "Map Type"
-        viewController.selectionUpdateHandler = { [weak self] _, selected in
-            guard let value = items[selected].first else { return }
-
-            switch value {
-            case "Standard": self?.mapView?.mapType = .standard
-            case "Hybrid": self?.mapView?.mapType = .hybrid
-            case "Satelite": self?.mapView?.mapType = .satellite
-            default: break
-            }
-        }
+        let viewController = MapSettingsViewController(viewModel: mapSettingModel)
 
         let navigationController = PopoverNavigationController(rootViewController: viewController)
         navigationController.modalPresentationStyle = .popover
@@ -414,6 +408,17 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         }
 
         present(navigationController, animated: true, completion: nil)
+    }
+
+}
+
+extension SearchResultMapViewController: MapSettingsViewModelDelegate {
+
+    public func modeDidChange(to mode: MKMapType, showsTraffic: Bool) {
+        guard let mapView = mapView else { return }
+
+        mapView.mapType = mode
+        mapView.showsTraffic = showsTraffic
     }
 
 }
