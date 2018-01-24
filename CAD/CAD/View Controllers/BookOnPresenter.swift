@@ -53,7 +53,13 @@ public class BookOnPresenter: Presenter {
             let viewModel = TrafficStopViewModel()
             viewModel.completionHandler = completionHandler
             return viewModel.createViewController()
+            
+        case .finaliseDetails(let primaryCode, let completionHandler):
+            let viewModel = FinaliseDetailsViewModel(primaryCode: primaryCode)
+            viewModel.completionHandler = completionHandler
+            return viewModel.createViewController()
         }
+        
     }
 
     public func present(_ presentable: Presentable, fromViewController from: UIViewController, toViewController to: UIViewController) {
@@ -69,7 +75,7 @@ public class BookOnPresenter: Presenter {
             container.lightTransparentBackground = UIColor(white: 1, alpha: 0.5)
             from.present(container, animated: true)
 
-        case .statusChangeReason:
+        case .statusChangeReason, .finaliseDetails:
             // Present form sheet with custom size
             from.presentFormSheet(to, animated: true, size: CGSize(width: 448, height: 256), forced: true)
 
