@@ -1,5 +1,5 @@
 //
-//  TasksItemSidebarViewController.swift
+//  TaskItemSidebarSplitViewController.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 9/10/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class TasksItemSidebarViewController: SidebarSplitViewController {
+open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
 
     private let headerView = SidebarHeaderView(frame: .zero)
     private let detailViewModel: TaskItemViewModel
@@ -162,7 +162,7 @@ open class TasksItemSidebarViewController: SidebarSplitViewController {
     }
 }
 
-extension TasksItemSidebarViewController: TaskItemViewModelDelegate {
+extension TaskItemSidebarSplitViewController: TaskItemViewModelDelegate {
     public func presentStatusSelector(viewController: UIViewController) {
         let size: CGSize
         

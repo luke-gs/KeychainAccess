@@ -105,5 +105,23 @@ open class ResourceOverviewViewModel: TaskDetailsViewModel {
     open func respondingToHeaderTitle() -> String {
         return NSLocalizedString("Responding To", comment: "").uppercased()
     }
+
+    open func showManageButton() -> Bool {
+        if let bookOn = CADStateManager.shared.lastBookOn, bookOn.callsign == callsign {
+            return true
+        }
+        return false
+    }
+
+    open func manageCallsign() {
+        if let bookOn = CADStateManager.shared.lastBookOn {
+            let callsignViewModel = BookOnCallsignViewModel(
+                callsign: bookOn.callsign,
+                status: CADStateManager.shared.currentResource?.status.title ?? "",
+                location: CADStateManager.shared.currentResource?.station ?? "",
+                type: CADStateManager.shared.currentResource?.type)
+            delegate?.present(BookOnScreen.bookOnDetailsForm(callsignViewModel: callsignViewModel, formSheet: true))
+        }
+    }
 }
 

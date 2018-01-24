@@ -32,7 +32,7 @@ open class IncidentResourcesViewController: FormBuilderViewController {
                     .onSelection { _ in
                         if let resource = CADStateManager.shared.resourcesById[item.callsign] {
                             let viewModel = ResourceTaskItemViewModel(resource: resource)
-                            let vc = TasksItemSidebarViewController(viewModel: viewModel)
+                            let vc = TaskItemSidebarSplitViewController(viewModel: viewModel)
                             self.pushableSplitViewController?.navigationController?.pushViewController(vc, animated: true)
                         }
                 }
