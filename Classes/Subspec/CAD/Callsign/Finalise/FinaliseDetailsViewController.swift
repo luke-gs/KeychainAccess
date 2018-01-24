@@ -37,7 +37,7 @@ class FinaliseDetailsViewController: IntrinsicHeightFormBuilderViewController {
     open override func construct(builder: FormBuilder) {
         builder.title = viewModel.navTitle()
         
-        builder += ValueFormItem()  // TODO: Implement selecting location
+        builder += ValueFormItem()
             .title("Primary Code")
             .value(viewModel.primaryCode)
             .width(.column(2))
