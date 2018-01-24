@@ -48,11 +48,11 @@ open class IncidentOverviewViewModel: TaskDetailsViewModel {
                                               items: [
                                                 IncidentOverviewItemViewModel(title: "Incident Location",
                                                                               value: incident.location.fullAddress,
-                                                                              image: AssetManager.shared.image(forKey: .location),
                                                                               width: .column(1),
                                                                               selectAction: { [unowned self] cell in
                                                                                 self.presentAddressPopover(from: cell, for: incident)
-                                                                              }),
+                                                                              },
+                                                                              accessory: ItemAccessory(style: .overflow, tintColor: .secondaryGray)),
                                                 
                                                 IncidentOverviewItemViewModel(title: "Priority",
                                                                               value: incident.grade.rawValue,
