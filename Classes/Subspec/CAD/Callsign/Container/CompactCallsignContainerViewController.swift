@@ -21,6 +21,7 @@ open class CompactCallsignContainerViewController: UIViewController, PopToRootab
 
     override open func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(updateChildViewControllerIfRequired), name: .CADCallsignChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateChildViewControllerIfRequired), name: .CADBookOnChanged, object: nil)
     }
 
@@ -29,6 +30,7 @@ open class CompactCallsignContainerViewController: UIViewController, PopToRootab
         updateChildViewControllerIfRequired()
     }
 
+    
     @objc private func updateChildViewControllerIfRequired() {
         let newCallsignViewController: UIViewController
 
@@ -37,9 +39,6 @@ open class CompactCallsignContainerViewController: UIViewController, PopToRootab
         } else {
             newCallsignViewController = Director.shared.viewController(forPresentable: BookOnScreen.manageBookOn)
         }
-        
-        // Do nothing if new VC is the same type as the old one
-        guard type(of: callsignViewController) != type(of: newCallsignViewController) else { return }
         
         removeChildViewController(callsignViewController)
         if let navController = self.navController {
