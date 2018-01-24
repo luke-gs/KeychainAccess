@@ -9,7 +9,7 @@
 import Foundation
 
 public class UnderlineStyle: CellSelectionAnimatable {
-    public class func configure(_ cell: CollectionViewFormCell, forState state: Bool) {
+    public class func configure(_ cell: CollectionViewFormCell, isFocused focused: Bool) {
         let validationColor: UIColor? = cell.requiresValidation ? cell.validationColor : nil
 
         let separatorView = cell.separatorView

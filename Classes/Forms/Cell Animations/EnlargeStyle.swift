@@ -9,14 +9,14 @@
 import Foundation
 
 public class EnlargeStyle: CellSelectionAnimatable {
-    public static func configure(_ cell: CollectionViewFormCell, forState state: Bool) {
+    public static func configure(_ cell: CollectionViewFormCell, isFocused focused: Bool) {
 
-        let transform = state ? CGAffineTransform(scaleX: 1.05, y: 1.05) : CGAffineTransform.identity
+        let transform = focused ? CGAffineTransform(scaleX: 1.05, y: 1.05) : CGAffineTransform.identity
         cell.transform = transform
-        cell.layer.zPosition = state ? 1 : 0
-        cell.layer.shadowOffset = state ? CGSize(width: -10, height: 10) : CGSize.zero
-        cell.layer.shadowRadius = state ? 5 : 0
-        cell.layer.shadowOpacity = state ? 0.1 : 0
+        cell.layer.zPosition = focused ? 1 : 0
+        cell.layer.shadowOffset = focused ? CGSize(width: -10, height: 10) : CGSize.zero
+        cell.layer.shadowRadius = focused ? 5 : 0
+        cell.layer.shadowOpacity = focused ? 0.1 : 0
 
         let validationColor: UIColor? = cell.requiresValidation ? cell.validationColor : nil
         let finalColor = validationColor ?? cell.separatorColor

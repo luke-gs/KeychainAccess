@@ -40,28 +40,28 @@ public enum AnimationStyle: Equatable {
     /// The app can provide its own custom animations with .animated, or use
     /// the ones provided such as .fade or .underline
     /// - Parameters:
-    ///   - cell: The cell to be animatedanimations
+    ///   - cell: The cell to be animated
     ///   - state: This is passed in to deteremine whether to perform animations
     ///     eg when isSelected is called - forState: isSelected
     ///
-    func configure(_ cell: CollectionViewFormCell, forState state: Bool) {
+    func configure(_ cell: CollectionViewFormCell, isFocused focused: Bool) {
         switch self {
         case .none:
             break
         case .animated(let style):
-            type(of: style).configure(cell, forState: state)
+            type(of: style).configure(cell, isFocused: focused)
         case .enlarge:
-            EnlargeStyle.configure(cell, forState: state)
+            EnlargeStyle.configure(cell, isFocused: focused)
         case .fade:
-            FadeStyle.configure(cell, forState: state)
+            FadeStyle.configure(cell, isFocused: focused)
         case .underline:
-            UnderlineStyle.configure(cell, forState: state)
+            UnderlineStyle.configure(cell, isFocused: focused)
         }
     }
 }
 
 public protocol CellSelectionAnimatable {
-    static func configure(_ cell: CollectionViewFormCell, forState state: Bool)
+    static func configure(_ cell: CollectionViewFormCell, isFocused focused: Bool)
     func isEqual(_ rhs: CellSelectionAnimatable) -> Bool
 }
 
