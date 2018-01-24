@@ -287,6 +287,14 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
+        // Force layout of collection view if changing to/from a linear layout and already rendered form
+        if let previousTraitCollection = previousTraitCollection,
+            previousTraitCollection.horizontalSizeClass != .unspecified,
+            previousTraitCollection.horizontalSizeClass != traitCollection.horizontalSizeClass,
+            builder.forceLinearLayoutWhenCompact {
+            formLayout.invalidateLayout()
+        }
+
         if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
             preferredContentSizeCategoryDidChange()
         }
@@ -481,7 +489,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
     }
 
     open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
-        if builder.forceLinearLayout {
+        if builder.forceLinearLayout || (isCompact() && builder.forceLinearLayoutWhenCompact) {
             return collectionView.bounds.width
         }
 
