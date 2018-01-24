@@ -51,7 +51,9 @@ open class RefreshTokenPlugin: PluginType {
     
     /// Queue to get and set refresh promise ensuring thread safety.
     private let barrierQueue: DispatchQueue
-    
+
+    /// Tokens that have been tried before and failed.
+    private var invalidTokens: [String] = []
     
     // MARK: - Plugin Type
     
@@ -89,14 +91,21 @@ open class RefreshTokenPlugin: PluginType {
         // First instance of 401 response will begin refresh logic (all responses received
         // after the first 401 will be chained to the refresh promise created).
         if response.response?.statusCode == 401 {
-            // First check if this response has come in after refresh has been executed
+            // First check if this response has come in after refresh has been executed.
             if request.shouldUpdateAuthenticationHeader {
                 return retry(request: request, originalResponse: response)
             }
-            
-            // Create refresh promise
 
-            let refreshPromise = firstly {
+            // Has been retried before, so don't attempt to refresh.
+            if let token = request.authorizationToken, invalidTokens.contains(token) {
+                return retry(request: request, originalResponse: response)
+            }
+
+            // Create refresh promise
+            let refreshPromise = firstly { () -> Promise<Void> in
+                if let token = request.authorizationToken {
+                    invalidTokens.append(token)
+                }
                 // Let app attempt refresh
                 return self.refreshHandler(response)
             }.always {
@@ -153,5 +162,10 @@ private extension URLRequest {
     var shouldUpdateAuthenticationHeader: Bool {
         guard let header = APIManager.shared.authenticationPlugin?.authenticationMode.authorizationHeader else { return false }
         return self.allHTTPHeaderFields?[header.key] != header.value
+    }
+
+    var authorizationToken: String? {
+        guard let header = APIManager.shared.authenticationPlugin?.authenticationMode.authorizationHeader else { return nil }
+        return self.allHTTPHeaderFields?[header.key]
     }
 }
