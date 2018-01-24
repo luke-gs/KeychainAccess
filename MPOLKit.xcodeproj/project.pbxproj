@@ -506,6 +506,7 @@
 		DB528ECF20046BFC008914EB /* ValidationRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB528ECE20046BFC008914EB /* ValidationRules.swift */; };
 		DB528ED120046C13008914EB /* ValidationResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB528ED020046C13008914EB /* ValidationResults.swift */; };
 		DB6C89EC1FD4D818006F9AD2 /* QuantityPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6C89EB1FD4D818006F9AD2 /* QuantityPickerViewController.swift */; };
+		DB7D3A612016F9FA00985A56 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7D3A602016F9FA00985A56 /* Storage.swift */; };
 		DB88BCD91F42CFFC0056FD69 /* SearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88BCD21F42CEAA0056FD69 /* SearchDataSource.swift */; };
 		DB88BCDA1F42D0080056FD69 /* NumberRangePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88BCCC1F42CEAA0056FD69 /* NumberRangePickerViewController.swift */; };
 		DB88BCDB1F42D0080056FD69 /* SearchOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88BCCD1F42CEAA0056FD69 /* SearchOptionsViewController.swift */; };
@@ -1190,6 +1191,7 @@
 		DB528ECE20046BFC008914EB /* ValidationRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationRules.swift; sourceTree = "<group>"; };
 		DB528ED020046C13008914EB /* ValidationResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationResults.swift; sourceTree = "<group>"; };
 		DB6C89EB1FD4D818006F9AD2 /* QuantityPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityPickerViewController.swift; sourceTree = "<group>"; };
+		DB7D3A602016F9FA00985A56 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		DB88BCC81F42CE970056FD69 /* QueryParserDefinitionSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryParserDefinitionSelector.swift; sourceTree = "<group>"; };
 		DB88BCCA1F42CEA40056FD69 /* SortDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortDescriptor.swift; sourceTree = "<group>"; };
 		DB88BCCC1F42CEAA0056FD69 /* NumberRangePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberRangePickerViewController.swift; sourceTree = "<group>"; };
@@ -2330,6 +2332,7 @@
 				1923275A1FCCDCBC0001D623 /* PromiseCancel */,
 				DB88BCCB1F42CEAA0056FD69 /* Search */,
 				DB88BCC91F42CEA40056FD69 /* SortDescriptor */,
+				DB7D3A5F2016F38000985A56 /* Storage */,
 				BC9C7D4C1F0DED6600DFFE83 /* Transformers */,
 				DB88BCC71F42CE970056FD69 /* Utility */,
 				EA2189F01F5FE88E0057048E /* Presenter */,
@@ -2903,6 +2906,14 @@
 				DB528ED020046C13008914EB /* ValidationResults.swift */,
 			);
 			path = Validation;
+			sourceTree = "<group>";
+		};
+		DB7D3A5F2016F38000985A56 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				DB7D3A602016F9FA00985A56 /* Storage.swift */,
+			);
+			path = Storage;
 			sourceTree = "<group>";
 		};
 		DB88BCC71F42CE970056FD69 /* Utility */ = {
@@ -3615,6 +3626,7 @@
 				EA32A8541FBD1A7900CC37FB /* PhotoMediaPreviewViewController.swift in Sources */,
 				273DE2DD1FEA0F89000C46DD /* CreateIncidentStatusViewModel.swift in Sources */,
 				EA32A8571FBD1A7900CC37FB /* PhotoMediaGalleryTransitionAnimator.swift in Sources */,
+				DB7D3A612016F9FA00985A56 /* Storage.swift in Sources */,
 				C634085B1F30E5B5000747B0 /* EntityFetchRequestable.swift in Sources */,
 				BC9C7DFA1F0DED6600DFFE83 /* CollectionViewFormSubtitleCell.swift in Sources */,
 				EA7194E11FCBA61A00A2980B /* EntityManager.swift in Sources */,
