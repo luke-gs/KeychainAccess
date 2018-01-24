@@ -24,7 +24,7 @@ public class BookOnPresenter: Presenter {
         case .callSignList:
             return CallsignListViewModel().createViewController()
 
-        case .bookOnDetailsForm(let callsignViewModel):
+        case .bookOnDetailsForm(let callsignViewModel, _):
             return BookOnDetailsFormViewModel(callsignViewModel: callsignViewModel).createViewController()
 
         case .officerDetailsForm(let officerViewModel, let delegate):
@@ -72,6 +72,13 @@ public class BookOnPresenter: Presenter {
         case .statusChangeReason:
             // Present form sheet with custom size
             from.presentFormSheet(to, animated: true, size: CGSize(width: 448, height: 256), forced: true)
+
+        case .bookOnDetailsForm(_, let formSheet):
+            if formSheet && !from.isCompact() {
+                from.presentFormSheet(to, animated: true)
+            } else {
+                from.show(to, sender: from)
+            }
 
         // Default presentation, based on container class (eg push if in navigation controller)
         default:
