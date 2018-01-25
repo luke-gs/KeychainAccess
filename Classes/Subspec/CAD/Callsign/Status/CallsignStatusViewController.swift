@@ -49,6 +49,7 @@ open class CallsignStatusViewController: CADStatusViewController {
             }.always {
                 // Stop animation
                 self.setLoading(false, at: indexPath)
+                // The collection view will update in response to the notification of callsign changed
             }.catch { error in
                 AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
             }
