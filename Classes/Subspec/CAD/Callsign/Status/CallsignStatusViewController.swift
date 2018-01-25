@@ -41,24 +41,11 @@ open class CallsignStatusViewController: CADStatusViewController {
 
         if indexPath != callsignViewModel.selectedIndexPath, loadingIndexPath == nil {
 
-            let oldIndexPath = callsignViewModel.selectedIndexPath
             setLoading(true, at: indexPath)
 
             firstly {
                 // Attempt to change state
                 return callsignViewModel.setSelectedIndexPath(indexPath)
-            }.then { status -> Void in
-                // Update selection
-                UIView.performWithoutAnimation {
-                    collectionView.performBatchUpdates({
-                        collectionView.reloadItems(at: [indexPath, oldIndexPath].removeNils())
-                    }, completion: { _ in
-                        if status == .finalise {
-                            self.callsignViewModel.finaliseIncident()
-                        }
-                    })
-                }
-      
             }.always {
                 // Stop animation
                 self.setLoading(false, at: indexPath)
@@ -71,6 +58,8 @@ open class CallsignStatusViewController: CADStatusViewController {
     // MARK: - Internal
     
     private func setLoading(_ loading: Bool, at indexPath: IndexPath) {
+        guard indexPath.section < collectionView.numberOfSections, indexPath.row < collectionView.numberOfItems(inSection: indexPath.section) else { return }
+        
         self.loadingIndexPath = loading ? indexPath : nil
         UIView.performWithoutAnimation {
             collectionView.performBatchUpdates({

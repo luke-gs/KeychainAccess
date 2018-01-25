@@ -49,7 +49,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
 
     /// Attempt to select a new status
     open func setSelectedIndexPath(_ indexPath: IndexPath) -> Promise<ResourceStatus> {
-        let newStatus = statusForIndexPath(indexPath)
+        var newStatus = statusForIndexPath(indexPath)
         let (allowed, requiresReason) = (currentStatus ?? .unavailable).canChangeToStatus(newStatus: newStatus)
         if allowed {
             var promise: Promise<Void> = Promise<Void>()
@@ -62,33 +62,39 @@ open class CallsignStatusViewModel: CADStatusViewModel {
                     // TODO: Do something with reason text
                 }
             }
-
-            // Finalise requires further details
-            if newStatus == .finalise {
+            
+            switch newStatus {
+            case .finalise:
                 promise = promise.then {
                     return self.promptForFinaliseDetails()
                 }.then { _ -> Void in
                     // TODO: Do something with this data
+                    CADStateManager.shared.finaliseIncident()
+                    newStatus = .onAir
                 }
-            }
-            
-            // Traffic stop requires further details
-            if case .trafficStop = newStatus {
+            case .trafficStop:
                 promise = promise.then {
                     return self.promptForTrafficStopDetails()
                 }.then { _ -> Void in
                     // TODO: Submit traffic stop details
                 }
+            default: break
             }
 
             return promise.then {
                 // TODO: Submit callsign request
                 return after(seconds: 1.0)
-                }.then { _ -> Promise<ResourceStatus> in
-                    // Update UI
-                    self.selectedIndexPath = indexPath
-                    CADStateManager.shared.updateCallsignStatus(status: newStatus, incident: self.incident)
-                    return Promise(value: newStatus)
+            }.then { _ -> Void in
+                // TODO: Remove when we have a real CAD system
+                if (self.currentStatus?.isChangingToGeneralStatus(newStatus)).isTrue {
+                    // Clear the current incident
+                    CADStateManager.shared.clearIncident()
+                }
+            }.then { _ -> Promise<ResourceStatus> in
+                // Update UI
+                self.selectedIndexPath = indexPath
+                CADStateManager.shared.updateCallsignStatus(status: newStatus, incident: CADStateManager.shared.currentIncident)
+                return Promise(value: newStatus)
             }
         } else {
             let message = NSLocalizedString("Selection not allowed from this state", comment: "")
@@ -96,10 +102,6 @@ open class CallsignStatusViewModel: CADStatusViewModel {
         }
     }
     
-    open func finaliseIncident() {
-        CADStateManager.shared.finaliseIncident()
-    }
-
     // Prompts the user for more details when tapping on "Traffic Stop" status
     open func promptForTrafficStopDetails() -> Promise<TrafficStopRequest> {
         let (promise, fulfill, reject) = Promise<TrafficStopRequest>.pending()
