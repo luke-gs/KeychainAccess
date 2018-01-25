@@ -71,33 +71,47 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
         return annotation
     }
 
-    open func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView? {
-        var pinView: MKPinAnnotationView
-        let identifier = "locationPinAnnotationView"
-
-        if annotation is MKPointAnnotation {
-            if let dequeueView =  mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView {
-                dequeueView.annotation = annotation
-                pinView = dequeueView
-            } else {
-                pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-                pinView.animatesDrop = false
-                pinView.canShowCallout = true
-                pinView.leftCalloutAccessoryView = UIImageView(image: AssetManager.shared.image(forKey: .location))
-            }
-
-            return pinView
-        }
-
+    open func clusterAnnotation(for annotations: [MKAnnotation], in mapView: MKMapView) -> MKAnnotation? {
         return nil
     }
 
-    open func mapDidSelectAnnotationView(for annotationView: MKAnnotationView) {
-        guard let annotation = annotationView.annotation,
-            let entity = _entityAnnotationMappings?.first(where: { $0.annotation === annotation })?.entity,
-            let presentable = self.summaryDisplayFormatter.presentableForEntity(entity) else { return }
-        self.delegate?.requestToPresent(presentable)
+    open func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView? {
+//        var pinView: MKPinAnnotationView
+//        let identifier = "locationPinAnnotationView"
+//
+//        if annotation is MKPointAnnotation {
+//            if let dequeueView =  mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView {
+//                dequeueView.annotation = annotation
+//                pinView = dequeueView
+//            } else {
+//                pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+//                pinView.animatesDrop = false
+//                pinView.canShowCallout = true
+//                pinView.leftCalloutAccessoryView = UIImageView(image: AssetManager.shared.image(forKey: .location))
+//            }
+//
+//            return pinView
+//        }
+
+        var view: ResourceAnnotationView?
+        let identifier = "myBigPileOfPoo"
+
+        if annotation is MKPointAnnotation {
+            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? ResourceAnnotationView {
+                dequeuedView.annotation = annotation
+                view = dequeuedView
+            } else {
+                view = ResourceAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            }
+
+
+            view?.configure(withAnnotation: annotation, circleBackgroundColor: .white, resourceImage: AssetManager.shared.image(forKey: .info), imageTintColor: .orange, duress: false)
+        }
+
+        return view
     }
+
+    open func annotationViewDidSelect(for annotationView: MKAnnotationView, in mapView: MKMapView) { }
 
     public var allAnnotations: [MKAnnotation]? {
         return _entityAnnotationMappings?.map({ return $0.annotation })
@@ -161,7 +175,6 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
             guard let summary = summaryDisplayFormatter.summaryDisplayForEntity(entity) as? EntityMapSummaryDisplayable else { return nil }
 
             let summaryItem = summary.summaryListFormItem()
-                .subtitle("Calculating")
                 .accessory(nil)
                 .onSelection { [weak self] _ in
                     guard let `self` = self, let presentable = self.summaryDisplayFormatter.presentableForEntity(entity) else { return }
@@ -169,14 +182,15 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
                 }
 
             if let userLocation = userLocation, let coordinate = summary.coordinate {
+                summaryItem.subtitle = NSLocalizedString("Calculating", comment: "")
                 let destinationLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
                 travelEstimationPlugin.calculateDistance(from: userLocation, to: destinationLocation).then { [weak summaryItem] text -> Void in
-                    summaryItem?.subtitle(text)
-                    summaryItem?.reloadItem()
+                    summaryItem?.subtitle(text).reloadItem()
                 }.catch { [weak summaryItem] (error) in
-                    summaryItem?.subtitle("Unknown")
-                    summaryItem?.reloadItem()
+                    summaryItem?.subtitle(NSLocalizedString("Unknown", comment: "")).reloadItem()
                 }
+            } else {
+                summaryItem.subtitle = NSLocalizedString("Unknown", comment: "")
             }
 
             return summaryItem

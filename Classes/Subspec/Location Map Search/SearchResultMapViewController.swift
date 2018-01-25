@@ -70,6 +70,12 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     }
 
     internal private(set) var searchFieldButton: SearchFieldButton?
+
+    private var locateButton: UIButton?
+
+    private var optionButton: UIButton?
+
+    private var buttonsSeparator: UIView?
     
     public init(layout: LocationSearchMapCollectionViewSideBarLayout = LocationSearchMapCollectionViewSideBarLayout()) {
         super.init(layout: layout)
@@ -107,6 +113,13 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         optionButton.setImage(AssetManager.shared.image(forKey: .info), for: .normal)
         optionButton.addTarget(self, action: #selector(optionButtonTapped(_:)), for: .touchUpInside)
 
+        let separator = UIView()
+        separator.backgroundColor = .gray
+
+        self.locateButton = locateButton
+        self.optionButton = optionButton
+        self.buttonsSeparator = separator
+
         let mapControlView = UIView(frame: .zero)
         mapControlView.backgroundColor = UIColor(white: 1.0, alpha: 0.9)
         mapControlView.layer.cornerRadius = 8.0
@@ -115,6 +128,7 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         mapControlView.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
         mapControlView.layer.shadowOpacity = 0.1
         mapControlView.addSubview(locateButton)
+        mapControlView.addSubview(separator)
         mapControlView.addSubview(optionButton)
 
         let radiusButton = UIButton(type: .system)
@@ -134,13 +148,14 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
 
         locateButton.translatesAutoresizingMaskIntoConstraints = false
         optionButton.translatesAutoresizingMaskIntoConstraints = false
+        separator.translatesAutoresizingMaskIntoConstraints = false
         mapControlView.translatesAutoresizingMaskIntoConstraints = false
         radiusButton.translatesAutoresizingMaskIntoConstraints = false
 
-        let views = ["lb": locateButton, "ob": optionButton, "rb": radiusButton, "mv": mapControlView]
-        let metrics = ["size": 48.0, "padding": 16.0]
+        let views = ["lb": locateButton, "ob": optionButton, "rb": radiusButton, "mv": mapControlView, "sp": separator]
+        let metrics = ["size": 48.0, "padding": 16.0, "sw": (1.0 / traitCollection.currentDisplayScale)]
 
-        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[lb(size,==ob,==rb)][ob]|", options: [.alignAllLeading, .alignAllTrailing], metrics: metrics, views: views)
+        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[lb(size,==ob,==rb)][sp(sw)][ob]|", options: [.alignAllLeading, .alignAllTrailing], metrics: metrics, views: views)
         constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|[lb(size)]|", options: [], metrics: metrics, views: views)
         constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[mv]-padding-[rb(size)]|", options: [.alignAllLeading, .alignAllTrailing], metrics: metrics, views: views)
         constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|[rb(size)]|", options: [], metrics: metrics, views: views)
@@ -195,12 +210,14 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     public override func apply(_ theme: Theme) {
         super.apply(theme)
 
-        guard let searchField = searchFieldButton else { return }
+        if let searchField = searchFieldButton {
+            searchField.backgroundColor = theme.color(forKey: .searchFieldBackground)
+            searchField.fieldColor = theme.color(forKey: .searchField)
+            searchField.textColor  = theme.color(forKey: .primaryText)
+            searchField.placeholderTextColor = theme.color(forKey: .placeholderText)
+        }
 
-        searchField.backgroundColor = theme.color(forKey: .searchFieldBackground)
-        searchField.fieldColor = theme.color(forKey: .searchField)
-        searchField.textColor  = theme.color(forKey: .primaryText)
-        searchField.placeholderTextColor = theme.color(forKey: .placeholderText)
+        buttonsSeparator?.backgroundColor = theme.color(forKey: .separator)
     }
 
     // MARK: - Common methods
@@ -227,6 +244,8 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
             sidebarDelegate?.showSidebar(adjustMapInsets: selectedAnnotation == nil)
             selectedAnnotation = annotation
         }
+
+        viewModel?.annotationViewDidSelect(for: view, in: mapView)
     }
     
     public func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
