@@ -384,6 +384,10 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         if let annotations = viewModel?.allAnnotations {
             clusterManager.add(annotations)
         }
+
+        if let mapView = mapView {
+            clusterManager.reload(mapView, visibleMapRect: mapView.visibleMapRect)
+        }
     }
     
     /// long press on the map to perform a radius search using default settings

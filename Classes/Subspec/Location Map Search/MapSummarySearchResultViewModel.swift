@@ -78,23 +78,21 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
             let identifier = "myBigPileOfPoo"
             if let dequeueView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? ClusterAnnotationView {
                 dequeueView.annotation = annotation
-                dequeueView.configure(with: dequeueView.style)
                 pinView = dequeueView
             } else {
-                pinView = ClusterAnnotationView(annotation: annotation, reuseIdentifier: identifier, style: .color(.brightBlue, radius: 36.0))
+                pinView = ClusterAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             }
             return pinView
         } else if annotation is MKPointAnnotation {
-            let pinView: ResourceAnnotationView
+            let pinView: LocationAnnotationView
             let identifier = "myLittlePileOfPoo"
-            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? ResourceAnnotationView {
+            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? LocationAnnotationView {
                 dequeuedView.annotation = annotation
                 pinView = dequeuedView
             } else {
-                pinView = ResourceAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                pinView = LocationAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             }
 
-            pinView.configure(withAnnotation: annotation, circleBackgroundColor: .white, resourceImage: AssetManager.shared.image(forKey: .info), imageTintColor: .orange, duress: false)
             return pinView
         }
 
