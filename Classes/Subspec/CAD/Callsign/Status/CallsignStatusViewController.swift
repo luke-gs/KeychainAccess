@@ -40,7 +40,6 @@ open class CallsignStatusViewController: CADStatusViewController {
         collectionView.deselectItem(at: indexPath, animated: false)
 
         if indexPath != callsignViewModel.selectedIndexPath, loadingIndexPath == nil {
-            var resourceStatus: ResourceStatus?
 
             let oldIndexPath = callsignViewModel.selectedIndexPath
             setLoading(true, at: indexPath)
@@ -49,18 +48,17 @@ open class CallsignStatusViewController: CADStatusViewController {
                 // Attempt to change state
                 return callsignViewModel.setSelectedIndexPath(indexPath)
             }.then { status -> Void in
-                resourceStatus = status
                 // Update selection
                 UIView.performWithoutAnimation {
                     collectionView.performBatchUpdates({
                         collectionView.reloadItems(at: [indexPath, oldIndexPath].removeNils())
-                    }, completion: nil)
+                    }, completion: { _ in
+                        if status == .finalise {
+                            self.callsignViewModel.finaliseIncident()
+                        }
+                    })
                 }
-            }.then { _ -> Void in
-                if resourceStatus == .finalise {
-                    self.loadingIndexPath = nil
-                    self.callsignViewModel.finaliseIncident()
-                }
+      
             }.always {
                 // Stop animation
                 self.setLoading(false, at: indexPath)
