@@ -31,9 +31,6 @@ open class TaskItemViewModel {
     /// Name of the item (e.g. 'P08')
     open var itemName: String?
     
-    /// Last updated time string (e.g. '2 mins ago')
-    open var lastUpdated: String?
-
     /// View controllers to show in the list
     open func detailViewControllers() -> [UIViewController] {
         return viewModels.map {
@@ -56,13 +53,12 @@ open class TaskItemViewModel {
     ///   - statusText: Status text to display below the icon
     ///   - itemName: Name of the item
     ///   - lastUpdated: Last updated time string
-    public init(iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?, lastUpdated: String?, viewModels: [TaskDetailsViewModel] = []) {
+    public init(iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?, viewModels: [TaskDetailsViewModel] = []) {
         self.iconImage = iconImage
         self.iconTintColor = iconTintColor
         self.color = color
         self.statusText = statusText
         self.itemName = itemName
-        self.lastUpdated = lastUpdated
         self.viewModels = viewModels
     }
 

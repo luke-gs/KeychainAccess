@@ -19,8 +19,8 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
     open private(set) var incident: SyncDetailsIncident?
     open private(set) var resource: SyncDetailsResource?
 
-    public init(incidentNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?, lastUpdated: String?) {
-        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, lastUpdated: lastUpdated)
+    public init(incidentNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
+        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName)
 
         self.navTitle =  NSLocalizedString("Incident details", comment: "")
         self.compactNavTitle = itemName
@@ -39,8 +39,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
                   iconTintColor: resource?.status.iconColors.icon ?? .white,
                   color: resource?.status.iconColors.background,
                   statusText: resource?.status.title ?? incident.status.rawValue,
-                  itemName: [incident.type, incident.resourceCountString].joined(),
-                  lastUpdated: incident.lastUpdated.elapsedTimeIntervalForHuman())
+                  itemName: [incident.type, incident.resourceCountString].joined())
         self.incident = incident
         self.resource = resource
     }
@@ -63,7 +62,6 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
             color = resource?.status.iconColors.background
             statusText = resource?.status.title ?? incident.status.rawValue
             itemName = [incident.type, incident.resourceCountString].joined()
-            lastUpdated = incident.lastUpdated.elapsedTimeIntervalForHuman()
 
             viewModels.forEach {
                 $0.reloadFromModel()
