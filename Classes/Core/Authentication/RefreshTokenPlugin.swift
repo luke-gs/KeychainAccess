@@ -91,10 +91,6 @@ open class RefreshTokenPlugin: PluginType {
         // First instance of 401 response will begin refresh logic (all responses received
         // after the first 401 will be chained to the refresh promise created).
         if response.response?.statusCode == 401 {
-            // First check if this response has come in after refresh has been executed.
-            if request.shouldUpdateAuthenticationHeader {
-                return retry(request: request, originalResponse: response)
-            }
 
             // Has been retried before, so don't attempt to refresh.
             if let token = request.authorizationToken, invalidTokens.contains(token) {
@@ -158,11 +154,6 @@ open class RefreshTokenPlugin: PluginType {
 // MARK: - Auth Header Check
 
 private extension URLRequest {
-    
-    var shouldUpdateAuthenticationHeader: Bool {
-        guard let header = APIManager.shared.authenticationPlugin?.authenticationMode.authorizationHeader else { return false }
-        return self.allHTTPHeaderFields?[header.key] != header.value
-    }
 
     var authorizationToken: String? {
         guard let header = APIManager.shared.authenticationPlugin?.authenticationMode.authorizationHeader else { return nil }
