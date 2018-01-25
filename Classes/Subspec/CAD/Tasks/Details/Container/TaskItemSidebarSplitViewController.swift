@@ -90,8 +90,8 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
     }
 
     open override func masterNavSubtitleSuitable(for traitCollection: UITraitCollection) -> String? {
-        if let lastUpdated = detailViewModel.lastUpdated {
-            return "Updated \(lastUpdated)"
+        if let intervalString = CADStateManager.shared.lastSyncTime?.elapsedTimeIntervalForHuman() {
+            return "Updated \(intervalString)"
         }
         return nil
     }
