@@ -9,6 +9,7 @@
 import Foundation
 import CoreLocation
 import MapKit
+import Cluster
 
 public class SearchResultMapViewController: MapFormBuilderViewController, MapResultViewModelDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate {
     
@@ -76,12 +77,20 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     private var optionButton: UIButton?
 
     private var buttonsSeparator: UIView?
+
+    private let clusterManager = ClusterManager()
     
     public init(layout: LocationSearchMapCollectionViewSideBarLayout = LocationSearchMapCollectionViewSideBarLayout()) {
         super.init(layout: layout)
         sidebarDelegate = layout
         title = NSLocalizedString("Location Search", comment: "Location Search Title")
         userInterfaceStyle = .light
+
+        clusterManager.cellSize = nil
+        clusterManager.maxZoomLevel = 17
+        clusterManager.minCountForClustering = 2
+        clusterManager.shouldRemoveInvisibleAnnotations = false
+        clusterManager.clusterPosition = .nearCenter
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -280,6 +289,10 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         }
 
     }
+
+    public func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        clusterManager.reload(mapView, visibleMapRect: mapView.visibleMapRect)
+    }
     
     // MARK: - Private methods
     
@@ -364,12 +377,12 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     /// Add annotations based on the location search results
     private func addAnnotations() {
         /// Remove all the existing annotations, except current user location
-        if let annotations = mapView?.annotations {
-            let annotationsToRemove = annotations.filter { !($0 is MKUserLocation) }
-            mapView?.removeAnnotations(annotationsToRemove)
-        }
+        let annotations = clusterManager.annotations
+        let annotationsToRemove = annotations.filter { !($0 is MKUserLocation) }
+        clusterManager.remove(annotationsToRemove)
+
         if let annotations = viewModel?.allAnnotations {
-            mapView?.addAnnotations(annotations)
+            clusterManager.add(annotations)
         }
     }
     

@@ -68,8 +68,6 @@ public protocol MapResultViewModelable: SearchResultModelable {
 
     func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView?
 
-    func clusterAnnotation(for annotations: [MKAnnotation], in mapView: MKMapView) -> MKAnnotation?
-
     func annotationViewDidSelect(for annotationView: MKAnnotationView, in mapView: MKMapView)
 
     /// A delegate that will be notified when there are changes to the results.

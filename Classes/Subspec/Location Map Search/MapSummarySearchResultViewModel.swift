@@ -9,6 +9,7 @@
 import Foundation
 import MapKit
 import PromiseKit
+import Cluster
 
 open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModelable, AggregatedSearchDelegate {
 
@@ -71,44 +72,33 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
         return annotation
     }
 
-    open func clusterAnnotation(for annotations: [MKAnnotation], in mapView: MKMapView) -> MKAnnotation? {
-        return nil
-    }
-
     open func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView? {
-//        var pinView: MKPinAnnotationView
-//        let identifier = "locationPinAnnotationView"
-//
-//        if annotation is MKPointAnnotation {
-//            if let dequeueView =  mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView {
-//                dequeueView.annotation = annotation
-//                pinView = dequeueView
-//            } else {
-//                pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-//                pinView.animatesDrop = false
-//                pinView.canShowCallout = true
-//                pinView.leftCalloutAccessoryView = UIImageView(image: AssetManager.shared.image(forKey: .location))
-//            }
-//
-//            return pinView
-//        }
-
-        var view: ResourceAnnotationView?
-        let identifier = "myBigPileOfPoo"
-
-        if annotation is MKPointAnnotation {
+        if annotation is ClusterAnnotation {
+            let pinView: ClusterAnnotationView
+            let identifier = "myBigPileOfPoo"
+            if let dequeueView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? ClusterAnnotationView {
+                dequeueView.annotation = annotation
+                dequeueView.configure(with: dequeueView.style)
+                pinView = dequeueView
+            } else {
+                pinView = ClusterAnnotationView(annotation: annotation, reuseIdentifier: identifier, style: .color(.brightBlue, radius: 36.0))
+            }
+            return pinView
+        } else if annotation is MKPointAnnotation {
+            let pinView: ResourceAnnotationView
+            let identifier = "myLittlePileOfPoo"
             if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? ResourceAnnotationView {
                 dequeuedView.annotation = annotation
-                view = dequeuedView
+                pinView = dequeuedView
             } else {
-                view = ResourceAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                pinView = ResourceAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             }
 
-
-            view?.configure(withAnnotation: annotation, circleBackgroundColor: .white, resourceImage: AssetManager.shared.image(forKey: .info), imageTintColor: .orange, duress: false)
+            pinView.configure(withAnnotation: annotation, circleBackgroundColor: .white, resourceImage: AssetManager.shared.image(forKey: .info), imageTintColor: .orange, duress: false)
+            return pinView
         }
 
-        return view
+        return nil
     }
 
     open func annotationViewDidSelect(for annotationView: MKAnnotationView, in mapView: MKMapView) { }
