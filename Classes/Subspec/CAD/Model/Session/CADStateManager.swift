@@ -105,6 +105,17 @@ open class CADStateManager: NSObject {
         currentResource?.status = .offDuty
         lastBookOn = nil
     }
+    
+    /// Clears current incident and sets status to on air
+    open func finaliseIncident() {
+        currentResource?.status = .onAir
+        clearIncident()
+    }
+    
+    /// Un-assigns the current incident for the booked on resource
+    open func clearIncident() {
+        currentResource?.currentIncident = nil
+    }
 
     // MARK: - Shift
 

@@ -150,7 +150,7 @@ public enum ResourceStatus: String, Codable {
         // Currently all status changes are allowed, but a reason is needed if going from an incident
         // to a non incident status. Leaving allowed component of tuple as this is likely to change...
 
-        if ResourceStatus.incidentCases.contains(self) && !ResourceStatus.incidentCases.contains(newStatus) {
+        if isChangingToGeneralStatus(newStatus) {
             // Assigning to incident, requires reason
             return (true, true)
         } else if self != newStatus {
@@ -160,6 +160,10 @@ public enum ResourceStatus: String, Codable {
             // No change
             return (false, false)
         }
+    }
+    
+    public func isChangingToGeneralStatus(_ newStatus: ResourceStatus) -> Bool {
+        return ResourceStatus.incidentCases.contains(self) && !ResourceStatus.incidentCases.contains(newStatus)
     }
 
     /// Return whether patrol area can be changed from current status

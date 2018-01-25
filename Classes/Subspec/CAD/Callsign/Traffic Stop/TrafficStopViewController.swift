@@ -76,7 +76,7 @@ open class TrafficStopViewController: FormBuilderViewController {
         builder += ValueFormItem()  // TODO: Implement selecting location
             .title("Location")
             .value(viewModel.formattedLocation())
-            .accessory(FormAccessoryView(style: .disclosure))
+            .accessory(FormAccessoryView(style: .pencil))
             .width(.column(1))
         builder += OptionFormItem()
             .title("Create an incident".sizing(withNumberOfLines: 0, font: UIFont.systemFont(ofSize: 15, weight: .semibold)))
