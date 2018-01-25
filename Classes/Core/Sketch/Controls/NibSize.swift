@@ -27,7 +27,7 @@ public enum NibSize: CGFloat {
 
             /// Calculate the closest match the value provided
             /// eg a value of 88 will be set to giant and a value
-            /// of 26 woud be set to medium.
+            /// of 26 would be set to medium.
 
             let values = NibSize.allCases
             var closestMatch = NibSize.giant

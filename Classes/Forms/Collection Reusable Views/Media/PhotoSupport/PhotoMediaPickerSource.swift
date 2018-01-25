@@ -41,12 +41,12 @@ public class SketchMediaPicker: NSObject, PhotoMediaPickerSource, SketchPickerCo
         return navigationController
     }
     
-    func sketchPickerController(_ picker: SketchPickerController, didFinishPickingSketch sketch: UIImage) {
+    public func sketchPickerController(_ picker: SketchPickerController, didFinishPickingSketch sketch: UIImage) {
         savePhotoMedia?(sketch)
         picker.dismiss(animated: true, completion: nil)
     }
 
-    func sketchPickerControllerDidCancel(_ picker: SketchPickerController) {
+    public func sketchPickerControllerDidCancel(_ picker: SketchPickerController) {
         // Perform something here when canceled
 
         picker.dismiss(animated: true, completion: nil)

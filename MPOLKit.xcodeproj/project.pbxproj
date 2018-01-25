@@ -278,6 +278,8 @@
 		46B3FE811F5E49FB0012476A /* ConsoleLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B3FE801F5E49FB0012476A /* ConsoleLogger.swift */; };
 		46C430CC1FC5252D0047396B /* CodableResponseSerializing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C430CB1FC5252D0047396B /* CodableResponseSerializing.swift */; };
 		46C430D01FC544310047396B /* RemoteResourceDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C430CF1FC544310047396B /* RemoteResourceDownloader.swift */; };
+		46D95AC020198A6B00DCE6A5 /* UIView+JiggleAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D95ABF20198A6B00DCE6A5 /* UIView+JiggleAnimation.swift */; };
+		46D95AC220198A7D00DCE6A5 /* UIImage+CircleCreation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D95AC120198A7D00DCE6A5 /* UIImage+CircleCreation.swift */; };
 		46DDAB451F78CF1300ED72DC /* FormAccessoryImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DDAB441F78CF1300ED72DC /* FormAccessoryImageView.swift */; };
 		46F77072200D688600BA6614 /* PixelWidthSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F77071200D688600BA6614 /* PixelWidthSelectionViewController.swift */; };
 		47BC24DD1FE886F900BAB46C /* EntitySummarySearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BC24DC1FE886F900BAB46C /* EntitySummarySearchViewModel.swift */; };
@@ -953,6 +955,8 @@
 		46B3FE801F5E49FB0012476A /* ConsoleLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsoleLogger.swift; sourceTree = "<group>"; };
 		46C430CB1FC5252D0047396B /* CodableResponseSerializing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableResponseSerializing.swift; sourceTree = "<group>"; };
 		46C430CF1FC544310047396B /* RemoteResourceDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteResourceDownloader.swift; sourceTree = "<group>"; };
+		46D95ABF20198A6B00DCE6A5 /* UIView+JiggleAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+JiggleAnimation.swift"; sourceTree = "<group>"; };
+		46D95AC120198A7D00DCE6A5 /* UIImage+CircleCreation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+CircleCreation.swift"; sourceTree = "<group>"; };
 		46DDAB441F78CF1300ED72DC /* FormAccessoryImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormAccessoryImageView.swift; sourceTree = "<group>"; };
 		46F77071200D688600BA6614 /* PixelWidthSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelWidthSelectionViewController.swift; sourceTree = "<group>"; };
 		47BC24DC1FE886F900BAB46C /* EntitySummarySearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummarySearchViewModel.swift; sourceTree = "<group>"; };
@@ -1815,6 +1819,7 @@
 		460B5BAF2007171200AB7D12 /* Sketch */ = {
 			isa = PBXGroup;
 			children = (
+				46D95ABE20198A5100DCE6A5 /* Utility */,
 				4641F10220085EC100C1899B /* Controls */,
 				460B5BB32007175300AB7D12 /* Tools */,
 				460B5BB22007174B00AB7D12 /* Canvas */,
@@ -1950,6 +1955,15 @@
 				46A60F601FCFB03200EE32CA /* EvaluatorTests.swift */,
 			);
 			path = Evaluator;
+			sourceTree = "<group>";
+		};
+		46D95ABE20198A5100DCE6A5 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				46D95ABF20198A6B00DCE6A5 /* UIView+JiggleAnimation.swift */,
+				46D95AC120198A7D00DCE6A5 /* UIImage+CircleCreation.swift */,
+			);
+			path = Utility;
 			sourceTree = "<group>";
 		};
 		962053111F9960FA000CAD49 /* Model */ = {
@@ -3889,6 +3903,7 @@
 				EA4806B51F56A00600B42313 /* LocationSearchConfiguration.swift in Sources */,
 				274C89791F997F94005B9CF8 /* CADStatusTabBarViewModel.swift in Sources */,
 				BC9C7E161F0DED6600DFFE83 /* CheckBox.swift in Sources */,
+				46D95AC220198A7D00DCE6A5 /* UIImage+CircleCreation.swift in Sources */,
 				96D731731FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift in Sources */,
 				BC9C7E4C1F0DED6600DFFE83 /* ViewControllerAnimationOptionTransition.swift in Sources */,
 				BC9C7E331F0DED6600DFFE83 /* UITextView+NotificationWorkaround.m in Sources */,
@@ -3985,6 +4000,7 @@
 				19FEC9861F43F827005692A9 /* MappedError.swift in Sources */,
 				BC1B260E1F20BB3C009674B7 /* PushableSplitViewController.swift in Sources */,
 				EA09A0571F78B9C200BC3C0E /* PredicateSpecification.swift in Sources */,
+				46D95AC020198A6B00DCE6A5 /* UIView+JiggleAnimation.swift in Sources */,
 				27094CCC1FAFFBDA00D4C3D4 /* ResourceTaskItemViewModel.swift in Sources */,
 				1972FCD21FA6C4E300CB68EA /* ResourceDownloadTicket.swift in Sources */,
 				19DBD5D11FA8EA7400205EEC /* APIManager+Unboxable.swift in Sources */,

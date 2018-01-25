@@ -8,12 +8,12 @@
 
 import Foundation
 
-protocol SketchPickerControllerDelegate: class {
+public protocol SketchPickerControllerDelegate: class {
     func sketchPickerController(_ picker: SketchPickerController, didFinishPickingSketch sketch: UIImage)
     func sketchPickerControllerDidCancel(_ picker: SketchPickerController)
 }
 
-class SketchPickerController: UIViewController, SketchControlPanelDelegate, SketchCanvasDelegate {
+public class SketchPickerController: UIViewController, SketchControlPanelDelegate, SketchCanvasDelegate {
 
     weak var delegate: SketchPickerControllerDelegate?
 
@@ -47,11 +47,11 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
         ]
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
 
         edgesForExtendedLayout = []
@@ -76,11 +76,11 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
         controlPanel.setSelectedNibSize(NibSize(value: canvas.currentTool.toolWidth))
     }
 
-    override var shouldAutorotate: Bool {
+    override public var shouldAutorotate: Bool {
         return UIDevice.current.userInterfaceIdiom != .phone
     }
 
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         coordinator.animate(alongsideTransition: { (context) in
             if let image = self.canvas.renderedImage() {
@@ -94,7 +94,7 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
         }, completion: nil)
     }
 
-    override func viewDidAppear(_ animated: Bool) {
+    override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         controlPanel.setSelectedMode(mode: canvas.sketchMode)
     }
@@ -129,13 +129,13 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
 
     // MARK: - Sketch Canvas Delegate
 
-    func canvasDidStartSketching(_ canvas: Sketchable) {
+    public func canvasDidStartSketching(_ canvas: Sketchable) {
         let isEmptyCanvas = canvas.isEmpty
         doneItem.isEnabled = !isEmptyCanvas
         trashItem.isEnabled = !isEmptyCanvas
     }
 
-    func canvas(_ canvas: Sketchable, touchMovedTo position: CGPoint) {
+    public func canvas(_ canvas: Sketchable, touchMovedTo position: CGPoint) {
 
         // Calculates whether the control panel should be hidden whilst panning
         let position = view.convert(position, to: view)
@@ -151,7 +151,7 @@ class SketchPickerController: UIViewController, SketchControlPanelDelegate, Sket
         }
     }
 
-    func canvasDidFinishSketching(_ canvas: Sketchable) {
+    public func canvasDidFinishSketching(_ canvas: Sketchable) {
         // When touches finish ensure that the control panel has an alpha
         // value of 1
         UIView.animate(withDuration: 0.3, animations: {
