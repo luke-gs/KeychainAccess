@@ -192,7 +192,11 @@ open class CADStateManager: NSObject {
         // Perform sync and keep result
         return firstly {
             return after(seconds: 1.0)
-        }.then { _ in
+        }.then { _ -> Promise<SyncDetailsResponse> in
+            // TODO: Remove this. For demos, we only get fresh data the first time
+            if let lastSync = self.lastSync {
+                return Promise<SyncDetailsResponse>(value: lastSync)
+            }
             return CADStateManager.apiManager.cadSyncDetails(request: SyncDetailsRequest())
         }.then { [unowned self] summaries -> SyncDetailsResponse in
             self.lastSync = summaries
