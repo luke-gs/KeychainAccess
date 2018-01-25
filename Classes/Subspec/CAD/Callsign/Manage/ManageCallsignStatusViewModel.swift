@@ -91,6 +91,9 @@ open class ManageCallsignStatusViewModel {
     }
 
     @objc private func notifyDataChanged() {
+        let callsignStatus = CADStateManager.shared.currentResource?.status ?? .unavailable
+        
+        callsignViewModel.reload(sections: callsignSectionsForState(), selectedStatus: callsignStatus, incident: CADStateManager.shared.currentIncident)
         delegate?.callsignDidChange()
     }
     

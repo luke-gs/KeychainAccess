@@ -105,6 +105,13 @@ open class CADStateManager: NSObject {
         currentResource?.status = .offDuty
         lastBookOn = nil
     }
+    
+    /// Clears current incident and sets status to on air
+    open func finaliseIncident() {
+        currentResource?.status = .onAir
+        currentResource?.currentIncident = nil
+        NotificationCenter.default.post(name: .CADCallsignChanged, object: self)
+    }
 
     // MARK: - Shift
 

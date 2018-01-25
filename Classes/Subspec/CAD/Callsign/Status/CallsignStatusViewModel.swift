@@ -32,6 +32,13 @@ open class CallsignStatusViewModel: CADStatusViewModel {
         self.selectedIndexPath = indexPathForStatus(selectedStatus)
         self.incident = incident
     }
+    
+    public func reload(sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>],
+                selectedStatus: ResourceStatus, incident: SyncDetailsIncident?) {
+        self.sections = sections
+        self.selectedIndexPath = indexPathForStatus(selectedStatus)
+        self.incident = incident
+    }
 
     /// Create the view controller for this view model
     public func createViewController() -> CallsignStatusViewController {
@@ -87,6 +94,10 @@ open class CallsignStatusViewModel: CADStatusViewModel {
             let message = NSLocalizedString("Selection not allowed from this state", comment: "")
             return Promise(error: NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: message]))
         }
+    }
+    
+    open func finaliseIncident() {
+        CADStateManager.shared.finaliseIncident()
     }
 
     // Prompts the user for more details when tapping on "Traffic Stop" status
