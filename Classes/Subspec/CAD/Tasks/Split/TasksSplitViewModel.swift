@@ -95,6 +95,11 @@ open class TasksSplitViewModel {
         guard let sync = CADStateManager.shared.lastSync else { return [] }
         
         return sync.incidents.filter { incident in
+            // TODO: remove this once filtered by CAD system
+            if !filterViewModel.showResultsOutsidePatrolArea && incident.patrolGroup != CADStateManager.shared.patrolGroup {
+                return false
+            }
+
             let priorityFilter = filterViewModel.priorities.contains(incident.grade)
             let resourcedFilter = filterViewModel.resourcedIncidents.contains(incident.status)
             
@@ -120,6 +125,11 @@ open class TasksSplitViewModel {
         guard let sync = CADStateManager.shared.lastSync else { return [] }
 
         return sync.resources.filter { resource in
+            // TODO: remove this once filtered by CAD system
+            if !filterViewModel.showResultsOutsidePatrolArea && resource.station.contains("South") {
+                return false
+            }
+
             // Ignore off duty resources
             guard resource.status != .offDuty else { return false }
 

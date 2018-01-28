@@ -212,7 +212,7 @@ open class CompactSidebarViewController: UIViewController {
             scrollView.leadingAnchor.constraint(equalTo: sourceDivider.trailingAnchor).withPriority(.almostRequired),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            scrollView.heightAnchor.constraint(equalToConstant: 56),
+            scrollView.heightAnchor.constraint(equalToConstant: 56).withPriority(.almostRequired),
 
             sidebarStackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             sidebarStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
