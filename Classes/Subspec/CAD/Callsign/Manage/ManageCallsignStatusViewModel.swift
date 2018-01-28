@@ -34,14 +34,6 @@ open class ManageCallsignStatusViewModel {
         NotificationCenter.default.addObserver(self, selector: #selector(notifyDataChanged), name: .CADCallsignChanged, object: nil)
     }
 
-    /// Concrete view model used to present book on details form
-    struct BookOnCallsignViewModel: BookOnCallsignViewModelType {
-        var callsign: String
-        var status: String?
-        var location: String?
-        var type: ResourceType?
-    }
-
     /// Enum for action button types
     enum ActionButton: Int {
         case viewCallsign
@@ -81,7 +73,7 @@ open class ManageCallsignStatusViewModel {
     /// The callsign view model for changing status
     open lazy var callsignViewModel: CallsignStatusViewModel = {
         let callsignStatus = CADStateManager.shared.currentResource?.status ?? .unavailable
-        return CallsignStatusViewModel(sections: callsignSectionsForState(), selectedStatus: callsignStatus, incident: nil)
+        return CallsignStatusViewModel(sections: callsignSectionsForState(), selectedStatus: callsignStatus, incident: CADStateManager.shared.currentIncident)
     }()
 
     public var incidentListViewModel: TasksListIncidentViewModel? {
@@ -99,6 +91,9 @@ open class ManageCallsignStatusViewModel {
     }
 
     @objc private func notifyDataChanged() {
+        let callsignStatus = CADStateManager.shared.currentResource?.status ?? .unavailable
+        
+        callsignViewModel.reload(sections: callsignSectionsForState(), selectedStatus: callsignStatus, incident: CADStateManager.shared.currentIncident)
         delegate?.callsignDidChange()
     }
     
@@ -134,8 +129,9 @@ open class ManageCallsignStatusViewModel {
                 if let resource = CADStateManager.shared.currentResource {
                     // Show split view controller for booked on resource
                     let vm = ResourceTaskItemViewModel(resource: resource)
-                    let vc = TasksItemSidebarViewController.init(viewModel: vm)
-                    delegate?.present(vc, animated: true, completion: nil)
+                    let vc = TaskItemSidebarSplitViewController.init(viewModel: vm)
+                    let nav = UINavigationController(rootViewController: vc)
+                    delegate?.present(nav, animated: true, completion: nil)
                 }
                 break
             case .manageCallsign:
@@ -146,7 +142,7 @@ open class ManageCallsignStatusViewModel {
                         status: CADStateManager.shared.currentResource?.status.title ?? "",
                         location: CADStateManager.shared.currentResource?.station ?? "",
                         type: CADStateManager.shared.currentResource?.type)
-                    delegate?.present(BookOnScreen.bookOnDetailsForm(callsignViewModel: callsignViewModel))
+                    delegate?.present(BookOnScreen.bookOnDetailsForm(callsignViewModel: callsignViewModel, formSheet: false))
                 }
                 break
             case .terminateShift:

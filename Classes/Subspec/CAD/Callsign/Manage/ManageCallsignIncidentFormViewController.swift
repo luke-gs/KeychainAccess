@@ -51,7 +51,7 @@ open class ManageCallsignIncidentFormViewController: FormBuilderViewController {
                 .onSelection({ [unowned self] cell in
                     // Present the incident split view controller
                     if let taskViewModel = self.taskViewModel {
-                        let vc = TasksItemSidebarViewController.init(viewModel: taskViewModel)
+                        let vc = TaskItemSidebarSplitViewController.init(viewModel: taskViewModel)
                         self.present(vc, animated: true, completion: nil)
                     }
                 })

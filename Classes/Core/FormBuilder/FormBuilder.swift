@@ -35,6 +35,9 @@ public class FormBuilder {
     /// Force linear layout ignores items' width and forces each item to occupy the full row.
     public var forceLinearLayout: Bool = false
 
+    /// Force linear layout when view controller is compact
+    public var forceLinearLayoutWhenCompact: Bool = true
+
     public private(set) var formItems: [FormItem] = []
 
     public init() {}

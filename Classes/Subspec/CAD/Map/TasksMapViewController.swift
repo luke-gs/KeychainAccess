@@ -88,7 +88,7 @@ open class TasksMapViewController: MapViewController {
         guard viewModel.canSelectAnnotationView(view) else { return }
         
         if let viewModel = viewModel.viewModel(for: view.annotation as? TaskAnnotation) {
-            let vc = TasksItemSidebarViewController(viewModel: viewModel)
+            let vc = TaskItemSidebarSplitViewController(viewModel: viewModel)
             splitViewController?.navigationController?.pushViewController(vc, animated: true)
         }
     }
