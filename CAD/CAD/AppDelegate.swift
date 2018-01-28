@@ -62,19 +62,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window.makeKeyAndVisible()
 
-        // #if INTERNAL
-        let manager = BITHockeyManager.shared()
-        manager.configure(withIdentifier: "6344d682b59c4ec5970c03192625efff")
-        manager.start()
+        #if !DEBUG
+            let manager = BITHockeyManager.shared()
+            manager.configure(withIdentifier: "6344d682b59c4ec5970c03192625efff")
+            manager.start()
 
-        manager.updateManager.updateSetting = .checkStartup
-        manager.crashManager.crashManagerStatus = .autoSend
+            manager.updateManager.updateSetting = .checkStartup
+            manager.crashManager.crashManagerStatus = .autoSend
 
-        let authenticator = manager.authenticator
-        authenticator.authenticationSecret = "96bd361e7ec8fc1cba9c16bbc1118813"
-        authenticator.identificationType = .hockeyAppEmail
-        authenticator.authenticateInstallation()
-        // #endif
+            let authenticator = manager.authenticator
+            authenticator.authenticationSecret = "96bd361e7ec8fc1cba9c16bbc1118813"
+            authenticator.identificationType = .hockeyAppEmail
+            authenticator.authenticateInstallation()
+        #endif
 
         return true
     }
