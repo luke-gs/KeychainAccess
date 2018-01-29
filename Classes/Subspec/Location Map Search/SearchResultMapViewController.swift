@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 import MapKit
-import Cluster
+import Cluster_Fork
 
 public class SearchResultMapViewController: MapFormBuilderViewController, MapResultViewModelDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate {
     
@@ -51,9 +51,6 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
                 searchFieldPlaceholder = nil
                 return
             }
-
-//            let entity = viewModel?.entityDisplayable(for: selectedAnnotation)
-//            searchFieldPlaceholder = entity?.title
         }
     }
     
@@ -90,7 +87,7 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         clusterManager.maxZoomLevel = 17
         clusterManager.minCountForClustering = 2
         clusterManager.shouldRemoveInvisibleAnnotations = false
-        clusterManager.clusterPosition = .nearCenter
+        clusterManager.clusterPosition = .average
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -293,7 +290,8 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     public func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         clusterManager.reload(mapView, visibleMapRect: mapView.visibleMapRect)
     }
-    
+
+
     // MARK: - Private methods
     
     private func requestLocationServices() {
@@ -377,9 +375,7 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     /// Add annotations based on the location search results
     private func addAnnotations() {
         /// Remove all the existing annotations, except current user location
-        let annotations = clusterManager.annotations
-        let annotationsToRemove = annotations.filter { !($0 is MKUserLocation) }
-        clusterManager.remove(annotationsToRemove)
+        clusterManager.removeAll()
 
         if let annotations = viewModel?.allAnnotations {
             clusterManager.add(annotations)

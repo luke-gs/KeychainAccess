@@ -9,7 +9,7 @@
 import Foundation
 import MapKit
 import PromiseKit
-import Cluster
+import Cluster_Fork
 
 open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModelable, AggregatedSearchDelegate {
 
@@ -21,7 +21,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
 
     public let searchStrategy: LocationSearchModelStrategy
 
-    private var _entityAnnotationMappings: [EntityAnnotationMapping]? = []
+    private var entityAnnotationMappings: [EntityAnnotationMapping] = []
 
     public var searchType: LocationMapSearchType!
 
@@ -43,7 +43,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
                 })
                 mapAnnotations.append(contentsOf: annotations)
             }
-            self._entityAnnotationMappings = mapAnnotations
+            entityAnnotationMappings = mapAnnotations
         }
     }
 
@@ -73,7 +73,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
     }
 
     open func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView? {
-        if annotation is ClusterAnnotation {
+        if let annotation = annotation as? ClusterAnnotation {
             let pinView: ClusterAnnotationView
             let identifier = "myBigPileOfPoo"
             if let dequeueView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? ClusterAnnotationView {
@@ -82,6 +82,18 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
             } else {
                 pinView = ClusterAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             }
+
+            let summaries = annotation.annotations.flatMap { annotation -> EntitySummaryDisplayable? in
+                if let entityAnnotationPair = entityAnnotationMappings.first(where: { $0.annotation === annotation }) {
+                    return summaryDisplayFormatter.summaryDisplayForEntity(entityAnnotationPair.entity)
+                }
+                return nil
+            }
+
+            if let highestPriority = summaries.highestPriority() {
+                pinView.color = highestPriority.borderColor ?? .gray
+            }
+
             return pinView
         } else if annotation is MKPointAnnotation {
             let pinView: LocationAnnotationView
@@ -93,6 +105,11 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
                 pinView = LocationAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             }
 
+            if let entityAnnotationPair = entityAnnotationMappings.first(where: { $0.annotation === annotation }),
+                let displayable = summaryDisplayFormatter.summaryDisplayForEntity(entityAnnotationPair.entity) as? EntityMapSummaryDisplayable {
+                pinView.borderColor = displayable.borderColor ?? .gray
+            }
+
             return pinView
         }
 
@@ -102,7 +119,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
     open func annotationViewDidSelect(for annotationView: MKAnnotationView, in mapView: MKMapView) { }
 
     public var allAnnotations: [MKAnnotation]? {
-        return _entityAnnotationMappings?.map({ return $0.annotation })
+        return entityAnnotationMappings.map({ return $0.annotation })
     }
 
     // MARK: - AggregateSearchDelegate 

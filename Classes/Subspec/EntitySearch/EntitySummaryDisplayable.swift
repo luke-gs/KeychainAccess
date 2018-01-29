@@ -28,13 +28,44 @@ public protocol EntitySummaryDisplayable {
     var badge: UInt { get }
 
     func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable?
+
+    var priority: Int { get }
+
 }
+
+extension EntitySummaryDisplayable {
+
+    public var priority: Int { return -1 }
+
+}
+
+extension Array where Element == EntitySummaryDisplayable {
+
+    public func highestPriority() -> Element? {
+        var selectedElement: Element?
+
+        for element in self {
+            if let lastElement = selectedElement {
+                if element.priority > lastElement.priority {
+                    selectedElement = element
+                }
+            } else {
+                selectedElement = element
+            }
+        }
+
+        return selectedElement
+    }
+
+}
+
 
 public protocol EntitySummaryDecoratable {
     
     func decorate(with entitySummary: EntitySummaryDisplayable)
     
 }
+
 
 extension EntitySummaryDisplayable {
 
