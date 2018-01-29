@@ -188,4 +188,16 @@ public extension Date {
         return nil
     }
 
+    /// Return the date as a human friendly word, or nil
+    public func relativeDateForHuman() -> String? {
+        if NSCalendar.current.isDateInToday(self) {
+            return NSLocalizedString("Today", comment: "")
+        } else if NSCalendar.current.isDateInTomorrow(self) {
+            return NSLocalizedString("Tomorrow", comment: "")
+        } else if NSCalendar.current.isDateInYesterday(self) {
+            return NSLocalizedString("Yesterday", comment: "")
+        }
+        return nil
+    }
+
 }
