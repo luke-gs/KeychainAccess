@@ -155,6 +155,11 @@ open class RefreshTokenPlugin: PluginType {
 
 private extension URLRequest {
 
+    var shouldUpdateAuthenticationHeader: Bool {
+        guard let header = APIManager.shared.authenticationPlugin?.authenticationMode.authorizationHeader else { return false }
+        return self.allHTTPHeaderFields?[header.key] != header.value
+    }
+
     var authorizationToken: String? {
         guard let header = APIManager.shared.authenticationPlugin?.authenticationMode.authorizationHeader else { return nil }
         return self.allHTTPHeaderFields?[header.key]
