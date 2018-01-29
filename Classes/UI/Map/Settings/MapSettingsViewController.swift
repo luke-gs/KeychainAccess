@@ -92,6 +92,10 @@ open class MapSettingsViewController: ThemedPopoverViewController {
     /// Activates view constraints
     private func setupConstraints() {
         modeSegmentedControl.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        typeLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        layersLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        layersDescriptionLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        
         NSLayoutConstraint.activate([
             typeLabel.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: margin),
             typeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: margin),

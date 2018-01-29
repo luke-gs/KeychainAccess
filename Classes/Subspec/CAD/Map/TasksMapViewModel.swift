@@ -12,6 +12,9 @@ import MapKit
 
 open class TasksMapViewModel {
 
+    /// The default zoom distance for viewing a single task item
+    open var defaultZoomDistance: CLLocationDistance = 100
+
     public weak var splitViewModel: TasksSplitViewModel?
     public weak var delegate: TasksMapViewModelDelegate?
 
