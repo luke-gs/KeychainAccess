@@ -114,6 +114,7 @@ open class APIManager {
     open func dataRequest(_ urlRequest: Promise<URLRequest>, cancelToken: PromiseCancellationToken? = nil) -> Promise<DataResponse<Data>> {
 
         let (promise, fulfill, reject) = Promise<DataResponse<Data>>.pending()
+        let mapper = self.errorMapper
 
         _ = createSessionRequestWithProgress(from: urlRequest).then { (request) -> Void in
 
@@ -153,15 +154,18 @@ open class APIManager {
                 _ = processed.then { (dataResponse) -> Void in
                     // Handle errors that were still technically responses.
                     if let error = dataResponse.result.error {
-                        reject(error)
-                        return
+                        let wrappedError = APIManagerError(underlyingError: error, response: dataResponse.toDefaultDataResponse())
+                        if let mapper = mapper {
+                            reject(mapper.mappedError(from: wrappedError))
+                        } else {
+                            reject(wrappedError)
+                        }
                     }
-
                     fulfill(dataResponse)
                 }
 
-                }.catch(policy: .allErrors) { error in
-                    reject(error)
+            }.catch(policy: .allErrors) { error in
+                reject(error)
             }
         }
 
