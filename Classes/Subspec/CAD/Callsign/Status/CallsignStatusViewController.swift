@@ -46,10 +46,13 @@ open class CallsignStatusViewController: CADStatusViewController {
             firstly {
                 // Attempt to change state
                 return callsignViewModel.setSelectedIndexPath(indexPath)
+            }.then { _ in
+                // Reload the collection view to show new selection. The manage callsign view will update
+                // in response to the callsign being changed, but the incident popover wont
+                self.collectionView.reloadData()
             }.always {
                 // Stop animation
                 self.setLoading(false, at: indexPath)
-                // The collection view will update in response to the notification of callsign changed
             }.catch { error in
                 AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
             }
