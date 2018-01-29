@@ -70,6 +70,8 @@ public class LandingPresenter: AppGroupLandingPresenter {
             }
             let callsignViewController = CompactCallsignContainerViewController()
             callsignViewController.tabBarItem = UITabBarItem(title: "Call Sign", image: AssetManager.shared.image(forKey: .entityCar), selectedImage: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(callsignChanged), name: .CADBookOnChanged, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(callsignChanged), name: .CADCallsignChanged, object: nil)
 
             let searchProxyViewController = AppProxyViewController(appUrlTypeScheme: SEARCH_APP_SCHEME)
             searchProxyViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
@@ -137,7 +139,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
     // MARK: - Private
 
-    private weak var tabBarController: UIViewController?
+    private weak var tabBarController: CADStatusTabBarController?
 
     @objc private func settingsButtonItemDidSelect(_ item: UIBarButtonItem) {
         let settingsNavController = PopoverNavigationController(rootViewController: SettingsViewController())
@@ -148,6 +150,20 @@ public class LandingPresenter: AppGroupLandingPresenter {
         }
 
         tabBarController?.show(settingsNavController, sender: self)
+    }
+
+    @objc open func callsignChanged() {
+        // Update the tab bar item to show resource info if booked on
+        if let tabBarItem = tabBarController?.compactViewControllers?.last?.tabBarItem {
+            if let resource = CADStateManager.shared.currentResource {
+                tabBarItem.title = resource.callsign
+                tabBarItem.image = resource.status.icon
+            } else {
+                tabBarItem.title = NSLocalizedString("Call Sign", comment: "")
+                tabBarItem.image = AssetManager.shared.image(forKey: .entityCar)
+            }
+            tabBarItem.selectedImage = tabBarItem.image
+        }
     }
 }
 
