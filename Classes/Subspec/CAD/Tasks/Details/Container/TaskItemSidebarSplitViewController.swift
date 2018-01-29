@@ -155,6 +155,11 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
         detailViewModel.reloadFromModel()
         configureCompactChangeStatusBar()
         updateHeaderView()
+
+        // Dismiss change state dialog if we no longer have an incident
+        if let modal = presentedViewController, CADStateManager.shared.currentIncident == nil {
+            modal.dismiss(animated: true, completion: nil)
+        }
     }
 
     @objc open func didTapStatusChangeButton() {
