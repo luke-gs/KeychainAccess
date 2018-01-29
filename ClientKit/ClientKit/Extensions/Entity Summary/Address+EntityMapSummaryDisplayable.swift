@@ -46,6 +46,10 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable {
         return 0
     }
 
+    public var priority: Int {
+        return address.alertLevel?.rawValue ?? -1
+    }
+
     public var coordinate: CLLocationCoordinate2D? {
         guard let latitude = address.latitude, let longitude = address.longitude else {
             return nil

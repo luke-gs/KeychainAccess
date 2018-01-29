@@ -48,7 +48,11 @@ public struct PersonSummaryDisplayable: EntitySummaryDisplayable {
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
         return PersonImageSizing(person: person)
     }
-    
+
+    public var priority: Int {
+        return person.alertLevel?.rawValue ?? -1
+    }
+
     // MARK: - Private
     
     private var formattedName: String? {

@@ -45,6 +45,10 @@ public struct VehicleSummaryDisplayable: EntitySummaryDisplayable {
         return vehicle.actionCount
     }
 
+    public var priority: Int {
+        return vehicle.alertLevel?.rawValue ?? -1
+    }
+
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
         let imageName: String
 
