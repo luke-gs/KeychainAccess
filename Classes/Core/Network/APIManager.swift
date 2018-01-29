@@ -114,8 +114,7 @@ open class APIManager {
     open func dataRequest(_ urlRequest: Promise<URLRequest>, cancelToken: PromiseCancellationToken? = nil) -> Promise<DataResponse<Data>> {
 
         let (promise, fulfill, reject) = Promise<DataResponse<Data>>.pending()
-        let mapper = self.errorMapper
-
+        
         _ = createSessionRequestWithProgress(from: urlRequest).then { (request) -> Void in
 
             cancelToken?.addCancelCommand(ClosureCancelCommand(action: {
