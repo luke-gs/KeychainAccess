@@ -70,6 +70,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
                 }.then { _ -> Void in
                     // TODO: Do something with this data
                     CADStateManager.shared.finaliseIncident()
+                    self.incident = CADStateManager.shared.currentIncident
                     newStatus = .onAir
                 }
             case .trafficStop:
@@ -93,7 +94,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
             }.then { _ -> Promise<ResourceStatus> in
                 // Update UI
                 self.selectedIndexPath = indexPath
-                CADStateManager.shared.updateCallsignStatus(status: newStatus, incident: CADStateManager.shared.currentIncident)
+                CADStateManager.shared.updateCallsignStatus(status: newStatus, incident: self.incident)
                 return Promise(value: newStatus)
             }
         } else {

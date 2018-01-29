@@ -114,7 +114,16 @@ open class CADStateManager: NSObject {
     
     /// Un-assigns the current incident for the booked on resource
     open func clearIncident() {
-        currentResource?.currentIncident = nil
+        if let incident = currentIncident, let resource = currentResource {
+
+            // Remove incident from being assigned to resource
+            var assignedIncidents = resource.assignedIncidents ?? []
+            if let index = assignedIncidents.index(of: incident.identifier) {
+                assignedIncidents.remove(at: index)
+                resource.assignedIncidents = assignedIncidents
+            }
+            resource.currentIncident = nil
+        }
     }
 
     // MARK: - Shift
