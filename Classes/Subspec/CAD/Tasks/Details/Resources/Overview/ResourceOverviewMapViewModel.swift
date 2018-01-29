@@ -36,6 +36,12 @@ open class ResourceOverviewMapViewModel: TasksMapViewModel {
     }
     
     override open func createViewController() -> TasksMapViewController {
+        if let resourceLocation = CADStateManager.shared.resourcesById[callsign]?.location {
+            let location = CLLocation(latitude: CLLocationDegrees(resourceLocation.latitude), longitude: CLLocationDegrees(resourceLocation.longitude))
+            let viewController = TasksMapViewController(viewModel: self, initialLoadZoomStyle: .coordinate(location, animated : false))
+            viewController.defaultZoomDistance = defaultZoomDistance
+            return viewController
+        }
         return TasksMapViewController(viewModel: self, initialLoadZoomStyle: .annotations(animated: false))
     }
 }
