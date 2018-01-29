@@ -29,6 +29,7 @@ open class CompactCallsignContainerViewController: UIViewController, PopToRootab
         updateChildViewControllerIfRequired()
     }
 
+    
     @objc private func updateChildViewControllerIfRequired() {
         let newCallsignViewController: UIViewController
 

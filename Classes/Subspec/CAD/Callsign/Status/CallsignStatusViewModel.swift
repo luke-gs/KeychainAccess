@@ -32,6 +32,13 @@ open class CallsignStatusViewModel: CADStatusViewModel {
         self.selectedIndexPath = indexPathForStatus(selectedStatus)
         self.incident = incident
     }
+    
+    public func reload(sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>],
+                selectedStatus: ResourceStatus, incident: SyncDetailsIncident?) {
+        self.sections = sections
+        self.selectedIndexPath = indexPathForStatus(selectedStatus)
+        self.incident = incident
+    }
 
     /// Create the view controller for this view model
     public func createViewController() -> CallsignStatusViewController {
@@ -42,7 +49,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
 
     /// Attempt to select a new status
     open func setSelectedIndexPath(_ indexPath: IndexPath) -> Promise<ResourceStatus> {
-        let newStatus = statusForIndexPath(indexPath)
+        var newStatus = statusForIndexPath(indexPath)
         let (allowed, requiresReason) = (currentStatus ?? .unavailable).canChangeToStatus(newStatus: newStatus)
         if allowed {
             var promise: Promise<Void> = Promise<Void>()
@@ -55,31 +62,46 @@ open class CallsignStatusViewModel: CADStatusViewModel {
                     // TODO: Do something with reason text
                 }
             }
-
-            // Traffic stop requires further details
-            if case .trafficStop = newStatus {
+            
+            switch newStatus {
+            case .finalise:
+                promise = promise.then {
+                    return self.promptForFinaliseDetails()
+                }.then { _ -> Void in
+                    // TODO: Do something with this data
+                    CADStateManager.shared.finaliseIncident()
+                    newStatus = .onAir
+                }
+            case .trafficStop:
                 promise = promise.then {
                     return self.promptForTrafficStopDetails()
                 }.then { _ -> Void in
                     // TODO: Submit traffic stop details
                 }
+            default: break
             }
 
             return promise.then {
                 // TODO: Submit callsign request
                 return after(seconds: 1.0)
-                }.then { _ -> Promise<ResourceStatus> in
-                    // Update UI
-                    self.selectedIndexPath = indexPath
-                    CADStateManager.shared.updateCallsignStatus(status: newStatus, incident: self.incident)
-                    return Promise(value: newStatus)
+            }.then { _ -> Void in
+                // TODO: Remove when we have a real CAD system
+                if (self.currentStatus?.isChangingToGeneralStatus(newStatus)).isTrue {
+                    // Clear the current incident
+                    CADStateManager.shared.clearIncident()
+                }
+            }.then { _ -> Promise<ResourceStatus> in
+                // Update UI
+                self.selectedIndexPath = indexPath
+                CADStateManager.shared.updateCallsignStatus(status: newStatus, incident: CADStateManager.shared.currentIncident)
+                return Promise(value: newStatus)
             }
         } else {
             let message = NSLocalizedString("Selection not allowed from this state", comment: "")
             return Promise(error: NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: message]))
         }
     }
-
+    
     // Prompts the user for more details when tapping on "Traffic Stop" status
     open func promptForTrafficStopDetails() -> Promise<TrafficStopRequest> {
         let (promise, fulfill, reject) = Promise<TrafficStopRequest>.pending()
@@ -106,6 +128,21 @@ open class CallsignStatusViewModel: CADStatusViewModel {
             }
         }
         delegate?.present(BookOnScreen.statusChangeReason(completionHandler: completionHandler))
+        return promise
+    }
+    
+    // Prompts the user for finalise details
+    open func promptForFinaliseDetails() -> Promise<(String, String)> {
+        
+        let (promise, fulfill, reject) = Promise<(String, String)>.pending()
+        let completionHandler: ((String?, String?) -> Void) = { (secondaryCode, remark) in
+            if let secondaryCode = secondaryCode, let remark = remark {
+                fulfill((secondaryCode, remark))
+            } else {
+                reject(NSError.cancelledError())
+            }
+        }
+        delegate?.present(BookOnScreen.finaliseDetails(primaryCode: incident?.identifier ?? "", completionHandler: completionHandler))
         return promise
     }
 

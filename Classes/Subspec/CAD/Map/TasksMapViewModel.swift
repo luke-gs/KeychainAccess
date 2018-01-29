@@ -12,6 +12,9 @@ import MapKit
 
 open class TasksMapViewModel {
 
+    /// The default zoom distance for viewing a single task item
+    open var defaultZoomDistance: CLLocationDistance = 100
+
     public weak var splitViewModel: TasksSplitViewModel?
     public weak var delegate: TasksMapViewModelDelegate?
 
@@ -81,8 +84,7 @@ open class TasksMapViewModel {
                                              iconTintColor: resource.status.iconColors.icon,
                                              color: resource.status.iconColors.background,
                                              statusText: resource.status.title,
-                                             itemName: [annotation.title, annotation.subtitle].joined(),
-                                             lastUpdated: "Updated 2 mins ago")  // FIXME: Get real text
+                                             itemName: [annotation.title, annotation.subtitle].joined())
         } else if let annotation = annotation as? IncidentAnnotation {
             guard let incident = CADStateManager.shared.incidentsById[annotation.identifier] else { return nil }
             let resource = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier).first

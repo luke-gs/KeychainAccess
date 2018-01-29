@@ -10,7 +10,7 @@ import Foundation
 
 
 /// Default implementation of recents view model.
-public class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
+open class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
 
     public let recentlyViewed: EntityBucket
 
