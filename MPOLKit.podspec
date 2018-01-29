@@ -33,6 +33,6 @@ s.dependency 'PromiseKit', '~> 4.4.0'
 s.dependency 'PromiseKit/CoreLocation'
 s.dependency 'KeychainSwift', '~> 8.0'
 s.dependency 'Cache', '~> 4.1.2'
-s.dependency 'Cluster', '2.1.0'
+s.dependency 'Cluster-Fork', '2.1.0a'
 
 end
