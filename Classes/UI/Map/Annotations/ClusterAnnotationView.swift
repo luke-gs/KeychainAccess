@@ -8,7 +8,7 @@
 
 import Foundation
 import MapKit
-import Cluster_Fork
+import Cluster
 
 open class ClusterAnnotationView: MKAnnotationView {
 

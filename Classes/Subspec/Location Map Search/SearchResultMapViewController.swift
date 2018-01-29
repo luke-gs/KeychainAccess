@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 import MapKit
-import Cluster_Fork
+import Cluster
 
 public class SearchResultMapViewController: MapFormBuilderViewController, MapResultViewModelDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate {
     
@@ -246,7 +246,21 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     // MARK: MKMapViewDelegate
     
     public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        if let annotation = view.annotation as? MKPointAnnotation {
+        guard let annotation = view.annotation else { return }
+
+        if let cluster = annotation as? ClusterAnnotation {
+            var zoomRect = MKMapRectNull
+            for annotation in cluster.annotations {
+                let annotationPoint = MKMapPointForCoordinate(annotation.coordinate)
+                let pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0, 0)
+                if MKMapRectIsNull(zoomRect) {
+                    zoomRect = pointRect
+                } else {
+                    zoomRect = MKMapRectUnion(zoomRect, pointRect)
+                }
+            }
+            mapView.setVisibleMapRect(zoomRect, animated: true)
+        } else if let annotation = annotation as? MKPointAnnotation {
             sidebarDelegate?.showSidebar(adjustMapInsets: selectedAnnotation == nil)
             selectedAnnotation = annotation
         }

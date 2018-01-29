@@ -9,7 +9,7 @@
 import Foundation
 import MapKit
 import PromiseKit
-import Cluster_Fork
+import Cluster
 
 open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModelable, AggregatedSearchDelegate {
 

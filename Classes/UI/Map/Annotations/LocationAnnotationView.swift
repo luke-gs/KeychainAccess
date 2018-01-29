@@ -17,6 +17,8 @@ open class LocationAnnotationView: MKAnnotationView {
         }
     }
 
+    open var accessoryView: UIView?
+
     private let iconImageView = UIImageView()
     private let backgroundImageView = UIImageView()
     private let innerCircleView = UIView()
@@ -70,10 +72,37 @@ open class LocationAnnotationView: MKAnnotationView {
         circleView.backgroundColor = .white
         innerCircleView.backgroundColor = UIColor(displayP3Red: 0.843, green: 0.843, blue: 0.850, alpha: 1.0)
         iconImageView.tintColor = UIColor(displayP3Red: 0.337, green: 0.337, blue: 0.3843, alpha: 1.0)
+
+        let detailView = RoundedRectLabel()
+        detailView.isHidden = true
+        detailView.text = annotation?.title ?? ""
+        detailView.layoutMargins = UIEdgeInsets(top: 2.0, left: 8.0, bottom: 2.0, right: 8.0)
+
+        let size = detailView.sizeThatFits(CGSize(width: UILayoutFittingCompressedSize.width, height: 20.0))
+        detailView.frame.size = CGSize(width: size.width, height: 20.0)
+
+        detailView.center = CGPoint(x: center.x, y: -12.0)
+
+        NSLayoutConstraint.activate([])
+
+        accessoryView = detailView
+        addSubview(detailView)
     }
 
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    open override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        guard let accessoryView = accessoryView else { return }
+
+        if selected {
+            accessoryView.isHidden = false
+        } else {
+            accessoryView.isHidden = true
+        }
     }
 
 }
