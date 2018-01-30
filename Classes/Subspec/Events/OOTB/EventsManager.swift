@@ -23,10 +23,6 @@ public class EventsManager {
     private(set) public var displayableBucket: ObjectBucket<EventListDisplayable>?
     private(set) public var eventBuilder: EventBuilding?
 
-    public var displayables: [EventListDisplayable]? {
-        return displayableBucket?.objects
-    }
-
     public convenience init(eventBucket: ObjectBucket<Event>,
                             displayableBucket: ObjectBucket<EventListDisplayable>,
                             eventBuilder: EventBuilding)
@@ -59,12 +55,6 @@ public class EventsManager {
 
     //utility
     public func event(for id: String) -> Event {
-        //TODO: Attempt to fetch from event bucket
-        //eventBucket.object(for: id)
-        return Event()
-    }
-
-    public func event(for type: EventType) -> Event {
         //TODO: Attempt to fetch from event bucket
         //eventBucket.object(for: id)
         return Event()
