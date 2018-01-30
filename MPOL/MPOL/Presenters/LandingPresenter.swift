@@ -95,7 +95,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let actionListViewController = ActionListViewController(viewModel: actionListViewModel)
             actionListViewController.navigationItem.leftBarButtonItem = settingsBarButtonItem()
 
-            let eventListVC = EventsListViewController()
+            let eventListVC = EventsListViewController(viewModel: DefaultEventsListViewModel())
             eventListVC.navigationItem.leftBarButtonItem = settingsBarButtonItem()
 
             let searchNavController = UINavigationController(rootViewController: searchViewController)
