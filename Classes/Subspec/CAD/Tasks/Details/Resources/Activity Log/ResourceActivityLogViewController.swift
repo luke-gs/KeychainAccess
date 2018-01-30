@@ -10,7 +10,7 @@ import UIKit
 
 public class ResourceActivityLogViewController: ActivityLogViewController {
 
-    public override init(viewModel: CADFormCollectionViewModel<ActivityLogItemViewModel>) {
+    public init(viewModel: ResourceActivityLogViewModel) {
         super.init(viewModel: viewModel)
         
         sidebarItem.image = AssetManager.shared.image(forKey: .list)

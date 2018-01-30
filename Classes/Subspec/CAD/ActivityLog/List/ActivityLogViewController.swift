@@ -9,12 +9,21 @@
 import UIKit
 
 open class ActivityLogViewController: FormBuilderViewController {
+
     public let viewModel: CADFormCollectionViewModel<ActivityLogItemViewModel>
     
+    open var activityLogViewModel: DatedActivityLogViewModel? {
+        return viewModel as? DatedActivityLogViewModel
+    }
+
     public init(viewModel: CADFormCollectionViewModel<ActivityLogItemViewModel>) {
         self.viewModel = viewModel
         super.init()
         title = viewModel.navTitle()
+
+        if (activityLogViewModel?.allowCreate()).isTrue {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(plusButtonTapped))
+        }
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -53,6 +62,12 @@ open class ActivityLogViewController: FormBuilderViewController {
             }
         }
         
+    }
+    
+    @objc open func plusButtonTapped(_ item: UIBarButtonItem) {
+        if let viewController = activityLogViewModel?.createNewActivityLogViewController() {
+            presentFormSheet(viewController, animated: true)
+        }
     }
     
     open override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
