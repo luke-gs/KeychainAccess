@@ -10,20 +10,18 @@ import UIKit
 
 public class EventSplitViewController: SidebarSplitViewController {
 
-    private let headerView: UIView?
     public let event: Event
     public let viewModel: EventDetailViewModelType
 
     public required init(viewModel: EventDetailViewModelType) {
         self.viewModel = viewModel
         self.event = viewModel.event
-        self.headerView = viewModel.headerView ?? SidebarHeaderView()
 
         super.init(detailViewControllers: viewModel.viewControllers ?? [])
         self.title = viewModel.title
 
         regularSidebarViewController.title = NSLocalizedString("Details", comment: "")
-        regularSidebarViewController.headerView = headerView
+        regularSidebarViewController.headerView = viewModel.headerView ?? SidebarHeaderView()
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -40,5 +38,14 @@ public class DefaultEventsDetailViewModel: EventDetailViewModelType {
 
     public required init(event: Event) {
         self.event = event
+        self.title = "New Event"
+        self.viewControllers = [UIViewController()]
+        self.headerView = {
+            let header = SidebarHeaderView()
+            header.iconView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
+            header.titleLabel.text = "No incident selected"
+            header.captionLabel.text = "IN PROGRESS"
+            return header
+        }()
     }
 }
