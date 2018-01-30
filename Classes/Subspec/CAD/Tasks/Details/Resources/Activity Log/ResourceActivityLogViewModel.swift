@@ -56,5 +56,10 @@ public class ResourceActivityLogViewModel: DatedActivityLogViewModel, TaskDetail
     override open func noContentSubtitle() -> String? {
         return nil
     }
+
+    open override func allowCreate() -> Bool {
+        // Only allow adding activity log entries if our resource
+        return CADStateManager.shared.currentResource?.callsign == callsign
+    }
 }
 

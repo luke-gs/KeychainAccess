@@ -42,5 +42,17 @@ public class DatedActivityLogViewModel: CADFormCollectionViewModel<ActivityLogIt
         
         return sections
     }
+
+    open func allowCreate() -> Bool {
+        return true
+    }
+
+    open func createNewActivityLogViewController() -> UIViewController {
+        let viewModel = CreateActivityLogItemViewModel()
+        viewModel.completionHandler = { [weak self] in
+            self?.delegate?.dismiss(animated: true, completion: nil)
+        }
+        return viewModel.createViewController()
+    }
 }
 

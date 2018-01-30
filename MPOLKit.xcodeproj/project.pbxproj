@@ -329,6 +329,8 @@
 		96E492021FB3F98D0051C3A1 /* AppSettingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E492011FB3F98D0051C3A1 /* AppSettingKey.swift */; };
 		96ED81011FD9F2E100C7C960 /* CallsignStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ED81001FD9F2E100C7C960 /* CallsignStatusViewModel.swift */; };
 		96ED81031FDA0AAF00C7C960 /* ThemedPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ED81021FDA0AAF00C7C960 /* ThemedPopoverViewController.swift */; };
+		96F7727F201FFB35000FE0D0 /* CreateActivityLogItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F7727E201FFB35000FE0D0 /* CreateActivityLogItemViewModel.swift */; };
+		96F77281201FFB40000FE0D0 /* CreateActivityLogItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F77280201FFB40000FE0D0 /* CreateActivityLogItemViewController.swift */; };
 		9936C6781F9573B50091A61C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9936C6771F9573B50091A61C /* CoreLocation.framework */; };
 		9936C6791F9580500091A61C /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9936C6761F956D0E0091A61C /* LocationManager.swift */; };
 		9936C67D1F96C5580091A61C /* GeolocationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9936C67C1F96C5580091A61C /* GeolocationPlugin.swift */; };
@@ -1008,6 +1010,8 @@
 		96E492011FB3F98D0051C3A1 /* AppSettingKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingKey.swift; sourceTree = "<group>"; };
 		96ED81001FD9F2E100C7C960 /* CallsignStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignStatusViewModel.swift; sourceTree = "<group>"; };
 		96ED81021FDA0AAF00C7C960 /* ThemedPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemedPopoverViewController.swift; sourceTree = "<group>"; };
+		96F7727E201FFB35000FE0D0 /* CreateActivityLogItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateActivityLogItemViewModel.swift; sourceTree = "<group>"; };
+		96F77280201FFB40000FE0D0 /* CreateActivityLogItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateActivityLogItemViewController.swift; sourceTree = "<group>"; };
 		9936C6761F956D0E0091A61C /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		9936C6771F9573B50091A61C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		9936C67C1F96C5580091A61C /* GeolocationPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeolocationPlugin.swift; sourceTree = "<group>"; };
@@ -1906,14 +1910,8 @@
 		9624A4591F83555A00CAE056 /* ActivityLog */ = {
 			isa = PBXGroup;
 			children = (
-				9624A45A1F83555A00CAE056 /* ActivityLogItemCell.swift */,
-				9624A45B1F83555A00CAE056 /* ActivityLogItemViewModel.swift */,
-				9624A45C1F83555A00CAE056 /* ActivityLogViewController.swift */,
-				9624A45D1F83555A00CAE056 /* ActivityLogViewModel.swift */,
-				279B057C200D591200C3EFB0 /* ActivityLogDateCollectionSectionViewModel.swift */,
-				279B0576200D572200C3EFB0 /* DatedActivityLogViewModel.swift */,
-				279B0577200D572200C3EFB0 /* LargeTextHeaderCollectionViewCell.swift */,
-				279B0578200D572300C3EFB0 /* LargeTextHeaderFormItem.swift */,
+				96F7727D201FFB10000FE0D0 /* Create */,
+				96F77282201FFB50000FE0D0 /* List */,
 			);
 			path = ActivityLog;
 			sourceTree = "<group>";
@@ -2263,6 +2261,30 @@
 				273A5C192005B8DC0009D9A0 /* GlassBarView.swift */,
 			);
 			path = Shared;
+			sourceTree = "<group>";
+		};
+		96F7727D201FFB10000FE0D0 /* Create */ = {
+			isa = PBXGroup;
+			children = (
+				96F7727E201FFB35000FE0D0 /* CreateActivityLogItemViewModel.swift */,
+				96F77280201FFB40000FE0D0 /* CreateActivityLogItemViewController.swift */,
+			);
+			path = Create;
+			sourceTree = "<group>";
+		};
+		96F77282201FFB50000FE0D0 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				9624A45A1F83555A00CAE056 /* ActivityLogItemCell.swift */,
+				9624A45B1F83555A00CAE056 /* ActivityLogItemViewModel.swift */,
+				9624A45C1F83555A00CAE056 /* ActivityLogViewController.swift */,
+				9624A45D1F83555A00CAE056 /* ActivityLogViewModel.swift */,
+				279B057C200D591200C3EFB0 /* ActivityLogDateCollectionSectionViewModel.swift */,
+				279B0576200D572200C3EFB0 /* DatedActivityLogViewModel.swift */,
+				279B0577200D572200C3EFB0 /* LargeTextHeaderCollectionViewCell.swift */,
+				279B0578200D572300C3EFB0 /* LargeTextHeaderFormItem.swift */,
+			);
+			path = List;
 			sourceTree = "<group>";
 		};
 		9936C6751F956D0E0091A61C /* Location Manager */ = {
@@ -3841,6 +3863,7 @@
 				2726A81E1FCE6BE600EFB61A /* IncidentOverviewViewModel.swift in Sources */,
 				274753F41FC67F6E00D5FA98 /* TasksListInformationRowViewModel.swift in Sources */,
 				EA53B2771F9EF92B00B891D8 /* NotNilSpecification.swift in Sources */,
+				96F77281201FFB40000FE0D0 /* CreateActivityLogItemViewController.swift in Sources */,
 				967E75A41FCE2DA400B75CF6 /* SyncDetailsResponse.swift in Sources */,
 				BC9C7E521F0DED6600DFFE83 /* FormDisclosureView.swift in Sources */,
 				9663D00B1F8AF666006DB672 /* TasksSplitViewController.swift in Sources */,
@@ -4017,6 +4040,7 @@
 				BC9C7E341F0DED6600DFFE83 /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
 				4492C0501FD8C92E009D26BD /* TrafficStopRequest.swift in Sources */,
 				969959691FC2495000CB51EB /* CADStateManager.swift in Sources */,
+				96F7727F201FFB35000FE0D0 /* CreateActivityLogItemViewModel.swift in Sources */,
 				9679A6491F9EEDB7007BC806 /* BookOnDetailsOfficerFormItem.swift in Sources */,
 				4634B4441FBD6FD200D71E7F /* APIManager+LocationSearch.swift in Sources */,
 				12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */,
