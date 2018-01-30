@@ -21,6 +21,7 @@
 		12D3701B20200B5B00D79DDB /* EventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3701420200B5A00D79DDB /* EventsManager.swift */; };
 		12D3701C20200B5B00D79DDB /* EventSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3701520200B5A00D79DDB /* EventSplitViewController.swift */; };
 		12D3702020200DBD00D79DDB /* ObjectBucket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3701F20200DBD00D79DDB /* ObjectBucket.swift */; };
+		12D3702220200F5E00D79DDB /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3702120200F5E00D79DDB /* EventsListViewController.swift */; };
 		12D8E2A01F9ED12100EEE214 /* GenericSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12BDF9151F95CCD50033E60B /* GenericSearchViewController.swift */; };
 		12D8E2A11F9ED12100EEE214 /* GenericSearchDefaultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D8E29D1F9EC6D800EEE214 /* GenericSearchDefaultViewModel.swift */; };
 		12F0571E1F3AE5FC00CAD6F6 /* HTTPAuthenticationModeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0571D1F3AE5FC00CAD6F6 /* HTTPAuthenticationModeTests.swift */; };
@@ -701,6 +702,7 @@
 		12D3701420200B5A00D79DDB /* EventsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsManager.swift; sourceTree = "<group>"; };
 		12D3701520200B5A00D79DDB /* EventSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSplitViewController.swift; sourceTree = "<group>"; };
 		12D3701F20200DBD00D79DDB /* ObjectBucket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectBucket.swift; sourceTree = "<group>"; };
+		12D3702120200F5E00D79DDB /* EventsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
 		12D566F51F5790BC001E74CA /* UserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		12D8E29D1F9EC6D800EEE214 /* GenericSearchDefaultViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericSearchDefaultViewModel.swift; sourceTree = "<group>"; };
 		12F0571D1F3AE5FC00CAD6F6 /* HTTPAuthenticationModeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPAuthenticationModeTests.swift; sourceTree = "<group>"; };
@@ -1417,6 +1419,7 @@
 			isa = PBXGroup;
 			children = (
 				12D3701220200B5A00D79DDB /* EventDisplayable.swift */,
+				12D3702120200F5E00D79DDB /* EventsListViewController.swift */,
 				12D3701420200B5A00D79DDB /* EventsManager.swift */,
 				12D3701520200B5A00D79DDB /* EventSplitViewController.swift */,
 			);
@@ -3868,6 +3871,7 @@
 				DB528ECF20046BFC008914EB /* ValidationRules.swift in Sources */,
 				BC9C7E1A1F0DED6600DFFE83 /* SelectableButton.swift in Sources */,
 				BC9C7E251F0DED6600DFFE83 /* EntityCollectionViewCell.swift in Sources */,
+				12D3702220200F5E00D79DDB /* EventsListViewController.swift in Sources */,
 				BC8A99611F22EBD700387AB6 /* UIColor+Brightness.swift in Sources */,
 				BC9C7DED1F0DED6600DFFE83 /* ResponseDataOperationChainable.swift in Sources */,
 				EAA3E4F01F96EA8200A5E2A5 /* RangeFormItem.swift in Sources */,

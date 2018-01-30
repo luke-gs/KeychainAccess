@@ -39,10 +39,12 @@ public class EventsManager {
 
     public init() { }
 
-    public func create(eventType: EventType) {
-        guard let event = eventBuilder?.createEvent(for: .blank) else { return }
+    public func create(eventType: EventType) -> Event? {
+        guard let event = eventBuilder?.createEvent(for: .blank) else { return nil }
         displayableBucket?.add(event.displayable)
         eventBucket?.add(event.event)
+
+        return event.event
     }
 
     //add

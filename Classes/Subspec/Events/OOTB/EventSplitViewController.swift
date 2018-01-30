@@ -17,9 +17,9 @@ public class EventSplitViewController: SidebarSplitViewController {
     public required init(viewModel: EventDetailViewModelType) {
         self.viewModel = viewModel
         self.event = viewModel.event
-        self.headerView = viewModel.headerView
+        self.headerView = viewModel.headerView ?? SidebarHeaderView()
 
-        super.init(detailViewControllers: viewModel.viewControllers)
+        super.init(detailViewControllers: viewModel.viewControllers ?? [])
         self.title = viewModel.title
 
         regularSidebarViewController.title = NSLocalizedString("Details", comment: "")
@@ -28,5 +28,17 @@ public class EventSplitViewController: SidebarSplitViewController {
 
     public required init?(coder aDecoder: NSCoder) {
         MPLUnimplemented()
+    }
+}
+
+public class DefaultEventsDetailViewModel: EventDetailViewModelType {
+
+    public var event: Event
+    public var title: String?
+    public var viewControllers: [UIViewController]?
+    public var headerView: UIView?
+
+    public required init(event: Event) {
+        self.event = event
     }
 }

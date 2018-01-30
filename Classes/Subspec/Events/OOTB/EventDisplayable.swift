@@ -92,6 +92,7 @@ public protocol EventListViewModelType {
     /// - Parameter displayable: the event displayable to fetch the event for
     /// - Returns: the inflated event object
     func event(for displayable: EventListDisplayable) -> Event
+
 }
 
 /// The view model definition for the event details for the OOTB product
@@ -101,10 +102,10 @@ public protocol EventDetailViewModelType {
     var event: Event { get }
 
     /// The title for the details view controller
-    var title: String { get }
+    var title: String? { get }
 
     /// The viewcontrollers to be displayed in the detail view for the sections
-    var viewControllers: [UIViewController] { get }
+    var viewControllers: [UIViewController]? { get }
 
     /// The header to display at the top of the sidebar
     ///
