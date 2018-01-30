@@ -49,19 +49,6 @@ public class DateFormItem: PickerFormItem<Date> {
         }
     }
 
-    public var dateFormatter: DateFormatter? {
-        didSet {
-            // Use date formatter to create generic display formatter block
-            if let dateFormatter = dateFormatter {
-                self.formatter = { [weak self] value in
-                    return self?.relativeDisplayText(value) ?? dateFormatter.string(from: value)
-                }
-            } else {
-                self.formatter = nil
-            }
-        }
-    }
-
     private let action = DateAction()
 
     public init() {
@@ -71,24 +58,6 @@ public class DateFormItem: PickerFormItem<Date> {
     public convenience init(title: StringSizable?) {
         self.init()
         self.title = title
-    }
-
-    /// Optional date formatter used to prefix normal date formatter with a relative date
-    public var prefixRelativeDateFormatter: DateFormatter?
-
-    /// Support for relative dates when used with a custom date/time format. NSDateFormatter does not support this :(
-    public func relativeDisplayText(_ value: Date) -> String? {
-        if let dateFormatter = self.dateFormatter, let prefixRelativeDateFormatter = self.prefixRelativeDateFormatter {
-            var components: [String] = []
-            if let relativeText = value.relativeDateForHuman() {
-                components.append(relativeText)
-            } else {
-                components.append(prefixRelativeDateFormatter.string(from: value))
-            }
-            components.append(dateFormatter.string(from: value))
-            return components.joined(separator: ", ")
-        }
-        return nil
     }
 
 }
@@ -123,7 +92,7 @@ extension DateFormItem {
 
     @discardableResult
     public func dateFormatter(_ dateFormatter: DateFormatter) -> Self {
-        self.dateFormatter = dateFormatter
+        self.formatter = { return dateFormatter.string(from: $0) }
         return self
     }
 
@@ -136,12 +105,6 @@ extension DateFormItem {
     @discardableResult
     public func timeZone(_ timeZone: TimeZone?) -> Self {
         self.timeZone = timeZone
-        return self
-    }
-
-    @discardableResult
-    public func prefixRelativeDateFormatter(_ prefixRelativeDateFormatter: DateFormatter?) -> Self {
-        self.prefixRelativeDateFormatter = prefixRelativeDateFormatter
         return self
     }
 
