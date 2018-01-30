@@ -10,18 +10,14 @@ import UIKit
 
 public class EventSplitViewController: SidebarSplitViewController {
 
-    public let event: Event
     public let viewModel: EventDetailViewModelType
 
     public required init(viewModel: EventDetailViewModelType) {
         self.viewModel = viewModel
-        self.event = viewModel.event
-
         super.init(detailViewControllers: viewModel.viewControllers ?? [])
-        self.title = viewModel.title
 
-        regularSidebarViewController.title = NSLocalizedString("Details", comment: "")
-        regularSidebarViewController.headerView = viewModel.headerView ?? SidebarHeaderView()
+        self.title = viewModel.title
+        regularSidebarViewController.headerView = viewModel.headerView
     }
 
     public required init?(coder aDecoder: NSCoder) {
