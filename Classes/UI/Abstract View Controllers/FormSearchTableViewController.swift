@@ -117,8 +117,7 @@ open class FormSearchTableViewController: FormTableViewController, UISearchBarDe
         } else {
             topLayoutGuideInset = topLayoutGuide.length
         }
-        print(topLayoutGuideInset)
-        
+
         var searchBarFrame = searchBar.frame
         searchBarFrame.origin.y = topLayoutGuideInset - (isSearchBarHidden ? searchBarFrame.height : 0.0)
 
