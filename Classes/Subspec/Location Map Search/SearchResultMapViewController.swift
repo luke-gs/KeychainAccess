@@ -47,7 +47,6 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     public var selectedAnnotation: MKAnnotation? {
         didSet {
             guard let _ = selectedAnnotation else {
-                sidebarDelegate?.hideSidebar(adjustMapInsets: true)
                 searchFieldPlaceholder = nil
                 return
             }
@@ -75,19 +74,41 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
 
     private var buttonsSeparator: UIView?
 
-    private let clusterManager = ClusterManager()
-    
+    private let clusterManager: ClusterManager = {
+        let clusterManager = ClusterManager()
+        clusterManager.cellSize = nil
+        clusterManager.maxZoomLevel = 20
+        clusterManager.minCountForClustering = 2
+        clusterManager.shouldRemoveInvisibleAnnotations = false
+        clusterManager.clusterPosition = .average
+        return clusterManager
+    }()
+
+    // MARK: - Radius Search Properties
+
+    private var radiusButton: UIButton?
+
+    public let radiusOptions: [CLLocationDistance] = [100, 500, 1000]
+
+    public private(set) var selectedRadiusIndex: Int = 0 {
+        didSet {
+            let distance = distanceFormatter.string(fromDistance: radiusOptions[selectedRadiusIndex])
+            radiusButton?.setTitle(distance, for: .normal)
+        }
+    }
+
+    public let distanceFormatter: MKDistanceFormatter = {
+        let formatter = MKDistanceFormatter()
+        formatter.units = .metric
+        formatter.unitStyle = .abbreviated
+        return formatter
+    }()
+
     public init(layout: LocationSearchMapCollectionViewSideBarLayout = LocationSearchMapCollectionViewSideBarLayout()) {
         super.init(layout: layout)
         sidebarDelegate = layout
         title = NSLocalizedString("Location Search", comment: "Location Search Title")
         userInterfaceStyle = .light
-
-        clusterManager.cellSize = nil
-        clusterManager.maxZoomLevel = 17
-        clusterManager.minCountForClustering = 2
-        clusterManager.shouldRemoveInvisibleAnnotations = false
-        clusterManager.clusterPosition = .average
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -140,13 +161,15 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         let radiusButton = UIButton(type: .system)
         radiusButton.titleLabel?.font = UIFont.systemFont(ofSize: 13.0, weight: .bold)
         radiusButton.addTarget(self, action: #selector(radiusButtonTapped(_:)), for: .touchUpInside)
-        radiusButton.setTitle("100M", for: .normal)
+        radiusButton.setTitle(distanceFormatter.string(fromDistance: radiusOptions[selectedRadiusIndex]), for: .normal)
         radiusButton.backgroundColor = UIColor(white: 1.0, alpha: 0.9)
         radiusButton.layer.cornerRadius = 24.0
         radiusButton.layer.shadowRadius = 4.0
         radiusButton.layer.shadowColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 1.0).cgColor
         radiusButton.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
         radiusButton.layer.shadowOpacity = 0.1
+
+        self.radiusButton = radiusButton
 
         let accessoryView = UIView(frame: .zero)
         accessoryView.addSubview(mapControlView)
@@ -183,7 +206,14 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
 
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(performRadiusSearchOnLongPress(gesture:)))
         mapView.addGestureRecognizer(longPressGesture)
-        updateSearchText()
+
+        sidebarDelegate?.showSidebar(adjustMapInsets: false)
+    }
+
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        cleanAndRefreshMapView()
     }
 
     public override func viewDidLayoutSubviews() {
@@ -193,7 +223,9 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
             additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
         } else {
             legacy_additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
+            mapView?.layoutMargins = UIEdgeInsetsMake(searchFieldButton!.frame.height, collectionView!.frame.maxX, 0, 0)
         }
+
     }
 
     /// Hide the location details view if touches on the map without pin location selected
@@ -240,7 +272,9 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     
     public func mapResultViewModelDidUpdateResults(_ viewModel: MapResultViewModelable) {
         guard isViewLoaded else { return }
-        cleanAndRefreshMapView()
+        reloadAnnotations()
+        reloadForm()
+        reloadSearchText()
     }
     
     // MARK: MKMapViewDelegate
@@ -261,7 +295,6 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
             }
             mapView.setVisibleMapRect(zoomRect, animated: true)
         } else if let annotation = annotation as? MKPointAnnotation {
-            sidebarDelegate?.showSidebar(adjustMapInsets: selectedAnnotation == nil)
             selectedAnnotation = annotation
         }
 
@@ -341,13 +374,17 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         }
     }
 
-    private func drawMapOverlays() {
+    private func reloadMapOverlays() {
         
         /// Remove all of existing map overlays
         removeMapOverlays()
         guard let type = viewModel?.searchType else { return }
-        radiusCircleOverlay = MKCircle(center: type.coordinate, radius: type.radius)
-        mapView?.add(radiusCircleOverlay!)
+
+        switch type {
+        case .radius(let coordinate, let radius):
+            radiusCircleOverlay = MKCircle(center: coordinate, radius: radius)
+            mapView?.add(radiusCircleOverlay!)
+        }
     }
     
     /// Remove existing map overlays.
@@ -360,15 +397,14 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     
     @objc
     private func cleanAndRefreshMapView() {
-        selectedAnnotation = nil
-        setMapRegion()
-        drawMapOverlays()
-        addAnnotations()
-        updateSearchText()
+        reloadMapRegion()
+        reloadMapOverlays()
+        reloadAnnotations()
+        reloadSearchText()
         reloadForm()
     }
 
-    private func updateSearchText() {
+    private func reloadSearchText() {
         let label = RoundedRectLabel(frame: CGRect(x: 10, y: 10, width: 120, height: 16))
         label.backgroundColor = .clear
         label.borderColor = viewModel?.status?.colour
@@ -381,13 +417,15 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     }
 
     /// Center the map region to the search location
-    private func setMapRegion() {
-        guard let mapSearchType = viewModel?.searchType else { return }
-        mapView?.setRegion(mapSearchType.region(), animated: true)
+    private func reloadMapRegion() {
+        guard let mapView = mapView, let region = viewModel?.searchType.region else { return }
+        mapView.setRegion(region, animated: true)
     }
     
     /// Add annotations based on the location search results
-    private func addAnnotations() {
+    private func reloadAnnotations() {
+        selectedAnnotation = nil
+
         /// Remove all the existing annotations, except current user location
         clusterManager.removeAll()
 
@@ -396,6 +434,7 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         }
 
         if let mapView = mapView {
+            mapView.selectedAnnotations = []
             clusterManager.reload(mapView, visibleMapRect: mapView.visibleMapRect)
         }
     }
@@ -404,15 +443,9 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     @objc
     private func performRadiusSearchOnLongPress(gesture: UILongPressGestureRecognizer) {
         if gesture.state == .began {
-            if sidebarDelegate?.isShowing == true {
-                sidebarDelegate?.showSidebar(adjustMapInsets: true)
-            }
-
             let point = gesture.location(in: mapView)
             if let coordinate = mapView?.convert(point, toCoordinateFrom: mapView) {
-                let radiusSearch = LocationMapSearchType.radiusSearch(from: coordinate)
-                let newModel = viewModel?.searchStrategy.resultModelForSearchOnLocation(withSearchType: radiusSearch)
-                self.viewModel = newModel
+                performRadiusSearchOnCoordinate(coordinate, withRadius: radiusOptions[selectedRadiusIndex])
             }
         }
     }
@@ -423,6 +456,7 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         guard let mapView = mapView else { return }
 
         let coordinate = mapView.userLocation.coordinate
+
         if CLLocationCoordinate2DIsValid(coordinate) {
             mapView.setCenter(coordinate, animated: true)
         }
@@ -443,8 +477,18 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     }
 
     @objc private func radiusButtonTapped(_ button: UIButton) {
-        let viewController = PickerTableViewController(style: .plain, items: ["100m", "500m", "1km"])
-        viewController.title = "Radius"
+        let viewController = PickerTableViewController(style: .plain, items: radiusOptions.map { self.distanceFormatter.string(fromDistance: $0) })
+        viewController.title = NSLocalizedString("Radius", comment: "")
+        viewController.selectedIndexes = IndexSet(integer: selectedRadiusIndex)
+        viewController.selectionUpdateHandler = { [unowned self] in
+            guard let selectedIndex = $1.first else { return }
+
+            self.selectedRadiusIndex = selectedIndex
+            if let coordinate = self.viewModel?.searchType.coordinate {
+                self.performRadiusSearchOnCoordinate(coordinate, withRadius: self.radiusOptions[self.selectedRadiusIndex])
+            }
+        }
+
         let navigationController = PopoverNavigationController(rootViewController: viewController)
         navigationController.modalPresentationStyle = .popover
 
@@ -454,6 +498,12 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         }
 
         present(navigationController, animated: true, completion: nil)
+    }
+
+    private func performRadiusSearchOnCoordinate(_ coordinate: CLLocationCoordinate2D, withRadius radius: CLLocationDistance) {
+        let radiusSearch = LocationMapSearchType.radius(coordinate: coordinate, radius: radius)
+        let newModel = viewModel?.searchStrategy.resultModelForSearchOnLocation(withSearchType: radiusSearch)
+        self.viewModel = newModel
     }
 
 }

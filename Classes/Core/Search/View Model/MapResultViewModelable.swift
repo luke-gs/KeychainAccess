@@ -9,33 +9,27 @@
 import Foundation
 import MapKit
 
-public struct LocationMapSearchType {
-    public enum MapSearchType {
-        case radius
-    }
+public enum LocationMapSearchType {
 
-    private let mapSearchType: MapSearchType
-    public let coordinate: CLLocationCoordinate2D
-    public let radius: Double
+    case radius(coordinate: CLLocationCoordinate2D, radius: CLLocationDistance)
 
-    private init(coordinate: CLLocationCoordinate2D, radius: Double, mapSearchType: MapSearchType) {
-        self.coordinate = coordinate
-        self.radius = radius
-        self.mapSearchType = mapSearchType
-    }
-
-    public static func radiusSearch(from coordinate: CLLocationCoordinate2D, withRadius radius: Double = 300) -> LocationMapSearchType {
-        return LocationMapSearchType(coordinate: coordinate, radius: radius, mapSearchType: .radius)
-    }
-
-    public func region() -> MKCoordinateRegion {
-        switch mapSearchType {
-        case .radius:
-            let distance = radius * 2.0 + 100.0
+    public var region: MKCoordinateRegion {
+        switch self {
+        case .radius(let coordinate, let radius):
+            let distance = (radius * 1.1) * 2.0
             return MKCoordinateRegionMakeWithDistance(coordinate, distance, distance)
         }
     }
+
+    public var coordinate: CLLocationCoordinate2D {
+        switch self {
+        case .radius(let coordinate, _):
+            return coordinate
+        }
+    }
+
 }
+
 
 public protocol MapResultViewModelDelegate: class {
 

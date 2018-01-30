@@ -68,16 +68,6 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapFormBuilderViewLayou
     private var sidebarMinimumWidthConstraint: NSLayoutConstraint?
     
     private var sidebarPreferredWidthConstraint: NSLayoutConstraint?
-    
-//    private var collectionLeadingConstraint: NSLayoutConstraint?
-
-//    private var sidebarTrailingConstraint: NSLayoutConstraint? {
-//        didSet {
-//            if oldValue != sidebarLayoutGuideLeadingConstraint {
-//                self.controller?.viewIfLoaded?.layoutIfNeeded()
-//            }
-//        }
-//    }
 
     public var sidebarLayoutGuideLeadingConstraint: NSLayoutConstraint? {
         didSet {
@@ -186,15 +176,15 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapFormBuilderViewLayou
         sidebarLayoutGuideLeadingConstraint?.constant = 16.0
         if let mapView = controller?.mapView, shouldInsetMapView {
 
-            if sidebarLayoutGuideLeadingConstraint?.constant == 16.0 {
-                mapView.setVisibleMapRect(mapView.visibleMapRect, edgePadding: UIEdgeInsets(top: 0.0, left: minimumSidebarWidth, bottom: 0.0, right: 0.0), animated: true)
-            } else {
-                mapView.setVisibleMapRect(mapView.visibleMapRect, animated: true)
-            }
+//            if sidebarLayoutGuideLeadingConstraint?.constant == 16.0 {
+//                mapView.setVisibleMapRect(mapView.visibleMapRect, edgePadding: UIEdgeInsets(top: 0.0, left: minimumSidebarWidth, bottom: 0.0, right: 0.0), animated: true)
+//            } else {
+//                mapView.setVisibleMapRect(mapView.visibleMapRect, animated: true)
+//            }
         }
-        UIView.animate(withDuration: 0.3) { [unowned self] in
-            self.view.layoutIfNeeded()
-        }
+//        UIView.animate(withDuration: 0.3) { [unowned self] in
+//            self.view.layoutIfNeeded()
+//        }
     }
     
     @objc open func resetSideBar() {
@@ -203,15 +193,16 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapFormBuilderViewLayou
         }
         sidebarLayoutGuideLeadingConstraint?.constant = -sideBarWidth
         if let mapView = controller?.mapView {
-            mapView.layoutMargins = UIEdgeInsets.zero
-            mapView.setVisibleMapRect(mapView.visibleMapRect, animated: true)
+//            mapView.layoutMargins = UIEdgeInsets.zero
+//            mapView.setVisibleMapRect(mapView.visibleMapRect, animated: true)
         }
-        UIView.animate(withDuration: 0.3) {
-            view.layoutIfNeeded()
-        }
+//        UIView.animate(withDuration: 0.3) {
+//            view.layoutIfNeeded()
+//        }
     }
 
     open override func viewDidLayoutSubviews() -> Bool {
+//        controller?.legacy_additionalSafeAreaInsets.top = searchField
         return false
     }
     
