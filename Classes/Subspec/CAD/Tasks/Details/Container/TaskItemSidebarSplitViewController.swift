@@ -111,7 +111,7 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
         }
         
         // Hide pencil icon if is compact or view model doesn't allow status changes
-        pencilCircleView.isHidden = isCompact() || !((detailViewModel as? IncidentTaskItemViewModel)?.allowChangeResourceStatus()).isTrue
+        pencilCircleView.isHidden = isCompact() || !detailViewModel.allowChangeResourceStatus()
     }
 
     /// Hides or shows compact change status bar based on trait collection, and configures views
@@ -142,7 +142,7 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
         compactStatusChangeBar?.subtitleLabel.isHidden = true
         compactStatusChangeBar?.imageView.image = detailViewModel.iconImage
         
-        if (detailViewModel as? IncidentTaskItemViewModel)?.allowChangeResourceStatus() == true {
+        if detailViewModel.allowChangeResourceStatus() == true {
             compactStatusChangeBar?.actionImageView.image = AssetManager.shared.image(forKey: .editCell)
             compactStatusChangeBar?.addTarget(self, action: #selector(didTapStatusChangeButton), for: .touchUpInside)
         } else {
@@ -155,6 +155,11 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
         detailViewModel.reloadFromModel()
         configureCompactChangeStatusBar()
         updateHeaderView()
+
+        // Dismiss change state dialog if we no longer have an incident
+        if let modal = presentedViewController, CADStateManager.shared.currentIncident == nil {
+            modal.dismiss(animated: true, completion: nil)
+        }
     }
 
     @objc open func didTapStatusChangeButton() {

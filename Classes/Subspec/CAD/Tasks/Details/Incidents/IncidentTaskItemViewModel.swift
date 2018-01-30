@@ -8,13 +8,7 @@
 
 import UIKit
 
-public protocol TaskItemViewModelDelegate: class {
-    func presentStatusSelector(viewController: UIViewController)
-}
-
 open class IncidentTaskItemViewModel: TaskItemViewModel {
-
-    open weak var delegate: TaskItemViewModelDelegate?
 
     open private(set) var incident: SyncDetailsIncident?
     open private(set) var resource: SyncDetailsResource?
@@ -88,7 +82,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         }
     }
 
-    open func allowChangeResourceStatus() -> Bool {
+    open override func allowChangeResourceStatus() -> Bool {
         // If this task is the current incident for our booked on resource,
         // or we have no current incident, allow changing resource state
         if CADStateManager.shared.lastBookOn != nil {
