@@ -115,7 +115,7 @@ open class APIManager {
 
         let (promise, fulfill, reject) = Promise<DataResponse<Data>>.pending()
 
-        _ = createSessionRequestWithProgress(from: urlRequest).then { (request) -> Void in
+        createSessionRequestWithProgress(from: urlRequest).then { (request) -> Void in
 
             cancelToken?.addCancelCommand(ClosureCancelCommand(action: {
                 request.cancel()
@@ -163,6 +163,8 @@ open class APIManager {
                 }.catch(policy: .allErrors) { error in
                     reject(error)
             }
+        }.catch(policy: .allErrors) { error in
+            reject(error)
         }
 
         return promise
