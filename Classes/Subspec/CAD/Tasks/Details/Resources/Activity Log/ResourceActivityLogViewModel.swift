@@ -57,17 +57,9 @@ public class ResourceActivityLogViewModel: DatedActivityLogViewModel, TaskDetail
         return nil
     }
 
-    open func allowCreate() -> Bool {
-        // Allow adding activity log entries if our resource
+    open override func allowCreate() -> Bool {
+        // Only allow adding activity log entries if our resource
         return CADStateManager.shared.currentResource?.callsign == callsign
-    }
-
-    open func createNewActivityLogViewController() -> UIViewController {
-        let viewModel = CreateActivityLogItemViewModel()
-        viewModel.completionHandler = { [weak self] in
-            self?.delegate?.dismiss(animated: true, completion: nil)
-        }
-        return viewModel.createViewController()
     }
 }
 

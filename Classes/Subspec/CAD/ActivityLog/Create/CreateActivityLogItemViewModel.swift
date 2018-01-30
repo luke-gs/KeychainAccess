@@ -41,15 +41,20 @@ open class CreateActivityLogItemViewModel {
         return NSLocalizedString("Add activity record", comment: "Add activity record title")
     }
 
+    open func officerList() -> [String]? {
+        if let officers = CADStateManager.shared.lastBookOn?.officers {
+            return officers.map { return $0.displayName }
+        }
+        return nil
+    }
+
     /// MARK: - Actions
 
     open func submit() {
         completionHandler?()
-        completionHandler = nil
     }
 
     open func cancel() {
         completionHandler?()
-        completionHandler = nil
     }
 }

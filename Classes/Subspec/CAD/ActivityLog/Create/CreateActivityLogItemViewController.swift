@@ -37,6 +37,8 @@ open class CreateActivityLogItemViewController: IntrinsicHeightFormBuilderViewCo
     open override func construct(builder: FormBuilder) {
         builder.title = viewModel.navTitle()
 
+        builder += HeaderFormItem(text: NSLocalizedString("Details", comment: "").uppercased(), style: .plain)
+
         builder += DropDownFormItem(title: NSLocalizedString("Activity type", comment: ""))
             .width(.column(2))
             .required("Activity type is required.")
@@ -60,7 +62,7 @@ open class CreateActivityLogItemViewController: IntrinsicHeightFormBuilderViewCo
             .datePickerMode(.dateAndTime)
             .dateFormatter(.formTime)
             .minuteInterval(5)
-            .selectedValue(viewModel.startTime)
+            .selectedValue(viewModel.startTime ?? Date())
             .onValueChanged({ [unowned self] in
                 self.viewModel.startTime = $0
             })
@@ -71,7 +73,7 @@ open class CreateActivityLogItemViewController: IntrinsicHeightFormBuilderViewCo
             .datePickerMode(.dateAndTime)
             .dateFormatter(.formTime)
             .minuteInterval(5)
-            .selectedValue(viewModel.endTime)
+            .selectedValue(viewModel.endTime ?? Date())
             .onValueChanged({ [unowned self] in
                 self.viewModel.endTime = $0
             })
@@ -84,6 +86,15 @@ open class CreateActivityLogItemViewController: IntrinsicHeightFormBuilderViewCo
             .onValueChanged({ [unowned self] in
                 self.viewModel.remarks = $0
             })
+
+        if let officerList = viewModel.officerList() {
+            builder += HeaderFormItem(text: NSLocalizedString("Officers Involved", comment: "").uppercased(), style: .plain)
+            for officer in officerList {
+                builder += OptionFormItem(title: officer)
+                    .width(.column(1))
+                    .separatorStyle(.none)
+            }
+        }
     }
 
 

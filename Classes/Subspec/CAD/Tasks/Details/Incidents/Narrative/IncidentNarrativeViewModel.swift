@@ -21,7 +21,9 @@ public class IncidentNarrativeViewModel: DatedActivityLogViewModel, TaskDetailsV
     
     /// Create the view controller for this view model
     open func createViewController() -> TaskDetailsViewController {
-        return IncidentNarrativeViewController(viewModel: self)
+        let vc = IncidentNarrativeViewController(viewModel: self)
+        self.delegate = vc
+        return vc
     }
     
     open func reloadFromModel() {

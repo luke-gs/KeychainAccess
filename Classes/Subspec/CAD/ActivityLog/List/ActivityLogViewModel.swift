@@ -18,7 +18,9 @@ public class ActivityLogViewModel: DatedActivityLogViewModel {
     
     /// Create the view controller for this view model
     public func createViewController() -> UIViewController {
-        return ActivityLogViewController(viewModel: self)
+        let vc = ActivityLogViewController(viewModel: self)
+        delegate = vc
+        return vc
     }
     
     /// Update the task list
@@ -75,4 +77,5 @@ public class ActivityLogViewModel: DatedActivityLogViewModel {
     override open func noContentSubtitle() -> String? {
         return nil
     }
+
 }
