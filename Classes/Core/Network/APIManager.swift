@@ -250,7 +250,7 @@ open class APIManager {
     private func requestPromise<T: ResponseSerializing>(_ urlRequest: Promise<URLRequest>, using serializer: T, cancelToken: PromiseCancellationToken? = nil) -> Promise<T.ResultType> {
 
         return Promise { fulfill, reject in
-            dataRequest(urlRequest, cancelToken: cancelToken).then { [unowned self](processedResponse) -> Void in
+            dataRequest(urlRequest, cancelToken: cancelToken).then { [unowned self] (processedResponse) -> Void in
                 let result = serializer.serializedResponse(from: processedResponse)
 
                 switch result {
