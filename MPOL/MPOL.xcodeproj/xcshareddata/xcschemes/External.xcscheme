@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BCD4EA881E515ACE000B993D"
-               BuildableName = "Fish.app"
+               BuildableName = "Search.app"
                BlueprintName = "MPOL"
                ReferencedContainer = "container:MPOL.xcodeproj">
             </BuildableReference>
@@ -34,7 +34,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BCD4EA881E515ACE000B993D"
-            BuildableName = "Fish.app"
+            BuildableName = "Search.app"
             BlueprintName = "MPOL"
             ReferencedContainer = "container:MPOL.xcodeproj">
          </BuildableReference>
@@ -58,7 +58,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BCD4EA881E515ACE000B993D"
-            BuildableName = "Fish.app"
+            BuildableName = "Search.app"
             BlueprintName = "MPOL"
             ReferencedContainer = "container:MPOL.xcodeproj">
          </BuildableReference>
@@ -77,7 +77,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BCD4EA881E515ACE000B993D"
-            BuildableName = "Fish.app"
+            BuildableName = "Search.app"
             BlueprintName = "MPOL"
             ReferencedContainer = "container:MPOL.xcodeproj">
          </BuildableReference>
