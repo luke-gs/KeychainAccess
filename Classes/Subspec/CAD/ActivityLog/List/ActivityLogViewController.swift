@@ -20,6 +20,7 @@ open class ActivityLogViewController: FormBuilderViewController {
         self.viewModel = viewModel
         super.init()
         title = viewModel.navTitle()
+
         if (activityLogViewModel?.allowCreate()).isTrue {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(plusButtonTapped))
         }
