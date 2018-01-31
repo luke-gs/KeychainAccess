@@ -15,6 +15,9 @@ import UIKit
 /// * Broadcast
 public class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewModel> {
 
+    /// Other sectioned tasks, used when displaying resources outside our patrol group
+    open var otherSections: [CADFormCollectionSectionViewModel<TasksListItemViewModel>] = []
+
     /// Create the view controller for this view model
     public func createViewController() -> TasksListViewController {
         let tasksListViewController = TasksListViewController(viewModel: self)
@@ -37,6 +40,14 @@ public class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewMod
 
     override open func noContentSubtitle() -> String? {
         return NSLocalizedString("No Tasks Found", comment: "")
+    }
+
+    open func patrolGroupSectionTitle() -> String {
+        return "\(CADStateManager.shared.patrolGroup) area"
+    }
+
+    open func otherSectionTitle() -> String {
+        return NSLocalizedString("Other areas", comment: "")
     }
 
     /// Sections to not collapse
