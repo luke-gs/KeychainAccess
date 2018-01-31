@@ -32,12 +32,12 @@ public class DefaultEventsDetailViewModel: EventDetailViewModelType {
     public var viewControllers: [UIViewController]?
     public var headerView: UIView?
 
-    public required init(event: Event) {
+    public required init(event: Event, builder: EventScreenBuilding = DefaultEventScreenBuilder()) {
         self.event = event
         self.title = "New Event"
-        self.viewControllers = [
-            DefaultEventDateTimeViewController(report: event.reportable(for: DefaultDateAndTimeReport.self))
-        ]
+
+        // Add default viewControllers here pulling from the added reports in the event builder
+        self.viewControllers = builder.viewControllers(for: event.reports)
         self.headerView = {
             let header = SidebarHeaderView()
             header.iconView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
@@ -47,3 +47,4 @@ public class DefaultEventsDetailViewModel: EventDetailViewModelType {
         }()
     }
 }
+

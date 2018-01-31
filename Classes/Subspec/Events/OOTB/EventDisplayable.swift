@@ -114,8 +114,10 @@ public protocol EventDetailViewModelType {
     /// The app defines what view to use
     var headerView: UIView? { get }
 
-    /// Intialiser
+    /// Initialiser
     ///
-    /// - Parameter event: the event object
-    init(event: Event)
+    /// - Parameters:
+    ///   - event: the event object
+    ///   - builder: the screen builder
+    init(event: Event, builder: EventScreenBuilding)
 }

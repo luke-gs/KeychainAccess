@@ -8,7 +8,7 @@
 /// Manages the list of events
 ///
 /// Can be used as a singleton as well as an instance if necessary.
-public class EventsManager {
+final public class EventsManager {
 
     /// The shared Eventsmanager singleton
     public static var shared: EventsManager = {
@@ -71,6 +71,22 @@ public protocol EventBuilding: NSCoding {
     func createEvent(for type: EventType) -> (event: Event, displayable: EventListDisplayable)
 }
 
+/// Screen builder for the event
+///
+/// Used to provide a viewcontroller for the reportables
+///
+/// Can be used to provide different view controllers for OOTB reports
+/// - ie. DateTimeReport
+public protocol EventScreenBuilding: NSCoding {
+
+
+    /// Constructs an array of view controllers depending on what reportables are passed in
+    ///
+    /// - Parameter reportables: the array of reports to construct view controllers for
+    /// - Returns: an array of viewController constucted for the reports
+    func viewControllers(for reportables: [Reportable]) -> [UIViewController]
+}
+
 //TODO: Make this something else that is extensible by the app
 public enum EventType {
     case blank
@@ -84,15 +100,53 @@ public class DefaultEventBuilder: EventBuilding {
 
     public func createEvent(for type: EventType) -> (event: Event, displayable: EventListDisplayable) {
         let event = Event()
+
+        // Add default reports here
         event.add(report: DefaultDateAndTimeReport(event: event))
+
         return (event: event, displayable: EventListDisplayable(title: "Demo",
-                                                                  subtitle: "Sub",
-                                                                  accessoryTitle: "AccessTitle",
-                                                                  accessorySubtitle: "Acces Sub",
-                                                                  icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.advancedSearch)))
+                                                                subtitle: "Sub",
+                                                                accessoryTitle: "AccessTitle",
+                                                                accessorySubtitle: "Acces Sub",
+                                                                icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.advancedSearch)))
     }
 
     init() { }
+
+    public func encode(with aCoder: NSCoder) {
+
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+
+    }
+}
+
+/// OOTB implementation of the screen builder
+final public class DefaultEventScreenBuilder: EventScreenBuilding {
+
+    public func viewControllers(for reportables: [Reportable]) -> [UIViewController] {
+        var viewControllers = [UIViewController]()
+
+        for report in reportables {
+            if let viewController = viewController(for: report) {
+                viewControllers.append(viewController)
+            }
+        }
+
+        return viewControllers
+    }
+
+    private func viewController(for report: Reportable) -> UIViewController? {
+        switch report {
+        case let report as DefaultDateAndTimeReport:
+            return DefaultEventDateTimeViewController(report: report)
+        default:
+            return nil
+        }
+    }
+
+    public init() { }
 
     public func encode(with aCoder: NSCoder) {
 
