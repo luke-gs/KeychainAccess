@@ -32,7 +32,7 @@ open class TasksMapViewModel {
     
     /// Create the view controller for this view model
     public func createViewController() -> MapViewController {
-        return TasksMapViewController(viewModel: self, initialLoadZoomStyle: .userLocation(animated: true))
+        return TasksMapViewController(viewModel: self, annotationsInitialLoadZoomStyle: (animated: true, includeUserLocation: false))
     }
     
     // MARK: - Annotations
