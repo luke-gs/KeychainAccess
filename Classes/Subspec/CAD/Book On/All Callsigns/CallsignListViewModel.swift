@@ -16,11 +16,13 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
 
         if let syncDetails = CADStateManager.shared.lastSync {
             for resource in syncDetails.resources {
-                let viewModel = BookOnLandingCallsignItemViewModel(resource: resource)
-                if resource.shiftStart == nil {
-                    offDuty.append(viewModel)
-                } else {
-                    bookedOn.append(viewModel)
+                if resource.patrolGroup == CADStateManager.shared.patrolGroup {
+                    let viewModel = BookOnLandingCallsignItemViewModel(resource: resource)
+                    if resource.shiftStart == nil {
+                        offDuty.append(viewModel)
+                    } else {
+                        bookedOn.append(viewModel)
+                    }
                 }
             }
         }
