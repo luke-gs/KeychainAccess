@@ -13,6 +13,11 @@ public protocol Reportable: class, NSCoding {
     init(event: Event)
 }
 
+//TODO: Make this something else that is extensible by the app
+public enum EventType {
+    case blank
+}
+
 /// The implementation of an Event.
 /// All it really is, is an array of reports
 final public class Event: NSCoding {

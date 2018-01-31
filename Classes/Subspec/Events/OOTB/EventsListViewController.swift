@@ -39,12 +39,6 @@ open class EventsListViewController: FormBuilderViewController {
 
     open override func construct(builder: FormBuilder) {
         builder.title = "Events"
-
-        builder += HeaderFormItem(text: "DETAILS")
-
-        builder += TextFieldFormItem()
-            .title("First Name")
-            .text("Lalala")
     }
 
     @objc private func createNewEvent() {

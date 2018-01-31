@@ -6,12 +6,6 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-
-//TODO: Make this something else that is extensible by the app
-public enum EventType {
-    case blank
-}
-
 /// OOTB implmenetation of an event builder
 ///
 /// Used by the shared Events Manager
@@ -42,7 +36,7 @@ public class DefaultEventBuilder: EventBuilding {
 }
 
 /// OOTB implementation of the screen builder
-final public class DefaultEventScreenBuilder: EventScreenBuilding {
+public class DefaultEventScreenBuilder: EventScreenBuilding {
 
     public func viewControllers(for reportables: [Reportable]) -> [UIViewController] {
         var viewControllers = [UIViewController]()

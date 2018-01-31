@@ -1423,11 +1423,11 @@
 			isa = PBXGroup;
 			children = (
 				12FB04082021511E000C38C8 /* DefaultEventDateTimeViewController.swift */,
+				12FB040C20216BDB000C38C8 /* EventBuilder.swift */,
 				12D3701220200B5A00D79DDB /* EventDisplayable.swift */,
 				12D3702120200F5E00D79DDB /* EventsListViewController.swift */,
 				12D3701420200B5A00D79DDB /* EventsManager.swift */,
 				12D3701520200B5A00D79DDB /* EventSplitViewController.swift */,
-				12FB040C20216BDB000C38C8 /* EventBuilder.swift */,
 			);
 			path = OOTB;
 			sourceTree = "<group>";
