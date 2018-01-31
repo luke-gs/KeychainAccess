@@ -49,8 +49,7 @@ open class EventsListViewController: FormBuilderViewController {
 
     @objc private func createNewEvent() {
         guard let event = viewModel.eventsManager.create(eventType: .blank) else { return }
-        let detailsViewModel = DefaultEventsDetailViewModel(event: event)
-        let viewController = EventSplitViewController(viewModel: detailsViewModel)
+        let viewController = EventSplitViewController(viewModel: viewModel.detailsViewModel(for: event))
 
         show(viewController, sender: self)
     }
@@ -69,6 +68,10 @@ public class DefaultEventsListViewModel: EventListViewModelType {
 
     public func event(for displayable: EventListDisplayable) -> Event {
         return eventsManager.event(for: displayable.eventId)
+    }
+
+    public func detailsViewModel(for event: Event) -> EventDetailViewModelType {
+        return DefaultEventsDetailViewModel(event: event)
     }
 }
 

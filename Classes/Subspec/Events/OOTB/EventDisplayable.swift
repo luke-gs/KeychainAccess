@@ -93,6 +93,11 @@ public protocol EventListViewModelType {
     /// - Returns: the inflated event object
     func event(for displayable: EventListDisplayable) -> Event
 
+    /// Provide the detailViewModel for an event
+    ///
+    /// - Returns: the detail view model
+    func detailsViewModel(for event: Event) -> EventDetailViewModelType
+
 }
 
 /// The view model definition for the event details for the OOTB product
