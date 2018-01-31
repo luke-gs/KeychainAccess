@@ -27,6 +27,7 @@ open class TasksMapViewModel {
     
     public init() {
         NotificationCenter.default.addObserver(self, selector: #selector(loadTasks), name: .CADSyncChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(loadTasks), name: .CADBookOnChanged, object: nil)
     }
     
     /// Create the view controller for this view model

@@ -203,6 +203,9 @@ extension TasksMapViewController: TasksSplitViewControllerDelegate {
 
 extension TasksMapViewController: TasksMapViewModelDelegate {
     public func viewModelStateChanged() {
+        // Zoom to anotations if they have changed due to change to book on or filter
+        performedInitialLoadAction = false
+
         DispatchQueue.main.async {
             self.zPositionObservers.removeAll()
             self.mapView.removeAnnotations(self.mapView.annotations)
