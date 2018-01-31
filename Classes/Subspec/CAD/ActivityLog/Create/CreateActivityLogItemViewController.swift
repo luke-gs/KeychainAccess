@@ -60,9 +60,9 @@ open class CreateActivityLogItemViewController: IntrinsicHeightFormBuilderViewCo
             .width(.column(2))
             .required("Start time is required.")
             .datePickerMode(.dateAndTime)
-            .dateFormatter(.formTime)
+            .dateFormatter(.relativeShortDateAndTimeFullYear)
             .minuteInterval(5)
-            .selectedValue(viewModel.startTime ?? Date())
+            .selectedValue(viewModel.startTime ?? Date().rounded(minutes: 15, rounding: .floor))
             .onValueChanged({ [unowned self] in
                 self.viewModel.startTime = $0
             })
@@ -71,9 +71,9 @@ open class CreateActivityLogItemViewController: IntrinsicHeightFormBuilderViewCo
             .width(.column(2))
             .required("End time is required.")
             .datePickerMode(.dateAndTime)
-            .dateFormatter(.formTime)
+            .dateFormatter(.relativeShortDateAndTimeFullYear)
             .minuteInterval(5)
-            .selectedValue(viewModel.endTime ?? Date())
+            .selectedValue(viewModel.endTime)
             .onValueChanged({ [unowned self] in
                 self.viewModel.endTime = $0
             })
