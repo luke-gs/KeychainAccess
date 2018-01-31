@@ -126,7 +126,7 @@ open class TasksSplitViewModel {
 
         return sync.resources.filter { resource in
             // TODO: remove this once filtered by CAD system
-            if !filterViewModel.showResultsOutsidePatrolArea && resource.station.contains("South") {
+            if !filterViewModel.showResultsOutsidePatrolArea && resource.patrolGroup != CADStateManager.shared.patrolGroup {
                 return false
             }
 
