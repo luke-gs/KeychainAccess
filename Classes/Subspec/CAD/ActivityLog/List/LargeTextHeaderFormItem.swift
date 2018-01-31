@@ -38,12 +38,7 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
             if let textColor = textColor {
                 cell.titleLabel.textColor = textColor
             }
-            if let sizing = text?.sizing() {
-                if let font = sizing.font {
-                    cell.titleLabel.font = font
-                }
-                cell.titleLabel.text = sizing.string
-            }
+            cell.titleLabel.apply(sizable: text, defaultFont: cell.titleLabel.font)
         }
     }
 }
