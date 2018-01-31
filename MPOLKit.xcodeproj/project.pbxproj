@@ -1805,7 +1805,6 @@
 				4634B43D1FBD6FD200D71E7F /* EntityMapSummaryDecorator.swift */,
 				4634B4401FBD6FD200D71E7F /* EntityMapSummaryDisplayble.swift */,
 				4634B43C1FBD6FD200D71E7F /* MapSummarySearchResultViewModel.swift */,
-				4634B43F1FBD6FD200D71E7F /* SearchResultMapViewController.swift */,
 				4634B4411FBD6FD200D71E7F /* TravelEstimationPlugin.swift */,
 			);
 			path = "Location Map Search";
@@ -2940,6 +2939,7 @@
 		DB88BCCB1F42CEAA0056FD69 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				4634B43F1FBD6FD200D71E7F /* SearchResultMapViewController.swift */,
 				DB88BCCC1F42CEAA0056FD69 /* NumberRangePickerViewController.swift */,
 				DB88BCCD1F42CEAA0056FD69 /* SearchOptionsViewController.swift */,
 				DB88BCCE1F42CEAA0056FD69 /* SearchRecentsViewController.swift */,
@@ -2955,6 +2955,8 @@
 		DB88BCD11F42CEAA0056FD69 /* View Model */ = {
 			isa = PBXGroup;
 			children = (
+				EA4806B41F56A00600B42313 /* LocationSearchConfiguration.swift */,
+				EA4806B61F56A0DC00B42313 /* LocationSearchStrategy.swift */,
 				DB88BCD21F42CEAA0056FD69 /* SearchDataSource.swift */,
 				DB88BCD31F42CEAA0056FD69 /* SearchResultViewModelable.swift */,
 				EA2189EC1F5FAF110057048E /* SearchResultModelable.swift */,
@@ -3131,8 +3133,6 @@
 			children = (
 				EA4806AD1F56939100B42313 /* LocationBasicSearchOptions.swift */,
 				EA4806AE1F56939100B42313 /* LocationSearchDataSource.swift */,
-				EA4806B41F56A00600B42313 /* LocationSearchConfiguration.swift */,
-				EA4806B61F56A0DC00B42313 /* LocationSearchStrategy.swift */,
 				EA76ECF01F578DCA00524830 /* LocationAdvanceOptions.swift */,
 				EA76ECF21F57D64E00524830 /* LookupAddressLocationSearchStrategy.swift */,
 				EA76ECF41F57D8AB00524830 /* LookupAddressLocationAdvancedOptions.swift */,

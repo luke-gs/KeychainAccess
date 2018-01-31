@@ -12,11 +12,6 @@ import Unbox
 import MapKit
 
 
-public protocol Locatable {
-    var textRepresentation: String { get }
-    var coordinate: CLLocationCoordinate2D { get }
-}
-
 public struct LookupResult: Pickable {
     
     public let location: Locatable
@@ -114,7 +109,7 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
         
         super.init()
 
-        if searchStrategy.resultModelForMap() == nil {
+        if searchStrategy.resultModelForMap(attemptToSearchAtUserLocation: false) == nil {
             basicOptions.others = [.advance]
         }
 
@@ -137,6 +132,8 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
             switch options.resultType(at: index) {
             case .lookup:
                 performSearchOnLocation(withResult: options.results[index])
+            case .currentLocation:
+                didTapCurrentLocation()
             case .advance:
                 didTapAdvanceButton()
             case .map:
@@ -200,27 +197,32 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
     @objc private func didTapAdvanceButton() {
         options = advanceOptions
     }
-    
+
     @objc private func didTapSearchButton() {
         guard let advanceOptions = advanceOptions else { return }
         performSearchOnLocation(withParameters: advanceOptions.locationParameters())
     }
     
     @objc private func didTapMapButton() {
-        let preferredViewModel = searchStrategy.resultModelForMap()
+        let preferredViewModel = searchStrategy.resultModelForMap(attemptToSearchAtUserLocation: false)
+        updatingDelegate?.searchDataSource(self, didFinishWith: nil, andResultViewModel: preferredViewModel)
+    }
+
+    private func didTapCurrentLocation() {
+        let preferredViewModel = searchStrategy.resultModelForMap(attemptToSearchAtUserLocation: true)
         updatingDelegate?.searchDataSource(self, didFinishWith: nil, andResultViewModel: preferredViewModel)
     }
     
     private func attemptSearch(delay: Bool = true) {
         
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(lookupLocations), object: nil)
-        self.perform(#selector(lookupLocations), with: nil, afterDelay: delay ? searchStrategy.configuration.throttle : 0.0)
+        self.perform(#selector(lookupLocations), with: nil, afterDelay: delay ? searchStrategy.typeaheadConfiguration.throttle : 0.0)
     }
     
     private var lastSearchText: String?
     
     @objc private func lookupLocations() {
-        guard let text = text, text.count >= searchStrategy.configuration.minimumCharacters else {
+        guard let text = text, text.count >= searchStrategy.typeaheadConfiguration.minimumCharacters else {
             lastSearchText = nil
             errorMessage = nil
 
@@ -275,7 +277,7 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
     }
 
     // MARK: - Handle address
-    
+
     private func performSearchOnLocation(withResult result: LookupResult) {
         text = result.location.textRepresentation
         let search = Searchable(text: text,

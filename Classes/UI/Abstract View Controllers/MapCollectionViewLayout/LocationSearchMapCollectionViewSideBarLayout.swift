@@ -174,28 +174,28 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapFormBuilderViewLayou
 
     open func showSideBar(shouldInsetMapView: Bool = true) {
         sidebarLayoutGuideLeadingConstraint?.constant = 16.0
-        if let mapView = controller?.mapView, shouldInsetMapView {
+//        if let mapView = controller?.mapView, shouldInsetMapView {
 
 //            if sidebarLayoutGuideLeadingConstraint?.constant == 16.0 {
 //                mapView.setVisibleMapRect(mapView.visibleMapRect, edgePadding: UIEdgeInsets(top: 0.0, left: minimumSidebarWidth, bottom: 0.0, right: 0.0), animated: true)
 //            } else {
 //                mapView.setVisibleMapRect(mapView.visibleMapRect, animated: true)
 //            }
-        }
+//        }
 //        UIView.animate(withDuration: 0.3) { [unowned self] in
 //            self.view.layoutIfNeeded()
 //        }
     }
     
     @objc open func resetSideBar() {
-        guard let view = view else {
-            return
-        }
+//        guard let view = view else {
+//            return
+//        }
         sidebarLayoutGuideLeadingConstraint?.constant = -sideBarWidth
-        if let mapView = controller?.mapView {
+//        if let mapView = controller?.mapView {
 //            mapView.layoutMargins = UIEdgeInsets.zero
 //            mapView.setVisibleMapRect(mapView.visibleMapRect, animated: true)
-        }
+//        }
 //        UIView.animate(withDuration: 0.3) {
 //            view.layoutIfNeeded()
 //        }

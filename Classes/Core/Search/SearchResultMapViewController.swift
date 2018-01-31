@@ -46,9 +46,12 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
 
     public var selectedAnnotation: MKAnnotation? {
         didSet {
-            guard let _ = selectedAnnotation else {
-                searchFieldPlaceholder = nil
-                return
+            guard selectedAnnotation !== oldValue && isViewLoaded else { return }
+
+            if (selectedAnnotation is ClusterAnnotation) != (oldValue is ClusterAnnotation) {
+                reloadForm()
+            } else {
+
             }
         }
     }
@@ -59,12 +62,6 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         let locationManager = CLLocationManager()
         return locationManager
     }()
-
-    public var searchFieldPlaceholder: String? = "" {
-        didSet {
-            searchFieldButton?.placeholder = searchFieldPlaceholder
-        }
-    }
 
     internal private(set) var searchFieldButton: SearchFieldButton?
 
@@ -120,7 +117,7 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
 
         let searchFieldButton = SearchFieldButton(frame: .zero)
         searchFieldButton.text = viewModel?.title
-        searchFieldButton.placeholder = searchFieldPlaceholder
+        searchFieldButton.placeholder = NSLocalizedString("Search location", comment: "")
         searchFieldButton.translatesAutoresizingMaskIntoConstraints = false
         searchFieldButton.addTarget(self, action: #selector(searchFieldButtonDidSelect), for: .primaryActionTriggered)
         self.searchFieldButton = searchFieldButton
@@ -159,7 +156,7 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         mapControlView.addSubview(optionButton)
 
         let radiusButton = UIButton(type: .system)
-        radiusButton.titleLabel?.font = UIFont.systemFont(ofSize: 13.0, weight: .bold)
+        radiusButton.titleLabel?.font = UIFont.systemFont(ofSize: 12.0, weight: .bold)
         radiusButton.addTarget(self, action: #selector(radiusButtonTapped(_:)), for: .touchUpInside)
         radiusButton.setTitle(distanceFormatter.string(fromDistance: radiusOptions[selectedRadiusIndex]), for: .normal)
         radiusButton.backgroundColor = UIColor(white: 1.0, alpha: 0.9)
@@ -200,14 +197,14 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         guard let mapView = self.mapView else { return }
         mapView.delegate = self
         mapView.showsUserLocation = true
+        mapView.showsCompass = false
+
         requestLocationServices()
 
         view.bringSubview(toFront: searchFieldButton!)
 
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(performRadiusSearchOnLongPress(gesture:)))
         mapView.addGestureRecognizer(longPressGesture)
-
-        sidebarDelegate?.showSidebar(adjustMapInsets: false)
     }
 
     public override func viewDidAppear(_ animated: Bool) {
@@ -221,11 +218,19 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
 
         if #available(iOS 11, *) {
             additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
+
+            if let collectionView = collectionView, let mapView = mapView {
+                let rect = collectionView.convert(collectionView.bounds, to: mapView)
+                mapView.layoutMargins = UIEdgeInsetsMake(0.0, rect.maxX, 0.0, 0.0)
+            }
         } else {
             legacy_additionalSafeAreaInsets.top = searchFieldButton?.frame.height ?? 0.0
-            mapView?.layoutMargins = UIEdgeInsetsMake(searchFieldButton!.frame.height, collectionView!.frame.maxX, 0, 0)
-        }
 
+            if let collectionView = collectionView, let mapView = mapView {
+                let rect = collectionView.convert(collectionView.bounds, to: mapView)
+                mapView.layoutMargins = UIEdgeInsetsMake(searchFieldButton!.frame.height, rect.maxX, 0.0, 0.0)
+            }
+        }
     }
 
     /// Hide the location details view if touches on the map without pin location selected
@@ -242,7 +247,12 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
 
     public override func construct(builder: FormBuilder) {
         guard let viewModel = viewModel else { return }
-        builder += viewModel.results.flatMap { viewModel.itemsForResultsInSection($0) }
+
+        if let selectedAnnotation = selectedAnnotation as? ClusterAnnotation {
+            builder += viewModel.itemsForClusteredAnnotations(selectedAnnotation.annotations)
+        } else {
+            builder += viewModel.results.flatMap { viewModel.itemsForResultsInSection($0) }
+        }
     }
 
     public override func apply(_ theme: Theme) {
@@ -281,24 +291,11 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     
     public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         guard let annotation = view.annotation else { return }
+        selectedAnnotation = annotation
+    }
 
-        if let cluster = annotation as? ClusterAnnotation {
-            var zoomRect = MKMapRectNull
-            for annotation in cluster.annotations {
-                let annotationPoint = MKMapPointForCoordinate(annotation.coordinate)
-                let pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0, 0)
-                if MKMapRectIsNull(zoomRect) {
-                    zoomRect = pointRect
-                } else {
-                    zoomRect = MKMapRectUnion(zoomRect, pointRect)
-                }
-            }
-            mapView.setVisibleMapRect(zoomRect, animated: true)
-        } else if let annotation = annotation as? MKPointAnnotation {
-            selectedAnnotation = annotation
-        }
-
-        viewModel?.annotationViewDidSelect(for: view, in: mapView)
+    public func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        selectedAnnotation = nil
     }
     
     public func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
@@ -365,8 +362,7 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     
     @objc
     private func searchFieldButtonDidSelect() {
-
-        if let text = searchFieldButton?.placeholder, !text.isEmpty {
+        if let text = searchFieldButton?.text, !text.isEmpty {
             let search = Searchable(text: text, type: LocationSearchDataSourceSearchableType)
             delegate?.beginSearch(with: search)
         } else {
@@ -402,6 +398,12 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         reloadAnnotations()
         reloadSearchText()
         reloadForm()
+
+        if viewModel?.searchType != nil {
+            sidebarDelegate?.showSidebar(adjustMapInsets: false)
+        } else {
+            sidebarDelegate?.hideSidebar(adjustMapInsets: false)
+        }
     }
 
     private func reloadSearchText() {
@@ -418,7 +420,7 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
 
     /// Center the map region to the search location
     private func reloadMapRegion() {
-        guard let mapView = mapView, let region = viewModel?.searchType.region else { return }
+        guard let mapView = mapView, let region = viewModel?.searchType?.region else { return }
         mapView.setRegion(region, animated: true)
     }
     
@@ -484,7 +486,7 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
             guard let selectedIndex = $1.first else { return }
 
             self.selectedRadiusIndex = selectedIndex
-            if let coordinate = self.viewModel?.searchType.coordinate {
+            if let coordinate = self.viewModel?.searchType?.coordinate {
                 self.performRadiusSearchOnCoordinate(coordinate, withRadius: self.radiusOptions[self.selectedRadiusIndex])
             }
         }

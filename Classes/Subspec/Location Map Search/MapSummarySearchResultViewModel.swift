@@ -23,7 +23,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
 
     private var entityAnnotationMappings: [EntityAnnotationMapping] = []
 
-    public var searchType: LocationMapSearchType!
+    public var searchType: LocationMapSearchType?
 
     public weak var delegate: (MapResultViewModelDelegate & SearchResultMapViewController)?
     
@@ -44,8 +44,11 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
                 mapAnnotations.append(contentsOf: annotations)
             }
             entityAnnotationMappings = mapAnnotations
+            allAnnotations = entityAnnotationMappings.map({ return $0.annotation })
         }
     }
+
+    public private(set) var allAnnotations: [MKAnnotation]?
 
     public let summaryDisplayFormatter: EntitySummaryDisplayFormatter
 
@@ -116,12 +119,6 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
         return nil
     }
 
-    open func annotationViewDidSelect(for annotationView: MKAnnotationView, in mapView: MKMapView) { }
-
-    public var allAnnotations: [MKAnnotation]? {
-        return entityAnnotationMappings.map({ return $0.annotation })
-    }
-
     // MARK: - AggregateSearchDelegate 
     
     public func aggregatedSearch<T>(_ aggregatedSearch: AggregatedSearch<T>, didBeginSearch request: AggregatedSearchRequest<T>) {
@@ -138,7 +135,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
     
     private func processedResults(from rawResults: [AggregatedResult<T>]) -> [SearchResultSection] {
         let processedResults: [SearchResultSection] = rawResults.map { (result) -> SearchResultSection in
-            return SearchResultSection(title: String.localizedStringWithFormat(NSLocalizedString("%1$d Result(s)", comment: ""), result.entities.count),
+            return SearchResultSection(title: titleForResult(result),
                                        entities: result.entities,
                                        isExpanded: true,
                                        state: result.state,
@@ -146,6 +143,21 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
         }
         
         return processedResults
+    }
+
+    public func titleForResult(_ result: AggregatedResult<T>) -> String {
+        switch result.state {
+        case .idle:
+            return String.localizedStringWithFormat(NSLocalizedString("%2$@", comment: ""), result.request.source.localizedBadgeTitle.uppercased(with: .current))
+        case .searching:
+            return String.localizedStringWithFormat(NSLocalizedString("SEARCHING %2$@", comment: ""), result.request.source.localizedBadgeTitle.uppercased(with: .current))
+        case .finished where result.error != nil:
+            fallthrough
+        case .failed:
+            return String.localizedStringWithFormat(NSLocalizedString("%2$@", comment: ""), result.request.source.localizedBadgeTitle.uppercased(with: .current))
+        case .finished:
+            return String.localizedStringWithFormat(NSLocalizedString("%1$d Result(s) in %2$@", comment: ""), result.entities.count, result.request.source.localizedBadgeTitle.uppercased(with: .current))
+        }
     }
 
     // NEW STUFFS
@@ -161,10 +173,21 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
         case .finished where section.entities.count > 0:
             items += summaryItemsForSection(section)
         default:
-            break
+            if let statusItem = statusItemForSection(section) {
+                items.append(statusItem)
+            }
         }
 
         return items
+    }
+
+    public func itemsForClusteredAnnotations(_ annotations: [MKAnnotation]) -> [FormItem] {
+        let entities = annotations.flatMap { annotation -> MPOLKitEntity? in
+            return entityAnnotationMappings.first(where: { $0.annotation === annotation })?.entity
+        }
+
+        let section = SearchResultSection(title: "\(annotations.count) LOCATIONS SELECTED", entities: entities, isExpanded: false, state: .finished, error: nil)
+        return itemsForResultsInSection(section)
     }
 
     // MARK: - Subclass can override these methods
@@ -199,6 +222,60 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
             }
 
             return summaryItem
+        }
+    }
+
+    open func statusItemForSection(_ section: SearchResultSection) -> FormItem? {
+        switch section.state {
+        case .finished where section.error != nil || section.entities.count == 0:
+            return CustomFormItem(cellType: SearchResultErrorCell.self, reuseIdentifier: SearchResultErrorCell.defaultReuseIdentifier)
+                .onConfigured { (cell) in
+                    let cell = cell as! SearchResultErrorCell
+                    if let error = section.error {
+                        let message = error.localizedDescription.ifNotEmpty()
+                        cell.titleLabel.text = message ?? NSLocalizedString("Unknown error has occurred.", comment: "[Search result screen] - Unknown error message when error doesn't contain localized description")
+                        cell.actionButton.setTitle(NSLocalizedString("Try Again", comment: "[Search result screen] - Try again button"), for: .normal)
+                        cell.actionButtonHandler = { [weak self] (cell) in
+                            guard let `self` = self, section.error != nil, let index = self.results.index(where: { $0 == section }), let aggregatedSearch = self.aggregatedSearch else {
+                                return
+                            }
+                            aggregatedSearch.retrySearchForResult(result: aggregatedSearch.results[index])
+                        }
+                    } else {
+                        cell.titleLabel.text = "No locations found."
+                        cell.actionButton.setTitle(NSLocalizedString("New Search", comment: "[Search result screen] - New search button"), for: .normal)
+                        cell.actionButtonHandler = { [weak self] (cell) in
+                            guard let `self` = self else {  return }
+                            self.delegate?.requestToEdit()
+                        }
+                    }
+
+                    cell.readMoreButtonHandler = { [weak self] (cell) in
+                        guard let `self` = self else {  return }
+                        let messageVC = SearchResultMessageViewController(message: cell.titleLabel.text!)
+                        let navController = PopoverNavigationController(rootViewController: messageVC)
+                        navController.modalPresentationStyle = .formSheet
+                        self.delegate?.present(navController, animated: true, completion: nil)
+                    }
+                }
+                .onThemeChanged { (cell, theme) in
+                    (cell as! SearchResultErrorCell).apply(theme: theme)
+                }
+                .height(.fixed(SearchResultErrorCell.contentHeight))
+                .separatorStyle(.none)
+        case .searching:
+            return CustomFormItem(cellType: SearchResultLoadingCell.self, reuseIdentifier: SearchResultLoadingCell.defaultReuseIdentifier)
+                .onConfigured { (cell) in
+                    let cell = cell as! SearchResultLoadingCell
+                    cell.titleLabel.text = NSLocalizedString("Retrieving results", comment: "[Search result screen] - Retrieving results")
+                    cell.activityIndicator.play()
+                }
+                .onThemeChanged { (cell, theme) in
+                    (cell as! SearchResultLoadingCell).apply(theme: theme)
+                }
+                .height(.fixed(SearchResultErrorCell.contentHeight))
+                .separatorStyle(.none)
+        default: return nil
         }
     }
 

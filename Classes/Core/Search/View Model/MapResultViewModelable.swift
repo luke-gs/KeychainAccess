@@ -46,10 +46,12 @@ public protocol MapResultViewModelable: SearchResultModelable {
 
     func itemsForResultsInSection(_ section: SearchResultSection) -> [FormItem]
 
+    func itemsForClusteredAnnotations(_ annotations: [MKAnnotation]) -> [FormItem]
+
     // OLD STUFFS
     
     /// Search enum, to identify the search type and parameters
-    var searchType: LocationMapSearchType! { get set }
+    var searchType: LocationMapSearchType? { get set }
 
     /// Plugin for ETA calculation
     var travelEstimationPlugin: TravelEstimationPlugable { get set }
@@ -62,7 +64,6 @@ public protocol MapResultViewModelable: SearchResultModelable {
 
     func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView?
 
-    func annotationViewDidSelect(for annotationView: MKAnnotationView, in mapView: MKMapView)
 
     /// A delegate that will be notified when there are changes to the results.
     weak var delegate: (MapResultViewModelDelegate & SearchResultMapViewController)? { get set }

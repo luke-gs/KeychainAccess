@@ -24,11 +24,13 @@ open class LookupAddressLocationSearchStrategy<T: MPOLKitEntity>: LocationSearch
 
     public let source: EntitySource
 
-    public let configuration: LocationSearchConfiguration
+    public let typeaheadConfiguration: LocationTypeaheadConfiguration
+
+    public let radiusConfiguration: LocationTypeRadiusConfiguration
 
     public let helpPresentable: Presentable
 
-    public lazy var onResultModelForMap: (() -> MapResultViewModelable)? = {
+    public lazy var onResultModelForMap: ((Bool) -> MapResultViewModelable)? = { attempToSearchAtUserLocation in
         return MapSummarySearchResultViewModel<T>(searchStrategy: self)
     }
 
@@ -43,22 +45,25 @@ open class LookupAddressLocationSearchStrategy<T: MPOLKitEntity>: LocationSearch
     }
 
     public lazy var onResultModelForSearchType: ((LocationMapSearchType) -> MapResultViewModelable)? = { searchType in
-        let preferredViewModel = MapSummarySearchResultViewModel<T>(searchStrategy: self, title: "Dropped Pin")
+        let coordinate = searchType.coordinate
+        let preferredViewModel = MapSummarySearchResultViewModel<T>(searchStrategy: self, title: "Pin Dropped at (\(coordinate.latitude), \(coordinate.longitude))")
+        preferredViewModel.searchType = searchType
         return preferredViewModel
     }
 
-    public init(source: EntitySource, helpPresentable: Presentable, configuration: LocationSearchConfiguration = LocationSearchConfiguration.default) {
+    public init(source: EntitySource, helpPresentable: Presentable, typeaheadConfiguration: LocationTypeaheadConfiguration = LocationTypeaheadConfiguration.default, radiusConfiguration: LocationTypeRadiusConfiguration = LocationTypeRadiusConfiguration.default) {
         self.source = source
         self.helpPresentable = helpPresentable
-        self.configuration = configuration
+        self.typeaheadConfiguration = typeaheadConfiguration
+        self.radiusConfiguration = radiusConfiguration
     }
     
     open func locationTypeaheadPromise(text: String) -> Promise<[LookupAddress]>? {
         return APIManager.shared.typeAheadSearchAddress(in: source, with: LookupAddressSearchRequest(searchText: text))
     }
 
-    open func resultModelForMap() -> MapResultViewModelable? {
-        return onResultModelForMap?()
+    open func resultModelForMap(attemptToSearchAtUserLocation: Bool) -> MapResultViewModelable? {
+        return onResultModelForMap?(attemptToSearchAtUserLocation)
     }
 
     open func resultModelForSearchOnLocation(withResult result: LookupResult, andSearchable searchable: Searchable) -> SearchResultModelable? {

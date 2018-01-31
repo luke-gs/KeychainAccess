@@ -14,10 +14,3 @@ public protocol EntityMapSummaryDisplayable: EntitySummaryDisplayable {
     var coordinate: CLLocationCoordinate2D? { get }
 
 }
-//
-//public protocol EntityMapSummaryDecoratable {
-//
-//    func decorate(with locationSummary: EntityMapSummaryDisplayable)
-//
-//}
-

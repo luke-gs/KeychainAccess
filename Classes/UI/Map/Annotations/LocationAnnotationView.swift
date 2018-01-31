@@ -29,7 +29,8 @@ open class LocationAnnotationView: MKAnnotationView {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
 
         frame = CGRect(x: 0.0, y: 0.0, width: 48.0, height: 60.0)
-        centerOffset = CGPoint(x: 0.0, y: -26.0)
+        centerOffset = CGPoint(x: 0.0, y: 4.0)
+        layer.anchorPoint = CGPoint(x: 0.5, y: 1.0)
 
         let center = CGPoint(x: 24.0, y: 24.5)
 
@@ -80,10 +81,7 @@ open class LocationAnnotationView: MKAnnotationView {
 
         let size = detailView.sizeThatFits(CGSize(width: UILayoutFittingCompressedSize.width, height: 20.0))
         detailView.frame.size = CGSize(width: size.width, height: 20.0)
-
         detailView.center = CGPoint(x: center.x, y: -12.0)
-
-        NSLayoutConstraint.activate([])
 
         accessoryView = detailView
         addSubview(detailView)
@@ -96,13 +94,16 @@ open class LocationAnnotationView: MKAnnotationView {
     open override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        guard let accessoryView = accessoryView else { return }
-
-        if selected {
-            accessoryView.isHidden = false
-        } else {
-            accessoryView.isHidden = true
-        }
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseOut, animations: {
+            var transform: CGAffineTransform = .identity
+            if selected {
+                transform = transform.scaledBy(x: 1.2, y: 1.2)
+            }
+            self.transform = transform
+        }, completion: { completed in
+            guard let accessoryView = self.accessoryView else { return }
+            accessoryView.isHidden = !selected
+        })
     }
 
 }
