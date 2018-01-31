@@ -41,5 +41,9 @@ final public class Event: NSCoding {
     public func add(report: Reportable) {
         self.reports.append(report)
     }
+
+    public func reportable(for reportableType: AnyClass) -> Reportable? {
+        return self.reports.filter{type(of: $0) == reportableType}.first
+    }
 }
 

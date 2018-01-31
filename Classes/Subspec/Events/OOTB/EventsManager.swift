@@ -83,7 +83,9 @@ public enum EventType {
 public class DefaultEventBuilder: EventBuilding {
 
     public func createEvent(for type: EventType) -> (event: Event, displayable: EventListDisplayable) {
-        return (event: Event(), displayable: EventListDisplayable(title: "Demo",
+        let event = Event()
+        event.add(report: DefaultDateAndTimeReport(event: event))
+        return (event: event, displayable: EventListDisplayable(title: "Demo",
                                                                   subtitle: "Sub",
                                                                   accessoryTitle: "AccessTitle",
                                                                   accessorySubtitle: "Acces Sub",
