@@ -35,7 +35,7 @@ open class IncidentOverviewMapViewModel: TasksMapViewModel {
             viewController.defaultZoomDistance = defaultZoomDistance
             return viewController
         }
-        return TasksMapViewController(viewModel: self, initialLoadZoomStyle: .annotations(animated: false))
+        return TasksMapViewController(viewModel: self, annotationsInitialLoadZoomStyle: (animated: false, includeUserLocation: true))
     }
     
     open override func canSelectAnnotationView(_ view: MKAnnotationView) -> Bool {
