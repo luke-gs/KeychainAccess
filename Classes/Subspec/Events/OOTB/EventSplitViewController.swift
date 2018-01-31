@@ -36,7 +36,6 @@ public class DefaultEventsDetailViewModel: EventDetailViewModelType {
         self.event = event
         self.title = "New Event"
 
-        // Add default viewControllers here pulling from the added reports in the event builder
         self.viewControllers = builder.viewControllers(for: event.reports)
         self.headerView = {
             let header = SidebarHeaderView()
