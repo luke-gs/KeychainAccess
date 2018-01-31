@@ -807,6 +807,20 @@
     }, 
     {
       "capabilities": [], 
+      "contactNumber": "0240 758 258", 
+      "firstName": "Jeff", 
+      "lastName": "Brand", 
+      "licenceTypeId": "Gold Licence", 
+      "middleName": "", 
+      "patrolGroup": "Collingwood", 
+      "payrollId": "773678", 
+      "radioId": "82626288", 
+      "rank": "Leading Senior Constable", 
+      "remarks": "", 
+      "station": "Collingwood"
+    }, 
+    {
+      "capabilities": [], 
       "contactNumber": "0202 021 032", 
       "firstName": "Scott", 
       "lastName": "Garett", 
@@ -1066,7 +1080,6 @@
       ], 
       "assignedIncidents": [], 
       "callsign": "V16", 
-      "currentIncident": "", 
       "driver": "777019", 
       "equipment": [
         {
@@ -1111,7 +1124,6 @@
       ], 
       "assignedIncidents": [], 
       "callsign": "D20", 
-      "currentIncident": "", 
       "driver": "777202", 
       "equipment": [
         {
@@ -1343,7 +1355,6 @@
       ], 
       "assignedIncidents": [], 
       "callsign": "SS20", 
-      "currentIncident": "", 
       "driver": "182992", 
       "equipment": [], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
@@ -1389,7 +1400,6 @@
       ], 
       "assignedIncidents": [], 
       "callsign": "SS09", 
-      "currentIncident": "", 
       "driver": "188278", 
       "equipment": [], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
