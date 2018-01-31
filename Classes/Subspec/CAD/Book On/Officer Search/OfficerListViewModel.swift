@@ -42,6 +42,7 @@ public class OfficerListViewModel: GenericSearchDefaultViewModel {
         officerViewModel.title = officer.title
         officerViewModel.rank = officer.rank
         officerViewModel.officerId = officer.callsign
+        officerViewModel.initials = officer.initials
 
         return BookOnScreen.officerDetailsForm(officerViewModel: officerViewModel, delegate: self)
     }
