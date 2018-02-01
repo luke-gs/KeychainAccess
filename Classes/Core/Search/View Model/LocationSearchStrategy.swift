@@ -38,7 +38,7 @@ public protocol LocationSearchModelStrategy {
     /// If nil, the map option will not be displayed.
     ///
     /// - Returns: The map view model
-    func resultModelForMap(attemptToSearchAtUserLocation: Bool) -> MapResultViewModelable?
+    func resultModelForMap() -> MapResultViewModelable?
 
     /// The view model for selecting a look up result
     ///
@@ -54,6 +54,11 @@ public protocol LocationSearchModelStrategy {
     /// - Returns: The view model
     func resultModelForSearchOnLocation(withParameters parameters: Parameterisable, andSearchable searchable: Searchable) -> SearchResultModelable?
 
+    /// The view model for selecting current location.
+    ///
+    /// - Parameter coordinate: The coordinate
+    /// - Returns: The view model
+    func resultModelForSearchOnLocation(withCoordinate coordinate: CLLocationCoordinate2D) -> SearchResultModelable?
 
     /// The view model for a specific search type
     ///

@@ -8,6 +8,7 @@
 
 import Foundation
 import PromiseKit
+import MapKit
 
 extension LookupAddress: Locatable {
     
@@ -30,7 +31,7 @@ open class LookupAddressLocationSearchStrategy<T: MPOLKitEntity>: LocationSearch
 
     public let helpPresentable: Presentable
 
-    public lazy var onResultModelForMap: ((Bool) -> MapResultViewModelable)? = { attempToSearchAtUserLocation in
+    public lazy var onResultModelForMap: (() -> MapResultViewModelable)? = {
         return MapSummarySearchResultViewModel<T>(searchStrategy: self)
     }
 
@@ -41,6 +42,11 @@ open class LookupAddressLocationSearchStrategy<T: MPOLKitEntity>: LocationSearch
 
     public lazy var onResultModelForParameters: ((Parameterisable, Searchable) -> SearchResultModelable)? = { (parameterisable, searchable) in
         let preferredViewModel = MapSummarySearchResultViewModel<T>(searchStrategy: self, title: searchable.text ?? "")
+        return preferredViewModel
+    }
+
+    public lazy var onResultModelForCoordinate: ((CLLocationCoordinate2D) -> SearchResultModelable)? = { coordinate in
+        let preferredViewModel = MapSummarySearchResultViewModel<T>(searchStrategy: self, title: "Current location")
         return preferredViewModel
     }
 
@@ -62,8 +68,8 @@ open class LookupAddressLocationSearchStrategy<T: MPOLKitEntity>: LocationSearch
         return APIManager.shared.typeAheadSearchAddress(in: source, with: LookupAddressSearchRequest(searchText: text))
     }
 
-    open func resultModelForMap(attemptToSearchAtUserLocation: Bool) -> MapResultViewModelable? {
-        return onResultModelForMap?(attemptToSearchAtUserLocation)
+    open func resultModelForMap() -> MapResultViewModelable? {
+        return onResultModelForMap?()
     }
 
     open func resultModelForSearchOnLocation(withResult result: LookupResult, andSearchable searchable: Searchable) -> SearchResultModelable? {
@@ -72,6 +78,10 @@ open class LookupAddressLocationSearchStrategy<T: MPOLKitEntity>: LocationSearch
 
     open func resultModelForSearchOnLocation(withParameters parameters: Parameterisable, andSearchable searchable: Searchable) -> SearchResultModelable? {
         return onResultModelForParameters?(parameters, searchable)
+    }
+
+    open func resultModelForSearchOnLocation(withCoordinate coordinate: CLLocationCoordinate2D) -> SearchResultModelable? {
+        return onResultModelForCoordinate?(coordinate)
     }
 
     open func resultModelForSearchOnLocation(withSearchType searchType: LocationMapSearchType) -> MapResultViewModelable? {

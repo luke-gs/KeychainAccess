@@ -82,10 +82,6 @@ open class LocationAnnotationView: MKAnnotationView {
         detailView.layoutMargins = UIEdgeInsets(top: 2.0, left: 8.0, bottom: 2.0, right: 8.0)
         detailView.alpha = 0.0
 
-        let size = detailView.sizeThatFits(CGSize(width: UILayoutFittingCompressedSize.width, height: 20.0))
-        detailView.frame.size = CGSize(width: size.width, height: 20.0)
-        detailView.center = CGPoint(x: center.x, y: -12.0)
-
         addSubview(detailView)
 
         updateText()
@@ -111,6 +107,10 @@ open class LocationAnnotationView: MKAnnotationView {
 
     private func updateText() {
         detailView.text = annotation?.title ?? NSLocalizedString("Unknown", comment: "Location Pin - Unknown address")
+
+        let size = detailView.sizeThatFits(CGSize(width: UILayoutFittingCompressedSize.width, height: 20.0))
+        detailView.frame.size = CGSize(width: min(size.width, 200.0), height: 20.0)
+        detailView.center = CGPoint(x: bounds.width * 0.5, y: -12.0)
     }
 
 }

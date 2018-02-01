@@ -30,6 +30,8 @@ open class LocationBasicSearchOptions: SearchOptions {
     
     open weak var delegate: LocationBasicSearchOptionsDelegate?
 
+    open var currentLocationActive: Bool = false
+
     open var numberOfOptions: Int {
         return results.count + others.count
     }
@@ -40,6 +42,13 @@ open class LocationBasicSearchOptions: SearchOptions {
         if numberOfResults > index {
             return results[index].title ?? NSLocalizedString("Unknown address", comment: "Location Search - when there is no address text")
         } else {
+            let value = others[index - numberOfResults].rawValue
+
+            // TODO: - Update to use megan's stuff
+            if value == "Current Location" && currentLocationActive == false {
+                return "NO CURRENT LOCATION"
+            }
+
             return others[index - numberOfResults].rawValue
         }
     }
