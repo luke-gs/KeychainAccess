@@ -31,7 +31,8 @@ public protocol ManageCallsignStatusViewModelDelegate: PopoverPresenter, Navigat
 open class ManageCallsignStatusViewModel {
 
     public init() {
-        NotificationCenter.default.addObserver(self, selector: #selector(notifyDataChanged), name: .CADCallsignChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(bookonChanged), name: .CADBookOnChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(callsignChanged), name: .CADCallsignChanged, object: nil)
     }
 
     /// Enum for action button types
@@ -90,7 +91,14 @@ open class ManageCallsignStatusViewModel {
         return nil
     }
 
-    @objc private func notifyDataChanged() {
+    @objc private func bookonChanged() {
+        if CADStateManager.shared.lastBookOn == nil {
+            // Close dialog if we have been booked off
+            delegate?.dismiss(animated: true, completion: nil)
+        }
+    }
+
+    @objc private func callsignChanged() {
         let callsignStatus = CADStateManager.shared.currentResource?.status ?? .unavailable
         
         callsignViewModel.reload(sections: callsignSectionsForState(), selectedStatus: callsignStatus, incident: CADStateManager.shared.currentIncident)
