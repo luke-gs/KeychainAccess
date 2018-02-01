@@ -122,7 +122,6 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
             // Show header for my patrol group items (negative bottom margin to move up group items)
             builder += LargeTextHeaderFormItem()
                 .text(StringSizing(string: viewModel.patrolGroupSectionTitle(), font: UIFont.systemFont(ofSize: 17, weight: .semibold), numberOfLines: 1))
-                .textColor(.white)
                 .layoutMargins(UIEdgeInsets(top: 24, left: 24, bottom: -24, right: 24))
 
             // Show my patrol group items
@@ -131,7 +130,6 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
             // Show header for other patrol group items
             builder += LargeTextHeaderFormItem()
                 .text(StringSizing(string: viewModel.otherSectionTitle(), font: UIFont.systemFont(ofSize: 17, weight: .semibold), numberOfLines: 1))
-                .textColor(.white)
                 .layoutMargins(UIEdgeInsets(top: 24, left: 24, bottom: -24, right: 24))
 
             // Show other patrol group items
