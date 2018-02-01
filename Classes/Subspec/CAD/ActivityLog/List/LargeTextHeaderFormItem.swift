@@ -41,6 +41,14 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
             cell.titleLabel.apply(sizable: text, defaultFont: cell.titleLabel.font)
         }
     }
+
+    open override func apply(theme: Theme, toView view: UICollectionReusableView) {
+        super.apply(theme: theme, toView: view)
+
+        if let cell = view as? LargeTextHeaderCollectionViewCell {
+            cell.titleLabel.textColor = theme.color(forKey: .primaryText)
+        }
+    }
 }
 
 // MARK: - Chaining methods
