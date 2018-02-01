@@ -101,7 +101,7 @@ public protocol EventListViewModelType {
 }
 
 /// The view model definition for the event details for the OOTB product
-public protocol EventDetailViewModelType {
+public protocol EventDetailViewModelType: Evaluatable {
 
     // The event object
     var event: Event { get }

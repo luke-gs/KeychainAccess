@@ -62,22 +62,56 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController {
 
 public class DefaultDateAndTimeReport: Reportable {
 
-    var reportedOnDateTime: Date?
-    var tookPlaceFromStartDateTime: Date?
-    var tookPlacefromEndDateTime: Date?
+    var reportedOnDateTime: Date? {
+        didSet {
+            evaluator.updateEvaluation(for: .reportedOnDateTime)
+        }
+    }
+
+    var tookPlaceFromStartDateTime: Date? {
+        didSet {
+            evaluator.updateEvaluation(for: .tookPlaceFromStartDateTime)
+        }
+    }
+
+    var tookPlacefromEndDateTime: Date? {
+        didSet {
+            evaluator.updateEvaluation(for: .tookPlacefromEndDateTime)
+        }
+    }
 
     public weak var event: Event?
+    public var evaluator: Evaluator = Evaluator()
 
     public required init(event: Event) {
         self.event = event
+
+        evaluator.addObserver(self)
+        evaluator.addObserver(event)
+
+        evaluator.registerKey(.reportedOnDateTime) { () -> (Bool) in
+            return self.reportedOnDateTime != nil
+        }
+        evaluator.registerKey(.tookPlaceFromStartDateTime) { () -> (Bool) in
+            return self.tookPlaceFromStartDateTime != nil
+        }
     }
 
     public func encode(with aCoder: NSCoder) {
-        //encode all
+        aCoder.encode(evaluator, forKey: "evaluator")
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        //decode all
+        evaluator = aDecoder.decodeObject(forKey: "evaluator") as! Evaluator
     }
 
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+        print("\(#file), \(evaluator), \(key), \(evaluationState)")
+    }
+}
+
+fileprivate extension EvaluatorKey {
+    static let reportedOnDateTime = EvaluatorKey(rawValue: "reportedOnDateTime")
+    static let tookPlaceFromStartDateTime = EvaluatorKey(rawValue: "tookPlaceFromStartDateTime")
+    static let tookPlacefromEndDateTime = EvaluatorKey(rawValue: "tookPlacefromEndDateTime")
 }

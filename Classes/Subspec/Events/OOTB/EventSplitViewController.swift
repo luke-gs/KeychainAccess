@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class EventSplitViewController: SidebarSplitViewController {
+public class EventSplitViewController: SidebarSplitViewController, EvaluationObserverable {
 
     public let viewModel: EventDetailViewModelType
 
@@ -18,19 +18,27 @@ public class EventSplitViewController: SidebarSplitViewController {
 
         self.title = viewModel.title
         regularSidebarViewController.headerView = viewModel.headerView
+
+        viewModel.evaluator.addObserver(self)
     }
 
     public required init?(coder aDecoder: NSCoder) {
         MPLUnimplemented()
     }
+
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+        print("\(#file), \(evaluator), \(key), \(evaluationState)")
+    }
 }
 
-public class DefaultEventsDetailViewModel: EventDetailViewModelType {
+public class DefaultEventsDetailViewModel: EventDetailViewModelType, Evaluatable {
 
     public var event: Event
     public var title: String?
     public var viewControllers: [UIViewController]?
     public var headerView: UIView?
+
+    public var evaluator: Evaluator = Evaluator()
 
     public required init(event: Event, builder: EventScreenBuilding = DefaultEventScreenBuilder()) {
         self.event = event
@@ -44,6 +52,12 @@ public class DefaultEventsDetailViewModel: EventDetailViewModelType {
             header.captionLabel.text = "IN PROGRESS"
             return header
         }()
+
+        event.evaluator.addObserver(self)
+    }
+
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+        print("\(#file), \(evaluator), \(key), \(evaluationState)")
     }
 }
 

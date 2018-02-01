@@ -8,7 +8,7 @@
 
 /// Anything can be reportable
 /// Used to define something in the event object
-public protocol Reportable: class, NSCoding {
+public protocol Reportable: NSCoding, Evaluatable {
     weak var event: Event? { get set }
     init(event: Event)
 }
@@ -20,9 +20,10 @@ public enum EventType {
 
 /// The implementation of an Event.
 /// All it really is, is an array of reports
-final public class Event: NSCoding {
+final public class Event: NSCoding, Evaluatable {
 
     private(set) public var reports: [Reportable] = [Reportable]()
+    public var evaluator: Evaluator = Evaluator()
 
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(reports, forKey: "reports")
@@ -30,6 +31,7 @@ final public class Event: NSCoding {
 
     public init?(coder aDecoder: NSCoder) {
         reports = aDecoder.decodeObject(of: NSArray.self, forKey: "reports") as! [Reportable]
+        evaluator = aDecoder.decodeObject(forKey: "evaluator") as! Evaluator
     }
 
     public init() { }
@@ -44,6 +46,11 @@ final public class Event: NSCoding {
 
     public func reportable(for reportableType: AnyClass) -> Reportable? {
         return self.reports.filter{type(of: $0) == reportableType}.first
+    }
+
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+        print("\(#file), \(evaluator), \(key), \(evaluationState)")
+        evaluator.updateEvaluation(for: key)
     }
 }
 
