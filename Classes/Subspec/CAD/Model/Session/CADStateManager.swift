@@ -46,13 +46,25 @@ open class CADStateManager: NSObject {
     open var lastBookOn: BookOnRequest? {
         didSet {
             // TODO: remove this when we have a real CAD system
-            if let lastBookOn = lastBookOn, let resource = self.currentResource {
-                let officerIds = lastBookOn.officers.map { return $0.payrollId! }
-                resource.payrollIds = officerIds
+            if let lastBookOn = lastBookOn {
+                // Check if we have been removed from callsign
+                let officerIds = lastBookOn.officers.map({ return $0.payrollId }).removeNils()
+                if let officerDetails = officerDetails, !officerIds.contains(officerDetails.payrollId) {
+                    // Treat like being booked off, using async to trigger didSet again
+                    DispatchQueue.main.async {
+                        self.lastBookOn = nil
+                    }
+                    return
+                }
 
-                // Set state if callsign was off duty
-                if resource.status == .offDuty {
-                    resource.status = .onAir
+                if let resource = self.currentResource {
+                    let officerIds = lastBookOn.officers.map { return $0.payrollId! }
+                    resource.payrollIds = officerIds
+
+                    // Set state if callsign was off duty
+                    if resource.status == .offDuty {
+                        resource.status = .onAir
+                    }
                 }
             }
             NotificationCenter.default.post(name: .CADBookOnChanged, object: self)
