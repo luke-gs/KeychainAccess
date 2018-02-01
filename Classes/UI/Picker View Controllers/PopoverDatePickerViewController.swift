@@ -9,9 +9,7 @@
 import UIKit
 
 fileprivate let cellID = "CellID"
-
-fileprivate let datePickerHeightAdjustment: CGFloat = 20.0
-
+fileprivate let buttonID = "ButtonID"
 
 /// A date picker view controller designed to be presented modally as a popover.
 ///
@@ -31,17 +29,15 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
         let datePicker = UIDatePicker(frame: .zero)
         datePicker.addTarget(self, action: #selector(datePickerDateDidChange), for: .valueChanged)
         return datePicker
-    }()
-    
-    
-    open override var preferredContentSize: CGSize {
-        get {
-            return super.preferredContentSize
-        }
-        set {
-            super.preferredContentSize = newValue
-        }
-    }
+        }()
+
+    open private(set) lazy var button: UIButton = { [unowned self] in
+        let button = UIButton(frame: .zero)
+        button.setTitle("Set time to now", for: .normal)
+        button.setTitleColor(.blue, for: .normal)
+        button.addTarget(self, action: #selector(currentTimeButtonTouched), for: .touchUpInside)
+        return button
+        }()
     
     /// The date update handler.
     /// 
@@ -87,6 +83,15 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
             super.wantsTransparentBackground = newValue
         }
     }
+
+    open override var wantsSeparatorWhenTransparent: Bool {
+        get {
+            return false
+        }
+        set {
+            super.wantsSeparatorWhenTransparent = newValue
+        }
+    }
     
     
     // MARK: - Private properties
@@ -99,14 +104,16 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
     
     private var isAdaptationChanging: Bool = false
     
-    
+    private var withButton: Bool = false
+
     // MARK: - Initialzation
     
-    public init() {
+    public init(withNowButton button: Bool = false) {
         super.init(style: .grouped)
         super.modalPresentationStyle = .popover
         popoverPresentationController?.delegate = self
         calculatesContentHeight = false
+        withButton = button
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -119,22 +126,20 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
     open override func viewDidLoad() {
         if let tableView = self.tableView {
             tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
-            tableView.rowHeight = datePicker.intrinsicContentSize.height - datePickerHeightAdjustment
+            tableView.register(UITableViewCell.self, forCellReuseIdentifier: buttonID)
         }
         
         super.viewDidLoad()
         
         updateForPresentationStyle()
     }
-    
-    open override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        if parent == nil, let tableView = self.tableView {
-            let cellRect = tableView.rectForRow(at: IndexPath(row: 0, section: 0))
-            tableView.contentOffset = CGPoint(x: 0.0, y: cellRect.minY)
-        }
+
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView?.separatorStyle = .none
+        tableView?.separatorColor = .clear
     }
-    
+
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -159,23 +164,46 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
     
     
     // MARK: - UITableViewDataSource methods
-    
+
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return indexPath.row == 0 ? datePicker.intrinsicContentSize.height : button.intrinsicContentSize.height
+    }
+
     open override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return withButton ? 2 : 1
     }
     
     open override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
-        cell.selectionStyle = .none
-        
-        let contentView = cell.contentView
-        if contentView != datePicker.superview {
-            datePicker.frame = contentView.frame
-            datePicker.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            contentView.addSubview(datePicker)
+        switch indexPath.row {
+        case 0:
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
+
+            cell.selectionStyle = .none
+
+            let contentView = cell.contentView
+            if contentView != datePicker.superview {
+                datePicker.frame = contentView.frame
+                datePicker.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+                contentView.addSubview(datePicker)
+            }
+
+            return cell
+        case 1:
+
+            let cell = tableView.dequeueReusableCell(withIdentifier: buttonID, for: indexPath)
+            cell.selectionStyle = .none
+
+            let contentView = cell.contentView
+            if contentView != button.superview {
+                button.frame = contentView.frame
+                button.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+                contentView.addSubview(button)
+            }
+
+            return cell
+        default:
+            return UITableViewCell()
         }
-        
-        return cell
     }
     
     
@@ -222,15 +250,16 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
     
     private func updateForPresentationStyle() {
         guard let tableView = self.tableView else { return }
-        
+
         tableView.isScrollEnabled = isInPopover == false
-        
+
+        var correctContentSize: CGSize = .zero
+        correctContentSize.width = datePicker.intrinsicContentSize.width
+        correctContentSize.height = datePicker.intrinsicContentSize.height + (withButton ? button.intrinsicContentSize.height : 0) + 60
+
         if isInPopover {
             navigationItem.rightBarButtonItem = nil
-            
-            let intrinsicPickerSize = datePicker.intrinsicContentSize
-            let correctContentSize = CGSize(width: intrinsicPickerSize.width, height: intrinsicPickerSize.height - datePickerHeightAdjustment)
-            
+
             if isAdaptationChanging {
                 // Workaround:
                 // When transitioning back to a popover, updates to the content size during the
@@ -245,14 +274,19 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
         } else {
             tableView.setNeedsLayout()
             tableView.layoutIfNeeded()
-            preferredContentSize = CGSize(width: preferredContentSize.width, height: tableView.contentSize.height)
+            preferredContentSize = correctContentSize
+            tableView.contentSize = correctContentSize
         }
-        
+
         apply(ThemeManager.shared.theme(for: userInterfaceStyle))
     }
     
     @objc private func datePickerDateDidChange() {
         dateUpdateHandler?(datePicker.date)
+    }
+
+    @objc private func currentTimeButtonTouched() {
+        datePicker.date = Date()
     }
     
     @objc private func doneButtonItemDidSelect(_ item: UIBarButtonItem) {

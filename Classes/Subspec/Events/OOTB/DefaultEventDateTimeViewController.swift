@@ -37,6 +37,7 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
         builder += DateFormItem()
             .title("Report Time")
             .datePickerMode(.dateAndTime)
+            .withNowButton(true)
             .width(.column(2))
             .onValueChanged { date in
                 self.report?.reportedOnDateTime = date
@@ -48,6 +49,7 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
         builder += DateFormItem()
             .title("Start")
             .datePickerMode(.dateAndTime)
+            .withNowButton(true)
             .width(.column(2))
             .onValueChanged { date in
                 self.report?.tookPlaceFromStartDateTime = date
