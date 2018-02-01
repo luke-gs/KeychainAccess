@@ -11,7 +11,6 @@ import UIKit
 open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
     
     public var text: StringSizable?
-    public var textColor: UIColor?
     public var layoutMargins: UIEdgeInsets?
 
     public init() {
@@ -35,10 +34,15 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
             if let layoutMargins = layoutMargins {
                 cell.contentView.layoutMargins = layoutMargins
             }
-            if let textColor = textColor {
-                cell.titleLabel.textColor = textColor
-            }
             cell.titleLabel.apply(sizable: text, defaultFont: cell.titleLabel.font)
+        }
+    }
+
+    open override func apply(theme: Theme, toView view: UICollectionReusableView) {
+        super.apply(theme: theme, toView: view)
+
+        if let cell = view as? LargeTextHeaderCollectionViewCell {
+            cell.titleLabel.textColor = theme.color(forKey: .primaryText)
         }
     }
 }
@@ -50,12 +54,6 @@ extension LargeTextHeaderFormItem {
     @discardableResult
     public func text(_ text: StringSizable) -> Self {
         self.text = text
-        return self
-    }
-
-    @discardableResult
-    public func textColor(_ textColor: UIColor) -> Self {
-        self.textColor = textColor
         return self
     }
 
