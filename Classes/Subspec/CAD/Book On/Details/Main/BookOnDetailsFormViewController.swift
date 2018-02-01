@@ -164,13 +164,25 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
                 self.present(screen)
             })
 
-        // Button to delete officer (only available for additional officers)
+        // Button to delete officer and reload form
         let deleteAction = CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { [unowned self] (cell, indexPath) in
             self.viewModel.removeOfficer(at: indexPath.row)
             self.reloadForm()
         })
 
         for (index, officer) in viewModel.content.officers.enumerated() {
+            // Button to delete officer is only available if:
+            // - When new book on, any additional officers (not default logged in officer)
+            // - When editing existing book on, anyone including logged in officer as long as not the last one in callsign
+            var editActions: [CollectionViewFormEditAction] = []
+            if viewModel.isEditing {
+                if viewModel.content.officers.count > 1 {
+                    editActions.append(deleteAction)
+                }
+
+            } else if index > 0 {
+                editActions.append(deleteAction)
+            }
             builder += BookOnDetailsOfficerFormItem(title: officer.title,
                                                     subtitle: officer.subtitle,
                                                     status: officer.driverStatus,
@@ -178,7 +190,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
                 .width(.column(1))
                 .height(.fixed(60))
                 .accessory(FormAccessoryView(style: .pencil))
-                .editActions([index > 0 ? deleteAction : nil].removeNils())
+                .editActions(editActions)
                 .onSelection { [unowned self] cell in
                     let screen = self.viewModel.officerDetailsScreen(at: index)
                     self.present(screen)
