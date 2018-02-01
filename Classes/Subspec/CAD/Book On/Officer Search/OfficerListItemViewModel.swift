@@ -12,16 +12,17 @@ public struct OfficerListItemViewModel: GenericSearchable {
     
     public var firstName: String
     public var lastName: String
+    public var initials: String
     public var rank: String
     public var callsign: String
     
-    public init(firstName: String, lastName: String, rank: String, callsign: String, section: String?, image: UIImage?) {
+    public init(firstName: String, lastName: String, initials: String, rank: String, callsign: String, section: String?) {
         self.firstName = firstName
         self.lastName = lastName
+        self.initials = initials
         self.rank = rank
         self.callsign = callsign
         self.section = section
-        self.image = image
     }
     
     // MARK: - Searchable
@@ -35,7 +36,12 @@ public struct OfficerListItemViewModel: GenericSearchable {
     }
     
     public var section: String?
-    public var image: UIImage?
+    public var image: UIImage? {
+        return UIImage.thumbnail(withInitials: initials).withCircleBackground(tintColor: nil,
+                                                                              circleColor: .disabledGray,
+                                                                              style: .fixed(size: CGSize(width: 48, height: 48),
+                                                                                            padding: CGSize(width: 14, height: 14)))
+    }
     
     public func matches(searchString: String) -> Bool {
         let searchStringLowercase = searchString.lowercased()

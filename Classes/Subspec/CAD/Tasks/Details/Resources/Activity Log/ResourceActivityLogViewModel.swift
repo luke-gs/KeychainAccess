@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class ResourceActivityLogViewModel: CADFormCollectionViewModel<ActivityLogItemViewModel>, TaskDetailsViewModel {
+public class ResourceActivityLogViewModel: DatedActivityLogViewModel, TaskDetailsViewModel {
    
     /// The identifier for this resource
     open let callsign: String
@@ -35,12 +35,12 @@ public class ResourceActivityLogViewModel: CADFormCollectionViewModel<ActivityLo
         let activityLogItemsViewModels = activityLog.map { item in
             return ActivityLogItemViewModel(dotFillColor: item.color,
                                             dotStrokeColor: .clear,
-                                            timestamp: item.timestampString,
+                                            timestamp: item.timestamp,
                                             title: item.title,
                                             subtitle: item.description)
             }.sorted { return $0.timestamp > $1.timestamp }
         
-        sections = [CADFormCollectionSectionViewModel(title: "READ", items: activityLogItemsViewModels)]
+        sections = sortedSectionsByDate(from: activityLogItemsViewModels)
     }
     
     /// The title to use in the navigation bar
@@ -55,6 +55,11 @@ public class ResourceActivityLogViewModel: CADFormCollectionViewModel<ActivityLo
     
     override open func noContentSubtitle() -> String? {
         return nil
+    }
+
+    open override func allowCreate() -> Bool {
+        // Only allow adding activity log entries if our resource
+        return CADStateManager.shared.currentResource?.callsign == callsign
     }
 }
 

@@ -12,7 +12,7 @@ import Foundation
 public enum BookOnScreen: Presentable {
 
     /// Create/edit book on details screen
-    case bookOnDetailsForm(callsignViewModel: BookOnCallsignViewModelType)
+    case bookOnDetailsForm(callsignViewModel: BookOnCallsignViewModelType, formSheet: Bool)
 
     /// All callsigns list screen
     case callSignList
@@ -37,4 +37,7 @@ public enum BookOnScreen: Presentable {
 
     /// Create traffic stop incident
     case trafficStop(completionHandler: ((TrafficStopRequest?) -> Void)?)
+    
+    /// Enter finalise details
+    case finaliseDetails(primaryCode: String, completionHandler: ((_ secondaryCode: String?, _ remark: String?) -> Void)?)
 }

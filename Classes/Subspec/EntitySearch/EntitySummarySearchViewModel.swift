@@ -20,4 +20,9 @@ public class EntitySummarySearchViewModel: SearchViewModel {
         self.recentViewModel = EntitySummaryRecentsViewModel(title: title, userSession: userSession, summaryDisplayFormatter: summaryDisplayFormatter)
     }
     
+    public init(recentViewModel: SearchRecentsViewModel, dataSources: [SearchDataSource]) {
+        self.dataSources = dataSources
+        self.recentViewModel = recentViewModel
+    }
+    
 }

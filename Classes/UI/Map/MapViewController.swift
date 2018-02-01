@@ -23,7 +23,6 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     public enum InitialLoadZoomStyle {
         case userLocation(animated: Bool)
         case coordinate(_: CLLocation, animated: Bool)
-        case annotations(animated: Bool)
         case none
     }
     
@@ -126,8 +125,8 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         setupConstraints()
     }
     
-    open override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         if !performedInitialLoadAction {
             switch initialLoadZoomStyle {
             case .userLocation(let animated):
@@ -135,11 +134,6 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
                     self.zoomAndCenter(to: location, animated: animated)
                 }
                 performedInitialLoadAction = true
-            case .annotations(_):
-                if let location = locationManager.lastLocation {
-                    zoomAndCenter(to: location, animated: false)
-                    performedInitialLoadAction = true
-                }
             case .coordinate(let location, let animated):
                 zoomAndCenter(to: location, animated: animated)
                 performedInitialLoadAction = true

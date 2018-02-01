@@ -68,6 +68,7 @@ open class OfficerDetailsViewController: FormBuilderViewController {
             // TODO: get these from manifest
             .options([NSLocalizedString("Gold Licence", comment: ""),
                       NSLocalizedString("Silver Licence", comment: ""),
+                      NSLocalizedString("Bronze Licence", comment: ""),
                       NSLocalizedString("Nil", comment: "")])
             .required("Licence is required.")
             .allowsMultipleSelection(false)
@@ -79,9 +80,10 @@ open class OfficerDetailsViewController: FormBuilderViewController {
         
         builder += TextFieldFormItem(title: NSLocalizedString("Capabilities", comment: ""))
             .width(.column(1))
-            .text(viewModel.content.capabilities)
+            .text(viewModel.content.capabilities?.joined(separator: ", "))
             .onValueChanged {
-                self.viewModel.content.capabilities = $0
+                let capabilities = $0?.split(separator: ",").map{String($0)}
+                self.viewModel.content.capabilities = capabilities
             }
         
         builder += TextFieldFormItem(title: NSLocalizedString("Remarks", comment: ""))

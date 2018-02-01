@@ -121,6 +121,10 @@ open class SelectStoppedEntityViewController: CADFormCollectionViewController<Se
             cell.thumbnailView.tintColor = viewModel.imageColor ?? .primaryGray
             cell.thumbnailView.imageView.image = viewModel.image
             cell.thumbnailView.imageView.contentMode = .center
+            
+            cell.sourceLabel.textColor = secondaryTextColor
+            cell.sourceLabel.borderColor = secondaryTextColor
+            cell.sourceLabel.backgroundColor = .clear
         }
     }
     

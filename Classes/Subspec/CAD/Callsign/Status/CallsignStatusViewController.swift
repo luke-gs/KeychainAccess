@@ -11,7 +11,9 @@ import PromiseKit
 
 open class CallsignStatusViewController: CADStatusViewController {
 
-    open let viewModel: CallsignStatusViewModel
+    open var callsignViewModel: CallsignStatusViewModel {
+        return self.viewModel as! CallsignStatusViewModel
+    }
     
     /// The index path that is currently loading
     private var loadingIndexPath: IndexPath?
@@ -19,7 +21,6 @@ open class CallsignStatusViewController: CADStatusViewController {
     // MARK: - Initializers
 
     public init(viewModel: CallsignStatusViewModel) {
-        self.viewModel = viewModel
         super.init(viewModel: viewModel)
     }
 
@@ -38,24 +39,20 @@ open class CallsignStatusViewController: CADStatusViewController {
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: false)
 
-        if indexPath != viewModel.selectedIndexPath, loadingIndexPath == nil {
+        if indexPath != callsignViewModel.selectedIndexPath, loadingIndexPath == nil {
 
-            let oldIndexPath = viewModel.selectedIndexPath
-            set(loading: true, at: indexPath)
+            setLoading(true, at: indexPath)
 
             firstly {
                 // Attempt to change state
-                return viewModel.setSelectedIndexPath(indexPath)
-            }.then { _ in
-                // Update selection
-                UIView.performWithoutAnimation {
-                    collectionView.performBatchUpdates({
-                        collectionView.reloadItems(at: [indexPath, oldIndexPath].removeNils())
-                    }, completion: nil)
-                }
-            }.always {
+                return callsignViewModel.setSelectedIndexPath(indexPath)
+            }.then { [weak self] _ in
+                // Reload the collection view to show new selection. The manage callsign view will update
+                // in response to the callsign being changed, but the incident popover wont
+                self?.collectionView.reloadData()
+            }.always { [weak self] in
                 // Stop animation
-                self.set(loading: false, at: indexPath)
+                self?.setLoading(false, at: indexPath)
             }.catch { error in
                 AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
             }
@@ -64,7 +61,9 @@ open class CallsignStatusViewController: CADStatusViewController {
     
     // MARK: - Internal
     
-    private func set(loading: Bool, at indexPath: IndexPath) {
+    private func setLoading(_ loading: Bool, at indexPath: IndexPath) {
+        guard indexPath.section < collectionView.numberOfSections, indexPath.row < collectionView.numberOfItems(inSection: indexPath.section) else { return }
+        
         self.loadingIndexPath = loading ? indexPath : nil
         UIView.performWithoutAnimation {
             collectionView.performBatchUpdates({

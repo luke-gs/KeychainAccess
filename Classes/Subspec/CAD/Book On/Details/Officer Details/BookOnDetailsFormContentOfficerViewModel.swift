@@ -20,8 +20,9 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     open var officerId: String?
     open var licenceTypeId: String?
     open var contactNumber: String?
-    open var capabilities: String?
+    open var capabilities: [String]?
     open var remarks: String?
+    open var initials: String?
 
     // MARK: - Derived properties
 
@@ -57,6 +58,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
         self.capabilities = officer.capabilities
         self.remarks = officer.remarks
         self.isDriver = officer.isDriver
+        self.initials = officer.initials
     }
 
     /// Create view model from model
@@ -65,6 +67,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
         self.rank = officer.rank
         self.officerId = officer.payrollId
         self.isDriver = isDriver
+        self.initials = officer.initials
 
         if initial {
             // On initial add of officer, some properties user is forced to enter
@@ -78,6 +81,15 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
 
     open static func ==(lhs: BookOnDetailsFormContentOfficerViewModel, rhs: BookOnDetailsFormContentOfficerViewModel) -> Bool {
         return lhs.officerId == rhs.officerId
+    }
+    
+    public func thumbnail() -> UIImage? {
+        guard let initials = initials else { return nil}
+        return UIImage.thumbnail(withInitials: initials).withCircleBackground(tintColor: nil,
+                                                                              circleColor: .disabledGray,
+                                                                              style: .fixed(size: CGSize(width: 48, height: 48),
+                                                                                            padding: CGSize(width: 14, height: 14))
+        )
     }
 
 }

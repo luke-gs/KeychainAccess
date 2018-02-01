@@ -44,6 +44,10 @@ open class MapSettingsViewController: ThemedPopoverViewController {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
+        
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
+        preferredContentSize = CGSize(width: 512, height: view.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height)
     }
 
     /// Creates and styles views
@@ -88,6 +92,10 @@ open class MapSettingsViewController: ThemedPopoverViewController {
     /// Activates view constraints
     private func setupConstraints() {
         modeSegmentedControl.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        typeLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        layersLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        layersDescriptionLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        
         NSLayoutConstraint.activate([
             typeLabel.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: margin),
             typeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: margin),
@@ -125,7 +133,7 @@ open class MapSettingsViewController: ThemedPopoverViewController {
     }
 }
 
-open class MapSettingsLayersCollectionView: FormBuilderViewController {
+open class MapSettingsLayersCollectionView: IntrinsicHeightFormBuilderViewController {
     
     let viewModel: MapSettingsViewModel
     

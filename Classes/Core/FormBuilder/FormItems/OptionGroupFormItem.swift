@@ -166,7 +166,7 @@ public class OptionGroupFormItem: BaseFormItem, FormItemContainer, FormValidatab
 
     // MARK: - Form validatable
 
-    public private(set) var validator = Validator()
+    public private(set) var validator = FormValidator()
 
     public var candidate: Any? { return selectedIndexes }
 
@@ -184,7 +184,7 @@ public class OptionGroupFormItem: BaseFormItem, FormItemContainer, FormValidatab
             rules.insert(specification, at: 0)
         }
 
-        validator = Validator(rules: rules)
+        validator = FormValidator(rules: rules)
     }
 
     public func reloadSubmitValidationState() {

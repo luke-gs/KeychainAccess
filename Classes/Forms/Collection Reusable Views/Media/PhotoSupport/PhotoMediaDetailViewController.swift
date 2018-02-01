@@ -22,6 +22,7 @@ public class PhotoMediaDetailViewController: FormBuilderViewController {
     public weak var delegate: PhotoMediaDetailViewControllerDelegate?
 
     private var titleText: String?
+    private var commentsText: String?
 
     private var sensitive: Bool
 
@@ -29,6 +30,7 @@ public class PhotoMediaDetailViewController: FormBuilderViewController {
         self.photoMedia = photoMedia
 
         titleText = photoMedia.title
+        commentsText = photoMedia.comments
         sensitive = photoMedia.sensitive
 
         super.init()
@@ -55,6 +57,12 @@ public class PhotoMediaDetailViewController: FormBuilderViewController {
                 self?.titleText = text
             })
 
+        builder += TextFieldFormItem(title: "Comments")
+            .text(commentsText)
+            .onValueChanged({ [weak self] (text) in
+                self?.commentsText = text
+            })
+
         builder += OptionFormItem(title: "Sensitive")
             .isChecked(sensitive)
             .onValueChanged({ [weak self] (isChecked) -> (Void) in
@@ -74,6 +82,7 @@ public class PhotoMediaDetailViewController: FormBuilderViewController {
         switch result {
         case .valid:
             photoMedia.title = titleText
+            photoMedia.comments = commentsText
             photoMedia.sensitive = sensitive
             delegate?.photoMediaDetailViewControllerDidUpdatePhotoMedia(self)
             dismiss(animated: true, completion: nil)

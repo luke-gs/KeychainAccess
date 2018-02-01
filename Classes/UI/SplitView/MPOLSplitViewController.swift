@@ -149,6 +149,12 @@ open class MPOLSplitViewController: PushableSplitViewController {
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
+
+    deinit {
+        masterRightBarButtonItemsObservation?.invalidate()
+        rightBarButtonItemsObservation?.invalidate()
+
+    }
     
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

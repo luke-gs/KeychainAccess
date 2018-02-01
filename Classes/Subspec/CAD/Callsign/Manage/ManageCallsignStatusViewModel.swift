@@ -24,19 +24,14 @@ public struct ManageCallsignStatusItemViewModel {
 
 /// Protocol for UI backing view model
 public protocol ManageCallsignStatusViewModelDelegate: PopoverPresenter, NavigationPresenter {
+    func callsignDidChange()
 }
 
 /// View model for the callsign status screen
 open class ManageCallsignStatusViewModel {
 
-    public init() {}
-
-    /// Concrete view model used to present book on details form
-    struct BookOnCallsignViewModel: BookOnCallsignViewModelType {
-        var callsign: String
-        var status: String?
-        var location: String?
-        var type: ResourceType?
+    public init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(notifyDataChanged), name: .CADCallsignChanged, object: nil)
     }
 
     /// Enum for action button types
@@ -78,7 +73,7 @@ open class ManageCallsignStatusViewModel {
     /// The callsign view model for changing status
     open lazy var callsignViewModel: CallsignStatusViewModel = {
         let callsignStatus = CADStateManager.shared.currentResource?.status ?? .unavailable
-        return CallsignStatusViewModel(sections: callsignSectionsForState(), selectedStatus: callsignStatus, incident: nil)
+        return CallsignStatusViewModel(sections: callsignSectionsForState(), selectedStatus: callsignStatus, incident: CADStateManager.shared.currentIncident)
     }()
 
     public var incidentListViewModel: TasksListIncidentViewModel? {
@@ -95,6 +90,13 @@ open class ManageCallsignStatusViewModel {
         return nil
     }
 
+    @objc private func notifyDataChanged() {
+        let callsignStatus = CADStateManager.shared.currentResource?.status ?? .unavailable
+        
+        callsignViewModel.reload(sections: callsignSectionsForState(), selectedStatus: callsignStatus, incident: CADStateManager.shared.currentIncident)
+        delegate?.callsignDidChange()
+    }
+    
     /// Create the view controller for this view model
     public func createViewController() -> UIViewController {
         let vc = ManageCallsignStatusViewController(viewModel: self)
@@ -127,8 +129,9 @@ open class ManageCallsignStatusViewModel {
                 if let resource = CADStateManager.shared.currentResource {
                     // Show split view controller for booked on resource
                     let vm = ResourceTaskItemViewModel(resource: resource)
-                    let vc = TasksItemSidebarViewController.init(viewModel: vm)
-                    delegate?.present(vc, animated: true, completion: nil)
+                    let vc = vm.createViewController()
+                    let nav = UINavigationController(rootViewController: vc)
+                    delegate?.present(nav, animated: true, completion: nil)
                 }
                 break
             case .manageCallsign:
@@ -139,13 +142,13 @@ open class ManageCallsignStatusViewModel {
                         status: CADStateManager.shared.currentResource?.status.title ?? "",
                         location: CADStateManager.shared.currentResource?.station ?? "",
                         type: CADStateManager.shared.currentResource?.type)
-                    delegate?.present(BookOnScreen.bookOnDetailsForm(callsignViewModel: callsignViewModel))
+                    delegate?.present(BookOnScreen.bookOnDetailsForm(callsignViewModel: callsignViewModel, formSheet: false))
                 }
                 break
             case .terminateShift:
                 if callsignViewModel.currentStatus?.canTerminate == true {
                     // Update session and dismiss screen
-                    CADStateManager.shared.lastBookOn = nil
+                    CADStateManager.shared.setOffDuty()
                     delegate?.dismiss(animated: true, completion: nil)
                 } else {
                     AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Terminate Shift", comment: ""),

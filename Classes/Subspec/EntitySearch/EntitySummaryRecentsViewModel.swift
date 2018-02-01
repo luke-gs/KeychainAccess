@@ -10,7 +10,7 @@ import Foundation
 
 
 /// Default implementation of recents view model.
-public class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
+open class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
 
     public let recentlyViewed: EntityBucket
 
@@ -82,13 +82,16 @@ public class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
         let primaryColor = theme.color(forKey: .primaryText)
         let secondaryColor = theme.color(forKey: .secondaryText)
 
-        let maximum = 5
         var recentlyViewed = userSession.recentlyViewed.entities
-        if recentlyViewed.count > maximum {
-            recentlyViewed = Array(recentlyViewed[0...5])
+        let numberOfEntities = recentlyViewed.count
+        let maximum = 5
+
+        if numberOfEntities > maximum {
+            let lastIndex = numberOfEntities - 1
+            recentlyViewed = Array(recentlyViewed[(lastIndex - maximum)...lastIndex])
         }
 
-        return recentlyViewed.flatMap { entity in
+        return recentlyViewed.reversed().flatMap { entity in
             guard let summary = self.summaryDisplayFormatter.summaryDisplayForEntity(entity) else { return nil }
             return summary.summaryThumbnailFormItem(with: .detail)
                 .titleTextColor(!isCompact ? primaryColor : nil)
