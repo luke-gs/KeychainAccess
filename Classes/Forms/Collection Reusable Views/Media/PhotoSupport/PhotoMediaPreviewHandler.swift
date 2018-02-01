@@ -17,7 +17,7 @@ public class PhotoMediaPreviewHandler: MediaPreviewableDelegate {
 
     public var pickerSources: [PhotoMediaPickerSource]
 
-    public init(allowEditing: Bool = true, pickerSources: [PhotoMediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker()]) {
+    public init(allowEditing: Bool = true, pickerSources: [PhotoMediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker(), SketchMediaPicker()]) {
         self.allowEditing = allowEditing
         self.pickerSources = pickerSources
     }

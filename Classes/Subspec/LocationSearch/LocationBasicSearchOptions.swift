@@ -43,12 +43,6 @@ open class LocationBasicSearchOptions: SearchOptions {
             return results[index].title ?? NSLocalizedString("Unknown address", comment: "Location Search - when there is no address text")
         } else {
             let value = others[index - numberOfResults].rawValue
-
-            // TODO: - Update to use megan's stuff
-            if value == "Current Location" && currentLocationActive == false {
-                return "NO CURRENT LOCATION"
-            }
-
             return others[index - numberOfResults].rawValue
         }
     }
@@ -96,7 +90,22 @@ open class LocationBasicSearchOptions: SearchOptions {
             }
         }
     }
-    
+
+    open func isEnabled(at index: Int) -> Bool {
+        let numberOfResults = results.count
+
+        if numberOfResults > index {
+            return true
+        }
+
+        let otherIndex = index - numberOfResults
+        if others[otherIndex] == .currentLocation {
+            return currentLocationActive
+        }
+
+        return true
+    }
+
     open func reset() {
         results = []
     }
@@ -111,6 +120,7 @@ open class LocationBasicSearchOptions: SearchOptions {
             return others[otherIndex]
         }
     }
+
 }
 
 public protocol LocationBasicSearchOptionsDelegate: class {

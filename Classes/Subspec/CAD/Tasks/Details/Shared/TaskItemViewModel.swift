@@ -8,8 +8,20 @@
 
 import UIKit
 
+public protocol TaskItemViewModelDelegate: class {
+    func presentStatusSelector(viewController: UIViewController)
+}
+
 open class TaskItemViewModel {
-    
+
+    open weak var delegate: TaskItemViewModelDelegate?
+
+    /// The navigation title for this type of task item details
+    open var navTitle: String?
+
+    /// The navigation title for this type of task item details when compact
+    open var compactNavTitle: String?
+
     /// Icon image to display in the header
     open var iconImage: UIImage?
 
@@ -25,9 +37,6 @@ open class TaskItemViewModel {
     /// Name of the item (e.g. 'P08')
     open var itemName: String?
     
-    /// Last updated time string (e.g. '2 mins ago')
-    open var lastUpdated: String?
-
     /// View controllers to show in the list
     open func detailViewControllers() -> [UIViewController] {
         return viewModels.map {
@@ -50,13 +59,12 @@ open class TaskItemViewModel {
     ///   - statusText: Status text to display below the icon
     ///   - itemName: Name of the item
     ///   - lastUpdated: Last updated time string
-    public init(iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?, lastUpdated: String?, viewModels: [TaskDetailsViewModel] = []) {
+    public init(iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?, viewModels: [TaskDetailsViewModel] = []) {
         self.iconImage = iconImage
         self.iconTintColor = iconTintColor
         self.color = color
         self.statusText = statusText
         self.itemName = itemName
-        self.lastUpdated = lastUpdated
         self.viewModels = viewModels
     }
 
@@ -69,4 +77,8 @@ open class TaskItemViewModel {
         // Do nothing by default
     }
 
+    /// Called to see if changing resource status is allowed
+    open func allowChangeResourceStatus() -> Bool {
+        return false
+    }
 }

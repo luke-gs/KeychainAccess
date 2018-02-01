@@ -21,12 +21,15 @@ open class LargeTextHeaderCollectionViewCell: UICollectionViewCell, DefaultReusa
         titleLabel.textColor = .primaryGray
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(titleLabel)
-        
+
+        // Default margins that can be overridden
+        contentView.layoutMargins = UIEdgeInsets(top: 16, left: 24, bottom: 24, right: 24)
+
         NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24).withPriority(.almostRequired),
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor).withPriority(.almostRequired),
+            titleLabel.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
         ])
     }
     

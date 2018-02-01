@@ -46,36 +46,27 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
     private lazy var serialItem: BaseFormItem = {
         let title = NSLocalizedString("Fleet ID", comment: "")
-        if self.viewModel.isEditing {
-            return ValueFormItem(title: title, value: viewModel.content.serial)
-                .width(.column(3))
-        } else {
-            return TextFieldFormItem(title: title, text: nil)
-                .autocapitalizationType(.allCharacters)
-                .width(.column(3))
-                .required("Fleet ID is required.")
-                .strictValidate(CharacterSetSpecification.alphanumerics, message: "Fleet ID must only use numbers and letters")
-                .text(viewModel.content.serial)
-                .onValueChanged { [weak self] in
-                    self?.viewModel.content.serial = $0
-            }
+        return TextFieldFormItem(title: title, text: nil)
+            .autocapitalizationType(.allCharacters)
+            .width(.column(3))
+            .required("Fleet ID is required.")
+            .strictValidate(CharacterSetSpecification.alphanumerics, message: "Fleet ID must only use numbers and letters")
+            .text(viewModel.content.serial)
+            .onValueChanged { [weak self] in
+                self?.viewModel.content.serial = $0
         }
     }()
 
     private lazy var categoryItem: BaseFormItem = {
         let title = NSLocalizedString("Category", comment: "")
-        if self.viewModel.isEditing {
-            return ValueFormItem(title: title, value: viewModel.content.category)
-                .width(.column(3))
-        } else {
-            return DropDownFormItem(title: title)
-                .options(["1", "2", "3"])
-                .required("Category is required.")
-                .width(.column(3))
-                .selectedValue([viewModel.content.category].removeNils())
-                .onValueChanged { [weak self] in
-                    self?.viewModel.content.category = $0?.first
-            }
+        return DropDownFormItem(title: title)
+            // TODO: get these from manifest
+            .options(["1", "2", "3", "4"])
+            .required("Category is required.")
+            .width(.column(3))
+            .selectedValue([viewModel.content.category].removeNils())
+            .onValueChanged { [weak self] in
+                self?.viewModel.content.category = $0?.first
         }
     }()
 
@@ -119,23 +110,17 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         viewModel.content.startTime = viewModel.content.startTime ?? Date().rounded(minutes: 60, rounding: .ceil)
 
         let title = NSLocalizedString("Start Time", comment: "")
-        if self.viewModel.isEditing {
-            let value = DateFormatter.formTime.string(from: viewModel.content.startTime!)
-            return ValueFormItem(title: title, value: value)
-                .width(.column(3))
-        } else {
-            return DateFormItem(title: title)
-                .width(.column(3))
-                .required("Start time is required.")
-                .datePickerMode(.dateAndTime)
-                .dateFormatter(.formTime)
-                .minimumDate(Date().rounded(minutes: 15, rounding: .ceil))
-                .minuteInterval(15)
-                .selectedValue(viewModel.content.startTime)
-                .onValueChanged { [weak self] in
-                    self?.viewModel.content.startTime = $0
-                    self?.updateDuration()
-            }
+        return DateFormItem(title: title)
+            .width(.column(2))
+            .required("Start time is required.")
+            .datePickerMode(.dateAndTime)
+            .dateFormatter(.relativeShortDateAndTimeFullYear)
+            .minimumDate(Date().rounded(minutes: 15, rounding: .ceil))
+            .minuteInterval(15)
+            .selectedValue(viewModel.content.startTime)
+            .onValueChanged { [weak self] in
+                self?.viewModel.content.startTime = $0
+                self?.updateDuration()
         }
     }()
 
@@ -146,10 +131,10 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
         let title = NSLocalizedString("Est. End Time", comment: "")
         return DateFormItem(title: title)
-            .width(.column(3))
+            .width(.column(2))
             .required("End time is required.")
             .datePickerMode(.dateAndTime)
-            .dateFormatter(.formTime)
+            .dateFormatter(.relativeShortDateAndTimeFullYear)
             .minimumDate(Date().rounded(minutes: 15, rounding: .ceil))
             .minuteInterval(15)
             .selectedValue(viewModel.content.endTime)
@@ -162,7 +147,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     /// Calculated duration of shift
     private lazy var durationItem: ValueFormItem = {
         return ValueFormItem(title: NSLocalizedString("Duration", comment: ""), value: "")
-            .width(.column(3))
+            .width(.column(1))
     }()
 
     /// Construct the form
@@ -188,7 +173,8 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         for (index, officer) in viewModel.content.officers.enumerated() {
             builder += BookOnDetailsOfficerFormItem(title: officer.title,
                                                     subtitle: officer.subtitle,
-                                                    status: officer.driverStatus)
+                                                    status: officer.driverStatus,
+                                                    image: officer.thumbnail())
                 .width(.column(1))
                 .height(.fixed(60))
                 .accessory(FormAccessoryView(style: .pencil))
@@ -279,8 +265,8 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         // TODO: show progress overlay
         firstly {
             return viewModel.submitForm()
-        }.then { [unowned self] status in
-            self.closeForm(submitted: true)
+        }.then { [weak self] status in
+            self?.closeForm(submitted: true)
         }.always {
             // TODO: Cancel progress overlay
         }.catch { error in
@@ -290,11 +276,18 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     }
 
     private func closeForm(submitted: Bool) {
-        // Dismiss the modal if we are booking on and got presented, go back to previous screen otherwise
-        if submitted && !viewModel.isEditing && presentingViewController != nil {
-            dismiss(animated: true, completion: nil)
+        // If pushed view, dismiss the modal if we are booking on and got presented, go back to previous screen otherwise
+        if navigationController?.viewControllers.count ?? 0 > 1 {
+            if submitted && !viewModel.isEditing && presentingViewController != nil {
+                dismiss(animated: true, completion: nil)
+            } else {
+                navigationController?.popViewController(animated: true)
+            }
         } else {
-            navigationController?.popViewController(animated: true)
+            // Not pushed, so dismiss
+            if presentingViewController != nil {
+                dismiss(animated: true, completion: nil)
+            }
         }
     }
 

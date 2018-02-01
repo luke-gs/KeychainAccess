@@ -30,8 +30,8 @@ public class SummaryListFormItem: BaseFormItem {
     public init() {
         super.init(cellType: EntityListCollectionViewCell.self, reuseIdentifier: EntityListCollectionViewCell.defaultReuseIdentifier)
 
-        highlightStyle = .enlarge
-        selectionStyle = .enlarge
+        highlightStyle = .fade
+        selectionStyle = .fade
     }
 
     public override func configure(_ cell: CollectionViewFormCell) {
@@ -71,6 +71,10 @@ public class SummaryListFormItem: BaseFormItem {
         let cell = cell as! EntityListCollectionViewCell
         cell.titleLabel.textColor = primaryTextColor
         cell.subtitleLabel.textColor = secondaryTextColor
+        
+        cell.sourceLabel.textColor = secondaryTextColor
+        cell.sourceLabel.borderColor = secondaryTextColor
+        cell.sourceLabel.backgroundColor = .clear
     }
 
 }

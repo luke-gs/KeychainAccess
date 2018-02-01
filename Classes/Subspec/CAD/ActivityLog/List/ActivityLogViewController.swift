@@ -9,12 +9,21 @@
 import UIKit
 
 open class ActivityLogViewController: FormBuilderViewController {
+
     public let viewModel: CADFormCollectionViewModel<ActivityLogItemViewModel>
     
+    open var activityLogViewModel: DatedActivityLogViewModel? {
+        return viewModel as? DatedActivityLogViewModel
+    }
+
     public init(viewModel: CADFormCollectionViewModel<ActivityLogItemViewModel>) {
         self.viewModel = viewModel
         super.init()
         title = viewModel.navTitle()
+
+        if (activityLogViewModel?.allowCreate()).isTrue {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(plusButtonTapped))
+        }
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -46,12 +55,28 @@ open class ActivityLogViewController: FormBuilderViewController {
                     .onThemeChanged({ (cell, theme) in
                         self.apply(theme: theme, to: cell)
                     })
+                    .onSelection({ (cell) in
+                        // TODO: implement disclosure presentation
+                    })
                 .accessory(ItemAccessory.disclosure)
             }
         }
         
     }
     
+    @objc open func plusButtonTapped(_ item: UIBarButtonItem) {
+        if let viewController = activityLogViewModel?.createNewActivityLogViewController() {
+            presentFormSheet(viewController, animated: true)
+        }
+    }
+    
+    open override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        super.collectionView(collectionView, didSelectItemAt: indexPath)
+
+        // Remove cell highlight
+        collectionView.deselectItem(at: indexPath, animated: false)
+    }
+
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
         if let item = viewModel.item(at: indexPath) {
             return ActivityLogItemCell.minimumContentHeight(withTitle: item.title, subtitle: item.subtitle, inWidth: itemWidth, compatibleWith: traitCollection)

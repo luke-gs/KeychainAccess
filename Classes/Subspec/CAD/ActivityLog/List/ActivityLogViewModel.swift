@@ -18,43 +18,45 @@ public class ActivityLogViewModel: DatedActivityLogViewModel {
     
     /// Create the view controller for this view model
     public func createViewController() -> UIViewController {
-        return ActivityLogViewController(viewModel: self)
+        let vc = ActivityLogViewController(viewModel: self)
+        delegate = vc
+        return vc
     }
     
     /// Update the task list
     public func updateData() {
         // TODO: fetch from network
         let viewModels = [
-            ActivityLogItemViewModel(dotFillColor: .disabledGray,
+            ActivityLogItemViewModel(dotFillColor: .primaryGray,
                                      dotStrokeColor: .clear,
-                                     timestamp: Date().beginningOfDay.adding(hours: 10).adding(minutes: 30),
-                                     title: "Status: At Incident [Assault - AS4205]",
-                                     subtitle: "Jason Chieng, Herli Halim @ 188 Smith Street, Fitzroy VIC 3065"),
-            ActivityLogItemViewModel(dotFillColor: .disabledGray,
+                                     timestamp: Date().beginningOfDay.adding(hours: 10).adding(minutes: 28),
+                                     title: "At incident",
+                                     subtitle: "Assault  •  PS20180615027"),
+            ActivityLogItemViewModel(dotFillColor: .primaryGray,
                                      dotStrokeColor: .clear,
                                      timestamp: Date().beginningOfDay.adding(hours: 10).adding(minutes: 24),
-                                     title: "Status: Proceeding [Assault - AS4205]",
-                                     subtitle: "Jason Chieng, Herli Halim"),
-            ActivityLogItemViewModel(dotFillColor: .midGreen,
+                                     title: "Proceeding",
+                                     subtitle: "Assault  •  PS20180615027"),
+            ActivityLogItemViewModel(dotFillColor: .primaryGray,
                                      dotStrokeColor: .clear,
                                      timestamp: Date().beginningOfDay.adding(hours: 10).adding(minutes: 17),
-                                     title: "Status: On Air",
-                                     subtitle: "Jason Chieng, Herli Halim @ 28 Wellington Street, Collingwood VIC 3066"),
-            ActivityLogItemViewModel(dotFillColor: .brightBlue,
+                                     title: "On air",
+                                     subtitle: "Assault  •  PS20180615027"),
+            ActivityLogItemViewModel(dotFillColor: .primaryGray,
                                      dotStrokeColor: .clear,
                                      timestamp: Date().beginningOfDay.adding(hours: 10).adding(minutes: 14),
-                                     title: "Incident: Finalise [Traffic Crash - AS4197]",
-                                     subtitle: "Jason Chieng, Herli Halim @ 28 Wellington Street, Collingwood VIC 3066"),
-            ActivityLogItemViewModel(dotFillColor: .white,
-                                     dotStrokeColor: .brightBlue,
+                                     title: "Finalise incident",
+                                     subtitle: "Traffic Crash  •  PS20180615020"),
+            ActivityLogItemViewModel(dotFillColor: .primaryGray,
+                                     dotStrokeColor: .clear,
                                      timestamp: Date().beginningOfDay.adding(hours: 10).adding(minutes: 02),
-                                     title: "Event: Submit Event [Incident Report - EV105-160717]",
-                                     subtitle: "Jason Chieng, Herli Halim @ 28 Wellington Street, Collingwood VIC 3066"),
-            ActivityLogItemViewModel(dotFillColor: .white,
-                                     dotStrokeColor: .brightBlue,
+                                     title: "Submit event",
+                                     subtitle: "EV105-20181506"),
+            ActivityLogItemViewModel(dotFillColor: .primaryGray,
+                                     dotStrokeColor: .clear,
                                      timestamp: Date().beginningOfDay.adding(hours: 9).adding(minutes: 40),
-                                     title: "Event: Create Event [Incident Report - EV105-160717]",
-                                     subtitle: "Jason Chieng, Herli Halim @ 28 Wellington Street, Collingwood VIC 3066"),
+                                     title: "Search person name: White, Natasha",
+                                     subtitle: "J. Chieng"),
         ]
         
         sections = sortedSectionsByDate(from: viewModels)
@@ -75,4 +77,5 @@ public class ActivityLogViewModel: DatedActivityLogViewModel {
     override open func noContentSubtitle() -> String? {
         return nil
     }
+
 }

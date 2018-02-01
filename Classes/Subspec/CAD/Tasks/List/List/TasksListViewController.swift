@@ -118,7 +118,30 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
     
 
     open override func construct(builder: FormBuilder) {
-        for (sectionIndex, section) in viewModel.sections.enumerated() {
+        if viewModel.otherSections.count > 0 {
+            // Show header for my patrol group items (negative bottom margin to move up group items)
+            builder += LargeTextHeaderFormItem()
+                .text(StringSizing(string: viewModel.patrolGroupSectionTitle(), font: UIFont.systemFont(ofSize: 17, weight: .semibold), numberOfLines: 1))
+                .layoutMargins(UIEdgeInsets(top: 24, left: 24, bottom: -24, right: 24))
+
+            // Show my patrol group items
+            constructGroup(builder: builder, sections: viewModel.sections)
+
+            // Show header for other patrol group items
+            builder += LargeTextHeaderFormItem()
+                .text(StringSizing(string: viewModel.otherSectionTitle(), font: UIFont.systemFont(ofSize: 17, weight: .semibold), numberOfLines: 1))
+                .layoutMargins(UIEdgeInsets(top: 24, left: 24, bottom: -24, right: 24))
+
+            // Show other patrol group items
+            constructGroup(builder: builder, sections: viewModel.otherSections)
+        } else {
+            // Just show my patrol group items without header
+            constructGroup(builder: builder, sections: viewModel.sections)
+        }
+    }
+
+    open func constructGroup(builder: FormBuilder, sections: [CADFormCollectionSectionViewModel<TasksListItemViewModel>]) {
+        for (sectionIndex, section) in sections.enumerated() {
             let sectionCollapsible = viewModel.shouldShowExpandArrow() && !viewModel.indexesForNonCollapsibleSections.contains(sectionIndex)
             builder += HeaderFormItem(text: section.title.uppercased(),
                                       style: sectionCollapsible ? .collapsible : .plain)
@@ -268,7 +291,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
 
 extension TasksListViewController: LoadingStateManagerDelegate {
     public func loadingStateManager(_ stateManager: LoadingStateManager, didChangeState state: LoadingStateManager.State) {
-        if state == .loaded {
+        if state == .loaded && !searchBar.isFirstResponder {
             // Hide search bar when first loaded
             hideSearchBar()
         }
@@ -280,7 +303,7 @@ extension TasksListViewController: CADFormCollectionViewModelDelegate {
         // Update loading state
         let noSections = (viewModel.numberOfSections() == 0)
         loadingManager.state = noSections ? .noContent : .loaded
-        searchBar.isHidden = noSections
+        searchBar.isHidden = noSections && searchBar.text?.isEmpty == true
 
         // Reload content
         reloadContent()

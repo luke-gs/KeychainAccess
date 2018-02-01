@@ -72,55 +72,58 @@ open class TrafficStopViewController: FormBuilderViewController {
                 })])
         }
         
-        builder += HeaderFormItem(text: "GENERAL")
+        builder += HeaderFormItem(text: "STOP DETAILS")
         builder += ValueFormItem()  // TODO: Implement selecting location
             .title("Location")
             .value(viewModel.formattedLocation())
-            .accessory(FormAccessoryView(style: .disclosure))
+            .accessory(FormAccessoryView(style: .pencil))
             .width(.column(1))
         builder += OptionFormItem()
             .title("Create an incident".sizing(withNumberOfLines: 0, font: UIFont.systemFont(ofSize: 15, weight: .semibold)))
             .isChecked(viewModel.createIncident)
             .onValueChanged({ [unowned self] in
                 self.viewModel.createIncident = $0
+                self.reloadForm()
             })
             .width(.column(1))
-        
-        builder += HeaderFormItem(text: "INCIDENT DETAILS")
-        builder += DropDownFormItem(title: "Priority")
-            .options(viewModel.priorityOptions)
-            .required("Priority is required")
-            .placeholder("Required")
-            .selectedValue([viewModel.priority?.rawValue].removeNils())
-            .onValueChanged({ [unowned self] in
-                self.viewModel.priority = IncidentGrade(rawValue: $0?.first ?? "")
-            })
-            .width(.fixed(100))
-        builder += DropDownFormItem(title: "Primary Code")
-            .options(viewModel.primaryCodeOptions)
-            .required("Primary Code is required")
-            .placeholder("Required")
-            .selectedValue([viewModel.primaryCode].removeNils())
-            .onValueChanged({ [unowned self] in
-                self.viewModel.primaryCode = $0?.first
-            })
-            .width(.fixed(150))
-        builder += DropDownFormItem(title: "Secondary Code")
-            .options(viewModel.secondaryCodeOptions)
-            .selectedValue([viewModel.secondaryCode].removeNils())
-            .placeholder("Optional")
-            .onValueChanged({ [unowned self] in
-                self.viewModel.secondaryCode = $0?.first
-            })
-            .width(.fixed(150))
-        builder += TextFieldFormItem(title: "Remark")
-            .text(viewModel.remark)
-            .placeholder("Required")
-            .required("Remark is required")
-            .onValueChanged({ [unowned self] in
-                self.viewModel.remark = $0
-            })
-            .width(.column(1))
+
+        if viewModel.createIncident {
+            builder += HeaderFormItem(text: "INCIDENT DETAILS")
+            builder += DropDownFormItem(title: "Priority")
+                .options(viewModel.priorityOptions)
+                .required("Priority is required")
+                .placeholder("Required")
+                .selectedValue([viewModel.priority?.rawValue].removeNils())
+                .onValueChanged({ [unowned self] in
+                    self.viewModel.priority = IncidentGrade(rawValue: $0?.first ?? "")
+                })
+                .width(.fixed(100))
+            builder += DropDownFormItem(title: "Primary Code")
+                .options(viewModel.primaryCodeOptions)
+                .required("Primary Code is required")
+                .placeholder("Required")
+                .selectedValue([viewModel.primaryCode].removeNils())
+                .onValueChanged({ [unowned self] in
+                    self.viewModel.primaryCode = $0?.first
+                })
+                .width(.fixed(150))
+            builder += DropDownFormItem(title: "Secondary Code")
+                .options(viewModel.secondaryCodeOptions)
+                .selectedValue([viewModel.secondaryCode].removeNils())
+                .placeholder("Optional")
+                .onValueChanged({ [unowned self] in
+                    self.viewModel.secondaryCode = $0?.first
+                })
+                .width(.fixed(150))
+            builder += TextFieldFormItem(title: "Remark")
+                .text(viewModel.remark)
+                .placeholder("Required")
+                .required("Remark is required")
+                .onValueChanged({ [unowned self] in
+                    self.viewModel.remark = $0
+                })
+                .width(.column(1))
+        }
     }
     
     // MARK: - Actions

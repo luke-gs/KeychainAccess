@@ -8,20 +8,17 @@
 
 import UIKit
 
-public protocol TaskItemViewModelDelegate: class {
-    func presentStatusSelector(viewController: UIViewController)
-}
-
 open class IncidentTaskItemViewModel: TaskItemViewModel {
-
-    open weak var delegate: TaskItemViewModelDelegate?
 
     open private(set) var incident: SyncDetailsIncident?
     open private(set) var resource: SyncDetailsResource?
 
-    public init(incidentNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?, lastUpdated: String?) {
-        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, lastUpdated: lastUpdated)
-        
+    public init(incidentNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
+        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName)
+
+        self.navTitle =  NSLocalizedString("Incident details", comment: "")
+        self.compactNavTitle = itemName
+
         self.viewModels = [
             IncidentOverviewViewModel(incidentNumber: incidentNumber),
             IncidentAssociationsViewModel(incidentNumber: incidentNumber),
@@ -36,14 +33,13 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
                   iconTintColor: resource?.status.iconColors.icon ?? .white,
                   color: resource?.status.iconColors.background,
                   statusText: resource?.status.title ?? incident.status.rawValue,
-                  itemName: [incident.type, incident.resourceCountString].joined(),
-                  lastUpdated: incident.lastUpdated.elapsedTimeIntervalForHuman())
+                  itemName: [incident.type, incident.resourceCountString].joined())
         self.incident = incident
         self.resource = resource
     }
     
     open override func createViewController() -> UIViewController {
-        let vc = TasksItemSidebarViewController(viewModel: self)
+        let vc = TaskItemSidebarSplitViewController(viewModel: self)
         delegate = vc
         return vc
     }
@@ -60,7 +56,6 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
             color = resource?.status.iconColors.background
             statusText = resource?.status.title ?? incident.status.rawValue
             itemName = [incident.type, incident.resourceCountString].joined()
-            lastUpdated = incident.lastUpdated.elapsedTimeIntervalForHuman()
 
             viewModels.forEach {
                 $0.reloadFromModel()
@@ -87,7 +82,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         }
     }
 
-    open func allowChangeResourceStatus() -> Bool {
+    open override func allowChangeResourceStatus() -> Bool {
         // If this task is the current incident for our booked on resource,
         // or we have no current incident, allow changing resource state
         if CADStateManager.shared.lastBookOn != nil {

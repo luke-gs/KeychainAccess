@@ -64,7 +64,7 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
     // MARK: - Subclass can override these methods
 
     open func headerItemForSection(_ section: SearchResultSection) -> HeaderFormItem {
-        return HeaderFormItem(text: section.title, style: .collapsible)
+        return HeaderFormItem(text: section.title, style: .collapsible).isExpanded(section.isExpanded)
     }
 
     open func summaryItemsForSection(_ section: SearchResultSection) -> [FormItem] {
