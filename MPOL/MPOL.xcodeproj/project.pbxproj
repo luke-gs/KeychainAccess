@@ -62,7 +62,8 @@
 		98286F47FF0E675D611C2782 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		BC4E81101EBEE38400188181 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		BCD4EA891E515ACE000B993D /* Fish.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fish.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC8B26F51EDC08460022B0AD /* EventsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
+		BCD4EA891E515ACE000B993D /* Search.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Search.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCD4EA931E515ACE000B993D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BCD4EA981E515ACE000B993D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -149,7 +150,7 @@
 		BCD4EA8A1E515ACE000B993D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BCD4EA891E515ACE000B993D /* Fish.app */,
+				BCD4EA891E515ACE000B993D /* Search.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -230,7 +231,7 @@
 			);
 			name = MPOL;
 			productName = MPOL;
-			productReference = BCD4EA891E515ACE000B993D /* Fish.app */;
+			productReference = BCD4EA891E515ACE000B993D /* Search.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
