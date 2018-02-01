@@ -122,17 +122,9 @@
 		BC0D8E821E94067800EDFC45 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				BC8B26F41EDC083A0022B0AD /* Events */,
 				BC4E81101EBEE38400188181 /* SettingsViewController.swift */,
 			);
 			path = "View Controllers";
-			sourceTree = "<group>";
-		};
-		BC8B26F41EDC083A0022B0AD /* Events */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Events;
 			sourceTree = "<group>";
 		};
 		BCD4EA801E515ACE000B993D = {
