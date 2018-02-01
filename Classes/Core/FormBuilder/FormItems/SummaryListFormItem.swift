@@ -71,6 +71,10 @@ public class SummaryListFormItem: BaseFormItem {
         let cell = cell as! EntityListCollectionViewCell
         cell.titleLabel.textColor = primaryTextColor
         cell.subtitleLabel.textColor = secondaryTextColor
+        
+        cell.sourceLabel.textColor = secondaryTextColor
+        cell.sourceLabel.borderColor = secondaryTextColor
+        cell.sourceLabel.backgroundColor = .clear
     }
 
 }
