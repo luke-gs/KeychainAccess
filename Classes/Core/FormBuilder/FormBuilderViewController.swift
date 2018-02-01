@@ -234,6 +234,15 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         }
     }
 
+    open func selectItem(_ formItem: FormItem) {
+        for (sectionIndex, section) in sections.enumerated() {
+            if let itemIndex = section.formItems.index(where: { $0 === formItem }) {
+                collectionView?.selectItem(at: IndexPath(item: itemIndex, section: sectionIndex), animated: true, scrollPosition: .centeredVertically)
+                return
+            }
+        }
+    }
+
     // MARK: - View lifecycle
 
     open override func loadView() {

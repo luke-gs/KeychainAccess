@@ -11,6 +11,11 @@ import MapKit
 import PromiseKit
 import Cluster
 
+public enum MapSummaryAnnotationViewIdentifier: String {
+    case cluster = "myBigPileOfPoo"
+    case single  = "myLittlePileOfPoo"
+}
+
 open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModelable, AggregatedSearchDelegate {
 
     public let title: String
@@ -31,26 +36,23 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
     
     public var results: [SearchResultSection]  = [] {
         didSet {
-            var mapAnnotations = [EntityAnnotationMapping]()
-            for section in results {
-                let annotations = section.entities.flatMap({ entity -> EntityAnnotationMapping? in
-                    guard let annotation = mapAnnotation(for: entity) else {
-                        return nil
-                    }
-                    return EntityAnnotationMapping(entity: entity, annotation: annotation)
-                })
-                mapAnnotations.append(contentsOf: annotations)
-            }
-            entityAnnotationMappings = mapAnnotations
-            allAnnotations = entityAnnotationMappings.map({ return $0.annotation })
+            var itemsMap = [MPOLKitEntity: FormItem]()
+            allAnnotations = results.flatMap({ section -> [MKAnnotation] in
+                for (entity, item) in zip(section.entities, self.summaryItemsForSection(section)) {
+                    itemsMap[entity] = item
+                }
+
+                return section.entities.flatMap { self.mapAnnotation(for: $0) }
+            })
+            self.itemsMap = itemsMap
         }
     }
 
     public private(set) var allAnnotations: [MKAnnotation]?
 
-    public let summaryDisplayFormatter: EntitySummaryDisplayFormatter
+    private var itemsMap: [MPOLKitEntity: FormItem] = [:]
 
-    private var entityAnnotationMappings: [EntityAnnotationMapping] = []
+    public let summaryDisplayFormatter: EntitySummaryDisplayFormatter
 
     private lazy var tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(annotationTapped(_:)))
 
@@ -67,11 +69,11 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
 
     // MARK: - Map related
 
-    open func mapAnnotation(for entity: MPOLKitEntity) -> MKAnnotation? {
+    open func mapAnnotation(for entity: MPOLKitEntity) -> EntityAnnotation? {
         guard let displayable = summaryDisplayFormatter.summaryDisplayForEntity(entity) as? EntityMapSummaryDisplayable else { return nil }
         guard let coordinate = displayable.coordinate else { return nil }
 
-        let annotation = MKPointAnnotation()
+        let annotation = EntityAnnotation(entity: entity)
         annotation.coordinate = coordinate
         annotation.title = displayable.title
         return annotation
@@ -80,7 +82,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
     open func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView? {
         if let annotation = annotation as? ClusterAnnotation {
             let pinView: ClusterAnnotationView
-            let identifier = "myBigPileOfPoo"
+            let identifier = MapSummaryAnnotationViewIdentifier.cluster.rawValue
             if let dequeueView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? ClusterAnnotationView {
                 dequeueView.annotation = annotation
                 pinView = dequeueView
@@ -89,8 +91,8 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
             }
 
             let summaries = annotation.annotations.flatMap { annotation -> EntitySummaryDisplayable? in
-                if let entityAnnotationPair = entityAnnotationMappings.first(where: { $0.annotation === annotation }) {
-                    return summaryDisplayFormatter.summaryDisplayForEntity(entityAnnotationPair.entity)
+                if let annotation = annotation as? EntityAnnotation {
+                    return summaryDisplayFormatter.summaryDisplayForEntity(annotation.entity)
                 }
                 return nil
             }
@@ -100,9 +102,9 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
             }
 
             return pinView
-        } else if annotation is MKPointAnnotation {
+        } else if let annotation = annotation as? EntityAnnotation {
             let pinView: LocationAnnotationView
-            let identifier = "myLittlePileOfPoo"
+            let identifier = MapSummaryAnnotationViewIdentifier.single.rawValue
             if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? LocationAnnotationView {
                 dequeuedView.annotation = annotation
                 pinView = dequeuedView
@@ -110,8 +112,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
                 pinView = LocationAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             }
 
-            if let entityAnnotationPair = entityAnnotationMappings.first(where: { $0.annotation === annotation }),
-                let displayable = summaryDisplayFormatter.summaryDisplayForEntity(entityAnnotationPair.entity) as? EntityMapSummaryDisplayable {
+            if let displayable = summaryDisplayFormatter.summaryDisplayForEntity(annotation.entity) as? EntityMapSummaryDisplayable {
                 pinView.borderColor = displayable.borderColor ?? .gray
             }
 
@@ -122,18 +123,20 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
     }
 
     @objc private func annotationTapped(_ recognizer: UITapGestureRecognizer) {
-        guard let annotationView = recognizer.view as? LocationAnnotationView, let annotation = annotationView.annotation else { return }
+        guard let annotationView = recognizer.view as? LocationAnnotationView, let annotation = annotationView.annotation as? EntityAnnotation else { return }
 
-        if let entity = entityAnnotationMappings.first(where: { $0.annotation === annotation })?.entity {
-            if let presentable = self.summaryDisplayFormatter.presentableForEntity(entity) {
-                delegate?.requestToPresent(presentable)
-            }
+        if let presentable = self.summaryDisplayFormatter.presentableForEntity(annotation.entity) {
+            delegate?.requestToPresent(presentable)
         }
     }
 
     public func annotationViewDidSelect(annotationView: MKAnnotationView, in mapView: MKMapView) {
         guard let annotationView = annotationView as? LocationAnnotationView else { return }
         annotationView.addGestureRecognizer(tapGestureRecognizer)
+
+        if let entity = (annotationView.annotation as? EntityAnnotation)?.entity, let item = itemsMap[entity] {
+            delegate?.selectItem(item)
+        }
     }
 
     public func annotationViewDidDeselect(annotationView: MKAnnotationView, in mapView: MKMapView) {
@@ -205,7 +208,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
 
     public func itemsForClusteredAnnotations(_ annotations: [MKAnnotation]) -> [FormItem] {
         let entities = annotations.flatMap { annotation -> MPOLKitEntity? in
-            return entityAnnotationMappings.first(where: { $0.annotation === annotation })?.entity
+            return (annotation as? EntityAnnotation)?.entity
         }
 
         let section = SearchResultSection(title: "\(annotations.count) LOCATIONS SELECTED", entities: entities, isExpanded: false, state: .finished, error: nil)
@@ -222,6 +225,10 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
         let userLocation = delegate?.mapView?.userLocation.location
 
         return section.entities.flatMap { entity in
+            if let existingItem = self.itemsMap[entity] {
+                return existingItem
+            }
+
             guard let summary = summaryDisplayFormatter.summaryDisplayForEntity(entity) as? EntityMapSummaryDisplayable else { return nil }
 
             let summaryItem = summary.summaryListFormItem()
@@ -303,7 +310,12 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
 
 }
 
-fileprivate struct EntityAnnotationMapping {
-    let entity: MPOLKitEntity
-    let annotation: MKAnnotation
+public class EntityAnnotation: MKPointAnnotation {
+
+    public var entity: MPOLKitEntity
+
+    public init(entity: MPOLKitEntity) {
+        self.entity = entity
+    }
+
 }

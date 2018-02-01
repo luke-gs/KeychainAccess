@@ -50,8 +50,6 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
 
             if (selectedAnnotation is ClusterAnnotation) != (oldValue is ClusterAnnotation) {
                 reloadForm()
-            } else {
-
             }
         }
     }
@@ -364,12 +362,7 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     
     @objc
     private func searchFieldButtonDidSelect() {
-        if let text = searchFieldButton?.text, !text.isEmpty {
-            let search = Searchable(text: text, type: LocationSearchDataSourceSearchableType)
-            delegate?.beginSearch(with: search)
-        } else {
-            delegate?.beginSearch(reset: false)
-        }
+        delegate?.beginSearch(with: Searchable(text: nil, type: LocationSearchDataSourceSearchableType))
     }
 
     private func reloadMapOverlays() {
