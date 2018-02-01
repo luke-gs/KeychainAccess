@@ -32,28 +32,18 @@ public class TextTemplate: Template {
 
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let keys: [CodingKeys] = [.name, .description, .value, .id]
-        let data = try keys.map { key in
-            try container.decode(Data.self, forKey: key)
-        }
-
-        // can't call our other init here :(
-        self.name = String(data: data[0], encoding: .ascii)!
-        self.description = String(data: data[1], encoding: .ascii)!
-        self.value = String(data: data[2], encoding: .ascii)!
-        super.init(id: String(data: data[3], encoding: .ascii)!, timestamp: try container.decode(Date.self, forKey: .timestamp))
+        self.name = try container.decode(String.self, forKey: .name)
+        self.description = try container.decode(String.self, forKey: .description)
+        self.value = try container.decode(String.self, forKey: .value)
+        super.init(id: try! container.decode(String.self, forKey: .id), timestamp: try container.decode(Date.self, forKey: .timestamp))
     }
 
     override public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        let nameData = name.data(using: .ascii)
-        let descriptionData = description.data(using: .ascii)
-        let valueData = value.data(using: .ascii)
-        let idData = id.data(using: .ascii)
-        try container.encode(nameData, forKey: .name)
-        try container.encode(descriptionData, forKey: .description)
-        try container.encode(valueData, forKey: .value)
-        try container.encode(idData, forKey: .id)
+        try container.encode(name, forKey: .name)
+        try container.encode(description, forKey: .description)
+        try container.encode(value, forKey: .value)
+        try container.encode(id, forKey: .id)
         try container.encode(timestamp, forKey: .timestamp)
     }
 }
