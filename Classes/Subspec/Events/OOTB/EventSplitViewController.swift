@@ -27,7 +27,9 @@ public class EventSplitViewController: SidebarSplitViewController, EvaluationObs
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        print("\(#file), \(evaluator), \(key), \(evaluationState)")
+        if key == .readyToSubmit {
+            //TODO: toggle submit button
+        }
     }
 }
 
@@ -39,6 +41,12 @@ public class DefaultEventsDetailViewModel: EventDetailViewModelType, Evaluatable
     public var headerView: UIView?
 
     public var evaluator: Evaluator = Evaluator()
+
+    private var readyToSubmit = false {
+        didSet {
+            evaluator.updateEvaluation(for: .readyToSubmit)
+        }
+    }
 
     public required init(event: Event, builder: EventScreenBuilding = DefaultEventScreenBuilder()) {
         self.event = event
@@ -54,10 +62,16 @@ public class DefaultEventsDetailViewModel: EventDetailViewModelType, Evaluatable
         }()
 
         event.evaluator.addObserver(self)
+        evaluator.registerKey(.readyToSubmit) {
+            return self.readyToSubmit
+        }
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        print("\(#file), \(evaluator), \(key), \(evaluationState)")
+        readyToSubmit = evaluationState
     }
 }
 
+fileprivate extension EvaluatorKey {
+    static let readyToSubmit = EvaluatorKey(rawValue: "readyToSubmit")
+}

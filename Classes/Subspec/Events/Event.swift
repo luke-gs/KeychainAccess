@@ -25,6 +25,12 @@ final public class Event: NSCoding, Evaluatable {
     private(set) public var reports: [Reportable] = [Reportable]()
     public var evaluator: Evaluator = Evaluator()
 
+    private var allValid: Bool = false {
+        didSet {
+            evaluator.updateEvaluation(for: .allValid)
+        }
+    }
+
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(reports, forKey: "reports")
     }
@@ -34,25 +40,33 @@ final public class Event: NSCoding, Evaluatable {
         evaluator = aDecoder.decodeObject(forKey: "evaluator") as! Evaluator
     }
 
-    public init() { }
+    public init() {
+        evaluator.registerKey(.allValid) {
+            return !self.reports.map{$0.evaluator.isComplete}.contains(false)
+        }
+    }
 
     public func add(reports: [Reportable]) {
         self.reports.append(contentsOf: reports)
     }
 
     public func add(report: Reportable) {
-        self.reports.append(report)
+        reports.append(report)
     }
 
     public func reportable(for reportableType: AnyClass) -> Reportable? {
-        return self.reports.filter{type(of: $0) == reportableType}.first
+        return reports.filter{type(of: $0) == reportableType}.first
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        print("\(#file), \(evaluator), \(key), \(evaluationState)")
-        evaluator.updateEvaluation(for: key)
+        allValid = evaluationState
     }
 }
+
+fileprivate extension EvaluatorKey {
+    static let allValid = EvaluatorKey(rawValue: "allValid")
+}
+
 
 /// Builder for event
 ///

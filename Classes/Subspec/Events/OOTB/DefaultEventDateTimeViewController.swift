@@ -8,12 +8,14 @@
 
 import UIKit
 
-open class DefaultEventDateTimeViewController: FormBuilderViewController {
+open class DefaultEventDateTimeViewController: FormBuilderViewController, EvaluationObserverable {
 
     weak var report: DefaultDateAndTimeReport?
 
     public init(report: Reportable?) {
         self.report = report as? DefaultDateAndTimeReport
+        super.init()
+        report?.evaluator.addObserver(self)
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -25,6 +27,7 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController {
         sidebarItem.regularTitle = "Date and Time"
         sidebarItem.compactTitle = "Date and Time"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.date)!
+        sidebarItem.color = .red
     }
 
     override open func construct(builder: FormBuilder) {
@@ -58,6 +61,10 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController {
                 self.report?.tookPlacefromEndDateTime = date
         }
     }
+
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+        sidebarItem.color = evaluator.isComplete == true ? .green : .red
+    }
 }
 
 public class DefaultDateAndTimeReport: Reportable {
@@ -74,11 +81,7 @@ public class DefaultDateAndTimeReport: Reportable {
         }
     }
 
-    var tookPlacefromEndDateTime: Date? {
-        didSet {
-            evaluator.updateEvaluation(for: .tookPlacefromEndDateTime)
-        }
-    }
+    var tookPlacefromEndDateTime: Date?
 
     public weak var event: Event?
     public var evaluator: Evaluator = Evaluator()
@@ -86,13 +89,11 @@ public class DefaultDateAndTimeReport: Reportable {
     public required init(event: Event) {
         self.event = event
 
-        evaluator.addObserver(self)
         evaluator.addObserver(event)
-
-        evaluator.registerKey(.reportedOnDateTime) { () -> (Bool) in
+        evaluator.registerKey(.reportedOnDateTime) {
             return self.reportedOnDateTime != nil
         }
-        evaluator.registerKey(.tookPlaceFromStartDateTime) { () -> (Bool) in
+        evaluator.registerKey(.tookPlaceFromStartDateTime) {
             return self.tookPlaceFromStartDateTime != nil
         }
     }
@@ -105,13 +106,11 @@ public class DefaultDateAndTimeReport: Reportable {
         evaluator = aDecoder.decodeObject(forKey: "evaluator") as! Evaluator
     }
 
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        print("\(#file), \(evaluator), \(key), \(evaluationState)")
-    }
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
 }
 
 fileprivate extension EvaluatorKey {
     static let reportedOnDateTime = EvaluatorKey(rawValue: "reportedOnDateTime")
     static let tookPlaceFromStartDateTime = EvaluatorKey(rawValue: "tookPlaceFromStartDateTime")
-    static let tookPlacefromEndDateTime = EvaluatorKey(rawValue: "tookPlacefromEndDateTime")
 }
+
