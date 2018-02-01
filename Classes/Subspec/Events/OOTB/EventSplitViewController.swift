@@ -39,7 +39,6 @@ public class DefaultEventsDetailViewModel: EventDetailViewModelType, Evaluatable
     public var title: String?
     public var viewControllers: [UIViewController]?
     public var headerView: UIView?
-
     public var evaluator: Evaluator = Evaluator()
 
     private var readyToSubmit = false {

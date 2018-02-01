@@ -8,12 +8,13 @@
 
 import UIKit
 
+/// The OOTB DateTime viewController
 open class DefaultEventDateTimeViewController: FormBuilderViewController, EvaluationObserverable {
 
-    weak var report: DefaultDateAndTimeReport?
+    weak var report: DefaultDateTimeReport?
 
     public init(report: Reportable?) {
-        self.report = report as? DefaultDateAndTimeReport
+        self.report = report as? DefaultDateTimeReport
         super.init()
         report?.evaluator.addObserver(self)
     }
@@ -67,7 +68,9 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
     }
 }
 
-public class DefaultDateAndTimeReport: Reportable {
+
+/// The OOTB Date Time Report
+public class DefaultDateTimeReport: Reportable {
 
     var reportedOnDateTime: Date? {
         didSet {

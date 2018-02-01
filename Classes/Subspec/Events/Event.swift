@@ -6,20 +6,13 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-/// Anything can be reportable
-/// Used to define something in the event object
-public protocol Reportable: NSCoding, Evaluatable {
-    weak var event: Event? { get set }
-    init(event: Event)
-}
-
-//TODO: Make this something else that is extensible by the app
-public enum EventType {
-    case blank
+fileprivate extension EvaluatorKey {
+    static let allValid = EvaluatorKey(rawValue: "allValid")
 }
 
 /// The implementation of an Event.
-/// All it really is, is an array of reports
+/// All it really is, is an array of reports with some basic business logic
+/// to check if all reports are valid through the evaluator
 final public class Event: NSCoding, Evaluatable {
 
     private(set) public var reports: [Reportable] = [Reportable]()
@@ -31,20 +24,13 @@ final public class Event: NSCoding, Evaluatable {
         }
     }
 
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(reports, forKey: "reports")
-    }
-
-    public init?(coder aDecoder: NSCoder) {
-        reports = aDecoder.decodeObject(of: NSArray.self, forKey: "reports") as! [Reportable]
-        evaluator = aDecoder.decodeObject(forKey: "evaluator") as! Evaluator
-    }
-
     public init() {
         evaluator.registerKey(.allValid) {
             return !self.reports.map{$0.evaluator.isComplete}.contains(false)
         }
     }
+
+    //MARK: Utility
 
     public func add(reports: [Reportable]) {
         self.reports.append(contentsOf: reports)
@@ -58,19 +44,69 @@ final public class Event: NSCoding, Evaluatable {
         return reports.filter{type(of: $0) == reportableType}.first
     }
 
+    //MARK: Evaluation
+
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
         allValid = evaluationState
     }
+
+    //MARK: Encoding
+
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(reports, forKey: "reports")
+    }
+
+    public init?(coder aDecoder: NSCoder) {
+        reports = aDecoder.decodeObject(of: NSArray.self, forKey: "reports") as! [Reportable]
+        evaluator = aDecoder.decodeObject(forKey: "evaluator") as! Evaluator
+    }
 }
 
-fileprivate extension EvaluatorKey {
-    static let allValid = EvaluatorKey(rawValue: "allValid")
+/// A bunch of event types
+/// This can later be expanded upon to build different types of events
+/// via the app
+public struct EventType: RawRepresentable, Equatable, Hashable {
+
+    //Define default EventTypes
+    static let blank = EventType(rawValue: "blank")
+
+    public var rawValue: String
+
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public init(_ rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static func ==(lhs: EventType, rhs: EventType) -> Bool {
+        return lhs.rawValue == rhs.rawValue
+    }
+
+    public var hashValue: Int {
+        return rawValue.hashValue
+    }
 }
 
+/// Anything can be reportable
+/// Used to define something in the event object
+public protocol Reportable: NSCoding, Evaluatable {
+
+    /// A weak reference to the event object
+    /// Make sure this is weak in implementation as well
+    weak var event: Event? { get set }
+
+    /// Required initializer for a reportable
+    ///
+    /// - Parameter event: the event
+    init(event: Event)
+}
 
 /// Builder for event
 ///
 /// Used to define what an event should look like for a specific event type
+/// in terms of the reports it should have
 public protocol EventBuilding: NSCoding {
 
     /// Create an event, injecting any reports that you need.

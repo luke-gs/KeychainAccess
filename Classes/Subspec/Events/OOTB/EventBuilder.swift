@@ -15,7 +15,7 @@ public class DefaultEventBuilder: EventBuilding {
         let event = Event()
 
         // Add default reports here
-        event.add(report: DefaultDateAndTimeReport(event: event))
+        event.add(report: DefaultDateTimeReport(event: event))
 
         return (event: event, displayable: EventListDisplayable(title: "Demo",
                                                                 subtitle: "Sub",
@@ -52,7 +52,7 @@ public class DefaultEventScreenBuilder: EventScreenBuilding {
 
     private func viewController(for report: Reportable) -> UIViewController? {
         switch report {
-        case let report as DefaultDateAndTimeReport:
+        case let report as DefaultDateTimeReport:
             return DefaultEventDateTimeViewController(report: report)
         default:
             return nil
