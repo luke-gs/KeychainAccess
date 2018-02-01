@@ -8,7 +8,7 @@
 
 #include "../Pods/Target Support Files/Pods-MPOL/Pods-MPOL.release.xcconfig"
 
-PRODUCT_NAME=Fish
+PRODUCT_NAME=Search
 CONFIG_HOST_URL=dev-api-2.mpol.solutions
 
 APP_GROUP_ID=group.enterprise.gridstone.pscore
