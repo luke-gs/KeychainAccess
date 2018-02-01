@@ -21,8 +21,6 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
 
     public let searchStrategy: LocationSearchModelStrategy
 
-    private var entityAnnotationMappings: [EntityAnnotationMapping] = []
-
     public var searchType: LocationMapSearchType?
 
     public weak var delegate: (MapResultViewModelDelegate & SearchResultMapViewController)?
@@ -51,6 +49,10 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
     public private(set) var allAnnotations: [MKAnnotation]?
 
     public let summaryDisplayFormatter: EntitySummaryDisplayFormatter
+
+    private var entityAnnotationMappings: [EntityAnnotationMapping] = []
+
+    private lazy var tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(annotationTapped(_:)))
 
     public init(searchStrategy: LocationSearchModelStrategy, title: String = "", aggregatedSearch: AggregatedSearch<T>? = nil, summaryDisplayFormatter: EntitySummaryDisplayFormatter = .default) {
 
@@ -117,6 +119,26 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
         }
 
         return nil
+    }
+
+    @objc private func annotationTapped(_ recognizer: UITapGestureRecognizer) {
+        guard let annotationView = recognizer.view as? LocationAnnotationView, let annotation = annotationView.annotation else { return }
+
+        if let entity = entityAnnotationMappings.first(where: { $0.annotation === annotation })?.entity {
+            if let presentable = self.summaryDisplayFormatter.presentableForEntity(entity) {
+                delegate?.requestToPresent(presentable)
+            }
+        }
+    }
+
+    public func annotationViewDidSelect(annotationView: MKAnnotationView, in mapView: MKMapView) {
+        guard let annotationView = annotationView as? LocationAnnotationView else { return }
+        annotationView.addGestureRecognizer(tapGestureRecognizer)
+    }
+
+    public func annotationViewDidDeselect(annotationView: MKAnnotationView, in mapView: MKMapView) {
+        guard let annotationView = annotationView as? LocationAnnotationView else { return }
+        annotationView.removeGestureRecognizer(tapGestureRecognizer)
     }
 
     // MARK: - AggregateSearchDelegate 

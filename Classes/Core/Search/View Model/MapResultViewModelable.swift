@@ -64,6 +64,9 @@ public protocol MapResultViewModelable: SearchResultModelable {
 
     func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView?
 
+    func annotationViewDidSelect(annotationView: MKAnnotationView, in mapView: MKMapView)
+
+    func annotationViewDidDeselect(annotationView: MKAnnotationView, in mapView: MKMapView)
 
     /// A delegate that will be notified when there are changes to the results.
     weak var delegate: (MapResultViewModelDelegate & SearchResultMapViewController)? { get set }

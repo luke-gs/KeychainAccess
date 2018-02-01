@@ -64,8 +64,6 @@ open class ClusterAnnotationView: MKAnnotationView {
                 transform = transform.scaledBy(x: 1.2, y: 1.2)
             }
             self.transform = transform
-        }, completion: { completed in
-//            accessoryView.isHidden = !selected
         })
     }
 

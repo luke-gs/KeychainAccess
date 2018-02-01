@@ -75,9 +75,9 @@ open class LocationAnnotationView: MKAnnotationView {
         iconImageView.tintColor = UIColor(displayP3Red: 0.337, green: 0.337, blue: 0.3843, alpha: 1.0)
 
         let detailView = RoundedRectLabel()
-        detailView.isHidden = true
         detailView.text = annotation?.title ?? ""
         detailView.layoutMargins = UIEdgeInsets(top: 2.0, left: 8.0, bottom: 2.0, right: 8.0)
+        detailView.alpha = 0.0
 
         let size = detailView.sizeThatFits(CGSize(width: UILayoutFittingCompressedSize.width, height: 20.0))
         detailView.frame.size = CGSize(width: size.width, height: 20.0)
@@ -94,15 +94,14 @@ open class LocationAnnotationView: MKAnnotationView {
     open override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
+        accessoryView?.alpha = selected ? 0.0 : 1.0
         UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseOut, animations: {
             var transform: CGAffineTransform = .identity
             if selected {
                 transform = transform.scaledBy(x: 1.2, y: 1.2)
             }
             self.transform = transform
-        }, completion: { completed in
-            guard let accessoryView = self.accessoryView else { return }
-            accessoryView.isHidden = !selected
+            self.accessoryView?.alpha = selected ? 1.0 : 0.0
         })
     }
 

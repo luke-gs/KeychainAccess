@@ -288,16 +288,18 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     }
     
     // MARK: MKMapViewDelegate
-    
+
     public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         guard let annotation = view.annotation else { return }
         selectedAnnotation = annotation
+        viewModel?.annotationViewDidSelect(annotationView: view, in: mapView)
     }
 
     public func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         selectedAnnotation = nil
+        viewModel?.annotationViewDidDeselect(annotationView: view, in: mapView)
     }
-    
+
     public func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let circleOverlay = overlay as? MKCircle {
             let circleRenderer = MKCircleRenderer(overlay: circleOverlay)
