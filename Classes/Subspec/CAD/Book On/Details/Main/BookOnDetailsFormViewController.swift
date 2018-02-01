@@ -171,18 +171,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         })
 
         for (index, officer) in viewModel.content.officers.enumerated() {
-            // Button to delete officer is only available if:
-            // - When new book on, any additional officers (not default logged in officer)
-            // - When editing existing book on, anyone including logged in officer as long as not the last one in callsign
-            var editActions: [CollectionViewFormEditAction] = []
-            if viewModel.isEditing {
-                if viewModel.content.officers.count > 1 {
-                    editActions.append(deleteAction)
-                }
-
-            } else if index > 0 {
-                editActions.append(deleteAction)
-            }
+            let editActions = viewModel.allowRemoveOfficer(at: index) ? [deleteAction] : []
             builder += BookOnDetailsOfficerFormItem(title: officer.title,
                                                     subtitle: officer.subtitle,
                                                     status: officer.driverStatus,
