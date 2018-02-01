@@ -116,8 +116,9 @@ open class TasksListContainerViewModel {
         // Observe sync changes
         NotificationCenter.default.addObserver(self, selector: #selector(syncChanged), name: .CADSyncChanged, object: nil)
         
-        /// Observe book-on changes to show assigned incidents
+        /// Observe book-on and callsign changes to show assigned incidents
         NotificationCenter.default.addObserver(self, selector: #selector(bookOnChanged), name: .CADBookOnChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(bookOnChanged), name: .CADCallsignChanged, object: nil)
 
     }
 
