@@ -44,6 +44,7 @@ open class ClusterAnnotationView: MKAnnotationView {
         label.textAlignment = .center
         
         imageView.tintColor = color
+        imageView.tintAdjustmentMode = .normal
 
         addSubview(imageView)
         addSubview(label)

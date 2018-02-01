@@ -17,8 +17,13 @@ open class LocationAnnotationView: MKAnnotationView {
         }
     }
 
-    open var accessoryView: UIView?
+    open override var annotation: MKAnnotation? {
+        didSet {
+            updateText()
+        }
+    }
 
+    private let detailView = RoundedRectLabel()
     private let iconImageView = UIImageView()
     private let backgroundImageView = UIImageView()
     private let innerCircleView = UIView()
@@ -74,8 +79,6 @@ open class LocationAnnotationView: MKAnnotationView {
         innerCircleView.backgroundColor = UIColor(displayP3Red: 0.843, green: 0.843, blue: 0.850, alpha: 1.0)
         iconImageView.tintColor = UIColor(displayP3Red: 0.337, green: 0.337, blue: 0.3843, alpha: 1.0)
 
-        let detailView = RoundedRectLabel()
-        detailView.text = annotation?.title ?? ""
         detailView.layoutMargins = UIEdgeInsets(top: 2.0, left: 8.0, bottom: 2.0, right: 8.0)
         detailView.alpha = 0.0
 
@@ -83,8 +86,9 @@ open class LocationAnnotationView: MKAnnotationView {
         detailView.frame.size = CGSize(width: size.width, height: 20.0)
         detailView.center = CGPoint(x: center.x, y: -12.0)
 
-        accessoryView = detailView
         addSubview(detailView)
+
+        updateText()
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -94,15 +98,19 @@ open class LocationAnnotationView: MKAnnotationView {
     open override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        accessoryView?.alpha = selected ? 0.0 : 1.0
+        detailView.alpha = selected ? 0.0 : 1.0
         UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseOut, animations: {
             var transform: CGAffineTransform = .identity
             if selected {
                 transform = transform.scaledBy(x: 1.2, y: 1.2)
             }
             self.transform = transform
-            self.accessoryView?.alpha = selected ? 1.0 : 0.0
+            self.detailView.alpha = selected ? 1.0 : 0.0
         })
+    }
+
+    private func updateText() {
+        detailView.text = annotation?.title ?? NSLocalizedString("Unknown", comment: "Location Pin - Unknown address")
     }
 
 }
