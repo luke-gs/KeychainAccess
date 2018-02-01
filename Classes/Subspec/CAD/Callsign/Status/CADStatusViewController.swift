@@ -10,7 +10,7 @@ import UIKit
 
 open class CADStatusViewController: ThemedPopoverViewController {
     
-    private let viewModel: CADStatusViewModel
+    open let viewModel: CADStatusViewModel
     
     /// Collection view for status items
     open var collectionView: UICollectionView!

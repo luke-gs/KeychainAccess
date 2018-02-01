@@ -30,7 +30,7 @@ open class IncidentOverviewFormViewController: IntrinsicHeightFormBuilderViewCon
                     .width(item.width)
                     .onSelection({ cell in
                         item.selectAction?(cell)
-                    })
+                    }).accessory(item.accessory)
             }
         }
     }

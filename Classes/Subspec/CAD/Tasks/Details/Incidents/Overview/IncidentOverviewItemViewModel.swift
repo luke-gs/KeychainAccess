@@ -17,12 +17,14 @@ public struct IncidentOverviewItemViewModel {
     public var image: UIImage?
     public var width: BaseFormItem.HorizontalDistribution
     public var selectAction: SelectAction?
+    public var accessory: ItemAccessorisable?
     
-    public init(title: String?, value: String?, image: UIImage? = nil, width: BaseFormItem.HorizontalDistribution, selectAction: SelectAction? = nil) {
+    public init(title: String?, value: String?, image: UIImage? = nil, width: BaseFormItem.HorizontalDistribution, selectAction: SelectAction? = nil, accessory: ItemAccessorisable? = nil) {
         self.title = title
         self.value = value
         self.image = image
         self.width = width
         self.selectAction = selectAction
+        self.accessory = accessory
     }
 }

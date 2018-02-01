@@ -88,7 +88,7 @@ public class EntityDetailSectionsViewModel {
         detailSectionsViewControllers?.forEach {
             // If the error is nil, give the ViewControllers the retrieved entity
             guard let error = fetchResult.error else {
-                $0.genericEntity = (fetchResult.entity)
+                $0.genericEntity = fetchResult.entity
                 return
             }
 

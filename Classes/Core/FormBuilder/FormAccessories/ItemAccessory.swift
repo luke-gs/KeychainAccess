@@ -28,8 +28,9 @@ public struct ItemAccessory: ItemAccessorisable {
 
     public var onThemeChanged: ((Theme, FormAccessoryImageView) -> ())?
 
-    public init(style: Style) {
+    public init(style: Style, tintColor: UIColor? = nil) {
         self.style = style
+        self.tintColor = tintColor
         self.size = FormAccessoryImageView.size(with: style)
     }
 

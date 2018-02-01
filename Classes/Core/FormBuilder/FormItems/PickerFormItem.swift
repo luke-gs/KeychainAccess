@@ -146,7 +146,7 @@ public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusab
 
     // MARK: - Validation
 
-    public private(set) var validator = Validator()
+    public private(set) var validator = FormValidator()
 
     public var candidate: Any? { return selectedValue }
 
@@ -163,7 +163,7 @@ public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusab
         if let specification = requiredSpecification {
             rules.insert(specification, at: 0)
         }
-        validator = Validator(rules: rules)
+        validator = FormValidator(rules: rules)
     }
 
     public func reloadSubmitValidationState() {

@@ -100,6 +100,32 @@ open class CADStateManager: NSObject {
         }
     }
 
+    /// Set logged in officer as off duty
+    open func setOffDuty() {
+        currentResource?.status = .offDuty
+        lastBookOn = nil
+    }
+    
+    /// Clears current incident and sets status to on air
+    open func finaliseIncident() {
+        currentResource?.status = .onAir
+        clearIncident()
+    }
+    
+    /// Un-assigns the current incident for the booked on resource
+    open func clearIncident() {
+        if let incident = currentIncident, let resource = currentResource {
+
+            // Remove incident from being assigned to resource
+            var assignedIncidents = resource.assignedIncidents ?? []
+            if let index = assignedIncidents.index(of: incident.identifier) {
+                assignedIncidents.remove(at: index)
+                resource.assignedIncidents = assignedIncidents
+            }
+            resource.currentIncident = nil
+        }
+    }
+
     // MARK: - Shift
 
     /// Book on to a shift
@@ -116,18 +142,36 @@ open class CADStateManager: NSObject {
 
     /// Update the status of our callsign
     open func updateCallsignStatus(status: ResourceStatus, incident: SyncDetailsIncident?) {
-        currentResource?.status = status
+        var newStatus = status
+        var newIncident = incident
+
+        // TODO: Remove all hacks below when we have a real CAD system
+
+        // Finalise incident clears the current incident and sets state to On Air
+        if newStatus == .finalise {
+            finaliseIncident()
+            newStatus = .onAir
+            newIncident = nil
+        }
+
+        // Clear incident if changing to non incident status
+        if (currentResource?.status?.isChangingToGeneralStatus(newStatus)).isTrue {
+            // Clear the current incident
+            CADStateManager.shared.clearIncident()
+            newIncident = nil
+        }
+
+        currentResource?.status = newStatus
 
         // Update current incident if setting status without one
-        // TODO: remove this when we have a real CAD system
-        if let incident = incident, currentIncident == nil {
+        if let newIncident = newIncident, currentIncident == nil {
             if let syncDetails = lastSync, let resource = currentResource {
-                resource.currentIncident = incident.identifier
+                resource.currentIncident = newIncident.identifier
 
                 // Make sure incident is also assigned to resource
                 var assignedIncidents = resource.assignedIncidents ?? []
-                if !assignedIncidents.contains(incident.identifier) {
-                    assignedIncidents.append(incident.identifier)
+                if !assignedIncidents.contains(newIncident.identifier) {
+                    assignedIncidents.append(newIncident.identifier)
                     resource.assignedIncidents = assignedIncidents
                 }
 
@@ -179,7 +223,11 @@ open class CADStateManager: NSObject {
         // Perform sync and keep result
         return firstly {
             return after(seconds: 1.0)
-        }.then { _ in
+        }.then { _ -> Promise<SyncDetailsResponse> in
+            // TODO: Remove this. For demos, we only get fresh data the first time
+            if let lastSync = self.lastSync {
+                return Promise<SyncDetailsResponse>(value: lastSync)
+            }
             return CADStateManager.apiManager.cadSyncDetails(request: SyncDetailsRequest())
         }.then { [unowned self] summaries -> SyncDetailsResponse in
             self.lastSync = summaries

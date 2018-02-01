@@ -16,6 +16,11 @@ public protocol LoadableViewController {
     var loadingManager: LoadingStateManager { get }
 }
 
+/// Protocol for a loading state delegate
+public protocol LoadingStateManagerDelegate: class {
+    func loadingStateManager(_ stateManager: LoadingStateManager, didChangeState state: LoadingStateManager.State)
+}
+
 /// A manager for a loading view on a base view.
 open class LoadingStateManager: TraitCollectionTrackerDelegate {
     
@@ -37,12 +42,16 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     
     
     // MARK: - Public properties
-    
+
+    /// Optional delegate for observing state changes
+    open weak var delegate: LoadingStateManagerDelegate?
+
     /// The current state of the manager. The default is ".loaded".
     open var state: State = .loaded {
         didSet {
             if state != oldValue && baseView != nil {
                 updateViewState()
+                delegate?.loadingStateManager(self, didChangeState: state)
             }
         }
     }

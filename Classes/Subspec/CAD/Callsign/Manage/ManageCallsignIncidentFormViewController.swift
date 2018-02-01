@@ -11,9 +11,9 @@ import UIKit
 /// Form view controller for displaying current incident of callsign
 open class ManageCallsignIncidentFormViewController: FormBuilderViewController {
 
-    open let listViewModel: TasksListIncidentViewModel?
+    open var listViewModel: TasksListIncidentViewModel?
 
-    open let taskViewModel: IncidentTaskItemViewModel?
+    open var taskViewModel: IncidentTaskItemViewModel?
 
     // MARK: - Initializers
 
@@ -51,7 +51,7 @@ open class ManageCallsignIncidentFormViewController: FormBuilderViewController {
                 .onSelection({ [unowned self] cell in
                     // Present the incident split view controller
                     if let taskViewModel = self.taskViewModel {
-                        let vc = TasksItemSidebarViewController.init(viewModel: taskViewModel)
+                        let vc = taskViewModel.createViewController()
                         self.present(vc, animated: true, completion: nil)
                     }
                 })

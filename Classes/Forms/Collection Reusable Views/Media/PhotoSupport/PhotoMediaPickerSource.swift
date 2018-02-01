@@ -23,6 +23,36 @@ public protocol PhotoMediaPickerSource: class {
 
 }
 
+/// Draw an image using sketch
+public class SketchMediaPicker: NSObject, PhotoMediaPickerSource, SketchPickerControllerDelegate {
+
+    public let title: String
+
+    public var savePhotoMedia: ((UIImage) -> ())?
+
+    public init(title: String = NSLocalizedString("Sketch", comment: "")) {
+        self.title = title
+    }
+
+    public func viewController() -> UIViewController {
+        let sketchPickerController = SketchPickerController()
+        sketchPickerController.delegate = self
+        let navigationController = SketchNavigationController(rootViewController: sketchPickerController)
+        return navigationController
+    }
+    
+    public func sketchPickerController(_ picker: SketchPickerController, didFinishPickingSketch sketch: UIImage) {
+        savePhotoMedia?(sketch)
+        picker.dismiss(animated: true, completion: nil)
+    }
+
+    public func sketchPickerControllerDidCancel(_ picker: SketchPickerController) {
+        // Perform something here when canceled
+
+        picker.dismiss(animated: true, completion: nil)
+    }
+
+}
 
 /// Choose image from camera
 public class CameraMediaPicker: NSObject, PhotoMediaPickerSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate  {

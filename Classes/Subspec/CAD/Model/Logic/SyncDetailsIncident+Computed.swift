@@ -52,12 +52,7 @@ extension SyncDetailsIncident {
     }
     
     open var createdAtString: String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .short
-        formatter.doesRelativeDateFormatting = true
-        
-        return formatter.string(from: createdAt)
+        return DateFormatter.shortDateAndTimeFullYear.string(from: createdAt)
     }
 }
 

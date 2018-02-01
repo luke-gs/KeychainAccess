@@ -53,47 +53,47 @@ open class ResourceOverviewViewModel: TaskDetailsViewModel {
         guard let resource = CADStateManager.shared.resourcesById[callsign] else { return }
         
         sections = [
-            CADFormCollectionSectionViewModel(title: "Call Sign Details",
+            CADFormCollectionSectionViewModel(title: NSLocalizedString("Shift Details", comment: ""),
                                               items: [
-                                                IncidentOverviewItemViewModel(title: "Type",
-                                                                              value: resource.type.rawValue,
-                                                                              width: .column(4)),
-                                                
-                                                IncidentOverviewItemViewModel(title: "Station",
-                                                                              value: resource.station,
-                                                                              width: .column(4)),
-                                                
-                                                IncidentOverviewItemViewModel(title: "Vehicle Serial",
-                                                                              value: resource.serial,
-                                                                              width: .column(4)),
-                                                
-                                                IncidentOverviewItemViewModel(title: "Vehicle Category",
-                                                                              value: resource.vehicleCategory,
-                                                                              width: .column(4)),
-                                                
-                                                IncidentOverviewItemViewModel(title: "Equipment",
-                                                                              value: resource.equipmentListString(separator: ", "),
-                                                                              width: .column(2)),
-                                                
-                                                IncidentOverviewItemViewModel(title: "Remarks",
-                                                                              value: resource.remarks ?? "–",
-                                                                              width: .column(2)),
-                                                ]),
-            
-            CADFormCollectionSectionViewModel(title: "Shift Details",
-                                              items: [
-                                                IncidentOverviewItemViewModel(title: "Start Time",
+                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Start Time", comment: ""),
                                                                               value: resource.shiftStartString,
                                                                               width: .column(3)),
-                                                
-                                                IncidentOverviewItemViewModel(title: "Estimated End Time",
+
+                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Estimated End Time", comment: ""),
                                                                               value: resource.shiftEndString,
                                                                               width: .column(3)),
-                                                
-                                                IncidentOverviewItemViewModel(title: "Duration",
+
+                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Duration", comment: ""),
                                                                               value: resource.shiftDuration,
                                                                               width: .column(3)),
                                                 ]),
+
+            CADFormCollectionSectionViewModel(title: NSLocalizedString("Call Sign Details", comment: ""),
+                                              items: [
+                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Type", comment: ""),
+                                                                              value: resource.type.rawValue,
+                                                                              width: .column(4)),
+                                                
+                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Station", comment: ""),
+                                                                              value: resource.station,
+                                                                              width: .column(4)),
+                                                
+                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Fleet ID", comment: ""),
+                                                                              value: resource.serial,
+                                                                              width: .column(4)),
+                                                
+                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Category", comment: ""),
+                                                                              value: resource.vehicleCategory,
+                                                                              width: .column(4)),
+                                                
+                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Equipment", comment: ""),
+                                                                              value: resource.equipmentListString(separator: ", "),
+                                                                              width: .column(1)),
+                                                
+                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Remarks", comment: ""),
+                                                                              value: resource.remarks ?? "–",
+                                                                              width: .column(1)),
+                                                ])
         ]
     }
     
@@ -104,6 +104,24 @@ open class ResourceOverviewViewModel: TaskDetailsViewModel {
     
     open func respondingToHeaderTitle() -> String {
         return NSLocalizedString("Responding To", comment: "").uppercased()
+    }
+
+    open func showManageButton() -> Bool {
+        if let bookOn = CADStateManager.shared.lastBookOn, bookOn.callsign == callsign {
+            return true
+        }
+        return false
+    }
+
+    open func manageCallsign() {
+        if let bookOn = CADStateManager.shared.lastBookOn {
+            let callsignViewModel = BookOnCallsignViewModel(
+                callsign: bookOn.callsign,
+                status: CADStateManager.shared.currentResource?.status.title ?? "",
+                location: CADStateManager.shared.currentResource?.station ?? "",
+                type: CADStateManager.shared.currentResource?.type)
+            delegate?.present(BookOnScreen.bookOnDetailsForm(callsignViewModel: callsignViewModel, formSheet: true))
+        }
     }
 }
 

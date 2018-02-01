@@ -10,12 +10,13 @@ import UIKit
 
 open class CreateIncidentStatusViewController: CADStatusViewController {
     
-    private let viewModel: CreateIncidentStatusViewModel
+    open var createIncidentStatusViewModel: CreateIncidentStatusViewModel {
+        return self.viewModel as! CreateIncidentStatusViewModel
+    }
     
     // MARK: - Initializers
     
     public init(viewModel: CreateIncidentStatusViewModel) {
-        self.viewModel = viewModel
         super.init(viewModel: viewModel)
     }
     
@@ -28,11 +29,11 @@ open class CreateIncidentStatusViewController: CADStatusViewController {
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: false)
         
-        if indexPath != viewModel.selectedIndexPath {
+        if indexPath != createIncidentStatusViewModel.selectedIndexPath {
             
-            let oldIndexPath = viewModel.selectedIndexPath
+            let oldIndexPath = createIncidentStatusViewModel.selectedIndexPath
             
-            viewModel.setSelectedIndexPath(indexPath)
+            createIncidentStatusViewModel.setSelectedIndexPath(indexPath)
             UIView.performWithoutAnimation {
                 collectionView.performBatchUpdates({
                     collectionView.reloadItems(at: [indexPath, oldIndexPath].removeNils())
