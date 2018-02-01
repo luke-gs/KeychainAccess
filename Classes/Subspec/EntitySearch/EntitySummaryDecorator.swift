@@ -51,6 +51,10 @@ extension EntityListCollectionViewCell: EntitySummaryDecoratable {
         
         thumbnailView.borderColor = entitySummary.borderColor
         thumbnailView.tintColor = entitySummary.iconColor
+        
+        sourceLabel.backgroundColor = .clear
+        sourceLabel.borderColor = ThemeManager.shared.theme(for: .current).color(forKey: Theme.ColorKey.secondaryText)
+        sourceLabel.textColor = ThemeManager.shared.theme(for: .current).color(forKey: Theme.ColorKey.secondaryText)
     }
 }
 
