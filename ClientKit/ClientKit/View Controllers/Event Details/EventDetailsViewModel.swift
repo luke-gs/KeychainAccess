@@ -120,7 +120,7 @@ open class EventDetailsViewModel {
     
     private func title(for address: Address) -> String {
         if let date = address.reportDate {
-            return String(format: NSLocalizedString("%@ - Recorded as at %@", bundle: .mpolKit, comment: ""), address.type ?? "Unknown", DateFormatter.mediumNumericDate.string(from: date))
+            return String(format: NSLocalizedString("%@ - Recorded as at %@", bundle: .mpolKit, comment: ""), address.type ?? "Unknown", DateFormatter.preferredDateStyle.string(from: date))
         } else {
             return String(format: NSLocalizedString("%@ - Recorded date unknown", bundle: .mpolKit, comment: ""), address.type ?? "Unknown")
         }
@@ -134,12 +134,12 @@ open class EventDetailsViewModel {
     
     open func dateTimeDisplayString(for date: Date?) -> String {
         guard let date = date else { return "-" }
-        return DateFormatter.longDateAndTime.string(from: date)
+        return DateFormatter.preferredDateTimeStyle.string(from: date)
     }
     
     open func dateOnlyDisplayString(for date: Date?) -> String {
         guard let date = date else { return "-" }
-        return DateFormatter.mediumNumericDate.string(from: date)
+        return DateFormatter.preferredDateStyle.string(from: date)
     }
     
     open func displayString(for bool: Bool?) -> String {

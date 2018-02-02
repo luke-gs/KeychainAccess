@@ -31,7 +31,7 @@ public struct EntityDetailsDisplayable: EntityDetailDisplayable {
 
     public var lastUpdatedString: String? {
         guard let lastUpdated = entity.lastUpdated else { return nil }
-        let lastUpdatedString = DateFormatter.shortDate.string(from: lastUpdated)
+        let lastUpdatedString = DateFormatter.preferredDateStyle.string(from: lastUpdated)
         return lastUpdatedString
     }
 

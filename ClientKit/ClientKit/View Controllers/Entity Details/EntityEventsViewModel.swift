@@ -180,7 +180,7 @@ open class EntityEventsViewModel: EntityDetailFilterableFormViewModel {
     
     private func formattedSubtitle(for event: Event) -> String {
         if let date = event.occurredDate {
-            let subtitle = DateFormatter.mediumNumericDate.string(from: date)
+            let subtitle = DateFormatter.preferredDateStyle.string(from: date)
             return "Occurred on \(subtitle)"
         } else {
             return "Occurred date unknown"
