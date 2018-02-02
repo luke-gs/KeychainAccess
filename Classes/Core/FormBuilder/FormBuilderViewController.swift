@@ -243,6 +243,15 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         }
     }
 
+    open func deselectItem(_ formItem: FormItem, animated: Bool = true) {
+        for (sectionIndex, section) in sections.enumerated() {
+            if let itemIndex = section.formItems.index(where: { $0 === formItem }) {
+                collectionView?.deselectItem(at: IndexPath(item: itemIndex, section: sectionIndex), animated: animated)
+                return
+            }
+        }
+    }
+
     // MARK: - View lifecycle
 
     open override func loadView() {

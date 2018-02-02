@@ -142,6 +142,10 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
     public func annotationViewDidDeselect(annotationView: MKAnnotationView, in mapView: MKMapView) {
         guard let annotationView = annotationView as? LocationAnnotationView else { return }
         annotationView.removeGestureRecognizer(tapGestureRecognizer)
+
+        if let entity = (annotationView.annotation as? EntityAnnotation)?.entity, let item = itemsMap[entity] {
+            delegate?.deselectItem(item)
+        }
     }
 
     public func userLocationDidUpdate(_ userLocation: MKUserLocation, in mapView: MKMapView) {
