@@ -234,7 +234,8 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
             return (annotation as? EntityAnnotation)?.entity
         }
 
-        let section = SearchResultSection(title: "\(annotations.count) LOCATIONS SELECTED", entities: entities, isExpanded: false, state: .finished, error: nil)
+        let title = String.localizedStringWithFormat(NSLocalizedString("%1$d Result(s) Selected", comment: ""), annotations.count)
+        let section = SearchResultSection(title: title, entities: entities, isExpanded: false, state: .finished, error: nil)
         return itemsForResultsInSection(section)
     }
 
