@@ -103,7 +103,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                     let parameters = LocationMapRadiusSearchParameters(latitude: coordinate.latitude, longitude: coordinate.longitude, radius: radius)
                     let request = LocationMapSearchRequest(source: .gnaf, request: parameters)
                     let aggregatedSearch = AggregatedSearch<Address>(requests: [request])
-                    let viewModel = MapSummarySearchResultViewModel(searchStrategy: strategy, title: "Pin dropped at (\(coordinate.latitude), \(coordinate.longitude))", aggregatedSearch: aggregatedSearch)
+                    let viewModel = MapSummarySearchResultViewModel(searchStrategy: strategy, title: String(format: "Pin dropped at (%.5f, %0.5f)", coordinate.latitude, coordinate.longitude), aggregatedSearch: aggregatedSearch)
                     viewModel.searchType = searchType
                     return viewModel
                 }
@@ -139,7 +139,6 @@ public class LandingPresenter: AppGroupLandingPresenter {
             tabBarController.viewControllers = [searchNavController, actionListNavController, eventListNavController, tasksProxyViewController]
 
             self.tabBarController = tabBarController
-
 
             // Set up entity summary and presentable
             let entityFormatter = EntitySummaryDisplayFormatter.default
