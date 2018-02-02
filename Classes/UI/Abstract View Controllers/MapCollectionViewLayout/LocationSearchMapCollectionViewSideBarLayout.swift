@@ -11,20 +11,15 @@ import MapKit
 
 public protocol LocationSearchSidebarDelegate {
     var isShowing: Bool { get }
-    func hideSidebar(adjustMapInsets: Bool)
-    func showSidebar(adjustMapInsets: Bool)
+    func hideSidebar()
+    func showSidebar()
 }
 
 open class LocationSearchMapCollectionViewSideBarLayout: MapFormBuilderViewLayout {
     
     /// A boolean value indicating whether the sidebar should display fullscreen
     /// when in regular width environments, hiding the map. The default is `false`.
-    open var hidesMapInRegularEnvironment: Bool = false {
-        didSet {
-            guard hidesMapInRegularEnvironment != oldValue && (controller?.traitCollection.horizontalSizeClass ?? .compact) != .compact else { return }
-            updateSidebarTrailingConstraint(shouldHide: hidesMapInRegularEnvironment)
-        }
-    }
+    open var hidesMapInRegularEnvironment: Bool = false
     
     
     /// Updates the `hidesMapInRegularEnvironment` property with an optional
@@ -166,95 +161,18 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapFormBuilderViewLayou
         NSLayoutConstraint.activate(constraints)
     }
 
-    open override func apply(_ theme: Theme) {
-        super.apply(theme)
-
-//        sidebarBackgroundView?.contentView.backgroundColor = theme.color(forKey: .background)
-    }
-
-    open func showSideBar(shouldInsetMapView: Bool = true) {
-        sidebarLayoutGuideLeadingConstraint?.constant = 16.0
-//        if let mapView = controller?.mapView, shouldInsetMapView {
-
-//            if sidebarLayoutGuideLeadingConstraint?.constant == 16.0 {
-//                mapView.setVisibleMapRect(mapView.visibleMapRect, edgePadding: UIEdgeInsets(top: 0.0, left: minimumSidebarWidth, bottom: 0.0, right: 0.0), animated: true)
-//            } else {
-//                mapView.setVisibleMapRect(mapView.visibleMapRect, animated: true)
-//            }
-//        }
-//        UIView.animate(withDuration: 0.3) { [unowned self] in
-//            self.view.layoutIfNeeded()
-//        }
-    }
-    
     @objc open func resetSideBar() {
-//        guard let view = view else {
-//            return
-//        }
         sidebarLayoutGuideLeadingConstraint?.constant = -sideBarWidth
-//        if let mapView = controller?.mapView {
-//            mapView.layoutMargins = UIEdgeInsets.zero
-//            mapView.setVisibleMapRect(mapView.visibleMapRect, animated: true)
-//        }
-//        UIView.animate(withDuration: 0.3) {
-//            view.layoutIfNeeded()
-//        }
     }
 
     open override func viewDidLayoutSubviews() -> Bool {
-//        controller?.legacy_additionalSafeAreaInsets.top = searchField
         return false
     }
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        guard let controller = controller else { return }
-        
-        let currentSizeClass = controller.traitCollection.horizontalSizeClass
-        if previousTraitCollection?.horizontalSizeClass != currentSizeClass && hidesMapInRegularEnvironment == false {
-            updateSidebarTrailingConstraint(shouldHide: currentSizeClass == .compact)
-        }
     }
 
-    private func updateSidebarTrailingConstraint(shouldHide: Bool) {
-//        guard let sidebarBackground = sidebarBackgroundView,
-//            let sidebarLayoutGuide = sidebarLayoutGuide,
-//            let view = controller?.viewIfLoaded else { return }
-
-//        sidebarTrailingConstraint?.isActive = false
-//        sidebarTrailingConstraint = sidebarBackground.trailingAnchor.constraint(equalTo: shouldHide ? view.trailingAnchor : sidebarLayoutGuide.trailingAnchor)
-//        sidebarTrailingConstraint!.isActive = true
-    }
-    
-    open override func accessoryViewDidChange(_ previousAccessoryView: UIView?) {
-        super.accessoryViewDidChange(previousAccessoryView)
-//
-//        let controller = self.controller!
-//
-//        guard let sidebarBackgroundView = sidebarBackgroundView,
-//            let collectionView = controller.collectionView else { return }
-//
-//        previousAccessoryView?.removeFromSuperview()
-//
-//        collectionLeadingConstraint?.isActive = false
-//
-//        if let newAccessory = controller.accessoryView {
-//            newAccessory.translatesAutoresizingMaskIntoConstraints = false
-//            sidebarBackgroundView.addSubview(newAccessory)
-//
-//            collectionLeadingConstraint = collectionView.leadingAnchor.constraint(equalTo: newAccessory.trailingAnchor)
-//
-//            NSLayoutConstraint.activate([
-//                newAccessory.topAnchor.constraint(equalTo: controller.topLayoutGuide.bottomAnchor),
-//                newAccessory.bottomAnchor.constraint(lessThanOrEqualTo: controller.bottomLayoutGuide.topAnchor),
-//                newAccessory.leadingAnchor.constraint(equalTo: sidebarBackgroundView.leadingAnchor),
-//                collectionLeadingConstraint!
-//                ])
-//        } else {
-//            collectionLeadingConstraint = collectionView.leadingAnchor.constraint(equalTo: sidebarBackgroundView.leadingAnchor)
-//            collectionLeadingConstraint!.isActive = true
-//        }
-    }
 }
 
 extension LocationSearchMapCollectionViewSideBarLayout: LocationSearchSidebarDelegate {
@@ -263,11 +181,11 @@ extension LocationSearchMapCollectionViewSideBarLayout: LocationSearchSidebarDel
         return sidebarLayoutGuideLeadingConstraint?.constant == 16.0
     }
 
-    public func hideSidebar(adjustMapInsets: Bool) {
+    public func hideSidebar() {
         resetSideBar()
     }
 
-    public func showSidebar(adjustMapInsets: Bool) {
-        showSideBar(shouldInsetMapView: adjustMapInsets)
+    public func showSidebar() {
+        sidebarLayoutGuideLeadingConstraint?.constant = 16.0
     }
 }

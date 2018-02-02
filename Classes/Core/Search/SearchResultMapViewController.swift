@@ -390,9 +390,9 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         reloadForm()
 
         if viewModel?.searchType != nil {
-            sidebarDelegate?.showSidebar(adjustMapInsets: false)
+            sidebarDelegate?.showSidebar()
         } else {
-            sidebarDelegate?.hideSidebar(adjustMapInsets: false)
+            sidebarDelegate?.hideSidebar()
         }
     }
 
