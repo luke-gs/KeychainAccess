@@ -148,7 +148,7 @@ open class FilterViewController: FormCollectionViewController {
             cell.highlightStyle = .fade
             cell.titleLabel.text = title
             if let date = date {
-                cell.valueLabel.text = DateFormatter.shortDate.string(from: date)
+                cell.valueLabel.text = DateFormatter.preferredDateStyle.string(from: date)
             } else {
                 cell.valueLabel.text = NSLocalizedString("Select", comment: "Unknown Date")
             }
