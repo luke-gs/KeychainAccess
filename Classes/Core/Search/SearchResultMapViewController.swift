@@ -315,7 +315,6 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     }
 
     public func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-
         /// Zoom to the current user location if no specific searchType request at the beginning.
         guard let _ = viewModel?.searchType else {
             let span = MKCoordinateSpanMake(0.05, 0.05)
@@ -324,11 +323,7 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
             return
         }
 
-        /// Update ETA information
-        if isViewLoaded {
-            reloadForm()
-        }
-
+        viewModel?.userLocationDidUpdate(userLocation, in: mapView)
     }
 
     public func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {

@@ -144,6 +144,25 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
         annotationView.removeGestureRecognizer(tapGestureRecognizer)
     }
 
+    public func userLocationDidUpdate(_ userLocation: MKUserLocation, in mapView: MKMapView) {
+        guard let userLocation = userLocation.location else { return }
+
+        itemsMap.forEach { (entity, item) in
+            guard let item = item as? SummaryListFormItem, let summary = self.summaryDisplayFormatter.summaryDisplayForEntity(entity) as? EntityMapSummaryDisplayable else { return }
+
+            if let coordinate = summary.coordinate {
+                let destinationLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+                travelEstimationPlugin.calculateDistance(from: userLocation, to: destinationLocation).then { [weak item] text -> Void in
+                    item?.subtitle(text).reloadItem()
+                }.catch { [weak item] (error) in
+                    item?.subtitle(NSLocalizedString("Unknown", comment: "")).reloadItem()
+                }
+            } else {
+                item.subtitle(NSLocalizedString("Unknown", comment: "")).reloadItem()
+            }
+        }
+    }
+
     // MARK: - AggregateSearchDelegate 
     
     public func aggregatedSearch<T>(_ aggregatedSearch: AggregatedSearch<T>, didBeginSearch request: AggregatedSearchRequest<T>) {
@@ -233,24 +252,32 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
 
             let summaryItem = summary.summaryListFormItem()
                 .accessory(nil)
+                .subtitle(NSLocalizedString("Unknown", comment: ""))
                 .onSelection { [weak self] _ in
                     guard let `self` = self, let presentable = self.summaryDisplayFormatter.presentableForEntity(entity) else { return }
                     self.delegate?.requestToPresent(presentable)
                 }
 
-            if let userLocation = userLocation, let coordinate = summary.coordinate {
-                summaryItem.subtitle = NSLocalizedString("Calculating", comment: "")
-                let destinationLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-                travelEstimationPlugin.calculateDistance(from: userLocation, to: destinationLocation).then { [weak summaryItem] text -> Void in
-                    summaryItem?.subtitle(text).reloadItem()
-                }.catch { [weak summaryItem] (error) in
-                    summaryItem?.subtitle(NSLocalizedString("Unknown", comment: "")).reloadItem()
-                }
-            } else {
-                summaryItem.subtitle = NSLocalizedString("Unknown", comment: "")
+            if let userLocation = userLocation {
+                updateDistanceFor(summaryItem, andEntity: entity, fromLocation: userLocation)
             }
 
             return summaryItem
+        }
+    }
+
+    private func updateDistanceFor(_ item: SummaryListFormItem, andEntity entity: MPOLKitEntity, fromLocation location: CLLocation) {
+        guard let summary = self.summaryDisplayFormatter.summaryDisplayForEntity(entity) as? EntityMapSummaryDisplayable else { return }
+
+        if let coordinate = summary.coordinate {
+            let destinationLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+            travelEstimationPlugin.calculateDistance(from: location, to: destinationLocation).then { [weak item] text -> Void in
+                item?.subtitle(text).reloadItem()
+            }.catch { [weak item] (error) in
+                item?.subtitle(NSLocalizedString("Unknown", comment: "")).reloadItem()
+            }
+        } else {
+            item.subtitle(NSLocalizedString("Unknown", comment: "")).reloadItem()
         }
     }
 
