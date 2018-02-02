@@ -225,19 +225,19 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         isUnderConstruction = false
     }
 
-    open func scrollTo(_ formItem: FormItem) {
+    open func scrollTo(_ formItem: FormItem, animated: Bool = true, scrollPosition: UICollectionViewScrollPosition = .centeredVertically) {
         for (sectionIndex, section) in sections.enumerated() {
             if let itemIndex = section.formItems.index(where: { $0 === formItem }) {
-                collectionView?.scrollToItem(at: IndexPath(item: itemIndex, section: sectionIndex), at: .centeredVertically, animated: true)
+                collectionView?.scrollToItem(at: IndexPath(item: itemIndex, section: sectionIndex), at: scrollPosition, animated: animated)
                 return
             }
         }
     }
 
-    open func selectItem(_ formItem: FormItem) {
+    open func selectItem(_ formItem: FormItem, animated: Bool = true, scrollPosition: UICollectionViewScrollPosition = .centeredVertically) {
         for (sectionIndex, section) in sections.enumerated() {
             if let itemIndex = section.formItems.index(where: { $0 === formItem }) {
-                collectionView?.selectItem(at: IndexPath(item: itemIndex, section: sectionIndex), animated: true, scrollPosition: .centeredVertically)
+                collectionView?.selectItem(at: IndexPath(item: itemIndex, section: sectionIndex), animated: animated, scrollPosition: scrollPosition)
                 return
             }
         }
