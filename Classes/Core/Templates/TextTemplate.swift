@@ -15,11 +15,11 @@ public class TextTemplate: Template {
     public let description: String
     public let value: String
     
-    convenience init(name: String, description: String, value: String) {
+    public convenience init(name: String, description: String, value: String) {
         self.init(name: name, description: description, value: value, core: TemplateCore())
     }
     
-    init(name: String, description: String, value: String, core: TemplateCore) {
+    public init(name: String, description: String, value: String, core: TemplateCore) {
         self.name = name
         self.description = description
         self.value = value

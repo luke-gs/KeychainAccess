@@ -52,10 +52,9 @@ class TemplateManagerViewController: FormBuilderViewController {
     }
 
     func updateDropDown() {
-        handler.source.retrieve().then { result in
+        handler.source.retrieve().then { result -> Void in
             let templateArray = Array(result ?? [])
             self.templateDropDown.options = templateArray
-            return AnyPromise(Promise<Void>())
         }.always {}
     }
 

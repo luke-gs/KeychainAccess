@@ -76,13 +76,13 @@ public class TemplateManagerTests: XCTestCase {
 
         // Assert
         handler.source.retrieve().then { result in
-            if let templateResult = result?.filter({ filterTemplate in filterTemplate.id == template.id }), !templateResult.isEmpty {
+            if let templateResult = result?.filter({ filterTemplate in filterTemplate.core.id == template.core.id }), !templateResult.isEmpty {
                 let first = templateResult.first!
-                XCTAssert(first.id == template.id)
+                XCTAssert(first.core.id == template.core.id)
                 XCTAssert(first.name == template.name)
                 XCTAssert(first.description == template.description)
                 XCTAssert(first.value == template.value)
-                XCTAssert(first.timestamp == template.timestamp)
+                XCTAssert(first.core.timestamp == template.core.timestamp)
                 expect.fulfill()
                 return AnyPromise(Promise<Void>())
             }
