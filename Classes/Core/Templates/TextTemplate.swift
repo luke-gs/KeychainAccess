@@ -25,9 +25,4 @@ public class TextTemplate: Template {
         self.value = value
         self.core = core
     }
-    
-    // having to implement this in each implementation of `Template` is bad
-    public static func ==(lhs: TextTemplate, rhs: TextTemplate) -> Bool {
-        return lhs.core.id == rhs.core.id
-    }
 }

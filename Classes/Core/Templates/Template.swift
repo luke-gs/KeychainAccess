@@ -38,17 +38,13 @@ public protocol Template: Codable, Hashable {
     var core: TemplateCore { get }
 }
 
-/// Extension of Template providing implementation of `hashValue`.
-/// `==` must, sadly, be implemented by conformers of Template.
+/// Extension of Template providing implementation of `hashValue` and `==`.
 public extension Template {
     public var hashValue: Int {
         return core.id.hashValue
     }
     
-    // if uncommented:
-    // protocol 'Template' can only be used as a generic constraint because it has Self or associated type requirements
-    
-    //    public static func ==(lhs: Template, rhs: Template) -> Bool {
-    //        return lhs.core.id == rhs.core.id
-    //    }
+    public static func ==(lhs: Self, rhs: Self) -> Bool {
+        return lhs.core.id == rhs.core.id
+    }
 }
