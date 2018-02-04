@@ -198,7 +198,7 @@ open class SearchResultMapViewController: MapCollectionViewController, MapResult
         if indexPath.item == LocationOverview.direction.rawValue {
             return LocationMapDirectionCollectionViewCell.minimumContentHeight(compatibleWith: traitCollection)
         }
-        return EntityListCollectionViewCell.minimumContentHeight(compatibleWith: traitCollection)
+        return EntityListCollectionViewCell.minimumContentHeight(withTitle: nil, subtitle: nil, source: nil, inWidth: itemWidth, compatibleWith: traitCollection)
     }
     
     // MapResultViewModelDelegate

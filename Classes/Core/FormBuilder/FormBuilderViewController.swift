@@ -31,7 +31,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
 
     private var sections: [FormSection] = []
 
-    private var isUnderContruction: Bool = true
+    private var isUnderConstruction: Bool = true
 
     // MARK: - Height Calculations
 
@@ -163,7 +163,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
     }
 
     open func reloadForm() {
-        isUnderContruction = true
+        isUnderConstruction = true
 
         globalHeader = nil
 
@@ -222,7 +222,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
 
         collectionView?.reloadData()
 
-        isUnderContruction = false
+        isUnderConstruction = false
     }
 
     open func scrollTo(_ formItem: FormItem) {
@@ -428,7 +428,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
     }
 
     public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard isUnderContruction == false else { return }
+        guard isUnderConstruction == false else { return }
 
         let item = sections[indexPath] as! BaseFormItem
         item.cell = nil
