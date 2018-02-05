@@ -12,8 +12,8 @@ import PromiseKit
 import Cluster
 
 public enum MapSummaryAnnotationViewIdentifier: String {
-    case cluster = "myBigPileOfPoo"
-    case single  = "myLittlePileOfPoo"
+    case cluster = "MapSummaryAnnotationViewIdentifierCluster"
+    case single  = "MapSummaryAnnotationViewIdentifierSingle"
 }
 
 open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModelable, AggregatedSearchDelegate {
