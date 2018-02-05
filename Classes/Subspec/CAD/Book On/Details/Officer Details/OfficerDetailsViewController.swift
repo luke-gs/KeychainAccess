@@ -51,7 +51,31 @@ open class OfficerDetailsViewController: FormBuilderViewController {
     
     override open func construct(builder: FormBuilder) {
         
+        builder += HeaderFormItem(text: NSLocalizedString("Selected Officer", comment: "").uppercased(), style: .plain)
+    
+        builder += BookOnDetailsOfficerFormItem(title: viewModel.content.title,
+                                                    subtitle: viewModel.content.officerInfoSubtitle,
+                                                    status: viewModel.content.driverStatus,
+                                                    image: viewModel.content.thumbnail())
+                .width(.column(1))
+                .height(.fixed(60))
+
+        
         builder += HeaderFormItem(text: NSLocalizedString("OFFICER DETAILS", comment: ""), style: .plain)
+        
+        builder += DropDownFormItem(title: NSLocalizedString("Licence", comment: ""))
+            // TODO: get these from manifest
+            .options([NSLocalizedString("Gold Licence", comment: ""),
+                      NSLocalizedString("Silver Licence", comment: ""),
+                      NSLocalizedString("Bronze Licence", comment: ""),
+                      NSLocalizedString("Nil", comment: "")])
+            .required("Licence is required.")
+            .allowsMultipleSelection(false)
+            .width(.column(1))
+            .selectedValue([viewModel.content.licenceTypeId].removeNils())
+            .onValueChanged {
+                self.viewModel.content.licenceTypeId = $0?.first
+            }
         
         builder += TextFieldFormItem(title: NSLocalizedString("Contact Number", comment: ""), text: nil)
             .width(.column(2))
@@ -62,21 +86,14 @@ open class OfficerDetailsViewController: FormBuilderViewController {
                             message: OfficerDetailsViewController.contactPhoneValidation.message)
             .onValueChanged {
                 self.viewModel.content.contactNumber = $0
-            }
+        }
         
-        builder += DropDownFormItem(title: NSLocalizedString("Licence", comment: ""))
-            // TODO: get these from manifest
-            .options([NSLocalizedString("Gold Licence", comment: ""),
-                      NSLocalizedString("Silver Licence", comment: ""),
-                      NSLocalizedString("Bronze Licence", comment: ""),
-                      NSLocalizedString("Nil", comment: "")])
-            .required("Licence is required.")
-            .allowsMultipleSelection(false)
+        builder += TextFieldFormItem(title: NSLocalizedString("Radio ID", comment: ""), text: nil)
             .width(.column(2))
-            .selectedValue([viewModel.content.licenceTypeId].removeNils())
+            .text(viewModel.content.radioId)
             .onValueChanged {
-                self.viewModel.content.licenceTypeId = $0?.first
-            }
+                self.viewModel.content.radioId = $0
+        }
         
         builder += TextFieldFormItem(title: NSLocalizedString("Capabilities", comment: ""))
             .width(.column(1))
@@ -98,6 +115,7 @@ open class OfficerDetailsViewController: FormBuilderViewController {
             .isChecked(viewModel.content.isDriver.isTrue)
             .onValueChanged {
                 self.viewModel.content.isDriver = $0
+                self.reloadForm()
             }
     }
     
