@@ -29,7 +29,6 @@ public class PersonMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSource
         self.detailViewControllers = [ EntityDetailFormViewController(viewModel: PersonInfoViewModel()),
                                        EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
-                                       EntityDetailFormViewController(viewModel: EntityEventsViewModel()),
                                        EntityDetailFormViewController(viewModel: PersonCriminalHistoryViewModel())]
     }
 }

@@ -17,7 +17,6 @@
 		445A8A3E1F673C8B005ABEB8 /* VehicleSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A3B1F673C8B005ABEB8 /* VehicleSearchHelp.json */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
 		BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E81101EBEE38400188181 /* SettingsViewController.swift */; };
-		BC8B26F61EDC08460022B0AD /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8B26F51EDC08460022B0AD /* EventsListViewController.swift */; };
 		BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */; };
 		BCD4EA941E515ACE000B993D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCD4EA931E515ACE000B993D /* Assets.xcassets */; };
 		BCD4EA9F1E515ADE000B993D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */; };
@@ -133,7 +132,6 @@
 		BC8B26F41EDC083A0022B0AD /* Events */ = {
 			isa = PBXGroup;
 			children = (
-				BC8B26F51EDC08460022B0AD /* EventsListViewController.swift */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -403,7 +401,6 @@
 				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
 				EA7194DD1FC5098200A2980B /* EventPresenter.swift in Sources */,
 				12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */,
-				BC8B26F61EDC08460022B0AD /* EventsListViewController.swift in Sources */,
 				EA2189F61F60F64A0057048E /* LandingPresenter.swift in Sources */,
 				12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */,
 			);
