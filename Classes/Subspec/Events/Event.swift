@@ -70,7 +70,7 @@ final public class Event: Codable, Evaluatable {
 /// A bunch of event types
 /// This can later be expanded upon to build different types of events
 /// via the app
-public struct EventType: RawRepresentable, Equatable, Hashable {
+public struct EventType: RawRepresentable, Hashable {
 
     //Define default EventTypes
     static let blank = EventType(rawValue: "blank")
@@ -81,13 +81,13 @@ public struct EventType: RawRepresentable, Equatable, Hashable {
         self.rawValue = rawValue
     }
 
-    public static func ==(lhs: EventType, rhs: EventType) -> Bool {
-        return lhs.rawValue == rhs.rawValue
-    }
-
     public var hashValue: Int {
         return rawValue.hashValue
     }
+}
+
+public func ==(lhs: EventType, rhs: EventType) -> Bool {
+    return lhs.rawValue == rhs.rawValue
 }
 
 /// Anything can be reportable
