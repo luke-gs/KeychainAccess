@@ -28,15 +28,22 @@ class DemoListViewModel: EventListViewModelType {
 }
 
 class DemoDetailsViewModel: EventDetailViewModelType {
+
     var event: Event
     var title: String?
     var viewControllers: [UIViewController]?
     var headerView: UIView?
 
+    var evaluator: Evaluator = Evaluator()
+
     required init(event: Event, builder: EventScreenBuilding) {
         self.event = event
         self.title = "Details"
         self.viewControllers = builder.viewControllers(for: event.reports)
+    }
+
+    func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+
     }
 }
 
@@ -49,7 +56,7 @@ class DemoScreenBuilder: EventScreenBuilding {
 
         for report in reportables {
             switch report {
-            case let report as DefaultDateAndTimeReport:
+            case let report as DefaultDateTimeReport:
                 viewControllers.append(DefaultEventDateTimeViewController(report: report))
             default:
                 break
