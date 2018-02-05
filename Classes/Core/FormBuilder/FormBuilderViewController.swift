@@ -172,6 +172,9 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
             if let item = $0 as? BaseFormItem {
                 item.cell = nil
                 item.collectionView = nil
+            } else if let item = $0 as? BaseSupplementaryFormItem {
+                item.view = nil
+                item.collectionView = nil
             }
         })
         builder.removeAll()
@@ -193,10 +196,12 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         let cellRegistrations = sections.flatMap { section -> [(CollectionViewFormCell.Type, String)] in
 
             if let header = section.formHeader as? BaseSupplementaryFormItem {
+                header.collectionView = collectionView
                 supplementaryRegistrations.append((header.viewType, header.kind, header.reuseIdentifier))
             }
 
             if let footer = section.formFooter as? BaseSupplementaryFormItem {
+                footer.collectionView = collectionView
                 supplementaryRegistrations.append((footer.viewType, footer.kind, footer.reuseIdentifier))
             }
 
@@ -355,27 +360,11 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         switch kind {
         case UICollectionElementKindSectionHeader:
             if let section = section, let item = section.formHeader as? BaseSupplementaryFormItem {
-                let view = item.view(in: collectionView, for: indexPath)
-
-                if let item = item as? HeaderFormItem, let headerView = view as? CollectionViewFormHeaderView {
-                    headerView.tapHandler = { [weak self] cell, indexPath in
-                        switch item.style {
-                        case .collapsible:
-                            item.isExpanded = !item.isExpanded
-                            cell.setExpanded(item.isExpanded, animated: true)
-                            self?.collectionView?.reloadSections(IndexSet(integer: indexPath.section))
-                        case .plain:
-                            break
-                        }
-                    }
-                }
-
-                return view
+                return item.view(in: collectionView, for: indexPath)
             }
         case UICollectionElementKindSectionFooter:
             if let section = section, let item = section.formFooter as? BaseSupplementaryFormItem {
-                let view = item.view(in: collectionView, for: indexPath)
-                return view
+                return item.view(in: collectionView, for: indexPath)
             }
         case collectionElementKindGlobalHeader:
             if let item = globalHeader as? BaseSupplementaryFormItem {
@@ -389,6 +378,8 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         defaultView.isUserInteractionEnabled = false
         return defaultView
     }
+
+
 
     open func collectionView(_ collectionView: UICollectionView, heightForGlobalHeaderInLayout layout: CollectionViewFormLayout) -> CGFloat {
         if let item = globalHeader as? BaseSupplementaryFormItem {
@@ -435,7 +426,6 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
     }
 
     open func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
-
         let section = sections[indexPath.section]
 
         switch elementKind {
@@ -446,6 +436,25 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         case UICollectionElementKindSectionFooter:
             if let item = section.formFooter as? BaseSupplementaryFormItem {
                 item.apply(theme: ThemeManager.shared.theme(for: userInterfaceStyle), toView: view)
+            }
+        default:
+            break
+        }
+    }
+
+    open func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
+        guard isUnderConstruction == false else { return }
+
+        let section = sections[indexPath.section]
+
+        switch elementKind {
+        case UICollectionElementKindSectionHeader:
+            if let item = section.formHeader as? BaseSupplementaryFormItem {
+                item.view = nil
+            }
+        case UICollectionElementKindSectionFooter:
+            if let item = section.formFooter as? BaseSupplementaryFormItem {
+                item.view = nil
             }
         default:
             break
