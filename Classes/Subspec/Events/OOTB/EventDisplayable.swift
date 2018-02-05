@@ -6,6 +6,8 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
+import Cache
+
 /// Event Displayable used to map against the OOTB
 /// Event List UI
 ///
@@ -13,7 +15,7 @@
 /// encoded to/decoded from a database
 /// instead of inflating a whole event object
 /// just to show in the list
-open class EventListDisplayable: NSCoding {
+open class EventListDisplayable: Codable {
 
     /// A unique ID of the event metadata
     open var id: String = UUID().uuidString
@@ -22,7 +24,7 @@ open class EventListDisplayable: NSCoding {
     open var eventId: String = UUID().uuidString
 
     /// The icon to display on the left of the cell
-    open var icon: UIImage?
+    open var icon: ImageWrapper?
 
     /// The title to display on the left of the cell
     open var title: String?
@@ -46,27 +48,7 @@ open class EventListDisplayable: NSCoding {
         self.subtitle = subtitle
         self.accessoryTitle = accessoryTitle
         self.accessorySubtitle = accessorySubtitle
-        self.icon = icon
-    }
-
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(id, forKey: "id")
-        aCoder.encode(eventId, forKey: "eventId")
-        aCoder.encode(icon, forKey: "icon")
-        aCoder.encode(title, forKey: "title")
-        aCoder.encode(subtitle, forKey: "subtitle")
-        aCoder.encode(accessoryTitle, forKey: "accessoryTitle")
-        aCoder.encode(accessorySubtitle, forKey: "accessorySubtitle")
-    }
-
-    public required init?(coder aDecoder: NSCoder) {
-        id = aDecoder.decodeObject(of: NSString.self, forKey: "id") as String!
-        eventId = aDecoder.decodeObject(of: NSString.self, forKey: "eventId") as String!
-        icon = aDecoder.decodeObject(of: UIImage.self, forKey: "icon")
-        title = aDecoder.decodeObject(of: NSString.self, forKey: "title") as String!
-        subtitle = aDecoder.decodeObject(of: NSString.self, forKey: "subtitle") as String!
-        accessoryTitle = aDecoder.decodeObject(of: NSString.self, forKey: "accessoryTitle") as String!
-        accessorySubtitle = aDecoder.decodeObject(of: NSString.self, forKey: "accessorySubtitle") as String!
+        self.icon = icon != nil ? ImageWrapper(image: icon!) : nil
     }
 }
 

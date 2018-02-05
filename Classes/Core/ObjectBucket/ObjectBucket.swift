@@ -11,7 +11,7 @@
  *
  *  Find a better way of saving things
  */
-open class ObjectBucket<T: NSCoding>: NSCoding {
+open class ObjectBucket<T: Codable> where T: AnyObject {
 
     private(set) public var objects: [T]?
     private(set) public var directory: URL
@@ -34,15 +34,6 @@ open class ObjectBucket<T: NSCoding>: NSCoding {
 
     public func remove(_ object: T) {
         objects = objects?.filter{$0 !== object}
-    }
-
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(directory, forKey: "directory")
-    }
-
-    public required init?(coder aDecoder: NSCoder) {
-        directory = aDecoder.decodeObject(of: NSURL.self, forKey: "directory") as! URL
-        directoryManager = DirectoryManager(baseURL: directory)
     }
 }
 

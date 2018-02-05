@@ -6,33 +6,45 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-public protocol Reportable: class, NSCoding {
+public protocol Reportable: class, Codable {
     weak var event: Event? { get set }
     init(event: Event)
 }
 
-final public class Event: NSCoding {
+final public class Event: Codable {
 
     public var relationId: String
     public var relationType: String = "Event"
 
     private(set) public var reports: [Reportable] = [Reportable]()
 
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(relationId, forKey: "id")
-        aCoder.encode(relationType, forKey: "relationType")
-        aCoder.encode(reports, forKey: "reports")
-    }
-
-    public init?(coder aDecoder: NSCoder) {
-        relationId = aDecoder.decodeObject(of: NSString.self, forKey: "id") as String!
-        relationType = aDecoder.decodeObject(of: NSString.self, forKey: "relationType") as String!
-        reports = aDecoder.decodeObject(of: NSArray.self, forKey: "reports") as! [Reportable]
-    }
-
     public init() {
         relationId = UUID().uuidString
     }
+    
+    // Codable stuff begins
+    
+    public init(from: Decoder) throws {
+        let container = try from.container(keyedBy: Keys.self)
+        relationId = try container.decode(String.self, forKey: .relationId)
+        relationType = try container.decode(String.self, forKey: .relationType)
+        reports = try container.decode([Reportable].self, forKey: .reports)
+    }
+    
+    public func encode(to: Encoder) throws {
+        var container = to.container(keyedBy: Keys.self)
+        try container.encode(relationId, forKey: .relationId)
+        try container.encode(relationType, forKey: .relationType)
+        try container.encode(reports, forKey: .reports)
+    }
+    
+    enum Keys: String, CodingKey {
+        case relationId = "relationId"
+        case relationType = "relationType"
+        case reports = "reports"
+    }
+    
+    // Codable stuff ends
 
     public func add(reports: [Reportable]) {
         self.reports.append(contentsOf: reports)
@@ -41,5 +53,6 @@ final public class Event: NSCoding {
     public func add(report: Reportable) {
         self.reports.append(report)
     }
+    
+    
 }
-
