@@ -6,6 +6,8 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
+import Cache
+
 /// Event Displayable used to map against the OOTB
 /// Event List UI
 ///
@@ -13,8 +15,6 @@
 /// encoded to/decoded from a database
 /// instead of inflating a whole event object
 /// just to show in the list
-import Cache
-
 open class EventListDisplayable: Codable {
 
     /// A unique ID of the event metadata
