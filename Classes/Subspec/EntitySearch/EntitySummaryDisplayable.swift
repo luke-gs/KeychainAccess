@@ -11,8 +11,6 @@ import Foundation
 
 public protocol EntitySummaryDisplayable {
 
-    init(_ entity: MPOLKitEntity)
-    
     var category: String? { get }
     
     var title: String? { get }
