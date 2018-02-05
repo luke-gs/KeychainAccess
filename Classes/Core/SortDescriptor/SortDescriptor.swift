@@ -73,7 +73,7 @@ public struct SortDescriptor<T>: SortDescriptorType {
 
 extension SortDescriptor {
 
-    public static func nilValueDescriptor<V: Comparable>(nilFirst ascending: Bool, key: @escaping (T) -> V?) -> SortDescriptor<T> {
+    public static func nilValueSortDescriptor<V: Comparable>(nilFirst ascending: Bool, key: @escaping (T) -> V?) -> SortDescriptor<T> {
         return SortDescriptor<T>(ascending: ascending) {
             // Map the nil value to some other comparable value.
             key($0) == nil ? 0 : 1
