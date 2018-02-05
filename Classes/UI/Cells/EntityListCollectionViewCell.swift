@@ -180,13 +180,18 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
     ///   - width: The given width for the cell.
     ///   - traitCollection: The trait collection the cell will be displayed in.
     /// - Returns: The minumum content height for the cell.
-    open class func minimumContentHeight(withTitle title: StringSizable?, subtitle: StringSizable?, source: String?, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
+    open class func minimumContentHeight(withTitle title: StringSizable?, subtitle: StringSizable?, source: String?, accessorySize: CGSize? = nil, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
         let displayScale = traitCollection.currentDisplayScale
         
         // Default fonts for each label
         let titleFont    = UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
         let subtitleFont = UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
         let sourceFont   = UIFont.preferredFont(forTextStyle: .body,     compatibleWith: traitCollection)
+        
+        var accessoryWidth: CGFloat = 0.0
+        if let size = accessorySize {
+            accessoryWidth = size.width + CollectionViewFormCell.accessoryContentInset
+        }
         
         // Sizing for title
         var titleSizing = title?.sizing()
@@ -198,7 +203,7 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
                 titleSizing!.numberOfLines = 1
             }
         }
-        let titleHeight = titleSizing?.minimumHeight(inWidth: width - 48 - 16, compatibleWith: traitCollection) ?? 0
+        let titleHeight = titleSizing?.minimumHeight(inWidth: width - 48 - 16 - accessoryWidth, compatibleWith: traitCollection) ?? 0
         
         // Get width of source label
         var sourceWidth: CGFloat = 0.0
@@ -216,7 +221,7 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
                 subtitleSizing!.numberOfLines = 1
             }
         }
-        let subtitleHeight = subtitleSizing?.minimumHeight(inWidth: width - 48 - 16 - sourceWidth, compatibleWith: traitCollection) ?? 0
+        let subtitleHeight = subtitleSizing?.minimumHeight(inWidth: width - 48 - 16 - sourceWidth - accessoryWidth, compatibleWith: traitCollection) ?? 0
         
         return max(titleHeight + subtitleHeight, 48.0)
     }
