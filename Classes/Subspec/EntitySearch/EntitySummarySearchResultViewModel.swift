@@ -33,7 +33,9 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
 
     // MARK: - Show all/ Show less properties
 
-    public var initialNumberOfResultsShownPerSection: Int = 4
+    /// The number of results that should be shown per section after the initial load. Setting this will automatically
+    /// enable 'SHOW ALL/SHOW LESS' button on the header. Set to 0 to show all results and disable this feature. Default to 0.
+    public var initialNumberOfResultsShownPerSection: Int = 0
 
     private var fullResultSectionsShown: [SearchResultSection] = []
 
