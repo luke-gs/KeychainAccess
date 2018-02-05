@@ -8,15 +8,10 @@
 
 import Foundation
 
-public protocol SortDescriptorType {
-    associatedtype Base
-}
-
 // This is re-implemented due to some of the `Swift` value types are not visible by Objective-C runtime, causing KeyPath querying to fail.
 // `nil` value is supported by applying following comparison rule .none < .some(_) == true
-public struct SortDescriptor<T>: SortDescriptorType {
-    public typealias Base = T
-    
+public struct SortDescriptor<T> {
+
     public let isAscending: Bool
     
     private let keyMapper: (T) -> AnyComparable
