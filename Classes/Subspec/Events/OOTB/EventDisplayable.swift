@@ -1,5 +1,5 @@
 //
-//  EventDisplayable.swift
+//  EventListDisplayable.swift
 //  MPOLKit
 //
 //  Created by Pavel Boryseiko on 15/12/17.

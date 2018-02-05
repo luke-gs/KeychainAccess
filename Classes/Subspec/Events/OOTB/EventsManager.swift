@@ -36,7 +36,7 @@ public class EventsManager {
     public init() { }
 
     public func create(eventType: EventType) -> Event? {
-        guard let event = eventBuilder?.createEvent(for: .blank) else { return nil }
+        guard let event = eventBuilder?.createEvent(for: eventType) else { return nil }
         displayableBucket?.add(event.displayable)
         eventBucket?.add(event.event)
 
@@ -83,21 +83,22 @@ public enum EventType {
 public class DefaultEventBuilder: EventBuilding {
 
     public func createEvent(for type: EventType) -> (event: Event, displayable: EventListDisplayable) {
-        return (event: Event(), displayable: EventListDisplayable(title: "Demo",
-                                                                  subtitle: "Sub",
-                                                                  accessoryTitle: "AccessTitle",
-                                                                  accessorySubtitle: "Acces Sub",
-                                                                  icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.advancedSearch)))
+        let displayable = EventListDisplayable(title: "Demo",
+                                               subtitle: "Sub",
+                                               accessoryTitle: "AccessTitle",
+                                               accessorySubtitle: "Acces Sub",
+                                               icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.advancedSearch))
+        return (event: Event(), displayable: displayable)
     }
 
     init() { }
 
     public func encode(with aCoder: NSCoder) {
-
+        MPLCodingNotSupported()
     }
 
     public required init?(coder aDecoder: NSCoder) {
-
+        MPLCodingNotSupported()
     }
 }
 
