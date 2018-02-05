@@ -54,7 +54,7 @@ open class OfficerDetailsViewController: FormBuilderViewController {
         builder += HeaderFormItem(text: NSLocalizedString("Selected Officer", comment: "").uppercased(), style: .plain)
     
         builder += BookOnDetailsOfficerFormItem(title: viewModel.content.title,
-                                                    subtitle: [viewModel.content.rank, viewModel.content.officerId].joined(separator: ThemeConstants.dividerSeparator),
+                                                    subtitle: viewModel.content.officerInfoSubtitle,
                                                     status: viewModel.content.driverStatus,
                                                     image: viewModel.content.thumbnail())
                 .width(.column(1))

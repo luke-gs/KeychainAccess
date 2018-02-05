@@ -33,6 +33,10 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
         if inComplete {
             return NSLocalizedString("Additional details required", comment: "")
         }
+        return officerInfoSubtitle
+    }
+    
+    open var officerInfoSubtitle: String {
         return [rank, officerId, licenceTypeId].joined(separator: ThemeConstants.dividerSeparator)
     }
 
