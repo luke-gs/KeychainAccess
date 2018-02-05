@@ -31,6 +31,12 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
 
     public let summaryDisplayFormatter: EntitySummaryDisplayFormatter
 
+    // MARK: - Show all/ Show less properties
+
+    public var initialNumberOfResultsShownPerSection: Int = 4
+
+    private var fullResultSectionsShown: [SearchResultSection] = []
+
     public init(title: String, aggregatedSearch: AggregatedSearch<T>, summaryDisplayFormatter: EntitySummaryDisplayFormatter = .default) {
         self.title = title
         self.aggregatedSearch = aggregatedSearch
@@ -64,11 +70,50 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
     // MARK: - Subclass can override these methods
 
     open func headerItemForSection(_ section: SearchResultSection) -> HeaderFormItem {
-        return HeaderFormItem(text: section.title, style: .collapsible).isExpanded(section.isExpanded)
+        let header = HeaderFormItem(text: section.title, style: .collapsible)
+            .isExpanded(section.isExpanded)
+
+        if section.state == .finished && initialNumberOfResultsShownPerSection > 0 {
+            let updateHeader = { [weak header, weak self] in
+                guard let `self` = self, let header = header else { return }
+
+                if header.isExpanded {
+                    let buttonTitle = self.fullResultSectionsShown.contains(section) ? NSLocalizedString("SHOW LESS", comment: "[Search result screen] - Show less results") : NSLocalizedString("SHOW ALL", comment: "[Search result screen] - Show all results")
+                    header.actionButton(title: buttonTitle, handler: { (button) in
+                        if let index = self.fullResultSectionsShown.index(of: section) {
+                            self.fullResultSectionsShown.remove(at: index)
+                        } else {
+                            self.fullResultSectionsShown.append(section)
+                        }
+                        self.delegate?.searchResultViewModelDidUpdateResults(self)
+                    })
+                } else {
+                    header.actionButton = nil
+                }
+
+                header.reloadItem()
+            }
+
+            header.tapHandler = { [weak self, weak header] in
+                guard let `self` = self, let header = header else { return }
+
+                if let index = self.results.index(of: section) {
+                    self.results[index].isExpanded = header.isExpanded
+                }
+
+                updateHeader()
+            }
+
+            updateHeader()
+        }
+
+        return header
     }
 
     open func summaryItemsForSection(_ section: SearchResultSection) -> [FormItem] {
-        return section.entities.flatMap { entity in
+        let entities = initialNumberOfResultsShownPerSection > 0 && !fullResultSectionsShown.contains(section) ? Array(section.entities.prefix(initialNumberOfResultsShownPerSection)) : section.entities
+
+        return entities.flatMap { entity in
             guard let summary = summaryDisplayFormatter.summaryDisplayForEntity(entity) else { return nil }
 
             let isCompact = style == .list || delegate?.traitCollection.horizontalSizeClass == .compact
@@ -76,7 +121,7 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
                 .onSelection { [weak self] _ in
                     guard let `self` = self, let presentable = self.summaryDisplayFormatter.presentableForEntity(entity) else { return }
                     self.delegate?.requestToPresent(presentable)
-                }
+            }
         }
     }
 
