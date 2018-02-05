@@ -36,7 +36,7 @@ final public class EventsManager {
     public init() { }
 
     public func create(eventType: EventType) -> Event? {
-        guard let event = eventBuilder?.createEvent(for: .blank) else { return nil }
+        guard let event = eventBuilder?.createEvent(for: eventType) else { return nil }
         displayableBucket?.add(event.displayable)
         eventBucket?.add(event.event)
 

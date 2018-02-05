@@ -8,6 +8,11 @@
 
 import UIKit
 
+fileprivate extension EvaluatorKey {
+    static let reportedOnDateTime = EvaluatorKey(rawValue: "reportedOnDateTime")
+    static let tookPlaceFromStartDateTime = EvaluatorKey(rawValue: "tookPlaceFromStartDateTime")
+}
+
 /// The OOTB DateTime viewController
 open class DefaultEventDateTimeViewController: FormBuilderViewController, EvaluationObserverable {
 
@@ -103,19 +108,31 @@ public class DefaultDateTimeReport: Reportable {
         }
     }
 
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(evaluator, forKey: "evaluator")
+    // Codable
+
+    public required init(from: Decoder) throws {
+        let container = try from.container(keyedBy: Keys.self)
+        reportedOnDateTime = try container.decode(Date.self, forKey: .reportedOnDateTime)
+        tookPlaceFromStartDateTime = try container.decode(Date.self, forKey: .tookPlaceFromStartDateTime)
+        tookPlacefromEndDateTime = try container.decode(Date.self, forKey: .tookPlacefromEndDateTime)
     }
 
-    public required init?(coder aDecoder: NSCoder) {
-        evaluator = aDecoder.decodeObject(forKey: "evaluator") as! Evaluator
+    public func encode(to: Encoder) throws {
+        var container = to.container(keyedBy: Keys.self)
+        try container.encode(reportedOnDateTime, forKey: .reportedOnDateTime)
+        try container.encode(tookPlaceFromStartDateTime, forKey: .tookPlaceFromStartDateTime)
+        try container.encode(tookPlacefromEndDateTime, forKey: .tookPlacefromEndDateTime)
     }
+
+    enum Keys: String, CodingKey {
+        case reportedOnDateTime = "reportedOnDateTime"
+        case tookPlaceFromStartDateTime = "tookPlaceFromStartDateTime"
+        case tookPlacefromEndDateTime = "tookPlacefromEndDateTime"
+    }
+
+    // Evaluation
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
 }
 
-fileprivate extension EvaluatorKey {
-    static let reportedOnDateTime = EvaluatorKey(rawValue: "reportedOnDateTime")
-    static let tookPlaceFromStartDateTime = EvaluatorKey(rawValue: "tookPlaceFromStartDateTime")
-}
 

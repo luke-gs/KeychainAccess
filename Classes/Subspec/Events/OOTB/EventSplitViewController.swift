@@ -8,6 +8,10 @@
 
 import UIKit
 
+fileprivate extension EvaluatorKey {
+    static let readyToSubmit = EvaluatorKey(rawValue: "readyToSubmit")
+}
+
 public class EventSplitViewController: SidebarSplitViewController, EvaluationObserverable {
 
     public let viewModel: EventDetailViewModelType
@@ -71,6 +75,3 @@ public class DefaultEventsDetailViewModel: EventDetailViewModelType, Evaluatable
     }
 }
 
-fileprivate extension EvaluatorKey {
-    static let readyToSubmit = EvaluatorKey(rawValue: "readyToSubmit")
-}

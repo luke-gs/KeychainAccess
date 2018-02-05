@@ -17,7 +17,7 @@
 		12A8DB471F5FD63400A06005 /* DirectoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A8DB461F5FD63400A06005 /* DirectoryManager.swift */; };
 		12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */; };
 		12D3701720200B5B00D79DDB /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3700F20200B5A00D79DDB /* Event.swift */; };
-		12D3701920200B5B00D79DDB /* EventDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3701220200B5A00D79DDB /* EventDisplayable.swift */; };
+		12D3701920200B5B00D79DDB /* EventListDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3701220200B5A00D79DDB /* EventListDisplayable.swift */; };
 		12D3701B20200B5B00D79DDB /* EventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3701420200B5A00D79DDB /* EventsManager.swift */; };
 		12D3701C20200B5B00D79DDB /* EventSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3701520200B5A00D79DDB /* EventSplitViewController.swift */; };
 		12D3702020200DBD00D79DDB /* ObjectBucket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3701F20200DBD00D79DDB /* ObjectBucket.swift */; };
@@ -700,7 +700,7 @@
 		12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLKitProtocols.swift; sourceTree = "<group>"; };
 		12BDF9151F95CCD50033E60B /* GenericSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericSearchViewController.swift; sourceTree = "<group>"; };
 		12D3700F20200B5A00D79DDB /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
-		12D3701220200B5A00D79DDB /* EventDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDisplayable.swift; sourceTree = "<group>"; };
+		12D3701220200B5A00D79DDB /* EventListDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListDisplayable.swift; sourceTree = "<group>"; };
 		12D3701420200B5A00D79DDB /* EventsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsManager.swift; sourceTree = "<group>"; };
 		12D3701520200B5A00D79DDB /* EventSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSplitViewController.swift; sourceTree = "<group>"; };
 		12D3701F20200DBD00D79DDB /* ObjectBucket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectBucket.swift; sourceTree = "<group>"; };
@@ -1424,7 +1424,7 @@
 			children = (
 				12FB04082021511E000C38C8 /* DefaultEventDateTimeViewController.swift */,
 				12FB040C20216BDB000C38C8 /* EventBuilder.swift */,
-				12D3701220200B5A00D79DDB /* EventDisplayable.swift */,
+				12D3701220200B5A00D79DDB /* EventListDisplayable.swift */,
 				12D3702120200F5E00D79DDB /* EventsListViewController.swift */,
 				12D3701420200B5A00D79DDB /* EventsManager.swift */,
 				12D3701520200B5A00D79DDB /* EventSplitViewController.swift */,
@@ -3668,7 +3668,7 @@
 				27F7477820182CFA009D47AB /* FinaliseDetailsViewModel.swift in Sources */,
 				96B9183E1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift in Sources */,
 				BC9C7E101F0DED6600DFFE83 /* TableViewFormCell.swift in Sources */,
-				12D3701920200B5B00D79DDB /* EventDisplayable.swift in Sources */,
+				12D3701920200B5B00D79DDB /* EventListDisplayable.swift in Sources */,
 				2742CD2F1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift in Sources */,
 				46A60F5C1FCFAF4A00EE32CA /* EvaluationObserverable.swift in Sources */,
 				2744EEC51FBEA523008DFA7F /* MapFilterSectionView.swift in Sources */,

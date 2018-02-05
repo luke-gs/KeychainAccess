@@ -13,7 +13,7 @@ fileprivate extension EvaluatorKey {
 /// The implementation of an Event.
 /// All it really is, is an array of reports with some basic business logic
 /// to check if all reports are valid through the evaluator
-final public class Event: NSCoding, Evaluatable {
+final public class Event: Codable, Evaluatable {
 
     private(set) public var reports: [Reportable] = [Reportable]()
     public var evaluator: Evaluator = Evaluator()
@@ -28,6 +28,22 @@ final public class Event: NSCoding, Evaluatable {
         evaluator.registerKey(.allValid) {
             return !self.reports.map{$0.evaluator.isComplete}.contains(false)
         }
+    }
+
+    // Codable stuff begins
+
+    public init(from: Decoder) throws {
+        let container = try from.container(keyedBy: Keys.self)
+        reports = try container.decode([Reportable].self, forKey: .reports)
+    }
+
+    public func encode(to: Encoder) throws {
+        var container = to.container(keyedBy: Keys.self)
+        try container.encode(reports, forKey: .reports)
+    }
+
+    enum Keys: String, CodingKey {
+        case reports = "reports"
     }
 
     //MARK: Utility
@@ -49,17 +65,6 @@ final public class Event: NSCoding, Evaluatable {
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
         allValid = evaluationState
     }
-
-    //MARK: Encoding
-
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(reports, forKey: "reports")
-    }
-
-    public init?(coder aDecoder: NSCoder) {
-        reports = aDecoder.decodeObject(of: NSArray.self, forKey: "reports") as! [Reportable]
-        evaluator = aDecoder.decodeObject(forKey: "evaluator") as! Evaluator
-    }
 }
 
 /// A bunch of event types
@@ -76,10 +81,6 @@ public struct EventType: RawRepresentable, Equatable, Hashable {
         self.rawValue = rawValue
     }
 
-    public init(_ rawValue: String) {
-        self.rawValue = rawValue
-    }
-
     public static func ==(lhs: EventType, rhs: EventType) -> Bool {
         return lhs.rawValue == rhs.rawValue
     }
@@ -91,7 +92,7 @@ public struct EventType: RawRepresentable, Equatable, Hashable {
 
 /// Anything can be reportable
 /// Used to define something in the event object
-public protocol Reportable: NSCoding, Evaluatable {
+public protocol Reportable: Codable, Evaluatable {
 
     /// A weak reference to the event object
     /// Make sure this is weak in implementation as well
@@ -107,7 +108,7 @@ public protocol Reportable: NSCoding, Evaluatable {
 ///
 /// Used to define what an event should look like for a specific event type
 /// in terms of the reports it should have
-public protocol EventBuilding: NSCoding {
+public protocol EventBuilding: Codable {
 
     /// Create an event, injecting any reports that you need.
     ///
@@ -122,7 +123,7 @@ public protocol EventBuilding: NSCoding {
 ///
 /// Can be used to provide different view controllers for OOTB reports
 /// - ie. DateTimeReport
-public protocol EventScreenBuilding: NSCoding {
+public protocol EventScreenBuilding: Codable {
 
     /// Constructs an array of view controllers depending on what reportables are passed in
     ///

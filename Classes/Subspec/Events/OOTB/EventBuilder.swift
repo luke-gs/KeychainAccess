@@ -17,11 +17,12 @@ public class DefaultEventBuilder: EventBuilding {
         // Add default reports here
         event.add(report: DefaultDateTimeReport(event: event))
 
-        return (event: event, displayable: EventListDisplayable(title: "Demo",
-                                                                subtitle: "Sub",
-                                                                accessoryTitle: "AccessTitle",
-                                                                accessorySubtitle: "Acces Sub",
-                                                                icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.advancedSearch)))
+        let displayable = EventListDisplayable(title: "Demo",
+                                               subtitle: "Sub",
+                                               accessoryTitle: "AccessTitle",
+                                               accessorySubtitle: "Acces Sub",
+                                               icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.advancedSearch))
+        return (event: event, displayable: displayable)
     }
 
     init() { }
