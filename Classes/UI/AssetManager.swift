@@ -242,6 +242,9 @@ extension AssetManager {
         public static let iconStatusTrafficStop  = ImageKey("iconStatusTrafficStop")
         public static let iconStatusUnavailable  = ImageKey("iconStatusUnavailable")
 
+        // Events
+        public static let iconFolder  = ImageKey("iconFolder")
+        public static let iconPencil  = ImageKey("iconPencil")
     }
 }
 
