@@ -20,6 +20,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     open var officerId: String?
     open var licenceTypeId: String?
     open var contactNumber: String?
+    open var radioId: String?
     open var capabilities: [String]?
     open var remarks: String?
     open var initials: String?
@@ -59,6 +60,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
         self.remarks = officer.remarks
         self.isDriver = officer.isDriver
         self.initials = officer.initials
+        self.radioId = officer.radioId
     }
 
     /// Create view model from model
@@ -68,6 +70,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
         self.officerId = officer.payrollId
         self.isDriver = isDriver
         self.initials = officer.initials
+        self.radioId = officer.radioId
 
         if initial {
             // On initial add of officer, some properties user is forced to enter
