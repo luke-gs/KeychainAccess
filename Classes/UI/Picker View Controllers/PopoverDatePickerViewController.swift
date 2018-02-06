@@ -34,7 +34,7 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
     open private(set) lazy var button: UIButton = { [unowned self] in
         let button = UIButton(frame: .zero)
         button.setTitle("Set time to now", for: .normal)
-        button.setTitleColor(.blue, for: .normal)
+        button.setTitleColor(.brightBlue, for: .normal)
         button.addTarget(self, action: #selector(currentTimeButtonTouched), for: .touchUpInside)
         return button
         }()
