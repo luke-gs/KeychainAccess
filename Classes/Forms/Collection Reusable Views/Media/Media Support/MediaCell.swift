@@ -1,5 +1,5 @@
 //
-//  PhotoMediaCell.swift
+//  MediaCell.swift
 //  MPOLKit
 //
 //  Created by KGWH78 on 30/10/17.
@@ -9,9 +9,9 @@
 import Foundation
 
 
-public class PhotoMediaCell: MediaPreviewableCell, MediaPreviewRenderer {
+public class MediaCell<T: MediaAsset>: MediaPreviewableCell, MediaPreviewRenderer {
 
-    public typealias Media = PhotoMedia
+    public typealias Media = T
 
     public override var media: MediaPreviewable? {
         didSet {

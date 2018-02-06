@@ -98,7 +98,10 @@ open class CollectionViewFormMediaCell<U: MediaPreviewableDelegate>: CollectionV
         ])
 
         collectionView.register(MediaPreviewableCell.self)
-        register(itemType: PhotoMedia.self, withRenderer: PhotoMediaCell.self)
+        register(itemType: PhotoMedia.self, withRenderer: MediaCell<PhotoMedia>.self)
+        register(itemType: VideoMedia.self, withRenderer: MediaCell<VideoMedia>.self)
+        register(itemType: AudioMedia.self, withRenderer: MediaCell<AudioMedia>.self)
+        
 
         loadingManager.baseView = contentView
         loadingManager.contentView = collectionView

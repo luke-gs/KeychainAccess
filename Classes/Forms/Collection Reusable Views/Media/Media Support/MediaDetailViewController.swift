@@ -1,5 +1,5 @@
 //
-//  PhotoMediaDetailViewController.swift
+//  MediaDetailViewController.swift
 //  MPOLKit
 //
 //  Created by KGWH78 on 16/11/17.
@@ -8,30 +8,29 @@
 
 import Foundation
 
+public protocol MediaDetailViewControllerDelegate: class {
 
-public protocol PhotoMediaDetailViewControllerDelegate: class {
-
-    func photoMediaDetailViewControllerDidUpdatePhotoMedia(_ detailViewController: PhotoMediaDetailViewController)
+    func mediaDetailViewControllerDidUpdatePhotoMedia(_ detailViewController: MediaDetailViewController)
 
 }
 
-public class PhotoMediaDetailViewController: FormBuilderViewController {
+public class MediaDetailViewController: FormBuilderViewController {
 
-    public let photoMedia: PhotoMedia
+    public let mediaAsset: MediaAsset
 
-    public weak var delegate: PhotoMediaDetailViewControllerDelegate?
+    public weak var delegate: MediaDetailViewControllerDelegate?
 
     private var titleText: String?
     private var commentsText: String?
 
     private var sensitive: Bool
 
-    public init(photoMedia: PhotoMedia) {
-        self.photoMedia = photoMedia
+    public init(mediaAsset: MediaAsset) {
+        self.mediaAsset = mediaAsset
 
-        titleText = photoMedia.title
-        commentsText = photoMedia.comments
-        sensitive = photoMedia.sensitive
+        titleText = mediaAsset.title
+        commentsText = mediaAsset.comments
+        sensitive = mediaAsset.sensitive
 
         super.init()
 
@@ -81,10 +80,10 @@ public class PhotoMediaDetailViewController: FormBuilderViewController {
         let result = builder.validate()
         switch result {
         case .valid:
-            photoMedia.title = titleText
-            photoMedia.comments = commentsText
-            photoMedia.sensitive = sensitive
-            delegate?.photoMediaDetailViewControllerDidUpdatePhotoMedia(self)
+            mediaAsset.title = titleText
+            mediaAsset.comments = commentsText
+            mediaAsset.sensitive = sensitive
+            delegate?.mediaDetailViewControllerDidUpdatePhotoMedia(self)
             dismiss(animated: true, completion: nil)
         case .invalid:
             builder.validateAndUpdateUI()

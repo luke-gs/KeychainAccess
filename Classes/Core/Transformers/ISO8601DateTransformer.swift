@@ -61,7 +61,5 @@ public class ISO8601DateTransformer: OptionalTransformer {
     
     public func reverse(_ transformedValue: Date) -> String? {
         return dateFormatter.string(from: transformedValue)
-            ?? noTimeZoneDateFormatter.string(from: transformedValue)
-            ?? dateOnlyFormatter.string(from: transformedValue)
     }
 }

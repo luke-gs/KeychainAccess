@@ -1,5 +1,5 @@
 //
-//  PhotoMediaPreviewViewController.swift
+//  MediaPreviewViewController.swift
 //  MPOLKit
 //
 //  Created by KGWH78 on 30/10/17.
@@ -9,17 +9,16 @@
 import Foundation
 import UIKit
 
+public class MediaPreviewViewController: UIViewController {
 
-public class PhotoMediaPreviewViewController: UIViewController {
-
-    public let photoMedia: PhotoMedia
+    public let mediaAsset: MediaAsset
 
     private let imageView = UIImageView()
 
     private let titleLabel = UILabel()
 
-    public init(photoMedia: PhotoMedia) {
-        self.photoMedia = photoMedia
+    public init(mediaAsset: MediaAsset) {
+        self.mediaAsset = mediaAsset
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -41,13 +40,13 @@ public class PhotoMediaPreviewViewController: UIViewController {
 
         titleLabel.backgroundColor = #colorLiteral(red: 0.2, green: 0.2039215686, blue: 0.2274509804, alpha: 0.82)
 
-        titleLabel.text = photoMedia.title
+        titleLabel.text = mediaAsset.title
         titleLabel.layer.cornerRadius = 6.0
         titleLabel.clipsToBounds = true
-        titleLabel.isHidden = photoMedia.title?.isEmpty ?? true
+        titleLabel.isHidden = mediaAsset.title?.isEmpty ?? true
 
         var titleWidth: CGFloat = 0.0
-        if var sizing = photoMedia.title?.sizing() {
+        if var sizing = mediaAsset.title?.sizing() {
             sizing.font = titleLabel.font
             sizing.numberOfLines = 1
             titleWidth = sizing.minimumWidth(compatibleWith: traitCollection) + 20.0
@@ -59,7 +58,7 @@ public class PhotoMediaPreviewViewController: UIViewController {
         view.tintColor = .white
         view.backgroundColor = .white
 
-        photoMedia.thumbnailImage?.loadImage(completion: { [weak self] (image) in
+        mediaAsset.thumbnailImage?.loadImage(completion: { [weak self] (image) in
             self?.imageView.image = image.sizing().image
         })
 
