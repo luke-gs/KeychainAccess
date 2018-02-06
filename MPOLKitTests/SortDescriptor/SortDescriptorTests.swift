@@ -26,6 +26,11 @@ class Person: NSObject  {
         }
         return self.surname == rhs.surname && self.firstName == rhs.firstName && self.middleName == rhs.middleName
     }
+
+    override var description: String {
+        let superDescription = super.description
+        return "\(superDescription) - \(firstName) \(String(describing: middleName)) \(surname)"
+    }
 }
 
 class SortDescriptorTests: XCTestCase {
@@ -147,5 +152,12 @@ class SortDescriptorTests: XCTestCase {
             let expect = expected[index]
             XCTAssertEqual(person, expect)
         }
+    }
+
+    func testThatNilValueSortDescriptorSortsNil() {
+        let nilDescriptor = SortDescriptor<Person>.nilValueSortDescriptor(nilFirst: false) { $0.middleName }
+        let sorted = persons.sorted(using: [nilDescriptor])
+
+        XCTAssertEqual(sorted.last!, p1)
     }
 }

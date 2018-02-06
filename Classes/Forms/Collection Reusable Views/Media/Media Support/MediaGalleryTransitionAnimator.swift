@@ -1,5 +1,5 @@
 //
-//  PhotoMediaGalleryTransitionAnimator.swift
+//  MediaGalleryTransitionAnimator.swift
 //  MPOLKit
 //
 //  Note: From INSGallery
@@ -10,8 +10,7 @@
 
 import Foundation
 
-
-class PhotoMediaGalleryTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+class MediaGalleryTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
     var dismissing: Bool = false
 

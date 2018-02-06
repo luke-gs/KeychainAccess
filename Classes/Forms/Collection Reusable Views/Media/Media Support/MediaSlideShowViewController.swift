@@ -1,5 +1,5 @@
 //
-//  PhotoMediaSlideShowViewController.swift
+//  MediaSlideShowViewController.swift
 //  MPOLKit
 //
 //  Created by KGWH78 on 30/10/17.
@@ -8,16 +8,15 @@
 
 import Foundation
 
-
-public class PhotoMediaSlideShowViewController: UIViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
+public class MediaSlideShowViewController: UIViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
 
     private lazy var pageViewController: UIPageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: [UIPageViewControllerOptionInterPageSpacingKey: 16.0])
 
-    public let dataSource: MediaDataSource<PhotoMedia>
+    public let dataSource: MediaDataSource<MediaAsset>
 
     public var allowEditing: Bool = true
 
-    public var overlayView: PhotoMediaOverlayViewable = PhotoMediaSlideShowOverlayView(frame: .zero) {
+    public var overlayView: MediaOverlayViewable = MediaSlideShowOverlayView(frame: .zero) {
         willSet {
             overlayView.view().removeFromSuperview()
         }
@@ -32,23 +31,23 @@ public class PhotoMediaSlideShowViewController: UIViewController, UIPageViewCont
     }
 
     private lazy var tapGestureRecognizer: UITapGestureRecognizer = {
-        return UITapGestureRecognizer(target: self, action: #selector(PhotoMediaSlideShowViewController.handleTapGestureRecognizer(_:)))
+        return UITapGestureRecognizer(target: self, action: #selector(MediaSlideShowViewController.handleTapGestureRecognizer(_:)))
     }()
 
-    public var currentMediaViewController: PhotoMediaViewController? {
-        return pageViewController.viewControllers?.first as? PhotoMediaViewController
+    public var currentMediaViewController: MediaViewController? {
+        return pageViewController.viewControllers?.first as? MediaViewController
     }
 
-    public var currentPhotoMedia: PhotoMedia? {
-        return currentMediaViewController?.photoMedia
+    public var currentMedia: MediaAsset? {
+        return currentMediaViewController?.mediaAsset
     }
 
-    public init(dataSource: MediaDataSource<PhotoMedia>, initialPhotoMedia: PhotoMedia? = nil, referenceView: UIView? = nil) {
+    public init(dataSource: MediaDataSource<MediaAsset>, initialMedia: MediaAsset? = nil, referenceView: UIView? = nil) {
         self.dataSource = dataSource
 
         super.init(nibName: nil, bundle: nil)
 
-        setupWithInitialPhoto(initialPhotoMedia)
+        setupWithInitialMedia(initialMedia)
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -57,28 +56,28 @@ public class PhotoMediaSlideShowViewController: UIViewController, UIPageViewCont
 
     // MARK: - Setup
 
-    public func setupWithInitialPhoto(_ photo: PhotoMedia?, animated: Bool = false) {
+    public func setupWithInitialMedia(_ media: MediaAsset?, animated: Bool = false) {
         // Page controller
-        if let photo = photo ?? dataSource.mediaItemAtIndex(0) {
+        if let media = media ?? dataSource.mediaItemAtIndex(0) {
             var direction = UIPageViewControllerNavigationDirection.forward
-            if let currentPhoto = self.currentPhotoMedia,
-                let currentIndex = dataSource.indexOfMediaItem(currentPhoto),
-                let nextIndex = dataSource.indexOfMediaItem(photo), nextIndex < currentIndex {
+            if let currentMedia = self.currentMedia,
+                let currentIndex = dataSource.indexOfMediaItem(currentMedia),
+                let nextIndex = dataSource.indexOfMediaItem(media), nextIndex < currentIndex {
                 direction = .reverse
             }
 
-            let photoViewController = photoViewControllerForPhoto(photo)
-            pageViewController.setViewControllers([photoViewController], direction: direction, animated: animated, completion: nil)
-            overlayView.populateWithPhoto(photo)
+            let mediaViewController = mediaViewControllerForPhoto(media)
+            pageViewController.setViewControllers([mediaViewController], direction: direction, animated: animated, completion: nil)
+            overlayView.populateWithMedia(media)
         }
     }
 
-    public func showPhoto(_ photo: PhotoMedia, animated: Bool, direction: UIPageViewControllerNavigationDirection = .forward) {
-        guard dataSource.indexOfMediaItem(photo) != nil else { return }
+    public func showMedia(_ media: MediaAsset, animated: Bool, direction: UIPageViewControllerNavigationDirection = .forward) {
+        guard dataSource.indexOfMediaItem(media) != nil else { return }
 
-        let photoViewController = photoViewControllerForPhoto(photo)
-        pageViewController.setViewControllers([photoViewController], direction: direction, animated: animated, completion: nil)
-        overlayView.populateWithPhoto(photo)
+        let mediaViewController = mediaViewControllerForPhoto(media)
+        pageViewController.setViewControllers([mediaViewController], direction: direction, animated: animated, completion: nil)
+        overlayView.populateWithMedia(media)
     }
 
     public override func viewDidLoad() {
@@ -120,33 +119,33 @@ public class PhotoMediaSlideShowViewController: UIViewController, UIPageViewCont
     // MARK: - PageViewControllerDelegate / PageViewControllerDataSource
 
     public func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let mediaViewController = viewController as? PhotoMediaViewController,
-            let photoIndex = dataSource.indexOfMediaItem(mediaViewController.photoMedia),
-            let newPhoto = dataSource[photoIndex - 1] else { return nil }
-        return photoViewControllerForPhoto(newPhoto)
+        guard let mediaViewController = viewController as? MediaViewController else { return nil }
+        guard let mediaIndex = dataSource.indexOfMediaItem(mediaViewController.mediaAsset) else { return nil }
+        guard let newMedia = dataSource[mediaIndex - 1] else { return nil }
+        return mediaViewControllerForPhoto(newMedia)
     }
 
     public func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let mediaViewController = viewController as? PhotoMediaViewController,
-            let photoIndex = dataSource.indexOfMediaItem(mediaViewController.photoMedia),
-            let newPhoto = dataSource[photoIndex + 1] else { return nil }
-        return photoViewControllerForPhoto(newPhoto)
+        guard let mediaViewController = viewController as? MediaViewController else { return nil }
+        guard let mediaIndex = dataSource.indexOfMediaItem(mediaViewController.mediaAsset) else { return nil }
+        guard let newMedia = dataSource[mediaIndex + 1] else { return nil }
+        return mediaViewControllerForPhoto(newMedia)
     }
 
     public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed {
-            if let currentPhotoMedia = currentPhotoMedia {
-                overlayView.populateWithPhoto(currentPhotoMedia)
+            if let currentMedia = currentMedia {
+                overlayView.populateWithMedia(currentMedia)
             }
         }
     }
 
     // MARK: - Photo management
 
-    public func handleDeletePhotoButtonTapped(_ item: UIBarButtonItem) {
+    public func handleDeleteMediaButtonTapped(_ item: UIBarButtonItem) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("Delete Photo", comment: ""), style: .destructive, handler: { (action) in
-            self.deleteCurrentPhoto()
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("Delete Media", comment: ""), style: .destructive, handler: { (action) in
+            self.deleteCurrentMedia()
         }))
         alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
         alertController.popoverPresentationController?.barButtonItem = item
@@ -155,12 +154,11 @@ public class PhotoMediaSlideShowViewController: UIViewController, UIPageViewCont
 
     // MARK: - Private
 
-    private func photoViewControllerForPhoto(_ photo: PhotoMedia) -> UIViewController {
-        let mediaViewController = PhotoMediaViewController(photoMedia: photo)
-        return mediaViewController
+    private func mediaViewControllerForPhoto(_ media: MediaAsset) -> UIViewController {
+        return dataSource.viewController(for: media)
     }
 
-    private func photoAfterDeletion(currentPhotoIndex index: Int) -> PhotoMedia? {
+    private func mediaAfterDeletion(currentMediaIndex index: Int) -> MediaAsset? {
         if let photo = dataSource.mediaItemAtIndex(index) {
             return photo
         }
@@ -168,13 +166,13 @@ public class PhotoMediaSlideShowViewController: UIViewController, UIPageViewCont
         return dataSource.mediaItemAtIndex(index - 1)
     }
 
-    private func deleteCurrentPhoto() {
-        guard let currentPhotoMedia = currentPhotoMedia else { return }
+    private func deleteCurrentMedia() {
+        guard let currentMedia = currentMedia else { return }
 
-        if let index = dataSource.indexOfMediaItem(currentPhotoMedia) {
-            dataSource.removeMediaItem(currentPhotoMedia)
-            if let photo = photoAfterDeletion(currentPhotoIndex: index) {
-                showPhoto(photo, animated: true, direction: index == dataSource.numberOfMediaItems() ? .reverse : .forward)
+        if let index = dataSource.indexOfMediaItem(currentMedia) {
+            dataSource.removeMediaItem(currentMedia)
+            if let media = mediaAfterDeletion(currentMediaIndex: index) {
+                showMedia(media, animated: true, direction: index == dataSource.numberOfMediaItems() ? .reverse : .forward)
             } else {
                 navigationController?.popViewController(animated: true)
             }
@@ -183,7 +181,7 @@ public class PhotoMediaSlideShowViewController: UIViewController, UIPageViewCont
 
     // MARK: - Gesture Recognizers
 
-    public weak var mediaOverviewViewController: PhotoMediaGalleryViewController?
+    public weak var mediaOverviewViewController: MediaGalleryViewController?
 
     @objc private func handleTapGestureRecognizer(_ gestureRecognizer: UITapGestureRecognizer) {
         overlayView.setHidden(!overlayView.view().isHidden, animated: true)

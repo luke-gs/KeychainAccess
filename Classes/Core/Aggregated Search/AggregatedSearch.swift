@@ -155,7 +155,7 @@ public class AggregatedSearch<T: MPOLKitEntity> {
         
         results[index] = AggregatedResult(request: request,
                                           entities: [],
-                                          state: .finished,
+                                          state: .failed,
                                           error: error)
 
         delegate?.aggregatedSearch(self, didEndSearch: request)

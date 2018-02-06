@@ -1,5 +1,5 @@
 //
-//  PhotoMediaGalleryViewController.swift
+//  MediaGalleryViewController.swift
 //  MPOLKit
 //
 //  Created by KGWH78 on 3/11/17.
@@ -10,9 +10,7 @@ import Foundation
 import AVFoundation
 import Photos
 
-
-
-public class PhotoMediaGalleryViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+public class MediaGalleryViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
     private enum Identifier: String {
         case genericCell
@@ -22,9 +20,9 @@ public class PhotoMediaGalleryViewController: UIViewController, UICollectionView
 
     public private(set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewFlowLayout)
 
-    public let dataSource: MediaDataSource<PhotoMedia>
+    public let dataSource: MediaDataSource<MediaAsset>
 
-    public let pickerSources: [PhotoMediaPickerSource]
+    public let pickerSources: [MediaPickerSource]
 
     public var allowEditing: Bool = true {
         didSet { setupNavigationItems() }
@@ -32,22 +30,23 @@ public class PhotoMediaGalleryViewController: UIViewController, UICollectionView
 
     public private(set) lazy var loadingManager: LoadingStateManager = LoadingStateManager()
 
-    private var initialPhoto: PhotoMedia?
+    private var initialAsset: MediaAsset?
 
     private lazy var addBarButtonItem: UIBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Add", comment: ""), style: .plain, target: self, action: #selector(addButtonTapped))
 
-    public init(dataSource: MediaDataSource<PhotoMedia>, initialPhoto: PhotoMedia? = nil, pickerSources: [PhotoMediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker()]) {
+    public init(dataSource: MediaDataSource<MediaAsset>, initialAsset: MediaAsset? = nil, pickerSources: [MediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker(), AudioMediaPicker(), SketchMediaPicker()]) {
 
         pickerSources.forEach {
-            $0.savePhotoMedia = {
-                let photoMedia = PhotoMedia(thumbnailImage: $0, image: $0)
-                dataSource.addMediaItem(photoMedia)
+            $0.saveMedia = { url, assetType in
+                if let media = assetType.mediaAsset(at: url) {
+                    dataSource.addMediaItem(media)
+                }
             }
         }
 
         self.dataSource = dataSource
         self.pickerSources = pickerSources
-        self.initialPhoto = initialPhoto
+        self.initialAsset = initialAsset
 
         super.init(nibName: nil, bundle: nil)
 
@@ -104,13 +103,13 @@ public class PhotoMediaGalleryViewController: UIViewController, UICollectionView
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if let initialPhoto = initialPhoto {
-            let mediaGalleryViewController = PhotoMediaSlideShowViewController(dataSource: dataSource, initialPhotoMedia: initialPhoto, referenceView: nil)
+        if let initialPhoto = initialAsset {
+            let mediaGalleryViewController = MediaSlideShowViewController(dataSource: dataSource, initialMedia: initialPhoto, referenceView: nil)
             mediaGalleryViewController.allowEditing = allowEditing
             mediaGalleryViewController.mediaOverviewViewController = self
             navigationController?.pushViewController(mediaGalleryViewController, animated: true)
 
-            self.initialPhoto = nil
+            self.initialAsset = nil
         }
     }
 
@@ -184,8 +183,8 @@ public class PhotoMediaGalleryViewController: UIViewController, UICollectionView
             cell.backgroundView?.alpha = 1.0
             trashItem.isEnabled = true
         } else {
-            let photoMedia = dataSource.mediaItemAtIndex(indexPath.item)
-            let mediaGalleryViewController = PhotoMediaSlideShowViewController(dataSource: dataSource, initialPhotoMedia: photoMedia, referenceView: cell)
+            let media = dataSource.mediaItemAtIndex(indexPath.item)
+            let mediaGalleryViewController = MediaSlideShowViewController(dataSource: dataSource, initialMedia: media, referenceView: cell)
             mediaGalleryViewController.allowEditing = allowEditing
             mediaGalleryViewController.mediaOverviewViewController = self
             show(mediaGalleryViewController, sender: self)
@@ -255,7 +254,7 @@ public class PhotoMediaGalleryViewController: UIViewController, UICollectionView
     }
 
     @objc private func addButtonTapped() {
-        let alertController = UIAlertController(title: NSLocalizedString("Choose Image", comment: ""), message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: NSLocalizedString("Choose Media", comment: ""), message: nil, preferredStyle: .actionSheet)
 
         pickerSources.forEach({ source in
             let action = UIAlertAction(title: source.title, style: .default, handler: { _ in
@@ -328,30 +327,32 @@ public class PhotoMediaGalleryViewController: UIViewController, UICollectionView
 
     // MARK: - UINavigationControllerDelegate
 
-    internal let transitionAnimator = PhotoMediaGalleryTransitionAnimator()
+    internal let transitionAnimator = MediaGalleryTransitionAnimator()
 
     public func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
         switch operation {
         case .push:
-            guard let _ = fromVC as? PhotoMediaGalleryViewController,
-                let toVC = toVC as? PhotoMediaSlideShowViewController,
-                let photoMedia = toVC.currentPhotoMedia,
+            guard let _ = fromVC as? MediaGalleryViewController,
+                let toVC = toVC as? MediaSlideShowViewController,
+                let photoMedia = toVC.currentMedia as? PhotoMedia,
                 let photoMediaIndex = dataSource.indexOfMediaItem(photoMedia),
                 let cell = collectionView.cellForItem(at: IndexPath(item: photoMediaIndex, section: 0)),
-                let endingView = toVC.currentMediaViewController?.scalingImageView.imageView else { return nil }
+                let mediaViewController = toVC.currentMediaViewController else { return nil }
 
+            let endingView = mediaViewController.scalingImageView.imageView
             transitionAnimator.startingView = cell.backgroundView
             transitionAnimator.endingView = endingView
             transitionAnimator.dismissing = false
             return transitionAnimator
         case .pop:
-            guard let fromVC = fromVC as? PhotoMediaSlideShowViewController,
-                let _ = toVC as? PhotoMediaGalleryViewController,
-                let endingView = fromVC.currentMediaViewController?.scalingImageView.imageView,
-                let photoMedia = fromVC.currentPhotoMedia,
+            guard let fromVC = fromVC as? MediaSlideShowViewController,
+                let _ = toVC as? MediaGalleryViewController,
+                let mediaViewController = fromVC.currentMediaViewController,
+                let photoMedia = fromVC.currentMedia,
                 let index = dataSource.indexOfMediaItem(photoMedia) else { return nil }
 
+            let endingView = mediaViewController.scalingImageView.imageView
             let indexPath = IndexPath(item: index, section: 0)
 
             if !collectionView.indexPathsForVisibleItems.contains(indexPath) {

@@ -11,19 +11,19 @@ import Foundation
 
 public class MediaFormItem: BaseFormItem {
 
-    public var dataSource: MediaDataSource<PhotoMedia>?
+    public var dataSource: MediaDataSource<MediaAsset>?
 
-    public var delegate = PhotoMediaPreviewHandler()
+    public var delegate = MediaPreviewHandler()
 
     public weak var previewingController: UIViewController?
 
     public init() {
-        super.init(cellType: CollectionViewFormMediaCell<PhotoMediaPreviewHandler>.self, reuseIdentifier: CollectionViewFormMediaCell<PhotoMediaPreviewHandler>.defaultReuseIdentifier)
+        super.init(cellType: CollectionViewFormMediaCell<MediaPreviewHandler>.self, reuseIdentifier: CollectionViewFormMediaCell<MediaPreviewHandler>.defaultReuseIdentifier)
         separatorStyle = .none
     }
 
     public override func configure(_ cell: CollectionViewFormCell) {
-        let cell = cell as! CollectionViewFormMediaCell<PhotoMediaPreviewHandler>
+        let cell = cell as! CollectionViewFormMediaCell<MediaPreviewHandler>
         cell.dataSource = dataSource
         cell.delegate = delegate
         cell.previewingController = previewingController
@@ -48,7 +48,7 @@ extension MediaFormItem {
     }
 
     @discardableResult
-    public func dataSource(_ dataSource: MediaDataSource<PhotoMedia>?) -> Self {
+    public func dataSource(_ dataSource: MediaDataSource<MediaAsset>?) -> Self {
         self.dataSource = dataSource
         return self
     }
