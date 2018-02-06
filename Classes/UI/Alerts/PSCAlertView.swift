@@ -16,9 +16,8 @@ public protocol PSCAlertViewDelegate: class {
 open class PSCAlertView: UIView {
     
     public struct DefaultAppearance {
-        // MARK: - Fonts
-        static let titleFont = UIFont.systemFont(ofSize: 28, weight: .bold)
-        static let messageFont = UIFont.systemFont(ofSize: 17, weight: .regular)
+        public static let titleFont = UIFont.systemFont(ofSize: 28, weight: .bold)
+        public static let messageFont = UIFont.systemFont(ofSize: 17, weight: .regular)
     }
     
     open weak var delegate: PSCAlertViewDelegate?
