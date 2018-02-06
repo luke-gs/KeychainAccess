@@ -9,7 +9,7 @@
 import UIKit
 
 /// Large `UIAlertViewController` replica for PSCore style.
-open class PSCAlertController: UIViewController {
+open class PSCAlertController: ThemedPopoverViewController {
     
     /// The alert view to display in the controller
     private var alertView: PSCAlertView?
@@ -45,6 +45,13 @@ open class PSCAlertController: UIViewController {
         return alertView?.imageView
     }
     
+    open var popoverParent: UIViewController? {
+        didSet {
+            popoverPresentationController?.sourceView = popoverParent?.view
+            popoverPresentationController?.sourceRect = popoverParent?.view.bounds ?? .zero
+        }
+    }
+    
     // MARK: - Setup
     
     public init(title: String?, message: String?, image: UIImage?) {
@@ -52,9 +59,26 @@ open class PSCAlertController: UIViewController {
         self.titleText = title
         self.messageText = message
         self.image = image
-        modalPresentationStyle = .formSheet
-        modalTransitionStyle = .crossDissolve
+//        modalPresentationStyle = .formSheet
+//        modalTransitionStyle = .crossDissolve
+        // Present the source selection as a centered popover, rather than form sheet, so we can control size
+        modalPresentationStyle = .popover
+        popoverPresentationController?.permittedArrowDirections = []
+        popoverPresentationController?.delegate = self
+        presentationController?.delegate = self
     }
+    
+    open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        // Update the source rect so the popover stays centered on rotation
+        if let parent = presentingViewController {
+            coordinator.animate(alongsideTransition: { (context) in
+                self.popoverPresentationController?.sourceRect = parent.view.bounds
+            }, completion: nil)
+        }
+    }
+
     
     open override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,10 +97,8 @@ open class PSCAlertController: UIViewController {
     private func setupViews() {
         view.backgroundColor = .clear
         
-        let alertView = PSCAlertView(actions: actions)
-        alertView.titleLabel.text = titleText
-        alertView.messageLabel.text = messageText
-        alertView.imageView.image = image
+        let alertView = PSCAlertView(title: titleText, message: messageText, image: image, actions: actions)
+        
         alertView.delegate = self
         alertView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(alertView)
@@ -109,3 +131,27 @@ extension PSCAlertController: PSCAlertViewDelegate {
         dismissAnimated()
     }
 }
+
+// MARK: - UIAdaptivePresentationControllerDelegate
+extension PSCAlertController: UIAdaptivePresentationControllerDelegate {
+    
+    /// Present view controllers using requested style, regardless of device
+    public func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+    
+    /// Present view controllers using requested style, regardless of device
+    public func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return .none
+    }
+}
+
+// MARK: - UIPopoverPresentationControllerDelegate
+extension PSCAlertController: UIPopoverPresentationControllerDelegate {
+    
+    /// Prevent closing of popover
+    public func popoverPresentationControllerShouldDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) -> Bool {
+        return false
+    }
+}
+
