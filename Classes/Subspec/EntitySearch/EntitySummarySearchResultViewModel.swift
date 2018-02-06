@@ -83,7 +83,7 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
             }
         }
 
-        if section.state == .finished && initialNumberOfResultsShownPerSection > 0 {
+        if section.state == .finished && !section.entities.isEmpty && initialNumberOfResultsShownPerSection > 0 {
             let updateHeader = { [weak header, weak self] in
                 guard let `self` = self, let header = header else { return }
 
