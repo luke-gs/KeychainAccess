@@ -9,7 +9,7 @@
 import UIKit
 
 /// Large style `UIAlertViewController` replica for PSCore style.
-open class PSCAlertController: UIViewController {
+open class PSCAlertController: ThemedPopoverViewController {
     
     public struct LayoutConstants {
         public static let preferredWidth: CGFloat = 512
@@ -50,7 +50,11 @@ open class PSCAlertController: UIViewController {
     open var imageView: UIImageView? {
         return alertView?.imageView
     }
-
+    
+    override open var preferredStatusBarStyle: UIStatusBarStyle {
+        return AlertQueue.shared.preferredStatusBarStyle
+    }
+    
     // MARK: - Setup
     
     public init(title: String?, message: String?, image: UIImage?) {
