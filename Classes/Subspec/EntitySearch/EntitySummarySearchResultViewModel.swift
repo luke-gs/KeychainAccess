@@ -129,35 +129,43 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
 
     open func statusItemForSection(_ section: SearchResultSection) -> FormItem? {
         switch section.state {
-        case .failed, .finished where section.entities.count == 0:
+        case .failed:
             return CustomFormItem(cellType: SearchResultErrorCell.self, reuseIdentifier: SearchResultErrorCell.defaultReuseIdentifier)
                 .onConfigured { (cell) in
                     let cell = cell as! SearchResultErrorCell
-                    if let error = section.error {
-                        let message = error.localizedDescription.ifNotEmpty()
-                        cell.titleLabel.text = message ?? NSLocalizedString("Unknown error has occurred.", comment: "[Search result screen] - Unknown error message when error doesn't contain localized description")
-                        cell.actionButton.setTitle(NSLocalizedString("Try Again", comment: "[Search result screen] - Try again button"), for: .normal)
-                        cell.actionButtonHandler = { [weak self] (cell) in
-                            guard let `self` = self, section.error != nil, let index = self.results.index(where: { $0 == section }) else {
-                                return
-                            }
-                            self.aggregatedSearch.retrySearchForResult(result: self.aggregatedSearch.results[index])
+                    let error = section.error
+                    let message = error?.localizedDescription.ifNotEmpty()
+                    cell.titleLabel.text = message ?? NSLocalizedString("Unknown error has occurred.", comment: "[Search result screen] - Unknown error message when error doesn't contain localized description")
+                    cell.actionButton.setTitle(NSLocalizedString("Try Again", comment: "[Search result screen] - Try again button"), for: .normal)
+                    cell.actionButtonHandler = { [weak self] (cell) in
+                        guard let `self` = self, section.error != nil, let index = self.results.index(where: { $0 == section }) else {
+                            return
                         }
-                    } else {
-                        cell.titleLabel.text = "No records matching your search description have been returned"
-                        cell.actionButton.setTitle(NSLocalizedString("New Search", comment: "[Search result screen] - New search button"), for: .normal)
-                        cell.actionButtonHandler = { [weak self] (cell) in
-                            guard let `self` = self else {  return }
-                            self.delegate?.requestToEdit()
-                        }
+                        self.aggregatedSearch.retrySearchForResult(result: self.aggregatedSearch.results[index])
                     }
-
+                    
                     cell.readMoreButtonHandler = { [weak self] (cell) in
                         guard let `self` = self else {  return }
                         let messageVC = SearchResultMessageViewController(message: cell.titleLabel.text!)
                         let navController = PopoverNavigationController(rootViewController: messageVC)
                         navController.modalPresentationStyle = .formSheet
                         self.delegate?.present(navController, animated: true, completion: nil)
+                    }
+                }
+                .onThemeChanged { (cell, theme) in
+                    (cell as! SearchResultErrorCell).apply(theme: theme)
+                }
+                .height(.fixed(SearchResultErrorCell.contentHeight))
+                .separatorStyle(.none)
+        case .finished where section.entities.count == 0:
+            return CustomFormItem(cellType: SearchResultErrorCell.self, reuseIdentifier: SearchResultErrorCell.defaultReuseIdentifier)
+                .onConfigured { (cell) in
+                    let cell = cell as! SearchResultErrorCell
+                    cell.titleLabel.text = "No records matching your search description have been returned"
+                    cell.actionButton.setTitle(NSLocalizedString("New Search", comment: "[Search result screen] - New search button"), for: .normal)
+                    cell.actionButtonHandler = { [weak self] (cell) in
+                        guard let `self` = self else {  return }
+                        self.delegate?.requestToEdit()
                     }
                 }
                 .onThemeChanged { (cell, theme) in
