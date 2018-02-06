@@ -74,6 +74,14 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
     open func headerItemForSection(_ section: SearchResultSection) -> HeaderFormItem {
         let header = HeaderFormItem(text: section.title, style: .collapsible)
             .isExpanded(section.isExpanded)
+        
+        let updateExpanded = { [weak self, weak header] in
+            guard let `self` = self, let header = header else { return }
+
+            if let index = self.results.index(of: section) {
+                self.results[index].isExpanded = header.isExpanded
+            }
+        }
 
         if section.state == .finished && initialNumberOfResultsShownPerSection > 0 {
             let updateHeader = { [weak header, weak self] in
@@ -97,16 +105,15 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
             }
 
             header.tapHandler = { [weak self, weak header] in
-                guard let `self` = self, let header = header else { return }
-
-                if let index = self.results.index(of: section) {
-                    self.results[index].isExpanded = header.isExpanded
-                }
-
+                updateExpanded()
                 updateHeader()
             }
 
             updateHeader()
+        } else {
+            header.tapHandler = {
+                updateExpanded()
+            }
         }
 
         return header
