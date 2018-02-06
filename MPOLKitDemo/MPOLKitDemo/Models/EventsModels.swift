@@ -42,9 +42,7 @@ class DemoDetailsViewModel: EventDetailViewModelType {
         self.viewControllers = builder.viewControllers(for: event.reports)
     }
 
-    func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-
-    }
+    func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
 }
 
 class DemoScreenBuilder: EventScreenBuilding {
@@ -64,13 +62,5 @@ class DemoScreenBuilder: EventScreenBuilding {
         }
 
         return viewControllers
-    }
-
-    func encode(with aCoder: NSCoder) {
-
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-
     }
 }

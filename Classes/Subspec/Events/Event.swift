@@ -84,10 +84,10 @@ public struct EventType: RawRepresentable, Hashable {
     public var hashValue: Int {
         return rawValue.hashValue
     }
-}
 
-public func ==(lhs: EventType, rhs: EventType) -> Bool {
-    return lhs.rawValue == rhs.rawValue
+    public static func ==(lhs: EventType, rhs: EventType) -> Bool {
+        return lhs.rawValue == rhs.rawValue
+    }
 }
 
 /// Anything can be reportable
@@ -108,7 +108,7 @@ public protocol Reportable: Codable, Evaluatable {
 ///
 /// Used to define what an event should look like for a specific event type
 /// in terms of the reports it should have
-public protocol EventBuilding: Codable {
+public protocol EventBuilding {
 
     /// Create an event, injecting any reports that you need.
     ///
@@ -123,7 +123,7 @@ public protocol EventBuilding: Codable {
 ///
 /// Can be used to provide different view controllers for OOTB reports
 /// - ie. DateTimeReport
-public protocol EventScreenBuilding: Codable {
+public protocol EventScreenBuilding {
 
     /// Constructs an array of view controllers depending on what reportables are passed in
     ///

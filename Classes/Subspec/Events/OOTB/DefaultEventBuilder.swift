@@ -1,5 +1,5 @@
 //
-//  EventBuilder.swift
+//  DefaultEventBuilder.swift
 //  MPOLKit
 //
 //  Created by Pavel Boryseiko on 31/1/18.
@@ -25,15 +25,7 @@ public class DefaultEventBuilder: EventBuilding {
         return (event: event, displayable: displayable)
     }
 
-    init() { }
-
-    public func encode(with aCoder: NSCoder) {
-
-    }
-
-    public required init?(coder aDecoder: NSCoder) {
-
-    }
+    public init() { }
 }
 
 /// OOTB implementation of the screen builder
@@ -61,13 +53,5 @@ public class DefaultEventScreenBuilder: EventScreenBuilding {
     }
 
     public init() { }
-
-    public func encode(with aCoder: NSCoder) {
-
-    }
-
-    public required init?(coder aDecoder: NSCoder) {
-
-    }
 }
 
