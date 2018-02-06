@@ -104,8 +104,7 @@ open class PSCAlertController: UIViewController {
     public func addAction(_ action: PSCAlertAction) {
         assert(alertView == nil, "You cannot add an action to a PSCAlertController after the view has loaded")
         actions.append(action)
-    }
-    
+    }    
 }
 
 extension PSCAlertController: PSCAlertViewDelegate {
@@ -116,27 +115,3 @@ extension PSCAlertController: PSCAlertViewDelegate {
         dismissAnimated()
     }
 }
-
-// MARK: - UIAdaptivePresentationControllerDelegate
-extension PSCAlertController: UIAdaptivePresentationControllerDelegate {
-    
-    /// Present view controllers using requested style, regardless of device
-    public func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-        return .none
-    }
-    
-    /// Present view controllers using requested style, regardless of device
-    public func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
-        return .none
-    }
-}
-
-// MARK: - UIPopoverPresentationControllerDelegate
-extension PSCAlertController: UIPopoverPresentationControllerDelegate {
-    
-    /// Prevent closing of popover
-    public func popoverPresentationControllerShouldDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) -> Bool {
-        return false
-    }
-}
-
