@@ -114,7 +114,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             .width(.column(2))
             .required("Start time is required.")
             .datePickerMode(.dateAndTime)
-            .dateFormatter(.formTime)
+            .dateFormatter(.relativeShortDateAndTimeFullYear)
             .minimumDate(Date().rounded(minutes: 15, rounding: .ceil))
             .minuteInterval(15)
             .selectedValue(viewModel.content.startTime)
@@ -134,7 +134,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             .width(.column(2))
             .required("End time is required.")
             .datePickerMode(.dateAndTime)
-            .dateFormatter(.formTime)
+            .dateFormatter(.relativeShortDateAndTimeFullYear)
             .minimumDate(Date().rounded(minutes: 15, rounding: .ceil))
             .minuteInterval(15)
             .selectedValue(viewModel.content.endTime)
@@ -164,13 +164,14 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
                 self.present(screen)
             })
 
-        // Button to delete officer (only available for additional officers)
+        // Button to delete officer and reload form
         let deleteAction = CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { [unowned self] (cell, indexPath) in
             self.viewModel.removeOfficer(at: indexPath.row)
             self.reloadForm()
         })
 
         for (index, officer) in viewModel.content.officers.enumerated() {
+            let editActions = viewModel.allowRemoveOfficer(at: index) ? [deleteAction] : []
             builder += BookOnDetailsOfficerFormItem(title: officer.title,
                                                     subtitle: officer.subtitle,
                                                     status: officer.driverStatus,
@@ -178,7 +179,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
                 .width(.column(1))
                 .height(.fixed(60))
                 .accessory(FormAccessoryView(style: .pencil))
-                .editActions([index > 0 ? deleteAction : nil].removeNils())
+                .editActions(editActions)
                 .onSelection { [unowned self] cell in
                     let screen = self.viewModel.officerDetailsScreen(at: index)
                     self.present(screen)

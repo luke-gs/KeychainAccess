@@ -108,10 +108,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UINavigationController(rootViewController: SearchLookupAddressTableViewController(style: .plain)),
             UINavigationController(rootViewController: genericSearchViewController()),
             UINavigationController(rootViewController: EventsListViewController(viewModel: DemoListViewModel(eventsManager: EventsManager.shared))),
-            UINavigationController(rootViewController: formSplitViewController)
+            UINavigationController(rootViewController: formSplitViewController),
+            UINavigationController(rootViewController: TemplateManagerViewController())
         ]
 
-        tabBarController.selectedIndex = 0
+        tabBarController.selectedIndex = 5
 
         self.window?.rootViewController = tabBarController
 

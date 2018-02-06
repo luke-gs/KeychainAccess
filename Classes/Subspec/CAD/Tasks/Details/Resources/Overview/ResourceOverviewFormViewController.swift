@@ -43,7 +43,7 @@ open class ResourceOverviewFormViewController: IntrinsicHeightFormBuilderViewCon
                     
                     // Present the resource split view controller
                     let viewModel = IncidentTaskItemViewModel(incident: incident, resource: resource)
-                    let vc = TaskItemSidebarSplitViewController(viewModel: viewModel)
+                    let vc = viewModel.createViewController()
                     self.pushableSplitViewController?.navigationController?.pushViewController(vc, animated: true)
                 })
         }

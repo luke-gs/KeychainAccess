@@ -13,9 +13,9 @@ public class SummaryListFormItem: BaseFormItem {
 
     public var category: String?
 
-    public var title: String?
+    public var title: StringSizable?
 
-    public var subtitle: String?
+    public var subtitle: StringSizable?
 
     public var badge: UInt = 0
 
@@ -30,16 +30,16 @@ public class SummaryListFormItem: BaseFormItem {
     public init() {
         super.init(cellType: EntityListCollectionViewCell.self, reuseIdentifier: EntityListCollectionViewCell.defaultReuseIdentifier)
 
-        highlightStyle = .enlarge
-        selectionStyle = .enlarge
+        highlightStyle = .fade
+        selectionStyle = .fade
     }
 
     public override func configure(_ cell: CollectionViewFormCell) {
         let cell = cell as! EntityListCollectionViewCell
 
         cell.sourceLabel.text = category
-        cell.titleLabel.text = title
-        cell.subtitleLabel.text = subtitle
+        cell.titleLabel.apply(sizable: title, defaultFont: defaultTitleFont(for: cell.traitCollection))
+        cell.subtitleLabel.apply(sizable: subtitle, defaultFont: defaultSubtitleFont(for: cell.traitCollection))
         cell.borderColor = badgeColor
         cell.actionCount = badge
         cell.thumbnailView.borderColor = borderColor
@@ -61,7 +61,12 @@ public class SummaryListFormItem: BaseFormItem {
     }
 
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
-        return EntityListCollectionViewCell.minimumContentHeight(compatibleWith: traitCollection)
+        return EntityListCollectionViewCell.minimumContentHeight(withTitle: title?.sizing(defaultNumberOfLines: 1, defaultFont: defaultTitleFont(for: traitCollection)),
+                                                                 subtitle: subtitle?.sizing(defaultNumberOfLines: 1, defaultFont: defaultSubtitleFont(for: traitCollection)),
+                                                                 source: category,
+                                                                 accessorySize: accessory?.size,
+                                                                 inWidth: contentWidth,
+                                                                 compatibleWith: traitCollection)
     }
 
     public override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
@@ -71,6 +76,18 @@ public class SummaryListFormItem: BaseFormItem {
         let cell = cell as! EntityListCollectionViewCell
         cell.titleLabel.textColor = primaryTextColor
         cell.subtitleLabel.textColor = secondaryTextColor
+        
+        cell.sourceLabel.textColor = secondaryTextColor
+        cell.sourceLabel.borderColor = secondaryTextColor
+        cell.sourceLabel.backgroundColor = .clear
+    }
+    
+    private func defaultTitleFont(for traitCollection: UITraitCollection?) -> UIFont {
+        return .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+    }
+    
+    private func defaultSubtitleFont(for traitCollection: UITraitCollection?) -> UIFont {
+        return .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
     }
 
 }
@@ -87,13 +104,13 @@ extension SummaryListFormItem {
     }
 
     @discardableResult
-    public func title(_ title: String?) -> Self {
+    public func title(_ title: StringSizable?) -> Self {
         self.title = title
         return self
     }
 
     @discardableResult
-    public func subtitle(_ subtitle: String?) -> Self {
+    public func subtitle(_ subtitle: StringSizable?) -> Self {
         self.subtitle = subtitle
         return self
     }

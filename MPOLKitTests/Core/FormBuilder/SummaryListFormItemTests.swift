@@ -16,7 +16,7 @@ class SummaryListFormItemTests: XCTestCase {
         let item = SummaryListFormItem()
 
         // Then
-        XCTAssertEqual(item.highlightStyle, .enlarge)
+        XCTAssertEqual(item.highlightStyle, .fade)
         XCTAssertEqual(item.badge, 0)
         XCTAssertTrue(item.cellType == EntityListCollectionViewCell.self)
         XCTAssertEqual(item.reuseIdentifier, EntityListCollectionViewCell.defaultReuseIdentifier)
@@ -37,8 +37,8 @@ class SummaryListFormItemTests: XCTestCase {
 
         // Then
         XCTAssertEqual(item.category, "Today")
-        XCTAssertEqual(item.title, "Hello")
-        XCTAssertEqual(item.subtitle, "Bye")
+        XCTAssertEqual(item.title?.sizing().string, "Hello")
+        XCTAssertEqual(item.subtitle?.sizing().string, "Bye")
         XCTAssertEqual(item.badge, 20)
         XCTAssertEqual(item.badgeColor, .yellow)
         XCTAssertEqual(item.borderColor, .orange)

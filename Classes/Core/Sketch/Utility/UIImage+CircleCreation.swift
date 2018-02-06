@@ -1,0 +1,72 @@
+//
+//  UIImage+CircleCreation.swift
+//  MPOLKit
+//
+//  Created by QHMW64 on 25/1/18.
+//  Copyright © 2018 Gridstone. All rights reserved.
+//
+
+import Foundation
+
+public extension UIImage {
+
+
+    /// Returns an image of a circle of a certain diameter and color
+    ///
+    /// - Parameters:
+    ///   - diameter: The diameter of the circle
+    ///   - color: The color to draw the circle
+    /// - Returns: An image of a circle
+    class func circle(diameter: CGFloat, color: UIColor) -> UIImage {
+
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: diameter, height: diameter), false, 0)
+        let ctx = UIGraphicsGetCurrentContext()!
+        ctx.saveGState()
+
+        let rect = CGRect(x: 0, y: 0, width: diameter, height: diameter)
+        ctx.setFillColor(color.cgColor)
+        ctx.fillEllipse(in: rect)
+
+        ctx.restoreGState()
+        let image = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+
+        return image
+    }
+
+    /// Overlay the image with given color
+    /// white will stay white and black will stay black as the lightness of the image is preserved
+    func overlayed(with color: UIColor) -> UIImage? {
+
+        return modifiedImage { context, rect in
+
+            context.setBlendMode(.overlay)
+            color.setFill()
+            context.fill(rect)
+
+            // mask by alpha values of original image
+            context.setBlendMode(.destinationIn)
+            context.draw(self.cgImage!, in: rect)
+        }
+    }
+
+    private func modifiedImage( draw: (CGContext, CGRect) -> ()) -> UIImage? {
+
+        // using scale correctly preserves retina images
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        let context: CGContext = UIGraphicsGetCurrentContext()!
+
+        // correctly rotate image
+        context.translateBy(x: 0, y: size.height)
+        context.scaleBy(x: 1.0, y: -1.0)
+
+        let rect = CGRect(x: 0.0, y: 0.0, width: size.width, height: size.height)
+
+        draw(context, rect)
+
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
+
+}

@@ -328,11 +328,12 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
         let titleFont: UIFont = displayAsCompact ? .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection) : .systemFont(ofSize: 28.0, weight: UIFont.Weight.bold)
         let subtitleFont: UIFont = .preferredFont(forTextStyle: displayAsCompact ? .footnote : .subheadline, compatibleWith: traitCollection)
 
+        let topTextInset: CGFloat = displayAsCompact ? 0 : 17
         if let title = title as NSString?, title.length > 0 {
-            mainTextHeight = title.boundingRect(with: maxMainTextSize, options: [.usesLineFragmentOrigin], attributes: [NSAttributedStringKey.font: titleFont], context: nil).height.ceiled(toScale: displayScale)
+            mainTextHeight = title.boundingRect(with: maxMainTextSize, options: [.usesLineFragmentOrigin], attributes: [NSAttributedStringKey.font: titleFont], context: nil).height.ceiled(toScale: displayScale) + topTextInset
             hasTitle = true
         } else {
-            mainTextHeight = 0.0
+            mainTextHeight = topTextInset
             hasTitle = false
         }
 
@@ -361,7 +362,7 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
 
         if additionalDetails?.isEmpty ?? true == false {
             if hasDescription { detailsHeight += (displayAsCompact ? 8.0 : 16.0) }
-            detailsHeight += UIFont.systemFont(ofSize: 11, weight: UIFont.Weight.medium).lineHeight.ceiled(toScale: displayScale) + 26.0
+            detailsHeight += UIFont.systemFont(ofSize: 11, weight: UIFont.Weight.medium).lineHeight.ceiled(toScale: displayScale) + 9.0
         }
 
         var contentHeight: CGFloat

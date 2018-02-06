@@ -80,6 +80,10 @@ extension DateFormatter {
         return formatter
     }()
 
+    public static let relativeShortDateAndTimeFullYear: DateFormatter = {
+        return RelativeDateFormatter(dateFormatter: shortDateFullYear, timeFormatter: formTime, separator: ", ")
+    }()
+
 
     // MARK: - Locale changes
     

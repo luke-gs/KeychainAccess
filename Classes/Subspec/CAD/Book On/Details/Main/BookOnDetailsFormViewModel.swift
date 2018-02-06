@@ -132,16 +132,26 @@ open class BookOnDetailsFormViewModel {
             officerViewModel = BookOnDetailsFormContentOfficerViewModel()
         }
 
-        // Set custom title if logged in officer details
-        if officerViewModel.officerId == CADStateManager.shared.officerDetails?.payrollId {
-            officerViewModel.title = NSLocalizedString("My Details", comment: "")
-        }
-
         return BookOnScreen.officerDetailsForm(officerViewModel: officerViewModel, delegate: self)
     }
     
     open func officerSearchScreen() -> Presentable {
         return BookOnScreen.officerList(detailsDelegate: self)
+    }
+
+    open func allowRemoveOfficer(at index: Int) -> Bool {
+        // Allow removing officer if:
+        // - When new book on, any additional officers (not default logged in officer)
+        // - When editing existing book on, anyone including logged in officer as long as not the last one in callsign
+        if isEditing {
+            if content.officers.count > 1 {
+                return true
+            }
+
+        } else if index > 0 {
+            return true
+        }
+        return false
     }
 
     open func removeOfficer(at index: Int) {

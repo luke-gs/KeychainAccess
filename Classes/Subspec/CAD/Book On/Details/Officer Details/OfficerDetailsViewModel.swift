@@ -29,6 +29,11 @@ public class OfficerDetailsViewModel {
     
     /// The title to use in the navigation bar
     open func navTitle() -> String {
+
+        // Set custom title if logged in officer details
+        if content.officerId == CADStateManager.shared.officerDetails?.payrollId {
+            return NSLocalizedString("My Details", comment: "")
+        }
         return content.title ?? ""
     }
     

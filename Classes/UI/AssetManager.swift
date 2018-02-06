@@ -141,6 +141,12 @@ extension AssetManager {
         public static let faceId         = ImageKey("iconBiometricFaceId")
         public static let touchId        = ImageKey("iconBiometricTouchId")
 
+        // Media
+        public static let play           = ImageKey("iconMediaPlay")
+        public static let audioWave      = ImageKey("audioWave")
+        public static let iconPlay       = ImageKey("iconPlay")
+        public static let iconPause      = ImageKey("iconPause")
+
         // General
         public static let alert          = ImageKey("iconGeneralAlert")
         public static let association    = ImageKey("iconGeneralAssociation")
@@ -198,6 +204,11 @@ extension AssetManager {
         public static let resourceAir       = ImageKey("iconResourceAir")
         public static let resourceSegway    = ImageKey("iconResourceSegway")
         public static let resourceDog       = ImageKey("iconResourceDog") // woof woof
+
+        // Sketch
+        public static let penStub = ImageKey("penStub")
+        public static let penNib = ImageKey("penNib")
+        public static let rubber = ImageKey("rubber")
         
         // Comms
         public static let audioCall      = ImageKey("iconCommsCall")

@@ -42,6 +42,6 @@ open class ResourceOverviewMapViewModel: TasksMapViewModel {
             viewController.defaultZoomDistance = defaultZoomDistance
             return viewController
         }
-        return TasksMapViewController(viewModel: self, initialLoadZoomStyle: .annotations(animated: false))
+        return TasksMapViewController(viewModel: self, annotationsInitialLoadZoomStyle: (animated: false, includeUserLocation: true))
     }
 }

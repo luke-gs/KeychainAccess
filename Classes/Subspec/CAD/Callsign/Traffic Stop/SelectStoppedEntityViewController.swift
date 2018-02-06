@@ -121,6 +121,10 @@ open class SelectStoppedEntityViewController: CADFormCollectionViewController<Se
             cell.thumbnailView.tintColor = viewModel.imageColor ?? .primaryGray
             cell.thumbnailView.imageView.image = viewModel.image
             cell.thumbnailView.imageView.contentMode = .center
+            
+            cell.sourceLabel.textColor = secondaryTextColor
+            cell.sourceLabel.borderColor = secondaryTextColor
+            cell.sourceLabel.backgroundColor = .clear
         }
     }
     
@@ -133,7 +137,7 @@ open class SelectStoppedEntityViewController: CADFormCollectionViewController<Se
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        return EntityListCollectionViewCell.minimumContentHeight(compatibleWith: traitCollection)
+        return EntityListCollectionViewCell.minimumContentHeight(withTitle: nil, subtitle: nil, source: nil, inWidth: itemWidth, compatibleWith: traitCollection)
     }
     
     @objc open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {

@@ -10,7 +10,9 @@ import UIKit
 import MapKit
 
 open class TasksMapViewController: MapViewController {
+    public typealias AnnotationsInitialLoadZoomStyle = (animated: Bool, includeUserLocation: Bool)
     
+    private var annotationsInitialLoadZoomStyle: AnnotationsInitialLoadZoomStyle?
     private var performedInitialLoadAction: Bool = false
     private var addedFirstAnnotations: Bool = false
     private var savedRegion: MKCoordinateRegion?
@@ -18,11 +20,18 @@ open class TasksMapViewController: MapViewController {
 
     public let viewModel: TasksMapViewModel
     public var mapLayerFilterButton: UIBarButtonItem!
-
+    
     public init(viewModel: TasksMapViewModel, initialLoadZoomStyle: InitialLoadZoomStyle, startingRegion: MKCoordinateRegion? = nil, settingsViewModel: MapSettingsViewModel = MapSettingsViewModel()) {
         self.viewModel = viewModel
         super.init(initialLoadZoomStyle: initialLoadZoomStyle, startingRegion: startingRegion, settingsViewModel: settingsViewModel)
     }
+    
+    public init(viewModel: TasksMapViewModel, annotationsInitialLoadZoomStyle: AnnotationsInitialLoadZoomStyle, startingRegion: MKCoordinateRegion? = nil, settingsViewModel: MapSettingsViewModel = MapSettingsViewModel()) {
+        self.viewModel = viewModel
+        self.annotationsInitialLoadZoomStyle = annotationsInitialLoadZoomStyle
+        super.init(initialLoadZoomStyle: .none, startingRegion: startingRegion, settingsViewModel: settingsViewModel)
+    }
+    
 
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
@@ -88,7 +97,7 @@ open class TasksMapViewController: MapViewController {
         guard viewModel.canSelectAnnotationView(view) else { return }
         
         if let viewModel = viewModel.viewModel(for: view.annotation as? TaskAnnotation) {
-            let vc = TaskItemSidebarSplitViewController(viewModel: viewModel)
+            let vc = viewModel.createViewController()
             splitViewController?.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -135,16 +144,21 @@ open class TasksMapViewController: MapViewController {
         }
     }
     
-    private func zoomToAnnotations() {
-        if case let InitialLoadZoomStyle.annotations(animated) = initialLoadZoomStyle,
-            mapView.userLocation.location != nil,
+    /// Zooms to the annotations when they are loaded for the first time
+    private func zoomToAnnotationsOnLoad() {
+        if let annotationsInitialLoadZoomStyle = annotationsInitialLoadZoomStyle,
             !performedInitialLoadAction,
             addedFirstAnnotations
         {
+            if annotationsInitialLoadZoomStyle.includeUserLocation && mapView.userLocation.location == nil {
+                return
+            }
+            
             let annotations = self.mapView.annotations
             
             var zoomRect = MKMapRectNull
             for annotation in annotations {
+                if annotation is MKUserLocation && !annotationsInitialLoadZoomStyle.includeUserLocation { continue }
                 let annotationPoint = MKMapPointForCoordinate(annotation.coordinate)
                 let pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0.1, 0.1)
                 zoomRect = MKMapRectUnion(zoomRect, pointRect)
@@ -154,13 +168,13 @@ open class TasksMapViewController: MapViewController {
             let inset = max(zoomRect.size.width, zoomRect.size.height) / 2
             zoomRect = MKMapRectInset(zoomRect, -inset, -inset)
             
-            mapView.setVisibleMapRect(zoomRect, animated: animated)
+            mapView.setVisibleMapRect(zoomRect, animated: annotationsInitialLoadZoomStyle.animated)
             performedInitialLoadAction = true
         }
     }
     
     public func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        zoomToAnnotations()
+        zoomToAnnotationsOnLoad()
     }
 }
 
@@ -176,18 +190,28 @@ extension TasksMapViewController: TasksSplitViewControllerDelegate {
         // Restore the region if we are shrinking split
         if let region = savedRegion, newSize < oldSize, mapView.bounds.width > 1 {
             mapView.setRegion(region, animated: false)
+        } else {
+            // Changing split but no saved region, probably the first time so we should clear performed initial load
+            performedInitialLoadAction = false
         }
+    }
+    
+    public func didFinishAnimatingSplitWidth() {
+        zoomToAnnotationsOnLoad()
     }
 }
 
 extension TasksMapViewController: TasksMapViewModelDelegate {
     public func viewModelStateChanged() {
+        // Zoom to anotations if they have changed due to change to book on or filter
+        performedInitialLoadAction = false
+
         DispatchQueue.main.async {
             self.zPositionObservers.removeAll()
             self.mapView.removeAnnotations(self.mapView.annotations)
             self.mapView.addAnnotations(self.viewModel.filteredAnnotations)
             self.addedFirstAnnotations = true
-            self.zoomToAnnotations()
+            self.zoomToAnnotationsOnLoad()
         }
     }
     
