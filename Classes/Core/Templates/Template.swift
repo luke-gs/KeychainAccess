@@ -16,7 +16,7 @@ public final class TemplateCore: Codable {
     public let timestamp: Date
     
     /// Default initialiser. Provides generated UUID and timestamp (now).
-    /// Use this unless you have a very good reason.
+    /// If in doubt, use this initialiser.
     public init() {
         self.id = UUID()
         self.timestamp = Date()

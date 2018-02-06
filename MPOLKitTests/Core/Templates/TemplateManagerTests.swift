@@ -75,7 +75,7 @@ public class TemplateManagerTests: XCTestCase {
         handler = TemplateHandler<UserDefaultsDataSource>(source: UserDefaultsDataSource(sourceKey: TemplateManagerTests.testKey))
 
         // Assert
-        handler.source.retrieve().then { result in
+        handler.source.retrieve().then { result -> Void in
             if let templateResult = result?.filter({ filterTemplate in filterTemplate.core.id == template.core.id }), !templateResult.isEmpty {
                 let first = templateResult.first!
                 XCTAssert(first.core.id == template.core.id)
@@ -84,11 +84,10 @@ public class TemplateManagerTests: XCTestCase {
                 XCTAssert(first.value == template.value)
                 XCTAssert(first.core.timestamp == template.core.timestamp)
                 expect.fulfill()
-                return AnyPromise(Promise<Void>())
             }
-            XCTFail()
-            return AnyPromise(Promise<Void>())
-
+            else {
+                XCTFail()
+            }
         }.always {}
 
         waitForExpectations(timeout: 5, handler: nil)
