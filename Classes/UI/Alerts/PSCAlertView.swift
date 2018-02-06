@@ -20,6 +20,11 @@ open class PSCAlertView: UIView {
         public static let messageFont = UIFont.systemFont(ofSize: 17, weight: .regular)
     }
     
+    public struct LayoutConstants {
+        public static let regularSideMargin: CGFloat = 48
+        public static let compactSideMargin: CGFloat = 24
+    }
+    
     open weak var delegate: PSCAlertViewDelegate?
     open private(set) var actions: [PSCAlertAction]
 
@@ -56,6 +61,11 @@ open class PSCAlertView: UIView {
     private var contentView: UIView {
         return backgroundView.contentView
     }
+    
+    // MARK: - Constraints
+    
+    public var contentLeadingConstraint: NSLayoutConstraint?
+    public var contentTrailingConstraint: NSLayoutConstraint?
     
     public init(frame: CGRect = .zero, title: String?, message: String?, image: UIImage?, actions: [PSCAlertAction]) {
         self.actions = actions
@@ -132,8 +142,17 @@ open class PSCAlertView: UIView {
         backgroundView.contentView.addSubview(actionsStackView)
     }
     
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        contentLeadingConstraint?.constant = traitCollection.horizontalSizeClass == .regular ? LayoutConstants.regularSideMargin : LayoutConstants.compactSideMargin
+        contentTrailingConstraint?.constant = traitCollection.horizontalSizeClass == .regular ? -LayoutConstants.regularSideMargin : -LayoutConstants.compactSideMargin
+    }
+    
     /// Activates view constraints
     private func setupConstraints() {
+        contentLeadingConstraint = contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: LayoutConstants.regularSideMargin)
+        contentTrailingConstraint = contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -LayoutConstants.regularSideMargin)
+
         NSLayoutConstraint.activate([
             backgroundView.topAnchor.constraint(equalTo: topAnchor),
             backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -141,14 +160,13 @@ open class PSCAlertView: UIView {
             backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40),
-            contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 48),
-            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -48),
-            
+            contentLeadingConstraint,
+            contentTrailingConstraint,
             actionsStackView.topAnchor.constraint(equalTo: contentStackView.bottomAnchor, constant: 36),
             actionsStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             actionsStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             actionsStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-        ])
+        ].removeNils())
     }
 }
 
