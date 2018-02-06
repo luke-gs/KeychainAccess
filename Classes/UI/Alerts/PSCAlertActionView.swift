@@ -12,11 +12,13 @@ public protocol PSCAlertActionViewDelegate: class {
     func shouldDismiss()
 }
 
+/// View for an action button in a `PSCAlertView`
 open class PSCAlertActionView: UIControl {
 
     open weak var delegate: PSCAlertActionViewDelegate?
-    
     private var action: PSCAlertAction
+    
+    // MARK: - Views
     
     open private(set) var titleLabel: UILabel!
     open private(set) var topDivider: UIView!
@@ -34,11 +36,14 @@ open class PSCAlertActionView: UIControl {
         }
     }
     
+    // MARK: - Setup
+    
     public init(frame: CGRect = .zero, action: PSCAlertAction) {
         self.action = action
         super.init(frame: frame)
         setupViews()
         setupConstraints()
+        applyTheme()
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -69,11 +74,6 @@ open class PSCAlertActionView: UIControl {
         addTarget(self, action: #selector(didSelectButton), for: .touchUpInside)
     }
     
-    @objc private func didSelectButton() {
-        delegate?.shouldDismiss()
-        action.didSelect()
-    }
-    
     /// Activates view constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
@@ -93,5 +93,17 @@ open class PSCAlertActionView: UIControl {
             titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
             titleLabel.heightAnchor.constraint(equalToConstant: 64)
         ])
+    }
+    
+    private func applyTheme() {
+        let theme = ThemeManager.shared.theme(for: .current)
+        topDivider.backgroundColor = theme.color(forKey: .separator)
+        sideDivider.backgroundColor = theme.color(forKey: .separator)
+    }
+    
+    /// Called when the button has been selected
+    @objc private func didSelectButton() {
+        delegate?.shouldDismiss()
+        action.didSelect()
     }
 }

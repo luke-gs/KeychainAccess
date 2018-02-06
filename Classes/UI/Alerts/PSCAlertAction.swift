@@ -9,6 +9,11 @@
 import UIKit
 
 /// The style to use to decorate a `PSCAlertAction`
+///
+/// - `default`: Default style, semibold blue text
+/// - cancel: Indicates a cancel action, regular blue text
+/// - destructive: Indicates a destructive action, semibold blue text
+/// - custom: uses a custom font and/or color. Will use the default style if `nil` supplied.
 public enum PSCAlertActionStyle {
     
     case `default`
@@ -50,10 +55,15 @@ public enum PSCAlertActionStyle {
 /// An action for a PSCAlertController. This class mimics `UIKit`'s `UIAlertAction`.
 open class PSCAlertAction {
     
+    /// Completion handler upon selecting the action
     private var handler: ((PSCAlertAction) -> Swift.Void)?
     
+    /// The title to use when displaying the action
     open private(set) var title: String?
+    
+    /// The style to use when displaying the action
     open private(set) var style: PSCAlertActionStyle
+    
     open var isEnabled: Bool = true
     
     public init(title: String?, style: PSCAlertActionStyle, handler: ((PSCAlertAction) -> Swift.Void)? = nil) {

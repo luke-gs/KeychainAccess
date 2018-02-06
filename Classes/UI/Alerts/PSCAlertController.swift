@@ -8,11 +8,13 @@
 
 import UIKit
 
-/// Large `UIAlertViewController` replica for PSCore style.
-open class PSCAlertController: ThemedPopoverViewController {
+/// Large style `UIAlertViewController` replica for PSCore style.
+open class PSCAlertController: UIViewController {
     
-    /// The alert view to display in the controller
-    private var alertView: PSCAlertView?
+    public struct LayoutConstants {
+        public static let preferredWidth: CGFloat = 512
+        public static let sideMargins: CGFloat = 24
+    }
     
     // MARK: - Content
     
@@ -28,7 +30,11 @@ open class PSCAlertController: ThemedPopoverViewController {
     /// Actions
     open private(set) var actions: [PSCAlertAction] = []
     
-    // MARK: - UI Customization
+    
+    // MARK: - Views
+    
+    /// The alert view to display in the controller
+    private var alertView: PSCAlertView?
     
     /// The title label for the alert view
     open var titleLabel: UILabel? {
@@ -44,14 +50,7 @@ open class PSCAlertController: ThemedPopoverViewController {
     open var imageView: UIImageView? {
         return alertView?.imageView
     }
-    
-    open var popoverParent: UIViewController? {
-        didSet {
-            popoverPresentationController?.sourceView = popoverParent?.view
-            popoverPresentationController?.sourceRect = popoverParent?.view.bounds ?? .zero
-        }
-    }
-    
+
     // MARK: - Setup
     
     public init(title: String?, message: String?, image: UIImage?) {
@@ -59,34 +58,16 @@ open class PSCAlertController: ThemedPopoverViewController {
         self.titleText = title
         self.messageText = message
         self.image = image
-//        modalPresentationStyle = .formSheet
-//        modalTransitionStyle = .crossDissolve
-        // Present the source selection as a centered popover, rather than form sheet, so we can control size
-        modalPresentationStyle = .popover
-        popoverPresentationController?.permittedArrowDirections = []
-        popoverPresentationController?.delegate = self
-        presentationController?.delegate = self
+        modalTransitionStyle = .crossDissolve
     }
     
-    open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        
-        // Update the source rect so the popover stays centered on rotation
-        if let parent = presentingViewController {
-            coordinator.animate(alongsideTransition: { (context) in
-                self.popoverPresentationController?.sourceRect = parent.view.bounds
-            }, completion: nil)
-        }
-    }
-
+    // MARK: - Setup
     
     open override func viewDidLoad() {
         super.viewDidLoad()
         
         setupViews()
         setupConstraints()
-        
-        preferredContentSize = CGSize(width: 512, height: view.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height)
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -95,10 +76,9 @@ open class PSCAlertController: ThemedPopoverViewController {
     
     /// Creates and styles views
     private func setupViews() {
-        view.backgroundColor = .clear
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         
         let alertView = PSCAlertView(title: titleText, message: messageText, image: image, actions: actions)
-        
         alertView.delegate = self
         alertView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(alertView)
@@ -110,24 +90,29 @@ open class PSCAlertController: ThemedPopoverViewController {
     private func setupConstraints() {
         guard let alertView = alertView else { return }
         NSLayoutConstraint.activate([
-            alertView.topAnchor.constraint(equalTo: view.topAnchor),
-            alertView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            alertView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            alertView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            alertView.topAnchor.constraint(greaterThanOrEqualTo: view.topAnchor, constant: LayoutConstants.sideMargins),
+            alertView.widthAnchor.constraint(equalToConstant: LayoutConstants.preferredWidth).withPriority(.defaultHigh),
+            alertView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: LayoutConstants.sideMargins),
+            alertView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -LayoutConstants.sideMargins),
+            alertView.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -LayoutConstants.sideMargins),
+            alertView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            alertView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
-    
-    /// Adds an action to the alert view
+    /// Adds an action to the alert view. This should only be called before presenting the view controller.
     public func addAction(_ action: PSCAlertAction) {
         assert(alertView == nil, "You cannot add an action to a PSCAlertController after the view has loaded")
-        
         actions.append(action)
     }
+    
 }
 
 extension PSCAlertController: PSCAlertViewDelegate {
     public func shouldDismiss() {
+        if presentingViewController is AlertContainerViewController {
+            presentingViewController?.dismissAnimated()
+        }
         dismissAnimated()
     }
 }

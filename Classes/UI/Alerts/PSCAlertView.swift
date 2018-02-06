@@ -19,10 +19,6 @@ open class PSCAlertView: UIView {
         // MARK: - Fonts
         static let titleFont = UIFont.systemFont(ofSize: 28, weight: .bold)
         static let messageFont = UIFont.systemFont(ofSize: 17, weight: .regular)
-        
-        // MARK: - Colors
-        static let titleColor: UIColor = .primaryGray
-        static let messageColor: UIColor = .secondaryGray
     }
     
     open weak var delegate: PSCAlertViewDelegate?
@@ -62,11 +58,8 @@ open class PSCAlertView: UIView {
         return backgroundView.contentView
     }
     
-    private var blurStyle: UIBlurEffectStyle
-    
-    public init(frame: CGRect = .zero, title: String?, message: String?, image: UIImage?, actions: [PSCAlertAction], blurStyle: UIBlurEffectStyle = .extraLight) {
+    public init(frame: CGRect = .zero, title: String?, message: String?, image: UIImage?, actions: [PSCAlertAction]) {
         self.actions = actions
-        self.blurStyle = blurStyle
         self.titleText = title
         self.messageText = message
         self.image = image
@@ -74,15 +67,28 @@ open class PSCAlertView: UIView {
         super.init(frame: frame)
         setupViews()
         setupConstraints()
+        applyTheme()
     }
     
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
     
+    func applyTheme() {
+        let theme = ThemeManager.shared.theme(for: .current)
+        let style = ThemeManager.shared.currentInterfaceStyle
+        
+        backgroundView.effect = UIBlurEffect(style: style == .light ? .extraLight : .dark)
+        titleLabel.textColor = theme.color(forKey: .primaryText)
+        messageLabel.textColor = theme.color(forKey: .secondaryText)
+    }
+    
     /// Creates and styles views
     private func setupViews() {
-        backgroundView = UIVisualEffectView(effect: UIBlurEffect(style: blurStyle))
+        layer.cornerRadius = 12
+        layer.masksToBounds = true
+        backgroundColor = UIColor.white.withAlphaComponent(0.9)
+        backgroundView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(backgroundView)
 
@@ -99,13 +105,13 @@ open class PSCAlertView: UIView {
         
         titleLabel.text = titleText
         titleLabel.font = DefaultAppearance.titleFont
-        titleLabel.textColor = DefaultAppearance.titleColor
+        titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .center
         contentStackView.addArrangedSubview(titleLabel)
         
         messageLabel.text = messageText
         messageLabel.font = DefaultAppearance.messageFont
-        messageLabel.textColor = DefaultAppearance.messageColor
+        messageLabel.numberOfLines = 0
         messageLabel.textAlignment = .center
         contentStackView.addArrangedSubview(messageLabel)
         
@@ -113,6 +119,7 @@ open class PSCAlertView: UIView {
         actionsStackView.translatesAutoresizingMaskIntoConstraints = false
         actionsStackView.axis = actions.count > 2 ? .vertical : .horizontal
         
+        // Add action views
         for (index, action) in actions.enumerated() {
             let actionView = PSCAlertActionView(action: action)
             actionView.delegate = self
@@ -145,7 +152,6 @@ open class PSCAlertView: UIView {
         ])
     }
 }
-
 
 extension PSCAlertView: PSCAlertActionViewDelegate {
     public func shouldDismiss() {
