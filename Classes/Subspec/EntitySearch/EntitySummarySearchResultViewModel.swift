@@ -129,7 +129,7 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
 
     open func statusItemForSection(_ section: SearchResultSection) -> FormItem? {
         switch section.state {
-        case .finished where section.error != nil || section.entities.count == 0:
+        case .failed, .finished where section.entities.count == 0:
             return CustomFormItem(cellType: SearchResultErrorCell.self, reuseIdentifier: SearchResultErrorCell.defaultReuseIdentifier)
                 .onConfigured { (cell) in
                     let cell = cell as! SearchResultErrorCell
@@ -220,8 +220,6 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
             return String.localizedStringWithFormat(NSLocalizedString("%2$@", comment: ""), result.request.source.localizedBadgeTitle.uppercased(with: .current))
         case .searching:
             return String.localizedStringWithFormat(NSLocalizedString("Searching %2$@", comment: ""), result.request.source.localizedBadgeTitle.uppercased(with: .current))
-        case .finished where result.error != nil:
-            fallthrough
         case .failed:
             return String.localizedStringWithFormat(NSLocalizedString("%2$@", comment: ""), result.request.source.localizedBadgeTitle.uppercased(with: .current))
         case .finished:
