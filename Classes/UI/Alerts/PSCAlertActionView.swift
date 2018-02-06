@@ -22,6 +22,12 @@ open class PSCAlertActionView: UIControl {
     open private(set) var topDivider: UIView!
     open private(set) var sideDivider: UIView!
     
+    open var showsSideDivider: Bool = false {
+        didSet {
+            sideDivider.isHidden = !showsSideDivider
+        }
+    }
+    
     open override var isHighlighted: Bool {
         didSet {
             backgroundColor = isHighlighted ? UIColor.black.withAlphaComponent(0.05) : .clear
@@ -47,6 +53,7 @@ open class PSCAlertActionView: UIControl {
         addSubview(topDivider)
         
         sideDivider = UIView()
+        sideDivider.isHidden = !showsSideDivider
         sideDivider.backgroundColor = .disabledGray
         sideDivider.translatesAutoresizingMaskIntoConstraints = false
         addSubview(sideDivider)
