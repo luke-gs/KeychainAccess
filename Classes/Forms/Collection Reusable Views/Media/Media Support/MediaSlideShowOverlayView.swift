@@ -1,5 +1,5 @@
 //
-//  PhotoMediaSlideShowOverlayView.swift
+//  MediaSlideShowOverlayView.swift
 //  MPOLKit
 //
 //  Created by KGWH78 on 31/10/17.
@@ -9,11 +9,11 @@
 import Foundation
 import UIKit
 
-public protocol PhotoMediaOverlayViewable: class {
+public protocol MediaOverlayViewable: class {
 
-    weak var galleryViewController: PhotoMediaSlideShowViewController? { get set }
+    weak var galleryViewController: MediaSlideShowViewController? { get set }
 
-    func populateWithPhoto(_ photo: PhotoMedia)
+    func populateWithMedia(_ media: MediaAsset)
 
     func setHidden(_ hidden: Bool, animated: Bool)
 
@@ -21,7 +21,7 @@ public protocol PhotoMediaOverlayViewable: class {
 
 }
 
-extension PhotoMediaOverlayViewable where Self: UIView {
+extension MediaOverlayViewable where Self: UIView {
 
     public func view() -> UIView {
         return self
@@ -29,7 +29,7 @@ extension PhotoMediaOverlayViewable where Self: UIView {
 
 }
 
-public class PhotoMediaSlideShowOverlayView: UIView, PhotoMediaOverlayViewable, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, PhotoMediaDetailViewControllerDelegate {
+public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, MediaDetailViewControllerDelegate {
 
     public let toolbar = UIToolbar()
 
@@ -139,7 +139,7 @@ public class PhotoMediaSlideShowOverlayView: UIView, PhotoMediaOverlayViewable, 
         collectionView.contentInset = UIEdgeInsets(top: 0.0, left: inset, bottom: 0.0, right: inset)
     }
 
-    public var galleryViewController: PhotoMediaSlideShowViewController? {
+    public var galleryViewController: MediaSlideShowViewController? {
         willSet {
             if let galleryViewController = galleryViewController {
                 NotificationCenter.default.removeObserver(self, name: MediaDataSourceDidChangeNotificationName, object: galleryViewController)
@@ -147,9 +147,8 @@ public class PhotoMediaSlideShowOverlayView: UIView, PhotoMediaOverlayViewable, 
         }
         didSet {
             setupNavigationItems()
-
-            if let photo = galleryViewController?.currentPhotoMedia {
-                updateDetailsWithPhoto(photo)
+            if let media = galleryViewController?.currentMedia {
+                updateDetailsWithMedia(media)
             }
 
             NotificationCenter.default.addObserver(self, selector: #selector(mediaDataSourceDidChange(_:)), name: MediaDataSourceDidChangeNotificationName, object: galleryViewController?.dataSource)
@@ -181,20 +180,20 @@ public class PhotoMediaSlideShowOverlayView: UIView, PhotoMediaOverlayViewable, 
         }
     }
 
-    private func updateDetailsWithPhoto(_ photo: PhotoMedia) {
-        guard let dataSource = galleryViewController?.dataSource, let index = dataSource.indexOfMediaItem(photo) else { return }
+    private func updateDetailsWithMedia(_ media: MediaAsset) {
+        guard let dataSource = galleryViewController?.dataSource, let index = dataSource.indexOfMediaItem(media) else { return }
 
-        galleryViewController?.navigationItem.title = "Photo \(index + 1) of \(dataSource.numberOfMediaItems())"
-        titleLabel.text = photo.title
-        commentsLabel.text = photo.comments
+        galleryViewController?.navigationItem.title = "Asset \(index + 1) of \(dataSource.numberOfMediaItems())"
+        titleLabel.text = media.title
+        commentsLabel.text = media.comments
 
         setNeedsUpdateConstraints()
     }
 
-    public func populateWithPhoto(_ photo: PhotoMedia) {
-        updateDetailsWithPhoto(photo)
+    public func populateWithMedia(_ media: MediaAsset) {
+        updateDetailsWithMedia(media)
 
-        if let index = galleryViewController?.dataSource.indexOfMediaItem(photo) {
+        if let index = galleryViewController?.dataSource.indexOfMediaItem(media) {
             let indexPath = IndexPath(item: 0, section: index)
             if let cell = collectionView.cellForItem(at: indexPath) {
                 if !collectionView.isDragging {
@@ -229,9 +228,9 @@ public class PhotoMediaSlideShowOverlayView: UIView, PhotoMediaOverlayViewable, 
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let height = collectionView.frame.height
 
-        guard let photoMedia = galleryViewController?.currentPhotoMedia,
-            let photoMediaIndex = galleryViewController?.dataSource.indexOfMediaItem(photoMedia),
-            photoMediaIndex == indexPath.section else {
+        guard let currentMedia = galleryViewController?.currentMedia,
+            let currentMediaIndex = galleryViewController?.dataSource.indexOfMediaItem(currentMedia),
+            currentMediaIndex == indexPath.section else {
             return CGSize(width: compactItemWidth, height: height)
         }
 
@@ -239,9 +238,9 @@ public class PhotoMediaSlideShowOverlayView: UIView, PhotoMediaOverlayViewable, 
     }
 
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        guard let photoMedia = galleryViewController?.currentPhotoMedia,
-            let photoMediaIndex = galleryViewController?.dataSource.indexOfMediaItem(photoMedia),
-            photoMediaIndex == section else {
+        guard let currentMedia = galleryViewController?.currentMedia,
+            let currentMediaIndex = galleryViewController?.dataSource.indexOfMediaItem(currentMedia),
+            currentMediaIndex == section else {
                 return .zero
         }
 
@@ -250,9 +249,9 @@ public class PhotoMediaSlideShowOverlayView: UIView, PhotoMediaOverlayViewable, 
 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-        let photoMedia = galleryViewController?.dataSource.mediaItemAtIndex(indexPath.section)
+        let mediaAsset = galleryViewController?.dataSource.mediaItemAtIndex(indexPath.section)
 
-        photoMedia?.thumbnailImage?.loadImage(completion: { (image) in
+        mediaAsset?.thumbnailImage?.loadImage(completion: { (image) in
             let imageView = UIImageView(image: image.sizing().image)
             imageView.contentMode = .scaleAspectFill
             cell.backgroundView = imageView
@@ -263,8 +262,8 @@ public class PhotoMediaSlideShowOverlayView: UIView, PhotoMediaOverlayViewable, 
     }
 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let photoMedia = galleryViewController?.dataSource.mediaItemAtIndex(indexPath.section) {
-            galleryViewController?.setupWithInitialPhoto(photoMedia)
+        if let mediaAsset = galleryViewController?.dataSource.mediaItemAtIndex(indexPath.section) {
+            galleryViewController?.setupWithInitialMedia(mediaAsset)
         }
     }
 
@@ -286,18 +285,18 @@ public class PhotoMediaSlideShowOverlayView: UIView, PhotoMediaOverlayViewable, 
 
         let index = Int(floor((offset + x) / compactItemWidth))
 
-        if let photoMedia = galleryViewController?.dataSource.mediaItemAtIndex(index), photoMedia !== galleryViewController?.currentPhotoMedia {
-            galleryViewController?.setupWithInitialPhoto(photoMedia)
+        if let mediaAsset = galleryViewController?.dataSource.mediaItemAtIndex(index), mediaAsset !== galleryViewController?.currentMedia {
+            galleryViewController?.setupWithInitialMedia(mediaAsset)
         }
     }
 
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        guard let photoMedia = galleryViewController?.currentPhotoMedia,
-            let photoMediaIndex = galleryViewController?.dataSource.indexOfMediaItem(photoMedia) else {
+        guard let currentMedia = galleryViewController?.currentMedia,
+            let currentMediaIndex = galleryViewController?.dataSource.indexOfMediaItem(currentMedia) else {
             return
         }
 
-        let indexPath = IndexPath(item: 0, section: photoMediaIndex)
+        let indexPath = IndexPath(item: 0, section: currentMediaIndex)
         if collectionView.cellForItem(at: indexPath) != nil {
             collectionView.performBatchUpdates({
                 self.collectionView.collectionViewLayout.invalidateLayout()
@@ -307,12 +306,12 @@ public class PhotoMediaSlideShowOverlayView: UIView, PhotoMediaOverlayViewable, 
 
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if decelerate == false {
-            guard let photoMedia = galleryViewController?.currentPhotoMedia,
-                let photoMediaIndex = galleryViewController?.dataSource.indexOfMediaItem(photoMedia) else {
+            guard let currentMedia = galleryViewController?.currentMedia,
+                let currentMediaIndex = galleryViewController?.dataSource.indexOfMediaItem(currentMedia) else {
                     return
             }
 
-            let indexPath = IndexPath(item: 0, section: photoMediaIndex)
+            let indexPath = IndexPath(item: 0, section: currentMediaIndex)
             if (collectionView.cellForItem(at: indexPath) != nil) {
                 collectionView.performBatchUpdates({
                     self.collectionView.collectionViewLayout.invalidateLayout()
@@ -323,10 +322,10 @@ public class PhotoMediaSlideShowOverlayView: UIView, PhotoMediaOverlayViewable, 
 
     // MARK: - PhotoMediaDetailViewControllerDelegate
 
-    public func photoMediaDetailViewControllerDidUpdatePhotoMedia(_ detailViewController: PhotoMediaDetailViewController) {
-        guard let galleryViewController = galleryViewController, let currentPhotoMedia = galleryViewController.currentPhotoMedia else { return }
+    public func mediaDetailViewControllerDidUpdatePhotoMedia(_ detailViewController: MediaDetailViewController) {
+        guard let galleryViewController = galleryViewController, let currentPhotoMedia = galleryViewController.currentMedia else { return }
 
-        populateWithPhoto(currentPhotoMedia)
+        populateWithMedia(currentPhotoMedia)
         galleryViewController.dataSource.replaceMediaItem(currentPhotoMedia, with: currentPhotoMedia)
     }
 
@@ -337,13 +336,14 @@ public class PhotoMediaSlideShowOverlayView: UIView, PhotoMediaOverlayViewable, 
     }
 
     @objc func removeTapped(_ item: UIBarButtonItem) {
-        galleryViewController?.handleDeletePhotoButtonTapped(item)
+        galleryViewController?.handleDeleteMediaButtonTapped(item)
     }
 
     @objc func editTapped(_ item: UIBarButtonItem) {
-        guard let galleryViewController = galleryViewController, let currentPhotoMedia = galleryViewController.currentPhotoMedia else { return }
+        guard let galleryViewController = galleryViewController,
+            let currentMedia = galleryViewController.currentMedia else { return }
 
-        let detailViewController = PhotoMediaDetailViewController(photoMedia: currentPhotoMedia)
+        let detailViewController = MediaDetailViewController(mediaAsset: currentMedia)
         detailViewController.delegate = self
 
         let navigationController = UINavigationController(rootViewController: detailViewController)

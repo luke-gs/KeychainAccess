@@ -10,6 +10,8 @@
 		19EFD2F41F4D308600422F2A /* MPOLSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EFD2F31F4D308600422F2A /* MPOLSource.swift */; };
 		19EFD2F81F4D35FD00422F2A /* SearchLookupAddressTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EFD2F71F4D35FD00422F2A /* SearchLookupAddressTableViewController.swift */; };
 		440CFFFE1FB30594006D491F /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 440CFFFD1FB30594006D491F /* ProgressViewController.swift */; };
+		461F7AA42022DE2300885E93 /* audio.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 461F7AA22022DE1F00885E93 /* audio.m4a */; };
+		461F7AA52022DE2300885E93 /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 461F7AA32022DE1F00885E93 /* video.mp4 */; };
 		761ABC5D3D3F8181084EB823 /* Pods_MPOLKitDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BECA0FB8F0943957022C002E /* Pods_MPOLKitDemo.framework */; };
 		BC9C7E7E1F0DF0E700DFFE83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC9C7E771F0DF0E700DFFE83 /* Assets.xcassets */; };
 		BC9C7E7F1F0DF0E700DFFE83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC9C7E781F0DF0E700DFFE83 /* LaunchScreen.storyboard */; };
@@ -37,6 +39,8 @@
 		19EFD2F71F4D35FD00422F2A /* SearchLookupAddressTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLookupAddressTableViewController.swift; sourceTree = "<group>"; };
 		440CFFFD1FB30594006D491F /* ProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
 		456B2831B11E426CBE3F4C4C /* Pods-MPOLKitDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitDemo/Pods-MPOLKitDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		461F7AA22022DE1F00885E93 /* audio.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = audio.m4a; sourceTree = "<group>"; };
+		461F7AA32022DE1F00885E93 /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video.mp4; sourceTree = "<group>"; };
 		BC9C7E601F0DF0AA00DFFE83 /* MPOLKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MPOLKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC9C7E771F0DF0E700DFFE83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BC9C7E791F0DF0E700DFFE83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -99,6 +103,8 @@
 			children = (
 				BC9C7E891F0DF40C00DFFE83 /* Classes */,
 				BC9C7E771F0DF0E700DFFE83 /* Assets.xcassets */,
+				461F7AA22022DE1F00885E93 /* audio.m4a */,
+				461F7AA32022DE1F00885E93 /* video.mp4 */,
 				BC9C7E881F0DF3F000DFFE83 /* MPOLKitDemo.entitlements */,
 				BC9C7E781F0DF0E700DFFE83 /* LaunchScreen.storyboard */,
 				BC9C7E7A1F0DF0E700DFFE83 /* Info.plist */,
@@ -237,7 +243,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC9C7E7E1F0DF0E700DFFE83 /* Assets.xcassets in Resources */,
+				461F7AA42022DE2300885E93 /* audio.m4a in Resources */,
 				BC9C7E7F1F0DF0E700DFFE83 /* LaunchScreen.storyboard in Resources */,
+				461F7AA52022DE2300885E93 /* video.mp4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

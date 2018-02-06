@@ -1,5 +1,5 @@
 //
-//  PhotoMediaViewController.swift
+//  MediaViewController.swift
 //  MPOLKit
 //
 //  Created by KGWH78 on 31/10/17.
@@ -8,14 +8,19 @@
 
 import Foundation
 
+protocol MediaViewPresentable {
+    var mediaAsset: MediaAsset { get }
+}
 
-public class PhotoMediaViewController: UIViewController, UIScrollViewDelegate {
+public class MediaViewController: UIViewController, UIScrollViewDelegate, MediaViewPresentable {
+    public private(set) var mediaAsset: MediaAsset
 
-    public let photoMedia: PhotoMedia
+    public var photoMedia: PhotoMedia?  {
+        return mediaAsset as? PhotoMedia
+    }
 
-    public init(photoMedia: PhotoMedia) {
-        self.photoMedia = photoMedia
-
+    public init(mediaAsset: MediaAsset) {
+        self.mediaAsset = mediaAsset
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -26,7 +31,7 @@ public class PhotoMediaViewController: UIViewController, UIScrollViewDelegate {
     let scalingImageView = ScalingImageView(frame: .zero)
 
     lazy private(set) var doubleTapGestureRecognizer: UITapGestureRecognizer = {
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(PhotoMediaViewController.handleDoubleTapWithGestureRecognizer(_:)))
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(MediaViewController.handleDoubleTapWithGestureRecognizer(_:)))
         gesture.numberOfTapsRequired = 2
         return gesture
     }()
@@ -39,7 +44,8 @@ public class PhotoMediaViewController: UIViewController, UIScrollViewDelegate {
         scalingImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(scalingImageView)
 
-        photoMedia.image?.loadImage(completion: { [weak self] (image) in
+        let image = photoMedia?.image ?? mediaAsset.thumbnailImage
+        image?.loadImage(completion: { [weak self] (image) in
             self?.scalingImageView.image = image.sizing().image
         })
 
