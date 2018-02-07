@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		12FB041220217308000C38C8 /* GenericSearchModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12FB041120217308000C38C8 /* GenericSearchModels.swift */; };
+		12FB041420217346000C38C8 /* EventsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12FB041320217346000C38C8 /* EventsModels.swift */; };
 		19EFD2F41F4D308600422F2A /* MPOLSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EFD2F31F4D308600422F2A /* MPOLSource.swift */; };
 		19EFD2F81F4D35FD00422F2A /* SearchLookupAddressTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EFD2F71F4D35FD00422F2A /* SearchLookupAddressTableViewController.swift */; };
 		440CFFFE1FB30594006D491F /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 440CFFFD1FB30594006D491F /* ProgressViewController.swift */; };
@@ -38,6 +40,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		12FB041120217308000C38C8 /* GenericSearchModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericSearchModels.swift; sourceTree = "<group>"; };
+		12FB041320217346000C38C8 /* EventsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsModels.swift; sourceTree = "<group>"; };
 		19EFD2F31F4D308600422F2A /* MPOLSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLSource.swift; sourceTree = "<group>"; };
 		19EFD2F71F4D35FD00422F2A /* SearchLookupAddressTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLookupAddressTableViewController.swift; sourceTree = "<group>"; };
 		440CFFFD1FB30594006D491F /* ProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
@@ -86,6 +90,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		12FB0410202172F5000C38C8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				12FB041120217308000C38C8 /* GenericSearchModels.swift */,
+				12FB041320217346000C38C8 /* EventsModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		BC9C7E571F0DF0AA00DFFE83 = {
 			isa = PBXGroup;
 			children = (
@@ -131,6 +144,7 @@
 		BC9C7E891F0DF40C00DFFE83 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				12FB0410202172F5000C38C8 /* Models */,
 				BCFF7D0F1F262A4F00AB0A5A /* AppDelegate.swift */,
 				19EFD2F31F4D308600422F2A /* MPOLSource.swift */,
 				BCFF7D101F262A4F00AB0A5A /* CollectionDemoListViewController.swift */,
@@ -171,7 +185,6 @@
 		EA1B3C9B1F72538A00574A41 /* Form Examples */ = {
 			isa = PBXGroup;
 			children = (
-				EA11F0271F83395500BF8BCA /* Helpers */,
 				EA1B3C9C1F72538A00574A41 /* PersonDetailViewController.swift */,
 				EA1B3C9E1F7257B100574A41 /* ListViewController.swift */,
 				EA445D9D1F734B7700ABF70F /* HeaderViewController.swift */,
@@ -346,10 +359,12 @@
 				EA445DA01F73523700ABF70F /* BasicViewController.swift in Sources */,
 				EA1B3C9F1F7257B100574A41 /* ListViewController.swift in Sources */,
 				EA445DA41F735D2B00ABF70F /* SignViewController.swift in Sources */,
+				12FB041220217308000C38C8 /* GenericSearchModels.swift in Sources */,
 				EA1B3C9D1F72538A00574A41 /* PersonDetailViewController.swift in Sources */,
 				E25A5907200C742100DA7F84 /* TemplateManagerViewController.swift in Sources */,
 				EA53B2751F9EF0E600B891D8 /* StepperViewController.swift in Sources */,
 				EA950E441F86EEE600B5A349 /* SubscriptionViewController.swift in Sources */,
+				12FB041420217346000C38C8 /* EventsModels.swift in Sources */,
 				BCAD1EFC1F262B680033AD66 /* AppDelegate.swift in Sources */,
 				E253FDB6200D8E130054F36E /* TemplatePickable.swift in Sources */,
 				BCAD1EFF1F262B680033AD66 /* NoContentCollectionController.swift in Sources */,

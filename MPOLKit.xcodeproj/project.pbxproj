@@ -33,6 +33,8 @@
 		12F869ED1F5FD2350006EC5C /* ActiveUserSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F869EB1F5FD2350006EC5C /* ActiveUserSessionTests.swift */; };
 		12F869EE1F5FD24B0006EC5C /* OAuthAccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = 19DE98CE1F4265540063F394 /* OAuthAccessToken.json */; };
 		12F869EF1F5FD47E0006EC5C /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D566F51F5790BC001E74CA /* UserSession.swift */; };
+		12FB04092021511E000C38C8 /* DefaultEventDateTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12FB04082021511E000C38C8 /* DefaultEventDateTimeViewController.swift */; };
+		12FB040D20216BDB000C38C8 /* DefaultEventBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12FB040C20216BDB000C38C8 /* DefaultEventBuilder.swift */; };
 		190503EC1FCFDB09002EBC89 /* RefreshTokenPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190503EB1FCFDB09002EBC89 /* RefreshTokenPlugin.swift */; };
 		1908EF831F57CAFC00382B1C /* AuthenticationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1908EF821F57CAFC00382B1C /* AuthenticationPlugin.swift */; };
 		1908EF861F57CDEB00382B1C /* AuthenticationPluginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1908EF851F57CDEB00382B1C /* AuthenticationPluginTests.swift */; };
@@ -755,6 +757,8 @@
 		12F057291F3C106D00CAD6F6 /* QueryParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryParserTests.swift; sourceTree = "<group>"; };
 		12F869EA1F5FD2340006EC5C /* NewUserSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewUserSessionTests.swift; sourceTree = "<group>"; };
 		12F869EB1F5FD2350006EC5C /* ActiveUserSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveUserSessionTests.swift; sourceTree = "<group>"; };
+		12FB04082021511E000C38C8 /* DefaultEventDateTimeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventDateTimeViewController.swift; sourceTree = "<group>"; };
+		12FB040C20216BDB000C38C8 /* DefaultEventBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEventBuilder.swift; sourceTree = "<group>"; };
 		190503EB1FCFDB09002EBC89 /* RefreshTokenPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshTokenPlugin.swift; sourceTree = "<group>"; };
 		1908EF821F57CAFC00382B1C /* AuthenticationPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationPlugin.swift; sourceTree = "<group>"; };
 		1908EF851F57CDEB00382B1C /* AuthenticationPluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationPluginTests.swift; sourceTree = "<group>"; };
@@ -1504,6 +1508,8 @@
 		12D3701020200B5A00D79DDB /* OOTB */ = {
 			isa = PBXGroup;
 			children = (
+				12FB04082021511E000C38C8 /* DefaultEventDateTimeViewController.swift */,
+				12FB040C20216BDB000C38C8 /* DefaultEventBuilder.swift */,
 				12D3701220200B5A00D79DDB /* EventListDisplayable.swift */,
 				12D3702120200F5E00D79DDB /* EventsListViewController.swift */,
 				12D3701420200B5A00D79DDB /* EventsManager.swift */,
@@ -4000,6 +4006,7 @@
 				19F8DDB21F4D7D2400D84DA1 /* APIManager.swift in Sources */,
 				273DE2D11FE9D855000C46DD /* CreateIncidentViewModel.swift in Sources */,
 				199571C81FB913D400950EAB /* OAuth2.swift in Sources */,
+				12FB040D20216BDB000C38C8 /* DefaultEventBuilder.swift in Sources */,
 				19D8D7961FB5207A0002332D /* ExternalAuthenticator.swift in Sources */,
 				EA76ECF91F57DB8E00524830 /* LookupAddressAdvancedParameters.swift in Sources */,
 				EA09A0561F78B9C200BC3C0E /* EmailSpecification.swift in Sources */,
@@ -4233,6 +4240,7 @@
 				C61AC91A1F32FAF100F82FF6 /* User.swift in Sources */,
 				EA7C50A21FA05C7D004930BF /* CollectionViewFormMediaCell.swift in Sources */,
 				27CBC75B1F8B27B100E387C3 /* ActivityLogItemViewModel.swift in Sources */,
+				12FB04092021511E000C38C8 /* DefaultEventDateTimeViewController.swift in Sources */,
 				9620530D1F988239000CAD49 /* AppGroup.swift in Sources */,
 				19C9C7521FC28A6A003C8CE4 /* LocationSearchMapCollectionViewSideBarLayout.swift in Sources */,
 				BC9C7E541F0DED6600DFFE83 /* NavigationBarExtension.swift in Sources */,

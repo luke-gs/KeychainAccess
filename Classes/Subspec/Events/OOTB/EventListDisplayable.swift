@@ -75,10 +75,15 @@ public protocol EventListViewModelType {
     /// - Returns: the inflated event object
     func event(for displayable: EventListDisplayable) -> Event
 
+    /// Provide the detailViewModel for an event
+    ///
+    /// - Returns: the detail view model
+    func detailsViewModel(for event: Event) -> EventDetailViewModelType
+
 }
 
 /// The view model definition for the event details for the OOTB product
-public protocol EventDetailViewModelType {
+public protocol EventDetailViewModelType: Evaluatable {
 
     // The event object
     var event: Event { get }
@@ -96,8 +101,10 @@ public protocol EventDetailViewModelType {
     /// The app defines what view to use
     var headerView: UIView? { get }
 
-    /// Intialiser
+    /// Initialiser
     ///
-    /// - Parameter event: the event object
-    init(event: Event)
+    /// - Parameters:
+    ///   - event: the event object
+    ///   - builder: the screen builder
+    init(event: Event, builder: EventScreenBuilding)
 }

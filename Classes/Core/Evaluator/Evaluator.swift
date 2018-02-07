@@ -19,6 +19,8 @@ final public class Evaluator {
 
     // MARK: - Completion
 
+    public init() { }
+
     /// Checks and returns whether all the registered validation states
     /// for this validator are valid. Returns false if any are false and true only if all are true
     public var isComplete: Bool {
