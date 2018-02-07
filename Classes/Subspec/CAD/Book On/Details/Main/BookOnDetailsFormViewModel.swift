@@ -81,7 +81,7 @@ open class BookOnDetailsFormViewModel {
     open func navTitle() -> String {
         let callsign = resource.callsign ?? ""
         if isEditing {
-            return "\(callsign)"
+            return "Manage \(callsign)"
         } else {
             return "Book on \(callsign)"
         }
@@ -90,7 +90,7 @@ open class BookOnDetailsFormViewModel {
     /// The subtitle to use in the navigation bar
     open func navSubtitle() -> String {
         if isEditing {
-            return NSLocalizedString("Manage Call Sign", comment: "")
+            return ""
         } else {
             return [CADStateManager.shared.patrolGroup, resource.type?.title].joined(separator: ThemeConstants.dividerSeparator)
         }
