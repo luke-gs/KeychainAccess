@@ -75,14 +75,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
             }
         }
     }
-    
-    @available(iOS, deprecated, renamed: "calculatesContentHeight")
-    open var wantsCalculatedContentHeight: Bool {
-        get { return calculatesContentHeight }
-        set { calculatesContentHeight = newValue }
-    }
-    
-    
+
     /// The minimum allowed calculated content height. The default is `100.0`.
     open var minimumCalculatedContentHeight: CGFloat = 100.0 {
         didSet {
