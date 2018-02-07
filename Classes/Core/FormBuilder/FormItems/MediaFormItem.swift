@@ -11,7 +11,7 @@ import Foundation
 
 public class MediaFormItem: BaseFormItem {
 
-    public var dataSource: MediaDataSource<MediaAsset>?
+    public var dataSource: MediaDataSource?
 
     public var delegate = MediaPreviewHandler()
 
@@ -48,7 +48,7 @@ extension MediaFormItem {
     }
 
     @discardableResult
-    public func dataSource(_ dataSource: MediaDataSource<MediaAsset>?) -> Self {
+    public func dataSource(_ dataSource: MediaDataSource) -> Self {
         self.dataSource = dataSource
         return self
     }

@@ -13,7 +13,7 @@ public protocol MediaOverlayViewable: class {
 
     weak var galleryViewController: MediaSlideShowViewController? { get set }
 
-    func populateWithMedia(_ media: MediaAsset)
+    func populateWithMedia(_ media: MediaPreviewable)
 
     func setHidden(_ hidden: Bool, animated: Bool)
 
@@ -180,7 +180,7 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
         }
     }
 
-    private func updateDetailsWithMedia(_ media: MediaAsset) {
+    private func updateDetailsWithMedia(_ media: MediaPreviewable) {
         guard let dataSource = galleryViewController?.dataSource, let index = dataSource.indexOfMediaItem(media) else { return }
 
         galleryViewController?.navigationItem.title = "Asset \(index + 1) of \(dataSource.numberOfMediaItems())"
@@ -190,7 +190,7 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
         setNeedsUpdateConstraints()
     }
 
-    public func populateWithMedia(_ media: MediaAsset) {
+    public func populateWithMedia(_ media: MediaPreviewable) {
         updateDetailsWithMedia(media)
 
         if let index = galleryViewController?.dataSource.indexOfMediaItem(media) {

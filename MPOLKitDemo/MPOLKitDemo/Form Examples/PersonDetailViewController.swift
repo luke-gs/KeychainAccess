@@ -22,25 +22,20 @@ class PersonDetailViewController: FormBuilderViewController {
         let fp = URL(fileURLWithPath: audioPath)
         let vp = URL(fileURLWithPath: videoPath)
 
-        let dataSource: MediaDataSource<MediaAsset> = [
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), title: "Jeff Handerson", comments: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sit amet suscipit dolor. Aenean egestas ligula id dictum aliquam. Maecenas a aliquam mauris. Nullam facilisis elit metus, eu imperdiet sem aliquet eu. Nullam dapibus justo vitae enim viverra, eget sollicitudin ligula efficitur. Cras ut blandit odio. Pellentesque tempor bibendum diam eget eleifend.", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Login"), image: #imageLiteral(resourceName: "Login"), title: "Background of some random screen", comments: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sit amet suscipit dolor.", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "SidebarInfoFilled"), image: #imageLiteral(resourceName: "SidebarInfoFilled"), title: "The davin ci icon", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), title: "Jeff Handerson in the fresh.", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Login"), image: #imageLiteral(resourceName: "Login"), title: "A group of officers pretending to be working", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "SidebarInfoFilled"), image: #imageLiteral(resourceName: "SidebarInfoFilled"), title: "Icon of death", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), title: "A man", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Login"), image: #imageLiteral(resourceName: "Login"), title: "Another group of officers", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "SidebarInfoFilled"), image: #imageLiteral(resourceName: "SidebarInfoFilled"), title: "A pointless infomration icon", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), title: "A real man", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Login"), image: #imageLiteral(resourceName: "Login"), title: "The blue officers", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "SidebarInfoFilled"), image: #imageLiteral(resourceName: "SidebarInfoFilled"), title: "Jeff Handerson", sensitive: false),
+        let url = URL(fileURLWithPath: Bundle.main.resourcePath! + "/Avatar 1.png")
 
-            AssetCache.default.asset(forKey: fp.lastPathComponent) ?? AudioMedia(audioURL: fp),
-            AssetCache.default.asset(forKey: fp.lastPathComponent) ?? AudioMedia(audioURL: fp),
-            AssetCache.default.asset(forKey: fp.lastPathComponent) ?? AudioMedia(audioURL: fp),
+        let photoMedia = PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Test", comments: "Comments", isSensitive: false))
+        let audioMedia = AudioMedia(asset: Media(url: fp, title: "Test", comments: "Comments", isSensitive: false))
+        let videoMedia = VideoMedia(asset: Media(url: vp, title: "Test", comments: "Comments", isSensitive: false))
 
-            AssetCache.default.asset(forKey: vp.lastPathComponent) ?? VideoMedia(videoURL: vp)
+        let dataSource: MediaDataSource = [
+            photoMedia,
+            photoMedia,
+            photoMedia,
+            photoMedia,
+            audioMedia,
+            audioMedia,
+            videoMedia,
         ]
 
         let mediaItem = MediaFormItem().dataSource(dataSource)
@@ -89,6 +84,12 @@ class PersonDetailViewController: FormBuilderViewController {
 
 
 class DocumentItem: MediaPreviewable {
+    var sensitive: Bool = false
+
+    var title: String?
+
+    var comments: String?
+
 
     enum DocumentType {
         case pdf
@@ -105,8 +106,6 @@ class DocumentItem: MediaPreviewable {
             }
         }
     }
-
-    let title: String?
 
     let type: DocumentType
 

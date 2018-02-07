@@ -9,27 +9,14 @@
 import Foundation
 import AVKit
 
-public class AudioMedia: MediaAsset {
-    public init(thumbnailImage: ImageLoadable? = AssetManager.shared.image(forKey: .audioWave),
-                audioURL: URL,
-                title: String? = nil,
-                comments: String? = nil,
-                sensitive: Bool = false) {
+public class AudioMedia: MediaPreview {
 
-        var waveFormImage: UIImage? = nil
-        if let samples = AudioSampler.waveformSamples(fromAudioFile: audioURL, count: 44100) {
-            waveFormImage = UIImage.waveformImage(from: samples,
+    public init(asset: Media) {
+        super.init(asset: asset)
+
+        if let samples = AudioSampler.waveformSamples(fromAudioFile: asset.url, count: 44100) {
+            thumbnailImage = UIImage.waveformImage(from: samples,
                                                   fittingSize: CGSize(width: 600, height: 450))
         }
-
-        super.init(thumbnailImage: waveFormImage ?? thumbnailImage,
-                   assetURL: audioURL,
-                   title: title,
-                   comments: comments,
-                   isSensitive: sensitive)
-    }
-
-    public required init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
     }
 }

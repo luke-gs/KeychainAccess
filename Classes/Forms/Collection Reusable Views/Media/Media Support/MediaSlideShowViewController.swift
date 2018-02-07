@@ -12,7 +12,7 @@ public class MediaSlideShowViewController: UIViewController, UIPageViewControlle
 
     private lazy var pageViewController: UIPageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: [UIPageViewControllerOptionInterPageSpacingKey: 16.0])
 
-    public let dataSource: MediaDataSource<MediaAsset>
+    public let dataSource: MediaDataSource
 
     public var allowEditing: Bool = true
 
@@ -38,11 +38,11 @@ public class MediaSlideShowViewController: UIViewController, UIPageViewControlle
         return pageViewController.viewControllers?.first as? MediaViewController
     }
 
-    public var currentMedia: MediaAsset? {
+    public var currentMedia: MediaPreviewable? {
         return currentMediaViewController?.mediaAsset
     }
 
-    public init(dataSource: MediaDataSource<MediaAsset>, initialMedia: MediaAsset? = nil, referenceView: UIView? = nil) {
+    public init(dataSource: MediaDataSource, initialMedia: MediaPreviewable? = nil, referenceView: UIView? = nil) {
         self.dataSource = dataSource
 
         super.init(nibName: nil, bundle: nil)
@@ -56,7 +56,7 @@ public class MediaSlideShowViewController: UIViewController, UIPageViewControlle
 
     // MARK: - Setup
 
-    public func setupWithInitialMedia(_ media: MediaAsset?, animated: Bool = false) {
+    public func setupWithInitialMedia(_ media: MediaPreviewable?, animated: Bool = false) {
         // Page controller
         if let media = media ?? dataSource.mediaItemAtIndex(0) {
             var direction = UIPageViewControllerNavigationDirection.forward
@@ -72,7 +72,7 @@ public class MediaSlideShowViewController: UIViewController, UIPageViewControlle
         }
     }
 
-    public func showMedia(_ media: MediaAsset, animated: Bool, direction: UIPageViewControllerNavigationDirection = .forward) {
+    public func showMedia(_ media: MediaPreviewable, animated: Bool, direction: UIPageViewControllerNavigationDirection = .forward) {
         guard dataSource.indexOfMediaItem(media) != nil else { return }
 
         let mediaViewController = mediaViewControllerForPhoto(media)
@@ -154,11 +154,11 @@ public class MediaSlideShowViewController: UIViewController, UIPageViewControlle
 
     // MARK: - Private
 
-    private func mediaViewControllerForPhoto(_ media: MediaAsset) -> UIViewController {
+    private func mediaViewControllerForPhoto(_ media: MediaPreviewable) -> UIViewController {
         return dataSource.viewController(for: media)
     }
 
-    private func mediaAfterDeletion(currentMediaIndex index: Int) -> MediaAsset? {
+    private func mediaAfterDeletion(currentMediaIndex index: Int) -> MediaPreviewable? {
         if let photo = dataSource.mediaItemAtIndex(index) {
             return photo
         }

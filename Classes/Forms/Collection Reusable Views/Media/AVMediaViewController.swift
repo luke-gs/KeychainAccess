@@ -13,6 +13,10 @@ import AVKit
 /// as the photos 
 public class AVMediaViewController: MediaViewController {
 
+    public override class func initialise(forAsset asset: MediaPreview) -> (UIViewController & MediaViewPresentable) {
+        return AVMediaViewController(mediaAsset: asset)
+    }
+
     public let playButton: UIButton = UIButton()
 
     override public func viewDidLoad() {
@@ -29,8 +33,7 @@ public class AVMediaViewController: MediaViewController {
     }
 
     @objc private func playTapped() {
-        guard let url = mediaAsset.assetURL else { return }
-        let player = AVPlayer(url: url)
+        let player = AVPlayer(url: mediaAsset.asset.url)
         let viewController = AVPlayerViewController()
         viewController.player = player
         viewController.modalPresentationStyle = .overFullScreen

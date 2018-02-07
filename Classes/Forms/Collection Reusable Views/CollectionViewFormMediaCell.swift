@@ -10,11 +10,10 @@ import Foundation
 
 
 public protocol MediaPreviewable: class {
-
     var thumbnailImage: ImageLoadable? { get }
-
-    var title: String? { get }
-
+    var sensitive: Bool { get set }
+    var title: String? { get set }
+    var comments: String? { get set }
 }
 
 public protocol MediaPreviewRenderer: DefaultReusable {
@@ -27,7 +26,7 @@ public let CollectionViewFormMediaCellMinimumItemHeight: CGFloat = 96.0
 
 open class CollectionViewFormMediaCell<U: MediaPreviewableDelegate>: CollectionViewFormCell, UICollectionViewDelegate, UICollectionViewDataSource, UIViewControllerPreviewingDelegate {
 
-    public weak var dataSource: MediaDataSource<U.Media>? {
+    public weak var dataSource: MediaDataSource? {
         didSet {
             guard dataSource !== oldValue else { return }
 

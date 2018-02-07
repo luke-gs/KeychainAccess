@@ -11,13 +11,13 @@ import UIKit
 
 public class MediaPreviewViewController: UIViewController {
 
-    public let mediaAsset: MediaAsset
+    public let mediaAsset: MediaPreviewable
 
     private let imageView = UIImageView()
 
     private let titleLabel = UILabel()
 
-    public init(mediaAsset: MediaAsset) {
+    public init(mediaAsset: MediaPreviewable) {
         self.mediaAsset = mediaAsset
         super.init(nibName: nil, bundle: nil)
     }

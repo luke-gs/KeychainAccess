@@ -8,18 +8,24 @@
 
 import Foundation
 
-protocol MediaViewPresentable {
-    var mediaAsset: MediaAsset { get }
+public protocol MediaViewPresentable {
+    var mediaAsset: MediaPreview { get }
+    static func initialise(forAsset asset: MediaPreview) -> (UIViewController & MediaViewPresentable)
 }
 
 public class MediaViewController: UIViewController, UIScrollViewDelegate, MediaViewPresentable {
-    public private(set) var mediaAsset: MediaAsset
+    
+    public class func initialise(forAsset asset: MediaPreview) -> (UIViewController & MediaViewPresentable) {
+        return MediaViewController(mediaAsset: asset)
+    }
+
+    public private(set) var mediaAsset: MediaPreview
 
     public var photoMedia: PhotoMedia?  {
         return mediaAsset as? PhotoMedia
     }
 
-    public init(mediaAsset: MediaAsset) {
+    public init(mediaAsset: MediaPreview) {
         self.mediaAsset = mediaAsset
         super.init(nibName: nil, bundle: nil)
     }

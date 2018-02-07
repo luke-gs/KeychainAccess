@@ -20,7 +20,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
     public private(set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewFlowLayout)
 
-    public let dataSource: MediaDataSource<MediaAsset>
+    public let dataSource: MediaDataSource
 
     public let pickerSources: [MediaPickerSource]
 
@@ -30,11 +30,11 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
     public private(set) lazy var loadingManager: LoadingStateManager = LoadingStateManager()
 
-    private var initialAsset: MediaAsset?
+    private var initialAsset: MediaPreviewable?
 
     private lazy var addBarButtonItem: UIBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Add", comment: ""), style: .plain, target: self, action: #selector(addButtonTapped))
 
-    public init(dataSource: MediaDataSource<MediaAsset>, initialAsset: MediaAsset? = nil, pickerSources: [MediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker(), AudioMediaPicker(), SketchMediaPicker()]) {
+    public init(dataSource: MediaDataSource, initialAsset: MediaPreviewable? = nil, pickerSources: [MediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker(), AudioMediaPicker(), SketchMediaPicker()]) {
 
         pickerSources.forEach {
             $0.saveMedia = { url, assetType in

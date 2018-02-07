@@ -13,18 +13,17 @@ public enum MediaType {
     case audio
     case photo
 
-    func mediaAsset(at url: URL) -> MediaAsset? {
+    func mediaAsset(at url: URL) -> MediaPreviewable? {
+        let media = Media(url: URL(fileURLWithPath: url.path))
         switch self {
         case .photo:
             if let data = try? Data(contentsOf: url) {
                 let image = UIImage(data: data)
-                return PhotoMedia(thumbnailImage: image, image: image, imageURL: url)
+                return PhotoMedia(thumbnailImage: image, image: image, asset: media)
             }
             return nil
-        case .audio:
-            return AudioMedia(audioURL: url)
-        case .video:
-            return VideoMedia(videoURL: url)
+        case .audio: return AudioMedia(asset: media)
+        case .video: return VideoMedia(asset: media)
         }
     }
 }
