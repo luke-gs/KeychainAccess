@@ -22,18 +22,14 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
         self.report = report as? DefaultDateTimeReport
         super.init()
         report?.evaluator.addObserver(self)
-    }
-
-    public required convenience init?(coder aDecoder: NSCoder) {
-        MPLUnimplemented()
-    }
-
-    open override func viewDidLoad() {
-        super.viewDidLoad()
+        
         sidebarItem.regularTitle = "Date and Time"
         sidebarItem.compactTitle = "Date and Time"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.date)!
-        sidebarItem.color = .red
+        sidebarItem.color = .red    }
+
+    public required convenience init?(coder aDecoder: NSCoder) {
+        MPLUnimplemented()
     }
 
     override open func construct(builder: FormBuilder) {

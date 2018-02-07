@@ -23,22 +23,28 @@ open class DefaultEventLocationViewController: FormBuilderViewController, Evalua
         self.report = report as? DefaultLocationReport
         super.init()
         report?.evaluator.addObserver(self)
-    }
-    
-    public required convenience init?(coder aDecoder: NSCoder) {
-        MPLUnimplemented()
-    }
-    
-    open override func viewDidLoad() {
-        super.viewDidLoad()
+        
         sidebarItem.regularTitle = "Location"
         sidebarItem.compactTitle = "Location"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.location)!
         sidebarItem.color = .red
     }
     
+    public required convenience init?(coder aDecoder: NSCoder) {
+        MPLUnimplemented()
+    }
+    
     override open func construct(builder: FormBuilder) {
+        builder.title = "Locations"
+
+        builder.forceLinearLayout = true
+        
         // check creative for this
+        builder += TextFieldFormItem(title: "Map").height(.fixed(220))
+        
+        builder += HeaderFormItem(text: "LOCATIONS")
+        
+        builder += TextFieldFormItem(title: "Event location").required()
     }
     
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
