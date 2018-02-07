@@ -17,14 +17,14 @@ open class MediaDataSource: ExpressibleByArrayLiteral {
 
     /// A collection of items
     open private(set) var mediaItems: [MediaPreviewable]
-    open private(set) var mediaControllers: [ObjectIdentifier: (UIViewController & MediaViewPresentable)] = [:]
+    open private(set) var mediaControllers: [ObjectIdentifier: (UIViewController & MediaViewPresentable).Type] = [:]
 
     /// Create a new data source using an array literal.
     ///
     /// - Parameter elements: A collection of media items
     public required init(arrayLiteral elements: MediaPreviewable...) {
         self.mediaItems = elements
-        registerDefaultControllers(for: mediaItems)
+        registerDefaultControllers()
     }
 
     /// Create a new data source.
@@ -32,7 +32,7 @@ open class MediaDataSource: ExpressibleByArrayLiteral {
     /// - Parameter mediaItems: A collection of media items.
     public init(mediaItems: [MediaPreviewable] = []) {
         self.mediaItems = mediaItems
-        registerDefaultControllers(for: mediaItems)
+        registerDefaultControllers()
     }
 
     /// Return the total number of media items.
@@ -102,24 +102,21 @@ open class MediaDataSource: ExpressibleByArrayLiteral {
         }
     }
 
-    open func register(_ controller: (UIViewController & MediaViewPresentable), for asset: MediaPreviewable) {
-        mediaControllers[ObjectIdentifier(type(of: asset))] = controller
-    }
-    
-    private func registerDefaultControllers(for mediaItems: [MediaPreviewable]) {
-        mediaItems.forEach {
-            switch $0 {
-            case is VideoMedia:
-                register(AVMediaViewController.self, for: $0)
-            case is AudioMedia:
-                register(AVMediaViewController.self, for: $0)
-            case let photo as PhotoMedia:
-                register(MediaViewController.self, for: $0)
-            default:
-                fatalError()
-            }
-        }
 
+    /// Register a controller type to a specific mediaPreviewable object
+    ///
+    /// - Parameters:
+    ///   - controller: The type of the controller to register
+    ///   - asset: The media the controller is to be registered against
+    open func register(_ controller: (UIViewController & MediaViewPresentable).Type, for asset: MediaPreviewable.Type) {
+        mediaControllers[ObjectIdentifier(asset)] = controller
+    }
+
+    /// Register default controllers for media items
+    private func registerDefaultControllers() {
+        register(AVMediaViewController.self, for: AudioMedia.self)
+        register(MediaViewController.self, for: PhotoMedia.self)
+        register(AVMediaViewController.self, for: VideoMedia.self)
     }
 
 }

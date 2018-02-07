@@ -65,17 +65,16 @@ public class MediaSlideShowViewController: UIViewController, UIPageViewControlle
                 let nextIndex = dataSource.indexOfMediaItem(media), nextIndex < currentIndex {
                 direction = .reverse
             }
-
-            let mediaViewController = mediaViewControllerForPhoto(media)
+            guard let mediaViewController = mediaViewControllerForPhoto(media) else { return }
             pageViewController.setViewControllers([mediaViewController], direction: direction, animated: animated, completion: nil)
             overlayView.populateWithMedia(media)
         }
     }
 
     public func showMedia(_ media: MediaPreviewable, animated: Bool, direction: UIPageViewControllerNavigationDirection = .forward) {
-        guard dataSource.indexOfMediaItem(media) != nil else { return }
+        guard dataSource.indexOfMediaItem(media) != nil,
+        let mediaViewController = mediaViewControllerForPhoto(media) else { return }
 
-        let mediaViewController = mediaViewControllerForPhoto(media)
         pageViewController.setViewControllers([mediaViewController], direction: direction, animated: animated, completion: nil)
         overlayView.populateWithMedia(media)
     }
@@ -154,8 +153,8 @@ public class MediaSlideShowViewController: UIViewController, UIPageViewControlle
 
     // MARK: - Private
 
-    private func mediaViewControllerForPhoto(_ media: MediaPreviewable) -> UIViewController {
-        return dataSource.viewController(for: media)
+    private func mediaViewControllerForPhoto(_ media: MediaPreviewable) -> UIViewController? {
+        return dataSource.mediaControllers[ObjectIdentifier(type(of: media))]?.controller(forAsset: media)
     }
 
     private func mediaAfterDeletion(currentMediaIndex index: Int) -> MediaPreviewable? {

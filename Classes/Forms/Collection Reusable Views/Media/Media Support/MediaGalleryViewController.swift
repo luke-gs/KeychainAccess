@@ -335,7 +335,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
         case .push:
             guard let _ = fromVC as? MediaGalleryViewController,
                 let toVC = toVC as? MediaSlideShowViewController,
-                let photoMedia = toVC.currentMedia as? PhotoMedia,
+                let photoMedia = toVC.currentMedia,
                 let photoMediaIndex = dataSource.indexOfMediaItem(photoMedia),
                 let cell = collectionView.cellForItem(at: IndexPath(item: photoMediaIndex, section: 0)),
                 let mediaViewController = toVC.currentMediaViewController else { return nil }
@@ -370,6 +370,4 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
             return nil
         }
     }
-
-
 }
