@@ -49,23 +49,3 @@ open class EventsListViewController: FormBuilderViewController {
     }
 }
 
-public class DefaultEventsListViewModel: EventListViewModelType {
-    public var title: String
-
-    public var eventsList: [EventListDisplayable]?
-    public var eventsManager: EventsManager
-
-    public required init(eventsManager: EventsManager = EventsManager.shared) {
-        self.eventsManager = eventsManager
-        self.title = "Events"
-    }
-
-    public func event(for displayable: EventListDisplayable) -> Event {
-        return eventsManager.event(for: displayable.eventId)
-    }
-
-    public func detailsViewModel(for event: Event) -> EventDetailViewModelType {
-        return DefaultEventsDetailViewModel(event: event)
-    }
-}
-
