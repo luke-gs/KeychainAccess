@@ -10,7 +10,7 @@ import UIKit
 import PromiseKit
 
 /// Delegate protocol for updating UI
-public protocol BookOnDetailsFormViewModelDelegate: class {
+public protocol BookOnDetailsFormViewModelDelegate: PopoverPresenter {
     /// Called when did update details
     func didUpdateDetails()
 }
@@ -18,7 +18,7 @@ public protocol BookOnDetailsFormViewModelDelegate: class {
 /// View model protocol for callsign details
 public protocol BookOnCallsignViewModelType {
     var callsign: String {get}
-    var status: String? {get}
+    var status: ResourceStatus? {get}
     var location: String? {get}
     var type: ResourceType? {get}
 }
@@ -26,7 +26,7 @@ public protocol BookOnCallsignViewModelType {
 /// Concrete callsign details view model
 struct BookOnCallsignViewModel: BookOnCallsignViewModelType {
     var callsign: String
-    var status: String?
+    var status: ResourceStatus?
     var location: String?
     var type: ResourceType?
 }
@@ -109,6 +109,22 @@ open class BookOnDetailsFormViewModel {
         } else {
             return [CADStateManager.shared.officerDetails?.patrolGroup, callsignViewModel.type?.title].joined(separator: ThemeConstants.dividerSeparator)
         }
+    }
+
+    open func terminateButtonText() -> String {
+        return NSLocalizedString("Terminate shift", comment: "")
+    }
+
+    open func terminateShift() {
+        if callsignViewModel.status?.canTerminate == true {
+            // Update session and dismiss screen
+            CADStateManager.shared.setOffDuty()
+            delegate?.dismiss(animated: true, completion: nil)
+        } else {
+            AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Terminate Shift", comment: ""),
+                                             message: NSLocalizedString("Your call sign is currently responding to an active incident that must first be finalised.", comment: ""))
+        }
+
     }
 
     open func submitForm() -> Promise<()> {

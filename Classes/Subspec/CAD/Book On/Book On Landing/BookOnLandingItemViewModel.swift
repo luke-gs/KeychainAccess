@@ -37,7 +37,7 @@ open class BookOnLandingItemViewModel {
 /// View model of callsign section of not booked on screen
 open class BookOnLandingCallsignItemViewModel: BookOnLandingItemViewModel, BookOnCallsignViewModelType {
     public var callsign: String
-    public var status: String?
+    public var status: ResourceStatus?
     public var location: String?
     public var caption: String?
     public var type: ResourceType?
@@ -47,7 +47,7 @@ open class BookOnLandingCallsignItemViewModel: BookOnLandingItemViewModel, BookO
     open var badgeBorderColor: UIColor?
     open var badgeFillColor: UIColor?
     
-    public init(title: String, subtitle: String?, caption: String?, callsign: String, status: String?, location: String?, type: ResourceType?, image: UIImage?, imageColor: UIColor?, imageBackgroundColor: UIColor?, badgeText: String? = nil, badgeTextColor: UIColor? = .clear, badgeFillColor: UIColor? = .clear, badgeBorderColor: UIColor? = .clear) {
+    public init(title: String, subtitle: String?, caption: String?, callsign: String, status: ResourceStatus?, location: String?, type: ResourceType?, image: UIImage?, imageColor: UIColor?, imageBackgroundColor: UIColor?, badgeText: String? = nil, badgeTextColor: UIColor? = .clear, badgeFillColor: UIColor? = .clear, badgeBorderColor: UIColor? = .clear) {
         self.callsign = callsign
         self.status = status
         self.location = location
@@ -79,7 +79,7 @@ open class BookOnLandingCallsignItemViewModel: BookOnLandingItemViewModel, BookO
             subtitle: subtitle,
             caption: caption,
             callsign: resource.callsign,
-            status: resource.status.rawValue,
+            status: resource.status,
             location: resource.location?.fullAddress.ifNotEmpty(),
             type: resource.type,
             image: resource.type.icon,

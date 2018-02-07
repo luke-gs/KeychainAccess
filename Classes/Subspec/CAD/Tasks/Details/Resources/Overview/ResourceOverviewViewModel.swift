@@ -117,7 +117,7 @@ open class ResourceOverviewViewModel: TaskDetailsViewModel {
         if let bookOn = CADStateManager.shared.lastBookOn {
             let callsignViewModel = BookOnCallsignViewModel(
                 callsign: bookOn.callsign,
-                status: CADStateManager.shared.currentResource?.status.title ?? "",
+                status: CADStateManager.shared.currentResource?.status ?? .unavailable,
                 location: CADStateManager.shared.currentResource?.station ?? "",
                 type: CADStateManager.shared.currentResource?.type)
             delegate?.present(BookOnScreen.bookOnDetailsForm(callsignViewModel: callsignViewModel, formSheet: true))
