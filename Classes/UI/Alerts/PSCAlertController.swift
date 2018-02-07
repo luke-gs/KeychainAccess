@@ -16,7 +16,7 @@ open class PSCAlertController: ThemedPopoverViewController {
         public static let sideMargins: CGFloat = 24
     }
     
-    // MARK: - Content
+    // MARK: - Content (only used during setup, can't set up in init – trust me.)
     
     /// Text for the title or `nil`
     private var titleText: String?

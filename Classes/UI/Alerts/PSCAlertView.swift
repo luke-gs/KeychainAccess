@@ -26,17 +26,7 @@ open class PSCAlertView: UIView {
     }
     
     open weak var delegate: PSCAlertViewDelegate?
-    open private(set) var actions: [PSCAlertAction]
 
-    /// Text for the title or `nil`
-    private var titleText: String?
-    
-    /// Text for the message or `nil`
-    private var messageText: String?
-    
-    /// Image for the alert or `nil`
-    private var image: UIImage?
-    
     // MARK: - Views
     
     /// Label for the title text
@@ -68,13 +58,8 @@ open class PSCAlertView: UIView {
     public var contentTrailingConstraint: NSLayoutConstraint?
     
     public init(frame: CGRect = .zero, title: String?, message: String?, image: UIImage?, actions: [PSCAlertAction]) {
-        self.actions = actions
-        self.titleText = title
-        self.messageText = message
-        self.image = image
-        
         super.init(frame: frame)
-        setupViews()
+        setupViews(title: title, message: message, image: image, actions: actions)
         setupConstraints()
         applyTheme()
     }
@@ -93,7 +78,7 @@ open class PSCAlertView: UIView {
     }
     
     /// Creates and styles views
-    private func setupViews() {
+    private func setupViews(title: String?, message: String?, image: UIImage?, actions: [PSCAlertAction]) {
         layer.cornerRadius = 12
         layer.masksToBounds = true
         backgroundColor = UIColor.white.withAlphaComponent(0.9)
@@ -112,13 +97,13 @@ open class PSCAlertView: UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         contentStackView.addArrangedSubview(imageView)
         
-        titleLabel.text = titleText
+        titleLabel.text = title
         titleLabel.font = DefaultAppearance.titleFont
         titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .center
         contentStackView.addArrangedSubview(titleLabel)
         
-        messageLabel.text = messageText
+        messageLabel.text = message
         messageLabel.font = DefaultAppearance.messageFont
         messageLabel.numberOfLines = 0
         messageLabel.textAlignment = .center

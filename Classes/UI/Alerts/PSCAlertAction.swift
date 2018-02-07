@@ -12,7 +12,7 @@ import UIKit
 ///
 /// - `default`: Default style, semibold blue text
 /// - cancel: Indicates a cancel action, regular blue text
-/// - destructive: Indicates a destructive action, semibold blue text
+/// - destructive: Indicates a destructive action, semibold red text
 /// - custom: uses a custom font and/or color. Will use the default style if `nil` supplied.
 public enum PSCAlertActionStyle {
     
