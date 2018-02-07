@@ -49,7 +49,7 @@ open class BookOnLandingViewModel {
 
     /// Create the book on view controller for a selected callsign
     open func bookOnScreenForItem(_ callsignViewModel: BookOnLandingCallsignItemViewModel) -> Presentable {
-        return BookOnScreen.bookOnDetailsForm(callsignViewModel: callsignViewModel, formSheet: false)
+        return BookOnScreen.bookOnDetailsForm(resource: callsignViewModel.resource, formSheet: false)
     }
     
     open func headerText() -> String? {

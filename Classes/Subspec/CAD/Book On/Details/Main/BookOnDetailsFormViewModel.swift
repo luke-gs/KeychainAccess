@@ -15,22 +15,6 @@ public protocol BookOnDetailsFormViewModelDelegate: PopoverPresenter {
     func didUpdateDetails()
 }
 
-/// View model protocol for callsign details
-public protocol BookOnCallsignViewModelType {
-    var callsign: String {get}
-    var status: ResourceStatus? {get}
-    var location: String? {get}
-    var type: ResourceType? {get}
-}
-
-/// Concrete callsign details view model
-struct BookOnCallsignViewModel: BookOnCallsignViewModelType {
-    var callsign: String
-    var status: ResourceStatus?
-    var location: String?
-    var type: ResourceType?
-}
-
 /// View model for the book on details form screen
 open class BookOnDetailsFormViewModel {
 
@@ -40,8 +24,8 @@ open class BookOnDetailsFormViewModel {
     /// The form content
     public var content: BookOnDetailsFormContentMainViewModel
 
-    /// View model of selected callsign to book on to
-    private var callsignViewModel: BookOnCallsignViewModelType
+    /// Resource we are booking on to
+    private var resource: SyncDetailsResource
 
     /// Whether we are editing an existing bookon
     public let isEditing: Bool
@@ -49,8 +33,8 @@ open class BookOnDetailsFormViewModel {
     /// Whether to show vehicle fields
     public let showVehicleFields: Bool = true
 
-    public init(callsignViewModel: BookOnCallsignViewModelType) {
-        self.callsignViewModel = callsignViewModel
+    public init(resource: SyncDetailsResource) {
+        self.resource = resource
 
         // Create equipment selection pickables from manifest items
         let defaultEquipment = CADStateManager.shared.equipmentItems().map { item in
@@ -95,10 +79,11 @@ open class BookOnDetailsFormViewModel {
 
     /// The title to use in the navigation bar
     open func navTitle() -> String {
+        let callsign = resource.callsign ?? ""
         if isEditing {
-            return "\(callsignViewModel.callsign)"
+            return "\(callsign)"
         } else {
-            return "Book on \(callsignViewModel.callsign)"
+            return "Book on \(callsign)"
         }
     }
 
@@ -107,7 +92,7 @@ open class BookOnDetailsFormViewModel {
         if isEditing {
             return NSLocalizedString("Manage Call Sign", comment: "")
         } else {
-            return [CADStateManager.shared.officerDetails?.patrolGroup, callsignViewModel.type?.title].joined(separator: ThemeConstants.dividerSeparator)
+            return [CADStateManager.shared.patrolGroup, resource.type?.title].joined(separator: ThemeConstants.dividerSeparator)
         }
     }
 
@@ -116,7 +101,7 @@ open class BookOnDetailsFormViewModel {
     }
 
     open func terminateShift() {
-        if callsignViewModel.status?.canTerminate == true {
+        if resource.status?.canTerminate == true {
             // Update session and dismiss screen
             CADStateManager.shared.setOffDuty()
             delegate?.dismiss(animated: true, completion: nil)
@@ -130,7 +115,7 @@ open class BookOnDetailsFormViewModel {
     open func submitForm() -> Promise<()> {
         // Update session
         let bookOnRequest = content.createModel()
-        bookOnRequest.callsign = callsignViewModel.callsign
+        bookOnRequest.callsign = resource.callsign
         CADStateManager.shared.lastBookOn = bookOnRequest
 
         return firstly {

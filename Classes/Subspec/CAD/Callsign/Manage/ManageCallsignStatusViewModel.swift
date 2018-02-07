@@ -140,14 +140,9 @@ open class ManageCallsignStatusViewModel {
                 }
                 break
             case .manageCallsign:
-                if let bookOn = CADStateManager.shared.lastBookOn {
+                if let resource = CADStateManager.shared.currentResource {
                     // Edit the book on details
-                    let callsignViewModel = BookOnCallsignViewModel(
-                        callsign: bookOn.callsign,
-                        status: CADStateManager.shared.currentResource?.status ?? .unavailable,
-                        location: CADStateManager.shared.currentResource?.station ?? "",
-                        type: CADStateManager.shared.currentResource?.type)
-                    delegate?.present(BookOnScreen.bookOnDetailsForm(callsignViewModel: callsignViewModel, formSheet: false))
+                    delegate?.present(BookOnScreen.bookOnDetailsForm(resource: resource, formSheet: false))
                 }
                 break
             }
