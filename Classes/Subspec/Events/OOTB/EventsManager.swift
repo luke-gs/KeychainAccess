@@ -8,20 +8,19 @@
 /// Manages the list of events
 ///
 /// Can be used as a singleton as well as an instance if necessary.
-public class EventsManager {
+final public class EventsManager {
 
     /// The shared Eventsmanager singleton
     public static var shared: EventsManager = {
         let eventsManager = EventsManager()
         eventsManager.eventBucket = ObjectBucket<Event>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
         eventsManager.displayableBucket = ObjectBucket<EventListDisplayable>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
-        eventsManager.eventBuilder = DefaultEventBuilder()
         return eventsManager
     }()
 
-    private(set) public var eventBucket: ObjectBucket<Event>?
-    private(set) public var displayableBucket: ObjectBucket<EventListDisplayable>?
-    private(set) public var eventBuilder: EventBuilding?
+    public var eventBucket: ObjectBucket<Event>?
+    public var displayableBucket: ObjectBucket<EventListDisplayable>?
+    public var eventBuilder: EventBuilding?
 
     public convenience init(eventBucket: ObjectBucket<Event>,
                             displayableBucket: ObjectBucket<EventListDisplayable>,
@@ -58,47 +57,6 @@ public class EventsManager {
         //TODO: Attempt to fetch from event bucket
         //eventBucket.object(for: id)
         return Event()
-    }
-}
-
-/// Builder for event
-public protocol EventBuilding: NSCoding {
-
-    /// Create an event, injecting any reports that you need.
-    ///
-    /// - Parameter type: the type of event that is being asked to be created.
-    /// - Returns: a tuple of an event and it's list view representation
-    func createEvent(for type: EventType) -> (event: Event, displayable: EventListDisplayable)
-}
-
-//TODO: Make this something else that is extensible by the app
-public enum EventType {
-    case blank
-}
-
-
-/// OOTB implmenetation of an event builder
-///
-/// Used by the shared Events Manager
-public class DefaultEventBuilder: EventBuilding {
-
-    public func createEvent(for type: EventType) -> (event: Event, displayable: EventListDisplayable) {
-        let displayable = EventListDisplayable(title: "Demo",
-                                               subtitle: "Sub",
-                                               accessoryTitle: "AccessTitle",
-                                               accessorySubtitle: "Acces Sub",
-                                               icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.advancedSearch))
-        return (event: Event(), displayable: displayable)
-    }
-
-    init() { }
-
-    public func encode(with aCoder: NSCoder) {
-        MPLCodingNotSupported()
-    }
-
-    public required init?(coder aDecoder: NSCoder) {
-        MPLCodingNotSupported()
     }
 }
 

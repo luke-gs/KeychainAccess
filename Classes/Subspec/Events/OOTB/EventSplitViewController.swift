@@ -8,7 +8,11 @@
 
 import UIKit
 
-public class EventSplitViewController: SidebarSplitViewController {
+public extension EvaluatorKey {
+    static let eventReadyToSubmit = EvaluatorKey(rawValue: "eventReadyToSubmit")
+}
+
+public class EventSplitViewController: SidebarSplitViewController, EvaluationObserverable {
 
     public let viewModel: EventDetailViewModelType
 
@@ -18,30 +22,17 @@ public class EventSplitViewController: SidebarSplitViewController {
 
         self.title = viewModel.title
         regularSidebarViewController.headerView = viewModel.headerView
+
+        viewModel.evaluator.addObserver(self)
     }
 
     public required init?(coder aDecoder: NSCoder) {
         MPLUnimplemented()
     }
-}
 
-public class DefaultEventsDetailViewModel: EventDetailViewModelType {
-
-    public var event: Event
-    public var title: String?
-    public var viewControllers: [UIViewController]?
-    public var headerView: UIView?
-
-    public required init(event: Event) {
-        self.event = event
-        self.title = "New Event"
-        self.viewControllers = [UIViewController()]
-        self.headerView = {
-            let header = SidebarHeaderView()
-            header.iconView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
-            header.titleLabel.text = "No incident selected"
-            header.captionLabel.text = "IN PROGRESS"
-            return header
-        }()
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+        if key == .eventReadyToSubmit {
+            //TODO: toggle submit button
+        }
     }
 }

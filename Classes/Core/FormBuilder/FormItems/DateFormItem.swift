@@ -49,6 +49,12 @@ public class DateFormItem: PickerFormItem<Date> {
         }
     }
 
+    public var hasNowButton: Bool = false {
+        didSet {
+            action.hasNowButton = hasNowButton
+        }
+    }
+
     private let action = DateAction()
 
     public init() {
@@ -108,6 +114,12 @@ extension DateFormItem {
         return self
     }
 
+    @discardableResult
+    public func withNowButton(_ hasNowButton: Bool) -> Self {
+        self.hasNowButton = hasNowButton
+        return self
+    }
+
 }
 
 
@@ -125,6 +137,8 @@ class DateAction: ValueSelectionAction<Date> {
 
     public var timeZone: TimeZone?
 
+    public var hasNowButton: Bool = false
+
     public init(mode: UIDatePickerMode = .date, selectedValue: Date? = nil) {
         self.mode = mode
 
@@ -139,7 +153,7 @@ class DateAction: ValueSelectionAction<Date> {
             self?.updateHandler?()
         }
 
-        let dateViewController = PopoverDatePickerViewController()
+        let dateViewController = PopoverDatePickerViewController(withNowButton: hasNowButton)
         dateViewController.title = title
         dateViewController.dateUpdateHandler = updateHandler
 

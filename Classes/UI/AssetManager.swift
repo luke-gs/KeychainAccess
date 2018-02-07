@@ -166,6 +166,7 @@ extension AssetManager {
         public static let duress         = ImageKey("iconDuress")
         public static let route          = ImageKey("iconGeneralRoute")
         public static let streetView     = ImageKey("iconGeneralStreetView")
+        public static let clearText      = ImageKey("iconClearText")
 
         public static let generalLocation = ImageKey("iconGeneralLocation")
         public static let otherPatrolArea = ImageKey("iconOtherPatrolArea")
