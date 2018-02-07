@@ -104,17 +104,32 @@ public final class AlertQueue: NSObject {
         presentAlerts()
     }
 
-    /// Add a new error alert with OK button and standard Error title
+    /// Add a new error alert with OK button and standard Error title using PSCAlertController
     public func addErrorAlert(message: String?) {
         let title = NSLocalizedString("Error", comment: "Alert error title")
         addSimpleAlert(title: title, message: message)
     }
 
-    /// Add a simple alert with OK button
+    /// Add a simple alert with OK button using PSCAlertController
     public func addSimpleAlert(title: String?, message: String?, handler: ((PSCAlertAction) -> ())? = nil) {
         let buttonTitle = NSLocalizedString("OK", comment: "Alert OK button")
         let alertController = PSCAlertController(title: title, message: message, image: nil)
         let action = PSCAlertAction(title: buttonTitle, style: .default, handler: handler)
+        alertController.addAction(action)
+        AlertQueue.shared.add(alertController)
+    }
+    
+    /// Add a new error alert with OK button and standard Error title using UIAlertController
+    public func addSystemErrorAlert(message: String?) {
+        let title = NSLocalizedString("Error", comment: "Alert error title")
+        addSystemSimpleAlert(title: title, message: message)
+    }
+    
+    /// Add a simple alert with OK button using UIAlertController
+    public func addSimpleSystemAlert(title: String?, message: String?, handler: ((UIAlertAction) -> ())? = nil) {
+        let buttonTitle = NSLocalizedString("OK", comment: "Alert OK button")
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: buttonTitle, style: .cancel, handler: handler)
         alertController.addAction(action)
         AlertQueue.shared.add(alertController)
     }
