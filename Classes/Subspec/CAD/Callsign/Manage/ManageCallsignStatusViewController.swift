@@ -166,7 +166,7 @@ open class ManageCallsignStatusViewController: ThemedPopoverViewController, Mana
             incidentFormView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             incidentFormHeight,
 
-            callsignStatusView.topAnchor.constraint(equalTo: incidentFormView.bottomAnchor),
+            callsignStatusView.topAnchor.constraint(equalTo: incidentFormView.bottomAnchor, constant: -20),
             callsignStatusView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             callsignStatusView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             callsignStatusView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),

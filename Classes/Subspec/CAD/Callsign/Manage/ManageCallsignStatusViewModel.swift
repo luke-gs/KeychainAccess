@@ -155,7 +155,7 @@ open class ManageCallsignStatusViewModel {
         var sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>] = []
         if shouldShowIncident {
             sections.append(CADFormCollectionSectionViewModel(
-                title: NSLocalizedString("Incident Status", comment: "Incident Status header text"),
+                title: "",
                 items: [
                     ManageCallsignStatusItemViewModel(.proceeding),
                     ManageCallsignStatusItemViewModel(.atIncident),
