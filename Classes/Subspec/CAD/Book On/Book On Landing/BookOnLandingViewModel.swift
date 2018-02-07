@@ -56,11 +56,11 @@ open class BookOnLandingViewModel {
         return NSLocalizedString("You are not viewing all active tasks and resources.\nOnly booked on users can respond to tasks.", comment: "")
     }
     
-    open func stayOffDutyButtonText() -> String? {
+    open func stayOffDutyButtonText() -> String {
         return NSLocalizedString("Stay Off Duty", comment: "")
     }
     
-    open func allCallsignsButtonText() -> String? {
+    open func allCallsignsButtonText() -> String {
         return NSLocalizedString("View All Call Signs", comment: "")
     }
     
