@@ -1,5 +1,5 @@
 //
-//  EventBuilder.swift
+//  EventScreenBuilder.swift
 //  MPOLKit
 //
 //  Created by Pavel Boryseiko on 31/1/18.
@@ -7,25 +7,6 @@
 //
 
 import MPOLKit
-
-public class EventBuilder: EventBuilding {
-
-    public func createEvent(for type: EventType) -> (event: Event, displayable: EventListDisplayable) {
-        let event = Event()
-
-        // Add reports here
-        event.add(report: DefaultDateTimeReport(event: event))
-
-        let displayable = EventListDisplayable(title: "Demo",
-                                               subtitle: "Sub",
-                                               accessoryTitle: "AccessTitle",
-                                               accessorySubtitle: "Acces Sub",
-                                               icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.advancedSearch))
-        return (event: event, displayable: displayable)
-    }
-
-    public init() { }
-}
 
 public class EventScreenBuilder: EventScreenBuilding {
 
