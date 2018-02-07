@@ -11,7 +11,7 @@ import Foundation
 extension DateFormatter {
 
     /// Application should use this date formatter to format date.
-    public static let preferredDateStyle: DateFormatter = {
+    public static var preferredDateStyle: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = .autoupdatingCurrent
         formatter.setLocalizedDateFormatFromTemplate("dd/MM/yyyy")
@@ -19,7 +19,7 @@ extension DateFormatter {
     }()
 
     /// Application should use this formatter to format date and time.
-    public static let preferredDateTimeStyle: DateFormatter = {
+    public static var preferredDateTimeStyle: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = .autoupdatingCurrent
         formatter.setLocalizedDateFormatFromTemplate("dd/MM/yyyy HH:mm")
@@ -27,7 +27,7 @@ extension DateFormatter {
     }()
 
     /// Application should use this formatter to format time.
-    public static let preferredTimeStyle: DateFormatter = {
+    public static var preferredTimeStyle: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = .autoupdatingCurrent
         formatter.setLocalizedDateFormatFromTemplate("HH:mm")
