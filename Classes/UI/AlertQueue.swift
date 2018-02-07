@@ -120,9 +120,9 @@ public final class AlertQueue: NSObject {
     }
     
     /// Add a new error alert with OK button and standard Error title using UIAlertController
-    public func addSystemErrorAlert(message: String?) {
+    public func addErrorSystemAlert(message: String?) {
         let title = NSLocalizedString("Error", comment: "Alert error title")
-        addSystemSimpleAlert(title: title, message: message)
+        addSimpleSystemAlert(title: title, message: message)
     }
     
     /// Add a simple alert with OK button using UIAlertController
