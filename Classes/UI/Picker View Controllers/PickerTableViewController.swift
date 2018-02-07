@@ -279,6 +279,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
             cell.textLabel?.text       = item.title
             cell.detailTextLabel?.text = item.subtitle
             isSelected = selectedIndexes.contains(itemIndex)
+            cell.selectionStyle = .default
         } else {
             if allowsMultipleSelection {
                 if selectedIndexes.count < items.count {
