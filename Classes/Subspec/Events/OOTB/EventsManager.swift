@@ -15,13 +15,12 @@ final public class EventsManager {
         let eventsManager = EventsManager()
         eventsManager.eventBucket = ObjectBucket<Event>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
         eventsManager.displayableBucket = ObjectBucket<EventListDisplayable>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
-        eventsManager.eventBuilder = DefaultEventBuilder()
         return eventsManager
     }()
 
-    private(set) public var eventBucket: ObjectBucket<Event>?
-    private(set) public var displayableBucket: ObjectBucket<EventListDisplayable>?
-    private(set) public var eventBuilder: EventBuilding?
+    public var eventBucket: ObjectBucket<Event>?
+    public var displayableBucket: ObjectBucket<EventListDisplayable>?
+    public var eventBuilder: EventBuilding?
 
     public convenience init(eventBucket: ObjectBucket<Event>,
                             displayableBucket: ObjectBucket<EventListDisplayable>,
