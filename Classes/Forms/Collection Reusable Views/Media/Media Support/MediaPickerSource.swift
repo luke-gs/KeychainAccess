@@ -39,27 +39,22 @@ public protocol MediaPickerSource: class {
 
     /// The view controller to be presented.
     func viewController() -> UIViewController
-
-    /// The file path to which the media will be saved to
-    var filePath: URL { get }
 }
 
 
 public class AudioMediaPicker:  NSObject, MediaPickerSource, AudioRecorderControllerDelegate {
 
-    public let filePath: URL
+    private let temporaryLocation: URL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
     public let title: String
 
-    public init(title: String = NSLocalizedString("Audio", comment: ""),
-                filePath: URL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("\(UUID().uuidString).m4a")) {
+    public init(title: String = NSLocalizedString("Audio", comment: "")) {
         self.title = title
-        self.filePath = filePath
     }
 
     public var saveMedia: ((URL, MediaType) -> ())?
 
     public func viewController() -> UIViewController {
-        let audioRecorderController = AudioRecordingViewController(saveLocation: filePath)
+        let audioRecorderController = AudioRecordingViewController(saveLocation: temporaryLocation.appendingPathComponent("\(UUID().uuidString).m4a"))
         audioRecorderController.delegate = self
         let navigationController = UINavigationController(rootViewController: audioRecorderController)
         return navigationController
@@ -78,18 +73,14 @@ public class AudioMediaPicker:  NSObject, MediaPickerSource, AudioRecorderContro
 /// Draw an image using sketch
 public class SketchMediaPicker: NSObject, MediaPickerSource, SketchPickerControllerDelegate {
 
-    public let filePath: URL
+    private let temporaryLocation: URL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+
     public let title: String
 
     public var saveMedia: ((URL, MediaType) -> ())?
 
-    public init(title: String = NSLocalizedString("Sketch", comment: ""),
-                filePath: URL =  try! FileManager.default.url(for: .cachesDirectory,
-                                                              in: .userDomainMask,
-                                                              appropriateFor: nil,
-                                                              create: true).appendingPathComponent("\(UUID().uuidString).jpg")) {
+    public init(title: String = NSLocalizedString("Sketch", comment: "")) {
         self.title = title
-        self.filePath = filePath
     }
 
     public func viewController() -> UIViewController {
@@ -102,8 +93,9 @@ public class SketchMediaPicker: NSObject, MediaPickerSource, SketchPickerControl
     public func sketchPickerController(_ picker: SketchPickerController, didFinishPickingSketch sketch: UIImage) {
         if let imageRef = UIImageJPEGRepresentation(sketch, 0.5) {
             do {
-                try imageRef.write(to: filePath)
-                saveMedia?(filePath, .photo)
+                let location = temporaryLocation.appendingPathComponent("\(UUID().uuidString).jpg")
+                try imageRef.write(to: location)
+                saveMedia?(location, .photo)
             } catch {
                 print(error)
             }
@@ -120,15 +112,13 @@ public class SketchMediaPicker: NSObject, MediaPickerSource, SketchPickerControl
 /// Choose image from camera
 public class CameraMediaPicker: NSObject, MediaPickerSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
 
-    public let filePath: URL
+    private let temporaryLocation: URL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
     public let title: String
 
     public var saveMedia: ((URL, MediaType) -> ())?
 
-    public init(title: String = NSLocalizedString("Camera", comment: ""),
-                filePath: URL = try! FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("\(UUID().uuidString).jpg")) {
+    public init(title: String = NSLocalizedString("Camera", comment: "")) {
         self.title = title
-        self.filePath = filePath
     }
 
     public func viewController() -> UIViewController {
@@ -140,7 +130,6 @@ public class CameraMediaPicker: NSObject, MediaPickerSource, UIImagePickerContro
     }
 
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        var assetType: MediaType = .photo
 
         if #available(iOS 11.0, *) {
             if let url = info[UIImagePickerControllerImageURL] as? URL {
@@ -151,9 +140,9 @@ public class CameraMediaPicker: NSObject, MediaPickerSource, UIImagePickerContro
         } else {
             if let image = info[UIImagePickerControllerOriginalImage] as? UIImage, let imageRef = UIImageJPEGRepresentation(image, 0.5) {
                 do {
+                    let filePath = temporaryLocation.appendingPathComponent("\(UUID().uuidString).jpg")
                     try imageRef.write(to: filePath)
-                    assetType = .photo
-                    saveMedia?(filePath, assetType)
+                    saveMedia?(filePath, .photo)
                 } catch {
                     print(error)
                 }
@@ -171,14 +160,12 @@ public class CameraMediaPicker: NSObject, MediaPickerSource, UIImagePickerContro
 public class PhotoLibraryMediaPicker: NSObject, MediaPickerSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     public let title: String
-    public let filePath: URL
+    private let temporaryLocation: URL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
 
     public var saveMedia: ((URL, MediaType) -> ())?
 
-    public init(title: String = NSLocalizedString("Photo Library", comment: ""),
-                filePath: URL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)) {
+    public init(title: String = NSLocalizedString("Photo Library", comment: "")) {
         self.title = title
-        self.filePath = filePath
     }
 
     public func viewController() -> UIViewController {
@@ -197,7 +184,7 @@ public class PhotoLibraryMediaPicker: NSObject, MediaPickerSource, UIImagePicker
             }
         } else if let image = info[UIImagePickerControllerOriginalImage] as? UIImage, let imageRef = UIImageJPEGRepresentation(image, 0.5) {
             do {
-                let imageFilePath = filePath.appendingPathComponent("\(UUID().uuidString).jpg")
+                let imageFilePath = temporaryLocation.appendingPathComponent("\(UUID().uuidString).jpg")
                 try imageRef.write(to: imageFilePath)
                 saveMedia?(imageFilePath, .photo)
             } catch {

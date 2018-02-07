@@ -13,19 +13,13 @@ public let MediaDataSourceDidChangeNotificationName = Notification.Name(rawValue
 
 
 /// A media data source contains all the media items and provides convenience ways of querying these.
-open class MediaDataSource: ExpressibleByArrayLiteral {
+open class MediaDataSource {
 
     /// A collection of items
     open private(set) var mediaItems: [MediaPreviewable]
-    open private(set) var mediaControllers: [ObjectIdentifier: (UIViewController & MediaViewPresentable).Type] = [:]
 
-    /// Create a new data source using an array literal.
-    ///
-    /// - Parameter elements: A collection of media items
-    public required init(arrayLiteral elements: MediaPreviewable...) {
-        self.mediaItems = elements
-        registerDefaultControllers()
-    }
+    /// A registry of controllers for media items
+    open private(set) var mediaControllers: [ObjectIdentifier: (UIViewController & MediaViewPresentable).Type] = [:]
 
     /// Create a new data source.
     ///

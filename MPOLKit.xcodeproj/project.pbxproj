@@ -284,6 +284,7 @@
 		467EAFAE20193BEE00B4CCC3 /* AudioMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467EAFAD20193BEE00B4CCC3 /* AudioMedia.swift */; };
 		467EAFB020193C2700B4CCC3 /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467EAFAF20193C2700B4CCC3 /* WaveformView.swift */; };
 		467EAFB2201942B400B4CCC3 /* AudioRecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467EAFB1201942B400B4CCC3 /* AudioRecordingViewController.swift */; };
+		46884206202BB186009D0406 /* PersistantMediaDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46884205202BB186009D0406 /* PersistantMediaDatasource.swift */; };
 		469EB5811F452FAB0005CAF7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469EB5801F452FAB0005CAF7 /* LoginViewController.swift */; };
 		469EB5831F45320A0005CAF7 /* LoginHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */; };
 		46A60F5A1FCFAF0D00EE32CA /* Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A60F591FCFAF0D00EE32CA /* Evaluator.swift */; };
@@ -989,6 +990,7 @@
 		467EAFAD20193BEE00B4CCC3 /* AudioMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioMedia.swift; sourceTree = "<group>"; };
 		467EAFAF20193C2700B4CCC3 /* WaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformView.swift; sourceTree = "<group>"; };
 		467EAFB1201942B400B4CCC3 /* AudioRecordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecordingViewController.swift; sourceTree = "<group>"; };
+		46884205202BB186009D0406 /* PersistantMediaDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantMediaDatasource.swift; sourceTree = "<group>"; };
 		469EB5801F452FAB0005CAF7 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHeaderView.swift; sourceTree = "<group>"; };
 		46A60F591FCFAF0D00EE32CA /* Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Evaluator.swift; sourceTree = "<group>"; };
@@ -3335,6 +3337,7 @@
 				EA32A85B1FBD285A00CC37FB /* MediaPickerSource.swift */,
 				EA32A85D1FBD564200CC37FB /* MediaDetailViewController.swift */,
 				46CF4F8E20281B5C00DD040A /* MediaAssetCache.swift */,
+				46884205202BB186009D0406 /* PersistantMediaDatasource.swift */,
 			);
 			path = "Media Support";
 			sourceTree = "<group>";
@@ -4323,6 +4326,7 @@
 				4492C04C1FD8C917009D26BD /* SelectStoppedEntityViewModel.swift in Sources */,
 				BC9C7E341F0DED6600DFFE83 /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
 				460B5BC72007187600AB7D12 /* SketchEraser.swift in Sources */,
+				46884206202BB186009D0406 /* PersistantMediaDatasource.swift in Sources */,
 				4492C0501FD8C92E009D26BD /* TrafficStopRequest.swift in Sources */,
 				969959691FC2495000CB51EB /* CADStateManager.swift in Sources */,
 				96F7727F201FFB35000FE0D0 /* CreateActivityLogItemViewModel.swift in Sources */,

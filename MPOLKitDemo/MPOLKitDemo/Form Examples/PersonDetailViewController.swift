@@ -28,7 +28,7 @@ class PersonDetailViewController: FormBuilderViewController {
         let audioMedia = AudioMedia(asset: Media(url: fp, title: "Test", comments: "Comments", isSensitive: false))
         let videoMedia = VideoMedia(asset: Media(url: vp, title: "Test", comments: "Comments", isSensitive: false))
 
-        let dataSource: MediaDataSource = [
+        let datasource = MediaDataSource(mediaItems: [
             photoMedia,
             photoMedia,
             photoMedia,
@@ -36,16 +36,15 @@ class PersonDetailViewController: FormBuilderViewController {
             audioMedia,
             audioMedia,
             videoMedia,
-        ]
-
-        let mediaItem = MediaFormItem().dataSource(dataSource)
+        ])
+        let mediaItem = MediaFormItem().dataSource(datasource)
 
         if let viewController = UIApplication.shared.keyWindow?.rootViewController {
             mediaItem.previewingController(viewController)
         }
 
         builder += HeaderFormItem(text: "PHOTOS").actionButton(title: "ADD", handler: { button in
-            if let viewController = mediaItem.delegate.viewControllerForMediaDataSource(dataSource) {
+            if let viewController = mediaItem.delegate.viewControllerForMediaDataSource(datasource) {
                 self.present(viewController, animated: true, completion: nil)
             }
         })
