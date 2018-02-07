@@ -61,11 +61,6 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         MPLCodingNotSupported()
     }
 
-    open override func loadView() {
-        super.loadView()
-
-    }
-
     // MARK: - View lifecycle
 
     override open func viewWillAppear(_ animated: Bool) {
