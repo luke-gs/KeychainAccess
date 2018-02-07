@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		127801F1202AAF09007D0BBB /* EventViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127801F0202AAF09007D0BBB /* EventViewModels.swift */; };
 		12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */; };
 		12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */; };
+		12EB809B202AAC2100405F5C /* EventBuilders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EB809A202AAC2100405F5C /* EventBuilders.swift */; };
 		1A27C6871F70747A00A58635 /* LocationMapSummarySearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A27C6861F70747A00A58635 /* LocationMapSummarySearchResultViewModel.swift */; };
 		397B77011E52CEDA00696677 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397B77001E52CEDA00696677 /* UserNotifications.framework */; };
 		445A8A381F667A56005ABEB8 /* PersonSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */; };
@@ -46,8 +48,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		127801F0202AAF09007D0BBB /* EventViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModels.swift; sourceTree = "<group>"; };
 		12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchDataSource.swift; sourceTree = "<group>"; };
 		12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchDataSource.swift; sourceTree = "<group>"; };
+		12EB809A202AAC2100405F5C /* EventBuilders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventBuilders.swift; sourceTree = "<group>"; };
 		1A27C6861F70747A00A58635 /* LocationMapSummarySearchResultViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapSummarySearchResultViewModel.swift; sourceTree = "<group>"; };
 		397B76FF1E52C23600696677 /* MPOL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MPOL.entitlements; sourceTree = "<group>"; };
 		397B77001E52CEDA00696677 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -62,7 +66,6 @@
 		98286F47FF0E675D611C2782 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		BC4E81101EBEE38400188181 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		BC8B26F51EDC08460022B0AD /* EventsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
 		BCD4EA891E515ACE000B993D /* Search.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Search.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCD4EA931E515ACE000B993D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -101,6 +104,15 @@
 				12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		12EB8099202AAC0000405F5C /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				12EB809A202AAC2100405F5C /* EventBuilders.swift */,
+				127801F0202AAF09007D0BBB /* EventViewModels.swift */,
+			);
+			path = Events;
 			sourceTree = "<group>";
 		};
 		3C534FA68E46E1F1622CC13C /* Pods */ = {
@@ -150,6 +162,7 @@
 		BCD4EA8B1E515ACE000B993D /* MPOL */ = {
 			isa = PBXGroup;
 			children = (
+				12EB8099202AAC0000405F5C /* Events */,
 				EA3C89041F32E31500F38461 /* Resources */,
 				397B76FF1E52C23600696677 /* MPOL.entitlements */,
 				BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */,
@@ -390,8 +403,10 @@
 				BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */,
 				1A27C6871F70747A00A58635 /* LocationMapSummarySearchResultViewModel.swift in Sources */,
 				EAAEB34A1F664705002D6C65 /* EntityPresenter.swift in Sources */,
+				127801F1202AAF09007D0BBB /* EventViewModels.swift in Sources */,
 				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
 				EA7194DD1FC5098200A2980B /* EventPresenter.swift in Sources */,
+				12EB809B202AAC2100405F5C /* EventBuilders.swift in Sources */,
 				12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */,
 				EA2189F61F60F64A0057048E /* LandingPresenter.swift in Sources */,
 				12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */,
