@@ -176,13 +176,13 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         mapControlView.translatesAutoresizingMaskIntoConstraints = false
         radiusButton.translatesAutoresizingMaskIntoConstraints = false
 
-        let views = ["lb": locateButton, "ob": optionButton, "rb": radiusButton, "mv": mapControlView, "sp": separator]
-        let metrics = ["size": 48.0, "padding": 16.0, "sw": (1.0 / traitCollection.currentDisplayScale)]
+        let views = ["locateButton": locateButton, "optionButton": optionButton, "radiusButton": radiusButton, "mapControl": mapControlView, "separator": separator]
+        let metrics = ["size": 48.0, "padding": 16.0, "scale": (1.0 / traitCollection.currentDisplayScale)]
 
-        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[lb(size,==ob,==rb)][sp(sw)][ob]|", options: [.alignAllLeading, .alignAllTrailing], metrics: metrics, views: views)
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|[lb(size)]|", options: [], metrics: metrics, views: views)
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[mv]-padding-[rb(size)]|", options: [.alignAllLeading, .alignAllTrailing], metrics: metrics, views: views)
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|[rb(size)]|", options: [], metrics: metrics, views: views)
+        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[locateButton(size,==optionButton,==radiusButton)][separator(scale)][optionButton]|", options: [.alignAllLeading, .alignAllTrailing], metrics: metrics, views: views)
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|[locateButton(size)]|", options: [], metrics: metrics, views: views)
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[mapControl]-padding-[radiusButton(size)]|", options: [.alignAllLeading, .alignAllTrailing], metrics: metrics, views: views)
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|[radiusButton(size)]|", options: [], metrics: metrics, views: views)
 
         NSLayoutConstraint.activate(constraints)
 
