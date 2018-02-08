@@ -11,9 +11,22 @@ import UIKit
 open class EventsListViewController: FormBuilderViewController {
 
     let viewModel: EventListViewModelType
+    
+    let currentEventIcon: UIImage
 
     required public init(viewModel: EventListViewModelType) {
         self.viewModel = viewModel
+        let size = CGSize(width: 48, height: 48)
+        let circle = UIImage.circle(diameter: size.width, color: .orangeRed)
+        let icon = AssetManager.shared.image(forKey: .event)!
+        
+        // compose icon and coloured circle
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        circle.draw(at: CGPoint(x: 0, y: 0))
+        icon.draw(at: CGPoint(x: (size.width - icon.size.width) / 2, y: (size.height - icon.size.height) / 2))
+        currentEventIcon = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
         super.init()
         title = "Events"
         tabBarItem.image = AssetManager.shared.image(forKey: .tabBarEvents)
@@ -40,6 +53,8 @@ open class EventsListViewController: FormBuilderViewController {
     open override func construct(builder: FormBuilder) {
         builder.title = "Events"
         
+        builder.forceLinearLayout = true
+        
         let currentEvents = viewModel.eventsList ?? []
         
         let currentCount = currentEvents.count
@@ -49,10 +64,10 @@ open class EventsListViewController: FormBuilderViewController {
             return
         }
         
-        builder += HeaderFormItem(text: "\(currentCount) CURRENT EVENT\(currentCount == 1 ? "S" : "")")
+        builder += HeaderFormItem(text: "\(currentCount) CURRENT EVENT\(currentCount == 1 ? "" : "S")")
         
         for _ in currentEvents {
-            builder += TextFieldFormItem(title: "Dummy text representing a current event")
+            builder += SubtitleFormItem(title: "No incident selected", subtitle: "", image: currentEventIcon)
         }
     }
 
