@@ -162,7 +162,7 @@ open class IncidentAnnotationView: AutoLayoutAnnotationView {
     open override func layoutSubviews() {
         super.layoutSubviews()
         // Change the center to be the arrow point by moving left by half the width minus the middle of the arrow, then up by half the height
-        centerOffset = CGPoint(x: -((frame.width / 2) - LayoutConstants.arrowWidth - (LayoutConstants.arrowWidth / 2)), y: -(frame.height / 2))
+        centerOffset = CGPoint(x: ((frame.width / 2) - LayoutConstants.arrowLeading - (LayoutConstants.arrowWidth / 2)), y: -(frame.height / 2))
     }
 }
 
