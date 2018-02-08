@@ -66,6 +66,7 @@ open class CADStateManager: NSObject {
                 }
             }
             NotificationCenter.default.post(name: .CADBookOnChanged, object: self)
+            addScheduledNotifications()
         }
     }
 
@@ -260,6 +261,10 @@ open class CADStateManager: NSObject {
             // Get sync details
             return self.syncDetails()
         }.then { _ -> Void in
+            // Clear any outstanding shift ending notifications if we aren't booked on
+            if self.lastBookOn == nil {
+                CADNotificationManager.shared.removeLocalNotification(CADNotificationManager.Identifiers.shiftEnding)
+            }
         }
     }
 
@@ -319,4 +324,21 @@ open class CADStateManager: NSObject {
         }
         return officers
     }
+    
+    // MARK: - Notifications
+    
+    /// Adds scheduled local notification and clears any conflicting ones.
+    open func addScheduledNotifications() {
+        CADNotificationManager.shared.removeLocalNotification(CADNotificationManager.Identifiers.shiftEnding)
+        if let endTime = lastBookOn?.shiftEnd {
+            CADNotificationManager.shared.postLocalNotification(withTitle: NSLocalizedString("Shift Ending", comment: ""),
+                              body: NSLocalizedString("The shift time for your call sign has elapsed. Please terminate your shift or extend the end time.",
+                                                      comment: ""),
+                              at: endTime,
+                              identifier: CADNotificationManager.Identifiers.shiftEnding)
+        }
+
+    }
+    
+
 }
