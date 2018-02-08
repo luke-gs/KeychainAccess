@@ -16,6 +16,18 @@ public class MediaSlideShowViewController: UIViewController, UIPageViewControlle
 
     public var allowEditing: Bool = true
 
+    private var isFullScreen: Bool = false
+
+    // Detects whether the status bar appearance should be based on `UIApplication` or `UIViewController`.
+    private lazy var isUIViewControllerBasedStatusBarAppearance: Bool = {
+        let infoPlist = Bundle.main.infoDictionary
+        if let isViewControllerBased = infoPlist?["UIViewControllerBasedStatusBarAppearance"] as? Bool {
+            return isViewControllerBased
+        }
+        // If not declared, the default value is `true`
+        return true
+    }()
+
     public var overlayView: MediaOverlayViewable = MediaSlideShowOverlayView(frame: .zero) {
         willSet {
             overlayView.view().removeFromSuperview()
@@ -140,6 +152,14 @@ public class MediaSlideShowViewController: UIViewController, UIPageViewControlle
         }
     }
 
+    public override var prefersStatusBarHidden: Bool {
+        return isFullScreen
+    }
+
+    public override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        return .slide
+    }
+
     // MARK: - Photo management
 
     public func handleDeleteMediaButtonTapped(_ item: UIBarButtonItem) {
@@ -179,12 +199,23 @@ public class MediaSlideShowViewController: UIViewController, UIPageViewControlle
         }
     }
 
+    private func setFullScreen(_ isFullScreen: Bool, animated: Bool = true) {
+        self.isFullScreen = isFullScreen
+        overlayView.setHidden(isFullScreen, animated: animated)
+        if isUIViewControllerBasedStatusBarAppearance {
+            setNeedsStatusBarAppearanceUpdate()
+        } else {
+            let animation: UIStatusBarAnimation = animated ? .slide : .none
+            UIApplication.shared.setStatusBarHidden(isFullScreen, with: animation)
+        }
+    }
+
     // MARK: - Gesture Recognizers
 
     public weak var mediaOverviewViewController: MediaGalleryViewController?
 
     @objc private func handleTapGestureRecognizer(_ gestureRecognizer: UITapGestureRecognizer) {
-        overlayView.setHidden(!overlayView.view().isHidden, animated: true)
+        setFullScreen(!isFullScreen, animated: true)
     }
 
 }
