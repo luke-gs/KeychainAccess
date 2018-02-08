@@ -155,13 +155,17 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
 
         if animated {
             alpha = hidden ? 1.0 : 0.0
-            isHidden = hidden
+
+            if isHidden == true && hidden == false {
+                isHidden = false
+            }
+
             galleryViewController?.view.backgroundColor = hidden ? .white : .black
 
             UIView.animate(withDuration: 0.25, delay: 0.0, options: [.allowAnimatedContent, .allowUserInteraction], animations: {
                 self.alpha = hidden ? 0.0 : 1.0
                 self.galleryViewController?.view.backgroundColor = finalColor
-                self.galleryViewController?.navigationController?.navigationBar.isHidden = hidden
+
             }, completion: { result in
                 self.alpha = 1.0
                 self.isHidden = hidden
@@ -171,6 +175,8 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
             isHidden = hidden
             galleryViewController?.view.backgroundColor = finalColor
         }
+
+        galleryViewController?.navigationController?.setNavigationBarHidden(hidden, animated: animated)
     }
 
     private func updateDetailsWithMedia(_ media: MediaAsset) {
