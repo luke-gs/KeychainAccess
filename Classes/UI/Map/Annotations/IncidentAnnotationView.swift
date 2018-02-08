@@ -60,7 +60,7 @@ open class IncidentAnnotationView: AutoLayoutAnnotationView {
     public func configure(withAnnotation annotation: MKAnnotation, priorityText: String, priorityTextColor: UIColor, priorityFillColor: UIColor, priorityBorderColor: UIColor, usesDarkBackground: Bool) {
         self.annotation = annotation
         
-        let effect = UIBlurEffect(style: usesDarkBackground ? .dark : .light)
+        let effect = UIBlurEffect(style: usesDarkBackground ? .dark : .extraLight)
         let titleColor = usesDarkBackground ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.2, green: 0.2039215686, blue: 0.2274509804, alpha: 1)
         
         bubbleView.effect = effect
@@ -83,9 +83,9 @@ open class IncidentAnnotationView: AutoLayoutAnnotationView {
     private func setupViews() {
         
         backgroundView = UIView()
-        backgroundView.backgroundColor = UIColor.white.withAlphaComponent(0.8)
+        backgroundView.backgroundColor = .clear//UIColor.white.withAlphaComponent(0.8)
         backgroundView.layer.shadowOffset = CGSize(width: 0, height: 2)
-        backgroundView.layer.shadowColor = UIColor.black.withAlphaComponent(0.3).cgColor
+        backgroundView.layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
         backgroundView.layer.shadowOpacity = 1
         backgroundView.layer.shadowRadius = 4
         backgroundView.layer.cornerRadius = 4
@@ -163,6 +163,8 @@ open class IncidentAnnotationView: AutoLayoutAnnotationView {
         super.layoutSubviews()
         // Change the center to be the arrow point by moving left by half the width minus the middle of the arrow, then up by half the height
         centerOffset = CGPoint(x: ((frame.width / 2) - LayoutConstants.arrowLeading - (LayoutConstants.arrowWidth / 2)), y: -(frame.height / 2))
+        backgroundView.layer.shadowPath = CGPath(rect: CGRect.init(x: 0, y: 0, width: bounds.width, height: LayoutConstants.height - LayoutConstants.arrowHeight), transform: nil)
+
     }
 }
 
