@@ -14,14 +14,47 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
     private var viewModel: BookOnDetailsFormViewModel
 
+    open var buttonsView: DialogActionButtonsView!
+
     // MARK: - Initializers
 
     public init(viewModel: BookOnDetailsFormViewModel) {
         self.viewModel = viewModel
         super.init()
 
+        createButtonViewIfNecessary()
+
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""), style: .plain, target: self, action: #selector(cancelFormTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: .done, target: self, action: #selector(submitFormTapped))
+    }
+
+    open func createButtonViewIfNecessary() {
+        // Only show if editing current book on
+        guard viewModel.isEditing else { return }
+
+        buttonsView = DialogActionButtonsView(actions: [
+            DialogAction(title: viewModel.terminateButtonText(), handler: { [weak self] (action) in
+                self?.viewModel.terminateShift()
+            })
+        ])
+        buttonsView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(buttonsView)
+
+        collectionView?.translatesAutoresizingMaskIntoConstraints = false
+
+        // Make space for button view and position it below form
+        if let collectionView = collectionView {
+            NSLayoutConstraint.activate([
+                collectionView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
+                collectionView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
+                collectionView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
+                collectionView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor, constant: -DialogActionButtonsView.LayoutConstants.defaultHeight).withPriority(.almostRequired),
+
+                buttonsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                buttonsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                buttonsView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
+            ])
+        }
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
