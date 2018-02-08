@@ -29,6 +29,10 @@ public extension ManifestCollection {
 
 open class CADStateManager: NSObject {
 
+    public struct Notifications {
+        public static let shiftEnding = "CADShiftEndingNotification"
+    }
+    
     /// The singleton state monitor.
     open static let shared = CADStateManager()
 
@@ -263,7 +267,7 @@ open class CADStateManager: NSObject {
         }.then { _ -> Void in
             // Clear any outstanding shift ending notifications if we aren't booked on
             if self.lastBookOn == nil {
-                CADNotificationManager.shared.removeLocalNotification(CADNotificationManager.Identifiers.shiftEnding)
+                NotificationManager.shared.removeLocalNotification(CADStateManager.Notifications.shiftEnding)
             }
         }
     }
@@ -329,13 +333,13 @@ open class CADStateManager: NSObject {
     
     /// Adds scheduled local notification and clears any conflicting ones.
     open func addScheduledNotifications() {
-        CADNotificationManager.shared.removeLocalNotification(CADNotificationManager.Identifiers.shiftEnding)
+        NotificationManager.shared.removeLocalNotification(CADStateManager.Notifications.shiftEnding)
         if let endTime = lastBookOn?.shiftEnd {
-            CADNotificationManager.shared.postLocalNotification(withTitle: NSLocalizedString("Shift Ending", comment: ""),
+            NotificationManager.shared.postLocalNotification(withTitle: NSLocalizedString("Shift Ending", comment: ""),
                               body: NSLocalizedString("The shift time for your call sign has elapsed. Please terminate your shift or extend the end time.",
                                                       comment: ""),
                               at: endTime,
-                              identifier: CADNotificationManager.Identifiers.shiftEnding)
+                              identifier: CADStateManager.Notifications.shiftEnding)
         }
 
     }

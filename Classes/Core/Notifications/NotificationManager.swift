@@ -1,5 +1,5 @@
 //
-//  CADNotificationManager.swift
+//  NotificationManager.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 9/2/18.
@@ -8,17 +8,14 @@
 
 import UIKit
 import UserNotifications
+import PromiseKit
 
-/// Manages notifications for CAD
-open class CADNotificationManager: NSObject {
+/// Handles receiving and sending notifications
+open class NotificationManager: NSObject {
     /// Singleton
-    public static let shared = CADNotificationManager()
+    public static let shared = NotificationManager()
 
     let notificationCenter = UNUserNotificationCenter.current()
-
-    public struct Identifiers {
-        public static let shiftEnding = "CADShiftEndingNotification"
-    }
     
     // MARK: - Setup
     
@@ -28,21 +25,25 @@ open class CADNotificationManager: NSObject {
     }
     
     /// Checks notification authorization status and requests if not authorized
-    open func requestAuthorizationIfNeeded(completionHandler: ((_: Bool) -> Void)? = nil) {
+    open func requestAuthorizationIfNeeded() -> Promise<Bool> {
+        let (promise, fulfill, _) = Promise<Bool>.pending()
+        
         // Get settings
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             // If not authorized
             if settings.authorizationStatus == .notDetermined {
                 // Request alerts and sounds
                 UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (success, error) in
-                    completionHandler?(success)
+                    fulfill(true)
                 }
             } else if settings.authorizationStatus == .denied {
-                completionHandler?(false)
+                fulfill(false)
             } else if settings.authorizationStatus == .authorized {
-                completionHandler?(true)
+                fulfill(true)
             }
         }
+        
+        return promise
     }
     
     /// Posts a local notification
@@ -58,17 +59,10 @@ open class CADNotificationManager: NSObject {
         }
         
         let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-        notificationCenter.add(request) { error in
-            if let error = error {
-                print("Failed to add notification with error: \(error.localizedDescription)")
-            } else {
-                print("Added notification with identifier \(identifier)")
-            }
-        }
+        notificationCenter.add(request)
     }
     
     open func removeLocalNotification(_ identifier: String) {
-        print("Removing notification with identifier \(identifier)")
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [identifier])
         notificationCenter.removeDeliveredNotifications(withIdentifiers: [identifier])
     }
@@ -80,7 +74,7 @@ open class CADNotificationManager: NSObject {
 
 // MARK: - UNUserNotificationCenterDelegate
 
-extension CADNotificationManager: UNUserNotificationCenterDelegate {
+extension NotificationManager: UNUserNotificationCenterDelegate {
     
     // Notification received while app in foreground
     public func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
