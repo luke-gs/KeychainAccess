@@ -49,6 +49,7 @@ open class TasksMapViewController: MapViewController {
         
         viewModel.loadTasks()
         mapView.addAnnotations(viewModel.filteredAnnotations)
+        addedFirstAnnotations = true
     }
     
     /// Shows the layer filter popover

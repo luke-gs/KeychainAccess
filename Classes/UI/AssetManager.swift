@@ -166,6 +166,7 @@ extension AssetManager {
         public static let duress         = ImageKey("iconDuress")
         public static let route          = ImageKey("iconGeneralRoute")
         public static let streetView     = ImageKey("iconGeneralStreetView")
+        public static let clearText      = ImageKey("iconClearText")
 
         public static let generalLocation = ImageKey("iconGeneralLocation")
         public static let otherPatrolArea = ImageKey("iconOtherPatrolArea")
@@ -197,13 +198,14 @@ extension AssetManager {
         public static let entityPlaceholder = ImageKey("EntityThumbnailBackground")
 
         // Resource
-        public static let resourceGeneral   = ImageKey("iconResourceGeneral")
-        public static let resourceCar       = ImageKey("iconResourceCar")
-        public static let resourceWater     = ImageKey("iconResourceWater")
-        public static let resourceBicycle   = ImageKey("iconResourceBicycle")
-        public static let resourceAir       = ImageKey("iconResourceAir")
-        public static let resourceSegway    = ImageKey("iconResourceSegway")
-        public static let resourceDog       = ImageKey("iconResourceDog") // woof woof
+        public static let resourceGeneral       = ImageKey("iconResourceGeneral")
+        public static let resourceCar           = ImageKey("iconResourceCar")
+        public static let resourceWater         = ImageKey("iconResourceWater")
+        public static let resourceBicycle       = ImageKey("iconResourceBicycle")
+        public static let resourceHelicopter    = ImageKey("iconResourceHelicopter")
+        public static let resourceBeat          = ImageKey("iconResourceBeat")
+        public static let resourceDog           = ImageKey("iconResourceDog") // woof woof
+        public static let resourceSegway        = ImageKey("iconResourceSegway")
 
         // Sketch
         public static let penStub = ImageKey("penStub")
