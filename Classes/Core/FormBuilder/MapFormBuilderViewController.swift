@@ -6,15 +6,15 @@
 import Foundation
 import MapKit
 
-/// A `FormCollectionViewController` subclass which allows to an MKMapView to be used
+/// A `MapFormBuilderViewController` subclass which allows to an MKMapView to be used
 /// with collection views in MPOL Apps.
 ///
-/// `MapCollectionViewController` uses an optional layout class,
-/// `MapCollectionViewLayout`, to decide how it will layout the map in relation to its
+/// `MapFormBuilderViewController` uses an optional layout class,
+/// `MapFormBuilderViewLayout`, to decide how it will layout the map in relation to its
 /// collection view. This gives great flexibility for subclasses to either use a stock
 /// layout, or provide their own.
 ///
-/// By default, `MapCollectionViewController` doesn't insert the map into the view
+/// By default, `MapFormBuilderViewController` doesn't insert the map into the view
 /// hierarchy. This allows layouts to place the map where required, or subclasses
 /// can specify no layout, and become responsible for inserting the map into the
 /// view hierarchy.
@@ -136,10 +136,10 @@ open class MapFormBuilderViewController: FormBuilderViewController {
 }
 
 
-/// An abstract base class for laying out the views of a `MapCollectionViewController`
+/// An abstract base class for laying out the views of a `MapFormBuilderViewController`
 /// instance.
 ///
-/// `MapCollectionViewLayout` gets callbacks during the view lifecycle and scrolling
+/// `MapFormBuilderViewLayout` gets callbacks during the view lifecycle and scrolling
 /// interaction of its parent controller, and provides the opportunity for customizing
 /// the behaviour with these callbacks.
 open class MapFormBuilderViewLayout: NSObject {
