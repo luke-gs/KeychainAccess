@@ -51,9 +51,14 @@ final public class EventsManager {
     public func remove(event: Event) {
         eventBucket?.remove(event)
     }
+    
+    public func remove(for id: UUID) {
+        eventBucket?.remove(event(for: id))
+//        displayableBucket?.remove(<#T##object: EventListDisplayable##EventListDisplayable#>)
+    }
 
     //utility
-    public func event(for id: String) -> Event {
+    public func event(for id: UUID) -> Event {
         //TODO: Attempt to fetch from event bucket
         //eventBucket.object(for: id)
         return Event()

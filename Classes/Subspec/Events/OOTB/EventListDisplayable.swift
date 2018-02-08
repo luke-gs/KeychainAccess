@@ -18,10 +18,10 @@ import Cache
 open class EventListDisplayable: Codable {
 
     /// A unique ID of the event metadata
-    open var id: String = UUID().uuidString
+    open var id: UUID = UUID()
 
     /// A unique ID of the event metadata
-    open var eventId: String = UUID().uuidString
+    open var eventId: UUID = UUID()
 
     /// The icon to display on the left of the cell
     open var icon: ImageWrapper?
