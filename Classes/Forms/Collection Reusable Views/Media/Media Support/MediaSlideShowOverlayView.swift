@@ -48,6 +48,8 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
 
     private let mainItemInsets = UIEdgeInsets(top: 0, left: 16.0, bottom: 0, right: 16.0)
 
+    private var hidingViewConstraint: NSLayoutConstraint?
+
     public override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -94,6 +96,8 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
         titleBackgroundView.translatesAutoresizingMaskIntoConstraints = false
         textStackView.translatesAutoresizingMaskIntoConstraints = false
 
+        hidingViewConstraint = titleBackgroundView.topAnchor.constraint(equalTo: bottomAnchor)
+
         NSLayoutConstraint.activate([
             titleBackgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
             titleBackgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -106,7 +110,7 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
 
             textStackView.centerXAnchor.constraint(equalTo: titleBackgroundView.centerXAnchor),
 
-            toolbar.bottomAnchor.constraint(equalTo: bottomAnchor),
+            toolbar.bottomAnchor.constraint(equalTo: bottomAnchor).withPriority(.defaultLow),
             toolbar.leadingAnchor.constraint(equalTo: leadingAnchor),
             toolbar.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
@@ -153,9 +157,11 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
 
         let finalColor: UIColor = hidden ? .black : .white
 
-        if animated {
-            alpha = hidden ? 1.0 : 0.0
+        hidingViewConstraint?.isActive = hidden
 
+        if animated {
+
+            // Unhide first so the view can be animated in.
             if isHidden == true && hidden == false {
                 isHidden = false
             }
@@ -163,11 +169,10 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
             galleryViewController?.view.backgroundColor = hidden ? .white : .black
 
             UIView.animate(withDuration: 0.25, delay: 0.0, options: [.allowAnimatedContent, .allowUserInteraction], animations: {
-                self.alpha = hidden ? 0.0 : 1.0
+                self.layoutIfNeeded()
                 self.galleryViewController?.view.backgroundColor = finalColor
 
             }, completion: { result in
-                self.alpha = 1.0
                 self.isHidden = hidden
                 self.galleryViewController?.view.backgroundColor = finalColor
             })
