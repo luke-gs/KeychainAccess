@@ -44,12 +44,9 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
 
     private let compactItemWidth: CGFloat = 30.0
 
-    private let textPadding: CGFloat = 24
+    private let textPadding: CGFloat = 12
 
     private let mainItemInsets = UIEdgeInsets(top: 0, left: 16.0, bottom: 0, right: 16.0)
-
-    private let tabletLandscapeWidth: CGFloat = max(UIScreen.main.bounds.width, UIScreen.main.bounds.height) * 0.8
-    private lazy var constraintTextAreaWidth = textStackView.widthAnchor.constraint(lessThanOrEqualToConstant: tabletLandscapeWidth)
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -102,21 +99,17 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
             titleBackgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
             titleBackgroundView.bottomAnchor.constraint(equalTo: toolbar.topAnchor),
 
-            textStackView.leadingAnchor.constraint(equalTo: titleBackgroundView.leadingAnchor, constant: textPadding).withPriority(.almostRequired),
-            textStackView.trailingAnchor.constraint(equalTo: titleBackgroundView.trailingAnchor, constant: -textPadding).withPriority(.almostRequired),
-            textStackView.centerXAnchor.constraint(equalTo: titleBackgroundView.centerXAnchor),
-            textStackView.topAnchor.constraint(equalTo: titleBackgroundView.topAnchor, constant: textPadding),
-            textStackView.bottomAnchor.constraint(equalTo: titleBackgroundView.bottomAnchor, constant: -textPadding),
+            textStackView.leadingAnchor.constraint(equalTo: titleBackgroundView.readableContentGuide.leadingAnchor, constant: textPadding).withPriority(.almostRequired),
+            textStackView.trailingAnchor.constraint(equalTo: readableContentGuide.trailingAnchor).withPriority(.almostRequired),
+            textStackView.topAnchor.constraint(equalTo: titleBackgroundView.readableContentGuide.topAnchor, constant: textPadding),
+            textStackView.bottomAnchor.constraint(equalTo: titleBackgroundView.readableContentGuide.bottomAnchor, constant: -textPadding),
 
+            textStackView.centerXAnchor.constraint(equalTo: titleBackgroundView.centerXAnchor),
 
             toolbar.bottomAnchor.constraint(equalTo: bottomAnchor),
             toolbar.leadingAnchor.constraint(equalTo: leadingAnchor),
             toolbar.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
-
-        if UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad {
-            constraintTextAreaWidth.isActive = true
-        }
     }
 
     public required init?(coder aDecoder: NSCoder) {
