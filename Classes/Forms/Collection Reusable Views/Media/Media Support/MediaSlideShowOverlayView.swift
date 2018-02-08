@@ -36,11 +36,11 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
     public let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 
     private let titleLabel = UILabel()
-    private let commentsLabel = UILabel()
+    private let commentLabel = UILabel()
 
-    private let titleBackgroundView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+    private let captionsBackgroundView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
 
-    private lazy var textStackView = UIStackView(arrangedSubviews: [titleLabel, commentsLabel])
+    private lazy var textStackView = UIStackView(arrangedSubviews: [titleLabel, commentLabel])
 
     private let compactItemWidth: CGFloat = 30.0
 
@@ -73,42 +73,42 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         toolbar.addSubview(collectionView)
 
-        titleBackgroundView.clipsToBounds = true
-        titleBackgroundView.alpha = 0.75
-        addSubview(titleBackgroundView)
+        captionsBackgroundView.clipsToBounds = true
+        captionsBackgroundView.alpha = 0.75
+        addSubview(captionsBackgroundView)
 
         titleLabel.textColor = .white
         titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 1
 
-        commentsLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        commentsLabel.font = UIFont.preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
-        commentsLabel.textAlignment = .center
-        commentsLabel.numberOfLines = 4
+        commentLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        commentLabel.font = UIFont.preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+        commentLabel.textAlignment = .center
+        commentLabel.numberOfLines = 4
 
         textStackView.axis = .vertical
-        textStackView.alignment = .center
+        textStackView.alignment = .fill
         textStackView.distribution = .fill
         textStackView.spacing = textPadding
         addSubview(textStackView)
 
-        titleBackgroundView.translatesAutoresizingMaskIntoConstraints = false
+        captionsBackgroundView.translatesAutoresizingMaskIntoConstraints = false
         textStackView.translatesAutoresizingMaskIntoConstraints = false
 
-        hidingViewConstraint = titleBackgroundView.topAnchor.constraint(equalTo: bottomAnchor)
+        hidingViewConstraint = captionsBackgroundView.topAnchor.constraint(equalTo: bottomAnchor)
 
         NSLayoutConstraint.activate([
-            titleBackgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            titleBackgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            titleBackgroundView.bottomAnchor.constraint(equalTo: toolbar.topAnchor),
+            captionsBackgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            captionsBackgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            captionsBackgroundView.bottomAnchor.constraint(equalTo: toolbar.topAnchor),
 
-            textStackView.leadingAnchor.constraint(equalTo: titleBackgroundView.readableContentGuide.leadingAnchor, constant: textPadding).withPriority(.almostRequired),
+            textStackView.leadingAnchor.constraint(equalTo: captionsBackgroundView.readableContentGuide.leadingAnchor, constant: textPadding).withPriority(.almostRequired),
             textStackView.trailingAnchor.constraint(equalTo: readableContentGuide.trailingAnchor).withPriority(.almostRequired),
-            textStackView.topAnchor.constraint(equalTo: titleBackgroundView.readableContentGuide.topAnchor, constant: textPadding),
-            textStackView.bottomAnchor.constraint(equalTo: titleBackgroundView.readableContentGuide.bottomAnchor, constant: -textPadding),
+            textStackView.topAnchor.constraint(equalTo: captionsBackgroundView.readableContentGuide.topAnchor, constant: textPadding),
+            textStackView.bottomAnchor.constraint(equalTo: captionsBackgroundView.readableContentGuide.bottomAnchor, constant: -textPadding),
 
-            textStackView.centerXAnchor.constraint(equalTo: titleBackgroundView.centerXAnchor),
+            textStackView.centerXAnchor.constraint(equalTo: captionsBackgroundView.centerXAnchor),
 
             toolbar.bottomAnchor.constraint(equalTo: bottomAnchor).withPriority(.defaultLow),
             toolbar.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -122,9 +122,7 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
 
     override public func updateConstraints() {
         super.updateConstraints()
-        titleLabel.isHidden = titleLabel.text?.isEmpty ?? true
-        commentsLabel.isHidden = commentsLabel.text?.isEmpty ?? true
-        titleBackgroundView.isHidden = (titleLabel.text?.isEmpty ?? true) && (commentsLabel.text?.isEmpty ?? true)
+
     }
 
     open override func layoutSubviews() {
@@ -189,9 +187,11 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
 
         galleryViewController?.navigationItem.title = "Asset \(index + 1) of \(dataSource.numberOfMediaItems())"
         titleLabel.text = media.title
-        commentsLabel.text = media.comments
+        commentLabel.text = media.comments
 
-        setNeedsUpdateConstraints()
+        titleLabel.isHidden = titleLabel.text?.isEmpty ?? true
+        commentLabel.isHidden = commentLabel.text?.isEmpty ?? true
+        captionsBackgroundView.isHidden = titleLabel.isHidden && commentLabel.isHidden
     }
 
     public func populateWithMedia(_ media: MediaAsset) {
