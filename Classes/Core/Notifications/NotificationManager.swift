@@ -13,7 +13,7 @@ import PromiseKit
 /// Handles receiving and sending notifications
 open class NotificationManager: NSObject {
     
-    public enum Error: Error {
+    public enum NotificationError: Error {
         case userRejected
         case alreadyRejected
     }
@@ -42,15 +42,15 @@ open class NotificationManager: NSObject {
                 // Request alerts and sounds
                 UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (success, error) in
                     if success {
-                        fulfill()
+                        fulfill(())
                     } else {
-                        reject(Error.userRejected)
+                        reject(NotificationError.userRejected)
                     }
                 }
             } else if settings.authorizationStatus == .denied {
-                reject(Error.alreadyRejected)
+                reject(NotificationError.alreadyRejected)
             } else if settings.authorizationStatus == .authorized {
-                fulfill()
+                fulfill(())
             }
         }
         
