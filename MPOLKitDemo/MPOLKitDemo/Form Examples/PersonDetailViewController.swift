@@ -16,7 +16,13 @@ class PersonDetailViewController: FormBuilderViewController {
 
         builder.title = "Person Details"
 
-        let dataSource: MediaDataSource<PhotoMedia> = [
+        let videoPath = Bundle.main.path(forResource: "video", ofType: "mp4")!
+        let audioPath = Bundle.main.path(forResource: "audio", ofType: "m4a")!
+
+        let fp = URL(fileURLWithPath: audioPath)
+        let vp = URL(fileURLWithPath: videoPath)
+
+        let dataSource: MediaDataSource<MediaAsset> = [
             PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), title: "Jeff Handerson", comments: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sit amet suscipit dolor. Aenean egestas ligula id dictum aliquam. Maecenas a aliquam mauris. Nullam facilisis elit metus, eu imperdiet sem aliquet eu. Nullam dapibus justo vitae enim viverra, eget sollicitudin ligula efficitur. Cras ut blandit odio. Pellentesque tempor bibendum diam eget eleifend.", sensitive: false),
             PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Login"), image: #imageLiteral(resourceName: "Login"), title: "Background of some random screen", comments: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sit amet suscipit dolor.", sensitive: false),
             PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "SidebarInfoFilled"), image: #imageLiteral(resourceName: "SidebarInfoFilled"), title: "The davin ci icon", sensitive: false),
@@ -28,7 +34,13 @@ class PersonDetailViewController: FormBuilderViewController {
             PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "SidebarInfoFilled"), image: #imageLiteral(resourceName: "SidebarInfoFilled"), title: "A pointless infomration icon", sensitive: false),
             PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), title: "A real man", sensitive: false),
             PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Login"), image: #imageLiteral(resourceName: "Login"), title: "The blue officers", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "SidebarInfoFilled"), image: #imageLiteral(resourceName: "SidebarInfoFilled"), title: "Jeff Handerson", sensitive: false)
+            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "SidebarInfoFilled"), image: #imageLiteral(resourceName: "SidebarInfoFilled"), title: "Jeff Handerson", sensitive: false),
+
+            AssetCache.default.asset(forKey: fp.lastPathComponent) ?? AudioMedia(audioURL: fp),
+            AssetCache.default.asset(forKey: fp.lastPathComponent) ?? AudioMedia(audioURL: fp),
+            AssetCache.default.asset(forKey: fp.lastPathComponent) ?? AudioMedia(audioURL: fp),
+
+            AssetCache.default.asset(forKey: vp.lastPathComponent) ?? VideoMedia(videoURL: vp)
         ]
 
         let mediaItem = MediaFormItem().dataSource(dataSource)
@@ -37,9 +49,9 @@ class PersonDetailViewController: FormBuilderViewController {
             mediaItem.previewingController(viewController)
         }
 
-        builder += HeaderFormItem(text: "PHOTOS").actionButton(title: "ADD", handler: { [weak self] _ in
+        builder += HeaderFormItem(text: "PHOTOS").actionButton(title: "ADD", handler: { button in
             if let viewController = mediaItem.delegate.viewControllerForMediaDataSource(dataSource) {
-                self?.present(viewController, animated: true, completion: nil)
+                self.present(viewController, animated: true, completion: nil)
             }
         })
 

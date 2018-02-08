@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import AVKit
 
 public let MediaDataSourceDidChangeNotificationName = Notification.Name(rawValue: "MediaDataSourceDidChange")
 
@@ -96,6 +96,19 @@ open class MediaDataSource<T: MediaPreviewable>: ExpressibleByArrayLiteral {
         if let index = indexOfMediaItem(mediaItem) {
             mediaItems.remove(at: index)
             NotificationCenter.default.post(name: MediaDataSourceDidChangeNotificationName, object: self, userInfo: nil)
+        }
+    }
+    
+    open func viewController(for mediaItem: T) -> UIViewController {
+        switch mediaItem {
+        case let video as VideoMedia:
+            return AVMediaViewController(mediaAsset: video)
+        case let audio as AudioMedia:
+            return AVMediaViewController(mediaAsset: audio)
+        case let photo as PhotoMedia:
+            return MediaViewController(mediaAsset: photo)
+        default:
+            fatalError()
         }
     }
 

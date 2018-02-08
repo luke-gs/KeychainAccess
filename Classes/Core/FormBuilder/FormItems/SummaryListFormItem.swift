@@ -64,6 +64,7 @@ public class SummaryListFormItem: BaseFormItem {
         return EntityListCollectionViewCell.minimumContentHeight(withTitle: title?.sizing(defaultNumberOfLines: 1, defaultFont: defaultTitleFont(for: traitCollection)),
                                                                  subtitle: subtitle?.sizing(defaultNumberOfLines: 1, defaultFont: defaultSubtitleFont(for: traitCollection)),
                                                                  source: category,
+                                                                 accessorySize: accessory?.size,
                                                                  inWidth: contentWidth,
                                                                  compatibleWith: traitCollection)
     }

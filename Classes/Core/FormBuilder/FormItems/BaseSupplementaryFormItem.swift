@@ -48,8 +48,7 @@ open class BaseSupplementaryFormItem: FormItem {
 
     func view(in collectionView: UICollectionView, for indexPath: IndexPath) -> UICollectionReusableView {
         let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: reuseIdentifier, for: indexPath)
-        configure(view)
-        onConfigured?(view)
+        reload(view)
         return view
     }
 
@@ -88,6 +87,27 @@ open class BaseSupplementaryFormItem: FormItem {
     ///   - view: Current view
     open func apply(theme: Theme, toView view: UICollectionReusableView) { }
 
+    // MARK: - Private
+
+    private func reload(_ view: UICollectionReusableView) {
+        configure(view)
+        onConfigured?(view)
+    }
+
+    // MARK: - View updating
+
+    /// The active cell if it is currently displayed on the screen.
+    public internal(set) weak var view: UICollectionReusableView?
+
+    /// The active collectionView
+    public internal(set) weak var collectionView: UICollectionView?
+
+    /// Reloads item. This causes the view to be configured again.
+    public func reloadItem() {
+        if let view = view {
+            reload(view)
+        }
+    }
 }
 
 

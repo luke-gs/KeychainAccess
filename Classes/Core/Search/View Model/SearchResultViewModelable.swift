@@ -15,7 +15,7 @@ public enum SearchResultStyle {
     case list
 }
 
-public struct SearchResultSection {
+public class SearchResultSection {
     /// A title text to display in the header.
     public var title:      String
     
