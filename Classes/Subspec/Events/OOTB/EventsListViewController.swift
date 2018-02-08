@@ -34,11 +34,26 @@ open class EventsListViewController: FormBuilderViewController {
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "New event", style: .plain, target: self, action: #selector(createNewEvent))
 
-        loadingManager.state = .noContent
+        loadingManager.state = (viewModel.eventsList?.isEmpty ?? true) ? .noContent : .loaded
     }
 
     open override func construct(builder: FormBuilder) {
         builder.title = "Events"
+        
+        let currentEvents = viewModel.eventsList ?? []
+        
+        let currentCount = currentEvents.count
+        
+        // only add the sections if there is content
+        guard currentCount > 0 else {
+            return
+        }
+        
+        builder += HeaderFormItem(text: "\(currentCount) CURRENT EVENT\(currentCount == 1 ? "S" : "")")
+        
+        for _ in currentEvents {
+            builder += TextFieldFormItem(title: "Dummy text representing a current event")
+        }
     }
 
     @objc private func createNewEvent() {
@@ -46,6 +61,12 @@ open class EventsListViewController: FormBuilderViewController {
         let viewController = EventSplitViewController(viewModel: viewModel.detailsViewModel(for: event))
 
         show(viewController, sender: self)
+    }
+    
+    open override func viewWillAppear(_ animated: Bool) {
+        loadingManager.state = (viewModel.eventsList?.isEmpty ?? true) ? .noContent : .loaded
+        
+        reloadForm()
     }
 }
 
