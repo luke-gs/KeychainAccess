@@ -12,6 +12,12 @@ import PromiseKit
 
 /// Handles receiving and sending notifications
 open class NotificationManager: NSObject {
+    
+    public enum Error: Error {
+        case userRejected
+        case alreadyRejected
+    }
+
     /// Singleton
     public static let shared = NotificationManager()
 
@@ -25,8 +31,9 @@ open class NotificationManager: NSObject {
     }
     
     /// Checks notification authorization status and requests if not authorized
-    open func requestAuthorizationIfNeeded() -> Promise<Bool> {
-        let (promise, fulfill, _) = Promise<Bool>.pending()
+    @discardableResult
+    open func requestAuthorizationIfNeeded() -> Promise<Void> {
+        let (promise, fulfill, reject) = Promise<Void>.pending()
         
         // Get settings
         UNUserNotificationCenter.current().getNotificationSettings { settings in
@@ -34,12 +41,16 @@ open class NotificationManager: NSObject {
             if settings.authorizationStatus == .notDetermined {
                 // Request alerts and sounds
                 UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (success, error) in
-                    fulfill(true)
+                    if success {
+                        fulfill()
+                    } else {
+                        reject(Error.userRejected)
+                    }
                 }
             } else if settings.authorizationStatus == .denied {
-                fulfill(false)
+                reject(Error.alreadyRejected)
             } else if settings.authorizationStatus == .authorized {
-                fulfill(true)
+                fulfill()
             }
         }
         
