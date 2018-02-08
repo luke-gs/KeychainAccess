@@ -59,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if CLLocationManager.authorizationStatus() == .notDetermined {
             locationManager.requestWhenInUseAuthorization()
         }
-        CADNotificationManager.shared.requestAuthorizationIfNeeded()
+        NotificationManager.shared.requestAuthorizationIfNeeded()
         
         window.makeKeyAndVisible()
 
@@ -97,7 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         CADStateManager.shared.setOffDuty()
         UserSession.current.endSession()
         APIManager.shared.setAuthenticationPlugin(nil)
-        CADNotificationManager.shared.removeLocalNotification(CADNotificationManager.Identifiers.shiftEnding)
+        NotificationManager.shared.removeLocalNotification(CADStateManager.Notifications.shiftEnding)
         landingPresenter.updateInterfaceForUserSession(animated: false)
     }
 
