@@ -59,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if CLLocationManager.authorizationStatus() == .notDetermined {
             locationManager.requestWhenInUseAuthorization()
         }
-        CADNotificationManager.shared.requestAuthorizationIfNeeded()
+        NotificationManager.shared.requestAuthorizationIfNeeded()
         
         window.makeKeyAndVisible()
 
