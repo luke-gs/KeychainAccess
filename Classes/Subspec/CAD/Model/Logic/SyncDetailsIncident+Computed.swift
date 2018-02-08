@@ -52,7 +52,7 @@ extension SyncDetailsIncident {
     }
     
     open var createdAtString: String {
-        return DateFormatter.shortDateAndTimeFullYear.string(from: createdAt)
+        return DateFormatter.preferredDateTimeStyle.string(from: createdAt)
     }
 }
 
