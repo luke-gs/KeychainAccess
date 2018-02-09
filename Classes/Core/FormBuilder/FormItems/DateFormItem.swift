@@ -179,7 +179,7 @@ class DateAction: ValueSelectionAction<Date> {
 
     public override func displayText() -> String? {
         guard let selectedValue = selectedValue else { return nil }
-        return DateFormatter.formDateAndTime.string(from: selectedValue)
+        return DateFormatter.preferredDateTimeStyle.string(from: selectedValue)
     }
 
 }
