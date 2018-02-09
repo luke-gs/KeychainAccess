@@ -52,22 +52,19 @@ open class EventsListViewController: FormBuilderViewController {
 
     open override func construct(builder: FormBuilder) {
         builder.title = "Events"
-        
         builder.forceLinearLayout = true
         
-        let currentEvents = viewModel.eventsList ?? []
-        
-        let currentCount = currentEvents.count
-        
-        // only add the sections if there is content
-        guard currentCount > 0 else {
+        guard let eventsList = viewModel.eventsList else {
             return
         }
         
-        builder += HeaderFormItem(text: "\(currentCount) CURRENT EVENT\(currentCount == 1 ? "" : "S")")
+        builder += HeaderFormItem(text: "\(eventsList.count) CURRENT EVENT\(eventsList.count == 1 ? "" : "S")")
         
-        for _ in currentEvents {
-            builder += SubtitleFormItem(title: "No incident selected", subtitle: "", image: currentEventIcon)
+        builder += eventsList.map { displayable in
+            let title = displayable.title ?? "Blank"
+            let subtitle = displayable.subtitle ?? "No description available"
+            let image = displayable.icon?.image ?? currentEventIcon
+            return SubtitleFormItem(title: title, subtitle: subtitle, image: image)
         }
     }
 
