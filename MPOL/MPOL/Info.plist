@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>352</string>
+	<string>353</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>$(CAD_URL_TYPE_SCHEME)</string>
