@@ -56,8 +56,11 @@ public class MediaDetailViewController: FormBuilderViewController {
                 self?.titleText = text
             })
 
-        builder += TextFieldFormItem(title: "Comments")
+        builder += TextViewFormItem(title: "Comments")
             .text(commentsText)
+            // James promises that one day, this thing will be able to grow dynamically.
+            // Until such day, enjoy the 88.
+            .height(.fixed(88))
             .onValueChanged({ [weak self] (text) in
                 self?.commentsText = text
             })
