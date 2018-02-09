@@ -157,7 +157,7 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
     open func subtitle(for item: CriminalHistory) -> String? {
         let lastOccurred: String
         if let date = item.lastOccurred {
-            lastOccurred = DateFormatter.mediumNumericDate.string(from: date)
+            lastOccurred = DateFormatter.preferredDateStyle.string(from: date)
         } else {
             lastOccurred = NSLocalizedString("Unknown", bundle: .mpolKit, comment: "Unknown date")
         }

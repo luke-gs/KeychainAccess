@@ -351,7 +351,7 @@ extension Licence {
             }
 
             if let fromDate = dateUpdated, let toDate = expiryDate {
-                value += " - valid from: \(fromDate.wrap(dateFormatter: DateFormatter.shortDate)) to \(toDate.wrap(dateFormatter: DateFormatter.shortDate))"
+                value += " - valid from: \(fromDate.wrap(dateFormatter: DateFormatter.preferredDateStyle)) to \(toDate.wrap(dateFormatter: DateFormatter.preferredDateStyle))"
             }
 
             return value
