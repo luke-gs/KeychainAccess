@@ -108,7 +108,13 @@ open class PSCAlertController: ThemedPopoverViewController {
     public func addAction(_ action: PSCAlertAction) {
         assert(alertView == nil, "You cannot add an action to a PSCAlertController after the view has loaded")
         actions.append(action)
-    }    
+    }
+    
+    /// Adds actions to the alert view. This should only be called before presenting the view controller.
+    public func addActions(_ actions: [PSCAlertAction]) {
+        assert(alertView == nil, "You cannot add an action to a PSCAlertController after the view has loaded")
+        self.actions += actions
+    }
 }
 
 extension PSCAlertController: PSCAlertViewDelegate {
