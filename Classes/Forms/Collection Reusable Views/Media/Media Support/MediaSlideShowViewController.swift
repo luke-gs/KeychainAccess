@@ -28,7 +28,7 @@ public class MediaSlideShowViewController: UIViewController, UIPageViewControlle
         return true
     }()
 
-    public var overlayView: MediaOverlayViewable = MediaSlideShowOverlayView(frame: .zero) {
+    public var overlayView: MediaOverlayViewable = MediaSlideShowOverlayView(frame: UIScreen.main.bounds) {
         willSet {
             overlayView.view().removeFromSuperview()
         }
