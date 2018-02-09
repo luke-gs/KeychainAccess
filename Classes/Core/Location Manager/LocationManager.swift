@@ -81,6 +81,23 @@ public final class LocationManager: NSObject {
         }
     }
     
+    /// Requests authorization from the CLLocationManager
+    @discardableResult
+    open func requestWhenInUseAuthorization() -> Promise<Void> {
+        let (promise, fulfill, reject) = Promise<Void>.pending()
+        
+        _ = CLLocationManager.requestAuthorization().then { status -> Promise<Void> in
+            switch status {
+            case .authorizedAlways, .authorizedWhenInUse:
+                fulfill(())
+            default:
+                reject(LocationError.authorizationError)
+            }
+            return Promise<Void>(value: ())
+        }
+        return promise
+    }
+    
     /// Request a location to be reversegeocoded. Will automatically request authorization for both when in use and always depending if the valid description is in the info.plist
     ///
     /// - Return:
