@@ -49,18 +49,18 @@ open class BookOnLandingViewModel {
 
     /// Create the book on view controller for a selected callsign
     open func bookOnScreenForItem(_ callsignViewModel: BookOnLandingCallsignItemViewModel) -> Presentable {
-        return BookOnScreen.bookOnDetailsForm(callsignViewModel: callsignViewModel, formSheet: false)
+        return BookOnScreen.bookOnDetailsForm(resource: callsignViewModel.resource, formSheet: false)
     }
     
     open func headerText() -> String? {
         return NSLocalizedString("You are not viewing all active tasks and resources.\nOnly booked on users can respond to tasks.", comment: "")
     }
     
-    open func stayOffDutyButtonText() -> String? {
+    open func stayOffDutyButtonText() -> String {
         return NSLocalizedString("Stay Off Duty", comment: "")
     }
     
-    open func allCallsignsButtonText() -> String? {
+    open func allCallsignsButtonText() -> String {
         return NSLocalizedString("View All Call Signs", comment: "")
     }
     
