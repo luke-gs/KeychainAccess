@@ -21,7 +21,7 @@ public class EventsListViewModel: EventListViewModelType {
         self.title = "Events"
     }
     
-    public func event(for displayable: EventListDisplayable) -> Event {
+    public func event(for displayable: EventListDisplayable) -> Event? {
         return eventsManager.event(for: displayable.eventId)
     }
     
