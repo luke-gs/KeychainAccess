@@ -12,16 +12,20 @@ import UIKit
 open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, SearchResultViewModelable, AggregatedSearchDelegate {
     
     /// Determines behaviour for partial results and "SHOW ALL/SHOW LESS" button on the header.
-    public enum ResultsStyle {
+    ///
+    /// - never:    Never limit the results.
+    /// - minimum:  Limit the results and show button when entity count > minimum provided.
+    /// - always:   Limit the results and always show button.
+    public enum ResultLimitBehaviour {
         case never
-        case greaterThan(count: Int, initial: Int)
-        case always(initial: Int)
+        case minimum(count: Int)
+        case always(count: Int)
         
         public func shouldShowButton(for entityCount: Int) -> Bool {
             switch self {
             case .never:
                 return false
-            case .greaterThan(let count, _):
+            case .minimum(let count):
                 return entityCount > count
             case .always(_):
                 return true
@@ -32,8 +36,8 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
             switch self {
             case .never:
                 return 0
-            case .greaterThan(_, let initial), .always(let initial):
-                return initial
+            case .minimum(let count), .always(let count):
+                return count
             }
         }
     }
@@ -60,7 +64,7 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
 
     // MARK: - Show all/ Show less properties
     
-    public var resultStyle: ResultsStyle = .never
+    public var limitBehaviour: ResultLimitBehaviour = .never
 
     private var fullResultSectionsShown: [SearchResultSection] = []
 
@@ -108,7 +112,7 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
             }
         }
 
-        if section.state == .finished && !section.entities.isEmpty && resultStyle.shouldShowButton(for: section.entities.count) {
+        if section.state == .finished && !section.entities.isEmpty && limitBehaviour.shouldShowButton(for: section.entities.count) {
             let updateHeader = { [weak header, weak self] in
                 guard let `self` = self, let header = header else { return }
 
@@ -145,7 +149,7 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
     }
 
     open func summaryItemsForSection(_ section: SearchResultSection) -> [FormItem] {
-        let count = resultStyle.initialCount
+        let count = limitBehaviour.initialCount
         let entities = count > 0 && !fullResultSectionsShown.contains(section) ? Array(section.entities.prefix(count)) : section.entities
 
         return entities.flatMap { entity in
