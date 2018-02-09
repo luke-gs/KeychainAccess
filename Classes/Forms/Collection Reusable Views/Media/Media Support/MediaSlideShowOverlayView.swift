@@ -192,6 +192,24 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
         titleLabel.isHidden = titleLabel.text?.isEmpty ?? true
         commentLabel.isHidden = commentLabel.text?.isEmpty ?? true
         captionsBackgroundView.isHidden = titleLabel.isHidden && commentLabel.isHidden
+
+        titleLabel.alpha = 0.0
+        commentLabel.alpha = 0.0
+
+        UIView.animateKeyframes(withDuration: 0.3, delay: 0.0, options: [.calculationModeCubic], animations: {
+
+            // Animate the UIStackView size changes first, triggered due to the titleLabel & commentLabel changes.
+            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 1.0, animations: {
+                self.layoutIfNeeded()
+            })
+
+            UIView.addKeyframe(withRelativeStartTime: 0.3, relativeDuration: 0.7, animations: {
+                self.titleLabel.alpha = 1.0
+                self.commentLabel.alpha = 1.0
+            })
+
+        }, completion: nil)
+
     }
 
     public func populateWithMedia(_ media: MediaAsset) {
