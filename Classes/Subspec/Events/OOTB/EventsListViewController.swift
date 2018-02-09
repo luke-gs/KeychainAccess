@@ -66,8 +66,14 @@ open class EventsListViewController: FormBuilderViewController {
         
         builder += HeaderFormItem(text: "\(currentCount) CURRENT EVENT\(currentCount == 1 ? "" : "S")")
         
-        for _ in currentEvents {
-            builder += SubtitleFormItem(title: "No incident selected", subtitle: "", image: currentEventIcon)
+        builder += currentEvents.map { _ in
+            let editActions = [CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in
+                self.viewModel.eventsManager.remove(for: currentEvents[indexPath.row].eventId)
+                // check for empty state
+                self.loadingManager.state = (self.viewModel.eventsList?.isEmpty ?? true) ? .noContent : .loaded
+                self.reloadForm()
+            })]
+            return SubtitleFormItem(title: "No incident selected", subtitle: "", image: currentEventIcon).editActions(editActions)
         }
     }
 

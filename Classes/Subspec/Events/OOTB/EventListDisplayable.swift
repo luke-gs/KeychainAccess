@@ -73,7 +73,7 @@ public protocol EventListViewModelType {
     ///
     /// - Parameter displayable: the event displayable to fetch the event for
     /// - Returns: the inflated event object
-    func event(for displayable: EventListDisplayable) -> Event
+    func event(for displayable: EventListDisplayable) -> Event?
 
     /// Provide the detailViewModel for an event
     ///
