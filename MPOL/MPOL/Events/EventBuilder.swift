@@ -16,6 +16,7 @@ public class EventBuilder: EventBuilding {
 
         // Add reports here
         event.add(report: DefaultDateTimeReport(event: event))
+        event.add(report: OfficerListReport(event: event))
 
         let displayable = EventListDisplayable(title: "Demo",
                                                subtitle: "Sub",
