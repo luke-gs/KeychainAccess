@@ -16,16 +16,7 @@ open class EventsListViewController: FormBuilderViewController {
 
     required public init(viewModel: EventListViewModelType) {
         self.viewModel = viewModel
-        let size = CGSize(width: 48, height: 48)
-        let circle = UIImage.circle(diameter: size.width, color: .orangeRed)
-        let icon = AssetManager.shared.image(forKey: .event)!
-        
-        // compose icon and coloured circle
-        UIGraphicsBeginImageContextWithOptions(size, false, 0)
-        circle.draw(at: CGPoint(x: 0, y: 0))
-        icon.draw(at: CGPoint(x: (size.width - icon.size.width) / 2, y: (size.height - icon.size.height) / 2))
-        currentEventIcon = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
+        currentEventIcon = AssetManager.shared.image(forKey: .event)!.surroundWithCircle(diameter: 48, color: .orangeRed)
         
         super.init()
         title = "Events"
@@ -63,7 +54,7 @@ open class EventsListViewController: FormBuilderViewController {
         builder += eventsList.map { displayable in
             let title = displayable.title ?? "Blank"
             let subtitle = displayable.subtitle ?? "No description available"
-            let image = displayable.icon?.image ?? currentEventIcon
+            let image = displayable.icon?.image.surroundWithCircle(diameter: 48, color: .orangeRed) ?? currentEventIcon
             return SubtitleFormItem(title: title, subtitle: subtitle, image: image)
         }
     }
