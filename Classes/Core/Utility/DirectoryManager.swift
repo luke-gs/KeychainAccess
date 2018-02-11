@@ -139,7 +139,7 @@ public extension FileManager {
                     withIntermediateDirectories createIntermediates: Bool,
                     attributes attr: [FileAttributeKey : Any]? = nil) throws -> Bool
     {
-        guard let url = URL(string: path) else { return false }
+        let url = URL(fileURLWithPath: path)
         try FileManager.default.createDirectory(atPath: url.deletingLastPathComponent().path,
                                                 withIntermediateDirectories: createIntermediates,
                                                 attributes: attr)
