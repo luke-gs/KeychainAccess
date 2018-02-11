@@ -253,6 +253,10 @@ extension AssetManager {
         // Events
         public static let iconFolder  = ImageKey("iconFolder")
         public static let iconPencil  = ImageKey("iconPencil")
+        
+        // Dialog images
+        public static let dialogAlert = ImageKey("dialogAlert")
+
     }
 }
 
