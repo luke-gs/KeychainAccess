@@ -45,6 +45,11 @@ public class DirectoryManager: DirectoryManaging {
         try FileManager.default.removeItem(at: url)
     }
 
+    public func contents(of path: String) -> [String]? {
+        let url = baseURL.appendingPathComponent(path)
+        return try? FileManager.default.contentsOfDirectory(atPath: url.path)
+    }
+
     //MARK: Keychain
 
     @discardableResult public func write(_ object: Any?, toKeyChain key: String) -> Bool {
@@ -91,6 +96,12 @@ public protocol DirectoryManaging {
     /// - Returns: returns true if removal was successful
     /// - Throws: throws error if there was a problem removing the file
     func remove(at path: String) throws
+
+    /// Retrieve a list of file names from the given directory
+    ///
+    /// - Parameter path: The path of the directory
+    /// - Returns: An array of filenames in the directory. Nil if directory not found.
+    func contents(of path: String) -> [String]?
 
     /// Write an object to the keychain
     ///
