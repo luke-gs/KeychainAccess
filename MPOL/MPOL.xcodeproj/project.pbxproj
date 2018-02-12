@@ -13,7 +13,6 @@
 		12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */; };
 		12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */; };
 		12EB809B202AAC2100405F5C /* EventScreenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EB809A202AAC2100405F5C /* EventScreenBuilder.swift */; };
-		1A27C6871F70747A00A58635 /* LocationMapSummarySearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A27C6861F70747A00A58635 /* LocationMapSummarySearchResultViewModel.swift */; };
 		397B77011E52CEDA00696677 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397B77001E52CEDA00696677 /* UserNotifications.framework */; };
 		445A8A381F667A56005ABEB8 /* PersonSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */; };
 		445A8A3C1F673C8B005ABEB8 /* LocationSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A391F673C8B005ABEB8 /* LocationSearchHelp.json */; };
@@ -56,7 +55,6 @@
 		12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchDataSource.swift; sourceTree = "<group>"; };
 		12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchDataSource.swift; sourceTree = "<group>"; };
 		12EB809A202AAC2100405F5C /* EventScreenBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventScreenBuilder.swift; sourceTree = "<group>"; };
-		1A27C6861F70747A00A58635 /* LocationMapSummarySearchResultViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapSummarySearchResultViewModel.swift; sourceTree = "<group>"; };
 		397B76FF1E52C23600696677 /* MPOL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MPOL.entitlements; sourceTree = "<group>"; };
 		397B77001E52CEDA00696677 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PersonSearchHelp.json; sourceTree = "<group>"; };
@@ -103,7 +101,6 @@
 		12ADD42F1F32C0FA00CA8B4D /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				1A27C6861F70747A00A58635 /* LocationMapSummarySearchResultViewModel.swift */,
 				12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */,
 				12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */,
 			);
@@ -144,6 +141,14 @@
 				BC4E81101EBEE38400188181 /* SettingsViewController.swift */,
 			);
 			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		BC8B26F41EDC083A0022B0AD /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				BC8B26F51EDC08460022B0AD /* EventsListViewController.swift */,
+			);
+			path = Events;
 			sourceTree = "<group>";
 		};
 		BCD4EA801E515ACE000B993D = {
@@ -343,6 +348,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-MPOL/Pods-MPOL-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
+				"${BUILT_PRODUCTS_DIR}/Cluster/Cluster.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/MPOLKit/MPOLKit.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
@@ -355,6 +361,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cluster.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MPOLKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
@@ -408,7 +415,6 @@
 			files = (
 				127801F3202AB1F0007D0BBB /* EventBuilder.swift in Sources */,
 				BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */,
-				1A27C6871F70747A00A58635 /* LocationMapSummarySearchResultViewModel.swift in Sources */,
 				EAAEB34A1F664705002D6C65 /* EntityPresenter.swift in Sources */,
 				127801F1202AAF09007D0BBB /* EventsListViewModel.swift in Sources */,
 				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
