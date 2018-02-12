@@ -305,6 +305,10 @@
 		46D95AC020198A6B00DCE6A5 /* UIView+JiggleAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D95ABF20198A6B00DCE6A5 /* UIView+JiggleAnimation.swift */; };
 		46D95AC220198A7D00DCE6A5 /* UIImage+CircleCreation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D95AC120198A7D00DCE6A5 /* UIImage+CircleCreation.swift */; };
 		46DDAB451F78CF1300ED72DC /* FormAccessoryImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DDAB441F78CF1300ED72DC /* FormAccessoryImageView.swift */; };
+		46E0B8A72030F06200B40DF2 /* CustomPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8A62030F06200B40DF2 /* CustomPickerController.swift */; };
+		46E0B8AB2031455200B40DF2 /* CustomisableSearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8AA2031455200B40DF2 /* CustomisableSearchHeaderView.swift */; };
+		46E0B8AD2031487700B40DF2 /* DefaultSearchHeaderDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8AC2031487700B40DF2 /* DefaultSearchHeaderDetailView.swift */; };
+		46E0B8AF20324CF400B40DF2 /* DefaultSearchPickerDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8AE20324CF400B40DF2 /* DefaultSearchPickerDatasource.swift */; };
 		46E193662016CDEA00F2D968 /* MediaAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E193652016CDEA00F2D968 /* MediaAsset.swift */; };
 		46F77072200D688600BA6614 /* PixelWidthSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F77071200D688600BA6614 /* PixelWidthSelectionViewController.swift */; };
 		47BC24DD1FE886F900BAB46C /* EntitySummarySearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BC24DC1FE886F900BAB46C /* EntitySummarySearchViewModel.swift */; };
@@ -1020,6 +1024,10 @@
 		46D95ABF20198A6B00DCE6A5 /* UIView+JiggleAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+JiggleAnimation.swift"; sourceTree = "<group>"; };
 		46D95AC120198A7D00DCE6A5 /* UIImage+CircleCreation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+CircleCreation.swift"; sourceTree = "<group>"; };
 		46DDAB441F78CF1300ED72DC /* FormAccessoryImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormAccessoryImageView.swift; sourceTree = "<group>"; };
+		46E0B8A62030F06200B40DF2 /* CustomPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPickerController.swift; sourceTree = "<group>"; };
+		46E0B8AA2031455200B40DF2 /* CustomisableSearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomisableSearchHeaderView.swift; sourceTree = "<group>"; };
+		46E0B8AC2031487700B40DF2 /* DefaultSearchHeaderDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSearchHeaderDetailView.swift; sourceTree = "<group>"; };
+		46E0B8AE20324CF400B40DF2 /* DefaultSearchPickerDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSearchPickerDatasource.swift; sourceTree = "<group>"; };
 		46E193652016CDEA00F2D968 /* MediaAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaAsset.swift; sourceTree = "<group>"; };
 		46F77071200D688600BA6614 /* PixelWidthSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelWidthSelectionViewController.swift; sourceTree = "<group>"; };
 		47BC24DC1FE886F900BAB46C /* EntitySummarySearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummarySearchViewModel.swift; sourceTree = "<group>"; };
@@ -2958,6 +2966,8 @@
 				BC9C7DA91F0DED6600DFFE83 /* PopoverDatePickerViewController.swift */,
 				DB6C89EB1FD4D818006F9AD2 /* QuantityPickerViewController.swift */,
 				DBD626261FDA25D200C3E809 /* QuantityPickerViewModel.swift */,
+				46E0B8A62030F06200B40DF2 /* CustomPickerController.swift */,
+				46E0B8AE20324CF400B40DF2 /* DefaultSearchPickerDatasource.swift */,
 			);
 			path = "Picker View Controllers";
 			sourceTree = "<group>";
@@ -3024,6 +3034,8 @@
 				463FEF5C1FE1FFF10093E303 /* LabeledTextField.swift */,
 				96D3415B2005D38000CEDDFF /* StandardSearchBarView.swift */,
 				96F77285202A75D6000FE0D0 /* DialogActionButtonsView.swift */,
+				46E0B8AA2031455200B40DF2 /* CustomisableSearchHeaderView.swift */,
+				46E0B8AC2031487700B40DF2 /* DefaultSearchHeaderDetailView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3932,6 +3944,7 @@
 				EA32A8571FBD1A7900CC37FB /* MediaGalleryTransitionAnimator.swift in Sources */,
 				C634085B1F30E5B5000747B0 /* EntityFetchRequestable.swift in Sources */,
 				BC9C7DFA1F0DED6600DFFE83 /* CollectionViewFormSubtitleCell.swift in Sources */,
+				46E0B8AD2031487700B40DF2 /* DefaultSearchHeaderDetailView.swift in Sources */,
 				460B5BC92007187600AB7D12 /* TouchTool.swift in Sources */,
 				EA7194E11FCBA61A00A2980B /* EntityManager.swift in Sources */,
 				27B4A9EC1FCF597300975A45 /* UIViewController+Compact.swift in Sources */,
@@ -4216,6 +4229,7 @@
 				273C53831FE7837800BF994B /* TasksListInfoRowStackView.swift in Sources */,
 				274C89711F984CB8005B9CF8 /* CallsignListViewController.swift in Sources */,
 				12048FC81F7881C50014748E /* MatchMaker.swift in Sources */,
+				46E0B8AF20324CF400B40DF2 /* DefaultSearchPickerDatasource.swift in Sources */,
 				27DC60991FD60F350033BC0B /* ResourceOverviewViewController.swift in Sources */,
 				EAC025741FDE667B00E45DB6 /* FormCollectionViewHandler.swift in Sources */,
 				BC9C7DEA1F0DED6600DFFE83 /* DefaultCustomStringConvertible.swift in Sources */,
@@ -4253,6 +4267,7 @@
 				12F869EF1F5FD47E0006EC5C /* UserSession.swift in Sources */,
 				19B49BBC1F665F2A00502F51 /* CompactSidebarViewController.swift in Sources */,
 				EA5649711F8EE4E100BEA144 /* SummaryDetailFormItem.swift in Sources */,
+				46E0B8A72030F06200B40DF2 /* CustomPickerController.swift in Sources */,
 				2744EEC91FBEA523008DFA7F /* MapFilterSection.swift in Sources */,
 				BC9C7E4E1F0DED6600DFFE83 /* BadgeView.swift in Sources */,
 				463FEF5D1FE1FFF10093E303 /* LabeledTextField.swift in Sources */,
@@ -4323,6 +4338,7 @@
 				467EAFB2201942B400B4CCC3 /* AudioRecordingViewController.swift in Sources */,
 				99FF8C041F982A22003A8A4B /* AuditPlugin.swift in Sources */,
 				44F3F14E1F56DDDC00D68585 /* FilterDescriptor.swift in Sources */,
+				46E0B8AB2031455200B40DF2 /* CustomisableSearchHeaderView.swift in Sources */,
 				EA445DA21F73578500ABF70F /* TextFieldFormItem.swift in Sources */,
 				27BE96541FD75A0D0092A771 /* CommsButtonHandler.swift in Sources */,
 				464A5E8D1FD11B5600B4C0F9 /* EvaluatorKey.swift in Sources */,
