@@ -1,7 +1,7 @@
 PODS:
   - Alamofire (4.5.1)
   - Cache (4.1.2)
-  - Cluster-Fork (2.1.0a)
+  - Cluster (2.1.1)
   - KeychainSwift (8.0.2)
   - lottie-ios (2.1.4)
   - PromiseKit (4.4.4):
@@ -23,7 +23,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire (= 4.5.1)
   - Cache (~> 4.1.2)
-  - Cluster-Fork (= 2.1.0a)
+  - Cluster (= 2.1.1)
   - KeychainSwift (~> 8.0)
   - lottie-ios (~> 2.1.3)
   - PromiseKit (~> 4.4.0)
@@ -34,13 +34,13 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   Cache: bd0233fc688b5e83a27bcd87807db7e6f23adcc5
-  Cluster-Fork: fb18ff95e617a1f249987c923bbd9d8a956579a0
+  Cluster: e6b55b7c6a76f8af5acf631574bbb299e4c64914
   KeychainSwift: 213db04dfe7244988e61f77c72a2afb2f775954a
   lottie-ios: 94fa2d82547ce3adf1e61157653ba99999fd279f
   PromiseKit: 6178219c4c7457ae90d7d8b34b7ac5eb36916519
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
   Wrap: 9cc7da7551bb81d0846cb3df9fb624c6c32d267d
 
-PODFILE CHECKSUM: 4b8a722cd2a6e008c472b023631fc2e8ab8abd1c
+PODFILE CHECKSUM: 2eda6b2672d65678b6214498dff3ac0d6687d937
 
 COCOAPODS: 1.4.0

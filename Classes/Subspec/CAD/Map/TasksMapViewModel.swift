@@ -113,7 +113,8 @@ open class TasksMapViewModel {
                                       badgeTextColor: incident.grade.badgeColors.text,
                                       badgeFillColor: incident.grade.badgeColors.fill,
                                       badgeBorderColor: incident.grade.badgeColors.border,
-                                      usesDarkBackground: incident.status == .unresourced)
+                                      usesDarkBackground: incident.status == .unresourced,
+                                      priority: incident.grade)
         }
     }
     
@@ -133,6 +134,11 @@ open class TasksMapViewModel {
  
     open func isAnnotationViewDisplayedOnTop(_ annotationView: MKAnnotationView) -> Bool {
         return type(of: annotationView) == priorityAnnotationType
+    }
+    
+    /// Whether annotations should cluster. `true` by default.
+    open func shouldCluster() -> Bool {
+        return true
     }
 }
 
