@@ -53,7 +53,7 @@ public extension UIImage {
     /// Put an image on a circle.
     /// Might break if diameter is smaller than size.width or size.height.
     func surroundWithCircle(diameter: CGFloat, color: UIColor) -> UIImage {
-        let size = CGSize(width: diameter, height: diameter)
+        let size = CGSize(width: max(diameter, self.size.width), height: max(diameter, self.size.height))
         let circle = UIImage.circle(diameter: diameter, color: color)
         
         // compose icon and coloured circle
