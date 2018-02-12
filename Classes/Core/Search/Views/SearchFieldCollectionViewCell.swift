@@ -19,6 +19,9 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
     // MARK: - Properties
     
     public let textField = UITextField(frame: .zero)
+    
+    // Custom clear button for text field (to control tint color on theme change)
+    public let clearButton = UIButton(type: .custom)
 
     open override var isSelected: Bool {
         didSet {
@@ -51,11 +54,18 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
         
         selectionStyle = .underline
         
+        clearButton.setImage(AssetManager.shared.image(forKey: .clearText), for: .normal)
+        clearButton.frame = CGRect(x: 0, y: 0, width: 22, height: 15)   // Extra width to give it a bit of padding
+        clearButton.imageView?.contentMode = .scaleAspectFit
+        clearButton.alpha = 0.8
+        clearButton.addTarget(self, action: #selector(clearTextField), for: .touchUpInside)
+        
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.font = .systemFont(ofSize: 28.0, weight: UIFont.Weight.bold)
         textField.textColor = .darkGray
         textField.returnKeyType = .search
-        textField.clearButtonMode = .whileEditing
+        textField.clearButtonMode = .never  // Use custom clear button instead
+        textField.rightView = clearButton
         textField.enablesReturnKeyAutomatically = true
         textField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Search", comment: ""),
                                                              attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 28.0, weight: UIFont.Weight.light), NSAttributedStringKey.foregroundColor: UIColor.lightGray])
@@ -81,6 +91,7 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
 
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidBeginEditing(_:)), name: .UITextFieldTextDidBeginEditing, object: textField)
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidEndEditing(_:)),   name: .UITextFieldTextDidEndEditing,   object: textField)
+        NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidChange(_:)),       name: .UITextFieldTextDidChange,       object: textField)
         
         accessibilityLabel  = NSLocalizedString("Search", comment: "Accessibility")
         accessibilityTraits |= UIAccessibilityTraitSearchField
@@ -93,16 +104,32 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
 
     // MARK: - Private methods
     
+    @objc private func clearTextField() {
+        textField.text = nil
+        updateRightViewMode()
+    }
+    
     @objc private func textFieldDidBeginEditing(_ notification: NSNotification) {
-        guard isSelected == false else { return }
+        updateRightViewMode()
         
+        guard isSelected == false else { return }
         self.isSelected = true
     }
     
+    @objc private func textFieldDidChange(_ notification: NSNotification) {
+        updateRightViewMode()
+    }
+    
     @objc private func textFieldDidEndEditing(_ notification: NSNotification) {
-        guard isSelected else { return }
+        textField.rightViewMode = .never
         
+        guard isSelected else { return }
         self.isSelected = false
+    }
+    
+    private func updateRightViewMode() {
+        // The right view mode doesn't behave exactly like clear button does
+        textField.rightViewMode = textField.text?.ifNotEmpty() == nil ? .never : .always
     }
 
 }

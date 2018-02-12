@@ -8,7 +8,13 @@
 
 import UIKit
 
+public protocol TaskItemViewModelDelegate: class {
+    func presentStatusSelector(viewController: UIViewController)
+}
+
 open class TaskItemViewModel {
+
+    open weak var delegate: TaskItemViewModelDelegate?
 
     /// The navigation title for this type of task item details
     open var navTitle: String?
@@ -71,4 +77,8 @@ open class TaskItemViewModel {
         // Do nothing by default
     }
 
+    /// Called to see if changing resource status is allowed
+    open func allowChangeResourceStatus() -> Bool {
+        return false
+    }
 }

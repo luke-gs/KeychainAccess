@@ -143,7 +143,12 @@ public protocol SearchOptions {
     /// - Parameter index: The filter index.
     /// - Returns:         The default value for the filter.
     func defaultValue(at index: Int) -> String
-
+    
+    /// Whether the filter is enabled (lowered alpha and user interaction disabled when false).
+    ///
+    /// - Parameter index: The filter index.
+    /// - Returns:         Return false if filter is disabled.
+    func isEnabled(at index: Int) -> Bool
 
     /// The indexes of the option fields that are required to be updated when
     /// the field related to the index passed in is changed.
@@ -282,6 +287,11 @@ public extension SearchOptions {
     /// By default none of the options should be required
     func isRequired(at index: Int) -> Bool {
         return false
+    }
+    
+    /// By default filter option is enabled
+    func isEnabled(at index: Int) -> Bool {
+        return true
     }
     
 }

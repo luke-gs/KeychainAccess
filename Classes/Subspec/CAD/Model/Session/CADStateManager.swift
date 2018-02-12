@@ -29,6 +29,10 @@ public extension ManifestCollection {
 
 open class CADStateManager: NSObject {
 
+    public struct Notifications {
+        public static let shiftEnding = "CADShiftEndingNotification"
+    }
+    
     /// The singleton state monitor.
     open static let shared = CADStateManager()
 
@@ -47,15 +51,26 @@ open class CADStateManager: NSObject {
         didSet {
             // TODO: remove this when we have a real CAD system
             if let lastBookOn = lastBookOn, let resource = self.currentResource {
-                let officerIds = lastBookOn.officers.map { return $0.payrollId! }
+                let officerIds = lastBookOn.officers.flatMap({ return $0.payrollId })
+
+                // Update callsign for new officer list
                 resource.payrollIds = officerIds
 
                 // Set state if callsign was off duty
                 if resource.status == .offDuty {
                     resource.status = .onAir
                 }
+
+                // Check if logged in officer is no longer in callsign
+                if let officerDetails = officerDetails, !officerIds.contains(officerDetails.payrollId) {
+                    // Treat like being booked off, using async to trigger didSet again
+                    DispatchQueue.main.async {
+                        self.lastBookOn = nil
+                    }
+                }
             }
             NotificationCenter.default.post(name: .CADBookOnChanged, object: self)
+            addScheduledNotifications()
         }
     }
 
@@ -114,7 +129,16 @@ open class CADStateManager: NSObject {
     
     /// Un-assigns the current incident for the booked on resource
     open func clearIncident() {
-        currentResource?.currentIncident = nil
+        if let incident = currentIncident, let resource = currentResource {
+
+            // Remove incident from being assigned to resource
+            var assignedIncidents = resource.assignedIncidents ?? []
+            if let index = assignedIncidents.index(of: incident.identifier) {
+                assignedIncidents.remove(at: index)
+                resource.assignedIncidents = assignedIncidents
+            }
+            resource.currentIncident = nil
+        }
     }
 
     // MARK: - Shift
@@ -133,18 +157,36 @@ open class CADStateManager: NSObject {
 
     /// Update the status of our callsign
     open func updateCallsignStatus(status: ResourceStatus, incident: SyncDetailsIncident?) {
-        currentResource?.status = status
+        var newStatus = status
+        var newIncident = incident
+
+        // TODO: Remove all hacks below when we have a real CAD system
+
+        // Finalise incident clears the current incident and sets state to On Air
+        if newStatus == .finalise {
+            finaliseIncident()
+            newStatus = .onAir
+            newIncident = nil
+        }
+
+        // Clear incident if changing to non incident status
+        if (currentResource?.status?.isChangingToGeneralStatus(newStatus)).isTrue {
+            // Clear the current incident
+            CADStateManager.shared.clearIncident()
+            newIncident = nil
+        }
+
+        currentResource?.status = newStatus
 
         // Update current incident if setting status without one
-        // TODO: remove this when we have a real CAD system
-        if let incident = incident, currentIncident == nil {
+        if let newIncident = newIncident, currentIncident == nil {
             if let syncDetails = lastSync, let resource = currentResource {
-                resource.currentIncident = incident.identifier
+                resource.currentIncident = newIncident.identifier
 
                 // Make sure incident is also assigned to resource
                 var assignedIncidents = resource.assignedIncidents ?? []
-                if !assignedIncidents.contains(incident.identifier) {
-                    assignedIncidents.append(incident.identifier)
+                if !assignedIncidents.contains(newIncident.identifier) {
+                    assignedIncidents.append(newIncident.identifier)
                     resource.assignedIncidents = assignedIncidents
                 }
 
@@ -223,6 +265,10 @@ open class CADStateManager: NSObject {
             // Get sync details
             return self.syncDetails()
         }.then { _ -> Void in
+            // Clear any outstanding shift ending notifications if we aren't booked on
+            if self.lastBookOn == nil {
+                NotificationManager.shared.removeLocalNotification(CADStateManager.Notifications.shiftEnding)
+            }
         }
     }
 
@@ -282,4 +328,21 @@ open class CADStateManager: NSObject {
         }
         return officers
     }
+    
+    // MARK: - Notifications
+    
+    /// Adds scheduled local notification and clears any conflicting ones.
+    open func addScheduledNotifications() {
+        NotificationManager.shared.removeLocalNotification(CADStateManager.Notifications.shiftEnding)
+        if let endTime = lastBookOn?.shiftEnd {
+            NotificationManager.shared.postLocalNotification(withTitle: NSLocalizedString("Shift Ending", comment: ""),
+                              body: NSLocalizedString("The shift time for your call sign has elapsed. Please terminate your shift or extend the end time.",
+                                                      comment: ""),
+                              at: endTime,
+                              identifier: CADStateManager.Notifications.shiftEnding)
+        }
+
+    }
+    
+
 }

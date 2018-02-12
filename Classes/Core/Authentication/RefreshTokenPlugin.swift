@@ -51,7 +51,9 @@ open class RefreshTokenPlugin: PluginType {
     
     /// Queue to get and set refresh promise ensuring thread safety.
     private let barrierQueue: DispatchQueue
-    
+
+    /// Tokens that have been tried before and failed.
+    private var invalidTokens: [String] = []
     
     // MARK: - Plugin Type
     
@@ -66,6 +68,10 @@ open class RefreshTokenPlugin: PluginType {
         if let refresh = refreshPromise {
             return refresh.then {
                 return Promise(value: urlRequest)
+            }.recover { _ in
+                // The `refreshPromise` failed, there's no point of continuing the request.
+                // So treat as if the request is being cancelled.
+                return Promise(error: NSError.cancelledError())
             }
         }
         
@@ -79,32 +85,33 @@ open class RefreshTokenPlugin: PluginType {
 
         // If refresh is currently executing, chain a retry of the request
         if let refresh = refreshPromise {
-            return refresh.then { _ in
-                // Reset headers & retry original request
-                self.retry(request: request)
-            }
+            return retry(request: request, after: refresh, originalResponse: response)
         }
         
         // First instance of 401 response will begin refresh logic (all responses received
         // after the first 401 will be chained to the refresh promise created).
         if response.response?.statusCode == 401 {
-            // First check if this response has come in after refresh has been executed
-            if request.shouldUpdateAuthenticationHeader {
-                return retry(request: request)
+
+            // Has been retried before, so don't attempt to refresh.
+            if let token = request.authorizationToken, invalidTokens.contains(token) {
+                return retry(request: request, originalResponse: response)
             }
-            
+
             // Create refresh promise
-            self.refreshPromise = firstly {
+            let refreshPromise = firstly { () -> Promise<Void> in
+                if let token = request.authorizationToken {
+                    invalidTokens.append(token)
+                }
                 // Let app attempt refresh
                 return self.refreshHandler(response)
             }.always {
                 self.refreshPromise = nil
             }
+            self.refreshPromise = refreshPromise
             
             // Reset headers & retry original request
-            return self.refreshPromise!.then {
-                return self.retry(request: request)
-            }
+            return retry(request: request, after: refreshPromise, originalResponse: response)
+
         }
         
         // Return promise with response as normal
@@ -115,16 +122,29 @@ open class RefreshTokenPlugin: PluginType {
 
     
     /// Readapt request with new authentication plugin before retrying.
-    private func retry(request: URLRequest) -> Promise<DataResponse<Data>> {
+    private func retry(request: URLRequest, after promise: Promise<Void>? = nil, originalResponse: DataResponse<Data>) -> Promise<DataResponse<Data>> {
 
-        return firstly {
-            if request.shouldUpdateAuthenticationHeader, let plugin = APIManager.shared.authenticationPlugin {
-                return plugin.adapt(request)
-            } else {
-                return Promise(value: request)
+        func retry(request: URLRequest) -> Promise<DataResponse<Data>> {
+            return firstly {
+                if request.shouldUpdateAuthenticationHeader, let plugin = APIManager.shared.authenticationPlugin {
+                    return plugin.adapt(request)
+                } else {
+                    return Promise(value: request)
+                }
+            }.then { adapted in
+                return APIManager.shared.dataRequest(Promise(value: adapted))
             }
-        }.then { adapted in
-            return APIManager.shared.dataRequest(Promise(value: adapted))
+        }
+
+        guard let promise = promise else {
+            return retry(request: request)
+        }
+
+        return promise.then {
+            return retry(request: request)
+        }.recover { _ in
+            // Recover on the `refreshPromise` failure.
+            return originalResponse
         }
     }
 
@@ -134,9 +154,14 @@ open class RefreshTokenPlugin: PluginType {
 // MARK: - Auth Header Check
 
 private extension URLRequest {
-    
+
     var shouldUpdateAuthenticationHeader: Bool {
         guard let header = APIManager.shared.authenticationPlugin?.authenticationMode.authorizationHeader else { return false }
         return self.allHTTPHeaderFields?[header.key] != header.value
+    }
+
+    var authorizationToken: String? {
+        guard let header = APIManager.shared.authenticationPlugin?.authenticationMode.authorizationHeader else { return nil }
+        return self.allHTTPHeaderFields?[header.key]
     }
 }

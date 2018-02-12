@@ -16,11 +16,13 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
 
         if let syncDetails = CADStateManager.shared.lastSync {
             for resource in syncDetails.resources {
-                let viewModel = BookOnLandingCallsignItemViewModel(resource: resource)
-                if resource.shiftStart == nil {
-                    offDuty.append(viewModel)
-                } else {
-                    bookedOn.append(viewModel)
+                if resource.patrolGroup == CADStateManager.shared.patrolGroup {
+                    let viewModel = BookOnLandingCallsignItemViewModel(resource: resource)
+                    if resource.shiftStart == nil {
+                        offDuty.append(viewModel)
+                    } else {
+                        bookedOn.append(viewModel)
+                    }
                 }
             }
         }
@@ -40,7 +42,7 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
     /// Create the book on view controller for a selected callsign
     open func bookOnScreenForItem(_ indexPath: IndexPath) -> Presentable? {
         if let itemViewModel = item(at: indexPath) {
-            return BookOnScreen.bookOnDetailsForm(callsignViewModel: itemViewModel, formSheet: false)
+            return BookOnScreen.bookOnDetailsForm(resource: itemViewModel.resource, formSheet: false)
         }
         return nil
     }
@@ -112,12 +114,12 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
         return unsorted.map { section in
             // Sort items
             let sortedItems = section.items.sorted {
-                if $0.status == "On Air" && $0.status != $1.status {
+                if $0.status == .onAir && $0.status != $1.status {
                     // Status is on air, and statuses don't match
                     return true
-                } else if $0.status == "At Incident" && $0.status != $1.status {
+                } else if $0.status == .atIncident && $0.status != $1.status {
                     // Statuses don't match, first is at incident. Prioritise if second is not on air
-                    return $1.status != "On Air"
+                    return $1.status != .onAir
                 } else {
                     // Status matches, sort alphabetically by callsign
                     return $0.callsign < $1.callsign

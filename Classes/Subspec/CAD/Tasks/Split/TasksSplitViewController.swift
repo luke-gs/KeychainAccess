@@ -12,6 +12,7 @@ import PromiseKit
 public protocol TasksSplitViewControllerDelegate {
     func willChangeSplitWidth(from oldSize: CGFloat, to newSize: CGFloat)
     func didChangeSplitWidth(from oldSize: CGFloat, to newSize: CGFloat)
+    func didFinishAnimatingSplitWidth()
 }
 
 /// Split view for top level of CAD application, displaying table of tasks on left and map on right
@@ -195,6 +196,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
 
             // Show full split screen
             self?.setMasterWidth(TasksSplitViewController.defaultSplitWidth, animated: true, completion: { _ in
+                (self?.detailVC as? TasksSplitViewControllerDelegate)?.didFinishAnimatingSplitWidth()
                 UIView.animate(withDuration: 0.3, delay: 0.3, options: [], animations: {
                     // Remove loading state and animate content back in
                     self?.tasksListContainer?.loadingManager.state = .loaded

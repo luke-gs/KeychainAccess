@@ -9,15 +9,9 @@
 import UIKit
 import Unbox
 
-fileprivate let alertCellID = "alertCell"
 
 public class SearchResultsListViewController: FormBuilderViewController, SearchResultViewModelDelegate {
 
-    private enum CellIdentifier: String {
-        case empty   = "SearchResultsViewControllerEmpty"
-        case loading = "SearchResultsViewControllerLoading"
-    }
-    
     public var viewModel: SearchResultViewModelable? {
         didSet {
             viewModel?.style       = wantsThumbnails ? .grid : .list
@@ -76,7 +70,6 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
         let searchFieldButton = SearchFieldButton(frame: .zero)
         searchFieldButton.text = viewModel?.title
         searchFieldButton.translatesAutoresizingMaskIntoConstraints = false
-        searchFieldButton.titleLabel?.font = .systemFont(ofSize: 15, weight: UIFont.Weight.regular)
         searchFieldButton.addTarget(self, action: #selector(searchFieldButtonDidSelect), for: .primaryActionTriggered)
         view.addSubview(searchFieldButton)
         self.searchFieldButton = searchFieldButton

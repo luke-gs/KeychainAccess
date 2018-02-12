@@ -393,6 +393,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         
         searchContainer.backgroundColor = backgroundColor
         searchSeparator.backgroundColor = separatorColor
+        
+        searchField.clearButton.tintColor = theme.color(forKey: .secondaryText)
     }
 
     // MARK: - Action methods
@@ -441,6 +443,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             let value = options!.value(at: filterIndex)
             let placeholder = options!.defaultValue(at: filterIndex)
             let message = options!.errorMessage(at: filterIndex)
+            let isEnabled = options!.isEnabled(at: filterIndex)
             
             switch options!.type(at: filterIndex) {
             case .picker:
@@ -454,6 +457,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 filterCell.titleLabel.text = title
                 filterCell.valueLabel.text = value
                 filterCell.placeholderLabel.text = placeholder
+                filterCell.isUserInteractionEnabled = isEnabled
+                filterCell.isHighlighted = !isEnabled
                 filterCell.setRequiresValidation(message != nil || isRequired, validationText: message, animated: false)
                 
                 return filterCell
@@ -461,6 +466,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 let filterCell = collectionView.dequeueReusableCell(of: CollectionViewFormTextFieldCell.self, for: indexPath)
                 filterCell.selectionStyle = .underline
                 filterCell.highlightStyle = .fade
+                filterCell.isUserInteractionEnabled = isEnabled
+                filterCell.isHighlighted = !isEnabled
                 
                 let textField = filterCell.textField
                 configure?(textField)
@@ -481,6 +488,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             case .action(let image, let buttonTitle, let buttonHandler):
                 let filterCell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
                 
+                filterCell.isUserInteractionEnabled = isEnabled
+                filterCell.isHighlighted = !isEnabled
                 filterCell.style = .value
                 filterCell.selectionStyle = .none
                 filterCell.highlightStyle = .fade

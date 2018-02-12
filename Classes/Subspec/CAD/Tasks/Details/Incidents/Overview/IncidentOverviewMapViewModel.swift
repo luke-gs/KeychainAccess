@@ -29,7 +29,13 @@ open class IncidentOverviewMapViewModel: TasksMapViewModel {
     }
     
     override open func createViewController() -> TasksMapViewController {
-        return TasksMapViewController(viewModel: self, initialLoadZoomStyle: .annotations(animated: false))
+        if let incidentLocation = CADStateManager.shared.incidentsById[incidentNumber]?.location {
+            let location = CLLocation(latitude: CLLocationDegrees(incidentLocation.latitude), longitude: CLLocationDegrees(incidentLocation.longitude))
+            let viewController = TasksMapViewController(viewModel: self, initialLoadZoomStyle: .coordinate(location, animated : false))
+            viewController.defaultZoomDistance = defaultZoomDistance
+            return viewController
+        }
+        return TasksMapViewController(viewModel: self, annotationsInitialLoadZoomStyle: (animated: false, includeUserLocation: true))
     }
     
     open override func canSelectAnnotationView(_ view: MKAnnotationView) -> Bool {

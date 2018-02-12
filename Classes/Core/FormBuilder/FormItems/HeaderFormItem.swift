@@ -23,6 +23,9 @@ public class HeaderFormItem: BaseSupplementaryFormItem {
 
     public var style: HeaderFormItemStyle = .plain
 
+    /// TapHandler is called when the header item is tapped.
+    public var tapHandler: (() -> ())?
+
     public var actionButton: UIButton?
 
     private var actionButtonHandler: ((UIButton) -> Void)?
@@ -53,6 +56,21 @@ public class HeaderFormItem: BaseSupplementaryFormItem {
 
         // Set or remove action button
         view.actionButton = actionButton
+
+        view.tapHandler = { [weak self] cell, indexPath in
+            guard let `self` = self else { return }
+
+            switch self.style {
+            case .collapsible:
+                self.isExpanded = !self.isExpanded
+                cell.setExpanded(self.isExpanded, animated: true)
+                self.tapHandler?()
+                self.collectionView?.reloadSections(IndexSet(integer: indexPath.section))
+            case .plain:
+                self.tapHandler?()
+                break
+            }
+        }
     }
 
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, for traitCollection: UITraitCollection) -> CGFloat {
@@ -99,6 +117,12 @@ extension HeaderFormItem {
     @discardableResult
     public func style(_ style: HeaderFormItemStyle) -> Self {
         self.style = style
+        return self
+    }
+
+    @discardableResult
+    public func tapHandler(_ tapHandler: (() -> ())?) -> Self {
+        self.tapHandler = tapHandler
         return self
     }
 

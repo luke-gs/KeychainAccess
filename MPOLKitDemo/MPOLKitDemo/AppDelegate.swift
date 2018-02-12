@@ -107,10 +107,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UINavigationController(rootViewController: sidebarSplitViewController),
             UINavigationController(rootViewController: SearchLookupAddressTableViewController(style: .plain)),
             UINavigationController(rootViewController: genericSearchViewController()),
-            UINavigationController(rootViewController: formSplitViewController)
+            UINavigationController(rootViewController: EventsListViewController(viewModel: DemoListViewModel(eventsManager: EventsManager.shared))),
+            UINavigationController(rootViewController: formSplitViewController),
+            UINavigationController(rootViewController: TemplateManagerViewController())
         ]
 
-        tabBarController.selectedIndex = 0
+        tabBarController.selectedIndex = 5
 
         self.window?.rootViewController = tabBarController
 
@@ -206,38 +208,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }()
 }
 
-
-// MAARK: Generic Search Demo searchables
-
-struct Test: GenericSearchable {
-    var title: String = "James"
-    var subtitle: String? = "Neverdie"
-    var section: String? = "On Duty"
-    var image: UIImage? = UIImage(named: "SidebarAlert")!
-
-    func matches(searchString: String) -> Bool {
-        return title.starts(with: searchString)
-    }
-}
-
-struct Test2: GenericSearchable {
-    var title: String = "Herli"
-    var subtitle: String? //= "Chad"
-    var section: String? //= "On Air"
-    var image: UIImage? = UIImage(named: "SidebarAlert")!
-
-    func matches(searchString: String) -> Bool {
-        return title.starts(with: searchString)
-    }
-}
-
-struct Test3: GenericSearchable {
-    var title: String = "Luke"
-    var subtitle: String? = "Jimmy Boy"
-    var section: String? = "Duress"
-    var image: UIImage? = UIImage(named: "SidebarAlertFilled")!
-
-    func matches(searchString: String) -> Bool {
-        return title.starts(with: searchString) || (subtitle?.contains(searchString) ?? false)
-    }
-}

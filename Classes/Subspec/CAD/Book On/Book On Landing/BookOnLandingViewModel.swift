@@ -13,11 +13,13 @@ open class BookOnLandingViewModel {
     public init() {}
 
     open func convertCallsignsToViewModels() -> CADFormCollectionSectionViewModel<BookOnLandingCallsignItemViewModel> {
-        // Just use all callsigns for now
+        // Just use all callsigns in patrol group for now
         var recentCallsigns: [BookOnLandingCallsignItemViewModel] = []
         if let syncDetails = CADStateManager.shared.lastSync {
             for resource in syncDetails.resources {
-                recentCallsigns.append(BookOnLandingCallsignItemViewModel(resource: resource))
+                if resource.patrolGroup == CADStateManager.shared.patrolGroup {
+                    recentCallsigns.append(BookOnLandingCallsignItemViewModel(resource: resource))
+                }
             }
         }
         return CADFormCollectionSectionViewModel(title: "Recently Used Call Signs", items: recentCallsigns)
@@ -47,18 +49,18 @@ open class BookOnLandingViewModel {
 
     /// Create the book on view controller for a selected callsign
     open func bookOnScreenForItem(_ callsignViewModel: BookOnLandingCallsignItemViewModel) -> Presentable {
-        return BookOnScreen.bookOnDetailsForm(callsignViewModel: callsignViewModel, formSheet: false)
+        return BookOnScreen.bookOnDetailsForm(resource: callsignViewModel.resource, formSheet: false)
     }
     
     open func headerText() -> String? {
         return NSLocalizedString("You are not viewing all active tasks and resources.\nOnly booked on users can respond to tasks.", comment: "")
     }
     
-    open func stayOffDutyButtonText() -> String? {
+    open func stayOffDutyButtonText() -> String {
         return NSLocalizedString("Stay Off Duty", comment: "")
     }
     
-    open func allCallsignsButtonText() -> String? {
+    open func allCallsignsButtonText() -> String {
         return NSLocalizedString("View All Call Signs", comment: "")
     }
     

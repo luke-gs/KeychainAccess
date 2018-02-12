@@ -115,7 +115,7 @@ open class APIManager {
 
         let (promise, fulfill, reject) = Promise<DataResponse<Data>>.pending()
 
-        _ = createSessionRequestWithProgress(from: urlRequest).then { (request) -> Void in
+        createSessionRequestWithProgress(from: urlRequest).then { request -> Void in
 
             cancelToken?.addCancelCommand(ClosureCancelCommand(action: {
                 request.cancel()
@@ -131,7 +131,7 @@ open class APIManager {
             }
 
             // Perform request
-            request.validate().responseDataPromise().then { (response) -> Void in
+            request.validate().responseDataPromise().then { response -> Void in
 
                 // Notify plugins response was received
                 allPlugins.forEach({
@@ -150,19 +150,19 @@ open class APIManager {
                     processed = processed.then { return plugin.processResponse($0) }
                 }
 
-                _ = processed.then { (dataResponse) -> Void in
+                _ = processed.then { [unowned self] dataResponse -> Void in
                     // Handle errors that were still technically responses.
                     if let error = dataResponse.result.error {
-                        reject(error)
-                        return
+                        reject(self.mappedError(underlyingError: error, response: dataResponse.toDefaultDataResponse()))
                     }
-
                     fulfill(dataResponse)
                 }
 
-                }.catch(policy: .allErrors) { error in
-                    reject(error)
+            }.catch(policy: .allErrors) { error in
+                reject(error)
             }
+        }.catch(policy: .allErrors) { error in
+            reject(error)
         }
 
         return promise
@@ -251,21 +251,15 @@ open class APIManager {
     /// Returns a `Promise` that executes the entire chain of related promises for the network request (including serializing response).
     private func requestPromise<T: ResponseSerializing>(_ urlRequest: Promise<URLRequest>, using serializer: T, cancelToken: PromiseCancellationToken? = nil) -> Promise<T.ResultType> {
 
-        let mapper = self.errorMapper
         return Promise { fulfill, reject in
-            dataRequest(urlRequest, cancelToken: cancelToken).then { (processedResponse) -> Void in
+            dataRequest(urlRequest, cancelToken: cancelToken).then { [unowned self] processedResponse -> Void in
                 let result = serializer.serializedResponse(from: processedResponse)
 
                 switch result {
                 case .success(let result):
                     fulfill(result)
                 case .failure(let error):
-                    let wrappedError = APIManagerError(underlyingError: error, response: processedResponse.toDefaultDataResponse())
-                    if let mapper = mapper {
-                        reject(mapper.mappedError(from: wrappedError))
-                    } else {
-                        reject(wrappedError)
-                    }
+                    reject(self.mappedError(underlyingError: error, response: processedResponse.toDefaultDataResponse()))
                 }
             }.catch(policy: .allErrors) { error in
                 // It's used to be the `processedResponse(_:)` used to be APIManager's internal state.
@@ -273,6 +267,18 @@ open class APIManager {
                 // However, it's now exposed externally and it's possible that something external is rejecting the promise.
                 reject(error)
             }
+        }
+    }
+
+    private func mappedError(underlyingError: Error, response: DefaultDataResponse) -> Error {
+        let wrappedError = APIManagerError(underlyingError: underlyingError, response: response)
+
+        let mapper = self.errorMapper
+
+        if let mapper = mapper {
+            return mapper.mappedError(from: wrappedError)
+        } else {
+            return wrappedError
         }
     }
 }

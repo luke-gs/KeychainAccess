@@ -141,6 +141,12 @@ extension AssetManager {
         public static let faceId         = ImageKey("iconBiometricFaceId")
         public static let touchId        = ImageKey("iconBiometricTouchId")
 
+        // Media
+        public static let play           = ImageKey("iconMediaPlay")
+        public static let audioWave      = ImageKey("audioWave")
+        public static let iconPlay       = ImageKey("iconPlay")
+        public static let iconPause      = ImageKey("iconPause")
+
         // General
         public static let alert          = ImageKey("iconGeneralAlert")
         public static let association    = ImageKey("iconGeneralAssociation")
@@ -160,9 +166,15 @@ extension AssetManager {
         public static let duress         = ImageKey("iconDuress")
         public static let route          = ImageKey("iconGeneralRoute")
         public static let streetView     = ImageKey("iconGeneralStreetView")
+        public static let clearText      = ImageKey("iconClearText")
 
         public static let generalLocation = ImageKey("iconGeneralLocation")
         public static let otherPatrolArea = ImageKey("iconOtherPatrolArea")
+
+        // Map
+        public static let pinLocation    = ImageKey("pinLocation")
+        public static let pinDefault     = ImageKey("pinDefault")
+        public static let pinCluster     = ImageKey("pinCluster")
         
         // Entity
         public static let entityOfficer  = ImageKey("iconEntityOfficer")
@@ -191,13 +203,19 @@ extension AssetManager {
         public static let entityPlaceholder = ImageKey("EntityThumbnailBackground")
 
         // Resource
-        public static let resourceGeneral   = ImageKey("iconResourceGeneral")
-        public static let resourceCar       = ImageKey("iconResourceCar")
-        public static let resourceWater     = ImageKey("iconResourceWater")
-        public static let resourceBicycle   = ImageKey("iconResourceBicycle")
-        public static let resourceAir       = ImageKey("iconResourceAir")
-        public static let resourceSegway    = ImageKey("iconResourceSegway")
-        public static let resourceDog       = ImageKey("iconResourceDog") // woof woof
+        public static let resourceGeneral       = ImageKey("iconResourceGeneral")
+        public static let resourceCar           = ImageKey("iconResourceCar")
+        public static let resourceWater         = ImageKey("iconResourceWater")
+        public static let resourceBicycle       = ImageKey("iconResourceBicycle")
+        public static let resourceHelicopter    = ImageKey("iconResourceHelicopter")
+        public static let resourceBeat          = ImageKey("iconResourceBeat")
+        public static let resourceDog           = ImageKey("iconResourceDog") // woof woof
+        public static let resourceSegway        = ImageKey("iconResourceSegway")
+
+        // Sketch
+        public static let penStub = ImageKey("penStub")
+        public static let penNib = ImageKey("penNib")
+        public static let rubber = ImageKey("rubber")
         
         // Comms
         public static let audioCall      = ImageKey("iconCommsCall")
@@ -236,6 +254,13 @@ extension AssetManager {
         public static let iconStatusStation      = ImageKey("iconStatusStation")
         public static let iconStatusTrafficStop  = ImageKey("iconStatusTrafficStop")
         public static let iconStatusUnavailable  = ImageKey("iconStatusUnavailable")
+
+        // Events
+        public static let iconFolder  = ImageKey("iconFolder")
+        public static let iconPencil  = ImageKey("iconPencil")
+        
+        // Dialog images
+        public static let dialogAlert = ImageKey("dialogAlert")
 
     }
 }

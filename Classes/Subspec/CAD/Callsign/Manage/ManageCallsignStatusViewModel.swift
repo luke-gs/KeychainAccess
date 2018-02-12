@@ -31,14 +31,14 @@ public protocol ManageCallsignStatusViewModelDelegate: PopoverPresenter, Navigat
 open class ManageCallsignStatusViewModel {
 
     public init() {
-        NotificationCenter.default.addObserver(self, selector: #selector(notifyDataChanged), name: .CADCallsignChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(bookonChanged), name: .CADBookOnChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(callsignChanged), name: .CADCallsignChanged, object: nil)
     }
 
     /// Enum for action button types
     enum ActionButton: Int {
         case viewCallsign
         case manageCallsign
-        case terminateShift
 
         var title: String {
             switch self {
@@ -46,8 +46,6 @@ open class ManageCallsignStatusViewModel {
                 return NSLocalizedString("View My Call Sign", comment: "View call sign button text")
             case .manageCallsign:
                 return NSLocalizedString("Manage Call Sign", comment: "Manage call sign button text")
-            case .terminateShift:
-                return NSLocalizedString("Terminate Shift", comment: "Terminate shift button text")
             }
         }
     }
@@ -60,8 +58,7 @@ open class ManageCallsignStatusViewModel {
         get {
             return [
                 ActionButton.viewCallsign.title,
-                ActionButton.manageCallsign.title,
-                ActionButton.terminateShift.title
+                ActionButton.manageCallsign.title
             ]
         }
     }
@@ -90,7 +87,15 @@ open class ManageCallsignStatusViewModel {
         return nil
     }
 
-    @objc private func notifyDataChanged() {
+    @objc private func bookonChanged() {
+        if CADStateManager.shared.lastBookOn == nil {
+            // Close dialog if we have been booked off. In compact mode, this dialog is not presented,
+            // but it is cleaned up by CompactCallsignContainerViewController observing book off
+            delegate?.dismiss(animated: true, completion: nil)
+        }
+    }
+
+    @objc private func callsignChanged() {
         let callsignStatus = CADStateManager.shared.currentResource?.status ?? .unavailable
         
         callsignViewModel.reload(sections: callsignSectionsForState(), selectedStatus: callsignStatus, incident: CADStateManager.shared.currentIncident)
@@ -129,30 +134,15 @@ open class ManageCallsignStatusViewModel {
                 if let resource = CADStateManager.shared.currentResource {
                     // Show split view controller for booked on resource
                     let vm = ResourceTaskItemViewModel(resource: resource)
-                    let vc = TaskItemSidebarSplitViewController.init(viewModel: vm)
+                    let vc = vm.createViewController()
                     let nav = UINavigationController(rootViewController: vc)
                     delegate?.present(nav, animated: true, completion: nil)
                 }
                 break
             case .manageCallsign:
-                if let bookOn = CADStateManager.shared.lastBookOn {
+                if let resource = CADStateManager.shared.currentResource {
                     // Edit the book on details
-                    let callsignViewModel = BookOnCallsignViewModel(
-                        callsign: bookOn.callsign,
-                        status: CADStateManager.shared.currentResource?.status.title ?? "",
-                        location: CADStateManager.shared.currentResource?.station ?? "",
-                        type: CADStateManager.shared.currentResource?.type)
-                    delegate?.present(BookOnScreen.bookOnDetailsForm(callsignViewModel: callsignViewModel, formSheet: false))
-                }
-                break
-            case .terminateShift:
-                if callsignViewModel.currentStatus?.canTerminate == true {
-                    // Update session and dismiss screen
-                    CADStateManager.shared.setOffDuty()
-                    delegate?.dismiss(animated: true, completion: nil)
-                } else {
-                    AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Terminate Shift", comment: ""),
-                                                     message: NSLocalizedString("Your call sign is currently responding to an active incident that must first be finalised.", comment: ""))
+                    delegate?.present(BookOnScreen.bookOnDetailsForm(resource: resource, formSheet: false))
                 }
                 break
             }
@@ -165,7 +155,7 @@ open class ManageCallsignStatusViewModel {
         var sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>] = []
         if shouldShowIncident {
             sections.append(CADFormCollectionSectionViewModel(
-                title: NSLocalizedString("Incident Status", comment: "Incident Status header text"),
+                title: "",
                 items: [
                     ManageCallsignStatusItemViewModel(.proceeding),
                     ManageCallsignStatusItemViewModel(.atIncident),

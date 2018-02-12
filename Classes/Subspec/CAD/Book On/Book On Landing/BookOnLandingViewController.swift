@@ -19,22 +19,14 @@ open class BookOnLandingViewController: FormBuilderViewController {
         
         // MARK: - Header
         static var headerHeight: CGFloat = 80
-        static let footerHeight: CGFloat = 64
-        
-        // MARK: - Button Padding
-        static let centerOffsetButton: CGFloat = 3
-        static let verticalButtonPadding: CGFloat = 24
-        static let horizontalButtonPadding: CGFloat = 40
-        static let edgeButtonPadding: CGFloat = 24
+        static let footerHeight: CGFloat = DialogActionButtonsView.LayoutConstants.defaultHeight
     }
     
     // MARK: - Views
     
-    open var footerDivider: UIView!
     open var titleLabel: UILabel!
-    open var stayOffDutyButton: UIButton!
-    open var allCallsignsButton: UIButton!
-    
+    open var buttonsView: DialogActionButtonsView!
+
     /// `super.viewModel` typecasted to our type
     open var viewModel: BookOnLandingViewModel
     
@@ -70,9 +62,6 @@ open class BookOnLandingViewController: FormBuilderViewController {
 
     /// Creates and styles views
     open func setupViews() {
-        let theme = ThemeManager.shared.theme(for: .current)
-        let tintColor = theme.color(forKey: .tint)!
-        
         titleLabel = UILabel()
         titleLabel.font = UIFont.systemFont(ofSize: 15)
         titleLabel.text = viewModel.headerText()
@@ -81,37 +70,17 @@ open class BookOnLandingViewController: FormBuilderViewController {
         titleLabel.numberOfLines = 2
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(titleLabel)
-        
-        stayOffDutyButton = UIButton()
-        stayOffDutyButton.contentEdgeInsets = UIEdgeInsets(top: LayoutConstants.verticalButtonPadding,
-                                                           left: LayoutConstants.edgeButtonPadding,
-                                                           bottom: LayoutConstants.verticalButtonPadding - LayoutConstants.centerOffsetButton,
-                                                           right: LayoutConstants.horizontalButtonPadding)
-        stayOffDutyButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        stayOffDutyButton.setTitleColor(tintColor, for: .normal)
-        stayOffDutyButton.setTitleColor(tintColor.withAlphaComponent(0.5), for: .highlighted)
-        stayOffDutyButton.setTitle(viewModel.stayOffDutyButtonText(), for: .normal)
-        stayOffDutyButton.addTarget(self, action: #selector(didSelectStayOffDutyButton), for: .touchUpInside)
-        stayOffDutyButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(stayOffDutyButton)
-        
-        allCallsignsButton = UIButton()
-        allCallsignsButton.contentEdgeInsets = UIEdgeInsets(top: LayoutConstants.verticalButtonPadding,
-                                                            left: LayoutConstants.horizontalButtonPadding,
-                                                            bottom: LayoutConstants.verticalButtonPadding - LayoutConstants.centerOffsetButton,
-                                                            right: LayoutConstants.edgeButtonPadding)
-        allCallsignsButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        allCallsignsButton.setTitleColor(tintColor, for: .normal)
-        allCallsignsButton.setTitleColor(tintColor.withAlphaComponent(0.5), for: .highlighted)
-        allCallsignsButton.setTitle(viewModel.allCallsignsButtonText(), for: .normal)
-        allCallsignsButton.addTarget(self, action: #selector(didSelectAllCallsignsButton), for: .touchUpInside)
-        allCallsignsButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(allCallsignsButton)
-        
-        footerDivider = UIView()
-        footerDivider.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
-        footerDivider.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(footerDivider)
+
+        buttonsView = DialogActionButtonsView(actions: [
+            DialogAction(title: viewModel.stayOffDutyButtonText(), handler: { [weak self] (action) in
+                self?.didSelectStayOffDutyButton()
+            }),
+            DialogAction(title: viewModel.allCallsignsButtonText(), handler: { [weak self] (action) in
+                self?.didSelectAllCallsignsButton()
+            })
+        ])
+        buttonsView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(buttonsView)
     }
     
     /// Activates view constraints
@@ -121,20 +90,13 @@ open class BookOnLandingViewController: FormBuilderViewController {
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            footerDivider.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            footerDivider.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            footerDivider.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor, constant: -LayoutConstants.footerHeight),
-            footerDivider.heightAnchor.constraint(equalToConstant: 1),
-            
-            stayOffDutyButton.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
-            stayOffDutyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            
-            allCallsignsButton.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
-            allCallsignsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            buttonsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            buttonsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            buttonsView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
         ])
     }
     
-    @objc open func didSelectStayOffDutyButton() {
+    open func didSelectStayOffDutyButton() {
         if presentingViewController != nil {
             dismiss(animated: true, completion: nil)
         } else {
@@ -142,7 +104,7 @@ open class BookOnLandingViewController: FormBuilderViewController {
         }
     }
     
-    @objc open func didSelectAllCallsignsButton() {
+    open func didSelectAllCallsignsButton() {
         // Present all callsigns screen
         present(BookOnScreen.callSignList)
     }

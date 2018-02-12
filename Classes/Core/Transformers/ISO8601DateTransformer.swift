@@ -29,6 +29,9 @@ public class ISO8601DateTransformer: OptionalTransformer {
     // Full ISO without a timezone - 2018-07-01T12:30:30
     private lazy var noTimeZoneDateFormatter: ISO8601DateFormatter = {
         let dateFormatter = ISO8601DateFormatter()
+        if let timeZone = customTimeZone {
+            dateFormatter.timeZone = timeZone
+        }
         dateFormatter.formatOptions = [.withYear,
                                        .withMonth,
                                        .withDay,
@@ -42,6 +45,9 @@ public class ISO8601DateTransformer: OptionalTransformer {
     // Date only ISO format - 2018-07-01
     private lazy var dateOnlyFormatter: ISO8601DateFormatter = {
         let dateFormatter = ISO8601DateFormatter()
+        if let timeZone = customTimeZone {
+            dateFormatter.timeZone = timeZone
+        }
         dateFormatter.formatOptions = [.withYear,
                                        .withMonth,
                                        .withDay,
@@ -52,6 +58,13 @@ public class ISO8601DateTransformer: OptionalTransformer {
     // Since the underlying formatter is thread-safe, allow this
     // transformer to be shared.
     public static let shared = ISO8601DateTransformer()
+
+    public var customTimeZone: TimeZone? {
+        didSet {
+            noTimeZoneDateFormatter.timeZone = customTimeZone
+            dateOnlyFormatter.timeZone = customTimeZone
+        }
+    }
     
     public func transform(_ value: String) -> Date? {
         return dateFormatter.date(from: value)
@@ -61,7 +74,5 @@ public class ISO8601DateTransformer: OptionalTransformer {
     
     public func reverse(_ transformedValue: Date) -> String? {
         return dateFormatter.string(from: transformedValue)
-            ?? noTimeZoneDateFormatter.string(from: transformedValue)
-            ?? dateOnlyFormatter.string(from: transformedValue)
     }
 }

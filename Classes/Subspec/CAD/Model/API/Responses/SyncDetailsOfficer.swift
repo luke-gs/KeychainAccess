@@ -23,6 +23,7 @@ open class SyncDetailsOfficer: Codable {
     open var contactNumber: String!
     open var remarks: String!
     open var capabilities: [String]!
+    open var radioId: String?
 
     /// Default constructor
     public init() { }
@@ -40,5 +41,6 @@ open class SyncDetailsOfficer: Codable {
         self.contactNumber = officer.contactNumber
         self.remarks = officer.remarks
         self.capabilities = officer.capabilities
+        self.radioId = officer.radioId
     }
 }
