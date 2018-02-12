@@ -29,10 +29,10 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
 
     public convenience init(incident: SyncDetailsIncident, resource: SyncDetailsResource?) {
         self.init(incidentNumber: incident.identifier,
-                  iconImage: resource?.status.icon ?? ResourceStatus.unavailable.icon,
-                  iconTintColor: resource?.status.iconColors.icon ?? .white,
-                  color: resource?.status.iconColors.background,
-                  statusText: resource?.status.title ?? incident.status.rawValue,
+                  iconImage: resource?.statusType.icon ?? ResourceStatus.unavailable.icon,
+                  iconTintColor: resource?.statusType.iconColors.icon ?? .white,
+                  color: resource?.statusType.iconColors.background,
+                  statusText: resource?.statusType.title ?? incident.status.rawValue,
                   itemName: [incident.type, incident.resourceCountString].joined())
         self.incident = incident
         self.resource = resource
@@ -51,10 +51,10 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         }
 
         if let incident = incident {
-            iconImage = resource?.status.icon ?? ResourceStatus.unavailable.icon
-            iconTintColor = resource?.status.iconColors.icon ?? .white
-            color = resource?.status.iconColors.background
-            statusText = resource?.status.title ?? incident.status.rawValue
+            iconImage = resource?.statusType.icon ?? ResourceStatus.unavailable.icon
+            iconTintColor = resource?.statusType.iconColors.icon ?? .white
+            color = resource?.statusType.iconColors.background
+            statusText = resource?.statusType.title ?? incident.status.rawValue
             itemName = [incident.type, incident.resourceCountString].joined()
 
             viewModels.forEach {
@@ -65,7 +65,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
 
     override open func didTapTaskStatus() {
         if allowChangeResourceStatus() {
-            let callsignStatus = CADStateManager.shared.currentResource?.status ?? .unavailable
+            let callsignStatus = CADStateManager.shared.currentResource?.statusType ?? .unavailable
             let sections = [CADFormCollectionSectionViewModel(
                 title: "",
                 items: [

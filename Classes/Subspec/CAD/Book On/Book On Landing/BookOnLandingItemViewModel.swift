@@ -52,7 +52,7 @@ open class BookOnLandingCallsignItemViewModel: BookOnLandingItemViewModel {
     /// Create a view model from the callsign resource
     public init(resource: SyncDetailsResource) {
         // Get icon colors
-        let (imageColor, imageBackgroundColor) = resource.status.iconColors
+        let (imageColor, imageBackgroundColor) = resource.statusType.iconColors
 
         // Fetch current incident, for badge text and colors
         let incident = CADStateManager.shared.incidentForResource(callsign: resource.callsign)
@@ -60,11 +60,11 @@ open class BookOnLandingCallsignItemViewModel: BookOnLandingItemViewModel {
 
         let title = [resource.callsign, resource.officerCountString].joined()
         let subtitle = resource.location?.suburb ?? resource.station ?? ThemeConstants.longDash
-        let caption = [resource.status.rawValue, resource.currentIncident?.title].joined(separator: ThemeConstants.dividerSeparator)
+        let caption = [resource.statusType.rawValue, resource.currentIncident?.title].joined(separator: ThemeConstants.dividerSeparator)
 
         self.resource = resource
         self.callsign = resource.callsign
-        self.status = resource.status
+        self.status = resource.statusType
         self.location = resource.location?.fullAddress.ifNotEmpty()
         self.type = resource.type
         self.badgeText = incident?.grade.rawValue

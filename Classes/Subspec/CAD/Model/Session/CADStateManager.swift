@@ -57,8 +57,8 @@ open class CADStateManager: NSObject {
                 resource.payrollIds = officerIds
 
                 // Set state if callsign was off duty
-                if resource.status == .offDuty {
-                    resource.status = .onAir
+                if resource.statusType == .offDuty {
+                    resource.statusType = .onAir
                 }
 
                 // Check if logged in officer is no longer in callsign
@@ -117,13 +117,13 @@ open class CADStateManager: NSObject {
 
     /// Set logged in officer as off duty
     open func setOffDuty() {
-        currentResource?.status = .offDuty
+        currentResource?.statusType = .offDuty
         lastBookOn = nil
     }
     
     /// Clears current incident and sets status to on air
     open func finaliseIncident() {
-        currentResource?.status = .onAir
+        currentResource?.statusType = .onAir
         clearIncident()
     }
     
@@ -170,13 +170,13 @@ open class CADStateManager: NSObject {
         }
 
         // Clear incident if changing to non incident status
-        if (currentResource?.status?.isChangingToGeneralStatus(newStatus)).isTrue {
+        if (currentResource?.statusType?.isChangingToGeneralStatus(newStatus)).isTrue {
             // Clear the current incident
             CADStateManager.shared.clearIncident()
             newIncident = nil
         }
 
-        currentResource?.status = newStatus
+        currentResource?.statusType = newStatus
 
         // Update current incident if setting status without one
         if let newIncident = newIncident, currentIncident == nil {

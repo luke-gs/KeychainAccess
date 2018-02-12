@@ -13,7 +13,7 @@ import UIKit
 /// Reponse object for a single Resource in the call to /sync/details
 open class SyncDetailsResource: Codable {
     open var callsign: String!
-    open var status: ResourceStatus!
+    open var status: String!
     open var patrolGroup: String!
     open var station: String!
     open var currentIncident: String?
@@ -30,6 +30,17 @@ open class SyncDetailsResource: Codable {
     open var remarks : String?
     open var lastUpdated : Date?
     open var activityLog: [SyncDetailsActivityLogItem]?
+
+    /// Status as a type that is client specific
+    open var statusType: ResourceStatus! {
+        get {
+            return ResourceStatus(rawValue: status)
+        }
+        set {
+            status = newValue.rawValue
+        }
+    }
+
 }
 
 /// Reponse object for a single Equipment item in the resource

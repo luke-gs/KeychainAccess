@@ -69,7 +69,7 @@ open class ManageCallsignStatusViewModel {
 
     /// The callsign view model for changing status
     open lazy var callsignViewModel: CallsignStatusViewModel = {
-        let callsignStatus = CADStateManager.shared.currentResource?.status ?? .unavailable
+        let callsignStatus = CADStateManager.shared.currentResource?.statusType ?? .unavailable
         return CallsignStatusViewModel(sections: callsignSectionsForState(), selectedStatus: callsignStatus, incident: CADStateManager.shared.currentIncident)
     }()
 
@@ -96,7 +96,7 @@ open class ManageCallsignStatusViewModel {
     }
 
     @objc private func callsignChanged() {
-        let callsignStatus = CADStateManager.shared.currentResource?.status ?? .unavailable
+        let callsignStatus = CADStateManager.shared.currentResource?.statusType ?? .unavailable
         
         callsignViewModel.reload(sections: callsignSectionsForState(), selectedStatus: callsignStatus, incident: CADStateManager.shared.currentIncident)
         delegate?.callsignDidChange()

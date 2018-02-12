@@ -110,7 +110,7 @@ open class TasksSplitViewModel {
             var hasResourceInDuress: Bool = false
             
             for resource in CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier) {
-                if resource.status == .duress {
+                if resource.statusType == .duress {
                     hasResourceInDuress = true
                     break
                 }
@@ -131,10 +131,10 @@ open class TasksSplitViewModel {
             }
 
             // Ignore off duty resources
-            guard resource.status != .offDuty else { return false }
+            guard resource.statusType != .offDuty else { return false }
 
             let isTasked = resource.currentIncident != nil
-            let isDuress = resource.status == .duress
+            let isDuress = resource.statusType == .duress
 
             return filterViewModel.taskedResources.tasked && isTasked ||
                 filterViewModel.taskedResources.untasked && !isTasked ||
