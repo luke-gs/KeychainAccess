@@ -26,7 +26,8 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
         sidebarItem.regularTitle = "Date and Time"
         sidebarItem.compactTitle = "Date and Time"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.date)!
-        sidebarItem.color = .red    }
+        sidebarItem.color = .red    
+    }
 
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLUnimplemented()
