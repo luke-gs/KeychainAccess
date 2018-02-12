@@ -182,7 +182,7 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
     
     private func subtitle(for alert: Alert) -> String? {
         if let date = alert.effectiveDate {
-            return NSLocalizedString("Effective from ", bundle: .mpolKit, comment: "") + DateFormatter.shortDate.string(from: date)
+            return NSLocalizedString("Effective from ", bundle: .mpolKit, comment: "") + DateFormatter.preferredDateStyle.string(from: date)
         } else {
             return NSLocalizedString("Effective date unknown", bundle: .mpolKit, comment: "")
         }

@@ -49,7 +49,7 @@ open class VehicleInfoViewModel: EntityDetailFormViewModel {
         builder += ProgressFormItem(title: NSLocalizedString("Valid until", bundle: .mpolKit, comment: ""))
             .value({
                 if let date = vehicle.registrationExpiryDate {
-                    return DateFormatter.mediumNumericDate.string(from: date)
+                    return DateFormatter.preferredDateStyle.string(from: date)
                 }
                 return "-"
                 }())
@@ -117,7 +117,7 @@ open class VehicleInfoViewModel: EntityDetailFormViewModel {
         case .header:
             let lastUpdated: String
             if let date = vehicle?.lastUpdated {
-                lastUpdated = DateFormatter.shortDate.string(from: date)
+                lastUpdated = DateFormatter.preferredDateStyle.string(from: date)
             } else {
                 lastUpdated = NSLocalizedString("UNKNOWN", bundle: .mpolKit, comment: "Unknown Date")
             }

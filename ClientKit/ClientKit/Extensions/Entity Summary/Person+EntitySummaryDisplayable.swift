@@ -48,7 +48,11 @@ public struct PersonSummaryDisplayable: EntitySummaryDisplayable {
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
         return PersonImageSizing(person: person)
     }
-    
+
+    public var priority: Int {
+        return person.alertLevel?.rawValue ?? -1
+    }
+
     // MARK: - Private
     
     private var formattedName: String? {
@@ -85,7 +89,7 @@ public struct PersonSummaryDisplayable: EntitySummaryDisplayable {
         if let dob = person.dateOfBirth {
             let yearComponent = Calendar.current.dateComponents([.year], from: dob, to: Date())
             
-            var dobString = DateFormatter.mediumNumericDate.string(from: dob) + " (\(yearComponent.year!)"
+            var dobString = DateFormatter.preferredDateStyle.string(from: dob) + " (\(yearComponent.year!)"
             
             if let gender = person.gender {
                 dobString += " \(gender.description))"
