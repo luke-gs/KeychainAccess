@@ -70,7 +70,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
 
     /// Button for toggling full screen
     private lazy var fullScreenButton: UIBarButtonItem = {
-        return UIBarButtonItem(image: AssetManager.shared.image(forKey: .map), style: .plain, target: self, action: #selector(toggleFullScreen))
+        return UIBarButtonItem(image: AssetManager.shared.image(forKey: .list), style: .plain, target: self, action: #selector(toggleFullScreen))
     }()
 
     /// Button for showing map layer filter
@@ -244,7 +244,11 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         guard let splitViewController = pushableSplitViewController as? TasksSplitViewController else { return }
         let width = isFullScreen ? TasksSplitViewController.defaultSplitWidth : splitViewController.view.bounds.width
         splitViewController.setMasterWidth(width, animated: true)
+        
+        // Tell VC that we have toggled
         isFullScreen = !isFullScreen
+        
+        fullScreenButton.image = AssetManager.shared.image(forKey: isFullScreen ? .map : .list)
         
         let buttons = isFullScreen ? [filterButton, fullScreenButton] : [fullScreenButton]
         navigationItem.rightBarButtonItems = buttons

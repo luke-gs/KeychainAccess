@@ -393,6 +393,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         
         searchContainer.backgroundColor = backgroundColor
         searchSeparator.backgroundColor = separatorColor
+        
+        searchField.clearButton.tintColor = theme.color(forKey: .secondaryText)
     }
 
     // MARK: - Action methods

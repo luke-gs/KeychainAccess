@@ -62,6 +62,8 @@ class DropDownAction<T: Pickable>: ValueSelectionAction<[T]> where T: Equatable 
 
     public var allowsMultipleSelection: Bool = false
 
+    public var allowsQuickSelection: Bool = false
+
     public override func viewController() -> UIViewController {
         let selectedIndexes = options.indexes { (option) -> Bool in
             return selectedValue?.contains(option) ?? false
@@ -71,6 +73,7 @@ class DropDownAction<T: Pickable>: ValueSelectionAction<[T]> where T: Equatable 
         pickerTableViewController.title = title
         pickerTableViewController.selectedIndexes = selectedIndexes
         pickerTableViewController.allowsMultipleSelection = allowsMultipleSelection
+        pickerTableViewController.allowsQuickSelection = allowsQuickSelection
         pickerTableViewController.selectionUpdateHandler = { [weak self] picker, selectedIndexes in
             self?.selectedValue = self?.options[selectedIndexes]
             self?.updateHandler?()

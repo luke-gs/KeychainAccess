@@ -12,11 +12,6 @@ import Unbox
 import MapKit
 
 
-public protocol Locatable {
-    var textRepresentation: String { get }
-    var coordinate: CLLocationCoordinate2D { get }
-}
-
 public struct LookupResult: Pickable {
     
     public let location: Locatable
@@ -33,7 +28,7 @@ public struct LookupResult: Pickable {
 
 public let LocationSearchDataSourceSearchableType = "Location"
 
-public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSearchStrategy>: NSObject, SearchDataSource, UITextFieldDelegate, LocationBasicSearchOptionsDelegate, LocationAdvancedOptionDelegate where T.Location == U.Location {
+public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSearchStrategy>: NSObject, SearchDataSource, UITextFieldDelegate, LocationBasicSearchOptionsDelegate, LocationAdvancedOptionDelegate, CLLocationManagerDelegate where T.Location == U.Location {
 
     private let searchPlaceholder = NSAttributedString(string: NSLocalizedString("eg. 28 Wellington Street", comment: ""),
                                                        attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 28.0, weight: UIFont.Weight.light), NSAttributedStringKey.foregroundColor: UIColor.lightGray])
@@ -102,7 +97,33 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
     public let advanceOptions: T?
     public let searchStrategy: U
 
-    public weak var updatingDelegate: (SearchDataSourceUpdating & UIViewController)?
+    public weak var updatingDelegate: (SearchDataSourceUpdating & UIViewController)? {
+        didSet {
+            if updatingDelegate != nil {
+                if CLLocationManager.locationServicesEnabled() {
+                    let status = CLLocationManager.authorizationStatus()
+                    switch status {
+                    case .notDetermined:
+                        locationManager.requestWhenInUseAuthorization()
+                    case .authorizedAlways, .authorizedWhenInUse:
+                        locationManager.startUpdatingLocation()
+                    default:
+                        break
+                    }
+                }
+
+                basicOptions.currentLocationActive = locationManager.location != nil
+            } else {
+                locationManager.stopUpdatingLocation()
+            }
+        }
+    }
+
+    public lazy var locationManager: CLLocationManager = {
+        let manager = CLLocationManager()
+        manager.delegate = self
+        return manager
+    }()
     
     public var localizedDisplayName: String {
         return NSLocalizedString("Location", comment: "")
@@ -137,6 +158,8 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
             switch options.resultType(at: index) {
             case .lookup:
                 performSearchOnLocation(withResult: options.results[index])
+            case .currentLocation:
+                didTapCurrentLocation()
             case .advance:
                 didTapAdvanceButton()
             case .map:
@@ -200,7 +223,7 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
     @objc private func didTapAdvanceButton() {
         options = advanceOptions
     }
-    
+
     @objc private func didTapSearchButton() {
         guard let advanceOptions = advanceOptions else { return }
         performSearchOnLocation(withParameters: advanceOptions.locationParameters())
@@ -210,17 +233,23 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
         let preferredViewModel = searchStrategy.resultModelForMap()
         updatingDelegate?.searchDataSource(self, didFinishWith: nil, andResultViewModel: preferredViewModel)
     }
+
+    private func didTapCurrentLocation() {
+        guard let coordinate = locationManager.location?.coordinate else { return }
+        let preferredViewModel = searchStrategy.resultModelForSearchOnLocation(withCoordinate: coordinate)
+        updatingDelegate?.searchDataSource(self, didFinishWith: nil, andResultViewModel: preferredViewModel)
+    }
     
     private func attemptSearch(delay: Bool = true) {
         
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(lookupLocations), object: nil)
-        self.perform(#selector(lookupLocations), with: nil, afterDelay: delay ? searchStrategy.configuration.throttle : 0.0)
+        self.perform(#selector(lookupLocations), with: nil, afterDelay: delay ? searchStrategy.typeaheadConfiguration.throttle : 0.0)
     }
     
     private var lastSearchText: String?
     
     @objc private func lookupLocations() {
-        guard let text = text, text.count >= searchStrategy.configuration.minimumCharacters else {
+        guard let text = text, text.count >= searchStrategy.typeaheadConfiguration.minimumCharacters else {
             lastSearchText = nil
             errorMessage = nil
 
@@ -275,7 +304,7 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
     }
 
     // MARK: - Handle address
-    
+
     private func performSearchOnLocation(withResult result: LookupResult) {
         text = result.location.textRepresentation
         let search = Searchable(text: text,
@@ -284,9 +313,6 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
                                 imageKey: AssetManager.ImageKey.location)
 
         let preferredViewModel = searchStrategy.resultModelForSearchOnLocation(withResult: result, andSearchable: search)
-        let radiusSearch = LocationMapSearchType.radiusSearch(from: result.location.coordinate)
-        // preferredViewModel.fetchResults(with: radiusSearch)
-
         updatingDelegate?.searchDataSource(self, didFinishWith: search, andResultViewModel: preferredViewModel)
     }
     
@@ -308,5 +334,29 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
         advanceOptions.populate(withLocation: result.location as! T.Location)
         self.options = advanceOptions
     }
+
+    // MARK: - Location Manager Delegate
+
+    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let shouldEnabledCurrentLocation = manager.location != nil
+
+        if basicOptions.currentLocationActive != shouldEnabledCurrentLocation {
+            basicOptions.currentLocationActive = shouldEnabledCurrentLocation
+
+            if options is LocationBasicSearchOptions {
+                updatingDelegate?.searchDataSource(self, didUpdateComponent: .filter(index: nil))
+            }
+        }
+    }
+
+    public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            manager.startUpdatingLocation()
+        default:
+            break
+        }
+    }
+
 }
 

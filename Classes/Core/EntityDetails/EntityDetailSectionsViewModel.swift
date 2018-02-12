@@ -50,17 +50,24 @@ public class EntityDetailSectionsViewModel {
         }
     }
 
+    public var summary: EntitySummaryDisplayable? {
+        return summaryDisplayFormatter.summaryDisplayForEntity(currentEntity)
+    }
+
     private var matchMaker: MatchMaker?
     private var detailSectionsDataSources: [EntityDetailSectionsDataSource]
     private var entityFetch: Fetchable?
     fileprivate let initialSource: EntitySource
 
-    public init(initialSource: EntitySource, dataSources: [EntityDetailSectionsDataSource], andMatchMaker matchMaker: MatchMaker?, showsActionButton: Bool = true) {
+    public let summaryDisplayFormatter: EntitySummaryDisplayFormatter
+
+    public init(initialSource: EntitySource, dataSources: [EntityDetailSectionsDataSource], andMatchMaker matchMaker: MatchMaker?, showsActionButton: Bool = true, summaryDisplayFormatter: EntitySummaryDisplayFormatter = .default) {
         self.initialSource = initialSource
         self.showsActionButton = showsActionButton
         self.selectedSource = initialSource
         self.detailSectionsDataSources = dataSources
         self.matchMaker = matchMaker
+        self.summaryDisplayFormatter = summaryDisplayFormatter
     }
 
     public func performFetch() {

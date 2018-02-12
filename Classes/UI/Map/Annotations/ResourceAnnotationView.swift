@@ -141,8 +141,11 @@ open class ResourceAnnotationView: AutoLayoutAnnotationView {
             circleView.heightAnchor.constraint(equalToConstant: LayoutConstants.circleSize),
             circleView.widthAnchor.constraint(equalToConstant: LayoutConstants.circleSize),
 
+            imageView.widthAnchor.constraint(equalToConstant: 24),
+            imageView.heightAnchor.constraint(equalToConstant: 24),
+
             imageView.centerXAnchor.constraint(equalTo: circleView.centerXAnchor),
-            imageView.centerYAnchor.constraint(equalTo: circleView.centerYAnchor, constant: -1),
+            imageView.centerYAnchor.constraint(equalTo: circleView.centerYAnchor),
         ])
     }
 }
