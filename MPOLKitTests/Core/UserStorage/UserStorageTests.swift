@@ -59,7 +59,7 @@ class UserStorageTests: XCTestCase {
 
         do {
             try userStorage.add(object: "Lionheart", key: key, flag: .retain)
-        } catch UserStorageError.KeyExists {
+        } catch UserStorageError.keyExists {
             XCTAssert(true)
         } catch {
             XCTAssert(false)
@@ -74,8 +74,8 @@ class UserStorageTests: XCTestCase {
     }
 
     func testThatRetrieveNonExistingReturnsNil() {
-        let result = retrieveAndAssert(key: "Foo", type: "Bar", expectsSuccess: false)
-        XCTAssert(result == nil)
+        // Tests Empty storage container
+        retrieveAndAssert(key: "Lord", type: "Voldemort", expectsSuccess: false)
     }
 
     func testSlashes() {
@@ -85,6 +85,13 @@ class UserStorageTests: XCTestCase {
 
     func testCustomFlag() {
         addAndTestRetrieve(object: "Potter ", key: "Harry", flag: .custom("Hogwarts"))
+    }
+
+    func testCaseSensitivity() {
+        addAndTestRetrieve(object: 42, key: "hitchhiker", flag: .custom("scifi"))
+        addAndTestRetrieve(object: 23, key: "lost", flag: .custom("Scifi"))
+        purge(flag: .custom("scifi"))
+        retrieveAndAssert(key: "lost", type: 0, expectsSuccess: false)
     }
 
     // MARK: Deletion
@@ -97,7 +104,16 @@ class UserStorageTests: XCTestCase {
         retrieveAndAssert(key: key, type: String.self, expectsSuccess: false)
     }
 
-    func testThatDeletingNonExistentIsGraceful() {
+    func testThatDeletingWithNoThingStoredIsGraceful() {
+        remove(key: "a key that doesn't exist") // Asserts false on remove error.
+        XCTAssert(true)
+    }
+
+    func testThatDeletingNonExistentKeyIsGraceful() {
+        addAndTestRetrieve(object: 1, key: "1", flag: .session)
+        addAndTestRetrieve(object: 2, key: "2", flag: .retain)
+        addAndTestRetrieve(object: 3, key: "3", flag: .custom("3"))
+
         let key = "a key that doesn't exist"
         remove(key: key) // Asserts false on remove error.
         XCTAssert(true)
