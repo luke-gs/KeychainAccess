@@ -21,9 +21,6 @@ open class DefaultEventNotesPhotosViewController: FormBuilderViewController, Eva
         super.init()
         report?.evaluator.addObserver(self)
         
-        // default evaluator behaviour - start false, become true on viewed
-        try? report?.evaluator.addEvaluation(false, for: .viewed)
-        
         sidebarItem.regularTitle = "Notes and Photos"
         sidebarItem.compactTitle = "Notes and Photos"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.attachment)!
@@ -36,8 +33,7 @@ open class DefaultEventNotesPhotosViewController: FormBuilderViewController, Eva
     
     
     open override func viewDidAppear(_ animated: Bool) {
-        // evaluator consults viewed handler on viewDidLoad
-        report?.evaluator.updateEvaluation(for: .viewed)
+        report?.viewed = true
     }
     
     override open func construct(builder: FormBuilder) {
@@ -46,11 +42,11 @@ open class DefaultEventNotesPhotosViewController: FormBuilderViewController, Eva
         
         builder += HeaderFormItem(text: "GENERAL")
         
-        builder += TextFieldFormItem(title: "Operation Name")
+        builder += TextFieldFormItem(title: "Operation Name", text: report?.operationName)
         
         builder += HeaderFormItem(text: "SUMMARY / NOTES").actionButton(title: "USE TEMPLATE", handler: { _ in })
         
-        builder += TextFieldFormItem(title: "Free Text")
+        builder += TextFieldFormItem(title: "Free Text", text: report?.freeText)
     }
     
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
@@ -60,6 +56,12 @@ open class DefaultEventNotesPhotosViewController: FormBuilderViewController, Eva
 
 
 public class DefaultNotesPhotosReport: Reportable {
+    
+    var viewed: Bool = false {
+        didSet {
+            evaluator.updateEvaluation(for: .viewed)
+        }
+    }
     
     var operationName: String?
     var freeText: String?
@@ -72,9 +74,8 @@ public class DefaultNotesPhotosReport: Reportable {
         
         evaluator.addObserver(event)
         
-        // evaluation of this key always returns true
         evaluator.registerKey(.viewed) {
-            return true
+            return self.viewed
         }
     }
     
