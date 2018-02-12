@@ -46,7 +46,7 @@ private struct UserStoragePath {
 }
 
 public enum UserStorageError: Error {
-    case KeyExists
+    case keyExists
 }
 
 // MARK: -
@@ -55,6 +55,7 @@ public class UserStorage {
 
     // MARK: Public
 
+    /// Completely nukes all User Storage for all users.
     static func purgeAllUsers() {
         try? FileManager.default.removeItem(at: UserStorage.baseURL)
     }
@@ -76,12 +77,18 @@ public class UserStorage {
 
     // MARK: Add
 
+    /// Add an object to user storage.
+    ///
+    /// - Parameters:
+    ///   - object: the object to store
+    ///   - key: the key to store it under. Must be unique for this user.
+    ///   - flag: Flag to categorise the object under
     func add(object: Any, key: String, flag: UserStorageFlag) throws {
         let safeKey = key.slashEscaped()
 
         if let existingPath = pathForKey(key: safeKey),
             existingPath.flag != flag {
-            throw UserStorageError.KeyExists
+            throw UserStorageError.keyExists
         }
 
         // The Path = "BaseURL / UserID / Flag / Key.awesomefile"
@@ -93,6 +100,11 @@ public class UserStorage {
 
     // MARK: Retrieve
 
+    /// Retrieve an object from user storage.
+    ///
+    /// - Parameters:
+    ///   - key: The unique key to retrieve the object with
+    /// - Returns: Object if found, otherwise nil
     func retrieve(key: String) -> Any? {
         let safeKey = key.slashEscaped()
         guard let storagePath = pathForKey(key: safeKey) else { return nil }
@@ -102,12 +114,22 @@ public class UserStorage {
 
     // MARK: Delete
 
+    /// Remove an object from user storage.
+    /// If no object is found, this method has no effect.
+    ///
+    /// - Parameters:
+    ///   - key: The unique key to identify the object with
+    /// - Throws: On error only.
     func remove(key: String) throws {
         let safeKey = key.slashEscaped()
         guard let storagePath = pathForKey(key: safeKey) else { return }
         try directoryManager.remove(at: storagePath.path)
     }
 
+    /// Removes all objects with the matched flag from storage.
+    ///
+    /// - Parameters:
+    ///   - flag: The flag to identify which objects will be removed.
     func purge(flag: UserStorageFlag) throws {
         try directoryManager.remove(at: flag.rawValue)
     }
