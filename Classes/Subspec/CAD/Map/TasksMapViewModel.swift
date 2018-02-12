@@ -20,8 +20,11 @@ open class TasksMapViewModel {
 
     // MARK: - Filter
 
-    // TODO: Set from split view table
-    var priorityAnnotationType = ResourceAnnotationView.self
+    public var priorityAnnotationType: MKAnnotationView.Type = IncidentAnnotationView.self {
+        didSet {
+            delegate?.viewModelStateChanged()
+        }
+    }
     
     // MARK: - Init
     
