@@ -14,6 +14,8 @@ public protocol EventOfficerListViewModelDelegate: class {
     func officerListDidUpdate()
 }
 
+
+
 public class EventOfficerListViewModel {
 
     weak var delegate: EventOfficerListViewModelDelegate?

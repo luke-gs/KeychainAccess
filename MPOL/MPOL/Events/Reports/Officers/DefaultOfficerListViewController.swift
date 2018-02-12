@@ -44,18 +44,46 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
     }
 
     @objc private func addTapped(sender: UIBarButtonItem) {
-        let officer = Officer()
-        officer.givenName = "Test"
-        officer.surname = "Add"
-        officer.involvements = ["Officer"]
-        viewModel.add(officer: officer)
 
-        reloadForm()
+        let officer = Officer()
+        officer.givenName = "Aimee"
+        officer.surname = "Esselmont"
+        officer.involvements = ["Reporting Officer"]
+
+        let displayable = OfficerSummaryDisplayable(officer)
+
+        let involvements = [
+            "Reporting Officer",
+            "Assisting Officer",
+            "Case Officer",
+            "Forensic Intelligence Officer",
+            "Interviewing Officer",
+            "Accident Officer",
+            "Action Officer",
+        ]
+
+        let headerConfig = SearchHeaderConfiguration(title: displayable.title, subtitle: displayable.detail1?.ifNotEmpty() ?? "No involvements selected", image: displayable.thumbnail(ofSize: .small)?.sizing().image)
+        let datasource = OfficerSearchDatasource(objects: involvements,
+                                                 selectedObjects: officer.involvements,
+                                                 title: "Involvements",
+                                                 allowsMultipleSelection: true,
+                                                 configuration: headerConfig)
+        datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
+
+        let viewController = CustomPickerController(datasource: datasource)
+        let navController = PopoverNavigationController(rootViewController: viewController)
+        navController.modalPresentationStyle = .formSheet
+        present(navController, animated: true, completion: nil)
+
     }
 
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.report.viewed = true
+    }
+
+    @objc private func searchHeaderTapped() {
+        print("search")
     }
 
     open override func construct(builder: FormBuilder) {
