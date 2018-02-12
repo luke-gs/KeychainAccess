@@ -552,6 +552,7 @@
 		DB0F44862005D06500F82C5F /* ValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0F44852005D06500F82C5F /* ValidatorTests.swift */; };
 		DB168CDE20032B6B00322F7F /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB168CDD20032B6B00322F7F /* Validator.swift */; };
 		DB2A05E11FD9142E005B7BFD /* HapticHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2A05E01FD9142E005B7BFD /* HapticHelper.swift */; };
+		DB308E40203122940029DCA0 /* UserStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB308E3F203122940029DCA0 /* UserStorage.swift */; };
 		DB4290DD202A7009007672CD /* UserStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4290DC202A7009007672CD /* UserStorageTests.swift */; };
 		DB528ECF20046BFC008914EB /* ValidationRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB528ECE20046BFC008914EB /* ValidationRules.swift */; };
 		DB528ED120046C13008914EB /* ValidationResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB528ED020046C13008914EB /* ValidationResults.swift */; };
@@ -569,7 +570,6 @@
 		DB88BCE31F42D0110056FD69 /* SearchResultLoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88BCD81F42CEAA0056FD69 /* SearchResultLoadingCell.swift */; };
 		DB88BCE41F42D0150056FD69 /* QueryParserDefinitionSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88BCC81F42CE970056FD69 /* QueryParserDefinitionSelector.swift */; };
 		DB88BCE51F42D01C0056FD69 /* SortDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88BCCA1F42CEA40056FD69 /* SortDescriptor.swift */; };
-		DBAEBD9520228AEE00DAD69F /* UserStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAEBD9420228AEE00DAD69F /* UserStorage.swift */; };
 		DBCD01031FD76B270000E0DF /* SearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCD01021FD76B270000E0DF /* SearchHeaderView.swift */; };
 		DBD626271FDA25D200C3E809 /* QuantityPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD626261FDA25D200C3E809 /* QuantityPickerViewModel.swift */; };
 		DBE24C2E1F5939C90088D19B /* EntityDetailsFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE24C2C1F5939C90088D19B /* EntityDetailsFetchRequest.swift */; };
@@ -1294,6 +1294,7 @@
 		DB0F44852005D06500F82C5F /* ValidatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatorTests.swift; sourceTree = "<group>"; };
 		DB168CDD20032B6B00322F7F /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		DB2A05E01FD9142E005B7BFD /* HapticHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticHelper.swift; sourceTree = "<group>"; };
+		DB308E3F203122940029DCA0 /* UserStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserStorage.swift; sourceTree = "<group>"; };
 		DB4290DC202A7009007672CD /* UserStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStorageTests.swift; sourceTree = "<group>"; };
 		DB528ECE20046BFC008914EB /* ValidationRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationRules.swift; sourceTree = "<group>"; };
 		DB528ED020046C13008914EB /* ValidationResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationResults.swift; sourceTree = "<group>"; };
@@ -1311,7 +1312,6 @@
 		DB88BCD61F42CEAA0056FD69 /* SearchFieldCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFieldCollectionViewCell.swift; sourceTree = "<group>"; };
 		DB88BCD71F42CEAA0056FD69 /* SearchResultErrorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultErrorCell.swift; sourceTree = "<group>"; };
 		DB88BCD81F42CEAA0056FD69 /* SearchResultLoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultLoadingCell.swift; sourceTree = "<group>"; };
-		DBAEBD9420228AEE00DAD69F /* UserStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStorage.swift; sourceTree = "<group>"; };
 		DBCD01021FD76B270000E0DF /* SearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeaderView.swift; sourceTree = "<group>"; };
 		DBD626261FDA25D200C3E809 /* QuantityPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityPickerViewModel.swift; sourceTree = "<group>"; };
 		DBE24C2C1F5939C90088D19B /* EntityDetailsFetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailsFetchRequest.swift; sourceTree = "<group>"; };
@@ -2633,7 +2633,7 @@
 				460B5BAF2007171200AB7D12 /* Sketch */,
 				DB88BCC91F42CEA40056FD69 /* SortDescriptor */,
 				E2CD47A81FE9FC7500934367 /* Templates */,
-				DB7D3A5F2016F38000985A56 /* LocalStorage */,
+				DB308E3E203122940029DCA0 /* UserStorage */,
 				BC9C7D4C1F0DED6600DFFE83 /* Transformers */,
 				DB88BCC71F42CE970056FD69 /* Utility */,
 				DB168CDC20032AD800322F7F /* Validation */,
@@ -3210,20 +3210,20 @@
 			path = Validation;
 			sourceTree = "<group>";
 		};
+		DB308E3E203122940029DCA0 /* UserStorage */ = {
+			isa = PBXGroup;
+			children = (
+				DB308E3F203122940029DCA0 /* UserStorage.swift */,
+			);
+			path = UserStorage;
+			sourceTree = "<group>";
+		};
 		DB4290DB202A6FE8007672CD /* UserStorage */ = {
 			isa = PBXGroup;
 			children = (
 				DB4290DC202A7009007672CD /* UserStorageTests.swift */,
 			);
 			path = UserStorage;
-			sourceTree = "<group>";
-		};
-		DB7D3A5F2016F38000985A56 /* LocalStorage */ = {
-			isa = PBXGroup;
-			children = (
-				DBAEBD9420228AEE00DAD69F /* UserStorage.swift */,
-			);
-			path = LocalStorage;
 			sourceTree = "<group>";
 		};
 		DB88BCC71F42CE970056FD69 /* Utility */ = {
@@ -4148,6 +4148,7 @@
 				467092222023EF6700271157 /* AudioSampler.swift in Sources */,
 				276C21081F60C44B0003B860 /* MapOverlayImageButton.swift in Sources */,
 				BC9C7E3F1F0DED6600DFFE83 /* PopoverFormSheetPresentationController.swift in Sources */,
+				DB308E40203122940029DCA0 /* UserStorage.swift in Sources */,
 				BCA6FD771F22E0AE00EE8F7A /* SearchFieldButton.swift in Sources */,
 				EA4806B51F56A00600B42313 /* LocationSearchConfiguration.swift in Sources */,
 				12D3702020200DBD00D79DDB /* ObjectBucket.swift in Sources */,
@@ -4239,7 +4240,6 @@
 				274C89711F984CB8005B9CF8 /* CallsignListViewController.swift in Sources */,
 				12048FC81F7881C50014748E /* MatchMaker.swift in Sources */,
 				27DC60991FD60F350033BC0B /* ResourceOverviewViewController.swift in Sources */,
-				DBAEBD9520228AEE00DAD69F /* UserStorage.swift in Sources */,
 				EAC025741FDE667B00E45DB6 /* FormCollectionViewHandler.swift in Sources */,
 				BC9C7DEA1F0DED6600DFFE83 /* DefaultCustomStringConvertible.swift in Sources */,
 				DB88BCE01F42D0110056FD69 /* SearchEntityListCell.swift in Sources */,
