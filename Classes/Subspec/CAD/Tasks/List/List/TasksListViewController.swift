@@ -319,7 +319,7 @@ extension TasksListViewController: CADFormCollectionViewModelDelegate {
 
 /// Custom form layout that adjust content size to enable scrolling search bar out of view, even if not enough content
 /// to normally enable scrolling
-open class ScrollableCollectionViewFormLayout: CollectionViewFormLayout {
+fileprivate class ScrollableCollectionViewFormLayout: CollectionViewFormLayout {
     open override var collectionViewContentSize : CGSize {
         var size = super.collectionViewContentSize
         if let collectionView = collectionView {
