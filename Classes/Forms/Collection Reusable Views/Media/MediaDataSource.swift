@@ -8,6 +8,7 @@
 
 import Foundation
 import AVKit
+import PromiseKit
 
 public let MediaDataSourceDidChangeNotificationName = Notification.Name(rawValue: "MediaDataSourceDidChange")
 
@@ -111,6 +112,65 @@ open class MediaDataSource {
         register(AVMediaViewController.self, for: AudioMedia.self)
         register(MediaViewController.self, for: PhotoMedia.self)
         register(AVMediaViewController.self, for: VideoMedia.self)
+    }
+
+    // MARK: - State
+
+    public enum State {
+        case unknown
+        case loading
+        case completed
+        case error(Error)
+
+    }
+
+    open private(set) var state: State = .unknown {
+        didSet {
+            NotificationCenter.default.post(name: MediaDataSourceDidChangeNotificationName, object: self, userInfo: nil)
+        }
+    }
+
+    open func loadMoreItems() -> Promise<[MediaPreviewable]>? {
+        state = .loading
+
+        return Promise(resolvers: { [weak self] (fullfill, reject) in
+            if arc4random_uniform(50) > 10 {
+                let url = URL(fileURLWithPath: Bundle.main.resourcePath! + "/Avatar 1.png")
+
+                let extra: [MediaPreviewable] = [
+                    PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Jeff 01", comments: "Sexy Jeff 01", isSensitive: false)),
+                    PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Jeff 02", comments: "Sexy Jeff 02", isSensitive: true)),
+                    PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Jeff 03", comments: "Sexy Jeff 03", isSensitive: true))
+                ]
+
+
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.3) {
+                    self?.mediaItems += extra
+                    self?.state = .unknown
+                    fullfill(extra)
+                }
+            } else {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.3) { [weak self] in
+                    let error = NSError(domain: "Broken", code: 1000, userInfo: [NSLocalizedDescriptionKey: "This is broken sir"])
+                    self?.state = .error(error)
+                    reject(error)
+                }
+            }
+        })
+    }
+
+}
+
+extension MediaDataSource.State: Equatable {
+
+    public static func ==(lhs: MediaDataSource.State, rhs: MediaDataSource.State) -> Bool {
+        switch (lhs, rhs) {
+        case (.unknown, .unknown): return true
+        case (.loading, .loading): return true
+        case (.completed, .completed): return true
+        case (.error(let error1), .error(let error2)): return (error1 as NSError) == (error2 as NSError)
+        default: return false
+        }
     }
 
 }

@@ -600,6 +600,7 @@
 		EA09A0571F78B9C200BC3C0E /* PredicateSpecification.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA09A0541F78B9C200BC3C0E /* PredicateSpecification.swift */; };
 		EA09A0581F78B9C200BC3C0E /* RegularExpressionSpecification.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA09A0551F78B9C200BC3C0E /* RegularExpressionSpecification.swift */; };
 		EA09A05C1F78E80900BC3C0E /* OptionFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA09A05B1F78E80900BC3C0E /* OptionFormItem.swift */; };
+		EA0F03E5202D480200BEB7E0 /* MediaStateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0F03E4202D480200BEB7E0 /* MediaStateCell.swift */; };
 		EA11F01F1F830D0E00BF8BCA /* StringSizable+Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA11F01E1F830D0E00BF8BCA /* StringSizable+Label.swift */; };
 		EA11F0221F830DD600BF8BCA /* ItemAccessorisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA11F0211F830DD600BF8BCA /* ItemAccessorisable.swift */; };
 		EA11F0241F830EEC00BF8BCA /* ImageLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA11F0231F830EEC00BF8BCA /* ImageLoadable.swift */; };
@@ -1337,6 +1338,7 @@
 		EA09A0541F78B9C200BC3C0E /* PredicateSpecification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredicateSpecification.swift; sourceTree = "<group>"; };
 		EA09A0551F78B9C200BC3C0E /* RegularExpressionSpecification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularExpressionSpecification.swift; sourceTree = "<group>"; };
 		EA09A05B1F78E80900BC3C0E /* OptionFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionFormItem.swift; sourceTree = "<group>"; };
+		EA0F03E4202D480200BEB7E0 /* MediaStateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaStateCell.swift; sourceTree = "<group>"; };
 		EA11F01E1F830D0E00BF8BCA /* StringSizable+Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringSizable+Label.swift"; sourceTree = "<group>"; };
 		EA11F0211F830DD600BF8BCA /* ItemAccessorisable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemAccessorisable.swift; sourceTree = "<group>"; };
 		EA11F0231F830EEC00BF8BCA /* ImageLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoadable.swift; sourceTree = "<group>"; };
@@ -3375,6 +3377,7 @@
 				EA32A85D1FBD564200CC37FB /* MediaDetailViewController.swift */,
 				46CF4F8E20281B5C00DD040A /* MediaAssetCache.swift */,
 				46884205202BB186009D0406 /* PersistantMediaDatasource.swift */,
+				EA0F03E4202D480200BEB7E0 /* MediaStateCell.swift */,
 			);
 			path = "Media Support";
 			sourceTree = "<group>";
@@ -4010,6 +4013,7 @@
 				467EAFAE20193BEE00B4CCC3 /* AudioMedia.swift in Sources */,
 				278A16311FBBBDC800C01C38 /* MapFilterViewController.swift in Sources */,
 				EA7C50A41FA0677A004930BF /* MediaFormItem.swift in Sources */,
+				EA0F03E5202D480200BEB7E0 /* MediaStateCell.swift in Sources */,
 				462A788C1FC3D097002AEC05 /* SignatureViewController.swift in Sources */,
 				27D921E31FD0BBF0009C6DCC /* SyncDetailsIncident+Computed.swift in Sources */,
 				BC9C7DF21F0DED6600DFFE83 /* ISO8601DateTransformer+UnboxFormatter.swift in Sources */,

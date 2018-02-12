@@ -24,18 +24,15 @@ class PersonDetailViewController: FormBuilderViewController {
 
         let url = URL(fileURLWithPath: Bundle.main.resourcePath! + "/Avatar 1.png")
 
-        let photoMedia = PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Test", comments: "Comments", isSensitive: false))
-        let audioMedia = AudioMedia(asset: Media(url: fp, title: "Test", comments: "Comments", isSensitive: false))
-        let videoMedia = VideoMedia(asset: Media(url: vp, title: "Test", comments: "Comments", isSensitive: false))
-
         let datasource = MediaDataSource(mediaItems: [
-            photoMedia,
-            photoMedia,
-            photoMedia,
-            photoMedia,
-            audioMedia,
-            audioMedia,
-            videoMedia,
+            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Test", comments: "Comments", isSensitive: false)),
+            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Test", comments: "Comments", isSensitive: false)),
+            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Test", comments: "Comments", isSensitive: false)),
+            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Test", comments: "Comments", isSensitive: false)),
+            AudioMedia(asset: Media(url: fp, title: "Test", comments: "Comments", isSensitive: false)),
+            AudioMedia(asset: Media(url: fp, title: "Test", comments: "Comments", isSensitive: false)),
+            VideoMedia(asset: Media(url: vp, title: "Test", comments: "Comments", isSensitive: false)),
+            VideoMedia(asset: Media(url: vp, title: "Test", comments: "Comments", isSensitive: false)),
         ])
         let mediaItem = MediaFormItem().dataSource(datasource)
 

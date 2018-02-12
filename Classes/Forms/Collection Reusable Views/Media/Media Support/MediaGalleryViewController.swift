@@ -10,10 +10,11 @@ import Foundation
 import AVFoundation
 import Photos
 
-public class MediaGalleryViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+public class MediaGalleryViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
     private enum Identifier: String {
         case genericCell
+        case stateCell
     }
 
     public let collectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -72,7 +73,10 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
         configureLayoutForCurrentTraitCollection()
 
         collectionView.backgroundColor = .white
+
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: Identifier.genericCell.rawValue)
+        collectionView.register(MediaStateCell.self, forCellWithReuseIdentifier: Identifier.stateCell.rawValue)
+
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.frame = view.bounds
@@ -98,6 +102,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
         updateContentState()
         interfaceStyleDidChange()
+
     }
 
     public override func viewWillAppear(_ animated: Bool) {
@@ -152,42 +157,67 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
     // MARK: - UICollectionViewDataSource/Delegate
 
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        switch dataSource.state {
+        case .completed: return 1
+        default: return 2
+        }
     }
 
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataSource.numberOfMediaItems()
+        return section == 0 ? dataSource.numberOfMediaItems() : 1
     }
 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.genericCell.rawValue, for: indexPath)
+        if indexPath.section == 0 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.genericCell.rawValue, for: indexPath)
 
-        let photoMedia = dataSource.mediaItemAtIndex(indexPath.item)
-        photoMedia?.thumbnailImage?.loadImage(completion: { [weak self] (sizable) in
-            let imageView = UIImageView(image: sizable.sizing().image)
-            imageView.contentMode = self?.traitCollection.horizontalSizeClass == .compact ? .scaleAspectFill : .scaleAspectFit
-            imageView.clipsToBounds = true
-            cell.backgroundView = imageView
-            if self?.isEditing == true {
-                cell.backgroundView?.alpha = collectionView.indexPathsForSelectedItems?.contains(indexPath) == true ? 1.0 : 0.4
-            }
-        })
+            let photoMedia = dataSource.mediaItemAtIndex(indexPath.item)
+            photoMedia?.thumbnailImage?.loadImage(completion: { [weak self] (sizable) in
+                let imageView = UIImageView(image: sizable.sizing().image)
+                imageView.contentMode = self?.traitCollection.horizontalSizeClass == .compact ? .scaleAspectFill : .scaleAspectFit
+                imageView.clipsToBounds = true
+                cell.backgroundView = imageView
+                if self?.isEditing == true {
+                    cell.backgroundView?.alpha = collectionView.indexPathsForSelectedItems?.contains(indexPath) == true ? 1.0 : 0.4
+                }
+            })
 
-        return cell
+            return cell
+        } else {
+            let state = dataSource.state
+
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.stateCell.rawValue, for: indexPath) as! MediaStateCell
+            cell.imageView.image = AssetManager.shared.image(forKey: .sourceBarDownload)
+            cell.titleLabel.text = state.title()
+            cell.subtitleLabel.text = state.subtitle()
+            cell.isLoading = state == .loading
+
+            return cell
+        }
     }
 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) else { return }
 
-        if isEditing {
-            cell.backgroundView?.alpha = 1.0
-            trashItem.isEnabled = true
+        if indexPath.section == 0 {
+            if isEditing {
+                cell.backgroundView?.alpha = 1.0
+                trashItem.isEnabled = true
+            } else {
+                let media = dataSource.mediaItemAtIndex(indexPath.item)
+                let mediaGalleryViewController = MediaSlideShowViewController(dataSource: dataSource, initialMedia: media, referenceView: cell)
+                mediaGalleryViewController.allowEditing = allowEditing
+                mediaGalleryViewController.mediaOverviewViewController = self
+                show(mediaGalleryViewController, sender: self)
+            }
         } else {
-            let media = dataSource.mediaItemAtIndex(indexPath.item)
-            let mediaGalleryViewController = MediaSlideShowViewController(dataSource: dataSource, initialMedia: media, referenceView: cell)
-            mediaGalleryViewController.allowEditing = allowEditing
-            mediaGalleryViewController.mediaOverviewViewController = self
-            show(mediaGalleryViewController, sender: self)
+            if case let .loading = dataSource.state {} else {
+                dataSource.loadMoreItems()?.then { _ in
+                    print("Hello")
+                }.catch { error in
+                    print(error.localizedDescription)
+                }
+            }
         }
     }
 
@@ -200,6 +230,22 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
         }
     }
 
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        if indexPath.section == 0 {
+            return traitCollection.horizontalSizeClass == .compact ? CGSize(width: 96.0, height: 96.0) : CGSize(width: 176.0, height: 176.0)
+        } else {
+            return CGSize(width: collectionView.bounds.width, height: 176.0)
+        }
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.section == 1 {
+            if let cell = cell as? MediaStateCell {
+                cell.apply(theme: ThemeManager.shared.theme(for: .current))
+            }
+        }
+    }
 
     // MARK: - Private
 
@@ -317,6 +363,8 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
         loadingManager.noContentColor = secondaryTextColor ?? .gray
         view.backgroundColor = backgroundColor
+
+        collectionView.backgroundColor = backgroundColor
     }
 
     private func updateContentState() {
@@ -370,4 +418,27 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
             return nil
         }
     }
+}
+
+
+private extension MediaDataSource.State {
+
+    func title() -> String {
+        switch self {
+        case .unknown:          return "Load more images"
+        case .loading:          return "Loading"
+        case .completed:        return "Completed"
+        case .error:            return "Error"
+        }
+    }
+
+    func subtitle() -> String {
+        switch self {
+        case .unknown:          return "This may take a moment depending on your connection speed."
+        case .loading:          return "Please wait a moment."
+        case .completed:        return "Completed"
+        case .error(let error): return error.localizedDescription
+        }
+    }
+
 }
