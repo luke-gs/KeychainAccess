@@ -9,7 +9,8 @@
 import UIKit
 
 /// Enum for callsign status states and logic from https://gridstone.atlassian.net/browse/MPOLA-520
-public enum ResourceStatus: String, Codable {
+public enum ResourceStatus: String, ResourceStatusType {
+
     // General
     case unavailable    = "Unavailable"
     case onAir          = "On Air"
@@ -29,10 +30,31 @@ public enum ResourceStatus: String, Codable {
     case inquiries2     = "Inquiries2"
 
     /// All enum cases, in order of display
-    public static let allCases: [ResourceStatus] = [.unavailable,.onAir,.mealBreak,.trafficStop,.court,.atStation,.onCall,.inquiries1,.proceeding,.atIncident,.finalise,.inquiries2]
+    public static let allCases: [ResourceStatusType] = [
+        ResourceStatus.unavailable,
+        ResourceStatus.onAir,
+        ResourceStatus.mealBreak,
+        ResourceStatus.trafficStop,
+        ResourceStatus.court,
+        ResourceStatus.atStation,
+        ResourceStatus.onCall,
+        ResourceStatus.inquiries1,
+        ResourceStatus.proceeding,
+        ResourceStatus.atIncident,
+        ResourceStatus.finalise,
+        ResourceStatus.inquiries2
+    ]
 
     /// Cases related to an incident
-    public static let incidentCases: [ResourceStatus] = [.proceeding,.atIncident,.finalise,.inquiries2]
+    public static let incidentCases: [ResourceStatusType] = [
+        ResourceStatus.proceeding,
+        ResourceStatus.atIncident,
+        ResourceStatus.finalise,
+        ResourceStatus.inquiries2
+    ]
+
+    /// The default case when status is unknown
+    public static var defaultCase: ResourceStatusType = ResourceStatus.unavailable
 
     public var title: String {
         switch self {
@@ -144,8 +166,15 @@ public enum ResourceStatus: String, Codable {
         }
     }
 
+    /// Return whether an incident can be created from current status
+    public var canCreateIncident: Bool {
+        guard let incidentCases = ResourceStatus.incidentCases as? [ResourceStatus] else { return false }
+        return !incidentCases.contains(self)
+    }
+
     /// Return whether status change is allowed, and whether a reason needs to be provided
-    public func canChangeToStatus(newStatus: ResourceStatus) -> (allowed: Bool, requiresReason: Bool) {
+    public func canChangeToStatus(newStatus: ResourceStatusType) -> (allowed: Bool, requiresReason: Bool) {
+        guard let newStatus = newStatus as? ResourceStatus else { return (false, false) }
 
         // Currently all status changes are allowed, but a reason is needed if going from an incident
         // to a non incident status. Leaving allowed component of tuple as this is likely to change...
@@ -162,17 +191,12 @@ public enum ResourceStatus: String, Codable {
         }
     }
     
-    public func isChangingToGeneralStatus(_ newStatus: ResourceStatus) -> Bool {
-        return ResourceStatus.incidentCases.contains(self) && !ResourceStatus.incidentCases.contains(newStatus)
+    /// Convenience for checking if changing to non incident status
+    public func isChangingToGeneralStatus(_ newStatus: ResourceStatusType) -> Bool {
+        guard let newStatus = newStatus as? ResourceStatus else { return false }
+        guard let incidentCases = ResourceStatus.incidentCases as? [ResourceStatus] else { return false }
+
+        return incidentCases.contains(self) && !incidentCases.contains(newStatus)
     }
 
-    /// Return whether patrol area can be changed from current status
-    public var canChangePatrolArea: Bool {
-        return !ResourceStatus.incidentCases.contains(self)
-    }
-
-    /// Return whether an incident can be created from current status
-    public var canCreateIncident: Bool {
-        return !ResourceStatus.incidentCases.contains(self)
-    }
 }

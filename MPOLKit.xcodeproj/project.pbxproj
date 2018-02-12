@@ -314,6 +314,7 @@
 		9620530D1F988239000CAD49 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620530C1F988239000CAD49 /* AppGroup.swift */; };
 		9624A43F1F81BBEB00CAE056 /* UIFont+Digits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A43E1F81BBEB00CAE056 /* UIFont+Digits.swift */; };
 		962AA8191F8DD37D0087D534 /* PopoverPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */; };
+		96435CBE203248FC00C77A75 /* ResourceStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96435CBD203248FC00C77A75 /* ResourceStatusType.swift */; };
 		9644B1D21F6785E200D031F2 /* CompactFormSheetNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */; };
 		9650CA151F958B320087F5C9 /* CallsignStatusViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA121F958B2D0087F5C9 /* CallsignStatusViewCell.swift */; };
 		9650CA161F958B330087F5C9 /* ManageCallsignStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA131F958B2D0087F5C9 /* ManageCallsignStatusViewController.swift */; };
@@ -1046,6 +1047,7 @@
 		9624A46A1F83555A00CAE056 /* TasksMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksMapViewController.swift; sourceTree = "<group>"; };
 		9624A46B1F83555A00CAE056 /* TasksMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksMapViewModel.swift; sourceTree = "<group>"; };
 		962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverPresenter.swift; sourceTree = "<group>"; };
+		96435CBD203248FC00C77A75 /* ResourceStatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceStatusType.swift; sourceTree = "<group>"; };
 		9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactFormSheetNavigationController.swift; sourceTree = "<group>"; };
 		9650CA121F958B2D0087F5C9 /* CallsignStatusViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignStatusViewCell.swift; sourceTree = "<group>"; };
 		9650CA131F958B2D0087F5C9 /* ManageCallsignStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignStatusViewController.swift; sourceTree = "<group>"; };
@@ -2486,6 +2488,7 @@
 				27D921E41FD0C18E009C6DCC /* SyncDetailsResource+Computed.swift */,
 				2715D63C1FD4FEDB00BD0E95 /* SyncDetailsActivityLogItem+Computed.swift */,
 				27DC60941FD50B940033BC0B /* SyncDetailsOfficer+Computed.swift */,
+				96435CBD203248FC00C77A75 /* ResourceStatusType.swift */,
 			);
 			path = Logic;
 			sourceTree = "<group>";
@@ -4246,6 +4249,7 @@
 				EA5B875D1F6F5E67002BEC65 /* BaseFormItem.swift in Sources */,
 				BC9C7E141F0DED6600DFFE83 /* TableViewFormTextFieldCell.swift in Sources */,
 				273A72DB1FE7767E0097691B /* TasksListIncidentSummaryView.swift in Sources */,
+				96435CBE203248FC00C77A75 /* ResourceStatusType.swift in Sources */,
 				96591E671FCE168300EFCC02 /* AppProxyViewController.swift in Sources */,
 				191BC4D71F7C203B00C8C218 /* TagCollectionViewCell.swift in Sources */,
 				27CBC7651F8B27D500E387C3 /* CADStatusTabBarController.swift in Sources */,
