@@ -53,6 +53,40 @@ class UserStorageTests: XCTestCase {
         XCTAssert(potentialData != nil)
     }
 
+    func testThatDupeKeyThrowsExpectedError() {
+        let key = "Keyblade"
+        addAndTestRetrieve(object: "Oathkeeper", key: key, flag: .session)
+
+        do {
+            try userStorage.add(object: "Lionheart", key: key, flag: .retain)
+        } catch UserStorageError.KeyExists {
+            XCTAssert(true)
+        } catch {
+            XCTAssert(false)
+        }
+    }
+
+    func testThatOverwritingWorks() {
+        let key = "balamb"
+        addAndTestRetrieve(object: "Cloud", key: key)
+        let result = addAndTestRetrieve(object: "Squall", key: key)
+        XCTAssert(result == "Squall")
+    }
+
+    func testThatRetrieveNonExistingReturnsNil() {
+        let result = retrieveAndAssert(key: "Foo", type: "Bar", expectsSuccess: false)
+        XCTAssert(result == nil)
+    }
+
+    func testSlashes() {
+        let result = addAndTestRetrieve(object: "slashdotslashdotslashdotcom", key: "a/b/c/d", flag: .session)
+        XCTAssert(result == "slashdotslashdotslashdotcom")
+    }
+
+    func testCustomFlag() {
+        addAndTestRetrieve(object: "Potter ", key: "Harry", flag: .custom("Hogwarts"))
+    }
+
     // MARK: Deletion
 
     func testThatDeletingWorks() {
@@ -65,7 +99,7 @@ class UserStorageTests: XCTestCase {
 
     func testThatDeletingNonExistentIsGraceful() {
         let key = "a key that doesn't exist"
-        remove(key: key)
+        remove(key: key) // Asserts false on remove error.
         XCTAssert(true)
     }
 
@@ -76,6 +110,7 @@ class UserStorageTests: XCTestCase {
         addAndTestRetrieve(object: "🚔", key: vehicle, flag: .retain)
         addAndTestRetrieve(object: "🐒", key: monkey, flag: .retain)
 
+        // Donut should remain retrievable
         addAndTestRetrieve(object: "🍩", key: donut, flag: .session)
 
         purge(flag: .retain)
@@ -97,10 +132,15 @@ class UserStorageTests: XCTestCase {
 
     // MARK: - Helpers
 
-    func addAndTestRetrieve<T>(object: T, key: String, flag: UserStorageFlag = .session) {
-        userStorage.add(object: object, key: key, flag: flag)
+    @discardableResult
+    func addAndTestRetrieve<T>(object: T, key: String, flag: UserStorageFlag = .session) -> T? {
+        do {
+            try userStorage.add(object: object, key: key, flag: flag)
+        } catch {
+            XCTAssert(false)
+        }
 
-        retrieveAndAssert(key: key, type: object)
+        return retrieveAndAssert(key: key, type: object)
     }
 
     @discardableResult

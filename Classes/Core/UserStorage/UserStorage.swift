@@ -8,18 +8,54 @@
 
 import Foundation
 
-enum UserStorageFlag: String {
-    case session = "session"
-    case retain = "retain"
+// MARK: UserStorageFlag
 
-    static let allValues = [session, retain]
+public enum UserStorageFlag {
+    case session
+    case retain
+    case custom(String)
 }
 
-class UserStorage {
+extension UserStorageFlag: RawRepresentable {
+    public typealias RawValue = String
+    private static let sessionString = "session"
+    private static let retainString = "retain"
+
+    public init(rawValue: RawValue) {
+        switch rawValue {
+        case UserStorageFlag.sessionString: self = .session
+        case UserStorageFlag.retainString: self = .retain
+        default: self = .custom(rawValue)
+        }
+    }
+
+    public var rawValue: RawValue {
+        switch self {
+        case .session: return UserStorageFlag.sessionString
+        case .retain: return UserStorageFlag.retainString
+        case .custom(let string): return string
+        }
+    }
+}
+
+// MARK: -
+
+private struct UserStoragePath {
+    let flag: UserStorageFlag
+    let path: String
+}
+
+public enum UserStorageError: Error {
+    case KeyExists
+}
+
+// MARK: -
+
+public class UserStorage {
 
     // MARK: Public
 
-    public static func purgeAllUsers() {
+    static func purgeAllUsers() {
         try? FileManager.default.removeItem(at: UserStorage.baseURL)
     }
 
@@ -40,12 +76,16 @@ class UserStorage {
 
     // MARK: Add
 
-    public func add(object: Any, key: String, flag: UserStorageFlag) {
-        // Check key doesn't exist
+    func add(object: Any, key: String, flag: UserStorageFlag) throws {
+        let safeKey = key.slashEscaped()
+
+        if let existingPath = pathForKey(key: safeKey),
+            existingPath.flag != flag {
+            throw UserStorageError.KeyExists
+        }
 
         // The Path = "BaseURL / UserID / Flag / Key.awesomefile"
-        let path = "\(flag.rawValue)/\(key)"
-        print(path)
+        let path = "\(flag.rawValue)/\(safeKey)"
         let result = directoryManager.write(object, to: path)
         print(result)
     }
@@ -53,33 +93,43 @@ class UserStorage {
 
     // MARK: Retrieve
 
-    public func retrieve(key: String) -> Any? {
-        guard let path = pathForKey(key: key) else { return nil }
-        return directoryManager.read(from: path)
+    func retrieve(key: String) -> Any? {
+        let safeKey = key.slashEscaped()
+        guard let storagePath = pathForKey(key: safeKey) else { return nil }
+        return directoryManager.read(from: storagePath.path)
     }
 
 
     // MARK: Delete
 
-    public func remove(key: String) throws {
-        guard let path = pathForKey(key: key) else { return }
-        try directoryManager.remove(at: path)
+    func remove(key: String) throws {
+        let safeKey = key.slashEscaped()
+        guard let storagePath = pathForKey(key: safeKey) else { return }
+        try directoryManager.remove(at: storagePath.path)
     }
 
-    public func purge(flag: UserStorageFlag) throws {
+    func purge(flag: UserStorageFlag) throws {
         try directoryManager.remove(at: flag.rawValue)
     }
 
     // MARK: Helper
 
-    private func pathForKey(key: String) -> String? {
-        for flag in UserStorageFlag.allValues {
-            guard let filenames = directoryManager.contents(of: flag.rawValue) else { continue }
+    private func pathForKey(key: String) -> UserStoragePath? {
+        guard let allFlags = directoryManager.contents() else { return nil }
+
+        for flag in allFlags {
+            guard let filenames = directoryManager.contents(of: flag) else { continue }
             guard let path = filenames.first(where: { $0 == key; }) else { continue }
 
-            return "\(flag)/\(path)"
+            return UserStoragePath(flag: UserStorageFlag(rawValue: flag), path: "\(flag)/\(path)")
         }
 
         return nil
+    }
+}
+
+private extension String {
+    func slashEscaped() -> String {
+        return self.replacingOccurrences(of: "/", with: "_")
     }
 }
