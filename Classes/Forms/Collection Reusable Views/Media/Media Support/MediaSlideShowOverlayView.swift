@@ -120,11 +120,6 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
         MPLCodingNotSupported()
     }
 
-    override public func updateConstraints() {
-        super.updateConstraints()
-
-    }
-
     open override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -159,8 +154,9 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
 
         if animated {
 
+            let isCurrentlyHidden = isHidden
             // Unhide first so the view can be animated in.
-            if isHidden == true && hidden == false {
+            if isCurrentlyHidden && !hidden {
                 isHidden = false
             }
 
