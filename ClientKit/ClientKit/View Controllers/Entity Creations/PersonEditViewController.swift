@@ -102,7 +102,7 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += DateFormItem()
             .title("Date Of Birth")
-            .dateFormatter(.formDate)
+            .dateFormatter(.preferredDateStyle)
             .selectedValue(initialPerson?.dateOfBirth)
             .onValueChanged { self.finalPerson.dateOfBirth = $0 }
             .required()

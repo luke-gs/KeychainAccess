@@ -84,6 +84,6 @@ open class PersonDescriptionViewModel {
     
     private func title(for description: PersonDescription) -> String? {
         guard let date = description.effectiveDate else { return nil }
-        return DateFormatter.shortDate.string(from: date)
+        return DateFormatter.preferredDateStyle.string(from: date)
     }
 }

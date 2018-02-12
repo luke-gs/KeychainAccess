@@ -74,13 +74,41 @@ public class LandingPresenter: AppGroupLandingPresenter {
             
             let strategy = LookupAddressLocationSearchStrategy<Address>(source: MPOLSource.gnaf, helpPresentable: EntityScreen.help(type: .location))
             let locationDataSource = LocationSearchDataSource(strategy: strategy, advanceOptions: LookupAddressLocationAdvancedOptions())
-            strategy.onResultModelForMap = {
-                return LocationMapSummarySearchResultViewModel()
+
+            strategy.onResultModelForCoordinate = { coordinate in
+                let radius = strategy.radiusConfiguration.radiusOptions.first ?? 100.0
+                let searchType = LocationMapSearchType.radius(coordinate: coordinate, radius: radius)
+                let parameters = LocationMapRadiusSearchParameters(latitude: coordinate.latitude, longitude: coordinate.longitude, radius: radius)
+                let request = LocationMapSearchRequest(source: .gnaf, request: parameters)
+                let aggregatedSearch = AggregatedSearch<Address>(requests: [request])
+                let viewModel = MapSummarySearchResultViewModel(searchStrategy: strategy, title: "Current Location", aggregatedSearch: aggregatedSearch)
+                viewModel.searchType = searchType
+                return viewModel
             }
+
             strategy.onResultModelForResult = { (lookupResult, searchable) in
-                return LocationMapSummarySearchResultViewModel()
+                let coordinate = lookupResult.location.coordinate
+                let radius = strategy.radiusConfiguration.radiusOptions.first ?? 100.0
+                let searchType = LocationMapSearchType.radius(coordinate: coordinate, radius: radius)
+                let parameters = LocationMapRadiusSearchParameters(latitude: coordinate.latitude, longitude: coordinate.longitude, radius: radius)
+                let request = LocationMapSearchRequest(source: .gnaf, request: parameters)
+                let aggregatedSearch = AggregatedSearch<Address>(requests: [request])
+                let viewModel = MapSummarySearchResultViewModel(searchStrategy: strategy, title: searchable.text ?? "", aggregatedSearch: aggregatedSearch)
+                viewModel.searchType = searchType
+                return viewModel
             }
-            
+            strategy.onResultModelForSearchType = { searchType in
+                switch searchType {
+                case .radius(let coordinate, let radius):
+                    let parameters = LocationMapRadiusSearchParameters(latitude: coordinate.latitude, longitude: coordinate.longitude, radius: radius)
+                    let request = LocationMapSearchRequest(source: .gnaf, request: parameters)
+                    let aggregatedSearch = AggregatedSearch<Address>(requests: [request])
+                    let viewModel = MapSummarySearchResultViewModel(searchStrategy: strategy, title: String(format: "Pin dropped at (%.5f, %0.5f)", coordinate.latitude, coordinate.longitude), aggregatedSearch: aggregatedSearch)
+                    viewModel.searchType = searchType
+                    return viewModel
+                }
+            }
+
             let viewModel = EntitySummarySearchViewModel(title: "MPOL", dataSources: [
                 PersonSearchDataSource(),
                 VehicleSearchDataSource(),
@@ -113,7 +141,6 @@ public class LandingPresenter: AppGroupLandingPresenter {
             tabBarController.viewControllers = [searchNavController, actionListNavController, eventListNavController, tasksProxyViewController]
 
             self.tabBarController = tabBarController
-
 
             // Set up entity summary and presentable
             let entityFormatter = EntitySummaryDisplayFormatter.default

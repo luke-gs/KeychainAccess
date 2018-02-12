@@ -64,7 +64,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
             builder += ProgressFormItem(title: NSLocalizedString("Valid until", bundle: .mpolKit, comment: ""))
                 .value({
                     if let effectiveDate = licence.expiryDate {
-                        return DateFormatter.mediumNumericDate.string(from: effectiveDate)
+                        return DateFormatter.preferredDateStyle.string(from: effectiveDate)
                     } else {
                         return NSLocalizedString("Expiry date unknown", bundle: .mpolKit, comment: "")
                     }
@@ -99,7 +99,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                 builder += ValueFormItem(value: address.formatted(), image: AssetManager.shared.image(forKey: .location))
                     .title({
                         if let date = address.reportDate {
-                            return String(format: NSLocalizedString("%@ - Recorded as at %@", bundle: .mpolKit, comment: ""), address.type ?? "Unknown", DateFormatter.mediumNumericDate.string(from: date))
+                            return String(format: NSLocalizedString("%@ - Recorded as at %@", bundle: .mpolKit, comment: ""), address.type ?? "Unknown", DateFormatter.preferredDateStyle.string(from: date))
                         } else {
                             return String(format: NSLocalizedString("%@ - Recorded date unknown", bundle: .mpolKit, comment: ""), address.type ?? "Unknown")
                         }
@@ -170,7 +170,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
         case .header:
             let lastUpdated: String
             if let date = person?.lastUpdated {
-                lastUpdated = DateFormatter.shortDate.string(from: date)
+                lastUpdated = DateFormatter.preferredDateStyle.string(from: date)
             } else {
                 lastUpdated = NSLocalizedString("UNKNOWN", bundle: .mpolKit, comment: "Unknown Date")
             }
@@ -206,7 +206,7 @@ fileprivate extension Alias {
     func formattedDOBAgeGender() -> String? {
         if let dob = dateOfBirth {
             let yearComponent = Calendar.current.dateComponents([.year], from: dob, to: Date())
-            return DateFormatter.mediumNumericDate.string(from: dob) + " (\(yearComponent.year!)"
+            return DateFormatter.preferredDateStyle.string(from: dob) + " (\(yearComponent.year!)"
         } else {
             return NSLocalizedString("DOB Unknown", bundle: .mpolKit, comment: "")
         }

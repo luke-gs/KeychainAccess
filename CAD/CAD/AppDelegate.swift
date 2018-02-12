@@ -57,8 +57,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // TODO: Put this somewhere else I guess. Just need it now for the map.
         if CLLocationManager.authorizationStatus() == .notDetermined {
-            locationManager.requestWhenInUseAuthorization()
+            LocationManager.shared.requestWhenInUseAuthorization().catch { [weak self] _ in
+                self?.showNotificationServicesDisabledAlert()
+            }
+        } else if CLLocationManager.authorizationStatus() == .denied {
+            showNotificationServicesDisabledAlert()
         }
+        NotificationManager.shared.requestAuthorizationIfNeeded()
         
         window.makeKeyAndVisible()
 
@@ -79,6 +84,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
+    private func showNotificationServicesDisabledAlert() {
+        let alert = PSCAlertController(title: NSLocalizedString("Location services disabled", comment: ""),
+                                       message: NSLocalizedString("This service must be turned on for the app to correctly work and determine your call sign's location.", comment: ""),
+                                       image: AssetManager.shared.image(forKey: .dialogAlert))
+        let settingsAction = PSCAlertAction(title: "Settings", style: .default, handler: { _ in
+            UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!)
+        })
+        
+        let cancelAction = PSCAlertAction(title: "Cancel", style: .cancel)
+        alert.addActions([settingsAction, cancelAction])
+        AlertQueue.shared.add(alert)
+    }
+    
     private func updateAppForUserSession() {
 
         // Reload user from shared storage if logged in, in case updated by another mpol app
@@ -96,6 +114,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         CADStateManager.shared.setOffDuty()
         UserSession.current.endSession()
         APIManager.shared.setAuthenticationPlugin(nil)
+        NotificationManager.shared.removeLocalNotification(CADStateManager.Notifications.shiftEnding)
         landingPresenter.updateInterfaceForUserSession(animated: false)
     }
 
