@@ -24,9 +24,12 @@ public protocol TasksListViewControllerDelegate: class {
 ///
 open class TasksListViewController: FormBuilderViewController, UISearchBarDelegate {
 
+    fileprivate let footerID = "footer"
+
     private struct LayoutConstants {
         static let searchBarHeight: CGFloat = 32
         static let searchBarTopMargin: CGFloat = 10
+        static let defaultFooterHeight: CGFloat = 1024
     }
 
     open var viewModel: TasksListViewModel
@@ -49,6 +52,9 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
     /// Whether to ignore syncing the search bar to the collection view
     private var ignoreCollectionViewTracking: Bool = false
 
+    /// The amount of extra footer in the list to allow scrolling search bar out of view
+    private var footerHeight: CGFloat = LayoutConstants.defaultFooterHeight
+
     public init(viewModel: TasksListViewModel) {
         self.viewModel = viewModel
         super.init()
@@ -65,7 +71,10 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
 
         createSubviews()
         createConstraints()
-        
+
+        collectionView?.register(UICollectionReusableView.self, forSupplementaryViewOfKind: collectionElementKindGlobalFooter,
+                                 withReuseIdentifier: footerID)
+
         loadingManager.noContentView.titleLabel.text = viewModel.noContentTitle()
         loadingManager.noContentView.subtitleLabel.text = viewModel.noContentSubtitle()
         loadingManager.delegate = self
@@ -98,8 +107,10 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
         view.clipsToBounds = true
 
         // Use KVO to update search bar, rather than hijacking scroll delegate
-        scrollBarObservation = collectionView!.observe(\.contentOffset) { [unowned self] (view, change) in
-            self.syncSearchBarWithCollectionView(self.collectionView!)
+        if let collectionView = collectionView {
+            scrollBarObservation = collectionView.observe(\.contentOffset) { [unowned self] (view, change) in
+                self.syncSearchBarWithCollectionView(collectionView)
+            }
         }
 
         // Disable the inset manager, as it breaks things
@@ -115,7 +126,19 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
             searchBar.heightAnchor.constraint(equalToConstant: LayoutConstants.searchBarHeight)
         ])
     }
-    
+
+
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        if let collectionView = collectionView {
+            let extraFooterHeight = collectionView.frame.height - collectionView.contentSize.height + LayoutConstants.searchBarHeight + LayoutConstants.searchBarTopMargin
+            if abs(extraFooterHeight) > 1 {
+                self.footerHeight = max(0, self.footerHeight + extraFooterHeight)
+                self.reloadForm()
+            }
+        }
+    }
 
     open override func construct(builder: FormBuilder) {
         if viewModel.otherSections.count > 0 {
@@ -266,6 +289,19 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
         return viewModel.sections.isEmpty ? 0 : LayoutConstants.searchBarHeight
     }
 
+    public func collectionView(_ collectionView: UICollectionView, heightForGlobalFooterInLayout layout: CollectionViewFormLayout) -> CGFloat {
+        // Make space for footer to allow scrolling search bar out of view even if not enough content
+        return viewModel.sections.isEmpty ? 0 : footerHeight
+    }
+
+    open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == collectionElementKindGlobalFooter {
+            return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerID, for: indexPath)
+        }
+        return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
+    }
+
+
     // MARK: - UISearchBarDelegate (cannot be in extension)
 
     open func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -277,9 +313,10 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
         searchBar.text = nil
         searchBar(searchBar, textDidChange: "")
 
-        // Hide the search bar
+        // Hide the search bar, resetting footer height to make sure we can hide it
+        footerHeight = LayoutConstants.defaultFooterHeight
         let searchOffset = LayoutConstants.searchBarHeight + LayoutConstants.searchBarTopMargin
-        if let collectionView = collectionView, collectionView.contentOffset.y < searchOffset {
+        if let collectionView = self.collectionView, collectionView.contentOffset.y < searchOffset {
             collectionView.contentOffset = CGPoint(x: 0, y: searchOffset)
         }
     }
