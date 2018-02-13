@@ -44,4 +44,8 @@ open class ResourceOverviewMapViewModel: TasksMapViewModel {
         }
         return TasksMapViewController(viewModel: self, annotationsInitialLoadZoomStyle: (animated: false, includeUserLocation: true))
     }
+    
+    open override func shouldCluster() -> Bool {
+        return false
+    }
 }
