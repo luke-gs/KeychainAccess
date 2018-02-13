@@ -17,7 +17,8 @@ public class EventBuilder: EventBuilding {
         // Add reports here
         event.add(report: DefaultDateTimeReport(event: event))
         event.add(report: DefaultLocationReport(event: event))
-        
+        event.add(report: DefaultNotesPhotosReport(event: event))
+
         let displayable = EventListDisplayable(title: "Demo",
                                                subtitle: "Sub",
                                                accessoryTitle: "AccessTitle",

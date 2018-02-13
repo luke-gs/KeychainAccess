@@ -11,7 +11,9 @@ import MPOLKit
 public class EventsListViewModel: EventListViewModelType {
     public var title: String
 
-    public var eventsList: [EventListDisplayable]?
+    public var eventsList: [EventListDisplayable]? {
+        return eventsManager.displayableBucket?.objects
+    }
     public var eventsManager: EventsManager
     
     public required init(eventsManager: EventsManager) {
