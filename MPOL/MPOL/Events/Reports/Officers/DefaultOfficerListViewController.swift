@@ -63,7 +63,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         ]
 
         let headerConfig = SearchHeaderConfiguration(title: displayable.title, subtitle: displayable.detail1?.ifNotEmpty() ?? "No involvements selected", image: displayable.thumbnail(ofSize: .small)?.sizing().image)
-        let datasource = OfficerSearchDatasource(objects: involvements,
+        let datasource = OfficerInvolvementSearchDatasource(objects: involvements,
                                                  selectedObjects: officer.involvements,
                                                  title: "Involvements",
                                                  allowsMultipleSelection: true,

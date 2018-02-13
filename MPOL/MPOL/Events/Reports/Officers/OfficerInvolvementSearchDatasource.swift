@@ -9,7 +9,7 @@
 import Foundation
 import MPOLKit
 
-public class OfficerSearchDatasource: CustomSearchPickerDatasource {
+public class OfficerInvolvementSearchDatasource: CustomSearchPickerDatasource {
 
     public var objects: [Pickable] = []
     public var selectedObjects: [Pickable] = []
