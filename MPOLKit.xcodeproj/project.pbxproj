@@ -53,6 +53,8 @@
 		193ED08B1FDE7508002F2837 /* PatternMatchRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193ED08A1FDE7508002F2837 /* PatternMatchRules.swift */; };
 		193ED08D1FDE9AD7002F2837 /* PluginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193ED08C1FDE9AD7002F2837 /* PluginTests.swift */; };
 		1948A7B51FBBDB45005AB301 /* OAuth2Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1948A7B41FBBDB45005AB301 /* OAuth2Error.swift */; };
+		194C0C2B203173B700CD5AA8 /* MKMapView+MKMapView_NightMode.h in Headers */ = {isa = PBXBuildFile; fileRef = 194C0C29203173B700CD5AA8 /* MKMapView+MKMapView_NightMode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		194C0C2C203173B700CD5AA8 /* MKMapView+MKMapView_NightMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 194C0C2A203173B700CD5AA8 /* MKMapView+MKMapView_NightMode.m */; };
 		196ED03A1F7C0207005F3F7C /* UILayoutPriority+Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196ED0391F7C0207005F3F7C /* UILayoutPriority+Math.swift */; };
 		196ED03C1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196ED03B1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift */; };
 		1972FCCB1FA6A1EF00CB68EA /* ImageAlamofireResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972FCCA1FA6A1EF00CB68EA /* ImageAlamofireResponseSerializer.swift */; };
@@ -782,6 +784,8 @@
 		193ED08A1FDE7508002F2837 /* PatternMatchRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternMatchRules.swift; sourceTree = "<group>"; };
 		193ED08C1FDE9AD7002F2837 /* PluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginTests.swift; sourceTree = "<group>"; };
 		1948A7B41FBBDB45005AB301 /* OAuth2Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Error.swift; sourceTree = "<group>"; };
+		194C0C29203173B700CD5AA8 /* MKMapView+MKMapView_NightMode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MKMapView+MKMapView_NightMode.h"; sourceTree = "<group>"; };
+		194C0C2A203173B700CD5AA8 /* MKMapView+MKMapView_NightMode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+MKMapView_NightMode.m"; sourceTree = "<group>"; };
 		196ED0391F7C0207005F3F7C /* UILayoutPriority+Math.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILayoutPriority+Math.swift"; sourceTree = "<group>"; };
 		196ED03B1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILayoutPriorityMathExtensionTests.swift; sourceTree = "<group>"; };
 		1972FCCA1FA6A1EF00CB68EA /* ImageAlamofireResponseSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAlamofireResponseSerializer.swift; sourceTree = "<group>"; };
@@ -2926,6 +2930,8 @@
 				BC9C7D921F0DED6600DFFE83 /* DateFormatter+Static.swift */,
 				19B49BA91F665ED100502F51 /* NSMutableAttributedString+Append.swift */,
 				BC9C7D931F0DED6600DFFE83 /* String+EmptyFiltering.swift */,
+				194C0C29203173B700CD5AA8 /* MKMapView+MKMapView_NightMode.h */,
+				194C0C2A203173B700CD5AA8 /* MKMapView+MKMapView_NightMode.m */,
 				BC9C7D941F0DED6600DFFE83 /* UIColor+Hex.swift */,
 				BC8A99601F22EBD700387AB6 /* UIColor+Brightness.swift */,
 				BC9C7D961F0DED6600DFFE83 /* UIImage+Initials.swift */,
@@ -3646,6 +3652,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				194C0C2B203173B700CD5AA8 /* MKMapView+MKMapView_NightMode.h in Headers */,
 				BC9C7E1C1F0DED6600DFFE83 /* MPOLKit.h in Headers */,
 				EA85BFF11F6797C1002EEB49 /* UINavigationController+Theme.h in Headers */,
 				BC9C7E321F0DED6600DFFE83 /* UITextView+NotificationWorkaround.h in Headers */,
@@ -3815,7 +3822,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-MPOLKitTests/Pods-MPOLKitTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
-				"${BUILT_PRODUCTS_DIR}/Cluster-Fork/Cluster_Fork.framework",
+				"${BUILT_PRODUCTS_DIR}/Cluster/Cluster.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Unbox/Unbox.framework",
@@ -3826,7 +3833,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cluster_Fork.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cluster.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Unbox.framework",
@@ -4488,6 +4495,7 @@
 				EA950E4C1F8DBF5700B5A349 /* SubmissionValidationVisitor.swift in Sources */,
 				BC79A57977498E8F0201AB62 /* MapFormBuilderViewController.swift in Sources */,
 				463694E2200EAE1C00C51BB4 /* NibSize.swift in Sources */,
+				194C0C2C203173B700CD5AA8 /* MKMapView+MKMapView_NightMode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

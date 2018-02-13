@@ -16,4 +16,5 @@ FOUNDATION_EXPORT const unsigned char MPOLKitVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <MPOLKit/PublicHeader.h>
 
+#import <MPOLKit/MKMapView+MKMapView_NightMode.h>
 
