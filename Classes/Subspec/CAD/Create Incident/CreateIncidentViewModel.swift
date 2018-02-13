@@ -37,7 +37,7 @@ open class CreateIncidentViewModel {
     }
     
     open var initialStatus: ResourceStatusType {
-        return ResourceStatus.atIncident
+        return ResourceStatusCore.atIncident
     }
 
     open var priorityOptions: [String] {

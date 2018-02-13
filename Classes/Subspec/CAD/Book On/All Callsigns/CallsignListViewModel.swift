@@ -117,10 +117,10 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
             let sortedItems = section.items.sorted { (lhs, rhs) in
                 if !lhs.status.isEqual(rhs.status) {
                     // Status is not same, check if either is On Air, or At Incident
-                    if lhs.status == ResourceStatus.onAir || rhs.status == ResourceStatus.onAir {
-                        return lhs.status == ResourceStatus.onAir
-                    } else if lhs.status == ResourceStatus.atIncident || rhs.status == ResourceStatus.atIncident {
-                        return lhs.status == ResourceStatus.atIncident
+                    if lhs.status == ResourceStatusCore.onAir || rhs.status == ResourceStatusCore.onAir {
+                        return lhs.status == ResourceStatusCore.onAir
+                    } else if lhs.status == ResourceStatusCore.atIncident || rhs.status == ResourceStatusCore.atIncident {
+                        return lhs.status == ResourceStatusCore.atIncident
                     }
                 }
                 // Sort alphabetically by callsign

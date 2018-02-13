@@ -64,7 +64,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
                 }
             }
 
-            if let newStatus = newStatus as? ResourceStatus {
+            if let newStatus = newStatus as? ResourceStatusCore {
                 switch newStatus {
                 case .finalise:
                     promise = promise.then {

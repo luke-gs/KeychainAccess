@@ -11,6 +11,7 @@ import Foundation
 /// Class for handling client specific model type overrides. Defaults are PSCore types
 open class ClientModelTypes {
 
-    static open var resourceStatus: ResourceStatusType.Type = ResourceStatus.self
+    /// The type used for a resource status
+    static open var resourceStatus: ResourceStatusType.Type = ResourceStatusCore.self
 
 }
