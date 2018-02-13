@@ -15,13 +15,13 @@ public protocol CustomSearchPickerDatasource {
     var selectedObjects: [Pickable] { get set }
     var title: String? { get }
     var allowsMultipleSelection: Bool { get }
+    var sort: PickableSorting { get }
 
     var header: CustomisableSearchHeaderView? { get }
 
     func allowsSelection(of object: Pickable) -> Bool
     func updateHeader(for objects: [Pickable])
 }
-
 
 public class CustomPickerController: FormTableViewController {
 

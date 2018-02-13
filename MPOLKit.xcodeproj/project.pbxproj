@@ -309,6 +309,7 @@
 		46E0B8AB2031455200B40DF2 /* CustomisableSearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8AA2031455200B40DF2 /* CustomisableSearchHeaderView.swift */; };
 		46E0B8AD2031487700B40DF2 /* DefaultSearchHeaderDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8AC2031487700B40DF2 /* DefaultSearchHeaderDetailView.swift */; };
 		46E0B8AF20324CF400B40DF2 /* DefaultSearchPickerDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8AE20324CF400B40DF2 /* DefaultSearchPickerDatasource.swift */; };
+		46E0B8B220326FB500B40DF2 /* Pickable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8B120326FB500B40DF2 /* Pickable.swift */; };
 		46E193662016CDEA00F2D968 /* MediaAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E193652016CDEA00F2D968 /* MediaAsset.swift */; };
 		46F77072200D688600BA6614 /* PixelWidthSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F77071200D688600BA6614 /* PixelWidthSelectionViewController.swift */; };
 		47BC24DD1FE886F900BAB46C /* EntitySummarySearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BC24DC1FE886F900BAB46C /* EntitySummarySearchViewModel.swift */; };
@@ -1028,6 +1029,7 @@
 		46E0B8AA2031455200B40DF2 /* CustomisableSearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomisableSearchHeaderView.swift; sourceTree = "<group>"; };
 		46E0B8AC2031487700B40DF2 /* DefaultSearchHeaderDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSearchHeaderDetailView.swift; sourceTree = "<group>"; };
 		46E0B8AE20324CF400B40DF2 /* DefaultSearchPickerDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSearchPickerDatasource.swift; sourceTree = "<group>"; };
+		46E0B8B120326FB500B40DF2 /* Pickable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pickable.swift; sourceTree = "<group>"; };
 		46E193652016CDEA00F2D968 /* MediaAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaAsset.swift; sourceTree = "<group>"; };
 		46F77071200D688600BA6614 /* PixelWidthSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelWidthSelectionViewController.swift; sourceTree = "<group>"; };
 		47BC24DC1FE886F900BAB46C /* EntitySummarySearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummarySearchViewModel.swift; sourceTree = "<group>"; };
@@ -2134,6 +2136,14 @@
 			path = Utility;
 			sourceTree = "<group>";
 		};
+		46E0B8B020326F0F00B40DF2 /* Pickable */ = {
+			isa = PBXGroup;
+			children = (
+				46E0B8B120326FB500B40DF2 /* Pickable.swift */,
+			);
+			path = Pickable;
+			sourceTree = "<group>";
+		};
 		46E193682016CF9700F2D968 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
@@ -2961,6 +2971,7 @@
 		BC9C7DA51F0DED6600DFFE83 /* Picker View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				46E0B8B020326F0F00B40DF2 /* Pickable */,
 				BC9C7DA71F0DED6600DFFE83 /* FilterViewController.swift */,
 				BC9C7DA81F0DED6600DFFE83 /* PickerTableViewController.swift */,
 				BC9C7DA91F0DED6600DFFE83 /* PopoverDatePickerViewController.swift */,
@@ -3827,7 +3838,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-MPOLKitTests/Pods-MPOLKitTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
-				"${BUILT_PRODUCTS_DIR}/Cluster-Fork/Cluster_Fork.framework",
+				"${BUILT_PRODUCTS_DIR}/Cluster/Cluster.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Unbox/Unbox.framework",
@@ -3838,7 +3849,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cluster_Fork.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cluster.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Unbox.framework",
@@ -4213,6 +4224,7 @@
 				EA53B2771F9EF92B00B891D8 /* NotNilSpecification.swift in Sources */,
 				96F77281201FFB40000FE0D0 /* CreateActivityLogItemViewController.swift in Sources */,
 				967E75A41FCE2DA400B75CF6 /* SyncDetailsResponse.swift in Sources */,
+				46E0B8B220326FB500B40DF2 /* Pickable.swift in Sources */,
 				BC9C7E521F0DED6600DFFE83 /* FormDisclosureView.swift in Sources */,
 				9663D00B1F8AF666006DB672 /* TasksSplitViewController.swift in Sources */,
 				4634B4461FBD6FD200D71E7F /* EntityMapSummaryDisplayble.swift in Sources */,
