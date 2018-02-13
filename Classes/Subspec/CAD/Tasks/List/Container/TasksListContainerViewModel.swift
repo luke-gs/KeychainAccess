@@ -60,6 +60,9 @@ public protocol TasksListContainerViewModelDelegate: class {
 
     // Called when source items are updated
     func updateSourceItems()
+
+    // Called when selected source changes
+    func updateSelectedSourceIndex()
 }
 
 /// View model for the task list container, which is the parent of the header and list view models
@@ -113,6 +116,8 @@ open class TasksListContainerViewModel {
 
                 // Show/hide add button
                 headerViewModel.setAddButtonVisible(type == .incident)
+
+                delegate?.updateSelectedSourceIndex()
             }
         }
     }
