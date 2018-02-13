@@ -33,6 +33,7 @@ open class DefaultEventNotesPhotosViewController: FormBuilderViewController, Eva
     
     
     open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         report?.viewed = true
     }
     
