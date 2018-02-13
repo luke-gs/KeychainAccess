@@ -12,20 +12,8 @@ open class EventsListViewController: FormBuilderViewController {
 
     let viewModel: EventListViewModelType
     
-    let currentEventIcon: UIImage
-
     required public init(viewModel: EventListViewModelType) {
         self.viewModel = viewModel
-        let size = CGSize(width: 48, height: 48)
-        let circle = UIImage.circle(diameter: size.width, color: .orangeRed)
-        let icon = AssetManager.shared.image(forKey: .event)!
-        
-        // compose icon and coloured circle
-        UIGraphicsBeginImageContextWithOptions(size, false, 0)
-        circle.draw(at: CGPoint(x: 0, y: 0))
-        icon.draw(at: CGPoint(x: (size.width - icon.size.width) / 2, y: (size.height - icon.size.height) / 2))
-        currentEventIcon = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
         
         super.init()
         title = "Events"
@@ -52,28 +40,25 @@ open class EventsListViewController: FormBuilderViewController {
 
     open override func construct(builder: FormBuilder) {
         builder.title = "Events"
-        
         builder.forceLinearLayout = true
         
-        let currentEvents = viewModel.eventsList ?? []
-        
-        let currentCount = currentEvents.count
-        
-        // only add the sections if there is content
-        guard currentCount > 0 else {
+        guard let eventsList = viewModel.eventsList else {
             return
         }
         
-        builder += HeaderFormItem(text: "\(currentCount) CURRENT EVENT\(currentCount == 1 ? "" : "S")")
+        builder += HeaderFormItem(text: "\(eventsList.count) CURRENT EVENT\(eventsList.count == 1 ? "" : "S")")
         
-        builder += currentEvents.map { _ in
+        builder += eventsList.map { displayable in
+            let title = displayable.title ?? "Blank"
+            let subtitle = displayable.subtitle ?? "No description available"
+            let image = (displayable.icon?.image ?? AssetManager.shared.image(forKey: .event)!).surroundWithCircle(diameter: 48, color: .orangeRed)
             let editActions = [CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in
                 self.viewModel.eventsManager.remove(for: currentEvents[indexPath.row].eventId)
                 // check for empty state
                 self.loadingManager.state = (self.viewModel.eventsList?.isEmpty ?? true) ? .noContent : .loaded
                 self.reloadForm()
             })]
-            return SubtitleFormItem(title: "No incident selected", subtitle: "", image: currentEventIcon).editActions(editActions)
+            return SubtitleFormItem(title: title, subtitle: subtitle, image: image).editActions(editActions)
         }
     }
 

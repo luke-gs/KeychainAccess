@@ -36,7 +36,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
     // MARK: - Height Calculations
 
     /// A boolean value indicating whether the collection view should automatically calculate
-    /// its `preferreContentSize`'s height property from the collection view's content height.
+    /// its `preferredContentSize`'s height property from the collection view's content height.
     ///
     /// The default is `false`.
     open var calculatesContentHeight = false {
@@ -74,7 +74,7 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
 
     /// The user interface style for the collection view.
     ///
-    /// When set to `.current`, the theme autoupdates when the interface
+    /// When set to `.current`, the theme auto updates when the interface
     /// style changes.
     open var userInterfaceStyle: UserInterfaceStyle = .current {
         didSet {
@@ -230,10 +230,28 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         isUnderConstruction = false
     }
 
-    open func scrollTo(_ formItem: FormItem) {
+    open func scrollTo(_ formItem: FormItem, animated: Bool = true, scrollPosition: UICollectionViewScrollPosition = .centeredVertically) {
         for (sectionIndex, section) in sections.enumerated() {
             if let itemIndex = section.formItems.index(where: { $0 === formItem }) {
-                collectionView?.scrollToItem(at: IndexPath(item: itemIndex, section: sectionIndex), at: .centeredVertically, animated: true)
+                collectionView?.scrollToItem(at: IndexPath(item: itemIndex, section: sectionIndex), at: scrollPosition, animated: animated)
+                return
+            }
+        }
+    }
+
+    open func selectItem(_ formItem: FormItem, animated: Bool = true, scrollPosition: UICollectionViewScrollPosition = .centeredVertically) {
+        for (sectionIndex, section) in sections.enumerated() {
+            if let itemIndex = section.formItems.index(where: { $0 === formItem }) {
+                collectionView?.selectItem(at: IndexPath(item: itemIndex, section: sectionIndex), animated: animated, scrollPosition: scrollPosition)
+                return
+            }
+        }
+    }
+
+    open func deselectItem(_ formItem: FormItem, animated: Bool = true) {
+        for (sectionIndex, section) in sections.enumerated() {
+            if let itemIndex = section.formItems.index(where: { $0 === formItem }) {
+                collectionView?.deselectItem(at: IndexPath(item: itemIndex, section: sectionIndex), animated: animated)
                 return
             }
         }

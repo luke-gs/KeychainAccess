@@ -21,10 +21,7 @@ open class ManageCallsignStatusViewController: ThemedPopoverViewController, Mana
     open var contentView: UIView!
 
     /// Stack view for action buttons
-    open var buttonStackView: UIStackView!
-
-    /// The button separator views
-    open var buttonSeparatorViews: [UIView]!
+    open var buttonsView: DialogActionButtonsView!
 
     /// Form for displaying the current incident (or nothing)
     open var incidentFormVC: ManageCallsignIncidentFormViewController!
@@ -127,34 +124,14 @@ open class ManageCallsignStatusViewController: ThemedPopoverViewController, Mana
         callsignStatusVC = viewModel.callsignViewModel.createViewController()
         addChildViewController(callsignStatusVC, toView: contentView)
 
-        buttonStackView = UIStackView(frame: .zero)
-        buttonStackView.axis = .vertical
-        buttonStackView.distribution = .equalSpacing
-        buttonStackView.spacing = 0
-        view.addSubview(buttonStackView)
-
-        let tintColor = theme.color(forKey: .tint)!
-
-        buttonSeparatorViews = []
+        var actions = [DialogAction]()
         for (index, buttonText) in viewModel.actionButtons.enumerated() {
-            let separatorView = UIView(frame: .zero)
-            separatorView.backgroundColor = theme.color(forKey: .separator)
-            separatorView.translatesAutoresizingMaskIntoConstraints = false
-            separatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
-            buttonSeparatorViews.append(separatorView)
-            buttonStackView.addArrangedSubview(separatorView)
-
-            let button = UIButton(type: .custom)
-            let inset = 20 as CGFloat
-            button.contentEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
-            button.setTitle(buttonText, for: .normal)
-            button.setTitleColor(tintColor, for: .normal)
-            button.setTitleColor(tintColor.withAlphaComponent(0.5), for: .highlighted)
-            button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-            button.addTarget(self, action: #selector(didTapActionButton(_:)), for: .touchUpInside)
-            button.tag = index
-            buttonStackView.addArrangedSubview(button)
+            actions.append(DialogAction(title: buttonText, handler: { [weak self] (action) in
+                self?.viewModel.didTapActionButtonAtIndex(index)
+            }))
         }
+        buttonsView = DialogActionButtonsView(actions: actions)
+        view.addSubview(buttonsView)
     }
 
     open func createConstraints() {
@@ -166,9 +143,9 @@ open class ManageCallsignStatusViewController: ThemedPopoverViewController, Mana
 
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        buttonStackView.translatesAutoresizingMaskIntoConstraints = false
+        buttonsView.translatesAutoresizingMaskIntoConstraints = false
 
-        buttonStackView.setContentCompressionResistancePriority(.required, for: .vertical)
+        buttonsView.setContentCompressionResistancePriority(.required, for: .vertical)
         incidentFormView.setContentCompressionResistancePriority(.required, for: .vertical)
 
         incidentFormHeight = incidentFormView.heightAnchor.constraint(equalToConstant: 0)
@@ -176,7 +153,7 @@ open class ManageCallsignStatusViewController: ThemedPopoverViewController, Mana
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: buttonStackView.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: buttonsView.topAnchor),
 
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
@@ -189,14 +166,14 @@ open class ManageCallsignStatusViewController: ThemedPopoverViewController, Mana
             incidentFormView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             incidentFormHeight,
 
-            callsignStatusView.topAnchor.constraint(equalTo: incidentFormView.bottomAnchor),
+            callsignStatusView.topAnchor.constraint(equalTo: incidentFormView.bottomAnchor, constant: -20),
             callsignStatusView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             callsignStatusView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             callsignStatusView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
 
-            buttonStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            buttonStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            buttonStackView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
+            buttonsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            buttonsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            buttonsView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
         ])
     }
 
@@ -204,21 +181,6 @@ open class ManageCallsignStatusViewController: ThemedPopoverViewController, Mana
         dismiss(animated: true, completion: nil)
     }
 
-    @objc private func didTapActionButton(_ button: UIButton) {
-        viewModel.didTapActionButtonAtIndex(button.tag)
-    }
-    
-    // MARK: - Theme
-
-    override open func apply(_ theme: Theme) {
-        super.apply(theme)
-
-        // Theme button separators
-        for separatorView in buttonSeparatorViews {
-            separatorView.backgroundColor = theme.color(forKey: .separator)
-        }
-    }
-    
     public func callsignDidChange() {
         reloadIncident()
     }

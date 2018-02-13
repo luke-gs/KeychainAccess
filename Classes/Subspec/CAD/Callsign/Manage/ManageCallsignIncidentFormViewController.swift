@@ -27,6 +27,13 @@ open class ManageCallsignIncidentFormViewController: FormBuilderViewController {
         MPLCodingNotSupported()
     }
 
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Prevent bounce scroll for fixed item
+        collectionView?.alwaysBounceVertical = false
+    }
+
     // MARK: - Form
 
     override open func construct(builder: FormBuilder) {
@@ -62,9 +69,15 @@ open class ManageCallsignIncidentFormViewController: FormBuilderViewController {
 
     open func decorate(cell: TasksListIncidentCollectionViewCell, with viewModel: TasksListIncidentViewModel) {
         cell.highlightStyle = .fade
-        cell.separatorStyle = .fullWidth
+        cell.separatorStyle = .none
 
         cell.decorate(with: viewModel)
+    }
+
+    // Make sure item is never actually selected
+    open override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        super.collectionView(collectionView, didSelectItemAt: indexPath)
+        collectionView.deselectItem(at: indexPath, animated: false)
     }
 }
 

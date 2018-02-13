@@ -9,33 +9,27 @@
 import Foundation
 import MapKit
 
-public struct LocationMapSearchType {
-    public enum MapSearchType {
-        case radius
-    }
+public enum LocationMapSearchType {
 
-    private let mapSearchType: MapSearchType
-    public let coordinate: CLLocationCoordinate2D
-    public let radius: Double
+    case radius(coordinate: CLLocationCoordinate2D, radius: CLLocationDistance)
 
-    private init(coordinate: CLLocationCoordinate2D, radius: Double, mapSearchType: MapSearchType) {
-        self.coordinate = coordinate
-        self.radius = radius
-        self.mapSearchType = mapSearchType
-    }
-
-    public static func radiusSearch(from coordinate: CLLocationCoordinate2D, withRadius radius: Double = 300) -> LocationMapSearchType {
-        return LocationMapSearchType(coordinate: coordinate, radius: radius, mapSearchType: .radius)
-    }
-
-    public func region() -> MKCoordinateRegion {
-        switch mapSearchType {
-        case .radius:
-            let distance = radius * 2.0 + 100.0
+    public var region: MKCoordinateRegion {
+        switch self {
+        case .radius(let coordinate, let radius):
+            let distance = (radius * 1.1) * 2.0
             return MKCoordinateRegionMakeWithDistance(coordinate, distance, distance)
         }
     }
+
+    public var coordinate: CLLocationCoordinate2D {
+        switch self {
+        case .radius(let coordinate, _):
+            return coordinate
+        }
+    }
+
 }
+
 
 public protocol MapResultViewModelDelegate: class {
 
@@ -48,59 +42,40 @@ public protocol MapResultViewModelDelegate: class {
 
 public protocol MapResultViewModelable: SearchResultModelable {
 
-    /// Plugin for ETA calucation
+    // NEW STUFFS
+
+    func itemsForResultsInSection(_ section: SearchResultSection) -> [FormItem]
+
+    func itemsForClusteredAnnotations(_ annotations: [MKAnnotation]) -> [FormItem]
+
+    // OLD STUFFS
+    
+    /// Search enum, to identify the search type and parameters
+    var searchType: LocationMapSearchType? { get set }
+
+    /// Plugin for ETA calculation
     var travelEstimationPlugin: TravelEstimationPlugable { get set }
     
     /// Contains all the results for each section
-    var results: [SearchResultSection] { get set }
-
-    /// The number of sections in the sidebar collection view
-    func numberOfSections() -> Int
-
-    /// The number of items in the sidebar collection view
-    func numberOfItems(in section: Int) -> Int
-    
-    /// Search enum, to identifiy the seach type and parameters
-    var searchType: LocationMapSearchType! { get set }
+    var results: [SearchResultSection] { get }
 
     /// Return all the annotations available on the map
     var allAnnotations: [MKAnnotation]? { get }
 
-    /// Return a displayable value for the first entity matches the coordinate
-    ///
-    /// - Parameter coordinate: The coordinate of target location
-    func entityDisplayable(for annotation: MKAnnotation) -> EntityMapSummaryDisplayable?
-
-    /// Returns a presentablefor for the annotation
-    ///
-    /// - Parameter annotation: The annotation
-    /// - Returns: The presentable
-    func entityPresentable(for annotation: MKAnnotation) -> Presentable?
-
-    func entity(for annotation: MKAnnotation) -> MPOLKitEntity?
-
-    func mapAnnotation(for entity: MPOLKitEntity) -> MKAnnotation?
-
-    /// The view for each annotation view for the specific mapView
-    /// Subclasses will need to provode their own implementations to provide annotations
     func annotationView(for annotation: MKAnnotation, in mapView: MKMapView) -> MKAnnotationView?
-    
+
+    func annotationViewDidSelect(annotationView: MKAnnotationView, in mapView: MKMapView)
+
+    func annotationViewDidDeselect(annotationView: MKAnnotationView, in mapView: MKMapView)
+
+    func userLocationDidUpdate(_ userLocation: MKUserLocation, in mapView: MKMapView)
+
     /// A delegate that will be notified when there are changes to the results.
-    weak var delegate: MapResultViewModelDelegate? { get set }
+    weak var delegate: (MapResultViewModelDelegate & SearchResultMapViewController)? { get set }
 
-    /// Fetch results with the given parameters.
-    ///
-    /// - Parameter parameters: Dictionary containing look up information.
-    func fetchResults(withParameters parameters: Parameterisable)
+    /// A search strategy to handle searches
+    var searchStrategy: LocationSearchModelStrategy { get }
 
-    /// Fetch results with the given coordinate.
-    ///
-    /// - Parameter coordinate: Look up coordinate.
-    func fetchResults(withCoordinate coordinate: CLLocationCoordinate2D)
-
-    /// Fetch results with the searchType.
-    ///
-    /// - Parameter searchType: SearchType with associate value.
-    func fetchResults(with searchType: LocationMapSearchType)
-    
 }
+
+
