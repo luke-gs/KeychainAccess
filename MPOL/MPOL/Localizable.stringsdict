@@ -36,6 +36,22 @@
 			<string>%d RESULTS FOUND</string>
 		</dict>
 	</dict>
+	<key>%1$d Result(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@results@</string>
+		<key>results</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%1$d RESULT</string>
+			<key>other</key>
+			<string>%1$d RESULTS</string>
+		</dict>
+	</dict>
 	<key>%1$d Result(s) in %2$@</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
@@ -50,6 +66,22 @@
 			<string>%1$d RESULT IN %2$@</string>
 			<key>other</key>
 			<string>%1$d RESULTS IN %2$@</string>
+		</dict>
+	</dict>
+	<key>%1$d Result(s) Selected</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@results@</string>
+		<key>results</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%1$d RESULT SELECTED</string>
+			<key>other</key>
+			<string>%1$d RESULTS SELECTED</string>
 		</dict>
 	</dict>
 </dict>
