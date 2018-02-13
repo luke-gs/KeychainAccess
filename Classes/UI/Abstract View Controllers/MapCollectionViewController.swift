@@ -19,9 +19,9 @@ import MapKit
 /// layout, or provide their own.
 ///
 /// By default, `MapCollectionViewController` doesn't insert the map into the view
-/// heirarchy. This allows layouts to place the map where required, or subclasses
+/// hierarchy. This allows layouts to place the map where required, or subclasses
 /// can specify no layout, and become responsible for inserting the map into the
-/// view heirarchy.
+/// view hierarchy.
 open class MapCollectionViewController: FormCollectionViewController {
     
     
@@ -35,8 +35,8 @@ open class MapCollectionViewController: FormCollectionViewController {
     ///
     /// This view's class is determined by the `mapViewClass()` method, and is loaded
     /// as the main view is created. As the position of this view could vary greatly
-    /// betweenn layouts, the layout object or your subclass is responsible for
-    /// placing the map into the view heirarchy.
+    /// between layouts, the layout object or your subclass is responsible for
+    /// placing the map into the view hierarchy.
     open private(set) var mapView: MKMapView?
     
     
@@ -44,7 +44,7 @@ open class MapCollectionViewController: FormCollectionViewController {
     ///
     /// The position of this view is expected to be handled by the layout, or by a
     /// subclass directly. Therefore, like the map, this view is not placed within
-    /// the view heirarchy. Instead, the layout receives a callback to inform it
+    /// the view hierarchy. Instead, the layout receives a callback to inform it
     /// that the accessory view did change.
     open var accessoryView: UIView? {
         didSet {
@@ -52,10 +52,7 @@ open class MapCollectionViewController: FormCollectionViewController {
             layout?.accessoryViewDidChange(oldValue)
         }
     }
-    
-    open var searchFieldButton: SearchFieldButton?
-    
-    
+
     // MARK: - Subclass override points
     
     /// Returns the `MKMapView` class to use for the map view.

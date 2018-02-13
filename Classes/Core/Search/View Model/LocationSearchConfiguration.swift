@@ -7,9 +7,10 @@
 //
 
 import Foundation
+import MapKit
 
 /// Location search configuration defines how often the typeahead search should occur.
-public struct LocationSearchConfiguration {
+public struct LocationTypeaheadConfiguration {
     
     /// The delay after the user enters the last character before making the request.
     public let throttle: TimeInterval
@@ -22,6 +23,19 @@ public struct LocationSearchConfiguration {
         self.minimumCharacters = minimumCharacters
     }
     
-    public static let `default` = LocationSearchConfiguration(throttle: 0.5, minimumCharacters: 3)
+    public static let `default` = LocationTypeaheadConfiguration(throttle: 0.5, minimumCharacters: 3)
 }
 
+/// Defines radius search configurations
+public struct LocationTypeRadiusConfiguration {
+
+    /// Radii in meters
+    public let radiusOptions: [CLLocationDistance]
+
+    public init(radiusOptions: [CLLocationDistance]) {
+        self.radiusOptions = radiusOptions
+    }
+
+    public static let `default` = LocationTypeRadiusConfiguration(radiusOptions: [100, 500, 1000])
+
+}

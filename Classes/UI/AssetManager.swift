@@ -170,6 +170,11 @@ extension AssetManager {
 
         public static let generalLocation = ImageKey("iconGeneralLocation")
         public static let otherPatrolArea = ImageKey("iconOtherPatrolArea")
+
+        // Map
+        public static let pinLocation    = ImageKey("pinLocation")
+        public static let pinDefault     = ImageKey("pinDefault")
+        public static let pinCluster     = ImageKey("pinCluster")
         
         // Entity
         public static let entityOfficer  = ImageKey("iconEntityOfficer")
@@ -253,6 +258,10 @@ extension AssetManager {
         // Events
         public static let iconFolder  = ImageKey("iconFolder")
         public static let iconPencil  = ImageKey("iconPencil")
+        
+        // Dialog images
+        public static let dialogAlert = ImageKey("dialogAlert")
+
     }
 }
 
