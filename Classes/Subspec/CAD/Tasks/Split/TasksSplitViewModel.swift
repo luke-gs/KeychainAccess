@@ -120,6 +120,20 @@ open class TasksSplitViewModel {
         }
     }
     
+    /// Sync patrols filtered
+    open var filteredPatrols: [SyncDetailsPatrol] {
+        guard let sync = CADStateManager.shared.lastSync else { return [] }
+        
+        return sync.patrols.filter { patrol in
+            // TODO: remove this once filtered by CAD system
+            if !filterViewModel.showResultsOutsidePatrolArea && patrol.patrolGroup != CADStateManager.shared.patrolGroup {
+                return false
+            }
+            
+            return true
+        }
+    }
+    
     /// Sync incidents filtered
     open var filteredResources: [SyncDetailsResource] {
         guard let sync = CADStateManager.shared.lastSync else { return [] }

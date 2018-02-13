@@ -15,4 +15,5 @@ open class SyncDetailsResponse: Codable {
     open var incidents : [SyncDetailsIncident]!
     open var officers : [SyncDetailsOfficer]!
     open var resources : [SyncDetailsResource]!
+    open var patrols : [SyncDetailsPatrol]!
 }

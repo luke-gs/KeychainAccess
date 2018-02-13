@@ -55,7 +55,7 @@ open class TasksMapViewModel {
         }
         
         if filter.showPatrol || currentListItem == .patrol {
-            // TODO: Get patrol from sync
+//            annotations += taskAnnotations(for: splitViewModel.filteredPatrols)
         }
         
         if filter.showBroadcasts || currentListItem == .broadcast {

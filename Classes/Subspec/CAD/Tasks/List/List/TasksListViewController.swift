@@ -161,6 +161,9 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
                 } else if item is TasksListResourceViewModel {
                     formItem = CustomFormItem(cellType: TasksListResourceCollectionViewCell.self,
                                               reuseIdentifier: TasksListResourceCollectionViewCell.defaultReuseIdentifier)
+                } else if item is TasksListPatrolViewModel {
+                    formItem = CustomFormItem(cellType: TasksListPatrolCollectionViewCell.self,
+                                              reuseIdentifier: TasksListPatrolCollectionViewCell.defaultReuseIdentifier)
                 } else {
                     continue
                 }
@@ -196,6 +199,8 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
             cell.apply(theme: theme)
         } else if let cell = cell as? TasksListResourceCollectionViewCell {
             cell.apply(theme: theme)
+        } else if let cell = cell as? TasksListPatrolCollectionViewCell {
+            cell.apply(theme: theme)
         }
     }
     
@@ -208,6 +213,8 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
         if let cell = cell as? TasksListIncidentCollectionViewCell, let viewModel = viewModel as? TasksListIncidentViewModel {
             cell.decorate(with: viewModel)
         } else if let cell = cell as? TasksListResourceCollectionViewCell, let viewModel = viewModel as? TasksListResourceViewModel {
+            cell.decorate(with: viewModel)
+        } else if let cell = cell as? TasksListPatrolCollectionViewCell, let viewModel = viewModel as? TasksListPatrolViewModel {
             cell.decorate(with: viewModel)
         }
     }

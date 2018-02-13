@@ -197,6 +197,7 @@ open class TasksListContainerViewModel {
 
             // Load filtered data once
             let filteredIncidents = splitViewModel.filteredIncidents
+            let filteredPatrols = splitViewModel.filteredPatrols
             let filteredResources = splitViewModel.filteredResources
 
             // Apply filtered data to sources and sections
@@ -211,7 +212,7 @@ open class TasksListContainerViewModel {
                 })
             case .patrol:
                 // TODO: Get from sync
-                listViewModel.sections = []
+                listViewModel.sections = taskListSections(for: filteredPatrols, filter: nil)
             case .broadcast:
                 // TODO: Get from sync
                 listViewModel.sections = []
@@ -228,7 +229,7 @@ open class TasksListContainerViewModel {
             // TODO: calculate colors based on priorities
             sourceItems = [
                 sourceItemForType(type: .incident,  count: filteredIncidents.count, color: .orangeRed),
-                sourceItemForType(type: .patrol,    count: 0, color: .secondaryGray),
+                sourceItemForType(type: .patrol,    count: filteredPatrols.count, color: .secondaryGray),
                 sourceItemForType(type: .broadcast, count: 0, color: .secondaryGray),
                 sourceItemForType(type: .resource,  count: filteredResources.count, color: .orangeRed)
             ]
@@ -297,6 +298,47 @@ open class TasksListContainerViewModel {
         
         
         return sortedIncidents
+    }
+    
+    /// Maps sync models to view models
+    open func taskListSections(for patrols: [SyncDetailsPatrol], filter: ((SyncDetailsPatrol) -> Bool)?) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
+        
+        var sectionedPatrols: [String: Array<SyncDetailsPatrol>] = [:]
+        
+        // Map incidents to sections
+        for patrol in patrols {
+            if let filter = filter {
+                guard filter(patrol) else { continue }
+            }
+            
+            let status = patrol.status.rawValue
+            if sectionedPatrols[status] == nil {
+                sectionedPatrols[status] = []
+            }
+            
+            // Apply search text filter to type, primary code, secondary code or suburb
+            if let searchText = searchText?.lowercased(), !searchText.isEmpty {
+                let matchedValues = [patrol.type, patrol.identifier, patrol.subtype, patrol.location?.suburb].removeNils().filter {
+                    return $0.lowercased().hasPrefix(searchText)
+                }
+                if !matchedValues.isEmpty {
+                    sectionedPatrols[status]?.append(patrol)
+                }
+            } else {
+                sectionedPatrols[status]?.append(patrol)
+            }
+        }
+        
+        return sectionedPatrols.map { (arg) -> CADFormCollectionSectionViewModel<TasksListItemViewModel> in
+            
+            let (key, value) = arg
+            
+            let taskViewModels: [TasksListPatrolViewModel] = value.map { patrol in
+                return TasksListPatrolViewModel(patrol: patrol)
+            }
+            
+            return CADFormCollectionSectionViewModel(title: "\(value.count) \(key)", items: taskViewModels)
+        }
     }
     
     /// Maps sync models to view models
