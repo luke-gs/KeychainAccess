@@ -44,9 +44,13 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         builder.title = "Locations"
         builder.forceLinearLayout = true
 
+        let viewModel = LocationSelectionViewModel()
+
         builder += HeaderFormItem(text: "LOCATIONS")
-        builder += ValueFormItem(title: "Event Location", value: nil, image: nil)
-            .value(composeAddress())
+        builder += PickerFormItem(pickerAction: LocationAction(viewModel: viewModel))
+            .title("Event location")
+            .accessory(ImageAccessoryItem(image: AssetManager.shared.image(forKey: .iconPencil)!))
+            .required()
     }
     
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
@@ -80,33 +84,6 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
                                                 style: .default))
         AlertQueue.shared.add(alertController)
     }
-
-    private func reverseGeoCode(location: CLLocation?) {
-        guard let location = location else { return }
-        LocationManager.shared.requestPlacemark(from: location).then { (placemark) -> Void in
-            self.report?.eventLocation = EventLocation(latitude: placemark.location?.coordinate.latitude,
-                                                       longitude: placemark.location?.coordinate.longitude,
-                                                       altitude: placemark.location?.altitude,
-                                                       horizontalAccuracy: placemark.location?.horizontalAccuracy,
-                                                       verticalAccuracy: placemark.location?.verticalAccuracy,
-                                                       speed: placemark.location?.speed,
-                                                       course: placemark.location?.course,
-                                                       timestamp: placemark.location?.timestamp)
-            self.report?.eventPlacemark = placemark
-            self.reloadForm()
-            }.catch { _ in }
-    }
-
-    private func composeAddress() -> String {
-        guard let dictionary = report?.eventPlacemark?.addressDictionary else { return "-" }
-        guard let formattedAddress = dictionary["FormattedAddressLines"] as? [String] else { return "-" }
-
-        let fullAddress = formattedAddress.reduce("") { result, string  in
-            return result + "\(string) "
-        }
-
-        return fullAddress
-    }
 }
 
 extension DefaultEventLocationViewController: MKMapViewDelegate {
@@ -132,13 +109,8 @@ extension DefaultEventLocationViewController: MKMapViewDelegate {
         let span = MKCoordinateSpanMake(0.005, 0.005)
         let region = MKCoordinateRegionMake(userLocation.coordinate, span)
         mapView.setRegion(region, animated: true)
-
-        let location = LocationAnnotation()
-        location.coordinate = userLocation.coordinate
-
-        mapView.addAnnotation(location)
-        reverseGeoCode(location: userLocation.location)
     }
 }
 
-fileprivate class LocationAnnotation: MKPointAnnotation { }
+public class LocationAnnotation: MKPointAnnotation { }
+

@@ -10,7 +10,7 @@ import UIKit
 
 public class StackMapLayout: MapFormBuilderViewLayout {
     override public func viewDidLoad() {
-        guard let controller = controller as? DefaultEventLocationViewController,
+        guard let controller = controller,
             let mapView = controller.mapView,
             let collectionView = controller.collectionView
             else { return }
