@@ -21,17 +21,21 @@ public class OfficerSearchDatasource: CustomSearchPickerDatasource {
     public var header: CustomisableSearchHeaderView?
     public var allowsMultipleSelection: Bool
 
+    public let sort: PickableSorting
+
     public init(objects: [Pickable],
                 selectedObjects: [Pickable] = [],
                 title: String? = nil    ,
                 allowsMultipleSelection: Bool = false,
-                configuration: SearchHeaderConfiguration? = nil) {
+                configuration: SearchHeaderConfiguration? = nil,
+                sort: PickableSorting = .none) {
         
-        self.objects = objects
+        self.objects = objects.sorted(by: sort.function())
         self.selectedObjects = selectedObjects
         self.title = title
         self.allowsMultipleSelection = allowsMultipleSelection
         self.headerConfiguration = configuration
+        self.sort = sort
     }
 
     public func allowsSelection(of object: Pickable) -> Bool {
