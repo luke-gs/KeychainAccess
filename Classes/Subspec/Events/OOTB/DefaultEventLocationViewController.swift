@@ -84,13 +84,21 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
     private func reverseGeoCode(location: CLLocation?) {
         guard let location = location else { return }
         LocationManager.shared.requestPlacemark(from: location).then { (placemark) -> Void in
-            self.report?.eventLocation = placemark
+            self.report?.eventLocation = EventLocation(latitude: placemark.location?.coordinate.latitude,
+                                                       longitude: placemark.location?.coordinate.longitude,
+                                                       altitude: placemark.location?.altitude,
+                                                       horizontalAccuracy: placemark.location?.horizontalAccuracy,
+                                                       verticalAccuracy: placemark.location?.verticalAccuracy,
+                                                       speed: placemark.location?.speed,
+                                                       course: placemark.location?.course,
+                                                       timestamp: placemark.location?.timestamp)
+            self.report?.eventPlacemark = placemark
             self.reloadForm()
             }.catch { _ in }
     }
 
     private func composeAddress() -> String {
-        guard let dictionary = report?.eventLocation?.addressDictionary else { return "-" }
+        guard let dictionary = report?.eventPlacemark?.addressDictionary else { return "-" }
         guard let formattedAddress = dictionary["FormattedAddressLines"] as? [String] else { return "-" }
 
         let fullAddress = formattedAddress.reduce("") { result, string  in

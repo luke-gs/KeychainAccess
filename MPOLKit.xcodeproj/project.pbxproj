@@ -24,6 +24,7 @@
 		12D3702220200F5E00D79DDB /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3702120200F5E00D79DDB /* EventsListViewController.swift */; };
 		12D8E2A01F9ED12100EEE214 /* GenericSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12BDF9151F95CCD50033E60B /* GenericSearchViewController.swift */; };
 		12D8E2A11F9ED12100EEE214 /* GenericSearchDefaultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D8E29D1F9EC6D800EEE214 /* GenericSearchDefaultViewModel.swift */; };
+		12EA561920327E130051DDEC /* EventLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EA561820327E130051DDEC /* EventLocation.swift */; };
 		12F0571E1F3AE5FC00CAD6F6 /* HTTPAuthenticationModeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0571D1F3AE5FC00CAD6F6 /* HTTPAuthenticationModeTests.swift */; };
 		12F057201F3BF6CF00CAD6F6 /* SourceItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0571F1F3BF6CF00CAD6F6 /* SourceItemTests.swift */; };
 		12F057241F3BFCBC00CAD6F6 /* SearchResultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F057231F3BFCBC00CAD6F6 /* SearchResultsTests.swift */; };
@@ -757,6 +758,7 @@
 		12D3702120200F5E00D79DDB /* EventsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
 		12D566F51F5790BC001E74CA /* UserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		12D8E29D1F9EC6D800EEE214 /* GenericSearchDefaultViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericSearchDefaultViewModel.swift; sourceTree = "<group>"; };
+		12EA561820327E130051DDEC /* EventLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventLocation.swift; sourceTree = "<group>"; };
 		12F0571D1F3AE5FC00CAD6F6 /* HTTPAuthenticationModeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPAuthenticationModeTests.swift; sourceTree = "<group>"; };
 		12F0571F1F3BF6CF00CAD6F6 /* SourceItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceItemTests.swift; sourceTree = "<group>"; };
 		12F057231F3BFCBC00CAD6F6 /* SearchResultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsTests.swift; sourceTree = "<group>"; };
@@ -1516,6 +1518,7 @@
 				12D3700F20200B5A00D79DDB /* Event.swift */,
 				12FB2F0020326653000CA863 /* StackMapLayout.swift */,
 				12D3701020200B5A00D79DDB /* OOTB */,
+				12EA561820327E130051DDEC /* EventLocation.swift */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -4306,6 +4309,7 @@
 				27CBC7561F8B277E00E387C3 /* TimelineCollectionViewFormLayout.swift in Sources */,
 				BC9C7E031F0DED6600DFFE83 /* UICollectionView+DefaultReuse.swift in Sources */,
 				EA42F8EA1F95CDB000C5C38E /* DateFormItem.swift in Sources */,
+				12EA561920327E130051DDEC /* EventLocation.swift in Sources */,
 				EA85BFF21F6797C1002EEB49 /* UINavigationController+Theme.m in Sources */,
 				DB88BCD91F42CFFC0056FD69 /* SearchDataSource.swift in Sources */,
 				1923275E1FCCDFB80001D623 /* PromiseCancellationToken.swift in Sources */,

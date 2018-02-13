@@ -14,11 +14,13 @@ fileprivate extension EvaluatorKey {
 
 open class DefaultLocationReport: Reportable {
 
-    var eventLocation: CLPlacemark? {
+    var eventLocation: EventLocation? {
         didSet {
             evaluator.updateEvaluation(for: .eventLocation)
         }
     }
+
+    var eventPlacemark: CLPlacemark?
 
     public weak var event: Event?
     public var evaluator: Evaluator = Evaluator()
@@ -36,12 +38,12 @@ open class DefaultLocationReport: Reportable {
 
     public required init(from: Decoder) throws {
         let container = try from.container(keyedBy: Keys.self)
-        //        eventLocation = try container.decode(CLLocation.self, forKey: .eventLocation)
+        eventLocation = try container.decode(EventLocation.self, forKey: .eventLocation)
     }
 
     public func encode(to: Encoder) throws {
         var container = to.container(keyedBy: Keys.self)
-        //        try container.encode(eventLocation, forKey: .eventLocation)
+        try container.encode(eventLocation, forKey: .eventLocation)
     }
 
     enum Keys: String, CodingKey {
@@ -52,3 +54,4 @@ open class DefaultLocationReport: Reportable {
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
 }
+
