@@ -9,17 +9,13 @@
 import UIKit
 import MapKit
 
-fileprivate extension EvaluatorKey {
-    static let eventLocation = EvaluatorKey(rawValue: "eventLocation")
-}
-
 open class DefaultEventLocationViewController: MapFormBuilderViewController, EvaluationObserverable {
     
     weak var report: DefaultLocationReport?
 
     public init(report: Reportable?) {
         self.report = report as? DefaultLocationReport
-        super.init(layout: DefaultMapLayout())
+        super.init(layout: StackMapLayout())
         report?.evaluator.addObserver(self)
         
         sidebarItem.regularTitle = "Location"
@@ -50,7 +46,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
 
         builder += HeaderFormItem(text: "LOCATIONS")
         builder += ValueFormItem(title: "Event Location", value: nil, image: nil)
-            .value("\(report?.eventLocation?.name ?? "")")
+            .value(composeAddress())
     }
     
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
@@ -77,8 +73,11 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
     }
 
     private func showLocationServicesDisabledPrompt() {
-        let alertController = UIAlertController(title: "Location Services Disabled", message: "You need to enable location services in settings.", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Okay", style: .default))
+        let alertController = UIAlertController(title: "Location Services Disabled",
+                                                message: "You need to enable location services in settings.",
+                                                preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Okay",
+                                                style: .default))
         AlertQueue.shared.add(alertController)
     }
 
@@ -88,6 +87,17 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
             self.report?.eventLocation = placemark
             self.reloadForm()
             }.catch { _ in }
+    }
+
+    private func composeAddress() -> String {
+        guard let dictionary = report?.eventLocation?.addressDictionary else { return "-" }
+        guard let formattedAddress = dictionary["FormattedAddressLines"] as? [String] else { return "-" }
+
+        let fullAddress = formattedAddress.reduce("") { result, string  in
+            return result + "\(string) "
+        }
+
+        return fullAddress
     }
 }
 
@@ -123,73 +133,4 @@ extension DefaultEventLocationViewController: MKMapViewDelegate {
     }
 }
 
-
-public class DefaultMapLayout: MapFormBuilderViewLayout {
-    override public func viewDidLoad() {
-        guard let controller = controller as? DefaultEventLocationViewController, let mapView = controller.mapView, let collectionView = controller.collectionView else { return }
-
-        controller.view.addSubview(mapView)
-
-        controller.mapView?.translatesAutoresizingMaskIntoConstraints = false
-        controller.collectionView?.translatesAutoresizingMaskIntoConstraints = false
-
-        var constraints = [NSLayoutConstraint]()
-
-        // Horizontal
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|[mapView]|", options: [], metrics: nil, views: ["mapView": mapView])
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|[collectionView]|", options: [], metrics: nil, views: ["collectionView": collectionView])
-
-        // Vertical
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[mapView(percentage)][collectionView]|",
-                                                      options: [],
-                                                      metrics: ["percentage": (controller.view.frame.size.height * 0.4)],
-                                                      views: ["collectionView": collectionView, "mapView": mapView, "view": controller.view])
-
-        NSLayoutConstraint.activate(constraints)
-    }
-}
-
-public class DefaultLocationReport: Reportable {
-    
-    var eventLocation: CLPlacemark? {
-        didSet {
-            evaluator.updateEvaluation(for: .eventLocation)
-        }
-    }
-    
-    public weak var event: Event?
-    public var evaluator: Evaluator = Evaluator()
-    
-    public required init(event: Event) {
-        self.event = event
-        
-        evaluator.addObserver(event)
-        evaluator.registerKey(.eventLocation) {
-            return self.eventLocation != nil
-        }
-    }
-    
-    // Codable
-    
-    public required init(from: Decoder) throws {
-        let container = try from.container(keyedBy: Keys.self)
-        //        eventLocation = try container.decode(CLLocation.self, forKey: .eventLocation)
-    }
-    
-    public func encode(to: Encoder) throws {
-        var container = to.container(keyedBy: Keys.self)
-        //        try container.encode(eventLocation, forKey: .eventLocation)
-    }
-    
-    enum Keys: String, CodingKey {
-        case eventLocation = "eventLocation"
-    }
-    
-    // Evaluation
-    
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
-}
-
-private class LocationAnnotation: MKPointAnnotation {
-
-}
+fileprivate class LocationAnnotation: MKPointAnnotation { }
