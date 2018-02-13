@@ -20,6 +20,8 @@ open class Officer: MPOLKitEntity, Identifiable {
     open var givenName: String?
     open var surname: String?
     open var middleNames: String?
+    open var rank: String?
+    open var officerID: String?
 
     // TODO: Proper Involvements
     open var involvements: [String] = []

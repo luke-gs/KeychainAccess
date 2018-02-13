@@ -39,7 +39,10 @@ public class OfficerInvolvementSearchDatasource: CustomSearchPickerDatasource {
     }
 
     public func allowsSelection(of object: Pickable) -> Bool {
-        return object.title?.caseInsensitiveCompare("reporting officer") != ComparisonResult.orderedSame
+        if selectedObjects.contains(where: { $0.title?.caseInsensitiveCompare("reporting officer") == .orderedSame }) {
+            return false
+        }
+        return true
     }
 
     public func updateHeader(for objects: [Pickable]) {
