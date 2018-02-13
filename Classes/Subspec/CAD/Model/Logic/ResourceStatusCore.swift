@@ -222,12 +222,9 @@ public enum ResourceStatusCore: String, ResourceStatusType {
 
 }
 
+/// Conformance to Equatable, to allow array lookup
 extension ResourceStatusCore: Equatable {
-    static func == (lhs: ResourceStatusCore, rhs: ResourceStatusType?) -> Bool {
-        return lhs.rawValue == rhs?.rawValue
-    }
-
-    static func == (lhs: ResourceStatusType?, rhs: ResourceStatusCore) -> Bool {
-        return lhs?.rawValue == rhs.rawValue
+    public static func == (lhs: ResourceStatusCore, rhs: ResourceStatusCore) -> Bool {
+        return lhs.rawValue == rhs.rawValue
     }
 }

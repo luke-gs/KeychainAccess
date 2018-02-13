@@ -115,7 +115,7 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
         return unsorted.map { section in
             // Sort items
             let sortedItems = section.items.sorted { (lhs, rhs) in
-                if !lhs.status.isEqual(rhs.status) {
+                if lhs.status != rhs.status {
                     // Status is not same, check if either is On Air, or At Incident
                     if lhs.status == ResourceStatusCore.onAir || rhs.status == ResourceStatusCore.onAir {
                         return lhs.status == ResourceStatusCore.onAir

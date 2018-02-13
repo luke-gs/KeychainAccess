@@ -59,7 +59,7 @@ open class CADStateManager: NSObject {
                 resource.payrollIds = officerIds
 
                 // Set state if callsign was off duty
-                if resource.statusType.isEqual(ClientModelTypes.resourceStatus.offDutyCase) {
+                if resource.statusType == ClientModelTypes.resourceStatus.offDutyCase {
                     resource.statusType = ClientModelTypes.resourceStatus.onAirCase
                 }
 

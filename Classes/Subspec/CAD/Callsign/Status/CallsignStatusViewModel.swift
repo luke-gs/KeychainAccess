@@ -149,7 +149,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
         // Find the status in the section data
         for (sectionIndex, section) in sections.enumerated() {
             for (itemIndex, item) in section.items.enumerated() {
-                if item.status.isEqual(status) {
+                if item.status == status {
                     return IndexPath(item: itemIndex, section: sectionIndex)
                 }
             }

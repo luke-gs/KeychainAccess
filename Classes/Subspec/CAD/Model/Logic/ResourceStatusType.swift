@@ -70,20 +70,16 @@ public protocol ResourceStatusType {
 extension ResourceStatusType {
     /// Convenience for checking if this is the duress case
     var isDuress: Bool {
-        return isEqual(ClientModelTypes.resourceStatus.duressCase)
+        return self == ClientModelTypes.resourceStatus.duressCase
     }
 }
 
 /// Equality check without conforming to Equatable, to prevent need for type erasure
-extension ResourceStatusType {
-    func isEqual(_ status: ResourceStatusType?) -> Bool {
-        return self.rawValue == status?.rawValue
-    }
+func ==(lhs: ResourceStatusType?, rhs: ResourceStatusType?) -> Bool {
+    return lhs?.rawValue == rhs?.rawValue
 }
 
-/// Convenience to allow equality check on optional
-extension Optional where Wrapped == ResourceStatusType {
-    func isEqual(_ status: ResourceStatusType?) -> Bool {
-        return self?.rawValue == status?.rawValue
-    }
+/// Inquality check (required when not using Equatable)
+func !=(lhs: ResourceStatusType?, rhs: ResourceStatusType?) -> Bool {
+    return !(lhs?.rawValue == rhs?.rawValue)
 }
