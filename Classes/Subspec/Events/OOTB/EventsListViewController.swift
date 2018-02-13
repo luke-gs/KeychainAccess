@@ -53,7 +53,7 @@ open class EventsListViewController: FormBuilderViewController {
             let subtitle = displayable.subtitle ?? "No description available"
             let image = (displayable.icon?.image ?? AssetManager.shared.image(forKey: .event)!).surroundWithCircle(diameter: 48, color: .orangeRed)
             let editActions = [CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in
-                self.viewModel.eventsManager.remove(for: currentEvents[indexPath.row].eventId)
+                self.viewModel.eventsManager.remove(for: eventsList[indexPath.row].eventId)
                 // check for empty state
                 self.loadingManager.state = (self.viewModel.eventsList?.isEmpty ?? true) ? .noContent : .loaded
                 self.reloadForm()

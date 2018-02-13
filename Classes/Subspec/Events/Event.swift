@@ -47,8 +47,8 @@ final public class Event: Codable, Evaluatable {
     }
 
     enum Keys: String, CodingKey {
-        case reports = "reports"
-        case id = "id"
+        case reports
+        case id
     }
 
     //MARK: Utility
