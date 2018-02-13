@@ -75,12 +75,7 @@ public class DefaultNotesPhotosReport: Reportable {
     
     public required init(event: Event) {
         self.event = event
-        
-        evaluator.addObserver(event)
-        
-        evaluator.registerKey(.viewed) {
-            return self.viewed
-        }
+        commonInit()
     }
     
     // Codable
@@ -89,6 +84,17 @@ public class DefaultNotesPhotosReport: Reportable {
         let container = try from.container(keyedBy: Keys.self)
         operationName = try container.decode(String.self, forKey: .operationName)
         freeText = try container.decode(String.self, forKey: .freeText)
+        
+        commonInit()
+    }
+    
+    public func commonInit() {
+        if let event = self.event {
+            evaluator.addObserver(event)
+        }
+        evaluator.registerKey(.viewed) {
+            return self.viewed
+        }
     }
     
     public func encode(to: Encoder) throws {
