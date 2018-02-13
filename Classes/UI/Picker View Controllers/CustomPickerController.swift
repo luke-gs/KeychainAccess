@@ -229,7 +229,7 @@ public class CustomPickerController: FormTableViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        tableView?.estimatedRowHeight = 60.0
+        tableView?.estimatedRowHeight = 80.0
         datasource.header?.searchBar.text = searchTerm
     }
 
