@@ -15,11 +15,11 @@ public class SummaryThumbnailFormItem: BaseFormItem {
 
     public var category: String?
 
-    public var title: String?
+    public var title: StringSizable?
 
-    public var subtitle: String?
+    public var subtitle: StringSizable?
 
-    public var detail: String?
+    public var detail: StringSizable?
 
     public var badge: UInt = 0
 
@@ -53,9 +53,9 @@ public class SummaryThumbnailFormItem: BaseFormItem {
 
         cell.style = style
         cell.sourceLabel.text = category
-        cell.titleLabel.text = title
-        cell.subtitleLabel.text = subtitle
-        cell.detailLabel.text = detail
+        cell.titleLabel.apply(sizable: title, defaultFont: defaultTitleFont(for: cell.traitCollection), defaultNumberOfLines: 1)
+        cell.subtitleLabel.apply(sizable: subtitle, defaultFont: defaultSubtitleFont(for: cell.traitCollection), defaultNumberOfLines: 1)
+        cell.detailLabel.apply(sizable: detail, defaultFont: defaultDetailFont(for: cell.traitCollection), defaultNumberOfLines: 2)
         cell.borderColor = badgeColor
         cell.badgeCount = badge
         cell.thumbnailView.borderColor = borderColor
@@ -78,7 +78,11 @@ public class SummaryThumbnailFormItem: BaseFormItem {
     }
 
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
-        return EntityCollectionViewCell.minimumContentHeight(forStyle: style, compatibleWith: traitCollection)
+        return EntityCollectionViewCell.minimumContentHeight(forStyle: style,
+                                                             title: title?.sizing(defaultNumberOfLines: 1, defaultFont: defaultTitleFont(for: traitCollection)),
+                                                             subtitle: subtitle?.sizing(defaultNumberOfLines: 1, defaultFont: defaultSubtitleFont(for: traitCollection)),
+                                                             detail: detail?.sizing(defaultNumberOfLines: 2, defaultFont: defaultDetailFont(for: traitCollection)),
+                                                             compatibleWith: traitCollection)
     }
 
     public override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
@@ -91,6 +95,18 @@ public class SummaryThumbnailFormItem: BaseFormItem {
         cell.titleLabel.textColor    = primaryTextColor
         cell.subtitleLabel.textColor = secondaryTextColor
         cell.detailLabel.textColor   = tertiaryTextColor
+    }
+    
+    private func defaultTitleFont(for traitCollection: UITraitCollection?) -> UIFont {
+        return .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+    }
+    
+    private func defaultSubtitleFont(for traitCollection: UITraitCollection?) -> UIFont {
+        return .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+    }
+    
+    private func defaultDetailFont(for traitCollection: UITraitCollection?) -> UIFont {
+        return .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
     }
 
 }
@@ -112,19 +128,19 @@ extension SummaryThumbnailFormItem {
     }
 
     @discardableResult
-    public func title(_ title: String?) -> Self {
+    public func title(_ title: StringSizable?) -> Self {
         self.title = title
         return self
     }
 
     @discardableResult
-    public func subtitle(_ subtitle: String?) -> Self {
+    public func subtitle(_ subtitle: StringSizable?) -> Self {
         self.subtitle = subtitle
         return self
     }
 
     @discardableResult
-    public func detail(_ detail: String?) -> Self {
+    public func detail(_ detail: StringSizable?) -> Self {
         self.detail = detail
         return self
     }
