@@ -42,4 +42,8 @@ open class IncidentOverviewMapViewModel: TasksMapViewModel {
         // Only allow selecting resources
         return view is ResourceAnnotationView
     }
+    
+    open override func shouldCluster() -> Bool {
+        return false
+    }
 }

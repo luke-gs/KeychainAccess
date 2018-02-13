@@ -49,6 +49,22 @@ public extension UIImage {
             context.draw(self.cgImage!, in: rect)
         }
     }
+    
+    /// Put an image on a circle.
+    func surroundWithCircle(diameter: CGFloat, color: UIColor) -> UIImage {
+        let diameter = max(diameter, max(self.size.width, self.size.height))
+        let size = CGSize(width: diameter, height: diameter)
+        let circle = UIImage.circle(diameter: size.width, color: color)
+        
+        // compose icon and coloured circle
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        circle.draw(at: CGPoint(x: 0, y: 0))
+        self.draw(at: CGPoint(x: (diameter - self.size.width) / 2, y: (diameter - self.size.height) / 2))
+        let surroundedImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        return surroundedImage
+    }
 
     private func modifiedImage( draw: (CGContext, CGRect) -> ()) -> UIImage? {
 

@@ -10,7 +10,7 @@ import Foundation
 import MapKit
 import Cluster
 
-open class ClusterAnnotationView: MKAnnotationView {
+open class ClusterAnnotationView: MKAnnotationView, DefaultReusable {
 
     open let label = UILabel()
 
