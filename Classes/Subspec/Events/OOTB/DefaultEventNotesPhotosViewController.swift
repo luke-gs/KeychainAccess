@@ -42,11 +42,15 @@ open class DefaultEventNotesPhotosViewController: FormBuilderViewController, Eva
         
         builder += HeaderFormItem(text: "GENERAL")
         
-        builder += TextFieldFormItem(title: "Operation Name", text: report?.operationName)
+        builder += TextFieldFormItem(title: "Operation Name", text: report?.operationName).onValueChanged { value in
+            self.report?.operationName = value
+        }
         
         builder += HeaderFormItem(text: "SUMMARY / NOTES").actionButton(title: "USE TEMPLATE", handler: { _ in })
         
-        builder += TextFieldFormItem(title: "Free Text", text: report?.freeText)
+        builder += TextFieldFormItem(title: "Free Text", text: report?.freeText).onValueChanged { value in
+            self.report?.freeText = value
+        }
     }
     
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
