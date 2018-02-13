@@ -29,7 +29,7 @@ public enum ResourceStatus: String, ResourceStatusType {
     case finalise       = "Finalise"
     case inquiries2     = "Inquiries2"
 
-    /// All enum cases, in order of display
+    /// All cases, in order of display
     public static let allCases: [ResourceStatusType] = [
         ResourceStatus.unavailable,
         ResourceStatus.onAir,
@@ -45,7 +45,7 @@ public enum ResourceStatus: String, ResourceStatusType {
         ResourceStatus.inquiries2
     ]
 
-    /// Cases related to an incident
+    /// All cases related to a current incident, in order of display
     public static let incidentCases: [ResourceStatusType] = [
         ResourceStatus.proceeding,
         ResourceStatus.atIncident,
@@ -53,8 +53,29 @@ public enum ResourceStatus: String, ResourceStatusType {
         ResourceStatus.inquiries2
     ]
 
+    /// All cases unrelated to a current incident, in order of display
+    public static var generalCases: [ResourceStatusType] = [
+        ResourceStatus.unavailable,
+        ResourceStatus.onAir,
+        ResourceStatus.mealBreak,
+        ResourceStatus.trafficStop,
+        ResourceStatus.court,
+        ResourceStatus.atStation,
+        ResourceStatus.onCall,
+        ResourceStatus.inquiries1
+    ]
+
     /// The default case when status is unknown
     public static var defaultCase: ResourceStatusType = ResourceStatus.unavailable
+
+    /// The case for a resource in duress
+    public static var duressCase: ResourceStatusType = ResourceStatus.duress
+
+    /// The case for an off duty resource
+    public static var offDutyCase: ResourceStatusType = ResourceStatus.offDuty
+
+    /// The case for an on air resource
+    public static var onAirCase: ResourceStatusType = ResourceStatus.onAir
 
     public var title: String {
         switch self {
@@ -199,4 +220,14 @@ public enum ResourceStatus: String, ResourceStatusType {
         return incidentCases.contains(self) && !incidentCases.contains(newStatus)
     }
 
+}
+
+extension ResourceStatus: Equatable {
+    static func == (lhs: ResourceStatus, rhs: ResourceStatusType?) -> Bool {
+        return lhs.rawValue == rhs?.rawValue
+    }
+
+    static func == (lhs: ResourceStatusType?, rhs: ResourceStatus) -> Bool {
+        return lhs?.rawValue == rhs.rawValue
+    }
 }

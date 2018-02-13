@@ -127,7 +127,7 @@ open class TasksMapViewModel {
                                       icon: resource.type.icon,
                                       iconBackgroundColor: resource.statusType.iconColors.background,
                                       iconTintColor: resource.statusType.iconColors.icon,
-                                      duress: resource.statusType == .duress)
+                                      duress: resource.statusType.isDuress)
         }
     }
  

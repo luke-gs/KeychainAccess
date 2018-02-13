@@ -39,6 +39,8 @@ open class CADStateManager: NSObject {
     /// The API manager to use, by default system one
     open static var apiManager: CADAPIManager = APIManager.shared
 
+    // MARK: - Synced State
+
     /// The logged in officer details
     open var officerDetails: OfficerDetailsResponse?
     
@@ -57,8 +59,8 @@ open class CADStateManager: NSObject {
                 resource.payrollIds = officerIds
 
                 // Set state if callsign was off duty
-                if resource.statusType == .offDuty {
-                    resource.statusType = .onAir
+                if resource.statusType.isEqual(ClientModelTypes.resourceStatus.offDutyCase) {
+                    resource.statusType = ClientModelTypes.resourceStatus.onAirCase
                 }
 
                 // Check if logged in officer is no longer in callsign
@@ -117,13 +119,13 @@ open class CADStateManager: NSObject {
 
     /// Set logged in officer as off duty
     open func setOffDuty() {
-        currentResource?.statusType = .offDuty
+        currentResource?.statusType = ClientModelTypes.resourceStatus.offDutyCase
         lastBookOn = nil
     }
     
     /// Clears current incident and sets status to on air
     open func finaliseIncident() {
-        currentResource?.statusType = .onAir
+        currentResource?.statusType = ClientModelTypes.resourceStatus.onAirCase
         clearIncident()
     }
     
@@ -156,21 +158,21 @@ open class CADStateManager: NSObject {
     }
 
     /// Update the status of our callsign
-    open func updateCallsignStatus(status: ResourceStatus, incident: SyncDetailsIncident?) {
+    open func updateCallsignStatus(status: ResourceStatusType, incident: SyncDetailsIncident?) {
         var newStatus = status
         var newIncident = incident
 
         // TODO: Remove all hacks below when we have a real CAD system
 
         // Finalise incident clears the current incident and sets state to On Air
-        if newStatus == .finalise {
+        if newStatus == ResourceStatus.finalise {
             finaliseIncident()
-            newStatus = .onAir
+            newStatus = ClientModelTypes.resourceStatus.onAirCase
             newIncident = nil
         }
 
         // Clear incident if changing to non incident status
-        if (currentResource?.statusType?.isChangingToGeneralStatus(newStatus)).isTrue {
+        if (currentResource?.statusType.isChangingToGeneralStatus(newStatus)).isTrue {
             // Clear the current incident
             CADStateManager.shared.clearIncident()
             newIncident = nil

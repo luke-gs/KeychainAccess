@@ -32,15 +32,14 @@ open class SyncDetailsResource: Codable {
     open var activityLog: [SyncDetailsActivityLogItem]?
 
     /// Status as a type that is client specific
-    open var statusType: ResourceStatus! {
+    open var statusType: ResourceStatusType {
         get {
-            return ResourceStatus(rawValue: status)
+            return ClientModelTypes.resourceStatus.init(rawValue: status) ?? ClientModelTypes.resourceStatus.defaultCase
         }
         set {
             status = newValue.rawValue
         }
     }
-
 }
 
 /// Reponse object for a single Equipment item in the resource

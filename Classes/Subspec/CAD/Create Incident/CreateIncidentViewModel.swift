@@ -36,6 +36,10 @@ open class CreateIncidentViewModel {
         }
     }
     
+    open var initialStatus: ResourceStatusType {
+        return ResourceStatus.atIncident
+    }
+
     open var priorityOptions: [String] {
         return IncidentGrade.allCases.map({ $0.rawValue })
     }
@@ -53,16 +57,14 @@ open class CreateIncidentViewModel {
     open func navTitle() -> String {
         return NSLocalizedString("Create New Incident", comment: "")
     }
-    
+
     open func createStatusViewController() -> CreateIncidentStatusViewController {
-        let initialStatus = ResourceStatus.atIncident
+        let incidentItems = ClientModelTypes.resourceStatus.incidentCases.map {
+            return ManageCallsignStatusItemViewModel($0)
+        }
         let sections = [CADFormCollectionSectionViewModel(
             title: NSLocalizedString("Initial Status", comment: "").uppercased(),
-            items: [
-                ManageCallsignStatusItemViewModel(.proceeding),
-                ManageCallsignStatusItemViewModel(.atIncident),
-                ManageCallsignStatusItemViewModel(.finalise),
-                ManageCallsignStatusItemViewModel(.inquiries2) ])
+            items: incidentItems)
         ]
         let viewModel = CreateIncidentStatusViewModel(sections: sections, selectedStatus: initialStatus)
         

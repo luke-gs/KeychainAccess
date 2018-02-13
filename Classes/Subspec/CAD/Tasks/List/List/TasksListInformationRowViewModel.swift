@@ -26,7 +26,7 @@ public struct TasksListInformationRowViewModel {
     }
     
     public init(with resource: SyncDetailsResource) {
-        let inDuress = resource.statusType == .duress
+        let inDuress = resource.statusType.isDuress
         self.init(image: resource.type.icon,
                   title: [resource.callsign, resource.officerCountString].joined(),
                   detail: resource.statusType.title,

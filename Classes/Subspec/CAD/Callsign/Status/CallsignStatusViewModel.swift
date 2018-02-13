@@ -16,7 +16,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
     open private(set) var incident: SyncDetailsIncident?
 
     /// The current status
-    open var currentStatus: ResourceStatus? {
+    open var currentStatus: ResourceStatusType? {
         if let selectedIndexPath = selectedIndexPath {
             return statusForIndexPath(selectedIndexPath)
         }
@@ -25,7 +25,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
 
     /// Init with sectioned statuses to display, and current selection
     public init(sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>],
-                selectedStatus: ResourceStatus, incident: SyncDetailsIncident?) {
+                selectedStatus: ResourceStatusType, incident: SyncDetailsIncident?) {
         super.init()
 
         self.sections = sections
@@ -34,7 +34,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
     }
     
     public func reload(sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>],
-                selectedStatus: ResourceStatus, incident: SyncDetailsIncident?) {
+                selectedStatus: ResourceStatusType, incident: SyncDetailsIncident?) {
         self.sections = sections
         self.selectedIndexPath = indexPathForStatus(selectedStatus)
         self.incident = incident
@@ -48,9 +48,10 @@ open class CallsignStatusViewModel: CADStatusViewModel {
     }
 
     /// Attempt to select a new status
-    open func setSelectedIndexPath(_ indexPath: IndexPath) -> Promise<ResourceStatus> {
+    open func setSelectedIndexPath(_ indexPath: IndexPath) -> Promise<ResourceStatusType> {
         let newStatus = statusForIndexPath(indexPath)
-        let (allowed, requiresReason) = (currentStatus ?? .unavailable).canChangeToStatus(newStatus: newStatus)
+        let currentStatus = self.currentStatus ?? ClientModelTypes.resourceStatus.defaultCase
+        let (allowed, requiresReason) = currentStatus.canChangeToStatus(newStatus: newStatus)
         if allowed {
             var promise: Promise<Void> = Promise<Void>()
 
@@ -62,27 +63,29 @@ open class CallsignStatusViewModel: CADStatusViewModel {
                     // TODO: Do something with reason text
                 }
             }
-            
-            switch newStatus {
-            case .finalise:
-                promise = promise.then {
-                    return self.promptForFinaliseDetails()
-                }.then { _ -> Void in
-                    // TODO: Do something with this data
+
+            if let newStatus = newStatus as? ResourceStatus {
+                switch newStatus {
+                case .finalise:
+                    promise = promise.then {
+                        return self.promptForFinaliseDetails()
+                        }.then { _ -> Void in
+                            // TODO: Do something with this data
+                    }
+                case .trafficStop:
+                    promise = promise.then {
+                        return self.promptForTrafficStopDetails()
+                        }.then { _ -> Void in
+                            // TODO: Submit traffic stop details
+                    }
+                default: break
                 }
-            case .trafficStop:
-                promise = promise.then {
-                    return self.promptForTrafficStopDetails()
-                }.then { _ -> Void in
-                    // TODO: Submit traffic stop details
-                }
-            default: break
             }
 
             return promise.then {
                 // TODO: Submit callsign request
                 return after(seconds: 1.0)
-            }.then { _ -> Promise<ResourceStatus> in
+            }.then { _ -> Promise<ResourceStatusType> in
                 // Update UI
                 self.selectedIndexPath = indexPath
                 CADStateManager.shared.updateCallsignStatus(status: newStatus, incident: self.incident)
@@ -138,15 +141,15 @@ open class CallsignStatusViewModel: CADStatusViewModel {
         return promise
     }
 
-    open func statusForIndexPath(_ indexPath: IndexPath) -> ResourceStatus {
+    open func statusForIndexPath(_ indexPath: IndexPath) -> ResourceStatusType {
         return sections[indexPath.section].items[indexPath.item].status
     }
 
-    open func indexPathForStatus(_ status: ResourceStatus) -> IndexPath? {
+    open func indexPathForStatus(_ status: ResourceStatusType) -> IndexPath? {
         // Find the status in the section data
         for (sectionIndex, section) in sections.enumerated() {
             for (itemIndex, item) in section.items.enumerated() {
-                if item.status == status {
+                if item.status.isEqual(status) {
                     return IndexPath(item: itemIndex, section: sectionIndex)
                 }
             }

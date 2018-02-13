@@ -106,6 +106,7 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
     
     
     /// Sorts sections, showing `On Air` status first, then `At Incident` status, then alphabetically by callsign
+    /// NOTE: Method should be overridden for clients with different resource statuses
     ///
     /// - Parameter unsorted: the unsorted array
     /// - Returns: a sorted array
@@ -114,18 +115,17 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
         return unsorted.map { section in
             // Sort items
             let sortedItems = section.items.sorted {
-                if $0.status == .onAir && $0.status != $1.status {
+                if $0.status == ResourceStatus.onAir && $0.status.isEqual($1.status) {
                     // Status is on air, and statuses don't match
                     return true
-                } else if $0.status == .atIncident && $0.status != $1.status {
+                } else if $0.status == ResourceStatus.atIncident && !$0.status.isEqual($1.status) {
                     // Statuses don't match, first is at incident. Prioritise if second is not on air
-                    return $1.status != .onAir
+                    return !$1.status.isEqual(ResourceStatus.onAir)
                 } else {
                     // Status matches, sort alphabetically by callsign
                     return $0.callsign < $1.callsign
                 }
             }
-            
             return CADFormCollectionSectionViewModel(title: section.title, items: sortedItems)
         }
     }

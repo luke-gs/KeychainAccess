@@ -29,7 +29,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
 
     public convenience init(incident: SyncDetailsIncident, resource: SyncDetailsResource?) {
         self.init(incidentNumber: incident.identifier,
-                  iconImage: resource?.statusType.icon ?? ResourceStatus.unavailable.icon,
+                  iconImage: resource?.statusType.icon ?? ClientModelTypes.resourceStatus.defaultCase.icon,
                   iconTintColor: resource?.statusType.iconColors.icon ?? .white,
                   color: resource?.statusType.iconColors.background,
                   statusText: resource?.statusType.title ?? incident.status.rawValue,
@@ -51,7 +51,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         }
 
         if let incident = incident {
-            iconImage = resource?.statusType.icon ?? ResourceStatus.unavailable.icon
+            iconImage = resource?.statusType.icon ?? ClientModelTypes.resourceStatus.defaultCase.icon
             iconTintColor = resource?.statusType.iconColors.icon ?? .white
             color = resource?.statusType.iconColors.background
             statusText = resource?.statusType.title ?? incident.status.rawValue
@@ -65,15 +65,11 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
 
     override open func didTapTaskStatus() {
         if allowChangeResourceStatus() {
-            let callsignStatus = CADStateManager.shared.currentResource?.statusType ?? .unavailable
-            let sections = [CADFormCollectionSectionViewModel(
-                title: "",
-                items: [
-                    ManageCallsignStatusItemViewModel(.proceeding),
-                    ManageCallsignStatusItemViewModel(.atIncident),
-                    ManageCallsignStatusItemViewModel(.finalise),
-                    ManageCallsignStatusItemViewModel(.inquiries2) ])
-            ]
+            let callsignStatus = CADStateManager.shared.currentResource?.statusType ?? ClientModelTypes.resourceStatus.defaultCase
+            let incidentItems = ClientModelTypes.resourceStatus.incidentCases.map {
+                return ManageCallsignStatusItemViewModel($0)
+            }
+            let sections = [CADFormCollectionSectionViewModel(title: "", items: incidentItems)]
             let viewModel = CallsignStatusViewModel(sections: sections, selectedStatus: callsignStatus, incident: incident)
             viewModel.showsCompactHorizontal = false
             let viewController = viewModel.createViewController()

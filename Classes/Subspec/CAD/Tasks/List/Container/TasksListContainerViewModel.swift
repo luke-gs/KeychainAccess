@@ -312,7 +312,7 @@ open class TasksListContainerViewModel {
             }
 
             if shouldAppend {
-                if resource.statusType == .duress {
+                if resource.statusType.isDuress {
                     sectionedResources[duress]?.append(resource)
                 } else if resource.currentIncident != nil {
                     sectionedResources[tasked]?.append(resource)
