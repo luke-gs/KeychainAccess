@@ -103,7 +103,7 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         super.init(layout: layout)
         sidebarDelegate = layout
         title = NSLocalizedString("Location Search", comment: "Location Search Title")
-        userInterfaceStyle = .light
+        userInterfaceStyle = .current
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -263,6 +263,7 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
             searchField.placeholderTextColor = theme.color(forKey: .placeholderText)
         }
 
+        mapView?.mpl_setNightModeEnabled(ThemeManager.shared.currentInterfaceStyle.isDark)
         buttonsSeparator?.backgroundColor = theme.color(forKey: .separator)
     }
 
