@@ -21,7 +21,8 @@ public protocol CustomSearchPickerDatasource {
 
     func allowsSelection(of object: Pickable) -> Bool
     func updateHeader(for objects: [Pickable])
-    
+
+    func isValidSelection(for objects: [Pickable]) -> Bool
     func requiredIndexes() -> [Int]
 }
 
@@ -29,17 +30,21 @@ public extension CustomSearchPickerDatasource {
     public func requiredIndexes() -> [Int] {
         return objects.enumerated().filter { !allowsSelection(of: $0.element) }.map { $0.offset}
     }
+
+    public func isValidSelection(for objects: [Pickable]) -> Bool {
+        return objects.count > 0
+    }
 }
 
 public class CustomPickerController: FormTableViewController {
 
     // MARK: - Public properties
 
-    var objects: [Pickable] {
+    public var objects: [Pickable] {
         return datasource.objects
     }
 
-    let datasource: CustomSearchPickerDatasource
+    public let datasource: CustomSearchPickerDatasource
 
     /// The current selected item indexes from the list.
     ///
@@ -115,7 +120,7 @@ public class CustomPickerController: FormTableViewController {
     open var finishUpdateHandler: ((CustomPickerController, IndexSet) -> Void)?
 
     /// Indicates if top cell displays "Select/Deselect" button for quicker selection
-    open var allowsQuickSelection: Bool  = true {
+    open var allowsQuickSelection: Bool  = false {
         didSet {
             guard allowsQuickSelection != oldValue, let tableView = self.tableView else { return }
             tableView.reloadData()
@@ -173,8 +178,9 @@ public class CustomPickerController: FormTableViewController {
             self.searchTerm = $0
         }
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneTapped(sender:)))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped(sender:)))
+        let button = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneTapped(sender:)))
+        button.isEnabled = false
+        navigationItem.rightBarButtonItem = button
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -200,6 +206,8 @@ public class CustomPickerController: FormTableViewController {
         view.backgroundColor = UIColor.clear
 
         tableView?.translatesAutoresizingMaskIntoConstraints = false
+        tableView?.tableFooterView = UIView()
+
         guard let tableView = tableView else { return }
 
         var constraints = [
@@ -229,7 +237,10 @@ public class CustomPickerController: FormTableViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        tableView?.estimatedRowHeight = 80.0
+
+        edgesForExtendedLayout = []
+
+        tableView?.rowHeight = 64.0
         datasource.header?.searchBar.text = searchTerm
     }
 
@@ -403,6 +414,7 @@ public class CustomPickerController: FormTableViewController {
 
         let selectedValues = selectedIndexes.map { objects[$0] }
         datasource.updateHeader(for: selectedValues)
+        navigationItem.rightBarButtonItem?.isEnabled = datasource.isValidSelection(for: selectedValues)
     }
 
     // MARK: - Private methods
