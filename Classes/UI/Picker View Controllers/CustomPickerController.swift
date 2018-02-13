@@ -21,6 +21,14 @@ public protocol CustomSearchPickerDatasource {
 
     func allowsSelection(of object: Pickable) -> Bool
     func updateHeader(for objects: [Pickable])
+    
+    func requiredIndexes() -> [Int]
+}
+
+public extension CustomSearchPickerDatasource {
+    public func requiredIndexes() -> [Int] {
+        return objects.enumerated().filter { !allowsSelection(of: $0.element) }.map { $0.offset}
+    }
 }
 
 public class CustomPickerController: FormTableViewController {
@@ -107,7 +115,7 @@ public class CustomPickerController: FormTableViewController {
     open var finishUpdateHandler: ((CustomPickerController, IndexSet) -> Void)?
 
     /// Indicates if top cell displays "Select/Deselect" button for quicker selection
-    open var allowsQuickSelection: Bool  = false {
+    open var allowsQuickSelection: Bool  = true {
         didSet {
             guard allowsQuickSelection != oldValue, let tableView = self.tableView else { return }
             tableView.reloadData()
@@ -332,23 +340,24 @@ public class CustomPickerController: FormTableViewController {
         let quickSelectionShowing = allowsQuickSelection && filteredIndexes == nil
 
         if let itemIndex = indexForItem(at: indexPath) {
-            if allowsMultipleSelection {
-
-                // Ensure that the cell selected can actually be selected
-                if datasource.allowsSelection(of: objects[itemIndex]) {
+            if datasource.allowsSelection(of: objects[itemIndex]) {
+                if allowsMultipleSelection {
                     let isSelected = selectedIndexes.remove(itemIndex) == nil
                     if isSelected {
                         selectedIndexes.insert(itemIndex)
                     }
                     updateCurrentCell(checked: isSelected)
+                } else {
+                    let isSelected = selectedIndexes.remove(itemIndex) == nil
+                    if isSelected {
+                        reloadIndexPaths.append(contentsOf: selectedIndexes.flatMap({ indexPathForItem(at: $0)} ))
+                        selectedIndexes = IndexSet(integer: itemIndex)
+
+                        // If there are any required fields they must be inserted into the set
+                        datasource.requiredIndexes().forEach { selectedIndexes.insert($0) }
+                    }
+                    updateCurrentCell(checked: isSelected)
                 }
-            } else {
-                let isSelected = selectedIndexes.remove(itemIndex) == nil
-                if isSelected {
-                    reloadIndexPaths.append(contentsOf: selectedIndexes.flatMap({ indexPathForItem(at: $0)} ))
-                    selectedIndexes = IndexSet(integer: itemIndex)
-                }
-                updateCurrentCell(checked: isSelected)
             }
         } else if quickSelectionShowing {
             // Can be switched from All/None
@@ -359,6 +368,9 @@ public class CustomPickerController: FormTableViewController {
                 let oldSelectedIndexes = selectedIndexes
 
                 selectedIndexes.removeAll()
+
+                // Re insert the required rows
+                datasource.requiredIndexes().forEach { selectedIndexes.insert($0) }
 
                 reloadIndexPaths.reserveCapacity(selectedCount + 1)
 
