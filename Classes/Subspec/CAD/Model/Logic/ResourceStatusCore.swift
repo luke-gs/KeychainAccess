@@ -77,6 +77,9 @@ public enum ResourceStatusCore: String, ResourceStatusType {
     /// The case for an on air resource
     public static var onAirCase: ResourceStatusType = ResourceStatusCore.onAir
 
+    /// The case for finalising an incident
+    public static var finaliseCase: ResourceStatusType = ResourceStatusCore.finalise
+
     public var title: String {
         switch self {
         case .unavailable:

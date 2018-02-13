@@ -64,14 +64,17 @@ open class CallsignStatusViewModel: CADStatusViewModel {
                 }
             }
 
+            if newStatus == ClientModelTypes.resourceStatus.finaliseCase {
+                promise = promise.then {
+                    return self.promptForFinaliseDetails()
+                    }.then { _ -> Void in
+                        // TODO: Do something with this data
+                }
+            }
+
+            // Core specific status checks, may want to move this out
             if let newStatus = newStatus as? ResourceStatusCore {
                 switch newStatus {
-                case .finalise:
-                    promise = promise.then {
-                        return self.promptForFinaliseDetails()
-                        }.then { _ -> Void in
-                            // TODO: Do something with this data
-                    }
                 case .trafficStop:
                     promise = promise.then {
                         return self.promptForTrafficStopDetails()

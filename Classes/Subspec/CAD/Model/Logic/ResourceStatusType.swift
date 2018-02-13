@@ -37,6 +37,9 @@ public protocol ResourceStatusType {
     /// The case for an on air resource
     static var onAirCase: ResourceStatusType { get }
 
+    /// The case for finalising an incident
+    static var finaliseCase: ResourceStatusType { get }
+
     // MARK: - Properties
 
     /// The enum raw value

@@ -165,7 +165,7 @@ open class CADStateManager: NSObject {
         // TODO: Remove all hacks below when we have a real CAD system
 
         // Finalise incident clears the current incident and sets state to On Air
-        if newStatus == ResourceStatusCore.finalise {
+        if newStatus == ClientModelTypes.resourceStatus.finaliseCase {
             finaliseIncident()
             newStatus = ClientModelTypes.resourceStatus.onAirCase
             newIncident = nil
