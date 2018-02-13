@@ -10,7 +10,7 @@ import Foundation
 import MPOLKit
 
 public struct OfficerSummaryDisplayable: EntitySummaryDisplayable {
-    private var officer: Officer
+    public private(set) var officer: Officer
 
     public init(_ entity: MPOLKitEntity) {
         officer = entity as! Officer
@@ -23,7 +23,7 @@ public struct OfficerSummaryDisplayable: EntitySummaryDisplayable {
     }
 
     public var detail1: String? {
-        return officer.involvements.joined(separator: ", ") 
+        return officer.involvements.joined(separator: ", ")
     }
 
     public var detail2: String?

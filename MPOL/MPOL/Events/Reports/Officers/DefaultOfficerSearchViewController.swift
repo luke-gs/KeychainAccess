@@ -53,6 +53,7 @@ open class DefaultOfficerSearchViewController: FormBuilderSearchViewController {
     var x: Officer  {
         let x = Officer()
         x.givenName = "Pavel"
+        x.involvements = ["Reporting officer"]
         x.surname = "Boryseiko"
         x.rank = "Seargant"
         x.officerID = "#12324234"
@@ -91,10 +92,15 @@ open class DefaultOfficerSearchViewController: FormBuilderSearchViewController {
                 .image(displayable.thumbnail(ofSize: .small))
                 .accessory(ItemAccessory.disclosure)
                 .onSelection({ (cell) in
-                    let headerConfig = SearchHeaderConfiguration(title: displayable.title, subtitle: displayable.detail1?.ifNotEmpty() ?? "No involvements selected", image: displayable.thumbnail(ofSize: .small)?.sizing().image)
+
+                    let summaryDisplayable = OfficerSummaryDisplayable(displayable.officer)
+
+                    let headerConfig = SearchHeaderConfiguration(title: displayable.title,
+                                                                 subtitle: summaryDisplayable.detail1?.ifNotEmpty() ?? "No involvements selected",
+                                                                 image: displayable.thumbnail(ofSize: .small)?.sizing().image)
+
                     let datasource = OfficerInvolvementSearchDatasource(objects: self.involvements,
                                                                         selectedObjects: displayable.officer.involvements,
-                                                                        title: "Involvements",
                                                                         allowsMultipleSelection: true,
                                                                         configuration: headerConfig)
                     datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))

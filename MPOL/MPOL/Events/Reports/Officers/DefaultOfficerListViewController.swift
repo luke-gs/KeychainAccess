@@ -68,17 +68,6 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
             self.reloadForm()
             
         }
-//
-//
-//        let headerConfig = SearchHeaderConfiguration(title: displayable.title, subtitle: displayable.detail1?.ifNotEmpty() ?? "No involvements selected", image: displayable.thumbnail(ofSize: .small)?.sizing().image)
-//        let datasource = OfficerInvolvementSearchDatasource(objects: involvements,
-//                                                 selectedObjects: officer.involvements,
-//                                                 title: "Involvements",
-//                                                 allowsMultipleSelection: true,
-//                                                 configuration: headerConfig)
-//        datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
-//
-//        let viewController = CustomPickerController(datasource: datasource)
         let navController = UINavigationController(rootViewController: officerSearchController)
         navController.modalPresentationStyle = .formSheet
         present(navController, animated: true, completion: nil)
