@@ -118,9 +118,9 @@ open class IncidentAssociationsViewController: CADFormCollectionViewController<E
     }
     
     open override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentHeightForItemAt indexPath: IndexPath, givenContentWidth itemWidth: CGFloat) -> CGFloat {
-        if let _ = viewModel.item(at: indexPath) {
+        if let item = viewModel.item(at: indexPath) {
             if shouldShowGrid {
-                return EntityCollectionViewCell.minimumContentHeight(forStyle: .hero, compatibleWith: traitCollection)
+                return EntityCollectionViewCell.minimumContentHeight(forStyle: .hero, title: item.title, subtitle: item.detail1, detail: item.detail2, compatibleWith: traitCollection)
             } else {
                 return EntityListCollectionViewCell.minimumContentHeight(withTitle: nil, subtitle: nil, source: nil, inWidth: itemWidth, compatibleWith: traitCollection)
             }

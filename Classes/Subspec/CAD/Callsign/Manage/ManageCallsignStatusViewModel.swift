@@ -13,9 +13,9 @@ import PromiseKit
 public struct ManageCallsignStatusItemViewModel {
     public let title: String
     public let image: UIImage
-    public let status: ResourceStatus
+    public let status: ResourceStatusType
 
-    init(_ status: ResourceStatus) {
+    init(_ status: ResourceStatusType) {
         self.title = status.title
         self.image = status.icon!
         self.status = status
@@ -69,7 +69,7 @@ open class ManageCallsignStatusViewModel {
 
     /// The callsign view model for changing status
     open lazy var callsignViewModel: CallsignStatusViewModel = {
-        let callsignStatus = CADStateManager.shared.currentResource?.status ?? .unavailable
+        let callsignStatus = CADStateManager.shared.currentResource?.statusType ?? ClientModelTypes.resourceStatus.defaultCase
         return CallsignStatusViewModel(sections: callsignSectionsForState(), selectedStatus: callsignStatus, incident: CADStateManager.shared.currentIncident)
     }()
 
@@ -96,7 +96,7 @@ open class ManageCallsignStatusViewModel {
     }
 
     @objc private func callsignChanged() {
-        let callsignStatus = CADStateManager.shared.currentResource?.status ?? .unavailable
+        let callsignStatus = CADStateManager.shared.currentResource?.statusType ?? ClientModelTypes.resourceStatus.defaultCase
         
         callsignViewModel.reload(sections: callsignSectionsForState(), selectedStatus: callsignStatus, incident: CADStateManager.shared.currentIncident)
         delegate?.callsignDidChange()
@@ -153,27 +153,20 @@ open class ManageCallsignStatusViewModel {
 
     open func callsignSectionsForState() -> [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>] {
         var sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>] = []
-        if shouldShowIncident {
-            sections.append(CADFormCollectionSectionViewModel(
-                title: "",
-                items: [
-                    ManageCallsignStatusItemViewModel(.proceeding),
-                    ManageCallsignStatusItemViewModel(.atIncident),
-                    ManageCallsignStatusItemViewModel(.finalise),
-                    ManageCallsignStatusItemViewModel(.inquiries2) ]))
 
+        if shouldShowIncident {
+            let incidentItems = ClientModelTypes.resourceStatus.incidentCases.map {
+                return ManageCallsignStatusItemViewModel($0)
+            }
+            sections.append(CADFormCollectionSectionViewModel(title: "", items: incidentItems))
+
+        }
+        let generalItems = ClientModelTypes.resourceStatus.generalCases.map {
+            return ManageCallsignStatusItemViewModel($0)
         }
         sections.append(CADFormCollectionSectionViewModel(
             title: NSLocalizedString("General", comment: "General status header text"),
-            items: [
-                ManageCallsignStatusItemViewModel(.unavailable),
-                ManageCallsignStatusItemViewModel(.onAir),
-                ManageCallsignStatusItemViewModel(.mealBreak),
-                ManageCallsignStatusItemViewModel(.trafficStop),
-                ManageCallsignStatusItemViewModel(.court),
-                ManageCallsignStatusItemViewModel(.atStation),
-                ManageCallsignStatusItemViewModel(.onCall),
-                ManageCallsignStatusItemViewModel(.inquiries1) ]))
+            items: generalItems))
         
         return sections
     }
