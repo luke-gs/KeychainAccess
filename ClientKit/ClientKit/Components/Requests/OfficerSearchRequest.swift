@@ -18,5 +18,11 @@ public class OfficerSearchRequest: AggregatedSearchRequest<Officer> {
 
     public override func searchPromise() -> Promise<SearchResult<Officer>> {
         return APIManager.shared.searchEntity(in: source as! MPOLSource, with: request)
+
     }
+
+    public  func searchPromise(withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<SearchResult<Officer>> {
+        return APIManager.shared.searchEntity(in: source as! MPOLSource, with: request, withCancellationToken: token)
+    }
+
 }
