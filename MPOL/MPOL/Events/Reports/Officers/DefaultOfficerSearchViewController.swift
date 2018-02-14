@@ -18,7 +18,7 @@ open class DefaultOfficerSearchViewController: FormBuilderViewController, UISear
         x.involvements = ["Reporting officer"]
         x.surname = "Boryseiko"
         x.rank = "Seargant"
-        x.officerID = "#12324234"
+        x.employeeNumber = "#12324234"
         return x
     }
 
@@ -46,17 +46,11 @@ open class DefaultOfficerSearchViewController: FormBuilderViewController, UISear
         super.viewDidLoad()
 
         edgesForExtendedLayout = []
+        let searchBarView = StandardSearchBarView(frame: CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: 64.0)))
+        searchBarView.searchBar.delegate = self
+        searchBarView.autoresizingMask = [.flexibleWidth]
 
-        let searchBar = UISearchBar(frame: CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: 64.0)))
-        searchBar.delegate = self
-        searchBar.barTintColor = UIColor(red:0.90, green:0.90, blue:0.91, alpha:1.00)
-        searchBar.autoresizingMask = [.flexibleWidth]
-
-        // Workaround for the 1px black border on UISearchBar when changing the barTintColor
-        searchBar.layer.borderWidth = 1.0
-        searchBar.layer.borderColor = UIColor(red:0.90, green:0.90, blue:0.91, alpha:1.00).cgColor
-
-        view.addSubview(searchBar)
+        view.addSubview(searchBarView)
 
         let additionalInsets = UIEdgeInsets(top: 64.0, left: 0.0, bottom: 0.0, right: 0.0)
         if #available(iOS 11.0, *) {
@@ -105,6 +99,16 @@ open class DefaultOfficerSearchViewController: FormBuilderViewController, UISear
 
     public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 
+    }
+
+    public func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+
+        let searchParameters = OfficerSearchParameters(familyName: "Black")
+        let request = OfficerSearchRequest(source: MPOLSource.mpol, request: searchParameters)
+        request.searchPromise().then {
+            print($0.results)
+
+        }
     }
 
 }

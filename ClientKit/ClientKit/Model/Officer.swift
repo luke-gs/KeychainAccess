@@ -11,6 +11,10 @@ import MPOLKit
 
 open class Officer: MPOLKitEntity, Identifiable {
 
+    override open class var serverTypeRepresentation: String {
+        return "officer"
+    }
+
     enum CodingKeys: String, CodingKey {
         case givenName
         case surname
@@ -21,7 +25,8 @@ open class Officer: MPOLKitEntity, Identifiable {
     open var surname: String?
     open var middleNames: String?
     open var rank: String?
-    open var officerID: String?
+    open var employeeNumber: String?
+    open var region: String?
 
     // TODO: Proper Involvements
     open var involvements: [String] = []

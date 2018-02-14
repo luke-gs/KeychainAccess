@@ -38,6 +38,8 @@
 		46E0B89F202C13E200B40DF2 /* Officer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B89E202C13E200B40DF2 /* Officer.swift */; };
 		46E0B8A1202D0BAF00B40DF2 /* EntityImageSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8A0202D0BAF00B40DF2 /* EntityImageSizing.swift */; };
 		46E0B8B62033A21500B40DF2 /* OfficerSearchDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8B52033A21500B40DF2 /* OfficerSearchDisplayable.swift */; };
+		46E0B8BA2033AAE600B40DF2 /* OfficerSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8B92033AAE600B40DF2 /* OfficerSearchRequest.swift */; };
+		46E0B8BC2033AC1700B40DF2 /* OfficerSearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8BB2033AC1700B40DF2 /* OfficerSearchParameters.swift */; };
 		68A1298F030B1B4BB01632E6 /* Pods_ClientKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5919937B6BAC1FE012181DBE /* Pods_ClientKitTests.framework */; };
 		968B5EF81FBA8C750097B3F9 /* AppGroupLandingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968B5EF71FBA8C750097B3F9 /* AppGroupLandingPresenter.swift */; };
 		BC12DC961F023EF0001A5BB7 /* ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC12DC8C1F023EF0001A5BB7 /* ClientKit.framework */; };
@@ -130,6 +132,8 @@
 		46E0B89E202C13E200B40DF2 /* Officer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Officer.swift; sourceTree = "<group>"; };
 		46E0B8A0202D0BAF00B40DF2 /* EntityImageSizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityImageSizing.swift; sourceTree = "<group>"; };
 		46E0B8B52033A21500B40DF2 /* OfficerSearchDisplayable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerSearchDisplayable.swift; sourceTree = "<group>"; };
+		46E0B8B92033AAE600B40DF2 /* OfficerSearchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerSearchRequest.swift; sourceTree = "<group>"; };
+		46E0B8BB2033AC1700B40DF2 /* OfficerSearchParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerSearchParameters.swift; sourceTree = "<group>"; };
 		55AD121D2EA77E25FC4C7AAD /* Pods-ClientKitTests.external-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.external-release.xcconfig"; path = "../MPOL/Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.external-release.xcconfig"; sourceTree = "<group>"; };
 		5919937B6BAC1FE012181DBE /* Pods_ClientKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClientKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C12AF870F87AE2B86BB367F /* Pods-ClientKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.debug.xcconfig"; path = "../MPOL/Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -448,6 +452,7 @@
 				EA8B66521F381BC000F09716 /* PersonSearchRequest.swift */,
 				EA8B66541F381CBA00F09716 /* VehicleSearchRequest.swift */,
 				1AB825191F5E485F001C4BCE /* LocationMapSearchRequest.swift */,
+				46E0B8B92033AAE600B40DF2 /* OfficerSearchRequest.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -469,6 +474,7 @@
 				EA8B665F1F38319700F09716 /* VehicleSearchParameters.swift */,
 				EA8B66611F3831C900F09716 /* LicenceSearchParameters.swift */,
 				1AB8251B1F5E4CFF001C4BCE /* LocationMapRadiusSearchParameters.swift */,
+				46E0B8BB2033AC1700B40DF2 /* OfficerSearchParameters.swift */,
 			);
 			path = Parameters;
 			sourceTree = "<group>";
@@ -752,6 +758,7 @@
 				BCAEFE971F03150800C97F9C /* CriminalHistory.swift in Sources */,
 				BCAEFEA31F03150800C97F9C /* Licence.swift in Sources */,
 				19FA22AF1F8603F000BE0E03 /* MatchMakers.swift in Sources */,
+				46E0B8BA2033AAE600B40DF2 /* OfficerSearchRequest.swift in Sources */,
 				EA8B66621F3831C900F09716 /* LicenceSearchParameters.swift in Sources */,
 				46E0B8A1202D0BAF00B40DF2 /* EntityImageSizing.swift in Sources */,
 				199ECE9E1FAA5ACD0065E425 /* PersonImageSizing.swift in Sources */,
@@ -779,6 +786,7 @@
 				4421347220030416009A931A /* EntityDetailFormViewController.swift in Sources */,
 				968B5EF81FBA8C750097B3F9 /* AppGroupLandingPresenter.swift in Sources */,
 				BCAEFE981F03150800C97F9C /* Email.swift in Sources */,
+				46E0B8BC2033AC1700B40DF2 /* OfficerSearchParameters.swift in Sources */,
 				BCAEFEAF1F03150800C97F9C /* Vehicle.swift in Sources */,
 				BCAEFEAE1F03150800C97F9C /* TelephoneNumber.swift in Sources */,
 				1A2FF6FF1F32BE5100D63956 /* PersonInfoViewModel.swift in Sources */,

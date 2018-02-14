@@ -22,7 +22,7 @@ public class OfficerSearchDisplayable: EntitySummaryDisplayable {
     }
 
     public var detail1: String? {
-        return [officer.rank, officer.officerID].joined(separator: " \(ThemeConstants.dividerSeparator) ")
+        return [officer.rank, officer.employeeNumber].joined(separator: " \(ThemeConstants.dividerSeparator) ")
     }
 
     public var detail2: String?
