@@ -12,9 +12,11 @@ import MapKit
 open class LocationMapSelectionViewController: MapFormBuilderViewController, EvaluationObserverable {
     var viewModel: LocationSelectionViewModel
 
+    public var locationAnnotation: LocationAnnotation?
+
     public init(viewModel: LocationSelectionViewModel) {
         self.viewModel = viewModel
-        super.init(layout: StackMapLayout())
+        super.init(layout: StackMapLayout(mapPercentage: 50))
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -28,6 +30,9 @@ open class LocationMapSelectionViewController: MapFormBuilderViewController, Eva
         mapView.delegate = self
         mapView.showsUserLocation = true
         mapView.showsCompass = false
+
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(performLocationSearch(gesture:)))
+        mapView.addGestureRecognizer(longPressGesture)
     }
 
     override open func construct(builder: FormBuilder) {
@@ -45,6 +50,21 @@ open class LocationMapSelectionViewController: MapFormBuilderViewController, Eva
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
 
+    }
+
+    // PRIVATE
+
+    @objc private func performLocationSearch(gesture: UILongPressGestureRecognizer) {
+        if gesture.state == .began {
+            let point = gesture.location(in: mapView)
+            if let coordinate = mapView?.convert(point, toCoordinateFrom: mapView) {
+                viewModel.reverseGeoCode(location: CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude),
+                                         completion: {
+                                            self.locationAnnotation?.coordinate = coordinate
+                                            self.reloadForm()
+                })
+            }
+        }
     }
 }
 
@@ -72,10 +92,10 @@ extension LocationMapSelectionViewController: MKMapViewDelegate {
         let region = MKCoordinateRegionMake(userLocation.coordinate, span)
         mapView.setRegion(region, animated: true)
 
-        let location = LocationAnnotation()
-        location.coordinate = userLocation.coordinate
+        locationAnnotation = LocationAnnotation()
+        locationAnnotation?.coordinate = userLocation.coordinate
+        mapView.addAnnotation(locationAnnotation!)
 
-        mapView.addAnnotation(location)
         viewModel.reverseGeoCode(location: userLocation.location) {
             self.reloadForm()
         }
