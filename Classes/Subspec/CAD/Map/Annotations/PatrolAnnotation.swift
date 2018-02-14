@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+
 open class PatrolAnnotation: TaskAnnotation {
     public var usesDarkBackground: Bool
 

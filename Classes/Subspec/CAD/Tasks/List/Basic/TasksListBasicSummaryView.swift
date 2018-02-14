@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// A view for the tasks list summary containing a title, subtitle, and caption label
 open class TasksListBasicSummaryView: UIView {
 
     private struct LayoutConstants {

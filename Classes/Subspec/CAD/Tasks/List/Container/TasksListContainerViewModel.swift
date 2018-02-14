@@ -315,7 +315,7 @@ open class TasksListContainerViewModel {
                 sectionedPatrols[status] = []
             }
             
-            // Apply search text filter to type, primary code, secondary code or suburb
+            // Apply search text filter to type, identifier, subtype, or suburb
             if let searchText = searchText?.lowercased(), !searchText.isEmpty {
                 let matchedValues = [patrol.type, patrol.identifier, patrol.subtype, patrol.location?.suburb].removeNils().filter {
                     return $0.lowercased().hasPrefix(searchText)
@@ -356,7 +356,7 @@ open class TasksListContainerViewModel {
                 sectionedBroadcasts[type] = []
             }
             
-            // Apply search text filter to type, primary code, secondary code or suburb
+            // Apply search text filter to title, identifier, type, or suburb
             if let searchText = searchText?.lowercased(), !searchText.isEmpty {
                 let matchedValues = [broadcast.title, broadcast.identifier, broadcast.type.rawValue, broadcast.location?.suburb].removeNils().filter {
                     return $0.lowercased().hasPrefix(searchText)

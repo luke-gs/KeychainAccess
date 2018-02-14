@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// A basic cell for the tasks list with 2 columns – a summary view and a description label.
 open class TasksListBasicCollectionViewCell: CollectionViewFormCell {
     enum Column: Int {
         case summary = 0

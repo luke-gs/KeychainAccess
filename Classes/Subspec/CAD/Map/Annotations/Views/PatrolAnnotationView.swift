@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 
+/// Annotation view for a patrol, bubble view with a simple text label
 open class PatrolAnnotationView: BubbleAnnotationView {
 
     // MARK: - Constants

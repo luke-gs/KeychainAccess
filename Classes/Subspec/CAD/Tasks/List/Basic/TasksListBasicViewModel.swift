@@ -8,13 +8,13 @@
 
 import UIKit
 
+/// A view model for the basic task list cell, where only title, subtitle, caption, and description are shown
 open class TasksListBasicViewModel: TasksListItemViewModel {
 
     public let description: String?
     public var hasUpdates: Bool
 
-    public init(identifier: String, title: String, subtitle: String, caption: String, description: String? = nil, hasUpdates: Bool = false)
-    {
+    public init(identifier: String, title: String, subtitle: String, caption: String, description: String? = nil, hasUpdates: Bool = false) {
         self.description = description
         self.hasUpdates = hasUpdates
         super.init(identifier: identifier, title: title, subtitle: subtitle, caption: caption)

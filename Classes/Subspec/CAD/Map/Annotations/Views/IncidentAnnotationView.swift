@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 
+/// Annotation view for an incident, bubble view with a priority badge and a combined title/subtitle label
 open class IncidentAnnotationView: BubbleAnnotationView {
     
     // MARK: - Constants

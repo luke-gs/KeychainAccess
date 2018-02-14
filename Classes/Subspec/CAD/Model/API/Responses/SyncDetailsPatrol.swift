@@ -9,6 +9,8 @@
 import UIKit
 import CoreLocation
 
+// TODO: Update this to match API when we get a spec, as this is created based on what the UI needs
+
 open class SyncDetailsPatrol: Codable {
     public enum PatrolStatus: String, Codable {
         case assigned = "Assigned"

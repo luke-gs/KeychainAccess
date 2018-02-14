@@ -8,6 +8,8 @@
 
 import UIKit
 
+// TODO: Update this to match API when we get a spec, as this is created based on what the UI needs
+
 open class SyncDetailsBroadcast: Codable {
     public enum BroadcastType: String, Codable {
         case alert = "Alert"
