@@ -170,10 +170,7 @@ public class CustomPickerController: FormTableViewController {
         allowsMultipleSelection = datasource.allowsMultipleSelection
         updateFilter()
 
-        datasource.objects.enumerated().filter({ (i, p) -> Bool in
-            return datasource.selectedObjects.contains(where: { $0.title == p.title })
-        }).forEach { selectedIndexes.insert($0.offset) }
-
+        datasource.requiredIndexes().forEach { selectedIndexes.insert($0) }
         datasource.header?.searchHandler = {
             self.searchTerm = $0
         }
