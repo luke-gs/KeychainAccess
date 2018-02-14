@@ -29,5 +29,16 @@ open class TasksListBasicViewModel: TasksListItemViewModel {
             description: patrol.details,
             hasUpdates: hasUpdates)
     }
+    
+    
+    public convenience init(broadcast: SyncDetailsBroadcast, hasUpdates: Bool = false) {
+        self.init(
+            identifier: broadcast.identifier,
+            title: broadcast.title,
+            subtitle: broadcast.location?.suburb ?? "",
+            caption: "#\(broadcast.identifier!)",
+            description: broadcast.details,
+            hasUpdates: hasUpdates)
+    }
 }
 

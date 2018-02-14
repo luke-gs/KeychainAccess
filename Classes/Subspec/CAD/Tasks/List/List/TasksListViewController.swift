@@ -270,6 +270,8 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
             return IncidentTaskItemViewModel(incident: incident, resource: resource)
         } else if let patrol = CADStateManager.shared.patrolsById[item.identifier] {
             return PatrolTaskItemViewModel(patrol: patrol)
+        } else if let broadcast = CADStateManager.shared.broadcastsById[item.identifier] {
+            return BroadcastTaskItemViewModel(broadcast: broadcast)
         }
 
         return nil

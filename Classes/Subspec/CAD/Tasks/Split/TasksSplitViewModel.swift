@@ -134,6 +134,12 @@ open class TasksSplitViewModel {
         }
     }
     
+    /// Sync broadcasts filtered
+    open var filteredBroadcasts: [SyncDetailsBroadcast] {
+        guard let sync = CADStateManager.shared.lastSync else { return [] }
+        return sync.broadcasts
+    }
+    
     /// Sync incidents filtered
     open var filteredResources: [SyncDetailsResource] {
         guard let sync = CADStateManager.shared.lastSync else { return [] }

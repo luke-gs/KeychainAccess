@@ -102,6 +102,9 @@ open class CADStateManager: NSObject {
     /// Patrols retrieved in last sync, keyed by patrolNumber
     open private(set) var patrolsById: [String: SyncDetailsPatrol] = [:]
     
+    /// Broadcasts retrieved in last sync, keyed by callsign
+    open private(set) var broadcastsById: [String: SyncDetailsBroadcast] = [:]
+
     /// Resources retrieved in last sync, keyed by callsign
     open private(set) var resourcesById: [String: SyncDetailsResource] = [:]
 
@@ -285,6 +288,10 @@ open class CADStateManager: NSObject {
             patrolsById.removeAll()
             for patrol in syncDetails.patrols {
                 patrolsById[patrol.identifier] = patrol
+            }
+            broadcastsById.removeAll()
+            for broadcast in syncDetails.broadcasts {
+                broadcastsById[broadcast.identifier] = broadcast
             }
             resourcesById.removeAll()
             for resource in syncDetails.resources {

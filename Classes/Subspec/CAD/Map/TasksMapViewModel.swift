@@ -156,7 +156,7 @@ open class TasksMapViewModel {
     
     /// Whether annotations should cluster. `true` by default.
     open func shouldCluster() -> Bool {
-        return false
+        return true
     }
 }
 

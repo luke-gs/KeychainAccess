@@ -1,35 +1,35 @@
 //
-//  PatrolTaskItemViewModel.swift
+//  BroadcastTaskItemViewModel.swift
 //  MPOLKit
 //
-//  Created by Kyle May on 13/2/18.
+//  Created by Kyle May on 14/2/18.
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
 import UIKit
 
-open class PatrolTaskItemViewModel: TaskItemViewModel {
-    open private(set) var patrol: SyncDetailsPatrol?
+open class BroadcastTaskItemViewModel: TaskItemViewModel {
+    open private(set) var broadcast: SyncDetailsBroadcast?
     
-    public init(patrolNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
+    public init(broadcastNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
         super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName)
-
-        self.navTitle = NSLocalizedString("Patrol details", comment: "")
+        
+        self.navTitle = NSLocalizedString("Broadcast details", comment: "")
         self.compactNavTitle = itemName
         
         self.viewModels = [
-            PatrolOverviewViewModel(patrolNumber: patrolNumber)
+            BroadcastOverviewViewModel(broadcastNumber: broadcastNumber)
         ]
     }
     
-    public convenience init(patrol: SyncDetailsPatrol) {
-        self.init(patrolNumber: patrol.identifier,
+    public convenience init(broadcast: SyncDetailsBroadcast) {
+        self.init(broadcastNumber: broadcast.identifier,
                   iconImage: AssetManager.shared.image(forKey: .tabBarTasks),
                   iconTintColor: .disabledGray,
                   color: .primaryGray,
-                  statusText: NSLocalizedString("Patrol", comment: "").uppercased(),
-                  itemName: patrol.type)
-        self.patrol = patrol
+                  statusText: NSLocalizedString("Broadcast", comment: "").uppercased(),
+                  itemName: broadcast.title)
+        self.broadcast = broadcast
     }
     
     open override func createViewController() -> UIViewController {
@@ -43,4 +43,5 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
             $0.reloadFromModel()
         }
     }
+
 }

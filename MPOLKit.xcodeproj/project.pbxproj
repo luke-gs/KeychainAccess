@@ -187,6 +187,10 @@
 		275329282033A2DF00CFA97B /* BubbleAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275329272033A2DF00CFA97B /* BubbleAnnotationView.swift */; };
 		2753292B2033A7F000CFA97B /* PatrolAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2753292A2033A7F000CFA97B /* PatrolAnnotationView.swift */; };
 		2753292D2033A88B00CFA97B /* PatrolAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2753292C2033A88B00CFA97B /* PatrolAnnotation.swift */; };
+		2753292F2033B60200CFA97B /* SyncDetailsBroadcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2753292E2033B60200CFA97B /* SyncDetailsBroadcast.swift */; };
+		275329322033B68400CFA97B /* BroadcastTaskItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275329312033B68400CFA97B /* BroadcastTaskItemViewModel.swift */; };
+		275329352033B69500CFA97B /* BroadcastOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275329342033B69500CFA97B /* BroadcastOverviewViewModel.swift */; };
+		275329372033B69F00CFA97B /* BroadcastOverviewFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275329362033B69F00CFA97B /* BroadcastOverviewFormViewController.swift */; };
 		275F0A681FA19694002BB9C5 /* BookOnDetailsFormContentMainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275F0A671FA19694002BB9C5 /* BookOnDetailsFormContentMainViewModel.swift */; };
 		2764713520295A40008F26A1 /* PSCAlertActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2764713420295A40008F26A1 /* PSCAlertActionView.swift */; };
 		2766CE331FEB5C5400895B3A /* CallsignCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2766CE321FEB5C5400895B3A /* CallsignCollectionViewCell.swift */; };
@@ -930,6 +934,10 @@
 		275329272033A2DF00CFA97B /* BubbleAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleAnnotationView.swift; sourceTree = "<group>"; };
 		2753292A2033A7F000CFA97B /* PatrolAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatrolAnnotationView.swift; sourceTree = "<group>"; };
 		2753292C2033A88B00CFA97B /* PatrolAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatrolAnnotation.swift; sourceTree = "<group>"; };
+		2753292E2033B60200CFA97B /* SyncDetailsBroadcast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncDetailsBroadcast.swift; sourceTree = "<group>"; };
+		275329312033B68400CFA97B /* BroadcastTaskItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastTaskItemViewModel.swift; sourceTree = "<group>"; };
+		275329342033B69500CFA97B /* BroadcastOverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastOverviewViewModel.swift; sourceTree = "<group>"; };
+		275329362033B69F00CFA97B /* BroadcastOverviewFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastOverviewFormViewController.swift; sourceTree = "<group>"; };
 		275F0A671FA19694002BB9C5 /* BookOnDetailsFormContentMainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormContentMainViewModel.swift; sourceTree = "<group>"; };
 		2764713420295A40008F26A1 /* PSCAlertActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSCAlertActionView.swift; sourceTree = "<group>"; };
 		2766CE321FEB5C5400895B3A /* CallsignCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1725,6 +1733,7 @@
 		27094CA81FAFFBDA00D4C3D4 /* Details */ = {
 			isa = PBXGroup;
 			children = (
+				275329302033B67700CFA97B /* Broadcast */,
 				2753291420327E2E00CFA97B /* Patrol */,
 				966F350A200C512000661870 /* Container */,
 				274F10E21FCE0A07001A59A5 /* Incidents */,
@@ -1917,6 +1926,24 @@
 				2753292A2033A7F000CFA97B /* PatrolAnnotationView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		275329302033B67700CFA97B /* Broadcast */ = {
+			isa = PBXGroup;
+			children = (
+				275329312033B68400CFA97B /* BroadcastTaskItemViewModel.swift */,
+				275329332033B68700CFA97B /* Overview */,
+			);
+			path = Broadcast;
+			sourceTree = "<group>";
+		};
+		275329332033B68700CFA97B /* Overview */ = {
+			isa = PBXGroup;
+			children = (
+				275329342033B69500CFA97B /* BroadcastOverviewViewModel.swift */,
+				275329362033B69F00CFA97B /* BroadcastOverviewFormViewController.swift */,
+			);
+			path = Overview;
 			sourceTree = "<group>";
 		};
 		2768C04A1F86E7A1008532ED /* Settings */ = {
@@ -2524,6 +2551,7 @@
 				969FC88D1FCF62E60023D43B /* SyncDetailsLocation.swift */,
 				27774FE61FD3B9AC007DCDCC /* SyncDetailsActivityLogItem.swift */,
 				2753291220327E0300CFA97B /* SyncDetailsPatrol.swift */,
+				2753292E2033B60200CFA97B /* SyncDetailsBroadcast.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -4035,6 +4063,7 @@
 				BC9C7E261F0DED6600DFFE83 /* EntityListCollectionViewCell.swift in Sources */,
 				1972FCCD1FA6A7FC00CB68EA /* ImageError.swift in Sources */,
 				19B49BBA1F665F2A00502F51 /* SidebarDelegate.swift in Sources */,
+				275329352033B69500CFA97B /* BroadcastOverviewViewModel.swift in Sources */,
 				9672C7E7200429C1005DE6BE /* StatusChangeReasonViewController.swift in Sources */,
 				BC9C7E191F0DED6600DFFE83 /* RadioButton.swift in Sources */,
 				996869821FC502F4007338EE /* ManifestFetchRequest.swift in Sources */,
@@ -4310,6 +4339,7 @@
 				2753292B2033A7F000CFA97B /* PatrolAnnotationView.swift in Sources */,
 				199ECE971FAA4FBA0065E425 /* UIImageView+ImageLoadable.swift in Sources */,
 				19FEC9861F43F827005692A9 /* MappedError.swift in Sources */,
+				275329322033B68400CFA97B /* BroadcastTaskItemViewModel.swift in Sources */,
 				BC1B260E1F20BB3C009674B7 /* PushableSplitViewController.swift in Sources */,
 				2753291D2032855800CFA97B /* PatrolOverviewMapViewModel.swift in Sources */,
 				EA09A0571F78B9C200BC3C0E /* PredicateSpecification.swift in Sources */,
@@ -4375,6 +4405,7 @@
 				BC9C7E031F0DED6600DFFE83 /* UICollectionView+DefaultReuse.swift in Sources */,
 				EA42F8EA1F95CDB000C5C38E /* DateFormItem.swift in Sources */,
 				EA85BFF21F6797C1002EEB49 /* UINavigationController+Theme.m in Sources */,
+				275329372033B69F00CFA97B /* BroadcastOverviewFormViewController.swift in Sources */,
 				DB88BCD91F42CFFC0056FD69 /* SearchDataSource.swift in Sources */,
 				1923275E1FCCDFB80001D623 /* PromiseCancellationToken.swift in Sources */,
 				DBE24C3F1F593BEF0088D19B /* EntityDetailDisplayable.swift in Sources */,
@@ -4552,6 +4583,7 @@
 				27CBC75C1F8B27B100E387C3 /* ActivityLogViewModel.swift in Sources */,
 				9650CA191F95B2520087F5C9 /* ResourceStatus.swift in Sources */,
 				27DC60951FD50B950033BC0B /* SyncDetailsOfficer+Computed.swift in Sources */,
+				2753292F2033B60200CFA97B /* SyncDetailsBroadcast.swift in Sources */,
 				BC9C7E131F0DED6600DFFE83 /* TableViewFormSubtitleCell.swift in Sources */,
 				EA09A0521F78B9A200BC3C0E /* CountSpecification.swift in Sources */,
 				19C625C41F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift in Sources */,
