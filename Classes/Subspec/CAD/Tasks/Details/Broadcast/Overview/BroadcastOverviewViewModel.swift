@@ -8,62 +8,44 @@
 
 import UIKit
 
-open class BroadcastOverviewViewModel: TaskDetailsViewModel {
-
-    /// The identifier for this broadcast
-    open let broadcastNumber: String
+open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
     
-    open weak var delegate: CADFormCollectionViewModelDelegate?
-    
-    public init(broadcastNumber: String) {
-        self.broadcastNumber = broadcastNumber
-        loadData()
+    open override func createViewController() -> TaskDetailsViewController {
+        return TaskDetailsOverviewFormViewController(viewModel: self)
     }
     
-    open func createViewController() -> TaskDetailsViewController {
-        return BroadcastOverviewFormViewController(viewModel: self)
+    override open func createFormViewController() -> FormBuilderViewController {
+        return TaskDetailsOverviewFormViewController(viewModel: self)
     }
     
-    open func reloadFromModel() {
-        loadData()
-    }
-    
-    
-    /// Lazy var for creating view model content
-    open var sections: [CADFormCollectionSectionViewModel<IncidentOverviewItemViewModel>] = [] {
-        didSet {
-            delegate?.sectionsUpdated()
-        }
-    }
-    
-    open func loadData() {
-        guard let broadcast = CADStateManager.shared.broadcastsById[broadcastNumber] else { return }
+    override open func loadData() {
+        guard let broadcast = CADStateManager.shared.broadcastsById[identifier] else { return }
         
         sections = [
             CADFormCollectionSectionViewModel(title: "Overview",
                                               items: [
-                                                IncidentOverviewItemViewModel(title: "Broadcast location",
+                                                TaskDetailsOverviewItemViewModel(title: "Broadcast location",
                                                                               value: broadcast.location?.suburb,
                                                                               width: .column(1),
                                                                               accessory: ItemAccessory(style: .overflow, tintColor: .secondaryGray)),
                                                 
-                                                IncidentOverviewItemViewModel(title: "Broadcast number",
+                                                TaskDetailsOverviewItemViewModel(title: "Broadcast number",
                                                                               value: broadcast.identifier,
                                                                               width: .column(3)),
                                                 
-                                                IncidentOverviewItemViewModel(title: "Type",
+                                                TaskDetailsOverviewItemViewModel(title: "Type",
                                                                               value: broadcast.type.rawValue,
                                                                               width: .column(3)),
                                                 
-                                                IncidentOverviewItemViewModel(title: nil,
+                                                TaskDetailsOverviewItemViewModel(title: nil,
                                                                               value: nil,
                                                                               width: .column(3)),
                                                 
-                                                IncidentOverviewItemViewModel(title: "Created",
+                                                TaskDetailsOverviewItemViewModel(title: "Created",
                                                                               value: broadcast.createdAtString,
                                                                               width: .column(3)),
                                                 
-                                                IncidentOverviewItemViewModel(title: "Last Updated",
+                                                TaskDetailsOverviewItemViewModel(title: "Last Updated",
                                                                               value: broadcast.lastUpdated.elapsedTimeIntervalForHuman(),
                                                                               width: .column(3)),
                                                 ]),
@@ -71,7 +53,7 @@ open class BroadcastOverviewViewModel: TaskDetailsViewModel {
             
             CADFormCollectionSectionViewModel(title: "Broadcast Details",
                                               items: [
-                                                IncidentOverviewItemViewModel(title: nil,
+                                                TaskDetailsOverviewItemViewModel(title: nil,
                                                                               value: broadcast.details,
                                                                               width: .column(1)),
                                                 ])
@@ -79,7 +61,7 @@ open class BroadcastOverviewViewModel: TaskDetailsViewModel {
     }
     
     /// The title to use in the navigation bar
-    open func navTitle() -> String {
+    override open func navTitle() -> String {
         return NSLocalizedString("Overview", comment: "Overview sidebar title")
     }
     

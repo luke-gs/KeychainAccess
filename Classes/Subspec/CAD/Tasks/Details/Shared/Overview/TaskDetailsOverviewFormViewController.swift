@@ -1,17 +1,17 @@
 //
-//  PatrolOverviewFormViewController.swift
+//  TaskDetailsOverviewFormViewController.swift
 //  MPOLKit
 //
-//  Created by Kyle May on 13/2/18.
+//  Created by Kyle May on 15/2/18.
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
 import UIKit
 
-open class PatrolOverviewFormViewController: IntrinsicHeightFormBuilderViewController {
-    public let viewModel: PatrolOverviewViewModel
+open class TaskDetailsOverviewFormViewController: IntrinsicHeightFormBuilderViewController {
+    public let viewModel: TaskDetailsOverviewViewModel
     
-    public init(viewModel: PatrolOverviewViewModel) {
+    public init(viewModel: TaskDetailsOverviewViewModel) {
         self.viewModel = viewModel
     }
     
@@ -28,5 +28,11 @@ open class PatrolOverviewFormViewController: IntrinsicHeightFormBuilderViewContr
                 builder += ValueFormItem(title: item.title, value: item.value, image: item.image).width(item.width)
             }
         }
+    }
+}
+
+extension TaskDetailsOverviewFormViewController: CADFormCollectionViewModelDelegate {
+    public func sectionsUpdated() {
+        reloadForm()
     }
 }

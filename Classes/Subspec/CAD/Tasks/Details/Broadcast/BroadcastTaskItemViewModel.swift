@@ -18,7 +18,7 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
         self.compactNavTitle = itemName
         
         self.viewModels = [
-            BroadcastOverviewViewModel(broadcastNumber: broadcastNumber)
+            BroadcastOverviewViewModel(identifier: broadcastNumber)
         ]
     }
     

@@ -1,27 +1,27 @@
 //
-//  PatrolOverviewViewController.swift
+//  TaskDetailsOverviewViewController.swift
 //  MPOLKit
 //
-//  Created by Kyle May on 13/2/18.
+//  Created by Kyle May on 15/2/18.
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
 import UIKit
 
-open class PatrolOverviewViewController: UIViewController {
+open class TaskDetailsOverviewViewController: UIViewController {
 
-    open var mapViewController: TasksMapViewController!
+    open var mapViewController: MapViewController!
     open var formViewController: FormBuilderViewController!
     open var scrollView: UIScrollView!
     
-    open let viewModel: PatrolOverviewViewModel
+    open let viewModel: TaskDetailsOverviewViewModel
     
-    public init(viewModel: PatrolOverviewViewModel) {
+    public init(viewModel: TaskDetailsOverviewViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         
         title = viewModel.navTitle()
-        sidebarItem.image = AssetManager.shared.image(forKey: .info)
+        sidebarItem.image = viewModel.sidebarImage()
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -45,8 +45,7 @@ open class PatrolOverviewViewController: UIViewController {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
         
-        let mapViewModel = PatrolOverviewMapViewModel(patrolNumber: viewModel.patrolNumber)
-        mapViewController = mapViewModel.createViewController()
+        mapViewController = viewModel.mapViewModel().createViewController()
         addChildViewController(mapViewController, toView: scrollView)
         mapViewController.showsMapButtons = false
         mapViewController.mapView.isZoomEnabled = false
@@ -80,7 +79,6 @@ open class PatrolOverviewViewController: UIViewController {
             mapViewController.view.heightAnchor.constraint(greaterThanOrEqualToConstant: 280),
             mapViewController.view.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
-            
             collectionView.topAnchor.constraint(equalTo: formViewController.view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: formViewController.view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: formViewController.view.trailingAnchor),
@@ -91,17 +89,16 @@ open class PatrolOverviewViewController: UIViewController {
             formViewController.view.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             formViewController.view.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             formViewController.view.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            ])
+        ])
         
     }
 }
 
 // MARK: - CADFormCollectionViewModelDelegate
-extension PatrolOverviewViewController: CADFormCollectionViewModelDelegate {
+extension TaskDetailsOverviewViewController: CADFormCollectionViewModelDelegate {
     
     public func sectionsUpdated() {
         // Reload content
         formViewController.reloadForm()
     }
 }
-

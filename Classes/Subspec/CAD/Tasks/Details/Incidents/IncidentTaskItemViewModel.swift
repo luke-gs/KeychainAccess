@@ -20,7 +20,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         self.compactNavTitle = itemName
 
         self.viewModels = [
-            IncidentOverviewViewModel(incidentNumber: incidentNumber),
+            IncidentOverviewViewModel(identifier: incidentNumber),
             IncidentAssociationsViewModel(incidentNumber: incidentNumber),
             IncidentResourcesViewModel(incidentNumber: incidentNumber),
             IncidentNarrativeViewModel(incidentNumber: incidentNumber),

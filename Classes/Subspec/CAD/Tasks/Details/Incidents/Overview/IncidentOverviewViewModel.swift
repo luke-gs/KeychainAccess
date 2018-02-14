@@ -9,44 +9,19 @@
 import UIKit
 import MapKit
 
-open class IncidentOverviewViewModel: TaskDetailsViewModel {
+open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
     
-    /// The identifier for this incident
-    open let incidentNumber: String
-    
-    open weak var delegate: CADFormCollectionViewModelDelegate?
-    
-    public init(incidentNumber: String) {
-        self.incidentNumber = incidentNumber
-        loadData()
+    override open func mapViewModel() -> TasksMapViewModel {
+        return IncidentOverviewMapViewModel(incidentNumber: identifier)
     }
     
-    open func createViewController() -> TaskDetailsViewController {
-        return IncidentOverviewViewController(viewModel: self)
-    }
-    
-    open func reloadFromModel() {
-        loadData()
-    }
-
-    open func createFormViewController() -> FormBuilderViewController {
-        return IncidentOverviewFormViewController(viewModel: self)
-    }
-    
-    /// Lazy var for creating view model content
-    open var sections: [CADFormCollectionSectionViewModel<IncidentOverviewItemViewModel>] = [] {
-        didSet {
-            delegate?.sectionsUpdated()
-        }
-    }
-    
-    open func loadData() {
-        guard let incident = CADStateManager.shared.incidentsById[incidentNumber] else { return }
+    override open func loadData() {
+        guard let incident = CADStateManager.shared.incidentsById[identifier] else { return }
         
         sections = [
             CADFormCollectionSectionViewModel(title: "Overview",
                                               items: [
-                                                IncidentOverviewItemViewModel(title: "Incident Location",
+                                                TaskDetailsOverviewItemViewModel(title: "Incident Location",
                                                                               value: incident.location.fullAddress,
                                                                               width: .column(1),
                                                                               selectAction: { [unowned self] cell in
@@ -54,45 +29,45 @@ open class IncidentOverviewViewModel: TaskDetailsViewModel {
                                                                               },
                                                                               accessory: ItemAccessory(style: .overflow, tintColor: .secondaryGray)),
                                                 
-                                                IncidentOverviewItemViewModel(title: "Priority",
+                                                TaskDetailsOverviewItemViewModel(title: "Priority",
                                                                               value: incident.grade.rawValue,
                                                                               width: .column(4)),
                                                 
-                                                IncidentOverviewItemViewModel(title: "Primary Code",
+                                                TaskDetailsOverviewItemViewModel(title: "Primary Code",
                                                                               value: incident.identifier,
                                                                               width: .column(4)),
                                                 
-                                                IncidentOverviewItemViewModel(title: "Secondary Code",
+                                                TaskDetailsOverviewItemViewModel(title: "Secondary Code",
                                                                               value: incident.secondaryCode,
                                                                               width: .column(4)),
                                                 
-                                                IncidentOverviewItemViewModel(title: "Patrol Area",
+                                                TaskDetailsOverviewItemViewModel(title: "Patrol Area",
                                                                               value: incident.patrolGroup,
                                                                               width: .column(4)),
                                                 
-                                                IncidentOverviewItemViewModel(title: "Created",
+                                                TaskDetailsOverviewItemViewModel(title: "Created",
                                                                               value: incident.createdAtString,
                                                                               width: .column(4)),
                                                 
-                                                IncidentOverviewItemViewModel(title: "Last Updated",
+                                                TaskDetailsOverviewItemViewModel(title: "Last Updated",
                                                                               value: incident.lastUpdated.elapsedTimeIntervalForHuman(),
                                                                               width: .column(4)),
             ]),
             
             CADFormCollectionSectionViewModel(title: "Informant Details",
                                               items: [
-                                                IncidentOverviewItemViewModel(title: "Name",
+                                                TaskDetailsOverviewItemViewModel(title: "Name",
                                                                               value: incident.informant?.fullName ?? "",
                                                                               width: .column(3)),
                                                 
-                                                IncidentOverviewItemViewModel(title: "Contact Number",
+                                                TaskDetailsOverviewItemViewModel(title: "Contact Number",
                                                                               value: incident.informant?.primaryPhone ?? "",
                                                                               width: .column(3)),
             ]),
             
             CADFormCollectionSectionViewModel(title: "Incident Details",
                                               items: [
-                                                IncidentOverviewItemViewModel(title: nil,
+                                                TaskDetailsOverviewItemViewModel(title: nil,
                                                                               value: incident.details,
                                                                               width: .column(1)),
             ])
@@ -100,21 +75,8 @@ open class IncidentOverviewViewModel: TaskDetailsViewModel {
     }
     
     /// The title to use in the navigation bar
-    open func navTitle() -> String {
+    override open func navTitle() -> String {
         return NSLocalizedString("Overview", comment: "Overview sidebar title")
-    }
-    
-    /// Present "Directions, Street View, Search" options on address
-    open func presentAddressPopover(from cell: CollectionViewFormCell, for incident: SyncDetailsIncident) {
-        let actionSheetVC = ActionSheetViewController(buttons: [
-            ActionSheetButton(title: "Directions", icon: AssetManager.shared.image(forKey: .route), action: {
-                let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: incident.coordinate, addressDictionary:nil))
-                mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving])
-            }),
-            ActionSheetButton(title: "Street View", icon: AssetManager.shared.image(forKey: .streetView), action: nil),
-            ActionSheetButton(title: "Search", icon: AssetManager.shared.image(forKey: .tabBarSearch), action: nil),
-        ])
-        delegate?.presentActionSheetPopover(actionSheetVC, sourceView: cell, sourceRect: cell.bounds, animated: true)
     }
 }
 

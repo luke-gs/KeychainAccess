@@ -1,14 +1,14 @@
 //
-//  IncidentOverviewItemViewModel.swift
+//  TaskDetailsOverviewItemViewModel.swift
 //  MPOLKit
 //
-//  Created by Kyle May on 29/11/17.
-//  Copyright © 2017 Gridstone. All rights reserved.
+//  Created by Kyle May on 15/2/18.
+//  Copyright © 2018 Gridstone. All rights reserved.
 //
 
 import UIKit
 
-public struct IncidentOverviewItemViewModel {
+public struct TaskDetailsOverviewItemViewModel {
     
     public typealias SelectAction = (CollectionViewFormCell) -> Void
     
@@ -27,4 +27,5 @@ public struct IncidentOverviewItemViewModel {
         self.selectAction = selectAction
         self.accessory = accessory
     }
+    
 }

@@ -18,7 +18,7 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
         self.compactNavTitle = itemName
         
         self.viewModels = [
-            PatrolOverviewViewModel(patrolNumber: patrolNumber)
+            PatrolOverviewViewModel(identifier: patrolNumber)
         ]
     }
     
