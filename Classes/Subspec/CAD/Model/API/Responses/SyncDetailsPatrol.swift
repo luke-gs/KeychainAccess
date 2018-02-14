@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 open class SyncDetailsPatrol: Codable {
     public enum PatrolStatus: String, Codable {
@@ -27,5 +28,9 @@ open class SyncDetailsPatrol: Codable {
 extension SyncDetailsPatrol {
     open var createdAtString: String {
         return DateFormatter.preferredDateTimeStyle.string(from: createdAt)
+    }
+    
+    open var coordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))
     }
 }

@@ -1,5 +1,5 @@
 //
-//  TasksListPatrolSummaryView.swift
+//  TasksListBasicSummaryView.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 14/2/18.
@@ -8,19 +8,19 @@
 
 import UIKit
 
-open class TasksListPatrolSummaryView: UIView {
+open class TasksListBasicSummaryView: UIView {
 
     private struct LayoutConstants {
         static let margin: CGFloat = 16
     }
     
-    /// Label for the patrol title
+    /// Label for the title
     open let titleLabel = UILabel()
     
-    /// Label for the patrol location
+    /// Label for the location
     open let subtitleLabel = UILabel()
     
-    /// Label for the patrol number
+    /// Label for the identifier
     open let captionLabel = UILabel()
     
     public override init(frame: CGRect) {

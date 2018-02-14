@@ -333,8 +333,8 @@ open class TasksListContainerViewModel {
             
             let (key, value) = arg
             
-            let taskViewModels: [TasksListPatrolViewModel] = value.map { patrol in
-                return TasksListPatrolViewModel(patrol: patrol)
+            let taskViewModels: [TasksListBasicViewModel] = value.map { patrol in
+                return TasksListBasicViewModel(patrol: patrol)
             }
             
             return CADFormCollectionSectionViewModel(title: "\(value.count) \(key)", items: taskViewModels)

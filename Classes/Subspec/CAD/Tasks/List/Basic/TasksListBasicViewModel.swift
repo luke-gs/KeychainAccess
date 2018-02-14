@@ -1,5 +1,5 @@
 //
-//  TasksListPatrolViewModel.swift
+//  TasksListBasicViewModel.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 13/2/18.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class TasksListPatrolViewModel: TasksListItemViewModel {
+open class TasksListBasicViewModel: TasksListItemViewModel {
 
     public let description: String?
     public var hasUpdates: Bool

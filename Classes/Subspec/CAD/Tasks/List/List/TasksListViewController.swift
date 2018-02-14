@@ -161,9 +161,9 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
                 } else if item is TasksListResourceViewModel {
                     formItem = CustomFormItem(cellType: TasksListResourceCollectionViewCell.self,
                                               reuseIdentifier: TasksListResourceCollectionViewCell.defaultReuseIdentifier)
-                } else if item is TasksListPatrolViewModel {
-                    formItem = CustomFormItem(cellType: TasksListPatrolCollectionViewCell.self,
-                                              reuseIdentifier: TasksListPatrolCollectionViewCell.defaultReuseIdentifier)
+                } else if item is TasksListBasicViewModel {
+                    formItem = CustomFormItem(cellType: TasksListBasicCollectionViewCell.self,
+                                              reuseIdentifier: TasksListBasicCollectionViewCell.defaultReuseIdentifier)
                 } else {
                     continue
                 }
@@ -199,7 +199,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
             cell.apply(theme: theme)
         } else if let cell = cell as? TasksListResourceCollectionViewCell {
             cell.apply(theme: theme)
-        } else if let cell = cell as? TasksListPatrolCollectionViewCell {
+        } else if let cell = cell as? TasksListBasicCollectionViewCell {
             cell.apply(theme: theme)
         }
     }
@@ -214,7 +214,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
             cell.decorate(with: viewModel)
         } else if let cell = cell as? TasksListResourceCollectionViewCell, let viewModel = viewModel as? TasksListResourceViewModel {
             cell.decorate(with: viewModel)
-        } else if let cell = cell as? TasksListPatrolCollectionViewCell, let viewModel = viewModel as? TasksListPatrolViewModel {
+        } else if let cell = cell as? TasksListBasicCollectionViewCell, let viewModel = viewModel as? TasksListBasicViewModel {
             cell.decorate(with: viewModel)
         }
     }
@@ -268,6 +268,8 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
                 resource = resources.contains(currentResource) ? currentResource : nil
             }
             return IncidentTaskItemViewModel(incident: incident, resource: resource)
+        } else if let patrol = CADStateManager.shared.patrolsById[item.identifier] {
+            return PatrolTaskItemViewModel(patrol: patrol)
         }
 
         return nil

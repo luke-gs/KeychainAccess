@@ -1,5 +1,5 @@
 //
-//  TasksListPatrolCollectionViewCell.swift
+//  TasksListBasicCollectionViewCell.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 14/2/18.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class TasksListPatrolCollectionViewCell: CollectionViewFormCell {
+open class TasksListBasicCollectionViewCell: CollectionViewFormCell {
     enum Column: Int {
         case summary = 0
         case detail = 1
@@ -39,7 +39,7 @@ open class TasksListPatrolCollectionViewCell: CollectionViewFormCell {
     open let updatesIndicator = UIImageView()
     
     /// View for summary column
-    open let summaryView = TasksListPatrolSummaryView()
+    open let summaryView = TasksListBasicSummaryView()
     
     /// View for details
     open let detailView = TasksListDetailView()
@@ -81,7 +81,7 @@ open class TasksListPatrolCollectionViewCell: CollectionViewFormCell {
     
     // MARK: - Configuration
     
-    open func decorate(with viewModel: TasksListPatrolViewModel) {
+    open func decorate(with viewModel: TasksListBasicViewModel) {
         // Left column
         
         summaryView.titleLabel.text = viewModel.title
@@ -104,7 +104,7 @@ open class TasksListPatrolCollectionViewCell: CollectionViewFormCell {
     
 }
 
-extension TasksListPatrolCollectionViewCell: ColumnContainerViewDataSource {
+extension TasksListBasicCollectionViewCell: ColumnContainerViewDataSource {
     
     public func numberOfColumns(_ columnContainerView: ColumnContainerView) -> Int {
         return columns.count
