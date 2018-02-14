@@ -9,10 +9,34 @@
 import UIKit
 import MapKit
 
-open class LocationSelectionViewModel {
-    var location: CLPlacemark?
+public extension EvaluatorKey {
+    static let locationType = EvaluatorKey(rawValue: "locationType")
+}
 
-    public init() { }
+public protocol LocationSelectionViewModelDelegate: class {
+    func didSelect(location: EventLocation)
+}
+
+open class LocationSelectionViewModel: Evaluatable {
+
+    public var evaluator: Evaluator = Evaluator()
+    public weak var delegate: LocationSelectionViewModelDelegate?
+    public var type: String? {
+        didSet {
+            evaluator.updateEvaluation(for: .locationType)
+        }
+    }
+    public var location: CLPlacemark? {
+        didSet {
+            evaluator.updateEvaluation(for: .locationType)
+        }
+    }
+
+    public init() {
+        evaluator.registerKey(.locationType) { () -> (Bool) in
+            return self.location != nil && self.type != nil
+        }
+    }
 
     public func reverseGeoCode(location: CLLocation?, completion: (()->())?) {
         guard let location = location else { return }
@@ -32,4 +56,13 @@ open class LocationSelectionViewModel {
 
         return fullAddress
     }
+
+    public func completeLocationSelection() {
+        guard let location = location?.location else { return }
+        delegate?.didSelect(location: EventLocation(location: location, addressString: composeAddress()))
+    }
+
+    // Eval
+
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
 }

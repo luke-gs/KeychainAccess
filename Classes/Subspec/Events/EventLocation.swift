@@ -18,24 +18,21 @@ public class EventLocation: Codable, Equatable {
     var speed: CLLocationSpeed?
     var course: CLLocationDirection?
     var timestamp: Date?
+    var addressString: String?
 
-    init(latitude: CLLocationDegrees?,
-        longitude: CLLocationDegrees?,
-        altitude: CLLocationDistance?,
-        horizontalAccuracy: CLLocationAccuracy?,
-        verticalAccuracy: CLLocationAccuracy?,
-        speed: CLLocationSpeed?,
-        course: CLLocationDirection?,
-        timestamp: Date?)
-    {
-        self.latitude = latitude
-        self.longitude = longitude
-        self.altitude = altitude
-        self.horizontalAccuracy = horizontalAccuracy
-        self.verticalAccuracy = verticalAccuracy
-        self.speed = speed
-        self.course = course
-        self.timestamp = timestamp
+    private init() { }
+
+    convenience init(location: CLLocation, addressString: String?) {
+        self.init()
+        self.latitude = location.coordinate.latitude
+        self.longitude = location.coordinate.longitude
+        self.altitude = location.altitude
+        self.horizontalAccuracy = location.horizontalAccuracy
+        self.verticalAccuracy = location.verticalAccuracy
+        self.speed = location.speed
+        self.course = location.course
+        self.timestamp = location.timestamp
+        self.addressString = addressString
     }
 
     public static func ==(lhs: EventLocation, rhs: EventLocation) -> Bool {
@@ -47,5 +44,6 @@ public class EventLocation: Codable, Equatable {
         && lhs.speed == rhs.speed
         && lhs.course == rhs.course
         && lhs.timestamp == rhs.timestamp
+        && lhs.addressString == rhs.addressString
     }
 }

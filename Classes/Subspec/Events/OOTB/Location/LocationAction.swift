@@ -8,15 +8,12 @@
 
 import UIKit
 
-
-class LocationAction<T: EventLocation>: ValueSelectionAction<[T]> {
-
-    public var options: [T] = []
-
+class LocationAction<T: EventLocation>: ValueSelectionAction<T> {
     var viewModel: LocationSelectionViewModel
 
     init(viewModel: LocationSelectionViewModel) {
         self.viewModel = viewModel
+        super.init()
     }
 
     public override func viewController() -> UIViewController {
@@ -25,5 +22,10 @@ class LocationAction<T: EventLocation>: ValueSelectionAction<[T]> {
         navigationController.modalPresentationStyle = .formSheet
 
         return navigationController
+    }
+
+    override func displayText() -> String? {
+        guard let selectedValue = selectedValue else { return nil }
+        return selectedValue.addressString
     }
 }

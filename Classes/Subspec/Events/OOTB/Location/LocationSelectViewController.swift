@@ -17,6 +17,11 @@ open class LocationMapSelectionViewController: MapFormBuilderViewController, Eva
     public init(viewModel: LocationSelectionViewModel) {
         self.viewModel = viewModel
         super.init(layout: StackMapLayout(mapPercentage: 50))
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneHandler))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelHandler))
+
+        viewModel.evaluator.addObserver(self)
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -43,13 +48,19 @@ open class LocationMapSelectionViewController: MapFormBuilderViewController, Eva
         builder += DropDownFormItem(title: "Type")
             .options(["Event Location"])
             .selectedValue(["Event Location"])
+            .allowsMultipleSelection(false)
+            .onValueChanged { values in
+                self.viewModel.type = values?.first
+            }
             .required()
         builder += ValueFormItem(title: "Address", value: nil, image: nil)
             .value(viewModel.composeAddress())
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-
+        if key == .locationType {
+            navigationItem.rightBarButtonItem?.isEnabled = evaluationState
+        }
     }
 
     // PRIVATE
@@ -65,6 +76,15 @@ open class LocationMapSelectionViewController: MapFormBuilderViewController, Eva
                 })
             }
         }
+    }
+
+    @objc private func cancelHandler(sender: UIBarButtonItem) {
+        dismissAnimated()
+    }
+
+    @objc private func doneHandler(sender: UIBarButtonItem) {
+        viewModel.completeLocationSelection()
+        dismissAnimated()
     }
 }
 
