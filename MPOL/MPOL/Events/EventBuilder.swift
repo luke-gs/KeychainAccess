@@ -23,6 +23,7 @@ public class EventBuilder: EventBuilding {
                                                accessoryTitle: "AccessTitle",
                                                accessorySubtitle: "Acces Sub",
                                                icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.advancedSearch))
+        displayable.eventId = event.id
         return (event: event, displayable: displayable)
     }
 
