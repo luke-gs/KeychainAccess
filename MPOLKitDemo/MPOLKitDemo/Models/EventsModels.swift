@@ -18,7 +18,7 @@ class DemoListViewModel: EventListViewModelType {
         self.eventsManager = eventsManager
     }
 
-    func event(for displayable: EventListDisplayable) -> Event {
+    func event(for displayable: EventListDisplayable) -> Event? {
         return self.eventsManager.event(for: displayable.id)
     }
 

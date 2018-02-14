@@ -17,6 +17,7 @@ final public class Event: Codable, Evaluatable {
 
     private(set) public var reports: [Reportable] = [Reportable]()
     public var evaluator: Evaluator = Evaluator()
+    public let id: UUID
 
     private var allValid: Bool = false {
         didSet {
@@ -25,6 +26,7 @@ final public class Event: Codable, Evaluatable {
     }
 
     public init() {
+        id = UUID()
         evaluator.registerKey(.allValid) {
             return !self.reports.map{$0.evaluator.isComplete}.contains(false)
         }
@@ -35,15 +37,18 @@ final public class Event: Codable, Evaluatable {
     public init(from: Decoder) throws {
         let container = try from.container(keyedBy: Keys.self)
         reports = try container.decode([Reportable].self, forKey: .reports)
+        id = try container.decode(UUID.self, forKey: .id)
     }
 
     public func encode(to: Encoder) throws {
         var container = to.container(keyedBy: Keys.self)
         try container.encode(reports, forKey: .reports)
+        try container.encode(id, forKey: .id)
     }
 
     enum Keys: String, CodingKey {
-        case reports = "reports"
+        case reports
+        case id
     }
 
     //MARK: Utility

@@ -125,9 +125,9 @@ public class DefaultDateTimeReport: Reportable {
     }
 
     enum Keys: String, CodingKey {
-        case reportedOnDateTime = "reportedOnDateTime"
-        case tookPlaceFromStartDateTime = "tookPlaceFromStartDateTime"
-        case tookPlacefromEndDateTime = "tookPlacefromEndDateTime"
+        case reportedOnDateTime
+        case tookPlaceFromStartDateTime
+        case tookPlacefromEndDateTime
     }
 
     // Evaluation
