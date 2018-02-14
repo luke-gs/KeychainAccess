@@ -58,7 +58,7 @@ open class LocationSelectionViewModel: Evaluatable {
     }
 
     public func completeLocationSelection() {
-        guard let location = location?.location else { return }
+        guard let location = location?.location?.coordinate else { return }
         delegate?.didSelect(location: EventLocation(location: location, addressString: composeAddress()))
     }
 

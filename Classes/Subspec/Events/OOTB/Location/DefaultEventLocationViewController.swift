@@ -13,6 +13,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
     
     weak var report: DefaultLocationReport?
 
+    private var locationAnnotation: LocationAnnotation?
     public init(report: Reportable?) {
         self.report = report as? DefaultLocationReport
         super.init(layout: StackMapLayout())
@@ -91,7 +92,33 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
 extension DefaultEventLocationViewController: LocationSelectionViewModelDelegate {
     public func didSelect(location: EventLocation) {
         report?.eventLocation = location
+        updateAnnotation(with: location)
+        updateRegion(with: location)
         reloadForm()
+    }
+
+    private func updateAnnotation(with location: EventLocation) {
+        guard let lat = report?.eventLocation?.latitude, let lon = report?.eventLocation?.longitude else { return }
+        let coord = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+
+        if let locationAnnotation = locationAnnotation {
+            locationAnnotation.coordinate = coord
+        } else {
+            locationAnnotation = LocationAnnotation()
+            locationAnnotation?.coordinate = coord
+            mapView?.addAnnotation(locationAnnotation!)
+        }
+    }
+
+    private func updateRegion(with location: EventLocation) {
+        guard let lat = report?.eventLocation?.latitude, let lon = report?.eventLocation?.longitude else { return }
+
+        let span = MKCoordinateSpanMake(0.005, 0.005)
+        let coord = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+        let region = MKCoordinateRegionMake(coord, span)
+
+        mapView?.setRegion(region, animated: true)
+
     }
 }
 
@@ -99,13 +126,13 @@ extension DefaultEventLocationViewController: MKMapViewDelegate {
 
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if let annotation = annotation as? LocationAnnotation {
-            let pinView: LocationAnnotationView
+            let pinView: PinAnnotationView
             let identifier = MapSummaryAnnotationViewIdentifier.single.rawValue
-            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? LocationAnnotationView {
+            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? PinAnnotationView {
                 dequeuedView.annotation = annotation
                 pinView = dequeuedView
             } else {
-                pinView = LocationAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                pinView = PinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             }
 
             return pinView

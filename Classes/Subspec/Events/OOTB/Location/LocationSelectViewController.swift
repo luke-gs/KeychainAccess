@@ -12,7 +12,7 @@ import MapKit
 open class LocationMapSelectionViewController: MapFormBuilderViewController, EvaluationObserverable {
     var viewModel: LocationSelectionViewModel
 
-    public var locationAnnotation: LocationAnnotation?
+    private var locationAnnotation: LocationAnnotation?
 
     public init(viewModel: LocationSelectionViewModel) {
         self.viewModel = viewModel
