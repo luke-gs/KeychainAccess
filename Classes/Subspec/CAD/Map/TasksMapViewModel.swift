@@ -85,9 +85,9 @@ open class TasksMapViewModel {
             
             return ResourceTaskItemViewModel(callsign: resource.callsign,
                                              iconImage: annotation.icon,
-                                             iconTintColor: resource.status.iconColors.icon,
-                                             color: resource.status.iconColors.background,
-                                             statusText: resource.status.title,
+                                             iconTintColor: resource.statusType.iconColors.icon,
+                                             color: resource.statusType.iconColors.background,
+                                             statusText: resource.statusType.title,
                                              itemName: [annotation.title, annotation.subtitle].joined())
         } else if let annotation = annotation as? IncidentAnnotation {
             guard let incident = CADStateManager.shared.incidentsById[annotation.identifier] else { return nil }
@@ -144,9 +144,9 @@ open class TasksMapViewModel {
                                       title: resource.callsign,
                                       subtitle: resource.officerCountString,
                                       icon: resource.type.icon,
-                                      iconBackgroundColor: resource.status.iconColors.background,
-                                      iconTintColor: resource.status.iconColors.icon,
-                                      duress: resource.status == .duress)
+                                      iconBackgroundColor: resource.statusType.iconColors.background,
+                                      iconTintColor: resource.statusType.iconColors.icon,
+                                      duress: resource.statusType.isDuress)
         }
     }
  
