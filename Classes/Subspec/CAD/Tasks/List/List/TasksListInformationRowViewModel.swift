@@ -26,10 +26,10 @@ public struct TasksListInformationRowViewModel {
     }
     
     public init(with resource: SyncDetailsResource) {
-        let inDuress = resource.status == .duress
+        let inDuress = resource.statusType.isDuress
         self.init(image: resource.type.icon,
                   title: [resource.callsign, resource.officerCountString].joined(),
-                  detail: resource.status.title,
+                  detail: resource.statusType.title,
                   tintColor: inDuress ? .orangeRed : nil,
                   useBoldTitleText: false,
                   useBoldDetailText: inDuress)

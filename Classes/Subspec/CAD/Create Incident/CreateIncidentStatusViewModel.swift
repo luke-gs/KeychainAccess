@@ -12,7 +12,7 @@ import UIKit
 open class CreateIncidentStatusViewModel: CADStatusViewModel {
 
     /// The current status
-    open var currentStatus: ResourceStatus? {
+    open var currentStatus: ResourceStatusType? {
         if let selectedIndexPath = selectedIndexPath {
             return statusForIndexPath(selectedIndexPath)
         }
@@ -21,7 +21,7 @@ open class CreateIncidentStatusViewModel: CADStatusViewModel {
     
     /// Init with sectioned statuses to display, and current selection
     public init(sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>],
-                selectedStatus: ResourceStatus) {
+                selectedStatus: ResourceStatusType) {
         super.init()
         
         self.sections = sections
@@ -40,11 +40,11 @@ open class CreateIncidentStatusViewModel: CADStatusViewModel {
         self.selectedIndexPath = indexPath
     }
     
-    open func statusForIndexPath(_ indexPath: IndexPath) -> ResourceStatus {
+    open func statusForIndexPath(_ indexPath: IndexPath) -> ResourceStatusType {
         return sections[indexPath.section].items[indexPath.item].status
     }
     
-    open func indexPathForStatus(_ status: ResourceStatus) -> IndexPath? {
+    open func indexPathForStatus(_ status: ResourceStatusType) -> IndexPath? {
         // Find the status in the section data
         for (sectionIndex, section) in sections.enumerated() {
             for (itemIndex, item) in section.items.enumerated() {
