@@ -27,12 +27,6 @@ public class OfficerListViewModel: GenericSearchDefaultViewModel {
         title = NSLocalizedString("Add Officer", comment: "")
     }
     
-    open func createViewController() -> OfficerListViewController {
-        let vc = OfficerListViewController(viewModel: self)
-        delegate = vc
-        return vc
-    }
-    
     open func noContentTitle() -> String? {
         return NSLocalizedString("No Officers Found", comment: "")
     }
