@@ -76,8 +76,42 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
        viewModel.construct(builder: builder)
     }
 
+    // MARK: - Officer model delegate 
+
+    public func didSelectOfficer(officer: Officer) {
+        let involvements = [
+            "Reporting Officer",
+            "Assisting Officer",
+            "Case Officer",
+            "Forensic Intelligence Officer",
+            "Interviewing Officer",
+            "Accident Officer",
+            "Action Officer",
+            ]
+
+        let displayable = OfficerSummaryDisplayable(officer)
+        let headerConfig = SearchHeaderConfiguration(title: displayable.title,
+                                                     subtitle: displayable.detail1 ?? "No involvements selected",
+                                                     image: displayable.thumbnail(ofSize: .small)?.sizing().image)
+        let datasource = OfficerInvolvementSearchDatasource(objects: involvements,
+                                                            selectedObjects: officer.involvements,
+                                                            configuration: headerConfig)
+        datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
+        let viewController = CustomPickerController(datasource: datasource)
+        viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
+
+
+        let navController = UINavigationController(rootViewController: viewController)
+        navController.modalPresentationStyle = .formSheet
+        present(navController, animated: true, completion: nil)
+    }
+
     public func officerListDidUpdate() {
         reloadForm()
+    }
+
+    @objc private func cancelTapped() {
+        dismissAnimated()
     }
 
     // MARK: - Evaluation

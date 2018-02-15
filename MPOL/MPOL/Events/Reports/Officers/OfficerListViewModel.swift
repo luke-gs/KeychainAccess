@@ -12,6 +12,7 @@ import MPOLKit
 
 public protocol EventOfficerListViewModelDelegate: class {
     func officerListDidUpdate()
+    func didSelectOfficer(officer: Officer)
 }
 
 public class EventOfficerListViewModel {
@@ -43,17 +44,21 @@ public class EventOfficerListViewModel {
 
         let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
 
-        officerDisplayables.enumerated().forEach {
-            builder += $1.summaryListFormItem()
-                .title($1.title)
-                .image($1.thumbnail(ofSize: .small))
-                .subtitle($1.detail1)
+        officerDisplayables.enumerated().forEach { (index, displayable) in
+            builder += displayable.summaryListFormItem()
+                .title(displayable.title)
+                .image(displayable.thumbnail(ofSize: .small))
+                .subtitle(displayable.detail1)
                 .accessory(CustomItemAccessory(onCreate: { () -> UIView in
                     let imageView = UIImageView(image: image)
                     imageView.contentMode = .scaleAspectFit
                     return imageView
                 }, size: image?.size ?? .zero))
-                .editActions($0 == 0 ? [] : [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (cell, indexPath) in
+                .onSelection({ (cell) in
+                    let officer = displayable.officer
+                    self.delegate?.didSelectOfficer(officer: officer)
+                })
+                .editActions(index == 0 ? [] : [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (cell, indexPath) in
                     self.removeOfficer(at: indexPath)
                     self.delegate?.officerListDidUpdate()
                 })])
