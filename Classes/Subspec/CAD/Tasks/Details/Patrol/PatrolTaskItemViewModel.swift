@@ -12,7 +12,8 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
     open private(set) var patrol: SyncDetailsPatrol?
     
     public init(patrolNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
-        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName)
+        let captionText = "#\(patrolNumber)"
+        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, subtitleText: captionText)
 
         self.navTitle = NSLocalizedString("Patrol details", comment: "")
         self.compactNavTitle = itemName

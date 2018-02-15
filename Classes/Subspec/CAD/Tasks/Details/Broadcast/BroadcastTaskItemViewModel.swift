@@ -12,7 +12,8 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
     open private(set) var broadcast: SyncDetailsBroadcast?
     
     public init(broadcastNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
-        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName)
+        let captionText = "#\(broadcastNumber)"
+        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, subtitleText: captionText)
         
         self.navTitle = NSLocalizedString("Broadcast details", comment: "")
         self.compactNavTitle = itemName

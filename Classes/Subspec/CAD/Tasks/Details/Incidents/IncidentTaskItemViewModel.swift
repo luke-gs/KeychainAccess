@@ -14,7 +14,8 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
     open private(set) var resource: SyncDetailsResource?
 
     public init(incidentNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
-        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName)
+        let captionText = "#\(incidentNumber)"
+        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, subtitleText: captionText)
 
         self.navTitle =  NSLocalizedString("Incident details", comment: "")
         self.compactNavTitle = itemName
