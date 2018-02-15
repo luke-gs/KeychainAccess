@@ -46,28 +46,17 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
     @objc private func addTapped(sender: UIBarButtonItem) {
 
         let officer = Officer()
-        officer.givenName = "Aimee"
-        officer.surname = "Esselmont"
-        officer.involvements = ["Reporting Officer"]
+        officer.givenName = "Pavel"
+        officer.rank = "Sergeant"
+        officer.region = "Melbourne"
+        officer.employeeNumber = "BJ3466"
+        officer.surname = "Boryseiko"
+        officer.involvements = ["Reporting officer"]
 
-        let displayable = OfficerSummaryDisplayable(officer)
+        let viewModel = OfficerSearchViewModel(items: Array<Officer>(repeating: officer, count: 5))
+        let officerSearchController = GenericSearchViewController<DefaultEventOfficerListViewController, OfficerSearchViewModel>(viewModel: viewModel)
+        officerSearchController.delegate = self
 
-        let involvements = [
-            "Reporting Officer",
-            "Assisting Officer",
-            "Case Officer",
-            "Forensic Intelligence Officer",
-            "Interviewing Officer",
-            "Accident Officer",
-            "Action Officer",
-        ]
-
-        let officerSearchController = DefaultOfficerSearchViewController()
-        officerSearchController.finishHandler = {
-            self.viewModel.add(officer: $0)
-            self.reloadForm()
-            
-        }
         let navController = UINavigationController(rootViewController: officerSearchController)
         navController.modalPresentationStyle = .formSheet
         present(navController, animated: true, completion: nil)
@@ -95,6 +84,42 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
         sidebarItem.color = evaluator.isComplete == true ? .green : .red
+    }
+
+}
+
+extension DefaultEventOfficerListViewController: GenericSearchDelegate {
+
+    public typealias Object = Officer
+
+    public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: Officer) {
+        let involvements = [
+            "Reporting Officer",
+            "Assisting Officer",
+            "Case Officer",
+            "Forensic Intelligence Officer",
+            "Interviewing Officer",
+            "Accident Officer",
+            "Action Officer",
+            ]
+
+        let displayable = OfficerSummaryDisplayable(object)
+        let headerConfig = SearchHeaderConfiguration(title: displayable.title,
+                                                     subtitle: displayable.detail1 ?? "No involvements selected",
+                                                     image: displayable.thumbnail(ofSize: .small)?.sizing().image)
+
+        let involvementDatasource = OfficerInvolvementSearchDatasource(
+            objects: involvements,
+            configuration: headerConfig)
+        involvementDatasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
+
+        let involvementsViewController = CustomPickerController(datasource: involvementDatasource)
+        involvementsViewController.finishUpdateHandler = { controller, index in
+            object.involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.flatMap { $0.element.title }
+            self.viewModel.add(officer: object)
+            self.reloadForm()
+        }
+        viewController.navigationController?.pushViewController(involvementsViewController, animated: true)
     }
 
 }
