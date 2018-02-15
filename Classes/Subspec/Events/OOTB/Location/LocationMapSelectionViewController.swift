@@ -1,5 +1,5 @@
 //
-//  LocationSelectViewController.swift
+//  LocationMapSelectViewController.swift
 //  MPOLKit
 //
 //  Created by Pavel Boryseiko on 13/2/18.
@@ -12,10 +12,17 @@ import MapKit
 open class LocationMapSelectionViewController: MapFormBuilderViewController, EvaluationObserverable {
     var viewModel: LocationSelectionViewModel
 
-    private var locationAnnotation: LocationAnnotation?
+    private lazy var locationAnnotation: LocationAnnotation? = {
+        let annotation = LocationAnnotation()
+        mapView?.addAnnotation(annotation)
+        return annotation
+    }()
 
     public init(viewModel: LocationSelectionViewModel) {
         self.viewModel = viewModel
+        self.viewModel.location = nil
+        self.viewModel.type = "Event Location"
+
         super.init(layout: StackMapLayout(mapPercentage: 50))
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneHandler))
@@ -24,8 +31,18 @@ open class LocationMapSelectionViewController: MapFormBuilderViewController, Eva
         viewModel.evaluator.addObserver(self)
     }
 
+    deinit {
+        viewModel.evaluator.removeObserver(self)
+    }
+
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLUnimplemented()
+    }
+
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let isEnabled = try? viewModel.evaluator.evaluationState(for: .locationType)
+        navigationItem.rightBarButtonItem?.isEnabled = isEnabled ?? false
     }
 
     open override func viewDidLoad() {
@@ -47,7 +64,7 @@ open class LocationMapSelectionViewController: MapFormBuilderViewController, Eva
         builder += HeaderFormItem(text: "LOCATION DETAILS")
         builder += DropDownFormItem(title: "Type")
             .options(["Event Location"])
-            .selectedValue(["Event Location"])
+            .selectedValue(viewModel.selectedValues())
             .allowsMultipleSelection(false)
             .onValueChanged { values in
                 self.viewModel.type = values?.first
@@ -108,16 +125,10 @@ extension LocationMapSelectionViewController: MKMapViewDelegate {
     }
 
     public func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+        userLocation.title = ""
+
         let span = MKCoordinateSpanMake(0.005, 0.005)
         let region = MKCoordinateRegionMake(userLocation.coordinate, span)
         mapView.setRegion(region, animated: true)
-
-        locationAnnotation = LocationAnnotation()
-        locationAnnotation?.coordinate = userLocation.coordinate
-        mapView.addAnnotation(locationAnnotation!)
-
-        viewModel.reverseGeoCode(location: userLocation.location) {
-            self.reloadForm()
-        }
     }
 }

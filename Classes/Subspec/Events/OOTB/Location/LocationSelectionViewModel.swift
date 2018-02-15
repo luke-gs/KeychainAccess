@@ -38,6 +38,11 @@ open class LocationSelectionViewModel: Evaluatable {
         }
     }
 
+    public func selectedValues() -> [String] {
+        guard let type = type else { return [] }
+        return [type]
+    }
+
     public func reverseGeoCode(location: CLLocation?, completion: (()->())?) {
         guard let location = location else { return }
         LocationManager.shared.requestPlacemark(from: location).then { (placemark) -> Void in
