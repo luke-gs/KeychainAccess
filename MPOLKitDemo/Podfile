@@ -9,6 +9,7 @@ project 'MPOLKitDemo.xcodeproj'
 
 target 'MPOLKitDemo' do
     pod 'MPOLKit', :path => '../'
+    pod 'HyperioniOS'
 end
 
 # Workaround, swift is hard...

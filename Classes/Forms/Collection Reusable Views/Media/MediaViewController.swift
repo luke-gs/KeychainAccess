@@ -31,7 +31,7 @@ public class MediaViewController: UIViewController, UIScrollViewDelegate, MediaV
     let scalingImageView = ScalingImageView(frame: .zero)
 
     lazy private(set) var doubleTapGestureRecognizer: UITapGestureRecognizer = {
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(MediaViewController.handleDoubleTapWithGestureRecognizer(_:)))
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTapWithGestureRecognizer(_:)))
         gesture.numberOfTapsRequired = 2
         return gesture
     }()
@@ -40,8 +40,13 @@ public class MediaViewController: UIViewController, UIScrollViewDelegate, MediaV
         super.viewDidLoad()
 
         scalingImageView.delegate = self
+        if #available(iOS 11.0, *) {
+            scalingImageView.contentInsetAdjustmentBehavior = .never
+        }
         scalingImageView.frame = view.bounds
         scalingImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        // James' magic formula.
+        scalingImageView.maximumZoomScale = scalingImageView.maximumZoomScale + 3.0
         view.addSubview(scalingImageView)
 
         let image = photoMedia?.image ?? mediaAsset.thumbnailImage
@@ -54,7 +59,10 @@ public class MediaViewController: UIViewController, UIScrollViewDelegate, MediaV
 
     open override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        scalingImageView.frame = view.bounds
+        if scalingImageView.frame != view.bounds {
+            scalingImageView.frame = view.bounds
+        }
+
     }
 
     open func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -179,7 +187,7 @@ class ScalingImageView: UIScrollView {
             let minimumScale = min(scaleWidth, scaleHeight)
 
             self.minimumZoomScale = minimumScale
-            self.maximumZoomScale = max(minimumScale, self.maximumZoomScale) + 3.0
+            self.maximumZoomScale = max(minimumScale, self.maximumZoomScale)
 
             self.zoomScale = minimumZoomScale
 

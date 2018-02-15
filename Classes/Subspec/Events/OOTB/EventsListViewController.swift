@@ -52,7 +52,13 @@ open class EventsListViewController: FormBuilderViewController {
             let title = displayable.title ?? "Blank"
             let subtitle = displayable.subtitle ?? "No description available"
             let image = (displayable.icon?.image ?? AssetManager.shared.image(forKey: .event)!).surroundWithCircle(diameter: 48, color: .orangeRed)
-            return SubtitleFormItem(title: title, subtitle: subtitle, image: image)
+            let editActions = [CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in
+                self.viewModel.eventsManager.remove(for: eventsList[indexPath.row].eventId)
+                // check for empty state
+                self.loadingManager.state = (self.viewModel.eventsList?.isEmpty ?? true) ? .noContent : .loaded
+                self.reloadForm()
+            })]
+            return SubtitleFormItem(title: title, subtitle: subtitle, image: image).editActions(editActions)
         }
     }
 

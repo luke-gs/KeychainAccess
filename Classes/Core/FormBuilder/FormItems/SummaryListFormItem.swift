@@ -38,8 +38,8 @@ public class SummaryListFormItem: BaseFormItem {
         let cell = cell as! EntityListCollectionViewCell
 
         cell.sourceLabel.text = category
-        cell.titleLabel.apply(sizable: title, defaultFont: defaultTitleFont(for: cell.traitCollection))
-        cell.subtitleLabel.apply(sizable: subtitle, defaultFont: defaultSubtitleFont(for: cell.traitCollection))
+        cell.titleLabel.apply(sizable: title, defaultFont: defaultTitleFont(for: cell.traitCollection), defaultNumberOfLines: 1)
+        cell.subtitleLabel.apply(sizable: subtitle, defaultFont: defaultSubtitleFont(for: cell.traitCollection), defaultNumberOfLines: 1)
         cell.borderColor = badgeColor
         cell.actionCount = badge
         cell.thumbnailView.borderColor = borderColor
