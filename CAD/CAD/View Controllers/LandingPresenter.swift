@@ -157,7 +157,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
         if let tabBarItem = tabBarController?.compactViewControllers?.last?.tabBarItem {
             if let resource = CADStateManager.shared.currentResource {
                 tabBarItem.title = resource.callsign
-                tabBarItem.image = resource.status.icon
+                tabBarItem.image = resource.statusType.icon
             } else {
                 tabBarItem.title = NSLocalizedString("Call Sign", comment: "")
                 tabBarItem.image = AssetManager.shared.image(forKey: .entityCar)
