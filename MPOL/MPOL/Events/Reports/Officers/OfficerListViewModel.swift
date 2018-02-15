@@ -45,10 +45,11 @@ public class EventOfficerListViewModel {
         let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
 
         officerDisplayables.enumerated().forEach { (index, displayable) in
-            builder += displayable.summaryListFormItem()
+            builder += SubtitleFormItem()
                 .title(displayable.title)
-                .image(displayable.thumbnail(ofSize: .small))
                 .subtitle(displayable.detail1)
+                .width(.column(1))
+                .image(displayable.thumbnail(ofSize: .small))
                 .selectionStyle(.none)
                 .accessory(CustomItemAccessory(onCreate: { () -> UIView in
                     let imageView = UIImageView(image: image)

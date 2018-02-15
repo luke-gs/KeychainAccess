@@ -51,7 +51,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         officer.region = "Melbourne"
         officer.employeeNumber = "BJ3466"
         officer.surname = "Boryseiko"
-        officer.involvements = ["Reporting officer"]
+        officer.involvements = ["Reporting Officer"]
 
         let viewModel = OfficerSearchViewModel(items: Array<Officer>(repeating: officer, count: 5))
         let officerSearchController = GenericSearchViewController<DefaultEventOfficerListViewController, OfficerSearchViewModel>(viewModel: viewModel)
@@ -152,6 +152,7 @@ extension DefaultEventOfficerListViewController: GenericSearchDelegate {
 
         let involvementDatasource = OfficerInvolvementSearchDatasource(
             objects: involvements,
+            selectedObjects: object.involvements,
             configuration: headerConfig)
         involvementDatasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
 
