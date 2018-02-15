@@ -8,6 +8,7 @@
 
 import UIKit
 import PromiseKit
+import MapKit
 
 /// Enum for all task types
 public enum TaskListType: Int {
@@ -41,6 +42,17 @@ public enum TaskListType: Int {
             return NSLocalizedString("RESO", comment: "Resources short title")
         }
     }
+    
+    var annotationType: MKAnnotationView.Type? {
+        switch self {
+        case .incident:
+            return IncidentAnnotationView.self
+        case .resource:
+            return ResourceAnnotationView.self
+        default:
+            return nil
+        }
+    }
 }
 
 /// Protocol for notifying UI of updated view model data
@@ -48,6 +60,9 @@ public protocol TasksListContainerViewModelDelegate: class {
 
     // Called when source items are updated
     func updateSourceItems()
+
+    // Called when selected source changes
+    func updateSelectedSourceIndex()
 }
 
 /// View model for the task list container, which is the parent of the header and list view models
@@ -90,13 +105,19 @@ open class TasksListContainerViewModel {
     open var selectedSourceIndex: Int = 0 {
         didSet {
             if selectedSourceIndex != oldValue {
+                let type = TaskListType(rawValue: selectedSourceIndex)
+
                 headerViewModel.selectedSourceIndex = selectedSourceIndex
                 splitViewModel?.mapViewModel.loadTasks()
+                if let annotationType = type?.annotationType {
+                    splitViewModel?.mapViewModel.priorityAnnotationType = annotationType
+                }
                 updateSections()
 
                 // Show/hide add button
-                let type = TaskListType(rawValue: selectedSourceIndex)!
                 headerViewModel.setAddButtonVisible(type == .incident)
+
+                delegate?.updateSelectedSourceIndex()
             }
         }
     }
@@ -312,7 +333,7 @@ open class TasksListContainerViewModel {
             }
 
             if shouldAppend {
-                if resource.status == .duress {
+                if resource.statusType.isDuress {
                     sectionedResources[duress]?.append(resource)
                 } else if resource.currentIncident != nil {
                     sectionedResources[tasked]?.append(resource)

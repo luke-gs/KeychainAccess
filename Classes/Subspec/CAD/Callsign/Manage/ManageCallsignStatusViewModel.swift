@@ -13,9 +13,9 @@ import PromiseKit
 public struct ManageCallsignStatusItemViewModel {
     public let title: String
     public let image: UIImage
-    public let status: ResourceStatus
+    public let status: ResourceStatusType
 
-    init(_ status: ResourceStatus) {
+    init(_ status: ResourceStatusType) {
         self.title = status.title
         self.image = status.icon!
         self.status = status
@@ -39,7 +39,6 @@ open class ManageCallsignStatusViewModel {
     enum ActionButton: Int {
         case viewCallsign
         case manageCallsign
-        case terminateShift
 
         var title: String {
             switch self {
@@ -47,8 +46,6 @@ open class ManageCallsignStatusViewModel {
                 return NSLocalizedString("View My Call Sign", comment: "View call sign button text")
             case .manageCallsign:
                 return NSLocalizedString("Manage Call Sign", comment: "Manage call sign button text")
-            case .terminateShift:
-                return NSLocalizedString("Terminate Shift", comment: "Terminate shift button text")
             }
         }
     }
@@ -61,8 +58,7 @@ open class ManageCallsignStatusViewModel {
         get {
             return [
                 ActionButton.viewCallsign.title,
-                ActionButton.manageCallsign.title,
-                ActionButton.terminateShift.title
+                ActionButton.manageCallsign.title
             ]
         }
     }
@@ -73,7 +69,7 @@ open class ManageCallsignStatusViewModel {
 
     /// The callsign view model for changing status
     open lazy var callsignViewModel: CallsignStatusViewModel = {
-        let callsignStatus = CADStateManager.shared.currentResource?.status ?? .unavailable
+        let callsignStatus = CADStateManager.shared.currentResource?.statusType ?? ClientModelTypes.resourceStatus.defaultCase
         return CallsignStatusViewModel(sections: callsignSectionsForState(), selectedStatus: callsignStatus, incident: CADStateManager.shared.currentIncident)
     }()
 
@@ -100,7 +96,7 @@ open class ManageCallsignStatusViewModel {
     }
 
     @objc private func callsignChanged() {
-        let callsignStatus = CADStateManager.shared.currentResource?.status ?? .unavailable
+        let callsignStatus = CADStateManager.shared.currentResource?.statusType ?? ClientModelTypes.resourceStatus.defaultCase
         
         callsignViewModel.reload(sections: callsignSectionsForState(), selectedStatus: callsignStatus, incident: CADStateManager.shared.currentIncident)
         delegate?.callsignDidChange()
@@ -144,24 +140,9 @@ open class ManageCallsignStatusViewModel {
                 }
                 break
             case .manageCallsign:
-                if let bookOn = CADStateManager.shared.lastBookOn {
+                if let resource = CADStateManager.shared.currentResource {
                     // Edit the book on details
-                    let callsignViewModel = BookOnCallsignViewModel(
-                        callsign: bookOn.callsign,
-                        status: CADStateManager.shared.currentResource?.status.title ?? "",
-                        location: CADStateManager.shared.currentResource?.station ?? "",
-                        type: CADStateManager.shared.currentResource?.type)
-                    delegate?.present(BookOnScreen.bookOnDetailsForm(callsignViewModel: callsignViewModel, formSheet: false))
-                }
-                break
-            case .terminateShift:
-                if callsignViewModel.currentStatus?.canTerminate == true {
-                    // Update session and dismiss screen
-                    CADStateManager.shared.setOffDuty()
-                    delegate?.dismiss(animated: true, completion: nil)
-                } else {
-                    AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Terminate Shift", comment: ""),
-                                                     message: NSLocalizedString("Your call sign is currently responding to an active incident that must first be finalised.", comment: ""))
+                    delegate?.present(BookOnScreen.bookOnDetailsForm(resource: resource, formSheet: false))
                 }
                 break
             }
@@ -172,27 +153,20 @@ open class ManageCallsignStatusViewModel {
 
     open func callsignSectionsForState() -> [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>] {
         var sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>] = []
-        if shouldShowIncident {
-            sections.append(CADFormCollectionSectionViewModel(
-                title: NSLocalizedString("Incident Status", comment: "Incident Status header text"),
-                items: [
-                    ManageCallsignStatusItemViewModel(.proceeding),
-                    ManageCallsignStatusItemViewModel(.atIncident),
-                    ManageCallsignStatusItemViewModel(.finalise),
-                    ManageCallsignStatusItemViewModel(.inquiries2) ]))
 
+        if shouldShowIncident {
+            let incidentItems = ClientModelTypes.resourceStatus.incidentCases.map {
+                return ManageCallsignStatusItemViewModel($0)
+            }
+            sections.append(CADFormCollectionSectionViewModel(title: "", items: incidentItems))
+
+        }
+        let generalItems = ClientModelTypes.resourceStatus.generalCases.map {
+            return ManageCallsignStatusItemViewModel($0)
         }
         sections.append(CADFormCollectionSectionViewModel(
             title: NSLocalizedString("General", comment: "General status header text"),
-            items: [
-                ManageCallsignStatusItemViewModel(.unavailable),
-                ManageCallsignStatusItemViewModel(.onAir),
-                ManageCallsignStatusItemViewModel(.mealBreak),
-                ManageCallsignStatusItemViewModel(.trafficStop),
-                ManageCallsignStatusItemViewModel(.court),
-                ManageCallsignStatusItemViewModel(.atStation),
-                ManageCallsignStatusItemViewModel(.onCall),
-                ManageCallsignStatusItemViewModel(.inquiries1) ]))
+            items: generalItems))
         
         return sections
     }

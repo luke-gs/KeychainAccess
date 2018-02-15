@@ -24,7 +24,7 @@ public protocol TasksListViewControllerDelegate: class {
 ///
 open class TasksListViewController: FormBuilderViewController, UISearchBarDelegate {
 
-    private struct LayoutConstants {
+    fileprivate struct LayoutConstants {
         static let searchBarHeight: CGFloat = 32
         static let searchBarTopMargin: CGFloat = 10
     }
@@ -57,7 +57,12 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-    
+
+    /// Override the layout class to adjust the content size
+    open override func collectionViewLayoutClass() -> CollectionViewFormLayout.Type {
+        return ScrollableCollectionViewFormLayout.self
+    }
+
     // MARK: - View lifecycle
 
     open override func viewDidLoad() {
@@ -65,7 +70,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
 
         createSubviews()
         createConstraints()
-        
+
         loadingManager.noContentView.titleLabel.text = viewModel.noContentTitle()
         loadingManager.noContentView.subtitleLabel.text = viewModel.noContentSubtitle()
         loadingManager.delegate = self
@@ -98,8 +103,10 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
         view.clipsToBounds = true
 
         // Use KVO to update search bar, rather than hijacking scroll delegate
-        scrollBarObservation = collectionView!.observe(\.contentOffset) { [unowned self] (view, change) in
-            self.syncSearchBarWithCollectionView(self.collectionView!)
+        if let collectionView = collectionView {
+            scrollBarObservation = collectionView.observe(\.contentOffset) { [unowned self] (view, change) in
+                self.syncSearchBarWithCollectionView(collectionView)
+            }
         }
 
         // Disable the inset manager, as it breaks things
@@ -115,7 +122,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
             searchBar.heightAnchor.constraint(equalToConstant: LayoutConstants.searchBarHeight)
         ])
     }
-    
+
 
     open override func construct(builder: FormBuilder) {
         if viewModel.otherSections.count > 0 {
@@ -279,7 +286,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
 
         // Hide the search bar
         let searchOffset = LayoutConstants.searchBarHeight + LayoutConstants.searchBarTopMargin
-        if let collectionView = collectionView, collectionView.contentOffset.y < searchOffset {
+        if let collectionView = self.collectionView, collectionView.contentOffset.y < searchOffset {
             collectionView.contentOffset = CGPoint(x: 0, y: searchOffset)
         }
     }
@@ -307,5 +314,20 @@ extension TasksListViewController: CADFormCollectionViewModelDelegate {
 
         // Reload content
         reloadContent()
+    }
+}
+
+/// Custom form layout that adjust content size to enable scrolling search bar out of view, even if not enough content
+/// to normally enable scrolling
+fileprivate class ScrollableCollectionViewFormLayout: CollectionViewFormLayout {
+    open override var collectionViewContentSize : CGSize {
+        var size = super.collectionViewContentSize
+        if let collectionView = collectionView {
+            let minHeight = collectionView.frame.height +
+                TasksListViewController.LayoutConstants.searchBarHeight +
+                TasksListViewController.LayoutConstants.searchBarTopMargin
+            size.height = max(size.height, minHeight)
+        }
+        return size
     }
 }

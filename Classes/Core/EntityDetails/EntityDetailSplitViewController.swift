@@ -108,8 +108,7 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
     open override func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
         // Ask the data source for an appropriate title
         if traitCollection.horizontalSizeClass == .compact {
-            let entity = detailViewModel.currentEntity
-            if let title =  Summary(entity).title {
+            if let title =  detailViewModel.summary?.title {
                 return title
             }
         }
@@ -190,15 +189,15 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
         let entity = detailViewModel.currentEntity
 
         let detailDisplayable = Details(entity)
-        let summaryDisplayable = Summary(entity)
-
         headerView.captionLabel.text = detailDisplayable.entityDisplayName?.localizedUppercase
 
-        if let thumbnailInfo = summaryDisplayable.thumbnail(ofSize: .small) {
-            self.headerView.iconView.setImage(with: thumbnailInfo)
-        }
+        if let summaryDisplayable = detailViewModel.summary {
+            if let thumbnailInfo = summaryDisplayable.thumbnail(ofSize: .small) {
+                headerView.iconView.setImage(with: thumbnailInfo)
+            }
 
-        headerView.titleLabel.text = summaryDisplayable.title
+            headerView.titleLabel.text = summaryDisplayable.title
+        }
 
         if let lastUpdated = detailDisplayable.lastUpdatedString {
             headerView.subtitleLabel.text = NSLocalizedString("Last Updated: ", comment: "") + lastUpdated

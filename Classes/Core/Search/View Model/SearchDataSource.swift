@@ -150,7 +150,6 @@ public protocol SearchOptions {
     /// - Returns:         Return false if filter is disabled.
     func isEnabled(at index: Int) -> Bool
 
-
     /// The indexes of the option fields that are required to be updated when
     /// the field related to the index passed in is changed.
     ///

@@ -42,7 +42,7 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
     /// Create the book on view controller for a selected callsign
     open func bookOnScreenForItem(_ indexPath: IndexPath) -> Presentable? {
         if let itemViewModel = item(at: indexPath) {
-            return BookOnScreen.bookOnDetailsForm(callsignViewModel: itemViewModel, formSheet: false)
+            return BookOnScreen.bookOnDetailsForm(resource: itemViewModel.resource, formSheet: false)
         }
         return nil
     }
@@ -106,6 +106,7 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
     
     
     /// Sorts sections, showing `On Air` status first, then `At Incident` status, then alphabetically by callsign
+    /// NOTE: Method should be overridden for clients with different resource statuses
     ///
     /// - Parameter unsorted: the unsorted array
     /// - Returns: a sorted array
@@ -113,19 +114,18 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
         // Map sections
         return unsorted.map { section in
             // Sort items
-            let sortedItems = section.items.sorted {
-                if $0.status == "On Air" && $0.status != $1.status {
-                    // Status is on air, and statuses don't match
-                    return true
-                } else if $0.status == "At Incident" && $0.status != $1.status {
-                    // Statuses don't match, first is at incident. Prioritise if second is not on air
-                    return $1.status != "On Air"
-                } else {
-                    // Status matches, sort alphabetically by callsign
-                    return $0.callsign < $1.callsign
+            let sortedItems = section.items.sorted { (lhs, rhs) in
+                if lhs.status != rhs.status {
+                    // Status is not same, check if either is On Air, or At Incident
+                    if lhs.status == ResourceStatusCore.onAir || rhs.status == ResourceStatusCore.onAir {
+                        return lhs.status == ResourceStatusCore.onAir
+                    } else if lhs.status == ResourceStatusCore.atIncident || rhs.status == ResourceStatusCore.atIncident {
+                        return lhs.status == ResourceStatusCore.atIncident
+                    }
                 }
+                // Sort alphabetically by callsign
+                return lhs.callsign < rhs.callsign
             }
-            
             return CADFormCollectionSectionViewModel(title: section.title, items: sortedItems)
         }
     }

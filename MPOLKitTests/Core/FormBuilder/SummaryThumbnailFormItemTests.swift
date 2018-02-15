@@ -42,9 +42,9 @@ class SummaryThumbnailFormItemTests: XCTestCase {
         // Then
         XCTAssertEqual(item.style, .detail)
         XCTAssertEqual(item.category, "Today")
-        XCTAssertEqual(item.title, "Hello")
-        XCTAssertEqual(item.subtitle, "Bye")
-        XCTAssertEqual(item.detail, "Detail")
+        XCTAssertEqual(item.title?.sizing().string, "Hello")
+        XCTAssertEqual(item.subtitle?.sizing().string, "Bye")
+        XCTAssertEqual(item.detail?.sizing().string, "Detail")
         XCTAssertEqual(item.badge, 20)
         XCTAssertEqual(item.badgeColor, .yellow)
         XCTAssertEqual(item.borderColor, .orange)

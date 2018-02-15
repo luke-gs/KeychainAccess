@@ -20,8 +20,11 @@ open class TasksMapViewModel {
 
     // MARK: - Filter
 
-    // TODO: Set from split view table
-    var priorityAnnotationType = ResourceAnnotationView.self
+    public var priorityAnnotationType: MKAnnotationView.Type = IncidentAnnotationView.self {
+        didSet {
+            delegate?.viewModelStateChanged()
+        }
+    }
     
     // MARK: - Init
     
@@ -82,9 +85,9 @@ open class TasksMapViewModel {
             
             return ResourceTaskItemViewModel(callsign: resource.callsign,
                                              iconImage: annotation.icon,
-                                             iconTintColor: resource.status.iconColors.icon,
-                                             color: resource.status.iconColors.background,
-                                             statusText: resource.status.title,
+                                             iconTintColor: resource.statusType.iconColors.icon,
+                                             color: resource.statusType.iconColors.background,
+                                             statusText: resource.statusType.title,
                                              itemName: [annotation.title, annotation.subtitle].joined())
         } else if let annotation = annotation as? IncidentAnnotation {
             guard let incident = CADStateManager.shared.incidentsById[annotation.identifier] else { return nil }
@@ -113,7 +116,8 @@ open class TasksMapViewModel {
                                       badgeTextColor: incident.grade.badgeColors.text,
                                       badgeFillColor: incident.grade.badgeColors.fill,
                                       badgeBorderColor: incident.grade.badgeColors.border,
-                                      usesDarkBackground: incident.status == .unresourced)
+                                      usesDarkBackground: incident.status == .unresourced,
+                                      priority: incident.grade)
         }
     }
     
@@ -125,14 +129,19 @@ open class TasksMapViewModel {
                                       title: resource.callsign,
                                       subtitle: resource.officerCountString,
                                       icon: resource.type.icon,
-                                      iconBackgroundColor: resource.status.iconColors.background,
-                                      iconTintColor: resource.status.iconColors.icon,
-                                      duress: resource.status == .duress)
+                                      iconBackgroundColor: resource.statusType.iconColors.background,
+                                      iconTintColor: resource.statusType.iconColors.icon,
+                                      duress: resource.statusType.isDuress)
         }
     }
  
     open func isAnnotationViewDisplayedOnTop(_ annotationView: MKAnnotationView) -> Bool {
         return type(of: annotationView) == priorityAnnotationType
+    }
+    
+    /// Whether annotations should cluster. `true` by default.
+    open func shouldCluster() -> Bool {
+        return true
     }
 }
 

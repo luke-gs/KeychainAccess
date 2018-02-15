@@ -1,5 +1,5 @@
 //
-//  ResourceStatus.swift
+//  ResourceStatusCore.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 17/10/17.
@@ -9,7 +9,8 @@
 import UIKit
 
 /// Enum for callsign status states and logic from https://gridstone.atlassian.net/browse/MPOLA-520
-public enum ResourceStatus: String, Codable {
+public enum ResourceStatusCore: String, ResourceStatusType {
+
     // General
     case unavailable    = "Unavailable"
     case onAir          = "On Air"
@@ -28,11 +29,56 @@ public enum ResourceStatus: String, Codable {
     case finalise       = "Finalise"
     case inquiries2     = "Inquiries2"
 
-    /// All enum cases, in order of display
-    public static let allCases: [ResourceStatus] = [.unavailable,.onAir,.mealBreak,.trafficStop,.court,.atStation,.onCall,.inquiries1,.proceeding,.atIncident,.finalise,.inquiries2]
+    /// All cases, in order of display
+    public static let allCases: [ResourceStatusType] = [
+        ResourceStatusCore.unavailable,
+        ResourceStatusCore.onAir,
+        ResourceStatusCore.mealBreak,
+        ResourceStatusCore.trafficStop,
+        ResourceStatusCore.court,
+        ResourceStatusCore.atStation,
+        ResourceStatusCore.onCall,
+        ResourceStatusCore.inquiries1,
+        ResourceStatusCore.proceeding,
+        ResourceStatusCore.atIncident,
+        ResourceStatusCore.finalise,
+        ResourceStatusCore.inquiries2
+    ]
 
-    /// Cases related to an incident
-    public static let incidentCases: [ResourceStatus] = [.proceeding,.atIncident,.finalise,.inquiries2]
+    /// All cases related to a current incident, in order of display
+    public static let incidentCases: [ResourceStatusType] = [
+        ResourceStatusCore.proceeding,
+        ResourceStatusCore.atIncident,
+        ResourceStatusCore.finalise,
+        ResourceStatusCore.inquiries2
+    ]
+
+    /// All cases unrelated to a current incident, in order of display
+    public static var generalCases: [ResourceStatusType] = [
+        ResourceStatusCore.unavailable,
+        ResourceStatusCore.onAir,
+        ResourceStatusCore.mealBreak,
+        ResourceStatusCore.trafficStop,
+        ResourceStatusCore.court,
+        ResourceStatusCore.atStation,
+        ResourceStatusCore.onCall,
+        ResourceStatusCore.inquiries1
+    ]
+
+    /// The default case when status is unknown
+    public static var defaultCase: ResourceStatusType = ResourceStatusCore.unavailable
+
+    /// The case for a resource in duress
+    public static var duressCase: ResourceStatusType = ResourceStatusCore.duress
+
+    /// The case for an off duty resource
+    public static var offDutyCase: ResourceStatusType = ResourceStatusCore.offDuty
+
+    /// The case for an on air resource
+    public static var onAirCase: ResourceStatusType = ResourceStatusCore.onAir
+
+    /// The case for finalising an incident
+    public static var finaliseCase: ResourceStatusType = ResourceStatusCore.finalise
 
     public var title: String {
         switch self {
@@ -144,8 +190,15 @@ public enum ResourceStatus: String, Codable {
         }
     }
 
+    /// Return whether an incident can be created from current status
+    public var canCreateIncident: Bool {
+        guard let incidentCases = ResourceStatusCore.incidentCases as? [ResourceStatusCore] else { return false }
+        return !incidentCases.contains(self)
+    }
+
     /// Return whether status change is allowed, and whether a reason needs to be provided
-    public func canChangeToStatus(newStatus: ResourceStatus) -> (allowed: Bool, requiresReason: Bool) {
+    public func canChangeToStatus(newStatus: ResourceStatusType) -> (allowed: Bool, requiresReason: Bool) {
+        guard let newStatus = newStatus as? ResourceStatusCore else { return (false, false) }
 
         // Currently all status changes are allowed, but a reason is needed if going from an incident
         // to a non incident status. Leaving allowed component of tuple as this is likely to change...
@@ -162,17 +215,19 @@ public enum ResourceStatus: String, Codable {
         }
     }
     
-    public func isChangingToGeneralStatus(_ newStatus: ResourceStatus) -> Bool {
-        return ResourceStatus.incidentCases.contains(self) && !ResourceStatus.incidentCases.contains(newStatus)
+    /// Convenience for checking if changing to non incident status
+    public func isChangingToGeneralStatus(_ newStatus: ResourceStatusType) -> Bool {
+        guard let newStatus = newStatus as? ResourceStatusCore else { return false }
+        guard let incidentCases = ResourceStatusCore.incidentCases as? [ResourceStatusCore] else { return false }
+
+        return incidentCases.contains(self) && !incidentCases.contains(newStatus)
     }
 
-    /// Return whether patrol area can be changed from current status
-    public var canChangePatrolArea: Bool {
-        return !ResourceStatus.incidentCases.contains(self)
-    }
+}
 
-    /// Return whether an incident can be created from current status
-    public var canCreateIncident: Bool {
-        return !ResourceStatus.incidentCases.contains(self)
+/// Conformance to Equatable, to allow array lookup
+extension ResourceStatusCore: Equatable {
+    public static func == (lhs: ResourceStatusCore, rhs: ResourceStatusCore) -> Bool {
+        return lhs.rawValue == rhs.rawValue
     }
 }

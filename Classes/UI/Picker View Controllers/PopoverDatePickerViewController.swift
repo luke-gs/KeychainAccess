@@ -84,16 +84,6 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
         }
     }
 
-    open override var wantsSeparatorWhenTransparent: Bool {
-        get {
-            return false
-        }
-        set {
-            super.wantsSeparatorWhenTransparent = newValue
-        }
-    }
-    
-    
     // MARK: - Private properties
     
     private var isInPopover = false {

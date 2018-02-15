@@ -51,12 +51,23 @@ final public class EventsManager {
     public func remove(event: Event) {
         eventBucket?.remove(event)
     }
+    
+    public func remove(for id: UUID) {
+        guard let event = event(for: id) else {
+            return
+        }
+        eventBucket?.remove(event)
+        if let displayable = displayableBucket?.objects?.first(where: {$0.eventId == id}) {
+            displayableBucket?.remove(displayable)
+        }
+    }
 
     //utility
-    public func event(for id: String) -> Event {
-        //TODO: Attempt to fetch from event bucket
-        //eventBucket.object(for: id)
-        return Event()
+    public func event(for id: UUID) -> Event? {
+        if let event = eventBucket?.objects?.first(where: {$0.id == id}) {
+            return event
+        }
+        return nil
     }
 }
 

@@ -35,36 +35,24 @@ open class BookOnLandingItemViewModel {
 }
 
 /// View model of callsign section of not booked on screen
-open class BookOnLandingCallsignItemViewModel: BookOnLandingItemViewModel, BookOnCallsignViewModelType {
-    public var callsign: String
-    public var status: String?
-    public var location: String?
-    public var caption: String?
-    public var type: ResourceType?
+open class BookOnLandingCallsignItemViewModel: BookOnLandingItemViewModel {
+    open let resource: SyncDetailsResource
+
+    open var callsign: String
+    open var status: ResourceStatusType?
+    open var location: String?
+    open var caption: String?
+    open var type: ResourceType?
 
     open var badgeText: String?
     open var badgeTextColor: UIColor?
     open var badgeBorderColor: UIColor?
     open var badgeFillColor: UIColor?
     
-    public init(title: String, subtitle: String?, caption: String?, callsign: String, status: String?, location: String?, type: ResourceType?, image: UIImage?, imageColor: UIColor?, imageBackgroundColor: UIColor?, badgeText: String? = nil, badgeTextColor: UIColor? = .clear, badgeFillColor: UIColor? = .clear, badgeBorderColor: UIColor? = .clear) {
-        self.callsign = callsign
-        self.status = status
-        self.location = location
-        self.type = type
-        self.badgeText = badgeText
-        self.badgeTextColor = badgeTextColor
-        self.badgeFillColor = badgeFillColor
-        self.badgeBorderColor = badgeBorderColor
-        self.caption = caption
-
-        super.init(title: title, subtitle: subtitle, image: image, imageColor: imageColor, imageBackgroundColor: imageBackgroundColor)
-    }
-
     /// Create a view model from the callsign resource
-    public convenience init(resource: SyncDetailsResource) {
+    public init(resource: SyncDetailsResource) {
         // Get icon colors
-        let (imageColor, imageBackgroundColor) = resource.status.iconColors
+        let (imageColor, imageBackgroundColor) = resource.statusType.iconColors
 
         // Fetch current incident, for badge text and colors
         let incident = CADStateManager.shared.incidentForResource(callsign: resource.callsign)
@@ -72,22 +60,19 @@ open class BookOnLandingCallsignItemViewModel: BookOnLandingItemViewModel, BookO
 
         let title = [resource.callsign, resource.officerCountString].joined()
         let subtitle = resource.location?.suburb ?? resource.station ?? ThemeConstants.longDash
-        let caption = [resource.status.rawValue, resource.currentIncident?.title].joined(separator: ThemeConstants.dividerSeparator)
-        
-        self.init(
-            title: title,
-            subtitle: subtitle,
-            caption: caption,
-            callsign: resource.callsign,
-            status: resource.status.rawValue,
-            location: resource.location?.fullAddress.ifNotEmpty(),
-            type: resource.type,
-            image: resource.type.icon,
-            imageColor: imageColor,
-            imageBackgroundColor: imageBackgroundColor,
-            badgeText: incident?.grade.rawValue,
-            badgeTextColor: badgeTextColor,
-            badgeFillColor: badgeFillColor,
-            badgeBorderColor: badgeBorderColor)
+        let caption = [resource.statusType.rawValue, resource.currentIncident?.title].joined(separator: ThemeConstants.dividerSeparator)
+
+        self.resource = resource
+        self.callsign = resource.callsign
+        self.status = resource.statusType
+        self.location = resource.location?.fullAddress.ifNotEmpty()
+        self.type = resource.type
+        self.badgeText = incident?.grade.rawValue
+        self.badgeTextColor = badgeTextColor
+        self.badgeFillColor = badgeFillColor
+        self.badgeBorderColor = badgeBorderColor
+        self.caption = caption
+
+        super.init(title: title, subtitle: subtitle, image: resource.type.icon, imageColor: imageColor, imageBackgroundColor: imageBackgroundColor)
     }
 }

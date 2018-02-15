@@ -11,9 +11,10 @@ import UIKit
 open class EventsListViewController: FormBuilderViewController {
 
     let viewModel: EventListViewModelType
-
+    
     required public init(viewModel: EventListViewModelType) {
         self.viewModel = viewModel
+        
         super.init()
         title = "Events"
         tabBarItem.image = AssetManager.shared.image(forKey: .tabBarEvents)
@@ -34,11 +35,31 @@ open class EventsListViewController: FormBuilderViewController {
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "New event", style: .plain, target: self, action: #selector(createNewEvent))
 
-        loadingManager.state = .noContent
+        loadingManager.state = (viewModel.eventsList?.isEmpty ?? true) ? .noContent : .loaded
     }
 
     open override func construct(builder: FormBuilder) {
         builder.title = "Events"
+        builder.forceLinearLayout = true
+        
+        guard let eventsList = viewModel.eventsList else {
+            return
+        }
+        
+        builder += HeaderFormItem(text: "\(eventsList.count) CURRENT EVENT\(eventsList.count == 1 ? "" : "S")")
+        
+        builder += eventsList.map { displayable in
+            let title = displayable.title ?? "Blank"
+            let subtitle = displayable.subtitle ?? "No description available"
+            let image = (displayable.icon?.image ?? AssetManager.shared.image(forKey: .event)!).surroundWithCircle(diameter: 48, color: .orangeRed)
+            let editActions = [CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in
+                self.viewModel.eventsManager.remove(for: eventsList[indexPath.row].eventId)
+                // check for empty state
+                self.loadingManager.state = (self.viewModel.eventsList?.isEmpty ?? true) ? .noContent : .loaded
+                self.reloadForm()
+            })]
+            return SubtitleFormItem(title: title, subtitle: subtitle, image: image).editActions(editActions)
+        }
     }
 
     @objc private func createNewEvent() {
@@ -46,6 +67,12 @@ open class EventsListViewController: FormBuilderViewController {
         let viewController = EventSplitViewController(viewModel: viewModel.detailsViewModel(for: event))
 
         show(viewController, sender: self)
+    }
+    
+    open override func viewWillAppear(_ animated: Bool) {
+        loadingManager.state = (viewModel.eventsList?.isEmpty ?? true) ? .noContent : .loaded
+        
+        reloadForm()
     }
 }
 
