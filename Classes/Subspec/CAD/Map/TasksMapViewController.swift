@@ -40,8 +40,8 @@ open class TasksMapViewController: MapViewController {
         self.viewModel = viewModel
         self.annotationsInitialLoadZoomStyle = annotationsInitialLoadZoomStyle
         super.init(initialLoadZoomStyle: .none, startingRegion: startingRegion, settingsViewModel: settingsViewModel)
+        
     }
-    
 
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
@@ -53,6 +53,12 @@ open class TasksMapViewController: MapViewController {
         
         navigationItem.title = "Activities"
         mapView.showsCompass = false
+        
+        if #available(iOS 11.0, *) {
+            mapView.register(ResourceAnnotationView.self, forAnnotationViewWithReuseIdentifier: ResourceAnnotationView.defaultReuseIdentifier)
+            mapView.register(IncidentAnnotationView.self, forAnnotationViewWithReuseIdentifier: IncidentAnnotationView.defaultReuseIdentifier)
+            mapView.register(PatrolAnnotationView.self, forAnnotationViewWithReuseIdentifier: PatrolAnnotationView.defaultReuseIdentifier)
+        }
         
         mapLayerFilterButton = UIBarButtonItem.init(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: self, action: #selector(showMapLayerFilter))
         navigationItem.rightBarButtonItem = mapLayerFilterButton
@@ -103,12 +109,24 @@ open class TasksMapViewController: MapViewController {
             if annotationView == nil {
                 annotationView = IncidentAnnotationView(annotation: annotation, reuseIdentifier: IncidentAnnotationView.defaultReuseIdentifier)
             }
-
+            
             annotationView?.configure(withAnnotation: annotation,
                                       priorityText: annotation.badgeText,
                                       priorityTextColor: annotation.badgeTextColor,
                                       priorityFillColor: annotation.badgeFillColor,
                                       priorityBorderColor: annotation.badgeBorderColor,
+                                      usesDarkBackground: annotation.usesDarkBackground)
+            
+            return annotationView
+            
+        } else if let annotation = annotation as? PatrolAnnotation {
+            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: PatrolAnnotationView.defaultReuseIdentifier) as? PatrolAnnotationView
+            
+            if annotationView == nil {
+                annotationView = PatrolAnnotationView(annotation: annotation, reuseIdentifier: PatrolAnnotationView.defaultReuseIdentifier)
+            }
+            
+            annotationView?.configure(withAnnotation: annotation,
                                       usesDarkBackground: annotation.usesDarkBackground)
             
             return annotationView

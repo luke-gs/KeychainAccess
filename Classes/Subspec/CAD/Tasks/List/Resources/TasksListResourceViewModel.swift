@@ -37,8 +37,8 @@ open class TasksListResourceViewModel: TasksListItemViewModel {
         }
         
         let iconImage = resource.type.icon?
-            .withCircleBackground(tintColor: resource.status.iconColors.icon,
-                                  circleColor: resource.status.iconColors.background,
+            .withCircleBackground(tintColor: resource.statusType.iconColors.icon,
+                                  circleColor: resource.statusType.iconColors.background,
                                   style: .auto(padding: CGSize(width: 24, height: 24),
                                                shrinkImage: false),
                                   shouldCenterImage: true)
@@ -57,9 +57,9 @@ open class TasksListResourceViewModel: TasksListItemViewModel {
             identifier: resource.callsign,
             title: [resource.callsign, resource.officerCountString].joined(),
             subtitle: resource.location?.suburb ?? "—",
-            caption: resource.status.title,
+            caption: resource.statusType.title,
             resourceImage: iconImage,
-            statusImage: resource.status.icon,
+            statusImage: resource.statusType.icon,
             informationRows: infoViewModels,
             incidentViewModel: incidentViewModel
         )

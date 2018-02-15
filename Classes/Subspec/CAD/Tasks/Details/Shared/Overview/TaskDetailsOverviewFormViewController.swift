@@ -1,18 +1,17 @@
 //
-//  IncidentOverviewFormViewController.swift
+//  TaskDetailsOverviewFormViewController.swift
 //  MPOLKit
 //
-//  Created by Kyle May on 29/11/17.
-//  Copyright © 2017 Gridstone. All rights reserved.
+//  Created by Kyle May on 15/2/18.
+//  Copyright © 2018 Gridstone. All rights reserved.
 //
 
 import UIKit
 
-open class IncidentOverviewFormViewController: IntrinsicHeightFormBuilderViewController {
+open class TaskDetailsOverviewFormViewController: IntrinsicHeightFormBuilderViewController {
+    public let viewModel: TaskDetailsOverviewViewModel
     
-    public let viewModel: IncidentOverviewViewModel
-    
-    public init(viewModel: IncidentOverviewViewModel) {
+    public init(viewModel: TaskDetailsOverviewViewModel) {
         self.viewModel = viewModel
     }
     
@@ -36,3 +35,8 @@ open class IncidentOverviewFormViewController: IntrinsicHeightFormBuilderViewCon
     }
 }
 
+extension TaskDetailsOverviewFormViewController: CADFormCollectionViewModelDelegate {
+    public func sectionsUpdated() {
+        reloadForm()
+    }
+}
