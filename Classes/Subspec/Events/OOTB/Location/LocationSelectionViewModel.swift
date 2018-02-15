@@ -14,7 +14,7 @@ public extension EvaluatorKey {
 }
 
 public protocol LocationSelectionViewModelDelegate: class {
-    func didSelect(location: EventLocation)
+    func didSelect(location: EventLocation?)
 }
 
 open class LocationSelectionViewModel: Evaluatable {
@@ -56,7 +56,6 @@ open class LocationSelectionViewModel: Evaluatable {
     }
 
     public func completeLocationSelection() {
-        guard let location = location else { return }
         delegate?.didSelect(location: location)
     }
 

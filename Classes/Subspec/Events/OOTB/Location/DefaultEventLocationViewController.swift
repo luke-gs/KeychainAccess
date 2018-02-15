@@ -90,10 +90,12 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
 }
 
 extension DefaultEventLocationViewController: LocationSelectionViewModelDelegate {
-    public func didSelect(location: EventLocation) {
-        report?.eventLocation = location
-        updateAnnotation()
-        updateRegion()
+    public func didSelect(location: EventLocation?) {
+        if let location = location {
+            report?.eventLocation = location
+            updateAnnotation()
+            updateRegion()
+        }
         reloadForm()
     }
 
