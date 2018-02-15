@@ -34,7 +34,7 @@ open class CADStateManager: NSObject {
     }
     
     /// The singleton state monitor.
-    open static let shared = CADStateManager()
+    open static var shared = CADStateManager()
 
     /// The API manager to use, by default system one
     open static var apiManager: CADAPIManager = APIManager.shared
@@ -49,32 +49,22 @@ open class CADStateManager: NSObject {
     open var patrolGroup: String = "Collingwood"
 
     /// The last book on data
-    open var lastBookOn: BookOnRequest? {
-        didSet {
-            // TODO: remove this when we have a real CAD system
-            if let lastBookOn = lastBookOn, let resource = self.currentResource {
-                let officerIds = lastBookOn.officers.flatMap({ return $0.payrollId })
+    open private(set) var lastBookOn: BookOnRequest?
 
-                // Update callsign for new officer list
-                resource.payrollIds = officerIds
+    /// The last sync data
+    open private(set) var lastSync: SyncDetailsResponse?
 
-                // Set state if callsign was off duty
-                if resource.statusType == ClientModelTypes.resourceStatus.offDutyCase {
-                    resource.statusType = ClientModelTypes.resourceStatus.onAirCase
-                }
+    /// The last sync time
+    open private(set) var lastSyncTime: Date?
 
-                // Check if logged in officer is no longer in callsign
-                if let officerDetails = officerDetails, !officerIds.contains(officerDetails.payrollId) {
-                    // Treat like being booked off, using async to trigger didSet again
-                    DispatchQueue.main.async {
-                        self.lastBookOn = nil
-                    }
-                }
-            }
-            NotificationCenter.default.post(name: .CADBookOnChanged, object: self)
-            addScheduledNotifications()
-        }
-    }
+    /// Incidents retrieved in last sync, keyed by incidentNumber
+    open private(set) var incidentsById: [String: SyncDetailsIncident] = [:]
+
+    /// Resources retrieved in last sync, keyed by callsign
+    open private(set) var resourcesById: [String: SyncDetailsResource] = [:]
+
+    /// Officers retrieved in last sync, keyed by payrollId
+    open private(set) var officersById: [String: SyncDetailsOfficer] = [:]
 
     /// The currently booked on resource
     open var currentResource: SyncDetailsResource? {
@@ -91,21 +81,6 @@ open class CADStateManager: NSObject {
         }
         return nil
     }
-
-    /// The last sync data
-    open private(set) var lastSync: SyncDetailsResponse?
-
-    /// The last sync time
-    open private(set) var lastSyncTime: Date?
-
-    /// Incidents retrieved in last sync, keyed by incidentNumber
-    open private(set) var incidentsById: [String: SyncDetailsIncident] = [:]
-
-    /// Resources retrieved in last sync, keyed by callsign
-    open private(set) var resourcesById: [String: SyncDetailsResource] = [:]
-
-    /// Officers retrieved in last sync, keyed by payrollId
-    open private(set) var officersById: [String: SyncDetailsOfficer] = [:]
 
     // MARK: - Officer
 
@@ -147,7 +122,33 @@ open class CADStateManager: NSObject {
 
     /// Book on to a shift
     open func bookOn(request: BookOnRequest) -> Promise<Void> {
+
+        // TODO: perform network request
         lastBookOn = request
+
+        // TODO: remove this when we have a real CAD system
+        if let lastBookOn = lastBookOn, let resource = self.currentResource {
+            let officerIds = lastBookOn.officers.flatMap({ return $0.payrollId })
+
+            // Update callsign for new officer list
+            resource.payrollIds = officerIds
+
+            // Set state if callsign was off duty
+            if resource.statusType == ClientModelTypes.resourceStatus.offDutyCase {
+                resource.statusType = ClientModelTypes.resourceStatus.onAirCase
+            }
+
+            // Check if logged in officer is no longer in callsign
+            if let officerDetails = officerDetails, !officerIds.contains(officerDetails.payrollId) {
+                // Treat like being booked off, using async to trigger didSet again
+                DispatchQueue.main.async {
+                    self.lastBookOn = nil
+                }
+            }
+        }
+        NotificationCenter.default.post(name: .CADBookOnChanged, object: self)
+        addScheduledNotifications()
+
         return Promise<Void>()
     }
 

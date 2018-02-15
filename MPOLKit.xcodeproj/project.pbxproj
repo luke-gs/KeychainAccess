@@ -2150,6 +2150,7 @@
 		962053111F9960FA000CAD49 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				9689CA0D20350FBA0001D993 /* Protocols */,
 				969FC88F1FCFBA8A0023D43B /* Logic */,
 				969959671FC2493500CB51EB /* Session */,
 				969DC6911FBE6D3900010212 /* API */,
@@ -2456,14 +2457,29 @@
 			isa = PBXGroup;
 			children = (
 				967E75A51FCE2DDA00B75CF6 /* OfficerDetailsResponse.swift */,
+				967E75A31FCE2DA400B75CF6 /* SyncDetailsResponse.swift */,
+			);
+			path = Responses;
+			sourceTree = "<group>";
+		};
+		9689CA0D20350FBA0001D993 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				96435CBD203248FC00C77A75 /* ResourceStatusType.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		9689CA1020352AEA0001D993 /* Objects */ = {
+			isa = PBXGroup;
+			children = (
 				967E75AB1FCE2F0E00B75CF6 /* SyncDetailsIncident.swift */,
 				967E75A91FCE2F0300B75CF6 /* SyncDetailsOfficer.swift */,
 				967E75AD1FCE2F1700B75CF6 /* SyncDetailsResource.swift */,
-				967E75A31FCE2DA400B75CF6 /* SyncDetailsResponse.swift */,
 				969FC88D1FCF62E60023D43B /* SyncDetailsLocation.swift */,
 				27774FE61FD3B9AC007DCDCC /* SyncDetailsActivityLogItem.swift */,
 			);
-			path = Responses;
+			path = Objects;
 			sourceTree = "<group>";
 		};
 		969959671FC2493500CB51EB /* Session */ = {
@@ -2477,8 +2493,9 @@
 		969DC6911FBE6D3900010212 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				967E75A21FCE2D8500B75CF6 /* Responses */,
+				9689CA1020352AEA0001D993 /* Objects */,
 				967E75A11FCE2D7E00B75CF6 /* Requests */,
+				967E75A21FCE2D8500B75CF6 /* Responses */,
 				969DC6921FBE6D3900010212 /* APIManager+CAD.swift */,
 			);
 			path = API;
@@ -2489,7 +2506,6 @@
 			children = (
 				969C2C891FCFDB6400E99C85 /* IncidentGrade.swift */,
 				9650CA181F95B2520087F5C9 /* ResourceStatusCore.swift */,
-				96435CBD203248FC00C77A75 /* ResourceStatusType.swift */,
 				969FC8901FCFBCA40023D43B /* ResourceType.swift */,
 				2715D63C1FD4FEDB00BD0E95 /* SyncDetailsActivityLogItem+Computed.swift */,
 				27D921E21FD0BBF0009C6DCC /* SyncDetailsIncident+Computed.swift */,

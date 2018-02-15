@@ -116,7 +116,7 @@ open class BookOnDetailsFormViewModel {
         // Update session
         let bookOnRequest = content.createModel()
         bookOnRequest.callsign = resource.callsign
-        CADStateManager.shared.lastBookOn = bookOnRequest
+        CADStateManager.shared.bookOn(request: bookOnRequest)
 
         return firstly {
             // TODO: submit to network
