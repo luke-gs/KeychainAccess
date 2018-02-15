@@ -14,14 +14,13 @@ fileprivate extension EvaluatorKey {
 
 open class DefaultLocationReport: Reportable {
 
-    var eventLocation: EventLocation? {
+    public var eventLocation: EventLocation? {
         didSet {
             evaluator.updateEvaluation(for: .eventLocation)
         }
     }
 
-    var eventPlacemark: CLPlacemark?
-
+    public var eventPlacemark: CLPlacemark?
     public weak var event: Event?
     public var evaluator: Evaluator = Evaluator()
 

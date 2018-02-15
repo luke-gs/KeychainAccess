@@ -12,8 +12,8 @@ import MapKit
 open class DefaultEventLocationViewController: MapFormBuilderViewController, EvaluationObserverable {
     
     weak var report: DefaultLocationReport?
-
     private var locationAnnotation: LocationAnnotation?
+
     public init(report: Reportable?) {
         self.report = report as? DefaultLocationReport
         super.init(layout: StackMapLayout())
@@ -118,7 +118,6 @@ extension DefaultEventLocationViewController: LocationSelectionViewModelDelegate
         let region = MKCoordinateRegionMake(coord, span)
 
         mapView?.setRegion(region, animated: true)
-
     }
 }
 

@@ -22,7 +22,7 @@ open class LocationMapSelectionViewController: MapFormBuilderViewController, Eva
         self.viewModel = viewModel
         self.viewModel.type = "Event Location"
 
-        super.init(layout: StackMapLayout(mapPercentage: 50))
+        super.init(layout: StackMapLayout())
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneHandler))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelHandler))

@@ -18,7 +18,7 @@ class LocationAction<T: EventLocation>: ValueSelectionAction<T> {
 
     public override func viewController() -> UIViewController {
         let viewController = LocationMapSelectionViewController(viewModel: viewModel)
-        let navigationController = UINavigationController(rootViewController: viewController)
+        let navigationController = PopoverNavigationController(rootViewController: viewController)
         navigationController.modalPresentationStyle = .formSheet
 
         return navigationController
