@@ -8,39 +8,18 @@
 
 import UIKit
 
-open class ResourceOverviewViewModel: TaskDetailsViewModel {
+open class ResourceOverviewViewModel: TaskDetailsOverviewViewModel {
 
-    /// The identifier for this resource
-    open let callsign: String
-    
-    open weak var delegate: CADFormCollectionViewModelDelegate?
-    
-    public init(callsign: String) {
-        self.callsign = callsign
-        loadData()
-    }
-    
-    open func createViewController() -> TaskDetailsViewController {
-        return ResourceOverviewViewController(viewModel: self)
-    }
-    
-    open func reloadFromModel() {
-        loadData()
-    }
-
-    open func createFormViewController() -> FormBuilderViewController {
+    override open func createFormViewController() -> FormBuilderViewController {
         return ResourceOverviewFormViewController(viewModel: self)
     }
     
-    /// Lazy var for creating view model content
-    open var sections: [CADFormCollectionSectionViewModel<IncidentOverviewItemViewModel>] = [] {
-        didSet {
-            delegate?.sectionsUpdated()
-        }
+    override open func mapViewModel() -> TasksMapViewModel {
+        return ResourceOverviewMapViewModel(callsign: identifier)
     }
     
     open var currentIncidentViewModel: TasksListIncidentViewModel? {
-        guard let resource = CADStateManager.shared.resourcesById[callsign],
+        guard let resource = CADStateManager.shared.resourcesById[identifier],
             let incidentNumber = resource.currentIncident,
             let incident = CADStateManager.shared.incidentsById[incidentNumber]
         else {
@@ -49,48 +28,48 @@ open class ResourceOverviewViewModel: TaskDetailsViewModel {
         return TasksListIncidentViewModel(incident: incident, showsDescription: false, showsResources: false, hasUpdates: false)
     }
     
-    open func loadData() {
-        guard let resource = CADStateManager.shared.resourcesById[callsign] else { return }
+    override open func loadData() {
+        guard let resource = CADStateManager.shared.resourcesById[identifier] else { return }
         
         sections = [
             CADFormCollectionSectionViewModel(title: NSLocalizedString("Shift Details", comment: ""),
                                               items: [
-                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Start Time", comment: ""),
+                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Start Time", comment: ""),
                                                                               value: resource.shiftStartString,
                                                                               width: .column(3)),
 
-                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Estimated End Time", comment: ""),
+                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Estimated End Time", comment: ""),
                                                                               value: resource.shiftEndString,
                                                                               width: .column(3)),
 
-                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Duration", comment: ""),
+                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Duration", comment: ""),
                                                                               value: resource.shiftDuration,
                                                                               width: .column(3)),
                                                 ]),
 
             CADFormCollectionSectionViewModel(title: NSLocalizedString("Call Sign Details", comment: ""),
                                               items: [
-                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Type", comment: ""),
+                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Type", comment: ""),
                                                                               value: resource.type.rawValue,
                                                                               width: .column(4)),
                                                 
-                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Station", comment: ""),
+                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Station", comment: ""),
                                                                               value: resource.station,
                                                                               width: .column(4)),
                                                 
-                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Fleet ID", comment: ""),
+                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Fleet ID", comment: ""),
                                                                               value: resource.serial,
                                                                               width: .column(4)),
                                                 
-                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Category", comment: ""),
+                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Category", comment: ""),
                                                                               value: resource.vehicleCategory,
                                                                               width: .column(4)),
                                                 
-                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Equipment", comment: ""),
+                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Equipment", comment: ""),
                                                                               value: resource.equipmentListString(separator: ", "),
                                                                               width: .column(1)),
                                                 
-                                                IncidentOverviewItemViewModel(title: NSLocalizedString("Remarks", comment: ""),
+                                                TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Remarks", comment: ""),
                                                                               value: resource.remarks ?? "–",
                                                                               width: .column(1)),
                                                 ])
@@ -98,7 +77,7 @@ open class ResourceOverviewViewModel: TaskDetailsViewModel {
     }
     
     /// The title to use in the navigation bar
-    open func navTitle() -> String {
+    override open func navTitle() -> String {
         return NSLocalizedString("Overview", comment: "Overview sidebar title")
     }
     
@@ -107,7 +86,7 @@ open class ResourceOverviewViewModel: TaskDetailsViewModel {
     }
 
     open func showManageButton() -> Bool {
-        if let bookOn = CADStateManager.shared.lastBookOn, bookOn.callsign == callsign {
+        if let bookOn = CADStateManager.shared.lastBookOn, bookOn.callsign == identifier {
             return true
         }
         return false
