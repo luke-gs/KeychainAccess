@@ -66,6 +66,12 @@ open class CADStateManager: NSObject {
     /// Officers retrieved in last sync, keyed by payrollId
     open private(set) var officersById: [String: SyncDetailsOfficer] = [:]
 
+    /// Patrols retrieved in last sync, keyed by patrolNumber
+    open private(set) var patrolsById: [String: SyncDetailsPatrol] = [:]
+
+    /// Broadcasts retrieved in last sync, keyed by callsign
+    open private(set) var broadcastsById: [String: SyncDetailsBroadcast] = [:]
+
     /// The currently booked on resource
     open var currentResource: SyncDetailsResource? {
         if let bookOn = CADStateManager.shared.lastBookOn {
@@ -281,6 +287,14 @@ open class CADStateManager: NSObject {
             incidentsById.removeAll()
             for incident in syncDetails.incidents {
                 incidentsById[incident.identifier] = incident
+            }
+            patrolsById.removeAll()
+            for patrol in syncDetails.patrols {
+                patrolsById[patrol.identifier] = patrol
+            }
+            broadcastsById.removeAll()
+            for broadcast in syncDetails.broadcasts {
+                broadcastsById[broadcast.identifier] = broadcast
             }
             resourcesById.removeAll()
             for resource in syncDetails.resources {

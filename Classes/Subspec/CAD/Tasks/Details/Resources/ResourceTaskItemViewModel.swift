@@ -24,7 +24,7 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
         self.compactNavTitle = itemName
 
         self.viewModels = [
-            ResourceOverviewViewModel(callsign: callsign),
+            ResourceOverviewViewModel(identifier: callsign),
             ResourceOfficerListViewModel(callsign: callsign),
             ResourceActivityLogViewModel(callsign: callsign)
         ]

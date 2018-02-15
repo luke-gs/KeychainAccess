@@ -1,34 +1,29 @@
 //
-//  ResourceOverviewViewController.swift
+//  TaskDetailsOverviewViewController.swift
 //  MPOLKit
 //
-//  Created by Kyle May on 5/12/17.
-//  Copyright © 2017 Gridstone. All rights reserved.
+//  Created by Kyle May on 15/2/18.
+//  Copyright © 2018 Gridstone. All rights reserved.
 //
 
 import UIKit
-import MapKit
 
-open class ResourceOverviewViewController: UIViewController {
-    
-    open var mapViewController: TasksMapViewController!
+open class TaskDetailsOverviewViewController: UIViewController {
+
+    open var mapViewController: MapViewController!
     open var formViewController: FormBuilderViewController!
     open var scrollView: UIScrollView!
     
-    open let viewModel: ResourceOverviewViewModel
+    open let viewModel: TaskDetailsOverviewViewModel
     
-    public init(viewModel: ResourceOverviewViewModel) {
+    public init(viewModel: TaskDetailsOverviewViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         
         title = viewModel.navTitle()
-        sidebarItem.image = AssetManager.shared.image(forKey: .info)
-
-        if viewModel.showManageButton() {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Manage", comment: ""), style: .done, target: self, action: #selector(manageButtonTapped))
-        }
+        sidebarItem.image = viewModel.sidebarImage()
     }
-
+    
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
@@ -50,8 +45,7 @@ open class ResourceOverviewViewController: UIViewController {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
         
-        let mapViewModel = ResourceOverviewMapViewModel(callsign: viewModel.callsign)
-        mapViewController = mapViewModel.createViewController()
+        mapViewController = viewModel.mapViewModel().createViewController()
         addChildViewController(mapViewController, toView: scrollView)
         mapViewController.showsMapButtons = false
         mapViewController.mapView.isZoomEnabled = false
@@ -64,7 +58,6 @@ open class ResourceOverviewViewController: UIViewController {
         addChildViewController(formViewController, toView: scrollView)
         formViewController.view.translatesAutoresizingMaskIntoConstraints = false
         formViewController.collectionView?.isScrollEnabled = false
-
     }
     
     /// Activates view constraints
@@ -86,7 +79,6 @@ open class ResourceOverviewViewController: UIViewController {
             mapViewController.view.heightAnchor.constraint(greaterThanOrEqualToConstant: 280),
             mapViewController.view.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
-            
             collectionView.topAnchor.constraint(equalTo: formViewController.view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: formViewController.view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: formViewController.view.trailingAnchor),
@@ -98,17 +90,13 @@ open class ResourceOverviewViewController: UIViewController {
             formViewController.view.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             formViewController.view.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
         ])
+        
     }
-
-    @objc func manageButtonTapped () {
-        viewModel.manageCallsign()
-    }
-
 }
 
 // MARK: - CADFormCollectionViewModelDelegate
-extension ResourceOverviewViewController: CADFormCollectionViewModelDelegate {
-
+extension TaskDetailsOverviewViewController: CADFormCollectionViewModelDelegate {
+    
     public func sectionsUpdated() {
         // Reload content
         formViewController.reloadForm()
