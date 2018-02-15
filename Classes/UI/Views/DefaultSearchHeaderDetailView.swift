@@ -36,7 +36,7 @@ public class DefaultSearchHeaderDetailView: UIView, SearchHeaderUpdateable {
         }
 
         set {
-            imageView.image = newValue?.withRenderingMode(.alwaysTemplate)
+            imageView.image = newValue
         }
     }
 
