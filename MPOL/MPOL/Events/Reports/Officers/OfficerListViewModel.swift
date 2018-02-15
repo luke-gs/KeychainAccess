@@ -49,6 +49,7 @@ public class EventOfficerListViewModel {
                 .title(displayable.title)
                 .image(displayable.thumbnail(ofSize: .small))
                 .subtitle(displayable.detail1)
+                .selectionStyle(.none)
                 .accessory(CustomItemAccessory(onCreate: { () -> UIView in
                     let imageView = UIImageView(image: image)
                     imageView.contentMode = .scaleAspectFit

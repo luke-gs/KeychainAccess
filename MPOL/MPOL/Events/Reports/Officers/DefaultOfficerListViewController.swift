@@ -55,6 +55,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
 
         let viewModel = OfficerSearchViewModel(items: Array<Officer>(repeating: officer, count: 5))
         let officerSearchController = GenericSearchViewController<DefaultEventOfficerListViewController, OfficerSearchViewModel>(viewModel: viewModel)
+        officerSearchController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
         officerSearchController.delegate = self
 
         let navController = UINavigationController(rootViewController: officerSearchController)
@@ -100,6 +101,13 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         let viewController = CustomPickerController(datasource: datasource)
         viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
 
+
+
+        viewController.finishUpdateHandler = { controller, index in
+            let newInvolvements = controller.objects.enumerated().filter { index.contains($0.offset) }.flatMap { $0.element.title }
+            self.viewModel.report.officers.first(where: { $0.employeeNumber == officer.employeeNumber })?.involvements = newInvolvements
+            self.reloadForm()
+        }
 
         let navController = UINavigationController(rootViewController: viewController)
         navController.modalPresentationStyle = .formSheet
