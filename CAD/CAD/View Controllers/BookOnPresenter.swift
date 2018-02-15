@@ -10,7 +10,6 @@ import Foundation
 import MPOLKit
 
 public class BookOnPresenter: Presenter {
-
     public func viewController(forPresentable presentable: Presentable) -> UIViewController {
         let presentable = presentable as! BookOnScreen
 
@@ -35,14 +34,14 @@ public class BookOnPresenter: Presenter {
         case .officerList(let detailsDelegate):
             let viewModel = OfficerListViewModel()
             viewModel.detailsDelegate = detailsDelegate
-            return viewModel.createViewController()
-
+            let viewController = OfficerListViewController<BookOnPresenter, OfficerListViewModel>(viewModel: viewModel)
+            return viewController
         case .patrolAreaList(let current, let delegate):
             let viewModel = PatrolAreaListViewModel()
             viewModel.selectedPatrolArea = current
             viewModel.delegate = delegate
-            return viewModel.createViewController()
-
+            let viewController = PatrolAreaListViewController<BookOnPresenter,PatrolAreaListViewModel>(viewModel: viewModel)
+            return viewController
         case .statusChangeReason(let completionHandler):
             // No view model, so use VC directly
             let vc = StatusChangeReasonViewController()
@@ -95,5 +94,12 @@ public class BookOnPresenter: Presenter {
     public func supportPresentable(_ presentableType: Presentable.Type) -> Bool {
         return presentableType is BookOnScreen.Type
     }
+}
 
+extension BookOnPresenter: GenericSearchDelegate {
+    public typealias Object = GenericSearchable
+
+    public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: GenericSearchable) {
+
+    }
 }
