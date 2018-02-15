@@ -14,6 +14,7 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
     private let detailViewModel: TaskItemViewModel
     private var compactStatusChangeBar: GlassBarView?
     private let pencilCircleView = UIImageView()
+    private let refreshControl = UIRefreshControl()
 
     public init(viewModel: TaskItemViewModel) {
         
@@ -30,6 +31,8 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
         
         regularSidebarViewController.title = NSLocalizedString("Details", comment: "")
         regularSidebarViewController.headerView = headerView
+        regularSidebarViewController.sidebarTableView?.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         
         // Add pencil icon
         let circleImage = AssetManager.shared.image(forKey: .edit)?
@@ -165,6 +168,12 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
 
     @objc open func didTapStatusChangeButton() {
         detailViewModel.didTapTaskStatus()
+    }
+    
+    @objc open func refreshData() {
+        detailViewModel.refreshTask().always {
+            self.refreshControl.endRefreshing()
+        }
     }
 }
 
