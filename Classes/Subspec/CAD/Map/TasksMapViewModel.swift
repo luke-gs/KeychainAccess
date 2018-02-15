@@ -55,7 +55,7 @@ open class TasksMapViewModel {
         }
         
         if filter.showPatrol || currentListItem == .patrol {
-            // TODO: Get patrol from sync
+            annotations += taskAnnotations(for: splitViewModel.filteredPatrols)
         }
         
         if filter.showBroadcasts || currentListItem == .broadcast {
@@ -93,6 +93,9 @@ open class TasksMapViewModel {
             guard let incident = CADStateManager.shared.incidentsById[annotation.identifier] else { return nil }
             let resource = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier).first
             return IncidentTaskItemViewModel(incident: incident, resource: resource)
+        } else if let annotation = annotation as? PatrolAnnotation {
+            guard let patrol = CADStateManager.shared.patrolsById[annotation.identifier] else { return nil }
+            return PatrolTaskItemViewModel(patrol: patrol)
         }
         
         return nil
@@ -118,6 +121,18 @@ open class TasksMapViewModel {
                                       badgeBorderColor: incident.grade.badgeColors.border,
                                       usesDarkBackground: incident.status == .unresourced,
                                       priority: incident.grade)
+        }
+    }
+    
+    
+    /// Maps patrol view models to task annotations
+    open func taskAnnotations(for patrols: [SyncDetailsPatrol]) -> [TaskAnnotation] {
+        return patrols.map { patrol in
+            return PatrolAnnotation(identifier: patrol.identifier,
+                                    coordinate: patrol.coordinate,
+                                    title: patrol.type,
+                                    subtitle: nil,
+                                    usesDarkBackground: patrol.status == .assigned)
         }
     }
     

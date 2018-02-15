@@ -1,29 +1,25 @@
 //
-//  IncidentAnnotationView.swift
+//  BubbleAnnotationView.swift
 //  MPOLKit
 //
-//  Created by Kyle May on 2/10/17.
-//  Copyright © 2017 Gridstone. All rights reserved.
+//  Created by Kyle May on 14/2/18.
+//  Copyright © 2018 Gridstone. All rights reserved.
 //
 
 import UIKit
 import MapKit
 
-open class IncidentAnnotationView: AutoLayoutAnnotationView {
-
-    public static let defaultReuseIdentifier = "IncidentAnnotationView"
+/// An annotation view in the shape of a bubble. Use the `bubbleContentView` to add your views.
+open class BubbleAnnotationView: AutoLayoutAnnotationView, DefaultReusable {
     
     // MARK: - Constants
     
     private struct LayoutConstants {
-        static let minimumWidth: CGFloat = 112
+        static let minimumWidth: CGFloat = 22
         static let height: CGFloat = 34
-        static let priorityIconWidth: CGFloat = 24
-        static let priorityIconHeight: CGFloat = 16
-        static let priorityIconTextMargin: CGFloat = 4
-        
-        static let smallMargin: CGFloat = 4
 
+        static let smallMargin: CGFloat = 4
+        
         static let arrowWidth: CGFloat = 12
         static let arrowHeight: CGFloat = 10
         static let arrowLeading: CGFloat = 10
@@ -40,15 +36,9 @@ open class IncidentAnnotationView: AutoLayoutAnnotationView {
     /// Arrow at the bottom of the rect pointing to the location
     private var bottomArrow: CalloutArrow!
     
-    /// Top line label in the bubble
-    private var titleLabel: UILabel!
+    /// Content view for the bubble
+    public private(set) var bubbleContentView: UIView!
     
-    /// Rounded rect showing the priority level colour
-    private var priorityBackground: UIView!
-    
-    /// Label inside priority rect showing the priority level text
-    private var priorityLabel: UILabel!
-
     // MARK: - Setup
     
     public override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
@@ -57,22 +47,12 @@ open class IncidentAnnotationView: AutoLayoutAnnotationView {
         setupConstraints()
     }
     
-    public func configure(withAnnotation annotation: MKAnnotation, priorityText: String, priorityTextColor: UIColor, priorityFillColor: UIColor, priorityBorderColor: UIColor, usesDarkBackground: Bool) {
+    public func configure(withAnnotation annotation: MKAnnotation, usesDarkBackground: Bool) {
         self.annotation = annotation
         
         let effect = UIBlurEffect(style: usesDarkBackground ? .dark : .extraLight)
-        let titleColor = usesDarkBackground ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.2, green: 0.2039215686, blue: 0.2274509804, alpha: 1)
-        
         bubbleView.effect = effect
         bottomArrow.visualEffectView.effect = effect
-        titleLabel.textColor = titleColor
-        
-        titleLabel.text = [annotation.title ?? "", annotation.subtitle ?? ""].joined()
-        priorityLabel.text = priorityText
-        
-        priorityBackground.backgroundColor = priorityFillColor
-        priorityBackground.layer.borderColor = priorityBorderColor.cgColor
-        priorityLabel.textColor = priorityTextColor
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -81,9 +61,8 @@ open class IncidentAnnotationView: AutoLayoutAnnotationView {
     
     /// Creates and styles views
     private func setupViews() {
-        
         backgroundView = UIView()
-        backgroundView.backgroundColor = .clear//UIColor.white.withAlphaComponent(0.8)
+        backgroundView.backgroundColor = .clear
         backgroundView.layer.shadowOffset = CGSize(width: 0, height: 2)
         backgroundView.layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
         backgroundView.layer.shadowOpacity = 1
@@ -102,24 +81,9 @@ open class IncidentAnnotationView: AutoLayoutAnnotationView {
         bubbleView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(bubbleView)
         
-        titleLabel = UILabel()
-        titleLabel.font = UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.semibold)
-        titleLabel.textColor = #colorLiteral(red: 0.337254902, green: 0.3450980392, blue: 0.3803921569, alpha: 1)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        bubbleView.contentView.addSubview(titleLabel)
-        
-        priorityBackground = UIView()
-        priorityBackground.layer.cornerRadius = 2
-        priorityBackground.layer.borderWidth = 1
-        priorityBackground.backgroundColor = .gray
-        priorityBackground.translatesAutoresizingMaskIntoConstraints = false
-        bubbleView.contentView.addSubview(priorityBackground)
-        
-        priorityLabel = UILabel()
-        priorityLabel.font = UIFont.systemFont(ofSize: 10, weight: UIFont.Weight.bold)
-        priorityLabel.textAlignment = .center
-        priorityLabel.translatesAutoresizingMaskIntoConstraints = false
-        priorityBackground.addSubview(priorityLabel)
+        bubbleContentView = UIView()
+        bubbleContentView.translatesAutoresizingMaskIntoConstraints = false
+        bubbleView.contentView.addSubview(bubbleContentView)
     }
     
     /// Activates view constraints
@@ -133,19 +97,10 @@ open class IncidentAnnotationView: AutoLayoutAnnotationView {
             contentView.widthAnchor.constraint(greaterThanOrEqualToConstant: LayoutConstants.minimumWidth),
             contentView.heightAnchor.constraint(equalToConstant: LayoutConstants.height),
             
-            titleLabel.centerYAnchor.constraint(equalTo: bubbleView.centerYAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: priorityBackground.trailingAnchor, constant: LayoutConstants.smallMargin),
-            titleLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -LayoutConstants.smallMargin),
-            
-            priorityBackground.centerYAnchor.constraint(equalTo: bubbleView.centerYAnchor),
-            priorityBackground.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: LayoutConstants.smallMargin),
-            priorityBackground.widthAnchor.constraint(equalToConstant: LayoutConstants.priorityIconWidth),
-            priorityBackground.heightAnchor.constraint(equalToConstant: LayoutConstants.priorityIconHeight),
-            
-            priorityLabel.topAnchor.constraint(equalTo: priorityBackground.topAnchor, constant: LayoutConstants.priorityIconTextMargin),
-            priorityLabel.leadingAnchor.constraint(equalTo: priorityBackground.leadingAnchor, constant: LayoutConstants.priorityIconTextMargin),
-            priorityLabel.trailingAnchor.constraint(equalTo: priorityBackground.trailingAnchor, constant: -LayoutConstants.priorityIconTextMargin),
-            priorityLabel.bottomAnchor.constraint(equalTo: priorityBackground.bottomAnchor, constant: -LayoutConstants.priorityIconTextMargin),
+            bubbleContentView.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: LayoutConstants.smallMargin),
+            bubbleContentView.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -LayoutConstants.smallMargin),
+            bubbleContentView.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -LayoutConstants.smallMargin),
+            bubbleContentView.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: LayoutConstants.smallMargin),
             
             bubbleView.topAnchor.constraint(equalTo: contentView.topAnchor),
             bubbleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -164,21 +119,21 @@ open class IncidentAnnotationView: AutoLayoutAnnotationView {
         // Change the center to be the arrow point by moving left by half the width minus the middle of the arrow, then up by half the height
         centerOffset = CGPoint(x: ((frame.width / 2) - LayoutConstants.arrowLeading - (LayoutConstants.arrowWidth / 2)), y: -(frame.height / 2))
         backgroundView.layer.shadowPath = CGPath(rect: CGRect.init(x: 0, y: 0, width: bounds.width, height: LayoutConstants.height - LayoutConstants.arrowHeight), transform: nil)
-
+        
     }
 }
 
 /// An upside down triangle view which replicates the bottom of a MKMapView callout bubble
 fileprivate class CalloutArrow: UIView {
-
+    
     public var visualEffectView: UIVisualEffectView!
     private var backgroundView: UIView!
     private var shadowView: UIView!
-
+    
     init(frame: CGRect = .zero, effectStyle: UIBlurEffectStyle) {
         super.init(frame: frame)
         backgroundColor = .clear
-
+        
         shadowView = UIView()
         shadowView.layer.shadowOffset = CGSize(width: 0, height: 2)
         shadowView.layer.shadowColor = UIColor.black.withAlphaComponent(0.3).cgColor
@@ -202,7 +157,7 @@ fileprivate class CalloutArrow: UIView {
         backgroundView.frame = bounds
         shadowView.frame = bounds
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
@@ -212,17 +167,17 @@ fileprivate class CalloutArrow: UIView {
         // Get height and width
         let layerHeight = layer.frame.height
         let layerWidth = layer.frame.width
-
+        
         // Create path
         let bezierPath = UIBezierPath()
-
+        
         // Draw points
         bezierPath.move(to: CGPoint(x: 0, y: 0))
         bezierPath.addLine(to: CGPoint(x: layerWidth / 2, y: layerHeight))
         bezierPath.addLine(to: CGPoint(x: layerWidth, y: 0))
         bezierPath.addLine(to: CGPoint(x: 0, y: 0))
         bezierPath.close()
-
+        
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = bezierPath.cgPath
         
