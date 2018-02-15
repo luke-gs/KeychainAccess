@@ -37,8 +37,8 @@ public extension CustomSearchPickerDatasource {
     }
 
     public func selectedIndexes() -> [Int] {
-        return objects.enumerated().filter { (i, o) -> Bool in
-            return selectedObjects.contains(where: { $0.title == o.title } )
+        return objects.enumerated().filter { (index, object) -> Bool in
+            return selectedObjects.contains(where: { $0.isEqual(to: object) } )
         }.map { $0.offset }
     }
 }

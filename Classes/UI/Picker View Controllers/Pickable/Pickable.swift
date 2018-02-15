@@ -19,7 +19,19 @@ public protocol Pickable {
 
     /// An additional subtitle description.
     var subtitle: String? { get }
+}
 
+extension Pickable {
+    func isEqual(to pickable: Pickable) -> Bool {
+        if let t1 = title, let t2 = pickable.title {
+            let matchingTitles = t1.caseInsensitiveCompare(t2) == .orderedSame
+            if let s1 = subtitle, let s2 = pickable.subtitle {
+                return matchingTitles && s1.caseInsensitiveCompare(s2) == .orderedSame
+            }
+            return matchingTitles
+        }
+        return false
+    }
 }
 
 public enum PickableSorting {
