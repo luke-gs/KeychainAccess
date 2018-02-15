@@ -20,7 +20,6 @@ open class DefaultLocationReport: Reportable {
         }
     }
 
-    public var eventPlacemark: CLPlacemark?
     public weak var event: Event?
     public var evaluator: Evaluator = Evaluator()
 
