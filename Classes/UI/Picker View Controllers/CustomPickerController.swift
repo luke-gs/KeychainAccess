@@ -24,6 +24,7 @@ public protocol CustomSearchPickerDatasource {
 
     func isValidSelection(for objects: [Pickable]) -> Bool
     func requiredIndexes() -> [Int]
+    func selectedIndexes() -> [Int]
 }
 
 public extension CustomSearchPickerDatasource {
@@ -33,6 +34,12 @@ public extension CustomSearchPickerDatasource {
 
     public func isValidSelection(for objects: [Pickable]) -> Bool {
         return objects.count > 0
+    }
+
+    public func selectedIndexes() -> [Int] {
+        return objects.enumerated().filter { (i, o) -> Bool in
+            return selectedObjects.contains(where: { $0.title == o.title } )
+        }.map { $0.offset }
     }
 }
 
@@ -170,7 +177,7 @@ public class CustomPickerController: FormTableViewController {
         allowsMultipleSelection = datasource.allowsMultipleSelection
         updateFilter()
 
-        datasource.requiredIndexes().forEach { selectedIndexes.insert($0) }
+        datasource.selectedIndexes().forEach { selectedIndexes.insert($0) }
         datasource.header?.searchHandler = {
             self.searchTerm = $0
         }
