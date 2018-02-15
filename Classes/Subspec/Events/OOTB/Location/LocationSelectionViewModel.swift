@@ -21,18 +21,21 @@ open class LocationSelectionViewModel: Evaluatable {
 
     public var evaluator: Evaluator = Evaluator()
     public weak var delegate: LocationSelectionViewModelDelegate?
+    private var placemark: CLPlacemark?
+
+    public var location: EventLocation? {
+        didSet {
+            evaluator.updateEvaluation(for: .locationType)
+        }
+    }
     public var type: String? {
         didSet {
             evaluator.updateEvaluation(for: .locationType)
         }
     }
-    public var location: CLPlacemark? {
-        didSet {
-            evaluator.updateEvaluation(for: .locationType)
-        }
-    }
 
-    public init() {
+    public init(location: EventLocation? = nil) {
+        self.location = location
         evaluator.registerKey(.locationType) { () -> (Bool) in
             return self.location != nil && self.type != nil
         }
@@ -46,25 +49,26 @@ open class LocationSelectionViewModel: Evaluatable {
     public func reverseGeoCode(location: CLLocation?, completion: (()->())?) {
         guard let location = location else { return }
         LocationManager.shared.requestPlacemark(from: location).then { (placemark) -> Void in
-            self.location = placemark
+            self.placemark = placemark
+            self.composeLocation()
             completion?()
             }.catch { _ in }
     }
 
-    public func composeAddress() -> String {
-        guard let dictionary = location?.addressDictionary else { return "-" }
-        guard let formattedAddress = dictionary["FormattedAddressLines"] as? [String] else { return "-" }
+    public func completeLocationSelection() {
+        guard let location = location else { return }
+        delegate?.didSelect(location: location)
+    }
+
+    private func composeLocation() {
+        guard let dictionary = placemark?.addressDictionary, let coords = placemark?.location?.coordinate else { return }
+        guard let formattedAddress = dictionary["FormattedAddressLines"] as? [String] else { return }
 
         let fullAddress = formattedAddress.reduce("") { result, string  in
             return result + "\(string) "
         }
 
-        return fullAddress
-    }
-
-    public func completeLocationSelection() {
-        guard let location = location?.location?.coordinate else { return }
-        delegate?.didSelect(location: EventLocation(location: location, addressString: composeAddress()))
+        location = EventLocation(location: coords, addressString: fullAddress)
     }
 
     // Eval

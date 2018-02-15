@@ -45,7 +45,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         builder.title = "Locations"
         builder.forceLinearLayout = true
 
-        let viewModel = LocationSelectionViewModel()
+        let viewModel = LocationSelectionViewModel(location: report?.eventLocation)
         viewModel.delegate = self
 
         builder += HeaderFormItem(text: "LOCATIONS")
@@ -92,12 +92,12 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
 extension DefaultEventLocationViewController: LocationSelectionViewModelDelegate {
     public func didSelect(location: EventLocation) {
         report?.eventLocation = location
-        updateAnnotation(with: location)
-        updateRegion(with: location)
+        updateAnnotation()
+        updateRegion()
         reloadForm()
     }
 
-    private func updateAnnotation(with location: EventLocation) {
+    private func updateAnnotation() {
         guard let lat = report?.eventLocation?.latitude, let lon = report?.eventLocation?.longitude else { return }
         let coord = CLLocationCoordinate2D(latitude: lat, longitude: lon)
 
@@ -110,7 +110,7 @@ extension DefaultEventLocationViewController: LocationSelectionViewModelDelegate
         }
     }
 
-    private func updateRegion(with location: EventLocation) {
+    private func updateRegion() {
         guard let lat = report?.eventLocation?.latitude, let lon = report?.eventLocation?.longitude else { return }
 
         let span = MKCoordinateSpanMake(0.005, 0.005)
