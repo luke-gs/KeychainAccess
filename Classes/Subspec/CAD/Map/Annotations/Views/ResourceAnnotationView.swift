@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 
+/// Annotation view for a resource, with the resource icon and state colour, and the callsign and number of units above
 open class ResourceAnnotationView: AutoLayoutAnnotationView {
 
     public static let defaultReuseIdentifier = "ResourceAnnotationView"
