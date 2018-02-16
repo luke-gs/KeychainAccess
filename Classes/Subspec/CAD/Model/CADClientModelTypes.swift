@@ -21,4 +21,7 @@ open class CADClientModelTypes {
     /// The type used for an incident grade
     static open var incidentGrade: CADIncidentGradeType.Type!
 
+    /// The type used for a broadcast category
+    static open var broadcastCategory: CADBroadcastCategoryType.Type!
+
 }
