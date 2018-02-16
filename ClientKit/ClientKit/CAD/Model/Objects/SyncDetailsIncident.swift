@@ -31,7 +31,7 @@ open class SyncDetailsIncident: Codable, CADIncidentType {
 
     // MARK: - Computed
 
-    open var status: CADIncidentStatusType {
+    open var statusType: CADIncidentStatusType {
         if let resourceId = CADStateManager.shared.lastBookOn?.callsign,
             let resource = CADStateManager.shared.resourcesById[resourceId],
             let assignedIncidents = resource.assignedIncidents,

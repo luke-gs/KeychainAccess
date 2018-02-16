@@ -230,7 +230,7 @@ open class CADStateManagerCore: NSObject {
     // MARK: - Sync
 
     /// Sync the latest task summaries
-    open func syncDetails() -> Promise<SyncDetailsResponse> {
+    open func syncDetails() -> Promise<Void> {
         // Perform sync and keep result
         return firstly {
             return after(seconds: 1.0)
@@ -240,12 +240,11 @@ open class CADStateManagerCore: NSObject {
                 return Promise<SyncDetailsResponse>(value: lastSync)
             }
             return CADStateManager.apiManager.cadSyncDetails(request: SyncDetailsRequest())
-        }.then { [unowned self] summaries -> SyncDetailsResponse in
+        }.then { [unowned self] summaries -> Void in
             self.lastSync = summaries
             self.lastSyncTime = Date()
             self.processSyncItems()
             NotificationCenter.default.post(name: .CADSyncChanged, object: self)
-            return summaries
         }
     }
 

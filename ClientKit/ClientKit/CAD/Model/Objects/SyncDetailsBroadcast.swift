@@ -25,7 +25,7 @@ open class SyncDetailsBroadcast: Codable, CADBroadcastType {
     }
 
     /// Type as an enum defined in protocol
-    open var category: CADBroadcastCategoryType {
+    open var categoryType: CADBroadcastCategoryType {
         get {
             return ClientModelTypes.broadcastCategory.init(rawValue: type) ?? ClientModelTypes.broadcastCategory.defaultCase
         }

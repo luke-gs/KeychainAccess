@@ -10,7 +10,7 @@ import UIKit
 import MPOLKit
 
 /// Request object for the call to /shift/bookOff
-open class BookOffRequest: Codable {
+open class BookOffRequest: Codable, CADBookOffDetailsType {
 
     /// The callsign for the resource.
     open var callsign: String!
