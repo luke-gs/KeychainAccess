@@ -10,7 +10,7 @@ import UIKit
 import MPOLKit
 
 /// Response object for a single activity log item in an incident (narrative) or resource
-open class SyncDetailsActivityLogItem: Codable {
+open class SyncDetailsActivityLogItem: Codable, CADActivityLogItemType {
     open var title: String!
     open var description: String!
     open var source: String!

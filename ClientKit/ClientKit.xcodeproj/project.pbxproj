@@ -35,6 +35,10 @@
 		46A192FB1FB939FB00FED201 /* LocationDetailsSectionsDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A192FA1FB939FB00FED201 /* LocationDetailsSectionsDatasource.swift */; };
 		46A192FD1FB93A4000FED201 /* LocationFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A192FC1FB93A4000FED201 /* LocationFetchRequest.swift */; };
 		68A1298F030B1B4BB01632E6 /* Pods_ClientKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5919937B6BAC1FE012181DBE /* Pods_ClientKitTests.framework */; };
+		966CE9C420365E6900646A6A /* SelectStoppedEntityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9C020365E6900646A6A /* SelectStoppedEntityViewController.swift */; };
+		966CE9C520365E6900646A6A /* SelectStoppedEntityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9C120365E6900646A6A /* SelectStoppedEntityViewModel.swift */; };
+		966CE9C620365E6900646A6A /* TrafficStopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9C220365E6900646A6A /* TrafficStopViewController.swift */; };
+		966CE9C720365E6900646A6A /* TrafficStopViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9C320365E6900646A6A /* TrafficStopViewModel.swift */; };
 		9689CA252036445C0001D993 /* APIManager+CAD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9689CA132036445C0001D993 /* APIManager+CAD.swift */; };
 		9689CA262036445C0001D993 /* SyncDetailsActivityLogItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9689CA152036445C0001D993 /* SyncDetailsActivityLogItem.swift */; };
 		9689CA272036445C0001D993 /* SyncDetailsIncident.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9689CA162036445C0001D993 /* SyncDetailsIncident.swift */; };
@@ -154,6 +158,10 @@
 		75CB19BD929037FE5FC902BB /* Pods-ClientKit.internal-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.internal-debug.xcconfig"; path = "../MPOL/Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.internal-debug.xcconfig"; sourceTree = "<group>"; };
 		8D456DA74D3DDFD103A00567 /* Pods-ClientKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.release.xcconfig"; path = "../MPOL/Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		905D1BB1A0DB324FE3C6DD8B /* Pods-ClientKit.external-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.external-debug.xcconfig"; path = "../MPOL/Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.external-debug.xcconfig"; sourceTree = "<group>"; };
+		966CE9C020365E6900646A6A /* SelectStoppedEntityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectStoppedEntityViewController.swift; sourceTree = "<group>"; };
+		966CE9C120365E6900646A6A /* SelectStoppedEntityViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectStoppedEntityViewModel.swift; sourceTree = "<group>"; };
+		966CE9C220365E6900646A6A /* TrafficStopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficStopViewController.swift; sourceTree = "<group>"; };
+		966CE9C320365E6900646A6A /* TrafficStopViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficStopViewModel.swift; sourceTree = "<group>"; };
 		9689CA132036445C0001D993 /* APIManager+CAD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+CAD.swift"; sourceTree = "<group>"; };
 		9689CA152036445C0001D993 /* SyncDetailsActivityLogItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncDetailsActivityLogItem.swift; sourceTree = "<group>"; };
 		9689CA162036445C0001D993 /* SyncDetailsIncident.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncDetailsIncident.swift; sourceTree = "<group>"; };
@@ -299,9 +307,29 @@
 			path = Enum;
 			sourceTree = "<group>";
 		};
+		966CE9BE20365E4400646A6A /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				966CE9BF20365E6900646A6A /* Traffic Stop */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		966CE9BF20365E6900646A6A /* Traffic Stop */ = {
+			isa = PBXGroup;
+			children = (
+				966CE9C020365E6900646A6A /* SelectStoppedEntityViewController.swift */,
+				966CE9C120365E6900646A6A /* SelectStoppedEntityViewModel.swift */,
+				966CE9C220365E6900646A6A /* TrafficStopViewController.swift */,
+				966CE9C320365E6900646A6A /* TrafficStopViewModel.swift */,
+			);
+			path = "Traffic Stop";
+			sourceTree = "<group>";
+		};
 		9689CA11203644180001D993 /* CAD */ = {
 			isa = PBXGroup;
 			children = (
+				966CE9BE20365E4400646A6A /* Features */,
 				9689CA43203644CA0001D993 /* Session */,
 				9689CA122036445C0001D993 /* Model */,
 			);
@@ -892,6 +920,7 @@
 				EA1CC2561F41347100FE8BAE /* EngineNumberParserDefinition.swift in Sources */,
 				BCAEFEAD1F03150800C97F9C /* Source.swift in Sources */,
 				BCAEFE921F03150800C97F9C /* Address.swift in Sources */,
+				966CE9C420365E6900646A6A /* SelectStoppedEntityViewController.swift in Sources */,
 				EA8B66601F38319700F09716 /* VehicleSearchParameters.swift in Sources */,
 				EA1CC2511F3D91E800FE8BAE /* RegistrationParserDefinition.swift in Sources */,
 				BCAEFE991F03150800C97F9C /* Entity.swift in Sources */,
@@ -920,15 +949,18 @@
 				EA8B665E1F382D2B00F09716 /* PersonSearchParameters.swift in Sources */,
 				EAE12B031FC2548800851619 /* PersonEditViewController.swift in Sources */,
 				9689CA2C2036445C0001D993 /* BookOnRequest.swift in Sources */,
+				966CE9C620365E6900646A6A /* TrafficStopViewController.swift in Sources */,
 				46A192FD1FB93A4000FED201 /* LocationFetchRequest.swift in Sources */,
 				1A2E8A7A1F39734E0062FEA5 /* EntityAssociationsViewModel.swift in Sources */,
 				4421347620031575009A931A /* EntityDetailFilterableFormViewModel.swift in Sources */,
+				966CE9C520365E6900646A6A /* SelectStoppedEntityViewModel.swift in Sources */,
 				9689CA3E203644B70001D993 /* ResourceTypeCore.swift in Sources */,
 				1A2E8A701F37E3380062FEA5 /* PersonDescriptionViewModel.swift in Sources */,
 				1A290C841F3D649500DD9ED5 /* VehicleFetchParameter.swift in Sources */,
 				EA8B66551F381CBA00F09716 /* VehicleSearchRequest.swift in Sources */,
 				BCAEFEA81F03150800C97F9C /* PhoneNumber.swift in Sources */,
 				1A159F0F1F4B1CA700075330 /* VehicleFetchRequest.swift in Sources */,
+				966CE9C720365E6900646A6A /* TrafficStopViewModel.swift in Sources */,
 				9689CA2E2036445C0001D993 /* SyncDetailsRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
