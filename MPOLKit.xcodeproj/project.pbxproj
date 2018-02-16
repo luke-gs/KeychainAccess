@@ -1943,8 +1943,6 @@
 			);
 			path = Broadcast;
 		275329332033B68700CFA97B /* Overview */ = {
-			sourceTree = "<group>";
-		};
 			isa = PBXGroup;
 			children = (
 				275329342033B69500CFA97B /* BroadcastOverviewViewModel.swift */,
