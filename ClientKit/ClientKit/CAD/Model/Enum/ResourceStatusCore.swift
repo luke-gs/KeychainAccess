@@ -81,6 +81,7 @@ public enum ResourceStatusCore: String, CADResourceStatusType {
     /// The case for finalising an incident
     public static var finaliseCase: CADResourceStatusType = ResourceStatusCore.finalise
 
+    /// Display title for status
     public var title: String {
         switch self {
         case .unavailable:
@@ -114,7 +115,11 @@ public enum ResourceStatusCore: String, CADResourceStatusType {
         }
     }
 
-    public var imageKey: AssetManager.ImageKey {
+    public var icon: UIImage? {
+        return AssetManager.shared.image(forKey: imageKey)
+    }
+
+    private var imageKey: AssetManager.ImageKey {
         switch self {
         case .unavailable:
             return .iconStatusUnavailable
@@ -145,10 +150,6 @@ public enum ResourceStatusCore: String, CADResourceStatusType {
         case .offDuty:
             return .iconStatusOnAir
         }
-    }
-
-    public var icon: UIImage? {
-        return AssetManager.shared.image(forKey: imageKey)
     }
 
     // Return icon color and background color

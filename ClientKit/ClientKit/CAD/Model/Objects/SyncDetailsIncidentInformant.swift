@@ -9,7 +9,7 @@
 import Foundation
 
 /// Reponse object for an informant in an incident
-open class SyncDetailsIncidentInformant: Codable {
+open class SyncDetailsIncidentInformant: Codable, CADIncidentInformantType {
     open var fullName : String!
     open var primaryPhone : String!
     open var secondaryPhone : String!

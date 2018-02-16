@@ -9,7 +9,7 @@
 import Foundation
 
 /// Reponse object for a single person in an incident
-open class SyncDetailsIncidentPerson: Codable {
+open class SyncDetailsIncidentPerson: Codable, CADIncidentPersonType {
     open var alertLevel: Int!
     open var dateOfBirth: String!
 
@@ -21,7 +21,7 @@ open class SyncDetailsIncidentPerson: Codable {
     open var thumbnail: String!
 
     open var initials: String {
-        return [String(firstName?.prefix(1)), String(lastName?.prefix(1))].joined(separator: "")
+        return ["\(firstName?.prefix(1))", String(lastName?.prefix(1))].joined(separator: "")
     }
 
     open var fullName: String {

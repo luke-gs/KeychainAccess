@@ -13,7 +13,7 @@ import MPOLKit
 // NOTE: This class has been generated from Diederik sample json. Will be updated once API is complete
 
 /// Reponse object for a single Incident in the call to /sync/details
-open class SyncDetailsIncident: Codable {
+open class SyncDetailsIncident: Codable, CADIncidentType {
     open var identifier: String!
     open var secondaryCode: String!
     open var type: String!
@@ -29,16 +29,9 @@ open class SyncDetailsIncident: Codable {
     open var vehicles: [SyncDetailsIncidentVehicle]!
     open var narrative: [SyncDetailsActivityLogItem]!
 
-    public enum Status: String, Codable {
-        case resourced = "Resourced"
-        case unresourced = "Unresourced"
-        case current = "Current Incident"
-        case assigned = "Assigned"
-    }
-
     // MARK: - Computed
 
-    open var status: Status {
+    open var status: CADIncidentStatusType {
         if let resourceId = CADStateManager.shared.lastBookOn?.callsign,
             let resource = CADStateManager.shared.resourcesById[resourceId],
             let assignedIncidents = resource.assignedIncidents,
