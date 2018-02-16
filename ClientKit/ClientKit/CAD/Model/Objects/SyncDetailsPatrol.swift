@@ -12,13 +12,9 @@ import MPOLKit
 
 // TODO: Update this to match API when we get a spec, as this is created based on what the UI needs
 
-open class SyncDetailsPatrol: Codable {
-    public enum PatrolStatus: String, Codable {
-        case assigned = "Assigned"
-        case unassigned = "Unassigned"
-    }
+open class SyncDetailsPatrol: Codable, CADPatrolType {
     open var identifier: String!
-    open var status: PatrolStatus!
+    open var status: String!
     open var type: String!
     open var subtype: String!
     open var patrolGroup: String!
@@ -26,14 +22,24 @@ open class SyncDetailsPatrol: Codable {
     open var location : SyncDetailsLocation!
     open var lastUpdated: Date!
     open var details: String!
-}
 
-extension SyncDetailsPatrol {
     open var createdAtString: String {
         return DateFormatter.preferredDateTimeStyle.string(from: createdAt)
     }
-    
+
     open var coordinate: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))
     }
+
+    /// Status as a type that is client specific
+    open var statusType: CADPatrolStatusType {
+        get {
+            return ClientModelTypes.patrolStatus.init(rawValue: status) ?? ClientModelTypes.patrolStatus.defaultCase
+        }
+        set {
+            status = newValue.rawValue
+        }
+    }
+
 }
+

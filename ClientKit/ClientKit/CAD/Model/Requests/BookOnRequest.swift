@@ -10,7 +10,7 @@ import UIKit
 import MPOLKit
 
 /// Request object for the call to /shift/bookOn
-open class BookOnRequest: Codable {
+open class BookOnRequest: Codable, CADBookOnDetailsType {
 
     /// The callsign of the resource to book on to.
     open var callsign: String!

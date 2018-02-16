@@ -32,7 +32,5 @@ public enum BroadcastCategoryCore: String, Codable, CADBroadcastCategoryType {
             return NSLocalizedString("BOLF", comment: "")
         }
     }
-
-
 }
 

@@ -41,6 +41,7 @@
 		966CE9C720365E6900646A6A /* TrafficStopViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9C320365E6900646A6A /* TrafficStopViewModel.swift */; };
 		966CE9CB203676EE00646A6A /* BroadcastCategoryCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9CA203676EE00646A6A /* BroadcastCategoryCore.swift */; };
 		966CE9CF20367E3500646A6A /* IncidentStatusCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9CE20367E3500646A6A /* IncidentStatusCore.swift */; };
+		966CE9D320368E0700646A6A /* PatrolStatusCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9D220368E0700646A6A /* PatrolStatusCore.swift */; };
 		9689CA252036445C0001D993 /* APIManager+CAD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9689CA132036445C0001D993 /* APIManager+CAD.swift */; };
 		9689CA262036445C0001D993 /* SyncDetailsActivityLogItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9689CA152036445C0001D993 /* SyncDetailsActivityLogItem.swift */; };
 		9689CA272036445C0001D993 /* SyncDetailsIncident.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9689CA162036445C0001D993 /* SyncDetailsIncident.swift */; };
@@ -166,6 +167,7 @@
 		966CE9C320365E6900646A6A /* TrafficStopViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficStopViewModel.swift; sourceTree = "<group>"; };
 		966CE9CA203676EE00646A6A /* BroadcastCategoryCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastCategoryCore.swift; sourceTree = "<group>"; };
 		966CE9CE20367E3500646A6A /* IncidentStatusCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentStatusCore.swift; sourceTree = "<group>"; };
+		966CE9D220368E0700646A6A /* PatrolStatusCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatrolStatusCore.swift; sourceTree = "<group>"; };
 		9689CA132036445C0001D993 /* APIManager+CAD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+CAD.swift"; sourceTree = "<group>"; };
 		9689CA152036445C0001D993 /* SyncDetailsActivityLogItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncDetailsActivityLogItem.swift; sourceTree = "<group>"; };
 		9689CA162036445C0001D993 /* SyncDetailsIncident.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncDetailsIncident.swift; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 				966CE9CE20367E3500646A6A /* IncidentStatusCore.swift */,
 				9689CA36203644B70001D993 /* ResourceStatusCore.swift */,
 				9689CA37203644B70001D993 /* ResourceTypeCore.swift */,
+				966CE9D220368E0700646A6A /* PatrolStatusCore.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -883,6 +886,7 @@
 			files = (
 				1A290C861F3F097E00DD9ED5 /* Media.swift in Sources */,
 				9689CA2A2036445C0001D993 /* SyncDetailsResource.swift in Sources */,
+				966CE9D320368E0700646A6A /* PatrolStatusCore.swift in Sources */,
 				19FA22B01F86041800BE0E03 /* Matches.swift in Sources */,
 				EA1CC2541F4132D200FE8BAE /* VINParserDefinition.swift in Sources */,
 				BCAEFEDD1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift in Sources */,

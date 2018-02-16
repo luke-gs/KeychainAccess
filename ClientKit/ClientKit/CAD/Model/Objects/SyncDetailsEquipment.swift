@@ -9,7 +9,7 @@
 import Foundation
 
 /// Reponse object for a single Equipment item in the resource
-open class SyncDetailsEquipment: Codable, CADEquipment {
+open class SyncDetailsEquipment: Codable, CADEquipmentType {
     open var count: Int!
     open var description: String!
 

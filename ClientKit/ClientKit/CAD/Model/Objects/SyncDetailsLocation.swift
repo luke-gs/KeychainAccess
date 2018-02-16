@@ -12,7 +12,7 @@ import MPOLKit
 // NOTE: This class has been generated from Diederik sample json. Will be updated once API is complete
 
 /// Reponse object for a single location in the call to /sync/details
-open class SyncDetailsLocation: Codable {
+open class SyncDetailsLocation: Codable, CADLocationType {
     open var alertLevel : Int?
 
     open var streetNumberFirst : String!

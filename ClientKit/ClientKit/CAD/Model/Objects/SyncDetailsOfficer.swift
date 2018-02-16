@@ -12,7 +12,7 @@ import MPOLKit
 // NOTE: This class has been generated from Diederik sample json. Will be updated once API is complete
 
 /// Reponse object for a single Officer in the call to /sync/details
-open class SyncDetailsOfficer: Codable {
+open class SyncDetailsOfficer: Codable, CADOfficerType {
     open var payrollId: String!
     open var rank: String!
     open var firstName: String!
