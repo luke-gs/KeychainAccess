@@ -32,7 +32,7 @@ open class DefaultOfficerSearchViewController: FormBuilderViewController, UISear
         "Action Officer",
     ]
 
-    lazy var officers: [Officer] = Array<Officer>(repeating: x, count: 5)
+    lazy var officers: [Officer] = Array<Officer>(repeating: tempOfficer, count: 5)
 
     public override init() {
         super.init()
