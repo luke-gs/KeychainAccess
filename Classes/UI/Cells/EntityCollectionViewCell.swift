@@ -111,7 +111,7 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
                 detailSizing!.numberOfLines = 2
             }
         }
-        textHeight += max(detailSizing?.minimumHeight(inWidth: width, compatibleWith: traitCollection) ?? 0, detailFont.height(forNumberOfLines: 2).ceiled(toScale: scale))
+        textHeight += detailSizing?.minimumHeight(inWidth: width, compatibleWith: traitCollection) ?? 0
         
         switch style {
         case .hero:
