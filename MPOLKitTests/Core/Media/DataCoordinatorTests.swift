@@ -15,7 +15,7 @@ class DataCoordinatorTests: XCTestCase {
 
     func testThatItsDefaultStatesAreCorrect() {
         // Given
-        let store: NumberStore = NumberStore()
+        let store: FakeNumberStore = FakeNumberStore()
 
         // When
         let provider = DataCoordinator(dataStore: store)
@@ -27,7 +27,7 @@ class DataCoordinatorTests: XCTestCase {
 
     func testThatItRetrievesItems() {
         // Given
-        let store = NumberStore(numbers: [1, 2, 3])
+        let store = FakeNumberStore(numbers: [1, 2, 3])
         let provider = DataCoordinator(dataStore: store)
 
         let expectation = XCTestExpectation()
@@ -52,7 +52,7 @@ class DataCoordinatorTests: XCTestCase {
 
     func testThatItAddsItem() {
         // Given
-        let store = NumberStore(numbers: [1, 2])
+        let store = FakeNumberStore(numbers: [1, 2])
         let provider = DataCoordinator(dataStore: store)
 
         let expectation = XCTestExpectation()
@@ -72,7 +72,7 @@ class DataCoordinatorTests: XCTestCase {
 
     func testThatItRemovesItem() {
         // Given
-        let store = NumberStore(numbers: [1, 2])
+        let store = FakeNumberStore(numbers: [1, 2])
         let provider = DataCoordinator(dataStore: store)
 
         let expectation = XCTestExpectation()
@@ -92,7 +92,7 @@ class DataCoordinatorTests: XCTestCase {
 
     func testThatItReplacesItem() {
         // Given
-        let store = NumberStore(numbers: [1, 2])
+        let store = FakeNumberStore(numbers: [1, 2])
         let provider = DataCoordinator(dataStore: store)
 
         let expectation = XCTestExpectation()
@@ -112,7 +112,7 @@ class DataCoordinatorTests: XCTestCase {
 
     func testThatItHasMoreItems() {
         // Given
-        let store = NumberStore(numbers: [1, 2], additionalItems: [3, 4])
+        let store = FakeNumberStore(numbers: [1, 2], additionalItems: [3, 4])
         let provider = DataCoordinator(dataStore: store)
 
         let expectation = XCTestExpectation()
@@ -130,7 +130,7 @@ class DataCoordinatorTests: XCTestCase {
 
     func testThatItRetrievesMoreItems() {
         // Given
-        let store = NumberStore(numbers: [1, 2], additionalItems: [3, 4])
+        let store = FakeNumberStore(numbers: [1, 2], additionalItems: [3, 4])
         let provider = DataCoordinator(dataStore: store)
 
         let expectation = XCTestExpectation()
@@ -163,7 +163,7 @@ struct NumberResult: PaginatedDataStoreResult {
 
 }
 
-class NumberStore: DataStore {
+class FakeNumberStore: DataStore {
 
     typealias Result = NumberResult
 
@@ -179,7 +179,7 @@ class NumberStore: DataStore {
         self.additionalItems = additionalItems
     }
 
-    func retrieveItems(withLastKnownResults results: NumberStore.Result?, cancelToken: PromiseCancellationToken?) -> Promise<NumberStore.Result> {
+    func retrieveItems(withLastKnownResults results: FakeNumberStore.Result?, cancelToken: PromiseCancellationToken?) -> Promise<FakeNumberStore.Result> {
         return Promise { fullfill, reject in
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delay, execute: {
                 fullfill(NumberResult(items: results != nil ? self.additionalItems ?? [] : self.numbers, hasMoreItems: results == nil && self.additionalItems?.count ?? 0 > 0))
