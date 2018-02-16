@@ -647,6 +647,7 @@
 		EA4806B31F56961F00B42313 /* Array+Searching.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4806B21F56961F00B42313 /* Array+Searching.swift */; };
 		EA4806B51F56A00600B42313 /* LocationSearchConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4806B41F56A00600B42313 /* LocationSearchConfiguration.swift */; };
 		EA4806B71F56A0DC00B42313 /* LocationSearchStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4806B61F56A0DC00B42313 /* LocationSearchStrategy.swift */; };
+		EA4B3F422033DD5200FD92B9 /* DataCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4B3F412033DD5200FD92B9 /* DataCoordinatorTests.swift */; };
 		EA4E33541F8F51570027E431 /* ItemAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4E33531F8F51570027E431 /* ItemAccessory.swift */; };
 		EA4E33561F8F51B90027E431 /* LabeledItemAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4E33551F8F51B90027E431 /* LabeledItemAccessory.swift */; };
 		EA4E33581F8F51DF0027E431 /* CustomItemAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4E33571F8F51DF0027E431 /* CustomItemAccessory.swift */; };
@@ -657,6 +658,10 @@
 		EA53B2791F9EF9BB00B891D8 /* NotNilSpecificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA53B2781F9EF9BB00B891D8 /* NotNilSpecificationTests.swift */; };
 		EA5649711F8EE4E100BEA144 /* SummaryDetailFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5649701F8EE4E100BEA144 /* SummaryDetailFormItem.swift */; };
 		EA5B875D1F6F5E67002BEC65 /* BaseFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5B875C1F6F5E67002BEC65 /* BaseFormItem.swift */; };
+		EA5E7EC0203543D500D31155 /* LocalDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5E7EBF203543D500D31155 /* LocalDataStoreTests.swift */; };
+		EA5E7EC320354D7400D31155 /* DataCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5E7EC220354D7400D31155 /* DataCoordinator.swift */; };
+		EA5E7EC520354DB400D31155 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5E7EC420354DB400D31155 /* DataStore.swift */; };
+		EA5E7EC720354E2000D31155 /* LocalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5E7EC620354E2000D31155 /* LocalStore.swift */; };
 		EA625B191F9703540025EAFB /* DropDownFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA625B181F9703540025EAFB /* DropDownFormItem.swift */; };
 		EA69F8271F7C875D0092380B /* SelectionAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA69F8261F7C875D0092380B /* SelectionAction.swift */; };
 		EA69F8291F7C8EAD0092380B /* PickerFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA69F8281F7C8EAD0092380B /* PickerFormItem.swift */; };
@@ -1385,6 +1390,7 @@
 		EA4806B21F56961F00B42313 /* Array+Searching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Searching.swift"; sourceTree = "<group>"; };
 		EA4806B41F56A00600B42313 /* LocationSearchConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchConfiguration.swift; sourceTree = "<group>"; };
 		EA4806B61F56A0DC00B42313 /* LocationSearchStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchStrategy.swift; sourceTree = "<group>"; };
+		EA4B3F412033DD5200FD92B9 /* DataCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCoordinatorTests.swift; sourceTree = "<group>"; };
 		EA4E33531F8F51570027E431 /* ItemAccessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemAccessory.swift; sourceTree = "<group>"; };
 		EA4E33551F8F51B90027E431 /* LabeledItemAccessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledItemAccessory.swift; sourceTree = "<group>"; };
 		EA4E33571F8F51DF0027E431 /* CustomItemAccessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomItemAccessory.swift; sourceTree = "<group>"; };
@@ -1395,6 +1401,10 @@
 		EA53B2781F9EF9BB00B891D8 /* NotNilSpecificationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotNilSpecificationTests.swift; sourceTree = "<group>"; };
 		EA5649701F8EE4E100BEA144 /* SummaryDetailFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryDetailFormItem.swift; sourceTree = "<group>"; };
 		EA5B875C1F6F5E67002BEC65 /* BaseFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFormItem.swift; sourceTree = "<group>"; };
+		EA5E7EBF203543D500D31155 /* LocalDataStoreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalDataStoreTests.swift; sourceTree = "<group>"; };
+		EA5E7EC220354D7400D31155 /* DataCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCoordinator.swift; sourceTree = "<group>"; };
+		EA5E7EC420354DB400D31155 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		EA5E7EC620354E2000D31155 /* LocalStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStore.swift; sourceTree = "<group>"; };
 		EA625B181F9703540025EAFB /* DropDownFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownFormItem.swift; sourceTree = "<group>"; };
 		EA69F8261F7C875D0092380B /* SelectionAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionAction.swift; sourceTree = "<group>"; };
 		EA69F8281F7C8EAD0092380B /* PickerFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerFormItem.swift; sourceTree = "<group>"; };
@@ -2604,6 +2614,7 @@
 				EA7194E21FCE525900A2980B /* Action List */,
 				EABAB7FE1F3427570071A401 /* Aggregated Search */,
 				BC9C7D191F0DED6600DFFE83 /* Authentication */,
+				EA5E7EC120354D6200D31155 /* DataCoordinator */,
 				EAE12B061FC3CE2400851619 /* EntityCache */,
 				DBE24C301F593AB30088D19B /* EntityDetails */,
 				19FEC9801F43F6BA005692A9 /* ErrorMapping */,
@@ -3434,6 +3445,15 @@
 			path = LocationSearch;
 			sourceTree = "<group>";
 		};
+		EA4B3F3E2033B9A500FD92B9 /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				EA5E7EBF203543D500D31155 /* LocalDataStoreTests.swift */,
+				EA4B3F412033DD5200FD92B9 /* DataCoordinatorTests.swift */,
+			);
+			path = Media;
+			sourceTree = "<group>";
+		};
 		EA4E33521F8F51420027E431 /* FormAccessories */ = {
 			isa = PBXGroup;
 			children = (
@@ -3447,6 +3467,7 @@
 		EA5649721F8F061000BEA144 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				EA4B3F3E2033B9A500FD92B9 /* Media */,
 				46A60F5F1FCFB02400EE32CA /* Evaluator */,
 				EA5649731F8F061000BEA144 /* FormBuilder */,
 				EA42F8D81F95872200C5C38E /* Specifications */,
@@ -3497,6 +3518,16 @@
 				EA53B2721F9ED43600B891D8 /* StepperFormItemTests.swift */,
 			);
 			path = FormBuilder;
+			sourceTree = "<group>";
+		};
+		EA5E7EC120354D6200D31155 /* DataCoordinator */ = {
+			isa = PBXGroup;
+			children = (
+				EA5E7EC220354D7400D31155 /* DataCoordinator.swift */,
+				EA5E7EC420354DB400D31155 /* DataStore.swift */,
+				EA5E7EC620354E2000D31155 /* LocalStore.swift */,
+			);
+			path = DataCoordinator;
 			sourceTree = "<group>";
 		};
 		EA69F8251F7C874D0092380B /* Actions */ = {
@@ -3873,6 +3904,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5E7EC320354D7400D31155 /* DataCoordinator.swift in Sources */,
 				BC9C7E371F0DED6600DFFE83 /* KeyboardAnimationDetails.swift in Sources */,
 				EA3BA38C1F7B2B5D000E4AD8 /* FooterFormItem.swift in Sources */,
 				46A8AA2720157CEA00F24B37 /* SketchNavigationController.swift in Sources */,
@@ -3924,6 +3956,7 @@
 				EA32A8541FBD1A7900CC37FB /* MediaPreviewViewController.swift in Sources */,
 				273DE2DD1FEA0F89000C46DD /* CreateIncidentStatusViewModel.swift in Sources */,
 				EA32A8571FBD1A7900CC37FB /* MediaGalleryTransitionAnimator.swift in Sources */,
+				EA5E7EC520354DB400D31155 /* DataStore.swift in Sources */,
 				C634085B1F30E5B5000747B0 /* EntityFetchRequestable.swift in Sources */,
 				BC9C7DFA1F0DED6600DFFE83 /* CollectionViewFormSubtitleCell.swift in Sources */,
 				460B5BC92007187600AB7D12 /* TouchTool.swift in Sources */,
@@ -4182,6 +4215,7 @@
 				BCFA06811F317C29002FA1FF /* MapCollectionViewHeaderLayout.swift in Sources */,
 				BCF4B59C1F2849D00022132D /* SpacerView.swift in Sources */,
 				273C53851FE785BF00BF994B /* TasksListDetailView.swift in Sources */,
+				EA5E7EC720354E2000D31155 /* LocalStore.swift in Sources */,
 				27CBC7641F8B27CC00E387C3 /* TaskAnnotation.swift in Sources */,
 				BC9C7E441F0DED6600DFFE83 /* SidebarSplitViewController.swift in Sources */,
 				BC9C7DFD1F0DED6600DFFE83 /* CollectionViewFormValueFieldCell.swift in Sources */,
@@ -4493,6 +4527,7 @@
 				EA42F8E61F9591AA00C5C38E /* RegularExpressionSpecificationTests.swift in Sources */,
 				EAF76C7D1F9099F400405DC9 /* BaseFormItemTests.swift in Sources */,
 				EAF76C791F908DF500405DC9 /* ValidatorRuleTests.swift in Sources */,
+				EA4B3F422033DD5200FD92B9 /* DataCoordinatorTests.swift in Sources */,
 				1908EF8E1F57D79A00382B1C /* ModelVersionableTests.swift in Sources */,
 				EA42F8D71F9585B200C5C38E /* SpecificationTests.swift in Sources */,
 				C6E833AB1F334A4700A21F6D /* NSArchiverTests.swift in Sources */,
@@ -4536,6 +4571,7 @@
 				EA42F8DA1F95874600C5C38E /* AndSpecificationTests.swift in Sources */,
 				EAF76C7F1F941F2500405DC9 /* BaseSupplementaryFormItemTests.swift in Sources */,
 				12F057201F3BF6CF00CAD6F6 /* SourceItemTests.swift in Sources */,
+				EA5E7EC0203543D500D31155 /* LocalDataStoreTests.swift in Sources */,
 				EA42F8E01F958C7600C5C38E /* CountSpecificationTests.swift in Sources */,
 				9988CE671FAAD965007BE261 /* ManifestCollectionTests.swift in Sources */,
 				EA42F8E41F95910400C5C38E /* PredicateSpecificationTests.swift in Sources */,

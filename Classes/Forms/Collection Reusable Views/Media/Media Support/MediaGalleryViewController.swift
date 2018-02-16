@@ -211,7 +211,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
                 show(mediaGalleryViewController, sender: self)
             }
         } else {
-            if case let .loading = dataSource.state {} else {
+            if case .loading = dataSource.state {} else {
                 dataSource.loadMoreItems()?.then { _ in
                     print("Hello")
                 }.catch { error in

@@ -10,6 +10,26 @@ import Foundation
 import AVKit
 import PromiseKit
 
+
+//public class MediaPreviewModel {
+//
+//    public let dataProvider: DataCoordinatable
+//
+//    public private(set) var previews: [MediaPreviewable] = []
+//
+//    public init(dataProvider: DataCoordinatable) {
+//        self.dataProvider = dataProvider
+//
+//        if dataProvider.state == .unknown {
+////            dataProvider.retrieveMediaItems()
+//        }
+//    }
+//
+//
+//}
+
+
+
 public let MediaDataSourceDidChangeNotificationName = Notification.Name(rawValue: "MediaDataSourceDidChange")
 
 

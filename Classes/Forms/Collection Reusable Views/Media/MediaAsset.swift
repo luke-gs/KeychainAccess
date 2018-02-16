@@ -23,6 +23,17 @@ public class Media: Codable {
     }
 }
 
+extension Media: Equatable {
+
+    static public func ==(lhs: Media, rhs: Media) -> Bool {
+        return
+            lhs.url == rhs.url &&
+                lhs.title == rhs.title &&
+                lhs.comments == rhs.comments &&
+                lhs.sensitive == rhs.sensitive
+    }
+
+}
 
 public class MediaPreview: MediaPreviewable {
 
@@ -31,7 +42,7 @@ public class MediaPreview: MediaPreviewable {
     public var thumbnailImage: ImageLoadable?
     public var title: String?
 
-    let asset: Media
+    public let asset: Media
 
     public init(thumbnailImage: ImageLoadable? = nil, asset: Media) {
         self.asset = asset
