@@ -16,6 +16,7 @@ public class OfficerListReport: Reportable {
 
     public enum CodingKeys: String, CodingKey {
         case officers
+        case event
     }
 
     public let evaluator: Evaluator = Evaluator()
@@ -47,12 +48,7 @@ public class OfficerListReport: Reportable {
 
         officers = [testOfficer]
 
-        evaluator.addObserver(event)
-
-        evaluator.registerKey(.officers) {
-            return self.viewed == true
-                && self.officers.count > 0
-        }
+        commonInit()
     }
 
     // Codable
@@ -60,11 +56,28 @@ public class OfficerListReport: Reportable {
     public required init(from: Decoder) throws {
         let container = try from.container(keyedBy: CodingKeys.self)
         officers = try container.decode(Array<Officer>.self, forKey: .officers)
+        event = try container.decode(Event.self, forKey: .event)
+
+        commonInit()
+    }
+
+    private func commonInit() {
+        if let event = event {
+
+            evaluator.addObserver(event)
+
+            evaluator.registerKey(.officers) {
+                return self.viewed == true
+                    && self.officers.count > 0
+            }
+        }
     }
 
     public func encode(to: Encoder) throws {
         var container = to.container(keyedBy: CodingKeys.self)
         try container.encode(officers, forKey: .officers)
+        try container.encode(event, forKey: .event)
+
     }
 
 
