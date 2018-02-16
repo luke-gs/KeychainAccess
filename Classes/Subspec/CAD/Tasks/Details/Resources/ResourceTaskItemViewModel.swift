@@ -49,8 +49,8 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
 
     override open func didTapTaskStatus() {
         if allowChangeResourceStatus() {
-            let callsignStatus = CADStateManager.shared.currentResource?.statusType ?? ClientModelTypes.resourceStatus.defaultCase
-            let incidentItems = ClientModelTypes.resourceStatus.incidentCases.map {
+            let callsignStatus = CADStateManager.shared.currentResource?.statusType ?? CADClientModelTypes.resourceStatus.defaultCase
+            let incidentItems = CADClientModelTypes.resourceStatus.incidentCases.map {
                 return ManageCallsignStatusItemViewModel($0)
             }
             let sections = [CADFormCollectionSectionViewModel(title: "", items: incidentItems)]

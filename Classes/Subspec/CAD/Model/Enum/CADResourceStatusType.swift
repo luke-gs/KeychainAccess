@@ -1,5 +1,5 @@
 //
-//  ResourceStatusType.swift
+//  CADResourceStatusType.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 13/2/18.
@@ -9,41 +9,35 @@
 import Foundation
 
 /// Protocol for a resource status enum containing customisation and logic per client
-public protocol ResourceStatusType {
-
-    // Expose enum init
-    init?(rawValue: String)
+public protocol CADResourceStatusType: CADEnumType {
 
     // MARK: - Static
 
     /// All cases, in order of display
-    static var allCases: [ResourceStatusType] { get }
+    static var allCases: [CADResourceStatusType] { get }
 
     /// All cases related to a current incident, in order of display
-    static var incidentCases: [ResourceStatusType] { get }
+    static var incidentCases: [CADResourceStatusType] { get }
 
     /// All cases unrelated to a current incident, in order of display
-    static var generalCases: [ResourceStatusType] { get }
+    static var generalCases: [CADResourceStatusType] { get }
 
     /// The default case when status is unknown
-    static var defaultCase: ResourceStatusType { get }
+    static var defaultCase: CADResourceStatusType { get }
 
     /// The case for a resource in duress
-    static var duressCase: ResourceStatusType { get }
+    static var duressCase: CADResourceStatusType { get }
 
     /// The case for an off duty resource
-    static var offDutyCase: ResourceStatusType { get }
+    static var offDutyCase: CADResourceStatusType { get }
 
     /// The case for an on air resource
-    static var onAirCase: ResourceStatusType { get }
+    static var onAirCase: CADResourceStatusType { get }
 
     /// The case for finalising an incident
-    static var finaliseCase: ResourceStatusType { get }
+    static var finaliseCase: CADResourceStatusType { get }
 
     // MARK: - Properties
-
-    /// The enum raw value
-    var rawValue: String { get }
 
     /// Display title for status
     var title: String { get }
@@ -63,26 +57,17 @@ public protocol ResourceStatusType {
     // MARK: - Methods
 
     /// Return whether status change is allowed, and whether a reason needs to be provided
-    func canChangeToStatus(newStatus: ResourceStatusType) -> (allowed: Bool, requiresReason: Bool)
+    func canChangeToStatus(newStatus: CADResourceStatusType) -> (allowed: Bool, requiresReason: Bool)
 
     /// Convenience for checking if changing to non incident status
-    func isChangingToGeneralStatus(_ newStatus: ResourceStatusType) -> Bool
+    func isChangingToGeneralStatus(_ newStatus: CADResourceStatusType) -> Bool
 
 }
 
-extension ResourceStatusType {
+extension CADResourceStatusType {
     /// Convenience for checking if this is the duress case
     var isDuress: Bool {
-        return self == ClientModelTypes.resourceStatus.duressCase
+        return self == CADClientModelTypes.resourceStatus.duressCase
     }
 }
 
-/// Equality check without conforming to Equatable, to prevent need for type erasure
-func ==(lhs: ResourceStatusType?, rhs: ResourceStatusType?) -> Bool {
-    return lhs?.rawValue == rhs?.rawValue
-}
-
-/// Inquality check (required when not using Equatable)
-func !=(lhs: ResourceStatusType?, rhs: ResourceStatusType?) -> Bool {
-    return !(lhs?.rawValue == rhs?.rawValue)
-}

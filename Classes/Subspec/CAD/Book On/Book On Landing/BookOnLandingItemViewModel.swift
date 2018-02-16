@@ -39,10 +39,10 @@ open class BookOnLandingCallsignItemViewModel: BookOnLandingItemViewModel {
     open let resource: SyncDetailsResource
 
     open var callsign: String
-    open var status: ResourceStatusType?
+    open var status: CADResourceStatusType?
     open var location: String?
     open var caption: String?
-    open var type: ResourceType?
+    open var type: CADResourceUnitType?
 
     open var badgeText: String?
     open var badgeTextColor: UIColor?

@@ -151,7 +151,7 @@ open class TasksSplitViewModel {
             }
 
             // Ignore off duty resources
-            guard resource.statusType != ClientModelTypes.resourceStatus.offDutyCase else { return false }
+            guard resource.statusType != CADClientModelTypes.resourceStatus.offDutyCase else { return false }
 
             let isTasked = resource.currentIncident != nil
             let isDuress = resource.statusType.isDuress

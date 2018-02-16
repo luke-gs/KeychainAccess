@@ -80,7 +80,7 @@ open class BookOnDetailsFormContentMainViewModel {
         // Return only selected equipment
         request.equipment = self.equipment.flatMap { item in
             if item.count > 0 {
-                return SyncDetailsResourceEquipment(count: item.count, description: item.object.title)
+                return SyncDetailsEquipment(count: item.count, description: item.object.title)
             }
             return nil
         }

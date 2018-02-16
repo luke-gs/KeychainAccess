@@ -36,7 +36,7 @@ open class CreateIncidentViewModel {
         }
     }
     
-    open var initialStatus: ResourceStatusType {
+    open var initialStatus: CADResourceStatusType {
         return ResourceStatusCore.atIncident
     }
 
@@ -59,7 +59,7 @@ open class CreateIncidentViewModel {
     }
 
     open func createStatusViewController() -> CreateIncidentStatusViewController {
-        let incidentItems = ClientModelTypes.resourceStatus.incidentCases.map {
+        let incidentItems = CADClientModelTypes.resourceStatus.incidentCases.map {
             return ManageCallsignStatusItemViewModel($0)
         }
         let sections = [CADFormCollectionSectionViewModel(

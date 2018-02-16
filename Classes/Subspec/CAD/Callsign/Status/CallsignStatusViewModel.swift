@@ -16,7 +16,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
     open private(set) var incident: SyncDetailsIncident?
 
     /// The current status
-    open var currentStatus: ResourceStatusType? {
+    open var currentStatus: CADResourceStatusType? {
         if let selectedIndexPath = selectedIndexPath {
             return statusForIndexPath(selectedIndexPath)
         }
@@ -25,7 +25,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
 
     /// Init with sectioned statuses to display, and current selection
     public init(sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>],
-                selectedStatus: ResourceStatusType, incident: SyncDetailsIncident?) {
+                selectedStatus: CADResourceStatusType, incident: SyncDetailsIncident?) {
         super.init()
 
         self.sections = sections
@@ -34,7 +34,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
     }
     
     public func reload(sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>],
-                selectedStatus: ResourceStatusType, incident: SyncDetailsIncident?) {
+                selectedStatus: CADResourceStatusType, incident: SyncDetailsIncident?) {
         self.sections = sections
         self.selectedIndexPath = indexPathForStatus(selectedStatus)
         self.incident = incident
@@ -48,9 +48,9 @@ open class CallsignStatusViewModel: CADStatusViewModel {
     }
 
     /// Attempt to select a new status
-    open func setSelectedIndexPath(_ indexPath: IndexPath) -> Promise<ResourceStatusType> {
+    open func setSelectedIndexPath(_ indexPath: IndexPath) -> Promise<CADResourceStatusType> {
         let newStatus = statusForIndexPath(indexPath)
-        let currentStatus = self.currentStatus ?? ClientModelTypes.resourceStatus.defaultCase
+        let currentStatus = self.currentStatus ?? CADClientModelTypes.resourceStatus.defaultCase
         let (allowed, requiresReason) = currentStatus.canChangeToStatus(newStatus: newStatus)
         if allowed {
             var promise: Promise<Void> = Promise<Void>()
@@ -64,7 +64,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
                 }
             }
 
-            if newStatus == ClientModelTypes.resourceStatus.finaliseCase {
+            if newStatus == CADClientModelTypes.resourceStatus.finaliseCase {
                 promise = promise.then {
                     return self.promptForFinaliseDetails()
                     }.then { _ -> Void in
@@ -88,7 +88,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
             return promise.then {
                 // TODO: Submit callsign request
                 return after(seconds: 1.0)
-            }.then { _ -> Promise<ResourceStatusType> in
+            }.then { _ -> Promise<CADResourceStatusType> in
                 // Update UI
                 self.selectedIndexPath = indexPath
                 CADStateManager.shared.updateCallsignStatus(status: newStatus, incident: self.incident)
@@ -144,11 +144,11 @@ open class CallsignStatusViewModel: CADStatusViewModel {
         return promise
     }
 
-    open func statusForIndexPath(_ indexPath: IndexPath) -> ResourceStatusType {
+    open func statusForIndexPath(_ indexPath: IndexPath) -> CADResourceStatusType {
         return sections[indexPath.section].items[indexPath.item].status
     }
 
-    open func indexPathForStatus(_ status: ResourceStatusType) -> IndexPath? {
+    open func indexPathForStatus(_ status: CADResourceStatusType) -> IndexPath? {
         // Find the status in the section data
         for (sectionIndex, section) in sections.enumerated() {
             for (itemIndex, item) in section.items.enumerated() {

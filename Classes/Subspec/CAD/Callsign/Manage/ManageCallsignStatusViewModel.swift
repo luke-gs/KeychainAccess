@@ -13,9 +13,9 @@ import PromiseKit
 public struct ManageCallsignStatusItemViewModel {
     public let title: String
     public let image: UIImage
-    public let status: ResourceStatusType
+    public let status: CADResourceStatusType
 
-    init(_ status: ResourceStatusType) {
+    init(_ status: CADResourceStatusType) {
         self.title = status.title
         self.image = status.icon!
         self.status = status
@@ -69,7 +69,7 @@ open class ManageCallsignStatusViewModel {
 
     /// The callsign view model for changing status
     open lazy var callsignViewModel: CallsignStatusViewModel = {
-        let callsignStatus = CADStateManager.shared.currentResource?.statusType ?? ClientModelTypes.resourceStatus.defaultCase
+        let callsignStatus = CADStateManager.shared.currentResource?.statusType ?? CADClientModelTypes.resourceStatus.defaultCase
         return CallsignStatusViewModel(sections: callsignSectionsForState(), selectedStatus: callsignStatus, incident: CADStateManager.shared.currentIncident)
     }()
 
@@ -96,7 +96,7 @@ open class ManageCallsignStatusViewModel {
     }
 
     @objc private func callsignChanged() {
-        let callsignStatus = CADStateManager.shared.currentResource?.statusType ?? ClientModelTypes.resourceStatus.defaultCase
+        let callsignStatus = CADStateManager.shared.currentResource?.statusType ?? CADClientModelTypes.resourceStatus.defaultCase
         
         callsignViewModel.reload(sections: callsignSectionsForState(), selectedStatus: callsignStatus, incident: CADStateManager.shared.currentIncident)
         delegate?.callsignDidChange()
@@ -155,13 +155,13 @@ open class ManageCallsignStatusViewModel {
         var sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>] = []
 
         if shouldShowIncident {
-            let incidentItems = ClientModelTypes.resourceStatus.incidentCases.map {
+            let incidentItems = CADClientModelTypes.resourceStatus.incidentCases.map {
                 return ManageCallsignStatusItemViewModel($0)
             }
             sections.append(CADFormCollectionSectionViewModel(title: "", items: incidentItems))
 
         }
-        let generalItems = ClientModelTypes.resourceStatus.generalCases.map {
+        let generalItems = CADClientModelTypes.resourceStatus.generalCases.map {
             return ManageCallsignStatusItemViewModel($0)
         }
         sections.append(CADFormCollectionSectionViewModel(
