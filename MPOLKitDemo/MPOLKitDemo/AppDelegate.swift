@@ -14,8 +14,7 @@ import Unbox
 private let host = "api-location-dev.mpol.solutions"
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-
+class AppDelegate: UIResponder, UIApplicationDelegate, GenericSearchDelegate {
     var window: UIWindow?
 
     private var delayedNetworkEndTimer: Timer?
@@ -123,6 +122,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: Generic Search VC
 
+    typealias Object = GenericSearchable
+
+    func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: GenericSearchable) {
+
+    }
+
     private func genericSearchViewController() -> UIViewController {
 
         // MARK: Generic Search VC
@@ -137,15 +142,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         viewModel.hidesSections = false
         viewModel.sectionPriority = ["On Duty", "Duress", "On Air", "On Duty"]
 
-        let vc = GenericSearchViewController(viewModel: viewModel)
+        let vc = GenericSearchViewController<AppDelegate, GenericSearchDefaultViewModel>(viewModel: viewModel)
         vc.title = "Search Items"
-//        vc.delegate = self
+        vc.delegate = self
 
         let nc = PopoverNavigationController(rootViewController: vc)
         nc.modalPresentationStyle = .formSheet
         
         return vc
     }
+    
 
     // MARK: - Network activity
 
