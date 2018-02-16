@@ -1428,5 +1428,7 @@
       "type": "Motorcycle", 
       "vehicleCategory": "1"
     }
-  ]
+  ],
+  "patrols": [],
+  "broadcasts": []
 }
