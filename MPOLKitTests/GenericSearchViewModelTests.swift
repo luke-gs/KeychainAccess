@@ -75,7 +75,7 @@ class GenericSearchViewModelTests: XCTestCase {
         let rows = items.filter{$0.title == Test().title}
         let indexPath = IndexPath(row: 0, section: 1)
         if let searchable = rows.first {
-            XCTAssertEqual(viewModel.searchable(for: indexPath).title, searchable.title)
+            XCTAssertEqual(viewModel.searchable(for: viewModel.object(for: indexPath)).title, searchable.title)
         }
     }
 
@@ -85,7 +85,7 @@ class GenericSearchViewModelTests: XCTestCase {
         let rows = items.filter{$0.title == Test().title}
         let indexPath = IndexPath(row: 0, section: 0)
         if let searchable = rows.first {
-            XCTAssertEqual(viewModel.searchable(for: indexPath).title, searchable.title)
+            XCTAssertEqual(viewModel.searchable(for: viewModel.object(for: indexPath)).title, searchable.title)
         }
     }
 
@@ -96,7 +96,7 @@ class GenericSearchViewModelTests: XCTestCase {
         let rows = items.filter{$0.title == Test().title}
         let indexPath = IndexPath(row: 0, section: 0)
         if let searchable = rows.first {
-            XCTAssertEqual(viewModel.searchable(for: indexPath).title, searchable.title)
+            XCTAssertEqual(viewModel.searchable(for: viewModel.object(for: indexPath)).title, searchable.title)
         }
     }
 }
