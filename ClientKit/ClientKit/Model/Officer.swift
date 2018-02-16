@@ -36,7 +36,6 @@ class OfficerImageSizing: EntityImageSizing<Officer> {
 
     override init(entity: Officer) {
         super.init(entity: entity)
-
         let thumbnailSizing: ImageSizing?
 
         if entity.initials?.isEmpty ?? true == false {
@@ -51,6 +50,19 @@ class OfficerImageSizing: EntityImageSizing<Officer> {
         }
 
         placeholderImage = thumbnailSizing
+
+        size = CGSize(width: 48, height: 48)
+    }
+
+    override func loadImage(completion: @escaping (ImageSizable) -> ()) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
+
+
+            var image = #imageLiteral(resourceName: "Avatar 1").sizing()
+            image.size = self.size
+
+            completion(image)
+        }
     }
 
 }
