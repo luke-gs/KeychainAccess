@@ -32,31 +32,25 @@ open class Officer: MPOLKitEntity, Identifiable {
     open var involvements: [String] = []
 }
 
-public protocol Identifiable {
-    var givenName: String? { get }
-    var middleNames: String? { get }
-    var surname: String? { get }
-}
+class OfficerImageSizing: EntityImageSizing<Officer> {
 
-extension Identifiable {
+    override init(entity: Officer) {
+        super.init(entity: entity)
 
-    // Moving this to extension for now as `Initials` doesn't really belong in the model.
-    public var initials: String? {
-        var initials = ""
-        if let givenName = givenName?.ifNotEmpty() {
-            initials += givenName[...givenName.startIndex]
+        let thumbnailSizing: ImageSizing?
+
+        if entity.initials?.isEmpty ?? true == false {
+            let image = entity.initialImage().withCircleBackground(tintColor: .lightGray,
+                                                                   circleColor: .gray,
+                                                                   style: .fixed(size: CGSize(width: 48, height: 48),
+                                                                                 padding: CGSize(width: 0, height: 0)),
+                                                                   shouldCenterImage: true)
+            thumbnailSizing = ImageSizing(image: image, size: image?.size ?? .zero, contentMode: .scaleAspectFill)
+        } else {
+            thumbnailSizing = nil
         }
-        if let surname = surname?.ifNotEmpty() {
-            initials += surname[...surname.startIndex]
-        }
 
-        return initials.ifNotEmpty()
+        placeholderImage = thumbnailSizing
     }
 
-    public func initialImage() -> UIImage {
-        if let initials = initials?.ifNotEmpty() {
-            return UIImage.thumbnail(withInitials: initials)
-        }
-        return UIImage()
-    }
 }

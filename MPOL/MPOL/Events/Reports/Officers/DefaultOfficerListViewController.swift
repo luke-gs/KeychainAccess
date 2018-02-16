@@ -16,6 +16,17 @@ extension EvaluatorKey {
 
 open class DefaultEventOfficerListViewController: FormBuilderViewController, EvaluationObserverable, EventOfficerListViewModelDelegate {
 
+    // TEMP INVOLVEMENTS
+    fileprivate let involvements = [
+        "Reporting Officer",
+        "Assisting Officer",
+        "Case Officer",
+        "Forensic Intelligence Officer",
+        "Interviewing Officer",
+        "Accident Officer",
+        "Action Officer",
+    ]
+
     let viewModel: EventOfficerListViewModel
 
     public init(viewModel: EventOfficerListViewModel) {
@@ -53,7 +64,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         officer.surname = "Boryseiko"
         officer.involvements = ["Reporting Officer"]
 
-        let viewModel = OfficerSearchViewModel(items: Array<Officer>(repeating: officer, count: 5))
+        let viewModel = OfficerSearchViewModel(items: [officer])
         let officerSearchController = GenericSearchViewController<DefaultEventOfficerListViewController, OfficerSearchViewModel>(viewModel: viewModel)
         officerSearchController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
         officerSearchController.delegate = self
@@ -68,11 +79,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         super.viewDidAppear(animated)
         viewModel.report.viewed = true
     }
-
-    @objc private func searchHeaderTapped() {
-        print("search")
-    }
-
+    
     open override func construct(builder: FormBuilder) {
        viewModel.construct(builder: builder)
     }
@@ -80,15 +87,6 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
     // MARK: - Officer model delegate 
 
     public func didSelectOfficer(officer: Officer) {
-        let involvements = [
-            "Reporting Officer",
-            "Assisting Officer",
-            "Case Officer",
-            "Forensic Intelligence Officer",
-            "Interviewing Officer",
-            "Accident Officer",
-            "Action Officer",
-            ]
 
         let displayable = OfficerSummaryDisplayable(officer)
         let headerConfig = SearchHeaderConfiguration(title: displayable.title,
@@ -100,8 +98,6 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
         let viewController = CustomPickerController(datasource: datasource)
         viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
-
-
 
         viewController.finishUpdateHandler = { controller, index in
             let newInvolvements = controller.objects.enumerated().filter { index.contains($0.offset) }.flatMap { $0.element.title }
@@ -135,15 +131,6 @@ extension DefaultEventOfficerListViewController: GenericSearchDelegate {
     public typealias Object = Officer
 
     public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: Officer) {
-        let involvements = [
-            "Reporting Officer",
-            "Assisting Officer",
-            "Case Officer",
-            "Forensic Intelligence Officer",
-            "Interviewing Officer",
-            "Accident Officer",
-            "Action Officer",
-            ]
 
         let displayable = OfficerSummaryDisplayable(object)
         let headerConfig = SearchHeaderConfiguration(title: displayable.title,

@@ -12,7 +12,7 @@ import ClientKit
 
 open class DefaultOfficerSearchViewController: FormBuilderViewController, UISearchBarDelegate {
 
-    var x: Officer  {
+    var tempOfficer: Officer  {
         let x = Officer()
         x.givenName = "Pavel"
         x.involvements = ["Reporting officer"]
@@ -30,13 +30,12 @@ open class DefaultOfficerSearchViewController: FormBuilderViewController, UISear
         "Interviewing Officer",
         "Accident Officer",
         "Action Officer",
-        ]
+    ]
 
     lazy var officers: [Officer] = Array<Officer>(repeating: x, count: 5)
 
     public override init() {
         super.init()
-
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped(sender:)))
     }
 
@@ -95,10 +94,6 @@ open class DefaultOfficerSearchViewController: FormBuilderViewController, UISear
                     self.navigationController?.pushViewController(viewController, animated: true)
                 })
         }
-    }
-
-    public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-
     }
 
     public func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

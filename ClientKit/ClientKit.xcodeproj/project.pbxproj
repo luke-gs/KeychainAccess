@@ -32,6 +32,7 @@
 		4421347420030B99009A931A /* EntityDetailFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4421347320030B99009A931A /* EntityDetailFormViewModel.swift */; };
 		4421347620031575009A931A /* EntityDetailFilterableFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4421347520031575009A931A /* EntityDetailFilterableFormViewModel.swift */; };
 		4429902E2006C43D00D2F575 /* OrganizationInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4429902D2006C43D00D2F575 /* OrganizationInfoViewModel.swift */; };
+		464977C4203685E500590DC3 /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464977C3203685E500590DC3 /* Identifiable.swift */; };
 		46A192FB1FB939FB00FED201 /* LocationDetailsSectionsDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A192FA1FB939FB00FED201 /* LocationDetailsSectionsDatasource.swift */; };
 		46A192FD1FB93A4000FED201 /* LocationFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A192FC1FB93A4000FED201 /* LocationFetchRequest.swift */; };
 		46E0B89D202C13AB00B40DF2 /* OfficerSummaryDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B89C202C13AB00B40DF2 /* OfficerSummaryDisplayable.swift */; };
@@ -126,6 +127,7 @@
 		4421347320030B99009A931A /* EntityDetailFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailFormViewModel.swift; sourceTree = "<group>"; };
 		4421347520031575009A931A /* EntityDetailFilterableFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailFilterableFormViewModel.swift; sourceTree = "<group>"; };
 		4429902D2006C43D00D2F575 /* OrganizationInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationInfoViewModel.swift; sourceTree = "<group>"; };
+		464977C3203685E500590DC3 /* Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifiable.swift; sourceTree = "<group>"; };
 		46A192FA1FB939FB00FED201 /* LocationDetailsSectionsDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailsSectionsDatasource.swift; sourceTree = "<group>"; };
 		46A192FC1FB93A4000FED201 /* LocationFetchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFetchRequest.swift; sourceTree = "<group>"; };
 		46E0B89C202C13AB00B40DF2 /* OfficerSummaryDisplayable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerSummaryDisplayable.swift; sourceTree = "<group>"; };
@@ -377,6 +379,7 @@
 				BCAEFE731F03150800C97F9C /* Vehicle.swift */,
 				1A290C851F3F097E00DD9ED5 /* Media.swift */,
 				46E0B89E202C13E200B40DF2 /* Officer.swift */,
+				464977C3203685E500590DC3 /* Identifiable.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -781,6 +784,7 @@
 				EA8B66671F38473400F09716 /* Vehicle+EntitySummaryDisplayable.swift in Sources */,
 				EA8B66531F381BC000F09716 /* PersonSearchRequest.swift in Sources */,
 				1A2E8A801F397E2B0062FEA5 /* VehicleInfoViewModel.swift in Sources */,
+				464977C4203685E500590DC3 /* Identifiable.swift in Sources */,
 				BCA1793C1F03542900AD1F5F /* PersonParserDefinition.swift in Sources */,
 				BC75A7B91F1C3D55004D46F1 /* PersonDescriptionsViewController.swift in Sources */,
 				4421347220030416009A931A /* EntityDetailFormViewController.swift in Sources */,
