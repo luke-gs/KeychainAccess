@@ -17,7 +17,7 @@ public enum IncidentGradeCore: String, Codable, CADIncidentGradeType {
     case p4 = "P4"
 
     /// All cases, in order of display
-    public static var allCases: [IncidentGrade] {
+    public static var allCases: [CADIncidentGradeType] {
         return [.p1, .p2, .p3, .p4]
     }
 

@@ -39,6 +39,7 @@
 		966CE9C520365E6900646A6A /* SelectStoppedEntityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9C120365E6900646A6A /* SelectStoppedEntityViewModel.swift */; };
 		966CE9C620365E6900646A6A /* TrafficStopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9C220365E6900646A6A /* TrafficStopViewController.swift */; };
 		966CE9C720365E6900646A6A /* TrafficStopViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9C320365E6900646A6A /* TrafficStopViewModel.swift */; };
+		966CE9CB203676EE00646A6A /* BroadcastCategoryCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9CA203676EE00646A6A /* BroadcastCategoryCore.swift */; };
 		9689CA252036445C0001D993 /* APIManager+CAD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9689CA132036445C0001D993 /* APIManager+CAD.swift */; };
 		9689CA262036445C0001D993 /* SyncDetailsActivityLogItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9689CA152036445C0001D993 /* SyncDetailsActivityLogItem.swift */; };
 		9689CA272036445C0001D993 /* SyncDetailsIncident.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9689CA162036445C0001D993 /* SyncDetailsIncident.swift */; };
@@ -162,6 +163,7 @@
 		966CE9C120365E6900646A6A /* SelectStoppedEntityViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectStoppedEntityViewModel.swift; sourceTree = "<group>"; };
 		966CE9C220365E6900646A6A /* TrafficStopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficStopViewController.swift; sourceTree = "<group>"; };
 		966CE9C320365E6900646A6A /* TrafficStopViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficStopViewModel.swift; sourceTree = "<group>"; };
+		966CE9CA203676EE00646A6A /* BroadcastCategoryCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastCategoryCore.swift; sourceTree = "<group>"; };
 		9689CA132036445C0001D993 /* APIManager+CAD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+CAD.swift"; sourceTree = "<group>"; };
 		9689CA152036445C0001D993 /* SyncDetailsActivityLogItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncDetailsActivityLogItem.swift; sourceTree = "<group>"; };
 		9689CA162036445C0001D993 /* SyncDetailsIncident.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncDetailsIncident.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 				9689CA35203644B70001D993 /* IncidentGradeCore.swift */,
 				9689CA36203644B70001D993 /* ResourceStatusCore.swift */,
 				9689CA37203644B70001D993 /* ResourceTypeCore.swift */,
+				966CE9CA203676EE00646A6A /* BroadcastCategoryCore.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -905,6 +908,7 @@
 				BCAEFEA31F03150800C97F9C /* Licence.swift in Sources */,
 				19FA22AF1F8603F000BE0E03 /* MatchMakers.swift in Sources */,
 				EA8B66621F3831C900F09716 /* LicenceSearchParameters.swift in Sources */,
+				966CE9CB203676EE00646A6A /* BroadcastCategoryCore.swift in Sources */,
 				199ECE9E1FAA5ACD0065E425 /* PersonImageSizing.swift in Sources */,
 				EAE12B051FC2A66500851619 /* VehicleEditViewController.swift in Sources */,
 				EA8B66651F38471500F09716 /* Person+EntitySummaryDisplayable.swift in Sources */,

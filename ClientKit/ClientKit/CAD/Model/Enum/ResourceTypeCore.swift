@@ -19,6 +19,11 @@ public enum ResourceTypeCore: String, Codable, CADResourceUnitType {
     case policeOfficer  = "PoliceOfficer"
     case vehicle        = "Vehicle"
 
+    /// All cases, no particular order
+    public static var allCases: [CADResourceUnitType] {
+        return [.bicycle, .dogSquad, .helicopter, .marineCraft, .motorcycle, .policeOfficer, .vehicle]
+    }
+
     /// The display title for the unit type
     public var title: String {
         switch self {
