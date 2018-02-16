@@ -15,4 +15,10 @@ open class CADClientModelTypes {
     /// The type used for a resource status
     static open var resourceStatus: CADResourceStatusType.Type!
 
+    /// The type used for a resource unit type
+    static open var resourceUnit: CADResourceUnitType.Type!
+
+    /// The type used for an incident grade
+    static open var incidentGrade: CADIncidentGradeType.Type!
+
 }
