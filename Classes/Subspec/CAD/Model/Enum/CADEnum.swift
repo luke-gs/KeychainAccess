@@ -11,12 +11,12 @@ import Foundation
 /// Protocol for base CAD enum definition that can be provided in Client Kit
 public protocol CADEnumType {
 
-    // MARK: - Init
+    // MARK: - Raw value
 
-    // Expose enum init
+    // Enum init
     init?(rawValue: String)
 
-    /// Expose enum raw value
+    /// Enum raw value
     var rawValue: String { get }
 }
 

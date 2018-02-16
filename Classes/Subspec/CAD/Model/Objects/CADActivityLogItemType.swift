@@ -13,5 +13,6 @@ public protocol CADActivityLogItemType {
     var description: String { get }
     var source: String { get }
     var timestamp: Date { get }
+
     var color: UIColor { get }
 }

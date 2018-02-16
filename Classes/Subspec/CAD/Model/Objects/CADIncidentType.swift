@@ -7,22 +7,23 @@
 //
 
 import Foundation
+import CoreLocation
 
 public protocol CADIncidentType {
     var identifier: String! { get }
     var secondaryCode: String! { get }
     var type: String! { get }
-    var grade: IncidentGrade! { get }
+    var grade: CADIncidentGradeType! { get }
     var patrolGroup: String! { get }
-    var location : SyncDetailsLocation! { get }
+    var location : CADLocation! { get }
     var createdAt: Date! { get }
     var lastUpdated: Date! { get }
     var details: String! { get }
-    var informant : SyncDetailsIncidentInformant! { get }
-    var locations: [SyncDetailsLocation]! { get }
-    var persons: [SyncDetailsIncidentPerson]! { get }
-    var vehicles: [SyncDetailsIncidentVehicle]! { get }
-    var narrative: [SyncDetailsActivityLogItem]! { get }
+    var informant : CADIncidentInformantType! { get }
+    var locations: [CADLocation]! { get }
+    var persons: [CADIncidentPersonType]! { get }
+    var vehicles: [CADIncidentVehicleType]! { get }
+    var narrative: [CADActivityLogItemType]! { get }
 
     var status: CADIncidentStatusType { get }
     var coordinate: CLLocationCoordinate2D { get }

@@ -14,8 +14,8 @@ public protocol CADBroadcastType {
     var location : CADLocation! { get }
     var lastUpdated: Date! { get }
     var details: String! { get }
-    var category: CADBroadcastCategoryType { get }
-
     var createdAt: Date! { get }
+
+    var category: CADBroadcastCategoryType { get }
     var createdAtString: String { get }
 }

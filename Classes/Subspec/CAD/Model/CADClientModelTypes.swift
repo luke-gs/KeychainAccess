@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// Class for handling static client specific model type overrides
+/// Class for handling client specific model type overrides of static enums
 /// These should be set in ClientKit or App before use!
 open class CADClientModelTypes {
 
@@ -26,5 +26,8 @@ open class CADClientModelTypes {
 
     /// The type used for a broadcast category
     static open var broadcastCategory: CADBroadcastCategoryType.Type!
+
+    /// The type used for a patrol status
+    static open var patrolStatus: CADPatrolStatusType.Type!
 
 }
