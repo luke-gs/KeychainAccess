@@ -9,13 +9,20 @@
 import UIKit
 import MapKit
 
-public struct EventLocation: Codable {
-    var latitude: CLLocationDegrees?
-    var longitude: CLLocationDegrees?
-    var altitude: CLLocationDistance?
-    var horizontalAccuracy: CLLocationAccuracy?
-    var verticalAccuracy: CLLocationAccuracy?
-    var speed: CLLocationSpeed?
-    var course: CLLocationDirection?
-    var timestamp: Date?
+public class EventLocation: Codable, Equatable {
+    var latitude: CLLocationDegrees
+    var longitude: CLLocationDegrees
+    var addressString: String?
+
+    required public init(location: CLLocationCoordinate2D, addressString: String?) {
+        self.latitude = location.latitude
+        self.longitude = location.longitude
+        self.addressString = addressString
+    }
+
+    public static func ==(lhs: EventLocation, rhs: EventLocation) -> Bool {
+        return lhs.latitude == rhs.latitude
+        && lhs.longitude == rhs.longitude
+        && lhs.addressString == rhs.addressString
+    }
 }

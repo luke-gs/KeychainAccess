@@ -12,6 +12,7 @@ import MapKit
 open class DefaultEventLocationViewController: MapFormBuilderViewController, EvaluationObserverable {
     
     weak var report: DefaultLocationReport?
+    private var locationAnnotation: LocationAnnotation?
 
     public init(report: Reportable?) {
         self.report = report as? DefaultLocationReport
@@ -44,9 +45,15 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         builder.title = "Locations"
         builder.forceLinearLayout = true
 
+        let viewModel = LocationSelectionViewModel(location: report?.eventLocation)
+        viewModel.delegate = self
+
         builder += HeaderFormItem(text: "LOCATIONS")
-        builder += ValueFormItem(title: "Event Location", value: nil, image: nil)
-            .value(composeAddress())
+        builder += PickerFormItem(pickerAction: LocationAction(viewModel: viewModel))
+            .title("Event location")
+            .selectedValue(report?.eventLocation)
+            .accessory(ImageAccessoryItem(image: AssetManager.shared.image(forKey: .iconPencil)!))
+            .required()
     }
     
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
@@ -80,32 +87,39 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
                                                 style: .default))
         AlertQueue.shared.add(alertController)
     }
+}
 
-    private func reverseGeoCode(location: CLLocation?) {
-        guard let location = location else { return }
-        LocationManager.shared.requestPlacemark(from: location).then { (placemark) -> Void in
-            self.report?.eventLocation = EventLocation(latitude: placemark.location?.coordinate.latitude,
-                                                       longitude: placemark.location?.coordinate.longitude,
-                                                       altitude: placemark.location?.altitude,
-                                                       horizontalAccuracy: placemark.location?.horizontalAccuracy,
-                                                       verticalAccuracy: placemark.location?.verticalAccuracy,
-                                                       speed: placemark.location?.speed,
-                                                       course: placemark.location?.course,
-                                                       timestamp: placemark.location?.timestamp)
-            self.report?.eventPlacemark = placemark
-            self.reloadForm()
-            }.catch { _ in }
+extension DefaultEventLocationViewController: LocationSelectionViewModelDelegate {
+    public func didSelect(location: EventLocation?) {
+        if let location = location {
+            report?.eventLocation = location
+            updateAnnotation()
+            updateRegion()
+        }
+        reloadForm()
     }
 
-    private func composeAddress() -> String {
-        guard let dictionary = report?.eventPlacemark?.addressDictionary else { return "-" }
-        guard let formattedAddress = dictionary["FormattedAddressLines"] as? [String] else { return "-" }
+    private func updateAnnotation() {
+        guard let lat = report?.eventLocation?.latitude, let lon = report?.eventLocation?.longitude else { return }
+        let coord = CLLocationCoordinate2D(latitude: lat, longitude: lon)
 
-        let fullAddress = formattedAddress.reduce("") { result, string  in
-            return result + "\(string) "
+        if let locationAnnotation = locationAnnotation {
+            locationAnnotation.coordinate = coord
+        } else {
+            locationAnnotation = LocationAnnotation()
+            locationAnnotation?.coordinate = coord
+            mapView?.addAnnotation(locationAnnotation!)
         }
+    }
 
-        return fullAddress
+    private func updateRegion() {
+        guard let lat = report?.eventLocation?.latitude, let lon = report?.eventLocation?.longitude else { return }
+
+        let span = MKCoordinateSpanMake(0.005, 0.005)
+        let coord = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+        let region = MKCoordinateRegionMake(coord, span)
+
+        mapView?.setRegion(region, animated: true)
     }
 }
 
@@ -113,13 +127,13 @@ extension DefaultEventLocationViewController: MKMapViewDelegate {
 
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if let annotation = annotation as? LocationAnnotation {
-            let pinView: LocationAnnotationView
+            let pinView: PinAnnotationView
             let identifier = MapSummaryAnnotationViewIdentifier.single.rawValue
-            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? LocationAnnotationView {
+            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? PinAnnotationView {
                 dequeuedView.annotation = annotation
                 pinView = dequeuedView
             } else {
-                pinView = LocationAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                pinView = PinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             }
 
             return pinView
@@ -132,13 +146,8 @@ extension DefaultEventLocationViewController: MKMapViewDelegate {
         let span = MKCoordinateSpanMake(0.005, 0.005)
         let region = MKCoordinateRegionMake(userLocation.coordinate, span)
         mapView.setRegion(region, animated: true)
-
-        let location = LocationAnnotation()
-        location.coordinate = userLocation.coordinate
-
-        mapView.addAnnotation(location)
-        reverseGeoCode(location: userLocation.location)
     }
 }
 
-fileprivate class LocationAnnotation: MKPointAnnotation { }
+public class LocationAnnotation: MKPointAnnotation { }
+
