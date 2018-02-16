@@ -25,6 +25,9 @@ open class LocationMapSelectionViewController: MapFormBuilderViewController, Eva
         super.init(layout: StackMapLayout())
         
         viewModel.evaluator.addObserver(self)
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneHandler))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelHandler))
     }
 
     deinit {
@@ -95,11 +98,11 @@ open class LocationMapSelectionViewController: MapFormBuilderViewController, Eva
     }
 
     private func reverseGeocode(coord: CLLocationCoordinate2D) {
-            viewModel.reverseGeoCode(location: CLLocation(latitude: coord.latitude, longitude: coord.longitude),
-                                     completion: {
-                                        self.locationAnnotation?.coordinate = coord
-                                        self.reloadForm()
-            })
+        viewModel.reverseGeoCode(location: CLLocation(latitude: coord.latitude, longitude: coord.longitude),
+                                 completion: {
+                                    self.locationAnnotation?.coordinate = coord
+                                    self.reloadForm()
+        })
     }
 
     @objc private func performLocationSearch(gesture: UILongPressGestureRecognizer) {
