@@ -76,9 +76,6 @@ open class TasksListContainerViewModel {
 
     // MARK: - Properties
     
-    /// Ordered array of incident statuses for the list to follow
-    open let incidentSortOrder: [SyncDetailsIncident.Status] = [.current, .assigned, .resourced, .unresourced]
-
     // Child view models
     open let headerViewModel: TasksListHeaderViewModel
     open let listViewModel: TasksListViewModel
@@ -274,10 +271,10 @@ open class TasksListContainerViewModel {
             }
         }
   
-        let sortedIncidents = incidentSortOrder.map { status -> CADFormCollectionSectionViewModel<TasksListItemViewModel>? in
+        let sortedIncidents = CADClientModelTypes.incidentStatus.allCases.map { status -> CADFormCollectionSectionViewModel<TasksListItemViewModel>? in
             guard let incidents = sectionedIncidents[status.rawValue], !incidents.isEmpty else { return nil }
             
-            if status == .current {
+            if status == CADClientModelTypes.incidentStatus.currentCase {
                 isShowingCurrentIncident = true
             }
             

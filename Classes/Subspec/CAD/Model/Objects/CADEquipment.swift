@@ -9,5 +9,9 @@
 import Foundation
 
 public protocol CADEquipment {
+    var count: Int! { get }
+    var description: String! { get }
 
+    init(count: Int!, description: String!)
+    init(equipment: CADEquipment)
 }
