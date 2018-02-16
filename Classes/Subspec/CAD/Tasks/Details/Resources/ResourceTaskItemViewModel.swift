@@ -10,7 +10,7 @@ import UIKit
 
 public class ResourceTaskItemViewModel: TaskItemViewModel {
     
-    open private(set) var resource: SyncDetailsResource?
+    open private(set) var resource: CADResourceType?
     
     public init(callsign: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
         super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName)
@@ -36,7 +36,7 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
         return vc
     }
 
-    public convenience init(resource: SyncDetailsResource) {
+    public convenience init(resource: CADResourceType) {
         self.init(
             callsign: resource.callsign,
             iconImage: resource.statusType.icon,

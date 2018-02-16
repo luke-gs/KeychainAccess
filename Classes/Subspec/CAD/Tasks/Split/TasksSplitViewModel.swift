@@ -91,10 +91,9 @@ open class TasksSplitViewModel {
     // MARK: Filter Data
     
     /// Sync incidents filtered
-    open var filteredIncidents: [SyncDetailsIncident] {
-        guard let sync = CADStateManager.shared.lastSync else { return [] }
-        
-        return sync.incidents.filter { incident in
+    open var filteredIncidents: [CADIncidentType] {
+        let incidents = Array(CADStateManager.shared.incidentsById.values)
+        return incidents.filter { incident in
             // TODO: remove this once filtered by CAD system
             if !filterViewModel.showResultsOutsidePatrolArea && incident.patrolGroup != CADStateManager.shared.patrolGroup {
                 return false
@@ -121,10 +120,9 @@ open class TasksSplitViewModel {
     }
     
     /// Sync patrols filtered
-    open var filteredPatrols: [SyncDetailsPatrol] {
-        guard let sync = CADStateManager.shared.lastSync else { return [] }
-        
-        return sync.patrols.filter { patrol in
+    open var filteredPatrols: [CADPatrolType] {
+        let patrols = Array(CADStateManager.shared.patrolsById.values)
+        return patrols.filter { patrol in
             // TODO: remove this once filtered by CAD system
             if !filterViewModel.showResultsOutsidePatrolArea && patrol.patrolGroup != CADStateManager.shared.patrolGroup {
                 return false
@@ -135,16 +133,15 @@ open class TasksSplitViewModel {
     }
     
     /// Sync broadcasts filtered
-    open var filteredBroadcasts: [SyncDetailsBroadcast] {
-        guard let sync = CADStateManager.shared.lastSync else { return [] }
-        return sync.broadcasts
+    open var filteredBroadcasts: [CADBroadcastType] {
+        let broadcasts = Array(CADStateManager.shared.broadcastsById.values)
+        return broadcasts
     }
     
     /// Sync incidents filtered
-    open var filteredResources: [SyncDetailsResource] {
-        guard let sync = CADStateManager.shared.lastSync else { return [] }
-
-        return sync.resources.filter { resource in
+    open var filteredResources: [CADResourceType] {
+        let resources = Array(CADStateManager.shared.resourcesById.values)
+        return resources.filter { resource in
             // TODO: remove this once filtered by CAD system
             if !filterViewModel.showResultsOutsidePatrolArea && resource.patrolGroup != CADStateManager.shared.patrolGroup {
                 return false

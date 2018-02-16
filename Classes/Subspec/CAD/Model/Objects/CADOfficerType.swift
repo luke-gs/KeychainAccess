@@ -29,5 +29,5 @@ public protocol CADOfficerType {
     var initials: String { get }
 
     /// Copy constructor
-    init(officer: SyncDetailsOfficer)
+    init(officer: CADOfficerType)
 }

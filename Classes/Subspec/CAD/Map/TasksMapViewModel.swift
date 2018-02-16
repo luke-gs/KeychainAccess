@@ -109,7 +109,7 @@ open class TasksMapViewModel {
     // MARK: - Mapping
     
     /// Maps incident view models to task annotations
-    open func taskAnnotations(for incidents: [SyncDetailsIncident]) -> [TaskAnnotation] {
+    open func taskAnnotations(for incidents: [CADIncidentType]) -> [TaskAnnotation] {
         return incidents.map { incident in
             return IncidentAnnotation(identifier: incident.identifier,
                                       coordinate: incident.coordinate,
@@ -126,7 +126,7 @@ open class TasksMapViewModel {
     
     
     /// Maps patrol view models to task annotations
-    open func taskAnnotations(for patrols: [SyncDetailsPatrol]) -> [TaskAnnotation] {
+    open func taskAnnotations(for patrols: [CADPatrolType]) -> [TaskAnnotation] {
         return patrols.map { patrol in
             return PatrolAnnotation(identifier: patrol.identifier,
                                     coordinate: patrol.coordinate,
@@ -137,7 +137,7 @@ open class TasksMapViewModel {
     }
     
     /// Maps resource view models to task annotations
-    open func taskAnnotations(for resources: [SyncDetailsResource]) -> [TaskAnnotation] {
+    open func taskAnnotations(for resources: [CADResourceType]) -> [TaskAnnotation] {
         return resources.filter{$0.location != nil}.map { resource in
             return ResourceAnnotation(identifier: resource.callsign,
                                       coordinate: resource.coordinate!,

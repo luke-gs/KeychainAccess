@@ -13,7 +13,7 @@ import PromiseKit
 open class CallsignStatusViewModel: CADStatusViewModel {
 
     /// The incident related to the resource status
-    open private(set) var incident: SyncDetailsIncident?
+    open private(set) var incident: CADIncidentType?
 
     /// The current status
     open var currentStatus: CADResourceStatusType? {
@@ -25,7 +25,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
 
     /// Init with sectioned statuses to display, and current selection
     public init(sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>],
-                selectedStatus: CADResourceStatusType, incident: SyncDetailsIncident?) {
+                selectedStatus: CADResourceStatusType, incident: CADIncidentType?) {
         super.init()
 
         self.sections = sections
@@ -34,7 +34,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
     }
     
     public func reload(sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>],
-                selectedStatus: CADResourceStatusType, incident: SyncDetailsIncident?) {
+                selectedStatus: CADResourceStatusType, incident: CADIncidentType?) {
         self.sections = sections
         self.selectedIndexPath = indexPathForStatus(selectedStatus)
         self.incident = incident

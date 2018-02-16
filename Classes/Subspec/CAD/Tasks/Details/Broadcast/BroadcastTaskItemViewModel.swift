@@ -9,7 +9,7 @@
 import UIKit
 
 open class BroadcastTaskItemViewModel: TaskItemViewModel {
-    open private(set) var broadcast: SyncDetailsBroadcast?
+    open private(set) var broadcast: CADBroadcastType?
     
     public init(broadcastNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
         super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName)
@@ -22,7 +22,7 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
         ]
     }
     
-    public convenience init(broadcast: SyncDetailsBroadcast) {
+    public convenience init(broadcast: CADBroadcastType) {
         self.init(broadcastNumber: broadcast.identifier,
                   iconImage: AssetManager.shared.image(forKey: .tabBarTasks),
                   iconTintColor: .disabledGray,

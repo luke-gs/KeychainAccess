@@ -263,7 +263,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
         } else if let incident = CADStateManager.shared.incidentsById[item.identifier] {
             // Show details of our resource if we are assigned to incident
             let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier)
-            var resource: SyncDetailsResource? = nil
+            var resource: CADResourceType? = nil
             if let currentResource = CADStateManager.shared.currentResource {
                 resource = resources.contains(currentResource) ? currentResource : nil
             }

@@ -11,11 +11,11 @@ import Foundation
 public protocol CADBroadcastType {
     var identifier: String! { get }
     var title: String! { get }
-    var location : CADLocation! { get }
+    var location : CADLocationType! { get }
     var lastUpdated: Date! { get }
     var details: String! { get }
     var createdAt: Date! { get }
 
-    var category: CADBroadcastCategoryType { get }
+    var categoryType: CADBroadcastCategoryType { get }
     var createdAtString: String { get }
 }

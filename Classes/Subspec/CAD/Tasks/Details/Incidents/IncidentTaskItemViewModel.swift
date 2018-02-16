@@ -10,8 +10,8 @@ import UIKit
 
 open class IncidentTaskItemViewModel: TaskItemViewModel {
 
-    open private(set) var incident: SyncDetailsIncident?
-    open private(set) var resource: SyncDetailsResource?
+    open private(set) var incident: CADIncidentType?
+    open private(set) var resource: CADResourceType?
 
     public init(incidentNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
         super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName)
@@ -27,7 +27,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         ]
     }
 
-    public convenience init(incident: SyncDetailsIncident, resource: SyncDetailsResource?) {
+    public convenience init(incident: CADIncidentType, resource: CADResourceType?) {
         self.init(incidentNumber: incident.identifier,
                   iconImage: resource?.statusType.icon ?? CADClientModelTypes.resourceStatus.defaultCase.icon,
                   iconTintColor: resource?.statusType.iconColors.icon ?? .white,

@@ -59,7 +59,7 @@ open class TaskDetailsOverviewViewModel: TaskDetailsViewModel {
     }
     
     /// Present "Directions, Street View, Search" options on address
-    open func presentAddressPopover(from cell: CollectionViewFormCell, for incident: SyncDetailsIncident) {
+    open func presentAddressPopover(from cell: CollectionViewFormCell, for incident: CADIncidentType) {
         let actionSheetVC = ActionSheetViewController(buttons: [
             ActionSheetButton(title: "Directions", icon: AssetManager.shared.image(forKey: .route), action: {
                 let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: incident.coordinate, addressDictionary:nil))

@@ -30,13 +30,12 @@ public protocol CADResourceType {
     var activityLog: [CADActivityLogItemType]? { get }
 
     var statusType: CADResourceStatusType { get }
-
     var coordinate: CLLocationCoordinate2D? { get }
+
+    // MARK: - Display Strings
 
     static var shiftTimeFormatter: DateFormatter { get }
     static var durationTimeFormatter: DateComponentsFormatter { get }
-
-    // MARK: - Display Strings
 
     /// Officer count in format `(n)`. `nil` if no `payrollIds` count
     var officerCountString: String? { get }

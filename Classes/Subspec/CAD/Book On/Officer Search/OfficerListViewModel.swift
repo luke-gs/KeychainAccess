@@ -50,11 +50,9 @@ public class OfficerListViewModel: GenericSearchDefaultViewModel {
     private lazy var viewModelData: [GenericSearchable] = {
         let section = "Recently Used".uppercased()
         var result: [GenericSearchable] = []
-        if let syncDetails = CADStateManager.shared.lastSync {
-            for officer in syncDetails.officers {
-                let viewModel = OfficerListItemViewModel(firstName: officer.firstName, lastName: officer.lastName, initials: officer.initials, rank: officer.rank, callsign: officer.payrollId, section: section)
-                result.append(viewModel)
-            }
+        for (_, officer) in CADStateManager.shared.officersById {
+            let viewModel = OfficerListItemViewModel(firstName: officer.firstName, lastName: officer.lastName, initials: officer.initials, rank: officer.rank, callsign: officer.payrollId, section: section)
+            result.append(viewModel)
         }
         return result
     }()

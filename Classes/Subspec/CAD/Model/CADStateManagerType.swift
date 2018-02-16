@@ -7,10 +7,105 @@
 //
 
 import Foundation
+import PromiseKit
 
 /// Protocol defining a CAD state manager. To be implemented in ClientKit
 public protocol CADStateManagerType {
+    // MARK: - Synced State
 
+    /// The logged in officer details
+    var officerDetails: CADOfficerType? { get }
+
+    /// The current patrol group
+    var patrolGroup: String { get }
+
+    /// The last book on data
+    var lastBookOn: CADBookOnDetailsType? { get set }
+
+    /// The last sync data
+    // var lastSync: SyncDetailsResponse? { get }
+
+    /// The last sync time
+    var lastSyncTime: Date? { get }
+
+    /// Incidents retrieved in last sync, keyed by incidentNumber
+    var incidentsById: [String: CADIncidentType] { get }
+
+    /// Resources retrieved in last sync, keyed by callsign
+    var resourcesById: [String: CADResourceType] { get }
+
+    /// Officers retrieved in last sync, keyed by payrollId
+    var officersById: [String: CADOfficerType] { get }
+
+    /// Patrols retrieved in last sync, keyed by patrolNumber
+    var patrolsById: [String: CADPatrolType] { get }
+
+    /// Broadcasts retrieved in last sync, keyed by callsign
+    var broadcastsById: [String: CADBroadcastType] { get }
+
+    /// The currently booked on resource
+    var currentResource: CADResourceType? { get }
+
+    /// The current incident for my callsign
+    var currentIncident: CADIncidentType? { get }
+
+    // MARK: - Officer
+
+    /// Fetch the logged in officer's details
+    func fetchCurrentOfficerDetails() -> Promise<CADOfficerType>
+
+    /// Set logged in officer as off duty
+    func setOffDuty()
+
+    /// Clears current incident and sets status to on air
+    func finaliseIncident()
+
+    /// Un-assigns the current incident for the booked on resource
+    func clearIncident()
+
+    // MARK: - Shift
+
+    /// Book on to a shift
+    func bookOn(request: CADBookOnDetailsType) -> Promise<Void>
+
+    /// Terminate shift
+    func bookOff(request: CADBookOffDetailsType) -> Promise<Void>
+
+    /// Update the status of our callsign
+    func updateCallsignStatus(status: CADResourceStatusType, incident: CADIncidentType?)
+
+    // MARK: - Manifest
+
+    /// Fetch the book on equipment items
+    func equipmentItems() -> [ManifestEntry]
+
+    /// Fetch the patrol groups
+    func patrolGroups() -> [ManifestEntry]
+
+    /// Sync the latest manifest items
+    func syncManifestItems() -> Promise<Void>
+
+    // MARK: - Sync
+
+    /// Sync the latest task summaries
+    func syncDetails() -> Promise<Void>
+
+    /// Perform initial sync after login or launching app
+    func syncInitial() -> Promise<Void>
+
+    /// Return all resources linked to an incident
+    func resourcesForIncident(incidentNumber: String) -> [CADResourceType]
+
+    /// Return the current incident for a resource
+    func incidentForResource(callsign: String) -> CADIncidentType?
+
+    /// Return all officers linked to a resource
+    func officersForResource(callsign: String) -> [CADOfficerType]
+
+    // MARK: - Notifications
+
+    /// Adds scheduled local notification and clears any conflicting ones.
+    func addScheduledNotifications()
 }
 
 /// Concrete class to provide static access to current state manager
@@ -50,3 +145,7 @@ public extension ManifestCollection {
     static let PatrolGroupCollection = ManifestCollection(rawValue: "patrolgroup")
 }
 
+/// Extendable class for local notifications
+open class CADLocalNotifications {
+    public static let shiftEnding = "CADShiftEndingNotification"
+}

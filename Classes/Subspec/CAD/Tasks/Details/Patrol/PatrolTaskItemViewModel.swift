@@ -9,7 +9,7 @@
 import UIKit
 
 open class PatrolTaskItemViewModel: TaskItemViewModel {
-    open private(set) var patrol: SyncDetailsPatrol?
+    open private(set) var patrol: CADPatrolType?
     
     public init(patrolNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
         super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName)
@@ -22,7 +22,7 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
         ]
     }
     
-    public convenience init(patrol: SyncDetailsPatrol) {
+    public convenience init(patrol: CADPatrolType) {
         self.init(patrolNumber: patrol.identifier,
                   iconImage: AssetManager.shared.image(forKey: .tabBarTasks),
                   iconTintColor: .disabledGray,

@@ -242,10 +242,10 @@ open class TasksListContainerViewModel {
     }
     
     /// Maps sync models to view models
-    open func taskListSections(for incidents: [SyncDetailsIncident], filter: ((SyncDetailsIncident) -> Bool)?) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
+    open func taskListSections(for incidents: [CADIncidentType], filter: ((CADIncidentType) -> Bool)?) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
         var isShowingCurrentIncident = false
 
-        var sectionedIncidents: [String: Array<SyncDetailsIncident>] = [:]
+        var sectionedIncidents: [String: Array<CADIncidentType>] = [:]
 
         // Map incidents to sections
         for incident in incidents {
@@ -253,7 +253,7 @@ open class TasksListContainerViewModel {
                 guard filter(incident) else { continue }
             }
 
-            let status = incident.status.rawValue
+            let status = incident.statusType.rawValue
             if sectionedIncidents[status] == nil {
                 sectionedIncidents[status] = []
             }
@@ -297,9 +297,9 @@ open class TasksListContainerViewModel {
     }
     
     /// Maps sync models to view models
-    open func taskListSections(for patrols: [SyncDetailsPatrol], filter: ((SyncDetailsPatrol) -> Bool)?) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
+    open func taskListSections(for patrols: [CADPatrolType], filter: ((CADPatrolType) -> Bool)?) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
         
-        var sectionedPatrols: [String: Array<SyncDetailsPatrol>] = [:]
+        var sectionedPatrols: [String: Array<CADPatrolType>] = [:]
         
         // Map incidents to sections
         for patrol in patrols {
@@ -338,9 +338,9 @@ open class TasksListContainerViewModel {
     }
     
     /// Maps sync models to view models
-    open func taskListSections(for broadcasts: [SyncDetailsBroadcast], filter: ((SyncDetailsBroadcast) -> Bool)?) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
+    open func taskListSections(for broadcasts: [CADBroadcastType], filter: ((CADBroadcastType) -> Bool)?) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
         
-        var sectionedBroadcasts: [String: Array<SyncDetailsBroadcast>] = [:]
+        var sectionedBroadcasts: [String: Array<CADBroadcastType>] = [:]
         
         // Map incidents to sections
         for broadcast in broadcasts {
@@ -379,7 +379,7 @@ open class TasksListContainerViewModel {
     }
     
     /// Maps sync models to view models
-    open func taskListSections(for resources: [SyncDetailsResource], filter: ((SyncDetailsResource) -> Bool)?) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
+    open func taskListSections(for resources: [CADResourceType], filter: ((CADResourceType) -> Bool)?) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
         var isShowingDuress = false
         
         // Map resources to sections
@@ -387,7 +387,7 @@ open class TasksListContainerViewModel {
         let tasked = NSLocalizedString("Tasked", comment: "")
         let untasked = NSLocalizedString("Untasked", comment: "")
         
-        var sectionedResources: [String: Array<SyncDetailsResource>] = [
+        var sectionedResources: [String: Array<CADResourceType>] = [
             duress: [],
             tasked: [],
             untasked: []

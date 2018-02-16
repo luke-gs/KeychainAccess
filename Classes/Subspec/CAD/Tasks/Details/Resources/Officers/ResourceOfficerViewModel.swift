@@ -26,7 +26,7 @@ public class ResourceOfficerViewModel {
         self.contactNumber = contactNumber
     }
     
-    convenience public init(officer: SyncDetailsOfficer, resource: SyncDetailsResource? = nil) {
+    convenience public init(officer: CADOfficerType, resource: CADResourceType? = nil) {
         let commsEnabled = officer.contactNumber != nil
         
         self.init(title: officer.displayName,

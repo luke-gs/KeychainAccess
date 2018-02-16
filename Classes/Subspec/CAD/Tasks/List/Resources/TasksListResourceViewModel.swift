@@ -30,7 +30,7 @@ open class TasksListResourceViewModel: TasksListItemViewModel {
         super.init(identifier: identifier, title: title, subtitle: subtitle, caption: caption)
     }
 
-    public convenience init(resource: SyncDetailsResource, incident: SyncDetailsIncident?) {
+    public convenience init(resource: CADResourceType, incident: CADIncidentType?) {
         var incidentViewModel: TasksListIncidentViewModel? = nil
         if let incident = incident {
             incidentViewModel = TasksListIncidentViewModel(incident: incident, hasUpdates: false)

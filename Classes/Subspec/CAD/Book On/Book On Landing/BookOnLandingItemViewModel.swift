@@ -36,7 +36,7 @@ open class BookOnLandingItemViewModel {
 
 /// View model of callsign section of not booked on screen
 open class BookOnLandingCallsignItemViewModel: BookOnLandingItemViewModel {
-    open let resource: SyncDetailsResource
+    open let resource: CADResourceType
 
     open var callsign: String
     open var status: CADResourceStatusType?
@@ -50,7 +50,7 @@ open class BookOnLandingCallsignItemViewModel: BookOnLandingItemViewModel {
     open var badgeFillColor: UIColor?
     
     /// Create a view model from the callsign resource
-    public init(resource: SyncDetailsResource) {
+    public init(resource: CADResourceType) {
         // Get icon colors
         let (imageColor, imageBackgroundColor) = resource.statusType.iconColors
 

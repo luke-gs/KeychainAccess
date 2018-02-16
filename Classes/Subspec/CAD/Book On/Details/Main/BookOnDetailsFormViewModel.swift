@@ -25,7 +25,7 @@ open class BookOnDetailsFormViewModel {
     public var content: BookOnDetailsFormContentMainViewModel
 
     /// Resource we are booking on to
-    private var resource: SyncDetailsResource
+    private var resource: CADResourceType
 
     /// Whether we are editing an existing bookon
     public let isEditing: Bool
@@ -33,7 +33,7 @@ open class BookOnDetailsFormViewModel {
     /// Whether to show vehicle fields
     public let showVehicleFields: Bool = true
 
-    public init(resource: SyncDetailsResource) {
+    public init(resource: CADResourceType) {
         self.resource = resource
 
         // Create equipment selection pickables from manifest items
