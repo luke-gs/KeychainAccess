@@ -69,6 +69,9 @@ public enum ResourceStatusCore: String, CADResourceStatusType {
     /// The default case when status is unknown
     public static var defaultCase: CADResourceStatusType = ResourceStatusCore.unavailable
 
+    /// The default case when creating a new incident
+    public static var defaultCreateCase: CADResourceStatusType = ResourceStatusCore.atIncident
+
     /// The case for a resource in duress
     public static var duressCase: CADResourceStatusType = ResourceStatusCore.duress
 

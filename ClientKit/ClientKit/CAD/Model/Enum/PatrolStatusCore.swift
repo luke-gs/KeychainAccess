@@ -32,5 +32,15 @@ public enum PatrolStatusCore: String, Codable, CADPatrolStatusType {
             return NSLocalizedString("Unassigned", comment: "")
         }
     }
+
+    /// Whether to use dark bakckground when displayed on map
+    public var useDarkBackgroundOnMap: Bool {
+        switch self {
+        case .assigned:
+            return true
+        default:
+            return false
+        }
+    }
 }
 

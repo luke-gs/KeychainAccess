@@ -41,4 +41,15 @@ public enum IncidentStatusCore: String, CADIncidentStatusType {
             return NSLocalizedString("Assigned", comment: "")
         }
     }
+
+    /// Whether to use dark bakckground when displayed on map
+    public var useDarkBackgroundOnMap: Bool {
+        switch self {
+        case .unresourced:
+            return true
+        default:
+            return false
+        }
+    }
+
 }
