@@ -135,7 +135,6 @@ open class MapFormBuilderViewController: FormBuilderViewController {
 
 }
 
-
 /// An abstract base class for laying out the views of a `MapFormBuilderViewController`
 /// instance.
 ///

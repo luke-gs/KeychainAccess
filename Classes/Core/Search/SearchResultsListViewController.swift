@@ -127,14 +127,6 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
         builder += viewModel.results.flatMap { viewModel.itemsForResultsInSection($0) }
     }
 
-    // MARK: - CollectionViewDelegateFormLayout methods
-
-    public override func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, insetForSection section: Int) -> UIEdgeInsets {
-        var inset = super.collectionView(collectionView, layout: layout, insetForSection: section)
-        inset.top = 4.0
-        return inset
-    }
-
     // MARK: - Common methods
 
     public func requestToEdit() {
