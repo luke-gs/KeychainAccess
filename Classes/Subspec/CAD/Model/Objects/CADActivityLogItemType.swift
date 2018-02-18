@@ -9,10 +9,10 @@
 import Foundation
 
 public protocol CADActivityLogItemType {
-    var title: String { get }
-    var description: String { get }
-    var source: String { get }
-    var timestamp: Date { get }
+    var title: String! { get }
+    var description: String! { get }
+    var source: String! { get }
+    var timestamp: Date! { get }
 
     var color: UIColor { get }
 }
