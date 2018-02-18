@@ -12,11 +12,13 @@ public struct SearchHeaderConfiguration {
     public var title: String?
     public var subtitle: String?
     public var image: ImageLoadable?
+    public let imageStyle: ImageStyle
 
-    public init(title: String?, subtitle: String?, image: ImageLoadable?) {
+    public init(title: String?, subtitle: String?, image: ImageLoadable?, imageStyle: ImageStyle = .roundedRect) {
         self.title = title
         self.subtitle = subtitle
         self.image = image
+        self.imageStyle = imageStyle
     }
 }
 
@@ -25,23 +27,13 @@ public class DefaultSearchHeaderDetailView: UIView, SearchHeaderUpdateable {
     public func update(with title: String? = nil, subtitle: String? = nil, image: ImageLoadable? = nil) {
         titleLabel.text = title ?? titleLabel.text
         subtitleLabel.text = subtitle ?? subtitleLabel.text
-        self.image = image?.sizing().image ?? self.image
+        imageView.image = image?.sizing().image ?? imageView.image
     }
     // MARK: - Public Properties
 
-    /// Image to display inside the circle.
-    public var image: UIImage? {
-        get {
-            return imageView.image
-        }
-
-        set {
-            imageView.image = newValue
-        }
-    }
-
     /// The title label.
     public let titleLabel: UILabel = UILabel(frame: .zero)
+    public let imageView: UIImageView = UIImageView()
 
     /// The subtitle label.
     public let subtitleLabel: UILabel = UILabel(frame: .zero)
@@ -69,20 +61,27 @@ public class DefaultSearchHeaderDetailView: UIView, SearchHeaderUpdateable {
     }
 
     // MARK: - Private Properties
-
-    private var imageView: UIImageView = UIImageView()
-
     private let imageWidth: CGFloat = 48.0
+    public var imageStyle: ImageStyle = .roundedRect {
+        didSet {
+            imageView.layer.cornerRadius = imageStyle.cornerRadius(for: imageView.frame.size)
+            setNeedsLayout()
+        }
+    }
 
     // MARK: - Initializers
     public init(configuration: SearchHeaderConfiguration) {
         super.init(frame: .zero)
 
+        imageStyle = configuration.imageStyle
         titleLabel.text = configuration.title
         subtitleLabel.text = configuration.subtitle
-        defer {
-            image = configuration.image?.sizing().image
-        }
+
+        // Image sizing
+        imageView.image = configuration.image?.sizing().image
+        configuration.image?.loadImage(completion: { (imageSizable) in
+            self.imageView.image = imageSizable.sizing().image
+        })
 
         commonInit()
     }
@@ -100,13 +99,18 @@ public class DefaultSearchHeaderDetailView: UIView, SearchHeaderUpdateable {
     private func commonInit() {
         translatesAutoresizingMaskIntoConstraints = false
 
-        let image = AssetManager.shared.image(forKey: .edit)?
-            .withCircleBackground(tintColor: UIColor.white,
-                                  circleColor: UIColor.primaryGray,
-                                  style: .auto(padding:  CGSize(width: 14, height: 14),
-                                               shrinkImage: true)
-        )
-        imageView = UIImageView(image: image)
+        if imageView.image == nil {
+            let image = AssetManager.shared.image(forKey: .edit)?
+                .withCircleBackground(tintColor: UIColor.white,
+                                      circleColor: UIColor.primaryGray,
+                                      style: .auto(padding:  CGSize(width: 14, height: 14),
+                                                   shrinkImage: true)
+            )
+            imageView.image = image
+        }
+
+        imageView.layer.cornerRadius = imageStyle.cornerRadius(for: CGSize(width: imageWidth, height: imageWidth))
+        imageView.clipsToBounds = true
         imageView.tintColor = UIColor.white
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
