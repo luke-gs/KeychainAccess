@@ -18,7 +18,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
 
     // TEMP INVOLVEMENTS
     fileprivate let involvements = [
-        "Reporting Officer",
+        "Reporting Officer", 
         "Assisting Officer",
         "Case Officer",
         "Forensic Intelligence Officer",
@@ -91,7 +91,8 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         let displayable = OfficerSummaryDisplayable(officer)
         let headerConfig = SearchHeaderConfiguration(title: displayable.title,
                                                      subtitle: displayable.detail1 ?? "No involvements selected",
-                                                     image: displayable.thumbnail(ofSize: .small)?.sizing().image)
+                                                     image: displayable.thumbnail(ofSize: .small),
+                                                     imageStyle: .circle)
         let datasource = OfficerInvolvementSearchDatasource(objects: involvements,
                                                             selectedObjects: officer.involvements,
                                                             configuration: headerConfig)

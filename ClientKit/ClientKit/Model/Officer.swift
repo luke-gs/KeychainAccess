@@ -57,9 +57,9 @@ class OfficerImageSizing: EntityImageSizing<Officer> {
     override func loadImage(completion: @escaping (ImageSizable) -> ()) {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
 
-
             var image = #imageLiteral(resourceName: "Avatar 1").sizing()
             image.size = self.size
+            image.contentMode = .scaleAspectFit
 
             completion(image)
         }
