@@ -99,12 +99,13 @@ open class TasksSplitViewModel {
                 return false
             }
 
-            let priorityFilter = filterViewModel.priorities.contains(incident.grade)
-            let resourcedFilter = filterViewModel.resourcedIncidents.contains(incident.status)
+            let priorityFilter = filterViewModel.priorities.contains(where: { $0 == incident.grade })
+            let resourcedFilter = filterViewModel.resourcedIncidents.contains(where: { $0 == incident.statusType })
             
             // If status is not in filter options always show
-            let isOther = incident.status != .resourced && incident.status != .unresourced
-            let isCurrent = incident.status == .current
+            // TODO: move to client kit
+            let isOther = incident.statusType.rawValue != "Resourced" && incident.statusType.rawValue != "Unresourced"
+            let isCurrent = incident.statusType == CADClientModelTypes.incidentStatus.currentCase
             
             var hasResourceInDuress: Bool = false
             

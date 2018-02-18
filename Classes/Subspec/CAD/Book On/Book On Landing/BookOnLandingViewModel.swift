@@ -15,11 +15,10 @@ open class BookOnLandingViewModel {
     open func convertCallsignsToViewModels() -> CADFormCollectionSectionViewModel<BookOnLandingCallsignItemViewModel> {
         // Just use all callsigns in patrol group for now
         var recentCallsigns: [BookOnLandingCallsignItemViewModel] = []
-        if let syncDetails = CADStateManager.shared.lastSync {
-            for resource in syncDetails.resources {
-                if resource.patrolGroup == CADStateManager.shared.patrolGroup {
-                    recentCallsigns.append(BookOnLandingCallsignItemViewModel(resource: resource))
-                }
+        let resources = Array(CADStateManager.shared.resourcesById.values)
+        for resource in resources {
+            if resource.patrolGroup == CADStateManager.shared.patrolGroup {
+                recentCallsigns.append(BookOnLandingCallsignItemViewModel(resource: resource))
             }
         }
         return CADFormCollectionSectionViewModel(title: "Recently Used Call Signs", items: recentCallsigns)

@@ -73,15 +73,12 @@ open class CallsignStatusViewModel: CADStatusViewModel {
             }
 
             // Core specific status checks, may want to move this out
-            if let newStatus = newStatus as? ResourceStatusCore {
-                switch newStatus {
-                case .trafficStop:
-                    promise = promise.then {
-                        return self.promptForTrafficStopDetails()
-                        }.then { _ -> Void in
-                            // TODO: Submit traffic stop details
-                    }
-                default: break
+            // TODO: move to client kit
+            if newStatus.rawValue == "Traffic Stop" {
+                promise = promise.then { _ in
+                    return self.promptForTrafficStopDetails()
+                    }.then { _ -> Void in
+                        // TODO: Submit traffic stop details
                 }
             }
 
@@ -100,6 +97,11 @@ open class CallsignStatusViewModel: CADStatusViewModel {
         }
     }
     
+    open func promptForTrafficStopDetails() -> Promise<Void> {
+        return Promise<Void>()
+    }
+    // TODO: move to client kit
+/*
     // Prompts the user for more details when tapping on "Traffic Stop" status
     open func promptForTrafficStopDetails() -> Promise<TrafficStopRequest> {
         let (promise, fulfill, reject) = Promise<TrafficStopRequest>.pending()
@@ -113,7 +115,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
         delegate?.present(BookOnScreen.trafficStop(completionHandler: completionHandler))
         return promise
     }
-
+*/
     // Prompts the user for reason for status change
     open func promptForStatusReason() -> Promise<String> {
 

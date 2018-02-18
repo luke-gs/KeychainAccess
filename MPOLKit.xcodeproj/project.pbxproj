@@ -2537,13 +2537,13 @@
 		9689CA5920364A010001D993 /* Enum */ = {
 			isa = PBXGroup;
 			children = (
-				966CE9C8203676C100646A6A /* CADBroadcastCategoryType.swift */,
 				966CE9BA2036562900646A6A /* CADEnum.swift */,
+				966CE9C8203676C100646A6A /* CADBroadcastCategoryType.swift */,
 				9689CA48203646AB0001D993 /* CADIncidentGradeType.swift */,
 				966CE9CC20367DCF00646A6A /* CADIncidentStatusType.swift */,
+				966CE9D020368DB800646A6A /* CADPatrolStatusType.swift */,
 				96435CBD203248FC00C77A75 /* CADResourceStatusType.swift */,
 				9689CA4A203646E60001D993 /* CADResourceUnitType.swift */,
-				966CE9D020368DB800646A6A /* CADPatrolStatusType.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";

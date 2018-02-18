@@ -25,6 +25,9 @@ public protocol CADResourceStatusType: CADEnumType {
     /// The default case when status is unknown
     static var defaultCase: CADResourceStatusType { get }
 
+    /// The default case when creating a new incident
+    static var defaultCreateCase: CADResourceStatusType { get }
+
     /// The case for a resource in duress
     static var duressCase: CADResourceStatusType { get }
 

@@ -307,7 +307,7 @@ open class TasksListContainerViewModel {
                 guard filter(patrol) else { continue }
             }
             
-            let status = patrol.status.rawValue
+            let status = patrol.statusType.rawValue
             if sectionedPatrols[status] == nil {
                 sectionedPatrols[status] = []
             }
@@ -348,14 +348,14 @@ open class TasksListContainerViewModel {
                 guard filter(broadcast) else { continue }
             }
             
-            let type = broadcast.type.rawValue
+            let type = broadcast.categoryType.rawValue
             if sectionedBroadcasts[type] == nil {
                 sectionedBroadcasts[type] = []
             }
             
             // Apply search text filter to title, identifier, type, or suburb
             if let searchText = searchText?.lowercased(), !searchText.isEmpty {
-                let matchedValues = [broadcast.title, broadcast.identifier, broadcast.type.rawValue, broadcast.location?.suburb].removeNils().filter {
+                let matchedValues = [broadcast.title, broadcast.identifier, broadcast.categoryType.rawValue, broadcast.location?.suburb].removeNils().filter {
                     return $0.lowercased().hasPrefix(searchText)
                 }
                 if !matchedValues.isEmpty {

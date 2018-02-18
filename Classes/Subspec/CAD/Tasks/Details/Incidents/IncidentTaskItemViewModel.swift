@@ -32,7 +32,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
                   iconImage: resource?.statusType.icon ?? CADClientModelTypes.resourceStatus.defaultCase.icon,
                   iconTintColor: resource?.statusType.iconColors.icon ?? .white,
                   color: resource?.statusType.iconColors.background,
-                  statusText: resource?.statusType.title ?? incident.status.rawValue,
+                  statusText: resource?.statusType.title ?? incident.statusType.title,
                   itemName: [incident.type, incident.resourceCountString].joined())
         self.incident = incident
         self.resource = resource
@@ -54,7 +54,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
             iconImage = resource?.statusType.icon ?? CADClientModelTypes.resourceStatus.defaultCase.icon
             iconTintColor = resource?.statusType.iconColors.icon ?? .white
             color = resource?.statusType.iconColors.background
-            statusText = resource?.statusType.title ?? incident.status.rawValue
+            statusText = resource?.statusType.title ?? incident.statusType.title
             itemName = [incident.type, incident.resourceCountString].joined()
 
             viewModels.forEach {

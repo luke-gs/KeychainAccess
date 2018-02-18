@@ -17,7 +17,7 @@ public protocol CADStateManagerType {
     var officerDetails: CADOfficerType? { get }
 
     /// The current patrol group
-    var patrolGroup: String { get }
+    var patrolGroup: String { get set }
 
     /// The last book on data
     var lastBookOn: CADBookOnDetailsType? { get set }
@@ -78,6 +78,9 @@ public protocol CADStateManagerType {
 
     /// Fetch the book on equipment items
     func equipmentItems() -> [ManifestEntry]
+
+    /// Fetch the book on equipment items, as a dictionary
+    func equipmentItemsByTitle() -> [String: ManifestEntry]
 
     /// Fetch the patrol groups
     func patrolGroups() -> [ManifestEntry]

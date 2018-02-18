@@ -24,4 +24,7 @@ public protocol CADIncidentStatusType: CADEnumType {
     /// Display title for status
     var title: String { get }
 
+    /// Whether to use dark bakckground when displayed on map
+    var useDarkBackgroundOnMap: Bool { get }
+
 }

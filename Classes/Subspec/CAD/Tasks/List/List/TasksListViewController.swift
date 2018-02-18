@@ -265,7 +265,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
             let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier)
             var resource: CADResourceType? = nil
             if let currentResource = CADStateManager.shared.currentResource {
-                resource = resources.contains(currentResource) ? currentResource : nil
+                resource = resources.contains(where: { $0 == currentResource }) ? currentResource : nil
             }
             return IncidentTaskItemViewModel(incident: incident, resource: resource)
         } else if let patrol = CADStateManager.shared.patrolsById[item.identifier] {

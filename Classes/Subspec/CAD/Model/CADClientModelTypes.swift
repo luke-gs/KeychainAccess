@@ -12,6 +12,19 @@ import Foundation
 /// These should be set in ClientKit or App before use!
 open class CADClientModelTypes {
 
+    // MARK: - Requests
+
+    /// The type used for a book on details
+    static open var bookonDetails: CADBookOnDetailsType.Type!
+
+    /// The type used for officer details
+    static open var officerDetails: CADOfficerType.Type!
+
+    /// The type used for officer details
+    static open var equipmentDetails: CADEquipmentType.Type!
+
+    // MARK: - Enums
+
     /// The type used for a resource status
     static open var resourceStatus: CADResourceStatusType.Type!
 

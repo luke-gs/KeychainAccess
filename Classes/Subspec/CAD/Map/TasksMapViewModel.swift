@@ -119,7 +119,7 @@ open class TasksMapViewModel {
                                       badgeTextColor: incident.grade.badgeColors.text,
                                       badgeFillColor: incident.grade.badgeColors.fill,
                                       badgeBorderColor: incident.grade.badgeColors.border,
-                                      usesDarkBackground: incident.status == .unresourced,
+                                      usesDarkBackground: incident.statusType.useDarkBackgroundOnMap,
                                       priority: incident.grade)
         }
     }
@@ -132,7 +132,7 @@ open class TasksMapViewModel {
                                     coordinate: patrol.coordinate,
                                     title: patrol.type,
                                     subtitle: nil,
-                                    usesDarkBackground: patrol.status == .assigned)
+                                    usesDarkBackground: patrol.statusType.useDarkBackgroundOnMap)
         }
     }
     

@@ -37,11 +37,11 @@ open class CreateIncidentViewModel {
     }
     
     open var initialStatus: CADResourceStatusType {
-        return ResourceStatusCore.atIncident
+        return CADClientModelTypes.resourceStatus.defaultCreateCase
     }
 
     open var priorityOptions: [String] {
-        return IncidentGrade.allCases.map({ $0.rawValue })
+        return CADClientModelTypes.incidentGrade.allCases.map({ $0.rawValue })
     }
     
     open var primaryCodeOptions: [String] {

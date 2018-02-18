@@ -53,9 +53,6 @@ public protocol CADResourceType {
     func equipmentListString(separator: String) -> String?
 }
 
-extension CADResourceType {
-    // Equality
-    public static func ==(lhs: CADResourceType, rhs: CADResourceType) -> Bool {
-        return lhs.callsign == rhs.callsign
-    }
+func ==(lhs: CADResourceType?, rhs: CADResourceType?) -> Bool {
+    return lhs?.callsign == rhs?.callsign
 }

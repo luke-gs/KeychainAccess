@@ -22,4 +22,7 @@ public protocol CADPatrolStatusType: CADEnumType {
 
     /// The display title for the category
     var title: String { get }
+
+    /// Whether to use dark bakckground when displayed on map
+    var useDarkBackgroundOnMap: Bool { get }
 }

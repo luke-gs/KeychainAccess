@@ -14,15 +14,14 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
         var offDuty: [BookOnLandingCallsignItemViewModel] = []
         var bookedOn: [BookOnLandingCallsignItemViewModel] = []
 
-        if let syncDetails = CADStateManager.shared.lastSync {
-            for resource in syncDetails.resources {
-                if resource.patrolGroup == CADStateManager.shared.patrolGroup {
-                    let viewModel = BookOnLandingCallsignItemViewModel(resource: resource)
-                    if resource.shiftStart == nil {
-                        offDuty.append(viewModel)
-                    } else {
-                        bookedOn.append(viewModel)
-                    }
+        let resources = Array(CADStateManager.shared.resourcesById.values)
+        for resource in resources {
+            if resource.patrolGroup == CADStateManager.shared.patrolGroup {
+                let viewModel = BookOnLandingCallsignItemViewModel(resource: resource)
+                if resource.shiftStart == nil {
+                    offDuty.append(viewModel)
+                } else {
+                    bookedOn.append(viewModel)
                 }
             }
         }
@@ -116,12 +115,15 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
             // Sort items
             let sortedItems = section.items.sorted { (lhs, rhs) in
                 if lhs.status != rhs.status {
+                    // TODO: move to client kit
                     // Status is not same, check if either is On Air, or At Incident
+                    /*
                     if lhs.status == ResourceStatusCore.onAir || rhs.status == ResourceStatusCore.onAir {
                         return lhs.status == ResourceStatusCore.onAir
                     } else if lhs.status == ResourceStatusCore.atIncident || rhs.status == ResourceStatusCore.atIncident {
                         return lhs.status == ResourceStatusCore.atIncident
                     }
+ */
                 }
                 // Sort alphabetically by callsign
                 return lhs.callsign < rhs.callsign

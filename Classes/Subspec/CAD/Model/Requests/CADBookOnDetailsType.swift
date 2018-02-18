@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol CADBookOnDetailsType {
+public protocol CADBookOnDetailsType: class {
 
     /// The callsign of the resource to book on to.
     var callsign: String! { get set }
@@ -45,6 +45,9 @@ public protocol CADBookOnDetailsType {
 
     /// NOT IN API: The vehicle odometer
     var odometer: String! { get set }
+
+    // Default constructor
+    init()
 
     /// Copy constructor (deep)
     init(request: CADBookOnDetailsType)

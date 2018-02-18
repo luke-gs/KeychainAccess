@@ -83,7 +83,8 @@ open class TasksMapViewController: MapViewController {
             }
 
             let priorities = annotation.annotations.map { ($0 as? IncidentAnnotation)?.priority }.removeNils()
-            let sortedPriorities = priorities.sorted { IncidentGrade.allCases.index(of: $0) ?? 0 < IncidentGrade.allCases.index(of: $1) ?? 0 }
+            let allGrades = CADClientModelTypes.incidentGrade.allCases
+            let sortedPriorities = priorities.sorted { (lhs, rhs) in allGrades.index(where: { $0 == lhs }) ?? 0 < allGrades.index(where: { $0 == rhs }) ?? 0 }
             let highestPriority = sortedPriorities.first
             
             annotationView?.color = highestPriority?.badgeColors.border ?? .disabledGray
