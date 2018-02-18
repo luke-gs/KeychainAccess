@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PromiseKit
 
 open class BroadcastTaskItemViewModel: TaskItemViewModel {
     open private(set) var broadcast: SyncDetailsBroadcast?
@@ -43,6 +44,11 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
         viewModels.forEach {
             $0.reloadFromModel()
         }
+    }
+    
+    open override func refreshTask() -> Promise<Void> {
+        // TODO: Add method to CADStateManager to fetch individual broadcast
+        return Promise<Void>()
     }
 
 }

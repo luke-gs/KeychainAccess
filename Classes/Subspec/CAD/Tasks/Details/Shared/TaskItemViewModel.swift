@@ -88,10 +88,6 @@ open class TaskItemViewModel {
     
     // Called when a user pulls to refresh on the sidebar
     open func refreshTask() -> Promise<Void> {
-        return CADStateManager.shared.syncDetails().then { _ -> Void in
-            self.reloadFromModel()
-        }.catch { error in
-            AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
-        }
+        MPLRequiresConcreteImplementation()
     }
 }

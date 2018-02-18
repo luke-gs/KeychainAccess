@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PromiseKit
 
 open class PatrolTaskItemViewModel: TaskItemViewModel {
     open private(set) var patrol: SyncDetailsPatrol?
@@ -43,5 +44,10 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
         viewModels.forEach {
             $0.reloadFromModel()
         }
+    }
+    
+    open override func refreshTask() -> Promise<Void> {
+        // TODO: Add method to CADStateManager to fetch individual patrol
+        return Promise<Void>()
     }
 }

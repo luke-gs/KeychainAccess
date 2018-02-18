@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PromiseKit
 
 open class IncidentTaskItemViewModel: TaskItemViewModel {
 
@@ -89,5 +90,10 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
             }
         }
         return false
+    }
+    
+    open override func refreshTask() -> Promise<Void> {
+        // TODO: Add method to CADStateManager to fetch individual incident
+        return Promise<Void>()
     }
 }

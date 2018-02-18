@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PromiseKit
 
 public class ResourceTaskItemViewModel: TaskItemViewModel {
     
@@ -71,4 +72,8 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
         return false
     }
 
+    open override func refreshTask() -> Promise<Void> {
+        // TODO: Add method to CADStateManager to fetch individual resource
+        return Promise<Void>()
+    }
 }
