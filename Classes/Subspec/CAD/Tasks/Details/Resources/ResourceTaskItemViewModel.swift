@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import PromiseKit
 
 public class ResourceTaskItemViewModel: TaskItemViewModel {
     
     open private(set) var resource: SyncDetailsResource?
     
     public init(callsign: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
-        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName)
+        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, subtitleText: nil)
 
         if callsign == CADStateManager.shared.currentResource?.callsign {
             self.navTitle = NSLocalizedString("My call sign", comment: "")
@@ -71,4 +72,8 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
         return false
     }
 
+    open override func refreshTask() -> Promise<Void> {
+        // TODO: Add method to CADStateManager to fetch individual resource
+        return Promise<Void>()
+    }
 }

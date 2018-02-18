@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import PromiseKit
 
 open class PatrolTaskItemViewModel: TaskItemViewModel {
     open private(set) var patrol: SyncDetailsPatrol?
     
     public init(patrolNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
-        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName)
+        let captionText = "#\(patrolNumber)"
+        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, subtitleText: captionText)
 
         self.navTitle = NSLocalizedString("Patrol details", comment: "")
         self.compactNavTitle = itemName
@@ -42,5 +44,10 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
         viewModels.forEach {
             $0.reloadFromModel()
         }
+    }
+    
+    open override func refreshTask() -> Promise<Void> {
+        // TODO: Add method to CADStateManager to fetch individual patrol
+        return Promise<Void>()
     }
 }
