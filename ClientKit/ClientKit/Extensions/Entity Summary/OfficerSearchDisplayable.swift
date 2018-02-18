@@ -11,6 +11,8 @@ import MPOLKit
 public class OfficerSearchDisplayable: EntitySummaryDisplayable {
     public private(set) var officer: Officer
 
+    public var image: ImageSizing?
+
     public init(_ entity: MPOLKitEntity) {
         officer = entity as! Officer
     }
@@ -36,7 +38,17 @@ public class OfficerSearchDisplayable: EntitySummaryDisplayable {
     }
 
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
-        return EntityImageSizing(entity: officer)
+
+        if let image = image {
+            return image
+        }
+
+        let imageSizing = EntityImageSizing(entity: officer)
+        imageSizing.loadImage { (image) in
+            self.image = image.sizing()
+        }
+
+        return imageSizing
     }
 
     private var formattedName: String? {

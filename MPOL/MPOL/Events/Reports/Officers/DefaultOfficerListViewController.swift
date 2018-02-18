@@ -87,8 +87,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
     // MARK: - Officer model delegate 
 
     public func didSelectOfficer(officer: Officer) {
-
-        let displayable = OfficerSummaryDisplayable(officer)
+        guard let displayable = viewModel.displayable(for: officer) else { return }
         let headerConfig = SearchHeaderConfiguration(title: displayable.title,
                                                      subtitle: displayable.detail1 ?? "No involvements selected",
                                                      image: displayable.thumbnail(ofSize: .small),

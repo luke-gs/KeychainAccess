@@ -74,6 +74,13 @@ public class EventOfficerListViewModel {
         return "\(officerCount) CURRENT OFFICER\(officerCount == 1 ? "" : "S")"
     }
 
+    public func displayable(for officer: Officer) -> OfficerSummaryDisplayable? {
+        if let index = officerDisplayables.index(where: { $0.officer == officer }) {
+            return officerDisplayables[index]
+        }
+        return nil
+    }
+
     public func add(officer: Officer) {
         officerDisplayables.append(OfficerSummaryDisplayable(officer))
         report.officers.append(officer)
