@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol CADActivityLogItemType {
+public protocol CADActivityLogItemType: class {
 
     // MARK: - Network
     var description: String! { get }

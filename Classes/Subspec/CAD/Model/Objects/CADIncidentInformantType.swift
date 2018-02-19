@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol CADIncidentInformantType {
+public protocol CADIncidentInformantType: class {
 
     // MARK: - Network
     var fullName : String! { get }

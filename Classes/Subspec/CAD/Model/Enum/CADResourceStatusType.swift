@@ -69,7 +69,7 @@ public protocol CADResourceStatusType: CADEnumType {
 
 extension CADResourceStatusType {
     /// Convenience for checking if this is the duress case
-    var isDuress: Bool {
+    public var isDuress: Bool {
         return self == CADClientModelTypes.resourceStatus.duressCase
     }
 }

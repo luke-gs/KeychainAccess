@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol CADIncidentVehicleType {
+public protocol CADIncidentVehicleType: class {
 
     // MARK: - Network
     var alertLevel : Int! { get }

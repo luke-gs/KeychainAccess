@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-public protocol CADResourceType {
+public protocol CADResourceType: class {
 
     // MARK: - Network
     var activityLog: [CADActivityLogItemType]? { get set }

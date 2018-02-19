@@ -21,11 +21,11 @@ public protocol CADEnumType {
 }
 
 /// Equality check without conforming to Equatable, to prevent need for type erasure
-func ==(lhs: CADEnumType?, rhs: CADEnumType?) -> Bool {
+public func ==(lhs: CADEnumType?, rhs: CADEnumType?) -> Bool {
     return lhs?.rawValue == rhs?.rawValue
 }
 
 /// Inquality check (required when not using Equatable)
-func !=(lhs: CADEnumType?, rhs: CADEnumType?) -> Bool {
+public func !=(lhs: CADEnumType?, rhs: CADEnumType?) -> Bool {
     return !(lhs?.rawValue == rhs?.rawValue)
 }

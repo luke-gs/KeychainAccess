@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol CADBroadcastType {
+public protocol CADBroadcastType: class {
 
     // MARK: - Network
     var createdAt: Date! { get }

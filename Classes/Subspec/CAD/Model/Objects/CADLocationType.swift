@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol CADLocationType {
+public protocol CADLocationType: class {
 
     // MARK: - Network
     var alertLevel : Int? { get }

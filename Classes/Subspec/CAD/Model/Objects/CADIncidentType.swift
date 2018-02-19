@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-public protocol CADIncidentType {
+public protocol CADIncidentType: class {
 
     // MARK: - Network
     var identifier: String! { get }

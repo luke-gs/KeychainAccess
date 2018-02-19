@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-public protocol CADPatrolType {
+public protocol CADPatrolType: class {
 
     // MARK: - Network
     var createdAt: Date! { get }
