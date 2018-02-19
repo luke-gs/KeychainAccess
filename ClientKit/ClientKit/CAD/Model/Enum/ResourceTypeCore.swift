@@ -21,7 +21,15 @@ public enum ResourceTypeCore: String, Codable, CADResourceUnitType {
 
     /// All cases, no particular order
     public static var allCases: [CADResourceUnitType] {
-        return [.bicycle, .dogSquad, .helicopter, .marineCraft, .motorcycle, .policeOfficer, .vehicle]
+        return [
+            ResourceTypeCore.bicycle,
+            ResourceTypeCore.dogSquad,
+            ResourceTypeCore.helicopter,
+            ResourceTypeCore.marineCraft,
+            ResourceTypeCore.motorcycle,
+            ResourceTypeCore.policeOfficer,
+            ResourceTypeCore.vehicle
+        ]
     }
 
     /// The display title for the unit type

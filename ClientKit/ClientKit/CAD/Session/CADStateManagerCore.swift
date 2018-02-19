@@ -12,13 +12,6 @@ import MPOLKit
 
 open class CADStateManagerCore: NSObject {
 
-    public struct Notifications {
-        public static let shiftEnding = "CADShiftEndingNotification"
-    }
-    
-    /// The singleton state monitor.
-    open static var shared = CADStateManager()
-
     /// The API manager to use, by default system one
     open static var apiManager: CADAPIManager = APIManager.shared
 
@@ -56,7 +49,16 @@ open class CADStateManagerCore: NSObject {
     open private(set) var broadcastsById: [String: SyncDetailsBroadcast] = [:]
 
     public override init() {
-        CADClientModelTypes.resourceStatus = ResourceStatusCore.Type
+        // Register concrete classes for protocols
+        CADClientModelTypes.bookonDetails = BookOnRequest.self
+        CADClientModelTypes.officerDetails = SyncDetailsOfficer.self
+        CADClientModelTypes.equipmentDetails = SyncDetailsEquipment.self
+        CADClientModelTypes.resourceStatus = ResourceStatusCore.self
+        CADClientModelTypes.resourceUnit = ResourceTypeCore.self
+        CADClientModelTypes.incidentGrade = IncidentGradeCore.self
+        CADClientModelTypes.incidentStatus = IncidentStatusCore.self
+        CADClientModelTypes.broadcastCategory = BroadcastCategoryCore.self
+        CADClientModelTypes.patrolStatus = PatrolStatusCore.self
     }
 
     /// The currently booked on resource
@@ -127,8 +129,8 @@ open class CADStateManagerCore: NSObject {
             resource.payrollIds = officerIds
 
             // Set state if callsign was off duty
-            if resource.statusType == ClientModelTypes.resourceStatus.offDutyCase {
-                resource.statusType = ClientModelTypes.resourceStatus.onAirCase
+            if resource.statusType == CADClientModelTypes.resourceStatus.offDutyCase {
+                resource.statusType = CADClientModelTypes.resourceStatus.onAirCase
             }
 
             // Check if logged in officer is no longer in callsign
@@ -159,9 +161,9 @@ open class CADStateManagerCore: NSObject {
         // TODO: Remove all hacks below when we have a real CAD system
 
         // Finalise incident clears the current incident and sets state to On Air
-        if newStatus == ClientModelTypes.resourceStatus.finaliseCase {
+        if newStatus == CADClientModelTypes.resourceStatus.finaliseCase {
             finaliseIncident()
-            newStatus = ClientModelTypes.resourceStatus.onAirCase
+            newStatus = CADClientModelTypes.resourceStatus.onAirCase
             newIncident = nil
         }
 
@@ -176,7 +178,7 @@ open class CADStateManagerCore: NSObject {
 
         // Update current incident if setting status without one
         if let newIncident = newIncident, currentIncident == nil {
-            if let syncDetails = lastSync, let resource = currentResource {
+            if let syncDetails = lastSync, let resource = currentResource as? SyncDetailsResource {
                 resource.currentIncident = newIncident.identifier
 
                 // Make sure incident is also assigned to resource
@@ -262,7 +264,7 @@ open class CADStateManagerCore: NSObject {
         }.then { _ -> Void in
             // Clear any outstanding shift ending notifications if we aren't booked on
             if self.lastBookOn == nil {
-                NotificationManager.shared.removeLocalNotification(CADStateManager.Notifications.shiftEnding)
+                NotificationManager.shared.removeLocalNotification(CADLocalNotifications.shiftEnding)
             }
         }
     }
@@ -336,13 +338,13 @@ open class CADStateManagerCore: NSObject {
     
     /// Adds scheduled local notification and clears any conflicting ones.
     open func addScheduledNotifications() {
-        NotificationManager.shared.removeLocalNotification(CADStateManager.Notifications.shiftEnding)
+        NotificationManager.shared.removeLocalNotification(CADLocalNotifications.shiftEnding)
         if let endTime = lastBookOn?.shiftEnd {
             NotificationManager.shared.postLocalNotification(withTitle: NSLocalizedString("Shift Ending", comment: ""),
                               body: NSLocalizedString("The shift time for your call sign has elapsed. Please terminate your shift or extend the end time.",
                                                       comment: ""),
                               at: endTime,
-                              identifier: CADStateManager.Notifications.shiftEnding)
+                              identifier: CADLocalNotifications.shiftEnding)
         }
 
     }

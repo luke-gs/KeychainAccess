@@ -25,7 +25,7 @@ open class TrafficStopViewModel {
     open var entities: [SelectStoppedEntityItemViewModel] = []
     open var location: CLPlacemark?
     open var createIncident: Bool = false
-    open var priority: IncidentGradeCore?
+    open var priority: CADIncidentGradeType?
     open var primaryCode: String?
     open var secondaryCode: String?
     open var remark: String?

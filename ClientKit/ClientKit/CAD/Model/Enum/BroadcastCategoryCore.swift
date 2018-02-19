@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MPOLKit
 
 public enum BroadcastCategoryCore: String, Codable, CADBroadcastCategoryType {
     case alert = "Alert"
@@ -15,7 +16,11 @@ public enum BroadcastCategoryCore: String, Codable, CADBroadcastCategoryType {
 
     /// All cases, in order of display
     public static var allCases: [CADBroadcastCategoryType] {
-        return [.alert, .event, .bolf]
+        return [
+            BroadcastCategoryCore.alert,
+            BroadcastCategoryCore.event,
+            BroadcastCategoryCore.bolf
+        ]
     }
 
     /// The default case when status is unknown

@@ -18,7 +18,12 @@ public enum IncidentGradeCore: String, Codable, CADIncidentGradeType {
 
     /// All cases, in order of display
     public static var allCases: [CADIncidentGradeType] {
-        return [.p1, .p2, .p3, .p4]
+        return [
+            IncidentGradeCore.p1,
+            IncidentGradeCore.p2,
+            IncidentGradeCore.p3,
+            IncidentGradeCore.p4
+        ]
     }
 
     // Return badge text, border and fill color

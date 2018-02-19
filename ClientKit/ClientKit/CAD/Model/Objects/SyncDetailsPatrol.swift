@@ -47,12 +47,42 @@ open class SyncDetailsPatrol: Codable, CADPatrolType {
     /// Status as a type that is client specific
     open var statusType: CADPatrolStatusType {
         get {
-            return ClientModelTypes.patrolStatus.init(rawValue: status) ?? ClientModelTypes.patrolStatus.defaultCase
+            return CADClientModelTypes.patrolStatus.init(rawValue: status) ?? CADClientModelTypes.patrolStatus.defaultCase
         }
         set {
             status = newValue.rawValue
         }
     }
 
+    // MARK: - Codable
+
+    enum CodingKeys: String, CodingKey {
+        case createdAt = "createdAt"
+        case details = "details"
+        case identifier = "identifier"
+        case lastUpdated = "lastUpdated"
+        case location = "location"
+        case patrolGroup = "patrolGroup"
+        case status = "status"
+        case subtype = "subtype"
+        case type = "type"
+    }
+
+    public required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        createdAt = try values.decodeIfPresent(Date.self, forKey: .createdAt)
+        details = try values.decodeIfPresent(String.self, forKey: .details)
+        identifier = try values.decodeIfPresent(String.self, forKey: .identifier)
+        lastUpdated = try values.decodeIfPresent(Date.self, forKey: .lastUpdated)
+        location = try values.decodeIfPresent(SyncDetailsLocation.self, forKey: .location)
+        patrolGroup = try values.decodeIfPresent(String.self, forKey: .patrolGroup)
+        status = try values.decodeIfPresent(String.self, forKey: .status)
+        subtype = try values.decodeIfPresent(String.self, forKey: .subtype)
+        type = try values.decodeIfPresent(String.self, forKey: .type)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        MPLUnimplemented()
+    }
 }
 

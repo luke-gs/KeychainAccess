@@ -15,6 +15,8 @@ import MPOLKit
 /// Reponse object for a single Incident in the call to /sync/details
 open class SyncDetailsIncident: Codable, CADIncidentType {
 
+    // MARK: - Network
+
     public var identifier: String!
 
     public var secondaryCode: String!
@@ -43,8 +45,7 @@ open class SyncDetailsIncident: Codable, CADIncidentType {
 
     public var narrative: [CADActivityLogItemType]!
 
-    // MARK: - Computed
-
+    // MARK: - Generated
 
     open var statusType: CADIncidentStatusType {
         if let resourceId = CADStateManager.shared.lastBookOn?.callsign,
@@ -87,10 +88,10 @@ open class SyncDetailsIncident: Codable, CADIncidentType {
         case details = "details"
         case grade = "grade"
         case identifier = "identifier"
-        case informant
+        case informant = "informant"
         case lastUpdated = "lastUpdated"
-        case location
-        case locations
+        case location = "location"
+        case locations = "locations"
         case narrative = "narrative"
         case patrolGroup = "patrolGroup"
         case persons = "persons"
@@ -99,7 +100,7 @@ open class SyncDetailsIncident: Codable, CADIncidentType {
         case vehicles = "vehicles"
     }
 
-    required public init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         createdAt = try values.decodeIfPresent(Date.self, forKey: .createdAt)
         details = try values.decodeIfPresent(String.self, forKey: .details)

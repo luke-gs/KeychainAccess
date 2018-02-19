@@ -12,9 +12,30 @@ import MPOLKit
 /// Reponse object for an informant in an incident
 open class SyncDetailsIncidentInformant: Codable, CADIncidentInformantType {
 
+    // MARK: - Network
+
     open var fullName : String!
 
     open var primaryPhone : String!
 
     open var secondaryPhone : String!
+
+    // MARK: - Codable
+
+    enum CodingKeys: String, CodingKey {
+        case fullName = "fullName"
+        case primaryPhone = "primaryPhone"
+        case secondaryPhone = "secondaryPhone"
+    }
+
+    public required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        fullName = try values.decodeIfPresent(String.self, forKey: .fullName)
+        primaryPhone = try values.decodeIfPresent(String.self, forKey: .primaryPhone)
+        secondaryPhone = try values.decodeIfPresent(String.self, forKey: .secondaryPhone)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        MPLUnimplemented()
+    }
 }

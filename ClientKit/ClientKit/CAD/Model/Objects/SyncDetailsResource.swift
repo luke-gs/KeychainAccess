@@ -115,6 +115,58 @@ open class SyncDetailsResource: Codable, CADResourceType {
         return formatter
     }()
 
+    // MARK: - Codable
+
+    enum CodingKeys: String, CodingKey {
+        case activityLog = "activityLog"
+        case assignedIncidents = "assignedIncidents"
+        case callsign = "callsign"
+        case currentIncident = "currentIncident"
+        case driver = "driver"
+        case equipment = "equipment"
+        case lastUpdated = "lastUpdated"
+        case location = "location"
+        case patrolGroup = "patrolGroup"
+        case payrollIds = "payrollIds"
+        case remarks = "remarks"
+        case serial = "serial"
+        case shiftEnd = "shiftEnd"
+        case shiftStart = "shiftStart"
+        case station = "station"
+        case status = "status"
+        case type = "type"
+        case vehicleCategory = "vehicleCategory"
+    }
+
+    public required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        activityLog = try values.decodeIfPresent([SyncDetailsActivityLogItem].self, forKey: .activityLog)
+        assignedIncidents = try values.decodeIfPresent([String].self, forKey: .assignedIncidents)
+        callsign = try values.decodeIfPresent(String.self, forKey: .callsign)
+        currentIncident = try values.decodeIfPresent(String.self, forKey: .currentIncident)
+        driver = try values.decodeIfPresent(String.self, forKey: .driver)
+        equipment = try values.decodeIfPresent([SyncDetailsEquipment].self, forKey: .equipment)
+        lastUpdated = try values.decodeIfPresent(Date.self, forKey: .lastUpdated)
+        location = try values.decodeIfPresent(SyncDetailsLocation.self, forKey: .location)
+        patrolGroup = try values.decodeIfPresent(String.self, forKey: .patrolGroup)
+        payrollIds = try values.decodeIfPresent([String].self, forKey: .payrollIds)
+        remarks = try values.decodeIfPresent(String.self, forKey: .remarks)
+        serial = try values.decodeIfPresent(String.self, forKey: .serial)
+        shiftEnd = try values.decodeIfPresent(Date.self, forKey: .shiftEnd)
+        shiftStart = try values.decodeIfPresent(Date.self, forKey: .shiftStart)
+        station = try values.decodeIfPresent(String.self, forKey: .station)
+        status = try values.decodeIfPresent(String.self, forKey: .status)
+        type = try values.decodeIfPresent(ResourceTypeCore.self, forKey: .type)
+        vehicleCategory = try values.decodeIfPresent(String.self, forKey: .vehicleCategory)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        MPLUnimplemented()
+    }
 }
 
-
+extension SyncDetailsResource: Equatable {
+    public static func ==(lhs: SyncDetailsResource, rhs: SyncDetailsResource) -> Bool {
+        return lhs.callsign == rhs.callsign
+    }
+}

@@ -19,4 +19,14 @@ open class BookOffRequest: Codable, CADBookOffDetailsType {
 
     /// The payrollId of the currently logged in officer on the mobile device.
     open var loggedInPayrollId: String!
+    
+    // MARK: - Codable
+
+    public required init(from decoder: Decoder) throws {
+        MPLUnimplemented()
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        MPLUnimplemented()
+    }
 }

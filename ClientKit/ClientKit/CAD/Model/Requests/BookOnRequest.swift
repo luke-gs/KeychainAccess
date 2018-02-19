@@ -58,4 +58,14 @@ open class BookOnRequest: Codable, CADBookOnDetailsType {
         self.category = request.category
         self.odometer = request.odometer
     }
+
+    // MARK: - Codable
+
+    public required init(from decoder: Decoder) throws {
+        MPLUnimplemented()
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        MPLUnimplemented()
+    }
 }

@@ -73,18 +73,54 @@ open class SyncDetailsOfficer: Codable, CADOfficerType {
 
     /// Copy constructor
     public required init(officer: CADOfficerType) {
-        self.payrollId = officer.payrollId
-        self.rank = officer.rank
-        self.firstName = officer.firstName
-        self.middleName = officer.middleName
-        self.lastName = officer.lastName
-        self.patrolGroup = officer.patrolGroup
-        self.station = officer.station
-        self.licenceTypeId = officer.licenceTypeId
-        self.contactNumber = officer.contactNumber
-        self.remarks = officer.remarks
         self.capabilities = officer.capabilities
+        self.contactNumber = officer.contactNumber
+        self.firstName = officer.firstName
+        self.lastName = officer.lastName
+        self.licenceTypeId = officer.licenceTypeId
+        self.middleName = officer.middleName
+        self.patrolGroup = officer.patrolGroup
+        self.payrollId = officer.payrollId
         self.radioId = officer.radioId
+        self.rank = officer.rank
+        self.remarks = officer.remarks
+        self.station = officer.station
     }
 
+    // MARK: - Codable
+
+    enum CodingKeys: String, CodingKey {
+        case capabilities = "capabilities"
+        case contactNumber = "contactNumber"
+        case firstName = "firstName"
+        case lastName = "lastName"
+        case licenceTypeId = "licenceTypeId"
+        case middleName = "middleName"
+        case patrolGroup = "patrolGroup"
+        case payrollId = "payrollId"
+        case radioId = "radioId"
+        case rank = "rank"
+        case remarks = "remarks"
+        case station = "station"
+    }
+
+    public required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        capabilities = try values.decodeIfPresent([String].self, forKey: .capabilities)
+        contactNumber = try values.decodeIfPresent(String.self, forKey: .contactNumber)
+        firstName = try values.decodeIfPresent(String.self, forKey: .firstName)
+        lastName = try values.decodeIfPresent(String.self, forKey: .lastName)
+        licenceTypeId = try values.decodeIfPresent(String.self, forKey: .licenceTypeId)
+        middleName = try values.decodeIfPresent(String.self, forKey: .middleName)
+        patrolGroup = try values.decodeIfPresent(String.self, forKey: .patrolGroup)
+        payrollId = try values.decodeIfPresent(String.self, forKey: .payrollId)
+        radioId = try values.decodeIfPresent(String.self, forKey: .radioId)
+        rank = try values.decodeIfPresent(String.self, forKey: .rank)
+        remarks = try values.decodeIfPresent(String.self, forKey: .remarks)
+        station = try values.decodeIfPresent(String.self, forKey: .station)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        MPLUnimplemented()
+    }
 }
