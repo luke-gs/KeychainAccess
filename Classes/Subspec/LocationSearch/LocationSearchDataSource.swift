@@ -111,8 +111,6 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
                         break
                     }
                 }
-
-                basicOptions.currentLocationActive = locationManager.location != nil
             } else {
                 locationManager.stopUpdatingLocation()
             }
@@ -245,6 +243,16 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(lookupLocations), object: nil)
         self.perform(#selector(lookupLocations), with: nil, afterDelay: delay ? searchStrategy.typeaheadConfiguration.throttle : 0.0)
     }
+
+    private func updateCurrentLocationActiveState(active: Bool) {
+        if basicOptions.currentLocationActive != active {
+            basicOptions.currentLocationActive = active
+
+            if options is LocationBasicSearchOptions {
+                updatingDelegate?.searchDataSource(self, didUpdateComponent: .filter(index: nil))
+            }
+        }
+    }
     
     private var lastSearchText: String?
     
@@ -339,14 +347,7 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
 
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let shouldEnabledCurrentLocation = manager.location != nil
-
-        if basicOptions.currentLocationActive != shouldEnabledCurrentLocation {
-            basicOptions.currentLocationActive = shouldEnabledCurrentLocation
-
-            if options is LocationBasicSearchOptions {
-                updatingDelegate?.searchDataSource(self, didUpdateComponent: .filter(index: nil))
-            }
-        }
+        updateCurrentLocationActiveState(active: shouldEnabledCurrentLocation)
     }
 
     public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -356,6 +357,8 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
         default:
             break
         }
+        let shouldEnabledCurrentLocation = manager.location != nil
+        updateCurrentLocationActiveState(active: shouldEnabledCurrentLocation)
     }
 
 }

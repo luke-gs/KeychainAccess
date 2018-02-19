@@ -43,7 +43,7 @@ open class LocationBasicSearchOptions: SearchOptions {
             return results[index].title ?? NSLocalizedString("Unknown address", comment: "Location Search - when there is no address text")
         } else {
             let value = others[index - numberOfResults].rawValue
-            return others[index - numberOfResults].rawValue
+            return value
         }
     }
 
