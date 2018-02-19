@@ -25,7 +25,7 @@ open class SyncDetailsResource: Codable {
     open var payrollIds: [String]?
     open var shiftEnd: Date?
     open var shiftStart: Date?
-    open var type: CADResourceUnitType!
+    open var type: ResourceTypeCore!
     open var serial: String?
     open var vehicleCategory: String?
     open var equipment: [SyncDetailsEquipment]?
@@ -36,7 +36,7 @@ open class SyncDetailsResource: Codable {
     /// Status as a type that is client specific
     open var statusType: CADResourceStatusType {
         get {
-            return ClientModelTypes.resourceStatus.init(rawValue: status) ?? ClientModelTypes.resourceStatus.defaultCase
+            return CADClientModelTypes.resourceStatus.init(rawValue: status) ?? CADClientModelTypes.resourceStatus.defaultCase
         }
         set {
             status = newValue.rawValue

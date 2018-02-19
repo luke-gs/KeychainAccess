@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MPOLKit
 
 /// Reponse object for a single vehicle in an incident
 open class SyncDetailsIncidentVehicle: Codable, CADIncidentVehicleType {

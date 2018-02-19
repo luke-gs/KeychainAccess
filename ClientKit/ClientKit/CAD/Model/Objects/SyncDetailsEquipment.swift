@@ -7,19 +7,21 @@
 //
 
 import Foundation
+import MPOLKit
 
 /// Reponse object for a single Equipment item in the resource
 open class SyncDetailsEquipment: Codable, CADEquipmentType {
+
     open var count: Int!
     open var description: String!
 
-    public init(count: Int!, description: String!) {
+    public required init(count: Int!, description: String!) {
         self.count = count
         self.description = description
     }
 
     /// Copy constructor
-    public init(equipment: SyncDetailsEquipment) {
+    public required init(equipment: CADEquipmentType) {
         self.count = equipment.count
         self.description = equipment.description
     }

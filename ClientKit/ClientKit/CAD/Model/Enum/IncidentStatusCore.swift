@@ -26,7 +26,7 @@ public enum IncidentStatusCore: String, CADIncidentStatusType {
     ]
 
     /// The case for when incident is the current incident
-    static var currentCase: CADIncidentStatusType = IncidentStatusCore.current
+    public static var currentCase: CADIncidentStatusType = IncidentStatusCore.current
 
     /// Display title for status
     public var title: String {

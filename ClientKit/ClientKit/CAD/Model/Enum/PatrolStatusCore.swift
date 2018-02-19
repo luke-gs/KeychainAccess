@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MPOLKit
 
 public enum PatrolStatusCore: String, Codable, CADPatrolStatusType {
     case assigned = "Assigned"
