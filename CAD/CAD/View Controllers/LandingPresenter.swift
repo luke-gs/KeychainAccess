@@ -112,7 +112,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
     override open func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
         #if DEBUG
             controller.setLoading(true, animated: true)
-            CADStateManager.apiManager.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] token -> Void in
+            CADStateManagerCore.apiManager.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] token -> Void in
                 guard let `self` = self else { return }
 
                 APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)))

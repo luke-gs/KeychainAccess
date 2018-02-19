@@ -8,6 +8,7 @@
 
 import Foundation
 import MPOLKit
+import ClientKit
 
 public class BookOnPresenter: Presenter {
 
@@ -51,7 +52,8 @@ public class BookOnPresenter: Presenter {
 
         case .trafficStop(let completionHandler):
             let viewModel = TrafficStopViewModel()
-            viewModel.completionHandler = completionHandler
+            // TODO: move to client kit
+            // viewModel.completionHandler = completionHandler
             return viewModel.createViewController()
             
         case .finaliseDetails(let primaryCode, let completionHandler):

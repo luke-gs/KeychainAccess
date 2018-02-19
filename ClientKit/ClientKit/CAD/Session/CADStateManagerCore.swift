@@ -10,7 +10,7 @@ import UIKit
 import PromiseKit
 import MPOLKit
 
-open class CADStateManagerCore: NSObject {
+open class CADStateManagerCore: CADStateManagerType {
 
     /// The API manager to use, by default system one
     open static var apiManager: CADAPIManager = APIManager.shared
@@ -18,14 +18,14 @@ open class CADStateManagerCore: NSObject {
     // MARK: - Synced State
 
     /// The logged in officer details
-    open var officerDetails: OfficerDetailsResponse?
+    open var officerDetails: CADOfficerType?
     
     /// The patrol group
     // TODO: Find out when to set/clear this value and where it's coming from
     open var patrolGroup: String = "Collingwood"
 
     /// The last book on data
-    open private(set) var lastBookOn: BookOnRequest?
+    open var lastBookOn: CADBookOnDetailsType?
 
     /// The last sync data
     open private(set) var lastSync: SyncDetailsResponse?
@@ -34,21 +34,21 @@ open class CADStateManagerCore: NSObject {
     open private(set) var lastSyncTime: Date?
 
     /// Incidents retrieved in last sync, keyed by incidentNumber
-    open private(set) var incidentsById: [String: SyncDetailsIncident] = [:]
+    open private(set) var incidentsById: [String: CADIncidentType] = [:]
 
     /// Resources retrieved in last sync, keyed by callsign
-    open private(set) var resourcesById: [String: SyncDetailsResource] = [:]
+    open private(set) var resourcesById: [String: CADResourceType] = [:]
 
     /// Officers retrieved in last sync, keyed by payrollId
-    open private(set) var officersById: [String: SyncDetailsOfficer] = [:]
+    open private(set) var officersById: [String: CADOfficerType] = [:]
 
     /// Patrols retrieved in last sync, keyed by patrolNumber
-    open private(set) var patrolsById: [String: SyncDetailsPatrol] = [:]
+    open private(set) var patrolsById: [String: CADPatrolType] = [:]
 
     /// Broadcasts retrieved in last sync, keyed by callsign
-    open private(set) var broadcastsById: [String: SyncDetailsBroadcast] = [:]
+    open private(set) var broadcastsById: [String: CADBroadcastType] = [:]
 
-    public override init() {
+    public init() {
         // Register concrete classes for protocols
         CADClientModelTypes.bookonDetails = BookOnRequest.self
         CADClientModelTypes.officerDetails = SyncDetailsOfficer.self
@@ -79,7 +79,7 @@ open class CADStateManagerCore: NSObject {
 
     // MARK: - Officer
 
-    open func fetchCurrentOfficerDetails() -> Promise<OfficerDetailsResponse> {
+    open func fetchCurrentOfficerDetails() -> Promise<CADOfficerType> {
         let username = UserSession.current.user?.username
         return CADStateManagerCore.apiManager.cadOfficerByUsername(username: username!).then { [unowned self] details -> OfficerDetailsResponse in
             self.officerDetails = details
@@ -116,7 +116,7 @@ open class CADStateManagerCore: NSObject {
     // MARK: - Shift
 
     /// Book on to a shift
-    open func bookOn(request: BookOnRequest) -> Promise<Void> {
+    open func bookOn(request: CADBookOnDetailsType) -> Promise<Void> {
 
         // TODO: perform network request
         lastBookOn = request
@@ -148,13 +148,13 @@ open class CADStateManagerCore: NSObject {
     }
 
     /// Terminate shift
-    open func bookOff(request: BookOffRequest) -> Promise<Void> {
+    open func bookOff(request: CADBookOffDetailsType) -> Promise<Void> {
         lastBookOn = nil
         return Promise<Void>()
     }
 
     /// Update the status of our callsign
-    open func updateCallsignStatus(status: CADResourceStatusType, incident: SyncDetailsIncident?) {
+    open func updateCallsignStatus(status: CADResourceStatusType, incident: CADIncidentType?) {
         var newStatus = status
         var newIncident = incident
 
@@ -301,7 +301,7 @@ open class CADStateManagerCore: NSObject {
     }
 
     /// Return all resources linked to an incident
-    open func resourcesForIncident(incidentNumber: String) -> [SyncDetailsResource] {
+    open func resourcesForIncident(incidentNumber: String) -> [CADResourceType] {
         var resources: [SyncDetailsResource] = []
         if let syncDetails = lastSync {
             for resource in syncDetails.resources {
@@ -314,7 +314,7 @@ open class CADStateManagerCore: NSObject {
     }
 
     /// Return the current incident for a resource
-    open func incidentForResource(callsign: String) -> SyncDetailsIncident? {
+    open func incidentForResource(callsign: String) -> CADIncidentType? {
         if let resource = resourcesById[callsign], let incidentId = resource.currentIncident {
             return incidentsById[incidentId]
         }
@@ -322,8 +322,8 @@ open class CADStateManagerCore: NSObject {
     }
 
     /// Return all officers linked to a resource
-    open func officersForResource(callsign: String) -> [SyncDetailsOfficer] {
-        var officers: [SyncDetailsOfficer] = []
+    open func officersForResource(callsign: String) -> [CADOfficerType] {
+        var officers: [CADOfficerType] = []
         if let resource = resourcesById[callsign], let payrollIds = resource.payrollIds {
             for payrollId in payrollIds {
                 if let officer = officersById[payrollId] {
