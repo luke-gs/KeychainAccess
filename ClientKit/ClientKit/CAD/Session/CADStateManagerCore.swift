@@ -53,6 +53,7 @@ open class CADStateManagerCore: CADStateManagerType {
         CADClientModelTypes.bookonDetails = CADBookOnRequest.self
         CADClientModelTypes.officerDetails = CADOfficerCore.self
         CADClientModelTypes.equipmentDetails = CADEquipmentCore.self
+        CADClientModelTypes.trafficStopDetails = CADTrafficStopRequest.self
         CADClientModelTypes.resourceStatus = CADResourceStatusCore.self
         CADClientModelTypes.resourceUnit = CADResourceTypeCore.self
         CADClientModelTypes.incidentGrade = CADIncidentGradeCore.self

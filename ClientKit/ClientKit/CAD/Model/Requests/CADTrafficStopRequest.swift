@@ -9,7 +9,10 @@ import UIKit
 import MPOLKit
 
 /// Request object for traffic stop request
-open class CADTrafficStopRequest: Codable {
+open class CADTrafficStopRequest: Codable, CADTrafficStopDetailsType {
 
     // TODO: Implement
+    public required init() {
+
+    }
 }

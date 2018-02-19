@@ -52,8 +52,7 @@ public class BookOnPresenter: Presenter {
 
         case .trafficStop(let completionHandler):
             let viewModel = TrafficStopViewModel()
-            // TODO: move to client kit
-            // viewModel.completionHandler = completionHandler
+            viewModel.completionHandler = completionHandler
             return viewModel.createViewController()
             
         case .finaliseDetails(let primaryCode, let completionHandler):

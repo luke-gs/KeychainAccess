@@ -84,6 +84,9 @@ public enum CADResourceStatusCore: String, Codable, CADResourceStatusType {
     /// The case for finalising an incident
     public static var finaliseCase: CADResourceStatusType = CADResourceStatusCore.finalise
 
+    /// The case for traffic stop
+    public static var trafficStopCase: CADResourceStatusType = CADResourceStatusCore.trafficStop
+
     /// Display title for status
     public var title: String {
         switch self {
