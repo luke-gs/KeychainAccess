@@ -22,7 +22,7 @@ public enum IncidentGradeCore: String, Codable, CADIncidentGradeType {
     }
 
     // Return badge text, border and fill color
-    var badgeColors: (text: UIColor, border: UIColor, fill: UIColor) {
+    public var badgeColors: (text: UIColor, border: UIColor, fill: UIColor) {
         switch self {
         case .p1:
             return (.black, .orangeRed, .orangeRed)

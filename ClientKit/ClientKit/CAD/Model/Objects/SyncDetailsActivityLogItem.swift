@@ -11,11 +11,15 @@ import MPOLKit
 
 /// Response object for a single activity log item in an incident (narrative) or resource
 open class SyncDetailsActivityLogItem: Codable, CADActivityLogItemType {
-    open var title: String!
-    open var description: String!
-    open var source: String!
-    open var timestamp: Date!
-    
+
+    public var title: String!
+
+    public var description: String!
+
+    public var source: String!
+
+    public var timestamp: Date!
+
     public init(title: String!, description: String!, source: String!, timestamp: Date!) {
         self.title = title
         self.description = description

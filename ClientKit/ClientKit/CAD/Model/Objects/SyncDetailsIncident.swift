@@ -14,22 +14,37 @@ import MPOLKit
 
 /// Reponse object for a single Incident in the call to /sync/details
 open class SyncDetailsIncident: Codable, CADIncidentType {
-    open var identifier: String!
-    open var secondaryCode: String!
-    open var type: String!
-    open var grade: IncidentGrade!
-    open var patrolGroup: String!
-    open var location : SyncDetailsLocation!
-    open var createdAt: Date!
-    open var lastUpdated: Date!
-    open var details: String!
-    open var informant : SyncDetailsIncidentInformant!
-    open var locations: [SyncDetailsLocation]!
-    open var persons: [SyncDetailsIncidentPerson]!
-    open var vehicles: [SyncDetailsIncidentVehicle]!
-    open var narrative: [SyncDetailsActivityLogItem]!
+
+    public var identifier: String!
+
+    public var secondaryCode: String!
+
+    public var type: String!
+
+    public var grade: CADIncidentGradeType!
+
+    public var patrolGroup: String!
+
+    public var location: CADLocationType!
+
+    public var createdAt: Date!
+
+    public var lastUpdated: Date!
+
+    public var details: String!
+
+    public var informant: CADIncidentInformantType!
+
+    public var locations: [CADLocationType]!
+
+    public var persons: [CADIncidentPersonType]!
+
+    public var vehicles: [CADIncidentVehicleType]!
+
+    public var narrative: [CADActivityLogItemType]!
 
     // MARK: - Computed
+
 
     open var statusType: CADIncidentStatusType {
         if let resourceId = CADStateManager.shared.lastBookOn?.callsign,
@@ -38,14 +53,14 @@ open class SyncDetailsIncident: Codable, CADIncidentType {
             assignedIncidents.contains(identifier)
         {
             if resource.currentIncident == identifier {
-                return .current
+                return IncidentStatusCore.current
             } else {
-                return .assigned
+                return IncidentStatusCore.assigned
             }
         } else if CADStateManager.shared.resourcesForIncident(incidentNumber: identifier).count > 0 {
-            return .resourced
+            return IncidentStatusCore.resourced
         } else {
-            return .unresourced
+            return IncidentStatusCore.unresourced
         }
     }
 
@@ -63,6 +78,47 @@ open class SyncDetailsIncident: Codable, CADIncidentType {
 
     open var createdAtString: String {
         return DateFormatter.preferredDateTimeStyle.string(from: createdAt)
+    }
+
+    // MARK: - Codable
+
+    enum CodingKeys: String, CodingKey {
+        case createdAt = "createdAt"
+        case details = "details"
+        case grade = "grade"
+        case identifier = "identifier"
+        case informant
+        case lastUpdated = "lastUpdated"
+        case location
+        case locations
+        case narrative = "narrative"
+        case patrolGroup = "patrolGroup"
+        case persons = "persons"
+        case secondaryCode = "secondaryCode"
+        case type = "type"
+        case vehicles = "vehicles"
+    }
+
+    required public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        createdAt = try values.decodeIfPresent(Date.self, forKey: .createdAt)
+        details = try values.decodeIfPresent(String.self, forKey: .details)
+        grade = try values.decodeIfPresent(IncidentGradeCore.self, forKey: .grade)
+        identifier = try values.decodeIfPresent(String.self, forKey: .identifier)
+        informant = try values.decodeIfPresent(SyncDetailsIncidentInformant.self, forKey: .informant)
+        lastUpdated = try values.decodeIfPresent(Date.self, forKey: .lastUpdated)
+        location = try values.decodeIfPresent(SyncDetailsLocation.self, forKey: .location)
+        locations = try values.decodeIfPresent([SyncDetailsLocation].self, forKey: .locations)
+        narrative = try values.decodeIfPresent([SyncDetailsActivityLogItem].self, forKey: .narrative)
+        patrolGroup = try values.decodeIfPresent(String.self, forKey: .patrolGroup)
+        persons = try values.decodeIfPresent([SyncDetailsIncidentPerson].self, forKey: .persons)
+        secondaryCode = try values.decodeIfPresent(String.self, forKey: .secondaryCode)
+        type = try values.decodeIfPresent(String.self, forKey: .type)
+        vehicles = try values.decodeIfPresent([SyncDetailsIncidentVehicle].self, forKey: .vehicles)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        MPLUnimplemented()
     }
 
 }

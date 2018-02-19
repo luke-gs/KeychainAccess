@@ -13,25 +13,47 @@ import MPOLKit
 // NOTE: This class has been generated from Diederik sample json. Will be updated once API is complete
 
 /// Reponse object for a single Resource in the call to /sync/details
-open class SyncDetailsResource: Codable {
-    open var callsign: String!
-    open var status: String!
-    open var patrolGroup: String!
-    open var station: String!
-    open var currentIncident: String?
-    open var assignedIncidents: [String]?
-    open var location: SyncDetailsLocation?
-    open var driver: String?
-    open var payrollIds: [String]?
-    open var shiftEnd: Date?
-    open var shiftStart: Date?
-    open var type: ResourceTypeCore!
-    open var serial: String?
-    open var vehicleCategory: String?
-    open var equipment: [SyncDetailsEquipment]?
-    open var remarks : String?
-    open var lastUpdated : Date?
-    open var activityLog: [SyncDetailsActivityLogItem]?
+open class SyncDetailsResource: Codable, CADResourceType {
+
+    // MARK: - Network
+
+    public var activityLog: [CADActivityLogItemType]?
+
+    public var assignedIncidents: [String]?
+
+    public var callsign: String!
+
+    public var currentIncident: String?
+
+    public var driver: String?
+
+    public var equipment: [CADEquipmentType]?
+
+    public var lastUpdated: Date?
+
+    public var location: CADLocationType?
+
+    public var patrolGroup: String!
+
+    public var payrollIds: [String]?
+
+    public var remarks: String?
+
+    public var serial: String?
+
+    public var shiftEnd: Date?
+
+    public var shiftStart: Date?
+
+    public var station: String!
+
+    public var status: String!
+
+    public var type: CADResourceUnitType!
+
+    public var vehicleCategory: String?
+
+    // MARK: - Generated
 
     /// Status as a type that is client specific
     open var statusType: CADResourceStatusType {
@@ -43,29 +65,10 @@ open class SyncDetailsResource: Codable {
         }
     }
 
-    public static func ==(lhs: SyncDetailsResource, rhs: SyncDetailsResource) -> Bool {
-        return lhs.callsign == rhs.callsign
-    }
-
     public var coordinate: CLLocationCoordinate2D? {
         guard let location = location else { return nil }
         return CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))
     }
-
-    open static var shiftTimeFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
-        return formatter
-    }()
-
-    open static var durationTimeFormatter: DateComponentsFormatter = {
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.day, .hour, .minute]
-        formatter.unitsStyle = .short
-        return formatter
-    }()
-
-    // MARK: - Display Strings
 
     /// Officer count in format `(n)`. `nil` if no `payrollIds` count
     public var officerCountString: String? {
@@ -96,6 +99,21 @@ open class SyncDetailsResource: Codable {
         guard let equipment = equipment, equipment.count > 0 else { return nil }
         return equipment.map { $0.description }.joined(separator: separator)
     }
+
+    // MARK: - Static
+
+    open static var shiftTimeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        return formatter
+    }()
+
+    open static var durationTimeFormatter: DateComponentsFormatter = {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.day, .hour, .minute]
+        formatter.unitsStyle = .short
+        return formatter
+    }()
 
 }
 

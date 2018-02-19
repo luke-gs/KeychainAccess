@@ -13,37 +13,33 @@ import MPOLKit
 
 /// Reponse object for a single Officer in the call to /sync/details
 open class SyncDetailsOfficer: Codable, CADOfficerType {
-    open var payrollId: String!
-    open var rank: String!
-    open var firstName: String!
-    open var middleName: String!
-    open var lastName: String!
-    open var patrolGroup: String!
-    open var station: String!
-    open var licenceTypeId: String!
-    open var contactNumber: String!
-    open var remarks: String!
-    open var capabilities: [String]!
-    open var radioId: String?
 
-    /// Default constructor
-    public init() { }
+    // MARK: - Network
+    public var capabilities: [String]!
 
-    /// Copy constructor
-    public init(officer: SyncDetailsOfficer) {
-        self.payrollId = officer.payrollId
-        self.rank = officer.rank
-        self.firstName = officer.firstName
-        self.middleName = officer.middleName
-        self.lastName = officer.lastName
-        self.patrolGroup = officer.patrolGroup
-        self.station = officer.station
-        self.licenceTypeId = officer.licenceTypeId
-        self.contactNumber = officer.contactNumber
-        self.remarks = officer.remarks
-        self.capabilities = officer.capabilities
-        self.radioId = officer.radioId
-    }
+    public var contactNumber: String!
+
+    public var firstName: String!
+
+    public var lastName: String!
+
+    public var licenceTypeId: String!
+
+    public var middleName: String!
+
+    public var patrolGroup: String!
+
+    public var payrollId: String!
+
+    public var radioId: String?
+
+    public var rank: String!
+
+    public var remarks: String!
+
+    public var station: String!
+
+    // MARK: - Generated
 
     open var displayName: String {
         var nameComponents = PersonNameComponents()
@@ -70,5 +66,25 @@ open class SyncDetailsOfficer: Codable, CADOfficerType {
         return [String(firstName?.prefix(1)), String(lastName?.prefix(1))].joined(separator: "")
     }
 
+    // MARK: - Init
+
+    /// Default constructor
+    public required init() { }
+
+    /// Copy constructor
+    public required init(officer: CADOfficerType) {
+        self.payrollId = officer.payrollId
+        self.rank = officer.rank
+        self.firstName = officer.firstName
+        self.middleName = officer.middleName
+        self.lastName = officer.lastName
+        self.patrolGroup = officer.patrolGroup
+        self.station = officer.station
+        self.licenceTypeId = officer.licenceTypeId
+        self.contactNumber = officer.contactNumber
+        self.remarks = officer.remarks
+        self.capabilities = officer.capabilities
+        self.radioId = officer.radioId
+    }
 
 }

@@ -11,12 +11,20 @@ import MPOLKit
 
 /// Reponse object for a single vehicle in an incident
 open class SyncDetailsIncidentVehicle: Codable, CADIncidentVehicleType {
-    open var alertLevel : Int!
-    open var vehicleDescription : String!
-    open var vehicleType : String!
-    open var color: String!
-    open var bodyType: String!
-    open var stolen: Bool!
-    open var plateNumber : String!
+
+    public var alertLevel: Int!
+
+    public var bodyType: String!
+
+    public var color: String!
+
+    public var plateNumber: String!
+
+    public var stolen: Bool!
+
+    public var vehicleDescription: String!
+
+    public var vehicleType: String!
+
 }
 

@@ -12,47 +12,39 @@ import MPOLKit
 /// Request object for the call to /shift/bookOn
 open class BookOnRequest: Codable, CADBookOnDetailsType {
 
-    /// The callsign of the resource to book on to.
-    open var callsign: String!
+    // MARK: - Network
 
-    /// The current shift start time of the resource.
-    open var shiftStart: Date!
+    public var callsign: String!
 
-    /// The current shift end time of the resource.
-    open var shiftEnd: Date!
+    public var category: String!
 
-    /// The list of officers to book on
-    open var officers: [SyncDetailsOfficer]!
+    public var driverpayrollId: String!
 
-    /// The list of equipment items for the resource.
-    open var equipment: [SyncDetailsEquipment]!
+    public var equipment: [CADEquipmentType]!
 
-    /// The fleet number for the resource.
-    open var fleetNumber: String!
+    public var fleetNumber: String!
 
-    /// The optional remarks to populate as part of this book on.
-    open var remarks: String!
+    public var loggedInpayrollId: String!
 
-    /// The driver payrolId for the resource (should be one of the officers in the officers array).
-    open var driverpayrollId: String!
+    public var odometer: String!
 
-    /// The payrollId of the currently logged in officer on the mobile device.
-    open var loggedInpayrollId: String!
+    public var officers: [CADOfficerType]!
 
-    /// NOT IN API: The vehicle rego
-    open var serial: String!
+    public var remarks: String!
 
-    /// NOT IN API: The vehicle category
-    open var category: String!
+    public var serial: String!
 
-    /// NOT IN API: The vehicle odometer
-    open var odometer: String!
+    public var shiftEnd: Date!
+
+    public var shiftStart: Date!
+
+    // MARK: - Init
 
     /// Default constructor
-    public init() { }
+    public required init() { }
 
     /// Copy constructor (deep copy)
-    public init(request: BookOnRequest) {
+    public required init(request: CADBookOnDetailsType) {
         self.callsign = request.callsign
         self.shiftStart = request.shiftStart
         self.shiftEnd = request.shiftEnd

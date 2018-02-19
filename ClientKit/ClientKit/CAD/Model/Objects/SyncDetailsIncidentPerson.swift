@@ -11,15 +11,23 @@ import MPOLKit
 
 /// Reponse object for a single person in an incident
 open class SyncDetailsIncidentPerson: Codable, CADIncidentPersonType {
-    open var alertLevel: Int!
-    open var dateOfBirth: String!
 
-    open var firstName: String!
-    open var middleNames: String!
-    open var lastName: String!
-    open var fullAddress: String!
-    open var gender: String!
-    open var thumbnail: String!
+    public var alertLevel: Int!
+
+    public var dateOfBirth: String!
+
+    public var firstName: String!
+
+    public var fullAddress: String!
+
+    public var gender: String!
+
+    public var lastName: String!
+
+    public var middleNames: String!
+
+    public var thumbnail: String!
+
 
     open var initials: String {
         return [String(firstName?.prefix(1)), String(lastName?.prefix(1))].joined(separator: "")

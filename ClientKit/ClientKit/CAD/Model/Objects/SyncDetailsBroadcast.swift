@@ -12,13 +12,19 @@ import MPOLKit
 // TODO: Update this to match API when we get a spec, as this is created based on what the UI needs
 
 open class SyncDetailsBroadcast: Codable, CADBroadcastType {
-    open var identifier: String!
-    open var type: String!
-    open var title: String!
-    open var createdAt: Date!
-    open var location : SyncDetailsLocation!
-    open var lastUpdated: Date!
-    open var details: String!
+
+    public var createdAt: Date!
+
+    public var details: String!
+
+    public var identifier: String!
+
+    public var lastUpdated: Date!
+
+    public var location: CADLocationType!
+
+    public var title: String!
+
 
     open var createdAtString: String {
         return DateFormatter.preferredDateTimeStyle.string(from: createdAt)

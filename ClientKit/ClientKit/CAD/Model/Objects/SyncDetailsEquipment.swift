@@ -13,6 +13,7 @@ import MPOLKit
 open class SyncDetailsEquipment: Codable, CADEquipmentType {
 
     open var count: Int!
+
     open var description: String!
 
     public required init(count: Int!, description: String!) {

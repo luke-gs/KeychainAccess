@@ -56,11 +56,11 @@ open class CADStateManagerCore: NSObject {
     open private(set) var broadcastsById: [String: SyncDetailsBroadcast] = [:]
 
     public override init() {
-        CADClientModelTypes.resourceStatus = CADResourceStatusCore.Type
+        CADClientModelTypes.resourceStatus = ResourceStatusCore.Type
     }
 
     /// The currently booked on resource
-    open var currentResource: SyncDetailsResource? {
+    open var currentResource: CADResourceType? {
         if let bookOn = CADStateManager.shared.lastBookOn {
             return CADStateManager.shared.resourcesById[bookOn.callsign]
         }
@@ -68,7 +68,7 @@ open class CADStateManagerCore: NSObject {
     }
 
     /// The current incident for my callsign
-    open var currentIncident: SyncDetailsIncident? {
+    open var currentIncident: CADIncidentType? {
         if let bookOn = CADStateManager.shared.lastBookOn {
             return CADStateManager.shared.incidentForResource(callsign: bookOn.callsign)
         }
@@ -79,7 +79,7 @@ open class CADStateManagerCore: NSObject {
 
     open func fetchCurrentOfficerDetails() -> Promise<OfficerDetailsResponse> {
         let username = UserSession.current.user?.username
-        return CADStateManager.apiManager.cadOfficerByUsername(username: username!).then { [unowned self] details -> OfficerDetailsResponse in
+        return CADStateManagerCore.apiManager.cadOfficerByUsername(username: username!).then { [unowned self] details -> OfficerDetailsResponse in
             self.officerDetails = details
             return details
         }
@@ -87,13 +87,13 @@ open class CADStateManagerCore: NSObject {
 
     /// Set logged in officer as off duty
     open func setOffDuty() {
-        currentResource?.statusType = ClientModelTypes.resourceStatus.offDutyCase
+        currentResource?.statusType = CADClientModelTypes.resourceStatus.offDutyCase
         lastBookOn = nil
     }
     
     /// Clears current incident and sets status to on air
     open func finaliseIncident() {
-        currentResource?.statusType = ClientModelTypes.resourceStatus.onAirCase
+        currentResource?.statusType = CADClientModelTypes.resourceStatus.onAirCase
         clearIncident()
     }
     
@@ -222,7 +222,7 @@ open class CADStateManagerCore: NSObject {
     /// We use our own implementation of update here, so we can use custom API manager
     open func syncManifestItems() -> Promise<Void> {
         let checkedAtDate = Date()
-        return CADStateManager.apiManager.fetchManifest(with: ManifestFetchRequest(date: Manifest.shared.lastUpdateDate)).then { result -> Promise<Void> in
+        return CADStateManagerCore.apiManager.fetchManifest(with: ManifestFetchRequest(date: Manifest.shared.lastUpdateDate)).then { result -> Promise<Void> in
             return Manifest.shared.saveManifest(with: result, at:checkedAtDate)
         }
     }
@@ -239,7 +239,7 @@ open class CADStateManagerCore: NSObject {
             if let lastSync = self.lastSync {
                 return Promise<SyncDetailsResponse>(value: lastSync)
             }
-            return CADStateManager.apiManager.cadSyncDetails(request: SyncDetailsRequest())
+            return CADStateManagerCore.apiManager.cadSyncDetails(request: SyncDetailsRequest())
         }.then { [unowned self] summaries -> Void in
             self.lastSync = summaries
             self.lastSyncTime = Date()

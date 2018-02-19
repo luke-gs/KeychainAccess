@@ -13,17 +13,29 @@ import MPOLKit
 
 /// Reponse object for a single location in the call to /sync/details
 open class SyncDetailsLocation: Codable, CADLocationType {
-    open var alertLevel : Int?
 
-    open var streetNumberFirst : String!
-    open var streetNumberLast : String!
-    open var streetName : String!
-    open var streetType : String!
-    open var suburb : String!
-    open var state : String!
-    open var postalCode : String!
-    open var country : String!
-    open var fullAddress : String!
-    open var latitude : Float!
-    open var longitude : Float!
+    public var alertLevel: Int?
+
+    public var country: String!
+
+    public var fullAddress: String!
+
+    public var latitude: Float!
+
+    public var longitude: Float!
+
+    public var postalCode: String!
+
+    public var state: String!
+
+    public var streetName: String!
+
+    public var streetNumberFirst: String!
+
+    public var streetNumberLast: String!
+
+    public var streetType: String!
+
+    public var suburb: String!
+
 }
