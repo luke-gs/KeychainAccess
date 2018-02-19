@@ -20,6 +20,9 @@
 		1267EFE1203520BF00773548 /* LocationMapSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1267EFE0203520BF00773548 /* LocationMapSelectionViewController.swift */; };
 		12A8DB471F5FD63400A06005 /* DirectoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A8DB461F5FD63400A06005 /* DirectoryManager.swift */; };
 		12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */; };
+		12B4492B203A7DA500B1DDAA /* IncidentListReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B4492A203A7DA500B1DDAA /* IncidentListReport.swift */; };
+		12B4492D203A7E3F00B1DDAA /* IncidentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B4492C203A7E3F00B1DDAA /* IncidentListViewController.swift */; };
+		12B4492F203A831B00B1DDAA /* IncidentListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B4492E203A831B00B1DDAA /* IncidentListViewModel.swift */; };
 		12D3701720200B5B00D79DDB /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3700F20200B5A00D79DDB /* Event.swift */; };
 		12D3701920200B5B00D79DDB /* EventListDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3701220200B5A00D79DDB /* EventListDisplayable.swift */; };
 		12D3701B20200B5B00D79DDB /* EventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3701420200B5A00D79DDB /* EventsManager.swift */; };
@@ -773,6 +776,9 @@
 		1267EFE0203520BF00773548 /* LocationMapSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapSelectionViewController.swift; sourceTree = "<group>"; };
 		12A8DB461F5FD63400A06005 /* DirectoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryManager.swift; sourceTree = "<group>"; };
 		12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLKitProtocols.swift; sourceTree = "<group>"; };
+		12B4492A203A7DA500B1DDAA /* IncidentListReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentListReport.swift; sourceTree = "<group>"; };
+		12B4492C203A7E3F00B1DDAA /* IncidentListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentListViewController.swift; sourceTree = "<group>"; };
+		12B4492E203A831B00B1DDAA /* IncidentListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentListViewModel.swift; sourceTree = "<group>"; };
 		12BDF9151F95CCD50033E60B /* GenericSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericSearchViewController.swift; sourceTree = "<group>"; };
 		12D3700F20200B5A00D79DDB /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		12D3701220200B5A00D79DDB /* EventListDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListDisplayable.swift; sourceTree = "<group>"; };
@@ -1555,6 +1561,16 @@
 			path = Location;
 			sourceTree = "<group>";
 		};
+		12B44929203A7D9300B1DDAA /* Incident */ = {
+			isa = PBXGroup;
+			children = (
+				12B4492A203A7DA500B1DDAA /* IncidentListReport.swift */,
+				12B4492C203A7E3F00B1DDAA /* IncidentListViewController.swift */,
+				12B4492E203A831B00B1DDAA /* IncidentListViewModel.swift */,
+			);
+			path = Incident;
+			sourceTree = "<group>";
+		};
 		12BDF9141F95CCC70033E60B /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -1584,6 +1600,7 @@
 				12D3702120200F5E00D79DDB /* EventsListViewController.swift */,
 				12D3701420200B5A00D79DDB /* EventsManager.swift */,
 				12D3701520200B5A00D79DDB /* EventSplitViewController.swift */,
+				12B44929203A7D9300B1DDAA /* Incident */,
 				129C08E52032A84E00D712E7 /* Location */,
 			);
 			path = OOTB;
@@ -4340,6 +4357,7 @@
 				BC9C7E091F0DED6600DFFE83 /* UITableViewCell+LayoutMargins.swift in Sources */,
 				2726A81E1FCE6BE600EFB61A /* IncidentOverviewViewModel.swift in Sources */,
 				274753F41FC67F6E00D5FA98 /* TasksListInformationRowViewModel.swift in Sources */,
+				12B4492F203A831B00B1DDAA /* IncidentListViewModel.swift in Sources */,
 				EA53B2771F9EF92B00B891D8 /* NotNilSpecification.swift in Sources */,
 				96F77281201FFB40000FE0D0 /* CreateActivityLogItemViewController.swift in Sources */,
 				967E75A41FCE2DA400B75CF6 /* SyncDetailsResponse.swift in Sources */,
@@ -4414,6 +4432,7 @@
 				27CBC75B1F8B27B100E387C3 /* ActivityLogItemViewModel.swift in Sources */,
 				12FB04092021511E000C38C8 /* DefaultEventDateTimeViewController.swift in Sources */,
 				9620530D1F988239000CAD49 /* AppGroup.swift in Sources */,
+				12B4492D203A7E3F00B1DDAA /* IncidentListViewController.swift in Sources */,
 				19C9C7521FC28A6A003C8CE4 /* LocationSearchMapCollectionViewSideBarLayout.swift in Sources */,
 				BC9C7E541F0DED6600DFFE83 /* NavigationBarExtension.swift in Sources */,
 				19B49BC61F665F5A00502F51 /* WhatsNewDetailViewController.swift in Sources */,
@@ -4629,6 +4648,7 @@
 				2753292F2033B60200CFA97B /* SyncDetailsBroadcast.swift in Sources */,
 				BC9C7E131F0DED6600DFFE83 /* TableViewFormSubtitleCell.swift in Sources */,
 				EA09A0521F78B9A200BC3C0E /* CountSpecification.swift in Sources */,
+				12B4492B203A7DA500B1DDAA /* IncidentListReport.swift in Sources */,
 				27E81E5C2034E724000D5D1C /* TaskDetailsOverviewItemViewModel.swift in Sources */,
 				19C625C41F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift in Sources */,
 				19B49BB91F665F2A00502F51 /* CompactSidebarSourceCell.swift in Sources */,
