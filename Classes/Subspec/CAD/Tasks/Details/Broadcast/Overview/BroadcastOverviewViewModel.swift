@@ -34,7 +34,7 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
                                                                               width: .column(3)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Type",
-                                                                              value: broadcast.categoryType.title,
+                                                                              value: broadcast.type.title,
                                                                               width: .column(3)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: nil,

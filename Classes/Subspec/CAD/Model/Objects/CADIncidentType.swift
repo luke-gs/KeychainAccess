@@ -28,7 +28,7 @@ public protocol CADIncidentType: class {
     var narrative: [CADActivityLogItemType]! { get }
 
     // MARK: - Generated
-    var statusType: CADIncidentStatusType { get }
+    var status: CADIncidentStatusType { get }
     var coordinate: CLLocationCoordinate2D { get }
     var resourceCount: Int { get }
     var resourceCountString: String? { get }

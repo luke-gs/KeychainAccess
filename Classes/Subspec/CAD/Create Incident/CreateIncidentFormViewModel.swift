@@ -14,7 +14,7 @@ open class CreateIncidentFormViewModel {
     open var priority: CADIncidentGradeType?
     open var primaryCode: String?
     open var secondaryCode: String?
-    open var location: String? // TODO: Use SyncDetailsLocation?
+    open var location: String? // TODO: Use CADLocationType?
     open var description: String?
     open var informantName: String?
     open var informantPhone: String?

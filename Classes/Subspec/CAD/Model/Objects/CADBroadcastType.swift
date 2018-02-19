@@ -17,8 +17,8 @@ public protocol CADBroadcastType: class {
     var lastUpdated: Date! { get }
     var location : CADLocationType! { get }
     var title: String! { get }
+    var type: CADBroadcastCategoryType! { get }
 
     // MARK: - Generated
-    var categoryType: CADBroadcastCategoryType { get }
     var createdAtString: String { get }
 }

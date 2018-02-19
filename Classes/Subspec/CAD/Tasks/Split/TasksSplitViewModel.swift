@@ -100,17 +100,17 @@ open class TasksSplitViewModel {
             }
 
             let priorityFilter = filterViewModel.priorities.contains(where: { $0 == incident.grade })
-            let resourcedFilter = filterViewModel.resourcedIncidents.contains(where: { $0 == incident.statusType })
+            let resourcedFilter = filterViewModel.resourcedIncidents.contains(where: { $0 == incident.status })
             
             // If status is not in filter options always show
             // TODO: move to client kit
-            let isOther = incident.statusType.rawValue != "Resourced" && incident.statusType.rawValue != "Unresourced"
-            let isCurrent = incident.statusType == CADClientModelTypes.incidentStatus.currentCase
+            let isOther = incident.status.rawValue != "Resourced" && incident.status.rawValue != "Unresourced"
+            let isCurrent = incident.status == CADClientModelTypes.incidentStatus.currentCase
             
             var hasResourceInDuress: Bool = false
             
             for resource in CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier) {
-                if resource.statusType.isDuress {
+                if resource.status.isDuress {
                     hasResourceInDuress = true
                     break
                 }
@@ -149,10 +149,10 @@ open class TasksSplitViewModel {
             }
 
             // Ignore off duty resources
-            guard resource.statusType != CADClientModelTypes.resourceStatus.offDutyCase else { return false }
+            guard resource.status != CADClientModelTypes.resourceStatus.offDutyCase else { return false }
 
             let isTasked = resource.currentIncident != nil
-            let isDuress = resource.statusType.isDuress
+            let isDuress = resource.status.isDuress
 
             return filterViewModel.taskedResources.tasked && isTasked ||
                 filterViewModel.taskedResources.untasked && !isTasked ||

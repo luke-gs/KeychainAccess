@@ -101,7 +101,7 @@ open class BookOnDetailsFormViewModel {
     }
 
     open func terminateShift() {
-        if resource.statusType.canTerminate {
+        if resource.status.canTerminate {
             // Update session and dismiss screen
             CADStateManager.shared.setOffDuty()
             delegate?.dismiss(animated: true, completion: nil)

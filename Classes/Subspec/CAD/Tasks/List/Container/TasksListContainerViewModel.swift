@@ -253,7 +253,7 @@ open class TasksListContainerViewModel {
                 guard filter(incident) else { continue }
             }
 
-            let status = incident.statusType.rawValue
+            let status = incident.status.rawValue
             if sectionedIncidents[status] == nil {
                 sectionedIncidents[status] = []
             }
@@ -307,7 +307,7 @@ open class TasksListContainerViewModel {
                 guard filter(patrol) else { continue }
             }
             
-            let status = patrol.statusType.rawValue
+            let status = patrol.status.title
             if sectionedPatrols[status] == nil {
                 sectionedPatrols[status] = []
             }
@@ -348,14 +348,14 @@ open class TasksListContainerViewModel {
                 guard filter(broadcast) else { continue }
             }
             
-            let type = broadcast.categoryType.rawValue
+            let type = broadcast.type.title
             if sectionedBroadcasts[type] == nil {
                 sectionedBroadcasts[type] = []
             }
             
             // Apply search text filter to title, identifier, type, or suburb
             if let searchText = searchText?.lowercased(), !searchText.isEmpty {
-                let matchedValues = [broadcast.title, broadcast.identifier, broadcast.categoryType.rawValue, broadcast.location?.suburb].removeNils().filter {
+                let matchedValues = [broadcast.title, broadcast.identifier, broadcast.type.rawValue, broadcast.location?.suburb].removeNils().filter {
                     return $0.lowercased().hasPrefix(searchText)
                 }
                 if !matchedValues.isEmpty {
@@ -412,7 +412,7 @@ open class TasksListContainerViewModel {
             }
 
             if shouldAppend {
-                if resource.statusType.isDuress {
+                if resource.status.isDuress {
                     sectionedResources[duress]?.append(resource)
                 } else if resource.currentIncident != nil {
                     sectionedResources[tasked]?.append(resource)

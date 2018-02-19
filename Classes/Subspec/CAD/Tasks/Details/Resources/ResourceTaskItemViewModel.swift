@@ -39,17 +39,17 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
     public convenience init(resource: CADResourceType) {
         self.init(
             callsign: resource.callsign,
-            iconImage: resource.statusType.icon,
-            iconTintColor: resource.statusType.iconColors.icon,
-            color: resource.statusType.iconColors.background,
-            statusText: resource.statusType.title,
+            iconImage: resource.status.icon,
+            iconTintColor: resource.status.iconColors.icon,
+            color: resource.status.iconColors.background,
+            statusText: resource.status.title,
             itemName: [resource.callsign, resource.officerCountString].joined())
         self.resource = resource
     }
 
     override open func didTapTaskStatus() {
         if allowChangeResourceStatus() {
-            let callsignStatus = CADStateManager.shared.currentResource?.statusType ?? CADClientModelTypes.resourceStatus.defaultCase
+            let callsignStatus = CADStateManager.shared.currentResource?.status ?? CADClientModelTypes.resourceStatus.defaultCase
             let incidentItems = CADClientModelTypes.resourceStatus.incidentCases.map {
                 return ManageCallsignStatusItemViewModel($0)
             }

@@ -29,10 +29,10 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
 
     public convenience init(incident: CADIncidentType, resource: CADResourceType?) {
         self.init(incidentNumber: incident.identifier,
-                  iconImage: resource?.statusType.icon ?? CADClientModelTypes.resourceStatus.defaultCase.icon,
-                  iconTintColor: resource?.statusType.iconColors.icon ?? .white,
-                  color: resource?.statusType.iconColors.background,
-                  statusText: resource?.statusType.title ?? incident.statusType.title,
+                  iconImage: resource?.status.icon ?? CADClientModelTypes.resourceStatus.defaultCase.icon,
+                  iconTintColor: resource?.status.iconColors.icon ?? .white,
+                  color: resource?.status.iconColors.background,
+                  statusText: resource?.status.title ?? incident.status.title,
                   itemName: [incident.type, incident.resourceCountString].joined())
         self.incident = incident
         self.resource = resource
@@ -51,10 +51,10 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         }
 
         if let incident = incident {
-            iconImage = resource?.statusType.icon ?? CADClientModelTypes.resourceStatus.defaultCase.icon
-            iconTintColor = resource?.statusType.iconColors.icon ?? .white
-            color = resource?.statusType.iconColors.background
-            statusText = resource?.statusType.title ?? incident.statusType.title
+            iconImage = resource?.status.icon ?? CADClientModelTypes.resourceStatus.defaultCase.icon
+            iconTintColor = resource?.status.iconColors.icon ?? .white
+            color = resource?.status.iconColors.background
+            statusText = resource?.status.title ?? incident.status.title
             itemName = [incident.type, incident.resourceCountString].joined()
 
             viewModels.forEach {
@@ -65,7 +65,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
 
     override open func didTapTaskStatus() {
         if allowChangeResourceStatus() {
-            let callsignStatus = CADStateManager.shared.currentResource?.statusType ?? CADClientModelTypes.resourceStatus.defaultCase
+            let callsignStatus = CADStateManager.shared.currentResource?.status ?? CADClientModelTypes.resourceStatus.defaultCase
             let incidentItems = CADClientModelTypes.resourceStatus.incidentCases.map {
                 return ManageCallsignStatusItemViewModel($0)
             }

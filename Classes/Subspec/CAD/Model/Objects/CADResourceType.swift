@@ -27,12 +27,11 @@ public protocol CADResourceType: class {
     var shiftEnd: Date? { get set }
     var shiftStart: Date? { get set }
     var station: String! { get set }
-    var status: String! { get set }
+    var status: CADResourceStatusType! { get set }
     var type: CADResourceUnitType! { get set }
     var vehicleCategory: String? { get set }
 
     // MARK: - Generated
-    var statusType: CADResourceStatusType { get set }
     var coordinate: CLLocationCoordinate2D? { get }
 
     /// Officer count in format `(n)`. `nil` if no `payrollIds` count

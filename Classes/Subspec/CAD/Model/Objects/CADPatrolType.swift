@@ -18,12 +18,11 @@ public protocol CADPatrolType: class {
     var lastUpdated: Date! { get }
     var location : CADLocationType! { get }
     var patrolGroup: String! { get }
-    var status: String! { get }
+    var status: CADPatrolStatusType! { get }
     var subtype: String! { get }
     var type: String! { get }
 
     // MARK: - Generated
     var coordinate: CLLocationCoordinate2D { get }
     var createdAtString: String { get }
-    var statusType: CADPatrolStatusType { get }
 }

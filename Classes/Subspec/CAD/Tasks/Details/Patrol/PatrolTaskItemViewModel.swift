@@ -28,7 +28,7 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
                   iconTintColor: .disabledGray,
                   color: .primaryGray,
                   statusText: NSLocalizedString("Patrol", comment: "").uppercased(),
-                  itemName: patrol.type)
+                  itemName: patrol.type.title)
         self.patrol = patrol
     }
     

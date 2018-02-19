@@ -85,9 +85,9 @@ open class TasksMapViewModel {
             
             return ResourceTaskItemViewModel(callsign: resource.callsign,
                                              iconImage: annotation.icon,
-                                             iconTintColor: resource.statusType.iconColors.icon,
-                                             color: resource.statusType.iconColors.background,
-                                             statusText: resource.statusType.title,
+                                             iconTintColor: resource.status.iconColors.icon,
+                                             color: resource.status.iconColors.background,
+                                             statusText: resource.status.title,
                                              itemName: [annotation.title, annotation.subtitle].joined())
         } else if let annotation = annotation as? IncidentAnnotation {
             guard let incident = CADStateManager.shared.incidentsById[annotation.identifier] else { return nil }
@@ -119,7 +119,7 @@ open class TasksMapViewModel {
                                       badgeTextColor: incident.grade.badgeColors.text,
                                       badgeFillColor: incident.grade.badgeColors.fill,
                                       badgeBorderColor: incident.grade.badgeColors.border,
-                                      usesDarkBackground: incident.statusType.useDarkBackgroundOnMap,
+                                      usesDarkBackground: incident.status.useDarkBackgroundOnMap,
                                       priority: incident.grade)
         }
     }
@@ -130,9 +130,9 @@ open class TasksMapViewModel {
         return patrols.map { patrol in
             return PatrolAnnotation(identifier: patrol.identifier,
                                     coordinate: patrol.coordinate,
-                                    title: patrol.type,
+                                    title: patrol.type.title,
                                     subtitle: nil,
-                                    usesDarkBackground: patrol.statusType.useDarkBackgroundOnMap)
+                                    usesDarkBackground: patrol.status.useDarkBackgroundOnMap)
         }
     }
     
@@ -144,9 +144,9 @@ open class TasksMapViewModel {
                                       title: resource.callsign,
                                       subtitle: resource.officerCountString,
                                       icon: resource.type.icon,
-                                      iconBackgroundColor: resource.statusType.iconColors.background,
-                                      iconTintColor: resource.statusType.iconColors.icon,
-                                      duress: resource.statusType.isDuress)
+                                      iconBackgroundColor: resource.status.iconColors.background,
+                                      iconTintColor: resource.status.iconColors.icon,
+                                      duress: resource.status.isDuress)
         }
     }
  
