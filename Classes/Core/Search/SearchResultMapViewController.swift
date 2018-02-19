@@ -253,6 +253,9 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         mapControlView?.visualEffect = effect
         radiusControlView?.visualEffect = effect
 
+        mapControlView?.separatorColor = theme.color(forKey: .separator)
+        radiusControlView?.separatorColor = theme.color(forKey: .separator)
+
     }
 
     // MARK: - Common methods
