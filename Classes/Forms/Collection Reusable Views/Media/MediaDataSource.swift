@@ -11,20 +11,37 @@ import AVKit
 import PromiseKit
 
 
-//public class MediaPreviewModel {
+//public class MediaPreviewModel { //}<T: ReadableDataStore> where T.Result.Item == Media {
 //
-//    public let dataProvider: DataCoordinatable
+////    public let storeCoordinator: DataStoreCoordinator<T>
+////
+////    public private(set) var previews: [MediaPreviewable] = []
+////
+////    public init(storeCoordinator: DataStoreCoordinator<T>) {
+////        self.storeCoordinator = storeCoordinator
+////
+////        if storeCoordinator.state == .unknown {
+////            _ = storeCoordinator.retrieveItems()
+////        }
+////
+////        NotificationCenter.default.addObserver(self, selector: #selector(storeDidChange(_:)), name: DataStoreCoordinatorDidChangeStateNotificationName, object: storeCoordinator)
+////    }
+////
+////    deinit {
+////        NotificationCenter.default.removeObserver(self)
+////    }
+////
+////    private func storeDidChange(_ notification: Notification) {
+////
+////    }
 //
-//    public private(set) var previews: [MediaPreviewable] = []
-//
-//    public init(dataProvider: DataCoordinatable) {
-//        self.dataProvider = dataProvider
-//
-//        if dataProvider.state == .unknown {
-////            dataProvider.retrieveMediaItems()
-//        }
-//    }
-//
+////    public init() {
+////
+////    }
+////
+////    func previewForMedia(_ media: MediaAsset) -> MediaPreviewable {
+////
+////    }
 //
 //}
 

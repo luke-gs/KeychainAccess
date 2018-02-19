@@ -37,11 +37,17 @@ public protocol PaginatedDataStoreResult: DataStoreResult {
 
 }
 
-public class DataCoordinator<Store: ReadableDataStore> where Store.Result.Item: Equatable {
+public let DataStoreCoordinatorDidChangeStateNotificationName = Notification.Name(rawValue: "DataStoreCoordinatorDidChangeStateNotificationName")
+
+public class DataStoreCoordinator<Store: ReadableDataStore> where Store.Result.Item: Equatable {
 
     public typealias Item = Store.Result.Item
 
-    public private(set) var state: DataCoordinateState = .unknown
+    public private(set) var state: DataCoordinateState = .unknown {
+        didSet {
+            NotificationCenter.default.post(name: DataStoreCoordinatorDidChangeStateNotificationName, object: self)
+        }
+    }
 
     public private(set) var items: [Item] = []
 
@@ -70,9 +76,10 @@ public class DataCoordinator<Store: ReadableDataStore> where Store.Result.Item: 
         }.then { [weak self] results -> [Item] in
             let items = results.items
 
-            self?.state = .completed
+
             self?.lastKnownResults = results
             self?.items = items
+            self?.state = .completed
 
             return self?.items ?? []
         }.always {
@@ -86,7 +93,7 @@ public class DataCoordinator<Store: ReadableDataStore> where Store.Result.Item: 
 
 }
 
-extension DataCoordinator where Store.Result: PaginatedDataStoreResult {
+extension DataStoreCoordinator where Store.Result: PaginatedDataStoreResult {
 
     public func hasMoreItems() -> Bool {
         return lastKnownResults?.hasMoreItems ?? false
@@ -102,9 +109,9 @@ extension DataCoordinator where Store.Result: PaginatedDataStoreResult {
         }.then { [weak self] results -> [Item] in
             let items = results.items
 
-            self?.state = .completed
             self?.lastKnownResults = results
             self?.items += items
+            self?.state = .completed
 
             return self?.items ?? []
         }.always {
@@ -118,7 +125,7 @@ extension DataCoordinator where Store.Result: PaginatedDataStoreResult {
 
 }
 
-extension DataCoordinator where Store: WritableDataStore {
+extension DataStoreCoordinator where Store: WritableDataStore {
 
     public func addItem(_ item: Item) -> Promise<Item> {
         return dataStore.addItem(item)

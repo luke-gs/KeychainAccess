@@ -18,7 +18,7 @@ class DataCoordinatorTests: XCTestCase {
         let store: ReadOnlyStore = ReadOnlyStore()
 
         // When
-        let provider = DataCoordinator(dataStore: store)
+        let provider = DataStoreCoordinator(dataStore: store)
 
         // Then
         XCTAssertEqual(provider.state, .unknown)
@@ -28,7 +28,7 @@ class DataCoordinatorTests: XCTestCase {
     func testThatItRetrievesItems() {
         // Given
         let store = ReadOnlyStore(numbers: [1, 2, 3])
-        let provider = DataCoordinator(dataStore: store)
+        let provider = DataStoreCoordinator(dataStore: store)
 
         let expectation = XCTestExpectation()
 
@@ -53,7 +53,7 @@ class DataCoordinatorTests: XCTestCase {
     func testThatItAddsItem() {
         // Given
         let store = WritableStore(numbers: [1, 2])
-        let provider = DataCoordinator(dataStore: store)
+        let provider = DataStoreCoordinator(dataStore: store)
 
         let expectation = XCTestExpectation()
 
@@ -73,7 +73,7 @@ class DataCoordinatorTests: XCTestCase {
     func testThatItRemovesItem() {
         // Given
         let store = WritableStore(numbers: [1, 2])
-        let provider = DataCoordinator(dataStore: store)
+        let provider = DataStoreCoordinator(dataStore: store)
 
         let expectation = XCTestExpectation()
 
@@ -93,7 +93,7 @@ class DataCoordinatorTests: XCTestCase {
     func testThatItReplacesItem() {
         // Given
         let store = WritableStore(numbers: [1, 2])
-        let provider = DataCoordinator(dataStore: store)
+        let provider = DataStoreCoordinator(dataStore: store)
 
         let expectation = XCTestExpectation()
 
@@ -113,7 +113,7 @@ class DataCoordinatorTests: XCTestCase {
     func testThatItHasMoreItems() {
         // Given
         let store = WritableStore(numbers: [1, 2], additionalItems: [3, 4])
-        let provider = DataCoordinator(dataStore: store)
+        let provider = DataStoreCoordinator(dataStore: store)
 
         let expectation = XCTestExpectation()
 
@@ -131,7 +131,7 @@ class DataCoordinatorTests: XCTestCase {
     func testThatItRetrievesMoreItems() {
         // Given
         let store = WritableStore(numbers: [1, 2], additionalItems: [3, 4])
-        let provider = DataCoordinator(dataStore: store)
+        let provider = DataStoreCoordinator(dataStore: store)
 
         let expectation = XCTestExpectation()
 
