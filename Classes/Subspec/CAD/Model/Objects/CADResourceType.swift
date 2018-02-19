@@ -10,32 +10,30 @@ import Foundation
 import CoreLocation
 
 public protocol CADResourceType {
-    var callsign: String!  { get }
-    var status: String! { get }
-    var patrolGroup: String! { get }
-    var station: String! { get }
-    var currentIncident: String? { get }
-    var assignedIncidents: [String]? { get }
-    var location: CADLocationType? { get }
-    var driver: String? { get }
-    var payrollIds: [String]? { get }
-    var shiftEnd: Date? { get }
-    var shiftStart: Date? { get }
-    var type: CADResourceUnitType! { get }
-    var serial: String? { get }
-    var vehicleCategory: String? { get }
-    var equipment: [CADEquipmentType]? { get }
-    var remarks : String? { get }
-    var lastUpdated : Date? { get }
-    var activityLog: [CADActivityLogItemType]? { get }
 
-    var statusType: CADResourceStatusType { get }
+    // MARK: - Network
+    var activityLog: [CADActivityLogItemType]? { get set }
+    var assignedIncidents: [String]? { get set}
+    var callsign: String!  { get set }
+    var currentIncident: String? { get set }
+    var driver: String? { get set }
+    var equipment: [CADEquipmentType]? { get set }
+    var lastUpdated : Date? { get set }
+    var location: CADLocationType? { get set }
+    var patrolGroup: String! { get set }
+    var payrollIds: [String]? { get set }
+    var remarks : String? { get set }
+    var serial: String? { get set }
+    var shiftEnd: Date? { get set }
+    var shiftStart: Date? { get set }
+    var station: String! { get set }
+    var status: String! { get set }
+    var type: CADResourceUnitType! { get set }
+    var vehicleCategory: String? { get set }
+
+    // MARK: - Generated
+    var statusType: CADResourceStatusType { get set }
     var coordinate: CLLocationCoordinate2D? { get }
-
-    // MARK: - Display Strings
-
-    static var shiftTimeFormatter: DateFormatter { get }
-    static var durationTimeFormatter: DateComponentsFormatter { get }
 
     /// Officer count in format `(n)`. `nil` if no `payrollIds` count
     var officerCountString: String? { get }
@@ -53,6 +51,7 @@ public protocol CADResourceType {
     func equipmentListString(separator: String) -> String?
 }
 
+// MARK: - Equality
 func ==(lhs: CADResourceType?, rhs: CADResourceType?) -> Bool {
     return lhs?.callsign == rhs?.callsign
 }

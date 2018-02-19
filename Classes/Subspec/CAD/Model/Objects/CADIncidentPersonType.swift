@@ -9,15 +9,18 @@
 import Foundation
 
 public protocol CADIncidentPersonType {
+
+    // MARK: - Network
     var alertLevel: Int! { get }
     var dateOfBirth: String! { get }
     var firstName: String! { get }
-    var middleNames: String! { get }
-    var lastName: String! { get }
     var fullAddress: String! { get }
     var gender: String! { get }
+    var lastName: String! { get }
+    var middleNames: String! { get }
     var thumbnail: String! { get }
 
-    var initials: String { get }
+    // MARK: - Generated
     var fullName: String { get }
+    var initials: String { get }
 }

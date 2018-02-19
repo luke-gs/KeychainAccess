@@ -9,11 +9,13 @@
 import Foundation
 
 public protocol CADIncidentVehicleType {
+
+    // MARK: - Network
     var alertLevel : Int! { get }
+    var bodyType: String! { get }
+    var color: String! { get }
+    var plateNumber : String! { get }
+    var stolen: Bool! { get }
     var vehicleDescription : String! { get }
     var vehicleType : String! { get }
-    var color: String! { get }
-    var bodyType: String! { get }
-    var stolen: Bool! { get }
-    var plateNumber : String! { get }
 }

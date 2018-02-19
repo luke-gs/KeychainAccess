@@ -9,13 +9,16 @@
 import Foundation
 
 public protocol CADBroadcastType {
-    var identifier: String! { get }
-    var title: String! { get }
-    var location : CADLocationType! { get }
-    var lastUpdated: Date! { get }
-    var details: String! { get }
-    var createdAt: Date! { get }
 
+    // MARK: - Network
+    var createdAt: Date! { get }
+    var details: String! { get }
+    var identifier: String! { get }
+    var lastUpdated: Date! { get }
+    var location : CADLocationType! { get }
+    var title: String! { get }
+
+    // MARK: - Generated
     var categoryType: CADBroadcastCategoryType { get }
     var createdAtString: String { get }
 }

@@ -10,10 +10,7 @@ import Foundation
 
 public protocol CADBookOffDetailsType {
 
-    /// The callsign for the resource.
+    // MARK: - Network
     var callsign: String! { get }
-
-    /// The payrollId of the currently logged in officer on the mobile device.
     var loggedInPayrollId: String! { get }
-
 }

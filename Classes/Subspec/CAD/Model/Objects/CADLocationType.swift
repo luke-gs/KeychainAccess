@@ -9,16 +9,18 @@
 import Foundation
 
 public protocol CADLocationType {
+
+    // MARK: - Network
     var alertLevel : Int? { get }
-    var streetNumberFirst : String! { get }
-    var streetNumberLast : String! { get }
-    var streetName : String! { get }
-    var streetType : String! { get }
-    var suburb : String! { get }
-    var state : String! { get }
-    var postalCode : String! { get }
     var country : String! { get }
     var fullAddress : String! { get }
     var latitude : Float! { get }
     var longitude : Float! { get }
+    var postalCode : String! { get }
+    var state : String! { get }
+    var streetName : String! { get }
+    var streetNumberFirst : String! { get }
+    var streetNumberLast : String! { get }
+    var streetType : String! { get }
+    var suburb : String! { get }
 }

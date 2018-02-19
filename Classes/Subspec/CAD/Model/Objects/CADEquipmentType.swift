@@ -8,10 +8,13 @@
 
 import Foundation
 
-public protocol CADEquipmentType {
+public protocol CADEquipmentType: class {
+
+    // MARK: - Network
     var count: Int! { get }
     var description: String! { get }
 
+    // MARK: - Init
     init(count: Int!, description: String!)
     init(equipment: CADEquipmentType)
 }

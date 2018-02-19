@@ -10,43 +10,23 @@ import Foundation
 
 public protocol CADBookOnDetailsType: class {
 
-    /// The callsign of the resource to book on to.
+    // MARK: - Network
     var callsign: String! { get set }
-
-    /// The current shift start time of the resource.
+    var category: String! { get set }
+    var driverpayrollId: String! { get set }
+    var equipment: [CADEquipmentType]! { get set }
+    var fleetNumber: String! { get set }
+    var loggedInpayrollId: String! { get set }
+    var odometer: String! { get set }
+    var officers: [CADOfficerType]! { get set }
+    var remarks: String! { get set }
+    var serial: String! { get set }
+    var shiftEnd: Date! { get set }
     var shiftStart: Date! { get set }
 
-    /// The current shift end time of the resource.
-    var shiftEnd: Date! { get set }
+    // MARK: - Init
 
-    /// The list of officers to book on
-    var officers: [CADOfficerType]! { get set }
-
-    /// The list of equipment items for the resource.
-    var equipment: [CADEquipmentType]! { get set }
-
-    /// The fleet number for the resource.
-    var fleetNumber: String! { get set }
-
-    /// The optional remarks to populate as part of this book on.
-    var remarks: String! { get set }
-
-    /// The driver payrolId for the resource (should be one of the officers in the officers array).
-    var driverpayrollId: String! { get set }
-
-    /// The payrollId of the currently logged in officer on the mobile device.
-    var loggedInpayrollId: String! { get set }
-
-    /// NOT IN API: The vehicle rego
-    var serial: String! { get set }
-
-    /// NOT IN API: The vehicle category
-    var category: String! { get set }
-
-    /// NOT IN API: The vehicle odometer
-    var odometer: String! { get set }
-
-    // Default constructor
+    /// Default constructor
     init()
 
     /// Copy constructor (deep)

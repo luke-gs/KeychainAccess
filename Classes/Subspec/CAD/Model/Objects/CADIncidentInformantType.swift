@@ -9,6 +9,8 @@
 import Foundation
 
 public protocol CADIncidentInformantType {
+
+    // MARK: - Network
     var fullName : String! { get }
     var primaryPhone : String! { get }
     var secondaryPhone : String! { get }

@@ -55,7 +55,7 @@ open class BookOnDetailsFormContentMainViewModel {
 
     /// Create model from view model
     open func createModel() -> CADBookOnDetailsType {
-        var request = CADClientModelTypes.bookonDetails.init()
+        let request = CADClientModelTypes.bookonDetails.init()
         request.serial = self.serial
         request.category = self.category
         request.odometer = self.odometer
@@ -67,7 +67,7 @@ open class BookOnDetailsFormContentMainViewModel {
         // Use the officer view models to apply changes to officers fetched in sync
         request.officers = self.officers.flatMap { officer in
             if let existingOfficer = CADStateManager.shared.officersById[officer.officerId!] {
-                var updatedOfficer = CADClientModelTypes.officerDetails.init(officer: existingOfficer)
+                let updatedOfficer = CADClientModelTypes.officerDetails.init(officer: existingOfficer)
                 updatedOfficer.licenceTypeId = officer.licenceTypeId
                 updatedOfficer.contactNumber = officer.contactNumber
                 updatedOfficer.capabilities = officer.capabilities

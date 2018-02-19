@@ -8,29 +8,32 @@
 
 import Foundation
 
-public protocol CADOfficerType {
-    static var nameFormatter: PersonNameComponentsFormatter { get }
+public protocol CADOfficerType: class {
 
-    var payrollId: String! { get set }
-    var rank: String! { get set }
-    var firstName: String! { get set }
-    var middleName: String! { get set }
-    var lastName: String! { get set }
-    var patrolGroup: String! { get set }
-    var station: String! { get set }
-    var licenceTypeId: String! { get set }
-    var contactNumber: String! { get set }
-    var remarks: String! { get set }
+    // MARK: - Network
     var capabilities: [String]! { get set }
+    var contactNumber: String! { get set }
+    var firstName: String! { get set }
+    var lastName: String! { get set }
+    var licenceTypeId: String! { get set }
+    var middleName: String! { get set }
+    var patrolGroup: String! { get set }
+    var payrollId: String! { get set }
     var radioId: String? { get set }
+    var rank: String! { get set }
+    var remarks: String! { get set }
+    var station: String! { get set }
 
+    // MARK: - Generated
     var displayName: String { get }
-    var payrollIdDisplayString: String? { get }
     var initials: String { get }
+    var payrollIdDisplayString: String? { get }
 
-    // Default constructor
+    // MARK: - Init
+
+    /// Default constructor
     init()
-
+    
     /// Copy constructor
     init(officer: CADOfficerType)
 }

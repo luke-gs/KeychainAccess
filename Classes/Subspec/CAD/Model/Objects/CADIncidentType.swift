@@ -10,6 +10,8 @@ import Foundation
 import CoreLocation
 
 public protocol CADIncidentType {
+
+    // MARK: - Network
     var identifier: String! { get }
     var secondaryCode: String! { get }
     var type: String! { get }
@@ -25,6 +27,7 @@ public protocol CADIncidentType {
     var vehicles: [CADIncidentVehicleType]! { get }
     var narrative: [CADActivityLogItemType]! { get }
 
+    // MARK: - Generated
     var statusType: CADIncidentStatusType { get }
     var coordinate: CLLocationCoordinate2D { get }
     var resourceCount: Int { get }
