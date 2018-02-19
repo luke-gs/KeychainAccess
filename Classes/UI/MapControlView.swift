@@ -193,7 +193,7 @@ public class MapControlView: UIView {
             borderLayer.isHidden = true
             CATransaction.commit()
 
-            UIView.animate(withDuration: duration, delay: 0.0, options: [ .curveEaseOut ], animations: {
+            UIView.promiseAnimate(withDuration: duration, delay: 0.0, options: [ .curveEaseOut ], animations: {
                 buttonsExcludingLast.forEach({
                     $0.isHidden = true
                     $0.alpha = 0.0
@@ -212,7 +212,7 @@ public class MapControlView: UIView {
 
                 separatorView.alpha = 1.0
 
-                return UIView.animate(withDuration: duration, delay: 0.0, options:[ .curveEaseOut ], animations: {
+                return UIView.promiseAnimate(withDuration: duration, delay: 0.0, options:[ .curveEaseOut ], animations: {
                     buttonsExcludingLast.forEach({
                         $0.isHidden = false
                         $0.alpha = 1.0
