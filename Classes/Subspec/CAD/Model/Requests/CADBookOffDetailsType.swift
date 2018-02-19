@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Protocol for book off details used by kit
 public protocol CADBookOffDetailsType {
 
     // MARK: - Network

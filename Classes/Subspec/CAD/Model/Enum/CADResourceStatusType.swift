@@ -40,6 +40,9 @@ public protocol CADResourceStatusType: CADEnumType {
     /// The case for finalising an incident
     static var finaliseCase: CADResourceStatusType { get }
 
+    /// The case for traffic stop
+    static var trafficStopCase: CADResourceStatusType { get }
+
     // MARK: - Properties
 
     /// Display title for status

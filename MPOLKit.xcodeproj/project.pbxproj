@@ -342,6 +342,11 @@
 		9679A6471F9D9D2D007BC806 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9679A6461F9D9D2D007BC806 /* Date+Extension.swift */; };
 		9679A6491F9EEDB7007BC806 /* BookOnDetailsOfficerFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9679A6481F9EEDB7007BC806 /* BookOnDetailsOfficerFormItem.swift */; };
 		9679A64B1F9EEDF8007BC806 /* BookOnDetailsOfficerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9679A64A1F9EEDF8007BC806 /* BookOnDetailsOfficerCell.swift */; };
+		967BFAB8203B90E500A9C789 /* SelectStoppedEntityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967BFAB4203B90E500A9C789 /* SelectStoppedEntityViewController.swift */; };
+		967BFAB9203B90E500A9C789 /* SelectStoppedEntityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967BFAB5203B90E500A9C789 /* SelectStoppedEntityViewModel.swift */; };
+		967BFABA203B90E500A9C789 /* TrafficStopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967BFAB6203B90E500A9C789 /* TrafficStopViewController.swift */; };
+		967BFABB203B90E500A9C789 /* TrafficStopViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967BFAB7203B90E500A9C789 /* TrafficStopViewModel.swift */; };
+		967BFABD203B916E00A9C789 /* CADTrafficStopDetailsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967BFABC203B916E00A9C789 /* CADTrafficStopDetailsType.swift */; };
 		9686FC941F78AAED00C4AB4D /* UIView+SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9686FC931F78AAED00C4AB4D /* UIView+SafeArea.swift */; };
 		9686FC961F78AC7600C4AB4D /* UIViewController+SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9686FC951F78AC7600C4AB4D /* UIViewController+SafeArea.swift */; };
 		9689CA0C2032646C0001D993 /* CADClientModelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9689CA0B2032646C0001D993 /* CADClientModelTypes.swift */; };
@@ -1083,6 +1088,11 @@
 		9679A6461F9D9D2D007BC806 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		9679A6481F9EEDB7007BC806 /* BookOnDetailsOfficerFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsOfficerFormItem.swift; sourceTree = "<group>"; };
 		9679A64A1F9EEDF8007BC806 /* BookOnDetailsOfficerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsOfficerCell.swift; sourceTree = "<group>"; };
+		967BFAB4203B90E500A9C789 /* SelectStoppedEntityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectStoppedEntityViewController.swift; sourceTree = "<group>"; };
+		967BFAB5203B90E500A9C789 /* SelectStoppedEntityViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectStoppedEntityViewModel.swift; sourceTree = "<group>"; };
+		967BFAB6203B90E500A9C789 /* TrafficStopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficStopViewController.swift; sourceTree = "<group>"; };
+		967BFAB7203B90E500A9C789 /* TrafficStopViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficStopViewModel.swift; sourceTree = "<group>"; };
+		967BFABC203B916E00A9C789 /* CADTrafficStopDetailsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADTrafficStopDetailsType.swift; sourceTree = "<group>"; };
 		9686FC931F78AAED00C4AB4D /* UIView+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+SafeArea.swift"; sourceTree = "<group>"; };
 		9686FC951F78AC7600C4AB4D /* UIViewController+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+SafeArea.swift"; sourceTree = "<group>"; };
 		9689CA0B2032646C0001D993 /* CADClientModelTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADClientModelTypes.swift; sourceTree = "<group>"; };
@@ -2305,6 +2315,7 @@
 				27F7477620182CDD009D47AB /* Finalise */,
 				966F3505200C4CBB00661870 /* Manage */,
 				966F3503200C4BE600661870 /* Status */,
+				967BFAB3203B90E500A9C789 /* Traffic Stop */,
 			);
 			path = Callsign;
 			sourceTree = "<group>";
@@ -2332,6 +2343,7 @@
 			children = (
 				9689CA4C203647C80001D993 /* CADBookOnDetailsType.swift */,
 				966CE9D420369EA900646A6A /* CADBookOffDetailsType.swift */,
+				967BFABC203B916E00A9C789 /* CADTrafficStopDetailsType.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -2514,6 +2526,17 @@
 				BC5C11EE1F2806890048CBBF /* LoadingStateNoContentView.swift */,
 			);
 			path = Loading;
+			sourceTree = "<group>";
+		};
+		967BFAB3203B90E500A9C789 /* Traffic Stop */ = {
+			isa = PBXGroup;
+			children = (
+				967BFAB4203B90E500A9C789 /* SelectStoppedEntityViewController.swift */,
+				967BFAB5203B90E500A9C789 /* SelectStoppedEntityViewModel.swift */,
+				967BFAB6203B90E500A9C789 /* TrafficStopViewController.swift */,
+				967BFAB7203B90E500A9C789 /* TrafficStopViewModel.swift */,
+			);
+			path = "Traffic Stop";
 			sourceTree = "<group>";
 		};
 		9689CA58203649EB0001D993 /* Objects */ = {
@@ -4067,6 +4090,7 @@
 				27F9C96C1FA2D7E300825F88 /* CompactCallsignContainerViewController.swift in Sources */,
 				EA32A8581FBD1A7900CC37FB /* MediaCell.swift in Sources */,
 				9650CA1B1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift in Sources */,
+				967BFABD203B916E00A9C789 /* CADTrafficStopDetailsType.swift in Sources */,
 				BC9C7DEE1F0DED6600DFFE83 /* Serialisable.swift in Sources */,
 				BC9C7DEB1F0DED6600DFFE83 /* EntitySource.swift in Sources */,
 				BC9C7DC91F0DED6600DFFE83 /* FileManager+URL.swift in Sources */,
@@ -4129,6 +4153,7 @@
 				9624A43F1F81BBEB00CAE056 /* UIFont+Digits.swift in Sources */,
 				EAFBC8BC1F57DF8700F0004B /* LookupAddressValidator.swift in Sources */,
 				966CE9D520369EA900646A6A /* CADBookOffDetailsType.swift in Sources */,
+				967BFABA203B90E500A9C789 /* TrafficStopViewController.swift in Sources */,
 				278A16251FBAB17400C01C38 /* TasksListInfoRowView.swift in Sources */,
 				460B5BC82007187600AB7D12 /* SketchPen.swift in Sources */,
 				BC9C7E051F0DED6600DFFE83 /* UIEdgeInsets+Convenience.swift in Sources */,
@@ -4163,6 +4188,7 @@
 				BC9C7E011F0DED6600DFFE83 /* FloatingPoint+Comparison.swift in Sources */,
 				BC9C7E0D1F0DED6600DFFE83 /* CollectionViewFormLayout.swift in Sources */,
 				46C430CC1FC5252D0047396B /* CodableResponseSerializing.swift in Sources */,
+				967BFAB9203B90E500A9C789 /* SelectStoppedEntityViewModel.swift in Sources */,
 				2744EEC71FBEA523008DFA7F /* MapFilterViewModel.swift in Sources */,
 				27CBC7621F8B27CC00E387C3 /* IncidentAnnotation.swift in Sources */,
 				4420D2801F66428D00E20304 /* Sequence+Nils.swift in Sources */,
@@ -4406,6 +4432,7 @@
 				44020FD61FE86C5800EA057C /* ForcedPopoverPresentationControllerDelegate.swift in Sources */,
 				BC9C7E151F0DED6600DFFE83 /* TableViewFormTextViewCell.swift in Sources */,
 				DB168CDE20032B6B00322F7F /* Validator.swift in Sources */,
+				967BFAB8203B90E500A9C789 /* SelectStoppedEntityViewController.swift in Sources */,
 				27E81E5E2034EB05000D5D1C /* ResourceOverviewFormViewController.swift in Sources */,
 				275329282033A2DF00CFA97B /* BubbleAnnotationView.swift in Sources */,
 				EA2F1A6F1FA7F7C6001F7812 /* MediaDataSource.swift in Sources */,
@@ -4516,6 +4543,7 @@
 				EA2189EF1F5FB2280057048E /* MapResultViewModelable.swift in Sources */,
 				BC9C7E561F0DED6600DFFE83 /* TabStripView.swift in Sources */,
 				19F2579E1FBB98F700769B26 /* Bundle+URLSchemeVerifier.swift in Sources */,
+				967BFABB203B90E500A9C789 /* TrafficStopViewModel.swift in Sources */,
 				EA11F01F1F830D0E00BF8BCA /* StringSizable+Label.swift in Sources */,
 				460B5BC22007186D00AB7D12 /* PathBuilder.swift in Sources */,
 				C6F640ED1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift in Sources */,

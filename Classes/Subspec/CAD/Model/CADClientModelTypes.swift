@@ -23,6 +23,9 @@ open class CADClientModelTypes {
     /// The type used for officer details
     static open var equipmentDetails: CADEquipmentType.Type!
 
+    /// The type used for traffic details
+    static open var trafficStopDetails: CADTrafficStopDetailsType.Type!
+
     // MARK: - Enums
 
     /// The type used for a resource status

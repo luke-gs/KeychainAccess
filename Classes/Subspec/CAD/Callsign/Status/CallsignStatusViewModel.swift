@@ -64,22 +64,21 @@ open class CallsignStatusViewModel: CADStatusViewModel {
                 }
             }
 
-            if newStatus == CADClientModelTypes.resourceStatus.finaliseCase {
-                promise = promise.then {
-                    return self.promptForFinaliseDetails()
-                    }.then { _ -> Void in
-                        // TODO: Do something with this data
-                }
-            }
-
-            // Core specific status checks, may want to move this out
-            // TODO: move to client kit
-            if newStatus.rawValue == "Traffic Stop" {
+            switch newStatus.rawValue {
+            case CADClientModelTypes.resourceStatus.trafficStopCase.rawValue:
                 promise = promise.then { _ in
                     return self.promptForTrafficStopDetails()
-                    }.then { _ -> Void in
-                        // TODO: Submit traffic stop details
+                }.then { _ -> Void in
+                    // TODO: Submit traffic stop details
                 }
+            case CADClientModelTypes.resourceStatus.finaliseCase.rawValue:
+                promise = promise.then {
+                    return self.promptForFinaliseDetails()
+                }.then { _ -> Void in
+                    // TODO: Do something with this data
+                }
+            default:
+                break
             }
 
             return promise.then {
@@ -97,15 +96,10 @@ open class CallsignStatusViewModel: CADStatusViewModel {
         }
     }
     
-    open func promptForTrafficStopDetails() -> Promise<Void> {
-        return Promise<Void>()
-    }
-    // TODO: move to client kit
-/*
     // Prompts the user for more details when tapping on "Traffic Stop" status
-    open func promptForTrafficStopDetails() -> Promise<CADTrafficStopRequest> {
-        let (promise, fulfill, reject) = Promise<CADTrafficStopRequest>.pending()
-        let completionHandler: ((CADTrafficStopRequest?) -> Void) = { request in
+    open func promptForTrafficStopDetails() -> Promise<CADTrafficStopDetailsType> {
+        let (promise, fulfill, reject) = Promise<CADTrafficStopDetailsType>.pending()
+        let completionHandler: ((CADTrafficStopDetailsType?) -> Void) = { request in
             if let request = request {
                 fulfill(request)
             } else {
@@ -115,7 +109,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
         delegate?.present(BookOnScreen.trafficStop(completionHandler: completionHandler))
         return promise
     }
-*/
+
     // Prompts the user for reason for status change
     open func promptForStatusReason() -> Promise<String> {
 
