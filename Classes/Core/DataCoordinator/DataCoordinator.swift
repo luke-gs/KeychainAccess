@@ -10,14 +10,34 @@ import Foundation
 import PromiseKit
 
 
+public enum DataCoordinateState {
+    case unknown
+    case loading
+    case completed
+    case error(Error)
+}
+
+extension DataCoordinateState: Equatable {
+
+    public static func ==(lhs: DataCoordinateState, rhs: DataCoordinateState) -> Bool {
+        switch (lhs, rhs) {
+        case (.unknown, .unknown): return true
+        case (.loading, .loading): return true
+        case (.completed, .completed): return true
+        case (.error(let error1), .error(let error2)): return (error1 as NSError) == (error2 as NSError)
+        default: return false
+        }
+    }
+
+}
+
 public protocol PaginatedDataStoreResult: DataStoreResult {
 
     var hasMoreItems: Bool { get }
 
 }
 
-
-public class DataCoordinator<Store: DataStore>: DataCoordinatable where Store.Result.Item: Equatable {
+public class DataCoordinator<Store: ReadableDataStore> where Store.Result.Item: Equatable {
 
     public typealias Item = Store.Result.Item
 
@@ -37,20 +57,6 @@ public class DataCoordinator<Store: DataStore>: DataCoordinatable where Store.Re
 
     public init(dataStore: Store) {
         self.dataStore = dataStore
-    }
-
-    // MARK: - CRUD methods
-
-    public func addItem(_ item: Item) -> Promise<Item> {
-        return dataStore.addItem(item)
-    }
-
-    public func removeItem(_ item: Item) -> Promise<Item> {
-        return dataStore.removeItem(item)
-    }
-
-    public func replaceItem(_ item: Item, with otherItem: Item) -> Promise<Item> {
-        return dataStore.replaceItem(item, with: otherItem)
     }
 
     public func retrieveItems() -> Promise<[Item]> {
@@ -112,3 +118,18 @@ extension DataCoordinator where Store.Result: PaginatedDataStoreResult {
 
 }
 
+extension DataCoordinator where Store: WritableDataStore {
+
+    public func addItem(_ item: Item) -> Promise<Item> {
+        return dataStore.addItem(item)
+    }
+
+    public func removeItem(_ item: Item) -> Promise<Item> {
+        return dataStore.removeItem(item)
+    }
+
+    public func replaceItem(_ item: Item, with otherItem: Item) -> Promise<Item> {
+        return dataStore.replaceItem(item, with: otherItem)
+    }
+
+}

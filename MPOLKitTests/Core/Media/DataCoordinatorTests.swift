@@ -15,7 +15,7 @@ class DataCoordinatorTests: XCTestCase {
 
     func testThatItsDefaultStatesAreCorrect() {
         // Given
-        let store: FakeNumberStore = FakeNumberStore()
+        let store: ReadOnlyStore = ReadOnlyStore()
 
         // When
         let provider = DataCoordinator(dataStore: store)
@@ -27,7 +27,7 @@ class DataCoordinatorTests: XCTestCase {
 
     func testThatItRetrievesItems() {
         // Given
-        let store = FakeNumberStore(numbers: [1, 2, 3])
+        let store = ReadOnlyStore(numbers: [1, 2, 3])
         let provider = DataCoordinator(dataStore: store)
 
         let expectation = XCTestExpectation()
@@ -52,7 +52,7 @@ class DataCoordinatorTests: XCTestCase {
 
     func testThatItAddsItem() {
         // Given
-        let store = FakeNumberStore(numbers: [1, 2])
+        let store = WritableStore(numbers: [1, 2])
         let provider = DataCoordinator(dataStore: store)
 
         let expectation = XCTestExpectation()
@@ -72,7 +72,7 @@ class DataCoordinatorTests: XCTestCase {
 
     func testThatItRemovesItem() {
         // Given
-        let store = FakeNumberStore(numbers: [1, 2])
+        let store = WritableStore(numbers: [1, 2])
         let provider = DataCoordinator(dataStore: store)
 
         let expectation = XCTestExpectation()
@@ -92,7 +92,7 @@ class DataCoordinatorTests: XCTestCase {
 
     func testThatItReplacesItem() {
         // Given
-        let store = FakeNumberStore(numbers: [1, 2])
+        let store = WritableStore(numbers: [1, 2])
         let provider = DataCoordinator(dataStore: store)
 
         let expectation = XCTestExpectation()
@@ -112,7 +112,7 @@ class DataCoordinatorTests: XCTestCase {
 
     func testThatItHasMoreItems() {
         // Given
-        let store = FakeNumberStore(numbers: [1, 2], additionalItems: [3, 4])
+        let store = WritableStore(numbers: [1, 2], additionalItems: [3, 4])
         let provider = DataCoordinator(dataStore: store)
 
         let expectation = XCTestExpectation()
@@ -130,7 +130,7 @@ class DataCoordinatorTests: XCTestCase {
 
     func testThatItRetrievesMoreItems() {
         // Given
-        let store = FakeNumberStore(numbers: [1, 2], additionalItems: [3, 4])
+        let store = WritableStore(numbers: [1, 2], additionalItems: [3, 4])
         let provider = DataCoordinator(dataStore: store)
 
         let expectation = XCTestExpectation()
@@ -163,7 +163,7 @@ struct NumberResult: PaginatedDataStoreResult {
 
 }
 
-class FakeNumberStore: DataStore {
+class ReadOnlyStore: ReadableDataStore {
 
     typealias Result = NumberResult
 
@@ -179,7 +179,33 @@ class FakeNumberStore: DataStore {
         self.additionalItems = additionalItems
     }
 
-    func retrieveItems(withLastKnownResults results: FakeNumberStore.Result?, cancelToken: PromiseCancellationToken?) -> Promise<FakeNumberStore.Result> {
+    func retrieveItems(withLastKnownResults results: ReadOnlyStore.Result?, cancelToken: PromiseCancellationToken?) -> Promise<ReadOnlyStore.Result> {
+        return Promise { fullfill, reject in
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delay, execute: {
+                fullfill(NumberResult(items: results != nil ? self.additionalItems ?? [] : self.numbers, hasMoreItems: results == nil && self.additionalItems?.count ?? 0 > 0))
+            })
+        }
+    }
+
+}
+
+class WritableStore: WritableDataStore {
+
+    typealias Result = NumberResult
+
+    let delay: Double
+
+    private(set) var numbers: [Int]
+
+    private(set) var additionalItems: [Int]?
+
+    init(numbers: [Int] = [], additionalItems: [Int]? = nil, delay: Double = 1.0) {
+        self.numbers = numbers
+        self.delay = delay
+        self.additionalItems = additionalItems
+    }
+
+    func retrieveItems(withLastKnownResults results: ReadOnlyStore.Result?, cancelToken: PromiseCancellationToken?) -> Promise<ReadOnlyStore.Result> {
         return Promise { fullfill, reject in
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delay, execute: {
                 fullfill(NumberResult(items: results != nil ? self.additionalItems ?? [] : self.numbers, hasMoreItems: results == nil && self.additionalItems?.count ?? 0 > 0))
@@ -208,4 +234,3 @@ class FakeNumberStore: DataStore {
     }
 
 }
-

@@ -38,7 +38,7 @@ public enum LocalDataStoreError: LocalizedError {
     }
 }
 
-public class LocalDataStore<T>: DataStore, ExpressibleByArrayLiteral where T: Equatable {
+public class LocalDataStore<T>: WritableDataStore, ExpressibleByArrayLiteral where T: Equatable {
 
     public typealias Result = LocalDataResults<T>
 
