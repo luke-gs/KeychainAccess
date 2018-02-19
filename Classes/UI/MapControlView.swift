@@ -129,19 +129,21 @@ public class MapControlView: UIView {
 
         stackView.axis = stackViewAxis(for: orientation)
 
+        var constraints = [
+            leftAnchor.constraint(equalTo: stackView.leftAnchor),
+            rightAnchor.constraint(equalTo: stackView.rightAnchor),
+            topAnchor.constraint(equalTo: stackView.topAnchor),
+            bottomAnchor.constraint(equalTo: stackView.bottomAnchor)
+        ]
+
         buttons.forEach {
             stackView.addArrangedSubview($0)
 
-            $0.widthAnchor.constraint(equalToConstant: _buttonSize).isActive = true
-            $0.heightAnchor.constraint(equalToConstant: _buttonSize).isActive = true
+            constraints.append($0.widthAnchor.constraint(equalToConstant: _buttonSize))
+            constraints.append($0.heightAnchor.constraint(equalToConstant: _buttonSize))
         }
 
-        NSLayoutConstraint.activate([
-            self.leftAnchor.constraint(equalTo: stackView.leftAnchor),
-            self.rightAnchor.constraint(equalTo: stackView.rightAnchor),
-            self.topAnchor.constraint(equalTo: stackView.topAnchor),
-            self.bottomAnchor.constraint(equalTo: stackView.bottomAnchor)
-        ])
+        NSLayoutConstraint.activate(constraints)
     }
 
     required public init?(coder aDecoder: NSCoder) {
