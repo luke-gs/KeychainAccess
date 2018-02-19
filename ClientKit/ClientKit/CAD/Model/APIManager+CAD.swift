@@ -18,10 +18,10 @@ public protocol CADAPIManager {
     func accessTokenRequest(for grant: OAuthAuthorizationGrant) -> Promise<OAuthAccessToken>
 
     /// Fetch details about an officer by username
-    func cadOfficerByUsername(username: String) -> Promise<OfficerDetailsResponse>
+    func cadOfficerByUsername(username: String) -> Promise<CADOfficerDetailsResponse>
 
     /// Fetch all sync details
-    func cadSyncDetails(request: SyncDetailsRequest) -> Promise<SyncDetailsResponse>
+    func cadSyncDetails(request: CADSyncRequest) -> Promise<CADSyncResponse>
 
     /// Fetch manifest items
     func fetchManifest(with request: ManifestFetchRequest) -> Promise<ManifestFetchRequest.ResultClass>
@@ -31,7 +31,7 @@ public protocol CADAPIManager {
 extension APIManager: CADAPIManager {
 
     /// Fetch details about an officer by username
-    open func cadOfficerByUsername(username: String) -> Promise<OfficerDetailsResponse> {
+    open func cadOfficerByUsername(username: String) -> Promise<CADOfficerDetailsResponse> {
 
         let path = "/cad/officer/username/{username}"
         let parameters = ["username": username]
@@ -40,12 +40,12 @@ extension APIManager: CADAPIManager {
         return firstly {
             return try! performRequest(networkRequest)
         }.then { (data, response) in
-            return try JSONDecoder.decode(data, to: OfficerDetailsResponse.self)
+            return try JSONDecoder.decode(data, to: CADOfficerDetailsResponse.self)
         }
     }
 
     /// Fetch all sync details
-    open func cadSyncDetails(request: SyncDetailsRequest) -> Promise<SyncDetailsResponse> {
+    open func cadSyncDetails(request: CADSyncRequest) -> Promise<CADSyncResponse> {
         // TODO: convert request to params
         let path = "/cad/sync/details"
 
@@ -53,7 +53,7 @@ extension APIManager: CADAPIManager {
         return firstly {
             return try! performRequest(networkRequest)
         }.then { (data, response) in
-            return try JSONDecoder.decode(data, to: SyncDetailsResponse.self)
+            return try JSONDecoder.decode(data, to: CADSyncResponse.self)
         }
     }
 }

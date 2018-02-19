@@ -1,5 +1,5 @@
 //
-//  SyncDetailsRequest.swift
+//  CADSyncRequest.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 29/11/17.
@@ -10,7 +10,7 @@ import UIKit
 import MPOLKit
 
 /// Request object for the call to /sync/details
-open class SyncDetailsRequest: Codable {
+open class CADSyncRequest: Codable {
 
     /// The org unit structure of the officer.
     open var orgUnitStructure: String?

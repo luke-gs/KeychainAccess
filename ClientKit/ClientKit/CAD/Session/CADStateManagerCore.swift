@@ -28,7 +28,7 @@ open class CADStateManagerCore: CADStateManagerType {
     open var lastBookOn: CADBookOnDetailsType?
 
     /// The last sync data
-    open private(set) var lastSync: SyncDetailsResponse?
+    open private(set) var lastSync: CADSyncResponse?
 
     /// The last sync time
     open private(set) var lastSyncTime: Date?
@@ -50,15 +50,15 @@ open class CADStateManagerCore: CADStateManagerType {
 
     public init() {
         // Register concrete classes for protocols
-        CADClientModelTypes.bookonDetails = BookOnRequest.self
+        CADClientModelTypes.bookonDetails = CADBookOnRequest.self
         CADClientModelTypes.officerDetails = CADOfficerCore.self
         CADClientModelTypes.equipmentDetails = CADEquipmentCore.self
-        CADClientModelTypes.resourceStatus = ResourceStatusCore.self
-        CADClientModelTypes.resourceUnit = ResourceTypeCore.self
-        CADClientModelTypes.incidentGrade = IncidentGradeCore.self
-        CADClientModelTypes.incidentStatus = IncidentStatusCore.self
-        CADClientModelTypes.broadcastCategory = BroadcastCategoryCore.self
-        CADClientModelTypes.patrolStatus = PatrolStatusCore.self
+        CADClientModelTypes.resourceStatus = CADResourceStatusCore.self
+        CADClientModelTypes.resourceUnit = CADResourceTypeCore.self
+        CADClientModelTypes.incidentGrade = CADIncidentGradeCore.self
+        CADClientModelTypes.incidentStatus = CADIncidentStatusCore.self
+        CADClientModelTypes.broadcastCategory = CADBroadcastCategoryCore.self
+        CADClientModelTypes.patrolStatus = CADPatrolStatusCore.self
     }
 
     /// The currently booked on resource
@@ -81,7 +81,7 @@ open class CADStateManagerCore: CADStateManagerType {
 
     open func fetchCurrentOfficerDetails() -> Promise<CADOfficerType> {
         let username = UserSession.current.user?.username
-        return CADStateManagerCore.apiManager.cadOfficerByUsername(username: username!).then { [unowned self] details -> OfficerDetailsResponse in
+        return CADStateManagerCore.apiManager.cadOfficerByUsername(username: username!).then { [unowned self] details -> CADOfficerDetailsResponse in
             self.officerDetails = details
             return details
         }
@@ -236,12 +236,12 @@ open class CADStateManagerCore: CADStateManagerType {
         // Perform sync and keep result
         return firstly {
             return after(seconds: 1.0)
-        }.then { _ -> Promise<SyncDetailsResponse> in
+        }.then { _ -> Promise<CADSyncResponse> in
             // TODO: Remove this. For demos, we only get fresh data the first time
             if let lastSync = self.lastSync {
-                return Promise<SyncDetailsResponse>(value: lastSync)
+                return Promise<CADSyncResponse>(value: lastSync)
             }
-            return CADStateManagerCore.apiManager.cadSyncDetails(request: SyncDetailsRequest())
+            return CADStateManagerCore.apiManager.cadSyncDetails(request: CADSyncRequest())
         }.then { [unowned self] summaries -> Void in
             self.lastSync = summaries
             self.lastSyncTime = Date()

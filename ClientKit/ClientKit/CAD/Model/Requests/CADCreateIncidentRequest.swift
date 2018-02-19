@@ -1,5 +1,5 @@
 //
-//  CreateIncidentRequest.swift
+//  CADCreateIncidentRequest.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 20/12/17.
@@ -9,6 +9,6 @@
 import UIKit
 import MPOLKit
 
-open class CreateIncidentRequest: Codable {
+open class CADCreateIncidentRequest: Codable {
     // TODO: Implement
 }

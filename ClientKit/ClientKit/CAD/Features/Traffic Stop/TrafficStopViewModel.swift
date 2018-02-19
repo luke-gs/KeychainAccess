@@ -19,7 +19,7 @@ open class TrafficStopViewModel {
     open weak var delegate: TrafficStopViewModelDelegate?
     
     /// The completion handler for creating new traffic stop incident
-    open var completionHandler: ((TrafficStopRequest?) -> Void)?
+    open var completionHandler: ((CADTrafficStopRequest?) -> Void)?
 
     // Model representing UI
     open var entities: [SelectStoppedEntityItemViewModel] = []
@@ -32,7 +32,7 @@ open class TrafficStopViewModel {
     
     // Options - where are these coming from?
     open var priorityOptions: [String] {
-        return IncidentGradeCore.allCases.map({ $0.rawValue })
+        return CADIncidentGradeCore.allCases.map({ $0.rawValue })
     }
     
     open var primaryCodeOptions: [String] {
@@ -94,7 +94,7 @@ open class TrafficStopViewModel {
     /// Perform any logic when submitting
     open func submit() {
         // TODO: Fill request object with details
-        let trafficStop = TrafficStopRequest()
+        let trafficStop = CADTrafficStopRequest()
         
         // Complete with new request
         completionHandler?(trafficStop)

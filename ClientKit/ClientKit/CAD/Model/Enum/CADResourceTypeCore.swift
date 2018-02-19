@@ -1,5 +1,5 @@
 //
-//  ResourceTypeCore.swift
+//  CADResourceTypeCore.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 30/11/17.
@@ -10,7 +10,7 @@ import UIKit
 import MPOLKit
 
 /// Enum for resource types
-public enum ResourceTypeCore: String, Codable, CADResourceUnitType {
+public enum CADResourceTypeCore: String, Codable, CADResourceUnitType {
     case bicycle        = "Bicycle"
     case dogSquad       = "DogSquad"
     case helicopter     = "Helicopter"
@@ -22,13 +22,13 @@ public enum ResourceTypeCore: String, Codable, CADResourceUnitType {
     /// All cases, no particular order
     public static var allCases: [CADResourceUnitType] {
         return [
-            ResourceTypeCore.bicycle,
-            ResourceTypeCore.dogSquad,
-            ResourceTypeCore.helicopter,
-            ResourceTypeCore.marineCraft,
-            ResourceTypeCore.motorcycle,
-            ResourceTypeCore.policeOfficer,
-            ResourceTypeCore.vehicle
+            CADResourceTypeCore.bicycle,
+            CADResourceTypeCore.dogSquad,
+            CADResourceTypeCore.helicopter,
+            CADResourceTypeCore.marineCraft,
+            CADResourceTypeCore.motorcycle,
+            CADResourceTypeCore.policeOfficer,
+            CADResourceTypeCore.vehicle
         ]
     }
 

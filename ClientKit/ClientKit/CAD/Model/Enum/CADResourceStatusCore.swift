@@ -1,5 +1,5 @@
 //
-//  ResourceStatusCore.swift
+//  CADResourceStatusCore.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 17/10/17.
@@ -10,7 +10,7 @@ import UIKit
 import MPOLKit
 
 /// Enum for callsign status states and logic from https://gridstone.atlassian.net/browse/MPOLA-520
-public enum ResourceStatusCore: String, Codable, CADResourceStatusType {
+public enum CADResourceStatusCore: String, Codable, CADResourceStatusType {
 
     // General
     case unavailable    = "Unavailable"
@@ -32,57 +32,57 @@ public enum ResourceStatusCore: String, Codable, CADResourceStatusType {
 
     /// All cases, in order of display
     public static let allCases: [CADResourceStatusType] = [
-        ResourceStatusCore.unavailable,
-        ResourceStatusCore.onAir,
-        ResourceStatusCore.mealBreak,
-        ResourceStatusCore.trafficStop,
-        ResourceStatusCore.court,
-        ResourceStatusCore.atStation,
-        ResourceStatusCore.onCall,
-        ResourceStatusCore.inquiries1,
-        ResourceStatusCore.proceeding,
-        ResourceStatusCore.atIncident,
-        ResourceStatusCore.finalise,
-        ResourceStatusCore.inquiries2
+        CADResourceStatusCore.unavailable,
+        CADResourceStatusCore.onAir,
+        CADResourceStatusCore.mealBreak,
+        CADResourceStatusCore.trafficStop,
+        CADResourceStatusCore.court,
+        CADResourceStatusCore.atStation,
+        CADResourceStatusCore.onCall,
+        CADResourceStatusCore.inquiries1,
+        CADResourceStatusCore.proceeding,
+        CADResourceStatusCore.atIncident,
+        CADResourceStatusCore.finalise,
+        CADResourceStatusCore.inquiries2
     ]
 
     /// All cases related to a current incident, in order of display
     public static let incidentCases: [CADResourceStatusType] = [
-        ResourceStatusCore.proceeding,
-        ResourceStatusCore.atIncident,
-        ResourceStatusCore.finalise,
-        ResourceStatusCore.inquiries2
+        CADResourceStatusCore.proceeding,
+        CADResourceStatusCore.atIncident,
+        CADResourceStatusCore.finalise,
+        CADResourceStatusCore.inquiries2
     ]
 
     /// All cases unrelated to a current incident, in order of display
     public static var generalCases: [CADResourceStatusType] = [
-        ResourceStatusCore.unavailable,
-        ResourceStatusCore.onAir,
-        ResourceStatusCore.mealBreak,
-        ResourceStatusCore.trafficStop,
-        ResourceStatusCore.court,
-        ResourceStatusCore.atStation,
-        ResourceStatusCore.onCall,
-        ResourceStatusCore.inquiries1
+        CADResourceStatusCore.unavailable,
+        CADResourceStatusCore.onAir,
+        CADResourceStatusCore.mealBreak,
+        CADResourceStatusCore.trafficStop,
+        CADResourceStatusCore.court,
+        CADResourceStatusCore.atStation,
+        CADResourceStatusCore.onCall,
+        CADResourceStatusCore.inquiries1
     ]
 
     /// The default case when status is unknown
-    public static var defaultCase: CADResourceStatusType = ResourceStatusCore.unavailable
+    public static var defaultCase: CADResourceStatusType = CADResourceStatusCore.unavailable
 
     /// The default case when creating a new incident
-    public static var defaultCreateCase: CADResourceStatusType = ResourceStatusCore.atIncident
+    public static var defaultCreateCase: CADResourceStatusType = CADResourceStatusCore.atIncident
 
     /// The case for a resource in duress
-    public static var duressCase: CADResourceStatusType = ResourceStatusCore.duress
+    public static var duressCase: CADResourceStatusType = CADResourceStatusCore.duress
 
     /// The case for an off duty resource
-    public static var offDutyCase: CADResourceStatusType = ResourceStatusCore.offDuty
+    public static var offDutyCase: CADResourceStatusType = CADResourceStatusCore.offDuty
 
     /// The case for an on air resource
-    public static var onAirCase: CADResourceStatusType = ResourceStatusCore.onAir
+    public static var onAirCase: CADResourceStatusType = CADResourceStatusCore.onAir
 
     /// The case for finalising an incident
-    public static var finaliseCase: CADResourceStatusType = ResourceStatusCore.finalise
+    public static var finaliseCase: CADResourceStatusType = CADResourceStatusCore.finalise
 
     /// Display title for status
     public var title: String {
@@ -197,13 +197,13 @@ public enum ResourceStatusCore: String, Codable, CADResourceStatusType {
 
     /// Return whether an incident can be created from current status
     public var canCreateIncident: Bool {
-        guard let incidentCases = ResourceStatusCore.incidentCases as? [ResourceStatusCore] else { return false }
+        guard let incidentCases = CADResourceStatusCore.incidentCases as? [CADResourceStatusCore] else { return false }
         return !incidentCases.contains(self)
     }
 
     /// Return whether status change is allowed, and whether a reason needs to be provided
     public func canChangeToStatus(newStatus: CADResourceStatusType) -> (allowed: Bool, requiresReason: Bool) {
-        guard let newStatus = newStatus as? ResourceStatusCore else { return (false, false) }
+        guard let newStatus = newStatus as? CADResourceStatusCore else { return (false, false) }
 
         // Currently all status changes are allowed, but a reason is needed if going from an incident
         // to a non incident status. Leaving allowed component of tuple as this is likely to change...
@@ -222,8 +222,8 @@ public enum ResourceStatusCore: String, Codable, CADResourceStatusType {
     
     /// Convenience for checking if changing to non incident status
     public func isChangingToGeneralStatus(_ newStatus: CADResourceStatusType) -> Bool {
-        guard let newStatus = newStatus as? ResourceStatusCore else { return false }
-        guard let incidentCases = ResourceStatusCore.incidentCases as? [ResourceStatusCore] else { return false }
+        guard let newStatus = newStatus as? CADResourceStatusCore else { return false }
+        guard let incidentCases = CADResourceStatusCore.incidentCases as? [CADResourceStatusCore] else { return false }
 
         return incidentCases.contains(self) && !incidentCases.contains(newStatus)
     }
@@ -231,8 +231,8 @@ public enum ResourceStatusCore: String, Codable, CADResourceStatusType {
 }
 
 /// Conformance to Equatable, to allow array lookup
-extension ResourceStatusCore: Equatable {
-    public static func == (lhs: ResourceStatusCore, rhs: ResourceStatusCore) -> Bool {
+extension CADResourceStatusCore: Equatable {
+    public static func == (lhs: CADResourceStatusCore, rhs: CADResourceStatusCore) -> Bool {
         return lhs.rawValue == rhs.rawValue
     }
 }

@@ -1,5 +1,5 @@
 //
-//  BookOffRequest.swift
+//  CADBookOffRequest.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 29/11/17.
@@ -10,7 +10,7 @@ import UIKit
 import MPOLKit
 
 /// Request object for the call to /shift/bookOff
-open class BookOffRequest: Codable, CADBookOffDetailsType {
+open class CADBookOffRequest: Codable, CADBookOffDetailsType {
 
     // MARK: - Network
 

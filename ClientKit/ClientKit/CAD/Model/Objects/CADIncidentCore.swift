@@ -54,14 +54,14 @@ open class CADIncidentCore: Codable, CADIncidentType {
             assignedIncidents.contains(identifier)
         {
             if resource.currentIncident == identifier {
-                return IncidentStatusCore.current
+                return CADIncidentStatusCore.current
             } else {
-                return IncidentStatusCore.assigned
+                return CADIncidentStatusCore.assigned
             }
         } else if CADStateManager.shared.resourcesForIncident(incidentNumber: identifier).count > 0 {
-            return IncidentStatusCore.resourced
+            return CADIncidentStatusCore.resourced
         } else {
-            return IncidentStatusCore.unresourced
+            return CADIncidentStatusCore.unresourced
         }
     }
 
@@ -104,7 +104,7 @@ open class CADIncidentCore: Codable, CADIncidentType {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         createdAt = try values.decodeIfPresent(Date.self, forKey: .createdAt)
         details = try values.decodeIfPresent(String.self, forKey: .details)
-        grade = try values.decodeIfPresent(IncidentGradeCore.self, forKey: .grade)
+        grade = try values.decodeIfPresent(CADIncidentGradeCore.self, forKey: .grade)
         identifier = try values.decodeIfPresent(String.self, forKey: .identifier)
         informant = try values.decodeIfPresent(CADIncidentInformantCore.self, forKey: .informant)
         lastUpdated = try values.decodeIfPresent(Date.self, forKey: .lastUpdated)

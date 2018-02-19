@@ -9,20 +9,20 @@
 import Foundation
 import MPOLKit
 
-public enum PatrolStatusCore: String, Codable, CADPatrolStatusType {
+public enum CADPatrolStatusCore: String, Codable, CADPatrolStatusType {
     case assigned = "Assigned"
     case unassigned = "Unassigned"
 
     /// All cases, in order of display
     public static var allCases: [CADPatrolStatusType] {
         return [
-            PatrolStatusCore.assigned,
-            PatrolStatusCore.unassigned
+            CADPatrolStatusCore.assigned,
+            CADPatrolStatusCore.unassigned
         ]
     }
 
     /// The default case when status is unknown
-    public static var defaultCase: CADPatrolStatusType = PatrolStatusCore.unassigned
+    public static var defaultCase: CADPatrolStatusType = CADPatrolStatusCore.unassigned
 
     /// The display title for the unit type
     public var title: String {

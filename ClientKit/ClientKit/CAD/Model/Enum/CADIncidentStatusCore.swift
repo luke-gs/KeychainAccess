@@ -1,5 +1,5 @@
 //
-//  IncidentStatusCore.swift
+//  CADIncidentStatusCore.swift
 //  ClientKit
 //
 //  Created by Trent Fitzgibbon on 16/2/18.
@@ -10,7 +10,7 @@ import Foundation
 import MPOLKit
 
 /// Enum for callsign status states and logic from https://gridstone.atlassian.net/browse/MPOLA-520
-public enum IncidentStatusCore: String, CADIncidentStatusType {
+public enum CADIncidentStatusCore: String, CADIncidentStatusType {
 
     case resourced = "Resourced"
     case unresourced = "Unresourced"
@@ -19,14 +19,14 @@ public enum IncidentStatusCore: String, CADIncidentStatusType {
 
     /// All cases, in order of display
     public static let allCases: [CADIncidentStatusType] = [
-        IncidentStatusCore.current,
-        IncidentStatusCore.assigned,
-        IncidentStatusCore.resourced,
-        IncidentStatusCore.unresourced
+        CADIncidentStatusCore.current,
+        CADIncidentStatusCore.assigned,
+        CADIncidentStatusCore.resourced,
+        CADIncidentStatusCore.unresourced
     ]
 
     /// The case for when incident is the current incident
-    public static var currentCase: CADIncidentStatusType = IncidentStatusCore.current
+    public static var currentCase: CADIncidentStatusType = CADIncidentStatusCore.current
 
     /// Display title for status
     public var title: String {

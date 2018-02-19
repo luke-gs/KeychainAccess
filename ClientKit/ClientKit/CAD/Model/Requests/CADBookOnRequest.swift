@@ -1,5 +1,5 @@
 //
-//  BookOnRequest.swift
+//  CADBookOnRequest.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 29/11/17.
@@ -10,7 +10,7 @@ import UIKit
 import MPOLKit
 
 /// Request object for the call to /shift/bookOn
-open class BookOnRequest: Codable, CADBookOnDetailsType {
+open class CADBookOnRequest: Codable, CADBookOnDetailsType {
 
     // MARK: - Network
 

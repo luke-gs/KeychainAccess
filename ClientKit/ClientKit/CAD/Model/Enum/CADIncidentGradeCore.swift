@@ -1,5 +1,5 @@
 //
-//  IncidentGradeCore.swift
+//  CADIncidentGradeCore.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 30/11/17.
@@ -10,7 +10,7 @@ import UIKit
 import MPOLKit
 
 /// Enum for incident grades (priorities)
-public enum IncidentGradeCore: String, Codable, CADIncidentGradeType {
+public enum CADIncidentGradeCore: String, Codable, CADIncidentGradeType {
     case p1 = "P1"
     case p2 = "P2"
     case p3 = "P3"
@@ -19,10 +19,10 @@ public enum IncidentGradeCore: String, Codable, CADIncidentGradeType {
     /// All cases, in order of display
     public static var allCases: [CADIncidentGradeType] {
         return [
-            IncidentGradeCore.p1,
-            IncidentGradeCore.p2,
-            IncidentGradeCore.p3,
-            IncidentGradeCore.p4
+            CADIncidentGradeCore.p1,
+            CADIncidentGradeCore.p2,
+            CADIncidentGradeCore.p3,
+            CADIncidentGradeCore.p4
         ]
     }
 

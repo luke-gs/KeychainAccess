@@ -9,7 +9,7 @@
 import Foundation
 import MPOLKit
 
-public enum BroadcastCategoryCore: String, Codable, CADBroadcastCategoryType {
+public enum CADBroadcastCategoryCore: String, Codable, CADBroadcastCategoryType {
     case alert = "Alert"
     case event = "Event"
     case bolf = "BOLF"
@@ -17,14 +17,14 @@ public enum BroadcastCategoryCore: String, Codable, CADBroadcastCategoryType {
     /// All cases, in order of display
     public static var allCases: [CADBroadcastCategoryType] {
         return [
-            BroadcastCategoryCore.alert,
-            BroadcastCategoryCore.event,
-            BroadcastCategoryCore.bolf
+            CADBroadcastCategoryCore.alert,
+            CADBroadcastCategoryCore.event,
+            CADBroadcastCategoryCore.bolf
         ]
     }
 
     /// The default case when status is unknown
-    public static var defaultCase: CADBroadcastCategoryType = BroadcastCategoryCore.alert
+    public static var defaultCase: CADBroadcastCategoryType = CADBroadcastCategoryCore.alert
 
     /// The display title for the unit type
     public var title: String {

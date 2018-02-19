@@ -55,7 +55,7 @@ open class CADBroadcastCore: Codable, CADBroadcastType {
         lastUpdated = try values.decodeIfPresent(Date.self, forKey: .lastUpdated)
         location = try values.decodeIfPresent(CADLocationCore.self, forKey: .location)
         title = try values.decodeIfPresent(String.self, forKey: .title)
-        type = try values.decodeIfPresent(BroadcastCategoryCore.self, forKey: .type)
+        type = try values.decodeIfPresent(CADBroadcastCategoryCore.self, forKey: .type)
     }
 
     public func encode(to encoder: Encoder) throws {

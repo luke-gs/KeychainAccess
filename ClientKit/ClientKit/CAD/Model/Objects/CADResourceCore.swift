@@ -145,8 +145,8 @@ open class CADResourceCore: Codable, CADResourceType {
         shiftEnd = try values.decodeIfPresent(Date.self, forKey: .shiftEnd)
         shiftStart = try values.decodeIfPresent(Date.self, forKey: .shiftStart)
         station = try values.decodeIfPresent(String.self, forKey: .station)
-        status = try values.decodeIfPresent(ResourceStatusCore.self, forKey: .status)
-        type = try values.decodeIfPresent(ResourceTypeCore.self, forKey: .type)
+        status = try values.decodeIfPresent(CADResourceStatusCore.self, forKey: .status)
+        type = try values.decodeIfPresent(CADResourceTypeCore.self, forKey: .type)
         vehicleCategory = try values.decodeIfPresent(String.self, forKey: .vehicleCategory)
     }
 
