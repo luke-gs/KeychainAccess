@@ -1,5 +1,5 @@
 //
-//  SyncDetailsEquipment.swift
+//  CADEquipmentCore.swift
 //  ClientKit
 //
 //  Created by Trent Fitzgibbon on 16/2/18.
@@ -10,7 +10,7 @@ import Foundation
 import MPOLKit
 
 /// Reponse object for a single Equipment item in the resource
-open class SyncDetailsEquipment: Codable, CADEquipmentType {
+open class CADEquipmentCore: Codable, CADEquipmentType {
 
     // MARK: - Network
 

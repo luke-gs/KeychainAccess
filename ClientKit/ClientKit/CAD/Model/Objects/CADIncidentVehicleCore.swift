@@ -1,5 +1,5 @@
 //
-//  SyncDetailsIncidentVehicle.swift
+//  CADIncidentVehicleCore.swift
 //  ClientKit
 //
 //  Created by Trent Fitzgibbon on 16/2/18.
@@ -10,7 +10,7 @@ import Foundation
 import MPOLKit
 
 /// Reponse object for a single vehicle in an incident
-open class SyncDetailsIncidentVehicle: Codable, CADIncidentVehicleType {
+open class CADIncidentVehicleCore: Codable, CADIncidentVehicleType {
 
     // MARK: - Network
 

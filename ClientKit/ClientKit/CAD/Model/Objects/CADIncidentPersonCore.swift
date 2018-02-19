@@ -1,5 +1,5 @@
 //
-//  SyncDetailsIncidentPerson.swift
+//  CADIncidentPersonCore.swift
 //  ClientKit
 //
 //  Created by Trent Fitzgibbon on 16/2/18.
@@ -10,7 +10,7 @@ import Foundation
 import MPOLKit
 
 /// Reponse object for a single person in an incident
-open class SyncDetailsIncidentPerson: Codable, CADIncidentPersonType {
+open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
 
     // MARK: - Network
 

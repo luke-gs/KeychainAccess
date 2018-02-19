@@ -48,8 +48,8 @@ open class BookOnRequest: Codable, CADBookOnDetailsType {
         self.callsign = request.callsign
         self.shiftStart = request.shiftStart
         self.shiftEnd = request.shiftEnd
-        self.officers = request.officers.map { return SyncDetailsOfficer(officer: $0) }
-        self.equipment = request.equipment.map { return SyncDetailsEquipment(equipment: $0) }
+        self.officers = request.officers.map { return CADOfficerCore(officer: $0) }
+        self.equipment = request.equipment.map { return CADEquipmentCore(equipment: $0) }
         self.fleetNumber = request.fleetNumber
         self.remarks = request.remarks
         self.driverpayrollId = request.driverpayrollId

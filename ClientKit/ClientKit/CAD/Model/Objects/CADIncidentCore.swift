@@ -1,5 +1,5 @@
 //
-//  SyncDetailsIncident.swift
+//  CADIncidentCore.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 29/11/17.
@@ -13,7 +13,7 @@ import MPOLKit
 // NOTE: This class has been generated from Diederik sample json. Will be updated once API is complete
 
 /// Reponse object for a single Incident in the call to /sync/details
-open class SyncDetailsIncident: Codable, CADIncidentType {
+open class CADIncidentCore: Codable, CADIncidentType {
 
     // MARK: - Network
 
@@ -106,16 +106,16 @@ open class SyncDetailsIncident: Codable, CADIncidentType {
         details = try values.decodeIfPresent(String.self, forKey: .details)
         grade = try values.decodeIfPresent(IncidentGradeCore.self, forKey: .grade)
         identifier = try values.decodeIfPresent(String.self, forKey: .identifier)
-        informant = try values.decodeIfPresent(SyncDetailsIncidentInformant.self, forKey: .informant)
+        informant = try values.decodeIfPresent(CADIncidentInformantCore.self, forKey: .informant)
         lastUpdated = try values.decodeIfPresent(Date.self, forKey: .lastUpdated)
-        location = try values.decodeIfPresent(SyncDetailsLocation.self, forKey: .location)
-        locations = try values.decodeIfPresent([SyncDetailsLocation].self, forKey: .locations)
-        narrative = try values.decodeIfPresent([SyncDetailsActivityLogItem].self, forKey: .narrative)
+        location = try values.decodeIfPresent(CADLocationCore.self, forKey: .location)
+        locations = try values.decodeIfPresent([CADLocationCore].self, forKey: .locations)
+        narrative = try values.decodeIfPresent([CADActivityLogItemCore].self, forKey: .narrative)
         patrolGroup = try values.decodeIfPresent(String.self, forKey: .patrolGroup)
-        persons = try values.decodeIfPresent([SyncDetailsIncidentPerson].self, forKey: .persons)
+        persons = try values.decodeIfPresent([CADIncidentPersonCore].self, forKey: .persons)
         secondaryCode = try values.decodeIfPresent(String.self, forKey: .secondaryCode)
         type = try values.decodeIfPresent(String.self, forKey: .type)
-        vehicles = try values.decodeIfPresent([SyncDetailsIncidentVehicle].self, forKey: .vehicles)
+        vehicles = try values.decodeIfPresent([CADIncidentVehicleCore].self, forKey: .vehicles)
     }
 
     public func encode(to encoder: Encoder) throws {

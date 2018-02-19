@@ -10,7 +10,7 @@ import Foundation
 import MPOLKit
 
 /// Reponse object for an informant in an incident
-open class SyncDetailsIncidentInformant: Codable, CADIncidentInformantType {
+open class CADIncidentInformantCore: Codable, CADIncidentInformantType {
 
     // MARK: - Network
 

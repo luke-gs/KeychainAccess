@@ -1,5 +1,5 @@
 //
-//  SyncDetailsOfficer.swift
+//  CADOfficerCore.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 29/11/17.
@@ -12,7 +12,7 @@ import MPOLKit
 // NOTE: This class has been generated from Diederik sample json. Will be updated once API is complete
 
 /// Reponse object for a single Officer in the call to /sync/details
-open class SyncDetailsOfficer: Codable, CADOfficerType {
+open class CADOfficerCore: Codable, CADOfficerType {
 
     // MARK: - Network
     public var capabilities: [String]!

@@ -1,17 +1,18 @@
 //
-//  SyncDetailsBroadcast.swift
+//  CADPatrolCore.swift
 //  MPOLKit
 //
-//  Created by Kyle May on 14/2/18.
+//  Created by Kyle May on 13/2/18.
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
 import UIKit
+import CoreLocation
 import MPOLKit
 
 // TODO: Update this to match API when we get a spec, as this is created based on what the UI needs
 
-open class SyncDetailsBroadcast: Codable, CADBroadcastType {
+open class CADPatrolCore: Codable, CADPatrolType {
 
     // MARK: - Network
 
@@ -25,7 +26,11 @@ open class SyncDetailsBroadcast: Codable, CADBroadcastType {
 
     public var location: CADLocationType!
 
-    public var title: String!
+    public var patrolGroup: String!
+
+    public var status: String!
+
+    public var subtype: String!
 
     public var type: String!
 
@@ -35,13 +40,17 @@ open class SyncDetailsBroadcast: Codable, CADBroadcastType {
         return DateFormatter.preferredDateTimeStyle.string(from: createdAt)
     }
 
-    /// Type as an enum defined in protocol
-    open var categoryType: CADBroadcastCategoryType {
+    open var coordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))
+    }
+
+    /// Status as a type that is client specific
+    open var statusType: CADPatrolStatusType {
         get {
-            return CADClientModelTypes.broadcastCategory.init(rawValue: type) ?? CADClientModelTypes.broadcastCategory.defaultCase
+            return CADClientModelTypes.patrolStatus.init(rawValue: status) ?? CADClientModelTypes.patrolStatus.defaultCase
         }
         set {
-            type = newValue.rawValue
+            status = newValue.rawValue
         }
     }
 
@@ -53,7 +62,9 @@ open class SyncDetailsBroadcast: Codable, CADBroadcastType {
         case identifier = "identifier"
         case lastUpdated = "lastUpdated"
         case location = "location"
-        case title = "title"
+        case patrolGroup = "patrolGroup"
+        case status = "status"
+        case subtype = "subtype"
         case type = "type"
     }
 
@@ -63,8 +74,10 @@ open class SyncDetailsBroadcast: Codable, CADBroadcastType {
         details = try values.decodeIfPresent(String.self, forKey: .details)
         identifier = try values.decodeIfPresent(String.self, forKey: .identifier)
         lastUpdated = try values.decodeIfPresent(Date.self, forKey: .lastUpdated)
-        location = try values.decodeIfPresent(SyncDetailsLocation.self, forKey: .location)
-        title = try values.decodeIfPresent(String.self, forKey: .title)
+        location = try values.decodeIfPresent(CADLocationCore.self, forKey: .location)
+        patrolGroup = try values.decodeIfPresent(String.self, forKey: .patrolGroup)
+        status = try values.decodeIfPresent(String.self, forKey: .status)
+        subtype = try values.decodeIfPresent(String.self, forKey: .subtype)
         type = try values.decodeIfPresent(String.self, forKey: .type)
     }
 
@@ -72,3 +85,4 @@ open class SyncDetailsBroadcast: Codable, CADBroadcastType {
         MPLUnimplemented()
     }
 }
+

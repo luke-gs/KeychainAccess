@@ -51,8 +51,8 @@ open class CADStateManagerCore: CADStateManagerType {
     public init() {
         // Register concrete classes for protocols
         CADClientModelTypes.bookonDetails = BookOnRequest.self
-        CADClientModelTypes.officerDetails = SyncDetailsOfficer.self
-        CADClientModelTypes.equipmentDetails = SyncDetailsEquipment.self
+        CADClientModelTypes.officerDetails = CADOfficerCore.self
+        CADClientModelTypes.equipmentDetails = CADEquipmentCore.self
         CADClientModelTypes.resourceStatus = ResourceStatusCore.self
         CADClientModelTypes.resourceUnit = ResourceTypeCore.self
         CADClientModelTypes.incidentGrade = IncidentGradeCore.self
@@ -178,7 +178,7 @@ open class CADStateManagerCore: CADStateManagerType {
 
         // Update current incident if setting status without one
         if let newIncident = newIncident, currentIncident == nil {
-            if let syncDetails = lastSync, let resource = currentResource as? SyncDetailsResource {
+            if let syncDetails = lastSync, let resource = currentResource as? CADResourceCore {
                 resource.currentIncident = newIncident.identifier
 
                 // Make sure incident is also assigned to resource
@@ -302,7 +302,7 @@ open class CADStateManagerCore: CADStateManagerType {
 
     /// Return all resources linked to an incident
     open func resourcesForIncident(incidentNumber: String) -> [CADResourceType] {
-        var resources: [SyncDetailsResource] = []
+        var resources: [CADResourceCore] = []
         if let syncDetails = lastSync {
             for resource in syncDetails.resources {
                 if resource.assignedIncidents?.contains(incidentNumber) == true {

@@ -1,5 +1,5 @@
 //
-//  SyncDetailsResource.swift
+//  CADResourceCore.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 29/11/17.
@@ -13,7 +13,7 @@ import MPOLKit
 // NOTE: This class has been generated from Diederik sample json. Will be updated once API is complete
 
 /// Reponse object for a single Resource in the call to /sync/details
-open class SyncDetailsResource: Codable, CADResourceType {
+open class CADResourceCore: Codable, CADResourceType {
 
     // MARK: - Network
 
@@ -79,19 +79,19 @@ open class SyncDetailsResource: Codable, CADResourceType {
     /// Shift start string, default format `hh:mm`, 24 hours. `nil` if no shift start time
     public var shiftStartString: String? {
         guard let shiftStart = shiftStart else { return nil }
-        return SyncDetailsResource.shiftTimeFormatter.string(from: shiftStart)
+        return CADResourceCore.shiftTimeFormatter.string(from: shiftStart)
     }
 
     /// Shift end string, default format `hh:mm`, 24 hours. `nil` if no shift end time
     public var shiftEndString: String? {
         guard let shiftEnd = shiftEnd else { return nil }
-        return SyncDetailsResource.shiftTimeFormatter.string(from: shiftEnd)
+        return CADResourceCore.shiftTimeFormatter.string(from: shiftEnd)
     }
 
     /// Shift duration string, default short format. `nil` if no shift start or end time
     public var shiftDuration: String? {
         guard let shiftStart = shiftStart, let shiftEnd = shiftEnd else { return nil }
-        return SyncDetailsResource.durationTimeFormatter.string(from: shiftEnd.timeIntervalSince(shiftStart))
+        return CADResourceCore.durationTimeFormatter.string(from: shiftEnd.timeIntervalSince(shiftStart))
     }
 
     /// Equipment list as a string delimited by `separator`. `nil` if no `equipment` count
@@ -140,14 +140,14 @@ open class SyncDetailsResource: Codable, CADResourceType {
 
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        activityLog = try values.decodeIfPresent([SyncDetailsActivityLogItem].self, forKey: .activityLog)
+        activityLog = try values.decodeIfPresent([CADActivityLogItemCore].self, forKey: .activityLog)
         assignedIncidents = try values.decodeIfPresent([String].self, forKey: .assignedIncidents)
         callsign = try values.decodeIfPresent(String.self, forKey: .callsign)
         currentIncident = try values.decodeIfPresent(String.self, forKey: .currentIncident)
         driver = try values.decodeIfPresent(String.self, forKey: .driver)
-        equipment = try values.decodeIfPresent([SyncDetailsEquipment].self, forKey: .equipment)
+        equipment = try values.decodeIfPresent([CADEquipmentCore].self, forKey: .equipment)
         lastUpdated = try values.decodeIfPresent(Date.self, forKey: .lastUpdated)
-        location = try values.decodeIfPresent(SyncDetailsLocation.self, forKey: .location)
+        location = try values.decodeIfPresent(CADLocationCore.self, forKey: .location)
         patrolGroup = try values.decodeIfPresent(String.self, forKey: .patrolGroup)
         payrollIds = try values.decodeIfPresent([String].self, forKey: .payrollIds)
         remarks = try values.decodeIfPresent(String.self, forKey: .remarks)
@@ -165,8 +165,8 @@ open class SyncDetailsResource: Codable, CADResourceType {
     }
 }
 
-extension SyncDetailsResource: Equatable {
-    public static func ==(lhs: SyncDetailsResource, rhs: SyncDetailsResource) -> Bool {
+extension CADResourceCore: Equatable {
+    public static func ==(lhs: CADResourceCore, rhs: CADResourceCore) -> Bool {
         return lhs.callsign == rhs.callsign
     }
 }

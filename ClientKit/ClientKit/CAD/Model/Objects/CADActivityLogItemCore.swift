@@ -1,5 +1,5 @@
 //
-//  SyncDetailsActivityLogItem.swift
+//  CADActivityLogItemCore.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 3/12/17.
@@ -10,7 +10,7 @@ import UIKit
 import MPOLKit
 
 /// Response object for a single activity log item in an incident (narrative) or resource
-open class SyncDetailsActivityLogItem: Codable, CADActivityLogItemType {
+open class CADActivityLogItemCore: Codable, CADActivityLogItemType {
 
     // MARK: - Network
 

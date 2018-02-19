@@ -1,5 +1,5 @@
 //
-//  SyncDetailsLocation.swift
+//  CADLocationCore.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 30/11/17.
@@ -12,7 +12,7 @@ import MPOLKit
 // NOTE: This class has been generated from Diederik sample json. Will be updated once API is complete
 
 /// Reponse object for a single location in the call to /sync/details
-open class SyncDetailsLocation: Codable, CADLocationType {
+open class CADLocationCore: Codable, CADLocationType {
 
     // MARK: - Network
 
