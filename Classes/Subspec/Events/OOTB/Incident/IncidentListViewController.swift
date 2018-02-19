@@ -10,6 +10,15 @@ import UIKit
 
 open class IncidentListViewController: FormBuilderViewController, EvaluationObserverable {
 
+    // TEMP INCIDENTS
+    fileprivate let incidents = [
+        "Traffic Infringements",
+        "Traffic Crash",
+        "Roadside Drug Testing",
+        "Public Nuisance",
+        "Domestic Violence"
+    ]
+
     var viewModel: IncidentListViewModel
 
     public init(viewModel: IncidentListViewModel) {
@@ -58,6 +67,38 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
     //MARK: PRIVATE
 
     @objc private func newIncidentHandler() {
+        guard let report = viewModel.report else { return }
 
+        let headerConfig = SearchHeaderConfiguration(title: "No incident selected",
+                                                     subtitle: "",
+                                                     image: AssetManager.shared.image(forKey: .iconPencil)?
+                                                        .withCircleBackground(tintColor: .white,
+                                                                              circleColor: .primaryGray,
+                                                                              style: .fixed(size: CGSize(width: 48, height: 48),
+                                                                                            padding: .zero)),
+                                                     imageStyle: .circle)
+
+        let datasource = IncidentSearchDataSource(objects: incidents,
+                                                  selectedObjects: report.incidents,
+                                                  configuration: headerConfig)
+        
+        datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
+
+        let viewController = CustomPickerController(datasource: datasource)
+
+        viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
+
+        viewController.finishUpdateHandler = { controller, index in
+            self.reloadForm()
+        }
+
+        let navController = UINavigationController(rootViewController: viewController)
+        navController.modalPresentationStyle = .formSheet
+
+        present(navController, animated: true, completion: nil)
+    }
+
+    @objc private func cancelTapped() {
+        dismissAnimated()
     }
 }
