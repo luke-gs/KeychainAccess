@@ -92,7 +92,12 @@ open class BaseLoadingStateView: UIStackView {
         actionButton.layer.cornerRadius = 4
         actionButton.titleLabel?.font = .systemFont(ofSize: 13, weight: .semibold)
         actionButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 48, bottom: 6, right: 48)
-        
+
+        actionButton.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([actionButton.heightAnchor.constraint(equalToConstant: 44)])
+
+
         alignment = .center
         axis = .vertical
         spacing = 16

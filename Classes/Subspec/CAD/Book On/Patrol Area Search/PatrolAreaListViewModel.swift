@@ -41,10 +41,6 @@ public class PatrolAreaListViewModel: GenericSearchDefaultViewModel {
         hasSections = false
     }
     
-    open func createViewController() -> PatrolAreaListViewController {
-        return PatrolAreaListViewController(viewModel: self)
-    }
-    
     open func noContentTitle() -> String? {
         return NSLocalizedString("No Patrol Areas Found", comment: "")
     }

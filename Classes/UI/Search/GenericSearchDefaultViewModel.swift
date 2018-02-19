@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import PromiseKit
 
 /// Default implementation of the generic search view model
 /// Allows for basic customisation
-public class GenericSearchDefaultViewModel: GenericSearchViewModel {
+open class GenericSearchDefaultViewModel: GenericSearchViewModel {
+    public typealias Object = GenericSearchable
 
     public var title: String = "Search"
 
@@ -80,6 +82,14 @@ public class GenericSearchDefaultViewModel: GenericSearchViewModel {
         self.items = items
     }
 
+    public func searchable(for object: GenericSearchable) -> GenericSearchable {
+        return object
+    }
+
+    public func object(for indexPath: IndexPath) -> GenericSearchable {
+        return searchable(for: items[indexPath.item])
+    }
+
     public func numberOfSections() -> Int {
         let sections = validSections
         return sections.count
@@ -121,19 +131,19 @@ public class GenericSearchDefaultViewModel: GenericSearchViewModel {
         return ItemAccessory.disclosure
     }
 
-    public func searchable(for indexPath: IndexPath) -> GenericSearchable {
-        let section = validSections[indexPath.section]
-        return section.items[indexPath.row]
-    }
-
     public func searchTextChanged(to searchString: String) {
         self.searchString = searchString
     }
 
+    public func searchAction() -> Promise<Void>? {
+        fatalError("Subclasses must override this if they wish to use it.")
+    }
 }
 
 /// Generic Search View Model definition
 public protocol GenericSearchViewModel {
+
+    associatedtype Object
 
     /// The title of the form
     var title: String { get set }
@@ -193,12 +203,23 @@ public protocol GenericSearchViewModel {
     ///
     /// - Parameter indexPath: the indexPath
     /// - Returns: the `GenericSearchable` for the row
-    func searchable(for indexPath: IndexPath) -> GenericSearchable
+    func object(for indexPath: IndexPath) -> Object
+
+    /// Returns the searchable representation of an object
+    ///
+    /// - Parameter object: The object to convert to generic searchable
+    /// - Returns: The generic searchable to display
+    func searchable(for object: Object) -> GenericSearchable
 
     /// Called when the search text is changed
     ///
     /// - Parameter searchString: the searchString
     func searchTextChanged(to searchString: String)
+
+    /// Called when the search button is selected
+    /// Returns an optional promise that can be used to reload the form
+    /// after recieving data
+    func searchAction() -> Promise<Void>?
 }
 
 /// A generic searchable object

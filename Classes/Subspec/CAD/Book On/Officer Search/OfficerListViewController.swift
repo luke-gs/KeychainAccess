@@ -8,22 +8,48 @@
 
 import UIKit
 
-open class OfficerListViewController: GenericSearchViewController {
-    
-    open var officerListViewModel: OfficerListViewModel? {
-        return viewModel as? OfficerListViewModel
-    }
+open class OfficerListViewController<T: GenericSearchDelegate, U: OfficerListViewModel>: GenericSearchViewController<T,U> where T.Object == U.Object {
+
         
-    public required init(viewModel: GenericSearchViewModel) {
+    public required init(viewModel: U) {
         super.init(viewModel: viewModel)
-        delegate = self
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""), style: .plain, target: self, action: #selector(cancelTapped))
+    }
+
+    public required init(viewModel: U, delegate: T?) {
+        fatalError("init(viewModel:delegate:) has not been implemented")
+    }
+
+    open override func construct(builder: FormBuilder) {
+        builder.forceLinearLayout = true
+        builder.title = viewModel.title
+
+        for section in 0..<viewModel.numberOfSections() {
+            if viewModel.hasSections == true && viewModel.isSectionHidden(section) == false {
+                builder += HeaderFormItem(text: viewModel.title(for: section))
+            }
+            for row in 0..<viewModel.numberOfRows(in: section) {
+                let indexPath = IndexPath(row: row, section: section)
+                builder += SubtitleFormItem(title: viewModel.title(for: indexPath),
+                                            subtitle: viewModel.description(for: indexPath),
+                                            image: viewModel.image(for: indexPath),
+                                            style: .default)
+                    .accessory(viewModel.accessory(for: viewModel.searchable(for: viewModel.object(for: indexPath))))
+                    .onSelection { [unowned self] cell in
+                        if let officer = self.viewModel.object(for: indexPath) as? OfficerListItemViewModel {
+                            self.present(self.viewModel.officerDetailsScreen(for: officer))
+                        }
+                }
+            }
+        }
+        // Update loading state based on whether there is any content
+        loadingManager.state = builder.formItems.isEmpty ? .noContent : .loaded
     }
 
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        loadingManager.noContentView.titleLabel.text = officerListViewModel?.noContentTitle()
+        loadingManager.noContentView.titleLabel.text = viewModel.noContentTitle()
     }
     
     open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -43,17 +69,6 @@ open class OfficerListViewController: GenericSearchViewController {
     
     @objc public func cancelTapped() {
         navigationController?.popViewController(animated: true)
-    }
-}
-
-extension OfficerListViewController: GenericSearchDelegate {
-    public func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath, withSearchable searchable: GenericSearchable) {
-        if let officer = searchable as? OfficerListItemViewModel {
-
-            if let screen = officerListViewModel?.officerDetailsScreen(for: officer) {
-                self.present(screen)
-            }
-        }
     }
 }
 
