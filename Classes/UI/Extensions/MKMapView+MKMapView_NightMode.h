@@ -10,7 +10,7 @@
 
 @interface MKMapView (MKMapView_NightMode)
 
-// This use private API, so prefix, in case if it ever being public.
+// This uses private API, so prefix, in case if it ever being public.
 - (void)mpl_setNightModeEnabled:(BOOL)enabled;
 
 @end
