@@ -63,12 +63,6 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
 
     internal private(set) var searchFieldButton: SearchFieldButton?
 
-    private var locateButton: UIButton?
-
-    private var optionButton: UIButton?
-
-    private var buttonsSeparator: UIView?
-
     private let clusterManager: ClusterManager = {
         let clusterManager = ClusterManager()
         clusterManager.cellSize = nil
@@ -79,8 +73,14 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         return clusterManager
     }()
 
+    private var mapControlView: MapControlView?
+    private var locateButton: UIButton?
+    private var optionButton: UIButton?
+
     // MARK: - Radius Search Properties
 
+    private var radiusControlView: MapControlView?
+    private var radiusButtonEffectView: UIVisualEffectView?
     private var radiusButton: UIButton?
 
     public let radiusOptions: [CLLocationDistance] = [100, 500, 1000]
@@ -135,54 +135,36 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         optionButton.setImage(AssetManager.shared.image(forKey: .info), for: .normal)
         optionButton.addTarget(self, action: #selector(optionButtonTapped(_:)), for: .touchUpInside)
 
-        let separator = UIView()
-        separator.backgroundColor = .gray
-
-        self.locateButton = locateButton
-        self.optionButton = optionButton
-        self.buttonsSeparator = separator
-
-        let mapControlView = UIView(frame: .zero)
-        mapControlView.backgroundColor = UIColor(white: 1.0, alpha: 0.9)
-        mapControlView.layer.cornerRadius = 8.0
-        mapControlView.layer.shadowRadius = 4.0
-        mapControlView.layer.shadowColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 1.0).cgColor
-        mapControlView.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-        mapControlView.layer.shadowOpacity = 0.1
-        mapControlView.addSubview(locateButton)
-        mapControlView.addSubview(separator)
-        mapControlView.addSubview(optionButton)
-
         let radiusButton = UIButton(type: .system)
         radiusButton.titleLabel?.font = UIFont.systemFont(ofSize: 12.0, weight: .bold)
         radiusButton.addTarget(self, action: #selector(radiusButtonTapped(_:)), for: .touchUpInside)
         radiusButton.setTitle(distanceFormatter.string(fromDistance: radiusOptions[selectedRadiusIndex]), for: .normal)
-        radiusButton.backgroundColor = UIColor(white: 1.0, alpha: 0.9)
-        radiusButton.layer.cornerRadius = 24.0
-        radiusButton.layer.shadowRadius = 4.0
-        radiusButton.layer.shadowColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 1.0).cgColor
-        radiusButton.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-        radiusButton.layer.shadowOpacity = 0.1
-
         self.radiusButton = radiusButton
+
+        self.locateButton = locateButton
+        self.optionButton = optionButton
+
+        let mapControlView = MapControlView(buttons: [ locateButton, optionButton ])
+        self.mapControlView = mapControlView
+
+        let radiusControlView = MapControlView(buttons: [radiusButton])
+        let cornerRadius = radiusControlView.intrinsicContentSize.width * 0.5
+        radiusControlView.cornerRadius = cornerRadius
+        self.radiusControlView = radiusControlView
 
         let accessoryView = UIView(frame: .zero)
         accessoryView.addSubview(mapControlView)
-        accessoryView.addSubview(radiusButton)
+        accessoryView.addSubview(radiusControlView)
 
-        locateButton.translatesAutoresizingMaskIntoConstraints = false
-        optionButton.translatesAutoresizingMaskIntoConstraints = false
-        separator.translatesAutoresizingMaskIntoConstraints = false
         mapControlView.translatesAutoresizingMaskIntoConstraints = false
-        radiusButton.translatesAutoresizingMaskIntoConstraints = false
+        radiusControlView.translatesAutoresizingMaskIntoConstraints = false
 
-        let views = ["locateButton": locateButton, "optionButton": optionButton, "radiusButton": radiusButton, "mapControl": mapControlView, "separator": separator]
-        let metrics = ["size": 48.0, "padding": 16.0, "scale": (1.0 / traitCollection.currentDisplayScale)]
+        let views = ["radiusControlView": radiusControlView, "mapControl": mapControlView]
+        let metrics = ["padding": 16.0]
 
-        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[locateButton(size,==optionButton,==radiusButton)][separator(scale)][optionButton]|", options: [.alignAllLeading, .alignAllTrailing], metrics: metrics, views: views)
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|[locateButton(size)]|", options: [], metrics: metrics, views: views)
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[mapControl]-padding-[radiusButton(size)]|", options: [.alignAllLeading, .alignAllTrailing], metrics: metrics, views: views)
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|[radiusButton(size)]|", options: [], metrics: metrics, views: views)
+        var constraints = [NSLayoutConstraint]()
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[mapControl]-padding-[radiusControlView]|", options: [.alignAllCenterX], metrics: metrics, views: views)
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|[radiusControlView]|", options: [], metrics: metrics, views: views)
 
         NSLayoutConstraint.activate(constraints)
 
@@ -263,8 +245,14 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
             searchField.placeholderTextColor = theme.color(forKey: .placeholderText)
         }
 
-        mapView?.mpl_setNightModeEnabled(ThemeManager.shared.currentInterfaceStyle.isDark)
-        buttonsSeparator?.backgroundColor = theme.color(forKey: .separator)
+        let isDark = ThemeManager.shared.currentInterfaceStyle.isDark
+        mapView?.mpl_setNightModeEnabled(isDark)
+
+        let effectStyle: UIBlurEffectStyle = isDark ? .dark : .extraLight
+        let effect = UIBlurEffect(style: effectStyle)
+        mapControlView?.visualEffect = effect
+        radiusControlView?.visualEffect = effect
+
     }
 
     // MARK: - Common methods
