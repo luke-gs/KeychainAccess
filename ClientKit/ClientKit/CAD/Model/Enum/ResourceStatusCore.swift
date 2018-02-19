@@ -10,7 +10,7 @@ import UIKit
 import MPOLKit
 
 /// Enum for callsign status states and logic from https://gridstone.atlassian.net/browse/MPOLA-520
-public enum ResourceStatusCore: String, CADResourceStatusType {
+public enum ResourceStatusCore: String, Codable, CADResourceStatusType {
 
     // General
     case unavailable    = "Unavailable"

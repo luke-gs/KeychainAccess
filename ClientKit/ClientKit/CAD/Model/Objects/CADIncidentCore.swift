@@ -47,7 +47,7 @@ open class CADIncidentCore: Codable, CADIncidentType {
 
     // MARK: - Generated
 
-    open var statusType: CADIncidentStatusType {
+    open var status: CADIncidentStatusType {
         if let resourceId = CADStateManager.shared.lastBookOn?.callsign,
             let resource = CADStateManager.shared.resourcesById[resourceId],
             let assignedIncidents = resource.assignedIncidents,

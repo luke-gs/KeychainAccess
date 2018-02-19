@@ -47,23 +47,13 @@ open class CADResourceCore: Codable, CADResourceType {
 
     public var station: String!
 
-    public var status: String!
+    public var status: CADResourceStatusType!
 
     public var type: CADResourceUnitType!
 
     public var vehicleCategory: String?
 
     // MARK: - Generated
-
-    /// Status as a type that is client specific
-    open var statusType: CADResourceStatusType {
-        get {
-            return CADClientModelTypes.resourceStatus.init(rawValue: status) ?? CADClientModelTypes.resourceStatus.defaultCase
-        }
-        set {
-            status = newValue.rawValue
-        }
-    }
 
     public var coordinate: CLLocationCoordinate2D? {
         guard let location = location else { return nil }
@@ -155,7 +145,7 @@ open class CADResourceCore: Codable, CADResourceType {
         shiftEnd = try values.decodeIfPresent(Date.self, forKey: .shiftEnd)
         shiftStart = try values.decodeIfPresent(Date.self, forKey: .shiftStart)
         station = try values.decodeIfPresent(String.self, forKey: .station)
-        status = try values.decodeIfPresent(String.self, forKey: .status)
+        status = try values.decodeIfPresent(ResourceStatusCore.self, forKey: .status)
         type = try values.decodeIfPresent(ResourceTypeCore.self, forKey: .type)
         vehicleCategory = try values.decodeIfPresent(String.self, forKey: .vehicleCategory)
     }

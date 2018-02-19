@@ -28,7 +28,7 @@ open class CADPatrolCore: Codable, CADPatrolType {
 
     public var patrolGroup: String!
 
-    public var status: String!
+    public var status: CADPatrolStatusType!
 
     public var subtype: String!
 
@@ -42,16 +42,6 @@ open class CADPatrolCore: Codable, CADPatrolType {
 
     open var coordinate: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))
-    }
-
-    /// Status as a type that is client specific
-    open var statusType: CADPatrolStatusType {
-        get {
-            return CADClientModelTypes.patrolStatus.init(rawValue: status) ?? CADClientModelTypes.patrolStatus.defaultCase
-        }
-        set {
-            status = newValue.rawValue
-        }
     }
 
     // MARK: - Codable
@@ -76,7 +66,7 @@ open class CADPatrolCore: Codable, CADPatrolType {
         lastUpdated = try values.decodeIfPresent(Date.self, forKey: .lastUpdated)
         location = try values.decodeIfPresent(CADLocationCore.self, forKey: .location)
         patrolGroup = try values.decodeIfPresent(String.self, forKey: .patrolGroup)
-        status = try values.decodeIfPresent(String.self, forKey: .status)
+        status = try values.decodeIfPresent(PatrolStatusCore.self, forKey: .status)
         subtype = try values.decodeIfPresent(String.self, forKey: .subtype)
         type = try values.decodeIfPresent(String.self, forKey: .type)
     }

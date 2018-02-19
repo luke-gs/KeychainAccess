@@ -89,13 +89,13 @@ open class CADStateManagerCore: CADStateManagerType {
 
     /// Set logged in officer as off duty
     open func setOffDuty() {
-        currentResource?.statusType = CADClientModelTypes.resourceStatus.offDutyCase
+        currentResource?.status = CADClientModelTypes.resourceStatus.offDutyCase
         lastBookOn = nil
     }
     
     /// Clears current incident and sets status to on air
     open func finaliseIncident() {
-        currentResource?.statusType = CADClientModelTypes.resourceStatus.onAirCase
+        currentResource?.status = CADClientModelTypes.resourceStatus.onAirCase
         clearIncident()
     }
     
@@ -129,8 +129,8 @@ open class CADStateManagerCore: CADStateManagerType {
             resource.payrollIds = officerIds
 
             // Set state if callsign was off duty
-            if resource.statusType == CADClientModelTypes.resourceStatus.offDutyCase {
-                resource.statusType = CADClientModelTypes.resourceStatus.onAirCase
+            if resource.status == CADClientModelTypes.resourceStatus.offDutyCase {
+                resource.status = CADClientModelTypes.resourceStatus.onAirCase
             }
 
             // Check if logged in officer is no longer in callsign
@@ -168,13 +168,13 @@ open class CADStateManagerCore: CADStateManagerType {
         }
 
         // Clear incident if changing to non incident status
-        if (currentResource?.statusType.isChangingToGeneralStatus(newStatus)).isTrue {
+        if (currentResource?.status.isChangingToGeneralStatus(newStatus)).isTrue {
             // Clear the current incident
             CADStateManager.shared.clearIncident()
             newIncident = nil
         }
 
-        currentResource?.statusType = newStatus
+        currentResource?.status = newStatus
 
         // Update current incident if setting status without one
         if let newIncident = newIncident, currentIncident == nil {

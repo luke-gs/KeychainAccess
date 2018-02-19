@@ -27,22 +27,12 @@ open class CADBroadcastCore: Codable, CADBroadcastType {
 
     public var title: String!
 
-    public var type: String!
+    public var type: CADBroadcastCategoryType!
 
     // MARK: - Generated
 
     open var createdAtString: String {
         return DateFormatter.preferredDateTimeStyle.string(from: createdAt)
-    }
-
-    /// Type as an enum defined in protocol
-    open var categoryType: CADBroadcastCategoryType {
-        get {
-            return CADClientModelTypes.broadcastCategory.init(rawValue: type) ?? CADClientModelTypes.broadcastCategory.defaultCase
-        }
-        set {
-            type = newValue.rawValue
-        }
     }
 
     // MARK: - Codable
@@ -65,7 +55,7 @@ open class CADBroadcastCore: Codable, CADBroadcastType {
         lastUpdated = try values.decodeIfPresent(Date.self, forKey: .lastUpdated)
         location = try values.decodeIfPresent(CADLocationCore.self, forKey: .location)
         title = try values.decodeIfPresent(String.self, forKey: .title)
-        type = try values.decodeIfPresent(String.self, forKey: .type)
+        type = try values.decodeIfPresent(BroadcastCategoryCore.self, forKey: .type)
     }
 
     public func encode(to encoder: Encoder) throws {
