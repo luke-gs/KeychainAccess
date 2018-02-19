@@ -103,9 +103,9 @@ open class CallsignStatusViewModel: CADStatusViewModel {
     // TODO: move to client kit
 /*
     // Prompts the user for more details when tapping on "Traffic Stop" status
-    open func promptForTrafficStopDetails() -> Promise<TrafficStopRequest> {
-        let (promise, fulfill, reject) = Promise<TrafficStopRequest>.pending()
-        let completionHandler: ((TrafficStopRequest?) -> Void) = { request in
+    open func promptForTrafficStopDetails() -> Promise<CADTrafficStopRequest> {
+        let (promise, fulfill, reject) = Promise<CADTrafficStopRequest>.pending()
+        let completionHandler: ((CADTrafficStopRequest?) -> Void) = { request in
             if let request = request {
                 fulfill(request)
             } else {

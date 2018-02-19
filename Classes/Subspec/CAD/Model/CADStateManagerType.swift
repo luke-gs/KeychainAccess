@@ -22,9 +22,6 @@ public protocol CADStateManagerType {
     /// The last book on data
     var lastBookOn: CADBookOnDetailsType? { get set }
 
-    /// The last sync data
-    // var lastSync: SyncDetailsResponse? { get }
-
     /// The last sync time
     var lastSyncTime: Date? { get }
 

@@ -118,10 +118,10 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
                     // TODO: move to client kit
                     // Status is not same, check if either is On Air, or At Incident
                     /*
-                    if lhs.status == ResourceStatusCore.onAir || rhs.status == ResourceStatusCore.onAir {
-                        return lhs.status == ResourceStatusCore.onAir
-                    } else if lhs.status == ResourceStatusCore.atIncident || rhs.status == ResourceStatusCore.atIncident {
-                        return lhs.status == ResourceStatusCore.atIncident
+                    if lhs.status == CADResourceStatusCore.onAir || rhs.status == CADResourceStatusCore.onAir {
+                        return lhs.status == CADResourceStatusCore.onAir
+                    } else if lhs.status == CADResourceStatusCore.atIncident || rhs.status == CADResourceStatusCore.atIncident {
+                        return lhs.status == CADResourceStatusCore.atIncident
                     }
  */
                 }

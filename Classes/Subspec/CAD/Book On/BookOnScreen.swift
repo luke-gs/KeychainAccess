@@ -37,7 +37,7 @@ public enum BookOnScreen: Presentable {
 
     /// Create traffic stop incident
     // TODO: move to client kit
-    //case trafficStop(completionHandler: ((TrafficStopRequest?) -> Void)?)
+    //case trafficStop(completionHandler: ((CADTrafficStopRequest?) -> Void)?)
     case trafficStop(completionHandler: (() -> Void)?)
     
     /// Enter finalise details
