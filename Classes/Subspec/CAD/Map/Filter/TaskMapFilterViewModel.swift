@@ -87,27 +87,27 @@ public class TaskMapFilterViewModel: MapFilterViewModel {
     }
     
     /// Which priorities to show
-    public var priorities: [IncidentGrade] {
+    public var priorities: [CADIncidentGradeType] {
         let options = sections[Indexes.incidents].toggleRows[Indexes.ToggleRows.incidentsPriority].options
         
         return (options.map { option in
             if option.isOn, let text = option.text {
-                return IncidentGrade(rawValue: text)
+                return CADClientModelTypes.incidentGrade.init(rawValue: text)
             }
             return nil
-        } as [IncidentGrade?]).removeNils()
+        } as [CADIncidentGradeType?]).removeNils()
     }
     
     /// Which type of incidents to show
-    public var resourcedIncidents: [SyncDetailsIncident.Status] {
+    public var resourcedIncidents: [CADIncidentStatusType] {
         let options = sections[Indexes.incidents].toggleRows[Indexes.ToggleRows.incidentsResourced].options
         
         return (options.map { option in
             if option.isOn, let text = option.text {
-                return SyncDetailsIncident.Status(rawValue: text)
+                return CADClientModelTypes.incidentStatus.init(rawValue: text)
             }
             return nil
-        } as [SyncDetailsIncident.Status?]).removeNils()
+        } as [CADIncidentStatusType?]).removeNils()
     }
     
     // MARK: Patrol

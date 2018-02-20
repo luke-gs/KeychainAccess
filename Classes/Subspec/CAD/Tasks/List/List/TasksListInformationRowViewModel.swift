@@ -25,11 +25,11 @@ public struct TasksListInformationRowViewModel {
         self.useBoldDetailText = useBoldDetailText
     }
     
-    public init(with resource: SyncDetailsResource) {
-        let inDuress = resource.statusType.isDuress
+    public init(with resource: CADResourceType) {
+        let inDuress = resource.status.isDuress
         self.init(image: resource.type.icon,
                   title: [resource.callsign, resource.officerCountString].joined(),
-                  detail: resource.statusType.title,
+                  detail: resource.status.title,
                   tintColor: inDuress ? .orangeRed : nil,
                   useBoldTitleText: false,
                   useBoldDetailText: inDuress)

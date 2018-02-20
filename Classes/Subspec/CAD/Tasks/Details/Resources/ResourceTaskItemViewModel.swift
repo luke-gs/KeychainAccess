@@ -11,7 +11,7 @@ import PromiseKit
 
 public class ResourceTaskItemViewModel: TaskItemViewModel {
     
-    open private(set) var resource: SyncDetailsResource?
+    open private(set) var resource: CADResourceType?
     
     public init(callsign: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
         super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, subtitleText: nil)
@@ -37,21 +37,21 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
         return vc
     }
 
-    public convenience init(resource: SyncDetailsResource) {
+    public convenience init(resource: CADResourceType) {
         self.init(
             callsign: resource.callsign,
-            iconImage: resource.statusType.icon,
-            iconTintColor: resource.statusType.iconColors.icon,
-            color: resource.statusType.iconColors.background,
-            statusText: resource.statusType.title,
+            iconImage: resource.status.icon,
+            iconTintColor: resource.status.iconColors.icon,
+            color: resource.status.iconColors.background,
+            statusText: resource.status.title,
             itemName: [resource.callsign, resource.officerCountString].joined())
         self.resource = resource
     }
 
     override open func didTapTaskStatus() {
         if allowChangeResourceStatus() {
-            let callsignStatus = CADStateManager.shared.currentResource?.statusType ?? ClientModelTypes.resourceStatus.defaultCase
-            let incidentItems = ClientModelTypes.resourceStatus.incidentCases.map {
+            let callsignStatus = CADStateManager.shared.currentResource?.status ?? CADClientModelTypes.resourceStatus.defaultCase
+            let incidentItems = CADClientModelTypes.resourceStatus.incidentCases.map {
                 return ManageCallsignStatusItemViewModel($0)
             }
             let sections = [CADFormCollectionSectionViewModel(title: "", items: incidentItems)]

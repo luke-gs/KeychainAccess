@@ -76,9 +76,6 @@ open class TasksListContainerViewModel {
 
     // MARK: - Properties
     
-    /// Ordered array of incident statuses for the list to follow
-    open let incidentSortOrder: [SyncDetailsIncident.Status] = [.current, .assigned, .resourced, .unresourced]
-
     // Child view models
     open let headerViewModel: TasksListHeaderViewModel
     open let listViewModel: TasksListViewModel
@@ -245,10 +242,10 @@ open class TasksListContainerViewModel {
     }
     
     /// Maps sync models to view models
-    open func taskListSections(for incidents: [SyncDetailsIncident], filter: ((SyncDetailsIncident) -> Bool)?) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
+    open func taskListSections(for incidents: [CADIncidentType], filter: ((CADIncidentType) -> Bool)?) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
         var isShowingCurrentIncident = false
 
-        var sectionedIncidents: [String: Array<SyncDetailsIncident>] = [:]
+        var sectionedIncidents: [String: Array<CADIncidentType>] = [:]
 
         // Map incidents to sections
         for incident in incidents {
@@ -274,10 +271,10 @@ open class TasksListContainerViewModel {
             }
         }
   
-        let sortedIncidents = incidentSortOrder.map { status -> CADFormCollectionSectionViewModel<TasksListItemViewModel>? in
+        let sortedIncidents = CADClientModelTypes.incidentStatus.allCases.map { status -> CADFormCollectionSectionViewModel<TasksListItemViewModel>? in
             guard let incidents = sectionedIncidents[status.rawValue], !incidents.isEmpty else { return nil }
             
-            if status == .current {
+            if status == CADClientModelTypes.incidentStatus.currentCase {
                 isShowingCurrentIncident = true
             }
             
@@ -300,9 +297,9 @@ open class TasksListContainerViewModel {
     }
     
     /// Maps sync models to view models
-    open func taskListSections(for patrols: [SyncDetailsPatrol], filter: ((SyncDetailsPatrol) -> Bool)?) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
+    open func taskListSections(for patrols: [CADPatrolType], filter: ((CADPatrolType) -> Bool)?) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
         
-        var sectionedPatrols: [String: Array<SyncDetailsPatrol>] = [:]
+        var sectionedPatrols: [String: Array<CADPatrolType>] = [:]
         
         // Map incidents to sections
         for patrol in patrols {
@@ -310,7 +307,7 @@ open class TasksListContainerViewModel {
                 guard filter(patrol) else { continue }
             }
             
-            let status = patrol.status.rawValue
+            let status = patrol.status.title
             if sectionedPatrols[status] == nil {
                 sectionedPatrols[status] = []
             }
@@ -341,9 +338,9 @@ open class TasksListContainerViewModel {
     }
     
     /// Maps sync models to view models
-    open func taskListSections(for broadcasts: [SyncDetailsBroadcast], filter: ((SyncDetailsBroadcast) -> Bool)?) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
+    open func taskListSections(for broadcasts: [CADBroadcastType], filter: ((CADBroadcastType) -> Bool)?) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
         
-        var sectionedBroadcasts: [String: Array<SyncDetailsBroadcast>] = [:]
+        var sectionedBroadcasts: [String: Array<CADBroadcastType>] = [:]
         
         // Map incidents to sections
         for broadcast in broadcasts {
@@ -351,7 +348,7 @@ open class TasksListContainerViewModel {
                 guard filter(broadcast) else { continue }
             }
             
-            let type = broadcast.type.rawValue
+            let type = broadcast.type.title
             if sectionedBroadcasts[type] == nil {
                 sectionedBroadcasts[type] = []
             }
@@ -382,7 +379,7 @@ open class TasksListContainerViewModel {
     }
     
     /// Maps sync models to view models
-    open func taskListSections(for resources: [SyncDetailsResource], filter: ((SyncDetailsResource) -> Bool)?) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
+    open func taskListSections(for resources: [CADResourceType], filter: ((CADResourceType) -> Bool)?) -> [CADFormCollectionSectionViewModel<TasksListItemViewModel>] {
         var isShowingDuress = false
         
         // Map resources to sections
@@ -390,7 +387,7 @@ open class TasksListContainerViewModel {
         let tasked = NSLocalizedString("Tasked", comment: "")
         let untasked = NSLocalizedString("Untasked", comment: "")
         
-        var sectionedResources: [String: Array<SyncDetailsResource>] = [
+        var sectionedResources: [String: Array<CADResourceType>] = [
             duress: [],
             tasked: [],
             untasked: []
@@ -415,7 +412,7 @@ open class TasksListContainerViewModel {
             }
 
             if shouldAppend {
-                if resource.statusType.isDuress {
+                if resource.status.isDuress {
                     sectionedResources[duress]?.append(resource)
                 } else if resource.currentIncident != nil {
                     sectionedResources[tasked]?.append(resource)

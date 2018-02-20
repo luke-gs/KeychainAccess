@@ -8,7 +8,7 @@
 
 import UIKit
 
-/// Book on details form view model, representing the underlying data for a BookOnRequest
+/// Book on details form view model, representing the underlying data for a CADBookOnDetailsType
 open class BookOnDetailsFormContentMainViewModel {
 
     public init() {}
@@ -28,7 +28,7 @@ open class BookOnDetailsFormContentMainViewModel {
     // MARK: - Conversion
 
     /// Create view model from model
-    public init(withModel request: BookOnRequest) {
+    public init(withModel request: CADBookOnDetailsType) {
         self.serial = request.serial
         self.category = request.category
         self.odometer = request.odometer
@@ -54,8 +54,8 @@ open class BookOnDetailsFormContentMainViewModel {
     }
 
     /// Create model from view model
-    open func createModel() -> BookOnRequest {
-        let request = BookOnRequest()
+    open func createModel() -> CADBookOnDetailsType {
+        let request = CADClientModelTypes.bookonDetails.init()
         request.serial = self.serial
         request.category = self.category
         request.odometer = self.odometer
@@ -67,7 +67,7 @@ open class BookOnDetailsFormContentMainViewModel {
         // Use the officer view models to apply changes to officers fetched in sync
         request.officers = self.officers.flatMap { officer in
             if let existingOfficer = CADStateManager.shared.officersById[officer.officerId!] {
-                let updatedOfficer = SyncDetailsOfficer(officer: existingOfficer)
+                let updatedOfficer = CADClientModelTypes.officerDetails.init(officer: existingOfficer)
                 updatedOfficer.licenceTypeId = officer.licenceTypeId
                 updatedOfficer.contactNumber = officer.contactNumber
                 updatedOfficer.capabilities = officer.capabilities
@@ -80,7 +80,7 @@ open class BookOnDetailsFormContentMainViewModel {
         // Return only selected equipment
         request.equipment = self.equipment.flatMap { item in
             if item.count > 0 {
-                return SyncDetailsResourceEquipment(count: item.count, description: item.object.title)
+                return CADClientModelTypes.equipmentDetails.init(count: item.count, description: item.object.title)
             }
             return nil
         }

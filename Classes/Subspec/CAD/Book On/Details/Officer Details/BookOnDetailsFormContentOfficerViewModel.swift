@@ -8,7 +8,7 @@
 
 import UIKit
 
-/// Book on details officer form view model, representing the underlying data for a SyncDetailsOfficer
+/// Book on details officer form view model, representing the underlying data for a CADOfficerType
 open class BookOnDetailsFormContentOfficerViewModel: Equatable {
 
     public init() {}
@@ -68,7 +68,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     }
 
     /// Create view model from model
-    public init(withModel officer: SyncDetailsOfficer, initial: Bool, isDriver: Bool = false) {
+    public init(withModel officer: CADOfficerType, initial: Bool, isDriver: Bool = false) {
         self.title = officer.displayName
         self.rank = officer.rank
         self.officerId = officer.payrollId

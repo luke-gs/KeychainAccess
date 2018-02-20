@@ -15,7 +15,7 @@ public struct ManifestFetchRequest: Parameterisable {
     
     public private(set) var parameters: [String: Any]
     
-    init(date: Date?) {
+    public init(date: Date?) {
         
         var path:String = "manifest/app"
         var parameters:[String:Any] = [:]
