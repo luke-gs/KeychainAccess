@@ -24,27 +24,27 @@ public protocol MediaPreviewRenderer: DefaultReusable {
 
 public let CollectionViewFormMediaCellMinimumItemHeight: CGFloat = 96.0
 
-open class CollectionViewFormMediaCell<U: MediaPreviewableDelegate>: CollectionViewFormCell, UICollectionViewDelegate, UICollectionViewDataSource, UIViewControllerPreviewingDelegate {
+open class CollectionViewFormMediaCell: CollectionViewFormCell, UICollectionViewDelegate, UICollectionViewDataSource, UIViewControllerPreviewingDelegate {
 
-    public weak var dataSource: MediaDataSource? {
+    public weak var dataSource: MediaPreviewCollectionDataSource? {
         didSet {
             guard dataSource !== oldValue else { return }
 
             collectionView.reloadData()
 
             if let oldValue = oldValue {
-                NotificationCenter.default.removeObserver(self, name: MediaDataSourceDidChangeNotificationName, object: oldValue)
+                NotificationCenter.default.removeObserver(self, name: MediaPreviewCollectionDataSourceDidChange, object: oldValue)
             }
 
             if let dataSource = dataSource {
-                NotificationCenter.default.addObserver(self, selector: #selector(mediaDataSourceDidChange(_:)), name: MediaDataSourceDidChangeNotificationName, object: dataSource)
+                NotificationCenter.default.addObserver(self, selector: #selector(mediaDataSourceDidChange(_:)), name: MediaPreviewCollectionDataSourceDidChange, object: dataSource)
             }
 
             updateContentState()
         }
     }
 
-    public weak var delegate: U?
+    public weak var delegate: MediaPreviewableDelegate?
 
     public let collectionView: UICollectionView
 
@@ -138,12 +138,13 @@ open class CollectionViewFormMediaCell<U: MediaPreviewableDelegate>: CollectionV
     }
 
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataSource?.numberOfMediaItems() ?? 0
+        return dataSource?.numberOfMediaPreviews() ?? 0
     }
 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let dataSource = dataSource, let item = dataSource.mediaItemAtIndex(indexPath.item) else { return UICollectionViewCell() }
+        guard let dataSource = dataSource else { return UICollectionViewCell() }
 
+        let item = dataSource.previewAtIndex(indexPath.item)
         let rendererType = mediaRenderers[ObjectIdentifier(type(of: item))] ?? MediaPreviewableCell.self
 
         return collectionView.dequeueReusableCell(withReuseIdentifier: rendererType.defaultReuseIdentifier, for: indexPath)
@@ -151,7 +152,7 @@ open class CollectionViewFormMediaCell<U: MediaPreviewableDelegate>: CollectionV
 
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if let cell = cell as? MediaPreviewableCell {
-            cell.media = dataSource?.mediaItemAtIndex(indexPath.item)
+            cell.media = dataSource?.previewAtIndex(indexPath.item)
         }
 
         if let context = previewingController?.registerForPreviewing(with: self, sourceView: cell) {
@@ -167,17 +168,20 @@ open class CollectionViewFormMediaCell<U: MediaPreviewableDelegate>: CollectionV
     }
 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let dataSource = dataSource, let mediaItem = dataSource.mediaItemAtIndex(indexPath.item), let viewController = delegate?.mediaItemViewControllerForMediaItem(mediaItem, inDataSource: dataSource) else { return }
+        guard let dataSource = dataSource else { return }
 
-        previewingController?.present(viewController, animated: true, completion: nil)
+        let mediaItem = dataSource.previewAtIndex(indexPath.item)
+
+        if let viewController = delegate?.mediaItemViewControllerForMediaItem(mediaItem) {
+            previewingController?.present(viewController, animated: true, completion: nil)
+        }
     }
 
     // MARK: - UIViewControllerPreviewingDelegate
 
     public func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
         guard let previewingController = previewingController,
-            let dataSource = dataSource,
-            let viewController = delegate?.viewControllerForMediaDataSource(dataSource, fromPreviewViewController: viewControllerToCommit) else { return }
+            let viewController = delegate?.viewControllerForMediaDataSource(fromPreviewViewController: viewControllerToCommit) else { return }
 
         previewingController.present(viewController, animated: true, completion: nil)
     }
@@ -187,8 +191,9 @@ open class CollectionViewFormMediaCell<U: MediaPreviewableDelegate>: CollectionV
         if let key = self.previewingContext.first(where: { (key, value) -> Bool in
             return previewingContext.sourceView == value.sourceView
         })?.key {
-            if let dataSource = dataSource, let mediaItem = dataSource.mediaItemAtIndex(key.item) {
-                return delegate?.previewViewControllerForMediaItem(mediaItem, inDataSource: dataSource)
+            if let dataSource = dataSource {
+                let mediaItem = dataSource.previewAtIndex(key.item)
+                return delegate?.previewViewControllerForMediaItem(mediaItem)
             }
         }
 
@@ -204,14 +209,13 @@ open class CollectionViewFormMediaCell<U: MediaPreviewableDelegate>: CollectionV
 
     @objc private func addButtonTapped() {
         guard let previewingController = previewingController,
-            let dataSource = dataSource,
-            let viewController = delegate?.viewControllerForMediaDataSource(dataSource) else { return }
+            let viewController = delegate?.viewControllerForMediaDataSource() else { return }
 
         previewingController.present(viewController, animated: true, completion: nil)
     }
 
     private func updateContentState() {
-        loadingManager.state = (dataSource?.numberOfMediaItems() ?? 0) > 0 ? .loaded : .noContent
+        loadingManager.state = (dataSource?.numberOfMediaPreviews() ?? 0) > 0 ? .loaded : .noContent
     }
 
 }

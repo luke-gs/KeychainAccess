@@ -8,7 +8,17 @@
 
 import Foundation
 
-public class MediaSlideShowViewController: UIViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
+public protocol MediaSlideShowable: class {
+
+    var dataSource: MediaDataSource { get }
+
+    var currentMedia: MediaPreviewable? { get }
+
+    func setupWithInitialMedia(_ media: MediaPreviewable?)
+
+}
+
+public class MediaSlideShowViewController: UIViewController, MediaSlideShowable, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
 
     private lazy var pageViewController: UIPageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: [UIPageViewControllerOptionInterPageSpacingKey: 16.0])
 
@@ -21,7 +31,7 @@ public class MediaSlideShowViewController: UIViewController, UIPageViewControlle
             overlayView.view().removeFromSuperview()
         }
         didSet {
-            self.overlayView.galleryViewController = self
+            self.overlayView.slideShowViewController = self
 
             guard isViewLoaded else { return }
             let overlayView = self.overlayView.view()
@@ -56,7 +66,11 @@ public class MediaSlideShowViewController: UIViewController, UIPageViewControlle
 
     // MARK: - Setup
 
-    public func setupWithInitialMedia(_ media: MediaPreviewable?, animated: Bool = false) {
+    public func setupWithInitialMedia(_ media: MediaPreviewable?) {
+        setupWithInitialMedia(media, animated: false)
+    }
+
+    public func setupWithInitialMedia(_ media: MediaPreviewable?, animated: Bool) {
         // Page controller
         if let media = media ?? dataSource.mediaItemAtIndex(0) {
             var direction = UIPageViewControllerNavigationDirection.forward
@@ -95,7 +109,7 @@ public class MediaSlideShowViewController: UIViewController, UIPageViewControlle
 
         pageViewController.view.addGestureRecognizer(tapGestureRecognizer)
 
-        self.overlayView.galleryViewController = self
+        self.overlayView.slideShowViewController = self
 
         pageViewController.delegate = self
         pageViewController.dataSource = self
@@ -180,7 +194,7 @@ public class MediaSlideShowViewController: UIViewController, UIPageViewControlle
 
     // MARK: - Gesture Recognizers
 
-    public weak var mediaOverviewViewController: MediaGalleryViewController?
+//    public weak var mediaOverviewViewController: MediaGalleryViewController<T>?
 
     @objc private func handleTapGestureRecognizer(_ gestureRecognizer: UITapGestureRecognizer) {
         overlayView.setHidden(!overlayView.view().isHidden, animated: true)

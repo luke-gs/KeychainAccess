@@ -11,39 +11,36 @@ import AVKit
 import PromiseKit
 
 
-//public class MediaPreviewModel { //}<T: ReadableDataStore> where T.Result.Item == Media {
-//
-////    public let storeCoordinator: DataStoreCoordinator<T>
-////
-////    public private(set) var previews: [MediaPreviewable] = []
-////
-////    public init(storeCoordinator: DataStoreCoordinator<T>) {
-////        self.storeCoordinator = storeCoordinator
-////
-////        if storeCoordinator.state == .unknown {
-////            _ = storeCoordinator.retrieveItems()
-////        }
-////
-////        NotificationCenter.default.addObserver(self, selector: #selector(storeDidChange(_:)), name: DataStoreCoordinatorDidChangeStateNotificationName, object: storeCoordinator)
-////    }
-////
-////    deinit {
-////        NotificationCenter.default.removeObserver(self)
-////    }
-////
-////    private func storeDidChange(_ notification: Notification) {
-////
-////    }
-//
-////    public init() {
-////
-////    }
-////
-////    func previewForMedia(_ media: MediaAsset) -> MediaPreviewable {
-////
-////    }
-//
-//}
+open class MediaGalleryViewModel {
+
+    /// A registry of controllers for media items
+    open private(set) var mediaControllers: [ObjectIdentifier: (UIViewController & MediaViewPresentable).Type] = [:]
+
+    public init() {
+        registerDefaultControllers()
+    }
+
+    open func previewForMedia(_ media: Media) -> MediaPreviewable {
+        return MediaPreview(thumbnailImage: AssetManager.shared.image(forKey: .info), asset: media)
+    }
+
+    /// Register a controller type to a specific mediaPreviewable object
+    ///
+    /// - Parameters:
+    ///   - controller: The type of the controller to register
+    ///   - asset: The media the controller is to be registered against
+    open func register(_ controller: (UIViewController & MediaViewPresentable).Type, for asset: MediaPreviewable.Type) {
+        mediaControllers[ObjectIdentifier(asset)] = controller
+    }
+
+    /// Register default controllers for media items
+    private func registerDefaultControllers() {
+        register(AVMediaViewController.self, for: AudioMedia.self)
+        register(MediaViewController.self, for: PhotoMedia.self)
+        register(AVMediaViewController.self, for: VideoMedia.self)
+    }
+
+}
 
 
 
@@ -105,6 +102,7 @@ open class MediaDataSource {
     /// - Parameters:
     ///   - mediaItem: The media item to be replaced.
     ///   - otherMediaItem: The media item to replace.
+    @available(iOS, deprecated)
     open func replaceMediaItem(_ mediaItem: MediaPreviewable, with otherMediaItem: MediaPreviewable) {
         if let index = indexOfMediaItem(mediaItem) {
             mediaItems.remove(at: index)
@@ -117,6 +115,7 @@ open class MediaDataSource {
     /// 'MediaDataSourceDidChangeNotificationName' is sent on done.
     ///
     /// - Parameter mediaItem: The media item to add.
+    @available(iOS, deprecated)
     open func addMediaItem(_ mediaItem: MediaPreviewable) {
         mediaItems.append(mediaItem)
         NotificationCenter.default.post(name: MediaDataSourceDidChangeNotificationName, object: self, userInfo: nil)
@@ -127,6 +126,7 @@ open class MediaDataSource {
     /// sent out if the media item is not in the collection.
     ///
     /// - Parameter mediaItem: The media item to remove
+    @available(iOS, deprecated)
     open func removeMediaItem(_ mediaItem: MediaPreviewable) {
         if let index = indexOfMediaItem(mediaItem) {
             mediaItems.remove(at: index)
@@ -161,12 +161,14 @@ open class MediaDataSource {
 
     }
 
+    @available(iOS, deprecated)
     open private(set) var state: State = .unknown {
         didSet {
             NotificationCenter.default.post(name: MediaDataSourceDidChangeNotificationName, object: self, userInfo: nil)
         }
     }
 
+    @available(iOS, deprecated)
     open func loadMoreItems() -> Promise<[MediaPreviewable]>? {
         state = .loading
 

@@ -37,7 +37,7 @@ public protocol PaginatedDataStoreResult: DataStoreResult {
 
 }
 
-public let DataStoreCoordinatorDidChangeStateNotificationName = Notification.Name(rawValue: "DataStoreCoordinatorDidChangeStateNotificationName")
+public let DataStoreCoordinatorDidChangeStateNotification = Notification.Name(rawValue: "DataStoreCoordinatorDidChangeStateNotificationName")
 
 public class DataStoreCoordinator<Store: ReadableDataStore> where Store.Result.Item: Equatable {
 
@@ -45,7 +45,7 @@ public class DataStoreCoordinator<Store: ReadableDataStore> where Store.Result.I
 
     public private(set) var state: DataCoordinateState = .unknown {
         didSet {
-            NotificationCenter.default.post(name: DataStoreCoordinatorDidChangeStateNotificationName, object: self)
+            NotificationCenter.default.post(name: DataStoreCoordinatorDidChangeStateNotification, object: self)
         }
     }
 
@@ -76,7 +76,6 @@ public class DataStoreCoordinator<Store: ReadableDataStore> where Store.Result.I
         }.then { [weak self] results -> [Item] in
             let items = results.items
 
-
             self?.lastKnownResults = results
             self?.items = items
             self?.state = .completed
@@ -92,6 +91,8 @@ public class DataStoreCoordinator<Store: ReadableDataStore> where Store.Result.I
     }
 
 }
+
+
 
 extension DataStoreCoordinator where Store.Result: PaginatedDataStoreResult {
 

@@ -16,32 +16,41 @@ class PersonDetailViewController: FormBuilderViewController {
 
         builder.title = "Person Details"
 
-        let videoPath = Bundle.main.path(forResource: "video", ofType: "mp4")!
-        let audioPath = Bundle.main.path(forResource: "audio", ofType: "m4a")!
+//        let videoPath = Bundle.main.path(forResource: "video", ofType: "mp4")!
+//        let audioPath = Bundle.main.path(forResource: "audio", ofType: "m4a")!
+//
+//        let fp = URL(fileURLWithPath: audioPath)
+//        let vp = URL(fileURLWithPath: videoPath)
+//
+//        let url = URL(fileURLWithPath: Bundle.main.resourcePath! + "/Avatar 1.png")
 
-        let fp = URL(fileURLWithPath: audioPath)
-        let vp = URL(fileURLWithPath: videoPath)
+//        let datasource = MediaDataSource(mediaItems: [
+//            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Test", comments: "Comments", isSensitive: false)),
+//            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Test", comments: "Comments", isSensitive: false)),
+//            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Test", comments: "Comments", isSensitive: false)),
+//            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Test", comments: "Comments", isSensitive: false)),
+//            AudioMedia(asset: Media(url: fp, title: "Test", comments: "Comments", isSensitive: false)),
+//            AudioMedia(asset: Media(url: fp, title: "Test", comments: "Comments", isSensitive: false)),
+//            VideoMedia(asset: Media(url: vp, title: "Test", comments: "Comments", isSensitive: false)),
+//            VideoMedia(asset: Media(url: vp, title: "Test", comments: "Comments", isSensitive: false)),
+//        ])
 
-        let url = URL(fileURLWithPath: Bundle.main.resourcePath! + "/Avatar 1.png")
+        let localStore = DataStoreCoordinator(dataStore: LocalDataStore(items: [
+            Media(url: URL(string: "localhost")!, title: "Hello", comments: "This Girl is on FIREEE", isSensitive: true)
+        ]))
 
-        let datasource = MediaDataSource(mediaItems: [
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Test", comments: "Comments", isSensitive: false)),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Test", comments: "Comments", isSensitive: false)),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Test", comments: "Comments", isSensitive: false)),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Test", comments: "Comments", isSensitive: false)),
-            AudioMedia(asset: Media(url: fp, title: "Test", comments: "Comments", isSensitive: false)),
-            AudioMedia(asset: Media(url: fp, title: "Test", comments: "Comments", isSensitive: false)),
-            VideoMedia(asset: Media(url: vp, title: "Test", comments: "Comments", isSensitive: false)),
-            VideoMedia(asset: Media(url: vp, title: "Test", comments: "Comments", isSensitive: false)),
-        ])
-        let mediaItem = MediaFormItem().dataSource(datasource)
+        let handler = MediaPreviewHandler(storeCoordinator: localStore)
+
+        let mediaItem = MediaFormItem()
+            .dataSource(handler)
+            .delegate(handler)
 
         if let viewController = UIApplication.shared.keyWindow?.rootViewController {
             mediaItem.previewingController(viewController)
         }
 
         builder += HeaderFormItem(text: "PHOTOS").actionButton(title: "ADD", handler: { button in
-            if let viewController = mediaItem.delegate.viewControllerForMediaDataSource(datasource) {
+            if let viewController = mediaItem.delegate?.viewControllerForMediaDataSource() {
                 self.present(viewController, animated: true, completion: nil)
             }
         })

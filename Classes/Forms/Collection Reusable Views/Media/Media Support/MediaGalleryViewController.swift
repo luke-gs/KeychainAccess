@@ -10,7 +10,7 @@ import Foundation
 import AVFoundation
 import Photos
 
-public class MediaGalleryViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+public class MediaGalleryViewController<T: ReadableDataStore>: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate where T.Result.Item: Media {
 
     private enum Identifier: String {
         case genericCell
@@ -35,19 +35,25 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
     private lazy var addBarButtonItem: UIBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Add", comment: ""), style: .plain, target: self, action: #selector(addButtonTapped))
 
-    public init(dataSource: MediaDataSource, initialAsset: MediaPreviewable? = nil, pickerSources: [MediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker(), AudioMediaPicker(), SketchMediaPicker()]) {
+
+    public let storeCoordinator: DataStoreCoordinator<T>
+
+    public let viewModel: MediaGalleryViewModel
+
+    public init(viewModel: MediaGalleryViewModel, storeCoordinator: DataStoreCoordinator<T>, pickerSources: [MediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker(), AudioMediaPicker(), SketchMediaPicker()]) {
 
         pickerSources.forEach {
             $0.saveMedia = { url, assetType in
                 if let media = assetType.mediaAsset(at: url) {
-                    dataSource.addMediaItem(media)
+//                    dataSource.addMediaItem(media)
                 }
             }
         }
 
-        self.dataSource = dataSource
+        self.dataSource = MediaDataSource(mediaItems: [])
+        self.viewModel = viewModel
+        self.storeCoordinator = storeCoordinator
         self.pickerSources = pickerSources
-        self.initialAsset = initialAsset
 
         super.init(nibName: nil, bundle: nil)
 
@@ -55,7 +61,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
         setupNavigationItems()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(mediaDataSourceDidChange(_:)), name: MediaDataSourceDidChangeNotificationName, object: dataSource)
+        NotificationCenter.default.addObserver(self, selector: #selector(mediaDataSourceDidChange(_:)), name: DataStoreCoordinatorDidChangeStateNotification, object: dataSource)
         NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
     }
 
@@ -109,9 +115,10 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
         super.viewWillAppear(animated)
 
         if let initialPhoto = initialAsset {
+
             let mediaGalleryViewController = MediaSlideShowViewController(dataSource: dataSource, initialMedia: initialPhoto, referenceView: nil)
             mediaGalleryViewController.allowEditing = allowEditing
-            mediaGalleryViewController.mediaOverviewViewController = self
+//            mediaGalleryViewController.mediaOverviewViewController = self
             navigationController?.pushViewController(mediaGalleryViewController, animated: true)
 
             self.initialAsset = nil
@@ -207,7 +214,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
                 let media = dataSource.mediaItemAtIndex(indexPath.item)
                 let mediaGalleryViewController = MediaSlideShowViewController(dataSource: dataSource, initialMedia: media, referenceView: cell)
                 mediaGalleryViewController.allowEditing = allowEditing
-                mediaGalleryViewController.mediaOverviewViewController = self
+//                mediaGalleryViewController.mediaOverviewViewController = self
                 show(mediaGalleryViewController, sender: self)
             }
         } else {

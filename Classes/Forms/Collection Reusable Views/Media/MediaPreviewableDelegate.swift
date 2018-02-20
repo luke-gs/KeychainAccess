@@ -20,7 +20,7 @@ public protocol MediaPreviewableDelegate: class {
     ///   - mediaItem: The media item that has been force touched.
     ///   - dataSource: The data source of the media item.
     /// - Returns: A view controller to be presented as a preview.
-    func previewViewControllerForMediaItem(_ mediaItem: MediaPreviewable, inDataSource dataSource: MediaDataSource) -> UIViewController?
+    func previewViewControllerForMediaItem(_ mediaItem: MediaPreviewable) -> UIViewController?
 
     /// Returns a view controller to be used once a preview controller is commited.
     /// This only works on devices with fource touch. (E.g. iPhone 7 and above).
@@ -29,7 +29,7 @@ public protocol MediaPreviewableDelegate: class {
     ///   - dataSource: The data source of the media item
     ///   - previewViewController: The preview controller
     /// - Returns: A view controller to be presented.
-    func viewControllerForMediaDataSource(_ dataSource: MediaDataSource, fromPreviewViewController previewViewController: UIViewController) -> UIViewController?
+    func viewControllerForMediaDataSource(fromPreviewViewController previewViewController: UIViewController) -> UIViewController?
 
     /// Returns a view controller to be used when a media item is selected.
     ///
@@ -37,13 +37,23 @@ public protocol MediaPreviewableDelegate: class {
     ///   - mediaItem: The media item that has been selected.
     ///   - dataSource: The data source of the media item.
     /// - Returns: A view controller to be presented.
-    func mediaItemViewControllerForMediaItem(_ mediaItem: MediaPreviewable, inDataSource dataSource: MediaDataSource) -> UIViewController?
+    func mediaItemViewControllerForMediaItem(_ mediaItem: MediaPreviewable) -> UIViewController?
 
     /// Returns a view controller to be used when the action button is selected.
     /// A potential use case is when there are no media items.
     ///
     /// - Parameter dataSource: The data source
     /// - Returns: A view controller to be presented.
-    func viewControllerForMediaDataSource(_ dataSource: MediaDataSource) -> UIViewController?
+    func viewControllerForMediaDataSource() -> UIViewController?
 
 }
+
+public protocol MediaPreviewCollectionDataSource: class {
+
+    func numberOfMediaPreviews() -> Int
+
+    func previewAtIndex(_ index: Int) -> MediaPreviewable
+
+}
+
+public let MediaPreviewCollectionDataSourceDidChange = Notification.Name("MediaPreviewCollectionDataSourceDidChange")
