@@ -38,24 +38,28 @@ public class IncidentSearchDataSource: CustomSearchPickerDatasource {
     }
 
     public func allowsSelection(of object: Pickable) -> Bool {
+        if selectedObjects.contains(where: {$0.title == object.title}) {
+            return false
+        }
+
         return true
     }
 
     public func updateHeader(for objects: [Pickable]) {
         let config = headerConfiguration
-        header?.displayView?.update(with: searchHeaderTitle(),
-                                    subtitle: searchHeaderSubtitle(),
+        header?.displayView?.update(with: searchHeaderTitle(with: objects),
+                                    subtitle: searchHeaderSubtitle(with: objects),
                                     image: config?.image)
     }
 
-    func searchHeaderTitle() -> String {
-        let multiple = selectedObjects.count > 1
-        let countString = selectedObjects.count > 0 ? "NO" : "\(selectedObjects.count)"
-        let otherString = "incident\(multiple ? "s" : "") Selected"
+    func searchHeaderTitle(with objects: [Pickable]) -> String {
+        let multiple = objects.count > 1
+        let countString = objects.count == 0 ? "No" : "\(objects.count)"
+        let otherString = "incident\(multiple ? "s" : "") selected"
         return "\(countString) \(otherString)"
     }
 
-    func searchHeaderSubtitle() -> String {
-        return selectedObjects.map{$0.title}.joined(separator: ", ")
+    func searchHeaderSubtitle(with objects: [Pickable]) -> String {
+        return objects.map{$0.title}.joined(separator: ", ")
     }
 }

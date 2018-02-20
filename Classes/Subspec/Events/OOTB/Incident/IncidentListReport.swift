@@ -21,7 +21,7 @@ open class IncidentListReport: Reportable {
     public weak var event: Event?
 
     private(set) public var evaluator: Evaluator = Evaluator()
-    private(set) var incidents: [String] = []
+    public var incidents: [String] = []
 
     public required init(event: Event) {
         self.event = event

@@ -51,6 +51,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.report?.viewed = true
+        self.updateLoadingManager()
     }
 
     override open func construct(builder: FormBuilder) {
@@ -58,6 +59,27 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
         builder.forceLinearLayout = true
 
         builder += HeaderFormItem(text: "GENERAL")
+
+        let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.document)?
+            .withCircleBackground(tintColor: .black,
+                                  circleColor: .red,
+                                  style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false))
+
+        viewModel.report?.incidents.forEach { incident in
+            builder += SummaryListFormItem()
+                .title(incident)
+                .subtitle("Not yet started")
+                .width(.column(1))
+                .image(image)
+                .selectionStyle(.none)
+                .imageStyle(.circle)
+                .accessory(ItemAccessory.disclosure)
+                .editActions([CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (cell, indexPath) in
+                    self.viewModel.report?.incidents.remove(at: indexPath.item)
+                    self.reloadForm()
+                    self.updateLoadingManager()
+                })])
+        }
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
@@ -69,8 +91,8 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
     @objc private func newIncidentHandler() {
         guard let report = viewModel.report else { return }
 
-        let headerConfig = SearchHeaderConfiguration(title: "No incident selected",
-                                                     subtitle: "",
+        let headerConfig = SearchHeaderConfiguration(title: viewModel.searchHeaderTitle(),
+                                                     subtitle: viewModel.searchHeaderSubtitle(),
                                                      image: AssetManager.shared.image(forKey: .iconPencil)?
                                                         .withCircleBackground(tintColor: .white,
                                                                               circleColor: .primaryGray,
@@ -89,6 +111,9 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
         viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
 
         viewController.finishUpdateHandler = { controller, index in
+            let incidents = controller.objects.enumerated().filter { index.contains($0.offset) }.flatMap { $0.element.title }
+            self.viewModel.report?.incidents = incidents
+            self.updateLoadingManager()
             self.reloadForm()
         }
 
@@ -100,5 +125,9 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
 
     @objc private func cancelTapped() {
         dismissAnimated()
+    }
+
+    private func updateLoadingManager() {
+        loadingManager.state = (viewModel.report?.incidents.isEmpty ?? true) ? .noContent : .loaded
     }
 }

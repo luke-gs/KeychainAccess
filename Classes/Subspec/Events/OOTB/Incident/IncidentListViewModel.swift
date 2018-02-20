@@ -13,4 +13,17 @@ open class IncidentListViewModel {
     public init(report: IncidentListReport?) {
         self.report = report
     }
+
+    func searchHeaderTitle() -> String {
+        guard let report = report else { fatalError() }
+        let multiple = report.incidents.count > 1
+        let countString = report.incidents.count == 0 ? "No" : "\(report.incidents.count)"
+        let otherString = "incident\(multiple ? "s" : "") selected"
+        return "\(countString) \(otherString)"
+    }
+
+    func searchHeaderSubtitle() -> String {
+        guard let report = report else { fatalError() }
+        return report.incidents.map{$0.title}.joined(separator: ", ")
+    }
 }
