@@ -239,12 +239,12 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
         let isDark = ThemeManager.shared.currentInterfaceStyle.isDark
         mapView?.mpl_setNightModeEnabled(isDark)
 
+        mapControlView?.applyTheme(theme, isDark: isDark)
+
         let effectStyle: UIBlurEffectStyle = isDark ? .dark : .extraLight
         let effect = UIBlurEffect(style: effectStyle)
-        mapControlView?.visualEffect = effect
-        radiusControlView?.visualEffect = effect
 
-        mapControlView?.separatorColor = theme.color(forKey: .separator)
+        radiusControlView?.visualEffect = effect
         radiusControlView?.separatorColor = theme.color(forKey: .separator)
 
     }
