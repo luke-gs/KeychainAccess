@@ -8,6 +8,7 @@
 
 import Foundation
 import MPOLKit
+import ClientKit
 
 public class BookOnPresenter: Presenter {
     public func viewController(forPresentable presentable: Presentable) -> UIViewController {

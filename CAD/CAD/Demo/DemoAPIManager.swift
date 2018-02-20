@@ -9,6 +9,7 @@
 import UIKit
 import PromiseKit
 import MPOLKit
+import ClientKit
 
 enum APIError: Error {
     case fileNotFound
@@ -28,22 +29,22 @@ open class DemoAPIManager: CADAPIManager {
         return Promise<OAuthAccessToken>(value: token)
     }
 
-    open func cadOfficerByUsername(username: String) -> Promise<OfficerDetailsResponse> {
+    open func cadOfficerByUsername(username: String) -> Promise<CADOfficerDetailsResponse> {
         if let data = loadDemoFileAsData(name: "DemoOfficer") {
-            let response = try! JSONDecoder.decode(data, to: OfficerDetailsResponse.self)
-            return Promise<OfficerDetailsResponse>(value: response)
+            let response = try! JSONDecoder.decode(data, to: CADOfficerDetailsResponse.self)
+            return Promise<CADOfficerDetailsResponse>(value: response)
         }
-        return Promise<OfficerDetailsResponse>(error: APIError.fileNotFound)
+        return Promise<CADOfficerDetailsResponse>(error: APIError.fileNotFound)
     }
 
-    open func cadSyncDetails(request: SyncDetailsRequest) -> Promise<SyncDetailsResponse> {
+    open func cadSyncDetails(request: CADSyncRequest) -> Promise<CADSyncResponse> {
         if let data = loadDemoFileAsData(name: "DemoSync") {
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = .iso8601
-            let response = try! decoder.decode(SyncDetailsResponse.self, from: data)
-            return Promise<SyncDetailsResponse>(value: response)
+            let response = try! decoder.decode(CADSyncResponse.self, from: data)
+            return Promise<CADSyncResponse>(value: response)
         }
-        return Promise<SyncDetailsResponse>(error: APIError.fileNotFound)
+        return Promise<CADSyncResponse>(error: APIError.fileNotFound)
     }
 
     open func fetchManifest(with request: ManifestFetchRequest) -> Promise<ManifestFetchRequest.ResultClass> {
