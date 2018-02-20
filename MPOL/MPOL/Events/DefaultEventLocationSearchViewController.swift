@@ -25,13 +25,11 @@ enum EventLocationSearchOption {
     }
 
     static let defaultOptions: [EventLocationSearchOption] = [.current, .map, .manual]
-
-
 }
 
 protocol EventLocationSearchViewModelDelegate {
     func viewModelDidUpdate(_ viewModel: EventLocationSearchViewModel)
-    func viewModel(_ viewModel: EventLocationSearchViewModel, didSelectLocation location: AddressSummaryDisplayable)
+    func viewModel(_ viewModel: EventLocationSearchViewModel, didSelectLocation location: LookupAddress)
     func viewModel(_ viewModel: EventLocationSearchViewModel, didSelectOption option: EventLocationSearchOption)
 }
 
@@ -41,8 +39,8 @@ class EventLocationSearchViewModel {
     private let cancelToken: PromiseCancellationToken = PromiseCancellationToken()
 
     var delegate: EventLocationSearchViewModelDelegate?
-    var recentLocationDisplayables: [AddressSummaryDisplayable]
-    var searchResults: [AddressSummaryDisplayable] = [] {
+    var recentLocationDisplayables: [LookupAddress]
+    var searchResults: [LookupAddress] = [] {
         didSet {
             defaultOptions = searchResults.count > 0 ? formItems(for: [.manual]) : formItems(for: EventLocationSearchOption.defaultOptions)
 
@@ -50,7 +48,7 @@ class EventLocationSearchViewModel {
         }
     }
 
-    init(title: String = "Select location", recentLocations: [AddressSummaryDisplayable]) {
+    init(title: String = "Select location", recentLocations: [LookupAddress]) {
         recentLocationDisplayables = recentLocations
         self.title = title
     }
@@ -64,7 +62,7 @@ class EventLocationSearchViewModel {
         if searchResults.count > 0 {
             builder += HeaderFormItem(text: "\(searchResults.count) RESULT\(searchResults.count == 0 ? "" : "S") FOUND")
             builder += searchResults.map { address in
-                SubtitleFormItem(title: address.title, subtitle: "4km", image: AssetManager.shared.image(forKey: .location), style: .default)
+                SubtitleFormItem(title: address.fullAddress, subtitle: "Calculating", image: AssetManager.shared.image(forKey: .location), style: .default)
                     .accessory(ItemAccessory.disclosure)
                     .onSelection { _ in
                         self.delegate?.viewModel(self, didSelectLocation: address)
@@ -75,7 +73,8 @@ class EventLocationSearchViewModel {
         builder += defaultOptions
         builder += HeaderFormItem(text: "RECENTLY USED/SEARCHED", style: .plain)
         builder += recentLocationDisplayables.map { address in
-            SubtitleFormItem(title: address.title, subtitle: "4km", image: AssetManager.shared.image(forKey: .location), style: .default)
+            SubtitleFormItem(title: address.fullAddress, image: AssetManager.shared.image(forKey: .location), style: .default)
+                .subtitle("Calculating")
                 .accessory(ItemAccessory.disclosure)
                 .onSelection { _ in
                     self.delegate?.viewModel(self, didSelectLocation: address)
@@ -93,16 +92,25 @@ class EventLocationSearchViewModel {
         }
     }
 
+    func didCancelSearch() {
+        delegate?.viewModelDidUpdate(self)
+    }
+
     func searchTextDidChange(to text: String?) {
-        guard let text = text else { return }
-
-        // Cancel existing request
-        cancelToken.cancel()
-
-        APIManager.shared.typeAheadSearchAddress(in: MPOLSource.mpol, with: LookupAddressSearchRequest(searchText: text))
-            .always {
-            self.delegate?.viewModelDidUpdate(self)
+        if let text = text {
+            // Cancel existing request
+            cancelToken.cancel()
+            APIManager.shared.typeAheadSearchAddress(in: MPOLSource.gnaf, with: LookupAddressSearchRequest(searchText: text))
+                .then {
+                    self.searchResults = $0
+                }
+                .always {
+                    self.delegate?.viewModelDidUpdate(self)
+            }
         }
+
+        // Handle when the text is cleared by deletion
+        delegate?.viewModelDidUpdate(self)
     }
 
 }
@@ -136,12 +144,6 @@ open class FormBuilderSearchViewController: FormBuilderViewController, UISearchB
         }
         // Update layout if safe area changed constraints
         view.layoutIfNeeded()
-    }
-
-    // MARK: Searchbar delegate
-
-    public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        reloadForm()
     }
 
 }
@@ -178,7 +180,11 @@ class EventLocationSearchViewController: FormBuilderSearchViewController, EventL
 
     // MARK: Searchbar delegate
 
-    public override func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        viewModel.didCancelSearch()
+    }
+
+    public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         viewModel.searchTextDidChange(to: searchText)
     }
 
@@ -188,7 +194,9 @@ class EventLocationSearchViewController: FormBuilderSearchViewController, EventL
         reloadForm()
     }
 
-    func viewModel(_ viewModel: EventLocationSearchViewModel, didSelectLocation location: AddressSummaryDisplayable) {
+    func viewModel(_ viewModel: EventLocationSearchViewModel, didSelectLocation location: LookupAddress) {
+        selectionViewModel.location = EventLocation(location: location.coordinate, addressString: location.fullAddress)
+        selectionViewModel.dropsPinAutomatically = true
         let viewController = LocationMapSelectionViewController(viewModel: selectionViewModel)
         navigationController?.pushViewController(viewController, animated: true)
     }
@@ -198,7 +206,7 @@ class EventLocationSearchViewController: FormBuilderSearchViewController, EventL
         // creative has been updated
         guard let location = locationManager.location, option != .manual else { return }
 
-        selectionViewModel.useCurrentLocation = option == .current
+        selectionViewModel.dropsPinAutomatically = option == .current
         selectionViewModel.location = EventLocation(location: location.coordinate, addressString: nil)
         let viewController = LocationMapSelectionViewController(viewModel: selectionViewModel)
         navigationController?.pushViewController(viewController, animated: true)
