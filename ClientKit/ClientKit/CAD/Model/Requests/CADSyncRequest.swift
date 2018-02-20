@@ -1,6 +1,6 @@
 //
 //  CADSyncRequest.swift
-//  MPOLKit
+//  ClientKit
 //
 //  Created by Trent Fitzgibbon on 29/11/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
@@ -9,7 +9,7 @@
 import UIKit
 import MPOLKit
 
-/// Request object for the call to /sync/details
+/// PSCore implementation for request details used to perform sync
 open class CADSyncRequest: Codable {
 
     /// The org unit structure of the officer.

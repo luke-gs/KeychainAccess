@@ -1,6 +1,6 @@
 //
 //  CADActivityLogItemCore.swift
-//  MPOLKit
+//  ClientKit
 //
 //  Created by Kyle May on 3/12/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
@@ -9,18 +9,18 @@
 import UIKit
 import MPOLKit
 
-/// Response object for a single activity log item in an incident (narrative) or resource
+/// PSCore implementation of class representing an activity log item
 open class CADActivityLogItemCore: Codable, CADActivityLogItemType {
 
     // MARK: - Network
 
-    public var title: String!
+    open var title: String!
 
-    public var description: String!
+    open var description: String!
 
-    public var source: String!
+    open var source: String!
 
-    public var timestamp: Date!
+    open var timestamp: Date!
 
     // MARK: - Generated
     

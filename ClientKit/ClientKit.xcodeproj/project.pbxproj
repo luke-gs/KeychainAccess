@@ -59,7 +59,7 @@
 		9689CA332036445C0001D993 /* CADSyncResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9689CA242036445C0001D993 /* CADSyncResponse.swift */; };
 		9689CA3C203644B70001D993 /* CADIncidentGradeCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9689CA35203644B70001D993 /* CADIncidentGradeCore.swift */; };
 		9689CA3D203644B70001D993 /* CADResourceStatusCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9689CA36203644B70001D993 /* CADResourceStatusCore.swift */; };
-		9689CA3E203644B70001D993 /* CADResourceTypeCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9689CA37203644B70001D993 /* CADResourceTypeCore.swift */; };
+		9689CA3E203644B70001D993 /* CADResourceUnitCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9689CA37203644B70001D993 /* CADResourceUnitCore.swift */; };
 		9689CA45203644CA0001D993 /* CADStateManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9689CA44203644CA0001D993 /* CADStateManagerCore.swift */; };
 		968B5EF81FBA8C750097B3F9 /* AppGroupLandingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968B5EF71FBA8C750097B3F9 /* AppGroupLandingPresenter.swift */; };
 		BC12DC961F023EF0001A5BB7 /* ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC12DC8C1F023EF0001A5BB7 /* ClientKit.framework */; };
@@ -181,7 +181,7 @@
 		9689CA242036445C0001D993 /* CADSyncResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADSyncResponse.swift; sourceTree = "<group>"; };
 		9689CA35203644B70001D993 /* CADIncidentGradeCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADIncidentGradeCore.swift; sourceTree = "<group>"; };
 		9689CA36203644B70001D993 /* CADResourceStatusCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADResourceStatusCore.swift; sourceTree = "<group>"; };
-		9689CA37203644B70001D993 /* CADResourceTypeCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADResourceTypeCore.swift; sourceTree = "<group>"; };
+		9689CA37203644B70001D993 /* CADResourceUnitCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADResourceUnitCore.swift; sourceTree = "<group>"; };
 		9689CA44203644CA0001D993 /* CADStateManagerCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADStateManagerCore.swift; sourceTree = "<group>"; };
 		968B5EF71FBA8C750097B3F9 /* AppGroupLandingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroupLandingPresenter.swift; sourceTree = "<group>"; };
 		BC12DC8C1F023EF0001A5BB7 /* ClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -302,7 +302,7 @@
 				9689CA35203644B70001D993 /* CADIncidentGradeCore.swift */,
 				966CE9CE20367E3500646A6A /* CADIncidentStatusCore.swift */,
 				9689CA36203644B70001D993 /* CADResourceStatusCore.swift */,
-				9689CA37203644B70001D993 /* CADResourceTypeCore.swift */,
+				9689CA37203644B70001D993 /* CADResourceUnitCore.swift */,
 				966CE9D220368E0700646A6A /* CADPatrolStatusCore.swift */,
 			);
 			path = Enum;
@@ -932,7 +932,7 @@
 				46A192FD1FB93A4000FED201 /* LocationFetchRequest.swift in Sources */,
 				1A2E8A7A1F39734E0062FEA5 /* EntityAssociationsViewModel.swift in Sources */,
 				4421347620031575009A931A /* EntityDetailFilterableFormViewModel.swift in Sources */,
-				9689CA3E203644B70001D993 /* CADResourceTypeCore.swift in Sources */,
+				9689CA3E203644B70001D993 /* CADResourceUnitCore.swift in Sources */,
 				1A2E8A701F37E3380062FEA5 /* PersonDescriptionViewModel.swift in Sources */,
 				1A290C841F3D649500DD9ED5 /* VehicleFetchParameter.swift in Sources */,
 				966DA2C4203B8AD9008ECE66 /* CADBroadcastCore.swift in Sources */,

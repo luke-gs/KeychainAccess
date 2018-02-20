@@ -1,6 +1,6 @@
 //
 //  CADResourceStatusCore.swift
-//  MPOLKit
+//  ClientKit
 //
 //  Created by Trent Fitzgibbon on 17/10/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
@@ -9,7 +9,8 @@
 import UIKit
 import MPOLKit
 
-/// Enum for callsign status states and logic from https://gridstone.atlassian.net/browse/MPOLA-520
+/// PSCore implementation of enum representing resource status
+/// See https://gridstone.atlassian.net/browse/MPOLA-520
 public enum CADResourceStatusCore: String, Codable, CADResourceStatusType {
 
     // General
@@ -74,12 +75,6 @@ public enum CADResourceStatusCore: String, Codable, CADResourceStatusType {
 
     /// The case for a resource in duress
     public static var duressCase: CADResourceStatusType = CADResourceStatusCore.duress
-
-    /// The case for an off duty resource
-    public static var offDutyCase: CADResourceStatusType = CADResourceStatusCore.offDuty
-
-    /// The case for an on air resource
-    public static var onAirCase: CADResourceStatusType = CADResourceStatusCore.onAir
 
     /// The case for finalising an incident
     public static var finaliseCase: CADResourceStatusType = CADResourceStatusCore.finalise
@@ -202,6 +197,24 @@ public enum CADResourceStatusCore: String, Codable, CADResourceStatusType {
     public var canCreateIncident: Bool {
         guard let incidentCases = CADResourceStatusCore.incidentCases as? [CADResourceStatusCore] else { return false }
         return !incidentCases.contains(self)
+    }
+
+    /// Whether resources of this status are shown on map
+    public var shownOnMap: Bool {
+        return self != .offDuty
+    }
+
+    /// Return the sort order based on status when resources shown in a list
+    public var listOrder: Int {
+        // Show 'On Air' first, then 'At Incident', then rest alphabetically by callsign
+        switch self {
+        case .onAir:
+            return 0
+        case .atIncident:
+            return 1
+        default:
+            return 2
+        }
     }
 
     /// Return whether status change is allowed, and whether a reason needs to be provided

@@ -9,6 +9,7 @@
 import Foundation
 import MPOLKit
 
+/// PSCore implementation of enum representing broadcast category type
 public enum CADBroadcastCategoryCore: String, Codable, CADBroadcastCategoryType {
     case alert = "Alert"
     case event = "Event"

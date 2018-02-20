@@ -1,6 +1,6 @@
 //
 //  CADIncidentGradeCore.swift
-//  MPOLKit
+//  ClientKit
 //
 //  Created by Trent Fitzgibbon on 30/11/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
@@ -9,7 +9,7 @@
 import UIKit
 import MPOLKit
 
-/// Enum for incident grades (priorities)
+/// PSCore implementation of enum representing incident grade (priority)
 public enum CADIncidentGradeCore: String, Codable, CADIncidentGradeType {
     case p1 = "P1"
     case p2 = "P2"

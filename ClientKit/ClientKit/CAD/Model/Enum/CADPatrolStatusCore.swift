@@ -9,6 +9,7 @@
 import Foundation
 import MPOLKit
 
+/// PSCore implementation of enum representing patrol status
 public enum CADPatrolStatusCore: String, Codable, CADPatrolStatusType {
     case assigned = "Assigned"
     case unassigned = "Unassigned"

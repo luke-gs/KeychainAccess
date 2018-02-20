@@ -1,6 +1,6 @@
 //
 //  CADOfficerCore.swift
-//  MPOLKit
+//  ClientKit
 //
 //  Created by Trent Fitzgibbon on 29/11/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
@@ -9,35 +9,33 @@
 import UIKit
 import MPOLKit
 
-// NOTE: This class has been generated from Diederik sample json. Will be updated once API is complete
-
-/// Reponse object for a single Officer in the call to /sync/details
+/// PSCore implementation of class representing an officer
 open class CADOfficerCore: Codable, CADOfficerType {
 
     // MARK: - Network
-    public var capabilities: [String]!
+    open var capabilities: [String]!
 
-    public var contactNumber: String!
+    open var contactNumber: String!
 
-    public var firstName: String!
+    open var firstName: String!
 
-    public var lastName: String!
+    open var lastName: String!
 
-    public var licenceTypeId: String!
+    open var licenceTypeId: String!
 
-    public var middleName: String!
+    open var middleName: String!
 
-    public var patrolGroup: String!
+    open var patrolGroup: String!
 
-    public var payrollId: String!
+    open var payrollId: String!
 
-    public var radioId: String?
+    open var radioId: String?
 
-    public var rank: String!
+    open var rank: String!
 
-    public var remarks: String!
+    open var remarks: String!
 
-    public var station: String!
+    open var station: String!
 
     // MARK: - Generated
 

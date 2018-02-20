@@ -1,6 +1,6 @@
 //
 //  CADIncidentCore.swift
-//  MPOLKit
+//  ClientKit
 //
 //  Created by Trent Fitzgibbon on 29/11/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
@@ -10,40 +10,38 @@ import UIKit
 import CoreLocation
 import MPOLKit
 
-// NOTE: This class has been generated from Diederik sample json. Will be updated once API is complete
-
-/// Reponse object for a single Incident in the call to /sync/details
+/// PSCore implementation of class representing an incident task
 open class CADIncidentCore: Codable, CADIncidentType {
 
     // MARK: - Network
 
-    public var identifier: String!
+    open var identifier: String!
 
-    public var secondaryCode: String!
+    open var secondaryCode: String!
 
-    public var type: String!
+    open var type: String!
 
-    public var grade: CADIncidentGradeType!
+    open var grade: CADIncidentGradeType!
 
-    public var patrolGroup: String!
+    open var patrolGroup: String!
 
-    public var location: CADLocationType!
+    open var location: CADLocationType!
 
-    public var createdAt: Date!
+    open var createdAt: Date!
 
-    public var lastUpdated: Date!
+    open var lastUpdated: Date!
 
-    public var details: String!
+    open var details: String!
 
-    public var informant: CADIncidentInformantType!
+    open var informant: CADIncidentInformantType!
 
-    public var locations: [CADLocationType]!
+    open var locations: [CADLocationType]!
 
-    public var persons: [CADIncidentPersonType]!
+    open var persons: [CADIncidentPersonType]!
 
-    public var vehicles: [CADIncidentVehicleType]!
+    open var vehicles: [CADIncidentVehicleType]!
 
-    public var narrative: [CADActivityLogItemType]!
+    open var narrative: [CADActivityLogItemType]!
 
     // MARK: - Generated
 

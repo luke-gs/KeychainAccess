@@ -1,6 +1,6 @@
 //
 //  CADBookOnRequest.swift
-//  MPOLKit
+//  ClientKit
 //
 //  Created by Trent Fitzgibbon on 29/11/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
@@ -9,34 +9,34 @@
 import UIKit
 import MPOLKit
 
-/// Request object for the call to /shift/bookOn
+/// PSCore implementation for request details used to book on a resource
 open class CADBookOnRequest: Codable, CADBookOnDetailsType {
 
     // MARK: - Network
 
-    public var callsign: String!
+    open var callsign: String!
 
-    public var category: String!
+    open var category: String!
 
-    public var driverpayrollId: String!
+    open var driverpayrollId: String!
 
-    public var equipment: [CADEquipmentType]!
+    open var equipment: [CADEquipmentType]!
 
-    public var fleetNumber: String!
+    open var fleetNumber: String!
 
-    public var loggedInpayrollId: String!
+    open var loggedInpayrollId: String!
 
-    public var odometer: String!
+    open var odometer: String!
 
-    public var officers: [CADOfficerType]!
+    open var officers: [CADOfficerType]!
 
-    public var remarks: String!
+    open var remarks: String!
 
-    public var serial: String!
+    open var serial: String!
 
-    public var shiftEnd: Date!
+    open var shiftEnd: Date!
 
-    public var shiftStart: Date!
+    open var shiftStart: Date!
 
     // MARK: - Init
 

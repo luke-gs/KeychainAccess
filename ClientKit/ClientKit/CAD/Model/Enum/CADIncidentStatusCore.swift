@@ -9,7 +9,7 @@
 import Foundation
 import MPOLKit
 
-/// Enum for callsign status states and logic from https://gridstone.atlassian.net/browse/MPOLA-520
+/// PSCore implementation of enum representing incident status
 public enum CADIncidentStatusCore: String, CADIncidentStatusType {
 
     case resourced = "Resourced"
@@ -52,4 +52,13 @@ public enum CADIncidentStatusCore: String, CADIncidentStatusType {
         }
     }
 
+    /// Returns whether this status can be used to filter out incidents
+    public var isFilterable: Bool {
+        switch self {
+        case .resourced, .unresourced:
+            return true
+        default:
+            return false
+        }
+    }
 }

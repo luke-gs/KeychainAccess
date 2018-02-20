@@ -9,7 +9,7 @@
 import Foundation
 import MPOLKit
 
-/// Reponse object for an informant in an incident
+/// PSCore implementation of class representing an incident informant
 open class CADIncidentInformantCore: Codable, CADIncidentInformantType {
 
     // MARK: - Network

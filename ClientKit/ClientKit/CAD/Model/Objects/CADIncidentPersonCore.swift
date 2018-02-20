@@ -9,30 +9,30 @@
 import Foundation
 import MPOLKit
 
-/// Reponse object for a single person in an incident
+/// PSCore implementation of class representing a person associated with incident
 open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
 
     // MARK: - Network
 
-    public var alertLevel: Int!
+    open var alertLevel: Int!
 
-    public var dateOfBirth: String!
+    open var dateOfBirth: String!
 
-    public var firstName: String!
+    open var firstName: String!
 
-    public var fullAddress: String!
+    open var fullAddress: String!
 
-    public var gender: String!
+    open var gender: String!
 
-    public var id: String!
+    open var id: String!
 
-    public var lastName: String!
+    open var lastName: String!
 
-    public var middleNames: String!
+    open var middleNames: String!
 
-    public var source: String!
+    open var source: String!
 
-    public var thumbnail: String!
+    open var thumbnail: String!
 
     // MARK: - Generated
 

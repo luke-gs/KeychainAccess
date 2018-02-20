@@ -1,6 +1,6 @@
 //
 //  CADStateManager.swift
-//  MPOLKit
+//  ClientKit
 //
 //  Created by Trent Fitzgibbon on 20/11/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
@@ -10,10 +10,25 @@ import UIKit
 import PromiseKit
 import MPOLKit
 
+/// PSCore implementation of CAD state manager
 open class CADStateManagerCore: CADStateManagerType {
 
     /// The API manager to use, by default system one
     open static var apiManager: CADAPIManager = APIManager.shared
+
+    public init() {
+        // Register concrete classes for protocols
+        CADClientModelTypes.bookonDetails = CADBookOnRequest.self
+        CADClientModelTypes.officerDetails = CADOfficerCore.self
+        CADClientModelTypes.equipmentDetails = CADEquipmentCore.self
+        CADClientModelTypes.trafficStopDetails = CADTrafficStopRequest.self
+        CADClientModelTypes.resourceStatus = CADResourceStatusCore.self
+        CADClientModelTypes.resourceUnit = CADResourceUnitCore.self
+        CADClientModelTypes.incidentGrade = CADIncidentGradeCore.self
+        CADClientModelTypes.incidentStatus = CADIncidentStatusCore.self
+        CADClientModelTypes.broadcastCategory = CADBroadcastCategoryCore.self
+        CADClientModelTypes.patrolStatus = CADPatrolStatusCore.self
+    }
 
     // MARK: - Synced State
 
@@ -25,13 +40,45 @@ open class CADStateManagerCore: CADStateManagerType {
     open var patrolGroup: String = "Collingwood"
 
     /// The last book on data
-    open var lastBookOn: CADBookOnDetailsType?
+    open private(set) var lastBookOn: CADBookOnDetailsType? {
+        didSet {
+            updateScheduledNotifications()
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: .CADBookOnChanged, object: self)
+            }
+        }
+    }
 
     /// The last sync data
     open private(set) var lastSync: CADSyncResponse?
 
     /// The last sync time
     open private(set) var lastSyncTime: Date?
+
+    /// Incidents retrieved in last sync, in order
+    public var incidents: [CADIncidentType] {
+        return lastSync?.incidents ?? []
+    }
+
+    /// Resources retrieved in last sync, in order
+    public var resources: [CADResourceType] {
+        return lastSync?.resources ?? []
+    }
+
+    /// Officers retrieved in last sync, in order
+    public var officers: [CADOfficerType] {
+        return lastSync?.officers ?? []
+    }
+
+    /// Patrols retrieved in last sync, in order
+    public var patrols: [CADPatrolType] {
+        return lastSync?.patrols ?? []
+    }
+
+    /// Broadcasts retrieved in last sync, in order
+    public var broadcasts: [CADBroadcastType] {
+        return lastSync?.broadcasts ?? []
+    }
 
     /// Incidents retrieved in last sync, keyed by incidentNumber
     open private(set) var incidentsById: [String: CADIncidentType] = [:]
@@ -47,20 +94,6 @@ open class CADStateManagerCore: CADStateManagerType {
 
     /// Broadcasts retrieved in last sync, keyed by callsign
     open private(set) var broadcastsById: [String: CADBroadcastType] = [:]
-
-    public init() {
-        // Register concrete classes for protocols
-        CADClientModelTypes.bookonDetails = CADBookOnRequest.self
-        CADClientModelTypes.officerDetails = CADOfficerCore.self
-        CADClientModelTypes.equipmentDetails = CADEquipmentCore.self
-        CADClientModelTypes.trafficStopDetails = CADTrafficStopRequest.self
-        CADClientModelTypes.resourceStatus = CADResourceStatusCore.self
-        CADClientModelTypes.resourceUnit = CADResourceTypeCore.self
-        CADClientModelTypes.incidentGrade = CADIncidentGradeCore.self
-        CADClientModelTypes.incidentStatus = CADIncidentStatusCore.self
-        CADClientModelTypes.broadcastCategory = CADBroadcastCategoryCore.self
-        CADClientModelTypes.patrolStatus = CADPatrolStatusCore.self
-    }
 
     /// The currently booked on resource
     open var currentResource: CADResourceType? {
@@ -90,13 +123,13 @@ open class CADStateManagerCore: CADStateManagerType {
 
     /// Set logged in officer as off duty
     open func setOffDuty() {
-        currentResource?.status = CADClientModelTypes.resourceStatus.offDutyCase
+        currentResource?.status = CADResourceStatusCore.offDuty
         lastBookOn = nil
     }
     
     /// Clears current incident and sets status to on air
     open func finaliseIncident() {
-        currentResource?.status = CADClientModelTypes.resourceStatus.onAirCase
+        currentResource?.status = CADResourceStatusCore.onAir
         clearIncident()
     }
     
@@ -120,6 +153,8 @@ open class CADStateManagerCore: CADStateManagerType {
     open func bookOn(request: CADBookOnDetailsType) -> Promise<Void> {
 
         // TODO: perform network request
+
+        // Update book on and notify observers
         lastBookOn = request
 
         // TODO: remove this when we have a real CAD system
@@ -130,8 +165,8 @@ open class CADStateManagerCore: CADStateManagerType {
             resource.payrollIds = officerIds
 
             // Set state if callsign was off duty
-            if resource.status == CADClientModelTypes.resourceStatus.offDutyCase {
-                resource.status = CADClientModelTypes.resourceStatus.onAirCase
+            if resource.status == CADResourceStatusCore.offDuty {
+                resource.status = CADResourceStatusCore.onAir
             }
 
             // Check if logged in officer is no longer in callsign
@@ -142,9 +177,6 @@ open class CADStateManagerCore: CADStateManagerType {
                 }
             }
         }
-        NotificationCenter.default.post(name: .CADBookOnChanged, object: self)
-        addScheduledNotifications()
-
         return Promise<Void>()
     }
 
@@ -162,9 +194,9 @@ open class CADStateManagerCore: CADStateManagerType {
         // TODO: Remove all hacks below when we have a real CAD system
 
         // Finalise incident clears the current incident and sets state to On Air
-        if newStatus == CADClientModelTypes.resourceStatus.finaliseCase {
+        if newStatus == CADResourceStatusCore.finalise {
             finaliseIncident()
-            newStatus = CADClientModelTypes.resourceStatus.onAirCase
+            newStatus = CADResourceStatusCore.onAir
             newIncident = nil
         }
 
@@ -338,7 +370,7 @@ open class CADStateManagerCore: CADStateManagerType {
     // MARK: - Notifications
     
     /// Adds scheduled local notification and clears any conflicting ones.
-    open func addScheduledNotifications() {
+    open func updateScheduledNotifications() {
         NotificationManager.shared.removeLocalNotification(CADLocalNotifications.shiftEnding)
         if let endTime = lastBookOn?.shiftEnd {
             NotificationManager.shared.postLocalNotification(withTitle: NSLocalizedString("Shift Ending", comment: ""),
@@ -349,6 +381,5 @@ open class CADStateManagerCore: CADStateManagerType {
         }
 
     }
-    
 
 }

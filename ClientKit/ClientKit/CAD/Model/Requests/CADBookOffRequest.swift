@@ -1,6 +1,6 @@
 //
 //  CADBookOffRequest.swift
-//  MPOLKit
+//  ClientKit
 //
 //  Created by Trent Fitzgibbon on 29/11/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
@@ -9,7 +9,7 @@
 import UIKit
 import MPOLKit
 
-/// Request object for the call to /shift/bookOff
+/// PSCore implementation for request details used to book off a resource
 open class CADBookOffRequest: Codable, CADBookOffDetailsType {
 
     // MARK: - Network

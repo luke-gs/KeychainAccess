@@ -1,6 +1,6 @@
 //
 //  CADBroadcastCore.swift
-//  MPOLKit
+//  ClientKit
 //
 //  Created by Kyle May on 14/2/18.
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -11,23 +11,24 @@ import MPOLKit
 
 // TODO: Update this to match API when we get a spec, as this is created based on what the UI needs
 
+/// PSCore implementation of class representing a broadcast task
 open class CADBroadcastCore: Codable, CADBroadcastType {
 
     // MARK: - Network
 
-    public var createdAt: Date!
+    open var createdAt: Date!
 
-    public var details: String!
+    open var details: String!
 
-    public var identifier: String!
+    open var identifier: String!
 
-    public var lastUpdated: Date!
+    open var lastUpdated: Date!
 
-    public var location: CADLocationType!
+    open var location: CADLocationType!
 
-    public var title: String!
+    open var title: String!
 
-    public var type: CADBroadcastCategoryType!
+    open var type: CADBroadcastCategoryType!
 
     // MARK: - Generated
 

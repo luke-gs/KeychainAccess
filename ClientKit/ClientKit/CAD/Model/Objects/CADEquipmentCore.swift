@@ -9,7 +9,7 @@
 import Foundation
 import MPOLKit
 
-/// Reponse object for a single Equipment item in the resource
+/// PSCore implementation of class representing resource equipment
 open class CADEquipmentCore: Codable, CADEquipmentType {
 
     // MARK: - Network

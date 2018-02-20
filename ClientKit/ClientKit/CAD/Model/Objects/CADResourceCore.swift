@@ -1,6 +1,6 @@
 //
 //  CADResourceCore.swift
-//  MPOLKit
+//  ClientKit
 //
 //  Created by Trent Fitzgibbon on 29/11/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
@@ -10,76 +10,74 @@ import UIKit
 import CoreLocation
 import MPOLKit
 
-// NOTE: This class has been generated from Diederik sample json. Will be updated once API is complete
-
-/// Reponse object for a single Resource in the call to /sync/details
+/// PSCore implementation of class representing a resource (aka callsign)
 open class CADResourceCore: Codable, CADResourceType {
 
     // MARK: - Network
 
-    public var activityLog: [CADActivityLogItemType]?
+    open var activityLog: [CADActivityLogItemType]?
 
-    public var assignedIncidents: [String]?
+    open var assignedIncidents: [String]?
 
-    public var callsign: String!
+    open var callsign: String!
 
-    public var currentIncident: String?
+    open var currentIncident: String?
 
-    public var driver: String?
+    open var driver: String?
 
-    public var equipment: [CADEquipmentType]?
+    open var equipment: [CADEquipmentType]?
 
-    public var lastUpdated: Date?
+    open var lastUpdated: Date?
 
-    public var location: CADLocationType?
+    open var location: CADLocationType?
 
-    public var patrolGroup: String!
+    open var patrolGroup: String!
 
-    public var payrollIds: [String]?
+    open var payrollIds: [String]?
 
-    public var remarks: String?
+    open var remarks: String?
 
-    public var serial: String?
+    open var serial: String?
 
-    public var shiftEnd: Date?
+    open var shiftEnd: Date?
 
-    public var shiftStart: Date?
+    open var shiftStart: Date?
 
-    public var station: String!
+    open var station: String!
 
-    public var status: CADResourceStatusType!
+    open var status: CADResourceStatusType!
 
-    public var type: CADResourceUnitType!
+    open var type: CADResourceUnitType!
 
-    public var vehicleCategory: String?
+    open var vehicleCategory: String?
 
     // MARK: - Generated
 
-    public var coordinate: CLLocationCoordinate2D? {
+    open var coordinate: CLLocationCoordinate2D? {
         guard let location = location else { return nil }
         return CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))
     }
 
     /// Officer count in format `(n)`. `nil` if no `payrollIds` count
-    public var officerCountString: String? {
+    open var officerCountString: String? {
         guard let payrollIds = payrollIds else { return nil }
         return payrollIds.count > 0 ? "(\(payrollIds.count))" : nil
     }
 
     /// Shift start string, default format `hh:mm`, 24 hours. `nil` if no shift start time
-    public var shiftStartString: String? {
+    open var shiftStartString: String? {
         guard let shiftStart = shiftStart else { return nil }
         return CADResourceCore.shiftTimeFormatter.string(from: shiftStart)
     }
 
     /// Shift end string, default format `hh:mm`, 24 hours. `nil` if no shift end time
-    public var shiftEndString: String? {
+    open var shiftEndString: String? {
         guard let shiftEnd = shiftEnd else { return nil }
         return CADResourceCore.shiftTimeFormatter.string(from: shiftEnd)
     }
 
     /// Shift duration string, default short format. `nil` if no shift start or end time
-    public var shiftDuration: String? {
+    open var shiftDuration: String? {
         guard let shiftStart = shiftStart, let shiftEnd = shiftEnd else { return nil }
         return CADResourceCore.durationTimeFormatter.string(from: shiftEnd.timeIntervalSince(shiftStart))
     }
@@ -146,7 +144,7 @@ open class CADResourceCore: Codable, CADResourceType {
         shiftStart = try values.decodeIfPresent(Date.self, forKey: .shiftStart)
         station = try values.decodeIfPresent(String.self, forKey: .station)
         status = try values.decodeIfPresent(CADResourceStatusCore.self, forKey: .status)
-        type = try values.decodeIfPresent(CADResourceTypeCore.self, forKey: .type)
+        type = try values.decodeIfPresent(CADResourceUnitCore.self, forKey: .type)
         vehicleCategory = try values.decodeIfPresent(String.self, forKey: .vehicleCategory)
     }
 

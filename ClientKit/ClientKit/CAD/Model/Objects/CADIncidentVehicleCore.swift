@@ -9,28 +9,28 @@
 import Foundation
 import MPOLKit
 
-/// Reponse object for a single vehicle in an incident
+/// PSCore implementation of class representing a vehicle associated with an incident
 open class CADIncidentVehicleCore: Codable, CADIncidentVehicleType {
 
     // MARK: - Network
 
-    public var alertLevel: Int!
+    open var alertLevel: Int!
 
-    public var bodyType: String!
+    open var bodyType: String!
 
-    public var color: String!
+    open var color: String!
 
-    public var id: String!
+    open var id: String!
 
-    public var plateNumber: String!
+    open var plateNumber: String!
 
-    public var source: String!
+    open var source: String!
 
-    public var stolen: Bool!
+    open var stolen: Bool!
 
-    public var vehicleDescription: String!
+    open var vehicleDescription: String!
 
-    public var vehicleType: String!
+    open var vehicleType: String!
 
     // MARK: - Codable
 

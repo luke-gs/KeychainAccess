@@ -1,6 +1,6 @@
 //
 //  CADLocationCore.swift
-//  MPOLKit
+//  ClientKit
 //
 //  Created by Trent Fitzgibbon on 30/11/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
@@ -9,36 +9,34 @@
 import UIKit
 import MPOLKit
 
-// NOTE: This class has been generated from Diederik sample json. Will be updated once API is complete
-
-/// Reponse object for a single location in the call to /sync/details
+/// PSCore implementation of class representing a location of a resource/incident/etc
 open class CADLocationCore: Codable, CADLocationType {
 
     // MARK: - Network
 
-    public var alertLevel: Int?
+    open var alertLevel: Int?
 
-    public var country: String!
+    open var country: String!
 
-    public var fullAddress: String!
+    open var fullAddress: String!
 
-    public var latitude: Float!
+    open var latitude: Float!
 
-    public var longitude: Float!
+    open var longitude: Float!
 
-    public var postalCode: String!
+    open var postalCode: String!
 
-    public var state: String!
+    open var state: String!
 
-    public var streetName: String!
+    open var streetName: String!
 
-    public var streetNumberFirst: String!
+    open var streetNumberFirst: String!
 
-    public var streetNumberLast: String!
+    open var streetNumberLast: String!
 
-    public var streetType: String!
+    open var streetType: String!
 
-    public var suburb: String!
+    open var suburb: String!
 
     // MARK: - Codable
 

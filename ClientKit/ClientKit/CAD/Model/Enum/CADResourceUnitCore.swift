@@ -1,6 +1,6 @@
 //
-//  CADResourceTypeCore.swift
-//  MPOLKit
+//  CADResourceUnitCore.swift
+//  ClientKit
 //
 //  Created by Trent Fitzgibbon on 30/11/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
@@ -9,8 +9,8 @@
 import UIKit
 import MPOLKit
 
-/// Enum for resource types
-public enum CADResourceTypeCore: String, Codable, CADResourceUnitType {
+/// PSCore implementation of enum representing resource type
+public enum CADResourceUnitCore: String, Codable, CADResourceUnitType {
     case bicycle        = "Bicycle"
     case dogSquad       = "DogSquad"
     case helicopter     = "Helicopter"
@@ -22,13 +22,13 @@ public enum CADResourceTypeCore: String, Codable, CADResourceUnitType {
     /// All cases, no particular order
     public static var allCases: [CADResourceUnitType] {
         return [
-            CADResourceTypeCore.bicycle,
-            CADResourceTypeCore.dogSquad,
-            CADResourceTypeCore.helicopter,
-            CADResourceTypeCore.marineCraft,
-            CADResourceTypeCore.motorcycle,
-            CADResourceTypeCore.policeOfficer,
-            CADResourceTypeCore.vehicle
+            CADResourceUnitCore.bicycle,
+            CADResourceUnitCore.dogSquad,
+            CADResourceUnitCore.helicopter,
+            CADResourceUnitCore.marineCraft,
+            CADResourceUnitCore.motorcycle,
+            CADResourceUnitCore.policeOfficer,
+            CADResourceUnitCore.vehicle
         ]
     }
 
