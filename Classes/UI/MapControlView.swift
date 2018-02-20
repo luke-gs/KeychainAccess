@@ -99,4 +99,9 @@ public class MapControlView: ButtonStackView {
         }
     }
 
+    public override func applyTheme(_ theme: Theme, isDark: Bool) {
+        super.applyTheme(theme, isDark: isDark)
+        locateButton.tintColor = theme.color(forKey: .tint)
+        optionButton.tintColor = theme.color(forKey: .tint)
+    }
 }

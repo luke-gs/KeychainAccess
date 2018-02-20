@@ -230,6 +230,20 @@ open class ButtonStackView: UIView {
         }
     }
 
+    // FIXME: Not ideal implementation.
+    // This is terrible... Theme should be self contained.
+    // It should contain everything that is required to apply the theme.
+    // Not `ThemeManager.shared.currentInterfaceStyle.isDark`,
+    open func applyTheme(_ theme: Theme, isDark: Bool) {
+
+        let effectStyle: UIBlurEffectStyle = isDark ? .dark : .extraLight
+        let effect = UIBlurEffect(style: effectStyle)
+
+        visualEffect = effect
+        separatorColor = theme.color(forKey: .separator)
+
+    }
+
     // MARK: - Private methods
 
     private func setBorderPath(with rect: CGRect, cornerRadius: CGFloat) {
