@@ -79,7 +79,7 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
 
     // MARK: - Radius Search Properties
 
-    private var radiusControlView: MapControlView?
+    private var radiusControlView: ButtonStackView?
     private var radiusButtonEffectView: UIVisualEffectView?
     private var radiusButton: UIButton?
 
@@ -127,27 +127,18 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
             constraintAboveSafeAreaOrBelowTopLayout(searchFieldButton)
         ])
 
-        let locateButton = UIButton(type: .system)
-        locateButton.setImage(AssetManager.shared.image(forKey: .mapUserLocation), for: .normal)
-        locateButton.addTarget(self, action: #selector(locateButtonTapped(_:)), for: .touchUpInside)
-
-        let optionButton = UIButton(type: .system)
-        optionButton.setImage(AssetManager.shared.image(forKey: .info), for: .normal)
-        optionButton.addTarget(self, action: #selector(optionButtonTapped(_:)), for: .touchUpInside)
-
         let radiusButton = UIButton(type: .system)
         radiusButton.titleLabel?.font = UIFont.systemFont(ofSize: 12.0, weight: .bold)
         radiusButton.addTarget(self, action: #selector(radiusButtonTapped(_:)), for: .touchUpInside)
         radiusButton.setTitle(distanceFormatter.string(fromDistance: radiusOptions[selectedRadiusIndex]), for: .normal)
         self.radiusButton = radiusButton
 
-        self.locateButton = locateButton
-        self.optionButton = optionButton
-
-        let mapControlView = MapControlView(buttons: [ locateButton, optionButton ])
+        let mapControlView = MapControlView()
+        mapControlView.optionButton.addTarget(self, action: #selector(optionButtonTapped(_:)), for: .touchUpInside)
+        mapControlView.locateButton.addTarget(self, action: #selector(locateButtonTapped(_:)), for: .touchUpInside)
         self.mapControlView = mapControlView
 
-        let radiusControlView = MapControlView(buttons: [radiusButton])
+        let radiusControlView = ButtonStackView(buttons: [radiusButton])
         let cornerRadius = radiusControlView.intrinsicContentSize.width * 0.5
         radiusControlView.cornerRadius = cornerRadius
         self.radiusControlView = radiusControlView
