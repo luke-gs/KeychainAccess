@@ -104,7 +104,7 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
                 header.reloadItem()
             }
 
-            header.tapHandler = { [weak self, weak header] in
+            header.tapHandler = {
                 updateExpanded()
                 updateHeader()
             }

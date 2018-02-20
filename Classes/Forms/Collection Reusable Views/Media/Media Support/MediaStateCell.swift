@@ -30,7 +30,7 @@ class MediaStateCell: UICollectionViewCell {
     public override init(frame: CGRect) {
         super.init(frame: frame)
 
-        var container = UIView(frame: .zero)
+        let container = UIView(frame: .zero)
         contentView.addSubview(container)
 
         container.addSubview(activityIndicator)
