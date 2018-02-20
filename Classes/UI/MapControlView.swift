@@ -11,8 +11,8 @@ import MapKit
 
 public class MapControlView: ButtonStackView {
 
-    public let userLocationButton: UIButton
-    public let infoButton: UIButton
+    public let locateButton: UIButton
+    public let optionButton: UIButton
 
     public var _userLocationTrackingMode: MKUserTrackingMode = .none
 
@@ -28,13 +28,13 @@ public class MapControlView: ButtonStackView {
     private var modeImageMapping: [MKUserTrackingMode: UIImage]
 
     public init() {
-        let userLocationButton = UIButton(type: .custom)
-        userLocationButton.setImage(AssetManager.shared.image(forKey: .mapUserLocation), for: .normal)
-        self.userLocationButton = userLocationButton
+        let locateButton = UIButton(type: .system)
+        locateButton.setImage(AssetManager.shared.image(forKey: .mapUserLocation), for: .normal)
+        self.locateButton = locateButton
 
-        let infoButton = UIButton(type: .system)
-        infoButton.setImage(AssetManager.shared.image(forKey: .info), for: .normal)
-        self.infoButton = infoButton
+        let optionButton = UIButton(type: .system)
+        optionButton.setImage(AssetManager.shared.image(forKey: .info), for: .normal)
+        self.optionButton = optionButton
 
         modeImageMapping = [
             // Tough luck if the image doesn't exist.
@@ -43,7 +43,7 @@ public class MapControlView: ButtonStackView {
             .followWithHeading: AssetManager.shared.image(forKey: .mapUserTrackingWithHeading)!
         ]
 
-        super.init(buttons: [userLocationButton, infoButton])
+        super.init(buttons: [locateButton, optionButton])
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -70,31 +70,32 @@ public class MapControlView: ButtonStackView {
             let duration = 0.15
             // .followWithHeading has different kind of image, so make it fancier, slightly.
             if mode == .followWithHeading || previous == .followWithHeading {
+                let locateButton = self.locateButton
                 UIView.promiseAnimateKeyframes(withDuration: duration, delay: 0, options: [ .calculationModeCubic ], animations: {
 
                     UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 1.0, animations: {
-                        self.userLocationButton.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+                        locateButton.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
                     })
                     UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 1.0, animations: {
-                        self.userLocationButton.alpha = 0
+                        locateButton.alpha = 0
                     })
 
                 }).always {
-                    self.userLocationButton.setImage(image, for: .normal)
+                    locateButton.setImage(image, for: .normal)
 
                     UIView.animate(withDuration: duration, delay: 0.0, options: [ .curveEaseOut ], animations: {
-                        self.userLocationButton.alpha = 1
-                        self.userLocationButton.transform = .identity
+                        locateButton.alpha = 1
+                        locateButton.transform = .identity
                     }, completion: nil)
                 }
             } else {
-                UIView.transition(with: userLocationButton, duration: 0.15, options: .transitionCrossDissolve, animations: {
-                    self.userLocationButton.setImage(image, for: .normal)
+                UIView.transition(with: locateButton, duration: 0.15, options: .transitionCrossDissolve, animations: {
+                    self.locateButton.setImage(image, for: .normal)
                 }, completion: nil)
             }
 
         } else {
-            userLocationButton.setImage(image, for: .normal)
+            locateButton.setImage(image, for: .normal)
         }
     }
 
