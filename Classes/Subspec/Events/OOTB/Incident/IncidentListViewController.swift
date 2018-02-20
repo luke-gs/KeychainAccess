@@ -12,7 +12,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
 
     // TEMP INCIDENTS
     fileprivate let incidents = [
-        "Traffic Infringements",
+        "Traffic Infringement",
         "Traffic Crash",
         "Roadside Drug Testing",
         "Public Nuisance",
