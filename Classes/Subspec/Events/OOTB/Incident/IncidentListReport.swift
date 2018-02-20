@@ -8,6 +8,7 @@
 
 fileprivate extension EvaluatorKey {
     static let viewed = EvaluatorKey("viewed")
+    static let incidents = EvaluatorKey("incidents")
 }
 
 open class IncidentListReport: Reportable {
@@ -21,7 +22,11 @@ open class IncidentListReport: Reportable {
     public weak var event: Event?
 
     private(set) public var evaluator: Evaluator = Evaluator()
-    public var incidents: [String] = []
+    public var incidents: [String] = [] {
+        didSet {
+            evaluator.updateEvaluation(for: .incidents)
+        }
+    }
 
     public required init(event: Event) {
         self.event = event
@@ -29,6 +34,9 @@ open class IncidentListReport: Reportable {
         evaluator.addObserver(event)
         evaluator.registerKey(.viewed) {
             return self.viewed
+        }
+        evaluator.registerKey(.incidents) {
+            return self.incidents.count > 0
         }
     }
 

@@ -26,4 +26,17 @@ open class IncidentListViewModel {
         guard let report = report else { fatalError() }
         return report.incidents.map{$0.title}.joined(separator: ", ")
     }
+
+    func sectionHeaderTitle() -> String {
+        guard let count = report?.incidents.count else { return "NO INCIDENTS" }
+        return "\(count) INCIDENT" + "\(count > 1 ? "S" : "")"
+    }
+
+    func add(_ incidents: [String]) {
+        incidents.forEach { incident in
+            if !(report?.incidents.contains(incident) == true) {
+                report?.incidents.append(incident)
+            }
+        }
+    }
 }

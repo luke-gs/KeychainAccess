@@ -58,7 +58,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
         builder.title = "Incidents"
         builder.forceLinearLayout = true
 
-        builder += HeaderFormItem(text: "GENERAL")
+        builder += HeaderFormItem(text: viewModel.sectionHeaderTitle())
 
         let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.document)?
             .withCircleBackground(tintColor: .black,
@@ -76,8 +76,8 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
                 .accessory(ItemAccessory.disclosure)
                 .editActions([CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (cell, indexPath) in
                     self.viewModel.report?.incidents.remove(at: indexPath.item)
-                    self.reloadForm()
                     self.updateLoadingManager()
+                    self.reloadForm()
                 })])
         }
     }
@@ -112,7 +112,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
 
         viewController.finishUpdateHandler = { controller, index in
             let incidents = controller.objects.enumerated().filter { index.contains($0.offset) }.flatMap { $0.element.title }
-            self.viewModel.report?.incidents = incidents
+            self.viewModel.add(incidents)
             self.updateLoadingManager()
             self.reloadForm()
         }
