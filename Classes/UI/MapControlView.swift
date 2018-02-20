@@ -14,7 +14,7 @@ public class MapControlView: ButtonStackView {
     public let locateButton: UIButton
     public let optionButton: UIButton
 
-    public var _userLocationTrackingMode: MKUserTrackingMode = .none
+    private var _userLocationTrackingMode: MKUserTrackingMode = .none
 
     public var userLocationTrackingMode: MKUserTrackingMode {
         get {
