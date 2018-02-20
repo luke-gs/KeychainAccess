@@ -22,9 +22,12 @@ open class IncidentListReport: Reportable {
     public weak var event: Event?
 
     private(set) public var evaluator: Evaluator = Evaluator()
+    public weak var headerDelegate: EventHeaderUpdateDelegate?
+
     public var incidents: [String] = [] {
         didSet {
             evaluator.updateEvaluation(for: .incidents)
+            headerDelegate?.updateHeader(with: incidents.first, subtitle: nil)
         }
     }
 
@@ -59,5 +62,9 @@ open class IncidentListReport: Reportable {
     // Evaluation
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
+}
+
+public protocol EventHeaderUpdateDelegate: class {
+    func updateHeader(with title: String?, subtitle: String?)
 }
 
