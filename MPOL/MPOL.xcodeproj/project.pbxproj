@@ -18,6 +18,9 @@
 		445A8A3C1F673C8B005ABEB8 /* LocationSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A391F673C8B005ABEB8 /* LocationSearchHelp.json */; };
 		445A8A3D1F673C8B005ABEB8 /* OrganisationSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A3A1F673C8B005ABEB8 /* OrganisationSearchHelp.json */; };
 		445A8A3E1F673C8B005ABEB8 /* VehicleSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A3B1F673C8B005ABEB8 /* VehicleSearchHelp.json */; };
+		464977CB203A9A7B00590DC3 /* DefaultEventLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464977CA203A9A7B00590DC3 /* DefaultEventLocationViewController.swift */; };
+		46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F8E9A4203A9C2200024EF7 /* LocationAction.swift */; };
+		46F8E9A7203A9ED100024EF7 /* DefaultEventLocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F8E9A6203A9ED100024EF7 /* DefaultEventLocationSearchViewController.swift */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
 		BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E81101EBEE38400188181 /* SettingsViewController.swift */; };
 		BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */; };
@@ -65,6 +68,9 @@
 		463D402A1F4BC7D4005F9A1C /* AppConfig-internal-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-internal-debug.xcconfig"; sourceTree = "<group>"; };
 		463D402B1F4BC844005F9A1C /* AppConfig-external-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-external-debug.xcconfig"; sourceTree = "<group>"; };
 		463D402C1F4BC84F005F9A1C /* AppConfig-external-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-external-release.xcconfig"; sourceTree = "<group>"; };
+		464977CA203A9A7B00590DC3 /* DefaultEventLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEventLocationViewController.swift; sourceTree = "<group>"; };
+		46F8E9A4203A9C2200024EF7 /* LocationAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAction.swift; sourceTree = "<group>"; };
+		46F8E9A6203A9ED100024EF7 /* DefaultEventLocationSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEventLocationSearchViewController.swift; sourceTree = "<group>"; };
 		98286F47FF0E675D611C2782 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		BC4E81101EBEE38400188181 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -114,6 +120,9 @@
 				127801F0202AAF09007D0BBB /* EventsListViewModel.swift */,
 				127801F2202AB1F0007D0BBB /* EventBuilder.swift */,
 				127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */,
+				464977CA203A9A7B00590DC3 /* DefaultEventLocationViewController.swift */,
+				46F8E9A4203A9C2200024EF7 /* LocationAction.swift */,
+				46F8E9A6203A9ED100024EF7 /* DefaultEventLocationSearchViewController.swift */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -320,11 +329,11 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-MPOL/Pods-MPOL-resources.sh",
-				"$PODS_CONFIGURATION_BUILD_DIR/HockeySDK/HockeySDKResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/HockeySDK/HockeySDKResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/HockeySDKResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -405,8 +414,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46F8E9A7203A9ED100024EF7 /* DefaultEventLocationSearchViewController.swift in Sources */,
 				127801F3202AB1F0007D0BBB /* EventBuilder.swift in Sources */,
+				46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */,
 				BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */,
+				464977CB203A9A7B00590DC3 /* DefaultEventLocationViewController.swift in Sources */,
 				EAAEB34A1F664705002D6C65 /* EntityPresenter.swift in Sources */,
 				127801F1202AAF09007D0BBB /* EventsListViewModel.swift in Sources */,
 				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
