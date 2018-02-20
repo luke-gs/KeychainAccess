@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import PromiseKit
 
 open class BroadcastTaskItemViewModel: TaskItemViewModel {
     open private(set) var broadcast: CADBroadcastType?
     
     public init(broadcastNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
-        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName)
+        let captionText = "#\(broadcastNumber)"
+        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, subtitleText: captionText)
         
         self.navTitle = NSLocalizedString("Broadcast details", comment: "")
         self.compactNavTitle = itemName
@@ -42,6 +44,11 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
         viewModels.forEach {
             $0.reloadFromModel()
         }
+    }
+    
+    open override func refreshTask() -> Promise<Void> {
+        // TODO: Add method to CADStateManager to fetch individual broadcast
+        return Promise<Void>()
     }
 
 }
