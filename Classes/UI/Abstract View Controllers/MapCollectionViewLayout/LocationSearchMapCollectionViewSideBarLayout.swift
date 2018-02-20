@@ -173,6 +173,15 @@ open class LocationSearchMapCollectionViewSideBarLayout: MapFormBuilderViewLayou
         super.traitCollectionDidChange(previousTraitCollection)
     }
 
+    override open func apply(_ theme: Theme) {
+        super.apply(theme)
+
+        let blurEffectStyle: UIBlurEffectStyle = ThemeManager.shared.currentInterfaceStyle.isDark ? .dark : .extraLight
+        let blurEffect = UIBlurEffect(style: blurEffectStyle)
+
+        sidebarBackgroundView?.effect = blurEffect
+    }
+
 }
 
 extension LocationSearchMapCollectionViewSideBarLayout: LocationSearchSidebarDelegate {

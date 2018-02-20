@@ -114,7 +114,7 @@ open class TasksListHeaderViewModel {
     /// Shows the add new form sheet
     @objc private func showAdd() {
         if let resource = CADStateManager.shared.currentResource {
-            guard CADStateManager.shared.currentIncident == nil && resource.statusType.canCreateIncident else {
+            guard CADStateManager.shared.currentIncident == nil && resource.status.canCreateIncident else {
                 AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Create Incident", comment: ""),
                                                  message: NSLocalizedString("Your call sign is currently responding to an active incident that must first be finalised.", comment: ""))
                 return
