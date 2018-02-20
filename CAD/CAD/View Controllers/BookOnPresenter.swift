@@ -8,6 +8,7 @@
 
 import Foundation
 import MPOLKit
+import ClientKit
 
 public class BookOnPresenter: Presenter {
 

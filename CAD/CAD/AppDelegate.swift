@@ -39,9 +39,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let host = APP_HOST_URL
         APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)", plugins: plugins, trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
+        CADStateManager.shared = CADStateManagerCore()
 
         // Use demo data
-        CADStateManager.apiManager = DemoAPIManager.shared
+        CADStateManagerCore.apiManager = DemoAPIManager.shared
 
         landingPresenter = LandingPresenter()
         let presenter = PresenterGroup(presenters: [SystemPresenter(), landingPresenter, BookOnPresenter()])
@@ -114,7 +115,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         CADStateManager.shared.setOffDuty()
         UserSession.current.endSession()
         APIManager.shared.setAuthenticationPlugin(nil)
-        NotificationManager.shared.removeLocalNotification(CADStateManager.Notifications.shiftEnding)
+        NotificationManager.shared.removeLocalNotification(CADLocalNotifications.shiftEnding)
         landingPresenter.updateInterfaceForUserSession(animated: false)
     }
 

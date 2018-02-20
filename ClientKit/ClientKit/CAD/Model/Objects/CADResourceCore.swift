@@ -1,0 +1,160 @@
+//
+//  CADResourceCore.swift
+//  ClientKit
+//
+//  Created by Trent Fitzgibbon on 29/11/17.
+//  Copyright © 2017 Gridstone. All rights reserved.
+//
+
+import UIKit
+import CoreLocation
+import MPOLKit
+
+/// PSCore implementation of class representing a resource (aka callsign)
+open class CADResourceCore: Codable, CADResourceType {
+
+    // MARK: - Network
+
+    open var activityLog: [CADActivityLogItemType]?
+
+    open var assignedIncidents: [String]?
+
+    open var callsign: String!
+
+    open var currentIncident: String?
+
+    open var driver: String?
+
+    open var equipment: [CADEquipmentType]?
+
+    open var lastUpdated: Date?
+
+    open var location: CADLocationType?
+
+    open var patrolGroup: String!
+
+    open var payrollIds: [String]?
+
+    open var remarks: String?
+
+    open var serial: String?
+
+    open var shiftEnd: Date?
+
+    open var shiftStart: Date?
+
+    open var station: String!
+
+    open var status: CADResourceStatusType!
+
+    open var type: CADResourceUnitType!
+
+    open var vehicleCategory: String?
+
+    // MARK: - Generated
+
+    open var coordinate: CLLocationCoordinate2D? {
+        guard let location = location else { return nil }
+        return CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))
+    }
+
+    /// Officer count in format `(n)`. `nil` if no `payrollIds` count
+    open var officerCountString: String? {
+        guard let payrollIds = payrollIds else { return nil }
+        return payrollIds.count > 0 ? "(\(payrollIds.count))" : nil
+    }
+
+    /// Shift start string, default format `hh:mm`, 24 hours. `nil` if no shift start time
+    open var shiftStartString: String? {
+        guard let shiftStart = shiftStart else { return nil }
+        return CADResourceCore.shiftTimeFormatter.string(from: shiftStart)
+    }
+
+    /// Shift end string, default format `hh:mm`, 24 hours. `nil` if no shift end time
+    open var shiftEndString: String? {
+        guard let shiftEnd = shiftEnd else { return nil }
+        return CADResourceCore.shiftTimeFormatter.string(from: shiftEnd)
+    }
+
+    /// Shift duration string, default short format. `nil` if no shift start or end time
+    open var shiftDuration: String? {
+        guard let shiftStart = shiftStart, let shiftEnd = shiftEnd else { return nil }
+        return CADResourceCore.durationTimeFormatter.string(from: shiftEnd.timeIntervalSince(shiftStart))
+    }
+
+    /// Equipment list as a string delimited by `separator`. `nil` if no `equipment` count
+    public func equipmentListString(separator: String) -> String? {
+        guard let equipment = equipment, equipment.count > 0 else { return nil }
+        return equipment.map { $0.description }.joined(separator: separator)
+    }
+
+    // MARK: - Static
+
+    open static var shiftTimeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        return formatter
+    }()
+
+    open static var durationTimeFormatter: DateComponentsFormatter = {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.day, .hour, .minute]
+        formatter.unitsStyle = .short
+        return formatter
+    }()
+
+    // MARK: - Codable
+
+    enum CodingKeys: String, CodingKey {
+        case activityLog = "activityLog"
+        case assignedIncidents = "assignedIncidents"
+        case callsign = "callsign"
+        case currentIncident = "currentIncident"
+        case driver = "driver"
+        case equipment = "equipment"
+        case lastUpdated = "lastUpdated"
+        case location = "location"
+        case patrolGroup = "patrolGroup"
+        case payrollIds = "payrollIds"
+        case remarks = "remarks"
+        case serial = "serial"
+        case shiftEnd = "shiftEnd"
+        case shiftStart = "shiftStart"
+        case station = "station"
+        case status = "status"
+        case type = "type"
+        case vehicleCategory = "vehicleCategory"
+    }
+
+    public required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        activityLog = try values.decodeIfPresent([CADActivityLogItemCore].self, forKey: .activityLog)
+        assignedIncidents = try values.decodeIfPresent([String].self, forKey: .assignedIncidents)
+        callsign = try values.decodeIfPresent(String.self, forKey: .callsign)
+        currentIncident = try values.decodeIfPresent(String.self, forKey: .currentIncident)
+        driver = try values.decodeIfPresent(String.self, forKey: .driver)
+        equipment = try values.decodeIfPresent([CADEquipmentCore].self, forKey: .equipment)
+        lastUpdated = try values.decodeIfPresent(Date.self, forKey: .lastUpdated)
+        location = try values.decodeIfPresent(CADLocationCore.self, forKey: .location)
+        patrolGroup = try values.decodeIfPresent(String.self, forKey: .patrolGroup)
+        payrollIds = try values.decodeIfPresent([String].self, forKey: .payrollIds)
+        remarks = try values.decodeIfPresent(String.self, forKey: .remarks)
+        serial = try values.decodeIfPresent(String.self, forKey: .serial)
+        shiftEnd = try values.decodeIfPresent(Date.self, forKey: .shiftEnd)
+        shiftStart = try values.decodeIfPresent(Date.self, forKey: .shiftStart)
+        station = try values.decodeIfPresent(String.self, forKey: .station)
+        status = try values.decodeIfPresent(CADResourceStatusCore.self, forKey: .status)
+        type = try values.decodeIfPresent(CADResourceUnitCore.self, forKey: .type)
+        vehicleCategory = try values.decodeIfPresent(String.self, forKey: .vehicleCategory)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        MPLUnimplemented()
+    }
+}
+
+extension CADResourceCore: Equatable {
+    public static func ==(lhs: CADResourceCore, rhs: CADResourceCore) -> Bool {
+        return lhs.callsign == rhs.callsign
+    }
+}
