@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Protocol for a class representing an activity log item
 public protocol CADActivityLogItemType: class {
 
     // MARK: - Network

@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Protocol for a class representing an officer
 public protocol CADOfficerType: class {
 
     // MARK: - Network

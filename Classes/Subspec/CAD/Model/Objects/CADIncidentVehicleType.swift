@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Protocol for a class representing an incident vehicle (association)
 public protocol CADIncidentVehicleType: class {
 
     // MARK: - Network

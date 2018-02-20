@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Protocol for an enum representing broadcast category type
 public protocol CADBroadcastCategoryType: CADEnumType {
 
     // MARK: - Static

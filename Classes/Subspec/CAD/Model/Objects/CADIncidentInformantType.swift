@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Protocol for a class representing an incident informant
 public protocol CADIncidentInformantType: class {
 
     // MARK: - Network

@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// Protocol for an incident status enum containing customisation and logic per client
+/// Protocol for an enum representing incident status
 public protocol CADIncidentStatusType: CADEnumType {
 
     // MARK: - Static
@@ -26,5 +26,8 @@ public protocol CADIncidentStatusType: CADEnumType {
 
     /// Whether to use dark bakckground when displayed on map
     var useDarkBackgroundOnMap: Bool { get }
+
+    /// Returns whether this status can be used to filter out incidents
+    var isFilterable: Bool { get }
 
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// Protocol for traffic stop details used by kit
+/// Protocol for request details used to report a traffic stop
 public protocol CADTrafficStopDetailsType: class {
 
     // MARK: - Init

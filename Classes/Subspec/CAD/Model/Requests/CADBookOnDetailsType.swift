@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// Protocol for book on details used by kit
+/// Protocol for request details used to book on a resource
 public protocol CADBookOnDetailsType: class {
 
     // MARK: - Network

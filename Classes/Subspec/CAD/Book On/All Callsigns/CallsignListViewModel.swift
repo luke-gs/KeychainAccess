@@ -14,8 +14,7 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
         var offDuty: [BookOnLandingCallsignItemViewModel] = []
         var bookedOn: [BookOnLandingCallsignItemViewModel] = []
 
-        let resources = Array(CADStateManager.shared.resourcesById.values)
-        for resource in resources {
+        for resource in CADStateManager.shared.resources {
             if resource.patrolGroup == CADStateManager.shared.patrolGroup {
                 let viewModel = BookOnLandingCallsignItemViewModel(resource: resource)
                 if resource.shiftStart == nil {
@@ -104,8 +103,7 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
     }
     
     
-    /// Sorts sections, showing `On Air` status first, then `At Incident` status, then alphabetically by callsign
-    /// NOTE: Method should be overridden for clients with different resource statuses
+    /// Sorts sections based on resource status, then alphabetically by callsign
     ///
     /// - Parameter unsorted: the unsorted array
     /// - Returns: a sorted array
@@ -114,16 +112,9 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
         return unsorted.map { section in
             // Sort items
             let sortedItems = section.items.sorted { (lhs, rhs) in
-                if lhs.status != rhs.status {
-                    // TODO: move to client kit
-                    // Status is not same, check if either is On Air, or At Incident
-                    /*
-                    if lhs.status == CADResourceStatusCore.onAir || rhs.status == CADResourceStatusCore.onAir {
-                        return lhs.status == CADResourceStatusCore.onAir
-                    } else if lhs.status == CADResourceStatusCore.atIncident || rhs.status == CADResourceStatusCore.atIncident {
-                        return lhs.status == CADResourceStatusCore.atIncident
-                    }
- */
+                if lhs.status?.listOrder != rhs.status?.listOrder {
+                    // Sort by lower list order
+                    return lhs.status?.listOrder ?? Int.max < rhs.status?.listOrder ?? Int.max
                 }
                 // Sort alphabetically by callsign
                 return lhs.callsign < rhs.callsign

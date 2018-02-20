@@ -8,11 +8,13 @@
 
 import Foundation
 
-/// Class for handling client specific model type overrides of static enums
-/// These should be set in ClientKit or App before use!
+/// Class for handling client specific model type overrides
+///
+/// NOTE: These should be set in ClientKit or App before use!!
+///
 open class CADClientModelTypes {
 
-    // MARK: - Requests
+    // MARK: - Requests, so they can be created polymorphically in mpolkit using client kit versions
 
     /// The type used for a book on details
     static open var bookonDetails: CADBookOnDetailsType.Type!

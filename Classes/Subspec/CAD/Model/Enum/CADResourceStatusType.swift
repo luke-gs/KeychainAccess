@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// Protocol for a resource status enum containing customisation and logic per client
+/// Protocol for an enum representing resource status
 public protocol CADResourceStatusType: CADEnumType {
 
     // MARK: - Static
@@ -30,12 +30,6 @@ public protocol CADResourceStatusType: CADEnumType {
 
     /// The case for a resource in duress
     static var duressCase: CADResourceStatusType { get }
-
-    /// The case for an off duty resource
-    static var offDutyCase: CADResourceStatusType { get }
-
-    /// The case for an on air resource
-    static var onAirCase: CADResourceStatusType { get }
 
     /// The case for finalising an incident
     static var finaliseCase: CADResourceStatusType { get }
@@ -59,6 +53,12 @@ public protocol CADResourceStatusType: CADEnumType {
 
     /// Return whether an incident can be created from current status
     var canCreateIncident: Bool { get }
+
+    /// Whether resources of this status are shown on map
+    var shownOnMap: Bool { get }
+
+    /// Return the sort order based on status when resources shown in a list
+    var listOrder: Int { get }
 
     // MARK: - Methods
 

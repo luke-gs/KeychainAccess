@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Protocol for a class representing a broadcast task
 public protocol CADBroadcastType: class {
 
     // MARK: - Network

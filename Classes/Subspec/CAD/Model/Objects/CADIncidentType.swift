@@ -9,6 +9,7 @@
 import Foundation
 import CoreLocation
 
+/// Protocol for a class representing an incident
 public protocol CADIncidentType: class {
 
     // MARK: - Network

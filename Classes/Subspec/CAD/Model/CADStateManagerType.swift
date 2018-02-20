@@ -9,8 +9,9 @@
 import Foundation
 import PromiseKit
 
-/// Protocol defining a CAD state manager. To be implemented in ClientKit
+/// Protocol defining a CAD state manager. To be implemented in ClientKit and set as shared on CADStateManager class below
 public protocol CADStateManagerType {
+
     // MARK: - Synced State
 
     /// The logged in officer details
@@ -20,22 +21,37 @@ public protocol CADStateManagerType {
     var patrolGroup: String { get set }
 
     /// The last book on data
-    var lastBookOn: CADBookOnDetailsType? { get set }
+    var lastBookOn: CADBookOnDetailsType? { get }
 
     /// The last sync time
     var lastSyncTime: Date? { get }
 
+    /// Incidents retrieved in last sync, in order
+    var incidents: [CADIncidentType] { get }
+
     /// Incidents retrieved in last sync, keyed by incidentNumber
     var incidentsById: [String: CADIncidentType] { get }
+
+    /// Resources retrieved in last sync, in order
+    var resources: [CADResourceType] { get }
 
     /// Resources retrieved in last sync, keyed by callsign
     var resourcesById: [String: CADResourceType] { get }
 
+    /// Officers retrieved in last sync, in order
+    var officers: [CADOfficerType] { get }
+
     /// Officers retrieved in last sync, keyed by payrollId
     var officersById: [String: CADOfficerType] { get }
 
+    /// Patrols retrieved in last sync, in order
+    var patrols: [CADPatrolType] { get }
+
     /// Patrols retrieved in last sync, keyed by patrolNumber
     var patrolsById: [String: CADPatrolType] { get }
+
+    /// Broadcasts retrieved in last sync, in order
+    var broadcasts: [CADBroadcastType] { get }
 
     /// Broadcasts retrieved in last sync, keyed by callsign
     var broadcastsById: [String: CADBroadcastType] { get }
@@ -104,8 +120,8 @@ public protocol CADStateManagerType {
 
     // MARK: - Notifications
 
-    /// Adds scheduled local notification and clears any conflicting ones.
-    func addScheduledNotifications()
+    /// Adds or removes scheduled local notifications
+    func updateScheduledNotifications()
 }
 
 /// Concrete class to provide static access to current state manager
@@ -145,7 +161,7 @@ public extension ManifestCollection {
     static let PatrolGroupCollection = ManifestCollection(rawValue: "patrolgroup")
 }
 
-/// Extendable class for local notifications
+/// Extendable class for defining CAD specific local notifications
 open class CADLocalNotifications {
     public static let shiftEnding = "CADShiftEndingNotification"
 }

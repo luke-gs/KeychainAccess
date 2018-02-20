@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Protocol for a class representing a piece of equipment
 public protocol CADEquipmentType: class {
 
     // MARK: - Network

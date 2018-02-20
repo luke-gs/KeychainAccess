@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Protocol for a class representing a location
 public protocol CADLocationType: class {
 
     // MARK: - Network

@@ -92,8 +92,7 @@ open class TasksSplitViewModel {
     
     /// Sync incidents filtered
     open var filteredIncidents: [CADIncidentType] {
-        let incidents = Array(CADStateManager.shared.incidentsById.values)
-        return incidents.filter { incident in
+        return CADStateManager.shared.incidents.filter { incident in
             // TODO: remove this once filtered by CAD system
             if !filterViewModel.showResultsOutsidePatrolArea && incident.patrolGroup != CADStateManager.shared.patrolGroup {
                 return false
@@ -103,8 +102,7 @@ open class TasksSplitViewModel {
             let resourcedFilter = filterViewModel.resourcedIncidents.contains(where: { $0 == incident.status })
             
             // If status is not in filter options always show
-            // TODO: move to client kit
-            let isOther = incident.status.rawValue != "Resourced" && incident.status.rawValue != "Unresourced"
+            let isOther = !incident.status.isFilterable
             let isCurrent = incident.status == CADClientModelTypes.incidentStatus.currentCase
             
             var hasResourceInDuress: Bool = false
@@ -122,8 +120,7 @@ open class TasksSplitViewModel {
     
     /// Sync patrols filtered
     open var filteredPatrols: [CADPatrolType] {
-        let patrols = Array(CADStateManager.shared.patrolsById.values)
-        return patrols.filter { patrol in
+        return CADStateManager.shared.patrols.filter { patrol in
             // TODO: remove this once filtered by CAD system
             if !filterViewModel.showResultsOutsidePatrolArea && patrol.patrolGroup != CADStateManager.shared.patrolGroup {
                 return false
@@ -135,21 +132,19 @@ open class TasksSplitViewModel {
     
     /// Sync broadcasts filtered
     open var filteredBroadcasts: [CADBroadcastType] {
-        let broadcasts = Array(CADStateManager.shared.broadcastsById.values)
-        return broadcasts
+        return CADStateManager.shared.broadcasts
     }
     
     /// Sync incidents filtered
     open var filteredResources: [CADResourceType] {
-        let resources = Array(CADStateManager.shared.resourcesById.values)
-        return resources.filter { resource in
+        return CADStateManager.shared.resources.filter { resource in
             // TODO: remove this once filtered by CAD system
             if !filterViewModel.showResultsOutsidePatrolArea && resource.patrolGroup != CADStateManager.shared.patrolGroup {
                 return false
             }
 
             // Ignore off duty resources
-            guard resource.status != CADClientModelTypes.resourceStatus.offDutyCase else { return false }
+            guard resource.status.shownOnMap else { return false }
 
             let isTasked = resource.currentIncident != nil
             let isDuress = resource.status.isDuress

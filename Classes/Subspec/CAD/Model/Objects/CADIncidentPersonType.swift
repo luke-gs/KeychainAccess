@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Protocol for a class representing an incident person (association)
 public protocol CADIncidentPersonType: class {
 
     // MARK: - Network
