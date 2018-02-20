@@ -48,6 +48,7 @@
 		1908EF8C1F57D79A00382B1C /* testTheme.json in Resources */ = {isa = PBXBuildFile; fileRef = 1908EF881F57D79A00382B1C /* testTheme.json */; };
 		1908EF8D1F57D79A00382B1C /* KeyboardInputManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1908EF891F57D79A00382B1C /* KeyboardInputManagerTests.swift */; };
 		1908EF8E1F57D79A00382B1C /* ModelVersionableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1908EF8A1F57D79A00382B1C /* ModelVersionableTests.swift */; };
+		1914E596203C2DB100EE124A /* ButtonStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1914E595203C2DB100EE124A /* ButtonStackView.swift */; };
 		191BC4D31F7C203B00C8C218 /* HelpContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191BC4CF1F7C202200C8C218 /* HelpContent.swift */; };
 		191BC4D41F7C203B00C8C218 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191BC4CE1F7C202200C8C218 /* HelpViewController.swift */; };
 		191BC4D51F7C203B00C8C218 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191BC4D11F7C202300C8C218 /* LeftAlignedCollectionViewFlowLayout.swift */; };
@@ -804,6 +805,7 @@
 		1908EF881F57D79A00382B1C /* testTheme.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testTheme.json; sourceTree = "<group>"; };
 		1908EF891F57D79A00382B1C /* KeyboardInputManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardInputManagerTests.swift; sourceTree = "<group>"; };
 		1908EF8A1F57D79A00382B1C /* ModelVersionableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelVersionableTests.swift; sourceTree = "<group>"; };
+		1914E595203C2DB100EE124A /* ButtonStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStackView.swift; sourceTree = "<group>"; };
 		191BC4CE1F7C202200C8C218 /* HelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		191BC4CF1F7C202200C8C218 /* HelpContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpContent.swift; sourceTree = "<group>"; };
 		191BC4D01F7C202200C8C218 /* TagCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionView.swift; sourceTree = "<group>"; };
@@ -3003,6 +3005,7 @@
 				BC9C7D891F0DED6600DFFE83 /* AlertQueue.swift */,
 				96591E661FCE168300EFCC02 /* AppProxyViewController.swift */,
 				BC0448931F219A70005FB857 /* AssetManager.swift */,
+				1914E595203C2DB100EE124A /* ButtonStackView.swift */,
 				969959651FC2334300CB51EB /* ColorPalette.swift */,
 				2742CD2E1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift */,
 				27E4243F1FDE10BC00B5BE47 /* InteractivePopRecognizerDelegate.swift */,
@@ -4648,6 +4651,7 @@
 				19C625C41F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift in Sources */,
 				19B49BB91F665F2A00502F51 /* CompactSidebarSourceCell.swift in Sources */,
 				464A5E8F1FD4A8F900B4C0F9 /* ResourceError.swift in Sources */,
+				1914E596203C2DB100EE124A /* ButtonStackView.swift in Sources */,
 				27FDABB71FB91B02003466AF /* OfficerCommunicationsView.swift in Sources */,
 				2764713520295A40008F26A1 /* PSCAlertActionView.swift in Sources */,
 				965CD8A81F8ECDBA007C3EEA /* TasksListContainerViewController.swift in Sources */,
