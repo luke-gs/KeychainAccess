@@ -15,10 +15,10 @@ open class CADBookOffRequest: Codable, CADBookOffDetailsType {
     // MARK: - Network
 
     /// The callsign for the resource.
-    open var callsign: String!
+    open var callsign: String?
 
     /// The payrollId of the currently logged in officer on the mobile device.
-    open var loggedInPayrollId: String!
+    open var loggedInPayrollId: String?
     
     // MARK: - Codable
 

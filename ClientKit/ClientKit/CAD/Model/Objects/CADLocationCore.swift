@@ -8,6 +8,7 @@
 
 import UIKit
 import MPOLKit
+import CoreLocation
 
 /// PSCore implementation of class representing a location of a resource/incident/etc
 open class CADLocationCore: Codable, CADLocationType {
@@ -16,27 +17,31 @@ open class CADLocationCore: Codable, CADLocationType {
 
     open var alertLevel: Int?
 
-    open var country: String!
+    open var country: String?
 
-    open var fullAddress: String!
+    open var fullAddress: String?
 
-    open var latitude: Float!
+    open var latitude: Float
 
-    open var longitude: Float!
+    open var longitude: Float
 
-    open var postalCode: String!
+    open var postalCode: String?
 
-    open var state: String!
+    open var state: String?
 
-    open var streetName: String!
+    open var streetName: String?
 
-    open var streetNumberFirst: String!
+    open var streetNumberFirst: String?
 
-    open var streetNumberLast: String!
+    open var streetNumberLast: String?
 
-    open var streetType: String!
+    open var streetType: String?
 
-    open var suburb: String!
+    open var suburb: String?
+
+    open var coordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: Double(latitude), longitude: Double(longitude))
+    }
 
     // MARK: - Codable
 
@@ -57,8 +62,8 @@ open class CADLocationCore: Codable, CADLocationType {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         country = try values.decodeIfPresent(String.self, forKey: .country)
         fullAddress = try values.decodeIfPresent(String.self, forKey: .fullAddress)
-        latitude = try values.decodeIfPresent(Float.self, forKey: .latitude)
-        longitude = try values.decodeIfPresent(Float.self, forKey: .longitude)
+        latitude = try values.decode(Float.self, forKey: .latitude)
+        longitude = try values.decode(Float.self, forKey: .longitude)
         postalCode = try values.decodeIfPresent(String.self, forKey: .postalCode)
         state = try values.decodeIfPresent(String.self, forKey: .state)
         streetName = try values.decodeIfPresent(String.self, forKey: .streetName)

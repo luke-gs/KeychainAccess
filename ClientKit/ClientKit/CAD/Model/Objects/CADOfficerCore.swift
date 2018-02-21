@@ -13,29 +13,30 @@ import MPOLKit
 open class CADOfficerCore: Codable, CADOfficerType {
 
     // MARK: - Network
-    open var capabilities: [String]!
 
-    open var contactNumber: String!
+    open var capabilities: [String] = []
 
-    open var firstName: String!
+    open var contactNumber: String?
 
-    open var lastName: String!
+    open var firstName: String?
 
-    open var licenceTypeId: String!
+    open var lastName: String?
 
-    open var middleName: String!
+    open var licenceTypeId: String?
 
-    open var patrolGroup: String!
+    open var middleName: String?
 
-    open var payrollId: String!
+    open var patrolGroup: String?
+
+    open var payrollId: String = ""
 
     open var radioId: String?
 
-    open var rank: String!
+    open var rank: String?
 
-    open var remarks: String!
+    open var remarks: String?
 
-    open var station: String!
+    open var station: String?
 
     // MARK: - Generated
 
@@ -53,11 +54,8 @@ open class CADOfficerCore: Codable, CADOfficerType {
         return nameFormatter
     }()
 
-    open var payrollIdDisplayString: String? {
-        if let payrollId = payrollId {
-            return "#\(payrollId)"
-        }
-        return nil
+    open var payrollIdDisplayString: String {
+        return "#\(payrollId)"
     }
 
     open var initials: String {
@@ -104,14 +102,14 @@ open class CADOfficerCore: Codable, CADOfficerType {
 
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        capabilities = try values.decodeIfPresent([String].self, forKey: .capabilities)
+        capabilities = try values.decodeIfPresent([String].self, forKey: .capabilities) ?? []
         contactNumber = try values.decodeIfPresent(String.self, forKey: .contactNumber)
         firstName = try values.decodeIfPresent(String.self, forKey: .firstName)
         lastName = try values.decodeIfPresent(String.self, forKey: .lastName)
         licenceTypeId = try values.decodeIfPresent(String.self, forKey: .licenceTypeId)
         middleName = try values.decodeIfPresent(String.self, forKey: .middleName)
         patrolGroup = try values.decodeIfPresent(String.self, forKey: .patrolGroup)
-        payrollId = try values.decodeIfPresent(String.self, forKey: .payrollId)
+        payrollId = try values.decode(String.self, forKey: .payrollId)
         radioId = try values.decodeIfPresent(String.self, forKey: .radioId)
         rank = try values.decodeIfPresent(String.self, forKey: .rank)
         remarks = try values.decodeIfPresent(String.self, forKey: .remarks)

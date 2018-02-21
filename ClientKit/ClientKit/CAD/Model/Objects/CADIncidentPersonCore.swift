@@ -14,25 +14,25 @@ open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
 
     // MARK: - Network
 
-    open var alertLevel: Int!
+    open var alertLevel: Int?
 
-    open var dateOfBirth: String!
+    open var dateOfBirth: String?
 
-    open var firstName: String!
+    open var firstName: String?
 
-    open var fullAddress: String!
+    open var fullAddress: String?
 
-    open var gender: String!
+    open var gender: String?
 
-    open var id: String!
+    open var id: String?
 
-    open var lastName: String!
+    open var lastName: String?
 
-    open var middleNames: String!
+    open var middleNames: String?
 
-    open var source: String!
+    open var source: String?
 
-    open var thumbnail: String!
+    open var thumbnail: String?
 
     // MARK: - Generated
 
@@ -42,7 +42,7 @@ open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
 
     open var fullName: String {
         let lastFirst = [lastName, firstName].joined(separator: ", ")
-        let middle = middleNames != nil ? "\(middleNames.prefix(1))." : nil
+        let middle = middleNames != nil ? "\(middleNames!.prefix(1))." : nil
 
         return [lastFirst, middle].joined()
     }
