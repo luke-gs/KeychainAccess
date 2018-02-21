@@ -95,19 +95,19 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
 /// The OOTB Date Time Report
 public class DefaultDateTimeReport: Reportable {
 
-    var reportedOnDateTime: Date? {
+    public var reportedOnDateTime: Date? {
         didSet {
             evaluator.updateEvaluation(for: .reportedOnDateTime)
         }
     }
 
-    var tookPlaceFromStartDateTime: Date? {
+    public var tookPlaceFromStartDateTime: Date? {
         didSet {
             evaluator.updateEvaluation(for: .tookPlaceFromStartDateTime)
         }
     }
 
-    var tookPlaceFromEndDateTime: Date?
+    public var tookPlaceFromEndDateTime: Date?
 
     public weak var event: Event?
     public var evaluator: Evaluator = Evaluator()
