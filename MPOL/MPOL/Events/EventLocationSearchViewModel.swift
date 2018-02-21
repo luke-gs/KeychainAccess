@@ -26,7 +26,7 @@ enum EventLocationSearchOption {
 
     var image: UIImage? {
         switch self {
-        case .current: return AssetManager.shared.image(forKey: .mapCurrentLocation)
+        case .current: return AssetManager.shared.image(forKey: .mapUserLocation)
         case .manual: return AssetManager.shared.image(forKey: .editCell)
         case .map: return AssetManager.shared.image(forKey: .map)
         }

@@ -1,4 +1,3 @@
-
 //
 //  DefaultEventLocationViewController.swift
 //  MPOLKit
@@ -62,8 +61,6 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
         sidebarItem.color = evaluator.isComplete == true ? .green : .red
     }
-
-    //MARK: Private
 
     private func showLocationServicesDisabledPrompt() {
         let alertController = UIAlertController(title: "Location Services Disabled",
