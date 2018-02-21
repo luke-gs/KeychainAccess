@@ -33,7 +33,6 @@ class DataCoordinatorTests: XCTestCase {
         let expectation = XCTestExpectation()
 
         // When
-
         _ = after(seconds: 0.1).then {
             XCTAssertEqual(provider.state, .loading)
         }
@@ -61,6 +60,7 @@ class DataCoordinatorTests: XCTestCase {
         provider.addItem(3).then { _ in
             return provider.retrieveItems()
         }.then { _ -> () in
+            // Then
             XCTAssertEqual(provider.items, [1, 2, 3])
             expectation.fulfill()
         }.catch { _ in
@@ -81,6 +81,7 @@ class DataCoordinatorTests: XCTestCase {
         provider.removeItem(2).then { _ in
             return provider.retrieveItems()
         }.then { _ -> () in
+            // Then
             XCTAssertEqual(provider.items, [1])
             expectation.fulfill()
         }.catch { _ in
@@ -101,6 +102,7 @@ class DataCoordinatorTests: XCTestCase {
         provider.replaceItem(2, with: 3).then { _ in
             return provider.retrieveItems()
         }.then { _ -> () in
+            // Then
             XCTAssertEqual(provider.items, [1, 3])
             expectation.fulfill()
         }.catch { _ in
@@ -119,6 +121,7 @@ class DataCoordinatorTests: XCTestCase {
 
         // When
         provider.retrieveItems().then { _ -> () in
+            // Then
             XCTAssertTrue(provider.hasMoreItems())
             expectation.fulfill()
         }.catch { _ in
@@ -137,6 +140,7 @@ class DataCoordinatorTests: XCTestCase {
 
         // When
         provider.retrieveItems().then { _ -> () in
+            // Then
             XCTAssertFalse(provider.hasMoreItems())
             expectation.fulfill()
         }.catch { _ in
@@ -262,6 +266,7 @@ class DataCoordinatorTests: XCTestCase {
         let secondRetrieve = provider.retrieveItems()
 
         when(fulfilled: firstRetrieve, secondRetrieve).then { firstResults, secondResults -> () in
+            // Then
             XCTAssertEqual(firstResults, secondResults)
             XCTAssertEqual(store.retrieveCount, 1)
             expectation.fulfill()
@@ -289,6 +294,7 @@ class DataCoordinatorTests: XCTestCase {
             let secondRetrieve = provider.retrieveMoreItems()
             return when(fulfilled: firstRetrieve, secondRetrieve)
         }.then { firstResults, secondResults -> () in
+            // Then
             XCTAssertEqual(firstResults, secondResults)
             XCTAssertEqual(store.retrieveCount, 2)
             expectation.fulfill()
