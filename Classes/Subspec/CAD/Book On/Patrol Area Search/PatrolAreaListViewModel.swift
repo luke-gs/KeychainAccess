@@ -11,7 +11,7 @@ public protocol PatrolAreaListViewModelDelegate: class {
     func patrolAreaListViewModel(_ viewModel: PatrolAreaListViewModel, didSelectPatrolArea patrolArea: String?)
 }
 
-public class PatrolAreaListViewModel: GenericSearchDefaultViewModel {
+open class PatrolAreaListViewModel: GenericSearchDefaultViewModel {
     
     // MARK: - Properties
     
@@ -37,12 +37,24 @@ public class PatrolAreaListViewModel: GenericSearchDefaultViewModel {
         let sorted = items.sorted(using: [SortDescriptor<GenericSearchable> { $0.title }])
         super.init(items: sorted)
         
-        title = NSLocalizedString("Select Patrol Area", comment: "")
+        title = navTitle()
         hasSections = false
     }
     
     open func createViewController() -> PatrolAreaListViewController {
         return PatrolAreaListViewController(viewModel: self)
+    }
+    
+    open func navTitle() -> String {
+        return NSLocalizedString("Select Patrol Area", comment: "")
+    }
+    
+    open func doneButtonText() -> String {
+        return NSLocalizedString("Done", comment: "")
+    }
+    
+    open func cancelButtonText() -> String {
+        return NSLocalizedString("Cancel", comment: "")
     }
     
     open func noContentTitle() -> String? {

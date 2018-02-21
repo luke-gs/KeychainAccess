@@ -30,7 +30,7 @@ public enum BookOnScreen: Presentable {
     case officerList(detailsDelegate: OfficerDetailsViewModelDelegate?)
 
     /// All patrol areas list screen
-    case patrolAreaList(current: String, delegate: PatrolAreaListViewModelDelegate?)
+    case patrolAreaList(current: String?, delegate: PatrolAreaListViewModelDelegate?, modal: Bool)
 
     /// Enter reason for resource status change
     case statusChangeReason(completionHandler: ((String?) -> Void)?)
