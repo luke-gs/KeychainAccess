@@ -15,7 +15,6 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
 
     weak var report: DefaultLocationReport?
     private var locationAnnotation: LocationAnnotation?
-    private var isInitialLoad: Bool = true
 
     public init(report: Reportable?) {
         self.report = report as? DefaultLocationReport
@@ -42,7 +41,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         mapView.userTrackingMode = .none
         mapView.isUserInteractionEnabled = false
 
-        requestLocationServices()
+        _ = CLLocationManager.requestAuthorization(type: .whenInUse)
     }
 
     override open func construct(builder: FormBuilder) {
@@ -65,14 +64,6 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
     }
 
     //MARK: Private
-
-    private func requestLocationServices() {
-        guard CLLocationManager.locationServicesEnabled() else {
-            showLocationServicesDisabledPrompt()
-            return
-        }
-        _ = CLLocationManager.requestAuthorization(type: .always)
-    }
 
     private func showLocationServicesDisabledPrompt() {
         let alertController = UIAlertController(title: "Location Services Disabled",

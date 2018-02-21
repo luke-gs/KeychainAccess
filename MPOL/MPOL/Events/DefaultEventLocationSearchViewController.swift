@@ -11,150 +11,23 @@ import MPOLKit
 import ClientKit
 import PromiseKit
 
-enum EventLocationSearchOption {
-    case manual
-    case map
-    case current
+class EventLocationSearchViewController: FormBuilderSearchViewController, EventSearchableViewModelDelegate, CLLocationManagerDelegate {
 
-    var title: String {
-        switch self {
-        case .manual: return "Enter location manually"
-        case .map: return "Search on map"
-        case .current: return "Current location"
-        }
-    }
+    typealias Option = EventLocationSearchOption
+    typealias Searchable = LookupAddress
 
-    static let defaultOptions: [EventLocationSearchOption] = [.current, .map, .manual]
-}
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        activityIndicator.hidesWhenStopped = true
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicator)
+        return activityIndicator
+    }()
 
-protocol EventLocationSearchViewModelDelegate {
-    func viewModelDidUpdate(_ viewModel: EventLocationSearchViewModel)
-    func viewModel(_ viewModel: EventLocationSearchViewModel, didSelectLocation location: LookupAddress)
-    func viewModel(_ viewModel: EventLocationSearchViewModel, didSelectOption option: EventLocationSearchOption)
-}
-
-class EventLocationSearchViewModel {
-
-    let title: String
-    private let cancelToken: PromiseCancellationToken = PromiseCancellationToken()
-
-    var delegate: EventLocationSearchViewModelDelegate?
-    var recentLocationDisplayables: [LookupAddress]
-    var searchResults: [LookupAddress] = [] {
-        didSet {
-            defaultOptions = searchResults.count > 0 ? formItems(for: [.manual]) : formItems(for: EventLocationSearchOption.defaultOptions)
-
-            delegate?.viewModelDidUpdate(self)
-        }
-    }
-
-    init(title: String = "Select location", recentLocations: [LookupAddress]) {
-        recentLocationDisplayables = recentLocations
-        self.title = title
-    }
-
-    private lazy var defaultOptions: [SubtitleFormItem] = formItems(for: EventLocationSearchOption.defaultOptions)
-
-    public func construct(builder: FormBuilder) {
-        builder.forceLinearLayout = true
-        builder.forceLinearLayoutWhenCompact = true
-
-        if searchResults.count > 0 {
-            builder += HeaderFormItem(text: "\(searchResults.count) RESULT\(searchResults.count == 0 ? "" : "S") FOUND")
-            builder += searchResults.map { address in
-                SubtitleFormItem(title: address.fullAddress, subtitle: "Calculating", image: AssetManager.shared.image(forKey: .location), style: .default)
-                    .accessory(ItemAccessory.disclosure)
-                    .onSelection { _ in
-                        self.delegate?.viewModel(self, didSelectLocation: address)
-                    }
-                }
-        }
-        builder += HeaderFormItem(text: "OPTIONS", style: .plain)
-        builder += defaultOptions
-        builder += HeaderFormItem(text: "RECENTLY USED/SEARCHED", style: .plain)
-        builder += recentLocationDisplayables.map { address in
-            SubtitleFormItem(title: address.fullAddress, image: AssetManager.shared.image(forKey: .location), style: .default)
-                .subtitle("Calculating")
-                .accessory(ItemAccessory.disclosure)
-                .onSelection { _ in
-                    self.delegate?.viewModel(self, didSelectLocation: address)
-                }
-        }
-    }
-
-    private func formItems(for options: [EventLocationSearchOption]) -> [SubtitleFormItem] {
-        return options.map { option in
-            SubtitleFormItem(title: option.title, image: AssetManager.shared.image(forKey: .location))
-                .accessory(ItemAccessory.disclosure)
-                .onSelection { _ in
-                    self.delegate?.viewModel(self, didSelectOption: option)
-            }
-        }
-    }
-
-    func didCancelSearch() {
-        delegate?.viewModelDidUpdate(self)
-    }
-
-    func searchTextDidChange(to text: String?) {
-        if let text = text {
-            // Cancel existing request
-            cancelToken.cancel()
-            APIManager.shared.typeAheadSearchAddress(in: MPOLSource.gnaf, with: LookupAddressSearchRequest(searchText: text))
-                .then {
-                    self.searchResults = $0
-                }
-                .always {
-                    self.delegate?.viewModelDidUpdate(self)
-            }
-        }
-
-        // Handle when the text is cleared by deletion
-        delegate?.viewModelDidUpdate(self)
-    }
-
-}
-
-open class FormBuilderSearchViewController: FormBuilderViewController, UISearchBarDelegate {
-
-    public let searchBarView = StandardSearchBarView(frame: .zero)
-
-    open override func viewDidLoad() {
-        super.viewDidLoad()
-
-        searchBarView.searchBar.delegate = self
-        view.addSubview(searchBarView)
-
-        searchBarView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            searchBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            searchBarView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-    }
-
-    open override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        if #available(iOS 11.0, *) {
-            additionalSafeAreaInsets.top = searchBarView.frame.height
-            searchBarView.frame.origin.y = view.safeAreaInsets.top - searchBarView.frame.height
-        } else {
-            legacy_additionalSafeAreaInsets.top = searchBarView.frame.height
-            searchBarView.frame.origin.y = topLayoutGuide.length
-        }
-        // Update layout if safe area changed constraints
-        view.layoutIfNeeded()
-    }
-
-}
-
-class EventLocationSearchViewController: FormBuilderSearchViewController, EventLocationSearchViewModelDelegate, CLLocationManagerDelegate {
-
-    let viewModel: EventLocationSearchViewModel
+    let viewModel: EventLocationSearchViewModel<EventLocationSearchViewController>
     let locationManager: CLLocationManager = CLLocationManager()
     let selectionViewModel: LocationSelectionViewModel
 
-    init(viewModel: EventLocationSearchViewModel, selectionViewModel: LocationSelectionViewModel) {
+    init(viewModel: EventLocationSearchViewModel<EventLocationSearchViewController>, selectionViewModel: LocationSelectionViewModel) {
         self.viewModel = viewModel
         self.selectionViewModel = selectionViewModel
         super.init()
@@ -186,22 +59,24 @@ class EventLocationSearchViewController: FormBuilderSearchViewController, EventL
 
     public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         viewModel.searchTextDidChange(to: searchText)
+        activityIndicator.startAnimating()
     }
 
     // MARK: - Event Location Search Delegate
 
-    func viewModelDidUpdate(_ viewModel: EventLocationSearchViewModel) {
+    func didUpdateDatasource() {
         reloadForm()
+        activityIndicator.stopAnimating()
     }
 
-    func viewModel(_ viewModel: EventLocationSearchViewModel, didSelectLocation location: LookupAddress) {
-        selectionViewModel.location = EventLocation(location: location.coordinate, addressString: location.fullAddress)
+    func didSelectSearchable(_ searchable: LookupAddress) {
+        selectionViewModel.location = EventLocation(location: searchable.coordinate, addressString: searchable.fullAddress)
         selectionViewModel.dropsPinAutomatically = true
         let viewController = LocationMapSelectionViewController(viewModel: selectionViewModel)
         navigationController?.pushViewController(viewController, animated: true)
     }
 
-    func viewModel(_ viewModel: EventLocationSearchViewModel, didSelectOption option: EventLocationSearchOption) {
+    func didSelectOption(_ option: EventLocationSearchOption) {
         // TODO: - Implement the manual selection later once
         // creative has been updated
         guard let location = locationManager.location, option != .manual else { return }
