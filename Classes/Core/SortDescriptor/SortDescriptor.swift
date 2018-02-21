@@ -13,10 +13,9 @@ import Foundation
 public struct SortDescriptor<T> {
 
     public let isAscending: Bool
-    
-    private let keyMapper: (T) -> AnyComparable
+    private let comparator: ((T, T) -> ComparisonResult)
 
-    /// Returns a SortDescriptor object initialised with the sort order and a closure property that returns the value to be sorted by.
+    /// Returns a SortDescriptor initialised with the sort order and a closure property that returns the value to be sorted by.
     /// The value returned from closure must conform to `Comparable`.
     ///
     /// - Parameters:
@@ -25,8 +24,21 @@ public struct SortDescriptor<T> {
     /// - Returns: SortDescriptor initialised with the sort order specified by ascending and the property to be sorted by specified using closure.
     public init<V: Comparable>(ascending: Bool = true, key: @escaping (T) -> V?) {
         self.isAscending = ascending
-        self.keyMapper = { AnyComparable(key($0)) }
+        self.comparator = {
+            let lhs = AnyComparable(key($0))
+            let rhs = AnyComparable(key($1))
+            return lhs.compare(rhs)
+        }
+    }
 
+    /// Returns a SortDescriptor initialised with the comparator closure that returns the result of comparison.
+    ///
+    /// - Parameters:
+    ///   - ascending: `true` if the sorting in ascending order, otherwise `false`.
+    ///   - comparator: A closure that returns the result of comparison.
+    public init(ascending: Bool = true, comparator: @escaping (T, T) -> ComparisonResult) {
+        self.isAscending = ascending
+        self.comparator = comparator
     }
 
     /// Returns a ComparisonResult value that indicates the ordering of the two given `T`.
@@ -36,8 +48,9 @@ public struct SortDescriptor<T> {
     ///   - rhs: The second `T` to compare with the first `T`.
     /// - Returns: orderedAscending if lhs is less than rhs, orderedDescending if lhs is greater than rhs, or orderedSame if lhs is equal to rhs.
     public func compare(_ lhs: T, _ rhs: T) -> ComparisonResult {
-        let result = keyMapper(lhs).compare(keyMapper(rhs))
-        
+
+        let result: ComparisonResult = comparator(lhs, rhs)
+
         switch (isAscending, result) {
         case (true, _):
             return result
