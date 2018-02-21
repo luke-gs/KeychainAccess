@@ -11,11 +11,11 @@ import UIKit
 /// Base class for a task list item view model
 open class TasksListItemViewModel {
     open let identifier: String
-    open let title: String
-    open let subtitle: String
-    open let caption: String
+    open let title: String?
+    open let subtitle: String?
+    open let caption: String?
     
-    public init(identifier: String, title: String, subtitle: String, caption: String) {
+    public init(identifier: String, title: String?, subtitle: String?, caption: String?) {
         self.identifier = identifier
         self.title = title
         self.subtitle = subtitle

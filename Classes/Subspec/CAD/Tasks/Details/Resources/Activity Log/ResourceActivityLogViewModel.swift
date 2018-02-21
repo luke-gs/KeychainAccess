@@ -30,9 +30,8 @@ public class ResourceActivityLogViewModel: DatedActivityLogViewModel, TaskDetail
 
     open func loadData() {
         guard let resource = CADStateManager.shared.resourcesById[callsign] else { return }
-        guard let activityLog = resource.activityLog else { return }
 
-        let activityLogItemsViewModels = activityLog.map { item in
+        let activityLogItemsViewModels = resource.activityLog.map { item in
             return ActivityLogItemViewModel(dotFillColor: item.color,
                                             dotStrokeColor: .clear,
                                             timestamp: item.timestamp,
