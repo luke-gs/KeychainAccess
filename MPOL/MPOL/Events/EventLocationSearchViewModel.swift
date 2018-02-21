@@ -35,26 +35,37 @@ enum EventLocationSearchOption {
     static let defaultOptions: [EventLocationSearchOption] = [.current, .map, .manual]
 }
 
-class EventLocationSearchViewModel<T: EventSearchableViewModelDelegate>: EventSearchableViewModel where T.Searchable == LookupAddress, T.Option == EventLocationSearchOption {
+class EventLocationSearchViewModel<T: EventSearchableViewModelDelegate>: NSObject, EventSearchableViewModel, CLLocationManagerDelegate where T.Searchable == LookupAddress, T.Option == EventLocationSearchOption {
+
     typealias Searchable = LookupAddress
     typealias Option = EventLocationSearchOption
 
     let title: String
     private var cancelToken: PromiseCancellationToken = PromiseCancellationToken()
-    private let plugin = TravelEstimationPlugin()
+    private let travelPlugin = TravelEstimationPlugin()
 
     var delegate: T?
     var recentLocationDisplayables: [LookupAddress]
     var searchResults: [LookupAddress] = [] {
         didSet {
+            oldValue.forEach {
+                itemMap.removeValue(forKey: $0.coordinate)
+            }
+
             defaultOptions = searchResults.count > 0 ? formItems(for: [.manual]) : formItems(for: EventLocationSearchOption.defaultOptions)
             delegate?.didUpdateDatasource()
         }
     }
 
+    private var itemMap: [CLLocationCoordinate2D: SubtitleFormItem] = [:]
+
+    private let locationManager: CLLocationManager = CLLocationManager()
+
     init(title: String = "Select location", recentLocations: [LookupAddress]) {
         recentLocationDisplayables = recentLocations
         self.title = title
+
+        locationManager.startUpdatingLocation()
     }
 
     private lazy var defaultOptions: [SubtitleFormItem] = formItems(for: EventLocationSearchOption.defaultOptions)
@@ -66,29 +77,19 @@ class EventLocationSearchViewModel<T: EventSearchableViewModelDelegate>: EventSe
         if searchResults.count > 0 {
             builder += HeaderFormItem(text: "\(searchResults.count) RESULT\(searchResults.count == 0 ? "" : "S") FOUND", style: .collapsible)
             builder += searchResults.map { address in
-                SubtitleFormItem(title: address.fullAddress, subtitle: "Calculating", image: AssetManager.shared.image(forKey: .location), style: .default)
+                let item = SubtitleFormItem(title: address.fullAddress, subtitle: "Calculating", image: AssetManager.shared.image(forKey: .location), style: .default)
                     .accessory(ItemAccessory.disclosure)
                     .imageTintColor(.gray)
                     .onSelection { _ in
                         self.delegate?.didSelectSearchable(address)
                     }
-                    .onConfigured({ cell in
 
-                        // TODO: need to do this better
-
-                        let cell = cell as! CollectionViewFormSubtitleCell
-                        let destination = CLLocation(latitude: address.coordinate.latitude, longitude: address.coordinate.longitude)
-
-                        DispatchQueue.global(qos: .userInteractive).async {
-                            _ = LocationManager.shared.requestLocation().then {
-                                self.plugin.calculateDistance(from: $0, to: destination).then { value in
-                                    DispatchQueue.main.async {
-                                        cell.subtitleLabel.text = value
-                                    }
-                                }
-                            }
-                        }
-                    })
+                if let userLocation = locationManager.location {
+                    let addressLocation = CLLocation(latitude: address.coordinate.latitude, longitude: address.coordinate.longitude)
+                    updateDistance(item, fromLocation: userLocation, toLocation: addressLocation)
+                }
+                itemMap[address.coordinate] = item
+                return item
             }
         }
         builder += HeaderFormItem(text: "OPTIONS", style: .plain)
@@ -105,6 +106,14 @@ class EventLocationSearchViewModel<T: EventSearchableViewModelDelegate>: EventSe
         }
     }
 
+    private func updateDistance(_ item: SubtitleFormItem, fromLocation location: CLLocation, toLocation: CLLocation) {
+        travelPlugin.calculateDistance(from: location, to: toLocation).then { [weak item] text -> Void in
+            item?.subtitle(text).reloadItem()
+        }.catch { _ in
+            item.subtitle("Unknown").reloadItem()
+        }
+    }
+
     private func formItems(for options: [EventLocationSearchOption]) -> [SubtitleFormItem] {
         return options.map { option in
             SubtitleFormItem(title: option.title, image: option.image?.withRenderingMode(.alwaysTemplate))
@@ -112,6 +121,18 @@ class EventLocationSearchViewModel<T: EventSearchableViewModelDelegate>: EventSe
                 .accessory(ItemAccessory.disclosure)
                 .onSelection { _ in
                     self.delegate?.didSelectOption(option)
+            }
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let userLocation = locations.first else { return }
+        itemMap.forEach { location, item in
+            let destination = CLLocation(latitude: location.latitude, longitude: location.longitude)
+            travelPlugin.calculateDistance(from: userLocation, to: destination).then { [weak item] text -> Void in
+                item?.subtitle(text).reloadItem()
+            }.catch { [weak item] (error) in
+                item?.subtitle(NSLocalizedString("Unknown", comment: "")).reloadItem()
             }
         }
     }
