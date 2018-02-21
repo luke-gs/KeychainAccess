@@ -24,6 +24,14 @@ enum EventLocationSearchOption {
         }
     }
 
+    var image: UIImage? {
+        switch self {
+        case .current: return AssetManager.shared.image(forKey: .mapCurrentLocation)
+        case .manual: return AssetManager.shared.image(forKey: .editCell)
+        case .map: return AssetManager.shared.image(forKey: .map)
+        }
+    }
+
     static let defaultOptions: [EventLocationSearchOption] = [.current, .map, .manual]
 }
 
@@ -60,6 +68,7 @@ class EventLocationSearchViewModel<T: EventSearchableViewModelDelegate>: EventSe
             builder += searchResults.map { address in
                 SubtitleFormItem(title: address.fullAddress, subtitle: "Calculating", image: AssetManager.shared.image(forKey: .location), style: .default)
                     .accessory(ItemAccessory.disclosure)
+                    .imageTintColor(.gray)
                     .onSelection { _ in
                         self.delegate?.didSelectSearchable(address)
                     }
@@ -89,6 +98,7 @@ class EventLocationSearchViewModel<T: EventSearchableViewModelDelegate>: EventSe
             SubtitleFormItem(title: address.fullAddress, image: AssetManager.shared.image(forKey: .location), style: .default)
                 .subtitle("Calculating")
                 .accessory(ItemAccessory.disclosure)
+                .imageTintColor(.gray)
                 .onSelection { _ in
                     self.delegate?.didSelectSearchable(address)
             }
@@ -97,7 +107,8 @@ class EventLocationSearchViewModel<T: EventSearchableViewModelDelegate>: EventSe
 
     private func formItems(for options: [EventLocationSearchOption]) -> [SubtitleFormItem] {
         return options.map { option in
-            SubtitleFormItem(title: option.title, image: AssetManager.shared.image(forKey: .location))
+            SubtitleFormItem(title: option.title, image: option.image?.withRenderingMode(.alwaysTemplate))
+                .imageTintColor(.gray)
                 .accessory(ItemAccessory.disclosure)
                 .onSelection { _ in
                     self.delegate?.didSelectOption(option)

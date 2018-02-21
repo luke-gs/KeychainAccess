@@ -55,11 +55,14 @@ class EventLocationSearchViewController: FormBuilderSearchViewController, EventS
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         viewModel.didCancelSearch()
+        
     }
 
     public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         viewModel.searchTextDidChange(to: searchText)
-        activityIndicator.startAnimating()
+        if searchText.count > 0 {
+            activityIndicator.startAnimating()
+        }
     }
 
     // MARK: - Event Location Search Delegate
