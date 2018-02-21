@@ -84,8 +84,10 @@ class EventLocationSearchViewController: FormBuilderSearchViewController, EventS
         // creative has been updated
         guard let location = locationManager.location, option != .manual else { return }
 
-        selectionViewModel.dropsPinAutomatically = option == .current
-        selectionViewModel.location = EventLocation(location: location.coordinate, addressString: nil)
+        if option == .current {
+            selectionViewModel.dropsPinAutomatically = true
+            selectionViewModel.location = EventLocation(location: location.coordinate, addressString: nil)
+        }
         let viewController = LocationMapSelectionViewController(viewModel: selectionViewModel)
         navigationController?.pushViewController(viewController, animated: true)
     }
