@@ -15,11 +15,8 @@ open class IncidentListViewModel {
     }
 
     func searchHeaderTitle() -> String {
-        guard let report = report else { fatalError() }
-        let multiple = report.incidents.count > 1
-        let countString = report.incidents.count == 0 ? "No" : "\(report.incidents.count)"
-        let otherString = "incident\(multiple ? "s" : "") selected"
-        return "\(countString) \(otherString)"
+        let string = String.localizedStringWithFormat(NSLocalizedString("%d incidents selected", comment: ""), report?.incidents.count ?? 0)
+        return string
     }
 
     func searchHeaderSubtitle() -> String {
@@ -28,8 +25,8 @@ open class IncidentListViewModel {
     }
 
     func sectionHeaderTitle() -> String {
-        guard let count = report?.incidents.count else { return "NO INCIDENTS" }
-        return "\(count) INCIDENT" + "\(count > 1 ? "S" : "")"
+        let string = String.localizedStringWithFormat(NSLocalizedString("%d Incidents", comment: ""), report?.incidents.count ?? 0)
+        return string.uppercased()
     }
 
     func add(_ incidents: [String]) {

@@ -53,10 +53,8 @@ public class IncidentSearchDataSource: CustomSearchPickerDatasource {
     }
 
     func searchHeaderTitle(with objects: [Pickable]) -> String {
-        let multiple = objects.count > 1
-        let countString = objects.count == 0 ? "No" : "\(objects.count)"
-        let otherString = "incident\(multiple ? "s" : "") selected"
-        return "\(countString) \(otherString)"
+        let string = String.localizedStringWithFormat(NSLocalizedString("%d incidents selected", comment: ""), objects.count)
+        return string
     }
 
     func searchHeaderSubtitle(with objects: [Pickable]) -> String {
