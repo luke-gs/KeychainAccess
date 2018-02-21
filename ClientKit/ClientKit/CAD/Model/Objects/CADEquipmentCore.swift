@@ -14,13 +14,13 @@ open class CADEquipmentCore: Codable, CADEquipmentType {
 
     // MARK: - Network
 
-    open var count: Int!
+    public var count: Int
 
-    open var description: String!
+    public var description: String
 
     // MARK: - Init
 
-    public required init(count: Int!, description: String!) {
+    public required init(count: Int, description: String) {
         self.count = count
         self.description = description
     }
@@ -40,8 +40,8 @@ open class CADEquipmentCore: Codable, CADEquipmentType {
 
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        count = try values.decodeIfPresent(Int.self, forKey: .count)
-        description = try values.decodeIfPresent(String.self, forKey: .description)
+        count = try values.decodeIfPresent(Int.self, forKey: .count) ?? 0
+        description = try values.decodeIfPresent(String.self, forKey: .description) ?? ""
     }
 
     public func encode(to encoder: Encoder) throws {

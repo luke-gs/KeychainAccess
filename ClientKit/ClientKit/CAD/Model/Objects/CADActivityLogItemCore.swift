@@ -14,18 +14,18 @@ open class CADActivityLogItemCore: Codable, CADActivityLogItemType {
 
     // MARK: - Network
 
-    open var title: String!
+    open var description: String?
 
-    open var description: String!
+    open var source: String?
 
-    open var source: String!
+    open var timestamp: Date
 
-    open var timestamp: Date!
+    open var title: String?
 
     // MARK: - Generated
     
     open var color: UIColor {
-        switch source {
+        switch source ?? "" {
         case "Duress":
             return .orangeRed
         case "Dispatch":
@@ -57,7 +57,7 @@ open class CADActivityLogItemCore: Codable, CADActivityLogItemType {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         description = try values.decodeIfPresent(String.self, forKey: .descriptionField)
         source = try values.decodeIfPresent(String.self, forKey: .source)
-        timestamp = try values.decodeIfPresent(Date.self, forKey: .timestamp)
+        timestamp = try values.decode(Date.self, forKey: .timestamp)
         title = try values.decodeIfPresent(String.self, forKey: .title)
     }
 

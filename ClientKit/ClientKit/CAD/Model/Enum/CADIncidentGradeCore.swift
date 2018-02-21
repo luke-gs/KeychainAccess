@@ -26,6 +26,20 @@ public enum CADIncidentGradeCore: String, Codable, CADIncidentGradeType {
         ]
     }
 
+    /// The display title for the unit type
+    public var title: String {
+        switch self {
+        case .p1:
+            return NSLocalizedString("P1", comment: "")
+        case .p2:
+            return NSLocalizedString("P2", comment: "")
+        case .p3:
+            return NSLocalizedString("P3", comment: "")
+        case .p4:
+            return NSLocalizedString("P4", comment: "")
+        }
+    }
+
     // Return badge text, border and fill color
     public var badgeColors: (text: UIColor, border: UIColor, fill: UIColor) {
         switch self {
