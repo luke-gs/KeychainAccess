@@ -58,7 +58,9 @@ open class EventsListViewController: FormBuilderViewController {
                 self.loadingManager.state = (self.viewModel.eventsList?.isEmpty ?? true) ? .noContent : .loaded
                 self.reloadForm()
             })]
-            return SubtitleFormItem(title: title, subtitle: subtitle, image: image).editActions(editActions)
+            return SubtitleFormItem(title: title, subtitle: subtitle, image: image)
+                .editActions(editActions)
+                .accessory(ItemAccessory.disclosure)
         }
     }
 
