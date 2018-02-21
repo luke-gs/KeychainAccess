@@ -12,10 +12,14 @@ import Foundation
 public protocol CADEquipmentType: class {
 
     // MARK: - Network
-    var count: Int! { get }
-    var description: String! { get }
+    var count: Int { get set }
+    var description: String { get set }
 
     // MARK: - Init
-    init(count: Int!, description: String!)
+
+    /// Default constructor
+    init(count: Int, description: String)
+
+    /// Copy constructor
     init(equipment: CADEquipmentType)
 }

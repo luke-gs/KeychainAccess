@@ -97,9 +97,9 @@ open class OfficerDetailsViewController: FormBuilderViewController {
         
         builder += TextFieldFormItem(title: NSLocalizedString("Capabilities", comment: ""))
             .width(.column(1))
-            .text(viewModel.content.capabilities?.joined(separator: ", "))
+            .text(viewModel.content.capabilities.joined(separator: ", "))
             .onValueChanged {
-                let capabilities = $0?.split(separator: ",").map{String($0)}
+                let capabilities = $0?.split(separator: ",").map{ String($0) } ?? []
                 self.viewModel.content.capabilities = capabilities
             }
         

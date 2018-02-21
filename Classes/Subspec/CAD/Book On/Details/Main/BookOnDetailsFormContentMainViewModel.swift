@@ -79,8 +79,8 @@ open class BookOnDetailsFormContentMainViewModel {
 
         // Return only selected equipment
         request.equipment = self.equipment.flatMap { item in
-            if item.count > 0 {
-                return CADClientModelTypes.equipmentDetails.init(count: item.count, description: item.object.title)
+            if let title = item.object.title, item.count > 0 {
+                return CADClientModelTypes.equipmentDetails.init(count: item.count, description: title)
             }
             return nil
         }

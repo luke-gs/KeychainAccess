@@ -13,25 +13,25 @@ import CoreLocation
 public protocol CADIncidentType: class {
 
     // MARK: - Network
-    var identifier: String! { get }
-    var secondaryCode: String! { get }
-    var type: String! { get }
-    var grade: CADIncidentGradeType! { get }
-    var patrolGroup: String! { get }
-    var location : CADLocationType! { get }
-    var createdAt: Date! { get }
-    var lastUpdated: Date! { get }
-    var details: String! { get }
-    var informant : CADIncidentInformantType! { get }
-    var locations: [CADLocationType]! { get }
-    var persons: [CADIncidentPersonType]! { get }
-    var vehicles: [CADIncidentVehicleType]! { get }
-    var narrative: [CADActivityLogItemType]! { get }
+    var identifier: String { get set }
+    var secondaryCode: String? { get set }
+    var type: String? { get set }
+    var grade: CADIncidentGradeType { get set }
+    var patrolGroup: String? { get set }
+    var location : CADLocationType? { get set }
+    var createdAt: Date? { get set }
+    var lastUpdated: Date? { get set }
+    var details: String? { get set }
+    var informant : CADIncidentInformantType? { get set }
+    var locations: [CADLocationType] { get set }
+    var persons: [CADIncidentPersonType] { get set }
+    var vehicles: [CADIncidentVehicleType] { get set }
+    var narrative: [CADActivityLogItemType] { get set }
 
     // MARK: - Generated
     var status: CADIncidentStatusType { get }
-    var coordinate: CLLocationCoordinate2D { get }
+    var coordinate: CLLocationCoordinate2D? { get }
     var resourceCount: Int { get }
     var resourceCountString: String? { get }
-    var createdAtString: String { get }
+    var createdAtString: String? { get }
 }
