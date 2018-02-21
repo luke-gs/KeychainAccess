@@ -11,7 +11,7 @@ import Foundation
 extension Optional where Wrapped == Bool {
     
     /// Checks that the bool is both true and not nil
-    var isTrue: Bool {
+    public var isTrue: Bool {
         return self ?? false
     }
 }

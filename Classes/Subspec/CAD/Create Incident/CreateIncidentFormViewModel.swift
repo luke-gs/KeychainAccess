@@ -10,11 +10,11 @@ import UIKit
 
 /// View model for incident details entered in create incident form
 open class CreateIncidentFormViewModel {
-    open var status: ResourceStatusType?
-    open var priority: IncidentGrade?
+    open var status: CADResourceStatusType?
+    open var priority: CADIncidentGradeType?
     open var primaryCode: String?
     open var secondaryCode: String?
-    open var location: String? // TODO: Use SyncDetailsLocation?
+    open var location: String? // TODO: Use CADLocationType?
     open var description: String?
     open var informantName: String?
     open var informantPhone: String?

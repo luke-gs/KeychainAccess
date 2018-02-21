@@ -33,7 +33,7 @@ open class CreateIncidentFormViewController: IntrinsicHeightFormBuilderViewContr
             .width(.column(4))
             .onValueChanged { [unowned self] in
                 if let value = $0?.first {
-                    self.viewModel.contentViewModel.priority = IncidentGrade(rawValue: value)
+                    self.viewModel.contentViewModel.priority = CADClientModelTypes.incidentGrade.init(rawValue: value)
                 }
             }
         

@@ -30,15 +30,15 @@ open class TasksListResourceViewModel: TasksListItemViewModel {
         super.init(identifier: identifier, title: title, subtitle: subtitle, caption: caption)
     }
 
-    public convenience init(resource: SyncDetailsResource, incident: SyncDetailsIncident?) {
+    public convenience init(resource: CADResourceType, incident: CADIncidentType?) {
         var incidentViewModel: TasksListIncidentViewModel? = nil
         if let incident = incident {
             incidentViewModel = TasksListIncidentViewModel(incident: incident, hasUpdates: false)
         }
         
         let iconImage = resource.type.icon?
-            .withCircleBackground(tintColor: resource.statusType.iconColors.icon,
-                                  circleColor: resource.statusType.iconColors.background,
+            .withCircleBackground(tintColor: resource.status.iconColors.icon,
+                                  circleColor: resource.status.iconColors.background,
                                   style: .auto(padding: CGSize(width: 24, height: 24),
                                                shrinkImage: false),
                                   shouldCenterImage: true)
@@ -57,9 +57,9 @@ open class TasksListResourceViewModel: TasksListItemViewModel {
             identifier: resource.callsign,
             title: [resource.callsign, resource.officerCountString].joined(),
             subtitle: resource.location?.suburb ?? "—",
-            caption: resource.statusType.title,
+            caption: resource.status.title,
             resourceImage: iconImage,
-            statusImage: resource.statusType.icon,
+            statusImage: resource.status.icon,
             informationRows: infoViewModels,
             incidentViewModel: incidentViewModel
         )

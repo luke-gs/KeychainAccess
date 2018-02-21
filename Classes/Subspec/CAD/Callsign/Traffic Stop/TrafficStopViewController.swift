@@ -95,7 +95,7 @@ open class TrafficStopViewController: FormBuilderViewController {
                 .placeholder("Required")
                 .selectedValue([viewModel.priority?.rawValue].removeNils())
                 .onValueChanged({ [unowned self] in
-                    self.viewModel.priority = IncidentGrade(rawValue: $0?.first ?? "")
+                    self.viewModel.priority = CADClientModelTypes.incidentGrade.init(rawValue: $0?.first ?? "")
                 })
                 .width(.fixed(100))
             builder += DropDownFormItem(title: "Primary Code")
