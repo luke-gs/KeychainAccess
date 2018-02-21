@@ -55,9 +55,14 @@ public class DataStoreCoordinator<Store: ReadableDataStore> where Store.Result.I
 
     // MARK: - Internal states
 
+    private enum Priority {
+        case high
+        case low
+    }
+
     private var lastKnownResults: Store.Result?
 
-    private var activePromise: (Promise<[Item]>, PromiseCancellationToken?)?
+    private var activeRequest: (promise: Promise<[Item]>, cancelToken: PromiseCancellationToken, priority: Priority)?
 
     // MARK: - Initializer
 
@@ -65,7 +70,20 @@ public class DataStoreCoordinator<Store: ReadableDataStore> where Store.Result.I
         self.dataStore = dataStore
     }
 
+    deinit {
+        activeRequest?.cancelToken.cancel()
+    }
+
     public func retrieveItems() -> Promise<[Item]> {
+        if let activeRequest = activeRequest {
+            if activeRequest.priority == .high {
+                return activeRequest.promise
+            }
+
+            activeRequest.cancelToken.cancel()
+            self.activeRequest = nil
+        }
+
         lastKnownResults = nil
 
         state = .loading
@@ -82,10 +100,10 @@ public class DataStoreCoordinator<Store: ReadableDataStore> where Store.Result.I
 
             return self?.items ?? []
         }.always {
-            self.activePromise = nil
+            self.activeRequest = nil
         }
 
-        self.activePromise = (retrievePromise, cancelToken)
+        self.activeRequest = (retrievePromise, cancelToken, .high)
 
         return retrievePromise
     }
@@ -101,6 +119,14 @@ extension DataStoreCoordinator where Store.Result: PaginatedDataStoreResult {
     }
 
     public func retrieveMoreItems() -> Promise<[Item]> {
+        if lastKnownResults == nil {
+            return retrieveItems()
+        }
+
+        if let activeRequest = activeRequest {
+            return activeRequest.promise
+        }
+
         state = .loading
 
         let cancelToken = PromiseCancellationToken()
@@ -116,10 +142,10 @@ extension DataStoreCoordinator where Store.Result: PaginatedDataStoreResult {
 
             return self?.items ?? []
         }.always {
-            self.activePromise = nil
+            self.activeRequest = nil
         }
 
-        self.activePromise = (retrievePromise, cancelToken)
+        self.activeRequest = (retrievePromise, cancelToken, .low)
 
         return retrievePromise
     }
