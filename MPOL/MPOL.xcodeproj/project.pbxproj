@@ -22,7 +22,6 @@
 		46E0B89B202C0F8500B40DF2 /* DefaultOfficerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B89A202C0F8500B40DF2 /* DefaultOfficerListViewController.swift */; };
 		46E0B8A3202D0D8900B40DF2 /* OfficerListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8A2202D0D8900B40DF2 /* OfficerListViewModel.swift */; };
 		46E0B8A92031413C00B40DF2 /* OfficerInvolvementSearchDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8A82031413C00B40DF2 /* OfficerInvolvementSearchDatasource.swift */; };
-		46E0B8B42032995500B40DF2 /* DefaultOfficerSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8B32032995500B40DF2 /* DefaultOfficerSearchViewController.swift */; };
 		46E0B8BE2033D1FB00B40DF2 /* OfficerSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8BD2033D1FB00B40DF2 /* OfficerSearchViewModel.swift */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
 		BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E81101EBEE38400188181 /* SettingsViewController.swift */; };
@@ -75,7 +74,6 @@
 		46E0B89A202C0F8500B40DF2 /* DefaultOfficerListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultOfficerListViewController.swift; sourceTree = "<group>"; };
 		46E0B8A2202D0D8900B40DF2 /* OfficerListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerListViewModel.swift; sourceTree = "<group>"; };
 		46E0B8A82031413C00B40DF2 /* OfficerInvolvementSearchDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerInvolvementSearchDatasource.swift; sourceTree = "<group>"; };
-		46E0B8B32032995500B40DF2 /* DefaultOfficerSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultOfficerSearchViewController.swift; sourceTree = "<group>"; };
 		46E0B8BD2033D1FB00B40DF2 /* OfficerSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerSearchViewModel.swift; sourceTree = "<group>"; };
 		98286F47FF0E675D611C2782 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
@@ -153,7 +151,6 @@
 				46E0B89A202C0F8500B40DF2 /* DefaultOfficerListViewController.swift */,
 				46E0B8A2202D0D8900B40DF2 /* OfficerListViewModel.swift */,
 				46E0B8A82031413C00B40DF2 /* OfficerInvolvementSearchDatasource.swift */,
-				46E0B8B32032995500B40DF2 /* DefaultOfficerSearchViewController.swift */,
 				46E0B8BD2033D1FB00B40DF2 /* OfficerSearchViewModel.swift */,
 			);
 			path = Officers;
@@ -450,7 +447,6 @@
 				EA7194DD1FC5098200A2980B /* EventPresenter.swift in Sources */,
 				12EB809B202AAC2100405F5C /* EventScreenBuilder.swift in Sources */,
 				12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */,
-				46E0B8B42032995500B40DF2 /* DefaultOfficerSearchViewController.swift in Sources */,
 				46E0B8A3202D0D8900B40DF2 /* OfficerListViewModel.swift in Sources */,
 				EA2189F61F60F64A0057048E /* LandingPresenter.swift in Sources */,
 				12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */,
