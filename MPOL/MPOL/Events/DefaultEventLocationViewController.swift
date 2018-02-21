@@ -13,7 +13,7 @@ import MPOLKit
 open class DefaultEventLocationViewController: MapFormBuilderViewController, EvaluationObserverable {
 
     weak var report: DefaultLocationReport?
-    private var locationAnnotation: LocationAnnotation?
+    private var locationAnnotation: MKPointAnnotation?
 
     public init(report: Reportable?) {
         self.report = report as? DefaultLocationReport
@@ -89,7 +89,7 @@ extension DefaultEventLocationViewController: LocationSelectionViewModelDelegate
         if let locationAnnotation = locationAnnotation {
             locationAnnotation.coordinate = coord
         } else {
-            locationAnnotation = LocationAnnotation()
+            locationAnnotation = MKPointAnnotation()
             locationAnnotation?.coordinate = coord
             mapView?.addAnnotation(locationAnnotation!)
         }
@@ -109,7 +109,7 @@ extension DefaultEventLocationViewController: LocationSelectionViewModelDelegate
 extension DefaultEventLocationViewController: MKMapViewDelegate {
 
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if let annotation = annotation as? LocationAnnotation {
+        if let annotation = annotation as? MKPointAnnotation {
             let pinView: PinAnnotationView
             let identifier = MapSummaryAnnotationViewIdentifier.single.rawValue
             if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? PinAnnotationView {
