@@ -21,6 +21,8 @@ open class CADStatusTabBarController: StatusTabBarController {
     public init(viewModel: CADStatusTabBarViewModel) {
         self.viewModel = viewModel
         super.init()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(applyTheme), name: .interfaceStyleDidChange, object: nil)
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -42,7 +44,7 @@ open class CADStatusTabBarController: StatusTabBarController {
         view.backgroundColor = ThemeManager.shared.theme(for: .dark).color(forKey: .background)
         tabBarContainerController.view.isHidden = true
         
-        tabBar.barTintColor = .tabBarWhite
+        applyTheme()
     }
 
     @objc open func syncChanged() {
@@ -75,6 +77,17 @@ open class CADStatusTabBarController: StatusTabBarController {
     @objc open func selectedCallsignStatusView() {
         guard userCallsignStatusView.isEnabled else { return }
         selectedViewController?.present(viewModel.userCallsignStatusViewModel.screenForAction())
+    }
+    
+    // MARK: - Private methods
+    
+    @objc private func applyTheme() {
+        let theme = ThemeManager.shared.theme(for: .current)
+        let isDark = ThemeManager.shared.currentInterfaceStyle.isDark
+        tabBar.tintColor = isDark ? .white : nil
+        tabBar.barTintColor = isDark ? .tabBarBlack : .tabBarWhite
+        userCallsignStatusView.titleLabel.textColor = theme.color(forKey: .primaryText)
+        userCallsignStatusView.subtitleLabel.textColor = theme.color(forKey: .secondaryText)
     }
 }
 
