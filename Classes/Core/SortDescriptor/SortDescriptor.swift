@@ -49,7 +49,7 @@ public struct SortDescriptor<T> {
     /// - Returns: orderedAscending if lhs is less than rhs, orderedDescending if lhs is greater than rhs, or orderedSame if lhs is equal to rhs.
     public func compare(_ lhs: T, _ rhs: T) -> ComparisonResult {
 
-        let result: ComparisonResult = comparator(lhs, rhs)
+        let result = comparator(lhs, rhs)
 
         switch (isAscending, result) {
         case (true, _):
