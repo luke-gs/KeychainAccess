@@ -12,7 +12,7 @@ public protocol OfficerListViewModelDelegate: class {
     func itemSelectedAndFinishedEditing()
 }
 
-public class OfficerListViewModel: GenericSearchDefaultViewModel {
+public class OfficerListViewModel: DefaultSearchDisplayableViewModel {
     
     open weak var detailsDelegate: OfficerDetailsViewModelDelegate?
     open weak var delegate: OfficerListViewModelDelegate?

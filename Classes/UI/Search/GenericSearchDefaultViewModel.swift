@@ -10,7 +10,7 @@ import PromiseKit
 
 /// Default implementation of the generic search view model
 /// Allows for basic customisation
-open class GenericSearchDefaultViewModel: GenericSearchViewModel {
+open class DefaultSearchDisplayableViewModel: SearchDisplayableViewModel {
     public typealias Object = CustomSearchDisplayable
 
     public var title: String = "Search"
@@ -141,7 +141,7 @@ open class GenericSearchDefaultViewModel: GenericSearchViewModel {
 }
 
 /// Generic Search View Model definition
-public protocol GenericSearchViewModel {
+public protocol SearchDisplayableViewModel {
 
     associatedtype Object
 

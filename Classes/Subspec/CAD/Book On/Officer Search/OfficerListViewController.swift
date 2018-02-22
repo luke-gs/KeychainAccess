@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class OfficerListViewController<T: GenericSearchDelegate, U: OfficerListViewModel>: GenericSearchViewController<T, U> where T.Object == U.Object {
+open class OfficerListViewController<T: SearchDisplayableDelegate, U: OfficerListViewModel>: SearchDisplayableViewController<T, U> where T.Object == U.Object {
 
         
     public required init(viewModel: U) {

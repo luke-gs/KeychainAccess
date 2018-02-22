@@ -9,7 +9,7 @@
 import UIKit
 import PromiseKit
 
-open class GenericSearchViewController<T: GenericSearchDelegate, U: GenericSearchViewModel>: FormBuilderViewController, UISearchBarDelegate where T.Object == U.Object {
+open class SearchDisplayableViewController<T: SearchDisplayableDelegate, U: SearchDisplayableViewModel>: FormBuilderViewController, UISearchBarDelegate where T.Object == U.Object {
 
     /// The delegate for the collection view touches
     public var delegate: T?
@@ -98,7 +98,7 @@ open class GenericSearchViewController<T: GenericSearchDelegate, U: GenericSearc
 }
 
 /// The generic search delegate
-public protocol GenericSearchDelegate {
+public protocol SearchDisplayableDelegate {
 
     associatedtype Object
 

@@ -11,7 +11,7 @@ public protocol PatrolAreaListViewModelDelegate: class {
     func patrolAreaListViewModel(_ viewModel: PatrolAreaListViewModel, didSelectPatrolArea patrolArea: String?)
 }
 
-public class PatrolAreaListViewModel: GenericSearchDefaultViewModel {
+public class PatrolAreaListViewModel: DefaultSearchDisplayableViewModel {
     
     // MARK: - Properties
     
