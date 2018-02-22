@@ -96,10 +96,10 @@ public class BookOnPresenter: Presenter {
     }
 }
 
-extension BookOnPresenter: GenericSearchDelegate {
-    public typealias Object = GenericSearchable
+extension BookOnPresenter: SearchDisplayableDelegate {
+    public typealias Object = CustomSearchDisplayable
 
-    public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: GenericSearchable) {
+    public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: CustomSearchDisplayable) {
 
     }
 }
