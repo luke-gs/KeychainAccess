@@ -8,7 +8,7 @@
 
 import UIKit
 
-public struct OfficerListItemViewModel: GenericSearchable {
+public struct OfficerListItemViewModel: CustomSearchDisplayable {
     
     public var firstName: String
     public var lastName: String
@@ -27,7 +27,7 @@ public struct OfficerListItemViewModel: GenericSearchable {
     
     // MARK: - Searchable
     
-    public var title: String {
+    public var title: String? {
         return "\(firstName) \(lastName)"
     }
     
@@ -43,8 +43,8 @@ public struct OfficerListItemViewModel: GenericSearchable {
                                                                                             padding: CGSize(width: 14, height: 14)))
     }
     
-    public func matches(searchString: String) -> Bool {
-        let searchStringLowercase = searchString.lowercased()
+    public func contains(_ searchText: String) -> Bool {
+        let searchStringLowercase = searchText.lowercased()
         
         let matchesFirstName = firstName.lowercased().hasPrefix(searchStringLowercase)
         let matchesLastName = lastName.lowercased().hasPrefix(searchStringLowercase)
