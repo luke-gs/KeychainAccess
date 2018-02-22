@@ -12,6 +12,6 @@ import Foundation
 public protocol CADBookOffDetailsType {
 
     // MARK: - Network
-    var callsign: String! { get }
-    var loggedInPayrollId: String! { get }
+    var callsign: String? { get set }
+    var loggedInPayrollId: String? { get set }
 }

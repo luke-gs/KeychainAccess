@@ -578,6 +578,8 @@
 		DB0F44862005D06500F82C5F /* ValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0F44852005D06500F82C5F /* ValidatorTests.swift */; };
 		DB168CDE20032B6B00322F7F /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB168CDD20032B6B00322F7F /* Validator.swift */; };
 		DB2A05E11FD9142E005B7BFD /* HapticHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2A05E01FD9142E005B7BFD /* HapticHelper.swift */; };
+		DB308E40203122940029DCA0 /* UserStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB308E3F203122940029DCA0 /* UserStorage.swift */; };
+		DB4290DD202A7009007672CD /* UserStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB4290DC202A7009007672CD /* UserStorageTests.swift */; };
 		DB528ECF20046BFC008914EB /* ValidationRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB528ECE20046BFC008914EB /* ValidationRules.swift */; };
 		DB528ED120046C13008914EB /* ValidationResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB528ED020046C13008914EB /* ValidationResults.swift */; };
 		DB6C89EC1FD4D818006F9AD2 /* QuantityPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6C89EB1FD4D818006F9AD2 /* QuantityPickerViewController.swift */; };
@@ -1344,6 +1346,8 @@
 		DB0F44852005D06500F82C5F /* ValidatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatorTests.swift; sourceTree = "<group>"; };
 		DB168CDD20032B6B00322F7F /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		DB2A05E01FD9142E005B7BFD /* HapticHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticHelper.swift; sourceTree = "<group>"; };
+		DB308E3F203122940029DCA0 /* UserStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserStorage.swift; sourceTree = "<group>"; };
+		DB4290DC202A7009007672CD /* UserStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStorageTests.swift; sourceTree = "<group>"; };
 		DB528ECE20046BFC008914EB /* ValidationRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationRules.swift; sourceTree = "<group>"; };
 		DB528ED020046C13008914EB /* ValidationResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationResults.swift; sourceTree = "<group>"; };
 		DB6C89EB1FD4D818006F9AD2 /* QuantityPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityPickerViewController.swift; sourceTree = "<group>"; };
@@ -2750,6 +2754,7 @@
 				460B5BAF2007171200AB7D12 /* Sketch */,
 				DB88BCC91F42CEA40056FD69 /* SortDescriptor */,
 				E2CD47A81FE9FC7500934367 /* Templates */,
+				DB308E3E203122940029DCA0 /* UserStorage */,
 				BC9C7D4C1F0DED6600DFFE83 /* Transformers */,
 				DB88BCC71F42CE970056FD69 /* Utility */,
 				DB168CDC20032AD800322F7F /* Validation */,
@@ -3331,6 +3336,22 @@
 			path = Validation;
 			sourceTree = "<group>";
 		};
+		DB308E3E203122940029DCA0 /* UserStorage */ = {
+			isa = PBXGroup;
+			children = (
+				DB308E3F203122940029DCA0 /* UserStorage.swift */,
+			);
+			path = UserStorage;
+			sourceTree = "<group>";
+		};
+		DB4290DB202A6FE8007672CD /* UserStorage */ = {
+			isa = PBXGroup;
+			children = (
+				DB4290DC202A7009007672CD /* UserStorageTests.swift */,
+			);
+			path = UserStorage;
+			sourceTree = "<group>";
+		};
 		DB88BCC71F42CE970056FD69 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
@@ -3580,6 +3601,7 @@
 				EA42F8D81F95872200C5C38E /* Specifications */,
 				E2CD47AD1FEA0AAC00934367 /* Templates */,
 				197FBF6F1F9980CC0086875A /* Network */,
+				DB4290DB202A6FE8007672CD /* UserStorage */,
 				DB0F44842005D05800F82C5F /* Validator */,
 				19B3F35A1FD0742B00245566 /* PromiseCancellationTokenTests.swift */,
 			);
@@ -4262,6 +4284,7 @@
 				467092222023EF6700271157 /* AudioSampler.swift in Sources */,
 				276C21081F60C44B0003B860 /* MapOverlayImageButton.swift in Sources */,
 				BC9C7E3F1F0DED6600DFFE83 /* PopoverFormSheetPresentationController.swift in Sources */,
+				DB308E40203122940029DCA0 /* UserStorage.swift in Sources */,
 				BCA6FD771F22E0AE00EE8F7A /* SearchFieldButton.swift in Sources */,
 				EA4806B51F56A00600B42313 /* LocationSearchConfiguration.swift in Sources */,
 				12D3702020200DBD00D79DDB /* ObjectBucket.swift in Sources */,
@@ -4725,6 +4748,7 @@
 				DB0F44862005D06500F82C5F /* ValidatorTests.swift in Sources */,
 				EAF76C911F94545400405DC9 /* DetailFormItemTests.swift in Sources */,
 				EA42F8DC1F9588C500C5C38E /* OrSpecificationTests.swift in Sources */,
+				DB4290DD202A7009007672CD /* UserStorageTests.swift in Sources */,
 				12F057241F3BFCBC00CAD6F6 /* SearchResultsTests.swift in Sources */,
 				EAF76C7B1F908F0000405DC9 /* ValidateResultTests.swift in Sources */,
 				46A60F611FCFB03200EE32CA /* EvaluatorTests.swift in Sources */,

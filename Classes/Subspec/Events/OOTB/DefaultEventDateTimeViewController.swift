@@ -42,6 +42,7 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
             .datePickerMode(.dateAndTime)
             .withNowButton(true)
             .width(.column(2))
+            .maximumDate(Date())
             .onValueChanged { date in
                 self.report?.reportedOnDateTime = date
             }
@@ -56,22 +57,40 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
             .withNowButton(true)
             .width(.column(2))
             .onValueChanged { date in
+                guard let formItem = self.builder.formItem(for: "tookPlaceFromEndDateTime") as? DateFormItem else { return }
+                self.adjustEndTime(for: date, in: formItem)
                 self.report?.tookPlaceFromStartDateTime = date
             }
             .required()
 
-        builder += DateFormItem()
+        builder +=  DateFormItem()
             .title("End")
             .selectedValue(report?.tookPlacefromEndDateTime)
             .datePickerMode(.dateAndTime)
             .width(.column(2))
+            .elementIdentifier("tookPlaceFromEndDateTime")
+            .minimumDate(Date())
             .onValueChanged { date in
-                self.report?.tookPlacefromEndDateTime = date
+                self.report?.tookPlaceFromEndDateTime = date
         }
+        
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
         sidebarItem.color = evaluator.isComplete == true ? .green : .red
+    }
+
+    //MARK: PRIVATE
+
+    private func adjustEndTime(for date: Date?, in formItem: DateFormItem) {
+        formItem.minimumDate = date
+        guard date != report?.tookPlaceFromStartDateTime else { return }
+        guard let startDate = date, let endDate = report?.tookPlaceFromEndDateTime else { return }
+        if startDate > endDate {
+            report?.tookPlaceFromEndDateTime = nil
+            formItem.selectedValue = nil
+            formItem.reloadItem()
+        }
     }
 }
 
@@ -79,19 +98,19 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
 /// The OOTB Date Time Report
 public class DefaultDateTimeReport: Reportable {
 
-    var reportedOnDateTime: Date? {
+    public var reportedOnDateTime: Date? {
         didSet {
             evaluator.updateEvaluation(for: .reportedOnDateTime)
         }
     }
 
-    var tookPlaceFromStartDateTime: Date? {
+    public var tookPlaceFromStartDateTime: Date? {
         didSet {
             evaluator.updateEvaluation(for: .tookPlaceFromStartDateTime)
         }
     }
 
-    var tookPlacefromEndDateTime: Date?
+    public var tookPlaceFromEndDateTime: Date?
 
     public weak var event: Event?
     public var evaluator: Evaluator = Evaluator()
@@ -114,14 +133,14 @@ public class DefaultDateTimeReport: Reportable {
         let container = try from.container(keyedBy: Keys.self)
         reportedOnDateTime = try container.decode(Date.self, forKey: .reportedOnDateTime)
         tookPlaceFromStartDateTime = try container.decode(Date.self, forKey: .tookPlaceFromStartDateTime)
-        tookPlacefromEndDateTime = try container.decode(Date.self, forKey: .tookPlacefromEndDateTime)
+        tookPlaceFromEndDateTime = try container.decode(Date.self, forKey: .tookPlacefromEndDateTime)
     }
 
     public func encode(to: Encoder) throws {
         var container = to.container(keyedBy: Keys.self)
         try container.encode(reportedOnDateTime, forKey: .reportedOnDateTime)
         try container.encode(tookPlaceFromStartDateTime, forKey: .tookPlaceFromStartDateTime)
-        try container.encode(tookPlacefromEndDateTime, forKey: .tookPlacefromEndDateTime)
+        try container.encode(tookPlaceFromEndDateTime, forKey: .tookPlacefromEndDateTime)
     }
 
     enum Keys: String, CodingKey {
@@ -134,5 +153,3 @@ public class DefaultDateTimeReport: Reportable {
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
 }
-
-

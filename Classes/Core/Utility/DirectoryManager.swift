@@ -11,7 +11,7 @@ import KeychainSwift
 
 public class DirectoryManager: DirectoryManaging {
 
-    private var baseURL: URL
+    public private(set) var baseURL: URL
     private let operationQueue: OperationQueue
     private lazy var keychain: KeychainSwift = {
         // Create keychain using the configured app group
@@ -43,6 +43,14 @@ public class DirectoryManager: DirectoryManaging {
     public func remove(at path: String) throws {
         let url = baseURL.appendingPathComponent(path)
         try FileManager.default.removeItem(at: url)
+    }
+
+    public func contents(of path: String? = nil) -> [String]? {
+        var url = baseURL
+        if let path = path {
+            url = url.appendingPathComponent(path)
+        }
+        return try? FileManager.default.contentsOfDirectory(atPath: url.path)
     }
 
     //MARK: Keychain
@@ -92,6 +100,12 @@ public protocol DirectoryManaging {
     /// - Throws: throws error if there was a problem removing the file
     func remove(at path: String) throws
 
+    /// Retrieve a list of file names from the given directory
+    ///
+    /// - Parameter path: The path of the directory
+    /// - Returns: An array of filenames in the directory. Nil if directory not found.
+    func contents(of path: String?) -> [String]?
+
     /// Write an object to the keychain
     ///
     /// - Parameters:
@@ -128,7 +142,7 @@ public extension FileManager {
                     withIntermediateDirectories createIntermediates: Bool,
                     attributes attr: [FileAttributeKey : Any]? = nil) throws -> Bool
     {
-        guard let url = URL(string: path) else { return false }
+        let url = URL(fileURLWithPath: path)
         try FileManager.default.createDirectory(atPath: url.deletingLastPathComponent().path,
                                                 withIntermediateDirectories: createIntermediates,
                                                 attributes: attr)

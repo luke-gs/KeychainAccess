@@ -65,7 +65,7 @@ open class BookOnLandingCallsignItemViewModel: BookOnLandingItemViewModel {
         self.resource = resource
         self.callsign = resource.callsign
         self.status = resource.status
-        self.location = resource.location?.fullAddress.ifNotEmpty()
+        self.location = resource.location?.fullAddress?.ifNotEmpty()
         self.type = resource.type
         self.badgeText = incident?.grade.rawValue
         self.badgeTextColor = badgeTextColor

@@ -12,10 +12,10 @@ import Foundation
 public protocol CADActivityLogItemType: class {
 
     // MARK: - Network
-    var description: String! { get }
-    var source: String! { get }
-    var timestamp: Date! { get }
-    var title: String! { get }
+    var description: String? { get set }
+    var source: String? { get set }
+    var timestamp: Date { get set }
+    var title: String? { get set }
 
     // MARK: - Generated
     var color: UIColor { get }
