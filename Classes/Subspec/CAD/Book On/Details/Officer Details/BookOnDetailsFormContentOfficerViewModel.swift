@@ -21,7 +21,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     open var licenceTypeId: String?
     open var contactNumber: String?
     open var radioId: String?
-    open var capabilities: [String]?
+    open var capabilities: [String] = []
     open var remarks: String?
     open var initials: String?
 

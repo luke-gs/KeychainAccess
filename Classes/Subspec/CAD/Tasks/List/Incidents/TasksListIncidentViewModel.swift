@@ -26,7 +26,7 @@ public class TasksListIncidentViewModel: TasksListItemViewModel {
     public let badgeBorderColor: UIColor?
     public var hasUpdates: Bool
     
-    public init(identifier: String, title: String, subtitle: String, caption: String, priority: String? = nil,
+    public init(identifier: String, title: String, subtitle: String?, caption: String, priority: String? = nil,
                 description: String? = nil, resources: [TasksListInformationRowViewModel]? = nil, badgeTextColor: UIColor?,
                 badgeFillColor: UIColor?, badgeBorderColor: UIColor?, hasUpdates: Bool)
     {
@@ -49,9 +49,9 @@ public class TasksListIncidentViewModel: TasksListItemViewModel {
         self.init(
             identifier: incident.identifier,
             title: [incident.type, incident.resourceCountString].joined(),
-            subtitle: incident.location.fullAddress,
+            subtitle: incident.location?.fullAddress,
             caption: [incident.identifier, incident.secondaryCode].joined(separator: ThemeConstants.dividerSeparator),
-            priority: incident.grade.rawValue,
+            priority: incident.grade.title,
             description: showsDescription ? incident.details : nil,
             resources: showsResources ? resources : nil,
             badgeTextColor: incident.grade.badgeColors.text,

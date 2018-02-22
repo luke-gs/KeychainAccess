@@ -110,29 +110,35 @@ open class TasksMapViewModel {
     
     /// Maps incident view models to task annotations
     open func taskAnnotations(for incidents: [CADIncidentType]) -> [TaskAnnotation] {
-        return incidents.map { incident in
-            return IncidentAnnotation(identifier: incident.identifier,
-                                      coordinate: incident.coordinate,
-                                      title: incident.type,
-                                      subtitle: incident.resourceCountString,
-                                      badgeText: incident.grade.rawValue,
-                                      badgeTextColor: incident.grade.badgeColors.text,
-                                      badgeFillColor: incident.grade.badgeColors.fill,
-                                      badgeBorderColor: incident.grade.badgeColors.border,
-                                      usesDarkBackground: incident.status.useDarkBackgroundOnMap,
-                                      priority: incident.grade)
+        return incidents.flatMap { incident in
+            if let coordinate = incident.coordinate {
+                return IncidentAnnotation(identifier: incident.identifier,
+                                          coordinate: coordinate,
+                                          title: incident.type,
+                                          subtitle: incident.resourceCountString,
+                                          badgeText: incident.grade.rawValue,
+                                          badgeTextColor: incident.grade.badgeColors.text,
+                                          badgeFillColor: incident.grade.badgeColors.fill,
+                                          badgeBorderColor: incident.grade.badgeColors.border,
+                                          usesDarkBackground: incident.status.useDarkBackgroundOnMap,
+                                          priority: incident.grade)
+            }
+            return nil
         }
     }
     
     
     /// Maps patrol view models to task annotations
     open func taskAnnotations(for patrols: [CADPatrolType]) -> [TaskAnnotation] {
-        return patrols.map { patrol in
-            return PatrolAnnotation(identifier: patrol.identifier,
-                                    coordinate: patrol.coordinate,
-                                    title: patrol.type.title,
-                                    subtitle: nil,
-                                    usesDarkBackground: patrol.status.useDarkBackgroundOnMap)
+        return patrols.flatMap { patrol in
+            if let coordinate = patrol.coordinate {
+                return PatrolAnnotation(identifier: patrol.identifier,
+                                        coordinate: coordinate,
+                                        title: patrol.type,
+                                        subtitle: nil,
+                                        usesDarkBackground: patrol.status.useDarkBackgroundOnMap)
+            }
+            return nil
         }
     }
     
