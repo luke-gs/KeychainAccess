@@ -81,6 +81,13 @@ public class FormBuilder {
         formItems.removeAll()
     }
 
+    /// Returns a form item for a specified identifier
+    ///
+    /// - Parameter elementIdentifier: the identifier
+    /// - Returns: the form item
+    public func formItem(for elementIdentifier: String) -> FormItem? {
+        return formItems.filter{$0.elementIdentifier == elementIdentifier}.first
+    }
 
     /// Generates a collection of sections containing header, footer and items.
     ///

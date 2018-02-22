@@ -22,7 +22,7 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
             CADFormCollectionSectionViewModel(title: "Overview",
                                               items: [
                                                 TaskDetailsOverviewItemViewModel(title: "Incident Location",
-                                                                              value: incident.location.fullAddress,
+                                                                              value: incident.location?.fullAddress ?? "",
                                                                               width: .column(1),
                                                                               selectAction: { [unowned self] cell in
                                                                                 self.presentAddressPopover(from: cell, for: incident)
@@ -30,7 +30,7 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
                                                                               accessory: ItemAccessory(style: .overflow, tintColor: .secondaryGray)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Priority",
-                                                                              value: incident.grade.rawValue,
+                                                                              value: incident.grade.title,
                                                                               width: .column(4)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Primary Code",
@@ -46,11 +46,11 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
                                                                               width: .column(4)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Created",
-                                                                              value: incident.createdAtString,
+                                                                              value: incident.createdAtString ?? "",
                                                                               width: .column(4)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Last Updated",
-                                                                              value: incident.lastUpdated.elapsedTimeIntervalForHuman(),
+                                                                              value: incident.lastUpdated?.elapsedTimeIntervalForHuman() ?? "",
                                                                               width: .column(4)),
             ]),
             

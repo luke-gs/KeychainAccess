@@ -12,14 +12,14 @@ import Foundation
 public protocol CADIncidentPersonType: class {
 
     // MARK: - Network
-    var alertLevel: Int! { get }
-    var dateOfBirth: String! { get }
-    var firstName: String! { get }
-    var fullAddress: String! { get }
-    var gender: String! { get }
-    var lastName: String! { get }
-    var middleNames: String! { get }
-    var thumbnail: String! { get }
+    var alertLevel: Int? { get set }
+    var dateOfBirth: String? { get set }
+    var firstName: String? { get set }
+    var fullAddress: String? { get set }
+    var gender: String? { get set }
+    var lastName: String? { get set }
+    var middleNames: String? { get set }
+    var thumbnail: String? { get set }
 
     // MARK: - Generated
     var fullName: String { get }

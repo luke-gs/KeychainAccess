@@ -13,23 +13,23 @@ import CoreLocation
 public protocol CADResourceType: class, CADTaskListItemModelType {
 
     // MARK: - Network
-    var activityLog: [CADActivityLogItemType]? { get set }
-    var assignedIncidents: [String]? { get set}
-    var callsign: String!  { get set }
+    var activityLog: [CADActivityLogItemType] { get set }
+    var assignedIncidents: [String] { get set}
+    var callsign: String { get set }
     var currentIncident: String? { get set }
     var driver: String? { get set }
-    var equipment: [CADEquipmentType]? { get set }
+    var equipment: [CADEquipmentType] { get set }
     var lastUpdated : Date? { get set }
     var location: CADLocationType? { get set }
-    var patrolGroup: String! { get set }
-    var payrollIds: [String]? { get set }
+    var patrolGroup: String? { get set }
+    var payrollIds: [String] { get set }
     var remarks : String? { get set }
     var serial: String? { get set }
     var shiftEnd: Date? { get set }
     var shiftStart: Date? { get set }
-    var station: String! { get set }
-    var status: CADResourceStatusType! { get set }
-    var type: CADResourceUnitType! { get set }
+    var station: String? { get set }
+    var status: CADResourceStatusType { get set }
+    var type: CADResourceUnitType { get set }
     var vehicleCategory: String? { get set }
 
     // MARK: - Generated

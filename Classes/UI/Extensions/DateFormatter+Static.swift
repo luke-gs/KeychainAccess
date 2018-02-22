@@ -132,3 +132,34 @@ extension DateFormatter {
     }
     
 }
+
+/// Convenience extension to Date to do conversions for preferred styles
+extension Date {
+    public func asPreferredDateString() -> String {
+        return DateFormatter.preferredDateStyle.string(from: self)
+    }
+
+    public func asPreferredDateTimeString() -> String {
+        return DateFormatter.preferredDateTimeStyle.string(from: self)
+    }
+
+    public func asPreferredTimeString() -> String {
+        return DateFormatter.preferredTimeStyle.string(from: self)
+    }
+}
+
+/// Convenience extension to String to do conversions for preferred styles
+extension String {
+    public func asPreferredDate() -> Date? {
+        return DateFormatter.preferredDateStyle.date(from: self)
+    }
+
+    public func asPreferredDateTime() -> Date? {
+        return DateFormatter.preferredDateTimeStyle.date(from: self)
+    }
+
+    public func asPreferredTime() -> Date? {
+        return DateFormatter.preferredTimeStyle.date(from: self)
+    }
+}
+

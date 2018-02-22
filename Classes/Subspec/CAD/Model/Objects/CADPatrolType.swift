@@ -13,17 +13,17 @@ import CoreLocation
 public protocol CADPatrolType: class, CADTaskListItemModelType {
 
     // MARK: - Network
-    var createdAt: Date! { get }
-    var details: String! { get }
-    var identifier: String! { get }
-    var lastUpdated: Date! { get }
-    var location : CADLocationType! { get }
-    var patrolGroup: String! { get }
-    var status: CADPatrolStatusType! { get }
-    var subtype: String! { get }
-    var type: String! { get }
+    var createdAt: Date? { get set }
+    var details: String? { get set }
+    var identifier: String { get set }
+    var lastUpdated: Date? { get set }
+    var location : CADLocationType? { get set }
+    var patrolGroup: String? { get set }
+    var status: CADPatrolStatusType { get set }
+    var subtype: String? { get set }
+    var type: String? { get set }
 
     // MARK: - Generated
-    var coordinate: CLLocationCoordinate2D { get }
-    var createdAtString: String { get }
+    var coordinate: CLLocationCoordinate2D? { get }
+    var createdAtString: String? { get }
 }
