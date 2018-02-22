@@ -11,7 +11,7 @@ import MPOLKit
 import ClientKit
 import PromiseKit
 
-class OfficerSearchViewModel: GenericSearchViewModel {
+class OfficerSearchViewModel: SearchDisplayableViewModel {
 
     typealias Object = Officer
 
@@ -19,7 +19,7 @@ class OfficerSearchViewModel: GenericSearchViewModel {
 
     lazy var cancelToken: PromiseCancellationToken = PromiseCancellationToken()
 
-    private var objectDisplayMap: [Object: GenericSearchable] = [:]
+    private var objectDisplayMap: [Object: CustomSearchDisplayable] = [:]
     public private(set) var items: [Object] = []
 
     public init(items: [Object] = []) {
@@ -44,8 +44,8 @@ class OfficerSearchViewModel: GenericSearchViewModel {
         return ""
     }
 
-    func title(for indexPath: IndexPath) -> String {
-        return searchable(for: items[indexPath.item]).title 
+    func title(for indexPath: IndexPath) -> String? {
+        return searchable(for: items[indexPath.item]).title
     }
 
     func description(for indexPath: IndexPath) -> String? {
@@ -56,11 +56,11 @@ class OfficerSearchViewModel: GenericSearchViewModel {
         return searchable(for: items[indexPath.item]).image
     }
 
-    func accessory(for searchable: GenericSearchable) -> ItemAccessorisable? {
+    func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? {
         return ItemAccessory.disclosure
     }
 
-    func searchable(for object: Object) -> GenericSearchable {
+    func searchable(for object: Object) -> CustomSearchDisplayable {
         if let existingSearchable = objectDisplayMap[object] {
             return existingSearchable
         }
