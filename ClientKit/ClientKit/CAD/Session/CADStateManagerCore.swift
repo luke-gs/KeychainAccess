@@ -18,6 +18,7 @@ open class CADStateManagerCore: CADStateManagerType {
 
     public init() {
         // Register concrete classes for protocols
+        CADClientModelTypes.taskListSources = CADTaskListSourceCore.self
         CADClientModelTypes.bookonDetails = CADBookOnRequest.self
         CADClientModelTypes.officerDetails = CADOfficerCore.self
         CADClientModelTypes.equipmentDetails = CADEquipmentCore.self
