@@ -56,15 +56,23 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
 
     /// Return the source bar item of this type based on the current filter
     public func sourceItem(filterViewModel: TaskMapFilterViewModel) -> SourceItem {
-        // TODO: calculate colors based on priorities
         let count = modelItems.count
-        let color = UIColor.secondaryGray
-        /*
-         sourceItemForType(type: .incident,  count: filteredIncidents.count, color: .orangeRed),
-         sourceItemForType(type: .patrol,    count: filteredPatrols.count, color: .secondaryGray),
-         sourceItemForType(type: .broadcast, count: filteredBroadcasts.count, color: .secondaryGray),
-         sourceItemForType(type: .resource,  count: filteredResources.count, color: .orangeRed)
-         */
+        var color = UIColor.secondaryGray
+
+        switch self {
+        case .incident:
+            // Set the color of the source item based on incident priorities
+            if let incidents = self.modelItems as? [CADIncidentType] {
+                color = incidents.highestPriorityColor()
+            }
+        case .resource:
+            // Set the color of the source item based on resource duress
+            if let resources = self.modelItems as? [CADResourceType] {
+                color = resources.highestAlertColor()
+            }
+        default:
+            break
+        }
         return SourceItem(title: title, shortTitle: shortTitle, state: .loaded(count: UInt(count), color: color))
     }
 
@@ -417,4 +425,46 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
         }
     }
 
+}
+
+// Convenience extension to get highest priority incident grade
+extension Array where Element == CADIncidentType {
+
+    func highestPriority() -> CADIncidentGradeType? {
+        let priorities = self.map { return $0.grade }
+        let sortedGrades = CADClientModelTypes.incidentGrade.allCases
+        let sortedPriorities = priorities.sorted { (lhs, rhs) in
+            let lhsIndex = sortedGrades.index(where: { $0 == lhs })
+            let rhsIndex = sortedGrades.index(where: { $0 == rhs })
+            return lhsIndex ?? 0 < rhsIndex ?? 0
+        }
+        return sortedPriorities.first
+    }
+
+    func highestPriorityColor() -> UIColor {
+        if let highestPriority = highestPriority() as? CADIncidentGradeCore {
+            switch highestPriority {
+            case .p1:
+                return .orangeRed
+            case .p2:
+                return .sunflowerYellow
+            case .p3, .p4:
+                return .secondaryGray
+            }
+        }
+        return .secondaryGray
+    }
+}
+
+// Convenience extension to get highest priority incident grade
+extension Array where Element == CADResourceType {
+
+    func highestAlertColor() -> UIColor {
+        let duressResources = self.flatMap { return $0.status == CADResourceStatusCore.duress ? $0 : nil }
+        if duressResources.count > 0 {
+            return .orangeRed
+        } else {
+            return .secondaryGray
+        }
+    }
 }
