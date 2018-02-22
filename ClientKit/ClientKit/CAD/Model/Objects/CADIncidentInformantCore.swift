@@ -14,11 +14,11 @@ open class CADIncidentInformantCore: Codable, CADIncidentInformantType {
 
     // MARK: - Network
 
-    open var fullName : String!
+    open var fullName: String?
 
-    open var primaryPhone : String!
+    open var primaryPhone: String?
 
-    open var secondaryPhone : String!
+    open var secondaryPhone: String?
 
     // MARK: - Codable
 

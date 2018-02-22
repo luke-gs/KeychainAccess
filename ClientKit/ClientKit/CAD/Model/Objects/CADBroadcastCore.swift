@@ -16,24 +16,24 @@ open class CADBroadcastCore: Codable, CADBroadcastType {
 
     // MARK: - Network
 
-    open var createdAt: Date!
+    open var createdAt: Date?
 
-    open var details: String!
+    open var details: String?
 
-    open var identifier: String!
+    open var identifier: String
 
-    open var lastUpdated: Date!
+    open var lastUpdated: Date?
 
-    open var location: CADLocationType!
+    open var location: CADLocationType?
 
-    open var title: String!
+    open var title: String?
 
-    open var type: CADBroadcastCategoryType!
+    open var type: CADBroadcastCategoryType
 
     // MARK: - Generated
 
-    open var createdAtString: String {
-        return DateFormatter.preferredDateTimeStyle.string(from: createdAt)
+    open var createdAtString: String? {
+        return createdAt?.asPreferredDateTimeString()
     }
 
     /// Create a map annotation for the task list item if location is available
@@ -58,11 +58,11 @@ open class CADBroadcastCore: Codable, CADBroadcastType {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         createdAt = try values.decodeIfPresent(Date.self, forKey: .createdAt)
         details = try values.decodeIfPresent(String.self, forKey: .details)
-        identifier = try values.decodeIfPresent(String.self, forKey: .identifier)
+        identifier = try values.decode(String.self, forKey: .identifier)
         lastUpdated = try values.decodeIfPresent(Date.self, forKey: .lastUpdated)
         location = try values.decodeIfPresent(CADLocationCore.self, forKey: .location)
         title = try values.decodeIfPresent(String.self, forKey: .title)
-        type = try values.decodeIfPresent(CADBroadcastCategoryCore.self, forKey: .type)
+        type = try values.decode(CADBroadcastCategoryCore.self, forKey: .type)
     }
 
     public func encode(to encoder: Encoder) throws {
