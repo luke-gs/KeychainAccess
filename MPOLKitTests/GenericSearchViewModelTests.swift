@@ -11,13 +11,14 @@ import XCTest
 
 class GenericSearchViewModelTests: XCTestCase {
 
-    private lazy var items: [GenericSearchable] = {
-        let items: [GenericSearchable] = Array<GenericSearchable>(repeating: Test(), count: 10) + Array<GenericSearchable>(repeating: Test3(), count: 2)
+    private lazy var items: [CustomSearchDisplayable] = {
+        let items: [CustomSearchDisplayable] = Array<CustomSearchDisplayable>(repeating: Test(), count: 10) + Array<CustomSearchDisplayable>(repeating: Test3(), count: 2)
         return items
+
     }()
 
-    private lazy var viewModel: GenericSearchDefaultViewModel = {
-        let viewModel = GenericSearchDefaultViewModel(items: items)
+    private lazy var viewModel: DefaultSearchDisplayableViewModel = {
+        let viewModel = DefaultSearchDisplayableViewModel(items: items)
         return viewModel
     }()
 
@@ -33,8 +34,8 @@ class GenericSearchViewModelTests: XCTestCase {
     }
 
     func testNumberOfSectionsPlusOtherSection() {
-        let items: [GenericSearchable] = Array<GenericSearchable>(repeating: Test(), count: 10) + Array<GenericSearchable>(repeating: Test2(), count: 2)
-        let viewModel = GenericSearchDefaultViewModel(items: items)
+        let items: [CustomSearchDisplayable] = Array<CustomSearchDisplayable>(repeating: Test(), count: 10) + Array<CustomSearchDisplayable>(repeating: Test2(), count: 2)
+        let viewModel = DefaultSearchDisplayableViewModel(items: items)
 
         let numberOfSections = Set(items.flatMap{$0.section}).count
         XCTAssertNotEqual(viewModel.numberOfSections(), numberOfSections)
@@ -102,35 +103,35 @@ class GenericSearchViewModelTests: XCTestCase {
 }
 
 
-struct Test: GenericSearchable {
-    var title: String = "James"
+struct Test: CustomSearchDisplayable {
+    var title: String? = "James"
     var subtitle: String? = "Neverdie"
     var section: String? = "On Duty"
     var image: UIImage? = UIImage()
 
-    func matches(searchString: String) -> Bool {
-        return title.starts(with: searchString)
+    func contains(_ searchText: String) -> Bool {
+        return title?.starts(with: searchText) ?? false
     }
 }
 
-struct Test2: GenericSearchable {
-    var title: String = "Herli"
+struct Test2: CustomSearchDisplayable {
+    var title: String? = "Herli"
     var subtitle: String? //= "Chad"
     var section: String? //= "On Air"
     var image: UIImage?  //= UIImage(named: "SidebarAlert")!
 
-    func matches(searchString: String) -> Bool {
-        return title.starts(with: searchString)
+    func contains(_ searchText: String) -> Bool {
+        return title?.starts(with: searchText) ?? false
     }
 }
 
-struct Test3: GenericSearchable {
-    var title: String = "Luke"
+struct Test3: CustomSearchDisplayable {
+    var title: String? = "Luke"
     var subtitle: String? = "Jimmy Boy"
     var section: String? = "Duress"
     var image: UIImage? // = UIImage(named: "SidebarAlertFilled")!
 
-    func matches(searchString: String) -> Bool {
-        return title.starts(with: searchString) || (subtitle?.contains(searchString) ?? false)
+    func contains(_ searchText: String) -> Bool {
+        return (title?.starts(with: searchText) ?? false) || (subtitle?.contains(searchText) ?? false)
     }
 }
