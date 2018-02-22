@@ -16,10 +16,6 @@ open class OfficerListViewController<T: GenericSearchDelegate, U: OfficerListVie
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""), style: .plain, target: self, action: #selector(cancelTapped))
     }
 
-    public required init(viewModel: U, delegate: T?) {
-        fatalError("init(viewModel:delegate:) has not been implemented")
-    }
-
     open override func construct(builder: FormBuilder) {
         builder.forceLinearLayout = true
         builder.title = viewModel.title

@@ -136,7 +136,7 @@ open class GenericSearchDefaultViewModel: GenericSearchViewModel {
     }
 
     public func searchAction() -> Promise<Void>? {
-        fatalError("Subclasses must override this if they wish to use it.")
+        MPLRequiresConcreteImplementation()
     }
 }
 
