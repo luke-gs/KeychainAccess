@@ -88,6 +88,18 @@ open class CADResourceCore: Codable, CADResourceType {
         return equipment.map { $0.description }.joined(separator: separator)
     }
 
+    /// Create a map annotation for the task list item if location is available
+    open func createAnnotation() -> TaskAnnotation? {
+        return ResourceAnnotation(identifier: callsign,
+                                  coordinate: coordinate!,
+                                  title: callsign,
+                                  subtitle: officerCountString,
+                                  icon: type.icon,
+                                  iconBackgroundColor: status.iconColors.background,
+                                  iconTintColor: status.iconColors.icon,
+                                  duress: status.isDuress)
+    }
+
     // MARK: - Static
 
     open static var shiftTimeFormatter: DateFormatter = {

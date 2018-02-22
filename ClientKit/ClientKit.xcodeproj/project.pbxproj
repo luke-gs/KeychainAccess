@@ -35,6 +35,7 @@
 		46A192FB1FB939FB00FED201 /* LocationDetailsSectionsDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A192FA1FB939FB00FED201 /* LocationDetailsSectionsDatasource.swift */; };
 		46A192FD1FB93A4000FED201 /* LocationFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A192FC1FB93A4000FED201 /* LocationFetchRequest.swift */; };
 		68A1298F030B1B4BB01632E6 /* Pods_ClientKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5919937B6BAC1FE012181DBE /* Pods_ClientKitTests.framework */; };
+		964B8CC3203E41CB00550311 /* CADTaskListSourceCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964B8CC2203E41CB00550311 /* CADTaskListSourceCore.swift */; };
 		966CE9CB203676EE00646A6A /* CADBroadcastCategoryCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9CA203676EE00646A6A /* CADBroadcastCategoryCore.swift */; };
 		966CE9CF20367E3500646A6A /* CADIncidentStatusCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9CE20367E3500646A6A /* CADIncidentStatusCore.swift */; };
 		966CE9D320368E0700646A6A /* CADPatrolStatusCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9D220368E0700646A6A /* CADPatrolStatusCore.swift */; };
@@ -157,6 +158,7 @@
 		75CB19BD929037FE5FC902BB /* Pods-ClientKit.internal-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.internal-debug.xcconfig"; path = "../MPOL/Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.internal-debug.xcconfig"; sourceTree = "<group>"; };
 		8D456DA74D3DDFD103A00567 /* Pods-ClientKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKitTests.release.xcconfig"; path = "../MPOL/Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		905D1BB1A0DB324FE3C6DD8B /* Pods-ClientKit.external-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.external-debug.xcconfig"; path = "../MPOL/Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.external-debug.xcconfig"; sourceTree = "<group>"; };
+		964B8CC2203E41CB00550311 /* CADTaskListSourceCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADTaskListSourceCore.swift; sourceTree = "<group>"; };
 		966CE9CA203676EE00646A6A /* CADBroadcastCategoryCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADBroadcastCategoryCore.swift; sourceTree = "<group>"; };
 		966CE9CE20367E3500646A6A /* CADIncidentStatusCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADIncidentStatusCore.swift; sourceTree = "<group>"; };
 		966CE9D220368E0700646A6A /* CADPatrolStatusCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADPatrolStatusCore.swift; sourceTree = "<group>"; };
@@ -295,6 +297,14 @@
 			path = "Section Data Sources";
 			sourceTree = "<group>";
 		};
+		964B8CC1203E416500550311 /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				964B8CC2203E41CB00550311 /* CADTaskListSourceCore.swift */,
+			);
+			path = Tasks;
+			sourceTree = "<group>";
+		};
 		966CE9BD20365B1000646A6A /* Enum */ = {
 			isa = PBXGroup;
 			children = (
@@ -311,6 +321,7 @@
 		9689CA11203644180001D993 /* CAD */ = {
 			isa = PBXGroup;
 			children = (
+				964B8CC1203E416500550311 /* Tasks */,
 				9689CA43203644CA0001D993 /* Session */,
 				9689CA122036445C0001D993 /* Model */,
 			);
@@ -888,6 +899,7 @@
 				966CE9CB203676EE00646A6A /* CADBroadcastCategoryCore.swift in Sources */,
 				199ECE9E1FAA5ACD0065E425 /* PersonImageSizing.swift in Sources */,
 				EAE12B051FC2A66500851619 /* VehicleEditViewController.swift in Sources */,
+				964B8CC3203E41CB00550311 /* CADTaskListSourceCore.swift in Sources */,
 				EA8B66651F38471500F09716 /* Person+EntitySummaryDisplayable.swift in Sources */,
 				1AB8251A1F5E485F001C4BCE /* LocationMapSearchRequest.swift in Sources */,
 				BCC7AEE11F0BA9E70091AAEA /* DateSorting.swift in Sources */,

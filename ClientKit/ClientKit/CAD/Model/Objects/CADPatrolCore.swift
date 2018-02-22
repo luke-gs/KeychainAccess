@@ -45,6 +45,15 @@ open class CADPatrolCore: Codable, CADPatrolType {
         return CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))
     }
 
+    /// Create a map annotation for the task list item if location is available
+    open func createAnnotation() -> TaskAnnotation? {
+        return PatrolAnnotation(identifier: identifier,
+                                coordinate: coordinate,
+                                title: type.title,
+                                subtitle: nil,
+                                usesDarkBackground: status.useDarkBackgroundOnMap)
+    }
+
     // MARK: - Codable
 
     enum CodingKeys: String, CodingKey {

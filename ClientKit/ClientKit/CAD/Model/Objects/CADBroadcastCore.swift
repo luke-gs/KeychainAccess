@@ -36,6 +36,12 @@ open class CADBroadcastCore: Codable, CADBroadcastType {
         return DateFormatter.preferredDateTimeStyle.string(from: createdAt)
     }
 
+    /// Create a map annotation for the task list item if location is available
+    open func createAnnotation() -> TaskAnnotation? {
+        return nil
+    }
+
+
     // MARK: - Codable
 
     enum CodingKeys: String, CodingKey {
