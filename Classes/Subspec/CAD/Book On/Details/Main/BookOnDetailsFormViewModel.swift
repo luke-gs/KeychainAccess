@@ -79,11 +79,10 @@ open class BookOnDetailsFormViewModel {
 
     /// The title to use in the navigation bar
     open func navTitle() -> String {
-        let callsign = resource.callsign ?? ""
         if isEditing {
-            return "Manage \(callsign)"
+            return "Manage \(resource.callsign)"
         } else {
-            return "Book on \(callsign)"
+            return "Book on \(resource.callsign)"
         }
     }
 
@@ -92,7 +91,7 @@ open class BookOnDetailsFormViewModel {
         if isEditing {
             return ""
         } else {
-            return [CADStateManager.shared.patrolGroup, resource.type?.title].joined(separator: ThemeConstants.dividerSeparator)
+            return [CADStateManager.shared.patrolGroup, resource.type.title].joined(separator: ThemeConstants.dividerSeparator)
         }
     }
 
