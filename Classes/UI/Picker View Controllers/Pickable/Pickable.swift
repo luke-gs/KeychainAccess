@@ -34,39 +34,3 @@ extension Pickable {
     }
 }
 
-public enum PickableSorting {
-    case none
-    case alphabetical(ascending: Bool)
-    case alphabeticalInsensitive(ascending: Bool)
-    case custom((Pickable, Pickable) -> Bool)
-
-    public func function() -> (Pickable, Pickable) -> Bool {
-        switch self {
-        case .none:
-            return ( { _, _ in return false })
-        case .alphabetical(let ascending):
-            return ({
-                if let title = $0.title, let title2 = $1.title {
-                    if let subtitle = $0.subtitle, let subtitle2 = $1.subtitle {
-                        return ascending ? title < title2 && subtitle < subtitle2 : title > title2 && subtitle > subtitle2
-                    }
-                    return ascending ? title < title2 : title > title2
-                }
-                return false
-            })
-        case .alphabeticalInsensitive(let ascending):
-            return ({
-                if let title = $0.title, let title2 = $1.title {
-                    if let subtitle = $0.subtitle, let subtitle2 = $1.subtitle {
-                        return ascending ? title.caseInsensitiveCompare(title2) == .orderedAscending && subtitle.caseInsensitiveCompare(subtitle2) == .orderedAscending :
-                            title.caseInsensitiveCompare(title2) == .orderedDescending && subtitle.caseInsensitiveCompare(subtitle) == .orderedDescending
-                    }
-                    return ascending ? title.caseInsensitiveCompare(title2) == .orderedAscending : title.caseInsensitiveCompare(title2) == .orderedDescending
-                }
-                return false
-            })
-        case .custom(let sort):
-            return sort
-        }
-    }
-}
