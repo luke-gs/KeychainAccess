@@ -49,6 +49,7 @@ open class TasksListContainerViewModel {
         didSet {
             if sourceItems != oldValue {
                 headerViewModel.sourceItems = sourceItems
+                delegate?.updateSourceItems()
             }
         }
     }
@@ -143,19 +144,23 @@ open class TasksListContainerViewModel {
 
         if let splitViewModel = splitViewModel {
             // Update the task list view model sections
-            type.updateListContent(listViewModel: listViewModel, filterViewModel: splitViewModel.filterViewModel)
+            let listContent = type.sectionedListContent(filterViewModel: splitViewModel.filterViewModel, searchText: searchText)
 
-            // Update the source items status
+            // If list content contains more than 1 array, set other sections on list
+            // We set otherSections before sections as UI updates are triggered when sections prop changes
+            if listContent.count > 1 {
+                listViewModel.otherSections = listContent[1]
+            }
+            listViewModel.sections = listContent.first ?? []
+
+            // Update the source items
             sourceItems = CADClientModelTypes.taskListSources.allCases.map {
                 return $0.sourceItem(filterViewModel: splitViewModel.filterViewModel)
             }
         } else {
+            // No state yet
             listViewModel.sections = []
-            sourceItems = CADClientModelTypes.taskListSources.allCases.map {
-                return SourceItem(title: $0.title, shortTitle: $0.shortTitle, state: .loaded(count: UInt(0), color: .secondaryGray))
-            }
+            sourceItems = [SourceItem(title: "", state: .loading)]
         }
-        delegate?.updateSourceItems()
     }
-
 }

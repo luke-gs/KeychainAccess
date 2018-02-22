@@ -33,7 +33,10 @@ public protocol CADTaskListSourceType {
     /// The short title to show in the source bar
     var shortTitle: String { get }
 
-    /// The list of model items of this type
+    /// Return the source bar item of this type based on the current filter
+    func sourceItem(filterViewModel: TaskMapFilterViewModel) -> SourceItem
+
+    /// Return the list of all model items of this type
     var modelItems: [CADTaskListItemModelType] { get }
 
     /// Return all items of this type based on the current filter
@@ -42,15 +45,22 @@ public protocol CADTaskListSourceType {
     /// Return all annotations of this type based on the current filter and source selection
     func filteredAnnotations(filterViewModel: TaskMapFilterViewModel, selectedSource: CADTaskListSourceType) -> [TaskAnnotation]
 
-    /// Return the source bar item of this type based on the current filter
-    func sourceItem(filterViewModel: TaskMapFilterViewModel) -> SourceItem
+    /// Return the sectioned task list content for current filter and optional search text
+    func sectionedListContent(filterViewModel: TaskMapFilterViewModel, searchText: String?) -> [[CADFormCollectionSectionViewModel<TasksListItemViewModel>]]
 
-    /// Update the content of the list based on sectioning the current filtered items
-    func updateListContent(listViewModel: TasksListViewModel, filterViewModel: TaskMapFilterViewModel)
-
-    /// The annotation view type to use for displaying items on map
+    /// The annotation view type to use for prioritising items on map
     var annotationViewType: MKAnnotationView.Type? { get }
 
     /// Whether items of this type can be created
     var canCreate: Bool { get }
+}
+
+/// Equality check without conforming to Equatable, to prevent need for type erasure
+public func ==(lhs: CADTaskListSourceType?, rhs: CADTaskListSourceType?) -> Bool {
+    return lhs?.rawValue == rhs?.rawValue
+}
+
+/// Inquality check (required when not using Equatable)
+public func !=(lhs: CADTaskListSourceType?, rhs: CADTaskListSourceType?) -> Bool {
+    return !(lhs?.rawValue == rhs?.rawValue)
 }
