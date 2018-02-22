@@ -24,7 +24,7 @@ open class DefaultEventNotesPhotosViewController: FormBuilderViewController, Eva
         sidebarItem.regularTitle = "Notes and Photos"
         sidebarItem.compactTitle = "Notes and Photos"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.attachment)!
-        sidebarItem.color = .red
+        sidebarItem.color = (report?.evaluator.isComplete ?? false) ? .green : .red
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
