@@ -10,51 +10,6 @@ import UIKit
 import PromiseKit
 import MapKit
 
-/// Enum for all task types
-public enum TaskListType: Int {
-    case incident
-    case patrol
-    case broadcast
-    case resource
-
-    var title: String {
-        switch self {
-        case .incident:
-            return NSLocalizedString("Incidents", comment: "Incidents navigation title")
-        case .patrol:
-            return NSLocalizedString("Patrol",    comment: "Patrol navigation title")
-        case .broadcast:
-            return NSLocalizedString("Broadcast", comment: "Broadcast navigation title")
-        case .resource:
-            return NSLocalizedString("Resources", comment: "Resources navigation title")
-        }
-    }
-
-    var shortTitle: String {
-        switch self {
-        case .incident:
-            return NSLocalizedString("INCI", comment: "Incidents short title")
-        case .patrol:
-            return NSLocalizedString("PATR", comment: "Patrol short title")
-        case .broadcast:
-            return NSLocalizedString("BCST", comment: "Broadcast short title")
-        case .resource:
-            return NSLocalizedString("RESO", comment: "Resources short title")
-        }
-    }
-    
-    var annotationType: MKAnnotationView.Type? {
-        switch self {
-        case .incident:
-            return IncidentAnnotationView.self
-        case .resource:
-            return ResourceAnnotationView.self
-        default:
-            return nil
-        }
-    }
-}
-
 /// Protocol for notifying UI of updated view model data
 public protocol TasksListContainerViewModelDelegate: class {
 
@@ -102,7 +57,7 @@ open class TasksListContainerViewModel {
     open var selectedSourceIndex: Int = 0 {
         didSet {
             if selectedSourceIndex != oldValue {
-                let type = TaskListType(rawValue: selectedSourceIndex)
+                let type = CADClientModelTypes.taskListSources.init(rawValue: selectedSourceIndex)
 
                 headerViewModel.selectedSourceIndex = selectedSourceIndex
                 splitViewModel?.mapViewModel.loadTasks()
@@ -182,13 +137,13 @@ open class TasksListContainerViewModel {
 
     // MARK: - Internal methods
 
-    func sourceItemForType(type: TaskListType, count: Int, color: UIColor) -> SourceItem {
+    func sourceItemForType(type: CADTaskListSourceType, count: Int, color: UIColor) -> SourceItem {
         return SourceItem(title: type.title, shortTitle: type.shortTitle, state: .loaded(count: UInt(count), color: color))
     }
 
     /// Update the task list data
     open func updateSections() {
-        let type = TaskListType(rawValue: selectedSourceIndex)!
+        let type = CADClientModelTypes.taskListSources.init(rawValue: selectedSourceIndex)!
 
         if let splitViewModel = splitViewModel {
 

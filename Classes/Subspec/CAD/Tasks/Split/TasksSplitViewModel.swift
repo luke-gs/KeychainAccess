@@ -17,6 +17,8 @@ public protocol TasksSplitViewModelDelegate: PopoverPresenter {
 
 open class TasksSplitViewModel {
 
+    public let sources: [CADTaskListSourceType]
+
     /// Delegate for UI updates
     open weak var delegate: TasksSplitViewModelDelegate?
 
@@ -25,10 +27,11 @@ open class TasksSplitViewModel {
     public let mapViewModel: TasksMapViewModel
     public let filterViewModel: TaskMapFilterViewModel
 
-    public init(listContainerViewModel: TasksListContainerViewModel, mapViewModel: TasksMapViewModel, filterViewModel: TaskMapFilterViewModel) {
+    public init(listContainerViewModel: TasksListContainerViewModel, mapViewModel: TasksMapViewModel, filterViewModel: TaskMapFilterViewModel, sources: [CADTaskListSourceType]) {
         self.listContainerViewModel = listContainerViewModel
         self.mapViewModel = mapViewModel
         self.filterViewModel = filterViewModel
+        self.sources = sources
         
         self.listContainerViewModel.splitViewModel = self
         self.mapViewModel.splitViewModel = self

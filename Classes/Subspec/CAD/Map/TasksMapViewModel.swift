@@ -46,7 +46,7 @@ open class TasksMapViewModel {
         
         let filter = splitViewModel.filterViewModel
         let selectedListIndex = splitViewModel.listContainerViewModel.selectedSourceIndex
-        let currentListItem = TaskListType(rawValue: selectedListIndex)
+        let currentListItem = CADClientModelTypes.taskListSources.init(rawValue: selectedListIndex)
         
         var annotations: [TaskAnnotation] = []
         
