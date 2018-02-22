@@ -39,6 +39,8 @@ public protocol CADTaskListSourceType {
     /// Return the list of all model items of this type
     var modelItems: [CADTaskListItemModelType] { get }
 
+    // TODO: Replace TaskMapFilterViewModel used below with something more generic
+
     /// Return all items of this type based on the current filter
     func filteredItems(filterViewModel: TaskMapFilterViewModel) -> [CADTaskListItemModelType]
 

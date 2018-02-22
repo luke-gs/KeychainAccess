@@ -58,17 +58,17 @@ open class TasksListContainerViewModel {
     open var selectedSourceIndex: Int = 0 {
         didSet {
             if selectedSourceIndex != oldValue {
-                let type = CADClientModelTypes.taskListSources.init(rawValue: selectedSourceIndex)
+                let type = CADClientModelTypes.taskListSources.allCases[selectedSourceIndex]
 
                 headerViewModel.selectedSourceIndex = selectedSourceIndex
                 splitViewModel?.mapViewModel.loadTasks()
-                if let annotationType = type?.annotationViewType {
+                if let annotationType = type.annotationViewType {
                     splitViewModel?.mapViewModel.priorityAnnotationType = annotationType
                 }
                 updateSections()
 
                 // Show/hide add button
-                headerViewModel.setAddButtonVisible((type?.canCreate).isTrue)
+                headerViewModel.setAddButtonVisible(type.canCreate)
 
                 delegate?.updateSelectedSourceIndex()
             }
@@ -140,7 +140,7 @@ open class TasksListContainerViewModel {
 
     /// Update the task list data
     open func updateSections() {
-        let type = CADClientModelTypes.taskListSources.init(rawValue: selectedSourceIndex)!
+        let type = CADClientModelTypes.taskListSources.allCases[selectedSourceIndex]
 
         if let splitViewModel = splitViewModel {
             // Update the task list view model sections
