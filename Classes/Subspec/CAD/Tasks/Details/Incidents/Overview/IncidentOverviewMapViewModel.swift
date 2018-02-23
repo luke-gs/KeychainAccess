@@ -22,8 +22,8 @@ open class IncidentOverviewMapViewModel: TasksMapViewModel {
         let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: incidentNumber)
         
         var annotations: [TaskAnnotation] = []
-        annotations += taskAnnotations(for: [incident])
-        annotations += taskAnnotations(for: resources)
+        annotations += [incident.createAnnotation()].removeNils()
+        annotations += resources.map { $0.createAnnotation() }.removeNils()
         
         filteredAnnotations = annotations
     }

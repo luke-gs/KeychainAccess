@@ -21,10 +21,10 @@ open class ResourceOverviewMapViewModel: TasksMapViewModel {
         guard let resource = CADStateManager.shared.resourcesById[callsign] else { return }
         
         var annotations: [TaskAnnotation] = []
-        annotations += taskAnnotations(for: [resource])
+        annotations += [resource.createAnnotation()].removeNils()
         
-        if let incident = CADStateManager.shared.incidentsById[resource.currentIncident ?? ""] {
-            annotations += taskAnnotations(for: [incident])
+        if let currentIncident = resource.currentIncident, let incident = CADStateManager.shared.incidentsById[currentIncident] {
+            annotations += [incident.createAnnotation()].removeNils()
         }
         
         filteredAnnotations = annotations

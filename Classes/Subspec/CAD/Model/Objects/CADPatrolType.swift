@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 
 /// Protocol for a class representing a patrol task
-public protocol CADPatrolType: class {
+public protocol CADPatrolType: class, CADTaskListItemModelType {
 
     // MARK: - Network
     var createdAt: Date? { get set }
