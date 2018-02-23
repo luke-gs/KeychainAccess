@@ -9,7 +9,7 @@
 import Foundation
 import PromiseKit
 
-public struct LocalDataResults<T: Equatable>: DataStoreResult, Equatable {
+public struct LocalDataResults<T: Equatable>: PaginatedDataStoreResult, Equatable {
 
     public let items: [T]
 
@@ -20,6 +20,8 @@ public struct LocalDataResults<T: Equatable>: DataStoreResult, Equatable {
     public static func ==(lhs: LocalDataResults, rhs: LocalDataResults) -> Bool {
         return lhs.items == rhs.items
     }
+
+    public let hasMoreItems: Bool = false
 
 }
 

@@ -36,7 +36,7 @@ class PersonDetailViewController: FormBuilderViewController {
 //        ])
 
         let localStore = DataStoreCoordinator(dataStore: LocalDataStore(items: [
-            Media(url: URL(string: "localhost")!, title: "Hello", comments: "This Girl is on FIREEE", isSensitive: true)
+            Media(url: URL(string: "localhost")!, title: "Herli", comments: "This Girl is on FIREEE", isSensitive: true)
         ]))
 
         let handler = MediaPreviewHandler(storeCoordinator: localStore)

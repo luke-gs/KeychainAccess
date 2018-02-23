@@ -14,7 +14,7 @@ public protocol DataStoreResult {
     associatedtype Item
 
     var items: [Item] { get }
-
+    
 }
 
 public protocol ReadableDataStore {

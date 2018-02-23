@@ -24,6 +24,10 @@ open class MediaGalleryViewModel {
         return MediaPreview(thumbnailImage: AssetManager.shared.image(forKey: .info), asset: media)
     }
 
+    open func controller(forMedia media: Media) -> UIViewController? {
+        return nil
+    }
+
     /// Register a controller type to a specific mediaPreviewable object
     ///
     /// - Parameters:
@@ -41,7 +45,6 @@ open class MediaGalleryViewModel {
     }
 
 }
-
 
 
 public let MediaDataSourceDidChangeNotificationName = Notification.Name(rawValue: "MediaDataSourceDidChange")

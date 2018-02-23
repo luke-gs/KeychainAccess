@@ -10,7 +10,7 @@ import Foundation
 import AVFoundation
 import Photos
 
-public class MediaGalleryViewController<T: ReadableDataStore>: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate where T.Result.Item: Media {
+public class MediaGalleryViewController<T: WritableDataStore>: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate where T.Result: PaginatedDataStoreResult, T.Result.Item: Media {
 
     private enum Identifier: String {
         case genericCell
@@ -21,7 +21,7 @@ public class MediaGalleryViewController<T: ReadableDataStore>: UIViewController,
 
     public private(set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewFlowLayout)
 
-    public let dataSource: MediaDataSource
+//    public let dataSource: MediaDataSource
 
     public let pickerSources: [MediaPickerSource]
 
@@ -40,6 +40,8 @@ public class MediaGalleryViewController<T: ReadableDataStore>: UIViewController,
 
     public let viewModel: MediaGalleryViewModel
 
+    private var previews: [MediaPreviewable] = []
+
     public init(viewModel: MediaGalleryViewModel, storeCoordinator: DataStoreCoordinator<T>, pickerSources: [MediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker(), AudioMediaPicker(), SketchMediaPicker()]) {
 
         pickerSources.forEach {
@@ -50,7 +52,7 @@ public class MediaGalleryViewController<T: ReadableDataStore>: UIViewController,
             }
         }
 
-        self.dataSource = MediaDataSource(mediaItems: [])
+//        self.dataSource = MediaDataSource(mediaItems: [])
         self.viewModel = viewModel
         self.storeCoordinator = storeCoordinator
         self.pickerSources = pickerSources
@@ -61,7 +63,7 @@ public class MediaGalleryViewController<T: ReadableDataStore>: UIViewController,
 
         setupNavigationItems()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(mediaDataSourceDidChange(_:)), name: DataStoreCoordinatorDidChangeStateNotification, object: dataSource)
+        NotificationCenter.default.addObserver(self, selector: #selector(storeDidChange(_:)), name: DataStoreCoordinatorDidChangeStateNotification, object: storeCoordinator)
         NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
     }
 
@@ -106,6 +108,7 @@ public class MediaGalleryViewController<T: ReadableDataStore>: UIViewController,
 
         navigationController?.delegate = self
 
+        updatePreviews()
         updateContentState()
         interfaceStyleDidChange()
 
@@ -116,10 +119,10 @@ public class MediaGalleryViewController<T: ReadableDataStore>: UIViewController,
 
         if let initialPhoto = initialAsset {
 
-            let mediaGalleryViewController = MediaSlideShowViewController(dataSource: dataSource, initialMedia: initialPhoto, referenceView: nil)
-            mediaGalleryViewController.allowEditing = allowEditing
+            let slideShowViewController = MediaSlideShowViewController(dataSource: dataSource, initialMedia: initialPhoto, referenceView: nil)
+            slideShowViewController.allowEditing = allowEditing
 //            mediaGalleryViewController.mediaOverviewViewController = self
-            navigationController?.pushViewController(mediaGalleryViewController, animated: true)
+            navigationController?.pushViewController(slideShowViewController, animated: true)
 
             self.initialAsset = nil
         }
@@ -164,22 +167,25 @@ public class MediaGalleryViewController<T: ReadableDataStore>: UIViewController,
     // MARK: - UICollectionViewDataSource/Delegate
 
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        switch dataSource.state {
+        switch storeCoordinator.state {
         case .completed: return 1
-        default: return 2
+        case .unknown: return 2
+        case .loading: return 2
+        case .error: return 2
         }
     }
 
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return section == 0 ? dataSource.numberOfMediaItems() : 1
+        return section == 0 ? previews.count : 1
+//        return section == 0 ? dataSource.numberOfMediaItems() : 1
     }
 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.genericCell.rawValue, for: indexPath)
 
-            let photoMedia = dataSource.mediaItemAtIndex(indexPath.item)
-            photoMedia?.thumbnailImage?.loadImage(completion: { [weak self] (sizable) in
+            let preview = previews[indexPath.item]
+            preview.thumbnailImage?.loadImage(completion: { [weak self] (sizable) in
                 let imageView = UIImageView(image: sizable.sizing().image)
                 imageView.contentMode = self?.traitCollection.horizontalSizeClass == .compact ? .scaleAspectFill : .scaleAspectFit
                 imageView.clipsToBounds = true
@@ -191,7 +197,7 @@ public class MediaGalleryViewController<T: ReadableDataStore>: UIViewController,
 
             return cell
         } else {
-            let state = dataSource.state
+            let state = storeCoordinator.state
 
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.stateCell.rawValue, for: indexPath) as! MediaStateCell
             cell.imageView.image = AssetManager.shared.image(forKey: .sourceBarDownload)
@@ -211,19 +217,28 @@ public class MediaGalleryViewController<T: ReadableDataStore>: UIViewController,
                 cell.backgroundView?.alpha = 1.0
                 trashItem.isEnabled = true
             } else {
-                let media = dataSource.mediaItemAtIndex(indexPath.item)
-                let mediaGalleryViewController = MediaSlideShowViewController(dataSource: dataSource, initialMedia: media, referenceView: cell)
-                mediaGalleryViewController.allowEditing = allowEditing
+                let preview = previews[indexPath.item]
+                let mediaSlideShowViewController = MediaSlideShowViewController(dataSource: dataSource, initialMedia: preview, referenceView: cell)
+                mediaSlideShowViewController.allowEditing = allowEditing
 //                mediaGalleryViewController.mediaOverviewViewController = self
-                show(mediaGalleryViewController, sender: self)
+                show(mediaSlideShowViewController, sender: self)
             }
         } else {
-            if case .loading = dataSource.state {} else {
-                dataSource.loadMoreItems()?.then { _ in
-                    print("Hello")
-                }.catch { error in
-                    print(error.localizedDescription)
-                }
+            if case .loading = storeCoordinator.state {} else {
+//                doMe()
+//                if storeCoordinator.dataStore is WritableDataStore {
+//
+//                }
+
+//                if storeCoordinator.dataStore is WritableDataStore {
+//
+//                }
+
+//                dataSource.loadMoreItems()?.then { _ in
+//                    print("Hello")
+//                }.catch { error in
+//                    print(error.localizedDescription)
+//                }
             }
         }
     }
@@ -351,7 +366,9 @@ public class MediaGalleryViewController<T: ReadableDataStore>: UIViewController,
         present(alertController, animated: true, completion: nil)
     }
 
-    @objc private func mediaDataSourceDidChange(_ notification: Notification) {
+    @objc private func storeDidChange(_ notification: Notification) {
+        updatePreviews()
+
         guard isViewLoaded else { return }
 
         if !isEditing {
@@ -374,8 +391,12 @@ public class MediaGalleryViewController<T: ReadableDataStore>: UIViewController,
         collectionView.backgroundColor = backgroundColor
     }
 
+    private func updatePreviews() {
+        previews = storeCoordinator.items.map { viewModel.previewForMedia($0) }
+    }
+
     private func updateContentState() {
-        let hasMediaItems = dataSource.numberOfMediaItems() > 0
+        let hasMediaItems = storeCoordinator.items.count > 0
         loadingManager.state = hasMediaItems ? .loaded : .noContent
         beginSelectItem.isEnabled = hasMediaItems
     }
@@ -390,9 +411,9 @@ public class MediaGalleryViewController<T: ReadableDataStore>: UIViewController,
         case .push:
             guard let _ = fromVC as? MediaGalleryViewController,
                 let toVC = toVC as? MediaSlideShowViewController,
-                let photoMedia = toVC.currentMedia,
-                let photoMediaIndex = dataSource.indexOfMediaItem(photoMedia),
-                let cell = collectionView.cellForItem(at: IndexPath(item: photoMediaIndex, section: 0)),
+                let media = toVC.currentMedia,
+                let mediaIndex = previews.index(where: { media === $0 }),
+                let cell = collectionView.cellForItem(at: IndexPath(item: mediaIndex, section: 0)),
                 let mediaViewController = toVC.currentMediaViewController else { return nil }
 
             let endingView = mediaViewController.scalingImageView.imageView
@@ -404,11 +425,11 @@ public class MediaGalleryViewController<T: ReadableDataStore>: UIViewController,
             guard let fromVC = fromVC as? MediaSlideShowViewController,
                 let _ = toVC as? MediaGalleryViewController,
                 let mediaViewController = fromVC.currentMediaViewController,
-                let photoMedia = fromVC.currentMedia,
-                let index = dataSource.indexOfMediaItem(photoMedia) else { return nil }
+                let media = fromVC.currentMedia,
+                let mediaIndex = previews.index(where: { media === $0 }) else { return nil }
 
             let endingView = mediaViewController.scalingImageView.imageView
-            let indexPath = IndexPath(item: index, section: 0)
+            let indexPath = IndexPath(item: mediaIndex, section: 0)
 
             if !collectionView.indexPathsForVisibleItems.contains(indexPath) {
                 collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
@@ -427,8 +448,7 @@ public class MediaGalleryViewController<T: ReadableDataStore>: UIViewController,
     }
 }
 
-
-private extension MediaDataSource.State {
+private extension DataCoordinateState {
 
     func title() -> String {
         switch self {

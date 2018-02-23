@@ -9,11 +9,11 @@
 import Foundation
 
 
-public class MediaPreviewHandler<T: ReadableDataStore>: MediaPreviewableDelegate, MediaPreviewCollectionDataSource where T.Result.Item: Media {
+public class MediaPreviewHandler<T: WritableDataStore>: MediaPreviewableDelegate, MediaPreviewCollectionDataSource where T.Result: PaginatedDataStoreResult, T.Result.Item: Media {
 
     public let storeCoordinator: DataStoreCoordinator<T>
 
-    public let galleryViewModel: MediaGalleryViewModel = MediaGalleryViewModel()
+    public let galleryViewModel: MediaGalleryViewModel
 
     public var allowEditing: Bool
 
@@ -27,6 +27,8 @@ public class MediaPreviewHandler<T: ReadableDataStore>: MediaPreviewableDelegate
         if storeCoordinator.state == .unknown {
             _ = storeCoordinator.retrieveItems()
         }
+
+        galleryViewModel = MediaGalleryViewModel()
 
         NotificationCenter.default.addObserver(self, selector: #selector(storeDidChange), name: DataStoreCoordinatorDidChangeStateNotification, object: storeCoordinator)
     }

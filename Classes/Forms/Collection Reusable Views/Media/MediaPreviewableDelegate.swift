@@ -13,6 +13,8 @@ import Foundation
 /// Implement this protocol to provide custom behaviours on selection of media item in the `CollectionViewFormMediaCell`.
 public protocol MediaPreviewableDelegate: class {
 
+    // MARK: - Controllers creation
+
     /// Returns a view controller to be used as a preview controller.
     /// This only works on devices with force touch. (E.g. iPhone 7 and above).
     ///
