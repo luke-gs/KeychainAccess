@@ -78,6 +78,23 @@ open class CADIncidentCore: Codable, CADIncidentType {
         return createdAt?.asPreferredDateTimeString()
     }
 
+    // MARK: - CADTaskListItemModelType
+
+    /// Create a map annotation for the task list item if location is available
+    open func createAnnotation() -> TaskAnnotation? {
+        guard let coordinate = coordinate else { return nil }
+        return IncidentAnnotation(identifier: identifier,
+                                  coordinate: coordinate,
+                                  title: type,
+                                  subtitle: resourceCountString,
+                                  badgeText: grade.title,
+                                  badgeTextColor: grade.badgeColors.text,
+                                  badgeFillColor: grade.badgeColors.fill,
+                                  badgeBorderColor: grade.badgeColors.border,
+                                  usesDarkBackground: status.useDarkBackgroundOnMap,
+                                  priority: grade)
+    }
+
     // MARK: - Codable
 
     enum CodingKeys: String, CodingKey {

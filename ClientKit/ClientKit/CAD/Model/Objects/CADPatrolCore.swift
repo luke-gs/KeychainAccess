@@ -45,6 +45,18 @@ open class CADPatrolCore: Codable, CADPatrolType {
         return location?.coordinate
     }
 
+    // MARK: - CADTaskListItemModelType
+
+    /// Create a map annotation for the task list item if location is available
+    open func createAnnotation() -> TaskAnnotation? {
+        guard let coordinate = coordinate else { return nil }
+        return PatrolAnnotation(identifier: identifier,
+                                coordinate: coordinate,
+                                title: type,
+                                subtitle: nil,
+                                usesDarkBackground: status.useDarkBackgroundOnMap)
+    }
+
     // MARK: - Codable
 
     enum CodingKeys: String, CodingKey {
