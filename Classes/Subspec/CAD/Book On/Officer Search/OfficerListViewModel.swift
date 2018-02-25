@@ -12,7 +12,7 @@ public protocol OfficerListViewModelDelegate: class {
     func itemSelectedAndFinishedEditing()
 }
 
-public class OfficerListViewModel: GenericSearchDefaultViewModel {
+public class OfficerListViewModel: DefaultSearchDisplayableViewModel {
     
     open weak var detailsDelegate: OfficerDetailsViewModelDelegate?
     open weak var delegate: OfficerListViewModelDelegate?
@@ -22,7 +22,7 @@ public class OfficerListViewModel: GenericSearchDefaultViewModel {
         title = NSLocalizedString("Add Officer", comment: "")
     }
     
-    public required init(items: [GenericSearchable]) {
+    public required init(items: [CustomSearchDisplayable]) {
         super.init(items: items)
         title = NSLocalizedString("Add Officer", comment: "")
     }
@@ -41,9 +41,9 @@ public class OfficerListViewModel: GenericSearchDefaultViewModel {
         return BookOnScreen.officerDetailsForm(officerViewModel: officerViewModel, delegate: self)
     }
     
-    private lazy var viewModelData: [GenericSearchable] = {
+    private lazy var viewModelData: [CustomSearchDisplayable] = {
         let section = "Recently Used".uppercased()
-        var result: [GenericSearchable] = []
+        var result: [CustomSearchDisplayable] = []
         for (_, officer) in CADStateManager.shared.officersById {
             let viewModel = OfficerListItemViewModel(firstName: officer.firstName, lastName: officer.lastName, initials: officer.initials, rank: officer.rank, callsign: officer.payrollId, section: section)
             result.append(viewModel)

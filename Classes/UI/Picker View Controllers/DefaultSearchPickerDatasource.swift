@@ -9,8 +9,6 @@
 import Foundation
 
 public class DefaultSearchDatasource: CustomSearchPickerDatasource {
-    public let sort: PickableSorting = .none
-
 
     public var objects: [Pickable] = []
     public var selectedObjects: [Pickable] = []

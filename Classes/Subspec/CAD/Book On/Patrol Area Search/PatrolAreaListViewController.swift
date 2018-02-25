@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class PatrolAreaListViewController<T: GenericSearchDelegate, U: PatrolAreaListViewModel>: GenericSearchViewController<T, U> where T.Object == U.Object {
+open class PatrolAreaListViewController<T: SearchDisplayableDelegate, U: PatrolAreaListViewModel>: SearchDisplayableViewController<T, U> where T.Object == U.Object {
 
     public typealias Object = U.Object
 
@@ -59,8 +59,8 @@ open class PatrolAreaListViewController<T: GenericSearchDelegate, U: PatrolAreaL
     }
 }
 
-extension PatrolAreaListViewController: GenericSearchDelegate {
-    public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: GenericSearchable) {
+extension PatrolAreaListViewController: SearchDisplayableDelegate {
+    public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: CustomSearchDisplayable) {
         if let patrolArea = object as? PatrolAreaListItemViewModel {
             viewModel.selectedPatrolArea = patrolArea.patrolArea
             reloadForm()

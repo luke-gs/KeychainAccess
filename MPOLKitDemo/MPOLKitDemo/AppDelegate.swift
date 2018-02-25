@@ -14,7 +14,7 @@ import Unbox
 private let host = "api-location-dev.mpol.solutions"
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, GenericSearchDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, SearchDisplayableDelegate {
     var window: UIWindow?
 
     private var delayedNetworkEndTimer: Timer?
@@ -122,27 +122,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GenericSearchDelegate {
 
     // MARK: Generic Search VC
 
-    typealias Object = GenericSearchable
+    typealias Object = CustomSearchDisplayable
 
-    func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: GenericSearchable) {
+    func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: CustomSearchDisplayable) {
 
     }
 
     private func genericSearchViewController() -> UIViewController {
 
         // MARK: Generic Search VC
-        let items1: [GenericSearchable] = Array(repeating: Test(), count: 2)
-        let items2: [GenericSearchable] = Array(repeating: Test2(), count: 5)
-        let items3: [GenericSearchable] = Array(repeating: Test3(), count: 3)
+        let items1: [CustomSearchDisplayable] = Array(repeating: Test(), count: 2)
+        let items2: [CustomSearchDisplayable] = Array(repeating: Test2(), count: 5)
+        let items3: [CustomSearchDisplayable] = Array(repeating: Test3(), count: 3)
 
-        let viewModel = GenericSearchDefaultViewModel(items: items1 + items2 + items3)
+        let viewModel = DefaultSearchDisplayableViewModel(items: items1 + items2 + items3)
         viewModel.title = "Search Items"
         viewModel.collapsableSections = true
         viewModel.hasSections = false
         viewModel.hidesSections = false
         viewModel.sectionPriority = ["On Duty", "Duress", "On Air", "On Duty"]
 
-        let vc = GenericSearchViewController<AppDelegate, GenericSearchDefaultViewModel>(viewModel: viewModel)
+
+        let vc = SearchDisplayableViewController<AppDelegate, DefaultSearchDisplayableViewModel>(viewModel: viewModel)
         vc.title = "Search Items"
         vc.delegate = self
 

@@ -8,16 +8,12 @@
 
 import UIKit
 
-open class OfficerListViewController<T: GenericSearchDelegate, U: OfficerListViewModel>: GenericSearchViewController<T,U> where T.Object == U.Object {
+open class OfficerListViewController<T: SearchDisplayableDelegate, U: OfficerListViewModel>: SearchDisplayableViewController<T, U> where T.Object == U.Object {
 
         
     public required init(viewModel: U) {
         super.init(viewModel: viewModel)
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""), style: .plain, target: self, action: #selector(cancelTapped))
-    }
-
-    public required init(viewModel: U, delegate: T?) {
-        fatalError("init(viewModel:delegate:) has not been implemented")
     }
 
     open override func construct(builder: FormBuilder) {

@@ -18,6 +18,9 @@ public protocol CADIncidentGradeType: CADEnumType {
 
     // MARK: - Methods
 
+    /// The display title for the grade
+    var title: String { get }
+
     // Return badge text, border and fill color
     var badgeColors: (text: UIColor, border: UIColor, fill: UIColor) { get }
 }

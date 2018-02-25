@@ -10,8 +10,8 @@ import PromiseKit
 
 /// Default implementation of the generic search view model
 /// Allows for basic customisation
-open class GenericSearchDefaultViewModel: GenericSearchViewModel {
-    public typealias Object = GenericSearchable
+open class DefaultSearchDisplayableViewModel: SearchDisplayableViewModel {
+    public typealias Object = CustomSearchDisplayable
 
     public var title: String = "Search"
 
@@ -20,14 +20,14 @@ open class GenericSearchDefaultViewModel: GenericSearchViewModel {
     public var collapsableSections: Bool = true
     public var sectionPriority: [String] = [String]()
 
-    private var items: [GenericSearchable]
+    private var items: [CustomSearchDisplayable]
     private var searchString: String = ""
 
-    private var searchableSections: [String: [GenericSearchable]] {
-        let dict = items.reduce([String: [GenericSearchable]]()) { (result, item) -> [String: [GenericSearchable]] in
+    private var searchableSections: [String: [CustomSearchDisplayable]] {
+        let dict = items.reduce([String: [CustomSearchDisplayable]]()) { (result, item) -> [String: [CustomSearchDisplayable]] in
             let section = item.section ?? "Other"
             var mutableResult = result
-            var array = mutableResult[section] ?? [GenericSearchable]()
+            var array = mutableResult[section] ?? [CustomSearchDisplayable]()
             array.append(item)
             mutableResult[section] = array
             return mutableResult
@@ -65,7 +65,7 @@ open class GenericSearchDefaultViewModel: GenericSearchViewModel {
         var filteredSections = [PrioritisedSection]()
 
         for section in prioritisedSections {
-            let validItems = section.items.filter{$0.matches(searchString: searchString)}
+            let validItems = section.items.filter{$0.contains(searchString)}
             var section = PrioritisedSection(title: section.title, items: validItems)
             section.isHidden = hidesSections && validItems.count == 0
             filteredSections.append(section)
@@ -78,15 +78,15 @@ open class GenericSearchDefaultViewModel: GenericSearchViewModel {
         return searchString != "" ? filteredSections() : prioritisedSections
     }
 
-    public required init(items: [GenericSearchable]) {
+    public required init(items: [CustomSearchDisplayable]) {
         self.items = items
     }
 
-    public func searchable(for object: GenericSearchable) -> GenericSearchable {
+    public func searchable(for object: CustomSearchDisplayable) -> CustomSearchDisplayable {
         return object
     }
 
-    public func object(for indexPath: IndexPath) -> GenericSearchable {
+    public func object(for indexPath: IndexPath) -> CustomSearchDisplayable {
         return searchable(for: items[indexPath.item])
     }
 
@@ -109,7 +109,7 @@ open class GenericSearchDefaultViewModel: GenericSearchViewModel {
         return validSections[section].isHidden
     }
 
-    public func title(for indexPath: IndexPath) -> String {
+    public func title(for indexPath: IndexPath) -> String? {
         let section = validSections[indexPath.section]
         let row = section.items[indexPath.row]
         return row.title
@@ -127,7 +127,7 @@ open class GenericSearchDefaultViewModel: GenericSearchViewModel {
         return row.image
     }
     
-    public func accessory(for searchable: GenericSearchable) -> ItemAccessorisable? {
+    public func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? {
         return ItemAccessory.disclosure
     }
 
@@ -136,12 +136,12 @@ open class GenericSearchDefaultViewModel: GenericSearchViewModel {
     }
 
     public func searchAction() -> Promise<Void>? {
-        fatalError("Subclasses must override this if they wish to use it.")
+        MPLRequiresConcreteImplementation()
     }
 }
 
 /// Generic Search View Model definition
-public protocol GenericSearchViewModel {
+public protocol SearchDisplayableViewModel {
 
     associatedtype Object
 
@@ -178,7 +178,7 @@ public protocol GenericSearchViewModel {
     ///
     /// - Parameter indexPath: the indexPath
     /// - Returns: the title for the row
-    func title(for indexPath: IndexPath) -> String
+    func title(for indexPath: IndexPath) -> String?
 
     /// Description for the row at a specific indexPath
     ///
@@ -197,7 +197,7 @@ public protocol GenericSearchViewModel {
     ///
     /// - Parameter searchable: the searchable
     /// - Returns: the accessory for the searchable's row
-    func accessory(for searchable: GenericSearchable) -> ItemAccessorisable?
+    func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable?
 
     /// The `GenericSearchable` object for a particular indexPath
     ///
@@ -209,7 +209,7 @@ public protocol GenericSearchViewModel {
     ///
     /// - Parameter object: The object to convert to generic searchable
     /// - Returns: The generic searchable to display
-    func searchable(for object: Object) -> GenericSearchable
+    func searchable(for object: Object) -> CustomSearchDisplayable
 
     /// Called when the search text is changed
     ///
@@ -223,14 +223,7 @@ public protocol GenericSearchViewModel {
 }
 
 /// A generic searchable object
-public protocol GenericSearchable {
-
-    /// The main string to display
-    var title: String { get }
-
-    /// The subtitle string to display
-    var subtitle: String? { get }
-
+public protocol CustomSearchDisplayable: CustomSearchPickable {
     /// The section this entity should belong to
     ///
     /// defaults to: `"Other"` if not provided
@@ -238,20 +231,14 @@ public protocol GenericSearchable {
 
     /// The image that should be displayed
     var image: UIImage? { get }
-
-    /// Perform business logic here to check if the entity should show up when filtering
-    ///
-    /// - Parameter searchString: the search string that is currently being filtered with
-    /// - Returns: true if should check passes and entity should be displayed
-    func matches(searchString: String) -> Bool
 }
 
 private struct PrioritisedSection {
     var title: String
-    var items: [GenericSearchable]
+    var items: [CustomSearchDisplayable]
     var isHidden: Bool = false
 
-    init(title: String, items: [GenericSearchable]) {
+    init(title: String, items: [CustomSearchDisplayable]) {
         self.title = title
         self.items = items
     }
