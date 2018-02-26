@@ -40,6 +40,7 @@ class SortDescriptorTests: XCTestCase {
     let p3 = Person(surname: "Smith", firstName: "John", middleName: "Citizen")
     let p4 = Person(surname: "Smith", firstName: "Jones", middleName: "K")
     let p5 = Person(surname: "Halim", firstName: "Herli", middleName: "Chad")
+    let p6 = Person(surname: "Halim", firstName: "herli", middleName: nil)
     
     var persons: [Person]!
     
@@ -122,6 +123,24 @@ class SortDescriptorTests: XCTestCase {
             XCTAssertEqual(person.surname, expect.surname)
             XCTAssertEqual(person.firstName, expect.firstName)
         }
+    }
+
+    func testThatItSortsPropertyCorrectlyUsingCustomComparator() {
+
+        let descriptor = SortDescriptor<Person>(ascending: true, comparator: {
+            return $0.firstName.localizedCompare($1.firstName)
+        })
+        let sorted = persons.sorted(using: [descriptor])
+
+        let expected = [ "Amber", "Herli", "Herli", "John", "Jones", "herli" ]
+
+        for (index, person) in sorted.enumerated() {
+
+            let expect = expected[index]
+            // Only check `firstName` because we only sort by `firstName`.
+            XCTAssertEqual(person.firstName, expect)
+        }
+
     }
     
     func testThatItSortsNilPropertyFirst() {

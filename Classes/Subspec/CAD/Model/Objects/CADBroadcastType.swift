@@ -9,7 +9,7 @@
 import Foundation
 
 /// Protocol for a class representing a broadcast task
-public protocol CADBroadcastType: class {
+public protocol CADBroadcastType: class, CADTaskListItemModelType {
 
     // MARK: - Network
     var createdAt: Date? { get set }
