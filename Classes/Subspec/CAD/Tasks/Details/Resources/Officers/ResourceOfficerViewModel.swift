@@ -12,12 +12,12 @@ public class ResourceOfficerViewModel {
     
     public var title: String
     public var subtitle: String
-    public var initials: String
+    public var initials: String?
     public var badgeText: String?
     public var commsEnabled: (text: Bool, call: Bool)
     public var contactNumber: String
     
-    public init(title: String, subtitle: String, initials: String, badgeText: String?, commsEnabled: (text: Bool, call: Bool), contactNumber: String) {
+    public init(title: String, subtitle: String, initials: String?, badgeText: String?, commsEnabled: (text: Bool, call: Bool), contactNumber: String) {
         self.title = title
         self.subtitle = subtitle
         self.initials = initials
@@ -40,7 +40,7 @@ public class ResourceOfficerViewModel {
     }
     
     public func thumbnail() -> ImageLoadable? {
-        guard let image = UIImage.thumbnail(withInitials: initials).withCircleBackground(tintColor: nil,
+        guard let initials = initials, let image = UIImage.thumbnail(withInitials: initials).withCircleBackground(tintColor: nil,
                                                                                    circleColor: .disabledGray,
                                                                                    style: .fixed(size: CGSize(width: 48, height: 48),
                                                                                                  padding: CGSize(width: 14, height: 14))

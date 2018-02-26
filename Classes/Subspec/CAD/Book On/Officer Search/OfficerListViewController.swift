@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class OfficerListViewController: GenericSearchViewController {
+open class OfficerListViewController: GenericSearchViewController, GenericSearchDelegate {
     
     open var officerListViewModel: OfficerListViewModel? {
         return viewModel as? OfficerListViewModel
@@ -44,10 +44,8 @@ open class OfficerListViewController: GenericSearchViewController {
     @objc public func cancelTapped() {
         navigationController?.popViewController(animated: true)
     }
-}
 
-extension OfficerListViewController: GenericSearchDelegate {
-    public func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath, withSearchable searchable: GenericSearchable) {
+    open func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath, withSearchable searchable: GenericSearchable) {
         if let officer = searchable as? OfficerListItemViewModel {
 
             if let screen = officerListViewModel?.officerDetailsScreen(for: officer) {

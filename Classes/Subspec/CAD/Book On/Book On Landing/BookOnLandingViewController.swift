@@ -104,7 +104,7 @@ open class BookOnLandingViewController: FormBuilderViewController {
     open override func construct(builder: FormBuilder) {
         let patrolAreaSection = viewModel.patrolAreaSection()
 
-        builder += HeaderFormItem(text: patrolAreaSection.title.uppercased(),
+        builder += HeaderFormItem(text: patrolAreaSection.title?.uppercased(),
                                   style: viewModel.shouldShowExpandArrow() ? .collapsible : .plain)
 
         for item in patrolAreaSection.items {
@@ -124,7 +124,7 @@ open class BookOnLandingViewController: FormBuilderViewController {
         
         let callsignSection = viewModel.callsignSection()
 
-        builder += HeaderFormItem(text: callsignSection.title.uppercased(),
+        builder += HeaderFormItem(text: callsignSection.title?.uppercased(),
                                   style: viewModel.shouldShowExpandArrow() ? .collapsible : .plain)
 
         for item in callsignSection.items {

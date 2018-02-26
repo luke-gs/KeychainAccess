@@ -27,7 +27,7 @@ public protocol CADOfficerType: class {
 
     // MARK: - Generated
     var displayName: String { get }
-    var initials: String { get }
+    var initials: String? { get }
     var payrollIdDisplayString: String { get }
 
     // MARK: - Init

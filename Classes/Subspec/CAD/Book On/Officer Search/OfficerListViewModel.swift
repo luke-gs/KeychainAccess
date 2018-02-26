@@ -12,25 +12,33 @@ public protocol OfficerListViewModelDelegate: class {
     func itemSelectedAndFinishedEditing()
 }
 
-public class OfficerListViewModel: GenericSearchDefaultViewModel {
+open class OfficerListViewModel: GenericSearchDefaultViewModel {
     
     open weak var detailsDelegate: OfficerDetailsViewModelDelegate?
     open weak var delegate: OfficerListViewModelDelegate?
     
     public init() {
-        super.init(items: viewModelData)
-        title = NSLocalizedString("Add Officer", comment: "")
+        super.init(items: viewModelData())
+        title = navTitle()
     }
     
     public required init(items: [GenericSearchable]) {
         super.init(items: items)
-        title = NSLocalizedString("Add Officer", comment: "")
+        title = navTitle()
     }
     
     open func createViewController() -> OfficerListViewController {
         let vc = OfficerListViewController(viewModel: self)
         delegate = vc
         return vc
+    }
+    
+    open func navTitle() -> String {
+        return NSLocalizedString("Add Officer", comment: "")
+    }
+    
+    open func sectionTitle() -> String {
+        return NSLocalizedString("Recently Used", comment: "")
     }
     
     open func noContentTitle() -> String? {
@@ -47,15 +55,15 @@ public class OfficerListViewModel: GenericSearchDefaultViewModel {
         return BookOnScreen.officerDetailsForm(officerViewModel: officerViewModel, delegate: self)
     }
     
-    private lazy var viewModelData: [GenericSearchable] = {
-        let section = "Recently Used".uppercased()
+    open func viewModelData() -> [GenericSearchable] {
+        let section = sectionTitle().uppercased()
         var result: [GenericSearchable] = []
         for (_, officer) in CADStateManager.shared.officersById {
             let viewModel = OfficerListItemViewModel(firstName: officer.firstName, lastName: officer.lastName, initials: officer.initials, rank: officer.rank, callsign: officer.payrollId, section: section)
             result.append(viewModel)
         }
         return result
-    }()
+    }
 }
 
 extension OfficerListViewModel: OfficerDetailsViewModelDelegate {

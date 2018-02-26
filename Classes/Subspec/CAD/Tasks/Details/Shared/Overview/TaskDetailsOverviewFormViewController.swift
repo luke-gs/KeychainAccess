@@ -21,7 +21,7 @@ open class TaskDetailsOverviewFormViewController: IntrinsicHeightFormBuilderView
     
     open override func construct(builder: FormBuilder) {
         for section in viewModel.sections {
-            builder += HeaderFormItem(text: section.title.uppercased(),
+            builder += HeaderFormItem(text: section.title?.uppercased(),
                                       style: .collapsible)
             
             for item in section.items {

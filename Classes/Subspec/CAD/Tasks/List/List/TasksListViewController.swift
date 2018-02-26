@@ -150,7 +150,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
     open func constructGroup(builder: FormBuilder, sections: [CADFormCollectionSectionViewModel<TasksListItemViewModel>]) {
         for (sectionIndex, section) in sections.enumerated() {
             let sectionCollapsible = viewModel.shouldShowExpandArrow() && !section.preventCollapse.isTrue
-            builder += HeaderFormItem(text: section.title.uppercased(),
+            builder += HeaderFormItem(text: section.title?.uppercased(),
                                       style: sectionCollapsible ? .collapsible : .plain)
             
             for item in section.items {
