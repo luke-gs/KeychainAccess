@@ -20,6 +20,7 @@
 		96CED76D1FA7F23D00C0DEB0 /* LandingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CED76C1FA7F23D00C0DEB0 /* LandingPresenter.swift */; };
 		96CED76F1FA7FE4C00C0DEB0 /* termsandconditions.html in Resources */ = {isa = PBXBuildFile; fileRef = 96CED76E1FA7F9AA00C0DEB0 /* termsandconditions.html */; };
 		96CED7751FA8456A00C0DEB0 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 96CED7741FA8456600C0DEB0 /* Localizable.stringsdict */; };
+		96EB4BEB20437BB000AFCAA0 /* TaskListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EB4BEA20437BB000AFCAA0 /* TaskListPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		96CED76C1FA7F23D00C0DEB0 /* LandingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPresenter.swift; sourceTree = "<group>"; };
 		96CED76E1FA7F9AA00C0DEB0 /* termsandconditions.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = termsandconditions.html; sourceTree = "<group>"; };
 		96CED7741FA8456600C0DEB0 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
+		96EB4BEA20437BB000AFCAA0 /* TaskListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListPresenter.swift; sourceTree = "<group>"; };
 		EFE5675329056751C51108DA /* Pods_CAD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CAD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -79,9 +81,10 @@
 		9620530E1F995374000CAD49 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				96AADABA200810F6003E215E /* BookOnPresenter.swift */,
 				96CED76C1FA7F23D00C0DEB0 /* LandingPresenter.swift */,
 				969EA0751FDE39A000A2474E /* SettingsViewController.swift */,
-				96AADABA200810F6003E215E /* BookOnPresenter.swift */,
+				96EB4BEA20437BB000AFCAA0 /* TaskListPresenter.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -300,11 +303,11 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-CAD/Pods-CAD-resources.sh",
-				"$PODS_CONFIGURATION_BUILD_DIR/HockeySDK/HockeySDKResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/HockeySDK/HockeySDKResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/HockeySDKResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -323,6 +326,7 @@
 				9624A4161F7C550B00CAE056 /* AppDelegate.swift in Sources */,
 				96AADABB200810F6003E215E /* BookOnPresenter.swift in Sources */,
 				969EA0761FDE39A000A2474E /* SettingsViewController.swift in Sources */,
+				96EB4BEB20437BB000AFCAA0 /* TaskListPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

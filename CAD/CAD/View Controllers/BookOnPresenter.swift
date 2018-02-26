@@ -8,6 +8,7 @@
 
 import Foundation
 import MPOLKit
+import ClientKit
 
 public class BookOnPresenter: Presenter {
     public func viewController(forPresentable presentable: Presentable) -> UIViewController {
@@ -52,7 +53,10 @@ public class BookOnPresenter: Presenter {
             let viewModel = TrafficStopViewModel()
             viewModel.completionHandler = completionHandler
             return viewModel.createViewController()
-            
+
+        case .trafficStopEntity(let entityViewModel):
+            return entityViewModel.createViewController()
+
         case .finaliseDetails(let primaryCode, let completionHandler):
             let viewModel = FinaliseDetailsViewModel(primaryCode: primaryCode)
             viewModel.completionHandler = completionHandler
@@ -74,16 +78,21 @@ public class BookOnPresenter: Presenter {
             container.lightTransparentBackground = UIColor(white: 1, alpha: 0.5)
             from.present(container, animated: true)
 
+        // Present form sheet with custom size
         case .statusChangeReason, .finaliseDetails:
-            // Present form sheet with custom size
             from.presentFormSheet(to, animated: true, size: CGSize(width: 448, height: 256), forced: true)
 
+        // Present form sheet if not compact
         case .bookOnDetailsForm(_, let formSheet):
             if formSheet && !from.isCompact() {
                 from.presentFormSheet(to, animated: true)
             } else {
                 from.show(to, sender: from)
             }
+
+        // Push
+        case .trafficStopEntity(_):
+            from.navigationController?.pushViewController(to, animated: true)
 
         // Default presentation, based on container class (eg push if in navigation controller)
         default:

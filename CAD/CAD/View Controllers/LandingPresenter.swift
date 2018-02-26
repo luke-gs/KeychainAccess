@@ -76,11 +76,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let searchProxyViewController = AppProxyViewController(appUrlTypeScheme: SEARCH_APP_SCHEME)
             searchProxyViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
 
-            let tasksListContainerViewModel = TasksListContainerViewModel(headerViewModel: TasksListHeaderViewModel(), listViewModel: TasksListViewModel())
-            let tasksSplitViewModel = TasksSplitViewModel(listContainerViewModel: tasksListContainerViewModel,
-                                                          mapViewModel: TasksMapViewModel(),
-                                                          filterViewModel: TaskMapFilterViewModel())
-            let tasksNavController = UINavigationController(rootViewController: tasksSplitViewModel.createViewController())
+            let tasksNavController = UINavigationController(rootViewController: Director.shared.viewController(forPresentable: TaskListScreen.landing))
             tasksNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarTasks)
             tasksNavController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tasks Tab Bar Item")
 
@@ -112,7 +108,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
     override open func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
         #if DEBUG
             controller.setLoading(true, animated: true)
-            CADStateManager.apiManager.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] token -> Void in
+            CADStateManagerCore.apiManager.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] token -> Void in
                 guard let `self` = self else { return }
 
                 APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)))
@@ -157,7 +153,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
         if let tabBarItem = tabBarController?.compactViewControllers?.last?.tabBarItem {
             if let resource = CADStateManager.shared.currentResource {
                 tabBarItem.title = resource.callsign
-                tabBarItem.image = resource.statusType.icon
+                tabBarItem.image = resource.status.icon
             } else {
                 tabBarItem.title = NSLocalizedString("Call Sign", comment: "")
                 tabBarItem.image = AssetManager.shared.image(forKey: .entityCar)
