@@ -48,11 +48,6 @@ open class BookOnLandingViewController: FormBuilderViewController {
         super.loadView()
         
         collectionView?.translatesAutoresizingMaskIntoConstraints = false
-        
-        if let collectionView = collectionView {
-            NSLayoutConstraint.activate([
-            ])
-        }
     }
 
     /// Creates and styles views

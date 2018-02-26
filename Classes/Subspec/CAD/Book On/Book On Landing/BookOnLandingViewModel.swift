@@ -28,7 +28,6 @@ open class BookOnLandingViewModel {
     }
     
     open func patrolAreaSection() -> CADFormCollectionSectionViewModel<BookOnLandingItemViewModel> {
-        // TODO: Get dynamically
         return CADFormCollectionSectionViewModel(title: patrolAreaSectionText(),
                                                  items: [
                                                     BookOnLandingItemViewModel(title: CADStateManager.shared.patrolGroup ?? noPatrolAreaSelectedText(),
