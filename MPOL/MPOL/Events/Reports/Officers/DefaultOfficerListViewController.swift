@@ -65,7 +65,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         officer.involvements = ["Reporting Officer"]
 
         let viewModel = OfficerSearchViewModel(items: [officer])
-        let officerSearchController = GenericSearchViewController<DefaultEventOfficerListViewController, OfficerSearchViewModel>(viewModel: viewModel)
+        let officerSearchController = SearchDisplayableViewController<DefaultEventOfficerListViewController, OfficerSearchViewModel>(viewModel: viewModel)
         officerSearchController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
         officerSearchController.delegate = self
 
@@ -126,7 +126,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
 
 }
 
-extension DefaultEventOfficerListViewController: GenericSearchDelegate {
+extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
 
     public typealias Object = Officer
 
