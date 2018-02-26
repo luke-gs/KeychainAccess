@@ -397,6 +397,7 @@
 		96D731731FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D731721FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift */; };
 		96E492021FB3F98D0051C3A1 /* AppSettingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E492011FB3F98D0051C3A1 /* AppSettingKey.swift */; };
 		96EB4BE6203E4EE200AFCAA0 /* CADTaskListItemModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EB4BE5203E4EE200AFCAA0 /* CADTaskListItemModelType.swift */; };
+		96EB4BE92043792800AFCAA0 /* TaskListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EB4BE82043792800AFCAA0 /* TaskListScreen.swift */; };
 		96ED81011FD9F2E100C7C960 /* CallsignStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ED81001FD9F2E100C7C960 /* CallsignStatusViewModel.swift */; };
 		96ED81031FDA0AAF00C7C960 /* ThemedPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ED81021FDA0AAF00C7C960 /* ThemedPopoverViewController.swift */; };
 		96F7727F201FFB35000FE0D0 /* CreateActivityLogItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F7727E201FFB35000FE0D0 /* CreateActivityLogItemViewModel.swift */; };
@@ -1161,6 +1162,7 @@
 		96D731721FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignIncidentFormViewController.swift; sourceTree = "<group>"; };
 		96E492011FB3F98D0051C3A1 /* AppSettingKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingKey.swift; sourceTree = "<group>"; };
 		96EB4BE5203E4EE200AFCAA0 /* CADTaskListItemModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADTaskListItemModelType.swift; sourceTree = "<group>"; };
+		96EB4BE82043792800AFCAA0 /* TaskListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListScreen.swift; sourceTree = "<group>"; };
 		96ED81001FD9F2E100C7C960 /* CallsignStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignStatusViewModel.swift; sourceTree = "<group>"; };
 		96ED81021FDA0AAF00C7C960 /* ThemedPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemedPopoverViewController.swift; sourceTree = "<group>"; };
 		96F7727E201FFB35000FE0D0 /* CreateActivityLogItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateActivityLogItemViewModel.swift; sourceTree = "<group>"; };
@@ -2028,7 +2030,6 @@
 		27C9C75F1F95690A00799855 /* Book On */ = {
 			isa = PBXGroup;
 			children = (
-				96AADABC20081D24003E215E /* BookOnScreen.swift */,
 				274C896F1F984C6A005B9CF8 /* All Callsigns */,
 				274C896E1F984693005B9CF8 /* Book On Landing */,
 				96B9183C1F9D6819005DEB1A /* Details */,
@@ -2288,6 +2289,7 @@
 		9624A4581F83555A00CAE056 /* CAD */ = {
 			isa = PBXGroup;
 			children = (
+				96EB4BE72043790C00AFCAA0 /* Screens */,
 				9624A4591F83555A00CAE056 /* ActivityLog */,
 				27C9C75F1F95690A00799855 /* Book On */,
 				9650CA111F958B2D0087F5C9 /* Callsign */,
@@ -2652,6 +2654,15 @@
 				273A5C192005B8DC0009D9A0 /* GlassBarView.swift */,
 			);
 			path = Shared;
+			sourceTree = "<group>";
+		};
+		96EB4BE72043790C00AFCAA0 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				96AADABC20081D24003E215E /* BookOnScreen.swift */,
+				96EB4BE82043792800AFCAA0 /* TaskListScreen.swift */,
+			);
+			path = Screens;
 			sourceTree = "<group>";
 		};
 		96F7727D201FFB10000FE0D0 /* Create */ = {
@@ -4082,6 +4093,7 @@
 				271F850D202902AC006DF977 /* PSCAlertView.swift in Sources */,
 				2792F11E1FDA55AE00A14CFB /* PopToRootable.swift in Sources */,
 				BC9C7DC71F0DED6600DFFE83 /* HTTPAuthenticationMode.swift in Sources */,
+				96EB4BE92043792800AFCAA0 /* TaskListScreen.swift in Sources */,
 				EA32A8541FBD1A7900CC37FB /* MediaPreviewViewController.swift in Sources */,
 				273DE2DD1FEA0F89000C46DD /* CreateIncidentStatusViewModel.swift in Sources */,
 				EA32A8571FBD1A7900CC37FB /* MediaGalleryTransitionAnimator.swift in Sources */,
