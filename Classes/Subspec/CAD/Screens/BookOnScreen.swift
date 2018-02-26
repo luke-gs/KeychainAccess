@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// Enum for all CAD book on screens that are presented
+/// Enum for all presentable CAD book on screens
 public enum BookOnScreen: Presentable {
 
     /// Create/edit book on details screen

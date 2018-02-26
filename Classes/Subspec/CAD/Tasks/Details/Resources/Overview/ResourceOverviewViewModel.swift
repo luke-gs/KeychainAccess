@@ -25,7 +25,8 @@ open class ResourceOverviewViewModel: TaskDetailsOverviewViewModel {
         else {
             return nil
         }
-        return TasksListIncidentViewModel(incident: incident, showsDescription: false, showsResources: false, hasUpdates: false)
+        let source = CADClientModelTypes.taskListSources.incidentCase
+        return TasksListIncidentViewModel(incident: incident, source: source, showsDescription: false, showsResources: false, hasUpdates: false)
     }
     
     override open func loadData() {
