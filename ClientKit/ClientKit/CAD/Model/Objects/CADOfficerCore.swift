@@ -59,7 +59,10 @@ open class CADOfficerCore: Codable, CADOfficerType {
     }
 
     open var initials: String? {
-        return [String(firstName?.prefix(1)), String(lastName?.prefix(1))].joined(separator: "")
+        if let firstName = firstName, let lastName = lastName {
+            return [String(firstName.prefix(1)), String(lastName.prefix(1))].joined(separator: "")
+        }
+        return nil
     }
 
     // MARK: - Init
