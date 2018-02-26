@@ -43,12 +43,6 @@ open class BookOnLandingViewController: FormBuilderViewController {
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-    
-    open override func loadView() {
-        super.loadView()
-        
-        collectionView?.translatesAutoresizingMaskIntoConstraints = false
-    }
 
     /// Creates and styles views
     open func setupViews() {
@@ -75,6 +69,8 @@ open class BookOnLandingViewController: FormBuilderViewController {
     
     /// Activates view constraints
     open func setupConstraints() {
+        collectionView?.translatesAutoresizingMaskIntoConstraints = false
+
         NSLayoutConstraint.activate([
             collectionView?.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
             collectionView?.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
@@ -121,7 +117,7 @@ open class BookOnLandingViewController: FormBuilderViewController {
                 })
                 .contentMode(.center)
                 .onSelection({ [weak self] _ in
-                    let screen = BookOnScreen.patrolAreaList(current: item.title, delegate: self, modal: false)
+                    let screen = BookOnScreen.patrolAreaList(current: item.title, delegate: self, formSheet: false)
                     self?.present(screen)
                 })
         }
