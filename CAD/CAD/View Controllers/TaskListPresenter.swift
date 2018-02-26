@@ -18,7 +18,8 @@ public class TaskListPresenter: Presenter {
         let presentable = presentable as! TaskListScreen
 
         switch presentable {
-        case .splitView:
+
+        case .landing:
             // Create dependent view models
             let listViewModel = TasksListViewModel()
             let listHeaderViewModel = TasksListHeaderViewModel()
@@ -36,8 +37,8 @@ public class TaskListPresenter: Presenter {
         case .createIncident:
             return CreateIncidentViewModel().createViewController()
 
-        case .mapFilter:
-            return tasksSplitViewModel.filterViewModel.createViewController()
+        case .mapFilter(let delegate):
+            return tasksSplitViewModel.filterViewModel.createViewController(delegate: delegate)
         }
     }
 
