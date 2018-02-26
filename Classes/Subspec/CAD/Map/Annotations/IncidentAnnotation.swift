@@ -18,13 +18,13 @@ public class IncidentAnnotation: TaskAnnotation {
     public var badgeBorderColor: UIColor
     public var usesDarkBackground: Bool
     
-    public init(identifier: String, coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?,badgeText: String, badgeTextColor: UIColor, badgeFillColor: UIColor, badgeBorderColor: UIColor, usesDarkBackground: Bool, priority: CADIncidentGradeType) {
+    public init(identifier: String, source: CADTaskListSourceType, coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?,badgeText: String, badgeTextColor: UIColor, badgeFillColor: UIColor, badgeBorderColor: UIColor, usesDarkBackground: Bool, priority: CADIncidentGradeType) {
         self.badgeText = badgeText
         self.badgeTextColor = badgeTextColor
         self.badgeFillColor = badgeFillColor
         self.badgeBorderColor = badgeBorderColor
         self.usesDarkBackground = usesDarkBackground
         self.priority = priority
-        super.init(identifier: identifier, coordinate: coordinate, title: title, subtitle: subtitle)
+        super.init(identifier: identifier, source: source, coordinate: coordinate, title: title, subtitle: subtitle)
     }
 }

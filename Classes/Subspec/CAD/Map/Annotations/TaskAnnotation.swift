@@ -15,9 +15,11 @@ open class TaskAnnotation: NSObject, MKAnnotation {
     open var title: String?
     open var subtitle: String?
     open var identifier: String
+    open var source: CADTaskListSourceType
 
-    public init(identifier: String, coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?) {
+    public init(identifier: String, source: CADTaskListSourceType, coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?) {
         self.identifier = identifier
+        self.source = source
         self.coordinate = coordinate
         self.title = title
         self.subtitle = subtitle

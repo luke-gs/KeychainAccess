@@ -144,9 +144,8 @@ open class TasksMapViewController: MapViewController {
         
         guard viewModel.canSelectAnnotationView(view) else { return }
         
-        if let viewModel = viewModel.viewModel(for: view.annotation as? TaskAnnotation) {
-            let vc = viewModel.createViewController()
-            splitViewController?.navigationController?.pushViewController(vc, animated: true)
+        if let annotation = view.annotation as? TaskAnnotation, let viewModel = annotation.source.createItemViewModel(identifier: annotation.identifier) {
+            present(TaskItemScreen.landing(viewModel: viewModel))
         }
     }
     

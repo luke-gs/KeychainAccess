@@ -64,29 +64,6 @@ open class TasksMapViewModel {
         }
     }
     
-    /// Creates a view model from an annotation
-    open func viewModel(for annotation: TaskAnnotation?) -> TaskItemViewModel? {
-        if let annotation = annotation as? ResourceAnnotation {
-            guard let resource = CADStateManager.shared.resourcesById[annotation.identifier] else { return nil }
-            
-            return ResourceTaskItemViewModel(callsign: resource.callsign,
-                                             iconImage: annotation.icon,
-                                             iconTintColor: resource.status.iconColors.icon,
-                                             color: resource.status.iconColors.background,
-                                             statusText: resource.status.title,
-                                             itemName: [annotation.title, annotation.subtitle].joined())
-        } else if let annotation = annotation as? IncidentAnnotation {
-            guard let incident = CADStateManager.shared.incidentsById[annotation.identifier] else { return nil }
-            let resource = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier).first
-            return IncidentTaskItemViewModel(incident: incident, resource: resource)
-        } else if let annotation = annotation as? PatrolAnnotation {
-            guard let patrol = CADStateManager.shared.patrolsById[annotation.identifier] else { return nil }
-            return PatrolTaskItemViewModel(patrol: patrol)
-        }
-        
-        return nil
-    }
-    
     /// Whether the specified annotation view can be selected
     open func canSelectAnnotationView(_ view: MKAnnotationView) -> Bool {
         return true
