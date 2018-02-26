@@ -12,6 +12,8 @@ import ClientKit
 
 public class TaskListPresenter: Presenter {
 
+    var tasksSplitViewModel: TasksSplitViewModel!
+
     public func viewController(forPresentable presentable: Presentable) -> UIViewController {
         let presentable = presentable as! TaskListScreen
 
@@ -25,7 +27,7 @@ public class TaskListPresenter: Presenter {
             let mapFilterViewModel = TaskMapFilterViewModel()
 
             // Create split view model
-            let tasksSplitViewModel = TasksSplitViewModel(listContainerViewModel: listContainerViewModel,
+            tasksSplitViewModel = TasksSplitViewModel(listContainerViewModel: listContainerViewModel,
                                                           mapViewModel: mapViewModel,
                                                           filterViewModel: mapFilterViewModel)
 
@@ -35,14 +37,19 @@ public class TaskListPresenter: Presenter {
             return CreateIncidentViewModel().createViewController()
 
         case .mapFilter:
-            return UIViewController()
+            return tasksSplitViewModel.filterViewModel.createViewController()
         }
     }
 
     public func present(_ presentable: Presentable, fromViewController from: UIViewController, toViewController to: UIViewController) {
-        let presentable = presentable as! BookOnScreen
+        let presentable = presentable as! TaskListScreen
 
         switch presentable {
+
+        // Present form sheet
+        case .mapFilter:
+            from.presentFormSheet(to, animated: true)
+
         // Default presentation, based on container class (eg push if in navigation controller)
         default:
             from.show(to, sender: from)
