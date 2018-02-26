@@ -255,7 +255,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
     }
     
     @objc public func showMapLayerFilter() {
-        viewModel.splitViewModel?.presentMapFilter()
+        self.present(TaskListScreen.mapFilter)
     }
     
     open func refreshTasks() {

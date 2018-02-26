@@ -70,7 +70,7 @@ open class TasksMapViewController: MapViewController {
     
     /// Shows the layer filter popover
     @objc private func showMapLayerFilter() {
-        viewModel.splitViewModel?.presentMapFilter()
+        present(TaskListScreen.mapFilter)
     }
     
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
