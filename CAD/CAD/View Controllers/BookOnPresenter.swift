@@ -38,7 +38,7 @@ public class BookOnPresenter: Presenter {
             viewModel.detailsDelegate = detailsDelegate
             return viewModel.createViewController()
 
-        case .patrolAreaList(let current, let delegate):
+        case .patrolAreaList(let current, let delegate, _):
             let viewModel = PatrolAreaListViewModel()
             viewModel.selectedPatrolArea = current
             viewModel.delegate = delegate
