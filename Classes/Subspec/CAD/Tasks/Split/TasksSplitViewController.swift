@@ -241,7 +241,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
     }
     
     @objc private func showMapLayerFilter() {
-        present(TaskListScreen.mapFilter)
+        present(TaskListScreen.mapFilter(delegate: viewModel))
     }
 }
 

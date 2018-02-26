@@ -11,12 +11,12 @@ import Foundation
 /// Enum for all CAD task list screens that are presented
 public enum TaskListScreen: Presentable {
 
-    /// The top level split view
-    case splitView
+    /// The landing screen of the task list, the top level split view
+    case landing
 
     /// Create a new incident
     case createIncident
 
     /// Display the map filter
-    case mapFilter
+    case mapFilter(delegate: MapFilterViewControllerDelegate?)
 }
