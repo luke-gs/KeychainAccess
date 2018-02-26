@@ -38,6 +38,9 @@ public enum BookOnScreen: Presentable {
     /// Create traffic stop incident
     case trafficStop(completionHandler: ((CADTrafficStopDetailsType?) -> Void)?)
 
+    /// Add traffic stop entity
+    case trafficStopEntity(entityViewModel: SelectStoppedEntityViewModel)
+
     /// Enter finalise details
     case finaliseDetails(primaryCode: String, completionHandler: ((_ secondaryCode: String?, _ remark: String?) -> Void)?)
 }
