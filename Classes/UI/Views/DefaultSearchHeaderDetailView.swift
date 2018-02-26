@@ -24,9 +24,17 @@ public struct SearchHeaderConfiguration {
 
 public class DefaultSearchHeaderDetailView: UIView, SearchHeaderUpdateable {
 
+
+    /// Updating the default search Header View
+    /// This method allows you to provide potential new values
+    ///
+    /// - Parameters:
+    ///   - title: A new title to provide to the titleLabel - Nil Resettable
+    ///   - subtitle: A new subtitle
+    ///   - image: A new image for the header - Nil Resettable
     public func update(with title: String? = nil, subtitle: String? = nil, image: ImageLoadable? = nil) {
         titleLabel.text = title ?? titleLabel.text
-        subtitleLabel.text = subtitle ?? subtitleLabel.text
+        subtitleLabel.text = subtitle
         imageView.image = image?.sizing().image ?? imageView.image
     }
     // MARK: - Public Properties
