@@ -39,10 +39,12 @@ open class CADStatusTabBarController: StatusTabBarController {
         statusView = userCallsignStatusView
         tabBar.isTranslucent = false
 
-        // Hide tab bar while syncing and match background color to sidebar
-        NotificationCenter.default.addObserver(self, selector: #selector(syncChanged), name: .CADSyncChanged, object: nil)
-        view.backgroundColor = ThemeManager.shared.theme(for: .dark).color(forKey: .background)
-        tabBarContainerController.view.isHidden = true
+        if viewModel.shouldHideUntilSynced() {
+            // Hide tab bar while syncing and match background color to sidebar
+            NotificationCenter.default.addObserver(self, selector: #selector(syncChanged), name: .CADSyncChanged, object: nil)
+            view.backgroundColor = ThemeManager.shared.theme(for: .dark).color(forKey: .background)
+            tabBarContainerController.view.isHidden = true
+        }
         
         applyTheme()
     }

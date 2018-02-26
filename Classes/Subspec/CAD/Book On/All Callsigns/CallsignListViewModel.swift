@@ -10,7 +10,7 @@ import UIKit
 
 open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsignItemViewModel> {
 
-    private func convertCallsignsToViewModels() -> [CADFormCollectionSectionViewModel<BookOnLandingCallsignItemViewModel>] {
+    open func convertCallsignsToViewModels() -> [CADFormCollectionSectionViewModel<BookOnLandingCallsignItemViewModel>] {
         var offDuty: [BookOnLandingCallsignItemViewModel] = []
         var bookedOn: [BookOnLandingCallsignItemViewModel] = []
 
