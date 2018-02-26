@@ -43,7 +43,7 @@ final public class EventsManager {
     }
 
     //add
-    public func add(event: Event) {
+    private func add(event: Event) {
         eventBucket?.add(event)
     }
 

@@ -20,22 +20,22 @@ final public class IncidentsManager {
 
     public var incidentBucket: ObjectBucket<Incident>?
     public var displayableBucket: ObjectBucket<IncidentListDisplayable>?
-    public var incidentBuilder: IncidentBuilding?
+    private(set) public var incidentBuilders = [IncidentType: IncidentBuilding]()
 
     public convenience init(incidentBucket: ObjectBucket<Incident>,
-                            displayableBucket: ObjectBucket<IncidentListDisplayable>,
-                            incidentBuilder: IncidentBuilding)
+                            displayableBucket: ObjectBucket<IncidentListDisplayable>)
     {
         self.init()
         self.incidentBucket = incidentBucket
         self.displayableBucket = displayableBucket
-        self.incidentBuilder = incidentBuilder
     }
 
     public init() { }
 
-    public func create(incidentType: IncidentType) -> Incident? {
-        guard let incident = incidentBuilder?.createIncident(for: incidentType) else { return nil }
+    public func create(incidentType: IncidentType, in event: Event) -> Incident? {
+        guard let incidentBuilder = incidentBuilders[incidentType] else { return nil }
+
+        let incident = incidentBuilder.createIncident(for: incidentType, in: event)
         displayableBucket?.add(incident.displayable)
         incidentBucket?.add(incident.incident)
 
@@ -43,6 +43,11 @@ final public class IncidentsManager {
     }
 
     //add
+
+    public func add(_ builder: IncidentBuilding, for type: IncidentType) {
+        incidentBuilders[type] = builder
+    }
+
     public func add(incident: Incident) {
         incidentBucket?.add(incident)
     }

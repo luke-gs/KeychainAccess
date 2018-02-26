@@ -57,7 +57,7 @@ public protocol IncidentListViewModelType {
     /// Initialise the viewmodel with an events manager
     ///
     /// - Parameter eventsManager: the events manager
-    init(incidentManager: IncidentsManager)
+    init(report: Reportable?, incidentManager: IncidentsManager)
 
     /// Gets an event for a particular displayable
     ///
@@ -68,7 +68,7 @@ public protocol IncidentListViewModelType {
     /// Provide the detailViewModel for an event
     ///
     /// - Returns: the detail view model
-    func detailsViewModel(for event: Incident) -> IncidentDetailViewModelType
+    func detailsViewModel(for incident: Incident) -> IncidentDetailViewModelType
 }
 
 /// The view model definition for the event details for the OOTB product

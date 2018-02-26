@@ -18,6 +18,7 @@ final public class Incident: Codable, Evaluatable {
     private(set) public var reports: [Reportable] = [Reportable]()
     public var evaluator: Evaluator = Evaluator()
     public let id: UUID
+    public weak var event: Event?
 
     private var allValid: Bool = false {
         didSet {
@@ -25,9 +26,10 @@ final public class Incident: Codable, Evaluatable {
         }
     }
 
-    public init() {
-        id = UUID()
-        evaluator.registerKey(.allValid) {
+    public init(event: Event) {
+        self.event = event
+        self.id = UUID()
+        self.evaluator.registerKey(.allValid) {
             return !self.reports.map{$0.evaluator.isComplete}.contains(false)
         }
     }
@@ -78,7 +80,8 @@ final public class Incident: Codable, Evaluatable {
 public struct IncidentType: RawRepresentable, Hashable {
 
     //Define default EventTypes
-    static let blank = IncidentType(rawValue: "blank")
+    public static let blank = IncidentType(rawValue: "blank")
+    public static let trafficInfringement = IncidentType(rawValue: "trafficInfringement")
 
     public var rawValue: String
 
@@ -105,7 +108,7 @@ public protocol IncidentBuilding {
     ///
     /// - Parameter type: the type of event that is being asked to be created.
     /// - Returns: a tuple of an event and it's list view representation
-    func createIncident(for type: IncidentType) -> (incident: Incident, displayable: IncidentListDisplayable)
+    func createIncident(for type: IncidentType, in event: Event) -> (incident: Incident, displayable: IncidentListDisplayable)
 }
 
 /// Screen builder for the event
