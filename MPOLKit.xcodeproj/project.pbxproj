@@ -20,6 +20,9 @@
 		1267EFE1203520BF00773548 /* LocationMapSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1267EFE0203520BF00773548 /* LocationMapSelectionViewController.swift */; };
 		12A8DB471F5FD63400A06005 /* DirectoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A8DB461F5FD63400A06005 /* DirectoryManager.swift */; };
 		12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */; };
+		12B832EC2043827A00B13414 /* Incident.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B832EB2043827A00B13414 /* Incident.swift */; };
+		12B832F4204386AA00B13414 /* IncidentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B832F3204386AA00B13414 /* IncidentManager.swift */; };
+		12B832F6204386EB00B13414 /* IncidentListDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B832F5204386EB00B13414 /* IncidentListDisplayable.swift */; };
 		12D3701720200B5B00D79DDB /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3700F20200B5A00D79DDB /* Event.swift */; };
 		12D3701920200B5B00D79DDB /* EventListDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3701220200B5A00D79DDB /* EventListDisplayable.swift */; };
 		12D3701B20200B5B00D79DDB /* EventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3701420200B5A00D79DDB /* EventsManager.swift */; };
@@ -779,6 +782,9 @@
 		1267EFE0203520BF00773548 /* LocationMapSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapSelectionViewController.swift; sourceTree = "<group>"; };
 		12A8DB461F5FD63400A06005 /* DirectoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryManager.swift; sourceTree = "<group>"; };
 		12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLKitProtocols.swift; sourceTree = "<group>"; };
+		12B832EB2043827A00B13414 /* Incident.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Incident.swift; sourceTree = "<group>"; };
+		12B832F3204386AA00B13414 /* IncidentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentManager.swift; sourceTree = "<group>"; };
+		12B832F5204386EB00B13414 /* IncidentListDisplayable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentListDisplayable.swift; sourceTree = "<group>"; };
 		12BDF9151F95CCD50033E60B /* GenericSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericSearchViewController.swift; sourceTree = "<group>"; };
 		12D3700F20200B5A00D79DDB /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		12D3701220200B5A00D79DDB /* EventListDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListDisplayable.swift; sourceTree = "<group>"; };
@@ -1565,6 +1571,16 @@
 				12080F902032AE3800AB3632 /* LocationSelectionViewModel.swift */,
 			);
 			path = Location;
+			sourceTree = "<group>";
+		};
+		12B832EA2043826400B13414 /* Incidents */ = {
+			isa = PBXGroup;
+			children = (
+				12B832EB2043827A00B13414 /* Incident.swift */,
+				12B832F3204386AA00B13414 /* IncidentManager.swift */,
+				12B832F5204386EB00B13414 /* IncidentListDisplayable.swift */,
+			);
+			path = Incidents;
 			sourceTree = "<group>";
 		};
 		12BDF9141F95CCC70033E60B /* Search */ = {
@@ -3736,6 +3752,7 @@
 				EA8B666A1F393A2000F09716 /* EntitySearch */,
 				12D3700E20200B5A00D79DDB /* Events */,
 				19D8D7941FB520140002332D /* ExternalAuthenticator */,
+				12B832EA2043826400B13414 /* Incidents */,
 				4634B43B1FBD6FA200D71E7F /* Location Map Search */,
 				EA4806AB1F56935000B42313 /* LocationSearch */,
 				EAAEB3461F6617E0002D6C65 /* Presenter */,
@@ -4061,6 +4078,7 @@
 				BC9C7DF11F0DED6600DFFE83 /* EpochDateTransformer.swift in Sources */,
 				BC9C7DD31F0DED6600DFFE83 /* OAuthAuthorizationGrant.swift in Sources */,
 				4677EE2A1FFDAB29004634B5 /* UnderlineStyle.swift in Sources */,
+				12B832EC2043827A00B13414 /* Incident.swift in Sources */,
 				1948A7B51FBBDB45005AB301 /* OAuth2Error.swift in Sources */,
 				E26BCADE201169930028F228 /* TemplateDataSource.swift in Sources */,
 				EA11F0221F830DD600BF8BCA /* ItemAccessorisable.swift in Sources */,
@@ -4268,6 +4286,7 @@
 				2744EEC71FBEA523008DFA7F /* MapFilterViewModel.swift in Sources */,
 				27CBC7621F8B27CC00E387C3 /* IncidentAnnotation.swift in Sources */,
 				4420D2801F66428D00E20304 /* Sequence+Nils.swift in Sources */,
+				12B832F6204386EB00B13414 /* IncidentListDisplayable.swift in Sources */,
 				966CE9CD20367DCF00646A6A /* CADIncidentStatusType.swift in Sources */,
 				DB88BCDF1F42D00F0056FD69 /* SearchResultViewModelable.swift in Sources */,
 				274C89831F9D9EC3005B9CF8 /* OfficerListViewModel.swift in Sources */,
@@ -4505,6 +4524,7 @@
 				EAE806DB1F98534000C9AA85 /* FormSection.swift in Sources */,
 				19B49BBE1F665F2A00502F51 /* ScrollAwarePageViewController.swift in Sources */,
 				9689CA47203646140001D993 /* CADStateManagerType.swift in Sources */,
+				12B832F4204386AA00B13414 /* IncidentManager.swift in Sources */,
 				191BC4D51F7C203B00C8C218 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				DB88BCDC1F42D0080056FD69 /* SearchRecentsViewController.swift in Sources */,
 				BC9C7E511F0DED6600DFFE83 /* FormAccessoryCheckmark.swift in Sources */,
