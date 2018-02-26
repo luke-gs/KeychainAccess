@@ -391,15 +391,14 @@
 				9689CA242036445C0001D993 /* CADSyncResponse.swift */,
 			);
 			path = Responses;
+        };
 		9689CA43203644CA0001D993 /* Session */ = {
-			sourceTree = "<group>";
-		};
-			isa = PBXGroup;
-			children = (
-				9689CA44203644CA0001D993 /* CADStateManagerCore.swift */,
-			);
-			path = Session;
-			sourceTree = "<group>";
+            isa = PBXGroup;
+            children = (
+            9689CA44203644CA0001D993 /* CADStateManagerCore.swift */,
+            );
+            path = Session;
+            sourceTree = "<group>";
 		};
 		968B5EF61FBA8C4C0097B3F9 /* Presenters */ = {
 			isa = PBXGroup;
