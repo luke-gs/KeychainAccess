@@ -36,21 +36,23 @@ class PersonDetailViewController: FormBuilderViewController {
 //        ])
 
         let localStore = DataStoreCoordinator(dataStore: LocalDataStore(items: [
-            Media(url: URL(string: "localhost")!, title: "Herli", comments: "This Girl is on FIREEE", isSensitive: true)
+            Media(url: URL(string: "localhost")!, title: "Herli", comments: "This Girl is on FIREEE", isSensitive: true),
+            Media(url: URL(string: "localhost")!, title: "Herli", comments: "This Girl is on FIREEE", isSensitive: false),
+            Media(url: URL(string: "localhost")!, title: "Herli", comments: "This Girl is on FIREEE", isSensitive: false),
+            Media(url: URL(string: "localhost")!, title: "Herli", comments: "This Girl is on FIREEE", isSensitive: false)
         ]))
 
-        let handler = MediaPreviewHandler(storeCoordinator: localStore)
+        let gallery = MediaGalleryCoordinatorViewModel(storeCoordinator: localStore)
 
         let mediaItem = MediaFormItem()
-            .dataSource(handler)
-            .delegate(handler)
+            .dataSource(gallery)
 
         if let viewController = UIApplication.shared.keyWindow?.rootViewController {
             mediaItem.previewingController(viewController)
         }
 
         builder += HeaderFormItem(text: "PHOTOS").actionButton(title: "ADD", handler: { button in
-            if let viewController = mediaItem.delegate?.viewControllerForMediaDataSource() {
+            if let viewController = mediaItem.delegate?.viewControllerForGalleryViewModel(gallery) {
                 self.present(viewController, animated: true, completion: nil)
             }
         })
@@ -89,6 +91,9 @@ class PersonDetailViewController: FormBuilderViewController {
 
 
 class DocumentItem: MediaPreviewable {
+
+    var asset: Media
+
     var sensitive: Bool = false
 
     var title: String?
@@ -119,6 +124,7 @@ class DocumentItem: MediaPreviewable {
     let sensitiveText: String? = nil
 
     init(type: DocumentType, title: String?) {
+        self.asset = Media(url: URL(string: "localhost")!)
         self.type = type
         self.title = title
 

@@ -14,7 +14,7 @@ public class Media: Codable {
     public var title: String?
     public var comments: String?
     public var sensitive: Bool
-
+    
     public init(url: URL, title: String? = nil, comments: String? = nil, isSensitive: Bool = false) {
         self.url = url
         self.title = title
@@ -23,7 +23,11 @@ public class Media: Codable {
     }
 }
 
-extension Media: Equatable {
+extension Media: Hashable {
+
+    public var hashValue: Int {
+        return url.hashValue ^ (title?.hashValue ?? 0) ^ (comments?.hashValue ?? 0) ^ sensitive.hashValue
+    }
 
     static public func ==(lhs: Media, rhs: Media) -> Bool {
         return

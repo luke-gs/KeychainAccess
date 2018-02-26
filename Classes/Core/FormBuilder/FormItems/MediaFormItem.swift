@@ -11,9 +11,9 @@ import Foundation
 
 public class MediaFormItem: BaseFormItem {
 
-    public var dataSource: MediaPreviewCollectionDataSource?
+    public var dataSource: MediaGalleryViewModelable?
 
-    public var delegate: MediaPreviewableDelegate?
+    public var delegate: MediaGalleryDelegate? = MediaPreviewHandler()
 
     public weak var previewingController: UIViewController?
 
@@ -48,13 +48,13 @@ extension MediaFormItem {
     }
 
     @discardableResult
-    public func dataSource(_ dataSource: MediaPreviewCollectionDataSource?) -> Self {
+    public func dataSource(_ dataSource: MediaGalleryViewModelable?) -> Self {
         self.dataSource = dataSource
         return self
     }
 
     @discardableResult
-    public func delegate(_ delegate: MediaPreviewableDelegate?) -> Self {
+    public func delegate(_ delegate: MediaGalleryDelegate?) -> Self {
         self.delegate = delegate
         return self
     }

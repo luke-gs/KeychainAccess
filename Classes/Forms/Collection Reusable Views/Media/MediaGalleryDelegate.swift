@@ -11,7 +11,7 @@ import Foundation
 /// A `CollectionViewFormMediaCell`'s delegate protocol.
 ///
 /// Implement this protocol to provide custom behaviours on selection of media item in the `CollectionViewFormMediaCell`.
-public protocol MediaPreviewableDelegate: class {
+public protocol MediaGalleryDelegate: class {
 
     // MARK: - Controllers creation
 
@@ -19,43 +19,33 @@ public protocol MediaPreviewableDelegate: class {
     /// This only works on devices with force touch. (E.g. iPhone 7 and above).
     ///
     /// - Parameters:
-    ///   - mediaItem: The media item that has been force touched.
-    ///   - dataSource: The data source of the media item.
+    ///   - preview: The preview item that has been force touched.
+    ///   - galleryViewModel: The gallery of the preview item.
     /// - Returns: A view controller to be presented as a preview.
-    func previewViewControllerForMediaItem(_ mediaItem: MediaPreviewable) -> UIViewController?
+    func previewViewControllerForPreview(_ preview: MediaPreviewable, inGalleryViewModel galleryViewModel: MediaGalleryViewModelable) -> UIViewController?
 
     /// Returns a view controller to be used once a preview controller is commited.
     /// This only works on devices with fource touch. (E.g. iPhone 7 and above).
     ///
     /// - Parameters:
-    ///   - dataSource: The data source of the media item
+    ///   - galleryViewModel: The gallery of the preview item
     ///   - previewViewController: The preview controller
     /// - Returns: A view controller to be presented.
-    func viewControllerForMediaDataSource(fromPreviewViewController previewViewController: UIViewController) -> UIViewController?
+    func viewControllerForGalleryViewModel(_ galleryViewModel: MediaGalleryViewModelable, fromPreviewViewController previewViewController: UIViewController) -> UIViewController?
 
     /// Returns a view controller to be used when a media item is selected.
     ///
     /// - Parameters:
-    ///   - mediaItem: The media item that has been selected.
-    ///   - dataSource: The data source of the media item.
+    ///   - preview: The preview item that has been selected.
+    ///   - galleryViewModel: The gallery of the preview item.
     /// - Returns: A view controller to be presented.
-    func mediaItemViewControllerForMediaItem(_ mediaItem: MediaPreviewable) -> UIViewController?
+    func mediaItemViewControllerForPreview(_ preview: MediaPreviewable, inGalleryViewModel galleryViewModel: MediaGalleryViewModelable) -> UIViewController?
 
     /// Returns a view controller to be used when the action button is selected.
     /// A potential use case is when there are no media items.
     ///
-    /// - Parameter dataSource: The data source
+    /// - Parameter galleryViewModel: The gallery view model
     /// - Returns: A view controller to be presented.
-    func viewControllerForMediaDataSource() -> UIViewController?
+    func viewControllerForGalleryViewModel(_ galleryViewModel: MediaGalleryViewModelable) -> UIViewController?
 
 }
-
-public protocol MediaPreviewCollectionDataSource: class {
-
-    func numberOfMediaPreviews() -> Int
-
-    func previewAtIndex(_ index: Int) -> MediaPreviewable
-
-}
-
-public let MediaPreviewCollectionDataSourceDidChange = Notification.Name("MediaPreviewCollectionDataSourceDidChange")

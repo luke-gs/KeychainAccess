@@ -10,7 +10,7 @@ import Foundation
 import AVFoundation
 import Photos
 
-public class MediaGalleryViewController<T: WritableDataStore>: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate where T.Result: PaginatedDataStoreResult, T.Result.Item: Media {
+public class MediaGalleryViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
     private enum Identifier: String {
         case genericCell
@@ -20,8 +20,6 @@ public class MediaGalleryViewController<T: WritableDataStore>: UIViewController,
     public let collectionViewFlowLayout = UICollectionViewFlowLayout()
 
     public private(set) lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewFlowLayout)
-
-//    public let dataSource: MediaDataSource
 
     public let pickerSources: [MediaPickerSource]
 
@@ -35,35 +33,27 @@ public class MediaGalleryViewController<T: WritableDataStore>: UIViewController,
 
     private lazy var addBarButtonItem: UIBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Add", comment: ""), style: .plain, target: self, action: #selector(addButtonTapped))
 
+    public let viewModel: MediaGalleryViewModelable
 
-    public let storeCoordinator: DataStoreCoordinator<T>
-
-    public let viewModel: MediaGalleryViewModel
-
-    private var previews: [MediaPreviewable] = []
-
-    public init(viewModel: MediaGalleryViewModel, storeCoordinator: DataStoreCoordinator<T>, pickerSources: [MediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker(), AudioMediaPicker(), SketchMediaPicker()]) {
+    public init(viewModel: MediaGalleryViewModelable, initialPreview: MediaPreviewable? = nil, pickerSources: [MediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker(), AudioMediaPicker(), SketchMediaPicker()]) {
 
         pickerSources.forEach {
             $0.saveMedia = { url, assetType in
                 if let media = assetType.mediaAsset(at: url) {
-//                    dataSource.addMediaItem(media)
+//                    viewModel.addMedia(media)
                 }
             }
         }
 
-//        self.dataSource = MediaDataSource(mediaItems: [])
         self.viewModel = viewModel
-        self.storeCoordinator = storeCoordinator
         self.pickerSources = pickerSources
+        self.initialAsset = initialPreview
 
         super.init(nibName: nil, bundle: nil)
 
         title = NSLocalizedString("Photos", comment: "")
 
         setupNavigationItems()
-
-        NotificationCenter.default.addObserver(self, selector: #selector(storeDidChange(_:)), name: DataStoreCoordinatorDidChangeStateNotification, object: storeCoordinator)
         NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
     }
 
@@ -108,7 +98,6 @@ public class MediaGalleryViewController<T: WritableDataStore>: UIViewController,
 
         navigationController?.delegate = self
 
-        updatePreviews()
         updateContentState()
         interfaceStyleDidChange()
 
@@ -118,10 +107,8 @@ public class MediaGalleryViewController<T: WritableDataStore>: UIViewController,
         super.viewWillAppear(animated)
 
         if let initialPhoto = initialAsset {
-
-            let slideShowViewController = MediaSlideShowViewController(dataSource: dataSource, initialMedia: initialPhoto, referenceView: nil)
+            let slideShowViewController = MediaSlideShowViewController(viewModel: viewModel, initialMedia: initialPhoto, referenceView: nil)
             slideShowViewController.allowEditing = allowEditing
-//            mediaGalleryViewController.mediaOverviewViewController = self
             navigationController?.pushViewController(slideShowViewController, animated: true)
 
             self.initialAsset = nil
@@ -167,8 +154,8 @@ public class MediaGalleryViewController<T: WritableDataStore>: UIViewController,
     // MARK: - UICollectionViewDataSource/Delegate
 
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        switch storeCoordinator.state {
-        case .completed: return 1
+        switch viewModel.state {
+        case .completed(let hasAdditionalItems): return hasAdditionalItems ? 2 : 1
         case .unknown: return 2
         case .loading: return 2
         case .error: return 2
@@ -176,15 +163,14 @@ public class MediaGalleryViewController<T: WritableDataStore>: UIViewController,
     }
 
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return section == 0 ? previews.count : 1
-//        return section == 0 ? dataSource.numberOfMediaItems() : 1
+        return section == 0 ? viewModel.previews.count : 1
     }
 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.genericCell.rawValue, for: indexPath)
 
-            let preview = previews[indexPath.item]
+            let preview = viewModel.previews[indexPath.item]
             preview.thumbnailImage?.loadImage(completion: { [weak self] (sizable) in
                 let imageView = UIImageView(image: sizable.sizing().image)
                 imageView.contentMode = self?.traitCollection.horizontalSizeClass == .compact ? .scaleAspectFill : .scaleAspectFit
@@ -197,13 +183,17 @@ public class MediaGalleryViewController<T: WritableDataStore>: UIViewController,
 
             return cell
         } else {
-            let state = storeCoordinator.state
+            let state = viewModel.state
 
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.stateCell.rawValue, for: indexPath) as! MediaStateCell
             cell.imageView.image = AssetManager.shared.image(forKey: .sourceBarDownload)
             cell.titleLabel.text = state.title()
             cell.subtitleLabel.text = state.subtitle()
-            cell.isLoading = state == .loading
+
+            switch state {
+            case .loading: cell.isLoading = true
+            default: cell.isLoading = false
+            }
 
             return cell
         }
@@ -217,28 +207,14 @@ public class MediaGalleryViewController<T: WritableDataStore>: UIViewController,
                 cell.backgroundView?.alpha = 1.0
                 trashItem.isEnabled = true
             } else {
-                let preview = previews[indexPath.item]
-                let mediaSlideShowViewController = MediaSlideShowViewController(dataSource: dataSource, initialMedia: preview, referenceView: cell)
+                let preview = viewModel.previews[indexPath.item]
+                let mediaSlideShowViewController = MediaSlideShowViewController(viewModel: viewModel, initialMedia: preview, referenceView: cell)
                 mediaSlideShowViewController.allowEditing = allowEditing
-//                mediaGalleryViewController.mediaOverviewViewController = self
                 show(mediaSlideShowViewController, sender: self)
             }
         } else {
-            if case .loading = storeCoordinator.state {} else {
-//                doMe()
-//                if storeCoordinator.dataStore is WritableDataStore {
-//
-//                }
-
-//                if storeCoordinator.dataStore is WritableDataStore {
-//
-//                }
-
-//                dataSource.loadMoreItems()?.then { _ in
-//                    print("Hello")
-//                }.catch { error in
-//                    print(error.localizedDescription)
-//                }
+            if case .loading = viewModel.state {} else {
+                viewModel.retrievePreviews(style: .paginated)
             }
         }
     }
@@ -349,14 +325,15 @@ public class MediaGalleryViewController<T: WritableDataStore>: UIViewController,
         alertController.addAction(UIAlertAction(title: "Delete \(numberOfPhotos) Photo\(numberOfPhotos == 1 ? "" : "s")", style: .destructive, handler: { [weak self] (action) in
             guard let `self` = self else { return }
 
-            indexPaths.flatMap({ self.dataSource.mediaItemAtIndex($0.item) }).forEach({
-                self.dataSource.removeMediaItem($0)
-            })
+            let items = indexPaths.map{ indexPath in
+                self.viewModel.previews[indexPath.item].asset
+            }
+            items.forEach { self.viewModel.removeMedia($0) }
 
             self.collectionView.performBatchUpdates({
                 self.collectionView.deleteItems(at: indexPaths)
             }, completion: { (completed) in
-                if self.dataSource.numberOfMediaItems() <= 0 {
+                if self.viewModel.previews.count <= 0 {
                     self.setEditing(false, animated: true)
                 }
             })
@@ -367,8 +344,6 @@ public class MediaGalleryViewController<T: WritableDataStore>: UIViewController,
     }
 
     @objc private func storeDidChange(_ notification: Notification) {
-        updatePreviews()
-
         guard isViewLoaded else { return }
 
         if !isEditing {
@@ -391,12 +366,8 @@ public class MediaGalleryViewController<T: WritableDataStore>: UIViewController,
         collectionView.backgroundColor = backgroundColor
     }
 
-    private func updatePreviews() {
-        previews = storeCoordinator.items.map { viewModel.previewForMedia($0) }
-    }
-
     private func updateContentState() {
-        let hasMediaItems = storeCoordinator.items.count > 0
+        let hasMediaItems = viewModel.previews.count > 0
         loadingManager.state = hasMediaItems ? .loaded : .noContent
         beginSelectItem.isEnabled = hasMediaItems
     }
@@ -412,7 +383,7 @@ public class MediaGalleryViewController<T: WritableDataStore>: UIViewController,
             guard let _ = fromVC as? MediaGalleryViewController,
                 let toVC = toVC as? MediaSlideShowViewController,
                 let media = toVC.currentMedia,
-                let mediaIndex = previews.index(where: { media === $0 }),
+                let mediaIndex = viewModel.previews.index(where: { media === $0 }),
                 let cell = collectionView.cellForItem(at: IndexPath(item: mediaIndex, section: 0)),
                 let mediaViewController = toVC.currentMediaViewController else { return nil }
 
@@ -426,7 +397,7 @@ public class MediaGalleryViewController<T: WritableDataStore>: UIViewController,
                 let _ = toVC as? MediaGalleryViewController,
                 let mediaViewController = fromVC.currentMediaViewController,
                 let media = fromVC.currentMedia,
-                let mediaIndex = previews.index(where: { media === $0 }) else { return nil }
+                let mediaIndex = viewModel.previews.index(where: { media === $0 }) else { return nil }
 
             let endingView = mediaViewController.scalingImageView.imageView
             let indexPath = IndexPath(item: mediaIndex, section: 0)
@@ -448,23 +419,31 @@ public class MediaGalleryViewController<T: WritableDataStore>: UIViewController,
     }
 }
 
-private extension DataCoordinateState {
+private extension MediaGalleryState {
 
     func title() -> String {
         switch self {
-        case .unknown:          return "Load more images"
-        case .loading:          return "Loading"
-        case .completed:        return "Completed"
-        case .error:            return "Error"
+        case .unknown:
+            return "Download Images"
+        case .loading:
+            return "Loading"
+        case .completed(let additionalItem):
+            return "Completed"
+        case .error:
+            return "Error"
         }
     }
 
     func subtitle() -> String {
         switch self {
-        case .unknown:          return "This may take a moment depending on your connection speed."
-        case .loading:          return "Please wait a moment."
-        case .completed:        return "Completed"
-        case .error(let error): return error.localizedDescription
+        case .unknown:
+            return "This may take a moment depending on your connection speed."
+        case .loading:
+            return "Please wait a moment."
+        case .completed(let additionalitem):
+            return additionalitem ? "This may take a moment depending on your connection speed." : "Completed"
+        case .error(let error):
+            return error.localizedDescription
         }
     }
 

@@ -9,78 +9,39 @@
 import Foundation
 
 
-public class MediaPreviewHandler<T: WritableDataStore>: MediaPreviewableDelegate, MediaPreviewCollectionDataSource where T.Result: PaginatedDataStoreResult, T.Result.Item: Media {
+public class MediaPreviewHandler: MediaGalleryDelegate {
 
-    public let storeCoordinator: DataStoreCoordinator<T>
+    public let allowEditing: Bool
 
-    public let galleryViewModel: MediaGalleryViewModel
+    public let pickerSources: [MediaPickerSource]
 
-    public var allowEditing: Bool
-
-    public var pickerSources: [MediaPickerSource]
-
-    public init(storeCoordinator: DataStoreCoordinator<T>, allowEditing: Bool = true, pickerSources: [MediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker(), AudioMediaPicker(), SketchMediaPicker()]) {
-        self.storeCoordinator = storeCoordinator
+    public init(allowEditing: Bool = true, pickerSources: [MediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker(), AudioMediaPicker(), SketchMediaPicker()]) {
         self.allowEditing = allowEditing
         self.pickerSources = pickerSources
-
-        if storeCoordinator.state == .unknown {
-            _ = storeCoordinator.retrieveItems()
-        }
-
-        galleryViewModel = MediaGalleryViewModel()
-
-        NotificationCenter.default.addObserver(self, selector: #selector(storeDidChange), name: DataStoreCoordinatorDidChangeStateNotification, object: storeCoordinator)
     }
 
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+    public func previewViewControllerForPreview(_ preview: MediaPreviewable, inGalleryViewModel galleryViewModel: MediaGalleryViewModelable) -> UIViewController? {
+        return MediaPreviewViewController(mediaAsset: preview)
     }
 
-    // MARK: - Notification
-
-    @objc private func storeDidChange() {
-        NotificationCenter.default.post(name: MediaPreviewCollectionDataSourceDidChange, object: self)
+    public func viewControllerForGalleryViewModel(_ galleryViewModel: MediaGalleryViewModelable, fromPreviewViewController previewViewController: UIViewController) -> UIViewController? {
+        guard let preview = (previewViewController as? MediaPreviewViewController)?.mediaAsset else { return nil }
+        
+        let galleryViewController = MediaGalleryViewController(viewModel: galleryViewModel, initialPreview: preview, pickerSources: pickerSources)
+        galleryViewController.allowEditing = allowEditing
+        return UINavigationController(rootViewController: galleryViewController)
     }
 
-    // MARK: - DataSource
-
-    public func numberOfMediaPreviews() -> Int {
-        return storeCoordinator.items.count
+    public func viewControllerForGalleryViewModel(_ galleryViewModel: MediaGalleryViewModelable) -> UIViewController? {
+        let galleryViewController = MediaGalleryViewController(viewModel: galleryViewModel, pickerSources: pickerSources)
+        galleryViewController.allowEditing = allowEditing
+        return UINavigationController(rootViewController: galleryViewController)
     }
 
-    public func previewAtIndex(_ index: Int) -> MediaPreviewable {
-        let item = storeCoordinator.items[index]
-        return MediaPreview(thumbnailImage: AssetManager.shared.image(forKey: .info), asset: item)
+    public func mediaItemViewControllerForPreview(_ preview: MediaPreviewable, inGalleryViewModel galleryViewModel: MediaGalleryViewModelable) -> UIViewController? {
+        let galleryViewController = MediaGalleryViewController(viewModel: galleryViewModel, initialPreview: preview, pickerSources: pickerSources)
+        galleryViewController.allowEditing = allowEditing
+        return UINavigationController(rootViewController: galleryViewController)
     }
-
-
-    // MARK: - Delegate
-
-    public func previewViewControllerForMediaItem(_ mediaItem: MediaPreviewable) -> UIViewController? {
-        return MediaPreviewViewController(mediaAsset: mediaItem)
-    }
-
-    public func viewControllerForMediaDataSource(fromPreviewViewController previewViewController: UIViewController) -> UIViewController? {
-        guard let mediaAsset = (previewViewController as? MediaPreviewViewController)?.mediaAsset else { return nil }
-
-        let mediaViewController = MediaGalleryViewController(viewModel: galleryViewModel, storeCoordinator: storeCoordinator, pickerSources: pickerSources)
-        mediaViewController.allowEditing = allowEditing
-        return UINavigationController(rootViewController: mediaViewController)
-    }
-
-    public func viewControllerForMediaDataSource() -> UIViewController? {
-        let mediaViewController = MediaGalleryViewController(viewModel: galleryViewModel, storeCoordinator: storeCoordinator, pickerSources: pickerSources)
-        mediaViewController.allowEditing = allowEditing
-        return UINavigationController(rootViewController: mediaViewController)
-    }
-
-    public func mediaItemViewControllerForMediaItem(_ mediaItem: MediaPreviewable) -> UIViewController? {
-        let mediaViewController = MediaGalleryViewController(viewModel: galleryViewModel, storeCoordinator: storeCoordinator, pickerSources: pickerSources)
-        mediaViewController.allowEditing = allowEditing
-        return UINavigationController(rootViewController: mediaViewController)
-    }
-
-
 
 }

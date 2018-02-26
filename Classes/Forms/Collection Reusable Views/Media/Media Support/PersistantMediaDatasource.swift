@@ -8,20 +8,20 @@
 
 import Foundation
 
-public class PersistantMediaDatasource: MediaDataSource {
-
-    let mediaManager: MediaFileManager
-
-    func saveFile(to url: URL, fromURL: URL) throws {
-        try mediaManager.save(fromURL: fromURL, to: url)
-    }
-
-    required public init(items: [MediaPreviewable]) throws {
-        mediaManager = try MediaFileManager()
-
-        super.init(mediaItems: items)
-    }
-}
+//public class PersistantMediaDatasource: MediaDataSource {
+//
+//    let mediaManager: MediaFileManager
+//
+//    func saveFile(to url: URL, fromURL: URL) throws {
+//        try mediaManager.save(fromURL: fromURL, to: url)
+//    }
+//
+//    required public init(items: [MediaPreviewable]) throws {
+//        mediaManager = try MediaFileManager()
+//
+//        super.init(mediaItems: items)
+//    }
+//}
 
 public class MediaFileManager {
 

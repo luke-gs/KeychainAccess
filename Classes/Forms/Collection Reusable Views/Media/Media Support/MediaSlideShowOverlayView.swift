@@ -142,7 +142,8 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
     public var slideShowViewController: (MediaSlideShowable & UIViewController)? {
         willSet {
             if let slideShowViewController = slideShowViewController {
-                NotificationCenter.default.removeObserver(self, name: MediaDataSourceDidChangeNotificationName, object: slideShowViewController.dataSource)
+                // FIXME:
+//                NotificationCenter.default.removeObserver(self, name: MediaDataSourceDidChangeNotificationName, object: slideShowViewController.dataSource)
             }
         }
         didSet {
@@ -151,7 +152,8 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
                 updateDetailsWithMedia(media)
             }
 
-            NotificationCenter.default.addObserver(self, selector: #selector(mediaDataSourceDidChange(_:)), name: MediaDataSourceDidChangeNotificationName, object: slideShowViewController?.dataSource)
+            // FIXME:
+//            NotificationCenter.default.addObserver(self, selector: #selector(mediaDataSourceDidChange(_:)), name: MediaDataSourceDidChangeNotificationName, object: slideShowViewController?.dataSource)
         }
     }
 
@@ -181,9 +183,9 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
     }
 
     private func updateDetailsWithMedia(_ media: MediaPreviewable) {
-        guard let dataSource = slideShowViewController?.dataSource, let index = dataSource.indexOfMediaItem(media) else { return }
+        guard let viewModel = slideShowViewController?.viewModel, let index = viewModel.indexOfPreview(media) else { return }
 
-        slideShowViewController?.navigationItem.title = "Asset \(index + 1) of \(dataSource.numberOfMediaItems())"
+        slideShowViewController?.navigationItem.title = "Asset \(index + 1) of \(viewModel.previews.count)"
         titleLabel.text = media.title
         commentsLabel.text = media.comments
 
@@ -193,7 +195,7 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
     public func populateWithMedia(_ media: MediaPreviewable) {
         updateDetailsWithMedia(media)
 
-        if let index = slideShowViewController?.dataSource.indexOfMediaItem(media) {
+        if let index = slideShowViewController?.viewModel.indexOfPreview(media) {
             let indexPath = IndexPath(item: 0, section: index)
             if let cell = collectionView.cellForItem(at: indexPath) {
                 if !collectionView.isDragging {
@@ -218,7 +220,7 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
     // MARK: - CollectionViewDelegate/DataSource
 
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return slideShowViewController?.dataSource.numberOfMediaItems() ?? 0
+        return slideShowViewController?.viewModel.previews.count ?? 0
     }
 
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -229,7 +231,7 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
         let height = collectionView.frame.height
 
         guard let currentMedia = slideShowViewController?.currentMedia,
-            let currentMediaIndex = slideShowViewController?.dataSource.indexOfMediaItem(currentMedia),
+            let currentMediaIndex = slideShowViewController?.viewModel.indexOfPreview(currentMedia),
             currentMediaIndex == indexPath.section else {
             return CGSize(width: compactItemWidth, height: height)
         }
@@ -239,7 +241,7 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
 
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         guard let currentMedia = slideShowViewController?.currentMedia,
-            let currentMediaIndex = slideShowViewController?.dataSource.indexOfMediaItem(currentMedia),
+            let currentMediaIndex = slideShowViewController?.viewModel.indexOfPreview(currentMedia),
             currentMediaIndex == section else {
                 return .zero
         }
@@ -249,7 +251,7 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-        let mediaAsset = slideShowViewController?.dataSource.mediaItemAtIndex(indexPath.section)
+        let mediaAsset = slideShowViewController?.viewModel.previews[indexPath.section]
 
         mediaAsset?.thumbnailImage?.loadImage(completion: { (image) in
             let imageView = UIImageView(image: image.sizing().image)
@@ -262,7 +264,7 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
     }
 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let mediaAsset = slideShowViewController?.dataSource.mediaItemAtIndex(indexPath.section) {
+        if let mediaAsset = slideShowViewController?.viewModel.previews[indexPath.section] {
             slideShowViewController?.setupWithInitialMedia(mediaAsset)
         }
     }
@@ -285,14 +287,14 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
 
         let index = Int(floor((offset + x) / compactItemWidth))
 
-        if let mediaAsset = slideShowViewController?.dataSource.mediaItemAtIndex(index), mediaAsset !== slideShowViewController?.currentMedia {
+        if let mediaAsset = slideShowViewController?.viewModel.previews[index], mediaAsset !== slideShowViewController?.currentMedia {
             slideShowViewController?.setupWithInitialMedia(mediaAsset)
         }
     }
 
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         guard let currentMedia = slideShowViewController?.currentMedia,
-            let currentMediaIndex = slideShowViewController?.dataSource.indexOfMediaItem(currentMedia) else {
+            let currentMediaIndex = slideShowViewController?.viewModel.indexOfPreview(currentMedia) else {
             return
         }
 
@@ -307,7 +309,7 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if decelerate == false {
             guard let currentMedia = slideShowViewController?.currentMedia,
-                let currentMediaIndex = slideShowViewController?.dataSource.indexOfMediaItem(currentMedia) else {
+                let currentMediaIndex = slideShowViewController?.viewModel.indexOfPreview(currentMedia) else {
                     return
             }
 
@@ -326,7 +328,7 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
         guard let slideShowViewController = slideShowViewController, let currentPhotoMedia = slideShowViewController.currentMedia else { return }
 
         populateWithMedia(currentPhotoMedia)
-        slideShowViewController.dataSource.replaceMediaItem(currentPhotoMedia, with: currentPhotoMedia)
+        slideShowViewController.viewModel.replaceMedia(currentPhotoMedia.asset, with: currentPhotoMedia.asset)
     }
 
     // MARK: - Private
