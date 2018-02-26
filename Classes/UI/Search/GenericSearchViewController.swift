@@ -7,18 +7,19 @@
 //
 
 import UIKit
+import PromiseKit
 
-open class GenericSearchViewController: FormBuilderViewController, UISearchBarDelegate {
+open class SearchDisplayableViewController<T: SearchDisplayableDelegate, U: SearchDisplayableViewModel>: FormBuilderViewController, UISearchBarDelegate where T.Object == U.Object {
 
     /// The delegate for the collection view touches
-    public var delegate: GenericSearchDelegate?
+    public var delegate: T?
 
-    public let viewModel: GenericSearchViewModel
+    public let viewModel: U
 
     // Search bar in a container view
     public let searchBarView = StandardSearchBarView(frame: .zero)
 
-    public required init(viewModel: GenericSearchViewModel) {
+    public required init(viewModel: U) {
         self.viewModel = viewModel
         super.init()
     }
@@ -30,6 +31,7 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
     open override func viewDidLoad() {
         super.viewDidLoad()
 
+        searchBarView.searchBar.delegate = self
         view.addSubview(searchBarView)
 
         searchBarView.translatesAutoresizingMaskIntoConstraints = false
@@ -53,10 +55,9 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
                                             subtitle: viewModel.description(for: indexPath),
                                             image: viewModel.image(for: indexPath),
                                             style: .default)
-                    .accessory(viewModel.accessory(for: viewModel.searchable(for: indexPath)))
+                    .accessory(viewModel.accessory(for: viewModel.searchable(for: viewModel.object(for: indexPath))))
                     .onSelection { [unowned self] cell in
-                        let searchable = self.viewModel.searchable(for: indexPath)
-                        self.delegate?.genericSearchViewController(self, didSelectRowAt: indexPath, withSearchable: searchable)
+                        self.delegate?.genericSearchViewController(self, didSelectRowAt: indexPath, withObject: self.viewModel.object(for: indexPath))
                 }
             }
         }
@@ -85,10 +86,21 @@ open class GenericSearchViewController: FormBuilderViewController, UISearchBarDe
         reloadForm()
     }
 
+    public func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let action = viewModel.searchAction() else { return }
+        action.then {
+            self.reloadForm()
+        }.catch { _ in
+            self.loadingManager.state = .error
+        }
+    }
+
 }
 
 /// The generic search delegate
-public protocol GenericSearchDelegate {
+public protocol SearchDisplayableDelegate {
+
+    associatedtype Object
 
     /// Called when a row of the collection view is tapped
     ///
@@ -96,5 +108,5 @@ public protocol GenericSearchDelegate {
     ///   - viewController: the view controller that the tap came form
     ///   - indexPath: the indexPath that was tapped
     ///   - withSearchable: teh searchable object for that indexPath
-    func genericSearchViewController(_ viewController: GenericSearchViewController, didSelectRowAt indexPath: IndexPath, withSearchable searchable: GenericSearchable)
+    func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: Object)
 }

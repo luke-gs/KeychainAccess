@@ -73,7 +73,6 @@ open class EventsListViewController: FormBuilderViewController {
     
     open override func viewWillAppear(_ animated: Bool) {
         loadingManager.state = (viewModel.eventsList?.isEmpty ?? true) ? .noContent : .loaded
-        
         reloadForm()
     }
 }

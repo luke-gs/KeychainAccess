@@ -78,7 +78,7 @@ open class APIManager {
     ///   - source: The data source of the entity to be searched.
     ///   - request: The request with the parameters to search the entity.
     /// - Returns: A promise to return search result of specified entity.
-    open func searchEntity<SearchRequest: EntitySearchRequestable>(in source: EntitySource, with request: SearchRequest) -> Promise<SearchResult<SearchRequest.ResultClass>> {
+    open func searchEntity<SearchRequest: EntitySearchRequestable>(in source: EntitySource, with request: SearchRequest, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<SearchResult<SearchRequest.ResultClass>> {
 
         let path = "{source}/entity/{entityType}/search"
         var parameters = request.parameters
@@ -87,7 +87,7 @@ open class APIManager {
 
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
 
-        return try! self.performRequest(networkRequest)
+        return try! self.performRequest(networkRequest, withCancellationToken: token)
     }
 
     /// Fetch entity details using specified request.
@@ -97,7 +97,7 @@ open class APIManager {
     ///   - source: The data source of entity to be fetched.
     ///   - request: The request with the parameters to fetch the entity.
     /// - Returns: A promise to return specified entity details.
-    open func fetchEntityDetails<FetchRequest: EntityFetchRequestable>(in source: EntitySource, with request: FetchRequest) -> Promise<FetchRequest.ResultClass> {
+    open func fetchEntityDetails<FetchRequest: EntityFetchRequestable>(in source: EntitySource, with request: FetchRequest, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<FetchRequest.ResultClass> {
 
         let path = "{source}/entity/{entityType}/{id}"
 
@@ -107,7 +107,7 @@ open class APIManager {
 
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
 
-        return try! self.performRequest(networkRequest)
+        return try! self.performRequest(networkRequest, withCancellationToken: token)
     }
 
     /// Performs a request for the `urlRequest` and returns a `Promise` with processed `DataResponse`.

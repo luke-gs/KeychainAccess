@@ -19,8 +19,8 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         super.init(layout: StackMapLayout())
         report?.evaluator.addObserver(self)
         
-        sidebarItem.regularTitle = "Location"
-        sidebarItem.compactTitle = "Location"
+        sidebarItem.regularTitle = "Locations"
+        sidebarItem.compactTitle = "Locations"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.location)!
         sidebarItem.color = .red
     }
