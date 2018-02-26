@@ -26,6 +26,12 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
         ]
     }
 
+    /// The case used for incident specific UI
+    public static var incidentCase: CADTaskListSourceType = CADTaskListSourceCore.incident
+
+    /// The case used for resource specific UI
+    public static var resourceCase: CADTaskListSourceType = CADTaskListSourceCore.resource
+
     /// The default title to show
     public var title: String {
         switch self {
@@ -213,6 +219,36 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
         }
     }
 
+    /// Create the view model for an item of this type with given id
+    public func createItemViewModel(identifier: String) -> TaskItemViewModel? {
+        switch self {
+        case .incident:
+            if let incident = CADStateManager.shared.incidentsById[identifier] {
+                // Show details of our resource if we are assigned to incident
+                let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier)
+                var resource: CADResourceType? = nil
+                if let currentResource = CADStateManager.shared.currentResource {
+                    resource = resources.contains(where: { $0 == currentResource }) ? currentResource : nil
+                }
+                return IncidentTaskItemViewModel(incident: incident, resource: resource)
+            }
+        case .patrol:
+            if let patrol = CADStateManager.shared.patrolsById[identifier] {
+                return PatrolTaskItemViewModel(patrol: patrol)
+            }
+        case .broadcast:
+            if let broadcast = CADStateManager.shared.broadcastsById[identifier] {
+                return BroadcastTaskItemViewModel(broadcast: broadcast)
+            }
+        case .resource:
+            if let resource = CADStateManager.shared.resourcesById[identifier] {
+                return ResourceTaskItemViewModel(resource: resource)
+            }
+        }
+        return nil
+    }
+
+
     // MARK: - Internal
 
     /// Return the sectioned incidents for given filter and search text
@@ -247,7 +283,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
             guard let incidents = sectionedIncidents[status.rawValue], !incidents.isEmpty else { return nil }
 
             let taskViewModels = incidents.map { incident in
-                return TasksListIncidentViewModel(incident: incident, hasUpdates: true)
+                return TasksListIncidentViewModel(incident: incident, source: CADTaskListSourceCore.incident, hasUpdates: true)
             }
             return CADFormCollectionSectionViewModel(
                 title: "\(incidents.count) \(status)",
@@ -293,7 +329,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
             let (key, value) = arg
 
             let taskViewModels: [TasksListBasicViewModel] = value.map { patrol in
-                return TasksListBasicViewModel(patrol: patrol)
+                return TasksListBasicViewModel(patrol: patrol, source: CADTaskListSourceCore.patrol)
             }
 
             return CADFormCollectionSectionViewModel(title: "\(value.count) \(key)", items: taskViewModels)
@@ -334,7 +370,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
             let (key, value) = arg
 
             let taskViewModels: [TasksListBasicViewModel] = value.map { broadcast in
-                return TasksListBasicViewModel(broadcast: broadcast)
+                return TasksListBasicViewModel(broadcast: broadcast, source: CADTaskListSourceCore.broadcast)
             }
 
             return CADFormCollectionSectionViewModel(title: "\(value.count) \(key)", items: taskViewModels)
@@ -395,7 +431,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
 
             let taskViewModels: [TasksListResourceViewModel] = resources.map { resource in
                 let incident = CADStateManager.shared.incidentForResource(callsign: resource.callsign)
-                return TasksListResourceViewModel(resource: resource, incident: incident)
+                return TasksListResourceViewModel(resource: resource, resourceSource: CADTaskListSourceCore.resource, incident: incident, incidentSource: CADTaskListSourceCore.incident)
             }
 
             var title = "\(resources.count) \(section)"
