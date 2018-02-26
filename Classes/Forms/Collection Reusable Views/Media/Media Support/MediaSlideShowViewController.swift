@@ -58,6 +58,8 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         super.init(nibName: nil, bundle: nil)
 
         setupWithInitialMedia(initialMedia)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(galleryDidChange), name: MediaGalleryDidChangeNotificationName, object: viewModel)
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -219,6 +221,10 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
     private func indexOfPreview(_ preview: MediaPreviewable) -> Int? {
         return viewModel.previews.index(where: { $0 === preview })
+    }
+
+    @objc private func galleryDidChange(_ notification: Notification) {
+        
     }
 
     // MARK: - Gesture Recognizers

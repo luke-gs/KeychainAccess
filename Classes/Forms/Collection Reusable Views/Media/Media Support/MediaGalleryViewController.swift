@@ -54,6 +54,8 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
         title = NSLocalizedString("Photos", comment: "")
 
         setupNavigationItems()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(galleryDidChange), name: MediaGalleryDidChangeNotificationName, object: viewModel)
         NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
     }
 
@@ -343,7 +345,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
         present(alertController, animated: true, completion: nil)
     }
 
-    @objc private func storeDidChange(_ notification: Notification) {
+    @objc private func galleryDidChange(_ notification: Notification) {
         guard isViewLoaded else { return }
 
         if !isEditing {

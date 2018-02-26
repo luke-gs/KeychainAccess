@@ -141,9 +141,8 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
 
     public var slideShowViewController: (MediaSlideShowable & UIViewController)? {
         willSet {
-            if let slideShowViewController = slideShowViewController {
-                // FIXME:
-//                NotificationCenter.default.removeObserver(self, name: MediaDataSourceDidChangeNotificationName, object: slideShowViewController.dataSource)
+            if let galleryViewModel = slideShowViewController?.viewModel {
+                NotificationCenter.default.removeObserver(self, name: MediaGalleryDidChangeNotificationName, object: galleryViewModel)
             }
         }
         didSet {
@@ -152,8 +151,9 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
                 updateDetailsWithMedia(media)
             }
 
-            // FIXME:
-//            NotificationCenter.default.addObserver(self, selector: #selector(mediaDataSourceDidChange(_:)), name: MediaDataSourceDidChangeNotificationName, object: slideShowViewController?.dataSource)
+            if let galleryViewModel = slideShowViewController?.viewModel {
+                NotificationCenter.default.addObserver(self, selector: #selector(galleryDidChange(_:)), name: MediaGalleryDidChangeNotificationName, object: galleryViewModel)
+            }
         }
     }
 
@@ -354,9 +354,8 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
         slideShowViewController.present(navigationController, animated: true, completion: nil)
     }
 
-    @objc func mediaDataSourceDidChange(_ notification: Notification) {
+    @objc func galleryDidChange(_ notification: Notification) {
         collectionView.reloadData()
-
     }
 
     private func setupNavigationItems() {
