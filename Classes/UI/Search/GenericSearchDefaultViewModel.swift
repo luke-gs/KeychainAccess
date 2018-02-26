@@ -9,7 +9,7 @@ import UIKit
 
 /// Default implementation of the generic search view model
 /// Allows for basic customisation
-public class GenericSearchDefaultViewModel: GenericSearchViewModel {
+open class GenericSearchDefaultViewModel: GenericSearchViewModel {
 
     public var title: String = "Search"
 

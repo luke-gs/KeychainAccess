@@ -18,8 +18,8 @@ open class PatrolAreaListViewController: GenericSearchViewController {
     required public init(viewModel: GenericSearchViewModel) {
         super.init(viewModel: viewModel)
         delegate = self
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""), style: .done, target: self, action: #selector(cancelTapped))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: .done, target: self, action: #selector(doneTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: patrolAreaListViewModel?.cancelButtonText(), style: .done, target: self, action: #selector(cancelTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: patrolAreaListViewModel?.doneButtonText(), style: .done, target: self, action: #selector(doneTapped))
     }
     
     // MARK: - Actions
