@@ -9,12 +9,12 @@
 import UIKit
 import CoreLocation
 
-public class ResourceAnnotation: TaskAnnotation {
+open class ResourceAnnotation: TaskAnnotation {
     
-    public var icon: UIImage?
-    public var iconBackgroundColor: UIColor
-    public var iconTintColor: UIColor?
-    public var duress: Bool
+    open var icon: UIImage?
+    open var iconBackgroundColor: UIColor
+    open var iconTintColor: UIColor?
+    open var duress: Bool
     
     public init(identifier: String, source: CADTaskListSourceType, coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?, icon: UIImage?, iconBackgroundColor: UIColor, iconTintColor: UIColor?, duress: Bool) {
         self.icon = icon
@@ -22,5 +22,21 @@ public class ResourceAnnotation: TaskAnnotation {
         self.iconTintColor = iconTintColor
         self.duress = duress
         super.init(identifier: identifier, source: source, coordinate: coordinate, title: title, subtitle: subtitle)
+    }
+
+    open override func dequeueReusableAnnotationView(mapView: MKMapView) -> MKAnnotationView? {
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: ResourceAnnotationView.defaultReuseIdentifier) as? ResourceAnnotationView
+
+        if annotationView == nil {
+            annotationView = ResourceAnnotationView(annotation: self, reuseIdentifier: ResourceAnnotationView.defaultReuseIdentifier)
+        }
+
+        annotationView?.configure(withAnnotation: self,
+                                  circleBackgroundColor: iconBackgroundColor,
+                                  resourceImage: icon,
+                                  imageTintColor: iconTintColor,
+                                  duress: duress)
+
+        return annotationView
     }
 }

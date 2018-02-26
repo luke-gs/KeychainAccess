@@ -29,4 +29,9 @@ open class TaskAnnotation: NSObject, MKAnnotation {
         return identifier == (object as? TaskAnnotation)?.identifier
     }
 
+    /// Dequeue or create an appropriate annotation view for this annotation
+    open func dequeueReusableAnnotationView(mapView: MKMapView) -> MKAnnotationView? {
+        MPLRequiresConcreteImplementation()
+    }
+
 }
