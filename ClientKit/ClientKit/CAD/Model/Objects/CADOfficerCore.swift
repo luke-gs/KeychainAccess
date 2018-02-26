@@ -58,7 +58,7 @@ open class CADOfficerCore: Codable, CADOfficerType {
         return "#\(payrollId)"
     }
 
-    open var initials: String {
+    open var initials: String? {
         return [String(firstName?.prefix(1)), String(lastName?.prefix(1))].joined(separator: "")
     }
 
