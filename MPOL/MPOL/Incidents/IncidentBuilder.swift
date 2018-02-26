@@ -10,7 +10,7 @@ import UIKit
 import MPOLKit
 
 public class IncidentBuilder: IncidentBuilding {
-    public func createIncident(for type: IncidentType) -> (incident: Incident, displayable: EventListDisplayable) {
+    public func createIncident(for type: IncidentType) -> (incident: Incident, displayable: IncidentListDisplayable) {
         fatalError()
     }
     
