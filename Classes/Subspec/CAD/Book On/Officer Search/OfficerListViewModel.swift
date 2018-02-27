@@ -12,25 +12,19 @@ public protocol OfficerListViewModelDelegate: class {
     func itemSelectedAndFinishedEditing()
 }
 
-open class OfficerListViewModel: GenericSearchDefaultViewModel {
+public class OfficerListViewModel: DefaultSearchDisplayableViewModel {
     
     open weak var detailsDelegate: OfficerDetailsViewModelDelegate?
     open weak var delegate: OfficerListViewModelDelegate?
     
     public init() {
-        super.init(items: viewModelData())
+        super.init(items: viewModelData)
         title = navTitle()
     }
     
-    public required init(items: [GenericSearchable]) {
+    public required init(items: [CustomSearchDisplayable]) {
         super.init(items: items)
         title = navTitle()
-    }
-    
-    open func createViewController() -> OfficerListViewController {
-        let vc = OfficerListViewController(viewModel: self)
-        delegate = vc
-        return vc
     }
     
     open func navTitle() -> String {
@@ -55,15 +49,15 @@ open class OfficerListViewModel: GenericSearchDefaultViewModel {
         return BookOnScreen.officerDetailsForm(officerViewModel: officerViewModel, delegate: self)
     }
     
-    open func viewModelData() -> [GenericSearchable] {
+    private lazy var viewModelData: [CustomSearchDisplayable] = {
         let section = sectionTitle().uppercased()
-        var result: [GenericSearchable] = []
+        var result: [CustomSearchDisplayable] = []
         for (_, officer) in CADStateManager.shared.officersById {
             let viewModel = OfficerListItemViewModel(firstName: officer.firstName, lastName: officer.lastName, initials: officer.initials, rank: officer.rank, callsign: officer.payrollId, section: section)
             result.append(viewModel)
         }
         return result
-    }
+    }()
 }
 
 extension OfficerListViewModel: OfficerDetailsViewModelDelegate {
