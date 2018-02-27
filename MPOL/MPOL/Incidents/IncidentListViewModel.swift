@@ -50,11 +50,13 @@ open class IncidentListViewModel: IncidentListViewModelType {
     }
 
     func add(_ incidents: [String]) {
-        incidents.forEach { string in
-            let incident = incidentManager.create(incidentType: .blank, in: (self.report?.event!)!)
-//            if !(report?.incidents.contains(incident) == true) {
-//                report?.incidents.append(incident)
-//            }
+        guard let event = self.report?.event else { return }
+        for incident in incidents {
+            // TODO: Use incidents instead of creating a blank type
+            guard let incident = incidentManager.create(incidentType: .blank, in: event) else { continue }
+            if !(report?.incidents.contains(where: {$0.title == incident.title}) == true) {
+                report?.incidents.append(incident)
+            }
         }
     }
 }

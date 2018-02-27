@@ -81,9 +81,14 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
                     self.reloadForm()
                 })])
                 .onSelection { cell in
+                    guard let report = self.viewModel.report else { return }
                     guard let indexPath = self.collectionView?.indexPath(for: cell) else { return }
-                    guard let displayable = self.viewModel.report?.incidents[indexPath.item] else { return }
-                    guard let incident = IncidentsManager.shared.incident(for: displayable.id) else { return }
+                    guard let incident = IncidentsManager.shared.incident(for: report.incidents[indexPath.item].incidentId) else { return }
+
+                    let viewModel = IncidentDetailViewModel(incident: incident, builder: IncidentScreenBuilder())
+                    let vc = IncidentSplitViewController(viewModel: viewModel)
+
+                    self.present(vc, animated: true, completion: nil)
             }
         }
     }
