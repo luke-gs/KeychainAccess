@@ -181,7 +181,6 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
     ///   - traitCollection: The trait collection the cell will be displayed in.
     /// - Returns: The minumum content height for the cell.
     open class func minimumContentHeight(withTitle title: StringSizable?, subtitle: StringSizable?, source: String?, accessorySize: CGSize? = nil, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
-        let displayScale = traitCollection.currentDisplayScale
         
         // Default fonts for each label
         let titleFont    = UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
