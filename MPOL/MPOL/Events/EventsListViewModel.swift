@@ -9,13 +9,13 @@
 import MPOLKit
 
 public class EventsListViewModel: EventListViewModelType {
-    public var title: String
 
+    public var title: String
+    public var eventsManager: EventsManager
     public var eventsList: [EventListDisplayable]? {
         return eventsManager.displayableBucket?.objects
     }
-    public var eventsManager: EventsManager
-    
+
     public required init(eventsManager: EventsManager) {
         self.eventsManager = eventsManager
         self.title = "Events"
