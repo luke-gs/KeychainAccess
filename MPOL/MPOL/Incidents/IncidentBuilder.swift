@@ -54,10 +54,12 @@ public class StreetCheckIncidentBuilder: IncidentBuilding {
 }
 
 extension IncidentType {
+
+    // Add incident types here
     static let streetCheck = IncidentType(rawValue: "Street Check (Intercept Report)")
+
     static func allIncidentTypes() -> [IncidentType] {
         return [
-            .blank,
             .streetCheck
         ]
     }

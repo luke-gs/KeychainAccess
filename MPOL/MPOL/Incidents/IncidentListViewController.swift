@@ -11,16 +11,6 @@ import MPOLKit
 
 open class IncidentListViewController: FormBuilderViewController, EvaluationObserverable {
 
-    // TEMP INCIDENTS
-    fileprivate let incidents = [
-        "Street Check (Intercept Report)",
-        "Traffic Infringement",
-        "Traffic Crash",
-        "Roadside Drug Testing",
-        "Public Nuisance",
-        "Domestic Violence"
-    ]
-
     var viewModel: IncidentListViewModel
 
     public init(viewModel: IncidentListViewModel) {
@@ -112,7 +102,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
                                                                                             padding: .zero)),
                                                      imageStyle: .circle)
 
-        let datasource = IncidentSearchDataSource(objects: incidents,
+        let datasource = IncidentSearchDataSource(objects: IncidentType.allIncidentTypes().map{$0.rawValue},
                                                   selectedObjects: report.incidents.map{$0.title!},
                                                   configuration: headerConfig)
         
