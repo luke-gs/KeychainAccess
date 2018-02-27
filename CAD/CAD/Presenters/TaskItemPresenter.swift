@@ -19,6 +19,11 @@ public class TaskItemPresenter: Presenter {
 
         case .landing(let viewModel):
             return viewModel.createViewController()
+
+        case .myCallsign:
+            // Show split view controller for booked on resource
+            let resource = CADStateManager.shared.currentResource!
+            return ResourceTaskItemViewModel(resource: resource).createViewController()
         }
     }
 
@@ -28,8 +33,15 @@ public class TaskItemPresenter: Presenter {
         switch presentable {
 
         // Present form sheet
-        case .landing(_):
-            from.splitViewController?.navigationController?.pushViewController(to, animated: true)
+        case .landing(_), .myCallsign:
+            if let splitNav = from.splitViewController?.navigationController {
+                // Push new split view
+                splitNav.pushViewController(to, animated: true)
+            } else {
+                // Present split view in nav (likely from form sheet)
+                let nav = UINavigationController(rootViewController: to)
+                from.present(nav, animated: true, completion: nil)
+            }
 
         // Default presentation, based on container class (eg push if in navigation controller)
         default:
