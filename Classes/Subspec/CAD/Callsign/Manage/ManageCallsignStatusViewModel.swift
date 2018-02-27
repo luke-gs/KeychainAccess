@@ -15,7 +15,7 @@ public struct ManageCallsignStatusItemViewModel {
     public let image: UIImage
     public let status: CADResourceStatusType
 
-    init(_ status: CADResourceStatusType) {
+    public init(_ status: CADResourceStatusType) {
         self.title = status.title
         self.image = status.icon!
         self.status = status

@@ -49,17 +49,8 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
     }
 
     override open func didTapTaskStatus() {
-        if allowChangeResourceStatus() {
-            let callsignStatus = CADStateManager.shared.currentResource?.status ?? CADClientModelTypes.resourceStatus.defaultCase
-            let incidentItems = CADClientModelTypes.resourceStatus.incidentCases.map {
-                return ManageCallsignStatusItemViewModel($0)
-            }
-            let sections = [CADFormCollectionSectionViewModel(title: "", items: incidentItems)]
-            let viewModel = CallsignStatusViewModel(sections: sections, selectedStatus: callsignStatus, incident: nil)
-            viewModel.showsCompactHorizontal = false
-            let viewController = viewModel.createViewController()
-
-            delegate?.presentStatusSelector(viewController: viewController)
+        if let resource = resource, allowChangeResourceStatus() {
+            delegate?.present(TaskItemScreen.resourceStatus(resource: resource, incident: nil))
         }
     }
 

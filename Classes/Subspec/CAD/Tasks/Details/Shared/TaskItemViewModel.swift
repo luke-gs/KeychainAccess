@@ -9,13 +9,9 @@
 import UIKit
 import PromiseKit
 
-public protocol TaskItemViewModelDelegate: class {
-    func presentStatusSelector(viewController: UIViewController)
-}
-
 open class TaskItemViewModel {
 
-    open weak var delegate: TaskItemViewModelDelegate?
+    open weak var delegate: PopoverPresenter?
 
     /// The navigation title for this type of task item details
     open var navTitle: String?
