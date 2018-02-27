@@ -20,11 +20,16 @@ public class TaskItemPresenter: Presenter {
         case .landing(let viewModel):
             return viewModel.createViewController()
 
-        case .myCallsign:
-            // Show split view controller for booked on resource
-            let resource = CADStateManager.shared.currentResource!
-            return ResourceTaskItemViewModel(resource: resource).createViewController()
+        case .resourceStatus(let resource, let incident):
+            let incidentItems = CADClientModelTypes.resourceStatus.incidentCases.map {
+                return ManageCallsignStatusItemViewModel($0)
+            }
+            let sections = [CADFormCollectionSectionViewModel(title: "", items: incidentItems)]
+            let viewModel = CallsignStatusViewModel(sections: sections, selectedStatus: resource.status, incident: incident)
+            viewModel.showsCompactHorizontal = false
+            return viewModel.createViewController()
         }
+
     }
 
     public func present(_ presentable: Presentable, fromViewController from: UIViewController, toViewController to: UIViewController) {
@@ -32,9 +37,8 @@ public class TaskItemPresenter: Presenter {
 
         switch presentable {
 
-        // Present form sheet
-        case .landing(_), .myCallsign:
-            if let splitNav = from.splitViewController?.navigationController {
+        case .landing(_):
+            if let splitNav = from.pushableSplitViewController?.navigationController {
                 // Push new split view
                 splitNav.pushViewController(to, animated: true)
             } else {
@@ -42,6 +46,12 @@ public class TaskItemPresenter: Presenter {
                 let nav = UINavigationController(rootViewController: to)
                 from.present(nav, animated: true, completion: nil)
             }
+
+        case .resourceStatus(_, _):
+            // Present resource status form sheet with custom size and done button
+            let size = from.isCompact() ? CGSize(width: 312, height: 224) : CGSize(width: 540, height: 120)
+            to.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: from, action: #selector(UIViewController.dismissAnimated))
+            from.presentFormSheet(to, animated: true, size: size, forced: true)
 
         // Default presentation, based on container class (eg push if in navigation controller)
         default:
