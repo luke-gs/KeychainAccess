@@ -65,7 +65,7 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
 
         builder +=  DateFormItem()
             .title("End")
-            .selectedValue(report?.tookPlacefromEndDateTime)
+            .selectedValue(report?.tookPlaceFromEndDateTime)
             .datePickerMode(.dateAndTime)
             .width(.column(2))
             .elementIdentifier("tookPlaceFromEndDateTime")

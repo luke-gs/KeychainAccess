@@ -22,7 +22,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         sidebarItem.regularTitle = "Location"
         sidebarItem.compactTitle = "Location"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.location)!
-        sidebarItem.color = .red
+        sidebarItem.color = (report?.evaluator.isComplete ?? false) ? .green : .red
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
