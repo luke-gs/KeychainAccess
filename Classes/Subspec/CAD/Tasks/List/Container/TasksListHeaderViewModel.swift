@@ -119,8 +119,8 @@ open class TasksListHeaderViewModel {
                                                  message: NSLocalizedString("Your call sign is currently responding to an active incident that must first be finalised.", comment: ""))
                 return
             }
-            let viewModel = CreateIncidentViewModel()
-            let vc = viewModel.createViewController()
+
+            let vc = Director.shared.viewController(forPresentable: TaskListScreen.createIncident)
             delegate?.presentFormSheet(vc, animated: true)
         } else {
             AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Create Incident", comment: ""),

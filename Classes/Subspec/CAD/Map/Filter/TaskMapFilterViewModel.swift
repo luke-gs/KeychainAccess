@@ -148,10 +148,6 @@ public class TaskMapFilterViewModel: MapFilterViewModel {
         return viewController
     }
     
-    public func createViewController() -> UIViewController {
-        return MapFilterViewController(viewModel: self)
-    }
-    
     public func titleText() -> String? {
         return NSLocalizedString("Filter Tasks", comment: "")
     }

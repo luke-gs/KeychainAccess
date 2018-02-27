@@ -18,7 +18,7 @@ public protocol CADStateManagerType {
     var officerDetails: CADOfficerType? { get }
 
     /// The current patrol group
-    var patrolGroup: String { get set }
+    var patrolGroup: String? { get set }
 
     /// The last book on data
     var lastBookOn: CADBookOnDetailsType? { get }

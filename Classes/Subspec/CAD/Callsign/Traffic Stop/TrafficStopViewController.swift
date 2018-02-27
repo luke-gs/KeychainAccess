@@ -53,8 +53,8 @@ open class TrafficStopViewController: FormBuilderViewController {
         
         builder += HeaderFormItem(text: "STOPPED ENTITIES")
             .actionButton(title: NSLocalizedString("ADD", comment: "").uppercased(), handler: { [unowned self] _ in
-                let addEntityVM = self.viewModel.viewModelForAddingEntity()
-                self.navigationController?.pushViewController(addEntityVM.createViewController(), animated: true)
+                let entityViewModel = self.viewModel.viewModelForAddingEntity()
+                self.present(BookOnScreen.trafficStopEntity(entityViewModel: entityViewModel))
             })
         viewModel.entities.forEach { item in
             builder += SummaryListFormItem()

@@ -30,6 +30,9 @@ open class CADClientModelTypes {
 
     // MARK: - Enums
 
+    /// The type used for task list sources
+    static open var taskListSources: CADTaskListSourceType.Type!
+
     /// The type used for a resource status
     static open var resourceStatus: CADResourceStatusType.Type!
 

@@ -23,7 +23,7 @@ class SubtitleFormItemTests: XCTestCase {
         // Then
         XCTAssertEqual(item.title?.sizing().string, title)
         XCTAssertEqual(item.subtitle?.sizing().string, subtitle)
-        XCTAssertEqual(item.image, image)
+        XCTAssertEqual(item.image?.sizing().image, image)
         XCTAssertEqual(item.style, .default)
         XCTAssertTrue(item.cellType == CollectionViewFormSubtitleCell.self)
         XCTAssertEqual(item.reuseIdentifier, CollectionViewFormSubtitleCell.defaultReuseIdentifier)
@@ -42,7 +42,7 @@ class SubtitleFormItemTests: XCTestCase {
         // Then
         XCTAssertEqual(item.title?.sizing().string, "Hello")
         XCTAssertEqual(item.subtitle?.sizing().string, "Bye")
-        XCTAssertEqual(item.image, AssetManager.shared.image(forKey: .info))
+        XCTAssertEqual(item.image?.sizing().image, AssetManager.shared.image(forKey: .info))
         XCTAssertEqual(item.style, .value)
     }
 

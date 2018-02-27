@@ -48,7 +48,7 @@ open class ResourceOverviewFormViewController: IntrinsicHeightFormBuilderViewCon
                 })
         }
         for section in viewModel.sections {
-            builder += HeaderFormItem(text: section.title.uppercased(),
+            builder += HeaderFormItem(text: section.title?.uppercased(),
                                       style: .collapsible)
             
             for item in section.items {

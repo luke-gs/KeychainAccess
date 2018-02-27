@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 
 /// Protocol for a class representing an incident
-public protocol CADIncidentType: class {
+public protocol CADIncidentType: class, CADTaskListItemModelType {
 
     // MARK: - Network
     var identifier: String { get set }

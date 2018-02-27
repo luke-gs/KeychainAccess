@@ -11,7 +11,7 @@ public protocol PatrolAreaListViewModelDelegate: class {
     func patrolAreaListViewModel(_ viewModel: PatrolAreaListViewModel, didSelectPatrolArea patrolArea: String?)
 }
 
-public class PatrolAreaListViewModel: GenericSearchDefaultViewModel {
+public class PatrolAreaListViewModel: DefaultSearchDisplayableViewModel {
     
     // MARK: - Properties
     
@@ -21,7 +21,7 @@ public class PatrolAreaListViewModel: GenericSearchDefaultViewModel {
     // MARK: - Setup
     
     public convenience init() {
-        var items: [GenericSearchable] = []
+        var items: [CustomSearchDisplayable] = []
         for patrolArea in CADStateManager.shared.patrolGroups() {
             if let title = patrolArea.title {
                 let viewModel = PatrolAreaListItemViewModel(patrolArea: title)
@@ -32,24 +32,32 @@ public class PatrolAreaListViewModel: GenericSearchDefaultViewModel {
         self.init(items: items)
     }
     
-    public required init(items: [GenericSearchable]) {
+    public required init(items: [CustomSearchDisplayable]) {
         // Sort items alphabetically by title
-        let sorted = items.sorted(using: [SortDescriptor<GenericSearchable> { $0.title }])
+        let sorted = items.sorted(using: [SortDescriptor<CustomSearchDisplayable> { $0.title }])
         super.init(items: sorted)
         
-        title = NSLocalizedString("Select Patrol Area", comment: "")
+        title = navTitle()
         hasSections = false
     }
     
-    open func createViewController() -> PatrolAreaListViewController {
-        return PatrolAreaListViewController(viewModel: self)
+    open func navTitle() -> String {
+        return NSLocalizedString("Select Patrol Area", comment: "")
+    }
+    
+    open func doneButtonText() -> String {
+        return NSLocalizedString("Done", comment: "")
+    }
+    
+    open func cancelButtonText() -> String {
+        return NSLocalizedString("Cancel", comment: "")
     }
     
     open func noContentTitle() -> String? {
         return NSLocalizedString("No Patrol Areas Found", comment: "")
     }
     
-    public override func accessory(for searchable: GenericSearchable) -> ItemAccessorisable? {
+    public override func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? {
         if let selected = selectedPatrolArea {
             return searchable.title == selected ? ItemAccessory.checkmark : nil
         }

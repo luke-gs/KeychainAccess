@@ -68,6 +68,8 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         self.settingsViewModel = settingsViewModel
         self.startingRegion = startingRegion
         super.init(nibName: nil, bundle: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -172,6 +174,11 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
             mapView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
             mapView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
         ])
+    }
+    
+    @objc private func interfaceStyleDidChange() {
+        let isDark = ThemeManager.shared.currentInterfaceStyle.isDark
+        mapView.mpl_setNightModeEnabled(isDark)
     }
     
     public func mapView(_ mapView: MKMapView, didChange mode: MKUserTrackingMode, animated: Bool) {
