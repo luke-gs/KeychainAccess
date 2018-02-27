@@ -33,7 +33,7 @@ extension UserStorageFlag: RawRepresentable {
         switch self {
         case .session: return UserStorageFlag.sessionString
         case .retain: return UserStorageFlag.retainString
-        case .custom(let string): return string
+        case .custom(let string): return string.storageEscaped()
         }
     }
 }
@@ -84,7 +84,7 @@ public class UserStorage {
     ///   - key: the key to store it under. Must be unique for this user.
     ///   - flag: Flag to categorise the object under
     func add(object: Any, key: String, flag: UserStorageFlag) throws {
-        let safeKey = key.slashEscaped()
+        let safeKey = key.storageEscaped()
 
         if let existingPath = pathForKey(key: safeKey),
             existingPath.flag != flag {
@@ -106,7 +106,7 @@ public class UserStorage {
     ///   - key: The unique key to retrieve the object with
     /// - Returns: Object if found, otherwise nil
     func retrieve(key: String) -> Any? {
-        let safeKey = key.slashEscaped()
+        let safeKey = key.storageEscaped()
         guard let storagePath = pathForKey(key: safeKey) else { return nil }
         return directoryManager.read(from: storagePath.path)
     }
@@ -121,7 +121,7 @@ public class UserStorage {
     ///   - key: The unique key to identify the object with
     /// - Throws: On error only.
     func remove(key: String) throws {
-        let safeKey = key.slashEscaped()
+        let safeKey = key.storageEscaped()
         guard let storagePath = pathForKey(key: safeKey) else { return }
         try directoryManager.remove(at: storagePath.path)
     }
@@ -151,7 +151,7 @@ public class UserStorage {
 }
 
 private extension String {
-    func slashEscaped() -> String {
-        return self.replacingOccurrences(of: "/", with: "_")
+    func storageEscaped() -> String {
+        return self.replacingOccurrences(of: "/", with: "_").lowercased()
     }
 }
