@@ -611,7 +611,6 @@
 		EA2189F21F5FE8B50057048E /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2189F11F5FE8B50057048E /* Presenter.swift */; };
 		EA2F1A631FA6D587001F7812 /* MediaPreviewableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2F1A621FA6D587001F7812 /* MediaPreviewableCell.swift */; };
 		EA2F1A6F1FA7F7C6001F7812 /* MediaDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2F1A6E1FA7F7C6001F7812 /* MediaDataSource.swift */; };
-		EA32A8451FBD189C00CC37FB /* MediaPreviewableDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA32A8441FBD189C00CC37FB /* MediaPreviewableDelegate.swift */; };
 		EA32A8521FBD1A7900CC37FB /* PhotoMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA32A8491FBD1A7900CC37FB /* PhotoMedia.swift */; };
 		EA32A8531FBD1A7900CC37FB /* MediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA32A84A1FBD1A7900CC37FB /* MediaViewController.swift */; };
 		EA32A8541FBD1A7900CC37FB /* MediaPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA32A84B1FBD1A7900CC37FB /* MediaPreviewViewController.swift */; };
@@ -698,6 +697,7 @@
 		EAC0256F1FD8F49800E45DB6 /* EntitySummaryDisplayFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC0256E1FD8F49800E45DB6 /* EntitySummaryDisplayFormatterTests.swift */; };
 		EAC025701FDDFFA700E45DB6 /* ActionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7194E31FCE525900A2980B /* ActionListViewController.swift */; };
 		EAC025741FDE667B00E45DB6 /* FormCollectionViewHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC025731FDE667A00E45DB6 /* FormCollectionViewHandler.swift */; };
+		EACFF2B52044D3E100B1C40A /* MediaGalleryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EACFF2B42044D3E100B1C40A /* MediaGalleryDelegate.swift */; };
 		EADC4FF31F81E0810066AA2F /* OptionGroupFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADC4FF21F81E0810066AA2F /* OptionGroupFormItem.swift */; };
 		EAE12B081FC3CE3500851619 /* EntityBucket.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE12B071FC3CE3500851619 /* EntityBucket.swift */; };
 		EAE806DB1F98534000C9AA85 /* FormSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE806DA1F98534000C9AA85 /* FormSection.swift */; };
@@ -1355,7 +1355,6 @@
 		EA2189F11F5FE8B50057048E /* Presenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
 		EA2F1A621FA6D587001F7812 /* MediaPreviewableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPreviewableCell.swift; sourceTree = "<group>"; };
 		EA2F1A6E1FA7F7C6001F7812 /* MediaDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDataSource.swift; sourceTree = "<group>"; };
-		EA32A8441FBD189C00CC37FB /* MediaPreviewableDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPreviewableDelegate.swift; sourceTree = "<group>"; };
 		EA32A8491FBD1A7900CC37FB /* PhotoMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoMedia.swift; sourceTree = "<group>"; };
 		EA32A84A1FBD1A7900CC37FB /* MediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaViewController.swift; sourceTree = "<group>"; };
 		EA32A84B1FBD1A7900CC37FB /* MediaPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaPreviewViewController.swift; sourceTree = "<group>"; };
@@ -1442,6 +1441,7 @@
 		EAC0256B1FD8DAF600E45DB6 /* EntitySummaryDisplayFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummaryDisplayFormatter.swift; sourceTree = "<group>"; };
 		EAC0256E1FD8F49800E45DB6 /* EntitySummaryDisplayFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummaryDisplayFormatterTests.swift; sourceTree = "<group>"; };
 		EAC025731FDE667A00E45DB6 /* FormCollectionViewHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormCollectionViewHandler.swift; sourceTree = "<group>"; };
+		EACFF2B42044D3E100B1C40A /* MediaGalleryDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaGalleryDelegate.swift; sourceTree = "<group>"; };
 		EADC4FF21F81E0810066AA2F /* OptionGroupFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionGroupFormItem.swift; sourceTree = "<group>"; };
 		EAE12B071FC3CE3500851619 /* EntityBucket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityBucket.swift; sourceTree = "<group>"; };
 		EAE806DA1F98534000C9AA85 /* FormSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormSection.swift; sourceTree = "<group>"; };
@@ -3362,6 +3362,7 @@
 		EA2F1A611FA6D570001F7812 /* Media */ = {
 			isa = PBXGroup;
 			children = (
+				EACFF2B42044D3E100B1C40A /* MediaGalleryDelegate.swift */,
 				461F7AA62022E09400885E93 /* Video */,
 				4650F31820181DED00D9A3E6 /* Photo */,
 				46E193682016CF9700F2D968 /* Audio */,
@@ -3370,7 +3371,6 @@
 				EA2F1A621FA6D587001F7812 /* MediaPreviewableCell.swift */,
 				EA2F1A6E1FA7F7C6001F7812 /* MediaDataSource.swift */,
 				EA32A84A1FBD1A7900CC37FB /* MediaViewController.swift */,
-				EA32A8441FBD189C00CC37FB /* MediaPreviewableDelegate.swift */,
 				4650F3162018172300D9A3E6 /* AVMediaViewController.swift */,
 			);
 			path = Media;
@@ -4111,7 +4111,6 @@
 				EA32A85E1FBD564200CC37FB /* MediaDetailViewController.swift in Sources */,
 				BC9C7DFB1F0DED6600DFFE83 /* CollectionViewFormTextFieldCell.swift in Sources */,
 				BC9C7E361F0DED6600DFFE83 /* KeyboardNumberBar.swift in Sources */,
-				EA32A8451FBD189C00CC37FB /* MediaPreviewableDelegate.swift in Sources */,
 				BC9C7E421F0DED6600DFFE83 /* ScrollViewInsetManager.swift in Sources */,
 				463694E7200ED68F00C51BB4 /* SketchControlPanelDelegate.swift in Sources */,
 				969959661FC2334300CB51EB /* ColorPalette.swift in Sources */,
@@ -4188,6 +4187,7 @@
 				EA32A8551FBD1A7900CC37FB /* MediaGalleryViewController.swift in Sources */,
 				EA09A0581F78B9C200BC3C0E /* RegularExpressionSpecification.swift in Sources */,
 				46E193662016CDEA00F2D968 /* MediaAsset.swift in Sources */,
+				EACFF2B52044D3E100B1C40A /* MediaGalleryDelegate.swift in Sources */,
 				EA09A04C1F78B86A00BC3C0E /* Specification.swift in Sources */,
 				27719E0A1FA92A5B00238059 /* AustralianPhoneSpecification.swift in Sources */,
 				BC9C7DD41F0DED6600DFFE83 /* Parameterisable.swift in Sources */,

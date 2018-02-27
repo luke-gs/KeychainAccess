@@ -13,15 +13,19 @@ public struct LocalDataResults<T: Equatable>: PaginatedDataStoreResult, Equatabl
 
     public let items: [T]
 
-    public init(items: [T]) {
+    public let hasMoreItems: Bool
+
+    public let nextIndex: Int?
+
+    public init(items: [T], nextIndex: Int? = nil) {
         self.items = items
+        self.nextIndex = nextIndex
+        self.hasMoreItems = nextIndex != nil
     }
 
     public static func ==(lhs: LocalDataResults, rhs: LocalDataResults) -> Bool {
-        return lhs.items == rhs.items
+        return lhs.items == rhs.items && lhs.nextIndex == rhs.nextIndex && lhs.hasMoreItems == rhs.hasMoreItems
     }
-
-    public let hasMoreItems: Bool = false
 
 }
 
@@ -46,34 +50,75 @@ public class LocalDataStore<T>: WritableDataStore, ExpressibleByArrayLiteral whe
 
     public private(set) var items: [T]
 
-    public init(items: [T]) {
+    public let limit: Int
+
+    public init(items: [T], limit: Int = 0) {
         self.items = items
+        self.limit = limit
     }
 
     public required init(arrayLiteral elements: T...) {
         self.items = elements
+        self.limit = 0
     }
 
     public func retrieveItems(withLastKnownResults results: Result?, cancelToken: PromiseCancellationToken?) -> Promise<Result> {
-        return Promise(value: LocalDataResults(items: items))
+        if let results = results, let currentIndex = results.nextIndex {
+            let maxIndex = items.count
+            let lastIndex = min(currentIndex + limit, maxIndex)
+            let filteredItems = Array(items[currentIndex..<lastIndex])
+
+            var nextIndex: Int?
+            if let lastItem = filteredItems.last, limit > 0 && lastItem != items.last {
+                if let lastItemIndex = items.index(of: lastItem) {
+                    nextIndex = lastItemIndex + 1
+                }
+            }
+
+            return Promise { fullfill, reject in
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                    fullfill(LocalDataResults(items: filteredItems, nextIndex: nextIndex))
+                }
+            }
+
+//            return Promise(value: LocalDataResults(items: filteredItems, nextIndex: nextIndex))
+        } else {
+            let filteredItems = limit > 0 ? Array(items.prefix(limit)) : items
+
+            var nextIndex: Int?
+            if let lastItem = filteredItems.last, lastItem != items.last {
+                if let lastItemIndex = items.index(of: lastItem) {
+                    nextIndex = lastItemIndex + 1
+                }
+            }
+
+            return Promise(value: LocalDataResults(items: filteredItems, nextIndex: nextIndex))
+        }
     }
 
-    public func addItem(_ item: Result.Item) -> Promise<Result.Item> {
+    public func addItems(_ items: [Result.Item]) -> Promise<[Result.Item]> {
         return Promise { [unowned self] fullfill, reject in
-            if self.indexOfItem(item) == nil {
-                self.items.append(item)
-                fullfill(item)
+            let indexes = items.indexes(where: { self.items.contains($0) })
+            if indexes.count == 0 {
+                self.items += items
+                fullfill(items)
             } else {
                 reject(LocalDataStoreError.duplicate)
             }
         }
     }
 
-    public func removeItem(_ item: Result.Item) -> Promise<Result.Item> {
+    public func removeItems(_ items: [Result.Item]) -> Promise<[Result.Item]> {
         return Promise { [unowned self] fullfill, reject in
-            if let index = self.indexOfItem(item) {
-                self.items.remove(at: index)
-                fullfill(item)
+            let indexes = self.items.indexes(where: { items.contains($0) })
+            if indexes.count == items.count {
+                items.forEach {
+                    if let index = self.indexOfItem($0) {
+                        self.items.remove(at: index)
+                    }
+                }
+
+                fullfill(items)
             } else {
                 reject(LocalDataStoreError.notFound)
             }

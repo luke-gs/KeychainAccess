@@ -38,10 +38,8 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
     public init(viewModel: MediaGalleryViewModelable, initialPreview: MediaPreviewable? = nil, pickerSources: [MediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker(), AudioMediaPicker(), SketchMediaPicker()]) {
 
         pickerSources.forEach {
-            $0.saveMedia = { url, assetType in
-                if let media = assetType.mediaAsset(at: url) {
-//                    viewModel.addMedia(media)
-                }
+            $0.saveMedia = { media in
+                viewModel.addMedia([media])
             }
         }
 
@@ -102,7 +100,6 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
         updateContentState()
         interfaceStyleDidChange()
-
     }
 
     public override func viewWillAppear(_ animated: Bool) {
@@ -172,6 +169,8 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
         if indexPath.section == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.genericCell.rawValue, for: indexPath)
 
+            cell.backgroundView = nil
+
             let preview = viewModel.previews[indexPath.item]
             preview.thumbnailImage?.loadImage(completion: { [weak self] (sizable) in
                 let imageView = UIImageView(image: sizable.sizing().image)
@@ -186,11 +185,10 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
             return cell
         } else {
             let state = viewModel.state
-
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.stateCell.rawValue, for: indexPath) as! MediaStateCell
-            cell.imageView.image = AssetManager.shared.image(forKey: .sourceBarDownload)
-            cell.titleLabel.text = state.title()
-            cell.subtitleLabel.text = state.subtitle()
+            cell.imageView.image = viewModel.imageForState(state)
+            cell.titleLabel.text = viewModel.titleForState(state)
+            cell.subtitleLabel.text = viewModel.descriptionForState(state)
 
             switch state {
             case .loading: cell.isLoading = true
@@ -330,15 +328,15 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
             let items = indexPaths.map{ indexPath in
                 self.viewModel.previews[indexPath.item].asset
             }
-            items.forEach { self.viewModel.removeMedia($0) }
 
-            self.collectionView.performBatchUpdates({
-                self.collectionView.deleteItems(at: indexPaths)
-            }, completion: { (completed) in
-                if self.viewModel.previews.count <= 0 {
-                    self.setEditing(false, animated: true)
-                }
-            })
+            self.viewModel.removeMedia(items)
+//            self.collectionView.performBatchUpdates({
+//                self.collectionView.deleteItems(at: indexPaths)
+//            }, completion: { (completed) in
+//                if self.viewModel.previews.count <= 0 {
+//                    self.setEditing(false, animated: true)
+//                }
+//            })
         }))
         alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
         alertController.popoverPresentationController?.barButtonItem = item
@@ -348,9 +346,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
     @objc private func galleryDidChange(_ notification: Notification) {
         guard isViewLoaded else { return }
 
-        if !isEditing {
-            collectionView.reloadData()
-        }
+        collectionView.reloadData()
 
         updateContentState()
     }
@@ -419,34 +415,4 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
             return nil
         }
     }
-}
-
-private extension MediaGalleryState {
-
-    func title() -> String {
-        switch self {
-        case .unknown:
-            return "Download Images"
-        case .loading:
-            return "Loading"
-        case .completed(let additionalItem):
-            return "Completed"
-        case .error:
-            return "Error"
-        }
-    }
-
-    func subtitle() -> String {
-        switch self {
-        case .unknown:
-            return "This may take a moment depending on your connection speed."
-        case .loading:
-            return "Please wait a moment."
-        case .completed(let additionalitem):
-            return additionalitem ? "This may take a moment depending on your connection speed." : "Completed"
-        case .error(let error):
-            return error.localizedDescription
-        }
-    }
-
 }

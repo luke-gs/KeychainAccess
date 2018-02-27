@@ -154,16 +154,24 @@ extension DataStoreCoordinator where Store.Result: PaginatedDataStoreResult {
 
 extension DataStoreCoordinator where Store: WritableDataStore {
 
+    public func addItems(_ items: [Item]) -> Promise<[Item]> {
+        return dataStore.addItems(items)
+    }
+
+    public func removeItems(_ items: [Item]) -> Promise<[Item]> {
+        return dataStore.removeItems(items)
+    }
+
+    public func replaceItem(_ item: Item, with otherItem: Item) -> Promise<Item> {
+        return dataStore.replaceItem(item, with: otherItem)
+    }
+
     public func addItem(_ item: Item) -> Promise<Item> {
         return dataStore.addItem(item)
     }
 
     public func removeItem(_ item: Item) -> Promise<Item> {
         return dataStore.removeItem(item)
-    }
-
-    public func replaceItem(_ item: Item, with otherItem: Item) -> Promise<Item> {
-        return dataStore.replaceItem(item, with: otherItem)
     }
 
 }

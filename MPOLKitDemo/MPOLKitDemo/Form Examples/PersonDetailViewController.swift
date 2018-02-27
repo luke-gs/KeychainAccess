@@ -36,10 +36,10 @@ class PersonDetailViewController: FormBuilderViewController {
 //        ])
 
         let localStore = DataStoreCoordinator(dataStore: LocalDataStore(items: [
-            Media(url: URL(string: "localhost")!, title: "Herli", comments: "This Girl is on FIREEE", isSensitive: true),
-            Media(url: URL(string: "localhost")!, title: "Herli", comments: "This Girl is on FIREEE", isSensitive: false),
-            Media(url: URL(string: "localhost")!, title: "Herli", comments: "This Girl is on FIREEE", isSensitive: false),
-            Media(url: URL(string: "localhost")!, title: "Herli", comments: "This Girl is on FIREEE", isSensitive: false)
+            Media(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", isSensitive: true),
+            Media(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", isSensitive: false),
+            Media(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", isSensitive: false),
+            Media(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", isSensitive: false)
         ]))
 
         let gallery = MediaGalleryCoordinatorViewModel(storeCoordinator: localStore)
@@ -124,7 +124,7 @@ class DocumentItem: MediaPreviewable {
     let sensitiveText: String? = nil
 
     init(type: DocumentType, title: String?) {
-        self.asset = Media(url: URL(string: "localhost")!)
+        self.asset = Media(url: URL(string: "localhost")!, type: .photo)
         self.type = type
         self.title = title
 

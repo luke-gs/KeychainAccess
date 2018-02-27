@@ -13,11 +13,16 @@ public class PhotoMedia: MediaPreview {
 
     public let image: ImageLoadable?
 
-    public init(thumbnailImage: ImageLoadable?,
-                image: ImageLoadable?,
-                asset: Media) {
-
+    public init(asset: Media) {
+        let image = UIImage(contentsOfFile: asset.url.path)
         self.image = image
-        super.init(thumbnailImage: thumbnailImage, asset: asset)
+
+        super.init(thumbnailImage: image, asset: asset)
+
+        self.title = asset.title
+        self.comments = asset.comments
+        self.sensitive = asset.sensitive
     }
+
+
 }

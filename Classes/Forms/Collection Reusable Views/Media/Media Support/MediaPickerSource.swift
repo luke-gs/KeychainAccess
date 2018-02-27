@@ -8,26 +8,6 @@
 
 import Foundation
 
-public enum MediaType {
-    case video
-    case audio
-    case photo
-
-    func mediaAsset(at url: URL) -> MediaPreviewable? {
-        let media = Media(url: URL(fileURLWithPath: url.path))
-        switch self {
-        case .photo:
-            if let data = try? Data(contentsOf: url) {
-                let image = UIImage(data: data)
-                return PhotoMedia(thumbnailImage: image, image: image, asset: media)
-            }
-            return nil
-        case .audio: return AudioMedia(asset: media)
-        case .video: return VideoMedia(asset: media)
-        }
-    }
-}
-
 /// A protocol that defines an input source for choosing an image
 public protocol MediaPickerSource: class {
 
@@ -35,7 +15,7 @@ public protocol MediaPickerSource: class {
     var title: String { get }
 
     /// Call this closure to save the image.
-    var saveMedia: ((URL, MediaType) -> ())? { get set }
+    var saveMedia: ((Media) -> ())? { get set }
 
     /// The view controller to be presented.
     func viewController() -> UIViewController
@@ -51,7 +31,7 @@ public class AudioMediaPicker:  NSObject, MediaPickerSource, AudioRecorderContro
         self.title = title
     }
 
-    public var saveMedia: ((URL, MediaType) -> ())?
+    public var saveMedia: ((Media) -> ())?
 
     public func viewController() -> UIViewController {
         let audioRecorderController = AudioRecordingViewController(saveLocation: temporaryLocation.appendingPathComponent("\(UUID().uuidString).m4a"))
@@ -61,7 +41,7 @@ public class AudioMediaPicker:  NSObject, MediaPickerSource, AudioRecorderContro
     }
 
     public func controller(_ controller: AudioRecordingViewController, didFinishWithRecordingURL url: URL) {
-        saveMedia?(url, .audio)
+        saveMedia?(Media(url: url, type: .audio))
         controller.dismiss(animated: true, completion: nil)
     }
 
@@ -77,7 +57,7 @@ public class SketchMediaPicker: NSObject, MediaPickerSource, SketchPickerControl
 
     public let title: String
 
-    public var saveMedia: ((URL, MediaType) -> ())?
+    public var saveMedia: ((Media) -> ())?
 
     public init(title: String = NSLocalizedString("Sketch", comment: "")) {
         self.title = title
@@ -95,7 +75,7 @@ public class SketchMediaPicker: NSObject, MediaPickerSource, SketchPickerControl
             do {
                 let location = temporaryLocation.appendingPathComponent("\(UUID().uuidString).jpg")
                 try imageRef.write(to: location)
-                saveMedia?(location, .photo)
+                saveMedia?(Media(url: location, type: .photo))
             } catch {
                 print(error)
             }
@@ -115,7 +95,7 @@ public class CameraMediaPicker: NSObject, MediaPickerSource, UIImagePickerContro
     private let temporaryLocation: URL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
     public let title: String
 
-    public var saveMedia: ((URL, MediaType) -> ())?
+    public var saveMedia: ((Media) -> ())?
 
     public init(title: String = NSLocalizedString("Camera", comment: "")) {
         self.title = title
@@ -133,22 +113,22 @@ public class CameraMediaPicker: NSObject, MediaPickerSource, UIImagePickerContro
 
         if #available(iOS 11.0, *) {
             if let url = info[UIImagePickerControllerImageURL] as? URL {
-                saveMedia?(url, .photo)
+                saveMedia?(Media(url: url, type: .photo))
             } else if let url = info[UIImagePickerControllerMediaURL] as? URL {
-                saveMedia?(url, .video)
+                saveMedia?(Media(url: url, type: .video))
             }
         } else {
             if let image = info[UIImagePickerControllerOriginalImage] as? UIImage, let imageRef = UIImageJPEGRepresentation(image, 0.5) {
                 do {
                     let filePath = temporaryLocation.appendingPathComponent("\(UUID().uuidString).jpg")
                     try imageRef.write(to: filePath)
-                    saveMedia?(filePath, .photo)
+                    saveMedia?(Media(url: filePath, type: .photo))
                 } catch {
                     print(error)
                 }
 
             } else if let url = info[UIImagePickerControllerMediaURL] as? URL {
-                saveMedia?(url, .video)
+                saveMedia?(Media(url: url, type: .video))
             }
         }
         picker.dismiss(animated: true, completion: nil)
@@ -162,7 +142,7 @@ public class PhotoLibraryMediaPicker: NSObject, MediaPickerSource, UIImagePicker
     public let title: String
     private let temporaryLocation: URL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
 
-    public var saveMedia: ((URL, MediaType) -> ())?
+    public var saveMedia: ((Media) -> ())?
 
     public init(title: String = NSLocalizedString("Photo Library", comment: "")) {
         self.title = title
@@ -180,13 +160,13 @@ public class PhotoLibraryMediaPicker: NSObject, MediaPickerSource, UIImagePicker
 
         if #available(iOS 11.0, *) {
             if let url = info[UIImagePickerControllerImageURL] as? URL {
-                saveMedia?(url, .photo)
+                saveMedia?(Media(url: url, type: .photo))
             }
         } else if let image = info[UIImagePickerControllerOriginalImage] as? UIImage, let imageRef = UIImageJPEGRepresentation(image, 0.5) {
             do {
                 let imageFilePath = temporaryLocation.appendingPathComponent("\(UUID().uuidString).jpg")
                 try imageRef.write(to: imageFilePath)
-                saveMedia?(imageFilePath, .photo)
+                saveMedia?(Media(url: imageFilePath, type: .photo))
             } catch {
                 print(error)
             }

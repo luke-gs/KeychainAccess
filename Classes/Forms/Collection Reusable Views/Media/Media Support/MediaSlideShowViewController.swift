@@ -208,7 +208,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         guard let currentMedia = currentMedia else { return }
 
         if let index = indexOfPreview(currentMedia) {
-            viewModel.removeMedia(currentMedia.asset).then { [weak self] _ -> () in
+            viewModel.removeMedia([currentMedia.asset]).then { [weak self] _ -> () in
                 guard let `self` = self else { return }
                 if let media = self.mediaAfterDeletion(currentMediaIndex: index) {
                     self.showMedia(media, animated: true, direction: index >= self.viewModel.previews.count ? .reverse : .forward)

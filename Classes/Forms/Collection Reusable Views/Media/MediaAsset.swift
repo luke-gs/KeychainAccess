@@ -9,13 +9,26 @@
 import Foundation
 import Cache
 
+
+public enum MediaType: Int, Codable {
+    case video
+    case audio
+    case photo
+}
+
+
 public class Media: Codable {
+    public let identifier: String
+    public let type: MediaType
+
     public let url: URL
     public var title: String?
     public var comments: String?
     public var sensitive: Bool
     
-    public init(url: URL, title: String? = nil, comments: String? = nil, isSensitive: Bool = false) {
+    public init(identifier: String = UUID().uuidString, url: URL, type: MediaType, title: String? = nil, comments: String? = nil, isSensitive: Bool = false) {
+        self.identifier = identifier
+        self.type = type
         self.url = url
         self.title = title
         self.comments = comments
@@ -26,15 +39,16 @@ public class Media: Codable {
 extension Media: Hashable {
 
     public var hashValue: Int {
-        return url.hashValue ^ (title?.hashValue ?? 0) ^ (comments?.hashValue ?? 0) ^ sensitive.hashValue
+        return identifier.hashValue ^ type.rawValue.hashValue ^ url.hashValue ^ (title?.hashValue ?? 0) ^ (comments?.hashValue ?? 0) ^ sensitive.hashValue
     }
 
     static public func ==(lhs: Media, rhs: Media) -> Bool {
-        return
+        return lhs.identifier == rhs.identifier &&
+            lhs.type == rhs.type &&
             lhs.url == rhs.url &&
-                lhs.title == rhs.title &&
-                lhs.comments == rhs.comments &&
-                lhs.sensitive == rhs.sensitive
+            lhs.title == rhs.title &&
+            lhs.comments == rhs.comments &&
+            lhs.sensitive == rhs.sensitive
     }
 
 }

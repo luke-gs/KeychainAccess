@@ -72,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let formSplitViewController = SidebarSplitViewController(detailViewControllers: examples)
         formSplitViewController.title = "Form Examples"
-        formSplitViewController.selectedViewController = examples[9]
+        formSplitViewController.selectedViewController = examples[13]
 
         let tabBarController = UITabBarController()
 
@@ -204,7 +204,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let subscription = SubscriptionViewController()
         subscription.sidebarItem.regularTitle = "Subscription"
 
-        return [basic, list, custom, accessory, header, picker, stepper, progress, date, personDetail, results, signup, subscription]
+        let gallery = GalleryViewController()
+        gallery.sidebarItem.regularTitle = "Gallery"
+
+        return [basic, list, custom, accessory, header, picker, stepper, progress, date, personDetail, results, signup, subscription, gallery]
     }()
 }
 

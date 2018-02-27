@@ -48,7 +48,7 @@ public class AudioRecordingViewController: UIViewController, AVAudioRecorderDele
 
     // Initialise with a location at which to save the file
     public init(saveLocation: URL) {
-        url = URL(string: saveLocation.path)!
+        url = saveLocation
 
         super.init(nibName: nil, bundle: nil)
         sessionConfigurer.configureActiveSession()

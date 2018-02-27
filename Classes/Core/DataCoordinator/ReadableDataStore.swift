@@ -27,9 +27,9 @@ public protocol ReadableDataStore {
 
 public protocol WritableDataStore: ReadableDataStore {
 
-    func addItem(_ item: Result.Item) -> Promise<Result.Item>
+    func addItems(_ items: [Result.Item]) -> Promise<[Result.Item]>
 
-    func removeItem(_ item: Result.Item) -> Promise<Result.Item>
+    func removeItems(_ items: [Result.Item]) -> Promise<[Result.Item]>
 
     func replaceItem(_ item: Result.Item, with otherItem: Result.Item) -> Promise<Result.Item>
 
@@ -46,5 +46,18 @@ extension ReadableDataStore {
     public func retrieveItems(withLastKnownResults results: Result? = nil) -> Promise<Result> {
         return retrieveItems(withLastKnownResults: results, cancelToken: nil)
     }
+
+}
+
+extension WritableDataStore {
+
+    public func addItem(_ item: Result.Item) -> Promise<Result.Item> {
+        return self.addItems([item]).then { $0.first! }
+    }
+
+    public func removeItem(_ item: Result.Item) -> Promise<Result.Item> {
+        return self.removeItems([item]).then { $0.first! }
+    }
+
 
 }

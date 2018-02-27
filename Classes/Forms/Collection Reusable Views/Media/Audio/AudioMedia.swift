@@ -18,5 +18,9 @@ public class AudioMedia: MediaPreview {
             thumbnailImage = UIImage.waveformImage(from: samples,
                                                   fittingSize: CGSize(width: 600, height: 450))
         }
+
+        title = asset.title
+        comments = asset.comments
+        sensitive = asset.sensitive
     }
 }

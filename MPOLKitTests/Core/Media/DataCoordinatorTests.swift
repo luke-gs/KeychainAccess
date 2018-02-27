@@ -183,6 +183,29 @@ class DataCoordinatorTests: XCTestCase {
         wait(for: [expectation], timeout: 3.0)
     }
 
+    func testThatItRetrievesMoreItemsWhenKnownResultHasMoreItemsWithLocalDataStore() {
+        // Given
+        let store = LocalDataStore(items: [1, 2, 3, 4], limit: 2)
+        let provider = DataStoreCoordinator(dataStore: store)
+
+        let expectation = XCTestExpectation()
+
+        // When
+        provider.retrieveItems().then { items -> Promise<[Int]> in
+            XCTAssertEqual(items, [1, 2])
+            XCTAssertTrue(provider.hasMoreItems())
+            return provider.retrieveMoreItems()
+        }.then { items -> () in
+            // Then
+            XCTAssertEqual(items, [1, 2, 3, 4])
+            expectation.fulfill()
+        }.catch { _ in
+            XCTFail("This should not happen.")
+        }
+
+        wait(for: [expectation], timeout: 3.0)
+    }
+
     func testThatItFallsBackToRetrieveItemsWhenNoResultIsKnownWhenCallingRetrievesMoreItems() {
         // Given
         let store = WritableStore(numbers: [1, 2], additionalItems: [3, 4])
@@ -427,16 +450,19 @@ class WritableStore: WritableDataStore {
         }
     }
 
-    func addItem(_ item: Int) -> Promise<Int> {
-        numbers.append(item)
-        return Promise(value: item)
+    func addItems(_ items: [Int]) -> Promise<[Int]> {
+        numbers += items
+        return Promise(value: items)
     }
 
-    func removeItem(_ item: Int) -> Promise<Int> {
-        if let index = numbers.index(of: item) {
-            numbers.remove(at: index)
+    func removeItems(_ items: [Int]) -> Promise<[Int]> {
+        items.forEach {
+            if let index = self.numbers.index(of: $0) {
+                self.numbers.remove(at: index)
+            }
         }
-        return Promise(value: item)
+
+        return Promise(value: items)
     }
 
     func replaceItem(_ item: Int, with otherItem: Int) -> Promise<Int> {
