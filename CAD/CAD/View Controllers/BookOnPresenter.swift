@@ -37,7 +37,7 @@ public class BookOnPresenter: Presenter {
             viewModel.detailsDelegate = detailsDelegate
             let viewController = OfficerListViewController<BookOnPresenter, OfficerListViewModel>(viewModel: viewModel)
             return viewController
-        case .patrolAreaList(let current, let delegate):
+        case .patrolAreaList(let current, let delegate, _):
             let viewModel = PatrolAreaListViewModel()
             viewModel.selectedPatrolArea = current
             viewModel.delegate = delegate
