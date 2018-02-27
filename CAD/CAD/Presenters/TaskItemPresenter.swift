@@ -28,8 +28,18 @@ public class TaskItemPresenter: Presenter {
             let viewModel = CallsignStatusViewModel(sections: sections, selectedStatus: resource.status, incident: incident)
             viewModel.showsCompactHorizontal = false
             return viewModel.createViewController()
-        }
 
+        case .addressLookup(_, let coordinate):
+            return ActionSheetViewController(buttons: [
+                ActionSheetButton(title: "Directions", icon: AssetManager.shared.image(forKey: .route), action: {
+                    let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coordinate, addressDictionary:nil))
+                    mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving])
+                }),
+                ActionSheetButton(title: "Street View", icon: AssetManager.shared.image(forKey: .streetView), action: nil),
+                ActionSheetButton(title: "Search", icon: AssetManager.shared.image(forKey: .tabBarSearch), action: nil),
+                ]
+            )
+        }
     }
 
     public func present(_ presentable: Presentable, fromViewController from: UIViewController, toViewController to: UIViewController) {
@@ -53,9 +63,11 @@ public class TaskItemPresenter: Presenter {
             to.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: from, action: #selector(UIViewController.dismissAnimated))
             from.presentFormSheet(to, animated: true, size: size, forced: true)
 
-        // Default presentation, based on container class (eg push if in navigation controller)
-        default:
-            from.show(to, sender: from)
+        case .addressLookup(let source, _):
+            if let to = to as? ActionSheetViewController {
+                from.presentActionSheetPopover(to, sourceView: source, sourceRect: source.bounds, animated: true)
+            }
+
         }
     }
 
