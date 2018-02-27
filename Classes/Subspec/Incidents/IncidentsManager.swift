@@ -32,14 +32,14 @@ final public class IncidentsManager {
 
     public init() { }
 
-    public func create(incidentType: IncidentType, in event: Event) -> Incident? {
+    public func create(incidentType: IncidentType, in event: Event) -> IncidentListDisplayable? {
         guard let incidentBuilder = incidentBuilders[incidentType] else { return nil }
 
         let incident = incidentBuilder.createIncident(for: incidentType, in: event)
         displayableBucket?.add(incident.displayable)
         incidentBucket?.add(incident.incident)
 
-        return incident.incident
+        return incident.displayable
     }
 
     //add
@@ -69,8 +69,8 @@ final public class IncidentsManager {
 
     //utility
     public func incident(for id: UUID) -> Incident? {
-        if let event = incidentBucket?.objects?.first(where: {$0.id == id}) {
-            return event
+        if let incident = incidentBucket?.objects?.first(where: {$0.id == id}) {
+            return incident
         }
         return nil
     }
