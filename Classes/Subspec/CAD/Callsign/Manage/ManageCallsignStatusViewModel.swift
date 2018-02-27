@@ -125,12 +125,9 @@ open class ManageCallsignStatusViewModel {
         if let actionButton = ActionButton(rawValue: index) {
             switch actionButton {
             case .viewCallsign:
-                if let resource = CADStateManager.shared.currentResource {
-                    // Show split view controller for booked on resource
-                    let vm = ResourceTaskItemViewModel(resource: resource)
-                    let vc = vm.createViewController()
-                    let nav = UINavigationController(rootViewController: vc)
-                    delegate?.present(nav, animated: true, completion: nil)
+                if CADStateManager.shared.currentResource != nil {
+                    // Show my callsign resource details
+                    delegate?.present(TaskItemScreen.myCallsign)
                 }
                 break
             case .manageCallsign:

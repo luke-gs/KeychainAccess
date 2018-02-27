@@ -13,4 +13,7 @@ public enum TaskItemScreen: Presentable {
 
     /// The landing screen of the task item, the top level split view
     case landing(viewModel: TaskItemViewModel)
+
+    /// The task item for my callsign
+    case myCallsign
 }
