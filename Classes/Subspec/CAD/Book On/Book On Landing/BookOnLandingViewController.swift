@@ -18,7 +18,6 @@ open class BookOnLandingViewController: FormBuilderViewController {
         static let horizontalMargin: CGFloat = 40
         
         // MARK: - Header
-        static var headerHeight: CGFloat = 80
         static let footerHeight: CGFloat = DialogActionButtonsView.LayoutConstants.defaultHeight
     }
     
@@ -43,21 +42,6 @@ open class BookOnLandingViewController: FormBuilderViewController {
     
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
-    }
-    
-    open override func loadView() {
-        super.loadView()
-        
-        collectionView?.translatesAutoresizingMaskIntoConstraints = false
-        
-        if let collectionView = collectionView {
-            NSLayoutConstraint.activate([
-                collectionView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: LayoutConstants.headerHeight),
-                collectionView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
-                collectionView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
-                collectionView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor, constant: -LayoutConstants.footerHeight).withPriority(.almostRequired)
-            ])
-        }
     }
 
     /// Creates and styles views
@@ -85,15 +69,22 @@ open class BookOnLandingViewController: FormBuilderViewController {
     
     /// Activates view constraints
     open func setupConstraints() {
+        collectionView?.translatesAutoresizingMaskIntoConstraints = false
+
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: LayoutConstants.topMargin),
+            collectionView?.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
+            collectionView?.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
+            collectionView?.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
+            collectionView?.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor, constant: -LayoutConstants.footerHeight).withPriority(.almostRequired),
+
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: LayoutConstants.topMargin),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             buttonsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             buttonsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             buttonsView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
-        ])
+        ].removeNils())
     }
     
     open func didSelectStayOffDutyButton() {
@@ -113,7 +104,7 @@ open class BookOnLandingViewController: FormBuilderViewController {
     open override func construct(builder: FormBuilder) {
         let patrolAreaSection = viewModel.patrolAreaSection()
 
-        builder += HeaderFormItem(text: patrolAreaSection.title.uppercased(),
+        builder += HeaderFormItem(text: patrolAreaSection.title?.uppercased(),
                                   style: viewModel.shouldShowExpandArrow() ? .collapsible : .plain)
 
         for item in patrolAreaSection.items {
@@ -122,30 +113,30 @@ open class BookOnLandingViewController: FormBuilderViewController {
                 .width(.column(1))
                 .height(.fixed(44))
                 .onThemeChanged({ (cell, theme) in
-                    (cell as? CollectionViewFormValueFieldCell)?.valueLabel.textColor = theme.color(forKey: .primaryText)
+                    self.viewModel.apply(theme: theme, to: cell)
                 })
                 .contentMode(.center)
                 .onSelection({ [weak self] _ in
-                    let screen = BookOnScreen.patrolAreaList(current: item.title, delegate: self)
+                    let screen = BookOnScreen.patrolAreaList(current: item.title, delegate: self, formSheet: false)
                     self?.present(screen)
                 })
         }
         
         let callsignSection = viewModel.callsignSection()
 
-        builder += HeaderFormItem(text: callsignSection.title.uppercased(),
+        builder += HeaderFormItem(text: callsignSection.title?.uppercased(),
                                   style: viewModel.shouldShowExpandArrow() ? .collapsible : .plain)
 
         for item in callsignSection.items {
-            builder += CustomFormItem(cellType: CallsignCollectionViewCell.self,
-                                      reuseIdentifier: CallsignCollectionViewCell.defaultReuseIdentifier)
+            builder += CustomFormItem(cellType: viewModel.callsignCellClass(),
+                                      reuseIdentifier: viewModel.callsignCellClass().defaultReuseIdentifier)
                 .accessory(ItemAccessory.disclosure)
                 .height(.fixed(64))
                 .onConfigured({ (cell) in
-                    (cell as? CallsignCollectionViewCell)?.decorate(with: item)
+                    self.viewModel.decorate(cell: cell, with: item)
                 })
                 .onThemeChanged({ (cell, theme) in
-                    (cell as? CallsignCollectionViewCell)?.apply(theme: theme)
+                    self.viewModel.apply(theme: theme, to: cell)
                 })
                 .onSelection({ [weak self] (cell) in
                     if let screen = self?.viewModel.bookOnScreenForItem(item) {

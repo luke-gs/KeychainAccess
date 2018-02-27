@@ -10,9 +10,9 @@ import UIKit
 import MapKit
 
 public class EventLocation: Codable, Equatable {
-    var latitude: CLLocationDegrees
-    var longitude: CLLocationDegrees
-    var addressString: String?
+    public var latitude: CLLocationDegrees
+    public var longitude: CLLocationDegrees
+    public var addressString: String?
 
     required public init(location: CLLocationCoordinate2D, addressString: String?) {
         self.latitude = location.latitude

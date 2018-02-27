@@ -25,6 +25,7 @@ open class ColorPalette: NSObject {
     open var sidebarBlack      = #colorLiteral(red: 0.1058823529, green: 0.1176470588, blue: 0.1411764706, alpha: 1)
     
     open var tabBarWhite       = #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1)
+    open var tabBarBlack       = #colorLiteral(red: 0.2645705938, green: 0.2645705938, blue: 0.2645705938, alpha: 1)
 }
 
 /// Convenience extension to UIColor
@@ -41,4 +42,5 @@ extension UIColor {
     open static var sidebarBlack      = ColorPalette.shared.sidebarBlack
     
     open static var tabBarWhite       = ColorPalette.shared.tabBarWhite
+    open static var tabBarBlack       = ColorPalette.shared.tabBarBlack
 }

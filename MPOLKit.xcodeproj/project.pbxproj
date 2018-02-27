@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		12048FC81F7881C50014748E /* MatchMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12048FC71F7881C50014748E /* MatchMaker.swift */; };
-		12080F8D2032AAA200AB3632 /* LocationAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12080F8C2032AAA200AB3632 /* LocationAction.swift */; };
 		12080F912032AE3800AB3632 /* LocationSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12080F902032AE3800AB3632 /* LocationSelectionViewModel.swift */; };
 		12080F932032B87400AB3632 /* Accessories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12080F922032B87400AB3632 /* Accessories.swift */; };
 		1211E3691F3AD7620012E2E6 /* EpochDateTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1211E3681F3AD7620012E2E6 /* EpochDateTransformerTests.swift */; };
@@ -44,7 +43,6 @@
 		12F869EF1F5FD47E0006EC5C /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D566F51F5790BC001E74CA /* UserSession.swift */; };
 		12FB04092021511E000C38C8 /* DefaultEventDateTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12FB04082021511E000C38C8 /* DefaultEventDateTimeViewController.swift */; };
 		12FB2F0120326653000CA863 /* StackMapLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12FB2F0020326653000CA863 /* StackMapLayout.swift */; };
-		12FB2F03203266DD000CA863 /* DefaultLocationReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12FB2F02203266DD000CA863 /* DefaultLocationReport.swift */; };
 		190503EC1FCFDB09002EBC89 /* RefreshTokenPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190503EB1FCFDB09002EBC89 /* RefreshTokenPlugin.swift */; };
 		1908EF831F57CAFC00382B1C /* AuthenticationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1908EF821F57CAFC00382B1C /* AuthenticationPlugin.swift */; };
 		1908EF861F57CDEB00382B1C /* AuthenticationPluginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1908EF851F57CDEB00382B1C /* AuthenticationPluginTests.swift */; };
@@ -52,6 +50,7 @@
 		1908EF8C1F57D79A00382B1C /* testTheme.json in Resources */ = {isa = PBXBuildFile; fileRef = 1908EF881F57D79A00382B1C /* testTheme.json */; };
 		1908EF8D1F57D79A00382B1C /* KeyboardInputManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1908EF891F57D79A00382B1C /* KeyboardInputManagerTests.swift */; };
 		1908EF8E1F57D79A00382B1C /* ModelVersionableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1908EF8A1F57D79A00382B1C /* ModelVersionableTests.swift */; };
+		1914E596203C2DB100EE124A /* ButtonStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1914E595203C2DB100EE124A /* ButtonStackView.swift */; };
 		191BC4D31F7C203B00C8C218 /* HelpContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191BC4CF1F7C202200C8C218 /* HelpContent.swift */; };
 		191BC4D41F7C203B00C8C218 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191BC4CE1F7C202200C8C218 /* HelpViewController.swift */; };
 		191BC4D51F7C203B00C8C218 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191BC4D11F7C202300C8C218 /* LeftAlignedCollectionViewFlowLayout.swift */; };
@@ -262,6 +261,7 @@
 		44F3F14B1F56DBD300D68585 /* FilterDescriptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F3F14A1F56DBD300D68585 /* FilterDescriptorTests.swift */; };
 		44F3F14E1F56DDDC00D68585 /* FilterDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F3F14D1F56DDC000D68585 /* FilterDescriptor.swift */; };
 		44F72B2A1F85E5F000A6FE6B /* SearchResultMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F72B291F85E5F000A6FE6B /* SearchResultMessageViewController.swift */; };
+		460B276F204526DC00B56D0B /* FormBuilderSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460B276E204526DC00B56D0B /* FormBuilderSearchViewController.swift */; };
 		460B5BB12007172900AB7D12 /* SketchPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460B5BB02007172900AB7D12 /* SketchPickerController.swift */; };
 		460B5BC22007186D00AB7D12 /* PathBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460B5BC02007186D00AB7D12 /* PathBuilder.swift */; };
 		460B5BC72007187600AB7D12 /* SketchEraser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460B5BC42007187500AB7D12 /* SketchEraser.swift */; };
@@ -293,6 +293,8 @@
 		464A5E8F1FD4A8F900B4C0F9 /* ResourceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464A5E8E1FD4A8F900B4C0F9 /* ResourceError.swift */; };
 		464A5E951FD4ACEB00B4C0F9 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464A5E941FD4ACEB00B4C0F9 /* ImageDownloader.swift */; };
 		464A5E971FD4D0E200B4C0F9 /* EvaluationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464A5E961FD4D0E200B4C0F9 /* EvaluationError.swift */; };
+		464E99E0203BCE6100FE05DC /* DefaultLocationReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E99DF203BCE6100FE05DC /* DefaultLocationReport.swift */; };
+		464E99E6203CE1B100FE05DC /* EventSearchableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E99E5203CE1B100FE05DC /* EventSearchableViewModel.swift */; };
 		4650F3172018172300D9A3E6 /* AVMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4650F3162018172300D9A3E6 /* AVMediaViewController.swift */; };
 		4657CAD11F5D0DA9000295F6 /* NetworkLoggingPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4657CAD01F5D0DA9000295F6 /* NetworkLoggingPlugin.swift */; };
 		465A944C2002D9B900C1749F /* LocationErrorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465A944B2002D9B900C1749F /* LocationErrorManager.swift */; };
@@ -329,7 +331,6 @@
 		46F77072200D688600BA6614 /* PixelWidthSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F77071200D688600BA6614 /* PixelWidthSelectionViewController.swift */; };
 		47BC24DD1FE886F900BAB46C /* EntitySummarySearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BC24DC1FE886F900BAB46C /* EntitySummarySearchViewModel.swift */; };
 		4E10CA59202D36B000A17638 /* DefaultEventNotesPhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E10CA58202D36B000A17638 /* DefaultEventNotesPhotosViewController.swift */; };
-		4E64EAE0202A827A00FA408F /* DefaultEventLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E64EADF202A827A00FA408F /* DefaultEventLocationViewController.swift */; };
 		4E719ECA2022F08600D45F52 /* TextTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E719EC92022F08600D45F52 /* TextTemplate.swift */; };
 		8CDAFFA6E9DC54A4594C01FE /* Pods_MPOLKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE1AAA01D6AE18F86693DF8 /* Pods_MPOLKitTests.framework */; };
 		960CBB441FEA191E00A33E95 /* ThemeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960CBB431FEA191E00A33E95 /* ThemeConstants.swift */; };
@@ -338,6 +339,7 @@
 		962AA8191F8DD37D0087D534 /* PopoverPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */; };
 		96435CBE203248FC00C77A75 /* CADResourceStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96435CBD203248FC00C77A75 /* CADResourceStatusType.swift */; };
 		9644B1D21F6785E200D031F2 /* CompactFormSheetNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */; };
+		964B8CC0203E3EB200550311 /* CADTaskListSourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964B8CBF203E3EB200550311 /* CADTaskListSourceType.swift */; };
 		9650CA151F958B320087F5C9 /* CallsignStatusViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA121F958B2D0087F5C9 /* CallsignStatusViewCell.swift */; };
 		9650CA161F958B330087F5C9 /* ManageCallsignStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA131F958B2D0087F5C9 /* ManageCallsignStatusViewController.swift */; };
 		9650CA171F958B330087F5C9 /* ManageCallsignStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA141F958B2D0087F5C9 /* ManageCallsignStatusViewModel.swift */; };
@@ -404,6 +406,8 @@
 		96D3415C2005D38000CEDDFF /* StandardSearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D3415B2005D38000CEDDFF /* StandardSearchBarView.swift */; };
 		96D731731FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D731721FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift */; };
 		96E492021FB3F98D0051C3A1 /* AppSettingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E492011FB3F98D0051C3A1 /* AppSettingKey.swift */; };
+		96EB4BE6203E4EE200AFCAA0 /* CADTaskListItemModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EB4BE5203E4EE200AFCAA0 /* CADTaskListItemModelType.swift */; };
+		96EB4BE92043792800AFCAA0 /* TaskListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EB4BE82043792800AFCAA0 /* TaskListScreen.swift */; };
 		96ED81011FD9F2E100C7C960 /* CallsignStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ED81001FD9F2E100C7C960 /* CallsignStatusViewModel.swift */; };
 		96ED81031FDA0AAF00C7C960 /* ThemedPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96ED81021FDA0AAF00C7C960 /* ThemedPopoverViewController.swift */; };
 		96F7727F201FFB35000FE0D0 /* CreateActivityLogItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F7727E201FFB35000FE0D0 /* CreateActivityLogItemViewModel.swift */; };
@@ -774,7 +778,6 @@
 
 /* Begin PBXFileReference section */
 		12048FC71F7881C50014748E /* MatchMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchMaker.swift; sourceTree = "<group>"; };
-		12080F8C2032AAA200AB3632 /* LocationAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAction.swift; sourceTree = "<group>"; };
 		12080F902032AE3800AB3632 /* LocationSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectionViewModel.swift; sourceTree = "<group>"; };
 		12080F922032B87400AB3632 /* Accessories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessories.swift; sourceTree = "<group>"; };
 		1211E3681F3AD7620012E2E6 /* EpochDateTransformerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpochDateTransformerTests.swift; sourceTree = "<group>"; };
@@ -809,7 +812,6 @@
 		12F869EB1F5FD2350006EC5C /* ActiveUserSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveUserSessionTests.swift; sourceTree = "<group>"; };
 		12FB04082021511E000C38C8 /* DefaultEventDateTimeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventDateTimeViewController.swift; sourceTree = "<group>"; };
 		12FB2F0020326653000CA863 /* StackMapLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackMapLayout.swift; sourceTree = "<group>"; };
-		12FB2F02203266DD000CA863 /* DefaultLocationReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLocationReport.swift; sourceTree = "<group>"; };
 		190503EB1FCFDB09002EBC89 /* RefreshTokenPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshTokenPlugin.swift; sourceTree = "<group>"; };
 		1908EF821F57CAFC00382B1C /* AuthenticationPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationPlugin.swift; sourceTree = "<group>"; };
 		1908EF851F57CDEB00382B1C /* AuthenticationPluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationPluginTests.swift; sourceTree = "<group>"; };
@@ -817,6 +819,7 @@
 		1908EF881F57D79A00382B1C /* testTheme.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testTheme.json; sourceTree = "<group>"; };
 		1908EF891F57D79A00382B1C /* KeyboardInputManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardInputManagerTests.swift; sourceTree = "<group>"; };
 		1908EF8A1F57D79A00382B1C /* ModelVersionableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelVersionableTests.swift; sourceTree = "<group>"; };
+		1914E595203C2DB100EE124A /* ButtonStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStackView.swift; sourceTree = "<group>"; };
 		191BC4CE1F7C202200C8C218 /* HelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		191BC4CF1F7C202200C8C218 /* HelpContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpContent.swift; sourceTree = "<group>"; };
 		191BC4D01F7C202200C8C218 /* TagCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionView.swift; sourceTree = "<group>"; };
@@ -1014,6 +1017,7 @@
 		44F3F14A1F56DBD300D68585 /* FilterDescriptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDescriptorTests.swift; sourceTree = "<group>"; };
 		44F3F14D1F56DDC000D68585 /* FilterDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDescriptor.swift; sourceTree = "<group>"; };
 		44F72B291F85E5F000A6FE6B /* SearchResultMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultMessageViewController.swift; sourceTree = "<group>"; };
+		460B276E204526DC00B56D0B /* FormBuilderSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormBuilderSearchViewController.swift; sourceTree = "<group>"; };
 		460B5BB02007172900AB7D12 /* SketchPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SketchPickerController.swift; sourceTree = "<group>"; };
 		460B5BC02007186D00AB7D12 /* PathBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathBuilder.swift; sourceTree = "<group>"; };
 		460B5BC42007187500AB7D12 /* SketchEraser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SketchEraser.swift; sourceTree = "<group>"; };
@@ -1045,6 +1049,8 @@
 		464A5E8E1FD4A8F900B4C0F9 /* ResourceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceError.swift; sourceTree = "<group>"; };
 		464A5E941FD4ACEB00B4C0F9 /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		464A5E961FD4D0E200B4C0F9 /* EvaluationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationError.swift; sourceTree = "<group>"; };
+		464E99DF203BCE6100FE05DC /* DefaultLocationReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultLocationReport.swift; sourceTree = "<group>"; };
+		464E99E5203CE1B100FE05DC /* EventSearchableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSearchableViewModel.swift; sourceTree = "<group>"; };
 		4650F3162018172300D9A3E6 /* AVMediaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVMediaViewController.swift; sourceTree = "<group>"; };
 		4657CAD01F5D0DA9000295F6 /* NetworkLoggingPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkLoggingPlugin.swift; sourceTree = "<group>"; };
 		465A944B2002D9B900C1749F /* LocationErrorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationErrorManager.swift; sourceTree = "<group>"; };
@@ -1081,7 +1087,6 @@
 		46F77071200D688600BA6614 /* PixelWidthSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelWidthSelectionViewController.swift; sourceTree = "<group>"; };
 		47BC24DC1FE886F900BAB46C /* EntitySummarySearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummarySearchViewModel.swift; sourceTree = "<group>"; };
 		4E10CA58202D36B000A17638 /* DefaultEventNotesPhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesPhotosViewController.swift; sourceTree = "<group>"; };
-		4E64EADF202A827A00FA408F /* DefaultEventLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEventLocationViewController.swift; sourceTree = "<group>"; };
 		4E719EC92022F08600D45F52 /* TextTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTemplate.swift; sourceTree = "<group>"; };
 		70E8FDF2F522A8C05328E451 /* Pods-MPOLKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitTests/Pods-MPOLKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		792BA6D7922A9D3748B70A23 /* Pods-MPOLKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.release.xcconfig"; sourceTree = "<group>"; };
@@ -1107,6 +1112,7 @@
 		962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverPresenter.swift; sourceTree = "<group>"; };
 		96435CBD203248FC00C77A75 /* CADResourceStatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADResourceStatusType.swift; sourceTree = "<group>"; };
 		9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactFormSheetNavigationController.swift; sourceTree = "<group>"; };
+		964B8CBF203E3EB200550311 /* CADTaskListSourceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADTaskListSourceType.swift; sourceTree = "<group>"; };
 		9650CA121F958B2D0087F5C9 /* CallsignStatusViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignStatusViewCell.swift; sourceTree = "<group>"; };
 		9650CA131F958B2D0087F5C9 /* ManageCallsignStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignStatusViewController.swift; sourceTree = "<group>"; };
 		9650CA141F958B2D0087F5C9 /* ManageCallsignStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignStatusViewModel.swift; sourceTree = "<group>"; };
@@ -1175,6 +1181,8 @@
 		96D3415B2005D38000CEDDFF /* StandardSearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardSearchBarView.swift; sourceTree = "<group>"; };
 		96D731721FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignIncidentFormViewController.swift; sourceTree = "<group>"; };
 		96E492011FB3F98D0051C3A1 /* AppSettingKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingKey.swift; sourceTree = "<group>"; };
+		96EB4BE5203E4EE200AFCAA0 /* CADTaskListItemModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADTaskListItemModelType.swift; sourceTree = "<group>"; };
+		96EB4BE82043792800AFCAA0 /* TaskListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListScreen.swift; sourceTree = "<group>"; };
 		96ED81001FD9F2E100C7C960 /* CallsignStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignStatusViewModel.swift; sourceTree = "<group>"; };
 		96ED81021FDA0AAF00C7C960 /* ThemedPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemedPopoverViewController.swift; sourceTree = "<group>"; };
 		96F7727E201FFB35000FE0D0 /* CreateActivityLogItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateActivityLogItemViewModel.swift; sourceTree = "<group>"; };
@@ -1572,10 +1580,8 @@
 		129C08E52032A84E00D712E7 /* Location */ = {
 			isa = PBXGroup;
 			children = (
-				4E64EADF202A827A00FA408F /* DefaultEventLocationViewController.swift */,
-				12FB2F02203266DD000CA863 /* DefaultLocationReport.swift */,
-				12080F8C2032AAA200AB3632 /* LocationAction.swift */,
 				1267EFE0203520BF00773548 /* LocationMapSelectionViewController.swift */,
+				464E99DF203BCE6100FE05DC /* DefaultLocationReport.swift */,
 				12080F902032AE3800AB3632 /* LocationSelectionViewModel.swift */,
 			);
 			path = Location;
@@ -1622,6 +1628,7 @@
 				12D3701420200B5A00D79DDB /* EventsManager.swift */,
 				12D3701520200B5A00D79DDB /* EventSplitViewController.swift */,
 				12B44929203A7D9300B1DDAA /* Incident */,
+				464E99E5203CE1B100FE05DC /* EventSearchableViewModel.swift */,
 				129C08E52032A84E00D712E7 /* Location */,
 			);
 			path = OOTB;
@@ -2054,7 +2061,6 @@
 		27C9C75F1F95690A00799855 /* Book On */ = {
 			isa = PBXGroup;
 			children = (
-				96AADABC20081D24003E215E /* BookOnScreen.swift */,
 				274C896F1F984C6A005B9CF8 /* All Callsigns */,
 				274C896E1F984693005B9CF8 /* Book On Landing */,
 				96B9183C1F9D6819005DEB1A /* Details */,
@@ -2322,6 +2328,7 @@
 		9624A4581F83555A00CAE056 /* CAD */ = {
 			isa = PBXGroup;
 			children = (
+				96EB4BE72043790C00AFCAA0 /* Screens */,
 				9624A4591F83555A00CAE056 /* ActivityLog */,
 				27C9C75F1F95690A00799855 /* Book On */,
 				9650CA111F958B2D0087F5C9 /* Callsign */,
@@ -2664,6 +2671,8 @@
 		96CF32281F8C352000140AF8 /* List */ = {
 			isa = PBXGroup;
 			children = (
+				964B8CBF203E3EB200550311 /* CADTaskListSourceType.swift */,
+				96EB4BE5203E4EE200AFCAA0 /* CADTaskListItemModelType.swift */,
 				2753292020329BDC00CFA97B /* Basic */,
 				966F3510200C536500661870 /* Container */,
 				273A72D91FE774A70097691B /* List */,
@@ -2684,6 +2693,15 @@
 				273A5C192005B8DC0009D9A0 /* GlassBarView.swift */,
 			);
 			path = Shared;
+			sourceTree = "<group>";
+		};
+		96EB4BE72043790C00AFCAA0 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				96AADABC20081D24003E215E /* BookOnScreen.swift */,
+				96EB4BE82043792800AFCAA0 /* TaskListScreen.swift */,
+			);
+			path = Screens;
 			sourceTree = "<group>";
 		};
 		96F7727D201FFB10000FE0D0 /* Create */ = {
@@ -3024,6 +3042,7 @@
 				BC9C7D891F0DED6600DFFE83 /* AlertQueue.swift */,
 				96591E661FCE168300EFCC02 /* AppProxyViewController.swift */,
 				BC0448931F219A70005FB857 /* AssetManager.swift */,
+				1914E595203C2DB100EE124A /* ButtonStackView.swift */,
 				969959651FC2334300CB51EB /* ColorPalette.swift */,
 				2742CD2E1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift */,
 				27E4243F1FDE10BC00B5BE47 /* InteractivePopRecognizerDelegate.swift */,
@@ -3733,6 +3752,7 @@
 				EAE806DA1F98534000C9AA85 /* FormSection.swift */,
 				EAC025731FDE667A00E45DB6 /* FormCollectionViewHandler.swift */,
 				BC79A13A2E4AC301834EB111 /* MapFormBuilderViewController.swift */,
+				460B276E204526DC00B56D0B /* FormBuilderSearchViewController.swift */,
 			);
 			path = FormBuilder;
 			sourceTree = "<group>";
@@ -4119,6 +4139,7 @@
 				271F850D202902AC006DF977 /* PSCAlertView.swift in Sources */,
 				2792F11E1FDA55AE00A14CFB /* PopToRootable.swift in Sources */,
 				BC9C7DC71F0DED6600DFFE83 /* HTTPAuthenticationMode.swift in Sources */,
+				96EB4BE92043792800AFCAA0 /* TaskListScreen.swift in Sources */,
 				EA32A8541FBD1A7900CC37FB /* MediaPreviewViewController.swift in Sources */,
 				273DE2DD1FEA0F89000C46DD /* CreateIncidentStatusViewModel.swift in Sources */,
 				EA32A8571FBD1A7900CC37FB /* MediaGalleryTransitionAnimator.swift in Sources */,
@@ -4175,7 +4196,6 @@
 				27F9C96E1FA2D9D000825F88 /* UIViewController+ChildViewController.swift in Sources */,
 				BC1B26111F20BBD7009674B7 /* UIViewController+ParentSearching.swift in Sources */,
 				BC9C7E491F0DED6600DFFE83 /* SourceItem.swift in Sources */,
-				12FB2F03203266DD000CA863 /* DefaultLocationReport.swift in Sources */,
 				BC9C7E1B1F0DED6600DFFE83 /* MPOLAssert.swift in Sources */,
 				9689CA0C2032646C0001D993 /* CADClientModelTypes.swift in Sources */,
 				96F77284202031E4000FE0D0 /* RelativeDateFormatter.swift in Sources */,
@@ -4233,6 +4253,7 @@
 				9689CA4D203647C80001D993 /* CADBookOnDetailsType.swift in Sources */,
 				19D8D7961FB5207A0002332D /* ExternalAuthenticator.swift in Sources */,
 				EA76ECF91F57DB8E00524830 /* LookupAddressAdvancedParameters.swift in Sources */,
+				964B8CC0203E3EB200550311 /* CADTaskListSourceType.swift in Sources */,
 				EA09A0561F78B9C200BC3C0E /* EmailSpecification.swift in Sources */,
 				C63408591F30E5A0000747B0 /* SearchResult.swift in Sources */,
 				2744EEC81FBEA523008DFA7F /* MapFilterToggleRow.swift in Sources */,
@@ -4334,6 +4355,7 @@
 				EA4806B51F56A00600B42313 /* LocationSearchConfiguration.swift in Sources */,
 				12D3702020200DBD00D79DDB /* ObjectBucket.swift in Sources */,
 				274C89791F997F94005B9CF8 /* CADStatusTabBarViewModel.swift in Sources */,
+				464E99E6203CE1B100FE05DC /* EventSearchableViewModel.swift in Sources */,
 				BC9C7E161F0DED6600DFFE83 /* CheckBox.swift in Sources */,
 				46D95AC220198A7D00DCE6A5 /* UIImage+CircleCreation.swift in Sources */,
 				96D731731FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift in Sources */,
@@ -4366,6 +4388,7 @@
 				EA09A0581F78B9C200BC3C0E /* RegularExpressionSpecification.swift in Sources */,
 				27E81E562034E539000D5D1C /* TaskDetailsOverviewViewModel.swift in Sources */,
 				46E193662016CDEA00F2D968 /* MediaAsset.swift in Sources */,
+				96EB4BE6203E4EE200AFCAA0 /* CADTaskListItemModelType.swift in Sources */,
 				EA09A04C1F78B86A00BC3C0E /* Specification.swift in Sources */,
 				27719E0A1FA92A5B00238059 /* AustralianPhoneSpecification.swift in Sources */,
 				BC9C7DD41F0DED6600DFFE83 /* Parameterisable.swift in Sources */,
@@ -4406,7 +4429,7 @@
 				12B4492F203A831B00B1DDAA /* IncidentListViewModel.swift in Sources */,
 				EA53B2771F9EF92B00B891D8 /* NotNilSpecification.swift in Sources */,
 				96F77281201FFB40000FE0D0 /* CreateActivityLogItemViewController.swift in Sources */,
-46E0B8B220326FB500B40DF2 /* Pickable.swift in Sources */,
+				46E0B8B220326FB500B40DF2 /* Pickable.swift in Sources */,
 				BC9C7E521F0DED6600DFFE83 /* FormDisclosureView.swift in Sources */,
 				9663D00B1F8AF666006DB672 /* TasksSplitViewController.swift in Sources */,
 				4634B4461FBD6FD200D71E7F /* EntityMapSummaryDisplayble.swift in Sources */,
@@ -4496,7 +4519,6 @@
 				469EB5811F452FAB0005CAF7 /* LoginViewController.swift in Sources */,
 				EABAB8041F342E450071A401 /* AggregatedSearchRequest.swift in Sources */,
 				12D3701720200B5B00D79DDB /* Event.swift in Sources */,
-				4E64EAE0202A827A00FA408F /* DefaultEventLocationViewController.swift in Sources */,
 				BC9C7DCD1F0DED6600DFFE83 /* ArchivedManifestEntry.swift in Sources */,
 				2768C0481F86D60A008532ED /* MapSettingsViewController.swift in Sources */,
 				2753292420338B4B00CFA97B /* TasksListBasicSummaryView.swift in Sources */,
@@ -4555,9 +4577,11 @@
 				19B49BC81F665F5A00502F51 /* WhatsNewViewController.swift in Sources */,
 				9679A64B1F9EEDF8007BC806 /* BookOnDetailsOfficerCell.swift in Sources */,
 				44020FD61FE86C5800EA057C /* ForcedPopoverPresentationControllerDelegate.swift in Sources */,
+				464E99E0203BCE6100FE05DC /* DefaultLocationReport.swift in Sources */,
 				BC9C7E151F0DED6600DFFE83 /* TableViewFormTextViewCell.swift in Sources */,
 				DB168CDE20032B6B00322F7F /* Validator.swift in Sources */,
 				967BFAB8203B90E500A9C789 /* SelectStoppedEntityViewController.swift in Sources */,
+				460B276F204526DC00B56D0B /* FormBuilderSearchViewController.swift in Sources */,
 				27E81E5E2034EB05000D5D1C /* ResourceOverviewFormViewController.swift in Sources */,
 				275329282033A2DF00CFA97B /* BubbleAnnotationView.swift in Sources */,
 				EA2F1A6F1FA7F7C6001F7812 /* MediaDataSource.swift in Sources */,
@@ -4604,7 +4628,6 @@
 				2753292620338C4500CFA97B /* TasksListBasicCollectionViewCell.swift in Sources */,
 				96F7727F201FFB35000FE0D0 /* CreateActivityLogItemViewModel.swift in Sources */,
 				9679A6491F9EEDB7007BC806 /* BookOnDetailsOfficerFormItem.swift in Sources */,
-				12080F8D2032AAA200AB3632 /* LocationAction.swift in Sources */,
 				4634B4441FBD6FD200D71E7F /* APIManager+LocationSearch.swift in Sources */,
 				12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */,
 				2715D6411FD505F300BD0E95 /* IncidentResourcesViewModel.swift in Sources */,
@@ -4700,6 +4723,7 @@
 				19C625C41F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift in Sources */,
 				19B49BB91F665F2A00502F51 /* CompactSidebarSourceCell.swift in Sources */,
 				464A5E8F1FD4A8F900B4C0F9 /* ResourceError.swift in Sources */,
+				1914E596203C2DB100EE124A /* ButtonStackView.swift in Sources */,
 				27FDABB71FB91B02003466AF /* OfficerCommunicationsView.swift in Sources */,
 				2764713520295A40008F26A1 /* PSCAlertActionView.swift in Sources */,
 				965CD8A81F8ECDBA007C3EEA /* TasksListContainerViewController.swift in Sources */,

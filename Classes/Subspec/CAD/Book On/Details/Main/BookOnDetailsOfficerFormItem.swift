@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BookOnDetailsOfficerFormItem: SubtitleFormItem {
+public class BookOnDetailsOfficerFormItem: SubtitleFormItem {
 
     public var status: String?
 

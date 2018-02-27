@@ -78,9 +78,14 @@ class UserStorageTests: XCTestCase {
         retrieveAndAssert(key: "Lord", type: "Voldemort", expectsSuccess: false)
     }
 
-    func testSlashes() {
+    func testSlashesInKey() {
         let result = addAndTestRetrieve(object: "slashdotslashdotslashdotcom", key: "a/b/c/d", flag: .session)
         XCTAssert(result == "slashdotslashdotslashdotcom")
+    }
+
+    func testSlashesInFlag() {
+        let result = addAndTestRetrieve(object: "slasher", key: "a", flag: .custom("a/b/c"))
+        XCTAssert(result == "slasher")
     }
 
     func testCustomFlag() {

@@ -15,9 +15,8 @@ open class PatrolAreaListViewController<T: SearchDisplayableDelegate, U: PatrolA
 
     public required init(viewModel: U) {
         super.init(viewModel: viewModel)
-
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""), style: .done, target: self, action: #selector(cancelTapped))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: .done, target: self, action: #selector(doneTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: viewModel.cancelButtonText(), style: .done, target: self, action: #selector(cancelTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: viewModel.doneButtonText(), style: .done, target: self, action: #selector(doneTapped))
     }
 
     open override func construct(builder: FormBuilder) {

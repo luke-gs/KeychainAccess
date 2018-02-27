@@ -9,7 +9,7 @@
 import UIKit
 import PromiseKit
 
-public class OfficerDetailsViewModel {
+open class OfficerDetailsViewModel {
 
     /// Delegate for saving changes
     public weak var delegate: OfficerDetailsViewModelDelegate?
@@ -22,7 +22,7 @@ public class OfficerDetailsViewModel {
     }
     
     /// Create the view controller for this view model
-    public func createViewController() -> UIViewController {
+    open func createViewController() -> UIViewController {
         let vc = OfficerDetailsViewController(viewModel: self)
         return vc
     }

@@ -67,7 +67,7 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
     ///   - detail:       The detail sizable.
     /// - Returns: The minimum content height for an entity cell with the specified sizables.
     open class func minimumContentHeight(forStyle style: Style, title: StringSizable?, subtitle: StringSizable?, detail: StringSizable?, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
-        let scale = UIScreen.main.scale
+        
         let width = EntityCollectionViewCell.minimumContentWidth(forStyle: style)
         
         // Default fonts for each label

@@ -9,11 +9,12 @@
 import UIKit
 import MapKit
 
-open class LocationMapSelectionViewController: MapFormBuilderViewController, EvaluationObserverable {
-    var viewModel: LocationSelectionViewModel
+open class LocationMapSelectionViewController: MapFormBuilderViewController, EvaluationObserverable, CLLocationManagerDelegate {
 
-    private lazy var locationAnnotation: LocationAnnotation? = {
-        let annotation = LocationAnnotation()
+    let viewModel: LocationSelectionViewModel
+
+    private lazy var locationAnnotation: MKPointAnnotation? = {
+        let annotation = MKPointAnnotation()
         mapView?.addAnnotation(annotation)
         return annotation
     }()
@@ -49,9 +50,13 @@ open class LocationMapSelectionViewController: MapFormBuilderViewController, Eva
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(performLocationSearch(gesture:)))
         mapView.addGestureRecognizer(longPressGesture)
 
-        if let lat = viewModel.location?.latitude, let lon = viewModel.location?.longitude {
-            reverseGeocode(coord: CLLocationCoordinate2D(latitude: lat, longitude: lon))
-            updateRegion()
+        if let lat = viewModel.location?.latitude, let lon = viewModel.location?.longitude  {
+            if viewModel.dropsPinAutomatically {
+                reverseGeocode(coord: CLLocationCoordinate2D(latitude: lat, longitude: lon))
+            }
+            updateRegion(for: CLLocationCoordinate2D(latitude: lat, longitude: lon))
+        } else {
+            updateRegion(for: mapView.userLocation.coordinate)
         }
     }
 
@@ -86,29 +91,25 @@ open class LocationMapSelectionViewController: MapFormBuilderViewController, Eva
 
     // PRIVATE
 
-
-    private func updateRegion() {
-        guard let lat = viewModel.location?.latitude, let lon = viewModel.location?.longitude else { return }
-
+    private func updateRegion(for coords: CLLocationCoordinate2D) {
         let span = MKCoordinateSpanMake(0.005, 0.005)
-        let coord = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-        let region = MKCoordinateRegionMake(coord, span)
+        let region = MKCoordinateRegionMake(coords, span)
 
         mapView?.setRegion(region, animated: true)
     }
 
     private func reverseGeocode(coord: CLLocationCoordinate2D) {
-        viewModel.reverseGeoCode(location: CLLocation(latitude: coord.latitude, longitude: coord.longitude),
-                                 completion: {
-                                    self.locationAnnotation?.coordinate = coord
-                                    self.reloadForm()
-        })
+        viewModel.reverseGeocode(from: coord).always {
+            self.locationAnnotation?.coordinate = coord
+            self.reloadForm()
+        }
     }
 
     @objc private func performLocationSearch(gesture: UILongPressGestureRecognizer) {
         if gesture.state == .began {
             let point = gesture.location(in: mapView)
             if let coordinate = mapView?.convert(point, toCoordinateFrom: mapView) {
+                viewModel.location?.addressString = nil
                 reverseGeocode(coord: coordinate)
             }
         }
@@ -117,7 +118,10 @@ open class LocationMapSelectionViewController: MapFormBuilderViewController, Eva
     @objc private func cancelHandler(sender: UIBarButtonItem) {
         viewModel.location = nil
         viewModel.completeLocationSelection()
-        dismissAnimated()
+        if let annotations = mapView?.annotations.filter({ $0 is MKUserLocation == false }) {
+            mapView?.removeAnnotations(annotations)
+        }
+        navigationController?.popViewController(animated: true )
     }
 
     @objc private func doneHandler(sender: UIBarButtonItem) {
@@ -129,7 +133,7 @@ open class LocationMapSelectionViewController: MapFormBuilderViewController, Eva
 extension LocationMapSelectionViewController: MKMapViewDelegate {
 
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if let annotation = annotation as? LocationAnnotation {
+        if let annotation = annotation as? MKPointAnnotation {
             let pinView: PinAnnotationView
             let identifier = MapSummaryAnnotationViewIdentifier.single.rawValue
             if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? PinAnnotationView {
@@ -146,10 +150,8 @@ extension LocationMapSelectionViewController: MKMapViewDelegate {
     }
 
     public func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+        // This is the only solution that seemed to work. 
         userLocation.title = ""
-
-        let span = MKCoordinateSpanMake(0.005, 0.005)
-        let region = MKCoordinateRegionMake(userLocation.coordinate, span)
-        mapView.setRegion(region, animated: true)
     }
+
 }

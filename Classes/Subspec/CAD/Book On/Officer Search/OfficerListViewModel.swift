@@ -19,12 +19,20 @@ public class OfficerListViewModel: DefaultSearchDisplayableViewModel {
     
     public init() {
         super.init(items: viewModelData)
-        title = NSLocalizedString("Add Officer", comment: "")
+        title = navTitle()
     }
     
     public required init(items: [CustomSearchDisplayable]) {
         super.init(items: items)
-        title = NSLocalizedString("Add Officer", comment: "")
+        title = navTitle()
+    }
+    
+    open func navTitle() -> String {
+        return NSLocalizedString("Add Officer", comment: "")
+    }
+    
+    open func sectionTitle() -> String {
+        return NSLocalizedString("Recently Used", comment: "")
     }
     
     open func noContentTitle() -> String? {
@@ -42,7 +50,7 @@ public class OfficerListViewModel: DefaultSearchDisplayableViewModel {
     }
     
     private lazy var viewModelData: [CustomSearchDisplayable] = {
-        let section = "Recently Used".uppercased()
+        let section = sectionTitle().uppercased()
         var result: [CustomSearchDisplayable] = []
         for (_, officer) in CADStateManager.shared.officersById {
             let viewModel = OfficerListItemViewModel(firstName: officer.firstName, lastName: officer.lastName, initials: officer.initials, rank: officer.rank, callsign: officer.payrollId, section: section)

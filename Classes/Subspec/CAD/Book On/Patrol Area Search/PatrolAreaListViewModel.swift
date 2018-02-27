@@ -37,8 +37,20 @@ public class PatrolAreaListViewModel: DefaultSearchDisplayableViewModel {
         let sorted = items.sorted(using: [SortDescriptor<CustomSearchDisplayable> { $0.title }])
         super.init(items: sorted)
         
-        title = NSLocalizedString("Select Patrol Area", comment: "")
+        title = navTitle()
         hasSections = false
+    }
+    
+    open func navTitle() -> String {
+        return NSLocalizedString("Select Patrol Area", comment: "")
+    }
+    
+    open func doneButtonText() -> String {
+        return NSLocalizedString("Done", comment: "")
+    }
+    
+    open func cancelButtonText() -> String {
+        return NSLocalizedString("Cancel", comment: "")
     }
     
     open func noContentTitle() -> String? {

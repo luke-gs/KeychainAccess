@@ -64,10 +64,7 @@ final public class EventsManager {
 
     //utility
     public func event(for id: UUID) -> Event? {
-        if let event = eventBucket?.objects?.first(where: {$0.id == id}) {
-            return event
-        }
-        return nil
+        return eventBucket?.objects?.first(where: {$0.id == id})
     }
 }
 

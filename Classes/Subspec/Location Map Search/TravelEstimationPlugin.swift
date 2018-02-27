@@ -79,4 +79,6 @@ open class TravelEstimationPlugin: TravelEstimationPlugable {
             return Promise(value: dateFormatter.string(from: $0.expectedTravelTime))
         }
     }
+
+    public init() { }
 }

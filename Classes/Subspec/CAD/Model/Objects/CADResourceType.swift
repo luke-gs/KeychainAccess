@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 
 /// Protocol for a class representing a resource (aka callsign)
-public protocol CADResourceType: class {
+public protocol CADResourceType: class, CADTaskListItemModelType {
 
     // MARK: - Network
     var activityLog: [CADActivityLogItemType] { get set }

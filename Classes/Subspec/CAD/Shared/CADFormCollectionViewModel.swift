@@ -95,7 +95,7 @@ open class CADFormCollectionViewModel<ItemType> {
 
     open func headerText(at section: Int) -> String? {
         if let sectionViewModel = sections[ifExists: section] {
-            return sectionViewModel.title.uppercased()
+            return sectionViewModel.title?.uppercased()
         }
         return nil
     }

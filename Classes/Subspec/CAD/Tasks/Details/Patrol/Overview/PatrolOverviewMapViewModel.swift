@@ -20,7 +20,7 @@ open class PatrolOverviewMapViewModel: TasksMapViewModel {
     override open func loadTasks() {
         guard let patrol = CADStateManager.shared.patrolsById[patrolNumber] else { return }
         
-        filteredAnnotations = taskAnnotations(for: [patrol])
+        filteredAnnotations = [patrol.createAnnotation()].removeNils()
     }
     
     override open func createViewController() -> TasksMapViewController {
