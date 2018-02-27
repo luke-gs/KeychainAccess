@@ -30,7 +30,7 @@ final public class IncidentsManager {
         self.displayableBucket = displayableBucket
     }
 
-    public init() { }
+    private init() { }
 
     public func create(incidentType: IncidentType, in event: Event) -> IncidentListDisplayable? {
         guard let incidentBuilder = incidentBuilders[incidentType] else { return nil }

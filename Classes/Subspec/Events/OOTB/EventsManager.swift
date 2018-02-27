@@ -32,7 +32,7 @@ final public class EventsManager {
         self.eventBuilder = eventBuilder
     }
 
-    public init() { }
+    private init() { }
 
     public func create(eventType: EventType) -> Event? {
         guard let event = eventBuilder?.createEvent(for: eventType) else { return nil }
