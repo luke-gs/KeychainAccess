@@ -16,16 +16,17 @@ public extension APIManager {
     ///
     /// - Parameter networkRequest: The network request to be executed.
     /// - Returns: A promise to return of specified type.
-    public func performRequest<T: Unboxable>(_ networkRequest: NetworkRequestType) throws -> Promise<T> {
-        return try performRequest(networkRequest, using: UnboxableResponseSerializer())
+    public func performRequest<T: Unboxable>(_ networkRequest: NetworkRequestType, withCancellationToken token: PromiseCancellationToken? = nil) throws -> Promise<T> {
+        return try performRequest(networkRequest, using: UnboxableResponseSerializer(), cancelToken: token)
     }
 
     /// Perform specified network request.
     ///
     /// - Parameter networkRequest: The network request to be executed.
     /// - Returns: A promise to return array of specified type.
-    public func performRequest<T: Unboxable>(_ networkRequest: NetworkRequestType) throws -> Promise<[T]> {
-        return try performRequest(networkRequest, using: UnboxableArrayResponseSerializer())
+    public func performRequest<T: Unboxable>(_ networkRequest: NetworkRequestType, withCancellationToken token: PromiseCancellationToken? = nil) throws -> Promise<[T]> {
+
+        return try performRequest(networkRequest, using: UnboxableArrayResponseSerializer(), cancelToken: token)
     }
 
 }

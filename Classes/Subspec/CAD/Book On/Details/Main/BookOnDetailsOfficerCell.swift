@@ -9,7 +9,7 @@
 import UIKit
 
 /// Csutom collection view form cell for displaying officers
-class BookOnDetailsOfficerCell: CollectionViewFormSubtitleCell {
+public class BookOnDetailsOfficerCell: CollectionViewFormSubtitleCell {
     
     private struct LayoutConstants {
         static let spacingX: CGFloat = 8

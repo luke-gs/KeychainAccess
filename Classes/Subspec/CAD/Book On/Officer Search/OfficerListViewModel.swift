@@ -12,25 +12,27 @@ public protocol OfficerListViewModelDelegate: class {
     func itemSelectedAndFinishedEditing()
 }
 
-public class OfficerListViewModel: GenericSearchDefaultViewModel {
+public class OfficerListViewModel: DefaultSearchDisplayableViewModel {
     
     open weak var detailsDelegate: OfficerDetailsViewModelDelegate?
     open weak var delegate: OfficerListViewModelDelegate?
     
     public init() {
         super.init(items: viewModelData)
-        title = NSLocalizedString("Add Officer", comment: "")
+        title = navTitle()
     }
     
-    public required init(items: [GenericSearchable]) {
+    public required init(items: [CustomSearchDisplayable]) {
         super.init(items: items)
-        title = NSLocalizedString("Add Officer", comment: "")
+        title = navTitle()
     }
     
-    open func createViewController() -> OfficerListViewController {
-        let vc = OfficerListViewController(viewModel: self)
-        delegate = vc
-        return vc
+    open func navTitle() -> String {
+        return NSLocalizedString("Add Officer", comment: "")
+    }
+    
+    open func sectionTitle() -> String {
+        return NSLocalizedString("Recently Used", comment: "")
     }
     
     open func noContentTitle() -> String? {
@@ -47,9 +49,9 @@ public class OfficerListViewModel: GenericSearchDefaultViewModel {
         return BookOnScreen.officerDetailsForm(officerViewModel: officerViewModel, delegate: self)
     }
     
-    private lazy var viewModelData: [GenericSearchable] = {
-        let section = "Recently Used".uppercased()
-        var result: [GenericSearchable] = []
+    private lazy var viewModelData: [CustomSearchDisplayable] = {
+        let section = sectionTitle().uppercased()
+        var result: [CustomSearchDisplayable] = []
         for (_, officer) in CADStateManager.shared.officersById {
             let viewModel = OfficerListItemViewModel(firstName: officer.firstName, lastName: officer.lastName, initials: officer.initials, rank: officer.rank, callsign: officer.payrollId, section: section)
             result.append(viewModel)

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BookOnDetailsOfficerFormItem: SubtitleFormItem {
+public class BookOnDetailsOfficerFormItem: SubtitleFormItem {
 
     public var status: String?
 
@@ -31,7 +31,7 @@ class BookOnDetailsOfficerFormItem: SubtitleFormItem {
 
         let cell = cell as! BookOnDetailsOfficerCell
         cell.statusLabel.text = status
-        cell.imageView.image = image
+        cell.imageView.image = image?.sizing().image
     }
 
 }
