@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// Enum for all presentable CAD task item screens
 public enum TaskItemScreen: Presentable {
@@ -14,6 +15,9 @@ public enum TaskItemScreen: Presentable {
     /// The landing screen of the task item, the top level split view
     case landing(viewModel: TaskItemViewModel)
 
-    /// Allow changing the status of a resource, optionally linked to incident
+    /// Screen for changing the status of a resource, optionally linked to incident
     case resourceStatus(resource: CADResourceType, incident: CADIncidentType?)
+
+    /// Address popover for "Directions, Street View, Search"
+    case addressLookup(source: UIView, coordinate: CLLocationCoordinate2D)
 }
