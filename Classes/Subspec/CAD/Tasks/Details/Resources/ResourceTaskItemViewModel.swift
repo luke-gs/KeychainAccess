@@ -48,6 +48,20 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
         self.resource = resource
     }
 
+    public override func reloadFromModel() {
+        if let resource = resource {
+            iconImage = resource.status.icon
+            iconTintColor = resource.status.iconColors.icon
+            color = resource.status.iconColors.background
+            statusText = resource.status.title
+            itemName = [resource.callsign, resource.officerCountString].joined()
+
+            viewModels.forEach {
+                $0.reloadFromModel()
+            }
+        }
+    }
+
     override open func didTapTaskStatus() {
         if let resource = resource, allowChangeResourceStatus() {
             delegate?.present(TaskItemScreen.resourceStatus(resource: resource, incident: nil))
