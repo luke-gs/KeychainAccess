@@ -29,7 +29,7 @@ open class TasksSplitViewModel {
         self.listContainerViewModel = listContainerViewModel
         self.mapViewModel = mapViewModel
         self.filterViewModel = filterViewModel
-        
+
         self.listContainerViewModel.splitViewModel = self
         self.mapViewModel.splitViewModel = self
 
@@ -75,91 +75,11 @@ open class TasksSplitViewModel {
     
     // MARK: - Filter
     
-    /// Shows the map filter popup
-    public func presentMapFilter() {
-        let viewController = filterViewModel.createViewController(delegate: self)
-        delegate?.presentFormSheet(viewController, animated: true)
-    }
-    
     /// Applies the filter to the map and task list
     public func applyFilter() {
         delegate?.dismiss(animated: true, completion: nil)
         mapViewModel.loadTasks()
         listContainerViewModel.updateSections()
-    }
-    
-    // MARK: Filter Data
-    
-    /// Sync incidents filtered
-    open var filteredIncidents: [SyncDetailsIncident] {
-        guard let sync = CADStateManager.shared.lastSync else { return [] }
-        
-        return sync.incidents.filter { incident in
-            // TODO: remove this once filtered by CAD system
-            if !filterViewModel.showResultsOutsidePatrolArea && incident.patrolGroup != CADStateManager.shared.patrolGroup {
-                return false
-            }
-
-            let priorityFilter = filterViewModel.priorities.contains(incident.grade)
-            let resourcedFilter = filterViewModel.resourcedIncidents.contains(incident.status)
-            
-            // If status is not in filter options always show
-            let isOther = incident.status != .resourced && incident.status != .unresourced
-            let isCurrent = incident.status == .current
-            
-            var hasResourceInDuress: Bool = false
-            
-            for resource in CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier) {
-                if resource.statusType.isDuress {
-                    hasResourceInDuress = true
-                    break
-                }
-            }
-            
-            return isCurrent || hasResourceInDuress || (priorityFilter && (resourcedFilter || isOther))
-        }
-    }
-    
-    /// Sync patrols filtered
-    open var filteredPatrols: [SyncDetailsPatrol] {
-        guard let sync = CADStateManager.shared.lastSync else { return [] }
-        
-        return sync.patrols.filter { patrol in
-            // TODO: remove this once filtered by CAD system
-            if !filterViewModel.showResultsOutsidePatrolArea && patrol.patrolGroup != CADStateManager.shared.patrolGroup {
-                return false
-            }
-            
-            return true
-        }
-    }
-    
-    /// Sync broadcasts filtered
-    open var filteredBroadcasts: [SyncDetailsBroadcast] {
-        guard let sync = CADStateManager.shared.lastSync else { return [] }
-        return sync.broadcasts
-    }
-    
-    /// Sync incidents filtered
-    open var filteredResources: [SyncDetailsResource] {
-        guard let sync = CADStateManager.shared.lastSync else { return [] }
-
-        return sync.resources.filter { resource in
-            // TODO: remove this once filtered by CAD system
-            if !filterViewModel.showResultsOutsidePatrolArea && resource.patrolGroup != CADStateManager.shared.patrolGroup {
-                return false
-            }
-
-            // Ignore off duty resources
-            guard resource.statusType != ClientModelTypes.resourceStatus.offDutyCase else { return false }
-
-            let isTasked = resource.currentIncident != nil
-            let isDuress = resource.statusType.isDuress
-
-            return filterViewModel.taskedResources.tasked && isTasked ||
-                filterViewModel.taskedResources.untasked && !isTasked ||
-                isDuress
-        }
     }
 }
 

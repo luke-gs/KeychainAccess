@@ -70,18 +70,18 @@ open class UserCallsignStatusViewModel {
     }
     
     /// The currently selected state
-    open var state: CallsignState = UserCallsignStatusViewModel.defaultNotBookedOnState {
+    open var state: CallsignState = .unassigned(title: "", subtitle: "") {
         didSet {
             delegate?.viewModelStateChanged()
         }
     }
     
     /// Default text for not booked on state
-    open static let defaultNotBookedOnState: CallsignState = {
+    open func defaultNotBookedOnState() -> CallsignState {
         return .unassigned(title: NSLocalizedString("Not Booked On", comment: ""),
                            subtitle: NSLocalizedString("View All Call Signs", comment: "")
         )
-    }()
+    }
 
     // MARK: - Computed
     
@@ -100,6 +100,7 @@ open class UserCallsignStatusViewModel {
     // MARK: - Setup
     
     public init() {
+        state = defaultNotBookedOnState()
         NotificationCenter.default.addObserver(self, selector: #selector(callsignChanged), name: .CADBookOnChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(callsignChanged), name: .CADCallsignChanged, object: nil)
     }
@@ -108,10 +109,10 @@ open class UserCallsignStatusViewModel {
         if let bookOn = CADStateManager.shared.lastBookOn {
             self.state = .assigned(callsign: bookOn.callsign,
                                    officerCount: CADStateManager.shared.currentResource?.officerCountString,
-                                   status: CADStateManager.shared.currentResource?.statusType.title ?? "",
-                                   image: CADStateManager.shared.currentResource?.statusType.icon)
+                                   status: CADStateManager.shared.currentResource?.status.title ?? "",
+                                   image: CADStateManager.shared.currentResource?.status.icon)
         } else {
-            self.state = UserCallsignStatusViewModel.defaultNotBookedOnState
+            self.state = defaultNotBookedOnState()
         }
     }
     

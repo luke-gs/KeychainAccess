@@ -24,6 +24,7 @@ pod "MPOLKit"
   * [Asset Manager](Documentation/AssetManager.md)
   * [Data Matching](Documentation/DataMatching.md)
   * [Manifest](Documentation/Manifest.md)
+  * [User Storage](Documentation/UserStorage.md)
   * [Validation](Documentation/Validation.md)
 * Concepts
   * [Plugin Matching Rule](Documentation/Plugin%20Matching%20Rule.md)

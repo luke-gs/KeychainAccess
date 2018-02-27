@@ -205,6 +205,14 @@ open class FilterViewController: FormCollectionViewController {
                     self.filterOptions[indexPath.section] = list
                     collectionView.reloadItems(at: indexPaths)
                 }
+                
+                if let subtitle = list.options[indexPath.item].subtitle {
+                    let accessory = LabeledAccessoryView()
+                    accessory.titleLabel.apply(sizable: subtitle, defaultFont: .preferredFont(forTextStyle: .footnote, compatibleWith: collectionView.traitCollection))
+                    cell.accessoryView = accessory
+                } else {
+                    cell.accessoryView = nil
+                }
                 return cell
             case .list:
                 let cell = collectionView.dequeueReusableCell(of: FilterCheckmarkCell.self, for: indexPath)
@@ -387,6 +395,11 @@ open class FilterViewController: FormCollectionViewController {
                 }
                 return layout.columnContentWidth(forMinimumItemContentWidth: maxWidth, sectionEdgeInsets: sectionEdgeInsets)
             case .radioControl:
+                if list.options.flatMap({ $0.subtitle }).count > 0 {
+                    // If options have subtitles then it should take up full width
+                    return .greatestFiniteMagnitude
+                }
+                
                 let maxWidth: CGFloat = list.options.reduce(0.0) {
                     guard let title = $1.title else { return $0 }
                     return max($0, CollectionViewFormOptionCell.minimumContentWidth(withStyle: .radio, title: title, compatibleWith: traitCollection))

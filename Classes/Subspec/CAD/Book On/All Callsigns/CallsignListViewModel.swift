@@ -10,19 +10,17 @@ import UIKit
 
 open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsignItemViewModel> {
 
-    private func convertCallsignsToViewModels() -> [CADFormCollectionSectionViewModel<BookOnLandingCallsignItemViewModel>] {
+    open func convertCallsignsToViewModels() -> [CADFormCollectionSectionViewModel<BookOnLandingCallsignItemViewModel>] {
         var offDuty: [BookOnLandingCallsignItemViewModel] = []
         var bookedOn: [BookOnLandingCallsignItemViewModel] = []
 
-        if let syncDetails = CADStateManager.shared.lastSync {
-            for resource in syncDetails.resources {
-                if resource.patrolGroup == CADStateManager.shared.patrolGroup {
-                    let viewModel = BookOnLandingCallsignItemViewModel(resource: resource)
-                    if resource.shiftStart == nil {
-                        offDuty.append(viewModel)
-                    } else {
-                        bookedOn.append(viewModel)
-                    }
+        for resource in CADStateManager.shared.resources {
+            if resource.patrolGroup == CADStateManager.shared.patrolGroup {
+                let viewModel = BookOnLandingCallsignItemViewModel(resource: resource)
+                if resource.shiftStart == nil {
+                    offDuty.append(viewModel)
+                } else {
+                    bookedOn.append(viewModel)
                 }
             }
         }
@@ -105,8 +103,7 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
     }
     
     
-    /// Sorts sections, showing `On Air` status first, then `At Incident` status, then alphabetically by callsign
-    /// NOTE: Method should be overridden for clients with different resource statuses
+    /// Sorts sections based on resource status, then alphabetically by callsign
     ///
     /// - Parameter unsorted: the unsorted array
     /// - Returns: a sorted array
@@ -115,13 +112,9 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
         return unsorted.map { section in
             // Sort items
             let sortedItems = section.items.sorted { (lhs, rhs) in
-                if lhs.status != rhs.status {
-                    // Status is not same, check if either is On Air, or At Incident
-                    if lhs.status == ResourceStatusCore.onAir || rhs.status == ResourceStatusCore.onAir {
-                        return lhs.status == ResourceStatusCore.onAir
-                    } else if lhs.status == ResourceStatusCore.atIncident || rhs.status == ResourceStatusCore.atIncident {
-                        return lhs.status == ResourceStatusCore.atIncident
-                    }
+                if lhs.status?.listOrder != rhs.status?.listOrder {
+                    // Sort by lower list order
+                    return lhs.status?.listOrder ?? Int.max < rhs.status?.listOrder ?? Int.max
                 }
                 // Sort alphabetically by callsign
                 return lhs.callsign < rhs.callsign

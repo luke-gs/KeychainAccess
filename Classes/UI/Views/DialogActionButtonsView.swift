@@ -32,10 +32,10 @@ open class DialogActionButtonsView: UIView {
 
     /// Layout sizing constants
     public struct LayoutConstants {
-        static let defaultHeight: CGFloat = 64
-        static let verticalPadding: CGFloat = 24
-        static let horizontalPadding: CGFloat = 24
-        static let centerOffset: CGFloat = 3
+        public static let defaultHeight: CGFloat = 64
+        public static let verticalPadding: CGFloat = 24
+        public static let horizontalPadding: CGFloat = 24
+        public static let centerOffset: CGFloat = 3
     }
 
     /// The action buttons to be displayed

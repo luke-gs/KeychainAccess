@@ -15,11 +15,9 @@ open class BookOnLandingViewModel {
     open func convertCallsignsToViewModels() -> CADFormCollectionSectionViewModel<BookOnLandingCallsignItemViewModel> {
         // Just use all callsigns in patrol group for now
         var recentCallsigns: [BookOnLandingCallsignItemViewModel] = []
-        if let syncDetails = CADStateManager.shared.lastSync {
-            for resource in syncDetails.resources {
-                if resource.patrolGroup == CADStateManager.shared.patrolGroup {
-                    recentCallsigns.append(BookOnLandingCallsignItemViewModel(resource: resource))
-                }
+        for resource in CADStateManager.shared.resources {
+            if resource.patrolGroup == CADStateManager.shared.patrolGroup {
+                recentCallsigns.append(BookOnLandingCallsignItemViewModel(resource: resource))
             }
         }
         return CADFormCollectionSectionViewModel(title: "Recently Used Call Signs", items: recentCallsigns)
@@ -30,10 +28,9 @@ open class BookOnLandingViewModel {
     }
     
     open func patrolAreaSection() -> CADFormCollectionSectionViewModel<BookOnLandingItemViewModel> {
-        // TODO: Get dynamically
-        return CADFormCollectionSectionViewModel(title: "Patrol Area",
+        return CADFormCollectionSectionViewModel(title: patrolAreaSectionText(),
                                                  items: [
-                                                    BookOnLandingItemViewModel(title: CADStateManager.shared.patrolGroup,
+                                                    BookOnLandingItemViewModel(title: CADStateManager.shared.patrolGroup ?? noPatrolAreaSelectedText(),
                                                                              subtitle: nil,
                                                                              image:  AssetManager.shared.image(forKey: .location),
                                                                              imageColor: .brightBlue,
@@ -54,6 +51,14 @@ open class BookOnLandingViewModel {
     
     open func headerText() -> String? {
         return NSLocalizedString("You are not viewing all active tasks and resources.\nOnly booked on users can respond to tasks.", comment: "")
+    }
+    
+    open func noPatrolAreaSelectedText() -> String {
+        return NSLocalizedString("Select Patrol Group", comment: "")
+    }
+    
+    open func patrolAreaSectionText() -> String {
+        return NSLocalizedString("Patrol Group", comment: "")
     }
     
     open func stayOffDutyButtonText() -> String {
@@ -77,4 +82,25 @@ open class BookOnLandingViewModel {
     open func shouldShowExpandArrow() -> Bool {
         return false
     }
+    
+    open func callsignCellClass() -> (CollectionViewFormCell & DefaultReusable).Type {
+        return CallsignCollectionViewCell.self
+    }
+    
+    /// Decorates a cell with the view model
+    open func decorate(cell: CollectionViewFormCell, with viewModel: BookOnLandingCallsignItemViewModel) {
+        if let cell = cell as? CallsignCollectionViewCell {
+            cell.decorate(with: viewModel)
+        }
+    }
+    
+    /// Applies theme to a cell
+    open func apply(theme: Theme, to cell: CollectionViewFormCell) {
+        if let cell = cell as? CallsignCollectionViewCell {
+            cell.apply(theme: theme)
+        } else if let cell = cell as? CollectionViewFormValueFieldCell {
+            cell.valueLabel.textColor = theme.color(forKey: .primaryText)
+        }
+    }
+    
 }

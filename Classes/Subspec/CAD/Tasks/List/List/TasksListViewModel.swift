@@ -50,9 +50,6 @@ public class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewMod
         return NSLocalizedString("Other areas", comment: "")
     }
 
-    /// Sections to not collapse
-    open var indexesForNonCollapsibleSections: Set<Int> = []
-    
     open func showsUpdatesIndicator(at section: Int) -> Bool {
         if let sectionViewModel = sections[ifExists: section] {
             for item in sectionViewModel.items {

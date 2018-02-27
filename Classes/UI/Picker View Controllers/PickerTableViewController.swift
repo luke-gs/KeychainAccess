@@ -11,20 +11,6 @@ import UIKit
 fileprivate let cellID = "CellID"
 
 
-/// A type that can be picked from a list.
-///
-/// Types that conform to the `Pickable` protocol can be selected from a list.
-public protocol Pickable {
-    
-    /// The title for presentation in a picking UI.
-    var title: String?    { get }
-    
-    /// An additional subtitle description.
-    var subtitle: String? { get }
-    
-}
-
-
 /// A `Pickable` type that allows a custom searching.
 public protocol CustomSearchPickable: Pickable {
     

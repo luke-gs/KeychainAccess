@@ -36,13 +36,13 @@ open class BookOnLandingItemViewModel {
 
 /// View model of callsign section of not booked on screen
 open class BookOnLandingCallsignItemViewModel: BookOnLandingItemViewModel {
-    open let resource: SyncDetailsResource
+    open let resource: CADResourceType
 
     open var callsign: String
-    open var status: ResourceStatusType?
+    open var status: CADResourceStatusType?
     open var location: String?
     open var caption: String?
-    open var type: ResourceType?
+    open var type: CADResourceUnitType?
 
     open var badgeText: String?
     open var badgeTextColor: UIColor?
@@ -50,9 +50,9 @@ open class BookOnLandingCallsignItemViewModel: BookOnLandingItemViewModel {
     open var badgeFillColor: UIColor?
     
     /// Create a view model from the callsign resource
-    public init(resource: SyncDetailsResource) {
+    public init(resource: CADResourceType) {
         // Get icon colors
-        let (imageColor, imageBackgroundColor) = resource.statusType.iconColors
+        let (imageColor, imageBackgroundColor) = resource.status.iconColors
 
         // Fetch current incident, for badge text and colors
         let incident = CADStateManager.shared.incidentForResource(callsign: resource.callsign)
@@ -60,12 +60,12 @@ open class BookOnLandingCallsignItemViewModel: BookOnLandingItemViewModel {
 
         let title = [resource.callsign, resource.officerCountString].joined()
         let subtitle = resource.location?.suburb ?? resource.station ?? ThemeConstants.longDash
-        let caption = [resource.statusType.rawValue, resource.currentIncident?.title].joined(separator: ThemeConstants.dividerSeparator)
+        let caption = [resource.status.rawValue, resource.currentIncident?.title].joined(separator: ThemeConstants.dividerSeparator)
 
         self.resource = resource
         self.callsign = resource.callsign
-        self.status = resource.statusType
-        self.location = resource.location?.fullAddress.ifNotEmpty()
+        self.status = resource.status
+        self.location = resource.location?.fullAddress?.ifNotEmpty()
         self.type = resource.type
         self.badgeText = incident?.grade.rawValue
         self.badgeTextColor = badgeTextColor

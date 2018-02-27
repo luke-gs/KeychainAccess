@@ -14,8 +14,8 @@ public protocol QuantityPickable: Pickable {
 }
 
 public struct QuantityPicked: Equatable {
-    let object: Pickable
-    var count: Int
+    public let object: Pickable
+    public var count: Int
 
     public init(object: Pickable, count: Int = 0) {
         self.object = object

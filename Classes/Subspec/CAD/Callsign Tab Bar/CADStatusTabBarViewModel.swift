@@ -22,4 +22,9 @@ open class CADStatusTabBarViewModel {
         return CADStatusTabBarController(viewModel: self)
     }
     
+    /// Whether the tab bar should hide until a sync event occurs
+    open func shouldHideUntilSynced() -> Bool {
+        return true
+    }
+    
 }

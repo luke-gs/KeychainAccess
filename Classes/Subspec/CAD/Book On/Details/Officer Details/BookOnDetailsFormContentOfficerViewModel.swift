@@ -8,7 +8,7 @@
 
 import UIKit
 
-/// Book on details officer form view model, representing the underlying data for a SyncDetailsOfficer
+/// Book on details officer form view model, representing the underlying data for a CADOfficerType
 open class BookOnDetailsFormContentOfficerViewModel: Equatable {
 
     public init() {}
@@ -21,7 +21,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     open var licenceTypeId: String?
     open var contactNumber: String?
     open var radioId: String?
-    open var capabilities: [String]?
+    open var capabilities: [String] = []
     open var remarks: String?
     open var initials: String?
 
@@ -68,7 +68,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     }
 
     /// Create view model from model
-    public init(withModel officer: SyncDetailsOfficer, initial: Bool, isDriver: Bool = false) {
+    public init(withModel officer: CADOfficerType, initial: Bool, isDriver: Bool = false) {
         self.title = officer.displayName
         self.rank = officer.rank
         self.officerId = officer.payrollId
@@ -91,12 +91,22 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     }
     
     public func thumbnail() -> UIImage? {
-        guard let initials = initials else { return nil}
-        return UIImage.thumbnail(withInitials: initials).withCircleBackground(tintColor: nil,
-                                                                              circleColor: .disabledGray,
-                                                                              style: .fixed(size: CGSize(width: 48, height: 48),
-                                                                                            padding: CGSize(width: 14, height: 14))
-        )
+        if let initials = initials {
+            return UIImage.thumbnail(withInitials: initials).withCircleBackground(tintColor: nil,
+                                                                                  circleColor: .disabledGray,
+                                                                                  style: .fixed(size: CGSize(width: 48, height: 48),
+                                                                                                padding: CGSize(width: 14, height: 14))
+            )
+ 
+        
+        
+        } else {
+            return AssetManager.shared.image(forKey: .entityPerson)?.withCircleBackground(tintColor: nil,
+                                                                                         circleColor: .disabledGray,
+                                                                                         style: .fixed(size: CGSize(width: 48, height: 48),
+                                                                                                       padding: CGSize(width: 32, height: 32))
+            )
+        }
     }
 
 }

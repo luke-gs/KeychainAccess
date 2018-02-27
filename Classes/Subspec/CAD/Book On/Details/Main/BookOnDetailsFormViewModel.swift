@@ -25,7 +25,7 @@ open class BookOnDetailsFormViewModel {
     public var content: BookOnDetailsFormContentMainViewModel
 
     /// Resource we are booking on to
-    private var resource: SyncDetailsResource
+    private var resource: CADResourceType
 
     /// Whether we are editing an existing bookon
     public let isEditing: Bool
@@ -33,7 +33,7 @@ open class BookOnDetailsFormViewModel {
     /// Whether to show vehicle fields
     public let showVehicleFields: Bool = true
 
-    public init(resource: SyncDetailsResource) {
+    public init(resource: CADResourceType) {
         self.resource = resource
 
         // Create equipment selection pickables from manifest items
@@ -79,11 +79,10 @@ open class BookOnDetailsFormViewModel {
 
     /// The title to use in the navigation bar
     open func navTitle() -> String {
-        let callsign = resource.callsign ?? ""
         if isEditing {
-            return "Manage \(callsign)"
+            return "Manage \(resource.callsign)"
         } else {
-            return "Book on \(callsign)"
+            return "Book on \(resource.callsign)"
         }
     }
 
@@ -92,7 +91,7 @@ open class BookOnDetailsFormViewModel {
         if isEditing {
             return ""
         } else {
-            return [CADStateManager.shared.patrolGroup, resource.type?.title].joined(separator: ThemeConstants.dividerSeparator)
+            return [CADStateManager.shared.patrolGroup, resource.type.title].joined(separator: ThemeConstants.dividerSeparator)
         }
     }
 
@@ -101,7 +100,7 @@ open class BookOnDetailsFormViewModel {
     }
 
     open func terminateShift() {
-        if resource.statusType.canTerminate {
+        if resource.status.canTerminate {
             // Update session and dismiss screen
             CADStateManager.shared.setOffDuty()
             delegate?.dismiss(animated: true, completion: nil)
@@ -116,7 +115,7 @@ open class BookOnDetailsFormViewModel {
         // Update session
         let bookOnRequest = content.createModel()
         bookOnRequest.callsign = resource.callsign
-        CADStateManager.shared.lastBookOn = bookOnRequest
+        _ = CADStateManager.shared.bookOn(request: bookOnRequest)
 
         return firstly {
             // TODO: submit to network

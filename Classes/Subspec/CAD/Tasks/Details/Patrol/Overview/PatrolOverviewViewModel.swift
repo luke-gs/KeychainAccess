@@ -21,7 +21,7 @@ open class PatrolOverviewViewModel: TaskDetailsOverviewViewModel {
             CADFormCollectionSectionViewModel(title: "Overview",
                                               items: [
                                                 TaskDetailsOverviewItemViewModel(title: "Patrol Location",
-                                                                              value: patrol.location.fullAddress,
+                                                                              value: patrol.location?.fullAddress,
                                                                               width: .column(1),
                                                                               accessory: ItemAccessory(style: .overflow, tintColor: .secondaryGray)),
                                                 
@@ -38,11 +38,11 @@ open class PatrolOverviewViewModel: TaskDetailsOverviewViewModel {
                                                                               width: .column(3)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Created",
-                                                                              value: patrol.createdAtString,
+                                                                              value: patrol.createdAtString ?? "",
                                                                               width: .column(3)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Last Updated",
-                                                                              value: patrol.lastUpdated.elapsedTimeIntervalForHuman(),
+                                                                              value: patrol.lastUpdated?.elapsedTimeIntervalForHuman() ?? "",
                                                                               width: .column(3)),
                                                 ]),
             

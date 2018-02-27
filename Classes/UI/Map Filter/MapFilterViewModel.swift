@@ -17,9 +17,6 @@ public protocol MapFilterViewModel {
     /// Resets sections to default
     func reset()
     
-    /// Creates the view controller for this view model
-    func createViewController() -> UIViewController
-    
     /// Text for title
     func titleText() -> String?
     

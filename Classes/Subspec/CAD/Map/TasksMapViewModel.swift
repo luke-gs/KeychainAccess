@@ -34,7 +34,7 @@ open class TasksMapViewModel {
     }
     
     /// Create the view controller for this view model
-    public func createViewController() -> MapViewController {
+    open func createViewController() -> MapViewController {
         return TasksMapViewController(viewModel: self, annotationsInitialLoadZoomStyle: (animated: true, includeUserLocation: false))
     }
     
@@ -46,26 +46,12 @@ open class TasksMapViewModel {
         
         let filter = splitViewModel.filterViewModel
         let selectedListIndex = splitViewModel.listContainerViewModel.selectedSourceIndex
-        let currentListItem = TaskListType(rawValue: selectedListIndex)
+        let currentListItem = CADClientModelTypes.taskListSources.allCases[selectedListIndex]
         
         var annotations: [TaskAnnotation] = []
-        
-        if filter.showIncidents || currentListItem == .incident {
-            annotations += taskAnnotations(for: splitViewModel.filteredIncidents)
+        for sourceType in CADClientModelTypes.taskListSources.allCases {
+            annotations += sourceType.filteredAnnotations(filterViewModel: filter, selectedSource: currentListItem)
         }
-        
-        if filter.showPatrol || currentListItem == .patrol {
-            annotations += taskAnnotations(for: splitViewModel.filteredPatrols)
-        }
-        
-        if filter.showBroadcasts || currentListItem == .broadcast {
-            // TODO: Get broadcasts from sync
-        }
-
-        if filter.showResources || currentListItem == .resource {
-            annotations += taskAnnotations(for: splitViewModel.filteredResources)
-        }
-        
         filteredAnnotations = annotations
     }
 
@@ -85,9 +71,9 @@ open class TasksMapViewModel {
             
             return ResourceTaskItemViewModel(callsign: resource.callsign,
                                              iconImage: annotation.icon,
-                                             iconTintColor: resource.statusType.iconColors.icon,
-                                             color: resource.statusType.iconColors.background,
-                                             statusText: resource.statusType.title,
+                                             iconTintColor: resource.status.iconColors.icon,
+                                             color: resource.status.iconColors.background,
+                                             statusText: resource.status.title,
                                              itemName: [annotation.title, annotation.subtitle].joined())
         } else if let annotation = annotation as? IncidentAnnotation {
             guard let incident = CADStateManager.shared.incidentsById[annotation.identifier] else { return nil }
@@ -106,50 +92,6 @@ open class TasksMapViewModel {
         return true
     }
     
-    // MARK: - Mapping
-    
-    /// Maps incident view models to task annotations
-    open func taskAnnotations(for incidents: [SyncDetailsIncident]) -> [TaskAnnotation] {
-        return incidents.map { incident in
-            return IncidentAnnotation(identifier: incident.identifier,
-                                      coordinate: incident.coordinate,
-                                      title: incident.type,
-                                      subtitle: incident.resourceCountString,
-                                      badgeText: incident.grade.rawValue,
-                                      badgeTextColor: incident.grade.badgeColors.text,
-                                      badgeFillColor: incident.grade.badgeColors.fill,
-                                      badgeBorderColor: incident.grade.badgeColors.border,
-                                      usesDarkBackground: incident.status == .unresourced,
-                                      priority: incident.grade)
-        }
-    }
-    
-    
-    /// Maps patrol view models to task annotations
-    open func taskAnnotations(for patrols: [SyncDetailsPatrol]) -> [TaskAnnotation] {
-        return patrols.map { patrol in
-            return PatrolAnnotation(identifier: patrol.identifier,
-                                    coordinate: patrol.coordinate,
-                                    title: patrol.type,
-                                    subtitle: nil,
-                                    usesDarkBackground: patrol.status == .assigned)
-        }
-    }
-    
-    /// Maps resource view models to task annotations
-    open func taskAnnotations(for resources: [SyncDetailsResource]) -> [TaskAnnotation] {
-        return resources.filter{$0.location != nil}.map { resource in
-            return ResourceAnnotation(identifier: resource.callsign,
-                                      coordinate: resource.coordinate!,
-                                      title: resource.callsign,
-                                      subtitle: resource.officerCountString,
-                                      icon: resource.type.icon,
-                                      iconBackgroundColor: resource.statusType.iconColors.background,
-                                      iconTintColor: resource.statusType.iconColors.icon,
-                                      duress: resource.statusType.isDuress)
-        }
-    }
- 
     open func isAnnotationViewDisplayedOnTop(_ annotationView: MKAnnotationView) -> Bool {
         return type(of: annotationView) == priorityAnnotationType
     }

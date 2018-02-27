@@ -43,10 +43,10 @@ public class SubtitleFormItem: BaseFormItem {
 
         cell.titleLabel.apply(sizable: title, defaultFont: .preferredFont(forTextStyle: .headline, compatibleWith: cell.traitCollection))
         cell.subtitleLabel.apply(sizable: subtitle, defaultFont: .preferredFont(forTextStyle: .footnote, compatibleWith: cell.traitCollection), defaultNumberOfLines: 0)
-        cell.imageView.image = image
         cell.style = style
         cell.imageSeparation = imageSeparation
         cell.labelSeparation = labelSeparation
+        cell.imageView.image = image
     }
 
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {

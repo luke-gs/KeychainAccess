@@ -149,8 +149,8 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
 
     open func constructGroup(builder: FormBuilder, sections: [CADFormCollectionSectionViewModel<TasksListItemViewModel>]) {
         for (sectionIndex, section) in sections.enumerated() {
-            let sectionCollapsible = viewModel.shouldShowExpandArrow() && !viewModel.indexesForNonCollapsibleSections.contains(sectionIndex)
-            builder += HeaderFormItem(text: section.title.uppercased(),
+            let sectionCollapsible = viewModel.shouldShowExpandArrow() && !section.preventCollapse.isTrue
+            builder += HeaderFormItem(text: section.title?.uppercased(),
                                       style: sectionCollapsible ? .collapsible : .plain)
             
             for item in section.items {
@@ -263,9 +263,9 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
         } else if let incident = CADStateManager.shared.incidentsById[item.identifier] {
             // Show details of our resource if we are assigned to incident
             let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier)
-            var resource: SyncDetailsResource? = nil
+            var resource: CADResourceType? = nil
             if let currentResource = CADStateManager.shared.currentResource {
-                resource = resources.contains(currentResource) ? currentResource : nil
+                resource = resources.contains(where: { $0 == currentResource }) ? currentResource : nil
             }
             return IncidentTaskItemViewModel(incident: incident, resource: resource)
         } else if let patrol = CADStateManager.shared.patrolsById[item.identifier] {

@@ -19,7 +19,7 @@ open class CreateIncidentViewModel {
 
     open weak var delegate: CreateIncidentViewModelDelegate?
     
-    init() {
+    public init() {
         getLocation()
     }
     
@@ -36,12 +36,12 @@ open class CreateIncidentViewModel {
         }
     }
     
-    open var initialStatus: ResourceStatusType {
-        return ResourceStatusCore.atIncident
+    open var initialStatus: CADResourceStatusType {
+        return CADClientModelTypes.resourceStatus.defaultCreateCase
     }
 
     open var priorityOptions: [String] {
-        return IncidentGrade.allCases.map({ $0.rawValue })
+        return CADClientModelTypes.incidentGrade.allCases.map({ $0.rawValue })
     }
     
     open var primaryCodeOptions: [String] {
@@ -59,7 +59,7 @@ open class CreateIncidentViewModel {
     }
 
     open func createStatusViewController() -> CreateIncidentStatusViewController {
-        let incidentItems = ClientModelTypes.resourceStatus.incidentCases.map {
+        let incidentItems = CADClientModelTypes.resourceStatus.incidentCases.map {
             return ManageCallsignStatusItemViewModel($0)
         }
         let sections = [CADFormCollectionSectionViewModel(
