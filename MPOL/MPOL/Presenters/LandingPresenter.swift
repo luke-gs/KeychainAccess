@@ -124,7 +124,6 @@ public class LandingPresenter: AppGroupLandingPresenter {
             actionListViewController.navigationItem.leftBarButtonItem = settingsBarButtonItem()
 
             EventsManager.shared.eventBuilder = EventBuilder()
-            IncidentsManager.shared.add(IncidentBuilder(), for: .blank)
 
             let eventListVC = EventsListViewController(viewModel: EventsListViewModel(eventsManager: EventsManager.shared))
             eventListVC.navigationItem.leftBarButtonItem = settingsBarButtonItem()

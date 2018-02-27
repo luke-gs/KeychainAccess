@@ -31,7 +31,7 @@ public class IncidentDetailViewModel: IncidentDetailViewModelType, Evaluatable {
         self.headerView = {
             let header = SidebarHeaderView()
             header.iconView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
-            header.titleLabel.text = "No incident selected"
+            header.titleLabel.text = incident.incidentType.rawValue
             header.captionLabel.text = "IN PROGRESS"
             return header
         }()

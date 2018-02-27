@@ -13,6 +13,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
 
     // TEMP INCIDENTS
     fileprivate let incidents = [
+        "Street Check (Intercept Report)",
         "Traffic Infringement",
         "Traffic Crash",
         "Roadside Drug Testing",
@@ -83,7 +84,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
                 .onSelection { cell in
                     guard let report = self.viewModel.report else { return }
                     guard let indexPath = self.collectionView?.indexPath(for: cell) else { return }
-                    guard let incident = IncidentsManager.shared.incident(for: report.incidents[indexPath.item].incidentId) else { return }
+                    guard let incident = self.viewModel.incidentManager.incident(for: report.incidents[indexPath.item].incidentId) else { return }
 
                     let viewModel = IncidentDetailViewModel(incident: incident, builder: IncidentScreenBuilder())
                     let vc = IncidentSplitViewController(viewModel: viewModel)

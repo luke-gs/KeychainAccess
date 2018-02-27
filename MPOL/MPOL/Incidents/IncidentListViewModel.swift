@@ -19,6 +19,9 @@ open class IncidentListViewModel: IncidentListViewModelType {
         self.report = report as? IncidentListReport
         self.incidentManager = incidentManager
         self.title = "Incidents"
+
+        incidentManager.add(IncidentBuilder(), for: .blank)
+        incidentManager.add(StreetCheckIncidentBuilder(), for: .streetCheck)
     }
 
     // ViewModelType
@@ -52,8 +55,9 @@ open class IncidentListViewModel: IncidentListViewModelType {
     func add(_ incidents: [String]) {
         guard let event = self.report?.event else { return }
         for incident in incidents {
-            // TODO: Use incidents instead of creating a blank type
-            guard let incident = incidentManager.create(incidentType: .blank, in: event) else { continue }
+            let type = IncidentType(rawValue: incident)
+            let incidentType = IncidentType.allIncidentTypes().contains(type) ? type : .blank
+            guard let incident = incidentManager.create(incidentType: incidentType, in: event) else { continue }
             if !(report?.incidents.contains(where: {$0.title == incident.title}) == true) {
                 report?.incidents.append(incident)
             }
