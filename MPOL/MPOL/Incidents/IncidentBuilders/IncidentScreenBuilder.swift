@@ -23,17 +23,13 @@ public class IncidentScreenBuilder: IncidentScreenBuilding {
     }
 
     private func viewController(for report: Reportable) -> UIViewController? {
+
+        //TODO: Remove non-incident reports from here and replace with actual incident reports
         switch report {
         case let report as DefaultDateTimeReport:
             return DefaultEventDateTimeViewController(report: report)
-        case let report as DefaultLocationReport:
-            return DefaultEventLocationViewController(report: report)
-        case let report as OfficerListReport:
-            return DefaultEventOfficerListViewController(viewModel: EventOfficerListViewModel(report: report))
         case let report as DefaultNotesPhotosReport:
             return DefaultEventNotesPhotosViewController(report: report)
-        case let report as IncidentListReport:
-            return IncidentListViewController(viewModel: IncidentListViewModel(report: report))
         default:
             return nil
         }

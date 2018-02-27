@@ -20,7 +20,8 @@ open class IncidentListViewModel: IncidentListViewModelType {
         self.incidentManager = incidentManager
         self.title = "Incidents"
 
-        incidentManager.add(IncidentBuilder(), for: .blank)
+        // Add IncidentBuilders here
+        incidentManager.add(InfringementIncidentBuilder(), for: .infringementNotice)
         incidentManager.add(StreetCheckIncidentBuilder(), for: .streetCheck)
     }
 
@@ -31,6 +32,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
     }
 
     public func detailsViewModel(for incident: Incident) -> IncidentDetailViewModelType {
+        //Switch over incident types here if you want different screen builders for each incident
         return IncidentDetailViewModel(incident: incident, builder: IncidentScreenBuilder())
     }
 
@@ -43,7 +45,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
     }
 
     func searchHeaderSubtitle() -> String {
-        guard let report = report else { fatalError() }
+        guard let report = report else { return "" }
         return report.incidents.map{$0.title}.joined(separator: ", ")
     }
 

@@ -76,8 +76,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
                     guard let indexPath = self.collectionView?.indexPath(for: cell) else { return }
                     guard let incident = self.viewModel.incidentManager.incident(for: report.incidents[indexPath.item].incidentId) else { return }
 
-                    let viewModel = IncidentDetailViewModel(incident: incident, builder: IncidentScreenBuilder())
-                    let vc = IncidentSplitViewController(viewModel: viewModel)
+                    let vc = IncidentSplitViewController(viewModel: self.viewModel.detailsViewModel(for: incident))
 
                     self.present(vc, animated: true, completion: nil)
             }
