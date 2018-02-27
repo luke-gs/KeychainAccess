@@ -19,6 +19,7 @@ final public class Incident: Codable, Evaluatable {
     public var evaluator: Evaluator = Evaluator()
     public let id: UUID
     public weak var event: Event?
+    public var incidentType: IncidentType
 
     private var allValid: Bool = false {
         didSet {
@@ -26,8 +27,9 @@ final public class Incident: Codable, Evaluatable {
         }
     }
 
-    public init(event: Event) {
+    public init(event: Event, type: IncidentType) {
         self.event = event
+        self.incidentType = type
         self.id = UUID()
         self.evaluator.registerKey(.allValid) {
             return !self.reports.map{$0.evaluator.isComplete}.contains(false)
@@ -40,17 +42,20 @@ final public class Incident: Codable, Evaluatable {
         let container = try from.container(keyedBy: Keys.self)
         reports = try container.decode([Reportable].self, forKey: .reports)
         id = try container.decode(UUID.self, forKey: .id)
+        incidentType = IncidentType(rawValue: try container.decode(String.self, forKey: .incidentType))
     }
 
     public func encode(to: Encoder) throws {
         var container = to.container(keyedBy: Keys.self)
         try container.encode(reports, forKey: .reports)
         try container.encode(id, forKey: .id)
+        try container.encode(incidentType.rawValue, forKey: .incidentType)
     }
 
     enum Keys: String, CodingKey {
         case reports
         case id
+        case incidentType
     }
 
     //MARK: Utility
@@ -74,14 +79,13 @@ final public class Incident: Codable, Evaluatable {
     }
 }
 
-/// A bunch of event types
+/// A bunch of incident types
 /// This can later be expanded upon to build different types of events
 /// via the app
 public struct IncidentType: RawRepresentable, Hashable {
 
     //Define default EventTypes
-    public static let blank = IncidentType(rawValue: "blank")
-    public static let trafficInfringement = IncidentType(rawValue: "trafficInfringement")
+    public static let blank = IncidentType(rawValue: "Blank")
 
     public var rawValue: String
 

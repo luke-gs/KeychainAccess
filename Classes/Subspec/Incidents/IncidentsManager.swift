@@ -75,5 +75,3 @@ final public class IncidentsManager {
         return nil
     }
 }
-
-
