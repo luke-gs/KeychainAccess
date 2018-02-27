@@ -179,20 +179,3 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
     }
 }
 
-extension TaskItemSidebarSplitViewController: TaskItemViewModelDelegate {
-    public func presentStatusSelector(viewController: UIViewController) {
-        let size: CGSize
-        
-        if isCompact() {
-            size = CGSize(width: 312, height: 224)
-        } else {
-            size = CGSize(width: 540, height: 120)
-        }
-        
-        // Add done button
-        viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissAnimated))
-        
-        self.presentFormSheet(viewController, animated: true, size: size, forced: true)
-    }
-    
-}
