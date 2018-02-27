@@ -34,4 +34,9 @@ open class TaskAnnotation: NSObject, MKAnnotation {
         MPLRequiresConcreteImplementation()
     }
 
+    /// Create the task item details view model from this list item
+    open func createItemViewModel() -> TaskItemViewModel? {
+        return source.createItemViewModel(identifier: identifier)
+    }
+
 }

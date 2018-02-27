@@ -81,13 +81,6 @@ open class ManageCallsignStatusViewModel {
         return nil
     }
 
-    public var incidentTaskViewModel: IncidentTaskItemViewModel? {
-        if let incident = CADStateManager.shared.currentIncident, let resource = CADStateManager.shared.currentResource {
-            return IncidentTaskItemViewModel(incident: incident, resource: resource)
-        }
-        return nil
-    }
-
     @objc private func bookonChanged() {
         if CADStateManager.shared.lastBookOn == nil {
             // Close dialog if we have been booked off. In compact mode, this dialog is not presented,

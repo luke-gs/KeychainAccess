@@ -185,7 +185,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
                         
                         self?.collectionView?.reloadSections(IndexSet(integer: sectionIndex))
                         
-                        if let viewModel = item.source.createItemViewModel(identifier: item.identifier) {
+                        if let viewModel = item.createItemViewModel() {
                             self?.present(TaskItemScreen.landing(viewModel: viewModel))
                         }
                     })

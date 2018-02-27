@@ -23,4 +23,10 @@ open class TasksListItemViewModel {
         self.subtitle = subtitle
         self.caption = caption
     }
+
+    /// Create the task item details view model from this list item
+    open func createItemViewModel() -> TaskItemViewModel? {
+        return source.createItemViewModel(identifier: identifier)
+    }
+
 }
