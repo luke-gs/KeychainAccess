@@ -133,8 +133,12 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     @objc private func interfaceStyleDidChange() {
-        let isDark = ThemeManager.shared.currentInterfaceStyle.isDark
+        let currentInterfaceStyle = ThemeManager.shared.currentInterfaceStyle
+        let isDark = currentInterfaceStyle.isDark
+        let theme = ThemeManager.shared.theme(for: currentInterfaceStyle)
+
         mapView.mpl_setNightModeEnabled(isDark)
+        mapControlView.applyTheme(theme, isDark: isDark)
     }
     
     public func mapView(_ mapView: MKMapView, didChange mode: MKUserTrackingMode, animated: Bool) {
