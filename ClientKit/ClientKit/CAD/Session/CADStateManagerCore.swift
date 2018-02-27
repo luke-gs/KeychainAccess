@@ -38,7 +38,7 @@ open class CADStateManagerCore: CADStateManagerType {
     
     /// The patrol group
     // TODO: Find out when to set/clear this value and where it's coming from
-    open var patrolGroup: String = "Collingwood"
+    open var patrolGroup: String? = "Collingwood"
 
     /// The last book on data
     open private(set) var lastBookOn: CADBookOnDetailsType? {
