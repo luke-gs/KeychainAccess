@@ -10,7 +10,7 @@ import Foundation
 
 // MARK: UserStorageFlag
 
-/// Custom flags will be converted to filesystem safe strings (ie. No spaces or forward slashes).
+/// Custom flags will be converted to filesystem safe strings (ie. No capitals or forward slashes).
 public enum UserStorageFlag {
     case session
     case retain
