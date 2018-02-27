@@ -28,5 +28,4 @@ public extension APIManager {
 
         return try performRequest(networkRequest, using: UnboxableArrayResponseSerializer(), cancelToken: token)
     }
-
 }
