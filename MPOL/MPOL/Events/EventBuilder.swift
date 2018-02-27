@@ -21,11 +21,11 @@ public class EventBuilder: EventBuilding {
         event.add(report: IncidentListReport(event: event))
         event.add(report: DefaultNotesPhotosReport(event: event))
 
-        let displayable = EventListDisplayable(title: "Demo",
-                                               subtitle: "Sub",
-                                               accessoryTitle: "AccessTitle",
-                                               accessorySubtitle: "Acces Sub",
-                                               icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.advancedSearch))
+        let displayable = EventListDisplayable(title: "No incident selected",
+                                               subtitle: "",
+                                               accessoryTitle: "",
+                                               accessorySubtitle: "",
+                                               icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.event))
         displayable.eventId = event.id
         return (event: event, displayable: displayable)
     }

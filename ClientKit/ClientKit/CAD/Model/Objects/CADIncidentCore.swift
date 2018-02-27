@@ -15,41 +15,40 @@ open class CADIncidentCore: Codable, CADIncidentType {
 
     // MARK: - Network
 
-    open var identifier: String!
+    open var identifier: String
 
-    open var secondaryCode: String!
+    open var secondaryCode: String?
 
-    open var type: String!
+    open var type: String?
 
-    open var grade: CADIncidentGradeType!
+    open var grade: CADIncidentGradeType
 
-    open var patrolGroup: String!
+    open var patrolGroup: String?
 
-    open var location: CADLocationType!
+    open var location: CADLocationType?
 
-    open var createdAt: Date!
+    open var createdAt: Date?
 
-    open var lastUpdated: Date!
+    open var lastUpdated: Date?
 
-    open var details: String!
+    open var details: String?
 
-    open var informant: CADIncidentInformantType!
+    open var informant: CADIncidentInformantType?
 
-    open var locations: [CADLocationType]!
+    open var locations: [CADLocationType]
 
-    open var persons: [CADIncidentPersonType]!
+    open var persons: [CADIncidentPersonType]
 
-    open var vehicles: [CADIncidentVehicleType]!
+    open var vehicles: [CADIncidentVehicleType]
 
-    open var narrative: [CADActivityLogItemType]!
+    open var narrative: [CADActivityLogItemType]
 
     // MARK: - Generated
 
     open var status: CADIncidentStatusType {
         if let resourceId = CADStateManager.shared.lastBookOn?.callsign,
             let resource = CADStateManager.shared.resourcesById[resourceId],
-            let assignedIncidents = resource.assignedIncidents,
-            assignedIncidents.contains(identifier)
+            resource.assignedIncidents.contains(identifier)
         {
             if resource.currentIncident == identifier {
                 return CADIncidentStatusCore.current
@@ -63,8 +62,8 @@ open class CADIncidentCore: Codable, CADIncidentType {
         }
     }
 
-    open var coordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))
+    open var coordinate: CLLocationCoordinate2D? {
+        return location?.coordinate
     }
 
     open var resourceCount: Int {
@@ -75,8 +74,25 @@ open class CADIncidentCore: Codable, CADIncidentType {
         return resourceCount > 0 ? "(\(resourceCount))" : nil
     }
 
-    open var createdAtString: String {
-        return DateFormatter.preferredDateTimeStyle.string(from: createdAt)
+    open var createdAtString: String? {
+        return createdAt?.asPreferredDateTimeString()
+    }
+
+    // MARK: - CADTaskListItemModelType
+
+    /// Create a map annotation for the task list item if location is available
+    open func createAnnotation() -> TaskAnnotation? {
+        guard let coordinate = coordinate else { return nil }
+        return IncidentAnnotation(identifier: identifier,
+                                  coordinate: coordinate,
+                                  title: type,
+                                  subtitle: resourceCountString,
+                                  badgeText: grade.title,
+                                  badgeTextColor: grade.badgeColors.text,
+                                  badgeFillColor: grade.badgeColors.fill,
+                                  badgeBorderColor: grade.badgeColors.border,
+                                  usesDarkBackground: status.useDarkBackgroundOnMap,
+                                  priority: grade)
     }
 
     // MARK: - Codable
@@ -102,18 +118,18 @@ open class CADIncidentCore: Codable, CADIncidentType {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         createdAt = try values.decodeIfPresent(Date.self, forKey: .createdAt)
         details = try values.decodeIfPresent(String.self, forKey: .details)
-        grade = try values.decodeIfPresent(CADIncidentGradeCore.self, forKey: .grade)
-        identifier = try values.decodeIfPresent(String.self, forKey: .identifier)
+        grade = try values.decodeIfPresent(CADIncidentGradeCore.self, forKey: .grade) ?? .p4
+        identifier = try values.decode(String.self, forKey: .identifier)
         informant = try values.decodeIfPresent(CADIncidentInformantCore.self, forKey: .informant)
         lastUpdated = try values.decodeIfPresent(Date.self, forKey: .lastUpdated)
         location = try values.decodeIfPresent(CADLocationCore.self, forKey: .location)
-        locations = try values.decodeIfPresent([CADLocationCore].self, forKey: .locations)
-        narrative = try values.decodeIfPresent([CADActivityLogItemCore].self, forKey: .narrative)
+        locations = try values.decodeIfPresent([CADLocationCore].self, forKey: .locations) ?? []
+        narrative = try values.decodeIfPresent([CADActivityLogItemCore].self, forKey: .narrative) ?? []
         patrolGroup = try values.decodeIfPresent(String.self, forKey: .patrolGroup)
-        persons = try values.decodeIfPresent([CADIncidentPersonCore].self, forKey: .persons)
+        persons = try values.decodeIfPresent([CADIncidentPersonCore].self, forKey: .persons) ?? []
         secondaryCode = try values.decodeIfPresent(String.self, forKey: .secondaryCode)
         type = try values.decodeIfPresent(String.self, forKey: .type)
-        vehicles = try values.decodeIfPresent([CADIncidentVehicleCore].self, forKey: .vehicles)
+        vehicles = try values.decodeIfPresent([CADIncidentVehicleCore].self, forKey: .vehicles) ?? []
     }
 
     public func encode(to encoder: Encoder) throws {

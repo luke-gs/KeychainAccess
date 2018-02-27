@@ -14,23 +14,23 @@ open class CADIncidentVehicleCore: Codable, CADIncidentVehicleType {
 
     // MARK: - Network
 
-    open var alertLevel: Int!
+    open var alertLevel: Int?
 
-    open var bodyType: String!
+    open var bodyType: String?
 
-    open var color: String!
+    open var color: String?
 
-    open var id: String!
+    open var id: String?
 
-    open var plateNumber: String!
+    open var plateNumber: String?
 
-    open var source: String!
+    open var source: String?
 
-    open var stolen: Bool!
+    open var stolen: Bool?
 
-    open var vehicleDescription: String!
+    open var vehicleDescription: String?
 
-    open var vehicleType: String!
+    open var vehicleType: String?
 
     // MARK: - Codable
 

@@ -18,6 +18,7 @@ open class CADStateManagerCore: CADStateManagerType {
 
     public init() {
         // Register concrete classes for protocols
+        CADClientModelTypes.taskListSources = CADTaskListSourceCore.self
         CADClientModelTypes.bookonDetails = CADBookOnRequest.self
         CADClientModelTypes.officerDetails = CADOfficerCore.self
         CADClientModelTypes.equipmentDetails = CADEquipmentCore.self
@@ -37,7 +38,7 @@ open class CADStateManagerCore: CADStateManagerType {
     
     /// The patrol group
     // TODO: Find out when to set/clear this value and where it's coming from
-    open var patrolGroup: String = "Collingwood"
+    open var patrolGroup: String? = "Collingwood"
 
     /// The last book on data
     open private(set) var lastBookOn: CADBookOnDetailsType? {
@@ -138,7 +139,7 @@ open class CADStateManagerCore: CADStateManagerType {
         if let incident = currentIncident, let resource = currentResource {
 
             // Remove incident from being assigned to resource
-            var assignedIncidents = resource.assignedIncidents ?? []
+            var assignedIncidents = resource.assignedIncidents
             if let index = assignedIncidents.index(of: incident.identifier) {
                 assignedIncidents.remove(at: index)
                 resource.assignedIncidents = assignedIncidents
@@ -159,7 +160,7 @@ open class CADStateManagerCore: CADStateManagerType {
 
         // TODO: remove this when we have a real CAD system
         if let lastBookOn = lastBookOn, let resource = self.currentResource {
-            let officerIds = lastBookOn.officers.flatMap({ return $0.payrollId })
+            let officerIds = lastBookOn.officers.map({ return $0.payrollId })
 
             // Update callsign for new officer list
             resource.payrollIds = officerIds
@@ -215,7 +216,7 @@ open class CADStateManagerCore: CADStateManagerType {
                 resource.currentIncident = newIncident.identifier
 
                 // Make sure incident is also assigned to resource
-                var assignedIncidents = resource.assignedIncidents ?? []
+                var assignedIncidents = resource.assignedIncidents
                 if !assignedIncidents.contains(newIncident.identifier) {
                     assignedIncidents.append(newIncident.identifier)
                     resource.assignedIncidents = assignedIncidents
@@ -338,7 +339,7 @@ open class CADStateManagerCore: CADStateManagerType {
         var resources: [CADResourceCore] = []
         if let syncDetails = lastSync {
             for resource in syncDetails.resources {
-                if resource.assignedIncidents?.contains(incidentNumber) == true {
+                if resource.assignedIncidents.contains(incidentNumber) {
                     resources.append(resource)
                 }
             }
@@ -357,8 +358,8 @@ open class CADStateManagerCore: CADStateManagerType {
     /// Return all officers linked to a resource
     open func officersForResource(callsign: String) -> [CADOfficerType] {
         var officers: [CADOfficerType] = []
-        if let resource = resourcesById[callsign], let payrollIds = resource.payrollIds {
-            for payrollId in payrollIds {
+        if let resource = resourcesById[callsign] {
+            for payrollId in resource.payrollIds {
                 if let officer = officersById[payrollId] {
                     officers.append(officer)
                 }

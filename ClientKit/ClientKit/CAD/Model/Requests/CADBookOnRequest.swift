@@ -14,34 +14,35 @@ open class CADBookOnRequest: Codable, CADBookOnDetailsType {
 
     // MARK: - Network
 
-    open var callsign: String!
+    open var callsign: String = ""
 
-    open var category: String!
+    open var category: String?
 
-    open var driverpayrollId: String!
+    open var driverpayrollId: String?
 
-    open var equipment: [CADEquipmentType]!
+    open var equipment: [CADEquipmentType] = []
 
-    open var fleetNumber: String!
+    open var fleetNumber: String?
 
-    open var loggedInpayrollId: String!
+    open var loggedInpayrollId: String?
 
-    open var odometer: String!
+    open var odometer: String?
 
-    open var officers: [CADOfficerType]!
+    open var officers: [CADOfficerType] = []
 
-    open var remarks: String!
+    open var remarks: String?
 
-    open var serial: String!
+    open var serial: String?
 
-    open var shiftEnd: Date!
+    open var shiftEnd: Date?
 
-    open var shiftStart: Date!
+    open var shiftStart: Date?
 
     // MARK: - Init
 
     /// Default constructor
-    public required init() { }
+    public required init() {
+    }
 
     /// Copy constructor (deep copy)
     public required init(request: CADBookOnDetailsType) {

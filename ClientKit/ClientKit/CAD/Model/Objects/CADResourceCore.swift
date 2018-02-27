@@ -15,25 +15,25 @@ open class CADResourceCore: Codable, CADResourceType {
 
     // MARK: - Network
 
-    open var activityLog: [CADActivityLogItemType]?
+    open var activityLog: [CADActivityLogItemType]
 
-    open var assignedIncidents: [String]?
+    open var assignedIncidents: [String]
 
-    open var callsign: String!
+    open var callsign: String = ""
 
     open var currentIncident: String?
 
     open var driver: String?
 
-    open var equipment: [CADEquipmentType]?
+    open var equipment: [CADEquipmentType]
 
     open var lastUpdated: Date?
 
     open var location: CADLocationType?
 
-    open var patrolGroup: String!
+    open var patrolGroup: String?
 
-    open var payrollIds: [String]?
+    open var payrollIds: [String]
 
     open var remarks: String?
 
@@ -43,24 +43,22 @@ open class CADResourceCore: Codable, CADResourceType {
 
     open var shiftStart: Date?
 
-    open var station: String!
+    open var station: String?
 
-    open var status: CADResourceStatusType!
+    open var status: CADResourceStatusType
 
-    open var type: CADResourceUnitType!
+    open var type: CADResourceUnitType
 
     open var vehicleCategory: String?
 
     // MARK: - Generated
 
     open var coordinate: CLLocationCoordinate2D? {
-        guard let location = location else { return nil }
-        return CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))
+        return location?.coordinate
     }
 
     /// Officer count in format `(n)`. `nil` if no `payrollIds` count
     open var officerCountString: String? {
-        guard let payrollIds = payrollIds else { return nil }
         return payrollIds.count > 0 ? "(\(payrollIds.count))" : nil
     }
 
@@ -84,8 +82,22 @@ open class CADResourceCore: Codable, CADResourceType {
 
     /// Equipment list as a string delimited by `separator`. `nil` if no `equipment` count
     public func equipmentListString(separator: String) -> String? {
-        guard let equipment = equipment, equipment.count > 0 else { return nil }
         return equipment.map { $0.description }.joined(separator: separator)
+    }
+
+    // MARK: - CADTaskListItemModelType
+
+    /// Create a map annotation for the task list item if location is available
+    open func createAnnotation() -> TaskAnnotation? {
+        guard let coordinate = coordinate else { return nil }
+        return ResourceAnnotation(identifier: callsign,
+                                  coordinate: coordinate,
+                                  title: callsign,
+                                  subtitle: officerCountString,
+                                  icon: type.icon,
+                                  iconBackgroundColor: status.iconColors.background,
+                                  iconTintColor: status.iconColors.icon,
+                                  duress: status.isDuress)
     }
 
     // MARK: - Static
@@ -128,23 +140,23 @@ open class CADResourceCore: Codable, CADResourceType {
 
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        activityLog = try values.decodeIfPresent([CADActivityLogItemCore].self, forKey: .activityLog)
-        assignedIncidents = try values.decodeIfPresent([String].self, forKey: .assignedIncidents)
-        callsign = try values.decodeIfPresent(String.self, forKey: .callsign)
+        activityLog = try values.decodeIfPresent([CADActivityLogItemCore].self, forKey: .activityLog) ?? []
+        assignedIncidents = try values.decodeIfPresent([String].self, forKey: .assignedIncidents) ?? []
+        callsign = try values.decodeIfPresent(String.self, forKey: .callsign) ?? ""
         currentIncident = try values.decodeIfPresent(String.self, forKey: .currentIncident)
         driver = try values.decodeIfPresent(String.self, forKey: .driver)
-        equipment = try values.decodeIfPresent([CADEquipmentCore].self, forKey: .equipment)
+        equipment = try values.decodeIfPresent([CADEquipmentCore].self, forKey: .equipment) ?? []
         lastUpdated = try values.decodeIfPresent(Date.self, forKey: .lastUpdated)
         location = try values.decodeIfPresent(CADLocationCore.self, forKey: .location)
         patrolGroup = try values.decodeIfPresent(String.self, forKey: .patrolGroup)
-        payrollIds = try values.decodeIfPresent([String].self, forKey: .payrollIds)
+        payrollIds = try values.decodeIfPresent([String].self, forKey: .payrollIds) ?? []
         remarks = try values.decodeIfPresent(String.self, forKey: .remarks)
         serial = try values.decodeIfPresent(String.self, forKey: .serial)
         shiftEnd = try values.decodeIfPresent(Date.self, forKey: .shiftEnd)
         shiftStart = try values.decodeIfPresent(Date.self, forKey: .shiftStart)
         station = try values.decodeIfPresent(String.self, forKey: .station)
-        status = try values.decodeIfPresent(CADResourceStatusCore.self, forKey: .status)
-        type = try values.decodeIfPresent(CADResourceUnitCore.self, forKey: .type)
+        status = try values.decodeIfPresent(CADResourceStatusCore.self, forKey: .status) ?? .unavailable
+        type = try values.decodeIfPresent(CADResourceUnitCore.self, forKey: .type) ?? .vehicle
         vehicleCategory = try values.decodeIfPresent(String.self, forKey: .vehicleCategory)
     }
 
