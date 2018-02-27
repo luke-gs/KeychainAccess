@@ -10,7 +10,7 @@ import Unbox
 import MPOLKit
 
 @objc(MPLPerson)
-open class Person: Entity {
+open class Person: Entity, Identifiable {
 
     private enum Coding: String {
         case givenName = "givenName"
@@ -166,24 +166,6 @@ open class Person: Entity {
     // MARK: - Model Versionable
     override open class var modelVersion: Int {
         return 0
-    }
-
-}
-
-
-extension Person {
-
-    // Moving this to extension for now as `Initials` doesn't really belong in the model.
-    open var initials: String? {
-        var initials = ""
-        if let givenName = givenName?.ifNotEmpty() {
-            initials += givenName[...givenName.startIndex]
-        }
-        if let surname = surname?.ifNotEmpty() {
-            initials += surname[...surname.startIndex]
-        }
-
-        return initials.ifNotEmpty()
     }
 
 }
