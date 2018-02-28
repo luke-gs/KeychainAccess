@@ -8,51 +8,8 @@
 
 import UIKit
 
-/// Navigation title view with title and subtitle
-open class NavigationTitleView: UIStackView {
-    
-    public let titleLabel: UILabel
-    public let subtitleLabel: UILabel
-    
-    public init(title: String?, subtitle: String?) {
-        let titleLabel = UILabel()
-        titleLabel.text = title
-        titleLabel.font = UIFont.systemFont(ofSize: 15, weight: .bold)
-        titleLabel.textAlignment = .center
-        titleLabel.text = title
-        titleLabel.textColor = .white
-        titleLabel.sizeToFit()
-        self.titleLabel = titleLabel
-        
-        let subtitleLabel = UILabel()
-        subtitleLabel.text = subtitle
-        subtitleLabel.font = UIFont.systemFont(ofSize: 12)
-        subtitleLabel.textAlignment = .center
-        subtitleLabel.text = subtitle
-        subtitleLabel.textColor = .white
-        subtitleLabel.sizeToFit()
-        self.subtitleLabel = subtitleLabel
-        
-        let verticalPadding: CGFloat = 2 // not much, but we've gotta fit in the nav space
-        let width = max(titleLabel.frame.width, subtitleLabel.frame.width)
-        let height = titleLabel.frame.height + subtitleLabel.frame.height + verticalPadding
-        super.init(frame: CGRect(x: 0, y: 0, width: width, height: height))
-        
-        // Arrange in stackview for easy layout
-        addArrangedSubview(titleLabel)
-        addArrangedSubview(subtitleLabel)
-        distribution = .equalSpacing
-        axis = .vertical
-    }
-    
-    public required init(coder: NSCoder) {
-        MPLCodingNotSupported()
-    }
-}
-
 /// Global var for unique address as the assoc object handle
-private var associatedObjectTitleHandle: UInt8 = 0
-private var associatedObjectSubtitleHandle: UInt8 = 0
+private var associatedObjectTitleViewHandle: UInt8 = 0
 
 /// Extension to support navigation items with title and subtitle
 ///
@@ -78,36 +35,24 @@ extension UIViewController {
         navigationItem.titleView = titleView
 
         // Observe changes to the theme
-        self.titleLabel = titleView.titleLabel
-        self.subtitleLabel = titleView.subtitleLabel
+        self.navTitleView = titleView
         NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleChanged), name: .interfaceStyleDidChange, object: nil)
     }
 
     @objc open func interfaceStyleChanged() {
-        self.titleLabel?.textColor = self.themeColor(forKey: .primaryText)!
-        self.subtitleLabel?.textColor = self.themeColor(forKey: .secondaryText)!
+        self.navTitleView?.titleLabel.textColor = self.themeColor(forKey: .primaryText)!
+        self.navTitleView?.subtitleLabel.textColor = self.themeColor(forKey: .secondaryText)!
     }
 
 
-    /// The title label, stored as an associated object, so we can update it on theme changes
-    private var titleLabel: UILabel? {
+    /// The NavigationTitleView, stored as an associated object, so we can update it on theme changes
+    private var navTitleView: NavigationTitleView? {
         get {
-            return objc_getAssociatedObject(self, &associatedObjectTitleHandle) as? UILabel
+            return objc_getAssociatedObject(self, &associatedObjectTitleViewHandle) as? NavigationTitleView
         }
         set {
-            // Store a weak reference to the label
-            objc_setAssociatedObject(self, &associatedObjectTitleHandle, newValue, .OBJC_ASSOCIATION_ASSIGN)
-        }
-    }
-
-    /// The subtitle label, stored as an associated object, so we can update it on theme changes
-    private var subtitleLabel: UILabel? {
-        get {
-            return objc_getAssociatedObject(self, &associatedObjectSubtitleHandle) as? UILabel
-        }
-        set {
-            // Store a weak reference to the label
-            objc_setAssociatedObject(self, &associatedObjectSubtitleHandle, newValue, .OBJC_ASSOCIATION_ASSIGN)
+            // Store a weak reference to the view
+            objc_setAssociatedObject(self, &associatedObjectTitleViewHandle, newValue, .OBJC_ASSOCIATION_ASSIGN)
         }
     }
 }
