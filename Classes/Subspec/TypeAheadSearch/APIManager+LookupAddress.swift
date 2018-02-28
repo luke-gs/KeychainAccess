@@ -19,7 +19,7 @@ extension APIManager {
     ///   - source: The data source of the lookup addresses suggestion.
     ///   - searchText: The search text to retrieve suggestion.
     /// - Returns: A promise to return array of LookupAddress.
-    open func typeAheadSearchAddress<T: EntitySearchRequestable>(in source: EntitySource, with request: T) -> Promise<[T.ResultClass]> {
+    open func typeAheadSearchAddress<T: EntitySearchRequestable>(in source: EntitySource, with request: T, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<[T.ResultClass]> {
 
         let path = "{source}/entity/location/search/typeahead"
         var parameters = request.parameters
@@ -27,7 +27,7 @@ extension APIManager {
 
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
 
-        return try! performRequest(networkRequest)
+        return try! performRequest(networkRequest, withCancellationToken: token)
 
     }
 }

@@ -35,7 +35,7 @@ open class ResourceOverviewFormViewController: IntrinsicHeightFormBuilderViewCon
                 .accessory(ItemAccessory.disclosure)
                 .height(.fixed(64))
                 .onSelection({ [unowned self] cell in
-                    guard let resource = CADStateManager.shared.resourcesById[self.viewModel.callsign],
+                    guard let resource = CADStateManager.shared.resourcesById[self.viewModel.identifier],
                         let incident = CADStateManager.shared.incidentsById[currentIncident.identifier]
                     else {
                         return
@@ -43,12 +43,11 @@ open class ResourceOverviewFormViewController: IntrinsicHeightFormBuilderViewCon
                     
                     // Present the resource split view controller
                     let viewModel = IncidentTaskItemViewModel(incident: incident, resource: resource)
-                    let vc = viewModel.createViewController()
-                    self.pushableSplitViewController?.navigationController?.pushViewController(vc, animated: true)
+                    self.present(TaskItemScreen.landing(viewModel: viewModel))
                 })
         }
         for section in viewModel.sections {
-            builder += HeaderFormItem(text: section.title.uppercased(),
+            builder += HeaderFormItem(text: section.title?.uppercased(),
                                       style: .collapsible)
             
             for item in section.items {

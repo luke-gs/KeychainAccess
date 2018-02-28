@@ -11,20 +11,6 @@ import UIKit
 fileprivate let cellID = "CellID"
 
 
-/// A type that can be picked from a list.
-///
-/// Types that conform to the `Pickable` protocol can be selected from a list.
-public protocol Pickable {
-    
-    /// The title for presentation in a picking UI.
-    var title: String?    { get }
-    
-    /// An additional subtitle description.
-    var subtitle: String? { get }
-    
-}
-
-
 /// A `Pickable` type that allows a custom searching.
 public protocol CustomSearchPickable: Pickable {
     
@@ -52,7 +38,7 @@ extension String: CustomSearchPickable {
 /// When there are ten or more items in the list, the picker automatically
 /// presents a search bar to allow easy filtering through the list. This can be
 /// manually disabled if required.
-open class PickerTableViewController<T>: FormSearchTableViewController where T: Pickable {
+open class PickerTableViewController<T: Pickable>: FormSearchTableViewController {
     
     // MARK: - Public properties
     
@@ -279,6 +265,7 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
             cell.textLabel?.text       = item.title
             cell.detailTextLabel?.text = item.subtitle
             isSelected = selectedIndexes.contains(itemIndex)
+            cell.selectionStyle = .default
         } else {
             if allowsMultipleSelection {
                 if selectedIndexes.count < items.count {
@@ -311,10 +298,8 @@ open class PickerTableViewController<T>: FormSearchTableViewController where T: 
     open override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         super.tableView(tableView, willDisplay: cell, forRowAt: indexPath)
         
-        if let itemIndex = indexForItem(at: indexPath) {
-            cell.textLabel?.alpha = selectedIndexes.contains(itemIndex) ? 1.0 : 0.5
-        } else {
-            cell.textLabel?.alpha = 1.0
+        if indexForItem(at: indexPath) == nil {
+            // `textLabel`.textColor is reset to default by superclass.
             cell.textLabel?.textColor = ThemeManager.shared.theme(for: .current).color(forKey: .tint) ?? tintColor
         }
     }

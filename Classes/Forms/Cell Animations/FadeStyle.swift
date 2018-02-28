@@ -10,10 +10,7 @@ import Foundation
 
 public class FadeStyle: CellSelectionAnimatable {
     public static func configure(_ cell: CollectionViewFormCell, isFocused focused: Bool) {
-        let isSelected = cell.isSelected
-        let isHighlighted = cell.isHighlighted
-
-        let alpha: CGFloat = isSelected || isHighlighted ? 0.5 : 1.0
+        let alpha: CGFloat = focused ? 0.5 : 1.0
 
         // Don't set unless necessary to avoid interfering with inflight animations.
         if cell.contentView.alpha !=~ alpha {

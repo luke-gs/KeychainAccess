@@ -314,7 +314,7 @@ private class RecentEntitiesFormItem: BaseSupplementaryFormItem {
         let itemsStackedVertically = visibleRegion.width >= visibleRegion.height ? 2 : 3
 
         let itemInsets = layout.itemLayoutMargins
-        let itemHeight = EntityCollectionViewCell.minimumContentHeight(forStyle: .detail, compatibleWith: traitCollection) + itemInsets.top + itemInsets.bottom
+        let itemHeight = EntityCollectionViewCell.minimumContentHeight(forStyle: .detail, title: nil, subtitle: nil, detail: nil, compatibleWith: traitCollection) + itemInsets.top + itemInsets.bottom
 
         let height = itemHeight * CGFloat(itemsStackedVertically) + CollectionViewFormHeaderView.minimumHeight + 20.0 // 20 is the insets you see below.
 

@@ -8,6 +8,19 @@
 
 import Foundation
 
+public enum ImageStyle {
+    case roundedRect
+    case circle
+
+    func cornerRadius(for size: CGSize) -> CGFloat {
+        switch self {
+        case .roundedRect:
+            return ((min(size.width, size.height) + 300.0) / 80.0).rounded(toScale: UIScreen.main.scale)
+        case .circle:
+            return (size.width * 0.5).rounded(toScale: UIScreen.main.scale)
+        }
+    }
+}
 
 public class SummaryListFormItem: BaseFormItem {
 
@@ -27,6 +40,8 @@ public class SummaryListFormItem: BaseFormItem {
 
     public var image: ImageLoadable?
 
+    public var imageStyle: ImageStyle = .roundedRect
+
     public init() {
         super.init(cellType: EntityListCollectionViewCell.self, reuseIdentifier: EntityListCollectionViewCell.defaultReuseIdentifier)
 
@@ -38,8 +53,8 @@ public class SummaryListFormItem: BaseFormItem {
         let cell = cell as! EntityListCollectionViewCell
 
         cell.sourceLabel.text = category
-        cell.titleLabel.apply(sizable: title, defaultFont: defaultTitleFont(for: cell.traitCollection))
-        cell.subtitleLabel.apply(sizable: subtitle, defaultFont: defaultSubtitleFont(for: cell.traitCollection))
+        cell.titleLabel.apply(sizable: title, defaultFont: defaultTitleFont(for: cell.traitCollection), defaultNumberOfLines: 1)
+        cell.subtitleLabel.apply(sizable: subtitle, defaultFont: defaultSubtitleFont(for: cell.traitCollection), defaultNumberOfLines: 1)
         cell.borderColor = badgeColor
         cell.actionCount = badge
         cell.thumbnailView.borderColor = borderColor
@@ -48,6 +63,8 @@ public class SummaryListFormItem: BaseFormItem {
         let sizing = image?.sizing()
         cell.thumbnailView.imageView.image = sizing?.image
         cell.thumbnailView.imageView.contentMode = sizing?.contentMode ?? .center
+
+        cell.thumbnailView.imageStyle = imageStyle
 
         image?.loadImage(completion: { (imageSizable) in
             let sizing = imageSizable.sizing()
@@ -106,6 +123,12 @@ extension SummaryListFormItem {
     @discardableResult
     public func title(_ title: StringSizable?) -> Self {
         self.title = title
+        return self
+    }
+
+    @discardableResult
+    public func imageStyle(_ style: ImageStyle) -> Self {
+        self.imageStyle = style
         return self
     }
 

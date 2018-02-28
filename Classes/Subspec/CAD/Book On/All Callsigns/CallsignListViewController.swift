@@ -89,7 +89,6 @@ open class CallsignListViewController: CADFormCollectionViewController<BookOnLan
         cell.highlightStyle = .fade
         cell.selectionStyle = .fade
         cell.separatorStyle = .indented
-        cell.separatorColor = UIColor.red
         cell.accessoryView = FormAccessoryView(style: .disclosure)
         
         if let cell = cell as? CallsignCollectionViewCell {

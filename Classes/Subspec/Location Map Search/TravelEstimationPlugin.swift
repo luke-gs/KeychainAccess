@@ -53,6 +53,7 @@ open class TravelEstimationPlugin: TravelEstimationPlugable {
     open func calculateDistance(from location: CLLocation, to destination: CLLocation) -> Promise<String> {
         let distanceInMeters = location.distance(from: destination)
         let distanceFormatter = MKDistanceFormatter()
+        distanceFormatter.units = .metric
         distanceFormatter.unitStyle = .abbreviated
         return Promise(value: distanceFormatter.string(fromDistance: distanceInMeters))
     }
@@ -78,4 +79,6 @@ open class TravelEstimationPlugin: TravelEstimationPlugable {
             return Promise(value: dateFormatter.string(from: $0.expectedTravelTime))
         }
     }
+
+    public init() { }
 }

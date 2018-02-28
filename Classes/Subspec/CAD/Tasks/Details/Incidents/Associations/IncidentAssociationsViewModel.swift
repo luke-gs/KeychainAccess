@@ -33,7 +33,7 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<EntitySum
 
         var sections: [CADFormCollectionSectionViewModel<EntitySummaryDisplayable>] = []
         
-        let personsViewModels = incident.persons?.map { person in
+        let personsViewModels = incident.persons.map { person in
             return IncidentAssociationItemViewModel(category: "DS1",
                                                     entityType: .person(initials: person.initials),
                                                     title: person.fullName,
@@ -42,9 +42,9 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<EntitySum
                                                     borderColor: nil,
                                                     iconColor: nil,
                                                     badge: 0)
-        } ?? []
+        }
         
-        let vehiclesViewModels = incident.vehicles?.map { vehicle in
+        let vehiclesViewModels = incident.vehicles.map { vehicle in
             return IncidentAssociationItemViewModel(category: "DS1",
                                                     entityType: .vehicle,
                                                     title: vehicle.plateNumber,
@@ -53,7 +53,7 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<EntitySum
                                                     borderColor: nil,
                                                     iconColor: nil,
                                                     badge: 0)
-        } ?? []
+        }
         
         if personsViewModels.count > 0 {
             let title = String.localizedStringWithFormat(NSLocalizedString("%d Person(s)", comment: ""), personsViewModels.count)

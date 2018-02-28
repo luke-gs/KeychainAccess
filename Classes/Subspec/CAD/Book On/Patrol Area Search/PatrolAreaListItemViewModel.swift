@@ -7,7 +7,7 @@
 
 import UIKit
 
-public struct PatrolAreaListItemViewModel: GenericSearchable {
+public struct PatrolAreaListItemViewModel: CustomSearchDisplayable {
     
     public var patrolArea: String
     
@@ -17,7 +17,7 @@ public struct PatrolAreaListItemViewModel: GenericSearchable {
     
     // MARK: - Searchable
     
-    public var title: String {
+    public var title: String? {
         return patrolArea
     }
     
@@ -25,8 +25,8 @@ public struct PatrolAreaListItemViewModel: GenericSearchable {
     public var subtitle: String?
     public var image: UIImage?
     
-    public func matches(searchString: String) -> Bool {
-        let searchStringLowercase = searchString.lowercased()
+    public func contains(_ searchText: String) -> Bool {
+        let searchStringLowercase = searchText.lowercased()
         return patrolArea.lowercased().hasPrefix(searchStringLowercase)
     }
 

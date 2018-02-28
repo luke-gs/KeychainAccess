@@ -58,44 +58,67 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
     }
     
     
-    /// Calculates the minimum content height for an `EntityCollectionViewCell` with default font settings
-    /// when contained within a specified trait collection.
-    ///
-    /// - Parameters:
-    ///   - style:           The style of the cell.
-    ///   - traitCollection: The trait collection sizing for.
-    /// - Returns: The minimum content height for the entity cell with default settings.
-    open class func minimumContentHeight(forStyle style: Style, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
-        switch style {
-        case .hero:
-            let titleFont    = UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
-            let footnoteFont = UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-            
-            return minimumContentHeight(forStyle: style, withTitleFont: titleFont, subtitleFont: footnoteFont, detailFont: footnoteFont)
-        case .detail, .thumbnail:
-            return 96.0
-        }
-    }
-    
-    
-    /// Calculates the minimum content height for an `EntityCollectionViewCell` with the specified fonts.
-    ///
-    /// It is recommended you use the `minimumContentHeight(forStyle:compatibleWith:)` method to calculate
-    /// the default height for cells.
+    /// Calculates the minimum content height for an `EntityCollectionViewCell` with the specified sizables.
     ///
     /// - Parameters:
     ///   - style:        The style of the cell.
-    ///   - titleFont:    The font for the title label.
-    ///   - subtitleFont: The font for the subtitle label.
-    ///   - detailFont:   The font for the detail label.
-    /// - Returns: The minimum content height for an entity cell with the specified fonts.
-    open class func minimumContentHeight(forStyle style: Style, withTitleFont titleFont: UIFont, subtitleFont: UIFont, detailFont: UIFont) -> CGFloat {
+    ///   - title:        The title sizable.
+    ///   - subtitle:     The subtitle sizable.
+    ///   - detail:       The detail sizable.
+    /// - Returns: The minimum content height for an entity cell with the specified sizables.
+    open class func minimumContentHeight(forStyle style: Style, title: StringSizable?, subtitle: StringSizable?, detail: StringSizable?, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
+        
+        let width = EntityCollectionViewCell.minimumContentWidth(forStyle: style)
+        
+        // Default fonts for each label
+        let titleFont    = UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        let subtitleFont = UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        let detailFont   = UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        
+        var textHeight: CGFloat = 0
+        
+        // Sizing for title
+        var titleSizing = title?.sizing()
+        if titleSizing != nil {
+            if titleSizing!.font == nil {
+                titleSizing!.font = titleFont
+            }
+            if titleSizing!.numberOfLines == nil {
+                titleSizing!.numberOfLines = 1
+            }
+        }
+        textHeight += titleSizing?.minimumHeight(inWidth: width, compatibleWith: traitCollection) ?? 0
+        
+        // Sizing for subtitle
+        var subtitleSizing = subtitle?.sizing()
+        if subtitleSizing != nil {
+            if subtitleSizing!.font == nil {
+                subtitleSizing!.font = subtitleFont
+            }
+            if subtitleSizing!.numberOfLines == nil {
+                subtitleSizing!.numberOfLines = 1
+            }
+        }
+        textHeight += subtitleSizing?.minimumHeight(inWidth: width, compatibleWith: traitCollection) ?? 0
+        
+        // Sizing for detail
+        var detailSizing = detail?.sizing()
+        if detailSizing != nil {
+            if detailSizing!.font == nil {
+                detailSizing!.font = detailFont
+            }
+            if detailSizing!.numberOfLines == nil {
+                detailSizing!.numberOfLines = 2
+            }
+        }
+        textHeight += detailSizing?.minimumHeight(inWidth: width, compatibleWith: traitCollection) ?? 0
+        
         switch style {
         case .hero:
-            let scale = UIScreen.main.scale
-            let heightOfFonts =  titleFont.lineHeight.ceiled(toScale: scale) + subtitleFont.lineHeight.ceiled(toScale: scale) + detailFont.height(forNumberOfLines: 2).ceiled(toScale: scale)
-            return 173.0 + heightOfFonts
-        case .detail, .thumbnail:
+            return 173.0 + textHeight
+        case .detail:
+            return max(96.0, textHeight)
+        case .thumbnail:
             return 96.0
         }
     }

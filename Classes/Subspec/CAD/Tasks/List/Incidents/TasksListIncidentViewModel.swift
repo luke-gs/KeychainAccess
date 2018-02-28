@@ -26,7 +26,7 @@ public class TasksListIncidentViewModel: TasksListItemViewModel {
     public let badgeBorderColor: UIColor?
     public var hasUpdates: Bool
     
-    public init(identifier: String, title: String, subtitle: String, caption: String, priority: String? = nil,
+    public init(identifier: String, source: CADTaskListSourceType, title: String, subtitle: String?, caption: String, priority: String? = nil,
                 description: String? = nil, resources: [TasksListInformationRowViewModel]? = nil, badgeTextColor: UIColor?,
                 badgeFillColor: UIColor?, badgeBorderColor: UIColor?, hasUpdates: Bool)
     {
@@ -37,21 +37,22 @@ public class TasksListIncidentViewModel: TasksListItemViewModel {
         self.badgeFillColor = badgeFillColor
         self.badgeBorderColor = badgeBorderColor
         self.hasUpdates = hasUpdates
-        
-        super.init(identifier: identifier, title: title, subtitle: subtitle, caption: caption)
+
+        super.init(identifier: identifier, source: source, title: title, subtitle: subtitle, caption: caption)
     }
     
-    public convenience init(incident: SyncDetailsIncident, showsDescription: Bool = true, showsResources: Bool = true, hasUpdates: Bool) {
+    public convenience init(incident: CADIncidentType, source: CADTaskListSourceType, showsDescription: Bool = true, showsResources: Bool = true, hasUpdates: Bool) {
         let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier).map {
             return TasksListInformationRowViewModel(with: $0)
         }
         
         self.init(
             identifier: incident.identifier,
+            source: source,
             title: [incident.type, incident.resourceCountString].joined(),
-            subtitle: incident.location.fullAddress,
+            subtitle: incident.location?.fullAddress,
             caption: [incident.identifier, incident.secondaryCode].joined(separator: ThemeConstants.dividerSeparator),
-            priority: incident.grade.rawValue,
+            priority: incident.grade.title,
             description: showsDescription ? incident.details : nil,
             resources: showsResources ? resources : nil,
             badgeTextColor: incident.grade.badgeColors.text,

@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import Cluster
 
 open class TasksMapViewController: MapViewController {
     public typealias AnnotationsInitialLoadZoomStyle = (animated: Bool, includeUserLocation: Bool)
@@ -21,6 +22,15 @@ open class TasksMapViewController: MapViewController {
     public let viewModel: TasksMapViewModel
     public var mapLayerFilterButton: UIBarButtonItem!
     
+    private let clusterManager: ClusterManager = {
+        let clusterManager = ClusterManager()
+        clusterManager.cellSize = nil
+        clusterManager.minCountForClustering = 2
+        clusterManager.shouldRemoveInvisibleAnnotations = false
+        clusterManager.clusterPosition = .average
+        return clusterManager
+    }()
+    
     public init(viewModel: TasksMapViewModel, initialLoadZoomStyle: InitialLoadZoomStyle, startingRegion: MKCoordinateRegion? = nil, settingsViewModel: MapSettingsViewModel = MapSettingsViewModel()) {
         self.viewModel = viewModel
         super.init(initialLoadZoomStyle: initialLoadZoomStyle, startingRegion: startingRegion, settingsViewModel: settingsViewModel)
@@ -30,8 +40,8 @@ open class TasksMapViewController: MapViewController {
         self.viewModel = viewModel
         self.annotationsInitialLoadZoomStyle = annotationsInitialLoadZoomStyle
         super.init(initialLoadZoomStyle: .none, startingRegion: startingRegion, settingsViewModel: settingsViewModel)
+        
     }
-    
 
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
@@ -44,62 +54,58 @@ open class TasksMapViewController: MapViewController {
         navigationItem.title = "Activities"
         mapView.showsCompass = false
         
+        if #available(iOS 11.0, *) {
+            mapView.register(ResourceAnnotationView.self, forAnnotationViewWithReuseIdentifier: ResourceAnnotationView.defaultReuseIdentifier)
+            mapView.register(IncidentAnnotationView.self, forAnnotationViewWithReuseIdentifier: IncidentAnnotationView.defaultReuseIdentifier)
+            mapView.register(PatrolAnnotationView.self, forAnnotationViewWithReuseIdentifier: PatrolAnnotationView.defaultReuseIdentifier)
+        }
+        
         mapLayerFilterButton = UIBarButtonItem.init(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: self, action: #selector(showMapLayerFilter))
         navigationItem.rightBarButtonItem = mapLayerFilterButton
         
         viewModel.loadTasks()
-        mapView.addAnnotations(viewModel.filteredAnnotations)
+        addAnnotations(viewModel.filteredAnnotations)
         addedFirstAnnotations = true
     }
     
     /// Shows the layer filter popover
     @objc private func showMapLayerFilter() {
-        viewModel.splitViewModel?.presentMapFilter()
+        present(TaskListScreen.mapFilter(delegate: viewModel.splitViewModel))
     }
     
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if let annotation = annotation as? ResourceAnnotation {
-            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: ResourceAnnotationView.defaultReuseIdentifier) as? ResourceAnnotationView
+        if let annotation = annotation as? ClusterAnnotation {
+            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: ClusterAnnotationView.defaultReuseIdentifier) as? ClusterAnnotationView
+            annotationView?.annotation =  annotation
             
             if annotationView == nil {
-                annotationView = ResourceAnnotationView(annotation: annotation, reuseIdentifier: ResourceAnnotationView.defaultReuseIdentifier)
-            }
-            
-            annotationView?.configure(withAnnotation: annotation,
-                                      circleBackgroundColor: annotation.iconBackgroundColor,
-                                      resourceImage: annotation.icon,
-                                      imageTintColor: annotation.iconTintColor,
-                                      duress: annotation.duress)
-            
-            return annotationView
-        } else if let annotation = annotation as? IncidentAnnotation {
-            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: IncidentAnnotationView.defaultReuseIdentifier) as? IncidentAnnotationView
-            
-            if annotationView == nil {
-                annotationView = IncidentAnnotationView(annotation: annotation, reuseIdentifier: IncidentAnnotationView.defaultReuseIdentifier)
+                annotationView = ClusterAnnotationView(annotation: annotation, reuseIdentifier: ClusterAnnotationView.defaultReuseIdentifier)
             }
 
-            annotationView?.configure(withAnnotation: annotation,
-                                      priorityText: annotation.badgeText,
-                                      priorityTextColor: annotation.badgeTextColor,
-                                      priorityFillColor: annotation.badgeFillColor,
-                                      priorityBorderColor: annotation.badgeBorderColor,
-                                      usesDarkBackground: annotation.usesDarkBackground)
+            let priorities = annotation.annotations.map { ($0 as? IncidentAnnotation)?.priority }.removeNils()
+            let allGrades = CADClientModelTypes.incidentGrade.allCases
+            let sortedPriorities = priorities.sorted { (lhs, rhs) in allGrades.index(where: { $0 == lhs }) ?? 0 < allGrades.index(where: { $0 == rhs }) ?? 0 }
+            let highestPriority = sortedPriorities.first
             
+            annotationView?.color = highestPriority?.badgeColors.border ?? .disabledGray
+
             return annotationView
-            
+        } else if let annotation = annotation as? TaskAnnotation {
+            return annotation.dequeueReusableAnnotationView(mapView: mapView)
         } else {
             return nil
         }
     }
     
     public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        mapView.deselectAnnotation(view.annotation, animated: false)
+        if !(view is ClusterAnnotationView) {
+            mapView.deselectAnnotation(view.annotation, animated: false)
+        }
+        
         guard viewModel.canSelectAnnotationView(view) else { return }
         
-        if let viewModel = viewModel.viewModel(for: view.annotation as? TaskAnnotation) {
-            let vc = viewModel.createViewController()
-            splitViewController?.navigationController?.pushViewController(vc, animated: true)
+        if let annotation = view.annotation as? TaskAnnotation, let viewModel = annotation.createItemViewModel() {
+            present(TaskItemScreen.landing(viewModel: viewModel))
         }
     }
     
@@ -125,6 +131,11 @@ open class TasksMapViewController: MapViewController {
     }
     
     public func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        // Animate and reload clusters
+        UIView.transition(with: mapView, duration: 0.1, options: .transitionCrossDissolve, animations: {
+            self.clusterManager.reload(mapView, visibleMapRect: mapView.visibleMapRect)
+        }, completion: nil)
+
         // Keep resource annotations on top by bringing subview to front
         // This is needed for iOS 10
         if #available(iOS 11.0, *) { return }
@@ -155,7 +166,7 @@ open class TasksMapViewController: MapViewController {
                 return
             }
             
-            let annotations = self.mapView.annotations
+            let annotations = viewModel.shouldCluster() ? clusterManager.annotations : mapView.annotations
             
             var zoomRect = MKMapRectNull
             for annotation in annotations {
@@ -176,6 +187,24 @@ open class TasksMapViewController: MapViewController {
     
     public func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         zoomToAnnotationsOnLoad()
+    }
+    
+    /// Adds annotations to cluster manager or map view depending on view model
+    private func addAnnotations(_ annotations: [MKAnnotation]) {
+        if viewModel.shouldCluster() {
+            clusterManager.add(annotations)
+            UIView.transition(with: mapView, duration: 0.1, options: .transitionCrossDissolve, animations: {
+                self.clusterManager.reload(self.mapView, visibleMapRect: self.mapView.visibleMapRect)
+            }, completion: nil)
+        } else {
+            mapView.addAnnotations(annotations)
+        }
+    }
+    
+    /// Removes all annotations from cluster manager and map view
+    private func removeAllAnnotations() {
+        clusterManager.removeAll()
+        mapView.removeAnnotations(mapView.annotations)
     }
 }
 
@@ -209,8 +238,8 @@ extension TasksMapViewController: TasksMapViewModelDelegate {
 
         DispatchQueue.main.async {
             self.zPositionObservers.removeAll()
-            self.mapView.removeAnnotations(self.mapView.annotations)
-            self.mapView.addAnnotations(self.viewModel.filteredAnnotations)
+            self.removeAllAnnotations()
+            self.addAnnotations(self.viewModel.filteredAnnotations)
             self.addedFirstAnnotations = true
             self.zoomToAnnotationsOnLoad()
         }

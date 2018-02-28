@@ -7,14 +7,11 @@
 //
 
 import UIKit
-
-public protocol TaskItemViewModelDelegate: class {
-    func presentStatusSelector(viewController: UIViewController)
-}
+import PromiseKit
 
 open class TaskItemViewModel {
 
-    open weak var delegate: TaskItemViewModelDelegate?
+    open weak var delegate: PopoverPresenter?
 
     /// The navigation title for this type of task item details
     open var navTitle: String?
@@ -36,7 +33,10 @@ open class TaskItemViewModel {
     
     /// Name of the item (e.g. 'P08')
     open var itemName: String?
-    
+
+    /// Text for the caption to display below the item name
+    open var subtitleText: String?
+
     /// View controllers to show in the list
     open func detailViewControllers() -> [UIViewController] {
         return viewModels.map {
@@ -58,14 +58,14 @@ open class TaskItemViewModel {
     ///   - color: Color to use for the icon image background and status text
     ///   - statusText: Status text to display below the icon
     ///   - itemName: Name of the item
-    ///   - lastUpdated: Last updated time string
-    public init(iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?, viewModels: [TaskDetailsViewModel] = []) {
+    public init(iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?, subtitleText: String?, viewModels: [TaskDetailsViewModel] = []) {
         self.iconImage = iconImage
         self.iconTintColor = iconTintColor
         self.color = color
         self.statusText = statusText
         self.itemName = itemName
         self.viewModels = viewModels
+        self.subtitleText = subtitleText
     }
 
     /// Called when the view model data should be refreshed from model data
@@ -80,5 +80,10 @@ open class TaskItemViewModel {
     /// Called to see if changing resource status is allowed
     open func allowChangeResourceStatus() -> Bool {
         return false
+    }
+    
+    // Called when a user pulls to refresh on the sidebar
+    open func refreshTask() -> Promise<Void> {
+        MPLRequiresConcreteImplementation()
     }
 }

@@ -13,8 +13,8 @@ public struct ActivityLogItemViewModel {
     public let dotFillColor: UIColor
     public let dotStrokeColor: UIColor
     public let timestamp: Date
-    public let title: String
-    public let subtitle: String
+    public let title: String?
+    public let subtitle: String?
 
     public func dotImage() -> UIImage {
         return UIImage.statusDot(withColor: dotFillColor, strokeColor: dotStrokeColor)
@@ -22,10 +22,11 @@ public struct ActivityLogItemViewModel {
     
     /// Timestamp string
     public var timestampString: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeZone = TimeZone.current
-        dateFormatter.dateFormat = "HH:mm"
-        
-        return dateFormatter.string(from: timestamp)
+        return ActivityLogItemViewModel.timestampDateFormatter.string(from: timestamp)
     }
+
+    public static var timestampDateFormatter: DateFormatter = {
+        return DateFormatter.preferredTimeStyle
+    }()
+
 }

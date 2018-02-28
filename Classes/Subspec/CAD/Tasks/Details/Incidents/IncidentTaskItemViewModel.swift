@@ -7,32 +7,34 @@
 //
 
 import UIKit
+import PromiseKit
 
 open class IncidentTaskItemViewModel: TaskItemViewModel {
 
-    open private(set) var incident: SyncDetailsIncident?
-    open private(set) var resource: SyncDetailsResource?
+    open private(set) var incident: CADIncidentType?
+    open private(set) var resource: CADResourceType?
 
     public init(incidentNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
-        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName)
+        let captionText = "#\(incidentNumber)"
+        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, subtitleText: captionText)
 
         self.navTitle =  NSLocalizedString("Incident details", comment: "")
         self.compactNavTitle = itemName
 
         self.viewModels = [
-            IncidentOverviewViewModel(incidentNumber: incidentNumber),
+            IncidentOverviewViewModel(identifier: incidentNumber),
             IncidentAssociationsViewModel(incidentNumber: incidentNumber),
             IncidentResourcesViewModel(incidentNumber: incidentNumber),
             IncidentNarrativeViewModel(incidentNumber: incidentNumber),
         ]
     }
 
-    public convenience init(incident: SyncDetailsIncident, resource: SyncDetailsResource?) {
+    public convenience init(incident: CADIncidentType, resource: CADResourceType?) {
         self.init(incidentNumber: incident.identifier,
-                  iconImage: resource?.status.icon ?? ResourceStatus.unavailable.icon,
+                  iconImage: resource?.status.icon ?? CADClientModelTypes.resourceStatus.defaultCase.icon,
                   iconTintColor: resource?.status.iconColors.icon ?? .white,
                   color: resource?.status.iconColors.background,
-                  statusText: resource?.status.title ?? incident.status.rawValue,
+                  statusText: resource?.status.title ?? incident.status.title,
                   itemName: [incident.type, incident.resourceCountString].joined())
         self.incident = incident
         self.resource = resource
@@ -51,10 +53,10 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         }
 
         if let incident = incident {
-            iconImage = resource?.status.icon ?? ResourceStatus.unavailable.icon
+            iconImage = resource?.status.icon ?? CADClientModelTypes.resourceStatus.defaultCase.icon
             iconTintColor = resource?.status.iconColors.icon ?? .white
             color = resource?.status.iconColors.background
-            statusText = resource?.status.title ?? incident.status.rawValue
+            statusText = resource?.status.title ?? incident.status.title
             itemName = [incident.type, incident.resourceCountString].joined()
 
             viewModels.forEach {
@@ -64,21 +66,8 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
     }
 
     override open func didTapTaskStatus() {
-        if allowChangeResourceStatus() {
-            let callsignStatus = CADStateManager.shared.currentResource?.status ?? .unavailable
-            let sections = [CADFormCollectionSectionViewModel(
-                title: "",
-                items: [
-                    ManageCallsignStatusItemViewModel(.proceeding),
-                    ManageCallsignStatusItemViewModel(.atIncident),
-                    ManageCallsignStatusItemViewModel(.finalise),
-                    ManageCallsignStatusItemViewModel(.inquiries2) ])
-            ]
-            let viewModel = CallsignStatusViewModel(sections: sections, selectedStatus: callsignStatus, incident: incident)
-            viewModel.showsCompactHorizontal = false
-            let viewController = viewModel.createViewController()
-            
-            delegate?.presentStatusSelector(viewController: viewController)
+        if let resource = resource, allowChangeResourceStatus() {
+            delegate?.present(TaskItemScreen.resourceStatus(resource: resource, incident: incident))
         }
     }
 
@@ -92,5 +81,10 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
             }
         }
         return false
+    }
+    
+    open override func refreshTask() -> Promise<Void> {
+        // TODO: Add method to CADStateManager to fetch individual incident
+        return Promise<Void>()
     }
 }

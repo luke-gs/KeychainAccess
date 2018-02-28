@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import PromiseKit
 
 public class ResourceTaskItemViewModel: TaskItemViewModel {
     
-    open private(set) var resource: SyncDetailsResource?
+    open private(set) var resource: CADResourceType?
     
     public init(callsign: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
-        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName)
+        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, subtitleText: nil)
 
         if callsign == CADStateManager.shared.currentResource?.callsign {
             self.navTitle = NSLocalizedString("My call sign", comment: "")
@@ -24,7 +25,7 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
         self.compactNavTitle = itemName
 
         self.viewModels = [
-            ResourceOverviewViewModel(callsign: callsign),
+            ResourceOverviewViewModel(identifier: callsign),
             ResourceOfficerListViewModel(callsign: callsign),
             ResourceActivityLogViewModel(callsign: callsign)
         ]
@@ -36,7 +37,7 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
         return vc
     }
 
-    public convenience init(resource: SyncDetailsResource) {
+    public convenience init(resource: CADResourceType) {
         self.init(
             callsign: resource.callsign,
             iconImage: resource.status.icon,
@@ -47,22 +48,23 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
         self.resource = resource
     }
 
-    override open func didTapTaskStatus() {
-        if allowChangeResourceStatus() {
-            let callsignStatus = CADStateManager.shared.currentResource?.status ?? .unavailable
-            let sections = [CADFormCollectionSectionViewModel(
-                title: "",
-                items: [
-                    ManageCallsignStatusItemViewModel(.proceeding),
-                    ManageCallsignStatusItemViewModel(.atIncident),
-                    ManageCallsignStatusItemViewModel(.finalise),
-                    ManageCallsignStatusItemViewModel(.inquiries2) ])
-            ]
-            let viewModel = CallsignStatusViewModel(sections: sections, selectedStatus: callsignStatus, incident: nil)
-            viewModel.showsCompactHorizontal = false
-            let viewController = viewModel.createViewController()
+    public override func reloadFromModel() {
+        if let resource = resource {
+            iconImage = resource.status.icon
+            iconTintColor = resource.status.iconColors.icon
+            color = resource.status.iconColors.background
+            statusText = resource.status.title
+            itemName = [resource.callsign, resource.officerCountString].joined()
 
-            delegate?.presentStatusSelector(viewController: viewController)
+            viewModels.forEach {
+                $0.reloadFromModel()
+            }
+        }
+    }
+
+    override open func didTapTaskStatus() {
+        if let resource = resource, allowChangeResourceStatus() {
+            delegate?.present(TaskItemScreen.resourceStatus(resource: resource, incident: nil))
         }
     }
 
@@ -75,4 +77,8 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
         return false
     }
 
+    open override func refreshTask() -> Promise<Void> {
+        // TODO: Add method to CADStateManager to fetch individual resource
+        return Promise<Void>()
+    }
 }

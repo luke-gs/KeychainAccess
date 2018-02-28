@@ -15,7 +15,7 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
     
     // MARK: - Sizing
     
-    public static let minimumHeight: CGFloat = 36.0
+    public static let minimumHeight: CGFloat = 32.0
 
     private let updatesIndicatorSize: CGFloat = 10
     private let updatesIndicatorOffset: CGFloat = 16

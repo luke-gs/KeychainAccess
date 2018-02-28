@@ -10,19 +10,17 @@ import UIKit
 
 open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsignItemViewModel> {
 
-    private func convertCallsignsToViewModels() -> [CADFormCollectionSectionViewModel<BookOnLandingCallsignItemViewModel>] {
+    open func convertCallsignsToViewModels() -> [CADFormCollectionSectionViewModel<BookOnLandingCallsignItemViewModel>] {
         var offDuty: [BookOnLandingCallsignItemViewModel] = []
         var bookedOn: [BookOnLandingCallsignItemViewModel] = []
 
-        if let syncDetails = CADStateManager.shared.lastSync {
-            for resource in syncDetails.resources {
-                if resource.patrolGroup == CADStateManager.shared.patrolGroup {
-                    let viewModel = BookOnLandingCallsignItemViewModel(resource: resource)
-                    if resource.shiftStart == nil {
-                        offDuty.append(viewModel)
-                    } else {
-                        bookedOn.append(viewModel)
-                    }
+        for resource in CADStateManager.shared.resources {
+            if resource.patrolGroup == CADStateManager.shared.patrolGroup {
+                let viewModel = BookOnLandingCallsignItemViewModel(resource: resource)
+                if resource.shiftStart == nil {
+                    offDuty.append(viewModel)
+                } else {
+                    bookedOn.append(viewModel)
                 }
             }
         }
@@ -105,7 +103,7 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
     }
     
     
-    /// Sorts sections, showing `On Air` status first, then `At Incident` status, then alphabetically by callsign
+    /// Sorts sections based on resource status, then alphabetically by callsign
     ///
     /// - Parameter unsorted: the unsorted array
     /// - Returns: a sorted array
@@ -113,19 +111,14 @@ open class CallsignListViewModel: CADFormCollectionViewModel<BookOnLandingCallsi
         // Map sections
         return unsorted.map { section in
             // Sort items
-            let sortedItems = section.items.sorted {
-                if $0.status == .onAir && $0.status != $1.status {
-                    // Status is on air, and statuses don't match
-                    return true
-                } else if $0.status == .atIncident && $0.status != $1.status {
-                    // Statuses don't match, first is at incident. Prioritise if second is not on air
-                    return $1.status != .onAir
-                } else {
-                    // Status matches, sort alphabetically by callsign
-                    return $0.callsign < $1.callsign
+            let sortedItems = section.items.sorted { (lhs, rhs) in
+                if lhs.status?.listOrder != rhs.status?.listOrder {
+                    // Sort by lower list order
+                    return lhs.status?.listOrder ?? Int.max < rhs.status?.listOrder ?? Int.max
                 }
+                // Sort alphabetically by callsign
+                return lhs.callsign < rhs.callsign
             }
-            
             return CADFormCollectionSectionViewModel(title: section.title, items: sortedItems)
         }
     }

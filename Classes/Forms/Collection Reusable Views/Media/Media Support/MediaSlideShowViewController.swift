@@ -20,11 +20,23 @@ public protocol MediaSlideShowable: class {
 
 public class MediaSlideShowViewController: UIViewController, MediaSlideShowable, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
 
+    private var isFullScreen: Bool = false
+
+    // Detects whether the status bar appearance should be based on `UIApplication` or `UIViewController`.
+    private lazy var isUIViewControllerBasedStatusBarAppearance: Bool = {
+        let infoPlist = Bundle.main.infoDictionary
+        if let isViewControllerBased = infoPlist?["UIViewControllerBasedStatusBarAppearance"] as? Bool {
+            return isViewControllerBased
+        }
+        // If not declared, the default value is `true`
+        return true
+    }()
+
     private lazy var pageViewController: UIPageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: [UIPageViewControllerOptionInterPageSpacingKey: 16.0])
 
     public var allowEditing: Bool = true
 
-    public var overlayView: MediaOverlayViewable = MediaSlideShowOverlayView(frame: .zero) {
+    public var overlayView: MediaOverlayViewable = MediaSlideShowOverlayView(frame: UIScreen.main.bounds) {
         willSet {
             overlayView.view().removeFromSuperview()
         }
@@ -176,6 +188,14 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
                 overlayView.populateWithMedia(currentMedia)
             }
         }
+    public override var prefersStatusBarHidden: Bool {
+    }
+
+        return isFullScreen
+    }
+
+    public override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        return .slide
     }
 
     // MARK: - Photo management
@@ -223,6 +243,17 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         return viewModel.previews.index(where: { $0 === preview })
     }
 
+    private func setFullScreen(_ isFullScreen: Bool, animated: Bool = true) {
+        self.isFullScreen = isFullScreen
+        overlayView.setHidden(isFullScreen, animated: animated)
+        if isUIViewControllerBasedStatusBarAppearance {
+            setNeedsStatusBarAppearanceUpdate()
+        } else {
+            let animation: UIStatusBarAnimation = animated ? .slide : .none
+            UIApplication.shared.setStatusBarHidden(isFullScreen, with: animation)
+        }
+    }
+
     @objc private func galleryDidChange(_ notification: Notification) {
         
     }
@@ -230,7 +261,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
     // MARK: - Gesture Recognizers
 
     @objc private func handleTapGestureRecognizer(_ gestureRecognizer: UITapGestureRecognizer) {
-        overlayView.setHidden(!overlayView.view().isHidden, animated: true)
+        setFullScreen(!isFullScreen, animated: true)
     }
 
 }

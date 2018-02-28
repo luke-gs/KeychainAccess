@@ -255,7 +255,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
     }
     
     @objc public func showMapLayerFilter() {
-        viewModel.splitViewModel?.presentMapFilter()
+        present(TaskListScreen.mapFilter(delegate: viewModel.splitViewModel))
     }
     
     open func refreshTasks() {
@@ -274,7 +274,14 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
 extension TasksListContainerViewController: TasksListContainerViewModelDelegate {
     open func updateSourceItems() {
         sourceItems = viewModel.sourceItems
+    }
+
+    open func updateSelectedSourceIndex() {
         selectedSourceIndex = viewModel.selectedSourceIndex
+
+        // Reset to top and cancel search when switching source types
+        tasksListViewController.collectionView?.contentOffset = .zero
+        tasksListViewController.hideSearchBar()
     }
 }
 
@@ -284,10 +291,6 @@ extension TasksListContainerViewController: SourceBarDelegate {
     open func sourceBar(_ bar: SourceBar, didSelectItemAt index: Int) {
         selectedSourceIndex = index
         viewModel.selectedSourceIndex = index
-
-        // Reset to top and cancel search when switching types
-        tasksListViewController.collectionView?.contentOffset = .zero
-        tasksListViewController.hideSearchBar()
     }
 
     open func sourceBar(_ bar: SourceBar, didRequestToLoadItemAt index: Int) {

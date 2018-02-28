@@ -11,8 +11,6 @@ import Foundation
 
 public protocol EntitySummaryDisplayable {
 
-    init(_ entity: MPOLKitEntity)
-    
     var category: String? { get }
     
     var title: String? { get }
@@ -28,13 +26,44 @@ public protocol EntitySummaryDisplayable {
     var badge: UInt { get }
 
     func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable?
+
+    var priority: Int { get }
+
 }
+
+extension EntitySummaryDisplayable {
+
+    public var priority: Int { return -1 }
+
+}
+
+extension Array where Element == EntitySummaryDisplayable {
+
+    public func highestPriority() -> Element? {
+        var selectedElement: Element?
+
+        for element in self {
+            if let lastElement = selectedElement {
+                if element.priority > lastElement.priority {
+                    selectedElement = element
+                }
+            } else {
+                selectedElement = element
+            }
+        }
+
+        return selectedElement
+    }
+
+}
+
 
 public protocol EntitySummaryDecoratable {
     
     func decorate(with entitySummary: EntitySummaryDisplayable)
     
 }
+
 
 extension EntitySummaryDisplayable {
 
@@ -57,9 +86,9 @@ extension EntitySummaryDisplayable {
         return SummaryThumbnailFormItem()
             .style(style)
             .category(category)
-            .title(title)
-            .subtitle(detail1)
-            .detail(detail2)
+            .title(title?.sizing(withNumberOfLines: style == .hero ? 0 : 1))
+            .subtitle(detail1?.sizing(withNumberOfLines: style == .hero ? 0 : 1))
+            .detail(detail2?.sizing(withNumberOfLines: style == .hero ? 0 : 2))
             .badge(badge)
             .badgeColor(borderColor)
             .image(thumbnail(ofSize: style == .hero ? .large : .medium))
@@ -75,8 +104,8 @@ extension EntitySummaryDisplayable {
         let subtitle = [detail1, detail2].joined(separator: ThemeConstants.dividerSeparator)
         return SummaryListFormItem()
             .category(category)
-            .title(title)
-            .subtitle(subtitle)
+            .title(title?.sizing(withNumberOfLines: 0))
+            .subtitle(subtitle.sizing(withNumberOfLines: 0))
             .badge(badge)
             .badgeColor(borderColor)
             .image(thumbnail(ofSize: .small))

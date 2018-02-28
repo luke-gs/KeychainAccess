@@ -53,8 +53,8 @@ open class TrafficStopViewController: FormBuilderViewController {
         
         builder += HeaderFormItem(text: "STOPPED ENTITIES")
             .actionButton(title: NSLocalizedString("ADD", comment: "").uppercased(), handler: { [unowned self] _ in
-                let addEntityVM = self.viewModel.viewModelForAddingEntity()
-                self.navigationController?.pushViewController(addEntityVM.createViewController(), animated: true)
+                let entityViewModel = self.viewModel.viewModelForAddingEntity()
+                self.present(BookOnScreen.trafficStopEntity(entityViewModel: entityViewModel))
             })
         viewModel.entities.forEach { item in
             builder += SummaryListFormItem()
@@ -95,7 +95,7 @@ open class TrafficStopViewController: FormBuilderViewController {
                 .placeholder("Required")
                 .selectedValue([viewModel.priority?.rawValue].removeNils())
                 .onValueChanged({ [unowned self] in
-                    self.viewModel.priority = IncidentGrade(rawValue: $0?.first ?? "")
+                    self.viewModel.priority = CADClientModelTypes.incidentGrade.init(rawValue: $0?.first ?? "")
                 })
                 .width(.fixed(100))
             builder += DropDownFormItem(title: "Primary Code")

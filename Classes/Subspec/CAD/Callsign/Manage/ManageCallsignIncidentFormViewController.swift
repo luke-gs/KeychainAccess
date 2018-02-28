@@ -13,13 +13,10 @@ open class ManageCallsignIncidentFormViewController: FormBuilderViewController {
 
     open var listViewModel: TasksListIncidentViewModel?
 
-    open var taskViewModel: IncidentTaskItemViewModel?
-
     // MARK: - Initializers
 
-    public init(listViewModel: TasksListIncidentViewModel?, taskViewModel: IncidentTaskItemViewModel?) {
+    public init(listViewModel: TasksListIncidentViewModel?) {
         self.listViewModel = listViewModel
-        self.taskViewModel = taskViewModel
         super.init()
     }
 
@@ -57,9 +54,8 @@ open class ManageCallsignIncidentFormViewController: FormBuilderViewController {
                 })
                 .onSelection({ [unowned self] cell in
                     // Present the incident split view controller
-                    if let taskViewModel = self.taskViewModel {
-                        let vc = taskViewModel.createViewController()
-                        self.present(vc, animated: true, completion: nil)
+                    if let viewModel = listViewModel.createItemViewModel() {
+                        self.present(TaskItemScreen.landing(viewModel: viewModel))
                     }
                 })
         }

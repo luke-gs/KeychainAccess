@@ -75,14 +75,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
             }
         }
     }
-    
-    @available(iOS, deprecated, renamed: "calculatesContentHeight")
-    open var wantsCalculatedContentHeight: Bool {
-        get { return calculatesContentHeight }
-        set { calculatesContentHeight = newValue }
-    }
-    
-    
+
     /// The minimum allowed calculated content height. The default is `100.0`.
     open var minimumCalculatedContentHeight: CGFloat = 100.0 {
         didSet {
@@ -133,24 +126,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
             }
         }
     }
-    
-    /// A boolean value indicating whether the table view should display with separators
-    /// when with a transparent background.
-    ///
-    /// Some MPOL views require separators to be hidden when appearing transparently,
-    /// for example in a popover.
-    ///
-    /// The default is `false` on plain style table views, and `true` in the grouped style.
-    open var wantsSeparatorWhenTransparent: Bool {
-        didSet {
-            guard wantsSeparatorWhenTransparent != oldValue, wantsTransparentBackground,
-                let tableView = self.tableView else { return }
-            
-            tableView.separatorStyle = wantsSeparatorWhenTransparent ? .singleLine : .none
-        }
-    }
-    
-    
+
     @NSCopying open private(set) var tintColor:            UIColor?
     
     @NSCopying open private(set) var backgroundColor:      UIColor?
@@ -206,14 +182,12 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     
     public init(style: UITableViewStyle) {
         tableViewStyle = style
-        wantsSeparatorWhenTransparent = style == .grouped
         super.init(nibName: nil, bundle: nil)
         commonInit()
     }
     
     public required init?(coder aDecoder: NSCoder) {
         tableViewStyle = .plain
-        wantsSeparatorWhenTransparent = false
         super.init(coder: aDecoder)
         commonInit()
     }
@@ -241,11 +215,9 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         tableView.dataSource = self
         tableView.delegate   = self
         tableView.alwaysBounceVertical = true
-        tableView.separatorStyle = wantsSeparatorWhenTransparent || (wantsTransparentBackground == false) ? .singleLine : .none
         tableView.cellLayoutMarginsFollowReadableWidth = false
         tableView.preservesSuperviewLayoutMargins = false
         tableView.layoutMargins = UIEdgeInsets(top: 0.0, left: 20.0, bottom: 0.0, right: 0.0)
-        
         if calculatesContentHeight {
             tableView.addObserver(self, forKeyPath: #keyPath(UITableView.contentSize), options: [.old, .new], context: &contentHeightContext)
         }
@@ -540,7 +512,6 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         }
         
         tableView.backgroundColor = newColor
-        tableView.separatorStyle  = wantsSeparatorWhenTransparent || (wantsTransparentBackground == false) ? .singleLine : .none
     }
 
 }

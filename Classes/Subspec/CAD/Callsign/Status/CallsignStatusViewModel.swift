@@ -13,10 +13,10 @@ import PromiseKit
 open class CallsignStatusViewModel: CADStatusViewModel {
 
     /// The incident related to the resource status
-    open private(set) var incident: SyncDetailsIncident?
+    open private(set) var incident: CADIncidentType?
 
     /// The current status
-    open var currentStatus: ResourceStatus? {
+    open var currentStatus: CADResourceStatusType? {
         if let selectedIndexPath = selectedIndexPath {
             return statusForIndexPath(selectedIndexPath)
         }
@@ -25,7 +25,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
 
     /// Init with sectioned statuses to display, and current selection
     public init(sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>],
-                selectedStatus: ResourceStatus, incident: SyncDetailsIncident?) {
+                selectedStatus: CADResourceStatusType, incident: CADIncidentType?) {
         super.init()
 
         self.sections = sections
@@ -34,7 +34,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
     }
     
     public func reload(sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>],
-                selectedStatus: ResourceStatus, incident: SyncDetailsIncident?) {
+                selectedStatus: CADResourceStatusType, incident: CADIncidentType?) {
         self.sections = sections
         self.selectedIndexPath = indexPathForStatus(selectedStatus)
         self.incident = incident
@@ -48,9 +48,10 @@ open class CallsignStatusViewModel: CADStatusViewModel {
     }
 
     /// Attempt to select a new status
-    open func setSelectedIndexPath(_ indexPath: IndexPath) -> Promise<ResourceStatus> {
+    open func setSelectedIndexPath(_ indexPath: IndexPath) -> Promise<CADResourceStatusType> {
         let newStatus = statusForIndexPath(indexPath)
-        let (allowed, requiresReason) = (currentStatus ?? .unavailable).canChangeToStatus(newStatus: newStatus)
+        let currentStatus = self.currentStatus ?? CADClientModelTypes.resourceStatus.defaultCase
+        let (allowed, requiresReason) = currentStatus.canChangeToStatus(newStatus: newStatus)
         if allowed {
             var promise: Promise<Void> = Promise<Void>()
 
@@ -62,27 +63,28 @@ open class CallsignStatusViewModel: CADStatusViewModel {
                     // TODO: Do something with reason text
                 }
             }
-            
-            switch newStatus {
-            case .finalise:
+
+            switch newStatus.rawValue {
+            case CADClientModelTypes.resourceStatus.trafficStopCase.rawValue:
+                promise = promise.then { _ in
+                    return self.promptForTrafficStopDetails()
+                }.then { _ -> Void in
+                    // TODO: Submit traffic stop details
+                }
+            case CADClientModelTypes.resourceStatus.finaliseCase.rawValue:
                 promise = promise.then {
                     return self.promptForFinaliseDetails()
                 }.then { _ -> Void in
                     // TODO: Do something with this data
                 }
-            case .trafficStop:
-                promise = promise.then {
-                    return self.promptForTrafficStopDetails()
-                }.then { _ -> Void in
-                    // TODO: Submit traffic stop details
-                }
-            default: break
+            default:
+                break
             }
 
             return promise.then {
                 // TODO: Submit callsign request
                 return after(seconds: 1.0)
-            }.then { _ -> Promise<ResourceStatus> in
+            }.then { _ -> Promise<CADResourceStatusType> in
                 // Update UI
                 self.selectedIndexPath = indexPath
                 CADStateManager.shared.updateCallsignStatus(status: newStatus, incident: self.incident)
@@ -95,9 +97,9 @@ open class CallsignStatusViewModel: CADStatusViewModel {
     }
     
     // Prompts the user for more details when tapping on "Traffic Stop" status
-    open func promptForTrafficStopDetails() -> Promise<TrafficStopRequest> {
-        let (promise, fulfill, reject) = Promise<TrafficStopRequest>.pending()
-        let completionHandler: ((TrafficStopRequest?) -> Void) = { request in
+    open func promptForTrafficStopDetails() -> Promise<CADTrafficStopDetailsType> {
+        let (promise, fulfill, reject) = Promise<CADTrafficStopDetailsType>.pending()
+        let completionHandler: ((CADTrafficStopDetailsType?) -> Void) = { request in
             if let request = request {
                 fulfill(request)
             } else {
@@ -138,11 +140,11 @@ open class CallsignStatusViewModel: CADStatusViewModel {
         return promise
     }
 
-    open func statusForIndexPath(_ indexPath: IndexPath) -> ResourceStatus {
+    open func statusForIndexPath(_ indexPath: IndexPath) -> CADResourceStatusType {
         return sections[indexPath.section].items[indexPath.item].status
     }
 
-    open func indexPathForStatus(_ status: ResourceStatus) -> IndexPath? {
+    open func indexPathForStatus(_ status: CADResourceStatusType) -> IndexPath? {
         // Find the status in the section data
         for (sectionIndex, section) in sections.enumerated() {
             for (itemIndex, item) in section.items.enumerated() {

@@ -14,6 +14,7 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
     private let detailViewModel: TaskItemViewModel
     private var compactStatusChangeBar: GlassBarView?
     private let pencilCircleView = UIImageView()
+    private let refreshControl = UIRefreshControl()
 
     public init(viewModel: TaskItemViewModel) {
         
@@ -30,6 +31,8 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
         
         regularSidebarViewController.title = NSLocalizedString("Details", comment: "")
         regularSidebarViewController.headerView = headerView
+        regularSidebarViewController.sidebarTableView?.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         
         // Add pencil icon
         let circleImage = AssetManager.shared.image(forKey: .edit)?
@@ -97,13 +100,14 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
     }
 
     /// Updates the header view with the details for the latest selected representation.
-    /// Call this methodwhen the selected representation changes.
+    /// Call this method when the selected representation changes.
     private func updateHeaderView() {
         headerView.iconView.tintColor = detailViewModel.iconTintColor
         headerView.iconView.image = detailViewModel.iconImage
         headerView.iconView.contentMode = .center
         headerView.captionLabel.text = detailViewModel.statusText?.localizedUppercase
         headerView.titleLabel.text = detailViewModel.itemName
+        headerView.subtitleLabel.text = detailViewModel.subtitleText
 
         if let color = detailViewModel.color {
             headerView.iconView.backgroundColor = color
@@ -165,22 +169,13 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
     @objc open func didTapStatusChangeButton() {
         detailViewModel.didTapTaskStatus()
     }
+    
+    @objc open func refreshData() {
+        detailViewModel.refreshTask().always {
+            self.refreshControl.endRefreshing()
+        }.catch { error in
+            AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
+        }
+    }
 }
 
-extension TaskItemSidebarSplitViewController: TaskItemViewModelDelegate {
-    public func presentStatusSelector(viewController: UIViewController) {
-        let size: CGSize
-        
-        if isCompact() {
-            size = CGSize(width: 312, height: 224)
-        } else {
-            size = CGSize(width: 540, height: 120)
-        }
-        
-        // Add done button
-        viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissAnimated))
-        
-        self.presentFormSheet(viewController, animated: true, size: size, forced: true)
-    }
-    
-}

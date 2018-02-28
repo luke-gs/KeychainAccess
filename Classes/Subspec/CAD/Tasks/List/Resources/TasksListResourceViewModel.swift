@@ -19,7 +19,7 @@ open class TasksListResourceViewModel: TasksListItemViewModel {
         return informationRows?.count ?? 0 > 0
     }
     
-    init(identifier: String, title: String, subtitle: String, caption: String, resourceImage: UIImage?, statusImage: UIImage?,
+    init(identifier: String, source: CADTaskListSourceType, title: String, subtitle: String, caption: String, resourceImage: UIImage?, statusImage: UIImage?,
          informationRows: [TasksListInformationRowViewModel]?, incidentViewModel: TasksListIncidentViewModel?)
     {
         self.resourceImage = resourceImage
@@ -27,13 +27,13 @@ open class TasksListResourceViewModel: TasksListItemViewModel {
         self.informationRows = informationRows
         self.incidentViewModel = incidentViewModel
         
-        super.init(identifier: identifier, title: title, subtitle: subtitle, caption: caption)
+        super.init(identifier: identifier, source: source, title: title, subtitle: subtitle, caption: caption)
     }
 
-    public convenience init(resource: SyncDetailsResource, incident: SyncDetailsIncident?) {
+    public convenience init(resource: CADResourceType, resourceSource: CADTaskListSourceType, incident: CADIncidentType?, incidentSource: CADTaskListSourceType?) {
         var incidentViewModel: TasksListIncidentViewModel? = nil
-        if let incident = incident {
-            incidentViewModel = TasksListIncidentViewModel(incident: incident, hasUpdates: false)
+        if let incident = incident, let incidentSource = incidentSource {
+            incidentViewModel = TasksListIncidentViewModel(incident: incident, source: incidentSource, hasUpdates: false)
         }
         
         let iconImage = resource.type.icon?
@@ -55,6 +55,7 @@ open class TasksListResourceViewModel: TasksListItemViewModel {
         
         self.init(
             identifier: resource.callsign,
+            source: resourceSource,
             title: [resource.callsign, resource.officerCountString].joined(),
             subtitle: resource.location?.suburb ?? "—",
             caption: resource.status.title,
