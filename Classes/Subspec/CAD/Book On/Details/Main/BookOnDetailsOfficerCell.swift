@@ -14,26 +14,74 @@ public class BookOnDetailsOfficerCell: CollectionViewFormSubtitleCell {
     private struct LayoutConstants {
         static let spacingX: CGFloat = 8
     }
+    
+    public enum StatusLabelStyle {
+        case hollow
+        case filled
+        case custom(border: UIColor, fill: UIColor, text: UIColor)
+        
+        public func borderColor(forTheme theme: Theme) -> UIColor? {
+            switch self {
+            case .hollow:
+                return theme.color(forKey: .primaryText)
+            case .filled:
+                return theme.color(forKey: .primaryText)
+            case .custom(let border, _, _):
+                return border
+            }
+        }
+        
+        public func fillColor(forTheme theme: Theme) -> UIColor? {
+            switch self {
+            case .hollow:
+                return .clear
+            case .filled:
+                return theme.color(forKey: .primaryText)
+            case .custom(_, let fill, _):
+                return fill
+            }
+        }
+        
+        public func textColor(forTheme theme: Theme) -> UIColor? {
+            switch self {
+            case .hollow:
+                return theme.color(forKey: .primaryText)
+            case .filled:
+                return theme.color(forKey: .background)
+            case .custom(_, _, let text):
+                return text
+            }
+        }
+    }
 
     // MARK: - Views
 
     /// Rounded rect showing the officer status
     public let statusLabel = RoundedRectLabel(frame: .zero)
+    
+    public var statusLabelStyle: StatusLabelStyle = .filled {
+        didSet {
+            setStatusLabelColors()
+        }
+    }
 
     // MARK: - Setup
 
     override public func commonInit() {
         super.commonInit()
 
-        let theme = ThemeManager.shared.theme(for: .current)
-        statusLabel.textColor = theme.color(forKey: .background)
-        statusLabel.borderColor = theme.color(forKey: .primaryText)
-        statusLabel.backgroundColor = theme.color(forKey: .primaryText)
         statusLabel.layoutMargins.left = 4
         statusLabel.layoutMargins.right = 4
         contentView.addSubview(statusLabel)
     }
 
+    public func setStatusLabelColors() {
+        let theme = ThemeManager.shared.theme(for: .current)
+        statusLabel.textColor = statusLabelStyle.textColor(forTheme: theme)
+        statusLabel.borderColor = statusLabelStyle.borderColor(forTheme: theme)
+        statusLabel.backgroundColor = statusLabelStyle.fillColor(forTheme: theme)
+    }
+    
     public override func layoutSubviews() {
 
         // Layout rest of cell

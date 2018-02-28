@@ -68,6 +68,21 @@ extension DateFormatter {
         return formatter
     }()
 
+    public static var mediumDateStyle: Foundation.DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = .autoupdatingCurrent
+        formatter.dateFormat = "E dd MMM"
+        return formatter
+    }()
+    
+    public static var militaryTimeStyle: Foundation.DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = .autoupdatingCurrent
+        formatter.dateFormat = "HHmm"
+        return formatter
+    }()
+    
+    
     // MARK - Formatter used in form
 
     @available(*, deprecated, message: "Use preferredDateStyle instead.")
@@ -115,7 +130,10 @@ extension DateFormatter {
     public static let relativeShortDateAndTimeFullYear: DateFormatter = {
         return RelativeDateFormatter(dateFormatter: preferredDateStyle, timeFormatter: preferredTimeStyle, separator: ", ")
     }()
-
+    
+    public static let relativeMediumDateAndMilitaryTime: DateFormatter = {
+        return RelativeDateFormatter(dateFormatter: mediumDateStyle, timeFormatter: militaryTimeStyle, separator: ", ")
+    }()
 
     // MARK: - Locale changes
     
