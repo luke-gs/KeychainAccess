@@ -166,7 +166,7 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
 
             UIView.animate(withDuration: 0.25, delay: 0.0, options: [.allowAnimatedContent, .allowUserInteraction], animations: {
                 self.layoutIfNeeded()
-                self.galleryViewController?.view.backgroundColor = finalColor
+                self.slideShowViewController?.view.backgroundColor = finalColor
 
             }, completion: { result in
                 self.isHidden = hidden
@@ -177,7 +177,7 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
             slideShowViewController?.view.backgroundColor = finalColor
         }
 
-        galleryViewController?.navigationController?.setNavigationBarHidden(hidden, animated: animated)
+        slideShowViewController?.navigationController?.setNavigationBarHidden(hidden, animated: animated)
     }
 
     private func updateDetailsWithMedia(_ media: MediaPreviewable) {

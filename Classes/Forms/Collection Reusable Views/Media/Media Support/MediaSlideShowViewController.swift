@@ -188,9 +188,9 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
                 overlayView.populateWithMedia(currentMedia)
             }
         }
-    public override var prefersStatusBarHidden: Bool {
     }
 
+    public override var prefersStatusBarHidden: Bool {
         return isFullScreen
     }
 
