@@ -9,6 +9,7 @@
 import Foundation
 import AVFoundation
 import Photos
+import PromiseKit
 
 public class MediaGalleryViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
@@ -35,19 +36,32 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
     public let viewModel: MediaGalleryViewModelable
 
-    public init(viewModel: MediaGalleryViewModelable, initialPreview: MediaPreviewable? = nil, pickerSources: [MediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker(), AudioMediaPicker(), SketchMediaPicker()]) {
+    private var itemsBeingProcessed: [Media] = []
 
-        pickerSources.forEach {
-            $0.saveMedia = { media in
-                viewModel.addMedia([media])
-            }
-        }
+    public init(viewModel: MediaGalleryViewModelable, initialPreview: MediaPreviewable? = nil, pickerSources: [MediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker(), AudioMediaPicker(), SketchMediaPicker()]) {
 
         self.viewModel = viewModel
         self.pickerSources = pickerSources
         self.initialAsset = initialPreview
 
         super.init(nibName: nil, bundle: nil)
+
+        pickerSources.forEach {
+            $0.saveMedia = { [weak self] media in
+                guard let `self` = self else { return }
+
+                firstly { () -> Promise<Bool> in
+                    self.itemsBeingProcessed.append(media)
+                    return self.viewModel.addMedia([media])
+                }.then { _ -> () in
+                    self.collectionView.reloadData()
+                }.always {
+                    if let index = self.itemsBeingProcessed.index(where: { $0 == media }) {
+                        self.itemsBeingProcessed.remove(at: index)
+                    }
+                }
+            }
+        }
 
         title = NSLocalizedString("Photos", comment: "")
 
@@ -62,6 +76,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
     }
 
     deinit {
+        pickerSources.forEach { $0.saveMedia = nil }
         NotificationCenter.default.removeObserver(self)
     }
 
@@ -329,14 +344,18 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
                 self.viewModel.previews[indexPath.item].asset
             }
 
-            self.viewModel.removeMedia(items)
-//            self.collectionView.performBatchUpdates({
-//                self.collectionView.deleteItems(at: indexPaths)
-//            }, completion: { (completed) in
-//                if self.viewModel.previews.count <= 0 {
-//                    self.setEditing(false, animated: true)
-//                }
-//            })
+            firstly { () -> Promise<Bool> in
+                self.itemsBeingProcessed += items
+                return self.viewModel.removeMedia(items)
+            }.then { _ -> () in
+                if self.viewModel.previews.count <= 0 {
+                    self.setEditing(false, animated: true)
+                } else {
+                    self.collectionView.reloadData()
+                }
+            }.always {
+                self.itemsBeingProcessed = self.itemsBeingProcessed.filter({ !items.contains($0) })
+            }
         }))
         alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
         alertController.popoverPresentationController?.barButtonItem = item
@@ -346,7 +365,9 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
     @objc private func galleryDidChange(_ notification: Notification) {
         guard isViewLoaded else { return }
 
-        collectionView.reloadData()
+        if itemsBeingProcessed.count == 0 {
+            collectionView.reloadData()
+        }
 
         updateContentState()
     }
