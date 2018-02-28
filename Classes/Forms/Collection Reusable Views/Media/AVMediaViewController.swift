@@ -50,7 +50,7 @@ public class AVMediaViewController: MediaViewController {
     }
 
     @objc private func playTapped() {
-        let player = AVPlayer(url: mediaPreview.media.url)
+        let player = AVPlayer(url: preview.media.url)
         let viewController = AVPlayerViewController()
         viewController.player = player
         viewController.modalPresentationStyle = .overFullScreen

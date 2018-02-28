@@ -129,7 +129,7 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
         collectionView.contentInset = UIEdgeInsets(top: 0.0, left: inset, bottom: 0.0, right: inset)
     }
 
-    public var slideShowViewController: (MediaSlideShowable & UIViewController)? {
+    public var slideShowViewController: (MediaSlideShowable & MediaSlideShowViewController)? {
         willSet {
             if let galleryViewModel = slideShowViewController?.viewModel {
                 NotificationCenter.default.removeObserver(self, name: MediaGalleryDidChangeNotificationName, object: galleryViewModel)

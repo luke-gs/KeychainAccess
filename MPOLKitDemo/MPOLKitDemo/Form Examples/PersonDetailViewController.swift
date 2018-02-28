@@ -92,7 +92,7 @@ class PersonDetailViewController: FormBuilderViewController {
 
 class DocumentItem: MediaPreviewable {
 
-    var asset: Media
+    var media: Media
 
     var sensitive: Bool = false
 

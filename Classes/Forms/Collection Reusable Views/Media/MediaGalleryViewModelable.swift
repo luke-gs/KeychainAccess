@@ -128,7 +128,7 @@ public class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGaller
     }
 
     public func controllerForPreview(_ preview: MediaPreviewable) -> UIViewController? {
-        return previewControllers[ObjectIdentifier(type(of: preview))]?.controller(forAsset: preview)
+        return previewControllers[ObjectIdentifier(type(of: preview))]?.controller(forPreview: preview)
     }
 
     /// Register a controller type to a specific mediaPreviewable object
