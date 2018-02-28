@@ -31,7 +31,7 @@ public class BookOnDetailsOfficerFormItem: SubtitleFormItem {
 
         let cell = cell as! BookOnDetailsOfficerCell
         cell.statusLabel.text = status
-        cell.imageView.image = image
+        cell.imageView.image = image?.sizing().image
     }
 
 }

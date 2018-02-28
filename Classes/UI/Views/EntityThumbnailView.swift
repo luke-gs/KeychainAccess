@@ -49,6 +49,12 @@ public class EntityThumbnailView: UIControl {
             }
         }
     }
+
+    public var imageStyle: ImageStyle = .roundedRect {
+        didSet {
+            updateCornerRadius()
+        }
+    }
     
     
     // MARK: - Private properties
@@ -144,7 +150,7 @@ public class EntityThumbnailView: UIControl {
     
     private func updateCornerRadius() {
         let bounds = self.bounds
-        let cornerRadius = ((min(bounds.width, bounds.height) + 300.0) / 80.0).rounded(toScale: (window?.screen ?? .main).scale)
+        let cornerRadius = imageStyle.cornerRadius(for: bounds.size)
         
         layer.cornerRadius = cornerRadius
         

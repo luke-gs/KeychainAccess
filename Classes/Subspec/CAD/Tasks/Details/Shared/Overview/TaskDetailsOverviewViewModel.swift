@@ -61,15 +61,7 @@ open class TaskDetailsOverviewViewModel: TaskDetailsViewModel {
     /// Present "Directions, Street View, Search" options on address
     open func presentAddressPopover(from cell: CollectionViewFormCell, for incident: CADIncidentType) {
         if let coordinate = incident.coordinate {
-            let actionSheetVC = ActionSheetViewController(buttons: [
-                ActionSheetButton(title: "Directions", icon: AssetManager.shared.image(forKey: .route), action: {
-                    let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coordinate, addressDictionary:nil))
-                    mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving])
-                }),
-                ActionSheetButton(title: "Street View", icon: AssetManager.shared.image(forKey: .streetView), action: nil),
-                ActionSheetButton(title: "Search", icon: AssetManager.shared.image(forKey: .tabBarSearch), action: nil),
-            ])
-            delegate?.presentActionSheetPopover(actionSheetVC, sourceView: cell, sourceRect: cell.bounds, animated: true)
+            delegate?.present(TaskItemScreen.addressLookup(source: cell, coordinate: coordinate))
         }
     }
 }

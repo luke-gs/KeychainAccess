@@ -52,6 +52,6 @@ public protocol CADResourceType: class, CADTaskListItemModelType {
 }
 
 // MARK: - Equality
-func ==(lhs: CADResourceType?, rhs: CADResourceType?) -> Bool {
+public func ==(lhs: CADResourceType?, rhs: CADResourceType?) -> Bool {
     return lhs?.callsign == rhs?.callsign
 }

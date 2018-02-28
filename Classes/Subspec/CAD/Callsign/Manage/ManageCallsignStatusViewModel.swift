@@ -15,7 +15,7 @@ public struct ManageCallsignStatusItemViewModel {
     public let image: UIImage
     public let status: CADResourceStatusType
 
-    init(_ status: CADResourceStatusType) {
+    public init(_ status: CADResourceStatusType) {
         self.title = status.title
         self.image = status.icon!
         self.status = status
@@ -75,14 +75,8 @@ open class ManageCallsignStatusViewModel {
 
     public var incidentListViewModel: TasksListIncidentViewModel? {
         if let incident = CADStateManager.shared.currentIncident {
-            return TasksListIncidentViewModel(incident: incident, showsDescription: false, showsResources: false, hasUpdates: false)
-        }
-        return nil
-    }
-
-    public var incidentTaskViewModel: IncidentTaskItemViewModel? {
-        if let incident = CADStateManager.shared.currentIncident, let resource = CADStateManager.shared.currentResource {
-            return IncidentTaskItemViewModel(incident: incident, resource: resource)
+            let source = CADClientModelTypes.taskListSources.incidentCase
+            return TasksListIncidentViewModel(incident: incident, source: source, showsDescription: false, showsResources: false, hasUpdates: false)
         }
         return nil
     }
@@ -133,10 +127,8 @@ open class ManageCallsignStatusViewModel {
             case .viewCallsign:
                 if let resource = CADStateManager.shared.currentResource {
                     // Show split view controller for booked on resource
-                    let vm = ResourceTaskItemViewModel(resource: resource)
-                    let vc = vm.createViewController()
-                    let nav = UINavigationController(rootViewController: vc)
-                    delegate?.present(nav, animated: true, completion: nil)
+                    let viewModel = ResourceTaskItemViewModel(resource: resource)
+                    delegate?.present(TaskItemScreen.landing(viewModel: viewModel))
                 }
                 break
             case .manageCallsign:

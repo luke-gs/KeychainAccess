@@ -187,9 +187,8 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
                         
                         self?.collectionView?.reloadSections(IndexSet(integer: sectionIndex))
                         
-                        if let viewModel = self?.viewModel(for: item) {
-                            let vc = viewModel.createViewController()
-                            self?.splitViewController?.navigationController?.pushViewController(vc, animated: true)
+                        if let viewModel = item.createItemViewModel() {
+                            self?.present(TaskItemScreen.landing(viewModel: viewModel))
                         }
                     })
             }
@@ -257,26 +256,6 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
     open func reloadContent() {
         // Refresh the task list
         reloadForm()
-    }
-
-    public func viewModel(for item: TasksListItemViewModel) -> TaskItemViewModel? {
-        if let resource = CADStateManager.shared.resourcesById[item.identifier] {
-            return ResourceTaskItemViewModel(resource: resource)
-        } else if let incident = CADStateManager.shared.incidentsById[item.identifier] {
-            // Show details of our resource if we are assigned to incident
-            let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier)
-            var resource: CADResourceType? = nil
-            if let currentResource = CADStateManager.shared.currentResource {
-                resource = resources.contains(where: { $0 == currentResource }) ? currentResource : nil
-            }
-            return IncidentTaskItemViewModel(incident: incident, resource: resource)
-        } else if let patrol = CADStateManager.shared.patrolsById[item.identifier] {
-            return PatrolTaskItemViewModel(patrol: patrol)
-        } else if let broadcast = CADStateManager.shared.broadcastsById[item.identifier] {
-            return BroadcastTaskItemViewModel(broadcast: broadcast)
-        }
-
-        return nil
     }
 
     // MARK: - CollectionViewDelegateFormLayout methods

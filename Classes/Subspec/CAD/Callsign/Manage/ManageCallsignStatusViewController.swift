@@ -105,7 +105,6 @@ open class ManageCallsignStatusViewController: ThemedPopoverViewController, Mana
     
     open func reloadIncident() {
         incidentFormVC.listViewModel = viewModel.incidentListViewModel
-        incidentFormVC.taskViewModel = viewModel.incidentTaskViewModel
         incidentFormVC.reloadForm()
     }
 
@@ -116,8 +115,7 @@ open class ManageCallsignStatusViewController: ThemedPopoverViewController, Mana
         contentView = UIView(frame: .zero)
         scrollView.addSubview(contentView)
 
-        incidentFormVC = ManageCallsignIncidentFormViewController(listViewModel: viewModel.incidentListViewModel,
-                                                            taskViewModel: viewModel.incidentTaskViewModel)
+        incidentFormVC = ManageCallsignIncidentFormViewController(listViewModel: viewModel.incidentListViewModel)
         incidentFormVC.view.backgroundColor = UIColor.clear
         addChildViewController(incidentFormVC, toView: contentView)
 

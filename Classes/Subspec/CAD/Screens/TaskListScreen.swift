@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// Enum for all CAD task list screens that are presented
+/// Enum for all presentable CAD task list screens
 public enum TaskListScreen: Presentable {
 
     /// The landing screen of the task list, the top level split view

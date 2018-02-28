@@ -17,6 +17,12 @@ public protocol CADTaskListSourceType {
     /// All enum cases, in order of display
     static var allCases: [CADTaskListSourceType] { get }
 
+    /// The case used for incident specific UI
+    static var incidentCase: CADTaskListSourceType { get }
+
+    /// The case used for resource specific UI
+    static var resourceCase: CADTaskListSourceType { get }
+
     // MARK: - Raw value
 
     // Enum init
@@ -55,6 +61,9 @@ public protocol CADTaskListSourceType {
 
     /// Whether items of this type can be created
     var canCreate: Bool { get }
+
+    /// Create the view model for an item of this type with given id
+    func createItemViewModel(identifier: String) -> TaskItemViewModel?
 }
 
 /// Equality check without conforming to Equatable, to prevent need for type erasure

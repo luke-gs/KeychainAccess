@@ -14,15 +14,16 @@ open class TasksListBasicViewModel: TasksListItemViewModel {
     public let description: String?
     public var hasUpdates: Bool
 
-    public init(identifier: String, title: String?, subtitle: String?, caption: String?, description: String? = nil, hasUpdates: Bool = false) {
+    public init(identifier: String, source: CADTaskListSourceType, title: String?, subtitle: String?, caption: String?, description: String? = nil, hasUpdates: Bool = false) {
         self.description = description
         self.hasUpdates = hasUpdates
-        super.init(identifier: identifier, title: title, subtitle: subtitle, caption: caption)
+        super.init(identifier: identifier, source: source, title: title, subtitle: subtitle, caption: caption)
     }
     
-    public convenience init(patrol: CADPatrolType, hasUpdates: Bool = false) {
+    public convenience init(patrol: CADPatrolType, source: CADTaskListSourceType, hasUpdates: Bool = false) {
         self.init(
             identifier: patrol.identifier,
+            source: source,
             title: patrol.type,
             subtitle: patrol.location?.fullAddress,
             caption: "#\(patrol.identifier)",
@@ -31,9 +32,10 @@ open class TasksListBasicViewModel: TasksListItemViewModel {
     }
     
     
-    public convenience init(broadcast: CADBroadcastType, hasUpdates: Bool = false) {
+    public convenience init(broadcast: CADBroadcastType, source: CADTaskListSourceType, hasUpdates: Bool = false) {
         self.init(
             identifier: broadcast.identifier,
+            source: source,
             title: broadcast.title!,
             subtitle: broadcast.location?.suburb,
             caption: "#\(broadcast.identifier)",

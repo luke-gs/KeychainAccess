@@ -9,22 +9,39 @@
 import UIKit
 import CoreLocation
 
-public class IncidentAnnotation: TaskAnnotation {
+open class IncidentAnnotation: TaskAnnotation {
     
-    public var priority: CADIncidentGradeType
-    public var badgeText: String
-    public var badgeTextColor: UIColor
-    public var badgeFillColor: UIColor
-    public var badgeBorderColor: UIColor
-    public var usesDarkBackground: Bool
+    open var priority: CADIncidentGradeType
+    open var badgeText: String
+    open var badgeTextColor: UIColor
+    open var badgeFillColor: UIColor
+    open var badgeBorderColor: UIColor
+    open var usesDarkBackground: Bool
     
-    public init(identifier: String, coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?,badgeText: String, badgeTextColor: UIColor, badgeFillColor: UIColor, badgeBorderColor: UIColor, usesDarkBackground: Bool, priority: CADIncidentGradeType) {
+    public init(identifier: String, source: CADTaskListSourceType, coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?,badgeText: String, badgeTextColor: UIColor, badgeFillColor: UIColor, badgeBorderColor: UIColor, usesDarkBackground: Bool, priority: CADIncidentGradeType) {
         self.badgeText = badgeText
         self.badgeTextColor = badgeTextColor
         self.badgeFillColor = badgeFillColor
         self.badgeBorderColor = badgeBorderColor
         self.usesDarkBackground = usesDarkBackground
         self.priority = priority
-        super.init(identifier: identifier, coordinate: coordinate, title: title, subtitle: subtitle)
+        super.init(identifier: identifier, source: source, coordinate: coordinate, title: title, subtitle: subtitle)
+    }
+
+    open override func dequeueReusableAnnotationView(mapView: MKMapView) -> MKAnnotationView? {
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: IncidentAnnotationView.defaultReuseIdentifier) as? IncidentAnnotationView
+
+        if annotationView == nil {
+            annotationView = IncidentAnnotationView(annotation: self, reuseIdentifier: IncidentAnnotationView.defaultReuseIdentifier)
+        }
+
+        annotationView?.configure(withAnnotation: self,
+                                  priorityText: badgeText,
+                                  priorityTextColor: badgeTextColor,
+                                  priorityFillColor: badgeFillColor,
+                                  priorityBorderColor: badgeBorderColor,
+                                  usesDarkBackground: usesDarkBackground)
+
+        return annotationView
     }
 }

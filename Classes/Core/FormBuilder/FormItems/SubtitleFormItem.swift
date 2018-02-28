@@ -17,6 +17,8 @@ public class SubtitleFormItem: BaseFormItem {
 
     public var image: UIImage?
 
+    public var imageTintColor: UIColor?
+
     public var style: CollectionViewFormSubtitleStyle = .default
 
     public var imageSeparation: CGFloat = CellImageLabelSeparation
@@ -44,6 +46,7 @@ public class SubtitleFormItem: BaseFormItem {
         cell.titleLabel.apply(sizable: title, defaultFont: .preferredFont(forTextStyle: .headline, compatibleWith: cell.traitCollection))
         cell.subtitleLabel.apply(sizable: subtitle, defaultFont: .preferredFont(forTextStyle: .footnote, compatibleWith: cell.traitCollection), defaultNumberOfLines: 0)
         cell.imageView.image = image
+        cell.imageView.tintColor = imageTintColor
         cell.style = style
         cell.imageSeparation = imageSeparation
         cell.labelSeparation = labelSeparation
@@ -111,6 +114,12 @@ extension SubtitleFormItem {
     @discardableResult
     public func image(_ image: UIImage?) -> Self {
         self.image = image
+        return self
+    }
+
+    @discardableResult
+    public func imageTintColor(_ color: UIColor?) -> Self {
+        self.imageTintColor = color
         return self
     }
 
