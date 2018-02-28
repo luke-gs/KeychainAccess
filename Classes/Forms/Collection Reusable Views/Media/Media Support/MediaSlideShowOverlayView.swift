@@ -305,8 +305,8 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
 
         let index = Int(floor((offset + x) / compactItemWidth))
 
-        if let mediaAsset = slideShowViewController?.viewModel.previews[index], mediaAsset !== slideShowViewController?.currentPreview {
-            slideShowViewController?.setupWithInitialPreview(mediaAsset)
+        if let preview = slideShowViewController?.viewModel.previews[index], preview !== slideShowViewController?.currentPreview {
+            slideShowViewController?.setupWithInitialPreview(preview)
         }
     }
 
