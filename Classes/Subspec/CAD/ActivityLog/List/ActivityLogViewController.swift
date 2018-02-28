@@ -42,7 +42,7 @@ open class ActivityLogViewController: FormBuilderViewController {
     open override func construct(builder: FormBuilder) {
         for section in viewModel.sections {
             if section is ActivityLogDateCollectionSectionViewModel {
-                builder += LargeTextHeaderFormItem(text: section.title)
+                builder += LargeTextHeaderFormItem(text: section.title, separatorColor: .clear)
             } else {
                 builder += HeaderFormItem(text: section.title, style: .collapsible)
             }
