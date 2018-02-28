@@ -21,9 +21,9 @@ open class CADLocationCore: Codable, CADLocationType {
 
     open var fullAddress: String?
 
-    open var latitude: Float
+    open var latitude: Float?
 
-    open var longitude: Float
+    open var longitude: Float?
 
     open var postalCode: String?
 
@@ -39,8 +39,11 @@ open class CADLocationCore: Codable, CADLocationType {
 
     open var suburb: String?
 
-    open var coordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(latitude: Double(latitude), longitude: Double(longitude))
+    open var coordinate: CLLocationCoordinate2D? {
+        if let latitude = latitude, let longitude = longitude {
+            return CLLocationCoordinate2D(latitude: Double(latitude), longitude: Double(longitude))
+        }
+        return nil
     }
 
     // MARK: - Codable
@@ -62,8 +65,8 @@ open class CADLocationCore: Codable, CADLocationType {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         country = try values.decodeIfPresent(String.self, forKey: .country)
         fullAddress = try values.decodeIfPresent(String.self, forKey: .fullAddress)
-        latitude = try values.decode(Float.self, forKey: .latitude)
-        longitude = try values.decode(Float.self, forKey: .longitude)
+        latitude = try values.decodeIfPresent(Float.self, forKey: .latitude)
+        longitude = try values.decodeIfPresent(Float.self, forKey: .longitude)
         postalCode = try values.decodeIfPresent(String.self, forKey: .postalCode)
         state = try values.decodeIfPresent(String.self, forKey: .state)
         streetName = try values.decodeIfPresent(String.self, forKey: .streetName)

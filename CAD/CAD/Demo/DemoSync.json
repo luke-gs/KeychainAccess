@@ -1,4 +1,56 @@
 {
+  "broadcasts": [
+    {
+      "createdAt": "2017-12-01T23:41:07Z", 
+      "details": "Crews be on the lookout for a driver in a black and yellow Ducati Motorbike, last seen riding erratically northbound along Brunswick Street. Multiple witnesses have reported the driver swerving and narrowly avoiding pedestrians and parked vehicles.", 
+      "identifier": "PS20180615023", 
+      "lastUpdated": "2017-12-01T23:41:07Z", 
+      "location": {
+        "suburb": "Fitzroy"
+      }, 
+      "patrolGroup": "Collingwood", 
+      "title": "Impaired Driver", 
+      "type": "Alert"
+    }, 
+    {
+      "createdAt": "2018-02-01T23:41:07Z", 
+      "details": "Crews be aware that BOM have issued a current stormfront warning for Melbourne CBD and western suburbs. Heavy winds and torrential rain are expected between the hours of 08:30 and 11:30.", 
+      "identifier": "PS20180615007", 
+      "lastUpdated": "2018-02-11T23:41:07Z", 
+      "location": {
+        "suburb": "Melbourne"
+      }, 
+      "patrolGroup": "Collingwood", 
+      "title": "Stormfront", 
+      "type": "Alert"
+    }, 
+    {
+      "createdAt": "2017-12-01T23:41:07Z", 
+      "details": "Crews be aware that the Workers Union of Employees will undertake a lawful protest march from Parliament House in Spring Street to Carlton Gardens between 09:00 - 12:00 hrs today. Crews not deployed to assist managing this event should be alerted to surrounding units.", 
+      "identifier": "PS20180614984", 
+      "lastUpdated": "2017-12-01T23:41:07Z", 
+      "location": {
+        "latitude": -37.8110426, 
+        "longitude": 144.9716323, 
+        "suburb": "Melbourne"
+      }, 
+      "patrolGroup": "Collingwood", 
+      "title": "Lawful Protest March", 
+      "type": "Event"
+    }, 
+    {
+      "createdAt": "2017-12-01T23:41:07Z", 
+      "details": "Recently stolen from a Flagstaff Gardens, a red 2015 BMW 320i Sedan with Registration Number MOCK01 is still outstanding. Vehicle was last seen in the carpark on 20 Feburary, 2018 at approximately 15:25.", 
+      "identifier": "PS20180615033", 
+      "lastUpdated": "2018-02-20T23:41:07Z", 
+      "location": {
+        "suburb": "Melbourne"
+      }, 
+      "patrolGroup": "Collingwood", 
+      "title": "Vehicle: MOCK01", 
+      "type": "BOLF"
+    }
+  ], 
   "incidents": [
     {
       "createdAt": "2017-12-01T23:41:07Z", 
@@ -879,19 +931,122 @@
       "rank": "Inspector", 
       "remarks": "", 
       "station": "South Melbourne"
+    }, 
+    {
+      "capabilities": [], 
+      "contactNumber": "0182 322 102", 
+      "firstName": "Luke", 
+      "lastName": "Ivenson", 
+      "licenceTypeId": "Gold Licence", 
+      "middleName": "", 
+      "patrolGroup": "Collingwood", 
+      "payrollId": "172645", 
+      "radioId": "92746261", 
+      "rank": "Inspector", 
+      "remarks": "", 
+      "station": "Collingwood"
+    }, 
+    {
+      "capabilities": [
+        "TDD Qualified"
+      ], 
+      "contactNumber": "0204 776 726", 
+      "firstName": "John", 
+      "lastName": "Dread", 
+      "licenceTypeId": "Silver Licence", 
+      "middleName": "Savage", 
+      "patrolGroup": "Collingwood", 
+      "payrollId": "182638", 
+      "radioId": "92747182", 
+      "rank": "Senior Constable", 
+      "remarks": "", 
+      "station": "South Melbourne"
+    }, 
+    {
+      "capabilities": [
+        "TDD Qualified", 
+        "LIDAR Qualified"
+      ], 
+      "contactNumber": "0202 930 412", 
+      "firstName": "Meetu", 
+      "lastName": "Singh", 
+      "licenceTypeId": "Gold Licence", 
+      "middleName": "", 
+      "patrolGroup": "Collingwood", 
+      "payrollId": "192632", 
+      "radioId": "92648263", 
+      "rank": "Inspector", 
+      "remarks": "", 
+      "station": "Fitzroy"
+    }, 
+    {
+      "capabilities": [], 
+      "contactNumber": "0212 421 188", 
+      "firstName": "Nick", 
+      "lastName": "Fury", 
+      "licenceTypeId": "Gold Licence", 
+      "middleName": "", 
+      "patrolGroup": "Collingwood", 
+      "payrollId": "782737", 
+      "radioId": "92747263", 
+      "rank": "First Constable", 
+      "remarks": "", 
+      "station": "Frankston"
+    }
+  ], 
+  "patrols": [
+    {
+      "createdAt": "2018-01-05T23:41:07Z", 
+      "details": "St Joseph\u2019s Primary School fete is occuring between 10:30 and 17:00 on 15/06/2018. Request walk through patrols from crews during these times. Contact person is Rory Cleland, 0408 905 247.", 
+      "identifier": "PS20180615003", 
+      "lastUpdated": "2018-02-11T23:41:07Z", 
+      "location": {
+        "country": "Australia", 
+        "fullAddress": "46 Otter Street, Collingwood VIC 3066", 
+        "latitude": -37.8009769, 
+        "longitude": 144.984469, 
+        "postalCode": "3066", 
+        "state": "VIC", 
+        "streetName": "Otter", 
+        "streetNumberFirst": "46", 
+        "streetType": "Street", 
+        "suburb": "Collingwood"
+      }, 
+      "patrolGroup": "Collingwood", 
+      "type": "Community"
+    }, 
+    {
+      "createdAt": "2018-01-01T23:41:07Z", 
+      "details": "Toby D. Fuller\u2019s bail conditions requires as per order of Melbourne Magistrates Court is to be at 47 York Street, Fitzroy North VIC 3068 between 18:00 and 06:00. Patrol crews are to conduct random checks to confirm subject is complying with bail conditions.", 
+      "identifier": "PS20180614991", 
+      "lastUpdated": "2018-01-08T23:41:07Z", 
+      "location": {
+        "country": "Australia", 
+        "fullAddress": "47 York Street, Collingwood VIC 3066", 
+        "latitude": -37.7916009, 
+        "longitude": 144.9772421, 
+        "postalCode": "3066", 
+        "state": "VIC", 
+        "streetName": "York", 
+        "streetNumberFirst": "47", 
+        "streetType": "Street", 
+        "suburb": "Fitzroy North"
+      }, 
+      "patrolGroup": "Collingwood", 
+      "type": "Bail"
     }
   ], 
   "resources": [
     {
       "activityLog": [
         {
-          "description": "T. Baily and D. Fisher", 
+          "description": "T. Baily and D. Fisher, L. Iveson, M. Singh", 
           "source": "V01", 
           "timestamp": "2017-12-02T01:24:00Z", 
           "title": "Status: Proceeding (Assault #AS4205)"
         }, 
         {
-          "description": "T. Baily and D. Fisher", 
+          "description": "T. Baily and D. Fisher, L. Iveson, M. Singh", 
           "source": "V01", 
           "timestamp": "2017-12-02T01:28:00Z", 
           "title": "Status: At Incident (Assault #AS4205)"
@@ -928,7 +1083,9 @@
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777122", 
-        "777453"
+        "777453", 
+        "172645", 
+        "192632"
       ], 
       "remarks": "", 
       "serial": "ARP015", 
@@ -955,7 +1112,7 @@
         }, 
         {
           "description": "B. Cooper", 
-          "source": "M24", 
+          "source": "Duress", 
           "timestamp": "2017-12-02T02:28:00Z", 
           "title": "Status: Duress (Assault #AS4217)"
         }
@@ -1001,13 +1158,13 @@
     {
       "activityLog": [
         {
-          "description": "J. Burnell", 
+          "description": "J. Burnell, J. Dread", 
           "source": "V44", 
           "timestamp": "2017-12-02T01:24:00Z", 
           "title": "Status: Proceeding (Assault #AS4104)"
         }, 
         {
-          "description": "J. Burnell", 
+          "description": "J. Burnell, J. Dread", 
           "source": "V44", 
           "timestamp": "2017-12-02T01:28:00Z", 
           "title": "Status: At Incident (Assault #AS4104)"
@@ -1040,7 +1197,8 @@
       }, 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
-        "777001"
+        "777001", 
+        "182638"
       ], 
       "remarks": "", 
       "serial": "ARP120", 
@@ -1054,26 +1212,26 @@
     {
       "activityLog": [
         {
-          "description": "H. Gadget", 
+          "description": "H. Gadget, N. Fury", 
           "source": "V16", 
           "timestamp": "2018-01-02T01:24:00Z", 
           "title": "Status: On Air"
         }, 
         {
-          "description": "H. Gadget", 
+          "description": "H. Gadget, N. Fury", 
           "source": "V16", 
           "timestamp": "2017-12-02T01:24:00Z", 
           "title": "Status: Proceeding (Assault #AS3110)"
         }, 
         {
-          "description": "H. Gadget", 
+          "description": "H. Gadget, N. Fury", 
           "source": "V16", 
           "timestamp": "2017-12-02T01:28:00Z", 
           "title": "Status: At Incident (Assault #AS3110)"
         }, 
         {
-          "description": "H. Gadget", 
-          "source": "V16", 
+          "description": "H. Gadget, N. Fury", 
+          "source": "Duress", 
           "timestamp": "2017-12-02T02:28:00Z", 
           "title": "Status: Duress (Assault #AS3110)"
         }
@@ -1102,14 +1260,15 @@
       }, 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
-        "777019"
+        "777019", 
+        "782737"
       ], 
       "remarks": "", 
       "serial": "ARP007", 
       "shiftEnd": "2017-12-02T12:00:00Z", 
       "shiftStart": "2017-12-02T01:00:00Z", 
       "station": "Collingwood", 
-      "status": "On Air", 
+      "status": "Meal Break", 
       "type": "Vehicle", 
       "vehicleCategory": "2"
     }, 
@@ -1153,7 +1312,7 @@
       "shiftEnd": "2017-12-02T12:00:00Z", 
       "shiftStart": "2017-12-02T01:00:00Z", 
       "station": "Collingwood", 
-      "status": "On Air", 
+      "status": "At Station", 
       "type": "DogSquad", 
       "vehicleCategory": "2"
     }, 
@@ -1428,7 +1587,5 @@
       "type": "Motorcycle", 
       "vehicleCategory": "1"
     }
-  ],
-  "patrols": [],
-  "broadcasts": []
+  ]
 }
