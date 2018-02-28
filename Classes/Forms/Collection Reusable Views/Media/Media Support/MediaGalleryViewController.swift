@@ -30,7 +30,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
     public private(set) lazy var loadingManager: LoadingStateManager = LoadingStateManager()
 
-    private var initialAsset: MediaPreviewable?
+    private var initialPreview: MediaPreviewable?
 
     private lazy var addBarButtonItem: UIBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Add", comment: ""), style: .plain, target: self, action: #selector(addButtonTapped))
 
@@ -42,7 +42,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
         self.viewModel = viewModel
         self.pickerSources = pickerSources
-        self.initialAsset = initialPreview
+        self.initialPreview = initialPreview
 
         super.init(nibName: nil, bundle: nil)
 
@@ -120,12 +120,12 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if let initialPhoto = initialAsset {
-            let slideShowViewController = MediaSlideShowViewController(viewModel: viewModel, initialMedia: initialPhoto, referenceView: nil)
+        if let initialPhoto = initialPreview {
+            let slideShowViewController = MediaSlideShowViewController(viewModel: viewModel, initialPreview: initialPhoto, referenceView: nil)
             slideShowViewController.allowEditing = allowEditing
             navigationController?.pushViewController(slideShowViewController, animated: true)
 
-            self.initialAsset = nil
+            self.initialPreview = nil
         }
     }
 
@@ -223,7 +223,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
                 trashItem.isEnabled = true
             } else {
                 let preview = viewModel.previews[indexPath.item]
-                let mediaSlideShowViewController = MediaSlideShowViewController(viewModel: viewModel, initialMedia: preview, referenceView: cell)
+                let mediaSlideShowViewController = MediaSlideShowViewController(viewModel: viewModel, initialPreview: preview, referenceView: cell)
                 mediaSlideShowViewController.allowEditing = allowEditing
                 show(mediaSlideShowViewController, sender: self)
             }
@@ -334,14 +334,14 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
     @objc private func deleteTapped(_ item: UIBarButtonItem) {
         guard let indexPaths = collectionView.indexPathsForSelectedItems, indexPaths.count > 0 else { return }
 
-        let numberOfPhotos = indexPaths.count
+        let numberOfItems = indexPaths.count
 
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "Delete \(numberOfPhotos) Photo\(numberOfPhotos == 1 ? "" : "s")", style: .destructive, handler: { [weak self] (action) in
+        alertController.addAction(UIAlertAction(title: "Delete \(numberOfItems) Photo\(numberOfItems == 1 ? "" : "s")", style: .destructive, handler: { [weak self] (action) in
             guard let `self` = self else { return }
 
             let items = indexPaths.map{ indexPath in
-                self.viewModel.previews[indexPath.item].asset
+                self.viewModel.previews[indexPath.item].media
             }
 
             firstly { () -> Promise<Bool> in
@@ -386,9 +386,9 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
     }
 
     private func updateContentState() {
-        let hasMediaItems = viewModel.previews.count > 0
-        loadingManager.state = hasMediaItems ? .loaded : .noContent
-        beginSelectItem.isEnabled = hasMediaItems
+        let hasPreviews = viewModel.previews.count > 0
+        loadingManager.state = hasPreviews ? .loaded : .noContent
+        beginSelectItem.isEnabled = hasPreviews
     }
 
     // MARK: - UINavigationControllerDelegate
@@ -401,12 +401,12 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
         case .push:
             guard let _ = fromVC as? MediaGalleryViewController,
                 let toVC = toVC as? MediaSlideShowViewController,
-                let media = toVC.currentMedia,
-                let mediaIndex = viewModel.previews.index(where: { media === $0 }),
-                let cell = collectionView.cellForItem(at: IndexPath(item: mediaIndex, section: 0)),
-                let mediaViewController = toVC.currentMediaViewController else { return nil }
+                let preview = toVC.currentPreview,
+                let previewIndex = viewModel.previews.index(where: { preview === $0 }),
+                let cell = collectionView.cellForItem(at: IndexPath(item: previewIndex, section: 0)),
+                let previewViewController = toVC.currentPreviewViewController else { return nil }
 
-            let endingView = mediaViewController.scalingImageView.imageView
+            let endingView = previewViewController.scalingImageView.imageView
             transitionAnimator.startingView = cell.backgroundView
             transitionAnimator.endingView = endingView
             transitionAnimator.dismissing = false
@@ -414,12 +414,12 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
         case .pop:
             guard let fromVC = fromVC as? MediaSlideShowViewController,
                 let _ = toVC as? MediaGalleryViewController,
-                let mediaViewController = fromVC.currentMediaViewController,
-                let media = fromVC.currentMedia,
-                let mediaIndex = viewModel.previews.index(where: { media === $0 }) else { return nil }
+                let previewViewController = fromVC.currentPreviewViewController,
+                let preview = fromVC.currentPreview,
+                let previewIndex = viewModel.previews.index(where: { preview === $0 }) else { return nil }
 
-            let endingView = mediaViewController.scalingImageView.imageView
-            let indexPath = IndexPath(item: mediaIndex, section: 0)
+            let endingView = previewViewController.scalingImageView.imageView
+            let indexPath = IndexPath(item: previewIndex, section: 0)
 
             if !collectionView.indexPathsForVisibleItems.contains(indexPath) {
                 collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)

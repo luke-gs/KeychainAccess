@@ -11,14 +11,14 @@ import UIKit
 
 public class MediaPreviewViewController: UIViewController {
 
-    public let mediaAsset: MediaPreviewable
+    public let preview: MediaPreviewable
 
     private let imageView = UIImageView()
 
     private let titleLabel = UILabel()
 
-    public init(mediaAsset: MediaPreviewable) {
-        self.mediaAsset = mediaAsset
+    public init(preview: MediaPreviewable) {
+        self.preview = preview
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -40,13 +40,13 @@ public class MediaPreviewViewController: UIViewController {
 
         titleLabel.backgroundColor = #colorLiteral(red: 0.2, green: 0.2039215686, blue: 0.2274509804, alpha: 0.82)
 
-        titleLabel.text = mediaAsset.title
+        titleLabel.text = preview.title
         titleLabel.layer.cornerRadius = 6.0
         titleLabel.clipsToBounds = true
-        titleLabel.isHidden = mediaAsset.title?.isEmpty ?? true
+        titleLabel.isHidden = preview.title?.isEmpty ?? true
 
         var titleWidth: CGFloat = 0.0
-        if var sizing = mediaAsset.title?.sizing() {
+        if var sizing = preview.title?.sizing() {
             sizing.font = titleLabel.font
             sizing.numberOfLines = 1
             titleWidth = sizing.minimumWidth(compatibleWith: traitCollection) + 20.0
@@ -58,7 +58,7 @@ public class MediaPreviewViewController: UIViewController {
         view.tintColor = .white
         view.backgroundColor = .white
 
-        mediaAsset.thumbnailImage?.loadImage(completion: { [weak self] (image) in
+        preview.thumbnailImage?.loadImage(completion: { [weak self] (image) in
             self?.imageView.image = image.sizing().image
         })
 

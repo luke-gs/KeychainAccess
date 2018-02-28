@@ -21,11 +21,11 @@ public class MediaPreviewHandler: MediaGalleryDelegate {
     }
 
     public func previewViewControllerForPreview(_ preview: MediaPreviewable, inGalleryViewModel galleryViewModel: MediaGalleryViewModelable) -> UIViewController? {
-        return MediaPreviewViewController(mediaAsset: preview)
+        return MediaPreviewViewController(preview: preview)
     }
 
     public func viewControllerForGalleryViewModel(_ galleryViewModel: MediaGalleryViewModelable, fromPreviewViewController previewViewController: UIViewController) -> UIViewController? {
-        guard let preview = (previewViewController as? MediaPreviewViewController)?.mediaAsset else { return nil }
+        guard let preview = (previewViewController as? MediaPreviewViewController)?.preview else { return nil }
         
         let galleryViewController = MediaGalleryViewController(viewModel: galleryViewModel, initialPreview: preview, pickerSources: pickerSources)
         galleryViewController.allowEditing = allowEditing

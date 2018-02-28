@@ -15,7 +15,7 @@ public protocol MediaPreviewable: class {
     var title: String? { get set }
     var comments: String? { get set }
 
-    var asset: Media { get }
+    var media: Media { get }
 }
 
 public protocol MediaPreviewRenderer: DefaultReusable {
@@ -99,9 +99,9 @@ open class CollectionViewFormMediaCell: CollectionViewFormCell, UICollectionView
         ])
 
         collectionView.register(MediaPreviewableCell.self)
-        register(itemType: PhotoMedia.self, withRenderer: MediaCell<PhotoMedia>.self)
-        register(itemType: VideoMedia.self, withRenderer: MediaCell<VideoMedia>.self)
-        register(itemType: AudioMedia.self, withRenderer: MediaCell<AudioMedia>.self)
+        register(itemType: PhotoPreview.self, withRenderer: MediaCell<PhotoPreview>.self)
+        register(itemType: VideoPreview.self, withRenderer: MediaCell<VideoPreview>.self)
+        register(itemType: AudioPreview.self, withRenderer: MediaCell<AudioPreview>.self)
         
 
         loadingManager.baseView = contentView

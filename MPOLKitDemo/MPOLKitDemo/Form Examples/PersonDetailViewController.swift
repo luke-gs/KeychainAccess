@@ -124,7 +124,7 @@ class DocumentItem: MediaPreviewable {
     let sensitiveText: String? = nil
 
     init(type: DocumentType, title: String?) {
-        self.asset = Media(url: URL(string: "localhost")!, type: .photo)
+        self.media = Media(url: URL(string: "localhost")!, type: .photo)
         self.type = type
         self.title = title
 

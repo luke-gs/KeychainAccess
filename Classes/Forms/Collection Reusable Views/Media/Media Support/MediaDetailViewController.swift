@@ -10,13 +10,13 @@ import Foundation
 
 public protocol MediaDetailViewControllerDelegate: class {
 
-    func mediaDetailViewControllerDidUpdatePhotoMedia(_ detailViewController: MediaDetailViewController)
+    func mediaDetailViewControllerDidUpdateMedia(_ detailViewController: MediaDetailViewController)
 
 }
 
 public class MediaDetailViewController: FormBuilderViewController {
 
-    public let mediaAsset: MediaPreviewable
+    public let media: Media
 
     public weak var delegate: MediaDetailViewControllerDelegate?
 
@@ -25,12 +25,12 @@ public class MediaDetailViewController: FormBuilderViewController {
 
     private var sensitive: Bool
 
-    public init(mediaAsset: MediaPreviewable) {
-        self.mediaAsset = mediaAsset
+    public init(media: Media) {
+        self.media = media
 
-        titleText = mediaAsset.title
-        commentsText = mediaAsset.comments
-        sensitive = mediaAsset.sensitive
+        titleText = media.title
+        commentsText = media.comments
+        sensitive = media.sensitive
 
         super.init()
 
@@ -83,10 +83,10 @@ public class MediaDetailViewController: FormBuilderViewController {
         let result = builder.validate()
         switch result {
         case .valid:
-            mediaAsset.title = titleText
-            mediaAsset.comments = commentsText
-            mediaAsset.sensitive = sensitive
-            delegate?.mediaDetailViewControllerDidUpdatePhotoMedia(self)
+            media.title = titleText
+            media.comments = commentsText
+            media.sensitive = sensitive
+            delegate?.mediaDetailViewControllerDidUpdateMedia(self)
             dismiss(animated: true, completion: nil)
         case .invalid:
             builder.validateAndUpdateUI()

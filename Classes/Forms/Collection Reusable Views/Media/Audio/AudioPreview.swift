@@ -1,5 +1,5 @@
 //
-//  AudioMedia.swift
+//  AudioPreview.swift
 //  MPOLKit
 //
 //  Created by QHMW64 on 23/1/18.
@@ -9,19 +9,17 @@
 import Foundation
 import AVKit
 
-public class AudioMedia: MediaPreview {
+public class AudioPreview: MediaPreview {
 
-    public init(asset: Media) {
-        super.init(asset: asset)
+    public init(media: Media) {
+        var thumbnailImage: UIImage?
 
-        if let samples = AudioSampler.waveformSamples(fromAudioFile: asset.url, count: 44100) {
+        if let samples = AudioSampler.waveformSamples(fromAudioFile: media.url, count: 44100) {
             thumbnailImage = UIImage.waveformImage(from: samples,
                                                   fittingSize: CGSize(width: 600, height: 450))
         }
 
-        title = asset.title
-        comments = asset.comments
-        sensitive = asset.sensitive
+        super.init(thumbnailImage: thumbnailImage, media: media)
     }
     
 }

@@ -24,8 +24,8 @@ public protocol MediaGalleryDelegate: class {
     /// - Returns: A view controller to be presented as a preview.
     func previewViewControllerForPreview(_ preview: MediaPreviewable, inGalleryViewModel galleryViewModel: MediaGalleryViewModelable) -> UIViewController?
 
-    /// Returns a view controller to be used once a preview controller is commited.
-    /// This only works on devices with fource touch. (E.g. iPhone 7 and above).
+    /// Returns a view controller to be used once a preview controller is committed.
+    /// This only works on devices with force touch. (E.g. iPhone 7 and above).
     ///
     /// - Parameters:
     ///   - galleryViewModel: The gallery of the preview item

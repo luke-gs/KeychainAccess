@@ -9,24 +9,24 @@
 import Foundation
 
 public protocol MediaViewPresentable {
-    var mediaAsset: MediaPreviewable { get }
-    static func controller(forAsset asset: MediaPreviewable) -> (UIViewController & MediaViewPresentable)?
+    var preview: MediaPreviewable { get }
+    static func controller(forPreview preview: MediaPreviewable) -> (UIViewController & MediaViewPresentable)?
 }
 
 public class MediaViewController: UIViewController, UIScrollViewDelegate, MediaViewPresentable {
     
-    public class func controller(forAsset asset: MediaPreviewable) -> (UIViewController & MediaViewPresentable)? {
-        return MediaViewController(mediaAsset: asset)
+    public class func controller(forPreview preview: MediaPreviewable) -> (UIViewController & MediaViewPresentable)? {
+        return MediaViewController(preview: preview)
     }
 
-    public private(set) var mediaAsset: MediaPreviewable
+    public private(set) var preview: MediaPreviewable
 
-    public var photoMedia: PhotoMedia?  {
-        return mediaAsset as? PhotoMedia
+    public var photoMedia: PhotoPreview?  {
+        return preview as? PhotoPreview
     }
 
-    public init(mediaAsset: MediaPreviewable) {
-        self.mediaAsset = mediaAsset
+    public init(preview: MediaPreviewable) {
+        self.preview = preview
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -55,7 +55,7 @@ public class MediaViewController: UIViewController, UIScrollViewDelegate, MediaV
         scalingImageView.maximumZoomScale = scalingImageView.maximumZoomScale + 3.0
         view.addSubview(scalingImageView)
 
-        let image = photoMedia?.image ?? mediaAsset.thumbnailImage
+        let image = photoMedia?.image ?? preview.thumbnailImage
         image?.loadImage(completion: { [weak self] (image) in
             self?.scalingImageView.image = image.sizing().image
         })

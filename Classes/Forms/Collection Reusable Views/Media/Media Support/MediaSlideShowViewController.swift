@@ -12,9 +12,9 @@ public protocol MediaSlideShowable: class {
 
     var viewModel: MediaGalleryViewModelable { get }
 
-    var currentMedia: MediaPreviewable? { get }
+    var currentPreview: MediaPreviewable? { get }
 
-    func setupWithInitialMedia(_ media: MediaPreviewable?)
+    func setupWithInitialPreview(_ preview: MediaPreviewable?)
 
 }
 
@@ -54,22 +54,22 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         return UITapGestureRecognizer(target: self, action: #selector(MediaSlideShowViewController.handleTapGestureRecognizer(_:)))
     }()
 
-    public var currentMediaViewController: MediaViewController? {
+    public var currentPreviewViewController: MediaViewController? {
         return pageViewController.viewControllers?.first as? MediaViewController
     }
 
-    public var currentMedia: MediaPreviewable? {
-        return currentMediaViewController?.mediaAsset
+    public var currentPreview: MediaPreviewable? {
+        return currentPreviewViewController?.preview
     }
 
     public let viewModel: MediaGalleryViewModelable
 
-    public init(viewModel: MediaGalleryViewModelable, initialMedia: MediaPreviewable? = nil, referenceView: UIView? = nil) {
+    public init(viewModel: MediaGalleryViewModelable, initialPreview: MediaPreviewable? = nil, referenceView: UIView? = nil) {
         self.viewModel = viewModel
 
         super.init(nibName: nil, bundle: nil)
 
-        setupWithInitialMedia(initialMedia)
+        setupWithInitialPreview(initialPreview)
 
         NotificationCenter.default.addObserver(self, selector: #selector(galleryDidChange), name: MediaGalleryDidChangeNotificationName, object: viewModel)
     }
@@ -84,38 +84,38 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
     // MARK: - Setup
 
-    public func setupWithInitialMedia(_ media: MediaPreviewable?) {
-        setupWithInitialMedia(media, animated: false)
+    public func setupWithInitialPreview(_ preview: MediaPreviewable?) {
+        setupWithInitialPreview(preview, animated: false)
     }
 
-    public func setupWithInitialMedia(_ media: MediaPreviewable?, animated: Bool) {
+    public func setupWithInitialPreview(_ preview: MediaPreviewable?, animated: Bool) {
         // Page controller
 
-        var initialMedia = media
-        if let preview = viewModel.previews.first, initialMedia == nil {
-            initialMedia = preview
+        var initialPreview = preview
+        if let preview = viewModel.previews.first, initialPreview == nil {
+            initialPreview = preview
         }
 
-        if let media = initialMedia {
+        if let preview = initialPreview {
             var direction = UIPageViewControllerNavigationDirection.forward
-            if let currentMedia = self.currentMedia,
-                let currentIndex = indexOfPreview(currentMedia),
-                let nextIndex = indexOfPreview(media), nextIndex < currentIndex {
+            if let currentPreview = self.currentPreview,
+               let currentIndex = indexOfPreview(currentPreview),
+               let nextIndex = indexOfPreview(preview), nextIndex < currentIndex {
                 direction = .reverse
             }
 
-            guard let mediaViewController = mediaViewControllerForPhoto(media) else { return }
+            guard let mediaViewController = previewViewControllerForPreview(preview) else { return }
             pageViewController.setViewControllers([mediaViewController], direction: direction, animated: animated, completion: nil)
-            overlayView.populateWithMedia(media)
+            overlayView.populateWithPreview(preview)
         }
     }
 
-    public func showMedia(_ media: MediaPreviewable, animated: Bool, direction: UIPageViewControllerNavigationDirection = .forward) {
-        guard indexOfPreview(media) != nil,
-        let mediaViewController = mediaViewControllerForPhoto(media) else { return }
+    public func showPreview(_ preview: MediaPreviewable, animated: Bool, direction: UIPageViewControllerNavigationDirection = .forward) {
+        guard indexOfPreview(preview) != nil,
+        let mediaViewController = previewViewControllerForPreview(preview) else { return }
 
         pageViewController.setViewControllers([mediaViewController], direction: direction, animated: animated, completion: nil)
-        overlayView.populateWithMedia(media)
+        overlayView.populateWithPreview(preview)
     }
 
     public override func viewDidLoad() {
@@ -157,35 +157,35 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
     // MARK: - PageViewControllerDelegate / PageViewControllerDataSource
 
     public func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let mediaViewController = viewController as? MediaViewController else { return nil }
-        guard let mediaIndex = indexOfPreview(mediaViewController.mediaAsset) else { return nil }
+        guard let previewViewController = viewController as? MediaViewController else { return nil }
+        guard let index = indexOfPreview(previewViewController.preview) else { return nil }
 
-        let previousMediaIndex = mediaIndex - 1
+        let previousMediaIndex = index - 1
         if previousMediaIndex < 0 {
             return nil
         }
 
-        let newMedia = viewModel.previews[previousMediaIndex]
-        return mediaViewControllerForPhoto(newMedia)
+        let newPreview = viewModel.previews[previousMediaIndex]
+        return previewViewControllerForPreview(newPreview)
     }
 
     public func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let mediaViewController = viewController as? MediaViewController else { return nil }
-        guard let mediaIndex = indexOfPreview(mediaViewController.mediaAsset) else { return nil }
+        guard let previewViewController = viewController as? MediaViewController else { return nil }
+        guard let index = indexOfPreview(previewViewController.preview) else { return nil }
 
-        let nextMediaIndex = mediaIndex + 1
+        let nextMediaIndex = index + 1
         if nextMediaIndex >= viewModel.previews.count {
             return nil
         }
 
-        let newMedia = viewModel.previews[nextMediaIndex]
-        return mediaViewControllerForPhoto(newMedia)
+        let newPreview = viewModel.previews[nextMediaIndex]
+        return previewViewControllerForPreview(newPreview)
     }
 
     public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed {
-            if let currentMedia = currentMedia {
-                overlayView.populateWithMedia(currentMedia)
+            if let currentPreview = currentPreview {
+                overlayView.populateWithPreview(currentPreview)
             }
         }
     }
@@ -200,10 +200,10 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
     // MARK: - Photo management
 
-    public func handleDeleteMediaButtonTapped(_ item: UIBarButtonItem) {
+    public func handleDeletePreviewButtonTapped(_ item: UIBarButtonItem) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: NSLocalizedString("Delete Media", comment: ""), style: .destructive, handler: { (action) in
-            self.deleteCurrentMedia()
+            self.deleteCurrentPreview()
         }))
         alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
         alertController.popoverPresentationController?.barButtonItem = item
@@ -212,11 +212,11 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
     // MARK: - Private
 
-    private func mediaViewControllerForPhoto(_ media: MediaPreviewable) -> UIViewController? {
-        return viewModel.controllerForPreview(media)
+    private func previewViewControllerForPreview(_ preview: MediaPreviewable) -> UIViewController? {
+        return viewModel.controllerForPreview(preview)
     }
 
-    private func mediaAfterDeletion(currentMediaIndex index: Int) -> MediaPreviewable? {
+    private func previewAfterDeletion(currentPreviewIndex index: Int) -> MediaPreviewable? {
         if index < viewModel.previews.count {
             return viewModel.previews[index]
         }
@@ -224,14 +224,14 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         return viewModel.previews[index - 1]
     }
 
-    private func deleteCurrentMedia() {
-        guard let currentMedia = currentMedia else { return }
+    private func deleteCurrentPreview() {
+        guard let currentMedia = currentPreview else { return }
 
         if let index = indexOfPreview(currentMedia) {
-            viewModel.removeMedia([currentMedia.asset]).then { [weak self] _ -> () in
+            viewModel.removeMedia([currentMedia.media]).then { [weak self] _ -> () in
                 guard let `self` = self else { return }
-                if let media = self.mediaAfterDeletion(currentMediaIndex: index) {
-                    self.showMedia(media, animated: true, direction: index >= self.viewModel.previews.count ? .reverse : .forward)
+                if let preview = self.previewAfterDeletion(currentPreviewIndex: index) {
+                    self.showPreview(preview, animated: true, direction: index >= self.viewModel.previews.count ? .reverse : .forward)
                 } else {
                     self.navigationController?.popViewController(animated: true)
                 }

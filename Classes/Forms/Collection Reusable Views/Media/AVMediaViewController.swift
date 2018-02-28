@@ -13,28 +13,26 @@ import AVKit
 /// as the photos 
 public class AVMediaViewController: MediaViewController {
 
-    public override class func controller(forAsset asset: MediaPreviewable) -> (UIViewController & MediaViewPresentable)? {
-        return AVMediaViewController(audioAsset: asset as? AudioMedia) ?? AVMediaViewController(videoAsset: asset as? VideoMedia)
+    public override class func controller(forPreview preview: MediaPreviewable) -> (UIViewController & MediaViewPresentable)? {
+        if let audioPreview = preview as? AudioPreview {
+            return AVMediaViewController(audioPreview: audioPreview)
+        } else if let videoPreview = preview as? VideoPreview {
+            return AVMediaViewController(videoPreview: videoPreview)
+        }
+        return nil
     }
 
-    private let mediaPreview: MediaPreview
-
-    init?(audioAsset: AudioMedia?) {
-        guard let audioAsset = audioAsset else { return nil }
-        mediaPreview = audioAsset
-        super.init(mediaAsset: audioAsset)
+    public init(audioPreview: AudioPreview) {
+        super.init(preview: audioPreview)
     }
 
-    init?(videoAsset: VideoMedia?) {
-        guard let videoAsset = videoAsset else { return nil }
-        mediaPreview = videoAsset
-        super.init(mediaAsset: videoAsset)
+    public init(videoPreview: VideoPreview) {
+        super.init(preview: videoPreview)
     }
 
     required public init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-
 
     public let playButton: UIButton = UIButton()
 
@@ -52,7 +50,7 @@ public class AVMediaViewController: MediaViewController {
     }
 
     @objc private func playTapped() {
-        let player = AVPlayer(url: mediaPreview.asset.url)
+        let player = AVPlayer(url: mediaPreview.media.url)
         let viewController = AVPlayerViewController()
         viewController.player = player
         viewController.modalPresentationStyle = .overFullScreen

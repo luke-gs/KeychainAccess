@@ -1,5 +1,5 @@
 //
-//  MediaDataSource.swift
+//  MediaGalleryViewModelable.swift
 //  MPOLKit
 //
 //  Created by KGWH78 on 31/10/17.
@@ -74,8 +74,8 @@ extension MediaGalleryViewModelable {
             return "This may take a moment depending on your connection speed."
         case .loading:
             return "Please wait a moment."
-        case .completed(let additionalitem):
-            return additionalitem ? "This may take a moment depending on your connection speed." : "Completed"
+        case .completed(let additionalItem):
+            return additionalItem ? "This may take a moment depending on your connection speed." : "Completed"
         case .error(let error):
             return error.localizedDescription
         }
@@ -99,14 +99,14 @@ public class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGaller
     public let storeCoordinator: DataStoreCoordinator<T>
 
     /// A registry of controllers for media items
-    private var mediaControllers: [ObjectIdentifier: (UIViewController & MediaViewPresentable).Type] = [:]
+    private var previewControllers: [ObjectIdentifier: (UIViewController & MediaViewPresentable).Type] = [:]
 
     public init(storeCoordinator: DataStoreCoordinator<T>) {
         self.storeCoordinator = storeCoordinator
 
-        genaratePreviews()
+        generatePreviews()
         updateState()
-        registerDefaultControllers()
+        registerDefaultPreviewControllers()
 
         NotificationCenter.default.addObserver(self, selector: #selector(storeDidChange(_:)), name: DataStoreCoordinatorDidChangeStateNotification, object: storeCoordinator)
 
@@ -121,14 +121,14 @@ public class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGaller
 
     open func previewForMedia(_ media: Media) -> MediaPreviewable {
         switch media.type {
-        case .photo: return PhotoMedia(asset: media)
-        case .audio: return AudioMedia(asset: media)
-        case .video: return VideoMedia(asset: media)
+        case .photo: return PhotoPreview(asset: media)
+        case .audio: return AudioPreview(media: media)
+        case .video: return VideoPreview(media: media)
         }
     }
 
     public func controllerForPreview(_ preview: MediaPreviewable) -> UIViewController? {
-        return mediaControllers[ObjectIdentifier(type(of: preview))]?.controller(forAsset: preview)
+        return previewControllers[ObjectIdentifier(type(of: preview))]?.controller(forAsset: preview)
     }
 
     /// Register a controller type to a specific mediaPreviewable object
@@ -136,25 +136,25 @@ public class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGaller
     /// - Parameters:
     ///   - controller: The type of the controller to register
     ///   - asset: The media the controller is to be registered against
-    public func register(_ controller: (UIViewController & MediaViewPresentable).Type, for asset: MediaPreviewable.Type) {
-        mediaControllers[ObjectIdentifier(asset)] = controller
+    public func register(_ controller: (UIViewController & MediaViewPresentable).Type, for preview: MediaPreviewable.Type) {
+        previewControllers[ObjectIdentifier(preview)] = controller
     }
 
     /// Register default controllers for media items
-    private func registerDefaultControllers() {
-        register(AVMediaViewController.self, for: AudioMedia.self)
-        register(MediaViewController.self, for: PhotoMedia.self)
-        register(AVMediaViewController.self, for: VideoMedia.self)
+    private func registerDefaultPreviewControllers() {
+        register(AVMediaViewController.self, for: AudioPreview.self)
+        register(MediaViewController.self, for: PhotoPreview.self)
+        register(AVMediaViewController.self, for: VideoPreview.self)
     }
 
     @objc private func storeDidChange(_ notification: Notification) {
-        genaratePreviews()
+        generatePreviews()
         updateState()
 
         NotificationCenter.default.post(name: MediaGalleryDidChangeNotificationName, object: self)
     }
 
-    private func genaratePreviews() {
+    private func generatePreviews() {
         previews = storeCoordinator.items.map { self.previewForMedia($0) }
     }
 

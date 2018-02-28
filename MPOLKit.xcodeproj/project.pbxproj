@@ -266,7 +266,7 @@
 		460B7B45200F0F2800C3315E /* SketchCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460B7B44200F0F2800C3315E /* SketchCanvas.swift */; };
 		461F7A9F2022BE5B00885E93 /* AudioOutputFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461F7A9E2022BE5B00885E93 /* AudioOutputFormatter.swift */; };
 		461F7AA12022BE8900885E93 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461F7AA02022BE8900885E93 /* RecordButton.swift */; };
-		461F7AA82022E0B700885E93 /* VideoMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461F7AA72022E0B700885E93 /* VideoMedia.swift */; };
+		461F7AA82022E0B700885E93 /* VideoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461F7AA72022E0B700885E93 /* VideoPreview.swift */; };
 		461F7AAA2023CD6C00885E93 /* AudioSessionConfigurer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461F7AA92023CD6C00885E93 /* AudioSessionConfigurer.swift */; };
 		462A788A1FC3C661002AEC05 /* SignatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462A78891FC3C661002AEC05 /* SignatureView.swift */; };
 		462A788C1FC3D097002AEC05 /* SignatureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462A788B1FC3D097002AEC05 /* SignatureViewController.swift */; };
@@ -299,7 +299,7 @@
 		4677EE261FFDAB0E004634B5 /* EnlargeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4677EE251FFDAB0E004634B5 /* EnlargeStyle.swift */; };
 		4677EE281FFDAB20004634B5 /* FadeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4677EE271FFDAB20004634B5 /* FadeStyle.swift */; };
 		4677EE2A1FFDAB29004634B5 /* UnderlineStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4677EE291FFDAB29004634B5 /* UnderlineStyle.swift */; };
-		467EAFAE20193BEE00B4CCC3 /* AudioMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467EAFAD20193BEE00B4CCC3 /* AudioMedia.swift */; };
+		467EAFAE20193BEE00B4CCC3 /* AudioPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467EAFAD20193BEE00B4CCC3 /* AudioPreview.swift */; };
 		467EAFB020193C2700B4CCC3 /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467EAFAF20193C2700B4CCC3 /* WaveformView.swift */; };
 		467EAFB2201942B400B4CCC3 /* AudioRecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467EAFB1201942B400B4CCC3 /* AudioRecordingViewController.swift */; };
 		46884206202BB186009D0406 /* PersistantMediaDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46884205202BB186009D0406 /* PersistantMediaDatasource.swift */; };
@@ -648,8 +648,8 @@
 		EA2189EF1F5FB2280057048E /* MapResultViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2189EE1F5FB2280057048E /* MapResultViewModelable.swift */; };
 		EA2189F21F5FE8B50057048E /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2189F11F5FE8B50057048E /* Presenter.swift */; };
 		EA2F1A631FA6D587001F7812 /* MediaPreviewableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2F1A621FA6D587001F7812 /* MediaPreviewableCell.swift */; };
-		EA2F1A6F1FA7F7C6001F7812 /* MediaDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2F1A6E1FA7F7C6001F7812 /* MediaDataSource.swift */; };
-		EA32A8521FBD1A7900CC37FB /* PhotoMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA32A8491FBD1A7900CC37FB /* PhotoMedia.swift */; };
+		EA2F1A6F1FA7F7C6001F7812 /* MediaGalleryViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2F1A6E1FA7F7C6001F7812 /* MediaGalleryViewModelable.swift */; };
+		EA32A8521FBD1A7900CC37FB /* PhotoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA32A8491FBD1A7900CC37FB /* PhotoPreview.swift */; };
 		EA32A8531FBD1A7900CC37FB /* MediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA32A84A1FBD1A7900CC37FB /* MediaViewController.swift */; };
 		EA32A8541FBD1A7900CC37FB /* MediaPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA32A84B1FBD1A7900CC37FB /* MediaPreviewViewController.swift */; };
 		EA32A8551FBD1A7900CC37FB /* MediaGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA32A84C1FBD1A7900CC37FB /* MediaGalleryViewController.swift */; };
@@ -1027,7 +1027,7 @@
 		460B7B44200F0F2800C3315E /* SketchCanvas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SketchCanvas.swift; sourceTree = "<group>"; };
 		461F7A9E2022BE5B00885E93 /* AudioOutputFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioOutputFormatter.swift; sourceTree = "<group>"; };
 		461F7AA02022BE8900885E93 /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
-		461F7AA72022E0B700885E93 /* VideoMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoMedia.swift; path = "Classes/Forms/Collection Reusable Views/Media/Video/VideoMedia.swift"; sourceTree = SOURCE_ROOT; };
+		461F7AA72022E0B700885E93 /* VideoPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoPreview.swift; path = "Classes/Forms/Collection Reusable Views/Media/Video/VideoPreview.swift"; sourceTree = SOURCE_ROOT; };
 		461F7AA92023CD6C00885E93 /* AudioSessionConfigurer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSessionConfigurer.swift; sourceTree = "<group>"; };
 		462A78891FC3C661002AEC05 /* SignatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureView.swift; sourceTree = "<group>"; };
 		462A788B1FC3D097002AEC05 /* SignatureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureViewController.swift; sourceTree = "<group>"; };
@@ -1060,7 +1060,7 @@
 		4677EE251FFDAB0E004634B5 /* EnlargeStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnlargeStyle.swift; sourceTree = "<group>"; };
 		4677EE271FFDAB20004634B5 /* FadeStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeStyle.swift; sourceTree = "<group>"; };
 		4677EE291FFDAB29004634B5 /* UnderlineStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineStyle.swift; sourceTree = "<group>"; };
-		467EAFAD20193BEE00B4CCC3 /* AudioMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioMedia.swift; sourceTree = "<group>"; };
+		467EAFAD20193BEE00B4CCC3 /* AudioPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPreview.swift; sourceTree = "<group>"; };
 		467EAFAF20193C2700B4CCC3 /* WaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformView.swift; sourceTree = "<group>"; };
 		467EAFB1201942B400B4CCC3 /* AudioRecordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecordingViewController.swift; sourceTree = "<group>"; };
 		46884205202BB186009D0406 /* PersistantMediaDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantMediaDatasource.swift; sourceTree = "<group>"; };
@@ -1433,8 +1433,8 @@
 		EA2189EE1F5FB2280057048E /* MapResultViewModelable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapResultViewModelable.swift; sourceTree = "<group>"; };
 		EA2189F11F5FE8B50057048E /* Presenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
 		EA2F1A621FA6D587001F7812 /* MediaPreviewableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPreviewableCell.swift; sourceTree = "<group>"; };
-		EA2F1A6E1FA7F7C6001F7812 /* MediaDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDataSource.swift; sourceTree = "<group>"; };
-		EA32A8491FBD1A7900CC37FB /* PhotoMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoMedia.swift; sourceTree = "<group>"; };
+		EA2F1A6E1FA7F7C6001F7812 /* MediaGalleryViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaGalleryViewModelable.swift; sourceTree = "<group>"; };
+		EA32A8491FBD1A7900CC37FB /* PhotoPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoPreview.swift; sourceTree = "<group>"; };
 		EA32A84A1FBD1A7900CC37FB /* MediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaViewController.swift; sourceTree = "<group>"; };
 		EA32A84B1FBD1A7900CC37FB /* MediaPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaPreviewViewController.swift; sourceTree = "<group>"; };
 		EA32A84C1FBD1A7900CC37FB /* MediaGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaGalleryViewController.swift; sourceTree = "<group>"; };
@@ -2152,7 +2152,7 @@
 		461F7AA62022E09400885E93 /* Video */ = {
 			isa = PBXGroup;
 			children = (
-				461F7AA72022E0B700885E93 /* VideoMedia.swift */,
+				461F7AA72022E0B700885E93 /* VideoPreview.swift */,
 			);
 			name = Video;
 			path = "New Group";
@@ -2216,7 +2216,7 @@
 		4650F31820181DED00D9A3E6 /* Photo */ = {
 			isa = PBXGroup;
 			children = (
-				EA32A8491FBD1A7900CC37FB /* PhotoMedia.swift */,
+				EA32A8491FBD1A7900CC37FB /* PhotoPreview.swift */,
 			);
 			path = Photo;
 			sourceTree = "<group>";
@@ -2301,7 +2301,7 @@
 			isa = PBXGroup;
 			children = (
 				467092202023EF4700271157 /* Image Output */,
-				467EAFAD20193BEE00B4CCC3 /* AudioMedia.swift */,
+				467EAFAD20193BEE00B4CCC3 /* AudioPreview.swift */,
 				467EAFAF20193C2700B4CCC3 /* WaveformView.swift */,
 				467EAFB1201942B400B4CCC3 /* AudioRecordingViewController.swift */,
 				461F7A9E2022BE5B00885E93 /* AudioOutputFormatter.swift */,
@@ -3571,7 +3571,7 @@
 				EA32A8481FBD1A5900CC37FB /* Media Support */,
 				46E193652016CDEA00F2D968 /* MediaAsset.swift */,
 				EA2F1A621FA6D587001F7812 /* MediaPreviewableCell.swift */,
-				EA2F1A6E1FA7F7C6001F7812 /* MediaDataSource.swift */,
+				EA2F1A6E1FA7F7C6001F7812 /* MediaGalleryViewModelable.swift */,
 				EA32A84A1FBD1A7900CC37FB /* MediaViewController.swift */,
 				4650F3162018172300D9A3E6 /* AVMediaViewController.swift */,
 			);
@@ -4260,7 +4260,7 @@
 				E26BCAE020116A8A0028F228 /* UserDefaultsDataSource.swift in Sources */,
 				270C60FD1FBA5DCB006F11AD /* TasksListIncidentCollectionViewCell.swift in Sources */,
 				27206B361F8198CD005303A8 /* IncidentAnnotationView.swift in Sources */,
-				467EAFAE20193BEE00B4CCC3 /* AudioMedia.swift in Sources */,
+				467EAFAE20193BEE00B4CCC3 /* AudioPreview.swift in Sources */,
 				278A16311FBBBDC800C01C38 /* MapFilterViewController.swift in Sources */,
 				EA7C50A41FA0677A004930BF /* MediaFormItem.swift in Sources */,
 				EA0F03E5202D480200BEB7E0 /* MediaStateCell.swift in Sources */,
@@ -4448,7 +4448,7 @@
 				27CBC7641F8B27CC00E387C3 /* TaskAnnotation.swift in Sources */,
 				BC9C7E441F0DED6600DFFE83 /* SidebarSplitViewController.swift in Sources */,
 				BC9C7DFD1F0DED6600DFFE83 /* CollectionViewFormValueFieldCell.swift in Sources */,
-				EA32A8521FBD1A7900CC37FB /* PhotoMedia.swift in Sources */,
+				EA32A8521FBD1A7900CC37FB /* PhotoPreview.swift in Sources */,
 				BC9C7E4B1F0DED6600DFFE83 /* Theme.swift in Sources */,
 				BC9C7E091F0DED6600DFFE83 /* UITableViewCell+LayoutMargins.swift in Sources */,
 				2726A81E1FCE6BE600EFB61A /* IncidentOverviewViewModel.swift in Sources */,
@@ -4609,7 +4609,7 @@
 				460B276F204526DC00B56D0B /* FormBuilderSearchViewController.swift in Sources */,
 				27E81E5E2034EB05000D5D1C /* ResourceOverviewFormViewController.swift in Sources */,
 				275329282033A2DF00CFA97B /* BubbleAnnotationView.swift in Sources */,
-				EA2F1A6F1FA7F7C6001F7812 /* MediaDataSource.swift in Sources */,
+				EA2F1A6F1FA7F7C6001F7812 /* MediaGalleryViewModelable.swift in Sources */,
 				C63408551F30E541000747B0 /* EntitySearchRequestable.swift in Sources */,
 				469EB5831F45320A0005CAF7 /* LoginHeaderView.swift in Sources */,
 				DB88BCE51F42D01C0056FD69 /* SortDescriptor.swift in Sources */,
@@ -4651,7 +4651,7 @@
 				BC9C7E341F0DED6600DFFE83 /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
 				460B5BC72007187600AB7D12 /* SketchEraser.swift in Sources */,
 				46884206202BB186009D0406 /* PersistantMediaDatasource.swift in Sources */,
-				4492C0501FD8C92E009D26BD /* TrafficStopRequest.swift in Sources */,
+				4492C0501FD8C92E009D26BD,
 				2753292620338C4500CFA97B /* TasksListBasicCollectionViewCell.swift in Sources */,
 				96F7727F201FFB35000FE0D0 /* CreateActivityLogItemViewModel.swift in Sources */,
 				9679A6491F9EEDB7007BC806 /* BookOnDetailsOfficerFormItem.swift in Sources */,
@@ -4759,7 +4759,7 @@
 				199ECE8F1FAA1B720065E425 /* RemoteResourceDescribing.swift in Sources */,
 				9689CA4F203648890001D993 /* CADActivityLogItemType.swift in Sources */,
 				BC79ADAEABB2D9BDDC997334 /* MPOLSpinnerView.swift in Sources */,
-				461F7AA82022E0B700885E93 /* VideoMedia.swift in Sources */,
+				461F7AA82022E0B700885E93 /* VideoPreview.swift in Sources */,
 				EA09A0481F78B6D400BC3C0E /* FormValidator.swift in Sources */,
 				EA950E4C1F8DBF5700B5A349 /* SubmissionValidationVisitor.swift in Sources */,
 				BC79A57977498E8F0201AB62 /* MapFormBuilderViewController.swift in Sources */,

@@ -60,11 +60,14 @@ public class MediaPreview: MediaPreviewable {
     public var thumbnailImage: ImageLoadable?
     public var title: String?
 
-    public let asset: Media
+    public let media: Media
 
-    public init(thumbnailImage: ImageLoadable? = nil, asset: Media) {
-        self.asset = asset
+    public init(thumbnailImage: ImageLoadable? = nil, media: Media) {
+        self.media = media
         self.thumbnailImage = thumbnailImage
+        self.title = media.title
+        self.comments = media.comments
+        self.sensitive = media.sensitive
     }
 
 }

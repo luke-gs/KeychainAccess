@@ -1,5 +1,5 @@
 //
-//  VideoMedia.swift
+//  VideoPreview.swift
 //  MPOLKit
 //
 //  Created by QHMW64 on 23/1/18.
@@ -9,12 +9,12 @@
 import Foundation
 import AVKit
 
-public class VideoMedia: MediaPreview {
+public class VideoPreview: MediaPreview {
 
-    public init(asset: Media) {
-        super.init(asset: asset)
+    public init(media: Media) {
+        super.init(media: media)
 
-        let videoAsset = AVAsset(url: asset.url)
+        let videoAsset = AVAsset(url: media.url)
         let thumbnailGenerator = AVAssetImageGenerator(asset: videoAsset)
         thumbnailGenerator.appliesPreferredTrackTransform = true
         let time = CMTime(seconds: 1, preferredTimescale: 100)
@@ -23,8 +23,6 @@ public class VideoMedia: MediaPreview {
             thumbnailImage = UIImage(cgImage: image)
         } catch {
             print(error)
-            // Unable to generate a thumbnail
-            // Media gallery will use predefined image instead
         }
     }
 }

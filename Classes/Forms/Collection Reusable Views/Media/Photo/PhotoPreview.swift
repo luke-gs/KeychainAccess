@@ -1,5 +1,5 @@
 //
-//  PhotoMedia.swift
+//  PhotoPreview.swift
 //  MPOLKit
 //
 //  Created by KGWH78 on 30/10/17.
@@ -9,7 +9,7 @@
 import Foundation
 import Cache
 
-public class PhotoMedia: MediaPreview {
+public class PhotoPreview: MediaPreview {
 
     public let image: ImageLoadable?
 
@@ -17,11 +17,7 @@ public class PhotoMedia: MediaPreview {
         let image = UIImage(contentsOfFile: asset.url.path)
         self.image = image
 
-        super.init(thumbnailImage: image, asset: asset)
-
-        self.title = asset.title
-        self.comments = asset.comments
-        self.sensitive = asset.sensitive
+        super.init(thumbnailImage: image, media: asset)
     }
 
 
