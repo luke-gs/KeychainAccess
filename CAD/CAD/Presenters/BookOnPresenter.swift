@@ -35,14 +35,14 @@ public class BookOnPresenter: Presenter {
         case .officerList(let detailsDelegate):
             let viewModel = OfficerListViewModel()
             viewModel.detailsDelegate = detailsDelegate
-            let viewController = OfficerListViewController<BookOnPresenter, OfficerListViewModel>(viewModel: viewModel)
-            return viewController
+            return viewModel.createViewController()
+
         case .patrolAreaList(let current, let delegate, _):
             let viewModel = PatrolAreaListViewModel()
             viewModel.selectedPatrolArea = current
-            viewModel.delegate = delegate
-            let viewController = PatrolAreaListViewController<BookOnPresenter,PatrolAreaListViewModel>(viewModel: viewModel)
-            return viewController
+            viewModel.selectionDelegate = delegate
+            return viewModel.createViewController()
+
         case .statusChangeReason(let completionHandler):
             // No view model, so use VC directly
             let vc = StatusChangeReasonViewController()
@@ -105,10 +105,3 @@ public class BookOnPresenter: Presenter {
     }
 }
 
-extension BookOnPresenter: SearchDisplayableDelegate {
-    public typealias Object = CustomSearchDisplayable
-
-    public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: CustomSearchDisplayable) {
-
-    }
-}
