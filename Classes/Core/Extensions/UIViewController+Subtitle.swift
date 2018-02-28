@@ -8,6 +8,48 @@
 
 import UIKit
 
+/// Navigation title view with title and subtitle
+open class NavigationTitleView: UIStackView {
+    
+    public let titleLabel: UILabel
+    public let subtitleLabel: UILabel
+    
+    public init(title: String?, subtitle: String?) {
+        let titleLabel = UILabel()
+        titleLabel.text = title
+        titleLabel.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        titleLabel.textAlignment = .center
+        titleLabel.text = title
+        titleLabel.textColor = .white
+        titleLabel.sizeToFit()
+        self.titleLabel = titleLabel
+        
+        let subtitleLabel = UILabel()
+        subtitleLabel.text = subtitle
+        subtitleLabel.font = UIFont.systemFont(ofSize: 12)
+        subtitleLabel.textAlignment = .center
+        subtitleLabel.text = subtitle
+        subtitleLabel.textColor = .white
+        subtitleLabel.sizeToFit()
+        self.subtitleLabel = subtitleLabel
+        
+        let verticalPadding: CGFloat = 2 // not much, but we've gotta fit in the nav space
+        let width = max(titleLabel.frame.width, subtitleLabel.frame.width)
+        let height = titleLabel.frame.height + subtitleLabel.frame.height + verticalPadding
+        super.init(frame: CGRect(x: 0, y: 0, width: width, height: height))
+        
+        // Arrange in stackview for easy layout
+        addArrangedSubview(titleLabel)
+        addArrangedSubview(subtitleLabel)
+        distribution = .equalSpacing
+        axis = .vertical
+    }
+    
+    public required init(coder: NSCoder) {
+        MPLCodingNotSupported()
+    }
+}
+
 /// Global var for unique address as the assoc object handle
 private var associatedObjectTitleHandle: UInt8 = 0
 private var associatedObjectSubtitleHandle: UInt8 = 0
@@ -28,36 +70,16 @@ extension UIViewController {
     }
 
     public func setTitleView(title: String, subtitle: String) {
+        let titleView = NavigationTitleView(title: title, subtitle: subtitle)
+        
+        titleView.titleLabel.textColor = themeColor(forKey: .primaryText)!
+        titleView.subtitleLabel.textColor = themeColor(forKey: .secondaryText)!
 
-        let titleLabel = UILabel()
-        titleLabel.text = title
-        titleLabel.font = UIFont.systemFont(ofSize: 15, weight: .bold)
-        titleLabel.textAlignment = .center
-        titleLabel.textColor = themeColor(forKey: .primaryText)!
-        titleLabel.sizeToFit()
-
-        let subtitleLabel = UILabel()
-        subtitleLabel.text = subtitle
-        subtitleLabel.font = UIFont.systemFont(ofSize: 12)
-        subtitleLabel.textAlignment = .center
-        subtitleLabel.textColor = themeColor(forKey: .secondaryText)!
-        subtitleLabel.sizeToFit()
-
-        // Arrange in stackview for easy layout
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
-        stackView.distribution = .equalSpacing
-        stackView.axis = .vertical
-
-        let verticalPadding: CGFloat = 2 // not much, but we've gotta fit in the nav space
-        let width = max(titleLabel.frame.width, subtitleLabel.frame.width)
-        let height = titleLabel.frame.height + subtitleLabel.frame.height + verticalPadding
-        stackView.frame = CGRect(x: 0, y: 0, width: width, height: height)
-
-        navigationItem.titleView = stackView
+        navigationItem.titleView = titleView
 
         // Observe changes to the theme
-        self.titleLabel = titleLabel
-        self.subtitleLabel = subtitleLabel
+        self.titleLabel = titleView.titleLabel
+        self.subtitleLabel = titleView.subtitleLabel
         NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleChanged), name: .interfaceStyleDidChange, object: nil)
     }
 
