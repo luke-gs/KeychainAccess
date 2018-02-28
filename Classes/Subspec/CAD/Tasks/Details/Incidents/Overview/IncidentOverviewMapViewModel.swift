@@ -29,9 +29,8 @@ open class IncidentOverviewMapViewModel: TasksMapViewModel {
     }
     
     override open func createViewController() -> TasksMapViewController {
-        if let incidentLocation = CADStateManager.shared.incidentsById[incidentNumber]?.location {
-            let location = CLLocation(latitude: CLLocationDegrees(incidentLocation.latitude), longitude: CLLocationDegrees(incidentLocation.longitude))
-            let viewController = TasksMapViewController(viewModel: self, initialLoadZoomStyle: .coordinate(location, animated : false))
+        if let coordinate = CADStateManager.shared.incidentsById[incidentNumber]?.location?.coordinate {
+            let viewController = TasksMapViewController(viewModel: self, initialLoadZoomStyle: .coordinate(coordinate, animated : false))
             viewController.defaultZoomDistance = defaultZoomDistance
             return viewController
         }
