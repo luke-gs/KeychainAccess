@@ -21,35 +21,48 @@ open class IncidentListReport: Reportable {
         }
     }
 
-    public weak var event: Event?
-
-    private(set) public var evaluator: Evaluator = Evaluator()
-    public weak var headerDelegate: EventHeaderUpdateDelegate?
-
-    public var incidents: [IncidentListDisplayable] = [] {
+    public var incidentDisplayables: [IncidentListDisplayable] = []
+    public var incidents: [Incident] = [] {
         didSet {
             evaluator.updateEvaluation(for: .incidents)
-            headerDelegate?.updateHeader(with: incidents.first?.title, subtitle: nil)
+            headerDelegate?.updateHeader(with: incidentDisplayables.first?.title, subtitle: nil)
         }
     }
 
-    public required init(event: Event) {
+    public weak var headerDelegate: EventHeaderUpdateDelegate?
+    private(set) public var evaluator: Evaluator = Evaluator()
+    public weak var event: Event?
+    public weak var incident: Incident?
+
+    public required init(event: Event, incident: Incident? = nil) {
         self.event = event
+        self.incident = incident
 
         evaluator.addObserver(event)
+        evaluator.addObserver(incident)
+
         evaluator.registerKey(.viewed) {
             return self.viewed
         }
         evaluator.registerKey(.incidents) {
-            return self.incidents.count > 0
+            let eval = self.incidents.reduce(true, { (result, incident) -> Bool in
+                return result && incident.evaluator.isComplete
+            })
+            return self.incidents.count > 0 && eval
         }
+    }
+
+    // Utility
+
+    public func updateEval() {
+        evaluator.updateEvaluation(for: [.incidents, .viewed])
     }
 
     // Codable
 
     public required init(from: Decoder) throws {
         let container = try from.container(keyedBy: Keys.self)
-        incidents = try container.decode([IncidentListDisplayable].self, forKey: .incidents)
+        incidents = try container.decode([Incident].self, forKey: .incidents)
     }
 
     public func encode(to: Encoder) throws {

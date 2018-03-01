@@ -43,7 +43,9 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.report?.viewed = true
-        self.updateLoadingManager()
+        viewModel.report?.updateEval()
+        reloadForm()
+        updateLoadingManager()
     }
 
     override open func construct(builder: FormBuilder) {
@@ -52,12 +54,14 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
 
         builder += HeaderFormItem(text: viewModel.sectionHeaderTitle())
 
-        let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.document)?
-            .withCircleBackground(tintColor: .black,
-                                  circleColor: .red,
-                                  style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false))
+        viewModel.report?.incidentDisplayables.enumerated().forEach { index, incident in
 
-        viewModel.report?.incidents.forEach { incident in
+            let eval = self.viewModel.report?.evaluator.isComplete ?? false
+            let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.document)?
+                .withCircleBackground(tintColor: .black,
+                                      circleColor: eval ? .green : .red,
+                                      style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false))
+
             builder += SummaryListFormItem()
                 .title(incident.title)
                 .subtitle("Not yet started")
@@ -68,13 +72,13 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
                 .accessory(ItemAccessory.disclosure)
                 .editActions([CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (cell, indexPath) in
                     self.viewModel.report?.incidents.remove(at: indexPath.item)
+                    self.viewModel.report?.incidentDisplayables.remove(at: indexPath.item)
                     self.updateLoadingManager()
                     self.reloadForm()
                 })])
                 .onSelection { cell in
-                    guard let report = self.viewModel.report else { return }
                     guard let indexPath = self.collectionView?.indexPath(for: cell) else { return }
-                    guard let incident = self.viewModel.incidentManager.incident(for: report.incidents[indexPath.item].incidentId) else { return }
+                    guard let incident = self.viewModel.report?.incidents[indexPath.item] else { return }
 
                     let vc = IncidentSplitViewController(viewModel: self.viewModel.detailsViewModel(for: incident))
 
@@ -102,7 +106,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
                                                      imageStyle: .circle)
 
         let datasource = IncidentSearchDataSource(objects: IncidentType.allIncidentTypes().map{$0.rawValue},
-                                                  selectedObjects: report.incidents.map{$0.title!},
+                                                  selectedObjects: report.incidentDisplayables.map{$0.title!},
                                                   configuration: headerConfig)
         
         datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))

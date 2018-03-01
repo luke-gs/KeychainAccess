@@ -46,7 +46,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
 
     func searchHeaderSubtitle() -> String {
         guard let report = report else { return "" }
-        return report.incidents.map{$0.title}.joined(separator: ", ")
+        return report.incidentDisplayables.map{$0.title}.joined(separator: ", ")
     }
 
     func sectionHeaderTitle() -> String {
@@ -60,8 +60,10 @@ open class IncidentListViewModel: IncidentListViewModelType {
             let type = IncidentType(rawValue: incident)
             let incidentType = IncidentType.allIncidentTypes().contains(type) ? type : .blank
             guard let incident = incidentManager.create(incidentType: incidentType, in: event) else { continue }
-            if !(report?.incidents.contains(where: {$0.title == incident.title}) == true) {
-                report?.incidents.append(incident)
+
+            if !(report?.incidents.contains(where: {$0.incidentType == incident.incident.incidentType}) == true) {
+                report?.incidents.append(incident.incident)
+                report?.incidentDisplayables.append(incident.displayable)
             }
         }
     }

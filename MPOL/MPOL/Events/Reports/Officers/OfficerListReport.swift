@@ -12,8 +12,6 @@ import ClientKit
 
 public class OfficerListReport: Reportable {
 
-    public weak var event: Event?
-
     public enum CodingKeys: String, CodingKey {
         case officers
         case event
@@ -38,8 +36,12 @@ public class OfficerListReport: Reportable {
         return "\(officerCount) CURRENT OFFICER\(officerCount == 1 ? "" : "S")"
     }
 
-    public required init(event: Event) {
+    public weak var event: Event?
+    public weak var incident: Incident?
+
+    public required init(event: Event, incident: Incident? = nil) {
         self.event = event
+        self.incident = incident
 
         let user = UserSession.current.user
         let testOfficer = Officer()
@@ -62,14 +64,12 @@ public class OfficerListReport: Reportable {
     }
 
     private func commonInit() {
-        if let event = event {
+        evaluator.addObserver(event)
+        evaluator.addObserver(incident)
 
-            evaluator.addObserver(event)
-
-            evaluator.registerKey(.officers) {
-                return self.viewed == true
-                    && self.officers.count > 0
-            }
+        evaluator.registerKey(.officers) {
+            return self.viewed == true
+                && self.officers.count > 0
         }
     }
 
