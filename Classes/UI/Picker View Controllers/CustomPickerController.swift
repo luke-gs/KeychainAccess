@@ -328,11 +328,9 @@ public class CustomPickerController: FormTableViewController {
     open override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         super.tableView(tableView, willDisplay: cell, forRowAt: indexPath)
 
-        if let itemIndex = indexForItem(at: indexPath) {
-            cell.textLabel?.alpha = selectedIndexes.contains(itemIndex) ? 1.0 : 0.5
-        } else {
-            cell.textLabel?.alpha = 1.0
-            cell.textLabel?.textColor = ThemeManager.shared.theme(for: .current).color(forKey: .tint) ?? tintColor
+        if let index = indexForItem(at: indexPath) {
+            let item = objects[index]
+            cell.textLabel?.alpha = !datasource.allowsSelection(of: item) ? 0.25 : 1.0
         }
     }
 
