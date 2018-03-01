@@ -122,7 +122,7 @@ open class CADStateManagerCore: CADStateManagerType {
             }
         }
         
-        return Promise(error: CADStateManagerType.Errors.notLoggedIn)
+        return Promise(error: CADStateManagerError.notLoggedIn)
     }
 
     /// Set logged in officer as off duty
