@@ -75,12 +75,6 @@ open class TasksSplitViewModel {
     
     // MARK: - Filter
     
-    /// Shows the map filter popup
-    public func presentMapFilter() {
-        let viewController = filterViewModel.createViewController(delegate: self)
-        delegate?.presentFormSheet(viewController, animated: true)
-    }
-    
     /// Applies the filter to the map and task list
     public func applyFilter() {
         delegate?.dismiss(animated: true, completion: nil)

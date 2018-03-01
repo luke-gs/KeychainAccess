@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// Enum for all CAD book on screens that are presented
+/// Enum for all presentable CAD book on screens
 public enum BookOnScreen: Presentable {
 
     /// Create/edit book on details screen
@@ -30,13 +30,16 @@ public enum BookOnScreen: Presentable {
     case officerList(detailsDelegate: OfficerDetailsViewModelDelegate?)
 
     /// All patrol areas list screen
-    case patrolAreaList(current: String, delegate: PatrolAreaListViewModelDelegate?)
+    case patrolAreaList(current: String?, delegate: PatrolAreaListViewModelDelegate?, formSheet: Bool)
 
     /// Enter reason for resource status change
     case statusChangeReason(completionHandler: ((String?) -> Void)?)
 
     /// Create traffic stop incident
     case trafficStop(completionHandler: ((CADTrafficStopDetailsType?) -> Void)?)
+
+    /// Add traffic stop entity
+    case trafficStopEntity(entityViewModel: SelectStoppedEntityViewModel)
 
     /// Enter finalise details
     case finaliseDetails(primaryCode: String, completionHandler: ((_ secondaryCode: String?, _ remark: String?) -> Void)?)

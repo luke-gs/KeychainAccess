@@ -72,21 +72,23 @@ open class CADFormCollectionViewController<ItemType>: FormCollectionViewControll
     }
 
     open override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionElementKindSectionHeader {
-            // Create collapsible section header
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
-            header.text = viewModel.headerText(at: indexPath.section)
-            if viewModel.shouldShowExpandArrow() {
-                header.showsExpandArrow = true
-                header.tapHandler = { [weak self] headerView, indexPath in
-                    guard let `self` = self else { return }
-                    self.viewModel.toggleHeaderExpanded(at: indexPath.section)
-                    self.collectionView?.reloadSections(IndexSet(integer: indexPath.section))
-                    headerView.setExpanded(self.viewModel.isHeaderExpanded(at: indexPath.section), animated: true)
+        if let headerText = viewModel.headerText(at: indexPath.section) {
+            if kind == UICollectionElementKindSectionHeader {
+                // Create collapsible section header
+                let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
+                header.text = headerText
+                if viewModel.shouldShowExpandArrow() {
+                    header.showsExpandArrow = true
+                    header.tapHandler = { [weak self] headerView, indexPath in
+                        guard let `self` = self else { return }
+                        self.viewModel.toggleHeaderExpanded(at: indexPath.section)
+                        self.collectionView?.reloadSections(IndexSet(integer: indexPath.section))
+                        headerView.setExpanded(self.viewModel.isHeaderExpanded(at: indexPath.section), animated: true)
+                    }
+                    header.isExpanded = viewModel.isHeaderExpanded(at: indexPath.section)
                 }
-                header.isExpanded = viewModel.isHeaderExpanded(at: indexPath.section)
+                return header
             }
-            return header
         }
         return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
     }
@@ -96,7 +98,10 @@ open class CADFormCollectionViewController<ItemType>: FormCollectionViewControll
     /// Provide default header height
     /// Use @objc here as otherwise this is not called if not overridden in subclass!
     @objc open func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
-        return CollectionViewFormHeaderView.minimumHeight
+        if viewModel.headerText(at: section) != nil {
+            return CollectionViewFormHeaderView.minimumHeight
+        }
+        return 0
     }
 
     // Reload the content in the collection view. Can be overridden in subclass

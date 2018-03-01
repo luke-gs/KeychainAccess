@@ -11,12 +11,12 @@ public protocol PatrolAreaListViewModelDelegate: class {
     func patrolAreaListViewModel(_ viewModel: PatrolAreaListViewModel, didSelectPatrolArea patrolArea: String?)
 }
 
-public class PatrolAreaListViewModel: DefaultSearchDisplayableViewModel {
+open class PatrolAreaListViewModel: DefaultSearchDisplayableViewModel {
     
     // MARK: - Properties
     
     public var selectedPatrolArea: String?
-    public weak var delegate: PatrolAreaListViewModelDelegate?
+    public weak var selectionDelegate: PatrolAreaListViewModelDelegate?
     
     // MARK: - Setup
     
@@ -37,8 +37,26 @@ public class PatrolAreaListViewModel: DefaultSearchDisplayableViewModel {
         let sorted = items.sorted(using: [SortDescriptor<CustomSearchDisplayable> { $0.title }])
         super.init(items: sorted)
         
-        title = NSLocalizedString("Select Patrol Area", comment: "")
+        title = navTitle()
         hasSections = false
+    }
+    
+    /// Create the view controller for this view model
+    open func createViewController() -> UIViewController {
+        let vc = PatrolAreaListViewController(viewModel: self)
+        return vc
+    }
+
+    open func navTitle() -> String {
+        return NSLocalizedString("Select Patrol Area", comment: "")
+    }
+    
+    open func doneButtonText() -> String {
+        return NSLocalizedString("Done", comment: "")
+    }
+    
+    open func cancelButtonText() -> String {
+        return NSLocalizedString("Cancel", comment: "")
     }
     
     open func noContentTitle() -> String? {
@@ -54,7 +72,7 @@ public class PatrolAreaListViewModel: DefaultSearchDisplayableViewModel {
     }
     
     public func doneTapped() {
-        delegate?.patrolAreaListViewModel(self, didSelectPatrolArea: selectedPatrolArea)
+        selectionDelegate?.patrolAreaListViewModel(self, didSelectPatrolArea: selectedPatrolArea)
     }
     
 }

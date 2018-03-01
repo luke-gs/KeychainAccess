@@ -105,7 +105,6 @@ open class ManageCallsignStatusViewController: ThemedPopoverViewController, Mana
     
     open func reloadIncident() {
         incidentFormVC.listViewModel = viewModel.incidentListViewModel
-        incidentFormVC.taskViewModel = viewModel.incidentTaskViewModel
         incidentFormVC.reloadForm()
     }
 
@@ -116,13 +115,13 @@ open class ManageCallsignStatusViewController: ThemedPopoverViewController, Mana
         contentView = UIView(frame: .zero)
         scrollView.addSubview(contentView)
 
-        incidentFormVC = ManageCallsignIncidentFormViewController(listViewModel: viewModel.incidentListViewModel,
-                                                            taskViewModel: viewModel.incidentTaskViewModel)
-        incidentFormVC.view.backgroundColor = UIColor.clear
-        addChildViewController(incidentFormVC, toView: contentView)
-
         callsignStatusVC = viewModel.callsignViewModel.createViewController()
         addChildViewController(callsignStatusVC, toView: contentView)
+
+        // Add incident form after callsign status, to make sure it's on top if overlap caused by reducing vertical whitespace
+        incidentFormVC = ManageCallsignIncidentFormViewController(listViewModel: viewModel.incidentListViewModel)
+        incidentFormVC.view.backgroundColor = UIColor.clear
+        addChildViewController(incidentFormVC, toView: contentView)
 
         var actions = [DialogAction]()
         for (index, buttonText) in viewModel.actionButtons.enumerated() {

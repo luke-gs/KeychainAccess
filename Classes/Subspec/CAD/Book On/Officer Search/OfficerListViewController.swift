@@ -8,12 +8,21 @@
 
 import UIKit
 
-open class OfficerListViewController<T: SearchDisplayableDelegate, U: OfficerListViewModel>: SearchDisplayableViewController<T, U> where T.Object == U.Object {
-
+open class OfficerListViewController: SearchDisplayableViewController<OfficerListViewControllerSelectionHandler, OfficerListViewModel> {
         
-    public required init(viewModel: U) {
+    public required init(viewModel: OfficerListViewModel) {
         super.init(viewModel: viewModel)
+
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""), style: .plain, target: self, action: #selector(cancelTapped))
+    }
+
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Set delegate to internal selection handler
+        delegate = OfficerListViewControllerSelectionHandler(self)
+
+        loadingManager.noContentView.titleLabel.text = viewModel.noContentTitle()
     }
 
     open override func construct(builder: FormBuilder) {
@@ -32,9 +41,7 @@ open class OfficerListViewController<T: SearchDisplayableDelegate, U: OfficerLis
                                             style: .default)
                     .accessory(viewModel.accessory(for: viewModel.searchable(for: viewModel.object(for: indexPath))))
                     .onSelection { [unowned self] cell in
-                        if let officer = self.viewModel.object(for: indexPath) as? OfficerListItemViewModel {
-                            self.present(self.viewModel.officerDetailsScreen(for: officer))
-                        }
+                        self.delegate?.genericSearchViewController(self, didSelectRowAt: indexPath, withObject: self.viewModel.object(for: indexPath))
                 }
             }
         }
@@ -42,12 +49,6 @@ open class OfficerListViewController<T: SearchDisplayableDelegate, U: OfficerLis
         loadingManager.state = builder.formItems.isEmpty ? .noContent : .loaded
     }
 
-    open override func viewDidLoad() {
-        super.viewDidLoad()
-
-        loadingManager.noContentView.titleLabel.text = viewModel.noContentTitle()
-    }
-    
     open override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
         
@@ -71,5 +72,21 @@ open class OfficerListViewController<T: SearchDisplayableDelegate, U: OfficerLis
 extension OfficerListViewController: OfficerListViewModelDelegate {
     public func itemSelectedAndFinishedEditing() {
         self.navigationController?.popViewController(animated: true)
+    }
+}
+
+// Separate class for SearchDisplayableDelegate implementation, due to cyclic reference in generic type inference
+open class OfficerListViewControllerSelectionHandler: SearchDisplayableDelegate {
+    public typealias Object = CustomSearchDisplayable
+    private var listViewController: OfficerListViewController
+
+    init(_ listViewController: OfficerListViewController) {
+        self.listViewController = listViewController
+    }
+
+    public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: CustomSearchDisplayable) {
+        if let officer = object as? OfficerListItemViewModel {
+            listViewController.present(listViewController.viewModel.officerDetailsScreen(for: officer))
+        }
     }
 }

@@ -24,7 +24,7 @@ open class DefaultEventNotesPhotosViewController: FormBuilderViewController, Eva
         sidebarItem.regularTitle = "Notes and Photos"
         sidebarItem.compactTitle = "Notes and Photos"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.attachment)!
-        sidebarItem.color = report?.evaluator.isComplete ?? false ? .midGreen : .red
+        sidebarItem.color = (report?.evaluator.isComplete ?? false) ? .green : .red
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -55,7 +55,7 @@ open class DefaultEventNotesPhotosViewController: FormBuilderViewController, Eva
     }
     
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        sidebarItem.color = evaluator.isComplete == true ? .midGreen : .red
+        sidebarItem.color = evaluator.isComplete == true ? .green : .red
     }
 }
 
@@ -71,10 +71,10 @@ public class DefaultNotesPhotosReport: Reportable {
     var operationName: String?
     var freeText: String?
     
-    public var evaluator: Evaluator = Evaluator()
     public weak var event: Event?
     public weak var incident: Incident?
-
+    public var evaluator: Evaluator = Evaluator()
+    
     public required init(event: Event, incident: Incident? = nil) {
         self.event = event
         self.incident = incident
@@ -94,7 +94,6 @@ public class DefaultNotesPhotosReport: Reportable {
     public func commonInit() {
         evaluator.addObserver(event)
         evaluator.addObserver(incident)
-
         evaluator.registerKey(.viewed) {
             return self.viewed
         }

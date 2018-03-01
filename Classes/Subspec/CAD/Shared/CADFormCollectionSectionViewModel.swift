@@ -12,15 +12,15 @@ import UIKit
 open class CADFormCollectionSectionViewModel<ItemType> {
 
     /// Title for section header
-    let title: String
+    public let title: String?
 
     /// The section items
-    let items: [ItemType]
+    public let items: [ItemType]
 
     /// Whether section should not be collapsed, even if expand arrow enabled in view model
-    let preventCollapse: Bool?
+    public let preventCollapse: Bool?
 
-    public init(title: String, items: [ItemType], preventCollapse: Bool? = false) {
+    public init(title: String?, items: [ItemType], preventCollapse: Bool? = false) {
         self.title = title
         self.items = items
         self.preventCollapse = preventCollapse

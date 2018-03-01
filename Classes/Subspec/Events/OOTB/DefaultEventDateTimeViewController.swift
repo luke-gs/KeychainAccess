@@ -26,7 +26,7 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
         sidebarItem.regularTitle = "Date and Time"
         sidebarItem.compactTitle = "Date and Time"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.date)!
-        sidebarItem.color = report?.evaluator.isComplete ?? false ? .midGreen : .red
+        sidebarItem.color = (report?.evaluator.isComplete ?? false) ? .green : .red
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -38,6 +38,7 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
 
         builder += DateFormItem()
             .title("Report Time")
+            .selectedValue(report?.reportedOnDateTime)
             .datePickerMode(.dateAndTime)
             .withNowButton(true)
             .width(.column(2))
@@ -52,6 +53,7 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
 
         builder += DateFormItem()
             .title("Start")
+            .selectedValue(report?.tookPlaceFromStartDateTime)
             .datePickerMode(.dateAndTime)
             .withNowButton(true)
             .width(.column(2))
@@ -63,15 +65,15 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
             }
             .required()
 
-            builder +=  DateFormItem()
-                .title("End")
-                .datePickerMode(.dateAndTime)
-                .width(.column(2))
-                .elementIdentifier("tookPlaceFromEndDateTime")
-                .minimumDate(Date())
-                .selectedValue(self.report?.tookPlaceFromEndDateTime)
-                .onValueChanged { date in
-                    self.report?.tookPlaceFromEndDateTime = date
+        builder +=  DateFormItem()
+            .title("End")
+            .selectedValue(report?.tookPlaceFromEndDateTime)
+            .datePickerMode(.dateAndTime)
+            .width(.column(2))
+            .elementIdentifier("tookPlaceFromEndDateTime")
+            .minimumDate(Date())
+            .onValueChanged { date in
+                self.report?.tookPlaceFromEndDateTime = date
         }
         
     }

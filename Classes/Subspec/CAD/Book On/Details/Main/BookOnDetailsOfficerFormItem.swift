@@ -8,15 +8,16 @@
 
 import UIKit
 
-class BookOnDetailsOfficerFormItem: SubtitleFormItem {
+public class BookOnDetailsOfficerFormItem: SubtitleFormItem {
 
     public var status: String?
-
+    public var statusLabelStyle: BookOnDetailsOfficerCell.StatusLabelStyle = .filled
+    
     public init(cellType: BookOnDetailsOfficerCell.Type, reuseIdentifier: String) {
         super.init(cellType: cellType, reuseIdentifier: reuseIdentifier)
     }
 
-    public convenience init(title: StringSizable? = nil, subtitle: StringSizable? = nil, status: String? = nil, image: UIImage? = nil, style: CollectionViewFormSubtitleStyle = .default) {
+    public convenience init(title: StringSizable? = nil, subtitle: StringSizable? = nil, status: String? = nil, image: UIImage? = nil, style: CollectionViewFormSubtitleStyle = .default, statusLabelStyle: BookOnDetailsOfficerCell.StatusLabelStyle = .filled) {
         self.init(cellType: BookOnDetailsOfficerCell.self, reuseIdentifier: BookOnDetailsOfficerCell.defaultReuseIdentifier)
 
         self.title = title
@@ -24,6 +25,7 @@ class BookOnDetailsOfficerFormItem: SubtitleFormItem {
         self.subtitle = subtitle
         self.status = status
         self.style = style
+        self.statusLabelStyle = statusLabelStyle
     }
 
     public override func configure(_ cell: CollectionViewFormCell) {
@@ -32,6 +34,7 @@ class BookOnDetailsOfficerFormItem: SubtitleFormItem {
         let cell = cell as! BookOnDetailsOfficerCell
         cell.statusLabel.text = status
         cell.imageView.image = image?.sizing().image
+        cell.statusLabelStyle = statusLabelStyle
     }
 
 }

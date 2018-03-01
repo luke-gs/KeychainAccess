@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import PromiseKit
 
 public extension EvaluatorKey {
     static let locationType = EvaluatorKey(rawValue: "locationType")
@@ -22,6 +23,8 @@ open class LocationSelectionViewModel: Evaluatable {
     public var evaluator: Evaluator = Evaluator()
     public weak var delegate: LocationSelectionViewModelDelegate?
     private var placemark: CLPlacemark?
+
+    public var dropsPinAutomatically: Bool = false
 
     public var location: EventLocation? {
         didSet {
@@ -46,13 +49,16 @@ open class LocationSelectionViewModel: Evaluatable {
         return [type]
     }
 
-    public func reverseGeoCode(location: CLLocation?, completion: (()->())?) {
-        guard let location = location else { return }
-        LocationManager.shared.requestPlacemark(from: location).then { (placemark) -> Void in
-            self.placemark = placemark
-            self.composeLocation()
-            completion?()
+    public func reverseGeocode(from coords: CLLocationCoordinate2D) -> Promise<Void> {
+        if location?.addressString != nil {
+            return Promise()
+        } else {
+            let location = CLLocation(latitude: coords.latitude, longitude: coords.longitude)
+            return LocationManager.shared.requestPlacemark(from: location).then { (placemark) -> Void in
+                self.placemark = placemark
+                self.composeLocation()
             }.catch { _ in }
+        }
     }
 
     public func completeLocationSelection() {

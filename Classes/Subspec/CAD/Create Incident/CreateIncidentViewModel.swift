@@ -19,7 +19,7 @@ open class CreateIncidentViewModel {
 
     open weak var delegate: CreateIncidentViewModelDelegate?
     
-    init() {
+    public init() {
         getLocation()
     }
     
