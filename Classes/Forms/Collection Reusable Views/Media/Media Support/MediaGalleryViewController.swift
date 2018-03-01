@@ -63,7 +63,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
             }
         }
 
-        title = NSLocalizedString("Photos", comment: "")
+        title = NSLocalizedString("Gallery", comment: "")
 
         setupNavigationItems()
 
@@ -103,12 +103,12 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
         loadingManager.contentView = collectionView
 
         let noContentView = loadingManager.noContentView
-        noContentView.titleLabel.text = NSLocalizedString("No Photos", comment: "")
-        noContentView.subtitleLabel.text = NSLocalizedString("Add photos by tapping on 'Add' button.", comment: "")
+        noContentView.titleLabel.text = NSLocalizedString("No Assets", comment: "")
+        noContentView.subtitleLabel.text = NSLocalizedString("Add an asset by tapping on 'Add' button.", comment: "")
         noContentView.imageView.image = AssetManager.shared.image(forKey: .refresh)
 
         let button = noContentView.actionButton
-        button.setTitle("Add", for: .normal)
+        button.setTitle(NSLocalizedString("Add", comment: "Action to add new asset"), for: .normal)
         button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
 
         navigationController?.delegate = self
@@ -264,7 +264,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
     private lazy var trashItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteTapped(_:)))
 
-    private lazy var beginSelectItem = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(beginSelectTapped(_:)))
+    private lazy var beginSelectItem = UIBarButtonItem(title: NSLocalizedString("Select", comment: "Action to select assets"), style: .plain, target: self, action: #selector(beginSelectTapped(_:)))
 
     private lazy var endSelectItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(endSelectTapped(_:)))
 
@@ -313,7 +313,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
     }
 
     @objc private func addButtonTapped() {
-        let alertController = UIAlertController(title: NSLocalizedString("Choose Media", comment: ""), message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: NSLocalizedString("Choose Asset", comment: ""), message: nil, preferredStyle: .actionSheet)
 
         pickerSources.forEach({ source in
             let action = UIAlertAction(title: source.title, style: .default, handler: { _ in
@@ -336,8 +336,10 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
         let numberOfItems = indexPaths.count
 
+        let deleteTitle = String.localizedStringWithFormat(NSLocalizedString("Delete %1$d Asset(s)", comment: "Action to delete selected assets"), numberOfItems)
+
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "Delete \(numberOfItems) Photo\(numberOfItems == 1 ? "" : "s")", style: .destructive, handler: { [weak self] (action) in
+        alertController.addAction(UIAlertAction(title: deleteTitle, style: .destructive, handler: { [weak self] (action) in
             guard let `self` = self else { return }
 
             let items = indexPaths.map{ indexPath in

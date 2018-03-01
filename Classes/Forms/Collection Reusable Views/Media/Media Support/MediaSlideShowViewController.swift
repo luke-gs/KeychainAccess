@@ -202,7 +202,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
     public func handleDeletePreviewButtonTapped(_ item: UIBarButtonItem) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("Delete Media", comment: ""), style: .destructive, handler: { (action) in
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("Delete Asset", comment: ""), style: .destructive, handler: { (action) in
             self.deleteCurrentPreview()
         }))
         alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
