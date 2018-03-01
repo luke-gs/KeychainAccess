@@ -43,7 +43,7 @@ public protocol IncidentListViewModelType {
     /// The title for the event list view controller
     var title: String { get }
 
-    /// The events displayed in the list
+    /// The incident displayed in the list
     var incidentList: [IncidentListDisplayable]? { get }
 
     /// The incident manager
