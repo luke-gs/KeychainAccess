@@ -16,9 +16,6 @@
 		1211E36D1F3AE0E50012E2E6 /* MiscTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1211E36C1F3AE0E50012E2E6 /* MiscTests.swift */; };
 		1212B54D1F60F2ED00F90CA0 /* TestingDirective.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1212B54C1F60F2ED00F90CA0 /* TestingDirective.swift */; };
 		122234911F9ED961008CE3C4 /* GenericSearchViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122234901F9ED961008CE3C4 /* GenericSearchViewModelTests.swift */; };
-		12229E2120439CDD002E1A97 /* Incident.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12229E1E20439CDD002E1A97 /* Incident.swift */; };
-		12229E2220439CDD002E1A97 /* IncidentListDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12229E1F20439CDD002E1A97 /* IncidentListDisplayable.swift */; };
-		12229E2320439CDD002E1A97 /* IncidentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12229E2020439CDD002E1A97 /* IncidentManager.swift */; };
 		12413C281F1F23B0001B0B41 /* spinner.json in Resources */ = {isa = PBXBuildFile; fileRef = 12413C271F1F23B0001B0B41 /* spinner.json */; };
 		1267EFE1203520BF00773548 /* LocationMapSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1267EFE0203520BF00773548 /* LocationMapSelectionViewController.swift */; };
 		12A8DB471F5FD63400A06005 /* DirectoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A8DB461F5FD63400A06005 /* DirectoryManager.swift */; };
@@ -29,6 +26,10 @@
 		12D3701C20200B5B00D79DDB /* EventSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3701520200B5A00D79DDB /* EventSplitViewController.swift */; };
 		12D3702020200DBD00D79DDB /* ObjectBucket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3701F20200DBD00D79DDB /* ObjectBucket.swift */; };
 		12D3702220200F5E00D79DDB /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3702120200F5E00D79DDB /* EventsListViewController.swift */; };
+		12D4450B2047BAFC00A4D4C1 /* Incident.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D445072047BAFB00A4D4C1 /* Incident.swift */; };
+		12D4450C2047BAFC00A4D4C1 /* IncidentListDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D445082047BAFB00A4D4C1 /* IncidentListDisplayable.swift */; };
+		12D4450D2047BAFC00A4D4C1 /* IncidentsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D445092047BAFB00A4D4C1 /* IncidentsManager.swift */; };
+		12D4450E2047BAFC00A4D4C1 /* IncidentSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D4450A2047BAFB00A4D4C1 /* IncidentSplitViewController.swift */; };
 		12D8E2A01F9ED12100EEE214 /* GenericSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12BDF9151F95CCD50033E60B /* GenericSearchViewController.swift */; };
 		12D8E2A11F9ED12100EEE214 /* GenericSearchDefaultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D8E29D1F9EC6D800EEE214 /* GenericSearchDefaultViewModel.swift */; };
 		12EA561920327E130051DDEC /* EventLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EA561820327E130051DDEC /* EventLocation.swift */; };
@@ -783,9 +784,6 @@
 		1211E36C1F3AE0E50012E2E6 /* MiscTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscTests.swift; sourceTree = "<group>"; };
 		1212B54C1F60F2ED00F90CA0 /* TestingDirective.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingDirective.swift; sourceTree = "<group>"; };
 		122234901F9ED961008CE3C4 /* GenericSearchViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericSearchViewModelTests.swift; sourceTree = "<group>"; };
-		12229E1E20439CDD002E1A97 /* Incident.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Incident.swift; sourceTree = "<group>"; };
-		12229E1F20439CDD002E1A97 /* IncidentListDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentListDisplayable.swift; sourceTree = "<group>"; };
-		12229E2020439CDD002E1A97 /* IncidentManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentManager.swift; sourceTree = "<group>"; };
 		12413C271F1F23B0001B0B41 /* spinner.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = spinner.json; sourceTree = "<group>"; };
 		1267EFE0203520BF00773548 /* LocationMapSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapSelectionViewController.swift; sourceTree = "<group>"; };
 		12A8DB461F5FD63400A06005 /* DirectoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryManager.swift; sourceTree = "<group>"; };
@@ -797,6 +795,10 @@
 		12D3701520200B5A00D79DDB /* EventSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSplitViewController.swift; sourceTree = "<group>"; };
 		12D3701F20200DBD00D79DDB /* ObjectBucket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectBucket.swift; sourceTree = "<group>"; };
 		12D3702120200F5E00D79DDB /* EventsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
+		12D445072047BAFB00A4D4C1 /* Incident.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Incident.swift; sourceTree = "<group>"; };
+		12D445082047BAFB00A4D4C1 /* IncidentListDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentListDisplayable.swift; sourceTree = "<group>"; };
+		12D445092047BAFB00A4D4C1 /* IncidentsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentsManager.swift; sourceTree = "<group>"; };
+		12D4450A2047BAFB00A4D4C1 /* IncidentSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentSplitViewController.swift; sourceTree = "<group>"; };
 		12D566F51F5790BC001E74CA /* UserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		12D8E29D1F9EC6D800EEE214 /* GenericSearchDefaultViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericSearchDefaultViewModel.swift; sourceTree = "<group>"; };
 		12EA561820327E130051DDEC /* EventLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventLocation.swift; sourceTree = "<group>"; };
@@ -1571,16 +1573,6 @@
 			path = Lottie;
 			sourceTree = "<group>";
 		};
-		12229E1D20439CDD002E1A97 /* Incidents */ = {
-			isa = PBXGroup;
-			children = (
-				12229E1E20439CDD002E1A97 /* Incident.swift */,
-				12229E1F20439CDD002E1A97 /* IncidentListDisplayable.swift */,
-				12229E2020439CDD002E1A97 /* IncidentManager.swift */,
-			);
-			path = Incidents;
-			sourceTree = "<group>";
-		};
 		129C08E52032A84E00D712E7 /* Location */ = {
 			isa = PBXGroup;
 			children = (
@@ -1633,6 +1625,17 @@
 				12D3701F20200DBD00D79DDB /* ObjectBucket.swift */,
 			);
 			path = ObjectBucket;
+			sourceTree = "<group>";
+		};
+		12D445062047BAFB00A4D4C1 /* Incidents */ = {
+			isa = PBXGroup;
+			children = (
+				12D445072047BAFB00A4D4C1 /* Incident.swift */,
+				12D445082047BAFB00A4D4C1 /* IncidentListDisplayable.swift */,
+				12D445092047BAFB00A4D4C1 /* IncidentsManager.swift */,
+				12D4450A2047BAFB00A4D4C1 /* IncidentSplitViewController.swift */,
+			);
+			path = Incidents;
 			sourceTree = "<group>";
 		};
 		1908EF841F57CDCB00382B1C /* Authentication */ = {
@@ -3771,11 +3774,11 @@
 		EA8B66691F393A0000F09716 /* Subspec */ = {
 			isa = PBXGroup;
 			children = (
-				12229E1D20439CDD002E1A97 /* Incidents */,
 				9624A4581F83555A00CAE056 /* CAD */,
 				EA8B666A1F393A2000F09716 /* EntitySearch */,
 				12D3700E20200B5A00D79DDB /* Events */,
 				19D8D7941FB520140002332D /* ExternalAuthenticator */,
+				12D445062047BAFB00A4D4C1 /* Incidents */,
 				4634B43B1FBD6FA200D71E7F /* Location Map Search */,
 				EA4806AB1F56935000B42313 /* LocationSearch */,
 				EAAEB3461F6617E0002D6C65 /* Presenter */,
@@ -4264,6 +4267,7 @@
 				BC9C7E271F0DED6600DFFE83 /* GalleryCollectionViewCell.swift in Sources */,
 				C605F8A91ECCAD3B001194DD /* Manifest.xcdatamodeld in Sources */,
 				19FEC9831F43F769005692A9 /* ErrorMapper.swift in Sources */,
+				12D4450D2047BAFC00A4D4C1 /* IncidentsManager.swift in Sources */,
 				12D8E2A11F9ED12100EEE214 /* GenericSearchDefaultViewModel.swift in Sources */,
 				279B057B200D572300C3EFB0 /* LargeTextHeaderFormItem.swift in Sources */,
 				9624A43F1F81BBEB00CAE056 /* UIFont+Digits.swift in Sources */,
@@ -4354,6 +4358,7 @@
 				EAAEB3481F661806002D6C65 /* SystemPresenter.swift in Sources */,
 				96E492021FB3F98D0051C3A1 /* AppSettingKey.swift in Sources */,
 				EA53B2711F9D905800B891D8 /* StepperFormItem.swift in Sources */,
+				12D4450E2047BAFC00A4D4C1 /* IncidentSplitViewController.swift in Sources */,
 				190503EC1FCFDB09002EBC89 /* RefreshTokenPlugin.swift in Sources */,
 				463694EB200ED96400C51BB4 /* Sketchable.swift in Sources */,
 				96CF322C1F8C428600140AF8 /* CADFormCollectionViewModel.swift in Sources */,
@@ -4468,7 +4473,6 @@
 				19B49BBC1F665F2A00502F51 /* CompactSidebarViewController.swift in Sources */,
 				EA5649711F8EE4E100BEA144 /* SummaryDetailFormItem.swift in Sources */,
 				46E0B8A72030F06200B40DF2 /* CustomPickerController.swift in Sources */,
-				12229E2320439CDD002E1A97 /* IncidentManager.swift in Sources */,
 				2744EEC91FBEA523008DFA7F /* MapFilterSection.swift in Sources */,
 				BC9C7E4E1F0DED6600DFFE83 /* BadgeView.swift in Sources */,
 				463FEF5D1FE1FFF10093E303 /* LabeledTextField.swift in Sources */,
@@ -4524,7 +4528,7 @@
 				DBE24C2F1F5939C90088D19B /* EntityDetailsFetch.swift in Sources */,
 				278A16331FBBF68A00C01C38 /* LabeledSwitch.swift in Sources */,
 				BC9C7DF91F0DED6600DFFE83 /* CollectionViewFormOptionCell.swift in Sources */,
-				12229E2220439CDD002E1A97 /* IncidentListDisplayable.swift in Sources */,
+				12D4450C2047BAFC00A4D4C1 /* IncidentListDisplayable.swift in Sources */,
 				DB88BCE31F42D0110056FD69 /* SearchResultLoadingCell.swift in Sources */,
 				2784FDBB1FA1549D007B18B2 /* Optional+Extension.swift in Sources */,
 				193ED0851FDE02ED002F2837 /* PluginFilterRules.swift in Sources */,
@@ -4570,7 +4574,7 @@
 				DB88BCE51F42D01C0056FD69 /* SortDescriptor.swift in Sources */,
 				274C89731F984CD0005B9CF8 /* CallsignListViewModel.swift in Sources */,
 				27E81E542034E1AF000D5D1C /* TaskDetailsOverviewViewController.swift in Sources */,
-				12229E2120439CDD002E1A97 /* Incident.swift in Sources */,
+				12D4450B2047BAFC00A4D4C1 /* Incident.swift in Sources */,
 				44F72B2A1F85E5F000A6FE6B /* SearchResultMessageViewController.swift in Sources */,
 				19C9C74E1FC2898B003C8CE4 /* LocationMapDirectionCollectionViewCell.swift in Sources */,
 				27E424401FDE10BC00B5BE47 /* InteractivePopRecognizerDelegate.swift in Sources */,

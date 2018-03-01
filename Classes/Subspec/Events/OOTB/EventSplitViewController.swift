@@ -39,28 +39,3 @@ public class EventSplitViewController: SidebarSplitViewController, EvaluationObs
         }
     }
 }
-
-public class IncidentSplitViewController: SidebarSplitViewController, EvaluationObserverable {
-
-    public let viewModel: IncidentDetailViewModelType
-
-    public required init(viewModel: IncidentDetailViewModelType) {
-        self.viewModel = viewModel
-        super.init(detailViewControllers: viewModel.viewControllers ?? [])
-
-        self.title = viewModel.title
-        regularSidebarViewController.headerView = viewModel.headerView
-
-        viewModel.evaluator.addObserver(self)
-    }
-
-    public required init?(coder aDecoder: NSCoder) {
-        MPLUnimplemented()
-    }
-
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        if key == .eventReadyToSubmit {
-            //TODO: toggle submit button
-        }
-    }
-}
