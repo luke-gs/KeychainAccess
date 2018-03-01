@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusable, FormValidatable {
+open class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusable, FormValidatable {
 
     public var title: StringSizable?
 
@@ -72,7 +72,7 @@ public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusab
         }
     }
 
-    public override func configure(_ cell: CollectionViewFormCell) {
+    open override func configure(_ cell: CollectionViewFormCell) {
         let cell = cell as! CollectionViewFormValueFieldCell
         let traitCollection = cell.traitCollection
 
@@ -88,7 +88,7 @@ public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusab
         cell.imageView.image = image
     }
 
-    public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
+    open override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
 
         var title = self.title?.sizing()
         if isRequired {
@@ -98,7 +98,7 @@ public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusab
         return CollectionViewFormValueFieldCell.minimumContentHeight(withTitle: title, value: valueSizing(), placeholder: placeholder, inWidth: contentWidth, compatibleWith: traitCollection, imageSize: image?.size ?? .zero, imageSeparation: imageSeparation, labelSeparation: labelSeparation, accessoryViewSize: .zero)
     }
 
-    public override func intrinsicWidth(in collectionView: UICollectionView, layout: CollectionViewFormLayout, sectionEdgeInsets: UIEdgeInsets, for traitCollection: UITraitCollection) -> CGFloat {
+    open override func intrinsicWidth(in collectionView: UICollectionView, layout: CollectionViewFormLayout, sectionEdgeInsets: UIEdgeInsets, for traitCollection: UITraitCollection) -> CGFloat {
 
         var title = self.title?.sizing()
         if isRequired {
@@ -108,7 +108,7 @@ public class PickerFormItem<T>: BaseFormItem, SelectionActionable, DefaultReusab
         return CollectionViewFormValueFieldCell.minimumContentWidth(withTitle: title, value: valueSizing(), placeholder: placeholder, compatibleWith: traitCollection, imageSize: image?.size ?? .zero, imageSeparation: CellImageLabelSeparation, accessoryViewSize: .zero)
     }
 
-    public override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
+    open override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
         let primaryTextColor = theme.color(forKey: .primaryText)
         let secondaryTextColor = theme.color(forKey: .secondaryText)
         let placeholderTextColor = theme.color(forKey: .placeholderText)

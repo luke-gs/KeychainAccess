@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class QuantityPickerFormItem: PickerFormItem<[QuantityPicked]> {
+open class QuantityPickerFormItem: PickerFormItem<[QuantityPicked]> {
 
     private let action: QuantityPickerAction
 
@@ -26,7 +26,7 @@ public class QuantityPickerFormItem: PickerFormItem<[QuantityPicked]> {
 
 }
 
-class QuantityPickerAction: ValueSelectionAction<[QuantityPicked]> {
+open class QuantityPickerAction: ValueSelectionAction<[QuantityPicked]> {
 
     public var viewModel: QuantityPickerViewModel
 
@@ -35,7 +35,7 @@ class QuantityPickerAction: ValueSelectionAction<[QuantityPicked]> {
         super.init()
     }
 
-    public override func viewController() -> UIViewController {
+    open override func viewController() -> UIViewController {
         let viewController = QuantityPickerViewController(viewModel: viewModel)
         viewController.builder.title = title
         viewController.doneHandler = { [weak self] picked in
@@ -55,7 +55,7 @@ class QuantityPickerAction: ValueSelectionAction<[QuantityPicked]> {
         return viewController
     }
 
-    public override func displayText() -> String? {
+    open override func displayText() -> String? {
         guard let selectedValue = selectedValue else { return nil }
         return selectedValue.flatMap({ item in
             if let title = item.object.title, item.count > 0 {
