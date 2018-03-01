@@ -96,7 +96,7 @@ open class BookOnDetailsFormViewModel {
     }
 
     open func terminateButtonText() -> String {
-        return NSLocalizedString("Terminate shift", comment: "")
+        return NSLocalizedString("Terminate Shift", comment: "")
     }
 
     open func terminateShift() {
