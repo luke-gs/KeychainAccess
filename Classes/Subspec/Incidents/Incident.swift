@@ -106,9 +106,9 @@ public struct IncidentType: RawRepresentable, Hashable {
     }
 }
 
-/// Builder for event
+/// Builder for incidents
 ///
-/// Used to define what an event should look like for a specific event type
+/// Used to define what an incident should look like for a specific incident type
 /// in terms of the reports it should have
 public protocol IncidentBuilding {
 
@@ -119,7 +119,7 @@ public protocol IncidentBuilding {
     func createIncident(for type: IncidentType, in event: Event) -> (incident: Incident, displayable: IncidentListDisplayable)
 }
 
-/// Screen builder for the event
+/// Screen builder for the incident
 ///
 /// Used to provide a viewcontroller for the reportables
 ///

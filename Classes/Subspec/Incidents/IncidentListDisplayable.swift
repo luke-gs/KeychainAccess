@@ -9,18 +9,13 @@
 import Cache
 
 /// Incident Displayable used to map against the OOTB
-/// Event List UI
-///
-/// Used as metadata for an event
-/// encoded to/decoded from a database
-/// instead of inflating a whole event object
-/// just to show in the list
+/// Incident List UI
 open class IncidentListDisplayable: Codable {
 
-    /// A unique ID of the event metadata
+    /// A unique ID of the incident metadata
     open var id: UUID = UUID()
 
-    /// A unique ID of the event metadata
+    /// A unique ID of the incident
     open var incidentId: UUID = UUID()
 
     /// The icon to display on the left of the cell
@@ -42,7 +37,7 @@ open class IncidentListDisplayable: Codable {
     }
 }
 
-/// The view model definition for the event list for the OOTB product
+/// The view model definition for the incident list for the OOTB product
 public protocol IncidentListViewModelType {
 
     /// The title for the event list view controller
@@ -51,18 +46,20 @@ public protocol IncidentListViewModelType {
     /// The events displayed in the list
     var incidentList: [IncidentListDisplayable]? { get }
 
-    /// The events manager
+    /// The incident manager
     var incidentManager: IncidentsManager { get }
 
-    /// Initialise the viewmodel with an events manager
+    /// Initialise the viewmodel with an incident manager
     ///
-    /// - Parameter eventsManager: the events manager
+    /// - Parameters:
+    ///   - report: the report for the incident view model
+    ///   - incidentManager: the incident manager
     init(report: Reportable?, incidentManager: IncidentsManager)
 
-    /// Gets an event for a particular displayable
+    /// Gets an incident for a particular displayable
     ///
-    /// - Parameter displayable: the event displayable to fetch the event for
-    /// - Returns: the inflated event object
+    /// - Parameter displayable: the incident displayable to fetch the incident for
+    /// - Returns: the incident object
     func incident(for displayable: IncidentListDisplayable) -> Incident?
 
     /// Provide the detailViewModel for an event
@@ -71,10 +68,10 @@ public protocol IncidentListViewModelType {
     func detailsViewModel(for incident: Incident) -> IncidentDetailViewModelType
 }
 
-/// The view model definition for the event details for the OOTB product
+/// The view model definition for the incident details for the OOTB product
 public protocol IncidentDetailViewModelType: Evaluatable {
 
-    // The event object
+    // The incident object
     var incident: Incident { get }
 
     /// The title for the details view controller
@@ -93,7 +90,7 @@ public protocol IncidentDetailViewModelType: Evaluatable {
     /// Initialiser
     ///
     /// - Parameters:
-    ///   - event: the event object
+    ///   - event: the incident object
     ///   - builder: the screen builder
     init(incident: Incident, builder: IncidentScreenBuilding)
 }

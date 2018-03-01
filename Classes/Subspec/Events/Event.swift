@@ -103,7 +103,7 @@ public protocol Reportable: Codable, Evaluatable {
     /// Make sure this is weak in implementation as well
     weak var event: Event? { get }
 
-    /// A weak reference to the event object
+    /// A weak reference to the incident object
     /// Make sure this is weak in implementation as well
     weak var incident: Incident? { get }
 

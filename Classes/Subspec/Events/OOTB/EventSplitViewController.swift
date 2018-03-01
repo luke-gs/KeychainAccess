@@ -25,7 +25,11 @@ public class EventSplitViewController: SidebarSplitViewController, EvaluationObs
 
         viewModel.evaluator.addObserver(self)
         viewModel.headerUpdated = { [weak self] in
+            let selectedRow = self?.regularSidebarViewController.sidebarTableView?.indexPathForSelectedRow
             self?.regularSidebarViewController.sidebarTableView?.reloadData()
+            self?.regularSidebarViewController.sidebarTableView?.selectRow(at: selectedRow,
+                                                                           animated: false,
+                                                                           scrollPosition: .none)
         }
     }
 
