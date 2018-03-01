@@ -69,6 +69,11 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         super.init(nibName: nil, bundle: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(galleryDidChange), name: MediaGalleryDidChangeNotificationName, object: viewModel)
+
+        if let preview = initialPreview {
+            currentPreviewViewController = previewViewControllerForPreview(preview)
+            currentPreviewViewController?.loadViewIfNeeded()
+        }
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -143,7 +148,6 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
             self.initialPreview = nil
         }
 
-        updateCurrentPreviewViewController()
     }
 
     public override func viewDidAppear(_ animated: Bool) {
@@ -158,6 +162,8 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
             overlayView.layoutMargins = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
         }
         self.view.addSubview(overlayView)
+
+        updateCurrentPreviewViewController()
     }
 
     // MARK: - UICollectionViewDelegate / DataSource
@@ -202,6 +208,8 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
             previewController.willMove(toParentViewController: nil)
             previewController.view.removeFromSuperview()
             previewController.removeFromParentViewController()
+
+            controllerPool[previewController.preview.media] = nil
         }
 
         cell.viewController = nil
@@ -243,17 +251,29 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
     // MARK: - Private
 
+    private var controllerPool =  [Media: MediaViewController]()
+
     private func updateCurrentPreviewViewController() {
         let width = collectionView.bounds.width
         if width > 0.0, collectionView.contentOffset.x >= 0.0 {
             let index: Int = Int(floor(collectionView.contentOffset.x / width))
+
             let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0))
             currentPreviewViewController = (cell as? ControllerCell)?.viewController as? MediaViewController
         }
     }
 
-    private func previewViewControllerForPreview(_ preview: MediaPreviewable) -> UIViewController? {
-        return viewModel.controllerForPreview(preview)
+    private func previewViewControllerForPreview(_ preview: MediaPreviewable) -> MediaViewController? {
+        var controller: MediaViewController?
+
+        controller = controllerPool[preview.media]
+
+        if controller == nil {
+            controller = viewModel.controllerForPreview(preview) as? MediaViewController
+            controllerPool[preview.media] = controller
+        }
+
+        return controller
     }
 
     private func previewAfterDeletion(currentPreviewIndex index: Int) -> MediaPreviewable? {
@@ -312,7 +332,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
 private class ControllerCell: UICollectionViewCell {
 
-    weak var viewController: UIViewController?
+    weak var viewController: MediaViewController?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
