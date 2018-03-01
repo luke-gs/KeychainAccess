@@ -12,7 +12,7 @@ import MPOLKit
 
 /// PSCore implementation of CAD state manager
 open class CADStateManagerCore: CADStateManagerType {
-
+    
     /// The API manager to use, by default system one
     open static var apiManager: CADAPIManager = APIManager.shared
 
@@ -38,7 +38,7 @@ open class CADStateManagerCore: CADStateManagerType {
     
     /// The patrol group
     // TODO: Find out when to set/clear this value and where it's coming from
-    open var patrolGroup: String = "Collingwood"
+    open var patrolGroup: String? = "Collingwood"
 
     /// The last book on data
     open private(set) var lastBookOn: CADBookOnDetailsType? {
@@ -115,11 +115,14 @@ open class CADStateManagerCore: CADStateManagerType {
     // MARK: - Officer
 
     open func fetchCurrentOfficerDetails() -> Promise<CADOfficerType> {
-        let username = UserSession.current.user?.username
-        return CADStateManagerCore.apiManager.cadOfficerByUsername(username: username!).then { [unowned self] details -> CADOfficerDetailsResponse in
-            self.officerDetails = details
-            return details
+        if let username = UserSession.current.user?.username {
+            return CADStateManagerCore.apiManager.cadOfficerByUsername(username: username).then { [unowned self] details -> CADOfficerDetailsResponse in
+                self.officerDetails = details
+                return details
+            }
         }
+        
+        return Promise(error: CADStateManagerError.notLoggedIn)
     }
 
     /// Set logged in officer as off duty

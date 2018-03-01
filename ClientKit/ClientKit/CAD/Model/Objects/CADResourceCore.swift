@@ -91,6 +91,7 @@ open class CADResourceCore: Codable, CADResourceType {
     open func createAnnotation() -> TaskAnnotation? {
         guard let coordinate = coordinate else { return nil }
         return ResourceAnnotation(identifier: callsign,
+                                  source: CADTaskListSourceCore.resource,
                                   coordinate: coordinate,
                                   title: callsign,
                                   subtitle: officerCountString,

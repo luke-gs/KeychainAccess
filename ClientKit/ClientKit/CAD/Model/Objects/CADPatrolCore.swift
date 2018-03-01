@@ -51,6 +51,7 @@ open class CADPatrolCore: Codable, CADPatrolType {
     open func createAnnotation() -> TaskAnnotation? {
         guard let coordinate = coordinate else { return nil }
         return PatrolAnnotation(identifier: identifier,
+                                source: CADTaskListSourceCore.patrol,
                                 coordinate: coordinate,
                                 title: type,
                                 subtitle: nil,
