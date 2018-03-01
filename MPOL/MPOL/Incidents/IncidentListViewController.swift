@@ -56,10 +56,10 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
 
         viewModel.report?.incidentDisplayables.enumerated().forEach { index, incident in
 
-            let eval = self.viewModel.report?.evaluator.isComplete ?? false
+            let eval = self.viewModel.report?.incidents[index].evaluator.isComplete ?? false
             let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.document)?
                 .withCircleBackground(tintColor: .black,
-                                      circleColor: eval ? .green : .red,
+                                      circleColor: eval ? .midGreen : .red,
                                       style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false))
 
             builder += SummaryListFormItem()
@@ -88,7 +88,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        sidebarItem.color = evaluator.isComplete == true ? .green : .red
+        sidebarItem.color = evaluator.isComplete == true ? .midGreen : .red
     }
 
     //MARK: PRIVATE

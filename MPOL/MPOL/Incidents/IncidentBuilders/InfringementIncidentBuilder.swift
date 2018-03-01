@@ -17,7 +17,7 @@ public class InfringementIncidentBuilder: IncidentBuilding {
         let incident = Incident(event: event, type: type)
 
         // Add reports here
-        incident.add(report: DefaultDateTimeReport(event: event))
+        incident.add(report: DefaultDateTimeReport(event: event, incident: incident))
 
         let displayable = IncidentListDisplayable(title: type.rawValue,
                                                   subtitle: "Not yet started",

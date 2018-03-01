@@ -77,9 +77,7 @@ public class OfficerListReport: Reportable {
         var container = to.container(keyedBy: CodingKeys.self)
         try container.encode(officers, forKey: .officers)
         try container.encode(event, forKey: .event)
-
     }
-
 
     // Evaluation
 

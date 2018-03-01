@@ -121,7 +121,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
     // MARK: - Evaluation
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        sidebarItem.color = evaluator.isComplete == true ? .green : .red
+        sidebarItem.color = evaluator.isComplete == true ? .midGreen : .red
     }
 
 }

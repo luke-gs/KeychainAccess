@@ -20,9 +20,9 @@ open class IncidentListReport: Reportable {
             evaluator.updateEvaluation(for: .viewed)
         }
     }
-
-    public var incidentDisplayables: [IncidentListDisplayable] = []
-    public var incidents: [Incident] = [] {
+    
+    public var incidents: [Incident] = []
+    public var incidentDisplayables: [IncidentListDisplayable] = []{
         didSet {
             evaluator.updateEvaluation(for: .incidents)
             headerDelegate?.updateHeader(with: incidentDisplayables.first?.title, subtitle: nil)

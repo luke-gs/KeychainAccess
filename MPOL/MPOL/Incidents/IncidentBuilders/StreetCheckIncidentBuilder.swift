@@ -17,7 +17,7 @@ public class StreetCheckIncidentBuilder: IncidentBuilding {
         let incident = Incident(event: event, type: type)
 
         // Add reports here
-        incident.add(report: DefaultNotesPhotosReport(event: event))
+        incident.add(report: DefaultNotesPhotosReport(event: event, incident: incident))
 
         let displayable = IncidentListDisplayable(title: type.rawValue,
                                                   subtitle: "Not yet started",
