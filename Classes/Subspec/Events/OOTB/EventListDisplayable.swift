@@ -94,6 +94,9 @@ public protocol EventDetailViewModelType: Evaluatable {
     /// The viewcontrollers to be displayed in the detail view for the sections
     var viewControllers: [UIViewController]? { get }
 
+    /// Closure to call when the header gets updated with a new title or subtitle
+    var headerUpdated: (()->())? { get set }
+
     /// The header to display at the top of the sidebar
     ///
     /// `nil` if no header

@@ -24,6 +24,9 @@ public class EventSplitViewController: SidebarSplitViewController, EvaluationObs
         regularSidebarViewController.headerView = viewModel.headerView
 
         viewModel.evaluator.addObserver(self)
+        viewModel.headerUpdated = { [weak self] in
+            self?.regularSidebarViewController.sidebarTableView?.reloadData()
+        }
     }
 
     public required init?(coder aDecoder: NSCoder) {
