@@ -118,10 +118,14 @@ open class QuantityPickerViewController: FormBuilderViewController {
     private func updateHeaderText() {
         let items = viewModel.items
         let includedItems = items.flatMap {
-            guard let title = $0.object.title else { return nil }
-            guard $0.count != 0 else { return nil }
-            return "\(title) (\($0.count))"
-            } as [String?]
+            if let object = $0.object as? FreeTextPickable, let title = object.title, let value = object.value {
+                return "\(title) (\(value))"
+            } else {
+                guard let title = $0.object.title else { return nil }
+                guard $0.count != 0 else { return nil }
+                return "\(title) (\($0.count))"
+            }
+        } as [String?]
 
         headerView.titleLabel.text = "\(includedItems.count) \(viewModel.subjectMatter)"
         headerView.subtitleLabel.text = includedItems.joined(separator: ", ")
@@ -145,28 +149,44 @@ open class QuantityPickerViewController: FormBuilderViewController {
             // Rule is that matched items start with the search term.
 
             guard shouldDisplayItem(item) == true else { continue }
-
-            let formItem = StepperFormItem(title: item.object.title)
-            .minimumValue(0)
-            .value(Double(item.count))
-            .width(.column(1))
-            .displaysZeroValue(false)
-            .onValueChanged { [unowned self] (value) in
-                self.viewModel.items[index].count = Int(value)
-                self.updateHeaderText()
-            }
-
-            if let quantityPickable = item.object as? QuantityPickable {
-                if let maximumQuantity = quantityPickable.maximumQuantity {
-                    formItem.maximumValue(Double(maximumQuantity))
+            
+            if let object = item.object as? FreeTextPickable {
+                let freeTextItem = TextFieldFormItem(title: item.object.title,
+                                                     text: object.value,
+                                                     placeholder: "Optional")
+                    .width(.column(1))
+                    .onValueChanged { [unowned self] (value) in
+                        self.viewModel.items[index].count = (value?.count ?? 0) > 0 ? 1 : 0
+                        (self.viewModel.items[index].object as? FreeTextPickable)?.value = value
+                        self.updateHeaderText()
+                    }
+                    .strictValidate(CountSpecification.max(viewModel.maxFreeTextCharacters),
+                                    message: "\(item.object.title ?? "This item") cannot be more than \(viewModel.maxFreeTextCharacters) characters")
+                builder += freeTextItem
+                
+            } else {
+                let formItem = StepperFormItem(title: item.object.title)
+                .minimumValue(0)
+                .value(Double(item.count))
+                .width(.column(1))
+                .displaysZeroValue(false)
+                .onValueChanged { [unowned self] (value) in
+                    self.viewModel.items[index].count = Int(value)
+                    self.updateHeaderText()
                 }
 
-                if let minimumQuantity = quantityPickable.minimumQuantity {
-                    formItem.maximumValue(Double(minimumQuantity))
-                }
-            }
+                if let quantityPickable = item.object as? QuantityPickable {
+                    if let maximumQuantity = quantityPickable.maximumQuantity {
+                        formItem.maximumValue(Double(maximumQuantity))
+                    }
 
-            builder += formItem
+                    if let minimumQuantity = quantityPickable.minimumQuantity {
+                        formItem.maximumValue(Double(minimumQuantity))
+                    }
+                }
+
+                builder += formItem
+            }
         }
     }
 
