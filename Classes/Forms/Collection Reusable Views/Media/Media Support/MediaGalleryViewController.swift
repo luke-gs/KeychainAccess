@@ -406,7 +406,8 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
                 let preview = toVC.currentPreview,
                 let previewIndex = viewModel.previews.index(where: { preview === $0 }),
                 let cell = collectionView.cellForItem(at: IndexPath(item: previewIndex, section: 0)),
-                let previewViewController = toVC.currentPreviewViewController else { return nil }
+                let previewViewController = toVC.currentPreviewViewController
+                else { return nil }
 
             let endingView = previewViewController.scalingImageView.imageView
             transitionAnimator.startingView = cell.backgroundView

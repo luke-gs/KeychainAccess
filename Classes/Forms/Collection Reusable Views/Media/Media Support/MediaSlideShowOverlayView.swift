@@ -183,7 +183,7 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
     private func updateDetailsWithPreview(_ preview: MediaPreviewable) {
         guard let viewModel = slideShowViewController?.viewModel, let index = viewModel.indexOfPreview(preview) else { return }
 
-        slideShowViewController?.navigationItem.title = String.localizedStringWithFormat("Asset %1$d of %1$d", index + 1, viewModel.previews.count)
+        slideShowViewController?.navigationItem.title = String.localizedStringWithFormat("Asset %1$d of %2$d", index + 1, viewModel.previews.count)
         titleLabel.text = preview.title
         commentLabel.text = preview.comments
 
