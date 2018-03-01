@@ -25,6 +25,12 @@ final public class Incident: Codable, Evaluatable {
         }
     }
 
+    private var allValid: Bool = false {
+        didSet {
+            evaluator.updateEvaluation(for: .allValid)
+        }
+    }
+
     public init(event: Event, type: IncidentType) {
         self.event = event
         self.incidentType = type
@@ -72,7 +78,9 @@ final public class Incident: Codable, Evaluatable {
 
     //MARK: Evaluation
 
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+        allValid = evaluationState
+    }
 }
 
 /// A bunch of incident types

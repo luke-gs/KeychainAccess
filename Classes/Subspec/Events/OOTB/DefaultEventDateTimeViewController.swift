@@ -26,7 +26,7 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
         sidebarItem.regularTitle = "Date and Time"
         sidebarItem.compactTitle = "Date and Time"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.date)!
-        sidebarItem.color = report?.evaluator.isComplete ?? false ? .green : .red
+        sidebarItem.color = report?.evaluator.isComplete ?? false ? .midGreen : .red
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -77,7 +77,7 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        sidebarItem.color = evaluator.isComplete == true ? .green : .red
+        sidebarItem.color = evaluator.isComplete == true ? .midGreen : .red
     }
 
     //MARK: PRIVATE

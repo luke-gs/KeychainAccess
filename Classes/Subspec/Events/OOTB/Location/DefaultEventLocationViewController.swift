@@ -57,7 +57,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
     }
     
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        sidebarItem.color = evaluator.isComplete == true ? .green : .red
+        sidebarItem.color = evaluator.isComplete == true ? .midGreen : .red
     }
 
     //MARK: Private
