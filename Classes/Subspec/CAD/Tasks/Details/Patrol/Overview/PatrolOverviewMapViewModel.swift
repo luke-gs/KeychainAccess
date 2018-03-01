@@ -24,9 +24,8 @@ open class PatrolOverviewMapViewModel: TasksMapViewModel {
     }
     
     override open func createViewController() -> TasksMapViewController {
-        if let incidentLocation = CADStateManager.shared.patrolsById[patrolNumber]?.location {
-            let location = CLLocation(latitude: CLLocationDegrees(incidentLocation.latitude), longitude: CLLocationDegrees(incidentLocation.longitude))
-            let viewController = TasksMapViewController(viewModel: self, initialLoadZoomStyle: .coordinate(location, animated : false))
+        if let coordinate = CADStateManager.shared.patrolsById[patrolNumber]?.location?.coordinate {
+            let viewController = TasksMapViewController(viewModel: self, initialLoadZoomStyle: .coordinate(coordinate, animated : false))
             viewController.defaultZoomDistance = defaultZoomDistance
             return viewController
         }

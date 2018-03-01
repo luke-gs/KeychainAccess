@@ -42,8 +42,7 @@ open class IncidentResourcesViewController: FormBuilderViewController {
                     .onSelection { _ in
                         if let resource = CADStateManager.shared.resourcesById[item.callsign] {
                             let viewModel = ResourceTaskItemViewModel(resource: resource)
-                            let vc = viewModel.createViewController()
-                            self.pushableSplitViewController?.navigationController?.pushViewController(vc, animated: true)
+                            self.present(TaskItemScreen.landing(viewModel: viewModel))
                         }
                 }
                 for officer in item.officers {

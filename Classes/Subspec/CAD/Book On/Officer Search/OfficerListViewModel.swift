@@ -27,6 +27,13 @@ public class OfficerListViewModel: DefaultSearchDisplayableViewModel {
         title = navTitle()
     }
     
+    /// Create the view controller for this view model
+    open func createViewController() -> UIViewController {
+        let vc = OfficerListViewController(viewModel: self)
+        delegate = vc
+        return vc
+    }
+
     open func navTitle() -> String {
         return NSLocalizedString("Add Officer", comment: "")
     }

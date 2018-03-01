@@ -90,48 +90,8 @@ open class TasksMapViewController: MapViewController {
             annotationView?.color = highestPriority?.badgeColors.border ?? .disabledGray
 
             return annotationView
-        } else if let annotation = annotation as? ResourceAnnotation {
-            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: ResourceAnnotationView.defaultReuseIdentifier) as? ResourceAnnotationView
-            
-            if annotationView == nil {
-                annotationView = ResourceAnnotationView(annotation: annotation, reuseIdentifier: ResourceAnnotationView.defaultReuseIdentifier)
-            }
-            
-            annotationView?.configure(withAnnotation: annotation,
-                                      circleBackgroundColor: annotation.iconBackgroundColor,
-                                      resourceImage: annotation.icon,
-                                      imageTintColor: annotation.iconTintColor,
-                                      duress: annotation.duress)
-            
-            return annotationView
-        } else if let annotation = annotation as? IncidentAnnotation {
-            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: IncidentAnnotationView.defaultReuseIdentifier) as? IncidentAnnotationView
-            
-            if annotationView == nil {
-                annotationView = IncidentAnnotationView(annotation: annotation, reuseIdentifier: IncidentAnnotationView.defaultReuseIdentifier)
-            }
-            
-            annotationView?.configure(withAnnotation: annotation,
-                                      priorityText: annotation.badgeText,
-                                      priorityTextColor: annotation.badgeTextColor,
-                                      priorityFillColor: annotation.badgeFillColor,
-                                      priorityBorderColor: annotation.badgeBorderColor,
-                                      usesDarkBackground: annotation.usesDarkBackground)
-            
-            return annotationView
-            
-        } else if let annotation = annotation as? PatrolAnnotation {
-            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: PatrolAnnotationView.defaultReuseIdentifier) as? PatrolAnnotationView
-            
-            if annotationView == nil {
-                annotationView = PatrolAnnotationView(annotation: annotation, reuseIdentifier: PatrolAnnotationView.defaultReuseIdentifier)
-            }
-            
-            annotationView?.configure(withAnnotation: annotation,
-                                      usesDarkBackground: annotation.usesDarkBackground)
-            
-            return annotationView
-            
+        } else if let annotation = annotation as? TaskAnnotation {
+            return annotation.dequeueReusableAnnotationView(mapView: mapView)
         } else {
             return nil
         }
@@ -144,9 +104,8 @@ open class TasksMapViewController: MapViewController {
         
         guard viewModel.canSelectAnnotationView(view) else { return }
         
-        if let viewModel = viewModel.viewModel(for: view.annotation as? TaskAnnotation) {
-            let vc = viewModel.createViewController()
-            splitViewController?.navigationController?.pushViewController(vc, animated: true)
+        if let annotation = view.annotation as? TaskAnnotation, let viewModel = annotation.createItemViewModel() {
+            present(TaskItemScreen.landing(viewModel: viewModel))
         }
     }
     

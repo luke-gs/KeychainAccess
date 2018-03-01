@@ -7,16 +7,21 @@
 
 import UIKit
 
-open class PatrolAreaListViewController<T: SearchDisplayableDelegate, U: PatrolAreaListViewModel>: SearchDisplayableViewController<T, U> where T.Object == U.Object {
-
-    public typealias Object = U.Object
+open class PatrolAreaListViewController: SearchDisplayableViewController<PatrolAreaListViewControllerSelectionHandler, PatrolAreaListViewModel> {
 
     // MARK: - Setup
 
-    public required init(viewModel: U) {
+    public required init(viewModel: PatrolAreaListViewModel) {
         super.init(viewModel: viewModel)
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: viewModel.cancelButtonText(), style: .done, target: self, action: #selector(cancelTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: viewModel.doneButtonText(), style: .done, target: self, action: #selector(doneTapped))
+    }
+
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Set delegate to internal selection handler
+        delegate = PatrolAreaListViewControllerSelectionHandler(self)
     }
 
     open override func construct(builder: FormBuilder) {
@@ -35,10 +40,7 @@ open class PatrolAreaListViewController<T: SearchDisplayableDelegate, U: PatrolA
                                             style: .default)
                     .accessory(viewModel.accessory(for: viewModel.searchable(for: viewModel.object(for: indexPath))))
                     .onSelection { [unowned self] cell in
-                        if let patrolList = self.viewModel.object(for: indexPath) as? PatrolAreaListItemViewModel {
-                            self.viewModel.selectedPatrolArea = patrolList.patrolArea
-                            self.reloadForm()
-                        }
+                        self.delegate?.genericSearchViewController(self, didSelectRowAt: indexPath, withObject: self.viewModel.object(for: indexPath))
                 }
             }
         }
@@ -58,11 +60,19 @@ open class PatrolAreaListViewController<T: SearchDisplayableDelegate, U: PatrolA
     }
 }
 
-extension PatrolAreaListViewController: SearchDisplayableDelegate {
+// Separate class for SearchDisplayableDelegate implementation, due to cyclic reference in generic type inference
+open class PatrolAreaListViewControllerSelectionHandler: SearchDisplayableDelegate {
+    public typealias Object = CustomSearchDisplayable
+    private var listViewController: PatrolAreaListViewController
+
+    init(_ listViewController: PatrolAreaListViewController) {
+        self.listViewController = listViewController
+    }
+
     public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: CustomSearchDisplayable) {
         if let patrolArea = object as? PatrolAreaListItemViewModel {
-            viewModel.selectedPatrolArea = patrolArea.patrolArea
-            reloadForm()
+            listViewController.viewModel.selectedPatrolArea = patrolArea.patrolArea
+            listViewController.reloadForm()
         }
     }
 }

@@ -256,6 +256,7 @@
 		4426162A1FF5C9A7008EBF84 /* PatrolAreaListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442616271FF5C9A7008EBF84 /* PatrolAreaListViewModel.swift */; };
 		4426162B1FF5C9A7008EBF84 /* PatrolAreaListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442616281FF5C9A7008EBF84 /* PatrolAreaListItemViewModel.swift */; };
 		4426162C1FF5C9A7008EBF84 /* PatrolAreaListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442616291FF5C9A7008EBF84 /* PatrolAreaListViewController.swift */; };
+		445BB13020465DBA00A81375 /* NavigationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445BB12F20465DBA00A81375 /* NavigationTitleView.swift */; };
 		44621FF61F59239C007C3150 /* FilterRangeDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44621FF41F59239C007C3150 /* FilterRangeDescriptor.swift */; };
 		44621FF71F59239C007C3150 /* FilterValueDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44621FF51F59239C007C3150 /* FilterValueDescriptor.swift */; };
 		44F3F14B1F56DBD300D68585 /* FilterDescriptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F3F14A1F56DBD300D68585 /* FilterDescriptorTests.swift */; };
@@ -391,6 +392,7 @@
 		969959661FC2334300CB51EB /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969959651FC2334300CB51EB /* ColorPalette.swift */; };
 		969DC68F1FBBAC8400010212 /* ObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 969DC68E1FBBAC8400010212 /* ObjC.m */; };
 		96AADABD20081D24003E215E /* BookOnScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AADABC20081D24003E215E /* BookOnScreen.swift */; };
+		96B58FA92043C305001A8DF4 /* TaskItemScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B58FA82043C305001A8DF4 /* TaskItemScreen.swift */; };
 		96B9183E1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B9183D1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift */; };
 		96B918401F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B9183F1F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift */; };
 		96BFD1B01FE8B322009AF6B5 /* BookOnDetailsFormContentOfficerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BFD1AF1FE8B322009AF6B5 /* BookOnDetailsFormContentOfficerViewModel.swift */; };
@@ -1012,6 +1014,7 @@
 		442616271FF5C9A7008EBF84 /* PatrolAreaListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolAreaListViewModel.swift; sourceTree = "<group>"; };
 		442616281FF5C9A7008EBF84 /* PatrolAreaListItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolAreaListItemViewModel.swift; sourceTree = "<group>"; };
 		442616291FF5C9A7008EBF84 /* PatrolAreaListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolAreaListViewController.swift; sourceTree = "<group>"; };
+		445BB12F20465DBA00A81375 /* NavigationTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationTitleView.swift; path = Classes/UI/Views/NavigationTitleView.swift; sourceTree = SOURCE_ROOT; };
 		44621FF41F59239C007C3150 /* FilterRangeDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterRangeDescriptor.swift; sourceTree = "<group>"; };
 		44621FF51F59239C007C3150 /* FilterValueDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterValueDescriptor.swift; sourceTree = "<group>"; };
 		44F3F14A1F56DBD300D68585 /* FilterDescriptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDescriptorTests.swift; sourceTree = "<group>"; };
@@ -1166,6 +1169,7 @@
 		969DC68D1FBBAC8400010212 /* ObjC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjC.h; sourceTree = "<group>"; };
 		969DC68E1FBBAC8400010212 /* ObjC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjC.m; sourceTree = "<group>"; };
 		96AADABC20081D24003E215E /* BookOnScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnScreen.swift; sourceTree = "<group>"; };
+		96B58FA82043C305001A8DF4 /* TaskItemScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemScreen.swift; sourceTree = "<group>"; };
 		96B9183D1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormViewController.swift; sourceTree = "<group>"; };
 		96B9183F1F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormViewModel.swift; sourceTree = "<group>"; };
 		96BFD1AF1FE8B322009AF6B5 /* BookOnDetailsFormContentOfficerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormContentOfficerViewModel.swift; sourceTree = "<group>"; };
@@ -2700,6 +2704,7 @@
 			children = (
 				96AADABC20081D24003E215E /* BookOnScreen.swift */,
 				96EB4BE82043792800AFCAA0 /* TaskListScreen.swift */,
+				96B58FA82043C305001A8DF4 /* TaskItemScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -3204,6 +3209,7 @@
 				BC9C7DBF1F0DED6600DFFE83 /* EntityThumbnailView.swift */,
 				BC9C7DC21F0DED6600DFFE83 /* GradientView.swift */,
 				BC9C7DC31F0DED6600DFFE83 /* NavigationBarExtension.swift */,
+				445BB12F20465DBA00A81375 /* NavigationTitleView.swift */,
 				BC5C11F21F2810BA0048CBBF /* RoundedRectButton.swift */,
 				BC9C7DC41F0DED6600DFFE83 /* RoundedRectLabel.swift */,
 				BCA6FD761F22E0AE00EE8F7A /* SearchFieldButton.swift */,
@@ -4133,6 +4139,7 @@
 				E283D2841FEB6BFA0040702C /* Template.swift in Sources */,
 				96CF32341F8D7C7700140AF8 /* TasksListHeaderViewModel.swift in Sources */,
 				BC9C7E3D1F0DED6600DFFE83 /* PickerTableViewController.swift in Sources */,
+				96B58FA92043C305001A8DF4 /* TaskItemScreen.swift in Sources */,
 				EA93201C2019A21400FB3585 /* ClusterAnnotationView.swift in Sources */,
 				EAE12B081FC3CE3500851619 /* EntityBucket.swift in Sources */,
 				9689CA6720364B5B0001D993 /* CADLocationType.swift in Sources */,
@@ -4282,6 +4289,7 @@
 				BC9C7E271F0DED6600DFFE83 /* GalleryCollectionViewCell.swift in Sources */,
 				C605F8A91ECCAD3B001194DD /* Manifest.xcdatamodeld in Sources */,
 				19FEC9831F43F769005692A9 /* ErrorMapper.swift in Sources */,
+				445BB13020465DBA00A81375 /* NavigationTitleView.swift in Sources */,
 				12D8E2A11F9ED12100EEE214 /* GenericSearchDefaultViewModel.swift in Sources */,
 				279B057B200D572300C3EFB0 /* LargeTextHeaderFormItem.swift in Sources */,
 				9624A43F1F81BBEB00CAE056 /* UIFont+Digits.swift in Sources */,
