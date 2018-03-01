@@ -331,6 +331,9 @@ public class CustomPickerController: FormTableViewController {
         if let index = indexForItem(at: indexPath) {
             let item = objects[index]
             cell.textLabel?.alpha = !datasource.allowsSelection(of: item) ? 0.25 : 1.0
+        } else {
+            cell.textLabel?.alpha = 1.0
+            cell.textLabel?.textColor = ThemeManager.shared.theme(for: .current).color(forKey: .tint) ?? tintColor
         }
     }
 
