@@ -13,10 +13,6 @@ import MPOLKit
 /// PSCore implementation of CAD state manager
 open class CADStateManagerCore: CADStateManagerType {
     
-    public enum CADStateManagerError: Error {
-        case notLoggedIn
-    }
-    
     /// The API manager to use, by default system one
     open static var apiManager: CADAPIManager = APIManager.shared
 
@@ -126,7 +122,7 @@ open class CADStateManagerCore: CADStateManagerType {
             }
         }
         
-        return Promise(error: CADStateManagerError.notLoggedIn)
+        return Promise(error: CADStateManagerType.Errors.notLoggedIn)
     }
 
     /// Set logged in officer as off duty
