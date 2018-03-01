@@ -51,8 +51,6 @@ public class MediaViewController: UIViewController, UIScrollViewDelegate, MediaV
         }
         scalingImageView.frame = view.bounds
         scalingImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        // James' magic formula.
-        scalingImageView.maximumZoomScale = scalingImageView.maximumZoomScale + 3.0
         view.addSubview(scalingImageView)
 
         let image = photoMedia?.image ?? preview.thumbnailImage
@@ -193,7 +191,7 @@ class ScalingImageView: UIScrollView {
             let minimumScale = min(scaleWidth, scaleHeight)
 
             self.minimumZoomScale = minimumScale
-            self.maximumZoomScale = max(minimumScale, self.maximumZoomScale)
+            self.maximumZoomScale = minimumScale * 3.0
 
             self.zoomScale = minimumZoomScale
 
