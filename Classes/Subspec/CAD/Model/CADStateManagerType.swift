@@ -9,9 +9,13 @@
 import Foundation
 import PromiseKit
 
+public enum CADStateManagerError: Error {
+    case notLoggedIn
+}
+
 /// Protocol defining a CAD state manager. To be implemented in ClientKit and set as shared on CADStateManager class below
 public protocol CADStateManagerType {
-
+    
     // MARK: - Synced State
 
     /// The logged in officer details
