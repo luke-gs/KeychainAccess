@@ -44,7 +44,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         sidebarItem.regularTitle = title
         sidebarItem.compactTitle = title
         sidebarItem.image = AssetManager.shared.image(forKey: .resourceGeneral)
-        sidebarItem.color = viewModel.report.evaluator.isComplete ? .green : .red
+        sidebarItem.color = .red
         sidebarItem.count = UInt(viewModel.officerDisplayables.count)
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped(sender:)))
