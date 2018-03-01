@@ -29,7 +29,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
         sidebarItem.regularTitle = "Incidents"
         sidebarItem.compactTitle = "Incidents"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.document)!
-        sidebarItem.color = (viewModel.report?.evaluator.isComplete ?? false) ? .red : .midGreen
+        sidebarItem.color = (viewModel.report?.evaluator.isComplete ?? false) ? .midGreen : .red
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
