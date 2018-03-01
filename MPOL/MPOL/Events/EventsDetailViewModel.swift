@@ -9,6 +9,9 @@
 import UIKit
 import MPOLKit
 
+let incidentsHeaderDefaultTitle = "No incident selected"
+let incidentsHeaderDefaultSubtitle = "IN PROGRESS"
+
 public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
 
     public var event: Event
@@ -16,6 +19,7 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
     public var viewControllers: [UIViewController]?
     public var headerView: UIView?
     public var evaluator: Evaluator = Evaluator()
+    public var headerUpdated: (()->())?
 
     private var readyToSubmit = false {
         didSet {
@@ -31,8 +35,8 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
         self.headerView = {
             let header = SidebarHeaderView()
             header.iconView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
-            header.titleLabel.text = "No incident selected"
-            header.captionLabel.text = "IN PROGRESS"
+            header.titleLabel.text = incidentsHeaderDefaultTitle
+            header.captionLabel.text = incidentsHeaderDefaultSubtitle
             return header
         }()
 
@@ -58,7 +62,8 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
 extension EventsDetailViewModel: EventHeaderUpdateDelegate {
     public func updateHeader(with title: String?, subtitle: String?) {
         guard let header = headerView as? SidebarHeaderView else { return }
-        header.titleLabel.text = title ?? "No incident selected"
-        header.captionLabel.text = subtitle ?? "IN PROGRESS"
+        header.titleLabel.text = title ?? incidentsHeaderDefaultTitle
+        header.captionLabel.text = subtitle ?? incidentsHeaderDefaultSubtitle
+        headerUpdated?()
     }
 }
