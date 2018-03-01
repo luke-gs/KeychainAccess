@@ -17,6 +17,7 @@
 		969C2C881FCFD7B700E99C85 /* DemoSync.json in Resources */ = {isa = PBXBuildFile; fileRef = 969C2C841FCFD7B700E99C85 /* DemoSync.json */; };
 		969EA0761FDE39A000A2474E /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969EA0751FDE39A000A2474E /* SettingsViewController.swift */; };
 		96AADABB200810F6003E215E /* BookOnPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AADABA200810F6003E215E /* BookOnPresenter.swift */; };
+		96B58FAB2044AF82001A8DF4 /* TaskItemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B58FAA2044AF82001A8DF4 /* TaskItemPresenter.swift */; };
 		96CED76D1FA7F23D00C0DEB0 /* LandingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CED76C1FA7F23D00C0DEB0 /* LandingPresenter.swift */; };
 		96CED76F1FA7FE4C00C0DEB0 /* termsandconditions.html in Resources */ = {isa = PBXBuildFile; fileRef = 96CED76E1FA7F9AA00C0DEB0 /* termsandconditions.html */; };
 		96CED7751FA8456A00C0DEB0 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 96CED7741FA8456600C0DEB0 /* Localizable.stringsdict */; };
@@ -42,6 +43,7 @@
 		969C2C841FCFD7B700E99C85 /* DemoSync.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DemoSync.json; sourceTree = "<group>"; };
 		969EA0751FDE39A000A2474E /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		96AADABA200810F6003E215E /* BookOnPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnPresenter.swift; sourceTree = "<group>"; };
+		96B58FAA2044AF82001A8DF4 /* TaskItemPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemPresenter.swift; sourceTree = "<group>"; };
 		96CED76C1FA7F23D00C0DEB0 /* LandingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPresenter.swift; sourceTree = "<group>"; };
 		96CED76E1FA7F9AA00C0DEB0 /* termsandconditions.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = termsandconditions.html; sourceTree = "<group>"; };
 		96CED7741FA8456600C0DEB0 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
@@ -81,10 +83,7 @@
 		9620530E1F995374000CAD49 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				96AADABA200810F6003E215E /* BookOnPresenter.swift */,
-				96CED76C1FA7F23D00C0DEB0 /* LandingPresenter.swift */,
 				969EA0751FDE39A000A2474E /* SettingsViewController.swift */,
-				96EB4BEA20437BB000AFCAA0 /* TaskListPresenter.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -112,8 +111,9 @@
 			children = (
 				9624A4151F7C550B00CAE056 /* AppDelegate.swift */,
 				96553FC21F9849AC006E063E /* CAD.entitlements */,
-				969C2C801FCFD7B700E99C85 /* Demo */,
 				96553FCE1F98554E006E063E /* Configuration */,
+				969C2C801FCFD7B700E99C85 /* Demo */,
+				96B58FAC2044AF8F001A8DF4 /* Presenters */,
 				9624A4281F7C583D00CAE056 /* Resources */,
 				9624A4291F7C585A00CAE056 /* Supporting Files */,
 				9620530E1F995374000CAD49 /* View Controllers */,
@@ -160,6 +160,17 @@
 				969C2C841FCFD7B700E99C85 /* DemoSync.json */,
 			);
 			path = Demo;
+			sourceTree = "<group>";
+		};
+		96B58FAC2044AF8F001A8DF4 /* Presenters */ = {
+			isa = PBXGroup;
+			children = (
+				96AADABA200810F6003E215E /* BookOnPresenter.swift */,
+				96CED76C1FA7F23D00C0DEB0 /* LandingPresenter.swift */,
+				96EB4BEA20437BB000AFCAA0 /* TaskListPresenter.swift */,
+				96B58FAA2044AF82001A8DF4 /* TaskItemPresenter.swift */,
+			);
+			path = Presenters;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -326,6 +337,7 @@
 				9624A4161F7C550B00CAE056 /* AppDelegate.swift in Sources */,
 				96AADABB200810F6003E215E /* BookOnPresenter.swift in Sources */,
 				969EA0761FDE39A000A2474E /* SettingsViewController.swift in Sources */,
+				96B58FAB2044AF82001A8DF4 /* TaskItemPresenter.swift in Sources */,
 				96EB4BEB20437BB000AFCAA0 /* TaskListPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

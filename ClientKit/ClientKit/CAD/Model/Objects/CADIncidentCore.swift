@@ -84,6 +84,7 @@ open class CADIncidentCore: Codable, CADIncidentType {
     open func createAnnotation() -> TaskAnnotation? {
         guard let coordinate = coordinate else { return nil }
         return IncidentAnnotation(identifier: identifier,
+                                  source: CADTaskListSourceCore.incident,
                                   coordinate: coordinate,
                                   title: type,
                                   subtitle: resourceCountString,
