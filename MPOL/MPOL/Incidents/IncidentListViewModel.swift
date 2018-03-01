@@ -11,9 +11,11 @@ import MPOLKit
 open class IncidentListViewModel: IncidentListViewModelType {
 
     public var title: String
-    public var incidentList: [IncidentListDisplayable]?
     public var incidentManager: IncidentsManager
     private(set) var report: IncidentListReport?
+    public var incidentList: [IncidentListDisplayable]? {
+        return report?.incidentDisplayables
+    }
 
     public required init(report: Reportable?, incidentManager: IncidentsManager = IncidentsManager.shared) {
         self.report = report as? IncidentListReport
@@ -37,7 +39,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
     }
 
 
-    // Header
+    // Form
 
     func searchHeaderTitle() -> String {
         let string = String.localizedStringWithFormat(NSLocalizedString("%d incidents selected", comment: ""), report?.incidents.count ?? 0)
@@ -52,6 +54,22 @@ open class IncidentListViewModel: IncidentListViewModelType {
     func sectionHeaderTitle() -> String {
         let string = String.localizedStringWithFormat(NSLocalizedString("%d Incidents", comment: ""), report?.incidents.count ?? 0)
         return string.uppercased()
+    }
+    
+    func image(for displayable: IncidentListDisplayable) -> UIImage {
+        let eval = incident(for: displayable)?.evaluator.isComplete ?? false
+        guard let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.document)?
+            .withCircleBackground(tintColor: .black,
+                                  circleColor: eval ? .midGreen : .red,
+                                  style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false)) else { fatalError() }
+        return image
+    }
+
+    // Utility
+
+    func removeIncident(at indexPath: IndexPath) {
+        report?.incidents.remove(at: indexPath.item)
+        report?.incidentDisplayables.remove(at: indexPath.item)
     }
 
     func add(_ incidents: [String]) {
