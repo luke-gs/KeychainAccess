@@ -49,8 +49,8 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
     }
 
     private func setUpdateHeaderDelegate() {
-        for case let report as IncidentListReport in event.reports {
-            report.headerDelegate = self
+        for case var report as EventHeaderUpdateable in event.reports {
+            report.delegate = self
         }
     }
 
