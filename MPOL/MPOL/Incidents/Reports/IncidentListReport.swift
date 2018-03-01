@@ -13,7 +13,7 @@ fileprivate extension EvaluatorKey {
     static let incidents = EvaluatorKey("incidents")
 }
 
-open class IncidentListReport: Reportable {
+open class IncidentListReport: Reportable, EventHeaderUpdateable {
 
     var viewed: Bool = false {
         didSet {
@@ -25,11 +25,11 @@ open class IncidentListReport: Reportable {
     public var incidentDisplayables: [IncidentListDisplayable] = []{
         didSet {
             evaluator.updateEvaluation(for: .incidents)
-            headerDelegate?.updateHeader(with: incidentDisplayables.first?.title, subtitle: nil)
+            delegate?.updateHeader(with: incidentDisplayables.first?.title, subtitle: nil)
         }
     }
 
-    public weak var headerDelegate: EventHeaderUpdateDelegate?
+    public weak var delegate: EventHeaderUpdateDelegate?
     private(set) public var evaluator: Evaluator = Evaluator()
     public weak var event: Event?
     public weak var incident: Incident?
@@ -77,9 +77,5 @@ open class IncidentListReport: Reportable {
     // Evaluation
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
-}
-
-public protocol EventHeaderUpdateDelegate: class {
-    func updateHeader(with title: String?, subtitle: String?)
 }
 
