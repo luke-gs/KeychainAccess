@@ -15,13 +15,11 @@ fileprivate extension EvaluatorKey {
 /// to check if all reports are valid through the evaluator
 final public class Incident: Codable, Evaluatable {
 
-    private(set) public var reports: [Reportable] = [Reportable]()
     public var evaluator: Evaluator = Evaluator()
     public let id: UUID
     public weak var event: Event?
     public var incidentType: IncidentType
-
-    private var allValid: Bool = false {
+    private(set) public var reports: [Reportable] = [Reportable]() {
         didSet {
             evaluator.updateEvaluation(for: .allValid)
         }
@@ -74,9 +72,7 @@ final public class Incident: Codable, Evaluatable {
 
     //MARK: Evaluation
 
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        allValid = evaluationState
-    }
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
 }
 
 /// A bunch of incident types

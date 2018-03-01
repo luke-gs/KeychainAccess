@@ -120,7 +120,8 @@ final public class Evaluator {
     /// Adds an observer to the array of observers, an array of weak wrappers
     /// around evaluationObservables, removes any observer that has been released
     /// - Parameter observer: The observer must be an EvaluationObserverable
-    public func addObserver(_ observer: EvaluationObserverable) {
+    public func addObserver(_ observer: EvaluationObserverable?) {
+        guard let observer = observer else { return }
         if observers.contains(where: { $0.value === observer }) == false {
             observers.append(WeakObservableWrapper(value: observer))
         }
@@ -131,7 +132,8 @@ final public class Evaluator {
     /// removes any observer that has been released
     ///
     /// - Parameter observer: The observer must be an ObserverProtocol
-    public func removeObserver(_ observer: EvaluationObserverable) {
+    public func removeObserver(_ observer: EvaluationObserverable?) {
+        guard let observer = observer else { return }
         if let index = observers.index(where: { $0.value === observer }) {
             observers.remove(at: index)
         }

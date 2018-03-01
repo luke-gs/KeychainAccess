@@ -26,7 +26,7 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
         sidebarItem.regularTitle = "Date and Time"
         sidebarItem.compactTitle = "Date and Time"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.date)!
-        sidebarItem.color = .red    
+        sidebarItem.color = report?.evaluator.isComplete ?? false ? .green : .red
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -42,6 +42,7 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
             .withNowButton(true)
             .width(.column(2))
             .maximumDate(Date())
+            .selectedValue(self.report?.reportedOnDateTime)
             .onValueChanged { date in
                 self.report?.reportedOnDateTime = date
             }
@@ -54,6 +55,7 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
             .datePickerMode(.dateAndTime)
             .withNowButton(true)
             .width(.column(2))
+            .selectedValue(self.report?.tookPlaceFromStartDateTime)
             .onValueChanged { date in
                 guard let formItem = self.builder.formItem(for: "tookPlaceFromEndDateTime") as? DateFormItem else { return }
                 self.adjustEndTime(for: date, in: formItem)
@@ -67,6 +69,7 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
                 .width(.column(2))
                 .elementIdentifier("tookPlaceFromEndDateTime")
                 .minimumDate(Date())
+                .selectedValue(self.report?.tookPlaceFromEndDateTime)
                 .onValueChanged { date in
                     self.report?.tookPlaceFromEndDateTime = date
         }
@@ -109,13 +112,17 @@ public class DefaultDateTimeReport: Reportable {
 
     public var tookPlaceFromEndDateTime: Date?
 
-    public weak var event: Event?
     public var evaluator: Evaluator = Evaluator()
+    public weak var event: Event?
+    public weak var incident: Incident?
 
-    public required init(event: Event) {
+    public required init(event: Event, incident: Incident? = nil) {
         self.event = event
+        self.incident = incident
 
         evaluator.addObserver(event)
+        evaluator.addObserver(incident)
+
         evaluator.registerKey(.reportedOnDateTime) {
             return self.reportedOnDateTime != nil
         }

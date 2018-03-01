@@ -32,14 +32,14 @@ final public class IncidentsManager {
 
     private init() { }
 
-    public func create(incidentType: IncidentType, in event: Event) -> IncidentListDisplayable? {
+    public func create(incidentType: IncidentType, in event: Event) -> (incident: Incident, displayable: IncidentListDisplayable)? {
         guard let incidentBuilder = incidentBuilders[incidentType] else { return nil }
 
         let incident = incidentBuilder.createIncident(for: incidentType, in: event)
         displayableBucket?.add(incident.displayable)
         incidentBucket?.add(incident.incident)
 
-        return incident.displayable
+        return incident
     }
 
     //add

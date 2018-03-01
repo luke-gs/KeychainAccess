@@ -20,13 +20,17 @@ open class DefaultLocationReport: Reportable {
         }
     }
 
-    public weak var event: Event?
     public var evaluator: Evaluator = Evaluator()
+    public weak var event: Event?
+    public weak var incident: Incident?
 
-    public required init(event: Event) {
+    public required init(event: Event, incident: Incident? = nil) {
         self.event = event
+        self.incident = incident
 
         evaluator.addObserver(event)
+        evaluator.addObserver(incident)
+
         evaluator.registerKey(.eventLocation) {
             return self.eventLocation != nil
         }
