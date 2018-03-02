@@ -26,7 +26,7 @@ extension UIViewController {
         }
     }
 
-    public func setTitleView(title: String, subtitle: String) {
+    public func setTitleView(title: String?, subtitle: String?) {
         let titleView = NavigationTitleView(title: title, subtitle: subtitle)
         
         titleView.titleLabel.textColor = themeColor(forKey: .primaryText)!
