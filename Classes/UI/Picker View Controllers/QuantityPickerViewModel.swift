@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class QuantityPickerViewModel {
+open class QuantityPickerViewModel {
 
     /// Array of items that are used as the data source for the picker.
     public var items: [QuantityPicked] = []

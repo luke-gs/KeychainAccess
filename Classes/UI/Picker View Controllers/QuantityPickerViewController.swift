@@ -31,7 +31,7 @@ open class QuantityPickerViewController: FormBuilderViewController {
 
     private let headerHeight: CGFloat = 144
     private let cellFont: UIFont = .systemFont(ofSize: 17.0, weight: .semibold)
-    private let headerView = SearchHeaderView()
+    public let headerView = SearchHeaderView()
 
     private var filterText: String?
 
@@ -115,19 +115,19 @@ open class QuantityPickerViewController: FormBuilderViewController {
     // MARK: - Convenience
 
     /// Updates the title and subtitle based on the selected values of items
-    private func updateHeaderText() {
+    open func updateHeaderText() {
         let items = viewModel.items
         let includedItems = items.flatMap {
             guard let title = $0.object.title else { return nil }
             guard $0.count != 0 else { return nil }
             return "\(title) (\($0.count))"
-            } as [String?]
+        } as [String?]
 
         headerView.titleLabel.text = "\(includedItems.count) \(viewModel.subjectMatter)"
         headerView.subtitleLabel.text = includedItems.joined(separator: ", ")
     }
 
-    private func shouldDisplayItem(_ item: QuantityPicked) -> Bool {
+    public func shouldDisplayItem(_ item: QuantityPicked) -> Bool {
         guard let filterText = filterText?.lowercased() else { return true }
         guard filterText.count > 0 else { return true }
         guard let title = item.object.title?.lowercased() else { return false }
