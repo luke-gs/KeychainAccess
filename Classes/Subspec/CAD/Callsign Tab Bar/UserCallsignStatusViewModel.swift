@@ -99,8 +99,8 @@ open class UserCallsignStatusViewModel {
     
     // MARK: - Setup
     
-    public init() {
-        state = defaultNotBookedOnState()
+    public init() { 
+        callsignChanged()
         NotificationCenter.default.addObserver(self, selector: #selector(callsignChanged), name: .CADBookOnChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(callsignChanged), name: .CADCallsignChanged, object: nil)
     }
