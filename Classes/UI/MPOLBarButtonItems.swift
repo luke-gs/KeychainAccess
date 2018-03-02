@@ -44,7 +44,7 @@ public class BackBarButtonItem: UIBarButtonItem {
     /// The `BackButton` view used as customView.
     private let backButton: BackButton
     
-    public init(text: String?, target: AnyObject?, action: Selector?) {
+    public init(text: String? = nil, target: AnyObject?, action: Selector?) {
         backButton = BackButton(text: text)
         
         super.init()
