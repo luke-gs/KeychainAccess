@@ -75,13 +75,7 @@ public class LocalDataStore<T>: WritableDataStore, ExpressibleByArrayLiteral whe
                 }
             }
 
-            return Promise { fullfill, reject in
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-                    fullfill(LocalDataResults(items: filteredItems, nextIndex: nextIndex))
-                }
-            }
-
-//            return Promise(value: LocalDataResults(items: filteredItems, nextIndex: nextIndex))
+            return Promise(value: LocalDataResults(items: filteredItems, nextIndex: nextIndex))
         } else {
             let filteredItems = limit > 0 ? Array(items.prefix(limit)) : items
 
