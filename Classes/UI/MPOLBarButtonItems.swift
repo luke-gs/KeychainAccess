@@ -14,18 +14,84 @@ extension UIBarButtonItem {
     /// A factory method to create a correctly configured back button item.
     ///
     /// - Parameters:
+    ///   - text: The title presented with the button.
     ///   - target: The target for the action when selected.
     ///   - action: The action to fire at the target when selected.
     /// - Returns: A correctly configured UIBarButtonItem.
-    public class func backBarButtonItem(target: AnyObject?, action: Selector?) -> UIBarButtonItem {
-        let backItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .back), style: .plain, target: target, action: action)
-        backItem.accessibilityLabel = NSLocalizedString("Back", comment: "Navigation bar button item accessibility")
-        return backItem
+    public class func backBarButtonItem(text: String? = nil, target: AnyObject?, action: Selector?) -> BackBarButtonItem {
+        return BackBarButtonItem(text: text, target: target, action: action)
     }
     
 }
 
-
+/// A UIBarButtonItem for the back button with text.
+public class BackBarButtonItem: UIBarButtonItem {
+    
+    /// The text of the back button.
+    public var text: String? {
+        didSet {
+            backButton.text = text
+        }
+    }
+    
+    /// Setting tint color will set the internal backButton views tintColor.
+    public override var tintColor: UIColor? {
+        didSet {
+            backButton.tintColor = tintColor
+        }
+    }
+    
+    /// The `BackButton` view used as customView.
+    private let backButton: BackButton
+    
+    public init(text: String? = nil, target: AnyObject?, action: Selector?) {
+        backButton = BackButton(text: text)
+        
+        super.init()
+        
+        self.accessibilityLabel = NSLocalizedString("Back", comment: "Navigation bar button item accessibility")
+        super.customView = backButton
+        
+        if let selector = action {
+            backButton.addTarget(target, action: selector, for: .touchUpInside)
+        }
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
+    }
+    
+    /// Setting the image is not supported.
+    public override var image: UIImage? {
+        get { return super.image }
+        set { }
+    }
+    
+    /// Setting the title is not supported.
+    public override var title: String? {
+        get { return super.title }
+        set { }
+    }
+    
+    /// Setting the custom view is not supported.
+    public override var customView: UIView? {
+        get { return super.customView }
+        set { }
+    }
+    
+    /// Setting the target is not supported.
+    public override var target: AnyObject? {
+        get { return super.target }
+        set { }
+    }
+    
+    /// Setting the action is not supported.
+    public override var action: Selector? {
+        get { return super.action }
+        set { }
+    }
+    
+}
 
 /// A UIBarButtonItem to toggle between the filtered and unfiltered state.
 public class FilterBarButtonItem: UIBarButtonItem {
@@ -77,4 +143,65 @@ public class FilterBarButtonItem: UIBarButtonItem {
         set { }
     }
     
+}
+
+/// Back button control that provides text label, used as the custom view of `BackBarButtonItem`.
+private class BackButton: UIControl {
+    
+    /// Text of the label
+    var text: String? {
+        didSet {
+            label.text = text
+            setNeedsLayout()
+        }
+    }
+    
+    override var tintColor: UIColor! {
+        didSet {
+            icon.tintColor = tintColor
+            label.textColor = tintColor
+        }
+    }
+    
+    /// Text label displaying title of presenting VC.
+    let label = UILabel()
+    
+    /// Back button icon
+    let icon = UIImageView(image: AssetManager.shared.image(forKey: .back))
+    
+    
+    /// Initializes the button with optional text to display beside back icon.
+    init(text: String? = nil) {
+        super.init(frame: .zero)
+        
+        icon.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(icon)
+        
+        label.textColor = .white
+        label.text = text
+        label.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            icon.leadingAnchor.constraint(equalTo: leadingAnchor),
+            icon.topAnchor.constraint(equalTo: topAnchor),
+            icon.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
+            label.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 5),
+            label.topAnchor.constraint(equalTo: topAnchor),
+            label.bottomAnchor.constraint(equalTo: bottomAnchor),
+            label.trailingAnchor.constraint(equalTo: trailingAnchor)
+            ])
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
+    }
+    
+    /// Show highlighted state (simulate behiavour of bar button).
+    override var isHighlighted: Bool {
+        didSet {
+            alpha = isHighlighted ? 0.5 : 1
+        }
+    }
 }

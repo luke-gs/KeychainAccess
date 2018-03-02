@@ -19,6 +19,9 @@
 		1267EFE1203520BF00773548 /* LocationMapSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1267EFE0203520BF00773548 /* LocationMapSelectionViewController.swift */; };
 		12A8DB471F5FD63400A06005 /* DirectoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A8DB461F5FD63400A06005 /* DirectoryManager.swift */; };
 		12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */; };
+		12B4492B203A7DA500B1DDAA /* IncidentListReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B4492A203A7DA500B1DDAA /* IncidentListReport.swift */; };
+		12B4492D203A7E3F00B1DDAA /* IncidentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B4492C203A7E3F00B1DDAA /* IncidentListViewController.swift */; };
+		12B4492F203A831B00B1DDAA /* IncidentListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B4492E203A831B00B1DDAA /* IncidentListViewModel.swift */; };
 		12D3701720200B5B00D79DDB /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3700F20200B5A00D79DDB /* Event.swift */; };
 		12D3701920200B5B00D79DDB /* EventListDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3701220200B5A00D79DDB /* EventListDisplayable.swift */; };
 		12D3701B20200B5B00D79DDB /* EventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3701420200B5A00D79DDB /* EventsManager.swift */; };
@@ -28,6 +31,7 @@
 		12D8E2A01F9ED12100EEE214 /* GenericSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12BDF9151F95CCD50033E60B /* GenericSearchViewController.swift */; };
 		12D8E2A11F9ED12100EEE214 /* GenericSearchDefaultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D8E29D1F9EC6D800EEE214 /* GenericSearchDefaultViewModel.swift */; };
 		12EA561920327E130051DDEC /* EventLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EA561820327E130051DDEC /* EventLocation.swift */; };
+		12EC5141203A9231006D3BC4 /* IncidentSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EC5140203A9231006D3BC4 /* IncidentSearchDataSource.swift */; };
 		12F0571E1F3AE5FC00CAD6F6 /* HTTPAuthenticationModeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0571D1F3AE5FC00CAD6F6 /* HTTPAuthenticationModeTests.swift */; };
 		12F057201F3BF6CF00CAD6F6 /* SourceItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0571F1F3BF6CF00CAD6F6 /* SourceItemTests.swift */; };
 		12F057241F3BFCBC00CAD6F6 /* SearchResultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F057231F3BFCBC00CAD6F6 /* SearchResultsTests.swift */; };
@@ -252,6 +256,7 @@
 		4426162A1FF5C9A7008EBF84 /* PatrolAreaListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442616271FF5C9A7008EBF84 /* PatrolAreaListViewModel.swift */; };
 		4426162B1FF5C9A7008EBF84 /* PatrolAreaListItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442616281FF5C9A7008EBF84 /* PatrolAreaListItemViewModel.swift */; };
 		4426162C1FF5C9A7008EBF84 /* PatrolAreaListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442616291FF5C9A7008EBF84 /* PatrolAreaListViewController.swift */; };
+		445BB13020465DBA00A81375 /* NavigationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445BB12F20465DBA00A81375 /* NavigationTitleView.swift */; };
 		44621FF61F59239C007C3150 /* FilterRangeDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44621FF41F59239C007C3150 /* FilterRangeDescriptor.swift */; };
 		44621FF71F59239C007C3150 /* FilterValueDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44621FF51F59239C007C3150 /* FilterValueDescriptor.swift */; };
 		44F3F14B1F56DBD300D68585 /* FilterDescriptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F3F14A1F56DBD300D68585 /* FilterDescriptorTests.swift */; };
@@ -794,6 +799,9 @@
 		1267EFE0203520BF00773548 /* LocationMapSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapSelectionViewController.swift; sourceTree = "<group>"; };
 		12A8DB461F5FD63400A06005 /* DirectoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryManager.swift; sourceTree = "<group>"; };
 		12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLKitProtocols.swift; sourceTree = "<group>"; };
+		12B4492A203A7DA500B1DDAA /* IncidentListReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentListReport.swift; sourceTree = "<group>"; };
+		12B4492C203A7E3F00B1DDAA /* IncidentListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentListViewController.swift; sourceTree = "<group>"; };
+		12B4492E203A831B00B1DDAA /* IncidentListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentListViewModel.swift; sourceTree = "<group>"; };
 		12BDF9151F95CCD50033E60B /* GenericSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericSearchViewController.swift; sourceTree = "<group>"; };
 		12D3700F20200B5A00D79DDB /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		12D3701220200B5A00D79DDB /* EventListDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListDisplayable.swift; sourceTree = "<group>"; };
@@ -804,6 +812,7 @@
 		12D566F51F5790BC001E74CA /* UserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		12D8E29D1F9EC6D800EEE214 /* GenericSearchDefaultViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericSearchDefaultViewModel.swift; sourceTree = "<group>"; };
 		12EA561820327E130051DDEC /* EventLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventLocation.swift; sourceTree = "<group>"; };
+		12EC5140203A9231006D3BC4 /* IncidentSearchDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentSearchDataSource.swift; sourceTree = "<group>"; };
 		12F0571D1F3AE5FC00CAD6F6 /* HTTPAuthenticationModeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPAuthenticationModeTests.swift; sourceTree = "<group>"; };
 		12F0571F1F3BF6CF00CAD6F6 /* SourceItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceItemTests.swift; sourceTree = "<group>"; };
 		12F057231F3BFCBC00CAD6F6 /* SearchResultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsTests.swift; sourceTree = "<group>"; };
@@ -1013,6 +1022,7 @@
 		442616271FF5C9A7008EBF84 /* PatrolAreaListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolAreaListViewModel.swift; sourceTree = "<group>"; };
 		442616281FF5C9A7008EBF84 /* PatrolAreaListItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolAreaListItemViewModel.swift; sourceTree = "<group>"; };
 		442616291FF5C9A7008EBF84 /* PatrolAreaListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolAreaListViewController.swift; sourceTree = "<group>"; };
+		445BB12F20465DBA00A81375 /* NavigationTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationTitleView.swift; path = Classes/UI/Views/NavigationTitleView.swift; sourceTree = SOURCE_ROOT; };
 		44621FF41F59239C007C3150 /* FilterRangeDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterRangeDescriptor.swift; sourceTree = "<group>"; };
 		44621FF51F59239C007C3150 /* FilterValueDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterValueDescriptor.swift; sourceTree = "<group>"; };
 		44F3F14A1F56DBD300D68585 /* FilterDescriptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDescriptorTests.swift; sourceTree = "<group>"; };
@@ -1597,6 +1607,17 @@
 			path = Location;
 			sourceTree = "<group>";
 		};
+		12B44929203A7D9300B1DDAA /* Incident */ = {
+			isa = PBXGroup;
+			children = (
+				12B4492A203A7DA500B1DDAA /* IncidentListReport.swift */,
+				12B4492C203A7E3F00B1DDAA /* IncidentListViewController.swift */,
+				12B4492E203A831B00B1DDAA /* IncidentListViewModel.swift */,
+				12EC5140203A9231006D3BC4 /* IncidentSearchDataSource.swift */,
+			);
+			path = Incident;
+			sourceTree = "<group>";
+		};
 		12BDF9141F95CCC70033E60B /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -1626,6 +1647,7 @@
 				12D3702120200F5E00D79DDB /* EventsListViewController.swift */,
 				12D3701420200B5A00D79DDB /* EventsManager.swift */,
 				12D3701520200B5A00D79DDB /* EventSplitViewController.swift */,
+				12B44929203A7D9300B1DDAA /* Incident */,
 				464E99E5203CE1B100FE05DC /* EventSearchableViewModel.swift */,
 				129C08E52032A84E00D712E7 /* Location */,
 			);
@@ -3204,6 +3226,7 @@
 				BC9C7DBF1F0DED6600DFFE83 /* EntityThumbnailView.swift */,
 				BC9C7DC21F0DED6600DFFE83 /* GradientView.swift */,
 				BC9C7DC31F0DED6600DFFE83 /* NavigationBarExtension.swift */,
+				445BB12F20465DBA00A81375 /* NavigationTitleView.swift */,
 				BC5C11F21F2810BA0048CBBF /* RoundedRectButton.swift */,
 				BC9C7DC41F0DED6600DFFE83 /* RoundedRectLabel.swift */,
 				BCA6FD761F22E0AE00EE8F7A /* SearchFieldButton.swift */,
@@ -4215,6 +4238,7 @@
 				193ED0891FDE73A6002F2837 /* Plugin.swift in Sources */,
 				273C538C1FE866B700BF994B /* TasksListResourceCollectionViewCell.swift in Sources */,
 				BC9C7E0B1F0DED6600DFFE83 /* UIView+Convenience.swift in Sources */,
+				12EC5141203A9231006D3BC4 /* IncidentSearchDataSource.swift in Sources */,
 				EA09A0501F78B95D00BC3C0E /* CharacterSetSpecification.swift in Sources */,
 				27D6814A202CFCE7003F3D14 /* NotificationManager.swift in Sources */,
 				EA6CF5421F7494C1002063D8 /* TextViewFormItem.swift in Sources */,
@@ -4308,6 +4332,7 @@
 				BC9C7E271F0DED6600DFFE83 /* GalleryCollectionViewCell.swift in Sources */,
 				C605F8A91ECCAD3B001194DD /* Manifest.xcdatamodeld in Sources */,
 				19FEC9831F43F769005692A9 /* ErrorMapper.swift in Sources */,
+				445BB13020465DBA00A81375 /* NavigationTitleView.swift in Sources */,
 				12D8E2A11F9ED12100EEE214 /* GenericSearchDefaultViewModel.swift in Sources */,
 				279B057B200D572300C3EFB0 /* LargeTextHeaderFormItem.swift in Sources */,
 				9624A43F1F81BBEB00CAE056 /* UIFont+Digits.swift in Sources */,
@@ -4453,6 +4478,7 @@
 				BC9C7E091F0DED6600DFFE83 /* UITableViewCell+LayoutMargins.swift in Sources */,
 				2726A81E1FCE6BE600EFB61A /* IncidentOverviewViewModel.swift in Sources */,
 				274753F41FC67F6E00D5FA98 /* TasksListInformationRowViewModel.swift in Sources */,
+				12B4492F203A831B00B1DDAA /* IncidentListViewModel.swift in Sources */,
 				EA53B2771F9EF92B00B891D8 /* NotNilSpecification.swift in Sources */,
 				96F77281201FFB40000FE0D0 /* CreateActivityLogItemViewController.swift in Sources */,
 				46E0B8B220326FB500B40DF2 /* Pickable.swift in Sources */,
@@ -4529,6 +4555,7 @@
 				27CBC75B1F8B27B100E387C3 /* ActivityLogItemViewModel.swift in Sources */,
 				12FB04092021511E000C38C8 /* DefaultEventDateTimeViewController.swift in Sources */,
 				9620530D1F988239000CAD49 /* AppGroup.swift in Sources */,
+				12B4492D203A7E3F00B1DDAA /* IncidentListViewController.swift in Sources */,
 				19C9C7521FC28A6A003C8CE4 /* LocationSearchMapCollectionViewSideBarLayout.swift in Sources */,
 				BC9C7E541F0DED6600DFFE83 /* NavigationBarExtension.swift in Sources */,
 				19B49BC61F665F5A00502F51 /* WhatsNewDetailViewController.swift in Sources */,
@@ -4745,6 +4772,7 @@
 				27CBC75C1F8B27B100E387C3 /* ActivityLogViewModel.swift in Sources */,
 				BC9C7E131F0DED6600DFFE83 /* TableViewFormSubtitleCell.swift in Sources */,
 				EA09A0521F78B9A200BC3C0E /* CountSpecification.swift in Sources */,
+				12B4492B203A7DA500B1DDAA /* IncidentListReport.swift in Sources */,
 				27E81E5C2034E724000D5D1C /* TaskDetailsOverviewItemViewModel.swift in Sources */,
 				19C625C41F55186A00504BD9 /* URLQueryBuilder+Parameterisable.swift in Sources */,
 				19B49BB91F665F2A00502F51 /* CompactSidebarSourceCell.swift in Sources */,

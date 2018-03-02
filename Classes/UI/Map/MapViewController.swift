@@ -22,7 +22,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     /// - none: do not zoom on load
     public enum InitialLoadZoomStyle {
         case userLocation(animated: Bool)
-        case coordinate(_: CLLocation, animated: Bool)
+        case coordinate(_: CLLocationCoordinate2D, animated: Bool)
         case none
     }
     
@@ -106,7 +106,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
             switch initialLoadZoomStyle {
             case .userLocation(let animated):
                 _ = locationManager.requestLocation().then { location -> () in
-                    self.zoomAndCenter(to: location, animated: animated)
+                    self.zoomAndCenter(to: location.coordinate, animated: animated)
                 }
                 performedInitialLoadAction = true
             case .coordinate(let location, let animated):
@@ -177,13 +177,13 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     /// Centers and zooms the map to the user's location
     @objc public func zoomAndCenterToUserLocation(animated: Bool = true) {
         if let location = locationManager.lastLocation {
-            zoomAndCenter(to: location, animated: animated)
+            zoomAndCenter(to: location.coordinate, animated: animated)
         }
     }
     
     /// Centers and zooms the map to a location
-    public func zoomAndCenter(to location: CLLocation, animated: Bool = true) {
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, defaultZoomDistance, defaultZoomDistance)
+    public func zoomAndCenter(to coordinate: CLLocationCoordinate2D, animated: Bool = true) {
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(coordinate, defaultZoomDistance, defaultZoomDistance)
         mapView.setRegion(coordinateRegion, animated: animated)
     }
     

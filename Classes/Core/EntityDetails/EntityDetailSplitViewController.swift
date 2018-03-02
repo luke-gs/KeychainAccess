@@ -36,11 +36,11 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
         detailViewModel.delegate = self
 
-        title = "Details"
+        title = NSLocalizedString("Details", comment: "")
         updateSourceItems()
         updateHeaderView()
 
-        regularSidebarViewController.title = NSLocalizedString("Details", comment: "")
+        regularSidebarViewController.title = title
         regularSidebarViewController.headerView = headerView
         regularSidebarViewController.navigationItem.rightBarButtonItem = detailViewModel.showsActionButton ? actionBarItem : nil
         // due to the fact that events are not implemented yet
@@ -105,15 +105,15 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
     // MARK: - Override methods
 
-    open override func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
+    open override func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String? {
         // Ask the data source for an appropriate title
         if traitCollection.horizontalSizeClass == .compact {
             if let title =  detailViewModel.summary?.title {
                 return title
             }
         }
-        // Use a generic sidebar title
-        return NSLocalizedString("Details", comment: "Title for for entity details")
+        // Use title of split VC
+        return title
     }
 
     // MARK: - Private methods

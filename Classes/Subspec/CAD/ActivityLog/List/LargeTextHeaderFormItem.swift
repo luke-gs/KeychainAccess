@@ -12,14 +12,16 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
     
     public var text: StringSizable?
     public var layoutMargins: UIEdgeInsets?
+    public var separatorColor: UIColor?
 
     public init() {
         super.init(viewType: LargeTextHeaderCollectionViewCell.self, kind: UICollectionElementKindSectionHeader, reuseIdentifier: LargeTextHeaderCollectionViewCell.defaultReuseIdentifier)
     }
     
-    public convenience init(text: StringSizable?) {
+    public convenience init(text: StringSizable?, separatorColor: UIColor? = nil) {
         self.init()
         self.text = text
+        self.separatorColor = separatorColor
     }
     
     open override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, for traitCollection: UITraitCollection) -> CGFloat {
@@ -35,6 +37,7 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
                 cell.contentView.layoutMargins = layoutMargins
             }
             cell.titleLabel.apply(sizable: text, defaultFont: cell.titleLabel.font)
+            cell.separatorView.backgroundColor = separatorColor ?? iOSStandardSeparatorColor
         }
     }
 
@@ -52,14 +55,20 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
 extension LargeTextHeaderFormItem {
 
     @discardableResult
-    public func text(_ text: StringSizable) -> Self {
+    public func text(_ text: StringSizable?) -> Self {
         self.text = text
         return self
     }
 
     @discardableResult
-    public func layoutMargins(_ layoutMargins: UIEdgeInsets) -> Self {
+    public func layoutMargins(_ layoutMargins: UIEdgeInsets?) -> Self {
         self.layoutMargins = layoutMargins
+        return self
+    }
+    
+    @discardableResult
+    public func separatorColor(_ text: UIColor?) -> Self {
+        self.separatorColor = separatorColor
         return self
     }
 }

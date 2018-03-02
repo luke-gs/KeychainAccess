@@ -16,8 +16,8 @@ public protocol CADLocationType: class {
     var alertLevel : Int? { get set }
     var country : String? { get set }
     var fullAddress : String? { get set }
-    var latitude : Float { get set }
-    var longitude : Float { get set }
+    var latitude : Float? { get set }
+    var longitude : Float? { get set }
     var postalCode : String? { get set }
     var state : String? { get set }
     var streetName : String? { get set }
@@ -26,6 +26,6 @@ public protocol CADLocationType: class {
     var streetType : String? { get set }
     var suburb : String? { get set }
 
-    // MARK:- Generated
-    var coordinate: CLLocationCoordinate2D { get }
+    // MARK: - Generated
+    var coordinate: CLLocationCoordinate2D? { get }
 }

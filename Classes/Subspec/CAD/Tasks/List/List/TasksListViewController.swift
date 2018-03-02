@@ -130,6 +130,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
             builder += LargeTextHeaderFormItem()
                 .text(StringSizing(string: viewModel.patrolGroupSectionTitle(), font: UIFont.systemFont(ofSize: 17, weight: .semibold), numberOfLines: 1))
                 .layoutMargins(UIEdgeInsets(top: 24, left: 24, bottom: -24, right: 24))
+                .separatorColor(.clear)
 
             // Show my patrol group items
             constructGroup(builder: builder, sections: viewModel.sections)
@@ -138,6 +139,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
             builder += LargeTextHeaderFormItem()
                 .text(StringSizing(string: viewModel.otherSectionTitle(), font: UIFont.systemFont(ofSize: 17, weight: .semibold), numberOfLines: 1))
                 .layoutMargins(UIEdgeInsets(top: 24, left: 24, bottom: -24, right: 24))
+                .separatorColor(.clear)
 
             // Show other patrol group items
             constructGroup(builder: builder, sections: viewModel.otherSections)

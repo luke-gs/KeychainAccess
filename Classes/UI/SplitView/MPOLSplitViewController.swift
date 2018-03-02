@@ -90,8 +90,8 @@ open class MPOLSplitViewController: PushableSplitViewController {
     // MARK: - Subclass
 
     /// Return the title to use for the master navigation controller for the given traits
-    open func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
-        return self.title ?? ""
+    open func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String? {
+        return self.title
     }
     
     /// Return the subtitle to use for the master navigation controller for the given traits, or nil

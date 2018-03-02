@@ -108,3 +108,14 @@ public protocol EventDetailViewModelType: Evaluatable {
     ///   - builder: the screen builder
     init(event: Event, builder: EventScreenBuilding)
 }
+
+/// A protocol defining whether the object should be a
+/// event header update delegate
+public protocol EventHeaderUpdateable {
+    weak var delegate: EventHeaderUpdateDelegate? { get set }
+}
+
+/// The delegate responsible for updating the sidebar header for events
+public protocol EventHeaderUpdateDelegate: class {
+    func updateHeader(with title: String?, subtitle: String?)
+}
