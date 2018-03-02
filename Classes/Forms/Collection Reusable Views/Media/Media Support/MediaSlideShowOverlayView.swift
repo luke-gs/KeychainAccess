@@ -294,7 +294,7 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
     }
 
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard scrollView.isDragging else { return }
+        guard scrollView.isDragging, let slideShowViewController = slideShowViewController else { return }
         let x = collectionView.contentOffset.x
         let offset: CGFloat
         if #available(iOS 11.0, *) {
@@ -303,10 +303,11 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
             offset = collectionView.contentInset.left
         }
 
-        let index = max(Int(floor((offset + x) / compactItemWidth)), 0)
+        let index = min(max(Int(floor((offset + x) / compactItemWidth)), 0), slideShowViewController.viewModel.previews.count - 1)
 
-        if let preview = slideShowViewController?.viewModel.previews[index], preview !== slideShowViewController?.currentPreview {
-            slideShowViewController?.setupWithInitialPreview(preview)
+        let preview = slideShowViewController.viewModel.previews[index]
+        if preview !== slideShowViewController.currentPreview {
+            slideShowViewController.setupWithInitialPreview(preview)
         }
     }
 
