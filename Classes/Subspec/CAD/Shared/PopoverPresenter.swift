@@ -25,6 +25,7 @@ public protocol PopoverPresenter: class {
 // Protocol for a class that can present view controllers using a navigation controller
 public protocol NavigationPresenter: class {
     func presentPushedViewController(_ viewController: UIViewController, animated: Bool)
+    func presentPushedViewControllerFromSplitView(_ viewController: UIViewController, animated: Bool)
     func popPushedViewController(animated: Bool) -> UIViewController?
 }
 
@@ -83,6 +84,12 @@ extension UIViewController: PopoverPresenter, NavigationPresenter, TargetActionD
 
     public func presentPushedViewController(_ viewController: UIViewController, animated: Bool) {
         navigationController?.pushViewController(viewController, animated: animated)
+    }
+    
+    public func presentPushedViewControllerFromSplitView(_ viewController: UIViewController, animated: Bool) {
+        guard let navController = pushableSplitViewController?.navigationController
+            ?? navigationController else { return }
+        navController.pushViewController(viewController, animated: animated)
     }
 
     public func popPushedViewController(animated: Bool) -> UIViewController? {
