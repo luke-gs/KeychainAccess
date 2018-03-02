@@ -162,7 +162,7 @@ class MeganMediaStore: WritableDataStore {
 
     private func connectToBackendToDownloadMedia(page: Int) -> Promise<([UIImage], Int?)> {
         return Promise { fullfill, reject in
-            DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 2.0) {
+            DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 4.0) {
                 // This backend only sends 2 results back at a time.
                 let beginIndex: Int = page * 2
                 var endIndex: Int = beginIndex + 2

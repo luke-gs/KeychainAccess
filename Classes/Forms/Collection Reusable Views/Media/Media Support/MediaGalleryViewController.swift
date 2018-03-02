@@ -102,17 +102,9 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
         loadingManager.baseView = view
         loadingManager.contentView = collectionView
 
-        let noContentView = loadingManager.noContentView
-        noContentView.titleLabel.text = NSLocalizedString("No Assets", comment: "")
-        noContentView.subtitleLabel.text = NSLocalizedString("Add an asset by tapping on 'Add' button.", comment: "")
-        noContentView.imageView.image = AssetManager.shared.image(forKey: .refresh)
-
-        let button = noContentView.actionButton
-        button.setTitle(NSLocalizedString("Add", comment: "Action to add new asset"), for: .normal)
-        button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
-
         navigationController?.delegate = self
 
+        configureLoadingManager()
         updateContentState()
         interfaceStyleDidChange()
     }
@@ -331,6 +323,10 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
         present(alertController, animated: true, completion: nil)
     }
 
+    @objc private func refreshButtonTapped() {
+        viewModel.retrievePreviews(style: .reset)
+    }
+
     @objc private func deleteTapped(_ item: UIBarButtonItem) {
         guard let indexPaths = collectionView.indexPathsForSelectedItems, indexPaths.count > 0 else { return }
 
@@ -389,8 +385,48 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
     private func updateContentState() {
         let hasPreviews = viewModel.previews.count > 0
-        loadingManager.state = hasPreviews ? .loaded : .noContent
+
+        if hasPreviews {
+            loadingManager.state = .loaded
+        } else {
+            switch viewModel.state {
+            case .loading:
+                loadingManager.state = .loading
+            case .error:
+                loadingManager.state = .error
+            case .completed, .unknown:
+                loadingManager.state = .noContent
+            }
+        }
+
         beginSelectItem.isEnabled = hasPreviews
+    }
+
+    private func configureLoadingManager() {
+        let noContentView = loadingManager.noContentView
+
+        if allowEditing {
+            noContentView.titleLabel.text = NSLocalizedString("No Assets", comment: "")
+            noContentView.subtitleLabel.text = NSLocalizedString("Add an asset by tapping on 'Add' button.", comment: "")
+            noContentView.imageView.image = AssetManager.shared.image(forKey: .refresh)
+
+            let button = noContentView.actionButton
+            button.setTitle(NSLocalizedString("Add", comment: "Action to add new asset"), for: .normal)
+            button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+
+
+        } else {
+            noContentView.titleLabel.text = NSLocalizedString("No Assets", comment: "")
+            noContentView.subtitleLabel.text = NSLocalizedString("No assets found. Refresh to try again.", comment: "")
+            noContentView.imageView.image = AssetManager.shared.image(forKey: .refresh)
+
+            let button = noContentView.actionButton
+            button.setTitle(NSLocalizedString("Refresh", comment: "Action to refresh"), for: .normal)
+            button.addTarget(self, action: #selector(refreshButtonTapped), for: .touchUpInside)
+        }
+
+        loadingManager.loadingView.titleLabel.text = viewModel.titleForState(.loading)
+        loadingManager.loadingView.subtitleLabel.text = viewModel.descriptionForState(.loading)
     }
 
     // MARK: - UINavigationControllerDelegate
