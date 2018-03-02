@@ -69,6 +69,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         super.init(nibName: nil, bundle: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(galleryDidChange), name: MediaGalleryDidChangeNotificationName, object: viewModel)
+        NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
 
         if let preview = initialPreview {
             currentPreviewViewController = previewViewControllerForPreview(preview)
@@ -121,8 +122,6 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
         automaticallyAdjustsScrollViewInsets = false
 
-        view.backgroundColor = .white
-
         let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 0
@@ -148,6 +147,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
             self.initialPreview = nil
         }
 
+        interfaceStyleDidChange()
     }
 
     public override func viewDidAppear(_ animated: Bool) {
@@ -328,6 +328,17 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         setFullScreen(!isFullScreen, animated: true)
     }
 
+    @objc private func interfaceStyleDidChange() {
+        guard isViewLoaded else { return }
+
+        let theme = ThemeManager.shared.theme(for: .current)
+        let backgroundColor = theme.color(forKey: .background)
+        let secondaryTextColor = theme.color(forKey: .secondaryText)
+
+        view.backgroundColor = backgroundColor
+        collectionView.backgroundColor = backgroundColor
+    }
+
 }
 
 private class ControllerCell: UICollectionViewCell {
@@ -336,6 +347,7 @@ private class ControllerCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = .clear
     }
 
     required init?(coder aDecoder: NSCoder) {
