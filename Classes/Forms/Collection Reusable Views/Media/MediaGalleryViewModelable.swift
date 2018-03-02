@@ -58,31 +58,39 @@ extension MediaGalleryViewModelable {
     public func titleForState(_ state: MediaGalleryState) -> String? {
         switch state {
         case .unknown:
-            return "Download Images"
+            return NSLocalizedString("GalleryStateUnknownTitle", value: "Download Images", comment: "Initial state of gallery view model")
         case .loading:
-            return "Loading"
+            return NSLocalizedString("GalleryStateLoadingTitle", value: "Loading", comment: "Loading state of gallery view model")
         case .completed(let additionalItem):
-            return additionalItem ? "Load more" : "Completed"
+            if additionalItem {
+                return NSLocalizedString("GalleryStateCompletedWithMoreItemTitle", value: "Load more", comment: "Completed with more items state of gallery view model")
+            } else {
+                return NSLocalizedString("GalleryStateCompletedTitle", value: "Completed", comment: "Completed state of gallery view model")
+            }
         case .error:
-            return "Error"
+            return NSLocalizedString("GalleryStateErrorTitle", value: "Error", comment: "Error state of gallery view model")
         }
     }
 
     public func descriptionForState(_ state: MediaGalleryState) -> String? {
         switch state {
         case .unknown:
-            return "This may take a moment depending on your connection speed."
+            return NSLocalizedString("GalleryStateUnknownDescription", value: "This may take a moment depending on your connection speed.", comment: "Initial state of gallery view model")
         case .loading:
-            return "Please wait a moment."
+            return NSLocalizedString("GalleryStateLoadingDescription", value: "Please wait a moment.", comment: "Loading state of gallery view model")
         case .completed(let additionalItem):
-            return additionalItem ? "This may take a moment depending on your connection speed." : "Completed"
+            if additionalItem {
+                return NSLocalizedString("GalleryStateCompletedWithMoreItemDescription", value: "This may take a moment depending on your connection speed.", comment: "Completed with more items state of gallery view model")
+            } else {
+                return NSLocalizedString("GalleryStateCompletedDescription", value: "Completed", comment: "Completed state of gallery view model")
+            }
         case .error(let error):
-            return error.localizedDescription
+            return NSLocalizedString("GalleryStateErrorDescription", value: error.localizedDescription, comment: "Error state of gallery view model")
         }
     }
 
     public func imageForState(_ state: MediaGalleryState) -> UIImage? {
-        return AssetManager.shared.image(forKey: .sourceBarDownload)
+        return AssetManager.shared.image(forKey: .download)
     }
 
 }
@@ -90,7 +98,7 @@ extension MediaGalleryViewModelable {
 public let MediaGalleryDidChangeNotificationName = Notification.Name("MediaGalleryDidChangeNotificationName")
 
 
-public class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryViewModelable where T.Result: PaginatedDataStoreResult, T.Result.Item == Media {
+open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryViewModelable where T.Result: PaginatedDataStoreResult, T.Result.Item == Media {
 
     public private(set) var state: MediaGalleryState = .unknown
 
@@ -184,7 +192,7 @@ public class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGaller
 
     public func addMedia(_ media: [Media]) -> Promise<Bool> {
         return storeCoordinator.addItems(media).then { [weak self] _ -> Promise<[Media]> in
-            guard let `self` = self else { return Promise(error: NSError(domain: "abc", code: 101, userInfo: [:]))}
+            guard let `self` = self else { return Promise(error: NSError.cancelledError()) }
             return self.storeCoordinator.retrieveItems()
         }.then { _ -> Bool in
             return true
@@ -193,7 +201,7 @@ public class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGaller
 
     public func removeMedia(_ media: [Media]) -> Promise<Bool> {
         return storeCoordinator.removeItems(media).then { [weak self] _ -> Promise<[Media]> in
-            guard let `self` = self else { return Promise(error: NSError(domain: "abc", code: 101, userInfo: [:]))}
+            guard let `self` = self else { return Promise(error: NSError.cancelledError()) }
             return self.storeCoordinator.retrieveItems()
         }.then { _ -> Bool in
             return true
@@ -202,7 +210,7 @@ public class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGaller
 
     public func replaceMedia(_ media: Media, with otherMedia: Media) -> Promise<Bool> {
         return storeCoordinator.replaceItem(media, with: otherMedia).then { [weak self] _ -> Promise<[Media]> in
-            guard let `self` = self else { return Promise(error: NSError(domain: "abc", code: 101, userInfo: [:]))}
+            guard let `self` = self else { return Promise(error: NSError.cancelledError()) }
             return self.storeCoordinator.retrieveItems()
         }.then { _ -> Bool in
             return true

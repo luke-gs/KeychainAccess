@@ -76,9 +76,11 @@ class GalleryViewController: FormBuilderViewController {
         let meganStore = DataStoreCoordinator(dataStore: MeganMediaStore())
 
         let gallery = MediaGalleryCoordinatorViewModel(storeCoordinator: meganStore)
+        let handler = MediaPreviewHandler(allowEditing: false)
 
         let mediaItem = MediaFormItem()
             .dataSource(gallery)
+            .delegate(handler)
 
         if let viewController = UIApplication.shared.keyWindow?.rootViewController {
             mediaItem.previewingController(viewController)
