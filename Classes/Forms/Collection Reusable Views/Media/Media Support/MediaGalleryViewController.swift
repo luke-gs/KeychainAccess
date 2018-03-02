@@ -406,22 +406,22 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
         let noContentView = loadingManager.noContentView
 
         if allowEditing {
-            noContentView.titleLabel.text = NSLocalizedString("No Assets", comment: "")
-            noContentView.subtitleLabel.text = NSLocalizedString("Add an asset by tapping on 'Add' button.", comment: "")
+            noContentView.titleLabel.text = NSLocalizedString("GalleryAllowEditingNoAssetsTitle", value: "No Assets", comment: "")
+            noContentView.subtitleLabel.text = NSLocalizedString("GalleryAllowEditingNoAssetsSubtitle", value: "Add an asset by tapping on 'Add' button.", comment: "")
             noContentView.imageView.image = AssetManager.shared.image(forKey: .refresh)
 
             let button = noContentView.actionButton
-            button.setTitle(NSLocalizedString("Add", comment: "Action to add new asset"), for: .normal)
+            button.setTitle(NSLocalizedString("GalleryAllowEditingNoAssetsButton", value: "Add", comment: "Action to add new asset"), for: .normal)
             button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
 
 
         } else {
-            noContentView.titleLabel.text = NSLocalizedString("No Assets", comment: "")
-            noContentView.subtitleLabel.text = NSLocalizedString("No assets found. Refresh to try again.", comment: "")
+            noContentView.titleLabel.text = NSLocalizedString("GalleryNoEditingNoAssetsTitle", value: "No Assets", comment: "")
+            noContentView.subtitleLabel.text = NSLocalizedString("GalleryNoEditingNoAssetsSubtitle", value: "No assets found. Tap 'Refresh' to try again.", comment: "")
             noContentView.imageView.image = AssetManager.shared.image(forKey: .refresh)
 
             let button = noContentView.actionButton
-            button.setTitle(NSLocalizedString("Refresh", comment: "Action to refresh"), for: .normal)
+            button.setTitle(NSLocalizedString("GalleryNoEditingNoAssetsButton", value: "Refresh", comment: "Action to refresh"), for: .normal)
             button.addTarget(self, action: #selector(refreshButtonTapped), for: .touchUpInside)
         }
 
