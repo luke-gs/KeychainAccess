@@ -40,9 +40,25 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
         evaluator.registerKey(.eventReadyToSubmit) {
             return self.readyToSubmit
         }
+
+        setUpdateHeaderDelegate()
+    }
+
+    private func setUpdateHeaderDelegate() {
+        for case var report as EventHeaderUpdateable in event.reports {
+            report.delegate = self
+        }
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
         readyToSubmit = evaluationState
+    }
+}
+
+extension EventsDetailViewModel: EventHeaderUpdateDelegate {
+    public func updateHeader(with title: String?, subtitle: String?) {
+        guard let header = headerView as? SidebarHeaderView else { return }
+        header.titleLabel.text = title ?? "No incident selected"
+        header.captionLabel.text = subtitle ?? "IN PROGRESS"
     }
 }

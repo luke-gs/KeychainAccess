@@ -2,6 +2,42 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>%d Incidents</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@incidents@</string>
+		<key>incidents</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%1$d Incident</string>
+			<key>zero</key>
+			<string>No Incident</string>
+			<key>other</key>
+			<string>%1$d Incidents</string>
+		</dict>
+	</dict>
+	<key>%d incidents selected</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@incidents@ selected</string>
+		<key>incidents</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%1$d incident</string>
+			<key>zero</key>
+			<string>No incident</string>
+			<key>other</key>
+			<string>%1$d incidents</string>
+		</dict>
+	</dict>
 	<key>%d Alert(s)</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
