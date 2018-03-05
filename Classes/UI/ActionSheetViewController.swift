@@ -30,6 +30,7 @@ open class ActionSheetViewController: FormBuilderViewController {
     
     open var buttons: [ActionSheetButton]
     open var preferredContentWidth: CGFloat?
+    
     public init(buttons: [ActionSheetButton]) {
         self.buttons = buttons
         super.init()
