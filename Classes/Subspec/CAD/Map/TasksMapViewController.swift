@@ -176,10 +176,9 @@ open class TasksMapViewController: MapViewController {
                 zoomRect = MKMapRectUnion(zoomRect, pointRect)
             }
 
-            // Inset the map rect to make a buffer around the annotations
-            let inset = max(zoomRect.size.width, zoomRect.size.height) / 2
-            zoomRect = MKMapRectInset(zoomRect, -inset, -inset)
-            
+            // Inset the map rect to make a buffer around the annotations (more horizontal for labels on map items)
+            zoomRect = MKMapRectInset(zoomRect, -zoomRect.size.width * 0.2, -zoomRect.size.height * 0.1)
+
             mapView.setVisibleMapRect(zoomRect, animated: annotationsInitialLoadZoomStyle.animated)
             performedInitialLoadAction = true
         }
