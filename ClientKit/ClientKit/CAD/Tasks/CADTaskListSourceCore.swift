@@ -63,7 +63,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
     /// Return the source bar item of this type based on the current filter
     public func sourceItem(filterViewModel: TaskMapFilterViewModel) -> SourceItem {
         let count = modelItems.count
-        var color = UIColor.secondaryGray
+        var color: UIColor? = nil
 
         switch self {
         case .incident:
