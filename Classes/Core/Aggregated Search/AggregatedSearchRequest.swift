@@ -22,13 +22,13 @@ open class AggregatedSearchRequest<T: MPOLKitEntity> {
     public let sortHandler: ((T, T) -> Bool)?
     
     /// Indicates if the search should be generated automatically (false would require user to manually generate search).
-    public let automatic: Bool
+    public let isAutomatic: Bool
     
     public init(source: EntitySource, request: EntitySearchRequest<T>, sortHandler: ((T, T) -> Bool)? = nil, automatic: Bool = true) {
         self.source      = source
         self.request     = request
         self.sortHandler = sortHandler
-        self.automatic   = automatic
+        self.isAutomatic = automatic
     }
     
     public func search() -> Promise<[T]> {

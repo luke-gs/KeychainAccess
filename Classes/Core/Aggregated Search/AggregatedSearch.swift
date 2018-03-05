@@ -94,7 +94,7 @@ public class AggregatedSearch<T: MPOLKitEntity> {
         guard state != .searching else { return }
         
         for request in requests {
-            if request.automatic {
+            if request.isAutomatic {
                 retrySearch(request: request)
             } else {
                 // Create an idle section for user generated searches
