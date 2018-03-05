@@ -97,6 +97,7 @@ open class TasksListHeaderRegularViewController: UIViewController {
 extension TasksListHeaderRegularViewController: TasksListHeaderViewModelDelegate {
 
     public func sourceItemsChanged(_ sourceItems: [SourceItem]) {
+        titleLabel.text = viewModel.titleText()
     }
 
     public func selectedSourceItemChanged(_ selectedSourceIndex: Int) {
