@@ -10,14 +10,6 @@ import UIKit
 
 open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
     
-    open override func createViewController() -> TaskDetailsViewController {
-        return TaskDetailsOverviewFormViewController(viewModel: self)
-    }
-    
-    override open func createFormViewController() -> FormBuilderViewController {
-        return TaskDetailsOverviewFormViewController(viewModel: self)
-    }
-    
     override open func loadData() {
         guard let broadcast = CADStateManager.shared.broadcastsById[identifier] else { return }
         
