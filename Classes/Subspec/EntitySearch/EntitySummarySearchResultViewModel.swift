@@ -194,6 +194,22 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
                 }
                 .height(.fixed(SearchResultErrorCell.contentHeight))
                 .separatorStyle(.none)
+        case .idle:
+            return CustomFormItem(cellType: SearchResultErrorCell.self, reuseIdentifier: SearchResultErrorCell.defaultReuseIdentifier)
+                .onConfigured { (cell) in
+                    let cell = cell as! SearchResultErrorCell
+                    cell.titleLabel.text = "Automatic search disabled for \(section.title)"
+                    cell.actionButton.setTitle(NSLocalizedString("Search now", comment: "[Search result screen] - Search now button"), for: .normal)
+                    cell.actionButtonHandler = { [weak self] (cell) in
+                        guard let `self` = self, let index = self.results.index(where: { $0 == section }) else {  return }
+                        self.aggregatedSearch.retrySearchForResult(result: self.aggregatedSearch.results[index])
+                    }
+                }
+                .onThemeChanged { (cell, theme) in
+                    (cell as! SearchResultErrorCell).apply(theme: theme)
+                }
+                .height(.fixed(SearchResultErrorCell.contentHeight))
+                .separatorStyle(.none)
         case .finished where section.entities.count == 0:
             return CustomFormItem(cellType: SearchResultErrorCell.self, reuseIdentifier: SearchResultErrorCell.defaultReuseIdentifier)
                 .onConfigured { (cell) in
