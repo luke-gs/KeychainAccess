@@ -80,7 +80,7 @@ open class CADPatrolCore: Codable, CADPatrolType {
         lastUpdated = try values.decodeIfPresent(Date.self, forKey: .lastUpdated)
         location = try values.decodeIfPresent(CADLocationCore.self, forKey: .location)
         patrolGroup = try values.decodeIfPresent(String.self, forKey: .patrolGroup)
-        status = try values.decodeIfPresent(CADPatrolStatusCore.self, forKey: .status) ?? .unassigned
+        status = try values.decodeIfPresent(CADPatrolStatusCore.self, forKey: .status) ?? .assigned
         subtype = try values.decodeIfPresent(String.self, forKey: .subtype)
         type = try values.decodeIfPresent(String.self, forKey: .type)
     }
