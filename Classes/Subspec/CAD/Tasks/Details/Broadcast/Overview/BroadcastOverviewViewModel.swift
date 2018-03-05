@@ -27,11 +27,7 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Type",
                                                                               value: broadcast.type.title,
-                                                                              width: .column(3)),
-                                                
-                                                TaskDetailsOverviewItemViewModel(title: nil,
-                                                                              value: nil,
-                                                                              width: .column(3)),
+                                                                              width: .column(2)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Created",
                                                                               value: broadcast.createdAtString ?? "",
@@ -39,7 +35,7 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Last Updated",
                                                                               value: broadcast.lastUpdated?.elapsedTimeIntervalForHuman() ?? "",
-                                                                              width: .column(3)),
+                                                                              width: .column(2)),
                                                 ]),
             
             
