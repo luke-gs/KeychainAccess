@@ -1017,20 +1017,20 @@
     }, 
     {
       "createdAt": "2018-01-01T23:41:07Z", 
-      "details": "Toby D. Fuller\u2019s bail conditions requires as per order of Melbourne Magistrates Court is to be at 47 York Street, Fitzroy North VIC 3068 between 18:00 and 06:00. Patrol crews are to conduct random checks to confirm subject is complying with bail conditions.", 
+      "details": "Toby D. Fuller\u2019s bail conditions requires as per order of Melbourne Magistrates Court is to be at 183 Argyle St, Fitzroy VIC 3065 between 18:00 and 06:00. Patrol crews are to conduct random checks to confirm subject is complying with bail conditions.", 
       "identifier": "PS20180614991", 
       "lastUpdated": "2018-01-08T23:41:07Z", 
       "location": {
         "country": "Australia", 
-        "fullAddress": "47 York Street, Collingwood VIC 3066", 
-        "latitude": -37.7916009, 
-        "longitude": 144.9772421, 
+        "fullAddress": "183 Argyle St, Fitzroy VIC 3065", 
+        "latitude": -37.797634, 
+        "longitude": 144.982014, 
         "postalCode": "3066", 
         "state": "VIC", 
-        "streetName": "York", 
-        "streetNumberFirst": "47", 
+        "streetName": "Argyle", 
+        "streetNumberFirst": "183", 
         "streetType": "Street", 
-        "suburb": "Fitzroy North"
+        "suburb": "Fitzroy"
       }, 
       "patrolGroup": "Collingwood", 
       "type": "Bail"
