@@ -50,4 +50,5 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
         // TODO: Add method to CADStateManager to fetch individual patrol
         return Promise<Void>()
     }
+    
 }

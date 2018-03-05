@@ -23,6 +23,9 @@ open class PatrolOverviewViewModel: TaskDetailsOverviewViewModel {
                                                 TaskDetailsOverviewItemViewModel(title: "Patrol Location",
                                                                               value: patrol.location?.fullAddress,
                                                                               width: .column(1),
+                                                                              selectAction: { [unowned self] cell in
+                                                                                self.presentAddressPopover(from: cell, for: patrol)
+                                                                              },
                                                                               accessory: ItemAccessory(style: .overflow, tintColor: .secondaryGray)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Patrol number",
@@ -61,4 +64,10 @@ open class PatrolOverviewViewModel: TaskDetailsOverviewViewModel {
         return NSLocalizedString("Overview", comment: "Overview sidebar title")
     }
     
+    /// Present "Directions, Street View, Search" options on address
+    open func presentAddressPopover(from cell: CollectionViewFormCell, for patrol: CADPatrolType) {
+        if let coordinate = patrol.coordinate {
+            delegate?.present(TaskItemScreen.addressLookup(source: cell, coordinate: coordinate))
+        }
+    }
 }
