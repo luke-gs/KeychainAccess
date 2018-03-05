@@ -9,15 +9,26 @@
 import Foundation
 import PromiseKit
 
+/// Defines an entity search for a source.
 open class AggregatedSearchRequest<T: MPOLKitEntity> {
+    
+    /// The request paramters and result type.
     public let request:     EntitySearchRequest<T>
+    
+    /// The source.
     public let source:      EntitySource
+    
+    /// Closure to sort results from search.
     public let sortHandler: ((T, T) -> Bool)?
     
-    public init(source: EntitySource, request: EntitySearchRequest<T>, sortHandler: ((T, T) -> Bool)? = nil) {
+    /// Indicates if the search should be generated automatically (false would require user to manually generate search).
+    public let isAutomatic: Bool
+    
+    public init(source: EntitySource, request: EntitySearchRequest<T>, sortHandler: ((T, T) -> Bool)? = nil, automatic: Bool = true) {
         self.source      = source
         self.request     = request
-        self.sortHandler = nil
+        self.sortHandler = sortHandler
+        self.isAutomatic = automatic
     }
     
     public func search() -> Promise<[T]> {
