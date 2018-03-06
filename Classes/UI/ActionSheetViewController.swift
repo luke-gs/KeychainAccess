@@ -15,11 +15,13 @@ open class ActionSheetButton {
     open var subtitle: String?
     open var icon: UIImage?
     open var action: ActionSheetButtonAction?
+    open var tintColor: UIColor?
     
-    public init(title: String, subtitle: String? = nil, icon: UIImage?, action: ActionSheetButtonAction?) {
+    public init(title: String, subtitle: String? = nil, icon: UIImage?, tintColor: UIColor? = nil, action: ActionSheetButtonAction?) {
         self.title = title
         self.subtitle = subtitle
         self.icon = icon
+        self.tintColor = tintColor
         self.action = action
     }
 }
@@ -27,7 +29,8 @@ open class ActionSheetButton {
 open class ActionSheetViewController: FormBuilderViewController {
     
     open var buttons: [ActionSheetButton]
-
+    open var preferredContentWidth: CGFloat = 200
+    
     public init(buttons: [ActionSheetButton]) {
         self.buttons = buttons
         super.init()
@@ -42,6 +45,7 @@ open class ActionSheetViewController: FormBuilderViewController {
                 .title(button.title)
                 .subtitle(button.subtitle)
                 .image(button.icon)
+                .imageTintColor(button.tintColor)
                 .onSelection({ _ in
                     button.action?()
                 })
@@ -63,6 +67,6 @@ open class ActionSheetViewController: FormBuilderViewController {
         collectionView?.layoutIfNeeded()
         
         preferredContentSize = collectionView?.contentSize ?? .zero
-        preferredContentSize.width = 200
+        preferredContentSize.width = preferredContentWidth
     }
 }

@@ -13,6 +13,9 @@ open class UserCallsignStatusViewModel {
     
     open weak var delegate: UserCallsignStatusViewModelDelegate?
     
+    /// The view if it has been created
+    open weak var view: UIView?
+    
     // MARK: - State
     
     /// Enum to keep track of un/assigned callsign state
@@ -120,6 +123,7 @@ open class UserCallsignStatusViewModel {
     open func createView() -> UserCallsignStatusView {
         let view = UserCallsignStatusView(viewModel: self)
         delegate = view
+        self.view = view
         return view
     }
     

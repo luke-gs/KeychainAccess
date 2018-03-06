@@ -137,6 +137,7 @@ extension AssetManager {
         public static let disclosure     = ImageKey("iconSystemDisclosure")
         public static let overflow       = ImageKey("iconSystemOverflow")
         public static let advancedSearch = ImageKey("iconSystemAdvancedSearch")
+        public static let login          = ImageKey("iconSystemLogin")
 
         public static let faceId         = ImageKey("iconBiometricFaceId")
         public static let touchId        = ImageKey("iconBiometricTouchId")
@@ -256,13 +257,12 @@ extension AssetManager {
         public static let iconStatusUnavailable  = ImageKey("iconStatusUnavailable")
 
         // Events
-        public static let iconFolder  = ImageKey("iconFolder")
-        public static let iconPencil  = ImageKey("iconPencil")
-        public static let iconDocument  = ImageKey("iconDocument")
+        public static let iconFolder   = ImageKey("iconFolder")
+        public static let iconPencil   = ImageKey("iconPencil")
+        public static let iconDocument = ImageKey("iconDocument")
 
         // Dialog images
         public static let dialogAlert = ImageKey("dialogAlert")
-
     }
 }
 
