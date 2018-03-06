@@ -33,12 +33,16 @@ public class SearchResultSection {
     /// Search Error
     public var error:      Error?
     
-    public init(title: String, entities: [MPOLKitEntity], isExpanded: Bool, state: SearchState, error: Error?) {
+    /// Source of the section, if applicable
+    public var source:     EntitySource?
+    
+    public init(title: String, entities: [MPOLKitEntity], isExpanded: Bool, state: SearchState, error: Error?, source: EntitySource? = nil) {
         self.title = title
         self.entities = entities
         self.isExpanded = isExpanded
         self.state = state
         self.error = error
+        self.source = source
     }
 }
 
