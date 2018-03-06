@@ -250,7 +250,8 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
                                        entities: entities,
                                        isExpanded: true,
                                        state: rawResult.state,
-                                       error: rawResult.error)
+                                       error: rawResult.error,
+                                       source: rawResult.request.source)
         }
         
         return processedResults

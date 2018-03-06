@@ -187,7 +187,8 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
                                        entities: result.entities,
                                        isExpanded: true,
                                        state: result.state,
-                                       error: result.error)
+                                       error: result.error,
+                                       source: result.request.source)
         }
         
         return processedResults
