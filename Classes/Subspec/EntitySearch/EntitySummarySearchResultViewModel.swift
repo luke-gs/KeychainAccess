@@ -157,6 +157,7 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
 
             let isCompact = style == .list || delegate?.traitCollection.horizontalSizeClass == .compact
             return summary.summaryFormItem(isCompact: isCompact)
+                .selectionStyle(.none)
                 .onSelection { [weak self] _ in
                     guard let `self` = self, let presentable = self.summaryDisplayFormatter.presentableForEntity(entity) else { return }
                     self.delegate?.requestToPresent(presentable)
