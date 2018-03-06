@@ -57,18 +57,18 @@ open class TasksListBasicSummaryView: UIView {
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: LayoutConstants.margin),
-            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: LayoutConstants.margin),
-            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -LayoutConstants.margin),
+            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
             subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            subtitleLabel.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor, constant: -LayoutConstants.margin),
+            subtitleLabel.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor),
             
             captionLabel.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: 6),
             captionLabel.leadingAnchor.constraint(equalTo: subtitleLabel.leadingAnchor),
             captionLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor,
                                                         constant: -LayoutConstants.margin),
-            captionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -LayoutConstants.margin),
+            captionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
         ])
     }
 }

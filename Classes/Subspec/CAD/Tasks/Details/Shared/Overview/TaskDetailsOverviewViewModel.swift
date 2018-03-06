@@ -58,10 +58,4 @@ open class TaskDetailsOverviewViewModel: TaskDetailsViewModel {
         return AssetManager.shared.image(forKey: .info)
     }
     
-    /// Present "Directions, Street View, Search" options on address
-    open func presentAddressPopover(from cell: CollectionViewFormCell, for incident: CADIncidentType) {
-        if let coordinate = incident.coordinate {
-            delegate?.present(TaskItemScreen.addressLookup(source: cell, coordinate: coordinate))
-        }
-    }
 }
