@@ -263,8 +263,6 @@ extension AssetManager {
 
         // Dialog images
         public static let dialogAlert = ImageKey("dialogAlert")
-        public static let dialogNext  = ImageKey("next")
-
     }
 }
 

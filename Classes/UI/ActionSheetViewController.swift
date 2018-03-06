@@ -29,7 +29,7 @@ open class ActionSheetButton {
 open class ActionSheetViewController: FormBuilderViewController {
     
     open var buttons: [ActionSheetButton]
-    open var preferredContentWidth: CGFloat?
+    open var preferredContentWidth: CGFloat = 200
     
     public init(buttons: [ActionSheetButton]) {
         self.buttons = buttons
@@ -67,7 +67,7 @@ open class ActionSheetViewController: FormBuilderViewController {
         collectionView?.layoutIfNeeded()
         
         preferredContentSize = collectionView?.contentSize ?? .zero
-        preferredContentSize.width = preferredContentWidth ?? 200
+        preferredContentSize.width = preferredContentWidth
         popoverPresentationController?.permittedArrowDirections = []
         
     }
