@@ -198,7 +198,7 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
             return CustomFormItem(cellType: SearchResultErrorCell.self, reuseIdentifier: SearchResultErrorCell.defaultReuseIdentifier)
                 .onConfigured { (cell) in
                     let cell = cell as! SearchResultErrorCell
-                    cell.titleLabel.text = "Automatic search disabled for \(section.title)"
+                    cell.titleLabel.text = "Automatic search disabled for this database"
                     cell.actionButton.setTitle(NSLocalizedString("Search now", comment: "[Search result screen] - Search now button"), for: .normal)
                     cell.actionButtonHandler = { [weak self] (cell) in
                         guard let `self` = self, let index = self.results.index(where: { $0 == section }) else {  return }
