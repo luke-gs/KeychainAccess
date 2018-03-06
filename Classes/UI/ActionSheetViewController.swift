@@ -68,7 +68,5 @@ open class ActionSheetViewController: FormBuilderViewController {
         
         preferredContentSize = collectionView?.contentSize ?? .zero
         preferredContentSize.width = preferredContentWidth
-        popoverPresentationController?.permittedArrowDirections = []
-        
     }
 }
