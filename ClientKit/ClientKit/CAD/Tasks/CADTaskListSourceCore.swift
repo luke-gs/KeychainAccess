@@ -63,7 +63,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
     /// Return the source bar item of this type based on the current filter
     public func sourceItem(filterViewModel: TaskMapFilterViewModel) -> SourceItem {
         let count = modelItems.count
-        var color = UIColor.secondaryGray
+        var color: UIColor? = nil
 
         switch self {
         case .incident:
@@ -324,15 +324,17 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
             }
         }
 
-        return sectionedPatrols.map { (arg) -> CADFormCollectionSectionViewModel<TasksListItemViewModel> in
+        let orderedSections = CADPatrolStatusCore.allCases
+        return orderedSections.flatMap { category -> CADFormCollectionSectionViewModel<TasksListItemViewModel>? in
 
-            let (key, value) = arg
-
-            let taskViewModels: [TasksListBasicViewModel] = value.map { patrol in
-                return TasksListBasicViewModel(patrol: patrol, source: CADTaskListSourceCore.patrol)
+            let key = category.title
+            if let value = sectionedPatrols[key] {
+                let taskViewModels: [TasksListBasicViewModel] = value.map { patrol in
+                    return TasksListBasicViewModel(patrol: patrol, source: CADTaskListSourceCore.patrol)
+                }
+                return CADFormCollectionSectionViewModel(title: "\(value.count) \(key)", items: taskViewModels)
             }
-
-            return CADFormCollectionSectionViewModel(title: "\(value.count) \(key)", items: taskViewModels)
+            return nil
         }
     }
 
@@ -365,15 +367,17 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
             }
         }
 
-        return sectionedBroadcasts.map { (arg) -> CADFormCollectionSectionViewModel<TasksListItemViewModel> in
+        let orderedSections = CADBroadcastCategoryCore.allCases
+        return orderedSections.flatMap { category -> CADFormCollectionSectionViewModel<TasksListItemViewModel>? in
 
-            let (key, value) = arg
-
-            let taskViewModels: [TasksListBasicViewModel] = value.map { broadcast in
-                return TasksListBasicViewModel(broadcast: broadcast, source: CADTaskListSourceCore.broadcast)
+            let key = category.title
+            if let value = sectionedBroadcasts[key] {
+                let taskViewModels: [TasksListBasicViewModel] = value.map { broadcast in
+                    return TasksListBasicViewModel(broadcast: broadcast, source: CADTaskListSourceCore.broadcast)
+                }
+                return CADFormCollectionSectionViewModel(title: "\(value.count) \(key)", items: taskViewModels)
             }
-
-            return CADFormCollectionSectionViewModel(title: "\(value.count) \(key)", items: taskViewModels)
+            return nil
         }
     }
 
