@@ -15,7 +15,7 @@
 		{
 			"title": "General conditions",
 			"type": "text",
-			"detail": "Search is NOT case sensetive\nLast name is required\nYou can use partial names or initials for given and middle names\nNames can contain apostrophes or hyphens"
+			"detail": "Search is NOT case sensitive\nLast name is required\nYou can use partial names or initials for given and middle names\nNames can contain apostrophes or hyphens"
 		},
 		{
 			"title": "Optional",
