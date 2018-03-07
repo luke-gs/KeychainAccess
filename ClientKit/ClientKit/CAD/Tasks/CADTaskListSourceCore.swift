@@ -311,9 +311,9 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
                 sectionedPatrols[status] = []
             }
 
-            // Apply search text filter to type, identifier, subtype, or suburb
+            // Apply search text filter to type, identifier, or suburb
             if let searchText = searchText?.lowercased(), !searchText.isEmpty {
-                let matchedValues = [patrol.type, patrol.identifier, patrol.subtype, patrol.location?.suburb].removeNils().filter {
+                let matchedValues = [patrol.type, patrol.identifier, patrol.location?.suburb].removeNils().filter {
                     return $0.lowercased().hasPrefix(searchText)
                 }
                 if !matchedValues.isEmpty {
