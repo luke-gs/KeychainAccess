@@ -22,15 +22,17 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
         guard let broadcast = CADStateManager.shared.broadcastsById[identifier] else { return }
 
         let locationItem = broadcast.location?.coordinate != nil ?
+            // Show location and accessory for address popover
             TaskDetailsOverviewItemViewModel(title: "Broadcast location",
-                                             value: broadcast.location?.fullAddress ?? broadcast.location?.suburb,
+                                             value: broadcast.location?.displayText,
                                              width: .column(1),
                                              selectAction: { [unowned self] cell in
                                                 self.presentAddressPopover(from: cell, for: broadcast)
                                              },
                                              accessory: ItemAccessory(style: .overflow, tintColor: .secondaryGray)) :
+            // Just show location
             TaskDetailsOverviewItemViewModel(title: "Broadcast location",
-                                             value: broadcast.location?.suburb,
+                                             value: broadcast.location?.displayText,
                                              width: .column(1))
 
         sections = [
