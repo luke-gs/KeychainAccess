@@ -12,11 +12,13 @@ import KeychainSwift
 public class UserSession: UserSessionable {
 
     public static let latestSessionKey = "LatestSessionKey"
+    public static let recentIdsKey     = "RecentIdsKey"
 
     public static let current = UserSession()
     open private(set) var token: OAuthAccessToken?
     private(set) public var user: User?
-
+    fileprivate var userStorage: UserStorage?
+    
     // Use the app group base path for sharing between apps by default
     public static var basePath: URL = AppGroup.appBaseFilePath()
 
@@ -30,8 +32,18 @@ public class UserSession: UserSessionable {
             directoryManager.write(recentlySearched as NSArray, to: paths.recentlySearched)
         }
     }
-
+    
     public let recentlyActioned: EntityBucket = EntityBucket(limit: 20)
+    
+    // Generic recent IDs for types (keyed), for current user
+    public var recentIds: [String: [String]] = [:] {
+        didSet {
+            guard let userStorage = userStorage else { return }
+            do {
+            try userStorage.add(object: recentIds, key: UserSession.recentIdsKey, flag: .retain)
+            } catch { }
+        }
+    }
 
     public var isActive: Bool {
         return UserSession.userDefaults.string(forKey: UserSession.latestSessionKey) != nil
@@ -57,6 +69,7 @@ public class UserSession: UserSessionable {
         UserSession.current.token = token
         UserSession.current.user = user
         UserSession.current.recentlySearched = []
+        UserSession.current.userStorage = UserStorage(userID: user.username)
 
         UserSession.current.saveTokenToKeychain()
         UserSession.current.loadUserFromCache()
