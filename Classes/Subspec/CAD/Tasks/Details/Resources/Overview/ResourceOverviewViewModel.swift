@@ -14,7 +14,7 @@ open class ResourceOverviewViewModel: TaskDetailsOverviewViewModel {
         return ResourceOverviewFormViewController(viewModel: self)
     }
     
-    override open func mapViewModel() -> TasksMapViewModel {
+    override open func mapViewModel() -> TasksMapViewModel? {
         return ResourceOverviewMapViewModel(callsign: identifier)
     }
     

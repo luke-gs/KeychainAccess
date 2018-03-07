@@ -11,7 +11,7 @@ import MapKit
 
 open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
     
-    override open func mapViewModel() -> TasksMapViewModel {
+    override open func mapViewModel() -> TasksMapViewModel? {
         return IncidentOverviewMapViewModel(incidentNumber: identifier)
     }
     
