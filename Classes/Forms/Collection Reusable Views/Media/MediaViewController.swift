@@ -8,19 +8,25 @@
 
 import Foundation
 
-protocol MediaViewPresentable {
-    var mediaAsset: MediaAsset { get }
+public protocol MediaViewPresentable {
+    var preview: MediaPreviewable { get }
+    static func controller(forPreview preview: MediaPreviewable) -> (UIViewController & MediaViewPresentable)?
 }
 
 public class MediaViewController: UIViewController, UIScrollViewDelegate, MediaViewPresentable {
-    public private(set) var mediaAsset: MediaAsset
-
-    public var photoMedia: PhotoMedia?  {
-        return mediaAsset as? PhotoMedia
+    
+    public class func controller(forPreview preview: MediaPreviewable) -> (UIViewController & MediaViewPresentable)? {
+        return MediaViewController(preview: preview)
     }
 
-    public init(mediaAsset: MediaAsset) {
-        self.mediaAsset = mediaAsset
+    public private(set) var preview: MediaPreviewable
+
+    public var photoMedia: PhotoPreview?  {
+        return preview as? PhotoPreview
+    }
+
+    public init(preview: MediaPreviewable) {
+        self.preview = preview
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -45,11 +51,9 @@ public class MediaViewController: UIViewController, UIScrollViewDelegate, MediaV
         }
         scalingImageView.frame = view.bounds
         scalingImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        // James' magic formula.
-        scalingImageView.maximumZoomScale = scalingImageView.maximumZoomScale + 3.0
         view.addSubview(scalingImageView)
 
-        let image = photoMedia?.image ?? mediaAsset.thumbnailImage
+        let image = photoMedia?.image ?? preview.thumbnailImage
         image?.loadImage(completion: { [weak self] (image) in
             self?.scalingImageView.image = image.sizing().image
         })
@@ -187,7 +191,7 @@ class ScalingImageView: UIScrollView {
             let minimumScale = min(scaleWidth, scaleHeight)
 
             self.minimumZoomScale = minimumScale
-            self.maximumZoomScale = max(minimumScale, self.maximumZoomScale)
+            self.maximumZoomScale = minimumScale * 3.0
 
             self.zoomScale = minimumZoomScale
 

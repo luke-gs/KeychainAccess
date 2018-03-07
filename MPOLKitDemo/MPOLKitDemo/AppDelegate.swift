@@ -71,7 +71,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SearchDisplayableDelegate
 
         let formSplitViewController = SidebarSplitViewController(detailViewControllers: examples)
         formSplitViewController.title = "Form Examples"
-        formSplitViewController.selectedViewController = examples[8]
+        formSplitViewController.selectedViewController = examples[13]
 
         let tabBarController = UITabBarController()
 
@@ -111,7 +111,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SearchDisplayableDelegate
             UINavigationController(rootViewController: TemplateManagerViewController())
         ]
 
-        tabBarController.selectedIndex = 5
+        tabBarController.selectedIndex = 6
 
         self.window?.rootViewController = tabBarController
 
@@ -211,7 +211,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SearchDisplayableDelegate
         let subscription = SubscriptionViewController()
         subscription.sidebarItem.regularTitle = "Subscription"
 
-        return [basic, list, custom, accessory, header, picker, stepper, progress, date, personDetail, results, signup, subscription]
+        let gallery = GalleryViewController()
+        gallery.sidebarItem.regularTitle = "Gallery"
+
+        return [basic, list, custom, accessory, header, picker, stepper, progress, date, personDetail, results, signup, subscription, gallery]
     }()
 }
 

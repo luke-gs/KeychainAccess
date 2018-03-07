@@ -8,13 +8,17 @@
 
 import Foundation
 
-public class MediaSlideShowViewController: UIViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
+public protocol MediaSlideShowable: class {
 
-    private lazy var pageViewController: UIPageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: [UIPageViewControllerOptionInterPageSpacingKey: 16.0])
+    var viewModel: MediaGalleryViewModelable { get }
 
-    public let dataSource: MediaDataSource<MediaAsset>
+    var currentPreview: MediaPreviewable? { get }
 
-    public var allowEditing: Bool = true
+    func setupWithInitialPreview(_ preview: MediaPreviewable?)
+
+}
+
+public class MediaSlideShowViewController: UIViewController, MediaSlideShowable, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UIGestureRecognizerDelegate {
 
     private var isFullScreen: Bool = false
 
@@ -28,12 +32,14 @@ public class MediaSlideShowViewController: UIViewController, UIPageViewControlle
         return true
     }()
 
+    public var allowEditing: Bool = true
+
     public var overlayView: MediaOverlayViewable = MediaSlideShowOverlayView(frame: UIScreen.main.bounds) {
         willSet {
             overlayView.view().removeFromSuperview()
         }
         didSet {
-            self.overlayView.galleryViewController = self
+            self.overlayView.slideShowViewController = self
 
             guard isViewLoaded else { return }
             let overlayView = self.overlayView.view()
@@ -46,50 +52,69 @@ public class MediaSlideShowViewController: UIViewController, UIPageViewControlle
         return UITapGestureRecognizer(target: self, action: #selector(MediaSlideShowViewController.handleTapGestureRecognizer(_:)))
     }()
 
-    public var currentMediaViewController: MediaViewController? {
-        return pageViewController.viewControllers?.first as? MediaViewController
-    }
+    public var currentPreviewViewController: MediaViewController?
 
-    public var currentMedia: MediaAsset? {
-        return currentMediaViewController?.mediaAsset
-    }
+    public var currentPreview: MediaPreviewable? { return currentPreviewViewController?.preview }
 
-    public init(dataSource: MediaDataSource<MediaAsset>, initialMedia: MediaAsset? = nil, referenceView: UIView? = nil) {
-        self.dataSource = dataSource
+    public let viewModel: MediaGalleryViewModelable
+
+    public let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+
+    private var initialPreview: MediaPreviewable?
+
+    public init(viewModel: MediaGalleryViewModelable, initialPreview: MediaPreviewable? = nil, referenceView: UIView? = nil) {
+        self.viewModel = viewModel
+        self.initialPreview = initialPreview
 
         super.init(nibName: nil, bundle: nil)
 
-        setupWithInitialMedia(initialMedia)
+        NotificationCenter.default.addObserver(self, selector: #selector(galleryDidChange), name: MediaGalleryDidChangeNotificationName, object: viewModel)
+        NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
+
+        if let preview = initialPreview {
+            currentPreviewViewController = previewViewControllerForPreview(preview)
+            currentPreviewViewController?.loadViewIfNeeded()
+        }
     }
 
     required public init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     // MARK: - Setup
 
-    public func setupWithInitialMedia(_ media: MediaAsset?, animated: Bool = false) {
-        // Page controller
-        if let media = media ?? dataSource.mediaItemAtIndex(0) {
-            var direction = UIPageViewControllerNavigationDirection.forward
-            if let currentMedia = self.currentMedia,
-                let currentIndex = dataSource.indexOfMediaItem(currentMedia),
-                let nextIndex = dataSource.indexOfMediaItem(media), nextIndex < currentIndex {
-                direction = .reverse
-            }
+    public func setupWithInitialPreview(_ preview: MediaPreviewable?) {
+        setupWithInitialPreview(preview, animated: false)
+    }
 
-            let mediaViewController = mediaViewControllerForPhoto(media)
-            pageViewController.setViewControllers([mediaViewController], direction: direction, animated: animated, completion: nil)
-            overlayView.populateWithMedia(media)
+    public func setupWithInitialPreview(_ preview: MediaPreviewable?, animated: Bool) {
+        // Page controller
+
+        var initialPreview = preview
+        if let preview = viewModel.previews.first, initialPreview == nil {
+            initialPreview = preview
+        }
+
+        if let preview = initialPreview {
+            if let index = indexOfPreview(preview) {
+                let indexPath = IndexPath(item: index, section: 0)
+                collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
+            }
+            overlayView.populateWithPreview(preview)
         }
     }
 
-    public func showMedia(_ media: MediaAsset, animated: Bool, direction: UIPageViewControllerNavigationDirection = .forward) {
-        guard dataSource.indexOfMediaItem(media) != nil else { return }
+    public func showPreview(_ preview: MediaPreviewable, animated: Bool) {
+        guard let index = indexOfPreview(preview), isViewLoaded else { return }
 
-        let mediaViewController = mediaViewControllerForPhoto(media)
-        pageViewController.setViewControllers([mediaViewController], direction: direction, animated: animated, completion: nil)
-        overlayView.populateWithMedia(media)
+        let indexPath = IndexPath(item: index, section: 0)
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
+
+        overlayView.populateWithPreview(preview)
     }
 
     public override func viewDidLoad() {
@@ -97,21 +122,32 @@ public class MediaSlideShowViewController: UIViewController, UIPageViewControlle
 
         automaticallyAdjustsScrollViewInsets = false
 
-        view.backgroundColor = .white
+        let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
 
-        // Add page controller
-        addChildViewController(pageViewController)
-        pageViewController.view.backgroundColor = .clear
-        pageViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(pageViewController.view)
-        pageViewController.didMove(toParentViewController: self)
+        collectionView.frame = view.bounds
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.alwaysBounceHorizontal = true
+        collectionView.isPagingEnabled = true
 
-        pageViewController.view.addGestureRecognizer(tapGestureRecognizer)
+        collectionView.backgroundColor = .white
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(ControllerCell.self, forCellWithReuseIdentifier: "cell")
+        view.addSubview(collectionView)
 
-        self.overlayView.galleryViewController = self
+        collectionView.addGestureRecognizer(tapGestureRecognizer)
+        self.overlayView.slideShowViewController = self
 
-        pageViewController.delegate = self
-        pageViewController.dataSource = self
+        if let initialPreview = initialPreview {
+            setupWithInitialPreview(initialPreview, animated: false)
+            self.initialPreview = nil
+        }
+
+        interfaceStyleDidChange()
     }
 
     public override func viewDidAppear(_ animated: Bool) {
@@ -126,31 +162,72 @@ public class MediaSlideShowViewController: UIViewController, UIPageViewControlle
             overlayView.layoutMargins = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
         }
         self.view.addSubview(overlayView)
+
+        updateCurrentPreviewViewController()
     }
 
-    // MARK: - PageViewControllerDelegate / PageViewControllerDataSource
+    // MARK: - UICollectionViewDelegate / DataSource
 
-    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let mediaViewController = viewController as? MediaViewController else { return nil }
-        guard let mediaIndex = dataSource.indexOfMediaItem(mediaViewController.mediaAsset) else { return nil }
-        guard let newMedia = dataSource[mediaIndex - 1] else { return nil }
-        return mediaViewControllerForPhoto(newMedia)
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
     }
 
-    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let mediaViewController = viewController as? MediaViewController else { return nil }
-        guard let mediaIndex = dataSource.indexOfMediaItem(mediaViewController.mediaAsset) else { return nil }
-        guard let newMedia = dataSource[mediaIndex + 1] else { return nil }
-        return mediaViewControllerForPhoto(newMedia)
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.previews.count
     }
 
-    public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        if completed {
-            if let currentMedia = currentMedia {
-                overlayView.populateWithMedia(currentMedia)
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ControllerCell
+
+        return cell
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? ControllerCell else { return }
+
+        let preview = viewModel.previews[indexPath.item]
+
+        if let previewController = previewViewControllerForPreview(preview) {
+            let contentView = cell.contentView
+
+            if let previewView = previewController.view {
+                addChildViewController(previewController)
+                previewView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+                previewView.frame = contentView.bounds
+                contentView.addSubview(previewView)
+                previewController.didMove(toParentViewController: self)
+                cell.viewController = previewController
             }
         }
     }
+
+    public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? ControllerCell else { return }
+
+        if let previewController = cell.viewController {
+            previewController.willMove(toParentViewController: nil)
+            previewController.view.removeFromSuperview()
+            previewController.removeFromParentViewController()
+
+            controllerPool[previewController.preview.media] = nil
+        }
+
+        cell.viewController = nil
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return collectionView.bounds.size
+    }
+
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        updateCurrentPreviewViewController()
+
+        if let currentPreview = currentPreview {
+            overlayView.populateWithPreview(currentPreview)
+        }
+    }
+
+    // MARK: - Status bar
 
     public override var prefersStatusBarHidden: Bool {
         return isFullScreen
@@ -162,10 +239,10 @@ public class MediaSlideShowViewController: UIViewController, UIPageViewControlle
 
     // MARK: - Photo management
 
-    public func handleDeleteMediaButtonTapped(_ item: UIBarButtonItem) {
+    public func handleDeletePreviewButtonTapped(_ item: UIBarButtonItem) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("Delete Media", comment: ""), style: .destructive, handler: { (action) in
-            self.deleteCurrentMedia()
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("Delete Asset", comment: ""), style: .destructive, handler: { (action) in
+            self.deleteCurrentPreview()
         }))
         alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
         alertController.popoverPresentationController?.barButtonItem = item
@@ -174,29 +251,59 @@ public class MediaSlideShowViewController: UIViewController, UIPageViewControlle
 
     // MARK: - Private
 
-    private func mediaViewControllerForPhoto(_ media: MediaAsset) -> UIViewController {
-        return dataSource.viewController(for: media)
+    private var controllerPool =  [Media: MediaViewController]()
+
+    private func updateCurrentPreviewViewController() {
+        let width = collectionView.bounds.width
+        if width > 0.0, collectionView.contentOffset.x >= 0.0 {
+            let index: Int = Int(floor(collectionView.contentOffset.x / width))
+
+            let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0))
+            currentPreviewViewController = (cell as? ControllerCell)?.viewController as? MediaViewController
+        }
     }
 
-    private func mediaAfterDeletion(currentMediaIndex index: Int) -> MediaAsset? {
-        if let photo = dataSource.mediaItemAtIndex(index) {
-            return photo
+    private func previewViewControllerForPreview(_ preview: MediaPreviewable) -> MediaViewController? {
+        var controller: MediaViewController?
+
+        controller = controllerPool[preview.media]
+
+        if controller == nil {
+            controller = viewModel.controllerForPreview(preview) as? MediaViewController
+            controllerPool[preview.media] = controller
         }
 
-        return dataSource.mediaItemAtIndex(index - 1)
+        return controller
     }
 
-    private func deleteCurrentMedia() {
-        guard let currentMedia = currentMedia else { return }
+    private func previewAfterDeletion(currentPreviewIndex index: Int) -> MediaPreviewable? {
+        let numberOfPreviews = viewModel.previews.count
+        guard numberOfPreviews >= 0 else { return nil }
 
-        if let index = dataSource.indexOfMediaItem(currentMedia) {
-            dataSource.removeMediaItem(currentMedia)
-            if let media = mediaAfterDeletion(currentMediaIndex: index) {
-                showMedia(media, animated: true, direction: index == dataSource.numberOfMediaItems() ? .reverse : .forward)
-            } else {
-                navigationController?.popViewController(animated: true)
+        if index < numberOfPreviews {
+            return viewModel.previews[index]
+        }
+
+        return viewModel.previews[index - 1]
+    }
+
+    private func deleteCurrentPreview() {
+        guard let currentPreview = currentPreview else { return }
+
+        if let index = indexOfPreview(currentPreview) {
+            viewModel.removeMedia([currentPreview.media]).then { [weak self] _ -> () in
+                guard let `self` = self else { return }
+                if let preview = self.previewAfterDeletion(currentPreviewIndex: index) {
+                    self.showPreview(preview, animated: true)
+                } else {
+                    self.navigationController?.popViewController(animated: true)
+                }
             }
         }
+    }
+
+    private func indexOfPreview(_ preview: MediaPreviewable) -> Int? {
+        return viewModel.previews.index(where: { $0 === preview })
     }
 
     private func setFullScreen(_ isFullScreen: Bool, animated: Bool = true) {
@@ -210,12 +317,41 @@ public class MediaSlideShowViewController: UIViewController, UIPageViewControlle
         }
     }
 
-    // MARK: - Gesture Recognizers
+    @objc private func galleryDidChange(_ notification: Notification) {
+        guard isViewLoaded else { return }
+        collectionView.reloadData()
+    }
 
-    public weak var mediaOverviewViewController: MediaGalleryViewController?
+    // MARK: - Gesture Recognizers
 
     @objc private func handleTapGestureRecognizer(_ gestureRecognizer: UITapGestureRecognizer) {
         setFullScreen(!isFullScreen, animated: true)
+    }
+
+    @objc private func interfaceStyleDidChange() {
+        guard isViewLoaded else { return }
+
+        let theme = ThemeManager.shared.theme(for: .current)
+        let backgroundColor = theme.color(forKey: .background)
+        let secondaryTextColor = theme.color(forKey: .secondaryText)
+
+        view.backgroundColor = backgroundColor
+        collectionView.backgroundColor = backgroundColor
+    }
+
+}
+
+private class ControllerCell: UICollectionViewCell {
+
+    weak var viewController: MediaViewController?
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = .clear
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
     }
 
 }
