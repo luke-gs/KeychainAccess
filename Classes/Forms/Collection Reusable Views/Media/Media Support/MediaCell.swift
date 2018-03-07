@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class MediaCell<T: MediaAsset>: MediaPreviewableCell, MediaPreviewRenderer {
+public class MediaCell<T: MediaPreviewable>: MediaPreviewableCell, MediaPreviewRenderer {
 
     public typealias Media = T
 

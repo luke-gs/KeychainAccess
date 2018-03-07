@@ -147,6 +147,7 @@ extension AssetManager {
         public static let audioWave      = ImageKey("audioWave")
         public static let iconPlay       = ImageKey("iconPlay")
         public static let iconPause      = ImageKey("iconPause")
+        public static let download       = ImageKey("download")
 
         // General
         public static let alert          = ImageKey("iconGeneralAlert")
