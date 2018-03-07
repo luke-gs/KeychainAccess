@@ -356,9 +356,9 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
                 sectionedBroadcasts[type] = []
             }
 
-            // Apply search text filter to title, identifier, type, or suburb
+            // Apply search text filter to title, identifier or suburb
             if let searchText = searchText?.lowercased(), !searchText.isEmpty {
-                let matchedValues = [broadcast.title, broadcast.identifier, broadcast.type.rawValue, broadcast.location?.suburb].removeNils().filter {
+                let matchedValues = [broadcast.title, broadcast.identifier, broadcast.location?.suburb].removeNils().filter {
                     return $0.lowercased().hasPrefix(searchText)
                 }
                 if !matchedValues.isEmpty {
