@@ -181,7 +181,37 @@ open class CADStateManagerCore: CADStateManagerType {
                 }
             }
         }
-        return Promise<Void>()
+        
+        return Promise<Void>().then {
+            // Store recent ID
+            self.addRecentCallsign(request.callsign)
+            self.addRecentOfficers(request.officers.map { $0.payrollId })
+            
+            return Promise<Void>()
+        }
+    }
+    
+    open func addRecentCallsign(_ callsign: String) {
+        var recentCallsignIds = UserSession.current.recentIds[CADRecentlyUsedKey.callsigns.rawValue] ?? [String]()
+        
+        if !recentCallsignIds.contains(callsign) {
+            recentCallsignIds.append(callsign)
+            
+            // TODO: Remove string, use static
+            UserSession.current.recentIds[CADRecentlyUsedKey.callsigns.rawValue] = recentCallsignIds
+        }
+    }
+    
+    open func addRecentOfficers(_ officerIds: [String]) {
+        var recentOfficerIds = UserSession.current.recentIds[CADRecentlyUsedKey.officers.rawValue] ?? [String]()
+        
+        for officerId in officerIds {
+            if !recentOfficerIds.contains(officerId) {
+                recentOfficerIds.append(officerId)
+                
+                UserSession.current.recentIds[CADRecentlyUsedKey.officers.rawValue] = recentOfficerIds
+            }
+        }
     }
 
     /// Terminate shift
