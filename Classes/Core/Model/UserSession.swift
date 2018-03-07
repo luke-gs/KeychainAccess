@@ -15,9 +15,9 @@ public class UserSession: UserSessionable {
     public static let recentIdsKey     = "RecentIdsKey"
 
     public static let current = UserSession()
-    open private(set) var token: OAuthAccessToken?
+    private(set) public var token: OAuthAccessToken?
     private(set) public var user: User?
-    fileprivate var userStorage: UserStorage?
+    private(set) public var userStorage: UserStorage?
     
     // Use the app group base path for sharing between apps by default
     public static var basePath: URL = AppGroup.appBaseFilePath()
@@ -93,6 +93,7 @@ public class UserSession: UserSessionable {
         recentlySearched = []
         recentlyViewed.removeAll()
         recentlyActioned.removeAll()
+        userStorage = nil
         directoryManager.write(nil, toKeyChain: "token")
 
         try! directoryManager.remove(at: paths.session)
