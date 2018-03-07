@@ -332,7 +332,9 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
                 let taskViewModels: [TasksListBasicViewModel] = value.map { patrol in
                     return TasksListBasicViewModel(patrol: patrol, source: CADTaskListSourceCore.patrol)
                 }
-                return CADFormCollectionSectionViewModel(title: "\(value.count) \(key)", items: taskViewModels)
+                if !taskViewModels.isEmpty {
+                    return CADFormCollectionSectionViewModel(title: "\(value.count) \(key)", items: taskViewModels)
+                }
             }
             return nil
         }
@@ -375,7 +377,9 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
                 let taskViewModels: [TasksListBasicViewModel] = value.map { broadcast in
                     return TasksListBasicViewModel(broadcast: broadcast, source: CADTaskListSourceCore.broadcast)
                 }
-                return CADFormCollectionSectionViewModel(title: "\(value.count) \(key)", items: taskViewModels)
+                if !taskViewModels.isEmpty {
+                    return CADFormCollectionSectionViewModel(title: "\(value.count) \(key)", items: taskViewModels)
+                }
             }
             return nil
         }
