@@ -21,5 +21,6 @@ public protocol CADBroadcastType: class, CADTaskListItemModelType {
     var type: CADBroadcastCategoryType { get set }
 
     // MARK: - Generated
+    var coordinate: CLLocationCoordinate2D? { get }
     var createdAtString: String? { get }
 }

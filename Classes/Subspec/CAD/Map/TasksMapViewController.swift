@@ -58,6 +58,7 @@ open class TasksMapViewController: MapViewController {
             mapView.register(ResourceAnnotationView.self, forAnnotationViewWithReuseIdentifier: ResourceAnnotationView.defaultReuseIdentifier)
             mapView.register(IncidentAnnotationView.self, forAnnotationViewWithReuseIdentifier: IncidentAnnotationView.defaultReuseIdentifier)
             mapView.register(PatrolAnnotationView.self, forAnnotationViewWithReuseIdentifier: PatrolAnnotationView.defaultReuseIdentifier)
+            mapView.register(BroadcastAnnotationView.self, forAnnotationViewWithReuseIdentifier: BroadcastAnnotationView.defaultReuseIdentifier)
         }
         
         mapLayerFilterButton = UIBarButtonItem.init(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: self, action: #selector(showMapLayerFilter))
