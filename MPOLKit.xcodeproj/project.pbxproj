@@ -201,6 +201,7 @@
 		2768C0461F85EB2A008532ED /* MapSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2768C0451F85EB2A008532ED /* MapSettingsViewModel.swift */; };
 		2768C0481F86D60A008532ED /* MapSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2768C0471F86D60A008532ED /* MapSettingsViewController.swift */; };
 		2768C0491F86E78A008532ED /* TasksMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A46A1F83555A00CAE056 /* TasksMapViewController.swift */; };
+		276B37A720509578002FA2A9 /* CADRecentlyUsedKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276B37A620509578002FA2A9 /* CADRecentlyUsedKey.swift */; };
 		276C21061F60C2100003B860 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C21051F60C2100003B860 /* MapViewController.swift */; };
 		276C21081F60C44B0003B860 /* MapOverlayImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C21071F60C44B0003B860 /* MapOverlayImageButton.swift */; };
 		27719E0A1FA92A5B00238059 /* AustralianPhoneSpecification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27719E091FA92A5B00238059 /* AustralianPhoneSpecification.swift */; };
@@ -984,6 +985,7 @@
 		2766CE321FEB5C5400895B3A /* CallsignCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignCollectionViewCell.swift; sourceTree = "<group>"; };
 		2768C0451F85EB2A008532ED /* MapSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettingsViewModel.swift; sourceTree = "<group>"; };
 		2768C0471F86D60A008532ED /* MapSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettingsViewController.swift; sourceTree = "<group>"; };
+		276B37A620509578002FA2A9 /* CADRecentlyUsedKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADRecentlyUsedKey.swift; sourceTree = "<group>"; };
 		276C21051F60C2100003B860 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		276C21071F60C44B0003B860 /* MapOverlayImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverlayImageButton.swift; sourceTree = "<group>"; };
 		27719E091FA92A5B00238059 /* AustralianPhoneSpecification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AustralianPhoneSpecification.swift; sourceTree = "<group>"; };
@@ -2346,6 +2348,7 @@
 			children = (
 				9689CA0B2032646C0001D993 /* CADClientModelTypes.swift */,
 				9689CA46203646140001D993 /* CADStateManagerType.swift */,
+				276B37A620509578002FA2A9 /* CADRecentlyUsedKey.swift */,
 				9689CA5920364A010001D993 /* Enum */,
 				9689CA58203649EB0001D993 /* Objects */,
 				966CE9BC20365AE900646A6A /* Requests */,
@@ -4691,7 +4694,6 @@
 				BC9C7E341F0DED6600DFFE83 /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
 				460B5BC72007187600AB7D12 /* SketchEraser.swift in Sources */,
 				46884206202BB186009D0406 /* PersistantMediaDatasource.swift in Sources */,
-				4492C0501FD8C92E009D26BD,
 				2753292620338C4500CFA97B /* TasksListBasicCollectionViewCell.swift in Sources */,
 				96F7727F201FFB35000FE0D0 /* CreateActivityLogItemViewModel.swift in Sources */,
 				9679A6491F9EEDB7007BC806 /* BookOnDetailsOfficerFormItem.swift in Sources */,
@@ -4739,6 +4741,7 @@
 				191BC4D41F7C203B00C8C218 /* HelpViewController.swift in Sources */,
 				270A9E471FE66A3B00B93C48 /* ActionSheetViewController.swift in Sources */,
 				EA445DAA1F73A12200ABF70F /* SummaryListFormItem.swift in Sources */,
+				276B37A720509578002FA2A9 /* CADRecentlyUsedKey.swift in Sources */,
 				273C53871FE8648B00BF994B /* TasksListResourceSummaryView.swift in Sources */,
 				EA2F1A631FA6D587001F7812 /* MediaPreviewableCell.swift in Sources */,
 				19C5D9A21FA95ED800527B5A /* ImageResponseSerializer.swift in Sources */,
