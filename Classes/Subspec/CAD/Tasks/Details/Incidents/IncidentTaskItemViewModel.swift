@@ -66,8 +66,8 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
     }
 
     override open func didTapTaskStatus() {
-        if let resource = resource, allowChangeResourceStatus() {
-            delegate?.present(TaskItemScreen.resourceStatus(resource: resource, incident: incident))
+        if allowChangeResourceStatus() {
+            delegate?.present(TaskItemScreen.resourceStatus(initialStatus: resource?.status, incident: incident))
         }
     }
 

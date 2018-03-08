@@ -64,7 +64,7 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
 
     override open func didTapTaskStatus() {
         if let resource = resource, allowChangeResourceStatus() {
-            delegate?.present(TaskItemScreen.resourceStatus(resource: resource, incident: nil))
+            delegate?.present(TaskItemScreen.resourceStatus(initialStatus: resource.status, incident: nil))
         }
     }
 
