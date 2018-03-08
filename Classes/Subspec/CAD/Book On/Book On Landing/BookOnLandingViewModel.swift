@@ -14,16 +14,15 @@ open class BookOnLandingViewModel {
 
     open func convertCallsignsToViewModels() -> CADFormCollectionSectionViewModel<BookOnLandingCallsignItemViewModel> {
 
-        var recentCallsignIds = UserSession.current.recentIdsListMap[CADRecentlyUsedKey.callsigns.rawValue] ?? []
+        let recentCallsignIds = UserSession.current.recentIdsListMap[CADRecentlyUsedKey.callsigns.rawValue] ?? []
         
-        var recentCallsigns: [BookOnLandingCallsignItemViewModel] = []
-        
-        for callsignId in recentCallsignIds {
-            if let resource = CADStateManager.shared.resourcesById[callsignId],
+        let recentCallsigns = recentCallsignIds.flatMap { id -> BookOnLandingCallsignItemViewModel? in
+            if let resource = CADStateManager.shared.resourcesById[id],
                 resource.patrolGroup == CADStateManager.shared.patrolGroup
             {
-                recentCallsigns.append(BookOnLandingCallsignItemViewModel(resource: resource))
+                return BookOnLandingCallsignItemViewModel(resource: resource)
             }
+            return nil
         }
         
         return CADFormCollectionSectionViewModel(title: "Recently Used Call Signs", items: recentCallsigns)
