@@ -14,7 +14,7 @@ open class BookOnLandingViewModel {
 
     open func convertCallsignsToViewModels() -> CADFormCollectionSectionViewModel<BookOnLandingCallsignItemViewModel> {
 
-        var recentCallsignIds = UserSession.current.recentIds[CADRecentlyUsedKey.callsigns.rawValue] ?? []
+        var recentCallsignIds = UserSession.current.recentIdsListMap[CADRecentlyUsedKey.callsigns.rawValue] ?? []
         
         var recentCallsigns: [BookOnLandingCallsignItemViewModel] = []
         

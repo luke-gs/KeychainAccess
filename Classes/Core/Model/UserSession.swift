@@ -36,11 +36,11 @@ public class UserSession: UserSessionable {
     public let recentlyActioned: EntityBucket = EntityBucket(limit: 20)
     
     // Generic recent IDs for types (keyed), for current user
-    public var recentIds: [String: [String]] = [:] {
+    public var recentIdsListMap: [String: [String]] = [:] {
         didSet {
             guard let userStorage = userStorage else { return }
             do {
-            try userStorage.add(object: recentIds, key: UserSession.recentIdsKey, flag: .retain)
+            try userStorage.add(object: recentIdsListMap, key: UserSession.recentIdsKey, flag: .retain)
             } catch { }
         }
     }
