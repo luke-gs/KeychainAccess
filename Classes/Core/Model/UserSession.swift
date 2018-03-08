@@ -182,6 +182,33 @@ public class UserSession: UserSessionable {
         guard !isRestoringSession else { return }
         directoryManager.write(recentlyViewed.entities as NSArray, to: paths.recentlyViewed)
     }
+    
+    /// Adds a recent ID to the recent IDs dictionary
+    ///
+    /// - Parameters:
+    ///   - id: the ID to insert
+    ///   - key: the key to use in the dictionary
+    open func addRecentId(_ id: String, forKey key: String) {
+        var recent = recentIdsListMap[key] ?? [String]()
+        
+        if let indexOfExisting = recent.index(of: id) {
+            recent.remove(at: indexOfExisting)
+        }
+        recent.insert(id, at: 0)
+        
+        recentIdsListMap[key] = recent
+    }
+    
+    /// Adds an array of recent IDs to the recent IDs dictionary
+    ///
+    /// - Parameters:
+    ///   - ids: the IDs to insert
+    ///   - key: the key to use in the dictionary
+    open func addRecentIds(_ ids: [String], forKey key: String) {
+        for id in ids {
+            addRecentId(id, forKey: key)
+        }
+    }
 
     //MARK: RESTORING
 
