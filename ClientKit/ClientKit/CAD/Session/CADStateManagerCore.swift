@@ -181,7 +181,14 @@ open class CADStateManagerCore: CADStateManagerType {
                 }
             }
         }
-        return Promise<Void>()
+        
+        return Promise<Void>().then {
+            // Store recent IDs
+            UserSession.current.addRecentId(request.callsign, forKey: CADRecentlyUsedKey.callsigns.rawValue)
+            UserSession.current.addRecentIds(request.officers.map { $0.payrollId }, forKey: CADRecentlyUsedKey.officers.rawValue)
+            
+            return Promise<Void>()
+        }
     }
 
     /// Terminate shift
