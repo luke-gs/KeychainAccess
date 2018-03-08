@@ -188,7 +188,8 @@ public class UserSession: UserSessionable {
     /// - Parameters:
     ///   - id: the ID to insert
     ///   - key: the key to use in the dictionary
-    open func addRecentId(_ id: String, forKey key: String) {
+    ///   - trim: the max number of elements to keep in the array, default is `100`
+    open func addRecentId(_ id: String, forKey key: String, trimToMaxElements trim: Int = 100) {
         var recent = recentIdsListMap[key] ?? [String]()
         
         if let indexOfExisting = recent.index(of: id) {
@@ -196,7 +197,7 @@ public class UserSession: UserSessionable {
         }
         recent.insert(id, at: 0)
         
-        recentIdsListMap[key] = recent
+        recentIdsListMap[key] = Array(recent.prefix(trim))
     }
     
     /// Adds an array of recent IDs to the recent IDs dictionary
@@ -204,9 +205,10 @@ public class UserSession: UserSessionable {
     /// - Parameters:
     ///   - ids: the IDs to insert
     ///   - key: the key to use in the dictionary
-    open func addRecentIds(_ ids: [String], forKey key: String) {
+    ///   - trim: the max number of elements to keep in the array, default is `100`
+    open func addRecentIds(_ ids: [String], forKey key: String, trimToMaxElements trim: Int = 100) {
         for id in ids {
-            addRecentId(id, forKey: key)
+            addRecentId(id, forKey: key, trimToMaxElements: trim)
         }
     }
 
