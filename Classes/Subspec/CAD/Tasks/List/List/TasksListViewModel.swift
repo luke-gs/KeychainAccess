@@ -43,7 +43,7 @@ public class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewMod
     }
 
     open func patrolGroupSectionTitle() -> String {
-        return "\(CADStateManager.shared.patrolGroup) area"
+        return "\(CADStateManager.shared.patrolGroup ?? "") area"
     }
 
     open func otherSectionTitle() -> String {
