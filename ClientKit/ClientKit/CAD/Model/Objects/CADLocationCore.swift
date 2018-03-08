@@ -46,6 +46,19 @@ open class CADLocationCore: Codable, CADLocationType {
         return nil
     }
 
+    open var displayText: String? {
+        if let fullAddress = fullAddress {
+            return fullAddress
+        } else if let suburb = suburb {
+            return suburb
+        } else if let coordinate = coordinate {
+            return "\(coordinate.latitude), \(coordinate.longitude)"
+        } else {
+            return nil
+        }
+    }
+
+
     // MARK: - Codable
 
     enum CodingKeys: String, CodingKey {

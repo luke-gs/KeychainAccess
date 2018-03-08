@@ -36,11 +36,21 @@ open class CADBroadcastCore: Codable, CADBroadcastType {
         return createdAt?.asPreferredDateTimeString()
     }
 
+    open var coordinate: CLLocationCoordinate2D? {
+        return location?.coordinate
+    }
+
     // MARK: - CADTaskListItemModelType
 
     /// Create a map annotation for the task list item if location is available
     open func createAnnotation() -> TaskAnnotation? {
-        return nil
+        guard let coordinate = coordinate else { return nil }
+        return BroadcastAnnotation(identifier: identifier,
+                                   source: CADTaskListSourceCore.broadcast,
+                                   coordinate: coordinate,
+                                   title: title,
+                                   subtitle: nil,
+                                   usesDarkBackground: false)
     }
 
 

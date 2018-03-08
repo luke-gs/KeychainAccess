@@ -311,9 +311,9 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
                 sectionedPatrols[status] = []
             }
 
-            // Apply search text filter to type, identifier, subtype, or suburb
+            // Apply search text filter to type, identifier, or suburb
             if let searchText = searchText?.lowercased(), !searchText.isEmpty {
-                let matchedValues = [patrol.type, patrol.identifier, patrol.subtype, patrol.location?.suburb].removeNils().filter {
+                let matchedValues = [patrol.type, patrol.identifier, patrol.location?.suburb].removeNils().filter {
                     return $0.lowercased().hasPrefix(searchText)
                 }
                 if !matchedValues.isEmpty {
@@ -332,7 +332,9 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
                 let taskViewModels: [TasksListBasicViewModel] = value.map { patrol in
                     return TasksListBasicViewModel(patrol: patrol, source: CADTaskListSourceCore.patrol)
                 }
-                return CADFormCollectionSectionViewModel(title: "\(value.count) \(key)", items: taskViewModels)
+                if !taskViewModels.isEmpty {
+                    return CADFormCollectionSectionViewModel(title: "\(value.count) \(key)", items: taskViewModels)
+                }
             }
             return nil
         }
@@ -354,9 +356,9 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
                 sectionedBroadcasts[type] = []
             }
 
-            // Apply search text filter to title, identifier, type, or suburb
+            // Apply search text filter to title, identifier or suburb
             if let searchText = searchText?.lowercased(), !searchText.isEmpty {
-                let matchedValues = [broadcast.title, broadcast.identifier, broadcast.type.rawValue, broadcast.location?.suburb].removeNils().filter {
+                let matchedValues = [broadcast.title, broadcast.identifier, broadcast.location?.suburb].removeNils().filter {
                     return $0.lowercased().hasPrefix(searchText)
                 }
                 if !matchedValues.isEmpty {
@@ -375,7 +377,9 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
                 let taskViewModels: [TasksListBasicViewModel] = value.map { broadcast in
                     return TasksListBasicViewModel(broadcast: broadcast, source: CADTaskListSourceCore.broadcast)
                 }
-                return CADFormCollectionSectionViewModel(title: "\(value.count) \(key)", items: taskViewModels)
+                if !taskViewModels.isEmpty {
+                    return CADFormCollectionSectionViewModel(title: "\(value.count) \(key)", items: taskViewModels)
+                }
             }
             return nil
         }
