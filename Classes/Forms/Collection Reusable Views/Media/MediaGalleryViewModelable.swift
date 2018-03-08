@@ -105,7 +105,11 @@ open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryV
     public private(set) var previews: [MediaPreviewable] = []
 
     public let storeCoordinator: DataStoreCoordinator<T>
-
+    
+    public var filterDescriptors: [FilterDescriptor<T.Result.Item>]?
+    
+    public var sortDescriptors: [SortDescriptor<T.Result.Item>]?
+    
     /// A registry of controllers for media items
     private var previewControllers: [ObjectIdentifier: (UIViewController & MediaViewPresentable).Type] = [:]
 
@@ -163,9 +167,19 @@ open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryV
     }
 
     private func generatePreviews() {
-        previews = storeCoordinator.items.map { self.previewForMedia($0) }
+        var items: [Media] = storeCoordinator.items
+        
+        if let filterDescriptors = filterDescriptors {
+            items = items.filter(using: filterDescriptors)
+        }
+        
+        if let sortDescriptors = sortDescriptors {
+            items = items.sorted(using: sortDescriptors)
+        }
+        
+        previews = items.map { self.previewForMedia($0) }
     }
-
+    
     private func updateState() {
         switch storeCoordinator.state {
         case .unknown:
