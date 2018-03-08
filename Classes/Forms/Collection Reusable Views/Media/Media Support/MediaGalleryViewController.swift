@@ -27,6 +27,13 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
     public var allowEditing: Bool = true {
         didSet { setupNavigationItems() }
     }
+    
+    // App can provide additional bar button items.
+    public var additionalBarButtonItems: [UIBarButtonItem]? {
+        didSet {
+            setupNavigationItems()
+        }
+    }
 
     public private(set) lazy var loadingManager: LoadingStateManager = LoadingStateManager()
 
@@ -273,13 +280,15 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
             navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeTapped))
 
             if allowEditing {
-                navigationItem.rightBarButtonItems = [
-                    beginSelectItem,
-                    spacer,
-                    addBarButtonItem
-                ]
+                var items = [beginSelectItem, spacer, addBarButtonItem]
+                
+                if let additionalBarButtonItems = additionalBarButtonItems {
+                    items.append(contentsOf: additionalBarButtonItems)
+                }
+                
+                navigationItem.rightBarButtonItems = items
             } else {
-                navigationItem.rightBarButtonItems = nil
+                navigationItem.rightBarButtonItems = additionalBarButtonItems
             }
 
             collectionView.allowsMultipleSelection = false
