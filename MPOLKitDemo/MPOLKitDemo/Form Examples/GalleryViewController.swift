@@ -75,8 +75,14 @@ class GalleryViewController: FormBuilderViewController {
     func meganGallery(builder: FormBuilder) {
         let meganStore = DataStoreCoordinator(dataStore: MeganMediaStore())
 
+        let filter = FilterValueDescriptor<Media, String>(key: { $0.title }, values: ["Herli"])
+        
         let gallery = MediaGalleryCoordinatorViewModel(storeCoordinator: meganStore)
-        let handler = MediaPreviewHandler(allowEditing: false)
+        gallery.filterDescriptors = [filter]
+        
+        let magicItem = UIBarButtonItem(title: "MAGIC", style: .plain, target: self, action: #selector(magicTapped))
+        
+        let handler = MediaPreviewHandler(allowEditing: false, additionalBarButtons: [magicItem])
 
         let mediaItem = MediaFormItem()
             .dataSource(gallery)
@@ -95,6 +101,10 @@ class GalleryViewController: FormBuilderViewController {
         builder += mediaItem
     }
 
+    @objc func magicTapped() {
+        
+    }
+    
 }
 
 
@@ -132,7 +142,7 @@ class MeganMediaStore: WritableDataStore {
                         let imageRef = UIImageJPEGRepresentation(image, 0.5)
                         let imageFilePath = self.cacheDirectory.appendingPathComponent("\(UUID().uuidString).jpg")
                         try! imageRef!.write(to: imageFilePath)
-                        return (Media(url: imageFilePath, type: .photo))
+                        return (Media(url: imageFilePath, type: .photo, title: "Herli---"))
                     }
 
                     fullfill(MeganStoreResult(items: media, nextPageID: pageID))
