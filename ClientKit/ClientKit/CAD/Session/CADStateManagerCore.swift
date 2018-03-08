@@ -192,25 +192,26 @@ open class CADStateManagerCore: CADStateManagerType {
     }
     
     open func addRecentCallsign(_ callsign: String) {
-        var recentCallsignIds = UserSession.current.recentIds[CADRecentlyUsedKey.callsigns.rawValue] ?? [String]()
+        var recentCallsignIds = UserSession.current.recentIdsListMap[CADRecentlyUsedKey.callsigns.rawValue] ?? [String]()
         
-        if !recentCallsignIds.contains(callsign) {
-            recentCallsignIds.append(callsign)
-            
-            // TODO: Remove string, use static
-            UserSession.current.recentIds[CADRecentlyUsedKey.callsigns.rawValue] = recentCallsignIds
+        if let indexOfExisting = recentCallsignIds.index(of: callsign) {
+            recentCallsignIds.remove(at: indexOfExisting)
         }
+        recentCallsignIds.insert(callsign, at: 0)
+        
+        UserSession.current.recentIdsListMap[CADRecentlyUsedKey.callsigns.rawValue] = recentCallsignIds
     }
     
     open func addRecentOfficers(_ officerIds: [String]) {
-        var recentOfficerIds = UserSession.current.recentIds[CADRecentlyUsedKey.officers.rawValue] ?? [String]()
+        var recentOfficerIds = UserSession.current.recentIdsListMap[CADRecentlyUsedKey.officers.rawValue] ?? [String]()
         
         for officerId in officerIds {
-            if !recentOfficerIds.contains(officerId) {
-                recentOfficerIds.append(officerId)
-                
-                UserSession.current.recentIds[CADRecentlyUsedKey.officers.rawValue] = recentOfficerIds
+            if let indexOfExisting = recentOfficerIds.index(of: officerId) {
+                recentOfficerIds.remove(at: indexOfExisting)
             }
+            recentOfficerIds.insert(officerId, at: 0)
+            
+            UserSession.current.recentIdsListMap[CADRecentlyUsedKey.officers.rawValue] = recentOfficerIds
         }
     }
 
