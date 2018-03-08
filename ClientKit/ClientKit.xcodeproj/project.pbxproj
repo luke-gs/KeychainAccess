@@ -27,6 +27,7 @@
 		1AB8251A1F5E485F001C4BCE /* LocationMapSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB825191F5E485F001C4BCE /* LocationMapSearchRequest.swift */; };
 		1AB8251C1F5E4CFF001C4BCE /* LocationMapRadiusSearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8251B1F5E4CFF001C4BCE /* LocationMapRadiusSearchParameters.swift */; };
 		1AB825341F610D04001C4BCE /* Address+EntityMapSummaryDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB825331F610D04001C4BCE /* Address+EntityMapSummaryDisplayable.swift */; };
+		2744E3AD2052028000561A8F /* APIManager+CAD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3AC2052028000561A8F /* APIManager+CAD.swift */; };
 		31E04B86B8693C856591D017 /* Pods_ClientKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6FAB7E5ED55CBB22E20D7C9 /* Pods_ClientKit.framework */; };
 		4421347220030416009A931A /* EntityDetailFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4421347120030416009A931A /* EntityDetailFormViewController.swift */; };
 		4421347420030B99009A931A /* EntityDetailFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4421347320030B99009A931A /* EntityDetailFormViewModel.swift */; };
@@ -123,6 +124,7 @@
 		1AB8251B1F5E4CFF001C4BCE /* LocationMapRadiusSearchParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapRadiusSearchParameters.swift; sourceTree = "<group>"; };
 		1AB825331F610D04001C4BCE /* Address+EntityMapSummaryDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Address+EntityMapSummaryDisplayable.swift"; sourceTree = "<group>"; };
 		2384F21D9A64FC2D8E4DE828 /* Pods-ClientKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.debug.xcconfig"; path = "../MPOL/Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.debug.xcconfig"; sourceTree = "<group>"; };
+		2744E3AC2052028000561A8F /* APIManager+CAD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIManager+CAD.swift"; sourceTree = "<group>"; };
 		4421347120030416009A931A /* EntityDetailFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailFormViewController.swift; sourceTree = "<group>"; };
 		4421347320030B99009A931A /* EntityDetailFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailFormViewModel.swift; sourceTree = "<group>"; };
 		4421347520031575009A931A /* EntityDetailFilterableFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailFilterableFormViewModel.swift; sourceTree = "<group>"; };
@@ -229,6 +231,14 @@
 			path = Matches;
 			sourceTree = "<group>";
 		};
+		2744E3AB2052025C00561A8F /* CAD */ = {
+			isa = PBXGroup;
+			children = (
+				2744E3AC2052028000561A8F /* APIManager+CAD.swift */,
+			);
+			path = CAD;
+			sourceTree = "<group>";
+		};
 		4429902C200554E800D2F575 /* Base Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -288,6 +298,7 @@
 		BC12DC8E1F023EF0001A5BB7 /* ClientKit */ = {
 			isa = PBXGroup;
 			children = (
+				2744E3AB2052025C00561A8F /* CAD */,
 				968B5EF61FBA8C4C0097B3F9 /* Presenters */,
 				EA8B66571F381F8100F09716 /* Configuration */,
 				BCAEFE761F03150800C97F9C /* View Controllers */,
@@ -786,6 +797,7 @@
 				1A2E8A801F397E2B0062FEA5 /* VehicleInfoViewModel.swift in Sources */,
 				464977C4203685E500590DC3 /* Identifiable.swift in Sources */,
 				BCA1793C1F03542900AD1F5F /* PersonParserDefinition.swift in Sources */,
+				2744E3AD2052028000561A8F /* APIManager+CAD.swift in Sources */,
 				BC75A7B91F1C3D55004D46F1 /* PersonDescriptionsViewController.swift in Sources */,
 				4421347220030416009A931A /* EntityDetailFormViewController.swift in Sources */,
 				968B5EF81FBA8C750097B3F9 /* AppGroupLandingPresenter.swift in Sources */,
