@@ -40,7 +40,7 @@ public class UserSession: UserSessionable {
         didSet {
             guard let userStorage = userStorage else { return }
             do {
-            try userStorage.add(object: recentIdsListMap, key: UserSession.recentIdsKey, flag: .retain)
+                try userStorage.add(object: recentIdsListMap, key: UserSession.recentIdsKey, flag: .retain)
             } catch { }
         }
     }
