@@ -20,12 +20,12 @@ public class TaskItemPresenter: Presenter {
         case .landing(let viewModel):
             return viewModel.createViewController()
 
-        case .resourceStatus(let resource, let incident):
+        case .resourceStatus(let initialStatus, let incident):
             let incidentItems = CADClientModelTypes.resourceStatus.incidentCases.map {
                 return ManageCallsignStatusItemViewModel($0)
             }
             let sections = [CADFormCollectionSectionViewModel(title: "", items: incidentItems)]
-            let viewModel = CallsignStatusViewModel(sections: sections, selectedStatus: resource.status, incident: incident)
+            let viewModel = CallsignStatusViewModel(sections: sections, selectedStatus: initialStatus, incident: incident)
             viewModel.showsCompactHorizontal = false
             return viewModel.createViewController()
 
