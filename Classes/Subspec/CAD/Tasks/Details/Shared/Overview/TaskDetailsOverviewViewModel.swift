@@ -40,7 +40,7 @@ open class TaskDetailsOverviewViewModel: TaskDetailsViewModel {
     }
     
     
-    open func mapViewModel() -> TasksMapViewModel {
+    open func mapViewModel() -> TasksMapViewModel? {
         return TasksMapViewModel()
     }
 

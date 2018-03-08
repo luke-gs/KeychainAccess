@@ -10,7 +10,7 @@ import UIKit
 
 open class PatrolOverviewViewModel: TaskDetailsOverviewViewModel {
     
-    override open func mapViewModel() -> TasksMapViewModel {
+    override open func mapViewModel() -> TasksMapViewModel? {
         return PatrolOverviewMapViewModel(patrolNumber: identifier)
     }
     

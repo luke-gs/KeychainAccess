@@ -28,4 +28,5 @@ public protocol CADLocationType: class {
 
     // MARK: - Generated
     var coordinate: CLLocationCoordinate2D? { get }
+    var displayText: String? { get }
 }

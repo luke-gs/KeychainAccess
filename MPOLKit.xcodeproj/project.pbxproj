@@ -339,6 +339,9 @@
 		9620530D1F988239000CAD49 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620530C1F988239000CAD49 /* AppGroup.swift */; };
 		9624A43F1F81BBEB00CAE056 /* UIFont+Digits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A43E1F81BBEB00CAE056 /* UIFont+Digits.swift */; };
 		962AA8191F8DD37D0087D534 /* PopoverPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */; };
+		96361676204F8A0C0012AEC4 /* BroadcastAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96361675204F8A0C0012AEC4 /* BroadcastAnnotation.swift */; };
+		96361678204F8A150012AEC4 /* BroadcastAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96361677204F8A150012AEC4 /* BroadcastAnnotationView.swift */; };
+		9636167A204F8AAD0012AEC4 /* BroadcastOverviewMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96361679204F8AAD0012AEC4 /* BroadcastOverviewMapViewModel.swift */; };
 		96435CBE203248FC00C77A75 /* CADResourceStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96435CBD203248FC00C77A75 /* CADResourceStatusType.swift */; };
 		9644B1D21F6785E200D031F2 /* CompactFormSheetNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */; };
 		964B8CC0203E3EB200550311 /* CADTaskListSourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964B8CBF203E3EB200550311 /* CADTaskListSourceType.swift */; };
@@ -1122,6 +1125,9 @@
 		9624A46A1F83555A00CAE056 /* TasksMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksMapViewController.swift; sourceTree = "<group>"; };
 		9624A46B1F83555A00CAE056 /* TasksMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksMapViewModel.swift; sourceTree = "<group>"; };
 		962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverPresenter.swift; sourceTree = "<group>"; };
+		96361675204F8A0C0012AEC4 /* BroadcastAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastAnnotation.swift; sourceTree = "<group>"; };
+		96361677204F8A150012AEC4 /* BroadcastAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastAnnotationView.swift; sourceTree = "<group>"; };
+		96361679204F8AAD0012AEC4 /* BroadcastOverviewMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastOverviewMapViewModel.swift; sourceTree = "<group>"; };
 		96435CBD203248FC00C77A75 /* CADResourceStatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADResourceStatusType.swift; sourceTree = "<group>"; };
 		9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactFormSheetNavigationController.swift; sourceTree = "<group>"; };
 		964B8CBF203E3EB200550311 /* CADTaskListSourceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADTaskListSourceType.swift; sourceTree = "<group>"; };
@@ -2014,9 +2020,10 @@
 		275329292033A7C900CFA97B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				278CA1041F7CA4A00073DFBA /* ResourceAnnotationView.swift */,
+				96361677204F8A150012AEC4 /* BroadcastAnnotationView.swift */,
 				27206B351F8198CD005303A8 /* IncidentAnnotationView.swift */,
 				2753292A2033A7F000CFA97B /* PatrolAnnotationView.swift */,
+				278CA1041F7CA4A00073DFBA /* ResourceAnnotationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2034,6 +2041,7 @@
 			isa = PBXGroup;
 			children = (
 				275329342033B69500CFA97B /* BroadcastOverviewViewModel.swift */,
+				96361679204F8AAD0012AEC4 /* BroadcastOverviewMapViewModel.swift */,
 			);
 			path = Overview;
 			sourceTree = "<group>";
@@ -2397,11 +2405,12 @@
 		9624A4661F83555A00CAE056 /* Annotations */ = {
 			isa = PBXGroup;
 			children = (
-				275329292033A7C900CFA97B /* Views */,
+				96361675204F8A0C0012AEC4 /* BroadcastAnnotation.swift */,
 				9624A4671F83555A00CAE056 /* IncidentAnnotation.swift */,
+				2753292C2033A88B00CFA97B /* PatrolAnnotation.swift */,
 				9624A4681F83555A00CAE056 /* ResourceAnnotation.swift */,
 				9624A4691F83555A00CAE056 /* TaskAnnotation.swift */,
-				2753292C2033A88B00CFA97B /* PatrolAnnotation.swift */,
+				275329292033A7C900CFA97B /* Views */,
 			);
 			path = Annotations;
 			sourceTree = "<group>";
@@ -4473,6 +4482,8 @@
 				27CBC7641F8B27CC00E387C3 /* TaskAnnotation.swift in Sources */,
 				BC9C7E441F0DED6600DFFE83 /* SidebarSplitViewController.swift in Sources */,
 				BC9C7DFD1F0DED6600DFFE83 /* CollectionViewFormValueFieldCell.swift in Sources */,
+				EA32A8521FBD1A7900CC37FB /* PhotoMedia.swift in Sources */,
+				96361678204F8A150012AEC4 /* BroadcastAnnotationView.swift in Sources */,
 				EA32A8521FBD1A7900CC37FB /* PhotoPreview.swift in Sources */,
 				BC9C7E4B1F0DED6600DFFE83 /* Theme.swift in Sources */,
 				BC9C7E091F0DED6600DFFE83 /* UITableViewCell+LayoutMargins.swift in Sources */,
@@ -4482,6 +4493,7 @@
 				EA53B2771F9EF92B00B891D8 /* NotNilSpecification.swift in Sources */,
 				96F77281201FFB40000FE0D0 /* CreateActivityLogItemViewController.swift in Sources */,
 				46E0B8B220326FB500B40DF2 /* Pickable.swift in Sources */,
+				96361676204F8A0C0012AEC4 /* BroadcastAnnotation.swift in Sources */,
 				BC9C7E521F0DED6600DFFE83 /* FormDisclosureView.swift in Sources */,
 				9663D00B1F8AF666006DB672 /* TasksSplitViewController.swift in Sources */,
 				4634B4461FBD6FD200D71E7F /* EntityMapSummaryDisplayble.swift in Sources */,
@@ -4494,6 +4506,7 @@
 				EA2189F21F5FE8B50057048E /* Presenter.swift in Sources */,
 				4634B4421FBD6FD200D71E7F /* MapSummarySearchResultViewModel.swift in Sources */,
 				BC9C7E1D1F0DED6600DFFE83 /* MPOLKitInitialize.swift in Sources */,
+				9636167A204F8AAD0012AEC4 /* BroadcastOverviewMapViewModel.swift in Sources */,
 				19C625C01F550D2200504BD9 /* NetworkRequestType.swift in Sources */,
 				273C53831FE7837800BF994B /* TasksListInfoRowStackView.swift in Sources */,
 				274C89711F984CB8005B9CF8 /* CallsignListViewController.swift in Sources */,
