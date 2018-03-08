@@ -183,35 +183,11 @@ open class CADStateManagerCore: CADStateManagerType {
         }
         
         return Promise<Void>().then {
-            // Store recent ID
-            self.addRecentCallsign(request.callsign)
-            self.addRecentOfficers(request.officers.map { $0.payrollId })
+            // Store recent IDs
+            UserSession.current.addRecentId(request.callsign, forKey: CADRecentlyUsedKey.callsigns.rawValue)
+            UserSession.current.addRecentIds(request.officers.map { $0.payrollId }, forKey: CADRecentlyUsedKey.officers.rawValue)
             
             return Promise<Void>()
-        }
-    }
-    
-    open func addRecentCallsign(_ callsign: String) {
-        var recentCallsignIds = UserSession.current.recentIdsListMap[CADRecentlyUsedKey.callsigns.rawValue] ?? [String]()
-        
-        if let indexOfExisting = recentCallsignIds.index(of: callsign) {
-            recentCallsignIds.remove(at: indexOfExisting)
-        }
-        recentCallsignIds.insert(callsign, at: 0)
-        
-        UserSession.current.recentIdsListMap[CADRecentlyUsedKey.callsigns.rawValue] = recentCallsignIds
-    }
-    
-    open func addRecentOfficers(_ officerIds: [String]) {
-        var recentOfficerIds = UserSession.current.recentIdsListMap[CADRecentlyUsedKey.officers.rawValue] ?? [String]()
-        
-        for officerId in officerIds {
-            if let indexOfExisting = recentOfficerIds.index(of: officerId) {
-                recentOfficerIds.remove(at: indexOfExisting)
-            }
-            recentOfficerIds.insert(officerId, at: 0)
-            
-            UserSession.current.recentIdsListMap[CADRecentlyUsedKey.officers.rawValue] = recentOfficerIds
         }
     }
 
