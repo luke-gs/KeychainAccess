@@ -7,6 +7,10 @@
 //
 
 import UIKit
+import PromiseKit
+import Alamofire
+import MPOLKit
+
 /// Extension for APIManager for CAD specific network requests
 extension APIManager: CADAPIManagerType {
     
