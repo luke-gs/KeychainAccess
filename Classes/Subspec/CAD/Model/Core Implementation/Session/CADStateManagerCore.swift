@@ -13,7 +13,7 @@ import PromiseKit
 open class CADStateManagerCore: CADStateManagerType {
     
     /// The API manager to use, by default system one
-    open static var apiManager: CADAPIManager = APIManager.shared
+    open static var apiManager: CADAPIManagerType!
 
     public init() {
         // Register concrete classes for protocols

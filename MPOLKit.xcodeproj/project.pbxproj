@@ -187,7 +187,7 @@
 		2744E3A42051DD8500561A8F /* CADBookOnRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3882051DD8500561A8F /* CADBookOnRequest.swift */; };
 		2744E3A62051DD8500561A8F /* CADStateManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E38B2051DD8500561A8F /* CADStateManagerCore.swift */; };
 		2744E3A82051DE7700561A8F /* PhotoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3A72051DE7700561A8F /* PhotoPreview.swift */; };
-		2744E3AA2051E68200561A8F /* APIManager+CAD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3A92051E68200561A8F /* APIManager+CAD.swift */; };
+		2744E3AA2051E68200561A8F /* CADAPIManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3A92051E68200561A8F /* CADAPIManagerType.swift */; };
 		2744EEC51FBEA523008DFA7F /* MapFilterSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744EEBE1FBEA523008DFA7F /* MapFilterSectionView.swift */; };
 		2744EEC61FBEA523008DFA7F /* MapFilterToggleRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744EEBF1FBEA523008DFA7F /* MapFilterToggleRowView.swift */; };
 		2744EEC71FBEA523008DFA7F /* MapFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744EEC01FBEA523008DFA7F /* MapFilterViewModel.swift */; };
@@ -999,7 +999,7 @@
 		2744E3882051DD8500561A8F /* CADBookOnRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADBookOnRequest.swift; sourceTree = "<group>"; };
 		2744E38B2051DD8500561A8F /* CADStateManagerCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADStateManagerCore.swift; sourceTree = "<group>"; };
 		2744E3A72051DE7700561A8F /* PhotoPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoPreview.swift; sourceTree = "<group>"; };
-		2744E3A92051E68200561A8F /* APIManager+CAD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+CAD.swift"; sourceTree = "<group>"; };
+		2744E3A92051E68200561A8F /* CADAPIManagerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADAPIManagerType.swift; sourceTree = "<group>"; };
 		2744EEBE1FBEA523008DFA7F /* MapFilterSectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilterSectionView.swift; sourceTree = "<group>"; };
 		2744EEBF1FBEA523008DFA7F /* MapFilterToggleRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilterToggleRowView.swift; sourceTree = "<group>"; };
 		2744EEC01FBEA523008DFA7F /* MapFilterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilterViewModel.swift; sourceTree = "<group>"; };
@@ -2002,7 +2002,7 @@
 		2744E36C2051DD8500561A8F /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2744E3A92051E68200561A8F /* APIManager+CAD.swift */,
+				2744E3A92051E68200561A8F /* CADAPIManagerType.swift */,
 				2744E36D2051DD8500561A8F /* Enum */,
 				2744E3742051DD8500561A8F /* Responses */,
 				2744E3772051DD8500561A8F /* Objects */,
@@ -4823,7 +4823,7 @@
 				BC9C7E151F0DED6600DFFE83 /* TableViewFormTextViewCell.swift in Sources */,
 				DB168CDE20032B6B00322F7F /* Validator.swift in Sources */,
 				967BFAB8203B90E500A9C789 /* SelectStoppedEntityViewController.swift in Sources */,
-				2744E3AA2051E68200561A8F /* APIManager+CAD.swift in Sources */,
+				2744E3AA2051E68200561A8F /* CADAPIManagerType.swift in Sources */,
 				460B276F204526DC00B56D0B /* FormBuilderSearchViewController.swift in Sources */,
 				27E81E5E2034EB05000D5D1C /* ResourceOverviewFormViewController.swift in Sources */,
 				275329282033A2DF00CFA97B /* BubbleAnnotationView.swift in Sources */,
