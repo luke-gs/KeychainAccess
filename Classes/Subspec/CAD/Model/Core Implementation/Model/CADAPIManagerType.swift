@@ -7,10 +7,8 @@
 //
 
 import PromiseKit
-import Alamofire
-import Unbox
 
-/// Protocol for API manager methods used in CAD. Used so we can mock out API manager for demo json
+/// Protocol for API manager methods used in CAD. To be implemented in client app/kit
 public protocol CADAPIManagerType {
 
     /// Perform login
