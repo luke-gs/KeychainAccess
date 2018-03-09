@@ -74,7 +74,8 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
     open override func allowChangeResourceStatus() -> Bool {
         // If this task is the current incident for our booked on resource,
         // or we have no current incident, allow changing resource state
-        if CADStateManager.shared.lastBookOn != nil {
+        // ... but only if incident is within our patrol group
+        if CADStateManager.shared.lastBookOn != nil && incident?.patrolGroup == CADStateManager.shared.patrolGroup {
             let currentIncidentId = CADStateManager.shared.currentIncident?.identifier
             if let incident = incident, (incident.identifier == currentIncidentId || currentIncidentId == nil) {
                 return true
