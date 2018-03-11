@@ -106,18 +106,25 @@ open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryV
 
     public let storeCoordinator: DataStoreCoordinator<T>
     
-    public var filterDescriptors: [FilterDescriptor<T.Result.Item>]?
+    public var filterDescriptors: [FilterDescriptor<T.Result.Item>]? {
+        didSet {
+            reload()
+        }
+    }
     
-    public var sortDescriptors: [SortDescriptor<T.Result.Item>]?
+    public var sortDescriptors: [SortDescriptor<T.Result.Item>]? {
+        didSet {
+            reload()
+        }
+    }
     
     /// A registry of controllers for media items
     private var previewControllers: [ObjectIdentifier: (UIViewController & MediaViewPresentable).Type] = [:]
 
     public init(storeCoordinator: DataStoreCoordinator<T>) {
         self.storeCoordinator = storeCoordinator
-
-        generatePreviews()
-        updateState()
+        
+        reload(notify: false)
         registerDefaultPreviewControllers()
 
         NotificationCenter.default.addObserver(self, selector: #selector(storeDidChange(_:)), name: DataStoreCoordinatorDidChangeStateNotification, object: storeCoordinator)
@@ -160,10 +167,16 @@ open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryV
     }
 
     @objc private func storeDidChange(_ notification: Notification) {
+        reload()
+    }
+    
+    private func reload(notify: Bool = true) {
         generatePreviews()
         updateState()
-
-        NotificationCenter.default.post(name: MediaGalleryDidChangeNotificationName, object: self)
+        
+        if notify {
+            NotificationCenter.default.post(name: MediaGalleryDidChangeNotificationName, object: self)
+        }
     }
 
     private func generatePreviews() {
