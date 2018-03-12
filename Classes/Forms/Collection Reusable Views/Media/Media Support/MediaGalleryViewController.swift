@@ -172,6 +172,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
         case .unknown: return 2
         case .loading: return 2
         case .error: return 2
+        case .noContents: return 1
         }
     }
 
@@ -415,8 +416,10 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
             case .loading:
                 loadingManager.state = .loading
             case .error:
+                updateErrorState()
                 loadingManager.state = .error
-            case .completed, .unknown:
+            case .completed, .unknown, .noContents:
+                updateNoContentsState()
                 loadingManager.state = .noContent
             }
         }
@@ -425,30 +428,29 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
     }
 
     private func configureLoadingManager() {
-        let noContentView = loadingManager.noContentView
-
-        if allowEditing {
-            noContentView.titleLabel.text = NSLocalizedString("GalleryAllowEditingNoAssetsTitle", value: "No Assets", comment: "")
-            noContentView.subtitleLabel.text = NSLocalizedString("GalleryAllowEditingNoAssetsSubtitle", value: "Add an asset by tapping on 'Add' button.", comment: "")
-            noContentView.imageView.image = AssetManager.shared.image(forKey: .refresh)
-
-            let button = noContentView.actionButton
-            button.setTitle(NSLocalizedString("GalleryAllowEditingNoAssetsButton", value: "Add", comment: "Action to add new asset"), for: .normal)
-            button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
-
-
-        } else {
-            noContentView.titleLabel.text = NSLocalizedString("GalleryNoEditingNoAssetsTitle", value: "No Assets", comment: "")
-            noContentView.subtitleLabel.text = NSLocalizedString("GalleryNoEditingNoAssetsSubtitle", value: "No assets found. Tap 'Refresh' to try again.", comment: "")
-            noContentView.imageView.image = AssetManager.shared.image(forKey: .refresh)
-
-            let button = noContentView.actionButton
-            button.setTitle(NSLocalizedString("GalleryNoEditingNoAssetsButton", value: "Refresh", comment: "Action to refresh"), for: .normal)
-            button.addTarget(self, action: #selector(refreshButtonTapped), for: .touchUpInside)
-        }
-
+        updateNoContentsState()
+        updateLoadingState()
+    }
+    
+    private func updateLoadingState() {
         loadingManager.loadingView.titleLabel.text = viewModel.titleForState(.loading)
         loadingManager.loadingView.subtitleLabel.text = viewModel.descriptionForState(.loading)
+    }
+    
+    private func updateNoContentsState() {
+        let noContentView = loadingManager.noContentView
+        
+        noContentView.titleLabel.text = viewModel.titleForState(.noContents)
+        noContentView.subtitleLabel.text = viewModel.descriptionForState(.noContents)
+        noContentView.imageView.image = AssetManager.shared.image(forKey: .refresh)
+    }
+    
+    private func updateErrorState() {
+        let errorView = loadingManager.errorView
+        let state = viewModel.state
+        
+        errorView.titleLabel.text = viewModel.titleForState(state)
+        errorView.subtitleLabel.text = viewModel.descriptionForState(state)
     }
 
     // MARK: - UINavigationControllerDelegate

@@ -180,6 +180,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         case .unknown: return 2
         case .loading: return 2
         case .error: return 2
+        case .noContents: return 0
         }
     }
 

@@ -103,7 +103,7 @@ class GalleryViewController: FormBuilderViewController {
     enum FilterOption: String {
         case all = "Show All"
         case sensitiveOnly = "Show sensitive only"
-        case nonSensitiveOnly = "Show non senstive only"
+        case nonSensitiveOnly = "Show non-sensitive only"
         case peopleOnly = "Show people only"
     }
 

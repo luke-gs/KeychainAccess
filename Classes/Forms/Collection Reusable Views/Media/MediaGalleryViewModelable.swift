@@ -15,6 +15,7 @@ public enum MediaGalleryState {
     case unknown
     case loading
     case completed(hasAdditionalItems: Bool)
+    case noContents
     case error(Error)
 }
 
@@ -55,44 +56,6 @@ extension MediaGalleryViewModelable {
 
     public func indexOfPreview(_ preview: MediaPreviewable) -> Int? {
         return previews.index(where: { $0 === preview })
-    }
-
-    public func titleForState(_ state: MediaGalleryState) -> String? {
-        switch state {
-        case .unknown:
-            return NSLocalizedString("GalleryStateUnknownTitle", value: "Download Images", comment: "Initial state of gallery view model")
-        case .loading:
-            return NSLocalizedString("GalleryStateLoadingTitle", value: "Loading", comment: "Loading state of gallery view model")
-        case .completed(let additionalItem):
-            if additionalItem {
-                return NSLocalizedString("GalleryStateCompletedWithMoreItemTitle", value: "Load more", comment: "Completed with more items state of gallery view model")
-            } else {
-                return NSLocalizedString("GalleryStateCompletedTitle", value: "Completed", comment: "Completed state of gallery view model")
-            }
-        case .error:
-            return NSLocalizedString("GalleryStateErrorTitle", value: "Error", comment: "Error state of gallery view model")
-        }
-    }
-
-    public func descriptionForState(_ state: MediaGalleryState) -> String? {
-        switch state {
-        case .unknown:
-            return NSLocalizedString("GalleryStateUnknownDescription", value: "This may take a moment depending on your connection speed.", comment: "Initial state of gallery view model")
-        case .loading:
-            return NSLocalizedString("GalleryStateLoadingDescription", value: "Please wait a moment.", comment: "Loading state of gallery view model")
-        case .completed(let additionalItem):
-            if additionalItem {
-                return NSLocalizedString("GalleryStateCompletedWithMoreItemDescription", value: "This may take a moment depending on your connection speed.", comment: "Completed with more items state of gallery view model")
-            } else {
-                return NSLocalizedString("GalleryStateCompletedDescription", value: "Completed", comment: "Completed state of gallery view model")
-            }
-        case .error(let error):
-            return NSLocalizedString("GalleryStateErrorDescription", value: error.localizedDescription, comment: "Error state of gallery view model")
-        }
-    }
-
-    public func imageForState(_ state: MediaGalleryState) -> UIImage? {
-        return AssetManager.shared.image(forKey: .download)
     }
 
 }
@@ -198,16 +161,70 @@ open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryV
     private func updateState() {
         switch storeCoordinator.state {
         case .unknown:
-            self.state = .unknown
+            state = .unknown
         case .completed:
-            self.state = .completed(hasAdditionalItems: storeCoordinator.hasMoreItems())
+            if previews.count == 0 && storeCoordinator.items.count > 0 {
+                state = .noContents
+            } else {
+                state = .completed(hasAdditionalItems: storeCoordinator.hasMoreItems())
+            }
         case .loading:
-            self.state = .loading
+            state = .loading
         case .error(let error):
-            self.state = .error(error)
+            state = .error(error)
         }
     }
 
+    open func titleForState(_ state: MediaGalleryState) -> String? {
+        switch state {
+        case .unknown:
+            return NSLocalizedString("GalleryStateUnknownTitle", value: "Download Images", comment: "Initial state of gallery view model")
+        case .loading:
+            return NSLocalizedString("GalleryStateLoadingTitle", value: "Loading", comment: "Loading state of gallery view model")
+        case .completed(let additionalItem):
+            if additionalItem {
+                return NSLocalizedString("GalleryStateCompletedWithMoreItemTitle", value: "Load more", comment: "Completed with more items state of gallery view model")
+            } else {
+                return NSLocalizedString("GalleryStateCompletedTitle", value: "Completed", comment: "Completed state of gallery view model")
+            }
+        case .error:
+            return NSLocalizedString("GalleryStateErrorTitle", value: "Error", comment: "Error state of gallery view model")
+        case .noContents:
+            if previews.count == 0 && storeCoordinator.items.count > 0 {
+                return NSLocalizedString("GalleryStateNoContentsFilteredTitle", value: "No Assets", comment: "No Contents state of gallery view model")
+            } else {
+                return NSLocalizedString("GalleryStateNoContentsTitle", value: "No Assets", comment: "No Contents state of gallery view model")
+            }
+        }
+    }
+    
+    open func descriptionForState(_ state: MediaGalleryState) -> String? {
+        switch state {
+        case .unknown:
+            return NSLocalizedString("GalleryStateUnknownDescription", value: "This may take a moment depending on your connection speed.", comment: "Initial state of gallery view model")
+        case .loading:
+            return NSLocalizedString("GalleryStateLoadingDescription", value: "Please wait a moment.", comment: "Loading state of gallery view model")
+        case .completed(let additionalItem):
+            if additionalItem {
+                return NSLocalizedString("GalleryStateCompletedWithMoreItemDescription", value: "This may take a moment depending on your connection speed.", comment: "Completed with more items state of gallery view model")
+            } else {
+                return NSLocalizedString("GalleryStateCompletedDescription", value: "Completed", comment: "Completed state of gallery view model")
+            }
+        case .error(let error):
+            return NSLocalizedString("GalleryStateErrorDescription", value: error.localizedDescription, comment: "Error state of gallery view model")
+        case .noContents:
+            if previews.count == 0 && storeCoordinator.items.count > 0 {
+                return NSLocalizedString("GalleryStateNoContentsFilteredDescription", value: "Please update your filters.", comment: "No Contents state of gallery view model")
+            } else {
+                return NSLocalizedString("GalleryStateNoContentsDescription", value: "No Assets Found.", comment: "No Contents state of gallery view model")
+            }
+        }
+    }
+    
+    open func imageForState(_ state: MediaGalleryState) -> UIImage? {
+        return AssetManager.shared.image(forKey: .download)
+    }
+    
     // MARK: - Previews Retrieval
 
     public func retrievePreviews(style: MediaGalleryRetrieveStyle) {
