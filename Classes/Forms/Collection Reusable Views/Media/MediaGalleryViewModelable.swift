@@ -47,6 +47,8 @@ public protocol MediaGalleryViewModelable: class {
 
     func imageForState(_ state: MediaGalleryState) -> UIImage?
 
+    
+    
 }
 
 extension MediaGalleryViewModelable {
@@ -130,7 +132,7 @@ open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryV
         NotificationCenter.default.addObserver(self, selector: #selector(storeDidChange(_:)), name: DataStoreCoordinatorDidChangeStateNotification, object: storeCoordinator)
 
         if storeCoordinator.state == .unknown {
-            storeCoordinator.retrieveItems()
+            _ = storeCoordinator.retrieveItems()
         }
     }
 
@@ -211,9 +213,9 @@ open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryV
     public func retrievePreviews(style: MediaGalleryRetrieveStyle) {
         switch style {
         case .reset:
-            storeCoordinator.retrieveItems()
+            _ = storeCoordinator.retrieveItems()
         case .paginated:
-            storeCoordinator.retrieveMoreItems()
+            _ = storeCoordinator.retrieveMoreItems()
         }
     }
 

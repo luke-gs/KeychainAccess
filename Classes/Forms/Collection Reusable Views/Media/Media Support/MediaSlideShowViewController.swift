@@ -293,7 +293,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
                 currentPreviewViewController = nil
             } else {
                 let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0))
-                currentPreviewViewController = (cell as? ControllerCell)?.viewController as? MediaViewController
+                currentPreviewViewController = (cell as? ControllerCell)?.viewController
             }
         }
     }
@@ -326,7 +326,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         guard let currentPreview = currentPreview else { return }
 
         if let index = indexOfPreview(currentPreview) {
-            viewModel.removeMedia([currentPreview.media]).then { [weak self] _ -> () in
+            _ = viewModel.removeMedia([currentPreview.media]).then { [weak self] _ -> () in
                 guard let `self` = self else { return }
                 if let preview = self.previewAfterDeletion(currentPreviewIndex: index) {
                     self.showPreview(preview, animated: true)
@@ -368,8 +368,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
         let theme = ThemeManager.shared.theme(for: .current)
         let backgroundColor = theme.color(forKey: .background)
-        let secondaryTextColor = theme.color(forKey: .secondaryText)
-
+        
         view.backgroundColor = backgroundColor
         collectionView.backgroundColor = backgroundColor
         collectionView.reloadData()
