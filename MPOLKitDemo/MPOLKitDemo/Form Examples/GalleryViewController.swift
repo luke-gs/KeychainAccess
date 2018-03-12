@@ -97,13 +97,32 @@ class GalleryViewController: FormBuilderViewController {
         return UINavigationController(rootViewController: gallery)
     }()
     
-    var selectedMagicOption: MagicViewController.FilterOption = .all
+    
+    // MARK: - Magic Filter
+    
+    enum FilterOption: String {
+        case all = "Show All"
+        case sensitiveOnly = "Show sensitive only"
+        case nonSensitiveOnly = "Show non senstive only"
+        case peopleOnly = "Show people only"
+    }
+
+    
+    var selectedMagicOption: FilterOption = .all
+    
+    var avaiableMagicOptions: [FilterOption] = [.all, .sensitiveOnly, .nonSensitiveOnly, .peopleOnly]
     
     @objc func magicTapped(_ barItem: UIBarButtonItem) {
-        let magic = MagicViewController(handler: { [unowned self] selected in
-            self.galleryViewController.dismiss(animated: true, completion: nil)
+        let magic = PickerTableViewController(style: .plain, items: avaiableMagicOptions.map({ $0.rawValue }))
+        
+        magic.selectionUpdateHandler = { [weak self] controller, selectedIndexes in
+            guard let `self` = self,
+                let selectedOption = self.avaiableMagicOptions[selectedIndexes].first,
+                self.selectedMagicOption != selectedOption else {
+                    return
+            }
             
-            switch selected {
+            switch selectedOption {
             case .all:
                 self.meganGalleryViewModel.filterDescriptors = nil
             case .sensitiveOnly:
@@ -114,10 +133,10 @@ class GalleryViewController: FormBuilderViewController {
                 self.meganGalleryViewModel.filterDescriptors = [FilterValueDescriptor(key: { $0.title }, values: ["Person"])]
             }
             
-            self.selectedMagicOption = selected
-        })
+            self.selectedMagicOption = selectedOption
+        }
         
-        magic.selectedOption = selectedMagicOption
+        magic.selectedIndexes = avaiableMagicOptions.indexes(where: { $0 == self.selectedMagicOption })
         
         let navigationController = UINavigationController(rootViewController: magic)
         navigationController.modalPresentationStyle = .popover
@@ -227,48 +246,4 @@ class MeganMediaStore: WritableDataStore {
         }
     }
 
-}
-
-
-class MagicViewController: FormBuilderViewController {
-    
-    enum FilterOption: String {
-        case all = "Show All"
-        case sensitiveOnly = "Show sensitive only"
-        case nonSensitiveOnly = "Show non senstive only"
-        case peopleOnly = "Show people only"
-    }
-    
-    let availableOptions: [FilterOption]
-    
-    let handler: (FilterOption) -> ()
-    
-    var selectedOption: FilterOption = .all
-    
-    init(options: [FilterOption] = [.all, .sensitiveOnly, .nonSensitiveOnly, .peopleOnly], handler: @escaping (FilterOption) -> ()) {
-        self.availableOptions = options
-        self.handler = handler
-        
-        super.init()
-    }
-    
-    required convenience init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func construct(builder: FormBuilder) {
-        builder.title = "Magic"
-        
-        builder += availableOptions.map { option -> SubtitleFormItem in
-            let item = SubtitleFormItem()
-                .title(option.rawValue)
-                .onSelection({ [weak self] _ in
-                    self?.selectedOption = option
-                    self?.handler(option)
-                })
-                .accessory(selectedOption == option ? ItemAccessory.checkmark : nil)
-            return item
-        }
-    }
-    
 }
