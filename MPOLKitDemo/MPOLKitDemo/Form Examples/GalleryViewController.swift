@@ -129,10 +129,15 @@ class GalleryViewController: FormBuilderViewController {
 }
 
 
+/// Custom Media
 class MeganMedia: Media {
+    
+    var secretMessage: String?
+    var whatever: Bool?
     
 }
 
+/// Custom Results
 class MeganStoreResult: PaginatedDataStoreResult {
 
     typealias Item = MeganMedia
@@ -150,6 +155,7 @@ class MeganStoreResult: PaginatedDataStoreResult {
 
 }
 
+/// Custom Store
 class MeganMediaStore: WritableDataStore {
 
     typealias Result = MeganStoreResult
