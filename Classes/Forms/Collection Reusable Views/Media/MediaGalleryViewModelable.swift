@@ -98,7 +98,7 @@ extension MediaGalleryViewModelable {
 public let MediaGalleryDidChangeNotificationName = Notification.Name("MediaGalleryDidChangeNotificationName")
 
 
-open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryViewModelable where T.Result: PaginatedDataStoreResult, T.Result.Item == Media {
+open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryViewModelable where T.Result: PaginatedDataStoreResult, T.Result.Item: Media {
 
     public private(set) var state: MediaGalleryState = .unknown
 
@@ -180,7 +180,7 @@ open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryV
     }
 
     private func generatePreviews() {
-        var items: [Media] = storeCoordinator.items
+        var items: [T.Result.Item] = storeCoordinator.items
         
         if let filterDescriptors = filterDescriptors {
             items = items.filter(using: filterDescriptors)
@@ -218,7 +218,11 @@ open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryV
     }
 
     public func addMedia(_ media: [Media]) -> Promise<Bool> {
-        return storeCoordinator.addItems(media).then { [weak self] _ -> Promise<[Media]> in
+        guard let media = media as? [T.Result.Item] else {
+            return Promise(error: MediaGalleryCoordinatorViewModelError.unsupportedMedia)
+        }
+        
+        return storeCoordinator.addItems(media).then { [weak self] _ -> Promise<[T.Result.Item]> in
             guard let `self` = self else { return Promise(error: NSError.cancelledError()) }
             return self.storeCoordinator.retrieveItems()
         }.then { _ -> Bool in
@@ -227,7 +231,11 @@ open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryV
     }
 
     public func removeMedia(_ media: [Media]) -> Promise<Bool> {
-        return storeCoordinator.removeItems(media).then { [weak self] _ -> Promise<[Media]> in
+        guard let media = media as? [T.Result.Item] else {
+            return Promise(error: MediaGalleryCoordinatorViewModelError.unsupportedMedia)
+        }
+        
+        return storeCoordinator.removeItems(media).then { [weak self] _ -> Promise<[T.Result.Item]> in
             guard let `self` = self else { return Promise(error: NSError.cancelledError()) }
             return self.storeCoordinator.retrieveItems()
         }.then { _ -> Bool in
@@ -236,7 +244,11 @@ open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryV
     }
 
     public func replaceMedia(_ media: Media, with otherMedia: Media) -> Promise<Bool> {
-        return storeCoordinator.replaceItem(media, with: otherMedia).then { [weak self] _ -> Promise<[Media]> in
+        guard let media = media as? T.Result.Item, let otherMedia = otherMedia as? T.Result.Item else {
+            return Promise(error: MediaGalleryCoordinatorViewModelError.unsupportedMedia)
+        }
+        
+        return storeCoordinator.replaceItem(media, with: otherMedia).then { [weak self] _ -> Promise<[T.Result.Item]> in
             guard let `self` = self else { return Promise(error: NSError.cancelledError()) }
             return self.storeCoordinator.retrieveItems()
         }.then { _ -> Bool in
@@ -244,4 +256,8 @@ open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryV
         }
     }
 
+}
+
+public enum MediaGalleryCoordinatorViewModelError: Error {
+    case unsupportedMedia
 }

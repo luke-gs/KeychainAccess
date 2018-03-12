@@ -17,7 +17,8 @@ public enum MediaType: Int, Codable {
 }
 
 
-public class Media: Codable {
+open class Media: Codable {
+    
     public let identifier: String
     public let type: MediaType
 
@@ -34,6 +35,7 @@ public class Media: Codable {
         self.comments = comments
         self.sensitive = isSensitive
     }
+    
 }
 
 extension Media: Hashable {
