@@ -129,17 +129,21 @@ class GalleryViewController: FormBuilderViewController {
 }
 
 
+class MeganMedia: Media {
+    
+}
+
 class MeganStoreResult: PaginatedDataStoreResult {
 
-    typealias Item = Media
+    typealias Item = MeganMedia
 
-    var items: [Media]
+    var items: [MeganMedia]
 
     var hasMoreItems: Bool { return nextPageID != nil }
 
     var nextPageID: Int?
 
-    init(items: [Media], nextPageID: Int?) {
+    init(items: [MeganMedia], nextPageID: Int?) {
         self.items = items
         self.nextPageID = nextPageID
     }
@@ -159,11 +163,11 @@ class MeganMediaStore: WritableDataStore {
 
             return Promise { fullfill, reject in
                 DispatchQueue.global().async {
-                    let media = images.map { image -> Media in
+                    let media = images.map { image -> MeganMedia in
                         let imageRef = UIImageJPEGRepresentation(image.0, 0.5)
                         let imageFilePath = self.cacheDirectory.appendingPathComponent("\(UUID().uuidString).jpg")
                         try! imageRef!.write(to: imageFilePath)
-                        return (Media(url: imageFilePath, type: .photo, title: image.1))
+                        return (MeganMedia(url: imageFilePath, type: .photo, title: image.1))
                     }
 
                     fullfill(MeganStoreResult(items: media, nextPageID: pageID))
