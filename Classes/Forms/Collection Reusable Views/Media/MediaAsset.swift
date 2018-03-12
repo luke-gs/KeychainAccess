@@ -27,13 +27,13 @@ open class Media: Codable {
     public var comments: String?
     public var sensitive: Bool
     
-    public init(identifier: String = UUID().uuidString, url: URL, type: MediaType, title: String? = nil, comments: String? = nil, isSensitive: Bool = false) {
+    public init(identifier: String = UUID().uuidString, url: URL, type: MediaType, title: String? = nil, comments: String? = nil, sensitive: Bool = false) {
         self.identifier = identifier
         self.type = type
         self.url = url
         self.title = title
         self.comments = comments
-        self.sensitive = isSensitive
+        self.sensitive = sensitive
     }
     
 }

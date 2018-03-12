@@ -22,10 +22,10 @@ class GalleryViewController: FormBuilderViewController {
 
     func localGallery(builder: FormBuilder) {
         let localStore = DataStoreCoordinator(dataStore: LocalDataStore(items: [
-            Media(url: URL(string: Bundle.main.path(forResource: "sample1", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Superman practice", isSensitive: true),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample2", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Pavel wannabe", isSensitive: true),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample3", ofType: "jpg")!)!, type: .photo, title: "Pavel Boryseiko", comments: "Without makeup", isSensitive: false),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim", comments: "This Girl is on FIREEE", isSensitive: false)
+            Media(url: URL(string: Bundle.main.path(forResource: "sample1", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Superman practice", sensitive: true),
+            Media(url: URL(string: Bundle.main.path(forResource: "sample2", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Pavel wannabe", sensitive: true),
+            Media(url: URL(string: Bundle.main.path(forResource: "sample3", ofType: "jpg")!)!, type: .photo, title: "Pavel Boryseiko", comments: "Without makeup", sensitive: false),
+            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim", comments: "This Girl is on FIREEE", sensitive: false)
         ]))
 
         let gallery = MediaGalleryCoordinatorViewModel(storeCoordinator: localStore)
@@ -48,10 +48,10 @@ class GalleryViewController: FormBuilderViewController {
 
     func paginatedGallery(builder: FormBuilder) {
         let localStore = DataStoreCoordinator(dataStore: LocalDataStore(items: [
-            Media(url: URL(string: Bundle.main.path(forResource: "sample1", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Superman practice", isSensitive: true),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample2", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Pavel wannabe", isSensitive: true),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample3", ofType: "jpg")!)!, type: .photo, title: "Pavel Boryseiko", comments: "Without makeup", isSensitive: false),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim", comments: "This Girl is on FIREEE", isSensitive: false)
+            Media(url: URL(string: Bundle.main.path(forResource: "sample1", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Superman practice", sensitive: true),
+            Media(url: URL(string: Bundle.main.path(forResource: "sample2", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Pavel wannabe", sensitive: true),
+            Media(url: URL(string: Bundle.main.path(forResource: "sample3", ofType: "jpg")!)!, type: .photo, title: "Pavel Boryseiko", comments: "Without makeup", sensitive: false),
+            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim", comments: "This Girl is on FIREEE", sensitive: false)
         ], limit: 2))
 
         let gallery = MediaGalleryCoordinatorViewModel(storeCoordinator: localStore)
@@ -173,7 +173,7 @@ class MeganMediaStore: WritableDataStore {
                         let imageRef = UIImageJPEGRepresentation(image.0, 0.5)
                         let imageFilePath = self.cacheDirectory.appendingPathComponent("\(UUID().uuidString).jpg")
                         try! imageRef!.write(to: imageFilePath)
-                        return (MeganMedia(url: imageFilePath, type: .photo, title: image.1))
+                        return (MeganMedia(url: imageFilePath, type: .photo, title: image.1, sensitive: image.2))
                     }
 
                     fullfill(MeganStoreResult(items: media, nextPageID: pageID))
@@ -197,11 +197,18 @@ class MeganMediaStore: WritableDataStore {
 
     // MARK: - Fake it to win it
 
-    private let fakeImageKeys: [(AssetManager.ImageKey, String)] = [
-        (.entityCarLarge, "Car"), (.entityBoat, "Boat"), (.entityTruckLarge, "Truck"), (.entityPerson, "Person"), (.entityBuilding, "Building"), (.entityTrailerLarge, "Trailer"), (.entityMotorbikeLarge, "Motorbike")
+    // ImageKey, Title, Sensitive
+    private let fakeImageKeys: [(AssetManager.ImageKey, String, Bool)] = [
+        (.entityCarLarge, "Car", false),
+        (.entityBoat, "Boat", true),
+        (.entityTruckLarge, "Truck", true),
+        (.entityPerson, "Person", false),
+        (.entityBuilding, "Building", false),
+        (.entityTrailerLarge, "Trailer", false),
+        (.entityMotorbikeLarge, "Motorbike", false)
     ]
 
-    private func connectToBackendToDownloadMedia(page: Int) -> Promise<([(UIImage, String)], Int?)> {
+    private func connectToBackendToDownloadMedia(page: Int) -> Promise<([(UIImage, String, Bool)], Int?)> {
         return Promise { fullfill, reject in
             DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 4.0) {
                 // This backend only sends 2 results back at a time.
@@ -212,7 +219,7 @@ class MeganMediaStore: WritableDataStore {
                 let pageId: Int? = (endIndex == self.fakeImageKeys.count) ? nil : ((page) + 1)
 
                 let images = self.fakeImageKeys[beginIndex..<endIndex].flatMap {
-                    return (AssetManager.shared.image(forKey: $0.0)!, $0.1)
+                    return (AssetManager.shared.image(forKey: $0.0)!, $0.1, $0.2)
                 }
 
                 fullfill((images, pageId))
