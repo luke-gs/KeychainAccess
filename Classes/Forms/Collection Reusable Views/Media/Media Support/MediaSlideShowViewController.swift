@@ -20,6 +20,11 @@ public protocol MediaSlideShowable: class {
 
 public class MediaSlideShowViewController: UIViewController, MediaSlideShowable, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UIGestureRecognizerDelegate {
 
+    private enum Identifier: String {
+        case genericCell
+        case stateCell
+    }
+    
     private var isFullScreen: Bool = false
 
     // Detects whether the status bar appearance should be based on `UIApplication` or `UIViewController`.
@@ -136,7 +141,8 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         collectionView.backgroundColor = .white
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(ControllerCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(ControllerCell.self, forCellWithReuseIdentifier: Identifier.genericCell.rawValue)
+        collectionView.register(MediaStateCell.self, forCellWithReuseIdentifier: Identifier.stateCell.rawValue)
         view.addSubview(collectionView)
 
         collectionView.addGestureRecognizer(tapGestureRecognizer)
@@ -169,35 +175,63 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
     // MARK: - UICollectionViewDelegate / DataSource
 
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        switch viewModel.state {
+        case .completed(let hasAdditionalItems): return hasAdditionalItems ? 2 : 1
+        case .unknown: return 2
+        case .loading: return 2
+        case .error: return 2
+        }
     }
 
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.previews.count
+        return section == 0 ? viewModel.previews.count : 1
     }
 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ControllerCell
-
-        return cell
+        if indexPath.section == 0 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.genericCell.rawValue, for: indexPath) as! ControllerCell
+            return cell
+        } else {
+            let state = viewModel.state
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.stateCell.rawValue, for: indexPath) as! MediaStateCell
+            
+            let button = cell.button
+            let actions = button.actions(forTarget: self, forControlEvent: .touchUpInside)
+            if actions == nil || actions?.count == 0 {
+                button.setImage(viewModel.imageForState(state), for: .normal)
+                button.addTarget(self, action: #selector(actionButtonTouched(_:)), for: .touchUpInside)
+            }
+            
+            cell.titleLabel.text = viewModel.titleForState(state)
+            cell.subtitleLabel.text = viewModel.descriptionForState(state)
+            
+            switch state {
+            case .loading: cell.isLoading = true
+            default: cell.isLoading = false
+            }
+            
+            return cell
+        }
     }
 
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cell = cell as? ControllerCell else { return }
-
-        let preview = viewModel.previews[indexPath.item]
-
-        if let previewController = previewViewControllerForPreview(preview) {
-            let contentView = cell.contentView
-
-            if let previewView = previewController.view {
-                addChildViewController(previewController)
-                previewView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-                previewView.frame = contentView.bounds
-                contentView.addSubview(previewView)
-                previewController.didMove(toParentViewController: self)
-                cell.viewController = previewController
+        if let cell = cell as? ControllerCell {
+            let preview = viewModel.previews[indexPath.item]
+            
+            if let previewController = previewViewControllerForPreview(preview) {
+                let contentView = cell.contentView
+                
+                if let previewView = previewController.view {
+                    addChildViewController(previewController)
+                    previewView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+                    previewView.frame = contentView.bounds
+                    contentView.addSubview(previewView)
+                    previewController.didMove(toParentViewController: self)
+                    cell.viewController = previewController
+                }
             }
+        } else if let cell = cell as? MediaStateCell {
+            cell.apply(theme: ThemeManager.shared.theme(for: .current))
         }
     }
 
@@ -214,7 +248,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
         cell.viewController = nil
     }
-
+    
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return collectionView.bounds.size
     }
@@ -222,9 +256,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         updateCurrentPreviewViewController()
 
-        if let currentPreview = currentPreview {
-            overlayView.populateWithPreview(currentPreview)
-        }
+        overlayView.populateWithPreview(currentPreview)
     }
 
     // MARK: - Status bar
@@ -257,9 +289,12 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         let width = collectionView.bounds.width
         if width > 0.0, collectionView.contentOffset.x >= 0.0 {
             let index: Int = Int(floor(collectionView.contentOffset.x / width))
-
-            let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0))
-            currentPreviewViewController = (cell as? ControllerCell)?.viewController as? MediaViewController
+            if index >= viewModel.previews.count {
+                currentPreviewViewController = nil
+            } else {
+                let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0))
+                currentPreviewViewController = (cell as? ControllerCell)?.viewController as? MediaViewController
+            }
         }
     }
 
@@ -337,6 +372,15 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
         view.backgroundColor = backgroundColor
         collectionView.backgroundColor = backgroundColor
+        collectionView.reloadData()
+    }
+    
+    // MARK: - Interaction
+    
+    @objc private func actionButtonTouched(_ button: UIButton) {
+        if case .loading = viewModel.state {} else {
+            viewModel.retrievePreviews(style: .paginated)
+        }
     }
 
 }
@@ -355,3 +399,5 @@ private class ControllerCell: UICollectionViewCell {
     }
 
 }
+
+

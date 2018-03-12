@@ -13,7 +13,7 @@ public protocol MediaOverlayViewable: class {
 
     weak var slideShowViewController: (MediaSlideShowable & MediaSlideShowViewController)? { get set }
 
-    func populateWithPreview(_ preview: MediaPreviewable)
+    func populateWithPreview(_ preview: MediaPreviewable?)
 
     func setHidden(_ hidden: Bool, animated: Bool)
 
@@ -136,10 +136,9 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
             }
         }
         didSet {
-            setupNavigationItems()
-            if let preview = slideShowViewController?.currentPreview {
-                updateDetailsWithPreview(preview)
-            }
+            let preview = slideShowViewController?.currentPreview
+            updateDetailsWithPreview(preview)
+            setupNavigationItemsWithPreview(preview)
 
             if let galleryViewModel = slideShowViewController?.viewModel {
                 NotificationCenter.default.addObserver(self, selector: #selector(galleryDidChange(_:)), name: MediaGalleryDidChangeNotificationName, object: galleryViewModel)
@@ -180,13 +179,20 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
         slideShowViewController?.navigationController?.setNavigationBarHidden(hidden, animated: animated)
     }
 
-    private func updateDetailsWithPreview(_ preview: MediaPreviewable) {
-        guard let viewModel = slideShowViewController?.viewModel, let index = viewModel.indexOfPreview(preview) else { return }
-
-        slideShowViewController?.navigationItem.title = String.localizedStringWithFormat("Asset %1$d of %2$d", index + 1, viewModel.previews.count)
-        titleLabel.text = preview.title
-        commentLabel.text = preview.comments
-
+    private func updateDetailsWithPreview(_ preview: MediaPreviewable?) {
+        if let preview = preview,
+            let viewModel = slideShowViewController?.viewModel,
+            let index = viewModel.indexOfPreview(preview) {
+            slideShowViewController?.navigationItem.title = String.localizedStringWithFormat("Asset %1$d of %2$d", index + 1, viewModel.previews.count)
+            
+            titleLabel.text = preview.title
+            commentLabel.text = preview.comments
+        } else {
+            slideShowViewController?.navigationItem.title = nil
+            titleLabel.text = nil
+            commentLabel.text = nil
+        }
+        
         titleLabel.isHidden = titleLabel.text?.isEmpty ?? true
         commentLabel.isHidden = commentLabel.text?.isEmpty ?? true
         captionsBackgroundView.isHidden = titleLabel.isHidden && commentLabel.isHidden
@@ -210,10 +216,10 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
 
     }
 
-    public func populateWithPreview(_ preview: MediaPreviewable) {
+    public func populateWithPreview(_ preview: MediaPreviewable?) {
         updateDetailsWithPreview(preview)
 
-        if let index = slideShowViewController?.viewModel.indexOfPreview(preview) {
+        if let preview = preview, let index = slideShowViewController?.viewModel.indexOfPreview(preview) {
             let indexPath = IndexPath(item: 0, section: index)
             if let cell = collectionView.cellForItem(at: indexPath) {
                 if !collectionView.isDragging {
@@ -225,7 +231,7 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
             }
         }
 
-        setupNavigationItems()
+        setupNavigationItemsWithPreview(preview)
     }
 
     public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -377,9 +383,9 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
         collectionView.reloadData()
     }
 
-    private func setupNavigationItems() {
+    private func setupNavigationItemsWithPreview(_ preview: MediaPreviewable?) {
         if let navigationItem = slideShowViewController?.navigationItem {
-            if slideShowViewController?.allowEditing == true {
+            if slideShowViewController?.allowEditing == true && preview != nil {
                 let removeItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeTapped(_:)))
                 let editItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped(_:)))
 

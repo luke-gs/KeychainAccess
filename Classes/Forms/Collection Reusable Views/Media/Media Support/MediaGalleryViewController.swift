@@ -200,7 +200,14 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
         } else {
             let state = viewModel.state
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.stateCell.rawValue, for: indexPath) as! MediaStateCell
-            cell.imageView.image = viewModel.imageForState(state)
+            
+            let button = cell.button
+            let actions = button.actions(forTarget: self, forControlEvent: .touchUpInside)
+            if actions == nil || actions?.count == 0 {
+                button.setImage(viewModel.imageForState(state), for: .normal)
+                button.addTarget(self, action: #selector(actionButtonTouched(_:)), for: .touchUpInside)
+            }
+            
             cell.titleLabel.text = viewModel.titleForState(state)
             cell.subtitleLabel.text = viewModel.descriptionForState(state)
 
@@ -390,6 +397,12 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
         view.backgroundColor = backgroundColor
 
         collectionView.backgroundColor = backgroundColor
+    }
+    
+    @objc private func actionButtonTouched(_ button: UIButton) {
+        if case .loading = viewModel.state {} else {
+            viewModel.retrievePreviews(style: .paginated)
+        }
     }
 
     private func updateContentState() {

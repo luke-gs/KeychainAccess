@@ -12,7 +12,7 @@ import UIKit
 
 class MediaStateCell: UICollectionViewCell {
 
-    public let imageView = UIImageView()
+    public let button = UIButton(type: .system)
 
     public let titleLabel = UILabel()
 
@@ -34,7 +34,7 @@ class MediaStateCell: UICollectionViewCell {
         contentView.addSubview(container)
 
         container.addSubview(activityIndicator)
-        container.addSubview(imageView)
+        container.addSubview(button)
         container.addSubview(titleLabel)
         container.addSubview(subtitleLabel)
 
@@ -47,17 +47,17 @@ class MediaStateCell: UICollectionViewCell {
         subtitleLabel.textAlignment = .center
 
         container.translatesAutoresizingMaskIntoConstraints = false
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+        button.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
 
-        imageView.setContentHuggingPriority(.required, for: .horizontal)
-        imageView.setContentHuggingPriority(.required, for: .vertical)
-        imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
-        imageView.setContentCompressionResistancePriority(.required, for: .vertical)
+        button.setContentHuggingPriority(.required, for: .horizontal)
+        button.setContentHuggingPriority(.required, for: .vertical)
+        button.setContentCompressionResistancePriority(.required, for: .horizontal)
+        button.setContentCompressionResistancePriority(.required, for: .vertical)
 
-        let views: [String: Any] = ["image": imageView, "title": titleLabel, "subtitle": subtitleLabel]
+        let views: [String: Any] = ["image": button, "title": titleLabel, "subtitle": subtitleLabel]
 
         var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[image(50)]",
                                                          options: [],
@@ -74,15 +74,15 @@ class MediaStateCell: UICollectionViewCell {
                                                       views: views)
 
         constraints += [
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 16.0),
+            titleLabel.topAnchor.constraint(equalTo: button.bottomAnchor, constant: 16.0),
 
-            imageView.widthAnchor.constraint(equalToConstant: 50.0),
-            imageView.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+            button.widthAnchor.constraint(equalToConstant: 50.0),
+            button.centerXAnchor.constraint(equalTo: container.centerXAnchor),
 
             activityIndicator.widthAnchor.constraint(equalToConstant: 50.0),
             activityIndicator.heightAnchor.constraint(equalToConstant: 50.0),
-            activityIndicator.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
+            activityIndicator.centerXAnchor.constraint(equalTo: button.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: button.centerYAnchor),
 
             container.topAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.topAnchor),
             container.bottomAnchor.constraint(lessThanOrEqualTo: contentView.layoutMarginsGuide.bottomAnchor),
@@ -110,11 +110,11 @@ class MediaStateCell: UICollectionViewCell {
 
     private func updateState() {
         if isLoading {
-            imageView.isHidden = true
+            button.isHidden = true
             activityIndicator.isHidden = false
             activityIndicator.play()
         } else {
-            imageView.isHidden = false
+            button.isHidden = false
             activityIndicator.isHidden = true
         }
     }
