@@ -30,6 +30,8 @@ public class SummaryDetailFormItem: BaseFormItem {
     public var imageTintColor: UIColor?
 
     public var image: ImageLoadable?
+    
+    public var isGalleryAvailable: Bool = false
 
     
     // MARK: - Custom actions
@@ -37,6 +39,8 @@ public class SummaryDetailFormItem: BaseFormItem {
     public var onImageTapped: (() -> ())?
 
     public var onButtonTapped: (() -> ())?
+    
+    public var onGalleryButtonTapped: (() -> ())?
 
     public init() {
         super.init(cellType: EntityDetailCollectionViewCell.self, reuseIdentifier: EntityDetailCollectionViewCell.defaultReuseIdentifier)
@@ -64,6 +68,11 @@ public class SummaryDetailFormItem: BaseFormItem {
 
         thumbnailView.isEnabled = onImageTapped != nil
         thumbnailView.addTarget(self, action: #selector(imageTapped), for: .primaryActionTriggered)
+        
+        cell.galleryButton.isHidden = !isGalleryAvailable
+        cell.galleryButtonActionHandler = { [weak self ] _ in
+            self?.onGalleryButtonTapped?()
+        }
 
         cell.additionalDetailsButtonActionHandler =  { [weak self] _ in
             self?.onButtonTapped?()
@@ -166,6 +175,12 @@ extension SummaryDetailFormItem {
         self.image = image
         return self
     }
+    
+    @discardableResult
+    public func galleryAvailable(_ isGalleryAvailable: Bool) -> Self {
+        self.isGalleryAvailable = isGalleryAvailable
+        return self
+    }
 
     @discardableResult
     public func onImageTapped(_ onImageTapped: (() -> ())?) -> Self {
@@ -176,6 +191,12 @@ extension SummaryDetailFormItem {
     @discardableResult
     public func onButtonTapped(_ onButtonTapped: (() -> ())?) -> Self {
         self.onButtonTapped = onButtonTapped
+        return self
+    }
+    
+    @discardableResult
+    public func onGalleryButtonTapped(_ onGalleryButtonTapped: (() -> ())?) -> Self {
+        self.onGalleryButtonTapped = onGalleryButtonTapped
         return self
     }
 

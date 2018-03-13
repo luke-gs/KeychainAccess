@@ -52,6 +52,15 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
     /// It is recommended that you set this handler, rather than becoming
     /// a target action receiver directly.
     open var additionalDetailsButtonActionHandler: ((EntityDetailCollectionViewCell) -> Void)?
+    
+    /// The gallery button that sits in the bottom right corner of the thumbanil.
+    open let galleryButton = GalleryButton(frame: .zero)
+    
+    /// The gallery button action method.
+    ///
+    /// It is recommended that you set this handler, rather than becoming
+    /// a target action receiver directly.
+    open var galleryButtonActionHandler: ((EntityDetailCollectionViewCell) -> Void)?
 
 
 
@@ -120,6 +129,9 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
 
         additionalDetailsButton.translatesAutoresizingMaskIntoConstraints = false
         additionalDetailsButton.titleLabel?.font = .systemFont(ofSize: 11, weight: UIFont.Weight.medium)
+        
+        galleryButton.translatesAutoresizingMaskIntoConstraints = false
+        galleryButton.isHidden = true
 
         sourceLabel.adjustsFontForContentSizeCategory = true
         titleLabel.adjustsFontForContentSizeCategory = true
@@ -142,6 +154,7 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(descriptionLabel)
         contentView.addSubview(additionalDetailsButton)
+        contentView.addSubview(galleryButton)
 
         contentView.addLayoutGuide(compactMainContentGuide)
         contentView.addLayoutGuide(mainLabelLayoutGuide)
@@ -189,10 +202,15 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: thumbnailView, attribute: .height,   relatedBy: .lessThanOrEqual, toItem: contentModeLayoutGuide, attribute: .height),
             NSLayoutConstraint(item: thumbnailView, attribute: .height,   relatedBy: .equal,           toItem: thumbnailView, attribute: .width),
             NSLayoutConstraint(item: thumbnailView, attribute: .width,    relatedBy: .equal,           toConstant: 202),
+            
+            NSLayoutConstraint(item: galleryButton, attribute: .trailing, relatedBy: .equal, toItem: thumbnailView, attribute: .trailing, constant: -16.0),
+            NSLayoutConstraint(item: galleryButton, attribute: .bottom, relatedBy: .equal, toItem: thumbnailView, attribute: .bottom, constant: -16.0),
+            NSLayoutConstraint(item: galleryButton, attribute: .height, relatedBy: .equal, toConstant: 40),
 
             NSLayoutConstraint(item: mainLabelLayoutGuide, attribute: .top, relatedBy: .equal, toItem: thumbnailView, attribute: .top, constant: 17.0),
 
             NSLayoutConstraint(item: detailLabelLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: mainLabelLayoutGuide, attribute: .leading),
+            
 
             subtitleToDescriptionConstraint,
             descriptionToMoreRegularConstraint,
@@ -202,6 +220,10 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
         compactWidthConstraints = [
             NSLayoutConstraint(item: thumbnailView, attribute: .width,  relatedBy: .equal, toConstant: 96.0),
             NSLayoutConstraint(item: thumbnailView, attribute: .height, relatedBy: .equal, toConstant: 96.0),
+            
+            NSLayoutConstraint(item: galleryButton, attribute: .trailing, relatedBy: .equal, toItem: thumbnailView, attribute: .trailing, constant: -10.0),
+            NSLayoutConstraint(item: galleryButton, attribute: .bottom, relatedBy: .equal, toItem: thumbnailView, attribute: .bottom, constant: -10.0),
+            NSLayoutConstraint(item: galleryButton, attribute: .height, relatedBy: .equal, toConstant: 24),
 
             NSLayoutConstraint(item: compactMainContentGuide, attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top),
             NSLayoutConstraint(item: compactMainContentGuide, attribute: .leading, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .leading),
@@ -220,6 +242,7 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
         ]
 
         additionalDetailsButton.addTarget(self, action: #selector(additionalDescriptionsButtonDidSelect), for: .touchUpInside)
+        galleryButton.addTarget(self, action: #selector(galleryButtonDidSelect), for: .touchUpInside)
 
         sourceLabel.addObserver(self,      forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
         titleLabel.addObserver(self,       forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
@@ -243,6 +266,9 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
         additionalDetailsButtonActionHandler?(self)
     }
 
+    @objc private func galleryButtonDidSelect() {
+        galleryButtonActionHandler?(self)
+    }
 
     // MARK: - Overrides
 

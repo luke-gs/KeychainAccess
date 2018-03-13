@@ -13,16 +13,23 @@ public class GalleryButton: UIControl {
         super.init(frame: frame)
         
         backgroundColor = .white
-        clipsToBounds = true
         translatesAutoresizingMaskIntoConstraints = false
         
+        // Add slight shadow
+        layer.masksToBounds = false
+        layer.shadowOffset = CGSize(width: 1, height: 1)
+        layer.shadowRadius = 2
+        layer.shadowOpacity = 0.5
+        
+        // Add gallery icon
         let icon = UIImageView(image: AssetManager.shared.image(forKey: .gallery))
-        icon.translatesAutoresizingMaskIntoConstraints = true
+        icon.translatesAutoresizingMaskIntoConstraints = false
         addSubview(icon)
         
+        // Create constraints
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalTo: heightAnchor),
-            
+        
             icon.centerXAnchor.constraint(equalTo: centerXAnchor),
             icon.centerYAnchor.constraint(equalTo: centerYAnchor),
             icon.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.75),
