@@ -97,6 +97,7 @@ open class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
                 .titleTextColor(!isCompact ? primaryColor : nil)
                 .subtitleTextColor(!isCompact ? secondaryColor : nil)
                 .detailTextColor(!isCompact ? secondaryColor : nil)
+                .badge(0)
                 .onSelection { [weak self] _ in
                     guard let `self` = self, let presentable = self.summaryDisplayFormatter.presentableForEntity(entity) else { return }
                     self.delegate?.searchRecentsViewModel(self, didSelectPresentable: presentable)
