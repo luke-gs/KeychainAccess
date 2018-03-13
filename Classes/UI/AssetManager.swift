@@ -223,6 +223,7 @@ extension AssetManager {
         public static let audioCall      = ImageKey("iconCommsCall")
         public static let videoCall      = ImageKey("iconCommsVideo")
         public static let message        = ImageKey("iconCommsMessage")
+        public static let gallery        = ImageKey("iconCommsGallery")
 
         // Forms
         public static let checkbox             = ImageKey("iconFormCheckbox")
