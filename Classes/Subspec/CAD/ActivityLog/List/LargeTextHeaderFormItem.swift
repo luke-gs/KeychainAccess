@@ -67,7 +67,7 @@ extension LargeTextHeaderFormItem {
     }
     
     @discardableResult
-    public func separatorColor(_ text: UIColor?) -> Self {
+    public func separatorColor(_ separatorColor: UIColor?) -> Self {
         self.separatorColor = separatorColor
         return self
     }
