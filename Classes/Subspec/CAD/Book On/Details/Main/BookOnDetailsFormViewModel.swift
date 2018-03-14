@@ -22,52 +22,47 @@ open class BookOnDetailsFormViewModel {
     open weak var delegate: BookOnDetailsFormViewModelDelegate?
 
     /// The form content
-    public var content: BookOnDetailsFormContentMainViewModel
+    open private(set) var content: BookOnDetailsFormContentMainViewModel
 
     /// Resource we are booking on to
-    private var resource: CADResourceType
+    open private(set) var resource: CADResourceType
 
     /// Whether we are editing an existing bookon
-    public let isEditing: Bool
+    open let isEditing: Bool
 
     /// Whether to show vehicle fields
-    public let showVehicleFields: Bool = true
+    open let showVehicleFields: Bool = true
+
+    // Array of default equipment items, manifest items with zero counts
+    open var defaultEquipment: [QuantityPicked] {
+        return CADStateManager.shared.equipmentItems().map { item in
+            return QuantityPicked(object: item, count: 0)
+        }.sorted(using: [SortDescriptor<QuantityPicked>(ascending: true) { $0.object.title }])
+    }
 
     public init(resource: CADResourceType) {
         self.resource = resource
 
-        // Create equipment selection pickables from manifest items
-        let defaultEquipment = CADStateManager.shared.equipmentItems().map { item in
-            return QuantityPicked(object: item, count: 0)
-        }.sorted(using: [SortDescriptor<QuantityPicked>(ascending: true) { $0.object.title }])
-
         if let lastSaved = CADStateManager.shared.lastBookOn {
             content = BookOnDetailsFormContentMainViewModel(withModel: lastSaved)
             isEditing = true
-
-            // Apply the previously stored equipment counts to latest manifest data
-            var mergedEquipment = defaultEquipment
-            for equipment in content.equipment {
-                if equipment.count > 0 {
-                    // Update count if manifest item still exists
-                    if let index = mergedEquipment.index(of: equipment) {
-                        mergedEquipment[index].count = equipment.count
-                    }
-                }
-            }
-            content.equipment = mergedEquipment
         } else {
-            content = BookOnDetailsFormContentMainViewModel()
+            content = BookOnDetailsFormContentMainViewModel(withResource: resource)
             isEditing = false
 
-            content.equipment = defaultEquipment
-
-            // Initial form has self as one of officers to be book on to callsign
-            if let model = CADStateManager.shared.officerDetails {
-                let officer = BookOnDetailsFormContentOfficerViewModel(withModel: model, initial: true)
-                content.officers = [officer]
+            // Always make sure we are first officer in list when booking on
+            if let loggedInOfficer = CADStateManager.shared.officerDetails {
+                // Remove existing
+                if let index = resource.payrollIds.index(of: loggedInOfficer.payrollId) {
+                    content.officers.remove(at: index)
+                }
+                // Insert latest officer details at first position
+                let officerViewModel = BookOnDetailsFormContentOfficerViewModel(withModel: loggedInOfficer, initial: true)
+                content.officers.insert(officerViewModel, at: 0)
             }
         }
+        // Convert the selected equipment to quantity picked items, if still in latest manifest data
+        content.equipment = updatedEquipmentList(equipment: content.equipment)
     }
 
     /// Create the view controller for this view model
@@ -156,6 +151,20 @@ open class BookOnDetailsFormViewModel {
 
     open func removeOfficer(at index: Int) {
         content.officers.remove(at: index)
+    }
+
+    public func updatedEquipmentList(equipment: [QuantityPicked]) -> [QuantityPicked] {
+        // Apply the given equipment counts to the latest manifest data
+        var mergedEquipment = defaultEquipment
+        for equipment in equipment {
+            if equipment.count > 0 {
+                // Update count if manifest item still exists
+                if let index = mergedEquipment.index(of: equipment) {
+                    mergedEquipment[index].count = equipment.count
+                }
+            }
+        }
+        return mergedEquipment
     }
 }
 
