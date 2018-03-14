@@ -41,6 +41,11 @@ open class CompactSidebarSourceViewController: UITableViewController {
         }
     }
 
+    /// Theme to use for view
+    public var theme: Theme {
+        return ThemeManager.shared.theme(for: .dark)
+    }
+
     // MARK: - View lifecycle
     
     init(items: [SourceItem], selectedIndex: Int) {
@@ -56,15 +61,21 @@ open class CompactSidebarSourceViewController: UITableViewController {
     override open func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.white
         title = NSLocalizedString("Other Data Sources", comment: "")
 
-        let theme = ThemeManager.shared.theme(for: .current)
-        tableView.backgroundColor = theme.color(forKey: .background)
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 50
         tableView.register(CompactSidebarSourceCell.self)
+        tableView.separatorColor = theme.color(forKey: .separator)
         tableView.tableFooterView = UIView()
+    }
+
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // Use dark background, regardless of theme
+        view.backgroundColor = theme.color(forKey: .background)
+        navigationController?.navigationBar.barStyle = .black
     }
 
     open override var preferredContentSize: CGSize {
@@ -98,9 +109,9 @@ extension CompactSidebarSourceViewController {
         cell.sourceBarCell.isSelected = (indexPath.row == selectedIndex)
 
         // Set colors according to theme
-        let theme = ThemeManager.shared.theme(for: .current)
         cell.sourceTitle.textColor = theme.color(forKey: .primaryText)
         cell.backgroundColor = UIColor.clear
+        cell.selectionStyle = .gray
         return cell
     }
 }

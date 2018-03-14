@@ -64,9 +64,9 @@ open class TasksListHeaderCompactViewController: UIViewController {
                 // Update color to match source status
                 switch sourceItems[selectedSourceIndex].state {
                 case .loaded(_, let color):
-                    sourceButton.backgroundColor = color
+                    sourceButton.backgroundColor = color ?? .white
                 default:
-                    sourceButton.backgroundColor = .lightGray
+                    sourceButton.backgroundColor = .secondaryGray
                 }
             } else {
                 sourceButton.setTitle(nil, for: .normal)
