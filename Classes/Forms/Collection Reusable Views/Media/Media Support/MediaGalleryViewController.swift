@@ -97,8 +97,8 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
         collectionView.backgroundColor = .white
 
-        collectionView.register(MediaGalleryCell.self, forCellWithReuseIdentifier: Identifier.genericCell.rawValue)
-        collectionView.register(galleryCellType, forCellWithReuseIdentifier: Identifier.stateCell.rawValue)
+        collectionView.register(galleryCellType, forCellWithReuseIdentifier: Identifier.genericCell.rawValue)
+        collectionView.register(MediaStateCell.self, forCellWithReuseIdentifier: Identifier.stateCell.rawValue)
 
         collectionView.dataSource = self
         collectionView.delegate = self
