@@ -20,6 +20,8 @@ open class CADResourceCore: Codable, CADResourceType {
 
     open var callsign: String = ""
 
+    open var category: String?
+
     open var currentIncident: String?
 
     open var driver: String?
@@ -29,6 +31,8 @@ open class CADResourceCore: Codable, CADResourceType {
     open var lastUpdated: Date?
 
     open var location: CADLocationType?
+
+    open var odometer: String?
 
     open var patrolGroup: String?
 
@@ -121,11 +125,13 @@ open class CADResourceCore: Codable, CADResourceType {
         case activityLog = "activityLog"
         case assignedIncidents = "assignedIncidents"
         case callsign = "callsign"
+        case category = "category"
         case currentIncident = "currentIncident"
         case driver = "driver"
         case equipment = "equipment"
         case lastUpdated = "lastUpdated"
         case location = "location"
+        case odometer = "odometer"
         case patrolGroup = "patrolGroup"
         case payrollIds = "payrollIds"
         case remarks = "remarks"
@@ -143,11 +149,13 @@ open class CADResourceCore: Codable, CADResourceType {
         activityLog = try values.decodeIfPresent([CADActivityLogItemCore].self, forKey: .activityLog) ?? []
         assignedIncidents = try values.decodeIfPresent([String].self, forKey: .assignedIncidents) ?? []
         callsign = try values.decodeIfPresent(String.self, forKey: .callsign) ?? ""
+        category = try values.decodeIfPresent(String.self, forKey: .category)
         currentIncident = try values.decodeIfPresent(String.self, forKey: .currentIncident)
         driver = try values.decodeIfPresent(String.self, forKey: .driver)
         equipment = try values.decodeIfPresent([CADEquipmentCore].self, forKey: .equipment) ?? []
         lastUpdated = try values.decodeIfPresent(Date.self, forKey: .lastUpdated)
         location = try values.decodeIfPresent(CADLocationCore.self, forKey: .location)
+        odometer = try values.decodeIfPresent(String.self, forKey: .odometer)
         patrolGroup = try values.decodeIfPresent(String.self, forKey: .patrolGroup)
         payrollIds = try values.decodeIfPresent([String].self, forKey: .payrollIds) ?? []
         remarks = try values.decodeIfPresent(String.self, forKey: .remarks)
