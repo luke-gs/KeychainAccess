@@ -10,7 +10,7 @@ import Unbox
 import MPOLKit
 
 public enum MPOLSource: String, EntitySource, UnboxableEnum {
-    case mpol = "mpol"
+    case mpol = "pscore"
     case gnaf = "gnaf"
     case fnc = "fnc"
 
