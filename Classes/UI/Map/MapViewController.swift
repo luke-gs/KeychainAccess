@@ -45,7 +45,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     
     open private(set) var mapView = MKMapView()
 
-    private var mapControlView: MapControlView!
+    private var mapControlView = MapControlView()
     
     // MARK: - Properties
     
@@ -91,7 +91,6 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         }
         view.addSubview(mapView)
 
-        mapControlView = MapControlView()
         mapControlView.translatesAutoresizingMaskIntoConstraints = false
         mapControlView.locateButton.addTarget(self, action: #selector(didSelectUserTrackingButton), for: .touchUpInside)
         mapControlView.optionButton.addTarget(self, action: #selector(showMapTypePopup), for: .touchUpInside)
@@ -142,8 +141,6 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     public func mapView(_ mapView: MKMapView, didChange mode: MKUserTrackingMode, animated: Bool) {
-        guard mapControlView != nil else { return }
-
         mapControlView.setUserLocationTrackingMode(mode, animated: true)
     }
 
