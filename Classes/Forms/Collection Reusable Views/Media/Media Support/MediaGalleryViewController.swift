@@ -42,14 +42,17 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
     private lazy var addBarButtonItem: UIBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Add", comment: ""), style: .plain, target: self, action: #selector(addButtonTapped))
 
     public let viewModel: MediaGalleryViewModelable
+    
+    public let galleryCellType: MediaGalleryCell.Type
 
     private var itemsBeingProcessed: [Media] = []
 
-    public init(viewModel: MediaGalleryViewModelable, initialPreview: MediaPreviewable? = nil, pickerSources: [MediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker(), AudioMediaPicker(), SketchMediaPicker()]) {
+    public init(viewModel: MediaGalleryViewModelable, initialPreview: MediaPreviewable? = nil, pickerSources: [MediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker(), AudioMediaPicker(), SketchMediaPicker()], galleryCellType: MediaGalleryCell.Type = MediaGalleryCell.self) {
 
         self.viewModel = viewModel
         self.pickerSources = pickerSources
         self.initialPreview = initialPreview
+        self.galleryCellType = galleryCellType
 
         super.init(nibName: nil, bundle: nil)
 
@@ -94,8 +97,8 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
         collectionView.backgroundColor = .white
 
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: Identifier.genericCell.rawValue)
-        collectionView.register(MediaStateCell.self, forCellWithReuseIdentifier: Identifier.stateCell.rawValue)
+        collectionView.register(MediaGalleryCell.self, forCellWithReuseIdentifier: Identifier.genericCell.rawValue)
+        collectionView.register(galleryCellType, forCellWithReuseIdentifier: Identifier.stateCell.rawValue)
 
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -182,20 +185,23 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.genericCell.rawValue, for: indexPath)
-
-            cell.backgroundView = nil
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.genericCell.rawValue, for: indexPath) as! MediaGalleryCell
 
             let preview = viewModel.previews[indexPath.item]
-            preview.thumbnailImage?.loadImage(completion: { [weak self] (sizable) in
-                let imageView = UIImageView(image: sizable.sizing().image)
-                imageView.contentMode = self?.traitCollection.horizontalSizeClass == .compact ? .scaleAspectFill : .scaleAspectFit
-                imageView.clipsToBounds = true
-                cell.backgroundView = imageView
-                if self?.isEditing == true {
-                    cell.backgroundView?.alpha = collectionView.indexPathsForSelectedItems?.contains(indexPath) == true ? 1.0 : 0.4
-                }
-            })
+            cell.media = preview
+            
+//            cell.backgroundView = nil
+//
+//            let preview = viewModel.previews[indexPath.item]
+//            preview.thumbnailImage?.loadImage(completion: { [weak self] (sizable) in
+//                let imageView = UIImageView(image: sizable.sizing().image)
+//                imageView.contentMode = self?.traitCollection.horizontalSizeClass == .compact ? .scaleAspectFill : .scaleAspectFit
+//                imageView.clipsToBounds = true
+//                cell.backgroundView = imageView
+//                if self?.isEditing == true {
+//                    cell.backgroundView?.alpha = collectionView.indexPathsForSelectedItems?.contains(indexPath) == true ? 1.0 : 0.4
+//                }
+//            })
 
             return cell
         } else {
@@ -465,12 +471,12 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
                 let toVC = toVC as? MediaSlideShowViewController,
                 let preview = toVC.currentPreview,
                 let previewIndex = viewModel.previews.index(where: { preview === $0 }),
-                let cell = collectionView.cellForItem(at: IndexPath(item: previewIndex, section: 0)),
+                let cell = collectionView.cellForItem(at: IndexPath(item: previewIndex, section: 0)) as? MediaGalleryCell,
                 let previewViewController = toVC.currentPreviewViewController
                 else { return nil }
 
             let endingView = previewViewController.scalingImageView.imageView
-            transitionAnimator.startingView = cell.backgroundView
+            transitionAnimator.startingView = cell.imageView
             transitionAnimator.endingView = endingView
             transitionAnimator.dismissing = false
             return transitionAnimator
@@ -489,10 +495,10 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
                 collectionView.layoutIfNeeded()
             }
 
-            let cell = collectionView.cellForItem(at: indexPath)
+            let cell = collectionView.cellForItem(at: indexPath) as? MediaGalleryCell
 
             transitionAnimator.startingView = endingView
-            transitionAnimator.endingView = cell?.backgroundView
+            transitionAnimator.endingView = cell?.imageView
             transitionAnimator.dismissing = true
             return transitionAnimator
         default:
