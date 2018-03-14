@@ -1058,6 +1058,7 @@
         "AS4096"
       ], 
       "callsign": "V01", 
+      "category": "1", 
       "currentIncident": "AS4217", 
       "driver": "777122", 
       "equipment": [
@@ -1080,6 +1081,7 @@
         "streetType": "Street", 
         "suburb": "Fitzroy"
       }, 
+      "odometer": "1234", 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777122", 
@@ -1121,6 +1123,7 @@
         "AS4217"
       ], 
       "callsign": "M24", 
+      "category": "1", 
       "currentIncident": "AS4217", 
       "driver": "777032", 
       "equipment": [
@@ -1142,6 +1145,7 @@
         "streetType": "Street", 
         "suburb": "Fitzroy"
       }, 
+      "odometer": "1234", 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777032"
@@ -1174,6 +1178,7 @@
         "AS4104"
       ], 
       "callsign": "V44", 
+      "category": "1", 
       "currentIncident": "AS4104", 
       "driver": "777001", 
       "equipment": [
@@ -1195,6 +1200,7 @@
         "streetType": "Street", 
         "suburb": "Collingwood"
       }, 
+      "odometer": "1234", 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777001", 
@@ -1238,6 +1244,7 @@
       ], 
       "assignedIncidents": [], 
       "callsign": "V16", 
+      "category": "1", 
       "driver": "777019", 
       "equipment": [
         {
@@ -1258,6 +1265,7 @@
         "streetType": "Crescent", 
         "suburb": "Abbotsford"
       }, 
+      "odometer": "1234", 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777019", 
@@ -1283,6 +1291,7 @@
       ], 
       "assignedIncidents": [], 
       "callsign": "D20", 
+      "category": "1", 
       "driver": "777202", 
       "equipment": [
         {
@@ -1303,6 +1312,7 @@
         "streetType": "Street", 
         "suburb": "Collingwood"
       }, 
+      "odometer": "1234", 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777202"
@@ -1335,6 +1345,7 @@
         "AS4911"
       ], 
       "callsign": "D99", 
+      "category": "1", 
       "currentIncident": "AS4911", 
       "driver": "777791", 
       "equipment": [
@@ -1356,6 +1367,7 @@
         "streetType": "Street", 
         "suburb": "Collingwood"
       }, 
+      "odometer": "1234", 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777791"
@@ -1388,6 +1400,7 @@
         "AS4911"
       ], 
       "callsign": "P23", 
+      "category": "1", 
       "currentIncident": "AS4911", 
       "driver": "777199", 
       "equipment": [
@@ -1409,6 +1422,7 @@
         "streetType": "Street", 
         "suburb": "Collingwood"
       }, 
+      "odometer": "1234", 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777199"
@@ -1468,6 +1482,7 @@
         "INC0012"
       ], 
       "callsign": "SS42", 
+      "category": "1", 
       "currentIncident": "INC0012", 
       "driver": "182732", 
       "equipment": [
@@ -1489,6 +1504,7 @@
         "streetType": "Street", 
         "suburb": "Southbank"
       }, 
+      "odometer": "1234", 
       "patrolGroup": "South Melbourne", 
       "payrollIds": [
         "182732", 
@@ -1514,6 +1530,7 @@
       ], 
       "assignedIncidents": [], 
       "callsign": "SS20", 
+      "category": "1", 
       "driver": "182992", 
       "equipment": [], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
@@ -1529,6 +1546,7 @@
         "streetType": "Street", 
         "suburb": "South Melbourne"
       }, 
+      "odometer": "1234", 
       "patrolGroup": "South Melbourne", 
       "payrollIds": [
         "182992"
@@ -1559,6 +1577,7 @@
       ], 
       "assignedIncidents": [], 
       "callsign": "SS09", 
+      "category": "1", 
       "driver": "188278", 
       "equipment": [], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
@@ -1574,6 +1593,7 @@
         "streetType": "Street", 
         "suburb": "Collingwood"
       }, 
+      "odometer": "1234", 
       "patrolGroup": "South Melbourne", 
       "payrollIds": [
         "188278"
