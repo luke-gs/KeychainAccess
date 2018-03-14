@@ -22,20 +22,19 @@ open class BookOnDetailsFormViewModel {
     open weak var delegate: BookOnDetailsFormViewModelDelegate?
 
     /// The form content
-    public var content: BookOnDetailsFormContentMainViewModel
+    open private(set) var content: BookOnDetailsFormContentMainViewModel
 
     /// Resource we are booking on to
-    private var resource: CADResourceType
+    open private(set) var resource: CADResourceType
 
     /// Whether we are editing an existing bookon
-    public let isEditing: Bool
+    open let isEditing: Bool
 
     /// Whether to show vehicle fields
-    public let showVehicleFields: Bool = true
+    open let showVehicleFields: Bool = true
 
-    // Array of default equipment items
-    public var defaultEquipment: [QuantityPicked] {
-        // Create equipment selection pickables from manifest items
+    // Array of default equipment items, manifest items with zero counts
+    open var defaultEquipment: [QuantityPicked] {
         return CADStateManager.shared.equipmentItems().map { item in
             return QuantityPicked(object: item, count: 0)
         }.sorted(using: [SortDescriptor<QuantityPicked>(ascending: true) { $0.object.title }])
@@ -47,22 +46,23 @@ open class BookOnDetailsFormViewModel {
         if let lastSaved = CADStateManager.shared.lastBookOn {
             content = BookOnDetailsFormContentMainViewModel(withModel: lastSaved)
             isEditing = true
-
-            // Convert the selected equipment to quantity picked items, if still in latest manifest data
-            content.equipment = updatedEquipmentList(equipment: content.equipment)
         } else {
-            content = BookOnDetailsFormContentMainViewModel()
+            content = BookOnDetailsFormContentMainViewModel(withResource: resource)
             isEditing = false
 
-            // Convert the selected equipment to quantity picked items, if still in latest manifest data
-            content.equipment = updatedEquipmentList(equipment: resource.equipment.quantityPicked())
-
-            // Initial form has self as one of officers to be book on to callsign
-            if let model = CADStateManager.shared.officerDetails {
-                let officer = BookOnDetailsFormContentOfficerViewModel(withModel: model, initial: true)
-                content.officers = [officer]
+            // Always make sure we are first officer in list when booking on
+            if let loggedInOfficer = CADStateManager.shared.officerDetails {
+                // Remove existing
+                if let index = resource.payrollIds.index(of: loggedInOfficer.payrollId) {
+                    content.officers.remove(at: index)
+                }
+                // Insert latest officer details at first position
+                let officerViewModel = BookOnDetailsFormContentOfficerViewModel(withModel: loggedInOfficer, initial: true)
+                content.officers.insert(officerViewModel, at: 0)
             }
         }
+        // Convert the selected equipment to quantity picked items, if still in latest manifest data
+        content.equipment = updatedEquipmentList(equipment: content.equipment)
     }
 
     /// Create the view controller for this view model

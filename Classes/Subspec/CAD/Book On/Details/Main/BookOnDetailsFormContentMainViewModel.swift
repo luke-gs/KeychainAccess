@@ -35,6 +35,7 @@ open class BookOnDetailsFormContentMainViewModel {
         self.remarks = request.remarks
         self.startTime = request.shiftStart
         self.endTime = request.shiftEnd
+        self.equipment = request.equipment.quantityPicked()
 
         // Create the officers, setting is driver based on driverpayrollId
         self.officers = request.officers.map { officer in
@@ -42,9 +43,26 @@ open class BookOnDetailsFormContentMainViewModel {
             return BookOnDetailsFormContentOfficerViewModel(
                 withModel: officer, initial: false, isDriver: isDriver)
         }
+    }
 
-        // Lookup equipment items from manifest
-        self.equipment = request.equipment.quantityPicked()
+    public init(withResource resource: CADResourceType) {
+        self.serial = resource.serial
+        self.category = resource.category
+        self.odometer = resource.odometer
+        self.remarks = resource.remarks
+        self.startTime = resource.shiftStart
+        self.endTime = resource.shiftEnd
+        self.equipment = resource.equipment.quantityPicked()
+
+        // Create the officers, setting is driver based on resource driver
+        self.officers = resource.payrollIds.flatMap { payrollId in
+            let isDriver = payrollId == resource.driver
+            if let officer = CADStateManager.shared.officersById[payrollId] {
+                return BookOnDetailsFormContentOfficerViewModel(
+                    withModel: officer, initial: false, isDriver: isDriver)
+            }
+            return nil
+        }
     }
 
     /// Create model from view model
