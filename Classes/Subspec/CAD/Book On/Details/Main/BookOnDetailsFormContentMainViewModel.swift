@@ -44,13 +44,7 @@ open class BookOnDetailsFormContentMainViewModel {
         }
 
         // Lookup equipment items from manifest
-        let equipmentItemsByTitle = CADStateManager.shared.equipmentItemsByTitle()
-        self.equipment = request.equipment.flatMap { item in
-            if let pickable = equipmentItemsByTitle[item.description] {
-                return QuantityPicked(object: pickable, count: item.count)
-            }
-            return nil
-        }
+        self.equipment = request.equipment.quantityPicked()
     }
 
     /// Create model from view model
@@ -85,6 +79,20 @@ open class BookOnDetailsFormContentMainViewModel {
             return nil
         }
         return request
+    }
+}
+
+/// Extension for arrays of equipment items
+extension Array where Element == CADEquipmentType {
+
+    public func quantityPicked() -> [QuantityPicked] {
+        let equipmentItemsByTitle = CADStateManager.shared.equipmentItemsByTitle()
+        return self.flatMap { item in
+            if let pickable = equipmentItemsByTitle[item.description] {
+                return QuantityPicked(object: pickable, count: item.count)
+            }
+            return nil
+        }
     }
 }
 

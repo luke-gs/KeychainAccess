@@ -33,34 +33,29 @@ open class BookOnDetailsFormViewModel {
     /// Whether to show vehicle fields
     public let showVehicleFields: Bool = true
 
-    public init(resource: CADResourceType) {
-        self.resource = resource
-
+    // Array of default equipment items
+    public var defaultEquipment: [QuantityPicked] {
         // Create equipment selection pickables from manifest items
-        let defaultEquipment = CADStateManager.shared.equipmentItems().map { item in
+        return CADStateManager.shared.equipmentItems().map { item in
             return QuantityPicked(object: item, count: 0)
         }.sorted(using: [SortDescriptor<QuantityPicked>(ascending: true) { $0.object.title }])
+    }
+
+    public init(resource: CADResourceType) {
+        self.resource = resource
 
         if let lastSaved = CADStateManager.shared.lastBookOn {
             content = BookOnDetailsFormContentMainViewModel(withModel: lastSaved)
             isEditing = true
 
-            // Apply the previously stored equipment counts to latest manifest data
-            var mergedEquipment = defaultEquipment
-            for equipment in content.equipment {
-                if equipment.count > 0 {
-                    // Update count if manifest item still exists
-                    if let index = mergedEquipment.index(of: equipment) {
-                        mergedEquipment[index].count = equipment.count
-                    }
-                }
-            }
-            content.equipment = mergedEquipment
+            // Convert the selected equipment to quantity picked items, if still in latest manifest data
+            content.equipment = updatedEquipmentList(equipment: content.equipment)
         } else {
             content = BookOnDetailsFormContentMainViewModel()
             isEditing = false
 
-            content.equipment = defaultEquipment
+            // Convert the selected equipment to quantity picked items, if still in latest manifest data
+            content.equipment = updatedEquipmentList(equipment: resource.equipment.quantityPicked())
 
             // Initial form has self as one of officers to be book on to callsign
             if let model = CADStateManager.shared.officerDetails {
@@ -156,6 +151,20 @@ open class BookOnDetailsFormViewModel {
 
     open func removeOfficer(at index: Int) {
         content.officers.remove(at: index)
+    }
+
+    public func updatedEquipmentList(equipment: [QuantityPicked]) -> [QuantityPicked] {
+        // Apply the given equipment counts to the latest manifest data
+        var mergedEquipment = defaultEquipment
+        for equipment in equipment {
+            if equipment.count > 0 {
+                // Update count if manifest item still exists
+                if let index = mergedEquipment.index(of: equipment) {
+                    mergedEquipment[index].count = equipment.count
+                }
+            }
+        }
+        return mergedEquipment
     }
 }
 
