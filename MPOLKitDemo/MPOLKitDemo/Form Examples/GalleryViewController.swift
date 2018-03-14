@@ -90,7 +90,7 @@ class GalleryViewController: FormBuilderViewController {
     }()
     
     lazy var galleryViewController: UIViewController = {
-        let gallery = MediaGalleryViewController(viewModel: meganGalleryViewModel, initialPreview: nil, pickerSources: [])
+        let gallery = MediaGalleryViewController(viewModel: meganGalleryViewModel, initialPreview: nil, pickerSources: [], galleryCellType: MeganGalleryCell.self)
         gallery.allowEditing = false
         gallery.additionalBarButtonItems = [UIBarButtonItem(title: "Magic", style: .plain, target: self, action: #selector(GalleryViewController.magicTapped(_:)))]
         
@@ -147,6 +147,42 @@ class GalleryViewController: FormBuilderViewController {
     
 }
 
+
+/// Custom Galelry Cell
+
+class MeganGalleryCell: MediaGalleryCell {
+    
+    let label = UILabel()
+    
+    override var media: MediaPreviewable? {
+        didSet {
+            label.text = media?.title
+        }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        contentView.addSubview(label)
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = .gray
+        label.textColor = .white
+        label.textAlignment = .center
+        
+        NSLayoutConstraint.activate([
+            label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            label.heightAnchor.constraint(equalToConstant: 40.0)
+        ])
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+}
 
 /// Custom Media
 class MeganMedia: Media {
