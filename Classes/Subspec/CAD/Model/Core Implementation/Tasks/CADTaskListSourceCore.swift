@@ -377,7 +377,8 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
                     return TasksListBasicViewModel(broadcast: broadcast, source: CADTaskListSourceCore.broadcast)
                 }
                 if !taskViewModels.isEmpty {
-                    return CADFormCollectionSectionViewModel(title: "\(value.count) \(key)", items: taskViewModels)
+                    let title = category.pluralTitle(count: value.count)
+                    return CADFormCollectionSectionViewModel(title: title, items: taskViewModels)
                 }
             }
             return nil
