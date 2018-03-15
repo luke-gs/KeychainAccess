@@ -36,14 +36,7 @@ public class UserSession: UserSessionable {
     public let recentlyActioned: EntityBucket = EntityBucket(limit: 20)
     
     // Generic recent IDs for types (keyed), for current user
-    public var recentIdsListMap: [String: [String]] = [:] {
-        didSet {
-            guard let userStorage = userStorage else { return }
-            do {
-                try userStorage.add(object: recentIdsListMap, key: UserSession.recentIdsKey, flag: .retain)
-            } catch { }
-        }
-    }
+    public private(set) var recentIdsListMap: [String: [String]] = [:]
 
     public var isActive: Bool {
         return UserSession.userDefaults.string(forKey: UserSession.latestSessionKey) != nil
@@ -70,6 +63,7 @@ public class UserSession: UserSessionable {
         UserSession.current.user = user
         UserSession.current.recentlySearched = []
         UserSession.current.userStorage = UserStorage(userID: user.username)
+        UserSession.current.loadRecentIds()
 
         UserSession.current.saveTokenToKeychain()
         UserSession.current.loadUserFromCache()
@@ -93,6 +87,7 @@ public class UserSession: UserSessionable {
         recentlySearched = []
         recentlyViewed.removeAll()
         recentlyActioned.removeAll()
+        recentIdsListMap = [:]
         userStorage = nil
         directoryManager.write(nil, toKeyChain: "token")
 
@@ -136,10 +131,14 @@ public class UserSession: UserSessionable {
 
         recentlyViewed.add(viewed)
         recentlyActioned.add(actioned)
-
+        
         isRestoringSession = false
 
-        if let token = self.token, self.user != nil {
+        if let token = self.token, let user = self.user {
+            UserSession.current.userStorage = UserStorage(userID: user.username)
+            
+            loadRecentIds()
+
             completion(token)
         } else {
             completion(OAuthAccessToken(accessToken: "", type: ""))
@@ -190,6 +189,8 @@ public class UserSession: UserSessionable {
     ///   - key: the key to use in the dictionary
     ///   - trim: the max number of elements to keep in the array, default is `100`
     open func addRecentId(_ id: String, forKey key: String, trimToMaxElements trim: Int = 100) {
+        guard let userStorage = userStorage else { return }
+        
         var recent = recentIdsListMap[key] ?? [String]()
         
         if let indexOfExisting = recent.index(of: id) {
@@ -198,6 +199,12 @@ public class UserSession: UserSessionable {
         recent.insert(id, at: 0)
         
         recentIdsListMap[key] = Array(recent.prefix(trim))
+
+        do {
+            try userStorage.add(object: recentIdsListMap, key: UserSession.recentIdsKey, flag: .retain)
+        } catch {
+            print("Failed to add to user storage with error:\n\(error.localizedDescription)")
+        }
     }
     
     /// Adds an array of recent IDs to the recent IDs dictionary
@@ -213,6 +220,12 @@ public class UserSession: UserSessionable {
     }
 
     //MARK: RESTORING
+    
+    private func loadRecentIds() {
+        if let data = userStorage?.retrieve(key: UserSession.recentIdsKey) as? [String : [String]] {
+            recentIdsListMap = data
+        }
+    }
 
     private func loadUserFromCache() {
         guard let username = user?.username else { return }

@@ -35,6 +35,7 @@ open class BookOnDetailsFormContentMainViewModel {
         self.remarks = request.remarks
         self.startTime = request.shiftStart
         self.endTime = request.shiftEnd
+        self.equipment = request.equipment.quantityPicked()
 
         // Create the officers, setting is driver based on driverpayrollId
         self.officers = request.officers.map { officer in
@@ -42,12 +43,23 @@ open class BookOnDetailsFormContentMainViewModel {
             return BookOnDetailsFormContentOfficerViewModel(
                 withModel: officer, initial: false, isDriver: isDriver)
         }
+    }
 
-        // Lookup equipment items from manifest
-        let equipmentItemsByTitle = CADStateManager.shared.equipmentItemsByTitle()
-        self.equipment = request.equipment.flatMap { item in
-            if let pickable = equipmentItemsByTitle[item.description] {
-                return QuantityPicked(object: pickable, count: item.count)
+    public init(withResource resource: CADResourceType) {
+        self.serial = resource.serial
+        self.category = resource.category
+        self.odometer = resource.odometer
+        self.remarks = resource.remarks
+        self.startTime = resource.shiftStart
+        self.endTime = resource.shiftEnd
+        self.equipment = resource.equipment.quantityPicked()
+
+        // Create the officers, setting is driver based on resource driver
+        self.officers = resource.payrollIds.flatMap { payrollId in
+            let isDriver = payrollId == resource.driver
+            if let officer = CADStateManager.shared.officersById[payrollId] {
+                return BookOnDetailsFormContentOfficerViewModel(
+                    withModel: officer, initial: false, isDriver: isDriver)
             }
             return nil
         }
@@ -85,6 +97,20 @@ open class BookOnDetailsFormContentMainViewModel {
             return nil
         }
         return request
+    }
+}
+
+/// Extension for arrays of equipment items
+extension Array where Element == CADEquipmentType {
+
+    public func quantityPicked() -> [QuantityPicked] {
+        let equipmentItemsByTitle = CADStateManager.shared.equipmentItemsByTitle()
+        return self.flatMap { item in
+            if let pickable = equipmentItemsByTitle[item.description] {
+                return QuantityPicked(object: pickable, count: item.count)
+            }
+            return nil
+        }
     }
 }
 
