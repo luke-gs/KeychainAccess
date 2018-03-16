@@ -25,9 +25,9 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
         title = "Details"
         updateHeaderView()
         
-        // Add gesture for tapping icon
-        headerView.iconView.isUserInteractionEnabled = true
-        headerView.iconView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapStatusChangeButton)))
+        // Add gesture for tapping icon header
+        headerView.isUserInteractionEnabled = true
+        headerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapStatusChangeButton)))
         
         regularSidebarViewController.title = NSLocalizedString("Details", comment: "")
         regularSidebarViewController.headerView = headerView
