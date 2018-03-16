@@ -26,7 +26,7 @@ open class TasksListBasicViewModel: TasksListItemViewModel {
             source: source,
             title: patrol.type,
             subtitle: patrol.location?.fullAddress,
-            caption: "#\(patrol.identifier)",
+            caption: patrol.identifier,
             description: patrol.details,
             hasUpdates: hasUpdates)
     }
@@ -38,7 +38,7 @@ open class TasksListBasicViewModel: TasksListItemViewModel {
             source: source,
             title: broadcast.title!,
             subtitle: broadcast.location?.suburb,
-            caption: "#\(broadcast.identifier)",
+            caption: broadcast.identifier,
             description: broadcast.details,
             hasUpdates: hasUpdates)
     }

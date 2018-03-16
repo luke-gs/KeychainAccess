@@ -37,5 +37,19 @@ public enum CADBroadcastCategoryCore: String, Codable, CADBroadcastCategoryType 
             return NSLocalizedString("BOLF", comment: "")
         }
     }
+
+    /// The display title for the category with a given count of items
+    public func pluralTitle(count: Int) -> String? {
+        switch self {
+        case .alert:
+            return String.localizedStringWithFormat(NSLocalizedString("%d Alert(s)", comment: ""), count)
+        case .event:
+            return String.localizedStringWithFormat(NSLocalizedString("%d Event(s)", comment: ""), count)
+        case .bolf:
+            return String.localizedStringWithFormat(NSLocalizedString("%d BOLF(s)", comment: ""), count)
+        }
+    }
+
+
 }
 

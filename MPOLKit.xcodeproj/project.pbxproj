@@ -141,6 +141,9 @@
 		271F850B202901FB006DF977 /* PSCAlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271F850A202901FB006DF977 /* PSCAlertAction.swift */; };
 		271F850D202902AC006DF977 /* PSCAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271F850C202902AC006DF977 /* PSCAlertView.swift */; };
 		27206B361F8198CD005303A8 /* IncidentAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27206B351F8198CD005303A8 /* IncidentAnnotationView.swift */; };
+		27256FF3205B27D9005930CB /* BaseDelimitedStringCountSpecification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27256FF2205B27D9005930CB /* BaseDelimitedStringCountSpecification.swift */; };
+		27256FF5205B2877005930CB /* DelimitedStringCharacterCountSpecification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27256FF4205B2877005930CB /* DelimitedStringCharacterCountSpecification.swift */; };
+		27256FF7205B288C005930CB /* DelimitedStringItemsCountSpecification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27256FF6205B288C005930CB /* DelimitedStringItemsCountSpecification.swift */; };
 		2726A81E1FCE6BE600EFB61A /* IncidentOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726A81D1FCE6BE600EFB61A /* IncidentOverviewViewModel.swift */; };
 		273A5C1820057B2E0009D9A0 /* SystemVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273A5C1720057B2E0009D9A0 /* SystemVersion.swift */; };
 		273A5C1A2005B8DC0009D9A0 /* GlassBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273A5C192005B8DC0009D9A0 /* GlassBarView.swift */; };
@@ -954,6 +957,9 @@
 		271F850A202901FB006DF977 /* PSCAlertAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSCAlertAction.swift; sourceTree = "<group>"; };
 		271F850C202902AC006DF977 /* PSCAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSCAlertView.swift; sourceTree = "<group>"; };
 		27206B351F8198CD005303A8 /* IncidentAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentAnnotationView.swift; sourceTree = "<group>"; };
+		27256FF2205B27D9005930CB /* BaseDelimitedStringCountSpecification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDelimitedStringCountSpecification.swift; sourceTree = "<group>"; };
+		27256FF4205B2877005930CB /* DelimitedStringCharacterCountSpecification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelimitedStringCharacterCountSpecification.swift; sourceTree = "<group>"; };
+		27256FF6205B288C005930CB /* DelimitedStringItemsCountSpecification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelimitedStringItemsCountSpecification.swift; sourceTree = "<group>"; };
 		2726A81D1FCE6BE600EFB61A /* IncidentOverviewViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentOverviewViewModel.swift; sourceTree = "<group>"; };
 		273A5C1720057B2E0009D9A0 /* SystemVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemVersion.swift; sourceTree = "<group>"; };
 		273A5C192005B8DC0009D9A0 /* GlassBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassBarView.swift; sourceTree = "<group>"; };
@@ -1942,6 +1948,16 @@
 				2764713420295A40008F26A1 /* PSCAlertActionView.swift */,
 			);
 			path = Alerts;
+			sourceTree = "<group>";
+		};
+		27256FF1205B279D005930CB /* Delimited String */ = {
+			isa = PBXGroup;
+			children = (
+				27256FF2205B27D9005930CB /* BaseDelimitedStringCountSpecification.swift */,
+				27256FF4205B2877005930CB /* DelimitedStringCharacterCountSpecification.swift */,
+				27256FF6205B288C005930CB /* DelimitedStringItemsCountSpecification.swift */,
+			);
+			path = "Delimited String";
 			sourceTree = "<group>";
 		};
 		273A72D91FE774A70097691B /* List */ = {
@@ -3711,6 +3727,7 @@
 		EA09A04A1F78B85B00BC3C0E /* Specification */ = {
 			isa = PBXGroup;
 			children = (
+				27256FF1205B279D005930CB /* Delimited String */,
 				EA09A04B1F78B86A00BC3C0E /* Specification.swift */,
 				EA09A04D1F78B92100BC3C0E /* SpecificationOperator.swift */,
 				EA09A04F1F78B95D00BC3C0E /* CharacterSetSpecification.swift */,
@@ -4451,6 +4468,7 @@
 				9650CA1B1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift in Sources */,
 				967BFABD203B916E00A9C789 /* CADTrafficStopDetailsType.swift in Sources */,
 				BC9C7DEE1F0DED6600DFFE83 /* Serialisable.swift in Sources */,
+				27256FF3205B27D9005930CB /* BaseDelimitedStringCountSpecification.swift in Sources */,
 				BC9C7DEB1F0DED6600DFFE83 /* EntitySource.swift in Sources */,
 				BC9C7DC91F0DED6600DFFE83 /* FileManager+URL.swift in Sources */,
 				EABAB8021F3429D90071A401 /* AggregatedSearch.swift in Sources */,
@@ -4490,6 +4508,7 @@
 				96ED81011FD9F2E100C7C960 /* CallsignStatusViewModel.swift in Sources */,
 				96AADABD20081D24003E215E /* BookOnScreen.swift in Sources */,
 				BC9C7E311F0DED6600DFFE83 /* UITableView+SectionHeaderFooterFetch.swift in Sources */,
+				27256FF7205B288C005930CB /* DelimitedStringItemsCountSpecification.swift in Sources */,
 				19C625C21F55143900504BD9 /* NetworkRequest.swift in Sources */,
 				C6CD6A181F31663500771B8C /* EntitySearchRequest.swift in Sources */,
 				9689CA5F20364AD30001D993 /* CADIncidentInformantType.swift in Sources */,
@@ -4645,6 +4664,7 @@
 				12D3702220200F5E00D79DDB /* EventsListViewController.swift in Sources */,
 				12FB2F0120326653000CA863 /* StackMapLayout.swift in Sources */,
 				BC8A99611F22EBD700387AB6 /* UIColor+Brightness.swift in Sources */,
+				27256FF5205B2877005930CB /* DelimitedStringCharacterCountSpecification.swift in Sources */,
 				BC9C7DED1F0DED6600DFFE83 /* ResponseDataOperationChainable.swift in Sources */,
 				EAA3E4F01F96EA8200A5E2A5 /* RangeFormItem.swift in Sources */,
 				BCFA06811F317C29002FA1FF /* MapCollectionViewHeaderLayout.swift in Sources */,
