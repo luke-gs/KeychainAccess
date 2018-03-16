@@ -23,4 +23,7 @@ public protocol CADBroadcastCategoryType: CADEnumType {
 
     /// The display title for the category
     var title: String { get }
+
+    /// The display title for the category with a given count of items
+    func pluralTitle(count: Int) -> String?
 }
