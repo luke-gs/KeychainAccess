@@ -217,6 +217,12 @@ public class SearchViewController: UIViewController, SearchDelegate, SearchOptio
     }
 
     // MARK: - Changing state
+    
+    public func clearResults(andBeginNewSearch newSearch: Bool = false, animated: Bool) {
+        searchOptionsViewController.resetSearch()
+        setCurrentResultsViewController(nil, animated: animated)
+        setShowingSearchOptions(newSearch, animated: animated)
+    }
 
     func setShowingSearchOptions(_ showingOptions: Bool, animated: Bool) {
         if isShowingSearchOptions == showingOptions { return }
