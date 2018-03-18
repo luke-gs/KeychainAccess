@@ -291,6 +291,7 @@
 		445BB13020465DBA00A81375 /* NavigationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445BB12F20465DBA00A81375 /* NavigationTitleView.swift */; };
 		44621FF61F59239C007C3150 /* FilterRangeDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44621FF41F59239C007C3150 /* FilterRangeDescriptor.swift */; };
 		44621FF71F59239C007C3150 /* FilterValueDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44621FF51F59239C007C3150 /* FilterValueDescriptor.swift */; };
+		44C9922A205F30500045DD2F /* GalleryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C99229205F30500045DD2F /* GalleryButton.swift */; };
 		44F3F14B1F56DBD300D68585 /* FilterDescriptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F3F14A1F56DBD300D68585 /* FilterDescriptorTests.swift */; };
 		44F3F14E1F56DDDC00D68585 /* FilterDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F3F14D1F56DDC000D68585 /* FilterDescriptor.swift */; };
 		44F72B2A1F85E5F000A6FE6B /* SearchResultMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F72B291F85E5F000A6FE6B /* SearchResultMessageViewController.swift */; };
@@ -1092,6 +1093,7 @@
 		445BB12F20465DBA00A81375 /* NavigationTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationTitleView.swift; path = Classes/UI/Views/NavigationTitleView.swift; sourceTree = SOURCE_ROOT; };
 		44621FF41F59239C007C3150 /* FilterRangeDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterRangeDescriptor.swift; sourceTree = "<group>"; };
 		44621FF51F59239C007C3150 /* FilterValueDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterValueDescriptor.swift; sourceTree = "<group>"; };
+		44C99229205F30500045DD2F /* GalleryButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryButton.swift; sourceTree = "<group>"; };
 		44F3F14A1F56DBD300D68585 /* FilterDescriptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDescriptorTests.swift; sourceTree = "<group>"; };
 		44F3F14D1F56DDC000D68585 /* FilterDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDescriptor.swift; sourceTree = "<group>"; };
 		44F72B291F85E5F000A6FE6B /* SearchResultMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultMessageViewController.swift; sourceTree = "<group>"; };
@@ -3406,6 +3408,7 @@
 				BC9C7DBE1F0DED6600DFFE83 /* CircleIconView.swift */,
 				19C9C74F1FC289BC003C8CE4 /* CustomSubtitleButton.swift */,
 				BC9C7DBF1F0DED6600DFFE83 /* EntityThumbnailView.swift */,
+				44C99229205F30500045DD2F /* GalleryButton.swift */,
 				BC9C7DC21F0DED6600DFFE83 /* GradientView.swift */,
 				BC9C7DC31F0DED6600DFFE83 /* NavigationBarExtension.swift */,
 				445BB12F20465DBA00A81375 /* NavigationTitleView.swift */,
@@ -4405,6 +4408,7 @@
 				2742CD2F1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift in Sources */,
 				2744E3912051DD8500561A8F /* CADIncidentGradeCore.swift in Sources */,
 				460B5BB12007172900AB7D12 /* SketchPickerController.swift in Sources */,
+				44C9922A205F30500045DD2F /* GalleryButton.swift in Sources */,
 				46A60F5C1FCFAF4A00EE32CA /* EvaluationObserverable.swift in Sources */,
 				2744EEC51FBEA523008DFA7F /* MapFilterSectionView.swift in Sources */,
 				BC9C7E1E1F0DED6600DFFE83 /* FormCollectionViewController.swift in Sources */,
