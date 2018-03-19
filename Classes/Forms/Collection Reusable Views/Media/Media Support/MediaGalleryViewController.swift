@@ -266,10 +266,10 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
     }
 
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.section == 1 {
-            if let cell = cell as? MediaStateCell {
-                cell.apply(theme: ThemeManager.shared.theme(for: .current))
-            }
+        if let cell = cell as? MediaPreviewableCell {
+            cell.apply(theme: ThemeManager.shared.theme(for: .current))
+        } else if let cell = cell as? MediaStateCell {
+            cell.apply(theme: ThemeManager.shared.theme(for: .current))
         }
     }
 
@@ -404,6 +404,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
         view.backgroundColor = backgroundColor
 
         collectionView.backgroundColor = backgroundColor
+        collectionView.reloadData()
     }
     
     @objc private func actionButtonTouched(_ button: UIButton) {

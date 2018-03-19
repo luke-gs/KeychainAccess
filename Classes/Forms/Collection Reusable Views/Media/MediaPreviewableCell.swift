@@ -48,5 +48,9 @@ open class MediaPreviewableCell: UICollectionViewCell, DefaultReusable {
     required public init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
+    
+    open func apply(theme: Theme) {
+        // Subclasses can provide custom theme logic
+    }
 
 }
