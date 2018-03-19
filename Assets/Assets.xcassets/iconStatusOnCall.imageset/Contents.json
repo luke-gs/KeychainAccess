@@ -2,7 +2,18 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "iconStatusOnCallCopy.pdf"
+      "filename" : "iconStatusOnCall.png",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "iconStatusOnCall@2x.png",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "iconStatusOnCall@3x.png",
+      "scale" : "3x"
     }
   ],
   "info" : {

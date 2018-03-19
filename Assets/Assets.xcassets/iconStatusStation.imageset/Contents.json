@@ -2,7 +2,18 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "iconStatusStationCopy.pdf"
+      "filename" : "iconStatusStation.png",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "iconStatusStation@2x.png",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "iconStatusStation@3x.png",
+      "scale" : "3x"
     }
   ],
   "info" : {
