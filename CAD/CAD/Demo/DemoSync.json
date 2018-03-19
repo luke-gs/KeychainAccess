@@ -30,8 +30,8 @@
       "identifier": "PS20180614984", 
       "lastUpdated": "2017-12-01T23:41:07Z", 
       "location": {
-        "latitude": -37.8110426, 
-        "longitude": 144.9716323, 
+        "latitude": -37.7990939, 
+        "longitude": 144.9891015, 
         "suburb": "Melbourne"
       }, 
       "patrolGroup": "Collingwood", 
@@ -1017,20 +1017,20 @@
     }, 
     {
       "createdAt": "2018-01-01T23:41:07Z", 
-      "details": "Toby D. Fuller\u2019s bail conditions requires as per order of Melbourne Magistrates Court is to be at 47 York Street, Fitzroy North VIC 3068 between 18:00 and 06:00. Patrol crews are to conduct random checks to confirm subject is complying with bail conditions.", 
+      "details": "Toby D. Fuller\u2019s bail conditions requires as per order of Melbourne Magistrates Court is to be at 183 Argyle St, Fitzroy VIC 3065 between 18:00 and 06:00. Patrol crews are to conduct random checks to confirm subject is complying with bail conditions.", 
       "identifier": "PS20180614991", 
       "lastUpdated": "2018-01-08T23:41:07Z", 
       "location": {
         "country": "Australia", 
-        "fullAddress": "47 York Street, Collingwood VIC 3066", 
-        "latitude": -37.7916009, 
-        "longitude": 144.9772421, 
+        "fullAddress": "183 Argyle St, Fitzroy VIC 3065", 
+        "latitude": -37.797634, 
+        "longitude": 144.982014, 
         "postalCode": "3066", 
         "state": "VIC", 
-        "streetName": "York", 
-        "streetNumberFirst": "47", 
+        "streetName": "Argyle", 
+        "streetNumberFirst": "183", 
         "streetType": "Street", 
-        "suburb": "Fitzroy North"
+        "suburb": "Fitzroy"
       }, 
       "patrolGroup": "Collingwood", 
       "type": "Bail"
@@ -1058,6 +1058,7 @@
         "AS4096"
       ], 
       "callsign": "V01", 
+      "category": "1", 
       "currentIncident": "AS4217", 
       "driver": "777122", 
       "equipment": [
@@ -1080,6 +1081,7 @@
         "streetType": "Street", 
         "suburb": "Fitzroy"
       }, 
+      "odometer": "1234", 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777122", 
@@ -1121,6 +1123,7 @@
         "AS4217"
       ], 
       "callsign": "M24", 
+      "category": "1", 
       "currentIncident": "AS4217", 
       "driver": "777032", 
       "equipment": [
@@ -1142,6 +1145,7 @@
         "streetType": "Street", 
         "suburb": "Fitzroy"
       }, 
+      "odometer": "1234", 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777032"
@@ -1174,6 +1178,7 @@
         "AS4104"
       ], 
       "callsign": "V44", 
+      "category": "1", 
       "currentIncident": "AS4104", 
       "driver": "777001", 
       "equipment": [
@@ -1195,6 +1200,7 @@
         "streetType": "Street", 
         "suburb": "Collingwood"
       }, 
+      "odometer": "1234", 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777001", 
@@ -1238,6 +1244,7 @@
       ], 
       "assignedIncidents": [], 
       "callsign": "V16", 
+      "category": "1", 
       "driver": "777019", 
       "equipment": [
         {
@@ -1258,6 +1265,7 @@
         "streetType": "Crescent", 
         "suburb": "Abbotsford"
       }, 
+      "odometer": "1234", 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777019", 
@@ -1283,6 +1291,7 @@
       ], 
       "assignedIncidents": [], 
       "callsign": "D20", 
+      "category": "1", 
       "driver": "777202", 
       "equipment": [
         {
@@ -1303,6 +1312,7 @@
         "streetType": "Street", 
         "suburb": "Collingwood"
       }, 
+      "odometer": "1234", 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777202"
@@ -1335,6 +1345,7 @@
         "AS4911"
       ], 
       "callsign": "D99", 
+      "category": "1", 
       "currentIncident": "AS4911", 
       "driver": "777791", 
       "equipment": [
@@ -1356,6 +1367,7 @@
         "streetType": "Street", 
         "suburb": "Collingwood"
       }, 
+      "odometer": "1234", 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777791"
@@ -1388,6 +1400,7 @@
         "AS4911"
       ], 
       "callsign": "P23", 
+      "category": "1", 
       "currentIncident": "AS4911", 
       "driver": "777199", 
       "equipment": [
@@ -1409,6 +1422,7 @@
         "streetType": "Street", 
         "suburb": "Collingwood"
       }, 
+      "odometer": "1234", 
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777199"
@@ -1468,6 +1482,7 @@
         "INC0012"
       ], 
       "callsign": "SS42", 
+      "category": "1", 
       "currentIncident": "INC0012", 
       "driver": "182732", 
       "equipment": [
@@ -1489,6 +1504,7 @@
         "streetType": "Street", 
         "suburb": "Southbank"
       }, 
+      "odometer": "1234", 
       "patrolGroup": "South Melbourne", 
       "payrollIds": [
         "182732", 
@@ -1514,6 +1530,7 @@
       ], 
       "assignedIncidents": [], 
       "callsign": "SS20", 
+      "category": "1", 
       "driver": "182992", 
       "equipment": [], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
@@ -1529,6 +1546,7 @@
         "streetType": "Street", 
         "suburb": "South Melbourne"
       }, 
+      "odometer": "1234", 
       "patrolGroup": "South Melbourne", 
       "payrollIds": [
         "182992"
@@ -1559,6 +1577,7 @@
       ], 
       "assignedIncidents": [], 
       "callsign": "SS09", 
+      "category": "1", 
       "driver": "188278", 
       "equipment": [], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
@@ -1574,6 +1593,7 @@
         "streetType": "Street", 
         "suburb": "Collingwood"
       }, 
+      "odometer": "1234", 
       "patrolGroup": "South Melbourne", 
       "payrollIds": [
         "188278"

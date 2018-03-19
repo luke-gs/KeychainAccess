@@ -19,7 +19,7 @@ enum APIError: Error {
 /// of APIManager and override methods, due to them being in extensions.
 ///
 /// Instead, i created a CADAPIManager protocol that the state manager uses rather than a subclassed APIManager.
-open class DemoAPIManager: CADAPIManager {
+open class DemoAPIManager: CADAPIManagerType {
 
     open static let shared = DemoAPIManager()
 
