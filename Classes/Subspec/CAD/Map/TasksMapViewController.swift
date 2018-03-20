@@ -116,7 +116,7 @@ open class TasksMapViewController: MapViewController {
         if #available(iOS 11.0, *) {
             for annotationView in views {
                 if viewModel.isAnnotationViewDisplayedOnTop(annotationView) {
-                    zPositionObservers.append(annotationView.layer.observe(\.zPosition) { (layer, change) in
+                    zPositionObservers.append(annotationView.layer.observe(\.zPosition, options: [.initial]) { (layer, change) in
                         if layer.zPosition < 1000 {
                             layer.zPosition += 1000
                             
