@@ -232,7 +232,8 @@ extension TasksMapViewController: TasksSplitViewControllerDelegate {
 }
 
 extension TasksMapViewController: TasksMapViewModelDelegate {
-    public func viewModelStateChanged() {
+
+    public func annotationsChanged() {
         // Zoom to anotations if they have changed due to change to book on or filter
         performedInitialLoadAction = false
 
@@ -242,6 +243,14 @@ extension TasksMapViewController: TasksMapViewModelDelegate {
             self.addAnnotations(self.viewModel.filteredAnnotations)
             self.addedFirstAnnotations = true
             self.zoomToAnnotationsOnLoad()
+        }
+    }
+
+    public func priorityAnnotationChanged() {
+        DispatchQueue.main.async {
+            self.zPositionObservers.removeAll()
+            self.removeAllAnnotations()
+            self.addAnnotations(self.viewModel.filteredAnnotations)
         }
     }
     
