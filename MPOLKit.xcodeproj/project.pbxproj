@@ -141,6 +141,9 @@
 		271F850B202901FB006DF977 /* PSCAlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271F850A202901FB006DF977 /* PSCAlertAction.swift */; };
 		271F850D202902AC006DF977 /* PSCAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271F850C202902AC006DF977 /* PSCAlertView.swift */; };
 		27206B361F8198CD005303A8 /* IncidentAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27206B351F8198CD005303A8 /* IncidentAnnotationView.swift */; };
+		27256FF3205B27D9005930CB /* BaseDelimitedStringCountSpecification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27256FF2205B27D9005930CB /* BaseDelimitedStringCountSpecification.swift */; };
+		27256FF5205B2877005930CB /* DelimitedStringCharacterCountSpecification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27256FF4205B2877005930CB /* DelimitedStringCharacterCountSpecification.swift */; };
+		27256FF7205B288C005930CB /* DelimitedStringItemsCountSpecification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27256FF6205B288C005930CB /* DelimitedStringItemsCountSpecification.swift */; };
 		2726A81E1FCE6BE600EFB61A /* IncidentOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726A81D1FCE6BE600EFB61A /* IncidentOverviewViewModel.swift */; };
 		273A5C1820057B2E0009D9A0 /* SystemVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273A5C1720057B2E0009D9A0 /* SystemVersion.swift */; };
 		273A5C1A2005B8DC0009D9A0 /* GlassBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273A5C192005B8DC0009D9A0 /* GlassBarView.swift */; };
@@ -160,6 +163,34 @@
 		273DE2E11FEA1199000C46DD /* CADStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2E01FEA1199000C46DD /* CADStatusViewController.swift */; };
 		273DE2E51FEB266F000C46DD /* CADStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2E41FEB266F000C46DD /* CADStatusViewModel.swift */; };
 		2742CD2F1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2742CD2E1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift */; };
+		2744E38C2051DD8500561A8F /* CADTaskListSourceCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E36B2051DD8500561A8F /* CADTaskListSourceCore.swift */; };
+		2744E38D2051DD8500561A8F /* CADPatrolStatusCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E36E2051DD8500561A8F /* CADPatrolStatusCore.swift */; };
+		2744E38E2051DD8500561A8F /* CADResourceStatusCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E36F2051DD8500561A8F /* CADResourceStatusCore.swift */; };
+		2744E38F2051DD8500561A8F /* CADBroadcastCategoryCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3702051DD8500561A8F /* CADBroadcastCategoryCore.swift */; };
+		2744E3902051DD8500561A8F /* CADResourceUnitCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3712051DD8500561A8F /* CADResourceUnitCore.swift */; };
+		2744E3912051DD8500561A8F /* CADIncidentGradeCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3722051DD8500561A8F /* CADIncidentGradeCore.swift */; };
+		2744E3922051DD8500561A8F /* CADIncidentStatusCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3732051DD8500561A8F /* CADIncidentStatusCore.swift */; };
+		2744E3932051DD8500561A8F /* CADOfficerDetailsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3752051DD8500561A8F /* CADOfficerDetailsResponse.swift */; };
+		2744E3942051DD8500561A8F /* CADSyncResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3762051DD8500561A8F /* CADSyncResponse.swift */; };
+		2744E3952051DD8500561A8F /* CADResourceCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3782051DD8500561A8F /* CADResourceCore.swift */; };
+		2744E3962051DD8500561A8F /* CADActivityLogItemCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3792051DD8500561A8F /* CADActivityLogItemCore.swift */; };
+		2744E3972051DD8500561A8F /* CADIncidentVehicleCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E37A2051DD8500561A8F /* CADIncidentVehicleCore.swift */; };
+		2744E3982051DD8500561A8F /* CADPatrolCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E37B2051DD8500561A8F /* CADPatrolCore.swift */; };
+		2744E3992051DD8500561A8F /* CADLocationCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E37C2051DD8500561A8F /* CADLocationCore.swift */; };
+		2744E39A2051DD8500561A8F /* CADEquipmentCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E37D2051DD8500561A8F /* CADEquipmentCore.swift */; };
+		2744E39B2051DD8500561A8F /* CADIncidentPersonCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E37E2051DD8500561A8F /* CADIncidentPersonCore.swift */; };
+		2744E39C2051DD8500561A8F /* CADIncidentCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E37F2051DD8500561A8F /* CADIncidentCore.swift */; };
+		2744E39D2051DD8500561A8F /* CADOfficerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3802051DD8500561A8F /* CADOfficerCore.swift */; };
+		2744E39E2051DD8500561A8F /* CADBroadcastCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3812051DD8500561A8F /* CADBroadcastCore.swift */; };
+		2744E39F2051DD8500561A8F /* CADIncidentInformantCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3822051DD8500561A8F /* CADIncidentInformantCore.swift */; };
+		2744E3A02051DD8500561A8F /* CADSyncRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3842051DD8500561A8F /* CADSyncRequest.swift */; };
+		2744E3A12051DD8500561A8F /* CADBookOffRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3852051DD8500561A8F /* CADBookOffRequest.swift */; };
+		2744E3A22051DD8500561A8F /* CADCreateIncidentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3862051DD8500561A8F /* CADCreateIncidentRequest.swift */; };
+		2744E3A32051DD8500561A8F /* CADTrafficStopRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3872051DD8500561A8F /* CADTrafficStopRequest.swift */; };
+		2744E3A42051DD8500561A8F /* CADBookOnRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3882051DD8500561A8F /* CADBookOnRequest.swift */; };
+		2744E3A62051DD8500561A8F /* CADStateManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E38B2051DD8500561A8F /* CADStateManagerCore.swift */; };
+		2744E3A82051DE7700561A8F /* PhotoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3A72051DE7700561A8F /* PhotoPreview.swift */; };
+		2744E3AA2051E68200561A8F /* CADAPIManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E3A92051E68200561A8F /* CADAPIManagerType.swift */; };
 		2744EEC51FBEA523008DFA7F /* MapFilterSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744EEBE1FBEA523008DFA7F /* MapFilterSectionView.swift */; };
 		2744EEC61FBEA523008DFA7F /* MapFilterToggleRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744EEBF1FBEA523008DFA7F /* MapFilterToggleRowView.swift */; };
 		2744EEC71FBEA523008DFA7F /* MapFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744EEC01FBEA523008DFA7F /* MapFilterViewModel.swift */; };
@@ -201,6 +232,7 @@
 		2768C0461F85EB2A008532ED /* MapSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2768C0451F85EB2A008532ED /* MapSettingsViewModel.swift */; };
 		2768C0481F86D60A008532ED /* MapSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2768C0471F86D60A008532ED /* MapSettingsViewController.swift */; };
 		2768C0491F86E78A008532ED /* TasksMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A46A1F83555A00CAE056 /* TasksMapViewController.swift */; };
+		276B37A720509578002FA2A9 /* CADRecentlyUsedKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276B37A620509578002FA2A9 /* CADRecentlyUsedKey.swift */; };
 		276C21061F60C2100003B860 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C21051F60C2100003B860 /* MapViewController.swift */; };
 		276C21081F60C44B0003B860 /* MapOverlayImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276C21071F60C44B0003B860 /* MapOverlayImageButton.swift */; };
 		27719E0A1FA92A5B00238059 /* AustralianPhoneSpecification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27719E091FA92A5B00238059 /* AustralianPhoneSpecification.swift */; };
@@ -259,6 +291,7 @@
 		445BB13020465DBA00A81375 /* NavigationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445BB12F20465DBA00A81375 /* NavigationTitleView.swift */; };
 		44621FF61F59239C007C3150 /* FilterRangeDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44621FF41F59239C007C3150 /* FilterRangeDescriptor.swift */; };
 		44621FF71F59239C007C3150 /* FilterValueDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44621FF51F59239C007C3150 /* FilterValueDescriptor.swift */; };
+		44C9922A205F30500045DD2F /* GalleryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C99229205F30500045DD2F /* GalleryButton.swift */; };
 		44F3F14B1F56DBD300D68585 /* FilterDescriptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F3F14A1F56DBD300D68585 /* FilterDescriptorTests.swift */; };
 		44F3F14E1F56DDDC00D68585 /* FilterDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F3F14D1F56DDC000D68585 /* FilterDescriptor.swift */; };
 		44F72B2A1F85E5F000A6FE6B /* SearchResultMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F72B291F85E5F000A6FE6B /* SearchResultMessageViewController.swift */; };
@@ -271,7 +304,7 @@
 		460B7B45200F0F2800C3315E /* SketchCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460B7B44200F0F2800C3315E /* SketchCanvas.swift */; };
 		461F7A9F2022BE5B00885E93 /* AudioOutputFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461F7A9E2022BE5B00885E93 /* AudioOutputFormatter.swift */; };
 		461F7AA12022BE8900885E93 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461F7AA02022BE8900885E93 /* RecordButton.swift */; };
-		461F7AA82022E0B700885E93 /* VideoMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461F7AA72022E0B700885E93 /* VideoMedia.swift */; };
+		461F7AA82022E0B700885E93 /* VideoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461F7AA72022E0B700885E93 /* VideoPreview.swift */; };
 		461F7AAA2023CD6C00885E93 /* AudioSessionConfigurer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461F7AA92023CD6C00885E93 /* AudioSessionConfigurer.swift */; };
 		462A788A1FC3C661002AEC05 /* SignatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462A78891FC3C661002AEC05 /* SignatureView.swift */; };
 		462A788C1FC3D097002AEC05 /* SignatureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462A788B1FC3D097002AEC05 /* SignatureViewController.swift */; };
@@ -304,9 +337,10 @@
 		4677EE261FFDAB0E004634B5 /* EnlargeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4677EE251FFDAB0E004634B5 /* EnlargeStyle.swift */; };
 		4677EE281FFDAB20004634B5 /* FadeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4677EE271FFDAB20004634B5 /* FadeStyle.swift */; };
 		4677EE2A1FFDAB29004634B5 /* UnderlineStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4677EE291FFDAB29004634B5 /* UnderlineStyle.swift */; };
-		467EAFAE20193BEE00B4CCC3 /* AudioMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467EAFAD20193BEE00B4CCC3 /* AudioMedia.swift */; };
+		467EAFAE20193BEE00B4CCC3 /* AudioPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467EAFAD20193BEE00B4CCC3 /* AudioPreview.swift */; };
 		467EAFB020193C2700B4CCC3 /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467EAFAF20193C2700B4CCC3 /* WaveformView.swift */; };
 		467EAFB2201942B400B4CCC3 /* AudioRecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467EAFB1201942B400B4CCC3 /* AudioRecordingViewController.swift */; };
+		46884206202BB186009D0406 /* PersistantMediaDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46884205202BB186009D0406 /* PersistantMediaDatasource.swift */; };
 		469EB5811F452FAB0005CAF7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469EB5801F452FAB0005CAF7 /* LoginViewController.swift */; };
 		469EB5831F45320A0005CAF7 /* LoginHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */; };
 		46A60F5A1FCFAF0D00EE32CA /* Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A60F591FCFAF0D00EE32CA /* Evaluator.swift */; };
@@ -338,6 +372,9 @@
 		9620530D1F988239000CAD49 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620530C1F988239000CAD49 /* AppGroup.swift */; };
 		9624A43F1F81BBEB00CAE056 /* UIFont+Digits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A43E1F81BBEB00CAE056 /* UIFont+Digits.swift */; };
 		962AA8191F8DD37D0087D534 /* PopoverPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */; };
+		96361676204F8A0C0012AEC4 /* BroadcastAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96361675204F8A0C0012AEC4 /* BroadcastAnnotation.swift */; };
+		96361678204F8A150012AEC4 /* BroadcastAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96361677204F8A150012AEC4 /* BroadcastAnnotationView.swift */; };
+		9636167A204F8AAD0012AEC4 /* BroadcastOverviewMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96361679204F8AAD0012AEC4 /* BroadcastOverviewMapViewModel.swift */; };
 		96435CBE203248FC00C77A75 /* CADResourceStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96435CBD203248FC00C77A75 /* CADResourceStatusType.swift */; };
 		9644B1D21F6785E200D031F2 /* CompactFormSheetNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */; };
 		964B8CC0203E3EB200550311 /* CADTaskListSourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964B8CBF203E3EB200550311 /* CADTaskListSourceType.swift */; };
@@ -642,6 +679,7 @@
 		EA09A0571F78B9C200BC3C0E /* PredicateSpecification.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA09A0541F78B9C200BC3C0E /* PredicateSpecification.swift */; };
 		EA09A0581F78B9C200BC3C0E /* RegularExpressionSpecification.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA09A0551F78B9C200BC3C0E /* RegularExpressionSpecification.swift */; };
 		EA09A05C1F78E80900BC3C0E /* OptionFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA09A05B1F78E80900BC3C0E /* OptionFormItem.swift */; };
+		EA0F03E5202D480200BEB7E0 /* MediaStateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0F03E4202D480200BEB7E0 /* MediaStateCell.swift */; };
 		EA11F01F1F830D0E00BF8BCA /* StringSizable+Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA11F01E1F830D0E00BF8BCA /* StringSizable+Label.swift */; };
 		EA11F0221F830DD600BF8BCA /* ItemAccessorisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA11F0211F830DD600BF8BCA /* ItemAccessorisable.swift */; };
 		EA11F0241F830EEC00BF8BCA /* ImageLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA11F0231F830EEC00BF8BCA /* ImageLoadable.swift */; };
@@ -651,9 +689,7 @@
 		EA2189EF1F5FB2280057048E /* MapResultViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2189EE1F5FB2280057048E /* MapResultViewModelable.swift */; };
 		EA2189F21F5FE8B50057048E /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2189F11F5FE8B50057048E /* Presenter.swift */; };
 		EA2F1A631FA6D587001F7812 /* MediaPreviewableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2F1A621FA6D587001F7812 /* MediaPreviewableCell.swift */; };
-		EA2F1A6F1FA7F7C6001F7812 /* MediaDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2F1A6E1FA7F7C6001F7812 /* MediaDataSource.swift */; };
-		EA32A8451FBD189C00CC37FB /* MediaPreviewableDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA32A8441FBD189C00CC37FB /* MediaPreviewableDelegate.swift */; };
-		EA32A8521FBD1A7900CC37FB /* PhotoMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA32A8491FBD1A7900CC37FB /* PhotoMedia.swift */; };
+		EA2F1A6F1FA7F7C6001F7812 /* MediaGalleryViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2F1A6E1FA7F7C6001F7812 /* MediaGalleryViewModelable.swift */; };
 		EA32A8531FBD1A7900CC37FB /* MediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA32A84A1FBD1A7900CC37FB /* MediaViewController.swift */; };
 		EA32A8541FBD1A7900CC37FB /* MediaPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA32A84B1FBD1A7900CC37FB /* MediaPreviewViewController.swift */; };
 		EA32A8551FBD1A7900CC37FB /* MediaGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA32A84C1FBD1A7900CC37FB /* MediaGalleryViewController.swift */; };
@@ -688,6 +724,7 @@
 		EA4806B31F56961F00B42313 /* Array+Searching.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4806B21F56961F00B42313 /* Array+Searching.swift */; };
 		EA4806B51F56A00600B42313 /* LocationSearchConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4806B41F56A00600B42313 /* LocationSearchConfiguration.swift */; };
 		EA4806B71F56A0DC00B42313 /* LocationSearchStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4806B61F56A0DC00B42313 /* LocationSearchStrategy.swift */; };
+		EA4B3F422033DD5200FD92B9 /* DataCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4B3F412033DD5200FD92B9 /* DataCoordinatorTests.swift */; };
 		EA4E33541F8F51570027E431 /* ItemAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4E33531F8F51570027E431 /* ItemAccessory.swift */; };
 		EA4E33561F8F51B90027E431 /* LabeledItemAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4E33551F8F51B90027E431 /* LabeledItemAccessory.swift */; };
 		EA4E33581F8F51DF0027E431 /* CustomItemAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4E33571F8F51DF0027E431 /* CustomItemAccessory.swift */; };
@@ -698,6 +735,10 @@
 		EA53B2791F9EF9BB00B891D8 /* NotNilSpecificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA53B2781F9EF9BB00B891D8 /* NotNilSpecificationTests.swift */; };
 		EA5649711F8EE4E100BEA144 /* SummaryDetailFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5649701F8EE4E100BEA144 /* SummaryDetailFormItem.swift */; };
 		EA5B875D1F6F5E67002BEC65 /* BaseFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5B875C1F6F5E67002BEC65 /* BaseFormItem.swift */; };
+		EA5E7EC0203543D500D31155 /* LocalDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5E7EBF203543D500D31155 /* LocalDataStoreTests.swift */; };
+		EA5E7EC320354D7400D31155 /* DataStoreCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5E7EC220354D7400D31155 /* DataStoreCoordinator.swift */; };
+		EA5E7EC520354DB400D31155 /* ReadableDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5E7EC420354DB400D31155 /* ReadableDataStore.swift */; };
+		EA5E7EC720354E2000D31155 /* LocalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5E7EC620354E2000D31155 /* LocalStore.swift */; };
 		EA625B191F9703540025EAFB /* DropDownFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA625B181F9703540025EAFB /* DropDownFormItem.swift */; };
 		EA69F8271F7C875D0092380B /* SelectionAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA69F8261F7C875D0092380B /* SelectionAction.swift */; };
 		EA69F8291F7C8EAD0092380B /* PickerFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA69F8281F7C8EAD0092380B /* PickerFormItem.swift */; };
@@ -709,6 +750,7 @@
 		EA76ECF31F57D64E00524830 /* LookupAddressLocationSearchStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA76ECF21F57D64E00524830 /* LookupAddressLocationSearchStrategy.swift */; };
 		EA76ECF51F57D8AB00524830 /* LookupAddressLocationAdvancedOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA76ECF41F57D8AB00524830 /* LookupAddressLocationAdvancedOptions.swift */; };
 		EA76ECF91F57DB8E00524830 /* LookupAddressAdvancedParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA76ECF81F57DB8E00524830 /* LookupAddressAdvancedParameters.swift */; };
+		EA7A6612203D475500F6399F /* DataCoordinateStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7A6611203D475500F6399F /* DataCoordinateStateTests.swift */; };
 		EA7C50A21FA05C7D004930BF /* CollectionViewFormMediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7C50A11FA05C7D004930BF /* CollectionViewFormMediaCell.swift */; };
 		EA7C50A41FA0677A004930BF /* MediaFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7C50A31FA0677A004930BF /* MediaFormItem.swift */; };
 		EA85BFF11F6797C1002EEB49 /* UINavigationController+Theme.h in Headers */ = {isa = PBXBuildFile; fileRef = EA85BFEF1F6797C1002EEB49 /* UINavigationController+Theme.h */; };
@@ -736,6 +778,7 @@
 		EAC0256F1FD8F49800E45DB6 /* EntitySummaryDisplayFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC0256E1FD8F49800E45DB6 /* EntitySummaryDisplayFormatterTests.swift */; };
 		EAC025701FDDFFA700E45DB6 /* ActionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7194E31FCE525900A2980B /* ActionListViewController.swift */; };
 		EAC025741FDE667B00E45DB6 /* FormCollectionViewHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC025731FDE667A00E45DB6 /* FormCollectionViewHandler.swift */; };
+		EACFF2B52044D3E100B1C40A /* MediaGalleryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EACFF2B42044D3E100B1C40A /* MediaGalleryDelegate.swift */; };
 		EADC4FF31F81E0810066AA2F /* OptionGroupFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADC4FF21F81E0810066AA2F /* OptionGroupFormItem.swift */; };
 		EAE12B081FC3CE3500851619 /* EntityBucket.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE12B071FC3CE3500851619 /* EntityBucket.swift */; };
 		EAE806DB1F98534000C9AA85 /* FormSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE806DA1F98534000C9AA85 /* FormSection.swift */; };
@@ -914,6 +957,9 @@
 		271F850A202901FB006DF977 /* PSCAlertAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSCAlertAction.swift; sourceTree = "<group>"; };
 		271F850C202902AC006DF977 /* PSCAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSCAlertView.swift; sourceTree = "<group>"; };
 		27206B351F8198CD005303A8 /* IncidentAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentAnnotationView.swift; sourceTree = "<group>"; };
+		27256FF2205B27D9005930CB /* BaseDelimitedStringCountSpecification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDelimitedStringCountSpecification.swift; sourceTree = "<group>"; };
+		27256FF4205B2877005930CB /* DelimitedStringCharacterCountSpecification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelimitedStringCharacterCountSpecification.swift; sourceTree = "<group>"; };
+		27256FF6205B288C005930CB /* DelimitedStringItemsCountSpecification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelimitedStringItemsCountSpecification.swift; sourceTree = "<group>"; };
 		2726A81D1FCE6BE600EFB61A /* IncidentOverviewViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentOverviewViewModel.swift; sourceTree = "<group>"; };
 		273A5C1720057B2E0009D9A0 /* SystemVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemVersion.swift; sourceTree = "<group>"; };
 		273A5C192005B8DC0009D9A0 /* GlassBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassBarView.swift; sourceTree = "<group>"; };
@@ -933,6 +979,34 @@
 		273DE2E01FEA1199000C46DD /* CADStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADStatusViewController.swift; sourceTree = "<group>"; };
 		273DE2E41FEB266F000C46DD /* CADStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADStatusViewModel.swift; sourceTree = "<group>"; };
 		2742CD2E1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = IntrinsicHeightCollectionView.swift; path = Classes/UI/IntrinsicHeightCollectionView.swift; sourceTree = SOURCE_ROOT; };
+		2744E36B2051DD8500561A8F /* CADTaskListSourceCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADTaskListSourceCore.swift; sourceTree = "<group>"; };
+		2744E36E2051DD8500561A8F /* CADPatrolStatusCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADPatrolStatusCore.swift; sourceTree = "<group>"; };
+		2744E36F2051DD8500561A8F /* CADResourceStatusCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADResourceStatusCore.swift; sourceTree = "<group>"; };
+		2744E3702051DD8500561A8F /* CADBroadcastCategoryCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADBroadcastCategoryCore.swift; sourceTree = "<group>"; };
+		2744E3712051DD8500561A8F /* CADResourceUnitCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADResourceUnitCore.swift; sourceTree = "<group>"; };
+		2744E3722051DD8500561A8F /* CADIncidentGradeCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADIncidentGradeCore.swift; sourceTree = "<group>"; };
+		2744E3732051DD8500561A8F /* CADIncidentStatusCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADIncidentStatusCore.swift; sourceTree = "<group>"; };
+		2744E3752051DD8500561A8F /* CADOfficerDetailsResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADOfficerDetailsResponse.swift; sourceTree = "<group>"; };
+		2744E3762051DD8500561A8F /* CADSyncResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADSyncResponse.swift; sourceTree = "<group>"; };
+		2744E3782051DD8500561A8F /* CADResourceCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADResourceCore.swift; sourceTree = "<group>"; };
+		2744E3792051DD8500561A8F /* CADActivityLogItemCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADActivityLogItemCore.swift; sourceTree = "<group>"; };
+		2744E37A2051DD8500561A8F /* CADIncidentVehicleCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADIncidentVehicleCore.swift; sourceTree = "<group>"; };
+		2744E37B2051DD8500561A8F /* CADPatrolCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADPatrolCore.swift; sourceTree = "<group>"; };
+		2744E37C2051DD8500561A8F /* CADLocationCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADLocationCore.swift; sourceTree = "<group>"; };
+		2744E37D2051DD8500561A8F /* CADEquipmentCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADEquipmentCore.swift; sourceTree = "<group>"; };
+		2744E37E2051DD8500561A8F /* CADIncidentPersonCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADIncidentPersonCore.swift; sourceTree = "<group>"; };
+		2744E37F2051DD8500561A8F /* CADIncidentCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADIncidentCore.swift; sourceTree = "<group>"; };
+		2744E3802051DD8500561A8F /* CADOfficerCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADOfficerCore.swift; sourceTree = "<group>"; };
+		2744E3812051DD8500561A8F /* CADBroadcastCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADBroadcastCore.swift; sourceTree = "<group>"; };
+		2744E3822051DD8500561A8F /* CADIncidentInformantCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADIncidentInformantCore.swift; sourceTree = "<group>"; };
+		2744E3842051DD8500561A8F /* CADSyncRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADSyncRequest.swift; sourceTree = "<group>"; };
+		2744E3852051DD8500561A8F /* CADBookOffRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADBookOffRequest.swift; sourceTree = "<group>"; };
+		2744E3862051DD8500561A8F /* CADCreateIncidentRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADCreateIncidentRequest.swift; sourceTree = "<group>"; };
+		2744E3872051DD8500561A8F /* CADTrafficStopRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADTrafficStopRequest.swift; sourceTree = "<group>"; };
+		2744E3882051DD8500561A8F /* CADBookOnRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADBookOnRequest.swift; sourceTree = "<group>"; };
+		2744E38B2051DD8500561A8F /* CADStateManagerCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADStateManagerCore.swift; sourceTree = "<group>"; };
+		2744E3A72051DE7700561A8F /* PhotoPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoPreview.swift; sourceTree = "<group>"; };
+		2744E3A92051E68200561A8F /* CADAPIManagerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADAPIManagerType.swift; sourceTree = "<group>"; };
 		2744EEBE1FBEA523008DFA7F /* MapFilterSectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilterSectionView.swift; sourceTree = "<group>"; };
 		2744EEBF1FBEA523008DFA7F /* MapFilterToggleRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilterToggleRowView.swift; sourceTree = "<group>"; };
 		2744EEC01FBEA523008DFA7F /* MapFilterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilterViewModel.swift; sourceTree = "<group>"; };
@@ -973,6 +1047,7 @@
 		2766CE321FEB5C5400895B3A /* CallsignCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignCollectionViewCell.swift; sourceTree = "<group>"; };
 		2768C0451F85EB2A008532ED /* MapSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettingsViewModel.swift; sourceTree = "<group>"; };
 		2768C0471F86D60A008532ED /* MapSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettingsViewController.swift; sourceTree = "<group>"; };
+		276B37A620509578002FA2A9 /* CADRecentlyUsedKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADRecentlyUsedKey.swift; sourceTree = "<group>"; };
 		276C21051F60C2100003B860 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		276C21071F60C44B0003B860 /* MapOverlayImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverlayImageButton.swift; sourceTree = "<group>"; };
 		27719E091FA92A5B00238059 /* AustralianPhoneSpecification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AustralianPhoneSpecification.swift; sourceTree = "<group>"; };
@@ -1017,6 +1092,7 @@
 		445BB12F20465DBA00A81375 /* NavigationTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationTitleView.swift; path = Classes/UI/Views/NavigationTitleView.swift; sourceTree = SOURCE_ROOT; };
 		44621FF41F59239C007C3150 /* FilterRangeDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterRangeDescriptor.swift; sourceTree = "<group>"; };
 		44621FF51F59239C007C3150 /* FilterValueDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterValueDescriptor.swift; sourceTree = "<group>"; };
+		44C99229205F30500045DD2F /* GalleryButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryButton.swift; sourceTree = "<group>"; };
 		44F3F14A1F56DBD300D68585 /* FilterDescriptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDescriptorTests.swift; sourceTree = "<group>"; };
 		44F3F14D1F56DDC000D68585 /* FilterDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDescriptor.swift; sourceTree = "<group>"; };
 		44F72B291F85E5F000A6FE6B /* SearchResultMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultMessageViewController.swift; sourceTree = "<group>"; };
@@ -1029,7 +1105,7 @@
 		460B7B44200F0F2800C3315E /* SketchCanvas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SketchCanvas.swift; sourceTree = "<group>"; };
 		461F7A9E2022BE5B00885E93 /* AudioOutputFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioOutputFormatter.swift; sourceTree = "<group>"; };
 		461F7AA02022BE8900885E93 /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
-		461F7AA72022E0B700885E93 /* VideoMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoMedia.swift; path = "Classes/Forms/Collection Reusable Views/Media/Video/VideoMedia.swift"; sourceTree = SOURCE_ROOT; };
+		461F7AA72022E0B700885E93 /* VideoPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoPreview.swift; path = "Classes/Forms/Collection Reusable Views/Media/Video/VideoPreview.swift"; sourceTree = SOURCE_ROOT; };
 		461F7AA92023CD6C00885E93 /* AudioSessionConfigurer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSessionConfigurer.swift; sourceTree = "<group>"; };
 		462A78891FC3C661002AEC05 /* SignatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureView.swift; sourceTree = "<group>"; };
 		462A788B1FC3D097002AEC05 /* SignatureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureViewController.swift; sourceTree = "<group>"; };
@@ -1062,9 +1138,10 @@
 		4677EE251FFDAB0E004634B5 /* EnlargeStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnlargeStyle.swift; sourceTree = "<group>"; };
 		4677EE271FFDAB20004634B5 /* FadeStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeStyle.swift; sourceTree = "<group>"; };
 		4677EE291FFDAB29004634B5 /* UnderlineStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineStyle.swift; sourceTree = "<group>"; };
-		467EAFAD20193BEE00B4CCC3 /* AudioMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioMedia.swift; sourceTree = "<group>"; };
+		467EAFAD20193BEE00B4CCC3 /* AudioPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPreview.swift; sourceTree = "<group>"; };
 		467EAFAF20193C2700B4CCC3 /* WaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformView.swift; sourceTree = "<group>"; };
 		467EAFB1201942B400B4CCC3 /* AudioRecordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecordingViewController.swift; sourceTree = "<group>"; };
+		46884205202BB186009D0406 /* PersistantMediaDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantMediaDatasource.swift; sourceTree = "<group>"; };
 		469EB5801F452FAB0005CAF7 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHeaderView.swift; sourceTree = "<group>"; };
 		46A60F591FCFAF0D00EE32CA /* Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Evaluator.swift; sourceTree = "<group>"; };
@@ -1113,6 +1190,9 @@
 		9624A46A1F83555A00CAE056 /* TasksMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksMapViewController.swift; sourceTree = "<group>"; };
 		9624A46B1F83555A00CAE056 /* TasksMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksMapViewModel.swift; sourceTree = "<group>"; };
 		962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverPresenter.swift; sourceTree = "<group>"; };
+		96361675204F8A0C0012AEC4 /* BroadcastAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastAnnotation.swift; sourceTree = "<group>"; };
+		96361677204F8A150012AEC4 /* BroadcastAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastAnnotationView.swift; sourceTree = "<group>"; };
+		96361679204F8AAD0012AEC4 /* BroadcastOverviewMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastOverviewMapViewModel.swift; sourceTree = "<group>"; };
 		96435CBD203248FC00C77A75 /* CADResourceStatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADResourceStatusType.swift; sourceTree = "<group>"; };
 		9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactFormSheetNavigationController.swift; sourceTree = "<group>"; };
 		964B8CBF203E3EB200550311 /* CADTaskListSourceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADTaskListSourceType.swift; sourceTree = "<group>"; };
@@ -1424,6 +1504,7 @@
 		EA09A0541F78B9C200BC3C0E /* PredicateSpecification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredicateSpecification.swift; sourceTree = "<group>"; };
 		EA09A0551F78B9C200BC3C0E /* RegularExpressionSpecification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularExpressionSpecification.swift; sourceTree = "<group>"; };
 		EA09A05B1F78E80900BC3C0E /* OptionFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionFormItem.swift; sourceTree = "<group>"; };
+		EA0F03E4202D480200BEB7E0 /* MediaStateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaStateCell.swift; sourceTree = "<group>"; };
 		EA11F01E1F830D0E00BF8BCA /* StringSizable+Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringSizable+Label.swift"; sourceTree = "<group>"; };
 		EA11F0211F830DD600BF8BCA /* ItemAccessorisable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemAccessorisable.swift; sourceTree = "<group>"; };
 		EA11F0231F830EEC00BF8BCA /* ImageLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoadable.swift; sourceTree = "<group>"; };
@@ -1433,9 +1514,7 @@
 		EA2189EE1F5FB2280057048E /* MapResultViewModelable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapResultViewModelable.swift; sourceTree = "<group>"; };
 		EA2189F11F5FE8B50057048E /* Presenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
 		EA2F1A621FA6D587001F7812 /* MediaPreviewableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPreviewableCell.swift; sourceTree = "<group>"; };
-		EA2F1A6E1FA7F7C6001F7812 /* MediaDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDataSource.swift; sourceTree = "<group>"; };
-		EA32A8441FBD189C00CC37FB /* MediaPreviewableDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPreviewableDelegate.swift; sourceTree = "<group>"; };
-		EA32A8491FBD1A7900CC37FB /* PhotoMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoMedia.swift; sourceTree = "<group>"; };
+		EA2F1A6E1FA7F7C6001F7812 /* MediaGalleryViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaGalleryViewModelable.swift; sourceTree = "<group>"; };
 		EA32A84A1FBD1A7900CC37FB /* MediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaViewController.swift; sourceTree = "<group>"; };
 		EA32A84B1FBD1A7900CC37FB /* MediaPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaPreviewViewController.swift; sourceTree = "<group>"; };
 		EA32A84C1FBD1A7900CC37FB /* MediaGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaGalleryViewController.swift; sourceTree = "<group>"; };
@@ -1470,6 +1549,7 @@
 		EA4806B21F56961F00B42313 /* Array+Searching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Searching.swift"; sourceTree = "<group>"; };
 		EA4806B41F56A00600B42313 /* LocationSearchConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchConfiguration.swift; sourceTree = "<group>"; };
 		EA4806B61F56A0DC00B42313 /* LocationSearchStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchStrategy.swift; sourceTree = "<group>"; };
+		EA4B3F412033DD5200FD92B9 /* DataCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCoordinatorTests.swift; sourceTree = "<group>"; };
 		EA4E33531F8F51570027E431 /* ItemAccessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemAccessory.swift; sourceTree = "<group>"; };
 		EA4E33551F8F51B90027E431 /* LabeledItemAccessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledItemAccessory.swift; sourceTree = "<group>"; };
 		EA4E33571F8F51DF0027E431 /* CustomItemAccessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomItemAccessory.swift; sourceTree = "<group>"; };
@@ -1480,6 +1560,10 @@
 		EA53B2781F9EF9BB00B891D8 /* NotNilSpecificationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotNilSpecificationTests.swift; sourceTree = "<group>"; };
 		EA5649701F8EE4E100BEA144 /* SummaryDetailFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryDetailFormItem.swift; sourceTree = "<group>"; };
 		EA5B875C1F6F5E67002BEC65 /* BaseFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFormItem.swift; sourceTree = "<group>"; };
+		EA5E7EBF203543D500D31155 /* LocalDataStoreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalDataStoreTests.swift; sourceTree = "<group>"; };
+		EA5E7EC220354D7400D31155 /* DataStoreCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStoreCoordinator.swift; sourceTree = "<group>"; };
+		EA5E7EC420354DB400D31155 /* ReadableDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadableDataStore.swift; sourceTree = "<group>"; };
+		EA5E7EC620354E2000D31155 /* LocalStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStore.swift; sourceTree = "<group>"; };
 		EA625B181F9703540025EAFB /* DropDownFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownFormItem.swift; sourceTree = "<group>"; };
 		EA69F8261F7C875D0092380B /* SelectionAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionAction.swift; sourceTree = "<group>"; };
 		EA69F8281F7C8EAD0092380B /* PickerFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerFormItem.swift; sourceTree = "<group>"; };
@@ -1492,6 +1576,7 @@
 		EA76ECF21F57D64E00524830 /* LookupAddressLocationSearchStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupAddressLocationSearchStrategy.swift; sourceTree = "<group>"; };
 		EA76ECF41F57D8AB00524830 /* LookupAddressLocationAdvancedOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupAddressLocationAdvancedOptions.swift; sourceTree = "<group>"; };
 		EA76ECF81F57DB8E00524830 /* LookupAddressAdvancedParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupAddressAdvancedParameters.swift; sourceTree = "<group>"; };
+		EA7A6611203D475500F6399F /* DataCoordinateStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCoordinateStateTests.swift; sourceTree = "<group>"; };
 		EA7C50A11FA05C7D004930BF /* CollectionViewFormMediaCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormMediaCell.swift; sourceTree = "<group>"; };
 		EA7C50A31FA0677A004930BF /* MediaFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaFormItem.swift; sourceTree = "<group>"; };
 		EA85BFEF1F6797C1002EEB49 /* UINavigationController+Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+Theme.h"; sourceTree = "<group>"; };
@@ -1518,6 +1603,7 @@
 		EAC0256B1FD8DAF600E45DB6 /* EntitySummaryDisplayFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummaryDisplayFormatter.swift; sourceTree = "<group>"; };
 		EAC0256E1FD8F49800E45DB6 /* EntitySummaryDisplayFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummaryDisplayFormatterTests.swift; sourceTree = "<group>"; };
 		EAC025731FDE667A00E45DB6 /* FormCollectionViewHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormCollectionViewHandler.swift; sourceTree = "<group>"; };
+		EACFF2B42044D3E100B1C40A /* MediaGalleryDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaGalleryDelegate.swift; sourceTree = "<group>"; };
 		EADC4FF21F81E0810066AA2F /* OptionGroupFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionGroupFormItem.swift; sourceTree = "<group>"; };
 		EAE12B071FC3CE3500851619 /* EntityBucket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityBucket.swift; sourceTree = "<group>"; };
 		EAE806DA1F98534000C9AA85 /* FormSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormSection.swift; sourceTree = "<group>"; };
@@ -1864,6 +1950,16 @@
 			path = Alerts;
 			sourceTree = "<group>";
 		};
+		27256FF1205B279D005930CB /* Delimited String */ = {
+			isa = PBXGroup;
+			children = (
+				27256FF2205B27D9005930CB /* BaseDelimitedStringCountSpecification.swift */,
+				27256FF4205B2877005930CB /* DelimitedStringCharacterCountSpecification.swift */,
+				27256FF6205B288C005930CB /* DelimitedStringItemsCountSpecification.swift */,
+			);
+			path = "Delimited String";
+			sourceTree = "<group>";
+		};
 		273A72D91FE774A70097691B /* List */ = {
 			isa = PBXGroup;
 			children = (
@@ -1889,6 +1985,108 @@
 				273DE2D01FE9D855000C46DD /* CreateIncidentViewModel.swift */,
 			);
 			path = "Create Incident";
+			sourceTree = "<group>";
+		};
+		2744E3682051DD5A00561A8F /* Abstraction */ = {
+			isa = PBXGroup;
+			children = (
+				9689CA58203649EB0001D993 /* Objects */,
+				966CE9BC20365AE900646A6A /* Requests */,
+				9689CA0B2032646C0001D993 /* CADClientModelTypes.swift */,
+				9689CA46203646140001D993 /* CADStateManagerType.swift */,
+				9689CA5920364A010001D993 /* Enum */,
+			);
+			path = Abstraction;
+			sourceTree = "<group>";
+		};
+		2744E3692051DD8500561A8F /* Core Implementation */ = {
+			isa = PBXGroup;
+			children = (
+				2744E36C2051DD8500561A8F /* Model */,
+				2744E36A2051DD8500561A8F /* Tasks */,
+				2744E38A2051DD8500561A8F /* Session */,
+			);
+			path = "Core Implementation";
+			sourceTree = "<group>";
+		};
+		2744E36A2051DD8500561A8F /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				2744E36B2051DD8500561A8F /* CADTaskListSourceCore.swift */,
+			);
+			path = Tasks;
+			sourceTree = "<group>";
+		};
+		2744E36C2051DD8500561A8F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2744E3A92051E68200561A8F /* CADAPIManagerType.swift */,
+				2744E36D2051DD8500561A8F /* Enum */,
+				2744E3742051DD8500561A8F /* Responses */,
+				2744E3772051DD8500561A8F /* Objects */,
+				2744E3832051DD8500561A8F /* Requests */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2744E36D2051DD8500561A8F /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				2744E36E2051DD8500561A8F /* CADPatrolStatusCore.swift */,
+				2744E36F2051DD8500561A8F /* CADResourceStatusCore.swift */,
+				2744E3702051DD8500561A8F /* CADBroadcastCategoryCore.swift */,
+				2744E3712051DD8500561A8F /* CADResourceUnitCore.swift */,
+				2744E3722051DD8500561A8F /* CADIncidentGradeCore.swift */,
+				2744E3732051DD8500561A8F /* CADIncidentStatusCore.swift */,
+			);
+			path = Enum;
+			sourceTree = "<group>";
+		};
+		2744E3742051DD8500561A8F /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				2744E3752051DD8500561A8F /* CADOfficerDetailsResponse.swift */,
+				2744E3762051DD8500561A8F /* CADSyncResponse.swift */,
+			);
+			path = Responses;
+			sourceTree = "<group>";
+		};
+		2744E3772051DD8500561A8F /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				2744E3782051DD8500561A8F /* CADResourceCore.swift */,
+				2744E3792051DD8500561A8F /* CADActivityLogItemCore.swift */,
+				2744E37A2051DD8500561A8F /* CADIncidentVehicleCore.swift */,
+				2744E37B2051DD8500561A8F /* CADPatrolCore.swift */,
+				2744E37C2051DD8500561A8F /* CADLocationCore.swift */,
+				2744E37D2051DD8500561A8F /* CADEquipmentCore.swift */,
+				2744E37E2051DD8500561A8F /* CADIncidentPersonCore.swift */,
+				2744E37F2051DD8500561A8F /* CADIncidentCore.swift */,
+				2744E3802051DD8500561A8F /* CADOfficerCore.swift */,
+				2744E3812051DD8500561A8F /* CADBroadcastCore.swift */,
+				2744E3822051DD8500561A8F /* CADIncidentInformantCore.swift */,
+			);
+			path = Objects;
+			sourceTree = "<group>";
+		};
+		2744E3832051DD8500561A8F /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				2744E3842051DD8500561A8F /* CADSyncRequest.swift */,
+				2744E3852051DD8500561A8F /* CADBookOffRequest.swift */,
+				2744E3862051DD8500561A8F /* CADCreateIncidentRequest.swift */,
+				2744E3872051DD8500561A8F /* CADTrafficStopRequest.swift */,
+				2744E3882051DD8500561A8F /* CADBookOnRequest.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		2744E38A2051DD8500561A8F /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				2744E38B2051DD8500561A8F /* CADStateManagerCore.swift */,
+			);
+			path = Session;
 			sourceTree = "<group>";
 		};
 		2744EEBD1FBEA50A008DFA7F /* Map Filter */ = {
@@ -1998,9 +2196,10 @@
 		275329292033A7C900CFA97B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				278CA1041F7CA4A00073DFBA /* ResourceAnnotationView.swift */,
+				96361677204F8A150012AEC4 /* BroadcastAnnotationView.swift */,
 				27206B351F8198CD005303A8 /* IncidentAnnotationView.swift */,
 				2753292A2033A7F000CFA97B /* PatrolAnnotationView.swift */,
+				278CA1041F7CA4A00073DFBA /* ResourceAnnotationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2018,6 +2217,7 @@
 			isa = PBXGroup;
 			children = (
 				275329342033B69500CFA97B /* BroadcastOverviewViewModel.swift */,
+				96361679204F8AAD0012AEC4 /* BroadcastOverviewMapViewModel.swift */,
 			);
 			path = Overview;
 			sourceTree = "<group>";
@@ -2158,10 +2358,9 @@
 		461F7AA62022E09400885E93 /* Video */ = {
 			isa = PBXGroup;
 			children = (
-				461F7AA72022E0B700885E93 /* VideoMedia.swift */,
+				461F7AA72022E0B700885E93 /* VideoPreview.swift */,
 			);
-			name = Video;
-			path = "New Group";
+			path = Video;
 			sourceTree = "<group>";
 		};
 		462A78881FC3C643002AEC05 /* Signature */ = {
@@ -2222,7 +2421,7 @@
 		4650F31820181DED00D9A3E6 /* Photo */ = {
 			isa = PBXGroup;
 			children = (
-				EA32A8491FBD1A7900CC37FB /* PhotoMedia.swift */,
+				2744E3A72051DE7700561A8F /* PhotoPreview.swift */,
 			);
 			path = Photo;
 			sourceTree = "<group>";
@@ -2307,7 +2506,7 @@
 			isa = PBXGroup;
 			children = (
 				467092202023EF4700271157 /* Image Output */,
-				467EAFAD20193BEE00B4CCC3 /* AudioMedia.swift */,
+				467EAFAD20193BEE00B4CCC3 /* AudioPreview.swift */,
 				467EAFAF20193C2700B4CCC3 /* WaveformView.swift */,
 				467EAFB1201942B400B4CCC3 /* AudioRecordingViewController.swift */,
 				461F7A9E2022BE5B00885E93 /* AudioOutputFormatter.swift */,
@@ -2320,11 +2519,9 @@
 		962053111F9960FA000CAD49 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				9689CA0B2032646C0001D993 /* CADClientModelTypes.swift */,
-				9689CA46203646140001D993 /* CADStateManagerType.swift */,
-				9689CA5920364A010001D993 /* Enum */,
-				9689CA58203649EB0001D993 /* Objects */,
-				966CE9BC20365AE900646A6A /* Requests */,
+				2744E3682051DD5A00561A8F /* Abstraction */,
+				276B37A620509578002FA2A9 /* CADRecentlyUsedKey.swift */,
+				2744E3692051DD8500561A8F /* Core Implementation */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2381,11 +2578,12 @@
 		9624A4661F83555A00CAE056 /* Annotations */ = {
 			isa = PBXGroup;
 			children = (
-				275329292033A7C900CFA97B /* Views */,
+				96361675204F8A0C0012AEC4 /* BroadcastAnnotation.swift */,
 				9624A4671F83555A00CAE056 /* IncidentAnnotation.swift */,
+				2753292C2033A88B00CFA97B /* PatrolAnnotation.swift */,
 				9624A4681F83555A00CAE056 /* ResourceAnnotation.swift */,
 				9624A4691F83555A00CAE056 /* TaskAnnotation.swift */,
-				2753292C2033A88B00CFA97B /* PatrolAnnotation.swift */,
+				275329292033A7C900CFA97B /* Views */,
 			);
 			path = Annotations;
 			sourceTree = "<group>";
@@ -2793,6 +2991,7 @@
 				EA7194E21FCE525900A2980B /* Action List */,
 				EABAB7FE1F3427570071A401 /* Aggregated Search */,
 				BC9C7D191F0DED6600DFFE83 /* Authentication */,
+				EA5E7EC120354D6200D31155 /* DataCoordinator */,
 				EAE12B061FC3CE2400851619 /* EntityCache */,
 				DBE24C301F593AB30088D19B /* EntityDetails */,
 				19FEC9801F43F6BA005692A9 /* ErrorMapping */,
@@ -3207,6 +3406,7 @@
 				BC9C7DBE1F0DED6600DFFE83 /* CircleIconView.swift */,
 				19C9C74F1FC289BC003C8CE4 /* CustomSubtitleButton.swift */,
 				BC9C7DBF1F0DED6600DFFE83 /* EntityThumbnailView.swift */,
+				44C99229205F30500045DD2F /* GalleryButton.swift */,
 				BC9C7DC21F0DED6600DFFE83 /* GradientView.swift */,
 				BC9C7DC31F0DED6600DFFE83 /* NavigationBarExtension.swift */,
 				445BB12F20465DBA00A81375 /* NavigationTitleView.swift */,
@@ -3528,6 +3728,7 @@
 		EA09A04A1F78B85B00BC3C0E /* Specification */ = {
 			isa = PBXGroup;
 			children = (
+				27256FF1205B279D005930CB /* Delimited String */,
 				EA09A04B1F78B86A00BC3C0E /* Specification.swift */,
 				EA09A04D1F78B92100BC3C0E /* SpecificationOperator.swift */,
 				EA09A04F1F78B95D00BC3C0E /* CharacterSetSpecification.swift */,
@@ -3570,15 +3771,15 @@
 		EA2F1A611FA6D570001F7812 /* Media */ = {
 			isa = PBXGroup;
 			children = (
+				EACFF2B42044D3E100B1C40A /* MediaGalleryDelegate.swift */,
 				461F7AA62022E09400885E93 /* Video */,
 				4650F31820181DED00D9A3E6 /* Photo */,
 				46E193682016CF9700F2D968 /* Audio */,
 				EA32A8481FBD1A5900CC37FB /* Media Support */,
 				46E193652016CDEA00F2D968 /* MediaAsset.swift */,
 				EA2F1A621FA6D587001F7812 /* MediaPreviewableCell.swift */,
-				EA2F1A6E1FA7F7C6001F7812 /* MediaDataSource.swift */,
+				EA2F1A6E1FA7F7C6001F7812 /* MediaGalleryViewModelable.swift */,
 				EA32A84A1FBD1A7900CC37FB /* MediaViewController.swift */,
-				EA32A8441FBD189C00CC37FB /* MediaPreviewableDelegate.swift */,
 				4650F3162018172300D9A3E6 /* AVMediaViewController.swift */,
 			);
 			path = Media;
@@ -3597,6 +3798,8 @@
 				EA32A85B1FBD285A00CC37FB /* MediaPickerSource.swift */,
 				EA32A85D1FBD564200CC37FB /* MediaDetailViewController.swift */,
 				46CF4F8E20281B5C00DD040A /* MediaAssetCache.swift */,
+				46884205202BB186009D0406 /* PersistantMediaDatasource.swift */,
+				EA0F03E4202D480200BEB7E0 /* MediaStateCell.swift */,
 			);
 			path = "Media Support";
 			sourceTree = "<group>";
@@ -3651,6 +3854,16 @@
 			path = LocationSearch;
 			sourceTree = "<group>";
 		};
+		EA4B3F3E2033B9A500FD92B9 /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				EA5E7EBF203543D500D31155 /* LocalDataStoreTests.swift */,
+				EA4B3F412033DD5200FD92B9 /* DataCoordinatorTests.swift */,
+				EA7A6611203D475500F6399F /* DataCoordinateStateTests.swift */,
+			);
+			path = Media;
+			sourceTree = "<group>";
+		};
 		EA4E33521F8F51420027E431 /* FormAccessories */ = {
 			isa = PBXGroup;
 			children = (
@@ -3664,6 +3877,7 @@
 		EA5649721F8F061000BEA144 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				EA4B3F3E2033B9A500FD92B9 /* Media */,
 				46A60F5F1FCFB02400EE32CA /* Evaluator */,
 				EA5649731F8F061000BEA144 /* FormBuilder */,
 				EA42F8D81F95872200C5C38E /* Specifications */,
@@ -3715,6 +3929,16 @@
 				EA53B2721F9ED43600B891D8 /* StepperFormItemTests.swift */,
 			);
 			path = FormBuilder;
+			sourceTree = "<group>";
+		};
+		EA5E7EC120354D6200D31155 /* DataCoordinator */ = {
+			isa = PBXGroup;
+			children = (
+				EA5E7EC220354D7400D31155 /* DataStoreCoordinator.swift */,
+				EA5E7EC420354DB400D31155 /* ReadableDataStore.swift */,
+				EA5E7EC620354E2000D31155 /* LocalStore.swift */,
+			);
+			path = DataCoordinator;
 			sourceTree = "<group>";
 		};
 		EA69F8251F7C874D0092380B /* Actions */ = {
@@ -4097,12 +4321,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5E7EC320354D7400D31155 /* DataStoreCoordinator.swift in Sources */,
 				BC9C7E371F0DED6600DFFE83 /* KeyboardAnimationDetails.swift in Sources */,
 				EA3BA38C1F7B2B5D000E4AD8 /* FooterFormItem.swift in Sources */,
 				46A8AA2720157CEA00F24B37 /* SketchNavigationController.swift in Sources */,
 				965176141FC792FD003B1B85 /* BaseLoadingStateView.swift in Sources */,
 				27094CCB1FAFFBDA00D4C3D4 /* TaskItemViewModel.swift in Sources */,
+				2744E3962051DD8500561A8F /* CADActivityLogItemCore.swift in Sources */,
 				EA4E33581F8F51DF0027E431 /* CustomItemAccessory.swift in Sources */,
+				2744E3972051DD8500561A8F /* CADIncidentVehicleCore.swift in Sources */,
 				BC9C7DD51F0DED6600DFFE83 /* ParseError.swift in Sources */,
 				27AC86A62016958A0067DB8C /* AutoLayoutAnnotationView.swift in Sources */,
 				271F8509202901E8006DF977 /* PSCAlertController.swift in Sources */,
@@ -4147,10 +4374,12 @@
 				271F850D202902AC006DF977 /* PSCAlertView.swift in Sources */,
 				2792F11E1FDA55AE00A14CFB /* PopToRootable.swift in Sources */,
 				BC9C7DC71F0DED6600DFFE83 /* HTTPAuthenticationMode.swift in Sources */,
+				2744E3952051DD8500561A8F /* CADResourceCore.swift in Sources */,
 				96EB4BE92043792800AFCAA0 /* TaskListScreen.swift in Sources */,
 				EA32A8541FBD1A7900CC37FB /* MediaPreviewViewController.swift in Sources */,
 				273DE2DD1FEA0F89000C46DD /* CreateIncidentStatusViewModel.swift in Sources */,
 				EA32A8571FBD1A7900CC37FB /* MediaGalleryTransitionAnimator.swift in Sources */,
+				EA5E7EC520354DB400D31155 /* ReadableDataStore.swift in Sources */,
 				C634085B1F30E5B5000747B0 /* EntityFetchRequestable.swift in Sources */,
 				BC9C7DFA1F0DED6600DFFE83 /* CollectionViewFormSubtitleCell.swift in Sources */,
 				9689CA55203649AD0001D993 /* CADPatrolType.swift in Sources */,
@@ -4174,7 +4403,9 @@
 				BC9C7E101F0DED6600DFFE83 /* TableViewFormCell.swift in Sources */,
 				12D3701920200B5B00D79DDB /* EventListDisplayable.swift in Sources */,
 				2742CD2F1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift in Sources */,
+				2744E3912051DD8500561A8F /* CADIncidentGradeCore.swift in Sources */,
 				460B5BB12007172900AB7D12 /* SketchPickerController.swift in Sources */,
+				44C9922A205F30500045DD2F /* GalleryButton.swift in Sources */,
 				46A60F5C1FCFAF4A00EE32CA /* EvaluationObserverable.swift in Sources */,
 				2744EEC51FBEA523008DFA7F /* MapFilterSectionView.swift in Sources */,
 				BC9C7E1E1F0DED6600DFFE83 /* FormCollectionViewController.swift in Sources */,
@@ -4191,6 +4422,7 @@
 				BC9C7E191F0DED6600DFFE83 /* RadioButton.swift in Sources */,
 				996869821FC502F4007338EE /* ManifestFetchRequest.swift in Sources */,
 				EA625B191F9703540025EAFB /* DropDownFormItem.swift in Sources */,
+				2744E38F2051DD8500561A8F /* CADBroadcastCategoryCore.swift in Sources */,
 				2768C0461F85EB2A008532ED /* MapSettingsViewModel.swift in Sources */,
 				BC9C7E2C1F0DED6600DFFE83 /* UIColor+Hex.swift in Sources */,
 				BC2C97481F31FEF7006A0727 /* ThemeManager.swift in Sources */,
@@ -4203,8 +4435,10 @@
 				27F9C96E1FA2D9D000825F88 /* UIViewController+ChildViewController.swift in Sources */,
 				BC1B26111F20BBD7009674B7 /* UIViewController+ParentSearching.swift in Sources */,
 				BC9C7E491F0DED6600DFFE83 /* SourceItem.swift in Sources */,
+				2744E39A2051DD8500561A8F /* CADEquipmentCore.swift in Sources */,
 				BC9C7E1B1F0DED6600DFFE83 /* MPOLAssert.swift in Sources */,
 				9689CA0C2032646C0001D993 /* CADClientModelTypes.swift in Sources */,
+				2744E39E2051DD8500561A8F /* CADBroadcastCore.swift in Sources */,
 				96F77284202031E4000FE0D0 /* RelativeDateFormatter.swift in Sources */,
 				DB88BCDB1F42D0080056FD69 /* SearchOptionsViewController.swift in Sources */,
 				9689CA4B203646E60001D993 /* CADResourceUnitType.swift in Sources */,
@@ -4215,6 +4449,7 @@
 				27FDABB51FB90FF6003466AF /* TaskDetailsViewModel.swift in Sources */,
 				46A60F5A1FCFAF0D00EE32CA /* Evaluator.swift in Sources */,
 				BC9C7E1F1F0DED6600DFFE83 /* FormSearchTableViewController.swift in Sources */,
+				2744E38C2051DD8500561A8F /* CADTaskListSourceCore.swift in Sources */,
 				DB88BCE21F42D0110056FD69 /* SearchResultErrorCell.swift in Sources */,
 				275F0A681FA19694002BB9C5 /* BookOnDetailsFormContentMainViewModel.swift in Sources */,
 				4E10CA59202D36B000A17638 /* DefaultEventNotesPhotosViewController.swift in Sources */,
@@ -4227,11 +4462,13 @@
 				463F88DA200C6EDF0007A311 /* SimpleColorPicker.swift in Sources */,
 				EA69F8291F7C8EAD0092380B /* PickerFormItem.swift in Sources */,
 				96BFD1B01FE8B322009AF6B5 /* BookOnDetailsFormContentOfficerViewModel.swift in Sources */,
+				2744E3A12051DD8500561A8F /* CADBookOffRequest.swift in Sources */,
 				27F9C96C1FA2D7E300825F88 /* CompactCallsignContainerViewController.swift in Sources */,
 				EA32A8581FBD1A7900CC37FB /* MediaCell.swift in Sources */,
 				9650CA1B1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift in Sources */,
 				967BFABD203B916E00A9C789 /* CADTrafficStopDetailsType.swift in Sources */,
 				BC9C7DEE1F0DED6600DFFE83 /* Serialisable.swift in Sources */,
+				27256FF3205B27D9005930CB /* BaseDelimitedStringCountSpecification.swift in Sources */,
 				BC9C7DEB1F0DED6600DFFE83 /* EntitySource.swift in Sources */,
 				BC9C7DC91F0DED6600DFFE83 /* FileManager+URL.swift in Sources */,
 				EABAB8021F3429D90071A401 /* AggregatedSearch.swift in Sources */,
@@ -4242,9 +4479,10 @@
 				E26BCAE020116A8A0028F228 /* UserDefaultsDataSource.swift in Sources */,
 				270C60FD1FBA5DCB006F11AD /* TasksListIncidentCollectionViewCell.swift in Sources */,
 				27206B361F8198CD005303A8 /* IncidentAnnotationView.swift in Sources */,
-				467EAFAE20193BEE00B4CCC3 /* AudioMedia.swift in Sources */,
+				467EAFAE20193BEE00B4CCC3 /* AudioPreview.swift in Sources */,
 				278A16311FBBBDC800C01C38 /* MapFilterViewController.swift in Sources */,
 				EA7C50A41FA0677A004930BF /* MediaFormItem.swift in Sources */,
+				EA0F03E5202D480200BEB7E0 /* MediaStateCell.swift in Sources */,
 				462A788C1FC3D097002AEC05 /* SignatureViewController.swift in Sources */,
 				BC9C7DF21F0DED6600DFFE83 /* ISO8601DateTransformer+UnboxFormatter.swift in Sources */,
 				9689CA49203646AB0001D993 /* CADIncidentGradeType.swift in Sources */,
@@ -4270,6 +4508,7 @@
 				96ED81011FD9F2E100C7C960 /* CallsignStatusViewModel.swift in Sources */,
 				96AADABD20081D24003E215E /* BookOnScreen.swift in Sources */,
 				BC9C7E311F0DED6600DFFE83 /* UITableView+SectionHeaderFooterFetch.swift in Sources */,
+				27256FF7205B288C005930CB /* DelimitedStringItemsCountSpecification.swift in Sources */,
 				19C625C21F55143900504BD9 /* NetworkRequest.swift in Sources */,
 				C6CD6A181F31663500771B8C /* EntitySearchRequest.swift in Sources */,
 				9689CA5F20364AD30001D993 /* CADIncidentInformantType.swift in Sources */,
@@ -4309,14 +4548,16 @@
 				BC1B25BA1F2707270090C0AA /* MPOLBarButtonItems.swift in Sources */,
 				19B49BBB1F665F2A00502F51 /* CompactSidebarItemView.swift in Sources */,
 				9650CA151F958B320087F5C9 /* CallsignStatusViewCell.swift in Sources */,
+				2744E3902051DD8500561A8F /* CADResourceUnitCore.swift in Sources */,
 				DBD626271FDA25D200C3E809 /* QuantityPickerViewModel.swift in Sources */,
 				EA32A85E1FBD564200CC37FB /* MediaDetailViewController.swift in Sources */,
 				BC9C7DFB1F0DED6600DFFE83 /* CollectionViewFormTextFieldCell.swift in Sources */,
+				2744E38E2051DD8500561A8F /* CADResourceStatusCore.swift in Sources */,
 				BC9C7E361F0DED6600DFFE83 /* KeyboardNumberBar.swift in Sources */,
-				EA32A8451FBD189C00CC37FB /* MediaPreviewableDelegate.swift in Sources */,
 				BC9C7E421F0DED6600DFFE83 /* ScrollViewInsetManager.swift in Sources */,
 				463694E7200ED68F00C51BB4 /* SketchControlPanelDelegate.swift in Sources */,
 				969959661FC2334300CB51EB /* ColorPalette.swift in Sources */,
+				2744E39F2051DD8500561A8F /* CADIncidentInformantCore.swift in Sources */,
 				191BC4D31F7C203B00C8C218 /* HelpContent.swift in Sources */,
 				4E719ECA2022F08600D45F52 /* TextTemplate.swift in Sources */,
 				BC9C7E2F1F0DED6600DFFE83 /* UIImage+RoundedRects.swift in Sources */,
@@ -4363,6 +4604,7 @@
 				BCA6FD771F22E0AE00EE8F7A /* SearchFieldButton.swift in Sources */,
 				EA4806B51F56A00600B42313 /* LocationSearchConfiguration.swift in Sources */,
 				12D3702020200DBD00D79DDB /* ObjectBucket.swift in Sources */,
+				2744E3A42051DD8500561A8F /* CADBookOnRequest.swift in Sources */,
 				274C89791F997F94005B9CF8 /* CADStatusTabBarViewModel.swift in Sources */,
 				464E99E6203CE1B100FE05DC /* EventSearchableViewModel.swift in Sources */,
 				BC9C7E161F0DED6600DFFE83 /* CheckBox.swift in Sources */,
@@ -4398,6 +4640,7 @@
 				EA09A0581F78B9C200BC3C0E /* RegularExpressionSpecification.swift in Sources */,
 				27E81E562034E539000D5D1C /* TaskDetailsOverviewViewModel.swift in Sources */,
 				46E193662016CDEA00F2D968 /* MediaAsset.swift in Sources */,
+				EACFF2B52044D3E100B1C40A /* MediaGalleryDelegate.swift in Sources */,
 				96EB4BE6203E4EE200AFCAA0 /* CADTaskListItemModelType.swift in Sources */,
 				EA09A04C1F78B86A00BC3C0E /* Specification.swift in Sources */,
 				27719E0A1FA92A5B00238059 /* AustralianPhoneSpecification.swift in Sources */,
@@ -4423,22 +4666,28 @@
 				12D3702220200F5E00D79DDB /* EventsListViewController.swift in Sources */,
 				12FB2F0120326653000CA863 /* StackMapLayout.swift in Sources */,
 				BC8A99611F22EBD700387AB6 /* UIColor+Brightness.swift in Sources */,
+				27256FF5205B2877005930CB /* DelimitedStringCharacterCountSpecification.swift in Sources */,
 				BC9C7DED1F0DED6600DFFE83 /* ResponseDataOperationChainable.swift in Sources */,
 				EAA3E4F01F96EA8200A5E2A5 /* RangeFormItem.swift in Sources */,
 				BCFA06811F317C29002FA1FF /* MapCollectionViewHeaderLayout.swift in Sources */,
 				BCF4B59C1F2849D00022132D /* SpacerView.swift in Sources */,
 				273C53851FE785BF00BF994B /* TasksListDetailView.swift in Sources */,
+				EA5E7EC720354E2000D31155 /* LocalStore.swift in Sources */,
 				27CBC7641F8B27CC00E387C3 /* TaskAnnotation.swift in Sources */,
 				BC9C7E441F0DED6600DFFE83 /* SidebarSplitViewController.swift in Sources */,
 				BC9C7DFD1F0DED6600DFFE83 /* CollectionViewFormValueFieldCell.swift in Sources */,
-				EA32A8521FBD1A7900CC37FB /* PhotoMedia.swift in Sources */,
+				96361678204F8A150012AEC4 /* BroadcastAnnotationView.swift in Sources */,
+				2744E3A22051DD8500561A8F /* CADCreateIncidentRequest.swift in Sources */,
 				BC9C7E4B1F0DED6600DFFE83 /* Theme.swift in Sources */,
 				BC9C7E091F0DED6600DFFE83 /* UITableViewCell+LayoutMargins.swift in Sources */,
 				2726A81E1FCE6BE600EFB61A /* IncidentOverviewViewModel.swift in Sources */,
 				274753F41FC67F6E00D5FA98 /* TasksListInformationRowViewModel.swift in Sources */,
+				12B4492F203A831B00B1DDAA /* IncidentListViewModel.swift in Sources */,
+				2744E3982051DD8500561A8F /* CADPatrolCore.swift in Sources */,
 				EA53B2771F9EF92B00B891D8 /* NotNilSpecification.swift in Sources */,
 				96F77281201FFB40000FE0D0 /* CreateActivityLogItemViewController.swift in Sources */,
 				46E0B8B220326FB500B40DF2 /* Pickable.swift in Sources */,
+				96361676204F8A0C0012AEC4 /* BroadcastAnnotation.swift in Sources */,
 				BC9C7E521F0DED6600DFFE83 /* FormDisclosureView.swift in Sources */,
 				9663D00B1F8AF666006DB672 /* TasksSplitViewController.swift in Sources */,
 				4634B4461FBD6FD200D71E7F /* EntityMapSummaryDisplayble.swift in Sources */,
@@ -4451,6 +4700,7 @@
 				EA2189F21F5FE8B50057048E /* Presenter.swift in Sources */,
 				4634B4421FBD6FD200D71E7F /* MapSummarySearchResultViewModel.swift in Sources */,
 				BC9C7E1D1F0DED6600DFFE83 /* MPOLKitInitialize.swift in Sources */,
+				9636167A204F8AAD0012AEC4 /* BroadcastOverviewMapViewModel.swift in Sources */,
 				19C625C01F550D2200504BD9 /* NetworkRequestType.swift in Sources */,
 				273C53831FE7837800BF994B /* TasksListInfoRowStackView.swift in Sources */,
 				274C89711F984CB8005B9CF8 /* CallsignListViewController.swift in Sources */,
@@ -4480,6 +4730,7 @@
 				27094CCC1FAFFBDA00D4C3D4 /* ResourceTaskItemViewModel.swift in Sources */,
 				1972FCD21FA6C4E300CB68EA /* ResourceDownloadTicket.swift in Sources */,
 				19DBD5D11FA8EA7400205EEC /* APIManager+Unboxable.swift in Sources */,
+				2744E3A32051DD8500561A8F /* CADTrafficStopRequest.swift in Sources */,
 				BC9C7E2A1F0DED6600DFFE83 /* DateFormatter+Static.swift in Sources */,
 				273DE2DF1FEA1047000C46DD /* CreateIncidentStatusViewController.swift in Sources */,
 				9663D0061F86DCDA006DB672 /* MPOLSplitViewController.swift in Sources */,
@@ -4498,6 +4749,7 @@
 				EA5649711F8EE4E100BEA144 /* SummaryDetailFormItem.swift in Sources */,
 				46E0B8A72030F06200B40DF2 /* CustomPickerController.swift in Sources */,
 				2744EEC91FBEA523008DFA7F /* MapFilterSection.swift in Sources */,
+				2744E3A02051DD8500561A8F /* CADSyncRequest.swift in Sources */,
 				BC9C7E4E1F0DED6600DFFE83 /* BadgeView.swift in Sources */,
 				463FEF5D1FE1FFF10093E303 /* LabeledTextField.swift in Sources */,
 				BC9C7E121F0DED6600DFFE83 /* TableViewFormExpandingHeaderCell.swift in Sources */,
@@ -4533,9 +4785,11 @@
 				DB2A05E11FD9142E005B7BFD /* HapticHelper.swift in Sources */,
 				BCC6F74E1F2FF91200F05F65 /* MapCollectionViewController.swift in Sources */,
 				19F8DDB11F4D7CB800D84DA1 /* LookupAddress.swift in Sources */,
+				2744E39C2051DD8500561A8F /* CADIncidentCore.swift in Sources */,
 				EA42F67A1FE3585300130DA5 /* EntitySummaryRecentsViewModel.swift in Sources */,
 				273DE2E11FEA1199000C46DD /* CADStatusViewController.swift in Sources */,
 				BCBA82141F19D7E8000BBF82 /* StringSizing.swift in Sources */,
+				2744E3932051DD8500561A8F /* CADOfficerDetailsResponse.swift in Sources */,
 				27CBC7561F8B277E00E387C3 /* TimelineCollectionViewFormLayout.swift in Sources */,
 				BC9C7E031F0DED6600DFFE83 /* UICollectionView+DefaultReuse.swift in Sources */,
 				EA42F8EA1F95CDB000C5C38E /* DateFormItem.swift in Sources */,
@@ -4549,6 +4803,7 @@
 				EA32A8531FBD1A7900CC37FB /* MediaViewController.swift in Sources */,
 				EA950E4A1F8DBF2200B5A349 /* DebugDumpVisitor.swift in Sources */,
 				DBE24C2F1F5939C90088D19B /* EntityDetailsFetch.swift in Sources */,
+				2744E3992051DD8500561A8F /* CADLocationCore.swift in Sources */,
 				278A16331FBBF68A00C01C38 /* LabeledSwitch.swift in Sources */,
 				BC9C7DF91F0DED6600DFFE83 /* CollectionViewFormOptionCell.swift in Sources */,
 				12D4450C2047BAFC00A4D4C1 /* IncidentListDisplayable.swift in Sources */,
@@ -4557,9 +4812,11 @@
 				193ED0851FDE02ED002F2837 /* PluginFilterRules.swift in Sources */,
 				BC9C7E0E1F0DED6600DFFE83 /* CollectionViewFormLayoutAttributes.swift in Sources */,
 				279B057D200D591200C3EFB0 /* ActivityLogDateCollectionSectionViewModel.swift in Sources */,
+				2744E3922051DD8500561A8F /* CADIncidentStatusCore.swift in Sources */,
 				2744EECA1FBEA523008DFA7F /* MapFilterOption.swift in Sources */,
 				4426162C1FF5C9A7008EBF84 /* PatrolAreaListViewController.swift in Sources */,
 				27CBC7581F8B277E00E387C3 /* TimelineView.swift in Sources */,
+				2744E3942051DD8500561A8F /* CADSyncResponse.swift in Sources */,
 				96B918401F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift in Sources */,
 				2744EED01FC289F5008DFA7F /* Collection+MapFilterSectionCopy.swift in Sources */,
 				DB88BCE41F42D0150056FD69 /* QueryParserDefinitionSelector.swift in Sources */,
@@ -4580,7 +4837,9 @@
 				19B49BBE1F665F2A00502F51 /* ScrollAwarePageViewController.swift in Sources */,
 				9689CA47203646140001D993 /* CADStateManagerType.swift in Sources */,
 				191BC4D51F7C203B00C8C218 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
+				2744E39D2051DD8500561A8F /* CADOfficerCore.swift in Sources */,
 				DB88BCDC1F42D0080056FD69 /* SearchRecentsViewController.swift in Sources */,
+				2744E38D2051DD8500561A8F /* CADPatrolStatusCore.swift in Sources */,
 				BC9C7E511F0DED6600DFFE83 /* FormAccessoryCheckmark.swift in Sources */,
 				EA32A8591FBD1A7900CC37FB /* MediaSlideShowViewController.swift in Sources */,
 				19B49BC81F665F5A00502F51 /* WhatsNewViewController.swift in Sources */,
@@ -4590,10 +4849,11 @@
 				BC9C7E151F0DED6600DFFE83 /* TableViewFormTextViewCell.swift in Sources */,
 				DB168CDE20032B6B00322F7F /* Validator.swift in Sources */,
 				967BFAB8203B90E500A9C789 /* SelectStoppedEntityViewController.swift in Sources */,
+				2744E3AA2051E68200561A8F /* CADAPIManagerType.swift in Sources */,
 				460B276F204526DC00B56D0B /* FormBuilderSearchViewController.swift in Sources */,
 				27E81E5E2034EB05000D5D1C /* ResourceOverviewFormViewController.swift in Sources */,
 				275329282033A2DF00CFA97B /* BubbleAnnotationView.swift in Sources */,
-				EA2F1A6F1FA7F7C6001F7812 /* MediaDataSource.swift in Sources */,
+				EA2F1A6F1FA7F7C6001F7812 /* MediaGalleryViewModelable.swift in Sources */,
 				C63408551F30E541000747B0 /* EntitySearchRequestable.swift in Sources */,
 				469EB5831F45320A0005CAF7 /* LoginHeaderView.swift in Sources */,
 				DB88BCE51F42D01C0056FD69 /* SortDescriptor.swift in Sources */,
@@ -4610,6 +4870,8 @@
 				E21CD4741FBD4B3800925A38 /* NetworkMonitorPlugin.swift in Sources */,
 				EADC4FF31F81E0810066AA2F /* OptionGroupFormItem.swift in Sources */,
 				BC9C7DF01F0DED6600DFFE83 /* EpochDateTransformer+UnboxFormatter.swift in Sources */,
+				2744E3A62051DD8500561A8F /* CADStateManagerCore.swift in Sources */,
+				2744E39B2051DD8500561A8F /* CADIncidentPersonCore.swift in Sources */,
 				46C430D01FC544310047396B /* RemoteResourceDownloader.swift in Sources */,
 				9689CA6D20364CE80001D993 /* CADOfficerType.swift in Sources */,
 				962AA8191F8DD37D0087D534 /* PopoverPresenter.swift in Sources */,
@@ -4635,6 +4897,7 @@
 				9689CA6B20364C3E0001D993 /* CADEquipmentType.swift in Sources */,
 				BC9C7E341F0DED6600DFFE83 /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
 				460B5BC72007187600AB7D12 /* SketchEraser.swift in Sources */,
+				46884206202BB186009D0406 /* PersistantMediaDatasource.swift in Sources */,
 				2753292620338C4500CFA97B /* TasksListBasicCollectionViewCell.swift in Sources */,
 				96F7727F201FFB35000FE0D0 /* CreateActivityLogItemViewModel.swift in Sources */,
 				9679A6491F9EEDB7007BC806 /* BookOnDetailsOfficerFormItem.swift in Sources */,
@@ -4682,6 +4945,7 @@
 				191BC4D41F7C203B00C8C218 /* HelpViewController.swift in Sources */,
 				270A9E471FE66A3B00B93C48 /* ActionSheetViewController.swift in Sources */,
 				EA445DAA1F73A12200ABF70F /* SummaryListFormItem.swift in Sources */,
+				276B37A720509578002FA2A9 /* CADRecentlyUsedKey.swift in Sources */,
 				273C53871FE8648B00BF994B /* TasksListResourceSummaryView.swift in Sources */,
 				EA2F1A631FA6D587001F7812 /* MediaPreviewableCell.swift in Sources */,
 				19C5D9A21FA95ED800527B5A /* ImageResponseSerializer.swift in Sources */,
@@ -4712,6 +4976,7 @@
 				BC9C7E411F0DED6600DFFE83 /* PopoverViewController.swift in Sources */,
 				966CE9D120368DB800646A6A /* CADPatrolStatusType.swift in Sources */,
 				273C538F1FE8688F00BF994B /* TasksListResourceViewModel.swift in Sources */,
+				2744E3A82051DE7700561A8F /* PhotoPreview.swift in Sources */,
 				467EAFB020193C2700B4CCC3 /* WaveformView.swift in Sources */,
 				BC5C11EF1F2806890048CBBF /* LoadingStateNoContentView.swift in Sources */,
 				EA4806B71F56A0DC00B42313 /* LocationSearchStrategy.swift in Sources */,
@@ -4742,7 +5007,7 @@
 				199ECE8F1FAA1B720065E425 /* RemoteResourceDescribing.swift in Sources */,
 				9689CA4F203648890001D993 /* CADActivityLogItemType.swift in Sources */,
 				BC79ADAEABB2D9BDDC997334 /* MPOLSpinnerView.swift in Sources */,
-				461F7AA82022E0B700885E93 /* VideoMedia.swift in Sources */,
+				461F7AA82022E0B700885E93 /* VideoPreview.swift in Sources */,
 				EA09A0481F78B6D400BC3C0E /* FormValidator.swift in Sources */,
 				EA950E4C1F8DBF5700B5A349 /* SubmissionValidationVisitor.swift in Sources */,
 				BC79A57977498E8F0201AB62 /* MapFormBuilderViewController.swift in Sources */,
@@ -4759,6 +5024,7 @@
 				EA42F8E61F9591AA00C5C38E /* RegularExpressionSpecificationTests.swift in Sources */,
 				EAF76C7D1F9099F400405DC9 /* BaseFormItemTests.swift in Sources */,
 				EAF76C791F908DF500405DC9 /* ValidatorRuleTests.swift in Sources */,
+				EA4B3F422033DD5200FD92B9 /* DataCoordinatorTests.swift in Sources */,
 				1908EF8E1F57D79A00382B1C /* ModelVersionableTests.swift in Sources */,
 				EA42F8D71F9585B200C5C38E /* SpecificationTests.swift in Sources */,
 				C6E833AB1F334A4700A21F6D /* NSArchiverTests.swift in Sources */,
@@ -4802,6 +5068,7 @@
 				EA42F8DA1F95874600C5C38E /* AndSpecificationTests.swift in Sources */,
 				EAF76C7F1F941F2500405DC9 /* BaseSupplementaryFormItemTests.swift in Sources */,
 				12F057201F3BF6CF00CAD6F6 /* SourceItemTests.swift in Sources */,
+				EA5E7EC0203543D500D31155 /* LocalDataStoreTests.swift in Sources */,
 				EA42F8E01F958C7600C5C38E /* CountSpecificationTests.swift in Sources */,
 				9988CE671FAAD965007BE261 /* ManifestCollectionTests.swift in Sources */,
 				EA42F8E41F95910400C5C38E /* PredicateSpecificationTests.swift in Sources */,
@@ -4837,6 +5104,7 @@
 				12F057241F3BFCBC00CAD6F6 /* SearchResultsTests.swift in Sources */,
 				EAF76C7B1F908F0000405DC9 /* ValidateResultTests.swift in Sources */,
 				46A60F611FCFB03200EE32CA /* EvaluatorTests.swift in Sources */,
+				EA7A6612203D475500F6399F /* DataCoordinateStateTests.swift in Sources */,
 				EAF76C8F1F944FB500405DC9 /* CustomFormItemTests.swift in Sources */,
 				EAF76C851F942F7B00405DC9 /* LabeledItemAccessoryTests.swift in Sources */,
 			);

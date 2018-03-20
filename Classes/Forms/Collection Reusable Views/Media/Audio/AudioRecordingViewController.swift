@@ -48,7 +48,7 @@ public class AudioRecordingViewController: UIViewController, AVAudioRecorderDele
 
     // Initialise with a location at which to save the file
     public init(saveLocation: URL) {
-        url = URL(string: saveLocation.path)!
+        url = saveLocation
 
         super.init(nibName: nil, bundle: nil)
         sessionConfigurer.configureActiveSession()
@@ -104,8 +104,8 @@ public class AudioRecordingViewController: UIViewController, AVAudioRecorderDele
         ])
     }
 
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
 
         displayLink = CADisplayLink(target: self, selector: #selector(updateAudioInput))
         displayLink?.add(to: RunLoop.current, forMode: .commonModes)

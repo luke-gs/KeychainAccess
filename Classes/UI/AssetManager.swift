@@ -137,6 +137,7 @@ extension AssetManager {
         public static let disclosure     = ImageKey("iconSystemDisclosure")
         public static let overflow       = ImageKey("iconSystemOverflow")
         public static let advancedSearch = ImageKey("iconSystemAdvancedSearch")
+        public static let login          = ImageKey("iconSystemLogin")
 
         public static let faceId         = ImageKey("iconBiometricFaceId")
         public static let touchId        = ImageKey("iconBiometricTouchId")
@@ -146,6 +147,7 @@ extension AssetManager {
         public static let audioWave      = ImageKey("audioWave")
         public static let iconPlay       = ImageKey("iconPlay")
         public static let iconPause      = ImageKey("iconPause")
+        public static let download       = ImageKey("download")
 
         // General
         public static let alert          = ImageKey("iconGeneralAlert")
@@ -202,6 +204,8 @@ extension AssetManager {
 
         public static let entityPlaceholder = ImageKey("EntityThumbnailBackground")
 
+        public static let iconEntityVehicleMotorcycle = ImageKey("iconEntityVehicleMotorcycle")
+
         // Resource
         public static let resourceGeneral       = ImageKey("iconResourceGeneral")
         public static let resourceCar           = ImageKey("iconResourceCar")
@@ -221,6 +225,7 @@ extension AssetManager {
         public static let audioCall      = ImageKey("iconCommsCall")
         public static let videoCall      = ImageKey("iconCommsVideo")
         public static let message        = ImageKey("iconCommsMessage")
+        public static let gallery        = ImageKey("iconCommsGallery")
 
         // Forms
         public static let checkbox             = ImageKey("iconFormCheckbox")
@@ -256,13 +261,12 @@ extension AssetManager {
         public static let iconStatusUnavailable  = ImageKey("iconStatusUnavailable")
 
         // Events
-        public static let iconFolder  = ImageKey("iconFolder")
-        public static let iconPencil  = ImageKey("iconPencil")
-        public static let iconDocument  = ImageKey("iconDocument")
+        public static let iconFolder   = ImageKey("iconFolder")
+        public static let iconPencil   = ImageKey("iconPencil")
+        public static let iconDocument = ImageKey("iconDocument")
 
         // Dialog images
         public static let dialogAlert = ImageKey("dialogAlert")
-
     }
 }
 

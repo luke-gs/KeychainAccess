@@ -12,11 +12,13 @@ import KeychainSwift
 public class UserSession: UserSessionable {
 
     public static let latestSessionKey = "LatestSessionKey"
+    public static let recentIdsKey     = "RecentIdsKey"
 
     public static let current = UserSession()
-    open private(set) var token: OAuthAccessToken?
+    private(set) public var token: OAuthAccessToken?
     private(set) public var user: User?
-
+    private(set) public var userStorage: UserStorage?
+    
     // Use the app group base path for sharing between apps by default
     public static var basePath: URL = AppGroup.appBaseFilePath()
 
@@ -30,8 +32,11 @@ public class UserSession: UserSessionable {
             directoryManager.write(recentlySearched as NSArray, to: paths.recentlySearched)
         }
     }
-
+    
     public let recentlyActioned: EntityBucket = EntityBucket(limit: 20)
+    
+    // Generic recent IDs for types (keyed), for current user
+    public private(set) var recentIdsListMap: [String: [String]] = [:]
 
     public var isActive: Bool {
         return UserSession.userDefaults.string(forKey: UserSession.latestSessionKey) != nil
@@ -57,6 +62,8 @@ public class UserSession: UserSessionable {
         UserSession.current.token = token
         UserSession.current.user = user
         UserSession.current.recentlySearched = []
+        UserSession.current.userStorage = UserStorage(userID: user.username)
+        UserSession.current.loadRecentIds()
 
         UserSession.current.saveTokenToKeychain()
         UserSession.current.loadUserFromCache()
@@ -80,6 +87,8 @@ public class UserSession: UserSessionable {
         recentlySearched = []
         recentlyViewed.removeAll()
         recentlyActioned.removeAll()
+        recentIdsListMap = [:]
+        userStorage = nil
         directoryManager.write(nil, toKeyChain: "token")
 
         try! directoryManager.remove(at: paths.session)
@@ -122,10 +131,14 @@ public class UserSession: UserSessionable {
 
         recentlyViewed.add(viewed)
         recentlyActioned.add(actioned)
-
+        
         isRestoringSession = false
 
-        if let token = self.token, self.user != nil {
+        if let token = self.token, let user = self.user {
+            UserSession.current.userStorage = UserStorage(userID: user.username)
+            
+            loadRecentIds()
+
             completion(token)
         } else {
             completion(OAuthAccessToken(accessToken: "", type: ""))
@@ -168,8 +181,51 @@ public class UserSession: UserSessionable {
         guard !isRestoringSession else { return }
         directoryManager.write(recentlyViewed.entities as NSArray, to: paths.recentlyViewed)
     }
+    
+    /// Adds a recent ID to the recent IDs dictionary
+    ///
+    /// - Parameters:
+    ///   - id: the ID to insert
+    ///   - key: the key to use in the dictionary
+    ///   - trim: the max number of elements to keep in the array, default is `100`
+    open func addRecentId(_ id: String, forKey key: String, trimToMaxElements trim: Int = 100) {
+        guard let userStorage = userStorage else { return }
+        
+        var recent = recentIdsListMap[key] ?? [String]()
+        
+        if let indexOfExisting = recent.index(of: id) {
+            recent.remove(at: indexOfExisting)
+        }
+        recent.insert(id, at: 0)
+        
+        recentIdsListMap[key] = Array(recent.prefix(trim))
+
+        do {
+            try userStorage.add(object: recentIdsListMap, key: UserSession.recentIdsKey, flag: .retain)
+        } catch {
+            print("Failed to add to user storage with error:\n\(error.localizedDescription)")
+        }
+    }
+    
+    /// Adds an array of recent IDs to the recent IDs dictionary
+    ///
+    /// - Parameters:
+    ///   - ids: the IDs to insert
+    ///   - key: the key to use in the dictionary
+    ///   - trim: the max number of elements to keep in the array, default is `100`
+    open func addRecentIds(_ ids: [String], forKey key: String, trimToMaxElements trim: Int = 100) {
+        for id in ids {
+            addRecentId(id, forKey: key, trimToMaxElements: trim)
+        }
+    }
 
     //MARK: RESTORING
+    
+    private func loadRecentIds() {
+        if let data = userStorage?.retrieve(key: UserSession.recentIdsKey) as? [String : [String]] {
+            recentIdsListMap = data
+        }
+    }
 
     private func loadUserFromCache() {
         guard let username = user?.username else { return }

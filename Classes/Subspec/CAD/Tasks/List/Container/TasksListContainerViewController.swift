@@ -274,6 +274,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
 extension TasksListContainerViewController: TasksListContainerViewModelDelegate {
     open func updateSourceItems() {
         sourceItems = viewModel.sourceItems
+        selectedSourceIndex = viewModel.selectedSourceIndex
     }
 
     open func updateSelectedSourceIndex() {

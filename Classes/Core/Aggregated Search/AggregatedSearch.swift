@@ -94,7 +94,12 @@ public class AggregatedSearch<T: MPOLKitEntity> {
         guard state != .searching else { return }
         
         for request in requests {
-            retrySearch(request: request)
+            if request.isAutomatic {
+                retrySearch(request: request)
+            } else {
+                // Create an idle section for user generated searches
+                resetResult(for: request, state: .idle)
+            }
         }
     }
     
@@ -116,10 +121,10 @@ public class AggregatedSearch<T: MPOLKitEntity> {
         }
     }
     
-    private func beginSearch(for request: AggregatedSearchRequest<T>) {
+    private func resetResult(for request: AggregatedSearchRequest<T>, state: SearchState) {
         let aggregatedResult = AggregatedResult(request: request,
                                                 entities: [],
-                                                state: .searching,
+                                                state: state,
                                                 error: nil)
         
         
@@ -130,7 +135,10 @@ public class AggregatedSearch<T: MPOLKitEntity> {
         } else {
             results.append(aggregatedResult)
         }
-        
+    }
+    
+    private func beginSearch(for request: AggregatedSearchRequest<T>) {
+        resetResult(for: request, state: .searching)
         delegate?.aggregatedSearch(self, didBeginSearch: request)
     }
     

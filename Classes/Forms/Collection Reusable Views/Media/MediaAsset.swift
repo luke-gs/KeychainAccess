@@ -9,59 +9,65 @@
 import Foundation
 import Cache
 
-public class MediaAsset: MediaPreviewable, Codable {
 
-    enum CodingKeys: String, CodingKey {
-        case thumbnailImage
-        case assetURL
-        case title
-        case comments
-        case sensitive
-    }
+public enum MediaType: Int, Codable {
+    case video
+    case audio
+    case photo
+}
 
-    public let thumbnailImage: ImageLoadable?
 
-    public let assetURL: URL?
+public class Media: Codable {
+    public let identifier: String
+    public let type: MediaType
 
+    public let url: URL
     public var title: String?
     public var comments: String?
-
     public var sensitive: Bool
-
-    init(thumbnailImage: ImageLoadable?, assetURL: URL?, title: String?, comments: String?, isSensitive: Bool) {
-        self.assetURL = assetURL
-        self.thumbnailImage = thumbnailImage
+    
+    public init(identifier: String = UUID().uuidString, url: URL, type: MediaType, title: String? = nil, comments: String? = nil, isSensitive: Bool = false) {
+        self.identifier = identifier
+        self.type = type
+        self.url = url
         self.title = title
         self.comments = comments
         self.sensitive = isSensitive
     }
+}
 
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+extension Media: Hashable {
 
-        var wrappedImage: ImageWrapper?
-        thumbnailImage?.loadImage(completion: { (imageSizing) in
-            if let image = imageSizing.sizing().image {
-                wrappedImage = ImageWrapper(image: image)
-            }
-        })
-        if let wrappedImage = wrappedImage {
-            try container.encode(wrappedImage, forKey: .thumbnailImage)
-        }
-
-        try container.encode(sensitive, forKey: .sensitive)
-        try container.encode(title, forKey: .title)
-        try container.encode(assetURL, forKey: .assetURL)
-        try container.encode(comments, forKey: .comments)
+    public var hashValue: Int {
+        return identifier.hashValue ^ type.rawValue.hashValue ^ url.hashValue ^ (title?.hashValue ?? 0) ^ (comments?.hashValue ?? 0) ^ sensitive.hashValue
     }
 
-    public required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        thumbnailImage = try container.decode(ImageWrapper.self, forKey: .thumbnailImage).image
-        title = try container.decode(String?.self, forKey: .title)
-        comments = try container.decode(String?.self, forKey: .comments)
-        assetURL = try container.decode(URL?.self, forKey: .assetURL)
-        sensitive = try container.decode(Bool.self, forKey: .sensitive)
+    static public func ==(lhs: Media, rhs: Media) -> Bool {
+        return lhs.identifier == rhs.identifier &&
+            lhs.type == rhs.type &&
+            lhs.url == rhs.url &&
+            lhs.title == rhs.title &&
+            lhs.comments == rhs.comments &&
+            lhs.sensitive == rhs.sensitive
+    }
+
+}
+
+public class MediaPreview: MediaPreviewable {
+
+    public var sensitive: Bool = false
+    public var comments: String?
+    public var thumbnailImage: ImageLoadable?
+    public var title: String?
+
+    public let media: Media
+
+    public init(thumbnailImage: ImageLoadable? = nil, media: Media) {
+        self.media = media
+        self.thumbnailImage = thumbnailImage
+        self.title = media.title
+        self.comments = media.comments
+        self.sensitive = media.sensitive
     }
 
 }

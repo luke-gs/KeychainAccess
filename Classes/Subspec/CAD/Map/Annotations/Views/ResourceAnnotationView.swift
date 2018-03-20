@@ -18,7 +18,7 @@ open class ResourceAnnotationView: AutoLayoutAnnotationView {
     
     private struct LayoutConstants {
         static let detailsViewHeight: CGFloat = 16
-        static let detailsViewRadius: CGFloat = 2
+        static let detailsViewRadius: CGFloat = 8
         
         static let circleSize: CGFloat = 40
         static let circleRadius: CGFloat = circleSize / 2
@@ -129,10 +129,10 @@ open class ResourceAnnotationView: AutoLayoutAnnotationView {
             detailsView.heightAnchor.constraint(equalToConstant: LayoutConstants.detailsViewHeight),
 
             detailsTitleLabel.centerYAnchor.constraint(equalTo: detailsView.centerYAnchor),
-            detailsTitleLabel.leadingAnchor.constraint(equalTo: detailsView.leadingAnchor, constant: 4),
+            detailsTitleLabel.leadingAnchor.constraint(equalTo: detailsView.leadingAnchor, constant: LayoutConstants.detailsViewRadius),
 
             detailsSubtitleLabel.leadingAnchor.constraint(equalTo: detailsTitleLabel.trailingAnchor, constant: 2),
-            detailsSubtitleLabel.trailingAnchor.constraint(equalTo: detailsView.trailingAnchor, constant: -4),
+            detailsSubtitleLabel.trailingAnchor.constraint(equalTo: detailsView.trailingAnchor, constant: -LayoutConstants.detailsViewRadius),
             detailsSubtitleLabel.centerYAnchor.constraint(equalTo: detailsTitleLabel.centerYAnchor),
 
             circleView.topAnchor.constraint(equalTo: detailsView.bottomAnchor, constant: 8),

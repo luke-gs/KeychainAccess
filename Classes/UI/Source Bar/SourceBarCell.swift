@@ -177,7 +177,7 @@ internal class SourceBarCell: UIControl {
             iconView.glowAlpha = 0.25
             
             highlightedTintColor = color ?? .white
-            normalTintColor = color ?? .lightGray
+            normalTintColor = color ?? .secondaryGray
             
             _imageView?.isHidden = true
             _loadingIndicator?.stopAnimating()

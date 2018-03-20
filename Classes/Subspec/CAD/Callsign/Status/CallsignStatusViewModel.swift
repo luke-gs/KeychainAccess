@@ -25,7 +25,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
 
     /// Init with sectioned statuses to display, and current selection
     public init(sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>],
-                selectedStatus: CADResourceStatusType, incident: CADIncidentType?) {
+                selectedStatus: CADResourceStatusType?, incident: CADIncidentType?) {
         super.init()
 
         self.sections = sections
@@ -34,7 +34,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
     }
     
     public func reload(sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>],
-                selectedStatus: CADResourceStatusType, incident: CADIncidentType?) {
+                selectedStatus: CADResourceStatusType?, incident: CADIncidentType?) {
         self.sections = sections
         self.selectedIndexPath = indexPathForStatus(selectedStatus)
         self.incident = incident
@@ -144,7 +144,9 @@ open class CallsignStatusViewModel: CADStatusViewModel {
         return sections[indexPath.section].items[indexPath.item].status
     }
 
-    open func indexPathForStatus(_ status: CADResourceStatusType) -> IndexPath? {
+    open func indexPathForStatus(_ status: CADResourceStatusType?) -> IndexPath? {
+        guard let status = status else { return nil }
+
         // Find the status in the section data
         for (sectionIndex, section) in sections.enumerated() {
             for (itemIndex, item) in section.items.enumerated() {

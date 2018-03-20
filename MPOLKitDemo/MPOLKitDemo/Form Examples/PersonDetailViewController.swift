@@ -16,41 +16,43 @@ class PersonDetailViewController: FormBuilderViewController {
 
         builder.title = "Person Details"
 
-        let videoPath = Bundle.main.path(forResource: "video", ofType: "mp4")!
-        let audioPath = Bundle.main.path(forResource: "audio", ofType: "m4a")!
+//        let videoPath = Bundle.main.path(forResource: "video", ofType: "mp4")!
+//        let audioPath = Bundle.main.path(forResource: "audio", ofType: "m4a")!
+//
+//        let fp = URL(fileURLWithPath: audioPath)
+//        let vp = URL(fileURLWithPath: videoPath)
+//
+//        let url = URL(fileURLWithPath: Bundle.main.resourcePath! + "/Avatar 1.png")
 
-        let fp = URL(fileURLWithPath: audioPath)
-        let vp = URL(fileURLWithPath: videoPath)
+//        let datasource = MediaDataSource(mediaItems: [
+//            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Test", comments: "Comments", isSensitive: false)),
+//            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Test", comments: "Comments", isSensitive: false)),
+//            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Test", comments: "Comments", isSensitive: false)),
+//            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Test", comments: "Comments", isSensitive: false)),
+//            AudioMedia(asset: Media(url: fp, title: "Test", comments: "Comments", isSensitive: false)),
+//            AudioMedia(asset: Media(url: fp, title: "Test", comments: "Comments", isSensitive: false)),
+//            VideoMedia(asset: Media(url: vp, title: "Test", comments: "Comments", isSensitive: false)),
+//            VideoMedia(asset: Media(url: vp, title: "Test", comments: "Comments", isSensitive: false)),
+//        ])
 
-        let dataSource: MediaDataSource<MediaAsset> = [
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), title: "Jeff Handerson", comments: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sit amet suscipit dolor. Aenean egestas ligula id dictum aliquam. Maecenas a aliquam mauris. Nullam facilisis elit metus, eu imperdiet sem aliquet eu. Nullam dapibus justo vitae enim viverra, eget sollicitudin ligula efficitur. Cras ut blandit odio. Pellentesque tempor bibendum diam eget eleifend.", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Login"), image: #imageLiteral(resourceName: "Login"), title: "Background of some random screen", comments: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sit amet suscipit dolor.", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "SidebarInfoFilled"), image: #imageLiteral(resourceName: "SidebarInfoFilled"), title: "The davin ci icon", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), title: "Jeff Handerson in the fresh.", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Login"), image: #imageLiteral(resourceName: "Login"), title: "A group of officers pretending to be working", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "SidebarInfoFilled"), image: #imageLiteral(resourceName: "SidebarInfoFilled"), title: "Icon of death", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), title: "A man", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Login"), image: #imageLiteral(resourceName: "Login"), title: "Another group of officers", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "SidebarInfoFilled"), image: #imageLiteral(resourceName: "SidebarInfoFilled"), title: "A pointless infomration icon", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), title: "A real man", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Login"), image: #imageLiteral(resourceName: "Login"), title: "The blue officers", sensitive: false),
-            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "SidebarInfoFilled"), image: #imageLiteral(resourceName: "SidebarInfoFilled"), title: "Jeff Handerson", sensitive: false),
+        let localStore = DataStoreCoordinator(dataStore: LocalDataStore(items: [
+            Media(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", isSensitive: true),
+            Media(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", isSensitive: false),
+            Media(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", isSensitive: false),
+            Media(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", isSensitive: false)
+        ]))
 
-            AssetCache.default.asset(forKey: fp.lastPathComponent) ?? AudioMedia(audioURL: fp),
-            AssetCache.default.asset(forKey: fp.lastPathComponent) ?? AudioMedia(audioURL: fp),
-            AssetCache.default.asset(forKey: fp.lastPathComponent) ?? AudioMedia(audioURL: fp),
+        let gallery = MediaGalleryCoordinatorViewModel(storeCoordinator: localStore)
 
-            AssetCache.default.asset(forKey: vp.lastPathComponent) ?? VideoMedia(videoURL: vp)
-        ]
-
-        let mediaItem = MediaFormItem().dataSource(dataSource)
+        let mediaItem = MediaFormItem()
+            .dataSource(gallery)
 
         if let viewController = UIApplication.shared.keyWindow?.rootViewController {
             mediaItem.previewingController(viewController)
         }
 
         builder += HeaderFormItem(text: "PHOTOS").actionButton(title: "ADD", handler: { button in
-            if let viewController = mediaItem.delegate.viewControllerForMediaDataSource(dataSource) {
+            if let viewController = mediaItem.delegate?.viewControllerForGalleryViewModel(gallery) {
                 self.present(viewController, animated: true, completion: nil)
             }
         })
@@ -90,6 +92,15 @@ class PersonDetailViewController: FormBuilderViewController {
 
 class DocumentItem: MediaPreviewable {
 
+    var media: Media
+
+    var sensitive: Bool = false
+
+    var title: String?
+
+    var comments: String?
+
+
     enum DocumentType {
         case pdf
         case docs
@@ -106,8 +117,6 @@ class DocumentItem: MediaPreviewable {
         }
     }
 
-    let title: String?
-
     let type: DocumentType
 
     let thumbnailImage: ImageLoadable?
@@ -115,6 +124,7 @@ class DocumentItem: MediaPreviewable {
     let sensitiveText: String? = nil
 
     init(type: DocumentType, title: String?) {
+        self.media = Media(url: URL(string: "localhost")!, type: .photo)
         self.type = type
         self.title = title
 

@@ -32,6 +32,10 @@ open class PushableSplitViewController: UIViewController, UISplitViewControllerD
     private var backBarButtonItem: UIBarButtonItem?
     
     
+    /// The back bar button title (should be set before viewWillAppear).
+    public var backButtonText: String?
+    
+    
     /// Initializes the pushable split view controller.
     ///
     /// - Parameter viewControllers: The view controller's to assign as children of the split view controller.
@@ -131,7 +135,7 @@ open class PushableSplitViewController: UIViewController, UISplitViewControllerD
             }
             
             // show back icon with pop action.
-            return .backBarButtonItem(target: self, action: #selector(backButtonItemDidSelect))
+            return .backBarButtonItem(text: backButtonText, target: self, action: #selector(backButtonItemDidSelect))
         } else if presentingViewController != nil || isBeingPresented || isBeingDismissed {
             // show close icon with dismiss action
             return closeButtonItem()

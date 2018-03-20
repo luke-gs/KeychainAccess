@@ -157,6 +157,7 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
 
             let isCompact = style == .list || delegate?.traitCollection.horizontalSizeClass == .compact
             return summary.summaryFormItem(isCompact: isCompact)
+                .selectionStyle(.none)
                 .onSelection { [weak self] _ in
                     guard let `self` = self, let presentable = self.summaryDisplayFormatter.presentableForEntity(entity) else { return }
                     self.delegate?.requestToPresent(presentable)
@@ -187,6 +188,22 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
                         let navController = PopoverNavigationController(rootViewController: messageVC)
                         navController.modalPresentationStyle = .formSheet
                         self.delegate?.present(navController, animated: true, completion: nil)
+                    }
+                }
+                .onThemeChanged { (cell, theme) in
+                    (cell as! SearchResultErrorCell).apply(theme: theme)
+                }
+                .height(.fixed(SearchResultErrorCell.contentHeight))
+                .separatorStyle(.none)
+        case .idle:
+            return CustomFormItem(cellType: SearchResultErrorCell.self, reuseIdentifier: SearchResultErrorCell.defaultReuseIdentifier)
+                .onConfigured { (cell) in
+                    let cell = cell as! SearchResultErrorCell
+                    cell.titleLabel.text = "Automatic search disabled for this database"
+                    cell.actionButton.setTitle(NSLocalizedString("Search now", comment: "[Search result screen] - Search now button"), for: .normal)
+                    cell.actionButtonHandler = { [weak self] (cell) in
+                        guard let `self` = self, let index = self.results.index(where: { $0 == section }) else {  return }
+                        self.aggregatedSearch.retrySearchForResult(result: self.aggregatedSearch.results[index])
                     }
                 }
                 .onThemeChanged { (cell, theme) in
@@ -234,7 +251,8 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
                                        entities: entities,
                                        isExpanded: true,
                                        state: rawResult.state,
-                                       error: rawResult.error)
+                                       error: rawResult.error,
+                                       source: rawResult.request.source)
         }
         
         return processedResults
