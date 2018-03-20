@@ -200,6 +200,8 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
         titleLabel.alpha = 0.0
         commentLabel.alpha = 0.0
 
+        layoutIfNeeded()
+
         UIView.animateKeyframes(withDuration: 0.3, delay: 0.0, options: [.calculationModeCubic], animations: {
 
             // Animate the UIStackView size changes first, triggered due to the titleLabel & commentLabel changes.
