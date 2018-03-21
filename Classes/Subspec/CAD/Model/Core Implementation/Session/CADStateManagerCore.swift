@@ -232,7 +232,7 @@ open class CADStateManagerCore: CADStateManagerType {
                 }
 
                 // Reposition resource at top so it is first one found assigned to incident
-                if let index = syncDetails.resources.index(of: resource) {
+                if let index = syncDetails.resources.index(where: { $0 == resource }) {
                     syncDetails.resources.remove(at: index)
                     syncDetails.resources.insert(resource, at: 0)
                 }
@@ -345,7 +345,7 @@ open class CADStateManagerCore: CADStateManagerType {
 
     /// Return all resources linked to an incident
     open func resourcesForIncident(incidentNumber: String) -> [CADResourceType] {
-        var resources: [CADResourceCore] = []
+        var resources: [CADResourceType] = []
         if let syncDetails = lastSync {
             for resource in syncDetails.resources {
                 if resource.assignedIncidents.contains(incidentNumber) {
