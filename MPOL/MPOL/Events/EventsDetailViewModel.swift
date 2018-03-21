@@ -39,8 +39,7 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
             // Update the header to whatever you need it to be
             let report = event.reports.filter{$0 is IncidentListReport}.first as? IncidentListReport
             header.titleLabel.text = report?.incidentDisplayables.first?.title ?? incidentsHeaderDefaultTitle
-            header.captionLabel.text = report?.incidentDisplayables.first?.title ?? incidentsHeaderDefaultSubtitle
-            self.headerUpdated?()
+            header.captionLabel.text = incidentsHeaderDefaultSubtitle
             return header
         }()
 
