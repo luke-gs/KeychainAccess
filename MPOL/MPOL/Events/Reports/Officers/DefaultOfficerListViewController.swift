@@ -44,7 +44,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         sidebarItem.regularTitle = title
         sidebarItem.compactTitle = title
         sidebarItem.image = AssetManager.shared.image(forKey: .resourceGeneral)
-        sidebarItem.color = viewModel.report.evaluator.isComplete ? .green : .red
+        sidebarItem.color = viewModel.report.evaluator.isComplete ? .midGreen : .red
         sidebarItem.count = UInt(viewModel.officerDisplayables.count)
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped(sender:)))
@@ -62,7 +62,6 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         officer.region = "Melbourne"
         officer.employeeNumber = "BJ3466"
         officer.surname = "Boryseiko"
-        officer.involvements = ["Reporting Officer"]
 
         let viewModel = OfficerSearchViewModel(items: [officer])
         let officerSearchController = SearchDisplayableViewController<DefaultEventOfficerListViewController, OfficerSearchViewModel>(viewModel: viewModel)
@@ -94,6 +93,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                                                      imageStyle: .circle)
         let datasource = OfficerInvolvementSearchDatasource(objects: involvements,
                                                             selectedObjects: officer.involvements,
+                                                            allowsMultipleSelection: true,
                                                             configuration: headerConfig)
         datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
         let viewController = CustomPickerController(datasource: datasource)

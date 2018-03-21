@@ -14,15 +14,13 @@ public class EventScreenBuilder: EventScreenBuilding {
         var viewControllers = [UIViewController]()
 
         for report in reportables {
-            if let viewController = viewController(for: report) {
-                viewControllers.append(viewController)
-            }
+            viewControllers.append(viewController(for: report))
         }
 
         return viewControllers
     }
 
-    private func viewController(for report: Reportable) -> UIViewController? {
+    private func viewController(for report: Reportable) -> UIViewController {
         switch report {
         case let report as DefaultDateTimeReport:
             return DefaultEventDateTimeViewController(report: report)
@@ -35,7 +33,7 @@ public class EventScreenBuilder: EventScreenBuilding {
         case let report as IncidentListReport:
             return IncidentListViewController(viewModel: IncidentListViewModel(report: report))
         default:
-            return nil
+            fatalError("No ViewController found for reportable: \(report.self)")
         }
     }
 

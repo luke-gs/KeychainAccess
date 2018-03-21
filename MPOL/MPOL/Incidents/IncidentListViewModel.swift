@@ -12,13 +12,13 @@ open class IncidentListViewModel: IncidentListViewModelType {
 
     public var title: String
     public var incidentManager: IncidentsManager
-    private(set) var report: IncidentListReport?
+    private(set) var report: IncidentListReport
     public var incidentList: [IncidentListDisplayable]? {
-        return report?.incidentDisplayables
+        return report.incidentDisplayables
     }
 
-    public required init(report: Reportable?, incidentManager: IncidentsManager = IncidentsManager.shared) {
-        self.report = report as? IncidentListReport
+    public required init(report: Reportable, incidentManager: IncidentsManager = IncidentsManager.shared) {
+        self.report = report as! IncidentListReport
         self.incidentManager = incidentManager
         self.title = "Incidents"
 
@@ -42,17 +42,16 @@ open class IncidentListViewModel: IncidentListViewModelType {
     // Form
 
     func searchHeaderTitle() -> String {
-        let string = String.localizedStringWithFormat(NSLocalizedString("%d incidents selected", comment: ""), report?.incidents.count ?? 0)
+        let string = String.localizedStringWithFormat(NSLocalizedString("%d incidents selected", comment: ""), report.incidents.count)
         return string
     }
 
     func searchHeaderSubtitle() -> String {
-        guard let report = report else { return "" }
         return report.incidentDisplayables.map{$0.title}.joined(separator: ", ")
     }
 
     func sectionHeaderTitle() -> String {
-        let string = String.localizedStringWithFormat(NSLocalizedString("%d Incidents", comment: ""), report?.incidents.count ?? 0)
+        let string = String.localizedStringWithFormat(NSLocalizedString("%d Incidents", comment: ""), report.incidents.count)
         return string.uppercased()
     }
     
@@ -68,21 +67,27 @@ open class IncidentListViewModel: IncidentListViewModelType {
     // Utility
 
     func removeIncident(at indexPath: IndexPath) {
-        report?.incidents.remove(at: indexPath.item)
-        report?.incidentDisplayables.remove(at: indexPath.item)
+        report.incidents.remove(at: indexPath.item)
+        report.incidentDisplayables.remove(at: indexPath.item)
+        report.event?.displayable?.title = report.incidentDisplayables.count > 0
+            ? report.incidentDisplayables.map{$0.title}.joined(separator: ", ")
+            : incidentsHeaderDefaultTitle
+        report.event?.displayable?.subtitle = incidentsHeaderDefaultSubtitle
     }
 
     func add(_ incidents: [String]) {
-        guard let event = self.report?.event else { return }
+        guard let event = self.report.event else { return }
         for incident in incidents {
             let type = IncidentType(rawValue: incident)
             let incidentType = IncidentType.allIncidentTypes().contains(type) ? type : .blank
             guard let incident = incidentManager.create(incidentType: incidentType, in: event) else { continue }
-
-            if !(report?.incidents.contains(where: {$0.incidentType == incident.incident.incidentType}) == true) {
-                report?.incidents.append(incident.incident)
-                report?.incidentDisplayables.append(incident.displayable)
+            if !(report.incidents.contains(where: {$0.incidentType == incident.incident.incidentType}) == true) {
+                report.incidents.append(incident.incident)
+                report.incidentDisplayables.append(incident.displayable)
             }
         }
+
+        report.event?.displayable?.title = report.incidentDisplayables.map{$0.title}.joined(separator: ", ")
+        report.event?.displayable?.subtitle = incidentsHeaderDefaultSubtitle
     }
 }

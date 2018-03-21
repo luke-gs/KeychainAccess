@@ -16,12 +16,12 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
     public init(viewModel: IncidentListViewModel) {
         self.viewModel = viewModel
         super.init()
-        viewModel.report?.evaluator.addObserver(self)
+        viewModel.report.evaluator.addObserver(self)
 
         sidebarItem.regularTitle = "Incidents"
         sidebarItem.compactTitle = "Incidents"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.document)!
-        sidebarItem.color = .red
+        sidebarItem.color = viewModel.report.evaluator.isComplete == true ? .midGreen : .red
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -37,13 +37,13 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(newIncidentHandler))
 
-        loadingManager.state = (viewModel.report?.incidents.isEmpty ?? true) ? .noContent : .loaded
+        loadingManager.state = viewModel.report.incidents.isEmpty ? .noContent : .loaded
     }
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.report?.viewed = true
-        viewModel.report?.updateEval()
+        viewModel.report.viewed = true
+        viewModel.report.updateEval()
         reloadForm()
         updateLoadingManager()
     }
@@ -87,8 +87,6 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
     //MARK: PRIVATE
 
     @objc private func newIncidentHandler() {
-        guard let report = viewModel.report else { return }
-
         let headerConfig = SearchHeaderConfiguration(title: viewModel.searchHeaderTitle(),
                                                      subtitle: viewModel.searchHeaderSubtitle(),
                                                      image: AssetManager.shared.image(forKey: .iconPencil)?
@@ -99,7 +97,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
                                                      imageStyle: .circle)
 
         let datasource = IncidentSearchDataSource(objects: IncidentType.allIncidentTypes().map{$0.rawValue},
-                                                  selectedObjects: report.incidentDisplayables.map{$0.title!},
+                                                  selectedObjects: viewModel.report.incidentDisplayables.map{$0.title!},
                                                   configuration: headerConfig)
         
         datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
@@ -129,6 +127,6 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
     }
 
     private func updateLoadingManager() {
-        loadingManager.state = (viewModel.report?.incidents.isEmpty ?? true) ? .noContent : .loaded
+        loadingManager.state = viewModel.report.incidents.isEmpty ? .noContent : .loaded
     }
 }
