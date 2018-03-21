@@ -6,31 +6,18 @@
 //
 
 /// Manages the list of incidents
-///
-/// Can be used as a singleton as well as an instance if necessary.
 final public class IncidentsManager {
-
-    /// The shared Eventsmanager singleton
-    public static var shared: IncidentsManager = {
-        let eventsManager = IncidentsManager()
-        eventsManager.incidentBucket = ObjectBucket<Incident>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
-        eventsManager.displayableBucket = ObjectBucket<IncidentListDisplayable>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
-        return eventsManager
-    }()
 
     public var incidentBucket: ObjectBucket<Incident>?
     public var displayableBucket: ObjectBucket<IncidentListDisplayable>?
     private(set) public var incidentBuilders = [IncidentType: IncidentBuilding]()
 
-    public convenience init(incidentBucket: ObjectBucket<Incident>,
-                            displayableBucket: ObjectBucket<IncidentListDisplayable>)
+    public required init(incidentBucket: ObjectBucket<Incident>,
+                         displayableBucket: ObjectBucket<IncidentListDisplayable>)
     {
-        self.init()
         self.incidentBucket = incidentBucket
         self.displayableBucket = displayableBucket
     }
-
-    private init() { }
 
     public func create(incidentType: IncidentType, in event: Event) -> (incident: Incident, displayable: IncidentListDisplayable)? {
         guard let incidentBuilder = incidentBuilders[incidentType] else { return nil }

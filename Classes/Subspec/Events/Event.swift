@@ -107,11 +107,6 @@ public protocol Reportable: Codable, Evaluatable {
     /// A weak reference to the incident object
     /// Make sure this is weak in implementation as well
     weak var incident: Incident? { get }
-
-    /// Required initializer for a reportable
-    ///
-    /// - Parameter event: the event
-    init(event: Event, incident: Incident?)
 }
 
 /// Builder for event

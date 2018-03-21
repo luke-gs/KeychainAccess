@@ -26,7 +26,7 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
         sidebarItem.regularTitle = "Date and Time"
         sidebarItem.compactTitle = "Date and Time"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.date)!
-        sidebarItem.color = (report?.evaluator.isComplete ?? false) ? .green : .red
+        sidebarItem.color = (report?.evaluator.isComplete ?? false) ? .midGreen : .red
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -118,13 +118,13 @@ public class DefaultDateTimeReport: Reportable {
     public weak var event: Event?
     public weak var incident: Incident?
 
-    public required init(event: Event, incident: Incident? = nil) {
+    public required init(event: Event) {
         self.event = event
-        self.incident = incident
+        commonInit()
+    }
 
-        evaluator.addObserver(event)
-        evaluator.addObserver(incident)
-
+    private func commonInit() {
+        if let event = event { evaluator.addObserver(event) }
         evaluator.registerKey(.reportedOnDateTime) {
             return self.reportedOnDateTime != nil
         }
@@ -140,6 +140,7 @@ public class DefaultDateTimeReport: Reportable {
         reportedOnDateTime = try container.decode(Date.self, forKey: .reportedOnDateTime)
         tookPlaceFromStartDateTime = try container.decode(Date.self, forKey: .tookPlaceFromStartDateTime)
         tookPlaceFromEndDateTime = try container.decode(Date.self, forKey: .tookPlacefromEndDateTime)
+        commonInit()
     }
 
     public func encode(to: Encoder) throws {
