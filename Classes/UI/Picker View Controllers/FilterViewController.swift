@@ -303,6 +303,7 @@ open class FilterViewController: FormCollectionViewController {
             
             let datePickerVC = PopoverDatePickerViewController()
             datePickerVC.preferredContentSize.width = preferredContentSize.width
+            datePickerVC.shouldAdaptPreferredContentWidth = false
             
             let datePicker = datePickerVC.datePicker
             datePicker.datePickerMode = .date
