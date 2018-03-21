@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		121472EC2061FDDC002D37CF /* IncidentTestReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121472EB2061FDDC002D37CF /* IncidentTestReport.swift */; };
 		121472EF20620170002D37CF /* IncidentTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121472EE20620170002D37CF /* IncidentTestViewController.swift */; };
+		121777AF20631667007189A7 /* IncidentSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121777AE20631667007189A7 /* IncidentSelectViewController.swift */; };
+		121777B120631BF6007189A7 /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121777B020631BF6007189A7 /* EventsListViewController.swift */; };
 		12229E1720439C49002E1A97 /* IncidentListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12229E1120439C48002E1A97 /* IncidentListViewModel.swift */; };
 		12229E1820439C49002E1A97 /* IncidentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12229E1220439C48002E1A97 /* IncidentListViewController.swift */; };
 		12229E1920439C49002E1A97 /* IncidentScreenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12229E1320439C48002E1A97 /* IncidentScreenBuilder.swift */; };
@@ -71,6 +73,8 @@
 /* Begin PBXFileReference section */
 		121472EB2061FDDC002D37CF /* IncidentTestReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentTestReport.swift; sourceTree = "<group>"; };
 		121472EE20620170002D37CF /* IncidentTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentTestViewController.swift; sourceTree = "<group>"; };
+		121777AE20631667007189A7 /* IncidentSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentSelectViewController.swift; sourceTree = "<group>"; };
+		121777B020631BF6007189A7 /* EventsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventsListViewController.swift; path = MPOL/Events/EventsListViewController.swift; sourceTree = SOURCE_ROOT; };
 		12229E1120439C48002E1A97 /* IncidentListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentListViewModel.swift; sourceTree = "<group>"; };
 		12229E1220439C48002E1A97 /* IncidentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentListViewController.swift; sourceTree = "<group>"; };
 		12229E1320439C48002E1A97 /* IncidentScreenBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentScreenBuilder.swift; sourceTree = "<group>"; };
@@ -185,6 +189,7 @@
 				12229E1120439C48002E1A97 /* IncidentListViewModel.swift */,
 				12229E1420439C49002E1A97 /* IncidentSearchDataSource.swift */,
 				127F4B7520451788000C3D7F /* IncidentTypes.swift */,
+				121777AE20631667007189A7 /* IncidentSelectViewController.swift */,
 			);
 			path = Incidents;
 			sourceTree = "<group>";
@@ -193,14 +198,15 @@
 			isa = PBXGroup;
 			children = (
 				46E0B896202C0F4100B40DF2 /* Reports */,
-				12EB809A202AAC2100405F5C /* EventScreenBuilder.swift */,
-				127801F0202AAF09007D0BBB /* EventsListViewModel.swift */,
-				127801F2202AB1F0007D0BBB /* EventBuilder.swift */,
-				464977CA203A9A7B00590DC3 /* DefaultEventLocationViewController.swift */,
-				46F8E9A4203A9C2200024EF7 /* LocationAction.swift */,
 				46F8E9A6203A9ED100024EF7 /* DefaultEventLocationSearchViewController.swift */,
+				464977CA203A9A7B00590DC3 /* DefaultEventLocationViewController.swift */,
+				127801F2202AB1F0007D0BBB /* EventBuilder.swift */,
 				464E99E3203CD99000FE05DC /* EventLocationSearchViewModel.swift */,
+				12EB809A202AAC2100405F5C /* EventScreenBuilder.swift */,
 				127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */,
+				121777B020631BF6007189A7 /* EventsListViewController.swift */,
+				127801F0202AAF09007D0BBB /* EventsListViewModel.swift */,
+				46F8E9A4203A9C2200024EF7 /* LocationAction.swift */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -531,6 +537,7 @@
 				127801F1202AAF09007D0BBB /* EventsListViewModel.swift in Sources */,
 				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
 				46E0B8A92031413C00B40DF2 /* OfficerInvolvementSearchDatasource.swift in Sources */,
+				121777AF20631667007189A7 /* IncidentSelectViewController.swift in Sources */,
 				12B4637B2043A0D30000E6AC /* IncidentDetailViewModel.swift in Sources */,
 				127801F5202AB255007D0BBB /* EventsDetailViewModel.swift in Sources */,
 				EA7194DD1FC5098200A2980B /* EventPresenter.swift in Sources */,
@@ -540,6 +547,7 @@
 				EA2189F61F60F64A0057048E /* LandingPresenter.swift in Sources */,
 				12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */,
 				121472EC2061FDDC002D37CF /* IncidentTestReport.swift in Sources */,
+				121777B120631BF6007189A7 /* EventsListViewController.swift in Sources */,
 				46E0B89B202C0F8500B40DF2 /* DefaultOfficerListViewController.swift in Sources */,
 				12229E1920439C49002E1A97 /* IncidentScreenBuilder.swift in Sources */,
 				46E0B8BE2033D1FB00B40DF2 /* OfficerSearchViewModel.swift in Sources */,
