@@ -16,30 +16,11 @@ class PersonDetailViewController: FormBuilderViewController {
 
         builder.title = "Person Details"
 
-//        let videoPath = Bundle.main.path(forResource: "video", ofType: "mp4")!
-//        let audioPath = Bundle.main.path(forResource: "audio", ofType: "m4a")!
-//
-//        let fp = URL(fileURLWithPath: audioPath)
-//        let vp = URL(fileURLWithPath: videoPath)
-//
-//        let url = URL(fileURLWithPath: Bundle.main.resourcePath! + "/Avatar 1.png")
-
-//        let datasource = MediaDataSource(mediaItems: [
-//            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Test", comments: "Comments", isSensitive: false)),
-//            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Test", comments: "Comments", isSensitive: false)),
-//            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Test", comments: "Comments", isSensitive: false)),
-//            PhotoMedia(thumbnailImage: #imageLiteral(resourceName: "Avatar 1"), image: #imageLiteral(resourceName: "Avatar 1"), asset: Media(url: url, title: "Test", comments: "Comments", isSensitive: false)),
-//            AudioMedia(asset: Media(url: fp, title: "Test", comments: "Comments", isSensitive: false)),
-//            AudioMedia(asset: Media(url: fp, title: "Test", comments: "Comments", isSensitive: false)),
-//            VideoMedia(asset: Media(url: vp, title: "Test", comments: "Comments", isSensitive: false)),
-//            VideoMedia(asset: Media(url: vp, title: "Test", comments: "Comments", isSensitive: false)),
-//        ])
-
         let localStore = DataStoreCoordinator(dataStore: LocalDataStore(items: [
-            Media(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", isSensitive: true),
-            Media(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", isSensitive: false),
-            Media(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", isSensitive: false),
-            Media(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", isSensitive: false)
+            Media(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", sensitive: true),
+            Media(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", sensitive: false),
+            Media(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", sensitive: false),
+            Media(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", sensitive: false)
         ]))
 
         let gallery = MediaGalleryCoordinatorViewModel(storeCoordinator: localStore)

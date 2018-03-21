@@ -17,7 +17,8 @@ public enum MediaType: Int, Codable {
 }
 
 
-public class Media: Codable {
+open class Media: Codable {
+    
     public let identifier: String
     public let type: MediaType
 
@@ -26,20 +27,24 @@ public class Media: Codable {
     public var comments: String?
     public var sensitive: Bool
     
-    public init(identifier: String = UUID().uuidString, url: URL, type: MediaType, title: String? = nil, comments: String? = nil, isSensitive: Bool = false) {
+    public var createdDate: Date?
+    
+    public init(identifier: String = UUID().uuidString, url: URL, type: MediaType, title: String? = nil, comments: String? = nil, sensitive: Bool = false, createdDate: Date? = nil) {
         self.identifier = identifier
         self.type = type
         self.url = url
         self.title = title
         self.comments = comments
-        self.sensitive = isSensitive
+        self.sensitive = sensitive
+        self.createdDate = createdDate
     }
+    
 }
 
 extension Media: Hashable {
 
     public var hashValue: Int {
-        return identifier.hashValue ^ type.rawValue.hashValue ^ url.hashValue ^ (title?.hashValue ?? 0) ^ (comments?.hashValue ?? 0) ^ sensitive.hashValue
+        return identifier.hashValue ^ type.rawValue.hashValue ^ url.hashValue ^ (title?.hashValue ?? 0) ^ (comments?.hashValue ?? 0) ^ sensitive.hashValue ^ (createdDate?.hashValue ?? 0)
     }
 
     static public func ==(lhs: Media, rhs: Media) -> Bool {
@@ -48,7 +53,8 @@ extension Media: Hashable {
             lhs.url == rhs.url &&
             lhs.title == rhs.title &&
             lhs.comments == rhs.comments &&
-            lhs.sensitive == rhs.sensitive
+            lhs.sensitive == rhs.sensitive &&
+            lhs.createdDate == rhs.createdDate
     }
 
 }
