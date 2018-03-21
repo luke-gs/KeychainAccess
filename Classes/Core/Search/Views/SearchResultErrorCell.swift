@@ -97,9 +97,10 @@ public class SearchResultErrorCell: CollectionViewFormCell {
         readMoreButtonHandler?(self)
     }
     
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-        readMoreButton.isHidden = titleLabel.bounds.height == 0 || titleLabel.isTruncated == false
+    public override var bounds: CGRect {
+        didSet {
+            self.readMoreButton.isHidden = self.titleLabel.bounds.height == 0 || self.titleLabel.isTruncated == false
+        }
     }
 }
 
