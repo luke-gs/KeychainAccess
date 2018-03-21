@@ -1,5 +1,5 @@
 //
-//  EventsManager.swift
+//  IncidentsManage.swift
 //  MPOLKit
 //
 //  Created by Pavel Boryseiko on 23/1/18.

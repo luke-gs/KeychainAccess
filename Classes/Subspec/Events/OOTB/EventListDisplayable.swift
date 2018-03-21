@@ -35,19 +35,24 @@ open class EventListDisplayable: Codable {
     /// The accessory title to display on the right of the cell
     open var accessoryTitle: String?
 
-    /// The accessort subtitle to display on the right of the cell
+    /// The accessory subtitle to display on the right of the cell
     open var accessorySubtitle: String?
+
+    /// The status of the event
+    open var status: EventStatus
 
     public init(title: String? = nil,
                 subtitle: String? = nil,
                 accessoryTitle: String? = nil,
                 accessorySubtitle: String? = nil,
-                icon: UIImage? = nil)
+                icon: UIImage? = nil,
+                status: EventStatus = .draft)
     {
         self.title = title
         self.subtitle = subtitle
         self.accessoryTitle = accessoryTitle
         self.accessorySubtitle = accessorySubtitle
+        self.status = status
         self.icon = icon != nil ? ImageWrapper(image: icon!) : nil
     }
 }
@@ -110,6 +115,15 @@ public protocol EventDetailViewModelType: Evaluatable {
     ///   - event: the event object
     ///   - builder: the screen builder
     init(event: Event, builder: EventScreenBuilding)
+}
+
+/// The event status
+///
+/// - draft: event is a draft
+/// - queued: event is queued
+public enum EventStatus: String, Codable {
+    case draft
+    case queued
 }
 
 /// A protocol defining whether the object should be a
