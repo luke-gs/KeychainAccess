@@ -746,7 +746,6 @@
 		EA6CF5421F7494C1002063D8 /* TextViewFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6CF5411F7494C1002063D8 /* TextViewFormItem.swift */; };
 		EA70ADF41F7B41100040E34B /* CollectionViewFormFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA70ADF31F7B41100040E34B /* CollectionViewFormFooterView.swift */; };
 		EA7194E11FCBA61A00A2980B /* EntityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7194E01FCBA61A00A2980B /* EntityManager.swift */; };
-		EA7194E51FCE72C200A2980B /* EntitySummaryActionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7194E41FCE72C200A2980B /* EntitySummaryActionListViewModel.swift */; };
 		EA76ECF11F578DCA00524830 /* LocationAdvanceOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA76ECF01F578DCA00524830 /* LocationAdvanceOptions.swift */; };
 		EA76ECF31F57D64E00524830 /* LookupAddressLocationSearchStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA76ECF21F57D64E00524830 /* LookupAddressLocationSearchStrategy.swift */; };
 		EA76ECF51F57D8AB00524830 /* LookupAddressLocationAdvancedOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA76ECF41F57D8AB00524830 /* LookupAddressLocationAdvancedOptions.swift */; };
@@ -777,7 +776,6 @@
 		EABAB8041F342E450071A401 /* AggregatedSearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABAB8031F342E450071A401 /* AggregatedSearchRequest.swift */; };
 		EAC0256C1FD8DAF600E45DB6 /* EntitySummaryDisplayFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC0256B1FD8DAF600E45DB6 /* EntitySummaryDisplayFormatter.swift */; };
 		EAC0256F1FD8F49800E45DB6 /* EntitySummaryDisplayFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC0256E1FD8F49800E45DB6 /* EntitySummaryDisplayFormatterTests.swift */; };
-		EAC025701FDDFFA700E45DB6 /* ActionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7194E31FCE525900A2980B /* ActionListViewController.swift */; };
 		EAC025741FDE667B00E45DB6 /* FormCollectionViewHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC025731FDE667A00E45DB6 /* FormCollectionViewHandler.swift */; };
 		EACFF2B52044D3E100B1C40A /* MediaGalleryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EACFF2B42044D3E100B1C40A /* MediaGalleryDelegate.swift */; };
 		EADC4FF31F81E0810066AA2F /* OptionGroupFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADC4FF21F81E0810066AA2F /* OptionGroupFormItem.swift */; };
@@ -1573,7 +1571,6 @@
 		EA70ADF31F7B41100040E34B /* CollectionViewFormFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewFormFooterView.swift; sourceTree = "<group>"; };
 		EA7194E01FCBA61A00A2980B /* EntityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityManager.swift; sourceTree = "<group>"; };
 		EA7194E31FCE525900A2980B /* ActionListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionListViewController.swift; sourceTree = "<group>"; };
-		EA7194E41FCE72C200A2980B /* EntitySummaryActionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySummaryActionListViewModel.swift; sourceTree = "<group>"; };
 		EA76ECF01F578DCA00524830 /* LocationAdvanceOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAdvanceOptions.swift; sourceTree = "<group>"; };
 		EA76ECF21F57D64E00524830 /* LookupAddressLocationSearchStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupAddressLocationSearchStrategy.swift; sourceTree = "<group>"; };
 		EA76ECF41F57D8AB00524830 /* LookupAddressLocationAdvancedOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupAddressLocationAdvancedOptions.swift; sourceTree = "<group>"; };
@@ -4042,7 +4039,6 @@
 				EA8B66471F38014000F09716 /* EntitySummaryDisplayable.swift */,
 				EA8B66491F38021100F09716 /* EntitySummaryDecorator.swift */,
 				EAC0256B1FD8DAF600E45DB6 /* EntitySummaryDisplayFormatter.swift */,
-				EA7194E41FCE72C200A2980B /* EntitySummaryActionListViewModel.swift */,
 				EA42F6791FE3585300130DA5 /* EntitySummaryRecentsViewModel.swift */,
 				47BC24DC1FE886F900BAB46C /* EntitySummarySearchViewModel.swift */,
 			);
@@ -4760,7 +4756,6 @@
 				19FEC9851F43F7AC005692A9 /* ErrorMapperDefinition.swift in Sources */,
 				9686FC941F78AAED00C4AB4D /* UIView+SafeArea.swift in Sources */,
 				DBE24C411F5CF0FC0088D19B /* SidebarHeaderView.swift in Sources */,
-				EA7194E51FCE72C200A2980B /* EntitySummaryActionListViewModel.swift in Sources */,
 				C61AC91A1F32FAF100F82FF6 /* User.swift in Sources */,
 				EA7C50A21FA05C7D004930BF /* CollectionViewFormMediaCell.swift in Sources */,
 				27CBC75B1F8B27B100E387C3 /* ActivityLogItemViewModel.swift in Sources */,
@@ -4929,7 +4924,6 @@
 				27E81E582034E576000D5D1C /* TaskDetailsOverviewFormViewController.swift in Sources */,
 				19C9C7501FC289BC003C8CE4 /* CustomSubtitleButton.swift in Sources */,
 				EAFACCBC1F4BACE900B93CBA /* SearchFieldAdvanceCell.swift in Sources */,
-				EAC025701FDDFFA700E45DB6 /* ActionListViewController.swift in Sources */,
 				96CF32301F8C4AD300140AF8 /* CADFormCollectionSectionViewModel.swift in Sources */,
 				EA8904B01F6A0C720050DB84 /* FormBuilderViewController.swift in Sources */,
 				196EF4752033BC2A00C0ADE9 /* MapControlView.swift in Sources */,
