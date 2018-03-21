@@ -84,7 +84,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
     func searchAction() -> Promise<Void>? {
         let parameters = OfficerSearchParameters(familyName: "Black")
-        let request = OfficerSearchRequest(source: .mpol, request: parameters)
+        let request = OfficerSearchRequest(source: .pscore, request: parameters)
         return request.searchPromise(withCancellationToken: cancelToken).then {
             self.items = $0.results
             return Promise()
