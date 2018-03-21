@@ -14,11 +14,9 @@ public protocol MediaSlideShowable: class {
 
     var currentPreview: MediaPreviewable? { get }
 
-    func setupWithInitialPreview(_ preview: MediaPreviewable?)
-
 }
 
-public class MediaSlideShowViewController: UIViewController, MediaSlideShowable, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UIGestureRecognizerDelegate {
+public class MediaSlideShowViewController: UIViewController, MediaSlideShowable, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UIGestureRecognizerDelegate, MediaThumbnailSlideshowViewControllerDelegate {
 
     private enum Identifier: String {
         case genericCell
@@ -47,6 +45,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
             self.overlayView.slideShowViewController = self
 
             guard isViewLoaded else { return }
+
             let overlayView = self.overlayView.view()
             overlayView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             overlayView.frame = view.bounds
@@ -66,6 +65,12 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
     public let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 
     private var initialPreview: MediaPreviewable?
+
+    private lazy var thumbnailSlideshowViewController: MediaThumbnailSlideshowViewController = {
+        let thumbnailSlideShowViewController = MediaThumbnailSlideshowViewController(viewModel: self.viewModel)
+        thumbnailSlideShowViewController.delegate = self
+        return thumbnailSlideShowViewController
+    }()
 
     public init(viewModel: MediaGalleryViewModelable, initialPreview: MediaPreviewable? = nil, referenceView: UIView? = nil) {
         self.viewModel = viewModel
@@ -120,6 +125,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
 
         overlayView.populateWithPreview(preview)
+        thumbnailSlideshowViewController.setFocusedIndex(index, animated: animated)
     }
 
     public override func viewDidLoad() {
@@ -154,6 +160,18 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         }
 
         interfaceStyleDidChange()
+
+
+        // Add thumbnail controller
+
+        addChildViewController(thumbnailSlideshowViewController)
+
+        let thumbnailSlideshowView = thumbnailSlideshowViewController.view!
+        thumbnailSlideshowView.autoresizingMask = [.flexibleWidth]
+        thumbnailSlideshowView.frame = CGRect(x: 0, y: view.bounds.height - 44.0, width: view.bounds.width, height: 44.0)
+        view.addSubview(thumbnailSlideshowView)
+
+        thumbnailSlideshowViewController.didMove(toParentViewController: self)
     }
 
     public override func viewDidAppear(_ animated: Bool) {
@@ -165,7 +183,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         if #available(iOS 11.0, *) {
             overlayView.layoutMargins = view.safeAreaInsets
         } else {
-            overlayView.layoutMargins = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length, right: 0.0)
+            overlayView.layoutMargins = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length + thumbnailSlideshowViewController.view!.bounds.height, right: 0.0)
         }
         self.view.addSubview(overlayView)
 
@@ -258,6 +276,10 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         updateCurrentPreviewViewController()
 
         overlayView.populateWithPreview(currentPreview)
+
+        if let index = indexOfPreview(currentPreview!) {
+            thumbnailSlideshowViewController.setFocusedIndex(index, animated: true)
+        }
     }
 
     // MARK: - Status bar
@@ -381,6 +403,12 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         if case .loading = viewModel.state {} else {
             viewModel.retrievePreviews(style: .paginated)
         }
+    }
+
+    // MARK: - MediaThumbnailSlideshowViewControllerDelegate
+
+    public func mediaThumbnailSlideshowViewController(_ thumbnailSlideshowViewController: MediaThumbnailSlideshowViewController, didSelectPreview preview: MediaPreviewable) {
+        setupWithInitialPreview(preview)
     }
 
 }
