@@ -26,12 +26,10 @@ public class IncidentScreenBuilder: IncidentScreenBuilding {
 
         //TODO: Remove non-incident reports from here and replace with actual incident reports
         switch report {
-        case let report as DefaultDateTimeReport:
-            return DefaultEventDateTimeViewController(report: report)
-        case let report as DefaultNotesPhotosReport:
-            return DefaultEventNotesPhotosViewController(report: report)
+        case let report as IncidentTestReport:
+            return IncidentTestViewController(report: report)
         default:
-            return nil
+            fatalError("No ViewController found for reportable: \(report.self)")
         }
     }
 

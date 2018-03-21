@@ -31,7 +31,11 @@ public class EventScreenBuilder: EventScreenBuilding {
         case let report as DefaultNotesPhotosReport:
             return DefaultEventNotesPhotosViewController(report: report)
         case let report as IncidentListReport:
-            return IncidentListViewController(viewModel: IncidentListViewModel(report: report))
+
+            let manager = IncidentsManager(incidentBucket: ObjectBucket<Incident>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!),
+                                           displayableBucket:  ObjectBucket<IncidentListDisplayable>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!))
+
+            return IncidentListViewController(viewModel: IncidentListViewModel(report: report, incidentManager: manager))
         default:
             fatalError("No ViewController found for reportable: \(report.self)")
         }

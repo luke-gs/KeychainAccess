@@ -17,7 +17,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
         return report.incidentDisplayables
     }
 
-    public required init(report: Reportable, incidentManager: IncidentsManager = IncidentsManager.shared) {
+    public required init(report: Reportable, incidentManager: IncidentsManager) {
         self.report = report as! IncidentListReport
         self.incidentManager = incidentManager
         self.title = "Incidents"

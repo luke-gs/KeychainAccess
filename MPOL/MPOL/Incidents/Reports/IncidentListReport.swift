@@ -37,13 +37,14 @@ open class IncidentListReport: Reportable, EventHeaderUpdateable {
     public required init(event: Event, incident: Incident? = nil) {
         self.event = event
         self.incident = incident
+        commonInit()
+    }
 
-        evaluator.addObserver(event)
-        evaluator.addObserver(incident)
+    private func commonInit() {
+        if let event = event { evaluator.addObserver(event) }
+        if let incident = incident { evaluator.addObserver(incident) }
 
-        evaluator.registerKey(.viewed) {
-            return self.viewed
-        }
+        evaluator.registerKey(.viewed) { return self.viewed }
         evaluator.registerKey(.incidents) {
             let eval = self.incidents.reduce(true, { (result, incident) -> Bool in
                 return result && incident.evaluator.isComplete
@@ -63,6 +64,7 @@ open class IncidentListReport: Reportable, EventHeaderUpdateable {
     public required init(from: Decoder) throws {
         let container = try from.container(keyedBy: Keys.self)
         incidents = try container.decode([Incident].self, forKey: .incidents)
+        commonInit()
     }
 
     public func encode(to: Encoder) throws {

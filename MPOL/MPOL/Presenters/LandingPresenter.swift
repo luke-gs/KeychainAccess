@@ -113,7 +113,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 PersonSearchDataSource(),
                 VehicleSearchDataSource(),
                 locationDataSource
-            ])
+                ])
             
             let searchViewController = SearchViewController(viewModel: viewModel)
             searchViewController.set(leftBarButtonItem: settingsBarButtonItem())
@@ -123,9 +123,11 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let actionListViewController = ActionListViewController(viewModel: actionListViewModel)
             actionListViewController.navigationItem.leftBarButtonItem = settingsBarButtonItem()
 
-            EventsManager.shared.eventBuilder = EventBuilder()
+            let manager = EventsManager(eventBucket: ObjectBucket<Event>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!),
+                                        displayableBucket:  ObjectBucket<EventListDisplayable>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!),
+                                        eventBuilder: EventBuilder())
 
-            let eventListVC = EventsListViewController(viewModel: EventsListViewModel(eventsManager: EventsManager.shared))
+            let eventListVC = EventsListViewController(viewModel: EventsListViewModel(eventsManager: manager))
             eventListVC.navigationItem.leftBarButtonItem = settingsBarButtonItem()
 
             let searchNavController = UINavigationController(rootViewController: searchViewController)

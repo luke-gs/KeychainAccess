@@ -39,9 +39,8 @@ public class OfficerListReport: Reportable {
     public weak var event: Event?
     public weak var incident: Incident?
 
-    public required init(event: Event, incident: Incident? = nil) {
+    public required init(event: Event) {
         self.event = event
-        self.incident = incident
 
         let user = UserSession.current.user
         let testOfficer = Officer()
@@ -64,8 +63,7 @@ public class OfficerListReport: Reportable {
     }
 
     private func commonInit() {
-        evaluator.addObserver(event)
-        evaluator.addObserver(incident)
+        if let event = event { evaluator.addObserver(event) }
 
         evaluator.registerKey(.officers) {
             return self.viewed == true
