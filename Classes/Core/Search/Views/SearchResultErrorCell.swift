@@ -99,7 +99,11 @@ public class SearchResultErrorCell: CollectionViewFormCell {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        readMoreButton.isHidden = titleLabel.bounds.height == 0 || titleLabel.isTruncated == false
+        
+        DispatchQueue.main.async {
+            // For some reason views haven't laid out yet here so run this on next loop
+            self.readMoreButton.isHidden = self.titleLabel.bounds.height == 0 || self.titleLabel.isTruncated == false
+        }
     }
 }
 
