@@ -25,7 +25,19 @@ class GalleryViewController: FormBuilderViewController {
             Media(url: URL(string: Bundle.main.path(forResource: "sample1", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Superman practice", sensitive: true),
             Media(url: URL(string: Bundle.main.path(forResource: "sample2", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Pavel wannabe", sensitive: true),
             Media(url: URL(string: Bundle.main.path(forResource: "sample3", ofType: "jpg")!)!, type: .photo, title: "Pavel Boryseiko", comments: "Without makeup", sensitive: false),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim", comments: "This Girl is on FIREEE", sensitive: false)
+            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim", comments: "This Girl is on FIREEE", sensitive: false),
+            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim 2", comments: "This Girl is on FIREEE", sensitive: false),
+            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim 3", comments: "This Girl is on FIREEE", sensitive: false),
+            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim 4", comments: "This Girl is on FIREEE", sensitive: false),
+            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim 5", comments: "This Girl is on FIREEE", sensitive: false),
+            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim 6", comments: "This Girl is on FIREEE", sensitive: false),
+            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim 7", comments: "This Girl is on FIREEE", sensitive: false),
+            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim 8", comments: "This Girl is on FIREEE", sensitive: false),
+            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim 9", comments: "This Girl is on FIREEE", sensitive: false),
+            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim 10", comments: "This Girl is on FIREEE", sensitive: false),
+            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim 11", comments: "This Girl is on FIREEE", sensitive: false),
+            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim 12", comments: "This Girl is on FIREEE", sensitive: false),
+            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim 13", comments: "This Girl is on FIREEE", sensitive: false)
         ]))
 
         let gallery = MediaGalleryCoordinatorViewModel(storeCoordinator: localStore)
