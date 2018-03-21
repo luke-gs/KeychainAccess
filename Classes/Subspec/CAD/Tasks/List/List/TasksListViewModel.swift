@@ -13,7 +13,7 @@ import UIKit
 /// * Resources
 /// * Patrol
 /// * Broadcast
-public class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewModel> {
+open class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewModel> {
 
     /// Other sectioned tasks, used when displaying resources outside our patrol group
     open var otherSections: [CADFormCollectionSectionViewModel<TasksListItemViewModel>] = []
