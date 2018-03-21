@@ -168,7 +168,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
         let thumbnailSlideshowView = thumbnailSlideshowViewController.view!
         thumbnailSlideshowView.autoresizingMask = [.flexibleWidth]
-        thumbnailSlideshowView.frame = CGRect(x: 0, y: view.bounds.height - 44.0, width: view.bounds.width, height: 44.0)
+        thumbnailSlideshowView.frame = CGRect(x: 0, y: view.bounds.height - 60.0, width: view.bounds.width, height: 60.0)
         view.addSubview(thumbnailSlideshowView)
 
         thumbnailSlideshowViewController.didMove(toParentViewController: self)
