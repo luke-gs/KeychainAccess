@@ -2,7 +2,18 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "iconStatusTrafficStopCopy.pdf"
+      "filename" : "iconStatusTrafficStop.png",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "iconStatusTrafficStop@2x.png",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "iconStatusTrafficStop@3x.png",
+      "scale" : "3x"
     }
   ],
   "info" : {

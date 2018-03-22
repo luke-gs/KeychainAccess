@@ -68,7 +68,7 @@ open class IncidentAnnotationView: BubbleAnnotationView {
         bubbleContentView.addSubview(titleLabel)
         
         priorityBackground = UIView()
-        priorityBackground.layer.cornerRadius = 2
+        priorityBackground.layer.cornerRadius = 4
         priorityBackground.layer.borderWidth = 1
         priorityBackground.backgroundColor = .gray
         priorityBackground.translatesAutoresizingMaskIntoConstraints = false
