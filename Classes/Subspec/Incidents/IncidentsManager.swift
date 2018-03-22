@@ -8,12 +8,12 @@
 /// Manages the list of incidents
 final public class IncidentsManager {
 
-    public var incidentBucket: ObjectBucket<Incident>?
-    public var displayableBucket: ObjectBucket<IncidentListDisplayable>?
+    public var incidentBucket: ObjectBucket<Incident>
+    public var displayableBucket: ObjectBucket<IncidentListDisplayable>
     private(set) public var incidentBuilders = [IncidentType: IncidentBuilding]()
 
-    public required init(incidentBucket: ObjectBucket<Incident>,
-                         displayableBucket: ObjectBucket<IncidentListDisplayable>)
+    public required init(incidentBucket: ObjectBucket<Incident> = ObjectBucket<Incident>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!),
+                         displayableBucket: ObjectBucket<IncidentListDisplayable> = ObjectBucket<IncidentListDisplayable>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!))
     {
         self.incidentBucket = incidentBucket
         self.displayableBucket = displayableBucket
@@ -23,8 +23,8 @@ final public class IncidentsManager {
         guard let incidentBuilder = incidentBuilders[incidentType] else { return nil }
 
         let incident = incidentBuilder.createIncident(for: incidentType, in: event)
-        displayableBucket?.add(incident.displayable)
-        incidentBucket?.add(incident.incident)
+        displayableBucket.add(incident.displayable)
+        incidentBucket.add(incident.incident)
 
         return incident
     }
@@ -36,27 +36,27 @@ final public class IncidentsManager {
     }
 
     public func add(incident: Incident) {
-        incidentBucket?.add(incident)
+        incidentBucket.add(incident)
     }
 
     //remove
     public func remove(incident: Incident) {
-        incidentBucket?.remove(incident)
+        incidentBucket.remove(incident)
     }
 
     public func remove(for id: UUID) {
         guard let incident = incident(for: id) else {
             return
         }
-        incidentBucket?.remove(incident)
-        if let displayable = displayableBucket?.objects?.first(where: {$0.incidentId == id}) {
-            displayableBucket?.remove(displayable)
+        incidentBucket.remove(incident)
+        if let displayable = displayableBucket.objects?.first(where: {$0.incidentId == id}) {
+            displayableBucket.remove(displayable)
         }
     }
 
     //utility
     public func incident(for id: UUID) -> Incident? {
-        if let incident = incidentBucket?.objects?.first(where: {$0.id == id}) {
+        if let incident = incidentBucket.objects?.first(where: {$0.id == id}) {
             return incident
         }
         return nil
