@@ -231,22 +231,27 @@ private class ThumbnailLayout: UICollectionViewLayout {
         }
     }
 
-    private var cache = [UICollectionViewLayoutAttributes]()
-
     public var focusedItemIndex: Int {
-        get {
-            var target = collectionView!.contentOffset
-            var offset = collectionView!.contentInset.left
-            var origin = target.x + offset
+        var target = collectionView!.contentOffset
+        var offset = collectionView!.contentInset.left
+        var origin = target.x + offset
 
-            var index = Int((origin / pageWidth).rounded(.down))
-            return max(min(index, numberOfItems - 1), 0)
-        }
+        var index = Int((origin / pageWidth).rounded(.toNearestOrAwayFromZero))
+        return max(min(index, numberOfItems - 1), 0)
     }
 
-    private var previousItemOffsetX: CGFloat = 0
+    private var cache = [UICollectionViewLayoutAttributes]()
 
-    private var nextFocusedItemPercentage: CGFloat {
+    private var pageIndex: Int {
+        var target = collectionView!.contentOffset
+        var offset = collectionView!.contentInset.left
+        var origin = target.x + offset
+
+        var index = Int((origin / pageWidth).rounded(.down))
+        return max(min(index, numberOfItems - 1), 0)
+    }
+
+    private var nextPagePercentage: CGFloat {
         var target = collectionView!.contentOffset
         var offset = collectionView!.contentInset.left
         var origin = target.x + offset
@@ -273,57 +278,32 @@ private class ThumbnailLayout: UICollectionViewLayout {
 
         let height = collectionView!.bounds.height
 
-        let focusedItemIndex = self.focusedItemIndex
-        let nextFocusedItemPercentage = self.nextFocusedItemPercentage
+        let pageIndex = self.pageIndex
+        let nextPageIndex = pageIndex + 1
+        let nextPagePercentage = self.nextPagePercentage
+        let currentPagePercentage = 1.0 - nextPagePercentage
+        let additionalWidth = focusedItemWidth - itemWidth
 
-        let isNext = collectionView!.contentOffset.x > previousItemOffsetX
+        var x: CGFloat = 0
+        for item in 0..<numberOfItems {
+            var width = itemWidth
 
-        if isNext {
-            var x: CGFloat = 0
-            for item in 0..<numberOfItems {
-                let indexPath = IndexPath(item: item, section: 0)
-                let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-
-                var width = itemWidth
-
-                if indexPath.item == focusedItemIndex {
-                    width = (focusedItemWidth - itemWidth) * (1 - nextFocusedItemPercentage) + itemWidth
-                } else if indexPath.item == (focusedItemIndex + 1) {
-                    width = (focusedItemWidth - itemWidth) * nextFocusedItemPercentage + itemWidth
-                }
-
-                let frame = CGRect(x: x, y: 0, width: width, height: height)
-
-                attributes.frame = frame
-                cache.append(attributes)
-
-                x = frame.maxX + itemSpacing
+            if item == pageIndex {
+                width += additionalWidth * currentPagePercentage
+            } else if item == nextPageIndex {
+                width += additionalWidth * nextPagePercentage
             }
-        } else {
-            var x: CGFloat = collectionViewContentSize.width
 
-            for item in 0..<numberOfItems {
-                let indexPath = IndexPath(item: (numberOfItems - 1) - item, section: 0)
-                let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+            let frame = CGRect(x: x, y: 0, width: width, height: height)
 
-                var width = itemWidth
+            let indexPath = IndexPath(item: item, section: 0)
+            let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
 
-                if indexPath.item == focusedItemIndex {
-                    width = (focusedItemWidth - itemWidth) * (1 - nextFocusedItemPercentage) + itemWidth
-                } else if indexPath.item == (focusedItemIndex + 1) {
-                    width = (focusedItemWidth - itemWidth) * nextFocusedItemPercentage + itemWidth
-                }
+            attributes.frame = frame
+            cache.append(attributes)
 
-                let frame = CGRect(x: x - width, y: 0, width: width, height: height)
-
-                attributes.frame = frame
-                cache.insert(attributes, at: 0)
-
-                x = frame.minX - itemSpacing
-            }
+            x = frame.maxX + itemSpacing
         }
-
-        previousItemOffsetX = collectionView!.contentOffset.x
     }
 
     public override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
