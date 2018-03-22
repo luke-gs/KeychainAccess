@@ -123,11 +123,11 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let actionListViewController = ActionListViewController(viewModel: actionListViewModel)
             actionListViewController.navigationItem.leftBarButtonItem = settingsBarButtonItem()
 
-            let manager = EventsManager(eventBucket: ObjectBucket<Event>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!),
-                                        displayableBucket:  ObjectBucket<EventListDisplayable>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!),
-                                        eventBuilder: EventBuilder())
+            let eventsManager = EventsManager(eventBuilder: EventBuilder())
+            let incidentsManager = IncidentsManager()
 
-            let eventListVC = EventsListViewController(viewModel: EventsListViewModel(eventsManager: manager))
+            let eventListVC = EventsListViewController(viewModel: EventsListViewModel(eventsManager: eventsManager),
+                                                       incidentsManager: incidentsManager)
             eventListVC.navigationItem.leftBarButtonItem = settingsBarButtonItem()
 
             let searchNavController = UINavigationController(rootViewController: searchViewController)

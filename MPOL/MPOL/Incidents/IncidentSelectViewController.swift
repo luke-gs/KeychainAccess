@@ -2,7 +2,6 @@
 //  IncidentSelectViewController.swift
 //  MPOL
 //
-//  Created by Pavel Boryseiko on 22/3/18.
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
@@ -13,6 +12,7 @@ open class IncidentSelectViewController: ThemedPopoverViewController {
 
     open var tableView: UITableView!
     open var buttonsView: DialogActionButtonsView!
+    open var didSelectIncident: ((IncidentType?)->())?
 
     // MARK: - Initializers
 
@@ -65,10 +65,11 @@ open class IncidentSelectViewController: ThemedPopoverViewController {
     open func createSubviews() {
         tableView = UITableView(frame: .zero)
         tableView.backgroundColor = .clear
+        tableView.tableFooterView = UIView(frame: .zero)
 
         view.addSubview(tableView)
 
-        let action = DialogAction(title: "Start From Scratch") { _ in self.dismissAnimated() }
+        let action = DialogAction(title: "Start From Scratch") { _ in self.showEvent(with: nil) }
         buttonsView = DialogActionButtonsView(actions: [action])
         view.addSubview(buttonsView)
     }
@@ -103,10 +104,18 @@ open class IncidentSelectViewController: ThemedPopoverViewController {
         tableView.backgroundColor = backgroundColor
         view.backgroundColor = backgroundColor
 
-        for cell in tableView.visibleCells {
-            cell.textLabel?.textColor = theme.color(forKey: .primaryText)
-            cell.imageView?.tintColor = theme.color(forKey: .primaryText)
-        }
+        tableView.visibleCells.forEach(self.theme)
+    }
+
+    private func showEvent(with incident: IncidentType?) {
+        dismissAnimated()
+        didSelectIncident?(incident)
+    }
+
+    private func theme(_ cell: UITableViewCell) {
+        let theme = ThemeManager.shared.theme(for: .current)
+        cell.textLabel?.textColor = theme.color(forKey: .primaryText)
+        cell.imageView?.tintColor = theme.color(forKey: .primaryText)
     }
 }
 
@@ -116,7 +125,7 @@ extension IncidentSelectViewController: UITableViewDelegate, UITableViewDataSour
     }
 
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return IncidentType.allIncidentTypes().count
     }
 
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -124,18 +133,21 @@ extension IncidentSelectViewController: UITableViewDelegate, UITableViewDataSour
     }
 
     public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.backgroundColor = .clear
-        cell.textLabel?.textColor = ThemeManager.shared.theme(for: .current).color(forKey: .primaryText)
-        cell.imageView?.tintColor = ThemeManager.shared.theme(for: .current).color(forKey: .primaryText)
+        theme(cell)
+    }
+
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        showEvent(with: IncidentType.allIncidentTypes()[indexPath.row])
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
 
         cell.imageView?.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.document)
-        cell.textLabel?.text = "Incident Test"
+        cell.textLabel?.text = IncidentType.allIncidentTypes()[indexPath.row].rawValue
         cell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         cell.accessoryType = .disclosureIndicator
+        cell.backgroundColor = .clear
 
         return cell
     }

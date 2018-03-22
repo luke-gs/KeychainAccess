@@ -13,7 +13,7 @@ public class EventsListViewModel: EventListViewModelType {
     public var title: String
     public var eventsManager: EventsManager
     public var eventsList: [EventListDisplayable]? {
-        return eventsManager.displayableBucket?.objects
+        return eventsManager.displayableBucket.objects
     }
 
     public required init(eventsManager: EventsManager) {
