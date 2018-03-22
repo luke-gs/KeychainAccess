@@ -44,17 +44,17 @@ public protocol IncidentListViewModelType {
     var title: String { get }
 
     /// The incident displayed in the list
-    var incidentList: [IncidentListDisplayable]? { get }
+    var incidentList: [IncidentListDisplayable] { get }
 
     /// The incident manager
-    var incidentManager: IncidentsManager { get }
+    var incidentsManager: IncidentsManager { get }
 
     /// Initialise the viewmodel with an incident manager
     ///
     /// - Parameters:
     ///   - report: the report for the incident view model
     ///   - incidentManager: the incident manager
-    init(report: Reportable, incidentManager: IncidentsManager)
+    init(report: Reportable, incidentsManager: IncidentsManager)
 
     /// Gets an incident for a particular displayable
     ///
