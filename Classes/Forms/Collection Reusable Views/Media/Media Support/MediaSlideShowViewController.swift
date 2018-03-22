@@ -298,7 +298,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
     // MARK: - Private
 
-    private var controllerPool =  [Media: MediaViewController]()
+    private var controllerPool = [Media: MediaViewController]()
 
     private func updateCurrentPreviewViewController() {
         let width = collectionView.bounds.width
@@ -307,8 +307,11 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
             if index >= viewModel.previews.count {
                 currentPreviewViewController = nil
             } else {
-                let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0))
-                currentPreviewViewController = (cell as? ControllerCell)?.viewController
+                if let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) {
+                    currentPreviewViewController = (cell as? ControllerCell)?.viewController
+                } else {
+                    currentPreviewViewController = previewViewControllerForPreview(viewModel.previews[index])
+                }
             }
         }
     }
@@ -424,6 +427,9 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
     @objc private func galleryDidChange(_ notification: Notification) {
         guard isViewLoaded else { return }
         collectionView.reloadData()
+
+        updateCurrentPreviewViewController()
+        showPreview(currentPreview, animated: true)
     }
 
     private func setupThumbnailSlideShow() {

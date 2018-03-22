@@ -121,6 +121,13 @@ public class MediaThumbnailSlideshowViewController: UIViewController, UICollecti
 
         if let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) {
             collectionView.scrollRectToVisible(cell.frame, animated: animated)
+        } else {
+            collectionView.reloadData()
+            collectionView.layoutIfNeeded()
+
+            if let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) {
+                collectionView.scrollRectToVisible(cell.frame, animated: animated)
+            }
         }
     }
 
