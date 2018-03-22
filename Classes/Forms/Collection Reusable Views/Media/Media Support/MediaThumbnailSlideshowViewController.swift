@@ -125,8 +125,8 @@ public class MediaThumbnailSlideshowViewController: UIViewController, UICollecti
             collectionView.reloadData()
             collectionView.layoutIfNeeded()
 
-            if let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) {
-                collectionView.scrollRectToVisible(cell.frame, animated: animated)
+            if let attributes = collectionView.layoutAttributesForItem(at: IndexPath(item: index, section: 0)) {
+                collectionView.scrollRectToVisible(attributes.frame, animated: animated)
             }
         }
     }
@@ -317,7 +317,7 @@ private class ThumbnailLayout: UICollectionViewLayout {
                 let frame = CGRect(x: x - width, y: 0, width: width, height: height)
 
                 attributes.frame = frame
-                cache.append(attributes)
+                cache.insert(attributes, at: 0)
 
                 x = frame.minX - itemSpacing
             }
