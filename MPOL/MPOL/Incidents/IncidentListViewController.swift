@@ -36,12 +36,11 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
         loadingManager.noContentView.imageView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconDocument)
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(newIncidentHandler))
-
-        loadingManager.state = viewModel.report.incidents.isEmpty ? .noContent : .loaded
     }
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         viewModel.report.viewed = true
         viewModel.report.updateEval()
         reloadForm()
@@ -54,7 +53,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
 
         builder += HeaderFormItem(text: viewModel.sectionHeaderTitle())
 
-        viewModel.incidentList?.forEach { displayable in
+        viewModel.incidentList.forEach { displayable in
             builder += SummaryListFormItem()
                 .title(displayable.title)
                 .subtitle("Not yet started")
@@ -70,11 +69,8 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
                 })])
                 .onSelection { cell in
                     guard let indexPath = self.collectionView?.indexPath(for: cell) else { return }
-                    guard let displayable = self.viewModel.incidentList?[indexPath.row]else { return }
-                    guard let incident = self.viewModel.incident(for: displayable) else { return }
-
+                    guard let incident = self.viewModel.incident(for: self.viewModel.incidentList[indexPath.row]) else { return }
                     let vc = IncidentSplitViewController(viewModel: self.viewModel.detailsViewModel(for: incident))
-
                     self.present(vc, animated: true, completion: nil)
             }
         }
@@ -127,6 +123,6 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
     }
 
     private func updateLoadingManager() {
-        loadingManager.state = viewModel.report.incidents.isEmpty ? .noContent : .loaded
+        loadingManager.state = viewModel.incidentList.isEmpty ? .noContent : .loaded
     }
 }

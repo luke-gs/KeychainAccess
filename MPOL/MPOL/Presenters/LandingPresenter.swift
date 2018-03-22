@@ -126,8 +126,9 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let eventsManager = EventsManager(eventBuilder: EventBuilder())
             let incidentsManager = IncidentsManager()
 
-            let eventListVC = EventsListViewController(viewModel: EventsListViewModel(eventsManager: eventsManager),
-                                                       incidentsManager: incidentsManager)
+            let eventListVC = EventsListViewController(viewModel: EventsListViewModel(eventsManager: eventsManager))
+            eventListVC.incidentsManager = incidentsManager
+
             eventListVC.navigationItem.leftBarButtonItem = settingsBarButtonItem()
 
             let searchNavController = UINavigationController(rootViewController: searchViewController)
