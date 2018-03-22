@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 public protocol MediaSlideShowable: class {
 
@@ -15,6 +16,8 @@ public protocol MediaSlideShowable: class {
     var currentPreview: MediaPreviewable? { get }
 
 }
+
+public let MediaSlideshowHideShowDuration = UINavigationControllerHideShowBarDuration
 
 public class MediaSlideShowViewController: UIViewController, MediaSlideShowable, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UIGestureRecognizerDelegate, MediaThumbnailSlideshowViewControllerDelegate {
 
@@ -97,34 +100,26 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
     // MARK: - Setup
 
-    public func setupWithInitialPreview(_ preview: MediaPreviewable?) {
-        setupWithInitialPreview(preview, animated: false)
-    }
-
-    public func setupWithInitialPreview(_ preview: MediaPreviewable?, animated: Bool) {
-        // Page controller
-
-        var initialPreview = preview
-        if let preview = viewModel.previews.first, initialPreview == nil {
-            initialPreview = preview
+    public func showPreview(_ preview: MediaPreviewable?, animated: Bool) {
+        if let preview = preview {
+            scrollToPreview(preview, animated: animated)
         }
 
-        if let preview = initialPreview {
-            if let index = indexOfPreview(preview) {
-                let indexPath = IndexPath(item: index, section: 0)
-                collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
-            }
-            overlayView.populateWithPreview(preview)
-        }
+        updateAccessoryViewsWithPreview(preview, animated: animated)
     }
 
-    public func showPreview(_ preview: MediaPreviewable, animated: Bool) {
+    public func scrollToPreview(_ preview: MediaPreviewable, animated: Bool) {
         guard let index = indexOfPreview(preview), isViewLoaded else { return }
 
         let indexPath = IndexPath(item: index, section: 0)
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
+    }
 
+    public func updateAccessoryViewsWithPreview(_ preview: MediaPreviewable?, animated: Bool) {
         overlayView.populateWithPreview(preview)
+
+        guard let preview = preview, let index = indexOfPreview(preview), isViewLoaded else { return }
+
         thumbnailSlideshowViewController.setFocusedIndex(index, animated: animated)
     }
 
@@ -154,24 +149,16 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         collectionView.addGestureRecognizer(tapGestureRecognizer)
         self.overlayView.slideShowViewController = self
 
-        if let initialPreview = initialPreview {
-            setupWithInitialPreview(initialPreview, animated: false)
-            self.initialPreview = nil
-        }
-
+        setupThumbnailSlideShow()
         interfaceStyleDidChange()
 
+        if let preview = viewModel.previews.first, initialPreview == nil {
+            initialPreview = preview
+        }
 
-        // Add thumbnail controller
-
-        addChildViewController(thumbnailSlideshowViewController)
-
-        let thumbnailSlideshowView = thumbnailSlideshowViewController.view!
-        thumbnailSlideshowView.autoresizingMask = [.flexibleWidth]
-        thumbnailSlideshowView.frame = CGRect(x: 0, y: view.bounds.height - 60.0, width: view.bounds.width, height: 60.0)
-        view.addSubview(thumbnailSlideshowView)
-
-        thumbnailSlideshowViewController.didMove(toParentViewController: self)
+        if let preview = initialPreview {
+            scrollToPreview(preview, animated: false)
+        }
     }
 
     public override func viewDidAppear(_ animated: Bool) {
@@ -180,14 +167,19 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         let overlayView = self.overlayView.view()
         overlayView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         overlayView.frame = self.view.bounds
-        if #available(iOS 11.0, *) {
-            overlayView.layoutMargins = view.safeAreaInsets
-        } else {
-            overlayView.layoutMargins = UIEdgeInsets(top: topLayoutGuide.length, left: 0.0, bottom: bottomLayoutGuide.length + thumbnailSlideshowViewController.view!.bounds.height, right: 0.0)
-        }
-        self.view.addSubview(overlayView)
+
+        let thumbnailSliderView = thumbnailSlideshowViewController.view!
+        view.insertSubview(overlayView, belowSubview: thumbnailSlideshowViewController.view)
 
         updateCurrentPreviewViewController()
+
+        if let preview = initialPreview {
+            updateAccessoryViewsWithPreview(preview, animated: false)
+            initialPreview = nil
+        }
+
+        setOverlayEnabled(true, animated: false)
+        setThumbnailSlideshowEnabled(true, animated: false)
     }
 
     // MARK: - UICollectionViewDelegate / DataSource
@@ -277,7 +269,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
         overlayView.populateWithPreview(currentPreview)
 
-        if let index = indexOfPreview(currentPreview!) {
+        if let currentPreview = currentPreview, let index = indexOfPreview(currentPreview) {
             thumbnailSlideshowViewController.setFocusedIndex(index, animated: true)
         }
     }
@@ -366,18 +358,86 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
     private func setFullScreen(_ isFullScreen: Bool, animated: Bool = true) {
         self.isFullScreen = isFullScreen
-        overlayView.setHidden(isFullScreen, animated: animated)
+
+        let enabled = !isFullScreen
+
+        setOverlayEnabled(enabled, animated: animated)
+        setThumbnailSlideshowEnabled(enabled, animated: animated)
+        setNavigationBarEnabled(enabled, animated: animated)
+        setLightModeEnabled(enabled, animated: animated)
+    }
+
+    private func setLightModeEnabled(_ enabled: Bool, animated: Bool) {
+        UIView.animate(withDuration: animated ? TimeInterval(MediaSlideshowHideShowDuration) : 0.0) {
+            self.collectionView.backgroundColor = enabled ? self.view.backgroundColor : .black
+        }
+    }
+
+    private func setOverlayEnabled(_ enabled: Bool, animated: Bool) {
+        let thumbnailSliderView = thumbnailSlideshowViewController.view!
+
+        let overlayView = self.overlayView.view()
+        if #available(iOS 11.0, *) {
+            var insets = self.view.safeAreaInsets
+            insets.bottom += (!isFullScreen ? thumbnailSliderView.bounds.height : 0.0)
+            overlayView.layoutMargins = insets
+        } else {
+            overlayView.layoutMargins = UIEdgeInsets(top: self.topLayoutGuide.length,
+                                                     left: 0.0,
+                                                     bottom: self.bottomLayoutGuide.length + (!isFullScreen ? thumbnailSliderView.bounds.height : 0.0),
+                                                     right: 0.0)
+        }
+
+        self.overlayView.setHidden(!enabled, animated: animated)
+    }
+
+    private func setThumbnailSlideshowEnabled(_ enabled: Bool, animated: Bool) {
+        let thumbnailSliderView = thumbnailSlideshowViewController.view!
+
+        UIView.animate(withDuration: animated ? TimeInterval(MediaSlideshowHideShowDuration) : 0.0) {
+            var frame = thumbnailSliderView.frame
+
+            if enabled {
+                frame.origin = CGPoint(x: 0.0, y: self.view.bounds.height - frame.height)
+            } else {
+                frame.origin = CGPoint(x: 0.0, y: self.view.bounds.height)
+            }
+
+            thumbnailSliderView.frame = frame
+        }
+    }
+
+    private func setNavigationBarEnabled(_ enabled: Bool, animated: Bool) {
         if isUIViewControllerBasedStatusBarAppearance {
-            setNeedsStatusBarAppearanceUpdate()
+            UIView.animate(withDuration: animated ? TimeInterval(MediaSlideshowHideShowDuration) : 0.0, animations: {
+                self.setNeedsStatusBarAppearanceUpdate()
+            })
+            self.navigationController?.setNavigationBarHidden(!enabled, animated: animated)
+
         } else {
             let animation: UIStatusBarAnimation = animated ? .slide : .none
-            UIApplication.shared.setStatusBarHidden(isFullScreen, with: animation)
+            UIApplication.shared.setStatusBarHidden(!enabled, with: animation)
+            navigationController?.setNavigationBarHidden(!enabled, animated: animated)
         }
     }
 
     @objc private func galleryDidChange(_ notification: Notification) {
         guard isViewLoaded else { return }
         collectionView.reloadData()
+    }
+
+    private func setupThumbnailSlideShow() {
+        // Add thumbnail controller
+        addChildViewController(thumbnailSlideshowViewController)
+
+        let thumbnailSlideshowView = thumbnailSlideshowViewController.view!
+        thumbnailSlideshowView.autoresizingMask = [.flexibleWidth]
+        thumbnailSlideshowView.frame = CGRect(x: 0, y: view.bounds.height - 60.0, width: view.bounds.width, height: 60.0)
+        view.addSubview(thumbnailSlideshowView)
+
+        thumbnailSlideshowViewController.didMove(toParentViewController: self)
+
+        setThumbnailSlideshowEnabled(false, animated: false)
     }
 
     // MARK: - Gesture Recognizers
@@ -394,7 +454,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         
         view.backgroundColor = backgroundColor
         collectionView.backgroundColor = backgroundColor
-        collectionView.reloadData()
+        setLightModeEnabled(!isFullScreen, animated: false)
     }
     
     // MARK: - Interaction
@@ -408,7 +468,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
     // MARK: - MediaThumbnailSlideshowViewControllerDelegate
 
     public func mediaThumbnailSlideshowViewController(_ thumbnailSlideshowViewController: MediaThumbnailSlideshowViewController, didSelectPreview preview: MediaPreviewable) {
-        setupWithInitialPreview(preview)
+        showPreview(preview, animated: false)
     }
 
 }

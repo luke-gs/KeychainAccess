@@ -104,29 +104,20 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, MediaDetai
         hidingViewConstraint?.isActive = hidden
 
         if animated {
-
             let isCurrentlyHidden = isHidden
             // Unhide first so the view can be animated in.
             if isCurrentlyHidden && !hidden {
                 isHidden = false
             }
 
-            slideShowViewController?.view.backgroundColor = hidden ? .white : .black
-
-            UIView.animate(withDuration: 0.25, delay: 0.0, options: [.allowAnimatedContent, .allowUserInteraction], animations: {
+            UIView.animate(withDuration: TimeInterval(MediaSlideshowHideShowDuration), delay: 0.0, options: [.allowAnimatedContent, .allowUserInteraction], animations: {
                 self.layoutIfNeeded()
-                self.slideShowViewController?.view.backgroundColor = finalColor
-
             }, completion: { result in
                 self.isHidden = hidden
-                self.slideShowViewController?.view.backgroundColor = finalColor
             })
         } else {
             isHidden = hidden
-            slideShowViewController?.view.backgroundColor = finalColor
         }
-
-        slideShowViewController?.navigationController?.setNavigationBarHidden(hidden, animated: animated)
     }
 
     private func updateDetailsWithPreview(_ preview: MediaPreviewable?) {
