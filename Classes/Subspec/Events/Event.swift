@@ -79,7 +79,7 @@ final public class Event: Codable, Evaluatable {
 public struct EventType: RawRepresentable, Hashable {
 
     //Define default EventTypes
-    static let blank = EventType(rawValue: "blank")
+    public static let blank = EventType(rawValue: "blank")
 
     public var rawValue: String
 

@@ -24,7 +24,6 @@
 		12D3701B20200B5B00D79DDB /* EventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3701420200B5A00D79DDB /* EventsManager.swift */; };
 		12D3701C20200B5B00D79DDB /* EventSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3701520200B5A00D79DDB /* EventSplitViewController.swift */; };
 		12D3702020200DBD00D79DDB /* ObjectBucket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3701F20200DBD00D79DDB /* ObjectBucket.swift */; };
-		12D3702220200F5E00D79DDB /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3702120200F5E00D79DDB /* EventsListViewController.swift */; };
 		12D4450B2047BAFC00A4D4C1 /* Incident.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D445072047BAFB00A4D4C1 /* Incident.swift */; };
 		12D4450C2047BAFC00A4D4C1 /* IncidentListDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D445082047BAFB00A4D4C1 /* IncidentListDisplayable.swift */; };
 		12D4450D2047BAFC00A4D4C1 /* IncidentsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D445092047BAFB00A4D4C1 /* IncidentsManager.swift */; };
@@ -1706,7 +1705,6 @@
 				12D3702120200F5E00D79DDB /* EventsListViewController.swift */,
 				12D3701420200B5A00D79DDB /* EventsManager.swift */,
 				12D3701520200B5A00D79DDB /* EventSplitViewController.swift */,
-				12B44929203A7D9300B1DDAA /* Incident */,
 				464E99E5203CE1B100FE05DC /* EventSearchableViewModel.swift */,
 				129C08E52032A84E00D712E7 /* Location */,
 			);
@@ -4663,7 +4661,6 @@
 				BC9C7E1A1F0DED6600DFFE83 /* SelectableButton.swift in Sources */,
 				46CF4F8F20281B5C00DD040A /* MediaAssetCache.swift in Sources */,
 				BC9C7E251F0DED6600DFFE83 /* EntityCollectionViewCell.swift in Sources */,
-				12D3702220200F5E00D79DDB /* EventsListViewController.swift in Sources */,
 				12FB2F0120326653000CA863 /* StackMapLayout.swift in Sources */,
 				BC8A99611F22EBD700387AB6 /* UIColor+Brightness.swift in Sources */,
 				27256FF5205B2877005930CB /* DelimitedStringCharacterCountSpecification.swift in Sources */,
@@ -4682,7 +4679,6 @@
 				BC9C7E091F0DED6600DFFE83 /* UITableViewCell+LayoutMargins.swift in Sources */,
 				2726A81E1FCE6BE600EFB61A /* IncidentOverviewViewModel.swift in Sources */,
 				274753F41FC67F6E00D5FA98 /* TasksListInformationRowViewModel.swift in Sources */,
-				12B4492F203A831B00B1DDAA /* IncidentListViewModel.swift in Sources */,
 				2744E3982051DD8500561A8F /* CADPatrolCore.swift in Sources */,
 				EA53B2771F9EF92B00B891D8 /* NotNilSpecification.swift in Sources */,
 				96F77281201FFB40000FE0D0 /* CreateActivityLogItemViewController.swift in Sources */,
