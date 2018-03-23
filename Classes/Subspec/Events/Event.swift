@@ -16,9 +16,9 @@ fileprivate extension EvaluatorKey {
 final public class Event: Codable, Evaluatable {
 
     private(set) public var reports: [Reportable] = [Reportable]()
+    public weak var displayable: EventListDisplayable?
     public var evaluator: Evaluator = Evaluator()
     public let id: UUID
-    public weak var displayable: EventListDisplayable?
 
     private var allValid: Bool = false {
         didSet {

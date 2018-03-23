@@ -86,7 +86,7 @@ public protocol EventListViewModelType {
     ///   - event: the event to create the view model for
     ///   - incidentManager: an optional IncidentsManager
     /// - Returns: the detail view model
-    func detailsViewModel(for event: Event, incidentManager: IncidentsManager?) -> EventDetailViewModelType
+    func detailsViewModel(for event: Event) -> EventDetailViewModelType
 
 }
 
