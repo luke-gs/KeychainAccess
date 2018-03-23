@@ -83,6 +83,8 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
             super.wantsTransparentBackground = newValue
         }
     }
+    
+    open var shouldAdaptPreferredContentWidth: Bool = true
 
     // MARK: - Private properties
     
@@ -250,22 +252,26 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
         if isInPopover {
             navigationItem.rightBarButtonItem = nil
 
-            if isAdaptationChanging {
-                // Workaround:
-                // When transitioning back to a popover, updates to the content size during the
-                //`presentationController(_:, willPresentWithAdaptiveStyle:, transitionCoordinator:)` are temporarily ignored.
-                // Delay the call to update.
-                DispatchQueue.main.async {
-                    self.preferredContentSize = correctContentSize
+            if shouldAdaptPreferredContentWidth {
+                if isAdaptationChanging {
+                    // Workaround:
+                    // When transitioning back to a popover, updates to the content size during the
+                    //`presentationController(_:, willPresentWithAdaptiveStyle:, transitionCoordinator:)` are temporarily ignored.
+                    // Delay the call to update.
+                    DispatchQueue.main.async {
+                        self.preferredContentSize = correctContentSize
+                    }
+                } else {
+                    preferredContentSize = correctContentSize
                 }
-            } else {
-                preferredContentSize = correctContentSize
             }
         } else {
             tableView.setNeedsLayout()
             tableView.layoutIfNeeded()
-            preferredContentSize = correctContentSize
-            tableView.contentSize = correctContentSize
+            if shouldAdaptPreferredContentWidth {
+                preferredContentSize = correctContentSize
+                tableView.contentSize = correctContentSize
+            }
         }
 
         apply(ThemeManager.shared.theme(for: userInterfaceStyle))

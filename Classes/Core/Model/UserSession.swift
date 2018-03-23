@@ -32,9 +32,7 @@ public class UserSession: UserSessionable {
             directoryManager.write(recentlySearched as NSArray, to: paths.recentlySearched)
         }
     }
-    
-    public let recentlyActioned: EntityBucket = EntityBucket(limit: 20)
-    
+        
     // Generic recent IDs for types (keyed), for current user
     public private(set) var recentIdsListMap: [String: [String]] = [:]
 
@@ -52,7 +50,6 @@ public class UserSession: UserSessionable {
 
     public init() {
         let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(handleRecentlyActionedChanged), name: EntityBucket.didUpdateNotificationName, object: recentlyActioned)
         notificationCenter.addObserver(self, selector: #selector(handleRecentlyViewedChanged), name: EntityBucket.didUpdateNotificationName, object: recentlyViewed)
     }
 
@@ -86,7 +83,6 @@ public class UserSession: UserSessionable {
         token = nil
         recentlySearched = []
         recentlyViewed.removeAll()
-        recentlyActioned.removeAll()
         recentIdsListMap = [:]
         userStorage = nil
         directoryManager.write(nil, toKeyChain: "token")
@@ -106,7 +102,6 @@ public class UserSession: UserSessionable {
         let userWrapper = directoryManager.read(from: paths.userWrapperPath) as? FileWrapper
         let viewed = directoryManager.read(from: paths.recentlyViewed) as? [MPOLKitEntity] ?? []
         let searched = directoryManager.read(from: paths.recentlySearched) as? [Searchable] ?? []
-        let actioned = directoryManager.read(from: paths.recentlyActioned) as? [MPOLKitEntity] ?? []
 
         var token: OAuthAccessToken?
 
@@ -130,8 +125,7 @@ public class UserSession: UserSessionable {
         self.recentlySearched = searched
 
         recentlyViewed.add(viewed)
-        recentlyActioned.add(actioned)
-        
+
         isRestoringSession = false
 
         if let token = self.token, let user = self.user {
@@ -170,11 +164,6 @@ public class UserSession: UserSessionable {
 
     private func saveTokenToKeychain() {
         directoryManager.write(token, toKeyChain: "token")
-    }
-
-    @objc private func handleRecentlyActionedChanged() {
-        guard !isRestoringSession else { return }
-        directoryManager.write(recentlyActioned.entities as NSArray, to: paths.recentlyActioned)
     }
 
     @objc private func handleRecentlyViewedChanged() {
@@ -267,11 +256,6 @@ public struct UserSessionPaths {
         return array.joined(separator: "/")
     }
 
-    var recentlyActioned: String {
-        let array = ["session", "\(sessionId)", "actioned"]
-        return array.joined(separator: "/")
-    }
-
     var userWrapperPath: String {
         let array = ["session", "\(sessionId)", "user"]
         return array.joined(separator: "/")
@@ -307,9 +291,6 @@ public protocol UserSessionable {
 
     /// The recently searched entities for this session
     var recentlySearched: [Searchable] { get set }
-
-    /// The recently actioned entities for this session
-    var recentlyActioned: EntityBucket { get }
 
     /// Whether the session is active
     var isActive: Bool { get }

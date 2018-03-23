@@ -26,8 +26,6 @@ open class MediaPreviewableCell: UICollectionViewCell, DefaultReusable {
                         self.imageView.image = image.sizing().image
                     }
                 })
-
-                imageView.contentMode = media.thumbnailImage?.sizing().contentMode ?? .scaleAspectFill
             }
         }
     }
@@ -39,6 +37,8 @@ open class MediaPreviewableCell: UICollectionViewCell, DefaultReusable {
         imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         imageView.backgroundColor = .gray
         imageView.tintColor = .white
+        imageView.contentMode = .scaleAspectFill
+        
         contentView.addSubview(imageView)
 
         contentView.layer.cornerRadius = 4.0
@@ -47,6 +47,10 @@ open class MediaPreviewableCell: UICollectionViewCell, DefaultReusable {
 
     required public init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
+    }
+    
+    open func apply(theme: Theme) {
+        // Subclasses can provide custom theme logic
     }
 
 }

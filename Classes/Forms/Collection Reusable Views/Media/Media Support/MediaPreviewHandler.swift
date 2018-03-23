@@ -14,10 +14,13 @@ public class MediaPreviewHandler: MediaGalleryDelegate {
     public let allowEditing: Bool
 
     public let pickerSources: [MediaPickerSource]
+    
+    public let additionalBarButtons: [UIBarButtonItem]?
 
-    public init(allowEditing: Bool = true, pickerSources: [MediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker(), AudioMediaPicker(), SketchMediaPicker()]) {
+    public init(allowEditing: Bool = true, pickerSources: [MediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker(), AudioMediaPicker(), SketchMediaPicker()], additionalBarButtons: [UIBarButtonItem]? = nil) {
         self.allowEditing = allowEditing
         self.pickerSources = pickerSources
+        self.additionalBarButtons = additionalBarButtons
     }
 
     public func previewViewControllerForPreview(_ preview: MediaPreviewable, inGalleryViewModel galleryViewModel: MediaGalleryViewModelable) -> UIViewController? {
@@ -29,18 +32,21 @@ public class MediaPreviewHandler: MediaGalleryDelegate {
         
         let galleryViewController = MediaGalleryViewController(viewModel: galleryViewModel, initialPreview: preview, pickerSources: pickerSources)
         galleryViewController.allowEditing = allowEditing
+        galleryViewController.additionalBarButtonItems = additionalBarButtons
         return UINavigationController(rootViewController: galleryViewController)
     }
 
     public func viewControllerForGalleryViewModel(_ galleryViewModel: MediaGalleryViewModelable) -> UIViewController? {
         let galleryViewController = MediaGalleryViewController(viewModel: galleryViewModel, pickerSources: pickerSources)
         galleryViewController.allowEditing = allowEditing
+        galleryViewController.additionalBarButtonItems = additionalBarButtons
         return UINavigationController(rootViewController: galleryViewController)
     }
 
     public func mediaItemViewControllerForPreview(_ preview: MediaPreviewable, inGalleryViewModel galleryViewModel: MediaGalleryViewModelable) -> UIViewController? {
         let galleryViewController = MediaGalleryViewController(viewModel: galleryViewModel, initialPreview: preview, pickerSources: pickerSources)
         galleryViewController.allowEditing = allowEditing
+        galleryViewController.additionalBarButtonItems = additionalBarButtons
         return UINavigationController(rootViewController: galleryViewController)
     }
 

@@ -27,6 +27,13 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
     public var allowEditing: Bool = true {
         didSet { setupNavigationItems() }
     }
+    
+    // App can provide additional bar button items.
+    public var additionalBarButtonItems: [UIBarButtonItem]? {
+        didSet {
+            setupNavigationItems()
+        }
+    }
 
     public private(set) lazy var loadingManager: LoadingStateManager = LoadingStateManager()
 
@@ -35,14 +42,17 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
     private lazy var addBarButtonItem: UIBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Add", comment: ""), style: .plain, target: self, action: #selector(addButtonTapped))
 
     public let viewModel: MediaGalleryViewModelable
+    
+    public let galleryCellType: MediaGalleryCell.Type
 
     private var itemsBeingProcessed: [Media] = []
 
-    public init(viewModel: MediaGalleryViewModelable, initialPreview: MediaPreviewable? = nil, pickerSources: [MediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker(), AudioMediaPicker(), SketchMediaPicker()]) {
+    public init(viewModel: MediaGalleryViewModelable, initialPreview: MediaPreviewable? = nil, pickerSources: [MediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker(), AudioMediaPicker(), SketchMediaPicker()], galleryCellType: MediaGalleryCell.Type = MediaGalleryCell.self) {
 
         self.viewModel = viewModel
         self.pickerSources = pickerSources
         self.initialPreview = initialPreview
+        self.galleryCellType = galleryCellType
 
         super.init(nibName: nil, bundle: nil)
 
@@ -87,7 +97,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
         collectionView.backgroundColor = .white
 
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: Identifier.genericCell.rawValue)
+        collectionView.register(galleryCellType, forCellWithReuseIdentifier: Identifier.genericCell.rawValue)
         collectionView.register(MediaStateCell.self, forCellWithReuseIdentifier: Identifier.stateCell.rawValue)
 
         collectionView.dataSource = self
@@ -165,6 +175,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
         case .unknown: return 2
         case .loading: return 2
         case .error: return 2
+        case .noContents: return 1
         }
     }
 
@@ -174,26 +185,22 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.genericCell.rawValue, for: indexPath)
-
-            cell.backgroundView = nil
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.genericCell.rawValue, for: indexPath) as! MediaGalleryCell
 
             let preview = viewModel.previews[indexPath.item]
-            preview.thumbnailImage?.loadImage(completion: { [weak self] (sizable) in
-                let imageView = UIImageView(image: sizable.sizing().image)
-                imageView.contentMode = self?.traitCollection.horizontalSizeClass == .compact ? .scaleAspectFill : .scaleAspectFit
-                imageView.clipsToBounds = true
-                cell.backgroundView = imageView
-                if self?.isEditing == true {
-                    cell.backgroundView?.alpha = collectionView.indexPathsForSelectedItems?.contains(indexPath) == true ? 1.0 : 0.4
-                }
-            })
-
+            cell.media = preview
             return cell
         } else {
             let state = viewModel.state
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.stateCell.rawValue, for: indexPath) as! MediaStateCell
-            cell.imageView.image = viewModel.imageForState(state)
+            
+            let button = cell.button
+            let actions = button.actions(forTarget: self, forControlEvent: .touchUpInside)
+            if actions == nil || actions?.count == 0 {
+                button.setImage(viewModel.imageForState(state), for: .normal)
+                button.addTarget(self, action: #selector(actionButtonTouched(_:)), for: .touchUpInside)
+            }
+            
             cell.titleLabel.text = viewModel.titleForState(state)
             cell.subtitleLabel.text = viewModel.descriptionForState(state)
 
@@ -245,10 +252,10 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
     }
 
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.section == 1 {
-            if let cell = cell as? MediaStateCell {
-                cell.apply(theme: ThemeManager.shared.theme(for: .current))
-            }
+        if let cell = cell as? MediaPreviewableCell {
+            cell.apply(theme: ThemeManager.shared.theme(for: .current))
+        } else if let cell = cell as? MediaStateCell {
+            cell.apply(theme: ThemeManager.shared.theme(for: .current))
         }
     }
 
@@ -273,13 +280,15 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
             navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(closeTapped))
 
             if allowEditing {
-                navigationItem.rightBarButtonItems = [
-                    beginSelectItem,
-                    spacer,
-                    addBarButtonItem
-                ]
+                var items = [beginSelectItem, spacer, addBarButtonItem]
+                
+                if let additionalBarButtonItems = additionalBarButtonItems {
+                    items.append(contentsOf: additionalBarButtonItems)
+                }
+                
+                navigationItem.rightBarButtonItems = items
             } else {
-                navigationItem.rightBarButtonItems = nil
+                navigationItem.rightBarButtonItems = additionalBarButtonItems
             }
 
             collectionView.allowsMultipleSelection = false
@@ -381,6 +390,13 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
         view.backgroundColor = backgroundColor
 
         collectionView.backgroundColor = backgroundColor
+        collectionView.reloadData()
+    }
+    
+    @objc private func actionButtonTouched(_ button: UIButton) {
+        if case .loading = viewModel.state {} else {
+            viewModel.retrievePreviews(style: .paginated)
+        }
     }
 
     private func updateContentState() {
@@ -393,8 +409,10 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
             case .loading:
                 loadingManager.state = .loading
             case .error:
+                updateErrorState()
                 loadingManager.state = .error
-            case .completed, .unknown:
+            case .completed, .unknown, .noContents:
+                updateNoContentsState()
                 loadingManager.state = .noContent
             }
         }
@@ -403,30 +421,29 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
     }
 
     private func configureLoadingManager() {
-        let noContentView = loadingManager.noContentView
-
-        if allowEditing {
-            noContentView.titleLabel.text = NSLocalizedString("GalleryAllowEditingNoAssetsTitle", value: "No Assets", comment: "")
-            noContentView.subtitleLabel.text = NSLocalizedString("GalleryAllowEditingNoAssetsSubtitle", value: "Add an asset by tapping on 'Add' button.", comment: "")
-            noContentView.imageView.image = AssetManager.shared.image(forKey: .refresh)
-
-            let button = noContentView.actionButton
-            button.setTitle(NSLocalizedString("GalleryAllowEditingNoAssetsButton", value: "Add", comment: "Action to add new asset"), for: .normal)
-            button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
-
-
-        } else {
-            noContentView.titleLabel.text = NSLocalizedString("GalleryNoEditingNoAssetsTitle", value: "No Assets", comment: "")
-            noContentView.subtitleLabel.text = NSLocalizedString("GalleryNoEditingNoAssetsSubtitle", value: "No assets found. Tap 'Refresh' to try again.", comment: "")
-            noContentView.imageView.image = AssetManager.shared.image(forKey: .refresh)
-
-            let button = noContentView.actionButton
-            button.setTitle(NSLocalizedString("GalleryNoEditingNoAssetsButton", value: "Refresh", comment: "Action to refresh"), for: .normal)
-            button.addTarget(self, action: #selector(refreshButtonTapped), for: .touchUpInside)
-        }
-
+        updateNoContentsState()
+        updateLoadingState()
+    }
+    
+    private func updateLoadingState() {
         loadingManager.loadingView.titleLabel.text = viewModel.titleForState(.loading)
         loadingManager.loadingView.subtitleLabel.text = viewModel.descriptionForState(.loading)
+    }
+    
+    private func updateNoContentsState() {
+        let noContentView = loadingManager.noContentView
+        
+        noContentView.titleLabel.text = viewModel.titleForState(.noContents)
+        noContentView.subtitleLabel.text = viewModel.descriptionForState(.noContents)
+        noContentView.imageView.image = AssetManager.shared.image(forKey: .refresh)
+    }
+    
+    private func updateErrorState() {
+        let errorView = loadingManager.errorView
+        let state = viewModel.state
+        
+        errorView.titleLabel.text = viewModel.titleForState(state)
+        errorView.subtitleLabel.text = viewModel.descriptionForState(state)
     }
 
     // MARK: - UINavigationControllerDelegate
@@ -441,12 +458,12 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
                 let toVC = toVC as? MediaSlideShowViewController,
                 let preview = toVC.currentPreview,
                 let previewIndex = viewModel.previews.index(where: { preview === $0 }),
-                let cell = collectionView.cellForItem(at: IndexPath(item: previewIndex, section: 0)),
+                let cell = collectionView.cellForItem(at: IndexPath(item: previewIndex, section: 0)) as? MediaGalleryCell,
                 let previewViewController = toVC.currentPreviewViewController
                 else { return nil }
 
             let endingView = previewViewController.scalingImageView.imageView
-            transitionAnimator.startingView = cell.backgroundView
+            transitionAnimator.startingView = cell.imageView
             transitionAnimator.endingView = endingView
             transitionAnimator.dismissing = false
             return transitionAnimator
@@ -465,10 +482,10 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
                 collectionView.layoutIfNeeded()
             }
 
-            let cell = collectionView.cellForItem(at: indexPath)
+            let cell = collectionView.cellForItem(at: indexPath) as? MediaGalleryCell
 
             transitionAnimator.startingView = endingView
-            transitionAnimator.endingView = cell?.backgroundView
+            transitionAnimator.endingView = cell?.imageView
             transitionAnimator.dismissing = true
             return transitionAnimator
         default:
