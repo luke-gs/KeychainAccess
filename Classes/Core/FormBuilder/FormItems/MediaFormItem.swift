@@ -8,14 +8,21 @@
 
 import Foundation
 
+public struct EmptyStateContents {
+    public var title: String?
+    public var subtitle: String?
+}
 
 public class MediaFormItem: BaseFormItem {
 
     public var dataSource: MediaGalleryViewModelable?
 
-    public var delegate: MediaGalleryDelegate? = MediaPreviewHandler()
+    public var delegate: MediaGalleryDelegate? = MediaPreviewHandler(pickerSources: MediaPreviewHandler.availableSources)
 
     public weak var previewingController: UIViewController?
+
+    // Allow for customisation of the empty state
+    public var emptyStateContents: EmptyStateContents?
 
     public init() {
         super.init(cellType: CollectionViewFormMediaCell.self, reuseIdentifier: CollectionViewFormMediaCell.defaultReuseIdentifier)
@@ -27,6 +34,8 @@ public class MediaFormItem: BaseFormItem {
         cell.dataSource = dataSource
         cell.delegate = delegate
         cell.previewingController = previewingController
+        cell.loadingManager.noContentView.titleLabel.text = emptyStateContents?.title
+        cell.loadingManager.noContentView.subtitleLabel.text = emptyStateContents?.subtitle
     }
 
     public override func intrinsicWidth(in collectionView: UICollectionView, layout: CollectionViewFormLayout, sectionEdgeInsets: UIEdgeInsets, for traitCollection: UITraitCollection) -> CGFloat {
@@ -59,4 +68,9 @@ extension MediaFormItem {
         return self
     }
 
+    @discardableResult
+    public func emptyStateContents(_ emptyStateContents: EmptyStateContents?) -> Self {
+        self.emptyStateContents = emptyStateContents
+        return self
+    }
 }
