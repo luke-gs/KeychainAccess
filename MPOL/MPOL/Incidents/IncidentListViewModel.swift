@@ -70,10 +70,6 @@ open class IncidentListViewModel: IncidentListViewModelType {
     func removeIncident(at indexPath: IndexPath) {
         report.incidents.remove(at: indexPath.item)
         report.incidentDisplayables.remove(at: indexPath.item)
-        report.event?.displayable?.title = report.incidentDisplayables.count > 0
-            ? report.incidentDisplayables.map{$0.title}.joined(separator: ", ")
-            : incidentsHeaderDefaultTitle
-        report.event?.displayable?.subtitle = incidentsHeaderDefaultSubtitle
     }
 
     func add(_ incidents: [String]) {
@@ -87,8 +83,5 @@ open class IncidentListViewModel: IncidentListViewModelType {
                 report.incidentDisplayables.append(incident.displayable)
             }
         }
-
-        report.event?.displayable?.title = report.incidentDisplayables.map{$0.title}.joined(separator: ", ")
-        report.event?.displayable?.subtitle = incidentsHeaderDefaultSubtitle
     }
 }

@@ -10,7 +10,7 @@ import MPOLKit
 
 public class EventScreenBuilder: EventScreenBuilding {
 
-    var incidentsManager: IncidentsManager?
+    var incidentsManager: IncidentsManager!
 
     public func viewControllers(for reportables: [Reportable]) -> [UIViewController] {
         var viewControllers = [UIViewController]()
@@ -33,13 +33,7 @@ public class EventScreenBuilder: EventScreenBuilding {
         case let report as DefaultNotesPhotosReport:
             return DefaultEventNotesPhotosViewController(report: report)
         case let report as IncidentListReport:
-            let manager = incidentsManager ?? IncidentsManager()
-
-            // Add IncidentBuilders here
-            manager.add(InfringementIncidentBuilder(), for: .infringementNotice)
-            manager.add(StreetCheckIncidentBuilder(), for: .streetCheck)
-
-            return IncidentListViewController(viewModel: IncidentListViewModel(report: report, incidentsManager: manager))
+            return IncidentListViewController(viewModel: IncidentListViewModel(report: report, incidentsManager: incidentsManager))
         default:
             fatalError("No ViewController found for reportable: \(report.self)")
         }

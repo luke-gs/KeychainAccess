@@ -12,6 +12,7 @@ public class EventsListViewModel: EventListViewModelType {
 
     public var title: String
     public var eventsManager: EventsManager
+    public var incidentType: IncidentType?
 
     public var eventsList: [EventListDisplayable]? {
         return eventsManager.displayableBucket.objects
@@ -26,9 +27,19 @@ public class EventsListViewModel: EventListViewModelType {
         return eventsManager.event(for: displayable.eventId)
     }
     
-    public func detailsViewModel(for event: Event, incidentManager: IncidentsManager? = nil) -> EventDetailViewModelType {
+    public func detailsViewModel(for event: Event) -> EventDetailViewModelType {
         let screenBuilder = EventScreenBuilder()
-        screenBuilder.incidentsManager = incidentManager
+        let incidentsManager = IncidentsManager()
+
+        // Add IncidentBuilders here
+        incidentsManager.add(InfringementIncidentBuilder(), for: .infringementNotice)
+        incidentsManager.add(StreetCheckIncidentBuilder(), for: .streetCheck)
+
+        if let incidentType = incidentType {
+            let _ = incidentsManager.create(incidentType: incidentType, in: event)
+        }
+
+        screenBuilder.incidentsManager = incidentsManager
 
         return EventsDetailViewModel(event: event, builder: screenBuilder)
     }

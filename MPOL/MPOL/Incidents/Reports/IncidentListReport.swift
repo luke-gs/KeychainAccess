@@ -24,6 +24,9 @@ open class IncidentListReport: Reportable, EventHeaderUpdateable {
     public var incidents: [Incident] = []
     public var incidentDisplayables: [IncidentListDisplayable] = []{
         didSet {
+            event?.displayable?.title = incidentDisplayables.map{$0.title}.joined(separator: ", ")
+            event?.displayable?.subtitle = incidentsHeaderDefaultSubtitle
+
             evaluator.updateEvaluation(for: .incidents)
             delegate?.updateHeader(with: incidentDisplayables.first?.title, subtitle: nil)
         }
