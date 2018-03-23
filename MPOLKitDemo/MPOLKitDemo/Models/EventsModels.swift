@@ -33,6 +33,7 @@ class DemoDetailsViewModel: EventDetailViewModelType {
     var title: String?
     var viewControllers: [UIViewController]?
     var headerView: UIView?
+    var headerUpdated: (() -> ())?
 
     var evaluator: Evaluator = Evaluator()
 
@@ -62,5 +63,15 @@ class DemoScreenBuilder: EventScreenBuilding {
         }
 
         return viewControllers
+    }
+}
+
+class DemoBuilder: EventBuilding {
+    func createEvent(for type: EventType) -> (event: Event, displayable: EventListDisplayable) {
+        let event = Event()
+
+        event.add(report: DefaultDateTimeReport(event: event))
+
+        return (event: event, EventListDisplayable())
     }
 }
