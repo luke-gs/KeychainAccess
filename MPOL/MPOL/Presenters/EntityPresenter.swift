@@ -141,16 +141,4 @@ extension EntityPresenter: EntityDetailSplitViewControllerDelegate {
 
     public func entityDetailSplitViewController<Details, Summary>(_ entityDetailSplitViewController: EntityDetailSplitViewController<Details, Summary>, didPresentEntity entity: MPOLKitEntity) {
     }
-
-    public func entityDetailSplitViewController<Details, Summary>(_ entityDetailSplitViewController: EntityDetailSplitViewController<Details, Summary>, didActionOnEntity entity: MPOLKitEntity) {
-
-        // Temporary implementation of this action. Change to suit
-        let recentlyActioned = UserSession.current.recentlyActioned
-        if recentlyActioned.contains(entity) {
-            recentlyActioned.remove(entity)
-        } else {
-            recentlyActioned.add(entity)
-        }
-    }
-
 }
