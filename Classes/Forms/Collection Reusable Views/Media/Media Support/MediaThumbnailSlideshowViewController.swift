@@ -273,16 +273,43 @@ private class ThumbnailLayout: UICollectionViewLayout {
         return CGSize(width: (CGFloat(numberOfItems) - 1.0) * pageWidth + focusedItemWidth, height: collectionView!.bounds.height)
     }
 
+    private var lastPageIndex: Int = 0
+
     public override func prepare() {
-        cache.removeAll()
-
         let height = collectionView!.bounds.height
-
+        let numberOfItems = self.numberOfItems
         let pageIndex = self.pageIndex
         let nextPageIndex = pageIndex + 1
         let nextPagePercentage = self.nextPagePercentage
         let currentPagePercentage = 1.0 - nextPagePercentage
         let additionalWidth = focusedItemWidth - itemWidth
+
+        // Optimisation - Modify the two layout attributes that are changing and leave the rest the same.
+        // If there are any issues with the layout, try removing this block of code first. But there shouldn't be any.
+        if lastPageIndex == pageIndex && numberOfItems == cache.count {
+            let currentLayoutAttributes = cache[pageIndex]
+            var currentFrame = currentLayoutAttributes.frame
+
+            currentFrame.size.width = additionalWidth * currentPagePercentage + itemWidth
+
+            currentLayoutAttributes.frame = currentFrame
+
+            if nextPageIndex < numberOfItems {
+                let nextLayoutAttributes = cache[nextPageIndex]
+
+                var frame = nextLayoutAttributes.frame
+
+                frame.origin.x = currentFrame.maxX + itemSpacing
+                frame.size.width = additionalWidth * nextPagePercentage + itemWidth
+
+                nextLayoutAttributes.frame = frame
+            }
+
+            return
+        }
+        // End Optimisation
+
+        cache.removeAll()
 
         var x: CGFloat = 0
         for item in 0..<numberOfItems {
@@ -304,6 +331,8 @@ private class ThumbnailLayout: UICollectionViewLayout {
 
             x = frame.maxX + itemSpacing
         }
+
+        lastPageIndex = pageIndex
     }
 
     public override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
