@@ -35,12 +35,9 @@ final public class EventsManager {
     }
     
     public func remove(for id: UUID) {
-        let event = self.event(for: id)
-
-        eventBucket.remove(event!)
-        if let displayable = displayableBucket.objects?.first(where: {$0.eventId == id}) {
-            displayableBucket.remove(displayable)
-        }
+        guard let event = self.event(for: id), let displayable = event.displayable else { return }
+        eventBucket.remove(event)
+        displayableBucket.remove(displayable)
     }
     
     //utility

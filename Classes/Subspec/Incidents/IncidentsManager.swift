@@ -8,16 +8,11 @@
 /// Manages the list of incidents
 final public class IncidentsManager {
 
-    public var incidentBucket: ObjectBucket<Incident>
-    public var displayableBucket: ObjectBucket<IncidentListDisplayable>
+    public var incidentBucket: ObjectBucket<Incident> = ObjectBucket<Incident>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
+    public var displayableBucket: ObjectBucket<IncidentListDisplayable> = ObjectBucket<IncidentListDisplayable>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
     private(set) public var incidentBuilders = [IncidentType: IncidentBuilding]()
 
-    public required init(incidentBucket: ObjectBucket<Incident> = ObjectBucket<Incident>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!),
-                         displayableBucket: ObjectBucket<IncidentListDisplayable> = ObjectBucket<IncidentListDisplayable>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!))
-    {
-        self.incidentBucket = incidentBucket
-        self.displayableBucket = displayableBucket
-    }
+    public init() { }
 
     public func create(incidentType: IncidentType, in event: Event) -> (incident: Incident, displayable: IncidentListDisplayable)? {
         guard let incidentBuilder = incidentBuilders[incidentType] else { return nil }
@@ -47,13 +42,9 @@ final public class IncidentsManager {
     }
 
     public func remove(for id: UUID) {
-        guard let incident = incident(for: id) else {
-            return
-        }
+        guard let incident = incident(for: id), let displayable = incident.displayable else { return }
         incidentBucket.remove(incident)
-        if let displayable = displayableBucket.objects?.first(where: {$0.incidentId == id}) {
-            displayableBucket.remove(displayable)
-        }
+        displayableBucket.remove(displayable)
     }
 
     //utility
