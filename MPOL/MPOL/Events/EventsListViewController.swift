@@ -64,7 +64,7 @@ open class EventsListViewController: FormBuilderViewController {
                 .accessory(ItemAccessory.disclosure)
                 .onSelection ({ cell in
                     guard let event = self.viewModel.event(for: displayable) else { return }
-                    self.show(event, with: nil)
+                    self.show(event)
                 })
         }
     }
@@ -72,7 +72,7 @@ open class EventsListViewController: FormBuilderViewController {
     @objc private func createNewEvent() {
         let viewController = IncidentSelectViewController()
         viewController.didSelectIncident = { incident in
-            self.show(nil, with: incident)
+            self.show(with: incident)
         }
 
         let navigationController = PopoverNavigationController(rootViewController: viewController)
@@ -80,10 +80,10 @@ open class EventsListViewController: FormBuilderViewController {
         present(navigationController, animated: true, completion: nil)
     }
 
-    private func show(_ event: Event?, with incidentType: IncidentType?) {
+    private func show(_ event: Event? = nil, with incidentType: IncidentType? = nil) {
         guard let event = event ?? viewModel.eventsManager.create(eventType: .blank) else { return }
 
-        (viewModel as? EventsListViewModel)?.incidentType = incidentType
+        (viewModel as! EventsListViewModel).incidentType = incidentType
 
         let viewController = EventSplitViewController(viewModel: viewModel.detailsViewModel(for: event))
         self.show(viewController, sender: self)

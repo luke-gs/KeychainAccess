@@ -14,7 +14,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
     public var incidentsManager: IncidentsManager
     private(set) var report: IncidentListReport
     public var incidentList: [IncidentListDisplayable] {
-        return report.incidentDisplayables
+        return report.incidents.map{$0.displayable!}
     }
 
     public required init(report: Reportable, incidentsManager: IncidentsManager) {
@@ -23,7 +23,6 @@ open class IncidentListViewModel: IncidentListViewModelType {
         self.title = "Incidents"
 
         if let objects = incidentsManager.incidentBucket.objects, !objects.isEmpty {
-            self.report.incidentDisplayables = incidentsManager.displayableBucket.objects!
             self.report.incidents = incidentsManager.incidentBucket.objects!
         }
     }
@@ -69,7 +68,6 @@ open class IncidentListViewModel: IncidentListViewModelType {
 
     func removeIncident(at indexPath: IndexPath) {
         report.incidents.remove(at: indexPath.item)
-        report.incidentDisplayables.remove(at: indexPath.item)
     }
 
     func add(_ incidents: [String]) {
@@ -80,7 +78,6 @@ open class IncidentListViewModel: IncidentListViewModelType {
             guard let incident = incidentsManager.create(incidentType: incidentType, in: event) else { continue }
             if !(report.incidents.contains(where: {$0.incidentType == incident.incident.incidentType}) == true) {
                 report.incidents.append(incident.incident)
-                report.incidentDisplayables.append(incident.displayable)
             }
         }
     }

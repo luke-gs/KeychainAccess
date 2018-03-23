@@ -93,7 +93,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
                                                      imageStyle: .circle)
 
         let datasource = IncidentSearchDataSource(objects: IncidentType.allIncidentTypes().map{$0.rawValue},
-                                                  selectedObjects: viewModel.report.incidentDisplayables.map{$0.title!},
+                                                  selectedObjects: viewModel.report.incidents.map{$0.displayable.title!},
                                                   configuration: headerConfig)
         
         datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))

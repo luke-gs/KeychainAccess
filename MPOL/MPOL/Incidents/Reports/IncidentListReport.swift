@@ -21,14 +21,12 @@ open class IncidentListReport: Reportable, EventHeaderUpdateable {
         }
     }
     
-    public var incidents: [Incident] = []
-    public var incidentDisplayables: [IncidentListDisplayable] = []{
+    public var incidents: [Incident] = [] {
         didSet {
-            event?.displayable?.title = incidentDisplayables.map{$0.title}.joined(separator: ", ")
+            event?.displayable?.title = incidents.isEmpty ? incidentsHeaderDefaultTitle : incidents.map{$0.displayable?.title}.joined(separator: ", ")
             event?.displayable?.subtitle = incidentsHeaderDefaultSubtitle
-
             evaluator.updateEvaluation(for: .incidents)
-            delegate?.updateHeader(with: incidentDisplayables.first?.title, subtitle: nil)
+            delegate?.updateHeader(with: incidents.first?.displayable?.title, subtitle: nil)
         }
     }
 
