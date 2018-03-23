@@ -107,14 +107,14 @@
           "title": "Status: Proceeding"
         }, 
         {
-          "description": "P24 (2) \u2022 T. Baily and D. Fisher", 
-          "source": "P24", 
+          "description": "M24 (2) \u2022 T. Baily and D. Fisher", 
+          "source": "M24", 
           "timestamp": "2017-12-02T01:24:00Z", 
           "title": "Status: Proceeding"
         }, 
         {
-          "description": "P24 (2) \u2022 T. Baily and D. Fisher", 
-          "source": "P24", 
+          "description": "M24 (2) \u2022 T. Baily and D. Fisher", 
+          "source": "M24", 
           "timestamp": "2017-12-02T01:28:00Z", 
           "title": "Status: At Incident"
         }, 
@@ -123,42 +123,57 @@
           "source": "Dispatch", 
           "timestamp": "2017-12-02T01:30:00Z", 
           "title": "Incident Details Updated"
+        }, 
+        {
+          "description": "M24 (2) \u2022 T. Baily and D. Fisher", 
+          "source": "Duress", 
+          "timestamp": "2017-12-02T01:35:00Z", 
+          "title": "Status: Duress"
         }
       ], 
       "patrolGroup": "Collingwood", 
       "persons": [
         {
-          "alertLevel": 3, 
-          "dateOfBirth": "1995-03-01 11:22:29", 
-          "firstName": "Aimee", 
+          "alertLevel": 2, 
+          "associatedAlertLevel": 2, 
+          "dateLastUpdated": "2017-08-31T14:13:08Z", 
+          "dateOfBirth": "1995-03-01T11:22:29Z", 
+          "familyName": "Kaine", 
           "fullAddress": "20 Derby St Collingwood Vic 3066, Australia", 
           "gender": "F", 
+          "givenName": "Aimee", 
           "id": "554ca38e-ab00-4c5c-8e58-1c87ef09b958", 
-          "lastName": "Kaine", 
+          "locations": [], 
           "middleNames": "Ethel", 
           "source": "mpol", 
           "thumbnail": null
         }, 
         {
-          "alertLevel": 3, 
-          "dateOfBirth": "1988-02-20 11:22:38", 
-          "firstName": "Guy", 
+          "alertLevel": 2, 
+          "associatedAlertLevel": 2, 
+          "dateLastUpdated": "2016-01-12T14:32:00Z", 
+          "dateOfBirth": "1988-02-20T11:22:38Z", 
+          "familyName": "Grant", 
           "fullAddress": "40 Stawell St, Richmond Vic 3121, Australia", 
           "gender": "M", 
+          "givenName": "Guy", 
           "id": "66c36afa-505d-49b2-a8dd-fbf929b5dba3", 
-          "lastName": "Grant", 
+          "locations": [], 
           "middleNames": "David", 
           "source": "mpol", 
           "thumbnail": null
         }, 
         {
-          "alertLevel": 1, 
-          "dateOfBirth": "1973-11-10 00:00:00", 
-          "firstName": "John", 
+          "alertLevel": 0, 
+          "associatedAlertLevel": 0, 
+          "dateLastUpdated": "2018-01-09T14:32:00Z", 
+          "dateOfBirth": "1973-11-10T00:00:00Z", 
+          "familyName": "Adams", 
           "fullAddress": "Floor 3, 66-76 Swantson St, Melbourne Vic 3000, Australia", 
           "gender": "M", 
+          "givenName": "John", 
           "id": "e2423463-1026-4eed-a7e4-b98ae49c96aa", 
-          "lastName": "Adams", 
+          "locations": [], 
           "source": "mpol", 
           "thumbnail": null
         }
@@ -167,20 +182,26 @@
       "type": "Bank Robbery", 
       "vehicles": [
         {
-          "alertLevel": 1, 
+          "alertLevel": 0, 
+          "associatedAlertLevel": 0, 
           "bodyType": "Prime Mover", 
           "color": "Red", 
+          "dateLastUpdated": "2018-02-07T14:32:00Z", 
           "id": "07d022f7-8a26-4209-be02-93833bf45d57", 
           "plateNumber": "AQQ142", 
           "source": "mpol", 
           "stolen": true, 
-          "vehicleDescription": "2016 Kenworth T909"
+          "vehicleDescription": "2016 Kenworth T909", 
+          "vehicleType": "Prime Mover"
         }, 
         {
-          "alertLevel": 2, 
+          "alertLevel": 1, 
+          "associatedAlertLevel": 2, 
           "bodyType": "Sedan", 
           "color": "Blue", 
+          "dateLastUpdated": "2018-01-09T14:32:00Z", 
           "id": "58530e3e-830b-4f57-a99a-779e0eaedb47", 
+          "make": "BMW", 
           "plateNumber": "MOCK01", 
           "source": "mpol", 
           "stolen": true, 
@@ -229,25 +250,31 @@
       "patrolGroup": "Collingwood", 
       "persons": [
         {
-          "alertLevel": 1, 
-          "dateOfBirth": "1995-03-01 11:22:29", 
-          "firstName": "Aimee", 
+          "alertLevel": 2, 
+          "associatedAlertLevel": 2, 
+          "dateLastUpdated": "2018-01-09T14:32:00Z", 
+          "dateOfBirth": "1995-03-01T11:22:29Z", 
+          "familyName": "Kaine", 
           "fullAddress": "Australia", 
           "gender": "F", 
+          "givenName": "Aimee", 
           "id": "745687", 
-          "lastName": "Kaine", 
+          "locations": [], 
           "middleNames": "Ethel", 
           "source": "fnc", 
           "thumbnail": null
         }, 
         {
-          "alertLevel": 3, 
-          "dateOfBirth": "1988-02-20 11:22:38", 
-          "firstName": "Guy", 
+          "alertLevel": 2, 
+          "associatedAlertLevel": 2, 
+          "dateLastUpdated": "2018-01-09T14:32:00Z", 
+          "dateOfBirth": "1988-02-20T11:22:38Z", 
+          "familyName": "Grant", 
           "fullAddress": "40 Stawell St, Richmond Vic 3121, Australia", 
           "gender": "M", 
+          "givenName": "Guy", 
           "id": "66c36afa-505d-49b2-a8dd-fbf929b5dba3", 
-          "lastName": "Grant", 
+          "locations": [], 
           "middleNames": "David", 
           "source": "mpol", 
           "thumbnail": null
@@ -257,15 +284,18 @@
       "type": "Public Disturbance", 
       "vehicles": [
         {
-          "alertLevel": 2, 
+          "alertLevel": 1, 
+          "associatedAlertLevel": 2, 
           "bodyType": "Hatch", 
           "color": "Red", 
+          "dateLastUpdated": "2018-01-09T14:32:00Z", 
           "id": "fc39a4c5-c863-4ff7-93cc-87b8ac4e4f4b", 
+          "make": "Mazda", 
           "plateNumber": "AEE123", 
           "source": "mpol", 
           "stolen": true, 
           "vehicleDescription": "2010 Mazda 3", 
-          "vehicleType": "Motorcycle"
+          "vehicleType": "Car"
         }
       ]
     }, 
@@ -310,13 +340,16 @@
       "patrolGroup": "Collingwood", 
       "persons": [
         {
-          "alertLevel": 1, 
-          "dateOfBirth": "1995-03-01 11:22:29", 
-          "firstName": "Aimee", 
+          "alertLevel": 2, 
+          "associatedAlertLevel": 2, 
+          "dateLastUpdated": "2018-01-09T14:32:00Z", 
+          "dateOfBirth": "1995-03-01T11:22:29Z", 
+          "familyName": "Kaine", 
           "fullAddress": "Australia", 
           "gender": "F", 
+          "givenName": "Aimee", 
           "id": "745687", 
-          "lastName": "Kaine", 
+          "locations": [], 
           "middleNames": "Ethel", 
           "source": "fnc", 
           "thumbnail": null
@@ -326,21 +359,27 @@
       "type": "Public Nuisance", 
       "vehicles": [
         {
-          "alertLevel": 2, 
+          "alertLevel": 1, 
+          "associatedAlertLevel": 2, 
           "bodyType": "Hatch", 
           "color": "Red", 
+          "dateLastUpdated": "2018-01-09T14:32:00Z", 
           "id": "fc39a4c5-c863-4ff7-93cc-87b8ac4e4f4b", 
+          "make": "Mazda", 
           "plateNumber": "AEE123", 
           "source": "mpol", 
           "stolen": true, 
           "vehicleDescription": "2010 Mazda 3", 
-          "vehicleType": "Motorcycle"
+          "vehicleType": "Car"
         }, 
         {
-          "alertLevel": 3, 
+          "alertLevel": 2, 
+          "associatedAlertLevel": 1, 
           "bodyType": "SUV", 
           "color": "Grey", 
+          "dateLastUpdated": "2018-01-09T14:32:00Z", 
           "id": "c4ad9ed4-e261-40d4-a50c-9160b089542b", 
+          "make": "Honda", 
           "plateNumber": "ABC456", 
           "source": "mpol", 
           "stolen": true, 
@@ -432,13 +471,16 @@
       "patrolGroup": "Collingwood", 
       "persons": [
         {
-          "alertLevel": 3, 
-          "dateOfBirth": "1988-02-20 11:22:38", 
-          "firstName": "Guy", 
+          "alertLevel": 2, 
+          "associatedAlertLevel": 2, 
+          "dateLastUpdated": "2018-01-09T14:32:00Z", 
+          "dateOfBirth": "1988-02-20T11:22:38Z", 
+          "familyName": "Grant", 
           "fullAddress": "40 Stawell St, Richmond Vic 3121, Australia", 
           "gender": "M", 
+          "givenName": "Guy", 
           "id": "66c36afa-505d-49b2-a8dd-fbf929b5dba3", 
-          "lastName": "Grant", 
+          "locations": [], 
           "middleNames": "David", 
           "source": "mpol", 
           "thumbnail": null
@@ -448,20 +490,26 @@
       "type": "Traffic Crash No Injury", 
       "vehicles": [
         {
-          "alertLevel": 1, 
+          "alertLevel": 0, 
+          "associatedAlertLevel": 0, 
           "bodyType": "Prime Mover", 
           "color": "Red", 
+          "dateLastUpdated": "2018-02-07T14:32:00Z", 
           "id": "07d022f7-8a26-4209-be02-93833bf45d57", 
           "plateNumber": "AQQ142", 
           "source": "mpol", 
           "stolen": true, 
-          "vehicleDescription": "2016 Kenworth T909"
+          "vehicleDescription": "2016 Kenworth T909", 
+          "vehicleType": "Prime Mover"
         }, 
         {
-          "alertLevel": 2, 
+          "alertLevel": 1, 
+          "associatedAlertLevel": 2, 
           "bodyType": "Sedan", 
           "color": "Blue", 
+          "dateLastUpdated": "2018-01-09T14:32:00Z", 
           "id": "58530e3e-830b-4f57-a99a-779e0eaedb47", 
+          "make": "BMW", 
           "plateNumber": "MOCK01", 
           "source": "mpol", 
           "stolen": true, 
@@ -469,10 +517,13 @@
           "vehicleType": "Car"
         }, 
         {
-          "alertLevel": 1, 
+          "alertLevel": 0, 
+          "associatedAlertLevel": 0, 
           "bodyType": "Motorcycle", 
           "color": "Black", 
+          "dateLastUpdated": "2018-01-09T14:32:00Z", 
           "id": "7e7e9499-9c53-4ec1-9229-0c8269f3be43", 
+          "make": "Harley Davidson", 
           "plateNumber": "2B1AA", 
           "source": "mpol", 
           "stolen": true, 
@@ -524,10 +575,13 @@
       "type": "Industrial Accident", 
       "vehicles": [
         {
-          "alertLevel": 1, 
+          "alertLevel": 0, 
+          "associatedAlertLevel": 0, 
           "bodyType": "Motorcycle", 
           "color": "Black", 
+          "dateLastUpdated": "2018-01-09T14:32:00Z", 
           "id": "7e7e9499-9c53-4ec1-9229-0c8269f3be43", 
+          "make": "Harley Davidson", 
           "plateNumber": "2B1AA", 
           "source": "mpol", 
           "stolen": true, 
@@ -577,37 +631,46 @@
       "patrolGroup": "Collingwood", 
       "persons": [
         {
-          "alertLevel": 1, 
-          "dateOfBirth": "1995-03-01 11:22:29", 
-          "firstName": "Aimee", 
+          "alertLevel": 2, 
+          "associatedAlertLevel": 2, 
+          "dateLastUpdated": "2018-01-09T14:32:00Z", 
+          "dateOfBirth": "1995-03-01T11:22:29Z", 
+          "familyName": "Kaine", 
           "fullAddress": "Australia", 
           "gender": "F", 
+          "givenName": "Aimee", 
           "id": "745687", 
-          "lastName": "Kaine", 
+          "locations": [], 
           "middleNames": "Ethel", 
           "source": "fnc", 
           "thumbnail": null
         }, 
         {
-          "alertLevel": 3, 
-          "dateOfBirth": "1988-02-20 11:22:38", 
-          "firstName": "Guy", 
+          "alertLevel": 2, 
+          "associatedAlertLevel": 2, 
+          "dateLastUpdated": "2018-01-09T14:32:00Z", 
+          "dateOfBirth": "1988-02-20T11:22:38Z", 
+          "familyName": "Grant", 
           "fullAddress": "40 Stawell St, Richmond Vic 3121, Australia", 
           "gender": "M", 
+          "givenName": "Guy", 
           "id": "66c36afa-505d-49b2-a8dd-fbf929b5dba3", 
-          "lastName": "Grant", 
+          "locations": [], 
           "middleNames": "David", 
           "source": "mpol", 
           "thumbnail": null
         }, 
         {
-          "alertLevel": 1, 
-          "dateOfBirth": "1973-11-10 00:00:00", 
-          "firstName": "John", 
+          "alertLevel": 0, 
+          "associatedAlertLevel": 0, 
+          "dateLastUpdated": "2018-01-09T14:32:00Z", 
+          "dateOfBirth": "1973-11-10T00:00:00Z", 
+          "familyName": "Adams", 
           "fullAddress": "Floor 3, 66-76 Swantson St, Melbourne Vic 3000, Australia", 
           "gender": "M", 
+          "givenName": "John", 
           "id": "e2423463-1026-4eed-a7e4-b98ae49c96aa", 
-          "lastName": "Adams", 
+          "locations": [], 
           "source": "mpol", 
           "thumbnail": null
         }
@@ -616,10 +679,13 @@
       "type": "Stealing Offences", 
       "vehicles": [
         {
-          "alertLevel": 3, 
+          "alertLevel": 2, 
+          "associatedAlertLevel": 1, 
           "bodyType": "SUV", 
           "color": "Grey", 
+          "dateLastUpdated": "2018-01-09T14:32:00Z", 
           "id": "c4ad9ed4-e261-40d4-a50c-9160b089542b", 
+          "make": "Honda", 
           "plateNumber": "ABC456", 
           "source": "mpol", 
           "stolen": true, 
@@ -717,6 +783,7 @@
           "alertLevel": 2, 
           "bodyType": "Sedan", 
           "color": "Blue", 
+          "dateLastUpdated": "2018-01-09T14:32:00Z", 
           "id": "58530e3e-830b-4f57-a99a-779e0eaedb47", 
           "plateNumber": "MOCK01", 
           "source": "mpol", 
@@ -1013,11 +1080,12 @@
         "suburb": "Collingwood"
       }, 
       "patrolGroup": "Collingwood", 
+      "subtype": "Patrol", 
       "type": "Community"
     }, 
     {
       "createdAt": "2018-01-01T23:41:07Z", 
-      "details": "Toby D. Fuller\u2019s bail conditions requires as per order of Melbourne Magistrates Court is to be at 183 Argyle St, Fitzroy VIC 3065 between 18:00 and 06:00. Patrol crews are to conduct random checks to confirm subject is complying with bail conditions.", 
+      "details": "Toby D. Fuller\u2019s bail conditions requires as per order of Melbourne Magistrates Court is to be at 47 York Street, Fitzroy North VIC 3068 between 18:00 and 06:00. Patrol crews are to conduct random checks to confirm subject is complying with bail conditions.", 
       "identifier": "PS20180614991", 
       "lastUpdated": "2018-01-08T23:41:07Z", 
       "location": {
@@ -1027,12 +1095,13 @@
         "longitude": 144.982014, 
         "postalCode": "3066", 
         "state": "VIC", 
-        "streetName": "Argyle", 
-        "streetNumberFirst": "183", 
+        "streetName": "York", 
+        "streetNumberFirst": "47", 
         "streetType": "Street", 
-        "suburb": "Fitzroy"
+        "suburb": "Fitzroy North"
       }, 
       "patrolGroup": "Collingwood", 
+      "subtype": "Random check", 
       "type": "Bail"
     }
   ], 
@@ -1439,29 +1508,23 @@
     {
       "callsign": "V23", 
       "patrolGroup": "Collingwood", 
-      "serial": "ARP442", 
       "station": "Collingwood", 
       "status": "Off Duty", 
-      "type": "Vehicle", 
-      "vehicleCategory": "2"
+      "type": "Vehicle"
     }, 
     {
       "callsign": "P48", 
       "patrolGroup": "Collingwood", 
-      "serial": "ARP590", 
       "station": "Collingwood", 
       "status": "Off Duty", 
-      "type": "PoliceOfficer", 
-      "vehicleCategory": "2"
+      "type": "PoliceOfficer"
     }, 
     {
       "callsign": "D11", 
       "patrolGroup": "Collingwood", 
-      "serial": "ARPK91", 
       "station": "Collingwood", 
       "status": "Off Duty", 
-      "type": "DogSquad", 
-      "vehicleCategory": "1"
+      "type": "DogSquad"
     }, 
     {
       "activityLog": [
@@ -1516,7 +1579,7 @@
       "shiftStart": "2017-12-02T01:00:00Z", 
       "station": "Southbank", 
       "status": "At Incident", 
-      "type": "Vehicle", 
+      "type": "Helicopter", 
       "vehicleCategory": "1"
     }, 
     {
@@ -1530,15 +1593,15 @@
       ], 
       "assignedIncidents": [], 
       "callsign": "SS20", 
-      "category": "1", 
       "driver": "182992", 
+      "category": "1", 
       "equipment": [], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
       "location": {
         "country": "Australia", 
         "fullAddress": "70 Market Street, South Melbourne VIC 3205", 
-        "latitude": -37.8299802, 
-        "longitude": 144.9587475, 
+        "latitude": -37.8511052, 
+        "longitude": 144.9201392, 
         "postalCode": "3205", 
         "state": "VIC", 
         "streetName": "Market", 
@@ -1546,18 +1609,18 @@
         "streetType": "Street", 
         "suburb": "South Melbourne"
       }, 
-      "odometer": "1234", 
       "patrolGroup": "South Melbourne", 
       "payrollIds": [
         "182992"
       ], 
+      "odometer": "1234", 
       "remarks": "", 
       "serial": "DOR1101", 
       "shiftEnd": "2017-12-02T12:00:00Z", 
       "shiftStart": "2017-12-02T01:00:00Z", 
       "station": "South Melbourne", 
       "status": "On Air", 
-      "type": "DogSquad", 
+      "type": "MarineCraft", 
       "vehicleCategory": "2"
     }, 
     {
@@ -1604,7 +1667,7 @@
       "shiftStart": "2017-12-02T01:00:00Z", 
       "station": "South Melbourne", 
       "status": "Inquiries1", 
-      "type": "Motorcycle", 
+      "type": "Bicycle", 
       "vehicleCategory": "1"
     }
   ]
