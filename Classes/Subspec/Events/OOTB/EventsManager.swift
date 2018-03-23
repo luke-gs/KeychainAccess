@@ -17,11 +17,17 @@ final public class EventsManager {
     }
     
     public func create(eventType: EventType) -> Event? {
-        let event = eventBuilder.createEvent(for: eventType)
-        displayableBucket.add(event.displayable)
-        eventBucket.add(event.event)
+        let eventDisplayableTuple = eventBuilder.createEvent(for: eventType)
 
-        return event.event
+        let event = eventDisplayableTuple.event
+        let displayable = eventDisplayableTuple.displayable
+
+        event.displayable = displayable
+
+        displayableBucket.add(displayable)
+        eventBucket.add(event)
+
+        return event
     }
     
     //add

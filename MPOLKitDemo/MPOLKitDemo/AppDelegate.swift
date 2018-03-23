@@ -99,16 +99,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SearchDisplayableDelegate
         }
         
         let recent = SearchRecentsViewController(viewModel: EntitySummaryRecentsViewModel(title: "Recents"))
-        let eventBucket = ObjectBucket<Event>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
-        let displayableBucket = ObjectBucket<EventListDisplayable>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
-
         tabBarController.viewControllers = [
             UINavigationController(rootViewController: recent),
             pushableSVNavController,
             UINavigationController(rootViewController: sidebarSplitViewController),
             UINavigationController(rootViewController: SearchLookupAddressTableViewController(style: .plain)),
             UINavigationController(rootViewController: genericSearchViewController()),
-            UINavigationController(rootViewController: EventsListViewController(viewModel: DemoListViewModel(eventsManager: EventsManager(eventBucket: eventBucket, displayableBucket: displayableBucket, eventBuilder: DemoBuilder())))),
+            UINavigationController(rootViewController: EventsListViewController(viewModel: DemoListViewModel(eventsManager: EventsManager(eventBuilder: DemoBuilder())))),
             UINavigationController(rootViewController: formSplitViewController),
             UINavigationController(rootViewController: TemplateManagerViewController())
         ]
