@@ -226,7 +226,7 @@ private class ThumbnailLayout: UICollectionViewLayout {
 
     public var itemSpacing: CGFloat = 1.0 {
         didSet {
-            guard oldValue != itemWidth else { return }
+            guard oldValue != itemSpacing else { return }
             invalidateLayout()
         }
     }
