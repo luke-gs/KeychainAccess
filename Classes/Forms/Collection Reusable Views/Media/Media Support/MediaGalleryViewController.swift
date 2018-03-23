@@ -189,20 +189,6 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
             let preview = viewModel.previews[indexPath.item]
             cell.media = preview
-            
-//            cell.backgroundView = nil
-//
-//            let preview = viewModel.previews[indexPath.item]
-//            preview.thumbnailImage?.loadImage(completion: { [weak self] (sizable) in
-//                let imageView = UIImageView(image: sizable.sizing().image)
-//                imageView.contentMode = self?.traitCollection.horizontalSizeClass == .compact ? .scaleAspectFill : .scaleAspectFit
-//                imageView.clipsToBounds = true
-//                cell.backgroundView = imageView
-//                if self?.isEditing == true {
-//                    cell.backgroundView?.alpha = collectionView.indexPathsForSelectedItems?.contains(indexPath) == true ? 1.0 : 0.4
-//                }
-//            })
-
             return cell
         } else {
             let state = viewModel.state
