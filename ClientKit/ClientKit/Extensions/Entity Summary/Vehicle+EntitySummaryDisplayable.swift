@@ -34,11 +34,11 @@ public struct VehicleSummaryDisplayable: EntitySummaryDisplayable {
     }
     
     public var borderColor: UIColor? {
-        return vehicle.alertLevel?.color
+        return vehicle.associatedAlertLevel?.color
     }
 
     public var iconColor: UIColor? {
-        return nil
+        return vehicle.alertLevel?.color
     }
     
     public var badge: UInt {
