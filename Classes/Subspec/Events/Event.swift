@@ -15,10 +15,15 @@ fileprivate extension EvaluatorKey {
 /// to check if all reports are valid through the evaluator
 final public class Event: Codable, Evaluatable {
 
-    private(set) public var reports: [Reportable] = [Reportable]()
-    public weak var displayable: EventListDisplayable?
-    public var evaluator: Evaluator = Evaluator()
     public let id: UUID
+    public var evaluator: Evaluator = Evaluator()
+    public weak var displayable: EventListDisplayable!
+
+    private(set) public var reports: [Reportable] = [Reportable]() {
+        didSet {
+            evaluator.updateEvaluation(for: .allValid)
+        }
+    }
 
     private var allValid: Bool = false {
         didSet {
