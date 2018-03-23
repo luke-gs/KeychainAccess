@@ -51,11 +51,11 @@ open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
     enum CodingKeys: String, CodingKey {
         case alertLevel = "alertLevel"
         case dateOfBirth = "dateOfBirth"
-        case firstName = "firstName"
+        case firstName = "givenName"
         case fullAddress = "fullAddress"
         case gender = "gender"
         case id = "id"
-        case lastName = "lastName"
+        case lastName = "familyName"
         case middleNames = "middleNames"
         case source = "source"
     }
