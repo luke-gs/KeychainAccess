@@ -985,7 +985,7 @@
 				INFOPLIST_FILE = MPOL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_SWIFT_FLAGS = "$(inherited) -Xfrontend -warn-long-function-bodies=200 -Xfrontend -warn-long-expression-type-checking=50";
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xfrontend -warn-long-function-bodies=200 -Xfrontend -warn-long-expression-type-checking=100";
 				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.pscore;
 				SWIFT_OBJC_BRIDGING_HEADER = "Configuration/PSCore-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
