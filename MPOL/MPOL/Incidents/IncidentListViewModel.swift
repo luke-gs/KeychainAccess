@@ -76,8 +76,8 @@ open class IncidentListViewModel: IncidentListViewModelType {
             let type = IncidentType(rawValue: incident)
             let incidentType = IncidentType.allIncidentTypes().contains(type) ? type : .blank
             guard let incident = incidentsManager.create(incidentType: incidentType, in: event) else { continue }
-            if !(report.incidents.contains(where: {$0.incidentType == incident.incident.incidentType}) == true) {
-                report.incidents.append(incident.incident)
+            if !(report.incidents.contains(where: {$0.incidentType == incident.incidentType}) == true) {
+                report.incidents.append(incident)
             }
         }
     }
