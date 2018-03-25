@@ -29,11 +29,7 @@ extension MediaOverlayViewable where Self: UIView {
 
 }
 
-public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, MediaDetailViewControllerDelegate {
-
-    public let toolbar = UIToolbar()
-
-    public let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, MediaDetailViewControllerDelegate {
 
     private let titleLabel = UILabel()
     private let commentLabel = UILabel()
@@ -42,36 +38,12 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
 
     private lazy var textStackView = UIStackView(arrangedSubviews: [titleLabel, commentLabel])
 
-    private let compactItemWidth: CGFloat = 30.0
-
     private let textPadding: CGFloat = 12
-
-    private let mainItemInsets = UIEdgeInsets(top: 0, left: 16.0, bottom: 0, right: 16.0)
 
     private var hidingViewConstraint: NSLayoutConstraint?
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
-
-        toolbar.frame = CGRect(origin: CGPoint(x: 0.0, y: frame.height - toolbar.frame.height), size: CGSize(width: frame.width, height: toolbar.frame.height))
-        toolbar.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(toolbar)
-
-        let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 0.0
-        layout.minimumInteritemSpacing = 0.0
-
-        collectionView.frame = toolbar.bounds
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.backgroundColor = .clear
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.alwaysBounceHorizontal = true
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.decelerationRate = UIScrollViewDecelerationRateFast
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
-        toolbar.addSubview(collectionView)
 
         captionsBackgroundView.clipsToBounds = true
         captionsBackgroundView.alpha = 0.75
@@ -101,18 +73,14 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
         NSLayoutConstraint.activate([
             captionsBackgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
             captionsBackgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            captionsBackgroundView.bottomAnchor.constraint(equalTo: toolbar.topAnchor),
+            captionsBackgroundView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
 
             textStackView.leadingAnchor.constraint(equalTo: captionsBackgroundView.readableContentGuide.leadingAnchor, constant: textPadding).withPriority(.almostRequired),
             textStackView.trailingAnchor.constraint(equalTo: readableContentGuide.trailingAnchor).withPriority(.almostRequired),
             textStackView.topAnchor.constraint(equalTo: captionsBackgroundView.readableContentGuide.topAnchor, constant: textPadding),
             textStackView.bottomAnchor.constraint(equalTo: captionsBackgroundView.readableContentGuide.bottomAnchor, constant: -textPadding),
 
-            textStackView.centerXAnchor.constraint(equalTo: captionsBackgroundView.centerXAnchor),
-
-            toolbar.bottomAnchor.constraint(equalTo: bottomAnchor).withPriority(.defaultLow),
-            toolbar.leadingAnchor.constraint(equalTo: leadingAnchor),
-            toolbar.trailingAnchor.constraint(equalTo: trailingAnchor)
+            textStackView.centerXAnchor.constraint(equalTo: captionsBackgroundView.centerXAnchor)
         ])
     }
 
@@ -120,29 +88,11 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
         MPLCodingNotSupported()
     }
 
-    open override func layoutSubviews() {
-        super.layoutSubviews()
-
-        let height = collectionView.frame.height
-        let inset = ((bounds.width - height) * 0.5) - mainItemInsets.left
-
-        collectionView.contentInset = UIEdgeInsets(top: 0.0, left: inset, bottom: 0.0, right: inset)
-    }
-
     public var slideShowViewController: (MediaSlideShowable & MediaSlideShowViewController)? {
-        willSet {
-            if let galleryViewModel = slideShowViewController?.viewModel {
-                NotificationCenter.default.removeObserver(self, name: MediaGalleryDidChangeNotificationName, object: galleryViewModel)
-            }
-        }
         didSet {
             let preview = slideShowViewController?.currentPreview
             updateDetailsWithPreview(preview)
             setupNavigationItemsWithPreview(preview)
-
-            if let galleryViewModel = slideShowViewController?.viewModel {
-                NotificationCenter.default.addObserver(self, selector: #selector(galleryDidChange(_:)), name: MediaGalleryDidChangeNotificationName, object: galleryViewModel)
-            }
         }
     }
 
@@ -154,29 +104,20 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
         hidingViewConstraint?.isActive = hidden
 
         if animated {
-
             let isCurrentlyHidden = isHidden
             // Unhide first so the view can be animated in.
             if isCurrentlyHidden && !hidden {
                 isHidden = false
             }
 
-            slideShowViewController?.view.backgroundColor = hidden ? .white : .black
-
-            UIView.animate(withDuration: 0.25, delay: 0.0, options: [.allowAnimatedContent, .allowUserInteraction], animations: {
+            UIView.animate(withDuration: TimeInterval(MediaSlideshowHideShowDuration), delay: 0.0, options: [.allowAnimatedContent, .allowUserInteraction], animations: {
                 self.layoutIfNeeded()
-                self.slideShowViewController?.view.backgroundColor = finalColor
-
             }, completion: { result in
                 self.isHidden = hidden
-                self.slideShowViewController?.view.backgroundColor = finalColor
             })
         } else {
             isHidden = hidden
-            slideShowViewController?.view.backgroundColor = finalColor
         }
-
-        slideShowViewController?.navigationController?.setNavigationBarHidden(hidden, animated: animated)
     }
 
     private func updateDetailsWithPreview(_ preview: MediaPreviewable?) {
@@ -220,19 +161,6 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
 
     public func populateWithPreview(_ preview: MediaPreviewable?) {
         updateDetailsWithPreview(preview)
-
-        if let preview = preview, let index = slideShowViewController?.viewModel.indexOfPreview(preview) {
-            let indexPath = IndexPath(item: 0, section: index)
-            if let cell = collectionView.cellForItem(at: indexPath) {
-                if !collectionView.isDragging {
-                    self.collectionView.scrollRectToVisible(cell.frame, animated: true)
-                    collectionView.performBatchUpdates({
-                        self.collectionView.collectionViewLayout.invalidateLayout()
-                    }, completion: nil)
-                }
-            }
-        }
-
         setupNavigationItemsWithPreview(preview)
     }
 
@@ -241,112 +169,6 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
             return view
         }
         return nil
-    }
-
-    // MARK: - CollectionViewDelegate/DataSource
-
-    public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return slideShowViewController?.viewModel.previews.count ?? 0
-    }
-
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
-    }
-
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let height = collectionView.frame.height
-
-        guard let currentMedia = slideShowViewController?.currentPreview,
-            let currentMediaIndex = slideShowViewController?.viewModel.indexOfPreview(currentMedia),
-            currentMediaIndex == indexPath.section else {
-            return CGSize(width: compactItemWidth, height: height)
-        }
-
-        return CGSize(width: collectionView.isDragging ? compactItemWidth : height, height: height)
-    }
-
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        guard let currentMedia = slideShowViewController?.currentPreview,
-            let currentMediaIndex = slideShowViewController?.viewModel.indexOfPreview(currentMedia),
-            currentMediaIndex == section else {
-                return .zero
-        }
-
-        return collectionView.isDragging ? .zero : mainItemInsets
-    }
-
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-        let mediaAsset = slideShowViewController?.viewModel.previews[indexPath.section]
-
-        mediaAsset?.thumbnailImage?.loadImage(completion: { (image) in
-            let imageView = UIImageView(image: image.sizing().image)
-            imageView.contentMode = .scaleAspectFill
-            cell.backgroundView = imageView
-            cell.clipsToBounds = true
-        })
-
-        return cell
-    }
-
-    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let mediaAsset = slideShowViewController?.viewModel.previews[indexPath.section] {
-            slideShowViewController?.setupWithInitialPreview(mediaAsset)
-        }
-    }
-
-    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        collectionView.performBatchUpdates({
-            self.collectionView.collectionViewLayout.invalidateLayout()
-        }, completion: nil)
-    }
-
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard scrollView.isDragging, let slideShowViewController = slideShowViewController else { return }
-        let x = collectionView.contentOffset.x
-        let offset: CGFloat
-        if #available(iOS 11.0, *) {
-            offset = collectionView.adjustedContentInset.left
-        } else {
-            offset = collectionView.contentInset.left
-        }
-
-        let index = min(max(Int(floor((offset + x) / compactItemWidth)), 0), slideShowViewController.viewModel.previews.count - 1)
-
-        let preview = slideShowViewController.viewModel.previews[index]
-        if preview !== slideShowViewController.currentPreview {
-            slideShowViewController.setupWithInitialPreview(preview)
-        }
-    }
-
-    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        guard let currentPreview = slideShowViewController?.currentPreview,
-            let currentPreviewIndex = slideShowViewController?.viewModel.indexOfPreview(currentPreview) else {
-            return
-        }
-
-        let indexPath = IndexPath(item: 0, section: currentPreviewIndex)
-        if collectionView.cellForItem(at: indexPath) != nil {
-            collectionView.performBatchUpdates({
-                self.collectionView.collectionViewLayout.invalidateLayout()
-            }, completion: nil)
-        }
-    }
-
-    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if decelerate == false {
-            guard let currentPreview = slideShowViewController?.currentPreview,
-                let currentPreviewIndex = slideShowViewController?.viewModel.indexOfPreview(currentPreview) else {
-                    return
-            }
-
-            let indexPath = IndexPath(item: 0, section: currentPreviewIndex)
-            if (collectionView.cellForItem(at: indexPath) != nil) {
-                collectionView.performBatchUpdates({
-                    self.collectionView.collectionViewLayout.invalidateLayout()
-                }, completion: nil)
-            }
-        }
     }
 
     // MARK: - PhotoMediaDetailViewControllerDelegate
@@ -379,10 +201,6 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, UICollecti
         navigationController.modalPresentationStyle = .formSheet
 
         slideShowViewController.present(navigationController, animated: true, completion: nil)
-    }
-
-    @objc func galleryDidChange(_ notification: Notification) {
-        collectionView.reloadData()
     }
 
     private func setupNavigationItemsWithPreview(_ preview: MediaPreviewable?) {

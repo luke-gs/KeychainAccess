@@ -22,7 +22,7 @@ open class TasksMapViewModel {
 
     public var priorityAnnotationType: MKAnnotationView.Type = IncidentAnnotationView.self {
         didSet {
-            delegate?.viewModelStateChanged()
+            delegate?.priorityAnnotationChanged()
         }
     }
     
@@ -59,7 +59,7 @@ open class TasksMapViewModel {
     var filteredAnnotations: [TaskAnnotation] = [] {
         didSet {
             if oldValue != filteredAnnotations {
-                delegate?.viewModelStateChanged()
+                delegate?.annotationsChanged()
             }
         }
     }
@@ -80,8 +80,12 @@ open class TasksMapViewModel {
 }
 
 public protocol TasksMapViewModelDelegate: class {
-    /// Called when some data or state has changed
-    func viewModelStateChanged()
+
+    /// Called when the annotations have changed
+    func annotationsChanged()
+
+    /// Called when the priority annotation type has changed
+    func priorityAnnotationChanged()
     
     /// Tells the map to zoom to the user location
     func zoomToUserLocation()    

@@ -189,7 +189,6 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
             let preview = viewModel.previews[indexPath.item]
             cell.media = preview
-
             return cell
         } else {
             let state = viewModel.state
