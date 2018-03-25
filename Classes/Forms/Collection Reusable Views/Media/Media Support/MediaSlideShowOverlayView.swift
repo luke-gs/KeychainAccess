@@ -98,9 +98,7 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, MediaDetai
 
     public func setHidden(_ hidden: Bool, animated: Bool) {
         guard isHidden != hidden else { return }
-
-        let finalColor: UIColor = hidden ? .black : .white
-
+        
         hidingViewConstraint?.isActive = hidden
 
         if animated {

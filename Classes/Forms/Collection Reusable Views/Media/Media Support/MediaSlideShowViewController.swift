@@ -168,7 +168,6 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         overlayView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         overlayView.frame = self.view.bounds
 
-        let thumbnailSliderView = thumbnailSlideshowViewController.view!
         view.insertSubview(overlayView, belowSubview: thumbnailSlideshowViewController.view)
 
         updateCurrentPreviewViewController()

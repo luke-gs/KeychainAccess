@@ -84,7 +84,6 @@ public class MediaThumbnailSlideshowViewController: UIViewController, UICollecti
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        let height = collectionView.frame.height
         let inset = (collectionView.frame.width - MediaThumbnailSlideshowViewController.focusedItemWidth) * 0.5
 
         collectionView.contentInset = UIEdgeInsets(top: 0.0, left: inset, bottom: 0.0, right: inset)
@@ -232,28 +231,28 @@ private class ThumbnailLayout: UICollectionViewLayout {
     }
 
     public var focusedItemIndex: Int {
-        var target = collectionView!.contentOffset
-        var offset = collectionView!.contentInset.left
-        var origin = target.x + offset
+        let target = collectionView!.contentOffset
+        let offset = collectionView!.contentInset.left
+        let origin = target.x + offset
 
-        var index = Int((origin / pageWidth).rounded(.toNearestOrAwayFromZero))
+        let index = Int((origin / pageWidth).rounded(.toNearestOrAwayFromZero))
         return max(min(index, numberOfItems - 1), 0)
     }
 
     private var cache = [UICollectionViewLayoutAttributes]()
 
     private var pageIndex: Int {
-        var target = collectionView!.contentOffset
-        var offset = collectionView!.contentInset.left
-        var origin = target.x + offset
+        let target = collectionView!.contentOffset
+        let offset = collectionView!.contentInset.left
+        let origin = target.x + offset
 
-        var index = Int((origin / pageWidth).rounded(.down))
+        let index = Int((origin / pageWidth).rounded(.down))
         return max(min(index, numberOfItems - 1), 0)
     }
 
     private var nextPagePercentage: CGFloat {
-        var target = collectionView!.contentOffset
-        var offset = collectionView!.contentInset.left
+        let target = collectionView!.contentOffset
+        let offset = collectionView!.contentInset.left
         var origin = target.x + offset
 
         origin = max(min(origin, (CGFloat(numberOfItems) - 1.0) * pageWidth), 0)
@@ -348,10 +347,10 @@ private class ThumbnailLayout: UICollectionViewLayout {
 
     public override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
         var target = proposedContentOffset
-        var offset = collectionView!.contentInset.left
-        var origin = target.x + offset
+        let offset = collectionView!.contentInset.left
+        let origin = target.x + offset
 
-        var index = (origin / pageWidth).rounded(.toNearestOrAwayFromZero)
+        let index = (origin / pageWidth).rounded(.toNearestOrAwayFromZero)
         target.x = (index * pageWidth) - offset
 
         return target
