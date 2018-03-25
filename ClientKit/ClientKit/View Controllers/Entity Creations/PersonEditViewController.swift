@@ -217,7 +217,6 @@ public class PersonEditViewController: FormBuilderViewController {
                 finalPerson.contacts = [mobile, home, work, email]
             }
 
-            UserSession.current.recentlyActioned.add(finalPerson)
             self.dismiss(animated: true, completion: nil)
 
             break

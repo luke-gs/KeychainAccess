@@ -118,18 +118,12 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let searchViewController = SearchViewController(viewModel: viewModel)
             searchViewController.set(leftBarButtonItem: settingsBarButtonItem())
 
-            let actionListViewModel = EntitySummaryActionListViewModel()
-
-            let actionListViewController = ActionListViewController(viewModel: actionListViewModel)
-            actionListViewController.navigationItem.leftBarButtonItem = settingsBarButtonItem()
-
             EventsManager.shared.eventBuilder = EventBuilder()
 
             let eventListVC = EventsListViewController(viewModel: EventsListViewModel(eventsManager: EventsManager.shared))
             eventListVC.navigationItem.leftBarButtonItem = settingsBarButtonItem()
 
             let searchNavController = UINavigationController(rootViewController: searchViewController)
-            let actionListNavController = UINavigationController(rootViewController: actionListViewController)
             let eventListNavController = UINavigationController(rootViewController: eventListVC)
 
             let tasksProxyViewController = AppProxyViewController(appUrlTypeScheme: CAD_APP_SCHEME)
@@ -138,7 +132,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
             let tabBarController = UITabBarController()
             tabBarController.delegate = self
-            tabBarController.viewControllers = [searchNavController, actionListNavController, eventListNavController, tasksProxyViewController]
+            tabBarController.viewControllers = [searchNavController, eventListNavController, tasksProxyViewController]
 
             self.tabBarController = tabBarController
 

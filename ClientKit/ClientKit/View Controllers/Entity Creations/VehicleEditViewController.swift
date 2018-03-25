@@ -109,7 +109,6 @@ public class VehicleEditViewController: FormBuilderViewController {
         case .invalid:
             builder.validateAndUpdateUI()
         case .valid:
-            UserSession.current.recentlyActioned.add(finalVehicle)
             self.dismiss(animated: true, completion: nil)
             break
         }

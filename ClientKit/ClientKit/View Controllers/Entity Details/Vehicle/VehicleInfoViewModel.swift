@@ -33,6 +33,7 @@ open class VehicleInfoViewModel: EntityDetailFormViewModel {
             .subtitle(displayable.detail1)
             .detail(vehicle.vehicleDescription ?? "No Description")
             .borderColor(displayable.borderColor)
+            .imageTintColor(displayable.iconColor)
             .image(displayable.thumbnail(ofSize: .large))
         
         // ---------- DETAILS ----------
