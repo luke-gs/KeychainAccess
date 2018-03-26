@@ -57,6 +57,7 @@
 		191BC4D61F7C203B00C8C218 /* TagCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191BC4D01F7C202200C8C218 /* TagCollectionView.swift */; };
 		191BC4D71F7C203B00C8C218 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191BC4D21F7C202300C8C218 /* TagCollectionViewCell.swift */; };
 		1923275E1FCCDFB80001D623 /* PromiseCancellationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1923275D1FCCDFB80001D623 /* PromiseCancellationToken.swift */; };
+		1923D5A020687589006E14F9 /* AppURLRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1923D59F20687589006E14F9 /* AppURLRouter.swift */; };
 		193ED0851FDE02ED002F2837 /* PluginFilterRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193ED0841FDE02ED002F2837 /* PluginFilterRules.swift */; };
 		193ED0871FDE6AD7002F2837 /* URLRulesMatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193ED0861FDE6AD7002F2837 /* URLRulesMatch.swift */; };
 		193ED0891FDE73A6002F2837 /* Plugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193ED0881FDE73A6002F2837 /* Plugin.swift */; };
@@ -73,6 +74,7 @@
 		1972FCD21FA6C4E300CB68EA /* ResourceDownloadTicket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1972FCD11FA6C4E300CB68EA /* ResourceDownloadTicket.swift */; };
 		197FBF711F9980F20086875A /* URLQueryBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197FBF701F9980F20086875A /* URLQueryBuilderTests.swift */; };
 		198131F01FE1F838002625EB /* PatternMatchRulesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198131EF1FE1F838002625EB /* PatternMatchRulesTests.swift */; };
+		198307302068B38B0028BA9E /* SearchActivityLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1983072F2068B38B0028BA9E /* SearchActivityLauncher.swift */; };
 		199571C81FB913D400950EAB /* OAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199571C71FB913D400950EAB /* OAuth2.swift */; };
 		19975D8F1F4414AF00E51469 /* ErrorMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19975D8E1F4414AF00E51469 /* ErrorMapperTests.swift */; };
 		199D18D2203AD3CD00A9C072 /* UIView+AnimationPromiseChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199D18D1203AD3CD00A9C072 /* UIView+AnimationPromiseChain.swift */; };
@@ -872,6 +874,7 @@
 		191BC4D21F7C202300C8C218 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 		191F77411F44F6C5008BBA44 /* MPOLKitPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MPOLKitPlayground.playground; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		1923275D1FCCDFB80001D623 /* PromiseCancellationToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseCancellationToken.swift; sourceTree = "<group>"; };
+		1923D59F20687589006E14F9 /* AppURLRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppURLRouter.swift; sourceTree = "<group>"; };
 		193ED0841FDE02ED002F2837 /* PluginFilterRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginFilterRules.swift; sourceTree = "<group>"; };
 		193ED0861FDE6AD7002F2837 /* URLRulesMatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRulesMatch.swift; sourceTree = "<group>"; };
 		193ED0881FDE73A6002F2837 /* Plugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plugin.swift; sourceTree = "<group>"; };
@@ -888,6 +891,7 @@
 		1972FCD11FA6C4E300CB68EA /* ResourceDownloadTicket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceDownloadTicket.swift; sourceTree = "<group>"; };
 		197FBF701F9980F20086875A /* URLQueryBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLQueryBuilderTests.swift; sourceTree = "<group>"; };
 		198131EF1FE1F838002625EB /* PatternMatchRulesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternMatchRulesTests.swift; sourceTree = "<group>"; };
+		1983072F2068B38B0028BA9E /* SearchActivityLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchActivityLauncher.swift; sourceTree = "<group>"; };
 		199571C71FB913D400950EAB /* OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2.swift; sourceTree = "<group>"; };
 		19975D8E1F4414AF00E51469 /* ErrorMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMapperTests.swift; sourceTree = "<group>"; };
 		199D18D1203AD3CD00A9C072 /* UIView+AnimationPromiseChain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+AnimationPromiseChain.swift"; sourceTree = "<group>"; };
@@ -1757,6 +1761,15 @@
 				1923275D1FCCDFB80001D623 /* PromiseCancellationToken.swift */,
 			);
 			path = PromiseCancel;
+			sourceTree = "<group>";
+		};
+		1923D59E20687555006E14F9 /* AppURLRouter */ = {
+			isa = PBXGroup;
+			children = (
+				1923D59F20687589006E14F9 /* AppURLRouter.swift */,
+				1983072F2068B38B0028BA9E /* SearchActivityLauncher.swift */,
+			);
+			path = AppURLRouter;
 			sourceTree = "<group>";
 		};
 		1972FCC91FA6A14800CB68EA /* Image */ = {
@@ -2991,6 +3004,7 @@
 			children = (
 				EA7194E21FCE525900A2980B /* Action List */,
 				EABAB7FE1F3427570071A401 /* Aggregated Search */,
+				1923D59E20687555006E14F9 /* AppURLRouter */,
 				BC9C7D191F0DED6600DFFE83 /* Authentication */,
 				EA5E7EC120354D6200D31155 /* DataCoordinator */,
 				EAE12B061FC3CE2400851619 /* EntityCache */,
@@ -4340,6 +4354,7 @@
 				BC9C7E201F0DED6600DFFE83 /* FormTableViewController.swift in Sources */,
 				DB88BCDD1F42D0080056FD69 /* SearchResultsListViewController.swift in Sources */,
 				4677EE261FFDAB0E004634B5 /* EnlargeStyle.swift in Sources */,
+				1923D5A020687589006E14F9 /* AppURLRouter.swift in Sources */,
 				96CF32231F8C349700140AF8 /* TasksListViewModel.swift in Sources */,
 				4657CAD11F5D0DA9000295F6 /* NetworkLoggingPlugin.swift in Sources */,
 				44621FF61F59239C007C3150 /* FilterRangeDescriptor.swift in Sources */,
@@ -4851,6 +4866,7 @@
 				DB168CDE20032B6B00322F7F /* Validator.swift in Sources */,
 				967BFAB8203B90E500A9C789 /* SelectStoppedEntityViewController.swift in Sources */,
 				2744E3AA2051E68200561A8F /* CADAPIManagerType.swift in Sources */,
+				198307302068B38B0028BA9E /* SearchActivityLauncher.swift in Sources */,
 				460B276F204526DC00B56D0B /* FormBuilderSearchViewController.swift in Sources */,
 				27E81E5E2034EB05000D5D1C /* ResourceOverviewFormViewController.swift in Sources */,
 				275329282033A2DF00CFA97B /* BubbleAnnotationView.swift in Sources */,
