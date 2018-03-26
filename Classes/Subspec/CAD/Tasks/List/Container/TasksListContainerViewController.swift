@@ -124,8 +124,36 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         createSubviews()
         createConstraints()
         updateSourceItems()
+        
+        if viewModel.allowsSwipeToExpand() {
+            setupGestureRecognizer()
+        }
+    }
+    
+    open func setupGestureRecognizer() {
+        // Swipe right to expand the list
+        let expandGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeRight))
+        expandGestureRecognizer.direction = .right
+        self.view.addGestureRecognizer(expandGestureRecognizer)
+        
+        // Swipe left to contract the list
+        let contractGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeLeft))
+        contractGestureRecognizer.direction = .left
+        self.view.addGestureRecognizer(contractGestureRecognizer)
     }
 
+    @objc func didSwipeLeft() {
+        if isFullScreen {
+            toggleFullScreen()
+        }
+    }
+    
+    @objc func didSwipeRight() {
+        if !isFullScreen {
+            toggleFullScreen()
+        }
+    }
+    
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
