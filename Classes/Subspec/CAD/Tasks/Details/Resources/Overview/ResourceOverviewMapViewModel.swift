@@ -47,4 +47,8 @@ open class ResourceOverviewMapViewModel: TasksMapViewModel {
     open override func shouldCluster() -> Bool {
         return false
     }
+    
+    open override func allowsInteraction() -> Bool {
+        return false
+    }
 }
