@@ -82,7 +82,7 @@ public class EventOfficerListViewModel {
     }
 
     public func add(officer: Officer) {
-        guard let index = report.officers.index(where: {$0 == officer}) else { return }
+        guard report.officers.index(where: {$0 == officer}) == nil else { return }
         officerDisplayables.append(OfficerSummaryDisplayable(officer))
         report.officers.append(officer)
     }
