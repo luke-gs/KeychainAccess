@@ -18,4 +18,6 @@ open class CADSyncRequest: Codable {
 
     /// The payrollId of the currently logged in officer on the mobile device.
     open var loggedInpayrollId: String!
+    
+    public init() {}
 }

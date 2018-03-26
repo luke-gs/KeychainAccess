@@ -485,7 +485,7 @@ extension Array where Element == CADIncidentType {
         return sortedPriorities.first
     }
 
-    func highestPriorityColor() -> UIColor {
+    func highestPriorityColor() -> UIColor? {
         if let highestPriority = highestPriority() as? CADIncidentGradeCore {
             switch highestPriority {
             case .p1:
@@ -493,22 +493,22 @@ extension Array where Element == CADIncidentType {
             case .p2:
                 return .sunflowerYellow
             case .p3, .p4:
-                return .secondaryGray
+                return nil
             }
         }
-        return .secondaryGray
+        return nil
     }
 }
 
 // Convenience extension to get highest priority incident grade
 extension Array where Element == CADResourceType {
 
-    func highestAlertColor() -> UIColor {
+    func highestAlertColor() -> UIColor? {
         let duressResources = self.flatMap { return $0.status == CADResourceStatusCore.duress ? $0 : nil }
         if duressResources.count > 0 {
             return .orangeRed
         } else {
-            return .secondaryGray
+            return nil
         }
     }
 }
