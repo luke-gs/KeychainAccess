@@ -9,14 +9,14 @@
 import UIKit
 
 /// Collection view cell for a header with large text
-open class LargeTextHeaderCollectionViewCell: UICollectionViewCell, DefaultReusable {
+open class LargeTextHeaderCollectionViewCell: CollectionViewFormCell {
     public let titleLabel = UILabel()
-    public let separatorView = UIView(frame: .zero)
     
     public static let minimumHeight: CGFloat = 72
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
+        overridesLayoutMargins = false
         
         titleLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
         titleLabel.textColor = .primaryGray
