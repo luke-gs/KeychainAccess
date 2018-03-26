@@ -124,14 +124,15 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
 
     public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: Officer) {
 
-        let displayable = OfficerSummaryDisplayable(object)
+        let displayable = viewModel.displayable(for: object) ?? OfficerSummaryDisplayable(object)
+        let officer = displayable.officer
         let headerConfig = SearchHeaderConfiguration(title: displayable.title,
                                                      subtitle: displayable.detail1 ?? "No involvements selected",
                                                      image: displayable.thumbnail(ofSize: .small)?.sizing().image)
 
         let involvementDatasource = OfficerInvolvementSearchDatasource(
             objects: involvements,
-            selectedObjects: object.involvements,
+            selectedObjects: officer.involvements,
             configuration: headerConfig)
         involvementDatasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
 

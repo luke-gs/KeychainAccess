@@ -70,6 +70,15 @@ open class Officer: MPOLKitEntity, Identifiable {
         aCoder.encode(employeeNumber, forKey: CodingKey.employeeNumber.rawValue)
         aCoder.encode(region, forKey: CodingKey.region.rawValue)
     }
+
+    // MARK: - Equality
+
+    open override func isEqual(_ object: Any?) -> Bool {
+        if let object = object as? Officer {
+            return object.id == self.id
+        }
+        return super.isEqual(object)
+    }
 }
 
 class OfficerImageSizing: EntityImageSizing<Officer> {
@@ -104,5 +113,9 @@ class OfficerImageSizing: EntityImageSizing<Officer> {
             completion(image)
         }
     }
-
 }
+
+func ==(lhs: Officer, rhs: Officer) -> Bool {
+    return lhs.id == rhs.id
+}
+

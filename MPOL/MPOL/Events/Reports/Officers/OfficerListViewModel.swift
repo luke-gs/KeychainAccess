@@ -82,6 +82,10 @@ public class EventOfficerListViewModel {
     }
 
     public func add(officer: Officer) {
+        if let index = report.officers.index(where: {$0 == officer}) {
+            removeOfficer(at: IndexPath(item: index, section: 0))
+        }
+
         officerDisplayables.append(OfficerSummaryDisplayable(officer))
         report.officers.append(officer)
     }
