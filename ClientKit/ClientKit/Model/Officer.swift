@@ -114,8 +114,3 @@ class OfficerImageSizing: EntityImageSizing<Officer> {
         }
     }
 }
-
-func ==(lhs: Officer, rhs: Officer) -> Bool {
-    return lhs.id == rhs.id
-}
-
