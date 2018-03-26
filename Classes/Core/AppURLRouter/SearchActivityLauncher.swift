@@ -23,7 +23,7 @@ public enum SearchActivity: CustomStringConvertible {
     }
 }
 
-// ToDo: -
+// TODO: - List of things to fix.
 // Scheme registration thing should probably be on its own.
 // A launcher that takes general non specific stuff
 // Search activity and CAD activity can be on their own
