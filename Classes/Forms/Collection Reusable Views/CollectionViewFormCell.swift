@@ -46,6 +46,8 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
 
     // MARK: - Public properties
     
+    /// Whether this cell should use its default logic to override layout margins. Default is `true`
+    open var overridesLayoutMargins: Bool = true
     
     open var separatorStyle: SeparatorStyle = .indented {
         didSet {
@@ -542,6 +544,8 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     open override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         super.apply(layoutAttributes)
+        
+        guard overridesMargin else { return }
         
         let newLayoutMargins: UIEdgeInsets
         let newAtTrailingEdge: Bool
