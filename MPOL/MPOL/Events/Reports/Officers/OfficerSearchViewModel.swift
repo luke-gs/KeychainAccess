@@ -17,10 +17,11 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
     var title: String = "Add officer"
 
-    lazy var cancelToken: PromiseCancellationToken = PromiseCancellationToken()
+    var cancelToken: PromiseCancellationToken?
 
     private var objectDisplayMap: [Object: CustomSearchDisplayable] = [:]
     public private(set) var items: [Object] = []
+    var searchText: String?
 
     public init(items: [Object] = []) {
         self.items = items
@@ -65,11 +66,11 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
             return existingSearchable
         }
         let searchable = OfficerListItemViewModel(firstName: object.givenName!,
-                                                  lastName: object.surname!,
+                                                  lastName: object.familyName!,
                                                   initials: object.initials!,
-                                                  rank: object.rank!,
+                                                  rank: object.rank ?? "",
                                                   callsign: object.employeeNumber!,
-                                                  section: object.region!)
+                                                  section: object.region ?? "")
         objectDisplayMap[object] = searchable
         return searchable
     }
@@ -79,12 +80,19 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     }
 
     func searchTextChanged(to searchString: String) {
-        cancelToken.cancel()
+        cancelToken?.cancel()
+        searchText = searchString
     }
 
     func searchAction() -> Promise<Void>? {
-        let parameters = OfficerSearchParameters(familyName: "Black")
+        guard let searchText = searchText, !searchText.isEmpty else { return nil }
+
+        let parameters = OfficerSearchParameters(familyName: searchText)
         let request = OfficerSearchRequest(source: .mpol, request: parameters)
+
+        cancelToken?.cancel()
+        cancelToken = PromiseCancellationToken()
+
         return request.searchPromise(withCancellationToken: cancelToken).then {
             self.items = $0.results
             return Promise()

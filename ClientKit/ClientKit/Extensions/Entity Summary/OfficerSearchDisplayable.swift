@@ -52,7 +52,7 @@ public class OfficerSearchDisplayable: EntitySummaryDisplayable {
     }
 
     private var formattedName: String? {
-        return [officer.givenName, officer.surname].joined(separator: " ")
+        return [officer.givenName, officer.familyName].joined(separator: " ")
     }
 
 }

@@ -62,7 +62,7 @@ public struct PersonSummaryDisplayable: EntitySummaryDisplayable {
             formattedName += "@ "
         }
         
-        if let surname = person.surname?.ifNotEmpty() {
+        if let surname = person.familyName?.ifNotEmpty() {
             formattedName += surname
             
             if person.givenName?.isEmpty ?? true == false || person.middleNames?.isEmpty ?? true == false {

@@ -61,7 +61,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         officer.rank = "Sergeant"
         officer.region = "Melbourne"
         officer.employeeNumber = "BJ3466"
-        officer.surname = "Boryseiko"
+        officer.familyName = "Boryseiko"
         officer.involvements = ["Reporting Officer"]
 
         let viewModel = OfficerSearchViewModel(items: [officer])

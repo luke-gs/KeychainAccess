@@ -81,8 +81,8 @@ public class PersonEditViewController: FormBuilderViewController {
 
         builder += TextFieldFormItem()
             .title("Family Name")
-            .text(initialPerson?.surname)
-            .onValueChanged { self.finalPerson.surname = $0 }
+            .text(initialPerson?.familyName)
+            .onValueChanged { self.finalPerson.familyName = $0 }
             .required()
             .width(.column(4))
 
