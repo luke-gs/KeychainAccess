@@ -545,7 +545,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     open override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         super.apply(layoutAttributes)
         
-        guard overridesMargin else { return }
+        guard overridesLayoutMargins else { return }
         
         let newLayoutMargins: UIEdgeInsets
         let newAtTrailingEdge: Bool
