@@ -138,8 +138,8 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
 
         let involvementsViewController = CustomPickerController(datasource: involvementDatasource)
         involvementsViewController.finishUpdateHandler = { controller, index in
-            object.involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.flatMap { $0.element.title }
-            self.viewModel.add(officer: object)
+            officer.involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.flatMap { $0.element.title }
+            self.viewModel.add(officer: officer)
             self.reloadForm()
         }
         viewController.navigationController?.pushViewController(involvementsViewController, animated: true)
