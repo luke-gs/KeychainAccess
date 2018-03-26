@@ -87,7 +87,11 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     func searchAction() -> Promise<Void>? {
         guard let searchText = searchText, !searchText.isEmpty else { return nil }
 
-        let parameters = OfficerSearchParameters(familyName: searchText)
+
+        let definition = OfficerParserDefinition()
+        let personParserResults = try? QueryParser(parserDefinition: definition).parseString(query: searchText)
+        let parameters = OfficerSearchParameters(familyName: personParserResults![OfficerParserDefinition.SurnameKey]!,
+                                                 givenName: personParserResults![OfficerParserDefinition.GivenNameKey])
         let request = OfficerSearchRequest(source: .mpol, request: parameters)
 
         cancelToken?.cancel()
