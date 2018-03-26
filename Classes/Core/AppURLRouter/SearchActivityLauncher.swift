@@ -23,6 +23,13 @@ public enum SearchActivity: CustomStringConvertible {
     }
 }
 
+// ToDo: -
+// Scheme registration thing should probably be on its own.
+// A launcher that takes general non specific stuff
+// Search activity and CAD activity can be on their own
+// Activities are generic
+// ClientKit provides parameters parsing to specific data type.
+
 open class SearchActivityLauncher {
 
     public let scheme: String
