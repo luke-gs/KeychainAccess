@@ -62,7 +62,7 @@ public class EventOfficerListViewModel {
                     let officer = displayable.officer
                     self.delegate?.didSelectOfficer(officer: officer)
                 })
-                .editActions(index == 0 ? [] : [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (cell, indexPath) in
+                .editActions(self.officerDisplayables.count == 1 ? [] : [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (cell, indexPath) in
                     self.removeOfficer(at: indexPath)
                     self.delegate?.officerListDidUpdate()
                 })])
