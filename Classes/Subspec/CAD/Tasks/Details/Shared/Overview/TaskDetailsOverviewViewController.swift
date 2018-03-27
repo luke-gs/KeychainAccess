@@ -105,7 +105,7 @@ open class TaskDetailsOverviewViewController: UIViewController {
                 cardView.topAnchor.constraint(equalTo: mapView.bottomAnchor),
                 cardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 cardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                cardView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                cardView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
                 cardView.widthAnchor.constraint(equalTo: view.widthAnchor),
             ])
         } else {
@@ -114,7 +114,7 @@ open class TaskDetailsOverviewViewController: UIViewController {
                 cardView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
                 cardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 cardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                cardView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                cardView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
                 cardView.widthAnchor.constraint(equalTo: view.widthAnchor),
             ])
         }
