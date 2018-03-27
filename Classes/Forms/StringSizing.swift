@@ -44,13 +44,35 @@ extension String: StringSizable {
     public func sizing(withNumberOfLines numberOfLines: Int?, font: UIFont? = nil) -> StringSizing {
         return StringSizing(string: self, font: font, numberOfLines: numberOfLines)
     }
+}
+
+extension NSAttributedString: StringSizable {
+    /// Returns a StringSizing initialized with the represented string.
+    /// NOTE: Currently only considers the font at index 0
+    public func sizing() -> StringSizing {
+        // TODO: Use the largest font if multiple exist
+        let font = self.attributes(at: 0, effectiveRange: nil)[NSAttributedStringKey.font] as? UIFont
+
+        return StringSizing(string: self.string, attributedString: self, font: font, numberOfLines: nil)
+    }
     
+    /// Returns a StringSizing initialized with the represented string and number of lines
+    /// NOTE: Currently only considers the font at index 0
+    public func sizing(withNumberOfLines numberOfLines: Int?) -> StringSizing {
+        // TODO: Use the largest font if multiple exist
+        let font = self.attributes(at: 0, effectiveRange: nil)[NSAttributedStringKey.font] as? UIFont
+        
+        return StringSizing(string: self.string, attributedString: self, font: font, numberOfLines: numberOfLines)
+    }
 }
 
 public struct StringSizing: StringSizable {
     
     /// The base string for sizing.
     public var string: String
+    
+    /// The attributed string if supplied
+    public var attributedString: NSAttributedString?
     
     /// The font for sizing. If you specify `nil`, the API receiving
     /// the sizing is responsible for specifying its default font.
@@ -65,11 +87,13 @@ public struct StringSizing: StringSizable {
     /// Initializes a StringSizing struct.
     ///
     /// - Parameters:
-    ///   - string:        The base string for the sizing.
-    ///   - font:          The sizing font. The default is `nil`.
-    ///   - numberOfLines: The number of lines. The default is `nil`.
-    public init(string: String, font: UIFont? = nil, numberOfLines: Int? = nil) {
+    ///   - string:            The base string for the sizing.
+    ///   - attributedString:  The base string attributed if available. The default is `nil`.
+    ///   - font:              The sizing font. The default is `nil`.
+    ///   - numberOfLines:     The number of lines. The default is `nil`.
+    public init(string: String, attributedString: NSAttributedString? = nil, font: UIFont? = nil, numberOfLines: Int? = nil) {
         self.string = string
+        self.attributedString = attributedString
         self.font = font
         self.numberOfLines = numberOfLines
     }
