@@ -10,21 +10,25 @@ import UIKit
 
 open class TaskDetailsOverviewViewController: UIViewController {
 
-    open let viewModel: TaskDetailsOverviewViewModel
-
-    open private(set) var mapViewController: MapViewController?
-    open private(set) var formViewController: FormBuilderViewController!
-    open private(set) var cardView: DraggableCardView!
-    open private(set) var cardHeightConstraint: NSLayoutConstraint?
-    open private(set) var cardBottomConstraint: NSLayoutConstraint?
-
     fileprivate struct LayoutConstants {
         static let defaultMapHeight: CGFloat = 280
         static let minimumCardHeight: CGFloat = 32
     }
 
+    open let viewModel: TaskDetailsOverviewViewModel
+
+    open private(set) var mapViewController: MapViewController?
+    open private(set) var formViewController: FormBuilderViewController!
+    open private(set) var cardView: DraggableCardView!
+
+    // Layout
+    open private(set) var cardHeightConstraint: NSLayoutConstraint?
+    open private(set) var cardBottomConstraint: NSLayoutConstraint?
+    open private(set) var mapCenterYConstraint: NSLayoutConstraint?
+
     open var defaultCardHeight: CGFloat {
-        return view.bounds.height - LayoutConstants.defaultMapHeight
+        let maxCardSize = cardView.scrollView.contentSize.height + 16
+        return min(view.bounds.height - LayoutConstants.defaultMapHeight, maxCardSize)
     }
 
     public init(viewModel: TaskDetailsOverviewViewModel) {
@@ -115,18 +119,30 @@ open class TaskDetailsOverviewViewController: UIViewController {
             formView.bottomAnchor.constraint(equalTo: cardView.contentView.bottomAnchor),
         ])
 
-        if let mapView = mapView {
+        if let mapView = mapView, let mapViewController = mapViewController {
             // Show both map and form
             mapView.translatesAutoresizingMaskIntoConstraints = false
             cardHeightConstraint = cardView.heightAnchor.constraint(equalToConstant: defaultCardHeight)
             cardBottomConstraint = cardView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
+            mapCenterYConstraint = mapView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+
+            // Remove existing constraints for map controls by re-adding to view hierarchy
+            mapViewController.mapControlView.removeFromSuperview()
+            mapViewController.view.addSubview(mapViewController.mapControlView)
+            mapViewController.mapControlView.isHidden = true
 
             NSLayoutConstraint.activate([
-                mapView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
+                // Use full size for map even when obscured, so we can manipulate center position without zooming
                 mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                mapView.heightAnchor.constraint(equalTo: view.heightAnchor),
+                mapCenterYConstraint!,
 
-                cardView.topAnchor.constraint(equalTo: mapView.bottomAnchor),
+                // Position map controls relative to our view, not map view which might be off screen
+                mapViewController.mapControlView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: 16),
+                mapViewController.mapControlView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+
+                // Position card view at bottom
                 cardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 cardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 cardHeightConstraint!,
@@ -171,6 +187,7 @@ extension TaskDetailsOverviewViewController: CADFormCollectionViewModelDelegate 
 extension TaskDetailsOverviewViewController: DraggableCardViewDelegate {
 
     public func didDragCardView(translation: CGFloat) {
+        // Update card size
         if cardView.isShowing {
             cardHeightConstraint?.constant = defaultCardHeight - translation
         } else {
@@ -180,13 +197,17 @@ extension TaskDetailsOverviewViewController: DraggableCardViewDelegate {
 
     public func didUpdateCardView() {
         UIView.animate(withDuration: 0.25, animations: {
+            // Update card size
             if self.cardView.isShowing {
                 self.cardHeightConstraint?.constant = self.defaultCardHeight
             } else {
                 self.cardHeightConstraint?.constant = LayoutConstants.minimumCardHeight
             }
+            // Move map so that it is centered in the remaining space (without changing size)
+            self.mapCenterYConstraint?.constant = -(self.cardHeightConstraint?.constant ?? 0) / 2
             self.view.layoutIfNeeded()
         }) { _ in
+            // Animate showing or hiding map buttons
             self.updateMapInteraction()
         }
     }
