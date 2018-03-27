@@ -10,12 +10,17 @@ import UIKit
 
 open class TaskDetailsOverviewViewController: UIViewController {
 
-    open var mapViewController: MapViewController?
-    open var formViewController: FormBuilderViewController!
-    open var cardView: DraggableCardView!
-    
     open let viewModel: TaskDetailsOverviewViewModel
-    
+
+    open private(set) var mapViewController: MapViewController?
+    open private(set) var formViewController: FormBuilderViewController!
+    open private(set) var cardView: DraggableCardView!
+    open private(set) var mapHeightConstraint: NSLayoutConstraint?
+
+    fileprivate struct LayoutConstants {
+        static let defaultMapHeight: CGFloat = 280
+    }
+
     public init(viewModel: TaskDetailsOverviewViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -53,6 +58,7 @@ open class TaskDetailsOverviewViewController: UIViewController {
         }
 
         cardView = DraggableCardView(frame: .zero)
+        cardView.delegate = self
         cardView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(cardView)
 
@@ -86,13 +92,14 @@ open class TaskDetailsOverviewViewController: UIViewController {
         if let mapView = mapView {
             // Show both map and form
             mapView.translatesAutoresizingMaskIntoConstraints = false
+            mapHeightConstraint = mapView.heightAnchor.constraint(equalToConstant: LayoutConstants.defaultMapHeight)
 
             NSLayoutConstraint.activate([
                 mapView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
                 mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 mapView.widthAnchor.constraint(equalTo: view.widthAnchor),
-                mapView.heightAnchor.constraint(equalToConstant: 280),
+                mapHeightConstraint!,
 
                 cardView.topAnchor.constraint(equalTo: mapView.bottomAnchor),
                 cardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -119,5 +126,36 @@ extension TaskDetailsOverviewViewController: CADFormCollectionViewModelDelegate 
     public func sectionsUpdated() {
         // Reload content
         formViewController.reloadForm()
+    }
+}
+
+extension TaskDetailsOverviewViewController: DraggableCardViewDelegate {
+
+    var bottomInset: CGFloat {
+        if #available(iOS 11.0, *) {
+            return self.view.safeAreaInsets.bottom
+        } else {
+            return bottomLayoutGuide.length
+        }
+    }
+
+    public func didDragView(offset: CGFloat) {
+        if cardView.isShowing {
+            mapHeightConstraint?.constant = LayoutConstants.defaultMapHeight + offset
+        } else {
+            mapHeightConstraint?.constant = self.view.bounds.height - bottomInset - 24 + offset
+        }
+    }
+
+    public func didHideView() {
+        UIView.animate(withDuration: 0.25) {
+            self.mapHeightConstraint?.constant = self.view.bounds.height - self.bottomInset - 24
+        }
+    }
+
+    public func didShowView() {
+        UIView.animate(withDuration: 0.25) {
+            self.mapHeightConstraint?.constant = LayoutConstants.defaultMapHeight
+        }
     }
 }

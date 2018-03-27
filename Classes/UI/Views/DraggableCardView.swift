@@ -10,21 +10,32 @@ import Foundation
 import UIKit
 
 public protocol DraggableCardViewDelegate: class {
+    func didDragView(offset: CGFloat)
     func didHideView()
-    func didRevealView()
+    func didShowView()
 }
 
+/// View for showing content that can be hidden/shown by dragging header bar
 open class DraggableCardView: UIView {
 
     open weak var delegate: DraggableCardViewDelegate?
 
-    open private(set) var gripBar = UIView(frame: .zero)
+    open private(set) var dragBar = UIView(frame: .zero)
 
     open private(set) var scrollView: UIScrollView = UIScrollView(frame: .zero)
 
     open private(set) var contentView = UIView(frame: .zero)
 
     open private(set) var panGesture: UIPanGestureRecognizer!
+
+    open var isShowing: Bool = true
+
+    private struct Constants {
+        static let elasticThreshold: CGFloat = 50
+        static let translationFactor: CGFloat = 0.5
+        static let hideThresholdDragging: CGFloat = 100
+        static let hideThresholdReleased: CGFloat = 50
+    }
 
     // MARK: - Setup
 
@@ -44,28 +55,27 @@ open class DraggableCardView: UIView {
         MPLCodingNotSupported()
     }
 
-    private func createSubviews() {
-        gripBar.backgroundColor = .disabledGray
-        gripBar.layer.cornerRadius = 3
-        addSubview(gripBar)
+    open func createSubviews() {
+        dragBar.backgroundColor = .disabledGray
+        dragBar.layer.cornerRadius = 3
+        addSubview(dragBar)
 
         self.addSubview(scrollView)
         scrollView.addSubview(contentView)
     }
 
-    private func createConstraints() {
-
-        gripBar.translatesAutoresizingMaskIntoConstraints = false
+    open func createConstraints() {
+        dragBar.translatesAutoresizingMaskIntoConstraints = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            gripBar.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            gripBar.centerXAnchor.constraint(equalTo: centerXAnchor),
-            gripBar.heightAnchor.constraint(equalToConstant: 6),
-            gripBar.widthAnchor.constraint(equalToConstant: 48),
+            dragBar.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            dragBar.centerXAnchor.constraint(equalTo: centerXAnchor),
+            dragBar.heightAnchor.constraint(equalToConstant: 6),
+            dragBar.widthAnchor.constraint(equalToConstant: 48),
 
-            scrollView.topAnchor.constraint(equalTo: gripBar.bottomAnchor),
+            scrollView.topAnchor.constraint(equalTo: dragBar.bottomAnchor),
             scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -79,17 +89,29 @@ open class DraggableCardView: UIView {
     }
 
 
-    /// Hides the view by moving it down and informs the delegate
-    open func hide() {
-        UIView.animate(withDuration: 0.25) {
-            self.transform = CGAffineTransform(translationX: 0, y: self.frame.height)
+    open func convertTranslation(_ translation: CGFloat) -> CGFloat {
+        // Add some friction
+        // from: https://github.com/HarshilShah/DeckTransition
+        if translation >= Constants.elasticThreshold {
+            let frictionLength = translation - Constants.elasticThreshold
+            let frictionTranslation = 30 * atan(frictionLength / 120) + frictionLength / 10
+            return frictionTranslation + (Constants.elasticThreshold * Constants.translationFactor)
+        } else {
+            return translation * Constants.translationFactor
         }
+    }
 
+    open func updateShowing(_ isShowing: Bool) {
         // Cancel recogniser
         panGesture.isEnabled = false
         panGesture.isEnabled = true
 
-        delegate?.didHideView()
+        self.isShowing = isShowing
+        if isShowing {
+            delegate?.didShowView()
+        } else {
+            delegate?.didHideView()
+        }
     }
 
     /// Uses the pan gesture to move the card on screen
@@ -98,46 +120,35 @@ open class DraggableCardView: UIView {
             return
         }
 
+        let translation = convertTranslation(gestureRecognizer.translation(in: self).y)
         switch gestureRecognizer.state {
 
         case .began:
             gestureRecognizer.setTranslation(CGPoint(x: 0, y: 0), in: self)
 
         case .changed:
-            let translation = gestureRecognizer.translation(in: self).y
+            // Only do something if translation is related to changing state
+            if (isShowing && translation >= 0) || (!isShowing && translation <= 0) {
 
-            let elasticThreshold: CGFloat = 120
-            let dismissThreshold: CGFloat = 240
+                // Update delegate
+                delegate?.didDragView(offset: translation)
 
-            let translationFactor: CGFloat = 1/2
-
-            // Only do something if translation is from top (i.e >= 0)
-            if translation >= 0 {
-                // Add some friction
-                // from: https://github.com/HarshilShah/DeckTransition
-                let translationForModal: CGFloat = {
-                    if translation >= elasticThreshold {
-                        let frictionLength = translation - elasticThreshold
-                        let frictionTranslation = 30 * atan(frictionLength/120) + frictionLength/10
-                        return frictionTranslation + (elasticThreshold * translationFactor)
-                    } else {
-                        return translation * translationFactor
-                    }
-                }()
-
-                // Set the transform to transform with friction
-                self.transform = CGAffineTransform(translationX: 0, y: translationForModal)
-
-                // Dissmiss if we are past the threshold
-                if translation >= dismissThreshold {
-                    hide()
+                // Show/hide if past the dragging threshold
+                if abs(translation) > Constants.hideThresholdDragging {
+                    updateShowing(!isShowing)
                 }
             }
 
         case .ended:
-            UIView.animate(withDuration: 0.25) {
-                self.transform = .identity
+            // Only do something if translation is related to changing state
+            if (isShowing && translation >= 0) || (!isShowing && translation <= 0) {
+                // Show/hide if past the released threshold
+                if abs(translation) > Constants.hideThresholdReleased {
+                    updateShowing(!isShowing)
+                    return
+                }
             }
+            updateShowing(isShowing)
 
         default: break
         }
