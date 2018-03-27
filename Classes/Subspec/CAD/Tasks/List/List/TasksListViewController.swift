@@ -158,8 +158,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
             for item in section.items {
                 let formItem: BaseFormItem
                 if item is TasksListIncidentViewModel {
-                    formItem = CustomFormItem(cellType: TasksListIncidentCollectionViewCell.self,
-                                              reuseIdentifier: TasksListIncidentCollectionViewCell.defaultReuseIdentifier)
+                    formItem = IncidentSummaryFormItem(viewModel: item as! TasksListIncidentViewModel)
                 } else if item is TasksListResourceViewModel {
                     formItem = CustomFormItem(cellType: TasksListResourceCollectionViewCell.self,
                                               reuseIdentifier: TasksListResourceCollectionViewCell.defaultReuseIdentifier)
@@ -172,6 +171,9 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
                 
                 
                 builder += formItem
+                    .highlightStyle(.fade)
+                    .selectionStyle(.fade)
+                    .contentMode(.top)
                     .onConfigured({ [unowned self] (cell) in
                         // Configure the cell
                         self.decorate(cell: cell, with: item)
@@ -196,9 +198,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
     }
     
     open func apply(theme: Theme, to cell: CollectionViewFormCell) {
-        if let cell = cell as? TasksListIncidentCollectionViewCell {
-            cell.apply(theme: theme)
-        } else if let cell = cell as? TasksListResourceCollectionViewCell {
+        if let cell = cell as? TasksListResourceCollectionViewCell {
             cell.apply(theme: theme)
         } else if let cell = cell as? TasksListBasicCollectionViewCell {
             cell.apply(theme: theme)
@@ -206,14 +206,7 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
     }
     
     open func decorate(cell: CollectionViewFormCell, with viewModel: TasksListItemViewModel) {
-        cell.highlightStyle = .fade
-        cell.selectionStyle = .fade
-        cell.contentMode = .top
-        
-        
-        if let cell = cell as? TasksListIncidentCollectionViewCell, let viewModel = viewModel as? TasksListIncidentViewModel {
-            cell.decorate(with: viewModel)
-        } else if let cell = cell as? TasksListResourceCollectionViewCell, let viewModel = viewModel as? TasksListResourceViewModel {
+        if let cell = cell as? TasksListResourceCollectionViewCell, let viewModel = viewModel as? TasksListResourceViewModel {
             cell.decorate(with: viewModel)
         } else if let cell = cell as? TasksListBasicCollectionViewCell, let viewModel = viewModel as? TasksListBasicViewModel {
             cell.decorate(with: viewModel)

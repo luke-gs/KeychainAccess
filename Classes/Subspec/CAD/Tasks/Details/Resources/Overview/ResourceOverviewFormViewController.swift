@@ -21,19 +21,12 @@ open class ResourceOverviewFormViewController: IntrinsicHeightFormBuilderViewCon
     }
     
     open override func construct(builder: FormBuilder) {
-        
         if let currentIncident = viewModel.currentIncidentViewModel {
             builder += HeaderFormItem(text: viewModel.respondingToHeaderTitle(), style: .collapsible)
             
-            builder += CustomFormItem(cellType: TasksListIncidentCollectionViewCell.self, reuseIdentifier: "CurrentTaskCell")
-                .onConfigured({ [unowned self] (cell) in
-                    // Configure the cell
-                    if let cell = cell as? TasksListIncidentCollectionViewCell {
-                        self.decorate(cell: cell, with: currentIncident)
-                    }
-                })
+            builder += IncidentSummaryFormItem(viewModel: currentIncident)
                 .accessory(ItemAccessory.disclosure)
-                .height(.fixed(64))
+                .separatorStyle(.fullWidth)
                 .onSelection({ [unowned self] cell in
                     guard let resource = CADStateManager.shared.resourcesById[self.viewModel.identifier],
                         let incident = CADStateManager.shared.incidentsById[currentIncident.identifier]
@@ -46,6 +39,7 @@ open class ResourceOverviewFormViewController: IntrinsicHeightFormBuilderViewCon
                     self.present(TaskItemScreen.landing(viewModel: viewModel))
                 })
         }
+        
         for section in viewModel.sections {
             builder += HeaderFormItem(text: section.title?.uppercased(),
                                       style: .collapsible)
@@ -58,16 +52,5 @@ open class ResourceOverviewFormViewController: IntrinsicHeightFormBuilderViewCon
                 }
             }
         }
-    }
-    
-    open func decorate(cell: TasksListIncidentCollectionViewCell, with viewModel: TasksListIncidentViewModel) {
-        cell.highlightStyle = .fade
-        cell.separatorStyle = .fullWidth
-        
-        cell.decorate(with: viewModel)
-
-        cell.summaryView.titleLabel.textColor = .primaryGray
-        cell.summaryView.subtitleLabel.textColor = .secondaryGray
-        cell.summaryView.captionLabel.textColor = .secondaryGray
     }
 }
