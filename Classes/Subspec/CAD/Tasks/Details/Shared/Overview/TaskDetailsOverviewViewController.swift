@@ -170,11 +170,11 @@ extension TaskDetailsOverviewViewController: CADFormCollectionViewModelDelegate 
 
 extension TaskDetailsOverviewViewController: DraggableCardViewDelegate {
 
-    public func didDragCardView(offset: CGFloat) {
+    public func didDragCardView(translation: CGFloat) {
         if cardView.isShowing {
-            cardHeightConstraint?.constant = defaultCardHeight - offset
+            cardHeightConstraint?.constant = defaultCardHeight - translation
         } else {
-            cardHeightConstraint?.constant = LayoutConstants.minimumCardHeight - offset
+            cardHeightConstraint?.constant = LayoutConstants.minimumCardHeight - translation
         }
     }
 
