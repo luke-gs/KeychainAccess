@@ -40,9 +40,9 @@ open class TaskDetailsOverviewViewModel: TaskDetailsViewModel {
     }
     
     
-    open func mapViewModel() -> TasksMapViewModel? {
+    open lazy var mapViewModel: TasksMapViewModel? = {
         return TasksMapViewModel()
-    }
+    }()
 
     open func loadData() {
         MPLRequiresConcreteImplementation()
