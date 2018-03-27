@@ -25,7 +25,7 @@ public class TaskListPresenter: Presenter {
             let listHeaderViewModel = TasksListHeaderViewModel()
             let listContainerViewModel = TasksListContainerViewModel(headerViewModel: listHeaderViewModel, listViewModel: listViewModel)
             let mapViewModel = TasksMapViewModel()
-            let mapFilterViewModel = TaskMapFilterViewModel()
+            let mapFilterViewModel = TasksMapFilterViewModelCore()
 
             // Create split view model
             tasksSplitViewModel = TasksSplitViewModel(listContainerViewModel: listContainerViewModel,
