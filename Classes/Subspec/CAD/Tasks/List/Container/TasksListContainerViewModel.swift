@@ -81,6 +81,7 @@ open class TasksListContainerViewModel {
 
         self.headerViewModel = headerViewModel
         self.listViewModel = listViewModel
+        self.listViewModel.containerViewModel = self
 
         updateSections()
 
@@ -109,6 +110,11 @@ open class TasksListContainerViewModel {
         let vc = TasksListContainerViewController(viewModel: self)
         delegate = vc
         return vc
+    }
+    
+    /// Whether swiping allows the map to expand and contract
+    open func allowsSwipeToExpand() -> Bool {
+        return false
     }
 
     // MARK: - Public methods

@@ -77,6 +77,11 @@ open class TasksMapViewModel {
     open func shouldCluster() -> Bool {
         return true
     }
+    
+    /// Whether the map should allow user interaction. `false` by default
+    open func allowsInteraction() -> Bool {
+        return false
+    }
 }
 
 public protocol TasksMapViewModelDelegate: class {

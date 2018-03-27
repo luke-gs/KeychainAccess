@@ -13,13 +13,15 @@ import UIKit
 /// * Resources
 /// * Patrol
 /// * Broadcast
-public class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewModel> {
+open class TasksListViewModel: CADFormCollectionViewModel<TasksListItemViewModel> {
 
+    open var containerViewModel: TasksListContainerViewModel?
+    
     /// Other sectioned tasks, used when displaying resources outside our patrol group
     open var otherSections: [CADFormCollectionSectionViewModel<TasksListItemViewModel>] = []
 
     /// Create the view controller for this view model
-    public func createViewController() -> TasksListViewController {
+    open func createViewController() -> TasksListViewController {
         let tasksListViewController = TasksListViewController(viewModel: self)
         tasksListViewController.userInterfaceStyle = .dark
         delegate = tasksListViewController

@@ -42,41 +42,41 @@ open class TasksSplitViewModel {
     }
 
     /// Create the view controller for this view model
-    public func createViewController() -> UIViewController {
+    open func createViewController() -> UIViewController {
         let vc = TasksSplitViewController(viewModel: self)
         delegate = vc
         return vc
     }
 
     /// Create the view controller for the master side of split view
-    public func createMasterViewController() -> UIViewController {
+    open func createMasterViewController() -> UIViewController {
         return listContainerViewModel.createViewController()
     }
 
     /// Create the view controller for the detail side of the split view
-    public func createDetailViewController() -> UIViewController {
+    open func createDetailViewController() -> UIViewController {
         return mapViewModel.createViewController()
     }
 
     /// The title to use in the navigation bar
-    public func navTitle() -> String {
+    open func navTitle() -> String {
         return NSLocalizedString("Tasks", comment: "Tasks navigation title")
     }
     
     /// Title for the master view to be displayed in the segmented control
-    public func masterSegmentTitle() -> String {
+    open func masterSegmentTitle() -> String {
         return NSLocalizedString("List", comment: "Task list segment title")
     }
     
     /// Title for the detail view to be displayed in the segmented control
-    public func detailSegmentTitle() -> String {
+    open func detailSegmentTitle() -> String {
         return NSLocalizedString("Map", comment: "Map list segment title")
     }
     
     // MARK: - Filter
     
     /// Applies the filter to the map and task list
-    public func applyFilter() {
+    open func applyFilter() {
         delegate?.dismiss(animated: true, completion: nil)
         mapViewModel.loadTasks()
         listContainerViewModel.updateSections()
