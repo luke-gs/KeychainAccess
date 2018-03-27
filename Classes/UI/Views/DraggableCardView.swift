@@ -67,6 +67,11 @@ open class DraggableCardView: UIView {
         self.clipsToBounds = true
         self.backgroundColor = theme.color(forKey: .background)
         self.layer.cornerRadius = 16
+        if #available(iOS 11.0, *) {
+            self.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        } else {
+            // Too bad...
+        }
 
         // Add drag bar
         dragBar.backgroundColor = .disabledGray
