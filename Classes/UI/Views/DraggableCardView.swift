@@ -25,6 +25,9 @@ open class DraggableCardView: UIView {
     /// The visual indication of draggable bar
     open private(set) var dragBar = UIView(frame: .zero)
 
+    /// The container for the drag bar so scrolled content doesn't touch it
+    open private(set) var dragContainer = UIView(frame: .zero)
+
     /// The scroll view for content
     open private(set) var scrollView: UIScrollView = UIScrollView(frame: .zero)
 
@@ -73,27 +76,36 @@ open class DraggableCardView: UIView {
             // Too bad...
         }
 
-        // Add drag bar
-        dragBar.backgroundColor = .disabledGray
-        dragBar.layer.cornerRadius = 3
-        addSubview(dragBar)
-
-        // Add scroll view
+        // Add scroll view first (so under bar)
         self.addSubview(scrollView)
         scrollView.addSubview(contentView)
+
+        // Add drag bar in container
+        dragContainer.backgroundColor = self.backgroundColor
+        addSubview(dragContainer)
+
+        dragBar.backgroundColor = .disabledGray
+        dragBar.layer.cornerRadius = 3
+        dragContainer.addSubview(dragBar)
     }
 
     open func createConstraints() {
         dragBar.translatesAutoresizingMaskIntoConstraints = false
+        dragContainer.translatesAutoresizingMaskIntoConstraints = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
 
         // Layout drag bar then scroll view containing content view
         NSLayoutConstraint.activate([
-            dragBar.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            dragBar.centerXAnchor.constraint(equalTo: centerXAnchor),
+            dragContainer.topAnchor.constraint(equalTo: topAnchor),
+            dragContainer.leadingAnchor.constraint(equalTo: leadingAnchor),
+            dragContainer.trailingAnchor.constraint(equalTo: trailingAnchor),
+
+            dragBar.topAnchor.constraint(equalTo: dragContainer.topAnchor, constant: 8),
+            dragBar.centerXAnchor.constraint(equalTo: dragContainer.centerXAnchor),
             dragBar.heightAnchor.constraint(equalToConstant: 6),
             dragBar.widthAnchor.constraint(equalToConstant: 48),
+            dragBar.bottomAnchor.constraint(equalTo: dragContainer.bottomAnchor, constant: -8),
 
             scrollView.topAnchor.constraint(equalTo: dragBar.bottomAnchor),
             scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),

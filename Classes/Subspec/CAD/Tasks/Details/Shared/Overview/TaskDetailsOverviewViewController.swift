@@ -12,7 +12,7 @@ open class TaskDetailsOverviewViewController: UIViewController {
 
     fileprivate struct LayoutConstants {
         static let defaultMapHeight: CGFloat = 280
-        static let minimumCardHeight: CGFloat = 32
+        static let minimumCardHeight: CGFloat = 42
     }
 
     open let viewModel: TaskDetailsOverviewViewModel
