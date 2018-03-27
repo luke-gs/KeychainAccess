@@ -126,11 +126,11 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         updateSourceItems()
         
         if viewModel.allowsSwipeToExpand() {
-            setupGestureRecognizer()
+            setupSwipeGestureRecognizers()
         }
     }
     
-    open func setupGestureRecognizer() {
+    open func setupSwipeGestureRecognizers() {
         // Swipe right to expand the list
         let expandGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeRight))
         expandGestureRecognizer.direction = .right
