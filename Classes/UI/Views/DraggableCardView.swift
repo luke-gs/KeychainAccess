@@ -31,10 +31,9 @@ open class DraggableCardView: UIView {
     open var isShowing: Bool = true
 
     private struct Constants {
-        static let elasticThreshold: CGFloat = 50
         static let translationFactor: CGFloat = 0.5
-        static let hideThresholdDragging: CGFloat = 100
-        static let hideThresholdReleased: CGFloat = 50
+        static let elasticThreshold: CGFloat = 120
+        static let hideThreshold: CGFloat = 240
     }
 
     // MARK: - Setup
@@ -42,12 +41,16 @@ open class DraggableCardView: UIView {
     override public init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.layer.cornerRadius = 8
+        let theme = ThemeManager.shared.theme(for: .current)
+        self.clipsToBounds = true
+        self.backgroundColor = theme.color(forKey: .background)
+        self.layer.cornerRadius = 16
 
         createSubviews()
         createConstraints()
 
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gestureRecognizer:)))
+        panGesture.delegate = self
         addGestureRecognizer(panGesture)
     }
 
@@ -120,7 +123,7 @@ open class DraggableCardView: UIView {
             return
         }
 
-        let translation = convertTranslation(gestureRecognizer.translation(in: self).y)
+        let translation = gestureRecognizer.translation(in: self).y
         switch gestureRecognizer.state {
 
         case .began:
@@ -131,10 +134,10 @@ open class DraggableCardView: UIView {
             if (isShowing && translation >= 0) || (!isShowing && translation <= 0) {
 
                 // Update delegate
-                delegate?.didDragView(offset: translation)
+                delegate?.didDragView(offset: convertTranslation(translation))
 
-                // Show/hide if past the dragging threshold
-                if abs(translation) > Constants.hideThresholdDragging {
+                // Show/hide if past the hide threshold
+                if abs(translation) > Constants.hideThreshold {
                     updateShowing(!isShowing)
                 }
             }
@@ -142,8 +145,8 @@ open class DraggableCardView: UIView {
         case .ended:
             // Only do something if translation is related to changing state
             if (isShowing && translation >= 0) || (!isShowing && translation <= 0) {
-                // Show/hide if past the released threshold
-                if abs(translation) > Constants.hideThresholdReleased {
+                // Show/hide if past the elastic threshold
+                if abs(translation) > Constants.elasticThreshold {
                     updateShowing(!isShowing)
                     return
                 }
@@ -155,3 +158,26 @@ open class DraggableCardView: UIView {
     }
 }
 
+extension DraggableCardView: UIGestureRecognizerDelegate {
+
+    open override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer == panGesture {
+            // Only trigger gesture if dragging down while at top of scroll view, or dragging up when hidden
+            let translation = panGesture.translation(in: self).y
+            if (isShowing && scrollView.contentOffset.y <= 0 && translation >= 0) || (!isShowing && translation <= 0) {
+                return true
+            } else {
+                return false
+            }
+        }
+        return true
+    }
+
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        // Make sure our pan recognizer overrides scroll gesture
+        if gestureRecognizer == panGesture {
+            return true
+        }
+        return false
+    }
+}

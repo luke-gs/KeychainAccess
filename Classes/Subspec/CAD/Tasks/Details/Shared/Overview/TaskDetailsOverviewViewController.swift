@@ -19,6 +19,7 @@ open class TaskDetailsOverviewViewController: UIViewController {
 
     fileprivate struct LayoutConstants {
         static let defaultMapHeight: CGFloat = 280
+        static let minimumCardHeight: CGFloat = 32
     }
 
     public init(viewModel: TaskDetailsOverviewViewModel) {
@@ -143,19 +144,21 @@ extension TaskDetailsOverviewViewController: DraggableCardViewDelegate {
         if cardView.isShowing {
             mapHeightConstraint?.constant = LayoutConstants.defaultMapHeight + offset
         } else {
-            mapHeightConstraint?.constant = self.view.bounds.height - bottomInset - 24 + offset
+            mapHeightConstraint?.constant = self.view.bounds.height - bottomInset - LayoutConstants.minimumCardHeight + offset
         }
     }
 
     public func didHideView() {
         UIView.animate(withDuration: 0.25) {
-            self.mapHeightConstraint?.constant = self.view.bounds.height - self.bottomInset - 24
+            self.mapHeightConstraint?.constant = self.view.bounds.height - self.bottomInset - LayoutConstants.minimumCardHeight
+            self.view.layoutIfNeeded()
         }
     }
 
     public func didShowView() {
         UIView.animate(withDuration: 0.25) {
             self.mapHeightConstraint?.constant = LayoutConstants.defaultMapHeight
+            self.view.layoutIfNeeded()
         }
     }
 }
