@@ -1,5 +1,5 @@
 //
-//  TaskMapFilterViewModel.swift
+//  TasksMapFilterViewModelCore.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 17/11/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class TaskMapFilterViewModel: MapFilterViewModel {
+public class TasksMapFilterViewModelCore: MapFilterViewModel {
     
     public var sections: [MapFilterSection] = []
     
@@ -61,7 +61,7 @@ public class TaskMapFilterViewModel: MapFilterViewModel {
             static let resourcesTasked = 0
         }
     }
-    
+
     public init() {
         sections = defaultSections.copy()
     }
@@ -72,72 +72,26 @@ public class TaskMapFilterViewModel: MapFilterViewModel {
         sections = defaultSections.copy()
     }
     
+    public func showsType(_ type: CADTaskListSourceType) -> Bool {
+        switch type.rawValue {
+        case CADTaskListSourceCore.incident.rawValue:
+            return showIncidents
+        case CADTaskListSourceCore.patrol.rawValue:
+            return showPatrol
+        case CADTaskListSourceCore.broadcast.rawValue:
+            return showBroadcasts
+        case CADTaskListSourceCore.resource.rawValue:
+            return showResources
+        default:
+            return false
+        }
+    }
+    
     // MARK: General
     
     /// Whether to show results outside the patrol area
     public var showResultsOutsidePatrolArea: Bool {
         return sections[Indexes.general].toggleRows[Indexes.ToggleRows.patrolArea].options[0].isOn
-    }
-    
-    // MARK: Incidents
-    
-    /// Whether to show incidents
-    public var showIncidents: Bool {
-        return sections[Indexes.incidents].isOn.isTrue
-    }
-    
-    /// Which priorities to show
-    public var priorities: [CADIncidentGradeType] {
-        let options = sections[Indexes.incidents].toggleRows[Indexes.ToggleRows.incidentsPriority].options
-        
-        return (options.map { option in
-            if option.isOn, let text = option.text {
-                return CADClientModelTypes.incidentGrade.init(rawValue: text)
-            }
-            return nil
-        } as [CADIncidentGradeType?]).removeNils()
-    }
-    
-    /// Which type of incidents to show
-    public var resourcedIncidents: [CADIncidentStatusType] {
-        let options = sections[Indexes.incidents].toggleRows[Indexes.ToggleRows.incidentsResourced].options
-        
-        return (options.map { option in
-            if option.isOn, let text = option.text {
-                return CADClientModelTypes.incidentStatus.init(rawValue: text)
-            }
-            return nil
-        } as [CADIncidentStatusType?]).removeNils()
-    }
-    
-    // MARK: Patrol
-    
-    /// Whether to show patrol
-    public var showPatrol: Bool {
-        return sections[Indexes.patrol].isOn.isTrue
-    }
-    
-    // MARK: Broadcasts
-    
-    /// Whether to show broadcasts
-    public var showBroadcasts: Bool {
-        return sections[Indexes.broadcasts].isOn.isTrue
-    }
-    
-    // MARK: Resources
-    
-    /// Whether to show resources
-    public var showResources: Bool {
-        return sections[Indexes.resources].isOn.isTrue
-    }
-    
-    /// Which type of resources to show
-    public var taskedResources: (tasked: Bool, untasked: Bool) {
-        let options = sections[Indexes.resources].toggleRows[Indexes.ToggleRows.resourcesTasked].options
-        let tasked = options[0].isOn
-        let untasked = options[1].isOn
-        
-        return (tasked, untasked)
     }
     
     // MARK: - View controller info
@@ -159,5 +113,74 @@ public class TaskMapFilterViewModel: MapFilterViewModel {
     public func disablesCheckboxesOnSectionDisabled(for section: Int) -> Bool {
         return false
     }
-
 }
+
+
+// MARK: Incidents
+extension TasksMapFilterViewModelCore: IncidentsFilterable {
+    
+    /// Whether to show incidents
+    private var showIncidents: Bool {
+        return sections[Indexes.incidents].isOn.isTrue
+    }
+    
+    /// Which priorities to show
+    public var priorities: [CADIncidentGradeType] {
+        let options = sections[Indexes.incidents].toggleRows[Indexes.ToggleRows.incidentsPriority].options
+        
+        return (options.map { option in
+            if option.isOn, let text = option.text {
+                return CADClientModelTypes.incidentGrade.init(rawValue: text)
+            }
+            return nil
+            } as [CADIncidentGradeType?]).removeNils()
+    }
+    
+    /// Which type of incidents to show
+    public var resourcedIncidents: [CADIncidentStatusType] {
+        let options = sections[Indexes.incidents].toggleRows[Indexes.ToggleRows.incidentsResourced].options
+        
+        return (options.map { option in
+            if option.isOn, let text = option.text {
+                return CADClientModelTypes.incidentStatus.init(rawValue: text)
+            }
+            return nil
+            } as [CADIncidentStatusType?]).removeNils()
+    }
+}
+
+// MARK: Patrol
+extension TasksMapFilterViewModelCore {
+    /// Whether to show patrol
+    private var showPatrol: Bool {
+        return sections[Indexes.patrol].isOn.isTrue
+    }
+}
+
+
+// MARK: Broadcasts
+extension TasksMapFilterViewModelCore {
+    /// Whether to show broadcasts
+    private var showBroadcasts: Bool {
+        return sections[Indexes.broadcasts].isOn.isTrue
+    }
+}
+
+// MARK: Resources
+extension TasksMapFilterViewModelCore: ResourcesFilterable {
+    
+    /// Whether to show resources
+    private var showResources: Bool {
+        return sections[Indexes.resources].isOn.isTrue
+    }
+    
+    /// Which type of resources to show
+    public var taskedResources: (tasked: Bool, untasked: Bool) {
+        let options = sections[Indexes.resources].toggleRows[Indexes.ToggleRows.resourcesTasked].options
+        let tasked = options[0].isOn
+        let untasked = options[1].isOn
+        
+        return (tasked, untasked)
+    }
+}
+
