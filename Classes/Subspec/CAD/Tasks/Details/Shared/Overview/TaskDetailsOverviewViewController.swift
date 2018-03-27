@@ -15,11 +15,15 @@ open class TaskDetailsOverviewViewController: UIViewController {
     open private(set) var mapViewController: MapViewController?
     open private(set) var formViewController: FormBuilderViewController!
     open private(set) var cardView: DraggableCardView!
-    open private(set) var mapHeightConstraint: NSLayoutConstraint?
+    open private(set) var cardHeightConstraint: NSLayoutConstraint?
 
     fileprivate struct LayoutConstants {
         static let defaultMapHeight: CGFloat = 280
         static let minimumCardHeight: CGFloat = 32
+    }
+
+    open var defaultCardHeight: CGFloat {
+        return view.bounds.height - LayoutConstants.defaultMapHeight
     }
 
     public init(viewModel: TaskDetailsOverviewViewModel) {
@@ -39,8 +43,21 @@ open class TaskDetailsOverviewViewController: UIViewController {
         
         setupViews()
         setupConstraints()
+    }
 
-        updateMapInteraction()
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // Show form card and update map controls
+        didUpdateCardView()
+    }
+
+    open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+
+        coordinator.animate(alongsideTransition: { (context) in
+            self.didUpdateCardView()
+        }, completion: nil)
     }
     
     /// Creates and styles views
@@ -59,6 +76,7 @@ open class TaskDetailsOverviewViewController: UIViewController {
         cardView = DraggableCardView(frame: .zero)
         cardView.delegate = self
         cardView.translatesAutoresizingMaskIntoConstraints = false
+        cardView.dragBar.isHidden = (self.mapViewController == nil)
         view.addSubview(cardView)
 
         formViewController = viewModel.createFormViewController()
@@ -91,20 +109,20 @@ open class TaskDetailsOverviewViewController: UIViewController {
         if let mapView = mapView {
             // Show both map and form
             mapView.translatesAutoresizingMaskIntoConstraints = false
-            mapHeightConstraint = mapView.heightAnchor.constraint(equalToConstant: LayoutConstants.defaultMapHeight)
+            cardHeightConstraint = cardView.heightAnchor.constraint(equalToConstant: defaultCardHeight)
 
             NSLayoutConstraint.activate([
                 mapView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
                 mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 mapView.widthAnchor.constraint(equalTo: view.widthAnchor),
-                mapHeightConstraint!,
 
                 cardView.topAnchor.constraint(equalTo: mapView.bottomAnchor),
                 cardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 cardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 cardView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
                 cardView.widthAnchor.constraint(equalTo: view.widthAnchor),
+                cardHeightConstraint!,
             ])
         } else {
             // Show just form
@@ -144,34 +162,21 @@ extension TaskDetailsOverviewViewController: CADFormCollectionViewModelDelegate 
 
 extension TaskDetailsOverviewViewController: DraggableCardViewDelegate {
 
-    var bottomInset: CGFloat {
-        if #available(iOS 11.0, *) {
-            return self.view.safeAreaInsets.bottom
-        } else {
-            return bottomLayoutGuide.length
-        }
-    }
-
-    public func didDragView(offset: CGFloat) {
+    public func didDragCardView(offset: CGFloat) {
         if cardView.isShowing {
-            mapHeightConstraint?.constant = LayoutConstants.defaultMapHeight + offset
+            cardHeightConstraint?.constant = defaultCardHeight - offset
         } else {
-            mapHeightConstraint?.constant = self.view.bounds.height - bottomInset - LayoutConstants.minimumCardHeight + offset
+            cardHeightConstraint?.constant = LayoutConstants.minimumCardHeight - offset
         }
     }
 
-    public func didHideView() {
+    public func didUpdateCardView() {
         UIView.animate(withDuration: 0.25, animations: {
-            self.mapHeightConstraint?.constant = self.view.bounds.height - self.bottomInset - LayoutConstants.minimumCardHeight
-            self.view.layoutIfNeeded()
-        }) { _ in
-            self.updateMapInteraction()
-        }
-    }
-
-    public func didShowView() {
-        UIView.animate(withDuration: 0.25, animations: {
-            self.mapHeightConstraint?.constant = LayoutConstants.defaultMapHeight
+            if self.cardView.isShowing {
+                self.cardHeightConstraint?.constant = self.defaultCardHeight
+            } else {
+                self.cardHeightConstraint?.constant = LayoutConstants.minimumCardHeight
+            }
             self.view.layoutIfNeeded()
         }) { _ in
             self.updateMapInteraction()

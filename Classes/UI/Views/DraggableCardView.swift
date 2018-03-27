@@ -10,9 +10,8 @@ import Foundation
 import UIKit
 
 public protocol DraggableCardViewDelegate: class {
-    func didDragView(offset: CGFloat)
-    func didHideView()
-    func didShowView()
+    func didDragCardView(offset: CGFloat)
+    func didUpdateCardView()
 }
 
 /// View for showing content that can be hidden/shown by dragging header bar
@@ -110,11 +109,7 @@ open class DraggableCardView: UIView {
         panGesture.isEnabled = true
 
         self.isShowing = isShowing
-        if isShowing {
-            delegate?.didShowView()
-        } else {
-            delegate?.didHideView()
-        }
+        delegate?.didUpdateCardView()
     }
 
     /// Uses the pan gesture to move the card on screen
@@ -134,7 +129,7 @@ open class DraggableCardView: UIView {
             if (isShowing && translation >= 0) || (!isShowing && translation <= 0) {
 
                 // Update delegate
-                delegate?.didDragView(offset: convertTranslation(translation))
+                delegate?.didDragCardView(offset: convertTranslation(translation))
 
                 // Show/hide if past the hide threshold
                 if abs(translation) > Constants.hideThreshold {
