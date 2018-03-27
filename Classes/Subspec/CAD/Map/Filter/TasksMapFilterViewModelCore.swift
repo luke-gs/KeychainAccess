@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class TasksMapFilterViewModelCore: MapFilterViewModel {
+public class TasksMapFilterViewModelCore: TasksMapFilterViewModel {
     
     public var sections: [MapFilterSection] = []
     

@@ -14,7 +14,7 @@ open class LabelFormItem: BaseFormItem {
     public var layoutMargins: UIEdgeInsets?
 
     public init() {
-        super.init(cellType: LargeTextHeaderCollectionViewCell.self, reuseIdentifier: LargeTextHeaderCollectionViewCell.defaultReuseIdentifier)
+        super.init(cellType: CollectionViewFormLabelCell.self, reuseIdentifier: CollectionViewFormLabelCell.defaultReuseIdentifier)
     }
 
     public convenience init(text: StringSizable?, separatorColor: UIColor? = nil) {
@@ -36,11 +36,11 @@ open class LabelFormItem: BaseFormItem {
             return size
         }
         
-        return LargeTextHeaderCollectionViewCell.minimumHeight
+        return CollectionViewFormLabelCell.minimumHeight
     }
     
     open override func configure(_ view: UICollectionReusableView) {
-        if let cell = view as? LargeTextHeaderCollectionViewCell {
+        if let cell = view as? CollectionViewFormLabelCell {
             if let layoutMargins = layoutMargins {
                 cell.contentView.layoutMargins = layoutMargins
             }

@@ -15,7 +15,7 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
     public var separatorColor: UIColor?
 
     public init() {
-        super.init(viewType: LargeTextHeaderCollectionViewCell.self, kind: UICollectionElementKindSectionHeader, reuseIdentifier: LargeTextHeaderCollectionViewCell.defaultReuseIdentifier)
+        super.init(viewType: CollectionViewFormLabelCell.self, kind: UICollectionElementKindSectionHeader, reuseIdentifier: CollectionViewFormLabelCell.defaultReuseIdentifier)
     }
     
     public convenience init(text: StringSizable?, separatorColor: UIColor? = nil) {
@@ -37,11 +37,11 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
             return size
         }
 
-        return LargeTextHeaderCollectionViewCell.minimumHeight
+        return CollectionViewFormLabelCell.minimumHeight
     }
 
     open override func configure(_ view: UICollectionReusableView) {
-        if let cell = view as? LargeTextHeaderCollectionViewCell {
+        if let cell = view as? CollectionViewFormLabelCell {
             if let layoutMargins = layoutMargins {
                 cell.contentView.layoutMargins = layoutMargins
             }
@@ -60,7 +60,7 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
     open override func apply(theme: Theme, toView view: UICollectionReusableView) {
         super.apply(theme: theme, toView: view)
 
-        if let cell = view as? LargeTextHeaderCollectionViewCell {
+        if let cell = view as? CollectionViewFormLabelCell {
             if text?.sizing().attributedString == nil {
                 cell.titleLabel.textColor = theme.color(forKey: .primaryText)
             }

@@ -1,5 +1,5 @@
 //
-//  LargeTextHeaderCollectionViewCell.swift
+//  CollectionViewFormLabelCell.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 15/1/18.
@@ -8,8 +8,8 @@
 
 import UIKit
 
-/// Collection view cell for a header with large text
-open class LargeTextHeaderCollectionViewCell: CollectionViewFormCell {
+/// Collection view cell for a label
+open class CollectionViewFormLabelCell: CollectionViewFormCell {
     public let titleLabel = UILabel()
     
     public static let minimumHeight: CGFloat = 72
