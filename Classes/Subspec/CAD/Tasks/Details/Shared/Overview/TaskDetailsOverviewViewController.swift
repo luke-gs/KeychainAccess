@@ -16,6 +16,7 @@ open class TaskDetailsOverviewViewController: UIViewController {
     open private(set) var formViewController: FormBuilderViewController!
     open private(set) var cardView: DraggableCardView!
     open private(set) var cardHeightConstraint: NSLayoutConstraint?
+    open private(set) var cardBottomConstraint: NSLayoutConstraint?
 
     fileprivate struct LayoutConstants {
         static let defaultMapHeight: CGFloat = 280
@@ -48,8 +49,16 @@ open class TaskDetailsOverviewViewController: UIViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        // Show form card and update map controls
-        didUpdateCardView()
+        // Dispatch main here to allow VC to be added to parent split
+        DispatchQueue.main.async {
+            // Make allowance for compact status change bar
+            if let splitViewController = self.pushableSplitViewController as? TaskItemSidebarSplitViewController,
+                let compactStatusChangeBar = splitViewController.compactStatusChangeBar {
+                self.cardBottomConstraint?.constant = -compactStatusChangeBar.bounds.height
+            }
+            // Size the details card and update map controls
+            self.didUpdateCardView()
+        }
     }
 
     open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -110,19 +119,18 @@ open class TaskDetailsOverviewViewController: UIViewController {
             // Show both map and form
             mapView.translatesAutoresizingMaskIntoConstraints = false
             cardHeightConstraint = cardView.heightAnchor.constraint(equalToConstant: defaultCardHeight)
+            cardBottomConstraint = cardView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
 
             NSLayoutConstraint.activate([
                 mapView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
                 mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                mapView.widthAnchor.constraint(equalTo: view.widthAnchor),
 
                 cardView.topAnchor.constraint(equalTo: mapView.bottomAnchor),
                 cardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 cardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                cardView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
-                cardView.widthAnchor.constraint(equalTo: view.widthAnchor),
                 cardHeightConstraint!,
+                cardBottomConstraint!
             ])
         } else {
             // Show just form
