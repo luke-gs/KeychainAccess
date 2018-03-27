@@ -126,7 +126,7 @@ open class LocationMapSelectionViewController: MapFormBuilderViewController, Eva
 
     @objc private func doneHandler(sender: UIBarButtonItem) {
         viewModel.completeLocationSelection()
-        dismissAnimated()
+        dismiss(animated: true)
     }
 }
 

@@ -55,11 +55,11 @@ class TemplateAddViewController: FormBuilderViewController {
                                                       description: descriptionField.text as! String,
                                                       value: valueField.text as! String))
         completion()
-        dismissAnimated()
+        dismiss(animated: true)
     }
 
     @objc func backTapped() {
-        dismissAnimated()
+        dismiss(animated: true)
     }
 
 
