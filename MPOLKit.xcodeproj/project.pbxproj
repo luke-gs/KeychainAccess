@@ -245,7 +245,7 @@
 		278F1D4920688DA40091C2BD /* LabelFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278F1D4820688DA40091C2BD /* LabelFormItem.swift */; };
 		2792F11E1FDA55AE00A14CFB /* PopToRootable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2792F11D1FDA55AE00A14CFB /* PopToRootable.swift */; };
 		279B0579200D572300C3EFB0 /* DatedActivityLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279B0576200D572200C3EFB0 /* DatedActivityLogViewModel.swift */; };
-		279B057A200D572300C3EFB0 /* LargeTextHeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279B0577200D572200C3EFB0 /* LargeTextHeaderCollectionViewCell.swift */; };
+		279B057A200D572300C3EFB0 /* CollectionViewFormLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279B0577200D572200C3EFB0 /* CollectionViewFormLabelCell.swift */; };
 		279B057B200D572300C3EFB0 /* LargeTextHeaderFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279B0578200D572300C3EFB0 /* LargeTextHeaderFormItem.swift */; };
 		279B057D200D591200C3EFB0 /* ActivityLogDateCollectionSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279B057C200D591200C3EFB0 /* ActivityLogDateCollectionSectionViewModel.swift */; };
 		27AC86A62016958A0067DB8C /* AutoLayoutAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AC86A52016958A0067DB8C /* AutoLayoutAnnotationView.swift */; };
@@ -1062,7 +1062,7 @@
 		278F1D4820688DA40091C2BD /* LabelFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelFormItem.swift; sourceTree = "<group>"; };
 		2792F11D1FDA55AE00A14CFB /* PopToRootable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopToRootable.swift; sourceTree = "<group>"; };
 		279B0576200D572200C3EFB0 /* DatedActivityLogViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatedActivityLogViewModel.swift; sourceTree = "<group>"; };
-		279B0577200D572200C3EFB0 /* LargeTextHeaderCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LargeTextHeaderCollectionViewCell.swift; sourceTree = "<group>"; };
+		279B0577200D572200C3EFB0 /* CollectionViewFormLabelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormLabelCell.swift; sourceTree = "<group>"; };
 		279B0578200D572300C3EFB0 /* LargeTextHeaderFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LargeTextHeaderFormItem.swift; sourceTree = "<group>"; };
 		279B057C200D591200C3EFB0 /* ActivityLogDateCollectionSectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityLogDateCollectionSectionViewModel.swift; sourceTree = "<group>"; };
 		27AC86A52016958A0067DB8C /* AutoLayoutAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayoutAnnotationView.swift; sourceTree = "<group>"; };
@@ -2931,7 +2931,6 @@
 				9624A45D1F83555A00CAE056 /* ActivityLogViewModel.swift */,
 				279B057C200D591200C3EFB0 /* ActivityLogDateCollectionSectionViewModel.swift */,
 				279B0576200D572200C3EFB0 /* DatedActivityLogViewModel.swift */,
-				279B0577200D572200C3EFB0 /* LargeTextHeaderCollectionViewCell.swift */,
 				279B0578200D572300C3EFB0 /* LargeTextHeaderFormItem.swift */,
 			);
 			path = List;
@@ -3163,6 +3162,7 @@
 				BC9C7D551F0DED6600DFFE83 /* CollectionViewFormDetailCell.swift */,
 				BC9C7D561F0DED6600DFFE83 /* CollectionViewFormEditAction.swift */,
 				BC3FF2241F148818000B317A /* CollectionViewFormHeaderView.swift */,
+				279B0577200D572200C3EFB0 /* CollectionViewFormLabelCell.swift */,
 				BC9C7D581F0DED6600DFFE83 /* CollectionViewFormOptionCell.swift */,
 				BC9C7D591F0DED6600DFFE83 /* CollectionViewFormSubtitleCell.swift */,
 				BC9C7D5A1F0DED6600DFFE83 /* CollectionViewFormTextFieldCell.swift */,
@@ -4547,7 +4547,7 @@
 				278A16251FBAB17400C01C38 /* TasksListInfoRowView.swift in Sources */,
 				460B5BC82007187600AB7D12 /* SketchPen.swift in Sources */,
 				BC9C7E051F0DED6600DFFE83 /* UIEdgeInsets+Convenience.swift in Sources */,
-				279B057A200D572300C3EFB0 /* LargeTextHeaderCollectionViewCell.swift in Sources */,
+				279B057A200D572300C3EFB0 /* CollectionViewFormLabelCell.swift in Sources */,
 				DB528ED120046C13008914EB /* ValidationResults.swift in Sources */,
 				9936C67D1F96C5580091A61C /* GeolocationPlugin.swift in Sources */,
 				4634B4471FBD6FD200D71E7F /* TravelEstimationPlugin.swift in Sources */,
