@@ -22,6 +22,7 @@
 		96CED76F1FA7FE4C00C0DEB0 /* termsandconditions.html in Resources */ = {isa = PBXBuildFile; fileRef = 96CED76E1FA7F9AA00C0DEB0 /* termsandconditions.html */; };
 		96CED7751FA8456A00C0DEB0 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 96CED7741FA8456600C0DEB0 /* Localizable.stringsdict */; };
 		96EB4BEB20437BB000AFCAA0 /* TaskListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EB4BEA20437BB000AFCAA0 /* TaskListPresenter.swift */; };
+		EA156473206A092000DCB8CB /* APIManager+CAD.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA156472206A091F00DCB8CB /* APIManager+CAD.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		96CED76E1FA7F9AA00C0DEB0 /* termsandconditions.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = termsandconditions.html; sourceTree = "<group>"; };
 		96CED7741FA8456600C0DEB0 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		96EB4BEA20437BB000AFCAA0 /* TaskListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListPresenter.swift; sourceTree = "<group>"; };
+		EA156472206A091F00DCB8CB /* APIManager+CAD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+CAD.swift"; sourceTree = "<group>"; };
 		EFE5675329056751C51108DA /* Pods_CAD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CAD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -143,6 +145,7 @@
 		96553FCE1F98554E006E063E /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
+				EA156472206A091F00DCB8CB /* APIManager+CAD.swift */,
 				96553FD41F98554E006E063E /* AppConfig-cad-debug.xcconfig */,
 				96553FD51F98554E006E063E /* AppConfig-cad-release.xcconfig */,
 				96553FD71F98554E006E063E /* AppConfiguration.h */,
@@ -314,11 +317,11 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-CAD/Pods-CAD-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/HockeySDK/HockeySDKResources.bundle",
+				$PODS_CONFIGURATION_BUILD_DIR/HockeySDK/HockeySDKResources.bundle,
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/HockeySDKResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -339,6 +342,7 @@
 				969EA0761FDE39A000A2474E /* SettingsViewController.swift in Sources */,
 				96B58FAB2044AF82001A8DF4 /* TaskItemPresenter.swift in Sources */,
 				96EB4BEB20437BB000AFCAA0 /* TaskListPresenter.swift in Sources */,
+				EA156473206A092000DCB8CB /* APIManager+CAD.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
