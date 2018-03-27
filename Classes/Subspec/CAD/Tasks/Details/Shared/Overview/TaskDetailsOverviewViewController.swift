@@ -39,6 +39,8 @@ open class TaskDetailsOverviewViewController: UIViewController {
         
         setupViews()
         setupConstraints()
+
+        updateMapInteraction()
     }
     
     /// Creates and styles views
@@ -47,16 +49,9 @@ open class TaskDetailsOverviewViewController: UIViewController {
         
         view.backgroundColor = .white
 
-        if let mapViewModel = viewModel.mapViewModel() {
+        if let mapViewModel = viewModel.mapViewModel {
             let mapViewController = mapViewModel.createViewController()
-            addChildViewController(mapViewController, toView: scrollView)
-            if !mapViewModel.allowsInteraction() {
-                mapViewController.showsMapButtons = false
-                mapViewController.mapView.isZoomEnabled = false
-                mapViewController.mapView.isPitchEnabled = false
-                mapViewController.mapView.isRotateEnabled = false
-                mapViewController.mapView.isScrollEnabled = false
-            }
+            addChildViewController(mapViewController, toView: view)
             mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
             self.mapViewController = mapViewController
         }
@@ -70,7 +65,7 @@ open class TaskDetailsOverviewViewController: UIViewController {
         addChildViewController(formViewController, toView: cardView.contentView)
         formViewController.collectionView?.isScrollEnabled = false
     }
-    
+
     /// Activates view constraints
     private func setupConstraints() {
         guard let formCollectionView = formViewController.collectionView else { return }
@@ -122,6 +117,20 @@ open class TaskDetailsOverviewViewController: UIViewController {
             ])
         }
     }
+
+    open func updateMapInteraction() {
+        if let mapViewModel = viewModel.mapViewModel, let mapViewController = mapViewController {
+            let enabled = mapViewModel.allowsInteraction() || !cardView.isShowing
+            UIView.transition(with: mapViewController.view, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                mapViewController.showsMapButtons = enabled
+            }, completion: nil)
+            mapViewController.mapView.isZoomEnabled = enabled
+            mapViewController.mapView.isPitchEnabled = enabled
+            mapViewController.mapView.isRotateEnabled = enabled
+            mapViewController.mapView.isScrollEnabled = enabled
+        }
+    }
+
 }
 
 // MARK: - CADFormCollectionViewModelDelegate
@@ -152,16 +161,20 @@ extension TaskDetailsOverviewViewController: DraggableCardViewDelegate {
     }
 
     public func didHideView() {
-        UIView.animate(withDuration: 0.25) {
+        UIView.animate(withDuration: 0.25, animations: {
             self.mapHeightConstraint?.constant = self.view.bounds.height - self.bottomInset - LayoutConstants.minimumCardHeight
             self.view.layoutIfNeeded()
+        }) { _ in
+            self.updateMapInteraction()
         }
     }
 
     public func didShowView() {
-        UIView.animate(withDuration: 0.25) {
+        UIView.animate(withDuration: 0.25, animations: {
             self.mapHeightConstraint?.constant = LayoutConstants.defaultMapHeight
             self.view.layoutIfNeeded()
+        }) { _ in
+            self.updateMapInteraction()
         }
     }
 }
