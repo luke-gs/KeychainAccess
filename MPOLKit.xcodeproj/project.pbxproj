@@ -197,7 +197,7 @@
 		2744EEC81FBEA523008DFA7F /* MapFilterToggleRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744EEC21FBEA523008DFA7F /* MapFilterToggleRow.swift */; };
 		2744EEC91FBEA523008DFA7F /* MapFilterSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744EEC31FBEA523008DFA7F /* MapFilterSection.swift */; };
 		2744EECA1FBEA523008DFA7F /* MapFilterOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744EEC41FBEA523008DFA7F /* MapFilterOption.swift */; };
-		2744EECC1FBEA645008DFA7F /* TaskMapFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744EECB1FBEA645008DFA7F /* TaskMapFilterViewModel.swift */; };
+		2744EECC1FBEA645008DFA7F /* TasksMapFilterViewModelCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744EECB1FBEA645008DFA7F /* TasksMapFilterViewModelCore.swift */; };
 		2744EED01FC289F5008DFA7F /* Collection+MapFilterSectionCopy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744EECF1FC289F5008DFA7F /* Collection+MapFilterSectionCopy.swift */; };
 		274753F41FC67F6E00D5FA98 /* TasksListInformationRowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274753F31FC67F6E00D5FA98 /* TasksListInformationRowViewModel.swift */; };
 		274753F61FC680F200D5FA98 /* UIStackView+RemoveArrangedSubviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274753F51FC680F200D5FA98 /* UIStackView+RemoveArrangedSubviews.swift */; };
@@ -282,6 +282,7 @@
 		27F7477A20182DD6009D47AB /* FinaliseDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F7477920182DD6009D47AB /* FinaliseDetailsViewController.swift */; };
 		27F9C96C1FA2D7E300825F88 /* CompactCallsignContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F9C96B1FA2D7E300825F88 /* CompactCallsignContainerViewController.swift */; };
 		27F9C96E1FA2D9D000825F88 /* UIViewController+ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F9C96D1FA2D9D000825F88 /* UIViewController+ChildViewController.swift */; };
+		27FB4B6A2069F1B000B05F84 /* TasksMapFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FB4B692069F1B000B05F84 /* TasksMapFilterViewModel.swift */; };
 		27FDABB51FB90FF6003466AF /* TaskDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FDABB41FB90FF6003466AF /* TaskDetailsViewModel.swift */; };
 		27FDABB71FB91B02003466AF /* OfficerCommunicationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FDABB61FB91B02003466AF /* OfficerCommunicationsView.swift */; };
 		44020FD61FE86C5800EA057C /* ForcedPopoverPresentationControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44020FD51FE86C5800EA057C /* ForcedPopoverPresentationControllerDelegate.swift */; };
@@ -1015,7 +1016,7 @@
 		2744EEC21FBEA523008DFA7F /* MapFilterToggleRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilterToggleRow.swift; sourceTree = "<group>"; };
 		2744EEC31FBEA523008DFA7F /* MapFilterSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilterSection.swift; sourceTree = "<group>"; };
 		2744EEC41FBEA523008DFA7F /* MapFilterOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilterOption.swift; sourceTree = "<group>"; };
-		2744EECB1FBEA645008DFA7F /* TaskMapFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskMapFilterViewModel.swift; sourceTree = "<group>"; };
+		2744EECB1FBEA645008DFA7F /* TasksMapFilterViewModelCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksMapFilterViewModelCore.swift; sourceTree = "<group>"; };
 		2744EECF1FC289F5008DFA7F /* Collection+MapFilterSectionCopy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+MapFilterSectionCopy.swift"; sourceTree = "<group>"; };
 		274753F31FC67F6E00D5FA98 /* TasksListInformationRowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListInformationRowViewModel.swift; sourceTree = "<group>"; };
 		274753F51FC680F200D5FA98 /* UIStackView+RemoveArrangedSubviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+RemoveArrangedSubviews.swift"; sourceTree = "<group>"; };
@@ -1085,6 +1086,7 @@
 		27F7477920182DD6009D47AB /* FinaliseDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinaliseDetailsViewController.swift; sourceTree = "<group>"; };
 		27F9C96B1FA2D7E300825F88 /* CompactCallsignContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactCallsignContainerViewController.swift; sourceTree = "<group>"; };
 		27F9C96D1FA2D9D000825F88 /* UIViewController+ChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ChildViewController.swift"; sourceTree = "<group>"; };
+		27FB4B692069F1B000B05F84 /* TasksMapFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksMapFilterViewModel.swift; sourceTree = "<group>"; };
 		27FDABB41FB90FF6003466AF /* TaskDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsViewModel.swift; sourceTree = "<group>"; };
 		27FDABB61FB91B02003466AF /* OfficerCommunicationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerCommunicationsView.swift; sourceTree = "<group>"; };
 		44020FD51FE86C5800EA057C /* ForcedPopoverPresentationControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForcedPopoverPresentationControllerDelegate.swift; sourceTree = "<group>"; };
@@ -2251,7 +2253,8 @@
 		278A162B1FBBB83400C01C38 /* Filter */ = {
 			isa = PBXGroup;
 			children = (
-				2744EECB1FBEA645008DFA7F /* TaskMapFilterViewModel.swift */,
+				27FB4B692069F1B000B05F84 /* TasksMapFilterViewModel.swift */,
+				2744EECB1FBEA645008DFA7F /* TasksMapFilterViewModelCore.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -4583,7 +4586,7 @@
 				96CF32211F8C337900140AF8 /* TasksListViewController.swift in Sources */,
 				274C897F1F9D9E88005B9CF8 /* OfficerListItemViewModel.swift in Sources */,
 				12D3701B20200B5B00D79DDB /* EventsManager.swift in Sources */,
-				2744EECC1FBEA645008DFA7F /* TaskMapFilterViewModel.swift in Sources */,
+				2744EECC1FBEA645008DFA7F /* TasksMapFilterViewModelCore.swift in Sources */,
 				461F7AA12022BE8900885E93 /* RecordButton.swift in Sources */,
 				274C89881F9EB27A005B9CF8 /* OfficerDetailsViewModel.swift in Sources */,
 				BC9C7E011F0DED6600DFFE83 /* FloatingPoint+Comparison.swift in Sources */,
@@ -4943,6 +4946,7 @@
 				27E81E582034E576000D5D1C /* TaskDetailsOverviewFormViewController.swift in Sources */,
 				19C9C7501FC289BC003C8CE4 /* CustomSubtitleButton.swift in Sources */,
 				EAFACCBC1F4BACE900B93CBA /* SearchFieldAdvanceCell.swift in Sources */,
+				27FB4B6A2069F1B000B05F84 /* TasksMapFilterViewModel.swift in Sources */,
 				96CF32301F8C4AD300140AF8 /* CADFormCollectionSectionViewModel.swift in Sources */,
 				EA8904B01F6A0C720050DB84 /* FormBuilderViewController.swift in Sources */,
 				196EF4752033BC2A00C0ADE9 /* MapControlView.swift in Sources */,

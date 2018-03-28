@@ -23,9 +23,9 @@ open class TasksSplitViewModel {
     /// Container view model
     public let listContainerViewModel: TasksListContainerViewModel
     public let mapViewModel: TasksMapViewModel
-    public let filterViewModel: TaskMapFilterViewModel
+    public let filterViewModel: TasksMapFilterViewModel
 
-    public init(listContainerViewModel: TasksListContainerViewModel, mapViewModel: TasksMapViewModel, filterViewModel: TaskMapFilterViewModel) {
+    public init(listContainerViewModel: TasksListContainerViewModel, mapViewModel: TasksMapViewModel, filterViewModel: TasksMapFilterViewModel) {
         self.listContainerViewModel = listContainerViewModel
         self.mapViewModel = mapViewModel
         self.filterViewModel = filterViewModel

@@ -60,7 +60,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
     }
 
     /// Return the source bar item of this type based on the current filter
-    public func sourceItem(filterViewModel: TaskMapFilterViewModel) -> SourceItem {
+    public func sourceItem(filterViewModel: TasksMapFilterViewModel) -> SourceItem {
         let count = modelItems.count
         var color: UIColor? = nil
 
@@ -96,7 +96,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
     }
 
     // Returns a list of model items that are filtered based on current filter settings
-    public func filteredItems(filterViewModel: TaskMapFilterViewModel) -> [CADTaskListItemModelType] {
+    public func filteredItems(filterViewModel: TasksMapFilterViewModel) -> [CADTaskListItemModelType] {
         switch self {
         case .incident:
             return CADStateManager.shared.incidents.filter { incident in
@@ -105,9 +105,17 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
                     return false
                 }
 
-                let priorityFilter = filterViewModel.priorities.contains(where: { $0 == incident.grade })
-                let resourcedFilter = filterViewModel.resourcedIncidents.contains(where: { $0 == incident.status })
+                let priorityFilter: Bool
+                let resourcedFilter: Bool
 
+                if let filterViewModel = filterViewModel as? TasksMapFilterViewModelCore {
+                    priorityFilter = filterViewModel.priorities.contains(where: { $0 == incident.grade })
+                    resourcedFilter = filterViewModel.resourcedIncidents.contains(where: { $0 == incident.status })
+                } else {
+                    priorityFilter = true
+                    resourcedFilter = true
+                }
+                
                 // If status is not in filter options always show
                 let isOther = !incident.status.isFilterable
                 let isCurrent = incident.status == CADClientModelTypes.incidentStatus.currentCase
@@ -142,18 +150,23 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
                 // Ignore off duty resources
                 guard resource.status.shownOnMap else { return false }
 
-                let isTasked = resource.currentIncident != nil
                 let isDuress = resource.status.isDuress
+                
+                if let filterViewModel = filterViewModel as? TasksMapFilterViewModelCore {
+                    let isTasked = resource.currentIncident != nil
 
-                return filterViewModel.taskedResources.tasked && isTasked ||
-                    filterViewModel.taskedResources.untasked && !isTasked ||
-                isDuress
+                    return filterViewModel.taskedResources.tasked && isTasked ||
+                        filterViewModel.taskedResources.untasked && !isTasked ||
+                    isDuress
+                } else {
+                    return isDuress
+                }
             }
         }
     }
 
     // Return all annotations of this type based on the current filter and source selection
-    public func filteredAnnotations(filterViewModel: TaskMapFilterViewModel, selectedSource: CADTaskListSourceType) -> [TaskAnnotation] {
+    public func filteredAnnotations(filterViewModel: TasksMapFilterViewModel, selectedSource: CADTaskListSourceType) -> [TaskAnnotation] {
         if shouldShowType(filterViewModel: filterViewModel) || selectedSource == self {
             return filteredItems(filterViewModel: filterViewModel).flatMap {
                 return $0.createAnnotation()
@@ -163,7 +176,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
     }
 
     /// Return the sectioned task list content for current filter and optional search text
-    public func sectionedListContent(filterViewModel: TaskMapFilterViewModel, searchText: String?) -> [[CADFormCollectionSectionViewModel<TasksListItemViewModel>]] {
+    public func sectionedListContent(filterViewModel: TasksMapFilterViewModel, searchText: String?) -> [[CADFormCollectionSectionViewModel<TasksListItemViewModel>]] {
 
         let filteredItems = self.filteredItems(filterViewModel: filterViewModel)
         switch self {
@@ -456,17 +469,8 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
     }
 
     // Whether to show items given the current filter
-    public func shouldShowType(filterViewModel: TaskMapFilterViewModel) -> Bool {
-        switch self {
-        case .incident:
-            return filterViewModel.showIncidents
-        case .patrol:
-            return filterViewModel.showPatrol
-        case .broadcast:
-            return filterViewModel.showBroadcasts
-        case .resource:
-            return filterViewModel.showResources
-        }
+    public func shouldShowType(filterViewModel: TasksMapFilterViewModel) -> Bool {
+        return filterViewModel.showsType(self)
     }
 
 }
