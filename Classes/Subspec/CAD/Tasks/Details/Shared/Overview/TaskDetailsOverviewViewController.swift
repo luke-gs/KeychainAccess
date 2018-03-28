@@ -48,11 +48,13 @@ open class TaskDetailsOverviewViewController: UIViewController {
         if let mapViewModel = viewModel.mapViewModel() {
             let mapViewController = mapViewModel.createViewController()
             addChildViewController(mapViewController, toView: scrollView)
-            mapViewController.showsMapButtons = false
-            mapViewController.mapView.isZoomEnabled = false
-            mapViewController.mapView.isPitchEnabled = false
-            mapViewController.mapView.isRotateEnabled = false
-            mapViewController.mapView.isScrollEnabled = false
+            if !mapViewModel.allowsInteraction() {
+                mapViewController.showsMapButtons = false
+                mapViewController.mapView.isZoomEnabled = false
+                mapViewController.mapView.isPitchEnabled = false
+                mapViewController.mapView.isRotateEnabled = false
+                mapViewController.mapView.isScrollEnabled = false
+            }
             mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
             self.mapViewController = mapViewController
         }

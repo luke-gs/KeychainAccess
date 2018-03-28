@@ -120,8 +120,8 @@ open class PSCAlertController: ThemedPopoverViewController {
 extension PSCAlertController: PSCAlertViewDelegate {
     public func shouldDismiss() {
         if presentingViewController is AlertContainerViewController {
-            presentingViewController?.dismissAnimated()
+            presentingViewController?.dismiss(animated: true)
         }
-        dismissAnimated()
+        dismiss(animated: true)
     }
 }

@@ -124,7 +124,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
     }
 
     @objc private func cancelTapped() {
-        dismissAnimated()
+        dismiss(animated: true)
     }
 
     private func updateLoadingManager() {

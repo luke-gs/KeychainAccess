@@ -22,7 +22,16 @@ s.source           = { :git => 'https://github.com/Gridstone/mPolKit-iOS.git', :
 
 s.ios.deployment_target = '10.0'
 
+# s.source_files = 'Classes/**/*'
+# s.resources = 'Assets/*'
+
+s.subspec 'CAD' do |ss|
+	ss.source_files = 'Classes/Subspec/CAD/**/*'
+end
+
+# s.subspec 'Core' do |ss|
 s.source_files = 'Classes/**/*'
+s.exclude_files = 'Classes/Subspec/CAD/**/*'
 s.resources = 'Assets/*'
 
 s.dependency 'Alamofire', '4.5.1'
@@ -34,5 +43,6 @@ s.dependency 'PromiseKit/CoreLocation'
 s.dependency 'KeychainSwift', '~> 8.0'
 s.dependency 'Cache', '~> 4.1.2'
 s.dependency 'Cluster', '2.1.1'
+# end
 
 end
