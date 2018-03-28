@@ -21,18 +21,18 @@ public enum MPOLSource: String, EntitySource, UnboxableEnum {
     public var localizedBadgeTitle: String {
         switch self {
         case .mpol, .gnaf:
-            return NSLocalizedString("MPOL", bundle: .mpolKit, comment: "")
+            return NSLocalizedString("DS1", bundle: .mpolKit, comment: "")
         case .fnc:
-            return NSLocalizedString("FNC", bundle: .mpolKit, comment: "")
+            return NSLocalizedString("DS2", bundle: .mpolKit, comment: "")
         }
     }
 
     public var localizedBarTitle: String {
         switch self {
         case .mpol, .gnaf:
-            return NSLocalizedString("MPOL", bundle: .mpolKit, comment: "")
+            return NSLocalizedString("DS1", bundle: .mpolKit, comment: "")
         case .fnc:
-            return NSLocalizedString("FNC", bundle: .mpolKit, comment: "")
+            return NSLocalizedString("DS2", bundle: .mpolKit, comment: "")
         }
     }
 }
