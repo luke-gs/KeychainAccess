@@ -22,6 +22,14 @@ open class AppURLNavigator {
         
     }
 
+    /// Attempts to open resource by passing in necessary information. Parameters that are passed in will
+    /// be URL encoded.
+    ///
+    /// - Parameters:
+    ///   - scheme, host, path: Components of URL to be used.
+    ///   - parameters: The parameters to be passed in, they will be percent-escaped and as best possible translated to URL encoded query string components.
+    ///   - completion: Completion handler that will be passed to the `UIApplication.open(_:options:completionHandler:)`
+    /// - Throws: `AppURLNavigatorError`.invalidURLParameter if URL can't be constructed.
     open func open(_ scheme: String, host: String? = nil, path: String? = nil, parameters: [String: Any]? = nil,  completionHandler completion: ((Bool) -> Void)? = nil) throws {
 
         let components = routingInfoURLComponents(from: scheme, host: host, path: path)
@@ -30,17 +38,31 @@ open class AppURLNavigator {
             throw AppURLNavigatorError.invalidURLParameter
         }
 
+        // Pass this to Alamofire.URLEncoding, it handles the URL encoding well.
         let request = URLRequest(url: url)
 
-        let encodedURLRequest = try URLEncoding.default.encode(request, with: parameters)
+        // No one cares about Alamofire error, so convert the error to internal error.
+        var encodedURL: URL! = nil
+        do {
+            let encodedURLRequest = try URLEncoding.default.encode(request, with: parameters)
+            if let value = encodedURLRequest.url {
+                encodedURL = value
+            }
+        }
 
-        guard let encodedURL = encodedURLRequest.url else {
+        guard encodedURL != nil else {
             throw AppURLNavigatorError.invalidURLParameter
         }
 
         UIApplication.shared.open(encodedURL, options: [:], completionHandler: completion)
     }
 
+
+    /// Register a handler for a URL.
+    ///
+    /// - Parameters:
+    ///   - scheme, host, path: Components of URL to be used.
+    /// - Throws: `AppURLNavigatorError`.invalidURLParameter if URL can't be constructed.
     open func register(_ scheme: String, host: String? = nil, path: String, handler: @escaping AppURLNavigatorHandler) throws {
 
         let components = routingInfoURLComponents(from: scheme, host: host, path: path)
@@ -51,10 +73,22 @@ open class AppURLNavigator {
         routerHandlerRegister[pattern] = handler
     }
 
-    open func canHandle(_ url: URL) -> Bool {
+
+    /// Checks whether the URL matches any registered `scheme, host and path`.
+    /// This is usually used in `UIApplication.open(_:options:completionHandler:)` to quickly verify whether the URL could be handled.
+    /// The `URL` is expected to be passed to next handler if this returns `false`.
+    ///
+    /// - Parameter url: The url to be checked.
+    /// - Returns: `true` or `false` to indicate that url matches the scheme registered in this navigator.
+    open func isRegistered(_ url: URL) -> Bool {
         return handler(for: url)?.1 != nil
     }
 
+
+    /// Handle the URL using the registered handler.
+    ///
+    /// - Parameter url: The URL from `UIApplication.open(_:options:completionHandler)` to be handled.
+    /// - Returns: `true` or `false` to indicate whether the URL is handled.
     open func handle(_ url: URL) -> Bool {
 
         guard let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false), let handler = handler(for: url) else {
