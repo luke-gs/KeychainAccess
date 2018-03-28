@@ -21,24 +21,11 @@ open class TaskDetailsOverviewViewController: UIViewController {
     open private(set) var formViewController: FormBuilderViewController!
     open private(set) var cardView: DraggableCardView!
 
-    // MARK: - Card
+    // MARK: - Constraints
 
     open private(set) var cardHeightConstraint: NSLayoutConstraint?
     open private(set) var cardBottomConstraint: NSLayoutConstraint?
     open private(set) var mapCenterYConstraint: NSLayoutConstraint?
-
-    open var normalCardHeight: CGFloat {
-        let maxCardSize = cardView.scrollView.contentSize.height + 16
-        return min(view.bounds.height - LayoutConstants.defaultMapHeight, maxCardSize)
-    }
-
-    open var minimisedCardHeight: CGFloat {
-        return LayoutConstants.minimumCardHeight
-    }
-
-    open var maximisedCardHeight: CGFloat {
-        return view.bounds.height - LayoutConstants.minimumCardHeight - 50
-    }
 
     // MARK: - Setup
 
@@ -64,21 +51,24 @@ open class TaskDetailsOverviewViewController: UIViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        // Size the details card and update map controls
+        self.didUpdateCardView()
+
         // Dispatch main here to allow VC to be added to parent split
         DispatchQueue.main.async {
             // Make allowance for compact status change bar
             if let splitViewController = self.pushableSplitViewController as? TaskItemSidebarSplitViewController,
                 let compactStatusChangeBar = splitViewController.compactStatusChangeBar {
                 self.cardBottomConstraint?.constant = -compactStatusChangeBar.bounds.height
+                self.didUpdateCardView()
             }
-            // Size the details card and update map controls
-            self.didUpdateCardView()
         }
     }
 
     open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
 
+        // Update card size when view size changes
         coordinator.animate(alongsideTransition: { (context) in
             self.didUpdateCardView()
         }, completion: nil)
@@ -133,7 +123,7 @@ open class TaskDetailsOverviewViewController: UIViewController {
         if let mapView = mapView, let mapViewController = mapViewController {
             // Show both map and form
             mapView.translatesAutoresizingMaskIntoConstraints = false
-            cardHeightConstraint = cardView.heightAnchor.constraint(equalToConstant: normalCardHeight)
+            cardHeightConstraint = cardView.heightAnchor.constraint(equalToConstant: LayoutConstants.minimumCardHeight)
             cardBottomConstraint = cardView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
             mapCenterYConstraint = mapView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
 
@@ -197,43 +187,27 @@ extension TaskDetailsOverviewViewController: CADFormCollectionViewModelDelegate 
     }
 }
 
+// MARK: - DraggableCardViewDelegate
 extension TaskDetailsOverviewViewController: DraggableCardViewDelegate {
 
-    public func nearestStateForTranslation(_ translation: CGFloat) -> DraggableCardView.CardState {
-        let threshold = 0.1 as CGFloat
-        let cardHeight = cardView.bounds.height
-        if translation < 0 {
-            // Dragging card up
-            if cardHeight > normalCardHeight * (1 + threshold) {
-                return .maximised
-            } else  if cardHeight > minimisedCardHeight * (1 + threshold) {
-                return .normal
-            } else {
-                return .minimised
-            }
-
-        } else {
-            // Dragging card down
-            if cardHeight < normalCardHeight * (1 - threshold) {
-                return .minimised
-            } else  if cardHeight < maximisedCardHeight * (1 - threshold) {
-                return .normal
-            } else {
-                return .maximised
-            }
+    public func cardHeightForState(_ state: DraggableCardView.CardState) -> CGFloat {
+        switch state {
+        case .minimised:
+            // Fixed size, enough to grab
+            return LayoutConstants.minimumCardHeight
+        case .normal:
+            // 50% of view
+            return view.bounds.height * 0.5
+        case .maximised:
+            // Almost full screen
+            return view.bounds.height - 2 * LayoutConstants.minimumCardHeight
         }
     }
 
     public func didDragCardView(translation: CGFloat) {
         // Move card to match drag translation
-        switch cardView.currentState {
-        case .normal:
-            cardHeightConstraint?.constant = normalCardHeight - translation
-        case .minimised:
-            cardHeightConstraint?.constant = minimisedCardHeight - translation
-        case .maximised:
-            cardHeightConstraint?.constant = maximisedCardHeight - translation
-        }
+        let preDragHeight = cardHeightForState(cardView.currentState)
+        cardHeightConstraint?.constant = preDragHeight - translation
     }
 
     public func didUpdateCardView() {

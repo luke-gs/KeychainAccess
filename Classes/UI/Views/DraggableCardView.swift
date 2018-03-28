@@ -12,8 +12,8 @@ import UIKit
 /// Delegate for card state changes
 public protocol DraggableCardViewDelegate: class {
 
-    /// Request the nearest card size state for the given translation
-    func nearestStateForTranslation(_ translation: CGFloat) -> DraggableCardView.CardState
+    /// Ask the delegate for the size to use for different states
+    func cardHeightForState(_ state: DraggableCardView.CardState) -> CGFloat
 
     /// Notify the delegate of card movement
     func didDragCardView(translation: CGFloat)
@@ -53,12 +53,6 @@ open class DraggableCardView: UIView {
 
     /// The current display state of the card
     open var currentState: CardState = .normal
-
-    /// Layout constants
-    private struct Constants {
-        static let translationFactor: CGFloat = 1
-        static let elasticThreshold: CGFloat = 1200
-    }
 
     // MARK: - Setup
 
@@ -101,14 +95,14 @@ open class DraggableCardView: UIView {
 
         // Add drag bar container with rounded edges
         dragContainer.backgroundColor = theme.color(forKey: .background)
-        dragContainer.layer.cornerRadius = 16
+        addSubview(dragContainer)
+
         if #available(iOS 11.0, *) {
+            dragContainer.layer.cornerRadius = 16
             dragContainer.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         } else {
-            // Too bad...
+            // No corners for you...
         }
-
-        addSubview(dragContainer)
 
         // Add drag bar in container
         dragBar.backgroundColor = .disabledGray
@@ -148,29 +142,7 @@ open class DraggableCardView: UIView {
         ])
     }
 
-    // MARK: - State
-
-    /// Convert the raw translation into card movement
-    open func movementForTranslation(_ translation: CGFloat) -> CGFloat {
-        // Add some friction, see https://github.com/HarshilShah/DeckTransition
-        if translation >= Constants.elasticThreshold {
-            let frictionLength = translation - Constants.elasticThreshold
-            let frictionTranslation = 30 * atan(frictionLength / 120) + frictionLength / 10
-            return frictionTranslation + (Constants.elasticThreshold * Constants.translationFactor)
-        } else {
-            return translation * Constants.translationFactor
-        }
-    }
-
-    /// Update state and notify delegate
-    open func updateCardState(_ currentState: CardState) {
-        // Cancel recogniser
-        panGesture.isEnabled = false
-        panGesture.isEnabled = true
-
-        self.currentState = currentState
-        delegate?.didUpdateCardView()
-    }
+    // MARK: - Dragging
 
     /// Return whether a drag is allowed given current state and translation
     open func dragAllowed(translation: CGFloat) -> Bool {
@@ -179,15 +151,47 @@ open class DraggableCardView: UIView {
                 currentState == .normal
     }
 
+    /// Calculate nearest card state based on current drag release position
+    open func nearestStateForTranslation(_ translation: CGFloat) -> CardState {
+        guard let delegate = delegate else { return .normal }
+
+        // Get heights from delegate
+        let normalCardHeight = delegate.cardHeightForState(.normal)
+        let minimisedCardHeight = delegate.cardHeightForState(.minimised)
+        let maximisedCardHeight = delegate.cardHeightForState(.maximised)
+
+        // Once going past a threshold in the right direction, move to next state
+        let threshold = 30 as CGFloat
+        let cardHeight = bounds.height
+
+        if translation < 0 {
+            // Dragging card up
+            if cardHeight > normalCardHeight + threshold {
+                return .maximised
+            } else  if cardHeight > minimisedCardHeight + threshold {
+                return .normal
+            } else {
+                return .minimised
+            }
+
+        } else {
+            // Dragging card down
+            if cardHeight < normalCardHeight - threshold {
+                return .minimised
+            } else  if cardHeight < maximisedCardHeight - threshold {
+                return .normal
+            } else {
+                return .maximised
+            }
+        }
+    }
+
     /// Uses the pan gesture to move the card on screen
     @objc open func handlePan(gestureRecognizer: UIPanGestureRecognizer) {
-        guard gestureRecognizer.isEqual(panGesture) else {
-            return
-        }
+        guard gestureRecognizer.isEqual(panGesture) else { return }
 
         let translation = gestureRecognizer.translation(in: self).y
         switch gestureRecognizer.state {
-
         case .began:
             gestureRecognizer.setTranslation(CGPoint(x: 0, y: 0), in: self)
 
@@ -195,8 +199,8 @@ open class DraggableCardView: UIView {
             // Only handle gesture if dragging a valid direction
             if dragAllowed(translation: translation) {
 
-                // Update delegate
-                delegate?.didDragCardView(translation: movementForTranslation(translation))
+                // Update delegate to update position
+                delegate?.didDragCardView(translation: translation)
             }
 
         case .ended:
@@ -204,9 +208,14 @@ open class DraggableCardView: UIView {
             if dragAllowed(translation: translation) {
 
                 // Change state if our position has moved closer to a new state
-                currentState = delegate?.nearestStateForTranslation(movementForTranslation(translation)) ?? currentState
+                currentState = nearestStateForTranslation(translation)
             }
-            updateCardState(currentState)
+            // Always update delegate, even if state hasn't changed to re-position card
+            delegate?.didUpdateCardView()
+
+        case .cancelled:
+            // Always update delegate, even if state hasn't changed to re-position card
+            delegate?.didUpdateCardView()
 
         default: break
         }
@@ -219,8 +228,9 @@ extension DraggableCardView: UIGestureRecognizerDelegate {
 
     open override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == panGesture {
-            // Don't trigger gesture if maximised and dragging up, or dragging down when not scrolled to top
-            // Let it go to scroll view instead
+            // Don't trigger our gesture if (let it go to scroll view instead):
+            // - maximised and dragging up (so we can scroll content up)
+            // - maximised and dragging down if not at top (so we can scroll content down)
             let translation = panGesture.translation(in: self).y
             if (currentState == .maximised && (translation < 0 || scrollView.contentOffset.y > 0)) {
                 return false
@@ -230,7 +240,7 @@ extension DraggableCardView: UIGestureRecognizerDelegate {
     }
 
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        // Make sure our pan recognizer overrides default scroll gesture
+        // Make sure our pan recognizer overrides others
         if gestureRecognizer == panGesture {
             return true
         }
