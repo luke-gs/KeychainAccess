@@ -13,13 +13,13 @@ import UIKit
 public protocol DraggableCardViewDelegate: class {
 
     /// Ask the delegate for the size to use for different states
-    func cardHeightForState(_ state: DraggableCardView.CardState) -> CGFloat
+    func heightForCardViewInState(_ state: DraggableCardView.CardState) -> CGFloat
 
     /// Notify the delegate of card movement
     func didDragCardView(translation: CGFloat)
 
-    /// Notify the delegate of a change in card state
-    func didUpdateCardView()
+    /// Notify the delegate that a drag has finished
+    func didFinishDragCardView()
 }
 
 /// View for showing scrollable content that can be minimised or restored using pan gestures
@@ -156,9 +156,9 @@ open class DraggableCardView: UIView {
         guard let delegate = delegate else { return .normal }
 
         // Get heights from delegate
-        let normalCardHeight = delegate.cardHeightForState(.normal)
-        let minimisedCardHeight = delegate.cardHeightForState(.minimised)
-        let maximisedCardHeight = delegate.cardHeightForState(.maximised)
+        let normalCardHeight = delegate.heightForCardViewInState(.normal)
+        let minimisedCardHeight = delegate.heightForCardViewInState(.minimised)
+        let maximisedCardHeight = delegate.heightForCardViewInState(.maximised)
 
         // Once going past a threshold in the right direction, move to next state
         let threshold = 30 as CGFloat
@@ -211,11 +211,11 @@ open class DraggableCardView: UIView {
                 currentState = nearestStateForTranslation(translation)
             }
             // Always update delegate, even if state hasn't changed to re-position card
-            delegate?.didUpdateCardView()
+            delegate?.didFinishDragCardView()
 
         case .cancelled:
             // Always update delegate, even if state hasn't changed to re-position card
-            delegate?.didUpdateCardView()
+            delegate?.didFinishDragCardView()
 
         default: break
         }

@@ -52,7 +52,7 @@ open class TaskDetailsOverviewViewController: UIViewController {
         super.viewWillAppear(animated)
 
         // Size the details card and update map controls
-        self.didUpdateCardView()
+        self.didFinishDragCardView()
 
         // Dispatch main here to allow VC to be added to parent split
         DispatchQueue.main.async {
@@ -60,7 +60,7 @@ open class TaskDetailsOverviewViewController: UIViewController {
             if let splitViewController = self.pushableSplitViewController as? TaskItemSidebarSplitViewController,
                 let compactStatusChangeBar = splitViewController.compactStatusChangeBar {
                 self.cardBottomConstraint?.constant = -compactStatusChangeBar.bounds.height
-                self.didUpdateCardView()
+                self.didFinishDragCardView()
             }
         }
     }
@@ -70,7 +70,7 @@ open class TaskDetailsOverviewViewController: UIViewController {
 
         // Update card size when view size changes
         coordinator.animate(alongsideTransition: { (context) in
-            self.didUpdateCardView()
+            self.didFinishDragCardView()
         }, completion: nil)
     }
     
@@ -190,7 +190,7 @@ extension TaskDetailsOverviewViewController: CADFormCollectionViewModelDelegate 
 // MARK: - DraggableCardViewDelegate
 extension TaskDetailsOverviewViewController: DraggableCardViewDelegate {
 
-    public func cardHeightForState(_ state: DraggableCardView.CardState) -> CGFloat {
+    public func heightForCardViewInState(_ state: DraggableCardView.CardState) -> CGFloat {
         switch state {
         case .minimised:
             // Fixed size, enough to grab
@@ -206,11 +206,11 @@ extension TaskDetailsOverviewViewController: DraggableCardViewDelegate {
 
     public func didDragCardView(translation: CGFloat) {
         // Move card to match drag translation
-        let preDragHeight = cardHeightForState(cardView.currentState)
+        let preDragHeight = heightForCardViewInState(cardView.currentState)
         cardHeightConstraint?.constant = preDragHeight - translation
     }
 
-    public func didUpdateCardView() {
+    public func didFinishDragCardView() {
         UIView.animate(withDuration: 0.25, animations: {
             // Move card to match new state with no translation
             self.didDragCardView(translation: 0)
