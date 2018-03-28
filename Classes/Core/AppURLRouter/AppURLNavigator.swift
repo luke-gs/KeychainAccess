@@ -12,7 +12,7 @@ import UIKit.UIApplication
 // Imported to use `ParameterEncoding`
 import Alamofire
 
-public typealias AppURLNavigatorHandler = (_ urlString: String, _ values: [String: String]) -> Bool
+public typealias AppURLNavigatorHandler = (_ urlString: String, _ values: [String: Any]?) -> Bool
 
 open class AppURLNavigator {
 
@@ -53,7 +53,7 @@ open class AppURLNavigator {
         guard encodedURL != nil else {
             throw AppURLNavigatorError.invalidURLParameter
         }
-
+        
         UIApplication.shared.open(encodedURL, options: [:], completionHandler: completion)
     }
 
@@ -91,16 +91,11 @@ open class AppURLNavigator {
     /// - Returns: `true` or `false` to indicate whether the URL is handled.
     open func handle(_ url: URL) -> Bool {
 
-        guard let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false), let handler = handler(for: url) else {
+        guard let handler = handler(for: url) else {
             return false
         }
 
-        var values: [String: String] = [:]
-        if let queryItems = urlComponents.queryItems {
-            queryItems.forEach {
-                values[$0.name] = $0.value
-            }
-        }
+        let values = urlQueryParameters(from: url)
 
         let pattern = handler.0
         return handler.1(pattern, values)
@@ -143,6 +138,60 @@ open class AppURLNavigator {
             return nil
         }
 
+    }
+
+    private func urlQueryParameters(from url: URL) -> [String: Any]? {
+
+        guard let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false),
+            let queryString = urlComponents.query else {
+            return nil
+        }
+
+        var results: [String: Any] = [:]
+
+        let parameters = queryString.components(separatedBy: "&")
+
+        parameters.forEach {
+
+            let parts = $0.components(separatedBy: "=")
+
+            if var key = urlDecodedString(from: parts.first),
+                var value: Any = urlDecodedString(from: parts[1]),
+                parts.count > 1  {
+
+                let isArray = key.hasSuffix("[]")
+                if isArray {
+                    let lowerBound = key.startIndex
+                    let upperBound = key.index(key.endIndex, offsetBy: -2)
+                    key = String(key[lowerBound..<upperBound])
+                }
+
+                let existingValue = results[key]
+                if var existingArray = existingValue as? [Any] {
+                    existingArray.append(value)
+                    value = existingArray
+                } else if let existingValue = existingValue {
+                    value = existingValue
+                } else if isArray {
+                    value = [value]
+                }
+                results[key] = value
+            }
+
+        }
+
+        return results
+    }
+
+    private func urlDecodedString(from urlString: String?) -> String? {
+        guard let urlString = urlString else {
+            return nil
+        }
+
+        var results = urlString
+        results = results.replacingOccurrences(of: "+", with: " ")
+
+        return (results as NSString).removingPercentEncoding
     }
 
 }
