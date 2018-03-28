@@ -56,7 +56,7 @@ open class DraggableCardView: UIView {
 
     /// Layout constants
     private struct Constants {
-        static let translationFactor: CGFloat = 0.75
+        static let translationFactor: CGFloat = 1
         static let elasticThreshold: CGFloat = 1200
     }
 

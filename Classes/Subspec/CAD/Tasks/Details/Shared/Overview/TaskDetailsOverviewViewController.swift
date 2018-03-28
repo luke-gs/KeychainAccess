@@ -146,7 +146,7 @@ open class TaskDetailsOverviewViewController: UIViewController {
                 // Use full size for map even when obscured, so we can manipulate center position without zooming
                 mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                mapView.heightAnchor.constraint(equalTo: view.heightAnchor),
+                mapView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 2, constant: 0),
                 mapCenterYConstraint!,
 
                 // Position map controls relative to our view, not map view which might be off screen
@@ -200,11 +200,13 @@ extension TaskDetailsOverviewViewController: CADFormCollectionViewModelDelegate 
 extension TaskDetailsOverviewViewController: DraggableCardViewDelegate {
 
     public func nearestStateForTranslation(_ translation: CGFloat) -> DraggableCardView.CardState {
+        let threshold = 0.1 as CGFloat
+        let cardHeight = cardView.bounds.height
         if translation < 0 {
             // Dragging card up
-            if cardView.bounds.height > normalCardHeight * 1.2 {
+            if cardHeight > normalCardHeight * (1 + threshold) {
                 return .maximised
-            } else  if cardView.bounds.height > minimisedCardHeight * 1.2 {
+            } else  if cardHeight > minimisedCardHeight * (1 + threshold) {
                 return .normal
             } else {
                 return .minimised
@@ -212,9 +214,9 @@ extension TaskDetailsOverviewViewController: DraggableCardViewDelegate {
 
         } else {
             // Dragging card down
-            if cardView.bounds.height < normalCardHeight * 0.8 {
+            if cardHeight < normalCardHeight * (1 - threshold) {
                 return .minimised
-            } else  if cardView.bounds.height < maximisedCardHeight * 0.8 {
+            } else  if cardHeight < maximisedCardHeight * (1 - threshold) {
                 return .normal
             } else {
                 return .maximised
