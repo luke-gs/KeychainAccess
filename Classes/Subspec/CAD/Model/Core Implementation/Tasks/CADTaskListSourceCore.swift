@@ -108,7 +108,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
                 let priorityFilter: Bool
                 let resourcedFilter: Bool
 
-                if let filterViewModel = filterViewModel as? IncidentsFilterable {
+                if let filterViewModel = filterViewModel as? TasksMapFilterViewModelCore {
                     priorityFilter = filterViewModel.priorities.contains(where: { $0 == incident.grade })
                     resourcedFilter = filterViewModel.resourcedIncidents.contains(where: { $0 == incident.status })
                 } else {
@@ -152,7 +152,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
 
                 let isDuress = resource.status.isDuress
                 
-                if let filterViewModel = filterViewModel as? ResourcesFilterable {
+                if let filterViewModel = filterViewModel as? TasksMapFilterViewModelCore {
                     let isTasked = resource.currentIncident != nil
 
                     return filterViewModel.taskedResources.tasked && isTasked ||

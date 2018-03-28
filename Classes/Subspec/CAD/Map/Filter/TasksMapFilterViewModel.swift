@@ -16,14 +16,3 @@ public protocol TasksMapFilterViewModel: MapFilterViewModel {
     /// Whether to show results outside the patrol area
     var showResultsOutsidePatrolArea: Bool { get }
 }
-
-/// Protocol for tasks map filter that can filter incidents based on conditions
-public protocol IncidentsFilterable {
-    var priorities: [CADIncidentGradeType] { get }
-    var resourcedIncidents: [CADIncidentStatusType] { get }
-}
-
-/// Protocol for tasks map filter that can filter resources based on conditions
-public protocol ResourcesFilterable {
-    var taskedResources: (tasked: Bool, untasked: Bool) { get }
-}

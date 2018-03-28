@@ -86,14 +86,7 @@ public class TasksMapFilterViewModelCore: TasksMapFilterViewModel {
             return false
         }
     }
-    
-    // MARK: General
-    
-    /// Whether to show results outside the patrol area
-    public var showResultsOutsidePatrolArea: Bool {
-        return sections[Indexes.general].toggleRows[Indexes.ToggleRows.patrolArea].options[0].isOn
-    }
-    
+
     // MARK: - View controller info
     
     public func createViewController(delegate: MapFilterViewControllerDelegate?) -> UIViewController {
@@ -113,11 +106,16 @@ public class TasksMapFilterViewModelCore: TasksMapFilterViewModel {
     public func disablesCheckboxesOnSectionDisabled(for section: Int) -> Bool {
         return false
     }
-}
 
-
-// MARK: Incidents
-extension TasksMapFilterViewModelCore: IncidentsFilterable {
+    
+    // MARK: General
+    
+    /// Whether to show results outside the patrol area
+    public var showResultsOutsidePatrolArea: Bool {
+        return sections[Indexes.general].toggleRows[Indexes.ToggleRows.patrolArea].options[0].isOn
+    }
+    
+    // MARK: Incidents
     
     /// Whether to show incidents
     private var showIncidents: Bool {
@@ -147,28 +145,24 @@ extension TasksMapFilterViewModelCore: IncidentsFilterable {
             return nil
             } as [CADIncidentStatusType?]).removeNils()
     }
-}
 
-// MARK: Patrol
-extension TasksMapFilterViewModelCore {
+
+    // MARK: Patrol
+
     /// Whether to show patrol
     private var showPatrol: Bool {
         return sections[Indexes.patrol].isOn.isTrue
     }
-}
 
+    // MARK: Broadcasts
 
-// MARK: Broadcasts
-extension TasksMapFilterViewModelCore {
     /// Whether to show broadcasts
     private var showBroadcasts: Bool {
         return sections[Indexes.broadcasts].isOn.isTrue
     }
-}
 
-// MARK: Resources
-extension TasksMapFilterViewModelCore: ResourcesFilterable {
-    
+    // MARK: Resources
+
     /// Whether to show resources
     private var showResources: Bool {
         return sections[Indexes.resources].isOn.isTrue
