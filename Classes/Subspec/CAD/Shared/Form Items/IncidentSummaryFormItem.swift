@@ -16,7 +16,6 @@ public class IncidentSummaryFormItem: BaseFormItem {
         super.init(cellType: TasksListIncidentCollectionViewCell.self, reuseIdentifier: TasksListIncidentCollectionViewCell.defaultReuseIdentifier)
         
         highlightStyle = .fade
-        selectionStyle = .fade
     }
     
     public override func configure(_ cell: CollectionViewFormCell) {
