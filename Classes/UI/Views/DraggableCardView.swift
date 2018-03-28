@@ -77,26 +77,40 @@ open class DraggableCardView: UIView {
         MPLCodingNotSupported()
     }
 
+    override open func layoutSubviews() {
+        super.layoutSubviews()
+
+        // Improve performance of shadow
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 16).cgPath
+    }
+
     open func createSubviews() {
-        // Use rounded corners on self
         let theme = ThemeManager.shared.theme(for: .current)
-        self.clipsToBounds = true
-        self.backgroundColor = theme.color(forKey: .background)
-        self.layer.cornerRadius = 16
+
+        // Set shadow on base view that is not clipped with corner radius
+        backgroundColor = UIColor.clear
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 2)
+        layer.shadowOpacity = 0.25
+        layer.shadowRadius = 4.0
+
+        // Add scroll view first (so under bar)
+        scrollView.backgroundColor = theme.color(forKey: .background)
+        self.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+
+        // Add drag bar container with rounded edges
+        dragContainer.backgroundColor = theme.color(forKey: .background)
+        dragContainer.layer.cornerRadius = 16
         if #available(iOS 11.0, *) {
-            self.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+            dragContainer.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         } else {
             // Too bad...
         }
 
-        // Add scroll view first (so under bar)
-        self.addSubview(scrollView)
-        scrollView.addSubview(contentView)
-
-        // Add drag bar in container
-        dragContainer.backgroundColor = self.backgroundColor
         addSubview(dragContainer)
 
+        // Add drag bar in container
         dragBar.backgroundColor = .disabledGray
         dragBar.layer.cornerRadius = 3
         dragContainer.addSubview(dragBar)
@@ -110,9 +124,10 @@ open class DraggableCardView: UIView {
 
         // Layout drag bar then scroll view containing content view
         NSLayoutConstraint.activate([
+            // Outset drag container 1 pixel, due to rendering issue with rounded edges
             dragContainer.topAnchor.constraint(equalTo: topAnchor),
-            dragContainer.leadingAnchor.constraint(equalTo: leadingAnchor),
-            dragContainer.trailingAnchor.constraint(equalTo: trailingAnchor),
+            dragContainer.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -1),
+            dragContainer.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 1),
 
             dragBar.topAnchor.constraint(equalTo: dragContainer.topAnchor, constant: 8),
             dragBar.centerXAnchor.constraint(equalTo: dragContainer.centerXAnchor),
