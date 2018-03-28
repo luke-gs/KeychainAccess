@@ -11,13 +11,27 @@ import UIKit
 
 /// Delegate for card state changes
 public protocol DraggableCardViewDelegate: class {
+
+    /// Request the nearest card size state for the given translation
+    func nearestStateForTranslation(_ translation: CGFloat) -> DraggableCardView.CardState
+
+    /// Notify the delegate of card movement
     func didDragCardView(translation: CGFloat)
+
+    /// Notify the delegate of a change in card state
     func didUpdateCardView()
 }
 
 /// View for showing scrollable content that can be minimised or restored using pan gestures
 /// on the content view or drag bar
 open class DraggableCardView: UIView {
+
+    /// Enum for the current card state
+    public enum CardState {
+        case normal
+        case minimised
+        case maximised
+    }
 
     /// Delegate for observing changes
     open weak var delegate: DraggableCardViewDelegate?
@@ -37,14 +51,13 @@ open class DraggableCardView: UIView {
     /// The pan gesture for moving card
     open private(set) var panGesture: UIPanGestureRecognizer!
 
-    /// Whether the card is currently being shown full size
-    open var isShowing: Bool = true
+    /// The current display state of the card
+    open var currentState: CardState = .normal
 
     /// Layout constants
     private struct Constants {
-        static let translationFactor: CGFloat = 0.5
-        static let elasticThreshold: CGFloat = 120
-        static let hideThreshold: CGFloat = 240
+        static let translationFactor: CGFloat = 0.75
+        static let elasticThreshold: CGFloat = 1200
     }
 
     // MARK: - Setup
@@ -135,13 +148,20 @@ open class DraggableCardView: UIView {
     }
 
     /// Update state and notify delegate
-    open func updateIsShowing(_ isShowing: Bool) {
+    open func updateCardState(_ currentState: CardState) {
         // Cancel recogniser
         panGesture.isEnabled = false
         panGesture.isEnabled = true
 
-        self.isShowing = isShowing
+        self.currentState = currentState
         delegate?.didUpdateCardView()
+    }
+
+    /// Return whether a drag is allowed given current state and translation
+    open func dragAllowed(translation: CGFloat) -> Bool {
+        return (currentState == .minimised && translation <= 0) ||
+                (currentState == .maximised && translation >= 0) ||
+                currentState == .normal
     }
 
     /// Uses the pan gesture to move the card on screen
@@ -157,28 +177,21 @@ open class DraggableCardView: UIView {
             gestureRecognizer.setTranslation(CGPoint(x: 0, y: 0), in: self)
 
         case .changed:
-            // Only do something if translation is related to changing state
-            if (isShowing && translation >= 0) || (!isShowing && translation <= 0) {
+            // Only handle gesture if dragging a valid direction
+            if dragAllowed(translation: translation) {
 
                 // Update delegate
                 delegate?.didDragCardView(translation: movementForTranslation(translation))
-
-                // Show/hide if past the hide threshold
-                if abs(translation) > Constants.hideThreshold {
-                    updateIsShowing(!isShowing)
-                }
             }
 
         case .ended:
-            // Only do something if translation is related to changing state
-            if (isShowing && translation >= 0) || (!isShowing && translation <= 0) {
-                // Show/hide if past the elastic threshold
-                if abs(translation) > Constants.elasticThreshold {
-                    updateIsShowing(!isShowing)
-                    return
-                }
+            // Only handle gesture if dragging a valid direction
+            if dragAllowed(translation: translation) {
+
+                // Change state if our position has moved closer to a new state
+                currentState = delegate?.nearestStateForTranslation(movementForTranslation(translation)) ?? currentState
             }
-            updateIsShowing(isShowing)
+            updateCardState(currentState)
 
         default: break
         }
@@ -191,11 +204,10 @@ extension DraggableCardView: UIGestureRecognizerDelegate {
 
     open override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == panGesture {
-            // Only trigger gesture if dragging down while at top of scroll view, or dragging up when hidden
+            // Don't trigger gesture if maximised and dragging up, or dragging down when not scrolled to top
+            // Let it go to scroll view instead
             let translation = panGesture.translation(in: self).y
-            if (isShowing && scrollView.contentOffset.y <= 0 && translation >= 0) || (!isShowing && translation <= 0) {
-                return true
-            } else {
+            if (currentState == .maximised && (translation < 0 || scrollView.contentOffset.y > 0)) {
                 return false
             }
         }
