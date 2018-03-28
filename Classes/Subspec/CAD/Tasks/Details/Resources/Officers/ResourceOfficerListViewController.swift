@@ -13,7 +13,7 @@ open class ResourceOfficerListViewController: CADFormCollectionViewController<Re
     override public init(viewModel: CADFormCollectionViewModel<ResourceOfficerViewModel>) {
         super.init(viewModel: viewModel)
         
-        sidebarItem.image = AssetManager.shared.image(forKey: .entityOfficer)
+        sidebarItem.image = AssetManager.shared.image(forKey: .resourceGeneral)
         sidebarItem.count = UInt(viewModel.totalNumberOfItems())
     }
     

@@ -37,21 +37,10 @@ open class ManageCallsignIncidentFormViewController: FormBuilderViewController {
         // Show current incident with header if set
         if let listViewModel = self.listViewModel {
             builder += HeaderFormItem(text: NSLocalizedString("Current Incident", comment: "").uppercased(), style: .plain)
-            builder += CustomFormItem(cellType: TasksListIncidentCollectionViewCell.self, reuseIdentifier: "cell")
-                .onConfigured({ [unowned self] (cell) in
-                    // Configure the cell
-                    if let cell = cell as? TasksListIncidentCollectionViewCell {
-                        self.decorate(cell: cell, with: listViewModel)
-                    }
-                })
+            builder += IncidentSummaryFormItem(viewModel: listViewModel)
+                .separatorStyle(.none)
+                .selectionStyle(.none)
                 .accessory(ItemAccessory.disclosure)
-                .height(.fixed(64))
-                .onThemeChanged({ (cell, theme) in
-                    guard let cell = cell as? TasksListIncidentCollectionViewCell else { return }
-                    cell.summaryView.titleLabel.textColor = theme.color(forKey: .primaryText)
-                    cell.summaryView.subtitleLabel.textColor = theme.color(forKey: .secondaryText)
-                    cell.summaryView.captionLabel.textColor = theme.color(forKey: .secondaryText)
-                })
                 .onSelection({ [unowned self] cell in
                     // Present the incident split view controller
                     if let viewModel = listViewModel.createItemViewModel() {
@@ -59,21 +48,6 @@ open class ManageCallsignIncidentFormViewController: FormBuilderViewController {
                     }
                 })
         }
-    }
-
-    // MARK: - Theme
-
-    open func decorate(cell: TasksListIncidentCollectionViewCell, with viewModel: TasksListIncidentViewModel) {
-        cell.highlightStyle = .fade
-        cell.separatorStyle = .none
-
-        cell.decorate(with: viewModel)
-    }
-
-    // Make sure item is never actually selected
-    open override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        super.collectionView(collectionView, didSelectItemAt: indexPath)
-        collectionView.deselectItem(at: indexPath, animated: false)
     }
 }
 

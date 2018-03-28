@@ -10,7 +10,7 @@ import UIKit
 
 /// Activity log view model intended for use with the large dates at the top.
 /// This should be subclassed, not used directly.
-public class DatedActivityLogViewModel: CADFormCollectionViewModel<ActivityLogItemViewModel> {
+open class DatedActivityLogViewModel: CADFormCollectionViewModel<ActivityLogItemViewModel> {
     
     public func sortedSectionsByDate(from viewModels: [ActivityLogItemViewModel]) -> [CADFormCollectionSectionViewModel<ActivityLogItemViewModel>] {
         let dateFormatter = DateFormatter()
