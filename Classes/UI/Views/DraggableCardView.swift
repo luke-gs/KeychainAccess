@@ -151,8 +151,8 @@ open class DraggableCardView: UIView {
                 currentState == .normal
     }
 
-    /// Calculate nearest card state based on current drag release position
-    open func nearestStateForTranslation(_ translation: CGFloat) -> CardState {
+    /// Calculate nearest card state based on current state and release velocity
+    open func nearestStateWithVelocity(_ velocity: CGFloat) -> CardState {
         guard let delegate = delegate else { return .normal }
 
         // Get heights from delegate
@@ -164,8 +164,8 @@ open class DraggableCardView: UIView {
         let threshold = 30 as CGFloat
         let cardHeight = bounds.height
 
-        if translation < 0 {
-            // Dragging card up
+        if velocity <= 0 {
+            // Card is moving up
             if cardHeight > normalCardHeight + threshold {
                 return .maximised
             } else  if cardHeight > minimisedCardHeight + threshold {
@@ -175,7 +175,7 @@ open class DraggableCardView: UIView {
             }
 
         } else {
-            // Dragging card down
+            // Card is moving down
             if cardHeight < normalCardHeight - threshold {
                 return .minimised
             } else  if cardHeight < maximisedCardHeight - threshold {
@@ -208,7 +208,8 @@ open class DraggableCardView: UIView {
             if dragAllowed(translation: translation) {
 
                 // Change state if our position has moved closer to a new state
-                currentState = nearestStateForTranslation(translation)
+                let velocity = gestureRecognizer.velocity(in: self).y
+                currentState = nearestStateWithVelocity(velocity)
             }
             // Always update delegate, even if state hasn't changed to re-position card
             delegate?.didFinishDragCardView()
