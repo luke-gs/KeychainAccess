@@ -292,6 +292,7 @@
 		445BB13020465DBA00A81375 /* NavigationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445BB12F20465DBA00A81375 /* NavigationTitleView.swift */; };
 		44621FF61F59239C007C3150 /* FilterRangeDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44621FF41F59239C007C3150 /* FilterRangeDescriptor.swift */; };
 		44621FF71F59239C007C3150 /* FilterValueDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44621FF51F59239C007C3150 /* FilterValueDescriptor.swift */; };
+		44A662C9206B16750033B614 /* IncidentSummaryFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A662C8206B16750033B614 /* IncidentSummaryFormItem.swift */; };
 		44C9922A205F30500045DD2F /* GalleryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C99229205F30500045DD2F /* GalleryButton.swift */; };
 		44F3F14B1F56DBD300D68585 /* FilterDescriptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F3F14A1F56DBD300D68585 /* FilterDescriptorTests.swift */; };
 		44F3F14E1F56DDDC00D68585 /* FilterDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F3F14D1F56DDC000D68585 /* FilterDescriptor.swift */; };
@@ -1094,6 +1095,7 @@
 		445BB12F20465DBA00A81375 /* NavigationTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationTitleView.swift; path = Classes/UI/Views/NavigationTitleView.swift; sourceTree = SOURCE_ROOT; };
 		44621FF41F59239C007C3150 /* FilterRangeDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterRangeDescriptor.swift; sourceTree = "<group>"; };
 		44621FF51F59239C007C3150 /* FilterValueDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterValueDescriptor.swift; sourceTree = "<group>"; };
+		44A662C8206B16750033B614 /* IncidentSummaryFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentSummaryFormItem.swift; sourceTree = "<group>"; };
 		44C99229205F30500045DD2F /* GalleryButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryButton.swift; sourceTree = "<group>"; };
 		44F3F14A1F56DBD300D68585 /* FilterDescriptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDescriptorTests.swift; sourceTree = "<group>"; };
 		44F3F14D1F56DDC000D68585 /* FilterDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDescriptor.swift; sourceTree = "<group>"; };
@@ -4002,6 +4004,7 @@
 				EAB38FF81F70A73700341BAF /* HeaderFormItem.swift */,
 				EAB38FF51F70A73700341BAF /* SubtitleFormItem.swift */,
 				EAB38FF71F70A73700341BAF /* ValueFormItem.swift */,
+				44A662C8206B16750033B614 /* IncidentSummaryFormItem.swift */,
 				EA5B875C1F6F5E67002BEC65 /* BaseFormItem.swift */,
 				EAB38FFD1F71EA4E00341BAF /* BaseSupplementaryFormItem.swift */,
 				EA445DA11F73578500ABF70F /* TextFieldFormItem.swift */,
@@ -4758,6 +4761,7 @@
 				463FEF5D1FE1FFF10093E303 /* LabeledTextField.swift in Sources */,
 				BC9C7E121F0DED6600DFFE83 /* TableViewFormExpandingHeaderCell.swift in Sources */,
 				EA76ECF51F57D8AB00524830 /* LookupAddressLocationAdvancedOptions.swift in Sources */,
+				44A662C9206B16750033B614 /* IncidentSummaryFormItem.swift in Sources */,
 				274753F61FC680F200D5FA98 /* UIStackView+RemoveArrangedSubviews.swift in Sources */,
 				19FEC9851F43F7AC005692A9 /* ErrorMapperDefinition.swift in Sources */,
 				9686FC941F78AAED00C4AB4D /* UIView+SafeArea.swift in Sources */,
