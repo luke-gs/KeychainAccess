@@ -233,7 +233,12 @@ extension DraggableCardView: UIGestureRecognizerDelegate {
             // - maximised and dragging up (so we can scroll content up)
             // - maximised and dragging down if not at top (so we can scroll content down)
             let translation = panGesture.translation(in: self).y
+            let velocity = panGesture.velocity(in: self)
             if (currentState == .maximised && (translation < 0 || scrollView.contentOffset.y > 0)) {
+                return false
+            }
+            // Don't trigger gesture if panning horizontally (eg in MPOLSplitViewController page controller)
+            if fabs(velocity.x) > fabs(velocity.y) * 2 {
                 return false
             }
         }
@@ -241,8 +246,8 @@ extension DraggableCardView: UIGestureRecognizerDelegate {
     }
 
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        // Make sure our pan recognizer overrides others
-        if gestureRecognizer == panGesture {
+        // Make sure our pan recognizer overrides other pan gestures
+        if gestureRecognizer == panGesture && otherGestureRecognizer.isKind(of: UIPanGestureRecognizer.self) {
             return true
         }
         return false
