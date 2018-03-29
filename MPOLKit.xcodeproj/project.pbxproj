@@ -448,6 +448,7 @@
 		96CF32341F8D7C7700140AF8 /* TasksListHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32331F8D7C7700140AF8 /* TasksListHeaderViewModel.swift */; };
 		96D3415C2005D38000CEDDFF /* StandardSearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D3415B2005D38000CEDDFF /* StandardSearchBarView.swift */; };
 		96D731731FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D731721FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift */; };
+		96E19CAB2069A9A70021DB42 /* DraggableCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E19CAA2069A9A70021DB42 /* DraggableCardView.swift */; };
 		96E492021FB3F98D0051C3A1 /* AppSettingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E492011FB3F98D0051C3A1 /* AppSettingKey.swift */; };
 		96EB4BE6203E4EE200AFCAA0 /* CADTaskListItemModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EB4BE5203E4EE200AFCAA0 /* CADTaskListItemModelType.swift */; };
 		96EB4BE92043792800AFCAA0 /* TaskListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EB4BE82043792800AFCAA0 /* TaskListScreen.swift */; };
@@ -1271,6 +1272,7 @@
 		96CF32331F8D7C7700140AF8 /* TasksListHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListHeaderViewModel.swift; sourceTree = "<group>"; };
 		96D3415B2005D38000CEDDFF /* StandardSearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardSearchBarView.swift; sourceTree = "<group>"; };
 		96D731721FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignIncidentFormViewController.swift; sourceTree = "<group>"; };
+		96E19CAA2069A9A70021DB42 /* DraggableCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableCardView.swift; sourceTree = "<group>"; };
 		96E492011FB3F98D0051C3A1 /* AppSettingKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingKey.swift; sourceTree = "<group>"; };
 		96EB4BE5203E4EE200AFCAA0 /* CADTaskListItemModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADTaskListItemModelType.swift; sourceTree = "<group>"; };
 		96EB4BE82043792800AFCAA0 /* TaskListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListScreen.swift; sourceTree = "<group>"; };
@@ -3439,6 +3441,7 @@
 				96F77285202A75D6000FE0D0 /* DialogActionButtonsView.swift */,
 				46E0B8AA2031455200B40DF2 /* CustomisableSearchHeaderView.swift */,
 				46E0B8AC2031487700B40DF2 /* DefaultSearchHeaderDetailView.swift */,
+				96E19CAA2069A9A70021DB42 /* DraggableCardView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -4986,6 +4989,7 @@
 				EA4806B11F56939100B42313 /* LocationSearchDataSource.swift in Sources */,
 				273DE2DB1FEA0713000C46DD /* CreateIncidentFormViewModel.swift in Sources */,
 				EA2189EF1F5FB2280057048E /* MapResultViewModelable.swift in Sources */,
+				96E19CAB2069A9A70021DB42 /* DraggableCardView.swift in Sources */,
 				BC9C7E561F0DED6600DFFE83 /* TabStripView.swift in Sources */,
 				19F2579E1FBB98F700769B26 /* Bundle+URLSchemeVerifier.swift in Sources */,
 				967BFABB203B90E500A9C789 /* TrafficStopViewModel.swift in Sources */,
