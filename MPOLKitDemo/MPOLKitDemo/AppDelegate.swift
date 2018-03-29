@@ -19,6 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SearchDisplayableDelegate
 
     private var delayedNetworkEndTimer: Timer?
 
+    let navigator: AppURLNavigator = AppURLNavigator()
+
     override init() {
         super.init()
         NotificationCenter.default.addObserver(self, selector: #selector(networkActivityDidBegin), name: .NetworkActivityDidBegin, object: nil)
@@ -104,7 +106,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SearchDisplayableDelegate
             UINavigationController(rootViewController: recent),
             pushableSVNavController,
             UINavigationController(rootViewController: sidebarSplitViewController),
-            UINavigationController(rootViewController: SearchLookupAddressTableViewController(style: .plain)),
+            UINavigationController(rootViewController: SearchNavigatorLauncherViewController(style: .plain)),
             UINavigationController(rootViewController: genericSearchViewController()),
             UINavigationController(rootViewController: EventsListViewController(viewModel: DemoListViewModel(eventsManager: EventsManager.shared))),
             UINavigationController(rootViewController: formSplitViewController),
@@ -116,6 +118,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SearchDisplayableDelegate
         self.window?.rootViewController = tabBarController
 
         window.makeKeyAndVisible()
+
+        let launcher = SearchActivityLauncher.default
+        let handler = SearchActivityHandler(scheme: launcher.scheme)
+        handler.onS = {
+            let controller = UIAlertController(title: "Good stuff", message: "Term: \($0.text), Source: \($1)", preferredStyle: .alert)
+            controller.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            tabBarController.present(controller, animated: true, completion: nil)
+        }
+        handler.onV = {
+            let controller = UIAlertController(title: "Good stuff", message: "id: \($0), Type: \($1), Source: \($2)", preferredStyle: .alert)
+            controller.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            tabBarController.present(controller, animated: true, completion: nil)
+
+        }
+
+        for (scheme, host, path) in handler.supportedActivities! {
+            try? navigator.register(scheme, host: host, path: path, handler: {
+                print($0)
+                print($1)
+                return handler.handle($0, values: $1)
+            })
+        }
+
+
+        return true
+    }
+
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+
+        if navigator.isRegistered(url) {
+            return navigator.handle(url)
+        }
 
         return true
     }
@@ -218,3 +252,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SearchDisplayableDelegate
     }()
 }
 
+// Why not???
+extension UIApplication {
+
+    var magicAppDelegate: AppDelegate {
+        return UIApplication.shared.delegate as! AppDelegate
+    }
+
+}

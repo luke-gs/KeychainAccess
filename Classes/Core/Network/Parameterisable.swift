@@ -13,6 +13,7 @@ public protocol Parameterisable {
 }
 
 /* Not possible, yet. :(
+ // Possible in swift 4.2
 extension Dictionary: Parameterisable where Key == String, Value == Any {
 
     public var parameters: [String : Any] {

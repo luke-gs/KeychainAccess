@@ -8,12 +8,26 @@
 
 import Foundation
 
-public enum SearchActivity: CustomStringConvertible {
+import Alamofire
 
-    case searchEntity(term: Searchable, source: EntitySource)
-    case viewDetails(id: String, entityType: String, source: EntitySource)
+public protocol ActivityLauncherType {
 
-    public var description: String {
+    associatedtype Activity: ActivityType
+
+    func launch(_ activity: Activity, using navigator: AppURLNavigator) throws
+
+}
+
+public protocol ActivityType: Parameterisable {
+    var name: String { get }
+}
+
+public enum SearchActivity: ActivityType {
+
+    case searchEntity(term: Searchable, source: String)
+    case viewDetails(id: String, entityType: String, source: String)
+
+    public var name: String {
         switch self {
         case .searchEntity(_, _):
             return "search"
@@ -21,16 +35,27 @@ public enum SearchActivity: CustomStringConvertible {
             return "viewDetails"
         }
     }
+
+    public var parameters: [String : Any] {
+        switch self {
+        case .searchEntity(let term, let source):
+            return [
+                "term": term.text,
+                "source": source
+            ]
+        case .viewDetails(let id, let entityType, let source):
+            return [
+                "id": id,
+                "entityType": entityType,
+                "source": source
+            ]
+        }
+    }
 }
 
-// TODO: - List of things to fix.
-// Scheme registration thing should probably be on its own.
-// A launcher that takes general non specific stuff
-// Search activity and CAD activity can be on their own
-// Activities are generic
-// ClientKit provides parameters parsing to specific data type.
+open class SearchActivityLauncher: ActivityLauncherType {
 
-open class SearchActivityLauncher {
+    public typealias Activity = SearchActivity
 
     public let scheme: String
 
@@ -38,24 +63,73 @@ open class SearchActivityLauncher {
         self.scheme = scheme
     }
 
-    convenience public init?() {
-        guard let searchScheme = Bundle.main.infoDictionary?[""] as? String else {
-            return nil
-        }
-        self.init(scheme: searchScheme)
+    open func launch(_ activity: SearchActivity, using navigator: AppURLNavigator) throws {
+        try? navigator.open(scheme, host: nil, path: activity.name, parameters: activity.parameters, completionHandler: nil)
+    }
+}
+
+open class SearchActivityHandler {
+
+    public var supportedActivities: [(scheme: String, host: String?, path: String)]? = nil
+    public let scheme: String
+
+    public var onS: ((Searchable, String) -> Void)? = nil
+    public var onV: ((String, String, String) -> Void)? = nil
+
+    public init(scheme: String) {
+        self.scheme = scheme
+        supportedActivities = [
+            (scheme: scheme, host: nil, path: "search"),
+            (scheme: scheme, host: nil, path: "viewDetails")
+        ]
     }
 
-    open func launch(_ activity: SearchActivity) throws {
-
-        var components = URLComponents()
-        components.scheme = scheme
-        components.path = "/" + String(describing: activity)
-
-        guard let url = components.url else {
-            return
+    open func handle(_ urlString: String, values: [String: Any]?) -> Bool {
+        guard let components = URLComponents(string: urlString) else {
+            return false
         }
 
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        var path = components.path
+        // Assume it starts with `/` and strips it
+        if path.count > 1 {
+            let lowerBound = path.index(path.startIndex, offsetBy: 1)
+            path = String(path[lowerBound...])
+        }
+
+        if path == "search" {
+
+            onS?(Searchable(text: values?["term"] as? String ?? "S"), values?["source"] as? String ?? "mpol")
+
+        } else {
+            onV?(values?["id"] as? String ?? "123", values?["entityType"] as? String ?? "person", values?["source"] as? String ?? "mpol")
+        }
+
+        /*
+         "id": id,
+         "entityType": entityType,
+         "source": source
+ */
+
+        print(path)
+        print(values)
+
+        let controller = UIAlertController(title: path, message: values?.description, preferredStyle: .alert)
+        controller.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+
+
+
+        return true
     }
+
+}
+
+extension SearchActivityLauncher {
+
+    public static var `default`: SearchActivityLauncher = {
+        guard let searchScheme = Bundle.main.infoDictionary?["DefaultSearchURLScheme"] as? String else {
+            fatalError("`DefaultSearchURLScheme` is not declared in Info.plist")
+        }
+        return SearchActivityLauncher(scheme: searchScheme)
+    }()
 
 }
