@@ -53,7 +53,7 @@ open class AppURLNavigator {
         guard encodedURL != nil else {
             throw AppURLNavigatorError.invalidURLParameter
         }
-        
+
         UIApplication.shared.open(encodedURL, options: [:], completionHandler: completion)
     }
 
@@ -144,7 +144,7 @@ open class AppURLNavigator {
 
         guard let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false),
             let queryString = urlComponents.query else {
-            return nil
+                return nil
         }
 
         var results: [String: Any] = [:]
@@ -153,34 +153,66 @@ open class AppURLNavigator {
 
         parameters.forEach {
 
-            let parts = $0.components(separatedBy: "=")
+            var parts = $0.split(separator: "=", maxSplits: 1, omittingEmptySubsequences: false)
 
-            if var key = urlDecodedString(from: parts.first),
-                var value: Any = urlDecodedString(from: parts[1]),
-                parts.count > 1  {
+            if parts.count > 1,
+                let key = urlDecodedString(from: String(parts[0])),
+                let value: Any = urlDecodedString(from: String(parts[1])) {
 
-                let isArray = key.hasSuffix("[]")
-                if isArray {
-                    let lowerBound = key.startIndex
-                    let upperBound = key.index(key.endIndex, offsetBy: -2)
-                    key = String(key[lowerBound..<upperBound])
-                }
+                decode(key: key, value: value, into: &results)
 
-                let existingValue = results[key]
-                if var existingArray = existingValue as? [Any] {
-                    existingArray.append(value)
-                    value = existingArray
-                } else if let existingValue = existingValue {
-                    value = existingValue
-                } else if isArray {
-                    value = [value]
-                }
-                results[key] = value
+            }
+        }
+        return results
+    }
+
+    // Only one level deep for now.
+    private func decode(key: String, value: Any, into results: inout [String: Any]) {
+
+        var currentKey = key
+        var currentValue = value
+
+        var isArray = false
+        var isObject = false
+        var subkey = ""
+
+        if currentKey.contains("[") && currentKey.contains("]") {
+            let slices = currentKey.split(separator: "[", maxSplits: 1)
+            guard slices.count == 2 else {
+                // Well, bye bye
+                return
+            }
+
+            currentKey = String(slices[0])
+            let contents = String(slices[1])
+
+            // This is an array, array starts with `[` and ends with `]`
+            if String(contents[contents.startIndex]) == "]" {
+                isArray = true
+            } else {
+                subkey = String(contents.dropLast())
+                isObject = true
             }
 
         }
 
-        return results
+        let existingValue = results[currentKey]
+
+        if var existingArray = existingValue as? [Any] {
+            existingArray.append(value)
+            currentValue = existingArray
+        } else if var existingDictionary = existingValue as? [String: Any] {
+            existingDictionary[subkey] = value
+            currentValue = existingDictionary
+        } else if let existingValue = existingValue {
+            currentValue = existingValue
+        } else if isArray {
+            currentValue = [currentValue]
+        } else if isObject {
+            currentValue = [subkey: currentValue]
+        }
+        results[currentKey] = currentValue
+
     }
 
     private func urlDecodedString(from urlString: String?) -> String? {
@@ -190,7 +222,7 @@ open class AppURLNavigator {
 
         var results = urlString
         results = results.replacingOccurrences(of: "+", with: " ")
-
+        
         return (results as NSString).removingPercentEncoding
     }
 
