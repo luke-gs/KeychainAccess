@@ -52,7 +52,11 @@ open class DraggableCardView: UIView {
     open private(set) var panGesture: UIPanGestureRecognizer!
 
     /// The current display state of the card
-    open var currentState: CardState = .normal
+    open var currentState: CardState = .normal {
+        didSet {
+            scrollView.isScrollEnabled = currentState == .maximised
+        }
+    }
 
     // MARK: - Setup
 
@@ -90,6 +94,7 @@ open class DraggableCardView: UIView {
 
         // Add scroll view first (so under bar)
         scrollView.backgroundColor = theme.color(forKey: .background)
+        scrollView.isScrollEnabled = false
         self.addSubview(scrollView)
         scrollView.addSubview(contentView)
 
