@@ -231,3 +231,11 @@ open class AppURLNavigator {
 public enum AppURLNavigatorError: Error {
     case invalidURLParameter
 }
+
+extension AppURLNavigator {
+
+    public static var `default`: AppURLNavigator = {
+        return AppURLNavigator()
+    }()
+    
+}
