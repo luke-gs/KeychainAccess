@@ -56,22 +56,24 @@ open class TaskDetailsOverviewViewController: UIViewController {
 
         // Dispatch main here to allow VC to be added to parent split
         DispatchQueue.main.async {
-            // Make allowance for compact status change bar
-            if let splitViewController = self.pushableSplitViewController as? TaskItemSidebarSplitViewController,
-                let compactStatusChangeBar = splitViewController.compactStatusChangeBar {
-                self.cardBottomConstraint?.constant = -compactStatusChangeBar.bounds.height
-                self.didFinishDragCardView()
-            }
+            self.updateCardBottomIfInSplit()
         }
     }
 
     open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
 
-        // Update card size when view size changes
+        // Update card position when view size changes
         coordinator.animate(alongsideTransition: { (context) in
             self.didFinishDragCardView()
         }, completion: nil)
+    }
+
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        // Update card position when view trait changes, due to compact mode split view behaviour
+        self.updateCardBottomIfInSplit()
     }
     
     /// Creates and styles views
@@ -158,6 +160,17 @@ open class TaskDetailsOverviewViewController: UIViewController {
                 cardView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
                 cardView.widthAnchor.constraint(equalTo: view.widthAnchor),
             ])
+        }
+    }
+
+    open func updateCardBottomIfInSplit() {
+        // Make allowance for compact status change bar (not pretty, but Jase didn't have better idea)
+        if let splitViewController = self.pushableSplitViewController as? TaskItemSidebarSplitViewController,
+            let compactStatusChangeBar = splitViewController.compactStatusChangeBar {
+            self.cardBottomConstraint?.constant = -compactStatusChangeBar.bounds.height
+            self.didFinishDragCardView()
+        } else {
+            self.cardBottomConstraint?.constant = 0
         }
     }
 
