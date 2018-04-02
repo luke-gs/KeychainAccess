@@ -15,6 +15,17 @@ PODS:
     - Cluster (= 2.1.1)
     - KeychainSwift (~> 8.0)
     - lottie-ios (~> 2.1.3)
+    - MPOLKit/CAD (= 0.3.2)
+    - PromiseKit (~> 4.4.0)
+    - PromiseKit/CoreLocation
+    - Unbox (= 2.5.0)
+    - Wrap (= 2.1.1)
+  - MPOLKit/CAD (0.3.2):
+    - Alamofire (= 4.5.1)
+    - Cache (~> 4.1.2)
+    - Cluster (= 2.1.1)
+    - KeychainSwift (~> 8.0)
+    - lottie-ios (~> 2.1.3)
     - PromiseKit (~> 4.4.0)
     - PromiseKit/CoreLocation
     - Unbox (= 2.5.0)
@@ -38,7 +49,7 @@ PODS:
 DEPENDENCIES:
   - ClientKit (from `../ClientKit`)
   - HockeySDK
-  - MPOLKit (from `../../mPolKit-iOS`)
+  - MPOLKit/CAD (from `../../mPolKit-iOS`)
 
 EXTERNAL SOURCES:
   ClientKit:
@@ -54,11 +65,11 @@ SPEC CHECKSUMS:
   HockeySDK: 38b7e2726af1ea86ae97ce4b5de33ab0817e3500
   KeychainSwift: be9554c0e5f4b1686c775930dc5c6bd9396992ed
   lottie-ios: 836cdbba92f62f3c6a00e37a4ce485321fe317cf
-  MPOLKit: efd3fb1900fd0bd0ace3966bd801704c8f170941
+  MPOLKit: ee0d62cab3bc7b815de8fff3733160634c11a8ef
   PromiseKit: 6178219c4c7457ae90d7d8b34b7ac5eb36916519
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
   Wrap: 9cc7da7551bb81d0846cb3df9fb624c6c32d267d
 
-PODFILE CHECKSUM: 9fff5eed281522cc34ad25b44ebec6229ce8ce08
+PODFILE CHECKSUM: 85d9687f9372c336d579555a7262aab94a37bdf2
 
 COCOAPODS: 1.4.0

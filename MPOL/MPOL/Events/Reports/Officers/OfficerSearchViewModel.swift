@@ -64,12 +64,8 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         if let existingSearchable = objectDisplayMap[object] {
             return existingSearchable
         }
-        let searchable = OfficerListItemViewModel(firstName: object.givenName!,
-                                                  lastName: object.surname!,
-                                                  initials: object.initials!,
-                                                  rank: object.rank!,
-                                                  callsign: object.employeeNumber!,
-                                                  section: object.region!)
+
+        let searchable = OfficerSearchDisplayable(officer: object)
         objectDisplayMap[object] = searchable
         return searchable
     }
@@ -90,4 +86,45 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
             return Promise()
         }
     }
+}
+
+public struct OfficerSearchDisplayable: CustomSearchDisplayable {
+
+    public let officer: Officer
+
+    public init(officer: Officer) {
+        self.officer = officer
+    }
+
+    // MARK: - Searchable
+
+    public var title: String? {
+        return [officer.givenName, officer.surname].joined()
+    }
+
+    public var subtitle: String? {
+        return [officer.rank, "#\(String(describing: officer.employeeNumber))"].joined(separator: ThemeConstants.dividerSeparator)
+    }
+
+    public var section: String?
+    public var image: UIImage? {
+        if let initials = officer.initials {
+            return UIImage.thumbnail(withInitials: initials).withCircleBackground(tintColor: nil,
+                                                                                  circleColor: .disabledGray,
+                                                                                  style: .fixed(size: CGSize(width: 48, height: 48),
+                                                                                                padding: CGSize(width: 14, height: 14)))
+        }
+        return nil
+    }
+
+    public func contains(_ searchText: String) -> Bool {
+        let searchStringLowercase = searchText.lowercased()
+
+        let matchesFirstName = officer.givenName?.lowercased().hasPrefix(searchStringLowercase) ?? false
+        let matchesLastName = officer.surname?.lowercased().hasPrefix(searchStringLowercase) ?? false
+        let matchesCallsign = officer.employeeNumber?.lowercased().hasPrefix(searchStringLowercase) ?? false
+
+        return matchesFirstName || matchesLastName || matchesCallsign
+    }
+
 }

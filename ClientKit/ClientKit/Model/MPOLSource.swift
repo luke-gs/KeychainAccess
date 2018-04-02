@@ -23,7 +23,7 @@ public enum MPOLSource: String, EntitySource, UnboxableEnum {
         case .pscore, .gnaf:
             return NSLocalizedString("PSCORE", bundle: .mpolKit, comment: "")
         case .fnc:
-            return NSLocalizedString("FNC", bundle: .mpolKit, comment: "")
+            return NSLocalizedString("DS2", bundle: .mpolKit, comment: "")
         }
     }
 
@@ -32,7 +32,7 @@ public enum MPOLSource: String, EntitySource, UnboxableEnum {
         case .pscore, .gnaf:
             return NSLocalizedString("PSCORE", bundle: .mpolKit, comment: "")
         case .fnc:
-            return NSLocalizedString("FNC", bundle: .mpolKit, comment: "")
+            return NSLocalizedString("DS2", bundle: .mpolKit, comment: "")
         }
     }
 }
