@@ -22,6 +22,11 @@ open class ClusterTasksViewController: FormBuilderViewController {
         MPLCodingNotSupported()
     }
 
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+        title = viewModel.navTitle()
+    }
+
     // MARK: - Form
 
     open override func construct(builder: FormBuilder) {
