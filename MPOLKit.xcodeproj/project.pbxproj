@@ -81,6 +81,10 @@
 		199ECE8F1FAA1B720065E425 /* RemoteResourceDescribing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199ECE8E1FAA1B720065E425 /* RemoteResourceDescribing.swift */; };
 		199ECE951FAA4E410065E425 /* AsynchronousImageSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199ECE941FAA4E400065E425 /* AsynchronousImageSizing.swift */; };
 		199ECE971FAA4FBA0065E425 /* UIImageView+ImageLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199ECE961FAA4FBA0065E425 /* UIImageView+ImageLoadable.swift */; };
+		19A6A82120730CE5008EAC95 /* SearchActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A6A82020730CE5008EAC95 /* SearchActivity.swift */; };
+		19A6A82320730D7A008EAC95 /* SearchActivityHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A6A82220730D7A008EAC95 /* SearchActivityHandler.swift */; };
+		19A6A82520732BD7008EAC95 /* ActivityHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A6A82420732BD7008EAC95 /* ActivityHandler.swift */; };
+		19A6A82720732C69008EAC95 /* ActivityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A6A82620732C69008EAC95 /* ActivityType.swift */; };
 		19B3F35B1FD0742B00245566 /* PromiseCancellationTokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B3F35A1FD0742B00245566 /* PromiseCancellationTokenTests.swift */; };
 		19B49BAA1F665ED100502F51 /* NSMutableAttributedString+Append.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B49BA91F665ED100502F51 /* NSMutableAttributedString+Append.swift */; };
 		19B49BB91F665F2A00502F51 /* CompactSidebarSourceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B49BB01F665F2800502F51 /* CompactSidebarSourceCell.swift */; };
@@ -898,6 +902,10 @@
 		199ECE8E1FAA1B720065E425 /* RemoteResourceDescribing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteResourceDescribing.swift; sourceTree = "<group>"; };
 		199ECE941FAA4E400065E425 /* AsynchronousImageSizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousImageSizing.swift; sourceTree = "<group>"; };
 		199ECE961FAA4FBA0065E425 /* UIImageView+ImageLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+ImageLoadable.swift"; sourceTree = "<group>"; };
+		19A6A82020730CE5008EAC95 /* SearchActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchActivity.swift; sourceTree = "<group>"; };
+		19A6A82220730D7A008EAC95 /* SearchActivityHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchActivityHandler.swift; sourceTree = "<group>"; };
+		19A6A82420732BD7008EAC95 /* ActivityHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityHandler.swift; sourceTree = "<group>"; };
+		19A6A82620732C69008EAC95 /* ActivityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityType.swift; sourceTree = "<group>"; };
 		19B3F35A1FD0742B00245566 /* PromiseCancellationTokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseCancellationTokenTests.swift; sourceTree = "<group>"; };
 		19B49BA91F665ED100502F51 /* NSMutableAttributedString+Append.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Append.swift"; sourceTree = "<group>"; };
 		19B49BB01F665F2800502F51 /* CompactSidebarSourceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompactSidebarSourceCell.swift; sourceTree = "<group>"; };
@@ -1766,8 +1774,9 @@
 		1923D59E20687555006E14F9 /* AppURLRouter */ = {
 			isa = PBXGroup;
 			children = (
+				19A6A82420732BD7008EAC95 /* ActivityHandler.swift */,
+				19A6A82620732C69008EAC95 /* ActivityType.swift */,
 				1923D59F20687589006E14F9 /* AppURLNavigator.swift */,
-				1983072F2068B38B0028BA9E /* SearchActivityLauncher.swift */,
 			);
 			path = AppURLRouter;
 			sourceTree = "<group>";
@@ -1798,6 +1807,16 @@
 				199ECE961FAA4FBA0065E425 /* UIImageView+ImageLoadable.swift */,
 			);
 			path = Image;
+			sourceTree = "<group>";
+		};
+		19A6A81F20730CAF008EAC95 /* SearchActivities */ = {
+			isa = PBXGroup;
+			children = (
+				19A6A82020730CE5008EAC95 /* SearchActivity.swift */,
+				19A6A82220730D7A008EAC95 /* SearchActivityHandler.swift */,
+				1983072F2068B38B0028BA9E /* SearchActivityLauncher.swift */,
+			);
+			path = SearchActivities;
 			sourceTree = "<group>";
 		};
 		19B49BAB1F665F0F00502F51 /* Search Help */ = {
@@ -3026,6 +3045,7 @@
 				1923275A1FCCDCBC0001D623 /* PromiseCancel */,
 				BC9C7D441F0DED6600DFFE83 /* Protocols */,
 				DB88BCCB1F42CEAA0056FD69 /* Search */,
+				19A6A81F20730CAF008EAC95 /* SearchActivities */,
 				460B5BAF2007171200AB7D12 /* Sketch */,
 				DB88BCC91F42CEA40056FD69 /* SortDescriptor */,
 				E2CD47A81FE9FC7500934367 /* Templates */,
@@ -4364,6 +4384,7 @@
 				4426162A1FF5C9A7008EBF84 /* PatrolAreaListViewModel.swift in Sources */,
 				EA85C0061F68BAAE002EEB49 /* FormBuilder.swift in Sources */,
 				BC9C7DF61F0DED6600DFFE83 /* CollectionViewFormDetailCell.swift in Sources */,
+				19A6A82720732C69008EAC95 /* ActivityType.swift in Sources */,
 				9663D00D1F8AF6F5006DB672 /* TasksSplitViewModel.swift in Sources */,
 				965CD8AD1F8F14E5007C3EEA /* TasksListHeaderCompactViewController.swift in Sources */,
 				BC9C7DF11F0DED6600DFFE83 /* EpochDateTransformer.swift in Sources */,
@@ -4459,6 +4480,7 @@
 				2744E39E2051DD8500561A8F /* CADBroadcastCore.swift in Sources */,
 				96F77284202031E4000FE0D0 /* RelativeDateFormatter.swift in Sources */,
 				DB88BCDB1F42D0080056FD69 /* SearchOptionsViewController.swift in Sources */,
+				19A6A82520732BD7008EAC95 /* ActivityHandler.swift in Sources */,
 				9689CA4B203646E60001D993 /* CADResourceUnitType.swift in Sources */,
 				96F77286202A75D6000FE0D0 /* DialogActionButtonsView.swift in Sources */,
 				BC39A6831F18A6EC005CA8EE /* LabeledAccessoryView.swift in Sources */,
@@ -4468,6 +4490,7 @@
 				46A60F5A1FCFAF0D00EE32CA /* Evaluator.swift in Sources */,
 				BC9C7E1F1F0DED6600DFFE83 /* FormSearchTableViewController.swift in Sources */,
 				2744E38C2051DD8500561A8F /* CADTaskListSourceCore.swift in Sources */,
+				19A6A82120730CE5008EAC95 /* SearchActivity.swift in Sources */,
 				DB88BCE21F42D0110056FD69 /* SearchResultErrorCell.swift in Sources */,
 				275F0A681FA19694002BB9C5 /* BookOnDetailsFormContentMainViewModel.swift in Sources */,
 				4E10CA59202D36B000A17638 /* DefaultEventNotesPhotosViewController.swift in Sources */,
@@ -4873,6 +4896,7 @@
 				EA2F1A6F1FA7F7C6001F7812 /* MediaGalleryViewModelable.swift in Sources */,
 				C63408551F30E541000747B0 /* EntitySearchRequestable.swift in Sources */,
 				469EB5831F45320A0005CAF7 /* LoginHeaderView.swift in Sources */,
+				19A6A82320730D7A008EAC95 /* SearchActivityHandler.swift in Sources */,
 				DB88BCE51F42D01C0056FD69 /* SortDescriptor.swift in Sources */,
 				274C89731F984CD0005B9CF8 /* CallsignListViewModel.swift in Sources */,
 				27E81E542034E1AF000D5D1C /* TaskDetailsOverviewViewController.swift in Sources */,
