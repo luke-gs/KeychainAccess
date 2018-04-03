@@ -32,29 +32,26 @@ open class AppURLNavigator {
     /// - Throws: `AppURLNavigatorError`.invalidURLParameter if URL can't be constructed.
     open func open(_ scheme: String, host: String? = nil, path: String? = nil, parameters: [String: Any]? = nil,  completionHandler completion: ((Bool) -> Void)? = nil) throws {
 
-        let components = routingInfoURLComponents(from: scheme, host: host, path: path)
+        var components = routingInfoURLComponents(from: scheme, host: host, path: path)
+
+        // Wrap parameters in internal dictionary,
+        // with the parameter as JSON, represented as `String`
+        if let parameters = parameters {
+            do {
+                let parametersData = try JSONSerialization.data(withJSONObject: parameters, options: [])
+                if let parameterString = String(data: parametersData, encoding: .utf8) {
+                    components.queryItems = [URLQueryItem(name: "__wrapped", value: parameterString)]
+                }
+            } catch {
+                throw AppURLNavigatorError.invalidURLParameter
+            }
+        }
 
         guard let url = components.url else {
             throw AppURLNavigatorError.invalidURLParameter
         }
-
-        // Pass this to Alamofire.URLEncoding, it handles the URL encoding well.
-        let request = URLRequest(url: url)
-
-        // No one cares about Alamofire error, so convert the error to internal error.
-        var encodedURL: URL! = nil
-        do {
-            let encodedURLRequest = try URLEncoding.default.encode(request, with: parameters)
-            if let value = encodedURLRequest.url {
-                encodedURL = value
-            }
-        }
-
-        guard encodedURL != nil else {
-            throw AppURLNavigatorError.invalidURLParameter
-        }
-
-        UIApplication.shared.open(encodedURL, options: [:], completionHandler: completion)
+        
+        UIApplication.shared.open(url, options: [:], completionHandler: completion)
     }
 
 
@@ -149,9 +146,8 @@ open class AppURLNavigator {
 
         var results: [String: Any] = [:]
 
-        let parameters = queryString.components(separatedBy: "&")
-
-        parameters.forEach {
+        let components = queryString.components(separatedBy: "&")
+        components.forEach {
 
             var parts = $0.split(separator: "=", maxSplits: 1, omittingEmptySubsequences: false)
 
@@ -163,7 +159,16 @@ open class AppURLNavigator {
 
             }
         }
-        return results
+
+        // Actual data is wrapped in a dictionary of ["__wrapped": [String: Any]]
+        // where [String: Any] is actually a String, so convert it back.
+        var parameters: [String: Any]?
+        if let parametersAsString = results["__wrapped"] as? String,
+            let data = parametersAsString.data(using: .utf8) {
+            parameters = (try? JSONSerialization.jsonObject(with: data, options: [])) as? [String: Any]
+        }
+
+        return parameters ?? [:]
     }
 
     // Only one level deep for now.
