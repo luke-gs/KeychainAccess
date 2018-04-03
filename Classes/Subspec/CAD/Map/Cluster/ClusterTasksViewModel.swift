@@ -18,7 +18,6 @@ open class ClusterTasksViewModel: CADFormCollectionViewModel<TasksListItemViewMo
         if let clusterAnnotation = annotationView.annotation as? ClusterAnnotation {
             convertAnnotationsToViewModels(annotations: clusterAnnotation.annotations)
         }
-
     }
 
     /// Convert the annotations to view models. Override for client specific implementation
@@ -36,6 +35,6 @@ open class ClusterTasksViewModel: CADFormCollectionViewModel<TasksListItemViewMo
 
     /// The title to use in the navigation bar
     override open func navTitle() -> String {
-        return "Cluster Details"
+        return NSLocalizedString("Cluster Details", comment: "")
     }
 }

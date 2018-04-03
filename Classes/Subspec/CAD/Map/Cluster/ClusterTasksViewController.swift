@@ -25,6 +25,7 @@ open class ClusterTasksViewController: FormBuilderViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Set nav title for when compact
         title = viewModel.navTitle()
 
         // Fixed width, calculated height
@@ -36,8 +37,7 @@ open class ClusterTasksViewController: FormBuilderViewController {
 
     open override func construct(builder: FormBuilder) {
 
-        for (sectionIndex, section) in viewModel.sections.enumerated() {
-            // builder += LargeTextHeaderFormItem(text: section.title, separatorColor: .clear)
+        for section in viewModel.sections {
             builder += LargeTextHeaderFormItem()
                 .text(StringSizing(string: section.title!,
                                    font: UIFont.systemFont(ofSize: 22, weight: .bold),
@@ -59,13 +59,11 @@ open class ClusterTasksViewController: FormBuilderViewController {
                     continue
                 }
 
-
                 builder += formItem
                     .highlightStyle(.fade)
                     .selectionStyle(.fade)
                     .contentMode(.top)
                     .onConfigured({ [unowned self] (cell) in
-                        // Configure the cell
                         self.decorate(cell: cell, with: item)
                     })
                     .accessory(ItemAccessory.disclosure)
@@ -74,11 +72,6 @@ open class ClusterTasksViewController: FormBuilderViewController {
                         self.apply(theme: theme, to: cell)
                     })
                     .onSelection({ [weak self] (cell) in
-                        // Set item as read and reload the section
-                        (item as? TasksListIncidentViewModel)?.hasUpdates = false
-
-                        self?.collectionView?.reloadSections(IndexSet(integer: sectionIndex))
-
                         if let viewModel = item.createItemViewModel() {
                             self?.present(TaskItemScreen.landing(viewModel: viewModel))
                         }
