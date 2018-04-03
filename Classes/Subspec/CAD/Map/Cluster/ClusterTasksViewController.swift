@@ -47,8 +47,8 @@ open class ClusterTasksViewController: FormBuilderViewController {
 
             for item in section.items {
                 let formItem: BaseFormItem
-                if item is TasksListIncidentViewModel {
-                    formItem = IncidentSummaryFormItem(viewModel: item as! TasksListIncidentViewModel)
+                if let item = item as? TasksListIncidentViewModel {
+                    formItem = IncidentSummaryFormItem(viewModel: item)
                 } else if item is TasksListResourceViewModel {
                     formItem = CustomFormItem(cellType: TasksListResourceCollectionViewCell.self,
                                               reuseIdentifier: TasksListResourceCollectionViewCell.defaultReuseIdentifier)
