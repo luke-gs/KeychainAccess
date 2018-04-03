@@ -121,14 +121,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SearchDisplayableDelegate
 
         let launcher = SearchActivityLauncher.default
         let handler = SearchActivityHandler(scheme: launcher.scheme)
+        navigator.register(handler)
         handler.delegate = self
-
-        for (scheme, host, path) in handler.supportedActivities {
-            try? navigator.register(scheme, host: host, path: path, handler: {
-                return handler.handle($0, values: $1)
-            })
-        }
-
 
         return true
     }

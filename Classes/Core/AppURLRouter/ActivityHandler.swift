@@ -22,3 +22,29 @@ open class ActivityHandler {
         MPLRequiresConcreteImplementation()
     }
 }
+
+extension AppURLNavigator {
+
+    /// Convenience method to register this handler to the `AppURLNavigator`
+    ///
+    /// - Parameter navigator: The navigator to attach to.
+    /// - Returns: `true` or `false` to indicate whether this activity has been registered
+    ///             correctly to the specified `AppURLNavigator`.
+    @discardableResult public func register(_ activityHandler: ActivityHandler) -> Bool {
+
+        var success = true
+        for (scheme, host, path) in activityHandler.supportedActivities {
+            do {
+                try register(scheme, host: host, path: path, handler: {
+                    return activityHandler.handle($0, values: $1)
+                })
+            } catch {
+                success = false
+            }
+
+        }
+
+        return success
+    }
+
+}
