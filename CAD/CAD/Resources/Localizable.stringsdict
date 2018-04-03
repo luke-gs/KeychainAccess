@@ -2,6 +2,60 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>%d Broadcast(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@broadcasts@</string>
+		<key>broadcasts</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%d Broadcast</string>
+			<key>zero</key>
+			<string>No Broadcasts</string>
+			<key>other</key>
+			<string>%d Broadcasts</string>
+		</dict>
+	</dict>
+	<key>%d Patrol(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@patrols@</string>
+		<key>patrols</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%d Patrol</string>
+			<key>zero</key>
+			<string>No Patrols</string>
+			<key>other</key>
+			<string>%d Patrols</string>
+		</dict>
+	</dict>
+	<key>%d Incident(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@incidents@</string>
+		<key>incidents</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%d Incident</string>
+			<key>zero</key>
+			<string>No Incidents</string>
+			<key>other</key>
+			<string>%d Incidents</string>
+		</dict>
+	</dict>
 	<key>%d BOLF(s)</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
