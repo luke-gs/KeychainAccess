@@ -25,6 +25,7 @@ open class ClusterTasksViewController: FormBuilderViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         title = viewModel.navTitle()
+        calculatesContentHeight = true
     }
 
     // MARK: - Form
@@ -32,9 +33,13 @@ open class ClusterTasksViewController: FormBuilderViewController {
     open override func construct(builder: FormBuilder) {
 
         for (sectionIndex, section) in viewModel.sections.enumerated() {
-            let sectionCollapsible = viewModel.shouldShowExpandArrow() && !section.preventCollapse.isTrue
-            builder += HeaderFormItem(text: section.title?.uppercased(),
-                                      style: sectionCollapsible ? .collapsible : .plain)
+            // builder += LargeTextHeaderFormItem(text: section.title, separatorColor: .clear)
+            builder += LargeTextHeaderFormItem()
+                .text(StringSizing(string: section.title!,
+                                   font: UIFont.systemFont(ofSize: 22, weight: .bold),
+                                   numberOfLines: 1))
+                .layoutMargins(UIEdgeInsets(top: 16, left: 24, bottom: 0, right: 24))
+                .separatorColor(.clear)
 
             for item in section.items {
                 let formItem: BaseFormItem
