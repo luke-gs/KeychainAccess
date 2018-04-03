@@ -121,22 +121,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SearchDisplayableDelegate
 
         let launcher = SearchActivityLauncher.default
         let handler = SearchActivityHandler(scheme: launcher.scheme)
-        handler.onS = {
-            let controller = UIAlertController(title: "Good stuff", message: "Term: \($0.text), Source: \($1)", preferredStyle: .alert)
-            controller.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-            tabBarController.present(controller, animated: true, completion: nil)
-        }
-        handler.onV = {
-            let controller = UIAlertController(title: "Good stuff", message: "id: \($0), Type: \($1), Source: \($2)", preferredStyle: .alert)
-            controller.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-            tabBarController.present(controller, animated: true, completion: nil)
+        handler.delegate = self
 
-        }
-
-        for (scheme, host, path) in handler.supportedActivities! {
+        for (scheme, host, path) in handler.supportedActivities {
             try? navigator.register(scheme, host: host, path: path, handler: {
-                print($0)
-                print($1)
                 return handler.handle($0, values: $1)
             })
         }
@@ -250,6 +238,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SearchDisplayableDelegate
 
         return [basic, list, custom, accessory, header, picker, stepper, progress, date, personDetail, results, signup, subscription, gallery]
     }()
+}
+
+extension AppDelegate: SearchActivityHandlerDelegate {
+
+    public func searchActivityHandler(_ handler: SearchActivityHandler, launchedSearchActivity: SearchActivity) {
+
+        let controller: UIAlertController
+        let name = launchedSearchActivity.name
+        let message: String
+
+        switch launchedSearchActivity {
+        case .searchEntity(let term, let source):
+            message = "Term: \(term.text ?? "Term is empty")\nSource: \(source)"
+        case .viewDetails(let  id, let entityType, let source):
+            message = "ID: \(id)\nType: \(entityType)\nSource: \(source)"
+        }
+
+        controller = UIAlertController(title: name, message: message, preferredStyle: .alert)
+        controller.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+
+        window?.rootViewController?.present(controller, animated: true)
+    }
+
 }
 
 // Why not???
