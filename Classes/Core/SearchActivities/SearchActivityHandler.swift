@@ -17,12 +17,12 @@ public class SearchActivityHandler: ActivityHandler {
     public var delegate: SearchActivityHandlerDelegate?
 
     public init(scheme: String) {
-        let supportedActivities: [(scheme: String, host: String?, path: String)] = [
-            (scheme: scheme, host: nil, path: "launchApp"),
-            (scheme: scheme, host: nil, path: "search"),
-            (scheme: scheme, host: nil, path: "viewDetails")
+        let supportedPaths = [
+            "launchApp",
+            "search",
+            "viewDetails"
         ]
-        super.init(scheme: scheme, supportedActivities: supportedActivities)
+        super.init(scheme: scheme, supportedPaths: supportedPaths)
     }
 
     override public func handle(_ urlString: String, values: [String: Any]?) -> Bool {

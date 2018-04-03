@@ -10,12 +10,14 @@ import Foundation
 
 open class ActivityHandler {
 
-    public let supportedActivities: [(scheme: String, host: String?, path: String)]
+    public let supportedPaths: [String]
     public let scheme: String
+    public let host: String?
 
-    public init(scheme: String, supportedActivities: [(scheme: String, host: String?, path: String)]) {
+    public init(scheme: String, host: String? = nil, supportedPaths: [String]) {
         self.scheme = scheme
-        self.supportedActivities = supportedActivities
+        self.host = host
+        self.supportedPaths = supportedPaths
     }
 
     open func handle(_ urlString: String, values: [String: Any]?) -> Bool {
@@ -33,7 +35,9 @@ extension AppURLNavigator {
     @discardableResult public func register(_ activityHandler: ActivityHandler) -> Bool {
 
         var success = true
-        for (scheme, host, path) in activityHandler.supportedActivities {
+        let scheme = activityHandler.scheme
+        let host = activityHandler.host
+        for path in activityHandler.supportedPaths {
             do {
                 try register(scheme, host: host, path: path, handler: {
                     return activityHandler.handle($0, values: $1)
