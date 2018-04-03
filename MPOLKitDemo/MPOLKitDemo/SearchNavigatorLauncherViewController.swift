@@ -18,7 +18,7 @@ class SearchNavigatorLauncherViewController: UITableViewController {
 
     override init(style: UITableViewStyle) {
         super.init(style: style)
-        title = "Search Address"
+        title = "Search Navigator"
     }
 
     let activityLauncher = SearchActivityLauncher(scheme: "mpolkitdemo")
@@ -32,7 +32,7 @@ class SearchNavigatorLauncherViewController: UITableViewController {
         super.viewDidLoad()
 
         tableView.register(UITableViewCell.self)
-
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -54,9 +54,9 @@ class SearchNavigatorLauncherViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(of: UITableViewCell.self, for: indexPath)
 
         if indexPath.row == 0 {
-            cell.textLabel?.text = "Entity Search"
+            cell.textLabel?.text = "Launch Entity Search"
         } else {
-            cell.textLabel?.text = "View Details"
+            cell.textLabel?.text = "Launch View Details"
         }
 
         return cell
@@ -66,9 +66,9 @@ class SearchNavigatorLauncherViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
 
         if indexPath.row == 0 {
-            try? activityLauncher.launch(.searchEntity(term: Searchable(text: "Not your mama"), source: "MPOL"), using: navigator)
+            try? activityLauncher.launch(.searchEntity(term: Searchable(text: "FamilyName, FirstName MiddleName"), source: "pisscore"), using: navigator)
         } else {
-            try? activityLauncher.launch(.viewDetails(id: "123", entityType: "person", source: "MPOL"), using: navigator)
+            try? activityLauncher.launch(.viewDetails(id: "1", entityType: "Person", source: "pisscore"), using: navigator)
         }
 
     }
