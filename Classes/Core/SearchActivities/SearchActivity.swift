@@ -32,6 +32,8 @@ public enum SearchActivity: ActivityType, Codable {
         return parameters
     }
 
+    // Codable is hard...
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let type = try container.decode(SearchActivityType.self, forKey: .activityType)

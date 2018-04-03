@@ -9,9 +9,6 @@
 import Foundation
 import UIKit.UIApplication
 
-// Imported to use `ParameterEncoding`
-import Alamofire
-
 public typealias AppURLNavigatorHandler = (_ urlString: String, _ values: [String: Any]?) -> Bool
 
 open class AppURLNavigator {
