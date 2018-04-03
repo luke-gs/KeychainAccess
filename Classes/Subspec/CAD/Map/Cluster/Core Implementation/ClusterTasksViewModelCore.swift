@@ -64,13 +64,13 @@ open class ClusterTasksViewModelCore: ClusterTasksViewModel {
     open func titleForType(_ type: CADTaskListSourceCore, count: Int) -> String {
         switch type {
         case .incident:
-            return "Incidents"
+            return String.localizedStringWithFormat(NSLocalizedString("%d Incident(s)", comment: ""), count)
         case .patrol:
-            return "Patrols"
+            return String.localizedStringWithFormat(NSLocalizedString("%d Patrol(s)", comment: ""), count)
         case .broadcast:
-            return "Broadcasts"
+            return String.localizedStringWithFormat(NSLocalizedString("%d Broadcast(s)", comment: ""), count)
         case .resource:
-            return "Resources"
+            return String.localizedStringWithFormat(NSLocalizedString("%d Resource(s)", comment: ""), count)
         }
     }
 }
