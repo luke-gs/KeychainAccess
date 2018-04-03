@@ -10,11 +10,14 @@ import Foundation
 
 public enum SearchActivity: ActivityType, Codable {
 
+    case launchApp
     case searchEntity(term: Searchable, source: String)
     case viewDetails(id: String, entityType: String, source: String)
 
     public var name: String {
         switch self {
+        case .launchApp:
+            return "launchApp"
         case .searchEntity(_, _):
             return "search"
         case .viewDetails(_, _, _):
@@ -39,6 +42,8 @@ public enum SearchActivity: ActivityType, Codable {
         let type = try container.decode(SearchActivityType.self, forKey: .activityType)
 
         switch type {
+        case .launchApp:
+            self = .launchApp
         case .searchEntity:
             let parameters = try container.decode(SearchEntityParameters.self, forKey: .searchEntityParameters)
             self = .searchEntity(term: parameters.term, source: parameters.source)
@@ -52,6 +57,8 @@ public enum SearchActivity: ActivityType, Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         switch self {
+        case .launchApp:
+            try container.encode(SearchActivityType.launchApp, forKey: .activityType)
         case .searchEntity(let term, let source):
             try container.encode(SearchActivityType.searchEntity, forKey: .activityType)
             try container.encode(SearchEntityParameters(term: term, source: source), forKey: .searchEntityParameters)
@@ -65,6 +72,7 @@ public enum SearchActivity: ActivityType, Codable {
     // Required for Codable
 
     private enum SearchActivityType: String, Codable {
+        case launchApp
         case searchEntity
         case viewDetails
     }

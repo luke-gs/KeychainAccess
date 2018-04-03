@@ -18,6 +18,7 @@ public class SearchActivityHandler: ActivityHandler {
 
     public init(scheme: String) {
         let supportedActivities: [(scheme: String, host: String?, path: String)] = [
+            (scheme: scheme, host: nil, path: "launchApp"),
             (scheme: scheme, host: nil, path: "search"),
             (scheme: scheme, host: nil, path: "viewDetails")
         ]
