@@ -39,6 +39,9 @@ public class TaskListPresenter: Presenter {
 
         case .mapFilter(let delegate):
             return tasksSplitViewModel.filterViewModel.createViewController(delegate: delegate)
+
+        case .clusterDetails(let annotationView, _):
+            return ClusterTasksViewModelCore(annotationView: annotationView).createViewController()
         }
     }
 
@@ -50,6 +53,20 @@ public class TaskListPresenter: Presenter {
         // Present form sheet
         case .mapFilter:
             from.presentFormSheet(to, animated: true)
+
+        case .clusterDetails(let annotationView, let delegate):
+            if let splitNav = from.pushableSplitViewController?.navigationController, from.isCompact() {
+                // Push full screen
+                splitNav.pushViewController(to, animated: true)
+            } else {
+                // Present popover (not in nav)
+                to.modalPresentationStyle = .popover
+                to.popoverPresentationController?.sourceView = annotationView
+                to.popoverPresentationController?.sourceRect = annotationView.bounds
+                to.popoverPresentationController?.delegate = delegate
+                to.popoverPresentationController?.permittedArrowDirections = [.left, .right]
+                from.present(to, animated: true, completion: nil)
+            }
 
         // Default presentation, based on container class (eg push if in navigation controller)
         default:
