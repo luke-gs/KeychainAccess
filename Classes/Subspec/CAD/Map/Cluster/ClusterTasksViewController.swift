@@ -24,7 +24,11 @@ open class ClusterTasksViewController: FormBuilderViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
+
         title = viewModel.navTitle()
+
+        // Fixed width, calculated height
+        preferredContentSize.width = 256
         calculatesContentHeight = true
     }
 
