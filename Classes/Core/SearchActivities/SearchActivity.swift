@@ -23,19 +23,13 @@ public enum SearchActivity: ActivityType, Codable {
     }
 
     public var parameters: [String : Any] {
-        switch self {
-        case .searchEntity(let term, let source):
-            return [
-                "term": term.text,
-                "source": source
-            ]
-        case .viewDetails(let id, let entityType, let source):
-            return [
-                "id": id,
-                "entityType": entityType,
-                "source": source
-            ]
-        }
+
+        // Known parameters, so this should not fail!
+        let encoder = JSONEncoder()
+        let data = try! encoder.encode(self)
+
+        let parameters = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+        return parameters
     }
 
     public init(from decoder: Decoder) throws {
@@ -82,33 +76,6 @@ public enum SearchActivity: ActivityType, Codable {
     private struct SearchEntityParameters: Codable {
         let term: Searchable
         let source: String
-
-        init(term: Searchable, source: String) {
-            self.term = term
-            self.source = source
-        }
-
-        func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            let data = NSKeyedArchiver.MPL_securelyArchivedData(withRootObject: term).base64EncodedString()
-            try container.encode(data, forKey: .term)
-            try container.encode(source, forKey: .source)
-        }
-
-        init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-
-            let data = try container.decode(Data.self, forKey: .term).base64EncodedData()
-            let searchable: Searchable? = NSKeyedUnarchiver.MPL_securelyUnarchiveObject(with: data)
-
-            term = searchable!
-            source = try container.decode(String.self, forKey: .source)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case term
-            case source
-        }
     }
 
     private struct ViewEntityDetailsParameters: Codable {
