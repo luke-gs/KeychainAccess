@@ -243,6 +243,8 @@ extension AppDelegate: SearchActivityHandlerDelegate {
         let message: String
 
         switch launchedSearchActivity {
+        case .launchApp:
+            message = "App Launch is requested"
         case .searchEntity(let term, let source):
             message = "Term: \(term.text ?? "Term is empty")\nSource: \(source)"
         case .viewDetails(let  id, let entityType, let source):

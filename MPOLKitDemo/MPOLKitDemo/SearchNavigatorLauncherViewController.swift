@@ -47,7 +47,7 @@ class SearchNavigatorLauncherViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 3
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -55,8 +55,10 @@ class SearchNavigatorLauncherViewController: UITableViewController {
 
         if indexPath.row == 0 {
             cell.textLabel?.text = "Launch Entity Search"
-        } else {
+        } else if indexPath.row == 1 {
             cell.textLabel?.text = "Launch View Details"
+        } else {
+            cell.textLabel?.text = "Launch App Just For Fun"
         }
 
         return cell
@@ -67,8 +69,11 @@ class SearchNavigatorLauncherViewController: UITableViewController {
 
         if indexPath.row == 0 {
             try? activityLauncher.launch(.searchEntity(term: Searchable(text: "FamilyName, FirstName MiddleName"), source: "pisscore"), using: navigator)
-        } else {
+        }  else if indexPath.row == 1 {
             try? activityLauncher.launch(.viewDetails(id: "1", entityType: "Person", source: "pisscore"), using: navigator)
+        }
+        else {
+            try? activityLauncher.launch(.launchApp, using: navigator)
         }
 
     }
