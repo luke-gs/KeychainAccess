@@ -1,5 +1,5 @@
 //
-//  LargeTextHeaderCollectionViewCell.swift
+//  CollectionViewFormLabelCell.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 15/1/18.
@@ -8,15 +8,15 @@
 
 import UIKit
 
-/// Collection view cell for a header with large text
-open class LargeTextHeaderCollectionViewCell: UICollectionViewCell, DefaultReusable {
+/// Collection view cell for a label
+open class CollectionViewFormLabelCell: CollectionViewFormCell {
     public let titleLabel = UILabel()
-    public let separatorView = UIView(frame: .zero)
     
     public static let minimumHeight: CGFloat = 72
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
+        overridesLayoutMargins = false
         
         titleLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
         titleLabel.textColor = .primaryGray

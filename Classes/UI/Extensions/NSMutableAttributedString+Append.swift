@@ -11,14 +11,14 @@ import UIKit
 
 extension NSMutableAttributedString {
 
-    convenience init(_ text: String, font: UIFont? = nil, color: UIColor? = nil) {
+    public convenience init(_ text: String, font: UIFont? = nil, color: UIColor? = nil) {
         self.init(string: "")
         self.append(text, font: font, color: color)
     }
     
     /// Appends string with custom font and colour to existing attributed string
     @discardableResult
-    func append(_ text: String, font: UIFont? = nil, color: UIColor? = nil) -> NSMutableAttributedString {
+    public func append(_ text: String, font: UIFont? = nil, color: UIColor? = nil) -> NSMutableAttributedString {
         var attributes: [NSAttributedStringKey: Any] = [:]
         
         if let font = font {
@@ -34,7 +34,7 @@ extension NSMutableAttributedString {
         return self
     }
     
-    func append(attributedString: NSAttributedString) -> NSMutableAttributedString {
+    public func append(attributedString: NSAttributedString) -> NSMutableAttributedString {
         self.append(attributedString)
         return self
     }

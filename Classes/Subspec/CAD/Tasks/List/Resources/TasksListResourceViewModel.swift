@@ -19,7 +19,7 @@ open class TasksListResourceViewModel: TasksListItemViewModel {
         return informationRows?.count ?? 0 > 0
     }
     
-    init(identifier: String, source: CADTaskListSourceType, title: String, subtitle: String, caption: String, resourceImage: UIImage?, statusImage: UIImage?,
+    public init(identifier: String, source: CADTaskListSourceType, title: String, subtitle: String, caption: String, resourceImage: UIImage?, statusImage: UIImage?,
          informationRows: [TasksListInformationRowViewModel]?, incidentViewModel: TasksListIncidentViewModel?)
     {
         self.resourceImage = resourceImage
