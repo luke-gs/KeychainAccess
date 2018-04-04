@@ -17,7 +17,7 @@ extension Collection where Iterator.Element: MapFilterSection {
                 let options: [MapFilterOption] = toggleRow.options.map { option in
                     return MapFilterOption(text: option.text, isEnabled: option.isEnabled, isOn: option.isOn)
                 }
-                return MapFilterToggleRow(title: toggleRow.title, options: options)
+                return MapFilterToggleRow(title: toggleRow.title, options: options, inline: toggleRow.inline)
             }
             return MapFilterSection(title: section.title, isOn: section.isOn, toggleRows: toggleRows)
         }
