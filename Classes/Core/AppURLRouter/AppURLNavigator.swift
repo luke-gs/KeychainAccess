@@ -50,7 +50,8 @@ open class AppURLNavigator {
 
         // On debug, print message to make sure that the url is whitelisted.
         // On production, well, the show must go on.
-        assert(UIApplication.shared.canOpenURL(url), "Trying to open \(url), it's not whitelisted.")
+
+        assert(UIApplication.shared.canOpenURL(url), "Trying to open \(NSURLComponents(url: url, resolvingAgainstBaseURL: false)!.scheme!), it's not whitelisted.")
         
         UIApplication.shared.open(url, options: [:], completionHandler: completion)
     }
