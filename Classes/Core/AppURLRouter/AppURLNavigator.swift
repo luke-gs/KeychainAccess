@@ -47,6 +47,10 @@ open class AppURLNavigator {
         guard let url = components.url else {
             throw AppURLNavigatorError.invalidURLParameter
         }
+
+        // On debug, print message to make sure that the url is whitelisted.
+        // On production, well, the show must go on.
+        assert(UIApplication.shared.canOpenURL(url), "Trying to open \(url), it's not whitelisted.")
         
         UIApplication.shared.open(url, options: [:], completionHandler: completion)
     }

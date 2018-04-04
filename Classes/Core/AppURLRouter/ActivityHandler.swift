@@ -8,6 +8,8 @@
 
 import Foundation
 
+
+/// Abstract class to declare URL scheme handler for convenience.
 open class ActivityHandler {
 
     public let supportedPaths: [String]
