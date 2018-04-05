@@ -174,14 +174,13 @@ open class TasksListViewController: FormBuilderViewController, UISearchBarDelega
                     .highlightStyle(.fade)
                     .selectionStyle(.fade)
                     .contentMode(.top)
-                    .onConfigured({ [unowned self] (cell) in
-                        // Configure the cell
-                        self.decorate(cell: cell, with: item)
+                    .onConfigured({ [weak self] (cell) in
+                        self?.decorate(cell: cell, with: item)
                     })
                     .accessory(ItemAccessory.disclosure)
                     .height(.fixed(64))
-                    .onThemeChanged({ (cell, theme) in
-                        self.apply(theme: theme, to: cell)
+                    .onThemeChanged({ [weak self] (cell, theme) in
+                        self?.apply(theme: theme, to: cell)
                     })
                     .onSelection({ [weak self] (cell) in
                         // Set item as read and reload the section

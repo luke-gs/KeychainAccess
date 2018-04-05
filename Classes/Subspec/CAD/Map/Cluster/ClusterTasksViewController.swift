@@ -73,13 +73,13 @@ open class ClusterTasksViewController: FormBuilderViewController {
                     .highlightStyle(.fade)
                     .selectionStyle(.fade)
                     .contentMode(.top)
-                    .onConfigured({ [unowned self] (cell) in
-                        self.decorate(cell: cell, with: item)
+                    .onConfigured({ [weak self] (cell) in
+                        self?.decorate(cell: cell, with: item)
                     })
                     .accessory(ItemAccessory.disclosure)
                     .height(.fixed(64))
-                    .onThemeChanged({ (cell, theme) in
-                        self.apply(theme: theme, to: cell)
+                    .onThemeChanged({ [weak self] (cell, theme) in
+                        self?.apply(theme: theme, to: cell)
                     })
                     .onSelection({ [weak self] (cell) in
                         if let viewModel = item.createItemViewModel() {
