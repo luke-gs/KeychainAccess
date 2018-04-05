@@ -8,10 +8,16 @@
 
 import UIKit
 
+public protocol ClusterTasksViewControllerDelegate: class {
+    func didCloseClusterDetails()
+}
+
 /// View controller for showing
 open class ClusterTasksViewController: FormBuilderViewController {
 
     open var viewModel: ClusterTasksViewModel
+
+    open weak var delegate: ClusterTasksViewControllerDelegate?
 
     public init(viewModel: ClusterTasksViewModel) {
         self.viewModel = viewModel
@@ -20,6 +26,10 @@ open class ClusterTasksViewController: FormBuilderViewController {
 
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
+    }
+
+    deinit {
+        delegate?.didCloseClusterDetails()
     }
 
     open override func viewDidLoad() {

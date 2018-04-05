@@ -58,11 +58,11 @@ open class TaskDetailsOverviewViewController: UIViewController {
         // Dispatch main here to allow VC to be added to parent split
         DispatchQueue.main.async {
             self.updateCardBottomIfInSplit()
-        }
 
-        // Prevent control center gesture interrupting card gesture while overview visible
-        containingSplitViewController = pushableSplitViewController
-        containingSplitViewController?.screenEdgesWithoutSystemGestures = [.bottom]
+            // Prevent control center gesture interrupting card gesture while overview visible
+            self.containingSplitViewController = self.pushableSplitViewController
+            self.containingSplitViewController?.screenEdgesWithoutSystemGestures = [.bottom]
+        }
     }
 
     open override func viewWillDisappear(_ animated: Bool) {

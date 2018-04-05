@@ -100,10 +100,6 @@ open class TasksMapViewController: MapViewController {
     
     public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if let clusterView = view as? ClusterAnnotationView {
-            // Deselect if not showing popover
-            if isCompact() {
-                mapView.deselectAnnotation(view.annotation, animated: false)
-            }
             present(TaskListScreen.clusterDetails(annotationView: clusterView, delegate: self))
             return
         }
@@ -274,10 +270,10 @@ extension TasksMapViewController: TasksMapViewModelDelegate {
     }
 }
 
-// MARK: - UIPopoverPresentationControllerDelegate
-extension TasksMapViewController: UIPopoverPresentationControllerDelegate {
+// MARK: - ClusterTasksViewControllerDelegate
+extension TasksMapViewController: ClusterTasksViewControllerDelegate {
 
-    public func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
+    public func didCloseClusterDetails() {
         // When dismissing cluster popover, deselect cluster
         for annotation in mapView.selectedAnnotations {
             mapView.deselectAnnotation(annotation, animated: true)
