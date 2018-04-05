@@ -126,7 +126,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let searchNavController = UINavigationController(rootViewController: searchViewController)
             let eventListNavController = UINavigationController(rootViewController: eventListVC)
 
-            let tasksProxyViewController = AppProxyViewController(appUrlTypeScheme: CAD_APP_SCHEME)
+            let tasksProxyViewController = AppProxyViewController(appURLScheme: CAD_APP_SCHEME)
             tasksProxyViewController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tab Bar Item title")
             tasksProxyViewController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarTasks)
 
@@ -176,7 +176,7 @@ extension LandingPresenter: UITabBarControllerDelegate {
 
     public func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if let appProxy = viewController as? AppProxyViewController {
-            appProxy.launchApp()
+            appProxy.launch(SearchActivity.launchApp)
             return false
         }
         return true
