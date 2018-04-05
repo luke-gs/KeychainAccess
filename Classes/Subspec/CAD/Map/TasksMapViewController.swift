@@ -212,6 +212,10 @@ open class TasksMapViewController: MapViewController {
     private func removeAllAnnotations() {
         clusterManager.removeAll()
         mapView.removeAnnotations(mapView.annotations)
+
+        // Due to bug in cluster manager, clear the visible annotations as well or differences will be incorrect
+        // Submitted PR: https://github.com/efremidze/Cluster/pull/70
+        clusterManager.visibleAnnotations.removeAll()
     }
 }
 
