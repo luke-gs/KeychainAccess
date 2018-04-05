@@ -20,6 +20,7 @@ open class TaskDetailsOverviewViewController: UIViewController {
     open private(set) var mapViewController: MapViewController?
     open private(set) var formViewController: FormBuilderViewController!
     open private(set) var cardView: DraggableCardView!
+    open private(set) var containingSplitViewController: PushableSplitViewController?
 
     // MARK: - Constraints
 
@@ -58,6 +59,18 @@ open class TaskDetailsOverviewViewController: UIViewController {
         DispatchQueue.main.async {
             self.updateCardBottomIfInSplit()
         }
+
+        // Prevent control center gesture interrupting card gesture while overview visible
+        containingSplitViewController = pushableSplitViewController
+        containingSplitViewController?.screenEdgesWithoutSystemGestures = [.bottom]
+    }
+
+    open override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        // Restore system gestures, using the the stored SplitViewController here,
+        // as pushableSplitViewController generated property will be nil
+        containingSplitViewController?.screenEdgesWithoutSystemGestures = []
     }
 
     open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
