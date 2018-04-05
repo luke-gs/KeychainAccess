@@ -197,7 +197,7 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
             headerView.subtitleLabel.text = nil
         }
         
-        // Force table view to reload if header size has changed
+        // Relayout as header view may have changed size
         regularSidebarViewController.sidebarTableView?.reloadData()
     }
 
