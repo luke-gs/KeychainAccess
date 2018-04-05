@@ -43,6 +43,13 @@ open class ClusterTasksViewController: FormBuilderViewController {
         calculatesContentHeight = true
     }
 
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        // Hide or show nav bar depending on whether currently in popover
+        navigationController?.setNavigationBarHidden(!UIViewController.isWindowCompact(), animated: false)
+    }
+
     // MARK: - Form
 
     open override func construct(builder: FormBuilder) {
