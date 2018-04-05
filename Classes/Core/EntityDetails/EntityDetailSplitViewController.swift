@@ -196,6 +196,9 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
         } else {
             headerView.subtitleLabel.text = nil
         }
+        
+        // Force table view to reload if header size has changed
+        regularSidebarViewController.sidebarTableView?.reloadData()
     }
 
     private func updateDetailSectionsAvailability(_ isAvailable: Bool) {
