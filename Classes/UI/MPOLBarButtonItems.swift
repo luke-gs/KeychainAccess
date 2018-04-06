@@ -174,6 +174,8 @@ private class BackButton: UIControl {
     init(text: String? = nil) {
         super.init(frame: .zero)
         
+        self.text = text
+        
         icon.translatesAutoresizingMaskIntoConstraints = false
         addSubview(icon)
         
@@ -192,6 +194,9 @@ private class BackButton: UIControl {
             label.bottomAnchor.constraint(equalTo: bottomAnchor),
             label.trailingAnchor.constraint(equalTo: trailingAnchor)
             ])
+        
+        setNeedsLayout()
+        frame.size = systemLayoutSizeFitting(UILayoutFittingCompressedSize)
     }
     
     required init?(coder aDecoder: NSCoder) {
