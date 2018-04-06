@@ -28,6 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var window: UIWindow?
     var landingPresenter: LandingPresenter!
 
+    var navigator: AppURLNavigator!
+
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         MPOLKitInitialize()
@@ -80,6 +82,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             authenticator.authenticateInstallation()
         #endif
 
+        setupNavigator()
+
         return true
     }
 
@@ -99,6 +103,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Reload user session and update UI to match current state
         updateAppForUserSession()
+    }
+
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        if navigator.isRegistered(url) {
+            return navigator.handle(url)
+        }
+
+        // Return magic value. Magic is good.
+        return true
     }
 
     // MARK: - APNS
@@ -217,4 +230,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         AlertQueue.shared.preferredStatusBarStyle = theme.statusBarStyle
     }
+
+    private func setupNavigator() {
+        navigator = AppURLNavigator.default
+
+        let launcher = SearchActivityLauncher.default
+        let searchHandler = SearchActivityHandler(scheme: launcher.scheme)
+        searchHandler.delegate = self
+        navigator.register(searchHandler)
+    }
+}
+
+extension AppDelegate: SearchActivityHandlerDelegate {
+
+    func searchActivityHandler(_ handler: SearchActivityHandler, launchedSearchActivity: SearchActivity) {
+
+        // FIXME: Probably need something that knows how to coordinate all of these `from` and `to` businesses.
+        switch launchedSearchActivity {
+        case .searchEntity(let term):
+            landingPresenter.switchTo(.search)
+            landingPresenter.searchViewController.beginSearch(with: term)
+        case .viewDetails(let id, let entityType, let source):
+
+            let entity: Entity!
+
+            switch entityType {
+            case "Person":
+                entity = Person(id: id)
+            case "Vehicle":
+                entity = Vehicle(id: id)
+            case "Address":
+                entity = Address(id: id)
+            case "Organisation":
+                // Not supported yet
+                entity = nil
+                print("Not supported yet")
+            default:
+                // Do nothing
+                entity = nil
+                assertionFailure("\(entityType) is not supported.")
+            }
+
+            if let entity = entity {
+                entity.source = MPOLSource(rawValue: source)
+                let presentable = EntityScreen.entityDetails(entity: entity, delegate: nil)
+
+                Director.shared.present(presentable, fromViewController: landingPresenter.searchViewController)
+            }
+        }
+    }
+
 }
