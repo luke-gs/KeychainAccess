@@ -119,8 +119,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SearchDisplayableDelegate
 
         window.makeKeyAndVisible()
 
-        let launcher = SearchActivityLauncher.default
-        let handler = SearchActivityHandler(scheme: launcher.scheme)
+        let handler = SearchActivityHandler(scheme: "mpolkitdemo")
         navigator.register(handler)
         handler.delegate = self
 
@@ -243,10 +242,8 @@ extension AppDelegate: SearchActivityHandlerDelegate {
         let message: String
 
         switch launchedSearchActivity {
-        case .launchApp:
-            message = "App Launch is requested"
-        case .searchEntity(let term, let source):
-            message = "Term: \(term.text ?? "Term is empty")\nSource: \(source)"
+        case .searchEntity(let term):
+            message = "Term: \(term.text ?? "Term is empty")"
         case .viewDetails(let  id, let entityType, let source):
             message = "ID: \(id)\nType: \(entityType)\nSource: \(source)"
         }

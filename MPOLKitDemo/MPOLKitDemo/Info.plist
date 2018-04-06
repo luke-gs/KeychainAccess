@@ -33,8 +33,12 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-	<key>DefaultSearchURLScheme</key>
-	<string>mpolkitdemo</string>
+	<key>DefaultActivityLauncherURLScheme</key>
+	<string>pscoresearch</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>pscoresearch</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
