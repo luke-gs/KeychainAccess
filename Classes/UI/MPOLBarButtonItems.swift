@@ -55,8 +55,6 @@ public class BackBarButtonItem: UIBarButtonItem {
         if let selector = action {
             backButton.addTarget(target, action: selector, for: .touchUpInside)
         }
-        
-        backButton.sizeToFit()
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -196,18 +194,9 @@ private class BackButton: UIControl {
             label.bottomAnchor.constraint(equalTo: bottomAnchor),
             label.trailingAnchor.constraint(equalTo: trailingAnchor)
             ])
-    }
-    
-    override func sizeThatFits(_ size: CGSize) -> CGSize {
-        var width = icon.frame.width + 5
-        var height = icon.frame.height
         
-        if let text = text?.ifNotEmpty() {
-            width += text.sizing(withNumberOfLines: 1, font: label.font).minimumWidth(compatibleWith: traitCollection)
-            height = max(height, text.sizing(withNumberOfLines: 1, font: label.font).minimumHeight(inWidth: width, compatibleWith: traitCollection))
-        }
-        
-        return CGSize(width: width, height: height)
+        setNeedsLayout()
+        frame.size = systemLayoutSizeFitting(UILayoutFittingCompressedSize)
     }
     
     required init?(coder aDecoder: NSCoder) {
