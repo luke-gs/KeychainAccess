@@ -55,6 +55,8 @@ public class BackBarButtonItem: UIBarButtonItem {
         if let selector = action {
             backButton.addTarget(target, action: selector, for: .touchUpInside)
         }
+        
+        backButton.sizeToFit()
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -174,7 +176,7 @@ private class BackButton: UIControl {
     init(text: String? = nil) {
         super.init(frame: .zero)
         
-        let spacing: CGFloat = 5
+        self.text = text
         
         icon.translatesAutoresizingMaskIntoConstraints = false
         addSubview(icon)
@@ -189,13 +191,15 @@ private class BackButton: UIControl {
             icon.topAnchor.constraint(equalTo: topAnchor),
             icon.bottomAnchor.constraint(equalTo: bottomAnchor),
             
-            label.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: spacing),
+            label.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 5),
             label.topAnchor.constraint(equalTo: topAnchor),
             label.bottomAnchor.constraint(equalTo: bottomAnchor),
             label.trailingAnchor.constraint(equalTo: trailingAnchor)
             ])
-        
-        var width = icon.frame.width + spacing
+    }
+    
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        var width = icon.frame.width + 5
         var height = icon.frame.height
         
         if let text = text?.ifNotEmpty() {
@@ -203,7 +207,7 @@ private class BackButton: UIControl {
             height = max(height, text.sizing(withNumberOfLines: 1, font: label.font).minimumHeight(inWidth: width, compatibleWith: traitCollection))
         }
         
-        bounds = CGRect(x: 0, y: 0, width: width, height: height)
+        return CGSize(width: width, height: height)
     }
     
     required init?(coder aDecoder: NSCoder) {
