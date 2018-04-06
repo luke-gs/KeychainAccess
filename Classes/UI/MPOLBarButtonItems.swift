@@ -174,6 +174,8 @@ private class BackButton: UIControl {
     init(text: String? = nil) {
         super.init(frame: .zero)
         
+        let spacing: CGFloat = 5
+        
         icon.translatesAutoresizingMaskIntoConstraints = false
         addSubview(icon)
         
@@ -187,11 +189,21 @@ private class BackButton: UIControl {
             icon.topAnchor.constraint(equalTo: topAnchor),
             icon.bottomAnchor.constraint(equalTo: bottomAnchor),
             
-            label.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 5),
+            label.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: spacing),
             label.topAnchor.constraint(equalTo: topAnchor),
             label.bottomAnchor.constraint(equalTo: bottomAnchor),
             label.trailingAnchor.constraint(equalTo: trailingAnchor)
             ])
+        
+        var width = icon.frame.width + spacing
+        var height = icon.frame.height
+        
+        if let text = text?.ifNotEmpty() {
+            width += text.sizing(withNumberOfLines: 1, font: label.font).minimumWidth(compatibleWith: traitCollection)
+            height = max(height, text.sizing(withNumberOfLines: 1, font: label.font).minimumHeight(inWidth: width, compatibleWith: traitCollection))
+        }
+        
+        bounds = CGRect(x: 0, y: 0, width: width, height: height)
     }
     
     required init?(coder aDecoder: NSCoder) {
