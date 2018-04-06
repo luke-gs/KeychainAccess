@@ -78,6 +78,7 @@ open class DraggableCardView: UIView {
         addGestureRecognizer(panGesture)
 
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(gestureRecognizer:)))
+        tapGesture.cancelsTouchesInView = false
         isUserInteractionEnabled = true
         addGestureRecognizer(tapGesture)
     }
