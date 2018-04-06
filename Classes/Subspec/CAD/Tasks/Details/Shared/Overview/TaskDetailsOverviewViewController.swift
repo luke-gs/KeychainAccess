@@ -21,6 +21,7 @@ open class TaskDetailsOverviewViewController: UIViewController {
     open private(set) var formViewController: FormBuilderViewController!
     open private(set) var cardView: DraggableCardView!
     open private(set) var containingSplitViewController: PushableSplitViewController?
+    open private(set) var cardStateWhenShowingCluster: DraggableCardView.CardState?
 
     // MARK: - Constraints
 
@@ -101,6 +102,9 @@ open class TaskDetailsOverviewViewController: UIViewController {
             mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
             self.mapViewController = mapViewController
         }
+
+        // Update card based on cluster popover display
+        (mapViewController as? TasksMapViewController)?.clusterDelegate = self
 
         cardView = DraggableCardView(frame: .zero)
         cardView.delegate = self
@@ -247,6 +251,34 @@ extension TaskDetailsOverviewViewController: DraggableCardViewDelegate {
         }) { _ in
             // Animate showing or hiding map buttons
             self.updateMapInteraction()
+        }
+    }
+}
+
+// MARK: - ClusterTasksViewControllerDelegate
+extension TaskDetailsOverviewViewController: ClusterTasksViewControllerDelegate {
+
+    public func didShowClusterDetails() {
+        // Minimise card when showing cluster popover
+        cardStateWhenShowingCluster = cardView.currentState
+        if cardView.currentState != .minimised {
+            cardView.currentState = .minimised
+            didFinishDragCardView()
+        }
+    }
+
+    public func didCloseClusterDetails() {
+        // When dismissing cluster popover, deselect cluster
+        if let mapView = mapViewController?.mapView {
+            for annotation in mapView.selectedAnnotations {
+                mapView.deselectAnnotation(annotation, animated: true)
+            }
+        }
+
+        // Restore card state when dismissing cluster popover
+        if let restoreState = cardStateWhenShowingCluster, restoreState != cardView.currentState {
+            cardView.currentState = restoreState
+            didFinishDragCardView()
         }
     }
 }

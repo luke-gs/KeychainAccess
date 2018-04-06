@@ -9,6 +9,7 @@
 import UIKit
 
 public protocol ClusterTasksViewControllerDelegate: class {
+    func didShowClusterDetails()
     func didCloseClusterDetails()
 }
 
@@ -41,6 +42,8 @@ open class ClusterTasksViewController: FormBuilderViewController {
         // Fixed width, calculated height
         preferredContentSize.width = 256
         calculatesContentHeight = true
+
+        delegate?.didShowClusterDetails()
     }
 
     open override func viewDidLayoutSubviews() {

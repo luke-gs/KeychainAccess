@@ -12,7 +12,9 @@ import Cluster
 
 open class TasksMapViewController: MapViewController {
     public typealias AnnotationsInitialLoadZoomStyle = (animated: Bool, includeUserLocation: Bool)
-    
+
+    open weak var clusterDelegate: ClusterTasksViewControllerDelegate?
+
     private var annotationsInitialLoadZoomStyle: AnnotationsInitialLoadZoomStyle?
     private var performedInitialLoadAction: Bool = false
     private var addedFirstAnnotations: Bool = false
@@ -100,7 +102,7 @@ open class TasksMapViewController: MapViewController {
     
     public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if let clusterView = view as? ClusterAnnotationView {
-            present(TaskListScreen.clusterDetails(annotationView: clusterView, delegate: self))
+            present(TaskListScreen.clusterDetails(annotationView: clusterView, delegate: clusterDelegate ?? self))
             return
         }
 
@@ -272,6 +274,8 @@ extension TasksMapViewController: TasksMapViewModelDelegate {
 
 // MARK: - ClusterTasksViewControllerDelegate
 extension TasksMapViewController: ClusterTasksViewControllerDelegate {
+    public func didShowClusterDetails() {
+    }
 
     public func didCloseClusterDetails() {
         // When dismissing cluster popover, deselect cluster
