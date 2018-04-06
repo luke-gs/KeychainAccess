@@ -149,7 +149,6 @@ open class TaskDetailsOverviewViewController: UIViewController {
             // Remove existing constraints for map controls by re-adding to view hierarchy
             mapViewController.mapControlView.removeFromSuperview()
             mapViewController.view.addSubview(mapViewController.mapControlView)
-            mapViewController.mapControlView.isHidden = true
 
             NSLayoutConstraint.activate([
                 // Use full size for map even when obscured, so we can manipulate center position without zooming
@@ -195,14 +194,17 @@ open class TaskDetailsOverviewViewController: UIViewController {
 
     open func updateMapInteraction() {
         if let mapViewModel = viewModel.mapViewModel, let mapViewController = mapViewController {
-            let enabled = mapViewModel.allowsInteraction() || cardView.currentState == .minimised
-            UIView.transition(with: mapViewController.view, duration: 0.3, options: .transitionCrossDissolve, animations: {
-                mapViewController.showsMapButtons = enabled
-            }, completion: nil)
-            mapViewController.mapView.isZoomEnabled = enabled
-            mapViewController.mapView.isPitchEnabled = enabled
-            mapViewController.mapView.isRotateEnabled = enabled
-            mapViewController.mapView.isScrollEnabled = enabled
+            let maximising = cardView.bounds.height > heightForCardViewInState(.normal)
+            let enabled = mapViewModel.allowsInteraction() && !maximising
+            if enabled != mapViewController.showsMapButtons {
+                UIView.transition(with: mapViewController.view, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                    mapViewController.showsMapButtons = enabled
+                    mapViewController.mapView.isZoomEnabled = enabled
+                    mapViewController.mapView.isPitchEnabled = enabled
+                    mapViewController.mapView.isRotateEnabled = enabled
+                    mapViewController.mapView.isScrollEnabled = enabled
+                }, completion: nil)
+            }
         }
     }
 
@@ -238,6 +240,10 @@ extension TaskDetailsOverviewViewController: DraggableCardViewDelegate {
         // Move card to match drag translation
         let preDragHeight = heightForCardViewInState(cardView.currentState)
         cardHeightConstraint?.constant = preDragHeight - translation
+        view.layoutIfNeeded()
+
+        // Hide interaction when moving towards being maximised
+        self.updateMapInteraction()
     }
 
     public func didFinishDragCardView() {
