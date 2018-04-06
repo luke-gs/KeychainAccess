@@ -57,7 +57,11 @@ open class DraggableCardView: UIView {
     /// The current display state of the card
     open var currentState: CardState = .normal {
         didSet {
-            scrollView.isUserInteractionEnabled = (currentState == .maximised)
+            // Allow content scrolling only if maximised
+            scrollView.isScrollEnabled = (currentState == .maximised)
+
+            // Allow user interaction of any kind kind only if not minimised
+            scrollView.isUserInteractionEnabled = (currentState != .minimised)
         }
     }
 
@@ -101,7 +105,7 @@ open class DraggableCardView: UIView {
 
         // Add scroll view first (so under bar)
         scrollView.backgroundColor = theme.color(forKey: .background)
-        scrollView.isUserInteractionEnabled = false
+        scrollView.isScrollEnabled = false
         self.addSubview(scrollView)
         scrollView.addSubview(contentView)
 
