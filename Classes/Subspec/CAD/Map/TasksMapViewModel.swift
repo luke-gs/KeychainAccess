@@ -78,9 +78,9 @@ open class TasksMapViewModel {
         return true
     }
     
-    /// Whether the map should allow user interaction. `false` by default
+    /// Whether the map should allow user interaction. `true` by default
     open func allowsInteraction() -> Bool {
-        return false
+        return true
     }
 }
 

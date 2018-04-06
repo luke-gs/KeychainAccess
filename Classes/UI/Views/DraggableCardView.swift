@@ -51,10 +51,13 @@ open class DraggableCardView: UIView {
     /// The pan gesture for moving card
     open private(set) var panGesture: UIPanGestureRecognizer!
 
+    /// The tap gesture for restoring card
+    open private(set) var tapGesture: UITapGestureRecognizer!
+
     /// The current display state of the card
     open var currentState: CardState = .normal {
         didSet {
-            scrollView.isScrollEnabled = currentState == .maximised
+            scrollView.isUserInteractionEnabled = (currentState == .maximised)
         }
     }
 
@@ -69,6 +72,10 @@ open class DraggableCardView: UIView {
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gestureRecognizer:)))
         panGesture.delegate = self
         addGestureRecognizer(panGesture)
+
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(gestureRecognizer:)))
+        isUserInteractionEnabled = true
+        addGestureRecognizer(tapGesture)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -94,7 +101,7 @@ open class DraggableCardView: UIView {
 
         // Add scroll view first (so under bar)
         scrollView.backgroundColor = theme.color(forKey: .background)
-        scrollView.isScrollEnabled = false
+        scrollView.isUserInteractionEnabled = false
         self.addSubview(scrollView)
         scrollView.addSubview(contentView)
 
@@ -226,6 +233,17 @@ open class DraggableCardView: UIView {
         default: break
         }
     }
+
+    /// Uses the tap gesture to restore the card when minimised
+    @objc open func handleTap(gestureRecognizer: UITapGestureRecognizer) {
+        guard gestureRecognizer.isEqual(tapGesture) else { return }
+
+        if gestureRecognizer.state == .ended && currentState == .minimised {
+            currentState = .normal
+            delegate?.didFinishDragCardView()
+        }
+    }
+
 }
 
 // MARK: - UIGestureRecognizerDelegate
