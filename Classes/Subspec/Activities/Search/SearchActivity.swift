@@ -10,15 +10,12 @@ import Foundation
 
 public enum SearchActivity: ActivityType, Codable {
 
-    case launchApp
-    case searchEntity(term: Searchable, source: String)
+    case searchEntity(term: Searchable)
     case viewDetails(id: String, entityType: String, source: String)
 
     public var name: String {
         switch self {
-        case .launchApp:
-            return "launchApp"
-        case .searchEntity(_, _):
+        case .searchEntity(_):
             return "search"
         case .viewDetails(_, _, _):
             return "viewDetails"
@@ -42,11 +39,9 @@ public enum SearchActivity: ActivityType, Codable {
         let type = try container.decode(SearchActivityType.self, forKey: .activityType)
 
         switch type {
-        case .launchApp:
-            self = .launchApp
         case .searchEntity:
             let parameters = try container.decode(SearchEntityParameters.self, forKey: .searchEntityParameters)
-            self = .searchEntity(term: parameters.term, source: parameters.source)
+            self = .searchEntity(term: parameters.term)
         case .viewDetails:
             let parameters = try container.decode(ViewEntityDetailsParameters.self, forKey: .viewEntityDetailsParameters)
             self = .viewDetails(id: parameters.id, entityType: parameters.entityType, source: parameters.source)
@@ -57,11 +52,9 @@ public enum SearchActivity: ActivityType, Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         switch self {
-        case .launchApp:
-            try container.encode(SearchActivityType.launchApp, forKey: .activityType)
-        case .searchEntity(let term, let source):
+        case .searchEntity(let term):
             try container.encode(SearchActivityType.searchEntity, forKey: .activityType)
-            try container.encode(SearchEntityParameters(term: term, source: source), forKey: .searchEntityParameters)
+            try container.encode(SearchEntityParameters(term: term), forKey: .searchEntityParameters)
         case .viewDetails(let id, let entityType, let source):
             try container.encode(SearchActivityType.viewDetails, forKey: .activityType)
             try container.encode(ViewEntityDetailsParameters(id: id, entityType: entityType, source: source), forKey: .viewEntityDetailsParameters)
@@ -72,7 +65,6 @@ public enum SearchActivity: ActivityType, Codable {
     // Required for Codable
 
     private enum SearchActivityType: String, Codable {
-        case launchApp
         case searchEntity
         case viewDetails
     }
@@ -84,8 +76,9 @@ public enum SearchActivity: ActivityType, Codable {
     }
 
     private struct SearchEntityParameters: Codable {
+        // Used to have more than 1 properties.
+        // Keeping this private struct so in case if there's more.
         let term: Searchable
-        let source: String
     }
 
     private struct ViewEntityDetailsParameters: Codable {

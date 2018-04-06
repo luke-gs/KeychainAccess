@@ -25,3 +25,23 @@ open class BaseActivityLauncher<T: ActivityType>: ActivityLauncherType {
         try? navigator.open(scheme, host: nil, path: activity.name, parameters: activity.parameters, completionHandler: nil)
     }
 }
+
+extension BaseActivityLauncher {
+
+    /// Convenience defaultScheme, by default it'll return value declared in Info.plist with the key of `DefaultActivityLauncherURLScheme`.
+    /// Otherwise if undeclared, it'll return `mpolkit`.
+    public static var defaultScheme: String {
+        guard let scheme = Bundle.main.infoDictionary?["DefaultActivityLauncherURLScheme"] as? String else {
+            return "mpolkit"
+        }
+        return scheme
+    }
+
+    public convenience init() {
+        guard let scheme = Bundle.main.infoDictionary?["DefaultActivityLauncherURLScheme"] as? String else {
+            fatalError("`DefaultActivityLauncherURLScheme` is not declared in Info.plist")
+        }
+        self.init(scheme: type(of: self).defaultScheme)
+    }
+
+}
