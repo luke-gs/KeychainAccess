@@ -43,7 +43,7 @@ class DateFormItemTests: XCTestCase {
         item.minimumDate(minDate)
             .maximumDate(maxDate)
             .datePickerMode(.time)
-            .dateFormatter(.formDate)
+            .dateFormatter(.preferredDateStyle)
             .locale(Locale(identifier: "de"))
             .timeZone(TimeZone(secondsFromGMT: 3600))
 

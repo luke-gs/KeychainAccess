@@ -16,13 +16,12 @@ public enum MediaType: Int, Codable {
     case photo
 }
 
-
 open class Media: Codable {
     
     public let identifier: String
     public let type: MediaType
 
-    public let url: URL
+    public var url: URL
     public var title: String?
     public var comments: String?
     public var sensitive: Bool
