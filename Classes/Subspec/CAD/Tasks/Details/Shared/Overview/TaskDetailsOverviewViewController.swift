@@ -54,7 +54,10 @@ open class TaskDetailsOverviewViewController: UIViewController {
         super.viewWillAppear(animated)
 
         // Size the details card and update map controls
-        self.didFinishDragCardView()
+        UIView.performWithoutAnimation {
+            self.didFinishDragCardView()
+            self.updateCardBottomIfInSplit()
+        }
 
         // Dispatch main here to allow VC to be added to parent split
         DispatchQueue.main.async {
