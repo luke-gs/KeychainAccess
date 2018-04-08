@@ -35,7 +35,16 @@ open class PushableSplitViewController: UIViewController, UISplitViewControllerD
     /// The back bar button title (should be set before viewWillAppear).
     public var backButtonText: String?
     
-    
+    /// Property for setting return value of preferredScreenEdgesDeferringSystemGestures
+    /// without needing to override the method in subclasses
+    open var screenEdgesWithoutSystemGestures: UIRectEdge = [] {
+        didSet {
+            if #available(iOS 11.0, *) {
+                setNeedsUpdateOfScreenEdgesDeferringSystemGestures()
+            }
+        }
+    }
+
     /// Initializes the pushable split view controller.
     ///
     /// - Parameter viewControllers: The view controller's to assign as children of the split view controller.
@@ -117,7 +126,12 @@ open class PushableSplitViewController: UIViewController, UISplitViewControllerD
         
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
-    
+
+    /// Prevent screen edge gesture from interrupting card gesture
+    open override func preferredScreenEdgesDeferringSystemGestures() -> UIRectEdge {
+        return screenEdgesWithoutSystemGestures
+    }
+
     
     /// The back button item to apply to the nav bar of the master view controller, if available.
     open func backButtonItem() -> UIBarButtonItem? {

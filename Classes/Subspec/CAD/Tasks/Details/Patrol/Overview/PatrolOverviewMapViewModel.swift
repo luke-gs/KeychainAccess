@@ -35,8 +35,4 @@ open class PatrolOverviewMapViewModel: TasksMapViewModel {
     open override func canSelectAnnotationView(_ view: MKAnnotationView) -> Bool {
         return false
     }
-    
-    open override func shouldCluster() -> Bool {
-        return false
-    }
 }

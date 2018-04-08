@@ -26,8 +26,9 @@ open class ClusterTasksViewModel: CADFormCollectionViewModel<TasksListItemViewMo
     }
 
     /// Create the view controller for this view model
-    open func createViewController() -> UIViewController {
+    open func createViewController(delegate: ClusterTasksViewControllerDelegate?) -> UIViewController {
         let viewController = ClusterTasksViewController(viewModel: self)
+        viewController.delegate = delegate
         return viewController
     }
 

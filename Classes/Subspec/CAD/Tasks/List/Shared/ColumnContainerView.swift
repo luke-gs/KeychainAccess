@@ -39,6 +39,12 @@ open class ColumnContainerView: UIView {
         layout()
     }
     
+    open override var bounds: CGRect {
+        didSet {
+            layout()
+        }
+    }
+    
     /// Lays out the columns, called by `construct()`
     open func layout() {
         let width = bounds.width
@@ -58,6 +64,9 @@ open class ColumnContainerView: UIView {
         
         // Set up new constraints
         for (index, (info, view)) in zip(calculatedInfo, columnContentViews).enumerated() {
+            // Hide the view if its width is 0
+            view.isHidden = info.actualWidth == 0
+            
             // Constrain to neighbor view (self if first or last content view)
             let leadingViewAnchor = columnContentViews[ifExists: index - 1]?.trailingAnchor ?? self.leadingAnchor
             let trailingViewAnchor = columnContentViews[ifExists: index + 1]?.leadingAnchor ?? self.trailingAnchor
@@ -71,23 +80,16 @@ open class ColumnContainerView: UIView {
             columnLeadingConstraints.insert(leadingMargin, at: index)
             columnTrailingConstraints.insert(trailingMargin, at: index)
             columnWidthConstraints.insert(view.widthAnchor.constraint(equalToConstant: info.actualWidth), at: index)
-            columnTopBottomConstraints += [
-                view.topAnchor.constraint(equalTo: self.topAnchor),
-                view.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            ]
-            
-            // Hide the view if its width is 0
-            view.isHidden = info.actualWidth == 0
+            columnTopBottomConstraints.append(view.topAnchor.constraint(equalTo: self.topAnchor))
+            if info.actualWidth > 0 {
+                columnTopBottomConstraints.append(view.bottomAnchor.constraint(lessThanOrEqualTo: self.bottomAnchor))
+            }
         }
         
         // Activate new constraints
         NSLayoutConstraint.activate(columnLeadingConstraints + columnTrailingConstraints + columnWidthConstraints + columnTopBottomConstraints)
     }
     
-    open override func layoutSubviews() {
-        super.layoutSubviews()
-        layout()
-    }
 }
 
 public protocol ColumnContainerViewDataSource: class {

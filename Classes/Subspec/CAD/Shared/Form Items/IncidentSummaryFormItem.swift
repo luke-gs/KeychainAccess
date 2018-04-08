@@ -8,8 +8,9 @@
 import UIKit
 
 public class IncidentSummaryFormItem: BaseFormItem {
-    
-    public var viewModel: TasksListIncidentViewModel
+
+    // Weak reference to view model owned by parent view controller
+    public weak var viewModel: TasksListIncidentViewModel?
     
     public init(viewModel: TasksListIncidentViewModel) {
         self.viewModel = viewModel
@@ -19,8 +20,10 @@ public class IncidentSummaryFormItem: BaseFormItem {
     }
     
     public override func configure(_ cell: CollectionViewFormCell) {
-        let cell = cell as! TasksListIncidentCollectionViewCell
-        cell.decorate(with: viewModel)
+        if let viewModel = viewModel {
+            let cell = cell as! TasksListIncidentCollectionViewCell
+            cell.decorate(with: viewModel)
+        }
     }
 
     public override func intrinsicWidth(in collectionView: UICollectionView, layout: CollectionViewFormLayout, sectionEdgeInsets: UIEdgeInsets, for traitCollection: UITraitCollection) -> CGFloat {
