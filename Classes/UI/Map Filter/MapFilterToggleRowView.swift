@@ -104,13 +104,13 @@ open class MapFilterToggleRowView: UIView {
         guard traitCollection.horizontalSizeClass != .unspecified else { return }
         
         if traitCollection.horizontalSizeClass == .compact {
-            optionsStackView.spacing = LayoutConstants.checkboxSpacingCompact
+            optionsStackView.spacing = toggleRow.inline ? LayoutConstants.checkboxSpacingCompact : LayoutConstants.checkboxSpacingVertical
             // Remove spacer if in compact
             optionsStackView.removeArrangedSubview(spacer)
         } else {
-            optionsStackView.spacing = LayoutConstants.checkboxSpacingRegular
+            optionsStackView.spacing = toggleRow.inline ? LayoutConstants.checkboxSpacingRegular : LayoutConstants.checkboxSpacingVertical
             // Add spacer if not in compact and contains more than 1 view
-            if !optionsStackView.arrangedSubviews.contains(spacer)  && optionsStackView.arrangedSubviews.count > 1 {
+            if !optionsStackView.arrangedSubviews.contains(spacer)  && optionsStackView.arrangedSubviews.count > 1 && toggleRow.inline {
                 optionsStackView.addArrangedSubview(spacer)
             }
         }
