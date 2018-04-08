@@ -98,7 +98,7 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, MediaDetai
 
     public func setHidden(_ hidden: Bool, animated: Bool) {
         guard isHidden != hidden else { return }
-        
+
         hidingViewConstraint?.isActive = hidden
 
         if animated {

@@ -166,6 +166,9 @@ open class CADStateManagerCore: CADStateManagerType {
 
             // Update callsign for new officer list
             resource.payrollIds = officerIds
+            
+            // Update call sign for new equipment list
+            resource.equipment = lastBookOn.equipment
 
             // Set state if callsign was off duty
             if resource.status == CADResourceStatusCore.offDuty {

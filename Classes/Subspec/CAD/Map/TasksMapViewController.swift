@@ -12,7 +12,9 @@ import Cluster
 
 open class TasksMapViewController: MapViewController {
     public typealias AnnotationsInitialLoadZoomStyle = (animated: Bool, includeUserLocation: Bool)
-    
+
+    open weak var clusterDelegate: ClusterTasksViewControllerDelegate?
+
     private var annotationsInitialLoadZoomStyle: AnnotationsInitialLoadZoomStyle?
     private var performedInitialLoadAction: Bool = false
     private var addedFirstAnnotations: Bool = false
@@ -99,10 +101,13 @@ open class TasksMapViewController: MapViewController {
     }
     
     public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        if !(view is ClusterAnnotationView) {
-            mapView.deselectAnnotation(view.annotation, animated: false)
+        if let clusterView = view as? ClusterAnnotationView {
+            present(TaskListScreen.clusterDetails(annotationView: clusterView, delegate: clusterDelegate ?? self))
+            return
         }
-        
+
+        mapView.deselectAnnotation(view.annotation, animated: false)
+
         guard viewModel.canSelectAnnotationView(view) else { return }
         
         if let annotation = view.annotation as? TaskAnnotation, let viewModel = annotation.createItemViewModel() {
@@ -205,9 +210,14 @@ open class TasksMapViewController: MapViewController {
     private func removeAllAnnotations() {
         clusterManager.removeAll()
         mapView.removeAnnotations(mapView.annotations)
+
+        // Due to bug in cluster manager, clear the visible annotations as well or differences will be incorrect
+        // Submitted PR: https://github.com/efremidze/Cluster/pull/70
+        clusterManager.visibleAnnotations.removeAll()
     }
 }
 
+// MARK: - TasksSplitViewControllerDelegate
 extension TasksMapViewController: TasksSplitViewControllerDelegate {
     public func willChangeSplitWidth(from oldSize: CGFloat, to newSize: CGFloat) {
         // Store the current region if we are growing split
@@ -231,6 +241,7 @@ extension TasksMapViewController: TasksSplitViewControllerDelegate {
     }
 }
 
+// MARK: - TasksMapViewModelDelegate
 extension TasksMapViewController: TasksMapViewModelDelegate {
 
     public func annotationsChanged() {
@@ -257,6 +268,19 @@ extension TasksMapViewController: TasksMapViewModelDelegate {
     public func zoomToUserLocation() {
         DispatchQueue.main.async {
             self.zoomAndCenterToUserLocation(animated: true)
+        }
+    }
+}
+
+// MARK: - ClusterTasksViewControllerDelegate
+extension TasksMapViewController: ClusterTasksViewControllerDelegate {
+    public func didShowClusterDetails() {
+    }
+
+    public func didCloseClusterDetails() {
+        // When dismissing cluster popover, deselect cluster
+        for annotation in mapView.selectedAnnotations {
+            mapView.deselectAnnotation(annotation, animated: true)
         }
     }
 }

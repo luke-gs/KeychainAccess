@@ -181,6 +181,40 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         setThumbnailSlideshowEnabled(true, animated: false)
     }
 
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+
+        super.viewWillTransition(to: size, with: coordinator)
+
+        let preview = currentPreview
+
+        collectionView.alpha = 0.0
+        coordinator.animate(alongsideTransition: { _ in
+            self.setThumbnailSlideshowEnabled(!self.isFullScreen, animated: false)
+        }) { _ in
+            self.collectionView.alpha = 1.0
+            self.collectionView.reloadData()
+            self.collectionView.layoutIfNeeded()
+
+            if let preview = preview {
+                self.scrollToPreview(preview, animated: false)
+            }
+        }
+
+        if let preview = preview, let temporaryViewController = viewModel.controllerForPreview(preview), let previewView = temporaryViewController.view {
+            addChildViewController(temporaryViewController)
+            previewView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            previewView.frame = view.bounds
+            view.insertSubview(previewView, belowSubview: overlayView.view())
+            temporaryViewController.didMove(toParentViewController: self)
+
+            coordinator.animate(alongsideTransition: nil, completion: { _ in
+                temporaryViewController.willMove(toParentViewController: nil)
+                temporaryViewController.view.removeFromSuperview()
+                temporaryViewController.removeFromParentViewController()
+            })
+        }
+    }
+
     // MARK: - UICollectionViewDelegate / DataSource
 
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -260,7 +294,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return collectionView.bounds.size
+        return collectionView.frame.size
     }
 
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -300,9 +334,9 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
     private var controllerPool = [Media: MediaViewController]()
 
     private func updateCurrentPreviewViewController() {
-        let width = collectionView.bounds.width
+        let width = collectionView.frame.width
         if width > 0.0, collectionView.contentOffset.x >= 0.0 {
-            let index: Int = Int(floor(collectionView.contentOffset.x / width))
+            let index = Int((collectionView.contentOffset.x / width).rounded(.toNearestOrAwayFromZero))
             if index >= viewModel.previews.count {
                 currentPreviewViewController = nil
             } else {
@@ -474,6 +508,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
     public func mediaThumbnailSlideshowViewController(_ thumbnailSlideshowViewController: MediaThumbnailSlideshowViewController, didSelectPreview preview: MediaPreviewable) {
         showPreview(preview, animated: false)
+        updateCurrentPreviewViewController()
     }
 
 }

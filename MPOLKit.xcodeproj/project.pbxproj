@@ -450,6 +450,10 @@
 		96CF32341F8D7C7700140AF8 /* TasksListHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32331F8D7C7700140AF8 /* TasksListHeaderViewModel.swift */; };
 		96D3415C2005D38000CEDDFF /* StandardSearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D3415B2005D38000CEDDFF /* StandardSearchBarView.swift */; };
 		96D731731FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D731721FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift */; };
+		96E19CAB2069A9A70021DB42 /* DraggableCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E19CAA2069A9A70021DB42 /* DraggableCardView.swift */; };
+		96E19CAE206C98A50021DB42 /* ClusterTasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E19CAD206C98A50021DB42 /* ClusterTasksViewController.swift */; };
+		96E19CB0206C98B60021DB42 /* ClusterTasksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E19CAF206C98B60021DB42 /* ClusterTasksViewModel.swift */; };
+		96E19CB7207309520021DB42 /* ClusterTasksViewModelCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E19CB6207309520021DB42 /* ClusterTasksViewModelCore.swift */; };
 		96E492021FB3F98D0051C3A1 /* AppSettingKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E492011FB3F98D0051C3A1 /* AppSettingKey.swift */; };
 		96EB4BE6203E4EE200AFCAA0 /* CADTaskListItemModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EB4BE5203E4EE200AFCAA0 /* CADTaskListItemModelType.swift */; };
 		96EB4BE92043792800AFCAA0 /* TaskListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EB4BE82043792800AFCAA0 /* TaskListScreen.swift */; };
@@ -1275,6 +1279,10 @@
 		96CF32331F8D7C7700140AF8 /* TasksListHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListHeaderViewModel.swift; sourceTree = "<group>"; };
 		96D3415B2005D38000CEDDFF /* StandardSearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardSearchBarView.swift; sourceTree = "<group>"; };
 		96D731721FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignIncidentFormViewController.swift; sourceTree = "<group>"; };
+		96E19CAA2069A9A70021DB42 /* DraggableCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableCardView.swift; sourceTree = "<group>"; };
+		96E19CAD206C98A50021DB42 /* ClusterTasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterTasksViewController.swift; sourceTree = "<group>"; };
+		96E19CAF206C98B60021DB42 /* ClusterTasksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterTasksViewModel.swift; sourceTree = "<group>"; };
+		96E19CB6207309520021DB42 /* ClusterTasksViewModelCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterTasksViewModelCore.swift; sourceTree = "<group>"; };
 		96E492011FB3F98D0051C3A1 /* AppSettingKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingKey.swift; sourceTree = "<group>"; };
 		96EB4BE5203E4EE200AFCAA0 /* CADTaskListItemModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADTaskListItemModelType.swift; sourceTree = "<group>"; };
 		96EB4BE82043792800AFCAA0 /* TaskListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListScreen.swift; sourceTree = "<group>"; };
@@ -2588,6 +2596,7 @@
 		9624A4651F83555A00CAE056 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				96E19CAC206C98760021DB42 /* Cluster */,
 				278A162B1FBBB83400C01C38 /* Filter */,
 				9624A4661F83555A00CAE056 /* Annotations */,
 				9624A46A1F83555A00CAE056 /* TasksMapViewController.swift */,
@@ -2916,6 +2925,24 @@
 				273A5C192005B8DC0009D9A0 /* GlassBarView.swift */,
 			);
 			path = Shared;
+			sourceTree = "<group>";
+		};
+		96E19CAC206C98760021DB42 /* Cluster */ = {
+			isa = PBXGroup;
+			children = (
+				96E19CB5207309430021DB42 /* Core Implementation */,
+				96E19CAD206C98A50021DB42 /* ClusterTasksViewController.swift */,
+				96E19CAF206C98B60021DB42 /* ClusterTasksViewModel.swift */,
+			);
+			path = Cluster;
+			sourceTree = "<group>";
+		};
+		96E19CB5207309430021DB42 /* Core Implementation */ = {
+			isa = PBXGroup;
+			children = (
+				96E19CB6207309520021DB42 /* ClusterTasksViewModelCore.swift */,
+			);
+			path = "Core Implementation";
 			sourceTree = "<group>";
 		};
 		96EB4BE72043790C00AFCAA0 /* Screens */ = {
@@ -3444,6 +3471,7 @@
 				96F77285202A75D6000FE0D0 /* DialogActionButtonsView.swift */,
 				46E0B8AA2031455200B40DF2 /* CustomisableSearchHeaderView.swift */,
 				46E0B8AC2031487700B40DF2 /* DefaultSearchHeaderDetailView.swift */,
+				96E19CAA2069A9A70021DB42 /* DraggableCardView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -4558,6 +4586,7 @@
 				445BB13020465DBA00A81375 /* NavigationTitleView.swift in Sources */,
 				12D8E2A11F9ED12100EEE214 /* GenericSearchDefaultViewModel.swift in Sources */,
 				279B057B200D572300C3EFB0 /* LargeTextHeaderFormItem.swift in Sources */,
+				96E19CAE206C98A50021DB42 /* ClusterTasksViewController.swift in Sources */,
 				9624A43F1F81BBEB00CAE056 /* UIFont+Digits.swift in Sources */,
 				EAFBC8BC1F57DF8700F0004B /* LookupAddressValidator.swift in Sources */,
 				966CE9D520369EA900646A6A /* CADBookOffDetailsType.swift in Sources */,
@@ -4771,6 +4800,7 @@
 				27CBC7651F8B27D500E387C3 /* CADStatusTabBarController.swift in Sources */,
 				BC9C7E001F0DED6600DFFE83 /* CoreGraphics+Rounding.swift in Sources */,
 				12F869EF1F5FD47E0006EC5C /* UserSession.swift in Sources */,
+				96E19CB7207309520021DB42 /* ClusterTasksViewModelCore.swift in Sources */,
 				19B49BBC1F665F2A00502F51 /* CompactSidebarViewController.swift in Sources */,
 				EA5649711F8EE4E100BEA144 /* SummaryDetailFormItem.swift in Sources */,
 				46E0B8A72030F06200B40DF2 /* CustomPickerController.swift in Sources */,
@@ -4835,6 +4865,7 @@
 				BC9C7DF91F0DED6600DFFE83 /* CollectionViewFormOptionCell.swift in Sources */,
 				DB88BCE31F42D0110056FD69 /* SearchResultLoadingCell.swift in Sources */,
 				2784FDBB1FA1549D007B18B2 /* Optional+Extension.swift in Sources */,
+				96E19CB0206C98B60021DB42 /* ClusterTasksViewModel.swift in Sources */,
 				193ED0851FDE02ED002F2837 /* PluginFilterRules.swift in Sources */,
 				BC9C7E0E1F0DED6600DFFE83 /* CollectionViewFormLayoutAttributes.swift in Sources */,
 				279B057D200D591200C3EFB0 /* ActivityLogDateCollectionSectionViewModel.swift in Sources */,
@@ -4994,6 +5025,7 @@
 				EA4806B11F56939100B42313 /* LocationSearchDataSource.swift in Sources */,
 				273DE2DB1FEA0713000C46DD /* CreateIncidentFormViewModel.swift in Sources */,
 				EA2189EF1F5FB2280057048E /* MapResultViewModelable.swift in Sources */,
+				96E19CAB2069A9A70021DB42 /* DraggableCardView.swift in Sources */,
 				BC9C7E561F0DED6600DFFE83 /* TabStripView.swift in Sources */,
 				19F2579E1FBB98F700769B26 /* Bundle+URLSchemeVerifier.swift in Sources */,
 				967BFABB203B90E500A9C789 /* TrafficStopViewModel.swift in Sources */,

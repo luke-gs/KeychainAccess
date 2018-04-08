@@ -13,7 +13,7 @@ import MapKit
 open class TasksMapViewModel {
 
     /// The default zoom distance for viewing a single task item
-    open var defaultZoomDistance: CLLocationDistance = 100
+    open var defaultZoomDistance: CLLocationDistance = 150
 
     public weak var splitViewModel: TasksSplitViewModel?
     public weak var delegate: TasksMapViewModelDelegate?
@@ -78,9 +78,9 @@ open class TasksMapViewModel {
         return true
     }
     
-    /// Whether the map should allow user interaction. `false` by default
+    /// Whether the map should allow user interaction. `true` by default
     open func allowsInteraction() -> Bool {
-        return false
+        return true
     }
 }
 
