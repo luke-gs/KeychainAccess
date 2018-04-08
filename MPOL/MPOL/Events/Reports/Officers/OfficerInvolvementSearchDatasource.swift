@@ -24,7 +24,7 @@ public class OfficerInvolvementSearchDatasource: CustomSearchPickerDatasource {
     public init(objects: [Pickable],
                 selectedObjects: [Pickable] = [],
                 title: String? = "Involvements",
-                allowsMultipleSelection: Bool = false,
+                allowsMultipleSelection: Bool = true,
                 configuration: SearchHeaderConfiguration? = nil) {
         
         self.objects = objects.sorted(using: [SortDescriptor<Pickable>(ascending: true, key: {$0.title }),
@@ -36,9 +36,6 @@ public class OfficerInvolvementSearchDatasource: CustomSearchPickerDatasource {
     }
 
     public func allowsSelection(of object: Pickable) -> Bool {
-        if object.title?.caseInsensitiveCompare("reporting officer") == .orderedSame {
-            return false
-        }
         return true
     }
 

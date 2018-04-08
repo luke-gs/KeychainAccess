@@ -15,6 +15,7 @@
 		12EB809B202AAC2100405F5C /* EventScreenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EB809A202AAC2100405F5C /* EventScreenBuilder.swift */; };
 		19894F89207A61BE009289C0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 19894F88207A61BE009289C0 /* Localizable.strings */; };
 		19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3894207A5F3A00855651 /* SupportedShortcut.swift */; };
+		12EE9BE6206898C900537BBA /* OfficerParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EE9BE5206898C900537BBA /* OfficerParserDefinition.swift */; };
 		19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */; };
 		397B77011E52CEDA00696677 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397B77001E52CEDA00696677 /* UserNotifications.framework */; };
 		445A8A381F667A56005ABEB8 /* PersonSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */; };
@@ -69,6 +70,7 @@
 		12EB809A202AAC2100405F5C /* EventScreenBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventScreenBuilder.swift; sourceTree = "<group>"; };
 		19894F88207A61BE009289C0 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		19CB3894207A5F3A00855651 /* SupportedShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedShortcut.swift; sourceTree = "<group>"; };
+		12EE9BE5206898C900537BBA /* OfficerParserDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerParserDefinition.swift; sourceTree = "<group>"; };
 		19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Shortcuts.swift"; sourceTree = "<group>"; };
 		397B76FF1E52C23600696677 /* MPOL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MPOL.entitlements; sourceTree = "<group>"; };
 		397B77001E52CEDA00696677 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -170,6 +172,7 @@
 				46E0B8A2202D0D8900B40DF2 /* OfficerListViewModel.swift */,
 				46E0B8A82031413C00B40DF2 /* OfficerInvolvementSearchDatasource.swift */,
 				46E0B8BD2033D1FB00B40DF2 /* OfficerSearchViewModel.swift */,
+				12EE9BE5206898C900537BBA /* OfficerParserDefinition.swift */,
 			);
 			path = Officers;
 			sourceTree = "<group>";
@@ -473,6 +476,7 @@
 				EA7194DD1FC5098200A2980B /* EventPresenter.swift in Sources */,
 				19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */,
 				19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */,
+				12EE9BE6206898C900537BBA /* OfficerParserDefinition.swift in Sources */,
 				12EB809B202AAC2100405F5C /* EventScreenBuilder.swift in Sources */,
 				12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */,
 				46E0B8A3202D0D8900B40DF2 /* OfficerListViewModel.swift in Sources */,
