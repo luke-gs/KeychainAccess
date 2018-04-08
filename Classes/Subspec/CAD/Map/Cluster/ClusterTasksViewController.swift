@@ -8,10 +8,17 @@
 
 import UIKit
 
+public protocol ClusterTasksViewControllerDelegate: class {
+    func didShowClusterDetails()
+    func didCloseClusterDetails()
+}
+
 /// View controller for showing
 open class ClusterTasksViewController: FormBuilderViewController {
 
     open var viewModel: ClusterTasksViewModel
+
+    open weak var delegate: ClusterTasksViewControllerDelegate?
 
     public init(viewModel: ClusterTasksViewModel) {
         self.viewModel = viewModel
@@ -20,6 +27,10 @@ open class ClusterTasksViewController: FormBuilderViewController {
 
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
+    }
+
+    deinit {
+        delegate?.didCloseClusterDetails()
     }
 
     open override func viewDidLoad() {
@@ -31,6 +42,15 @@ open class ClusterTasksViewController: FormBuilderViewController {
         // Fixed width, calculated height
         preferredContentSize.width = 256
         calculatesContentHeight = true
+
+        delegate?.didShowClusterDetails()
+    }
+
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        // Hide or show nav bar depending on whether currently in popover
+        navigationController?.setNavigationBarHidden(!UIViewController.isWindowCompact(), animated: false)
     }
 
     // MARK: - Form
@@ -63,13 +83,13 @@ open class ClusterTasksViewController: FormBuilderViewController {
                     .highlightStyle(.fade)
                     .selectionStyle(.fade)
                     .contentMode(.top)
-                    .onConfigured({ [unowned self] (cell) in
-                        self.decorate(cell: cell, with: item)
+                    .onConfigured({ [weak self] (cell) in
+                        self?.decorate(cell: cell, with: item)
                     })
                     .accessory(ItemAccessory.disclosure)
                     .height(.fixed(64))
-                    .onThemeChanged({ (cell, theme) in
-                        self.apply(theme: theme, to: cell)
+                    .onThemeChanged({ [weak self] (cell, theme) in
+                        self?.apply(theme: theme, to: cell)
                     })
                     .onSelection({ [weak self] (cell) in
                         if let viewModel = item.createItemViewModel() {

@@ -21,5 +21,5 @@ public enum TaskListScreen: Presentable {
     case mapFilter(delegate: MapFilterViewControllerDelegate?)
 
     /// Display the details of a map cluster
-    case clusterDetails(annotationView: ClusterAnnotationView, delegate: UIPopoverPresentationControllerDelegate?)
+    case clusterDetails(annotationView: ClusterAnnotationView, delegate: ClusterTasksViewControllerDelegate?)
 }

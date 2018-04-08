@@ -20,6 +20,8 @@ open class TaskDetailsOverviewViewController: UIViewController {
     open private(set) var mapViewController: MapViewController?
     open private(set) var formViewController: FormBuilderViewController!
     open private(set) var cardView: DraggableCardView!
+    open private(set) var containingSplitViewController: PushableSplitViewController?
+    open private(set) var cardStateWhenShowingCluster: DraggableCardView.CardState?
 
     // MARK: - Constraints
 
@@ -57,7 +59,19 @@ open class TaskDetailsOverviewViewController: UIViewController {
         // Dispatch main here to allow VC to be added to parent split
         DispatchQueue.main.async {
             self.updateCardBottomIfInSplit()
+
+            // Prevent control center gesture interrupting card gesture while overview visible
+            self.containingSplitViewController = self.pushableSplitViewController
+            self.containingSplitViewController?.screenEdgesWithoutSystemGestures = [.bottom]
         }
+    }
+
+    open override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        // Restore system gestures, using the the stored SplitViewController here,
+        // as pushableSplitViewController generated property will be nil
+        containingSplitViewController?.screenEdgesWithoutSystemGestures = []
     }
 
     open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -88,6 +102,9 @@ open class TaskDetailsOverviewViewController: UIViewController {
             mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
             self.mapViewController = mapViewController
         }
+
+        // Update card based on cluster popover display
+        (mapViewController as? TasksMapViewController)?.clusterDelegate = self
 
         cardView = DraggableCardView(frame: .zero)
         cardView.delegate = self
@@ -132,7 +149,6 @@ open class TaskDetailsOverviewViewController: UIViewController {
             // Remove existing constraints for map controls by re-adding to view hierarchy
             mapViewController.mapControlView.removeFromSuperview()
             mapViewController.view.addSubview(mapViewController.mapControlView)
-            mapViewController.mapControlView.isHidden = true
 
             NSLayoutConstraint.activate([
                 // Use full size for map even when obscured, so we can manipulate center position without zooming
@@ -178,14 +194,17 @@ open class TaskDetailsOverviewViewController: UIViewController {
 
     open func updateMapInteraction() {
         if let mapViewModel = viewModel.mapViewModel, let mapViewController = mapViewController {
-            let enabled = mapViewModel.allowsInteraction() || cardView.currentState == .minimised
-            UIView.transition(with: mapViewController.view, duration: 0.3, options: .transitionCrossDissolve, animations: {
-                mapViewController.showsMapButtons = enabled
-            }, completion: nil)
-            mapViewController.mapView.isZoomEnabled = enabled
-            mapViewController.mapView.isPitchEnabled = enabled
-            mapViewController.mapView.isRotateEnabled = enabled
-            mapViewController.mapView.isScrollEnabled = enabled
+            let maximising = cardView.bounds.height > heightForCardViewInState(.normal)
+            let enabled = mapViewModel.allowsInteraction() && !maximising
+            if enabled != mapViewController.showsMapButtons {
+                UIView.transition(with: mapViewController.view, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                    mapViewController.showsMapButtons = enabled
+                    mapViewController.mapView.isZoomEnabled = enabled
+                    mapViewController.mapView.isPitchEnabled = enabled
+                    mapViewController.mapView.isRotateEnabled = enabled
+                    mapViewController.mapView.isScrollEnabled = enabled
+                }, completion: nil)
+            }
         }
     }
 
@@ -221,6 +240,10 @@ extension TaskDetailsOverviewViewController: DraggableCardViewDelegate {
         // Move card to match drag translation
         let preDragHeight = heightForCardViewInState(cardView.currentState)
         cardHeightConstraint?.constant = preDragHeight - translation
+        view.layoutIfNeeded()
+
+        // Hide interaction when moving towards being maximised
+        self.updateMapInteraction()
     }
 
     public func didFinishDragCardView() {
@@ -234,6 +257,34 @@ extension TaskDetailsOverviewViewController: DraggableCardViewDelegate {
         }) { _ in
             // Animate showing or hiding map buttons
             self.updateMapInteraction()
+        }
+    }
+}
+
+// MARK: - ClusterTasksViewControllerDelegate
+extension TaskDetailsOverviewViewController: ClusterTasksViewControllerDelegate {
+
+    public func didShowClusterDetails() {
+        // Minimise card when showing cluster popover
+        cardStateWhenShowingCluster = cardView.currentState
+        if cardView.currentState != .minimised {
+            cardView.currentState = .minimised
+            didFinishDragCardView()
+        }
+    }
+
+    public func didCloseClusterDetails() {
+        // When dismissing cluster popover, deselect cluster
+        if let mapView = mapViewController?.mapView {
+            for annotation in mapView.selectedAnnotations {
+                mapView.deselectAnnotation(annotation, animated: true)
+            }
+        }
+
+        // Restore card state when dismissing cluster popover
+        if let restoreState = cardStateWhenShowingCluster, restoreState != cardView.currentState {
+            cardView.currentState = restoreState
+            didFinishDragCardView()
         }
     }
 }

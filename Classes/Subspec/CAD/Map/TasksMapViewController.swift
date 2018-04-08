@@ -12,7 +12,9 @@ import Cluster
 
 open class TasksMapViewController: MapViewController {
     public typealias AnnotationsInitialLoadZoomStyle = (animated: Bool, includeUserLocation: Bool)
-    
+
+    open weak var clusterDelegate: ClusterTasksViewControllerDelegate?
+
     private var annotationsInitialLoadZoomStyle: AnnotationsInitialLoadZoomStyle?
     private var performedInitialLoadAction: Bool = false
     private var addedFirstAnnotations: Bool = false
@@ -100,11 +102,7 @@ open class TasksMapViewController: MapViewController {
     
     public func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if let clusterView = view as? ClusterAnnotationView {
-            // Deselect if not showing popover
-            if isCompact() {
-                mapView.deselectAnnotation(view.annotation, animated: false)
-            }
-            present(TaskListScreen.clusterDetails(annotationView: clusterView, delegate: self))
+            present(TaskListScreen.clusterDetails(annotationView: clusterView, delegate: clusterDelegate ?? self))
             return
         }
 
@@ -212,6 +210,10 @@ open class TasksMapViewController: MapViewController {
     private func removeAllAnnotations() {
         clusterManager.removeAll()
         mapView.removeAnnotations(mapView.annotations)
+
+        // Due to bug in cluster manager, clear the visible annotations as well or differences will be incorrect
+        // Submitted PR: https://github.com/efremidze/Cluster/pull/70
+        clusterManager.visibleAnnotations.removeAll()
     }
 }
 
@@ -270,10 +272,12 @@ extension TasksMapViewController: TasksMapViewModelDelegate {
     }
 }
 
-// MARK: - UIPopoverPresentationControllerDelegate
-extension TasksMapViewController: UIPopoverPresentationControllerDelegate {
+// MARK: - ClusterTasksViewControllerDelegate
+extension TasksMapViewController: ClusterTasksViewControllerDelegate {
+    public func didShowClusterDetails() {
+    }
 
-    public func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
+    public func didCloseClusterDetails() {
         // When dismissing cluster popover, deselect cluster
         for annotation in mapView.selectedAnnotations {
             mapView.deselectAnnotation(annotation, animated: true)
