@@ -56,15 +56,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
 
     @objc private func addTapped(sender: UIBarButtonItem) {
 
-        let officer = Officer()
-        officer.givenName = "Pavel"
-        officer.rank = "Sergeant"
-        officer.region = "Melbourne"
-        officer.employeeNumber = "BJ3466"
-        officer.surname = "Boryseiko"
-        officer.involvements = ["Reporting Officer"]
-
-        let viewModel = OfficerSearchViewModel(items: [officer])
+        let viewModel = OfficerSearchViewModel(items: [])
         let officerSearchController = SearchDisplayableViewController<DefaultEventOfficerListViewController, OfficerSearchViewModel>(viewModel: viewModel)
         officerSearchController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
         officerSearchController.delegate = self
@@ -132,21 +124,22 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
 
     public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: Officer) {
 
-        let displayable = OfficerSummaryDisplayable(object)
+        let displayable = viewModel.displayable(for: object) ?? OfficerSummaryDisplayable(object)
+        let officer = displayable.officer
         let headerConfig = SearchHeaderConfiguration(title: displayable.title,
                                                      subtitle: displayable.detail1 ?? "No involvements selected",
                                                      image: displayable.thumbnail(ofSize: .small)?.sizing().image)
 
         let involvementDatasource = OfficerInvolvementSearchDatasource(
             objects: involvements,
-            selectedObjects: object.involvements,
+            selectedObjects: officer.involvements,
             configuration: headerConfig)
         involvementDatasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
 
         let involvementsViewController = CustomPickerController(datasource: involvementDatasource)
         involvementsViewController.finishUpdateHandler = { controller, index in
-            object.involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.flatMap { $0.element.title }
-            self.viewModel.add(officer: object)
+            officer.involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.flatMap { $0.element.title }
+            self.viewModel.add(officer: officer)
             self.reloadForm()
         }
         viewController.navigationController?.pushViewController(involvementsViewController, animated: true)

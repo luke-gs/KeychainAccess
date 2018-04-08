@@ -17,10 +17,11 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
     var title: String = "Add officer"
 
-    lazy var cancelToken: PromiseCancellationToken = PromiseCancellationToken()
+    var cancelToken: PromiseCancellationToken?
 
     private var objectDisplayMap: [Object: CustomSearchDisplayable] = [:]
     public private(set) var items: [Object] = []
+    var searchText: String?
 
     public init(items: [Object] = []) {
         self.items = items
@@ -64,8 +65,12 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         if let existingSearchable = objectDisplayMap[object] {
             return existingSearchable
         }
-
-        let searchable = OfficerSearchDisplayable(officer: object)
+        let searchable = OfficerListItemViewModel(firstName: object.givenName!,
+                                                  lastName: object.familyName!,
+                                                  initials: object.initials!,
+                                                  rank: object.rank ?? "",
+                                                  callsign: object.employeeNumber!,
+                                                  section: object.region ?? "")
         objectDisplayMap[object] = searchable
         return searchable
     }
@@ -75,56 +80,26 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     }
 
     func searchTextChanged(to searchString: String) {
-        cancelToken.cancel()
+        cancelToken?.cancel()
+        searchText = searchString
     }
 
     func searchAction() -> Promise<Void>? {
-        let parameters = OfficerSearchParameters(familyName: "Black")
+        guard let searchText = searchText, !searchText.isEmpty else { return nil }
+
+
+        let definition = OfficerParserDefinition()
+        let personParserResults = try? QueryParser(parserDefinition: definition).parseString(query: searchText)
+        let parameters = OfficerSearchParameters(familyName: personParserResults?[OfficerParserDefinition.SurnameKey] ?? searchText,
+                                                 givenName: personParserResults?[OfficerParserDefinition.GivenNameKey])
         let request = OfficerSearchRequest(source: .pscore, request: parameters)
+
+        cancelToken?.cancel()
+        cancelToken = PromiseCancellationToken()
+
         return request.searchPromise(withCancellationToken: cancelToken).then {
             self.items = $0.results
             return Promise()
         }
     }
-}
-
-public struct OfficerSearchDisplayable: CustomSearchDisplayable {
-
-    public let officer: Officer
-
-    public init(officer: Officer) {
-        self.officer = officer
-    }
-
-    // MARK: - Searchable
-
-    public var title: String? {
-        return [officer.givenName, officer.surname].joined()
-    }
-
-    public var subtitle: String? {
-        return [officer.rank, "#\(String(describing: officer.employeeNumber))"].joined(separator: ThemeConstants.dividerSeparator)
-    }
-
-    public var section: String?
-    public var image: UIImage? {
-        if let initials = officer.initials {
-            return UIImage.thumbnail(withInitials: initials).withCircleBackground(tintColor: nil,
-                                                                                  circleColor: .disabledGray,
-                                                                                  style: .fixed(size: CGSize(width: 48, height: 48),
-                                                                                                padding: CGSize(width: 14, height: 14)))
-        }
-        return nil
-    }
-
-    public func contains(_ searchText: String) -> Bool {
-        let searchStringLowercase = searchText.lowercased()
-
-        let matchesFirstName = officer.givenName?.lowercased().hasPrefix(searchStringLowercase) ?? false
-        let matchesLastName = officer.surname?.lowercased().hasPrefix(searchStringLowercase) ?? false
-        let matchesCallsign = officer.employeeNumber?.lowercased().hasPrefix(searchStringLowercase) ?? false
-
-        return matchesFirstName || matchesLastName || matchesCallsign
-    }
-
 }

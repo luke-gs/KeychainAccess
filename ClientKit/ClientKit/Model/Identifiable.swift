@@ -11,7 +11,7 @@ import Foundation
 public protocol Identifiable {
     var givenName: String? { get }
     var middleNames: String? { get }
-    var surname: String? { get }
+    var familyName: String? { get }
 }
 
 extension Identifiable {
@@ -22,7 +22,7 @@ extension Identifiable {
         if let givenName = givenName?.ifNotEmpty() {
             initials += givenName[...givenName.startIndex]
         }
-        if let surname = surname?.ifNotEmpty() {
+        if let surname = familyName?.ifNotEmpty() {
             initials += surname[...surname.startIndex]
         }
 
