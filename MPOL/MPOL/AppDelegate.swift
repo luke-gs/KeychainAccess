@@ -105,6 +105,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         updateAppForUserSession()
     }
 
+    func applicationWillResignActive(_ application: UIApplication) {
+        if UserSession.current.isActive == true {
+            installShortcuts(on: application)
+        } else {
+            removeShortcuts(from: application)
+        }
+    }
+
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         if navigator.isRegistered(url) {
             return navigator.handle(url)
@@ -188,6 +196,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UserSession.current.endSession()
         APIManager.shared.setAuthenticationPlugin(nil)
         landingPresenter.updateInterfaceForUserSession(animated: false)
+
+        removeShortcuts(from: UIApplication.shared)
     }
 
     @objc private func interfaceStyleDidChange() {
@@ -239,8 +249,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         searchHandler.delegate = self
         navigator.register(searchHandler)
     }
+
+    private lazy var searchLauncher: SearchActivityLauncher = {
+        return SearchActivityLauncher()
+    }()
+
+    private lazy var taskLauncher: AppLaunchActivityLauncher = {
+        return AppLaunchActivityLauncher(scheme: CAD_APP_SCHEME)
+    }()
+
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+
+        let handled = handleShortcutItem(shortcutItem)
+        completionHandler(handled)
+
+    }
+
+    func handleShortcutItem(_ shortcutItem: UIApplicationShortcutItem) -> Bool {
+
+        guard SupportedShortcut(type: shortcutItem.type) != nil else {
+            return false
+        }
+
+        var handled = false
+        // Considered handled if type is one of the following, regardless whether
+        // the handling is successfully completed or not.
+        switch shortcutItem.type {
+        case SupportedShortcut.searchPerson.type:
+            let activity = SearchActivity.searchEntity(term: Searchable(text: nil, type: "Person"))
+            try? searchLauncher.launch(activity, using: navigator)
+            handled = true
+        case SupportedShortcut.searchVehicle.type:
+            let activity = SearchActivity.searchEntity(term: Searchable(text: nil, type: "Vehicle"))
+            try? searchLauncher.launch(activity, using: navigator)
+            handled = true
+        case SupportedShortcut.launchTasks.type:
+            let activity = AppLaunchActivity.open
+            try? taskLauncher.launch(activity, using: navigator)
+            handled = true
+        default:
+            handled = false
+        }
+
+        return handled
+    }
+
 }
 
+// MARK: - Handling Search Activity
 extension AppDelegate: SearchActivityHandlerDelegate {
 
     func searchActivityHandler(_ handler: SearchActivityHandler, launchedSearchActivity: SearchActivity) {
@@ -252,7 +308,7 @@ extension AppDelegate: SearchActivityHandlerDelegate {
             landingPresenter.searchViewController.beginSearch(with: term)
         case .viewDetails(let id, let entityType, let source):
 
-            let entity: Entity!
+            let entity: Entity?
 
             switch entityType {
             case "Person":
