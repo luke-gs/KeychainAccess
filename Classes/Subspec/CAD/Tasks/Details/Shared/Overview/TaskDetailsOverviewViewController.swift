@@ -194,7 +194,7 @@ open class TaskDetailsOverviewViewController: UIViewController {
 
     open func updateMapInteraction() {
         if let mapViewModel = viewModel.mapViewModel, let mapViewController = mapViewController {
-            let maximising = cardView.bounds.height > heightForCardViewInState(.normal)
+            let maximising = cardView.bounds.height > (heightForCardViewInState(.maximised) + heightForCardViewInState(.normal)) / 2
             let enabled = mapViewModel.allowsInteraction() && !maximising
             if enabled != mapViewController.showsMapButtons {
                 UIView.transition(with: mapViewController.view, duration: 0.3, options: .transitionCrossDissolve, animations: {
