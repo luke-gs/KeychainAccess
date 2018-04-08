@@ -14,7 +14,7 @@ class PredicateSpecificationTests: XCTestCase {
     func testThatItIsSatisfied() {
         // Given
         let spec = PredicateSpecification<String> { (text) -> Bool in
-            return text.characters.count > 2
+            return text.count > 2
         }
 
         // When
@@ -27,7 +27,7 @@ class PredicateSpecificationTests: XCTestCase {
     func testThatItIsNotSatisfied() {
         // Given
         let spec = PredicateSpecification<String> { (text) -> Bool in
-            return text.characters.count > 4
+            return text.count > 4
         }
 
         // When
@@ -40,7 +40,7 @@ class PredicateSpecificationTests: XCTestCase {
     func testThatItIsNotSatisfiedWhenInvalidCandidateIsUsed() {
         // Given
         let spec = PredicateSpecification<String> { (text) -> Bool in
-            return text.characters.count > 4
+            return text.count > 4
         }
 
         // When
