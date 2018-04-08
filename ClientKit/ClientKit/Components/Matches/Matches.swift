@@ -11,7 +11,7 @@ import MPOLKit
 // VEHICLE
 
 struct MPOLToFNCVehicleMatch: DataMatchable {
-    var initialSource: EntitySource = MPOLSource.mpol
+    var initialSource: EntitySource = MPOLSource.pscore
     var resultSource: EntitySource = MPOLSource.fnc
 
     func match(_ entity: MPOLKitEntity) -> Fetchable {
@@ -24,7 +24,7 @@ struct MPOLToFNCVehicleMatch: DataMatchable {
 
 struct FNCToMPOLVehicleMatch: DataMatchable {
     var initialSource: EntitySource = MPOLSource.fnc
-    var resultSource: EntitySource = MPOLSource.mpol
+    var resultSource: EntitySource = MPOLSource.pscore
 
     func match(_ entity: MPOLKitEntity) -> Fetchable  {
         let entity = entity as! Vehicle
@@ -39,7 +39,7 @@ struct FNCToMPOLVehicleMatch: DataMatchable {
 // PERSON
 
 struct MPOLToFNCPersonMatch: DataMatchable {
-    var initialSource: EntitySource = MPOLSource.mpol
+    var initialSource: EntitySource = MPOLSource.pscore
     var resultSource: EntitySource = MPOLSource.fnc
 
     func match(_ entity: MPOLKitEntity) -> Fetchable {
@@ -52,7 +52,7 @@ struct MPOLToFNCPersonMatch: DataMatchable {
 
 struct FNCToMPOLPersonMatch: DataMatchable {
     var initialSource: EntitySource = MPOLSource.fnc
-    var resultSource: EntitySource = MPOLSource.mpol
+    var resultSource: EntitySource = MPOLSource.pscore
 
     func match(_ entity: MPOLKitEntity) -> Fetchable  {
         let entity = entity as! Person
