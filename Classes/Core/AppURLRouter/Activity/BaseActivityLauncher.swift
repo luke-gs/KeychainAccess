@@ -32,15 +32,15 @@ extension BaseActivityLauncher {
     /// Otherwise if undeclared, it'll return `mpolkit`.
     public static var defaultScheme: String {
         guard let scheme = Bundle.main.infoDictionary?["DefaultActivityLauncherURLScheme"] as? String else {
+            #if DEBUG
+            print("`DefaultActivityLauncherURLScheme` is not declared in Info.plist. Should probably be declared explicitly.")
+            #endif
             return "mpolkit"
         }
         return scheme
     }
 
     public convenience init() {
-        guard let scheme = Bundle.main.infoDictionary?["DefaultActivityLauncherURLScheme"] as? String else {
-            fatalError("`DefaultActivityLauncherURLScheme` is not declared in Info.plist")
-        }
         self.init(scheme: type(of: self).defaultScheme)
     }
 
