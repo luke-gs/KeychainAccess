@@ -13,6 +13,7 @@ open class MapFilterToggleRowView: UIView {
     public struct LayoutConstants {
         public static let checkboxSpacingRegular: CGFloat = 32
         public static let checkboxSpacingCompact: CGFloat = 16
+        public static let checkboxSpacingVertical: CGFloat = 5
         public static let topMargin: CGFloat = 12
         public static let titleMargin: CGFloat = 8
         /// Checkbox class strangely has a slight leading offset
@@ -58,10 +59,10 @@ open class MapFilterToggleRowView: UIView {
         }
         
         optionsStackView = UIStackView(arrangedSubviews: options)
-        optionsStackView.axis = .horizontal
+        optionsStackView.axis = toggleRow.inline ? .horizontal : .vertical
         optionsStackView.alignment = .leading
         optionsStackView.distribution = .fillEqually
-        optionsStackView.spacing = traitCollection.horizontalSizeClass == .compact ? LayoutConstants.checkboxSpacingCompact : LayoutConstants.checkboxSpacingRegular
+        optionsStackView.spacing = toggleRow.inline ? (traitCollection.horizontalSizeClass == .compact ? LayoutConstants.checkboxSpacingCompact : LayoutConstants.checkboxSpacingRegular) : LayoutConstants.checkboxSpacingVertical
         optionsStackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(optionsStackView)
         
@@ -103,13 +104,13 @@ open class MapFilterToggleRowView: UIView {
         guard traitCollection.horizontalSizeClass != .unspecified else { return }
         
         if traitCollection.horizontalSizeClass == .compact {
-            optionsStackView.spacing = LayoutConstants.checkboxSpacingCompact
+            optionsStackView.spacing = toggleRow.inline ? LayoutConstants.checkboxSpacingCompact : LayoutConstants.checkboxSpacingVertical
             // Remove spacer if in compact
             optionsStackView.removeArrangedSubview(spacer)
         } else {
-            optionsStackView.spacing = LayoutConstants.checkboxSpacingRegular
+            optionsStackView.spacing = toggleRow.inline ? LayoutConstants.checkboxSpacingRegular : LayoutConstants.checkboxSpacingVertical
             // Add spacer if not in compact and contains more than 1 view
-            if !optionsStackView.arrangedSubviews.contains(spacer)  && optionsStackView.arrangedSubviews.count > 1 {
+            if !optionsStackView.arrangedSubviews.contains(spacer)  && optionsStackView.arrangedSubviews.count > 1 && toggleRow.inline {
                 optionsStackView.addArrangedSubview(spacer)
             }
         }
