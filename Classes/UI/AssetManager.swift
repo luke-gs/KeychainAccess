@@ -206,6 +206,7 @@ extension AssetManager {
 
         // Resource
         public static let resourceGeneral       = ImageKey("iconResourceGeneral")
+        public static let resourceDevice        = ImageKey("iconResourceDevice")
         public static let resourceCar           = ImageKey("iconResourceCar")
         public static let resourceWater         = ImageKey("iconResourceWater")
         public static let resourceBicycle       = ImageKey("iconResourceBicycle")
