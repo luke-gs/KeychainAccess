@@ -57,7 +57,11 @@ open class DraggableCardView: UIView {
     /// The current display state of the card
     open var currentState: CardState = .normal {
         didSet {
-            scrollView.isUserInteractionEnabled = (currentState == .maximised)
+            // Allow content scrolling only if maximised
+            scrollView.isScrollEnabled = (currentState == .maximised)
+
+            // Allow user interaction of any kind kind only if not minimised
+            scrollView.isUserInteractionEnabled = (currentState != .minimised)
         }
     }
 
@@ -74,8 +78,11 @@ open class DraggableCardView: UIView {
         addGestureRecognizer(panGesture)
 
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(gestureRecognizer:)))
+        tapGesture.cancelsTouchesInView = false
         isUserInteractionEnabled = true
         addGestureRecognizer(tapGesture)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -90,8 +97,6 @@ open class DraggableCardView: UIView {
     }
 
     open func createSubviews() {
-        let theme = ThemeManager.shared.theme(for: .current)
-
         // Set shadow on base view that is not clipped with corner radius
         backgroundColor = UIColor.clear
         layer.shadowColor = UIColor.black.cgColor
@@ -100,13 +105,11 @@ open class DraggableCardView: UIView {
         layer.shadowRadius = 4.0
 
         // Add scroll view first (so under bar)
-        scrollView.backgroundColor = theme.color(forKey: .background)
-        scrollView.isUserInteractionEnabled = false
+        scrollView.isScrollEnabled = false
         self.addSubview(scrollView)
         scrollView.addSubview(contentView)
 
         // Add drag bar container with rounded edges
-        dragContainer.backgroundColor = theme.color(forKey: .background)
         addSubview(dragContainer)
 
         if #available(iOS 11.0, *) {
@@ -120,6 +123,9 @@ open class DraggableCardView: UIView {
         dragBar.backgroundColor = .disabledGray
         dragBar.layer.cornerRadius = 3
         dragContainer.addSubview(dragBar)
+
+        // Apply current theme
+        apply(ThemeManager.shared.theme(for: .current))
     }
 
     open func createConstraints() {
@@ -153,6 +159,18 @@ open class DraggableCardView: UIView {
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ])
     }
+
+    // MARK: - Theme
+
+    @objc private func interfaceStyleDidChange() {
+        apply(ThemeManager.shared.theme(for: .current))
+    }
+
+    open func apply(_ theme: Theme) {
+        scrollView.backgroundColor = theme.color(forKey: .background)
+        dragContainer.backgroundColor = theme.color(forKey: .background)
+    }
+
 
     // MARK: - Dragging
 

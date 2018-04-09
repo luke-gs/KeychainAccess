@@ -54,7 +54,10 @@ open class TaskDetailsOverviewViewController: UIViewController {
         super.viewWillAppear(animated)
 
         // Size the details card and update map controls
-        self.didFinishDragCardView()
+        UIView.performWithoutAnimation {
+            self.didFinishDragCardView()
+            self.updateCardBottomIfInSplit()
+        }
 
         // Dispatch main here to allow VC to be added to parent split
         DispatchQueue.main.async {
@@ -194,16 +197,16 @@ open class TaskDetailsOverviewViewController: UIViewController {
 
     open func updateMapInteraction() {
         if let mapViewModel = viewModel.mapViewModel, let mapViewController = mapViewController {
-            let maximising = cardView.bounds.height > heightForCardViewInState(.normal)
+            let maximising = cardView.bounds.height > (heightForCardViewInState(.maximised) + heightForCardViewInState(.normal)) / 2
             let enabled = mapViewModel.allowsInteraction() && !maximising
-            if enabled != mapViewController.showsMapButtons {
-                UIView.transition(with: mapViewController.view, duration: 0.3, options: .transitionCrossDissolve, animations: {
-                    mapViewController.showsMapButtons = enabled
+            if enabled != mapViewController.mapView.isZoomEnabled {
+                UIView.animate(withDuration: 0.3, animations: {
+                    mapViewController.mapControlView.alpha = enabled ? 1.0 : 0.0
                     mapViewController.mapView.isZoomEnabled = enabled
                     mapViewController.mapView.isPitchEnabled = enabled
                     mapViewController.mapView.isRotateEnabled = enabled
                     mapViewController.mapView.isScrollEnabled = enabled
-                }, completion: nil)
+                })
             }
         }
     }
@@ -247,7 +250,7 @@ extension TaskDetailsOverviewViewController: DraggableCardViewDelegate {
     }
 
     public func didFinishDragCardView() {
-        UIView.animate(withDuration: 0.25, animations: {
+        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseOut, animations: {
             // Move card to match new state with no translation
             self.didDragCardView(translation: 0)
 
