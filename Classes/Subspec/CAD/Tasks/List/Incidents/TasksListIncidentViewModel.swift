@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class TasksListIncidentViewModel: TasksListItemViewModel {
+open class TasksListIncidentViewModel: TasksListItemViewModel {
     public let priority: String?
     public let description: String?
     public let resources: [TasksListInformationRowViewModel]?
