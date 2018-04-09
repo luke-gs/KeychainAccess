@@ -11,7 +11,7 @@ import MapKit
 
 open class ResourceOverviewMapViewModel: TasksMapViewModel {
     
-    private let callsign: String
+    public let callsign: String
     
     public init(callsign: String) {
         self.callsign = callsign
