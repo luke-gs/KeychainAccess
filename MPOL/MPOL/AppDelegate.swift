@@ -105,20 +105,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func registerPushNotifications(_ application: UIApplication) {
 
-        let notificationCenter: UNUserNotificationCenter = UNUserNotificationCenter.current()
-        notificationCenter.delegate = self
-        notificationCenter.requestAuthorization(options: [.badge, .sound, .alert]) { (granted, error) in
-            if error == nil {
-                #if !arch(i386) && !arch(x86_64)
-                    DispatchQueue.main.async {
-                        // `completionHandler` might be executed in background thread according
-                        // to documentation.
-                        application.registerForRemoteNotifications()
-                    }
-                #endif
-            }
+        // Request authorisation to receive PNs, then request token from Apple
+        // Skip if simulator
+        #if !arch(i386) && !arch(x86_64)
+        _ = NotificationManager.shared.requestAuthorizationIfNeeded().then { _ -> Void in
+            application.registerForRemoteNotifications()
         }
-
+        #endif
     }
 
     // Called to represent what action was selected by the user
@@ -137,7 +130,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             token = token + String(format: "%02.2hhx", arguments: [deviceToken[i]])
         }
 
-        // TODO: Upload token to server & register for PNS
+        // Upload token to server & register for PNS
+        print("Push token: \(token)")
+        NotificationManager.shared.updatePushToken(token)
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
