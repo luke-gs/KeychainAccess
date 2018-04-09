@@ -24,7 +24,7 @@ open class AppURLNavigator {
     ///
     /// - Parameters:
     ///   - scheme, host, path: Components of URL to be used.
-    ///   - parameters: The parameters to be passed in, they will be percent-escaped and as best possible translated to URL encoded query string components.
+    ///   - parameters: The parameters to be passed in, they will be converted into JSON string and wrapped into custom container.
     ///   - completion: Completion handler that will be passed to the `UIApplication.open(_:options:completionHandler:)`
     /// - Throws: `AppURLNavigatorError`.invalidURLParameter if URL can't be constructed.
     open func open(_ scheme: String, host: String? = nil, path: String? = nil, parameters: [String: Any]? = nil,  completionHandler completion: ((Bool) -> Void)? = nil) throws {
