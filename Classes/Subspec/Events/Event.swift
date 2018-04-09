@@ -99,8 +99,8 @@ public struct EventType: RawRepresentable, Hashable {
 /// Used to define something in the event object
 public protocol Reportable: Codable, Evaluatable {
 
-    /// A weak reference to the event object
-    /// Make sure this is weak in implementation as well
+    /// A reference to the event object
+    /// Make sure this is weak in implementation.
     var event: Event? { get set }
 
     /// Required initializer for a reportable
