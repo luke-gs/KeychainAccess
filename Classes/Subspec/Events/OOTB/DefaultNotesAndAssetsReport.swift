@@ -57,7 +57,6 @@ public class DefaultNotesAssetsReport: Reportable, MediaContainer {
         media = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.media.rawValue) as! [Media]
         operationName = aDecoder.decodeObject(of: NSString.self, forKey: Coding.operationName.rawValue) as String?
         freeText = aDecoder.decodeObject(of: NSString.self, forKey: Coding.freeText.rawValue) as String?
-
         commonInit()
     }
 

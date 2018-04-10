@@ -13,7 +13,7 @@ fileprivate extension EvaluatorKey {
 /// The implementation of an Event.
 /// All it really is, is an array of reports with some basic business logic
 /// to check if all reports are valid through the evaluator
-final public class Event: NSSecureCoding, Evaluatable {
+final public class Event: NSObject, NSSecureCoding, Evaluatable {
 
     public let id: String
     public var evaluator: Evaluator = Evaluator()
@@ -31,8 +31,9 @@ final public class Event: NSSecureCoding, Evaluatable {
         }
     }
 
-    public init() {
+    public override init() {
         id = UUID().uuidString
+        super.init()
         evaluator.registerKey(.allValid) {
             return !self.reports.map{$0.evaluator.isComplete}.contains(false)
         }

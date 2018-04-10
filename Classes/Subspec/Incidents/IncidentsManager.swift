@@ -37,6 +37,7 @@ final public class IncidentsManager {
 
     public func add(incident: Incident) {
         incidentBucket.add(incident)
+        displayableBucket.add(incident.displayable)
     }
 
     //remove

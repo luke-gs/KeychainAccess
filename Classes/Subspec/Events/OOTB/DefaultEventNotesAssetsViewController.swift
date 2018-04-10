@@ -20,7 +20,7 @@ open class DefaultEventNotesAssetsViewController: FormBuilderViewController, Eva
         sidebarItem.regularTitle = "Notes and Assets"
         sidebarItem.compactTitle = "Notes and Assets"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.attachment)!
-        sidebarItem.color = (report?.evaluator.isComplete ?? false) ? .green : .red
+        sidebarItem.color = (report?.evaluator.isComplete ?? false) ? .midGreen : .red
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -71,6 +71,6 @@ open class DefaultEventNotesAssetsViewController: FormBuilderViewController, Eva
     }
     
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        sidebarItem.color = evaluator.isComplete == true ? .green : .red
+        sidebarItem.color = evaluator.isComplete == true ? .midGreen : .red
     }
 }

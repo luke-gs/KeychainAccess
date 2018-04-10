@@ -40,15 +40,15 @@ final public class EventsManager {
         eventBucket.remove(event)
     }
     
-    public func remove(for id: UUID) {
+    public func remove(for id: String) {
         guard let event = self.event(for: id), let displayable = event.displayable else { return }
         eventBucket.remove(event)
         displayableBucket.remove(displayable)
     }
     
     //utility
-    public func event(for id: UUID) -> Event? {
-        return eventBucket.objects?.first(where: {$0.id == id.uuidString})
+    public func event(for id: String) -> Event? {
+        return eventBucket.objects?.first(where: {$0.id == id})
     }
 }
 
