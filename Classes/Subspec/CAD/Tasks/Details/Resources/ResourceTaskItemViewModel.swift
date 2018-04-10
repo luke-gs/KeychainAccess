@@ -9,7 +9,7 @@
 import UIKit
 import PromiseKit
 
-public class ResourceTaskItemViewModel: TaskItemViewModel {
+open class ResourceTaskItemViewModel: TaskItemViewModel {
     
     open private(set) var resource: CADResourceType?
     
@@ -48,7 +48,7 @@ public class ResourceTaskItemViewModel: TaskItemViewModel {
         self.resource = resource
     }
 
-    public override func reloadFromModel() {
+    open override func reloadFromModel() {
         if let resource = resource {
             iconImage = resource.status.icon
             iconTintColor = resource.status.iconColors.icon

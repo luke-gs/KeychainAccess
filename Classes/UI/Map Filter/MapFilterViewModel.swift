@@ -8,7 +8,7 @@
 
 import UIKit
 
-/// View model for a `MapFilterViewController
+/// View model for a `MapFilterViewController`
 public protocol MapFilterViewModel {
     
     var defaultSections: [MapFilterSection] { get }
@@ -25,4 +25,7 @@ public protocol MapFilterViewModel {
     
     /// Whether toggling the section off should disable the toggle rows
     func disablesCheckboxesOnSectionDisabled(for section: Int) -> Bool
+    
+    /// Creates the filter view controller
+    func createViewController(delegate: MapFilterViewControllerDelegate?) -> UIViewController
 }

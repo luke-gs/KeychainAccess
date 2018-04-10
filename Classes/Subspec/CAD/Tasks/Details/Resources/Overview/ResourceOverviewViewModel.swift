@@ -14,10 +14,10 @@ open class ResourceOverviewViewModel: TaskDetailsOverviewViewModel {
         return ResourceOverviewFormViewController(viewModel: self)
     }
     
-    override open func mapViewModel() -> TasksMapViewModel? {
+    override open lazy var mapViewModel: TasksMapViewModel? = {
         return ResourceOverviewMapViewModel(callsign: identifier)
-    }
-    
+    }()
+
     open var currentIncidentViewModel: TasksListIncidentViewModel? {
         guard let resource = CADStateManager.shared.resourcesById[identifier],
             let incidentNumber = resource.currentIncident,

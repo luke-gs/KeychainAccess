@@ -15,7 +15,7 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
     public var separatorColor: UIColor?
 
     public init() {
-        super.init(viewType: LargeTextHeaderCollectionViewCell.self, kind: UICollectionElementKindSectionHeader, reuseIdentifier: LargeTextHeaderCollectionViewCell.defaultReuseIdentifier)
+        super.init(viewType: CollectionViewFormLabelCell.self, kind: UICollectionElementKindSectionHeader, reuseIdentifier: CollectionViewFormLabelCell.defaultReuseIdentifier)
     }
     
     public convenience init(text: StringSizable?, separatorColor: UIColor? = nil) {
@@ -25,18 +25,34 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
     }
     
     open override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, for traitCollection: UITraitCollection) -> CGFloat {
+        var size: CGFloat?
+
         if let text = text, let layoutMargins = layoutMargins {
-            return text.sizing().minimumHeight(inWidth: collectionView.bounds.width, compatibleWith: traitCollection) + layoutMargins.top + layoutMargins.bottom
+            size = text.sizing().minimumHeight(inWidth: collectionView.bounds.width,
+                                               compatibleWith: traitCollection)
+                + layoutMargins.top + layoutMargins.bottom
         }
-        return LargeTextHeaderCollectionViewCell.minimumHeight
+
+        if let size = size {
+            return size
+        }
+
+        return CollectionViewFormLabelCell.minimumHeight
     }
 
     open override func configure(_ view: UICollectionReusableView) {
-        if let cell = view as? LargeTextHeaderCollectionViewCell {
+        if let cell = view as? CollectionViewFormLabelCell {
             if let layoutMargins = layoutMargins {
                 cell.contentView.layoutMargins = layoutMargins
             }
-            cell.titleLabel.apply(sizable: text, defaultFont: cell.titleLabel.font)
+            
+            if let sizing = text?.sizing(), let attributedText = sizing.attributedString {
+                cell.titleLabel.apply(sizable: attributedText, defaultFont: cell.titleLabel.font)
+                cell.titleLabel.attributedText = attributedText
+            } else {
+                cell.titleLabel.apply(sizable: text, defaultFont: cell.titleLabel.font)
+            }
+            
             cell.separatorView.backgroundColor = separatorColor ?? iOSStandardSeparatorColor
         }
     }
@@ -44,8 +60,10 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
     open override func apply(theme: Theme, toView view: UICollectionReusableView) {
         super.apply(theme: theme, toView: view)
 
-        if let cell = view as? LargeTextHeaderCollectionViewCell {
-            cell.titleLabel.textColor = theme.color(forKey: .primaryText)
+        if let cell = view as? CollectionViewFormLabelCell {
+            if text?.sizing().attributedString == nil {
+                cell.titleLabel.textColor = theme.color(forKey: .primaryText)
+            }
         }
     }
 }
@@ -59,7 +77,7 @@ extension LargeTextHeaderFormItem {
         self.text = text
         return self
     }
-
+    
     @discardableResult
     public func layoutMargins(_ layoutMargins: UIEdgeInsets?) -> Self {
         self.layoutMargins = layoutMargins

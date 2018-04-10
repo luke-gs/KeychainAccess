@@ -7,10 +7,11 @@
 //
 
 import Cache
+import Foundation
 
 /// Incident Displayable used to map against the OOTB
 /// Incident List UI
-open class IncidentListDisplayable: Codable {
+open class IncidentListDisplayable: NSSecureCoding {
 
     /// A unique ID of the incident metadata
     open var id: UUID = UUID()

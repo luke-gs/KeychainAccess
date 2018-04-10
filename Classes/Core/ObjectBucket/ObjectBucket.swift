@@ -11,7 +11,7 @@
  *
  *  Find a better way of saving things
  */
-open class ObjectBucket<T: Codable> where T: AnyObject {
+open class ObjectBucket<T: NSSecureCoding> where T: AnyObject {
 
     private(set) public var objects: [T]?
     private(set) public var directory: URL

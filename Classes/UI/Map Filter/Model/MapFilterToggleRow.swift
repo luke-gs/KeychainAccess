@@ -17,11 +17,15 @@ open class MapFilterToggleRow {
     /// The options to show
     open var options: [MapFilterOption]
     
+    /// If options are displayed inline
+    open var inline: Bool
+    
     /// - Parameters:
     ///   - title: the title for the section
     ///   - options: the options to show
-    public init(title: String? = nil, options: [MapFilterOption]) {
+    public init(title: String? = nil, options: [MapFilterOption], inline: Bool = true) {
         self.title = title
         self.options = options
+        self.inline = inline
     }
 }

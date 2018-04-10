@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class ResourceActivityLogViewModel: DatedActivityLogViewModel, TaskDetailsViewModel {
+open class ResourceActivityLogViewModel: DatedActivityLogViewModel, TaskDetailsViewModel {
    
     /// The identifier for this resource
     open let callsign: String

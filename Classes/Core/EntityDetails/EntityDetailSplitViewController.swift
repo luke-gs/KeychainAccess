@@ -196,6 +196,9 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
         } else {
             headerView.subtitleLabel.text = nil
         }
+        
+        // Relayout as header view may have changed size
+        regularSidebarViewController.sidebarTableView?.reloadData()
     }
 
     private func updateDetailSectionsAvailability(_ isAvailable: Bool) {

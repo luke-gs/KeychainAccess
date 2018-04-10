@@ -40,21 +40,19 @@ public protocol CADTaskListSourceType {
     var shortTitle: String { get }
 
     /// Return the source bar item of this type based on the current filter
-    func sourceItem(filterViewModel: TaskMapFilterViewModel) -> SourceItem
+    func sourceItem(filterViewModel: TasksMapFilterViewModel) -> SourceItem
 
     /// Return the list of all model items of this type
     var modelItems: [CADTaskListItemModelType] { get }
 
-    // TODO: Replace TaskMapFilterViewModel used below with something more generic
-
     /// Return all items of this type based on the current filter
-    func filteredItems(filterViewModel: TaskMapFilterViewModel) -> [CADTaskListItemModelType]
+    func filteredItems(filterViewModel: TasksMapFilterViewModel) -> [CADTaskListItemModelType]
 
     /// Return all annotations of this type based on the current filter and source selection
-    func filteredAnnotations(filterViewModel: TaskMapFilterViewModel, selectedSource: CADTaskListSourceType) -> [TaskAnnotation]
+    func filteredAnnotations(filterViewModel: TasksMapFilterViewModel, selectedSource: CADTaskListSourceType) -> [TaskAnnotation]
 
     /// Return the sectioned task list content for current filter and optional search text
-    func sectionedListContent(filterViewModel: TaskMapFilterViewModel, searchText: String?) -> [[CADFormCollectionSectionViewModel<TasksListItemViewModel>]]
+    func sectionedListContent(filterViewModel: TasksMapFilterViewModel, searchText: String?) -> [[CADFormCollectionSectionViewModel<TasksListItemViewModel>]]
 
     /// The annotation view type to use for prioritising items on map
     var annotationViewType: MKAnnotationView.Type? { get }

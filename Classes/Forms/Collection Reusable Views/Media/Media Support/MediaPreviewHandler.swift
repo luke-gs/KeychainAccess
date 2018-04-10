@@ -8,8 +8,15 @@
 
 import Foundation
 
-
 public class MediaPreviewHandler: MediaGalleryDelegate {
+
+    static var availableSources: [MediaPickerSource] {
+        var sources: [MediaPickerSource] = [PhotoLibraryMediaPicker(), SketchMediaPicker(), AudioMediaPicker()]
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
+            sources.append(CameraMediaPicker())
+        }
+        return sources
+    }
 
     public let allowEditing: Bool
 

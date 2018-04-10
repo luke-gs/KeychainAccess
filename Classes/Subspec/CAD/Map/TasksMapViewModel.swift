@@ -13,7 +13,7 @@ import MapKit
 open class TasksMapViewModel {
 
     /// The default zoom distance for viewing a single task item
-    open var defaultZoomDistance: CLLocationDistance = 100
+    open var defaultZoomDistance: CLLocationDistance = 150
 
     public weak var splitViewModel: TasksSplitViewModel?
     public weak var delegate: TasksMapViewModelDelegate?
@@ -56,7 +56,7 @@ open class TasksMapViewModel {
     }
 
     /// Annotations matching the current filter
-    var filteredAnnotations: [TaskAnnotation] = [] {
+    open var filteredAnnotations: [TaskAnnotation] = [] {
         didSet {
             if oldValue != filteredAnnotations {
                 delegate?.annotationsChanged()
@@ -75,6 +75,11 @@ open class TasksMapViewModel {
     
     /// Whether annotations should cluster. `true` by default.
     open func shouldCluster() -> Bool {
+        return true
+    }
+    
+    /// Whether the map should allow user interaction. `true` by default
+    open func allowsInteraction() -> Bool {
         return true
     }
 }

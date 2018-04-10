@@ -8,21 +8,6 @@
 
 import Foundation
 
-//public class PersistantMediaDatasource: MediaDataSource {
-//
-//    let mediaManager: MediaFileManager
-//
-//    func saveFile(to url: URL, fromURL: URL) throws {
-//        try mediaManager.save(fromURL: fromURL, to: url)
-//    }
-//
-//    required public init(items: [MediaPreviewable]) throws {
-//        mediaManager = try MediaFileManager()
-//
-//        super.init(mediaItems: items)
-//    }
-//}
-
 public class MediaFileManager {
 
     public let basePath: URL
@@ -30,7 +15,7 @@ public class MediaFileManager {
 
     public private(set) var paths: FilePathExtensions
 
-    //References to audio, video and photo urlsvar audioURL: URL
+    // References to audio, video and photo urls
 
     public static let defaultBasePath: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
 
@@ -50,13 +35,19 @@ public class MediaFileManager {
         try manager.createDirectory(at: photoPath, withIntermediateDirectories: true, attributes: nil)
     }
 
-    public func save(fromURL url: URL, to location: URL) throws {
+    public func move(url: URL, to destination: URL) throws {
         // Copies the item at the url provided to the new location
-        try manager.copyItem(at: url, to: location)
+        try manager.copyItem(at: url, to: destination)
     }
 
-    public func url(forPath path: String) -> URL? {
-        return basePath.appendingPathComponent(path)
+    public func directory(forMedia mediaType: MediaType) -> URL {
+        let component: String
+        switch mediaType {
+        case .audio: component = paths.audio
+        case .photo: component = paths.photo
+        case .video: component = paths.video
+        }
+        return basePath.appendingPathComponent(component)
     }
 
 }
@@ -66,9 +57,10 @@ public struct FilePathExtensions {
     var video: String
     var photo: String
 
-    init(audio: String = "audio", video: String = "video", photo: String = "photo") {
+    init(audio: String = "audio", video: String = "video", photo: String = "photos") {
         self.audio = audio
         self.video = video
         self.photo = photo
     }
 }
+

@@ -9,14 +9,14 @@
 import UIKit
 
 open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
-    
-    override open func mapViewModel() -> TasksMapViewModel? {
+
+    override open lazy var mapViewModel: TasksMapViewModel? = {
         // Only show map if we have a location
         if let broadcast = CADStateManager.shared.broadcastsById[identifier], broadcast.location?.coordinate != nil {
             return BroadcastOverviewMapViewModel(broadcastNumber: identifier)
         }
         return nil
-    }
+    }()
 
     override open func loadData() {
         guard let broadcast = CADStateManager.shared.broadcastsById[identifier] else { return }

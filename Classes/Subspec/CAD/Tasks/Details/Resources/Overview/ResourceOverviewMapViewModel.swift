@@ -11,7 +11,7 @@ import MapKit
 
 open class ResourceOverviewMapViewModel: TasksMapViewModel {
     
-    private let callsign: String
+    public let callsign: String
     
     public init(callsign: String) {
         self.callsign = callsign
@@ -42,9 +42,5 @@ open class ResourceOverviewMapViewModel: TasksMapViewModel {
             return viewController
         }
         return TasksMapViewController(viewModel: self, annotationsInitialLoadZoomStyle: (animated: false, includeUserLocation: true))
-    }
-    
-    open override func shouldCluster() -> Bool {
-        return false
     }
 }

@@ -76,30 +76,12 @@ public class MediaThumbnailSlideshowViewController: UIViewController, UICollecti
         view.addSubview(collectionView)
     }
 
-    #if DEBUG
-    private let isDebugModeEnabled: Bool = false
-    private let box = UIView()
-    #endif
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
 
-    public override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        let height = collectionView.frame.height
-        let inset = (collectionView.frame.width - MediaThumbnailSlideshowViewController.focusedItemWidth) * 0.5
-
-        collectionView.contentInset = UIEdgeInsets(top: 0.0, left: inset, bottom: 0.0, right: inset)
-        collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 0.0, left: inset, bottom: 0.0, right: inset)
-
-        #if DEBUG
-        if isDebugModeEnabled {
-            box.frame = CGRect(x: inset, y: collectionView.frame.minY, width: MediaThumbnailSlideshowViewController.focusedItemWidth, height: collectionView.bounds.height)
-            box.layer.borderColor = UIColor.red.cgColor
-            box.layer.borderWidth = 1.0
-            box.backgroundColor = .clear
-            box.isUserInteractionEnabled = false
-            view.addSubview(box)
-        }
-        #endif
+        coordinator.animate(alongsideTransition: { (context) in
+            self.scrollToItemAtIndex(self.focusedIndex, animated: false)
+        })
     }
 
     // MARK: - Content changes
@@ -114,21 +96,27 @@ public class MediaThumbnailSlideshowViewController: UIViewController, UICollecti
 
     public func setFocusedIndex(_ index: Int, animated: Bool) {
         guard focusedIndex != index else { return }
-
         focusedIndex = index
 
+        scrollToItemAtIndex(index, animated: animated)
+    }
+
+    private func scrollToItemAtIndex(_ index: Int, animated: Bool) {
         guard isViewLoaded else { return }
 
-        if let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) {
-            collectionView.scrollRectToVisible(cell.frame, animated: animated)
-        } else {
+        if collectionView.layoutAttributesForItem(at: IndexPath(item: index, section: 0)) == nil {
             collectionView.reloadData()
             collectionView.layoutIfNeeded()
-
-            if let attributes = collectionView.layoutAttributesForItem(at: IndexPath(item: index, section: 0)) {
-                collectionView.scrollRectToVisible(attributes.frame, animated: animated)
-            }
         }
+
+        let itemWidth = MediaThumbnailSlideshowViewController.itemWidth
+        let spacing = MediaThumbnailSlideshowViewController.itemSpacing
+        let pageWidth = itemWidth + spacing
+        let x = CGFloat(index) * pageWidth
+
+        let offset = CGPoint(x: x, y: 0)
+
+        collectionView.setContentOffset(offset, animated: animated)
     }
 
     // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
@@ -149,11 +137,7 @@ public class MediaThumbnailSlideshowViewController: UIViewController, UICollecti
     }
 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) {
-            collectionView.scrollRectToVisible(cell.frame, animated: true)
-        }
-
-        focusedIndex = indexPath.item
+        setFocusedIndex(indexPath.item, animated: true)
         notifySelectionOfFocusedIndex()
     }
 
@@ -232,28 +216,28 @@ private class ThumbnailLayout: UICollectionViewLayout {
     }
 
     public var focusedItemIndex: Int {
-        var target = collectionView!.contentOffset
-        var offset = collectionView!.contentInset.left
-        var origin = target.x + offset
+        let target = collectionView!.contentOffset
+        let offset = collectionView!.contentInset.left
+        let origin = target.x + offset
 
-        var index = Int((origin / pageWidth).rounded(.toNearestOrAwayFromZero))
+        let index = Int((origin / pageWidth).rounded(.toNearestOrAwayFromZero))
         return max(min(index, numberOfItems - 1), 0)
     }
 
     private var cache = [UICollectionViewLayoutAttributes]()
 
     private var pageIndex: Int {
-        var target = collectionView!.contentOffset
-        var offset = collectionView!.contentInset.left
-        var origin = target.x + offset
+        let target = collectionView!.contentOffset
+        let offset = collectionView!.contentInset.left
+        let origin = target.x + offset
 
-        var index = Int((origin / pageWidth).rounded(.down))
+        let index = Int((origin / pageWidth).rounded(.down))
         return max(min(index, numberOfItems - 1), 0)
     }
 
     private var nextPagePercentage: CGFloat {
-        var target = collectionView!.contentOffset
-        var offset = collectionView!.contentInset.left
+        let target = collectionView!.contentOffset
+        let offset = collectionView!.contentInset.left
         var origin = target.x + offset
 
         origin = max(min(origin, (CGFloat(numberOfItems) - 1.0) * pageWidth), 0)
@@ -270,13 +254,15 @@ private class ThumbnailLayout: UICollectionViewLayout {
     }
 
     public override var collectionViewContentSize: CGSize {
-        return CGSize(width: (CGFloat(numberOfItems) - 1.0) * pageWidth + focusedItemWidth, height: collectionView!.bounds.height)
+        return CGSize(width: (CGFloat(numberOfItems) - 1.0) * pageWidth + collectionView!.frame.width, height: collectionView!.bounds.height)
     }
 
-    private var lastPageIndex: Int = 0
+    private var previousLayoutDetail: (pageIndex: Int, count: Int, width: CGFloat) = (pageIndex: 0, count: 0, width: 0)
 
     public override func prepare() {
-        let height = collectionView!.bounds.height
+        let frame = collectionView!.frame
+        let height = frame.height
+        let width = frame.width
         let numberOfItems = self.numberOfItems
         let pageIndex = self.pageIndex
         let nextPageIndex = pageIndex + 1
@@ -286,7 +272,7 @@ private class ThumbnailLayout: UICollectionViewLayout {
 
         // Optimisation - Modify the two layout attributes that are changing and leave the rest the same.
         // If there are any issues with the layout, try removing this block of code first. But there shouldn't be any.
-        if lastPageIndex == pageIndex && numberOfItems == cache.count {
+        if previousLayoutDetail.pageIndex == pageIndex && previousLayoutDetail.count == cache.count && previousLayoutDetail.width == width {
             let currentLayoutAttributes = cache[pageIndex]
             var currentFrame = currentLayoutAttributes.frame
 
@@ -311,7 +297,7 @@ private class ThumbnailLayout: UICollectionViewLayout {
 
         cache.removeAll()
 
-        var x: CGFloat = 0
+        var x: CGFloat = (collectionView!.frame.width - focusedItemWidth) * 0.5
         for item in 0..<numberOfItems {
             var width = itemWidth
 
@@ -332,7 +318,7 @@ private class ThumbnailLayout: UICollectionViewLayout {
             x = frame.maxX + itemSpacing
         }
 
-        lastPageIndex = pageIndex
+        previousLayoutDetail = (pageIndex: pageIndex, count: numberOfItems, width: width)
     }
 
     public override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
@@ -348,11 +334,11 @@ private class ThumbnailLayout: UICollectionViewLayout {
 
     public override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
         var target = proposedContentOffset
-        var offset = collectionView!.contentInset.left
-        var origin = target.x + offset
+        let offset = itemSpacing
+        let origin = target.x + offset
 
-        var index = (origin / pageWidth).rounded(.toNearestOrAwayFromZero)
-        target.x = (index * pageWidth) - offset
+        let index = (origin / pageWidth).rounded(.toNearestOrAwayFromZero)
+        target.x = (index * pageWidth)
 
         return target
     }

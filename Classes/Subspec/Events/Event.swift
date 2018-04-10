@@ -40,18 +40,6 @@ final public class Event: Codable, Evaluatable {
 
     // Codable stuff begins
 
-    public init(from: Decoder) throws {
-        let container = try from.container(keyedBy: Keys.self)
-        reports = try container.decode([Reportable].self, forKey: .reports)
-        id = try container.decode(UUID.self, forKey: .id)
-    }
-
-    public func encode(to: Encoder) throws {
-        var container = to.container(keyedBy: Keys.self)
-        try container.encode(reports, forKey: .reports)
-        try container.encode(id, forKey: .id)
-    }
-
     enum Keys: String, CodingKey {
         case reports
         case id
@@ -107,11 +95,11 @@ public protocol Reportable: Codable, Evaluatable {
 
     /// A weak reference to the event object
     /// Make sure this is weak in implementation as well
-    weak var event: Event? { get }
+    var event: Event? { get }
 
     /// A weak reference to the incident object
     /// Make sure this is weak in implementation as well
-    weak var incident: Incident? { get }
+    var incident: Incident? { get }
 }
 
 /// Builder for event

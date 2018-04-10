@@ -174,6 +174,8 @@ private class BackButton: UIControl {
     init(text: String? = nil) {
         super.init(frame: .zero)
         
+        self.text = text
+        
         icon.translatesAutoresizingMaskIntoConstraints = false
         addSubview(icon)
         
@@ -184,14 +186,23 @@ private class BackButton: UIControl {
         
         NSLayoutConstraint.activate([
             icon.leadingAnchor.constraint(equalTo: leadingAnchor),
-            icon.topAnchor.constraint(equalTo: topAnchor),
-            icon.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
-            label.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 5),
-            label.topAnchor.constraint(equalTo: topAnchor),
-            label.bottomAnchor.constraint(equalTo: bottomAnchor),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor)
-            ])
+            icon.topAnchor.constraint(greaterThanOrEqualTo: topAnchor),
+            icon.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor),
+            icon.centerYAnchor.constraint(equalTo: centerYAnchor),
+
+            label.leadingAnchor.constraint(greaterThanOrEqualTo: icon.trailingAnchor, constant: 5),
+            label.topAnchor.constraint(greaterThanOrEqualTo: topAnchor),
+            label.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor),
+            label.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
+            label.centerYAnchor.constraint(equalTo: centerYAnchor),
+
+            // Enforce minimum tappable size, mainly for case when no back text
+            widthAnchor.constraint(greaterThanOrEqualToConstant: 44),
+            heightAnchor.constraint(greaterThanOrEqualToConstant: 44),
+        ])
+        
+        setNeedsLayout()
+        frame.size = systemLayoutSizeFitting(UILayoutFittingCompressedSize)
     }
     
     required init?(coder aDecoder: NSCoder) {

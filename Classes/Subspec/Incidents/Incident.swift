@@ -13,7 +13,7 @@ fileprivate extension EvaluatorKey {
 /// The implementation of an Incident.
 /// All it really is, is an array of reports with some basic business logic
 /// to check if all reports are valid through the evaluator
-final public class Incident: Codable, Evaluatable {
+final public class Incident: NSSecureCoding, Evaluatable {
 
     public let id: UUID
     public var incidentType: IncidentType
@@ -43,7 +43,7 @@ final public class Incident: Codable, Evaluatable {
         }
     }
 
-    // Codable stuff begins
+    // Coding stuff begins
 
     public init(from: Decoder) throws {
         let container = try from.container(keyedBy: Keys.self)

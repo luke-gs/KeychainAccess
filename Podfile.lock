@@ -31,6 +31,17 @@ DEPENDENCIES:
   - Unbox (= 2.5.0)
   - Wrap (= 2.1.1)
 
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - Cache
+    - Cluster
+    - KeychainSwift
+    - lottie-ios
+    - PromiseKit
+    - Unbox
+    - Wrap
+
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   Cache: bd0233fc688b5e83a27bcd87807db7e6f23adcc5
@@ -43,4 +54,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 2eda6b2672d65678b6214498dff3ac0d6687d937
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.0
