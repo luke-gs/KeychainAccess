@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>438</string>
+	<string>458</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>$(CAD_URL_TYPE_SCHEME)</string>
@@ -44,12 +44,16 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>The App need to access your camera</string>
 	<key>NSFaceIDUsageDescription </key>
 	<string>Login using FaceID</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>The App need to access the current location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>The App need to access the current location</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>The app need to access your microphone</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

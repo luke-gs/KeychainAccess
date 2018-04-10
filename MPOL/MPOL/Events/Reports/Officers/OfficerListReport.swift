@@ -56,7 +56,7 @@ public class OfficerListReport: Reportable {
 
     public required init(from: Decoder) throws {
         let container = try from.container(keyedBy: CodingKeys.self)
-        officers = try container.decode(Array<Officer>.self, forKey: .officers)
+//        officers = try container.decode(Array<Officer>.self, forKey: .officers)
         event = try container.decode(Event.self, forKey: .event)
 
         commonInit()
@@ -73,7 +73,7 @@ public class OfficerListReport: Reportable {
 
     public func encode(to: Encoder) throws {
         var container = to.container(keyedBy: CodingKeys.self)
-        try container.encode(officers, forKey: .officers)
+//        try container.encode(officers, forKey: .officers)
         try container.encode(event, forKey: .event)
     }
 

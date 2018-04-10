@@ -66,7 +66,7 @@ open class Person: Entity, Identifiable {
     }
     
     open var givenName: String?
-    open var surname: String?
+    open var familyName: String?
     open var middleNames: String?
 
     open var dateOfBirth: Date?
@@ -99,7 +99,7 @@ open class Person: Entity, Identifiable {
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         givenName = aDecoder.decodeObject(of: NSString.self, forKey: Coding.givenName.rawValue) as String?
-        surname = aDecoder.decodeObject(of: NSString.self, forKey: Coding.surname.rawValue) as String?
+        familyName = aDecoder.decodeObject(of: NSString.self, forKey: Coding.surname.rawValue) as String?
         middleNames = aDecoder.decodeObject(of: NSString.self, forKey: Coding.middleNames.rawValue) as String?
         dateOfBirth = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.dateOfBirth.rawValue) as Date?
         dateOfDeath = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.dateOfDeath.rawValue) as Date?
@@ -126,7 +126,7 @@ open class Person: Entity, Identifiable {
         try super.init(unboxer: unboxer)
 
         givenName = unboxer.unbox(key: "givenName")
-        surname = unboxer.unbox(key: "familyName")
+        familyName = unboxer.unbox(key: "familyName")
         middleNames = unboxer.unbox(key: "middleNames")
 
         dateOfBirth = unboxer.unbox(key: "dateOfBirth", formatter: Person.dateTransformer)
@@ -148,7 +148,7 @@ open class Person: Entity, Identifiable {
     open override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
         aCoder.encode(givenName, forKey: Coding.givenName.rawValue)
-        aCoder.encode(surname, forKey: Coding.surname.rawValue)
+        aCoder.encode(familyName, forKey: Coding.surname.rawValue)
         aCoder.encode(middleNames, forKey: Coding.middleNames.rawValue)
         aCoder.encode(dateOfBirth, forKey: Coding.dateOfBirth.rawValue)
         aCoder.encode(dateOfDeath, forKey: Coding.dateOfDeath.rawValue)

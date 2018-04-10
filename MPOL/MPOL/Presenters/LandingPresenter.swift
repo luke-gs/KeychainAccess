@@ -40,8 +40,8 @@ public class LandingPresenter: AppGroupLandingPresenter {
                                                              subtitle: NSLocalizedString("Public Safety Mobile Platform", comment: "Login screen header subtitle"), image: #imageLiteral(resourceName: "MPOLIcon"))
 
             #if DEBUG
-                loginViewController.usernameField.textField.text = "matt"
-                loginViewController.passwordField.textField.text = "vicroads"
+                loginViewController.usernameField.textField.text = "gridstone"
+                loginViewController.passwordField.textField.text = "mock"
             #endif
 
             return loginViewController
@@ -79,7 +79,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 let radius = strategy.radiusConfiguration.radiusOptions.first ?? 100.0
                 let searchType = LocationMapSearchType.radius(coordinate: coordinate, radius: radius)
                 let parameters = LocationMapRadiusSearchParameters(latitude: coordinate.latitude, longitude: coordinate.longitude, radius: radius)
-                let request = LocationMapSearchRequest(source: .gnaf, request: parameters)
+                let request = LocationMapSearchRequest(source: .pscore, request: parameters)
                 let aggregatedSearch = AggregatedSearch<Address>(requests: [request])
                 let viewModel = MapSummarySearchResultViewModel(searchStrategy: strategy, title: "Current Location", aggregatedSearch: aggregatedSearch)
                 viewModel.searchType = searchType
@@ -91,7 +91,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 let radius = strategy.radiusConfiguration.radiusOptions.first ?? 100.0
                 let searchType = LocationMapSearchType.radius(coordinate: coordinate, radius: radius)
                 let parameters = LocationMapRadiusSearchParameters(latitude: coordinate.latitude, longitude: coordinate.longitude, radius: radius)
-                let request = LocationMapSearchRequest(source: .gnaf, request: parameters)
+                let request = LocationMapSearchRequest(source: .pscore, request: parameters)
                 let aggregatedSearch = AggregatedSearch<Address>(requests: [request])
                 let viewModel = MapSummarySearchResultViewModel(searchStrategy: strategy, title: searchable.text ?? "", aggregatedSearch: aggregatedSearch)
                 viewModel.searchType = searchType
@@ -101,7 +101,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 switch searchType {
                 case .radius(let coordinate, let radius):
                     let parameters = LocationMapRadiusSearchParameters(latitude: coordinate.latitude, longitude: coordinate.longitude, radius: radius)
-                    let request = LocationMapSearchRequest(source: .gnaf, request: parameters)
+                    let request = LocationMapSearchRequest(source: .pscore, request: parameters)
                     let aggregatedSearch = AggregatedSearch<Address>(requests: [request])
                     let viewModel = MapSummarySearchResultViewModel(searchStrategy: strategy, title: String(format: "Pin dropped at (%.5f, %0.5f)", coordinate.latitude, coordinate.longitude), aggregatedSearch: aggregatedSearch)
                     viewModel.searchType = searchType

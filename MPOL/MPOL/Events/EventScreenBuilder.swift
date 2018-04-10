@@ -30,8 +30,8 @@ public class EventScreenBuilder: EventScreenBuilding {
             return DefaultEventLocationViewController(report: report)
         case let report as OfficerListReport:
             return DefaultEventOfficerListViewController(viewModel: EventOfficerListViewModel(report: report))
-        case let report as DefaultNotesPhotosReport:
-            return DefaultEventNotesPhotosViewController(report: report)
+        case let report as DefaultNotesAssetsReport:
+            return DefaultEventNotesAssetsViewController(report: report)
         case let report as IncidentListReport:
             return IncidentListViewController(viewModel: IncidentListViewModel(report: report, incidentsManager: incidentsManager))
         default:

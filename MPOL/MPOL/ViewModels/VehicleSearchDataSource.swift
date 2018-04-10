@@ -209,7 +209,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
             if let searchParameters = searchParameters {
                 // Note: generate as many requests as required
-                let request = VehicleSearchRequest(source: .mpol, request: searchParameters)
+                let request = VehicleSearchRequest(source: .pscore, request: searchParameters)
                 let resultModel = EntitySummarySearchResultViewModel<Vehicle>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request]))
                 resultModel.additionalBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAddButtonTapped(_:)))]
                 completion(resultModel, nil)

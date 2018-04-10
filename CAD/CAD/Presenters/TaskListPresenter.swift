@@ -25,7 +25,7 @@ public class TaskListPresenter: Presenter {
             let listHeaderViewModel = TasksListHeaderViewModel()
             let listContainerViewModel = TasksListContainerViewModel(headerViewModel: listHeaderViewModel, listViewModel: listViewModel)
             let mapViewModel = TasksMapViewModel()
-            let mapFilterViewModel = TaskMapFilterViewModel()
+            let mapFilterViewModel = TasksMapFilterViewModelCore()
 
             // Create split view model
             tasksSplitViewModel = TasksSplitViewModel(listContainerViewModel: listContainerViewModel,
@@ -39,6 +39,9 @@ public class TaskListPresenter: Presenter {
 
         case .mapFilter(let delegate):
             return tasksSplitViewModel.filterViewModel.createViewController(delegate: delegate)
+
+        case .clusterDetails(let annotationView, let delegate):
+            return ClusterTasksViewModelCore(annotationView: annotationView).createViewController(delegate: delegate)
         }
     }
 
@@ -50,6 +53,15 @@ public class TaskListPresenter: Presenter {
         // Present form sheet
         case .mapFilter:
             from.presentFormSheet(to, animated: true)
+
+        case .clusterDetails(let annotationView, _):
+            // Present popover (hidden nav bar)
+            let nav = PopoverNavigationController(rootViewController: to)
+            nav.modalPresentationStyle = .popover
+            nav.popoverPresentationController?.sourceView = annotationView
+            nav.popoverPresentationController?.sourceRect = annotationView.bounds
+            nav.popoverPresentationController?.permittedArrowDirections = [.left, .right]
+            from.present(nav, animated: true, completion: nil)
 
         // Default presentation, based on container class (eg push if in navigation controller)
         default:
