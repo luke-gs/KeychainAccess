@@ -44,6 +44,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Set the application key for app specific user settings
         User.applicationKey = "Search"
 
+        // Set the source app string to use when registering this device for push notifications
+        NotificationManager.sourceApp = "pscore-search"
+
         landingPresenter = LandingPresenter()
         let presenter = PresenterGroup(presenters: [SystemPresenter(), landingPresenter, EntityPresenter(), EventPresenter()])
 
