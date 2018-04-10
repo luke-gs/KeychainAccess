@@ -12,26 +12,31 @@ import PromiseKit
 public struct RegisterDeviceRequest: Parameterisable {
     public typealias ResultClass = [[String: Any]]
 
-    // Request URL as relative path
+    /// Request URL as relative path
     public var path: String!
 
-    public var deviceId: String!
-
-    public var pushToken: String!
-
+    /// Current version identifier for the application running on the device
     public var appVersion: String!
 
+    /// Unique Id of this device. Could be IMEI, UUID or any other value to unique identify that device
+    public var deviceId: String!
+
+    /// What type of device this is. eg iOS/Android
     public var deviceType: String!
 
+    /// Token used to identify this device for push notifications
+    public var pushToken: String!
+
+    /// What application registered this device
     public var sourceApp: String!
 
-    // Request parameters as a dictionary
+    /// Request parameters as a dictionary
     public var parameters: [String: Any] {
         return [
-            "deviceId": deviceId,
-            "pushToken": pushToken,
             "appVersion": appVersion,
+            "deviceId": deviceId,
             "deviceType": deviceType,
+            "pushToken": pushToken,
             "sourceApp": sourceApp
         ]
     }
@@ -39,7 +44,6 @@ public struct RegisterDeviceRequest: Parameterisable {
     public init() {
         self.path = "device/register"
     }
-
 }
 
 // MARK: - API Manager method for sending request

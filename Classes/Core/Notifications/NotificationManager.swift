@@ -19,11 +19,16 @@ open class NotificationManager: NSObject {
     }
 
     /// Singleton
-    public static let shared = NotificationManager()
+    open static let shared = NotificationManager()
 
-    let notificationCenter = UNUserNotificationCenter.current()
+    /// The source app string to use when registering this device for push notifications
+    /// Required to be set in client app if using push notifications
+    open static var sourceApp: String!
 
-    // The current Apple issued push token
+    /// Convenience for notification center
+    open let notificationCenter = UNUserNotificationCenter.current()
+
+    /// The current Apple issued push token
     open var pushToken: String?
     
     // MARK: - Setup
@@ -107,9 +112,12 @@ open class NotificationManager: NSObject {
                 request.appVersion = "release"
             #endif
             request.deviceType = "iOS"
-            request.sourceApp = "pscore-search"
-            _ = APIManager.shared.registerDevice(with: request).then { _ -> Void in
-                print("Successfully registered device")
+            request.sourceApp = NotificationManager.sourceApp
+
+            APIManager.shared.registerDevice(with: request).catch { error in
+                // Show this error to the user, as it's kind of important
+                AlertQueue.shared.addErrorAlert(message: "Failed to register for push notifications")
+                print(error.localizedDescription)
             }
         }
     }
