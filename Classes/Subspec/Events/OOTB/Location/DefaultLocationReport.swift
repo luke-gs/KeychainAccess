@@ -35,18 +35,19 @@ open class DefaultLocationReport: Reportable {
 
     // Codable
 
-    public required init(from: Decoder) throws {
-        let container = try from.container(keyedBy: Keys.self)
-        eventLocation = try container.decode(EventLocation.self, forKey: .eventLocation)
+    public static var supportsSecureCoding: Bool = true
+    private enum Coding: String {
+        case eventLocation
     }
 
-    public func encode(to: Encoder) throws {
-        var container = to.container(keyedBy: Keys.self)
-        try container.encode(eventLocation, forKey: .eventLocation)
+
+    public required init?(coder aDecoder: NSCoder) {
+        eventLocation = aDecoder.decodeObject(of: EventLocation.self, forKey: Coding.eventLocation.rawValue)
     }
 
-    enum Keys: String, CodingKey {
-        case eventLocation = "eventLocation"
+
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(eventLocation, forKey: Coding.eventLocation.rawValue)
     }
 
     // Evaluation

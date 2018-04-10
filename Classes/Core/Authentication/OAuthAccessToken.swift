@@ -64,8 +64,8 @@ public class OAuthAccessToken: NSObject, Unboxable, NSSecureCoding {
     // MARK: - NSCoding
     
     public required convenience init?(coder aDecoder: NSCoder) {
-        guard let type  = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.type.rawValue) as String!,
-            let accessToken = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.accessToken.rawValue) as String! else {
+        guard let type  = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.type.rawValue) as String?,
+            let accessToken = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.accessToken.rawValue) as String? else {
                 return nil
         }
         

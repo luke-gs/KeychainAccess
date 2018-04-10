@@ -101,7 +101,7 @@ public struct EventType: RawRepresentable, Hashable {
 
 /// Anything can be reportable
 /// Used to define something in the event object
-public protocol Reportable: Codable, Evaluatable {
+public protocol Reportable: NSSecureCoding, Evaluatable {
 
     /// A weak reference to the event object
     /// Make sure this is weak in implementation as well

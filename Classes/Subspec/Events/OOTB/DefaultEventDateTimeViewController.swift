@@ -135,25 +135,25 @@ public class DefaultDateTimeReport: Reportable {
 
     // Codable
 
-    public required init(from: Decoder) throws {
-        let container = try from.container(keyedBy: Keys.self)
-        reportedOnDateTime = try container.decode(Date.self, forKey: .reportedOnDateTime)
-        tookPlaceFromStartDateTime = try container.decode(Date.self, forKey: .tookPlaceFromStartDateTime)
-        tookPlaceFromEndDateTime = try container.decode(Date.self, forKey: .tookPlacefromEndDateTime)
-        commonInit()
-    }
-
-    public func encode(to: Encoder) throws {
-        var container = to.container(keyedBy: Keys.self)
-        try container.encode(reportedOnDateTime, forKey: .reportedOnDateTime)
-        try container.encode(tookPlaceFromStartDateTime, forKey: .tookPlaceFromStartDateTime)
-        try container.encode(tookPlaceFromEndDateTime, forKey: .tookPlacefromEndDateTime)
-    }
-
-    enum Keys: String, CodingKey {
+    public static var supportsSecureCoding: Bool = true
+    private enum Coding: String {
         case reportedOnDateTime
         case tookPlaceFromStartDateTime
-        case tookPlacefromEndDateTime
+        case tookPlaceFromEndDateTime
+    }
+
+
+    public required init?(coder aDecoder: NSCoder) {
+        reportedOnDateTime = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.reportedOnDateTime.rawValue) as Date?
+        tookPlaceFromStartDateTime = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.tookPlaceFromStartDateTime.rawValue) as Date?
+        tookPlaceFromEndDateTime = aDecoder.decodeObject(of: NSDate.self, forKey: Coding.tookPlaceFromEndDateTime.rawValue) as Date?
+    }
+
+
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(reportedOnDateTime, forKey: Coding.reportedOnDateTime.rawValue)
+        aCoder.encode(tookPlaceFromStartDateTime, forKey: Coding.tookPlaceFromStartDateTime.rawValue)
+        aCoder.encode(tookPlaceFromEndDateTime, forKey: Coding.tookPlaceFromEndDateTime.rawValue)
     }
 
     // Evaluation
