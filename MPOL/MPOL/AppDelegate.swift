@@ -28,6 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var window: UIWindow?
     var landingPresenter: LandingPresenter!
 
+    var navigator: AppURLNavigator!
+
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         MPOLKitInitialize()
@@ -80,6 +82,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             authenticator.authenticateInstallation()
         #endif
 
+        setupNavigator()
+
         return true
     }
 
@@ -99,6 +103,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Reload user session and update UI to match current state
         updateAppForUserSession()
+    }
+
+    func applicationWillResignActive(_ application: UIApplication) {
+        if UserSession.current.isActive == true {
+            installShortcuts(on: application)
+        } else {
+            removeShortcuts(from: application)
+        }
+    }
+
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        if navigator.isRegistered(url) {
+            return navigator.handle(url)
+        }
+
+        // Return magic value. Magic is good.
+        return true
     }
 
     // MARK: - APNS
@@ -175,6 +196,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UserSession.current.endSession()
         APIManager.shared.setAuthenticationPlugin(nil)
         landingPresenter.updateInterfaceForUserSession(animated: false)
+
+        removeShortcuts(from: UIApplication.shared)
     }
 
     @objc private func interfaceStyleDidChange() {
@@ -217,4 +240,100 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         AlertQueue.shared.preferredStatusBarStyle = theme.statusBarStyle
     }
+
+    private func setupNavigator() {
+        navigator = AppURLNavigator.default
+
+        let launcher = SearchActivityLauncher.default
+        let searchHandler = SearchActivityHandler(scheme: launcher.scheme)
+        searchHandler.delegate = self
+        navigator.register(searchHandler)
+    }
+
+    private lazy var searchLauncher: SearchActivityLauncher = {
+        return SearchActivityLauncher()
+    }()
+
+    private lazy var taskLauncher: AppLaunchActivityLauncher = {
+        return AppLaunchActivityLauncher(scheme: CAD_APP_SCHEME)
+    }()
+
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+
+        let handled = handleShortcutItem(shortcutItem)
+        completionHandler(handled)
+
+    }
+
+    func handleShortcutItem(_ shortcutItem: UIApplicationShortcutItem) -> Bool {
+
+        guard SupportedShortcut(type: shortcutItem.type) != nil else {
+            return false
+        }
+
+        var handled = false
+        // Considered handled if type is one of the following, regardless whether
+        // the handling is successfully completed or not.
+        switch shortcutItem.type {
+        case SupportedShortcut.searchPerson.type:
+            let activity = SearchActivity.searchEntity(term: Searchable(text: nil, type: "Person"))
+            try? searchLauncher.launch(activity, using: navigator)
+            handled = true
+        case SupportedShortcut.searchVehicle.type:
+            let activity = SearchActivity.searchEntity(term: Searchable(text: nil, type: "Vehicle"))
+            try? searchLauncher.launch(activity, using: navigator)
+            handled = true
+        case SupportedShortcut.launchTasks.type:
+            let activity = AppLaunchActivity.open
+            try? taskLauncher.launch(activity, using: navigator)
+            handled = true
+        default:
+            handled = false
+        }
+
+        return handled
+    }
+
+}
+
+// MARK: - Handling Search Activity
+extension AppDelegate: SearchActivityHandlerDelegate {
+
+    func searchActivityHandler(_ handler: SearchActivityHandler, launchedSearchActivity: SearchActivity) {
+
+        // FIXME: Probably need something that knows how to coordinate all of these `from` and `to` businesses.
+        switch launchedSearchActivity {
+        case .searchEntity(let term):
+            landingPresenter.switchTo(.search)
+            landingPresenter.searchViewController.beginSearch(with: term)
+        case .viewDetails(let id, let entityType, let source):
+
+            let entity: Entity?
+
+            switch entityType {
+            case "Person":
+                entity = Person(id: id)
+            case "Vehicle":
+                entity = Vehicle(id: id)
+            case "Address":
+                entity = Address(id: id)
+            case "Organisation":
+                // Not supported yet
+                entity = nil
+                print("Not supported yet")
+            default:
+                // Do nothing
+                entity = nil
+                assertionFailure("\(entityType) is not supported.")
+            }
+
+            if let entity = entity {
+                entity.source = MPOLSource(rawValue: source)
+                let presentable = EntityScreen.entityDetails(entity: entity, delegate: nil)
+
+                Director.shared.present(presentable, fromViewController: landingPresenter.searchViewController)
+            }
+        }
+    }
+
 }

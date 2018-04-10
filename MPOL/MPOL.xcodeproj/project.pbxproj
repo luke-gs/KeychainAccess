@@ -13,7 +13,10 @@
 		12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */; };
 		12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */; };
 		12EB809B202AAC2100405F5C /* EventScreenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EB809A202AAC2100405F5C /* EventScreenBuilder.swift */; };
+		19894F89207A61BE009289C0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 19894F88207A61BE009289C0 /* Localizable.strings */; };
+		19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3894207A5F3A00855651 /* SupportedShortcut.swift */; };
 		12EE9BE6206898C900537BBA /* OfficerParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EE9BE5206898C900537BBA /* OfficerParserDefinition.swift */; };
+		19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */; };
 		397B77011E52CEDA00696677 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397B77001E52CEDA00696677 /* UserNotifications.framework */; };
 		445A8A381F667A56005ABEB8 /* PersonSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */; };
 		445A8A3C1F673C8B005ABEB8 /* LocationSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A391F673C8B005ABEB8 /* LocationSearchHelp.json */; };
@@ -65,7 +68,10 @@
 		12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchDataSource.swift; sourceTree = "<group>"; };
 		12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchDataSource.swift; sourceTree = "<group>"; };
 		12EB809A202AAC2100405F5C /* EventScreenBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventScreenBuilder.swift; sourceTree = "<group>"; };
+		19894F88207A61BE009289C0 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		19CB3894207A5F3A00855651 /* SupportedShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedShortcut.swift; sourceTree = "<group>"; };
 		12EE9BE5206898C900537BBA /* OfficerParserDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerParserDefinition.swift; sourceTree = "<group>"; };
+		19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Shortcuts.swift"; sourceTree = "<group>"; };
 		397B76FF1E52C23600696677 /* MPOL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MPOL.entitlements; sourceTree = "<group>"; };
 		397B77001E52CEDA00696677 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PersonSearchHelp.json; sourceTree = "<group>"; };
@@ -215,13 +221,16 @@
 				EA3C89041F32E31500F38461 /* Resources */,
 				397B76FF1E52C23600696677 /* MPOL.entitlements */,
 				BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */,
+				19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */,
 				BC0D8E821E94067800EDFC45 /* View Controllers */,
 				12ADD42F1F32C0FA00CA8B4D /* ViewModels */,
 				EAAFAD511F665B8A00AA2F94 /* Presenters */,
 				BCD4EA931E515ACE000B993D /* Assets.xcassets */,
 				BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */,
+				19894F88207A61BE009289C0 /* Localizable.strings */,
 				BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */,
 				BCD4EA981E515ACE000B993D /* Info.plist */,
+				19CB3894207A5F3A00855651 /* SupportedShortcut.swift */,
 			);
 			path = MPOL;
 			sourceTree = "<group>";
@@ -345,6 +354,7 @@
 			files = (
 				DB0CA7D51F72018A006EB1A7 /* AppConfig-mpol-debug.xcconfig in Resources */,
 				BCD4EA9F1E515ADE000B993D /* LaunchScreen.storyboard in Resources */,
+				19894F89207A61BE009289C0 /* Localizable.strings in Resources */,
 				445A8A381F667A56005ABEB8 /* PersonSearchHelp.json in Resources */,
 				445A8A3D1F673C8B005ABEB8 /* OrganisationSearchHelp.json in Resources */,
 				BCD4EA941E515ACE000B993D /* Assets.xcassets in Resources */,
@@ -464,6 +474,8 @@
 				46E0B8A92031413C00B40DF2 /* OfficerInvolvementSearchDatasource.swift in Sources */,
 				127801F5202AB255007D0BBB /* EventsDetailViewModel.swift in Sources */,
 				EA7194DD1FC5098200A2980B /* EventPresenter.swift in Sources */,
+				19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */,
+				19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */,
 				12EE9BE6206898C900537BBA /* OfficerParserDefinition.swift in Sources */,
 				12EB809B202AAC2100405F5C /* EventScreenBuilder.swift in Sources */,
 				12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */,
