@@ -25,6 +25,8 @@ public class DefaultNotesAssetsReport: Reportable, MediaContainer {
     var freeText: String?
 
     public weak var event: Event?
+    public weak var incident: Incident?
+
     public var evaluator: Evaluator = Evaluator()
 
     public required init(event: Event) {

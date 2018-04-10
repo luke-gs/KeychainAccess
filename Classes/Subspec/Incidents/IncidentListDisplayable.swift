@@ -14,13 +14,13 @@ import Foundation
 open class IncidentListDisplayable: NSSecureCoding {
 
     /// A unique ID of the incident metadata
-    open var id: UUID = UUID()
+    open var id: String = UUID().uuidString
 
     /// A unique ID of the incident
-    open var incidentId: UUID = UUID()
+    open var incidentId: String = UUID().uuidString
 
     /// The icon to display on the left of the cell
-    open var icon: ImageWrapper?
+    open var icon: UIImage?
 
     /// The title to display on the left of the cell
     open var title: String?
@@ -34,7 +34,35 @@ open class IncidentListDisplayable: NSSecureCoding {
     {
         self.title = title
         self.subtitle = subtitle
-        self.icon = icon != nil ? ImageWrapper(image: icon!) : nil
+        self.icon = icon
+    }
+
+
+    //Coding
+
+    public static var supportsSecureCoding: Bool = true
+    private enum Coding: String {
+        case id
+        case incidentId
+        case icon
+        case title
+        case subtitle
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+        id = aDecoder.decodeObject(of: NSString.self, forKey: Coding.id.rawValue)! as String
+        incidentId = aDecoder.decodeObject(of: NSString.self, forKey: Coding.incidentId.rawValue)! as String
+        icon = aDecoder.decodeObject(of: UIImage.self, forKey: Coding.icon.rawValue)
+        title = aDecoder.decodeObject(of: NSString.self, forKey: Coding.title.rawValue) as String?
+        subtitle = aDecoder.decodeObject(of: NSString.self, forKey: Coding.subtitle.rawValue) as String?
+    }
+
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(id, forKey: Coding.id.rawValue)
+        aCoder.encode(incidentId, forKey: Coding.incidentId.rawValue)
+        aCoder.encode(icon, forKey: Coding.icon.rawValue)
+        aCoder.encode(title, forKey: Coding.title.rawValue)
+        aCoder.encode(subtitle, forKey: Coding.subtitle.rawValue)
     }
 }
 

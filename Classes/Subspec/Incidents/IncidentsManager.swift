@@ -44,14 +44,14 @@ final public class IncidentsManager {
         incidentBucket.remove(incident)
     }
 
-    public func remove(for id: UUID) {
+    public func remove(for id: String) {
         guard let incident = incident(for: id), let displayable = incident.displayable else { return }
         incidentBucket.remove(incident)
         displayableBucket.remove(displayable)
     }
 
     //utility
-    public func incident(for id: UUID) -> Incident? {
+    public func incident(for id: String) -> Incident? {
         if let incident = incidentBucket.objects?.first(where: {$0.id == id}) {
             return incident
         }

@@ -13,9 +13,9 @@ fileprivate extension EvaluatorKey {
 /// The implementation of an Event.
 /// All it really is, is an array of reports with some basic business logic
 /// to check if all reports are valid through the evaluator
-final public class Event: Codable, Evaluatable {
+final public class Event: NSSecureCoding, Evaluatable {
 
-    public let id: UUID
+    public let id: String
     public var evaluator: Evaluator = Evaluator()
     public weak var displayable: EventListDisplayable!
 
@@ -32,17 +32,27 @@ final public class Event: Codable, Evaluatable {
     }
 
     public init() {
-        id = UUID()
+        id = UUID().uuidString
         evaluator.registerKey(.allValid) {
             return !self.reports.map{$0.evaluator.isComplete}.contains(false)
         }
     }
 
     // Codable stuff begins
+    public static var supportsSecureCoding: Bool = true
+    private enum Coding: String {
+        case id = "id"
+        case reports = "reports"
+    }
 
-    enum Keys: String, CodingKey {
-        case reports
-        case id
+    required public init?(coder aDecoder: NSCoder) {
+        id = aDecoder.decodeObject(of: NSString.self, forKey: Coding.id.rawValue)! as String
+        reports = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.reports.rawValue) as! [Reportable]
+    }
+
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(id, forKey: Coding.id.rawValue)
+        aCoder.encode(reports, forKey: Coding.reports.rawValue)
     }
 
     //MARK: Utility

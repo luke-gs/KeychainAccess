@@ -15,7 +15,7 @@ fileprivate extension EvaluatorKey {
 /// to check if all reports are valid through the evaluator
 final public class Incident: NSSecureCoding, Evaluatable {
 
-    public let id: UUID
+    public let id: String
     public var incidentType: IncidentType
     public var evaluator: Evaluator = Evaluator()
 
@@ -37,7 +37,7 @@ final public class Incident: NSSecureCoding, Evaluatable {
     public init(event: Event, type: IncidentType) {
         self.event = event
         self.incidentType = type
-        self.id = UUID()
+        self.id = UUID().uuidString
         self.evaluator.registerKey(.allValid) {
             return !self.reports.map{$0.evaluator.isComplete}.contains(false)
         }
@@ -45,24 +45,25 @@ final public class Incident: NSSecureCoding, Evaluatable {
 
     // Coding stuff begins
 
-    public init(from: Decoder) throws {
-        let container = try from.container(keyedBy: Keys.self)
-        reports = try container.decode([Reportable].self, forKey: .reports)
-        id = try container.decode(UUID.self, forKey: .id)
-        incidentType = IncidentType(rawValue: try container.decode(String.self, forKey: .incidentType))
-    }
-
-    public func encode(to: Encoder) throws {
-        var container = to.container(keyedBy: Keys.self)
-        try container.encode(reports, forKey: .reports)
-        try container.encode(id, forKey: .id)
-        try container.encode(incidentType.rawValue, forKey: .incidentType)
-    }
-
-    enum Keys: String, CodingKey {
-        case reports
+    public static var supportsSecureCoding: Bool = true
+    private enum Coding: String {
         case id
         case incidentType
+        case reports
+    }
+
+
+    public required init?(coder aDecoder: NSCoder) {
+        id = aDecoder.decodeObject(of: NSString.self, forKey: Coding.id.rawValue)! as String
+        incidentType = IncidentType(rawValue: aDecoder.decodeObject(of: NSString.self, forKey: Coding.incidentType.rawValue)! as String)
+        reports = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.reports.rawValue) as! [Reportable]
+    }
+
+
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(id, forKey: Coding.id.rawValue)
+        aCoder.encode(incidentType.rawValue, forKey: Coding.incidentType.rawValue)
+        aCoder.encode(reports, forKey: Coding.reports.rawValue)
     }
 
     //MARK: Utility
