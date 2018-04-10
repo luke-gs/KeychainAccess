@@ -10,7 +10,7 @@ import UIKit
 
 /// A searchable object. 
 /// The datasource should know the options and types and what to do with them
-public class Searchable: NSObject, NSSecureCoding {
+public class Searchable: NSObject, NSSecureCoding, Codable {
 
     /// The search text
     public var text: String?
