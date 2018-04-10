@@ -377,6 +377,9 @@
 		960CBB441FEA191E00A33E95 /* ThemeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960CBB431FEA191E00A33E95 /* ThemeConstants.swift */; };
 		9620530D1F988239000CAD49 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620530C1F988239000CAD49 /* AppGroup.swift */; };
 		9624A43F1F81BBEB00CAE056 /* UIFont+Digits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A43E1F81BBEB00CAE056 /* UIFont+Digits.swift */; };
+		9625ACD2207C27A100EFCC8C /* RegisterDeviceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9625ACD1207C27A100EFCC8C /* RegisterDeviceRequest.swift */; };
+		9625ACD7207C280100EFCC8C /* UpdateDeviceLocationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9625ACD6207C280100EFCC8C /* UpdateDeviceLocationRequest.swift */; };
+		9625ACD9207C906E00EFCC8C /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9625ACD8207C906E00EFCC8C /* Device.swift */; };
 		962AA8191F8DD37D0087D534 /* PopoverPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */; };
 		96361676204F8A0C0012AEC4 /* BroadcastAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96361675204F8A0C0012AEC4 /* BroadcastAnnotation.swift */; };
 		96361678204F8A150012AEC4 /* BroadcastAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96361677204F8A150012AEC4 /* BroadcastAnnotationView.swift */; };
@@ -1204,6 +1207,9 @@
 		9624A4691F83555A00CAE056 /* TaskAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskAnnotation.swift; sourceTree = "<group>"; };
 		9624A46A1F83555A00CAE056 /* TasksMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksMapViewController.swift; sourceTree = "<group>"; };
 		9624A46B1F83555A00CAE056 /* TasksMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksMapViewModel.swift; sourceTree = "<group>"; };
+		9625ACD1207C27A100EFCC8C /* RegisterDeviceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterDeviceRequest.swift; sourceTree = "<group>"; };
+		9625ACD6207C280100EFCC8C /* UpdateDeviceLocationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateDeviceLocationRequest.swift; sourceTree = "<group>"; };
+		9625ACD8207C906E00EFCC8C /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverPresenter.swift; sourceTree = "<group>"; };
 		96361675204F8A0C0012AEC4 /* BroadcastAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastAnnotation.swift; sourceTree = "<group>"; };
 		96361677204F8A150012AEC4 /* BroadcastAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastAnnotationView.swift; sourceTree = "<group>"; };
@@ -2628,6 +2634,15 @@
 			path = Timeline;
 			sourceTree = "<group>";
 		};
+		9625ACD5207C27C200EFCC8C /* Device */ = {
+			isa = PBXGroup;
+			children = (
+				9625ACD1207C27A100EFCC8C /* RegisterDeviceRequest.swift */,
+				9625ACD6207C280100EFCC8C /* UpdateDeviceLocationRequest.swift */,
+			);
+			path = Device;
+			sourceTree = "<group>";
+		};
 		9650CA111F958B2D0087F5C9 /* Callsign */ = {
 			isa = PBXGroup;
 			children = (
@@ -3119,6 +3134,7 @@
 		BC9C7D271F0DED6600DFFE83 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				9625ACD5207C27C200EFCC8C /* Device */,
 				464A5E931FD4ACBE00B4C0F9 /* Resource */,
 				1972FCC91FA6A14800CB68EA /* Image */,
 				19DBD5CD1FA8E20B00205EEC /* ResponseSerializing */,
@@ -3611,6 +3627,7 @@
 				C61AC9191F32FAF100F82FF6 /* User.swift */,
 				12D566F51F5790BC001E74CA /* UserSession.swift */,
 				96E492011FB3F98D0051C3A1 /* AppSettingKey.swift */,
+				9625ACD8207C906E00EFCC8C /* Device.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -4861,6 +4878,7 @@
 				EA950E4A1F8DBF2200B5A349 /* DebugDumpVisitor.swift in Sources */,
 				DBE24C2F1F5939C90088D19B /* EntityDetailsFetch.swift in Sources */,
 				2744E3992051DD8500561A8F /* CADLocationCore.swift in Sources */,
+				9625ACD9207C906E00EFCC8C /* Device.swift in Sources */,
 				278A16331FBBF68A00C01C38 /* LabeledSwitch.swift in Sources */,
 				BC9C7DF91F0DED6600DFFE83 /* CollectionViewFormOptionCell.swift in Sources */,
 				DB88BCE31F42D0110056FD69 /* SearchResultLoadingCell.swift in Sources */,
@@ -4877,6 +4895,7 @@
 				96B918401F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift in Sources */,
 				2744EED01FC289F5008DFA7F /* Collection+MapFilterSectionCopy.swift in Sources */,
 				DB88BCE41F42D0150056FD69 /* QueryParserDefinitionSelector.swift in Sources */,
+				9625ACD7207C280100EFCC8C /* UpdateDeviceLocationRequest.swift in Sources */,
 				9644B1D21F6785E200D031F2 /* CompactFormSheetNavigationController.swift in Sources */,
 				12080F932032B87400AB3632 /* Accessories.swift in Sources */,
 				19B49BAA1F665ED100502F51 /* NSMutableAttributedString+Append.swift in Sources */,
@@ -4981,6 +5000,7 @@
 				BC9C7E471F0DED6600DFFE83 /* SourceBar.swift in Sources */,
 				960CBB441FEA191E00A33E95 /* ThemeConstants.swift in Sources */,
 				BC9C7E0F1F0DED6600DFFE83 /* DefaultReusable.swift in Sources */,
+				9625ACD2207C27A100EFCC8C /* RegisterDeviceRequest.swift in Sources */,
 				463694E0200EA9A700C51BB4 /* ControlPanelPenView.swift in Sources */,
 				27E81E582034E576000D5D1C /* TaskDetailsOverviewFormViewController.swift in Sources */,
 				19C9C7501FC289BC003C8CE4 /* CustomSubtitleButton.swift in Sources */,

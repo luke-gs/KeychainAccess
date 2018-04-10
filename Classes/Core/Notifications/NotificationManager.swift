@@ -22,6 +22,9 @@ open class NotificationManager: NSObject {
     public static let shared = NotificationManager()
 
     let notificationCenter = UNUserNotificationCenter.current()
+
+    // The current Apple issued push token
+    open var pushToken: String?
     
     // MARK: - Setup
     
@@ -57,6 +60,8 @@ open class NotificationManager: NSObject {
         return promise
     }
     
+    // MARK: - Local
+
     /// Posts a local notification
     open func postLocalNotification(withTitle title: String? = nil, body: String, at date: Date? = nil, identifier: String) {
         let content = UNMutableNotificationContent()
@@ -81,6 +86,34 @@ open class NotificationManager: NSObject {
     open func removeAllLocalNotifications() {
         notificationCenter.removeAllPendingNotificationRequests()
     }
+
+    // MARK: - Remote
+
+    open func updatePushToken(_ token: String) {
+        // Store token and register if we have an active user session
+        pushToken = token
+        registerPushToken()
+    }
+
+    open func registerPushToken() {
+        // Register token if it has been issued and a user is logged in
+        if let pushToken = pushToken, UserSession.current.isActive {
+            var request = RegisterDeviceRequest()
+            request.deviceId = Device.current.deviceUuid
+            request.pushToken = pushToken
+            #if DEBUG
+                request.appVersion = "debug"
+            #else
+                request.appVersion = "release"
+            #endif
+            request.deviceType = "iOS"
+            request.sourceApp = "pscore-search"
+            _ = APIManager.shared.registerDevice(with: request).then { _ -> Void in
+                print("Successfully registered device")
+            }
+        }
+    }
+
 }
 
 // MARK: - UNUserNotificationCenterDelegate

@@ -55,6 +55,8 @@ open class APIManager {
         return requestPromise(request, using: serializer, cancelToken: cancelToken)
     }
 
+    // MARK: - Requests
+
     /// Request for access token.
     ///
     /// Supports implicit `NSProgress` reporting.
@@ -109,6 +111,8 @@ open class APIManager {
 
         return try! self.performRequest(networkRequest, withCancellationToken: token)
     }
+
+    // MARK: - Public Utilities
 
     /// Performs a request for the `urlRequest` and returns a `Promise` with processed `DataResponse`.
     open func dataRequest(_ urlRequest: Promise<URLRequest>, cancelToken: PromiseCancellationToken? = nil) -> Promise<DataResponse<Data>> {
@@ -178,7 +182,7 @@ open class APIManager {
         authenticationPluginFilterRule = rule
     }
 
-    // MARK : - Internal Utilities
+    // MARK: - Internal Utilities
 
     private var allPlugins: [Plugin] {
 
