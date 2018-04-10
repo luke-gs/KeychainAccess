@@ -38,6 +38,7 @@ class IncidentTestReport: Reportable {
     func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
 
     //MARK: CODING
-    public required init(from: Decoder) throws { }
-    public func encode(to: Encoder) throws { }
+    public static var supportsSecureCoding: Bool = true
+    public required init?(coder aDecoder: NSCoder) {}
+    public func encode(with aCoder: NSCoder) {}
 }

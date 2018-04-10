@@ -54,27 +54,24 @@ open class IncidentListReport: Reportable, EventHeaderUpdateable {
         }
     }
 
+    // Coding
+    public static var supportsSecureCoding: Bool = true
+    private enum Coding: String {
+        case incidents
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+        incidents = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.incidents.rawValue) as! [Incident]
+    }
+
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(incidents, forKey: Coding.incidents.rawValue)
+    }
+
     // Utility
 
     public func updateEval() {
         evaluator.updateEvaluation(for: [.incidents, .viewed])
-    }
-
-    // Codable
-
-    public required init(from: Decoder) throws {
-        let container = try from.container(keyedBy: Keys.self)
-        incidents = try container.decode([Incident].self, forKey: .incidents)
-        commonInit()
-    }
-
-    public func encode(to: Encoder) throws {
-        var container = to.container(keyedBy: Keys.self)
-        try container.encode(incidents, forKey: .incidents)
-    }
-
-    enum Keys: String, CodingKey {
-        case incidents = "incidents"
     }
 
     // Evaluation

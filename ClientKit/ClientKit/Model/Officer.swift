@@ -53,12 +53,12 @@ open class Officer: MPOLKitEntity, Identifiable {
 
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        givenName = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.givenName.rawValue) as String!
-        middleNames = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.middleNames.rawValue) as String!
-        familyName = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.familyName.rawValue) as String!
-        rank = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.rank.rawValue) as String!
-        employeeNumber = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.employeeNumber.rawValue) as String!
-        region = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.region.rawValue) as String!
+        givenName = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.givenName.rawValue) as String?
+        middleNames = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.middleNames.rawValue) as String?
+        familyName = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.familyName.rawValue) as String?
+        rank = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.rank.rawValue) as String?
+        employeeNumber = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.employeeNumber.rawValue) as String?
+        region = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.region.rawValue) as String?
     }
 
     open override func encode(with aCoder: NSCoder) {
