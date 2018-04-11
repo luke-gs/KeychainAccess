@@ -14,6 +14,7 @@ public protocol CADIncidentType: class, CADTaskListItemModelType {
 
     // MARK: - Network
     var identifier: String { get set }
+    var incidentNumber: String { get set }
     var secondaryCode: String? { get set }
     var type: String? { get set }
     var grade: CADIncidentGradeType { get set }

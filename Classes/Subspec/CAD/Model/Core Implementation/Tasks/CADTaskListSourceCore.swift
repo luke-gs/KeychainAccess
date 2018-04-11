@@ -280,7 +280,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
 
             // Apply search text filter to type, primary code, secondary code or suburb
             if let searchText = searchText?.lowercased(), !searchText.isEmpty {
-                let matchedValues = [incident.type, incident.identifier, incident.secondaryCode, incident.location?.suburb].removeNils().filter {
+                let matchedValues = [incident.type, incident.incidentNumber, incident.secondaryCode, incident.location?.suburb].removeNils().filter {
                     return $0.lowercased().hasPrefix(searchText)
                 }
                 if !matchedValues.isEmpty {
