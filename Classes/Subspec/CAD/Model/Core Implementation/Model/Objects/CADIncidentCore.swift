@@ -15,6 +15,8 @@ open class CADIncidentCore: Codable, CADIncidentType {
     // MARK: - Network
 
     open var identifier: String
+    
+    open var incidentNumber: String
 
     open var secondaryCode: String?
 
@@ -120,6 +122,8 @@ open class CADIncidentCore: Codable, CADIncidentType {
         details = try values.decodeIfPresent(String.self, forKey: .details)
         grade = try values.decodeIfPresent(CADIncidentGradeCore.self, forKey: .grade) ?? .p4
         identifier = try values.decode(String.self, forKey: .identifier)
+        // TODO: Model should probably be changed for separate ID and incident no.
+        incidentNumber = try values.decode(String.self, forKey: .identifier)
         informant = try values.decodeIfPresent(CADIncidentInformantCore.self, forKey: .informant)
         lastUpdated = try values.decodeIfPresent(Date.self, forKey: .lastUpdated)
         location = try values.decodeIfPresent(CADLocationCore.self, forKey: .location)

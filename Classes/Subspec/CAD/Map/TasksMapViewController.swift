@@ -105,6 +105,10 @@ open class TasksMapViewController: MapViewController {
             present(TaskListScreen.clusterDetails(annotationView: clusterView, delegate: clusterDelegate ?? self))
             return
         }
+        
+        if view is MPOLMarkerAnnotationView {
+            return
+        }
 
         mapView.deselectAnnotation(view.annotation, animated: false)
 
