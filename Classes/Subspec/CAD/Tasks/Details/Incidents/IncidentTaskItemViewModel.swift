@@ -30,7 +30,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
     }
 
     public convenience init(incident: CADIncidentType, resource: CADResourceType?) {
-        self.init(incidentNumber: incident.identifier,
+        self.init(incidentNumber: incident.incidentNumber,
                   iconImage: resource?.status.icon ?? CADClientModelTypes.resourceStatus.defaultCase.icon,
                   iconTintColor: resource?.status.iconColors.icon ?? .white,
                   color: resource?.status.iconColors.background,
