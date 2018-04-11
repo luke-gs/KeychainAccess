@@ -18,7 +18,8 @@ public class OfficerListViewModel: DefaultSearchDisplayableViewModel {
     open weak var delegate: OfficerListViewModelDelegate?
     
     public init() {
-        super.init(items: viewModelData)
+        super.init(items: [])
+        self.items = viewModelData
         title = navTitle()
     }
     
