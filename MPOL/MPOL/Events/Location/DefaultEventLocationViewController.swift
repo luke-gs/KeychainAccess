@@ -12,18 +12,18 @@ import MPOLKit
 
 open class DefaultEventLocationViewController: MapFormBuilderViewController, EvaluationObserverable {
 
-    weak var report: DefaultLocationReport?
+    var viewModel: DefaultEventLocationViewModel
     private var locationAnnotation: MKPointAnnotation?
 
-    public init(report: Reportable?) {
-        self.report = report as? DefaultLocationReport
+    public init(viewModel: DefaultEventLocationViewModel) {
+        self.viewModel = viewModel
         super.init(layout: StackMapLayout())
-        report?.evaluator.addObserver(self)
+        viewModel.report.evaluator.addObserver(self)
 
         sidebarItem.regularTitle = "Location"
         sidebarItem.compactTitle = "Location"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.location)!
-        sidebarItem.color = report?.evaluator.isComplete == true ? .midGreen : .red
+        sidebarItem.color = viewModel.tabColour()
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -47,13 +47,13 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         builder.title = "Locations"
         builder.forceLinearLayout = true
 
-        let viewModel = LocationSelectionViewModel(location: report?.eventLocation)
+        let viewModel = LocationSelectionViewModel(location: self.viewModel.report.eventLocation)
         viewModel.delegate = self
 
         builder += HeaderFormItem(text: "LOCATIONS")
         builder += PickerFormItem(pickerAction: LocationAction(viewModel: viewModel))
             .title("Event location")
-            .selectedValue(report?.eventLocation)
+            .selectedValue(self.viewModel.report.eventLocation)
             .accessory(ImageAccessoryItem(image: AssetManager.shared.image(forKey: .iconPencil)!))
             .required()
     }
@@ -75,7 +75,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
 extension DefaultEventLocationViewController: LocationSelectionViewModelDelegate {
     public func didSelect(location: EventLocation?) {
         if let location = location {
-            report?.eventLocation = location
+            viewModel.report.eventLocation = location
             updateAnnotation()
             updateRegion()
         }
@@ -83,7 +83,10 @@ extension DefaultEventLocationViewController: LocationSelectionViewModelDelegate
     }
 
     private func updateAnnotation() {
-        guard let lat = report?.eventLocation?.latitude, let lon = report?.eventLocation?.longitude else { return }
+        guard let lat = viewModel.report.eventLocation?.latitude,
+            let lon = viewModel.report.eventLocation?.longitude
+            else { return }
+
         let coord = CLLocationCoordinate2D(latitude: lat, longitude: lon)
 
         if let locationAnnotation = locationAnnotation {
@@ -96,7 +99,9 @@ extension DefaultEventLocationViewController: LocationSelectionViewModelDelegate
     }
 
     private func updateRegion() {
-        guard let lat = report?.eventLocation?.latitude, let lon = report?.eventLocation?.longitude else { return }
+        guard let lat = viewModel.report.eventLocation?.latitude,
+            let lon = viewModel.report.eventLocation?.longitude
+            else { return }
 
         let span = MKCoordinateSpanMake(0.005, 0.005)
         let coord = CLLocationCoordinate2D(latitude: lat, longitude: lon)

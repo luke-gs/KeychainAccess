@@ -25,6 +25,7 @@
 		12ABD575207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD572207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift */; };
 		12ABD576207F1FE9004D0C9F /* DefaultEventLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD573207F1FE9004D0C9F /* DefaultEventLocationViewController.swift */; };
 		12ABD577207F1FE9004D0C9F /* EventLocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD574207F1FE9004D0C9F /* EventLocationSearchViewModel.swift */; };
+		12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD578207F20EA004D0C9F /* DefaultEventLocationViewModel.swift */; };
 		12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */; };
 		12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */; };
 		12B4637B2043A0D30000E6AC /* IncidentDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B4637A2043A0D30000E6AC /* IncidentDetailViewModel.swift */; };
@@ -93,6 +94,7 @@
 		12ABD572207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventLocationSearchViewController.swift; sourceTree = "<group>"; };
 		12ABD573207F1FE9004D0C9F /* DefaultEventLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventLocationViewController.swift; sourceTree = "<group>"; };
 		12ABD574207F1FE9004D0C9F /* EventLocationSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventLocationSearchViewModel.swift; sourceTree = "<group>"; };
+		12ABD578207F20EA004D0C9F /* DefaultEventLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEventLocationViewModel.swift; sourceTree = "<group>"; };
 		12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchDataSource.swift; sourceTree = "<group>"; };
 		12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchDataSource.swift; sourceTree = "<group>"; };
 		12B4637A2043A0D30000E6AC /* IncidentDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentDetailViewModel.swift; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 			children = (
 				12ABD572207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift */,
 				12ABD573207F1FE9004D0C9F /* DefaultEventLocationViewController.swift */,
+				12ABD578207F20EA004D0C9F /* DefaultEventLocationViewModel.swift */,
 				12ABD574207F1FE9004D0C9F /* EventLocationSearchViewModel.swift */,
 			);
 			path = Location;
@@ -575,6 +578,7 @@
 				12229E1920439C49002E1A97 /* IncidentScreenBuilder.swift in Sources */,
 				12ABD575207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift in Sources */,
 				46E0B8BE2033D1FB00B40DF2 /* OfficerSearchViewModel.swift in Sources */,
+				12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */,
 				12229E1720439C49002E1A97 /* IncidentListViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

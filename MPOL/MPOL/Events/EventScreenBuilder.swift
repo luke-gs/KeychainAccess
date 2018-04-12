@@ -26,7 +26,7 @@ public class EventScreenBuilder: EventScreenBuilding {
         case let report as DefaultDateTimeReport:
             return DefaultEventDateTimeViewController(viewModel: DefaultDateTimeViewModel(report: report))
         case let report as DefaultLocationReport:
-            return DefaultEventLocationViewController(report: report)
+            return DefaultEventLocationViewController(viewModel: DefaultEventLocationViewModel(report: report))
         case let report as OfficerListReport:
             return DefaultEventOfficerListViewController(viewModel: EventOfficerListViewModel(report: report))
         case let report as DefaultNotesAssetsReport:
@@ -41,4 +41,3 @@ public class EventScreenBuilder: EventScreenBuilding {
 
     public init() { }
 }
-
