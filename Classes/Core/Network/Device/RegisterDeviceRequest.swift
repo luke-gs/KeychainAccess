@@ -10,7 +10,6 @@ import Foundation
 import PromiseKit
 
 public struct RegisterDeviceRequest: Parameterisable {
-    public typealias ResultClass = [[String: Any]]
 
     /// Request URL as relative path
     public var path: String!
@@ -51,6 +50,7 @@ public extension APIManager {
     func registerDevice(with request: RegisterDeviceRequest) -> Promise<Void> {
         let networkRequest = try! NetworkRequest(pathTemplate: request.path, parameters: request.parameters, method: .post)
         return try! APIManager.shared.performRequest(networkRequest, cancelToken: nil).then { _ -> Void in
+            // Backend returns ID array we don't care about, so ignore
         }
     }
 }
