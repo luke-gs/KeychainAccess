@@ -49,8 +49,8 @@ public protocol CADResourceType: class, CADTaskListItemModelType {
     /// Shift duration string, default short format. `nil` if no shift start or end time
     var shiftDuration: String? { get }
 
-    /// Equipment list as a string delimited by `separator`. `nil` if no `equipment` count 
-    func equipmentListString(separator: String, showsCount: Bool) -> String?
+    /// Equipment list as a string delimited by `separator`. `nil` if no `equipment` count
+    func equipmentListString(separator: String) -> String?
 }
 
 // MARK: - Equality

@@ -50,7 +50,7 @@ open class TasksListResourceViewModel: TasksListItemViewModel {
         let infoViewModels = [
             TasksListInformationRowViewModel(image: AssetManager.shared.image(forKey: .resourceGeneral), title: officers),
             TasksListInformationRowViewModel(image: AssetManager.shared.image(forKey: .info),
-                                             title: resource.equipmentListString(separator: ", ", showsCount: false)?.ifNotEmpty() ?? "–" ),
+                                             title: resource.equipmentListString(separator: ", ")?.ifNotEmpty() ?? "–" ),
         ]
         
         self.init(
