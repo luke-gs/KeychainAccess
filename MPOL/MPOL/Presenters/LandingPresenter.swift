@@ -10,7 +10,14 @@ import Foundation
 import MPOLKit
 import ClientKit
 
+public enum Screen {
+    case search
+    case event
+}
+
 public class LandingPresenter: AppGroupLandingPresenter {
+
+    public var searchViewController: SearchViewController!
 
     override public var termsAndConditionsVersion: String {
         return TermsAndConditionsVersion
@@ -126,7 +133,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let searchNavController = UINavigationController(rootViewController: searchViewController)
             let eventListNavController = UINavigationController(rootViewController: eventListVC)
 
-            let tasksProxyViewController = AppProxyViewController(appUrlTypeScheme: CAD_APP_SCHEME)
+            let tasksProxyViewController = AppProxyViewController(appURLScheme: CAD_APP_SCHEME)
             tasksProxyViewController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tab Bar Item title")
             tasksProxyViewController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarTasks)
 
@@ -151,13 +158,28 @@ public class LandingPresenter: AppGroupLandingPresenter {
                                                forSummary: .function { return AddressSummaryDisplayable($0) },
                                                andPresentable: .function { return EntityScreen.entityDetails(entity: $0 as! Entity, delegate: searchViewController) })
 
+            self.searchViewController = searchViewController
+            self.tabBarController = tabBarController
+
             return tabBarController
         }
     }
 
+    func switchTo(_ screen: Screen) {
+        let selectedIndex: Int
+        switch screen {
+        case .search:
+            selectedIndex = 0
+        case .event:
+            selectedIndex = 1
+        }
+
+        tabBarController?.selectedIndex = selectedIndex
+    }
+
     // MARK: - Private
 
-    private weak var tabBarController: UIViewController?
+    public weak var tabBarController: UITabBarController?
 
     @objc private func settingsButtonItemDidSelect(_ item: UIBarButtonItem) {
         let settingsNavController = PopoverNavigationController(rootViewController: SettingsViewController())
@@ -176,7 +198,7 @@ extension LandingPresenter: UITabBarControllerDelegate {
 
     public func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if let appProxy = viewController as? AppProxyViewController {
-            appProxy.launchApp()
+            appProxy.launch(AppLaunchActivity.open)
             return false
         }
         return true

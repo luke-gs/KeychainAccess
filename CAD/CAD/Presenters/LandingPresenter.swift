@@ -73,7 +73,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             NotificationCenter.default.addObserver(self, selector: #selector(callsignChanged), name: .CADBookOnChanged, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(callsignChanged), name: .CADCallsignChanged, object: nil)
 
-            let searchProxyViewController = AppProxyViewController(appUrlTypeScheme: SEARCH_APP_SCHEME)
+            let searchProxyViewController = AppProxyViewController(appURLScheme: SEARCH_APP_SCHEME)
             searchProxyViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
 
             let tasksNavController = UINavigationController(rootViewController: Director.shared.viewController(forPresentable: TaskListScreen.landing))
@@ -167,7 +167,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
 extension LandingPresenter: StatusTabBarDelegate {
     public func controller(_ controller: StatusTabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if let appProxy = viewController as? AppProxyViewController {
-            appProxy.launchApp()
+            appProxy.launch(AppLaunchActivity.open)
             return false
         }
         return true

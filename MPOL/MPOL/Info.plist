@@ -32,7 +32,9 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>460</string>
+	<string>462</string>
+	<key>DefaultActivityLauncherURLScheme</key>
+	<string>${SEARCH_URL_TYPE_SCHEME}</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>$(CAD_URL_TYPE_SCHEME)</string>
