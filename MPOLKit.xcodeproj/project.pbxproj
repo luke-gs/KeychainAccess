@@ -1711,9 +1711,9 @@
 		1235340E207F167A008256AA /* DateTime */ = {
 			isa = PBXGroup;
 			children = (
+				12353413207F16C4008256AA /* DefaultDateTimeReport.swift */,
 				1235340F207F167A008256AA /* DefaultEventDateTimeViewController.swift */,
 				12353411207F1695008256AA /* DefaultEventDateTimeViewModel.swift */,
-				12353413207F16C4008256AA /* DefaultDateTimeReport.swift */,
 			);
 			path = DateTime;
 			sourceTree = "<group>";
@@ -1721,8 +1721,8 @@
 		12ABD551207F1920004D0C9F /* NotesPhotos */ = {
 			isa = PBXGroup;
 			children = (
-				12ABD552207F1920004D0C9F /* DefaultNotesAndAssetsReport.swift */,
 				12ABD553207F1920004D0C9F /* DefaultEventNotesAssetsViewController.swift */,
+				12ABD552207F1920004D0C9F /* DefaultNotesAndAssetsReport.swift */,
 			);
 			path = NotesPhotos;
 			sourceTree = "<group>";
@@ -1730,9 +1730,9 @@
 		12ABD566207F1966004D0C9F /* Location */ = {
 			isa = PBXGroup;
 			children = (
-				12ABD567207F1966004D0C9F /* LocationSelectionViewModel.swift */,
-				12ABD568207F1966004D0C9F /* LocationMapSelectionViewController.swift */,
 				12ABD569207F1966004D0C9F /* DefaultLocationReport.swift */,
+				12ABD568207F1966004D0C9F /* LocationMapSelectionViewController.swift */,
+				12ABD567207F1966004D0C9F /* LocationSelectionViewModel.swift */,
 			);
 			path = Location;
 			sourceTree = "<group>";
