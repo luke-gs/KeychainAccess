@@ -117,7 +117,7 @@ open class QuantityPickerViewController: FormBuilderViewController {
     /// Updates the title and subtitle based on the selected values of items
     open func updateHeaderText() {
         let items = viewModel.items
-        let includedItems = items.flatMap {
+        let includedItems = items.compactMap {
             guard let title = $0.object.title else { return nil }
             guard $0.count != 0 else { return nil }
             return "\(title) (\($0.count))"

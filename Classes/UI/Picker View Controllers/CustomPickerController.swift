@@ -365,7 +365,7 @@ public class CustomPickerController: FormTableViewController {
                 } else {
                     let isSelected = selectedIndexes.remove(itemIndex) == nil
                     if isSelected {
-                        reloadIndexPaths.append(contentsOf: selectedIndexes.flatMap({ indexPathForItem(at: $0)} ))
+                        reloadIndexPaths.append(contentsOf: selectedIndexes.compactMap({ indexPathForItem(at: $0)} ))
                         selectedIndexes = IndexSet(integer: itemIndex)
 
                         // If there are any required fields they must be inserted into the set

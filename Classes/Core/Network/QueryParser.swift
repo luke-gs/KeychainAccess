@@ -168,7 +168,7 @@ open class QueryParser {
         }
         
         // Check all required tokens have been found
-        let requiredKeys: [String] = parser.tokenDefinitions.flatMap { $0.required ? $0.key : nil }
+        let requiredKeys: [String] = parser.tokenDefinitions.compactMap { $0.required ? $0.key : nil }
         for key in requiredKeys {
             guard let _ = results[key] else { throw QueryParserError.requiredValueNotFound(key: key) }
         }

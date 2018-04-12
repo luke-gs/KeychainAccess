@@ -57,7 +57,7 @@ open class QuantityPickerAction: ValueSelectionAction<[QuantityPicked]> {
 
     open override func displayText() -> String? {
         guard let selectedValue = selectedValue else { return nil }
-        return selectedValue.flatMap({ item in
+        return selectedValue.compactMap({ item in
             if let title = item.object.title, item.count > 0 {
                 return "\(title) (\(item.count))"
             }

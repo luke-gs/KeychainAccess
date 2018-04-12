@@ -66,7 +66,7 @@ public class AggregatedSearch<T: MPOLKitEntity> {
     public private(set) var results: [AggregatedResult<T>] = []
     
     public var state: SearchState {
-        let errorCount = results.flatMap{$0.error}.count
+        let errorCount = results.compactMap{$0.error}.count
         guard errorCount == 0 else { return .failed }
 
         if results.count == 0 {

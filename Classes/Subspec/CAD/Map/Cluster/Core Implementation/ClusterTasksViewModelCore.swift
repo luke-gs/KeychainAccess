@@ -51,7 +51,7 @@ open class ClusterTasksViewModelCore: ClusterTasksViewModel {
             }
         }
 
-        sections = CADTaskListSourceCore.allCases.flatMap { type in
+        sections = CADTaskListSourceCore.allCases.compactMap { type in
             guard let type = type as? CADTaskListSourceCore else { return nil }
             if let items = viewModelsByType[type.rawValue], items.count > 0 {
                 let title = titleForType(type, count: items.count)

@@ -30,7 +30,7 @@ open class OAuth2: AuthenticationProvider {
     open var authorizationURL: URL {
         var authorizationURL = URLComponents(url: authorizationEndpoint, resolvingAgainstBaseURL: false)!
 
-        authorizationURL.queryItems = requestParameters.flatMap({ URLQueryItem(name: $0.key, value: $0.value) })
+        authorizationURL.queryItems = requestParameters.compactMap({ URLQueryItem(name: $0.key, value: $0.value) })
 
         return authorizationURL.url!
     }
