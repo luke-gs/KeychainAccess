@@ -30,7 +30,7 @@ public class EventScreenBuilder: EventScreenBuilding {
         case let report as OfficerListReport:
             return DefaultEventOfficerListViewController(viewModel: EventOfficerListViewModel(report: report))
         case let report as DefaultNotesAssetsReport:
-            return DefaultEventNotesAssetsViewController(report: report)
+            return DefaultEventNotesAssetsViewController(viewModel: DefaultEventNotesAssetsViewModel(report: report))
         case let report as IncidentListReport:
             report.incidents.forEach{incidentsManager.add(incident: $0)}
             return IncidentListViewController(viewModel: IncidentListViewModel(report: report, incidentsManager: incidentsManager))
