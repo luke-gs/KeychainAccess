@@ -2,7 +2,6 @@
 //  EventListDisplayable.swift
 //  MPOLKit
 //
-//  Created by Pavel Boryseiko on 15/12/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 

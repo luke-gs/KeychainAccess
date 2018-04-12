@@ -2,7 +2,6 @@
 //  GenericSearchViewController.swift
 //  MPOLKit
 //
-//  Created by Pavel Boryseiko on 17/10/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
@@ -13,7 +12,6 @@ open class SearchDisplayableViewController<T: SearchDisplayableDelegate, U: Sear
 
     /// The delegate for the collection view touches
     public var delegate: T?
-
     public let viewModel: U
 
     // Search bar in a container view

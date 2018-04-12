@@ -2,7 +2,6 @@
 //  Event.swift
 //  MPOLKit
 //
-//  Created by Pavel Boryseiko on 16/1/18.
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 

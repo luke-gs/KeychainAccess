@@ -2,7 +2,6 @@
 //  IncidentSplitViewController.swift
 //  MPOLKit
 //
-//  Created by Pavel Boryseiko on 1/3/18.
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 

@@ -2,7 +2,7 @@
 //  IncidentsManage.swift
 //  MPOLKit
 //
-//  Created by Pavel Boryseiko on 23/1/18.
+//  Copyright © 2017 Gridstone. All rights reserved.
 //
 
 /// Manages the list of incidents
