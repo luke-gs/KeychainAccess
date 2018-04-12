@@ -12,13 +12,13 @@ public protocol Parameterisable {
     var parameters: [String: Any] { get }
 }
 
-/* Not possible, yet. :(
+// FIXME: Uncomment when everyone has updated to Xcode 9.3 please.
+/*
 extension Dictionary: Parameterisable where Key == String, Value == Any {
 
     public var parameters: [String : Any] {
         return self
 
     }
-
 }
 */

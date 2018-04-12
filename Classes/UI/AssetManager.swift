@@ -87,7 +87,7 @@ extension AssetManager {
     /// catalogues as the raw value to avoid having to create a constant map within this
     /// file. This also lets us avoid the issue where someone could delete the standard
     /// item. This can change at a later time.
-    public struct ImageKey: RawRepresentable, Hashable {
+    public struct ImageKey: RawRepresentable, Hashable, Codable {
         
         // Book-keeping
         

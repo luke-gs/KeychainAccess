@@ -12,15 +12,19 @@ import UIKit
 open class AppProxyViewController: UIViewController {
 
     /// The URL scheme of the app being opened
-    private var appUrlTypeScheme: String
-
-    /// The generated URL from app scheme
-    private var appUrl: URL? {
-        return URL(string: "\(appUrlTypeScheme)://")
+    public var appURLScheme: String {
+        get {
+            return launcher.scheme
+        }
     }
 
-    public init(appUrlTypeScheme: String) {
-        self.appUrlTypeScheme = appUrlTypeScheme
+    public let navigator: AppURLNavigator
+
+    private let launcher: AnyActivityLauncher
+
+    public init(appURLScheme: String, navigator: AppURLNavigator = .default) {
+        launcher = AnyActivityLauncher(scheme: appURLScheme)
+        self.navigator = navigator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -28,13 +32,12 @@ open class AppProxyViewController: UIViewController {
         MPLCodingNotSupported()
     }
 
-    open func launchApp() {
-        if let url = appUrl {
-            UIApplication.shared.open(url, options: [:], completionHandler: { success in
-                if !success {
-                    AlertQueue.shared.addErrorAlert(message: NSLocalizedString("Failed to open app", comment: ""))
-                }
-            })
+    open func launch<T: ActivityType>(_ activity: T) {
+        do {
+            let wrap = AnyActivity(activity)
+            try launcher.launch(wrap, using: AppURLNavigator.default)
+        } catch {
+            AlertQueue.shared.addErrorAlert(message: NSLocalizedString("Failed to open app", comment: ""))
         }
     }
 }

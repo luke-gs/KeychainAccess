@@ -19,6 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SearchDisplayableDelegate
 
     private var delayedNetworkEndTimer: Timer?
 
+    let navigator: AppURLNavigator = AppURLNavigator()
+
     override init() {
         super.init()
         NotificationCenter.default.addObserver(self, selector: #selector(networkActivityDidBegin), name: .NetworkActivityDidBegin, object: nil)
@@ -103,7 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SearchDisplayableDelegate
             UINavigationController(rootViewController: recent),
             pushableSVNavController,
             UINavigationController(rootViewController: sidebarSplitViewController),
-            UINavigationController(rootViewController: SearchLookupAddressTableViewController(style: .plain)),
+            UINavigationController(rootViewController: SearchNavigatorLauncherViewController(style: .plain)),
             UINavigationController(rootViewController: genericSearchViewController()),
             UINavigationController(rootViewController: EventsListViewController(viewModel: DemoListViewModel(eventsManager: EventsManager(eventBuilder: DemoBuilder())))),
             UINavigationController(rootViewController: formSplitViewController),
@@ -115,6 +117,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SearchDisplayableDelegate
         self.window?.rootViewController = tabBarController
 
         window.makeKeyAndVisible()
+
+        let handler = SearchActivityHandler(scheme: "mpolkitdemo")
+        navigator.register(handler)
+        handler.delegate = self
+
+        return true
+    }
+
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+
+        if navigator.isRegistered(url) {
+            return navigator.handle(url)
+        }
 
         return true
     }
@@ -217,3 +232,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SearchDisplayableDelegate
     }()
 }
 
+extension AppDelegate: SearchActivityHandlerDelegate {
+
+    public func searchActivityHandler(_ handler: SearchActivityHandler, launchedSearchActivity: SearchActivity) {
+
+        let controller: UIAlertController
+        let name = launchedSearchActivity.name
+        let message: String
+
+        switch launchedSearchActivity {
+        case .searchEntity(let term):
+            message = "Term: \(term.text ?? "Term is empty")"
+        case .viewDetails(let  id, let entityType, let source):
+            message = "ID: \(id)\nType: \(entityType)\nSource: \(source)"
+        }
+
+        controller = UIAlertController(title: name, message: message, preferredStyle: .alert)
+        controller.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+
+        window?.rootViewController?.present(controller, animated: true)
+    }
+
+}
+
+// Why not???
+extension UIApplication {
+
+    var magicAppDelegate: AppDelegate {
+        return UIApplication.shared.delegate as! AppDelegate
+    }
+
+}

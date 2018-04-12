@@ -104,9 +104,9 @@ public struct EventType: RawRepresentable, Hashable {
 /// Used to define something in the event object
 public protocol Reportable: NSSecureCoding, Evaluatable {
 
-    /// A weak reference to the event object
-    /// Make sure this is weak in implementation as well
-    var event: Event? { get }
+    /// A reference to the event object
+    /// Make sure this is weak in implementation.
+    var event: Event? { get set }
 
     /// A weak reference to the incident object
     /// Make sure this is weak in implementation as well
