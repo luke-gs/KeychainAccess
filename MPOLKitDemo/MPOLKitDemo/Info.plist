@@ -16,16 +16,37 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleURLIconFile</key>
+			<string>sample1</string>
+			<key>CFBundleURLName</key>
+			<string>au.com.gridstone.MPOLKitDemo.view</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>mpolkitdemo</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>DefaultActivityLauncherURLScheme</key>
+	<string>pscoresearch</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>pscoresearch</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Give me access to camera please thanks.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Give me access to photo library please thanks.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Give me access to the microphone please thanks.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Give me access to photo library please thanks.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

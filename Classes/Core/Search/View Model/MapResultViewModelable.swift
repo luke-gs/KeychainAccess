@@ -71,7 +71,7 @@ public protocol MapResultViewModelable: SearchResultModelable {
     func userLocationDidUpdate(_ userLocation: MKUserLocation, in mapView: MKMapView)
 
     /// A delegate that will be notified when there are changes to the results.
-    weak var delegate: (MapResultViewModelDelegate & SearchResultMapViewController)? { get set }
+    var delegate: (MapResultViewModelDelegate & SearchResultMapViewController)? { get set }
 
     /// A search strategy to handle searches
     var searchStrategy: LocationSearchModelStrategy { get }

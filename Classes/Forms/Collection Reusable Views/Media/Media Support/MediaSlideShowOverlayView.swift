@@ -11,7 +11,7 @@ import UIKit
 
 public protocol MediaOverlayViewable: class {
 
-    weak var slideShowViewController: (MediaSlideShowable & MediaSlideShowViewController)? { get set }
+    var slideShowViewController: (MediaSlideShowable & MediaSlideShowViewController)? { get set }
 
     func populateWithPreview(_ preview: MediaPreviewable?)
 

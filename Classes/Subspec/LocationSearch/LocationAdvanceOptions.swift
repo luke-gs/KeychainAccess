@@ -16,7 +16,7 @@ public protocol LocationAdvancedOptions: SearchOptions {
     
     associatedtype Location: Locatable
 
-    weak var delegate: LocationAdvancedOptionDelegate? { get set }
+    var delegate: LocationAdvancedOptionDelegate? { get set }
     
     /// The title of this options
     var title: String { get }

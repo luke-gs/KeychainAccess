@@ -10,7 +10,7 @@ import UIKit
 
 /// A searchable object. 
 /// The datasource should know the options and types and what to do with them
-public class Searchable: NSObject, NSSecureCoding {
+public class Searchable: NSObject, NSSecureCoding, Codable {
 
     /// The search text
     public var text: String?
@@ -187,7 +187,7 @@ public protocol SearchDataSource: class {
     
     /// The updating delegate is set on becoming active in the SearchOptionsViewController 
     /// and is guaranteed to be a kind of UIViewController.
-    weak var updatingDelegate: (SearchDataSourceUpdating & UIViewController)? { get set }
+    var updatingDelegate: (SearchDataSourceUpdating & UIViewController)? { get set }
 
     /// The action for filter. The method is called on selection of each option field. Typically used
     /// to generate dropdown action. But the datasource can intercept and perform other task if required.

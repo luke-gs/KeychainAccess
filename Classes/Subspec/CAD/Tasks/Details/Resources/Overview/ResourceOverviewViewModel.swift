@@ -14,9 +14,11 @@ open class ResourceOverviewViewModel: TaskDetailsOverviewViewModel {
         return ResourceOverviewFormViewController(viewModel: self)
     }
     
-    override open lazy var mapViewModel: TasksMapViewModel? = {
-        return ResourceOverviewMapViewModel(callsign: identifier)
-    }()
+    public override init(identifier: String) {
+        super.init(identifier: identifier)
+        mapViewModel = ResourceOverviewMapViewModel(callsign: identifier)
+    }
+
 
     open var currentIncidentViewModel: TasksListIncidentViewModel? {
         guard let resource = CADStateManager.shared.resourcesById[identifier],
@@ -67,7 +69,7 @@ open class ResourceOverviewViewModel: TaskDetailsOverviewViewModel {
                                                                               width: .column(4)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Equipment", comment: ""),
-                                                                              value: resource.equipmentListString(separator: ", "),
+                                                                                 value: resource.equipmentListString(separator: ", "),
                                                                               width: .column(1)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Remarks", comment: ""),

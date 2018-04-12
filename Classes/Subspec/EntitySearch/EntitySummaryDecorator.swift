@@ -31,7 +31,7 @@ extension EntityCollectionViewCell: EntitySummaryDecoratable {
 
 extension EntityListCollectionViewCell: EntitySummaryDecoratable {
     public func decorate(with entitySummary: EntitySummaryDisplayable) {
-        let subtitleComponents = [entitySummary.detail1, entitySummary.detail2].flatMap({$0})
+        let subtitleComponents = [entitySummary.detail1, entitySummary.detail2].compactMap({$0})
         
         titleLabel.text    = entitySummary.title
         subtitleLabel.text = subtitleComponents.isEmpty ? nil : subtitleComponents.joined(separator: ThemeConstants.dividerSeparator)

@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class TasksListIncidentViewModel: TasksListItemViewModel {
+open class TasksListIncidentViewModel: TasksListItemViewModel {
     public let priority: String?
     public let description: String?
     public let resources: [TasksListInformationRowViewModel]?
@@ -47,11 +47,11 @@ public class TasksListIncidentViewModel: TasksListItemViewModel {
         }
         
         self.init(
-            identifier: incident.identifier,
+            identifier: incident.incidentNumber,
             source: source,
             title: [incident.type, incident.resourceCountString].joined(),
             subtitle: incident.location?.fullAddress,
-            caption: [incident.identifier, incident.secondaryCode].joined(separator: ThemeConstants.dividerSeparator),
+            caption: [incident.incidentNumber, incident.secondaryCode].joined(separator: ThemeConstants.dividerSeparator),
             priority: incident.grade.title,
             description: showsDescription ? incident.details : nil,
             resources: showsResources ? resources : nil,

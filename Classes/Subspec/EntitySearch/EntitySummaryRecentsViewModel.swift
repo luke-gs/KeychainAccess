@@ -91,7 +91,7 @@ open class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
             recentlyViewed = Array(recentlyViewed[(lastIndex - maximum)...lastIndex])
         }
 
-        return recentlyViewed.reversed().flatMap { entity in
+        return recentlyViewed.reversed().compactMap { entity in
             guard let summary = self.summaryDisplayFormatter.summaryDisplayForEntity(entity) else { return nil }
             return summary.summaryThumbnailFormItem(with: .detail)
                 .titleTextColor(!isCompact ? primaryColor : nil)
@@ -119,7 +119,7 @@ open class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
     open func summaryItemsForRecentlySearched() -> [FormItem] {
         let assetManager = AssetManager.shared
 
-        return userSession.recentlySearched.flatMap { searchable -> FormItem in
+        return userSession.recentlySearched.compactMap { searchable -> FormItem in
             return SubtitleFormItem()
                 .title(searchable.text?.ifNotEmpty() ?? NSLocalizedString("(No Search Term)", comment: "[Recently Searched] - No search term"))
                 .subtitle(searchable.type?.ifNotEmpty() ?? NSLocalizedString("(No Search Category)", comment: "[Recently Searched] - No search category"))

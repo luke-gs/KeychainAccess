@@ -168,7 +168,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
     // Return all annotations of this type based on the current filter and source selection
     public func filteredAnnotations(filterViewModel: TasksMapFilterViewModel, selectedSource: CADTaskListSourceType) -> [TaskAnnotation] {
         if shouldShowType(filterViewModel: filterViewModel) || selectedSource == self {
-            return filteredItems(filterViewModel: filterViewModel).flatMap {
+            return filteredItems(filterViewModel: filterViewModel).compactMap {
                 return $0.createAnnotation()
             }
         }
@@ -280,7 +280,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
 
             // Apply search text filter to type, primary code, secondary code or suburb
             if let searchText = searchText?.lowercased(), !searchText.isEmpty {
-                let matchedValues = [incident.type, incident.identifier, incident.secondaryCode, incident.location?.suburb].removeNils().filter {
+                let matchedValues = [incident.type, incident.incidentNumber, incident.secondaryCode, incident.location?.suburb].removeNils().filter {
                     return $0.lowercased().hasPrefix(searchText)
                 }
                 if !matchedValues.isEmpty {
@@ -337,7 +337,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
         }
 
         let orderedSections = CADPatrolStatusCore.allCases
-        return orderedSections.flatMap { category -> CADFormCollectionSectionViewModel<TasksListItemViewModel>? in
+        return orderedSections.compactMap { category -> CADFormCollectionSectionViewModel<TasksListItemViewModel>? in
 
             let key = category.title
             if let value = sectionedPatrols[key] {
@@ -382,7 +382,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
         }
 
         let orderedSections = CADBroadcastCategoryCore.allCases
-        return orderedSections.flatMap { category -> CADFormCollectionSectionViewModel<TasksListItemViewModel>? in
+        return orderedSections.compactMap { category -> CADFormCollectionSectionViewModel<TasksListItemViewModel>? in
 
             let key = category.title
             if let value = sectionedBroadcasts[key] {
@@ -508,7 +508,7 @@ extension Array where Element == CADIncidentType {
 extension Array where Element == CADResourceType {
 
     func highestAlertColor() -> UIColor? {
-        let duressResources = self.flatMap { return $0.status == CADResourceStatusCore.duress ? $0 : nil }
+        let duressResources = self.compactMap { return $0.status == CADResourceStatusCore.duress ? $0 : nil }
         if duressResources.count > 0 {
             return .orangeRed
         } else {
