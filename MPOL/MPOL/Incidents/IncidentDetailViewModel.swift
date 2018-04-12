@@ -2,7 +2,6 @@
 //  IncidentDetailViewModel.swift
 //  MPOL
 //
-//  Created by Pavel Boryseiko on 7/2/18.
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 

@@ -2,7 +2,6 @@
 //  IncidentTestViewController.swift
 //  MPOL
 //
-//  Created by Pavel Boryseiko on 21/3/18.
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 

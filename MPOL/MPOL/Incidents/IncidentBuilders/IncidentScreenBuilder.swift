@@ -2,7 +2,6 @@
 //  IncidentScreenBuilder.swift
 //  MPOLKit
 //
-//  Created by Pavel Boryseiko on 31/1/18.
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 

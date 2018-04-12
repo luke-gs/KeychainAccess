@@ -2,7 +2,6 @@
 //  StreetCheckIncidentBuilder.swift
 //  MPOL
 //
-//  Created by Pavel Boryseiko on 27/2/18.
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 

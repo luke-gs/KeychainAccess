@@ -2,7 +2,6 @@
 //  EventScreenBuilder.swift
 //  MPOLKit
 //
-//  Created by Pavel Boryseiko on 31/1/18.
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
@@ -25,7 +24,7 @@ public class EventScreenBuilder: EventScreenBuilding {
     private func viewController(for report: Reportable) -> UIViewController {
         switch report {
         case let report as DefaultDateTimeReport:
-            return DefaultEventDateTimeViewController(report: report)
+            return DefaultEventDateTimeViewController(viewModel: DefaultDateTimeViewModel(report: report))
         case let report as DefaultLocationReport:
             return DefaultEventLocationViewController(report: report)
         case let report as OfficerListReport:
