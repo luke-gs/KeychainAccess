@@ -270,7 +270,7 @@ open class CollectionViewFormValueFieldCell: CollectionViewFormCell {
     }
     
     open override var accessibilityLabel: String? {
-        get { return super.accessibilityLabel?.ifNotEmpty() ?? [titleLabel, valueLabel].flatMap({ $0.text }).joined(separator: ", ") }
+        get { return super.accessibilityLabel?.ifNotEmpty() ?? [titleLabel, valueLabel].compactMap({ $0.text }).joined(separator: ", ") }
         set { super.accessibilityLabel = newValue }
     }
     

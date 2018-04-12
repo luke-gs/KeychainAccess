@@ -33,7 +33,7 @@ final public class QueryParserDefinitionSelector {
     ///   - query: The text query.
     /// - Returns: A list of definitions.
     public func supportedDefinitions(for query: String) -> [QueryParserDefinition] {
-        return definitions.filter({ return $0.1(query) == true }).flatMap({ $0.0 })
+        return definitions.filter({ return $0.1(query) == true }).compactMap({ $0.0 })
     }
     
 }

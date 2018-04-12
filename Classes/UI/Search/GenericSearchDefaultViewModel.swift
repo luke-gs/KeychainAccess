@@ -20,7 +20,7 @@ open class DefaultSearchDisplayableViewModel: SearchDisplayableViewModel {
     public var collapsableSections: Bool = true
     public var sectionPriority: [String] = [String]()
 
-    private var items: [CustomSearchDisplayable]
+    var items: [CustomSearchDisplayable]
     private var searchString: String = ""
 
     private var searchableSections: [String: [CustomSearchDisplayable]] {

@@ -198,7 +198,7 @@ open class APIManager {
             return allPlugins.map { $0.plugin }
         }
 
-        return allPlugins.flatMap {
+        return allPlugins.compactMap {
             return $0.isApplicable(to: url) ? $0.plugin : nil
         }
     }

@@ -42,7 +42,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
                     itemsMap[entity] = item
                 }
 
-                return section.entities.flatMap { self.mapAnnotation(for: $0) }
+                return section.entities.compactMap { self.mapAnnotation(for: $0) }
             })
             self.itemsMap = itemsMap
         }
@@ -90,7 +90,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
                 pinView = ClusterAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             }
 
-            let summaries = annotation.annotations.flatMap { annotation -> EntitySummaryDisplayable? in
+            let summaries = annotation.annotations.compactMap { annotation -> EntitySummaryDisplayable? in
                 if let annotation = annotation as? EntityAnnotation {
                     return summaryDisplayFormatter.summaryDisplayForEntity(annotation.entity)
                 }
@@ -231,7 +231,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
     }
 
     public func itemsForClusteredAnnotations(_ annotations: [MKAnnotation]) -> [FormItem] {
-        let entities = annotations.flatMap { annotation -> MPOLKitEntity? in
+        let entities = annotations.compactMap { annotation -> MPOLKitEntity? in
             return (annotation as? EntityAnnotation)?.entity
         }
 
@@ -249,7 +249,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
     open func summaryItemsForSection(_ section: SearchResultSection) -> [FormItem] {
         let userLocation = delegate?.mapView?.userLocation.location
 
-        return section.entities.flatMap { entity in
+        return section.entities.compactMap { entity in
             if let existingItem = self.itemsMap[entity] {
                 return existingItem
             }

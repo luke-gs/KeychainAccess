@@ -21,7 +21,7 @@ public class EntityBucket {
     public let limit: Int
 
     public var entities: [MPOLKitEntity] {
-        return entitiesSnapshots.flatMap({ return $0.entity })
+        return entitiesSnapshots.compactMap({ return $0.entity })
     }
 
     private var entitiesSnapshots: [EntitySnapshot] = []
@@ -59,7 +59,7 @@ public class EntityBucket {
         var removedEntities: [MPOLKitEntity]?
         if limit > 0 && entitiesSnapshots.count > limit {
             let range = 0..<(entitiesSnapshots.count - limit)
-            removedEntities = entitiesSnapshots[range].flatMap { return $0.entity }
+            removedEntities = entitiesSnapshots[range].compactMap { return $0.entity }
             entitiesSnapshots.removeSubrange(range)
         }
         
@@ -108,7 +108,7 @@ public class EntityBucket {
     }
 
     public func entities<T>(for entityType: T.Type) -> [T] where T: MPOLKitEntity {
-        return entitiesSnapshots.flatMap({ $0.entity as? T })
+        return entitiesSnapshots.compactMap({ $0.entity as? T })
     }
 
 }

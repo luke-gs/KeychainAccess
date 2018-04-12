@@ -36,13 +36,13 @@ final public class Event: Codable, Evaluatable {
 
     public init(from: Decoder) throws {
         let container = try from.container(keyedBy: Keys.self)
-        reports = try container.decode([Reportable].self, forKey: .reports)
+//        reports = try container.decode([Reportable].self, forKey: .reports)
         id = try container.decode(UUID.self, forKey: .id)
     }
 
     public func encode(to: Encoder) throws {
         var container = to.container(keyedBy: Keys.self)
-        try container.encode(reports, forKey: .reports)
+//        try container.encode(reports, forKey: .reports)
         try container.encode(id, forKey: .id)
     }
 

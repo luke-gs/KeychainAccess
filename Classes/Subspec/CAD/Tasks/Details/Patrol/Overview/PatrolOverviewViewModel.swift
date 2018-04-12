@@ -10,9 +10,10 @@ import UIKit
 
 open class PatrolOverviewViewModel: TaskDetailsOverviewViewModel {
     
-    override open lazy var mapViewModel: TasksMapViewModel? = {
-        return PatrolOverviewMapViewModel(patrolNumber: identifier)
-    }()
+    public override init(identifier: String) {
+        super.init(identifier: identifier)
+        mapViewModel = PatrolOverviewMapViewModel(patrolNumber: identifier)
+    }
 
     override open func loadData() {
         guard let patrol = CADStateManager.shared.patrolsById[identifier] else { return }

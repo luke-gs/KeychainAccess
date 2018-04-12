@@ -111,7 +111,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
         viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
 
         viewController.finishUpdateHandler = { controller, index in
-            let incidents = controller.objects.enumerated().filter { index.contains($0.offset) }.flatMap { $0.element.title }
+            let incidents = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
             self.viewModel.add(incidents)
             self.updateLoadingManager()
             self.reloadForm()

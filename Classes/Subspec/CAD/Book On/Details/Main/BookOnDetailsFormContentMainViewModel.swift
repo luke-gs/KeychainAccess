@@ -55,7 +55,7 @@ open class BookOnDetailsFormContentMainViewModel {
         self.equipment = resource.equipment.quantityPicked()
 
         // Create the officers, setting is driver based on resource driver
-        self.officers = resource.payrollIds.flatMap { payrollId in
+        self.officers = resource.payrollIds.compactMap { payrollId in
             let isDriver = payrollId == resource.driver
             if let officer = CADStateManager.shared.officersById[payrollId] {
                 return BookOnDetailsFormContentOfficerViewModel(
@@ -77,7 +77,7 @@ open class BookOnDetailsFormContentMainViewModel {
         request.driverpayrollId = self.officers.first { $0.isDriver.isTrue }?.officerId
 
         // Use the officer view models to apply changes to officers fetched in sync
-        request.officers = self.officers.flatMap { officer in
+        request.officers = self.officers.compactMap { officer in
             if let existingOfficer = CADStateManager.shared.officersById[officer.officerId!] {
                 let updatedOfficer = CADClientModelTypes.officerDetails.init(officer: existingOfficer)
                 updatedOfficer.licenceTypeId = officer.licenceTypeId
@@ -90,7 +90,7 @@ open class BookOnDetailsFormContentMainViewModel {
         }
 
         // Return only selected equipment
-        request.equipment = self.equipment.flatMap { item in
+        request.equipment = self.equipment.compactMap { item in
             if let title = item.object.title, item.count > 0 {
                 return CADClientModelTypes.equipmentDetails.init(count: item.count, description: title)
             }
@@ -105,7 +105,7 @@ extension Array where Element == CADEquipmentType {
 
     public func quantityPicked() -> [QuantityPicked] {
         let equipmentItemsByTitle = CADStateManager.shared.equipmentItemsByTitle()
-        return self.flatMap { item in
+        return self.compactMap { item in
             if let pickable = equipmentItemsByTitle[item.description] {
                 return QuantityPicked(object: pickable, count: item.count)
             }

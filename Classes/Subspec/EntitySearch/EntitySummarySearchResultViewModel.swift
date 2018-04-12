@@ -152,7 +152,7 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
         let count = limitBehaviour.initialCount
         let entities = count > 0 && !fullResultSectionsShown.contains(section) ? Array(section.entities.prefix(count)) : section.entities
 
-        return entities.flatMap { entity in
+        return entities.compactMap { entity in
             guard let summary = summaryDisplayFormatter.summaryDisplayForEntity(entity) else { return nil }
 
             let isCompact = style == .list || delegate?.traitCollection.horizontalSizeClass == .compact

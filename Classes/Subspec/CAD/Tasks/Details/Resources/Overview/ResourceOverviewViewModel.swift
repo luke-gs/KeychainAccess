@@ -14,9 +14,11 @@ open class ResourceOverviewViewModel: TaskDetailsOverviewViewModel {
         return ResourceOverviewFormViewController(viewModel: self)
     }
     
-    override open lazy var mapViewModel: TasksMapViewModel? = {
-        return ResourceOverviewMapViewModel(callsign: identifier)
-    }()
+    public override init(identifier: String) {
+        super.init(identifier: identifier)
+        mapViewModel = ResourceOverviewMapViewModel(callsign: identifier)
+    }
+
 
     open var currentIncidentViewModel: TasksListIncidentViewModel? {
         guard let resource = CADStateManager.shared.resourcesById[identifier],

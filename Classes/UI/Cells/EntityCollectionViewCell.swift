@@ -383,7 +383,7 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
     
     open override var accessibilityLabel: String? {
         get {
-            return super.accessibilityLabel ?? [sourceLabel.text, titleLabel.text, subtitleLabel.text, detailLabel.text].flatMap({$0}).joined(separator: ". ")
+            return super.accessibilityLabel ?? [sourceLabel.text, titleLabel.text, subtitleLabel.text, detailLabel.text].compactMap({$0}).joined(separator: ". ")
         }
         set {
             super.accessibilityLabel = newValue
