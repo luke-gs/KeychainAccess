@@ -84,8 +84,14 @@ open class CADResourceCore: Codable, CADResourceType {
     }
 
     /// Equipment list as a string delimited by `separator`. `nil` if no `equipment` count
-    public func equipmentListString(separator: String) -> String? {
-        return equipment.map { $0.description }.joined(separator: separator)
+    public func equipmentListString(separator: String, showsCount: Bool = false) -> String? {
+        return equipment.map {
+            var string = $0.description
+            if showsCount {
+                string += " (\($0.count))"
+            }
+            return string
+        }.joined(separator: separator)
     }
 
     // MARK: - CADTaskListItemModelType

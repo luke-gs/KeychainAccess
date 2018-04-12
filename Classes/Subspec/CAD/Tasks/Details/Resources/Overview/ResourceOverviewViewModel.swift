@@ -67,7 +67,7 @@ open class ResourceOverviewViewModel: TaskDetailsOverviewViewModel {
                                                                               width: .column(4)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Equipment", comment: ""),
-                                                                              value: resource.equipmentListString(separator: ", "),
+                                                                                 value: resource.equipmentListString(separator: ", ", showsCount: false),
                                                                               width: .column(1)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: NSLocalizedString("Remarks", comment: ""),
