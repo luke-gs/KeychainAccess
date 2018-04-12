@@ -28,6 +28,7 @@
 		46E0B8BE2033D1FB00B40DF2 /* OfficerSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8BD2033D1FB00B40DF2 /* OfficerSearchViewModel.swift */; };
 		46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F8E9A4203A9C2200024EF7 /* LocationAction.swift */; };
 		46F8E9A7203A9ED100024EF7 /* DefaultEventLocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F8E9A6203A9ED100024EF7 /* DefaultEventLocationSearchViewController.swift */; };
+		9625ACDC207F1C6200EFCC8C /* SearchNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9625ACDB207F1C6200EFCC8C /* SearchNotificationHandler.swift */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
 		BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E81101EBEE38400188181 /* SettingsViewController.swift */; };
 		BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */; };
@@ -85,6 +86,7 @@
 		46E0B8BD2033D1FB00B40DF2 /* OfficerSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerSearchViewModel.swift; sourceTree = "<group>"; };
 		46F8E9A4203A9C2200024EF7 /* LocationAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAction.swift; sourceTree = "<group>"; };
 		46F8E9A6203A9ED100024EF7 /* DefaultEventLocationSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEventLocationSearchViewController.swift; sourceTree = "<group>"; };
+		9625ACDB207F1C6200EFCC8C /* SearchNotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNotificationHandler.swift; sourceTree = "<group>"; };
 		98286F47FF0E675D611C2782 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		BC4E81101EBEE38400188181 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -181,6 +183,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9625ACDA207F1C4900EFCC8C /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				9625ACDB207F1C6200EFCC8C /* SearchNotificationHandler.swift */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
 		BC0D8E821E94067800EDFC45 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -212,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				12EB8099202AAC0000405F5C /* Events */,
+				9625ACDA207F1C4900EFCC8C /* Notifications */,
 				EA3C89041F32E31500F38461 /* Resources */,
 				397B76FF1E52C23600696677 /* MPOL.entitlements */,
 				BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */,
@@ -454,6 +465,7 @@
 				46F8E9A7203A9ED100024EF7 /* DefaultEventLocationSearchViewController.swift in Sources */,
 				127801F3202AB1F0007D0BBB /* EventBuilder.swift in Sources */,
 				46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */,
+				9625ACDC207F1C6200EFCC8C /* SearchNotificationHandler.swift in Sources */,
 				BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */,
 				464E99E4203CD99000FE05DC /* EventLocationSearchViewModel.swift in Sources */,
 				464977CB203A9A7B00590DC3 /* DefaultEventLocationViewController.swift in Sources */,
