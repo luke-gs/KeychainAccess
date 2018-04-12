@@ -58,7 +58,7 @@ class DemoScreenBuilder: EventScreenBuilding {
         for report in reportables {
             switch report {
             case let report as DefaultDateTimeReport:
-                viewControllers.append(DefaultEventDateTimeViewController(report: report))
+                viewControllers.append(DefaultEventDateTimeViewController(viewModel: DefaultDateTimeViewModel(report: report)))
             default:
                 break
             }
