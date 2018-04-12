@@ -10,7 +10,7 @@ import Foundation
 import PromiseKit
 
 public protocol Fetchable {
-    weak var delegate: EntityDetailFetchDelegate? { get set }
+    var delegate: EntityDetailFetchDelegate? { get set }
     func performFetch()
 }
 
