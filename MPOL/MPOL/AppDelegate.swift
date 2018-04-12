@@ -118,16 +118,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         #endif
     }
 
-    // Called to represent what action was selected by the user
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    // NOTE: This method needs to exist here in app delegate in order to get silent push notifications,
+    // regardless of the use of UNUserNotificationCenter!
 
+    /// Called when a remote notification arrives that indicates there is data to be fetched (ie silent push)
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        // Handle notification (which may trigger network operation), then complete with fetch result
+        _ = NotificationManager.shared.didReceiveRemoteNotification(userInfo: userInfo).then { result in
+            completionHandler(result)
+        }
     }
 
-    // Called when notification is delivered to a foreground app
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-
-    }
-
+    /// Called when the app has successfully registered with Apple Push Notification service (APNs)
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         var token = ""
         for i in 0..<deviceToken.count {
@@ -139,6 +141,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         NotificationManager.shared.updatePushToken(token)
     }
 
+    /// Called when Apple Push Notification service cannot successfully complete the registration process
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Failed to register for push notification: \(error)")
     }
