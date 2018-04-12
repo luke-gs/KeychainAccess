@@ -101,7 +101,7 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
 
     /// Updates the header view with the details for the latest selected representation.
     /// Call this method when the selected representation changes.
-    private func updateHeaderView() {
+    open func updateHeaderView() {
         headerView.iconView.tintColor = detailViewModel.iconTintColor
         headerView.iconView.image = detailViewModel.iconImage
         headerView.iconView.contentMode = .center

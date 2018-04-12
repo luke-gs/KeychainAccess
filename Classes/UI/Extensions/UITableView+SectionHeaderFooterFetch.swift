@@ -54,11 +54,11 @@ extension UITableView {
     }
     
     public var visibleSectionHeaderViews: [UIView] {
-        return indexesForVisibleSectionHeaders.flatMap { self.headerView(forSection: $0) }
+        return indexesForVisibleSectionHeaders.compactMap { self.headerView(forSection: $0) }
     }
     
     public var visibleSectionFooterViews: [UIView] {
-        return indexesForVisibleSectionFooters.flatMap { self.footerView(forSection: $0) }
+        return indexesForVisibleSectionFooters.compactMap { self.footerView(forSection: $0) }
     }
     
 }

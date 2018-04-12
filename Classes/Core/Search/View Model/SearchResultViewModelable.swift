@@ -79,7 +79,7 @@ public protocol SearchResultViewModelable: SearchResultModelable {
     var additionalBarButtonItems: [UIBarButtonItem]? { get set }
     
     /// A delegate that will be notified when there are changes to results.
-    weak var delegate: (SearchResultViewModelDelegate & SearchResultsListViewController)? { get set }
+    var delegate: (SearchResultViewModelDelegate & SearchResultsListViewController)? { get set }
 
     /// Returns a list of form items for a specific section. This should include a header item if required.
     ///

@@ -16,7 +16,7 @@ open class BookOnLandingViewModel {
 
         let recentCallsignIds = UserSession.current.recentIdsListMap[CADRecentlyUsedKey.callsigns.rawValue] ?? []
         
-        let recentCallsigns = recentCallsignIds.flatMap { id -> BookOnLandingCallsignItemViewModel? in
+        let recentCallsigns = recentCallsignIds.compactMap { id -> BookOnLandingCallsignItemViewModel? in
             if let resource = CADStateManager.shared.resourcesById[id],
                 resource.patrolGroup == CADStateManager.shared.patrolGroup
             {

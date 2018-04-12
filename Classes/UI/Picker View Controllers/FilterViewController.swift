@@ -188,7 +188,7 @@ open class FilterViewController: FormCollectionViewController {
                     let item = indexPath.item
                     var selectedIndexes = list.selectedIndexes
 
-                    let indexPaths = selectedIndexes.flatMap({ (item: Int) -> IndexPath? in
+                    let indexPaths = selectedIndexes.compactMap({ (item: Int) -> IndexPath? in
                         if item != indexPath.item {
                             return IndexPath(item: item, section: indexPath.section)
                         }
@@ -396,7 +396,7 @@ open class FilterViewController: FormCollectionViewController {
                 }
                 return layout.columnContentWidth(forMinimumItemContentWidth: maxWidth, sectionEdgeInsets: sectionEdgeInsets)
             case .radioControl:
-                if list.options.flatMap({ $0.subtitle }).count > 0 {
+                if list.options.compactMap({ $0.subtitle }).count > 0 {
                     // If options have subtitles then it should take up full width
                     return .greatestFiniteMagnitude
                 }

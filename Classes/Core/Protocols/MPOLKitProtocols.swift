@@ -19,7 +19,7 @@ public protocol SearchRecentsViewModel: class {
     /// Array of recently searched
     var recentlySearched: [Searchable] { get set }
 
-    weak var delegate: (SearchRecentsViewModelDelegate & UIViewController)? { get set }
+    var delegate: (SearchRecentsViewModelDelegate & UIViewController)? { get set }
 
     func recentlyViewedItems() -> [FormItem]
 

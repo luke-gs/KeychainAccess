@@ -10,10 +10,11 @@ import UIKit
 import MapKit
 
 open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
-    
-    override open lazy var mapViewModel: TasksMapViewModel? = {
-        return IncidentOverviewMapViewModel(incidentNumber: identifier)
-    }()
+
+    public override init(identifier: String) {
+        super.init(identifier: identifier)
+        mapViewModel = IncidentOverviewMapViewModel(incidentNumber: identifier)
+    }
 
     override open func loadData() {
         guard let incident = CADStateManager.shared.incidentsById[identifier] else { return }

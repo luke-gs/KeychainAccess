@@ -90,7 +90,7 @@ class DropDownAction<T: Pickable>: ValueSelectionAction<[T]> where T: Equatable 
 
     public override func displayText() -> String? {
         guard let selectedValue = selectedValue else { return nil }
-        return selectedValue.flatMap({ return $0.title }).joined(separator: ", ")
+        return selectedValue.compactMap({ return $0.title }).joined(separator: ", ")
     }
 
 }

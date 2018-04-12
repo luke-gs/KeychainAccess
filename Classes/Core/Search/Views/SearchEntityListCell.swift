@@ -136,7 +136,7 @@ class SearchEntityListCell: CollectionViewFormCell {
             if let setValue = super.accessibilityLabel {
                 return setValue
             }
-            return [titleLabel, subtitleLabel].flatMap({ $0.text }).joined(separator: ", ")
+            return [titleLabel, subtitleLabel].compactMap({ $0.text }).joined(separator: ", ")
         }
         set {
             super.accessibilityLabel = newValue
