@@ -36,8 +36,9 @@ class SearchNotificationHandler: NotificationHandler {
         return Promise<UIBackgroundFetchResult>(value: .newData)
     }
 
-    /// The source app string to use when registering this device for push notifications
-    func sourceAppForNotificationRegistration() -> String {
-        return "pscore-search"
+    /// Configure app specific properties of the request to register for push notifications
+    func configureNotificationRegistrationRequest(request: RegisterDeviceRequest) {
+        // Can override appVersion, deviceId or other default properties here if necessary
+        request.sourceApp = "pscore-search"
     }
 }
