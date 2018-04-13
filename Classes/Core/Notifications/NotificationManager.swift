@@ -93,7 +93,14 @@ open class NotificationManager: NSObject {
 
     // MARK: - Remote
 
-    open func updatePushToken(_ token: String) {
+    open func updatePushToken(_ deviceToken: Data) {
+        // Convert data token to a string
+        var token = ""
+        for i in 0..<deviceToken.count {
+            token = token + String(format: "%02.2hhx", arguments: [deviceToken[i]])
+        }
+        print("Push token: \(token)")
+
         // Store token and register if we have an active user session
         pushToken = token
         registerPushToken()
