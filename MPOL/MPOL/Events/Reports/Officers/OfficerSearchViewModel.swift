@@ -97,9 +97,8 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         cancelToken?.cancel()
         cancelToken = PromiseCancellationToken()
 
-        return request.searchPromise(withCancellationToken: cancelToken).then {
+        return request.searchPromise(withCancellationToken: cancelToken).done {
             self.items = $0.results
-            return Promise()
         }
     }
 }

@@ -144,7 +144,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     /// Called when a remote notification arrives that indicates there is data to be fetched (ie silent push)
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         // Handle notification (which may trigger network operation), then complete with fetch result
-        _ = NotificationManager.shared.didReceiveRemoteNotification(userInfo: userInfo).then { result in
+        _ = NotificationManager.shared.didReceiveRemoteNotification(userInfo: userInfo).done { result in
             completionHandler(result)
         }
     }
@@ -167,7 +167,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Create refresh token request with current token
         if let token = UserSession.current.token?.refreshToken {
             promise = APIManager.shared.accessTokenRequest(for: .refreshToken(token))
-                .then { token -> Void in
+                .done { token -> Void in
                     // Update access token
                     APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)), rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
                     UserSession.current.updateToken(token)
@@ -178,12 +178,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         } else {
             promise = Promise(error: response.error!)
         }
-        
-        return promise.catch { error in
+
+        promise.catch { error in
             UserSession.current.endSession()
             self.landingPresenter.updateInterfaceForUserSession(animated: true)
             AlertQueue.shared.addSimpleAlert(title: "Session Ended", message: error.localizedDescription)
         }
+
+        return promise
     }
 
     // TEMP

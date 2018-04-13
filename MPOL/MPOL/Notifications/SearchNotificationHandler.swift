@@ -18,7 +18,7 @@ class SearchNotificationHandler: NotificationHandler {
         // TODO: process notification
 
         // Complete with presentation options so notification is still shown in app
-        return Promise<UNNotificationPresentationOptions>(value: [.alert, .sound])
+        return Promise<UNNotificationPresentationOptions>.value([.alert, .sound])
     }
 
     /// Handle the action for a notification that a user has interacted with
@@ -33,7 +33,7 @@ class SearchNotificationHandler: NotificationHandler {
         // TODO: process notification
 
         // Complete with fetch result that we retrieved new data
-        return Promise<UIBackgroundFetchResult>(value: .newData)
+        return Promise<UIBackgroundFetchResult>.value(.newData)
     }
 
     /// Configure app specific properties of the request to register for push notifications

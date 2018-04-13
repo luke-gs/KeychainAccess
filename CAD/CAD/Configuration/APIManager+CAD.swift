@@ -23,7 +23,7 @@ extension APIManager: CADAPIManagerType {
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
         return firstly {
             return try! performRequest(networkRequest)
-            }.then { (data, response) in
+            }.map { (data, response) in
                 return try JSONDecoder.decode(data, to: CADOfficerDetailsResponse.self)
         }
     }
@@ -36,7 +36,7 @@ extension APIManager: CADAPIManagerType {
         let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: [:], method: .post)
         return firstly {
             return try! performRequest(networkRequest)
-            }.then { (data, response) in
+            }.map { (data, response) in
                 return try JSONDecoder.decode(data, to: CADSyncResponse.self)
         }
     }

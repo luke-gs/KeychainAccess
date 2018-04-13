@@ -108,7 +108,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
     override open func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
         #if DEBUG
             controller.setLoading(true, animated: true)
-            CADStateManagerCore.apiManager.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] token -> Void in
+            CADStateManagerCore.apiManager.accessTokenRequest(for: .credentials(username: username, password: password)).done { [weak self] token -> Void in
                 guard let `self` = self else { return }
 
                 APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)))
@@ -116,13 +116,13 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 controller.resetFields()
                 self.updateInterfaceForUserSession(animated: true)
 
+            }.ensure {
+                controller.setLoading(false, animated: true)
             }.catch { error in
                 let error = error as NSError
                 let title = error.localizedFailureReason ?? "Error"
                 let message = error.localizedDescription
                 controller.present(SystemScreen.serverError(title: title, message: message))
-            }.always {
-                controller.setLoading(false, animated: true)
             }
         #else
             super.loginViewController(controller, didFinishWithUsername: username, password: password)

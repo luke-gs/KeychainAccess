@@ -26,13 +26,13 @@ open class DemoAPIManager: CADAPIManagerType {
     open func accessTokenRequest(for grant: OAuthAuthorizationGrant) -> Promise<OAuthAccessToken> {
         // Create dummy token
         let token = OAuthAccessToken(accessToken: "123", type: "Bearer")
-        return Promise<OAuthAccessToken>(value: token)
+        return Promise<OAuthAccessToken>.value(token)
     }
 
     open func cadOfficerByUsername(username: String) -> Promise<CADOfficerDetailsResponse> {
         if let data = loadDemoFileAsData(name: "DemoOfficer") {
             let response = try! JSONDecoder.decode(data, to: CADOfficerDetailsResponse.self)
-            return Promise<CADOfficerDetailsResponse>(value: response)
+            return Promise<CADOfficerDetailsResponse>.value(response)
         }
         return Promise<CADOfficerDetailsResponse>(error: APIError.fileNotFound)
     }
@@ -42,16 +42,16 @@ open class DemoAPIManager: CADAPIManagerType {
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = .iso8601
             let response = try! decoder.decode(CADSyncResponse.self, from: data)
-            return Promise<CADSyncResponse>(value: response)
+            return Promise<CADSyncResponse>.value(response)
         }
         return Promise<CADSyncResponse>(error: APIError.fileNotFound)
     }
 
     open func fetchManifest(with request: ManifestFetchRequest) -> Promise<ManifestFetchRequest.ResultClass> {
         if let json = loadDemoFileAsJson(name: "DemoManifest") as? ManifestFetchRequest.ResultClass {
-            return Promise<ManifestFetchRequest.ResultClass>(value: json)
+            return Promise<ManifestFetchRequest.ResultClass>.value(json)
         }
-        return Promise<ManifestFetchRequest.ResultClass>(value: [[:]])
+        return Promise<ManifestFetchRequest.ResultClass>.value([[:]])
     }
 
     open func loadDemoFileAsJson(name: String) -> Any? {

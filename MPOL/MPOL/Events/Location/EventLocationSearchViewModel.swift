@@ -107,7 +107,7 @@ class EventLocationSearchViewModel<T: EventSearchableViewModelDelegate>: NSObjec
     }
 
     private func updateDistance(_ item: SubtitleFormItem, fromLocation location: CLLocation, toLocation: CLLocation) {
-        travelPlugin.calculateDistance(from: location, to: toLocation).then { [weak item] text -> Void in
+        travelPlugin.calculateDistance(from: location, to: toLocation).done { [weak item] text -> Void in
             item?.subtitle(text).reloadItem()
         }.catch { _ in
             item.subtitle("Unknown").reloadItem()
@@ -129,7 +129,7 @@ class EventLocationSearchViewModel<T: EventSearchableViewModelDelegate>: NSObjec
         guard let userLocation = locations.first else { return }
         itemMap.forEach { location, item in
             let destination = CLLocation(latitude: location.latitude, longitude: location.longitude)
-            travelPlugin.calculateDistance(from: userLocation, to: destination).then { [weak item] text -> Void in
+            travelPlugin.calculateDistance(from: userLocation, to: destination).done { [weak item] text -> Void in
                 item?.subtitle(text).reloadItem()
             }.catch { [weak item] (error) in
                 item?.subtitle(NSLocalizedString("Unknown", comment: "")).reloadItem()
@@ -148,9 +148,9 @@ class EventLocationSearchViewModel<T: EventSearchableViewModelDelegate>: NSObjec
             let cancelToken = PromiseCancellationToken()
 
             APIManager.shared.typeAheadSearchAddress(in: MPOLSource.gnaf, with: LookupAddressSearchRequest(searchText: text), withCancellationToken: cancelToken)
-                .then {
+                .done {
                     self.searchResults = $0
-                }.catch(on: .main, policy: CatchPolicy.allErrors, execute: { (error) in
+                }.catch(on: .main, policy: CatchPolicy.allErrors, { (error) in
                     print(error)
                 })
             self.cancelToken = cancelToken

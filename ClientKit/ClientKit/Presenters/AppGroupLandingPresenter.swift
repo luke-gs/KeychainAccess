@@ -142,7 +142,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter, UsernamePasswordDelega
     private func authenticateWithUsername(_ username: String, password: String, inController controller: LoginViewController) {
         controller.setLoading(true, animated: true)
 
-        APIManager.shared.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] token -> Void in
+        APIManager.shared.accessTokenRequest(for: .credentials(username: username, password: password)).done { [weak self] token -> Void in
             guard let `self` = self else { return }
 
             APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)), rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
@@ -152,15 +152,15 @@ open class AppGroupLandingPresenter: NSObject, Presenter, UsernamePasswordDelega
             controller.resetFields()
             self.updateInterfaceForUserSession(animated: true)
 
-            }.catch { error in
-                let error = error as NSError
-                
-                let title = error.localizedFailureReason ?? "Error"
-                let message = error.localizedDescription
-                
-                controller.present(SystemScreen.serverError(title: title, message: message))
-            }.always {
-                controller.setLoading(false, animated: true)
+        }.ensure {
+            controller.setLoading(false, animated: true)
+        }.catch { error in
+            let error = error as NSError
+
+            let title = error.localizedFailureReason ?? "Error"
+            let message = error.localizedDescription
+
+            controller.present(SystemScreen.serverError(title: title, message: message))
         }
     }
 }
