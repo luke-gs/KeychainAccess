@@ -7,30 +7,44 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		121472EC2061FDDC002D37CF /* IncidentTestReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121472EB2061FDDC002D37CF /* IncidentTestReport.swift */; };
+		121472EF20620170002D37CF /* IncidentTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121472EE20620170002D37CF /* IncidentTestViewController.swift */; };
+		121777AF20631667007189A7 /* IncidentSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121777AE20631667007189A7 /* IncidentSelectViewController.swift */; };
+		121777B120631BF6007189A7 /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121777B020631BF6007189A7 /* EventsListViewController.swift */; };
+		12229E1720439C49002E1A97 /* IncidentListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12229E1120439C48002E1A97 /* IncidentListViewModel.swift */; };
+		12229E1820439C49002E1A97 /* IncidentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12229E1220439C48002E1A97 /* IncidentListViewController.swift */; };
+		12229E1920439C49002E1A97 /* IncidentScreenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12229E1320439C48002E1A97 /* IncidentScreenBuilder.swift */; };
+		12229E1A20439C49002E1A97 /* IncidentSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12229E1420439C49002E1A97 /* IncidentSearchDataSource.swift */; };
+		12229E1C20439C49002E1A97 /* IncidentListReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12229E1620439C49002E1A97 /* IncidentListReport.swift */; };
 		127801F1202AAF09007D0BBB /* EventsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127801F0202AAF09007D0BBB /* EventsListViewModel.swift */; };
 		127801F3202AB1F0007D0BBB /* EventBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127801F2202AB1F0007D0BBB /* EventBuilder.swift */; };
 		127801F5202AB255007D0BBB /* EventsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */; };
+		127F4B7620451788000C3D7F /* IncidentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127F4B7520451788000C3D7F /* IncidentTypes.swift */; };
+		127F4B79204522AC000C3D7F /* StreetCheckIncidentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127F4B78204522AC000C3D7F /* StreetCheckIncidentBuilder.swift */; };
+		127F4B7B204522C8000C3D7F /* InfringementIncidentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127F4B7A204522C8000C3D7F /* InfringementIncidentBuilder.swift */; };
+		12ABD575207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD572207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift */; };
+		12ABD576207F1FE9004D0C9F /* DefaultEventLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD573207F1FE9004D0C9F /* DefaultEventLocationViewController.swift */; };
+		12ABD577207F1FE9004D0C9F /* EventLocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD574207F1FE9004D0C9F /* EventLocationSearchViewModel.swift */; };
+		12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD578207F20EA004D0C9F /* DefaultEventLocationViewModel.swift */; };
 		12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */; };
 		12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */; };
+		12B4637B2043A0D30000E6AC /* IncidentDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B4637A2043A0D30000E6AC /* IncidentDetailViewModel.swift */; };
 		12EB809B202AAC2100405F5C /* EventScreenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EB809A202AAC2100405F5C /* EventScreenBuilder.swift */; };
+		12EE9BE6206898C900537BBA /* OfficerParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EE9BE5206898C900537BBA /* OfficerParserDefinition.swift */; };
 		19894F89207A61BE009289C0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 19894F88207A61BE009289C0 /* Localizable.strings */; };
 		19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3894207A5F3A00855651 /* SupportedShortcut.swift */; };
-		12EE9BE6206898C900537BBA /* OfficerParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EE9BE5206898C900537BBA /* OfficerParserDefinition.swift */; };
 		19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */; };
 		397B77011E52CEDA00696677 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397B77001E52CEDA00696677 /* UserNotifications.framework */; };
 		445A8A381F667A56005ABEB8 /* PersonSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */; };
 		445A8A3C1F673C8B005ABEB8 /* LocationSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A391F673C8B005ABEB8 /* LocationSearchHelp.json */; };
 		445A8A3D1F673C8B005ABEB8 /* OrganisationSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A3A1F673C8B005ABEB8 /* OrganisationSearchHelp.json */; };
 		445A8A3E1F673C8B005ABEB8 /* VehicleSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A3B1F673C8B005ABEB8 /* VehicleSearchHelp.json */; };
-		464977CB203A9A7B00590DC3 /* DefaultEventLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464977CA203A9A7B00590DC3 /* DefaultEventLocationViewController.swift */; };
-		464E99E4203CD99000FE05DC /* EventLocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E99E3203CD99000FE05DC /* EventLocationSearchViewModel.swift */; };
 		46E0B898202C0F6C00B40DF2 /* OfficerListReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B897202C0F6C00B40DF2 /* OfficerListReport.swift */; };
 		46E0B89B202C0F8500B40DF2 /* DefaultOfficerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B89A202C0F8500B40DF2 /* DefaultOfficerListViewController.swift */; };
 		46E0B8A3202D0D8900B40DF2 /* OfficerListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8A2202D0D8900B40DF2 /* OfficerListViewModel.swift */; };
 		46E0B8A92031413C00B40DF2 /* OfficerInvolvementSearchDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8A82031413C00B40DF2 /* OfficerInvolvementSearchDatasource.swift */; };
 		46E0B8BE2033D1FB00B40DF2 /* OfficerSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8BD2033D1FB00B40DF2 /* OfficerSearchViewModel.swift */; };
 		46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F8E9A4203A9C2200024EF7 /* LocationAction.swift */; };
-		46F8E9A7203A9ED100024EF7 /* DefaultEventLocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F8E9A6203A9ED100024EF7 /* DefaultEventLocationSearchViewController.swift */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
 		BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E81101EBEE38400188181 /* SettingsViewController.swift */; };
 		BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */; };
@@ -62,15 +76,32 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		121472EB2061FDDC002D37CF /* IncidentTestReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentTestReport.swift; sourceTree = "<group>"; };
+		121472EE20620170002D37CF /* IncidentTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentTestViewController.swift; sourceTree = "<group>"; };
+		121777AE20631667007189A7 /* IncidentSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentSelectViewController.swift; sourceTree = "<group>"; };
+		121777B020631BF6007189A7 /* EventsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventsListViewController.swift; path = MPOL/Events/EventsListViewController.swift; sourceTree = SOURCE_ROOT; };
+		12229E1120439C48002E1A97 /* IncidentListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentListViewModel.swift; sourceTree = "<group>"; };
+		12229E1220439C48002E1A97 /* IncidentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentListViewController.swift; sourceTree = "<group>"; };
+		12229E1320439C48002E1A97 /* IncidentScreenBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentScreenBuilder.swift; sourceTree = "<group>"; };
+		12229E1420439C49002E1A97 /* IncidentSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentSearchDataSource.swift; sourceTree = "<group>"; };
+		12229E1620439C49002E1A97 /* IncidentListReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentListReport.swift; sourceTree = "<group>"; };
 		127801F0202AAF09007D0BBB /* EventsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListViewModel.swift; sourceTree = "<group>"; };
 		127801F2202AB1F0007D0BBB /* EventBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBuilder.swift; sourceTree = "<group>"; };
 		127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsDetailViewModel.swift; sourceTree = "<group>"; };
+		127F4B7520451788000C3D7F /* IncidentTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentTypes.swift; sourceTree = "<group>"; };
+		127F4B78204522AC000C3D7F /* StreetCheckIncidentBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreetCheckIncidentBuilder.swift; sourceTree = "<group>"; };
+		127F4B7A204522C8000C3D7F /* InfringementIncidentBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfringementIncidentBuilder.swift; sourceTree = "<group>"; };
+		12ABD572207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventLocationSearchViewController.swift; sourceTree = "<group>"; };
+		12ABD573207F1FE9004D0C9F /* DefaultEventLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventLocationViewController.swift; sourceTree = "<group>"; };
+		12ABD574207F1FE9004D0C9F /* EventLocationSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventLocationSearchViewModel.swift; sourceTree = "<group>"; };
+		12ABD578207F20EA004D0C9F /* DefaultEventLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEventLocationViewModel.swift; sourceTree = "<group>"; };
 		12ADD4321F32C0FA00CA8B4D /* PersonSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchDataSource.swift; sourceTree = "<group>"; };
 		12ADD4341F32C0FA00CA8B4D /* VehicleSearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleSearchDataSource.swift; sourceTree = "<group>"; };
+		12B4637A2043A0D30000E6AC /* IncidentDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentDetailViewModel.swift; sourceTree = "<group>"; };
 		12EB809A202AAC2100405F5C /* EventScreenBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventScreenBuilder.swift; sourceTree = "<group>"; };
+		12EE9BE5206898C900537BBA /* OfficerParserDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerParserDefinition.swift; sourceTree = "<group>"; };
 		19894F88207A61BE009289C0 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		19CB3894207A5F3A00855651 /* SupportedShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedShortcut.swift; sourceTree = "<group>"; };
-		12EE9BE5206898C900537BBA /* OfficerParserDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerParserDefinition.swift; sourceTree = "<group>"; };
 		19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Shortcuts.swift"; sourceTree = "<group>"; };
 		397B76FF1E52C23600696677 /* MPOL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MPOL.entitlements; sourceTree = "<group>"; };
 		397B77001E52CEDA00696677 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -82,15 +113,12 @@
 		463D402A1F4BC7D4005F9A1C /* AppConfig-internal-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-internal-debug.xcconfig"; sourceTree = "<group>"; };
 		463D402B1F4BC844005F9A1C /* AppConfig-external-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-external-debug.xcconfig"; sourceTree = "<group>"; };
 		463D402C1F4BC84F005F9A1C /* AppConfig-external-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-external-release.xcconfig"; sourceTree = "<group>"; };
-		464977CA203A9A7B00590DC3 /* DefaultEventLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEventLocationViewController.swift; sourceTree = "<group>"; };
-		464E99E3203CD99000FE05DC /* EventLocationSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventLocationSearchViewModel.swift; sourceTree = "<group>"; };
 		46E0B897202C0F6C00B40DF2 /* OfficerListReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerListReport.swift; sourceTree = "<group>"; };
 		46E0B89A202C0F8500B40DF2 /* DefaultOfficerListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultOfficerListViewController.swift; sourceTree = "<group>"; };
 		46E0B8A2202D0D8900B40DF2 /* OfficerListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerListViewModel.swift; sourceTree = "<group>"; };
 		46E0B8A82031413C00B40DF2 /* OfficerInvolvementSearchDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerInvolvementSearchDatasource.swift; sourceTree = "<group>"; };
 		46E0B8BD2033D1FB00B40DF2 /* OfficerSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerSearchViewModel.swift; sourceTree = "<group>"; };
 		46F8E9A4203A9C2200024EF7 /* LocationAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAction.swift; sourceTree = "<group>"; };
-		46F8E9A6203A9ED100024EF7 /* DefaultEventLocationSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEventLocationSearchViewController.swift; sourceTree = "<group>"; };
 		98286F47FF0E675D611C2782 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		BC4E81101EBEE38400188181 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -124,6 +152,44 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		121472ED2062015C002D37CF /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				121472EB2061FDDC002D37CF /* IncidentTestReport.swift */,
+				121472EE20620170002D37CF /* IncidentTestViewController.swift */,
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
+		127F4B7720452291000C3D7F /* IncidentBuilders */ = {
+			isa = PBXGroup;
+			children = (
+				12229E1320439C48002E1A97 /* IncidentScreenBuilder.swift */,
+				127F4B78204522AC000C3D7F /* StreetCheckIncidentBuilder.swift */,
+				127F4B7A204522C8000C3D7F /* InfringementIncidentBuilder.swift */,
+			);
+			path = IncidentBuilders;
+			sourceTree = "<group>";
+		};
+		127F4B7C20452545000C3D7F /* Reports */ = {
+			isa = PBXGroup;
+			children = (
+				12229E1620439C49002E1A97 /* IncidentListReport.swift */,
+			);
+			path = Reports;
+			sourceTree = "<group>";
+		};
+		12ABD571207F1FE9004D0C9F /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				12ABD572207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift */,
+				12ABD573207F1FE9004D0C9F /* DefaultEventLocationViewController.swift */,
+				12ABD578207F20EA004D0C9F /* DefaultEventLocationViewModel.swift */,
+				12ABD574207F1FE9004D0C9F /* EventLocationSearchViewModel.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
 		12ADD42F1F32C0FA00CA8B4D /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -133,18 +199,33 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		12B832E92043821C00B13414 /* Incidents */ = {
+			isa = PBXGroup;
+			children = (
+				121472ED2062015C002D37CF /* Test */,
+				127F4B7720452291000C3D7F /* IncidentBuilders */,
+				127F4B7C20452545000C3D7F /* Reports */,
+				12B4637A2043A0D30000E6AC /* IncidentDetailViewModel.swift */,
+				12229E1220439C48002E1A97 /* IncidentListViewController.swift */,
+				12229E1120439C48002E1A97 /* IncidentListViewModel.swift */,
+				12229E1420439C49002E1A97 /* IncidentSearchDataSource.swift */,
+				127F4B7520451788000C3D7F /* IncidentTypes.swift */,
+				121777AE20631667007189A7 /* IncidentSelectViewController.swift */,
+			);
+			path = Incidents;
+			sourceTree = "<group>";
+		};
 		12EB8099202AAC0000405F5C /* Events */ = {
 			isa = PBXGroup;
 			children = (
-				46E0B896202C0F4100B40DF2 /* Reports */,
-				12EB809A202AAC2100405F5C /* EventScreenBuilder.swift */,
-				127801F0202AAF09007D0BBB /* EventsListViewModel.swift */,
 				127801F2202AB1F0007D0BBB /* EventBuilder.swift */,
-				464977CA203A9A7B00590DC3 /* DefaultEventLocationViewController.swift */,
-				46F8E9A4203A9C2200024EF7 /* LocationAction.swift */,
-				46F8E9A6203A9ED100024EF7 /* DefaultEventLocationSearchViewController.swift */,
-				464E99E3203CD99000FE05DC /* EventLocationSearchViewModel.swift */,
+				12EB809A202AAC2100405F5C /* EventScreenBuilder.swift */,
 				127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */,
+				121777B020631BF6007189A7 /* EventsListViewController.swift */,
+				127801F0202AAF09007D0BBB /* EventsListViewModel.swift */,
+				46F8E9A4203A9C2200024EF7 /* LocationAction.swift */,
+				12ABD571207F1FE9004D0C9F /* Location */,
+				46E0B896202C0F4100B40DF2 /* Reports */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -217,19 +298,20 @@
 		BCD4EA8B1E515ACE000B993D /* MPOL */ = {
 			isa = PBXGroup;
 			children = (
-				12EB8099202AAC0000405F5C /* Events */,
-				EA3C89041F32E31500F38461 /* Resources */,
-				397B76FF1E52C23600696677 /* MPOL.entitlements */,
 				BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */,
 				19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */,
+				BCD4EA931E515ACE000B993D /* Assets.xcassets */,
+				12EB8099202AAC0000405F5C /* Events */,
+				12B832E92043821C00B13414 /* Incidents */,
+				19894F88207A61BE009289C0 /* Localizable.strings */,
+				BCD4EA981E515ACE000B993D /* Info.plist */,
+				BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */,
+				BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */,
+				397B76FF1E52C23600696677 /* MPOL.entitlements */,
+				EAAFAD511F665B8A00AA2F94 /* Presenters */,
+				EA3C89041F32E31500F38461 /* Resources */,
 				BC0D8E821E94067800EDFC45 /* View Controllers */,
 				12ADD42F1F32C0FA00CA8B4D /* ViewModels */,
-				EAAFAD511F665B8A00AA2F94 /* Presenters */,
-				BCD4EA931E515ACE000B993D /* Assets.xcassets */,
-				BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */,
-				19894F88207A61BE009289C0 /* Localizable.strings */,
-				BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */,
-				BCD4EA981E515ACE000B993D /* Info.plist */,
 				19CB3894207A5F3A00855651 /* SupportedShortcut.swift */,
 			);
 			path = MPOL;
@@ -461,17 +543,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				46F8E9A7203A9ED100024EF7 /* DefaultEventLocationSearchViewController.swift in Sources */,
 				127801F3202AB1F0007D0BBB /* EventBuilder.swift in Sources */,
+				12ABD576207F1FE9004D0C9F /* DefaultEventLocationViewController.swift in Sources */,
+				127F4B79204522AC000C3D7F /* StreetCheckIncidentBuilder.swift in Sources */,
+				127F4B7620451788000C3D7F /* IncidentTypes.swift in Sources */,
 				46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */,
 				BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */,
-				464E99E4203CD99000FE05DC /* EventLocationSearchViewModel.swift in Sources */,
-				464977CB203A9A7B00590DC3 /* DefaultEventLocationViewController.swift in Sources */,
 				EAAEB34A1F664705002D6C65 /* EntityPresenter.swift in Sources */,
+				12229E1C20439C49002E1A97 /* IncidentListReport.swift in Sources */,
 				46E0B898202C0F6C00B40DF2 /* OfficerListReport.swift in Sources */,
+				12229E1A20439C49002E1A97 /* IncidentSearchDataSource.swift in Sources */,
+				12229E1820439C49002E1A97 /* IncidentListViewController.swift in Sources */,
+				127F4B7B204522C8000C3D7F /* InfringementIncidentBuilder.swift in Sources */,
+				121472EF20620170002D37CF /* IncidentTestViewController.swift in Sources */,
 				127801F1202AAF09007D0BBB /* EventsListViewModel.swift in Sources */,
 				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
 				46E0B8A92031413C00B40DF2 /* OfficerInvolvementSearchDatasource.swift in Sources */,
+				121777AF20631667007189A7 /* IncidentSelectViewController.swift in Sources */,
+				12B4637B2043A0D30000E6AC /* IncidentDetailViewModel.swift in Sources */,
 				127801F5202AB255007D0BBB /* EventsDetailViewModel.swift in Sources */,
 				EA7194DD1FC5098200A2980B /* EventPresenter.swift in Sources */,
 				19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */,
@@ -479,11 +568,18 @@
 				12EE9BE6206898C900537BBA /* OfficerParserDefinition.swift in Sources */,
 				12EB809B202AAC2100405F5C /* EventScreenBuilder.swift in Sources */,
 				12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */,
+				12ABD577207F1FE9004D0C9F /* EventLocationSearchViewModel.swift in Sources */,
 				46E0B8A3202D0D8900B40DF2 /* OfficerListViewModel.swift in Sources */,
 				EA2189F61F60F64A0057048E /* LandingPresenter.swift in Sources */,
 				12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */,
+				121472EC2061FDDC002D37CF /* IncidentTestReport.swift in Sources */,
+				121777B120631BF6007189A7 /* EventsListViewController.swift in Sources */,
 				46E0B89B202C0F8500B40DF2 /* DefaultOfficerListViewController.swift in Sources */,
+				12229E1920439C49002E1A97 /* IncidentScreenBuilder.swift in Sources */,
+				12ABD575207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift in Sources */,
 				46E0B8BE2033D1FB00B40DF2 /* OfficerSearchViewModel.swift in Sources */,
+				12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */,
+				12229E1720439C49002E1A97 /* IncidentListViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -917,6 +1013,7 @@
 				INFOPLIST_FILE = MPOL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xfrontend -warn-long-function-bodies=200 -Xfrontend -warn-long-expression-type-checking=100";
 				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.pscore;
 				SWIFT_OBJC_BRIDGING_HEADER = "Configuration/PSCore-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
