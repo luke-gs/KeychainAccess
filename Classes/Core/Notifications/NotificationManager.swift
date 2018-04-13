@@ -126,9 +126,9 @@ open class NotificationManager: NSObject {
         // Configure app specific properties
         handler.configureNotificationRegistrationRequest(request: request)
 
+        // Try to register the device, pass any errors to the app specific handler
         APIManager.shared.registerDevice(with: request).catch { error in
-            // TODO: somehow show this error to user
-            print(error.localizedDescription)
+            handler.handleRegistrationError(error)
         }
     }
 

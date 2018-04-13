@@ -29,6 +29,9 @@ public protocol NotificationHandler: class {
 
     /// Configure app specific properties of the request to register for push notifications
     func configureNotificationRegistrationRequest(request: RegisterDeviceRequest)
+
+    /// Allow app specific handling of registration errors
+    func handleRegistrationError(_ error: Error)
 }
 
 /// Enum for the action a user made on a notification
