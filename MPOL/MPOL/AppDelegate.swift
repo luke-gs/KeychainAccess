@@ -151,14 +151,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     /// Called when the app has successfully registered with Apple Push Notification service (APNs)
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        var token = ""
-        for i in 0..<deviceToken.count {
-            token = token + String(format: "%02.2hhx", arguments: [deviceToken[i]])
-        }
-
         // Upload token to server & register for PNS
-        print("Push token: \(token)")
-        NotificationManager.shared.updatePushToken(token)
+        NotificationManager.shared.updatePushToken(deviceToken)
     }
 
     /// Called when Apple Push Notification service cannot successfully complete the registration process
