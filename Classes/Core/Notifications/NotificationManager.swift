@@ -158,8 +158,7 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
         let userInfo = response.notification.request.content.userInfo
         print("Opened push notification: \(userInfo.asLogString())\nResponse: \(response.actionIdentifier)")
 
-        // Ignore dismiss action
-        guard let handler = handler, response.actionIdentifier != UNNotificationDismissActionIdentifier else {
+        guard let handler = handler else {
             completionHandler()
             return
         }
