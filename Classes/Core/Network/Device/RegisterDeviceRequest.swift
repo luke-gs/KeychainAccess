@@ -9,28 +9,28 @@
 import Foundation
 import PromiseKit
 
-public struct RegisterDeviceRequest: Parameterisable {
+open class RegisterDeviceRequest: Parameterisable {
 
     /// Request URL as relative path
-    public var path: String!
+    open var path: String!
 
     /// Current version identifier for the application running on the device
-    public var appVersion: String!
+    open var appVersion: String!
 
     /// Unique Id of this device. Could be IMEI, UUID or any other value to unique identify that device
-    public var deviceId: String!
+    open var deviceId: String!
 
     /// What type of device this is. eg iOS/Android
-    public var deviceType: String!
+    open var deviceType: String!
 
     /// Token used to identify this device for push notifications
-    public var pushToken: String!
+    open var pushToken: String!
 
     /// What application registered this device
-    public var sourceApp: String!
+    open var sourceApp: String!
 
     /// Request parameters as a dictionary
-    public var parameters: [String: Any] {
+    open var parameters: [String: Any] {
         return [
             "appVersion": appVersion,
             "deviceId": deviceId,
@@ -47,7 +47,7 @@ public struct RegisterDeviceRequest: Parameterisable {
 
 // MARK: - API Manager method for sending request
 public extension APIManager {
-    func registerDevice(with request: RegisterDeviceRequest) -> Promise<Void> {
+    public func registerDevice(with request: RegisterDeviceRequest) -> Promise<Void> {
         let networkRequest = try! NetworkRequest(pathTemplate: request.path, parameters: request.parameters, method: .post)
         return try! APIManager.shared.performRequest(networkRequest, cancelToken: nil).then { _ -> Void in
             // Backend returns ID array we don't care about, so ignore

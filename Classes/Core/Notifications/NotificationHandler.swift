@@ -27,8 +27,8 @@ public protocol NotificationHandler: class {
     /// Handle a silent notification (app may be in foreground or background) and return the data fetch result
     func handleSilentNotification(userInfo: [AnyHashable : Any]) -> Promise<UIBackgroundFetchResult>
 
-    /// The source app string to use when registering this device for push notifications
-    func sourceAppForNotificationRegistration() -> String
+    /// Configure app specific properties of the request to register for push notifications
+    func configureNotificationRegistrationRequest(request: RegisterDeviceRequest)
 }
 
 /// Enum for the action a user made on a notification

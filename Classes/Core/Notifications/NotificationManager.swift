@@ -103,20 +103,24 @@ open class NotificationManager: NSObject {
         guard let handler = handler, let pushToken = pushToken, UserSession.current.isActive else { return }
 
         // Register token if it has been issued and a user is logged in
-        var request = RegisterDeviceRequest()
-        request.deviceId = Device.current.deviceUuid
+        let request = RegisterDeviceRequest()
         request.pushToken = pushToken
-        #if DEBUG
-            request.appVersion = "debug"
-        #else
-            request.appVersion = "release"
-        #endif
+
+        // Set default properties
+        request.deviceId = Device.current.deviceUuid
         request.deviceType = "iOS"
-        request.sourceApp = handler.sourceAppForNotificationRegistration()
+
+        #if DEBUG
+        request.appVersion = "debug"
+        #else
+        request.appVersion = "release"
+        #endif
+
+        // Configure app specific properties
+        handler.configureNotificationRegistrationRequest(request: request)
 
         APIManager.shared.registerDevice(with: request).catch { error in
-            // Show this error to the user, as it's kind of important
-            AlertQueue.shared.addErrorAlert(message: "Failed to register for push notifications")
+            // TODO: somehow show this error to user
             print(error.localizedDescription)
         }
     }
