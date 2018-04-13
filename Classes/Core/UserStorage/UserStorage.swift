@@ -57,7 +57,7 @@ public class UserStorage {
     // MARK: Public
 
     /// Completely nukes all User Storage for all users.
-    static func purgeAllUsers() {
+    public static func purgeAllUsers() {
         try? FileManager.default.removeItem(at: UserStorage.baseURL)
     }
 
@@ -70,7 +70,7 @@ public class UserStorage {
 
     // MARK:
 
-    init(userID: String) {
+    public init(userID: String) {
         let baseURL = UserStorage.baseURL.appendingPathComponent(userID)
         self.directoryManager = DirectoryManager(baseURL: baseURL)
     }
@@ -84,7 +84,7 @@ public class UserStorage {
     ///   - object: the object to store
     ///   - key: the key to store it under. Must be unique for this user.
     ///   - flag: Flag to categorise the object under
-    func add(object: Any, key: String, flag: UserStorageFlag) throws {
+    public func add(object: Any, key: String, flag: UserStorageFlag) throws {
         let safeKey = key.storageEscaped()
 
         if let existingPath = pathForKey(key: safeKey),
@@ -106,7 +106,7 @@ public class UserStorage {
     /// - Parameters:
     ///   - key: The unique key to retrieve the object with
     /// - Returns: Object if found, otherwise nil
-    func retrieve(key: String) -> Any? {
+    public func retrieve(key: String) -> Any? {
         let safeKey = key.storageEscaped()
         guard let storagePath = pathForKey(key: safeKey) else { return nil }
         return directoryManager.read(from: storagePath.path)
@@ -121,7 +121,7 @@ public class UserStorage {
     /// - Parameters:
     ///   - key: The unique key to identify the object with
     /// - Throws: On error only.
-    func remove(key: String) throws {
+    public func remove(key: String) throws {
         let safeKey = key.storageEscaped()
         guard let storagePath = pathForKey(key: safeKey) else { return }
         try directoryManager.remove(at: storagePath.path)
@@ -131,7 +131,7 @@ public class UserStorage {
     ///
     /// - Parameters:
     ///   - flag: The flag to identify which objects will be removed.
-    func purge(flag: UserStorageFlag) throws {
+    public func purge(flag: UserStorageFlag) throws {
         try directoryManager.remove(at: flag.rawValue)
     }
 
