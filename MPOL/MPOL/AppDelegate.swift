@@ -131,7 +131,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         // Request authorisation to receive PNs, then request token from Apple
         // Skip if simulator
-        #if !arch(i386) && !arch(x86_64)
+        #if !targetEnvironment(simulator)
         _ = NotificationManager.shared.requestAuthorizationIfNeeded().then { _ -> Void in
             application.registerForRemoteNotifications()
         }
