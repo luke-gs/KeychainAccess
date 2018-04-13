@@ -10,7 +10,7 @@ import UIKit
 import UserNotifications
 import PromiseKit
 
-/// Handles receiving and sending notifications
+/// Manager for receiving and sending notifications
 open class NotificationManager: NSObject {
     
     public enum NotificationError: Error {
@@ -19,10 +19,17 @@ open class NotificationManager: NSObject {
     }
 
     /// Singleton
-    public static let shared = NotificationManager()
+    open static let shared = NotificationManager()
 
-    let notificationCenter = UNUserNotificationCenter.current()
+    /// The handler for processing push notifications
+    open var handler: NotificationHandler?
+
+    /// The current Apple issued push token
+    open private(set) var pushToken: String?
     
+    /// Convenience for notification center
+    open let notificationCenter = UNUserNotificationCenter.current()
+
     // MARK: - Setup
     
     public override init() {
@@ -57,6 +64,8 @@ open class NotificationManager: NSObject {
         return promise
     }
     
+    // MARK: - Local
+
     /// Posts a local notification
     open func postLocalNotification(withTitle title: String? = nil, body: String, at date: Date? = nil, identifier: String) {
         let content = UNMutableNotificationContent()
@@ -81,14 +90,104 @@ open class NotificationManager: NSObject {
     open func removeAllLocalNotifications() {
         notificationCenter.removeAllPendingNotificationRequests()
     }
+
+    // MARK: - Remote
+
+    open func updatePushToken(_ deviceToken: Data) {
+        // Convert data token to a string
+        var token = ""
+        for i in 0..<deviceToken.count {
+            token = token + String(format: "%02.2hhx", arguments: [deviceToken[i]])
+        }
+        print("Push token: \(token)")
+
+        // Store token and register if we have an active user session
+        pushToken = token
+        registerPushToken()
+    }
+
+    open func registerPushToken() {
+        guard let handler = handler, let pushToken = pushToken, UserSession.current.isActive else { return }
+
+        // Register token if it has been issued and a user is logged in
+        let request = RegisterDeviceRequest()
+        request.pushToken = pushToken
+
+        // Set default properties
+        request.deviceId = Device.current.deviceUuid
+        request.deviceType = "iOS"
+
+        #if DEBUG
+        request.appVersion = "debug"
+        #else
+        request.appVersion = "release"
+        #endif
+
+        // Configure app specific properties
+        handler.configureNotificationRegistrationRequest(request: request)
+
+        // Try to register the device, pass any errors to the app specific handler
+        APIManager.shared.registerDevice(with: request).catch { error in
+            handler.handleRegistrationError(error)
+        }
+    }
+
+    open func didReceiveRemoteNotification(userInfo: [AnyHashable : Any]) -> Promise<UIBackgroundFetchResult> {
+        guard let handler = handler else { return Promise<UIBackgroundFetchResult>(value: .noData) }
+
+        // Defer processing to handler
+        return handler.handleSilentNotification(userInfo: userInfo)
+    }
+
 }
 
 // MARK: - UNUserNotificationCenterDelegate
 
 extension NotificationManager: UNUserNotificationCenterDelegate {
     
-    // Notification received while app in foreground
+    /// Called when a notification is delivered to foreground app
     public func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.alert, .sound])
+        let userInfo = notification.request.content.userInfo
+        print("Received push notification: \(userInfo.asLogString())")
+
+        guard let handler = handler else {
+            completionHandler([.alert, .sound])
+            return
+        }
+
+        // Defer processing and presentation to handler
+        _ = handler.handleForegroundNotification(notification).then { options -> Void in
+            completionHandler(options)
+        }.catch { error -> Void in
+            completionHandler([])
+        }
     }
+
+    /// Called when the user responded to the notification by opening the application,
+    /// dismissing the notification or choosing a UNNotificationAction
+    public func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        print("Opened push notification: \(userInfo.asLogString())\nResponse: \(response.actionIdentifier)")
+
+        guard let handler = handler else {
+            completionHandler()
+            return
+        }
+
+        let action: NotificationAction
+        switch response.actionIdentifier {
+        case UNNotificationDefaultActionIdentifier:
+            action = .openApp
+        case UNNotificationDismissActionIdentifier:
+            action = .dismissed
+        default:
+            action = .customAction(actionIdentifier: response.actionIdentifier)
+        }
+
+        // Defer processing to handler
+        _ = handler.handleNotificationAction(action, notification: response.notification).always {
+            completionHandler()
+        }
+    }
+
 }
