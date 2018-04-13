@@ -22,10 +22,14 @@ public class Device {
 
     /// The UUID for this device, to be used with backend services
     public var deviceUuid: String {
-        // Fetch from app group user defaults, or generate if not found
-        let deviceUuid = Device.userDefaults.string(forKey: Device.deviceUuidKey) ?? UUID().uuidString
-        Device.userDefaults.set(deviceUuid, forKey: Device.deviceUuidKey)
-        return deviceUuid
+        // Fetch from app group user defaults
+        var deviceUuid = Device.userDefaults.string(forKey: Device.deviceUuidKey)
+        if deviceUuid == nil {
+            // Not found, generate uuid and store
+            deviceUuid = UUID().uuidString
+            Device.userDefaults.set(deviceUuid, forKey: Device.deviceUuidKey)
+        }
+        return deviceUuid!
     }
 
 }
