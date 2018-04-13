@@ -2,12 +2,14 @@
 //  EventsDetailViewModel.swift
 //  MPOL
 //
-//  Created by Pavel Boryseiko on 7/2/18.
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
 import UIKit
 import MPOLKit
+
+let incidentsHeaderDefaultTitle = "No incident selected"
+let incidentsHeaderDefaultSubtitle = "IN PROGRESS"
 
 public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
 
@@ -16,6 +18,7 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
     public var viewControllers: [UIViewController]?
     public var headerView: UIView?
     public var evaluator: Evaluator = Evaluator()
+    public var headerUpdated: (()->())?
 
     private var readyToSubmit = false {
         didSet {
@@ -31,8 +34,11 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
         self.headerView = {
             let header = SidebarHeaderView()
             header.iconView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
-            header.titleLabel.text = "No incident selected"
-            header.captionLabel.text = "IN PROGRESS"
+
+            // Update the header to whatever you need it to be
+            let report = event.reports.filter{$0 is IncidentListReport}.first as? IncidentListReport
+            header.titleLabel.text = report?.incidents.first?.displayable?.title ?? incidentsHeaderDefaultTitle
+            header.captionLabel.text = incidentsHeaderDefaultSubtitle
             return header
         }()
 
@@ -58,7 +64,8 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
 extension EventsDetailViewModel: EventHeaderUpdateDelegate {
     public func updateHeader(with title: String?, subtitle: String?) {
         guard let header = headerView as? SidebarHeaderView else { return }
-        header.titleLabel.text = title ?? "No incident selected"
-        header.captionLabel.text = subtitle ?? "IN PROGRESS"
+        header.titleLabel.text = title ?? incidentsHeaderDefaultTitle
+        header.captionLabel.text = subtitle ?? incidentsHeaderDefaultSubtitle
+        headerUpdated?()
     }
 }

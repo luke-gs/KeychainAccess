@@ -12,8 +12,6 @@ import ClientKit
 
 public class OfficerListReport: Reportable {
 
-    public weak var event: Event?
-
     public enum CodingKeys: String, CodingKey {
         case officers
         case event
@@ -38,6 +36,9 @@ public class OfficerListReport: Reportable {
         return "\(officerCount) CURRENT OFFICER\(officerCount == 1 ? "" : "S")"
     }
 
+    public weak var event: Event?
+    public weak var incident: Incident?
+
     public required init(event: Event) {
         self.event = event
 
@@ -51,35 +52,32 @@ public class OfficerListReport: Reportable {
         commonInit()
     }
 
-    // Codable
-
-    public required init(from: Decoder) throws {
-        let container = try from.container(keyedBy: CodingKeys.self)
-//        officers = try container.decode(Array<Officer>.self, forKey: .officers)
-        event = try container.decode(Event.self, forKey: .event)
-
-        commonInit()
-    }
-
     private func commonInit() {
-        if let event = event {
+        if let event = event { evaluator.addObserver(event) }
 
-            evaluator.addObserver(event)
-
-            evaluator.registerKey(.officers) {
-                return self.viewed == true
-                    && self.officers.count > 0
-            }
+        evaluator.registerKey(.officers) {
+            return self.viewed == true
+                && self.officers.count > 0
         }
     }
 
-    public func encode(to: Encoder) throws {
-        var container = to.container(keyedBy: CodingKeys.self)
-//        try container.encode(officers, forKey: .officers)
-        try container.encode(event, forKey: .event)
+    // Codable
 
+    public static var supportsSecureCoding: Bool = true
+    private enum Coding: String {
+        case event
     }
 
+
+    public required init?(coder aDecoder: NSCoder) {
+        event = aDecoder.decodeObject(of: Event.self, forKey: Coding.event.rawValue)
+        commonInit()
+    }
+
+
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(event, forKey: Coding.event.rawValue)
+    }
 
     // Evaluation
 

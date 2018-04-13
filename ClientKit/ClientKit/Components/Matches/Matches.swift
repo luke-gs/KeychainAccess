@@ -2,7 +2,6 @@
 //  Matches.swift
 //  ClientKit
 //
-//  Created by Pavel Boryseiko on 25/9/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 

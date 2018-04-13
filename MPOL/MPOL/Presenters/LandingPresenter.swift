@@ -120,14 +120,14 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 PersonSearchDataSource(),
                 VehicleSearchDataSource(),
                 locationDataSource
-            ])
+                ])
             
             let searchViewController = SearchViewController(viewModel: viewModel)
             searchViewController.set(leftBarButtonItem: settingsBarButtonItem())
 
-            EventsManager.shared.eventBuilder = EventBuilder()
+            let eventsManager = EventsManager(eventBuilder: EventBuilder())
+            let eventListVC = EventsListViewController(viewModel: EventsListViewModel(eventsManager: eventsManager))
 
-            let eventListVC = EventsListViewController(viewModel: EventsListViewModel(eventsManager: EventsManager.shared))
             eventListVC.navigationItem.leftBarButtonItem = settingsBarButtonItem()
 
             let searchNavController = UINavigationController(rootViewController: searchViewController)

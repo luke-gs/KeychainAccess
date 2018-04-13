@@ -51,11 +51,23 @@ DEPENDENCIES:
   - HockeySDK
   - MPOLKit/CAD (from `../../mPolKit-iOS`)
 
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - Cache
+    - Cluster
+    - HockeySDK
+    - KeychainSwift
+    - lottie-ios
+    - PromiseKit
+    - Unbox
+    - Wrap
+
 EXTERNAL SOURCES:
   ClientKit:
-    :path: ../ClientKit
+    :path: "../ClientKit"
   MPOLKit:
-    :path: ../../mPolKit-iOS
+    :path: "../../mPolKit-iOS"
 
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
@@ -72,4 +84,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 85d9687f9372c336d579555a7262aab94a37bdf2
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.0

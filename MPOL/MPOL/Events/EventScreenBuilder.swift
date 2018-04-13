@@ -2,7 +2,6 @@
 //  EventScreenBuilder.swift
 //  MPOLKit
 //
-//  Created by Pavel Boryseiko on 31/1/18.
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
@@ -10,35 +9,35 @@ import MPOLKit
 
 public class EventScreenBuilder: EventScreenBuilding {
 
+    var incidentsManager: IncidentsManager!
+
     public func viewControllers(for reportables: [Reportable]) -> [UIViewController] {
         var viewControllers = [UIViewController]()
 
         for report in reportables {
-            if let viewController = viewController(for: report) {
-                viewControllers.append(viewController)
-            }
+            viewControllers.append(viewController(for: report))
         }
 
         return viewControllers
     }
 
-    private func viewController(for report: Reportable) -> UIViewController? {
+    private func viewController(for report: Reportable) -> UIViewController {
         switch report {
         case let report as DefaultDateTimeReport:
-            return DefaultEventDateTimeViewController(report: report)
+            return DefaultEventDateTimeViewController(viewModel: DefaultDateTimeViewModel(report: report))
         case let report as DefaultLocationReport:
-            return DefaultEventLocationViewController(report: report)
+            return DefaultEventLocationViewController(viewModel: DefaultEventLocationViewModel(report: report))
         case let report as OfficerListReport:
             return DefaultEventOfficerListViewController(viewModel: EventOfficerListViewModel(report: report))
         case let report as DefaultNotesAssetsReport:
-            return DefaultEventNotesAssetsViewController(report: report)
+            return DefaultEventNotesAssetsViewController(viewModel: DefaultEventNotesAssetsViewModel(report: report))
         case let report as IncidentListReport:
-            return IncidentListViewController(viewModel: IncidentListViewModel(report: report))
+            report.incidents.forEach{incidentsManager.add(incident: $0)}
+            return IncidentListViewController(viewModel: IncidentListViewModel(report: report, incidentsManager: incidentsManager))
         default:
-            return nil
+            fatalError("No ViewController found for reportable: \(report.self)")
         }
     }
 
     public init() { }
 }
-
