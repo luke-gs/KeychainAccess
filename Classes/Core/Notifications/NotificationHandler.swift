@@ -14,9 +14,9 @@ import PromiseKit
 /// Note: To be implemented in client app if using push notifications
 public protocol NotificationHandler: class {
 
-    // Note: Normally only a single handleX method will be called on receipt of a push notificaiton. BUT, if a silent
-    // notification, "content-available": 1, is sent together with an alert text, both handleSilentNotification and
-    // handleForegroundNotification will be called.
+    // Note: Normally only a single handle notification method will be called on receipt of a push notification.
+    // BUT, if a silent notification, "content-available": 1, is sent together with an alert text, both
+    // handleSilentNotification and handleForegroundNotification will be called.
 
     /// Handle a notification while app is in the foreground and return the presentation options
     func handleForegroundNotification(_ notification: UNNotification) -> Promise<UNNotificationPresentationOptions>
