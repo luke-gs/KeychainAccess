@@ -45,6 +45,7 @@
 		46E0B8A92031413C00B40DF2 /* OfficerInvolvementSearchDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8A82031413C00B40DF2 /* OfficerInvolvementSearchDatasource.swift */; };
 		46E0B8BE2033D1FB00B40DF2 /* OfficerSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8BD2033D1FB00B40DF2 /* OfficerSearchViewModel.swift */; };
 		46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F8E9A4203A9C2200024EF7 /* LocationAction.swift */; };
+		96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
 		BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E81101EBEE38400188181 /* SettingsViewController.swift */; };
 		BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */; };
@@ -119,6 +120,8 @@
 		46E0B8A82031413C00B40DF2 /* OfficerInvolvementSearchDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerInvolvementSearchDatasource.swift; sourceTree = "<group>"; };
 		46E0B8BD2033D1FB00B40DF2 /* OfficerSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerSearchViewModel.swift; sourceTree = "<group>"; };
 		46F8E9A4203A9C2200024EF7 /* LocationAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAction.swift; sourceTree = "<group>"; };
+		9625ACDB207F1C6200EFCC8C /* SearchNotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNotificationHandler.swift; sourceTree = "<group>"; };
+		96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchNotificationHandler.swift; sourceTree = "<group>"; };
 		98286F47FF0E675D611C2782 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		BC4E81101EBEE38400188181 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -268,6 +271,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		96BE10E820803F4B005D4BAA /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				9625ACDB207F1C6200EFCC8C /* SearchNotificationHandler.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		96BE10E92080406E005D4BAA /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
 		BC0D8E821E94067800EDFC45 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -284,6 +303,7 @@
 				81566B659C78AD148E9B8520 /* Frameworks */,
 				DB88BCE81F43CBC00056FD69 /* Configuration */,
 				3C534FA68E46E1F1622CC13C /* Pods */,
+				96BE10E820803F4B005D4BAA /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -308,6 +328,7 @@
 				BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */,
 				BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */,
 				397B76FF1E52C23600696677 /* MPOL.entitlements */,
+				96BE10E92080406E005D4BAA /* Notifications */,
 				EAAFAD511F665B8A00AA2F94 /* Presenters */,
 				EA3C89041F32E31500F38461 /* Resources */,
 				BC0D8E821E94067800EDFC45 /* View Controllers */,
@@ -393,7 +414,7 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = QJQ4TBYRPA;
 						LastSwiftMigration = 0900;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -576,6 +597,7 @@
 				121777B120631BF6007189A7 /* EventsListViewController.swift in Sources */,
 				46E0B89B202C0F8500B40DF2 /* DefaultOfficerListViewController.swift in Sources */,
 				12229E1920439C49002E1A97 /* IncidentScreenBuilder.swift in Sources */,
+				96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */,
 				12ABD575207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift in Sources */,
 				46E0B8BE2033D1FB00B40DF2 /* OfficerSearchViewModel.swift in Sources */,
 				12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */,
@@ -650,6 +672,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -660,6 +683,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.pscore;
+				PROVISIONING_PROFILE = "5b30c792-d8f0-4059-ba3b-8cadb83c72c1";
+				PROVISIONING_PROFILE_SPECIFIER = "In House - PSCore Search Debug";
 				SWIFT_OBJC_BRIDGING_HEADER = "Configuration/PSCore-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 			};
@@ -722,6 +747,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -732,6 +759,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.pscore;
+				PROVISIONING_PROFILE = "3b2cadb1-9d5a-4d36-916d-c4ce7ebdf568";
+				PROVISIONING_PROFILE_SPECIFIER = "In House - PSCore Search";
 				SWIFT_OBJC_BRIDGING_HEADER = "Configuration/PSCore-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 			};
@@ -801,6 +830,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -811,6 +841,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.pscore;
+				PROVISIONING_PROFILE = "5b30c792-d8f0-4059-ba3b-8cadb83c72c1";
+				PROVISIONING_PROFILE_SPECIFIER = "In House - PSCore Search Debug";
 				SWIFT_OBJC_BRIDGING_HEADER = "Configuration/PSCore-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 			};
@@ -873,6 +905,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -884,6 +918,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.pscore;
+				PROVISIONING_PROFILE = "3b2cadb1-9d5a-4d36-916d-c4ce7ebdf568";
+				PROVISIONING_PROFILE_SPECIFIER = "In House - PSCore Search";
 				SWIFT_OBJC_BRIDGING_HEADER = "Configuration/PSCore-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 			};
@@ -1004,6 +1040,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1015,6 +1052,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) -Xfrontend -warn-long-function-bodies=200 -Xfrontend -warn-long-expression-type-checking=100";
 				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.pscore;
+				PROVISIONING_PROFILE = "5b30c792-d8f0-4059-ba3b-8cadb83c72c1";
+				PROVISIONING_PROFILE_SPECIFIER = "In House - PSCore Search Debug";
 				SWIFT_OBJC_BRIDGING_HEADER = "Configuration/PSCore-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 			};
@@ -1026,6 +1065,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1036,6 +1077,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.pscore;
+				PROVISIONING_PROFILE = "3b2cadb1-9d5a-4d36-916d-c4ce7ebdf568";
+				PROVISIONING_PROFILE_SPECIFIER = "In House - PSCore Search";
 				SWIFT_OBJC_BRIDGING_HEADER = "Configuration/PSCore-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 			};

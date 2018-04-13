@@ -46,6 +46,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Set the application key for app specific user settings
         User.applicationKey = "Search"
 
+        // Set the application specific notification handler
+        NotificationManager.shared.handler = SearchNotificationHandler()
+        registerPushNotifications(application)
+
         landingPresenter = LandingPresenter()
         let presenter = PresenterGroup(presenters: [SystemPresenter(), landingPresenter, EntityPresenter(), EventPresenter()])
 
@@ -56,8 +60,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)", plugins: plugins, trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
 
         NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
-
-        registerPushNotifications(application)
 
         let window = UIWindow()
         self.window = window
@@ -93,6 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if UserSession.current.isActive == true {
             UserSession.current.restoreSession { token in
                 APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)), rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
+                NotificationManager.shared.registerPushToken()
             }
         }
 
@@ -126,41 +129,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func registerPushNotifications(_ application: UIApplication) {
 
-        let notificationCenter: UNUserNotificationCenter = UNUserNotificationCenter.current()
-        notificationCenter.delegate = self
-        notificationCenter.requestAuthorization(options: [.badge, .sound, .alert]) { (granted, error) in
-            if error == nil {
-                #if !arch(i386) && !arch(x86_64)
-                    DispatchQueue.main.async {
-                        // `completionHandler` might be executed in background thread according
-                        // to documentation.
-                        application.registerForRemoteNotifications()
-                    }
-                #endif
-            }
+        // Request authorisation to receive PNs, then request token from Apple
+        // Skip if simulator
+        #if !targetEnvironment(simulator)
+        _ = NotificationManager.shared.requestAuthorizationIfNeeded().then { _ -> Void in
+            application.registerForRemoteNotifications()
         }
-
+        #endif
     }
 
-    // Called to represent what action was selected by the user
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    // NOTE: This method needs to exist here in app delegate in order to get silent push notifications,
+    // regardless of the use of UNUserNotificationCenter!
 
+    /// Called when a remote notification arrives that indicates there is data to be fetched (ie silent push)
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        // Handle notification (which may trigger network operation), then complete with fetch result
+        _ = NotificationManager.shared.didReceiveRemoteNotification(userInfo: userInfo).then { result in
+            completionHandler(result)
+        }
     }
 
-    // Called when notification is delivered to a foreground app
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-
-    }
-
+    /// Called when the app has successfully registered with Apple Push Notification service (APNs)
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        var token = ""
-        for i in 0..<deviceToken.count {
-            token = token + String(format: "%02.2hhx", arguments: [deviceToken[i]])
-        }
-
-        // TODO: Upload token to server & register for PNS
+        // Upload token to server & register for PNS
+        NotificationManager.shared.updatePushToken(deviceToken)
     }
 
+    /// Called when Apple Push Notification service cannot successfully complete the registration process
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Failed to register for push notification: \(error)")
     }

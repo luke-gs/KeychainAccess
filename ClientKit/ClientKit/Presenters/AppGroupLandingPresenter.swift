@@ -148,6 +148,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter, UsernamePasswordDelega
             APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)), rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
 
             UserSession.startSession(user: User(username: username), token: token)
+            NotificationManager.shared.registerPushToken()
             controller.resetFields()
             self.updateInterfaceForUserSession(animated: true)
 
