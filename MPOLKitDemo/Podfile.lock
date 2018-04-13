@@ -57,9 +57,21 @@ DEPENDENCIES:
   - HyperioniOS
   - MPOLKit (from `../`)
 
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - Cache
+    - Cluster
+    - HyperioniOS
+    - KeychainSwift
+    - lottie-ios
+    - PromiseKit
+    - Unbox
+    - Wrap
+
 EXTERNAL SOURCES:
   MPOLKit:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
@@ -75,4 +87,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 8afa7f6e1ba825d08d131c486f4043f0fd3684c7
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.0

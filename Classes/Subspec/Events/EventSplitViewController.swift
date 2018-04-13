@@ -2,7 +2,6 @@
 //  EventSplitViewController.swift
 //  MPOLKit
 //
-//  Created by Pavel Boryseiko on 15/12/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
@@ -24,6 +23,13 @@ public class EventSplitViewController: SidebarSplitViewController, EvaluationObs
         regularSidebarViewController.headerView = viewModel.headerView
 
         viewModel.evaluator.addObserver(self)
+        viewModel.headerUpdated = { [weak self] in
+            let selectedRow = self?.regularSidebarViewController.sidebarTableView?.indexPathForSelectedRow
+            self?.regularSidebarViewController.sidebarTableView?.reloadData()
+            self?.regularSidebarViewController.sidebarTableView?.selectRow(at: selectedRow,
+                                                                           animated: false,
+                                                                           scrollPosition: .none)
+        }
     }
 
     public required init?(coder aDecoder: NSCoder) {

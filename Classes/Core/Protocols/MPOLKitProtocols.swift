@@ -2,7 +2,6 @@
 //  MPOLKitProtocols.swift
 //  Pods
 //
-//  Created by Pavel Boryseiko on 20/7/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 

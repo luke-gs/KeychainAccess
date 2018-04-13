@@ -101,14 +101,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SearchDisplayableDelegate
         }
         
         let recent = SearchRecentsViewController(viewModel: EntitySummaryRecentsViewModel(title: "Recents"))
-
         tabBarController.viewControllers = [
             UINavigationController(rootViewController: recent),
             pushableSVNavController,
             UINavigationController(rootViewController: sidebarSplitViewController),
             UINavigationController(rootViewController: SearchNavigatorLauncherViewController(style: .plain)),
             UINavigationController(rootViewController: genericSearchViewController()),
-            UINavigationController(rootViewController: EventsListViewController(viewModel: DemoListViewModel(eventsManager: EventsManager.shared))),
+            UINavigationController(rootViewController: EventsListViewController(viewModel: DemoListViewModel(eventsManager: EventsManager(eventBuilder: DemoBuilder())))),
             UINavigationController(rootViewController: formSplitViewController),
             UINavigationController(rootViewController: TemplateManagerViewController())
         ]

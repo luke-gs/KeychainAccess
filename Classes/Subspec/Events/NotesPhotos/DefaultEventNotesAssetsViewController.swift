@@ -10,17 +10,17 @@ import UIKit
 
 open class DefaultEventNotesAssetsViewController: FormBuilderViewController, EvaluationObserverable {
     
-    weak var report: DefaultNotesAssetsReport?
+    var viewModel: DefaultEventNotesAssetsViewModel
     
-    public init(report: Reportable?) {
-        self.report = report as? DefaultNotesAssetsReport
+    public init(viewModel: DefaultEventNotesAssetsViewModel) {
+        self.viewModel = viewModel
         super.init()
-        report?.evaluator.addObserver(self)
+        viewModel.report?.evaluator.addObserver(self)
         
         sidebarItem.regularTitle = "Notes and Assets"
         sidebarItem.compactTitle = "Notes and Assets"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.attachment)!
-        sidebarItem.color = (report?.evaluator.isComplete ?? false) ? .green : .red
+        sidebarItem.color = viewModel.tabColour()
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -30,16 +30,15 @@ open class DefaultEventNotesAssetsViewController: FormBuilderViewController, Eva
     
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        report?.viewed = true
+        viewModel.report?.viewed = true
     }
     
     override open func construct(builder: FormBuilder) {
-        guard let report = report else { return }
         builder.title = sidebarItem.regularTitle
         builder.forceLinearLayout = true
 
         // Media Section
-        let localStore = DataStoreCoordinator(dataStore: MediaStorageDatastore(items: report.media, container: report))
+        let localStore = DataStoreCoordinator(dataStore: MediaStorageDatastore(items: viewModel.report.media, container: viewModel.report))
         let gallery = MediaGalleryCoordinatorViewModel(storeCoordinator: localStore)
         let mediaItem = MediaFormItem()
             .dataSource(gallery)
@@ -59,18 +58,16 @@ open class DefaultEventNotesAssetsViewController: FormBuilderViewController, Eva
 
         // General Section
         builder += HeaderFormItem(text: "GENERAL")
-        builder += TextFieldFormItem(title: "Operation Name", text: report.operationName).onValueChanged { value in
-            self.report?.operationName = value
-        }
+        builder += TextFieldFormItem(title: "Operation Name", text: viewModel.report.operationName)
+            .onValueChanged(viewModel.operationNameChanged)
 
         // Summary Section
         builder += HeaderFormItem(text: "SUMMARY / NOTES").actionButton(title: "USE TEMPLATE", handler: { _ in })
-        builder += TextFieldFormItem(title: "Free Text", text: report.freeText).onValueChanged { value in
-            self.report?.freeText = value
-        }
+        builder += TextFieldFormItem(title: "Free Text", text: viewModel.report.freeText)
+            .onValueChanged(viewModel.freeTextChanged)
     }
     
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        sidebarItem.color = evaluator.isComplete == true ? .green : .red
+        sidebarItem.color = evaluator.isComplete == true ? .midGreen : .red
     }
 }

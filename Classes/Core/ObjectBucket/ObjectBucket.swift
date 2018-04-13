@@ -2,7 +2,6 @@
 //  ObjectBucket.swift
 //  MPOLKit
 //
-//  Created by Pavel Boryseiko on 30/1/18.
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
@@ -11,7 +10,7 @@
  *
  *  Find a better way of saving things
  */
-open class ObjectBucket<T: Codable> where T: AnyObject {
+open class ObjectBucket<T: NSSecureCoding> where T: AnyObject {
 
     private(set) public var objects: [T]?
     private(set) public var directory: URL
