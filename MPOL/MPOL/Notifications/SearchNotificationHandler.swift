@@ -41,4 +41,11 @@ class SearchNotificationHandler: NotificationHandler {
         // Can override appVersion, deviceId or other default properties here if necessary
         request.sourceApp = "pscore-search"
     }
+
+    /// Allow app specific handling of registration errors
+    func handleRegistrationError(_ error: Error) {
+        // TODO: show error, retry, something
+        print(error.localizedDescription)
+    }
+
 }
