@@ -12,7 +12,7 @@ import PromiseKit
 public final class ExternalAuthenticator<T: AuthenticationProvider> {
 
     private var safariViewController: SFSafariViewController? = nil
-    private var pendingPromiseResult: Promise<T.Result>.PendingTuple? = nil
+    private var pendingPromiseResult: (promise: Promise<T.Result>, resolver: Resolver<T.Result>)? = nil
 
     public let authenticationProvider: T
 
@@ -41,13 +41,11 @@ public final class ExternalAuthenticator<T: AuthenticationProvider> {
         let scheme = authenticationProvider.urlScheme
         precondition(Bundle.main.containsURLScheme(scheme), "\(scheme) is not registered in the Info.plist")
 
-        let pendingTuple: Promise<T.Result>.PendingTuple = Promise.pending()
+        let pendingTuple = Promise<T.Result>.pending()
         self.pendingPromiseResult = pendingTuple
 
         presentAuthentication(authenticationProvider.authorizationURL)
-
-        let timeout: Promise<T.Result> = after(seconds: timeoutInterval).then { throw NSError.cancelledError() }
-    
+        let timeout: Promise<T.Result> = after(seconds: timeoutInterval).map { throw PMKError.cancelled }
         return race(pendingTuple.promise, timeout)
     }
 
@@ -80,10 +78,10 @@ public final class ExternalAuthenticator<T: AuthenticationProvider> {
         }
 
         let result = authenticationProvider.authenticationLinkResult(url)
-        result.then {
-            pending.fulfill($0)
+        result.done {
+            pending.resolver.fulfill($0)
         }.catch {
-            pending.reject($0)
+            pending.resolver.reject($0)
         }
 
         self.pendingPromiseResult = nil
@@ -107,7 +105,7 @@ public final class ExternalAuthenticator<T: AuthenticationProvider> {
             UIApplication.shared.open(url, options: [:], completionHandler: { [weak self] success in
                 if !success {
                     if let pending = self?.pendingPromiseResult {
-                        pending.reject(NSError.cancelledError())
+                        pending.resolver.reject(PMKError.cancelled)
                     }
                 }
             })

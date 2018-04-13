@@ -21,11 +21,11 @@ public class TemplateManagerTests: XCTestCase {
 
     public override class func tearDown() {
         let handler = TemplateHandler<UserDefaultsDataSource>(source: UserDefaultsDataSource(sourceKey: TemplateManagerTests.testKey))
-        handler.source.retrieve().then { result in
+        handler.source.retrieve().done { result in
             result?.forEach { template in
                 handler.source.delete(template: template)
             }
-        }.always {}
+        }
     }
 
     func testStoreRetrieveTemplate() {
@@ -37,11 +37,10 @@ public class TemplateManagerTests: XCTestCase {
         handler.source.store(template: template)
 
         // Assert
-        handler.source.retrieve().then { result in
+        handler.source.retrieve().done { result in
             XCTAssert(result?.contains(template) ?? false)
             expect.fulfill()
-            return AnyPromise(Promise<Void>())
-        }.always {}
+        }
 
         waitForExpectations(timeout: 5, handler: nil)
     }
@@ -56,11 +55,10 @@ public class TemplateManagerTests: XCTestCase {
         handler.source.delete(template: template)
 
         // Assert
-        handler.source.retrieve().then { result in
+        handler.source.retrieve().done { result in
             XCTAssertFalse(result?.contains(template) ?? true)
             expect.fulfill()
-            return AnyPromise(Promise<Void>())
-            }.always {}
+        }
 
         waitForExpectations(timeout: 5, handler: nil)
     }
@@ -75,7 +73,7 @@ public class TemplateManagerTests: XCTestCase {
         handler = TemplateHandler<UserDefaultsDataSource>(source: UserDefaultsDataSource(sourceKey: TemplateManagerTests.testKey))
 
         // Assert
-        handler.source.retrieve().then { result -> Void in
+        handler.source.retrieve().done { result -> Void in
             if let templateResult = result?.filter({ filterTemplate in filterTemplate.core.id == template.core.id }), !templateResult.isEmpty {
                 let first = templateResult.first!
                 XCTAssert(first.core.id == template.core.id)
@@ -88,7 +86,7 @@ public class TemplateManagerTests: XCTestCase {
             else {
                 XCTFail()
             }
-        }.always {}
+        }
 
         waitForExpectations(timeout: 5, handler: nil)
     }

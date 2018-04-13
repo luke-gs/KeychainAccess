@@ -38,7 +38,7 @@ class AuthenticationPluginTests: XCTestCase {
     func testAdaptBasicSignedCorrectly() {
 
         let plugin = AuthenticationPlugin(authenticationMode: .basicAuthentication(username: username, password: password))
-        _ = plugin.adapt(request).then { adaptedRequest -> Void in
+        _ = plugin.adapt(request).done { adaptedRequest -> Void in
             XCTAssertNil(self.request.allHTTPHeaderFields)
             XCTAssertNotNil(adaptedRequest.allHTTPHeaderFields)
             
@@ -48,7 +48,7 @@ class AuthenticationPluginTests: XCTestCase {
 
     func testAdaptTokenSignedCorrectly() {
         let plugin = AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: OAuthAccessToken(accessToken: token, type: token)))
-        _ = plugin.adapt(request).then { adaptedRequest -> Void in
+        _ = plugin.adapt(request).done { adaptedRequest -> Void in
             XCTAssertNil(self.request.allHTTPHeaderFields)
             XCTAssertNotNil(adaptedRequest.allHTTPHeaderFields)
             

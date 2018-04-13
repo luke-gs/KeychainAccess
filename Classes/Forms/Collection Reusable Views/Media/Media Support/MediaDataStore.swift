@@ -36,12 +36,12 @@ class MediaStorageDatastore<T: Media>: WritableDataStore {
     }
 
     func retrieveItems(withLastKnownResults results: LocalDataResults<T>?, cancelToken: PromiseCancellationToken?) -> Promise<LocalDataResults<T>> {
-        return Promise(value: LocalDataResults(items: items))
+        return Promise.value(LocalDataResults(items: items))
     }
 
 
     func addItems(_ items: [MediaStorageDatastore<T>.Result.Item]) -> Promise<[MediaStorageDatastore<T>.Result.Item]> {
-        return Promise { [unowned self] fullfill, reject in
+        return Promise { [unowned self] resolver in
             let indexes = items.indexes(where: { self.items.contains($0) })
             if indexes.count == 0 {
                 self.items += items
@@ -55,19 +55,19 @@ class MediaStorageDatastore<T: Media>: WritableDataStore {
                             }
                         }
                     } catch {
-                        reject(LocalDataStoreError.duplicate)
+                        resolver.reject(LocalDataStoreError.duplicate)
                     }
                 }
                 container.add(items)
-                fullfill(items)
+                resolver.fulfill(items)
             } else {
-                reject(LocalDataStoreError.duplicate)
+                resolver.reject(LocalDataStoreError.duplicate)
             }
         }
     }
 
     func removeItems(_ items: [MediaStorageDatastore<T>.Result.Item]) -> Promise<[MediaStorageDatastore<T>.Result.Item]> {
-        return Promise { [unowned self] fullfill, reject in
+        return Promise { [unowned self] resolver in
             let indexes = self.items.indexes(where: { items.contains($0) })
             if indexes.count == items.count {
                 items.forEach {
@@ -77,27 +77,27 @@ class MediaStorageDatastore<T: Media>: WritableDataStore {
                         do {
                             try FileManager.default.removeItem(at: $0.url)
                         } catch {
-                            reject(LocalDataStoreError.notFound)
+                            resolver.reject(LocalDataStoreError.notFound)
                         }
                     }
                 }
                 container.remove(items)
-                fullfill(items)
+                resolver.fulfill(items)
             } else {
-                reject(LocalDataStoreError.notFound)
+                resolver.reject(LocalDataStoreError.notFound)
             }
         }
     }
 
     public func replaceItem(_ item: Result.Item, with otherItem: Result.Item) -> Promise<Result.Item> {
-        return Promise { [unowned self] fullfill, reject in
+        return Promise { [unowned self] resolver in
             guard let index = self.indexOfItem(item) else {
-                reject(LocalDataStoreError.notFound)
+                resolver.reject(LocalDataStoreError.notFound)
                 return
             }
 
             guard self.indexOfItem(otherItem) == nil else {
-                reject(LocalDataStoreError.duplicate)
+                resolver.reject(LocalDataStoreError.duplicate)
                 return
             }
 
@@ -109,11 +109,11 @@ class MediaStorageDatastore<T: Media>: WritableDataStore {
             do {
                 try manager?.move(url: otherItem.url, to: existingURL)
             } catch {
-                reject(LocalDataStoreError.notSupported)
+                resolver.reject(LocalDataStoreError.notSupported)
             }
 
             self.items = items
-            fullfill(otherItem)
+            resolver.fulfill(otherItem)
         }
     }
 

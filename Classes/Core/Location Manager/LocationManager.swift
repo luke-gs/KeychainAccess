@@ -61,20 +61,20 @@ public final class LocationManager: NSObject {
             }
             
             if (hasInfoPlistKey("NSLocationAlwaysUsageDescription") == false && hasInfoPlistKey("NSLocationWhenInUseUsageDescription") == false) {
-                return Promise { fulfill, reject in
-                    reject(LocationError.authorizationError)
+                return Promise { resolver in
+                    resolver.reject(LocationError.authorizationError)
                 }
             }
         }
-        
+
         return CLLocationManager.requestAuthorization().then { status -> Promise<CLLocation> in // We must do this becuase the location Promise will hang if no authorisation string is found in the info.plist
             switch status {
             case .authorizedAlways, .authorizedWhenInUse:
-                return CLLocationManager.promise().then { location -> CLLocation in
+                return CLLocationManager.requestLocation().lastValue.map({ (location) -> CLLocation in
                     self.lastLocation = location
                     NotificationCenter.default.post(name: .LocationDidUpdate, object: self)
                     return location
-                }
+                })
             default:
                 throw LocationError.authorizationError
             }
@@ -84,16 +84,16 @@ public final class LocationManager: NSObject {
     /// Requests authorization from the CLLocationManager
     @discardableResult
     open func requestWhenInUseAuthorization() -> Promise<Void> {
-        let (promise, fulfill, reject) = Promise<Void>.pending()
+        let (promise, resolver) = Promise<Void>.pending()
         
         _ = CLLocationManager.requestAuthorization().then { status -> Promise<Void> in
             switch status {
             case .authorizedAlways, .authorizedWhenInUse:
-                fulfill(())
+                resolver.fulfill(())
             default:
-                reject(LocationError.authorizationError)
+                resolver.reject(LocationError.authorizationError)
             }
-            return Promise<Void>(value: ())
+            return Promise<Void>.value(())
         }
         return promise
     }
@@ -104,7 +104,7 @@ public final class LocationManager: NSObject {
     ///     - A promise with a Placemark
     ///
     open func requestPlacemark(from location: CLLocation) -> Promise<CLPlacemark> {
-        return CLGeocoder().reverseGeocode(location: location)
+        return CLGeocoder().reverseGeocode(location: location).firstValue
     }
     
     /// Request a single location reversegeocoded. Will automatically request authorization for both when in use and always depending if the valid description is in the info.plist
@@ -115,7 +115,7 @@ public final class LocationManager: NSObject {
     @discardableResult
     open func requestPlacemark() -> Promise<CLPlacemark> {
         return self.requestLocation().then { location in
-            return CLGeocoder().reverseGeocode(location: location).then { placemark -> CLPlacemark in
+            return CLGeocoder().reverseGeocode(location: location).firstValue.map { placemark -> CLPlacemark in
                 self.lastPlacemark = placemark
                 return placemark
             }

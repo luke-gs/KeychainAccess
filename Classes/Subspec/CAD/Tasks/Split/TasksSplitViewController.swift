@@ -190,7 +190,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
 
         firstly {
             return CADStateManager.shared.syncInitial()
-        }.then { [weak self] () -> Void in
+        }.done { [weak self] () -> Void in
             // Hide the content view
             self?.tasksListContainer?.loadingManager.contentView?.alpha = 0
 

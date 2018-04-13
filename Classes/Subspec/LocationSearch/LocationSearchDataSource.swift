@@ -273,7 +273,7 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
             lastSearchText = text
             errorMessage = nil
 
-            promise.then { [weak self] locations -> () in
+            promise.done { [weak self] locations -> () in
                 guard let `self` = self, self.lastSearchText == text else { return }
                 
                 if locations.isEmpty {

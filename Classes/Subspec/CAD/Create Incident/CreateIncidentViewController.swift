@@ -134,7 +134,7 @@ open class CreateIncidentViewController: ThemedPopoverViewController {
             AlertQueue.shared.addErrorAlert(message: message)
         case .valid:
             loadingManager.state = .loading
-            _ = viewModel.submitForm().then {
+            _ = viewModel.submitForm().ensure {
                 self.dismissAnimated()
             }.catch { error in
                 self.loadingManager.state = .error

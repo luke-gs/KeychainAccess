@@ -86,7 +86,7 @@ open class SearchDisplayableViewController<T: SearchDisplayableDelegate, U: Sear
 
     public func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let action = viewModel.searchAction() else { return }
-        action.then {
+        action.done {
             self.reloadForm()
         }.catch { _ in
             self.loadingManager.state = .error

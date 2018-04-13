@@ -52,11 +52,11 @@ extension ReadableDataStore {
 extension WritableDataStore {
 
     public func addItem(_ item: Result.Item) -> Promise<Result.Item> {
-        return self.addItems([item]).then { $0.first! }
+        return self.addItems([item]).map { $0.first! }
     }
 
     public func removeItem(_ item: Result.Item) -> Promise<Result.Item> {
-        return self.removeItems([item]).then { $0.first! }
+        return self.removeItems([item]).map { $0.first! }
     }
 
 

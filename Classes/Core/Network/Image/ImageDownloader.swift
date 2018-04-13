@@ -19,7 +19,7 @@ public class ImageDownloader {
     @discardableResult
     public func fetch(for keypath: RemoteResourceDescribing) -> Promise<UIImage> {
         return _downloader.fetchResource(using: keypath.downloadURL).then {
-            return Promise<UIImage>(value: $0.image)
+            return Promise<UIImage>.value($0.image)
         }
     }
 }

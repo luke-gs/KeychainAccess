@@ -24,7 +24,7 @@ open class CreateIncidentViewModel {
     }
     
     private func getLocation() {
-        _ = LocationManager.shared.requestPlacemark().then { [weak self] placemark -> Void in
+        _ = LocationManager.shared.requestPlacemark().done { [weak self] placemark -> Void in
             let address = (placemark.addressDictionary?["FormattedAddressLines"] as? [String])?
                 .joined(separator: ", ")
                 .ifNotEmpty() ?? "Unknown Location"

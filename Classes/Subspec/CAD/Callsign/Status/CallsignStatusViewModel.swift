@@ -57,26 +57,13 @@ open class CallsignStatusViewModel: CADStatusViewModel {
 
             // Requires reason needs further details
             if requiresReason {
-                promise = promise.then {
-                    return self.promptForStatusReason()
-                }.then { _ -> Void in
-                    // TODO: Do something with reason text
-                }
+                promise = promise.map { self.promptForStatusReason() }
             }
-
             switch newStatus.rawValue {
             case CADClientModelTypes.resourceStatus.trafficStopCase.rawValue:
-                promise = promise.then { _ in
-                    return self.promptForTrafficStopDetails()
-                }.then { _ -> Void in
-                    // TODO: Submit traffic stop details
-                }
+                promise = promise.map { self.promptForTrafficStopDetails() }
             case CADClientModelTypes.resourceStatus.finaliseCase.rawValue:
-                promise = promise.then {
-                    return self.promptForFinaliseDetails()
-                }.then { _ -> Void in
-                    // TODO: Do something with this data
-                }
+                promise = promise.map { self.promptForFinaliseDetails() }
             default:
                 break
             }
@@ -88,7 +75,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
                 // Update UI
                 self.selectedIndexPath = indexPath
                 CADStateManager.shared.updateCallsignStatus(status: newStatus, incident: self.incident)
-                return Promise(value: newStatus)
+                return Promise.value(newStatus)
             }
         } else {
             let message = NSLocalizedString("Selection not allowed from this state", comment: "")
@@ -97,13 +84,14 @@ open class CallsignStatusViewModel: CADStatusViewModel {
     }
     
     // Prompts the user for more details when tapping on "Traffic Stop" status
+    @discardableResult
     open func promptForTrafficStopDetails() -> Promise<CADTrafficStopDetailsType> {
-        let (promise, fulfill, reject) = Promise<CADTrafficStopDetailsType>.pending()
+        let (promise, resolver) = Promise<CADTrafficStopDetailsType>.pending()
         let completionHandler: ((CADTrafficStopDetailsType?) -> Void) = { request in
             if let request = request {
-                fulfill(request)
+                resolver.fulfill(request)
             } else {
-                reject(NSError.cancelledError())
+                resolver.reject(PMKError.cancelled)
             }
         }
         delegate?.present(BookOnScreen.trafficStop(completionHandler: completionHandler))
@@ -111,14 +99,15 @@ open class CallsignStatusViewModel: CADStatusViewModel {
     }
 
     // Prompts the user for reason for status change
+    @discardableResult
     open func promptForStatusReason() -> Promise<String> {
 
-        let (promise, fulfill, reject) = Promise<String>.pending()
+        let (promise, resolver) = Promise<String>.pending()
         let completionHandler: ((String?) -> Void) = { text in
             if let text = text {
-                fulfill(text)
+                resolver.fulfill(text)
             } else {
-                reject(NSError.cancelledError())
+                resolver.reject(PMKError.cancelled)
             }
         }
         delegate?.present(BookOnScreen.statusChangeReason(completionHandler: completionHandler))
@@ -126,14 +115,15 @@ open class CallsignStatusViewModel: CADStatusViewModel {
     }
     
     // Prompts the user for finalise details
+    @discardableResult
     open func promptForFinaliseDetails() -> Promise<(String, String)> {
         
-        let (promise, fulfill, reject) = Promise<(String, String)>.pending()
+        let (promise, resolver) = Promise<(String, String)>.pending()
         let completionHandler: ((String?, String?) -> Void) = { (secondaryCode, remark) in
             if let secondaryCode = secondaryCode, let remark = remark {
-                fulfill((secondaryCode, remark))
+                resolver.fulfill((secondaryCode, remark))
             } else {
-                reject(NSError.cancelledError())
+                resolver.reject(PMKError.cancelled)
             }
         }
         delegate?.present(BookOnScreen.finaliseDetails(primaryCode: incident?.identifier ?? "", completionHandler: completionHandler))

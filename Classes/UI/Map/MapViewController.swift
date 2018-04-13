@@ -104,7 +104,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         if !performedInitialLoadAction {
             switch initialLoadZoomStyle {
             case .userLocation(let animated):
-                _ = locationManager.requestLocation().then { location -> () in
+                _ = locationManager.requestLocation().done { location -> () in
                     self.zoomAndCenter(to: location.coordinate, animated: animated)
                 }
                 performedInitialLoadAction = true

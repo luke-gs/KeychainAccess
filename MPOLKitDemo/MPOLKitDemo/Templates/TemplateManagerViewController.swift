@@ -52,10 +52,10 @@ class TemplateManagerViewController: FormBuilderViewController {
     }
 
     func updateDropDown() {
-        handler.source.retrieve().then { result -> Void in
-            let templateArray = Array(result ?? [])
+        handler.source.retrieve().done {
+            let templateArray = Array($0 ?? [])
             self.templateDropDown.options = templateArray
-        }.always {}
+        }
     }
 
     @objc func addTapped() {
@@ -67,12 +67,11 @@ class TemplateManagerViewController: FormBuilderViewController {
     }
 
     @objc func trashTapped() {
-        handler.source.retrieve().then { result in
-            if let templates = result {
+        handler.source.retrieve().done {
+            if let templates = $0 {
                 templates.forEach { self.handler.source.delete(template: $0) }
             }
-            return AnyPromise(Promise<Void>())
-        }.always {}
+        }
         updateDropDown()
         templateDropDown.selectedValue = nil
         templateDropDown.reloadItem()

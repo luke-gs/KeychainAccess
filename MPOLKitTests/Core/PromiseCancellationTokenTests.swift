@@ -27,11 +27,11 @@ class PromiseCancellationTokenTests: XCTestCase {
         })
 
         // Then
-        promise.then { _ -> Void in
+        promise.done { _ -> Void in
             XCTAssert(false, "This operation should be cancelled and should never reach the `.then`.")
             return ()
         }.catch(policy: .allErrors) { error in
-            XCTAssert(error.isCancelledError, "Error is not due to cancellation.")
+            XCTAssert(error.isCancelled, "Error is not due to cancellation.")
             cancelExpectation.fulfill()
         }
 
@@ -58,11 +58,11 @@ class PromiseCancellationTokenTests: XCTestCase {
         })
 
         // Then
-        promise.then { _ -> Void in
+        promise.done { _ -> Void in
             XCTAssert(false, "This operation should be cancelled and should never reach the `.then`.")
             return ()
         }.catch(policy: .allErrors) { error in
-                XCTAssert(error.isCancelledError, "Error is not due to cancellation.")
+                XCTAssert(error.isCancelled, "Error is not due to cancellation.")
                 cancelExpectation.fulfill()
         }
 
@@ -80,12 +80,12 @@ class PromiseCancellationTokenTests: XCTestCase {
         let promise = generatePromise(cancelToken: token)
 
         // Then
-        promise.then { _ -> Void in
+        promise.done { _ -> Void in
             XCTAssert(false, "This operation should be cancelled and should never reach the `.then`.")
             return ()
-            }.catch(policy: .allErrors) { error in
-                XCTAssert(error.isCancelledError, "Error is not due to cancellation.")
-                cancelExpectation.fulfill()
+        }.catch(policy: .allErrors) { error in
+            XCTAssert(error.isCancelled, "Error is not due to cancellation.")
+            cancelExpectation.fulfill()
         }
 
         // When
@@ -123,13 +123,13 @@ class PromiseCancellationTokenTests: XCTestCase {
         })
 
         // Then
-        promise.then { _ -> Void in
+        promise.done { _ -> Void in
             XCTAssert(false, "This operation should be cancelled and should never reach the `.then`.")
             return ()
-            }.catch(policy: .allErrors) { error in
-                XCTAssert(error.isCancelledError, "Error is not due to cancellation.")
-                XCTAssertEqual(cancelledCount, 1)
-                cancelExpectation.fulfill()
+        }.catch(policy: .allErrors) { error in
+            XCTAssert(error.isCancelled, "Error is not due to cancellation.")
+            XCTAssertEqual(cancelledCount, 1)
+            cancelExpectation.fulfill()
         }
 
         waitForExpectations(timeout: 15000, handler: nil)
@@ -137,19 +137,19 @@ class PromiseCancellationTokenTests: XCTestCase {
 
     func generatePromise(cancelToken: PromiseCancellationToken? = nil) -> Promise<Int> {
 
-        let (promise, fulfill, reject) = Promise<Int>.pending()
+        let (promise, resolver) = Promise<Int>.pending()
 
         DispatchQueue.global().async {
             var total: Int = 0
             for i in 0 ..< 50 {
                 if let token = cancelToken, token.isCancelled {
-                    reject(NSError.cancelledError())
+                    resolver.reject(PMKError.cancelled)
                     return
                 }
                 sleep(1)
                 total += i
             }
-            fulfill(total)
+            resolver.fulfill(total)
         }
 
         return promise

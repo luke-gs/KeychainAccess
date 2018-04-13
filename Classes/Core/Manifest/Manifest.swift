@@ -111,7 +111,7 @@ public final class Manifest: NSObject {
     ///   - seedDate:              The date of the pre-seed. Used for future fetches.
     /// - Returns:                 returns a Void Promise, will fail in case the copy is unsuccessful or the override is unsuccessful.
     public func preseedDatebase(withURL copyUrl: URL, seedDate: Date) -> Promise<Void> {
-        return Promise { fulfill, reject in
+        return Promise { resolver in
             let finalURL = Manifest.storageURL
             let fileManager = FileManager.default
             
@@ -119,16 +119,16 @@ public final class Manifest: NSObject {
                 do {
                     try fileManager.removeItem(at: finalURL)
                 } catch let error {
-                    reject(error)
+                    resolver.reject(error)
                 }
             }
             
             do {
                 try fileManager.copyItem(atPath: copyUrl.path, toPath: finalURL.path)
                 lastUpdateDate = seedDate
-                fulfill(())
+                resolver.fulfill(())
             } catch let error {
-                reject(error)
+                resolver.reject(error)
             }
         }
     }
@@ -255,11 +255,11 @@ public final class Manifest: NSObject {
     /// - Return: A promise that returns the successful result once complete
     ///
     public func saveManifest(with manifestItems:[[String : Any]], at checkedAtDate:Date) -> Promise<Void> {
-        return Promise<Void> { fulfill, reject in
+        return Promise<Void> { seal in
             objc_sync_enter(self)
             defer { objc_sync_exit(self) }
             if isSaving == true {
-                reject(ManifestError("Already saving, please try again later"))
+                seal.reject(ManifestError("Already saving, please try again later"))
                 return
             }
             isSaving = true
@@ -267,7 +267,7 @@ public final class Manifest: NSObject {
             managedObjectContext.parent = viewContext
             managedObjectContext.perform { [weak managedObjectContext] in
                 guard manifestItems.isEmpty ==  false, let context = managedObjectContext else {
-                    fulfill(())
+                    seal.fulfill(())
                     return
                 }
                 
@@ -329,10 +329,10 @@ public final class Manifest: NSObject {
                 do {
                     try context.save()
                     self.lastUpdateDate = checkedAtDate
-                    fulfill(())
+                    seal.fulfill(())
                     self.isSaving = false
                 } catch let error {
-                    reject(error)
+                    seal.reject(error)
                     self.isSaving = false
                 }
             }
@@ -355,15 +355,15 @@ public final class Manifest: NSObject {
             let checkedAtDate = Date()
             
             let newPromise = APIManager.shared.fetchManifest(with: ManifestFetchRequest(date: self.lastUpdateDate)).then { [weak self] result -> Promise<Void> in
-                guard let `self` = self else { return Promise<Void>(value: ()) }
+                guard let `self` = self else { return Promise<Void>.value(()) }
                 guard result.isEmpty == false else {
                     self.lastUpdateDate = checkedAtDate
-                    return Promise<Void>(value: ())
+                    return Promise<Void>.value(())
                 }
                 
                 return self.saveManifest(with: result, at:checkedAtDate)
                 
-                }.always { [weak self] in
+                }.ensure { [weak self] in
                     guard let `self` = self else { return }
                     self.currenUpdatingPromise = nil
             }

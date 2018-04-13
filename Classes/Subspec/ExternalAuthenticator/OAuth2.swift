@@ -111,7 +111,7 @@ open class OAuth2: AuthenticationProvider {
             result = .custom(result: queryDict)
         }
 
-        return Promise(value: result)
+        return Promise.value(result)
     }
 
     open func canHandleURL(_ url: URL) -> Bool {

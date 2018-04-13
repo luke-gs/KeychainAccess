@@ -171,7 +171,8 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
     }
     
     @objc open func refreshData() {
-        detailViewModel.refreshTask().always {
+
+        detailViewModel.refreshTask().done {
             self.refreshControl.endRefreshing()
         }.catch { error in
             AlertQueue.shared.addErrorAlert(message: error.localizedDescription)

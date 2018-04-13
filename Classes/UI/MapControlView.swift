@@ -80,7 +80,7 @@ public class MapControlView: ButtonStackView {
                         locateButton.alpha = 0
                     })
 
-                }).always {
+                }).done { _ in
                     locateButton.setImage(image, for: .normal)
 
                     UIView.animate(withDuration: duration, delay: 0.0, options: [ .curveEaseOut ], animations: {

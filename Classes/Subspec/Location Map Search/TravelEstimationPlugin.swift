@@ -35,12 +35,12 @@ extension MKDirections {
 
     // Wraps the call to calculate the ETA between two points to return a promise
     public func calculateETA() -> Promise<MKETAResponse> {
-        return Promise<MKETAResponse> { fufill, reject in
+        return Promise<MKETAResponse> { seal in
             calculateETA(completionHandler: { (response, error) in
                 if let error = error {
-                    reject(error)
+                    seal.reject(error)
                 } else if let response = response {
-                    fufill(response)
+                    seal.fulfill(response)
                 }
             })
         }
@@ -55,7 +55,7 @@ open class TravelEstimationPlugin: TravelEstimationPlugable {
         let distanceFormatter = MKDistanceFormatter()
         distanceFormatter.units = .metric
         distanceFormatter.unitStyle = .abbreviated
-        return Promise(value: distanceFormatter.string(fromDistance: distanceInMeters))
+        return Promise.value(distanceFormatter.string(fromDistance: distanceInMeters))
     }
 
     open func calculateETA(from location: CLLocation, to destination: CLLocation, transportType: MKDirectionsTransportType) -> Promise<String?> {
@@ -71,12 +71,12 @@ open class TravelEstimationPlugin: TravelEstimationPlugable {
         request.requestsAlternateRoutes = false
         let directions = MKDirections(request: request)
 
-        return directions.calculateETA().then {
+        return directions.calculateETA().map { response in
             let dateFormatter = DateComponentsFormatter()
             dateFormatter.allowedUnits = [.hour, .minute]
             dateFormatter.unitsStyle = .abbreviated
             dateFormatter.maximumUnitCount = 2
-            return Promise(value: dateFormatter.string(from: $0.expectedTravelTime))
+            return dateFormatter.string(from: response.expectedTravelTime)
         }
     }
 

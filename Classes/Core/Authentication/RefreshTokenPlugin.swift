@@ -66,22 +66,23 @@ open class RefreshTokenPlugin: PluginType {
 
         // If refresh is currently executing, chain returning the promise
         if let refresh = refreshPromise {
+        
             return refresh.then {
-                return Promise(value: urlRequest)
+                return Promise.value(urlRequest)
             }.recover { _ in
                 // The `refreshPromise` failed, there's no point of continuing the request.
                 // So treat as if the request is being cancelled.
-                return Promise(error: NSError.cancelledError())
+                return Promise(error: PMKError.cancelled)
             }
         }
         
         // Return promise with request as normal
-        return Promise(value: urlRequest)
+        return Promise.value(urlRequest)
     }
     
     public func processResponse(_ response: DataResponse<Data>) -> Promise<DataResponse<Data>> {
         // If request doesn't exist, then whatever I can't retry it anyway.
-        guard let request = response.request else { return Promise(value: response) }
+        guard let request = response.request else { return Promise.value(response) }
 
         // If refresh is currently executing, chain a retry of the request
         if let refresh = refreshPromise {
@@ -104,7 +105,7 @@ open class RefreshTokenPlugin: PluginType {
                 }
                 // Let app attempt refresh
                 return self.refreshHandler(response)
-            }.always {
+            }.ensure {
                 self.refreshPromise = nil
             }
             self.refreshPromise = refreshPromise
@@ -115,7 +116,7 @@ open class RefreshTokenPlugin: PluginType {
         }
         
         // Return promise with response as normal
-        return Promise(value: response)
+        return Promise.value(response)
     }
     
     // MARK: - Internal
@@ -125,14 +126,14 @@ open class RefreshTokenPlugin: PluginType {
     private func retry(request: URLRequest, after promise: Promise<Void>? = nil, originalResponse: DataResponse<Data>) -> Promise<DataResponse<Data>> {
 
         func retry(request: URLRequest) -> Promise<DataResponse<Data>> {
-            return firstly {
+            return firstly { () -> Promise<URLRequest> in
                 if request.shouldUpdateAuthenticationHeader, let plugin = APIManager.shared.authenticationPlugin {
                     return plugin.adapt(request)
                 } else {
-                    return Promise(value: request)
+                    return Promise.value(request)
                 }
             }.then { adapted in
-                return APIManager.shared.dataRequest(Promise(value: adapted))
+                return APIManager.shared.dataRequest(Promise.value(adapted))
             }
         }
 
@@ -142,12 +143,10 @@ open class RefreshTokenPlugin: PluginType {
 
         return promise.then {
             return retry(request: request)
-        }.recover { _ in
-            // Recover on the `refreshPromise` failure.
-            return originalResponse
+        }.recover { (error) -> Guarantee<DataResponse<Data>> in
+            return Guarantee<DataResponse<Data>>.value(originalResponse)
         }
     }
-
 }
 
 

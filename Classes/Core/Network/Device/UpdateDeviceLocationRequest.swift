@@ -27,7 +27,7 @@ public struct UpdateDeviceLocationRequest: Parameterisable {
 public extension APIManager {
     func updateDeviceLocation(with request: UpdateDeviceLocationRequest) -> Promise<Void> {
         let networkRequest = try! NetworkRequest(pathTemplate: request.path, parameters: request.parameters, method: .post)
-        return try! APIManager.shared.performRequest(networkRequest, cancelToken: nil).then { _ -> Void in
+        return try! APIManager.shared.performRequest(networkRequest, cancelToken: nil).done { _ -> Void in
         }
     }
 }

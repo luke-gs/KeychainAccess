@@ -53,10 +53,13 @@ open class LocationSelectionViewModel: Evaluatable {
             return Promise()
         } else {
             let location = CLLocation(latitude: coords.latitude, longitude: coords.longitude)
-            return LocationManager.shared.requestPlacemark(from: location).then { (placemark) -> Void in
+            let promise = LocationManager.shared.requestPlacemark(from: location).done { (placemark) -> Void in
                 self.placemark = placemark
                 self.composeLocation()
-            }.catch { _ in }
+            }
+            promise.catch { _ in }
+            
+            return promise
         }
     }
 

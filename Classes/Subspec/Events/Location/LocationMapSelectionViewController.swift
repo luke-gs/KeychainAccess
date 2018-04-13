@@ -98,7 +98,7 @@ open class LocationMapSelectionViewController: MapFormBuilderViewController, Eva
     }
 
     private func reverseGeocode(coord: CLLocationCoordinate2D) {
-        viewModel.reverseGeocode(from: coord).always {
+        viewModel.reverseGeocode(from: coord).ensure {
             self.locationAnnotation?.coordinate = coord
             self.reloadForm()
         }

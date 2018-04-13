@@ -31,7 +31,7 @@ open class AuditPlugin: PluginType {
         // Temporary until we decide how generate and store transaction IDs
         adaptedRequest.setValue("TestID", forHTTPHeaderField: AuditPlugin.auditTransactionIdKey)
 
-        return Promise(value: adaptedRequest)
+        return Promise.value(adaptedRequest)
     }
     
 }

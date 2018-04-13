@@ -74,8 +74,7 @@ public class LocalDataStore<T>: WritableDataStore, ExpressibleByArrayLiteral whe
                     nextIndex = lastItemIndex + 1
                 }
             }
-
-            return Promise(value: LocalDataResults(items: filteredItems, nextIndex: nextIndex))
+            return Promise.value(LocalDataResults(items: filteredItems, nextIndex: nextIndex))
         } else {
             let filteredItems = limit > 0 ? Array(items.prefix(limit)) : items
 
@@ -86,24 +85,25 @@ public class LocalDataStore<T>: WritableDataStore, ExpressibleByArrayLiteral whe
                 }
             }
 
-            return Promise(value: LocalDataResults(items: filteredItems, nextIndex: nextIndex))
+            return Promise.value(LocalDataResults(items: filteredItems, nextIndex: nextIndex))
         }
     }
 
     public func addItems(_ items: [Result.Item]) -> Promise<[Result.Item]> {
-        return Promise { [unowned self] fullfill, reject in
+        return Promise { [unowned self] resolver in
             let indexes = items.indexes(where: { self.items.contains($0) })
             if indexes.count == 0 {
                 self.items += items
-                fullfill(items)
+                resolver.fulfill(items)
+
             } else {
-                reject(LocalDataStoreError.duplicate)
+                resolver.reject(LocalDataStoreError.duplicate)
             }
         }
     }
 
     public func removeItems(_ items: [Result.Item]) -> Promise<[Result.Item]> {
-        return Promise { [unowned self] fullfill, reject in
+        return Promise { [unowned self] resolver in
             let indexes = self.items.indexes(where: { items.contains($0) })
             if indexes.count == items.count {
                 items.forEach {
@@ -112,22 +112,22 @@ public class LocalDataStore<T>: WritableDataStore, ExpressibleByArrayLiteral whe
                     }
                 }
 
-                fullfill(items)
+                resolver.fulfill(items)
             } else {
-                reject(LocalDataStoreError.notFound)
+                resolver.reject(LocalDataStoreError.notFound)
             }
         }
     }
 
     public func replaceItem(_ item: Result.Item, with otherItem: Result.Item) -> Promise<Result.Item> {
-        return Promise { [unowned self] fullfill, reject in
+        return Promise { [unowned self] resolver in
             guard let index = self.indexOfItem(item) else {
-                reject(LocalDataStoreError.notFound)
+                resolver.reject(LocalDataStoreError.notFound)
                 return
             }
 
             guard self.indexOfItem(otherItem) == nil else {
-                reject(LocalDataStoreError.duplicate)
+                resolver.reject(LocalDataStoreError.duplicate)
                 return
             }
 
@@ -136,7 +136,7 @@ public class LocalDataStore<T>: WritableDataStore, ExpressibleByArrayLiteral whe
             items.insert(otherItem, at: index)
 
             self.items = items
-            fullfill(otherItem)
+            resolver.fulfill(otherItem)
         }
     }
 

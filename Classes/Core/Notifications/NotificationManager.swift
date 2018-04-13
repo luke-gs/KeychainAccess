@@ -40,7 +40,8 @@ open class NotificationManager: NSObject {
     /// Checks notification authorization status and requests if not authorized
     @discardableResult
     open func requestAuthorizationIfNeeded() -> Promise<Void> {
-        let (promise, fulfill, reject) = Promise<Void>.pending()
+
+        let (promise, resolver) = Promise<Void>.pending()
         
         // Get settings
         UNUserNotificationCenter.current().getNotificationSettings { settings in
@@ -49,15 +50,15 @@ open class NotificationManager: NSObject {
                 // Request alerts and sounds
                 UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (success, error) in
                     if success {
-                        fulfill(())
-                    } else {
-                        reject(NotificationError.userRejected)
+                        resolver.fulfill(())
+                    } else if let error = error {
+                        resolver.reject(error)
                     }
                 }
             } else if settings.authorizationStatus == .denied {
-                reject(NotificationError.alreadyRejected)
+                resolver.reject(NotificationError.alreadyRejected)
             } else if settings.authorizationStatus == .authorized {
-                fulfill(())
+                resolver.fulfill(())
             }
         }
         
@@ -133,7 +134,7 @@ open class NotificationManager: NSObject {
     }
 
     open func didReceiveRemoteNotification(userInfo: [AnyHashable : Any]) -> Promise<UIBackgroundFetchResult> {
-        guard let handler = handler else { return Promise<UIBackgroundFetchResult>(value: .noData) }
+        guard let handler = handler else { return Promise<UIBackgroundFetchResult>.value( .noData) }
 
         // Defer processing to handler
         return handler.handleSilentNotification(userInfo: userInfo)
@@ -156,7 +157,7 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
         }
 
         // Defer processing and presentation to handler
-        _ = handler.handleForegroundNotification(notification).then { options -> Void in
+        _ = handler.handleForegroundNotification(notification).done { options -> Void in
             completionHandler(options)
         }.catch { error -> Void in
             completionHandler([])
@@ -185,7 +186,7 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
         }
 
         // Defer processing to handler
-        _ = handler.handleNotificationAction(action, notification: response.notification).always {
+        _ = handler.handleNotificationAction(action, notification: response.notification).ensure {
             completionHandler()
         }
     }

@@ -23,7 +23,7 @@ open class AuthenticationPlugin: PluginType {
         var adaptedRequest = urlRequest
         adaptedRequest.setValue(header.value, forHTTPHeaderField: header.key)
 
-        return Promise(value: adaptedRequest)
+        return Promise.value(adaptedRequest)
     }
     
 }

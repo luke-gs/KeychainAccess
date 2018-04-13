@@ -91,7 +91,7 @@ public class DataStoreCoordinator<Store: ReadableDataStore> where Store.Result.I
         let retrievePromise = dataStore.retrieveItems(withLastKnownResults: nil, cancelToken: cancelToken).recover { [weak self] error -> Promise<Store.Result> in
             self?.state = .error(error)
             return Promise(error: error)
-        }.then { [weak self] results -> [Item] in
+        }.map { [weak self] results -> [Item] in
             let items = results.items
 
             self?.lastKnownResults = results
@@ -99,7 +99,7 @@ public class DataStoreCoordinator<Store: ReadableDataStore> where Store.Result.I
             self?.state = .completed
 
             return self?.items ?? []
-        }.always {
+        }.ensure {
             self.activeRequest = nil
         }
 
@@ -133,7 +133,7 @@ extension DataStoreCoordinator where Store.Result: PaginatedDataStoreResult {
         let retrievePromise = dataStore.retrieveItems(withLastKnownResults: lastKnownResults, cancelToken: cancelToken).recover { [weak self] error -> Promise<Store.Result> in
             self?.state = .error(error)
             return Promise(error: error)
-        }.then { [weak self] results -> [Item] in
+        }.map { [weak self] results -> [Item] in
             let items = results.items
 
             self?.lastKnownResults = results
@@ -141,7 +141,7 @@ extension DataStoreCoordinator where Store.Result: PaginatedDataStoreResult {
             self?.state = .completed
 
             return self?.items ?? []
-        }.always {
+        }.ensure {
             self.activeRequest = nil
         }
 

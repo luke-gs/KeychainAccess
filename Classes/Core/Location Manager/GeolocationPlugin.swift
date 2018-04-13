@@ -46,15 +46,10 @@ open class GeolocationPlugin: PluginType {
         }
 
         return LocationManager.shared.requestLocation().recover { error -> Promise<CLLocation> in
-            return LocationManager.shared.errorManager.handleError(error).then { location in
-                return location
-            }.catch { error in
-                return CLLocation.invalidLocation
-            }
-
+            return LocationManager.shared.errorManager.handleError(error)
         }.then { location -> Promise<URLRequest> in
             injectLocation(into: &adaptedRequest, location: location)
-            return Promise(value: adaptedRequest)
+            return Promise.value(adaptedRequest)
         }
     }
 

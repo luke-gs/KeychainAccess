@@ -290,7 +290,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         // Refresh the task list from the network
         firstly {
             return viewModel.refreshTaskList()
-        }.always { [weak self] in
+        }.ensure { [weak self] in
             self?.tasksListViewController.refreshControl.endRefreshing()
         }.catch { error in
             AlertQueue.shared.addErrorAlert(message: error.localizedDescription)

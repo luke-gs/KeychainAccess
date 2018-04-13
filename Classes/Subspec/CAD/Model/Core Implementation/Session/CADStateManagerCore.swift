@@ -115,7 +115,7 @@ open class CADStateManagerCore: CADStateManagerType {
 
     open func fetchCurrentOfficerDetails() -> Promise<CADOfficerType> {
         if let username = UserSession.current.user?.username {
-            return CADStateManagerCore.apiManager.cadOfficerByUsername(username: username).then { [unowned self] details -> CADOfficerDetailsResponse in
+            return CADStateManagerCore.apiManager.cadOfficerByUsername(username: username).map { [unowned self] details -> CADOfficerDetailsResponse in
                 self.officerDetails = details
                 return details
             }
@@ -184,12 +184,12 @@ open class CADStateManagerCore: CADStateManagerType {
             }
         }
         
-        return Promise<Void>().then {
+        return Promise<Void>().done { _ in
             // Store recent IDs
             UserSession.current.addRecentId(request.callsign, forKey: CADRecentlyUsedKey.callsigns.rawValue)
             UserSession.current.addRecentIds(request.officers.map { $0.payrollId }, forKey: CADRecentlyUsedKey.officers.rawValue)
             
-            return Promise<Void>()
+//            return Promise<Void>()
         }
     }
 
@@ -285,10 +285,11 @@ open class CADStateManagerCore: CADStateManagerType {
         }.then { _ -> Promise<CADSyncResponse> in
             // TODO: Remove this. For demos, we only get fresh data the first time
             if let lastSync = self.lastSync {
-                return Promise<CADSyncResponse>(value: lastSync)
+
+                return Promise<CADSyncResponse>.value(lastSync)
             }
             return CADStateManagerCore.apiManager.cadSyncDetails(request: CADSyncRequest())
-        }.then { [unowned self] summaries -> Void in
+        }.done { [unowned self] summaries -> Void in
             self.lastSync = summaries
             self.lastSyncTime = Date()
             self.processSyncItems()
@@ -307,7 +308,7 @@ open class CADStateManagerCore: CADStateManagerType {
         }.then { [unowned self] _ in
             // Get sync details
             return self.syncDetails()
-        }.then { _ -> Void in
+        }.done { _ -> Void in
             // Clear any outstanding shift ending notifications if we aren't booked on
             if self.lastBookOn == nil {
                 NotificationManager.shared.removeLocalNotification(CADLocalNotifications.shiftEnding)

@@ -68,13 +68,13 @@ extension DataRequest {
     /// - Returns: The promise to return serialized UIImage.
     public func responseImage(imageScale: CGFloat = DataRequest.imageScale) -> Promise<UIImage> {
         let imageSerializer = DataRequest.imageResponseSerializer(imageScale: imageScale)
-        return Promise { fulfill, reject in
+        return Promise { seal in
             response(queue: nil, responseSerializer: imageSerializer, completionHandler: { response in
                 switch response.result {
                 case .success(let image):
-                    fulfill(image)
+                    seal.fulfill(image)
                 case .failure(let error):
-                    reject(error)
+                    seal.reject(error)
                 }
             })
         }

@@ -27,7 +27,7 @@ class ManifestTests: XCTestCase {
                 return
         }
         
-        Manifest.shared.saveManifest(with: manifestArray, at: Date()).always {
+        Manifest.shared.saveManifest(with: manifestArray, at: Date()).ensure {
                 for item in manifestArray {
                 if let id = item["id"] as? String {
                     if let fetchedItem = Manifest.shared.entry(withID: id) {

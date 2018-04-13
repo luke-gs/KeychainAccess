@@ -297,11 +297,12 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
     private func submitForm() {
         // TODO: show progress overlay
+
         firstly {
             return viewModel.submitForm()
-        }.then { [weak self] status in
+        }.done { [weak self] status in
             self?.closeForm(submitted: true)
-        }.always {
+        }.ensure {
             // TODO: Cancel progress overlay
         }.catch { error in
             let title = NSLocalizedString("Failed to submit form", comment: "")

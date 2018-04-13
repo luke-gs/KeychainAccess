@@ -204,7 +204,7 @@ open class ButtonStackView: UIView {
 
                 stackView.setNeedsLayout()
                 stackView.layoutIfNeeded()
-            }).then { _ -> Promise<Bool> in
+            }).then { _ -> Promise<Void> in
 
                 stackView.axis = self.stackViewAxis(for: orientation)
                 separatorView.orientation = orientation
@@ -212,7 +212,6 @@ open class ButtonStackView: UIView {
                 stackView.layoutIfNeeded()
 
                 separatorView.alpha = 1.0
-
                 return UIView.promiseAnimate(withDuration: duration, delay: 0.0, options:[ .curveEaseOut ], animations: {
                     buttonsExcludingLast.forEach({
                         $0.isHidden = false
@@ -220,12 +219,12 @@ open class ButtonStackView: UIView {
                     })
                     stackView.setNeedsLayout()
                     stackView.layoutIfNeeded()
-                })
-                }.always {
-                    CATransaction.begin()
-                    CATransaction.setDisableActions(true)
-                    borderLayer.isHidden = false
-                    CATransaction.commit()
+                }).asVoid()
+            }.ensure {
+                CATransaction.begin()
+                CATransaction.setDisableActions(true)
+                borderLayer.isHidden = false
+                CATransaction.commit()
             }
         }
     }

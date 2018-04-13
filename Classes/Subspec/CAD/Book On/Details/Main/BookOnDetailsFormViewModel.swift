@@ -114,7 +114,7 @@ open class BookOnDetailsFormViewModel {
 
         return firstly {
             // TODO: submit to network
-            return Promise(value: ())
+            return Promise.value(())
         }
     }
 

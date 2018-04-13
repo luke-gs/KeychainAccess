@@ -4,18 +4,16 @@ PODS:
   - Cluster (2.1.1)
   - KeychainSwift (8.0.3)
   - lottie-ios (2.1.5)
-  - PromiseKit (4.4.4):
-    - PromiseKit/Foundation (= 4.4.4)
-    - PromiseKit/QuartzCore (= 4.4.4)
-    - PromiseKit/UIKit (= 4.4.4)
-  - PromiseKit/CoreLocation (4.4.4):
+  - PromiseKit (6.1.2):
+    - PromiseKit/CorePromise (= 6.1.2)
+    - PromiseKit/Foundation (= 6.1.2)
+    - PromiseKit/UIKit (= 6.1.2)
+  - PromiseKit/CoreLocation (6.1.2):
     - PromiseKit/CorePromise
-  - PromiseKit/CorePromise (4.4.4)
-  - PromiseKit/Foundation (4.4.4):
+  - PromiseKit/CorePromise (6.1.2)
+  - PromiseKit/Foundation (6.1.2):
     - PromiseKit/CorePromise
-  - PromiseKit/QuartzCore (4.4.4):
-    - PromiseKit/CorePromise
-  - PromiseKit/UIKit (4.4.4):
+  - PromiseKit/UIKit (6.1.2):
     - PromiseKit/CorePromise
   - Unbox (2.5.0)
   - Wrap (2.1.1)
@@ -26,8 +24,8 @@ DEPENDENCIES:
   - Cluster (= 2.1.1)
   - KeychainSwift (~> 8.0)
   - lottie-ios (~> 2.1.3)
-  - PromiseKit (~> 4.4.0)
-  - PromiseKit/CoreLocation
+  - PromiseKit (~> 6.0)
+  - PromiseKit/CoreLocation (~> 6.0)
   - Unbox (= 2.5.0)
   - Wrap (= 2.1.1)
 
@@ -48,10 +46,10 @@ SPEC CHECKSUMS:
   Cluster: e6b55b7c6a76f8af5acf631574bbb299e4c64914
   KeychainSwift: be9554c0e5f4b1686c775930dc5c6bd9396992ed
   lottie-ios: 836cdbba92f62f3c6a00e37a4ce485321fe317cf
-  PromiseKit: 6178219c4c7457ae90d7d8b34b7ac5eb36916519
+  PromiseKit: 4a3255c16f236bd8a6a6b070568cd27259c97381
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
   Wrap: 9cc7da7551bb81d0846cb3df9fb624c6c32d267d
 
-PODFILE CHECKSUM: 2eda6b2672d65678b6214498dff3ac0d6687d937
+PODFILE CHECKSUM: 72a7323e472ba8fc63dcd56985081ae9ba654ae0
 
 COCOAPODS: 1.5.0

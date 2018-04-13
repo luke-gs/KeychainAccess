@@ -47,7 +47,7 @@ class LocalDataStoreTests: XCTestCase {
         let expectation = XCTestExpectation()
 
         // When
-        store.addItem(item).then { item -> () in
+        store.addItem(item).done { item -> () in
             XCTAssertNotNil(item)
             expectation.fulfill()
         }.catch { error in
@@ -65,7 +65,7 @@ class LocalDataStoreTests: XCTestCase {
         let expectation = XCTestExpectation()
 
         // When
-        store.addItem(item).then { item -> () in
+        store.addItem(item).done { item -> () in
             XCTFail("This should not happen.")
         }.catch { error in
             XCTAssertEqual(error as! LocalDataStoreError, .duplicate)
@@ -83,7 +83,7 @@ class LocalDataStoreTests: XCTestCase {
         let expectation = XCTestExpectation()
 
         // When
-        store.removeItem(item).then { item -> () in
+        store.removeItem(item).done { item -> () in
             XCTAssertNotNil(item)
             expectation.fulfill()
         }.catch { error in
@@ -101,7 +101,7 @@ class LocalDataStoreTests: XCTestCase {
         let expectation = XCTestExpectation()
 
         // When
-        store.removeItem(item).then { item -> () in
+        store.removeItem(item).done { item -> () in
             XCTFail("This should not happen.")
         }.catch { error in
             XCTAssertEqual(error as! LocalDataStoreError, .notFound)
@@ -120,7 +120,7 @@ class LocalDataStoreTests: XCTestCase {
         let expectation = XCTestExpectation()
 
         // When
-        store.replaceItem(item, with: newItem).then { item -> () in
+        store.replaceItem(item, with: newItem).done { item -> () in
             XCTAssertEqual(newItem, item)
             expectation.fulfill()
         }.catch { error in
@@ -139,7 +139,7 @@ class LocalDataStoreTests: XCTestCase {
         let expectation = XCTestExpectation()
 
         // When
-        store.replaceItem(item, with: newItem).then { newItem -> () in
+        store.replaceItem(item, with: newItem).done { newItem -> () in
             XCTFail("This should not happen.")
         }.catch { error in
             XCTAssertEqual(error as! LocalDataStoreError, .notFound)
@@ -158,7 +158,7 @@ class LocalDataStoreTests: XCTestCase {
         let expectation = XCTestExpectation()
 
         // When
-        store.replaceItem(item, with: newItem).then { newItem -> () in
+        store.replaceItem(item, with: newItem).done { newItem -> () in
             XCTFail("This should not happen.")
         }.catch { error in
             XCTAssertEqual(error as! LocalDataStoreError, .duplicate)
@@ -180,7 +180,7 @@ class LocalDataStoreTests: XCTestCase {
         let expectation = XCTestExpectation()
 
         // When
-        store.retrieveItems(withLastKnownResults: nil).then { results -> () in
+        store.retrieveItems(withLastKnownResults: nil).done { results -> () in
             // Then
             let expectedResults = LocalDataResults(items: items)
             XCTAssertEqual(results.items, expectedResults.items)
@@ -214,7 +214,7 @@ class LocalDataStoreTests: XCTestCase {
             let expectedResults = LocalDataResults(items: initialItems, nextIndex: 2)
             XCTAssertEqual(results.items, expectedResults.items)
             return store.retrieveItems(withLastKnownResults: results)
-        }.then { results -> () in
+        }.done { results -> () in
             let expectedResults = LocalDataResults(items: additionalItems, nextIndex: nil)
             XCTAssertEqual(results.items, expectedResults.items)
             expectation.fulfill()

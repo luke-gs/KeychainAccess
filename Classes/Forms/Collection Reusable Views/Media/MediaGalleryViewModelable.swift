@@ -242,9 +242,9 @@ open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryV
         }
         
         return storeCoordinator.addItems(media).then { [weak self] _ -> Promise<[T.Result.Item]> in
-            guard let `self` = self else { return Promise(error: NSError.cancelledError()) }
+            guard let `self` = self else { return Promise(error: PMKError.cancelled) }
             return self.storeCoordinator.retrieveItems()
-        }.then { _ -> Bool in
+        }.map { _ -> Bool in
             return true
         }
     }
@@ -255,9 +255,9 @@ open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryV
         }
         
         return storeCoordinator.removeItems(media).then { [weak self] _ -> Promise<[T.Result.Item]> in
-            guard let `self` = self else { return Promise(error: NSError.cancelledError()) }
+            guard let `self` = self else { return Promise(error: PMKError.cancelled) }
             return self.storeCoordinator.retrieveItems()
-        }.then { _ -> Bool in
+        }.map { _ -> Bool in
             return true
         }
     }
@@ -268,9 +268,9 @@ open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryV
         }
         
         return storeCoordinator.replaceItem(media, with: otherMedia).then { [weak self] _ -> Promise<[T.Result.Item]> in
-            guard let `self` = self else { return Promise(error: NSError.cancelledError()) }
+            guard let `self` = self else { return Promise(error: PMKError.cancelled) }
             return self.storeCoordinator.retrieveItems()
-        }.then { _ -> Bool in
+        }.map { _ -> Bool in
             return true
         }
     }

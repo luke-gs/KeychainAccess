@@ -32,7 +32,8 @@ open class AggregatedSearchRequest<T: MPOLKitEntity> {
     }
     
     public func search() -> Promise<[T]> {
-        return searchPromise().then { [weak self] (searchResult) -> [T] in
+        
+        return searchPromise().map { [weak self] (searchResult) -> [T] in
             guard let sortHandler = self?.sortHandler else {
                 return searchResult.results
             }

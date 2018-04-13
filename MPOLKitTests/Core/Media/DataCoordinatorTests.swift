@@ -33,11 +33,11 @@ class DataCoordinatorTests: XCTestCase {
         let expectation = XCTestExpectation()
 
         // When
-        _ = after(seconds: 0.1).then {
+        _ = after(seconds: 0.1).done {_ in
             XCTAssertEqual(provider.state, .loading)
         }
 
-        provider.retrieveItems().then { newItems -> () in
+        provider.retrieveItems().done { newItems -> () in
             // Then
             XCTAssertEqual(provider.state, .completed)
             XCTAssertEqual(provider.items, newItems)
@@ -59,7 +59,7 @@ class DataCoordinatorTests: XCTestCase {
         // When
         provider.addItem(3).then { _ in
             return provider.retrieveItems()
-        }.then { _ -> () in
+        }.done { _ -> () in
             // Then
             XCTAssertEqual(provider.items, [1, 2, 3])
             expectation.fulfill()
@@ -80,7 +80,7 @@ class DataCoordinatorTests: XCTestCase {
         // When
         provider.removeItem(2).then { _ in
             return provider.retrieveItems()
-        }.then { _ -> () in
+        }.done { _ -> () in
             // Then
             XCTAssertEqual(provider.items, [1])
             expectation.fulfill()
@@ -101,7 +101,7 @@ class DataCoordinatorTests: XCTestCase {
         // When
         provider.replaceItem(2, with: 3).then { _ in
             return provider.retrieveItems()
-        }.then { _ -> () in
+        }.done { _ -> () in
             // Then
             XCTAssertEqual(provider.items, [1, 3])
             expectation.fulfill()
@@ -120,7 +120,7 @@ class DataCoordinatorTests: XCTestCase {
         let expectation = XCTestExpectation()
 
         // When
-        provider.retrieveItems().then { _ -> () in
+        provider.retrieveItems().done { _ -> () in
             // Then
             XCTAssertTrue(provider.hasMoreItems())
             expectation.fulfill()
@@ -139,7 +139,7 @@ class DataCoordinatorTests: XCTestCase {
         let expectation = XCTestExpectation()
 
         // When
-        provider.retrieveItems().then { _ -> () in
+        provider.retrieveItems().done { _ -> () in
             // Then
             XCTAssertFalse(provider.hasMoreItems())
             expectation.fulfill()
@@ -172,7 +172,7 @@ class DataCoordinatorTests: XCTestCase {
         // When
         provider.retrieveItems().then { _ in
             return provider.retrieveMoreItems()
-        }.then { items -> () in
+        }.done { items -> () in
             // Then
             XCTAssertEqual(items, [1, 2, 3, 4])
             expectation.fulfill()
@@ -195,7 +195,7 @@ class DataCoordinatorTests: XCTestCase {
             XCTAssertEqual(items, [1, 2])
             XCTAssertTrue(provider.hasMoreItems())
             return provider.retrieveMoreItems()
-        }.then { items -> () in
+        }.done { items -> () in
             // Then
             XCTAssertEqual(items, [1, 2, 3, 4])
             expectation.fulfill()
@@ -214,7 +214,7 @@ class DataCoordinatorTests: XCTestCase {
         let expectation = XCTestExpectation()
 
         // When
-        provider.retrieveMoreItems().then { items -> () in
+        provider.retrieveMoreItems().done { items -> () in
             // Then
             XCTAssertEqual(items, [1, 2])
             expectation.fulfill()
@@ -233,7 +233,7 @@ class DataCoordinatorTests: XCTestCase {
         let expectation = XCTestExpectation()
 
         // When
-        provider.retrieveItems().then { _ in
+        provider.retrieveItems().done { _ in
             XCTFail("This should not happen.")
         }.catch { error in
             // Then
@@ -258,7 +258,7 @@ class DataCoordinatorTests: XCTestCase {
         // When
         provider.retrieveItems().then { _ in
             return provider.retrieveMoreItems()
-        }.then { _ -> () in
+        }.done { _ -> () in
             XCTFail("This should not happen.")
         }.catch { error in
             // Then
@@ -281,14 +281,14 @@ class DataCoordinatorTests: XCTestCase {
         let expectation = XCTestExpectation()
 
         // When
-        _ = after(seconds: 0.1).then {
+        _ = after(seconds: 0.1).done {
             XCTAssertEqual(provider.state, .loading)
         }
 
         let firstRetrieve = provider.retrieveItems()
         let secondRetrieve = provider.retrieveItems()
 
-        when(fulfilled: firstRetrieve, secondRetrieve).then { firstResults, secondResults -> () in
+        when(fulfilled: firstRetrieve, secondRetrieve).done { firstResults, secondResults -> () in
             // Then
             XCTAssertEqual(firstResults, secondResults)
             XCTAssertEqual(store.retrieveCount, 1)
@@ -308,7 +308,7 @@ class DataCoordinatorTests: XCTestCase {
         let expectation = XCTestExpectation()
 
         // When
-        _ = after(seconds: 0.1).then {
+        _ = after(seconds: 0.1).done {_ in
             XCTAssertEqual(provider.state, .loading)
         }
 
@@ -316,7 +316,7 @@ class DataCoordinatorTests: XCTestCase {
             let firstRetrieve = provider.retrieveMoreItems()
             let secondRetrieve = provider.retrieveMoreItems()
             return when(fulfilled: firstRetrieve, secondRetrieve)
-        }.then { firstResults, secondResults -> () in
+        }.done { firstResults, secondResults -> () in
             // Then
             XCTAssertEqual(firstResults, secondResults)
             XCTAssertEqual(store.retrieveCount, 2)
@@ -336,10 +336,10 @@ class DataCoordinatorTests: XCTestCase {
         let expectation = XCTestExpectation()
 
         // When
-        _ = provider.retrieveItems().then { _ -> () in
+        _ = provider.retrieveItems().done { _ -> () in
             XCTAssertTrue(provider.hasMoreItems())
 
-            _ = provider.retrieveMoreItems().then { _ -> () in
+            _ = provider.retrieveMoreItems().done { _ -> () in
                 XCTFail("This should not happen.")
             }.catch { error in
                 XCTAssertEqual((error as NSError).code, NSURLErrorCancelled)
@@ -347,7 +347,7 @@ class DataCoordinatorTests: XCTestCase {
 
             after(seconds: 0.1).then {
                 return provider.retrieveItems()
-            }.then { items -> () in
+            }.done { items in
                 // Then
                 XCTAssertEqual(items, [1, 2, 3])
                 expectation.fulfill()
@@ -355,7 +355,6 @@ class DataCoordinatorTests: XCTestCase {
                 XCTFail("This should not happen.")
             }
         }
-
         wait(for: [expectation], timeout: 4.0)
     }
 
@@ -410,15 +409,15 @@ class ReadOnlyStore: ReadableDataStore {
     }
 
     func retrieveItems(withLastKnownResults results: ReadOnlyStore.Result?, cancelToken: PromiseCancellationToken?) -> Promise<ReadOnlyStore.Result> {
-        return Promise { fullfill, reject in
+        return Promise { resolver in
             retrieveCount += 1
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delay, execute: {
                 if (self.forceErrorOnRetrieve && results == nil) || (self.forceErrorOnRetrieveMoreItems && results != nil) {
-                    reject(NSError(domain: "com.readonly", code: NSURLErrorDataNotAllowed, userInfo: [:]))
+                    resolver.reject(NSError(domain: "com.readonly", code: NSURLErrorDataNotAllowed, userInfo: [:]))
                 } else if cancelToken?.isCancelled == true {
-                    reject(NSError.cancelledError())
+                    resolver.reject(PMKError.cancelled)
                 } else {
-                    fullfill(NumberResult(items: results != nil ? self.additionalItems ?? [] : self.numbers, hasMoreItems: results == nil && self.additionalItems?.count ?? 0 > 0))
+                    resolver.fulfill(NumberResult(items: results != nil ? self.additionalItems ?? [] : self.numbers, hasMoreItems: results == nil && self.additionalItems?.count ?? 0 > 0))
                 }
             })
         }
@@ -443,16 +442,16 @@ class WritableStore: WritableDataStore {
     }
 
     func retrieveItems(withLastKnownResults results: ReadOnlyStore.Result?, cancelToken: PromiseCancellationToken?) -> Promise<ReadOnlyStore.Result> {
-        return Promise { fullfill, reject in
+        return Promise { resolver in
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delay, execute: {
-                fullfill(NumberResult(items: results != nil ? self.additionalItems ?? [] : self.numbers, hasMoreItems: results == nil && self.additionalItems?.count ?? 0 > 0))
+                resolver.fulfill(NumberResult(items: results != nil ? self.additionalItems ?? [] : self.numbers, hasMoreItems: results == nil && self.additionalItems?.count ?? 0 > 0))
             })
         }
     }
 
     func addItems(_ items: [Int]) -> Promise<[Int]> {
         numbers += items
-        return Promise(value: items)
+        return Promise.value(items)
     }
 
     func removeItems(_ items: [Int]) -> Promise<[Int]> {
@@ -462,7 +461,7 @@ class WritableStore: WritableDataStore {
             }
         }
 
-        return Promise(value: items)
+        return Promise.value(items)
     }
 
     func replaceItem(_ item: Int, with otherItem: Int) -> Promise<Int> {
@@ -470,7 +469,7 @@ class WritableStore: WritableDataStore {
             numbers.remove(at: index)
             numbers.insert(otherItem, at: index)
         }
-        return Promise(value: otherItem)
+        return Promise.value(otherItem)
     }
 
 }

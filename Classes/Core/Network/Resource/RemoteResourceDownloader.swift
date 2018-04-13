@@ -49,8 +49,7 @@ public class RemoteResourceDownloader<T: Codable> {
         if let request = fetchRequest(for: downloadURL) {
             resourceRequest = request
         } else {
-            let request = fetchAndCacheResource(using: downloadURL)
-            request.always { [weak self] in
+            let request = fetchAndCacheResource(using: downloadURL).ensure { [weak self] in
                 self?.set(fetchRequest: nil, for: downloadURL)
             }
             resourceRequest = request
@@ -59,7 +58,8 @@ public class RemoteResourceDownloader<T: Codable> {
 
         // Catch the error, it's very likely use case
         // that the fetcher wouldn't handle the error. So catch it here and do nothing.
-        return resourceRequest.catch { _ in }
+        
+        return resourceRequest
     }
 
     private func fetchAndCacheResource(using resourceDescription: RemoteResourceDescribing) -> Promise<T> {
@@ -75,7 +75,7 @@ public class RemoteResourceDownloader<T: Codable> {
                     strongSelf.resourceCache.async.setObject(resource, forKey: resourceDescription.cacheKey, completion: { _ in })
                 }
 
-                return Promise(value: resource)
+                return Promise.value(resource)
             }
         }
 
@@ -83,17 +83,17 @@ public class RemoteResourceDownloader<T: Codable> {
 
         if let isCached = isCached, isCached { // If cache for the key exists.
 
-            let promise = Promise<T> { [weak self] fulfill, reject in
+            let promise = Promise<T> { [weak self] seal in
                 guard let `self` = self else {
-                    throw NSError.cancelledError()
+                    throw PMKError.cancelled
                 }
                 self.resourceCache.async.entry(ofType: T.self, forKey: resourceDescription.cacheKey, completion: { result in
                     switch result {
                     case .value(let entry):
-                        fulfill(entry.object)
+                        seal.fulfill(entry.object)
                         break
                     case .error(let error):
-                        reject(error)
+                        seal.reject(error)
                     }
                 })
             }

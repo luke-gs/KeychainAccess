@@ -63,9 +63,9 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
                 firstly { () -> Promise<Bool> in
                     self.itemsBeingProcessed.append(media)
                     return self.viewModel.addMedia([media])
-                }.then { _ -> () in
+                }.done { _ -> () in
                     self.collectionView.reloadData()
-                }.always {
+                }.ensure {
                     if let index = self.itemsBeingProcessed.index(where: { $0 == media }) {
                         self.itemsBeingProcessed.remove(at: index)
                     }
@@ -354,13 +354,13 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
             firstly { () -> Promise<Bool> in
                 self.itemsBeingProcessed += items
                 return self.viewModel.removeMedia(items)
-            }.then { _ -> () in
+            }.done { _ -> () in
                 if self.viewModel.previews.count <= 0 {
                     self.setEditing(false, animated: true)
                 } else {
                     self.collectionView.reloadData()
                 }
-            }.always {
+            }.ensure {
                 self.itemsBeingProcessed = self.itemsBeingProcessed.filter({ !items.contains($0) })
             }
         }))

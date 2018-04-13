@@ -111,10 +111,10 @@ public class AggregatedSearch<T: MPOLKitEntity> {
     // MARK: - Private
     
     private func retrySearch(request: AggregatedSearchRequest<T>) {
-        firstly {
+        firstly { () -> Promise<[T]> in
             beginSearch(for: request)
             return request.search()
-        }.then { [weak self] results in
+        }.done { [weak self] results in
             self?.endSearch(for: request, entities: results)
         }.catch { [weak self] in
             self?.endSearch(for: request, error: $0)

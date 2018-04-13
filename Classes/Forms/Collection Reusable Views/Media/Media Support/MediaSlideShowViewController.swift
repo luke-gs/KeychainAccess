@@ -377,7 +377,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         guard let currentPreview = currentPreview else { return }
 
         if let index = indexOfPreview(currentPreview) {
-            _ = viewModel.removeMedia([currentPreview.media]).then { [weak self] _ -> () in
+            _ = viewModel.removeMedia([currentPreview.media]).done { [weak self] _ -> () in
                 guard let `self` = self else { return }
                 if let preview = self.previewAfterDeletion(currentPreviewIndex: index) {
                     self.showPreview(preview, animated: true)

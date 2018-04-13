@@ -156,7 +156,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
 
             if let coordinate = summary.coordinate {
                 let destinationLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-                travelEstimationPlugin.calculateDistance(from: userLocation, to: destinationLocation).then { [weak item] text -> Void in
+                travelEstimationPlugin.calculateDistance(from: userLocation, to: destinationLocation).done { [weak item] text -> Void in
                     item?.subtitle(text).reloadItem()
                 }.catch { [weak item] (error) in
                     item?.subtitle(NSLocalizedString("Unknown", comment: "")).reloadItem()
@@ -277,7 +277,8 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
 
         if let coordinate = summary.coordinate {
             let destinationLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-            travelEstimationPlugin.calculateDistance(from: location, to: destinationLocation).then { [weak item] text -> Void in
+            
+            travelEstimationPlugin.calculateDistance(from: location, to: destinationLocation).done { [weak item] text -> Void in
                 item?.subtitle(text).reloadItem()
             }.catch { [weak item] (error) in
                 item?.subtitle(NSLocalizedString("Unknown", comment: "")).reloadItem()

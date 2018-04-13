@@ -64,13 +64,13 @@ public class EntityDetailFetch<T: MPOLKitEntity>: Fetchable {
     }
     
     private func fetch(for request: EntityDetailFetchRequest<T>) {
-        firstly {
+        firstly { () -> Promise<T> in
             beginFetch(for: request)
             return request.fetch()
-            }.then { [weak self] result in
-                self?.endFetch(for: request, entity: result)
-            }.catch { [weak self] in
-                self?.endFetch(for: request, error: $0)
+        }.done { [weak self] result in
+            self?.endFetch(for: request, entity: result)
+        }.catch { [weak self] in
+            self?.endFetch(for: request, error: $0)
         }
     }
     

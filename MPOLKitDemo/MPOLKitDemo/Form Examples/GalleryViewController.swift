@@ -242,7 +242,7 @@ class MeganMediaStore: WritableDataStore {
 
         return connectToBackendToDownloadMedia(page: pageID).then { (images, pageID) -> Promise<MeganStoreResult> in
 
-            return Promise { fullfill, reject in
+            return Promise { resolver in
                 DispatchQueue.global().async {
                     let media = images.map { image -> MeganMedia in
                         let imageRef = UIImageJPEGRepresentation(image.0, 0.5)
@@ -251,7 +251,7 @@ class MeganMediaStore: WritableDataStore {
                         return (MeganMedia(url: imageFilePath, type: .photo, title: image.1, sensitive: image.2))
                     }
 
-                    fullfill(MeganStoreResult(items: media, nextPageID: pageID))
+                    resolver.fulfill(MeganStoreResult(items: media, nextPageID: pageID))
                 }
 
             }
@@ -284,7 +284,7 @@ class MeganMediaStore: WritableDataStore {
     ]
 
     private func connectToBackendToDownloadMedia(page: Int) -> Promise<([(UIImage, String, Bool)], Int?)> {
-        return Promise { fullfill, reject in
+        return Promise { resolver in
             DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 1.5) {
                 // This backend only sends 2 results back at a time.
                 let beginIndex: Int = page * 2
@@ -297,7 +297,7 @@ class MeganMediaStore: WritableDataStore {
                     return (AssetManager.shared.image(forKey: $0.0)!, $0.1, $0.2)
                 }
 
-                fullfill((images, pageId))
+                resolver.fulfill((images, pageId))
             }
         }
     }

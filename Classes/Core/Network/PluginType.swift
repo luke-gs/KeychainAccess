@@ -39,7 +39,7 @@ public protocol PluginType {
 public extension PluginType {
 
     func adapt(_ urlRequest: URLRequest) -> Promise<URLRequest> {
-        return Promise(value: urlRequest)
+        return Promise.value(urlRequest)
     }
 
     func willSend(_ request: Alamofire.Request) {
@@ -51,6 +51,6 @@ public extension PluginType {
     }
 
     func processResponse(_ response: Alamofire.DataResponse<Data>) -> Promise<Alamofire.DataResponse<Data>> {
-        return Promise(value: response)
+        return Promise.value(response)
     }
 }

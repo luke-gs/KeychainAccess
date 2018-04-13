@@ -138,8 +138,7 @@ open class TasksListContainerViewModel {
 
     // Refresh all tasks list data
     open func refreshTaskList() -> Promise<Void> {
-        return CADStateManager.shared.syncDetails().then { _ -> Void in
-        }
+        return CADStateManager.shared.syncDetails()
     }
 
     // MARK: - Internal methods

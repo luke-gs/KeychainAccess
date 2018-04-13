@@ -80,7 +80,7 @@ public class EntityManager {
         if let cachedEntity = entities.first(where: {
             $0.isEssentiallyTheSameAs(otherEntity: existingEntity)
         }), cachedEntity !== existingEntity {
-            return Promise(value: cachedEntity)
+            return Promise.value(cachedEntity)
         }
 
         return Promise(error: EntityManagerError.EntityNotFound)
@@ -148,7 +148,7 @@ public class EntitySnapshot: EntitySnapshotable {
             return Promise(error: EntitySnapshotError.InvalidManager)
         }
 
-        return entityManager.fetch(entity).then { [weak self] (entity) -> MPOLKitEntity in
+        return entityManager.fetch(entity).map { [weak self] (entity) -> MPOLKitEntity in
             self?.entity = entity
             return entity
         }

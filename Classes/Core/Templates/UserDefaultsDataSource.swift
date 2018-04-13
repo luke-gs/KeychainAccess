@@ -34,10 +34,14 @@ public class UserDefaultsDataSource: TemplateDataSource {
         templates = Set(templatesFromData)
     }
 
-    public func retrieve() -> Promise<Set<TextTemplate>?> {
-        return Promise<Set<TextTemplate>?> { fulfil, reject in
-            fulfil(templates)
-        }
+    public func retrieve() -> Guarantee<Set<TextTemplate>?> {
+        return Guarantee<Set<TextTemplate>?>(resolver: { resolver in
+            resolver(templates)
+        })
+
+//        return Guarantee<Set<TextTemplate>?> { seal in
+//            seal.fulfill(templates)
+//        }
     }
 
     public func store(template: TextTemplate) {

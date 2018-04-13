@@ -13,7 +13,7 @@ import PromiseKit
 public protocol TemplateDataSource {
     associatedtype TemplateType: Template
     
-    func retrieve() -> Promise<Set<TemplateType>?>
+    func retrieve() -> Guarantee<Set<TextTemplate>?>
     func store(template: TemplateType)
     func delete(template: TemplateType)
 }
