@@ -2,7 +2,6 @@
 //  UserSession.swift
 //  MPOLKit
 //
-//  Created by Pavel Boryseiko on 31/8/17.
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 

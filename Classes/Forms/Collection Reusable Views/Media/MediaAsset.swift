@@ -10,7 +10,7 @@ import Foundation
 import Cache
 
 
-public enum MediaType: Int, Codable {
+public enum MediaType: Int, Codable, Hashable {
     case video
     case audio
     case photo
@@ -43,7 +43,22 @@ open class Media: Codable {
 extension Media: Hashable {
 
     public var hashValue: Int {
-        return identifier.hashValue ^ type.rawValue.hashValue ^ url.hashValue ^ (title?.hashValue ?? 0) ^ (comments?.hashValue ?? 0) ^ sensitive.hashValue ^ (createdDate?.hashValue ?? 0)
+        
+        let idHash = identifier.hashValue
+        let typeHash = type.rawValue.hashValue
+        let urlHash = url.hashValue
+        let titleHash = (title?.hashValue ?? 0)
+        let commentsHash = (comments?.hashValue ?? 0)
+        let sensitiveHash = sensitive.hashValue
+        let createdHash = (createdDate?.hashValue ?? 0)
+
+        return idHash
+            ^ typeHash
+            ^ urlHash
+            ^ titleHash
+            ^ commentsHash
+            ^ sensitiveHash
+            ^ createdHash
     }
 
     static public func ==(lhs: Media, rhs: Media) -> Bool {

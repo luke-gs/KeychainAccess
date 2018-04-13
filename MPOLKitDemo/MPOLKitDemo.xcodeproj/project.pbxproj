@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		12ED346B2064BBA30069C15D /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ED346A2064BBA20069C15D /* EventsListViewController.swift */; };
 		12FB041220217308000C38C8 /* GenericSearchModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12FB041120217308000C38C8 /* GenericSearchModels.swift */; };
 		12FB041420217346000C38C8 /* EventsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12FB041320217346000C38C8 /* EventsModels.swift */; };
 		19EFD2F41F4D308600422F2A /* MPOLSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EFD2F31F4D308600422F2A /* MPOLSource.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		12ED346A2064BBA20069C15D /* EventsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
 		12FB041120217308000C38C8 /* GenericSearchModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericSearchModels.swift; sourceTree = "<group>"; };
 		12FB041320217346000C38C8 /* EventsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsModels.swift; sourceTree = "<group>"; };
 		19EFD2F31F4D308600422F2A /* MPOLSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLSource.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 		EA1B3C9B1F72538A00574A41 /* Form Examples */ = {
 			isa = PBXGroup;
 			children = (
+				12ED346A2064BBA20069C15D /* EventsListViewController.swift */,
 				EA1B3C9C1F72538A00574A41 /* PersonDetailViewController.swift */,
 				EA1B3C9E1F7257B100574A41 /* ListViewController.swift */,
 				EA445D9D1F734B7700ABF70F /* HeaderViewController.swift */,
@@ -223,7 +226,6 @@
 				BC9C7E5D1F0DF0AA00DFFE83 /* Frameworks */,
 				BC9C7E5E1F0DF0AA00DFFE83 /* Resources */,
 				C1301682769632FAACCD5AED /* [CP] Embed Pods Frameworks */,
-				942D8039B86A65A03912EAA1 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -312,21 +314,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		942D8039B86A65A03912EAA1 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MPOLKitDemo/Pods-MPOLKitDemo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		C1301682769632FAACCD5AED /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -377,6 +364,7 @@
 				EA445DA41F735D2B00ABF70F /* SignViewController.swift in Sources */,
 				EACFF2B32043E07D00B1C40A /* GalleryViewController.swift in Sources */,
 				12FB041220217308000C38C8 /* GenericSearchModels.swift in Sources */,
+				12ED346B2064BBA30069C15D /* EventsListViewController.swift in Sources */,
 				EA1B3C9D1F72538A00574A41 /* PersonDetailViewController.swift in Sources */,
 				E25A5907200C742100DA7F84 /* TemplateManagerViewController.swift in Sources */,
 				EA53B2751F9EF0E600B891D8 /* StepperViewController.swift in Sources */,

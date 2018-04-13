@@ -11,7 +11,9 @@ import MPOLKit
 class DemoListViewModel: EventListViewModelType {
     var title: String = "Events"
 
-    var eventsList: [EventListDisplayable]?
+    var eventsList: [EventListDisplayable]? {
+        return eventsManager.displayableBucket.objects
+    }
     var eventsManager: EventsManager
 
     required init(eventsManager: EventsManager) {
@@ -19,7 +21,7 @@ class DemoListViewModel: EventListViewModelType {
     }
 
     func event(for displayable: EventListDisplayable) -> Event? {
-        return self.eventsManager.event(for: displayable.id)
+        return eventsManager.event(for: displayable.id)
     }
 
     func detailsViewModel(for event: Event) -> EventDetailViewModelType {
@@ -33,6 +35,7 @@ class DemoDetailsViewModel: EventDetailViewModelType {
     var title: String?
     var viewControllers: [UIViewController]?
     var headerView: UIView?
+    var headerUpdated: (() -> ())?
 
     var evaluator: Evaluator = Evaluator()
 
@@ -55,12 +58,24 @@ class DemoScreenBuilder: EventScreenBuilding {
         for report in reportables {
             switch report {
             case let report as DefaultDateTimeReport:
-                viewControllers.append(DefaultEventDateTimeViewController(report: report))
+                viewControllers.append(DefaultEventDateTimeViewController(viewModel: DefaultDateTimeViewModel(report: report)))
             default:
                 break
             }
         }
 
         return viewControllers
+    }
+}
+
+class DemoBuilder: EventBuilding {
+    func createEvent(for type: EventType) -> (event: Event, displayable: EventListDisplayable) {
+        let event = Event()
+        let displayable = EventListDisplayable()
+
+        event.add(report: DefaultDateTimeReport(event: event))
+        displayable.eventId = event.id
+
+        return (event, displayable)
     }
 }

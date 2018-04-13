@@ -1,5 +1,5 @@
 //
-//  Event.swift
+//  Incidents.swift
 //  MPOLKit
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -9,14 +9,17 @@ fileprivate extension EvaluatorKey {
     static let allValid = EvaluatorKey(rawValue: "allValid")
 }
 
-/// The implementation of an Event.
+/// The implementation of an Incident.
 /// All it really is, is an array of reports with some basic business logic
 /// to check if all reports are valid through the evaluator
-final public class Event: NSObject, NSSecureCoding, Evaluatable {
+final public class Incident: NSSecureCoding, Evaluatable {
 
     public let id: String
+    public var incidentType: IncidentType
     public var evaluator: Evaluator = Evaluator()
-    public weak var displayable: EventListDisplayable?
+
+    public weak var event: Event?
+    public weak var displayable: IncidentListDisplayable!
 
     private(set) public var reports: [Reportable] = [Reportable]() {
         didSet {
@@ -30,28 +33,35 @@ final public class Event: NSObject, NSSecureCoding, Evaluatable {
         }
     }
 
-    public override init() {
-        id = UUID().uuidString
-        super.init()
-        evaluator.registerKey(.allValid) {
+    public init(event: Event, type: IncidentType) {
+        self.event = event
+        self.incidentType = type
+        self.id = UUID().uuidString
+        self.evaluator.registerKey(.allValid) {
             return !self.reports.map{$0.evaluator.isComplete}.contains(false)
         }
     }
 
-    // Codable stuff begins
+    // Coding stuff begins
+
     public static var supportsSecureCoding: Bool = true
     private enum Coding: String {
-        case id = "id"
-        case reports = "reports"
+        case id
+        case incidentType
+        case reports
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+
+    public required init?(coder aDecoder: NSCoder) {
         id = aDecoder.decodeObject(of: NSString.self, forKey: Coding.id.rawValue)! as String
+        incidentType = IncidentType(rawValue: aDecoder.decodeObject(of: NSString.self, forKey: Coding.incidentType.rawValue)! as String)
         reports = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.reports.rawValue) as! [Reportable]
     }
 
+
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(id, forKey: Coding.id.rawValue)
+        aCoder.encode(incidentType.rawValue, forKey: Coding.incidentType.rawValue)
         aCoder.encode(reports, forKey: Coding.reports.rawValue)
     }
 
@@ -76,13 +86,13 @@ final public class Event: NSObject, NSSecureCoding, Evaluatable {
     }
 }
 
-/// A bunch of event types
+/// A bunch of incident types
 /// This can later be expanded upon to build different types of events
 /// via the app
-public struct EventType: RawRepresentable, Hashable {
+public struct IncidentType: RawRepresentable, Hashable {
 
     //Define default EventTypes
-    public static let blank = EventType(rawValue: "blank")
+    public static let blank = IncidentType(rawValue: "Blank")
 
     public var rawValue: String
 
@@ -94,44 +104,31 @@ public struct EventType: RawRepresentable, Hashable {
         return rawValue.hashValue
     }
 
-    public static func ==(lhs: EventType, rhs: EventType) -> Bool {
+    public static func ==(lhs: IncidentType, rhs: IncidentType) -> Bool {
         return lhs.rawValue == rhs.rawValue
     }
 }
 
-/// Anything can be reportable
-/// Used to define something in the event object
-public protocol Reportable: NSSecureCoding, Evaluatable {
-
-    /// A reference to the event object
-    /// Make sure this is weak in implementation.
-    var event: Event? { get set }
-
-    /// A weak reference to the incident object
-    /// Make sure this is weak in implementation as well
-    var incident: Incident? { get }
-}
-
-/// Builder for event
+/// Builder for incidents
 ///
-/// Used to define what an event should look like for a specific event type
+/// Used to define what an incident should look like for a specific incident type
 /// in terms of the reports it should have
-public protocol EventBuilding {
+public protocol IncidentBuilding {
 
     /// Create an event, injecting any reports that you need.
     ///
     /// - Parameter type: the type of event that is being asked to be created.
     /// - Returns: a tuple of an event and it's list view representation
-    func createEvent(for type: EventType) -> (event: Event, displayable: EventListDisplayable)
+    func createIncident(for type: IncidentType, in event: Event) -> (incident: Incident, displayable: IncidentListDisplayable)
 }
 
-/// Screen builder for the event
+/// Screen builder for the incident
 ///
 /// Used to provide a viewcontroller for the reportables
 ///
 /// Can be used to provide different view controllers for OOTB reports
 /// - ie. DateTimeReport
-public protocol EventScreenBuilding {
+public protocol IncidentScreenBuilding {
 
     /// Constructs an array of view controllers depending on what reportables are passed in
     ///
@@ -139,3 +136,4 @@ public protocol EventScreenBuilding {
     /// - Returns: an array of viewController constucted for the reports
     func viewControllers(for reportables: [Reportable]) -> [UIViewController]
 }
+

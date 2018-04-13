@@ -2,7 +2,6 @@
 //  LocationSelectionViewModel.swift
 //  MPOLKit
 //
-//  Created by Pavel Boryseiko on 13/2/18.
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
