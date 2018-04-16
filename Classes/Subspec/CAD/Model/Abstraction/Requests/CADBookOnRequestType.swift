@@ -9,7 +9,7 @@ import Foundation
 import PromiseKit
 
 /// Protocol for book on request
-public protocol CADBookOnRequestType: CodableRequest {
+public protocol CADBookOnRequestType: CodableRequestParameters {
 
     // MARK: - Request Parameters
     var callsign : String! { get }
@@ -31,6 +31,6 @@ public extension APIManager {
 
     /// Book on to CAD
     public func cadBookOn(with request: CADBookOnRequestType) -> Promise<Void> {
-        return performRequest(request, method: .post)
+        return performRequest(request, pathTemplate: "cad/shift/bookon", method: .post)
     }
 }

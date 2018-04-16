@@ -455,7 +455,7 @@
 		96B58FA92043C305001A8DF4 /* TaskItemScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B58FA82043C305001A8DF4 /* TaskItemScreen.swift */; };
 		96B9183E1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B9183D1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift */; };
 		96B918401F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B9183F1F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift */; };
-		96BE10EF20842613005D4BAA /* CodableRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE10EE20842613005D4BAA /* CodableRequest.swift */; };
+		96BE10EF20842613005D4BAA /* CodableRequestParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE10EE20842613005D4BAA /* CodableRequestParameters.swift */; };
 		96BFD1B01FE8B322009AF6B5 /* BookOnDetailsFormContentOfficerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BFD1AF1FE8B322009AF6B5 /* BookOnDetailsFormContentOfficerViewModel.swift */; };
 		96C51C901FD9EB35002C4640 /* CallsignStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C51C8F1FD9EB35002C4640 /* CallsignStatusViewController.swift */; };
 		96CF32211F8C337900140AF8 /* TasksListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32201F8C337900140AF8 /* TasksListViewController.swift */; };
@@ -1302,7 +1302,7 @@
 		96B58FA82043C305001A8DF4 /* TaskItemScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemScreen.swift; sourceTree = "<group>"; };
 		96B9183D1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormViewController.swift; sourceTree = "<group>"; };
 		96B9183F1F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormViewModel.swift; sourceTree = "<group>"; };
-		96BE10EE20842613005D4BAA /* CodableRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableRequest.swift; sourceTree = "<group>"; };
+		96BE10EE20842613005D4BAA /* CodableRequestParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableRequestParameters.swift; sourceTree = "<group>"; };
 		96BFD1AF1FE8B322009AF6B5 /* BookOnDetailsFormContentOfficerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormContentOfficerViewModel.swift; sourceTree = "<group>"; };
 		96C51C8F1FD9EB35002C4640 /* CallsignStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignStatusViewController.swift; sourceTree = "<group>"; };
 		96CF32201F8C337900140AF8 /* TasksListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListViewController.swift; sourceTree = "<group>"; };
@@ -3232,7 +3232,7 @@
 				19DBD5D01FA8EA7400205EEC /* APIManager+Unboxable.swift */,
 				C63408511F30D4D4000747B0 /* APIManagerConfigurable.swift */,
 				C6020FD01F394734001F1E71 /* APIManagerError.swift */,
-				96BE10EE20842613005D4BAA /* CodableRequest.swift */,
+				96BE10EE20842613005D4BAA /* CodableRequestParameters.swift */,
 				C6020FD21F394771001F1E71 /* DataResponse+MPLConversion.swift */,
 				C634085A1F30E5B5000747B0 /* EntityFetchRequestable.swift */,
 				C63408541F30E541000747B0 /* EntitySearchRequestable.swift */,
@@ -4474,7 +4474,7 @@
 				4657CAD11F5D0DA9000295F6 /* NetworkLoggingPlugin.swift in Sources */,
 				44621FF61F59239C007C3150 /* FilterRangeDescriptor.swift in Sources */,
 				274F10E41FCE0A12001A59A5 /* IncidentTaskItemViewModel.swift in Sources */,
-				96BE10EF20842613005D4BAA /* CodableRequest.swift in Sources */,
+				96BE10EF20842613005D4BAA /* CodableRequestParameters.swift in Sources */,
 				19A2E1272075FEBF0033ADA3 /* AppLaunchActivity.swift in Sources */,
 				461F7AAA2023CD6C00885E93 /* AudioSessionConfigurer.swift in Sources */,
 				4634B4451FBD6FD200D71E7F /* SearchResultMapViewController.swift in Sources */,

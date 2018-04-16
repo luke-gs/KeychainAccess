@@ -15,10 +15,6 @@ open class CADBookOffRequestCore: CADBookOffRequestType {
         self.callsign = callsign
     }
 
-    open var relativePath: String {
-        return "cad/shift/bookoff"
-    }
-
     // MARK: - Request Parameters
 
     /// The callsign for the resource.

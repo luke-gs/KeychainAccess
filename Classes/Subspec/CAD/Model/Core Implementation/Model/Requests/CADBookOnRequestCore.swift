@@ -14,10 +14,6 @@ open class CADBookOnRequestCore: CADBookOnRequestType {
 
     public init() {}
 
-    open var relativePath: String {
-        return "cad/shift/bookon"
-    }
-
     // MARK: - Request Parameters
 
     open var callsign : String!

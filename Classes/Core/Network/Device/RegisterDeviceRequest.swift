@@ -9,14 +9,7 @@
 import Foundation
 import PromiseKit
 
-open class RegisterDeviceRequest: CodableRequest {
-
-    open var relativePath: String {
-        return "device/register"
-    }
-
-    /// Request URL as relative path
-    open var path: String!
+open class RegisterDeviceRequest: CodableRequestParameters {
 
     /// Current version identifier for the application running on the device
     open var appVersion: String!
@@ -49,7 +42,7 @@ open class RegisterDeviceRequest: CodableRequest {
 public extension APIManager {
     public func registerDevice(with request: RegisterDeviceRequest) -> Promise<Void> {
         // Send request and ignore response backend internal ID array)
-        return performRequest(request, method: .post)
+        return performRequest(request, pathTemplate: "device/register", method: .post)
     }
 }
 

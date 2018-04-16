@@ -1,5 +1,5 @@
 //
-//  CodableRequest.swift
+//  CodableRequestParameters.swift
 //  MPOLKit
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -18,10 +18,7 @@ import Alamofire
 ///
 /// ... but currently not possible with Swift 4
 ///
-public protocol CodableRequest: Encodable, Parameterisable {
-
-    /// Request URL as relative path
-    var relativePath: String { get }
+public protocol CodableRequestParameters: Encodable, Parameterisable {
 
     /// The encoder to use for converting object to parameters. Default is JSONEncoder with no configuration.
     var parametersEncoder: JSONEncoder { get }
@@ -31,7 +28,7 @@ public protocol CodableRequest: Encodable, Parameterisable {
 }
 
 /// Default implementation
-extension CodableRequest {
+extension CodableRequestParameters {
 
     public var parametersEncoder: JSONEncoder {
         return JSONEncoder()
@@ -56,19 +53,18 @@ extension CodableRequest {
     }
 }
 
-// MARK: - API Manager method for sending CodableRequest
+// MARK: - API Manager convenience methods for sending requests based on CodableRequestParameters
 public extension APIManager {
 
     /// Perform request with no response
-    public func performRequest(_ request: CodableRequest, method: HTTPMethod = .get) -> Promise<Void> {
-        let networkRequest = try! NetworkRequest(pathTemplate: request.relativePath, parameters: request.parameters, method: method)
-        return try! APIManager.shared.performRequest(networkRequest, cancelToken: nil).done { _ in
-        }
+    public func performRequest(_ request: CodableRequestParameters, pathTemplate: String, method: HTTPMethod = .get) -> Promise<Void> {
+        let networkRequest = try! NetworkRequest(pathTemplate: pathTemplate, parameters: request.parameters, method: method)
+        return try! APIManager.shared.performRequest(networkRequest, cancelToken: nil).done { _ in }
     }
 
     /// Perform request and JSON decode the response
-    public func performRequest<ResponseType: Codable>(_ request: CodableRequest, method: HTTPMethod = .get) -> Promise<ResponseType> {
-        let networkRequest = try! NetworkRequest(pathTemplate: request.relativePath, parameters: request.parameters, method: method)
+    public func performRequest<ResponseType: Codable>(_ request: CodableRequestParameters, pathTemplate: String, method: HTTPMethod = .get) -> Promise<ResponseType> {
+        let networkRequest = try! NetworkRequest(pathTemplate: pathTemplate, parameters: request.parameters, method: method)
         return try! APIManager.shared.performRequest(networkRequest, using: CodableResponseSerializing())
     }
 }

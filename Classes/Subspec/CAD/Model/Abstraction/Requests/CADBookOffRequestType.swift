@@ -9,7 +9,7 @@ import Foundation
 import PromiseKit
 
 /// Protocol for book off request
-public protocol CADBookOffRequestType: CodableRequest {
+public protocol CADBookOffRequestType: CodableRequestParameters {
 
     // MARK: - Request Parameters
     var callsign : String! { get }
@@ -21,6 +21,6 @@ public extension APIManager {
 
     /// Book off from CAD
     public func cadBookOff(with request: CADBookOffRequestType) -> Promise<Void> {
-        return performRequest(request, method: .put)
+        return performRequest(request, pathTemplate: "cad/shift/bookoff", method: .put)
     }
 }
