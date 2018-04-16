@@ -11,6 +11,10 @@ import PromiseKit
 
 open class RegisterDeviceRequest: CodableRequest {
 
+    open var relativePath: String {
+        return "device/register"
+    }
+
     /// Request URL as relative path
     open var path: String!
 
@@ -29,10 +33,6 @@ open class RegisterDeviceRequest: CodableRequest {
     /// What application registered this device
     open var sourceApp: String!
 
-    public init() {
-        self.path = "device/register"
-    }
-
     // MARK: - Codable
 
     public enum CodingKeys: String, CodingKey {
@@ -48,7 +48,7 @@ open class RegisterDeviceRequest: CodableRequest {
 // MARK: - API Manager method for sending request
 public extension APIManager {
     public func registerDevice(with request: RegisterDeviceRequest) -> Promise<Void> {
-        let networkRequest = try! NetworkRequest(pathTemplate: request.path, parameters: request.parameters, method: .post)
+        let networkRequest = try! NetworkRequest(pathTemplate: request.relativePath, parameters: request.parameters, method: .post)
         return try! APIManager.shared.performRequest(networkRequest, cancelToken: nil).done { _ -> Void in
             // Backend returns ID array we don't care about, so ignore
         }

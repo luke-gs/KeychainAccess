@@ -34,7 +34,7 @@ open class CADEquipmentCore: Codable, CADEquipmentType {
 
     enum CodingKeys: String, CodingKey {
         case count = "count"
-        case description = "description"
+        case description = "name"
     }
 
     public required init(from decoder: Decoder) throws {

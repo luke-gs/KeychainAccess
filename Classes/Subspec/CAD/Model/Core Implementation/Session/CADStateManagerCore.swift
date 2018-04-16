@@ -18,7 +18,7 @@ open class CADStateManagerCore: CADStateManagerType {
     public init() {
         // Register concrete classes for protocols
         CADClientModelTypes.taskListSources = CADTaskListSourceCore.self
-        CADClientModelTypes.bookonDetails = CADBookOnRequest.self
+        CADClientModelTypes.bookonDetails = CADBookOnRequestCore.self
         CADClientModelTypes.officerDetails = CADOfficerCore.self
         CADClientModelTypes.equipmentDetails = CADEquipmentCore.self
         CADClientModelTypes.trafficStopDetails = CADTrafficStopRequest.self
@@ -40,7 +40,7 @@ open class CADStateManagerCore: CADStateManagerType {
     open var patrolGroup: String? = "Collingwood"
 
     /// The last book on data
-    open private(set) var lastBookOn: CADBookOnDetailsType? {
+    open private(set) var lastBookOn: CADBookOnRequestType? {
         didSet {
             updateScheduledNotifications()
             DispatchQueue.main.async {
@@ -153,7 +153,7 @@ open class CADStateManagerCore: CADStateManagerType {
     // MARK: - Shift
 
     /// Book on to a shift
-    open func bookOn(request: CADBookOnDetailsType) -> Promise<Void> {
+    open func bookOn(request: CADBookOnRequestType) -> Promise<Void> {
 
         // TODO: perform network request
 
@@ -162,7 +162,7 @@ open class CADStateManagerCore: CADStateManagerType {
 
         // TODO: remove this when we have a real CAD system
         if let lastBookOn = lastBookOn, let resource = self.currentResource {
-            let officerIds = lastBookOn.officers.map({ return $0.payrollId })
+            let officerIds = lastBookOn.employees.map({ return $0.payrollId })
 
             // Update callsign for new officer list
             resource.payrollIds = officerIds
@@ -187,7 +187,7 @@ open class CADStateManagerCore: CADStateManagerType {
         return Promise<Void>().done { _ in
             // Store recent IDs
             UserSession.current.addRecentId(request.callsign, forKey: CADRecentlyUsedKey.callsigns.rawValue)
-            UserSession.current.addRecentIds(request.officers.map { $0.payrollId }, forKey: CADRecentlyUsedKey.officers.rawValue)
+            UserSession.current.addRecentIds(request.employees.map { $0.payrollId }, forKey: CADRecentlyUsedKey.officers.rawValue)
             
 //            return Promise<Void>()
         }

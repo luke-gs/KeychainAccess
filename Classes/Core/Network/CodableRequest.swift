@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// Protocol for a request object that is codable and Parameterisable, where a default
+/// Protocol for a request object that is encodable and Parameterisable, where a default
 /// implementation of Parameterisable is provided that uses Codable to do the encoding.
 ///
 /// Note: It would be nice if we could:
@@ -16,7 +16,10 @@ import Foundation
 ///
 /// ... but currently not possible with Swift 4
 ///
-public protocol CodableRequest: Codable, Parameterisable {
+public protocol CodableRequest: Encodable, Parameterisable {
+
+    /// Request URL as relative path
+    var relativePath: String { get }
 
     /// The encoder to use for converting object to parameters. Default is JSONEncoder with no configuration.
     var parametersEncoder: JSONEncoder { get }

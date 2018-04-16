@@ -108,8 +108,7 @@ open class BookOnDetailsFormViewModel {
 
     open func submitForm() -> Promise<()> {
         // Update session
-        let bookOnRequest = content.createModel()
-        bookOnRequest.callsign = resource.callsign
+        let bookOnRequest = content.createModel(callsign: resource.callsign)
         _ = CADStateManager.shared.bookOn(request: bookOnRequest)
 
         return firstly {

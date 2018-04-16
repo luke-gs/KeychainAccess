@@ -25,7 +25,7 @@ public protocol CADStateManagerType {
     var patrolGroup: String? { get set }
 
     /// The last book on data
-    var lastBookOn: CADBookOnDetailsType? { get }
+    var lastBookOn: CADBookOnRequestType? { get }
 
     /// The last sync time
     var lastSyncTime: Date? { get }
@@ -83,7 +83,7 @@ public protocol CADStateManagerType {
     // MARK: - Shift
 
     /// Book on to a shift
-    func bookOn(request: CADBookOnDetailsType) -> Promise<Void>
+    func bookOn(request: CADBookOnRequestType) -> Promise<Void>
 
     /// Terminate shift
     func bookOff(request: CADBookOffDetailsType) -> Promise<Void>

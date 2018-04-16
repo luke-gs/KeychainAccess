@@ -17,7 +17,7 @@ open class CADClientModelTypes {
     // MARK: - Requests, so they can be created polymorphically in mpolkit using client kit versions
 
     /// The type used for a book on details
-    static open var bookonDetails: CADBookOnDetailsType.Type!
+    static open var bookonDetails: CADBookOnRequestType.Type!
 
     /// The type used for officer details
     static open var officerDetails: CADOfficerType.Type!
