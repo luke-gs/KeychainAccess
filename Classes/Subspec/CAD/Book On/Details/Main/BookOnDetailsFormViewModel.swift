@@ -97,7 +97,7 @@ open class BookOnDetailsFormViewModel {
     open func terminateShift() {
         if resource.status.canTerminate {
             // Update session and dismiss screen
-            CADStateManager.shared.setOffDuty()
+            _ = CADStateManager.shared.bookOff()
             delegate?.dismiss(animated: true, completion: nil)
         } else {
             AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Terminate Shift", comment: ""),

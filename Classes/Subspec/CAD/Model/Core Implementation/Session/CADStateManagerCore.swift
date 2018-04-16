@@ -11,7 +11,12 @@ import PromiseKit
 
 /// PSCore implementation of CAD state manager
 open class CADStateManagerCore: CADStateManagerType {
-    
+
+    /// Enum for state manager errors
+    public enum StateManagerError: Error {
+        case notBookedOn
+    }
+
     /// The API manager to use, by default system one
     open static var apiManager: CADAPIManagerType!
 
@@ -123,12 +128,6 @@ open class CADStateManagerCore: CADStateManagerType {
         return Promise(error: CADStateManagerError.notLoggedIn)
     }
 
-    /// Set logged in officer as off duty
-    open func setOffDuty() {
-        currentResource?.status = CADResourceStatusCore.offDuty
-        lastBookOn = nil
-    }
-    
     /// Clears current incident and sets status to on air
     open func finaliseIncident() {
         currentResource?.status = CADResourceStatusCore.onAir
@@ -193,9 +192,14 @@ open class CADStateManagerCore: CADStateManagerType {
     }
 
     /// Terminate shift
-    open func bookOff(request: CADBookOffDetailsType) -> Promise<Void> {
-        lastBookOn = nil
-        return Promise<Void>()
+    open func bookOff() -> Promise<Void> {
+        guard let lastBookOn = lastBookOn else { return Promise<Void>(error: StateManagerError.notBookedOn) }
+        let request = CADBookOffRequestCore(callsign: lastBookOn.callsign)
+
+        return CADStateManagerCore.apiManager.cadBookOff(with: request).done { [unowned self] in
+            self.currentResource?.status = CADResourceStatusCore.offDuty
+            self.lastBookOn = nil
+        }
     }
 
     /// Update the status of our callsign

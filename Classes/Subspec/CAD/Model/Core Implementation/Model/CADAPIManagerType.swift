@@ -17,6 +17,9 @@ public protocol CADAPIManagerType {
     /// Book on to CAD
     func cadBookOn(with request: CADBookOnRequestType) -> Promise<Void>
 
+    /// Book off from CAD
+    func cadBookOff(with request: CADBookOffRequestType) -> Promise<Void>
+
     /// Fetch details about an officer by username
     func cadOfficerByUsername(username: String) -> Promise<CADOfficerDetailsResponse>
 

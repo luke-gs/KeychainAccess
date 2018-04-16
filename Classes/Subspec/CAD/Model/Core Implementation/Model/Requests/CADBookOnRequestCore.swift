@@ -12,13 +12,15 @@ import PromiseKit
 /// PSCore implementation of book on request
 open class CADBookOnRequestCore: CADBookOnRequestType {
 
+    public init() {}
+
     open var relativePath: String {
         return "cad/shift/bookon"
     }
 
     // MARK: - Request Parameters
 
-    open var callsign : String = ""
+    open var callsign : String!
     open var category : String?
     open var driverEmployeeNumber : String?
     open var employees : [CADOfficerType] = []
@@ -30,10 +32,7 @@ open class CADBookOnRequestCore: CADBookOnRequestType {
     open var shiftEnd : Date?
     open var shiftStart : Date?
 
-    public init() {
-    }
-
-    // MARK: - Encodable
+    // MARK: - Codable
 
     private enum CodingKeys: String, CodingKey {
         case callsign

@@ -71,9 +71,6 @@ public protocol CADStateManagerType {
     /// Fetch the logged in officer's details
     func fetchCurrentOfficerDetails() -> Promise<CADOfficerType>
 
-    /// Set logged in officer as off duty
-    func setOffDuty()
-
     /// Clears current incident and sets status to on air
     func finaliseIncident()
 
@@ -86,7 +83,7 @@ public protocol CADStateManagerType {
     func bookOn(request: CADBookOnRequestType) -> Promise<Void>
 
     /// Terminate shift
-    func bookOff(request: CADBookOffDetailsType) -> Promise<Void>
+    func bookOff() -> Promise<Void>
 
     /// Update the status of our callsign
     func updateCallsignStatus(status: CADResourceStatusType, incident: CADIncidentType?)

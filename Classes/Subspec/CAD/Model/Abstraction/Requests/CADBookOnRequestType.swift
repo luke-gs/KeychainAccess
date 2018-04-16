@@ -12,7 +12,7 @@ import PromiseKit
 public protocol CADBookOnRequestType: CodableRequest {
 
     // MARK: - Request Parameters
-    var callsign : String { get }
+    var callsign : String! { get }
     var category : String? { get }
     var driverEmployeeNumber : String? { get }
     var employees : [CADOfficerType] { get }
