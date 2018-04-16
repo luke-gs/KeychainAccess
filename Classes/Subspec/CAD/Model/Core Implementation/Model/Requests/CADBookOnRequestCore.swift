@@ -28,6 +28,14 @@ open class CADBookOnRequestCore: CADBookOnRequestType {
     open var shiftEnd : Date?
     open var shiftStart : Date?
 
+    // MARK: - CodableRequestParameters
+
+    public var parametersEncoder: JSONEncoder {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        return encoder
+    }
+
     // MARK: - Codable
 
     private enum CodingKeys: String, CodingKey {
