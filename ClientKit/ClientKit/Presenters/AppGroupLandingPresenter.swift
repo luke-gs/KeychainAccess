@@ -186,6 +186,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
                     }.done {
                         // Only set it to `agreed` after password saving is successful.
                         biometricUser.useBiometric = .agreed
+                        biometricUser.becomeCurrentUser()
                     }.recover(policy: .allErrors) { error -> Promise<Void> in
                         if error.isCancelled {
                             biometricUser.useBiometric = .asked
