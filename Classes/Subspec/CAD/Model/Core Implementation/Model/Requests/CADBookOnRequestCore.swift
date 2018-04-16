@@ -48,19 +48,19 @@ open class CADBookOnRequestCore: CADBookOnRequestType {
         case shiftStart
     }
 
-    public func encode(to encoder: Encoder) throws {
+    open func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(callsign, forKey: CodingKeys.callsign)
-        try container.encode(category, forKey: CodingKeys.category)
-        try container.encode(driverEmployeeNumber, forKey: CodingKeys.driverEmployeeNumber)
-        try container.encode(employees as? [CADOfficerCore], forKey: CodingKeys.employees)
-        try container.encode(equipment as? [CADEquipmentCore], forKey: CodingKeys.equipment)
-        try container.encode(fleetNumber, forKey: CodingKeys.fleetNumber)
-        try container.encode(odometer, forKey: CodingKeys.odometer)
-        try container.encode(remarks, forKey: CodingKeys.remarks)
-        try container.encode(serial, forKey: CodingKeys.serial)
-        try container.encode(shiftEnd, forKey: CodingKeys.shiftEnd)
-        try container.encode(shiftStart, forKey: CodingKeys.shiftStart)
+        try container.encode(callsign, forKey: .callsign)
+        try container.encodeIfPresent(category, forKey: .category)
+        try container.encodeIfPresent(driverEmployeeNumber, forKey: .driverEmployeeNumber)
+        try container.encodeIfPresent(employees as? [CADOfficerCore], forKey: .employees)
+        try container.encodeIfPresent(equipment as? [CADEquipmentCore], forKey: .equipment)
+        try container.encodeIfPresent(fleetNumber, forKey: .fleetNumber)
+        try container.encodeIfPresent(odometer, forKey: .odometer)
+        try container.encodeIfPresent(remarks, forKey: .remarks)
+        try container.encodeIfPresent(serial, forKey: .serial)
+        try container.encodeIfPresent(shiftEnd, forKey: .shiftEnd)
+        try container.encodeIfPresent(shiftStart, forKey: .shiftStart)
     }
 
 }

@@ -10,11 +10,11 @@ import Foundation
 
 extension Dictionary {
 
-    func asLogString() -> String {
+    public func asLogString() -> String {
         return asJSONString() ?? debugDescription
     }
 
-    func asJSONString() -> String? {
+    public func asJSONString() -> String? {
         if let jsonData = try? JSONSerialization.data(withJSONObject: self, options: .prettyPrinted) {
             if let jsonString = String(data: jsonData, encoding: .utf8) {
                 return jsonString
