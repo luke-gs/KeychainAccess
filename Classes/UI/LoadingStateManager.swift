@@ -326,7 +326,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     private func updateLabelColors() {
         if loadingViewLoaded {
             loadingView.titleLabel.textColor = titleColor
-            loadingView.subtitleLabel.textColor = titleColor
+            loadingView.subtitleLabel.textColor = subtitleColor
         }
         
         if noContentViewLoaded {
@@ -336,7 +336,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         
         if errorViewLoaded {
             errorView.titleLabel.textColor = titleColor
-            errorView.subtitleLabel.textColor = titleColor
+            errorView.subtitleLabel.textColor = subtitleColor
         }
     }
     
