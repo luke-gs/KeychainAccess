@@ -31,9 +31,6 @@ public extension APIManager {
 
     /// Book on to CAD
     public func cadBookOn(with request: CADBookOnRequestType) -> Promise<Void> {
-        let networkRequest = try! NetworkRequest(pathTemplate: request.relativePath, parameters: request.parameters, method: .post)
-        return try! APIManager.shared.performRequest(networkRequest, cancelToken: nil).done { _ -> Void in
-            // No response
-        }
+        return performRequest(request, method: .post)
     }
 }

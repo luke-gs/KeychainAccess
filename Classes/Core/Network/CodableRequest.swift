@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import PromiseKit
+import Alamofire
 
 /// Protocol for a request object that is encodable and Parameterisable, where a default
 /// implementation of Parameterisable is provided that uses Codable to do the encoding.
@@ -51,5 +53,22 @@ extension CodableRequest {
         } else {
             fatalError("Failed to convert model object: \(self)")
         }
+    }
+}
+
+// MARK: - API Manager method for sending CodableRequest
+public extension APIManager {
+
+    /// Perform request with no response
+    public func performRequest(_ request: CodableRequest, method: HTTPMethod = .get) -> Promise<Void> {
+        let networkRequest = try! NetworkRequest(pathTemplate: request.relativePath, parameters: request.parameters, method: method)
+        return try! APIManager.shared.performRequest(networkRequest, cancelToken: nil).done { _ in
+        }
+    }
+
+    /// Perform request and JSON decode the response
+    public func performRequest<ResponseType: Codable>(_ request: CodableRequest, method: HTTPMethod = .get) -> Promise<ResponseType> {
+        let networkRequest = try! NetworkRequest(pathTemplate: request.relativePath, parameters: request.parameters, method: method)
+        return try! APIManager.shared.performRequest(networkRequest, using: CodableResponseSerializing())
     }
 }

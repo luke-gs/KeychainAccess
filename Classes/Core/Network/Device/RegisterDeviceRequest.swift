@@ -48,10 +48,8 @@ open class RegisterDeviceRequest: CodableRequest {
 // MARK: - API Manager method for sending request
 public extension APIManager {
     public func registerDevice(with request: RegisterDeviceRequest) -> Promise<Void> {
-        let networkRequest = try! NetworkRequest(pathTemplate: request.relativePath, parameters: request.parameters, method: .post)
-        return try! APIManager.shared.performRequest(networkRequest, cancelToken: nil).done { _ -> Void in
-            // Backend returns ID array we don't care about, so ignore
-        }
+        // Send request and ignore response backend internal ID array)
+        return performRequest(request, method: .post)
     }
 }
 
