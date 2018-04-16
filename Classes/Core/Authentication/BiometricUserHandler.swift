@@ -118,6 +118,13 @@ public struct BiometricUserHandler {
         try? keychain.set(username, key: BiometricUserHandler.prefixedKey("currentUser"))
     }
 
+    /// Clear all current saved data
+    public mutating func clear() {
+        useBiometric = .unknown
+        try? keychain.remove(_passwordKey)
+        try? keychain.remove(BiometricUserHandler.prefixedKey("currentUser"))
+    }
+
     /// Retrieve current `logged in` Biometric User from the provided keychain.
     ///
     /// - Parameter keychain: The keychain where the user might be stored.
