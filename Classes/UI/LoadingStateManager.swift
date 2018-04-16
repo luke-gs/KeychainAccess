@@ -138,36 +138,18 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
             if noContentColor == nil {
                 noContentColor = .secondaryGray
             }
-            titleColor = noContentColor
-            subtitleColor = noContentColor
         }
     }
 
     open var titleColor: UIColor? {
         didSet {
-            if loadingViewLoaded {
-                loadingView.titleLabel.textColor = titleColor
-            }
-            if noContentViewLoaded {
-                noContentView.titleLabel.textColor = titleColor
-            }
-            if errorViewLoaded {
-                errorView.titleLabel.textColor = titleColor
-            }
+            updateLabelColors()
         }
     }
 
     open var subtitleColor: UIColor? {
         didSet {
-            if loadingViewLoaded {
-                loadingView.subtitleLabel.textColor = titleColor
-            }
-            if noContentViewLoaded {
-                noContentView.subtitleLabel.textColor = titleColor
-            }
-            if errorViewLoaded {
-                errorView.subtitleLabel.textColor = titleColor
-            }
+            updateLabelColors()
         }
     }
 
@@ -272,7 +254,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         } else if loadingViewLoaded {
             loadingView.loadingIndicatorView.stop()
         }
-
+        
         // If we have now loaded content, remove all container UI. Otherwise we re-use what
         // has already been created but swap out the container for current state
         if state == .loaded {
@@ -338,6 +320,24 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         updateContentInsets()
 
         NSLayoutConstraint.activate(constraints)
+    }
+    
+    /// Updates label colors depending on state
+    private func updateLabelColors() {
+        if loadingViewLoaded {
+            loadingView.titleLabel.textColor = titleColor
+            loadingView.subtitleLabel.textColor = titleColor
+        }
+        
+        if noContentViewLoaded {
+            noContentView.titleLabel.textColor = noContentColor
+            noContentView.subtitleLabel.textColor = noContentColor
+        }
+        
+        if errorViewLoaded {
+            errorView.titleLabel.textColor = titleColor
+            errorView.subtitleLabel.textColor = titleColor
+        }
     }
     
     private func switchBaseViews(from fromView: UIView?, to newView: UIView?) {
