@@ -29,6 +29,10 @@ open class DemoAPIManager: CADAPIManagerType {
         return Promise<OAuthAccessToken>.value(token)
     }
 
+    public func cadBookOn(with request: CADBookOnRequestType) -> Promise<Void> {
+        return after(seconds: 1).done {}
+    }
+
     open func cadOfficerByUsername(username: String) -> Promise<CADOfficerDetailsResponse> {
         if let data = loadDemoFileAsData(name: "DemoOfficer") {
             let response = try! JSONDecoder.decode(data, to: CADOfficerDetailsResponse.self)
