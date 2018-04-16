@@ -8,7 +8,11 @@
 	<string>NSFileProtectionComplete</string>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.enterprise.gridstone.pscore</string>
+		<string>$(APP_GROUP_ID)</string>
+	</array>
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)$(SHARED_KEYCHAIN_ACCESS_GROUP)</string>
 	</array>
 </dict>
 </plist>

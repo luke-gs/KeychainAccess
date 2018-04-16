@@ -10,6 +10,9 @@ import UIKit
 
 import Foundation
 import MPOLKit
+import PromiseKit
+import KeychainAccess
+import LocalAuthentication
 
 /// Enum for all initial screens in a standard MPOL app
 public enum LandingScreen: Presentable {
@@ -28,7 +31,9 @@ public enum LandingScreen: Presentable {
 }
 
 /// Presenter for a standard MPOL app that shares the app group settings of the user session
-open class AppGroupLandingPresenter: NSObject, Presenter, UsernamePasswordDelegate {
+open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
+
+    public var wantsBiometricAuthentication = true
 
     open func updateInterfaceForUserSession(animated: Bool) {
         let screen = screenForUserSession()
@@ -122,6 +127,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter, UsernamePasswordDelega
     }
 
     open func loginViewControllerDidAppear(_ controller: LoginViewController) {
+
     }
 
     open func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
@@ -129,29 +135,77 @@ open class AppGroupLandingPresenter: NSObject, Presenter, UsernamePasswordDelega
     }
 
     open func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton) {
+        // Haha, good luck! Implemented next year maybe.
     }
 
-    open func loginViewControllerDidAuthenticateWithBiometric(_ controller: LoginViewController) {
-        #if DEBUG
-        let username = "matt"
-        let password = "vicroads"
-        authenticateWithUsername(username, password: password, inController: controller)
-        #endif
+    open func loginViewControllerDidAuthenticateWithBiometric(_ controller: LoginViewController, context: LAContext) {
+
+        if let handler = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain) {
+            handler.password(context: context).done { [weak self] password -> Void in
+                if let password = password {
+                    self?.authenticateWithUsername(handler.username, password: password, inController: controller, context: context)
+                } else {
+                    // Tell the user that they don't have password here, although, if this ever happens,
+                    // something probably is broken already.
+                    // fatalError for now.
+                    fatalError("Biometric authentication isn't setup correctly.")
+                }
+            }.catch { error in
+                let error = error as NSError
+
+                let title = error.localizedFailureReason ?? "Error"
+                let message = error.localizedDescription
+
+                controller.present(SystemScreen.serverError(title: title, message: message))
+            }
+        }
+
     }
 
-    private func authenticateWithUsername(_ username: String, password: String, inController controller: LoginViewController) {
+    public func authenticateWithUsername(_ username: String, password: String, inController controller: LoginViewController, context: LAContext? = nil) {
         controller.setLoading(true, animated: true)
 
-        APIManager.shared.accessTokenRequest(for: .credentials(username: username, password: password)).done { [weak self] token -> Void in
-            guard let `self` = self else { return }
+        APIManager.shared.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] token -> Promise<Void> in
+            guard let `self` = self else {
+                throw PMKError.cancelled
+            }
 
             APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)), rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
 
             UserSession.startSession(user: User(username: username), token: token)
             NotificationManager.shared.registerPushToken()
             controller.resetFields()
-            self.updateInterfaceForUserSession(animated: true)
 
+            if self.wantsBiometricAuthentication {
+                var biometricUser = BiometricUserHandler(username: username, keychain: SharedKeychainCapability.defaultKeychain)
+                // Ask if the user wants to remember their password.
+                if biometricUser.useBiometric == .unknown {
+                    return self.askForBiometricPermission(in: controller).then { promise -> Promise<Void> in
+                        // Store the username and password.
+                        return biometricUser.setPassword(password, context: context, prompt: NSLocalizedString("AppGroupLandingPresenter.BiometricSavePrompt", comment: "Text prompt to use biometric to save user credentials"))
+                    }.done {
+                        // Only set it to `agreed` after password saving is successful.
+                        biometricUser.useBiometric = .agreed
+                    }.recover(policy: .allErrors) { error -> Promise<Void> in
+                        if error.isCancelled {
+                            biometricUser.useBiometric = .asked
+                            return .value(())
+                        }
+                        throw error
+                    }
+                }
+            }
+
+            return .value(())
+
+        }.recover(policy: .allErrors) { error -> Promise<Void> in
+            if let error = error as? Status {
+                // Let the user know something terrible happen, then proceed as usual.
+                return self.presentAlertController(in: controller, title: NSLocalizedString("AppGroupLandingPresenter.BiometricSaveCredentialsFailedTitle", comment: "Failed to save credentials using Biometric."), message: error.localizedDescription)
+            }
+            throw error
+        }.done {
+            self.updateInterfaceForUserSession(animated: true)
         }.ensure {
             controller.setLoading(false, animated: true)
         }.catch { error in
@@ -161,6 +215,33 @@ open class AppGroupLandingPresenter: NSObject, Presenter, UsernamePasswordDelega
             let message = error.localizedDescription
 
             controller.present(SystemScreen.serverError(title: title, message: message))
+        }
+
+    }
+
+    private func askForBiometricPermission(in controller: UIViewController) -> Promise<Void> {
+        return Promise { seal in
+            let alertController = UIAlertController(title: NSLocalizedString("AppGroupLandingPresenter.BiometricRememberCredentialsTitle", comment: "Title asking whether the user wants to remember credntials using biometric"), message: NSLocalizedString("AppGroupLandingPresenter.BiometricRememberCredentialsMessage", comment: "Message asking whether the user wants to remember credntials using biometric"), preferredStyle: .alert)
+            let action = UIAlertAction(title: "Yes", style: .default, handler: { _ in
+                seal.fulfill(())
+            })
+            let cancel = UIAlertAction(title: "No", style: .cancel, handler: { _ in
+                seal.reject(PMKError.cancelled)
+            })
+            alertController.addAction(action)
+            alertController.addAction(cancel)
+            controller.present(alertController, animated: true)
+        }
+    }
+
+    private func presentAlertController(in controller: UIViewController, title: String? = nil, message: String? = nil) -> Promise<Void> {
+        return Promise { seal in
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            let action = UIAlertAction(title: "OK", style: .default, handler: { _ in
+                seal.fulfill(())
+            })
+            alertController.addAction(action)
+            controller.present(alertController, animated: true)
         }
     }
 }

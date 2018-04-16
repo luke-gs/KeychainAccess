@@ -17,13 +17,13 @@ PODS:
     - HyperioniOS/Core
   - HyperioniOS/SlowAnimations (1.0.2):
     - HyperioniOS/Core
-  - KeychainSwift (8.0.3)
+  - KeychainAccess (3.1.1)
   - lottie-ios (2.1.5)
   - MPOLKit (0.3.2):
     - Alamofire (= 4.5.1)
     - Cache (~> 4.1.2)
     - Cluster (= 2.1.1)
-    - KeychainSwift (~> 8.0)
+    - KeychainAccess (~> 3.1.1)
     - lottie-ios (~> 2.1.3)
     - MPOLKit/CAD (= 0.3.2)
     - PromiseKit (~> 6.0)
@@ -34,7 +34,7 @@ PODS:
     - Alamofire (= 4.5.1)
     - Cache (~> 4.1.2)
     - Cluster (= 2.1.1)
-    - KeychainSwift (~> 8.0)
+    - KeychainAccess (~> 3.1.1)
     - lottie-ios (~> 2.1.3)
     - PromiseKit (~> 6.0)
     - PromiseKit/CoreLocation
@@ -66,7 +66,7 @@ SPEC REPOS:
     - Cluster
     - HockeySDK
     - HyperioniOS
-    - KeychainSwift
+    - KeychainAccess
     - lottie-ios
     - PromiseKit
     - Unbox
@@ -82,13 +82,13 @@ SPEC CHECKSUMS:
   Cluster: e6b55b7c6a76f8af5acf631574bbb299e4c64914
   HockeySDK: 38b7e2726af1ea86ae97ce4b5de33ab0817e3500
   HyperioniOS: 2397937925b2d57ec28182ac979879b0da2658ee
-  KeychainSwift: be9554c0e5f4b1686c775930dc5c6bd9396992ed
+  KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
   lottie-ios: 836cdbba92f62f3c6a00e37a4ce485321fe317cf
-  MPOLKit: a5d8ae18a2e8473d241a10ea8ddfed8891fc5521
+  MPOLKit: 71aec9b568b243c141fc55c8290cae96ccbead56
   PromiseKit: 625b1fc69944fc839503748101c5968cf54b527b
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
   Wrap: 9cc7da7551bb81d0846cb3df9fb624c6c32d267d
 
-PODFILE CHECKSUM: 802d957dd8c5d2aaaaf5eb7e95d3b30ed1c6cf4e
+PODFILE CHECKSUM: bb0cdec634b02acd86c167dd9d3733300e4261fb
 
 COCOAPODS: 1.5.0

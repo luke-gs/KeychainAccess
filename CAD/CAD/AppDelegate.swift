@@ -29,6 +29,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         MPOLKitInitialize()
 
+        let keychain = Shared.keychain
+        if let accessGroup = Bundle.main.infoDictionary?["PSCORESharedKeychain"] as? String {
+            keychain.accessGroup = accessGroup
+        }
+        print(keychain.get("World"))
+
         var plugins = [NetworkMonitorPlugin().allowAll()]
         #if DEBUG
             plugins.append(NetworkLoggingPlugin().allowAll())

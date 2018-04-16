@@ -51,6 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         registerPushNotifications(application)
 
         landingPresenter = LandingPresenter()
+        landingPresenter.wantsBiometricAuthentication = true
         let presenter = PresenterGroup(presenters: [SystemPresenter(), landingPresenter, EntityPresenter(), EventPresenter()])
 
         let director = Director(presenter: presenter)
