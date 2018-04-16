@@ -886,7 +886,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             guard let `self` = self else { return }
             DispatchQueue.main.async {
                 if success {
-                    delegate?.loginViewControllerDidAuthenticateWithBiometric(self)
+                    delegate?.loginViewControllerDidAuthenticateWithBiometric(self, context: self.authenticationContext)
                 }
             }
         })
@@ -916,7 +916,7 @@ public protocol UsernamePasswordDelegate: LoginViewControllerDelegate {
 }
 
 public protocol BiometricDelegate: UsernamePasswordDelegate {
-    func loginViewControllerDidAuthenticateWithBiometric(_ controller: LoginViewController)
+    func loginViewControllerDidAuthenticateWithBiometric(_ controller: LoginViewController, context: LAContext)
 }
 
 public extension UsernamePasswordDelegate {

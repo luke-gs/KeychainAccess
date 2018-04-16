@@ -6,17 +6,16 @@
 //
 
 import UIKit
-import KeychainSwift
+import KeychainAccess
 
 public class DirectoryManager: DirectoryManaging {
 
     public private(set) var baseURL: URL
     private let operationQueue: OperationQueue
-    private lazy var keychain: KeychainSwift = {
+
+    private lazy var keychain: Keychain = {
         // Create keychain using the configured app group
-        let kc = KeychainSwift()
-        kc.accessGroup = AppGroup.appGroupId()
-        return kc
+        return SharedKeychainCapability.defaultKeychain
     }()
 
     required public init(baseURL: URL) {
@@ -54,17 +53,33 @@ public class DirectoryManager: DirectoryManaging {
 
     //MARK: Keychain
 
+    // FIXME: Refactor this later "NSKeyedArchiver" lies.. It can't handle `Any` and will just crash.
     @discardableResult public func write(_ object: Any?, toKeyChain key: String) -> Bool {
+
         guard let object = object else {
-            return keychain.delete(key)
+            do {
+                try keychain.remove(key)
+                return true
+            } catch {
+                return false
+            }
         }
-        let data = NSKeyedArchiver.archivedData(withRootObject: object)
-        return keychain.set(data, forKey: key)
+
+        do {
+            let data = NSKeyedArchiver.archivedData(withRootObject: object)
+            try keychain.set(data, key: key)
+            return true
+        } catch {
+            return false
+        }
     }
 
     public func read(fromKeyChain key: String) -> Any? {
-        guard let data = keychain.getData(key) else { return nil }
-        return NSKeyedUnarchiver.unarchiveObject(with: data)
+        guard let data = try? keychain.getData(key), let actualData = data else {
+            return nil
+        }
+
+        return NSKeyedUnarchiver.unarchiveObject(with: actualData)
     }
 }
 

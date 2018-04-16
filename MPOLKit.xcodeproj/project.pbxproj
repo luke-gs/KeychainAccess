@@ -56,6 +56,7 @@
 		1908EF8C1F57D79A00382B1C /* testTheme.json in Resources */ = {isa = PBXBuildFile; fileRef = 1908EF881F57D79A00382B1C /* testTheme.json */; };
 		1908EF8D1F57D79A00382B1C /* KeyboardInputManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1908EF891F57D79A00382B1C /* KeyboardInputManagerTests.swift */; };
 		1908EF8E1F57D79A00382B1C /* ModelVersionableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1908EF8A1F57D79A00382B1C /* ModelVersionableTests.swift */; };
+		190DF91F208446C000257B79 /* BiometricUserHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190DF91E208446BF00257B79 /* BiometricUserHandler.swift */; };
 		1914E596203C2DB100EE124A /* ButtonStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1914E595203C2DB100EE124A /* ButtonStackView.swift */; };
 		191BC4D31F7C203B00C8C218 /* HelpContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191BC4CF1F7C202200C8C218 /* HelpContent.swift */; };
 		191BC4D41F7C203B00C8C218 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191BC4CE1F7C202200C8C218 /* HelpViewController.swift */; };
@@ -92,6 +93,7 @@
 		19A6A82320730D7A008EAC95 /* SearchActivityHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A6A82220730D7A008EAC95 /* SearchActivityHandler.swift */; };
 		19A6A82520732BD7008EAC95 /* ActivityHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A6A82420732BD7008EAC95 /* ActivityHandler.swift */; };
 		19A6A82720732C69008EAC95 /* ActivityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A6A82620732C69008EAC95 /* ActivityType.swift */; };
+		19AF434F2080590C005C0F97 /* SharedKeychainCapability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19AF434E2080590C005C0F97 /* SharedKeychainCapability.swift */; };
 		19B025622074B8E900B7529F /* BaseActivityLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B025612074B8E900B7529F /* BaseActivityLauncher.swift */; };
 		19B025642074B91A00B7529F /* AnyActivityLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B025632074B91A00B7529F /* AnyActivityLauncher.swift */; };
 		19B3F35B1FD0742B00245566 /* PromiseCancellationTokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B3F35A1FD0742B00245566 /* PromiseCancellationTokenTests.swift */; };
@@ -896,6 +898,7 @@
 		1908EF881F57D79A00382B1C /* testTheme.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testTheme.json; sourceTree = "<group>"; };
 		1908EF891F57D79A00382B1C /* KeyboardInputManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardInputManagerTests.swift; sourceTree = "<group>"; };
 		1908EF8A1F57D79A00382B1C /* ModelVersionableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelVersionableTests.swift; sourceTree = "<group>"; };
+		190DF91E208446BF00257B79 /* BiometricUserHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BiometricUserHandler.swift; sourceTree = "<group>"; };
 		1914E595203C2DB100EE124A /* ButtonStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStackView.swift; sourceTree = "<group>"; };
 		191BC4CE1F7C202200C8C218 /* HelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		191BC4CF1F7C202200C8C218 /* HelpContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpContent.swift; sourceTree = "<group>"; };
@@ -933,6 +936,7 @@
 		19A6A82220730D7A008EAC95 /* SearchActivityHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchActivityHandler.swift; sourceTree = "<group>"; };
 		19A6A82420732BD7008EAC95 /* ActivityHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityHandler.swift; sourceTree = "<group>"; };
 		19A6A82620732C69008EAC95 /* ActivityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityType.swift; sourceTree = "<group>"; };
+		19AF434E2080590C005C0F97 /* SharedKeychainCapability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedKeychainCapability.swift; sourceTree = "<group>"; };
 		19B025612074B8E900B7529F /* BaseActivityLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseActivityLauncher.swift; sourceTree = "<group>"; };
 		19B025632074B91A00B7529F /* AnyActivityLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyActivityLauncher.swift; sourceTree = "<group>"; };
 		19B3F35A1FD0742B00245566 /* PromiseCancellationTokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseCancellationTokenTests.swift; sourceTree = "<group>"; };
@@ -3176,6 +3180,7 @@
 			children = (
 				99FF8C031F982A21003A8A4B /* AuditPlugin.swift */,
 				1908EF821F57CAFC00382B1C /* AuthenticationPlugin.swift */,
+				190DF91E208446BF00257B79 /* BiometricUserHandler.swift */,
 				BC9C7D1A1F0DED6600DFFE83 /* HTTPAuthenticationMode.swift */,
 				BC9C7D1B1F0DED6600DFFE83 /* OAuthAccessToken.swift */,
 				190503EB1FCFDB09002EBC89 /* RefreshTokenPlugin.swift */,
@@ -3784,6 +3789,7 @@
 				1212B54C1F60F2ED00F90CA0 /* TestingDirective.swift */,
 				12048FC71F7881C50014748E /* MatchMaker.swift */,
 				9620530C1F988239000CAD49 /* AppGroup.swift */,
+				19AF434E2080590C005C0F97 /* SharedKeychainCapability.swift */,
 				273A5C1720057B2E0009D9A0 /* SystemVersion.swift */,
 				96F77283202031E4000FE0D0 /* RelativeDateFormatter.swift */,
 			);
@@ -4401,7 +4407,7 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/Cluster/Cluster.framework",
-				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Unbox/Unbox.framework",
 				"${BUILT_PRODUCTS_DIR}/Wrap/Wrap.framework",
@@ -4412,7 +4418,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cluster.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Unbox.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Wrap.framework",
@@ -4650,6 +4656,7 @@
 				C6CD6A181F31663500771B8C /* EntitySearchRequest.swift in Sources */,
 				9689CA5F20364AD30001D993 /* CADIncidentInformantType.swift in Sources */,
 				19D8D7981FB520930002332D /* AuthenticationProvider.swift in Sources */,
+				190DF91F208446C000257B79 /* BiometricUserHandler.swift in Sources */,
 				EA93201E2019A22700FB3585 /* LocationAnnotationView.swift in Sources */,
 				193ED0871FDE6AD7002F2837 /* URLRulesMatch.swift in Sources */,
 				EA9320202019A23A00FB3585 /* PinAnnotationView.swift in Sources */,
@@ -5008,6 +5015,7 @@
 				44F72B2A1F85E5F000A6FE6B /* SearchResultMessageViewController.swift in Sources */,
 				19C9C74E1FC2898B003C8CE4 /* LocationMapDirectionCollectionViewCell.swift in Sources */,
 				27E424401FDE10BC00B5BE47 /* InteractivePopRecognizerDelegate.swift in Sources */,
+				19AF434F2080590C005C0F97 /* SharedKeychainCapability.swift in Sources */,
 				965CD8AF1F902872007C3EEA /* TasksListContainerViewModel.swift in Sources */,
 				273DE2D91FEA0355000C46DD /* IntrinsicHeightFormBuilderViewController.swift in Sources */,
 				46A60F5E1FCFAFAF00EE32CA /* Evaluatable.swift in Sources */,

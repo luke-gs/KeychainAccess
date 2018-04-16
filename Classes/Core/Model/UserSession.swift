@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import KeychainSwift
+import KeychainAccess
 
 public class UserSession: UserSessionable {
 
@@ -19,10 +19,10 @@ public class UserSession: UserSessionable {
     private(set) public var userStorage: UserStorage?
     
     // Use the app group base path for sharing between apps by default
-    public static var basePath: URL = AppGroup.appBaseFilePath()
+    public static var basePath: URL = AppGroupCapability.appBaseFilePath
 
     // Use the app group user defaults for sharing between apps by default
-    public static var userDefaults: UserDefaults = AppGroup.appUserDefaults()
+    public static var userDefaults: UserDefaults = AppGroupCapability.appUserDefaults
 
     public var recentlyViewed: EntityBucket = EntityBucket(limit: 6)
 
@@ -223,6 +223,26 @@ public class UserSession: UserSessionable {
             user = validUser
             saveUserToCache()
         }
+    }
+
+    // MARK: - User data
+
+    // FIXME: - User and UserSession data should be separated.
+    // This is in to be able to load `User.appSettings` in the mean time.
+    public static func loadUser(username: String) -> User? {
+        let session = UserSession()
+        guard let user = session.directoryManager.read(from: session.paths.userPath(for: username)) as? User else {
+            return nil
+        }
+        return user
+    }
+
+    // This is in to be able to save `User.appSettings` in the mean time.
+    // Note: This will overwrite the user data, not append. 
+    public static func save(user: User) {
+        let session = UserSession()
+        session.user = user
+        session.saveUserToCache()
     }
 }
 

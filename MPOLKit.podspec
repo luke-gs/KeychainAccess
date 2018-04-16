@@ -40,7 +40,7 @@ s.dependency 'Wrap', '2.1.1'
 s.dependency 'lottie-ios', '~> 2.1.3'
 s.dependency 'PromiseKit', '~> 6.0'
 s.dependency 'PromiseKit/CoreLocation'
-s.dependency 'KeychainSwift', '~> 8.0'
+s.dependency 'KeychainAccess', '~> 3.1.1'
 s.dependency 'Cache', '~> 4.1.2'
 s.dependency 'Cluster', '2.1.1'
 # end
