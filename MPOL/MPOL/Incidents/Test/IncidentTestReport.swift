@@ -28,13 +28,19 @@ class IncidentTestReport: Reportable {
         self.event = event
         self.incident = incident
 
-        if let event = self.event { evaluator.addObserver(event) }
-        if let incident = self.incident { evaluator.addObserver(incident) }
+        if let event = self.event {
+            evaluator.addObserver(event)
+        }
+        if let incident = self.incident {
+            evaluator.addObserver(incident)
+        }
 
-        evaluator.registerKey(.viewed) { return self.viewed }
+        evaluator.registerKey(.viewed) {
+            return self.viewed
+        }
     }
 
-    func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
+    func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {}
 
     //MARK: CODING
     public static var supportsSecureCoding: Bool = true

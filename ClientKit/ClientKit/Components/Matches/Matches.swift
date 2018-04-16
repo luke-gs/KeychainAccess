@@ -25,7 +25,7 @@ struct FNCToMPOLVehicleMatch: DataMatchable {
     var initialSource: EntitySource = MPOLSource.fnc
     var resultSource: EntitySource = MPOLSource.pscore
 
-    func match(_ entity: MPOLKitEntity) -> Fetchable  {
+    func match(_ entity: MPOLKitEntity) -> Fetchable {
         let entity = entity as! Vehicle
 
         let request = VehicleFetchRequest(source: resultSource, request: EntityFetchRequest<Vehicle>(id: entity.id))
@@ -42,8 +42,6 @@ struct MPOLToFNCPersonMatch: DataMatchable {
     var resultSource: EntitySource = MPOLSource.fnc
 
     func match(_ entity: MPOLKitEntity) -> Fetchable {
-        let entity = entity as! Person
-
         let request = PersonFetchRequest(source: resultSource, request: EntityFetchRequest<Person>(id: "745687"))
         return EntityDetailFetch<Person>(request: request)
     }
@@ -53,9 +51,7 @@ struct FNCToMPOLPersonMatch: DataMatchable {
     var initialSource: EntitySource = MPOLSource.fnc
     var resultSource: EntitySource = MPOLSource.pscore
 
-    func match(_ entity: MPOLKitEntity) -> Fetchable  {
-        let entity = entity as! Person
-
+    func match(_ entity: MPOLKitEntity) -> Fetchable {
         let request = PersonFetchRequest(source: resultSource, request: EntityFetchRequest<Person>(id: "554ca38e-ab00-4c5c-8e58-1c87ef09b958"))
         return EntityDetailFetch<Person>(request: request)
     }

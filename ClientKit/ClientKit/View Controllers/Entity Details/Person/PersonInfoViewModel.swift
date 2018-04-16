@@ -42,9 +42,9 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
             .borderColor(displayable.borderColor)
             .detailPlaceholder(isDetailPlaceholder)
             .image(displayable.thumbnail(ofSize: .large))
-            .onButtonTapped({
+            .onButtonTapped {
                 self.didTapAdditionalDetails()
-            })
+            }
         
         // ---------- LICENCE ----------
         
@@ -74,7 +74,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                 .isProgressHidden(licence.expiryDate == nil)
                 .width(.column(2))
             
-            builder += ValueFormItem(title: NSLocalizedString("Conditions", bundle: .mpolKit, comment: ""), value: licence.conditions?.flatMap({ $0.displayValue() }).joined(separator: "\n")).width(.column(1))
+            builder += ValueFormItem(title: NSLocalizedString("Conditions", bundle: .mpolKit, comment: ""), value: licence.conditions?.compactMap { $0.displayValue() }.joined(separator: "\n")).width(.column(1))
         }
         
         // ---------- ALIASES ----------
@@ -120,8 +120,10 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                     .image({
                         if let type = contact.type {
                             switch type {
-                            case .phone, .mobile:   return AssetManager.shared.image(forKey: .audioCall)
-                            case .email:            return AssetManager.shared.image(forKey: .email)
+                            case .phone, .mobile:
+                                return AssetManager.shared.image(forKey: .audioCall)
+                            case .email:
+                                return AssetManager.shared.image(forKey: .email)
                             }
                         }
                         return nil

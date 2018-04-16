@@ -39,5 +39,5 @@ public class EventScreenBuilder: EventScreenBuilding {
         }
     }
 
-    public init() { }
+    public init() {}
 }

@@ -182,9 +182,6 @@ open class Address: Entity {
         if includingName, let name = commonName, !name.isEmpty {
             lines.append([name])
         }
-// TODO:       if let postalBox = postalBox {
-//            lines.append([postalBox])
-//        }
         
         var line: [String] = []
         if let unitNumber = self.unit?.ifNotEmpty() {
@@ -225,15 +222,27 @@ open class Address: Entity {
             line.removeAll()
         }
         
-        if let suburb = self.suburb?.ifNotEmpty() { line.append(suburb) }
-        if let city = self.county?.ifNotEmpty() { line.append(city) }
-        if let state  = self.state?.ifNotEmpty() { line.append(state)  }
-        if let postCode = self.postcode?.ifNotEmpty() { line.append(postCode) }
+        if let suburb = self.suburb?.ifNotEmpty() {
+            line.append(suburb)
+        }
+        if let city = self.county?.ifNotEmpty() {
+            line.append(city)
+        }
+        if let state  = self.state?.ifNotEmpty() {
+            line.append(state)
+        }
+        if let postCode = self.postcode?.ifNotEmpty() {
+            line.append(postCode)
+        }
         
-        if line.isEmpty == false { lines.append(line) }
-        if let country = self.country?.ifNotEmpty() { lines.append([country]) }
+        if line.isEmpty == false {
+            lines.append(line)
+        }
+        if let country = self.country?.ifNotEmpty() {
+            lines.append([country])
+        }
         
-        return lines.flatMap { $0.isEmpty == false ? $0.joined(separator: " ") : nil }
+        return lines.compactMap { $0.isEmpty == false ? $0.joined(separator: " ") : nil }
     }
     
     func formatted(includingName: Bool = true, withLines: Bool = false) -> String? {

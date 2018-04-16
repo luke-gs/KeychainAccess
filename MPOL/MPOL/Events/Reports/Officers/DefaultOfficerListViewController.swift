@@ -92,7 +92,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
 
         viewController.finishUpdateHandler = { controller, index in
-            let newInvolvements = controller.objects.enumerated().filter { index.contains($0.offset) }.flatMap { $0.element.title }
+            let newInvolvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
             self.viewModel.report.officers.first(where: { $0.employeeNumber == officer.employeeNumber })?.involvements = newInvolvements
             self.reloadForm()
         }
@@ -138,7 +138,7 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
 
         let involvementsViewController = CustomPickerController(datasource: involvementDatasource)
         involvementsViewController.finishUpdateHandler = { controller, index in
-            officer.involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.flatMap { $0.element.title }
+            officer.involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
             self.viewModel.add(officer: officer)
             self.reloadForm()
         }

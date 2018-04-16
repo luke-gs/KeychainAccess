@@ -29,5 +29,5 @@ public class EventBuilder: EventBuilding {
         return (event: event, displayable: displayable)
     }
 
-    public init() { }
+    public init() {}
 }

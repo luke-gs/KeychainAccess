@@ -29,7 +29,7 @@ class SearchNotificationHandler: NotificationHandler {
     }
 
     /// Handle a silent notification (app may be in foreground or background) and return the data fetch result
-    func handleSilentNotification(userInfo: [AnyHashable : Any]) -> Promise<UIBackgroundFetchResult> {
+    func handleSilentNotification(userInfo: [AnyHashable: Any]) -> Promise<UIBackgroundFetchResult> {
         // TODO: process notification
 
         // Complete with fetch result that we retrieved new data

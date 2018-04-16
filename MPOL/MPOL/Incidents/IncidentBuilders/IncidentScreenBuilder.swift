@@ -32,7 +32,7 @@ public class IncidentScreenBuilder: IncidentScreenBuilding {
         }
     }
 
-    public init() { }
+    public init() {}
 }
 
 

@@ -40,7 +40,7 @@ public class IncidentDetailViewModel: IncidentDetailViewModelType, Evaluatable {
         }
     }
 
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {}
 
 }
 

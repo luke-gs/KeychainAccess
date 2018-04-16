@@ -55,6 +55,6 @@ public class IncidentSearchDataSource: CustomSearchPickerDatasource {
     }
 
     func searchHeaderSubtitle(with objects: [Pickable]) -> String {
-        return objects.map{$0.title}.joined(separator: ", ")
+        return objects.map{ $0.title }.joined(separator: ", ")
     }
 }

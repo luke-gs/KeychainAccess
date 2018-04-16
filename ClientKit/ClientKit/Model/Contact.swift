@@ -76,7 +76,7 @@ open class Contact: NSObject, Serialisable {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        id = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String!
+        id = (aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String?)!
         isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
 
         super.init()

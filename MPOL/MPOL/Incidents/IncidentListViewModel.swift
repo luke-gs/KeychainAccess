@@ -13,7 +13,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
     public var incidentsManager: IncidentsManager
     private(set) var report: IncidentListReport
     public var incidentList: [IncidentListDisplayable] {
-        return report.incidents.map{$0.displayable!}
+        return report.incidents.map{ $0.displayable! }
     }
 
     public required init(report: Reportable, incidentsManager: IncidentsManager) {
@@ -33,7 +33,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
     }
 
     public func detailsViewModel(for incident: Incident) -> IncidentDetailViewModelType {
-        //Switch over incident types here if you want different screen builders for each incident
+        // Switch over incident types here if you want different screen builders for each incident
         return IncidentDetailViewModel(incident: incident, builder: IncidentScreenBuilder())
     }
 
@@ -46,7 +46,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
     }
 
     func searchHeaderSubtitle() -> String {
-        return incidentList.map{$0.title}.joined(separator: ", ")
+        return incidentList.map{ $0.title }.joined(separator: ", ")
     }
 
     func sectionHeaderTitle() -> String {
