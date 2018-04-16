@@ -29,12 +29,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         MPOLKitInitialize()
 
-        let keychain = Shared.keychain
-        if let accessGroup = Bundle.main.infoDictionary?["PSCORESharedKeychain"] as? String {
-            keychain.accessGroup = accessGroup
-        }
-        print(keychain.get("World"))
-
         var plugins = [NetworkMonitorPlugin().allowAll()]
         #if DEBUG
             plugins.append(NetworkLoggingPlugin().allowAll())
@@ -51,6 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         CADStateManagerCore.apiManager = DemoAPIManager.shared
 
         landingPresenter = LandingPresenter()
+        landingPresenter.wantsBiometricAuthentication = true
         let presenter = PresenterGroup(presenters: [
             SystemPresenter(), landingPresenter, BookOnPresenter(), TaskListPresenter(), TaskItemPresenter()
         ])
