@@ -8,7 +8,6 @@
 
 import XCTest
 import Unbox
-import KeychainSwift
 @testable import MPOLKit
 
 private var user = User(username: "Blahblah")

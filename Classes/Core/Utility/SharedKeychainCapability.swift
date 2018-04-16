@@ -22,7 +22,13 @@ public struct SharedKeychainCapability {
     }
 
     public static var defaultKeychain: Keychain = {
-        let accessGroup = SharedKeychainCapability.defaultSharedKeychainAccessGroup
+        let accessGroup: String
+        // Create a mock keychain if testing.
+        if TestingDirective.isTesting {
+            accessGroup = "pscore.testing.keychain"
+        } else {
+            accessGroup = SharedKeychainCapability.defaultSharedKeychainAccessGroup
+        }
         return Keychain(accessGroup: accessGroup)
     }()
 }
