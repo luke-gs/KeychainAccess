@@ -9,7 +9,7 @@
 import Foundation
 import PromiseKit
 
-open class RegisterDeviceRequest: Parameterisable {
+open class RegisterDeviceRequest: CodableRequest {
 
     /// Request URL as relative path
     open var path: String!
@@ -29,20 +29,20 @@ open class RegisterDeviceRequest: Parameterisable {
     /// What application registered this device
     open var sourceApp: String!
 
-    /// Request parameters as a dictionary
-    open var parameters: [String: Any] {
-        return [
-            "appVersion": appVersion,
-            "deviceId": deviceId,
-            "deviceType": deviceType,
-            "pushToken": pushToken,
-            "sourceApp": sourceApp
-        ]
-    }
-
     public init() {
         self.path = "device/register"
     }
+
+    // MARK: - Codable
+
+    public enum CodingKeys: String, CodingKey {
+        case appVersion
+        case deviceId
+        case deviceType
+        case pushToken
+        case sourceApp
+    }
+
 }
 
 // MARK: - API Manager method for sending request
