@@ -44,7 +44,7 @@ open class PhoneNumber: NSObject, Serialisable {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        id = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String!
+        id = (aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String?)!
 
         super.init()
 

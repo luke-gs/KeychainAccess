@@ -70,7 +70,7 @@ public struct VehicleSummaryDisplayable: EntitySummaryDisplayable {
     
     private func formattedYOMMakeModel() -> String? {
         
-        let components = [vehicle.year, vehicle.make, vehicle.model].flatMap { $0 }
+        let components = [vehicle.year, vehicle.make, vehicle.model].compactMap { $0 }
         if components.isEmpty == false {
             return components.joined(separator: " ")
         }

@@ -18,7 +18,7 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
     public var viewControllers: [UIViewController]?
     public var headerView: UIView?
     public var evaluator: Evaluator = Evaluator()
-    public var headerUpdated: (()->())?
+    public var headerUpdated: (() -> ())?
 
     private var readyToSubmit = false {
         didSet {
@@ -36,7 +36,7 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
             header.iconView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
 
             // Update the header to whatever you need it to be
-            let report = event.reports.filter{$0 is IncidentListReport}.first as? IncidentListReport
+            let report = event.reports.filter{ $0 is IncidentListReport }.first as? IncidentListReport
             header.titleLabel.text = report?.incidents.first?.displayable?.title ?? incidentsHeaderDefaultTitle
             header.captionLabel.text = incidentsHeaderDefaultSubtitle
             return header

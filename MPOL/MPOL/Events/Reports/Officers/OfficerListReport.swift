@@ -53,7 +53,9 @@ public class OfficerListReport: Reportable {
     }
 
     private func commonInit() {
-        if let event = event { evaluator.addObserver(event) }
+        if let event = event {
+            evaluator.addObserver(event)
+        }
 
         evaluator.registerKey(.officers) {
             return self.viewed == true

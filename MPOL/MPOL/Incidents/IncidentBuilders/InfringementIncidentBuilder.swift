@@ -10,9 +10,7 @@ import MPOLKit
 
 public class InfringementIncidentBuilder: IncidentBuilding {
 
-    public func createIncident(for type: IncidentType, in event: Event)
-        -> (incident: Incident, displayable: IncidentListDisplayable)
-    {
+    public func createIncident(for type: IncidentType, in event: Event) -> (incident: Incident, displayable: IncidentListDisplayable) {
         let incident = Incident(event: event, type: type)
 
         // Add reports here
@@ -25,5 +23,5 @@ public class InfringementIncidentBuilder: IncidentBuilding {
         return (incident: incident, displayable: displayable)
     }
 
-    public init() { }
+    public init() {}
 }

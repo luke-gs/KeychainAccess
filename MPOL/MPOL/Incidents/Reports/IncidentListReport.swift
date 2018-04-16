@@ -22,7 +22,7 @@ open class IncidentListReport: Reportable, EventHeaderUpdateable {
     
     public var incidents: [Incident] = [] {
         didSet {
-            event?.displayable?.title = incidents.isEmpty ? incidentsHeaderDefaultTitle : incidents.map{$0.displayable?.title}.joined(separator: ", ")
+            event?.displayable?.title = incidents.isEmpty ? incidentsHeaderDefaultTitle : incidents.map{ $0.displayable?.title }.joined(separator: ", ")
             event?.displayable?.subtitle = incidentsHeaderDefaultSubtitle
             evaluator.updateEvaluation(for: .incidents)
             delegate?.updateHeader(with: incidents.first?.displayable?.title, subtitle: nil)
@@ -41,10 +41,16 @@ open class IncidentListReport: Reportable, EventHeaderUpdateable {
     }
 
     private func commonInit() {
-        if let event = event { evaluator.addObserver(event) }
-        if let incident = incident { evaluator.addObserver(incident) }
+        if let event = event {
+            evaluator.addObserver(event)
+        }
+        if let incident = incident {
+            evaluator.addObserver(incident)
+        }
 
-        evaluator.registerKey(.viewed) { return self.viewed }
+        evaluator.registerKey(.viewed) {
+            return self.viewed
+        }
         evaluator.registerKey(.incidents) {
             let eval = self.incidents.reduce(true, { (result, incident) -> Bool in
                 return result && incident.evaluator.isComplete
@@ -75,6 +81,6 @@ open class IncidentListReport: Reportable, EventHeaderUpdateable {
 
     // Evaluation
 
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {}
 }
 

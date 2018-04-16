@@ -81,7 +81,7 @@ open class Licence: NSObject, Serialisable {
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        self.id = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String!
+        self.id = (aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String?)!
 
         super.init()
 
@@ -239,7 +239,7 @@ extension Licence {
         }
 
         public required init?(coder aDecoder: NSCoder) {
-            self.id = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String!
+            self.id = (aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String?)!
 
             super.init()
 
@@ -358,7 +358,7 @@ extension Licence {
         }
 
         public required init?(coder aDecoder: NSCoder) {
-            self.id = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String!
+            self.id = (aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String?)!
 
             super.init()
 
@@ -463,7 +463,7 @@ extension Licence {
         }
 
         public required init?(coder aDecoder: NSCoder) {
-            self.id = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String!
+            self.id = (aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String?)!
 
             super.init()
 

@@ -105,6 +105,6 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable {
             line.removeAll()
         }
         
-        return lines.flatMap { $0.isEmpty == false ? $0.joined(separator: " ") : nil }.joined(separator: " ")
+        return lines.compactMap { $0.isEmpty == false ? $0.joined(separator: " ") : nil }.joined(separator: " ")
     }
 }
