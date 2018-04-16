@@ -153,41 +153,39 @@ open class CADStateManagerCore: CADStateManagerType {
     /// Book on to a shift
     open func bookOn(request: CADBookOnRequestType) -> Promise<Void> {
 
-        // TODO: perform network request
+        // Perform book on to server
+        return CADStateManagerCore.apiManager.cadBookOn(with: request).done { [unowned self] in
 
-        // Update book on and notify observers
-        lastBookOn = request
+            // Update book on and notify observers
+            self.lastBookOn = request
 
-        // TODO: remove this when we have a real CAD system
-        if let lastBookOn = lastBookOn, let resource = self.currentResource {
-            let officerIds = lastBookOn.employees.map({ return $0.payrollId })
-
-            // Update callsign for new officer list
-            resource.payrollIds = officerIds
-            
-            // Update call sign for new equipment list
-            resource.equipment = lastBookOn.equipment
-
-            // Set state if callsign was off duty
-            if resource.status == CADResourceStatusCore.offDuty {
-                resource.status = CADResourceStatusCore.onAir
-            }
-
-            // Check if logged in officer is no longer in callsign
-            if let officerDetails = officerDetails, !officerIds.contains(officerDetails.payrollId) {
-                // Treat like being booked off, using async to trigger didSet again
-                DispatchQueue.main.async {
-                    self.lastBookOn = nil
-                }
-            }
-        }
-        
-        return Promise<Void>().done { _ in
             // Store recent IDs
             UserSession.current.addRecentId(request.callsign, forKey: CADRecentlyUsedKey.callsigns.rawValue)
             UserSession.current.addRecentIds(request.employees.map { $0.payrollId }, forKey: CADRecentlyUsedKey.officers.rawValue)
-            
-//            return Promise<Void>()
+
+            // TODO: remove this when we have a real CAD system
+            if let lastBookOn = self.lastBookOn, let resource = self.currentResource {
+                let officerIds = lastBookOn.employees.map({ return $0.payrollId })
+
+                // Update callsign for new officer list
+                resource.payrollIds = officerIds
+
+                // Update call sign for new equipment list
+                resource.equipment = lastBookOn.equipment
+
+                // Set state if callsign was off duty
+                if resource.status == CADResourceStatusCore.offDuty {
+                    resource.status = CADResourceStatusCore.onAir
+                }
+
+                // Check if logged in officer is no longer in callsign
+                if let officerDetails = self.officerDetails, !officerIds.contains(officerDetails.payrollId) {
+                    // Treat like being booked off, using async to trigger didSet again
+                    DispatchQueue.main.async {
+                        self.lastBookOn = nil
+                    }
+                }
+            }
         }
     }
 
