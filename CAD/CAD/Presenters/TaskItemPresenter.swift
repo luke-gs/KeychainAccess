@@ -42,6 +42,11 @@ public class TaskItemPresenter: Presenter {
                 }),
                 ]
             )
+            
+        case .associationDetails(_):
+            // Will redirect to search app, return dummy VC here
+            return UIViewController()
+
         }
     }
 
@@ -69,6 +74,12 @@ public class TaskItemPresenter: Presenter {
         case .addressLookup(let source, _, _):
             if let to = to as? ActionSheetViewController {
                 from.presentActionSheetPopover(to, sourceView: source, sourceRect: source.bounds, animated: true)
+            }
+
+        case .associationDetails(let association):
+            if let id = association.id, let entityType = association.entityType, let source = association.source {
+                let activity = SearchActivity.viewDetails(id: id, entityType: entityType, source: source)
+                activity.launch()
             }
 
         }
