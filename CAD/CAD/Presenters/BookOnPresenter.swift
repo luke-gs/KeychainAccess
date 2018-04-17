@@ -57,6 +57,10 @@ public class BookOnPresenter: Presenter {
         case .trafficStopEntity(let entityViewModel):
             return entityViewModel.createViewController()
 
+        case .trafficStopSearchEntity:
+            // Will redirect to search app, return dummy VC here
+            return UIViewController()
+
         case .finaliseDetails(let primaryCode, let completionHandler):
             let viewModel = FinaliseDetailsViewModel(primaryCode: primaryCode)
             viewModel.completionHandler = completionHandler
@@ -93,6 +97,11 @@ public class BookOnPresenter: Presenter {
         // Push
         case .trafficStopEntity(_):
             from.navigationController?.pushViewController(to, animated: true)
+
+        // Search app
+        case .trafficStopSearchEntity:
+            let activity = SearchActivity.searchEntity(term: Searchable(text: "", type: "Vehicle"))
+            activity.launch()
 
         // Default presentation, based on container class (eg push if in navigation controller)
         default:
