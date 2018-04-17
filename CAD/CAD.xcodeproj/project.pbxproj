@@ -11,6 +11,7 @@
 		9624A4161F7C550B00CAE056 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4151F7C550B00CAE056 /* AppDelegate.swift */; };
 		9624A41D1F7C550B00CAE056 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9624A41C1F7C550B00CAE056 /* Assets.xcassets */; };
 		9624A4201F7C550B00CAE056 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9624A41E1F7C550B00CAE056 /* LaunchScreen.storyboard */; };
+		9668DC2E208577EF00D7C419 /* SearchActivity+Launch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9668DC2D208577EF00D7C419 /* SearchActivity+Launch.swift */; };
 		969C2C851FCFD7B700E99C85 /* DemoAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969C2C811FCFD7B700E99C85 /* DemoAPIManager.swift */; };
 		969C2C861FCFD7B700E99C85 /* DemoManifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 969C2C821FCFD7B700E99C85 /* DemoManifest.json */; };
 		969C2C871FCFD7B700E99C85 /* DemoOfficer.json in Resources */ = {isa = PBXBuildFile; fileRef = 969C2C831FCFD7B700E99C85 /* DemoOfficer.json */; };
@@ -38,6 +39,7 @@
 		96553FD51F98554E006E063E /* AppConfig-cad-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-cad-release.xcconfig"; sourceTree = "<group>"; };
 		96553FD71F98554E006E063E /* AppConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppConfiguration.h; sourceTree = "<group>"; };
 		96553FD81F98554E006E063E /* CAD-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CAD-Bridging-Header.h"; sourceTree = "<group>"; };
+		9668DC2D208577EF00D7C419 /* SearchActivity+Launch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchActivity+Launch.swift"; sourceTree = "<group>"; };
 		969C2C811FCFD7B700E99C85 /* DemoAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAPIManager.swift; sourceTree = "<group>"; };
 		969C2C821FCFD7B700E99C85 /* DemoManifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DemoManifest.json; sourceTree = "<group>"; };
 		969C2C831FCFD7B700E99C85 /* DemoOfficer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DemoOfficer.json; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 				96CED76C1FA7F23D00C0DEB0 /* LandingPresenter.swift */,
 				96EB4BEA20437BB000AFCAA0 /* TaskListPresenter.swift */,
 				96B58FAA2044AF82001A8DF4 /* TaskItemPresenter.swift */,
+				9668DC2D208577EF00D7C419 /* SearchActivity+Launch.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -336,6 +339,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				969C2C851FCFD7B700E99C85 /* DemoAPIManager.swift in Sources */,
+				9668DC2E208577EF00D7C419 /* SearchActivity+Launch.swift in Sources */,
 				96CED76D1FA7F23D00C0DEB0 /* LandingPresenter.swift in Sources */,
 				9624A4161F7C550B00CAE056 /* AppDelegate.swift in Sources */,
 				96AADABB200810F6003E215E /* BookOnPresenter.swift in Sources */,
