@@ -11,6 +11,11 @@ import MPOLKit
 import ClientKit
 
 public class BookOnPresenter: Presenter {
+
+    public init() {
+        registerSearchEntities()
+    }
+
     public func viewController(forPresentable presentable: Presentable) -> UIViewController {
         let presentable = presentable as! BookOnScreen
 
@@ -111,6 +116,19 @@ public class BookOnPresenter: Presenter {
 
     public func supportPresentable(_ presentableType: Presentable.Type) -> Bool {
         return presentableType is BookOnScreen.Type
+    }
+
+    open func registerSearchEntities() {
+        // Set up entity summary for traffic stop recently viewed
+        let entityFormatter = EntitySummaryDisplayFormatter.default
+
+        entityFormatter.registerEntityType(Person.self,
+                                           forSummary: .function { return PersonSummaryDisplayable($0) },
+                                           andPresentable: .none)
+
+        entityFormatter.registerEntityType(Vehicle.self,
+                                           forSummary: .function { return VehicleSummaryDisplayable($0) },
+                                           andPresentable: .none)
     }
 }
 
