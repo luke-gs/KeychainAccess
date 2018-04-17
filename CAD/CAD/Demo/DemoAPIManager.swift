@@ -30,12 +30,12 @@ open class DemoAPIManager: CADAPIManagerType {
     }
 
     public func cadBookOn(with request: CADBookOnRequestType) -> Promise<Void> {
-        print("\(request.parameters.asLogString())")
+        print("\(LogUtils.string(from: request.parameters))")
         return after(seconds: 1).done {}
     }
 
     public func cadBookOff(with request: CADBookOffRequestType) -> Promise<Void> {
-        print("\(request.parameters.asLogString())")
+        print("\(LogUtils.string(from: request.parameters))")
         return after(seconds: 1).done {}
     }
 
