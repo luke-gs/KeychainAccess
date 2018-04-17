@@ -1,5 +1,5 @@
 //
-//  IncidentTestReport.swift
+//  TrafficInfringementServiceReport.swift
 //  MPOL
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -11,11 +11,11 @@ import MPOLKit
 fileprivate extension EvaluatorKey {
     static let viewed = EvaluatorKey("viewed")
 }
-// TODO: Delete when start incidents
-class IncidentTestReport: Reportable {
+
+class TrafficInfringementServiceReport: Reportable {
     weak var event: Event?
     weak var incident: Incident?
-    var evaluator: Evaluator = Evaluator()
+    let evaluator: Evaluator = Evaluator()
 
     var viewed: Bool = false {
         didSet {
@@ -41,9 +41,10 @@ class IncidentTestReport: Reportable {
 
     func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {}
 
-    // MARK: CODING
+    //MARK: CODING
     public static var supportsSecureCoding: Bool = true
     public required init?(coder aDecoder: NSCoder) {}
     public func encode(with aCoder: NSCoder) {}
 }
+
 
