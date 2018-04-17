@@ -20,4 +20,8 @@ public enum TaskItemScreen: Presentable {
 
     /// Address popover for "Directions, Street View, Search"
     case addressLookup(source: UIView, coordinate: CLLocationCoordinate2D, address: String?)
+
+    /// Show details for an association
+    case associationDetails(association: CADIncidentAssociationType)
+
 }

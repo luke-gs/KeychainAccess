@@ -11,6 +11,10 @@ import Foundation
 /// PSCore implementation of class representing a vehicle associated with an incident
 open class CADIncidentVehicleCore: Codable, CADIncidentVehicleType {
 
+    public var entityType: String? {
+        return "Vehicle"
+    }
+
     // MARK: - Network
 
     open var alertLevel: Int?

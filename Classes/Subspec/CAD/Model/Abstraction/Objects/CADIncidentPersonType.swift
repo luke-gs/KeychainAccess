@@ -9,7 +9,7 @@
 import Foundation
 
 /// Protocol for a class representing an incident person (association)
-public protocol CADIncidentPersonType: class {
+public protocol CADIncidentPersonType: class, CADIncidentAssociationType {
 
     // MARK: - Network
     var alertLevel: Int? { get set }

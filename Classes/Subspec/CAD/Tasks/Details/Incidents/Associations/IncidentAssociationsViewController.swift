@@ -8,11 +8,11 @@
 
 import UIKit
 
-open class IncidentAssociationsViewController: CADFormCollectionViewController<EntitySummaryDisplayable> {
+open class IncidentAssociationsViewController: CADFormCollectionViewController<IncidentAssociationItemViewModel> {
     
     private let listStateItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .list), style: .plain, target: nil, action: nil)
 
-    override public init(viewModel: CADFormCollectionViewModel<EntitySummaryDisplayable>) {
+    override public init(viewModel: CADFormCollectionViewModel<IncidentAssociationItemViewModel>) {
         super.init(viewModel: viewModel)
         
         // TODO: Add red dot
@@ -89,7 +89,7 @@ open class IncidentAssociationsViewController: CADFormCollectionViewController<E
         }
     }
     
-    override open func decorate(cell: CollectionViewFormCell, with viewModel: EntitySummaryDisplayable) {
+    override open func decorate(cell: CollectionViewFormCell, with viewModel: IncidentAssociationItemViewModel) {
         cell.highlightStyle = .fade
         cell.selectionStyle = .fade
         cell.separatorStyle = .indented
@@ -106,7 +106,11 @@ open class IncidentAssociationsViewController: CADFormCollectionViewController<E
     
     open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        // TODO: present details?
+
+        if let item = viewModel.item(at: indexPath) {
+            // Present association details
+            Director.shared.present(TaskItemScreen.associationDetails(association: item.association), fromViewController: self)
+        }
     }
     
     
