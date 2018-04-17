@@ -96,9 +96,11 @@ open class BookOnDetailsFormViewModel {
 
     open func terminateShift() {
         if resource.status.canTerminate {
-            // Update session and dismiss screen
-            CADStateManager.shared.setOffDuty()
-            delegate?.dismiss(animated: true, completion: nil)
+            // Book off unit and dismiss form
+            // TODO: add loading state
+            _ = CADStateManager.shared.bookOff().done { [weak self] in
+                self?.delegate?.dismiss(animated: true, completion: nil)
+            }
         } else {
             AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Terminate Shift", comment: ""),
                                              message: NSLocalizedString("Your call sign is currently responding to an active incident that must first be finalised.", comment: ""))
@@ -106,16 +108,10 @@ open class BookOnDetailsFormViewModel {
 
     }
 
-    open func submitForm() -> Promise<()> {
+    open func submitForm() -> Promise<Void> {
         // Update session
-        let bookOnRequest = content.createModel()
-        bookOnRequest.callsign = resource.callsign
-        _ = CADStateManager.shared.bookOn(request: bookOnRequest)
-
-        return firstly {
-            // TODO: submit to network
-            return Promise.value(())
-        }
+        let bookOnRequest = content.createModel(callsign: resource.callsign)
+        return CADStateManager.shared.bookOn(request: bookOnRequest)
     }
 
     open func officerDetailsScreen(at index: Int? = nil) -> Presentable {

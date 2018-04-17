@@ -95,7 +95,7 @@ open class CADOfficerCore: Codable, CADOfficerType {
         case licenceTypeId = "licenceTypeId"
         case middleName = "middleName"
         case patrolGroup = "patrolGroup"
-        case payrollId = "payrollId"
+        case payrollId = "employeeNumber"
         case radioId = "radioId"
         case rank = "rank"
         case remarks = "remarks"
@@ -119,6 +119,20 @@ open class CADOfficerCore: Codable, CADOfficerType {
     }
 
     public func encode(to encoder: Encoder) throws {
-        MPLUnimplemented()
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(payrollId, forKey: .payrollId)
+        if capabilities.count > 0 {
+            try container.encodeIfPresent(capabilities, forKey: .capabilities)
+        }
+        try container.encodeIfPresent(contactNumber, forKey: .contactNumber)
+        try container.encodeIfPresent(firstName, forKey: .firstName)
+        try container.encodeIfPresent(lastName, forKey: .lastName)
+        try container.encodeIfPresent(licenceTypeId, forKey: .licenceTypeId)
+        try container.encodeIfPresent(middleName, forKey: .middleName)
+        try container.encodeIfPresent(patrolGroup, forKey: .patrolGroup)
+        try container.encodeIfPresent(radioId, forKey: .radioId)
+        try container.encodeIfPresent(rank, forKey: .rank)
+        try container.encodeIfPresent(remarks, forKey: .remarks)
+        try container.encodeIfPresent(station, forKey: .station)
     }
 }
