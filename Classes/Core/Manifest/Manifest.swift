@@ -206,6 +206,25 @@ public final class Manifest: NSObject {
         return try? viewContext.fetch(request)
     }
     
+    /// Fetches all entries in a collection matching a title, if they exist, in the `viewContext`.
+    ///
+    /// - Parameter collection:
+    /// - Returns: An array of `ManifestEntry` items matching the collection, or nil.
+    ///
+    /// - Parameters:
+    ///   - collection:   The collection to fetch results for.
+    ///   - title:        The title of the entry.
+    ///   - activeOnly:   Indicates whether fetches should only return those items that are not inactive. The default is `true`.
+    ///   - descriptors:  Optional sort descriptors to apply to the entries. The default sorts by the "sortOrder" property.
+    /// - Returns: All entries in the collection.
+    public func entries(for collection: ManifestCollection, title: String,
+                        activeOnly: Bool = true,
+                        sortedBy descriptors: [NSSortDescriptor]? = [NSSortDescriptor(key: "sortOrder", ascending: true)]) -> [ManifestEntry]? {
+        let titlePredicate = NSPredicate(format: "title == %@", title)
+        let request = fetchRequest(forEntriesIn: collection, activeOnly: activeOnly, additionalPredicate: titlePredicate, sortedBy: descriptors)
+        return try? viewContext.fetch(request)
+    }
+    
     
     /// Fetches an entry with the associated ID, if it exists, in the `viewContext`.
     ///
