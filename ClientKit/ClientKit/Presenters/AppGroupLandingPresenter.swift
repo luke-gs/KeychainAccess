@@ -10,6 +10,7 @@ import UIKit
 
 import Foundation
 import MPOLKit
+import PromiseKit
 
 /// Enum for all initial screens in a standard MPOL app
 public enum LandingScreen: Presentable {
@@ -151,16 +152,22 @@ open class AppGroupLandingPresenter: NSObject, Presenter, UsernamePasswordDelega
             NotificationManager.shared.registerPushToken()
             controller.resetFields()
             self.updateInterfaceForUserSession(animated: true)
+            }.then { () -> Promise<Officer> in
+                return APIManager.shared.fetchCurrentOfficerDetails(in: MPOLSource.pscore,
+                                                                    with: CurrentOfficerDetailsFetchRequest())
+            }.done { officer in
+                try! UserSession.current.userStorage?.add(object: officer,
+                                                          key: UserSession.currentOfficerKey,
+                                                          flag: UserStorageFlag.session)
+            }.ensure {
+                controller.setLoading(false, animated: true)
+            }.catch { error in
+                let error = error as NSError
 
-        }.ensure {
-            controller.setLoading(false, animated: true)
-        }.catch { error in
-            let error = error as NSError
+                let title = error.localizedFailureReason ?? "Error"
+                let message = error.localizedDescription
 
-            let title = error.localizedFailureReason ?? "Error"
-            let message = error.localizedDescription
-
-            controller.present(SystemScreen.serverError(title: title, message: message))
+                controller.present(SystemScreen.serverError(title: title, message: message))
         }
     }
 }
