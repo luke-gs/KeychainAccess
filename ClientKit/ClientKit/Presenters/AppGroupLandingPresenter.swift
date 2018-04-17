@@ -165,6 +165,11 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
     public func authenticateWithUsername(_ username: String, password: String, inController controller: LoginViewController, context: LAContext? = nil) {
         controller.setLoading(true, animated: true)
 
+        // `lToken` is added so we could start the session slightly later.
+        // It's workaround, for now, due to the fact that User data and UserSession are coupled.
+        // It causes some data to go out of sync due to the order of loading and saving.
+        var lToken: OAuthAccessToken?
+
         APIManager.shared.accessTokenRequest(for: .credentials(username: username, password: password)).then { [weak self] token -> Promise<Void> in
             guard let `self` = self else {
                 throw PMKError.cancelled
@@ -172,7 +177,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
 
             APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)), rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
 
-            UserSession.startSession(user: User(username: username), token: token)
+            lToken = token
             NotificationManager.shared.registerPushToken()
             controller.resetFields()
 
@@ -206,6 +211,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
             }
             throw error
         }.done {
+            UserSession.startSession(user: User(username: username), token: lToken!)
             self.updateInterfaceForUserSession(animated: true)
         }.ensure {
             controller.setLoading(false, animated: true)
