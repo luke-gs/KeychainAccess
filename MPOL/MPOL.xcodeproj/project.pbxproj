@@ -34,6 +34,9 @@
 		19894F89207A61BE009289C0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 19894F88207A61BE009289C0 /* Localizable.strings */; };
 		19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3894207A5F3A00855651 /* SupportedShortcut.swift */; };
 		19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */; };
+		37F3A3BE208475650077998C /* EventEntitiesListReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F3A3BD208475650077998C /* EventEntitiesListReport.swift */; };
+		37F3A3C0208477420077998C /* EventEntitiesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F3A3BF208477420077998C /* EventEntitiesListViewController.swift */; };
+		37F3A3C2208480190077998C /* EventEntitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F3A3C1208480190077998C /* EventEntitiesListViewModel.swift */; };
 		397B77011E52CEDA00696677 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 397B77001E52CEDA00696677 /* UserNotifications.framework */; };
 		445A8A381F667A56005ABEB8 /* PersonSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */; };
 		445A8A3C1F673C8B005ABEB8 /* LocationSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A391F673C8B005ABEB8 /* LocationSearchHelp.json */; };
@@ -111,6 +114,9 @@
 		19894F88207A61BE009289C0 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		19CB3894207A5F3A00855651 /* SupportedShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedShortcut.swift; sourceTree = "<group>"; };
 		19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Shortcuts.swift"; sourceTree = "<group>"; };
+		37F3A3BD208475650077998C /* EventEntitiesListReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntitiesListReport.swift; sourceTree = "<group>"; };
+		37F3A3BF208477420077998C /* EventEntitiesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntitiesListViewController.swift; sourceTree = "<group>"; };
+		37F3A3C1208480190077998C /* EventEntitiesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntitiesListViewModel.swift; sourceTree = "<group>"; };
 		397B76FF1E52C23600696677 /* MPOL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MPOL.entitlements; sourceTree = "<group>"; };
 		397B77001E52CEDA00696677 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PersonSearchHelp.json; sourceTree = "<group>"; };
@@ -238,6 +244,7 @@
 		12EB8099202AAC0000405F5C /* Events */ = {
 			isa = PBXGroup;
 			children = (
+				37F3A3BC2084754A0077998C /* Entities */,
 				127801F2202AB1F0007D0BBB /* EventBuilder.swift */,
 				12EB809A202AAC2100405F5C /* EventScreenBuilder.swift */,
 				127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */,
@@ -248,6 +255,16 @@
 				46E0B896202C0F4100B40DF2 /* Reports */,
 			);
 			path = Events;
+			sourceTree = "<group>";
+		};
+		37F3A3BC2084754A0077998C /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				37F3A3BD208475650077998C /* EventEntitiesListReport.swift */,
+				37F3A3BF208477420077998C /* EventEntitiesListViewController.swift */,
+				37F3A3C1208480190077998C /* EventEntitiesListViewModel.swift */,
+			);
+			path = Entities;
 			sourceTree = "<group>";
 		};
 		3C534FA68E46E1F1622CC13C /* Pods */ = {
@@ -609,6 +626,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37F3A3C0208477420077998C /* EventEntitiesListViewController.swift in Sources */,
+				37F3A3BE208475650077998C /* EventEntitiesListReport.swift in Sources */,
 				AA4A25F220846DEA0006817C /* TrafficInfringementOffencesViewController.swift in Sources */,
 				127801F3202AB1F0007D0BBB /* EventBuilder.swift in Sources */,
 				12ABD576207F1FE9004D0C9F /* DefaultEventLocationViewController.swift in Sources */,
@@ -652,6 +671,7 @@
 				96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */,
 				12ABD575207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift in Sources */,
 				46E0B8BE2033D1FB00B40DF2 /* OfficerSearchViewModel.swift in Sources */,
+				37F3A3C2208480190077998C /* EventEntitiesListViewModel.swift in Sources */,
 				12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */,
 				12229E1720439C49002E1A97 /* IncidentListViewModel.swift in Sources */,
 			);
