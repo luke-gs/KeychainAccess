@@ -39,28 +39,44 @@ public struct BiometricUserHandler {
     ///
     /// - Parameters:
     ///   - password: The password to be saved.
-    ///   - context: The context to be re-used. The context won't be used to present prompt, rather it'll just be used as is to skip authentication if already provided.
-    ///   - prompt: The text prompt. Will only be used if no authentication has been provided.
+    ///   - context: The context to be re-used.
+    ///   - prompt: The text prompt to ask for user permission.
     /// - Returns: Promise to indicate whether saving is successful or failed.
     public func setPassword(_ password: String?, context: LAContext? = nil, prompt: String? = nil) -> Promise<Void> {
-        let (promise, seal) = Promise<Void>.pending()
-        let current = keychain(keychain, context: context, prompt: prompt)
-        let key = _passwordKey
 
-        _queue.async {
-            do {
-                if let password = password {
-                    try current.accessibility(.whenPasscodeSetThisDeviceOnly, authenticationPolicy: .touchIDCurrentSet)
-                        .set(password, key: key)
-                    seal.fulfill(())
-                } else {
-                    // Password can be removed without context.
-                    try current.remove(key)
-                    seal.fulfill(())
+        let (promise, seal) = Promise<Void>.pending()
+        let key = _passwordKey
+        let lContext = context ?? LAContext()
+        let current = keychain(keychain, context: context, prompt: prompt)
+
+        let performUpdate = {
+            self._queue.async {
+                do {
+                    if let password = password {
+                        try current.accessibility(.whenPasscodeSetThisDeviceOnly, authenticationPolicy: .touchIDCurrentSet)
+                            .set(password, key: key)
+                        seal.fulfill(())
+                    } else {
+                        // Password can be removed without context.
+                        try current.remove(key)
+                        seal.fulfill(())
+                    }
+                } catch {
+                    seal.reject(error)
                 }
-            } catch {
-                seal.reject(error)
             }
+        }
+
+        if lContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
+            lContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: prompt ?? "") { (success, error) in
+                if success {
+                    performUpdate()
+                } else if let error = error {
+                    seal.reject(error)
+                }
+            }
+        } else {
+            performUpdate()
         }
 
         return promise
