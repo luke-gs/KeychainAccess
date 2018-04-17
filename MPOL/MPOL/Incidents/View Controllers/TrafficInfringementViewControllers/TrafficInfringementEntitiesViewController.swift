@@ -26,6 +26,13 @@ open class TrafficInfringementEntitiesViewController: FormBuilderViewController,
         sidebarItem.compactTitle = title
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.list)!
         sidebarItem.color = (report?.evaluator.isComplete ?? false) ? .midGreen : .red
+
+        loadingManager.noContentView.titleLabel.text = "No Entities Added"
+        loadingManager.noContentView.subtitleLabel.text = "This report requires at least one person or vehicle"
+        loadingManager.noContentView.imageView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.dialogAlert)
+        loadingManager.noContentView.actionButton.setTitle("Add Entity", for: .normal)
+
+        loadingManager.state = .noContent
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -42,10 +49,10 @@ open class TrafficInfringementEntitiesViewController: FormBuilderViewController,
         builder.forceLinearLayout = true
 
         builder += HeaderFormItem(text: "GENERAL")
-        builder += HeaderFormItem(text: "SUMMARY / NOTES")
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
         sidebarItem.color = evaluator.isComplete == true ? .midGreen : .red
     }
 }
+

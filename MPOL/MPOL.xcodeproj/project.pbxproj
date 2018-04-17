@@ -227,6 +227,7 @@
 		12B832E92043821C00B13414 /* Incidents */ = {
 			isa = PBXGroup;
 			children = (
+				AA1DAA9D20856FD4007434BB /* View Models */,
 				AA4A25F020846C4F0006817C /* View Controllers */,
 				121472ED2062015C002D37CF /* Test */,
 				127F4B7720452291000C3D7F /* IncidentBuilders */,
@@ -339,6 +340,21 @@
 				AA4A25F9208472CF0006817C /* TrafficInfringementServiceViewController.swift */,
 			);
 			path = TrafficInfringementViewControllers;
+			sourceTree = "<group>";
+		};
+		AA1DAA9D20856FD4007434BB /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				AA1DAA9E20856FE5007434BB /* TrafficIncident ViewModels */,
+			);
+			path = "View Models";
+			sourceTree = "<group>";
+		};
+		AA1DAA9E20856FE5007434BB /* TrafficIncident ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "TrafficIncident ViewModels";
 			sourceTree = "<group>";
 		};
 		AA4A25F020846C4F0006817C /* View Controllers */ = {
