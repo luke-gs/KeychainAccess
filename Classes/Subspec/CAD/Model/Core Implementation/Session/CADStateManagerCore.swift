@@ -11,14 +11,18 @@ import PromiseKit
 
 /// PSCore implementation of CAD state manager
 open class CADStateManagerCore: CADStateManagerType {
-    
+
+    /// Enum for state manager errors
+    public enum StateManagerError: Error {
+        case notBookedOn
+    }
+
     /// The API manager to use, by default system one
     open static var apiManager: CADAPIManagerType!
 
     public init() {
         // Register concrete classes for protocols
         CADClientModelTypes.taskListSources = CADTaskListSourceCore.self
-        CADClientModelTypes.bookonDetails = CADBookOnRequest.self
         CADClientModelTypes.officerDetails = CADOfficerCore.self
         CADClientModelTypes.equipmentDetails = CADEquipmentCore.self
         CADClientModelTypes.trafficStopDetails = CADTrafficStopRequest.self
@@ -40,7 +44,7 @@ open class CADStateManagerCore: CADStateManagerType {
     open var patrolGroup: String? = "Collingwood"
 
     /// The last book on data
-    open private(set) var lastBookOn: CADBookOnDetailsType? {
+    open private(set) var lastBookOn: CADBookOnRequestType? {
         didSet {
             updateScheduledNotifications()
             DispatchQueue.main.async {
@@ -124,12 +128,6 @@ open class CADStateManagerCore: CADStateManagerType {
         return Promise(error: CADStateManagerError.notLoggedIn)
     }
 
-    /// Set logged in officer as off duty
-    open func setOffDuty() {
-        currentResource?.status = CADResourceStatusCore.offDuty
-        lastBookOn = nil
-    }
-    
     /// Clears current incident and sets status to on air
     open func finaliseIncident() {
         currentResource?.status = CADResourceStatusCore.onAir
@@ -153,50 +151,53 @@ open class CADStateManagerCore: CADStateManagerType {
     // MARK: - Shift
 
     /// Book on to a shift
-    open func bookOn(request: CADBookOnDetailsType) -> Promise<Void> {
+    open func bookOn(request: CADBookOnRequestType) -> Promise<Void> {
 
-        // TODO: perform network request
+        // Perform book on to server
+        return CADStateManagerCore.apiManager.cadBookOn(with: request).done { [unowned self] in
 
-        // Update book on and notify observers
-        lastBookOn = request
+            // Update book on and notify observers
+            self.lastBookOn = request
 
-        // TODO: remove this when we have a real CAD system
-        if let lastBookOn = lastBookOn, let resource = self.currentResource {
-            let officerIds = lastBookOn.officers.map({ return $0.payrollId })
-
-            // Update callsign for new officer list
-            resource.payrollIds = officerIds
-            
-            // Update call sign for new equipment list
-            resource.equipment = lastBookOn.equipment
-
-            // Set state if callsign was off duty
-            if resource.status == CADResourceStatusCore.offDuty {
-                resource.status = CADResourceStatusCore.onAir
-            }
-
-            // Check if logged in officer is no longer in callsign
-            if let officerDetails = officerDetails, !officerIds.contains(officerDetails.payrollId) {
-                // Treat like being booked off, using async to trigger didSet again
-                DispatchQueue.main.async {
-                    self.lastBookOn = nil
-                }
-            }
-        }
-        
-        return Promise<Void>().done { _ in
             // Store recent IDs
             UserSession.current.addRecentId(request.callsign, forKey: CADRecentlyUsedKey.callsigns.rawValue)
-            UserSession.current.addRecentIds(request.officers.map { $0.payrollId }, forKey: CADRecentlyUsedKey.officers.rawValue)
-            
-//            return Promise<Void>()
+            UserSession.current.addRecentIds(request.employees.map { $0.payrollId }, forKey: CADRecentlyUsedKey.officers.rawValue)
+
+            // TODO: remove this when we have a real CAD system
+            if let lastBookOn = self.lastBookOn, let resource = self.currentResource {
+                let officerIds = lastBookOn.employees.map({ return $0.payrollId })
+
+                // Update callsign for new officer list
+                resource.payrollIds = officerIds
+
+                // Update call sign for new equipment list
+                resource.equipment = lastBookOn.equipment
+
+                // Set state if callsign was off duty
+                if resource.status == CADResourceStatusCore.offDuty {
+                    resource.status = CADResourceStatusCore.onAir
+                }
+
+                // Check if logged in officer is no longer in callsign
+                if let officerDetails = self.officerDetails, !officerIds.contains(officerDetails.payrollId) {
+                    // Treat like being booked off, using async to trigger didSet again
+                    DispatchQueue.main.async {
+                        self.lastBookOn = nil
+                    }
+                }
+            }
         }
     }
 
     /// Terminate shift
-    open func bookOff(request: CADBookOffDetailsType) -> Promise<Void> {
-        lastBookOn = nil
-        return Promise<Void>()
+    open func bookOff() -> Promise<Void> {
+        guard let lastBookOn = lastBookOn else { return Promise<Void>(error: StateManagerError.notBookedOn) }
+        let request = CADBookOffRequestCore(callsign: lastBookOn.callsign)
+
+        return CADStateManagerCore.apiManager.cadBookOff(with: request).done { [unowned self] in
+            self.currentResource?.status = CADResourceStatusCore.offDuty
+            self.lastBookOn = nil
+        }
     }
 
     /// Update the status of our callsign

@@ -14,6 +14,12 @@ public protocol CADAPIManagerType {
     /// Perform login
     func accessTokenRequest(for grant: OAuthAuthorizationGrant) -> Promise<OAuthAccessToken>
 
+    /// Book on to CAD
+    func cadBookOn(with request: CADBookOnRequestType) -> Promise<Void>
+
+    /// Book off from CAD
+    func cadBookOff(with request: CADBookOffRequestType) -> Promise<Void>
+
     /// Fetch details about an officer by username
     func cadOfficerByUsername(username: String) -> Promise<CADOfficerDetailsResponse>
 
@@ -22,5 +28,6 @@ public protocol CADAPIManagerType {
 
     /// Fetch manifest items
     func fetchManifest(with request: ManifestFetchRequest) -> Promise<ManifestFetchRequest.ResultClass>
+
 }
 

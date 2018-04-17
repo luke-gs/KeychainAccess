@@ -25,7 +25,7 @@ public protocol CADStateManagerType {
     var patrolGroup: String? { get set }
 
     /// The last book on data
-    var lastBookOn: CADBookOnDetailsType? { get }
+    var lastBookOn: CADBookOnRequestType? { get }
 
     /// The last sync time
     var lastSyncTime: Date? { get }
@@ -71,9 +71,6 @@ public protocol CADStateManagerType {
     /// Fetch the logged in officer's details
     func fetchCurrentOfficerDetails() -> Promise<CADOfficerType>
 
-    /// Set logged in officer as off duty
-    func setOffDuty()
-
     /// Clears current incident and sets status to on air
     func finaliseIncident()
 
@@ -83,10 +80,10 @@ public protocol CADStateManagerType {
     // MARK: - Shift
 
     /// Book on to a shift
-    func bookOn(request: CADBookOnDetailsType) -> Promise<Void>
+    func bookOn(request: CADBookOnRequestType) -> Promise<Void>
 
     /// Terminate shift
-    func bookOff(request: CADBookOffDetailsType) -> Promise<Void>
+    func bookOff() -> Promise<Void>
 
     /// Update the status of our callsign
     func updateCallsignStatus(status: CADResourceStatusType, incident: CADIncidentType?)

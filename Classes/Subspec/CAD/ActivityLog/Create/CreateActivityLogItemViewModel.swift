@@ -42,7 +42,7 @@ open class CreateActivityLogItemViewModel {
     }
 
     open func officerList() -> [String]? {
-        if let officers = CADStateManager.shared.lastBookOn?.officers {
+        if let officers = CADStateManager.shared.lastBookOn?.employees {
             return officers.map { return $0.displayName }
         }
         return nil

@@ -9,10 +9,7 @@
 import Foundation
 import PromiseKit
 
-open class RegisterDeviceRequest: Parameterisable {
-
-    /// Request URL as relative path
-    open var path: String!
+open class RegisterDeviceRequest: CodableRequestParameters {
 
     /// Current version identifier for the application running on the device
     open var appVersion: String!
@@ -29,29 +26,23 @@ open class RegisterDeviceRequest: Parameterisable {
     /// What application registered this device
     open var sourceApp: String!
 
-    /// Request parameters as a dictionary
-    open var parameters: [String: Any] {
-        return [
-            "appVersion": appVersion,
-            "deviceId": deviceId,
-            "deviceType": deviceType,
-            "pushToken": pushToken,
-            "sourceApp": sourceApp
-        ]
+    // MARK: - Codable
+
+    public enum CodingKeys: String, CodingKey {
+        case appVersion
+        case deviceId
+        case deviceType
+        case pushToken
+        case sourceApp
     }
 
-    public init() {
-        self.path = "device/register"
-    }
 }
 
 // MARK: - API Manager method for sending request
 public extension APIManager {
     public func registerDevice(with request: RegisterDeviceRequest) -> Promise<Void> {
-        let networkRequest = try! NetworkRequest(pathTemplate: request.path, parameters: request.parameters, method: .post)
-        return try! APIManager.shared.performRequest(networkRequest, cancelToken: nil).done { _ -> Void in
-            // Backend returns ID array we don't care about, so ignore
-        }
+        // Send request and ignore response backend internal ID array)
+        return performRequest(request, pathTemplate: "device/register", method: .post)
     }
 }
 
