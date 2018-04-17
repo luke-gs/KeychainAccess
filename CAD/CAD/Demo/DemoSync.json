@@ -806,7 +806,7 @@
       "licenceTypeId": "Gold Licence", 
       "middleName": "F.", 
       "patrolGroup": "Collingwood", 
-      "payrollId": "777122", 
+      "employeeNumber": "777122", 
       "radioId": "38754276", 
       "rank": "Senior Constable", 
       "remarks": "", 
@@ -823,7 +823,7 @@
       "licenceTypeId": "Silver Licence", 
       "middleName": "A.", 
       "patrolGroup": "Collingwood", 
-      "payrollId": "777453", 
+      "employeeNumber": "777453", 
       "radioId": "82654386", 
       "rank": "First Constable", 
       "remarks": "", 
@@ -839,7 +839,7 @@
       "licenceTypeId": "Gold Licence", 
       "middleName": "O.", 
       "patrolGroup": "Collingwood", 
-      "payrollId": "777032", 
+      "employeeNumber": "777032", 
       "radioId": "19975433", 
       "rank": "Leading Senior Constable", 
       "remarks": "", 
@@ -855,7 +855,7 @@
       "licenceTypeId": "Gold Licence", 
       "middleName": "F.", 
       "patrolGroup": "Collingwood", 
-      "payrollId": "777001", 
+      "employeeNumber": "777001", 
       "radioId": "09769388", 
       "rank": "Sergeant", 
       "remarks": "", 
@@ -871,7 +871,7 @@
       "licenceTypeId": "Silver Licence", 
       "middleName": "Whittingham", 
       "patrolGroup": "Collingwood", 
-      "payrollId": "777019", 
+      "employeeNumber": "777019", 
       "radioId": "13975544", 
       "rank": "Inspector", 
       "remarks": "", 
@@ -888,7 +888,7 @@
       "licenceTypeId": "Silver Licence", 
       "middleName": "", 
       "patrolGroup": "Collingwood", 
-      "payrollId": "777202", 
+      "employeeNumber": "777202", 
       "radioId": "87247643", 
       "rank": "First Constable", 
       "remarks": "", 
@@ -904,7 +904,7 @@
       "licenceTypeId": "Gold Licence", 
       "middleName": "Rajesh", 
       "patrolGroup": "Collingwood", 
-      "payrollId": "777791", 
+      "employeeNumber": "777791", 
       "radioId": "65476229", 
       "rank": "Leading Senior Constable", 
       "remarks": "", 
@@ -918,7 +918,7 @@
       "licenceTypeId": "Gold Licence", 
       "middleName": "", 
       "patrolGroup": "Collingwood", 
-      "payrollId": "777199", 
+      "employeeNumber": "777199", 
       "radioId": "18654354", 
       "rank": "Leading Senior Constable", 
       "remarks": "", 
@@ -932,7 +932,7 @@
       "licenceTypeId": "Gold Licence", 
       "middleName": "", 
       "patrolGroup": "Collingwood", 
-      "payrollId": "773678", 
+      "employeeNumber": "773678", 
       "radioId": "82626288", 
       "rank": "Leading Senior Constable", 
       "remarks": "", 
@@ -946,7 +946,7 @@
       "licenceTypeId": "Silver Licence", 
       "middleName": "Warwick", 
       "patrolGroup": "South Melbourne", 
-      "payrollId": "182732", 
+      "employeeNumber": "182732", 
       "radioId": "83646297", 
       "rank": "First Constable", 
       "remarks": "", 
@@ -960,7 +960,7 @@
       "licenceTypeId": "Gold Licence", 
       "middleName": "James", 
       "patrolGroup": "South Melbourne", 
-      "payrollId": "183728", 
+      "employeeNumber": "183728", 
       "radioId": "92747297", 
       "rank": "Leading Senior Constable", 
       "remarks": "", 
@@ -976,7 +976,7 @@
       "licenceTypeId": "Bronze Licence", 
       "middleName": "", 
       "patrolGroup": "South Melbourne", 
-      "payrollId": "182992", 
+      "employeeNumber": "182992", 
       "radioId": "28462827", 
       "rank": "Senior Constable", 
       "remarks": "", 
@@ -993,7 +993,7 @@
       "licenceTypeId": "Silver Licence", 
       "middleName": "E", 
       "patrolGroup": "South Melbourne", 
-      "payrollId": "188278", 
+      "employeeNumber": "188278", 
       "radioId": "93462834", 
       "rank": "Inspector", 
       "remarks": "", 
@@ -1007,7 +1007,7 @@
       "licenceTypeId": "Gold Licence", 
       "middleName": "", 
       "patrolGroup": "Collingwood", 
-      "payrollId": "172645", 
+      "employeeNumber": "172645", 
       "radioId": "92746261", 
       "rank": "Inspector", 
       "remarks": "", 
@@ -1023,7 +1023,7 @@
       "licenceTypeId": "Silver Licence", 
       "middleName": "Savage", 
       "patrolGroup": "Collingwood", 
-      "payrollId": "182638", 
+      "employeeNumber": "182638", 
       "radioId": "92747182", 
       "rank": "Senior Constable", 
       "remarks": "", 
@@ -1040,7 +1040,7 @@
       "licenceTypeId": "Gold Licence", 
       "middleName": "", 
       "patrolGroup": "Collingwood", 
-      "payrollId": "192632", 
+      "employeeNumber": "192632", 
       "radioId": "92648263", 
       "rank": "Inspector", 
       "remarks": "", 
@@ -1054,7 +1054,7 @@
       "licenceTypeId": "Gold Licence", 
       "middleName": "", 
       "patrolGroup": "Collingwood", 
-      "payrollId": "782737", 
+      "employeeNumber": "782737", 
       "radioId": "92747263", 
       "rank": "First Constable", 
       "remarks": "", 
@@ -1133,7 +1133,7 @@
       "equipment": [
         {
           "count": 4, 
-          "description": "Shotgun"
+          "name": "Shotgun"
         }
       ], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
@@ -1198,7 +1198,7 @@
       "equipment": [
         {
           "count": 4, 
-          "description": "Shotgun"
+          "name": "Shotgun"
         }
       ], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
@@ -1253,7 +1253,7 @@
       "equipment": [
         {
           "count": 4, 
-          "description": "Shotgun"
+          "name": "Shotgun"
         }
       ], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
@@ -1318,7 +1318,7 @@
       "equipment": [
         {
           "count": 4, 
-          "description": "Shotgun"
+          "name": "Shotgun"
         }
       ], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
@@ -1365,7 +1365,7 @@
       "equipment": [
         {
           "count": 4, 
-          "description": "Shotgun"
+          "name": "Shotgun"
         }
       ], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
@@ -1420,7 +1420,7 @@
       "equipment": [
         {
           "count": 4, 
-          "description": "Shotgun"
+          "name": "Shotgun"
         }
       ], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
@@ -1475,7 +1475,7 @@
       "equipment": [
         {
           "count": 4, 
-          "description": "Shotgun"
+          "name": "Shotgun"
         }
       ], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
@@ -1551,7 +1551,7 @@
       "equipment": [
         {
           "count": 4, 
-          "description": "Shotgun"
+          "name": "Shotgun"
         }
       ], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
