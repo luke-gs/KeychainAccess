@@ -27,6 +27,7 @@ open class VehicleInfoViewModel: EntityDetailFormViewModel {
         let displayable = VehicleSummaryDisplayable(vehicle)
         
         builder += HeaderFormItem(text: header(for: .header), style: .collapsible)
+        let thumbnailSize: EntityThumbnailView.ThumbnailSize = displaysCompact(in: viewController) ? .medium : .large
         builder += SummaryDetailFormItem()
             .category(displayable.category)
             .title(displayable.title)
@@ -34,7 +35,7 @@ open class VehicleInfoViewModel: EntityDetailFormViewModel {
             .detail(vehicle.vehicleDescription ?? "No Description")
             .borderColor(displayable.borderColor)
             .imageTintColor(displayable.iconColor)
-            .image(displayable.thumbnail(ofSize: .large))
+            .image(displayable.thumbnail(ofSize: thumbnailSize))
         
         // ---------- DETAILS ----------
         
@@ -126,5 +127,22 @@ open class VehicleInfoViewModel: EntityDetailFormViewModel {
         case .details:
             return NSLocalizedString("REGISTRATION DETAILS", bundle: .mpolKit, comment: "")
         }
+    }
+
+    open override func traitCollectionDidChange(_ traitCollection: UITraitCollection, previousTraitCollection: UITraitCollection?) {
+        delegate?.reloadData()
+    }
+
+    private func displaysCompact(in controller: FormBuilderViewController) -> Bool {
+        let formLayout = controller.formLayout!
+        let collectionView = controller.collectionView
+        let itemInsets = formLayout.itemLayoutMargins
+        let horizontalInsets = UIEdgeInsets(top: 0,
+                                            left: collectionView?.layoutMargins.left ?? 0,
+                                            bottom: 0,
+                                            right: collectionView?.layoutMargins.right ?? 0)
+        let calculatedWidth = formLayout.collectionViewContentSize.width - itemInsets.left - itemInsets.right - horizontalInsets.left - horizontalInsets.right
+
+        return EntityDetailCollectionViewCell.displaysAsCompact(withContentWidth: calculatedWidth)
     }
 }
