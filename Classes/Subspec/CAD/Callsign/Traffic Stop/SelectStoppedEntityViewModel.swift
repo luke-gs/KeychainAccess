@@ -10,26 +10,26 @@ import PromiseKit
 /// View model for a single select stopped entity item
 open class SelectStoppedEntityItemViewModel: Equatable {
     
-    public let id: String // TODO: Swap out with MPOLKITEntity or Entity for comparing
-    public let category: String
-    public let title: String
+    public let entity: MPOLKitEntity
+    public let category: String?
+    public let title: String?
     public let subtitle: String?
-    public let image: UIImage
+    public let image: ImageLoadable?
     public let borderColor: UIColor?
     public let imageColor: UIColor?
-    
-    public init(id: String, category: String, title: String, subtitle: String? = nil, image: UIImage, borderColor: UIColor? = nil, imageColor: UIColor? = nil) {
-        self.id = id
-        self.category = category
-        self.title = title
-        self.subtitle = subtitle
-        self.image = image
-        self.borderColor = borderColor
-        self.imageColor = imageColor
+
+    public init(entity: MPOLKitEntity, summary: EntitySummaryDisplayable) {
+        self.entity = entity
+        self.category = summary.category
+        self.title = summary.title
+        self.subtitle = summary.detail1
+        self.borderColor = summary.borderColor
+        self.imageColor = summary.iconColor
+        self.image = summary.thumbnail(ofSize: .small)
     }
-    
+
     public static func ==(lhs: SelectStoppedEntityItemViewModel, rhs: SelectStoppedEntityItemViewModel) -> Bool {
-        return lhs.id == rhs.id
+        return lhs.entity == rhs.entity
     }
 }
 
@@ -40,19 +40,31 @@ open class SelectStoppedEntityViewModel: CADFormCollectionViewModel<SelectStoppe
     
     /// Delegate action to interested party
     open var onSelectEntity: ((SelectStoppedEntityItemViewModel) -> Void)?
-    
+
     // MARK: - Lifecycle
     
     public override init() {
         super.init()
-        
-        self.sections = [
-            CADFormCollectionSectionViewModel(title: "RECENTLY VIEWED", items: [
-                SelectStoppedEntityItemViewModel(id: "1", category: "DS1", title: "NLJ400", subtitle: "2009 Bentley Continental GTC  •  Sedan  •  Red/Black", image: AssetManager.shared.image(forKey: .entityCarSmall)!),
-                SelectStoppedEntityItemViewModel(id: "2", category: "DS1", title: "JAN258", subtitle: "2015 Toyota Avalon  •  Sedan  •  White/White", image: AssetManager.shared.image(forKey: .entityCarSmall)!),
-                SelectStoppedEntityItemViewModel(id: "3", category: "DS1", title: "KSO196", subtitle: "2010 Ford Escape  •  SUV  •  Green/Black", image: AssetManager.shared.image(forKey: .entityCarSmall)!)
-            ])
-        ]
+        updateSections()
+
+        // Refresh list whenever recently viewed entities change
+        NotificationCenter.default.addObserver(self, selector: #selector(handleRecentlyViewedChanged), name: EntityBucket.didUpdateNotificationName, object: nil)
+    }
+
+    @objc open func handleRecentlyViewedChanged() {
+        // Update sections when recently viewed entities changes
+        updateSections()
+    }
+
+    open func updateSections() {
+        let recentlyViewed = UserSession.current.recentlyViewed.entities
+        let summaryDisplayFormatter: EntitySummaryDisplayFormatter = .default
+
+        let viewModels: [SelectStoppedEntityItemViewModel] = recentlyViewed.reversed().compactMap { entity in
+            guard let summary = summaryDisplayFormatter.summaryDisplayForEntity(entity) else { return nil }
+            return SelectStoppedEntityItemViewModel(entity: entity, summary: summary)
+        }
+        self.sections = [CADFormCollectionSectionViewModel(title: "RECENTLY VIEWED", items: viewModels)]
     }
     
     /// Gets called from view controller when index path is selected

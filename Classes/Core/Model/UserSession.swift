@@ -123,6 +123,7 @@ public class UserSession: UserSessionable {
         self.user = NSKeyedUnarchiver.MPL_securelyUnarchiveObject(from: userPath.path)
         self.recentlySearched = searched
 
+        recentlyViewed.removeAll()
         recentlyViewed.add(viewed)
 
         isRestoringSession = false

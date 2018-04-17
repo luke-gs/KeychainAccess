@@ -90,8 +90,16 @@ open class SelectStoppedEntityViewController: CADFormCollectionViewController<Se
             cell.subtitleLabel.text = viewModel.subtitle
             cell.thumbnailView.borderColor = viewModel.borderColor
             cell.thumbnailView.tintColor = viewModel.imageColor ?? .primaryGray
-            cell.thumbnailView.imageView.image = viewModel.image
-            cell.thumbnailView.imageView.contentMode = .center
+
+            let sizing = viewModel.image?.sizing()
+            cell.thumbnailView.imageView.image = sizing?.image
+            cell.thumbnailView.imageView.contentMode = sizing?.contentMode ?? .center
+
+            viewModel.image?.loadImage(completion: { (imageSizable) in
+                let sizing = imageSizable.sizing()
+                cell.thumbnailView.imageView.image = sizing.image
+                cell.thumbnailView.imageView.contentMode = sizing.contentMode ?? .center
+            })
             
             cell.sourceLabel.textColor = secondaryTextColor
             cell.sourceLabel.borderColor = secondaryTextColor
