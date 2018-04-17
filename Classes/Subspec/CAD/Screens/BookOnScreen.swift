@@ -41,6 +41,9 @@ public enum BookOnScreen: Presentable {
     /// Add traffic stop entity
     case trafficStopEntity(entityViewModel: SelectStoppedEntityViewModel)
 
+    /// Search for a new entity to add to traffic stop
+    case trafficStopSearchEntity
+
     /// Enter finalise details
     case finaliseDetails(primaryCode: String, completionHandler: ((_ secondaryCode: String?, _ remark: String?) -> Void)?)
 }

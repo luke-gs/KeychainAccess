@@ -69,7 +69,8 @@ open class SelectStoppedEntityViewController: CADFormCollectionViewController<Se
     }
     
     @objc open func didSelectSearchButton() {
-        // TODO: Present search screen for entities
+        // Present search screen for entities
+        Director.shared.present(BookOnScreen.trafficStopSearchEntity, fromViewController: self)
     }
     
     // MARK: - Override
