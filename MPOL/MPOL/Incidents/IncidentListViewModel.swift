@@ -34,7 +34,15 @@ open class IncidentListViewModel: IncidentListViewModelType {
 
     public func detailsViewModel(for incident: Incident) -> IncidentDetailViewModelType {
         // Switch over incident types here if you want different screen builders for each incident
-        return IncidentDetailViewModel(incident: incident, builder: IncidentScreenBuilder())
+        switch incident.incidentType {
+
+        case .trafficInfringement:
+            return IncidentDetailViewModel(incident: incident, builder: TrafficInfringementScreenBuilder())
+        case .streetCheck:
+            return IncidentDetailViewModel(incident: incident, builder: StreetCheckScreenBuilder())
+        default:
+            fatalError("IncidentListViewModel Error: incident type is not a valid InccidentType")
+        }
     }
 
 

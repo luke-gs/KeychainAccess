@@ -1,5 +1,5 @@
 //
-//  IncidentTestViewController.swift
+//  TrafficInfringementEntitiesViewController.swift
 //  MPOL
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -11,19 +11,20 @@ import MPOLKit
 fileprivate extension EvaluatorKey {
     static let viewed = EvaluatorKey("viewed")
 }
-// TODO: Delete when start incidents
-open class IncidentTestViewController: FormBuilderViewController, EvaluationObserverable {
+open class TrafficInfringementEntitiesViewController: FormBuilderViewController, EvaluationObserverable {
 
-    weak var report: IncidentTestReport?
+    weak var report: TrafficInfringementEntitiesReport?
 
     public init(report: Reportable?) {
-        self.report = report as? IncidentTestReport
+        self.report = report as? TrafficInfringementEntitiesReport
         super.init()
         report?.evaluator.addObserver(self)
 
-        sidebarItem.regularTitle = "Amazing Incidents"
-        sidebarItem.compactTitle = "Amazing Incidents"
-        sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.attachment)!
+        title = "Entities"
+
+        sidebarItem.regularTitle = title
+        sidebarItem.compactTitle = title
+        sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.list)!
         sidebarItem.color = (report?.evaluator.isComplete ?? false) ? .midGreen : .red
     }
 
@@ -37,7 +38,7 @@ open class IncidentTestViewController: FormBuilderViewController, EvaluationObse
     }
 
     override open func construct(builder: FormBuilder) {
-        builder.title = "Test Test Test"
+        builder.title = title
         builder.forceLinearLayout = true
 
         builder += HeaderFormItem(text: "GENERAL")
@@ -48,4 +49,3 @@ open class IncidentTestViewController: FormBuilderViewController, EvaluationObse
         sidebarItem.color = evaluator.isComplete == true ? .midGreen : .red
     }
 }
-
