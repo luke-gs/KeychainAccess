@@ -33,6 +33,7 @@ public class TaskItemPresenter: Presenter {
             return ActionSheetViewController(buttons: [
                 ActionSheetButton(title: "Directions", icon: AssetManager.shared.image(forKey: .route), action: {
                     let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coordinate, addressDictionary:nil))
+                    mapItem.name = address
                     mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving])
                 }),
                 ActionSheetButton(title: "Street View", icon: AssetManager.shared.image(forKey: .streetView), action: nil),
