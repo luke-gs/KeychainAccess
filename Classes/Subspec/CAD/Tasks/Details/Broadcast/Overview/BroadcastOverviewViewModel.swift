@@ -10,6 +10,8 @@ import UIKit
 
 open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
 
+    open var addressText: String?
+
     public override init(identifier: String) {
         super.init(identifier: identifier)
         
@@ -24,6 +26,7 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
 
     override open func loadData() {
         guard let broadcast = CADStateManager.shared.broadcastsById[identifier] else { return }
+        location = broadcast.location
 
         let locationItem = broadcast.location?.coordinate != nil ?
             // Show location and accessory for address popover
@@ -31,12 +34,12 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
                                              value: broadcast.location?.displayText,
                                              width: .column(1),
                                              selectAction: { [unowned self] cell in
-                                                self.presentAddressPopover(from: cell, for: broadcast)
+                                                self.presentAddressPopover(from: cell)
                                              },
                                              accessory: ItemAccessory(style: .overflow, tintColor: .secondaryGray)) :
             // Just show location
             TaskDetailsOverviewItemViewModel(title: "Broadcast location",
-                                             value: broadcast.location?.displayText,
+                                             value: addressText,
                                              width: .column(1))
 
         sections = [
@@ -74,12 +77,5 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
     /// The title to use in the navigation bar
     override open func navTitle() -> String {
         return NSLocalizedString("Overview", comment: "Overview sidebar title")
-    }
-    
-    /// Present "Directions, Street View, Search" options on address
-    open func presentAddressPopover(from cell: CollectionViewFormCell, for broadcast: CADBroadcastType) {
-        if let coordinate = broadcast.coordinate {
-            delegate?.present(TaskItemScreen.addressLookup(source: cell, coordinate: coordinate))
-        }
     }
 }

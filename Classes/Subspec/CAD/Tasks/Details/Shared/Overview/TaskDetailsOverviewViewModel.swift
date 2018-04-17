@@ -10,8 +10,12 @@ import UIKit
 import MapKit
 
 open class TaskDetailsOverviewViewModel: TaskDetailsViewModel {
+
     /// The identifier for this task
     open let identifier: String
+
+    /// The location of this task, if applicable
+    open var location: CADLocationType?
     
     open weak var delegate: CADFormCollectionViewModelDelegate?
     
@@ -58,4 +62,11 @@ open class TaskDetailsOverviewViewModel: TaskDetailsViewModel {
         return AssetManager.shared.image(forKey: .info)
     }
     
+    /// Present "Directions, Street View, Search" options on address
+    open func presentAddressPopover(from cell: CollectionViewFormCell) {
+        if let location = location, let coordinate = location.coordinate {
+            delegate?.present(TaskItemScreen.addressLookup(source: cell, coordinate: coordinate, address: location.displayText))
+        }
+    }
+
 }
