@@ -75,7 +75,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
 
     /// Button for showing map layer filter
     private lazy var filterButton: UIBarButtonItem = {
-        return UIBarButtonItem(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: self, action: #selector(showMapLayerFilter))
+        return UIBarButtonItem(image: AssetManager.shared.image(forKey: .filterFilled), style: .plain, target: self, action: #selector(showMapLayerFilter))
     }()
 
     /// The current sources available to display

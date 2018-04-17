@@ -63,7 +63,7 @@ open class TasksMapViewController: MapViewController {
             mapView.register(BroadcastAnnotationView.self, forAnnotationViewWithReuseIdentifier: BroadcastAnnotationView.defaultReuseIdentifier)
         }
         
-        mapLayerFilterButton = UIBarButtonItem.init(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: self, action: #selector(showMapLayerFilter))
+        mapLayerFilterButton = UIBarButtonItem.init(image: AssetManager.shared.image(forKey: .filterFilled), style: .plain, target: self, action: #selector(showMapLayerFilter))
         navigationItem.rightBarButtonItem = mapLayerFilterButton
         
         viewModel.loadTasks()
