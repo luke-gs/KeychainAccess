@@ -149,7 +149,7 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
     /// Called when a notification is delivered to foreground app
     public func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         let userInfo = notification.request.content.userInfo
-        print("Received push notification: \(userInfo.asLogString())")
+        print("Received push notification: \(LogUtils.string(from: userInfo))")
 
         guard let handler = handler else {
             completionHandler([.alert, .sound])
@@ -168,7 +168,7 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
     /// dismissing the notification or choosing a UNNotificationAction
     public func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
-        print("Opened push notification: \(userInfo.asLogString())\nResponse: \(response.actionIdentifier)")
+        print("Opened push notification: \(LogUtils.string(from: userInfo))\nResponse: \(response.actionIdentifier)")
 
         guard let handler = handler else {
             completionHandler()

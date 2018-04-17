@@ -392,7 +392,6 @@
 		9625ACD2207C27A100EFCC8C /* RegisterDeviceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9625ACD1207C27A100EFCC8C /* RegisterDeviceRequest.swift */; };
 		9625ACD7207C280100EFCC8C /* UpdateDeviceLocationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9625ACD6207C280100EFCC8C /* UpdateDeviceLocationRequest.swift */; };
 		9625ACD9207C906E00EFCC8C /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9625ACD8207C906E00EFCC8C /* Device.swift */; };
-		9625ACDE207F202C00EFCC8C /* Dictionary+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9625ACDD207F202C00EFCC8C /* Dictionary+JSON.swift */; };
 		9625ACE0207F2A1100EFCC8C /* NotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9625ACDF207F2A1100EFCC8C /* NotificationHandler.swift */; };
 		962AA8191F8DD37D0087D534 /* PopoverPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */; };
 		96361676204F8A0C0012AEC4 /* BroadcastAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96361675204F8A0C0012AEC4 /* BroadcastAnnotation.swift */; };
@@ -416,6 +415,7 @@
 		9663D00D1F8AF6F5006DB672 /* TasksSplitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D00C1F8AF6F5006DB672 /* TasksSplitViewModel.swift */; };
 		9668DC2A2084682B00D7C419 /* CADBookOnRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9668DC292084682B00D7C419 /* CADBookOnRequestType.swift */; };
 		9668DC2C20849F5800D7C419 /* CADBookOffRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9668DC2B20849F5800D7C419 /* CADBookOffRequestType.swift */; };
+		9668DC342085A18B00D7C419 /* LogUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9668DC332085A18B00D7C419 /* LogUtils.swift */; };
 		96699BCC1FDDE547006BB024 /* QuantityPickerFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96699BCB1FDDE547006BB024 /* QuantityPickerFormItem.swift */; };
 		966CE9BB2036562900646A6A /* CADEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9BA2036562900646A6A /* CADEnum.swift */; };
 		966CE9C9203676C100646A6A /* CADBroadcastCategoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9C8203676C100646A6A /* CADBroadcastCategoryType.swift */; };
@@ -1237,7 +1237,6 @@
 		9625ACD1207C27A100EFCC8C /* RegisterDeviceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterDeviceRequest.swift; sourceTree = "<group>"; };
 		9625ACD6207C280100EFCC8C /* UpdateDeviceLocationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateDeviceLocationRequest.swift; sourceTree = "<group>"; };
 		9625ACD8207C906E00EFCC8C /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
-		9625ACDD207F202C00EFCC8C /* Dictionary+JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+JSON.swift"; sourceTree = "<group>"; };
 		9625ACDF207F2A1100EFCC8C /* NotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHandler.swift; sourceTree = "<group>"; };
 		962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverPresenter.swift; sourceTree = "<group>"; };
 		96361675204F8A0C0012AEC4 /* BroadcastAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastAnnotation.swift; sourceTree = "<group>"; };
@@ -1261,6 +1260,7 @@
 		9663D00C1F8AF6F5006DB672 /* TasksSplitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksSplitViewModel.swift; sourceTree = "<group>"; };
 		9668DC292084682B00D7C419 /* CADBookOnRequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADBookOnRequestType.swift; sourceTree = "<group>"; };
 		9668DC2B20849F5800D7C419 /* CADBookOffRequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADBookOffRequestType.swift; sourceTree = "<group>"; };
+		9668DC332085A18B00D7C419 /* LogUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogUtils.swift; sourceTree = "<group>"; };
 		96699BCB1FDDE547006BB024 /* QuantityPickerFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityPickerFormItem.swift; sourceTree = "<group>"; };
 		966CE9BA2036562900646A6A /* CADEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADEnum.swift; sourceTree = "<group>"; };
 		966CE9C8203676C100646A6A /* CADBroadcastCategoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADBroadcastCategoryType.swift; sourceTree = "<group>"; };
@@ -2552,10 +2552,11 @@
 		4657CACF1F5D0D7F000295F6 /* Logging */ = {
 			isa = PBXGroup;
 			children = (
-				46B3FE7A1F5E3B0C0012476A /* FileLogger.swift */,
 				46B3FE801F5E49FB0012476A /* ConsoleLogger.swift */,
-				4657CAD01F5D0DA9000295F6 /* NetworkLoggingPlugin.swift */,
+				46B3FE7A1F5E3B0C0012476A /* FileLogger.swift */,
 				46B3FE7E1F5E496B0012476A /* Logger.swift */,
+				9668DC332085A18B00D7C419 /* LogUtils.swift */,
+				4657CAD01F5D0DA9000295F6 /* NetworkLoggingPlugin.swift */,
 			);
 			path = Logging;
 			sourceTree = "<group>";
@@ -3189,7 +3190,6 @@
 			isa = PBXGroup;
 			children = (
 				9679A6461F9D9D2D007BC806 /* Date+Extension.swift */,
-				9625ACDD207F202C00EFCC8C /* Dictionary+JSON.swift */,
 				BC9C7D1D1F0DED6600DFFE83 /* FileManager+URL.swift */,
 				C6F640EC1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift */,
 				2784FDBA1FA1549D007B18B2 /* Optional+Extension.swift */,
@@ -4498,7 +4498,6 @@
 				BC0EA3F41F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift in Sources */,
 				EA32A85A1FBD1A7900CC37FB /* MediaPreviewHandler.swift in Sources */,
 				461F7A9F2022BE5B00885E93 /* AudioOutputFormatter.swift in Sources */,
-				9625ACDE207F202C00EFCC8C /* Dictionary+JSON.swift in Sources */,
 				BC9C7E481F0DED6600DFFE83 /* SourceBarCell.swift in Sources */,
 				E283D2841FEB6BFA0040702C /* Template.swift in Sources */,
 				96CF32341F8D7C7700140AF8 /* TasksListHeaderViewModel.swift in Sources */,
@@ -4750,6 +4749,7 @@
 				2744E3A42051DD8500561A8F /* CADBookOnRequestCore.swift in Sources */,
 				274C89791F997F94005B9CF8 /* CADStatusTabBarViewModel.swift in Sources */,
 				BC9C7E161F0DED6600DFFE83 /* CheckBox.swift in Sources */,
+				9668DC342085A18B00D7C419 /* LogUtils.swift in Sources */,
 				46D95AC220198A7D00DCE6A5 /* UIImage+CircleCreation.swift in Sources */,
 				96D731731FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift in Sources */,
 				BC9C7E4C1F0DED6600DFFE83 /* ViewControllerAnimationOptionTransition.swift in Sources */,
