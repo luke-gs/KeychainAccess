@@ -14,7 +14,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
 
     private var viewModel: BookOnDetailsFormViewModel
 
-    open var buttonsView: DialogActionButtonsView!
+    open var buttonsView: DialogActionButtonsView?
 
     // MARK: - Initializers
 
@@ -32,13 +32,14 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         // Only show if editing current book on
         guard viewModel.isEditing else { return }
 
-        buttonsView = DialogActionButtonsView(actions: [
+        let buttonsView = DialogActionButtonsView(actions: [
             DialogAction(title: viewModel.terminateButtonText(), handler: { [weak self] (action) in
-                self?.viewModel.terminateShift()
+                self?.terminateShift()
             })
         ])
         buttonsView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(buttonsView)
+        self.buttonsView = buttonsView
 
         collectionView?.translatesAutoresizingMaskIntoConstraints = false
 
@@ -269,7 +270,8 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     @objc private func cancelFormTapped() {
         if loadingManager.state == .error {
             loadingManager.state = .loaded
-            self.navigationItem.rightBarButtonItem?.isEnabled = true
+            navigationItem.rightBarButtonItem?.isEnabled = true
+            buttonsView?.alpha = 1
         } else {
             closeForm(submitted: false)
         }
@@ -300,11 +302,36 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         }
     }
 
-    private func submitForm() {
+    @objc private func terminateShift() {
         // Show progress overlay
         loadingManager.state = .loading
         navigationItem.leftBarButtonItem?.isEnabled = false
         navigationItem.rightBarButtonItem?.isEnabled = false
+        buttonsView?.alpha = 0
+
+        firstly {
+            return viewModel.terminateShift()
+        }.done { [weak self] status in
+            self?.closeForm(submitted: false)
+        }.catch { [weak self] error in
+            // Update progress overlay to show error
+            self?.loadingManager.state = .error
+            self?.navigationItem.leftBarButtonItem?.isEnabled = true
+            self?.navigationItem.rightBarButtonItem?.isEnabled = false
+
+            self?.loadingManager.errorView.titleLabel.text = "Unable to Terminate Shift"
+            self?.loadingManager.errorView.subtitleLabel.text = error.localizedDescription
+            self?.loadingManager.errorView.actionButton.setTitle("Try Again", for: .normal)
+            self?.loadingManager.errorView.actionButton.addTarget(self, action: #selector(self?.terminateShift), for: .touchUpInside)
+        }
+    }
+
+    @objc private func submitForm() {
+        // Show progress overlay
+        loadingManager.state = .loading
+        navigationItem.leftBarButtonItem?.isEnabled = false
+        navigationItem.rightBarButtonItem?.isEnabled = false
+        buttonsView?.alpha = 0
 
         firstly {
             return viewModel.submitForm()
@@ -320,12 +347,8 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
             self?.loadingManager.errorView.subtitleLabel.text = NSLocalizedString("There was an error while attempting to Book On", comment: "")
 
             self?.loadingManager.errorView.actionButton.setTitle("Try Again", for: .normal)
-            self?.loadingManager.errorView.actionButton.addTarget(self, action: #selector(self?.retry), for: .touchUpInside)
+            self?.loadingManager.errorView.actionButton.addTarget(self, action: #selector(self?.submitForm), for: .touchUpInside)
         }
-    }
-
-    @objc private func retry() {
-        submitForm()
     }
 
     private func closeForm(submitted: Bool) {

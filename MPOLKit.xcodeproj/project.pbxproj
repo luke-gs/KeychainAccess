@@ -1631,7 +1631,6 @@
 		EA6CF5411F7494C1002063D8 /* TextViewFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewFormItem.swift; sourceTree = "<group>"; };
 		EA70ADF31F7B41100040E34B /* CollectionViewFormFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewFormFooterView.swift; sourceTree = "<group>"; };
 		EA7194E01FCBA61A00A2980B /* EntityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityManager.swift; sourceTree = "<group>"; };
-		EA7194E31FCE525900A2980B /* ActionListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionListViewController.swift; sourceTree = "<group>"; };
 		EA76ECF01F578DCA00524830 /* LocationAdvanceOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAdvanceOptions.swift; sourceTree = "<group>"; };
 		EA76ECF21F57D64E00524830 /* LookupAddressLocationSearchStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupAddressLocationSearchStrategy.swift; sourceTree = "<group>"; };
 		EA76ECF41F57D8AB00524830 /* LookupAddressLocationAdvancedOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupAddressLocationAdvancedOptions.swift; sourceTree = "<group>"; };
@@ -3146,7 +3145,6 @@
 		BC9C7D181F0DED6600DFFE83 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				EA7194E21FCE525900A2980B /* Action List */,
 				EABAB7FE1F3427570071A401 /* Aggregated Search */,
 				1923D59E20687555006E14F9 /* AppURLRouter */,
 				BC9C7D191F0DED6600DFFE83 /* Authentication */,
@@ -4116,14 +4114,6 @@
 				EA69F8261F7C875D0092380B /* SelectionAction.swift */,
 			);
 			path = Actions;
-			sourceTree = "<group>";
-		};
-		EA7194E21FCE525900A2980B /* Action List */ = {
-			isa = PBXGroup;
-			children = (
-				EA7194E31FCE525900A2980B /* ActionListViewController.swift */,
-			);
-			path = "Action List";
 			sourceTree = "<group>";
 		};
 		EA85BFE81F678945002EEB49 /* ThemeGesture */ = {
