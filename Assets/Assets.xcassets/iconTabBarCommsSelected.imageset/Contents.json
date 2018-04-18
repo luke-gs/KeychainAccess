@@ -2,25 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "icon32TabBarCommsSelected.png",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
-      "filename" : "icon32TabBarCommsSelected@2x.png",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "filename" : "icon32TabBarCommsSelected@3x.png",
-      "scale" : "3x"
+      "filename" : "icon32TabBarCommsSelected.pdf"
     }
   ],
   "info" : {
     "version" : 1,
     "author" : "xcode"
-  },
-  "properties" : {
-    "template-rendering-intent" : "template"
   }
 }
