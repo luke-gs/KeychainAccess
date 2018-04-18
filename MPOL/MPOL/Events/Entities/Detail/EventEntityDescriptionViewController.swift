@@ -21,7 +21,7 @@ class EventEntityDescriptionViewController: FormBuilderViewController, Evaluatio
         sidebarItem.regularTitle = self.title
         sidebarItem.compactTitle = self.title
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.info)!
-        sidebarItem.color = .red
+        sidebarItem.color = viewModel.tintColour()
 
         viewModel.evaluator.addObserver(self)
     }
