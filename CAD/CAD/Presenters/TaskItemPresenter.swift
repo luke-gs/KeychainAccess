@@ -29,16 +29,25 @@ public class TaskItemPresenter: Presenter {
             viewModel.showsCompactHorizontal = false
             return viewModel.createViewController()
 
-        case .addressLookup(_, let coordinate):
+        case .addressLookup(_, let coordinate, let address):
             return ActionSheetViewController(buttons: [
                 ActionSheetButton(title: "Directions", icon: AssetManager.shared.image(forKey: .route), action: {
                     let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coordinate, addressDictionary:nil))
+                    mapItem.name = address
                     mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving])
                 }),
                 ActionSheetButton(title: "Street View", icon: AssetManager.shared.image(forKey: .streetView), action: nil),
-                ActionSheetButton(title: "Search", icon: AssetManager.shared.image(forKey: .tabBarSearch), action: nil),
+                ActionSheetButton(title: "Search", icon: AssetManager.shared.image(forKey: .tabBarSearch), action: {
+                    let activity = SearchActivity.searchEntity(term: Searchable(text: address, type: LocationSearchDataSourceSearchableType))
+                    activity.launch()
+                }),
                 ]
             )
+            
+        case .associationDetails(_):
+            // Will redirect to search app, return dummy VC here
+            return UIViewController()
+
         }
     }
 
@@ -63,9 +72,15 @@ public class TaskItemPresenter: Presenter {
             to.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: from, action: #selector(UIViewController.dismissAnimated))
             from.presentFormSheet(to, animated: true, size: size, forced: true)
 
-        case .addressLookup(let source, _):
+        case .addressLookup(let source, _, _):
             if let to = to as? ActionSheetViewController {
                 from.presentActionSheetPopover(to, sourceView: source, sourceRect: source.bounds, animated: true)
+            }
+
+        case .associationDetails(let association):
+            if let id = association.id, let entityType = association.entityType, let source = association.source {
+                let activity = SearchActivity.viewDetails(id: id, entityType: entityType, source: source)
+                activity.launch()
             }
 
         }

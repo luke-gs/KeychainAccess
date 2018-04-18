@@ -11,6 +11,11 @@ import MPOLKit
 import ClientKit
 
 public class BookOnPresenter: Presenter {
+
+    public init() {
+        registerSearchEntities()
+    }
+
     public func viewController(forPresentable presentable: Presentable) -> UIViewController {
         let presentable = presentable as! BookOnScreen
 
@@ -57,6 +62,10 @@ public class BookOnPresenter: Presenter {
         case .trafficStopEntity(let entityViewModel):
             return entityViewModel.createViewController()
 
+        case .trafficStopSearchEntity:
+            // Will redirect to search app, return dummy VC here
+            return UIViewController()
+
         case .finaliseDetails(let primaryCode, let completionHandler):
             let viewModel = FinaliseDetailsViewModel(primaryCode: primaryCode)
             viewModel.completionHandler = completionHandler
@@ -94,6 +103,11 @@ public class BookOnPresenter: Presenter {
         case .trafficStopEntity(_):
             from.navigationController?.pushViewController(to, animated: true)
 
+        // Search app
+        case .trafficStopSearchEntity:
+            let activity = SearchActivity.searchEntity(term: Searchable(text: "", type: "Vehicle"))
+            activity.launch()
+
         // Default presentation, based on container class (eg push if in navigation controller)
         default:
             from.show(to, sender: from)
@@ -102,6 +116,19 @@ public class BookOnPresenter: Presenter {
 
     public func supportPresentable(_ presentableType: Presentable.Type) -> Bool {
         return presentableType is BookOnScreen.Type
+    }
+
+    open func registerSearchEntities() {
+        // Set up entity summary for traffic stop recently viewed
+        let entityFormatter = EntitySummaryDisplayFormatter.default
+
+        entityFormatter.registerEntityType(Person.self,
+                                           forSummary: .function { return PersonSummaryDisplayable($0) },
+                                           andPresentable: .none)
+
+        entityFormatter.registerEntityType(Vehicle.self,
+                                           forSummary: .function { return VehicleSummaryDisplayable($0) },
+                                           andPresentable: .none)
     }
 }
 
