@@ -70,21 +70,14 @@ open class EventsListViewController: FormBuilderViewController {
     }
 
     @objc private func createNewEvent() {
-//        let viewController = IncidentSelectViewController()
-//        viewController.didSelectIncident = { incident in
-//            self.show(with: incident)
-//        }
-//
-//        let navigationController = PopoverNavigationController(rootViewController: viewController)
-//        navigationController.modalPresentationStyle = .formSheet
-//        present(navigationController, animated: true, completion: nil)
+        let viewController = IncidentSelectViewController()
+        viewController.didSelectIncident = { incident in
+            self.show(with: incident)
+        }
 
-
-        let event = Event()
-        let testEntity = UserSession.current.recentlyViewed.entities.first
-        let vc = EventEntityDetailsSplitViewController(viewModel: EventEntityDetailViewModel(entity: testEntity!, event: event))
-        self.show(vc, sender: self)
-
+        let navigationController = PopoverNavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .formSheet
+        present(navigationController, animated: true, completion: nil)
     }
 
     private func show(_ event: Event? = nil, with incidentType: IncidentType? = nil) {
