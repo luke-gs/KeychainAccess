@@ -10,8 +10,9 @@ import KeychainSwift
 
 public class UserSession: UserSessionable {
 
-    public static let latestSessionKey = "LatestSessionKey"
-    public static let recentIdsKey     = "RecentIdsKey"
+    public static let latestSessionKey      = "LatestSessionKey"
+    public static let recentIdsKey          = "RecentIdsKey"
+    public static let currentOfficerKey     = "currentOfficer"
 
     public static let current = UserSession()
     private(set) public var token: OAuthAccessToken?

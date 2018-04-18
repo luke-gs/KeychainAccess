@@ -112,6 +112,26 @@ open class APIManager {
         return try! self.performRequest(networkRequest, withCancellationToken: token)
     }
 
+    /// Fetch officer details for the current officer
+    ///
+    /// Supports implicit `NSProgress` reporting.
+    /// - Parameters:
+    ///   - source: The data source of officer to be fetched.
+    ///   - request: The request with the parameters to fetch the officer.
+    /// - Returns: A promise to return specified officer details.
+    open func fetchCurrentOfficerDetails<FetchRequest: EntityFetchRequestable>(in source: EntitySource, with request: FetchRequest, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<FetchRequest.ResultClass> {
+
+        let path = "{source}/entity/{entityType}/current"
+
+        var parameters = request.parameters
+        parameters["source"] = source.serverSourceName
+        parameters["entityType"] = FetchRequest.ResultClass.serverTypeRepresentation
+
+        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
+
+        return try! self.performRequest(networkRequest, withCancellationToken: token)
+    }
+
     // MARK: - Public Utilities
 
     /// Performs a request for the `urlRequest` and returns a `Promise` with processed `DataResponse`.
