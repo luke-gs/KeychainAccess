@@ -109,15 +109,20 @@ extension AssetManager {
         // Tab Bar Icons
         public static let tabBarEvents     = ImageKey("iconTabBarEvents")
         public static let tabBarTasks      = ImageKey("iconTabBarTasks")
-        public static let tabBarResources  = ImageKey("iconTabBarResources")
         public static let tabBarComms      = ImageKey("iconTabBarComms")
         public static let tabBarActivity   = ImageKey("iconTabBarActivityLog")
         public static let tabBarSearch     = ImageKey("iconTabBarSearch")
+        
+        public static let tabBarEventsSelected     = ImageKey("iconTabBarEventsSelected")
+        public static let tabBarTasksSelected      = ImageKey("iconTabBarTasksSelected")
+        public static let tabBarCommsSelected      = ImageKey("iconTabBarCommsSelected")
+        public static let tabBarActivitySelected   = ImageKey("iconTabBarActivityLogSelected")
+        public static let tabBarSearchSelected     = ImageKey("iconTabBarSearchSelected")
 
         // Nav Bar Icons
         public static let back           = ImageKey("iconNavBarBack")
         public static let filter         = ImageKey("iconNavBarFilter")
-        public static let filterFilled   = ImageKey("iconNavBarFilterFilled")
+        public static let filterFilled   = ImageKey("iconNavBarFilterSelected")
         public static let settings       = ImageKey("iconNavBarSettings")
         
         // System
@@ -129,7 +134,6 @@ extension AssetManager {
         public static let time           = ImageKey("iconSystemTime")
         public static let date           = ImageKey("iconSystemDate")
         public static let location       = ImageKey("iconSystemLocation")
-        public static let list           = ImageKey("iconSystemList")
         public static let thumbnail      = ImageKey("iconSystemThumbnail")
         public static let dropDown       = ImageKey("iconSystemDropdown")
         public static let disclosure     = ImageKey("iconSystemDisclosure")
@@ -158,6 +162,7 @@ extension AssetManager {
         public static let finalise       = ImageKey("iconGeneralFinalise")
         public static let tactical       = ImageKey("iconGeneralTactical")
         public static let journey        = ImageKey("iconGeneralJourney")
+        public static let list           = ImageKey("iconGeneralList")
         public static let mass           = ImageKey("iconGeneralMass")
         public static let map            = ImageKey("iconGeneralMap")
         public static let folder         = ImageKey("iconFormFolder")

@@ -33,7 +33,7 @@ open class TasksSplitViewController: MPOLSplitViewController {
     open private(set) var syncIntervalTimer: Timer?
 
     private var filterButton: UIBarButtonItem {
-        return UIBarButtonItem(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: self, action: #selector(showMapLayerFilter))
+        return UIBarButtonItem(image: AssetManager.shared.image(forKey: .filterFilled), style: .plain, target: self, action: #selector(showMapLayerFilter))
     }
     
     public required init?(coder aDecoder: NSCoder) {
