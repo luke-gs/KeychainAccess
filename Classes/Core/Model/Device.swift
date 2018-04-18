@@ -15,7 +15,7 @@ public class Device {
     public static let current = Device()
 
     // Use the app group user defaults for sharing between apps by default
-    public static var userDefaults: UserDefaults = AppGroup.appUserDefaults()
+    public static var userDefaults: UserDefaults = AppGroupCapability.appUserDefaults
 
     // User defaults key for device UUID
     public static let deviceUuidKey = "DeviceUuidKey"

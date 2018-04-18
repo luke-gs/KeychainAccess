@@ -63,7 +63,7 @@ public class UserStorage {
 
     // MARK: Private
 
-    private static let baseURL = AppGroup.appBaseFilePath().appendingPathComponent("UserStorage")
+    private static let baseURL = AppGroupCapability.appBaseFilePath.appendingPathComponent("UserStorage")
 
     private var directoryManager: DirectoryManager
 
@@ -94,8 +94,7 @@ public class UserStorage {
 
         // The Path = "BaseURL / UserID / Flag / Key.awesomefile"
         let path = "\(flag.rawValue)/\(safeKey)"
-        let result = directoryManager.write(object, to: path)
-        print(result)
+        _ = directoryManager.write(object, to: path)
     }
 
 

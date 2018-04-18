@@ -15,7 +15,7 @@ def mpol_kit_dependencies
     pod 'lottie-ios', '~> 2.1.3'
     pod 'PromiseKit', '~> 6.0'
     pod 'PromiseKit/CoreLocation', '~> 6.0'
-	pod 'KeychainSwift', '~> 8.0'
+	pod 'KeychainAccess', '~> 3.1.1'
     pod 'Cache', '~> 4.1.2'
     pod 'Cluster', '2.1.1'
 end
