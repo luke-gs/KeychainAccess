@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1987C2AE2084676F007F7273 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1987C2AD2084676E007F7273 /* Localizable.strings */; };
 		8C8D6CC41B08BE3F8BD4323A /* Pods_CAD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFE5675329056751C51108DA /* Pods_CAD.framework */; };
 		9624A4161F7C550B00CAE056 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4151F7C550B00CAE056 /* AppDelegate.swift */; };
 		9624A41D1F7C550B00CAE056 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9624A41C1F7C550B00CAE056 /* Assets.xcassets */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1987C2AD2084676E007F7273 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = ../../../Localizable.strings; sourceTree = "<group>"; };
 		1DE76078EE629AAABB19522F /* Pods-CAD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CAD.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CAD/Pods-CAD.debug.xcconfig"; sourceTree = "<group>"; };
 		938AAB0D0D7D4DF633FAD2DB /* Pods-CAD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CAD.release.xcconfig"; path = "Pods/Target Support Files/Pods-CAD/Pods-CAD.release.xcconfig"; sourceTree = "<group>"; };
 		9624A4121F7C550B00CAE056 /* Tasks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tasks.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,6 +131,7 @@
 				96CED76E1FA7F9AA00C0DEB0 /* termsandconditions.html */,
 				9624A41C1F7C550B00CAE056 /* Assets.xcassets */,
 				96CED7741FA8456600C0DEB0 /* Localizable.stringsdict */,
+				1987C2AD2084676E007F7273 /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -216,6 +219,9 @@
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
+							com.apple.Keychain = {
+								enabled = 1;
+							};
 						};
 					};
 				};
@@ -248,6 +254,7 @@
 				96CED76F1FA7FE4C00C0DEB0 /* termsandconditions.html in Resources */,
 				969C2C871FCFD7B700E99C85 /* DemoOfficer.json in Resources */,
 				96CED7751FA8456A00C0DEB0 /* Localizable.stringsdict in Resources */,
+				1987C2AE2084676F007F7273 /* Localizable.strings in Resources */,
 				969C2C881FCFD7B700E99C85 /* DemoSync.json in Resources */,
 				969C2C861FCFD7B700E99C85 /* DemoManifest.json in Resources */,
 			);
@@ -285,7 +292,7 @@
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/ClientKit/ClientKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Cluster/Cluster.framework",
-				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
 				"${BUILT_PRODUCTS_DIR}/MPOLKit/MPOLKit.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Unbox/Unbox.framework",
@@ -298,7 +305,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ClientKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cluster.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MPOLKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Unbox.framework",

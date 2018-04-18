@@ -15,6 +15,7 @@ private let buttonCellID = "ButtonCell"
 class SettingsViewController: FormTableViewController {
 
     private var sections: [SettingSection]
+    private var handler: BiometricUserHandler?
     
     // MARK: - Intializers
     
@@ -23,8 +24,20 @@ class SettingsViewController: FormTableViewController {
         if KeyboardInputManager.shared.isNumberBarSupported {
             items.append(.numericKeyboard)
         }
-        sections = [SettingSection(title: nil, items: items), SettingSection(title: nil, items: [.logOut])]
-        
+
+        sections = [SettingSection(title: nil, items: items)]
+
+        if let user = UserSession.current.user, let biometricHandler = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain) {
+            if biometricHandler.username == user.username {
+                handler = biometricHandler
+                if handler?.useBiometric == .agreed {
+                    sections.append(SettingSection(title: nil, items: [.biometric]))
+                }
+            }
+        }
+
+        sections.append(SettingSection(title: nil, items: [.logOut]))
+
         super.init(style: .grouped)
         title = NSLocalizedString("Settings", comment: "SettingsTitle")
         calculatesContentHeight = true
@@ -139,13 +152,14 @@ class SettingsViewController: FormTableViewController {
     private enum Setting {
         case darkMode
         case numericKeyboard
+        case biometric
         case logOut
         
         var style: SettingStyle {
             switch self {
             case .logOut:
                 return .button
-            case .darkMode, .numericKeyboard:
+            case .darkMode, .biometric, .numericKeyboard:
                 return .switchControl
             }
         }
@@ -154,6 +168,7 @@ class SettingsViewController: FormTableViewController {
             switch self {
             case .darkMode:        return NSLocalizedString("Dark Mode",        comment: "DarkModeSwitchTitle")
             case .numericKeyboard: return NSLocalizedString("Numeric Keyboard", comment: "NumericKeyboardSwitchTitle")
+            case .biometric:       return NSLocalizedString("Use Face/TouchID", comment: "")
             case .logOut:          return NSLocalizedString("Log Out",          comment: "NumericKeyboardSwitchTitle")
             }
         }
@@ -163,6 +178,7 @@ class SettingsViewController: FormTableViewController {
                 switch self {
                 case .darkMode:        return ThemeManager.shared.currentInterfaceStyle == .dark
                 case .numericKeyboard: return KeyboardInputManager.shared.isNumberBarEnabled
+                case .biometric:       return true
                 case .logOut:          return false
                 }
             }
@@ -176,6 +192,8 @@ class SettingsViewController: FormTableViewController {
                     KeyboardInputManager.shared.isNumberBarEnabled = newValue
                 case .logOut:
                     (UIApplication.shared.delegate as! AppDelegate).logOut()
+                default:
+                    break
                 }
             }
         }
@@ -184,8 +202,16 @@ class SettingsViewController: FormTableViewController {
     @objc private func switchControlValueDidChange(_ control: UISwitch) {
         guard let tableView = self.tableView,
             let indexPath = tableView.indexPathForRow(at: tableView.convert(control.bounds.origin, from: control)) else { return }
-        
-        sections[indexPath.section].items[indexPath.row].currentValue = control.isOn
+
+        var setting = sections[indexPath.section].items[indexPath.row]
+        if setting == .biometric {
+            handler?.clear()
+            dismiss(animated: true, completion: { [weak self] in
+                self?.sections[indexPath.section].items[indexPath.row].currentValue = true
+            })
+        }
+
+        setting.currentValue = control.isOn
     }
     
 }

@@ -37,7 +37,21 @@ public class LandingPresenter: AppGroupLandingPresenter {
         switch presentable {
 
         case .login:
-            let loginViewController = LoginViewController(mode: .usernamePassword(delegate: self))
+            let mode: LoginMode
+            // This is the app wants to authenticate with biometric
+            if wantsBiometricAuthentication {
+                // Check if the user wants to authenticate with biometric and it's possible.
+                // Can't check for password, because the `password` would require user permission.
+                if let currentUser = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain),
+                    currentUser.useBiometric == .agreed {
+                    mode = .usernamePasswordWithBiometric(delegate: self)
+                } else {
+                    mode = .usernamePassword(delegate: self)
+                }
+            } else {
+                mode = .usernamePassword(delegate: self)
+            }
+            let loginViewController = LoginViewController(mode: mode)
 
             loginViewController.minimumUsernameLength = 1
             loginViewController.minimumPasswordLength = 1
@@ -164,7 +178,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             return tabBarController
         }
     }
-
+    
     func switchTo(_ screen: Screen) {
         let selectedIndex: Int
         switch screen {
@@ -192,6 +206,8 @@ public class LandingPresenter: AppGroupLandingPresenter {
         tabBarController?.show(settingsNavController, sender: self)
     }
 }
+
+
 
 // MARK: - UITabBarControllerDelegate
 extension LandingPresenter: UITabBarControllerDelegate {

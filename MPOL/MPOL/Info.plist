@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>APP_GROUP_ID</key>
-	<string>$(APP_GROUP_ID)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -56,6 +54,10 @@
 	<string>The App need to access the current location</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>The app need to access your microphone</string>
+	<key>PSAppGroupIdentifier</key>
+	<string>$(APP_GROUP_ID)</string>
+	<key>PSSharedKeychainAccessGroup</key>
+	<string>$(AppIdentifierPrefix)$(SHARED_KEYCHAIN_ACCESS_GROUP)</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

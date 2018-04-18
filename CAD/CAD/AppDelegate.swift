@@ -45,6 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         CADStateManagerCore.apiManager = DemoAPIManager.shared
 
         landingPresenter = LandingPresenter()
+        landingPresenter.wantsBiometricAuthentication = true
         let presenter = PresenterGroup(presenters: [
             SystemPresenter(), landingPresenter, BookOnPresenter(), TaskListPresenter(), TaskItemPresenter()
         ])
