@@ -12,25 +12,39 @@ import UIKit
 open class BookOnLandingItemViewModel {
     open var title: String
     open var subtitle: String?
-    open var image: UIImage?
     open var imageColor: UIColor?
     open var imageBackgroundColor: UIColor?
+    
+    private var _originalImage: UIImage?
+    private var _processedImage: UIImage?
+
+    open var image: UIImage? {
+        get {
+            if _processedImage == nil {
+                if imageBackgroundColor != nil {
+                    _processedImage = _originalImage?.withCircleBackground(tintColor: imageColor,
+                                                                           circleColor: imageBackgroundColor,
+                                                                           style: .fixed(size: CGSize(width: 48, height: 48),
+                                                                                         padding: CGSize(width: 25, height: 25)),
+                                                                           shouldCenterImage: true)
+                } else {
+                    _processedImage = _originalImage
+                }
+            }
+            
+            return _processedImage
+        }
+        set {
+            _processedImage = image
+        }
+    }
 
     public init(title: String, subtitle: String?, image: UIImage?, imageColor: UIColor?, imageBackgroundColor: UIColor?) {
         self.title = title
         self.subtitle = subtitle
         self.imageColor = imageColor
         self.imageBackgroundColor = imageBackgroundColor
-        
-        if imageBackgroundColor != nil {
-            self.image = image?.withCircleBackground(tintColor: imageColor,
-                                                     circleColor: imageBackgroundColor,
-                                                     style: .fixed(size: CGSize(width: 48, height: 48),
-                                                                   padding: CGSize(width: 25, height: 25)),
-                                                     shouldCenterImage: true)
-        } else {
-            self.image = image
-        }
+        self._originalImage = image
     }
 }
 
