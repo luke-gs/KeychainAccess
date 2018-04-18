@@ -88,6 +88,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let activityLogViewModel = ActivityLogViewModel()
             let activityNavController = UINavigationController(rootViewController: activityLogViewModel.createViewController())
             activityNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarActivity)
+            activityNavController.tabBarItem.selectedImage = AssetManager.shared.image(forKey: .tabBarActivitySelected)
             activityNavController.tabBarItem.title = NSLocalizedString("Activity Log", comment: "Activity Log Tab Bar Item")
 
             let userCallsignStatusViewModel = UserCallsignStatusViewModel()
