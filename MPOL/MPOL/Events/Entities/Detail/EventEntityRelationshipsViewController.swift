@@ -17,7 +17,7 @@ class EventEntityRelationshipsViewController: FormBuilderViewController {
 
         sidebarItem.regularTitle = self.title
         sidebarItem.compactTitle = self.title
-        sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.association)!
+        sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconRelationships)!
         sidebarItem.color = .red
     }
 
