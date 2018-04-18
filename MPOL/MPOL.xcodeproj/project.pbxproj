@@ -38,6 +38,10 @@
 		12EF65EB2086D52200739924 /* IncidentSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D82086D52200739924 /* IncidentSelectViewController.swift */; };
 		12EF65EC2086D52200739924 /* IncidentListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D92086D52200739924 /* IncidentListViewModel.swift */; };
 		12EF65ED2086D52200739924 /* IncidentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65DA2086D52200739924 /* IncidentTypes.swift */; };
+		12EF65F22086F34000739924 /* EventEntityDetailsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65F12086F34000739924 /* EventEntityDetailsSplitViewController.swift */; };
+		12EF65F42086F34C00739924 /* EventEntityDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65F32086F34C00739924 /* EventEntityDetailViewModel.swift */; };
+		12EF65F62086F7B400739924 /* EventEntityDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65F52086F7B400739924 /* EventEntityDescriptionViewController.swift */; };
+		12EF65F82086F89200739924 /* EventEntityRelationshipsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65F72086F89200739924 /* EventEntityRelationshipsViewController.swift */; };
 		1987C2AC20846766007F7273 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1987C2AB20846766007F7273 /* Localizable.strings */; };
 		19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3894207A5F3A00855651 /* SupportedShortcut.swift */; };
 		19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */; };
@@ -116,6 +120,10 @@
 		12EF65D82086D52200739924 /* IncidentSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentSelectViewController.swift; sourceTree = "<group>"; };
 		12EF65D92086D52200739924 /* IncidentListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentListViewModel.swift; sourceTree = "<group>"; };
 		12EF65DA2086D52200739924 /* IncidentTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentTypes.swift; sourceTree = "<group>"; };
+		12EF65F12086F34000739924 /* EventEntityDetailsSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEntityDetailsSplitViewController.swift; sourceTree = "<group>"; };
+		12EF65F32086F34C00739924 /* EventEntityDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntityDetailViewModel.swift; sourceTree = "<group>"; };
+		12EF65F52086F7B400739924 /* EventEntityDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntityDescriptionViewController.swift; sourceTree = "<group>"; };
+		12EF65F72086F89200739924 /* EventEntityRelationshipsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEntityRelationshipsViewController.swift; sourceTree = "<group>"; };
 		1987C2AB20846766007F7273 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = ../../Localizable.strings; sourceTree = "<group>"; };
 		19CB3894207A5F3A00855651 /* SupportedShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedShortcut.swift; sourceTree = "<group>"; };
 		19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Shortcuts.swift"; sourceTree = "<group>"; };
@@ -283,9 +291,21 @@
 			path = "Street Check";
 			sourceTree = "<group>";
 		};
+		12EF65F02086F34000739924 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				12EF65F52086F7B400739924 /* EventEntityDescriptionViewController.swift */,
+				12EF65F12086F34000739924 /* EventEntityDetailsSplitViewController.swift */,
+				12EF65F32086F34C00739924 /* EventEntityDetailViewModel.swift */,
+				12EF65F72086F89200739924 /* EventEntityRelationshipsViewController.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
 		37F3A3BC2084754A0077998C /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				12EF65F02086F34000739924 /* Detail */,
 				37F3A3BD208475650077998C /* EventEntitiesListReport.swift */,
 				37F3A3BF208477420077998C /* EventEntitiesListViewController.swift */,
 				37F3A3C1208480190077998C /* EventEntitiesListViewModel.swift */,
@@ -627,6 +647,7 @@
 			files = (
 				12EF65E22086D52200739924 /* TrafficInfringementEntitiesViewController.swift in Sources */,
 				12EF65ED2086D52200739924 /* IncidentTypes.swift in Sources */,
+				12EF65F42086F34C00739924 /* EventEntityDetailViewModel.swift in Sources */,
 				37F3A3C0208477420077998C /* EventEntitiesListViewController.swift in Sources */,
 				37F3A3BE208475650077998C /* EventEntitiesListReport.swift in Sources */,
 				127801F3202AB1F0007D0BBB /* EventBuilder.swift in Sources */,
@@ -635,6 +656,7 @@
 				12EF65E12086D52200739924 /* TrafficInfringementEntitiesReport.swift in Sources */,
 				12EF65DF2086D52200739924 /* TrafficInfringementServiceViewController.swift in Sources */,
 				12EF65E42086D52200739924 /* IncidentTestReport.swift in Sources */,
+				12EF65F62086F7B400739924 /* EventEntityDescriptionViewController.swift in Sources */,
 				46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */,
 				BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */,
 				12EF65EC2086D52200739924 /* IncidentListViewModel.swift in Sources */,
@@ -653,6 +675,7 @@
 				12EF65E52086D52200739924 /* IncidentDetailViewModel.swift in Sources */,
 				12EF65E82086D52200739924 /* StreetCheckIncidentBuilder.swift in Sources */,
 				12EB809B202AAC2100405F5C /* EventScreenBuilder.swift in Sources */,
+				12EF65F82086F89200739924 /* EventEntityRelationshipsViewController.swift in Sources */,
 				12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */,
 				12EF65DD2086D52200739924 /* TrafficInfringementIncidentBuilder.swift in Sources */,
 				12ABD577207F1FE9004D0C9F /* EventLocationSearchViewModel.swift in Sources */,
@@ -662,6 +685,7 @@
 				121777B120631BF6007189A7 /* EventsListViewController.swift in Sources */,
 				12EF65DE2086D52200739924 /* TrafficInfringementScreenBuilder.swift in Sources */,
 				46E0B89B202C0F8500B40DF2 /* DefaultOfficerListViewController.swift in Sources */,
+				12EF65F22086F34000739924 /* EventEntityDetailsSplitViewController.swift in Sources */,
 				12EF65E02086D52200739924 /* TrafficInfringementServiceReport.swift in Sources */,
 				96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */,
 				12EF65E32086D52200739924 /* IncidentTestViewController.swift in Sources */,
