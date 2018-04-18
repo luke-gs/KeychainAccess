@@ -7,7 +7,6 @@
 
 import UIKit
 import MPOLKit
-import ClientKit
 
 open class EventsListViewController: FormBuilderViewController {
 
