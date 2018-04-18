@@ -267,7 +267,12 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     }
 
     @objc private func cancelFormTapped() {
-        closeForm(submitted: false)
+        if loadingManager.state == .error {
+            loadingManager.state = .loaded
+            self.navigationItem.rightBarButtonItem?.isEnabled = true
+        } else {
+            closeForm(submitted: false)
+        }
     }
 
     @objc private func submitFormTapped() {
@@ -296,18 +301,31 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     }
 
     private func submitForm() {
-        // TODO: show progress overlay
+        // Show progress overlay
+        loadingManager.state = .loading
+        navigationItem.leftBarButtonItem?.isEnabled = false
+        navigationItem.rightBarButtonItem?.isEnabled = false
 
         firstly {
             return viewModel.submitForm()
         }.done { [weak self] status in
             self?.closeForm(submitted: true)
-        }.ensure {
-            // TODO: Cancel progress overlay
-        }.catch { error in
-            let title = NSLocalizedString("Failed to submit form", comment: "")
-            AlertQueue.shared.addSimpleAlert(title: title, message: error.localizedDescription)
+        }.catch { [weak self] error in
+            // Update progress overlay to show error
+            self?.loadingManager.state = .error
+            self?.navigationItem.leftBarButtonItem?.isEnabled = true
+            self?.navigationItem.rightBarButtonItem?.isEnabled = false
+
+            // TODO: Provide actual error to the user?
+            self?.loadingManager.errorView.subtitleLabel.text = NSLocalizedString("There was an error while attempting to Book On", comment: "")
+
+            self?.loadingManager.errorView.actionButton.setTitle("Try Again", for: .normal)
+            self?.loadingManager.errorView.actionButton.addTarget(self, action: #selector(self?.retry), for: .touchUpInside)
         }
+    }
+
+    @objc private func retry() {
+        submitForm()
     }
 
     private func closeForm(submitted: Bool) {

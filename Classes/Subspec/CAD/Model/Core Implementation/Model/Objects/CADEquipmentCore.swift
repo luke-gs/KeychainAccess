@@ -34,7 +34,7 @@ open class CADEquipmentCore: Codable, CADEquipmentType {
 
     enum CodingKeys: String, CodingKey {
         case count = "count"
-        case description = "description"
+        case description = "name"
     }
 
     public required init(from decoder: Decoder) throws {
@@ -44,6 +44,8 @@ open class CADEquipmentCore: Codable, CADEquipmentType {
     }
 
     public func encode(to encoder: Encoder) throws {
-        MPLUnimplemented()
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(count, forKey: .count)
+        try container.encode(description, forKey: .description)
     }
 }

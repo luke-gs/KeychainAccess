@@ -8,7 +8,7 @@
 
 import UIKit
 
-/// Book on details form view model, representing the underlying data for a CADBookOnDetailsType
+/// Book on details form view model, representing the underlying data for a CADBookOnRequest
 open class BookOnDetailsFormContentMainViewModel {
 
     public init() {}
@@ -28,18 +28,18 @@ open class BookOnDetailsFormContentMainViewModel {
     // MARK: - Conversion
 
     /// Create view model from model
-    public init(withModel request: CADBookOnDetailsType) {
+    public init(withModel request: CADBookOnRequestType) {
         self.serial = request.serial
         self.category = request.category
-        self.odometer = request.odometer
+        self.odometer = String(request.odometer ?? 0)
         self.remarks = request.remarks
         self.startTime = request.shiftStart
         self.endTime = request.shiftEnd
         self.equipment = request.equipment.quantityPicked()
 
         // Create the officers, setting is driver based on driverpayrollId
-        self.officers = request.officers.map { officer in
-            let isDriver = officer.payrollId == request.driverpayrollId
+        self.officers = request.employees.map { officer in
+            let isDriver = officer.payrollId == request.driverEmployeeNumber
             return BookOnDetailsFormContentOfficerViewModel(
                 withModel: officer, initial: false, isDriver: isDriver)
         }
@@ -66,18 +66,19 @@ open class BookOnDetailsFormContentMainViewModel {
     }
 
     /// Create model from view model
-    open func createModel() -> CADBookOnDetailsType {
-        let request = CADClientModelTypes.bookonDetails.init()
+    open func createModel(callsign: String) -> CADBookOnRequestType {
+        let request = CADBookOnRequestCore()
+        request.callsign = callsign
         request.serial = self.serial
         request.category = self.category
-        request.odometer = self.odometer
+        request.odometer = Int(self.odometer ?? "")
         request.remarks = self.remarks
         request.shiftStart = self.startTime
         request.shiftEnd = self.endTime
-        request.driverpayrollId = self.officers.first { $0.isDriver.isTrue }?.officerId
+        request.driverEmployeeNumber = self.officers.first { $0.isDriver.isTrue }?.officerId
 
         // Use the officer view models to apply changes to officers fetched in sync
-        request.officers = self.officers.compactMap { officer in
+        request.employees = self.officers.compactMap { officer in
             if let existingOfficer = CADStateManager.shared.officersById[officer.officerId!] {
                 let updatedOfficer = CADClientModelTypes.officerDetails.init(officer: existingOfficer)
                 updatedOfficer.licenceTypeId = officer.licenceTypeId
