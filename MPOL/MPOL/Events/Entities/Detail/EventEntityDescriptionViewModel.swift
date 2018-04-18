@@ -26,7 +26,7 @@ open class EventEntityDescriptionViewModel: Evaluatable {
     init(entity: MPOLKitEntity) {
         self.entity = entity
 
-        evaluator.registerKey(.viewed) { () -> (Bool) in
+        evaluator.registerKey(.viewed) {
             self.viewed
         }
     }
