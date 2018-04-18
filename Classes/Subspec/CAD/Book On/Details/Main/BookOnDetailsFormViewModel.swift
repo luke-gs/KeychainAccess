@@ -18,6 +18,17 @@ public protocol BookOnDetailsFormViewModelDelegate: PopoverPresenter {
 /// View model for the book on details form screen
 open class BookOnDetailsFormViewModel {
 
+    enum BookOnDetailsFormViewModelErrors: LocalizedError {
+        case notAllowed
+
+        public var errorDescription: String? {
+            switch self {
+            case .notAllowed:
+                return NSLocalizedString("Your call sign is currently responding to an active incident that must first be finalised.", comment: "")
+            }
+        }
+    }
+
     /// Delegate for UI updates
     open weak var delegate: BookOnDetailsFormViewModelDelegate?
 
@@ -94,18 +105,13 @@ open class BookOnDetailsFormViewModel {
         return NSLocalizedString("Terminate Shift", comment: "")
     }
 
-    open func terminateShift() {
+    open func terminateShift() -> Promise<Void> {
+        // Book off unit
         if resource.status.canTerminate {
-            // Book off unit and dismiss form
-            // TODO: add loading state
-            _ = CADStateManager.shared.bookOff().done { [weak self] in
-                self?.delegate?.dismiss(animated: true, completion: nil)
-            }
+            return CADStateManager.shared.bookOff()
         } else {
-            AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Terminate Shift", comment: ""),
-                                             message: NSLocalizedString("Your call sign is currently responding to an active incident that must first be finalised.", comment: ""))
+            return Promise<Void>(error: BookOnDetailsFormViewModelErrors.notAllowed)
         }
-
     }
 
     open func submitForm() -> Promise<Void> {
