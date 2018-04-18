@@ -12,7 +12,7 @@ extension IncidentType {
     // Add incident types here
     // rawValue used as title
     static let streetCheck = IncidentType(rawValue: "Street Check (Intercept Report)")
-    static let infringementNotice = IncidentType(rawValue: "Infringement Notice")
+    static let trafficInfringement = IncidentType(rawValue: "Traffic Infringement")
 
     /// Contains all incident types
     ///
@@ -25,7 +25,9 @@ extension IncidentType {
     static func allIncidentTypes() -> [IncidentType] {
         return [
             .streetCheck,
-            .infringementNotice
+            .trafficInfringement
         ]
     }
 }
+
+

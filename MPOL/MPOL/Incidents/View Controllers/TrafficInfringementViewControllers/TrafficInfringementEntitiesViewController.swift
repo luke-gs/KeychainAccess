@@ -1,5 +1,5 @@
 //
-//  IncidentTestViewController.swift
+//  TrafficInfringementEntitiesViewController.swift
 //  MPOL
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -11,20 +11,28 @@ import MPOLKit
 fileprivate extension EvaluatorKey {
     static let viewed = EvaluatorKey("viewed")
 }
-// TODO: Delete when start incidents
-open class IncidentTestViewController: FormBuilderViewController, EvaluationObserverable {
+open class TrafficInfringementEntitiesViewController: FormBuilderViewController, EvaluationObserverable {
 
-    weak var report: IncidentTestReport?
+    weak var report: TrafficInfringementEntitiesReport?
 
     public init(report: Reportable?) {
-        self.report = report as? IncidentTestReport
+        self.report = report as? TrafficInfringementEntitiesReport
         super.init()
         report?.evaluator.addObserver(self)
 
-        sidebarItem.regularTitle = "Amazing Incidents"
-        sidebarItem.compactTitle = "Amazing Incidents"
-        sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.attachment)!
+        title = "Entities"
+
+        sidebarItem.regularTitle = title
+        sidebarItem.compactTitle = title
+        sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.list)!
         sidebarItem.color = (report?.evaluator.isComplete ?? false) ? .midGreen : .red
+
+        loadingManager.noContentView.titleLabel.text = "No Entities Added"
+        loadingManager.noContentView.subtitleLabel.text = "This report requires at least one person or vehicle"
+        loadingManager.noContentView.imageView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.dialogAlert)
+        loadingManager.noContentView.actionButton.setTitle("Add Entity", for: .normal)
+
+        loadingManager.state = .noContent
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -37,11 +45,10 @@ open class IncidentTestViewController: FormBuilderViewController, EvaluationObse
     }
 
     override open func construct(builder: FormBuilder) {
-        builder.title = "Test Test Test"
+        builder.title = title
         builder.forceLinearLayout = true
 
         builder += HeaderFormItem(text: "GENERAL")
-        builder += HeaderFormItem(text: "SUMMARY / NOTES")
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {

@@ -18,6 +18,7 @@ public class EventBuilder: EventBuilding {
         event.add(report: DefaultLocationReport(event: event))
         event.add(report: OfficerListReport(event: event))
         event.add(report: IncidentListReport(event: event))
+        event.add(report: EventEntitiesListReport(event: event))
         event.add(report: DefaultNotesAssetsReport(event: event))
 
         let displayable = EventListDisplayable(title: "No incident selected",
@@ -29,5 +30,5 @@ public class EventBuilder: EventBuilding {
         return (event: event, displayable: displayable)
     }
 
-    public init() { }
+    public init() {}
 }

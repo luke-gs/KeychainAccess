@@ -70,7 +70,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
                     guard let indexPath = self.collectionView?.indexPath(for: cell) else { return }
                     guard let incident = self.viewModel.incident(for: self.viewModel.incidentList[indexPath.row]) else { return }
                     let vc = IncidentSplitViewController(viewModel: self.viewModel.detailsViewModel(for: incident))
-                    self.present(vc, animated: true, completion: nil)
+                    self.parent?.navigationController?.pushViewController(vc, animated: true)
             }
         }
     }
@@ -79,7 +79,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
         sidebarItem.color = evaluator.isComplete == true ? .midGreen : .red
     }
 
-    //MARK: PRIVATE
+    // MARK: - PRIVATE
 
     @objc private func newIncidentHandler() {
         let headerConfig = SearchHeaderConfiguration(title: viewModel.searchHeaderTitle(),
@@ -91,8 +91,8 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
                                                                                             padding: .zero)),
                                                      imageStyle: .circle)
 
-        let datasource = IncidentSearchDataSource(objects: IncidentType.allIncidentTypes().map{$0.rawValue},
-                                                  selectedObjects: viewModel.report.incidents.map{$0.displayable.title!},
+        let datasource = IncidentSearchDataSource(objects: IncidentType.allIncidentTypes().map { $0.rawValue },
+                                                  selectedObjects: viewModel.report.incidents.map { $0.displayable.title! },
                                                   configuration: headerConfig)
         
         datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
@@ -105,7 +105,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
                                                                           action: #selector(cancelTapped))
 
         viewController.finishUpdateHandler = { controller, index in
-            let incidents = controller.objects.enumerated().filter { index.contains($0.offset) }.flatMap { $0.element.title }
+            let incidents = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
             self.viewModel.add(incidents)
             self.updateLoadingManager()
             self.reloadForm()

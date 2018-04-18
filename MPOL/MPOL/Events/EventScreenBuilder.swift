@@ -34,10 +34,12 @@ public class EventScreenBuilder: EventScreenBuilding {
         case let report as IncidentListReport:
             report.incidents.forEach{incidentsManager.add(incident: $0)}
             return IncidentListViewController(viewModel: IncidentListViewModel(report: report, incidentsManager: incidentsManager))
+        case let report as EventEntitiesListReport:
+            return EventEntitiesListViewController(viewModel: EventEntitiesListViewModel(report: report))
         default:
             fatalError("No ViewController found for reportable: \(report.self)")
         }
     }
 
-    public init() { }
+    public init() {}
 }

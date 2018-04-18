@@ -12,11 +12,14 @@ open class IncidentSelectViewController: ThemedPopoverViewController {
 
     open var tableView: UITableView!
     open var buttonsView: DialogActionButtonsView!
-    open var didSelectIncident: ((IncidentType?)->())?
+    open var didSelectIncident: ((IncidentType?) -> ())?
 
     // MARK: - Initializers
 
-    public required init?(coder aDecoder: NSCoder) { MPLCodingNotSupported() }
+    public required init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
+    }
+
     public init() {
         super.init(nibName: nil, bundle: nil)
         createSubviews()

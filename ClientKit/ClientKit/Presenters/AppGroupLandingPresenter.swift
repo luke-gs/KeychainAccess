@@ -181,23 +181,29 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
             NotificationManager.shared.registerPushToken()
             controller.resetFields()
 
+
+            // Wants
             if self.wantsBiometricAuthentication {
-                var biometricUser = BiometricUserHandler(username: username, keychain: SharedKeychainCapability.defaultKeychain)
-                // Ask if the user wants to remember their password.
-                if biometricUser.useBiometric == .unknown {
-                    return self.askForBiometricPermission(in: controller).then { promise -> Promise<Void> in
-                        // Store the username and password.
-                        return biometricUser.setPassword(password, context: context, prompt: NSLocalizedString("AppGroupLandingPresenter.BiometricSavePrompt", comment: "Text prompt to use biometric to save user credentials"))
-                    }.done {
-                        // Only set it to `agreed` after password saving is successful.
-                        biometricUser.useBiometric = .agreed
-                        biometricUser.becomeCurrentUser()
-                    }.recover(policy: .allErrors) { error -> Promise<Void> in
-                        if error.isCancelled {
-                            biometricUser.useBiometric = .asked
-                            return .value(())
+                let lContext = context ?? LAContext()
+                // and can
+                if lContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
+                    var biometricUser = BiometricUserHandler(username: username, keychain: SharedKeychainCapability.defaultKeychain)
+                    // Ask if the user wants to remember their password.
+                    if biometricUser.useBiometric == .unknown {
+                        return self.askForBiometricPermission(in: controller).then { promise -> Promise<Void> in
+                            // Store the username and password.
+                            return biometricUser.setPassword(password, context: context, prompt: NSLocalizedString("AppGroupLandingPresenter.BiometricSavePrompt", comment: "Text prompt to use biometric to save user credentials"))
+                            }.done {
+                                // Only set it to `agreed` after password saving is successful.
+                                biometricUser.useBiometric = .agreed
+                                biometricUser.becomeCurrentUser()
+                            }.recover(policy: .allErrors) { error -> Promise<Void> in
+                                if error.isCancelled {
+                                    biometricUser.useBiometric = .asked
+                                    return .value(())
+                                }
+                                throw error
                         }
-                        throw error
                     }
                 }
             }
@@ -213,6 +219,13 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
         }.done {
             UserSession.startSession(user: User(username: username), token: lToken!)
             self.updateInterfaceForUserSession(animated: true)
+        }.then { () -> Promise<Officer> in
+            return APIManager.shared.fetchCurrentOfficerDetails(in: MPOLSource.pscore,
+                                                                with: CurrentOfficerDetailsFetchRequest())
+        }.done { officer in
+            try! UserSession.current.userStorage?.add(object: officer,
+                                                      key: UserSession.currentOfficerKey,
+                                                      flag: UserStorageFlag.session)
         }.ensure {
             controller.setLoading(false, animated: true)
         }.catch { error in

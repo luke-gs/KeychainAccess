@@ -115,7 +115,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func logOut() {
-        CADStateManager.shared.setOffDuty()
+        if CADStateManager.shared.lastBookOn != nil {
+            AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Log Out", comment: ""),
+                                             message: NSLocalizedString("You must book off before logging out.", comment: ""))
+            return
+        }
         UserSession.current.endSession()
         APIManager.shared.setAuthenticationPlugin(nil)
         NotificationManager.shared.removeLocalNotification(CADLocalNotifications.shiftEnding)

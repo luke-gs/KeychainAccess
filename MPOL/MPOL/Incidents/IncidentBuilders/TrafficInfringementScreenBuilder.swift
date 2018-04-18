@@ -1,5 +1,5 @@
 //
-//  IncidentScreenBuilder.swift
+//  TrafficInfringementScreenBuilder..swift
 //  MPOLKit
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -7,7 +7,7 @@
 
 import MPOLKit
 
-public class IncidentScreenBuilder: IncidentScreenBuilding {
+public class TrafficInfringementScreenBuilder: IncidentScreenBuilding {
 
     public func viewControllers(for reportables: [Reportable]) -> [UIViewController] {
         var viewControllers = [UIViewController]()
@@ -23,16 +23,19 @@ public class IncidentScreenBuilder: IncidentScreenBuilding {
 
     private func viewController(for report: Reportable) -> UIViewController? {
 
-        //TODO: Remove non-incident reports from here and replace with actual incident reports
         switch report {
-        case let report as IncidentTestReport:
-            return IncidentTestViewController(report: report)
+        case let report as TrafficInfringementEntitiesReport:
+            return TrafficInfringementEntitiesViewController(report: report)
+        case let report as TrafficInfringementOffencesReport:
+            return TrafficInfringementOffencesViewController(report: report)
+        case let report as TrafficInfringementServiceReport:
+            return TrafficInfringementServiceViewController(report: report)
         default:
             fatalError("No ViewController found for reportable: \(report.self)")
         }
     }
 
-    public init() { }
+    public init() {}
 }
 
 

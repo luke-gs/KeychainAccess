@@ -42,9 +42,7 @@ public class OfficerListReport: Reportable {
     public required init(event: Event) {
         self.event = event
 
-        let user = UserSession.current.user
-        let testOfficer = Officer()
-        testOfficer.givenName = user?.username
+        let testOfficer = UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) as! Officer
         testOfficer.involvements = ["Reporting Officer"]
 
         officers = [testOfficer]
@@ -53,7 +51,9 @@ public class OfficerListReport: Reportable {
     }
 
     private func commonInit() {
-        if let event = event { evaluator.addObserver(event) }
+        if let event = event {
+            evaluator.addObserver(event)
+        }
 
         evaluator.registerKey(.officers) {
             return self.viewed == true
