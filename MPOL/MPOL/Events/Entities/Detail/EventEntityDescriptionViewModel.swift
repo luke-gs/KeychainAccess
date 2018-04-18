@@ -9,12 +9,26 @@ import UIKit
 import MPOLKit
 import ClientKit
 
-open class EventEntityDescriptionViewModel {
+fileprivate extension EvaluatorKey {
+    static let viewed = EvaluatorKey("viewed")
+}
+
+open class EventEntityDescriptionViewModel: Evaluatable {
 
     unowned var entity: MPOLKitEntity
+    public let evaluator: Evaluator = Evaluator()
+    var viewed: Bool = false {
+        didSet {
+            evaluator.updateEvaluation(for: .viewed)
+        }
+    }
 
     init(entity: MPOLKitEntity) {
         self.entity = entity
+
+        evaluator.registerKey(.viewed) { () -> (Bool) in
+            self.viewed
+        }
     }
 
     func displayable() -> EntitySummaryDisplayable {
@@ -38,4 +52,10 @@ open class EventEntityDescriptionViewModel {
             fatalError("Entity of type \"\(type(of: entity))\" not found")
         }
     }
+
+    func tintColour() -> UIColor {
+       return evaluator.isComplete == true ? .midGreen : .red
+    }
+
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {}
 }

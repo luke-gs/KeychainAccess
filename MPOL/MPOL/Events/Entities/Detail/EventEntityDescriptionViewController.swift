@@ -8,7 +8,7 @@
 import UIKit
 import MPOLKit
 
-class EventEntityDescriptionViewController: FormBuilderViewController {
+class EventEntityDescriptionViewController: FormBuilderViewController, EvaluationObserverable {
 
     var viewModel: EventEntityDescriptionViewModel
 
@@ -22,14 +22,17 @@ class EventEntityDescriptionViewController: FormBuilderViewController {
         sidebarItem.compactTitle = self.title
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.info)!
         sidebarItem.color = .red
+
+        viewModel.evaluator.addObserver(self)
     }
 
     required convenience init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.viewed = true
     }
 
     override func construct(builder: FormBuilder) {
@@ -43,6 +46,10 @@ class EventEntityDescriptionViewController: FormBuilderViewController {
             .subtitle(displayable.detail1)
             .borderColor(displayable.borderColor)
             .image(displayable.thumbnail(ofSize: .large))
+    }
+
+    func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+        sidebarItem.color = viewModel.tintColour()
     }
 }
 
