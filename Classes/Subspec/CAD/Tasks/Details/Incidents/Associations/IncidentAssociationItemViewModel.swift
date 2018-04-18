@@ -19,7 +19,8 @@ public class IncidentAssociationItemViewModel: EntitySummaryDisplayable {
         MPLUnimplemented()
     }
     
-    public init(category: String?, entityType: EntityType, title: String?, detail1: String?, detail2: String?, borderColor: UIColor?, iconColor: UIColor? = nil, badge: UInt) {
+    public init(association: CADIncidentAssociationType, category: String?, entityType: EntityType, title: String?, detail1: String?, detail2: String?, borderColor: UIColor?, iconColor: UIColor? = nil, badge: UInt) {
+        self.association = association
         self.category = category
         self.entityType = entityType
         self.title = title
@@ -30,6 +31,8 @@ public class IncidentAssociationItemViewModel: EntitySummaryDisplayable {
         self.badge = badge
     }
     
+    public var association: CADIncidentAssociationType
+
     public var entityType: EntityType
 
     public var category: String?

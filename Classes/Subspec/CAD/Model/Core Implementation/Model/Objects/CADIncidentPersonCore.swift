@@ -11,6 +11,10 @@ import Foundation
 /// PSCore implementation of class representing a person associated with incident
 open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
 
+    public var entityType: String? {
+        return "Person"
+    }
+
     // MARK: - Network
 
     open var alertLevel: Int?

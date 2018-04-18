@@ -18,15 +18,16 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
 
     override open func loadData() {
         guard let incident = CADStateManager.shared.incidentsById[identifier] else { return }
-        
+        location = incident.location
+
         sections = [
             CADFormCollectionSectionViewModel(title: "Overview",
                                               items: [
                                                 TaskDetailsOverviewItemViewModel(title: "Incident Location",
-                                                                              value: incident.location?.fullAddress ?? "",
+                                                                              value: location?.displayText,
                                                                               width: .column(1),
                                                                               selectAction: { [unowned self] cell in
-                                                                                self.presentAddressPopover(from: cell, for: incident)
+                                                                                self.presentAddressPopover(from: cell)
                                                                               },
                                                                               accessory: ItemAccessory(style: .overflow, tintColor: .secondaryGray)),
                                                 
@@ -78,13 +79,6 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
     /// The title to use in the navigation bar
     override open func navTitle() -> String {
         return NSLocalizedString("Overview", comment: "Overview sidebar title")
-    }
-
-    /// Present "Directions, Street View, Search" options on address
-    open func presentAddressPopover(from cell: CollectionViewFormCell, for incident: CADIncidentType) {
-        if let coordinate = incident.coordinate {
-            delegate?.present(TaskItemScreen.addressLookup(source: cell, coordinate: coordinate))
-        }
     }
 
 }

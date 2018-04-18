@@ -17,15 +17,16 @@ open class PatrolOverviewViewModel: TaskDetailsOverviewViewModel {
 
     override open func loadData() {
         guard let patrol = CADStateManager.shared.patrolsById[identifier] else { return }
-        
+        location = patrol.location
+
         sections = [
             CADFormCollectionSectionViewModel(title: "Overview",
                                               items: [
                                                 TaskDetailsOverviewItemViewModel(title: "Patrol Location",
-                                                                              value: patrol.location?.fullAddress,
+                                                                              value: location?.displayText,
                                                                               width: .column(1),
                                                                               selectAction: { [unowned self] cell in
-                                                                                self.presentAddressPopover(from: cell, for: patrol)
+                                                                                self.presentAddressPopover(from: cell)
                                                                               },
                                                                               accessory: ItemAccessory(style: .overflow, tintColor: .secondaryGray)),
                                                 
@@ -63,12 +64,5 @@ open class PatrolOverviewViewModel: TaskDetailsOverviewViewModel {
     /// The title to use in the navigation bar
     open override func navTitle() -> String {
         return NSLocalizedString("Overview", comment: "Overview sidebar title")
-    }
-    
-    /// Present "Directions, Street View, Search" options on address
-    open func presentAddressPopover(from cell: CollectionViewFormCell, for patrol: CADPatrolType) {
-        if let coordinate = patrol.coordinate {
-            delegate?.present(TaskItemScreen.addressLookup(source: cell, coordinate: coordinate))
-        }
     }
 }

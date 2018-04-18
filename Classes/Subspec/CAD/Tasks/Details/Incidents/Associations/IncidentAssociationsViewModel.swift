@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class IncidentAssociationsViewModel: CADFormCollectionViewModel<EntitySummaryDisplayable>, TaskDetailsViewModel {
+public class IncidentAssociationsViewModel: CADFormCollectionViewModel<IncidentAssociationItemViewModel>, TaskDetailsViewModel {
     
     /// The identifier for this incident
     open let incidentNumber: String
@@ -31,28 +31,32 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<EntitySum
     open func loadData() {
         guard let incident = CADStateManager.shared.incidentsById[incidentNumber] else { return }
 
-        var sections: [CADFormCollectionSectionViewModel<EntitySummaryDisplayable>] = []
+        var sections: [CADFormCollectionSectionViewModel<IncidentAssociationItemViewModel>] = []
         
         let personsViewModels = incident.persons.map { person in
-            return IncidentAssociationItemViewModel(category: "DS1",
-                                                    entityType: .person(initials: person.initials),
-                                                    title: person.fullName,
-                                                    detail1: "\(person.dateOfBirth ?? "") \(person.gender ?? "")",
-                                                    detail2: person.fullAddress,
-                                                    borderColor: nil,
-                                                    iconColor: nil,
-                                                    badge: 0)
+            return IncidentAssociationItemViewModel(
+                association: person,
+                category: "DS1",
+                entityType: .person(initials: person.initials),
+                title: person.fullName,
+                detail1: [person.dateOfBirth, person.gender].joined(),
+                detail2: person.fullAddress,
+                borderColor: nil,
+                iconColor: nil,
+                badge: 0)
         }
         
         let vehiclesViewModels = incident.vehicles.map { vehicle in
-            return IncidentAssociationItemViewModel(category: "DS1",
-                                                    entityType: .vehicle,
-                                                    title: vehicle.plateNumber,
-                                                    detail1: vehicle.vehicleDescription,
-                                                    detail2: [vehicle.bodyType, vehicle.color].joined(separator: ThemeConstants.dividerSeparator),
-                                                    borderColor: nil,
-                                                    iconColor: nil,
-                                                    badge: 0)
+            return IncidentAssociationItemViewModel(
+                association: vehicle,
+                category: "DS1",
+                entityType: .vehicle,
+                title: vehicle.plateNumber,
+                detail1: vehicle.vehicleDescription,
+                detail2: [vehicle.bodyType, vehicle.color].joined(separator: ThemeConstants.dividerSeparator),
+                borderColor: nil,
+                iconColor: nil,
+                badge: 0)
         }
         
         if personsViewModels.count > 0 {
