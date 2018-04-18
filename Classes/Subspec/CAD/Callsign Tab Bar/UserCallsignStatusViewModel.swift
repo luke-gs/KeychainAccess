@@ -128,7 +128,7 @@ open class UserCallsignStatusViewModel {
     }
     
     /// Creates the view controller to present for tapping the button
-    open func screenForAction() -> Presentable {
+    open func screenForAction() -> Presentable? {
         switch state {
         case .unassigned(_, _):
             return BookOnScreen.notBookedOn
