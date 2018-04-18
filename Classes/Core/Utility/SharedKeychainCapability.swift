@@ -29,6 +29,6 @@ public struct SharedKeychainCapability {
         } else {
             accessGroup = SharedKeychainCapability.defaultSharedKeychainAccessGroup
         }
-        return Keychain(accessGroup: accessGroup)
+        return Keychain(service: "pscore.defaultsharedkeychain.service", accessGroup: accessGroup)
     }()
 }
