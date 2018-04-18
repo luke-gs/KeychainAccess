@@ -196,13 +196,13 @@
 		12EB8099202AAC0000405F5C /* Events */ = {
 			isa = PBXGroup;
 			children = (
-				37F3A3BC2084754A0077998C /* Entities */,
 				127801F2202AB1F0007D0BBB /* EventBuilder.swift */,
 				12EB809A202AAC2100405F5C /* EventScreenBuilder.swift */,
 				127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */,
 				121777B020631BF6007189A7 /* EventsListViewController.swift */,
 				127801F0202AAF09007D0BBB /* EventsListViewModel.swift */,
 				46F8E9A4203A9C2200024EF7 /* LocationAction.swift */,
+				37F3A3BC2084754A0077998C /* Entities */,
 				12ABD571207F1FE9004D0C9F /* Location */,
 				46E0B896202C0F4100B40DF2 /* Reports */,
 			);
@@ -229,11 +229,11 @@
 		12EF65C22086D52200739924 /* Traffic Infringement */ = {
 			isa = PBXGroup;
 			children = (
+				12EF65C62086D52200739924 /* TrafficInfringementIncidentBuilder.swift */,
+				12EF65C72086D52200739924 /* TrafficInfringementScreenBuilder.swift */,
 				12EF65CB2086D52200739924 /* Entities */,
 				12EF65C32086D52200739924 /* Offences */,
 				12EF65C82086D52200739924 /* Service */,
-				12EF65C62086D52200739924 /* TrafficInfringementIncidentBuilder.swift */,
-				12EF65C72086D52200739924 /* TrafficInfringementScreenBuilder.swift */,
 			);
 			path = "Traffic Infringement";
 			sourceTree = "<group>";
