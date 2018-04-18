@@ -40,6 +40,7 @@ open class DialogActionButtonsView: UIView {
 
     /// The action buttons to be displayed
     open let actions: [DialogAction]
+    open private(set) var buttons: [UIButton] = []
 
     // MARK: - Subviews
 
@@ -77,6 +78,7 @@ open class DialogActionButtonsView: UIView {
             let button = createButton(title: action.title)
             button.tag = index
             buttonStackView.addArrangedSubview(button)
+            buttons.append(button)
         }
 
         // Add footer view, above stackview
@@ -114,6 +116,7 @@ open class DialogActionButtonsView: UIView {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         button.setTitleColor(tintColor, for: .normal)
         button.setTitleColor(tintColor.withAlphaComponent(0.5), for: .highlighted)
+        button.setTitleColor(.lightGray, for: .disabled)
         button.setTitle(title, for: .normal)
         button.addTarget(self, action: #selector(didSelectButton(button:)), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
