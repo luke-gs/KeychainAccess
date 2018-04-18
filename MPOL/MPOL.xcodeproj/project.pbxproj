@@ -47,6 +47,7 @@
 		12EF66032087071800739924 /* OfficerSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FD2087071800739924 /* OfficerSearchViewModel.swift */; };
 		12EF66042087071800739924 /* OfficerListReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FE2087071800739924 /* OfficerListReport.swift */; };
 		12EF66052087071800739924 /* DefaultOfficerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FF2087071800739924 /* DefaultOfficerListViewController.swift */; };
+		12EF661720870CED00739924 /* EventEntityDescriptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF661620870CED00739924 /* EventEntityDescriptionViewModel.swift */; };
 		1987C2AC20846766007F7273 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1987C2AB20846766007F7273 /* Localizable.strings */; };
 		19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3894207A5F3A00855651 /* SupportedShortcut.swift */; };
 		19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */; };
@@ -129,6 +130,7 @@
 		12EF65FD2087071800739924 /* OfficerSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerSearchViewModel.swift; sourceTree = "<group>"; };
 		12EF65FE2087071800739924 /* OfficerListReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerListReport.swift; sourceTree = "<group>"; };
 		12EF65FF2087071800739924 /* DefaultOfficerListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultOfficerListViewController.swift; sourceTree = "<group>"; };
+		12EF661620870CED00739924 /* EventEntityDescriptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntityDescriptionViewModel.swift; sourceTree = "<group>"; };
 		1987C2AB20846766007F7273 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = ../../Localizable.strings; sourceTree = "<group>"; };
 		19CB3894207A5F3A00855651 /* SupportedShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedShortcut.swift; sourceTree = "<group>"; };
 		19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Shortcuts.swift"; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 			isa = PBXGroup;
 			children = (
 				12EF65F52086F7B400739924 /* EventEntityDescriptionViewController.swift */,
+				12EF661620870CED00739924 /* EventEntityDescriptionViewModel.swift */,
 				12EF65F12086F34000739924 /* EventEntityDetailsSplitViewController.swift */,
 				12EF65F32086F34C00739924 /* EventEntityDetailViewModel.swift */,
 				12EF65F72086F89200739924 /* EventEntityRelationshipsViewController.swift */,
@@ -642,6 +645,7 @@
 				12EF65F42086F34C00739924 /* EventEntityDetailViewModel.swift in Sources */,
 				12EF66052087071800739924 /* DefaultOfficerListViewController.swift in Sources */,
 				37F3A3C0208477420077998C /* EventEntitiesListViewController.swift in Sources */,
+				12EF661720870CED00739924 /* EventEntityDescriptionViewModel.swift in Sources */,
 				37F3A3BE208475650077998C /* EventEntitiesListReport.swift in Sources */,
 				127801F3202AB1F0007D0BBB /* EventBuilder.swift in Sources */,
 				12EF65EA2086D52200739924 /* IncidentSearchDataSource.swift in Sources */,

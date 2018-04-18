@@ -10,7 +10,10 @@ import MPOLKit
 
 class EventEntityDescriptionViewController: FormBuilderViewController {
 
-    public override init() {
+    var viewModel: EventEntityDescriptionViewModel
+
+    public required init(viewModel: EventEntityDescriptionViewModel) {
+        self.viewModel = viewModel
         super.init()
 
         self.title = "Description"
@@ -21,11 +24,25 @@ class EventEntityDescriptionViewController: FormBuilderViewController {
         sidebarItem.color = .red
     }
 
+    required convenience init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
     override func construct(builder: FormBuilder) {
 
+        let displayable = viewModel.displayable()
+        
+        builder += SummaryDetailFormItem()
+            .category(displayable.category)
+            .title(displayable.title)
+            .detail(viewModel.description())
+            .subtitle(displayable.detail1)
+            .borderColor(displayable.borderColor)
+            .image(displayable.thumbnail(ofSize: .large))
     }
 }
+
