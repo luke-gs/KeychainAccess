@@ -241,7 +241,16 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
 
     private func askForBiometricPermission(in controller: UIViewController) -> Promise<Void> {
         return Promise { seal in
-            let alertController = UIAlertController(title: NSLocalizedString("AppGroupLandingPresenter.BiometricRememberCredentialsTitle", comment: "Title asking whether the user wants to remember credntials using biometric"), message: NSLocalizedString("AppGroupLandingPresenter.BiometricRememberCredentialsMessage", comment: "Message asking whether the user wants to remember credntials using biometric"), preferredStyle: .alert)
+            let context = LAContext()
+            var title = "TouchID"
+            var message = NSLocalizedString("AppGroupLandingPresenter.BiometricEnabledTouchIDMessage", comment: "Message asking whether the user wants to enabled TouchID in login screen")
+            if #available(iOS 11.0.1, *) {
+                if context.biometryType == .faceID {
+                    title = "FaceID"
+                    message = NSLocalizedString("AppGroupLandingPresenter.BiometricEnabledFaceIDMessage", comment: "Message asking whether the user wants to use FaceID in login screen")
+                }
+            }
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
             let action = UIAlertAction(title: "Yes", style: .default, handler: { _ in
                 seal.fulfill(())
             })

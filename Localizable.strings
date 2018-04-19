@@ -9,7 +9,8 @@
 "ShortcutItem.SearchPersonTitle" = "Search Person";
 "ShortcutItem.SearchVehicleTitle" = "Search Vehicle";
 "ShortcutItem.LaunchTasks" = "Launch Tasking";
-"AppGroupLandingPresenter.BiometricSavePrompt" = "Authenticate to save credentials";
-"AppGroupLandingPresenter.BiometricSaveCredentialsFailedTitle" = "Failed to save credentials";
-"AppGroupLandingPresenter.BiometricRememberCredentialsTitle" = "Remember credentials";
-"AppGroupLandingPresenter.BiometricRememberCredentialsMessage" = "Would you like to save your credentials?";
+"AppGroupLandingPresenter.BiometricSavePrompt" = "Authenticate to enable biometric login";
+"AppGroupLandingPresenter.BiometricSaveCredentialsFailedTitle" = "Failed to authenticate";
+
+"AppGroupLandingPresenter.BiometricEnabledTouchIDMessage" = "Would you like to enable TouchID?";
+"AppGroupLandingPresenter.BiometricEnabledFaceIDMessage" = "Would you like to enable FaceID?";
