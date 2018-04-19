@@ -12,7 +12,8 @@ import Foundation
 public protocol CADIncidentPersonType: class, CADIncidentAssociationType {
 
     // MARK: - Network
-    var alertLevel: Int? { get set }
+    var alertLevel: CADAlertLevelType? { get set }
+    var associatedAlertLevel: CADAlertLevelType? { get set }
     var dateOfBirth: String? { get set }
     var firstName: String? { get set }
     var fullAddress: String? { get set }

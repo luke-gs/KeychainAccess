@@ -17,7 +17,9 @@ open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
 
     // MARK: - Network
 
-    open var alertLevel: Int?
+    open var alertLevel: CADAlertLevelType?
+
+    open var associatedAlertLevel: CADAlertLevelType?
 
     open var dateOfBirth: String?
 
@@ -54,6 +56,7 @@ open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
 
     enum CodingKeys: String, CodingKey {
         case alertLevel = "alertLevel"
+        case associatedAlertLevel = "associatedAlertLevel"
         case dateOfBirth = "dateOfBirth"
         case firstName = "givenName"
         case fullAddress = "fullAddress"
@@ -66,7 +69,8 @@ open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
 
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        alertLevel = try values.decodeIfPresent(Int.self, forKey: .alertLevel)
+        alertLevel = try values.decodeIfPresent(CADAlertLevelCore.self, forKey: .alertLevel)
+        associatedAlertLevel = try values.decodeIfPresent(CADAlertLevelCore.self, forKey: .associatedAlertLevel)
         dateOfBirth = try values.decodeIfPresent(String.self, forKey: .dateOfBirth)
         firstName = try values.decodeIfPresent(String.self, forKey: .firstName)
         fullAddress = try values.decodeIfPresent(String.self, forKey: .fullAddress)

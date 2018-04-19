@@ -12,7 +12,8 @@ import Foundation
 public protocol CADIncidentVehicleType: class, CADIncidentAssociationType {
 
     // MARK: - Network
-    var alertLevel : Int? { get set }
+    var alertLevel : CADAlertLevelType? { get set }
+    var associatedAlertLevel: CADAlertLevelType? { get set }
     var bodyType: String? { get set }
     var color: String? { get set }
     var plateNumber : String? { get set }
