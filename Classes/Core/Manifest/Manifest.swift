@@ -329,7 +329,15 @@ public final class Manifest: NSObject {
                             }
                         }
                         
-                        if var additionalData = entryDict[ManifestItemKeys.additionalData.rawValue] as? [String: Any] {
+                        // Convert additonal data string to JSON
+                        if let additionalData = entryDict[ManifestItemKeys.additionalData.rawValue] as? String,
+                            let data = additionalData.data(using: .utf8),
+                            let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                        {
+                            entry.additionalDetails = json
+                        }
+                        
+                        if var additionalData = entry.additionalDetails {
                             
                             if let latitude = additionalData[ManifestItemKeys.latitude.rawValue] as? NSNumber {
                                 entry.latitude = latitude

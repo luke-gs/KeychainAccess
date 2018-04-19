@@ -77,8 +77,8 @@ open class CADStatusTabBarController: StatusTabBarController {
     }
     
     @objc open func selectedCallsignStatusView() {
-        guard userCallsignStatusView.isEnabled else { return }
-        selectedViewController?.present(viewModel.userCallsignStatusViewModel.screenForAction())
+        guard userCallsignStatusView.isEnabled, let screen = viewModel.userCallsignStatusViewModel.screenForAction() else { return }
+        selectedViewController?.present(screen)
     }
     
     // MARK: - Private methods

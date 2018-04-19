@@ -58,6 +58,9 @@ open class CADStateManagerCore: CADStateManagerType {
 
     /// The last sync time
     open private(set) var lastSyncTime: Date?
+    
+    /// The last manifest sync time
+    open private(set) var lastManifestSyncTime: Date?
 
     /// Incidents retrieved in last sync, in order
     public var incidents: [CADIncidentType] {
@@ -273,6 +276,8 @@ open class CADStateManagerCore: CADStateManagerType {
         let checkedAtDate = Date()
         return CADStateManagerCore.apiManager.fetchManifest(with: ManifestFetchRequest(date: Manifest.shared.lastUpdateDate)).then { result -> Promise<Void> in
             return Manifest.shared.saveManifest(with: result, at:checkedAtDate)
+        }.done { _ in
+            self.lastManifestSyncTime = Date()
         }
     }
 

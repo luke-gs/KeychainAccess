@@ -87,7 +87,7 @@ open class DefaultSearchDisplayableViewModel: SearchDisplayableViewModel {
     }
 
     public func object(for indexPath: IndexPath) -> CustomSearchDisplayable {
-        return searchable(for: items[indexPath.item])
+        return searchable(for: validSections[indexPath.section].items[indexPath.item])
     }
 
     public func numberOfSections() -> Int {

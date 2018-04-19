@@ -30,6 +30,9 @@ public protocol CADStateManagerType {
     /// The last sync time
     var lastSyncTime: Date? { get }
 
+    /// The last manifest sync time
+    var lastManifestSyncTime: Date? { get }
+
     /// Incidents retrieved in last sync, in order
     var incidents: [CADIncidentType] { get }
 
