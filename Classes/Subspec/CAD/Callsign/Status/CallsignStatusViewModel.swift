@@ -61,9 +61,19 @@ open class CallsignStatusViewModel: CADStatusViewModel {
             }
             switch newStatus.rawValue {
             case CADClientModelTypes.resourceStatus.trafficStopCase.rawValue:
-                promise = promise.map { self.promptForTrafficStopDetails() }
+                promise = promise.then { _ in
+                    return self.promptForTrafficStopDetails().then { _ in
+                        // TODO: do something with traffic stop details collected
+                        return Promise<Void>()
+                    }
+                }
             case CADClientModelTypes.resourceStatus.finaliseCase.rawValue:
-                promise = promise.map { self.promptForFinaliseDetails() }
+                promise = promise.then { _ in
+                    return self.promptForFinaliseDetails().then { _ in
+                        // TODO: do something with finalise details collected
+                        return Promise<Void>()
+                    }
+                }
             default:
                 break
             }
