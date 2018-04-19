@@ -8,8 +8,8 @@
 
 import Foundation
 
-/// Protocol for base CAD enum definition that can be provided in Client Kit
-public protocol CADEnumType {
+/// Protocol for string based enum definition that can be provided outside of MPOLKit
+public protocol CADEnumStringType {
 
     // MARK: - Raw value
 
@@ -21,11 +21,11 @@ public protocol CADEnumType {
 }
 
 /// Equality check without conforming to Equatable, to prevent need for type erasure
-public func ==(lhs: CADEnumType?, rhs: CADEnumType?) -> Bool {
+public func ==(lhs: CADEnumStringType?, rhs: CADEnumStringType?) -> Bool {
     return lhs?.rawValue == rhs?.rawValue
 }
 
 /// Inquality check (required when not using Equatable)
-public func !=(lhs: CADEnumType?, rhs: CADEnumType?) -> Bool {
+public func !=(lhs: CADEnumStringType?, rhs: CADEnumStringType?) -> Bool {
     return !(lhs?.rawValue == rhs?.rawValue)
 }

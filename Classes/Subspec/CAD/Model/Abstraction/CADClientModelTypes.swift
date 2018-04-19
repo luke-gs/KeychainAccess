@@ -48,4 +48,7 @@ open class CADClientModelTypes {
     /// The type used for a patrol status
     static open var patrolStatus: CADPatrolStatusType.Type!
 
+    /// The type used for association alert levels
+    static open var alertLevel: CADAlertLevelType.Type!
+
 }

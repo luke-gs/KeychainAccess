@@ -9,7 +9,7 @@
 import Foundation
 
 /// Protocol for an enum representing patrol status
-public protocol CADPatrolStatusType: CADEnumType {
+public protocol CADPatrolStatusType: CADEnumStringType {
 
     // MARK: - Static
 

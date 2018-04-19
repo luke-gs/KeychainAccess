@@ -9,7 +9,7 @@
 import Foundation
 
 /// Protocol for an enum representing resource status
-public protocol CADResourceStatusType: CADEnumType {
+public protocol CADResourceStatusType: CADEnumStringType {
 
     // MARK: - Static
 

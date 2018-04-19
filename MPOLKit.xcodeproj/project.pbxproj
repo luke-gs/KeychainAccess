@@ -396,6 +396,9 @@
 		9625ACD9207C906E00EFCC8C /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9625ACD8207C906E00EFCC8C /* Device.swift */; };
 		9625ACE0207F2A1100EFCC8C /* NotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9625ACDF207F2A1100EFCC8C /* NotificationHandler.swift */; };
 		962AA8191F8DD37D0087D534 /* PopoverPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */; };
+		962F177820894F0300156247 /* CADAlertLevelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962F177720894F0300156247 /* CADAlertLevelType.swift */; };
+		962F177C2089512600156247 /* CADEnumIntType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962F177B2089512600156247 /* CADEnumIntType.swift */; };
+		962F1780208957DA00156247 /* CADAlertLevelCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962F177F208957D900156247 /* CADAlertLevelCore.swift */; };
 		96361676204F8A0C0012AEC4 /* BroadcastAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96361675204F8A0C0012AEC4 /* BroadcastAnnotation.swift */; };
 		96361678204F8A150012AEC4 /* BroadcastAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96361677204F8A150012AEC4 /* BroadcastAnnotationView.swift */; };
 		9636167A204F8AAD0012AEC4 /* BroadcastOverviewMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96361679204F8AAD0012AEC4 /* BroadcastOverviewMapViewModel.swift */; };
@@ -415,12 +418,12 @@
 		9663D0081F8AD78D006DB672 /* ContainerWithHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D0071F8AD78D006DB672 /* ContainerWithHeaderViewController.swift */; };
 		9663D00B1F8AF666006DB672 /* TasksSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D00A1F8AF666006DB672 /* TasksSplitViewController.swift */; };
 		9663D00D1F8AF6F5006DB672 /* TasksSplitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9663D00C1F8AF6F5006DB672 /* TasksSplitViewModel.swift */; };
-		9668DC302085845F00D7C419 /* CADIncidentAssociationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9668DC2F2085845F00D7C419 /* CADIncidentAssociationType.swift */; };
 		9668DC2A2084682B00D7C419 /* CADBookOnRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9668DC292084682B00D7C419 /* CADBookOnRequestType.swift */; };
 		9668DC2C20849F5800D7C419 /* CADBookOffRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9668DC2B20849F5800D7C419 /* CADBookOffRequestType.swift */; };
+		9668DC302085845F00D7C419 /* CADIncidentAssociationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9668DC2F2085845F00D7C419 /* CADIncidentAssociationType.swift */; };
 		9668DC342085A18B00D7C419 /* LogUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9668DC332085A18B00D7C419 /* LogUtils.swift */; };
 		96699BCC1FDDE547006BB024 /* QuantityPickerFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96699BCB1FDDE547006BB024 /* QuantityPickerFormItem.swift */; };
-		966CE9BB2036562900646A6A /* CADEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9BA2036562900646A6A /* CADEnum.swift */; };
+		966CE9BB2036562900646A6A /* CADEnumStringType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9BA2036562900646A6A /* CADEnumStringType.swift */; };
 		966CE9C9203676C100646A6A /* CADBroadcastCategoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9C8203676C100646A6A /* CADBroadcastCategoryType.swift */; };
 		966CE9CD20367DCF00646A6A /* CADIncidentStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9CC20367DCF00646A6A /* CADIncidentStatusType.swift */; };
 		966CE9D120368DB800646A6A /* CADPatrolStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9D020368DB800646A6A /* CADPatrolStatusType.swift */; };
@@ -1244,6 +1247,9 @@
 		9625ACD8207C906E00EFCC8C /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		9625ACDF207F2A1100EFCC8C /* NotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHandler.swift; sourceTree = "<group>"; };
 		962AA8181F8DD37D0087D534 /* PopoverPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverPresenter.swift; sourceTree = "<group>"; };
+		962F177720894F0300156247 /* CADAlertLevelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADAlertLevelType.swift; sourceTree = "<group>"; };
+		962F177B2089512600156247 /* CADEnumIntType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADEnumIntType.swift; sourceTree = "<group>"; };
+		962F177F208957D900156247 /* CADAlertLevelCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADAlertLevelCore.swift; sourceTree = "<group>"; };
 		96361675204F8A0C0012AEC4 /* BroadcastAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastAnnotation.swift; sourceTree = "<group>"; };
 		96361677204F8A150012AEC4 /* BroadcastAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastAnnotationView.swift; sourceTree = "<group>"; };
 		96361679204F8AAD0012AEC4 /* BroadcastOverviewMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastOverviewMapViewModel.swift; sourceTree = "<group>"; };
@@ -1263,12 +1269,12 @@
 		9663D0071F8AD78D006DB672 /* ContainerWithHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerWithHeaderViewController.swift; sourceTree = "<group>"; };
 		9663D00A1F8AF666006DB672 /* TasksSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksSplitViewController.swift; sourceTree = "<group>"; };
 		9663D00C1F8AF6F5006DB672 /* TasksSplitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksSplitViewModel.swift; sourceTree = "<group>"; };
-		9668DC2F2085845F00D7C419 /* CADIncidentAssociationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADIncidentAssociationType.swift; sourceTree = "<group>"; };
 		9668DC292084682B00D7C419 /* CADBookOnRequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADBookOnRequestType.swift; sourceTree = "<group>"; };
 		9668DC2B20849F5800D7C419 /* CADBookOffRequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADBookOffRequestType.swift; sourceTree = "<group>"; };
+		9668DC2F2085845F00D7C419 /* CADIncidentAssociationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADIncidentAssociationType.swift; sourceTree = "<group>"; };
 		9668DC332085A18B00D7C419 /* LogUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogUtils.swift; sourceTree = "<group>"; };
 		96699BCB1FDDE547006BB024 /* QuantityPickerFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityPickerFormItem.swift; sourceTree = "<group>"; };
-		966CE9BA2036562900646A6A /* CADEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADEnum.swift; sourceTree = "<group>"; };
+		966CE9BA2036562900646A6A /* CADEnumStringType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADEnumStringType.swift; sourceTree = "<group>"; };
 		966CE9C8203676C100646A6A /* CADBroadcastCategoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADBroadcastCategoryType.swift; sourceTree = "<group>"; };
 		966CE9CC20367DCF00646A6A /* CADIncidentStatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADIncidentStatusType.swift; sourceTree = "<group>"; };
 		966CE9D020368DB800646A6A /* CADPatrolStatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADPatrolStatusType.swift; sourceTree = "<group>"; };
@@ -2149,6 +2155,7 @@
 		2744E36D2051DD8500561A8F /* Enum */ = {
 			isa = PBXGroup;
 			children = (
+				962F177F208957D900156247 /* CADAlertLevelCore.swift */,
 				2744E36E2051DD8500561A8F /* CADPatrolStatusCore.swift */,
 				2744E36F2051DD8500561A8F /* CADResourceStatusCore.swift */,
 				2744E3702051DD8500561A8F /* CADBroadcastCategoryCore.swift */,
@@ -2990,8 +2997,10 @@
 		9689CA5920364A010001D993 /* Enum */ = {
 			isa = PBXGroup;
 			children = (
-				966CE9BA2036562900646A6A /* CADEnum.swift */,
+				962F177720894F0300156247 /* CADAlertLevelType.swift */,
 				966CE9C8203676C100646A6A /* CADBroadcastCategoryType.swift */,
+				962F177B2089512600156247 /* CADEnumIntType.swift */,
+				966CE9BA2036562900646A6A /* CADEnumStringType.swift */,
 				9689CA48203646AB0001D993 /* CADIncidentGradeType.swift */,
 				966CE9CC20367DCF00646A6A /* CADIncidentStatusType.swift */,
 				966CE9D020368DB800646A6A /* CADPatrolStatusType.swift */,
@@ -4481,6 +4490,7 @@
 				EA85C0061F68BAAE002EEB49 /* FormBuilder.swift in Sources */,
 				BC9C7DF61F0DED6600DFFE83 /* CollectionViewFormDetailCell.swift in Sources */,
 				19A6A82720732C69008EAC95 /* ActivityType.swift in Sources */,
+				962F1780208957DA00156247 /* CADAlertLevelCore.swift in Sources */,
 				9663D00D1F8AF6F5006DB672 /* TasksSplitViewModel.swift in Sources */,
 				965CD8AD1F8F14E5007C3EEA /* TasksListHeaderCompactViewController.swift in Sources */,
 				BC9C7DF11F0DED6600DFFE83 /* EpochDateTransformer.swift in Sources */,
@@ -4599,6 +4609,7 @@
 				96BFD1B01FE8B322009AF6B5 /* BookOnDetailsFormContentOfficerViewModel.swift in Sources */,
 				2744E3A12051DD8500561A8F /* CADBookOffRequestCore.swift in Sources */,
 				27F9C96C1FA2D7E300825F88 /* CompactCallsignContainerViewController.swift in Sources */,
+				962F177C2089512600156247 /* CADEnumIntType.swift in Sources */,
 				EA32A8581FBD1A7900CC37FB /* MediaCell.swift in Sources */,
 				9650CA1B1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift in Sources */,
 				967BFABD203B916E00A9C789 /* CADTrafficStopDetailsType.swift in Sources */,
@@ -5044,7 +5055,7 @@
 				19F8DDB01F4D7C9600D84DA1 /* APIManager+LookupAddress.swift in Sources */,
 				2709617B1FE0CBFB00D19F40 /* ColumnInfo.swift in Sources */,
 				9674E0E71FC68015000702F8 /* LoadingStateLoadingView.swift in Sources */,
-				966CE9BB2036562900646A6A /* CADEnum.swift in Sources */,
+				966CE9BB2036562900646A6A /* CADEnumStringType.swift in Sources */,
 				9689CA6B20364C3E0001D993 /* CADEquipmentType.swift in Sources */,
 				BC9C7E341F0DED6600DFFE83 /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
 				460B5BC72007187600AB7D12 /* SketchEraser.swift in Sources */,
@@ -5162,6 +5173,7 @@
 				2704CEFB207AD6760001A3DE /* MPOLMarkerAnnotationView.swift in Sources */,
 				BC9C7E4D1F0DED6600DFFE83 /* AlertIndicatorView.swift in Sources */,
 				279B0579200D572300C3EFB0 /* DatedActivityLogViewModel.swift in Sources */,
+				962F177820894F0300156247 /* CADAlertLevelType.swift in Sources */,
 				199ECE8F1FAA1B720065E425 /* RemoteResourceDescribing.swift in Sources */,
 				9689CA4F203648890001D993 /* CADActivityLogItemType.swift in Sources */,
 				BC79ADAEABB2D9BDDC997334 /* MPOLSpinnerView.swift in Sources */,
