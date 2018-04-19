@@ -18,6 +18,7 @@ open class BookOnLandingItemViewModel {
     private var _originalImage: UIImage?
     private var _processedImage: UIImage?
 
+    /// Lazy loading the image to avoid processing this for every row before it is displayed
     open var image: UIImage? {
         get {
             if _processedImage == nil {
