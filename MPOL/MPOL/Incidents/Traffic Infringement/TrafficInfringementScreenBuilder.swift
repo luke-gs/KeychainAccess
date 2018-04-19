@@ -27,7 +27,7 @@ public class TrafficInfringementScreenBuilder: IncidentScreenBuilding {
         case let report as TrafficInfringementEntitiesReport:
             return TrafficInfringementEntitiesViewController(report: report)
         case let report as TrafficInfringementOffencesReport:
-            return TrafficInfringementOffencesViewController(report: report)
+            return TrafficInfringementOffencesViewController(viewModel: TrafficInfringementOffencesViewModel(report: report))
         case let report as TrafficInfringementServiceReport:
             return TrafficInfringementServiceViewController(report: report)
         default:

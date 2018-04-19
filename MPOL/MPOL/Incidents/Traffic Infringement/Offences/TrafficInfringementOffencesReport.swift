@@ -9,19 +9,20 @@ import UIKit
 import MPOLKit
 
 fileprivate extension EvaluatorKey {
-    static let viewed = EvaluatorKey("viewed")
+    static let hasOffence = EvaluatorKey("hasOffence")
 }
 
 class TrafficInfringementOffencesReport: Reportable {
     weak var event: Event?
     weak var incident: Incident?
-    let evaluator: Evaluator = Evaluator()
 
-    var viewed: Bool = false {
+    var offences: [Offence] = [] {
         didSet {
-            evaluator.updateEvaluation(for: .viewed)
+            evaluator.updateEvaluation(for: .hasOffence)
         }
     }
+    
+    let evaluator: Evaluator = Evaluator()
 
     init(event: Event, incident: Incident) {
         self.event = event
@@ -34,8 +35,8 @@ class TrafficInfringementOffencesReport: Reportable {
             evaluator.addObserver(incident)
         }
 
-        evaluator.registerKey(.viewed) {
-            return self.viewed
+        evaluator.registerKey(.hasOffence) {
+            return !self.offences.isEmpty
         }
     }
 

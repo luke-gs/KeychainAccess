@@ -41,6 +41,11 @@
 		1987C2AC20846766007F7273 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1987C2AB20846766007F7273 /* Localizable.strings */; };
 		19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3894207A5F3A00855651 /* SupportedShortcut.swift */; };
 		19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */; };
+		3727C4BC2088191E00F7A887 /* TrafficInfringementOffencesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3727C4BB2088191E00F7A887 /* TrafficInfringementOffencesViewModel.swift */; };
+		3727C4C12088193000F7A887 /* OffenceListDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3727C4BD2088193000F7A887 /* OffenceListDisplayable.swift */; };
+		3727C4C22088193000F7A887 /* OffenceSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3727C4BE2088193000F7A887 /* OffenceSearchViewModel.swift */; };
+		3727C4C32088193000F7A887 /* Offence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3727C4BF2088193000F7A887 /* Offence.swift */; };
+		3727C4C42088193000F7A887 /* OffencePointAndFineTotalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3727C4C02088193000F7A887 /* OffencePointAndFineTotalsView.swift */; };
 		37F3A3BE208475650077998C /* EventEntitiesListReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F3A3BD208475650077998C /* EventEntitiesListReport.swift */; };
 		37F3A3C0208477420077998C /* EventEntitiesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F3A3BF208477420077998C /* EventEntitiesListViewController.swift */; };
 		37F3A3C2208480190077998C /* EventEntitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F3A3C1208480190077998C /* EventEntitiesListViewModel.swift */; };
@@ -119,6 +124,11 @@
 		1987C2AB20846766007F7273 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = ../../Localizable.strings; sourceTree = "<group>"; };
 		19CB3894207A5F3A00855651 /* SupportedShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedShortcut.swift; sourceTree = "<group>"; };
 		19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Shortcuts.swift"; sourceTree = "<group>"; };
+		3727C4BB2088191E00F7A887 /* TrafficInfringementOffencesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementOffencesViewModel.swift; sourceTree = "<group>"; };
+		3727C4BD2088193000F7A887 /* OffenceListDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OffenceListDisplayable.swift; sourceTree = "<group>"; };
+		3727C4BE2088193000F7A887 /* OffenceSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OffenceSearchViewModel.swift; sourceTree = "<group>"; };
+		3727C4BF2088193000F7A887 /* Offence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Offence.swift; sourceTree = "<group>"; };
+		3727C4C02088193000F7A887 /* OffencePointAndFineTotalsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OffencePointAndFineTotalsView.swift; sourceTree = "<group>"; };
 		37F3A3BD208475650077998C /* EventEntitiesListReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntitiesListReport.swift; sourceTree = "<group>"; };
 		37F3A3BF208477420077998C /* EventEntitiesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntitiesListViewController.swift; sourceTree = "<group>"; };
 		37F3A3C1208480190077998C /* EventEntitiesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntitiesListViewModel.swift; sourceTree = "<group>"; };
@@ -241,6 +251,11 @@
 		12EF65C32086D52200739924 /* Offences */ = {
 			isa = PBXGroup;
 			children = (
+				3727C4BF2088193000F7A887 /* Offence.swift */,
+				3727C4BD2088193000F7A887 /* OffenceListDisplayable.swift */,
+				3727C4C02088193000F7A887 /* OffencePointAndFineTotalsView.swift */,
+				3727C4BE2088193000F7A887 /* OffenceSearchViewModel.swift */,
+				3727C4BB2088191E00F7A887 /* TrafficInfringementOffencesViewModel.swift */,
 				12EF65C42086D52200739924 /* TrafficInfringementOffencesReport.swift */,
 				12EF65C52086D52200739924 /* TrafficInfringementOffencesViewController.swift */,
 			);
@@ -635,6 +650,7 @@
 				12EF65E12086D52200739924 /* TrafficInfringementEntitiesReport.swift in Sources */,
 				12EF65DF2086D52200739924 /* TrafficInfringementServiceViewController.swift in Sources */,
 				12EF65E42086D52200739924 /* IncidentTestReport.swift in Sources */,
+				3727C4C32088193000F7A887 /* Offence.swift in Sources */,
 				46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */,
 				BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */,
 				12EF65EC2086D52200739924 /* IncidentListViewModel.swift in Sources */,
@@ -648,9 +664,11 @@
 				12EF65DC2086D52200739924 /* TrafficInfringementOffencesViewController.swift in Sources */,
 				19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */,
 				19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */,
+				3727C4C12088193000F7A887 /* OffenceListDisplayable.swift in Sources */,
 				12EE9BE6206898C900537BBA /* OfficerParserDefinition.swift in Sources */,
 				12EF65EB2086D52200739924 /* IncidentSelectViewController.swift in Sources */,
 				12EF65E52086D52200739924 /* IncidentDetailViewModel.swift in Sources */,
+				3727C4C22088193000F7A887 /* OffenceSearchViewModel.swift in Sources */,
 				12EF65E82086D52200739924 /* StreetCheckIncidentBuilder.swift in Sources */,
 				12EB809B202AAC2100405F5C /* EventScreenBuilder.swift in Sources */,
 				12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */,
@@ -665,9 +683,11 @@
 				12EF65E02086D52200739924 /* TrafficInfringementServiceReport.swift in Sources */,
 				96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */,
 				12EF65E32086D52200739924 /* IncidentTestViewController.swift in Sources */,
+				3727C4BC2088191E00F7A887 /* TrafficInfringementOffencesViewModel.swift in Sources */,
 				12EF65E72086D52200739924 /* IncidentListReport.swift in Sources */,
 				12EF65E92086D52200739924 /* StreetCheckScreenBuilder.swift in Sources */,
 				12ABD575207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift in Sources */,
+				3727C4C42088193000F7A887 /* OffencePointAndFineTotalsView.swift in Sources */,
 				12EF65E62086D52200739924 /* IncidentListViewController.swift in Sources */,
 				12EF65DB2086D52200739924 /* TrafficInfringementOffencesReport.swift in Sources */,
 				46E0B8BE2033D1FB00B40DF2 /* OfficerSearchViewModel.swift in Sources */,
