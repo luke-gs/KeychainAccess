@@ -129,11 +129,13 @@ public class UserSession: UserSessionable {
 
         isRestoringSession = false
 
-        if let token = self.token, let user = self.user {
+        // Load recent IDs for user if found
+        if let user = self.user {
             UserSession.current.userStorage = UserStorage(userID: user.username)
-            
             loadRecentIds()
+        }
 
+        if let token = self.token {
             completion(token)
         } else {
             completion(OAuthAccessToken(accessToken: "", type: ""))
