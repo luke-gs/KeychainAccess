@@ -48,7 +48,7 @@ open class EventsListViewController: FormBuilderViewController {
         guard let eventsList = viewModel.eventsList else { return }
         
         builder += HeaderFormItem(text: "\(eventsList.count) CURRENT EVENT\(eventsList.count == 1 ? "" : "S")")
-        
+
         builder += eventsList.map { displayable in
             let title = displayable.title ?? "Blank"
             let subtitle = displayable.subtitle ?? "No description available"

@@ -61,6 +61,9 @@
 		46E0B8BE2033D1FB00B40DF2 /* OfficerSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B8BD2033D1FB00B40DF2 /* OfficerSearchViewModel.swift */; };
 		46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F8E9A4203A9C2200024EF7 /* LocationAction.swift */; };
 		96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */; };
+		AA20EE91208712BD00936A33 /* TrafficInfringementEntitiesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA20EE90208712BD00936A33 /* TrafficInfringementEntitiesViewModel.swift */; };
+		AA20EE93208712CA00936A33 /* EntityPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA20EE92208712CA00936A33 /* EntityPickerViewController.swift */; };
+		AA20EE95208712D100936A33 /* EntityPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA20EE94208712D100936A33 /* EntityPickerViewModel.swift */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
 		BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E81101EBEE38400188181 /* SettingsViewController.swift */; };
 		BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */; };
@@ -151,6 +154,9 @@
 		9625ACDB207F1C6200EFCC8C /* SearchNotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNotificationHandler.swift; sourceTree = "<group>"; };
 		96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchNotificationHandler.swift; sourceTree = "<group>"; };
 		98286F47FF0E675D611C2782 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA20EE90208712BD00936A33 /* TrafficInfringementEntitiesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TrafficInfringementEntitiesViewModel.swift; path = "MPOL/Incidents/View Models/TrafficIncident ViewModels/TrafficInfringementEntitiesViewModel.swift"; sourceTree = SOURCE_ROOT; };
+		AA20EE92208712CA00936A33 /* EntityPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityPickerViewController.swift; path = "MPOL/Incidents/View Models/EntityPickerViewController.swift"; sourceTree = SOURCE_ROOT; };
+		AA20EE94208712D100936A33 /* EntityPickerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityPickerViewModel.swift; path = "MPOL/Incidents/View Models/EntityPickerViewModel.swift"; sourceTree = SOURCE_ROOT; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		BC4E81101EBEE38400188181 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		BCD4EA891E515ACE000B993D /* Search.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Search.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -274,7 +280,10 @@
 		12EF65CB2086D52200739924 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				AA20EE92208712CA00936A33 /* EntityPickerViewController.swift */,
+				AA20EE94208712D100936A33 /* EntityPickerViewModel.swift */,
 				12EF65CC2086D52200739924 /* TrafficInfringementEntitiesReport.swift */,
+				AA20EE90208712BD00936A33 /* TrafficInfringementEntitiesViewModel.swift */,
 				12EF65CD2086D52200739924 /* TrafficInfringementEntitiesViewController.swift */,
 			);
 			path = Entities;
@@ -642,6 +651,7 @@
 			files = (
 				12EF65E22086D52200739924 /* TrafficInfringementEntitiesViewController.swift in Sources */,
 				12EF65ED2086D52200739924 /* IncidentTypes.swift in Sources */,
+				AA20EE93208712CA00936A33 /* EntityPickerViewController.swift in Sources */,
 				37F3A3C0208477420077998C /* EventEntitiesListViewController.swift in Sources */,
 				37F3A3BE208475650077998C /* EventEntitiesListReport.swift in Sources */,
 				127801F3202AB1F0007D0BBB /* EventBuilder.swift in Sources */,
@@ -685,6 +695,7 @@
 				12EF65E32086D52200739924 /* IncidentTestViewController.swift in Sources */,
 				3727C4BC2088191E00F7A887 /* TrafficInfringementOffencesViewModel.swift in Sources */,
 				12EF65E72086D52200739924 /* IncidentListReport.swift in Sources */,
+				AA20EE95208712D100936A33 /* EntityPickerViewModel.swift in Sources */,
 				12EF65E92086D52200739924 /* StreetCheckScreenBuilder.swift in Sources */,
 				12ABD575207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift in Sources */,
 				3727C4C42088193000F7A887 /* OffencePointAndFineTotalsView.swift in Sources */,
@@ -693,6 +704,7 @@
 				46E0B8BE2033D1FB00B40DF2 /* OfficerSearchViewModel.swift in Sources */,
 				37F3A3C2208480190077998C /* EventEntitiesListViewModel.swift in Sources */,
 				12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */,
+				AA20EE91208712BD00936A33 /* TrafficInfringementEntitiesViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

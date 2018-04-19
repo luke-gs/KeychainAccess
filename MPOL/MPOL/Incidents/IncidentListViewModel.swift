@@ -75,6 +75,10 @@ open class IncidentListViewModel: IncidentListViewModelType {
 
     func removeIncident(at indexPath: IndexPath) {
         report.incidents.remove(at: indexPath.item)
+
+        // TODO: create entity manager on event that will handle the links between entities and incidents
+        // TODO: use event.entity manager to remove entities linked to this event
+        report.event?.entityBucket.removeAll()
     }
 
     func add(_ incidents: [String]) {
