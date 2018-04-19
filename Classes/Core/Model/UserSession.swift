@@ -160,6 +160,9 @@ public class UserSession: UserSessionable {
     }()
 
     // Risky business, I know, so fix please.
+    // Although it's better to crash than what it was previously,
+    // SessionID being generated randomly. It gets app to weird state if the lazy var was to ever accessed
+    // in the wrong order. So instead of weird state, it will crash. If it crashes, then it needs to be fixed.
     private var paths: UserSessionPaths!
 
     //MARK: SAVING
