@@ -47,7 +47,7 @@ public struct BiometricUserHandler {
         let (promise, seal) = Promise<Void>.pending()
         let key = _passwordKey
         let lContext = context ?? LAContext()
-        let current = self.keychain(self.keychain, context: lContext, prompt: prompt)
+        let current = keychain(self.keychain, context: lContext, prompt: prompt)
         
         let performUpdate = {
             self._queue.async {
