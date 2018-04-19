@@ -63,7 +63,6 @@ open class UserCallsignStatusView: UIControl {
     /// Creates and styles views
     open func setupViews() {
         iconImageView = UIImageView()
-        iconImageView.tintColor = UIColor.black
         iconImageView.contentMode = .scaleAspectFit
         iconImageView.isUserInteractionEnabled = false
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -116,13 +115,18 @@ open class UserCallsignStatusView: UIControl {
         ])
     }
     
+    open func apply(theme: Theme) {
+        titleLabel.textColor = theme.color(forKey: .primaryText)
+        subtitleLabel.textColor = theme.color(forKey: .secondaryText)
+        iconImageView.tintColor = theme.color(forKey: .primaryText)
+    }
+    
     open func updateViews() {
         titleLabel.text = viewModel.state.title
         countLabel.text = viewModel.state.officerCount
         subtitleLabel.text = viewModel.subtitleText
         
         iconImageView.image = viewModel.iconImage
-        iconImageView.tintColor = .secondaryGray
     }
 }
 

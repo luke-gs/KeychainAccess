@@ -88,8 +88,7 @@ open class CADStatusTabBarController: StatusTabBarController {
         let isDark = ThemeManager.shared.currentInterfaceStyle.isDark
         tabBar.tintColor = isDark ? .white : nil
         tabBar.barTintColor = isDark ? .tabBarBlack : .tabBarWhite
-        userCallsignStatusView.titleLabel.textColor = theme.color(forKey: .primaryText)
-        userCallsignStatusView.subtitleLabel.textColor = theme.color(forKey: .secondaryText)
+        userCallsignStatusView.apply(theme: theme)
     }
 }
 
