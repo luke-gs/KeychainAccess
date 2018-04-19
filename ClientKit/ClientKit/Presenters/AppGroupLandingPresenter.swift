@@ -192,17 +192,17 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
                     if biometricUser.useBiometric == .unknown {
                         return self.askForBiometricPermission(in: controller).then { promise -> Promise<Void> in
                             // Store the username and password.
-                            return biometricUser.setPassword(password, context: context, prompt: NSLocalizedString("AppGroupLandingPresenter.BiometricSavePrompt", comment: "Text prompt to use biometric to save user credentials"))
-                            }.done {
+                            return biometricUser.setPassword(password, context: context, prompt: NSLocalizedString("AppGroupLandingPresenter.BiometricSavePrompt", comment: "Text prompt to use biometric to save user credentials")).done {
                                 // Only set it to `agreed` after password saving is successful.
                                 biometricUser.useBiometric = .agreed
                                 biometricUser.becomeCurrentUser()
-                            }.recover(policy: .allErrors) { error -> Promise<Void> in
-                                if error.isCancelled {
-                                    biometricUser.useBiometric = .asked
-                                    return .value(())
-                                }
-                                throw error
+                            }
+                        }.recover(policy: .allErrors) { error -> Promise<Void> in
+                            if error.isCancelled {
+                                biometricUser.useBiometric = .asked
+                                return .value(())
+                            }
+                            throw error
                         }
                     }
                 }
