@@ -42,7 +42,7 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<IncidentA
                 detail1: [person.dateOfBirth, person.gender].joined(),
                 detail2: person.fullAddress,
                 borderColor: person.alertLevel?.color,
-                iconColor: person.associatedAlertLevel?.color,
+                iconColor: nil,
                 badge: 0)
         }
         
@@ -54,8 +54,8 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<IncidentA
                 title: vehicle.plateNumber,
                 detail1: vehicle.vehicleDescription,
                 detail2: [vehicle.bodyType, vehicle.color].joined(separator: ThemeConstants.dividerSeparator),
-                borderColor: vehicle.alertLevel?.color,
-                iconColor: vehicle.associatedAlertLevel?.color,
+                borderColor: vehicle.associatedAlertLevel?.color,
+                iconColor: vehicle.alertLevel?.color,
                 badge: 0)
         }
         
