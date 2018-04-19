@@ -27,11 +27,18 @@ class SettingsViewController: FormTableViewController {
 
         sections = [SettingSection(title: nil, items: items)]
 
-        if let user = UserSession.current.user, let biometricHandler = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain) {
-            if biometricHandler.username == user.username {
-                handler = biometricHandler
-                if handler?.useBiometric == .agreed {
+
+        if let user = UserSession.current.user {
+            let biometricHandler = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain)
+            handler = biometricHandler
+            if let useBiometricValue = user.appSettingValue(forKey: .useBiometric) as? String, let useBiometric = UseBiometric(rawValue: useBiometricValue) {
+                // If user agreed, allow them to clear their agreement.
+                if useBiometric == .agreed {
                     sections.append(SettingSection(title: nil, items: [.biometric]))
+                }
+                // If user says no, allow them to change their mind.
+                else if useBiometric == .asked {
+                    sections.append(SettingSection(title: nil, items: [.askBiometric]))
                 }
             }
         }
@@ -127,6 +134,10 @@ class SettingsViewController: FormTableViewController {
                 dismiss(animated: true, completion: { [weak self] in
                     self?.sections[indexPath.section].items[indexPath.row].currentValue = true
                 })
+            } else if setting == .askBiometric {
+                dismiss(animated: true, completion: { 
+                    UserSession.current.user?.setAppSettingValue(nil, forKey: .useBiometric)
+                })
             } else {
                 sections[indexPath.section].items[indexPath.row].currentValue = true
             }
@@ -153,11 +164,12 @@ class SettingsViewController: FormTableViewController {
         case darkMode
         case numericKeyboard
         case biometric
+        case askBiometric
         case logOut
         
         var style: SettingStyle {
             switch self {
-            case .logOut:
+            case .logOut, .askBiometric:
                 return .button
             case .darkMode, .biometric, .numericKeyboard:
                 return .switchControl
@@ -169,6 +181,7 @@ class SettingsViewController: FormTableViewController {
             case .darkMode:        return NSLocalizedString("Dark Mode",        comment: "DarkModeSwitchTitle")
             case .numericKeyboard: return NSLocalizedString("Numeric Keyboard", comment: "NumericKeyboardSwitchTitle")
             case .biometric:       return NSLocalizedString("Use Face/TouchID", comment: "")
+            case .askBiometric:    return NSLocalizedString("Reset Face/TouchID Preference", comment: "")
             case .logOut:          return NSLocalizedString("Log Out",          comment: "NumericKeyboardSwitchTitle")
             }
         }
@@ -179,6 +192,7 @@ class SettingsViewController: FormTableViewController {
                 case .darkMode:        return ThemeManager.shared.currentInterfaceStyle == .dark
                 case .numericKeyboard: return KeyboardInputManager.shared.isNumberBarEnabled
                 case .biometric:       return true
+                case .askBiometric:    return false
                 case .logOut:          return false
                 }
             }
@@ -206,6 +220,7 @@ class SettingsViewController: FormTableViewController {
         var setting = sections[indexPath.section].items[indexPath.row]
         if setting == .biometric {
             handler?.clear()
+            UserSession.current.user?.setAppSettingValue(nil, forKey: .useBiometric)
             dismiss(animated: true, completion: { [weak self] in
                 self?.sections[indexPath.section].items[indexPath.row].currentValue = true
             })
