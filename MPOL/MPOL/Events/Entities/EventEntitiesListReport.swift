@@ -17,7 +17,11 @@ public class EventEntitiesListReport : Reportable, Evaluatable {
     public weak var incident: Incident?
     
     public let evaluator: Evaluator = Evaluator()
-    public var entityDetailReports: [EventEntityDetailReport] = [EventEntityDetailReport]()
+    public var entityDetailReports: [EventEntityDetailReport] = [EventEntityDetailReport]() {
+        didSet {
+            evaluator.updateEvaluation(for: .valid)
+        }
+    }
     
     public init(event: Event) {
         self.event = event
