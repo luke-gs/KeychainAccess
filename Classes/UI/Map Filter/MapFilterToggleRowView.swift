@@ -52,6 +52,7 @@ open class MapFilterToggleRowView: UIView {
             checkbox.setTitle($0.text, for: .normal)
             checkbox.setTitleColor(enabledTitleColor, for: .normal)
             checkbox.setTitleColor(disabledTitleColor, for: .disabled)
+            checkbox.titleLabel?.adjustsFontSizeToFitWidth = true
             checkbox.isEnabled = $0.isEnabled
             checkbox.isSelected = $0.isOn
             checkbox.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
