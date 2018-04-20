@@ -200,4 +200,10 @@ public extension Date {
         return nil
     }
 
+    /// Return the date of birth age for this date
+    public func dobAge() -> Int {
+        let yearComponent = Calendar.current.dateComponents([.year], from: self, to: Date())
+        return yearComponent.year ?? 0
+    }
+
 }

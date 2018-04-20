@@ -51,7 +51,7 @@ open class TasksListIncidentViewModel: TasksListItemViewModel {
             source: source,
             title: [incident.type, incident.resourceCountString].joined(),
             subtitle: incident.location?.fullAddress,
-            caption: [incident.incidentNumber, incident.secondaryCode].joined(separator: ThemeConstants.dividerSeparator),
+            caption: incident.identifier,
             priority: incident.grade.title,
             description: showsDescription ? incident.details : nil,
             resources: showsResources ? resources : nil,

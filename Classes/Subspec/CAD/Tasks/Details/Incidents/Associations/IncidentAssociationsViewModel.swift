@@ -39,7 +39,7 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<IncidentA
                 category: "DS1",
                 entityType: .person(initials: person.initials),
                 title: person.fullName,
-                detail1: [person.dateOfBirth, person.gender].joined(),
+                detail1: formattedDOBAgeGender(person),
                 detail2: person.fullAddress,
                 borderColor: person.alertLevel?.color,
                 iconColor: nil,
@@ -84,6 +84,18 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<IncidentA
     override open func noContentSubtitle() -> String? {
         return nil
     }
-    
+
+    /// Return the DOB, age and gender according to creative. eg 08/05/1987 (31 Male)
+    open func formattedDOBAgeGender(_ person: CADIncidentPersonType) -> String? {
+        if let dob = person.dateOfBirth {
+            let ageAndGender = "(\([String(dob.dobAge()), person.gender?.title].joined()))"
+            return [dob.asPreferredDateString(), ageAndGender].joined(separator: " ")
+        } else if let gender = person.gender {
+            return gender.title + " (\(NSLocalizedString("DOB unknown", comment: "")))"
+        } else {
+            return NSLocalizedString("DOB and gender unknown", comment: "")
+        }
+    }
+
 }
 
