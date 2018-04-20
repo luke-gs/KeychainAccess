@@ -11,10 +11,11 @@ import Foundation
 public enum ImageStyle {
     case roundedRect
     case circle
+    case entity
 
     func cornerRadius(for size: CGSize) -> CGFloat {
         switch self {
-        case .roundedRect:
+        case .roundedRect, .entity:
             return ((min(size.width, size.height) + 300.0) / 80.0).rounded(toScale: UIScreen.main.scale)
         case .circle:
             return (size.width * 0.5).rounded(toScale: UIScreen.main.scale)
