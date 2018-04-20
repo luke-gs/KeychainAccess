@@ -9,7 +9,7 @@ import UIKit
 import MPOLKit
 
 extension EvaluatorKey {
-    static let hasEntity = EvaluatorKey("hasEntity")
+    static let trafficInfringmentHasEntity = EvaluatorKey("hasEntity")
 }
 
 class TrafficInfringementEntitiesReport: Reportable {
@@ -28,7 +28,7 @@ class TrafficInfringementEntitiesReport: Reportable {
             evaluator.addObserver(incident)
         }
 
-        evaluator.registerKey(.hasEntity) {
+        evaluator.registerKey(.trafficInfringmentHasEntity) {
             guard let event = self.event else { return false }
             // TODO: create entity manager to determine link between entities and incident
             // TODO: use event.entityManger to return incident specific entities and the check
