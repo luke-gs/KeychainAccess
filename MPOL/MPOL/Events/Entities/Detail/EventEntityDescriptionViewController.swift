@@ -10,7 +10,7 @@ import MPOLKit
 
 class EventEntityDescriptionViewController: FormBuilderViewController, EvaluationObserverable {
 
-    var viewModel: EventEntityDescriptionViewModel
+    let viewModel: EventEntityDescriptionViewModel
 
     public required init(viewModel: EventEntityDescriptionViewModel) {
         self.viewModel = viewModel
