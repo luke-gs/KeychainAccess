@@ -9,13 +9,14 @@ import Foundation
 import MPOLKit
 import ClientKit
 
-public class EventEntitiesListViewModel: Evaluatable {
+public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
     
     let report: EventEntitiesListReport
     public var evaluator: Evaluator { return report.evaluator }
 
     public init(report: EventEntitiesListReport) {
         self.report = report
+        report.event?.entityBucket.delegate = self
     }
 
     var headerText: String {
@@ -71,4 +72,9 @@ public class EventEntitiesListViewModel: Evaluatable {
     //MARK: Eval
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
+
+    //MARK: EntityBucketDelegate
+    public func entitiesDidChange() {
+        updateReports()
+    }
 }
