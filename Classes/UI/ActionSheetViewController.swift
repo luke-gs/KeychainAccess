@@ -49,6 +49,9 @@ open class ActionSheetViewController: FormBuilderViewController {
                 .onSelection({ _ in
                     button.action?()
                 })
+                .onThemeChanged({ (cell, theme) in
+                    (cell as? CollectionViewFormSubtitleCell)?.imageView.tintColor = theme.color(forKey: .primaryText)
+                })
         }
     }
     
