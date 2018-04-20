@@ -21,7 +21,7 @@ open class EventEntityDetailViewModel {
 
     func viewControllers() -> [UIViewController] {
         return [
-            EventEntityDescriptionViewController(),
+            EventEntityDescriptionViewController(viewModel: EventEntityDescriptionViewModel(entity: entity)),
             EventEntityRelationshipsViewController()
         ]
     }
@@ -38,7 +38,7 @@ open class EventEntityDetailViewModel {
         if let thumbnailInfo = summaryDisplayable?.thumbnail(ofSize: .small) {
             headerView.iconView.setImage(with: thumbnailInfo)
         }
-        
+
         return headerView
     }
 }

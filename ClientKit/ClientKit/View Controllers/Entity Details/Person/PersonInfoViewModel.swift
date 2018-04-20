@@ -25,7 +25,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
         // ---------- HEADER ----------
         
         // Values
-        let detail =  person.descriptions?.first?.formatted() ?? NSLocalizedString("No description", bundle: .mpolKit, comment: "")
+        let detail = person.descriptions?.first?.formatted() ?? NSLocalizedString("No description", bundle: .mpolKit, comment: "")
         let count = person.descriptions?.count ?? 0
         let isDetailPlaceholder = count == 0
         let buttonTitle = count <= 1 ? nil : "\(count - 1) MORE DESCRIPTION\(count != 2 ? "S" : "")"
