@@ -39,7 +39,7 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<IncidentA
                 category: "DS1",
                 entityType: .person(initials: person.initials),
                 title: person.fullName,
-                detail1: [person.dateOfBirth, person.gender].joined(),
+                detail1: [person.dateOfBirth?.asPreferredDateString(), person.gender].joined(),
                 detail2: person.fullAddress,
                 borderColor: person.alertLevel?.color,
                 iconColor: nil,

@@ -21,7 +21,7 @@ open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
 
     open var associatedAlertLevel: CADAlertLevelType?
 
-    open var dateOfBirth: String?
+    open var dateOfBirth: Date?
 
     open var firstName: String?
 
@@ -71,7 +71,7 @@ open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         alertLevel = try values.decodeIfPresent(CADAlertLevelCore.self, forKey: .alertLevel)
         associatedAlertLevel = try values.decodeIfPresent(CADAlertLevelCore.self, forKey: .associatedAlertLevel)
-        dateOfBirth = try values.decodeIfPresent(String.self, forKey: .dateOfBirth)
+        dateOfBirth = try values.decodeIfPresent(Date.self, forKey: .dateOfBirth)
         firstName = try values.decodeIfPresent(String.self, forKey: .firstName)
         fullAddress = try values.decodeIfPresent(String.self, forKey: .fullAddress)
         gender = try values.decodeIfPresent(String.self, forKey: .gender)
