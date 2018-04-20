@@ -164,8 +164,6 @@
           "thumbnail": null
         }, 
         {
-          "alertLevel": 0, 
-          "associatedAlertLevel": 0, 
           "dateLastUpdated": "2018-01-09T14:32:00Z", 
           "dateOfBirth": "1973-11-10T00:00:00Z", 
           "familyName": "Adams", 
@@ -183,7 +181,6 @@
       "vehicles": [
         {
           "alertLevel": 0, 
-          "associatedAlertLevel": 0, 
           "bodyType": "Prime Mover", 
           "color": "Red", 
           "dateLastUpdated": "2018-02-07T14:32:00Z", 
@@ -196,7 +193,7 @@
         }, 
         {
           "alertLevel": 1, 
-          "associatedAlertLevel": 2, 
+          "associatedAlertLevel": 1, 
           "bodyType": "Sedan", 
           "color": "Blue", 
           "dateLastUpdated": "2018-01-09T14:32:00Z", 
@@ -374,7 +371,7 @@
         }, 
         {
           "alertLevel": 2, 
-          "associatedAlertLevel": 1, 
+          "associatedAlertLevel": 2, 
           "bodyType": "SUV", 
           "color": "Grey", 
           "dateLastUpdated": "2018-01-09T14:32:00Z", 
@@ -491,7 +488,6 @@
       "vehicles": [
         {
           "alertLevel": 0, 
-          "associatedAlertLevel": 0, 
           "bodyType": "Prime Mover", 
           "color": "Red", 
           "dateLastUpdated": "2018-02-07T14:32:00Z", 
@@ -504,7 +500,7 @@
         }, 
         {
           "alertLevel": 1, 
-          "associatedAlertLevel": 2, 
+          "associatedAlertLevel": 1, 
           "bodyType": "Sedan", 
           "color": "Blue", 
           "dateLastUpdated": "2018-01-09T14:32:00Z", 
@@ -518,7 +514,6 @@
         }, 
         {
           "alertLevel": 0, 
-          "associatedAlertLevel": 0, 
           "bodyType": "Motorcycle", 
           "color": "Black", 
           "dateLastUpdated": "2018-01-09T14:32:00Z", 
@@ -576,7 +571,6 @@
       "vehicles": [
         {
           "alertLevel": 0, 
-          "associatedAlertLevel": 0, 
           "bodyType": "Motorcycle", 
           "color": "Black", 
           "dateLastUpdated": "2018-01-09T14:32:00Z", 
@@ -661,8 +655,6 @@
           "thumbnail": null
         }, 
         {
-          "alertLevel": 0, 
-          "associatedAlertLevel": 0, 
           "dateLastUpdated": "2018-01-09T14:32:00Z", 
           "dateOfBirth": "1973-11-10T00:00:00Z", 
           "familyName": "Adams", 
@@ -680,7 +672,7 @@
       "vehicles": [
         {
           "alertLevel": 2, 
-          "associatedAlertLevel": 1, 
+          "associatedAlertLevel": 2, 
           "bodyType": "SUV", 
           "color": "Grey", 
           "dateLastUpdated": "2018-01-09T14:32:00Z", 
@@ -780,7 +772,8 @@
       "type": "Steal Motor Vehicle", 
       "vehicles": [
         {
-          "alertLevel": 2, 
+          "alertLevel": 1, 
+          "associatedAlertLevel": 1, 
           "bodyType": "Sedan", 
           "color": "Blue", 
           "dateLastUpdated": "2018-01-09T14:32:00Z", 
