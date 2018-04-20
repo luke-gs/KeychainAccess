@@ -8,8 +8,8 @@
 import Foundation
 import MPOLKit
 
-public class EventEntitiesListViewController : FormBuilderViewController {
-    
+public class EventEntitiesListViewController : FormBuilderViewController, EvaluationObserverable {
+
     let viewModel: EventEntitiesListViewModel
     
     public init(viewModel: EventEntitiesListViewModel) {
@@ -22,6 +22,8 @@ public class EventEntitiesListViewController : FormBuilderViewController {
         sidebarItem.compactTitle = self.title
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.list)!
         sidebarItem.color = viewModel.tabColour()
+
+        viewModel.evaluator.addObserver(self)
     }
     
     required convenience public init?(coder aDecoder: NSCoder) {
@@ -30,7 +32,11 @@ public class EventEntitiesListViewController : FormBuilderViewController {
 
     override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        viewModel.updateReports()
         self.loadingManager.state = viewModel.loadingManagerState()
+        sidebarItem.color = viewModel.tabColour()
+        reloadForm()
     }
     
     public override func construct(builder: FormBuilder) {
@@ -39,14 +45,14 @@ public class EventEntitiesListViewController : FormBuilderViewController {
 
         builder += HeaderFormItem(text: viewModel.headerText)
 
-        let entities = viewModel.report.entities
+        let reports = viewModel.report.entityDetailReports
 
-        builder += entities.map { entity in
-            return viewModel.displayable(for: entity)
+        builder += reports.map { report in
+            return viewModel.displayable(for: report.entity)
                 .summaryListFormItem()
                 .onSelection { cell in
                     guard let indexPath = self.collectionView?.indexPath(for: cell) else { return }
-                    self.showDetailsFor(self.viewModel.entityFor(indexPath))
+                    self.showDetailsFor(self.viewModel.reportFor(indexPath))
             }
         }
     }
@@ -61,9 +67,14 @@ public class EventEntitiesListViewController : FormBuilderViewController {
         
     }
 
-    private func showDetailsFor(_ entity: MPOLKitEntity) {
-        let viewModel = EventEntityDetailViewModel(entity: entity, event: self.viewModel.report.event!)
+    private func showDetailsFor(_ report: EventEntityDetailReport) {
+        let viewModel = EventEntityDetailViewModel(report: report, event: self.viewModel.report.event!)
         let viewController = EventEntityDetailsSplitViewController(viewModel: viewModel)
         self.parent?.navigationController?.pushViewController(viewController, animated: true)
+    }
+
+    //MARK: Eval
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+        self.sidebarItem.color = viewModel.tabColour()
     }
 }
