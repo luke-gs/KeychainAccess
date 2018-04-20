@@ -17,7 +17,7 @@ public protocol CADIncidentPersonType: class, CADIncidentAssociationType {
     var dateOfBirth: Date? { get set }
     var firstName: String? { get set }
     var fullAddress: String? { get set }
-    var gender: String? { get set }
+    var gender: CADIncidentPersonGenderType? { get set }
     var lastName: String? { get set }
     var middleNames: String? { get set }
     var thumbnail: String? { get set }
@@ -25,4 +25,11 @@ public protocol CADIncidentPersonType: class, CADIncidentAssociationType {
     // MARK: - Generated
     var fullName: String { get }
     var initials: String { get }
+}
+
+/// Protocol for an enum representing a gender
+public protocol CADIncidentPersonGenderType: CADEnumStringType {
+
+    /// The display title for the gender
+    var title: String { get }
 }

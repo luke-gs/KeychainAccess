@@ -27,7 +27,7 @@ open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
 
     open var fullAddress: String?
 
-    open var gender: String?
+    open var gender: CADIncidentPersonGenderType?
 
     open var id: String?
 
@@ -74,7 +74,7 @@ open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
         dateOfBirth = try values.decodeIfPresent(Date.self, forKey: .dateOfBirth)
         firstName = try values.decodeIfPresent(String.self, forKey: .firstName)
         fullAddress = try values.decodeIfPresent(String.self, forKey: .fullAddress)
-        gender = try values.decodeIfPresent(String.self, forKey: .gender)
+        gender = try values.decodeIfPresent(CADIncidentPersonGenderCore.self, forKey: .gender)
         id = try values.decodeIfPresent(String.self, forKey: .id)
         lastName = try values.decodeIfPresent(String.self, forKey: .lastName)
         middleNames = try values.decodeIfPresent(String.self, forKey: .middleNames)
@@ -86,3 +86,21 @@ open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
     }
 }
 
+/// PSCore implementation of enum representing gender
+public enum CADIncidentPersonGenderCore: String, Codable, CADIncidentPersonGenderType {
+    case male = "M"
+    case female = "F"
+    case other = "O"
+
+    /// The display title for the gender
+    public var title: String {
+        switch self {
+        case .male:
+            return NSLocalizedString("Male", comment: "")
+        case .female:
+            return NSLocalizedString("Female", comment: "")
+        case .other:
+            return NSLocalizedString("Unknown", comment: "")
+        }
+    }
+}
