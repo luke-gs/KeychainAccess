@@ -50,7 +50,7 @@ open class DemoAPIManager: CADAPIManagerType {
     open func cadSyncDetails(request: CADSyncRequest) -> Promise<CADSyncResponse> {
         if let data = loadDemoFileAsData(name: "DemoSync") {
             let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .iso8601
+            decoder.dateDecodingStrategy = ISO8601DateTransformer.jsonDateDecodingStrategy()
             let response = try! decoder.decode(CADSyncResponse.self, from: data)
             return Promise<CADSyncResponse>.value(response)
         }

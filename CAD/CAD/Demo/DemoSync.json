@@ -137,7 +137,7 @@
           "alertLevel": 2, 
           "associatedAlertLevel": 2, 
           "dateLastUpdated": "2017-08-31T14:13:08Z", 
-          "dateOfBirth": "1995-03-01T11:22:29Z", 
+          "dateOfBirth": "1995-03-01",
           "familyName": "Kaine", 
           "fullAddress": "20 Derby St Collingwood Vic 3066, Australia", 
           "gender": "F", 
