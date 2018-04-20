@@ -131,7 +131,7 @@ open class MapFilterViewController: UIViewController {
             sectionsStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             
             footerSection.heightAnchor.constraint(equalToConstant: LayoutConstants.footerHeight),
-            footerSection.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            footerSection.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
             footerSection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             footerSection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
