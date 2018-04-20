@@ -75,4 +75,14 @@ public class ISO8601DateTransformer: OptionalTransformer {
     public func reverse(_ transformedValue: Date) -> String? {
         return dateFormatter.string(from: transformedValue)
     }
+
+    // Return a Codable JSON date decoding strategy for these dates
+    public static func jsonDateDecodingStrategy() -> JSONDecoder.DateDecodingStrategy {
+        return .custom({ (decoder) -> Date in
+            let container = try decoder.singleValueContainer()
+            let dateString = try container.decode(String.self)
+            return ISO8601DateTransformer.shared.transform(dateString)!
+        })
+
+    }
 }
