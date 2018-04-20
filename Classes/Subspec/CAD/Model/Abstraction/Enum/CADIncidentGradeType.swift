@@ -9,7 +9,7 @@
 import Foundation
 
 /// Protocol for an enum representing incident grade
-public protocol CADIncidentGradeType: CADEnumType {
+public protocol CADIncidentGradeType: CADEnumStringType {
 
     // MARK: - Static
 

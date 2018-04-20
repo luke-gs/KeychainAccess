@@ -32,6 +32,7 @@ open class CADStateManagerCore: CADStateManagerType {
         CADClientModelTypes.incidentStatus = CADIncidentStatusCore.self
         CADClientModelTypes.broadcastCategory = CADBroadcastCategoryCore.self
         CADClientModelTypes.patrolStatus = CADPatrolStatusCore.self
+        CADClientModelTypes.alertLevel = CADAlertLevelCore.self
     }
 
     // MARK: - Synced State

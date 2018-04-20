@@ -9,7 +9,7 @@
 import Foundation
 
 /// Protocol for an enum representing resource unit type (eg DogSquad)
-public protocol CADResourceUnitType: CADEnumType {
+public protocol CADResourceUnitType: CADEnumStringType {
 
     // MARK: - Static
 
