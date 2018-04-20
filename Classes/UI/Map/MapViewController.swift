@@ -97,6 +97,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         view.addSubview(mapControlView)
 
         setupConstraints()
+        interfaceStyleDidChange()
     }
     
     open override func viewWillAppear(_ animated: Bool) {
