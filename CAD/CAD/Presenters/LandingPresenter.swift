@@ -78,6 +78,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
             let tasksNavController = UINavigationController(rootViewController: Director.shared.viewController(forPresentable: TaskListScreen.landing))
             tasksNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarTasks)
+            tasksNavController.tabBarItem.selectedImage = AssetManager.shared.image(forKey: .tabBarTasksSelected)
             tasksNavController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tasks Tab Bar Item")
 
             // Show settings cog on left side of tasks list
@@ -87,6 +88,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let activityLogViewModel = ActivityLogViewModel()
             let activityNavController = UINavigationController(rootViewController: activityLogViewModel.createViewController())
             activityNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarActivity)
+            activityNavController.tabBarItem.selectedImage = AssetManager.shared.image(forKey: .tabBarActivitySelected)
             activityNavController.tabBarItem.title = NSLocalizedString("Activity Log", comment: "Activity Log Tab Bar Item")
 
             let userCallsignStatusViewModel = UserCallsignStatusViewModel()

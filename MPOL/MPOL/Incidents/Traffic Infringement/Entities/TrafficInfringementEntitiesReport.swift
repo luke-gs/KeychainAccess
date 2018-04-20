@@ -8,20 +8,14 @@
 import UIKit
 import MPOLKit
 
-fileprivate extension EvaluatorKey {
-    static let viewed = EvaluatorKey("viewed")
+extension EvaluatorKey {
+    static let hasEntity = EvaluatorKey("hasEntity")
 }
 
 class TrafficInfringementEntitiesReport: Reportable {
     weak var event: Event?
     weak var incident: Incident?
     let evaluator: Evaluator = Evaluator()
-
-    var viewed: Bool = false {
-        didSet {
-            evaluator.updateEvaluation(for: .viewed)
-        }
-    }
     
     init(event: Event, incident: Incident) {
         self.event = event
@@ -34,12 +28,17 @@ class TrafficInfringementEntitiesReport: Reportable {
             evaluator.addObserver(incident)
         }
 
-        evaluator.registerKey(.viewed) {
-            return self.viewed
+        evaluator.registerKey(.hasEntity) {
+            guard let event = self.event else { return false }
+            // TODO: create entity manager to determine link between entities and incident
+            // TODO: use event.entityManger to return incident specific entities and the check
+            return event.entityBucket.entities.count >= 1
         }
     }
 
-    func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {}
+    func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+        
+    }
 
     //MARK: CODING
     public static var supportsSecureCoding: Bool = true

@@ -30,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>479</string>
+	<string>489</string>
 	<key>DefaultActivityLauncherURLScheme</key>
 	<string>${SEARCH_URL_TYPE_SCHEME}</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -46,7 +46,7 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>The App need to access your camera</string>
-	<key>NSFaceIDUsageDescription </key>
+	<key>NSFaceIDUsageDescription</key>
 	<string>Login using FaceID</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>The App need to access the current location</string>

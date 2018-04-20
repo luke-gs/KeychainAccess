@@ -2,6 +2,24 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>%d offences</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@offences@</string>
+		<key>offences</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%1$d Offence</string>
+			<key>zero</key>
+			<string>No Offences</string>
+			<key>other</key>
+			<string>%1$d Offences</string>
+		</dict>
+	</dict>
 	<key>%d Incidents</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
@@ -36,6 +54,24 @@
 			<string>No incident</string>
 			<key>other</key>
 			<string>%1$d incidents</string>
+		</dict>
+	</dict>
+	<key>%d entities added</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@entities@ added</string>
+		<key>entities</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>other</key>
+			<string>%d Entities</string>
+			<key>one</key>
+			<string>%d Entity</string>
+			<key>zero</key>
+			<string>No Entities</string>
 		</dict>
 	</dict>
 	<key>%d Alert(s)</key>
