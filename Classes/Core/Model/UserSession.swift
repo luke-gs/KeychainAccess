@@ -40,10 +40,14 @@ public class UserSession: UserSessionable {
         return UserSession.userDefaults.string(forKey: UserSession.latestSessionKey) != nil
     }
 
-    public var sessionID: String {
-        let sessionID = UserSession.userDefaults.string(forKey: UserSession.latestSessionKey) ?? UUID().uuidString
-        UserSession.userDefaults.set(sessionID, forKey: UserSession.latestSessionKey)
-        return sessionID
+    public private(set) var sessionID: String? {
+        get {
+            let sessionID = UserSession.userDefaults.string(forKey: UserSession.latestSessionKey)
+            return sessionID
+        }
+        set {
+            UserSession.userDefaults.set(newValue, forKey: UserSession.latestSessionKey)
+        }
     }
 
     private var isRestoringSession: Bool = false
@@ -54,8 +58,10 @@ public class UserSession: UserSessionable {
     }
 
     public static func startSession(user: User, token: OAuthAccessToken) {
-        UserSession.current.paths = UserSessionPaths(baseUrl: UserSession.basePath, sessionId: UserSession.current.sessionID)
-        
+        let sessionID = UUID().uuidString
+
+        UserSession.current.paths = UserSessionPaths(baseUrl: UserSession.basePath, sessionId: sessionID)
+        UserSession.current.sessionID = sessionID
         UserSession.current.token = token
         UserSession.current.user = user
         UserSession.current.recentlySearched = []
@@ -96,8 +102,15 @@ public class UserSession: UserSessionable {
 
     public func restoreSession(completion: @escaping RestoreSessionCompletion) {
         isRestoringSession = true
+
+        // Can't restore if there's any session to begin with..
+        guard let sessionID = UserSession.current.sessionID else {
+            UserSession.current.endSession()
+            return
+        }
+
         // Recreate paths, as session ID may have changed in another app
-        paths = UserSessionPaths(baseUrl: UserSession.basePath, sessionId: UserSession.current.sessionID)
+        paths = UserSessionPaths(baseUrl: UserSession.basePath, sessionId: sessionID)
 
         let userWrapper = directoryManager.read(from: paths.userWrapperPath) as? FileWrapper
         let viewed = directoryManager.read(from: paths.recentlyViewed) as? [MPOLKitEntity] ?? []
@@ -147,9 +160,12 @@ public class UserSession: UserSessionable {
     private lazy var directoryManager = {
         return DirectoryManager(baseURL: UserSession.basePath)
     }()
-    private lazy var paths: UserSessionPaths = {
-        return UserSessionPaths(baseUrl: UserSession.basePath, sessionId: self.sessionID)
-    }()
+
+    // Risky business, I know, so fix please.
+    // Although it's better to crash than what it was previously,
+    // SessionID being generated randomly. It gets app to weird state if the lazy var was to ever accessed
+    // in the wrong order. So instead of weird state, it will crash. If it crashes, then it needs to be fixed.
+    private var paths: UserSessionPaths!
 
     //MARK: SAVING
 
@@ -235,8 +251,16 @@ public class UserSession: UserSessionable {
     // This is in to be able to load `User.appSettings` in the mean time.
     public static func loadUser(username: String) -> User? {
         let session = UserSession()
-        guard let user = session.directoryManager.read(from: session.paths.userPath(for: username)) as? User else {
-            return nil
+        // This is broken, I hope this becomes ugly enough that someone will say
+        // F this, not in sprint, but I'll fix this `UserSession` and `User data` coupling.
+        let path = UserSessionPaths(baseUrl: UserSession.basePath, sessionId: "hello:)") // For user, sessionId doesn't matter.
+        let user: User
+        if let savedUser = session.directoryManager.read(from: path.userPath(for: username)) as? User {
+            user = savedUser
+        } else {
+            // Create and save user
+            user = User(username: username)
+            UserSession.save(user: user)
         }
         return user
     }
@@ -245,6 +269,7 @@ public class UserSession: UserSessionable {
     // Note: This will overwrite the user data, not append. 
     public static func save(user: User) {
         let session = UserSession()
+        session.paths = UserSessionPaths(baseUrl: UserSession.basePath, sessionId: "hello:)") // For user, sessionId doesn't matter.
         session.user = user
         session.saveUserToCache()
     }
@@ -319,7 +344,7 @@ public protocol UserSessionable {
     var isActive: Bool { get }
 
     /// The session unique ID
-    var sessionID: String { get }
+    var sessionID: String? { get }
 
     /// Attempt to restore a previous session
     ///

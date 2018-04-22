@@ -28,7 +28,6 @@ class ActiveUserSessionTests: XCTestCase {
 
     override static func setUp() {
         User.applicationKey = "Test"
-        UserSession.current.endSession()
         UserSession.startSession(user: user, token: token)
     }
 
