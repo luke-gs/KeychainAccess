@@ -39,12 +39,14 @@ public class LandingPresenter: AppGroupLandingPresenter {
         case .login:
             let mode: LoginMode
             // This is the app wants to authenticate with biometric
+            var retrievedUsername: String?
             if wantsBiometricAuthentication {
                 // Check if the user wants to authenticate with biometric and it's possible.
                 // Can't check for password, because the `password` would require user permission.
                 if let currentUser = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain),
                     currentUser.useBiometric == .agreed {
                     mode = .usernamePasswordWithBiometric(delegate: self)
+                    retrievedUsername = currentUser.username
                 } else {
                     mode = .usernamePassword(delegate: self)
                 }
@@ -64,6 +66,10 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 loginViewController.usernameField.textField.text = "gridstone"
                 loginViewController.passwordField.textField.text = "mock"
             #endif
+
+            if let username = retrievedUsername {
+                loginViewController.usernameField.textField.text = username
+            }
 
             return loginViewController
 
