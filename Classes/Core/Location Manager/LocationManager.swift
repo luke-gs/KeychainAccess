@@ -53,31 +53,10 @@ public final class LocationManager: NSObject {
     ///
     @discardableResult
     open func requestLocation() -> Promise<CLLocation> {
-        // Used to avoid requesting authorisation from PromiseKit, due to a bug where it never fulfills or rejects
-        if CLLocationManager.authorizationStatus() == .notDetermined {
-            func hasInfoPlistKey(_ key: String) -> Bool {
-                let value = Bundle.main.object(forInfoDictionaryKey: key) as? String ?? ""
-                return !value.isEmpty
-            }
-            
-            if (hasInfoPlistKey("NSLocationAlwaysUsageDescription") == false && hasInfoPlistKey("NSLocationWhenInUseUsageDescription") == false) {
-                return Promise { resolver in
-                    resolver.reject(LocationError.authorizationError)
-                }
-            }
-        }
-
-        return CLLocationManager.requestAuthorization().then { status -> Promise<CLLocation> in // We must do this becuase the location Promise will hang if no authorisation string is found in the info.plist
-            switch status {
-            case .authorizedAlways, .authorizedWhenInUse:
-                return CLLocationManager.requestLocation().lastValue.map({ (location) -> CLLocation in
-                    self.lastLocation = location
-                    NotificationCenter.default.post(name: .LocationDidUpdate, object: self)
-                    return location
-                })
-            default:
-                throw LocationError.authorizationError
-            }
+        return CLLocationManager.requestLocation().lastValue.map { location -> CLLocation in
+            self.lastLocation = location
+            NotificationCenter.default.post(name: .LocationDidUpdate, object: self)
+            return location
         }
     }
     
