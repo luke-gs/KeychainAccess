@@ -9,7 +9,6 @@
 import Foundation
 import PromiseKit
 
-
 public class EntityBucket {
 
     public static let didUpdateNotificationName = Notification.Name(rawValue: "EntityBucketDidUpdateNotification")
@@ -17,8 +16,8 @@ public class EntityBucket {
     public static let removedEntitiesKey: String = "EntityBucketRemovedEntitiesKey"
 
     public let entityManager: EntityManager
-
     public let limit: Int
+    public var delegate: EntityBucketDelegate?
 
     public var entities: [MPOLKitEntity] {
         return entitiesSnapshots.compactMap({ return $0.entity })
@@ -75,6 +74,7 @@ public class EntityBucket {
         userInfo[EntityBucket.removedEntitiesKey] = removedEntities
         
         NotificationCenter.default.post(name: EntityBucket.didUpdateNotificationName, object: self, userInfo: userInfo)
+        delegate?.entitiesDidChange()
     }
 
     /// Removes an entity ffrom the bucket.
@@ -87,6 +87,7 @@ public class EntityBucket {
                                             object: self,
                                             userInfo: [EntityBucket.removedEntitiesKey: [entity]])
         }
+        delegate?.entitiesDidChange()
     }
 
     /// Removes all entities from the bucket.
@@ -96,6 +97,7 @@ public class EntityBucket {
         NotificationCenter.default.post(name: EntityBucket.didUpdateNotificationName,
                                         object: self,
                                         userInfo: [EntityBucket.removedEntitiesKey: entities])
+        delegate?.entitiesDidChange()
     }
 
 
@@ -116,7 +118,18 @@ public class EntityBucket {
 extension EntityBucket: EntitySnapshotDelegate {
 
     public func entitySnapshotDidChange(_ entitySnapshot: EntitySnapshot) {
+        delegate?.entitiesDidChange()
         NotificationCenter.default.post(name: EntityBucket.didUpdateNotificationName, object: self, userInfo: [EntityBucket.addedEntitiesKey: [entitySnapshot.entity]])
     }
 
 }
+
+/// A delegate to notify when there are changes in an instance of an Entity Bucket
+/// Less global state than notifications.
+public protocol EntityBucketDelegate: class {
+
+    /// Something has happened to the entities.
+    /// Heres a callback
+    func entitiesDidChange()
+}
+
