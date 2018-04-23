@@ -100,10 +100,11 @@ public class DefaultSearchHeaderDetailView: UIView, SearchHeaderUpdateable {
             let image = AssetManager.shared.image(forKey: .edit)?
                 .withCircleBackground(tintColor: UIColor.white,
                                       circleColor: UIColor.primaryGray,
-                                      style: .auto(padding:  CGSize(width: 14, height: 14),
-                                                   shrinkImage: true)
+                                      style: .auto(padding:  CGSize(width: 20, height: 20),
+                                                   shrinkImage: false)
             )
             thumbnailView.imageView.image = image
+            thumbnailView.imageView.contentMode = .center
         }
 
         // hide the silver background for non entity images
