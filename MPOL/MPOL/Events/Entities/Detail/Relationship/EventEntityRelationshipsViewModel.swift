@@ -13,4 +13,8 @@ class EventEntityRelationshipsViewModel {
     init(report: EventEntityRelationshipsReport) {
         self.report = report
     }
+
+    func tintColour() -> UIColor {
+        return report.evaluator.isComplete == true ? .midGreen : .red
+    }
 }

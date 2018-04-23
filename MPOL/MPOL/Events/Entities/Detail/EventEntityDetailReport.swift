@@ -33,7 +33,7 @@ public class EventEntityDetailReport: Reportable {
         }
     }
 
-    public init(entity: MPOLKitEntity, event: Event?, incident: Incident?) {
+    public init(entity: MPOLKitEntity, event: Event?) {
         self.event = event
         self.entity = entity
 
@@ -41,10 +41,9 @@ public class EventEntityDetailReport: Reportable {
             return self.descriptionViewed
         }
 
-        // TODO: Uncomment when doing relationships
-//        evaluator.registerKey(.relationshipViewed) {
-//            return self.relationshipViewed
-//        }
+        evaluator.registerKey(.relationshipViewed) {
+            return self.relationshipViewed
+        }
     }
 
     //Coding
@@ -54,7 +53,6 @@ public class EventEntityDetailReport: Reportable {
 
     //Eval
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
-
 
     //Equatable
     public static func == (lhs: EventEntityDetailReport, rhs: EventEntityDetailReport) -> Bool {

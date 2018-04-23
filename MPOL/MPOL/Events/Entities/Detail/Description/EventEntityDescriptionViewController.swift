@@ -27,7 +27,7 @@ class EventEntityDescriptionViewController: FormBuilderViewController, Evaluatio
     }
 
     required convenience init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        MPLUnimplemented()
     }
 
     override func viewWillAppear(_ animated: Bool) {

@@ -43,7 +43,6 @@
 		12EF66032087071800739924 /* OfficerSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FD2087071800739924 /* OfficerSearchViewModel.swift */; };
 		12EF66042087071800739924 /* OfficerListReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FE2087071800739924 /* OfficerListReport.swift */; };
 		12EF66052087071800739924 /* DefaultOfficerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FF2087071800739924 /* DefaultOfficerListViewController.swift */; };
-		12EF6619208990B800739924 /* EventEntityDetailReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF6618208990B800739924 /* EventEntityDetailReport.swift */; };
 		12EF6636208D7D2F00739924 /* EventEntityDetailsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF662C208D7D2F00739924 /* EventEntityDetailsSplitViewController.swift */; };
 		12EF6637208D7D2F00739924 /* EventEntityRelationshipsReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF662E208D7D2F00739924 /* EventEntityRelationshipsReport.swift */; };
 		12EF6638208D7D2F00739924 /* EventEntityRelationshipsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF662F208D7D2F00739924 /* EventEntityRelationshipsViewModel.swift */; };
@@ -709,7 +708,6 @@
 				12EF663D208D7D2F00739924 /* EventEntityDetailReport.swift in Sources */,
 				46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */,
 				BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */,
-				12EF6619208990B800739924 /* EventEntityDetailReport.swift in Sources */,
 				12EF663B208D7D2F00739924 /* EventEntityDescriptionViewController.swift in Sources */,
 				12EF663A208D7D2F00739924 /* EventEntityDescriptionViewModel.swift in Sources */,
 				12EF65EC2086D52200739924 /* IncidentListViewModel.swift in Sources */,

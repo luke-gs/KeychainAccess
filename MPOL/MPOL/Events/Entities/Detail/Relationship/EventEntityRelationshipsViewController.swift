@@ -12,7 +12,7 @@ class EventEntityRelationshipsViewController: FormBuilderViewController {
 
     var viewModel: EventEntityRelationshipsViewModel
 
-    required convenience init?(coder aDecoder: NSCoder) { MPLUnimplemented()}
+    required convenience init?(coder aDecoder: NSCoder) { MPLCodingNotSupported()}
     public init(viewModel: EventEntityRelationshipsViewModel) {
         self.viewModel = viewModel
         super.init()
@@ -22,11 +22,7 @@ class EventEntityRelationshipsViewController: FormBuilderViewController {
         sidebarItem.regularTitle = self.title
         sidebarItem.compactTitle = self.title
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconRelationships)!
-        sidebarItem.color = .red
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
+        sidebarItem.color = viewModel.tintColour()
     }
 
     override func construct(builder: FormBuilder) {

@@ -23,6 +23,6 @@ class EventEntityRelationshipsReport: Reportable {
 
     //MARK: Coding
     static var supportsSecureCoding: Bool = true
-    required init?(coder aDecoder: NSCoder) { }
+    required init?(coder aDecoder: NSCoder) { MPLCodingNotSupported() }
     func encode(with aCoder: NSCoder) { }
 }
