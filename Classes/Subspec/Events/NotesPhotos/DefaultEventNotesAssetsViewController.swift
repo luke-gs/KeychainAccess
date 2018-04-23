@@ -17,8 +17,8 @@ open class DefaultEventNotesAssetsViewController: FormBuilderViewController, Eva
         super.init()
         viewModel.report?.evaluator.addObserver(self)
         
-        sidebarItem.regularTitle = "Notes and Assets"
-        sidebarItem.compactTitle = "Notes and Assets"
+        sidebarItem.regularTitle = "Notes and Media"
+        sidebarItem.compactTitle = "Notes and Media"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.attachment)!
         sidebarItem.color = viewModel.tabColour()
     }
@@ -43,13 +43,13 @@ open class DefaultEventNotesAssetsViewController: FormBuilderViewController, Eva
         let mediaItem = MediaFormItem()
             .dataSource(gallery)
             .emptyStateContents(EmptyStateContents(
-                title: "No Assets", 
-                subtitle: "Edit assets by tapping on 'Edit' button."))
+                title: "No Media",
+                subtitle: "Edit media by tapping on 'Edit' button."))
 
         if let viewController = UIApplication.shared.keyWindow?.rootViewController {
             mediaItem.previewingController(viewController)
         }
-        builder += HeaderFormItem(text: "ASSETS").actionButton(title: "EDIT", handler: { button in
+        builder += HeaderFormItem(text: "MEDIA").actionButton(title: "EDIT", handler: { button in
             if let viewController = mediaItem.delegate?.viewControllerForGalleryViewModel(gallery) {
                 self.present(viewController, animated: true, completion: nil)
             }
