@@ -20,7 +20,9 @@ public class PopoverSheetPresentationController: UIPresentationController, UIVie
     public override var presentedView: UIView? {
         return presentationWrappingView
     }
-    
+
+    private var mode: UIModalPresentationStyle
+
     private var presentationWrappingView: UIVisualEffectView?
     
     private var dimmingView: UIView?
@@ -40,21 +42,20 @@ public class PopoverSheetPresentationController: UIPresentationController, UIVie
             applyTheme()
         }
     }
-    
-    // MARK: - Initializers
-    public override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
+
+    public init(presentationMode mode: UIModalPresentationStyle = .formSheet, presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
+        self.mode = mode
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
-        
+
         let notificationCenter = NotificationCenter.default
-        
+
         notificationCenter.addObserver(self, selector: #selector(keyboardWillShow(_:)),  name: .UIKeyboardWillShow, object: nil)
         notificationCenter.addObserver(self, selector: #selector(keyboardWillHide(_:)),  name: .UIKeyboardWillHide, object: nil)
-        
+
         if userInterfaceStyle == .current {
             NotificationCenter.default.addObserver(self, selector: #selector(applyTheme), name: .interfaceStyleDidChange, object: nil)
         }
     }
-    
     
     // MARK: Presentation state start/end handlers
     
@@ -108,7 +109,17 @@ public class PopoverSheetPresentationController: UIPresentationController, UIVie
         var containerSize = container.preferredContentSize
 
         // These are the sizes for either a formSheet or a pageSheet
-        let size = presentationStyle == .formSheet ? CGSize(width: 540.0, height: 620.0) : CGSize(width: 768.0, height: 1004.0)
+        // Existing implementation was formSheet size for all others, keeping
+        // this functionality because why not?
+        let size: CGSize
+        switch mode {
+        case .pageSheet:
+            size = CGSize(width: 768.0, height: 1004.0)
+        case .formSheet:
+            fallthrough
+        default:
+            size = CGSize(width: 540.0, height: 620.0)
+        }
 
         if containerSize.width  <=~ 0.0 { containerSize.width  = size.width }
         if containerSize.height <=~ 0.0 { containerSize.height = size.height }
