@@ -44,7 +44,6 @@ class EventEntityDescriptionViewController: FormBuilderViewController, Evaluatio
             .title(displayable.title)
             .detail(viewModel.description())
             .subtitle(displayable.detail1)
-            .buttonTitle("Update description")
             .borderColor(displayable.borderColor)
             .image(displayable.thumbnail(ofSize: .large))
             .onButtonTapped { }

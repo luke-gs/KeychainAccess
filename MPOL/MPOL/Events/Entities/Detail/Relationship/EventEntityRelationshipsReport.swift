@@ -9,6 +9,7 @@ import MPOLKit
 
 fileprivate extension EvaluatorKey {
     static let viewed = EvaluatorKey("viewed")
+    static let relationshipCompleted = EvaluatorKey("relationshipCompleted")
 }
 
 public class EventEntityRelationshipsReport: Reportable {
@@ -28,6 +29,14 @@ public class EventEntityRelationshipsReport: Reportable {
 
         evaluator.registerKey(.viewed) {
             return self.viewed
+        }
+
+        evaluator.registerKey(.relationshipCompleted) {
+            let relationships = self.event?.relationshipManager.relationshipsFor(entity: entity).toEntity ?? []
+            let relationshipsValid = relationships.reduce(true, { (isValid, relationship) -> Bool in
+                return isValid && !relationship.reasons.isEmpty
+            })
+            return relationshipsValid
         }
     }
 

@@ -59,7 +59,7 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
         //Create and add new entities
         for entity in report.event?.entityBucket.entities ?? [] {
             if !reports.contains(where: {$0.entity == entity}) {
-                let report = EventEntityDetailReport(entity: entity)
+                let report = EventEntityDetailReport(entity: entity, event: self.report.event)
                 report.evaluator.addObserver(report)
                 reports.append(report)
             }

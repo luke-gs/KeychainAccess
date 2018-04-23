@@ -7,6 +7,7 @@
 
 import UIKit
 import MPOLKit
+import ClientKit
 
 class EventEntityRelationshipsViewController: FormBuilderViewController, EvaluationObserverable {
 
@@ -36,7 +37,12 @@ class EventEntityRelationshipsViewController: FormBuilderViewController, Evaluat
     }
 
     override func construct(builder: FormBuilder) {
-
+        viewModel.dataSources.forEach { datasource in
+            builder += HeaderFormItem(text: datasource.header)
+            builder += datasource.entities.map { entity in
+                return viewModel.displayable(for: entity).summaryListFormItem()
+            }
+        }
     }
 
     func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {

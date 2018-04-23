@@ -27,8 +27,9 @@ public class EventEntityDetailReport: Reportable {
         ]
     }
 
-    public init(entity: MPOLKitEntity) {
+    public init(entity: MPOLKitEntity, event: Event?) {
         self.entity = entity
+        self.event = event
 
         descriptionReport = EventEntityDescriptionReport(event: event, entity: entity)
         relationshipsReport = EventEntityRelationshipsReport(event: event, entity: entity)
