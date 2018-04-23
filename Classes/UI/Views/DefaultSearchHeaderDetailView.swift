@@ -151,7 +151,7 @@ public class DefaultSearchHeaderDetailView: UIView, SearchHeaderUpdateable {
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        fatalError()
+        MPLCodingNotSupported()
     }
 
     deinit {
