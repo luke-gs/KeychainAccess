@@ -21,7 +21,7 @@ class EventEntityRelationshipsViewController: FormBuilderViewController, Evaluat
 
         sidebarItem.regularTitle = self.title
         sidebarItem.compactTitle = self.title
-        sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.info)!
+        sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconRelationships)!
         sidebarItem.color = viewModel.tintColour()
 
         viewModel.report.evaluator.addObserver(self)

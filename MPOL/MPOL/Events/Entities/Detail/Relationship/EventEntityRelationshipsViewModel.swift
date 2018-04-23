@@ -11,35 +11,14 @@ import ClientKit
 class EventEntityRelationshipsViewModel {
 
     var report: EventEntityRelationshipsReport
-    var dataSources: [EntityDataSource] = []
+    var dataSources: [EventRelationshipEntityDataSource] = []
 
     init(report: EventEntityRelationshipsReport) {
         self.report = report
-        createDatasources()
+        self.createDatasources()
     }
 
-    func createDatasources() {
-        if let entities = entitesFor(Person.self), !entities.isEmpty {
-            dataSources.append(EntityDataSource(header: "Persons", entities: entities))
-        }
-
-        if let entities = entitesFor(Vehicle.self), !entities.isEmpty {
-            dataSources.append(EntityDataSource(header: "Vehicles", entities: entities))
-        }
-    }
-
-    public func entitesFor(_ entityType: AnyClass) -> [MPOLKitEntity]? {
-        switch entityType {
-        case is Person.Type:
-            return report.event?.entityBucket.entities(for: Person.self).filter{$0 != self.report.entity!}
-        case is Vehicle.Type:
-            return report.event?.entityBucket.entities(for: Vehicle.self).filter{$0 != self.report.entity!}
-        default:
-            fatalError("No such entity \(entityType)")
-        }
-    }
-
-    func displayable(for entity: MPOLKitEntity) -> EntitySummaryDisplayable {
+    public func displayable(for entity: MPOLKitEntity) -> EntitySummaryDisplayable {
         switch entity {
         case is Person:
             return PersonSummaryDisplayable(entity)
@@ -50,12 +29,35 @@ class EventEntityRelationshipsViewModel {
         }
     }
 
-    func tintColour() -> UIColor {
+    public func tintColour() -> UIColor {
         return report.evaluator.isComplete == true ? .midGreen : .red
+    }
+
+    //MARK: Private
+
+    private func createDatasources() {
+        if let entities = entitesFor(Person.self), !entities.isEmpty {
+            dataSources.append(EventRelationshipEntityDataSource(header: "Persons", entities: entities))
+        }
+
+        if let entities = entitesFor(Vehicle.self), !entities.isEmpty {
+            dataSources.append(EventRelationshipEntityDataSource(header: "Vehicles", entities: entities))
+        }
+    }
+
+    private func entitesFor(_ entityType: AnyClass) -> [MPOLKitEntity]? {
+        switch entityType {
+        case is Person.Type:
+            return report.event?.entityBucket.entities(for: Person.self).filter{$0 != self.report.entity!}
+        case is Vehicle.Type:
+            return report.event?.entityBucket.entities(for: Vehicle.self).filter{$0 != self.report.entity!}
+        default:
+            fatalError("No such entity \(entityType)")
+        }
     }
 }
 
-struct EntityDataSource {
+struct EventRelationshipEntityDataSource {
     var header: String
     var entities: [MPOLKitEntity]
 }
