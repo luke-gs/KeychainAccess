@@ -16,27 +16,27 @@ final public class RelationshipManager {
         relationships.first(where: {$0 == relationship})?.reasons.append(reason)
     }
 
-    public func relationshipsFor(entity: MPOLKitEntity) -> (toEntity: [Relationship]?, fromEntity: [Relationship]?) {
+    public func relationshipsFor(entity: MPOLKitEntity) -> (baseEntity: [Relationship]?, toEntity: [Relationship]?) {
+        let base = relationships.filter{$0.baseEntity == entity}
         let to = relationships.filter{$0.toEntity == entity}
-        let from = relationships.filter{$0.fromEntity == entity}
-        return (toEntity: to, fromEntity: from)
+        return (baseEntity: base, toEntity: to)
     }
 }
 
 public class Relationship: Equatable {
-    var fromEntity: MPOLKitEntity
-    var toEntity: MPOLKitEntity
-    var reasons: [String] = [String]()
+    public var baseEntity: MPOLKitEntity
+    public var toEntity: MPOLKitEntity
+    public var reasons: [String] = [String]()
 
-    init(fromEntity: MPOLKitEntity, toEntity: MPOLKitEntity, reasons: [String] = []) {
-        self.fromEntity = fromEntity
+    init(baseEntity: MPOLKitEntity, toEntity: MPOLKitEntity, reasons: [String] = []) {
+        self.baseEntity = baseEntity
         self.toEntity = toEntity
         self.reasons = reasons
     }
 
     //Equality
     public static func == (lhs: Relationship, rhs: Relationship) -> Bool {
-        return lhs.fromEntity == rhs.fromEntity
+        return lhs.baseEntity == rhs.baseEntity
             && lhs.toEntity == lhs.toEntity
             && lhs.reasons == rhs.reasons
     }
