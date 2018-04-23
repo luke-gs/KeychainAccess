@@ -23,7 +23,7 @@ class EventEntityDescriptionViewController: FormBuilderViewController, Evaluatio
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.info)!
         sidebarItem.color = viewModel.tintColour()
 
-        viewModel.evaluator.addObserver(self)
+        viewModel.report.evaluator.addObserver(self)
     }
 
     required convenience init?(coder aDecoder: NSCoder) {
@@ -32,7 +32,7 @@ class EventEntityDescriptionViewController: FormBuilderViewController, Evaluatio
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.viewed = true
+        viewModel.report.descriptionViewed = true
     }
 
     override func construct(builder: FormBuilder) {

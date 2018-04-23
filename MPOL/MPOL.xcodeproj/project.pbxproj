@@ -48,6 +48,7 @@
 		12EF66042087071800739924 /* OfficerListReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FE2087071800739924 /* OfficerListReport.swift */; };
 		12EF66052087071800739924 /* DefaultOfficerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FF2087071800739924 /* DefaultOfficerListViewController.swift */; };
 		12EF661720870CED00739924 /* EventEntityDescriptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF661620870CED00739924 /* EventEntityDescriptionViewModel.swift */; };
+		12EF6619208990B800739924 /* EventEntityDetailReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF6618208990B800739924 /* EventEntityDetailReport.swift */; };
 		1987C2AC20846766007F7273 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1987C2AB20846766007F7273 /* Localizable.strings */; };
 		19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3894207A5F3A00855651 /* SupportedShortcut.swift */; };
 		19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */; };
@@ -139,6 +140,7 @@
 		12EF65FE2087071800739924 /* OfficerListReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerListReport.swift; sourceTree = "<group>"; };
 		12EF65FF2087071800739924 /* DefaultOfficerListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultOfficerListViewController.swift; sourceTree = "<group>"; };
 		12EF661620870CED00739924 /* EventEntityDescriptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntityDescriptionViewModel.swift; sourceTree = "<group>"; };
+		12EF6618208990B800739924 /* EventEntityDetailReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntityDetailReport.swift; sourceTree = "<group>"; };
 		1987C2AB20846766007F7273 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = ../../Localizable.strings; sourceTree = "<group>"; };
 		19CB3894207A5F3A00855651 /* SupportedShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedShortcut.swift; sourceTree = "<group>"; };
 		19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Shortcuts.swift"; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 				12EF65F12086F34000739924 /* EventEntityDetailsSplitViewController.swift */,
 				12EF65F32086F34C00739924 /* EventEntityDetailViewModel.swift */,
 				12EF65F72086F89200739924 /* EventEntityRelationshipsViewController.swift */,
+				12EF6618208990B800739924 /* EventEntityDetailReport.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -682,6 +685,7 @@
 				3727C4C32088193000F7A887 /* Offence.swift in Sources */,
 				46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */,
 				BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */,
+				12EF6619208990B800739924 /* EventEntityDetailReport.swift in Sources */,
 				12EF65EC2086D52200739924 /* IncidentListViewModel.swift in Sources */,
 				12EF66042087071800739924 /* OfficerListReport.swift in Sources */,
 				EAAEB34A1F664705002D6C65 /* EntityPresenter.swift in Sources */,
@@ -693,7 +697,6 @@
 				19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */,
 				19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */,
 				3727C4C12088193000F7A887 /* OffenceListDisplayable.swift in Sources */,
-				12EE9BE6206898C900537BBA /* OfficerParserDefinition.swift in Sources */,
 				12EF65EB2086D52200739924 /* IncidentSelectViewController.swift in Sources */,
 				12EF65E52086D52200739924 /* IncidentDetailViewModel.swift in Sources */,
 				12EF66002087071800739924 /* OfficerInvolvementSearchDatasource.swift in Sources */,

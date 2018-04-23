@@ -41,5 +41,4 @@ public class EntityPickerViewModel {
     func currentLoadingManagerState() -> LoadingStateManager.State {
         return entities.isEmpty ? .noContent : .loaded
     }
-
 }

@@ -9,53 +9,37 @@ import UIKit
 import MPOLKit
 import ClientKit
 
-fileprivate extension EvaluatorKey {
-    static let viewed = EvaluatorKey("viewed")
-}
+open class EventEntityDescriptionViewModel {
 
-open class EventEntityDescriptionViewModel: Evaluatable {
+    unowned var report: EventEntityDetailReport
 
-    unowned var entity: MPOLKitEntity
-    public let evaluator: Evaluator = Evaluator()
-    var viewed: Bool = false {
-        didSet {
-            evaluator.updateEvaluation(for: .viewed)
-        }
-    }
-
-    init(entity: MPOLKitEntity) {
-        self.entity = entity
-
-        evaluator.registerKey(.viewed) {
-            self.viewed
-        }
+    init(report: EventEntityDetailReport) {
+        self.report = report
     }
 
     func displayable() -> EntitySummaryDisplayable {
-        switch entity {
+        switch report.entity {
         case is Person:
-            return PersonSummaryDisplayable(entity)
+            return PersonSummaryDisplayable(report.entity)
         case is Vehicle:
-            return VehicleSummaryDisplayable(entity)
+            return VehicleSummaryDisplayable(report.entity)
         default:
-            fatalError("Entity of type \"\(type(of: entity))\" not found")
+            fatalError("Entity of type \"\(type(of: report.entity))\" not found")
         }
     }
 
     func description() -> String? {
-        switch entity {
+        switch report.entity {
         case let person as Person:
             return person.descriptions?.first?.formatted()
         case let vehicle as Vehicle:
             return vehicle.vehicleDescription
         default:
-            fatalError("Entity of type \"\(type(of: entity))\" not found")
+            fatalError("Entity of type \"\(type(of: report.entity))\" not found")
         }
     }
 
     func tintColour() -> UIColor {
-       return evaluator.isComplete == true ? .midGreen : .red
+       return report.evaluator.isComplete == true ? .midGreen : .red
     }
-
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {}
 }
