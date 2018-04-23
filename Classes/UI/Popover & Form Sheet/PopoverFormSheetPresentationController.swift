@@ -15,7 +15,7 @@ import UIKit
 ///
 /// `PopoverFormSheetPresentationController` also conforms to `UIViewControllerAnimatedTransitioning`
 /// and provides an implementation for a standard form sheet presentation, with a little added "bounce".
-public class PopoverFormSheetPresentationController: UIPresentationController, UIViewControllerAnimatedTransitioning {
+public class PopoverSheetPresentationController: UIPresentationController, UIViewControllerAnimatedTransitioning {
     
     public override var presentedView: UIView? {
         return presentationWrappingView
@@ -41,10 +41,7 @@ public class PopoverFormSheetPresentationController: UIPresentationController, U
         }
     }
     
-    
-    
     // MARK: - Initializers
-    
     public override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
         
@@ -109,8 +106,12 @@ public class PopoverFormSheetPresentationController: UIPresentationController, U
     
     public override func size(forChildContentContainer container: UIContentContainer, withParentContainerSize parentSize: CGSize) -> CGSize {
         var containerSize = container.preferredContentSize
-        if containerSize.width  <=~ 0.0 { containerSize.width  = 540.0 }
-        if containerSize.height <=~ 0.0 { containerSize.height = 620.0 }
+
+        // These are the sizes for either a formSheet or a pageSheet
+        let size = presentationStyle == .formSheet ? CGSize(width: 540.0, height: 620.0) : CGSize(width: 768.0, height: 1004.0)
+
+        if containerSize.width  <=~ 0.0 { containerSize.width  = size.width }
+        if containerSize.height <=~ 0.0 { containerSize.height = size.height }
         
         containerSize.width  = min(parentSize.width, containerSize.width)
         containerSize.height = min(parentSize.height, containerSize.height)

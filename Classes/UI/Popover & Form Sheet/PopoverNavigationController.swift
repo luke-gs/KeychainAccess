@@ -97,7 +97,7 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     }
     
     
-    private var formSheetPresentationController: PopoverFormSheetPresentationController?
+    private var formSheetPresentationController: PopoverSheetPresentationController?
     
     private lazy var doneButtonItem: UIBarButtonItem = { [unowned self] in
         return UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonItemDidSelect(_:)))
@@ -202,7 +202,7 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     // MARK: - UIViewControllerTransitioningDelegate methods
     
     open func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        formSheetPresentationController = PopoverFormSheetPresentationController(presentedViewController: presented, presenting: presenting)
+        formSheetPresentationController = PopoverSheetPresentationController(presentedViewController: presented, presenting: presenting)
         formSheetPresentationController?.delegate = self
         return formSheetPresentationController
     }
