@@ -17,7 +17,7 @@ public class EntityBucket {
 
     public let entityManager: EntityManager
     public let limit: Int
-    public var delegate: EntityBucketDelegate?
+    public weak var delegate: EntityBucketDelegate?
 
     public var entities: [MPOLKitEntity] {
         return entitiesSnapshots.compactMap({ return $0.entity })
