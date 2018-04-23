@@ -13,7 +13,7 @@ public struct SearchHeaderConfiguration {
     public var subtitle: String?
     public var image: ImageLoadable?
     public let imageStyle: ImageStyle
-    public let tintColor: UIColor
+    public let tintColor: UIColor?
     public let borderColor: UIColor?
 
     public init(title: String?, subtitle: String?, image: ImageLoadable?, imageStyle: ImageStyle = .roundedRect, tintColor: UIColor? = .white, borderColor: UIColor? = nil) {
@@ -21,7 +21,7 @@ public struct SearchHeaderConfiguration {
         self.subtitle = subtitle
         self.image = image
         self.imageStyle = imageStyle
-        self.tintColor = tintColor ?? .white
+        self.tintColor = tintColor
         self.borderColor = borderColor
     }
 }
