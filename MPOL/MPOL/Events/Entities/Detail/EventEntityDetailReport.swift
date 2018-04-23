@@ -9,8 +9,7 @@ import UIKit
 import MPOLKit
 
 fileprivate extension EvaluatorKey {
-    static let descriptionViewed = EvaluatorKey("descriptionViewed")
-    static let relationshipViewed = EvaluatorKey("relationshipViewed")
+    static let allValid = EvaluatorKey("allValid")
 }
 
 public class EventEntityDetailReport: Reportable {
@@ -19,30 +18,28 @@ public class EventEntityDetailReport: Reportable {
     public weak var incident: Incident?
     public unowned var entity: MPOLKitEntity
 
-    public var evaluator: Evaluator = Evaluator()
-
-    var descriptionViewed: Bool = false {
-        didSet {
-            evaluator.updateEvaluation(for: .descriptionViewed)
-        }
+    public let descriptionReport: EventEntityDescriptionReport
+    public let relationshipsReport: EventEntityRelationshipsReport
+    public var reports: [Reportable] {
+        return [
+            descriptionReport,
+            relationshipsReport
+        ]
     }
 
-    var relationshipViewed: Bool = false {
-        didSet {
-            evaluator.updateEvaluation(for: .relationshipViewed)
-        }
-    }
-
-    public init(entity: MPOLKitEntity, event: Event?) {
-        self.event = event
+    public init(entity: MPOLKitEntity) {
         self.entity = entity
 
-        evaluator.registerKey(.descriptionViewed) {
-            return self.descriptionViewed
-        }
+        descriptionReport = EventEntityDescriptionReport(event: event, entity: entity)
+        relationshipsReport = EventEntityRelationshipsReport(event: event, entity: entity)
 
-        evaluator.registerKey(.relationshipViewed) {
-            return self.relationshipViewed
+        descriptionReport.evaluator.addObserver(self)
+        relationshipsReport.evaluator.addObserver(self)
+
+        evaluator.registerKey(.allValid) {
+            return self.reports.reduce(true, { (result, report) -> Bool in
+                return result && report.evaluator.isComplete
+            })
         }
     }
 
@@ -52,7 +49,10 @@ public class EventEntityDetailReport: Reportable {
     required public init?(coder aDecoder: NSCoder) { MPLCodingNotSupported() }
 
     //Eval
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
+    public var evaluator: Evaluator = Evaluator()
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+        self.evaluator.updateEvaluation(for: .allValid)
+    }
 
     //Equatable
     public static func == (lhs: EventEntityDetailReport, rhs: EventEntityDetailReport) -> Bool {

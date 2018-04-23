@@ -8,12 +8,11 @@
 import UIKit
 import MPOLKit
 
-class EventEntityRelationshipsViewController: FormBuilderViewController {
+class EventEntityRelationshipsViewController: FormBuilderViewController, EvaluationObserverable {
 
-    var viewModel: EventEntityRelationshipsViewModel
+    let viewModel: EventEntityRelationshipsViewModel
 
-    required convenience init?(coder aDecoder: NSCoder) { MPLCodingNotSupported()}
-    public init(viewModel: EventEntityRelationshipsViewModel) {
+    public required init(viewModel: EventEntityRelationshipsViewModel) {
         self.viewModel = viewModel
         super.init()
 
@@ -21,11 +20,26 @@ class EventEntityRelationshipsViewController: FormBuilderViewController {
 
         sidebarItem.regularTitle = self.title
         sidebarItem.compactTitle = self.title
-        sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconRelationships)!
+        sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.info)!
         sidebarItem.color = viewModel.tintColour()
+
+        viewModel.report.evaluator.addObserver(self)
+    }
+
+    required convenience init?(coder aDecoder: NSCoder) {
+        MPLUnimplemented()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.report.viewed = true
     }
 
     override func construct(builder: FormBuilder) {
-        
+
+    }
+
+    func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+        sidebarItem.color = viewModel.tintColour()
     }
 }

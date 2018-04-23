@@ -32,7 +32,7 @@ class EventEntityDescriptionViewController: FormBuilderViewController, Evaluatio
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.report.descriptionViewed = true
+        viewModel.report.viewed = true
     }
 
     override func construct(builder: FormBuilder) {

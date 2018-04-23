@@ -1,5 +1,5 @@
 //
-//  EventEntityRelationshipsReport.swift
+//  EventEntityDescriptionReport.swift
 //  MPOL
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -11,7 +11,7 @@ fileprivate extension EvaluatorKey {
     static let viewed = EvaluatorKey("viewed")
 }
 
-public class EventEntityRelationshipsReport: Reportable {
+public class EventEntityDescriptionReport: Reportable {
     public weak var event: Event?
     public weak var incident: Incident?
     weak var entity: MPOLKitEntity?

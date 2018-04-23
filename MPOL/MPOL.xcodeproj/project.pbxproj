@@ -51,6 +51,7 @@
 		12EF663B208D7D2F00739924 /* EventEntityDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF6633208D7D2F00739924 /* EventEntityDescriptionViewController.swift */; };
 		12EF663C208D7D2F00739924 /* EventEntityDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF6634208D7D2F00739924 /* EventEntityDetailViewModel.swift */; };
 		12EF663D208D7D2F00739924 /* EventEntityDetailReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF6635208D7D2F00739924 /* EventEntityDetailReport.swift */; };
+		12EF663F208D83DA00739924 /* EventEntityDescriptionReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF663E208D83DA00739924 /* EventEntityDescriptionReport.swift */; };
 		1987C2AC20846766007F7273 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1987C2AB20846766007F7273 /* Localizable.strings */; };
 		19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3894207A5F3A00855651 /* SupportedShortcut.swift */; };
 		19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */; };
@@ -146,6 +147,7 @@
 		12EF6633208D7D2F00739924 /* EventEntityDescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEntityDescriptionViewController.swift; sourceTree = "<group>"; };
 		12EF6634208D7D2F00739924 /* EventEntityDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEntityDetailViewModel.swift; sourceTree = "<group>"; };
 		12EF6635208D7D2F00739924 /* EventEntityDetailReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEntityDetailReport.swift; sourceTree = "<group>"; };
+		12EF663E208D83DA00739924 /* EventEntityDescriptionReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntityDescriptionReport.swift; sourceTree = "<group>"; };
 		1987C2AB20846766007F7273 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = ../../Localizable.strings; sourceTree = "<group>"; };
 		19CB3894207A5F3A00855651 /* SupportedShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedShortcut.swift; sourceTree = "<group>"; };
 		19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Shortcuts.swift"; sourceTree = "<group>"; };
@@ -353,8 +355,8 @@
 			isa = PBXGroup;
 			children = (
 				12EF662E208D7D2F00739924 /* EventEntityRelationshipsReport.swift */,
-				12EF662F208D7D2F00739924 /* EventEntityRelationshipsViewModel.swift */,
 				12EF6630208D7D2F00739924 /* EventEntityRelationshipsViewController.swift */,
+				12EF662F208D7D2F00739924 /* EventEntityRelationshipsViewModel.swift */,
 			);
 			path = Relationship;
 			sourceTree = "<group>";
@@ -362,8 +364,9 @@
 		12EF6631208D7D2F00739924 /* Description */ = {
 			isa = PBXGroup;
 			children = (
-				12EF6632208D7D2F00739924 /* EventEntityDescriptionViewModel.swift */,
+				12EF663E208D83DA00739924 /* EventEntityDescriptionReport.swift */,
 				12EF6633208D7D2F00739924 /* EventEntityDescriptionViewController.swift */,
+				12EF6632208D7D2F00739924 /* EventEntityDescriptionViewModel.swift */,
 			);
 			path = Description;
 			sourceTree = "<group>";
@@ -712,6 +715,7 @@
 				12EF663A208D7D2F00739924 /* EventEntityDescriptionViewModel.swift in Sources */,
 				12EF65EC2086D52200739924 /* IncidentListViewModel.swift in Sources */,
 				12EF66042087071800739924 /* OfficerListReport.swift in Sources */,
+				12EF663F208D83DA00739924 /* EventEntityDescriptionReport.swift in Sources */,
 				EAAEB34A1F664705002D6C65 /* EntityPresenter.swift in Sources */,
 				127801F1202AAF09007D0BBB /* EventsListViewModel.swift in Sources */,
 				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,

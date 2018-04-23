@@ -47,30 +47,28 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
     }
 
     func updateReports() {
-        var reports = [EventEntityDetailReport]()
+        var reports = self.report.entityDetailReports
 
         //Remove reports that no longer have entities
-        for report in report.entityDetailReports {
-            if report.event?.entityBucket.entities.contains(report.entity) == false {
-                self.report.entityDetailReports.remove(at: self.report.entityDetailReports.index(where: {$0 == report})!)
+        for report in reports {
+            if self.report.event?.entityBucket.contains(report.entity) == false {
+                reports.remove(at: reports.index(where: {$0 == report})!)
             }
         }
 
         //Create and add new entities
         for entity in report.event?.entityBucket.entities ?? [] {
-            if !self.report.entityDetailReports.contains(where: {$0.entity == entity}) {
-                let report = EventEntityDetailReport(entity: entity, event: self.report.event, incident: self.report.incident)
-                report.evaluator.addObserver(self)
+            if !reports.contains(where: {$0.entity == entity}) {
+                let report = EventEntityDetailReport(entity: entity)
+                report.evaluator.addObserver(report)
                 reports.append(report)
             }
         }
 
-        self.report.entityDetailReports = !reports.isEmpty ? reports : self.report.entityDetailReports
+        self.report.entityDetailReports = reports
     }
 
-
     //MARK: Eval
-
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
 
     //MARK: EntityBucketDelegate
