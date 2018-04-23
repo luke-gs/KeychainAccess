@@ -45,10 +45,12 @@ public class DefaultSearchHeaderDetailView: UIView, SearchHeaderUpdateable {
 
     /// The title label.
     public let titleLabel: UILabel = UILabel(frame: .zero)
-    public let thumbnailView: EntityThumbnailView = EntityThumbnailView()
 
     /// The subtitle label.
     public let subtitleLabel: UILabel = UILabel(frame: .zero)
+
+    /// The thumbnailView (bordered image view).
+    public let thumbnailView = EntityThumbnailView()
 
     public var accessoryView: UIView? {
         didSet {
@@ -89,15 +91,9 @@ public class DefaultSearchHeaderDetailView: UIView, SearchHeaderUpdateable {
         titleLabel.text = configuration.title
         subtitleLabel.text = configuration.subtitle
 
-        if configuration.imageStyle != .entity {
-            thumbnailView.backgroundImageView.image = nil
-        }
-        
-        // Image sizing
-        thumbnailView.imageView.contentMode = .center
-        thumbnailView.imageView.image = configuration.image?.sizing().image
         configuration.image?.loadImage(completion: { (imageSizable) in
             self.thumbnailView.imageView.image = imageSizable.sizing().image
+            self.thumbnailView.imageView.contentMode = imageSizable.sizing().contentMode ?? .center
         })
 
         if thumbnailView.imageView.image == nil {
@@ -109,9 +105,15 @@ public class DefaultSearchHeaderDetailView: UIView, SearchHeaderUpdateable {
             )
             thumbnailView.imageView.image = image
         }
+
+        // hide the silver background for non entity images
+        if configuration.imageStyle != .entity {
+            thumbnailView.backgroundImageView.image = nil
+        }
+
         thumbnailView.imageView.layer.cornerRadius = imageStyle.cornerRadius(for: CGSize(width: imageWidth, height: imageWidth))
         thumbnailView.imageView.clipsToBounds = true
-        thumbnailView.imageView.tintColor = configuration.tintColor ?? UIColor.white
+        thumbnailView.imageView.tintColor = configuration.tintColor
         thumbnailView.borderColor = configuration.borderColor ?? nil
         thumbnailView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(thumbnailView)
