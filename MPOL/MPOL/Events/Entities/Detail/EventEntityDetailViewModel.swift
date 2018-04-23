@@ -9,30 +9,33 @@ import UIKit
 import MPOLKit
 import ClientKit
 
+fileprivate extension EvaluatorKey {
+    static let allValid = EvaluatorKey("allValid")
+}
+
 open class EventEntityDetailViewModel {
-
     public unowned var event: Event
-    public unowned var entity: MPOLKitEntity
+    public unowned var report: EventEntityDetailReport
 
-    init(entity: MPOLKitEntity, event: Event) {
+    init(report: EventEntityDetailReport, event: Event) {
         self.event = event
-        self.entity = entity
+        self.report = report
     }
 
     func viewControllers() -> [UIViewController] {
         return [
-            EventEntityDescriptionViewController(viewModel: EventEntityDescriptionViewModel(entity: entity)),
-            EventEntityRelationshipsViewController(viewModel: EventEntityRelationshipsViewModel(report: EventEntityRelationshipsReport(event: event, entity: entity)))
+            EventEntityDescriptionViewController(viewModel: EventEntityDescriptionViewModel(report: report)),
+            EventEntityRelationshipsViewController()
         ]
     }
 
     func headerView() -> UIView {
         let headerView = SidebarHeaderView()
 
-        let detailDisplayable = EntityDetailsDisplayable(entity)
+        let detailDisplayable = EntityDetailsDisplayable(report.entity)
         headerView.captionLabel.text = detailDisplayable.entityDisplayName?.localizedUppercase
 
-        let summaryDisplayable = EntitySummaryDisplayFormatter.default.summaryDisplayForEntity(entity)
+        let summaryDisplayable = EntitySummaryDisplayFormatter.default.summaryDisplayForEntity(report.entity)
         headerView.titleLabel.text = summaryDisplayable?.title
 
         if let thumbnailInfo = summaryDisplayable?.thumbnail(ofSize: .small) {

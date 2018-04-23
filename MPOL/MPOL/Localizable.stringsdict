@@ -56,10 +56,10 @@
 			<string>%1$d incidents</string>
 		</dict>
 	</dict>
-	<key>%d entities added</key>
+	<key>%d entities</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>%1$#@entities@ added</string>
+		<string>%1$#@entities@</string>
 		<key>entities</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>

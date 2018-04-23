@@ -8,36 +8,39 @@
 import MPOLKit
 import Foundation
 
-public class EventEntitiesListReport : Reportable {
-    public var event: Event?
+fileprivate extension EvaluatorKey {
+    static let valid = EvaluatorKey("valid")
+}
+
+public class EventEntitiesListReport : Reportable, Evaluatable {
+    public weak var event: Event?
+    public weak var incident: Incident?
     
-    public var incident: Incident?
-    
-    public static var supportsSecureCoding: Bool {
-        return true
+    public let evaluator: Evaluator = Evaluator()
+    public var entityDetailReports: [EventEntityDetailReport] = [EventEntityDetailReport]() {
+        didSet {
+            evaluator.updateEvaluation(for: .valid)
+        }
     }
     
     public init(event: Event) {
         self.event = event
+
+        evaluator.registerKey(.valid) {
+            let reportsValid = self.entityDetailReports.reduce(true, { (result, report) -> Bool in
+                return result && report.evaluator.isComplete
+            })
+            return !self.entityDetailReports.isEmpty && reportsValid
+        }
     }
     
-    //need to implement
-    public let evaluator: Evaluator = Evaluator()
+    //MARK: Coding
+    public static var supportsSecureCoding: Bool { return true }
+    public func encode(with aCoder: NSCoder) { }
+    public required init?(coder aDecoder: NSCoder) { MPLCodingNotSupported() }
     
-    //need to implement
-    public func encode(with aCoder: NSCoder) {
-        
-    }
-    
-    //need to implement
-    public required init?(coder aDecoder: NSCoder) {
-        fatalError()
-    }
-    
-    //need to implement
+    //MARK: Eval
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        
+        self.evaluator.updateEvaluation(for: [.valid])
     }
-    
-    
 }

@@ -7,16 +7,74 @@
 
 import Foundation
 import MPOLKit
+import ClientKit
 
-public class EventEntitiesListViewModel {
-    let report: EventEntitiesListReport
+public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
     
+    let report: EventEntitiesListReport
+    public var evaluator: Evaluator { return report.evaluator }
+
     public init(report: EventEntitiesListReport) {
         self.report = report
+        report.event?.entityBucket.delegate = self
+    }
+
+    var headerText: String {
+        return String.localizedStringWithFormat(NSLocalizedString("%d entities", comment: ""), report.entityDetailReports.count)
     }
     
     public func tabColour() -> UIColor {
-        //TODO: Implement returning colour depending on whether or not the event contains at least one entity within an incident (will presumably use the observable protocol?)
-        return .red
+        return evaluator.isComplete ? .midGreen : .red
+    }
+
+    public func reportFor(_ indexPath: IndexPath) -> EventEntityDetailReport {
+        return report.entityDetailReports[indexPath.row]
+    }
+
+    func displayable(for entity: MPOLKitEntity) -> EntitySummaryDisplayable {
+        switch entity {
+        case is Person:
+            return PersonSummaryDisplayable(entity)
+        case is Vehicle:
+            return VehicleSummaryDisplayable(entity)
+        default:
+            fatalError("Entity is Not a valid Type")
+        }
+    }
+
+    func loadingManagerState() -> LoadingStateManager.State {
+        return report.entityDetailReports.isEmpty ? .noContent : .loaded
+    }
+
+    func updateReports() {
+        var reports = [EventEntityDetailReport]()
+
+        //Remove reports that no longer have entities
+        for report in report.entityDetailReports {
+            if report.event?.entityBucket.entities.contains(report.entity) == false {
+                self.report.entityDetailReports.remove(at: self.report.entityDetailReports.index(where: {$0 == report})!)
+            }
+        }
+
+        //Create and add new entities
+        for entity in report.event?.entityBucket.entities ?? [] {
+            if !self.report.entityDetailReports.contains(where: {$0.entity == entity}) {
+                let report = EventEntityDetailReport(entity: entity, event: self.report.event, incident: self.report.incident)
+                report.evaluator.addObserver(self)
+                reports.append(report)
+            }
+        }
+
+        self.report.entityDetailReports = !reports.isEmpty ? reports : self.report.entityDetailReports
+    }
+
+
+    //MARK: Eval
+
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
+
+    //MARK: EntityBucketDelegate
+    public func entitiesDidChange() {
+        updateReports()
     }
 }
