@@ -97,9 +97,7 @@ public class EntityManager {
 }
 
 public protocol EntitySnapshotDelegate: class {
-
     func entitySnapshotDidChange(_ entitySnapshot: EntitySnapshot)
-
 }
 
 public enum EntitySnapshotError: LocalizedError {
