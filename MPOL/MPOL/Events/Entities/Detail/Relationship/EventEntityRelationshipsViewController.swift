@@ -10,7 +10,11 @@ import MPOLKit
 
 class EventEntityRelationshipsViewController: FormBuilderViewController {
 
-    public override init() {
+    var viewModel: EventEntityRelationshipsViewModel
+
+    required convenience init?(coder aDecoder: NSCoder) { MPLUnimplemented()}
+    public init(viewModel: EventEntityRelationshipsViewModel) {
+        self.viewModel = viewModel
         super.init()
 
         self.title = "Relationships"

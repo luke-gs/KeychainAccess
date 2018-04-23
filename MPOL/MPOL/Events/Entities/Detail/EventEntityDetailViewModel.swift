@@ -22,7 +22,7 @@ open class EventEntityDetailViewModel {
     func viewControllers() -> [UIViewController] {
         return [
             EventEntityDescriptionViewController(viewModel: EventEntityDescriptionViewModel(entity: entity)),
-            EventEntityRelationshipsViewController()
+            EventEntityRelationshipsViewController(viewModel: EventEntityRelationshipsViewModel(report: EventEntityRelationshipsReport(event: event, entity: entity)))
         ]
     }
 
