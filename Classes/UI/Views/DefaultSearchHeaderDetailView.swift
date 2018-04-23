@@ -115,7 +115,7 @@ public class DefaultSearchHeaderDetailView: UIView, SearchHeaderUpdateable {
         thumbnailView.imageView.layer.cornerRadius = imageStyle.cornerRadius(for: CGSize(width: imageWidth, height: imageWidth))
         thumbnailView.imageView.clipsToBounds = true
         thumbnailView.imageView.tintColor = configuration.tintColor
-        thumbnailView.borderColor = configuration.borderColor ?? nil
+        thumbnailView.borderColor = configuration.borderColor
         thumbnailView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(thumbnailView)
 
