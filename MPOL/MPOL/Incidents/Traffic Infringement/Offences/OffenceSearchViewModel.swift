@@ -19,9 +19,11 @@ public class OffenceSearchViewModel : SearchDisplayableViewModel {
 
     private var objectDisplayMap: [Object: CustomSearchDisplayable] = [:]
     public private(set) var items: [Object] = []
+    private var filteredItems: [Object] = []
 
-    public init(items: [Object] = []) {
+    public init(items: [Object]) {
         self.items = items
+        filteredItems = self.items
     }
 
     public func numberOfSections() -> Int {
@@ -29,7 +31,7 @@ public class OffenceSearchViewModel : SearchDisplayableViewModel {
     }
 
     public func numberOfRows(in section: Int) -> Int {
-        return items.count
+        return filteredItems.count
     }
 
     public func isSectionHidden(_ section: Int) -> Bool {
@@ -58,24 +60,31 @@ public class OffenceSearchViewModel : SearchDisplayableViewModel {
     }
 
     public func object(for indexPath: IndexPath) -> Offence {
-        return items[indexPath.row]
+        return filteredItems[indexPath.row]
     }
 
     public func searchable(for object: Offence) -> CustomSearchDisplayable {
-        if let existingSearchable = objectDisplayMap[object] {
-            return existingSearchable
+        if let displayable = objectDisplayMap[object] {
+            return displayable
+        } else {
+            let newDisplayable = OffenceListDisplayable(offence: object)
+            objectDisplayMap[object] = newDisplayable
+            return newDisplayable
         }
-        let searchable = OffenceListDisplayable(offence: object)
-        objectDisplayMap[object] = searchable
-        return searchable
     }
 
     public func searchTextChanged(to searchString: String) {
-
+        if searchString.isEmpty {
+            //if string is empty, set filtered back to base copy
+            filteredItems = self.items
+        } else {
+            filteredItems = items.filter{$0.title.lowercased().contains(searchString.lowercased())}
+        }
     }
 
     public func searchAction() -> Promise<Void>? {
-        fatalError()
+        //TODO: Implement search action to pull from server, if required
+        return nil
     }
 
 
