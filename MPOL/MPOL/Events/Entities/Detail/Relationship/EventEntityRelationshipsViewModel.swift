@@ -37,6 +37,13 @@ class EventEntityRelationshipsViewModel {
         return dataSources.isEmpty ? .noContent : .loaded
     }
 
+    func relationshipStatus() -> String? {
+        return !(report.relationships ?? []).isEmpty ? nil : "Unspecified Relationships"
+    }
+
+    func relationshipColour() -> UIColor {
+        return .red
+    }
 
     //MARK: Private
 
