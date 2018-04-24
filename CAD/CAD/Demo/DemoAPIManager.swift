@@ -24,9 +24,11 @@ open class DemoAPIManager: CADAPIManagerType {
     open static let shared = DemoAPIManager()
 
     open func accessTokenRequest(for grant: OAuthAuthorizationGrant) -> Promise<OAuthAccessToken> {
+        return APIManager.shared.accessTokenRequest(for: grant)
+
         // Create dummy token
-        let token = OAuthAccessToken(accessToken: "123", type: "Bearer")
-        return Promise<OAuthAccessToken>.value(token)
+        // let token = OAuthAccessToken(accessToken: "123", type: "Bearer")
+        // return Promise<OAuthAccessToken>.value(token)
     }
 
     public func cadBookOn(with request: CADBookOnRequestType) -> Promise<Void> {
