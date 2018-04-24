@@ -9,6 +9,7 @@
 import Foundation
 import MPOLKit
 import ClientKit
+import PromiseKit
 
 public enum Screen {
     case search
@@ -182,6 +183,18 @@ public class LandingPresenter: AppGroupLandingPresenter {
             self.tabBarController = tabBarController
 
             return tabBarController
+        }
+    }
+
+    /// Custom post authentication logic that must be executed as part of authentication chain
+    override open func postAuthenticateChain() -> Promise<Void> {
+        return firstly {
+            return APIManager.shared.fetchCurrentOfficerDetails(in: MPOLSource.pscore,
+                                                                with: CurrentOfficerDetailsFetchRequest())
+            }.done { officer in
+                try! UserSession.current.userStorage?.add(object: officer,
+                                                          key: UserSession.currentOfficerKey,
+                                                          flag: UserStorageFlag.session)
         }
     }
     
