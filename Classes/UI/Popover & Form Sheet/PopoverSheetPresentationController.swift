@@ -15,12 +15,14 @@ import UIKit
 ///
 /// `PopoverFormSheetPresentationController` also conforms to `UIViewControllerAnimatedTransitioning`
 /// and provides an implementation for a standard form sheet presentation, with a little added "bounce".
-public class PopoverFormSheetPresentationController: UIPresentationController, UIViewControllerAnimatedTransitioning {
+public class PopoverSheetPresentationController: UIPresentationController, UIViewControllerAnimatedTransitioning {
     
     public override var presentedView: UIView? {
         return presentationWrappingView
     }
-    
+
+    private var mode: UIModalPresentationStyle
+
     private var presentationWrappingView: UIVisualEffectView?
     
     private var dimmingView: UIView?
@@ -40,24 +42,20 @@ public class PopoverFormSheetPresentationController: UIPresentationController, U
             applyTheme()
         }
     }
-    
-    
-    
-    // MARK: - Initializers
-    
-    public override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
+
+    public init(presentationMode mode: UIModalPresentationStyle = .formSheet, presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
+        self.mode = mode
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
-        
+
         let notificationCenter = NotificationCenter.default
-        
+
         notificationCenter.addObserver(self, selector: #selector(keyboardWillShow(_:)),  name: .UIKeyboardWillShow, object: nil)
         notificationCenter.addObserver(self, selector: #selector(keyboardWillHide(_:)),  name: .UIKeyboardWillHide, object: nil)
-        
+
         if userInterfaceStyle == .current {
             NotificationCenter.default.addObserver(self, selector: #selector(applyTheme), name: .interfaceStyleDidChange, object: nil)
         }
     }
-    
     
     // MARK: Presentation state start/end handlers
     
@@ -109,8 +107,22 @@ public class PopoverFormSheetPresentationController: UIPresentationController, U
     
     public override func size(forChildContentContainer container: UIContentContainer, withParentContainerSize parentSize: CGSize) -> CGSize {
         var containerSize = container.preferredContentSize
-        if containerSize.width  <=~ 0.0 { containerSize.width  = 540.0 }
-        if containerSize.height <=~ 0.0 { containerSize.height = 620.0 }
+
+        // These are the sizes for either a formSheet or a pageSheet
+        // Existing implementation was formSheet size for all others, keeping
+        // this functionality because why not?
+        let size: CGSize
+        switch mode {
+        case .pageSheet:
+            size = CGSize(width: 768.0, height: 1004.0)
+        case .formSheet:
+            fallthrough
+        default:
+            size = CGSize(width: 540.0, height: 620.0)
+        }
+
+        if containerSize.width  <=~ 0.0 { containerSize.width  = size.width }
+        if containerSize.height <=~ 0.0 { containerSize.height = size.height }
         
         containerSize.width  = min(parentSize.width, containerSize.width)
         containerSize.height = min(parentSize.height, containerSize.height)

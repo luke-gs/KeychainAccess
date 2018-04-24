@@ -54,12 +54,25 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     /// You should use this method to avoid assigning yourself as the popover presentation controller's
     /// delegate, as this will interfere with the adaptive appearance APIs.
     open var dismissHandler: ((Bool) -> Void)?
-    
-    
+
+
+    /// A property to store the original mode that the presenter wished to use.
+    /// Handles the presentation of page sheets as the modalPresentationStyle is reset
+    /// to custom when it is either a page sheet or a formSheet. Passed through to the
+    /// PopoverSheetNavigationController in order to display a sheet of the correct size
+    private var intialPresentationStyle: UIModalPresentationStyle = .fullScreen {
+        didSet {
+            if intialPresentationStyle == .custom {
+                intialPresentationStyle = oldValue
+            }
+        }
+    }
+
     /// `PopoverNavigationController` overrides `modalPresentationStyle` to apply standard defaults
-    /// to the navigation controller presentation.
+    /// to the navigation controller presentation. The original presentation style is kept for
+    /// presentation purposes.
     ///
-    /// - When set to `.formSheet`, the style is overriden and set to `.custom`.
+    /// - When set to `.formSheet` or `pageSheet`, the style is overriden and set to `.custom`.
     /// - When set to `.custom` (or the `.formSheet` style above), the navigation controller becomes
     ///   the transitioning delegate by default, allowing a `PopoverFormSheetPresentationController`
     ///   to be used. You can alternately set another transition delegate and take over management of
@@ -70,8 +83,11 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     ///   with the adaptive appearance APIs.
     open override var modalPresentationStyle: UIModalPresentationStyle {
         didSet {
+
+            intialPresentationStyle = modalPresentationStyle
+
             switch modalPresentationStyle {
-            case .formSheet:
+            case .formSheet, .pageSheet:
                 modalPresentationStyle = .custom
                 fallthrough
             case .custom:
@@ -97,7 +113,7 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     }
     
     
-    private var formSheetPresentationController: PopoverFormSheetPresentationController?
+    private var formSheetPresentationController: PopoverSheetPresentationController?
     
     private lazy var doneButtonItem: UIBarButtonItem = { [unowned self] in
         return UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonItemDidSelect(_:)))
@@ -202,7 +218,9 @@ open class PopoverNavigationController: UINavigationController, PopoverViewContr
     // MARK: - UIViewControllerTransitioningDelegate methods
     
     open func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        formSheetPresentationController = PopoverFormSheetPresentationController(presentedViewController: presented, presenting: presenting)
+        formSheetPresentationController = PopoverSheetPresentationController(presentationMode: intialPresentationStyle,
+                                                                             presentedViewController: presented,
+                                                                             presenting: presenting)
         formSheetPresentationController?.delegate = self
         return formSheetPresentationController
     }

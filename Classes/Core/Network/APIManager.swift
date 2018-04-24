@@ -139,6 +139,9 @@ open class APIManager {
 
         let (promise, resolver) = Promise<DataResponse<Data>>.pending()
 
+        // Declare a constant for self here, then use the constant inside of
+        // closure to be captured. Keep self alive long enough so all requests are completed.
+        let toBeCapturedSelf = self
         createSessionRequestWithProgress(from: urlRequest).done { request -> () in
 
             cancelToken?.addCancelCommand(ClosureCancelCommand(action: {
@@ -149,7 +152,7 @@ open class APIManager {
             }))
 
             // Notify plugins of request
-            let allPlugins = self.applicablePlugins(for: request.request?.url)
+            let allPlugins = toBeCapturedSelf.applicablePlugins(for: request.request?.url)
             allPlugins.forEach {
                 $0.willSend(request)
             }
@@ -174,10 +177,11 @@ open class APIManager {
                     processed = processed.then { return plugin.processResponse($0) }
                 }
 
-                _ = processed.done { [unowned self] dataResponse -> Void in
+                _ = processed.done { dataResponse -> Void in
+
                     // Handle errors that were still technically responses.
                     if let error = dataResponse.result.error {
-                        resolver.reject(self.mappedError(underlyingError: error, response: dataResponse.toDefaultDataResponse()))
+                        resolver.reject(toBeCapturedSelf.mappedError(underlyingError: error, response: dataResponse.toDefaultDataResponse()))
                     }
                     resolver.fulfill(dataResponse)
                 }
