@@ -33,6 +33,11 @@ class EventEntityRelationshipsViewModel {
         return report.evaluator.isComplete == true ? .midGreen : .red
     }
 
+    public func loadingManagerState() -> LoadingStateManager.State {
+        return dataSources.isEmpty ? .noContent : .loaded
+    }
+
+
     //MARK: Private
 
     private func createDatasources() {

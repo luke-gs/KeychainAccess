@@ -19,7 +19,7 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
         report.event?.entityBucket.delegate = self
     }
 
-    var headerText: String {
+    public var headerText: String {
         return String.localizedStringWithFormat(NSLocalizedString("%d entities", comment: ""), report.entityDetailReports.count)
     }
     
@@ -31,7 +31,7 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
         return report.entityDetailReports[indexPath.row]
     }
 
-    func displayable(for entity: MPOLKitEntity) -> EntitySummaryDisplayable {
+    public func displayable(for entity: MPOLKitEntity) -> EntitySummaryDisplayable {
         switch entity {
         case is Person:
             return PersonSummaryDisplayable(entity)
@@ -48,6 +48,8 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
 
     func updateReports() {
         var reports = self.report.entityDetailReports
+
+        var entitiesChanged = false
 
         //Remove reports that no longer have entities
         for report in reports {
@@ -68,11 +70,11 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
         self.report.entityDetailReports = reports
     }
 
-    func relationshipStatus() -> String {
-        return "Unspecified Relationships"
+    func relationshipStatusFor(_ item: Int) -> String? {
+        return report.entityDetailReports[item].evaluator.isComplete ? nil : "Unspecified Relationships"
     }
 
-    func relationshipColour() -> UIColor {
+    func relationshipColourFor(_ item: Int) -> UIColor {
         return .red
     }
 
@@ -81,6 +83,9 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
 
     //MARK: EntityBucketDelegate
     public func entitiesDidChange() {
+        //Reset validation of relationship report if entities have changed
+        report.entityDetailReports.forEach{$0.relationshipsReport.viewed = false}
+        
         updateReports()
     }
 }

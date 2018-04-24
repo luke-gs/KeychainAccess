@@ -15,22 +15,26 @@ fileprivate extension EvaluatorKey {
 public class EventEntityRelationshipsReport: Reportable {
     public weak var event: Event?
     public weak var incident: Incident?
-    weak var entity: MPOLKitEntity?
-
-    var viewed: Bool = false {
+    public weak var entity: MPOLKitEntity?
+    
+    public var relationships: [Relationship]? {
+        return event?.relationshipManager.relationshipsFor(entity: entity!).toEntity
+    }
+    
+    public var viewed: Bool = false {
         didSet {
             evaluator.updateEvaluation(for: .viewed)
         }
     }
-
-    init(event: Event?, entity: MPOLKitEntity) {
+    
+    public init(event: Event?, entity: MPOLKitEntity) {
         self.event = event
         self.entity = entity
-
+        
         evaluator.registerKey(.viewed) {
             return self.viewed
         }
-
+        
         evaluator.registerKey(.relationshipCompleted) {
             let relationships = self.event?.relationshipManager.relationshipsFor(entity: entity).toEntity ?? []
             let relationshipsValid = relationships.reduce(true, { (isValid, relationship) -> Bool in
@@ -39,13 +43,13 @@ public class EventEntityRelationshipsReport: Reportable {
             return relationshipsValid
         }
     }
-
+    
     //MARK: Eval
     public var evaluator: Evaluator = Evaluator()
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
-
+    
     //MARK: Coding
     public static var supportsSecureCoding: Bool = true
-    required public init?(coder aDecoder: NSCoder) { MPLCodingNotSupported() }
+    public required init?(coder aDecoder: NSCoder) { MPLCodingNotSupported() }
     public func encode(with aCoder: NSCoder) { }
 }

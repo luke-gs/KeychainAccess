@@ -13,6 +13,7 @@ class EventEntityRelationshipsViewController: FormBuilderViewController, Evaluat
 
     let viewModel: EventEntityRelationshipsViewModel
 
+    required convenience init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
     public required init(viewModel: EventEntityRelationshipsViewModel) {
         self.viewModel = viewModel
         super.init()
@@ -24,16 +25,17 @@ class EventEntityRelationshipsViewController: FormBuilderViewController, Evaluat
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconRelationships)!
         sidebarItem.color = viewModel.tintColour()
 
-        viewModel.report.evaluator.addObserver(self)
-    }
+        loadingManager.noContentView.titleLabel.text = "No Entities"
+        loadingManager.noContentView.subtitleLabel.text = "There are no relationships that need to be defined"
+        loadingManager.noContentView.imageView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.dialogAlert)
 
-    required convenience init?(coder aDecoder: NSCoder) {
-        MPLUnimplemented()
+        viewModel.report.evaluator.addObserver(self)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.report.viewed = true
+        loadingManager.state = viewModel.loadingManagerState()
     }
 
     override func construct(builder: FormBuilder) {
