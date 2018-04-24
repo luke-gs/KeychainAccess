@@ -11,7 +11,7 @@ import ClientKit
 
 public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
     
-    let report: EventEntitiesListReport
+    public let report: EventEntitiesListReport
     public var evaluator: Evaluator { return report.evaluator }
 
     public init(report: EventEntitiesListReport) {
@@ -42,11 +42,11 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
         }
     }
 
-    func loadingManagerState() -> LoadingStateManager.State {
+    public func loadingManagerState() -> LoadingStateManager.State {
         return report.entityDetailReports.isEmpty ? .noContent : .loaded
     }
 
-    func updateReports() {
+    public func updateReports() {
         var reports = self.report.entityDetailReports
 
         var entitiesChanged = false
@@ -70,11 +70,11 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
         self.report.entityDetailReports = reports
     }
 
-    func relationshipStatusFor(_ item: Int) -> String? {
+    public func relationshipStatusFor(_ item: Int) -> String? {
         return report.entityDetailReports[item].evaluator.isComplete ? nil : "Unspecified Relationships"
     }
 
-    func relationshipColourFor(_ item: Int) -> UIColor {
+    public func relationshipColourFor(_ item: Int) -> UIColor {
         return .red
     }
 
@@ -85,7 +85,7 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
     public func entitiesDidChange() {
         //Reset validation of relationship report if entities have changed
         report.entityDetailReports.forEach{$0.relationshipsReport.viewed = false}
-        
+
         updateReports()
     }
 }
