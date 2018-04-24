@@ -50,6 +50,8 @@ public class EventEntitiesListViewController : FormBuilderViewController, Evalua
         builder += reports.map { report in
             return viewModel.displayable(for: report.entity)
                 .summaryListFormItem()
+                .detail(viewModel.relationshipStatus())
+                .detailColor(viewModel.relationshipColour())
                 .onSelection { cell in
                     guard let indexPath = self.collectionView?.indexPath(for: cell) else { return }
                     self.showDetailsFor(self.viewModel.reportFor(indexPath))

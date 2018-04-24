@@ -68,6 +68,14 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
         self.report.entityDetailReports = reports
     }
 
+    func relationshipStatus() -> String {
+        return "Unspecified Relationships"
+    }
+
+    func relationshipColour() -> UIColor {
+        return .red
+    }
+
     //MARK: Eval
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
 
