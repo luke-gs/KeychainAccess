@@ -253,8 +253,14 @@ open class RegularSidebarViewController: UIViewController, UITableViewDataSource
     }
     
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let item = items[indexPath.row]
         let cell = tableView.dequeueReusableCell(of: RegularSidebarTableViewCell.self, for: indexPath)
-        cell.update(for: items[indexPath.row])
+        cell.update(for: item)
+        if selectedItem == item {
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        } else {
+            tableView.deselectRow(at: indexPath, animated: false)
+        }
         return cell
     }
     
