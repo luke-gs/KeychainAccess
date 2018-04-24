@@ -252,7 +252,7 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
         let subtitleHeight = subtitleSizing?.minimumHeight(inWidth: width - 48 - 16 - sourceWidth - accessoryWidth, compatibleWith: traitCollection) ?? 0
         let detailHeight = detailSizing?.minimumHeight(inWidth: width - 48 - 16 - accessoryWidth, compatibleWith: traitCollection) ?? 0
 
-        return max(titleHeight + subtitleHeight + detailHeight, 48.0)
+        return max(titleHeight + subtitleHeight + detailHeight + CellTitleSubtitleSeparation, 48.0)
     }
     
 }
