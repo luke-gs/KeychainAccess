@@ -14,15 +14,15 @@ fileprivate extension EvaluatorKey {
 public class EventEntityDescriptionReport: Reportable {
     public weak var event: Event?
     public weak var incident: Incident?
-    weak var entity: MPOLKitEntity?
+    public weak var entity: MPOLKitEntity?
 
-    var viewed: Bool = false {
+    public var viewed: Bool = false {
         didSet {
             evaluator.updateEvaluation(for: .viewed)
         }
     }
 
-    init(event: Event?, entity: MPOLKitEntity) {
+    public init(event: Event?, entity: MPOLKitEntity) {
         self.event = event
         self.entity = entity
 
