@@ -14,6 +14,8 @@ import UIKit
 /// as the background color.
 open class RoundedRectButton: UIButton {
 
+    public static let defaultInsets = UIEdgeInsets(top: 8.0, left: 20.0, bottom: 8.0, right: 20.0)
+    
     // MARK: - Initialization
     
     public override init(frame: CGRect) {
@@ -36,7 +38,7 @@ open class RoundedRectButton: UIButton {
         layer.rasterizationScale = traitCollection.currentDisplayScale
         tintAdjustmentMode = .normal
         
-        contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 20.0, bottom: 8.0, right: 20.0)
+        contentEdgeInsets = RoundedRectButton.defaultInsets
     }
     
     
