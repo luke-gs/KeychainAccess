@@ -27,6 +27,9 @@ open class NotificationManager: NSObject {
     /// The current Apple issued push token
     open private(set) var pushToken: String?
     
+    /// The current AES key for push notification payload decryption
+    open private(set) var pushKey: Data?
+
     /// Convenience for notification center
     open let notificationCenter = UNUserNotificationCenter.current()
 
@@ -117,6 +120,7 @@ open class NotificationManager: NSObject {
         // Set default properties
         request.deviceId = Device.current.deviceUuid
         request.deviceType = "iOS"
+        request.pushKey = CryptoUtils.generateKey()?.base64EncodedString()
 
         #if DEBUG
         request.appVersion = "debug"
@@ -126,6 +130,9 @@ open class NotificationManager: NSObject {
 
         // Configure app specific properties
         handler.configureNotificationRegistrationRequest(request: request)
+
+        // Remember the push key for later decryption (after handler may have overidden it)
+        self.pushKey = Data(base64Encoded: request.pushKey)
 
         // Try to register the device, pass any errors to the app specific handler
         APIManager.shared.registerDevice(with: request).catch { error in

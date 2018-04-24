@@ -23,6 +23,9 @@ open class RegisterDeviceRequest: CodableRequestParameters {
     /// Token used to identify this device for push notifications
     open var pushToken: String!
 
+    /// Key used to encrypt push notifications sent to this device
+    open var pushKey: String!
+
     /// What application registered this device
     open var sourceApp: String!
 
@@ -33,6 +36,7 @@ open class RegisterDeviceRequest: CodableRequestParameters {
         case deviceId
         case deviceType
         case pushToken
+        case pushKey
         case sourceApp
     }
 

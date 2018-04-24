@@ -399,6 +399,7 @@
 		962F177820894F0300156247 /* CADAlertLevelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962F177720894F0300156247 /* CADAlertLevelType.swift */; };
 		962F177C2089512600156247 /* CADEnumIntType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962F177B2089512600156247 /* CADEnumIntType.swift */; };
 		962F1780208957DA00156247 /* CADAlertLevelCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962F177F208957D900156247 /* CADAlertLevelCore.swift */; };
+		962F179B208F081E00156247 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962F179A208F081E00156247 /* CryptoUtils.swift */; };
 		96361676204F8A0C0012AEC4 /* BroadcastAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96361675204F8A0C0012AEC4 /* BroadcastAnnotation.swift */; };
 		96361678204F8A150012AEC4 /* BroadcastAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96361677204F8A150012AEC4 /* BroadcastAnnotationView.swift */; };
 		9636167A204F8AAD0012AEC4 /* BroadcastOverviewMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96361679204F8AAD0012AEC4 /* BroadcastOverviewMapViewModel.swift */; };
@@ -1250,6 +1251,7 @@
 		962F177720894F0300156247 /* CADAlertLevelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADAlertLevelType.swift; sourceTree = "<group>"; };
 		962F177B2089512600156247 /* CADEnumIntType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADEnumIntType.swift; sourceTree = "<group>"; };
 		962F177F208957D900156247 /* CADAlertLevelCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADAlertLevelCore.swift; sourceTree = "<group>"; };
+		962F179A208F081E00156247 /* CryptoUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoUtils.swift; sourceTree = "<group>"; };
 		96361675204F8A0C0012AEC4 /* BroadcastAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastAnnotation.swift; sourceTree = "<group>"; };
 		96361677204F8A150012AEC4 /* BroadcastAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastAnnotationView.swift; sourceTree = "<group>"; };
 		96361679204F8AAD0012AEC4 /* BroadcastOverviewMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastOverviewMapViewModel.swift; sourceTree = "<group>"; };
@@ -3805,6 +3807,7 @@
 				19AF434E2080590C005C0F97 /* SharedKeychainCapability.swift */,
 				273A5C1720057B2E0009D9A0 /* SystemVersion.swift */,
 				96F77283202031E4000FE0D0 /* RelativeDateFormatter.swift */,
+				962F179A208F081E00156247 /* CryptoUtils.swift */,
 			);
 			name = Utility;
 			path = Classes/Core/Utility;
@@ -5167,6 +5170,7 @@
 				464A5E8F1FD4A8F900B4C0F9 /* ResourceError.swift in Sources */,
 				1914E596203C2DB100EE124A /* ButtonStackView.swift in Sources */,
 				27FDABB71FB91B02003466AF /* OfficerCommunicationsView.swift in Sources */,
+				962F179B208F081E00156247 /* CryptoUtils.swift in Sources */,
 				2764713520295A40008F26A1 /* PSCAlertActionView.swift in Sources */,
 				965CD8A81F8ECDBA007C3EEA /* TasksListContainerViewController.swift in Sources */,
 				273A5C1A2005B8DC0009D9A0 /* GlassBarView.swift in Sources */,
