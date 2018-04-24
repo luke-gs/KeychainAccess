@@ -21,7 +21,9 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
     public let titleLabel: UILabel = UILabel(frame: .zero)
     
     public let subtitleLabel: UILabel = UILabel(frame: .zero)
-    
+
+    public let detailLabel: UILabel = UILabel(frame: .zero)
+
     
     open var actionCount: UInt = 0 {
         didSet {
@@ -66,27 +68,32 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
         let sourceLabel       = self.sourceLabel
         let titleLabel        = self.titleLabel
         let subtitleLabel     = self.subtitleLabel
-        
+        let detailLabel       = self.detailLabel
+
         badgeView.translatesAutoresizingMaskIntoConstraints         = false
         borderedImageView.translatesAutoresizingMaskIntoConstraints = false
         sourceLabel.translatesAutoresizingMaskIntoConstraints       = false
         titleLabel.translatesAutoresizingMaskIntoConstraints        = false
         subtitleLabel.translatesAutoresizingMaskIntoConstraints     = false
-        
+        detailLabel.translatesAutoresizingMaskIntoConstraints     = false
+
         sourceLabel.adjustsFontForContentSizeCategory = true
         titleLabel.adjustsFontForContentSizeCategory = true
         subtitleLabel.adjustsFontForContentSizeCategory = true
-        
+        detailLabel.adjustsFontForContentSizeCategory = true
+
         let traitCollection = self.traitCollection
         titleLabel.font = .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
         subtitleLabel.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
-        
+        detailLabel.font = .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(titleLabel)
         contentView.addSubview(sourceLabel)
         contentView.addSubview(borderedImageView)
         contentView.addSubview(badgeView)
-        
+        contentView.addSubview(detailLabel)
+
         let textLayoutGuide        = self.textLayoutGuide
         let contentModeLayoutGuide = self.contentModeLayoutGuide
         contentView.addLayoutGuide(textLayoutGuide)
@@ -96,7 +103,8 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
         sourceLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .vertical)
         titleLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .vertical)
         subtitleLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .vertical)
-        
+        detailLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .vertical)
+
         sourceSubtitleHorizontalConstraint = NSLayoutConstraint(item: subtitleLabel, attribute: .leading,  relatedBy: .equal, toItem: sourceLabel, attribute: .trailing, constant: 8.0)
         
         NSLayoutConstraint.activate([
@@ -116,9 +124,8 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: titleLabel, attribute: .top,      relatedBy: .equal,           toItem: textLayoutGuide, attribute: .top),
             NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .equal,           toItem: textLayoutGuide, attribute: .trailing),
             
-            NSLayoutConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .equal,           toItem: textLayoutGuide, attribute: .trailing),
-            NSLayoutConstraint(item: subtitleLabel, attribute: .bottom,   relatedBy: .equal,           toItem: textLayoutGuide, attribute: .bottom),
-            
+            NSLayoutConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .equal, toItem: textLayoutGuide, attribute: .trailing),
+
             NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: titleLabel, attribute: .bottom, constant: CellTitleSubtitleSeparation),
             NSLayoutConstraint(item: sourceLabel, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: titleLabel, attribute: .bottom, constant: CellTitleSubtitleSeparation),
             NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .equal, toItem: textLayoutGuide, attribute: .top, priority: UILayoutPriority.defaultLow),
@@ -130,7 +137,17 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
             
             NSLayoutConstraint(item: borderedImageView, attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriority.defaultLow),
             NSLayoutConstraint(item: textLayoutGuide, attribute: .top, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .top, priority: UILayoutPriority.defaultLow),
-            
+
+            //Detail Label
+            NSLayoutConstraint(item: detailLabel, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: subtitleLabel, attribute: .bottom, constant: CellSubtitleDetailSeparation),
+
+            NSLayoutConstraint(item: detailLabel, attribute: .trailing, relatedBy: .equal, toItem: textLayoutGuide, attribute: .trailing),
+
+            NSLayoutConstraint(item: detailLabel, attribute: .leading, relatedBy: .equal, toItem: textLayoutGuide, attribute: .leading),
+
+            NSLayoutConstraint(item: detailLabel, attribute: .bottom, relatedBy: .equal, toItem: textLayoutGuide, attribute: .bottom),
+
+
             sourceSubtitleHorizontalConstraint
             ])
         
@@ -151,7 +168,7 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
             if let setValue = super.accessibilityLabel {
                 return setValue
             }
-            return [titleLabel, subtitleLabel].compactMap({ $0.text }).joined(separator: ", ")
+            return [titleLabel, subtitleLabel, detailLabel].compactMap({ $0.text }).joined(separator: ", ")
         }
         set {
             super.accessibilityLabel = newValue
@@ -180,11 +197,12 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
     ///   - width: The given width for the cell.
     ///   - traitCollection: The trait collection the cell will be displayed in.
     /// - Returns: The minumum content height for the cell.
-    open class func minimumContentHeight(withTitle title: StringSizable?, subtitle: StringSizable?, source: String?, accessorySize: CGSize? = nil, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
+    open class func minimumContentHeight(withTitle title: StringSizable?, subtitle: StringSizable?,  detail: StringSizable?, source: String?, accessorySize: CGSize? = nil, inWidth width: CGFloat, compatibleWith traitCollection: UITraitCollection) -> CGFloat {
         
         // Default fonts for each label
         let titleFont    = UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
         let subtitleFont = UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+        let detailFont   = UIFont.preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
         let sourceFont   = UIFont.preferredFont(forTextStyle: .body,     compatibleWith: traitCollection)
         
         var accessoryWidth: CGFloat = 0.0
@@ -209,7 +227,7 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
         if let source = source {
             sourceWidth = source.sizing(withNumberOfLines: 1, font: sourceFont).minimumWidth(compatibleWith: traitCollection) + 10 + 10 + 8
         }
-        
+
         // Sizing for subtitle
         var subtitleSizing = subtitle?.sizing()
         if subtitleSizing != nil {
@@ -220,9 +238,21 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
                 subtitleSizing!.numberOfLines = 1
             }
         }
+
+        // Sizing for detail
+        var detailSizing = detail?.sizing()
+        if detailSizing != nil {
+            if detailSizing!.font == nil {
+                detailSizing!.font = detailFont
+            }
+            if detailSizing!.numberOfLines == nil {
+                detailSizing!.numberOfLines = 1
+            }
+        }
         let subtitleHeight = subtitleSizing?.minimumHeight(inWidth: width - 48 - 16 - sourceWidth - accessoryWidth, compatibleWith: traitCollection) ?? 0
-        
-        return max(titleHeight + subtitleHeight, 48.0)
+        let detailHeight = detailSizing?.minimumHeight(inWidth: width - 48 - 16 - accessoryWidth, compatibleWith: traitCollection) ?? 0
+
+        return max(titleHeight + subtitleHeight + detailHeight, 48.0)
     }
     
 }

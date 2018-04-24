@@ -30,11 +30,15 @@ public class SummaryListFormItem: BaseFormItem {
 
     public var subtitle: StringSizable?
 
+    public var detail: StringSizable?
+
     public var badge: UInt = 0
 
     public var badgeColor: UIColor?
 
     public var borderColor: UIColor?
+
+    public var detailColor: UIColor?
 
     public var imageTintColor: UIColor?
 
@@ -55,6 +59,7 @@ public class SummaryListFormItem: BaseFormItem {
         cell.sourceLabel.text = category
         cell.titleLabel.apply(sizable: title, defaultFont: defaultTitleFont(for: cell.traitCollection), defaultNumberOfLines: 1)
         cell.subtitleLabel.apply(sizable: subtitle, defaultFont: defaultSubtitleFont(for: cell.traitCollection), defaultNumberOfLines: 1)
+        cell.detailLabel.apply(sizable: detail, defaultFont: defaultSubtitleFont(for: cell.traitCollection), defaultNumberOfLines: 1)
         cell.borderColor = badgeColor
         cell.actionCount = badge
         cell.thumbnailView.borderColor = borderColor
@@ -80,6 +85,7 @@ public class SummaryListFormItem: BaseFormItem {
     public override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
         return EntityListCollectionViewCell.minimumContentHeight(withTitle: title?.sizing(defaultNumberOfLines: 1, defaultFont: defaultTitleFont(for: traitCollection)),
                                                                  subtitle: subtitle?.sizing(defaultNumberOfLines: 1, defaultFont: defaultSubtitleFont(for: traitCollection)),
+                                                                 detail: detail?.sizing(defaultNumberOfLines: 1, defaultFont: defaultSubtitleFont(for: traitCollection)),
                                                                  source: category,
                                                                  accessorySize: accessory?.size,
                                                                  inWidth: contentWidth,
@@ -93,7 +99,8 @@ public class SummaryListFormItem: BaseFormItem {
         let cell = cell as! EntityListCollectionViewCell
         cell.titleLabel.textColor = primaryTextColor
         cell.subtitleLabel.textColor = secondaryTextColor
-        
+        cell.detailLabel.textColor = detailColor ?? secondaryTextColor
+
         cell.sourceLabel.textColor = secondaryTextColor
         cell.sourceLabel.borderColor = secondaryTextColor
         cell.sourceLabel.backgroundColor = .clear
@@ -102,8 +109,12 @@ public class SummaryListFormItem: BaseFormItem {
     private func defaultTitleFont(for traitCollection: UITraitCollection?) -> UIFont {
         return .preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
     }
-    
+
     private func defaultSubtitleFont(for traitCollection: UITraitCollection?) -> UIFont {
+        return .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
+    }
+
+    private func defaultDetailFont(for traitCollection: UITraitCollection?) -> UIFont {
         return .preferredFont(forTextStyle: .footnote, compatibleWith: traitCollection)
     }
 
@@ -139,10 +150,23 @@ extension SummaryListFormItem {
     }
 
     @discardableResult
+    public func detail(_ detail: StringSizable?) -> Self {
+        self.detail = detail
+        return self
+    }
+
+    @discardableResult
     public func badge(_ badge: UInt) -> Self {
         self.badge = badge
         return self
     }
+
+    @discardableResult
+    public func detailColor(_ detailColor: UIColor?) -> Self {
+        self.detailColor = detailColor
+        return self
+    }
+
 
     @discardableResult
     public func badgeColor(_ badgeColor: UIColor?) -> Self {
