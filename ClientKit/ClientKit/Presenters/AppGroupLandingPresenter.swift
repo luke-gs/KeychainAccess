@@ -219,13 +219,8 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
         }.done {
             UserSession.startSession(user: User(username: username), token: lToken!)
             self.updateInterfaceForUserSession(animated: true)
-        }.then { () -> Promise<Officer> in
-            return APIManager.shared.fetchCurrentOfficerDetails(in: MPOLSource.pscore,
-                                                                with: CurrentOfficerDetailsFetchRequest())
-        }.done { officer in
-            try! UserSession.current.userStorage?.add(object: officer,
-                                                      key: UserSession.currentOfficerKey,
-                                                      flag: UserStorageFlag.session)
+        }.then { [unowned self] () -> Promise<Void> in
+            return self.postAuthenticateChain()
         }.ensure {
             controller.setLoading(false, animated: true)
         }.catch { error in
@@ -237,6 +232,12 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
             controller.present(SystemScreen.serverError(title: title, message: message))
         }
 
+    }
+
+    /// Custom post authentication logic that must be executed as part of authentication chain
+    /// Eg Search uses this to fetch officer details
+    open func postAuthenticateChain() -> Promise<Void> {
+        return Promise<Void>()
     }
 
     private func askForBiometricPermission(in controller: UIViewController) -> Promise<Void> {
