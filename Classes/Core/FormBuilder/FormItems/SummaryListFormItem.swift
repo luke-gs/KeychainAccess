@@ -167,7 +167,6 @@ extension SummaryListFormItem {
         return self
     }
 
-
     @discardableResult
     public func badgeColor(_ badgeColor: UIColor?) -> Self {
         self.badgeColor = badgeColor
