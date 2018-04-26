@@ -428,6 +428,9 @@
 		966CE9C9203676C100646A6A /* CADBroadcastCategoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9C8203676C100646A6A /* CADBroadcastCategoryType.swift */; };
 		966CE9CD20367DCF00646A6A /* CADIncidentStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9CC20367DCF00646A6A /* CADIncidentStatusType.swift */; };
 		966CE9D120368DB800646A6A /* CADPatrolStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9D020368DB800646A6A /* CADPatrolStatusType.swift */; };
+		96707B452091D85200C4BFDC /* BlockCipherType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96707B442091D85200C4BFDC /* BlockCipherType.swift */; };
+		96707B472091D88600C4BFDC /* BlockCipherCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96707B462091D88600C4BFDC /* BlockCipherCore.swift */; };
+		96707B492091D95600C4BFDC /* CipherOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96707B482091D95600C4BFDC /* CipherOperation.swift */; };
 		9672C7E7200429C1005DE6BE /* StatusChangeReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9672C7E6200429C1005DE6BE /* StatusChangeReasonViewController.swift */; };
 		9674E0E71FC68015000702F8 /* LoadingStateLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9674E0E61FC68015000702F8 /* LoadingStateLoadingView.swift */; };
 		9674E0E91FC68031000702F8 /* LoadingStateErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9674E0E81FC68031000702F8 /* LoadingStateErrorView.swift */; };
@@ -1280,6 +1283,9 @@
 		966CE9C8203676C100646A6A /* CADBroadcastCategoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADBroadcastCategoryType.swift; sourceTree = "<group>"; };
 		966CE9CC20367DCF00646A6A /* CADIncidentStatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADIncidentStatusType.swift; sourceTree = "<group>"; };
 		966CE9D020368DB800646A6A /* CADPatrolStatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADPatrolStatusType.swift; sourceTree = "<group>"; };
+		96707B442091D85200C4BFDC /* BlockCipherType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockCipherType.swift; sourceTree = "<group>"; };
+		96707B462091D88600C4BFDC /* BlockCipherCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockCipherCore.swift; sourceTree = "<group>"; };
+		96707B482091D95600C4BFDC /* CipherOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherOperation.swift; sourceTree = "<group>"; };
 		9672C7E6200429C1005DE6BE /* StatusChangeReasonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusChangeReasonViewController.swift; sourceTree = "<group>"; };
 		9674E0E61FC68015000702F8 /* LoadingStateLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStateLoadingView.swift; sourceTree = "<group>"; };
 		9674E0E81FC68031000702F8 /* LoadingStateErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStateErrorView.swift; sourceTree = "<group>"; };
@@ -2955,6 +2961,17 @@
 			path = Tasks;
 			sourceTree = "<group>";
 		};
+		96707B432091D7F700C4BFDC /* Crypto */ = {
+			isa = PBXGroup;
+			children = (
+				96707B462091D88600C4BFDC /* BlockCipherCore.swift */,
+				96707B442091D85200C4BFDC /* BlockCipherType.swift */,
+				96707B482091D95600C4BFDC /* CipherOperation.swift */,
+				962F179A208F081E00156247 /* CryptoUtils.swift */,
+			);
+			path = Crypto;
+			sourceTree = "<group>";
+		};
 		9674E0E51FC67FC7000702F8 /* Loading */ = {
 			isa = PBXGroup;
 			children = (
@@ -3807,7 +3824,6 @@
 				19AF434E2080590C005C0F97 /* SharedKeychainCapability.swift */,
 				273A5C1720057B2E0009D9A0 /* SystemVersion.swift */,
 				96F77283202031E4000FE0D0 /* RelativeDateFormatter.swift */,
-				962F179A208F081E00156247 /* CryptoUtils.swift */,
 			);
 			name = Utility;
 			path = Classes/Core/Utility;
@@ -4191,6 +4207,7 @@
 		EA8B66691F393A0000F09716 /* Subspec */ = {
 			isa = PBXGroup;
 			children = (
+				96707B432091D7F700C4BFDC /* Crypto */,
 				19A2E1252075FE980033ADA3 /* Activities */,
 				9624A4581F83555A00CAE056 /* CAD */,
 				EA8B666A1F393A2000F09716 /* EntitySearch */,
@@ -4570,6 +4587,7 @@
 				EA625B191F9703540025EAFB /* DropDownFormItem.swift in Sources */,
 				2744E38F2051DD8500561A8F /* CADBroadcastCategoryCore.swift in Sources */,
 				2768C0461F85EB2A008532ED /* MapSettingsViewModel.swift in Sources */,
+				96707B492091D95600C4BFDC /* CipherOperation.swift in Sources */,
 				BC9C7E2C1F0DED6600DFFE83 /* UIColor+Hex.swift in Sources */,
 				BC2C97481F31FEF7006A0727 /* ThemeManager.swift in Sources */,
 				193ED0891FDE73A6002F2837 /* Plugin.swift in Sources */,
@@ -4683,6 +4701,7 @@
 				C605F8A91ECCAD3B001194DD /* Manifest.xcdatamodeld in Sources */,
 				19FEC9831F43F769005692A9 /* ErrorMapper.swift in Sources */,
 				12D4450D2047BAFC00A4D4C1 /* IncidentsManager.swift in Sources */,
+				96707B472091D88600C4BFDC /* BlockCipherCore.swift in Sources */,
 				445BB13020465DBA00A81375 /* NavigationTitleView.swift in Sources */,
 				12D8E2A11F9ED12100EEE214 /* GenericSearchDefaultViewModel.swift in Sources */,
 				279B057B200D572300C3EFB0 /* LargeTextHeaderFormItem.swift in Sources */,
@@ -5068,6 +5087,7 @@
 				9679A6491F9EEDB7007BC806 /* BookOnDetailsOfficerFormItem.swift in Sources */,
 				4634B4441FBD6FD200D71E7F /* APIManager+LocationSearch.swift in Sources */,
 				12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */,
+				96707B452091D85200C4BFDC /* BlockCipherType.swift in Sources */,
 				2715D6411FD505F300BD0E95 /* IncidentResourcesViewModel.swift in Sources */,
 				460B7B45200F0F2800C3315E /* SketchCanvas.swift in Sources */,
 				EA11F0261F83357D00BF8BCA /* ImageSizing.swift in Sources */,
