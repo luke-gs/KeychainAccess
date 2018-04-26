@@ -5431,6 +5431,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = au.com.gridstone.MPOLKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/CommonCrypto";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 			};
@@ -5454,6 +5455,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = au.com.gridstone.MPOLKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/CommonCrypto";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;

@@ -7,6 +7,13 @@
 
 import Foundation
 
+// Note: CommonCrypto is normally imported into a Swift app using a bridging header.
+// But you cannot use bridging headers in frameworks, and you cannot import the
+// CommonCrypto framework into the umbrella header. So instead, we have defined our
+// own module.modulemap file under mPolKit-iOS/CommonCrypto that imports the
+// <CommonCrypto/CommonCrypto.h> header
+import CommonCrypto
+
 public class CryptoUtils {
 
     /// Enum for different key types
