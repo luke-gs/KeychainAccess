@@ -16,29 +16,11 @@ final public class RelationshipManager {
         relationships.first(where: {$0 == relationship})?.reasons.append(reason)
     }
 
-    public func relationshipsFor(entity: MPOLKitEntity) -> (baseEntity: [Relationship]?, toEntity: [Relationship]?) {
+    public func relationshipsFor(_ entity: MPOLKitEntity)
+        -> (baseEntityRelationships: [Relationship]?, relatedEntityRelationships: [Relationship]?)
+    {
         let base = relationships.filter{$0.baseEntity == entity}
-        let to = relationships.filter{$0.toEntity == entity}
-        return (baseEntity: base, toEntity: to)
+        let related = relationships.filter{$0.relatedEntity == entity}
+        return (baseEntityRelationships: base, relatedEntityRelationships: related)
     }
-}
-
-public class Relationship: Equatable {
-    public var baseEntity: MPOLKitEntity
-    public var toEntity: MPOLKitEntity
-    public var reasons: [String] = [String]()
-
-    init(baseEntity: MPOLKitEntity, toEntity: MPOLKitEntity, reasons: [String] = []) {
-        self.baseEntity = baseEntity
-        self.toEntity = toEntity
-        self.reasons = reasons
-    }
-
-    //Equality
-    public static func == (lhs: Relationship, rhs: Relationship) -> Bool {
-        return lhs.baseEntity == rhs.baseEntity
-            && lhs.toEntity == lhs.toEntity
-            && lhs.reasons == rhs.reasons
-    }
-
 }
