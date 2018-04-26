@@ -120,7 +120,7 @@ open class NotificationManager: NSObject {
         // Set default properties
         request.deviceId = Device.current.deviceUuid
         request.deviceType = "iOS"
-        request.pushKey = CryptoUtils.generateKey(for: BlockCipherCore.AES_256)?.base64EncodedString()
+        request.pushKey = CryptoUtils.generateKey(for: AESBlockCipher.AES_256)?.base64EncodedString()
 
         #if DEBUG
         request.appVersion = "debug"

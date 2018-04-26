@@ -23,3 +23,17 @@ public protocol BlockCipherType {
     /// The cc options for this cipher
     var options: CCOptions { get }
 }
+
+// Enum for block cipher operations
+public enum BlockCipherOperation {
+    case encrypt
+    case decrypt
+
+    /// Method needed because Swift does not allow setting these as enum case value
+    var operation: CCOperation {
+        switch self {
+        case .encrypt: return CCOperation(kCCEncrypt)
+        case .decrypt: return CCOperation(kCCDecrypt)
+        }
+    }
+}

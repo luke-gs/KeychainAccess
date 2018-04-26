@@ -38,7 +38,7 @@ public class CryptoUtils {
     }
 
     /// Perform a block based cipher operation on data
-    public static func performCipher(_ cipher: BlockCipherType, operation: CipherOperation, data: Data, keyData: Data, ivData: Data? = nil) -> Data? {
+    public static func performCipher(_ cipher: BlockCipherType, operation: BlockCipherOperation, data: Data, keyData: Data, ivData: Data? = nil) -> Data? {
 
         // Make sure we have enough key data
         assert(keyData.count >= cipher.keySize)
@@ -57,7 +57,7 @@ public class CryptoUtils {
             data.withUnsafeBytes { dataBytes in
                 ivData.withUnsafeBytes { ivBytes in
                     keyData.withUnsafeBytes { keyBytes in
-                        CCCrypt(operation.value,
+                        CCCrypt(operation.operation,
                                 cipher.algorithm,
                                 cipher.options,
                                 keyBytes,
