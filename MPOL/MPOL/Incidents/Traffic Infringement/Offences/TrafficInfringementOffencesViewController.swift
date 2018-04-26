@@ -106,7 +106,7 @@ open class TrafficInfringementOffencesViewController: FormBuilderViewController,
         offenceSearchController.delegate = self
         let navController = PopoverNavigationController(rootViewController: offenceSearchController)
         //TODO: Fix .pageSheet so that it can be used, currently produces a weird grey background
-        navController.modalPresentationStyle = .formSheet
+        navController.modalPresentationStyle = .pageSheet
         present(navController, animated: true, completion: nil)
     }
 
