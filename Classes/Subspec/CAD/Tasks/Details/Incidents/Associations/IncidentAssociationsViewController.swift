@@ -126,7 +126,7 @@ open class IncidentAssociationsViewController: CADFormCollectionViewController<I
             if shouldShowGrid {
                 return EntityCollectionViewCell.minimumContentHeight(forStyle: .hero, title: item.title, subtitle: item.detail1, detail: item.detail2, compatibleWith: traitCollection)
             } else {
-                return EntityListCollectionViewCell.minimumContentHeight(withTitle: nil, subtitle: nil, source: nil, inWidth: itemWidth, compatibleWith: traitCollection)
+                return EntityListCollectionViewCell.minimumContentHeight(withTitle: nil, subtitle: nil, detail: nil, source: nil, inWidth: itemWidth, compatibleWith: traitCollection)
             }
         }
         return 0
