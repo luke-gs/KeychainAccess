@@ -68,6 +68,7 @@ open class TrafficInfringementEntitiesViewController: FormBuilderViewController,
                 .onSelection({ cell in
                     guard let indexPath = self.collectionView?.indexPath(for: cell) else { return }
                     self.collectionView?.deselectItem(at: indexPath, animated: true)
+                    self.presentInvolvementPickerVC(entity: entity)
                 })
         }
     }
@@ -112,6 +113,7 @@ open class TrafficInfringementEntitiesViewController: FormBuilderViewController,
 
     func presentInvolvementPickerVC(entity: MPOLKitEntity) {
 
+        let editingEntity = viewModel.entities.contains(entity)
         let displayable = viewModel.displayable(for: entity)
         let headerConfig = SearchHeaderConfiguration(title: displayable.title,
                                                      subtitle: "No involvements selected",
@@ -119,25 +121,42 @@ open class TrafficInfringementEntitiesViewController: FormBuilderViewController,
                                                      imageStyle: .entity,
                                                      tintColor: displayable.iconColor,
                                                      borderColor: displayable.borderColor)
+
         let datasource = InvolvementSearchDatasource(objects: Involvement.casesFor(entity),
                                                      selectedObjects: viewModel.retrieveInvolvements(for: entity.id),
                                                             configuration: headerConfig)
         datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
         let viewController = CustomPickerController(datasource: datasource)
 
+        if editingEntity {
+            viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
+        }
+
         viewController.finishUpdateHandler = { controller, index in
             let involvements = controller.objects.enumerated()
                 .filter({ index.contains($0.offset) })
                 .compactMap({ $0.element as? Involvement })
-            self.viewModel.addEntity(entity, with: involvements)
+            
+                if editingEntity {
+                    self.viewModel.updateEntity( entity.id, with: involvements)
+                } else {
+                    self.viewModel.addEntity(entity, with: involvements)
+                }
 
             self.updateLoadingManager()
             self.reloadForm()
             self.dismissAnimated()
         }
 
-        let navController = presentedViewController as! UINavigationController
-        navController.pushViewController(viewController, animated: false)
+        if let navController = presentedViewController as? UINavigationController {
+            navController.pushViewController(viewController, animated: false)
+        } else {
+            let navController = PopoverNavigationController(rootViewController: viewController)
+            navController.modalPresentationStyle = .formSheet
+
+            present(navController, animated: true, completion: nil)
+        }
+
     }
 }
 

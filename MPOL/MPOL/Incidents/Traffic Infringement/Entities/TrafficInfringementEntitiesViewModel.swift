@@ -45,7 +45,12 @@ public class TrafficInfringementEntitiesViewModel {
         }
     }
 
-    func removeEntity(_ entity: MPOLKitEntity) {
+    func updateEntity(_ entityId: String, with involvements: [Involvement]) {
+
+        report.entityInvolvements[entityId] = involvements
+    }
+
+    func removeEntity(_ entity: MPOLKitEntity){
         report.event?.entityBucket.remove(entity)
         report.entityInvolvements[entity.id] = nil
         report.evaluator.updateEvaluation(for: EvaluatorKey.trafficInfringmentHasEntity)
@@ -62,7 +67,7 @@ public class TrafficInfringementEntitiesViewModel {
         case is Vehicle:
             return VehicleSummaryDisplayable(entity)
         default:
-            fatalError("Entity is Not a valid Type")
+            fatalError("No valid displayable for entity: \(entity.id)")
         }
     }
 
