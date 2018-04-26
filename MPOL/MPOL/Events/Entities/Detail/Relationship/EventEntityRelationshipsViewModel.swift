@@ -73,4 +73,3 @@ struct EventRelationshipEntityDataSource {
     var header: String
     var entities: [MPOLKitEntity]
 }
-
