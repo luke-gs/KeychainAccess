@@ -24,7 +24,6 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
 
     public let detailLabel: UILabel = UILabel(frame: .zero)
 
-    
     open var actionCount: UInt = 0 {
         didSet {
             
@@ -35,7 +34,6 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
             setNeedsLayout()
         }
     }
-    
     
     open var borderColor: UIColor? {
         didSet {
@@ -53,7 +51,6 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
     private var sourceSubtitleHorizontalConstraint: NSLayoutConstraint!
     
     private let badgeView = BadgeView(style: .system)
-    
     
     
     // MARK: - Initialization
@@ -146,7 +143,6 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: detailLabel, attribute: .leading, relatedBy: .equal, toItem: textLayoutGuide, attribute: .leading),
 
             NSLayoutConstraint(item: detailLabel, attribute: .bottom, relatedBy: .equal, toItem: textLayoutGuide, attribute: .bottom),
-
 
             sourceSubtitleHorizontalConstraint
             ])
