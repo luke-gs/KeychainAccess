@@ -30,6 +30,9 @@ public class PersonImageSizing: AsynchronousImageSizing {
 
     public override func loadImage(completion: @escaping (ImageSizable) -> ()) {
 
+        // Call completion immediately (Temporary whilst backend not set up) 
+        completion(self)
+
         // Code to retrieve image goes here
         /*
         let url = URL(string: "https://www.someawesomeimage.com")!

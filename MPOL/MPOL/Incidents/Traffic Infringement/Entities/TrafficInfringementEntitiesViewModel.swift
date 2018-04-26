@@ -22,7 +22,10 @@ public class TrafficInfringementEntitiesViewModel {
     }
 
     var entities: [MPOLKitEntity] {
-        return report.event?.entityBucket.entities ?? []
+        // return entities involved in this incident
+        return report.event?.entityBucket.entities.filter {
+            report.entityInvolvements[$0.id] != nil
+        } ?? []
     }
 
     var currentLoadingManagerState: LoadingStateManager.State {
@@ -33,24 +36,19 @@ public class TrafficInfringementEntitiesViewModel {
         return report.evaluator.isComplete ? .midGreen : .red
     }
 
-    func addEntity(_ entity: MPOLKitEntity) {
-        if !entitiesContains(entity) {
+    func addEntity(_ entity: MPOLKitEntity, with involvements: [Involvement]) {
+
+        if !entities.contains(entity) {
             report.event?.entityBucket.add(entity)
+            report.entityInvolvements[entity.id] = involvements
             report.evaluator.updateEvaluation(for: EvaluatorKey.trafficInfringmentHasEntity)
         }
     }
 
-    func removeEntity(_ entity: MPOLKitEntity){
+    func removeEntity(_ entity: MPOLKitEntity) {
         report.event?.entityBucket.remove(entity)
+        report.entityInvolvements[entity.id] = nil
         report.evaluator.updateEvaluation(for: EvaluatorKey.trafficInfringmentHasEntity)
-    }
-
-    func entitiesContains(_ entity: MPOLKitEntity) -> Bool {
-        return entities.contains(entity)
-    }
-
-    func entitiesCount() -> Int {
-        return report.event?.entityBucket.entities.count ?? 0
     }
 
     func addObserver(_ observer: EvaluationObserverable) {
@@ -66,5 +64,9 @@ public class TrafficInfringementEntitiesViewModel {
         default:
             fatalError("Entity is Not a valid Type")
         }
+    }
+
+    func retrieveInvolvements(for entityId: String) -> [Involvement] {
+        return report.entityInvolvements[entityId] ?? []
     }
 }

@@ -70,9 +70,9 @@
 		445A8A3E1F673C8B005ABEB8 /* VehicleSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A3B1F673C8B005ABEB8 /* VehicleSearchHelp.json */; };
 		46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F8E9A4203A9C2200024EF7 /* LocationAction.swift */; };
 		96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */; };
-		AA20EE91208712BD00936A33 /* TrafficInfringementEntitiesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA20EE90208712BD00936A33 /* TrafficInfringementEntitiesViewModel.swift */; };
-		AA20EE93208712CA00936A33 /* EntityPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA20EE92208712CA00936A33 /* EntityPickerViewController.swift */; };
-		AA20EE95208712D100936A33 /* EntityPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA20EE94208712D100936A33 /* EntityPickerViewModel.swift */; };
+		AAEC4C3120919F8000F5AC59 /* EntityPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEC4C2C20919F7F00F5AC59 /* EntityPickerViewModel.swift */; };
+		AAEC4C3320919F8000F5AC59 /* EntityPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEC4C2E20919F8000F5AC59 /* EntityPickerViewController.swift */; };
+		AAEC4C3420919F8000F5AC59 /* TrafficInfringementEntitiesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEC4C2F20919F8000F5AC59 /* TrafficInfringementEntitiesViewModel.swift */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
 		BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E81101EBEE38400188181 /* SettingsViewController.swift */; };
 		BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */; };
@@ -173,9 +173,9 @@
 		9625ACDB207F1C6200EFCC8C /* SearchNotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNotificationHandler.swift; sourceTree = "<group>"; };
 		96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchNotificationHandler.swift; sourceTree = "<group>"; };
 		98286F47FF0E675D611C2782 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA20EE90208712BD00936A33 /* TrafficInfringementEntitiesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TrafficInfringementEntitiesViewModel.swift; path = "MPOL/Incidents/View Models/TrafficIncident ViewModels/TrafficInfringementEntitiesViewModel.swift"; sourceTree = SOURCE_ROOT; };
-		AA20EE92208712CA00936A33 /* EntityPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityPickerViewController.swift; path = "MPOL/Incidents/View Models/EntityPickerViewController.swift"; sourceTree = SOURCE_ROOT; };
-		AA20EE94208712D100936A33 /* EntityPickerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityPickerViewModel.swift; path = "MPOL/Incidents/View Models/EntityPickerViewModel.swift"; sourceTree = SOURCE_ROOT; };
+		AAEC4C2C20919F7F00F5AC59 /* EntityPickerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPickerViewModel.swift; sourceTree = "<group>"; };
+		AAEC4C2E20919F8000F5AC59 /* EntityPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPickerViewController.swift; sourceTree = "<group>"; };
+		AAEC4C2F20919F8000F5AC59 /* TrafficInfringementEntitiesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementEntitiesViewModel.swift; sourceTree = "<group>"; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		BC4E81101EBEE38400188181 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		BCD4EA891E515ACE000B993D /* Search.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Search.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -299,10 +299,10 @@
 		12EF65CB2086D52200739924 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				AA20EE92208712CA00936A33 /* EntityPickerViewController.swift */,
-				AA20EE94208712D100936A33 /* EntityPickerViewModel.swift */,
+				AAEC4C2E20919F8000F5AC59 /* EntityPickerViewController.swift */,
+				AAEC4C2C20919F7F00F5AC59 /* EntityPickerViewModel.swift */,
+				AAEC4C2F20919F8000F5AC59 /* TrafficInfringementEntitiesViewModel.swift */,
 				12EF65CC2086D52200739924 /* TrafficInfringementEntitiesReport.swift */,
-				AA20EE90208712BD00936A33 /* TrafficInfringementEntitiesViewModel.swift */,
 				12EF65CD2086D52200739924 /* TrafficInfringementEntitiesViewController.swift */,
 			);
 			path = Entities;
@@ -698,7 +698,6 @@
 				12EF65ED2086D52200739924 /* IncidentTypes.swift in Sources */,
 				12EF6637208D7D2F00739924 /* EventEntityRelationshipsReport.swift in Sources */,
 				12EF66052087071800739924 /* DefaultOfficerListViewController.swift in Sources */,
-				AA20EE93208712CA00936A33 /* EntityPickerViewController.swift in Sources */,
 				37F3A3C0208477420077998C /* EventEntitiesListViewController.swift in Sources */,
 				37F3A3BE208475650077998C /* EventEntitiesListReport.swift in Sources */,
 				127801F3202AB1F0007D0BBB /* EventBuilder.swift in Sources */,
@@ -720,12 +719,15 @@
 				127801F1202AAF09007D0BBB /* EventsListViewModel.swift in Sources */,
 				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
 				127801F5202AB255007D0BBB /* EventsDetailViewModel.swift in Sources */,
+				AAEC4C3420919F8000F5AC59 /* TrafficInfringementEntitiesViewModel.swift in Sources */,
 				EA7194DD1FC5098200A2980B /* EventPresenter.swift in Sources */,
+				AAEC4C3120919F8000F5AC59 /* EntityPickerViewModel.swift in Sources */,
 				12EF65DC2086D52200739924 /* TrafficInfringementOffencesViewController.swift in Sources */,
 				19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */,
 				19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */,
 				3727C4C12088193000F7A887 /* OffenceListDisplayable.swift in Sources */,
 				12EF65EB2086D52200739924 /* IncidentSelectViewController.swift in Sources */,
+				AAEC4C3320919F8000F5AC59 /* EntityPickerViewController.swift in Sources */,
 				12EF65E52086D52200739924 /* IncidentDetailViewModel.swift in Sources */,
 				12EF66002087071800739924 /* OfficerInvolvementSearchDatasource.swift in Sources */,
 				3727C4C22088193000F7A887 /* OffenceSearchViewModel.swift in Sources */,
@@ -747,7 +749,6 @@
 				3727C4BC2088191E00F7A887 /* TrafficInfringementOffencesViewModel.swift in Sources */,
 				12EF663C208D7D2F00739924 /* EventEntityDetailViewModel.swift in Sources */,
 				12EF65E72086D52200739924 /* IncidentListReport.swift in Sources */,
-				AA20EE95208712D100936A33 /* EntityPickerViewModel.swift in Sources */,
 				12EF65E92086D52200739924 /* StreetCheckScreenBuilder.swift in Sources */,
 				12EF6639208D7D2F00739924 /* EventEntityRelationshipsViewController.swift in Sources */,
 				12ABD575207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift in Sources */,
@@ -758,7 +759,6 @@
 				12EF66022087071800739924 /* OfficerListViewModel.swift in Sources */,
 				12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */,
 				12EF6636208D7D2F00739924 /* EventEntityDetailsSplitViewController.swift in Sources */,
-				AA20EE91208712BD00936A33 /* TrafficInfringementEntitiesViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

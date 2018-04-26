@@ -16,6 +16,8 @@ class TrafficInfringementEntitiesReport: Reportable {
     weak var event: Event?
     weak var incident: Incident?
     let evaluator: Evaluator = Evaluator()
+    // Dictionary of entityId's and Involvements
+    var entityInvolvements = [String: [Involvement]]()
     
     init(event: Event, incident: Incident) {
         self.event = event
@@ -40,7 +42,7 @@ class TrafficInfringementEntitiesReport: Reportable {
         
     }
 
-    //MARK: CODING
+    // MARK: CODING
     public static var supportsSecureCoding: Bool = true
     public required init?(coder aDecoder: NSCoder) {}
     public func encode(with aCoder: NSCoder) {}

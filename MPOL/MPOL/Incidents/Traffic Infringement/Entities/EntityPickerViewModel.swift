@@ -9,17 +9,20 @@ import Foundation
 import MPOLKit
 import ClientKit
 
+protocol EntityPickerDelegate: class {
+    func finishedPicking(_ entity: MPOLKitEntity)
+}
+
 public class EntityPickerViewModel {
 
-    
-    public var entities = [MPOLKitEntity]()
-    public let dismissClosure: (MPOLKitEntity) -> ()
+    open var entities = [MPOLKitEntity]()
+    weak var delegate: EntityPickerDelegate?
 
-    init(dismissClosure: @escaping (MPOLKitEntity) -> ()) {
+    var currentLoadingManagerState: LoadingStateManager.State {
+        return entities.isEmpty ? .noContent : .loaded
+    }
 
-        self.dismissClosure = dismissClosure
-        
-        //inti displayables
+    init() {
         for entity in UserSession.current.recentlyViewed.entities {
             entities.append(entity)
         }
@@ -28,17 +31,12 @@ public class EntityPickerViewModel {
     func displayable(for entity: MPOLKitEntity) -> EntitySummaryDisplayable {
 
         switch entity {
-
         case is Person:
             return PersonSummaryDisplayable(entity)
         case is Vehicle:
             return VehicleSummaryDisplayable(entity)
         default:
-            fatalError("Entity is Not a valid Type")
+            fatalError("No Displayable for Entity Type")
         }
-    }
-
-    func currentLoadingManagerState() -> LoadingStateManager.State {
-        return entities.isEmpty ? .noContent : .loaded
     }
 }
