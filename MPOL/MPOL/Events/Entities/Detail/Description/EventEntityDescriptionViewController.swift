@@ -27,12 +27,12 @@ class EventEntityDescriptionViewController: FormBuilderViewController, Evaluatio
     }
 
     required convenience init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        MPLUnimplemented()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.report.descriptionViewed = true
+        viewModel.report.viewed = true
     }
 
     override func construct(builder: FormBuilder) {
@@ -44,7 +44,6 @@ class EventEntityDescriptionViewController: FormBuilderViewController, Evaluatio
             .title(displayable.title)
             .detail(viewModel.description())
             .subtitle(displayable.detail1)
-            .buttonTitle("Update description")
             .borderColor(displayable.borderColor)
             .image(displayable.thumbnail(ofSize: .large))
             .onButtonTapped { }
