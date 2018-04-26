@@ -15,7 +15,7 @@ final public class RelationshipManager {
     public func addReason(_ reason: String, to relationship: Relationship) {
         relationships.first(where: {$0 == relationship})?.reasons.append(reason)
     }
-
+    
     public func relationshipsFor(_ entity: MPOLKitEntity)
         -> (baseEntityRelationships: [Relationship]?, relatedEntityRelationships: [Relationship]?)
     {
