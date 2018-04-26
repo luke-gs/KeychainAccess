@@ -49,8 +49,6 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
     public func updateReports() {
         var reports = self.report.entityDetailReports
 
-        var entitiesChanged = false
-
         //Remove reports that no longer have entities
         for report in reports {
             if self.report.event?.entityBucket.contains(report.entity) == false {
