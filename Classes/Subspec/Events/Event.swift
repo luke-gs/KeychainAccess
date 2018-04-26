@@ -18,6 +18,7 @@ final public class Event: NSObject, NSSecureCoding, Evaluatable {
     public var evaluator: Evaluator = Evaluator()
     public weak var displayable: EventListDisplayable?
     public let entityBucket = EntityBucket()
+    public let relationshipManager = RelationshipManager()
 
     private(set) public var reports: [Reportable] = [Reportable]() {
         didSet {

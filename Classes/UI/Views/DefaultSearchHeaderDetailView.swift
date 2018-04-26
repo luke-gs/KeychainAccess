@@ -13,12 +13,16 @@ public struct SearchHeaderConfiguration {
     public var subtitle: String?
     public var image: ImageLoadable?
     public let imageStyle: ImageStyle
+    public let tintColor: UIColor?
+    public let borderColor: UIColor?
 
-    public init(title: String?, subtitle: String?, image: ImageLoadable?, imageStyle: ImageStyle = .roundedRect) {
+    public init(title: String?, subtitle: String?, image: ImageLoadable?, imageStyle: ImageStyle = .roundedRect, tintColor: UIColor? = .white, borderColor: UIColor? = nil) {
         self.title = title
         self.subtitle = subtitle
         self.image = image
         self.imageStyle = imageStyle
+        self.tintColor = tintColor
+        self.borderColor = borderColor
     }
 }
 
@@ -35,16 +39,18 @@ public class DefaultSearchHeaderDetailView: UIView, SearchHeaderUpdateable {
     public func update(with title: String? = nil, subtitle: String? = nil, image: ImageLoadable? = nil) {
         titleLabel.text = title ?? titleLabel.text
         subtitleLabel.text = subtitle
-        imageView.image = image?.sizing().image ?? imageView.image
+        thumbnailView.imageView.image = image?.sizing().image ?? thumbnailView.imageView.image
     }
     // MARK: - Public Properties
 
     /// The title label.
     public let titleLabel: UILabel = UILabel(frame: .zero)
-    public let imageView: UIImageView = UIImageView()
 
     /// The subtitle label.
     public let subtitleLabel: UILabel = UILabel(frame: .zero)
+
+    /// The thumbnailView (bordered image view).
+    public let thumbnailView = EntityThumbnailView()
 
     public var accessoryView: UIView? {
         didSet {
@@ -72,7 +78,7 @@ public class DefaultSearchHeaderDetailView: UIView, SearchHeaderUpdateable {
     private let imageWidth: CGFloat = 48.0
     public var imageStyle: ImageStyle = .roundedRect {
         didSet {
-            imageView.layer.cornerRadius = imageStyle.cornerRadius(for: imageView.frame.size)
+            thumbnailView.imageView.layer.cornerRadius = imageStyle.cornerRadius(for: thumbnailView.imageView.frame.size)
             setNeedsLayout()
         }
     }
@@ -85,44 +91,33 @@ public class DefaultSearchHeaderDetailView: UIView, SearchHeaderUpdateable {
         titleLabel.text = configuration.title
         subtitleLabel.text = configuration.subtitle
 
-        // Image sizing
-        imageView.image = configuration.image?.sizing().image
         configuration.image?.loadImage(completion: { (imageSizable) in
-            self.imageView.image = imageSizable.sizing().image
+            self.thumbnailView.imageView.image = imageSizable.sizing().image
+            self.thumbnailView.imageView.contentMode = imageSizable.sizing().contentMode ?? .center
         })
 
-        commonInit()
-    }
-
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
-    }
-
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        commonInit()
-    }
-
-    private func commonInit() {
-        translatesAutoresizingMaskIntoConstraints = false
-
-        if imageView.image == nil {
+        if thumbnailView.imageView.image == nil {
             let image = AssetManager.shared.image(forKey: .edit)?
                 .withCircleBackground(tintColor: UIColor.white,
                                       circleColor: UIColor.primaryGray,
-                                      style: .auto(padding:  CGSize(width: 14, height: 14),
-                                                   shrinkImage: true)
+                                      style: .auto(padding:  CGSize(width: 20, height: 20),
+                                                   shrinkImage: false)
             )
-            imageView.image = image
+            thumbnailView.imageView.image = image
+            thumbnailView.imageView.contentMode = .center
         }
 
-        imageView.layer.cornerRadius = imageStyle.cornerRadius(for: CGSize(width: imageWidth, height: imageWidth))
-        imageView.clipsToBounds = true
-        imageView.tintColor = UIColor.white
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-        addSubview(imageView)
+        // hide the silver background for non entity images
+        if configuration.imageStyle != .entity {
+            thumbnailView.backgroundImageView.image = nil
+        }
+
+        thumbnailView.imageView.layer.cornerRadius = imageStyle.cornerRadius(for: CGSize(width: imageWidth, height: imageWidth))
+        thumbnailView.imageView.clipsToBounds = true
+        thumbnailView.imageView.tintColor = configuration.tintColor
+        thumbnailView.borderColor = configuration.borderColor
+        thumbnailView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(thumbnailView)
 
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = .systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
@@ -136,23 +131,27 @@ public class DefaultSearchHeaderDetailView: UIView, SearchHeaderUpdateable {
         addSubview(subtitleLabel)
 
         NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalToConstant: imageWidth),
-            imageView.widthAnchor.constraint(equalToConstant: imageWidth),
-            imageView.topAnchor.constraint(equalTo: topAnchor),
-            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            thumbnailView.heightAnchor.constraint(equalToConstant: imageWidth),
+            thumbnailView.widthAnchor.constraint(equalToConstant: imageWidth),
+            thumbnailView.topAnchor.constraint(equalTo: topAnchor),
+            thumbnailView.leadingAnchor.constraint(equalTo: leadingAnchor),
 
-            titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 16.0),
+            titleLabel.leadingAnchor.constraint(equalTo: thumbnailView.trailingAnchor, constant: 16.0),
             titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -24.0),
-            titleLabel.topAnchor.constraint(equalTo: imageView.topAnchor),
+            titleLabel.topAnchor.constraint(equalTo: thumbnailView.topAnchor),
 
             subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             subtitleLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-            subtitleLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor)
+            subtitleLabel.bottomAnchor.constraint(equalTo: thumbnailView.bottomAnchor)
         ])
 
         NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
         apply(ThemeManager.shared.theme(for: .current))
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
     }
 
     deinit {

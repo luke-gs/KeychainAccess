@@ -245,11 +245,17 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
     
     open func processedResults(from rawResults: [AggregatedResult<T>]) -> [SearchResultSection] {
         
-        let processedResults: [SearchResultSection] = rawResults.map { (rawResult) -> SearchResultSection in
+        let previousResults = self.results
+        let processedResults: [SearchResultSection] = rawResults.enumerated().map { (index, rawResult) -> SearchResultSection in
             let entities = summarySearchResultsHandler(rawResult.entities)
             return SearchResultSection(title: titleForResult(rawResult),
                                        entities: entities,
-                                       isExpanded: true,
+                                       isExpanded: {
+                                           if let previous = previousResults[ifExists: index] {
+                                               return rawResult.state != previous.state || previous.isExpanded
+                                           }
+                                           return true
+                                       }(),
                                        state: rawResult.state,
                                        error: rawResult.error,
                                        source: rawResult.request.source)

@@ -6,8 +6,11 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
-/// The standard vertical separation value between title and detail labels.
+/// The standard vertical separation value between title and subtitle labels.
 public let CellTitleSubtitleSeparation: CGFloat = 3.5
+
+/// The standard vertical separation value between subtitle and detail labels.
+public let CellSubtitleDetailSeparation: CGFloat = 8
 
 /// The standard horizontal separation between images and labels.
 public let CellImageLabelSeparation: CGFloat = 16.0

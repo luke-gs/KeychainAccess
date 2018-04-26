@@ -25,6 +25,10 @@ public extension NSNotification.Name {
     case dark
     
     
+    // The key for persisted style in user defaults.
+    private static let savedStyleKey = "savedUserInterfaceStyleKey"
+    
+    
     /// Returns whether this user interface style is dark.
     ///
     /// When .current, this checks the current interface style on the theme manager.
@@ -33,6 +37,21 @@ public extension NSNotification.Name {
         case .dark:    return true
         case .light:   return false
         case .current: return ThemeManager.shared.currentInterfaceStyle == .dark
+        }
+    }
+    
+    
+    /// Accessing & persisting the style saved in user defaults. Style is light by default.
+    fileprivate static var savedStyle: UserInterfaceStyle {
+        get {
+            if let rawValue = AppGroupCapability.appUserDefaults.value(forKey: UserInterfaceStyle.savedStyleKey) as? Int {
+                return UserInterfaceStyle(rawValue: rawValue) ?? .light
+            } else {
+                return .light
+            }
+        }
+        set {
+            AppGroupCapability.appUserDefaults.set(newValue.rawValue, forKey: UserInterfaceStyle.savedStyleKey)
         }
     }
     
@@ -55,6 +74,7 @@ public class ThemeManager: NSObject {
     public static let shared: ThemeManager = ThemeManager()
     
     private override init() {
+        currentInterfaceStyle = UserInterfaceStyle.savedStyle
     }
     
     
@@ -63,7 +83,7 @@ public class ThemeManager: NSObject {
     
     /// The current interface style. Changing this property fires a notification
     /// updating all observers that the interface style changed.
-    public var currentInterfaceStyle: UserInterfaceStyle = .light {
+    public var currentInterfaceStyle: UserInterfaceStyle {
         didSet {
             if currentInterfaceStyle == .current || currentInterfaceStyle == oldValue {
                 currentInterfaceStyle = oldValue
@@ -71,6 +91,7 @@ public class ThemeManager: NSObject {
             }
             
             NotificationCenter.default.post(name: .interfaceStyleDidChange, object: self)
+            UserInterfaceStyle.savedStyle = currentInterfaceStyle
         }
     }
     
@@ -83,6 +104,14 @@ public class ThemeManager: NSObject {
     
     
     // MARK: - Theme access and registration
+    
+    
+    /// Loads the interface style from user defaults.
+    ///
+    /// Call when app enters foreground to reload current style.
+    public func loadInterfaceStyle() {
+        currentInterfaceStyle = UserInterfaceStyle.savedStyle
+    }
     
     
     /// Registers a theme with the manager.
