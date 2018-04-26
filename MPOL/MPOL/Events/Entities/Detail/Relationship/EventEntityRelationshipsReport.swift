@@ -18,7 +18,7 @@ public class EventEntityRelationshipsReport: Reportable {
     public weak var entity: MPOLKitEntity?
     
     public var relationships: [Relationship]? {
-        return event?.relationshipManager.relationshipsFor(entity: entity!).toEntity
+        return event?.relationshipManager.relationshipsFor(entity!).relatedEntityRelationships
     }
     
     public var viewed: Bool = false {
@@ -36,7 +36,7 @@ public class EventEntityRelationshipsReport: Reportable {
         }
         
         evaluator.registerKey(.relationshipCompleted) {
-            let relationships = self.event?.relationshipManager.relationshipsFor(entity: entity).toEntity ?? []
+            let relationships = self.event?.relationshipManager.relationshipsFor(entity).relatedEntityRelationships ?? []
             let relationshipsValid = relationships.reduce(true, { (isValid, relationship) -> Bool in
                 return isValid && !relationship.reasons.isEmpty
             })
