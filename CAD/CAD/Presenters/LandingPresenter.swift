@@ -108,31 +108,6 @@ public class LandingPresenter: AppGroupLandingPresenter {
         }
     }
 
-    /// Custom login using the CAD API manager
-    override open func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
-        #if DEBUG
-            controller.setLoading(true, animated: true)
-            CADStateManagerCore.apiManager.accessTokenRequest(for: .credentials(username: username, password: password)).done { [weak self] token -> Void in
-                guard let `self` = self else { return }
-
-                APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)))
-                UserSession.startSession(user: User(username: username), token: token)
-                controller.resetFields()
-                self.updateInterfaceForUserSession(animated: true)
-
-            }.ensure {
-                controller.setLoading(false, animated: true)
-            }.catch { error in
-                let error = error as NSError
-                let title = error.localizedFailureReason ?? "Error"
-                let message = error.localizedDescription
-                controller.present(SystemScreen.serverError(title: title, message: message))
-            }
-        #else
-            super.loginViewController(controller, didFinishWithUsername: username, password: password)
-        #endif
-    }
-    
     public var wantsForgotPassword: Bool {
         return false
     }
