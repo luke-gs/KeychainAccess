@@ -10,15 +10,16 @@ import UIKit
 
 /// Collection view cell for a label
 open class CollectionViewFormLargeTextLabelCell: CollectionViewFormCell {
+    public static let defaultFont = UIFont.systemFont(ofSize: 28, weight: .bold)
     public let titleLabel = UILabel()
     
-    public static let minimumHeight: CGFloat = 72
+    public static let minimumHeight: CGFloat = 20
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
         overridesLayoutMargins = false
         
-        titleLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
+        titleLabel.font = CollectionViewFormLargeTextLabelCell.defaultFont
         titleLabel.textColor = .primaryGray
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(titleLabel)

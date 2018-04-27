@@ -25,19 +25,19 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
     }
     
     open override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, for traitCollection: UITraitCollection) -> CGFloat {
-        var size: CGFloat?
-
-        if let text = text, let layoutMargins = layoutMargins {
-            size = text.sizing().minimumHeight(inWidth: collectionView.bounds.width,
-                                               compatibleWith: traitCollection)
-                + layoutMargins.top + layoutMargins.bottom
+        var size: CGFloat = 0
+        
+        if let text = text {
+            size = text
+                .sizing(defaultNumberOfLines: 1, defaultFont: CollectionViewFormLargeTextLabelCell.defaultFont)
+                .minimumHeight(inWidth: collectionView.bounds.width, compatibleWith: traitCollection)
         }
-
-        if let size = size {
-            return size
+        
+        if let layoutMargins = layoutMargins {
+            size += layoutMargins.top + layoutMargins.bottom
         }
-
-        return CollectionViewFormLargeTextLabelCell.minimumHeight
+        
+        return max(size, CollectionViewFormLargeTextLabelCell.minimumHeight)
     }
 
     open override func configure(_ view: UICollectionReusableView) {
