@@ -14,6 +14,7 @@
 		9624A4201F7C550B00CAE056 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9624A41E1F7C550B00CAE056 /* LaunchScreen.storyboard */; };
 		962F1799208EFF4A00156247 /* CADNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962F1798208EFF4A00156247 /* CADNotificationHandler.swift */; };
 		9668DC2E208577EF00D7C419 /* SearchActivity+Launch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9668DC2D208577EF00D7C419 /* SearchActivity+Launch.swift */; };
+		96707B4B2092CEE600C4BFDC /* CADNotificationContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96707B4A2092CEE600C4BFDC /* CADNotificationContent.swift */; };
 		969C2C851FCFD7B700E99C85 /* DemoAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969C2C811FCFD7B700E99C85 /* DemoAPIManager.swift */; };
 		969C2C861FCFD7B700E99C85 /* DemoManifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 969C2C821FCFD7B700E99C85 /* DemoManifest.json */; };
 		969C2C871FCFD7B700E99C85 /* DemoOfficer.json in Resources */ = {isa = PBXBuildFile; fileRef = 969C2C831FCFD7B700E99C85 /* DemoOfficer.json */; };
@@ -44,6 +45,7 @@
 		96553FD71F98554E006E063E /* AppConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppConfiguration.h; sourceTree = "<group>"; };
 		96553FD81F98554E006E063E /* CAD-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CAD-Bridging-Header.h"; sourceTree = "<group>"; };
 		9668DC2D208577EF00D7C419 /* SearchActivity+Launch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchActivity+Launch.swift"; sourceTree = "<group>"; };
+		96707B4A2092CEE600C4BFDC /* CADNotificationContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADNotificationContent.swift; sourceTree = "<group>"; };
 		969C2C811FCFD7B700E99C85 /* DemoAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAPIManager.swift; sourceTree = "<group>"; };
 		969C2C821FCFD7B700E99C85 /* DemoManifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DemoManifest.json; sourceTree = "<group>"; };
 		969C2C831FCFD7B700E99C85 /* DemoOfficer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DemoOfficer.json; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				962F1798208EFF4A00156247 /* CADNotificationHandler.swift */,
+				96707B4A2092CEE600C4BFDC /* CADNotificationContent.swift */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -365,6 +368,7 @@
 				969C2C851FCFD7B700E99C85 /* DemoAPIManager.swift in Sources */,
 				9668DC2E208577EF00D7C419 /* SearchActivity+Launch.swift in Sources */,
 				96CED76D1FA7F23D00C0DEB0 /* LandingPresenter.swift in Sources */,
+				96707B4B2092CEE600C4BFDC /* CADNotificationContent.swift in Sources */,
 				9624A4161F7C550B00CAE056 /* AppDelegate.swift in Sources */,
 				962F1799208EFF4A00156247 /* CADNotificationHandler.swift in Sources */,
 				96AADABB200810F6003E215E /* BookOnPresenter.swift in Sources */,

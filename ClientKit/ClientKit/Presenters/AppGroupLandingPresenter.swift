@@ -178,7 +178,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
             APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)), rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
 
             lToken = token
-            NotificationManager.shared.registerPushToken()
+            NotificationManager.shared.resetPushKey()
             controller.resetFields()
 
 

@@ -12,6 +12,8 @@ import ClientKit
 
 public class LandingPresenter: AppGroupLandingPresenter {
 
+    var lastSelectedTasks: Date?
+
     override public var termsAndConditionsVersion: String {
         return TermsAndConditionsVersion
     }
@@ -163,6 +165,34 @@ public class LandingPresenter: AppGroupLandingPresenter {
             tabBarItem.selectedImage = tabBarItem.image
         }
     }
+
+    open func createDummyLocalNotification() {
+        guard let incident = CADStateManager.shared.incidents.first(where: {
+            return $0.grade == CADIncidentGradeCore.p2
+        }) else { return }
+
+        let title = [incident.type, incident.incidentNumber].joined(separator: ": ")
+        let message = "Incident has been updated"
+        let trigger = Date().adding(seconds: 5)
+        let identifier = "Demo"
+
+        // Create encrypted content for notification
+        let content = [
+                "type": "incident",
+                "operation": "updated",
+                "identifier": incident.incidentNumber
+        ]
+        let json = try! JSONSerialization.data(withJSONObject: content, options: [])
+        let encryptedData = CryptoUtils.performCipher(AESBlockCipher.AES_256, operation: .encrypt, data: json, keyData: NotificationManager.shared.pushKey!)!
+        let encryptedContent = encryptedData.base64EncodedString()
+        let userInfo = [ "content": encryptedContent ]
+
+        NotificationManager.shared.postLocalNotification(withTitle: title,
+                                                         body: message,
+                                                         at: trigger,
+                                                         userInfo: userInfo as [String : AnyObject],
+                                                         identifier: identifier)
+    }
 }
 
 // MARK: - StatusTabBarDelegate
@@ -171,6 +201,14 @@ extension LandingPresenter: StatusTabBarDelegate {
         if let appProxy = viewController as? AppProxyViewController {
             appProxy.launch(AppLaunchActivity.open)
             return false
+        }
+
+        // TODO: Remove. Hack for demo
+        if viewController == tabBarController?.viewControllers[1] {
+            if let lastTime = lastSelectedTasks, Date().timeIntervalSince(lastTime) < 0.5 {
+                createDummyLocalNotification()
+            }
+            lastSelectedTasks = Date()
         }
         return true
     }

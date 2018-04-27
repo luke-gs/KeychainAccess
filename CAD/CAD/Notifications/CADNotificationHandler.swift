@@ -13,27 +13,48 @@ import UserNotifications
 
 class CADNotificationHandler: NotificationHandler {
 
+    // MARK: - NotificationHandler
+
     /// Handle a notification while app is in the foreground and return the presentation options
     func handleForegroundNotification(_ notification: UNNotification) -> Promise<UNNotificationPresentationOptions> {
-        // TODO: process notification
 
-        // Complete with presentation options so notification is still shown in app
+        // Perform sync in background (don't force display of notification to wait)
+        _ = CADStateManager.shared.syncDetails()
+
+        // Complete with presentation options so notification is shown in app
         return Promise<UNNotificationPresentationOptions>.value([.alert, .sound])
     }
 
     /// Handle the action for a notification that a user has interacted with
     func handleNotificationAction(_ action: NotificationAction, notification: UNNotification) -> Promise<Void> {
-        // TODO: process interaction
+        let userInfo = notification.request.content.userInfo
 
+        // Decrypt the content
+        if let encryptedContent = userInfo["content"] as? String {
+            if let data = NotificationManager.shared.decryptContentAsData(encryptedContent) {
+                // Parse content into model object
+                if let content = try? JSONDecoder().decode(CADNotificationContent.self, from: data) {
+                    switch content.type {
+                    case "incident":
+                        if let identifier = content.identifier {
+                            openIncident(identifier)
+                        }
+                    default:
+                        break
+                    }
+                }
+            }
+        }
         return Promise<Void>()
     }
 
     /// Handle a silent notification (app may be in foreground or background) and return the data fetch result
     func handleSilentNotification(userInfo: [AnyHashable: Any]) -> Promise<UIBackgroundFetchResult> {
-        // TODO: process notification
 
-        // Complete with fetch result that we retrieved new data
-        return Promise<UIBackgroundFetchResult>.value(.newData)
+        // Perform sync
+        return CADStateManager.shared.syncDetails().then { _ in
+            return Promise<UIBackgroundFetchResult>.value(.newData)
+        }
     }
 
     /// Configure app specific properties of the request to register for push notifications
@@ -46,6 +67,30 @@ class CADNotificationHandler: NotificationHandler {
     func handleRegistrationError(_ error: Error) {
         // TODO: show error, retry, something
         print(error.localizedDescription)
+    }
+
+    // MARK: - Internal
+
+    func taskListPresenter() -> TaskListPresenter? {
+        // Find task list presenter
+        guard let presenterGroup = Director.shared.presenter as? PresenterGroup else { return nil }
+        return presenterGroup.presenters.first { $0 is TaskListPresenter } as? TaskListPresenter
+    }
+
+    func openIncident(_ identifier: String) {
+        if let viewModel = CADTaskListSourceCore.incident.createItemViewModel(identifier: identifier) {
+            if let vc = taskListPresenter()?.tasksSplitViewController {
+                if vc.presentedViewController != nil {
+                    // Dismiss any existing modal dialog then present
+                    vc.dismiss(animated: true, completion: {
+                        Director.shared.present(TaskItemScreen.landing(viewModel: viewModel), fromViewController: vc)
+                    })
+                } else {
+                    // Present incident details immediately
+                    Director.shared.present(TaskItemScreen.landing(viewModel: viewModel), fromViewController: vc)
+                }
+            }
+        }
     }
 
 }

@@ -12,7 +12,8 @@ import ClientKit
 
 public class TaskListPresenter: Presenter {
 
-    var tasksSplitViewModel: TasksSplitViewModel!
+    public var tasksSplitViewModel: TasksSplitViewModel!
+    public var tasksSplitViewController: UIViewController!
 
     public func viewController(forPresentable presentable: Presentable) -> UIViewController {
         let presentable = presentable as! TaskListScreen
@@ -32,7 +33,8 @@ public class TaskListPresenter: Presenter {
                                                           mapViewModel: mapViewModel,
                                                           filterViewModel: mapFilterViewModel)
 
-            return tasksSplitViewModel.createViewController()
+            tasksSplitViewController = tasksSplitViewModel.createViewController()
+            return tasksSplitViewController
 
         case .createIncident:
             return CreateIncidentViewModel().createViewController()
