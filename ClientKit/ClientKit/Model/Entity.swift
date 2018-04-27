@@ -43,7 +43,7 @@ open class Entity: MPOLKitEntity {
     class var localizedDisplayName: String {
         return NSLocalizedString("Entity", comment: "")
     }
-    
+
     open var dateCreated: Date?
     open var dateUpdated: Date?
     open var createdBy: String?

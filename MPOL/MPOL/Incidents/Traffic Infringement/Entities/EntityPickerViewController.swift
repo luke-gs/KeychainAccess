@@ -29,7 +29,7 @@ open class EntityPickerViewController: FormBuilderViewController {
 
         loadingManager.noContentView.titleLabel.text = "There are no recently used Entities"
 
-        loadingManager.state = viewModel.currentLoadingManagerState()
+        loadingManager.state = viewModel.currentLoadingManagerState
 
     }
 
@@ -50,13 +50,16 @@ open class EntityPickerViewController: FormBuilderViewController {
             return viewModel.displayable(for: entity).summaryListFormItem()
                 .accessory(nil)
                 .onSelection ({ cell in
-                    self.viewModel.dismissClosure(entity)
+                    guard let indexPath = self.collectionView?.indexPath(for: cell) else { return }
+                    self.collectionView?.deselectItem(at: indexPath, animated: true)
+                    self.viewModel.delegate?.finishedPicking(entity)
                 })
         }
     }
 
     private func updateEmptyState() {
-        self.loadingManager.state = viewModel.currentLoadingManagerState()
+        self.loadingManager.state = viewModel.currentLoadingManagerState
     }
+
 
 }

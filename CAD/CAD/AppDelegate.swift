@@ -164,6 +164,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
+        // Reload interface style incase it has changed
+        ThemeManager.shared.loadInterfaceStyle()
+        
         // Reload user session and update UI to match current state
         updateAppForUserSession()
     }

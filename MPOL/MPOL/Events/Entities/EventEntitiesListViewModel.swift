@@ -11,7 +11,7 @@ import ClientKit
 
 public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
     
-    let report: EventEntitiesListReport
+    public let report: EventEntitiesListReport
     public var evaluator: Evaluator { return report.evaluator }
 
     public init(report: EventEntitiesListReport) {
@@ -19,7 +19,7 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
         report.event?.entityBucket.delegate = self
     }
 
-    var headerText: String {
+    public var headerText: String {
         return String.localizedStringWithFormat(NSLocalizedString("%d entities", comment: ""), report.entityDetailReports.count)
     }
     
@@ -31,7 +31,7 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
         return report.entityDetailReports[indexPath.row]
     }
 
-    func displayable(for entity: MPOLKitEntity) -> EntitySummaryDisplayable {
+    public func displayable(for entity: MPOLKitEntity) -> EntitySummaryDisplayable {
         switch entity {
         case is Person:
             return PersonSummaryDisplayable(entity)
@@ -42,39 +42,48 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
         }
     }
 
-    func loadingManagerState() -> LoadingStateManager.State {
+    public func loadingManagerState() -> LoadingStateManager.State {
         return report.entityDetailReports.isEmpty ? .noContent : .loaded
     }
 
-    func updateReports() {
-        var reports = [EventEntityDetailReport]()
+    public func updateReports() {
+        var reports = self.report.entityDetailReports
 
         //Remove reports that no longer have entities
-        for report in report.entityDetailReports {
-            if report.event?.entityBucket.entities.contains(report.entity) == false {
-                self.report.entityDetailReports.remove(at: self.report.entityDetailReports.index(where: {$0 == report})!)
+        for report in reports {
+            if self.report.event?.entityBucket.contains(report.entity) == false {
+                reports.remove(at: reports.index(where: {$0 == report})!)
             }
         }
 
         //Create and add new entities
         for entity in report.event?.entityBucket.entities ?? [] {
-            if !self.report.entityDetailReports.contains(where: {$0.entity == entity}) {
-                let report = EventEntityDetailReport(entity: entity, event: self.report.event, incident: self.report.incident)
-                report.evaluator.addObserver(self)
+            if !reports.contains(where: {$0.entity == entity}) {
+                let report = EventEntityDetailReport(entity: entity, event: self.report.event)
+                report.evaluator.addObserver(report)
                 reports.append(report)
             }
         }
 
-        self.report.entityDetailReports = !reports.isEmpty ? reports : self.report.entityDetailReports
+        self.report.entityDetailReports = reports
     }
 
+    public func relationshipStatusFor(_ item: Int) -> String? {
+        return report.entityDetailReports[item].evaluator.isComplete ? nil : "Unspecified Relationships"
+    }
+
+    public func relationshipColourFor(_ item: Int) -> UIColor {
+        return .red
+    }
 
     //MARK: Eval
-
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
 
     //MARK: EntityBucketDelegate
     public func entitiesDidChange() {
+        //Reset validation of relationship report if entities have changed
+        report.entityDetailReports.forEach{$0.relationshipsReport.viewed = false}
+
         updateReports()
     }
 }

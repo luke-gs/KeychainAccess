@@ -7,13 +7,14 @@
 
 import UIKit
 import MPOLKit
+import ClientKit
 
 fileprivate extension EvaluatorKey {
     static let viewed = EvaluatorKey("viewed")
 }
-open class TrafficInfringementEntitiesViewController: FormBuilderViewController, EvaluationObserverable {
+open class TrafficInfringementEntitiesViewController: FormBuilderViewController, EvaluationObserverable, EntityPickerDelegate {
 
-    var viewModel: TrafficInfringementEntitiesViewModel
+    private(set) var viewModel: TrafficInfringementEntitiesViewModel
 
     public init(viewModel: TrafficInfringementEntitiesViewModel) {
         self.viewModel = viewModel
@@ -54,7 +55,9 @@ open class TrafficInfringementEntitiesViewController: FormBuilderViewController,
 
 
         builder += entities.map { entity in
-            return  viewModel.displayable(for: entity).summaryListFormItem()
+            let displayable = viewModel.displayable(for: entity).summaryListFormItem()
+            displayable.subtitle = viewModel.retrieveInvolvements(for: entity.id).compactMap({$0.rawValue}).joined(separator: ", ")
+            return displayable
                 .accessory(nil)
 
                 .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in
@@ -62,6 +65,11 @@ open class TrafficInfringementEntitiesViewController: FormBuilderViewController,
                     self.updateLoadingManager()
                     self.reloadForm()
                 })])
+                .onSelection({ cell in
+                    guard let indexPath = self.collectionView?.indexPath(for: cell) else { return }
+                    self.collectionView?.deselectItem(at: indexPath, animated: true)
+                    self.presentInvolvementPickerVC(entity: entity)
+                })
         }
     }
 
@@ -73,22 +81,14 @@ open class TrafficInfringementEntitiesViewController: FormBuilderViewController,
 
     @objc private func newEntityHandler(_ sender: UIButton) {
 
-        let entityPickerViewModel = EntityPickerViewModel(dismissClosure: { entity in
-
-            self.viewModel.addEntity(entity)
-            self.updateLoadingManager()
-            self.reloadForm()
-
-            self.dismissAnimated()
-        } )
+        let entityPickerViewModel = EntityPickerViewModel()
+        entityPickerViewModel.delegate = self
         
         let viewController = EntityPickerViewController(viewModel: entityPickerViewModel)
-
         viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel",
                                                                           style: .plain,
                                                                           target: self,
                                                                           action: #selector(cancelTapped))
-
 
         let navController = PopoverNavigationController(rootViewController: viewController)
         navController.modalPresentationStyle = .formSheet
@@ -104,5 +104,91 @@ open class TrafficInfringementEntitiesViewController: FormBuilderViewController,
         loadingManager.state = viewModel.currentLoadingManagerState
     }
 
+    // MARK:- EntityPickerDelegateMethods
+
+    func finishedPicking(_ entity: MPOLKitEntity) {
+
+        presentInvolvementPickerVC(entity: entity)
+    }
+
+    func presentInvolvementPickerVC(entity: MPOLKitEntity) {
+
+        let editingEntity = viewModel.entities.contains(entity)
+        let displayable = viewModel.displayable(for: entity)
+        let headerConfig = SearchHeaderConfiguration(title: displayable.title,
+                                                     subtitle: "No involvements selected",
+                                                     image: displayable.thumbnail(ofSize: .small),
+                                                     imageStyle: .entity,
+                                                     tintColor: displayable.iconColor,
+                                                     borderColor: displayable.borderColor)
+
+        let datasource = InvolvementSearchDatasource(objects: Involvement.casesFor(entity),
+                                                     selectedObjects: viewModel.retrieveInvolvements(for: entity.id),
+                                                            configuration: headerConfig)
+        datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
+        let viewController = CustomPickerController(datasource: datasource)
+
+        if editingEntity {
+            viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
+        }
+
+        viewController.finishUpdateHandler = { controller, index in
+            let involvements = controller.objects.enumerated()
+                .filter({ index.contains($0.offset) })
+                .compactMap({ $0.element as? Involvement })
+            
+                if editingEntity {
+                    self.viewModel.updateEntity( entity.id, with: involvements)
+                } else {
+                    self.viewModel.addEntity(entity, with: involvements)
+                }
+
+            self.updateLoadingManager()
+            self.reloadForm()
+            self.dismissAnimated()
+        }
+
+        if let navController = presentedViewController as? UINavigationController {
+            navController.pushViewController(viewController, animated: false)
+        } else {
+            let navController = PopoverNavigationController(rootViewController: viewController)
+            navController.modalPresentationStyle = .formSheet
+
+            present(navController, animated: true, completion: nil)
+        }
+
+    }
 }
+
+public enum Involvement: String, Pickable {
+
+    public var title: String? {
+        return self.rawValue
+    }
+    public var subtitle: String? {
+        return nil
+    }
+
+    case offence = "Involved in Offence"
+    case crash = "Involved in Crash"
+    case damaged = "Damaged"
+    case towed = "Towed"
+    case abandoned = "Abandoned"
+    case defective = "Defective"
+
+    static func casesFor(_ entity: MPOLKitEntity) -> [Involvement] {
+
+        switch entity {
+        case is Person:
+            return [.offence, .crash]
+        case is Vehicle:
+            return [.damaged, .towed, .abandoned, .defective]
+        default:
+            return []
+        }
+    }
+}
+
+
+
 

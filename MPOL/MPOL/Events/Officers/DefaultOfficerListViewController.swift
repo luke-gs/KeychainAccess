@@ -84,7 +84,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                                                      subtitle: displayable.detail1 ?? "No involvements selected",
                                                      image: displayable.thumbnail(ofSize: .small),
                                                      imageStyle: .circle)
-        let datasource = OfficerInvolvementSearchDatasource(objects: involvements,
+        let datasource = InvolvementSearchDatasource(objects: involvements,
                                                             selectedObjects: officer.involvements,
                                                             configuration: headerConfig)
         datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
@@ -130,7 +130,7 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
                                                      subtitle: displayable.detail1 ?? "No involvements selected",
                                                      image: displayable.thumbnail(ofSize: .small)?.sizing().image)
 
-        let involvementDatasource = OfficerInvolvementSearchDatasource(
+        let involvementDatasource = InvolvementSearchDatasource(
             objects: involvements,
             selectedObjects: officer.involvements,
             configuration: headerConfig)

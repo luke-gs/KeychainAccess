@@ -32,7 +32,7 @@ public class EventsListViewModel: EventListViewModelType {
 
         // Add IncidentBuilders here
         incidentsManager.add(TrafficInfringementIncidentBuilder(), for: .trafficInfringement)
-        incidentsManager.add(StreetCheckIncidentBuilder(), for: .streetCheck)
+        incidentsManager.add(StreetCheckIncidentBuilder(), for: .interceptReport)
 
         if let incidentType = incidentType {
             let _ = incidentsManager.create(incidentType: incidentType, in: event)
