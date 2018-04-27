@@ -7,6 +7,7 @@
 
 import MPOLKit
 import PromiseKit
+import ClientKit
 
 public class EventsListViewModel {
 
@@ -44,14 +45,15 @@ public class EventsListViewModel {
         return EventsDetailViewModel(event: event, builder: screenBuilder)
     }
 
-    public func loadingBuilder() -> LoadingViewBuilder<Void> {
-        let builder = LoadingViewBuilder<Void>()
+    public func loadingBuilder() -> LoadingViewBuilder<SearchResult<Vehicle>> {
+        let builder = LoadingViewBuilder<SearchResult<Vehicle>>()
         builder.title = "Submitting event"
-        builder.promise = firstly { () -> Promise<Void> in
-            // TODO: Create network request, get content data and status data
-            print("Submitted")
-            return after(seconds: 10).asVoid()
-        }
+
+        let params = VehicleSearchParameters(registration: "MOCK01")
+        let request = VehicleSearchRequest(source: .pscore, request: params)
+
+        builder.request = { request.searchPromise() }
+        
         return builder
     }
 }
