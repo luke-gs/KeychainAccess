@@ -15,7 +15,6 @@ open class RoundedRectButtonFormItem: BaseFormItem {
     
     public init() {
         super.init(cellType: CollectionViewFormRoundedRectButtonCell.self, reuseIdentifier: CollectionViewFormRoundedRectButtonCell.defaultReuseIdentifier)
-        separatorStyle = .none
     }
     
     open override func configure(_ cell: CollectionViewFormCell) {
