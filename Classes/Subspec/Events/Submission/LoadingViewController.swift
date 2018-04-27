@@ -22,7 +22,7 @@ open class LoadingViewController<T>: ThemedPopoverViewController {
         loadingManager.state = .noContent
         loadingManager.loadingLabel.text = builder?.title
 
-        let _ = builder?.promise?.ensure {
+        let _ = builder?.pendingPromise?.0.ensure {
             self.dismissAnimated()
         }
     }
@@ -43,14 +43,25 @@ extension LoadingViewController {
         vc.modalPresentationStyle = .formSheet
         presentingViewController.present(vc, animated: true, completion: nil)
 
-        return builder.promise
+        builder.request?().done { result in
+            builder.pendingPromise?.1.fulfill(result)
+            }.catch { error in
+                builder.pendingPromise?.1.reject(error)
+        }
+        return builder.pendingPromise?.0
     }
 }
 
 public class LoadingViewBuilder<T> {
+    fileprivate var pendingPromise: (Promise<T>, Resolver<T>)?
+
     public var title: String?
     public var subtitle: String?
-    public var promise: Promise<T>?
+    public var request: (() -> Promise<T>)? {
+        didSet {
+            self.pendingPromise = Promise<T>.pending()
+        }
+    }
 
     public init() { }
 }
