@@ -55,18 +55,18 @@ public class EventSplitViewController: SidebarSplitViewController, EvaluationObs
 
     @objc
     private func submitEvent() {
-        var builder = LoadingViewBuilder<Void>()
+        let builder = LoadingViewBuilder<Void>()
         builder.title = "Submitting event"
         builder.promise = firstly { () -> Promise<Void> in
             // TODO: Create network request, get content data and status data
             print("Submitted")
-            return after(seconds: 10).done {
-                print("DONE")
-            }
+            return after(seconds: 10).asVoid()
         }
-
-        let submissionVC = LoadingViewController(builder: builder)
-        submissionVC.modalPresentationStyle = .formSheet
-        self.present(submissionVC, animated: true, completion: nil)
+        
+        LoadingViewController.presentWith(builder, from: self)?.done {
+            print("DONE DONE DONE")
+            }.catch { error in
+                print(error)
+        }
     }
 }

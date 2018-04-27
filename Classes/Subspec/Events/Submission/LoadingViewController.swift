@@ -10,7 +10,7 @@ import PromiseKit
 
 open class LoadingViewController<T>: ThemedPopoverViewController {
 
-    public var builder: LoadingViewBuilder<T>? {
+    private(set) public var builder: LoadingViewBuilder<T>? {
         didSet {
             loadingManager.loadingLabel.text = builder?.title
         }
@@ -31,7 +31,7 @@ open class LoadingViewController<T>: ThemedPopoverViewController {
     override open func viewDidLoad() {
         super.viewDidLoad()
 
-        _ = builder?.promise?.ensure {
+        let _ = builder?.promise?.ensure {
             self.dismissAnimated()
         }
     }
@@ -39,6 +39,20 @@ open class LoadingViewController<T>: ThemedPopoverViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadingManager.state = .loading
+    }
+}
+
+extension LoadingViewController {
+    @discardableResult
+    public static func presentWith(_ builder: LoadingViewBuilder<T>,
+                                   from presentingViewController: UIViewController)
+        -> Promise<T>?
+    {
+        let vc = LoadingViewController(builder: builder)
+        vc.modalPresentationStyle = .formSheet
+        presentingViewController.present(vc, animated: true, completion: nil)
+
+        return builder.promise
     }
 }
 
