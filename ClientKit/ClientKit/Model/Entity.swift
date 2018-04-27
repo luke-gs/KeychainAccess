@@ -9,30 +9,6 @@
 import Unbox
 import MPOLKit
 
-private enum Coding: String {
-    case dateCreated = "dateCreated"
-    case dateUpdated = "dateUpdated"
-    case createdBy = "createdBy"
-    case updatedBy = "updatedBy"
-    case effectiveDate = "effectiveDate"
-    case expiryDate = "expiryDate"
-    case entityType = "entityType"
-    case isSummary = "isSummary"
-    case arn = "arn"
-    case jurisdiction = "jurisdiction"
-    case source = "source"
-    case alertLevel = "alertLevel"
-    case associatedAlertLevel = "associatedAlertLevel"
-    case actionCount = "actionCount"
-    case alerts = "alerts"
-    case associatedPersons = "associatedPersons"
-    case associatedVehicles = "associatedVehicles"
-    case events = "events"
-    case addresses = "addresses"
-    case media = "media"
-    case modelVersion = "modelVersion"
-}
-
 @objc(MPLEntity)
 open class Entity: MPOLKitEntity {
 
@@ -64,7 +40,7 @@ open class Entity: MPOLKitEntity {
     open var alerts: [Alert]?
     open var associatedPersons: [Person]?
     open var associatedVehicles: [Vehicle]?
-    open var events: [Event]?
+    open var events: [RetrievedEvent]?
     open var addresses: [Address]?
     open var media: [Media]?
     
@@ -129,7 +105,7 @@ open class Entity: MPOLKitEntity {
         alerts = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.alerts.rawValue) as? [Alert]
         associatedPersons = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.associatedPersons.rawValue) as? [Person]
         associatedVehicles = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.associatedVehicles.rawValue) as? [Vehicle]
-        events = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.events.rawValue) as? [Event]
+        events = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.events.rawValue) as? [RetrievedEvent]
         addresses = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.addresses.rawValue) as? [Address]
         media = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.media.rawValue) as? [Media]
 
@@ -167,7 +143,6 @@ open class Entity: MPOLKitEntity {
         aCoder.encode(events, forKey: Coding.events.rawValue)
         aCoder.encode(addresses, forKey: Coding.addresses.rawValue)
         aCoder.encode(media, forKey: Coding.media.rawValue)
-        aCoder.encode(Entity.modelVersion, forKey: Coding.modelVersion.rawValue)
 
         if let alertLevel = alertLevel {
             aCoder.encode(alertLevel.rawValue, forKey: Coding.alertLevel.rawValue)
@@ -176,6 +151,8 @@ open class Entity: MPOLKitEntity {
         if let associatedAlertLevel = associatedAlertLevel {
             aCoder.encode(associatedAlertLevel.rawValue, forKey: Coding.associatedAlertLevel.rawValue)
         }
+
+        aCoder.encode(type(of: self).modelVersion, forKey: MPL_archieveModelVersionKey)
     }
     
     
@@ -205,4 +182,30 @@ open class Entity: MPOLKitEntity {
         return "-"
     }
     
+}
+
+// FIXME: This and archieving model version could probably be moved to the Kit.
+public let MPL_archieveModelVersionKey = "modelVersion"
+
+private enum Coding: String {
+    case dateCreated = "dateCreated"
+    case dateUpdated = "dateLastUpdated"
+    case createdBy = "createdBy"
+    case updatedBy = "updatedBy"
+    case effectiveDate = "effectiveDate"
+    case expiryDate = "expiryDate"
+    case entityType = "entityType"
+    case isSummary = "isSummary"
+    case arn = "arn"
+    case jurisdiction = "jurisdiction"
+    case source = "source"
+    case alertLevel = "alertLevel"
+    case associatedAlertLevel = "associatedAlertLevel"
+    case actionCount = "actionCount"
+    case alerts = "alerts"
+    case associatedPersons = "associatedPersons"
+    case associatedVehicles = "associatedVehicles"
+    case events = "events"
+    case addresses = "addresses"
+    case media = "media"
 }
