@@ -6,8 +6,9 @@
 //
 
 import MPOLKit
+import PromiseKit
 
-public class EventsListViewModel: EventListViewModelType {
+public class EventsListViewModel {
 
     public var title: String
     public var eventsManager: EventsManager
@@ -41,6 +42,17 @@ public class EventsListViewModel: EventListViewModelType {
         screenBuilder.incidentsManager = incidentsManager
 
         return EventsDetailViewModel(event: event, builder: screenBuilder)
+    }
+
+    public func loadingBuilder() -> LoadingViewBuilder<Void> {
+        let builder = LoadingViewBuilder<Void>()
+        builder.title = "Submitting event"
+        builder.promise = firstly { () -> Promise<Void> in
+            // TODO: Create network request, get content data and status data
+            print("Submitted")
+            return after(seconds: 10).asVoid()
+        }
+        return builder
     }
 }
 
