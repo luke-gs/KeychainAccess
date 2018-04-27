@@ -19,8 +19,6 @@ open class CollectionViewFormRoundedRectButtonCell: CollectionViewFormCell {
         contentView.addSubview(button)
         
         NSLayoutConstraint.activate([
-            button.widthAnchor.constraint(greaterThanOrEqualToConstant: 20),
-            button.heightAnchor.constraint(greaterThanOrEqualToConstant: 20),
             button.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             button.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
         ])

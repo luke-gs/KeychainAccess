@@ -37,7 +37,7 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
             size += layoutMargins.top + layoutMargins.bottom
         }
         
-        return max(size, CollectionViewFormLargeTextLabelCell.minimumHeight)
+        return size
     }
 
     open override func configure(_ view: UICollectionReusableView) {
