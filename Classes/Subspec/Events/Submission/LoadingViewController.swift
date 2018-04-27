@@ -52,14 +52,14 @@ extension LoadingViewController {
     }
 }
 
-public class LoadingViewBuilder<T> {
-    fileprivate var pendingPromise: (Promise<T>, Resolver<T>)?
+public class LoadingViewBuilder<Response> {
+    fileprivate var pendingPromise: (Promise<Response>, Resolver<Response>)?
 
     public var title: String?
     public var subtitle: String?
-    public var request: (() -> Promise<T>)? {
+    public var request: (() -> Promise<Response>)? {
         didSet {
-            self.pendingPromise = Promise<T>.pending()
+            self.pendingPromise = Promise<Response>.pending()
         }
     }
 
