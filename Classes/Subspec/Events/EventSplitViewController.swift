@@ -12,9 +12,10 @@ public extension EvaluatorKey {
     static let eventReadyToSubmit = EvaluatorKey(rawValue: "eventReadyToSubmit")
 }
 
-public class EventSplitViewController: SidebarSplitViewController, EvaluationObserverable {
-
+public class EventSplitViewController<Response>: SidebarSplitViewController, EvaluationObserverable {
     public let viewModel: EventDetailViewModelType
+    public var delegate: EventsSubmissionDelegate?
+    public var loadingViewBuilder: LoadingViewBuilder<Response>?
 
     public required init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
     public required init(viewModel: EventDetailViewModelType) {
@@ -23,7 +24,10 @@ public class EventSplitViewController: SidebarSplitViewController, EvaluationObs
 
         self.title = viewModel.title
         regularSidebarViewController.headerView = viewModel.headerView
-        regularSidebarViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Submit", style: .plain, target: self, action: #selector(submitEvent))
+        regularSidebarViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Submit",
+                                                                                         style: .plain,
+                                                                                         target: self,
+                                                                                         action: #selector(submitEvent))
 
         viewModel.evaluator.addObserver(self)
         viewModel.headerUpdated = { [weak self] in
@@ -55,18 +59,18 @@ public class EventSplitViewController: SidebarSplitViewController, EvaluationObs
 
     @objc
     private func submitEvent() {
-        let builder = LoadingViewBuilder<Void>()
-        builder.title = "Submitting event"
-        builder.promise = firstly { () -> Promise<Void> in
-            // TODO: Create network request, get content data and status data
-            print("Submitted")
-            return after(seconds: 10).asVoid()
-        }
-        
-        LoadingViewController.presentWith(builder, from: self)?.done {
-            print("DONE DONE DONE")
+        guard let builder = loadingViewBuilder else { return }
+        LoadingViewController.presentWith(builder, from: self)?
+            .done { result in
+                self.navigationController?.popViewController(animated: true)
+                self.delegate?.eventSubmitted(response: result, error: nil)
             }.catch { error in
-                print(error)
+                self.navigationController?.popViewController(animated: true)
+                self.delegate?.eventSubmitted(response: nil, error: error)
         }
     }
+}
+
+public protocol EventsSubmissionDelegate {
+    func eventSubmitted(response: Any?, error: Error?)
 }

@@ -18,7 +18,7 @@
 		12353412207F1695008256AA /* DefaultEventDateTimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12353411207F1695008256AA /* DefaultEventDateTimeViewModel.swift */; };
 		12353414207F16C4008256AA /* DefaultDateTimeReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12353413207F16C4008256AA /* DefaultDateTimeReport.swift */; };
 		12413C281F1F23B0001B0B41 /* spinner.json in Resources */ = {isa = PBXBuildFile; fileRef = 12413C271F1F23B0001B0B41 /* spinner.json */; };
-		125EAE0E2092DB7000C09FED /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE0D2092DB7000C09FED /* LoadingViewController.swift */; };
+		125EAE112092FCE200C09FED /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE102092FCE200C09FED /* LoadingViewController.swift */; };
 		12A8DB471F5FD63400A06005 /* DirectoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A8DB461F5FD63400A06005 /* DirectoryManager.swift */; };
 		12ABD554207F1920004D0C9F /* DefaultNotesAndAssetsReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD552207F1920004D0C9F /* DefaultNotesAndAssetsReport.swift */; };
 		12ABD555207F1920004D0C9F /* DefaultEventNotesAssetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD553207F1920004D0C9F /* DefaultEventNotesAssetsViewController.swift */; };
@@ -875,7 +875,8 @@
 		12353411207F1695008256AA /* DefaultEventDateTimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEventDateTimeViewModel.swift; sourceTree = "<group>"; };
 		12353413207F16C4008256AA /* DefaultDateTimeReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDateTimeReport.swift; sourceTree = "<group>"; };
 		12413C271F1F23B0001B0B41 /* spinner.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = spinner.json; sourceTree = "<group>"; };
-		125EAE0D2092DB7000C09FED /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoadingViewController.swift; path = Classes/Subspec/Events/Submission/LoadingViewController.swift; sourceTree = SOURCE_ROOT; };
+		125EAE102092FCE200C09FED /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		125EAE122092FE8400C09FED /* EventSubmittable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSubmittable.swift; sourceTree = "<group>"; };
 		12A8DB461F5FD63400A06005 /* DirectoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryManager.swift; sourceTree = "<group>"; };
 		12ABD552207F1920004D0C9F /* DefaultNotesAndAssetsReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultNotesAndAssetsReport.swift; sourceTree = "<group>"; };
 		12ABD553207F1920004D0C9F /* DefaultEventNotesAssetsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesAssetsViewController.swift; sourceTree = "<group>"; };
@@ -1761,13 +1762,13 @@
 			path = DateTime;
 			sourceTree = "<group>";
 		};
-		125EAE0C2092DB5200C09FED /* Submission */ = {
+		125EAE0F2092FCE200C09FED /* Submission */ = {
 			isa = PBXGroup;
 			children = (
-				125EAE0D2092DB7000C09FED /* LoadingViewController.swift */,
+				125EAE102092FCE200C09FED /* LoadingViewController.swift */,
+				125EAE122092FE8400C09FED /* EventSubmittable.swift */,
 			);
-			name = Submission;
-			path = Submissio;
+			path = Submission;
 			sourceTree = "<group>";
 		};
 		12ABD551207F1920004D0C9F /* NotesPhotos */ = {
@@ -1802,7 +1803,7 @@
 		12D3700E20200B5A00D79DDB /* Events */ = {
 			isa = PBXGroup;
 			children = (
-				125EAE0C2092DB5200C09FED /* Submission */,
+				125EAE0F2092FCE200C09FED /* Submission */,
 				12D3700F20200B5A00D79DDB /* Event.swift */,
 				12ABD55F207F194C004D0C9F /* EventListDisplayable.swift */,
 				12EA561820327E130051DDEC /* EventLocation.swift */,
@@ -4831,7 +4832,7 @@
 				EAAEB3481F661806002D6C65 /* SystemPresenter.swift in Sources */,
 				96E492021FB3F98D0051C3A1 /* AppSettingKey.swift in Sources */,
 				EA53B2711F9D905800B891D8 /* StepperFormItem.swift in Sources */,
-				125EAE0E2092DB7000C09FED /* LoadingViewController.swift in Sources */,
+				125EAE112092FCE200C09FED /* LoadingViewController.swift in Sources */,
 				12D4450E2047BAFC00A4D4C1 /* IncidentSplitViewController.swift in Sources */,
 				190503EC1FCFDB09002EBC89 /* RefreshTokenPlugin.swift in Sources */,
 				9668DC302085845F00D7C419 /* CADIncidentAssociationType.swift in Sources */,

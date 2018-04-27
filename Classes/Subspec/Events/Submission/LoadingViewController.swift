@@ -9,13 +9,7 @@ import UIKit
 import PromiseKit
 
 open class LoadingViewController<T>: ThemedPopoverViewController {
-
-    private(set) public var builder: LoadingViewBuilder<T>? {
-        didSet {
-            loadingManager.loadingLabel.text = builder?.title
-        }
-    }
-
+    private(set) public var builder: LoadingViewBuilder<T>?
     private var loadingManager = LoadingStateManager()
 
     public required init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
@@ -26,10 +20,7 @@ open class LoadingViewController<T>: ThemedPopoverViewController {
 
         loadingManager.baseView = self.view
         loadingManager.state = .noContent
-    }
-
-    override open func viewDidLoad() {
-        super.viewDidLoad()
+        loadingManager.loadingLabel.text = builder?.title
 
         let _ = builder?.promise?.ensure {
             self.dismissAnimated()
@@ -57,7 +48,9 @@ extension LoadingViewController {
 }
 
 public class LoadingViewBuilder<T> {
-    var title: String?
-    var subtitle: String?
-    var promise: Promise<T>?
+    public var title: String?
+    public var subtitle: String?
+    public var promise: Promise<T>?
+
+    public init() { }
 }
