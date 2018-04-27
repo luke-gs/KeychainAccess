@@ -269,7 +269,7 @@ open class FormCollectionViewHandler: NSObject, UICollectionViewDataSource, Coll
 
 extension UICollectionView {
 
-    open func apply(_ theme: Theme) {
+    @objc open func apply(_ theme: Theme) {
         guard let delegate = delegate else { return }
 
         for cell in visibleCells {
