@@ -28,7 +28,7 @@ open class NotificationManager: NSObject {
     open private(set) var pushToken: String?
     
     /// The current AES key for push notification payload decryption
-    open private(set) var pushKey: Data?
+    open private(set) var pushKey: Data!
 
     /// Convenience for notification center
     open let notificationCenter = UNUserNotificationCenter.current()
@@ -38,6 +38,9 @@ open class NotificationManager: NSObject {
     public override init() {
         super.init()
         notificationCenter.delegate = self
+
+        // Generate initial push key
+        resetPushKey()
     }
     
     /// Checks notification authorization status and requests if not authorized
@@ -71,11 +74,14 @@ open class NotificationManager: NSObject {
     // MARK: - Local
 
     /// Posts a local notification
-    open func postLocalNotification(withTitle title: String? = nil, body: String, at date: Date? = nil, identifier: String) {
+    open func postLocalNotification(withTitle title: String? = nil, body: String, at date: Date? = nil, userInfo: [AnyHashable: AnyObject]? = nil, identifier: String) {
         let content = UNMutableNotificationContent()
         content.title = title ?? ""
         content.body = body
-        
+        if let userInfo = userInfo {
+            content.userInfo = userInfo
+        }
+
         var trigger: UNCalendarNotificationTrigger? = nil
         if let date = date {
             let triggerDate = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: date)
@@ -99,14 +105,23 @@ open class NotificationManager: NSObject {
 
     // MARK: - Remote
 
+    /// Reset the current push key, use this method to cycle the key between users
+    open func resetPushKey() {
+        // Generate a unique key for server to securely communicate to this device over APNS
+        pushKey = CryptoUtils.generateKey(for: AESBlockCipher.AES_256)
+
+        // Update device registration if we have an active user session and token
+        registerPushToken()
+    }
+
     /// Update current push token and register it if user logged in
     open func updatePushToken(_ deviceToken: Data) {
         // Convert data token to a string
         let token = deviceToken.hexString()
         print("Push token: \(token)")
-
-        // Store token and register if we have an active user session
         pushToken = token
+
+        // Update device registration if we have an active user session and token
         registerPushToken()
     }
 
@@ -121,8 +136,7 @@ open class NotificationManager: NSObject {
         request.deviceId = Device.current.deviceUuid
         request.deviceType = "iOS"
 
-        // Generate a unique key for server to securely communicate to this device over APNS
-        pushKey = CryptoUtils.generateKey(for: AESBlockCipher.AES_256)
+        // Send the unique key for our server to securely communicate to this device over APNS
         request.pushKey = pushKey?.base64EncodedString()
 
         #if DEBUG
