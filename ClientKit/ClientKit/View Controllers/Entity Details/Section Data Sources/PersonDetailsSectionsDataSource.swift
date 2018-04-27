@@ -54,6 +54,9 @@ public class PersonNATDetailsSectionsDataSource: EntityDetailSectionsDataSource 
     public init(baseEntity: Entity, delegate: SearchDelegate?) {
         self.entity = baseEntity
         self.detailViewControllers = [ EntityDetailFormViewController(viewModel: PersonInfoViewModel()),
+                                       EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
+                                       EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
+                                       EntityDetailFormViewController(viewModel: EntityRetrievedEventsViewModel()),
                                        EntityDetailFormViewController(viewModel: PersonCriminalHistoryViewModel()),
                                        EntityDetailFormViewController(viewModel: PersonOrdersViewModel()),
                                        ]
