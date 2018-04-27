@@ -1,15 +1,15 @@
 //
-//  DefaultEventDateTimeViewModel.swift
+//  DefaultEventNotesMediaViewModel.swift
 //  MPOLKit
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-public class DefaultEventNotesAssetsViewModel {
+public class DefaultEventNotesMediaViewModel {
 
-    weak var report: DefaultNotesAssetsReport!
+    weak var report: DefaultNotesMediaReport!
 
-    public init(report: DefaultNotesAssetsReport) {
+    public init(report: DefaultNotesMediaReport) {
         self.report = report
     }
 
