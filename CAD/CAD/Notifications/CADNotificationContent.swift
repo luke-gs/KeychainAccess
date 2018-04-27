@@ -9,7 +9,7 @@
 import Foundation
 
 /// Model object for encrypted push notification content
-open class CADNotificationContent: Codable {
+public struct CADNotificationContent: Codable {
     let type: String
     let operation: String?
     let identifier: String?
