@@ -27,6 +27,9 @@ open class NotificationManager: NSObject {
     /// The current Apple issued push token
     open private(set) var pushToken: String?
     
+    /// The current AES key for push notification payload decryption
+    open private(set) var pushKey: Data!
+
     /// Convenience for notification center
     open let notificationCenter = UNUserNotificationCenter.current()
 
@@ -35,6 +38,9 @@ open class NotificationManager: NSObject {
     public override init() {
         super.init()
         notificationCenter.delegate = self
+
+        // Generate initial push key
+        resetPushKey()
     }
     
     /// Checks notification authorization status and requests if not authorized
@@ -68,11 +74,14 @@ open class NotificationManager: NSObject {
     // MARK: - Local
 
     /// Posts a local notification
-    open func postLocalNotification(withTitle title: String? = nil, body: String, at date: Date? = nil, identifier: String) {
+    open func postLocalNotification(withTitle title: String? = nil, body: String, at date: Date? = nil, userInfo: [AnyHashable: AnyObject]? = nil, identifier: String) {
         let content = UNMutableNotificationContent()
         content.title = title ?? ""
         content.body = body
-        
+        if let userInfo = userInfo {
+            content.userInfo = userInfo
+        }
+
         var trigger: UNCalendarNotificationTrigger? = nil
         if let date = date {
             let triggerDate = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: date)
@@ -83,40 +92,52 @@ open class NotificationManager: NSObject {
         notificationCenter.add(request)
     }
     
+    /// Removes a local notification by identifier
     open func removeLocalNotification(_ identifier: String) {
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [identifier])
         notificationCenter.removeDeliveredNotifications(withIdentifiers: [identifier])
     }
     
+    /// Removes all local notifications
     open func removeAllLocalNotifications() {
         notificationCenter.removeAllPendingNotificationRequests()
     }
 
     // MARK: - Remote
 
-    open func updatePushToken(_ deviceToken: Data) {
-        // Convert data token to a string
-        var token = ""
-        for i in 0..<deviceToken.count {
-            token = token + String(format: "%02.2hhx", arguments: [deviceToken[i]])
-        }
-        print("Push token: \(token)")
+    /// Reset the current push key, use this method to cycle the key between users
+    open func resetPushKey() {
+        // Generate a unique key for server to securely communicate to this device over APNS
+        pushKey = CryptoUtils.generateKey(for: AESBlockCipher.AES_256)
 
-        // Store token and register if we have an active user session
-        pushToken = token
+        // Update device registration if we have an active user session and token
         registerPushToken()
     }
 
+    /// Update current push token and register it if user logged in
+    open func updatePushToken(_ deviceToken: Data) {
+        // Convert data token to a string
+        let token = deviceToken.hexString()
+        print("Push token: \(token)")
+        pushToken = token
+
+        // Update device registration if we have an active user session and token
+        registerPushToken()
+    }
+
+    /// Register push token if it has been issued and a user is logged in
     open func registerPushToken() {
         guard let handler = handler, let pushToken = pushToken, UserSession.current.isActive else { return }
 
-        // Register token if it has been issued and a user is logged in
         let request = RegisterDeviceRequest()
         request.pushToken = pushToken
 
         // Set default properties
         request.deviceId = Device.current.deviceUuid
         request.deviceType = "iOS"
+
+        // Send the unique key for our server to securely communicate to this device over APNS
+        request.pushKey = pushKey?.base64EncodedString()
 
         #if DEBUG
         request.appVersion = "debug"
@@ -133,11 +154,34 @@ open class NotificationManager: NSObject {
         }
     }
 
+    /// To be called by app delegate when a silent remote notification is received
     open func didReceiveRemoteNotification(userInfo: [AnyHashable : Any]) -> Promise<UIBackgroundFetchResult> {
         guard let handler = handler else { return Promise<UIBackgroundFetchResult>.value( .noData) }
 
         // Defer processing to handler
         return handler.handleSilentNotification(userInfo: userInfo)
+    }
+
+    // MARK: - Decryption
+
+    /// Decrypt the contents of an encrypted push notification
+    open func decryptContentAsData(_ content: String) -> Data? {
+        guard let pushKey = pushKey, let encryptedData = Data(base64Encoded: content) else { return nil }
+
+        // Decrypt the content
+        return CryptoUtils.performCipher(AESBlockCipher.AES_256, operation: .decrypt, data: encryptedData, keyData: pushKey)
+    }
+
+    /// Decrypt the contents of an encrypted push notification, returning as a dictionary
+    open func decryptContentAsDictionary(_ content: String) -> [String: AnyObject]? {
+        // Decrypt the content
+        if let decryptedData = decryptContentAsData(content) {
+            // JSON decode the result
+            if let json = try? JSONSerialization.jsonObject(with: decryptedData, options: []) as? [String: AnyObject]  {
+                return json
+            }
+        }
+        return nil
     }
 
 }
@@ -191,4 +235,13 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
         }
     }
 
+}
+
+// MARK: - Data extension
+
+/// Convenience private extension for converting data to hex string
+fileprivate extension Data {
+    func hexString() -> String {
+        return map { String(format: "%02.2hhx", $0) }.joined()
+    }
 }

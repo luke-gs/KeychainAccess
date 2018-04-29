@@ -25,6 +25,10 @@ s.ios.deployment_target = '10.0'
 # s.source_files = 'Classes/**/*'
 # s.resources = 'Assets/*'
 
+# Export the CommonCrypto module to app using the kit
+s.xcconfig = { 'SWIFT_INCLUDE_PATHS' => '$(PODS_TARGET_SRCROOT)/CommonCrypto' }
+s.preserve_paths = 'CommonCrypto/module.modulemap'
+  
 s.subspec 'CAD' do |ss|
 	ss.source_files = 'Classes/Subspec/CAD/**/*'
 end
