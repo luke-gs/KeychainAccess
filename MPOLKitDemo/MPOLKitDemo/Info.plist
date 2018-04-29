@@ -49,6 +49,8 @@
 	<string>Give me access to photo library please thanks.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
+	<key>PSSharedKeychainAccessGroup</key>
+	<string>mpolkitdemo</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
