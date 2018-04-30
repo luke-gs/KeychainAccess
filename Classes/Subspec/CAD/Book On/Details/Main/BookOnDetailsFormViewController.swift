@@ -82,7 +82,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         let title = NSLocalizedString("Fleet ID", comment: "")
         return TextFieldFormItem(title: title, text: nil)
             .autocapitalizationType(.allCharacters)
-            .width(.column(3))
+            .width(.column(2))
             .required("Fleet ID is required.")
             .strictValidate(CharacterSetSpecification.alphanumerics, message: "Fleet ID must only use numbers and letters")
             .text(viewModel.content.serial)
@@ -95,9 +95,12 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         let title = NSLocalizedString("Category", comment: "")
         return DropDownFormItem(title: title)
             // TODO: get these from manifest
-            .options(["1", "2", "3", "4"])
+            .options(["1. Marked Intercept Sedan or Motorcycle",
+                      "2. Intercept unmarked Sedan or Motorcycle",
+                      "3. Marked Intercept Van, 4WD",
+                      "4. Unmarked non-intercept vehicle"])
             .required("Category is required.")
-            .width(.column(3))
+            .width(.column(1))
             .selectedValue([viewModel.content.category].removeNils())
             .onValueChanged { [weak self] in
                 self?.viewModel.content.category = $0?.first
@@ -107,7 +110,7 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
     private lazy var odometerItem: BaseFormItem = {
         let title = NSLocalizedString("Odometer", comment: "")
         return TextFieldFormItem(title: title, text: nil)
-            .width(.column(3))
+            .width(.column(2))
             .keyboardType(.numberPad)
             .strictValidate(CharacterSetSpecification.decimalDigits, message: "Odometer must be a number")
             .text(viewModel.content.odometer)
@@ -228,8 +231,8 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         if viewModel.showVehicleFields {
             builder += HeaderFormItem(text: NSLocalizedString("Vehicle Details", comment: "").uppercased(), style: .plain)
             builder += serialItem
-            builder += categoryItem
             builder += odometerItem
+            builder += categoryItem
             builder += equipmentItem
             builder += remarksItem
         }

@@ -19,9 +19,10 @@
 		12353414207F16C4008256AA /* DefaultDateTimeReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12353413207F16C4008256AA /* DefaultDateTimeReport.swift */; };
 		12413C281F1F23B0001B0B41 /* spinner.json in Resources */ = {isa = PBXBuildFile; fileRef = 12413C271F1F23B0001B0B41 /* spinner.json */; };
 		125EAE112092FCE200C09FED /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE102092FCE200C09FED /* LoadingViewController.swift */; };
+		125EAE082092CFD700C09FED /* DefaultEventNotesMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE052092CFD700C09FED /* DefaultEventNotesMediaViewController.swift */; };
+		125EAE092092CFD800C09FED /* DefaultEventNotesMediaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE062092CFD700C09FED /* DefaultEventNotesMediaViewModel.swift */; };
+		125EAE0A2092CFD800C09FED /* DefaultNotesMedaReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE072092CFD700C09FED /* DefaultNotesMedaReport.swift */; };
 		12A8DB471F5FD63400A06005 /* DirectoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A8DB461F5FD63400A06005 /* DirectoryManager.swift */; };
-		12ABD554207F1920004D0C9F /* DefaultNotesAndAssetsReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD552207F1920004D0C9F /* DefaultNotesAndAssetsReport.swift */; };
-		12ABD555207F1920004D0C9F /* DefaultEventNotesAssetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD553207F1920004D0C9F /* DefaultEventNotesAssetsViewController.swift */; };
 		12ABD562207F194C004D0C9F /* EventSearchableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD55E207F194C004D0C9F /* EventSearchableViewModel.swift */; };
 		12ABD563207F194C004D0C9F /* EventListDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD55F207F194C004D0C9F /* EventListDisplayable.swift */; };
 		12ABD564207F194C004D0C9F /* EventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD560207F194C004D0C9F /* EventsManager.swift */; };
@@ -29,7 +30,6 @@
 		12ABD56A207F1967004D0C9F /* LocationSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD567207F1966004D0C9F /* LocationSelectionViewModel.swift */; };
 		12ABD56B207F1967004D0C9F /* LocationMapSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD568207F1966004D0C9F /* LocationMapSelectionViewController.swift */; };
 		12ABD56C207F1967004D0C9F /* DefaultLocationReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD569207F1966004D0C9F /* DefaultLocationReport.swift */; };
-		12ABD57D207F234F004D0C9F /* DefaultEventNotesAssetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD57C207F234F004D0C9F /* DefaultEventNotesAssetsViewModel.swift */; };
 		12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */; };
 		12D3701720200B5B00D79DDB /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3700F20200B5A00D79DDB /* Event.swift */; };
 		12D3702020200DBD00D79DDB /* ObjectBucket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3701F20200DBD00D79DDB /* ObjectBucket.swift */; };
@@ -319,6 +319,7 @@
 		44A662CE206B36830033B614 /* IncidentSummaryFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A662CD206B36830033B614 /* IncidentSummaryFormItem.swift */; };
 		44C9922A205F30500045DD2F /* GalleryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C99229205F30500045DD2F /* GalleryButton.swift */; };
 		44F2585B20929EAE00BEB255 /* CollectionViewFormLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F2585A20929EAE00BEB255 /* CollectionViewFormLabelCell.swift */; };
+		44F258612092A60C00BEB255 /* LocationErrorDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F258602092A60B00BEB255 /* LocationErrorDefinition.swift */; };
 		44F3F14B1F56DBD300D68585 /* FilterDescriptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F3F14A1F56DBD300D68585 /* FilterDescriptorTests.swift */; };
 		44F3F14E1F56DDDC00D68585 /* FilterDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F3F14D1F56DDC000D68585 /* FilterDescriptor.swift */; };
 		44F72B2A1F85E5F000A6FE6B /* SearchResultMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F72B291F85E5F000A6FE6B /* SearchResultMessageViewController.swift */; };
@@ -877,9 +878,10 @@
 		12413C271F1F23B0001B0B41 /* spinner.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = spinner.json; sourceTree = "<group>"; };
 		125EAE102092FCE200C09FED /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		125EAE122092FE8400C09FED /* EventSubmittable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSubmittable.swift; sourceTree = "<group>"; };
+		125EAE052092CFD700C09FED /* DefaultEventNotesMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesMediaViewController.swift; sourceTree = "<group>"; };
+		125EAE062092CFD700C09FED /* DefaultEventNotesMediaViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesMediaViewModel.swift; sourceTree = "<group>"; };
+		125EAE072092CFD700C09FED /* DefaultNotesMedaReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultNotesMedaReport.swift; sourceTree = "<group>"; };
 		12A8DB461F5FD63400A06005 /* DirectoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryManager.swift; sourceTree = "<group>"; };
-		12ABD552207F1920004D0C9F /* DefaultNotesAndAssetsReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultNotesAndAssetsReport.swift; sourceTree = "<group>"; };
-		12ABD553207F1920004D0C9F /* DefaultEventNotesAssetsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesAssetsViewController.swift; sourceTree = "<group>"; };
 		12ABD55E207F194C004D0C9F /* EventSearchableViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSearchableViewModel.swift; sourceTree = "<group>"; };
 		12ABD55F207F194C004D0C9F /* EventListDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListDisplayable.swift; sourceTree = "<group>"; };
 		12ABD560207F194C004D0C9F /* EventsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventsManager.swift; sourceTree = "<group>"; };
@@ -887,7 +889,6 @@
 		12ABD567207F1966004D0C9F /* LocationSelectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSelectionViewModel.swift; sourceTree = "<group>"; };
 		12ABD568207F1966004D0C9F /* LocationMapSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapSelectionViewController.swift; sourceTree = "<group>"; };
 		12ABD569207F1966004D0C9F /* DefaultLocationReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultLocationReport.swift; sourceTree = "<group>"; };
-		12ABD57C207F234F004D0C9F /* DefaultEventNotesAssetsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesAssetsViewModel.swift; sourceTree = "<group>"; };
 		12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLKitProtocols.swift; sourceTree = "<group>"; };
 		12BDF9151F95CCD50033E60B /* GenericSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericSearchViewController.swift; sourceTree = "<group>"; };
 		12D3700F20200B5A00D79DDB /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -1163,6 +1164,7 @@
 		44A662CD206B36830033B614 /* IncidentSummaryFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentSummaryFormItem.swift; sourceTree = "<group>"; };
 		44C99229205F30500045DD2F /* GalleryButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryButton.swift; sourceTree = "<group>"; };
 		44F2585A20929EAE00BEB255 /* CollectionViewFormLabelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormLabelCell.swift; sourceTree = "<group>"; };
+		44F258602092A60B00BEB255 /* LocationErrorDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationErrorDefinition.swift; sourceTree = "<group>"; };
 		44F3F14A1F56DBD300D68585 /* FilterDescriptorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDescriptorTests.swift; sourceTree = "<group>"; };
 		44F3F14D1F56DDC000D68585 /* FilterDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDescriptor.swift; sourceTree = "<group>"; };
 		44F72B291F85E5F000A6FE6B /* SearchResultMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultMessageViewController.swift; sourceTree = "<group>"; };
@@ -1774,9 +1776,9 @@
 		12ABD551207F1920004D0C9F /* NotesPhotos */ = {
 			isa = PBXGroup;
 			children = (
-				12ABD553207F1920004D0C9F /* DefaultEventNotesAssetsViewController.swift */,
-				12ABD57C207F234F004D0C9F /* DefaultEventNotesAssetsViewModel.swift */,
-				12ABD552207F1920004D0C9F /* DefaultNotesAndAssetsReport.swift */,
+				125EAE052092CFD700C09FED /* DefaultEventNotesMediaViewController.swift */,
+				125EAE062092CFD700C09FED /* DefaultEventNotesMediaViewModel.swift */,
+				125EAE072092CFD700C09FED /* DefaultNotesMedaReport.swift */,
 			);
 			path = NotesPhotos;
 			sourceTree = "<group>";
@@ -2042,6 +2044,7 @@
 			isa = PBXGroup;
 			children = (
 				19FEC9881F440326005692A9 /* NetworkErrorDefinition.swift */,
+				44F258602092A60B00BEB255 /* LocationErrorDefinition.swift */,
 			);
 			path = Definitions;
 			sourceTree = "<group>";
@@ -4677,7 +4680,6 @@
 				463694E5200ED59100C51BB4 /* SketchColorPickable.swift in Sources */,
 				EA09A04E1F78B92100BC3C0E /* SpecificationOperator.swift in Sources */,
 				BC9C7E061F0DED6600DFFE83 /* UIFont+Convenience.swift in Sources */,
-				12ABD555207F1920004D0C9F /* DefaultEventNotesAssetsViewController.swift in Sources */,
 				E26BCAE020116A8A0028F228 /* UserDefaultsDataSource.swift in Sources */,
 				270C60FD1FBA5DCB006F11AD /* TasksListIncidentCollectionViewCell.swift in Sources */,
 				27206B361F8198CD005303A8 /* IncidentAnnotationView.swift in Sources */,
@@ -4759,6 +4761,7 @@
 				EA32A85E1FBD564200CC37FB /* MediaDetailViewController.swift in Sources */,
 				BC9C7DFB1F0DED6600DFFE83 /* CollectionViewFormTextFieldCell.swift in Sources */,
 				2744E38E2051DD8500561A8F /* CADResourceStatusCore.swift in Sources */,
+				125EAE082092CFD700C09FED /* DefaultEventNotesMediaViewController.swift in Sources */,
 				BC9C7E361F0DED6600DFFE83 /* KeyboardNumberBar.swift in Sources */,
 				BC9C7E421F0DED6600DFFE83 /* ScrollViewInsetManager.swift in Sources */,
 				463694E7200ED68F00C51BB4 /* SketchControlPanelDelegate.swift in Sources */,
@@ -4858,7 +4861,6 @@
 				44621FF71F59239C007C3150 /* FilterValueDescriptor.swift in Sources */,
 				C6020FD11F394734001F1E71 /* APIManagerError.swift in Sources */,
 				EA32A8561FBD1A7900CC37FB /* MediaSlideShowOverlayView.swift in Sources */,
-				12ABD57D207F234F004D0C9F /* DefaultEventNotesAssetsViewModel.swift in Sources */,
 				BC9C7E431F0DED6600DFFE83 /* SidebarItem.swift in Sources */,
 				9650CA171F958B330087F5C9 /* ManageCallsignStatusViewModel.swift in Sources */,
 				4426162B1FF5C9A7008EBF84 /* PatrolAreaListItemViewModel.swift in Sources */,
@@ -5028,6 +5030,7 @@
 				279B057D200D591200C3EFB0 /* ActivityLogDateCollectionSectionViewModel.swift in Sources */,
 				2744E3922051DD8500561A8F /* CADIncidentStatusCore.swift in Sources */,
 				2744EECA1FBEA523008DFA7F /* MapFilterOption.swift in Sources */,
+				125EAE0A2092CFD800C09FED /* DefaultNotesMedaReport.swift in Sources */,
 				4426162C1FF5C9A7008EBF84 /* PatrolAreaListViewController.swift in Sources */,
 				27CBC7581F8B277E00E387C3 /* TimelineView.swift in Sources */,
 				2744E3942051DD8500561A8F /* CADSyncResponse.swift in Sources */,
@@ -5087,6 +5090,7 @@
 				273DE2D91FEA0355000C46DD /* IntrinsicHeightFormBuilderViewController.swift in Sources */,
 				46A60F5E1FCFAFAF00EE32CA /* Evaluatable.swift in Sources */,
 				1212B54D1F60F2ED00F90CA0 /* TestingDirective.swift in Sources */,
+				44F258612092A60C00BEB255 /* LocationErrorDefinition.swift in Sources */,
 				E21CD4741FBD4B3800925A38 /* NetworkMonitorPlugin.swift in Sources */,
 				EADC4FF31F81E0810066AA2F /* OptionGroupFormItem.swift in Sources */,
 				BC9C7DF01F0DED6600DFFE83 /* EpochDateTransformer+UnboxFormatter.swift in Sources */,
@@ -5157,7 +5161,6 @@
 				196EF4752033BC2A00C0ADE9 /* MapControlView.swift in Sources */,
 				EA53B26F1F9D7F0200B891D8 /* CollectionViewFormStepperCell.swift in Sources */,
 				993E3A2E1F86FD65008BBFF8 /* UIImage+Resizing.swift in Sources */,
-				12ABD554207F1920004D0C9F /* DefaultNotesAndAssetsReport.swift in Sources */,
 				463F88D8200C6E5D0007A311 /* PixelWidthView.swift in Sources */,
 				96699BCC1FDDE547006BB024 /* QuantityPickerFormItem.swift in Sources */,
 				BCED8C761F1488EE004C3C71 /* CollectionViewFormHeaderView.swift in Sources */,
@@ -5234,6 +5237,7 @@
 				273A5C1A2005B8DC0009D9A0 /* GlassBarView.swift in Sources */,
 				2704CEFB207AD6760001A3DE /* MPOLMarkerAnnotationView.swift in Sources */,
 				BC9C7E4D1F0DED6600DFFE83 /* AlertIndicatorView.swift in Sources */,
+				125EAE092092CFD800C09FED /* DefaultEventNotesMediaViewModel.swift in Sources */,
 				279B0579200D572300C3EFB0 /* DatedActivityLogViewModel.swift in Sources */,
 				962F177820894F0300156247 /* CADAlertLevelType.swift in Sources */,
 				199ECE8F1FAA1B720065E425 /* RemoteResourceDescribing.swift in Sources */,
