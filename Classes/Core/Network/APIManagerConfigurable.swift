@@ -53,7 +53,7 @@ extension APIManagerDefaultConfiguration {
     }
 
     public static func defaultErrorMapper() -> ErrorMapper {
-        let mapper = ErrorMapper(definitions: [NetworkErrorDefinition()])
+        let mapper = ErrorMapper(definitions: [NetworkErrorDefinition(), LocationErrorDefinition()])
         return mapper
     }
     
