@@ -17,7 +17,7 @@ open class EntityPickerViewController: FormBuilderViewController {
         self.viewModel = viewModel
 
         super.init()
-        title = "Add Entity"
+        title = "Entities"
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -28,9 +28,7 @@ open class EntityPickerViewController: FormBuilderViewController {
         super.viewDidLoad()
 
         loadingManager.noContentView.titleLabel.text = "There are no recently used Entities"
-
         loadingManager.state = viewModel.currentLoadingManagerState
-
     }
 
     open override func viewWillAppear(_ animated: Bool) {
@@ -60,6 +58,5 @@ open class EntityPickerViewController: FormBuilderViewController {
     private func updateEmptyState() {
         self.loadingManager.state = viewModel.currentLoadingManagerState
     }
-
 
 }
