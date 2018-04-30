@@ -15,12 +15,3 @@ public protocol CADBookOffRequestType: CodableRequestParameters {
     var callsign : String! { get }
 
 }
-
-// MARK: - API Manager method for sending request
-public extension APIManager {
-
-    /// Book off from CAD
-    public func cadBookOff(with request: CADBookOffRequestType) -> Promise<Void> {
-        return performRequest(request, pathTemplate: "cad/shift/bookoff", method: .put)
-    }
-}

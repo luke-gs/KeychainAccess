@@ -435,6 +435,7 @@
 		966CE9D120368DB800646A6A /* CADPatrolStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966CE9D020368DB800646A6A /* CADPatrolStatusType.swift */; };
 		96707B452091D85200C4BFDC /* BlockCipherType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96707B442091D85200C4BFDC /* BlockCipherType.swift */; };
 		96707B472091D88600C4BFDC /* AESBlockCipher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96707B462091D88600C4BFDC /* AESBlockCipher.swift */; };
+		96707B4F2096930700C4BFDC /* APIManager+CAD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96707B4E2096930600C4BFDC /* APIManager+CAD.swift */; };
 		9672C7E7200429C1005DE6BE /* StatusChangeReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9672C7E6200429C1005DE6BE /* StatusChangeReasonViewController.swift */; };
 		9674E0E71FC68015000702F8 /* LoadingStateLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9674E0E61FC68015000702F8 /* LoadingStateLoadingView.swift */; };
 		9674E0E91FC68031000702F8 /* LoadingStateErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9674E0E81FC68031000702F8 /* LoadingStateErrorView.swift */; };
@@ -1294,6 +1295,7 @@
 		966CE9D020368DB800646A6A /* CADPatrolStatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADPatrolStatusType.swift; sourceTree = "<group>"; };
 		96707B442091D85200C4BFDC /* BlockCipherType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockCipherType.swift; sourceTree = "<group>"; };
 		96707B462091D88600C4BFDC /* AESBlockCipher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AESBlockCipher.swift; sourceTree = "<group>"; };
+		96707B4E2096930600C4BFDC /* APIManager+CAD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+CAD.swift"; sourceTree = "<group>"; };
 		9672C7E6200429C1005DE6BE /* StatusChangeReasonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusChangeReasonViewController.swift; sourceTree = "<group>"; };
 		9674E0E61FC68015000702F8 /* LoadingStateLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStateLoadingView.swift; sourceTree = "<group>"; };
 		9674E0E81FC68031000702F8 /* LoadingStateErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStateErrorView.swift; sourceTree = "<group>"; };
@@ -2138,11 +2140,12 @@
 		2744E3682051DD5A00561A8F /* Abstraction */ = {
 			isa = PBXGroup;
 			children = (
-				9689CA58203649EB0001D993 /* Objects */,
-				966CE9BC20365AE900646A6A /* Requests */,
+				2744E3A92051E68200561A8F /* CADAPIManagerType.swift */,
 				9689CA0B2032646C0001D993 /* CADClientModelTypes.swift */,
 				9689CA46203646140001D993 /* CADStateManagerType.swift */,
 				9689CA5920364A010001D993 /* Enum */,
+				9689CA58203649EB0001D993 /* Objects */,
+				966CE9BC20365AE900646A6A /* Requests */,
 			);
 			path = Abstraction;
 			sourceTree = "<group>";
@@ -2168,7 +2171,7 @@
 		2744E36C2051DD8500561A8F /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2744E3A92051E68200561A8F /* CADAPIManagerType.swift */,
+				96707B4E2096930600C4BFDC /* APIManager+CAD.swift */,
 				2744E36D2051DD8500561A8F /* Enum */,
 				2744E3742051DD8500561A8F /* Responses */,
 				2744E3772051DD8500561A8F /* Objects */,
@@ -5213,6 +5216,7 @@
 				19B49BB91F665F2A00502F51 /* CompactSidebarSourceCell.swift in Sources */,
 				464A5E8F1FD4A8F900B4C0F9 /* ResourceError.swift in Sources */,
 				1914E596203C2DB100EE124A /* ButtonStackView.swift in Sources */,
+				96707B4F2096930700C4BFDC /* APIManager+CAD.swift in Sources */,
 				27FDABB71FB91B02003466AF /* OfficerCommunicationsView.swift in Sources */,
 				962F179B208F081E00156247 /* CryptoUtils.swift in Sources */,
 				2764713520295A40008F26A1 /* PSCAlertActionView.swift in Sources */,
