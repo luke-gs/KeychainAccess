@@ -45,7 +45,10 @@ open class EntityPickerViewController: FormBuilderViewController {
         builder += HeaderFormItem(text: "Recently Used")
 
         builder += entities.map { entity in
-            return viewModel.displayable(for: entity).summaryListFormItem()
+            return viewModel.displayable(for: entity)
+                .summaryListFormItem()
+                .badgeColor(nil)
+                .badge(0)
                 .accessory(nil)
                 .onSelection ({ cell in
                     guard let indexPath = self.collectionView?.indexPath(for: cell) else { return }

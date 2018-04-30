@@ -59,7 +59,8 @@ open class TrafficInfringementEntitiesViewController: FormBuilderViewController,
             displayable.subtitle = viewModel.retrieveInvolvements(for: entity.id).compactMap({$0.rawValue}).joined(separator: ", ")
             return displayable
                 .accessory(nil)
-
+                .badgeColor(nil)
+                .badge(0)
                 .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in
                     self.viewModel.removeEntity(entity)
                     self.updateLoadingManager()
@@ -175,14 +176,16 @@ public enum Involvement: String, Pickable {
     case towed = "Towed"
     case abandoned = "Abandoned"
     case defective = "Defective"
+    case driver = "Driver"
+    case used = "Used"
 
     static func casesFor(_ entity: MPOLKitEntity) -> [Involvement] {
 
         switch entity {
         case is Person:
-            return [.offence, .crash]
+            return [.offence, .crash, .driver]
         case is Vehicle:
-            return [.damaged, .towed, .abandoned, .defective]
+            return [.damaged, .towed, .abandoned, .defective, .used]
         default:
             return []
         }
