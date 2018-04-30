@@ -293,7 +293,7 @@ class MeganMediaStore: WritableDataStore {
 
                 let pageId: Int? = (endIndex == self.fakeImageKeys.count) ? nil : ((page) + 1)
 
-                let images = self.fakeImageKeys[beginIndex..<endIndex].flatMap {
+                let images = self.fakeImageKeys[beginIndex..<endIndex].compactMap {
                     return (AssetManager.shared.image(forKey: $0.0)!, $0.1, $0.2)
                 }
 
