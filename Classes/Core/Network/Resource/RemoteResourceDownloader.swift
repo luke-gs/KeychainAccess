@@ -81,6 +81,9 @@ public class RemoteResourceDownloader<T: Codable> {
             }
         }
 
+        // Remove expired objects
+        resourceCache.async.removeExpiredObjects { _ in }
+
         let isCached = try? resourceCache.existsObject(ofType: T.self, forKey: resourceDescription.cacheKey)
 
         if let isCached = isCached, isCached { // If cache for the key exists.
