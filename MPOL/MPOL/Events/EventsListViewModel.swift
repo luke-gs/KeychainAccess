@@ -45,14 +45,15 @@ public class EventsListViewModel {
         return EventsDetailViewModel(event: event, builder: screenBuilder)
     }
 
-    public func loadingBuilder() -> LoadingViewBuilder<SearchResult<Vehicle>> {
-        let builder = LoadingViewBuilder<SearchResult<Vehicle>>()
+    public func loadingBuilder() -> LoadingViewBuilder<Void> {
+        let builder = LoadingViewBuilder<Void>()
         builder.title = "Submitting event"
+        builder.preferredContentSize = CGSize(width: 512, height: 240)
 
-        let params = VehicleSearchParameters(registration: "MOCK01")
-        let request = VehicleSearchRequest(source: .pscore, request: params)
-
-        builder.request = { request.searchPromise() }
+        builder.request = { firstly { () -> Promise<Void> in
+            return after(seconds: 3).asVoid()
+            }
+        }
         
         return builder
     }

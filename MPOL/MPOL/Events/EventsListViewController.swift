@@ -86,7 +86,7 @@ open class EventsListViewController: FormBuilderViewController {
 
         (viewModel as! EventsListViewModel).incidentType = incidentType
 
-        let viewController = EventSplitViewController<SearchResult<Vehicle>>(viewModel: viewModel.detailsViewModel(for: event))
+        let viewController = EventSplitViewController<Void>(viewModel: viewModel.detailsViewModel(for: event))
         viewController.loadingViewBuilder = viewModel.loadingBuilder()
         viewController.delegate = self
 
@@ -99,8 +99,8 @@ open class EventsListViewController: FormBuilderViewController {
 }
 
 extension EventsListViewController: EventsSubmissionDelegate {
-    public func eventSubmitted(response: Any?, error: Error?) {
-        guard let response = response as? SearchResult<Vehicle> else { return }
-        print("\(response), \(error)")
+    public func eventSubmittedFor(eventId: String, response: Any?, error: Error?) {
+        viewModel.eventsManager.remove(for: eventId)
+        self.reloadForm()
     }
 }
