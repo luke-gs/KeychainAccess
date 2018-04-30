@@ -275,7 +275,9 @@ open class CADStateManagerCore: CADStateManagerType {
     /// We use our own implementation of update here, so we can use custom API manager
     open func syncManifestItems() -> Promise<Void> {
         let checkedAtDate = Date()
-        return CADStateManagerCore.apiManager.fetchManifest(with: ManifestFetchRequest(date: Manifest.shared.lastUpdateDate)).then { result -> Promise<Void> in
+
+        let manifestRequest = ManifestFetchRequest(date: Manifest.shared.lastUpdateDate, path: "manifest/manifest", updateType: .dateTime)
+        return CADStateManagerCore.apiManager.fetchManifest(with: manifestRequest).then { result -> Promise<Void> in
             return Manifest.shared.saveManifest(with: result, at:checkedAtDate)
         }.done { _ in
             self.lastManifestSyncTime = Date()
