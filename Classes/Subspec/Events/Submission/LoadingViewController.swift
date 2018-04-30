@@ -41,7 +41,12 @@ extension LoadingViewController {
     {
         let vc = LoadingViewController(builder: builder)
         vc.modalPresentationStyle = .formSheet
+        vc.modalTransitionStyle = .crossDissolve
         presentingViewController.present(vc, animated: true, completion: nil)
+
+        if let size = builder.preferredContentSize {
+            vc.preferredContentSize = size
+        }
 
         builder.request?().done { result in
             builder.pendingPromise?.1.fulfill(result)
@@ -53,15 +58,16 @@ extension LoadingViewController {
 }
 
 public class LoadingViewBuilder<Response> {
-    fileprivate var pendingPromise: (Promise<Response>, Resolver<Response>)?
 
     public var title: String?
     public var subtitle: String?
+    public var preferredContentSize: CGSize?
     public var request: (() -> Promise<Response>)? {
         didSet {
             self.pendingPromise = Promise<Response>.pending()
         }
     }
 
+    fileprivate var pendingPromise: (Promise<Response>, Resolver<Response>)?
     public init() { }
 }

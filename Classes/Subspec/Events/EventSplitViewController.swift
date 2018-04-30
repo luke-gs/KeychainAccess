@@ -16,19 +16,19 @@ public class EventSplitViewController<Response>: SidebarSplitViewController, Eva
     public let viewModel: EventDetailViewModelType
     public var delegate: EventsSubmissionDelegate?
     public var loadingViewBuilder: LoadingViewBuilder<Response>?
-
+    
     public required init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
     public required init(viewModel: EventDetailViewModelType) {
         self.viewModel = viewModel
         super.init(detailViewControllers: viewModel.viewControllers ?? [])
-
+        
         self.title = viewModel.title
         regularSidebarViewController.headerView = viewModel.headerView
         regularSidebarViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Submit",
                                                                                          style: .plain,
                                                                                          target: self,
                                                                                          action: #selector(submitEvent))
-
+        
         viewModel.evaluator.addObserver(self)
         viewModel.headerUpdated = { [weak self] in
             let selectedRow = self?.regularSidebarViewController.sidebarTableView?.indexPathForSelectedRow
@@ -37,40 +37,48 @@ public class EventSplitViewController<Response>: SidebarSplitViewController, Eva
                                                                            animated: false,
                                                                            scrollPosition: .none)
         }
-
+        
         setSubmitButtonEnabled(false)
     }
-
+    
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
         if key == .eventReadyToSubmit {
             setSubmitButtonEnabled(evaluationState)
         }
     }
-
+    
     // MARK: Private
     private func setSubmitButtonEnabled(_ state: Bool) {
         regularSidebarViewController.navigationItem.rightBarButtonItem?.isEnabled = state
-
-        //TODO: Remove IF not needed
+        
+        //TODO: Remove if not needed
         #if DEBUG
         regularSidebarViewController.navigationItem.rightBarButtonItem?.isEnabled = true
         #endif
     }
-
+    
     @objc
     private func submitEvent() {
         guard let builder = loadingViewBuilder else { return }
         LoadingViewController.presentWith(builder, from: self)?
             .done { result in
-                self.navigationController?.popViewController(animated: true)
-                self.delegate?.eventSubmitted(response: result, error: nil)
+                self.eventSubmittedFor(eventId: self.viewModel.event.id, result: result, error: nil)
             }.catch { error in
-                self.navigationController?.popViewController(animated: true)
-                self.delegate?.eventSubmitted(response: nil, error: error)
+                self.eventSubmittedFor(eventId: self.viewModel.event.id, result: nil, error: error)
         }
+    }
+    
+    private func eventSubmittedFor(eventId: String, result: Any?, error: Error?) {
+        let alert = PSCAlertController(title: "Event Submitted", message: "Event ID: PSC-\(eventId)", image: nil)
+        let action = PSCAlertAction(title: "OK", style: .cancel) { _ in
+            self.delegate?.eventSubmittedFor(eventId: eventId, response: nil, error: error)
+            self.navigationController?.popViewController(animated: true)
+        }
+        alert.addAction(action)
+        AlertQueue.shared.add(alert)
     }
 }
 
 public protocol EventsSubmissionDelegate {
-    func eventSubmitted(response: Any?, error: Error?)
+    func eventSubmittedFor(eventId: String, response: Any?, error: Error?)
 }
