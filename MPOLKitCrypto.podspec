@@ -26,6 +26,8 @@ s.ios.deployment_target = '10.0'
 s.xcconfig = { 'SWIFT_INCLUDE_PATHS' => '$(PODS_TARGET_SRCROOT)/CommonCrypto' }
 s.preserve_paths = 'CommonCrypto/module.modulemap'
   
-s.source_files = 'Classes/Subspec/Crypto/**/*'
+s.source_files = 'Classes/Subspec/Crypto/**/*','**/SharedKeychainCapability.swift','**/TestingDirective.swift'
+
+s.dependency 'KeychainAccess', '~> 3.1.1'
 
 end
