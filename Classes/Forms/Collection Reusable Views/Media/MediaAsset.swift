@@ -37,6 +37,16 @@ open class Media: Codable {
         self.sensitive = sensitive
         self.createdDate = createdDate
     }
+
+    public convenience init(otherMedia: Media) {
+        self.init(identifier: otherMedia.identifier,
+                  url: otherMedia.url,
+                  type: otherMedia.type,
+                  title: otherMedia.title,
+                  comments: otherMedia.comments,
+                  sensitive: otherMedia.sensitive,
+                  createdDate: otherMedia.createdDate)
+    }
     
 }
 
