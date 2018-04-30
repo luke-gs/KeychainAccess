@@ -26,7 +26,7 @@ public class MediaDetailViewController: FormBuilderViewController {
     private var sensitive: Bool
 
     public init(media: Media) {
-        self.media = media
+        self.media = Media(otherMedia: media)
 
         titleText = media.title
         commentsText = media.comments
