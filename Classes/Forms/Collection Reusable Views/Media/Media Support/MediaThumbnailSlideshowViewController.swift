@@ -272,7 +272,10 @@ private class ThumbnailLayout: UICollectionViewLayout {
 
         // Optimisation - Modify the two layout attributes that are changing and leave the rest the same.
         // If there are any issues with the layout, try removing this block of code first. But there shouldn't be any.
-        if previousLayoutDetail.pageIndex == pageIndex && previousLayoutDetail.count == cache.count && previousLayoutDetail.width == width {
+        if previousLayoutDetail.pageIndex == pageIndex &&
+            cache.count == numberOfItems &&
+            previousLayoutDetail.count == cache.count &&
+            previousLayoutDetail.width == width {
             let currentLayoutAttributes = cache[pageIndex]
             var currentFrame = currentLayoutAttributes.frame
 
