@@ -110,26 +110,18 @@ public class CameraMediaPicker: NSObject, MediaPickerSource, UIImagePickerContro
     }
 
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-
-        if #available(iOS 11.0, *) {
-            if let url = info[UIImagePickerControllerImageURL] as? URL {
-                saveMedia?(Media(url: url, type: .photo))
-            } else if let url = info[UIImagePickerControllerMediaURL] as? URL {
-                saveMedia?(Media(url: url, type: .video))
+        // Source is camera, so there's no `UIImagePickerControllerImageURL`
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage, let imageRef = UIImageJPEGRepresentation(image, 0.5) {
+            do {
+                let filePath = temporaryLocation.appendingPathComponent("\(UUID().uuidString).jpg")
+                try imageRef.write(to: filePath)
+                saveMedia?(Media(url: filePath, type: .photo))
+            } catch {
+                print(error)
             }
-        } else {
-            if let image = info[UIImagePickerControllerOriginalImage] as? UIImage, let imageRef = UIImageJPEGRepresentation(image, 0.5) {
-                do {
-                    let filePath = temporaryLocation.appendingPathComponent("\(UUID().uuidString).jpg")
-                    try imageRef.write(to: filePath)
-                    saveMedia?(Media(url: filePath, type: .photo))
-                } catch {
-                    print(error)
-                }
 
-            } else if let url = info[UIImagePickerControllerMediaURL] as? URL {
-                saveMedia?(Media(url: url, type: .video))
-            }
+        } else if let url = info[UIImagePickerControllerMediaURL] as? URL {
+            saveMedia?(Media(url: url, type: .video))
         }
         picker.dismiss(animated: true, completion: nil)
     }
