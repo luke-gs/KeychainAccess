@@ -8,7 +8,7 @@
 
 import MPOLKit
 
-class DemoListViewModel: EventListViewModelType {
+public class DemoListViewModel {
     var title: String = "Events"
 
     var eventsList: [EventListDisplayable]? {
@@ -16,7 +16,7 @@ class DemoListViewModel: EventListViewModelType {
     }
     var eventsManager: EventsManager
 
-    required init(eventsManager: EventsManager) {
+    public required init(eventsManager: EventsManager) {
         self.eventsManager = eventsManager
     }
 
