@@ -7,12 +7,14 @@
 
 import UIKit
 import MPOLKit
+import PromiseKit
+import ClientKit
 
 open class EventsListViewController: FormBuilderViewController {
 
-    let viewModel: EventListViewModelType
+    let viewModel: EventsListViewModel
 
-    required public init(viewModel: EventListViewModelType) {
+    required public init(viewModel: EventsListViewModel) {
         self.viewModel = viewModel
 
         super.init()
@@ -82,9 +84,12 @@ open class EventsListViewController: FormBuilderViewController {
     private func show(_ event: Event? = nil, with incidentType: IncidentType? = nil) {
         guard let event = event ?? viewModel.eventsManager.create(eventType: .blank) else { return }
 
-        (viewModel as! EventsListViewModel).incidentType = incidentType
+        viewModel.incidentType = incidentType
 
-        let viewController = EventSplitViewController(viewModel: viewModel.detailsViewModel(for: event))
+        let viewController = EventSplitViewController<Void>(viewModel: viewModel.detailsViewModel(for: event))
+        viewController.loadingViewBuilder = viewModel.loadingBuilder()
+        viewController.delegate = self
+
         self.show(viewController, sender: self)
     }
 
@@ -93,3 +98,9 @@ open class EventsListViewController: FormBuilderViewController {
     }
 }
 
+extension EventsListViewController: EventsSubmissionDelegate {
+    public func eventSubmittedFor(eventId: String, response: Any?, error: Error?) {
+        viewModel.eventsManager.remove(for: eventId)
+        self.reloadForm()
+    }
+}
