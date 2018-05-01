@@ -92,7 +92,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         let personParserResults = try? QueryParser(parserDefinition: definition).parseString(query: searchText)
         let parameters = OfficerSearchParameters(familyName: personParserResults?[OfficerParserDefinition.SurnameKey] ?? searchText,
                                                  givenName: personParserResults?[OfficerParserDefinition.GivenNameKey])
-        let request = OfficerSearchRequest(source: .loc, request: parameters)
+        let request = OfficerSearchRequest(source: .pscore, request: parameters)
 
         cancelToken?.cancel()
         cancelToken = PromiseCancellationToken()

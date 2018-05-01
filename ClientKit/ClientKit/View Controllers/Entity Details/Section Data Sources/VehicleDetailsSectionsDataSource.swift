@@ -9,9 +9,9 @@
 import Foundation
 import MPOLKit
 
-public class VehicleLOCDetailsSectionsDataSource: EntityDetailSectionsDataSource {
+public class VehicleMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSource {
 
-    public var source: EntitySource = MPOLSource.loc
+    public var source: EntitySource = MPOLSource.pscore
     public var entity: MPOLKitEntity
     public var detailViewControllers: [EntityDetailViewController]
 
@@ -33,33 +33,9 @@ public class VehicleLOCDetailsSectionsDataSource: EntityDetailSectionsDataSource
     }
 }
 
-public class VehicleNATDetailsSectionsDataSource: EntityDetailSectionsDataSource {
+public class VehicleFNCDetailsSectionsDataSource: EntityDetailSectionsDataSource {
 
-    public var source: EntitySource = MPOLSource.nat
-    public var entity: MPOLKitEntity
-    public var detailViewControllers: [EntityDetailViewController]
-
-    public var localizedDisplayName: String {
-        return NSLocalizedString("Vehicle", comment: "")
-    }
-
-    public func fetchModel() -> Fetchable {
-        let request = VehicleFetchRequest(source: source, request: EntityFetchRequest<Vehicle>(id: entity.id))
-        return EntityDetailFetch<Vehicle>(request: request)
-    }
-
-    public init(baseEntity: Entity, delegate: SearchDelegate?) {
-        self.entity = baseEntity
-        self.detailViewControllers =  [ EntityDetailFormViewController(viewModel: VehicleInfoViewModel()),
-                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
-        ]
-    }
-
-}
-
-public class VehicleRDADetailsSectionsDataSource: EntityDetailSectionsDataSource {
-
-    public var source: EntitySource = MPOLSource.rda
+    public var source: EntitySource = MPOLSource.fnc
     public var entity: MPOLKitEntity
     public var detailViewControllers: [EntityDetailViewController]
 

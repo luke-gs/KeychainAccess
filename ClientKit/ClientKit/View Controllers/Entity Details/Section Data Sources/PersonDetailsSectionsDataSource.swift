@@ -9,9 +9,9 @@
 import Foundation
 import MPOLKit
 
-public class PersonLOCDetailsSectionsDataSource: EntityDetailSectionsDataSource {
+public class PersonMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSource {
 
-    public var source: EntitySource = MPOLSource.loc
+    public var source: EntitySource = MPOLSource.pscore
     public var entity: MPOLKitEntity
     public var detailViewControllers: [EntityDetailViewController]
 
@@ -29,21 +29,18 @@ public class PersonLOCDetailsSectionsDataSource: EntityDetailSectionsDataSource 
         self.detailViewControllers = [ EntityDetailFormViewController(viewModel: PersonInfoViewModel()),
                                        EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
-                                       EntityDetailFormViewController(viewModel: EntityRetrievedEventsViewModel()),
-                                       EntityDetailFormViewController(viewModel: PersonOrdersViewModel()),
-                                       EntityDetailFormViewController(viewModel: PersonCriminalHistoryViewModel()),
-                                       ]
+                                       EntityDetailFormViewController(viewModel: PersonCriminalHistoryViewModel())]
     }
 }
 
-public class PersonNATDetailsSectionsDataSource: EntityDetailSectionsDataSource {
+public class PersonFNCDetailsSectionsDataSource: EntityDetailSectionsDataSource {
 
-    public var source: EntitySource = MPOLSource.nat
+    public var source: EntitySource = MPOLSource.fnc
     public var entity: MPOLKitEntity
     public var detailViewControllers: [EntityDetailViewController]
 
     public var localizedDisplayName: String {
-        return NSLocalizedString("NAT Person", comment: "")
+        return NSLocalizedString("FNC PERSON", comment: "")
     }
 
     public func fetchModel() -> Fetchable {
@@ -57,29 +54,5 @@ public class PersonNATDetailsSectionsDataSource: EntityDetailSectionsDataSource 
                                        EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate))]
     }
-
 }
 
-public class PersonRDADetailsSectionsDataSource: EntityDetailSectionsDataSource {
-
-    public var source: EntitySource = MPOLSource.rda
-    public var entity: MPOLKitEntity
-    public var detailViewControllers: [EntityDetailViewController]
-
-    public var localizedDisplayName: String {
-        return NSLocalizedString("RDA Person", comment: "")
-    }
-
-    public func fetchModel() -> Fetchable {
-        let request = PersonFetchRequest(source: source, request: EntityFetchRequest<Person>(id: entity.id))
-        return EntityDetailFetch<Person>(request: request)
-    }
-
-    public init(baseEntity: Entity, delegate: SearchDelegate?) {
-        self.entity = baseEntity
-        self.detailViewControllers = [ EntityDetailFormViewController(viewModel: PersonInfoViewModel()),
-                                       EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
-                                       EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate))]
-    }
-
-}
