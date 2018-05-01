@@ -178,9 +178,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
             APIManager.shared.setAuthenticationPlugin(AuthenticationPlugin(authenticationMode: .accessTokenAuthentication(token: token)), rule: .blacklist(DefaultFilterRules.authenticationFilterRules))
 
             lToken = token
-            NotificationManager.shared.registerPushToken()
             controller.resetFields()
-
 
             // Wants
             if self.wantsBiometricAuthentication {
@@ -218,6 +216,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
             throw error
         }.done {
             UserSession.startSession(user: User(username: username), token: lToken!)
+            NotificationManager.shared.resetPushKey()
             self.updateInterfaceForUserSession(animated: true)
         }.then { [unowned self] () -> Promise<Void> in
             return self.postAuthenticateChain()

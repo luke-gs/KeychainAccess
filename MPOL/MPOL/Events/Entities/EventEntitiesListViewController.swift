@@ -50,6 +50,8 @@ public class EventEntitiesListViewController : FormBuilderViewController, Evalua
         builder += reports.enumerated().map { (itemIndex, report) in
             return viewModel.displayable(for: report.entity)
                 .summaryListFormItem()
+                .badgeColor(nil)
+                .badge(0)
                 .detail(viewModel.relationshipStatusFor(itemIndex))
                 .detailColor(viewModel.relationshipColourFor(itemIndex))
                 .onSelection { cell in

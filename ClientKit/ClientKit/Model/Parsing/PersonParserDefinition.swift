@@ -47,9 +47,44 @@ public enum PersonParserError: LocalizedError {
 }
 
 public class PersonParserDefinition: QueryParserDefinition {
-    
-    public init() { }
-    
+
+    private let surnameDefinition: QueryTokenDefinition
+    private let givenNameDefinition: QueryTokenDefinition
+    private let middleNamesDefinition: QueryTokenDefinition
+
+    public init(maxSurnameLength: Int = Int.max, maxGivenNameLength: Int = Int.max, maxMiddleNamesLength: Int = Int.max) {
+
+        surnameDefinition = QueryTokenDefinition(key: PersonParserDefinition.SurnameKey,
+                            required: true, typeCheck: PersonParserDefinition.nameTypeCheck,
+                            validate: { (token, index, map) in
+                                if index != PersonParserDefinition.SurnameIndex {
+                                    throw PersonParserError.surnameIsNotFirst(surname: token)
+                                }
+                                if token.count > maxSurnameLength {
+                                    throw PersonParserError.surnameExceedsMaxLength(surname: token, maxLength: maxSurnameLength)
+                                }
+                            })
+
+        givenNameDefinition = QueryTokenDefinition(key: PersonParserDefinition.GivenNameKey,
+                               required: false, typeCheck: PersonParserDefinition.nameTypeCheck,
+                               validate: { (token, index, map) in
+                                if token.count > maxGivenNameLength {
+                                    throw PersonParserError.givenNameExceedsMaxLength(givenName: token, maxLength: maxGivenNameLength)
+                                }
+                            })
+
+        middleNamesDefinition = QueryTokenDefinition(key: PersonParserDefinition.MiddleNamesKey,
+                                 required: false, typeCheck: PersonParserDefinition.nameTypeCheck,
+                                 validate: { (token, index, map) in
+                                    if PersonParserDefinition.genderTypeCheck(token) && map["gender"] == nil { throw PersonParserError.nameMatchesGenderType(gender: token)
+                                    }
+                                    if map[PersonParserDefinition.GivenNameKey] == nil { throw PersonParserError.middleNameExistsWithoutGivenName(foundName: token)
+                                    }
+                                    if token.count > maxMiddleNamesLength {
+                                        throw PersonParserError.middleNamesExceedsMaxLength(middleNames: token, maxLength: maxMiddleNamesLength)
+                                    }
+                                })
+    }
     
     // MARK: - Query Parser Type
     
@@ -73,12 +108,12 @@ public class PersonParserDefinition: QueryParserDefinition {
     
     public var tokenDefinitions: [QueryTokenDefinition] {
         return [
-            PersonParserDefinition.surnameDefinition,
-            PersonParserDefinition.givenNameDefinition,
-            PersonParserDefinition.middleNamesDefinition,
-            PersonParserDefinition.genderDefinition,
-            PersonParserDefinition.dobDefinition,
-            PersonParserDefinition.ageGapDefinition
+            surnameDefinition,
+            givenNameDefinition,
+            middleNamesDefinition,
+            genderDefinition,
+            dobDefinition,
+            ageGapDefinition
         ]
     }
     
@@ -103,51 +138,13 @@ public class PersonParserDefinition: QueryParserDefinition {
     public static let DateOfBirthKey    = "dateOfBirth"
     public static let AgeGapKey         = "ageGap"
     
-    private static let surnameDefinition: QueryTokenDefinition = {
-        QueryTokenDefinition(key: PersonParserDefinition.SurnameKey,
-                             required: true,
-                             typeCheck: nameTypeCheck,
-                             validate: { (token, index, map) in
-                                if index != SurnameIndex {
-                                    throw PersonParserError.surnameIsNotFirst(surname: token)
-                                }
-                                if token.count > MaximumSurnameLength {
-                                    throw PersonParserError.surnameExceedsMaxLength(surname: token, maxLength: PersonParserDefinition.MaximumSurnameLength)
-                                }
-        })
-    }()
-    
-    private static let givenNameDefinition: QueryTokenDefinition = {
-        QueryTokenDefinition(key: PersonParserDefinition.GivenNameKey,
-                             required: false,
-                             typeCheck: nameTypeCheck,
-                             validate: { (token, index, map) in
-                                if token.count > MaximumGivenNameLength {
-                                    throw PersonParserError.givenNameExceedsMaxLength(givenName: token, maxLength: PersonParserDefinition.MaximumGivenNameLength)
-                                }
-        })
-    }()
-    
-    private static let middleNamesDefinition: QueryTokenDefinition = {
-        QueryTokenDefinition(key: PersonParserDefinition.MiddleNamesKey,
-                             required: false,
-                             typeCheck: nameTypeCheck,
-                             validate: { (token, index, map) in
-                                if PersonParserDefinition.genderTypeCheck(token) && map["gender"] == nil { throw PersonParserError.nameMatchesGenderType(gender: token) }
-                                if map[GivenNameKey] == nil { throw PersonParserError.middleNameExistsWithoutGivenName(foundName: token) }
-                                if token.count > MaximumMiddleNamesLength {
-                                    throw PersonParserError.middleNamesExceedsMaxLength(middleNames: token, maxLength: PersonParserDefinition.MaximumMiddleNamesLength)
-                                }
-        })
-    }()
-    
-    private static let genderDefinition: QueryTokenDefinition = {
+    private let genderDefinition: QueryTokenDefinition = {
         QueryTokenDefinition(key: PersonParserDefinition.GenderKey,
                              required: false,
                              typeCheck: genderTypeCheck)
     }()
     
-    private static let dobDefinition: QueryTokenDefinition = {
+    private let dobDefinition: QueryTokenDefinition = {
         QueryTokenDefinition(key: PersonParserDefinition.DateOfBirthKey,
                              required: false,
                              typeCheck: { (token) in
@@ -179,7 +176,7 @@ public class PersonParserDefinition: QueryParserDefinition {
         })
     }()
     
-    private static let ageGapDefinition: QueryTokenDefinition = {
+    private let ageGapDefinition: QueryTokenDefinition = {
         QueryTokenDefinition(key: PersonParserDefinition.AgeGapKey,
                              required: false,
                              typeCheck: { (token) in
@@ -207,10 +204,6 @@ public class PersonParserDefinition: QueryParserDefinition {
                                 }
         })
     }()
-    
-    private static let MaximumSurnameLength = 20
-    private static let MaximumGivenNameLength = 14
-    private static let MaximumMiddleNamesLength = 14
     
     // MARK: - Private Static Constants
 
