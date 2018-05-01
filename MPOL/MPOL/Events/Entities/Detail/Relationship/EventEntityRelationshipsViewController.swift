@@ -44,6 +44,8 @@ class EventEntityRelationshipsViewController: FormBuilderViewController, Evaluat
             builder += datasource.entities.map { entity in
                 return viewModel.displayable(for: entity)
                     .summaryListFormItem()
+                    .badgeColor(nil)
+                    .badge(0)
                     .detail(viewModel.relationshipStatus())
                     .detailColor(viewModel.relationshipColour())
             }
