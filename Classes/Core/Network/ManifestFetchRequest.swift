@@ -7,53 +7,69 @@
 
 import Foundation
 import PromiseKit
+import Alamofire
 
 public struct ManifestFetchRequest: Parameterisable {
     
-    /// The type to use for last update
-    public enum UpdateType {
-        /// Time interval
-        case interval
-        /// A date time string
-        case dateTime
-    }
-    
     public typealias ResultClass = [[String:Any]]
     
-    let path: String
+    /// The type to use for last update
+    public enum UpdateType {
+        /// A date time string
+        case dateTime
+        /// Time interval (for backwards compatibility)
+        case interval
+    }
     
-    public private(set) var parameters: [String: Any]
     
-    public init(date: Date?, path: String = "manifest/app", parameters: [String: Any] = [:], updateType: UpdateType = .interval) {
+    public let parameters: [String: Any]
+    public let path: String
+    public let method: HTTPMethod
+    
+    public init(date: Date?, path: String = "manifest/app", parameters: [String: Any] = [:], method: HTTPMethod = .get, updateType: UpdateType = .interval) {
         var path = path
-        
         var parameters = parameters
         
-        if updateType == .interval {
-            path.append("/{interval}")
-            
-            if let date = date?.addingTimeInterval(-60.0) {
+        // Set the date back 60 seconds to account for clock skew
+        let date = date?.adding(seconds: -60)
+        
+        if updateType == .dateTime {
+            // Convert date to ISO8601
+            if let dateString = ISO8601DateTransformer.shared.reverse(date) {
+                // Only use it in the URL if this is a GET request
+                if method == .get {
+                    path.append("/{dateLastUpdated}")
+                }
+                parameters["dateLastUpdated"] = dateString
+            }
+        } else if updateType == .interval {
+            // Backwards compatibility to allow use of interval
+            if let date = date {
                 let interval = Int(date.timeIntervalSince1970)
                 parameters["interval"] = String(interval)
             } else {
                 parameters["interval"] = "0"
             }
-        } else if updateType == .dateTime {
-            if let dateString = ISO8601DateTransformer.shared.reverse(date) {
-                path.append("/{dateLastUpdated}")
-                parameters["dateLastUpdated"] = dateString 
+            
+            // Only use it in the URL if this is a GET request
+            if method == .get {
+                path.append("/{interval}")
             }
         }
         
         self.path = path
         self.parameters = parameters
+        self.method = method
     }
 }
 
 public extension APIManager {
     
     func fetchManifest(with request: ManifestFetchRequest) -> Promise<ManifestFetchRequest.ResultClass> {
-        let networkRequest = try! NetworkRequest(pathTemplate: request.path, parameters: request.parameters)
+        let networkRequest = try! NetworkRequest(pathTemplate: request.path,
+                                                 parameters: request.parameters,
+                                                 method: request.method,
+                                                 parameterEncoding: JSONEncoding.default)
 
         return try! APIManager.shared.performRequest(networkRequest, using: APIManager.JSONObjectArrayResponseSerializer())
     }
