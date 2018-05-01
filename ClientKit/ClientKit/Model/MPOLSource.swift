@@ -16,9 +16,6 @@ public enum MPOLSource: String, EntitySource, UnboxableEnum {
     case gnaf = "gnaf"
 
     public var serverSourceName: String {
-        if self != .loc {
-            return "all"
-        }
         return self.rawValue
     }
 
