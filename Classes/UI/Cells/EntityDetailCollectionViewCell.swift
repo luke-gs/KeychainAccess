@@ -363,7 +363,7 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
             hasTitle = false
         }
 
-        if let subtitle = subtitle?.ifNotEmpty() as? NSString {
+        if let subtitle = subtitle?.ifNotEmpty() as NSString? {
             if hasTitle { mainTextHeight += 3.0 }
             mainTextHeight += subtitle.boundingRect(with: maxMainTextSize, options: [.usesLineFragmentOrigin], attributes: [NSAttributedStringKey.font: subtitleFont], context: nil).height.ceiled(toScale: displayScale)
         }
