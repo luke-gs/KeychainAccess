@@ -35,7 +35,7 @@ public class MediaFileManager {
         try manager.createDirectory(at: photoPath, withIntermediateDirectories: true, attributes: nil)
     }
 
-    public func move(url: URL, to destination: URL) throws {
+    public func copy(url: URL, to destination: URL) throws {
         // Copies the item at the url provided to the new location
         try manager.copyItem(at: url, to: destination)
     }
