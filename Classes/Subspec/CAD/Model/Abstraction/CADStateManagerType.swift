@@ -104,6 +104,9 @@ public protocol CADStateManagerType {
 
     /// Sync the latest manifest items
     func syncManifestItems() -> Promise<Void>
+    
+    /// Sync the latest manifest items matching the specified categories
+    func syncManifestItems(categories: [String]) -> Promise<Void>
 
     // MARK: - Sync
 
@@ -161,8 +164,8 @@ public extension NSNotification.Name {
 
 // Extension for custom manifest categories
 public extension ManifestCollection {
-    static let EquipmentCollection = ManifestCollection(rawValue: "equipment")
-    static let PatrolGroupCollection = ManifestCollection(rawValue: "patrolgroup")
+    static let EquipmentCollection = ManifestCollection(rawValue: "Equipment")
+    static let PatrolGroupCollection = ManifestCollection(rawValue: "PatrolGroup")
 }
 
 /// Extendable class for defining CAD specific local notifications
