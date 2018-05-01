@@ -118,8 +118,8 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
         titleLabel.isHidden = true
 
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        subtitleLabel.adjustsFontSizeToFitWidth = true
         subtitleLabel.font = .preferredFont(forTextStyle: .subheadline)
+        subtitleLabel.numberOfLines = 0
         subtitleLabel.isHidden = true
 
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -177,7 +177,7 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
 
             titleToSubtitleConstraint,
             NSLayoutConstraint(item: subtitleLabel, attribute: .leading,  relatedBy: .equal,           toItem: mainLabelLayoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: mainLabelLayoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .equal, toItem: mainLabelLayoutGuide, attribute: .trailing),
             NSLayoutConstraint(item: subtitleLabel, attribute: .bottom, relatedBy: .equal, toItem: mainLabelLayoutGuide, attribute: .bottom),
 
             NSLayoutConstraint(item: descriptionLabel, attribute: .top,      relatedBy: .equal,           toItem: detailLabelLayoutGuide, attribute: .top),
@@ -188,7 +188,7 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: additionalDetailsButton, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: detailLabelLayoutGuide, attribute: .trailing),
             NSLayoutConstraint(item: additionalDetailsButton, attribute: .bottom,   relatedBy: .equal,           toItem: detailLabelLayoutGuide, attribute: .bottom),
 
-            NSLayoutConstraint(item: mainLabelLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentModeLayoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: mainLabelLayoutGuide, attribute: .trailing, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .trailing),
 
             NSLayoutConstraint(item: detailLabelLayoutGuide, attribute: .bottom,   relatedBy: .lessThanOrEqual, toItem: contentModeLayoutGuide, attribute: .bottom),
             NSLayoutConstraint(item: detailLabelLayoutGuide, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: contentModeLayoutGuide, attribute: .trailing),
@@ -363,9 +363,9 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
             hasTitle = false
         }
 
-        if subtitle?.isEmpty ?? true == false {
+        if let subtitle = subtitle?.ifNotEmpty() as? NSString {
             if hasTitle { mainTextHeight += 3.0 }
-            mainTextHeight += subtitleFont.lineHeight.ceiled(toScale: displayScale)
+            mainTextHeight += subtitle.boundingRect(with: maxMainTextSize, options: [.usesLineFragmentOrigin], attributes: [NSAttributedStringKey.font: subtitleFont], context: nil).height.ceiled(toScale: displayScale)
         }
 
         if source?.isEmpty ?? true == false {
