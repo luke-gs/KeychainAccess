@@ -1,7 +1,7 @@
 [
     {
         "active": true,
-        "category": "equipment",
+        "category": "Equipment",
         "id": "equipment1",
         "subtitle": "",
         "title": "Radar",
@@ -9,7 +9,7 @@
     },
     {
         "active": true,
-        "category": "equipment",
+        "category": "Equipment",
         "id": "equipment2",
         "subtitle": "",
         "title": "Shotgun",
@@ -17,7 +17,7 @@
     },
     {
         "active": true,
-        "category": "equipment",
+        "category": "Equipment",
         "id": "equipment3",
         "subtitle": "",
         "title": "Tyre Deflation Device",
@@ -25,7 +25,7 @@
     },
     {
         "active": true,
-        "category": "equipment",
+        "category": "Equipment",
         "id": "equipment4",
         "subtitle": "",
         "title": "Traffic Direction Cones",
@@ -33,7 +33,7 @@
     },
     {
         "active": true,
-        "category": "equipment",
+        "category": "Equipment",
         "id": "equipment5",
         "subtitle": "",
         "title": "Taser",
@@ -42,7 +42,7 @@
     {
         "active": true,
         "additionalData": null,
-        "category": "patrolgroup",
+        "category": "PatrolGroup",
         "dateCreated": "2017-11-16T10:00:00Z",
         "dateLastUpdated": "2017-11-16T10:00:00Z",
         "effectiveDate": "2017-11-16T10:00:00Z",
@@ -57,7 +57,7 @@
     {
         "active": true,
         "additionalData": null,
-        "category": "patrolgroup",
+        "category": "PatrolGroup",
         "dateCreated": "2017-12-22T10:00:00Z",
         "dateLastUpdated": "2017-12-22T10:00:00Z",
         "effectiveDate": "2017-12-22T10:00:00Z",
@@ -72,7 +72,7 @@
     {
         "active": true,
         "additionalData": null,
-        "category": "patrolgroup",
+        "category": "PatrolGroup",
         "dateCreated": "2017-12-22T10:00:00Z",
         "dateLastUpdated": "2017-12-22T10:00:00Z",
         "effectiveDate": "2017-12-22T10:00:00Z",
@@ -87,7 +87,7 @@
     {
         "active": true,
         "additionalData": null,
-        "category": "patrolgroup",
+        "category": "PatrolGroup",
         "dateCreated": "2017-12-22T10:00:00Z",
         "dateLastUpdated": "2017-12-22T10:00:00Z",
         "effectiveDate": "2017-12-22T10:00:00Z",
@@ -102,7 +102,7 @@
     {
         "active": true,
         "additionalData": null,
-        "category": "patrolgroup",
+        "category": "PatrolGroup",
         "dateCreated": "2017-12-22T10:00:00Z",
         "dateLastUpdated": "2017-12-22T10:00:00Z",
         "effectiveDate": "2017-12-22T10:00:00Z",
@@ -117,7 +117,7 @@
     {
         "active": true,
         "additionalData": null,
-        "category": "patrolgroup",
+        "category": "PatrolGroup",
         "dateCreated": "2017-12-22T10:00:00Z",
         "dateLastUpdated": "2017-12-22T10:00:00Z",
         "effectiveDate": "2017-12-22T10:00:00Z",
@@ -132,7 +132,7 @@
     {
         "active": true,
         "additionalData": null,
-        "category": "patrolgroup",
+        "category": "PatrolGroup",
         "dateCreated": "2017-12-22T10:00:00Z",
         "dateLastUpdated": "2017-12-22T10:00:00Z",
         "effectiveDate": "2017-12-22T10:00:00Z",
@@ -147,7 +147,7 @@
     {
         "active": true,
         "additionalData": null,
-        "category": "patrolgroup",
+        "category": "PatrolGroup",
         "dateCreated": "2017-11-16T10:00:00Z",
         "dateLastUpdated": "2017-11-16T10:00:00Z",
         "effectiveDate": "2017-11-16T10:00:00Z",
