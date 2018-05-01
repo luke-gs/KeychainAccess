@@ -161,7 +161,7 @@ public extension NSNotification.Name {
 
 // Extension for custom manifest categories
 public extension ManifestCollection {
-    static let EquipmentCollection = ManifestCollection(rawValue: "equipment")
+    static let EquipmentCollection = ManifestCollection(rawValue: "Equipment")
     static let PatrolGroupCollection = ManifestCollection(rawValue: "PatrolGroup")
 }
 
