@@ -9,17 +9,26 @@
 import UIKit
 import UserNotifications
 import PromiseKit
+import KeychainAccess
 
 /// Manager for receiving and sending notifications
 open class NotificationManager: NSObject {
-    
+
+    private let PushKeyKeychainKey = "NotificationManager.pushKey"
+
     public enum NotificationError: Error {
         case userRejected
         case alreadyRejected
     }
 
     /// Singleton
-    open static let shared = NotificationManager()
+    open static var shared = NotificationManager()
+
+    /// Convenience for notification center
+    open let notificationCenter = UNUserNotificationCenter.current()
+
+    /// Keychain to use when storing sensitive configuration
+    open var keychain: Keychain
 
     /// The handler for processing push notifications
     open var handler: NotificationHandler?
@@ -28,15 +37,18 @@ open class NotificationManager: NSObject {
     open private(set) var pushToken: String?
     
     /// The current AES key for push notification payload decryption
-    open private(set) var pushKey: Data!
-
-    /// Convenience for notification center
-    open let notificationCenter = UNUserNotificationCenter.current()
+    open private(set) var pushKey: Data! {
+        didSet {
+            try? keychain.set(pushKey, key: PushKeyKeychainKey)
+        }
+    }
 
     // MARK: - Setup
     
-    public override init() {
+    public init(keychain: Keychain = SharedKeychainCapability.defaultKeychain) {
+        self.keychain = keychain
         super.init()
+
         notificationCenter.delegate = self
 
         // Generate initial push key
