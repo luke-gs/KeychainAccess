@@ -276,7 +276,26 @@ open class CADStateManagerCore: CADStateManagerType {
     open func syncManifestItems() -> Promise<Void> {
         let checkedAtDate = Date()
 
-        let manifestRequest = ManifestFetchRequest(date: Manifest.shared.lastUpdateDate, path: "manifest/manifest", updateType: .dateTime)
+        let manifestRequest = ManifestFetchRequest(date: Manifest.shared.lastUpdateDate,
+                                                   path: "manifest/manifest",
+                                                   method: .get,
+                                                   updateType: .dateTime)
+        return CADStateManagerCore.apiManager.fetchManifest(with: manifestRequest).then { result -> Promise<Void> in
+            return Manifest.shared.saveManifest(with: result, at:checkedAtDate)
+        }.done { _ in
+            self.lastManifestSyncTime = Date()
+        }
+    }
+
+    
+    /// Sync the latest manifest items for categories
+    open func syncManifestItems(categories: [String]) -> Promise<Void> {
+        let checkedAtDate = Date()
+        
+        let manifestRequest = ManifestFetchRequest(date: Manifest.shared.lastUpdateDate,
+                                                   path: "manifest/manifest/categories",
+                                                   parameters: ["categories": categories],
+                                                   method: .post, updateType: .dateTime)
         return CADStateManagerCore.apiManager.fetchManifest(with: manifestRequest).then { result -> Promise<Void> in
             return Manifest.shared.saveManifest(with: result, at:checkedAtDate)
         }.done { _ in

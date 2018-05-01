@@ -104,6 +104,9 @@ public protocol CADStateManagerType {
 
     /// Sync the latest manifest items
     func syncManifestItems() -> Promise<Void>
+    
+    /// Sync the latest manifest items matching the specified categories
+    func syncManifestItems(categories: [String]) -> Promise<Void>
 
     // MARK: - Sync
 
