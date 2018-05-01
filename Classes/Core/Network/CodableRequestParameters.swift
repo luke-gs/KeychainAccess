@@ -57,14 +57,14 @@ extension CodableRequestParameters {
 public extension APIManager {
 
     /// Perform request with no response
-    public func performRequest(_ request: CodableRequestParameters, pathTemplate: String, method: HTTPMethod = .get) -> Promise<Void> {
-        let networkRequest = try! NetworkRequest(pathTemplate: pathTemplate, parameters: request.parameters, method: method)
+    public func performRequest(_ request: CodableRequestParameters, pathTemplate: String, method: HTTPMethod = .get, parameterEncoding: ParameterEncoding = JSONEncoding.default) -> Promise<Void> {
+        let networkRequest = try! NetworkRequest(pathTemplate: pathTemplate, parameters: request.parameters, method: method, parameterEncoding: parameterEncoding)
         return try! APIManager.shared.performRequest(networkRequest, cancelToken: nil).done { _ in }
     }
 
     /// Perform request and JSON decode the response
-    public func performRequest<ResponseType: Codable>(_ request: CodableRequestParameters, pathTemplate: String, method: HTTPMethod = .get) -> Promise<ResponseType> {
-        let networkRequest = try! NetworkRequest(pathTemplate: pathTemplate, parameters: request.parameters, method: method)
+    public func performRequest<ResponseType: Codable>(_ request: CodableRequestParameters, pathTemplate: String, method: HTTPMethod = .get, parameterEncoding: ParameterEncoding = JSONEncoding.default) -> Promise<ResponseType> {
+        let networkRequest = try! NetworkRequest(pathTemplate: pathTemplate, parameters: request.parameters, method: method, parameterEncoding: parameterEncoding)
         return try! APIManager.shared.performRequest(networkRequest, using: CodableResponseSerializing())
     }
 }

@@ -11,9 +11,9 @@ import MPOLKit
 
 open class EventsListViewController: FormBuilderViewController {
 
-    let viewModel: EventListViewModelType
+    let viewModel: DemoListViewModel
 
-    required public init(viewModel: EventListViewModelType) {
+    required public init(viewModel: DemoListViewModel) {
         self.viewModel = viewModel
 
         super.init()
@@ -77,7 +77,7 @@ open class EventsListViewController: FormBuilderViewController {
 
     private func show(_ event: Event? = nil, with incidentType: IncidentType? = nil) {
         guard let event = event ?? viewModel.eventsManager.create(eventType: .blank) else { return }
-        let viewController = EventSplitViewController(viewModel: viewModel.detailsViewModel(for: event))
+        let viewController = EventSplitViewController<Void>(viewModel: viewModel.detailsViewModel(for: event))
         self.show(viewController, sender: self)
     }
 
