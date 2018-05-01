@@ -15,7 +15,7 @@ open class EntityDetailFilterableFormViewModel: EntityDetailFormViewModel, Filte
     // MARK: - Overrides
     
     /// Flag representing if filters have been applied.
-    open var filterApplied: Bool {
+    open var isFilterApplied: Bool {
         MPLRequiresConcreteImplementation()
     }
     
@@ -36,7 +36,7 @@ open class EntityDetailFilterableFormViewModel: EntityDetailFormViewModel, Filte
     
     public override init() {
         super.init()
-        filterButton.isActive = filterApplied
+        filterButton.isActive = isFilterApplied
         filterButton.target = self
         filterButton.action = #selector(filterItemDidSelect(_:))
     }
@@ -44,7 +44,7 @@ open class EntityDetailFilterableFormViewModel: EntityDetailFormViewModel, Filte
     // MARK: - EntityDetailFormViewModel
     
     open override var rightBarButtonItems: [UIBarButtonItem]? {
-        filterButton.isActive = filterApplied
+        filterButton.isActive = isFilterApplied
         return [filterButton]
     }
     

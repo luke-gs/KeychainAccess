@@ -11,7 +11,7 @@ import MPOLKit
 
 public class LocationMPOLDetailsSectionsDataSource: EntityDetailSectionsDataSource {
 
-    public var source: EntitySource = MPOLSource.pscore
+    public var source: EntitySource = MPOLSource.loc
     public var entity: MPOLKitEntity
     public var detailViewControllers: [EntityDetailViewController]
 

@@ -100,7 +100,7 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
         return filtered
     }
     
-    open override var filterApplied: Bool {
+    open override var isFilterApplied: Bool {
         return filterDateRange != nil || sorting != .dateNewest
     }
     

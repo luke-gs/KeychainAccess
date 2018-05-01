@@ -115,7 +115,7 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
     
     // MARK: - Filtering (currently disabled)
     
-    open override var filterApplied: Bool {
+    open override var isFilterApplied: Bool {
         return false
     }
     

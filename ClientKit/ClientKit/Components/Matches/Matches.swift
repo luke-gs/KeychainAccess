@@ -9,8 +9,10 @@ import MPOLKit
 
 // VEHICLE
 
+/* Commented this out for now, not matching data, or until some data changes have been completed.
+ 
 struct MPOLToFNCVehicleMatch: DataMatchable {
-    var initialSource: EntitySource = MPOLSource.pscore
+    var initialSource: EntitySource = MPOLSource.loc
     var resultSource: EntitySource = MPOLSource.fnc
 
     func match(_ entity: MPOLKitEntity) -> Fetchable {
@@ -23,7 +25,7 @@ struct MPOLToFNCVehicleMatch: DataMatchable {
 
 struct FNCToMPOLVehicleMatch: DataMatchable {
     var initialSource: EntitySource = MPOLSource.fnc
-    var resultSource: EntitySource = MPOLSource.pscore
+    var resultSource: EntitySource = MPOLSource.loc
 
     func match(_ entity: MPOLKitEntity) -> Fetchable {
         let entity = entity as! Vehicle
@@ -34,11 +36,10 @@ struct FNCToMPOLVehicleMatch: DataMatchable {
 
 }
 
-
 // PERSON
 
 struct MPOLToFNCPersonMatch: DataMatchable {
-    var initialSource: EntitySource = MPOLSource.pscore
+    var initialSource: EntitySource = MPOLSource.loc
     var resultSource: EntitySource = MPOLSource.fnc
 
     func match(_ entity: MPOLKitEntity) -> Fetchable {
@@ -49,10 +50,11 @@ struct MPOLToFNCPersonMatch: DataMatchable {
 
 struct FNCToMPOLPersonMatch: DataMatchable {
     var initialSource: EntitySource = MPOLSource.fnc
-    var resultSource: EntitySource = MPOLSource.pscore
+    var resultSource: EntitySource = MPOLSource.loc
 
     func match(_ entity: MPOLKitEntity) -> Fetchable {
         let request = PersonFetchRequest(source: resultSource, request: EntityFetchRequest<Person>(id: "554ca38e-ab00-4c5c-8e58-1c87ef09b958"))
         return EntityDetailFetch<Person>(request: request)
     }
 }
+*/
