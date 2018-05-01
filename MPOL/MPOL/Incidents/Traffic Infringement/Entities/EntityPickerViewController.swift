@@ -12,9 +12,15 @@ import ClientKit
 open class EntityPickerViewController: FormBuilderViewController {
 
     let viewModel: EntityPickerViewModel
+    private(set) var buttonsView: DialogActionButtonsView
 
     required public init(viewModel: EntityPickerViewModel) {
         self.viewModel = viewModel
+
+        let action = DialogAction(title: "Search for Entity") { _ in
+            // TODO: code to search for another entity
+        }
+        buttonsView = DialogActionButtonsView(actions: [action])
 
         super.init()
         title = "Entities"
@@ -29,6 +35,24 @@ open class EntityPickerViewController: FormBuilderViewController {
 
         loadingManager.noContentView.titleLabel.text = "There are no recently used Entities"
         loadingManager.state = viewModel.currentLoadingManagerState
+
+        guard let collectionView = collectionView else { return }
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        buttonsView.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(buttonsView)
+
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: buttonsView.topAnchor),
+
+            buttonsView.topAnchor.constraint(equalTo: collectionView.bottomAnchor),
+            buttonsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            buttonsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            buttonsView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
     }
 
     open override func viewWillAppear(_ animated: Bool) {
