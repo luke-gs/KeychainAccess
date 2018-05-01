@@ -84,7 +84,7 @@ open class EventsListViewController: FormBuilderViewController {
     private func show(_ event: Event? = nil, with incidentType: IncidentType? = nil) {
         guard let event = event ?? viewModel.eventsManager.create(eventType: .blank) else { return }
 
-        (viewModel as! EventsListViewModel).incidentType = incidentType
+        viewModel.incidentType = incidentType
 
         let viewController = EventSplitViewController<Void>(viewModel: viewModel.detailsViewModel(for: event))
         viewController.loadingViewBuilder = viewModel.loadingBuilder()
