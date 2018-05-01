@@ -14,6 +14,8 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
     var lastSelectedTasks: Date?
 
+    var tasksNavController: UINavigationController!
+
     override public var termsAndConditionsVersion: String {
         return TermsAndConditionsVersion
     }
@@ -72,13 +74,13 @@ public class LandingPresenter: AppGroupLandingPresenter {
             }
             let callsignViewController = CompactCallsignContainerViewController()
             callsignViewController.tabBarItem = UITabBarItem(title: "Call Sign", image: AssetManager.shared.image(forKey: .entityCar), selectedImage: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(callsignChanged), name: .CADBookOnChanged, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(bookOnChanged), name: .CADBookOnChanged, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(callsignChanged), name: .CADCallsignChanged, object: nil)
 
             let searchProxyViewController = AppProxyViewController(appURLScheme: SEARCH_APP_SCHEME)
             searchProxyViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
 
-            let tasksNavController = UINavigationController(rootViewController: Director.shared.viewController(forPresentable: TaskListScreen.landing))
+            tasksNavController = UINavigationController(rootViewController: Director.shared.viewController(forPresentable: TaskListScreen.landing))
             tasksNavController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarTasks)
             tasksNavController.tabBarItem.selectedImage = AssetManager.shared.image(forKey: .tabBarTasksSelected)
             tasksNavController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tasks Tab Bar Item")
@@ -114,7 +116,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
     // MARK: - Private
 
-    private weak var tabBarController: CADStatusTabBarController?
+    private weak var tabBarController: CADStatusTabBarController!
 
     @objc private func settingsButtonItemDidSelect(_ item: UIBarButtonItem) {
         let settingsNavController = PopoverNavigationController(rootViewController: SettingsViewController())
@@ -124,12 +126,22 @@ public class LandingPresenter: AppGroupLandingPresenter {
             popoverController.barButtonItem = item
         }
 
-        tabBarController?.show(settingsNavController, sender: self)
+        tabBarController.show(settingsNavController, sender: self)
+    }
+
+    @objc open func bookOnChanged() {
+        // When booked on changes, switch to tasks tab
+        if tabBarController.selectedViewController != tasksNavController {
+            tabBarController.selectedViewController = tasksNavController
+        }
+
+        // Update callsign item
+        callsignChanged()
     }
 
     @objc open func callsignChanged() {
         // Update the tab bar item to show resource info if booked on
-        if let tabBarItem = tabBarController?.compactViewControllers?.last?.tabBarItem {
+        if let tabBarItem = tabBarController.compactViewControllers?.last?.tabBarItem {
             if let resource = CADStateManager.shared.currentResource {
                 tabBarItem.title = resource.callsign
                 tabBarItem.image = resource.status.icon
@@ -174,7 +186,7 @@ extension LandingPresenter: StatusTabBarDelegate {
         }
 
         // TODO: Remove. Hack for demo
-        if viewController == tabBarController?.viewControllers[1] {
+        if viewController == tasksNavController {
             if let lastTime = lastSelectedTasks, Date().timeIntervalSince(lastTime) < 0.5 {
                 createDummyLocalNotification()
             }
