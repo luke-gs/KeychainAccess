@@ -26,6 +26,12 @@ open class TrafficInfringementServiceViewController: FormBuilderViewController, 
         sidebarItem.compactTitle = title
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.service)!
         sidebarItem.color = (report?.evaluator.isComplete ?? false) ? .midGreen : .red
+
+        loadingManager.noContentView.titleLabel.text = "No Entities Added"
+        loadingManager.noContentView.subtitleLabel.text = "Service requires a person or organisation"
+        loadingManager.noContentView.imageView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.dialogAlert)
+
+        loadingManager.state = .noContent
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
