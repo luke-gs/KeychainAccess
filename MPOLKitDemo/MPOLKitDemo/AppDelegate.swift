@@ -77,6 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SearchDisplayableDelegate
 
         let tabBarController = UITabBarController()
 
+        UserSession.startSession(user: User(username: "TheOne"), token: OAuthAccessToken(accessToken: "Token", type: "access_token"))
         UserSession.current.recentlySearched = [
             Searchable(text: "Jeff Kiedir", options: nil, type: "Person", imageKey: AssetManager.ImageKey.entityPerson),
             Searchable(text: "Scott Hocker", options: nil, type: "Person", imageKey: AssetManager.ImageKey.entityPerson),
