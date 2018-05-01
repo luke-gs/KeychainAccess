@@ -83,15 +83,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
             builder += HeaderFormItem(text: header(for: .aliases), style: .collapsible)
             
             for alias in aliases {
-                SubtitleFormItem(title: alias.formattedName, subtitle: alias.formattedDOBAgeGender()).width(.column(1))
-                builder += ValueFormItem(value: alias.formattedName, image: nil)
-                    .title({
-                        if let date = alias.dateCreated {
-                            return String(format: NSLocalizedString("%@ - Recorded as at %@", bundle: .mpolKit, comment: ""), alias.type ?? "Unknown", DateFormatter.preferredDateStyle.string(from: date))
-                        } else {
-                            return String(format: NSLocalizedString("%@ - Recorded date unknown", bundle: .mpolKit, comment: ""), alias.type ?? "Unknown")
-                        }
-                    }()).width(.column(1))
+                builder += SubtitleFormItem(title: alias.formattedName, subtitle: alias.formattedDOBAgeGender()).width(.column(1))
             }
         }
         

@@ -18,7 +18,7 @@ public struct VehicleSummaryDisplayable: EntitySummaryDisplayable {
     }
 
     public var category: String? {
-        return vehicle.source?.localizedBarTitle
+        return vehicle.source?.localizedBadgeTitle
     }
     
     public var title: String? {

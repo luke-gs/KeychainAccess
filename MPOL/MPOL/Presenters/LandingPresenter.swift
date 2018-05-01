@@ -107,7 +107,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 let radius = strategy.radiusConfiguration.radiusOptions.first ?? 100.0
                 let searchType = LocationMapSearchType.radius(coordinate: coordinate, radius: radius)
                 let parameters = LocationMapRadiusSearchParameters(latitude: coordinate.latitude, longitude: coordinate.longitude, radius: radius)
-                let request = LocationMapSearchRequest(source: .loc, request: parameters)
+                let request = LocationMapSearchRequest(source: .pscore, request: parameters)
                 let aggregatedSearch = AggregatedSearch<Address>(requests: [request])
                 let viewModel = MapSummarySearchResultViewModel(searchStrategy: strategy, title: "Current Location", aggregatedSearch: aggregatedSearch)
                 viewModel.searchType = searchType
@@ -119,7 +119,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 let radius = strategy.radiusConfiguration.radiusOptions.first ?? 100.0
                 let searchType = LocationMapSearchType.radius(coordinate: coordinate, radius: radius)
                 let parameters = LocationMapRadiusSearchParameters(latitude: coordinate.latitude, longitude: coordinate.longitude, radius: radius)
-                let request = LocationMapSearchRequest(source: .loc, request: parameters)
+                let request = LocationMapSearchRequest(source: .pscore, request: parameters)
                 let aggregatedSearch = AggregatedSearch<Address>(requests: [request])
                 let viewModel = MapSummarySearchResultViewModel(searchStrategy: strategy, title: searchable.text ?? "", aggregatedSearch: aggregatedSearch)
                 viewModel.searchType = searchType
@@ -129,7 +129,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 switch searchType {
                 case .radius(let coordinate, let radius):
                     let parameters = LocationMapRadiusSearchParameters(latitude: coordinate.latitude, longitude: coordinate.longitude, radius: radius)
-                    let request = LocationMapSearchRequest(source: .loc, request: parameters)
+                    let request = LocationMapSearchRequest(source: .pscore, request: parameters)
                     let aggregatedSearch = AggregatedSearch<Address>(requests: [request])
                     let viewModel = MapSummarySearchResultViewModel(searchStrategy: strategy, title: String(format: "Pin dropped at (%.5f, %0.5f)", coordinate.latitude, coordinate.longitude), aggregatedSearch: aggregatedSearch)
                     viewModel.searchType = searchType
@@ -189,7 +189,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
     /// Custom post authentication logic that must be executed as part of authentication chain
     override open func postAuthenticateChain() -> Promise<Void> {
         return firstly {
-            return APIManager.shared.fetchCurrentOfficerDetails(in: MPOLSource.loc,
+            return APIManager.shared.fetchCurrentOfficerDetails(in: MPOLSource.pscore,
                                                                 with: CurrentOfficerDetailsFetchRequest())
             }.done { officer in
                 try! UserSession.current.userStorage?.add(object: officer,
