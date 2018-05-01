@@ -162,7 +162,7 @@ public extension NSNotification.Name {
 // Extension for custom manifest categories
 public extension ManifestCollection {
     static let EquipmentCollection = ManifestCollection(rawValue: "equipment")
-    static let PatrolGroupCollection = ManifestCollection(rawValue: "patrolgroup")
+    static let PatrolGroupCollection = ManifestCollection(rawValue: "PatrolGroup")
 }
 
 /// Extendable class for defining CAD specific local notifications
