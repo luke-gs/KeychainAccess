@@ -66,10 +66,13 @@ public struct ManifestFetchRequest: Parameterisable {
 public extension APIManager {
     
     func fetchManifest(with request: ManifestFetchRequest) -> Promise<ManifestFetchRequest.ResultClass> {
+        // Use JSON encoding if POST/PUT/PATCH, otherwise use default URL encoding
+        let parameterEncoding: ParameterEncoding = [HTTPMethod.post, .put, .patch].contains(request.method) ? JSONEncoding.default : URLEncoding.queryString
+        
         let networkRequest = try! NetworkRequest(pathTemplate: request.path,
                                                  parameters: request.parameters,
                                                  method: request.method,
-                                                 parameterEncoding: JSONEncoding.default)
+                                                 parameterEncoding: parameterEncoding)
 
         return try! APIManager.shared.performRequest(networkRequest, using: APIManager.JSONObjectArrayResponseSerializer())
     }
