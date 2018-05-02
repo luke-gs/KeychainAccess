@@ -53,6 +53,11 @@ open class TaskDetailsOverviewViewController: UIViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        // Minimise card if compact vertical
+        if isCompact(.vertical) {
+            cardView.currentState = .minimised
+        }
+
         // Size the details card and update map controls
         UIView.performWithoutAnimation {
             self.didFinishDragCardView()
@@ -234,6 +239,10 @@ extension TaskDetailsOverviewViewController: DraggableCardViewDelegate {
             // 50% of view
             return view.bounds.height * 0.5
         case .maximised:
+            if isCompact(.vertical) {
+                // Full screen
+                return view.bounds.height
+            }
             // Almost full screen
             return view.bounds.height - 2 * LayoutConstants.minimumCardHeight
         }
