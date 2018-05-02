@@ -105,14 +105,11 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
             scrollToPreview(preview, animated: animated)
         }
 
-        updateCurrentPreviewViewController()
         updateAccessoryViewsWithPreview(preview, animated: animated)
     }
 
     public func scrollToPreview(_ preview: MediaPreviewable, animated: Bool) {
-        guard let index = indexOfPreview(preview), isViewLoaded else {
-            return
-        }
+        guard let index = indexOfPreview(preview), isViewLoaded else { return }
 
         let indexPath = IndexPath(item: index, section: 0)
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
@@ -367,22 +364,17 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
     private func previewAfterDeletion(currentPreviewIndex index: Int) -> MediaPreviewable? {
         let numberOfPreviews = viewModel.previews.count
-        guard numberOfPreviews > 0 else {
-            return nil
-        }
+        guard numberOfPreviews >= 0 else { return nil }
 
         if index < numberOfPreviews {
             return viewModel.previews[index]
         }
 
-        let moveBackwardIndex = index - 1
-        return viewModel.previews[moveBackwardIndex]
+        return viewModel.previews[index - 1]
     }
 
     private func deleteCurrentPreview() {
-        guard let currentPreview = currentPreview else {
-            return
-        }
+        guard let currentPreview = currentPreview else { return }
 
         if let index = indexOfPreview(currentPreview) {
             _ = viewModel.removeMedia([currentPreview.media]).done { [weak self] _ -> () in
@@ -469,6 +461,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         guard isViewLoaded else { return }
         collectionView.reloadData()
 
+        updateCurrentPreviewViewController()
         showPreview(currentPreview, animated: true)
     }
 
@@ -515,6 +508,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
     public func mediaThumbnailSlideshowViewController(_ thumbnailSlideshowViewController: MediaThumbnailSlideshowViewController, didSelectPreview preview: MediaPreviewable) {
         showPreview(preview, animated: false)
+        updateCurrentPreviewViewController()
     }
 
 }
