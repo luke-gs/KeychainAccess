@@ -115,10 +115,6 @@ public protocol IncidentDetailViewModelType: Evaluatable {
     /// The app defines what view to use
     var headerView: UIView? { get }
 
-    /// Completion used to tell the SplitviewController to reload
-    /// so that the side bar will be reloaded to use new header
-    var headerUpdated: (()->())? { get set }
-
     /// Initialiser
     ///
     /// - Parameters:

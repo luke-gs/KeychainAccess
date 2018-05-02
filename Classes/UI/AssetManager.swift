@@ -226,9 +226,6 @@ extension AssetManager {
         public static let rubber = ImageKey("rubber")
         
         // Comms
-        public static let commsDevice    = ImageKey("iconCommsDevice")
-        public static let commsEmail     = ImageKey("iconCommsEmail")
-        public static let post           = ImageKey("iconCommsPost")
         public static let audioCall      = ImageKey("iconCommsCall")
         public static let videoCall      = ImageKey("iconCommsVideo")
         public static let message        = ImageKey("iconCommsMessage")

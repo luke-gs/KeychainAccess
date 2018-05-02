@@ -82,9 +82,7 @@ final public class Incident: NSSecureCoding, Evaluatable {
     //MARK: Evaluation
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        allValid = reports.reduce(true, { result, report in
-            return result && report.evaluator.isComplete
-        })
+        allValid = evaluationState
     }
 }
 

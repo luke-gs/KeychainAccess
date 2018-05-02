@@ -135,12 +135,11 @@ public enum EventStatus: String {
 
 /// A protocol defining whether the object should be a
 /// event header update delegate
-public protocol SideBarHeaderUpdateable {
-    var delegate: SideBarHeaderUpdateDelegate? { get set }
+public protocol EventHeaderUpdateable {
+    var delegate: EventHeaderUpdateDelegate? { get set }
 }
 
 /// The delegate responsible for updating the sidebar header for events
-public protocol SideBarHeaderUpdateDelegate: class {
-    func updateHeader(with title: String?, subtitle: String?, image: UIImage?)
+public protocol EventHeaderUpdateDelegate: class {
+    func updateHeader(with title: String?, subtitle: String?)
 }
-
