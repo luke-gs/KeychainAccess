@@ -105,6 +105,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
             scrollToPreview(preview, animated: animated)
         }
 
+        updateCurrentPreviewViewController()
         updateAccessoryViewsWithPreview(preview, animated: animated)
     }
 
