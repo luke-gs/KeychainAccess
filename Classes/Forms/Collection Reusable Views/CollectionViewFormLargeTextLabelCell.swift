@@ -43,13 +43,4 @@ open class CollectionViewFormLargeTextLabelCell: UICollectionReusableView, Defau
         MPLCodingNotSupported()
     }
     
-    open override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
-        super.apply(layoutAttributes)
-        if let layoutAttributes = layoutAttributes as? CollectionViewFormLayoutAttributes {
-            layoutMargins = layoutAttributes.layoutMargins
-        } else {
-            // This breaks anyone using custom layoutMargins, so disabled
-            // layoutMargins = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
-        }
-    }
 }
