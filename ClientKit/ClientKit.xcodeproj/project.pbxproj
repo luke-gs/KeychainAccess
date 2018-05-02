@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		125EAE17209932F800C09FED /* EventSubmissionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE16209932F800C09FED /* EventSubmissionRequest.swift */; };
+		125EAE192099336900C09FED /* EventSubmissionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE182099336900C09FED /* EventSubmissionResponse.swift */; };
 		193ED08F1FDEA190002F2837 /* DefaultFilterRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193ED08E1FDEA190002F2837 /* DefaultFilterRules.swift */; };
 		199ECE9E1FAA5ACD0065E425 /* PersonImageSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199ECE9D1FAA5ACD0065E425 /* PersonImageSizing.swift */; };
 		19FA22AF1F8603F000BE0E03 /* MatchMakers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12048FCA1F788EC20014748E /* MatchMakers.swift */; };
@@ -104,6 +106,8 @@
 		0EEA13744A9245F633EE23BB /* Pods-ClientKit.external-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientKit.external-release.xcconfig"; path = "../MPOL/Pods/Target Support Files/Pods-ClientKit/Pods-ClientKit.external-release.xcconfig"; sourceTree = "<group>"; };
 		12048FCA1F788EC20014748E /* MatchMakers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchMakers.swift; sourceTree = "<group>"; };
 		12048FCC1F788ECA0014748E /* Matches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matches.swift; sourceTree = "<group>"; };
+		125EAE16209932F800C09FED /* EventSubmissionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSubmissionRequest.swift; sourceTree = "<group>"; };
+		125EAE182099336900C09FED /* EventSubmissionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSubmissionResponse.swift; sourceTree = "<group>"; };
 		193ED08E1FDEA190002F2837 /* DefaultFilterRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFilterRules.swift; sourceTree = "<group>"; };
 		199ECE9D1FAA5ACD0065E425 /* PersonImageSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonImageSizing.swift; sourceTree = "<group>"; };
 		1A159F0C1F4B1C7500075330 /* PersonFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonFetchRequest.swift; sourceTree = "<group>"; };
@@ -380,6 +384,7 @@
 				1A290C851F3F097E00DD9ED5 /* Media.swift */,
 				46E0B89E202C13E200B40DF2 /* Officer.swift */,
 				464977C3203685E500590DC3 /* Identifiable.swift */,
+				125EAE182099336900C09FED /* EventSubmissionResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -456,6 +461,7 @@
 				EA8B66541F381CBA00F09716 /* VehicleSearchRequest.swift */,
 				1AB825191F5E485F001C4BCE /* LocationMapSearchRequest.swift */,
 				46E0B8B92033AAE600B40DF2 /* OfficerSearchRequest.swift */,
+				125EAE16209932F800C09FED /* EventSubmissionRequest.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -658,7 +664,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/../mpol/Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests-frameworks.sh",
+				"${SRCROOT}/../MPOL/Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/Cluster/Cluster.framework",
@@ -683,7 +689,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../mpol/Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/../MPOL/Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DAA194C8434904A041D2E515 /* [CP] Check Pods Manifest.lock */ = {
@@ -713,7 +719,9 @@
 			files = (
 				1A290C861F3F097E00DD9ED5 /* Media.swift in Sources */,
 				19FA22B01F86041800BE0E03 /* Matches.swift in Sources */,
+				125EAE17209932F800C09FED /* EventSubmissionRequest.swift in Sources */,
 				EA1CC2541F4132D200FE8BAE /* VINParserDefinition.swift in Sources */,
+				125EAE192099336900C09FED /* EventSubmissionResponse.swift in Sources */,
 				BCAEFEDD1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift in Sources */,
 				4429902E2006C43D00D2F575 /* OrganizationInfoViewModel.swift in Sources */,
 				1AB825341F610D04001C4BCE /* Address+EntityMapSummaryDisplayable.swift in Sources */,
