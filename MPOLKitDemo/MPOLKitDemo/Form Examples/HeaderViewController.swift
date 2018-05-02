@@ -36,6 +36,14 @@ class HeaderViewController: FormBuilderViewController {
         builder += HeaderFormItem()
         builder += SubtitleFormItem(title: "Item 1", subtitle: "Headerless", image: #imageLiteral(resourceName: "SidebarInfo"))
         builder += SubtitleFormItem(title: "Item 2", subtitle: "Plain header", image: #imageLiteral(resourceName: "SidebarInfo"))
+        
+        builder += LargeTextHeaderFormItem(text: "LARGE TEXT HEADER")
+        builder += SubtitleFormItem(title: "Item 1", subtitle: "Headerless", image: #imageLiteral(resourceName: "SidebarInfo"))
+        builder += SubtitleFormItem(title: "Item 2", subtitle: "Plain header", image: #imageLiteral(resourceName: "SidebarInfo"))
+        
+        builder += LargeTextHeaderFormItem(text: "LARGE TEXT HEADER WITH INSETS").layoutMargins(UIEdgeInsets(top: 32, left: 48, bottom: 48, right: 48))
+        builder += SubtitleFormItem(title: "Item 1", subtitle: "Headerless", image: #imageLiteral(resourceName: "SidebarInfo"))
+        builder += SubtitleFormItem(title: "Item 2", subtitle: "Plain header", image: #imageLiteral(resourceName: "SidebarInfo"))
 
     }
 
