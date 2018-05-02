@@ -25,9 +25,10 @@ class MediaStorageDatastore<T: Media>: WritableDataStore {
 
     public private(set) var items: [T]
 
-    private lazy var manager: MediaFileManager? = {
+    // No media manager, means something is terrible wrong, might as well crash.
+    private lazy var manager: MediaFileManager = {
         let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("assets", isDirectory: true)
-        return try? MediaFileManager(basePath: directory)
+        return try! MediaFileManager(basePath: directory)
     }()
 
     public init(items: [T], container: MediaContainer) {
@@ -40,37 +41,48 @@ class MediaStorageDatastore<T: Media>: WritableDataStore {
     }
 
 
-    func addItems(_ items: [MediaStorageDatastore<T>.Result.Item]) -> Promise<[MediaStorageDatastore<T>.Result.Item]> {
+    func addItems(_ toBeAddedItems: [MediaStorageDatastore<T>.Result.Item]) -> Promise<[MediaStorageDatastore<T>.Result.Item]> {
         return Promise { [unowned self] resolver in
-            let indexes = items.indexes(where: { self.items.contains($0) })
+            let indexes = toBeAddedItems.indexes(where: { toBeAdded in
+                self.items.contains(where: { toBeCompared -> Bool in
+                    return toBeAdded.identifier == toBeCompared.identifier
+                })
+            })
+
             if indexes.count == 0 {
-                self.items += items
-                for item in items {
+                self.items += toBeAddedItems
+                for item in toBeAddedItems {
                     do {
-                        if let url = manager?.directory(forMedia: item.type) {
-                            let destination = url.appendingPathComponent(item.url.lastPathComponent)
-                            try manager?.move(url: item.url, to: destination)
-                            if let index = indexOfItem(item) {
-                                self.items[index].url = destination
-                            }
+                        let url = manager.directory(forMedia: item.type)
+                        let destination = url.appendingPathComponent(item.url.lastPathComponent)
+                        try manager.copy(url: item.url, to: destination)
+                        if let index = indexOfItem(item) {
+                            self.items[index].url = destination
                         }
                     } catch {
                         resolver.reject(LocalDataStoreError.duplicate)
+                        return
                     }
                 }
-                container.add(items)
-                resolver.fulfill(items)
+                container.add(toBeAddedItems)
+                resolver.fulfill(toBeAddedItems)
             } else {
                 resolver.reject(LocalDataStoreError.duplicate)
             }
         }
     }
 
-    func removeItems(_ items: [MediaStorageDatastore<T>.Result.Item]) -> Promise<[MediaStorageDatastore<T>.Result.Item]> {
+    func removeItems(_ toBeRemovedItems: [MediaStorageDatastore<T>.Result.Item]) -> Promise<[MediaStorageDatastore<T>.Result.Item]> {
         return Promise { [unowned self] resolver in
-            let indexes = self.items.indexes(where: { items.contains($0) })
-            if indexes.count == items.count {
-                items.forEach {
+
+            let indexes = toBeRemovedItems.indexes(where: { toBeRemoved in
+                self.items.contains(where: { toBeCompared -> Bool in
+                    return toBeRemoved.identifier == toBeCompared.identifier
+                })
+            })
+
+            if indexes.count == toBeRemovedItems.count {
+                toBeRemovedItems.forEach {
                     if let index = self.indexOfItem($0) {
                         self.items.remove(at: index)
 
@@ -78,48 +90,76 @@ class MediaStorageDatastore<T: Media>: WritableDataStore {
                             try FileManager.default.removeItem(at: $0.url)
                         } catch {
                             resolver.reject(LocalDataStoreError.notFound)
+                            return
                         }
                     }
                 }
-                container.remove(items)
-                resolver.fulfill(items)
+                container.remove(toBeRemovedItems)
+                resolver.fulfill(toBeRemovedItems)
             } else {
                 resolver.reject(LocalDataStoreError.notFound)
             }
         }
     }
 
+
+    /// Replace the item with different item with the same identifier.
+    ///
+    /// - Parameters:
+    ///   - item: Existing item to be replaced.
+    ///   - otherItem: The replacement item.
+    /// - Returns: Promise with the value of replacement item when successful. It will be an error if the replacement doesn't have the same identifier with the existing.
     public func replaceItem(_ item: Result.Item, with otherItem: Result.Item) -> Promise<Result.Item> {
         return Promise { [unowned self] resolver in
+
+            // Can't replace item that doesn't exist
             guard let index = self.indexOfItem(item) else {
                 resolver.reject(LocalDataStoreError.notFound)
                 return
             }
 
-            guard self.indexOfItem(otherItem) == nil else {
+            // Have to replace items with same identifiers.
+            guard item.identifier == otherItem.identifier else {
                 resolver.reject(LocalDataStoreError.duplicate)
                 return
+            }
+
+            // If item doesn't have the same backing URL, remove the old one
+            // and copy the new one
+            if item.url != otherItem.url {
+                do {
+                    let url = manager.directory(forMedia: otherItem.type)
+                    let destination = url.appendingPathComponent(otherItem.url.lastPathComponent)
+
+                    try manager.copy(url: item.url, to: destination)
+
+                } catch {
+                    resolver.reject(LocalDataStoreError.duplicate)
+                    return
+                }
+
+                do {
+                    try FileManager.default.removeItem(at: item.url)
+                } catch {
+                    resolver.reject(LocalDataStoreError.notFound)
+                    return
+                }
             }
 
             var items = self.items
             items.remove(at: index)
             items.insert(otherItem, at: index)
-
-            let existingURL = items[index].url
-            do {
-                try manager?.move(url: otherItem.url, to: existingURL)
-            } catch {
-                resolver.reject(LocalDataStoreError.notSupported)
-            }
-
             self.items = items
+
+            container.remove([item])
+            container.add([otherItem])
+
             resolver.fulfill(otherItem)
+
         }
     }
 
     private func indexOfItem(_ item: Result.Item) -> Int? {
         return items.index(where: { $0 == item })
     }
-
 }
-
