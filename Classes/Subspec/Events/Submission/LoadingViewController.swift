@@ -57,17 +57,16 @@ extension LoadingViewController {
     }
 }
 
-public class LoadingViewBuilder<Response> {
-
-    public var title: String?
-    public var subtitle: String?
-    public var preferredContentSize: CGSize?
-    public var request: (() -> Promise<Response>)? {
+open class LoadingViewBuilder<Response> {
+    open var title: String?
+    open var subtitle: String?
+    open var preferredContentSize: CGSize?
+    open var request: (() -> Promise<Response>)? {
         didSet {
             self.pendingPromise = Promise<Response>.pending()
         }
     }
-
+    
     fileprivate var pendingPromise: (Promise<Response>, Resolver<Response>)?
     public init() { }
 }
