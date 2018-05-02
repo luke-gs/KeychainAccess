@@ -11,7 +11,7 @@ import UIKit
 open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
     
     public var text: StringSizable?
-    public var layoutMargins: UIEdgeInsets?
+    public var layoutMargins: UIEdgeInsets? = UIEdgeInsets(top: 16, left: 24, bottom: 24, right: 24)
     public var separatorColor: UIColor?
 
     public init() {
@@ -43,7 +43,7 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
     open override func configure(_ view: UICollectionReusableView) {
         if let cell = view as? CollectionViewFormLargeTextLabelCell {
             if let layoutMargins = layoutMargins {
-                cell.contentView.layoutMargins = layoutMargins
+                cell.layoutMargins = layoutMargins
             }
             
             if let sizing = text?.sizing(), let attributedText = sizing.attributedString {
