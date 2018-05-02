@@ -12,10 +12,10 @@ import MPOLKit
 @objc(MPLContact)
 open class Contact: NSObject, Serialisable {
 
-    public enum ContactType: Int, UnboxableEnum {
-        case phone = 0
-        case mobile = 1
-        case email = 2
+    public enum ContactType: String, UnboxableEnum {
+        case phone = "home"
+        case mobile = "mobile"
+        case email = "email"
 
         public func localizedDescription() -> String {
             switch self {
@@ -69,7 +69,7 @@ open class Contact: NSObject, Serialisable {
         isSummary = unboxer.unbox(key: "isSummary") ?? false
         source = unboxer.unbox(key: "source")
         
-        type = unboxer.unbox(key: "contactType")
+        type = unboxer.unbox(key: "type")
         subType = unboxer.unbox(key: "contactSubType")
         value = unboxer.unbox(key: "value")
         super.init()
@@ -93,8 +93,8 @@ open class Contact: NSObject, Serialisable {
             self.source = MPOLSource(rawValue: source)
         }
 
-        if let type = aDecoder.decodeObject(of: NSNumber.self, forKey: CodingKey.type.rawValue) {
-            self.type = ContactType(rawValue: type.intValue)
+        if let type = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.type.rawValue) as? String {
+            self.type = ContactType(rawValue: type)
         }
 
         subType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.subType.rawValue) as String?
@@ -114,7 +114,7 @@ open class Contact: NSObject, Serialisable {
         aCoder.encode(source?.rawValue, forKey: CodingKey.source.rawValue)
 
         if let type = type?.rawValue {
-            aCoder.encode(NSNumber(value: type), forKey: CodingKey.type.rawValue)
+            aCoder.encode(type, forKey: CodingKey.type.rawValue)
         }
 
         aCoder.encode(subType, forKey: CodingKey.subType.rawValue)

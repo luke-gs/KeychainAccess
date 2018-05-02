@@ -30,7 +30,7 @@ public class TrafficInfringementScreenBuilder: IncidentScreenBuilding {
         case let report as TrafficInfringementOffencesReport:
             return TrafficInfringementOffencesViewController(viewModel: TrafficInfringementOffencesViewModel(report: report))
         case let report as TrafficInfringementServiceReport:
-            return TrafficInfringementServiceViewController(report: report)
+            return TrafficInfringementServiceViewController(viewModel: TrafficInfringementServiceViewModel(report: report))
         default:
             fatalError("No ViewController found for reportable: \(report.self)")
         }

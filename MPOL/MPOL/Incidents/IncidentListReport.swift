@@ -12,7 +12,7 @@ fileprivate extension EvaluatorKey {
     static let incidents = EvaluatorKey("incidents")
 }
 
-open class IncidentListReport: Reportable, EventHeaderUpdateable {
+open class IncidentListReport: Reportable, SideBarHeaderUpdateable {
 
     var viewed: Bool = false {
         didSet {
@@ -22,14 +22,14 @@ open class IncidentListReport: Reportable, EventHeaderUpdateable {
     
     public var incidents: [Incident] = [] {
         didSet {
-            event?.displayable?.title = incidents.isEmpty ? incidentsHeaderDefaultTitle : incidents.map{ $0.displayable?.title }.joined(separator: ", ")
+            event?.displayable?.title = incidents.isEmpty ? incidentsHeaderDefaultTitle : incidents.map { $0.displayable?.title }.joined(separator: ", ")
             event?.displayable?.subtitle = incidentsHeaderDefaultSubtitle
             evaluator.updateEvaluation(for: .incidents)
-            delegate?.updateHeader(with: incidents.first?.displayable?.title, subtitle: nil)
+            delegate?.updateHeader(with: incidents.first?.displayable?.title, subtitle: nil, image: nil)
         }
     }
 
-    public weak var delegate: EventHeaderUpdateDelegate?
+    public weak var delegate: SideBarHeaderUpdateDelegate?
     private(set) public var evaluator: Evaluator = Evaluator()
     public weak var event: Event?
     public weak var incident: Incident?
