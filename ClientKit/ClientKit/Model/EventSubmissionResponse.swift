@@ -13,7 +13,7 @@ private enum Coding: String {
     case eventNumber = "eventNumber"
 }
 
-public class EventSubmissionResponse: MPOLKitEntityProtocol, EventSubmittable {
+public class EventSubmissionResponse: MPOLKitEntityProtocol {
     public static var serverTypeRepresentation: String = "event"
     public static var supportsSecureCoding: Bool = true
 
@@ -22,15 +22,6 @@ public class EventSubmissionResponse: MPOLKitEntityProtocol, EventSubmittable {
 
     public func isEssentiallyTheSameAs(otherEntity: MPOLKitEntityProtocol) -> Bool {
         return otherEntity.id == self.id
-    }
-
-    // MARK: EventSubmittable
-    public var title: String {
-        return "Event Submitted"
-    }
-
-    public var detail: String {
-        return "PSCORE-00\(eventNumber)"
     }
 
     // MARK: Codable
@@ -47,5 +38,17 @@ public class EventSubmissionResponse: MPOLKitEntityProtocol, EventSubmittable {
     // MARK: Unboxable
     public required init(unboxer: Unboxer) throws {
         eventNumber = try unboxer.unbox(key: "eventNumber")
+    }
+}
+
+extension EventSubmissionResponse: EventSubmittable {
+
+    // MARK: EventSubmittable
+    public var title: String {
+        return "Event Submitted"
+    }
+
+    public var detail: String {
+        return "PSCORE-00\(eventNumber)"
     }
 }
