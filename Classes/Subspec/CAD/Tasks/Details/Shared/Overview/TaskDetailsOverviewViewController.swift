@@ -162,7 +162,7 @@ open class TaskDetailsOverviewViewController: UIViewController {
 
                 // Position map controls relative to our view, not map view which might be off screen
                 mapViewController.mapControlView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: 16),
-                mapViewController.mapControlView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+                mapViewController.mapControlView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor, constant: -16),
 
                 // Position card view at bottom
                 cardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
