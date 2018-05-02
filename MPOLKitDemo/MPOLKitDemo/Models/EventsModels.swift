@@ -79,3 +79,12 @@ class DemoBuilder: EventBuilding {
         return (event, displayable)
     }
 }
+
+struct DemoEventSubmittable: EventSubmittable {
+    var title: String {
+        return "Event Submitted"
+    }
+    var detail: String {
+        return "Yay!"
+    }
+}
