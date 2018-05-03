@@ -36,7 +36,7 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
             header.iconView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
 
             // Update the header to whatever you need it to be
-            let report = event.reports.filter{ $0 is IncidentListReport }.first as? IncidentListReport
+            let report = event.reports.filter { $0 is IncidentListReport }.first as? IncidentListReport
             header.titleLabel.text = report?.incidents.first?.displayable?.title ?? incidentsHeaderDefaultTitle
             header.captionLabel.text = incidentsHeaderDefaultSubtitle
             return header
@@ -51,7 +51,7 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
     }
 
     private func setUpdateHeaderDelegate() {
-        for case var report as EventHeaderUpdateable in event.reports {
+        for case var report as SideBarHeaderUpdateable in event.reports {
             report.delegate = self
         }
     }
@@ -61,8 +61,8 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
     }
 }
 
-extension EventsDetailViewModel: EventHeaderUpdateDelegate {
-    public func updateHeader(with title: String?, subtitle: String?) {
+extension EventsDetailViewModel: SideBarHeaderUpdateDelegate {
+    public func updateHeader(with title: String?, subtitle: String?, image: UIImage?) {
         guard let header = headerView as? SidebarHeaderView else { return }
         header.titleLabel.text = title ?? incidentsHeaderDefaultTitle
         header.captionLabel.text = subtitle ?? incidentsHeaderDefaultSubtitle

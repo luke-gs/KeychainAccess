@@ -23,7 +23,6 @@
 		12EF65DD2086D52200739924 /* TrafficInfringementIncidentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65C62086D52200739924 /* TrafficInfringementIncidentBuilder.swift */; };
 		12EF65DE2086D52200739924 /* TrafficInfringementScreenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65C72086D52200739924 /* TrafficInfringementScreenBuilder.swift */; };
 		12EF65DF2086D52200739924 /* TrafficInfringementServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65C92086D52200739924 /* TrafficInfringementServiceViewController.swift */; };
-		12EF65E02086D52200739924 /* TrafficInfringementServiceReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65CA2086D52200739924 /* TrafficInfringementServiceReport.swift */; };
 		12EF65E12086D52200739924 /* TrafficInfringementEntitiesReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65CC2086D52200739924 /* TrafficInfringementEntitiesReport.swift */; };
 		12EF65E22086D52200739924 /* TrafficInfringementEntitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65CD2086D52200739924 /* TrafficInfringementEntitiesViewController.swift */; };
 		12EF65E32086D52200739924 /* IncidentTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65CF2086D52200739924 /* IncidentTestViewController.swift */; };
@@ -70,6 +69,8 @@
 		445A8A3E1F673C8B005ABEB8 /* VehicleSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A3B1F673C8B005ABEB8 /* VehicleSearchHelp.json */; };
 		46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F8E9A4203A9C2200024EF7 /* LocationAction.swift */; };
 		96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */; };
+		AA1B3A3E2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A3D2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift */; };
+		AA1B3A402092D3EF0009B00C /* TrafficInfringementServiceReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A3F2092D3EE0009B00C /* TrafficInfringementServiceReport.swift */; };
 		AAEC4C3120919F8000F5AC59 /* EntityPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEC4C2C20919F7F00F5AC59 /* EntityPickerViewModel.swift */; };
 		AAEC4C3320919F8000F5AC59 /* EntityPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEC4C2E20919F8000F5AC59 /* EntityPickerViewController.swift */; };
 		AAEC4C3420919F8000F5AC59 /* TrafficInfringementEntitiesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEC4C2F20919F8000F5AC59 /* TrafficInfringementEntitiesViewModel.swift */; };
@@ -118,7 +119,6 @@
 		12EF65C62086D52200739924 /* TrafficInfringementIncidentBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementIncidentBuilder.swift; sourceTree = "<group>"; };
 		12EF65C72086D52200739924 /* TrafficInfringementScreenBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementScreenBuilder.swift; sourceTree = "<group>"; };
 		12EF65C92086D52200739924 /* TrafficInfringementServiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementServiceViewController.swift; sourceTree = "<group>"; };
-		12EF65CA2086D52200739924 /* TrafficInfringementServiceReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementServiceReport.swift; sourceTree = "<group>"; };
 		12EF65CC2086D52200739924 /* TrafficInfringementEntitiesReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementEntitiesReport.swift; sourceTree = "<group>"; };
 		12EF65CD2086D52200739924 /* TrafficInfringementEntitiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementEntitiesViewController.swift; sourceTree = "<group>"; };
 		12EF65CF2086D52200739924 /* IncidentTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentTestViewController.swift; sourceTree = "<group>"; };
@@ -173,6 +173,8 @@
 		9625ACDB207F1C6200EFCC8C /* SearchNotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNotificationHandler.swift; sourceTree = "<group>"; };
 		96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchNotificationHandler.swift; sourceTree = "<group>"; };
 		98286F47FF0E675D611C2782 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA1B3A3D2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementServiceViewModel.swift; sourceTree = "<group>"; };
+		AA1B3A3F2092D3EE0009B00C /* TrafficInfringementServiceReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementServiceReport.swift; sourceTree = "<group>"; };
 		AAEC4C2C20919F7F00F5AC59 /* EntityPickerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPickerViewModel.swift; sourceTree = "<group>"; };
 		AAEC4C2E20919F8000F5AC59 /* EntityPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPickerViewController.swift; sourceTree = "<group>"; };
 		AAEC4C2F20919F8000F5AC59 /* TrafficInfringementEntitiesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementEntitiesViewModel.swift; sourceTree = "<group>"; };
@@ -291,7 +293,8 @@
 			isa = PBXGroup;
 			children = (
 				12EF65C92086D52200739924 /* TrafficInfringementServiceViewController.swift */,
-				12EF65CA2086D52200739924 /* TrafficInfringementServiceReport.swift */,
+				AA1B3A3F2092D3EE0009B00C /* TrafficInfringementServiceReport.swift */,
+				AA1B3A3D2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -717,6 +720,7 @@
 				12EF663F208D83DA00739924 /* EventEntityDescriptionReport.swift in Sources */,
 				EAAEB34A1F664705002D6C65 /* EntityPresenter.swift in Sources */,
 				127801F1202AAF09007D0BBB /* EventsListViewModel.swift in Sources */,
+				AA1B3A402092D3EF0009B00C /* TrafficInfringementServiceReport.swift in Sources */,
 				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
 				127801F5202AB255007D0BBB /* EventsDetailViewModel.swift in Sources */,
 				AAEC4C3420919F8000F5AC59 /* TrafficInfringementEntitiesViewModel.swift in Sources */,
@@ -733,6 +737,7 @@
 				3727C4C22088193000F7A887 /* OffenceSearchViewModel.swift in Sources */,
 				12EF65E82086D52200739924 /* StreetCheckIncidentBuilder.swift in Sources */,
 				12EB809B202AAC2100405F5C /* EventScreenBuilder.swift in Sources */,
+				AA1B3A3E2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift in Sources */,
 				12EF6638208D7D2F00739924 /* EventEntityRelationshipsViewModel.swift in Sources */,
 				12EF66012087071800739924 /* OfficerParserDefinition.swift in Sources */,
 				12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */,
@@ -742,7 +747,6 @@
 				12ADD4381F32C0FA00CA8B4D /* PersonSearchDataSource.swift in Sources */,
 				121777B120631BF6007189A7 /* EventsListViewController.swift in Sources */,
 				12EF65DE2086D52200739924 /* TrafficInfringementScreenBuilder.swift in Sources */,
-				12EF65E02086D52200739924 /* TrafficInfringementServiceReport.swift in Sources */,
 				12EF66032087071800739924 /* OfficerSearchViewModel.swift in Sources */,
 				96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */,
 				12EF65E32086D52200739924 /* IncidentTestViewController.swift in Sources */,

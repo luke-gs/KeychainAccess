@@ -71,6 +71,14 @@ open class Address: Entity {
     open var commonName: String?
     open var fullAddress: String?
 
+    // TODO: update to actual rules once they are supplied
+    open var displayAddress: String? {
+        var displayAddress = [streetNumberFirst, streetName,
+                             [streetType, suburb, state ?? county, country].joined(separator: ", ")]
+                             .joined(separator: " ")
+        return displayAddress.count > 0 ? displayAddress : fullAddress
+    }
+
     open var reportDate: Date? {
         return dateUpdated ?? dateCreated ?? nil
     }

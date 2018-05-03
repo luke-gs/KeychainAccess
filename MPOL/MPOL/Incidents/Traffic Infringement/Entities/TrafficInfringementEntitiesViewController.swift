@@ -55,9 +55,8 @@ open class TrafficInfringementEntitiesViewController: FormBuilderViewController,
 
 
         builder += entities.map { entity in
-            let displayable = viewModel.displayable(for: entity).summaryListFormItem()
-            displayable.subtitle = viewModel.retrieveInvolvements(for: entity.id).compactMap({$0.rawValue}).joined(separator: ", ")
-            return displayable
+            return viewModel.displayable(for: entity).summaryListFormItem()
+                .subtitle(viewModel.retrieveInvolvements(for: entity.id).compactMap({$0.rawValue}).joined(separator: ", "))
                 .accessory(nil)
                 .badgeColor(nil)
                 .badge(0)
@@ -139,7 +138,7 @@ open class TrafficInfringementEntitiesViewController: FormBuilderViewController,
                 .compactMap({ $0.element as? Involvement })
             
                 if editingEntity {
-                    self.viewModel.updateEntity( entity.id, with: involvements)
+                    self.viewModel.updateEntity(entity.id, with: involvements)
                 } else {
                     self.viewModel.addEntity(entity, with: involvements)
                 }

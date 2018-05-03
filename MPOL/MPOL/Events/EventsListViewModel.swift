@@ -6,8 +6,10 @@
 //
 
 import MPOLKit
+import PromiseKit
+import ClientKit
 
-public class EventsListViewModel: EventListViewModelType {
+public class EventsListViewModel {
 
     public var title: String
     public var eventsManager: EventsManager
@@ -41,6 +43,19 @@ public class EventsListViewModel: EventListViewModelType {
         screenBuilder.incidentsManager = incidentsManager
 
         return EventsDetailViewModel(event: event, builder: screenBuilder)
+    }
+
+    public func loadingBuilder() -> LoadingViewBuilder<Void> {
+        let builder = LoadingViewBuilder<Void>()
+        builder.title = "Submitting event"
+        builder.preferredContentSize = CGSize(width: 512, height: 240)
+
+        builder.request = { firstly { () -> Promise<Void> in
+            return after(seconds: 3).asVoid()
+            }
+        }
+        
+        return builder
     }
 }
 

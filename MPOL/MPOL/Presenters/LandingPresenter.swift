@@ -137,7 +137,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 }
             }
 
-            let viewModel = EntitySummarySearchViewModel(title: "MPOL", dataSources: [
+            let viewModel = EntitySummarySearchViewModel(title: "PSCore", dataSources: [
                 PersonSearchDataSource(),
                 VehicleSearchDataSource(),
                 locationDataSource
