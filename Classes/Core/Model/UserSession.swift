@@ -102,6 +102,7 @@ public class UserSession: UserSessionable {
         recentIdsListMap = [:]
         userStorage = nil
         directoryManager.write(nil, toKeyChain: "token")
+        sessionID = nil
 
         try! directoryManager.remove(at: paths.session)
         NotificationCenter.default.post(name: .userSessionEnded, object: nil)
