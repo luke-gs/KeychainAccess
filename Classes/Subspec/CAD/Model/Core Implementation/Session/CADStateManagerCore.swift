@@ -55,7 +55,7 @@ open class CADStateManagerCore: CADStateManagerType {
     }
 
     /// The last sync data
-    open private(set) var lastSync: CADSyncResponse?
+    open private(set) var lastSync: CADSyncResponseCore?
 
     /// The last sync time
     open private(set) var lastSyncTime: Date?
@@ -310,13 +310,12 @@ open class CADStateManagerCore: CADStateManagerType {
         // Perform sync and keep result
         return firstly {
             return after(seconds: 1.0)
-        }.then { _ -> Promise<CADSyncResponse> in
+        }.then { _ -> Promise<CADSyncResponseCore> in
             // TODO: Remove this. For demos, we only get fresh data the first time
             if let lastSync = self.lastSync {
-
-                return Promise<CADSyncResponse>.value(lastSync)
+                return Promise<CADSyncResponseCore>.value(lastSync)
             }
-            return CADStateManagerCore.apiManager.cadSyncDetails(request: CADSyncRequest())
+            return CADStateManagerCore.apiManager.cadSyncSummaries(with: CADSyncPatrolGroupRequestCore(patrolGroup: self.patrolGroup!))
         }.done { [unowned self] summaries -> Void in
             self.lastSync = summaries
             self.lastSyncTime = Date()

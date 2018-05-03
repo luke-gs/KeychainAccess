@@ -28,12 +28,11 @@ public protocol CADAPIManagerType {
     /// Book off from CAD
     func cadBookOff(with request: CADBookOffRequestType, pathTemplate: String?) -> Promise<Void>
 
+    /// Sync all summary details for a patrol group or bounding box
+    func cadSyncSummaries<ResponseType: CADSyncResponseType>(with request: CADSyncRequestType, pathTemplate: String?) -> Promise<ResponseType>
+
     /// Fetch details about an officer by username
     func cadOfficerByUsername(username: String) -> Promise<CADOfficerDetailsResponse>
-
-    /// Fetch all sync details
-    func cadSyncDetails(request: CADSyncRequest) -> Promise<CADSyncResponse>
-
 }
 
 // Convenience extension for default paths (since you cant have default params in protocol)
@@ -47,4 +46,7 @@ public extension CADAPIManagerType {
         return cadBookOff(with: request, pathTemplate: nil)
     }
 
+    func cadSyncSummaries<ResponseType: CADSyncResponseType>(with request: CADSyncRequestType) -> Promise<ResponseType> {
+        return cadSyncSummaries(with: request, pathTemplate: nil)
+    }
 }

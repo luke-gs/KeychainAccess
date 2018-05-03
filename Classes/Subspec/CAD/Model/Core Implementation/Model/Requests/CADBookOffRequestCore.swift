@@ -18,7 +18,7 @@ open class CADBookOffRequestCore: CADBookOffRequestType {
     // MARK: - Request Parameters
 
     /// The callsign for the resource.
-    open var callsign: String!
+    open var callsign: String
 
     // MARK: - Codable
 

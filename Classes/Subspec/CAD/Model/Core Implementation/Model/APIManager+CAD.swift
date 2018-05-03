@@ -37,16 +37,18 @@ extension APIManager: CADAPIManagerType {
     }
 
     /// Fetch all sync details
-    open func cadSyncDetails(request: CADSyncRequest) -> Promise<CADSyncResponse> {
-        // TODO: convert request to params
-        let path = "/cad/sync/details"
+    open func cadSyncSummaries<ResponseType: CADSyncResponseType>(with request: CADSyncRequestType, pathTemplate: String?) -> Promise<ResponseType> {
 
-        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: [:], method: .post)
-        return firstly {
-            return try! performRequest(networkRequest)
-            }.map { (data, response) in
-                return try JSONDecoder.decode(data, to: CADSyncResponse.self)
+        // Use explicit path or construct based on type of sync
+        var pathTemplate = pathTemplate
+        if pathTemplate == nil {
+            if request is CADSyncPatrolGroupRequestType {
+                pathTemplate = "cad/sync/patrolgroup/{patrolGroup}"
+            } else {
+                pathTemplate = "cad/sync/boundingbox"
+            }
         }
+        return performRequest(request, pathTemplate: pathTemplate!, method: .get)
     }
 }
 
