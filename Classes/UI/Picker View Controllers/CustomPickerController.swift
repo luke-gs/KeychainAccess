@@ -227,7 +227,7 @@ public class CustomPickerController: FormTableViewController {
                 headerView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
                 headerView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
                 headerView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
-                headerView.heightAnchor.constraint(equalToConstant: 144),
+                headerView.heightAnchor.constraint(lessThanOrEqualToConstant: 144),
 
                 tableView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
             ])

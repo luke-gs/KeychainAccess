@@ -19,6 +19,7 @@
         "groupedTableCellBackground": "#FFFFFF",
         "headerTitleText":        "#565862",
         "headerSubtitleText":     "#85868d",
+        "redText": "#FF3B30",
     },
     "images": {
         "navigationBar": "NavigationBarLight",

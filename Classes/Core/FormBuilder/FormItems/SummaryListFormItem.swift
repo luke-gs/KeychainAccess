@@ -39,7 +39,9 @@ public class SummaryListFormItem: BaseFormItem {
 
     public var borderColor: UIColor?
 
-    public var detailColor: UIColor?
+    public var detailColorKey: Theme.ColorKey?
+
+    public var detailFont: UIFont?
 
     public var imageTintColor: UIColor?
 
@@ -60,7 +62,7 @@ public class SummaryListFormItem: BaseFormItem {
         cell.sourceLabel.text = category
         cell.titleLabel.apply(sizable: title, defaultFont: defaultTitleFont(for: cell.traitCollection), defaultNumberOfLines: 1)
         cell.subtitleLabel.apply(sizable: subtitle, defaultFont: defaultSubtitleFont(for: cell.traitCollection), defaultNumberOfLines: 1)
-        cell.detailLabel.apply(sizable: detail, defaultFont: defaultSubtitleFont(for: cell.traitCollection), defaultNumberOfLines: 1)
+        cell.detailLabel.apply(sizable: detail, defaultFont: detailFont ?? defaultSubtitleFont(for: cell.traitCollection), defaultNumberOfLines: 1)
         cell.borderColor = badgeColor
         cell.actionCount = badge
         cell.thumbnailView.borderColor = borderColor
@@ -100,7 +102,8 @@ public class SummaryListFormItem: BaseFormItem {
         let cell = cell as! EntityListCollectionViewCell
         cell.titleLabel.textColor = primaryTextColor
         cell.subtitleLabel.textColor = secondaryTextColor
-        cell.detailLabel.textColor = detailColor ?? secondaryTextColor
+
+        cell.detailLabel.textColor = theme.color(forKey: detailColorKey ?? .secondaryText)
 
         cell.sourceLabel.textColor = secondaryTextColor
         cell.sourceLabel.borderColor = secondaryTextColor
@@ -163,8 +166,14 @@ extension SummaryListFormItem {
     }
 
     @discardableResult
-    public func detailColor(_ detailColor: UIColor?) -> Self {
-        self.detailColor = detailColor
+    public func detailColorKey(_ detailColorKey: Theme.ColorKey) -> Self {
+        self.detailColorKey = detailColorKey
+        return self
+    }
+
+    @discardableResult
+    public func detailFont(_ detailFont: UIFont?) -> Self {
+        self.detailFont = detailFont
         return self
     }
 
