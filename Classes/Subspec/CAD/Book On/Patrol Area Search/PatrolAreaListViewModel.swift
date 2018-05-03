@@ -41,6 +41,17 @@ open class PatrolAreaListViewModel: DefaultSearchDisplayableViewModel {
         hasSections = false
     }
     
+    open func reloadItems() {
+        var items: [CustomSearchDisplayable] = []
+        for patrolArea in CADStateManager.shared.patrolGroups() {
+            if let title = patrolArea.title {
+                let viewModel = PatrolAreaListItemViewModel(patrolArea: title)
+                items.append(viewModel)
+            }
+        }
+        self.items = items
+    }
+    
     /// Create the view controller for this view model
     open func createViewController() -> UIViewController {
         let vc = PatrolAreaListViewController(viewModel: self)
