@@ -122,7 +122,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
         NSLayoutConstraint.activate([
 
             mapControlView.topAnchor.constraint(equalTo: mapView.safeAreaOrFallbackTopAnchor, constant: buttonMargin),
-            mapControlView.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -buttonMargin),
+            mapControlView.trailingAnchor.constraint(equalTo: mapView.safeAreaOrFallbackTrailingAnchor, constant: -buttonMargin),
 
             // Make map view fill the view on leading and trailing, even outside safe area so it looks good on iPhone X
             mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),

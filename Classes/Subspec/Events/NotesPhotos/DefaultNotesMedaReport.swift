@@ -1,5 +1,5 @@
 //
-//  DefaultNotesAndAssetsReport.swift
+//  DefaultNotesMediaReport.swift
 //  MPOLKit
 //
 //  Created by QHMW64 on 23/3/18.
@@ -12,7 +12,7 @@ fileprivate extension EvaluatorKey {
     static let viewed = EvaluatorKey("viewed")
 }
 
-public class DefaultNotesAssetsReport: Reportable, MediaContainer {
+public class DefaultNotesMediaReport: Reportable, MediaContainer {
 
     var viewed: Bool = false {
         didSet {

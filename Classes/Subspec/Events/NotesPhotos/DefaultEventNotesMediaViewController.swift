@@ -1,5 +1,5 @@
 //
-//  DefaultEventNotesAssetsViewController.swift
+//  DefaultEventNotesMediaViewController.swift
 //  MPOLKit
 //
 //  Created by Kara Valentine on 9/2/18.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-open class DefaultEventNotesAssetsViewController: FormBuilderViewController, EvaluationObserverable {
+open class DefaultEventNotesMediaViewController: FormBuilderViewController, EvaluationObserverable {
     
-    var viewModel: DefaultEventNotesAssetsViewModel
+    var viewModel: DefaultEventNotesMediaViewModel
     
-    public init(viewModel: DefaultEventNotesAssetsViewModel) {
+    public init(viewModel: DefaultEventNotesMediaViewModel) {
         self.viewModel = viewModel
         super.init()
         viewModel.report?.evaluator.addObserver(self)

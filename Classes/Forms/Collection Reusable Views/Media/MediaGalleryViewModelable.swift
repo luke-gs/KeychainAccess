@@ -191,9 +191,9 @@ open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryV
             return NSLocalizedString("GalleryStateErrorTitle", value: "Error", comment: "Error state of gallery view model")
         case .noContents:
             if previews.count == 0 && storeCoordinator.items.count > 0 {
-                return NSLocalizedString("GalleryStateNoContentsFilteredTitle", value: "No Assets", comment: "No Contents state of gallery view model")
+                return NSLocalizedString("GalleryStateNoContentsFilteredTitle", value: "No Media", comment: "No Contents state of gallery view model")
             } else {
-                return NSLocalizedString("GalleryStateNoContentsTitle", value: "No Assets", comment: "No Contents state of gallery view model")
+                return NSLocalizedString("GalleryStateNoContentsTitle", value: "No Media", comment: "No Contents state of gallery view model")
             }
         }
     }
@@ -216,7 +216,7 @@ open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryV
             if previews.count == 0 && storeCoordinator.items.count > 0 {
                 return NSLocalizedString("GalleryStateNoContentsFilteredDescription", value: "Please update your filters.", comment: "No Contents state of gallery view model")
             } else {
-                return NSLocalizedString("GalleryStateNoContentsDescription", value: "No Assets Found.", comment: "No Contents state of gallery view model")
+                return NSLocalizedString("GalleryStateNoContentsDescription", value: "No Media Found.", comment: "No Contents state of gallery view model")
             }
         }
     }

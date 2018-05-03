@@ -30,7 +30,9 @@ public class RemoteResourceDownloader<T: Codable> {
         // Use default `MemoryConfig`, it'll automatically clear anyway.
 
         self.apiManager = apiManager
-        resourceCache = try! Storage(diskConfig: diskCacheConfig, memoryConfig: MemoryConfig())
+        // Match memory config expiry with DiskConfig, it's stored in NSCache anyway, it'll be cleared
+        // when there's a need to do so.
+        resourceCache = try! Storage(diskConfig: diskCacheConfig, memoryConfig: MemoryConfig(expiry: diskCacheConfig.expiry))
 
         barrierQueue = DispatchQueue(label: "au.com.gridstone.RemoteResourceDownloader.Barrier.\(diskCacheConfig.name)", attributes: .concurrent)
     }
@@ -78,6 +80,9 @@ public class RemoteResourceDownloader<T: Codable> {
                 return Promise.value(resource)
             }
         }
+
+        // Remove expired objects
+        resourceCache.async.removeExpiredObjects { _ in }
 
         let isCached = try? resourceCache.existsObject(ofType: T.self, forKey: resourceDescription.cacheKey)
 

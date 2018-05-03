@@ -290,11 +290,11 @@ open class APIManager {
                 case .failure(let error):
                     seal.reject(self.mappedError(underlyingError: error, response: processedResponse.toDefaultDataResponse()))
                 }
-            }.catch(policy: CatchPolicy.allErrors) { (error) in
+            }.catch(policy: CatchPolicy.allErrors) { [unowned self] (error) in
                 // It's used to be the `processedResponse(_:)` used to be APIManager's internal state.
                 // and it'll never throw error due to being wrapped inside `Alamofire.Result(T)`.
                 // However, it's now exposed externally and it's possible that something external is rejecting the promise.
-                seal.reject(error)
+                seal.reject(self.errorMapper?.mappedError(from: error) ?? error)
             }
         }
     }

@@ -93,37 +93,6 @@ open class EventListDisplayable: NSSecureCoding {
     }
 }
 
-/// The view model definition for the event list for the OOTB product
-public protocol EventListViewModelType {
-
-    /// The title for the event list view controller
-    var title: String { get }
-
-    /// The events displayed in the list
-    var eventsList: [EventListDisplayable]? { get }
-
-    /// The events manager
-    var eventsManager: EventsManager { get }
-
-    /// Initialise the viewmodel with an events manager
-    ///
-    /// - Parameter eventsManager: the events manager
-    init(eventsManager: EventsManager)
-
-    /// Gets an event for a particular displayable
-    ///
-    /// - Parameter displayable: the event displayable to fetch the event for
-    /// - Returns: the inflated event object
-    func event(for displayable: EventListDisplayable) -> Event?
-
-    /// Provide the detailViewModel for an event
-    ///
-    /// - Parameters:
-    ///   - event: the event to create the view model for
-    /// - Returns: the detail view model
-    func detailsViewModel(for event: Event) -> EventDetailViewModelType
-
-}
 
 /// The view model definition for the event details for the OOTB product
 public protocol EventDetailViewModelType: Evaluatable {
@@ -166,11 +135,12 @@ public enum EventStatus: String {
 
 /// A protocol defining whether the object should be a
 /// event header update delegate
-public protocol EventHeaderUpdateable {
-    var delegate: EventHeaderUpdateDelegate? { get set }
+public protocol SideBarHeaderUpdateable {
+    var delegate: SideBarHeaderUpdateDelegate? { get set }
 }
 
 /// The delegate responsible for updating the sidebar header for events
-public protocol EventHeaderUpdateDelegate: class {
-    func updateHeader(with title: String?, subtitle: String?)
+public protocol SideBarHeaderUpdateDelegate: class {
+    func updateHeader(with title: String?, subtitle: String?, image: UIImage?)
 }
+

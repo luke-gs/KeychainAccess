@@ -81,8 +81,8 @@ open class BookOnLandingViewController: FormBuilderViewController {
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            buttonsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            buttonsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            buttonsView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
+            buttonsView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
             buttonsView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
         ].removeNils())
     }

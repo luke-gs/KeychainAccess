@@ -136,7 +136,7 @@ public class CollectionViewFormHeaderView: UICollectionReusableView, DefaultReus
                 NSLayoutConstraint.activate([
                     separatorView.trailingAnchor.constraint(equalTo: actionButton.leadingAnchor),
                     actionButton.centerYAnchor.constraint(equalTo: separatorView.centerYAnchor),
-                    actionButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+                    actionButton.trailingAnchor.constraint(equalTo: safeAreaOrFallbackTrailingAnchor),
                 ])
             }
         }

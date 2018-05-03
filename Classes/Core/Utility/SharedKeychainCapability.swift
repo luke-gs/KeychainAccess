@@ -8,6 +8,8 @@
 import Foundation
 import KeychainAccess
 
+/// Class for shared keychain access
+/// Note: This class is used in a notification extension, do not add use of other kit classes here without testing
 public struct SharedKeychainCapability {
 
     public static let sharedKeychainAccessGroupKey = "PSSharedKeychainAccessGroup"
