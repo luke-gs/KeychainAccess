@@ -283,21 +283,20 @@ open class APIManager {
 
             // Declare a constant for self here, then use the constant inside of
             // closure to be captured. Keep self alive long enough so all requests are completed.
-            let toBeCapturedSelf = self
-            dataRequest(urlRequest, cancelToken: cancelToken).done { (processedResponse) in
+            dataRequest(urlRequest, cancelToken: cancelToken).done { [self] (processedResponse) in
                 let result = serializer.serializedResponse(from: processedResponse)
 
                 switch result {
                 case .success(let result):
                     seal.fulfill(result)
                 case .failure(let error):
-                    seal.reject(toBeCapturedSelf.mappedError(underlyingError: error, response: processedResponse.toDefaultDataResponse()))
+                    seal.reject(self.mappedError(underlyingError: error, response: processedResponse.toDefaultDataResponse()))
                 }
-            }.catch(policy: CatchPolicy.allErrors) { (error) in
+            }.catch(policy: CatchPolicy.allErrors) { [self] (error) in
                 // It's used to be the `processedResponse(_:)` used to be APIManager's internal state.
                 // and it'll never throw error due to being wrapped inside `Alamofire.Result(T)`.
                 // However, it's now exposed externally and it's possible that something external is rejecting the promise.
-                seal.reject(toBeCapturedSelf.errorMapper?.mappedError(from: error) ?? error)
+                seal.reject(self.errorMapper?.mappedError(from: error) ?? error)
             }
         }
     }
