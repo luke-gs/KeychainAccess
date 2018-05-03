@@ -19,11 +19,14 @@ public class CustomisableSearchHeaderView: UIView, UISearchBarDelegate {
 
     public var searchHandler: ((String) -> Void)?
 
-    public init(displayView: (UIView & SearchHeaderUpdateable)) {
+    public init(displayView: (UIView & SearchHeaderUpdateable)? = nil) {
         self.displayView = displayView
         super.init(frame: .zero)
 
-        addSubview(displayView)
+        if let displayView = displayView {
+            addSubview(displayView)
+        }
+        
         commonInit()
     }
 
@@ -61,7 +64,7 @@ public class CustomisableSearchHeaderView: UIView, UISearchBarDelegate {
                 searchBar.topAnchor.constraint(equalTo: displayView.bottomAnchor, constant: 16)
                 ])
         } else {
-            searchBar.topAnchor.constraint(equalTo: topAnchor, constant: 12.0)
+            constraints.append(searchBar.topAnchor.constraint(equalTo: topAnchor, constant: 24.0))
         }
 
         NSLayoutConstraint.activate(constraints)

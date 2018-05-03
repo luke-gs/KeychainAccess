@@ -12,6 +12,10 @@ final public class RelationshipManager {
         relationships.append(relationship)
     }
 
+    public func remove(_ relationship: Relationship) {
+        relationships = relationships.filter({$0 != relationship})
+    }
+
     public func addReason(_ reason: String, to relationship: Relationship) {
         relationships.first(where: {$0 == relationship})?.reasons.append(reason)
     }

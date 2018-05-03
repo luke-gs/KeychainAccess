@@ -139,6 +139,7 @@ extension Theme {
         public static let placeholderText     = ColorKey(rawValue: "placeholderText")
         public static let headerTitleText     = ColorKey(rawValue: "headerTitleText")
         public static let headerSubtitleText  = ColorKey(rawValue: "headerSubtitleText")
+        public static let redText             = ColorKey(rawValue: "redText")
 
         // System
         public static let background            = ColorKey(rawValue: "background")
