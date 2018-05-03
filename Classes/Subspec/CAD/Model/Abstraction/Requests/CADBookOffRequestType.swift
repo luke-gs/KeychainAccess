@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import PromiseKit
 
 /// Protocol for book off request
 public protocol CADBookOffRequestType: CodableRequestParameters {

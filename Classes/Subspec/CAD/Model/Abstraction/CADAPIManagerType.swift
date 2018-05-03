@@ -31,8 +31,8 @@ public protocol CADAPIManagerType {
     /// Sync all summary details for a patrol group or bounding box
     func cadSyncSummaries<ResponseType: CADSyncResponseType>(with request: CADSyncRequestType, pathTemplate: String?) -> Promise<ResponseType>
 
-    /// Fetch details about an officer by username
-    func cadOfficerByUsername(username: String) -> Promise<CADOfficerDetailsResponse>
+    /// Fetch details about an employee
+    func cadEmployeeDetails<ResponseType: CADEmployeeDetailsResponseType>(with request: CADEmployeeDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType>
 }
 
 // Convenience extension for default paths (since you cant have default params in protocol)
@@ -48,5 +48,9 @@ public extension CADAPIManagerType {
 
     func cadSyncSummaries<ResponseType: CADSyncResponseType>(with request: CADSyncRequestType) -> Promise<ResponseType> {
         return cadSyncSummaries(with: request, pathTemplate: nil)
+    }
+
+    func cadEmployeeDetails<ResponseType: CADEmployeeDetailsResponseType>(with request: CADEmployeeDetailsRequestType) -> Promise<ResponseType> {
+        return cadEmployeeDetails(with: request, pathTemplate: nil)
     }
 }

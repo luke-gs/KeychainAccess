@@ -19,7 +19,7 @@ public protocol CADStateManagerType {
     // MARK: - Synced State
 
     /// The logged in officer details
-    var officerDetails: CADOfficerType? { get }
+    var officerDetails: CADEmployeeDetailsResponseType? { get }
 
     /// The current patrol group
     var patrolGroup: String? { get set }
@@ -72,7 +72,7 @@ public protocol CADStateManagerType {
     // MARK: - Officer
 
     /// Fetch the logged in officer's details
-    func fetchCurrentOfficerDetails() -> Promise<CADOfficerType>
+    func fetchCurrentOfficerDetails() -> Promise<CADEmployeeDetailsResponseType>
 
     /// Clears current incident and sets status to on air
     func finaliseIncident()

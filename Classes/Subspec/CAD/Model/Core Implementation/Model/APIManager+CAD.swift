@@ -21,22 +21,7 @@ extension APIManager: CADAPIManagerType {
         return performRequest(request, pathTemplate: pathTemplate ?? "cad/shift/bookoff", method: .put)
     }
 
-
-    /// Fetch details about an officer by username
-    open func cadOfficerByUsername(username: String) -> Promise<CADOfficerDetailsResponse> {
-
-        let path = "/cad/officer/username/{username}"
-        let parameters = ["username": username]
-
-        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters)
-        return firstly {
-            return try! performRequest(networkRequest)
-            }.map { (data, response) in
-                return try JSONDecoder.decode(data, to: CADOfficerDetailsResponse.self)
-        }
-    }
-
-    /// Fetch all sync details
+    /// Sync all summary details for a patrol group or bounding box
     open func cadSyncSummaries<ResponseType: CADSyncResponseType>(with request: CADSyncRequestType, pathTemplate: String?) -> Promise<ResponseType> {
 
         // Use explicit path or construct based on type of sync
@@ -49,6 +34,11 @@ extension APIManager: CADAPIManagerType {
             }
         }
         return performRequest(request, pathTemplate: pathTemplate!, method: .get)
+    }
+
+    /// Fetch details about an employee
+    public func cadEmployeeDetails<ResponseType: CADEmployeeDetailsResponseType>(with request: CADEmployeeDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType> {
+        return performRequest(request, pathTemplate: pathTemplate ?? "/cad/officer/username/{employeeNumber}")
     }
 }
 

@@ -37,7 +37,7 @@ open class CADStateManagerCore: CADStateManagerType {
     // MARK: - Synced State
 
     /// The logged in officer details
-    open var officerDetails: CADOfficerType?
+    open var officerDetails: CADEmployeeDetailsResponseType?
     
     /// The patrol group
     // TODO: Find out when to set/clear this value and where it's coming from
@@ -120,9 +120,15 @@ open class CADStateManagerCore: CADStateManagerType {
 
     // MARK: - Officer
 
-    open func fetchCurrentOfficerDetails() -> Promise<CADOfficerType> {
+    func test<T>() -> T? {
+        return nil
+    }
+
+    open func fetchCurrentOfficerDetails() -> Promise<CADEmployeeDetailsResponseType> {
         if let username = UserSession.current.user?.username {
-            return CADStateManagerCore.apiManager.cadOfficerByUsername(username: username).map { [unowned self] details -> CADOfficerDetailsResponse in
+            let request = CADEmployeeDetailsRequestCore(employeeNumber: username)
+            let promise: Promise<CADEmployeeDetailsResponseCore> = CADStateManagerCore.apiManager.cadEmployeeDetails(with: request, pathTemplate: nil)
+            return promise.map { [unowned self] details in
                 self.officerDetails = details
                 return details
             }
