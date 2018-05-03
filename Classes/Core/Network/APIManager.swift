@@ -280,9 +280,7 @@ open class APIManager {
     private func requestPromise<T: ResponseSerializing>(_ urlRequest: Promise<URLRequest>, using serializer: T, cancelToken: PromiseCancellationToken? = nil) -> Promise<T.ResultType> {
 
         return Promise { seal in
-
-            // Declare a constant for self here, then use the constant inside of
-            // closure to be captured. Keep self alive long enough so all requests are completed.
+            
             dataRequest(urlRequest, cancelToken: cancelToken).done { [self] (processedResponse) in
                 let result = serializer.serializedResponse(from: processedResponse)
 
