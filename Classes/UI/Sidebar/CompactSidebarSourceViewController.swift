@@ -74,14 +74,14 @@ open class CompactSidebarSourceViewController: UITableViewController {
         super.viewWillAppear(animated)
 
         // Use dark background, regardless of theme
-        view.backgroundColor = theme.color(forKey: .background)
+        view.backgroundColor = .black
         navigationController?.navigationBar.barStyle = .black
     }
 
     open override var preferredContentSize: CGSize {
         get {
             let navHeight = navigationController?.navigationBar.frame.height ?? 0
-            return CGSize(width: view.frame.width - 40, height: max(tableView.contentSize.height + navHeight, 200))
+            return CGSize(width: view.frame.width - 80, height: max(tableView.contentSize.height + navHeight, 200))
         }
         set {
             super.preferredContentSize = newValue
@@ -111,8 +111,16 @@ extension CompactSidebarSourceViewController {
         // Set colors according to theme
         cell.sourceTitle.textColor = theme.color(forKey: .primaryText)
         cell.backgroundColor = UIColor.clear
-        cell.selectionStyle = .gray
+        cell.selectionStyle = .none
         return cell
+    }
+
+    open override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.backgroundColor = .secondaryGray
+    }
+
+    open override func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.backgroundColor = .clear
     }
 }
 

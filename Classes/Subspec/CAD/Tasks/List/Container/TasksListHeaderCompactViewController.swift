@@ -103,7 +103,7 @@ open class TasksListHeaderCompactViewController: UIViewController {
 
     public func createSubviews() {
         let theme = ThemeManager.shared.theme(for: .dark)
-        view.backgroundColor = theme.color(forKey: .background)!
+        view.backgroundColor = .black
         view.translatesAutoresizingMaskIntoConstraints = false
 
         titleLabel.text = viewModel.titleText()
@@ -142,7 +142,7 @@ open class TasksListHeaderCompactViewController: UIViewController {
     public func createConstraints() {
         NSLayoutConstraint.activate([
             view.heightAnchor.constraint(equalToConstant: Constants.headerHeight),
-            sourceButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.buttonPadding),
+            sourceButton.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor, constant: Constants.buttonPadding),
             sourceButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             sourceButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 40),
 
@@ -157,7 +157,7 @@ open class TasksListHeaderCompactViewController: UIViewController {
             titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: buttonStackView.leadingAnchor, constant: -Constants.titleMargin),
             titleLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor).withPriority(.almostRequired),
 
-            buttonStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.buttonPadding),
+            buttonStackView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor, constant: -Constants.buttonPadding),
             buttonStackView.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
         ])
     }
