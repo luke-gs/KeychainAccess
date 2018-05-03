@@ -7,6 +7,7 @@
 
 import UIKit
 import MPOLKit
+import ClientKit
 
 extension EvaluatorKey {
     static let trafficInfringmentHasEntity = EvaluatorKey("hasEntity")
@@ -34,7 +35,7 @@ class TrafficInfringementEntitiesReport: Reportable {
             guard let event = self.event else { return false }
             // TODO: create entity manager to determine link between entities and incident
             // TODO: use event.entityManger to return incident specific entities and the check
-            return event.entityBucket.entities.count >= 1
+            return !event.entityBucket.entities.filter { $0 is Person }.isEmpty
         }
     }
 

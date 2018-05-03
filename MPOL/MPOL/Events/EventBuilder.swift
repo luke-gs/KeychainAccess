@@ -19,7 +19,7 @@ public class EventBuilder: EventBuilding {
         event.add(report: OfficerListReport(event: event))
         event.add(report: IncidentListReport(event: event))
         event.add(report: EventEntitiesListReport(event: event))
-        event.add(report: DefaultNotesAssetsReport(event: event))
+        event.add(report: DefaultNotesMediaReport(event: event))
 
         let displayable = EventListDisplayable(title: "No incident selected",
                                                subtitle: "",
