@@ -120,10 +120,6 @@ open class CADStateManagerCore: CADStateManagerType {
 
     // MARK: - Officer
 
-    func test<T>() -> T? {
-        return nil
-    }
-
     open func fetchCurrentOfficerDetails() -> Promise<CADEmployeeDetailsResponseType> {
         if let username = UserSession.current.user?.username {
             let request = CADEmployeeDetailsRequestCore(employeeNumber: username)
