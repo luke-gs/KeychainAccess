@@ -56,6 +56,10 @@ open class TaskDetailsOverviewViewController: UIViewController {
         // Minimise card if compact vertical
         if isCompact(.vertical) {
             cardView.currentState = .minimised
+            DispatchQueue.main.async {
+                // Workaround for Roddy manual layout bug
+                self.formViewController.reloadForm()
+            }
         }
 
         // Size the details card and update map controls
