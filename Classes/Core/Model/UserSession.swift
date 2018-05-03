@@ -8,6 +8,14 @@
 import UIKit
 import KeychainAccess
 
+public extension NSNotification.Name {
+    /// Notification posted when user session starts
+    static let userSessionStarted = NSNotification.Name(rawValue: "UserSessionStarted")
+    
+    /// Notification posted when user session starts
+    static let userSessionEnded = NSNotification.Name(rawValue: "UserSessionEnded")
+}
+
 public class UserSession: UserSessionable {
 
     public static let latestSessionKey      = "LatestSessionKey"
@@ -71,6 +79,8 @@ public class UserSession: UserSessionable {
         UserSession.current.saveTokenToKeychain()
         UserSession.current.loadUserFromCache()
         UserSession.current.saveUserToCache()
+        
+        NotificationCenter.default.post(name: .userSessionStarted, object: nil)
     }
     
     public func updateToken(_ token: OAuthAccessToken?) {
@@ -94,6 +104,7 @@ public class UserSession: UserSessionable {
         directoryManager.write(nil, toKeyChain: "token")
 
         try! directoryManager.remove(at: paths.session)
+        NotificationCenter.default.post(name: .userSessionEnded, object: nil)
     }
 
     public func isTokenValid() -> Bool {
@@ -153,6 +164,8 @@ public class UserSession: UserSessionable {
         } else {
             completion(OAuthAccessToken(accessToken: "", type: ""))
         }
+        
+        NotificationCenter.default.post(name: .userSessionStarted, object: nil)
     }
 
     //MARK: PRIVATE
