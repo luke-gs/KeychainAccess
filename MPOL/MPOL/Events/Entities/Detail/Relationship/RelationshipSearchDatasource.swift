@@ -1,15 +1,13 @@
 //
-//  OfficerSearchDatasource.swift
+//  RelationshipSearchDatasource.swift
 //  MPOL
 //
-//  Created by QHMW64 on 12/2/18.
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-import Foundation
 import MPOLKit
 
-public class InvolvementSearchDatasource: CustomSearchPickerDatasource {
+public class RelationshipSearchDatasource: CustomSearchPickerDatasource {
 
     public var objects: [Pickable] = []
     public var selectedObjects: [Pickable] = []
@@ -23,12 +21,12 @@ public class InvolvementSearchDatasource: CustomSearchPickerDatasource {
 
     public init(objects: [Pickable],
                 selectedObjects: [Pickable] = [],
-                title: String? = "Involvements",
+                title: String? = "Relationships",
                 allowsMultipleSelection: Bool = true,
                 configuration: SearchHeaderConfiguration? = nil) {
-        
+
         self.objects = objects.sorted(using: [SortDescriptor<Pickable>(ascending: true, key: {$0.title }),
-                                               SortDescriptor<Pickable>(ascending: true, key: {$0.subtitle })])
+                                              SortDescriptor<Pickable>(ascending: true, key: {$0.subtitle })])
         self.selectedObjects = selectedObjects
         self.title = title
         self.allowsMultipleSelection = allowsMultipleSelection
@@ -39,9 +37,11 @@ public class InvolvementSearchDatasource: CustomSearchPickerDatasource {
         return true
     }
 
-    public func updateHeader(for objects: [Pickable]) {
-        let config = headerConfiguration
-        let subtitle = objects.map { $0.title }.joined(separator: ", ")
-        header?.displayView?.update(with: config?.title, subtitle: subtitle.ifNotEmpty() ?? "No selected involvements", image: config?.image)
+    public func isValidSelection(for objects: [Pickable]) -> Bool {
+        return true
     }
+
+    public func updateHeader(for objects: [Pickable]) {
+    }
+
 }

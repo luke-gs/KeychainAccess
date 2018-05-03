@@ -132,9 +132,9 @@ open class TrafficInfringementEntitiesViewController: FormBuilderViewController,
             viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
         }
 
-        viewController.finishUpdateHandler = { controller, index in
+        viewController.finishUpdateHandler = { controller, indexes in
             let involvements = controller.objects.enumerated()
-                .filter({ index.contains($0.offset) })
+                .filter({ indexes.contains($0.offset) })
                 .compactMap({ $0.element as? Involvement })
             
                 if editingEntity {

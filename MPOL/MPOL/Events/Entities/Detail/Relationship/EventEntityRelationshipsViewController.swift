@@ -22,7 +22,7 @@ class EventEntityRelationshipsViewController: FormBuilderViewController, Evaluat
         
         sidebarItem.regularTitle = self.title
         sidebarItem.compactTitle = self.title
-        sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconRelationships)!
+        sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.association)!
         sidebarItem.color = viewModel.tintColour()
         
         loadingManager.noContentView.titleLabel.text = "No Entities"
@@ -46,13 +46,96 @@ class EventEntityRelationshipsViewController: FormBuilderViewController, Evaluat
                     .summaryListFormItem()
                     .badgeColor(nil)
                     .badge(0)
-                    .detail(viewModel.relationshipStatus())
-                    .detailColor(viewModel.relationshipColour())
+                    .detail(viewModel.relationshipStatus(forEntity: entity))
+                    .detailFont(UIFont.systemFont(ofSize: 11, weight: .semibold))
+                    .detailColorKey(.primaryText)
+                    .onSelection({ (cell) in
+                        guard let indexPath = self.collectionView?.indexPath(for: cell) else { return }
+                        self.collectionView?.deselectItem(at: indexPath, animated: true)
+                        self.presentEntityToEntityRelationshipPickerVC(entity: entity)
+                    })
             }
         }
+    }
+
+    func presentEntityToEntityRelationshipPickerVC(entity: MPOLKitEntity) {
+
+        let objects: [Pickable] = RelationshipReason.reasonsFor(viewModel.report.entity!, entity)
+
+        let datasource = RelationshipSearchDatasource(objects: objects,
+                                                     selectedObjects: [],
+                                                     title: "Relationships")
+
+        datasource.header = CustomisableSearchHeaderView()
+        let viewController = CustomPickerController(datasource: datasource)
+
+        viewController.navigationItem.rightBarButtonItem?.isEnabled = true
+
+        viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
+
+        viewController.finishUpdateHandler = { controller, indexes in
+            let reasons = controller.objects.enumerated()
+                .filter({ indexes.contains($0.offset) })
+                .compactMap({ $0.element.title})
+            
+
+            self.viewModel.applyRelationship(relatedEntity: entity, reasons: reasons)
+            self.reloadForm()
+            self.dismissAnimated()
+        }
+
+        let navController = PopoverNavigationController(rootViewController: viewController)
+        navController.modalPresentationStyle = .formSheet
+        present(navController, animated: true, completion: nil)
+    }
+
+    @objc private func cancelTapped() {
+        dismissAnimated()
     }
     
     func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
         sidebarItem.color = viewModel.tintColour()
+    }
+}
+
+public enum RelationshipReason: String, Pickable {
+
+    public var title: String? {
+        return self.rawValue
+    }
+    public var subtitle: String? {
+        return nil
+    }
+
+    case parent = "Parent"
+    case sibling = "Sibling"
+    case cousin = "Cousin"
+    case friend = "Friend"
+    case coWorker = "Co-worker"
+    case drivenBy = "Driven By"
+    case collidedWith = "Collided With"
+    case ownedBy = "Owned By"
+    case driver = "Driver"
+    case registeredOwner = "Registered Owner"
+    case seenIn = "Seen In"
+    case seenNearTo = "Seen Near To"
+    case passenger = "Passenger"
+    case drovePast = "Drove Past"
+    case other = "Other"
+
+    static func reasonsFor(_ firstEntity: MPOLKitEntity, _ secondEntity: MPOLKitEntity) -> [RelationshipReason] {
+
+        switch (firstEntity, secondEntity) {
+        case is (Person, Person):
+            return [.parent, .sibling, .cousin, .friend, .coWorker, .other]
+        case is (Vehicle, Person):
+            return [.drivenBy, .collidedWith, .ownedBy, .other]
+        case is (Person, Vehicle):
+            return [.driver, .registeredOwner, .seenIn, .seenNearTo, .passenger, .other]
+        case is (Vehicle, Vehicle):
+            return [.collidedWith, .drovePast, .other]
+        default:
+            return []
+        }
     }
 }

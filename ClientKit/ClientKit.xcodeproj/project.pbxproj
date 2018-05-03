@@ -658,7 +658,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/../mpol/Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests-frameworks.sh",
+				"${SRCROOT}/../MPOL/Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/Cluster/Cluster.framework",
@@ -683,7 +683,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../mpol/Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/../MPOL/Pods/Target Support Files/Pods-ClientKitTests/Pods-ClientKitTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DAA194C8434904A041D2E515 /* [CP] Check Pods Manifest.lock */ = {
