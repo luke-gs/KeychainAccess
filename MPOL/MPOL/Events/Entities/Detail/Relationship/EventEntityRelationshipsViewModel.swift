@@ -29,7 +29,7 @@ class EventEntityRelationshipsViewModel {
         }
     }
 
-    private func relationshipWith(relatedEntity: MPOLKitEntity) -> Relationship? {
+    public func relationshipWith(relatedEntity: MPOLKitEntity) -> Relationship? {
         return report.event?.relationshipManager.relationships.first(where: {$0.baseEntity == report.entity && $0.relatedEntity == relatedEntity})
     }
 
@@ -49,15 +49,19 @@ class EventEntityRelationshipsViewModel {
     }
 
     public func applyRelationship(relatedEntity: MPOLKitEntity, reasons: [String]) {
+
         if reasons.isEmpty {
             //handle if reaons is empty, either remove existing relationship if there is one or do nothing
             if hasRelationshipWith(relatedEntity: relatedEntity) {
                 removeRelationship(forEntity: relatedEntity)
             }
         } else {
+            addRelationship(relatedEntity: relatedEntity, reasons: reasons)
             //handle either updating the current relationship or adding a new one
             if hasRelationshipWith(relatedEntity: relatedEntity) {
-                //update relationship here, part of the edit branch
+                if let relationshipToUpdate = relationshipWith(relatedEntity: relatedEntity) {
+                    relationshipToUpdate.reasons = reasons
+                }
             } else {
                 addRelationship(relatedEntity: relatedEntity, reasons: reasons)
             }

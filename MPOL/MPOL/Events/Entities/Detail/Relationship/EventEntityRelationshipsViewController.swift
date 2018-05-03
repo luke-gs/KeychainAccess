@@ -62,8 +62,13 @@ class EventEntityRelationshipsViewController: FormBuilderViewController, Evaluat
 
         let objects: [Pickable] = RelationshipReason.reasonsFor(viewModel.report.entity!, entity)
 
+        var selectedObjects: [Pickable] = []
+        if let currentRelationship = viewModel.relationshipWith(relatedEntity: entity) {
+            selectedObjects = currentRelationship.reasons
+        }
+
         let datasource = RelationshipSearchDatasource(objects: objects,
-                                                     selectedObjects: [],
+                                                     selectedObjects: selectedObjects,
                                                      title: "Relationships")
 
         datasource.header = CustomisableSearchHeaderView()
