@@ -20,12 +20,12 @@ open class MediaPreviewableCell: UICollectionViewCell, DefaultReusable {
         didSet {
             guard media !== oldValue else { return }
 
-            guard let media = media, let thumbnailImage = media.thumbnailImage else {
+            guard let thumbnailImage = media?.thumbnailImage else {
                 imageView.image = nil
                 return
             }
 
-            thumbnailImage.loadImage(completion: { [weak self] (image) in
+            thumbnailImage.loadImage(completion: { [weak self, media] (image) in
                 guard let `self` = self else { return }
                 if self.media === media {
                     self.imageView.image = image.sizing().image
