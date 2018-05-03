@@ -58,7 +58,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let window = UIWindow()
         self.window = window
-        
+
+        // Observe theme changes and apply current theme
+        NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
         applyCurrentTheme()
 
         updateAppForUserSession()
@@ -130,7 +132,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         landingPresenter.updateInterfaceForUserSession(animated: false)
     }
 
-    private func applyCurrentTheme() {
+    @objc private func interfaceStyleDidChange() {
+        applyCurrentTheme()
+
+        if let window = self.window {
+            let views = window.subviews
+            for view in views {
+                view.removeFromSuperview()
+            }
+            for view in views {
+                window.addSubview(view)
+            }
+
+            if UIApplication.shared.applicationState != .background {
+                UIView.transition(with: window, duration: 0.2, options: .transitionCrossDissolve, animations: nil, completion: nil)
+            }
+        }
+    }
+
+    @objc private func applyCurrentTheme() {
         let theme = ThemeManager.shared.theme(for: .current)
         let shadowImage = theme.image(forKey: .navigationBarShadow)
         
