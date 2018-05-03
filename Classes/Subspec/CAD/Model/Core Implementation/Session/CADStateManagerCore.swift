@@ -25,7 +25,6 @@ open class CADStateManagerCore: CADStateManagerType {
         CADClientModelTypes.taskListSources = CADTaskListSourceCore.self
         CADClientModelTypes.officerDetails = CADOfficerCore.self
         CADClientModelTypes.equipmentDetails = CADEquipmentCore.self
-        CADClientModelTypes.trafficStopDetails = CADTrafficStopRequest.self
         CADClientModelTypes.resourceStatus = CADResourceStatusCore.self
         CADClientModelTypes.resourceUnit = CADResourceUnitCore.self
         CADClientModelTypes.incidentGrade = CADIncidentGradeCore.self
