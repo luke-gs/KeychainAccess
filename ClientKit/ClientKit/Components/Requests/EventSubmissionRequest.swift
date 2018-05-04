@@ -9,7 +9,7 @@ import Foundation
 import PromiseKit
 import MPOLKit
 
-public class EventSubmissionRequest: EntityFetchRequestable {
+public class EventSubmissionRequest: Requestable {
     public typealias ResultClass = EventSubmissionResponse
     public var parameters: [String: Any] = [:]
     public init() {}

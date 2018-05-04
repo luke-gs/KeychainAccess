@@ -9,7 +9,7 @@
 import Foundation
 import MPOLKit
 
-public struct VehicleFetchParameter: EntityFetchRequestable {
+public struct VehicleFetchParameter: Requestable {
     public typealias ResultClass = Vehicle
     
     public let id: String
