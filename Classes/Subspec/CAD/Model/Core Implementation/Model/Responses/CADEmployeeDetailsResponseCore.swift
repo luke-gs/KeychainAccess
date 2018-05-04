@@ -1,5 +1,5 @@
 //
-//  CADOfficerDetailsResponse.swift
+//  CADEmployeeDetailsResponseCore.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 29/11/17.
@@ -9,7 +9,7 @@
 import UIKit
 
 /// PSCore implementation for response details of officer lookup
-open class CADOfficerDetailsResponse: CADOfficerCore {
+open class CADEmployeeDetailsResponseCore: CADOfficerCore, CADEmployeeDetailsResponseType {
 
-    // Currently same as sync officer
+    // Same as officer returned in sync
 }

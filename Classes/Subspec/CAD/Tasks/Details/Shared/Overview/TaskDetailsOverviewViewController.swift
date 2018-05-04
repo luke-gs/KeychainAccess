@@ -53,6 +53,15 @@ open class TaskDetailsOverviewViewController: UIViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        // Minimise card if compact vertical
+        if isCompact(.vertical) {
+            cardView.currentState = .minimised
+            DispatchQueue.main.async {
+                // Workaround for Roddy manual layout bug
+                self.formViewController.reloadForm()
+            }
+        }
+
         // Size the details card and update map controls
         UIView.performWithoutAnimation {
             self.didFinishDragCardView()
@@ -162,7 +171,7 @@ open class TaskDetailsOverviewViewController: UIViewController {
 
                 // Position map controls relative to our view, not map view which might be off screen
                 mapViewController.mapControlView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: 16),
-                mapViewController.mapControlView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+                mapViewController.mapControlView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor, constant: -16),
 
                 // Position card view at bottom
                 cardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -234,6 +243,10 @@ extension TaskDetailsOverviewViewController: DraggableCardViewDelegate {
             // 50% of view
             return view.bounds.height * 0.5
         case .maximised:
+            if isCompact(.vertical) {
+                // Full screen
+                return view.bounds.height
+            }
             // Almost full screen
             return view.bounds.height - 2 * LayoutConstants.minimumCardHeight
         }

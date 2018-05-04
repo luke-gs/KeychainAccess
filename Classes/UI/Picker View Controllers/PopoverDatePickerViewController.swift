@@ -283,6 +283,7 @@ open class PopoverDatePickerViewController: FormTableViewController, UIPopoverPr
 
     @objc private func currentTimeButtonTouched() {
         datePicker.date = Date()
+        datePickerDateDidChange()
     }
     
     @objc private func doneButtonItemDidSelect(_ item: UIBarButtonItem) {

@@ -25,7 +25,6 @@ open class CADStateManagerCore: CADStateManagerType {
         CADClientModelTypes.taskListSources = CADTaskListSourceCore.self
         CADClientModelTypes.officerDetails = CADOfficerCore.self
         CADClientModelTypes.equipmentDetails = CADEquipmentCore.self
-        CADClientModelTypes.trafficStopDetails = CADTrafficStopRequest.self
         CADClientModelTypes.resourceStatus = CADResourceStatusCore.self
         CADClientModelTypes.resourceUnit = CADResourceUnitCore.self
         CADClientModelTypes.incidentGrade = CADIncidentGradeCore.self
@@ -38,7 +37,7 @@ open class CADStateManagerCore: CADStateManagerType {
     // MARK: - Synced State
 
     /// The logged in officer details
-    open var officerDetails: CADOfficerType?
+    open var officerDetails: CADEmployeeDetailsResponseType?
     
     /// The patrol group
     // TODO: Find out when to set/clear this value and where it's coming from
@@ -55,7 +54,7 @@ open class CADStateManagerCore: CADStateManagerType {
     }
 
     /// The last sync data
-    open private(set) var lastSync: CADSyncResponse?
+    open private(set) var lastSync: CADSyncResponseCore?
 
     /// The last sync time
     open private(set) var lastSyncTime: Date?
@@ -121,9 +120,11 @@ open class CADStateManagerCore: CADStateManagerType {
 
     // MARK: - Officer
 
-    open func fetchCurrentOfficerDetails() -> Promise<CADOfficerType> {
+    open func fetchCurrentOfficerDetails() -> Promise<CADEmployeeDetailsResponseType> {
         if let username = UserSession.current.user?.username {
-            return CADStateManagerCore.apiManager.cadOfficerByUsername(username: username).map { [unowned self] details -> CADOfficerDetailsResponse in
+            let request = CADEmployeeDetailsRequestCore(employeeNumber: username)
+            let promise: Promise<CADEmployeeDetailsResponseCore> = CADStateManagerCore.apiManager.cadEmployeeDetails(with: request, pathTemplate: nil)
+            return promise.map { [unowned self] details in
                 self.officerDetails = details
                 return details
             }
@@ -221,7 +222,7 @@ open class CADStateManagerCore: CADStateManagerType {
         // Clear incident if changing to non incident status
         if (currentResource?.status.isChangingToGeneralStatus(newStatus)).isTrue {
             // Clear the current incident
-            CADStateManager.shared.clearIncident()
+            clearIncident()
             newIncident = nil
         }
 
@@ -310,13 +311,12 @@ open class CADStateManagerCore: CADStateManagerType {
         // Perform sync and keep result
         return firstly {
             return after(seconds: 1.0)
-        }.then { _ -> Promise<CADSyncResponse> in
+        }.then { _ -> Promise<CADSyncResponseCore> in
             // TODO: Remove this. For demos, we only get fresh data the first time
             if let lastSync = self.lastSync {
-
-                return Promise<CADSyncResponse>.value(lastSync)
+                return Promise<CADSyncResponseCore>.value(lastSync)
             }
-            return CADStateManagerCore.apiManager.cadSyncDetails(request: CADSyncRequest())
+            return CADStateManagerCore.apiManager.cadSyncSummaries(with: CADSyncPatrolGroupRequestCore(patrolGroup: self.patrolGroup!))
         }.done { [unowned self] summaries -> Void in
             self.lastSync = summaries
             self.lastSyncTime = Date()

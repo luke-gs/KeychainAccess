@@ -119,6 +119,13 @@ public final class AlertQueue: NSObject {
         AlertQueue.shared.add(alertController)
     }
     
+    /// Add a simple alert with custom button using PSCAlertController
+    public func addSimpleAlert(title: String?, message: String?, action: PSCAlertAction) {
+        let alertController = PSCAlertController(title: title, message: message, image: nil)
+        alertController.addAction(action)
+        AlertQueue.shared.add(alertController)
+    }
+    
     /// Add a new error alert with OK button and standard Error title using UIAlertController
     public func addErrorSystemAlert(message: String?) {
         let title = NSLocalizedString("Error", comment: "Alert error title")

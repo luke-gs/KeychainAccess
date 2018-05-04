@@ -25,12 +25,3 @@ public protocol CADBookOnRequestType: CodableRequestParameters {
     var shiftStart : Date? { get }
 
 }
-
-// MARK: - API Manager method for sending request
-public extension APIManager {
-
-    /// Book on to CAD
-    public func cadBookOn(with request: CADBookOnRequestType) -> Promise<Void> {
-        return performRequest(request, pathTemplate: "cad/shift/bookon", method: .post)
-    }
-}

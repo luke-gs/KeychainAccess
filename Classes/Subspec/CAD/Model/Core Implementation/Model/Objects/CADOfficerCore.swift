@@ -44,7 +44,7 @@ open class CADOfficerCore: Codable, CADOfficerType {
         nameComponents.givenName = firstName
         nameComponents.middleName = middleName
         nameComponents.familyName = lastName
-        return CADOfficerDetailsResponse.nameFormatter.string(from: nameComponents)
+        return CADOfficerCore.nameFormatter.string(from: nameComponents)
     }
 
     open static var nameFormatter: PersonNameComponentsFormatter = {

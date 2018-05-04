@@ -89,8 +89,8 @@ open class ContainerWithHeaderViewController: UIViewController {
                 contentTopConstraint = contentView.topAnchor.constraint(equalTo: safeAreaOrLayoutGuideTopAnchor, constant: 0)
                 NSLayoutConstraint.activate([
                     contentTopConstraint!,
-                    contentView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
-                    contentView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
+                    contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                    contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                     contentView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
                 ])
             }

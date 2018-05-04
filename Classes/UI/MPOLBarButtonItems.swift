@@ -153,6 +153,7 @@ private class BackButton: UIControl {
         didSet {
             label.text = text
             setNeedsLayout()
+            frame.size = systemLayoutSizeFitting(UILayoutFittingCompressedSize)
         }
     }
     
