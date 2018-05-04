@@ -849,7 +849,7 @@
 				INFOPLIST_FILE = MPOL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.pscore;
+				PRODUCT_BUNDLE_IDENTIFIER = "${SEARCH_URL_TYPE_ID}";
 				PROVISIONING_PROFILE = "5b30c792-d8f0-4059-ba3b-8cadb83c72c1";
 				PROVISIONING_PROFILE_SPECIFIER = "In House - PSCore Search Debug";
 				SWIFT_OBJC_BRIDGING_HEADER = "Configuration/PSCore-Bridging-Header.h";
@@ -927,7 +927,7 @@
 				INFOPLIST_FILE = MPOL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.pscore;
+				PRODUCT_BUNDLE_IDENTIFIER = "${SEARCH_URL_TYPE_ID}";
 				PROVISIONING_PROFILE = "3b2cadb1-9d5a-4d36-916d-c4ce7ebdf568";
 				PROVISIONING_PROFILE_SPECIFIER = "In House - PSCore Search";
 				SWIFT_OBJC_BRIDGING_HEADER = "Configuration/PSCore-Bridging-Header.h";
@@ -1011,7 +1011,7 @@
 				INFOPLIST_FILE = MPOL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.pscore;
+				PRODUCT_BUNDLE_IDENTIFIER = "${SEARCH_URL_TYPE_ID}";
 				PROVISIONING_PROFILE = "5b30c792-d8f0-4059-ba3b-8cadb83c72c1";
 				PROVISIONING_PROFILE_SPECIFIER = "In House - PSCore Search Debug";
 				SWIFT_OBJC_BRIDGING_HEADER = "Configuration/PSCore-Bridging-Header.h";
@@ -1090,7 +1090,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.pscore;
+				PRODUCT_BUNDLE_IDENTIFIER = "${SEARCH_URL_TYPE_ID}";
 				PROVISIONING_PROFILE = "3b2cadb1-9d5a-4d36-916d-c4ce7ebdf568";
 				PROVISIONING_PROFILE_SPECIFIER = "In House - PSCore Search";
 				SWIFT_OBJC_BRIDGING_HEADER = "Configuration/PSCore-Bridging-Header.h";
@@ -1229,7 +1229,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) -Xfrontend -warn-long-function-bodies=200 -Xfrontend -warn-long-expression-type-checking=100";
-				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.pscore;
+				PRODUCT_BUNDLE_IDENTIFIER = "${SEARCH_URL_TYPE_ID}";
 				PROVISIONING_PROFILE = "5b30c792-d8f0-4059-ba3b-8cadb83c72c1";
 				PROVISIONING_PROFILE_SPECIFIER = "In House - PSCore Search Debug";
 				SWIFT_OBJC_BRIDGING_HEADER = "Configuration/PSCore-Bridging-Header.h";
@@ -1254,7 +1254,7 @@
 				INFOPLIST_FILE = MPOL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.pscore;
+				PRODUCT_BUNDLE_IDENTIFIER = "${SEARCH_URL_TYPE_ID}";
 				PROVISIONING_PROFILE = "3b2cadb1-9d5a-4d36-916d-c4ce7ebdf568";
 				PROVISIONING_PROFILE_SPECIFIER = "In House - PSCore Search";
 				SWIFT_OBJC_BRIDGING_HEADER = "Configuration/PSCore-Bridging-Header.h";
