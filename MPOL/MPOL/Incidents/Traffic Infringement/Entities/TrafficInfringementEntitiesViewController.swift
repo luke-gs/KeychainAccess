@@ -55,9 +55,8 @@ open class TrafficInfringementEntitiesViewController: FormBuilderViewController,
 
 
         builder += entities.map { entity in
-            let displayable = viewModel.displayable(for: entity).summaryListFormItem()
-            displayable.subtitle = viewModel.retrieveInvolvements(for: entity.id).compactMap({$0.rawValue}).joined(separator: ", ")
-            return displayable
+            return viewModel.displayable(for: entity).summaryListFormItem()
+                .subtitle(viewModel.retrieveInvolvements(for: entity.id).compactMap({$0.rawValue}).joined(separator: ", "))
                 .accessory(nil)
                 .badgeColor(nil)
                 .badge(0)
@@ -133,13 +132,13 @@ open class TrafficInfringementEntitiesViewController: FormBuilderViewController,
             viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
         }
 
-        viewController.finishUpdateHandler = { controller, index in
+        viewController.finishUpdateHandler = { controller, indexes in
             let involvements = controller.objects.enumerated()
-                .filter({ index.contains($0.offset) })
+                .filter({ indexes.contains($0.offset) })
                 .compactMap({ $0.element as? Involvement })
             
                 if editingEntity {
-                    self.viewModel.updateEntity( entity.id, with: involvements)
+                    self.viewModel.updateEntity(entity.id, with: involvements)
                 } else {
                     self.viewModel.addEntity(entity, with: involvements)
                 }
