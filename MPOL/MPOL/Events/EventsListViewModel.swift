@@ -45,15 +45,13 @@ public class EventsListViewModel {
         return EventsDetailViewModel(event: event, builder: screenBuilder)
     }
 
-    public func loadingBuilder() -> LoadingViewBuilder<Void> {
-        let builder = LoadingViewBuilder<Void>()
+    public func loadingBuilder() -> LoadingViewBuilder<EventSubmissionResponse> {
+        let builder = LoadingViewBuilder<EventSubmissionResponse>()
         builder.title = "Submitting event"
         builder.preferredContentSize = CGSize(width: 512, height: 240)
 
-        builder.request = { firstly { () -> Promise<Void> in
-            return after(seconds: 3).asVoid()
-            }
-        }
+        builder.request = { return APIManager.shared.submitEvent(in: MPOLSource.pscore,
+                                                                 with: EventSubmissionRequest()) }
         
         return builder
     }

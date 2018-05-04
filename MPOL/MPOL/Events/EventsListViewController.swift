@@ -86,7 +86,7 @@ open class EventsListViewController: FormBuilderViewController {
 
         viewModel.incidentType = incidentType
 
-        let viewController = EventSplitViewController<Void>(viewModel: viewModel.detailsViewModel(for: event))
+        let viewController = EventSplitViewController<EventSubmissionResponse>(viewModel: viewModel.detailsViewModel(for: event))
         viewController.loadingViewBuilder = viewModel.loadingBuilder()
         viewController.delegate = self
 
