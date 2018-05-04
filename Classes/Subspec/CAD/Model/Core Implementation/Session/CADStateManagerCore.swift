@@ -222,7 +222,7 @@ open class CADStateManagerCore: CADStateManagerType {
         // Clear incident if changing to non incident status
         if (currentResource?.status.isChangingToGeneralStatus(newStatus)).isTrue {
             // Clear the current incident
-            CADStateManager.shared.clearIncident()
+            clearIncident()
             newIncident = nil
         }
 

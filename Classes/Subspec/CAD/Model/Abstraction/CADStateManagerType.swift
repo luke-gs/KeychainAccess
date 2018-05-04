@@ -74,12 +74,6 @@ public protocol CADStateManagerType {
     /// Fetch the logged in officer's details
     func fetchCurrentOfficerDetails() -> Promise<CADEmployeeDetailsResponseType>
 
-    /// Clears current incident and sets status to on air
-    func finaliseIncident()
-
-    /// Un-assigns the current incident for the booked on resource
-    func clearIncident()
-
     // MARK: - Shift
 
     /// Book on to a shift
