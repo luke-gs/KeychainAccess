@@ -36,7 +36,7 @@ public enum BookOnScreen: Presentable {
     case statusChangeReason(completionHandler: ((String?) -> Void)?)
 
     /// Create traffic stop incident
-    case trafficStop(completionHandler: ((CADTrafficStopDetailsType?) -> Void)?)
+    case trafficStop(completionHandler: ((CodableRequestParameters?) -> Void)?)
 
     /// Add traffic stop entity
     case trafficStopEntity(entityViewModel: SelectStoppedEntityViewModel)

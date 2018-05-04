@@ -1,5 +1,5 @@
 //
-//  CADSyncResponse.swift
+//  CADSyncResponseCore.swift
 //  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 29/11/17.
@@ -9,12 +9,12 @@
 import UIKit
 
 /// PSCore implementation for response details of sync
-open class CADSyncResponse: Codable {
-    open var incidents : [CADIncidentType]!
-    open var officers : [CADOfficerType]!
-    open var resources : [CADResourceType]!
-    open var patrols : [CADPatrolType]!
-    open var broadcasts : [CADBroadcastType]!
+open class CADSyncResponseCore: CADSyncResponseType {
+    open var incidents : [CADIncidentType]
+    open var officers : [CADOfficerType]
+    open var resources : [CADResourceType]
+    open var patrols : [CADPatrolType]
+    open var broadcasts : [CADBroadcastType]
     
     // MARK: - Codable
     
@@ -35,8 +35,6 @@ open class CADSyncResponse: Codable {
         patrols = try values.decodeIfPresent([CADPatrolCore].self, forKey: .patrols) ?? []
         broadcasts = try values.decodeIfPresent([CADBroadcastCore].self, forKey: .broadcasts) ?? []
     }
-    
-    public required init() { }
     
     public func encode(to encoder: Encoder) throws {
         MPLUnimplemented()

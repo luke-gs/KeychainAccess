@@ -95,9 +95,9 @@ open class CallsignStatusViewModel: CADStatusViewModel {
     
     // Prompts the user for more details when tapping on "Traffic Stop" status
     @discardableResult
-    open func promptForTrafficStopDetails() -> Promise<CADTrafficStopDetailsType> {
-        let (promise, resolver) = Promise<CADTrafficStopDetailsType>.pending()
-        let completionHandler: ((CADTrafficStopDetailsType?) -> Void) = { request in
+    open func promptForTrafficStopDetails() -> Promise<CodableRequestParameters> {
+        let (promise, resolver) = Promise<CodableRequestParameters>.pending()
+        let completionHandler: ((CodableRequestParameters?) -> Void) = { request in
             if let request = request {
                 resolver.fulfill(request)
             } else {
