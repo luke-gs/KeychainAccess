@@ -20,6 +20,7 @@ open class EventsListViewController: FormBuilderViewController {
         super.init()
         title = "Events"
         tabBarItem.image = AssetManager.shared.image(forKey: .tabBarEvents)
+        tabBarItem.selectedImage = AssetManager.shared.image(forKey: .tabBarEventsSelected)
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
