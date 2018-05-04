@@ -99,7 +99,7 @@ open class APIManager {
     ///   - source: The data source of entity to be fetched.
     ///   - request: The request with the parameters to fetch the entity.
     /// - Returns: A promise to return specified entity details.
-    open func fetchEntityDetails<FetchRequest: EntityFetchRequestable>(in source: EntitySource, with request: FetchRequest, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<FetchRequest.ResultClass> {
+    open func fetchEntityDetails<FetchRequest: Requestable>(in source: EntitySource, with request: FetchRequest, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<FetchRequest.ResultClass> {
 
         let path = "{source}/entity/{entityType}/{id}"
 
@@ -112,7 +112,7 @@ open class APIManager {
         return try! self.performRequest(networkRequest, withCancellationToken: token)
     }
 
-    open func submitEvent<FetchRequest: EntityFetchRequestable>(in source: EntitySource, with request: FetchRequest, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<FetchRequest.ResultClass> {
+    open func submitEvent<FetchRequest: Requestable>(in source: EntitySource, with request: FetchRequest, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<FetchRequest.ResultClass> {
         
         let path = "{source}/entity/{entityType}"
 
@@ -132,7 +132,7 @@ open class APIManager {
     ///   - source: The data source of officer to be fetched.
     ///   - request: The request with the parameters to fetch the officer.
     /// - Returns: A promise to return specified officer details.
-    open func fetchCurrentOfficerDetails<FetchRequest: EntityFetchRequestable>(in source: EntitySource, with request: FetchRequest, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<FetchRequest.ResultClass> {
+    open func fetchCurrentOfficerDetails<FetchRequest: Requestable>(in source: EntitySource, with request: FetchRequest, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<FetchRequest.ResultClass> {
 
         let path = "{source}/entity/{entityType}/current"
 

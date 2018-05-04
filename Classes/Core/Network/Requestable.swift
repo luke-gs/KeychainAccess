@@ -1,5 +1,5 @@
 //
-//  EntityFetchRequestable.swift
+//  Requestable.swift
 //  MPOLKit
 //
 //  Created by Herli Halim on 2/8/17.
@@ -8,6 +8,6 @@
 
 import Unbox
 
-public protocol EntityFetchRequestable: Parameterisable {
+public protocol Requestable: Parameterisable {
     associatedtype ResultClass: MPOLKitEntityProtocol
 }

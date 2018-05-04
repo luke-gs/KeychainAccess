@@ -9,7 +9,7 @@
 import Foundation
 import PromiseKit
 
-public struct EntityFetchRequest<T: MPOLKitEntityProtocol>: EntityFetchRequestable {
+public struct EntityFetchRequest<T: MPOLKitEntityProtocol>: Requestable {
     
     public typealias ResultClass = T
     
