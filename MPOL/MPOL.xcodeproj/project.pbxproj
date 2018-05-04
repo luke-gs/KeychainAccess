@@ -36,7 +36,7 @@
 		12EF65EB2086D52200739924 /* IncidentSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D82086D52200739924 /* IncidentSelectViewController.swift */; };
 		12EF65EC2086D52200739924 /* IncidentListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D92086D52200739924 /* IncidentListViewModel.swift */; };
 		12EF65ED2086D52200739924 /* IncidentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65DA2086D52200739924 /* IncidentTypes.swift */; };
-		12EF66002087071800739924 /* OfficerInvolvementSearchDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FA2087071800739924 /* OfficerInvolvementSearchDatasource.swift */; };
+		12EF66002087071800739924 /* InvolvementSearchDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FA2087071800739924 /* InvolvementSearchDatasource.swift */; };
 		12EF66012087071800739924 /* OfficerParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FB2087071800739924 /* OfficerParserDefinition.swift */; };
 		12EF66022087071800739924 /* OfficerListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FC2087071800739924 /* OfficerListViewModel.swift */; };
 		12EF66032087071800739924 /* OfficerSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FD2087071800739924 /* OfficerSearchViewModel.swift */; };
@@ -54,6 +54,7 @@
 		1987C2AC20846766007F7273 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1987C2AB20846766007F7273 /* Localizable.strings */; };
 		19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3894207A5F3A00855651 /* SupportedShortcut.swift */; };
 		19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */; };
+		37251F4120999AA400D1A6B9 /* RelationshipSearchDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37251F4020999AA400D1A6B9 /* RelationshipSearchDatasource.swift */; };
 		3727C4BC2088191E00F7A887 /* TrafficInfringementOffencesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3727C4BB2088191E00F7A887 /* TrafficInfringementOffencesViewModel.swift */; };
 		3727C4C12088193000F7A887 /* OffenceListDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3727C4BD2088193000F7A887 /* OffenceListDisplayable.swift */; };
 		3727C4C22088193000F7A887 /* OffenceSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3727C4BE2088193000F7A887 /* OffenceSearchViewModel.swift */; };
@@ -132,7 +133,7 @@
 		12EF65D82086D52200739924 /* IncidentSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentSelectViewController.swift; sourceTree = "<group>"; };
 		12EF65D92086D52200739924 /* IncidentListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentListViewModel.swift; sourceTree = "<group>"; };
 		12EF65DA2086D52200739924 /* IncidentTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentTypes.swift; sourceTree = "<group>"; };
-		12EF65FA2087071800739924 /* OfficerInvolvementSearchDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerInvolvementSearchDatasource.swift; sourceTree = "<group>"; };
+		12EF65FA2087071800739924 /* InvolvementSearchDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvolvementSearchDatasource.swift; sourceTree = "<group>"; };
 		12EF65FB2087071800739924 /* OfficerParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerParserDefinition.swift; sourceTree = "<group>"; };
 		12EF65FC2087071800739924 /* OfficerListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerListViewModel.swift; sourceTree = "<group>"; };
 		12EF65FD2087071800739924 /* OfficerSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerSearchViewModel.swift; sourceTree = "<group>"; };
@@ -151,6 +152,7 @@
 		1987C2AB20846766007F7273 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = ../../Localizable.strings; sourceTree = "<group>"; };
 		19CB3894207A5F3A00855651 /* SupportedShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedShortcut.swift; sourceTree = "<group>"; };
 		19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Shortcuts.swift"; sourceTree = "<group>"; };
+		37251F4020999AA400D1A6B9 /* RelationshipSearchDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipSearchDatasource.swift; sourceTree = "<group>"; };
 		3727C4BB2088191E00F7A887 /* TrafficInfringementOffencesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementOffencesViewModel.swift; sourceTree = "<group>"; };
 		3727C4BD2088193000F7A887 /* OffenceListDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OffenceListDisplayable.swift; sourceTree = "<group>"; };
 		3727C4BE2088193000F7A887 /* OffenceSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OffenceSearchViewModel.swift; sourceTree = "<group>"; };
@@ -332,7 +334,7 @@
 		12EF65F92087071800739924 /* Officers */ = {
 			isa = PBXGroup;
 			children = (
-				12EF65FA2087071800739924 /* OfficerInvolvementSearchDatasource.swift */,
+				12EF65FA2087071800739924 /* InvolvementSearchDatasource.swift */,
 				12EF65FB2087071800739924 /* OfficerParserDefinition.swift */,
 				12EF65FC2087071800739924 /* OfficerListViewModel.swift */,
 				12EF65FD2087071800739924 /* OfficerSearchViewModel.swift */,
@@ -360,6 +362,7 @@
 				12EF662E208D7D2F00739924 /* EventEntityRelationshipsReport.swift */,
 				12EF6630208D7D2F00739924 /* EventEntityRelationshipsViewController.swift */,
 				12EF662F208D7D2F00739924 /* EventEntityRelationshipsViewModel.swift */,
+				37251F4020999AA400D1A6B9 /* RelationshipSearchDatasource.swift */,
 			);
 			path = Relationship;
 			sourceTree = "<group>";
@@ -717,6 +720,7 @@
 				12EF663A208D7D2F00739924 /* EventEntityDescriptionViewModel.swift in Sources */,
 				12EF65EC2086D52200739924 /* IncidentListViewModel.swift in Sources */,
 				12EF66042087071800739924 /* OfficerListReport.swift in Sources */,
+				37251F4120999AA400D1A6B9 /* RelationshipSearchDatasource.swift in Sources */,
 				12EF663F208D83DA00739924 /* EventEntityDescriptionReport.swift in Sources */,
 				EAAEB34A1F664705002D6C65 /* EntityPresenter.swift in Sources */,
 				127801F1202AAF09007D0BBB /* EventsListViewModel.swift in Sources */,
@@ -733,7 +737,7 @@
 				12EF65EB2086D52200739924 /* IncidentSelectViewController.swift in Sources */,
 				AAEC4C3320919F8000F5AC59 /* EntityPickerViewController.swift in Sources */,
 				12EF65E52086D52200739924 /* IncidentDetailViewModel.swift in Sources */,
-				12EF66002087071800739924 /* OfficerInvolvementSearchDatasource.swift in Sources */,
+				12EF66002087071800739924 /* InvolvementSearchDatasource.swift in Sources */,
 				3727C4C22088193000F7A887 /* OffenceSearchViewModel.swift in Sources */,
 				12EF65E82086D52200739924 /* StreetCheckIncidentBuilder.swift in Sources */,
 				12EB809B202AAC2100405F5C /* EventScreenBuilder.swift in Sources */,

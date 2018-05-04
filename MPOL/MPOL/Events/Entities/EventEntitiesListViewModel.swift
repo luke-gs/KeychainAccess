@@ -72,8 +72,9 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
         return report.entityDetailReports[item].evaluator.isComplete ? nil : "Unspecified Relationships"
     }
 
-    public func relationshipColourFor(_ item: Int) -> UIColor {
-        return .red
+    //This can always return red because if relationships are valid then the status is a nil string, meaning no text is displayed
+    public func invalidRelationshipsColor() -> Theme.ColorKey {
+        return .redText
     }
 
     //MARK: Eval
