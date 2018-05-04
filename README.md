@@ -8,3 +8,6 @@
 
 Shake the device to activate
 
+### Integrate your mPolKit PR in your mPol PR build check:
+
+Add `{kit-branch='MyBranch'}` anywhere in the description of your PR, replacing `MyBranch` with your branch name.
