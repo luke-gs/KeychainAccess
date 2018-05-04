@@ -8,6 +8,6 @@
 
 import Unbox
 
-public protocol EntitySearchRequestable: Parameterisable {
-    associatedtype ResultClass: MPOLKitEntityProtocol
+public protocol EntitySearchRequestable: Requestable {
+
 }

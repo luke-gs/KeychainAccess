@@ -12,7 +12,7 @@ public extension EvaluatorKey {
     static let eventReadyToSubmit = EvaluatorKey(rawValue: "eventReadyToSubmit")
 }
 
-public class EventSplitViewController<Response>: SidebarSplitViewController, EvaluationObserverable {
+public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitViewController, EvaluationObserverable {
     public let viewModel: EventDetailViewModelType
     public var delegate: EventsSubmissionDelegate?
     public var loadingViewBuilder: LoadingViewBuilder<Response>?
@@ -68,10 +68,13 @@ public class EventSplitViewController<Response>: SidebarSplitViewController, Eva
         }
     }
     
-    private func eventSubmittedFor(eventId: String, result: Any?, error: Error?) {
-        let alert = PSCAlertController(title: "Event Submitted", message: "Event ID: PSC-\(eventId)", image: nil)
+    private func eventSubmittedFor(eventId: String, result: Response?, error: Error?) {
+        let title = error != nil ? "Submission Failed" : result?.title
+        let detail = error?.localizedDescription ?? result?.detail
+
+        let alert = PSCAlertController(title: title, message: detail, image: nil)
         let action = PSCAlertAction(title: "OK", style: .cancel) { _ in
-            self.delegate?.eventSubmittedFor(eventId: eventId, response: nil, error: error)
+            self.delegate?.eventSubmittedFor(eventId: eventId, response: result, error: error)
             self.navigationController?.popViewController(animated: true)
         }
         alert.addAction(action)

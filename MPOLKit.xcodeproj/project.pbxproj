@@ -22,6 +22,7 @@
 		125EAE092092CFD800C09FED /* DefaultEventNotesMediaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE062092CFD700C09FED /* DefaultEventNotesMediaViewModel.swift */; };
 		125EAE0A2092CFD800C09FED /* DefaultNotesMedaReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE072092CFD700C09FED /* DefaultNotesMedaReport.swift */; };
 		125EAE112092FCE200C09FED /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE102092FCE200C09FED /* LoadingViewController.swift */; };
+		125EAE1B2099417200C09FED /* EventSubmittable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE1A2099417200C09FED /* EventSubmittable.swift */; };
 		12A8DB471F5FD63400A06005 /* DirectoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A8DB461F5FD63400A06005 /* DirectoryManager.swift */; };
 		12ABD562207F194C004D0C9F /* EventSearchableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD55E207F194C004D0C9F /* EventSearchableViewModel.swift */; };
 		12ABD563207F194C004D0C9F /* EventListDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD55F207F194C004D0C9F /* EventListDisplayable.swift */; };
@@ -886,7 +887,7 @@
 		125EAE062092CFD700C09FED /* DefaultEventNotesMediaViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesMediaViewModel.swift; sourceTree = "<group>"; };
 		125EAE072092CFD700C09FED /* DefaultNotesMedaReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultNotesMedaReport.swift; sourceTree = "<group>"; };
 		125EAE102092FCE200C09FED /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
-		125EAE122092FE8400C09FED /* EventSubmittable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSubmittable.swift; sourceTree = "<group>"; };
+		125EAE1A2099417200C09FED /* EventSubmittable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSubmittable.swift; sourceTree = "<group>"; };
 		12A8DB461F5FD63400A06005 /* DirectoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryManager.swift; sourceTree = "<group>"; };
 		12ABD55E207F194C004D0C9F /* EventSearchableViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSearchableViewModel.swift; sourceTree = "<group>"; };
 		12ABD55F207F194C004D0C9F /* EventListDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListDisplayable.swift; sourceTree = "<group>"; };
@@ -1780,7 +1781,7 @@
 			isa = PBXGroup;
 			children = (
 				125EAE102092FCE200C09FED /* LoadingViewController.swift */,
-				125EAE122092FE8400C09FED /* EventSubmittable.swift */,
+				125EAE1A2099417200C09FED /* EventSubmittable.swift */,
 			);
 			path = Submission;
 			sourceTree = "<group>";
@@ -4865,6 +4866,7 @@
 				BC9C7E161F0DED6600DFFE83 /* CheckBox.swift in Sources */,
 				9668DC342085A18B00D7C419 /* LogUtils.swift in Sources */,
 				46D95AC220198A7D00DCE6A5 /* UIImage+CircleCreation.swift in Sources */,
+				125EAE1B2099417200C09FED /* EventSubmittable.swift in Sources */,
 				96D731731FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift in Sources */,
 				BC9C7E4C1F0DED6600DFFE83 /* ViewControllerAnimationOptionTransition.swift in Sources */,
 				BC9C7E331F0DED6600DFFE83 /* UITextView+NotificationWorkaround.m in Sources */,
