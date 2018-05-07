@@ -5,7 +5,7 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-#include "../../Pods/Target Support Files/Pods-CAD/Pods-CAD.release.xcconfig"
+#include "../../Pods/Target Support Files/Pods-CAD/Pods-CAD.external-release.xcconfig"
 
 PRODUCT_NAME=Tasks
 CONFIG_HOST_URL=dev-cad-api.pscore.mobi

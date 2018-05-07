@@ -397,7 +397,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		125EAE2220A00EF400C09FED /* External Debug */ = {
+		125EAE2220A00EF400C09FED /* External-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -452,9 +452,9 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
-			name = "External Debug";
+			name = "External-Debug";
 		};
-		125EAE2320A00EF400C09FED /* External Debug */ = {
+		125EAE2320A00EF400C09FED /* External-Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 125EAE1E20A00EEB00C09FED /* AppConfig-cad-external-debug.xcconfig */;
 			buildSettings = {
@@ -474,9 +474,9 @@
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = "External Debug";
+			name = "External-Debug";
 		};
-		125EAE2420A00EFE00C09FED /* External Release */ = {
+		125EAE2420A00EFE00C09FED /* External-Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -524,9 +524,9 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
-			name = "External Release";
+			name = "External-Release";
 		};
-		125EAE2520A00EFE00C09FED /* External Release */ = {
+		125EAE2520A00EFE00C09FED /* External-Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 125EAE1F20A00EEB00C09FED /* AppConfig-cad-external-release.xcconfig */;
 			buildSettings = {
@@ -547,7 +547,7 @@
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = "External Release";
+			name = "External-Release";
 		};
 		9624A4221F7C550B00CAE056 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -708,9 +708,9 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9624A4221F7C550B00CAE056 /* Debug */,
-				125EAE2220A00EF400C09FED /* External Debug */,
+				125EAE2220A00EF400C09FED /* External-Debug */,
 				9624A4231F7C550B00CAE056 /* Release */,
-				125EAE2420A00EFE00C09FED /* External Release */,
+				125EAE2420A00EFE00C09FED /* External-Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -719,9 +719,9 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9624A4251F7C550B00CAE056 /* Debug */,
-				125EAE2320A00EF400C09FED /* External Debug */,
+				125EAE2320A00EF400C09FED /* External-Debug */,
 				9624A4261F7C550B00CAE056 /* Release */,
-				125EAE2520A00EFE00C09FED /* External Release */,
+				125EAE2520A00EFE00C09FED /* External-Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

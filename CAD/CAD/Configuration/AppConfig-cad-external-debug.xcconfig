@@ -2,11 +2,10 @@
 //  AppConfig-cad-external-debug.xcconfig
 //  MPOL
 //
-//  Copyright © 2018
-Gridstone. All rights reserved.
+//  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-#include "../../Pods/Target Support Files/Pods-CAD/Pods-CAD.debug.xcconfig"
+#include "../../Pods/Target Support Files/Pods-CAD/Pods-CAD.external-debug.xcconfig"
 
 PRODUCT_NAME=Tasks
 CONFIG_HOST_URL=dev-cad-api.pscore.mobi
