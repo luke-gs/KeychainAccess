@@ -268,10 +268,12 @@ extension AssetManager {
         public static let iconStatusUnavailable  = ImageKey("iconStatusUnavailable")
 
         // Events
-        public static let iconFolder   = ImageKey("iconFolder")
-        public static let iconPencil   = ImageKey("iconPencil")
-        public static let iconDocument = ImageKey("iconDocument")
-        public static let iconRelationships = ImageKey("iconGeneralRelationships")
+        public static let iconFolder          = ImageKey("iconFolder")
+        public static let iconPencil          = ImageKey("iconPencil")
+        public static let iconDocument        = ImageKey("iconDocument")
+        public static let iconRelationships   = ImageKey("iconGeneralRelationships")
+        public static let iconHeaderFinalise  = ImageKey("icon40StatusFinalise")
+        public static let iconHeaderEdit      = ImageKey("icon40SystemEdit")
 
         // Dialog images
         public static let dialogAlert = ImageKey("dialogAlert")
