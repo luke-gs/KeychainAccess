@@ -10,7 +10,7 @@ import Unbox
 import MPOLKit
 
 public enum MPOLSource: String, EntitySource, UnboxableEnum {
-    case loc = "pscore"
+    case pscore = "pscore"
     case nat = "ds2"
     case rda = "ds3"
     case gnaf = "gnaf"
@@ -21,7 +21,7 @@ public enum MPOLSource: String, EntitySource, UnboxableEnum {
 
     public var localizedBadgeTitle: String {
         switch self {
-        case .loc, .gnaf:
+        case .pscore, .gnaf:
             return NSLocalizedString("Local Law Enforcement", comment: "")
         case .nat:
             return NSLocalizedString("National Database", comment: "")
@@ -32,7 +32,7 @@ public enum MPOLSource: String, EntitySource, UnboxableEnum {
 
     public var localizedBarTitle: String {
         switch self {
-        case .loc, .gnaf:
+        case .pscore, .gnaf:
             return NSLocalizedString("LOC", comment: "")
         case .nat:
             return NSLocalizedString("NAT", comment: "")

@@ -70,7 +70,7 @@ public class EntityPresenter: Presenter {
                 return entityDetailViewController
             case is Address:
                 dataSources = [LocationMPOLDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)]
-                let viewModel = EntityDetailSectionsViewModel(initialSource: MPOLSource.loc,
+                let viewModel = EntityDetailSectionsViewModel(initialSource: MPOLSource.pscore,
                                                               dataSources: dataSources,
                                                               andMatchMaker: nil)
                 let entityDetailViewController = EntityDetailSplitViewController<EntityDetailsDisplayable, AddressSummaryDisplayable>(viewModel: viewModel)

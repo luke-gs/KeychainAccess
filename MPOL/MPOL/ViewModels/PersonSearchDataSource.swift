@@ -131,7 +131,7 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
                     if let searchParameters = searchParameters {
                         // Note: generate as many requests as required
-                        let request = PersonSearchRequest(source: .loc, request: searchParameters)
+                        let request = PersonSearchRequest(source: .pscore, request: searchParameters)
                         let natRequest = PersonSearchRequest(source: .nat, request: searchParameters)
                         let rdaRequest = PersonSearchRequest(source: .rda, request: searchParameters)
 
