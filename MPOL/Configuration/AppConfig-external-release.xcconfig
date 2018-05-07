@@ -11,7 +11,7 @@
 PRODUCT_NAME=Search
 CONFIG_HOST_URL=client-demo-api.pscore.mobi
 
-APP_GROUP_ID=group.enterprise.gridstone.pscore
+APP_GROUP_ID=group.enterprise.gridstone.pscore.external
 
 SEARCH_URL_TYPE_ID=enterprise.gridstone.pscore.search.external
 SEARCH_URL_TYPE_SCHEME=pscoresearch.external
