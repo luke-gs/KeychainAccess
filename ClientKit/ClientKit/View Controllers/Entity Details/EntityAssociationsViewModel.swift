@@ -142,7 +142,9 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
     
     private var wantsThumbnails: Bool = true {
         didSet {
-            if wantsThumbnails == oldValue { return }
+            if wantsThumbnails == oldValue {
+                return
+            }
             
             if !isCompact {
                 delegate?.updateBarButtonItems()

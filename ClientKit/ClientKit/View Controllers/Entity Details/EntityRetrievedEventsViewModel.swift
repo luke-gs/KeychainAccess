@@ -68,7 +68,7 @@ open class EntityRetrievedEventsViewModel: EntityDetailFilterableFormViewModel {
     private var filterEventTypes: Set<String>?
 
     private var filterTypeOptions: Set<String> {
-        return Set(events.compactMap({ $0.type }))
+        return Set(events.compactMap { $0.type } )
     }
 
     private var filterDateRange: FilterDateRange?

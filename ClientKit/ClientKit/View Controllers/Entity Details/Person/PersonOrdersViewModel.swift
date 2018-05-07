@@ -70,7 +70,7 @@ open class PersonOrdersViewModel: EntityDetailFilterableFormViewModel {
     private var filterEventTypes: Set<String>?
 
     private var filterTypeOptions: Set<String> {
-        return Set(orders.compactMap({ $0.type }))
+        return Set(orders.compactMap { $0.type } )
     }
 
     private var filterDateRange: FilterDateRange?
