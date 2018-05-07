@@ -8,7 +8,7 @@
 import UIKit
 import MPOLKit
 
-let incidentsHeaderDefaultTitle = "No incident selected"
+let incidentsHeaderDefaultTitle = "No Incident Selected"
 let incidentsHeaderDefaultSubtitle = "IN PROGRESS"
 
 public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
@@ -33,7 +33,10 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
         self.viewControllers = builder.viewControllers(for: event.reports)
         self.headerView = {
             let header = SidebarHeaderView()
-            header.iconView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
+            header.subtitleLabel.text =  "Saved as Draft"
+            header.subtitleLabel.font =  UIFont.systemFont(ofSize: 13)
+            header.iconView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconHeaderEdit)
+            header.iconView.contentMode = .center
 
             // Update the header to whatever you need it to be
             let report = event.reports.filter { $0 is IncidentListReport }.first as? IncidentListReport
@@ -56,13 +59,34 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
         }
     }
 
+
+
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
         readyToSubmit = evaluationState
+        updateHeaderImage(with: evaluationState)
+    }
+
+    private func updateHeaderImage(with isComplete: Bool) {
+        guard let header = headerView as? SidebarHeaderView else { return }
+        if isComplete {
+            header.captionLabel.text = "COMPLETED"
+            header.captionLabel.textColor = UIColor.midGreen
+            header.iconView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconHeaderFinalise)
+            header.iconView.backgroundColor = UIColor.midGreen
+            header.iconView.tintColor = UIColor.sidebarBlack
+        } else {
+            header.captionLabel.text = "IN PROGRESS"
+            header.captionLabel.textColor =  UIColor.secondaryGray
+            header.iconView.backgroundColor = UIColor.sidebarGray
+            header.iconView.tintColor = UIColor.secondaryGray
+            header.iconView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconHeaderEdit)
+        }
+        headerUpdated?()
     }
 }
 
 extension EventsDetailViewModel: SideBarHeaderUpdateDelegate {
-    public func updateHeader(with title: String?, subtitle: String?, image: UIImage?) {
+    public func updateHeader(with title: String?, subtitle: String?) {
         guard let header = headerView as? SidebarHeaderView else { return }
         header.titleLabel.text = title ?? incidentsHeaderDefaultTitle
         header.captionLabel.text = subtitle ?? incidentsHeaderDefaultSubtitle

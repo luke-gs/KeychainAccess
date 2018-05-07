@@ -15,7 +15,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
     typealias Object = Officer
 
-    var title: String = "Add officer"
+    var title: String = "Add Officer"
 
     var cancelToken: PromiseCancellationToken?
 

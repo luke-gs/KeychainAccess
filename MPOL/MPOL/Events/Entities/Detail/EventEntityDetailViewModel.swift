@@ -38,6 +38,9 @@ open class EventEntityDetailViewModel {
         let summaryDisplayable = EntitySummaryDisplayFormatter.default.summaryDisplayForEntity(report.entity)
         headerView.titleLabel.text = summaryDisplayable?.title
 
+        headerView.subtitleLabel.text = "Saved as Draft"
+        headerView.subtitleLabel.font = UIFont.systemFont(ofSize: 13)
+
         if let thumbnailInfo = summaryDisplayable?.thumbnail(ofSize: .small) {
             headerView.iconView.setImage(with: thumbnailInfo)
         }

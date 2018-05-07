@@ -21,7 +21,7 @@ public class EventBuilder: EventBuilding {
         event.add(report: EventEntitiesListReport(event: event))
         event.add(report: DefaultNotesMediaReport(event: event))
 
-        let displayable = EventListDisplayable(title: "No incident selected",
+        let displayable = EventListDisplayable(title: "No Incident Selected",
                                                subtitle: "",
                                                accessoryTitle: "",
                                                accessorySubtitle: "",

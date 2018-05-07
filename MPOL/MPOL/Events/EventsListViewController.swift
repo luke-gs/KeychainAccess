@@ -30,13 +30,13 @@ open class EventsListViewController: FormBuilderViewController, EventsManagerDel
     override open func viewDidLoad() {
         super.viewDidLoad()
 
-        loadingManager.noContentView.titleLabel.text = "No events"
-        loadingManager.noContentView.subtitleLabel.text = "There are currently no active or queued events"
+        loadingManager.noContentView.titleLabel.text = "No Events"
+        loadingManager.noContentView.subtitleLabel.text = "You have no Current or Queued Events"
         loadingManager.noContentView.imageView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconFolder)
-        loadingManager.noContentView.actionButton.setTitle("Create new event", for: .normal)
+        loadingManager.noContentView.actionButton.setTitle("Create New Event", for: .normal)
         loadingManager.noContentView.actionButton.addTarget(self, action: #selector(createNewEvent), for: .touchUpInside)
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "New event", style: .plain, target: self, action: #selector(createNewEvent))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "New Event", style: .plain, target: self, action: #selector(createNewEvent))
     }
 
     open override func viewWillAppear(_ animated: Bool) {

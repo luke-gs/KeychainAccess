@@ -31,11 +31,6 @@ public class OfficerListReport: Reportable {
         }
     }
 
-    public func titleHeader() -> String? {
-        let officerCount = officers.count
-        return "\(officerCount) CURRENT OFFICER\(officerCount == 1 ? "" : "S")"
-    }
-
     public weak var event: Event?
     public weak var incident: Incident?
 

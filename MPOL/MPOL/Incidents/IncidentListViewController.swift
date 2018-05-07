@@ -30,9 +30,11 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        loadingManager.noContentView.titleLabel.text = "No incident selected"
+        loadingManager.noContentView.titleLabel.text = "No Incident Selected"
         loadingManager.noContentView.subtitleLabel.text = "This report requires at least one incident"
         loadingManager.noContentView.imageView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconDocument)
+        loadingManager.noContentView.actionButton.setTitle("Add Incident", for: .normal)
+        loadingManager.noContentView.actionButton.addTarget(self, action: #selector(newIncidentHandler), for: .touchUpInside)
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(newIncidentHandler))
     }
@@ -111,7 +113,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
             self.reloadForm()
         }
 
-        let navController = UINavigationController(rootViewController: viewController)
+        let navController = PopoverNavigationController(rootViewController: viewController)
         navController.modalPresentationStyle = .formSheet
 
         present(navController, animated: true, completion: nil)

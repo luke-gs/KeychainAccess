@@ -38,6 +38,24 @@
 			<string>%1$d Incidents</string>
 		</dict>
 	</dict>
+	<key>%d OFFICERS</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@OFFICERS@</string>
+		<key>OFFICERS</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%1$d OFFICER</string>
+			<key>zero</key>
+			<string>NO OFFICERS</string>
+			<key>other</key>
+			<string>%1$d OFFICERS</string>
+		</dict>
+	</dict>
 	<key>%d incidents selected</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
