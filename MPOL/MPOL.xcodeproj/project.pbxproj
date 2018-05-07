@@ -928,8 +928,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "${SEARCH_URL_TYPE_ID}";
-				PROVISIONING_PROFILE = "3b2cadb1-9d5a-4d36-916d-c4ce7ebdf568";
-				PROVISIONING_PROFILE_SPECIFIER = "In House - PSCore Search";
+				PROVISIONING_PROFILE = "0bf51476-cade-4098-97f8-8c937cab3ca2";
+				PROVISIONING_PROFILE_SPECIFIER = "In house - PSCore Demo";
 				SWIFT_OBJC_BRIDGING_HEADER = "Configuration/PSCore-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 			};
@@ -1001,6 +1001,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				ENABLE_BITCODE = NO;
@@ -1012,8 +1013,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "${SEARCH_URL_TYPE_ID}";
-				PROVISIONING_PROFILE = "5b30c792-d8f0-4059-ba3b-8cadb83c72c1";
-				PROVISIONING_PROFILE_SPECIFIER = "In House - PSCore Search Debug";
+				PROVISIONING_PROFILE = "0bf51476-cade-4098-97f8-8c937cab3ca2";
+				PROVISIONING_PROFILE_SPECIFIER = "In house - PSCore Demo";
 				SWIFT_OBJC_BRIDGING_HEADER = "Configuration/PSCore-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 			};
