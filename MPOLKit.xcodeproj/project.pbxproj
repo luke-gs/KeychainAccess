@@ -114,7 +114,7 @@
 		19B49BC71F665F5A00502F51 /* WhatsNewTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B49BC41F665F5A00502F51 /* WhatsNewTheme.swift */; };
 		19B49BC81F665F5A00502F51 /* WhatsNewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B49BC51F665F5A00502F51 /* WhatsNewViewController.swift */; };
 		19BFE10A209FD753003740FA /* ObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BFE108209FD753003740FA /* ObjC.m */; };
-		19BFE10B209FD753003740FA /* ObjC.h in Headers */ = {isa = PBXBuildFile; fileRef = 19BFE109209FD753003740FA /* ObjC.h */; };
+		19BFE10B209FD753003740FA /* ObjC.h in Headers */ = {isa = PBXBuildFile; fileRef = 19BFE109209FD753003740FA /* ObjC.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		19BFE10D209FD808003740FA /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BFE10C209FD807003740FA /* Requestable.swift */; };
 		19C5D9A21FA95ED800527B5A /* ImageResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C5D9A11FA95ED800527B5A /* ImageResponseSerializer.swift */; };
 		19C625C01F550D2200504BD9 /* NetworkRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C625BF1F550D2200504BD9 /* NetworkRequestType.swift */; };
@@ -4359,8 +4359,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				19BFE10B209FD753003740FA /* ObjC.h in Headers */,
 				194C0C2B203173B700CD5AA8 /* MKMapView+MKMapView_NightMode.h in Headers */,
+				19BFE10B209FD753003740FA /* ObjC.h in Headers */,
 				BC9C7E1C1F0DED6600DFFE83 /* MPOLKit.h in Headers */,
 				EA85BFF11F6797C1002EEB49 /* UINavigationController+Theme.h in Headers */,
 				BC9C7E321F0DED6600DFFE83 /* UITextView+NotificationWorkaround.h in Headers */,
