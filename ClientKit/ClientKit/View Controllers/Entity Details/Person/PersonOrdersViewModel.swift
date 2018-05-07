@@ -58,7 +58,7 @@ open class PersonOrdersViewModel: EntityDetailFilterableFormViewModel {
         if !orders.isEmpty {
             builder += HeaderFormItem(text: headerTitle, style: .collapsible)
             for order in filteredOrders {
-                builder += DetailFormItem(title: order.type, subtitle: "Subtitle goes here", detail: "Detail goes here")
+                builder += DetailFormItem(title: order.type, subtitle: subtitle(for: order), detail: order.orderDescription)
             }
         }
 
@@ -87,7 +87,7 @@ open class PersonOrdersViewModel: EntityDetailFilterableFormViewModel {
         }
 
         if let dateRange = filterDateRange {
-            filters.append(FilterRangeDescriptor<Order, Date>(key: { $0.occurredDate }, start: dateRange.startDate, end: dateRange.endDate))
+            filters.append(FilterRangeDescriptor<Order, Date>(key: { $0.issuedDate }, start: dateRange.startDate, end: dateRange.endDate))
         }
 
         filtered = filtered.filter(using: filters)
@@ -97,7 +97,7 @@ open class PersonOrdersViewModel: EntityDetailFilterableFormViewModel {
     }
 
     open var sorts: [SortDescriptor<Order>] {
-        return [SortDescriptor<Order>(ascending: dateSorting == .oldest) { $0.occurredDate }]
+        return [SortDescriptor<Order>(ascending: dateSorting == .oldest) { $0.issuedDate }]
     }
 
     open override var isFilterApplied: Bool {
@@ -195,7 +195,7 @@ open class PersonOrdersViewModel: EntityDetailFilterableFormViewModel {
     }
 
     private func subtitle(for event: Order) -> String? {
-        if let date = event.occurredDate {
+        if let date = event.issuedDate {
             return NSLocalizedString("Recorded on ", comment: "") + DateFormatter.preferredDateStyle.string(from: date)
         } else {
             return NSLocalizedString("Recorded date unknown", comment: "")
