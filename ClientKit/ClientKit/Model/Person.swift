@@ -25,13 +25,8 @@ open class Person: Entity, Identifiable {
         case licences = "licences"
         case descriptions = "descriptions"
         case aliases = "aliases"
-        case actions = "actions"
-        case interventionOrders = "interventionOrders"
-        case bailOrders = "bailOrders"
-        case fieldContacts = "fieldContacts"
-        case missingPersonReports = "missingPersonReports"
-        case familyIncidents = "familyIncidents"
         case criminalHistory = "criminalHistory"
+        case orders = "orders"
     }
 
     override open class var serverTypeRepresentation: String {
@@ -79,6 +74,8 @@ open class Person: Entity, Identifiable {
     open var licences: [Licence]?
     open var descriptions: [PersonDescription]?
     open var aliases: [Alias]?
+
+    open var orders: [Order]?
     
     // TODO: TEMP
     open var criminalHistory: [CriminalHistory]?
@@ -113,6 +110,7 @@ open class Person: Entity, Identifiable {
         licences = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.licences.rawValue) as? [Licence]
         descriptions = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.descriptions.rawValue) as? [PersonDescription]
         aliases = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.aliases.rawValue) as? [Alias]
+        orders = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.orders.rawValue) as? [Order]
     }
 
     public required override init(id: String = UUID().uuidString) {
@@ -143,6 +141,7 @@ open class Person: Entity, Identifiable {
         criminalHistory = unboxer.unbox(key: "criminalHistory")
 
         isAlias = unboxer.unbox(key: "isAlias")
+        orders = unboxer.unbox(key: Coding.orders.rawValue)
     }
     
     open override func encode(with aCoder: NSCoder) {
@@ -161,6 +160,7 @@ open class Person: Entity, Identifiable {
         aCoder.encode(descriptions, forKey: Coding.descriptions.rawValue)
         aCoder.encode(aliases, forKey: Coding.aliases.rawValue)
         aCoder.encode(criminalHistory, forKey: Coding.criminalHistory.rawValue)
+        aCoder.encode(orders, forKey: Coding.orders.rawValue)
     }
     
     // MARK: - Model Versionable

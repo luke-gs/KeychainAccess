@@ -38,9 +38,11 @@ public class EntityPresenter: Presenter {
 
             switch entity {
             case is Person:
+                // FIXME: Refactor all of these data sources set up.
                 dataSources = [
-                    PersonMPOLDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
-                    PersonFNCDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
+                    PersonLOCDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
+                    PersonNATDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
+                    PersonRDADetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
                 ]
 
                 let viewModel = EntityDetailSectionsViewModel(initialSource: entity.source!,
@@ -53,8 +55,9 @@ public class EntityPresenter: Presenter {
                 return entityDetailViewController
             case is Vehicle:
                 dataSources = [
-                    VehicleMPOLDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
-                    VehicleFNCDetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
+                    VehicleLOCDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
+                    VehicleNATDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
+                    VehicleRDADetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
                 ]
 
                 let viewModel = EntityDetailSectionsViewModel(initialSource: entity.source!,

@@ -19,7 +19,7 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable {
     }
     
     public var category: String? {
-        return address.source?.localizedBadgeTitle
+        return address.source?.localizedBarTitle
     }
     
     public var title: String? {

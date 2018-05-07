@@ -140,6 +140,24 @@
 			<string>%1$d RESULTS IN %2$@</string>
 		</dict>
 	</dict>
+	<key>%d Event(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@events@</string>
+		<key>events</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>No Events</string>
+			<key>one</key>
+			<string>%d Event</string>
+			<key>other</key>
+			<string>%d Events</string>
+		</dict>
+	</dict>
 	<key>%1$d Result(s) Selected</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
@@ -154,6 +172,24 @@
 			<string>%1$d RESULT SELECTED</string>
 			<key>other</key>
 			<string>%1$d RESULTS SELECTED</string>
+		</dict>
+	</dict>
+	<key>%d Order(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@orders@</string>
+		<key>orders</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>No Orders</string>
+			<key>one</key>
+			<string>%d Order</string>
+			<key>other</key>
+			<string>%d Orders</string>
 		</dict>
 	</dict>
 </dict>

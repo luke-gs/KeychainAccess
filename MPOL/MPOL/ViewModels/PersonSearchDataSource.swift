@@ -132,8 +132,10 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                     if let searchParameters = searchParameters {
                         // Note: generate as many requests as required
                         let request = PersonSearchRequest(source: .pscore, request: searchParameters)
-                        let fncRequest = PersonSearchRequest(source: .fnc, request: searchParameters)
-                        let resultModel = EntitySummarySearchResultViewModel<Person>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, fncRequest]))
+                        let natRequest = PersonSearchRequest(source: .nat, request: searchParameters)
+                        let rdaRequest = PersonSearchRequest(source: .rda, request: searchParameters)
+
+                        let resultModel = EntitySummarySearchResultViewModel<Person>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, natRequest, rdaRequest]))
                         resultModel.additionalBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAddButtonTapped(_:)))]
                         completion(resultModel, nil)
                     }

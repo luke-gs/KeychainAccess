@@ -115,7 +115,7 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
     
     // MARK: - Filtering (currently disabled)
     
-    open override var filterApplied: Bool {
+    open override var isFilterApplied: Bool {
         return false
     }
     
@@ -142,7 +142,9 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
     
     private var wantsThumbnails: Bool = true {
         didSet {
-            if wantsThumbnails == oldValue { return }
+            if wantsThumbnails == oldValue {
+                return
+            }
             
             if !isCompact {
                 delegate?.updateBarButtonItems()

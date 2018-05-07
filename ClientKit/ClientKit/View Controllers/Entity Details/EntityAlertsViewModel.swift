@@ -121,7 +121,7 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
         return Array(map.values).sorted(using: [sectionSort])
     }
     
-    open override var filterApplied: Bool {
+    open override var isFilterApplied: Bool {
         let isFilteredByAlertLevel = filteredAlertLevels != Set(Alert.Level.allCases)
         return isFilteredByAlertLevel || filterDateRange != nil
     }
