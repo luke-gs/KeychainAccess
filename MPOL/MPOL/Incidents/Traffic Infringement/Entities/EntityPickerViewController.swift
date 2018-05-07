@@ -66,7 +66,7 @@ open class EntityPickerViewController: FormBuilderViewController {
 
         let entities = viewModel.entities
 
-        builder += HeaderFormItem(text: "Recently Used")
+        builder += HeaderFormItem(text: "Recently Viewed")
 
         builder += entities.map { entity in
             return viewModel.displayable(for: entity)

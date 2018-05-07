@@ -32,7 +32,7 @@ public class EventOfficerListViewModel {
     }
 
     public var title: String? {
-        return "Current officers"
+        return "Officers"
     }
 
     public func officer(at indexPath: IndexPath) -> Officer {
@@ -70,8 +70,7 @@ public class EventOfficerListViewModel {
     }
 
     public var header: String? {
-        let officerCount = report.officers.count
-        return "\(officerCount) CURRENT OFFICER\(officerCount == 1 ? "" : "S")"
+        return String.localizedStringWithFormat(NSLocalizedString("%d OFFICERS", comment: ""), report.officers.count)
     }
 
     public func displayable(for officer: Officer) -> OfficerSummaryDisplayable? {

@@ -97,7 +97,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
             self.reloadForm()
         }
 
-        let navController = UINavigationController(rootViewController: viewController)
+        let navController = PopoverNavigationController(rootViewController: viewController)
         navController.modalPresentationStyle = .formSheet
         present(navController, animated: true, completion: nil)
     }

@@ -21,35 +21,38 @@ public class IncidentDetailViewModel: IncidentDetailViewModelType, Evaluatable {
         self.incident = incident
         self.title = "New Incident"
         self.headerView = SidebarHeaderView()
-        updateHeader(incidentComplete: self.incident.evaluator.isComplete)
+        updateHeaderImage(with: self.incident.evaluator.isComplete)
         self.viewControllers = builder.viewControllers(for: incident.reports)
 
         incident.evaluator.addObserver(self)
     }
 
-    private func updateHeader(incidentComplete: Bool) {
+    private func updateHeaderImage(with isComplete: Bool) {
 
         guard let header = headerView as? SidebarHeaderView else { return }
         
         header.titleLabel.text = incident.incidentType.rawValue
-        if incidentComplete {
+        header.subtitleLabel.text =  "Saved as Draft"
+        header.subtitleLabel.font =  UIFont.systemFont(ofSize: 13)
+        if isComplete {
             header.captionLabel.text = "COMPLETED"
-            header.captionLabel.textColor = UIColor.brightGreen
-            header.iconView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.finalise)
+            header.captionLabel.textColor = UIColor.midGreen
+            header.iconView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconHeaderFinalise)
             header.iconView.contentMode = .center
-            header.iconView.backgroundColor = UIColor.brightGreen
+            header.iconView.backgroundColor = UIColor.midGreen
             header.iconView.tintColor = UIColor.sidebarBlack
         } else {
             header.captionLabel.text = "IN PROGRESS"
             header.captionLabel.textColor =  UIColor.secondaryGray
             header.iconView.backgroundColor = UIColor.sidebarGray
             header.iconView.tintColor = UIColor.secondaryGray
-            header.iconView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
+            header.iconView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconHeaderEdit)
+            header.iconView.contentMode = .center
         }
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        updateHeader(incidentComplete: evaluationState)
+        updateHeaderImage(with: evaluationState)
         headerUpdated?()
     }
 
