@@ -40,6 +40,8 @@ open class Order: Entity {
     }
 
     override open func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+        
         aCoder.encode(type, forKey: CodingKeys.type.rawValue)
         aCoder.encode(status, forKey: CodingKeys.status.rawValue)
         aCoder.encode(issuingAuthority, forKey: CodingKeys.issuingAuthority.rawValue)
