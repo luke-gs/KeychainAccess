@@ -513,9 +513,10 @@
 		9988CE671FAAD965007BE261 /* ManifestCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9988CE661FAAD965007BE261 /* ManifestCollectionTests.swift */; };
 		99DB7B0D1FB00622009B936B /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DB7B0C1FB00622009B936B /* NetworkMonitor.swift */; };
 		99FF8C041F982A22003A8A4B /* AuditPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FF8C031F982A21003A8A4B /* AuditPlugin.swift */; };
+		AA1B06D22099798E00F5B390 /* ImageCodeableResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B06D12099798E00F5B390 /* ImageCodeableResponseSerializer.swift */; };
 		AA1B3A422092D4460009B00C /* OptionDisplayableFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A412092D4450009B00C /* OptionDisplayableFormItem.swift */; };
+		AA29BCAD20999E1600C2EC6D /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA29BCAC20999E1500C2EC6D /* ServiceType.swift */; };
 		AA792CCE20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA792CCD20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift */; };
-		AA792CD620983E44008C7606 /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA792CD520983E44008C7606 /* ServiceType.swift */; };
 		BA6FEAA4EFE7F66EBAE4C2DC /* Pods_MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */; };
 		BC0448941F219A70005FB857 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0448931F219A70005FB857 /* AssetManager.swift */; };
 		BC0EA3F41F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */; };
@@ -1383,9 +1384,10 @@
 		9988CE661FAAD965007BE261 /* ManifestCollectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManifestCollectionTests.swift; sourceTree = "<group>"; };
 		99DB7B0C1FB00622009B936B /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		99FF8C031F982A21003A8A4B /* AuditPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuditPlugin.swift; sourceTree = "<group>"; };
+		AA1B06D12099798E00F5B390 /* ImageCodeableResponseSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCodeableResponseSerializer.swift; sourceTree = "<group>"; };
 		AA1B3A412092D4450009B00C /* OptionDisplayableFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionDisplayableFormItem.swift; sourceTree = "<group>"; };
+		AA29BCAC20999E1500C2EC6D /* ServiceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceType.swift; path = Classes/Subspec/Events/Service/ServiceType.swift; sourceTree = SOURCE_ROOT; };
 		AA792CCD20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormOptionStackViewCell.swift; sourceTree = "<group>"; };
-		AA792CD520983E44008C7606 /* ServiceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceType.swift; path = Classes/Subspec/Events/Service/ServiceType.swift; sourceTree = SOURCE_ROOT; };
 		BC0448931F219A70005FB857 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
 		BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionViewSidebarLayout.swift; sourceTree = "<group>"; };
 		BC1B25B91F2707270090C0AA /* MPOLBarButtonItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLBarButtonItems.swift; sourceTree = "<group>"; };
@@ -1819,7 +1821,7 @@
 		12D3700E20200B5A00D79DDB /* Events */ = {
 			isa = PBXGroup;
 			children = (
-				AA792CD020983327008C7606 /* Service */,
+				AA29BCA720999DA500C2EC6D /* Service */,
 				125EAE0F2092FCE200C09FED /* Submission */,
 				12D3700F20200B5A00D79DDB /* Event.swift */,
 				12ABD55F207F194C004D0C9F /* EventListDisplayable.swift */,
@@ -2004,6 +2006,7 @@
 				19C5D9A11FA95ED800527B5A /* ImageResponseSerializer.swift */,
 				19DBD5CA1FA8E1A200205EEC /* ResponseSerializing.swift */,
 				19DBD5CE1FA8E22B00205EEC /* UnboxResponseSerializer.swift */,
+				AA1B06D12099798E00F5B390 /* ImageCodeableResponseSerializer.swift */,
 			);
 			path = ResponseSerializing;
 			sourceTree = "<group>";
@@ -3194,20 +3197,20 @@
 			path = Manifest;
 			sourceTree = "<group>";
 		};
+		AA29BCA720999DA500C2EC6D /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				AA29BCAC20999E1500C2EC6D /* ServiceType.swift */,
+			);
+			name = Service;
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		AA792CCF2098323B008C7606 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			name = "Recovered References";
-			sourceTree = "<group>";
-		};
-		AA792CD020983327008C7606 /* Service */ = {
-			isa = PBXGroup;
-			children = (
-				AA792CD520983E44008C7606 /* ServiceType.swift */,
-			);
-			name = Service;
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 		AB742C85EFCBDE4BA2B497CE /* Pods */ = {
@@ -4813,7 +4816,7 @@
 				BC9C7E421F0DED6600DFFE83 /* ScrollViewInsetManager.swift in Sources */,
 				463694E7200ED68F00C51BB4 /* SketchControlPanelDelegate.swift in Sources */,
 				969959661FC2334300CB51EB /* ColorPalette.swift in Sources */,
-				AA792CD620983E44008C7606 /* ServiceType.swift in Sources */,
+				AA29BCAD20999E1600C2EC6D /* ServiceType.swift in Sources */,
 				2744E39F2051DD8500561A8F /* CADIncidentInformantCore.swift in Sources */,
 				191BC4D31F7C203B00C8C218 /* HelpContent.swift in Sources */,
 				4E719ECA2022F08600D45F52 /* TextTemplate.swift in Sources */,
@@ -4879,6 +4882,7 @@
 				1908EF831F57CAFC00382B1C /* AuthenticationPlugin.swift in Sources */,
 				2753292220329C0000CFA97B /* TasksListBasicViewModel.swift in Sources */,
 				27094CC51FAFFBDA00D4C3D4 /* ResourceOfficerListViewModel.swift in Sources */,
+				AA1B06D22099798E00F5B390 /* ImageCodeableResponseSerializer.swift in Sources */,
 				2753291620327E3F00CFA97B /* PatrolTaskItemViewModel.swift in Sources */,
 				EA11F0241F830EEC00BF8BCA /* ImageLoadable.swift in Sources */,
 				EAAEB3481F661806002D6C65 /* SystemPresenter.swift in Sources */,

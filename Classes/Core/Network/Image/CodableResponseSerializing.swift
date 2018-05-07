@@ -40,6 +40,7 @@ extension Request {
         guard let data = data else {
             return .failure(ResourceError.invalidResourceData)
         }
+
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         do {

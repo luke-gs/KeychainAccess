@@ -40,6 +40,12 @@ public class DefaultSearchHeaderDetailView: UIView, SearchHeaderUpdateable {
         titleLabel.text = title ?? titleLabel.text
         subtitleLabel.text = subtitle
         thumbnailView.imageView.image = image?.sizing().image ?? thumbnailView.imageView.image
+        if let image = image {
+            image.loadImage { (imageSizeable) in
+                self.thumbnailView.imageView.image = imageSizeable.sizing().image
+                self.thumbnailView.imageView.contentMode = imageSizeable.sizing().contentMode ?? .center
+            }
+        }
     }
     // MARK: - Public Properties
 
@@ -91,12 +97,10 @@ public class DefaultSearchHeaderDetailView: UIView, SearchHeaderUpdateable {
         titleLabel.text = configuration.title
         subtitleLabel.text = configuration.subtitle
 
-        configuration.image?.loadImage(completion: { (imageSizable) in
-            self.thumbnailView.imageView.image = imageSizable.sizing().image
-            self.thumbnailView.imageView.contentMode = imageSizable.sizing().contentMode ?? .center
-        })
-
-        if thumbnailView.imageView.image == nil {
+        if let image = configuration.image {
+            thumbnailView.imageView.image = image.sizing().image
+            thumbnailView.imageView.contentMode = image.sizing().contentMode ?? .center
+        } else {
             let image = AssetManager.shared.image(forKey: .edit)?
                 .withCircleBackground(tintColor: UIColor.white,
                                       circleColor: UIColor.primaryGray,
@@ -106,6 +110,11 @@ public class DefaultSearchHeaderDetailView: UIView, SearchHeaderUpdateable {
             thumbnailView.imageView.image = image
             thumbnailView.imageView.contentMode = .center
         }
+
+        configuration.image?.loadImage(completion: { (imageSizable) in
+            self.thumbnailView.imageView.image = imageSizable.sizing().image
+            self.thumbnailView.imageView.contentMode = imageSizable.sizing().contentMode ?? .center
+        })
 
         // hide the silver background for non entity images
         if configuration.imageStyle != .entity {

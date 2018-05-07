@@ -8,6 +8,7 @@
 
 import Alamofire
 import PromiseKit
+import Cache
 
 extension DataRequest {
 
@@ -42,6 +43,21 @@ extension DataRequest {
 
                 return .success(image)
             } catch {
+                return .failure(error)
+            }
+        }
+    }
+
+    public class func imageWrapperResponseSerializer(imageScale: CGFloat = DataRequest.imageScale) -> DataResponseSerializer<ImageWrapper> {
+        return DataResponseSerializer { request, response, data, error in
+            let serialiser = imageResponseSerializer(imageScale: imageScale).serializeResponse
+
+            let result = serialiser(request, response, data, error)
+
+            switch result {
+            case .success(let image):
+                return .success(ImageWrapper(image: image))
+            case .failure(let error):
                 return .failure(error)
             }
         }
