@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		19191C8B2092CBD800767A5F /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19191C8A2092CBD800767A5F /* Order.swift */; };
 		19191C8D2092CE2B00767A5F /* PersonOrdersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19191C8C2092CE2800767A5F /* PersonOrdersViewModel.swift */; };
+		125EAE17209932F800C09FED /* EventSubmissionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE16209932F800C09FED /* EventSubmissionRequest.swift */; };
+		125EAE192099336900C09FED /* EventSubmissionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE182099336900C09FED /* EventSubmissionResponse.swift */; };
 		193ED08F1FDEA190002F2837 /* DefaultFilterRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193ED08E1FDEA190002F2837 /* DefaultFilterRules.swift */; };
 		198465B8208E101F0076E1A4 /* RetrievedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198465B7208E101F0076E1A4 /* RetrievedEvent.swift */; };
 		198465BA208EAF630076E1A4 /* EntityRetrievedEventsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198465B9208EAF630076E1A4 /* EntityRetrievedEventsViewModel.swift */; };
@@ -109,6 +111,8 @@
 		12048FCC1F788ECA0014748E /* Matches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matches.swift; sourceTree = "<group>"; };
 		19191C8A2092CBD800767A5F /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		19191C8C2092CE2800767A5F /* PersonOrdersViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonOrdersViewModel.swift; sourceTree = "<group>"; };
+		125EAE16209932F800C09FED /* EventSubmissionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSubmissionRequest.swift; sourceTree = "<group>"; };
+		125EAE182099336900C09FED /* EventSubmissionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSubmissionResponse.swift; sourceTree = "<group>"; };
 		193ED08E1FDEA190002F2837 /* DefaultFilterRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFilterRules.swift; sourceTree = "<group>"; };
 		198465B7208E101F0076E1A4 /* RetrievedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrievedEvent.swift; sourceTree = "<group>"; };
 		198465B9208EAF630076E1A4 /* EntityRetrievedEventsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityRetrievedEventsViewModel.swift; sourceTree = "<group>"; };
@@ -388,6 +392,7 @@
 				1A290C851F3F097E00DD9ED5 /* Media.swift */,
 				46E0B89E202C13E200B40DF2 /* Officer.swift */,
 				464977C3203685E500590DC3 /* Identifiable.swift */,
+				125EAE182099336900C09FED /* EventSubmissionResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -465,6 +470,7 @@
 				EA8B66541F381CBA00F09716 /* VehicleSearchRequest.swift */,
 				1AB825191F5E485F001C4BCE /* LocationMapSearchRequest.swift */,
 				46E0B8B92033AAE600B40DF2 /* OfficerSearchRequest.swift */,
+				125EAE16209932F800C09FED /* EventSubmissionRequest.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -722,7 +728,9 @@
 			files = (
 				1A290C861F3F097E00DD9ED5 /* Media.swift in Sources */,
 				19FA22B01F86041800BE0E03 /* Matches.swift in Sources */,
+				125EAE17209932F800C09FED /* EventSubmissionRequest.swift in Sources */,
 				EA1CC2541F4132D200FE8BAE /* VINParserDefinition.swift in Sources */,
+				125EAE192099336900C09FED /* EventSubmissionResponse.swift in Sources */,
 				BCAEFEDD1F0317DB00C97F9C /* EntityThumbnailView+Configuration.swift in Sources */,
 				4429902E2006C43D00D2F575 /* OrganizationInfoViewModel.swift in Sources */,
 				1AB825341F610D04001C4BCE /* Address+EntityMapSummaryDisplayable.swift in Sources */,

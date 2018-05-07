@@ -23,6 +23,8 @@ open class DemoAPIManager: CADAPIManagerType {
 
     open static let shared = DemoAPIManager()
 
+    // MARK: - Shared
+
     open func accessTokenRequest(for grant: OAuthAuthorizationGrant) -> Promise<OAuthAccessToken> {
         return APIManager.shared.accessTokenRequest(for: grant)
 
@@ -31,39 +33,41 @@ open class DemoAPIManager: CADAPIManagerType {
         // return Promise<OAuthAccessToken>.value(token)
     }
 
-    public func cadBookOn(with request: CADBookOnRequestType) -> Promise<Void> {
-        print("\(LogUtils.string(from: request.parameters))")
-        return after(seconds: 1).done {}
-    }
-
-    public func cadBookOff(with request: CADBookOffRequestType) -> Promise<Void> {
-        print("\(LogUtils.string(from: request.parameters))")
-        return after(seconds: 1).done {}
-    }
-
-    open func cadOfficerByUsername(username: String) -> Promise<CADOfficerDetailsResponse> {
-        if let data = loadDemoFileAsData(name: "DemoOfficer") {
-            let response = try! JSONDecoder.decode(data, to: CADOfficerDetailsResponse.self)
-            return Promise<CADOfficerDetailsResponse>.value(response)
-        }
-        return Promise<CADOfficerDetailsResponse>(error: APIError.fileNotFound)
-    }
-
-    open func cadSyncDetails(request: CADSyncRequest) -> Promise<CADSyncResponse> {
-        if let data = loadDemoFileAsData(name: "DemoSync") {
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = ISO8601DateTransformer.jsonDateDecodingStrategy()
-            let response = try! decoder.decode(CADSyncResponse.self, from: data)
-            return Promise<CADSyncResponse>.value(response)
-        }
-        return Promise<CADSyncResponse>(error: APIError.fileNotFound)
-    }
-
     open func fetchManifest(with request: ManifestFetchRequest) -> Promise<ManifestFetchRequest.ResultClass> {
         if let json = loadDemoFileAsJson(name: "DemoManifest") as? ManifestFetchRequest.ResultClass {
             return Promise<ManifestFetchRequest.ResultClass>.value(json)
         }
         return Promise<ManifestFetchRequest.ResultClass>.value([[:]])
+    }
+
+    // MARK: - CAD
+
+    public func cadBookOn(with request: CADBookOnRequestType, pathTemplate: String?) -> Promise<Void> {
+        print("\(LogUtils.string(from: request.parameters))")
+        return after(seconds: 1).done {}
+    }
+
+    public func cadBookOff(with request: CADBookOffRequestType, pathTemplate: String?) -> Promise<Void> {
+        print("\(LogUtils.string(from: request.parameters))")
+        return after(seconds: 1).done {}
+    }
+
+    open func cadEmployeeDetails<ResponseType: CADEmployeeDetailsResponseType>(with request: CADEmployeeDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType> {
+        if let data = loadDemoFileAsData(name: "DemoOfficer") {
+            let response = try! JSONDecoder.decode(data, to: CADEmployeeDetailsResponseCore.self)
+            return Promise<CADEmployeeDetailsResponseCore>.value(response) as! Promise<ResponseType>
+        }
+        return Promise<ResponseType>(error: APIError.fileNotFound)
+    }
+
+    open func cadSyncSummaries<ResponseType: CADSyncResponseType>(with request: CADSyncRequestType, pathTemplate: String?) -> Promise<ResponseType> {
+        if let data = loadDemoFileAsData(name: "DemoSync") {
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = ISO8601DateTransformer.jsonDateDecodingStrategy()
+            let response = try! decoder.decode(CADSyncResponseCore.self, from: data)
+            return Promise<CADSyncResponseCore>.value(response) as! Promise<ResponseType>
+        }
+        return Promise<ResponseType>(error: APIError.fileNotFound)
     }
 
     open func loadDemoFileAsJson(name: String) -> Any? {

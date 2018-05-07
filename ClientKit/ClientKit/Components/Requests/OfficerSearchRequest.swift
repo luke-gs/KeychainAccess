@@ -27,7 +27,7 @@ public class OfficerSearchRequest: AggregatedSearchRequest<Officer> {
 
 }
 
-public class CurrentOfficerDetailsFetchRequest: EntityFetchRequestable {
+public class CurrentOfficerDetailsFetchRequest: Requestable {
     public typealias ResultClass = Officer
     public var parameters: [String: Any] = [:]
     public init() {}

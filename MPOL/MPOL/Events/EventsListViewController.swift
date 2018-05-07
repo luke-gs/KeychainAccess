@@ -20,6 +20,7 @@ open class EventsListViewController: FormBuilderViewController {
         super.init()
         title = "Events"
         tabBarItem.image = AssetManager.shared.image(forKey: .tabBarEvents)
+        tabBarItem.selectedImage = AssetManager.shared.image(forKey: .tabBarEventsSelected)
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -86,7 +87,7 @@ open class EventsListViewController: FormBuilderViewController {
 
         viewModel.incidentType = incidentType
 
-        let viewController = EventSplitViewController<Void>(viewModel: viewModel.detailsViewModel(for: event))
+        let viewController = EventSplitViewController<EventSubmissionResponse>(viewModel: viewModel.detailsViewModel(for: event))
         viewController.loadingViewBuilder = viewModel.loadingBuilder()
         viewController.delegate = self
 

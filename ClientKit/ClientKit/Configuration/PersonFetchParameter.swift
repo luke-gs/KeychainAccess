@@ -9,7 +9,7 @@
 import Foundation
 import MPOLKit
 
-public struct PersonFetchParameter: EntityFetchRequestable {
+public struct PersonFetchParameter: Requestable {
     public typealias ResultClass = Person
     
     public let id: String

@@ -15,5 +15,4 @@ public class VehicleFetchRequest: EntityDetailFetchRequest<Vehicle> {
     public override func fetchPromise() -> Promise<Vehicle> {
         return APIManager.shared.fetchEntityDetails(in: source as! MPOLSource, with: request)
     }
-
 }
