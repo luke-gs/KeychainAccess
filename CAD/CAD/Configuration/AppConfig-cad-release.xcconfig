@@ -14,7 +14,7 @@ CONFIG_HOST_URL=dev-cad-api.pscore.mobi
 APP_GROUP_ID=group.enterprise.gridstone.pscore
 
 SEARCH_URL_TYPE_ID=enterprise.gridstone.pscore.search
-SEARCH_URL_TYPE_SCHEME=pscoresearch.external
+SEARCH_URL_TYPE_SCHEME=pscoresearch
 
 CAD_URL_TYPE_ID=enterprise.gridstone.pscore.cad
 CAD_URL_TYPE_SCHEME=pscorecad
