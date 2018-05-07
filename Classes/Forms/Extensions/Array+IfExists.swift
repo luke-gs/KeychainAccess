@@ -21,4 +21,22 @@ public extension Array {
         return (index < count && index >= 0) ? self[index] : nil
     }
     
+    /// Returns nil if the array is empty, else the array itself.
+    public func ifNotEmpty() -> [Iterator.Element]? {
+        if self.isEmpty {
+            return nil
+        } else {
+            return self
+        }
+    }
+    
+}
+
+public extension Array where Iterator.Element: OptionalType {
+    
+    /// Removes all nil objects from the array then returns array nil if resulting
+    /// array is empty, else the array itself.
+    public func ifNotEmpty() -> [Iterator.Element.Wrapped]? {
+        return self.removeNils().ifNotEmpty()
+    }
 }
