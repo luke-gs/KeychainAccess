@@ -14,7 +14,7 @@ CONFIG_HOST_URL=client-demo-api.pscore.mobi
 APP_GROUP_ID=group.enterprise.gridstone.pscore
 
 SEARCH_URL_TYPE_ID=enterprise.gridstone.pscore.search.external
-SEARCH_URL_TYPE_SCHEME=pscoresearch
+SEARCH_URL_TYPE_SCHEME=pscoresearch.external
 
 CAD_URL_TYPE_ID=enterprise.gridstone.pscore.cad
 CAD_URL_TYPE_SCHEME=pscorecad
