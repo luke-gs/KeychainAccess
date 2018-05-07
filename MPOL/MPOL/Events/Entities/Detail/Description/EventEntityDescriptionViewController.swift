@@ -44,6 +44,7 @@ class EventEntityDescriptionViewController: FormBuilderViewController, Evaluatio
             .title(displayable.title)
             .detail(viewModel.description())
             .subtitle(displayable.detail1)
+            .imageTintColor(displayable.iconColor)
             .borderColor(displayable.borderColor)
             .image(displayable.thumbnail(ofSize: .large))
             .onButtonTapped { }

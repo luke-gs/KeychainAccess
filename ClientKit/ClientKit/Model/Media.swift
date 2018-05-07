@@ -36,8 +36,8 @@ open class Media: NSObject, Serialisable {
     open var uri: URL?
     open var name: String?
     open var mediaDescription: String?
-    open var width: Double?
-    open var height: Double?
+    open var width: Double
+    open var height: Double
     
     open var source: MPOLSource?
 
@@ -54,10 +54,10 @@ open class Media: NSObject, Serialisable {
         isSummary     = unboxer.unbox(key: "isSummary") ?? false
         
         mimeType      = unboxer.unbox(key: "mimeType")
-        uri           = unboxer.unbox(key: "uri")
+        uri           = unboxer.unbox(key: "url")
         name          = unboxer.unbox(key: "name")
-        width         = unboxer.unbox(key: "width")
-        height        = unboxer.unbox(key: "height")
+        width         = unboxer.unbox(key: "width") ?? 0.0
+        height        = unboxer.unbox(key: "height") ?? 0.0
         source        = unboxer.unbox(key: "source")
         mediaDescription = unboxer.unbox(key: "description")
 
@@ -67,7 +67,10 @@ open class Media: NSObject, Serialisable {
     public required init?(coder aDecoder: NSCoder) {
         id = (aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String?)!
         isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
-        
+
+        height = aDecoder.decodeDouble(forKey: CodingKey.height.rawValue)
+        width = aDecoder.decodeDouble(forKey: CodingKey.width.rawValue)
+
         super.init()
 
         dateCreated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateCreated.rawValue) as Date?
@@ -86,8 +89,7 @@ open class Media: NSObject, Serialisable {
         uri = aDecoder.decodeObject(of: NSURL.self, forKey: CodingKey.uri.rawValue) as URL?
         name = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.name.rawValue) as String?
         mediaDescription = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.mediaDescription.rawValue) as String?
-        height = aDecoder.decodeDouble(forKey: CodingKey.height.rawValue)
-        width = aDecoder.decodeDouble(forKey: CodingKey.width.rawValue)
+
     }
     
     open func encode(with aCoder: NSCoder) {

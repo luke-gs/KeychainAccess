@@ -42,6 +42,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
             .borderColor(displayable.borderColor)
             .detailPlaceholder(isDetailPlaceholder)
             .image(displayable.thumbnail(ofSize: .large))
+            .imageTintColor(displayable.iconColor)
             .onButtonTapped {
                 self.didTapAdditionalDetails()
             }

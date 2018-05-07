@@ -19,6 +19,15 @@ public class EventsListViewModel {
         return eventsManager.displayableBucket.objects
     }
 
+    public var badgeCountString: String? {
+        let count = eventsManager.eventBucket.objects?.count ?? 0
+        if count > 0 {
+            return "\(count)"
+        } else {
+            return nil
+        }
+    }
+
     public required init(eventsManager: EventsManager) {
         self.eventsManager = eventsManager
         self.title = "Events"
@@ -56,4 +65,3 @@ public class EventsListViewModel {
         return builder
     }
 }
-

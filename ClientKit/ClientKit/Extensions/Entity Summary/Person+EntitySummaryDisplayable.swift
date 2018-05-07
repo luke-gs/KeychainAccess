@@ -38,7 +38,7 @@ public struct PersonSummaryDisplayable: EntitySummaryDisplayable {
     }
 
     public var iconColor: UIColor? {
-        return nil
+        return UIColor(white: 0.2, alpha: 1.0)
     }
     
     public var badge: UInt {
