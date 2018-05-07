@@ -10,14 +10,14 @@ import MPOLKit
 import PromiseKit
 import ClientKit
 
-open class EventsListViewController: FormBuilderViewController {
+open class EventsListViewController: FormBuilderViewController, EventsManagerDelegate {
 
     let viewModel: EventsListViewModel
 
     required public init(viewModel: EventsListViewModel) {
         self.viewModel = viewModel
-
         super.init()
+        viewModel.eventsManager.delegate = self
         title = "Events"
         tabBarItem.image = AssetManager.shared.image(forKey: .tabBarEvents)
         tabBarItem.selectedImage = AssetManager.shared.image(forKey: .tabBarEventsSelected)
@@ -96,6 +96,10 @@ open class EventsListViewController: FormBuilderViewController {
 
     private func updateEmptyState() {
         self.loadingManager.state = (self.viewModel.eventsList?.isEmpty ?? true) ? .noContent : .loaded
+    }
+
+    public func unsubmittedEventCountDidChange() {
+        tabBarItem.badgeValue = viewModel.badgeCountString
     }
 }
 
