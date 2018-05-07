@@ -130,7 +130,7 @@ public class UserSession: UserSessionable {
 
 
         // Currently, these 2 are sessions based only. So when they fail to deserialise
-        // which most of the cases are just to not migrating data, it'll just empty it out instead
+        // which most of the cases are just due to not migrating data, it'll just empty it out instead
         // of crashing.
         var viewed: [MPOLKitEntity] = []
         var searched: [Searchable] = []
