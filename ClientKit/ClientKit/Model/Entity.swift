@@ -78,7 +78,7 @@ open class Entity: MPOLKitEntity {
         associatedVehicles = unboxer.unbox(key: "vehicles")
         events = unboxer.unbox(key: "events")
         addresses = unboxer.unbox(key: "locations")
-        media = unboxer.unbox(key: "media")
+        media = unboxer.unbox(key: "mediaItems")
 
         try super.init(unboxer: unboxer)
 

@@ -21,6 +21,7 @@ open class Person: Entity, Identifiable {
         case dateOfDeath = "dateOfDeath"
         case yearOnlyDateOfBirth = "yearOnlyDateOfBirth"
         case gender = "gender"
+        case thumbnailUrl = "thumbnailUrl"
         case contacts = "contacts"
         case licences = "licences"
         case descriptions = "descriptions"
@@ -69,6 +70,7 @@ open class Person: Entity, Identifiable {
     open var yearOnlyDateOfBirth: Bool?
     
     open var gender: Gender?
+    open var thumbnailUrl: URL?
     
     open var contacts: [Contact]?
     open var licences: [Licence]?
@@ -105,6 +107,7 @@ open class Person: Entity, Identifiable {
         if let gender = aDecoder.decodeObject(of: NSString.self, forKey: Coding.gender.rawValue) as String? {
             self.gender = Gender(rawValue: gender)
         }
+        thumbnailUrl = aDecoder.decodeObject(of: NSURL.self, forKey: Coding.thumbnailUrl.rawValue) as URL?
 
         contacts = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.contacts.rawValue) as? [Contact]
         licences = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.licences.rawValue) as? [Licence]
@@ -132,6 +135,9 @@ open class Person: Entity, Identifiable {
         yearOnlyDateOfBirth = unboxer.unbox(key: "yearOnlyDateOfBirth")
         
         gender = unboxer.unbox(key: "gender")
+        if let urlString: String = unboxer.unbox(key: "thumbnailUrl") {
+            thumbnailUrl = URL(string: urlString)
+        }
         
         licences = unboxer.unbox(key: "licences")
         contacts = unboxer.unbox(key: "contactDetails")
@@ -155,6 +161,7 @@ open class Person: Entity, Identifiable {
             aCoder.encode(yearOnlyDateOfBirth!, forKey: Coding.yearOnlyDateOfBirth.rawValue)
         }
         aCoder.encode(gender?.rawValue, forKey: Coding.gender.rawValue)
+        aCoder.encode(thumbnailUrl, forKey: Coding.thumbnailUrl.rawValue)
         aCoder.encode(contacts, forKey: Coding.contacts.rawValue)
         aCoder.encode(licences, forKey: Coding.licences.rawValue)
         aCoder.encode(descriptions, forKey: Coding.descriptions.rawValue)

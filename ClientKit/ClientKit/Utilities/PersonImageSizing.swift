@@ -30,16 +30,13 @@ public class PersonImageSizing: AsynchronousImageSizing {
 
     public override func loadImage(completion: @escaping (ImageSizable) -> ()) {
 
-        // Call completion immediately (Temporary whilst backend not set up) 
-        completion(self)
-
         // Code to retrieve image goes here
-        /*
-        let url = URL(string: "https://www.someawesomeimage.com")!
-        _ = ImageDownloader.default.fetchImage(using: url).then { image -> Void in
-            let sizing = ImageSizing(image: image, size: image.size, contentMode: .scaleAspectFit)
-            completion(sizing)
+        if let url = person.thumbnailUrl {
+            _ = ImageDownloader.default.fetch(for: url).done { image -> Void in
+                let sizing = ImageSizing(image: image, size: image.size, contentMode: .scaleAspectFit)
+                completion(sizing)
+            }.cauterize() 
         }
-        */
+
     }
 }
