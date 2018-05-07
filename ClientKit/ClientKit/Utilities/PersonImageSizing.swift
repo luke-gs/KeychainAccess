@@ -19,7 +19,7 @@ public class PersonImageSizing: AsynchronousImageSizing {
         let thumbnailSizing: ImageSizing?
 
         if person.initials?.isEmpty ?? true == false {
-            let image = person.initialThumbnail
+            let image = person.initialThumbnail.withRenderingMode(.alwaysTemplate)
             thumbnailSizing = ImageSizing(image: image, size: image.size, contentMode: .scaleAspectFill)
         } else {
             thumbnailSizing = nil
