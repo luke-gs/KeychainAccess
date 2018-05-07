@@ -1,0 +1,26 @@
+//
+//  AppConfig-cad-debug.xcconfig
+//  MPOL
+//
+//  Created by QHMW64 on 22/8/17.
+//  Copyright © 2017 Gridstone. All rights reserved.
+//
+
+#include "../../Pods/Target Support Files/Pods-CAD/Pods-CAD.debug.xcconfig"
+
+PRODUCT_NAME=Tasks
+CONFIG_HOST_URL=dev-cad-api.pscore.mobi
+
+APP_GROUP_ID=group.enterprise.gridstone.pscore
+
+SEARCH_URL_TYPE_ID=enterprise.gridstone.pscore.search
+SEARCH_URL_TYPE_SCHEME=pscoresearch
+
+CAD_URL_TYPE_ID=enterprise.gridstone.pscore.cad
+CAD_URL_TYPE_SCHEME=pscorecad
+
+SHARED_KEYCHAIN_ACCESS_GROUP=enterprise.gridstone.pscore.shared
+
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) CONFIG_HOST_URL="@\"$(CONFIG_HOST_URL)\"" SEARCH_URL_TYPE_SCHEME="@\"$(SEARCH_URL_TYPE_SCHEME)\""
+
+OTHER_SWIFT_FLAGS = $(inherited)

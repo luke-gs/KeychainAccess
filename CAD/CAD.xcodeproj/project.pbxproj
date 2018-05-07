@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		125EAE2020A00EEB00C09FED /* AppConfig-cad-external-debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 125EAE1E20A00EEB00C09FED /* AppConfig-cad-external-debug.xcconfig */; };
+		125EAE2120A00EEB00C09FED /* AppConfig-cad-external-release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 125EAE1F20A00EEB00C09FED /* AppConfig-cad-external-release.xcconfig */; };
 		1987C2AE2084676F007F7273 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1987C2AD2084676E007F7273 /* Localizable.strings */; };
 		8C8D6CC41B08BE3F8BD4323A /* Pods_CAD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFE5675329056751C51108DA /* Pods_CAD.framework */; };
 		9624A4161F7C550B00CAE056 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9624A4151F7C550B00CAE056 /* AppDelegate.swift */; };
@@ -29,6 +31,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		125EAE1E20A00EEB00C09FED /* AppConfig-cad-external-debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppConfig-cad-external-debug.xcconfig"; sourceTree = "<group>"; };
+		125EAE1F20A00EEB00C09FED /* AppConfig-cad-external-release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppConfig-cad-external-release.xcconfig"; sourceTree = "<group>"; };
 		1987C2AD2084676E007F7273 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = ../../../Localizable.strings; sourceTree = "<group>"; };
 		1DE76078EE629AAABB19522F /* Pods-CAD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CAD.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CAD/Pods-CAD.debug.xcconfig"; sourceTree = "<group>"; };
 		938AAB0D0D7D4DF633FAD2DB /* Pods-CAD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CAD.release.xcconfig"; path = "Pods/Target Support Files/Pods-CAD/Pods-CAD.release.xcconfig"; sourceTree = "<group>"; };
@@ -162,6 +166,8 @@
 		96553FCE1F98554E006E063E /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
+				125EAE1E20A00EEB00C09FED /* AppConfig-cad-external-debug.xcconfig */,
+				125EAE1F20A00EEB00C09FED /* AppConfig-cad-external-release.xcconfig */,
 				96553FD41F98554E006E063E /* AppConfig-cad-debug.xcconfig */,
 				96553FD51F98554E006E063E /* AppConfig-cad-release.xcconfig */,
 				96553FD71F98554E006E063E /* AppConfiguration.h */,
@@ -269,9 +275,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				125EAE2120A00EEB00C09FED /* AppConfig-cad-external-release.xcconfig in Resources */,
 				9624A4201F7C550B00CAE056 /* LaunchScreen.storyboard in Resources */,
 				9624A41D1F7C550B00CAE056 /* Assets.xcassets in Resources */,
 				96CED76F1FA7FE4C00C0DEB0 /* termsandconditions.html in Resources */,
+				125EAE2020A00EEB00C09FED /* AppConfig-cad-external-debug.xcconfig in Resources */,
 				969C2C871FCFD7B700E99C85 /* DemoOfficer.json in Resources */,
 				96CED7751FA8456A00C0DEB0 /* Localizable.stringsdict in Resources */,
 				1987C2AE2084676F007F7273 /* Localizable.strings in Resources */,
@@ -389,6 +397,158 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		125EAE2220A00EF400C09FED /* External Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = "External Debug";
+		};
+		125EAE2320A00EF400C09FED /* External Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 125EAE1E20A00EEB00C09FED /* AppConfig-cad-external-debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CAD/CAD.entitlements;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = QJQ4TBYRPA;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = "CAD/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.pscore.cad;
+				PRODUCT_NAME = "$(PRODUCT_NAME)";
+				PROVISIONING_PROFILE = "a2b27753-7bd1-4029-947f-42f7683a92d1";
+				PROVISIONING_PROFILE_SPECIFIER = "In House - PSCore CAD Debug";
+				SWIFT_OBJC_BRIDGING_HEADER = "CAD/Configuration/CAD-Bridging-Header.h";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "External Debug";
+		};
+		125EAE2420A00EFE00C09FED /* External Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "External Release";
+		};
+		125EAE2520A00EFE00C09FED /* External Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 125EAE1F20A00EEB00C09FED /* AppConfig-cad-external-release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CAD/CAD.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = QJQ4TBYRPA;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = "CAD/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = enterprise.gridstone.pscore.cad;
+				PRODUCT_NAME = "$(PRODUCT_NAME)";
+				PROVISIONING_PROFILE = "49d8fe96-b49d-4266-986a-2ec963c854ed";
+				PROVISIONING_PROFILE_SPECIFIER = "In house - PSCore CAD";
+				SWIFT_OBJC_BRIDGING_HEADER = "CAD/Configuration/CAD-Bridging-Header.h";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "External Release";
+		};
 		9624A4221F7C550B00CAE056 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -548,7 +708,9 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9624A4221F7C550B00CAE056 /* Debug */,
+				125EAE2220A00EF400C09FED /* External Debug */,
 				9624A4231F7C550B00CAE056 /* Release */,
+				125EAE2420A00EFE00C09FED /* External Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -557,7 +719,9 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9624A4251F7C550B00CAE056 /* Debug */,
+				125EAE2320A00EF400C09FED /* External Debug */,
 				9624A4261F7C550B00CAE056 /* Release */,
+				125EAE2520A00EFE00C09FED /* External Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
