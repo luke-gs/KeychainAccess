@@ -252,21 +252,16 @@ open class CADStateManagerCore: CADStateManagerType {
 
     // MARK: - Manifest
 
+    /// Fetch the officer capabilities
+    open func capabilityItems() -> [ManifestEntry] {
+        return Manifest.shared.entries(for: .CapabilityCollection) ?? []
+    }
+
     /// Fetch the book on equipment items
     open func equipmentItems() -> [ManifestEntry] {
         return Manifest.shared.entries(for: .EquipmentCollection) ?? []
     }
 
-    open func equipmentItemsByTitle() -> [String: ManifestEntry] {
-        var result: [String: ManifestEntry] = [:]
-        for item in equipmentItems() {
-            if let title = item.title {
-                result[title] = item
-            }
-        }
-        return result
-    }
-    
     /// Fetch the patrol groups
     open func patrolGroups() -> [ManifestEntry] {
         return Manifest.shared.entries(for: .PatrolGroupCollection) ?? []

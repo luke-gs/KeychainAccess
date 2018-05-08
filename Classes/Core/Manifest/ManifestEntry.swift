@@ -53,3 +53,16 @@ public class ManifestEntry: NSManagedObject {
 
 extension ManifestEntry: Pickable {
 }
+
+// Convenience extension for getting manifest items by title
+extension Array where Element == ManifestEntry {
+    public func itemsByTitle() -> [String: ManifestEntry] {
+        var result: [String: ManifestEntry] = [:]
+        for item in self {
+            if let title = item.title {
+                result[title] = item
+            }
+        }
+        return result
+    }
+}

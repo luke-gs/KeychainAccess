@@ -87,11 +87,11 @@ public protocol CADStateManagerType {
 
     // MARK: - Manifest
 
+    /// Fetch the officer capabilities
+    func capabilityItems() -> [ManifestEntry]
+
     /// Fetch the book on equipment items
     func equipmentItems() -> [ManifestEntry]
-
-    /// Fetch the book on equipment items, as a dictionary
-    func equipmentItemsByTitle() -> [String: ManifestEntry]
 
     /// Fetch the patrol groups
     func patrolGroups() -> [ManifestEntry]
@@ -158,6 +158,7 @@ public extension NSNotification.Name {
 
 // Extension for custom manifest categories
 public extension ManifestCollection {
+    static let CapabilityCollection = ManifestCollection(rawValue: "Capability")
     static let EquipmentCollection = ManifestCollection(rawValue: "Equipment")
     static let PatrolGroupCollection = ManifestCollection(rawValue: "PatrolGroup")
 }
