@@ -17,7 +17,6 @@ public protocol CADBookOnRequestType: CodableRequestParameters {
     var driverEmployeeNumber : String? { get }
     var employees : [CADOfficerType] { get }
     var equipment : [CADEquipmentType] { get }
-    var fleetNumber : String? { get }
     var odometer : Int? { get }
     var remarks : String? { get }
     var serial: String? { get }

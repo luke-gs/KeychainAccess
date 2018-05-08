@@ -21,7 +21,6 @@ open class CADBookOnRequestCore: CADBookOnRequestType {
     open var driverEmployeeNumber : String?
     open var employees : [CADOfficerType] = []
     open var equipment : [CADEquipmentType] = []
-    open var fleetNumber : String?
     open var odometer : Int?
     open var remarks : String?
     open var serial: String?
@@ -44,7 +43,6 @@ open class CADBookOnRequestCore: CADBookOnRequestType {
         case driverEmployeeNumber
         case employees
         case equipment
-        case fleetNumber
         case odometer
         case remarks
         case serial
@@ -59,7 +57,6 @@ open class CADBookOnRequestCore: CADBookOnRequestType {
         try container.encodeIfPresent(driverEmployeeNumber, forKey: .driverEmployeeNumber)
         try container.encodeIfPresent(employees as? [CADOfficerCore], forKey: .employees)
         try container.encodeIfPresent(equipment as? [CADEquipmentCore], forKey: .equipment)
-        try container.encodeIfPresent(fleetNumber, forKey: .fleetNumber)
         try container.encodeIfPresent(odometer, forKey: .odometer)
         try container.encodeIfPresent(remarks, forKey: .remarks)
         try container.encodeIfPresent(serial, forKey: .serial)
