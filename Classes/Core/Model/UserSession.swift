@@ -124,9 +124,27 @@ public class UserSession: UserSessionable {
         // Recreate paths, as session ID may have changed in another app
         paths = UserSessionPaths(baseUrl: UserSession.basePath, sessionId: sessionID)
 
+        let directoryManager = self.directoryManager
+
         let userWrapper = directoryManager.read(from: paths.userWrapperPath) as? FileWrapper
-        let viewed = directoryManager.read(from: paths.recentlyViewed) as? [MPOLKitEntity] ?? []
-        let searched = directoryManager.read(from: paths.recentlySearched) as? [Searchable] ?? []
+
+
+        // Currently, these 2 are sessions based only. So when they fail to deserialise
+        // which most of the cases are just due to not migrating data, it'll just empty it out instead
+        // of crashing.
+        var viewed: [MPOLKitEntity] = []
+        var searched: [Searchable] = []
+        let recentlyViewedPath = paths.recentlyViewed
+        let recentlySearchedPath = paths.recentlySearched
+
+        try? ObjC.catchException {
+            if let read = directoryManager.read(from: recentlyViewedPath) as? [MPOLKitEntity] {
+                viewed = read
+            }
+            if let read = directoryManager.read(from: recentlySearchedPath) as? [Searchable] {
+                searched = read
+            }
+        }
 
         var token: OAuthAccessToken?
 

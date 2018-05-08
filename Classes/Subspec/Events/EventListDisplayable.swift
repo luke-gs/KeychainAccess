@@ -141,6 +141,6 @@ public protocol SideBarHeaderUpdateable {
 
 /// The delegate responsible for updating the sidebar header for events
 public protocol SideBarHeaderUpdateDelegate: class {
-    func updateHeader(with title: String?, subtitle: String?, image: UIImage?)
+    func updateHeader(with title: String?, subtitle: String?)
 }
 

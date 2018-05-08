@@ -99,7 +99,7 @@ open class APIManager {
     ///   - source: The data source of entity to be fetched.
     ///   - request: The request with the parameters to fetch the entity.
     /// - Returns: A promise to return specified entity details.
-    open func fetchEntityDetails<FetchRequest: EntityFetchRequestable>(in source: EntitySource, with request: FetchRequest, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<FetchRequest.ResultClass> {
+    open func fetchEntityDetails<FetchRequest: Requestable>(in source: EntitySource, with request: FetchRequest, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<FetchRequest.ResultClass> {
 
         let path = "{source}/entity/{entityType}/{id}"
 
@@ -112,6 +112,19 @@ open class APIManager {
         return try! self.performRequest(networkRequest, withCancellationToken: token)
     }
 
+    open func submitEvent<FetchRequest: Requestable>(in source: EntitySource, with request: FetchRequest, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<FetchRequest.ResultClass> {
+        
+        let path = "{source}/entity/{entityType}"
+
+        var parameters = request.parameters
+        parameters["source"] = source.serverSourceName
+        parameters["entityType"] = FetchRequest.ResultClass.serverTypeRepresentation
+
+        let networkRequest = try! NetworkRequest(pathTemplate: path, parameters: parameters, method: .post)
+
+        return try! self.performRequest(networkRequest, withCancellationToken: token)
+    }
+
     /// Fetch officer details for the current officer
     ///
     /// Supports implicit `NSProgress` reporting.
@@ -119,7 +132,7 @@ open class APIManager {
     ///   - source: The data source of officer to be fetched.
     ///   - request: The request with the parameters to fetch the officer.
     /// - Returns: A promise to return specified officer details.
-    open func fetchCurrentOfficerDetails<FetchRequest: EntityFetchRequestable>(in source: EntitySource, with request: FetchRequest, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<FetchRequest.ResultClass> {
+    open func fetchCurrentOfficerDetails<FetchRequest: Requestable>(in source: EntitySource, with request: FetchRequest, withCancellationToken token: PromiseCancellationToken? = nil) -> Promise<FetchRequest.ResultClass> {
 
         let path = "{source}/entity/{entityType}/current"
 
@@ -186,11 +199,11 @@ open class APIManager {
                     resolver.fulfill(dataResponse)
                 }
 
+                }.catch(policy: .allErrors) { error in
+                    resolver.reject(error)
+            }
             }.catch(policy: .allErrors) { error in
                 resolver.reject(error)
-            }
-        }.catch(policy: .allErrors) { error in
-            resolver.reject(error)
         }
 
         return promise
@@ -280,8 +293,8 @@ open class APIManager {
     private func requestPromise<T: ResponseSerializing>(_ urlRequest: Promise<URLRequest>, using serializer: T, cancelToken: PromiseCancellationToken? = nil) -> Promise<T.ResultType> {
 
         return Promise { seal in
-
-            dataRequest(urlRequest, cancelToken: cancelToken).done { [unowned self] (processedResponse) in
+            
+            dataRequest(urlRequest, cancelToken: cancelToken).done { [self] (processedResponse) in
                 let result = serializer.serializedResponse(from: processedResponse)
 
                 switch result {
@@ -290,7 +303,7 @@ open class APIManager {
                 case .failure(let error):
                     seal.reject(self.mappedError(underlyingError: error, response: processedResponse.toDefaultDataResponse()))
                 }
-            }.catch(policy: CatchPolicy.allErrors) { [unowned self] (error) in
+            }.catch(policy: CatchPolicy.allErrors) { [self] (error) in
                 // It's used to be the `processedResponse(_:)` used to be APIManager's internal state.
                 // and it'll never throw error due to being wrapped inside `Alamofire.Result(T)`.
                 // However, it's now exposed externally and it's possible that something external is rejecting the promise.

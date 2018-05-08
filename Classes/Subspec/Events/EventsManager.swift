@@ -7,7 +7,10 @@
 /// Manages the list of events
 final public class EventsManager {
 
+    public weak var delegate: EventsManagerDelegate?
     public var eventBucket: ObjectBucket<Event> = ObjectBucket<Event>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
+
+
     public var displayableBucket: ObjectBucket<EventListDisplayable> = ObjectBucket<EventListDisplayable>(directory: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)
     public var eventBuilder: EventBuilding
     
@@ -25,6 +28,7 @@ final public class EventsManager {
 
         displayableBucket.add(displayable)
         eventBucket.add(event)
+        delegate?.eventsManagerDidUpdateEventBucket(self)
 
         return event
     }
@@ -32,17 +36,20 @@ final public class EventsManager {
     //add
     private func add(event: Event) {
         eventBucket.add(event)
+        delegate?.eventsManagerDidUpdateEventBucket(self)
     }
     
     //remove
     public func remove(event: Event) {
         eventBucket.remove(event)
+        delegate?.eventsManagerDidUpdateEventBucket(self)
     }
     
     public func remove(for id: String) {
         guard let event = self.event(for: id), let displayable = event.displayable else { return }
         eventBucket.remove(event)
         displayableBucket.remove(displayable)
+        delegate?.eventsManagerDidUpdateEventBucket(self)
     }
     
     //utility
@@ -51,3 +58,6 @@ final public class EventsManager {
     }
 }
 
+public protocol EventsManagerDelegate: class {
+    func eventsManagerDidUpdateEventBucket(_ eventsManager: EventsManager)
+}

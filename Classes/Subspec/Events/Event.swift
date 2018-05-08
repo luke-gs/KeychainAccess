@@ -74,7 +74,9 @@ final public class Event: NSObject, NSSecureCoding, Evaluatable {
     //MARK: Evaluation
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        allValid = evaluationState
+        allValid = reports.reduce(true, { result, report in
+            return result && report.evaluator.isComplete
+        })
     }
 }
 

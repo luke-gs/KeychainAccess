@@ -36,7 +36,7 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
         builder += HeaderFormItem(text: "REPORTED ON")
 
         builder += DateFormItem()
-            .title("Report Time")
+            .title("Date and Time")
             .selectedValue(viewModel.report?.reportedOnDateTime)
             .datePickerMode(.dateAndTime)
             .withNowButton(true)
@@ -49,7 +49,7 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
         builder += HeaderFormItem(text: "TOOK PLACE FROM")
 
         builder += DateFormItem()
-            .title("Start")
+            .title("Start Time")
             .selectedValue(viewModel.report?.tookPlaceFromStartDateTime)
             .datePickerMode(.dateAndTime)
             .withNowButton(true)
@@ -63,7 +63,7 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
             .required()
 
         builder +=  DateFormItem()
-            .title("End")
+            .title("End Time")
             .selectedValue(viewModel.report?.tookPlaceFromEndDateTime)
             .datePickerMode(.dateAndTime)
             .width(.column(2))

@@ -31,12 +31,6 @@ open class SidebarHeaderView: UIView {
     /// The subtitle label.
     public let subtitleLabel: UILabel = UILabel(frame: .zero)
     
-    
-    // MARK: - Private properties
-    
-    private let sectionSeparator: UIImageView = UIImageView(image: UIImage(named: "SectionSeparator", in: .mpolKit, compatibleWith: nil))
-    
-    
     // MARK: - Initializers
     
     public override init(frame: CGRect) {
@@ -75,9 +69,6 @@ open class SidebarHeaderView: UIView {
         captionLabel.textColor = secondaryColor
         captionLabel.textAlignment = .center
         addSubview(captionLabel)
-        
-        sectionSeparator.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(sectionSeparator)
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.adjustsFontSizeToFitWidth = true
@@ -118,10 +109,7 @@ open class SidebarHeaderView: UIView {
             NSLayoutConstraint(item: subtitleLabel, attribute: .centerX,  relatedBy: .equal, toItem: self, attribute: .centerX),
             NSLayoutConstraint(item: subtitleLabel, attribute: .leading,  relatedBy: .greaterThanOrEqual, toItem: self, attribute: .leadingMargin),
             NSLayoutConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual,    toItem: self, attribute: .trailingMargin),
-            
-            NSLayoutConstraint(item: sectionSeparator, attribute: .top,     relatedBy: .equal, toItem: subtitleLabel, attribute: .bottom, constant: 23.0),
-            NSLayoutConstraint(item: sectionSeparator, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX),
-            NSLayoutConstraint(item: sectionSeparator, attribute: .bottom,  relatedBy: .equal, toItem: self, attribute: .bottom, constant: -11.0).withPriority(UILayoutPriority.defaultHigh)
+            NSLayoutConstraint(item: subtitleLabel, attribute: .bottom,  relatedBy: .equal, toItem: self, attribute: .bottom, constant: -52.0).withPriority(UILayoutPriority.defaultHigh)
         ])
     }
     

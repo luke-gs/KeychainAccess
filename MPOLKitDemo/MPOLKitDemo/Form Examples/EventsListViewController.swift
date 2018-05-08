@@ -8,6 +8,7 @@
 
 import UIKit
 import MPOLKit
+import PromiseKit
 
 open class EventsListViewController: FormBuilderViewController {
 
@@ -77,7 +78,18 @@ open class EventsListViewController: FormBuilderViewController {
 
     private func show(_ event: Event? = nil, with incidentType: IncidentType? = nil) {
         guard let event = event ?? viewModel.eventsManager.create(eventType: .blank) else { return }
-        let viewController = EventSplitViewController<Void>(viewModel: viewModel.detailsViewModel(for: event))
+        let viewController = EventSplitViewController<DemoEventSubmittable>(viewModel: viewModel.detailsViewModel(for: event))
+        let builder = LoadingViewBuilder<DemoEventSubmittable>()
+        builder.title = "Submitting Event"
+        builder.subtitle = "Please wait"
+
+        builder.request = {
+            return after(seconds: 2).then {
+                return Promise<DemoEventSubmittable>.value(DemoEventSubmittable())
+            }
+        }
+
+        viewController.loadingViewBuilder = builder
         self.show(viewController, sender: self)
     }
 

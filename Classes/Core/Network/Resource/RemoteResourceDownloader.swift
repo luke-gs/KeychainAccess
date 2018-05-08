@@ -11,7 +11,7 @@ import PromiseKit
 import Unbox
 import Cache
 
-public class RemoteResourceDownloader<T: Codable> {
+public class RemoteResourceDownloader<T: Codable, U: ResponseSerializing> where T == U.ResultType {
 
     public let apiManager: APIManager?
 
@@ -22,10 +22,12 @@ public class RemoteResourceDownloader<T: Codable> {
     private let barrierQueue: DispatchQueue
     private var inProgressPromises = [URL: Promise<T>]()
 
+    private let responseSerializing: U
+
     /// If `APIManager` is not provided, the `APIManager.shared` will be used.
     /// This is to allow to pass in different APIManager setup if required while
     /// allowing using the global mutating `APIManager.shared`.
-    public init(apiManager: APIManager? = nil, diskCacheConfig: DiskConfig = RemoteResourceDownloader.defaultDiskCacheConfig) {
+    public init(apiManager: APIManager? = nil, diskCacheConfig: DiskConfig = RemoteResourceDownloader.defaultDiskCacheConfig, responseSerializing: U) {
         self.resourceDiskCacheConfig = diskCacheConfig
         // Use default `MemoryConfig`, it'll automatically clear anyway.
 
@@ -35,6 +37,8 @@ public class RemoteResourceDownloader<T: Codable> {
         resourceCache = try! Storage(diskConfig: diskCacheConfig, memoryConfig: MemoryConfig(expiry: diskCacheConfig.expiry))
 
         barrierQueue = DispatchQueue(label: "au.com.gridstone.RemoteResourceDownloader.Barrier.\(diskCacheConfig.name)", attributes: .concurrent)
+
+        self.responseSerializing = responseSerializing
     }
 
     /// Fetch resource using the the `RemoteResourceDescribing`. The result will be cached
@@ -69,7 +73,10 @@ public class RemoteResourceDownloader<T: Codable> {
         // Try to retrieve from cache first.
         func retrieveAndCacheResourcePromise() -> Promise<T> {
             let networkRequest = try! NetworkRequest(pathTemplate: resourceDescription.downloadURL.absoluteString, parameters: [:], isRelativePath: false)
-            let promise: Promise<T> = try! _actualAPIManager.performRequest(networkRequest, using: CodableResponseSerializing())
+
+            let promise: Promise<T> = try! _actualAPIManager.performRequest(networkRequest, using: responseSerializing)
+
+
             return promise.then { [weak self] resource -> Promise<T> in
 
                 if let strongSelf = self {

@@ -19,7 +19,6 @@ open class ColorPalette: NSObject {
     open var midGreen          = #colorLiteral(red: 0.2980392157, green: 0.8509803922, blue: 0.3921568627, alpha: 1)
     open var brightBlue        = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
     open var skyBlue           = #colorLiteral(red: 0.3529411765, green: 0.7843137255, blue: 0.9803921569, alpha: 1)
-    open var brightGreen       = #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1)
 
     open var primaryGray       = #colorLiteral(red: 0.2470588235, green: 0.2509803922, blue: 0.2705882353, alpha: 1)
     open var secondaryGray     = #colorLiteral(red: 0.5215686275, green: 0.5254901961, blue: 0.5529411765, alpha: 1)
@@ -39,7 +38,6 @@ extension UIColor {
     open static var sunflowerYellow   = ColorPalette.shared.sunflowerYellow
     open static var brightBlue        = ColorPalette.shared.brightBlue
     open static var skyBlue           = ColorPalette.shared.skyBlue
-    open static var brightGreen       = ColorPalette.shared.brightGreen
 
     open static var primaryGray       = ColorPalette.shared.primaryGray
     open static var secondaryGray     = ColorPalette.shared.secondaryGray

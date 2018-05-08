@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PromiseKit
 
 public protocol PatrolAreaListViewModelDelegate: class {
     func patrolAreaListViewModel(_ viewModel: PatrolAreaListViewModel, didSelectPatrolArea patrolArea: String?)
@@ -72,6 +73,10 @@ open class PatrolAreaListViewModel: DefaultSearchDisplayableViewModel {
     
     open func noContentTitle() -> String? {
         return NSLocalizedString("No Patrol Areas Found", comment: "")
+    }
+    
+    public override func searchAction() -> Promise<Void>? {
+        return nil
     }
     
     public override func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? {

@@ -18,7 +18,7 @@ open class TrafficStopViewModel {
     open weak var delegate: TrafficStopViewModelDelegate?
     
     /// The completion handler for creating new traffic stop incident
-    open var completionHandler: ((CADTrafficStopDetailsType?) -> Void)?
+    open var completionHandler: ((CodableRequestParameters?) -> Void)?
 
     // Model representing UI
     open var entities: [SelectStoppedEntityItemViewModel] = []
@@ -93,7 +93,7 @@ open class TrafficStopViewModel {
     /// Perform any logic when submitting
     open func submit() {
         // TODO: Fill request object with details
-        let trafficStop = CADClientModelTypes.trafficStopDetails.init()
+        let trafficStop = DummyTrafficStopRequest()
         
         // Complete with new request
         completionHandler?(trafficStop)
@@ -107,4 +107,7 @@ open class TrafficStopViewModel {
         completionHandler = nil
     }
 
+}
+
+private class DummyTrafficStopRequest: CodableRequestParameters {
 }
