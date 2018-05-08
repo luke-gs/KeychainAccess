@@ -49,7 +49,7 @@ class MediaStorageDatastore<T: Media>: WritableDataStore {
                 })
             })
 
-            if indexes.count == 0 {
+            if indexes.isEmpty {
                 self.items += toBeAddedItems
                 for item in toBeAddedItems {
                     do {
