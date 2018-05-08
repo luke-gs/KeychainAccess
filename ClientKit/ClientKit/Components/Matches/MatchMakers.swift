@@ -15,7 +15,14 @@ public class VehicleMatchMaker: MatchMaker {
 
 public class PersonMatchMaker: MatchMaker {
     override public var matches: [DataMatchable]? {
-        return nil
+        return [
+            PersonMatchStrategy(initialSource: MPOLSource.pscore, resultSource: MPOLSource.nat),
+            PersonMatchStrategy(initialSource: MPOLSource.pscore, resultSource: MPOLSource.rda),
+            PersonMatchStrategy(initialSource: MPOLSource.nat, resultSource: MPOLSource.pscore),
+            PersonMatchStrategy(initialSource: MPOLSource.nat, resultSource: MPOLSource.rda),
+            PersonMatchStrategy(initialSource: MPOLSource.rda, resultSource: MPOLSource.pscore),
+            PersonMatchStrategy(initialSource: MPOLSource.rda, resultSource: MPOLSource.nat)
+        ]
     }
 }
 
