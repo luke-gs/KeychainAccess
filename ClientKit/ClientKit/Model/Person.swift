@@ -26,7 +26,8 @@ open class Person: Entity, Identifiable {
         case licences = "licences"
         case descriptions = "descriptions"
         case aliases = "aliases"
-        case criminalHistory = "criminalHistory"
+        case offenderCharges
+        case offenderConvictions
         case orders = "orders"
     }
 
@@ -78,9 +79,9 @@ open class Person: Entity, Identifiable {
     open var aliases: [Alias]?
 
     open var orders: [Order]?
-    
-    // TODO: TEMP
-    open var criminalHistory: [CriminalHistory]?
+
+    open var offenderCharges: [OffenderCharge]?
+    open var offenderConvictions: [OffenderConviction]?
 
     open var isAlias: Bool?
     open var thumbnail: UIImage?
@@ -90,7 +91,7 @@ open class Person: Entity, Identifiable {
             return UIImage.thumbnail(withInitials: initials)
         }
         return UIImage()
-        }()
+    }()
     
     // MARK: - ?
     open var highestAlertLevel: Alert.Level?
@@ -114,6 +115,9 @@ open class Person: Entity, Identifiable {
         descriptions = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.descriptions.rawValue) as? [PersonDescription]
         aliases = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.aliases.rawValue) as? [Alias]
         orders = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.orders.rawValue) as? [Order]
+
+        offenderCharges = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.orders.rawValue) as? [OffenderCharge]
+        offenderConvictions = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.orders.rawValue) as? [OffenderConviction]
     }
 
     public required override init(id: String = UUID().uuidString) {
@@ -144,10 +148,11 @@ open class Person: Entity, Identifiable {
         descriptions = unboxer.unbox(key: "descriptions")
         aliases = unboxer.unbox(key: "aliases")
 
-        criminalHistory = unboxer.unbox(key: "criminalHistory")
-
         isAlias = unboxer.unbox(key: "isAlias")
         orders = unboxer.unbox(key: Coding.orders.rawValue)
+
+        offenderCharges = unboxer.unbox(key: Coding.offenderCharges.rawValue)
+        offenderConvictions = unboxer.unbox(key: Coding.offenderConvictions.rawValue)
     }
     
     open override func encode(with aCoder: NSCoder) {
@@ -166,8 +171,9 @@ open class Person: Entity, Identifiable {
         aCoder.encode(licences, forKey: Coding.licences.rawValue)
         aCoder.encode(descriptions, forKey: Coding.descriptions.rawValue)
         aCoder.encode(aliases, forKey: Coding.aliases.rawValue)
-        aCoder.encode(criminalHistory, forKey: Coding.criminalHistory.rawValue)
         aCoder.encode(orders, forKey: Coding.orders.rawValue)
+        aCoder.encode(offenderCharges, forKey: Coding.offenderCharges.rawValue)
+        aCoder.encode(offenderConvictions, forKey: Coding.offenderConvictions.rawValue)
     }
     
     // MARK: - Model Versionable
