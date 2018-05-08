@@ -40,7 +40,7 @@ public class EntityPresenter: Presenter {
             case is Person:
                 // FIXME: Refactor all of these data sources set up.
                 dataSources = [
-                    PersonLOCDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
+                    PersonPSCoreDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
                     PersonNATDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
                     PersonRDADetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
                 ]
@@ -55,7 +55,7 @@ public class EntityPresenter: Presenter {
                 return entityDetailViewController
             case is Vehicle:
                 dataSources = [
-                    VehicleLOCDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
+                    VehiclePSCoreDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
                     VehicleNATDetailsSectionsDataSource(baseEntity: entity, delegate: delegate),
                     VehicleRDADetailsSectionsDataSource(baseEntity: entity, delegate: delegate)
                 ]
