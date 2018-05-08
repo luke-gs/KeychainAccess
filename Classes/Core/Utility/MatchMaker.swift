@@ -50,7 +50,7 @@ open class MatchMaker {
     {
         let fetchable = matches?.filter {
             $0.initialSource.serverSourceName == initialSource.serverSourceName
-                && destinationSource.serverSourceName == destinationSource.serverSourceName}.first?.match(entity)
+                && $0.resultSource.serverSourceName == destinationSource.serverSourceName}.first?.match(entity)
         return fetchable
     }
 }
