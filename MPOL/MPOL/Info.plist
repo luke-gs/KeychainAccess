@@ -53,7 +53,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>The App need to access the current location</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>The app need to access your microphone</string>
+	<string>Voice Input requires access to your Microphone in order to work.</string>
 	<key>PSAppGroupIdentifier</key>
 	<string>$(APP_GROUP_ID)</string>
 	<key>PSSharedKeychainAccessGroup</key>
