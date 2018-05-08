@@ -29,6 +29,8 @@ public class VehicleLOCDetailsSectionsDataSource: EntityDetailSectionsDataSource
         self.detailViewControllers =  [ EntityDetailFormViewController(viewModel: VehicleInfoViewModel()),
                                         EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
                                         EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
+                                        EntityDetailFormViewController(viewModel: EntityRetrievedEventsViewModel()),
+
         ]
     }
 }
