@@ -47,7 +47,8 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
         builder.title = title
         
         if !persons.isEmpty {
-            builder += HeaderFormItem(text: String(format: (count == 1 ? "%d PERSON" : "%d PEOPLE"), persons.count), style: .collapsible)
+            let count = persons.count
+            builder += HeaderFormItem(text: String.localizedStringWithFormat(NSLocalizedString("%d PEOPLE", comment: ""), count), style: .collapsible)
             
             for person in persons {
                 let displayable = PersonSummaryDisplayable(person)
@@ -61,7 +62,8 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
         }
         
         if !vehicles.isEmpty {
-            builder += HeaderFormItem(text: String(format: (count == 1 ? "%d VEHICLE" : "%d VEHICLES"), vehicles.count), style: .collapsible)
+            let count = vehicles.count
+            builder += HeaderFormItem(text: String.localizedStringWithFormat(NSLocalizedString("%d VEHICLE(S)", comment: ""), count), style: .collapsible)
             
             for vehicle in vehicles {
                 let displayable = VehicleSummaryDisplayable(vehicle)
