@@ -49,9 +49,9 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>Login using FaceID</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>The App need to access the current location</string>
+	<string>This service must be turned on for the app to correctly work and determine your call sign's location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>The App need to access the current location</string>
+	<string>This service must be turned on for the app to correctly work and determine your call sign's location.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>The app need to access your microphone</string>
 	<key>PSAppGroupIdentifier</key>
