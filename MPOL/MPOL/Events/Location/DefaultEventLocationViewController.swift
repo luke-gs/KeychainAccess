@@ -52,7 +52,7 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
 
         builder += HeaderFormItem(text: "LOCATIONS")
         builder += PickerFormItem(pickerAction: LocationAction(viewModel: viewModel))
-            .title("Event location")
+            .title("Event Location")
             .selectedValue(self.viewModel.report.eventLocation)
             .accessory(ImageAccessoryItem(image: AssetManager.shared.image(forKey: .iconPencil)!))
             .required()

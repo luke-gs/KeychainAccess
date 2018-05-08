@@ -25,7 +25,7 @@ open class IncidentListReport: Reportable, SideBarHeaderUpdateable {
             event?.displayable?.title = incidents.isEmpty ? incidentsHeaderDefaultTitle : incidents.map { $0.displayable?.title }.joined(separator: ", ")
             event?.displayable?.subtitle = incidentsHeaderDefaultSubtitle
             evaluator.updateEvaluation(for: .incidents)
-            delegate?.updateHeader(with: incidents.first?.displayable?.title, subtitle: nil, image: nil)
+            delegate?.updateHeader(with: incidents.first?.displayable?.title, subtitle: nil)
         }
     }
 
@@ -81,6 +81,7 @@ open class IncidentListReport: Reportable, SideBarHeaderUpdateable {
 
     // Evaluation
 
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {}
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+    }
 }
 
