@@ -77,7 +77,7 @@ public class EntityDetailSectionsViewModel {
     }
 
     public func performSubsequentFetch(for source: EntitySource) {
-        entityFetch = matchMaker?.findMatch(for: currentEntity, withInitialSource: initialSource, andDestinationSource: selectedSource)
+        entityFetch = matchMaker?.findMatch(for: currentEntity, withInitialSource: initialSource, andDestinationSource: source)
         entityFetch?.delegate = self
         entityFetch?.performFetch()
     }
