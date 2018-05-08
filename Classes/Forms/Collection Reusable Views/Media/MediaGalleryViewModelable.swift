@@ -34,11 +34,11 @@ public protocol MediaGalleryViewModelable: class {
 
     func retrievePreviews(style: MediaGalleryRetrieveStyle)
 
-    func removeMedia(_ media: [Media]) -> Promise<Bool>
+    func removeMedia(_ media: [MediaAsset]) -> Promise<Bool>
 
-    func replaceMedia(_ media: Media, with otherMedia: Media) -> Promise<Bool>
+    func replaceMedia(_ media: MediaAsset, with otherMedia: MediaAsset) -> Promise<Bool>
 
-    func addMedia(_ media: [Media]) -> Promise<Bool>
+    func addMedia(_ media: [MediaAsset]) -> Promise<Bool>
 
     // State information
 
@@ -63,7 +63,7 @@ extension MediaGalleryViewModelable {
 public let MediaGalleryDidChangeNotificationName = Notification.Name("MediaGalleryDidChangeNotificationName")
 
 
-open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryViewModelable where T.Result: PaginatedDataStoreResult, T.Result.Item: Media {
+open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryViewModelable where T.Result: PaginatedDataStoreResult, T.Result.Item: MediaAsset {
 
     public private(set) var state: MediaGalleryState = .unknown
 
@@ -103,7 +103,7 @@ open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryV
         NotificationCenter.default.removeObserver(self, name: DataStoreCoordinatorDidChangeStateNotification, object: storeCoordinator)
     }
 
-    open func previewForMedia(_ media: Media) -> MediaPreviewable {
+    open func previewForMedia(_ media: MediaAsset) -> MediaPreviewable {
         switch media.type {
         case .photo: return PhotoPreview(asset: media)
         case .audio: return AudioPreview(media: media)
@@ -236,7 +236,7 @@ open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryV
         }
     }
 
-    public func addMedia(_ media: [Media]) -> Promise<Bool> {
+    public func addMedia(_ media: [MediaAsset]) -> Promise<Bool> {
         guard let media = media as? [T.Result.Item] else {
             return Promise(error: MediaGalleryCoordinatorViewModelError.unsupportedMedia)
         }
@@ -249,7 +249,7 @@ open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryV
         }
     }
 
-    public func removeMedia(_ media: [Media]) -> Promise<Bool> {
+    public func removeMedia(_ media: [MediaAsset]) -> Promise<Bool> {
         guard let media = media as? [T.Result.Item] else {
             return Promise(error: MediaGalleryCoordinatorViewModelError.unsupportedMedia)
         }
@@ -262,7 +262,7 @@ open class MediaGalleryCoordinatorViewModel<T: WritableDataStore>: MediaGalleryV
         }
     }
 
-    public func replaceMedia(_ media: Media, with otherMedia: Media) -> Promise<Bool> {
+    public func replaceMedia(_ media: MediaAsset, with otherMedia: MediaAsset) -> Promise<Bool> {
         guard let media = media as? T.Result.Item, let otherMedia = otherMedia as? T.Result.Item else {
             return Promise(error: MediaGalleryCoordinatorViewModelError.unsupportedMedia)
         }

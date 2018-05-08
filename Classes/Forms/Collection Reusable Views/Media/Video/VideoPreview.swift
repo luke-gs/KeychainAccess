@@ -11,7 +11,7 @@ import AVKit
 
 public class VideoPreview: MediaPreview {
 
-    public init(media: Media) {
+    public init(media: MediaAsset) {
         super.init(media: media)
 
         let videoAsset = AVAsset(url: media.url)

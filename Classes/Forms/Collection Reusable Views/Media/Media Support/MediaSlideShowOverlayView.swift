@@ -175,7 +175,7 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, MediaDetai
         guard let slideShowViewController = slideShowViewController, let currentPhotoPreview = slideShowViewController.currentPreview else { return }
 
         populateWithPreview(currentPhotoPreview)
-        _ = slideShowViewController.viewModel.replaceMedia(currentPhotoPreview.media, with: currentPhotoPreview.media)
+        _ = slideShowViewController.viewModel.replaceMedia(currentPhotoPreview.media, with: detailViewController.media)
     }
 
     // MARK: - Private

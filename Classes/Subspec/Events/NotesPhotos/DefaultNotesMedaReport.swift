@@ -20,7 +20,7 @@ public class DefaultNotesMediaReport: Reportable, MediaContainer {
         }
     }
 
-    var media: [Media] = []
+    var media: [MediaAsset] = []
     var operationName: String?
     var freeText: String?
 
@@ -54,7 +54,7 @@ public class DefaultNotesMediaReport: Reportable, MediaContainer {
 
 
     public required init?(coder aDecoder: NSCoder) {
-        media = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.media.rawValue) as! [Media]
+        media = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.media.rawValue) as! [MediaAsset]
         operationName = aDecoder.decodeObject(of: NSString.self, forKey: Coding.operationName.rawValue) as String?
         freeText = aDecoder.decodeObject(of: NSString.self, forKey: Coding.freeText.rawValue) as String?
         commonInit()
@@ -68,7 +68,7 @@ public class DefaultNotesMediaReport: Reportable, MediaContainer {
     }
 
     // Media
-    func add(_ media: [Media]) {
+    func add(_ media: [MediaAsset]) {
         media.forEach {
             if !self.media.contains($0) {
                 self.media.append($0)
@@ -76,7 +76,7 @@ public class DefaultNotesMediaReport: Reportable, MediaContainer {
         }
     }
 
-    func remove(_ media: [Media]) {
+    func remove(_ media: [MediaAsset]) {
         media.forEach { asset in
             if let index = self.media.index(where: { $0 == asset }) {
                 self.media.remove(at: index)

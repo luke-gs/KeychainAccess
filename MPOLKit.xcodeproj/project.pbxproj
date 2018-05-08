@@ -78,6 +78,7 @@
 		194C0C2B203173B700CD5AA8 /* MKMapView+MKMapView_NightMode.h in Headers */ = {isa = PBXBuildFile; fileRef = 194C0C29203173B700CD5AA8 /* MKMapView+MKMapView_NightMode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		194C0C2C203173B700CD5AA8 /* MKMapView+MKMapView_NightMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 194C0C2A203173B700CD5AA8 /* MKMapView+MKMapView_NightMode.m */; };
 		1955CCCF20A16EB1009488A3 /* DetailFormItemDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1955CCCE20A16EB1009488A3 /* DetailFormItemDisplayable.swift */; };
+		1955CCCD20A15C53009488A3 /* DefaultNSCopying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1955CCCC20A15C53009488A3 /* DefaultNSCopying.swift */; };
 		196ED03A1F7C0207005F3F7C /* UILayoutPriority+Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196ED0391F7C0207005F3F7C /* UILayoutPriority+Math.swift */; };
 		196ED03C1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196ED03B1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift */; };
 		196EF4752033BC2A00C0ADE9 /* MapControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196EF4742033BC2A00C0ADE9 /* MapControlView.swift */; };
@@ -944,8 +945,9 @@
 		193ED08C1FDE9AD7002F2837 /* PluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PluginTests.swift; sourceTree = "<group>"; };
 		1948A7B41FBBDB45005AB301 /* OAuth2Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Error.swift; sourceTree = "<group>"; };
 		194C0C29203173B700CD5AA8 /* MKMapView+MKMapView_NightMode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MKMapView+MKMapView_NightMode.h"; sourceTree = "<group>"; };
-		194C0C2A203173B700CD5AA8 /* MKMapView+MKMapView_NightMode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+MKMapView_NightMode.m"; sourceTree = "<group>"; };
 		1955CCCE20A16EB1009488A3 /* DetailFormItemDisplayable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailFormItemDisplayable.swift; sourceTree = "<group>"; };
+		194C0C2A203173B700CD5AA8 /* MKMapView+MKMapView_NightMode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+MKMapView_NightMode.m"; sourceTree = "<group>"; };
+		1955CCCC20A15C53009488A3 /* DefaultNSCopying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNSCopying.swift; sourceTree = "<group>"; };
 		196ED0391F7C0207005F3F7C /* UILayoutPriority+Math.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILayoutPriority+Math.swift"; sourceTree = "<group>"; };
 		196ED03B1F7C0619005F3F7C /* UILayoutPriorityMathExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILayoutPriorityMathExtensionTests.swift; sourceTree = "<group>"; };
 		196EF4742033BC2A00C0ADE9 /* MapControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapControlView.swift; sourceTree = "<group>"; };
@@ -3378,6 +3380,7 @@
 				12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */,
 				BC9C7D461F0DED6600DFFE83 /* DefaultCustomStringConvertible.swift */,
 				1955CCCE20A16EB1009488A3 /* DetailFormItemDisplayable.swift */,
+				1955CCCC20A15C53009488A3 /* DefaultNSCopying.swift */,
 				BC9C7D471F0DED6600DFFE83 /* EntitySource.swift */,
 				C63408521F30D50F000747B0 /* MPOLKitEntityProtocol.swift */,
 				BC9C7D481F0DED6600DFFE83 /* ModelVersionable.swift */,
@@ -5168,6 +5171,7 @@
 				27CBC7671F8B27D500E387C3 /* UserCallsignStatusViewModel.swift in Sources */,
 				BC9C7E171F0DED6600DFFE83 /* FormTextField.swift in Sources */,
 				BC9C7E041F0DED6600DFFE83 /* UIColor+ActionColors.swift in Sources */,
+				1955CCCD20A15C53009488A3 /* DefaultNSCopying.swift in Sources */,
 				BC9C7DD01F0DED6600DFFE83 /* ManifestEntry+Location.swift in Sources */,
 				4677EE241FFDAB0B004634B5 /* AnimationStyle.swift in Sources */,
 				2744EEC61FBEA523008DFA7F /* MapFilterToggleRowView.swift in Sources */,

@@ -15,7 +15,7 @@ public protocol MediaPreviewable: class {
     var title: String? { get set }
     var comments: String? { get set }
 
-    var media: Media { get }
+    var media: MediaAsset { get }
 }
 
 public protocol MediaPreviewRenderer: DefaultReusable {

@@ -45,7 +45,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
     
     public let galleryCellType: MediaGalleryCell.Type
 
-    private var itemsBeingProcessed: [Media] = []
+    private var itemsBeingProcessed: [MediaAsset] = []
 
     public init(viewModel: MediaGalleryViewModelable, initialPreview: MediaPreviewable? = nil, pickerSources: [MediaPickerSource] = [CameraMediaPicker(), PhotoLibraryMediaPicker(), AudioMediaPicker(), SketchMediaPicker()], galleryCellType: MediaGalleryCell.Type = MediaGalleryCell.self) {
 

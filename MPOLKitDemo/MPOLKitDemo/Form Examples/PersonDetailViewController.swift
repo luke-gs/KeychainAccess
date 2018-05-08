@@ -17,10 +17,10 @@ class PersonDetailViewController: FormBuilderViewController {
         builder.title = "Person Details"
 
         let localStore = DataStoreCoordinator(dataStore: LocalDataStore(items: [
-            Media(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", sensitive: true),
-            Media(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", sensitive: false),
-            Media(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", sensitive: false),
-            Media(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", sensitive: false)
+            MediaAsset(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", sensitive: true),
+            MediaAsset(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", sensitive: false),
+            MediaAsset(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", sensitive: false),
+            MediaAsset(url: URL(string: "localhost")!, type: .photo, title: "Herli", comments: "This Girl is on FIREEE", sensitive: false)
         ]))
 
         let gallery = MediaGalleryCoordinatorViewModel(storeCoordinator: localStore)
@@ -73,7 +73,7 @@ class PersonDetailViewController: FormBuilderViewController {
 
 class DocumentItem: MediaPreviewable {
 
-    var media: Media
+    var media: MediaAsset
 
     var sensitive: Bool = false
 
@@ -105,7 +105,7 @@ class DocumentItem: MediaPreviewable {
     let sensitiveText: String? = nil
 
     init(type: DocumentType, title: String?) {
-        self.media = Media(url: URL(string: "localhost")!, type: .photo)
+        self.media = MediaAsset(url: URL(string: "localhost")!, type: .photo)
         self.type = type
         self.title = title
 

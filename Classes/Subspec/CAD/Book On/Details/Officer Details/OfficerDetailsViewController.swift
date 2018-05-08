@@ -94,15 +94,16 @@ open class OfficerDetailsViewController: FormBuilderViewController {
             .onValueChanged {
                 self.viewModel.content.radioId = $0
         }
-        
-        builder += TextFieldFormItem(title: NSLocalizedString("Capabilities", comment: ""))
+
+        builder += DropDownFormItem(title: NSLocalizedString("Capabilities", comment: ""))
+            .options(CADStateManager.shared.capabilityItems().compactMap {return $0.title})
             .width(.column(1))
-            .text(viewModel.content.capabilities.joined(separator: ", "))
+            .selectedValue(viewModel.content.capabilities)
+            .allowsMultipleSelection(true)
             .onValueChanged {
-                let capabilities = $0?.split(separator: ",").map{ String($0) } ?? []
-                self.viewModel.content.capabilities = capabilities
-            }
-        
+                self.viewModel.content.capabilities = $0 ?? []
+        }
+
         builder += TextFieldFormItem(title: NSLocalizedString("Remarks", comment: ""))
             .width(.column(1))
             .text(viewModel.content.remarks)
