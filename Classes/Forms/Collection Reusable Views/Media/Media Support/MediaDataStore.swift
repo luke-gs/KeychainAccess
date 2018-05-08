@@ -138,12 +138,8 @@ class MediaStorageDatastore<T: Media>: WritableDataStore {
                     return
                 }
 
-                do {
-                    try FileManager.default.removeItem(at: item.url)
-                } catch {
-                    resolver.reject(LocalDataStoreError.notFound)
-                    return
-                }
+                // Same as removing, ignore the removal error.
+                try? FileManager.default.removeItem(at: item.url)
             }
 
             var items = self.items
