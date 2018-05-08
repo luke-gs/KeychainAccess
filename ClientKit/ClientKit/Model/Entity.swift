@@ -113,7 +113,10 @@ open class Entity: MPOLKitEntity {
         addresses = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.addresses.rawValue) as? [Address]
         media = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.media.rawValue) as? [Media]
 
-        externalIdentifiers = aDecoder.decodeObject(of: NSDictionary.self, forKey: Coding.externalIdentifiers.rawValue) as? [MPOLSource: String]
+        let decodedExternalIdentifiers = aDecoder.decodeObject(of: NSDictionary.self, forKey: Coding.externalIdentifiers.rawValue) as? [String: String]
+        externalIdentifiers = decodedExternalIdentifiers?.transform { key, value in
+            return (MPOLSource(rawValue: key)!, value)
+        }
 
         if let source = aDecoder.decodeObject(of: NSString.self, forKey: Coding.source.rawValue) as String? {
             self.source = MPOLSource(rawValue: source)
@@ -149,7 +152,11 @@ open class Entity: MPOLKitEntity {
         aCoder.encode(events, forKey: Coding.events.rawValue)
         aCoder.encode(addresses, forKey: Coding.addresses.rawValue)
         aCoder.encode(media, forKey: Coding.media.rawValue)
-        aCoder.encode(externalIdentifiers, forKey: Coding.externalIdentifiers.rawValue)
+
+        let encodedExternalIdentifiers = externalIdentifiers?.transform { (key, value) in
+            return (key.rawValue, value)
+        }
+        aCoder.encode(encodedExternalIdentifiers, forKey: Coding.externalIdentifiers.rawValue)
 
         if let alertLevel = alertLevel {
             aCoder.encode(alertLevel.rawValue, forKey: Coding.alertLevel.rawValue)
