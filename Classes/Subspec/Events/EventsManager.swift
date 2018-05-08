@@ -28,7 +28,7 @@ final public class EventsManager {
 
         displayableBucket.add(displayable)
         eventBucket.add(event)
-        delegate?.unsubmittedEventCountDidChange()
+        delegate?.eventsManagerDidUpdateEventBucket(self)
 
         return event
     }
@@ -36,20 +36,20 @@ final public class EventsManager {
     //add
     private func add(event: Event) {
         eventBucket.add(event)
-        delegate?.unsubmittedEventCountDidChange()
+        delegate?.eventsManagerDidUpdateEventBucket(self)
     }
     
     //remove
     public func remove(event: Event) {
         eventBucket.remove(event)
-        delegate?.unsubmittedEventCountDidChange()
+        delegate?.eventsManagerDidUpdateEventBucket(self)
     }
     
     public func remove(for id: String) {
         guard let event = self.event(for: id), let displayable = event.displayable else { return }
         eventBucket.remove(event)
         displayableBucket.remove(displayable)
-        delegate?.unsubmittedEventCountDidChange()
+        delegate?.eventsManagerDidUpdateEventBucket(self)
     }
     
     //utility
@@ -59,5 +59,5 @@ final public class EventsManager {
 }
 
 public protocol EventsManagerDelegate: class {
-    func unsubmittedEventCountDidChange()
+    func eventsManagerDidUpdateEventBucket(_ eventsManager: EventsManager)
 }
