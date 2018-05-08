@@ -155,21 +155,11 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
     }
 
     open func headerForConvictions() -> String? {
-        let count = offenderConvictions.count
-        if count > 0 {
-            let baseString = count > 1 ? NSLocalizedString("%d ITEMS", bundle: .mpolKit, comment: "") : NSLocalizedString("%d ITEM", bundle: .mpolKit, comment: "")
-            return String(format: baseString, count)
-        }
-        return nil
+        return String.localizedStringWithFormat(NSLocalizedString("%d Conviction(s)", comment: ""), offenderConvictions.count)
     }
 
     open func headerForCharges() -> String? {
-        let count = offenderCharges.count
-        if count > 0 {
-            let baseString = count > 1 ? NSLocalizedString("%d ITEMS", bundle: .mpolKit, comment: "") : NSLocalizedString("%d ITEM", bundle: .mpolKit, comment: "")
-            return String(format: baseString, count)
-        }
-        return nil
+        return String.localizedStringWithFormat(NSLocalizedString("%d Charge(s)", comment: ""), offenderCharges.count)
     }
     
     open func title(for item: CriminalHistory) -> String? {
