@@ -43,6 +43,8 @@ open class Entity: MPOLKitEntity {
     open var events: [RetrievedEvent]?
     open var addresses: [Address]?
     open var media: [Media]?
+
+    open var externalIdentifiers: [MPOLSource: String]?
     
     // MARK: - Temp properties
     open var lastUpdated: Date? {
@@ -80,9 +82,11 @@ open class Entity: MPOLKitEntity {
         addresses = unboxer.unbox(key: "locations")
         media = unboxer.unbox(key: "mediaItems")
 
+        externalIdentifiers = unboxer.unbox(key: Coding.externalIdentifiers.rawValue)
+        alerts = alerts?.filter { $0.level != nil }
+
         try super.init(unboxer: unboxer)
 
-        alerts = alerts?.filter { $0.level != nil }
         actionCount = unboxer.unbox(key: "actionCount") ?? UInt(alerts?.count ?? 0)
     }
 
@@ -108,6 +112,8 @@ open class Entity: MPOLKitEntity {
         events = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.events.rawValue) as? [RetrievedEvent]
         addresses = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.addresses.rawValue) as? [Address]
         media = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.media.rawValue) as? [Media]
+
+        externalIdentifiers = aDecoder.decodeObject(of: NSDictionary.self, forKey: Coding.externalIdentifiers.rawValue) as? [MPOLSource: String]
 
         if let source = aDecoder.decodeObject(of: NSString.self, forKey: Coding.source.rawValue) as String? {
             self.source = MPOLSource(rawValue: source)
@@ -143,6 +149,7 @@ open class Entity: MPOLKitEntity {
         aCoder.encode(events, forKey: Coding.events.rawValue)
         aCoder.encode(addresses, forKey: Coding.addresses.rawValue)
         aCoder.encode(media, forKey: Coding.media.rawValue)
+        aCoder.encode(externalIdentifiers, forKey: Coding.externalIdentifiers.rawValue)
 
         if let alertLevel = alertLevel {
             aCoder.encode(alertLevel.rawValue, forKey: Coding.alertLevel.rawValue)
@@ -208,4 +215,5 @@ private enum Coding: String {
     case events = "events"
     case addresses = "addresses"
     case media = "media"
+    case externalIdentifiers
 }
