@@ -98,7 +98,7 @@ open class EventsListViewController: FormBuilderViewController, EventsManagerDel
         self.loadingManager.state = (self.viewModel.eventsList?.isEmpty ?? true) ? .noContent : .loaded
     }
 
-    public func unsubmittedEventCountDidChange() {
+    public func eventsManagerDidUpdateEventBucket(_ eventsManager: EventsManager) {
         tabBarItem.badgeValue = viewModel.badgeCountString
     }
 }
