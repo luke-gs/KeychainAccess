@@ -9,14 +9,14 @@
 import Foundation
 import Cache
 
-
 public enum MediaType: Int, Codable, Hashable {
     case video
     case audio
     case photo
 }
 
-open class Media: Codable {
+// TODO: Doesn't have to be a class, struct is probably a better fit.
+open class MediaAsset: NSObject, NSCopying, Codable {
     
     public let identifier: String
     public let type: MediaType
@@ -37,13 +37,22 @@ open class Media: Codable {
         self.sensitive = sensitive
         self.createdDate = createdDate
     }
-    
-}
 
-extension Media: Hashable {
+    private convenience init(otherMedia: MediaAsset) {
+        self.init(identifier: otherMedia.identifier,
+                  url: otherMedia.url,
+                  type: otherMedia.type,
+                  title: otherMedia.title,
+                  comments: otherMedia.comments,
+                  sensitive: otherMedia.sensitive,
+                  createdDate: otherMedia.createdDate)
+    }
 
-    public var hashValue: Int {
-        
+    public func copy(with zone: NSZone? = nil) -> Any {
+        return MediaAsset(otherMedia: self)
+    }
+
+    open override var hashValue: Int {
         let idHash = identifier.hashValue
         let typeHash = type.rawValue.hashValue
         let urlHash = url.hashValue
@@ -61,7 +70,11 @@ extension Media: Hashable {
             ^ createdHash
     }
 
-    static public func ==(lhs: Media, rhs: Media) -> Bool {
+    open override func isEqual(_ object: Any?) -> Bool {
+        guard let rhs = object as? MediaAsset else {
+            return false
+        }
+        let lhs = self
         return lhs.identifier == rhs.identifier &&
             lhs.type == rhs.type &&
             lhs.url == rhs.url &&
@@ -70,8 +83,15 @@ extension Media: Hashable {
             lhs.sensitive == rhs.sensitive &&
             lhs.createdDate == rhs.createdDate
     }
-
 }
+
+extension MediaAsset {
+    static public func ==(lhs: MediaAsset, rhs: MediaAsset) -> Bool {
+        return lhs.isEqual(rhs)
+    }
+}
+
+extension MediaAsset: DefaultNSCopying { }
 
 public class MediaPreview: MediaPreviewable {
 
@@ -80,9 +100,9 @@ public class MediaPreview: MediaPreviewable {
     public var thumbnailImage: ImageLoadable?
     public var title: String?
 
-    public let media: Media
+    public let media: MediaAsset
 
-    public init(thumbnailImage: ImageLoadable? = nil, media: Media) {
+    public init(thumbnailImage: ImageLoadable? = nil, media: MediaAsset) {
         self.media = media
         self.thumbnailImage = thumbnailImage
         self.title = media.title

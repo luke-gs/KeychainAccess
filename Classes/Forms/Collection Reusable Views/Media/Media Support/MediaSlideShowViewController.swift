@@ -105,6 +105,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
             scrollToPreview(preview, animated: animated)
         }
 
+        updateCurrentPreviewViewController()
         updateAccessoryViewsWithPreview(preview, animated: animated)
     }
 
@@ -331,7 +332,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
     // MARK: - Private
 
-    private var controllerPool = [Media: MediaViewController]()
+    private var controllerPool = [MediaAsset: MediaViewController]()
 
     private func updateCurrentPreviewViewController() {
         let width = collectionView.frame.width
@@ -364,13 +365,16 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
     private func previewAfterDeletion(currentPreviewIndex index: Int) -> MediaPreviewable? {
         let numberOfPreviews = viewModel.previews.count
-        guard numberOfPreviews >= 0 else { return nil }
+        guard numberOfPreviews > 0 else {
+            return nil
+        }
 
         if index < numberOfPreviews {
             return viewModel.previews[index]
         }
 
-        return viewModel.previews[index - 1]
+        let moveBackwardIndex = index - 1
+        return viewModel.previews[moveBackwardIndex]
     }
 
     private func deleteCurrentPreview() {
