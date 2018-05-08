@@ -9,8 +9,8 @@
 import Unbox
 import MPOLKit
 
-private enum Coding: String {
-    case type = "type"
+private enum CodingKeys: String, CodingKey {
+    case type = "addressType"
     case latitude = "latitude"
     case longitude = "longitude"
     case horizontalAccuracy = "horizontalAccuracy"
@@ -18,7 +18,6 @@ private enum Coding: String {
     case altitudeAccuracy = "altitudeAccuracy"
     case sampleTaken = "sampleTaken"
     case dataAge = "dataAge"
-    case addressType = "addressType"
     case postalContainer = "postalContainer"
     case floor = "floor"
     case unit = "unit"
@@ -53,8 +52,7 @@ open class Address: Entity {
     
     open var sampleTaken: String?
     open var dataAge: Int?
-    
-    open var addressType: String?
+
     open var postalContainer: String?
     open var floor: String?
     open var unit: String?
@@ -73,7 +71,7 @@ open class Address: Entity {
 
     // TODO: update to actual rules once they are supplied
     open var displayAddress: String? {
-        var displayAddress = [streetNumberFirst, streetName,
+        let displayAddress = [streetNumberFirst, streetName,
                              [streetType, suburb, state ?? county, country].joined(separator: ", ")]
                              .joined(separator: " ")
         return displayAddress.count > 0 ? displayAddress : fullAddress
@@ -91,7 +89,7 @@ open class Address: Entity {
         
         try super.init(unboxer: unboxer)
         
-        type = unboxer.unbox(key: "locationType")
+        type = unboxer.unbox(key: CodingKeys.type.rawValue)
         latitude = unboxer.unbox(key: "latitude")
         longitude = unboxer.unbox(key: "longitude")
         horizontalAccuracy = unboxer.unbox(key: "horizontalAccuracy")
@@ -101,8 +99,7 @@ open class Address: Entity {
         
         sampleTaken = unboxer.unbox(key: "sampleTaken")
         dataAge = unboxer.unbox(key: "dataAge")
-        
-        addressType = unboxer.unbox(key: "addressType")
+
         postalContainer = unboxer.unbox(key: "postalContainer")
         floor = unboxer.unbox(key: "floor")
         unit = unboxer.unbox(key: "unit")
@@ -123,59 +120,57 @@ open class Address: Entity {
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        type = aDecoder.decodeObject(of: NSString.self, forKey: Coding.type.rawValue) as String?
-        latitude = aDecoder.decodeObject(of: NSNumber.self, forKey: Coding.latitude.rawValue)?.doubleValue
-        longitude = aDecoder.decodeObject(of: NSNumber.self, forKey: Coding.longitude.rawValue)?.doubleValue
-        horizontalAccuracy = aDecoder.decodeObject(of: NSNumber.self, forKey: Coding.horizontalAccuracy.rawValue)?.doubleValue
-        altitude = aDecoder.decodeObject(of: NSNumber.self, forKey: Coding.altitude.rawValue)?.doubleValue
-        altitudeAccuracy = aDecoder.decodeObject(of: NSNumber.self, forKey: Coding.altitudeAccuracy.rawValue)?.doubleValue
-        sampleTaken = aDecoder.decodeObject(of: NSString.self, forKey: Coding.sampleTaken.rawValue) as String?
-        dataAge = aDecoder.decodeObject(of: NSNumber.self, forKey: Coding.dataAge.rawValue)?.intValue
-        addressType = aDecoder.decodeObject(of: NSString.self, forKey: Coding.addressType.rawValue) as String?
-        postalContainer = aDecoder.decodeObject(of: NSString.self, forKey: Coding.postalContainer.rawValue) as String?
-        floor = aDecoder.decodeObject(of: NSString.self, forKey: Coding.floor.rawValue) as String?
-        unit = aDecoder.decodeObject(of: NSString.self, forKey: Coding.unit.rawValue) as String?
-        streetNumberFirst = aDecoder.decodeObject(of: NSString.self, forKey: Coding.streetNumberFirst.rawValue) as String?
-        streetNumberLast = aDecoder.decodeObject(of: NSString.self, forKey: Coding.streetNumberLast.rawValue) as String?
-        streetName = aDecoder.decodeObject(of: NSString.self, forKey: Coding.streetName.rawValue) as String?
-        streetType = aDecoder.decodeObject(of: NSString.self, forKey: Coding.streetType.rawValue) as String?
-        streetDirectional = aDecoder.decodeObject(of: NSString.self, forKey: Coding.streetDirectional.rawValue) as String?
-        county = aDecoder.decodeObject(of: NSString.self, forKey: Coding.county.rawValue) as String?
-        suburb = aDecoder.decodeObject(of: NSString.self, forKey: Coding.suburb.rawValue) as String?
-        state = aDecoder.decodeObject(of: NSString.self, forKey: Coding.state.rawValue) as String?
-        country = aDecoder.decodeObject(of: NSString.self, forKey: Coding.country.rawValue) as String?
-        postcode = aDecoder.decodeObject(of: NSString.self, forKey: Coding.postcode.rawValue) as String?
-        commonName = aDecoder.decodeObject(of: NSString.self, forKey: Coding.commonName.rawValue) as String?
-        fullAddress = aDecoder.decodeObject(of: NSString.self, forKey: Coding.fullAddress.rawValue) as String?
+        type = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.type.rawValue) as String?
+        latitude = aDecoder.decodeObject(of: NSNumber.self, forKey: CodingKeys.latitude.rawValue)?.doubleValue
+        longitude = aDecoder.decodeObject(of: NSNumber.self, forKey: CodingKeys.longitude.rawValue)?.doubleValue
+        horizontalAccuracy = aDecoder.decodeObject(of: NSNumber.self, forKey: CodingKeys.horizontalAccuracy.rawValue)?.doubleValue
+        altitude = aDecoder.decodeObject(of: NSNumber.self, forKey: CodingKeys.altitude.rawValue)?.doubleValue
+        altitudeAccuracy = aDecoder.decodeObject(of: NSNumber.self, forKey: CodingKeys.altitudeAccuracy.rawValue)?.doubleValue
+        sampleTaken = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.sampleTaken.rawValue) as String?
+        dataAge = aDecoder.decodeObject(of: NSNumber.self, forKey: CodingKeys.dataAge.rawValue)?.intValue
+        postalContainer = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.postalContainer.rawValue) as String?
+        floor = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.floor.rawValue) as String?
+        unit = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.unit.rawValue) as String?
+        streetNumberFirst = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.streetNumberFirst.rawValue) as String?
+        streetNumberLast = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.streetNumberLast.rawValue) as String?
+        streetName = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.streetName.rawValue) as String?
+        streetType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.streetType.rawValue) as String?
+        streetDirectional = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.streetDirectional.rawValue) as String?
+        county = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.county.rawValue) as String?
+        suburb = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.suburb.rawValue) as String?
+        state = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.state.rawValue) as String?
+        country = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.country.rawValue) as String?
+        postcode = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.postcode.rawValue) as String?
+        commonName = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.commonName.rawValue) as String?
+        fullAddress = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.fullAddress.rawValue) as String?
     }
 
     open override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
 
-        aCoder.encode(type, forKey: Coding.type.rawValue)
-        aCoder.encode(latitude, forKey: Coding.latitude.rawValue)
-        aCoder.encode(longitude, forKey: Coding.longitude.rawValue)
-        aCoder.encode(horizontalAccuracy, forKey: Coding.horizontalAccuracy.rawValue)
-        aCoder.encode(altitude, forKey: Coding.altitude.rawValue)
-        aCoder.encode(altitudeAccuracy, forKey: Coding.altitudeAccuracy.rawValue)
-        aCoder.encode(sampleTaken, forKey: Coding.sampleTaken.rawValue)
-        aCoder.encode(dataAge, forKey: Coding.dataAge.rawValue)
-        aCoder.encode(addressType, forKey: Coding.addressType.rawValue)
-        aCoder.encode(postalContainer, forKey: Coding.postalContainer.rawValue)
-        aCoder.encode(floor, forKey: Coding.floor.rawValue)
-        aCoder.encode(unit, forKey: Coding.unit.rawValue)
-        aCoder.encode(streetNumberFirst, forKey: Coding.streetNumberFirst.rawValue)
-        aCoder.encode(streetNumberLast, forKey: Coding.streetNumberLast.rawValue)
-        aCoder.encode(streetName, forKey: Coding.streetName.rawValue)
-        aCoder.encode(streetType, forKey: Coding.streetType.rawValue)
-        aCoder.encode(streetDirectional, forKey: Coding.streetDirectional.rawValue)
-        aCoder.encode(county, forKey: Coding.county.rawValue)
-        aCoder.encode(suburb, forKey: Coding.suburb.rawValue)
-        aCoder.encode(state, forKey: Coding.state.rawValue)
-        aCoder.encode(country, forKey: Coding.country.rawValue)
-        aCoder.encode(postcode, forKey: Coding.postcode.rawValue)
-        aCoder.encode(commonName, forKey: Coding.commonName.rawValue)
-        aCoder.encode(fullAddress, forKey: Coding.fullAddress.rawValue)
+        aCoder.encode(type, forKey: CodingKeys.type.rawValue)
+        aCoder.encode(latitude, forKey: CodingKeys.latitude.rawValue)
+        aCoder.encode(longitude, forKey: CodingKeys.longitude.rawValue)
+        aCoder.encode(horizontalAccuracy, forKey: CodingKeys.horizontalAccuracy.rawValue)
+        aCoder.encode(altitude, forKey: CodingKeys.altitude.rawValue)
+        aCoder.encode(altitudeAccuracy, forKey: CodingKeys.altitudeAccuracy.rawValue)
+        aCoder.encode(sampleTaken, forKey: CodingKeys.sampleTaken.rawValue)
+        aCoder.encode(dataAge, forKey: CodingKeys.dataAge.rawValue)
+        aCoder.encode(postalContainer, forKey: CodingKeys.postalContainer.rawValue)
+        aCoder.encode(floor, forKey: CodingKeys.floor.rawValue)
+        aCoder.encode(unit, forKey: CodingKeys.unit.rawValue)
+        aCoder.encode(streetNumberFirst, forKey: CodingKeys.streetNumberFirst.rawValue)
+        aCoder.encode(streetNumberLast, forKey: CodingKeys.streetNumberLast.rawValue)
+        aCoder.encode(streetName, forKey: CodingKeys.streetName.rawValue)
+        aCoder.encode(streetType, forKey: CodingKeys.streetType.rawValue)
+        aCoder.encode(streetDirectional, forKey: CodingKeys.streetDirectional.rawValue)
+        aCoder.encode(county, forKey: CodingKeys.county.rawValue)
+        aCoder.encode(suburb, forKey: CodingKeys.suburb.rawValue)
+        aCoder.encode(state, forKey: CodingKeys.state.rawValue)
+        aCoder.encode(country, forKey: CodingKeys.country.rawValue)
+        aCoder.encode(postcode, forKey: CodingKeys.postcode.rawValue)
+        aCoder.encode(commonName, forKey: CodingKeys.commonName.rawValue)
+        aCoder.encode(fullAddress, forKey: CodingKeys.fullAddress.rawValue)
     }
 
     open override class var localizedDisplayName: String {
