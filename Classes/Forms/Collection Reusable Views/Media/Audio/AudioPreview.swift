@@ -11,7 +11,7 @@ import AVKit
 
 public class AudioPreview: MediaPreview {
 
-    public init(media: Media) {
+    public init(media: MediaAsset) {
         var thumbnailImage: UIImage?
 
         if let samples = AudioSampler.waveformSamples(fromAudioFile: media.url, count: 44100) {

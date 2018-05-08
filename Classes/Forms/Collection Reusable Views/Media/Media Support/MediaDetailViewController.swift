@@ -16,7 +16,7 @@ public protocol MediaDetailViewControllerDelegate: class {
 
 public class MediaDetailViewController: FormBuilderViewController {
 
-    public let media: Media
+    public let media: MediaAsset
 
     public weak var delegate: MediaDetailViewControllerDelegate?
 
@@ -25,8 +25,8 @@ public class MediaDetailViewController: FormBuilderViewController {
 
     private var sensitive: Bool
 
-    public init(media: Media) {
-        self.media = Media(otherMedia: media)
+    public init(media: MediaAsset) {
+        self.media = media.copy()
 
         titleText = media.title
         commentsText = media.comments

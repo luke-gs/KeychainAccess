@@ -13,7 +13,7 @@ public class PhotoPreview: MediaPreview {
 
     public let image: ImageLoadable?
 
-    public init(asset: Media) {
+    public init(asset: MediaAsset) {
         let image = UIImage(contentsOfFile: asset.url.path)
         self.image = image
 

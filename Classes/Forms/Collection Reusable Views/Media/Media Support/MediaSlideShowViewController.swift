@@ -332,7 +332,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
     // MARK: - Private
 
-    private var controllerPool = [Media: MediaViewController]()
+    private var controllerPool = [MediaAsset: MediaViewController]()
 
     private func updateCurrentPreviewViewController() {
         let width = collectionView.frame.width

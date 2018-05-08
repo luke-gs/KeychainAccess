@@ -10,13 +10,13 @@ import Foundation
 import PromiseKit
 
 protocol MediaContainer {
-    var media: [Media] { get set }
+    var media: [MediaAsset] { get set }
 
-    func add(_ media: [Media])
-    func remove(_ media: [Media])
+    func add(_ media: [MediaAsset])
+    func remove(_ media: [MediaAsset])
 }
 
-class MediaStorageDatastore<T: Media>: WritableDataStore {
+class MediaStorageDatastore<T: MediaAsset>: WritableDataStore {
 
     typealias ArrayLiteralElement = T
     typealias Result = LocalDataResults<T>
