@@ -50,22 +50,21 @@ class MediaStorageDatastore<T: MediaAsset>: WritableDataStore {
             })
 
             if indexes.isEmpty {
-                self.items += toBeAddedItems
-                for item in toBeAddedItems {
+                let copied = toBeAddedItems.clone()
+                for item in copied {
                     do {
                         let url = manager.directory(forMedia: item.type)
                         let destination = url.appendingPathComponent(item.url.lastPathComponent)
                         try manager.copy(url: item.url, to: destination)
-                        if let index = indexOfItem(item) {
-                            self.items[index].url = destination
-                        }
+                        item.url = destination
                     } catch {
                         resolver.reject(LocalDataStoreError.duplicate)
                         return
                     }
                 }
-                container.add(toBeAddedItems)
-                resolver.fulfill(toBeAddedItems)
+                self.items += copied
+                container.add(copied)
+                resolver.fulfill(copied)
             } else {
                 resolver.reject(LocalDataStoreError.duplicate)
             }
@@ -85,13 +84,8 @@ class MediaStorageDatastore<T: MediaAsset>: WritableDataStore {
                 toBeRemovedItems.forEach {
                     if let index = self.indexOfItem($0) {
                         self.items.remove(at: index)
-
-                        do {
-                            try FileManager.default.removeItem(at: $0.url)
-                        } catch {
-                            resolver.reject(LocalDataStoreError.notFound)
-                            return
-                        }
+                        // If it fails to remove, who cares, it doesn't exist anymore.
+                        try? FileManager.default.removeItem(at: $0.url)
                     }
                 }
                 container.remove(toBeRemovedItems)
@@ -126,12 +120,14 @@ class MediaStorageDatastore<T: MediaAsset>: WritableDataStore {
 
             // If item doesn't have the same backing URL, remove the old one
             // and copy the new one
-            if item.url != otherItem.url {
+            let copied: Result.Item = otherItem.copy()
+            if item.url != copied.url {
                 do {
-                    let url = manager.directory(forMedia: otherItem.type)
-                    let destination = url.appendingPathComponent(otherItem.url.lastPathComponent)
+                    let url = manager.directory(forMedia: copied.type)
+                    let destination = url.appendingPathComponent(copied.url.lastPathComponent)
 
-                    try manager.copy(url: item.url, to: destination)
+                    try manager.copy(url: copied.url, to: destination)
+                    copied.url = url
 
                 } catch {
                     resolver.reject(LocalDataStoreError.duplicate)
@@ -144,13 +140,13 @@ class MediaStorageDatastore<T: MediaAsset>: WritableDataStore {
 
             var items = self.items
             items.remove(at: index)
-            items.insert(otherItem, at: index)
+            items.insert(copied, at: index)
             self.items = items
 
             container.remove([item])
-            container.add([otherItem])
+            container.add([copied])
 
-            resolver.fulfill(otherItem)
+            resolver.fulfill(copied)
 
         }
     }
