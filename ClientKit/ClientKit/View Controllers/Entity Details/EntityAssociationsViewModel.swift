@@ -19,10 +19,15 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
     private var vehicles: [Vehicle] {
         return entity?.associatedVehicles ?? []
     }
+
+    /// Associated locations
+    private var locations: [Address] {
+        return entity?.addresses ?? []
+    }
     
     /// Total associations count
     private var count: Int {
-        return persons.count + vehicles.count
+        return persons.count + vehicles.count + locations.count
     }
 
     private weak var searchDelegate: SearchDelegate?
@@ -63,6 +68,21 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
                 builder += displayable.summaryFormItem(isCompact: isCompact || !wantsThumbnails)
                     .onSelection({ [weak self] _ in
                         if let presentable = self?.summaryDisplayFormatter.presentableForEntity(vehicle) {
+                            self?.searchDelegate?.handlePresentable(presentable)
+                        }
+                    })
+            }
+        }
+
+        if !locations.isEmpty {
+            let count = locations.count
+            builder += HeaderFormItem(text: String.localizedStringWithFormat(NSLocalizedString("%d LOCATION(S)", comment: ""), count), style: .collapsible)
+
+            for location in locations {
+                let displayable = AddressSummaryDisplayable(location)
+                builder += displayable.summaryFormItem(isCompact: isCompact || !wantsThumbnails)
+                    .onSelection({ [weak self] _ in
+                        if let presentable = self?.summaryDisplayFormatter.presentableForEntity(location) {
                             self?.searchDelegate?.handlePresentable(presentable)
                         }
                     })
