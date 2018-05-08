@@ -22,30 +22,30 @@ class GalleryViewController: FormBuilderViewController {
 
     func localGallery(builder: FormBuilder) {
         let localStore = DataStoreCoordinator(dataStore: LocalDataStore(items: [
-            Media(url: URL(string: Bundle.main.path(forResource: "sample1", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Superman practice", sensitive: true),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample2", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Pavel wannabe", sensitive: true),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample3", ofType: "jpg")!)!, type: .photo, title: "Pavel Boryseiko", comments: "Without makeup", sensitive: false),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim", comments: "This Girl is on FIREEE", sensitive: false),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample1", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Superman practice", sensitive: true),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample2", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Pavel wannabe", sensitive: true),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample3", ofType: "jpg")!)!, type: .photo, title: "Pavel Boryseiko", comments: "Without makeup", sensitive: false),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim", comments: "This Girl is on FIREEE", sensitive: false),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample1", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Superman practice", sensitive: true),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample2", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Pavel wannabe", sensitive: true),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample3", ofType: "jpg")!)!, type: .photo, title: "Pavel Boryseiko", comments: "Without makeup", sensitive: false),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim", comments: "This Girl is on FIREEE", sensitive: false),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample1", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Superman practice", sensitive: true),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample2", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Pavel wannabe", sensitive: true),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample3", ofType: "jpg")!)!, type: .photo, title: "Pavel Boryseiko", comments: "Without makeup", sensitive: false),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim", comments: "This Girl is on FIREEE", sensitive: false),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample1", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Superman practice", sensitive: true),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample2", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Pavel wannabe", sensitive: true),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample3", ofType: "jpg")!)!, type: .photo, title: "Pavel Boryseiko", comments: "Without makeup", sensitive: false),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim", comments: "This Girl is on FIREEE", sensitive: false),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample1", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Superman practice", sensitive: true),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample2", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Pavel wannabe", sensitive: true),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample3", ofType: "jpg")!)!, type: .photo, title: "Pavel Boryseiko", comments: "Without makeup", sensitive: false),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim", comments: "This Girl is on FIREEE", sensitive: false)
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample1", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Superman practice", sensitive: true),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample2", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Pavel wannabe", sensitive: true),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample3", ofType: "jpg")!)!, type: .photo, title: "Pavel Boryseiko", comments: "Without makeup", sensitive: false),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim", comments: "This Girl is on FIREEE", sensitive: false),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample1", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Superman practice", sensitive: true),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample2", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Pavel wannabe", sensitive: true),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample3", ofType: "jpg")!)!, type: .photo, title: "Pavel Boryseiko", comments: "Without makeup", sensitive: false),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim", comments: "This Girl is on FIREEE", sensitive: false),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample1", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Superman practice", sensitive: true),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample2", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Pavel wannabe", sensitive: true),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample3", ofType: "jpg")!)!, type: .photo, title: "Pavel Boryseiko", comments: "Without makeup", sensitive: false),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim", comments: "This Girl is on FIREEE", sensitive: false),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample1", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Superman practice", sensitive: true),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample2", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Pavel wannabe", sensitive: true),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample3", ofType: "jpg")!)!, type: .photo, title: "Pavel Boryseiko", comments: "Without makeup", sensitive: false),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim", comments: "This Girl is on FIREEE", sensitive: false),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample1", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Superman practice", sensitive: true),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample2", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Pavel wannabe", sensitive: true),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample3", ofType: "jpg")!)!, type: .photo, title: "Pavel Boryseiko", comments: "Without makeup", sensitive: false),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim", comments: "This Girl is on FIREEE", sensitive: false),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample1", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Superman practice", sensitive: true),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample2", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Pavel wannabe", sensitive: true),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample3", ofType: "jpg")!)!, type: .photo, title: "Pavel Boryseiko", comments: "Without makeup", sensitive: false),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim", comments: "This Girl is on FIREEE", sensitive: false)
         ]))
 
         let gallery = MediaGalleryCoordinatorViewModel(storeCoordinator: localStore)
@@ -68,10 +68,10 @@ class GalleryViewController: FormBuilderViewController {
 
     func paginatedGallery(builder: FormBuilder) {
         let localStore = DataStoreCoordinator(dataStore: LocalDataStore(items: [
-            Media(url: URL(string: Bundle.main.path(forResource: "sample1", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Superman practice", sensitive: true),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample2", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Pavel wannabe", sensitive: true),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample3", ofType: "jpg")!)!, type: .photo, title: "Pavel Boryseiko", comments: "Without makeup", sensitive: false),
-            Media(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim", comments: "This Girl is on FIREEE", sensitive: false)
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample1", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Superman practice", sensitive: true),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample2", ofType: "jpg")!)!, type: .photo, title: "Bryan Hathaway", comments: "Pavel wannabe", sensitive: true),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample3", ofType: "jpg")!)!, type: .photo, title: "Pavel Boryseiko", comments: "Without makeup", sensitive: false),
+            MediaAsset(url: URL(string: Bundle.main.path(forResource: "sample4", ofType: "jpg")!)!, type: .photo, title: "Herli Halim", comments: "This Girl is on FIREEE", sensitive: false)
         ], limit: 2))
 
         let gallery = MediaGalleryCoordinatorViewModel(storeCoordinator: localStore)
@@ -205,7 +205,7 @@ class MeganGalleryCell: MediaGalleryCell {
 }
 
 /// Custom Media
-class MeganMedia: Media {
+class MeganMedia: MediaAsset {
     
     var secretMessage: String?
     var whatever: Bool?
