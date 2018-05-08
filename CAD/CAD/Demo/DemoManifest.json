@@ -158,5 +158,29 @@
         "subtitle": null,
         "title": "East Melbourne",
         "value": "East Melbourne"
+    },
+	{
+		"active": true,
+		"category": "Capability",
+		"id": "Capability1",
+		"title": "Negotiator"
+    },
+	{
+		"active": true,
+		"category": "Capability",
+		"id": "Capability2",
+		"title": "Public Order Qualified"
+    },
+	{
+		"active": true,
+		"category": "Capability",
+		"id": "Capability3",
+		"title": "LIDAR Qualified"
+    },
+	{
+		"active": true,
+		"category": "Capability",
+		"id": "Capability4",
+		"title": "TDD Qualified"
     }
 ]
