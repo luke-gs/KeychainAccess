@@ -19,7 +19,7 @@ public protocol DataMatchable {
     ///
     /// - Parameter entity: the base entity to match
     /// - Returns: a fetchable object adhering to specific rules and hitting the correct endpoint to get entity results/details
-    func match(_ entity: MPOLKitEntity) -> Fetchable
+    func match(_ entity: MPOLKitEntity) -> Fetchable?
 }
 
 /// A convenience object that is used to store and attempt to find a match of datasources
@@ -50,7 +50,7 @@ open class MatchMaker {
     {
         let fetchable = matches?.filter {
             $0.initialSource.serverSourceName == initialSource.serverSourceName
-                && destinationSource.serverSourceName == destinationSource.serverSourceName}.first?.match(entity)
+                && $0.resultSource.serverSourceName == destinationSource.serverSourceName}.first?.match(entity)
         return fetchable
     }
 }

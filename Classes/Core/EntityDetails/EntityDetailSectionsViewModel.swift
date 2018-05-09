@@ -77,7 +77,7 @@ public class EntityDetailSectionsViewModel {
     }
 
     public func performSubsequentFetch(for source: EntitySource) {
-        entityFetch = matchMaker?.findMatch(for: currentEntity, withInitialSource: initialSource, andDestinationSource: selectedSource)
+        entityFetch = matchMaker?.findMatch(for: currentEntity, withInitialSource: initialSource, andDestinationSource: source)
         entityFetch?.delegate = self
         entityFetch?.performFetch()
     }
@@ -118,11 +118,11 @@ public class EntityDetailSectionsViewModel {
 
 extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
 
-    public func EntityDetailFetch<T>(_ EntityDetailFetch: EntityDetailFetch<T>, didBeginFetch request: EntityDetailFetchRequest<T>) {
+    public func entityDetailFetch<T>(_ entityDetailFetch: EntityDetailFetch<T>, didBeginFetch request: EntityDetailFetchRequest<T>) {
 
         detailSectionsViewControllers?.forEach { $0.loadingManager.state = .loading }
 
-        guard let result = EntityDetailFetch.results.first(where: { $0.request === request }) else {
+        guard let result = entityDetailFetch.results.first(where: { $0.request === request }) else {
             return
         }
 
@@ -133,9 +133,9 @@ extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
         self.delegate?.entityDetailSectionsDidUpdateResults(self)
     }
 
-    public func EntityDetailFetch<T>(_ EntityDetailFetch: EntityDetailFetch<T>, didFinishFetch request: EntityDetailFetchRequest<T>) {
+    public func entityDetailFetch<T>(_ entityDetailFetch: EntityDetailFetch<T>, didFinishFetch request: EntityDetailFetchRequest<T>) {
 
-        guard let result = EntityDetailFetch.results.first(where: { $0.request === request }) else {
+        guard let result = entityDetailFetch.results.first(where: { $0.request === request }) else {
             return
         }
 

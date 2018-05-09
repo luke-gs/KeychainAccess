@@ -24,9 +24,9 @@ public struct FetchResult<T: MPOLKitEntity> {
 
 public protocol EntityDetailFetchDelegate: class {
     
-    func EntityDetailFetch<T>(_ EntityDetailFetch: EntityDetailFetch<T>, didBeginFetch request: EntityDetailFetchRequest<T>)
+    func entityDetailFetch<T>(_ entityDetailFetch: EntityDetailFetch<T>, didBeginFetch request: EntityDetailFetchRequest<T>)
     
-    func EntityDetailFetch<T>(_ EntityDetailFetch: EntityDetailFetch<T>, didFinishFetch request: EntityDetailFetchRequest<T>)
+    func entityDetailFetch<T>(_ entityDetailFetch: EntityDetailFetch<T>, didFinishFetch request: EntityDetailFetchRequest<T>)
 }
 
 public class EntityDetailFetch<T: MPOLKitEntity>: Fetchable {
@@ -86,7 +86,7 @@ public class EntityDetailFetch<T: MPOLKitEntity>: Fetchable {
             results.append(result)
         }
         
-        delegate?.EntityDetailFetch(self, didBeginFetch: request)
+        delegate?.entityDetailFetch(self, didBeginFetch: request)
     }
     
     
@@ -97,7 +97,7 @@ public class EntityDetailFetch<T: MPOLKitEntity>: Fetchable {
         let result = FetchResult(request: request, entity: entity, state: .finished, error: nil)
         results[index] = result
         
-        delegate?.EntityDetailFetch(self, didFinishFetch: request)
+        delegate?.entityDetailFetch(self, didFinishFetch: request)
     }
     
     private func endFetch(for request: EntityDetailFetchRequest<T>, error: Error) {
@@ -106,6 +106,6 @@ public class EntityDetailFetch<T: MPOLKitEntity>: Fetchable {
         let result = FetchResult(request: request, entity: nil, state: .finished, error: error)
         results[index] = result
         
-        delegate?.EntityDetailFetch(self, didFinishFetch: request)
+        delegate?.entityDetailFetch(self, didFinishFetch: request)
     }
 }
