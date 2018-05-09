@@ -13,7 +13,7 @@ public class UnderlineStyle: CellSelectionAnimatable {
         let validationColor: UIColor? = cell.requiresValidation ? cell.validationColor : nil
 
         let separatorView = cell.separatorView
-        let wantsUnderline = cell.isSelected
+        let wantsUnderline = focused
 
         let finalColor = validationColor ?? (wantsUnderline ? separatorView.tintColor : cell.separatorColor)
         separatorView.backgroundColor = finalColor
