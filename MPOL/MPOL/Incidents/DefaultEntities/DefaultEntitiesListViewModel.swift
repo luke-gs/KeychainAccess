@@ -1,5 +1,5 @@
 //
-//  TrafficInfringementEntitiesViewModel.swift
+//  DefaultEntitiesListViewModel.swift
 //  MPOL
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -9,11 +9,11 @@ import Foundation
 import MPOLKit
 import ClientKit
 
-public class TrafficInfringementEntitiesViewModel {
+public class DefaultEntitiesListViewModel {
 
-    let report: TrafficInfringementEntitiesReport
+    let report: DefaultEntitiesListReport
 
-    init(report: TrafficInfringementEntitiesReport) {
+    init(report: DefaultEntitiesListReport) {
         self.report = report
     }
 

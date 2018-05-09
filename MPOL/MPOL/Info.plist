@@ -45,15 +45,15 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>The App need to access your camera</string>
+	<string>Capturing photos requires access to your Camera in order to work.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Login using FaceID</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>The App need to access the current location</string>
+	<string>This service must be turned on for the app to correctly work and determine your call sign's location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>The App need to access the current location</string>
+	<string>This service must be turned on for the app to correctly work and determine your call sign's location.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>The app need to access your microphone</string>
+	<string>Voice Input requires access to your Microphone in order to work.</string>
 	<key>PSAppGroupIdentifier</key>
 	<string>$(APP_GROUP_ID)</string>
 	<key>PSSharedKeychainAccessGroup</key>

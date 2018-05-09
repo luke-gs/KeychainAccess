@@ -14,7 +14,7 @@ public class TrafficInfringementIncidentBuilder: IncidentBuilding {
         let incident = Incident(event: event, type: type)
 
         // Add reports here
-        incident.add(report: TrafficInfringementEntitiesReport(event: event, incident: incident))
+        incident.add(report: DefaultEntitiesListReport(event: event, incident: incident))
         incident.add(report: TrafficInfringementOffencesReport(event: event, incident: incident))
         incident.add(report: TrafficInfringementServiceReport(event: event, incident: incident))
 

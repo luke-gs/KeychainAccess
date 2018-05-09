@@ -9,7 +9,7 @@
 import Foundation
 import MPOLKit
 
-public class PersonLOCDetailsSectionsDataSource: EntityDetailSectionsDataSource {
+public class PersonPSCoreDetailsSectionsDataSource: EntityDetailSectionsDataSource {
 
     public var source: EntitySource = MPOLSource.pscore
     public var entity: MPOLKitEntity
