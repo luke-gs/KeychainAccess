@@ -45,7 +45,7 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>The App need to access your camera</string>
+	<string>Capturing photos requires access to your Camera in order to work.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Login using FaceID</string>
 	<key>NSLocationAlwaysUsageDescription</key>
