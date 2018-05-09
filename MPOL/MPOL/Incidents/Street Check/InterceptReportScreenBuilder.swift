@@ -1,5 +1,5 @@
 //
-//  StreetCheckScreenBuilder.swift
+//  InterceptReportScreenBuilder.swift
 //  MPOLKit
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -7,7 +7,7 @@
 
 import MPOLKit
 
-public class StreetCheckScreenBuilder: IncidentScreenBuilding {
+public class InterceptReportScreenBuilder: IncidentScreenBuilding {
 
     public func viewControllers(for reportables: [Reportable]) -> [UIViewController] {
         var viewControllers = [UIViewController]()

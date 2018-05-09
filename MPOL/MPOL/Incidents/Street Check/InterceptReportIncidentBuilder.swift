@@ -1,5 +1,5 @@
 //
-//  StreetCheckIncidentBuilder.swift
+//  InterceptReportIncidentBuilder.swift
 //  MPOL
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -8,7 +8,7 @@
 import UIKit
 import MPOLKit
 
-public class StreetCheckIncidentBuilder: IncidentBuilding {
+public class InterceptReportIncidentBuilder: IncidentBuilding {
 
     public func createIncident(for type: IncidentType, in event: Event) -> (incident: Incident, displayable: IncidentListDisplayable) {
         let incident = Incident(event: event, type: type)

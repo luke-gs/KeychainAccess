@@ -43,7 +43,7 @@ public class EventsListViewModel {
 
         // Add IncidentBuilders here
         incidentsManager.add(TrafficInfringementIncidentBuilder(), for: .trafficInfringement)
-        incidentsManager.add(StreetCheckIncidentBuilder(), for: .interceptReport)
+        incidentsManager.add(InterceptReportIncidentBuilder(), for: .interceptReport)
 
         if let incidentType = incidentType {
             let _ = incidentsManager.create(incidentType: incidentType, in: event)
