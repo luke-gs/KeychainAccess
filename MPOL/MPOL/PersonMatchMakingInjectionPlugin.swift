@@ -19,9 +19,9 @@ struct PersonMatchMakingInjectionPlugin: PluginType {
         // If it's successful, mutate the response, otherwise leave it as is.
         if var value = result.value {
             value["externalIdentifiers"] = [
-                MPOLSource.pscore.rawValue : "2ff46c89-6388-435b-8bcf-df16e0785127",
-                MPOLSource.nat.rawValue : "2ff46c89-6388-435b-8bcf-df16e0785127",
-                MPOLSource.rda.rawValue : "2ff46c89-6388-435b-8bcf-df16e0785127",
+                MPOLSource.pscore.rawValue: "2ff46c89-6388-435b-8bcf-df16e0785127",
+                MPOLSource.nat.rawValue: "2ff46c89-6388-435b-8bcf-df16e0785127",
+                MPOLSource.rda.rawValue: "2ff46c89-6388-435b-8bcf-df16e0785127",
             ]
 
             let modifiedData = try! JSONSerialization.data(withJSONObject: value, options: [])
