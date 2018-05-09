@@ -1,5 +1,5 @@
 //
-//  DetailFormItemDisplayable.swift
+//  DetailDisplayable.swift
 //  MPOLKit
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -7,14 +7,14 @@
 
 import Foundation
 
-public protocol DetailFormItemDisplayable {
+public protocol DetailDisplayable {
     var image: UIImage? { get }
     var title: StringSizing? { get }
     var subtitle: StringSizing? { get }
     var detail: StringSizing? { get }
 }
 
-extension DetailFormItemDisplayable {
+extension DetailDisplayable {
 
     public var image: UIImage? {
         return nil
@@ -34,15 +34,12 @@ extension DetailFormItemDisplayable {
 
 }
 
-extension DetailFormItem {
+// All DetailDisplayable conformant will get this default implementation
+// if they also declares conformance to FormItemable.
+extension FormItemable where Self: DetailDisplayable {
 
-    @discardableResult
-    public func displayable(_ displayItem: DetailFormItemDisplayable?) -> Self {
-        self.title = displayItem?.title
-        self.subtitle = displayItem?.subtitle
-        self.detail = displayItem?.detail
-        self.image = displayItem?.image
-        return self
+    public func formItem() -> DetailFormItem {
+        return DetailFormItem(title: title, subtitle: subtitle, detail: detail, image: image)
     }
 
 }
