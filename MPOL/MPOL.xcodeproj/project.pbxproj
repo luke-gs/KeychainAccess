@@ -850,7 +850,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "${SEARCH_URL_TYPE_ID}";
-				PROVISIONING_PROFILE = "5b30c792-d8f0-4059-ba3b-8cadb83c72c1";
+				PROVISIONING_PROFILE = "a6ad30e3-fcd1-4456-8866-5fe028106f12";
 				PROVISIONING_PROFILE_SPECIFIER = "In House - PSCore Search Debug";
 				SWIFT_OBJC_BRIDGING_HEADER = "Configuration/PSCore-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
@@ -928,7 +928,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "${SEARCH_URL_TYPE_ID}";
-				PROVISIONING_PROFILE = "0bf51476-cade-4098-97f8-8c937cab3ca2";
+				PROVISIONING_PROFILE = "63230664-46a2-4c85-b6b6-8fea4b7a40c7";
 				PROVISIONING_PROFILE_SPECIFIER = "In house - PSCore Demo";
 				SWIFT_OBJC_BRIDGING_HEADER = "Configuration/PSCore-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
@@ -1013,7 +1013,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "${SEARCH_URL_TYPE_ID}";
-				PROVISIONING_PROFILE = "0bf51476-cade-4098-97f8-8c937cab3ca2";
+				PROVISIONING_PROFILE = "63230664-46a2-4c85-b6b6-8fea4b7a40c7";
 				PROVISIONING_PROFILE_SPECIFIER = "In house - PSCore Demo";
 				SWIFT_OBJC_BRIDGING_HEADER = "Configuration/PSCore-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
@@ -1092,7 +1092,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "${SEARCH_URL_TYPE_ID}";
-				PROVISIONING_PROFILE = "ba17859a-998a-4301-91ca-fad87d654758";
+				PROVISIONING_PROFILE = "8647ff40-b256-4596-87aa-cc71388b3f0c";
 				PROVISIONING_PROFILE_SPECIFIER = "In House - PSCore Search";
 				SWIFT_OBJC_BRIDGING_HEADER = "Configuration/PSCore-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
@@ -1231,7 +1231,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) -Xfrontend -warn-long-function-bodies=200 -Xfrontend -warn-long-expression-type-checking=100";
 				PRODUCT_BUNDLE_IDENTIFIER = "${SEARCH_URL_TYPE_ID}";
-				PROVISIONING_PROFILE = "5b30c792-d8f0-4059-ba3b-8cadb83c72c1";
+				PROVISIONING_PROFILE = "a6ad30e3-fcd1-4456-8866-5fe028106f12";
 				PROVISIONING_PROFILE_SPECIFIER = "In House - PSCore Search Debug";
 				SWIFT_OBJC_BRIDGING_HEADER = "Configuration/PSCore-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
@@ -1256,7 +1256,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "${SEARCH_URL_TYPE_ID}";
-				PROVISIONING_PROFILE = "3b2cadb1-9d5a-4d36-916d-c4ce7ebdf568";
+				PROVISIONING_PROFILE = "8647ff40-b256-4596-87aa-cc71388b3f0c";
 				PROVISIONING_PROFILE_SPECIFIER = "In House - PSCore Search";
 				SWIFT_OBJC_BRIDGING_HEADER = "Configuration/PSCore-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;

@@ -469,7 +469,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "${CAD_URL_TYPE_ID}";
 				PRODUCT_NAME = "$(PRODUCT_NAME)";
-				PROVISIONING_PROFILE = "fa718bad-d5a2-4164-acaf-5f736ad7f9bd";
+				PROVISIONING_PROFILE = "ac2249d9-f47c-4f76-a566-92287ab060d6";
 				PROVISIONING_PROFILE_SPECIFIER = "In house - PSCore CAD Demo";
 				SWIFT_OBJC_BRIDGING_HEADER = "CAD/Configuration/CAD-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
@@ -542,7 +542,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "${CAD_URL_TYPE_ID}";
 				PRODUCT_NAME = "$(PRODUCT_NAME)";
-				PROVISIONING_PROFILE = "fa718bad-d5a2-4164-acaf-5f736ad7f9bd";
+				PROVISIONING_PROFILE = "ac2249d9-f47c-4f76-a566-92287ab060d6";
 				PROVISIONING_PROFILE_SPECIFIER = "In house - PSCore CAD Demo";
 				SWIFT_OBJC_BRIDGING_HEADER = "CAD/Configuration/CAD-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
@@ -695,7 +695,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "${CAD_URL_TYPE_ID}";
 				PRODUCT_NAME = "$(PRODUCT_NAME)";
-				PROVISIONING_PROFILE = "56cdc3e4-09fd-4a0b-b50c-9446d4bfbc0d";
+				PROVISIONING_PROFILE = "fa7d69ec-351f-41e9-bdf5-87a946accf34";
 				PROVISIONING_PROFILE_SPECIFIER = "In house - PSCore CAD";
 				SWIFT_OBJC_BRIDGING_HEADER = "CAD/Configuration/CAD-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
