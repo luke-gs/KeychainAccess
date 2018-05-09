@@ -9,7 +9,7 @@
 import Foundation
 import MPOLKit
 
-public class VehicleLOCDetailsSectionsDataSource: EntityDetailSectionsDataSource {
+public class VehiclePSCoreDetailsSectionsDataSource: EntityDetailSectionsDataSource {
 
     public var source: EntitySource = MPOLSource.pscore
     public var entity: MPOLKitEntity
@@ -29,6 +29,8 @@ public class VehicleLOCDetailsSectionsDataSource: EntityDetailSectionsDataSource
         self.detailViewControllers =  [ EntityDetailFormViewController(viewModel: VehicleInfoViewModel()),
                                         EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
                                         EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
+                                        EntityDetailFormViewController(viewModel: EntityRetrievedEventsViewModel()),
+
         ]
     }
 }
