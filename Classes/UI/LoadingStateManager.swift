@@ -40,6 +40,8 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         case error
     }
     
+    public init() { }
+    
     
     // MARK: - Public properties
 
