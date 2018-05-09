@@ -1,5 +1,5 @@
 //
-//  TrafficInfringementEntitiesReport.swift
+//  DefaultEntitiesListReport.swift
 //  MPOL
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -13,7 +13,7 @@ extension EvaluatorKey {
     static let trafficInfringmentHasEntity = EvaluatorKey("hasEntity")
 }
 
-class TrafficInfringementEntitiesReport: Reportable {
+class DefaultEntitiesListReport: Reportable {
     weak var event: Event?
     weak var incident: Incident?
     let evaluator: Evaluator = Evaluator()

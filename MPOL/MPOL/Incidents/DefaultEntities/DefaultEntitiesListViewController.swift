@@ -1,5 +1,5 @@
 //
-//  TrafficInfringementEntitiesViewController.swift
+//  DefaultEntitiesListViewController.swift
 //  MPOL
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -12,11 +12,11 @@ import ClientKit
 fileprivate extension EvaluatorKey {
     static let viewed = EvaluatorKey("viewed")
 }
-open class TrafficInfringementEntitiesViewController: FormBuilderViewController, EvaluationObserverable, EntityPickerDelegate {
+open class DefaultEntitiesListViewController: FormBuilderViewController, EvaluationObserverable, EntityPickerDelegate {
 
-    private(set) var viewModel: TrafficInfringementEntitiesViewModel
+    private(set) var viewModel: DefaultEntitiesListViewModel
 
-    public init(viewModel: TrafficInfringementEntitiesViewModel) {
+    public init(viewModel: DefaultEntitiesListViewModel) {
         self.viewModel = viewModel
         super.init()
         viewModel.addObserver(self)
