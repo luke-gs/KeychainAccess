@@ -35,7 +35,6 @@ struct PersonMatchMakingInjectionPlugin: PluginType {
     }
 
     static var defaultPersonMatchMakingInjectionPlugin: Plugin {
-        // .blacklist((DefaultFilterRules.authenticationFilterRules)))
         let pattern = PatternsMatchRules(patterns: ["https://*/person/2ff46c89-6388-435b-8bcf-df16e0785127"])
         return PersonMatchMakingInjectionPlugin().withRule(.whitelist(pattern))
     }
