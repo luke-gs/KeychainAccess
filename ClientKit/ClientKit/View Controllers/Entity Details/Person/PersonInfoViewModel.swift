@@ -10,7 +10,14 @@ import Foundation
 import MPOLKit
 
 open class PersonInfoViewModel: EntityDetailFormViewModel {
-    
+
+    // TODO: Probably think of how this should be used a bit further
+    public init(showingLicenceDetails: Bool = true) {
+        self.showingLicenceDetails = showingLicenceDetails
+    }
+
+    public let showingLicenceDetails: Bool
+
     private var person: Person? {
         return entity as? Person
     }
@@ -53,29 +60,32 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
         if let licence = sortedLicences?.first {
             builder += HeaderFormItem(text: header(for: .licence), style: .collapsible)
             builder += ValueFormItem(title: NSLocalizedString("Licence number", bundle: .mpolKit, comment: ""), value: licence.number ?? "-").width(.column(3))
-            builder += ValueFormItem(title: NSLocalizedString("State", bundle: .mpolKit, comment: ""), value: licence.state ?? "-").width(.column(3))
-            builder += ValueFormItem(title: NSLocalizedString("Country", bundle: .mpolKit, comment: ""), value: licence.country ?? "-").width(.column(3))
-            builder += ValueFormItem(title: NSLocalizedString("Status", bundle: .mpolKit, comment: ""), value: licence.status ?? "-").width(.column(3))
-            
-            var progress: Float = 0
-            if let expiryDate = licence.expiryDate {
-                progress = Float((Date().timeIntervalSince1970 / expiryDate.timeIntervalSince1970))
+
+            if showingLicenceDetails {
+                builder += ValueFormItem(title: NSLocalizedString("State", bundle: .mpolKit, comment: ""), value: licence.state ?? "-").width(.column(3))
+                builder += ValueFormItem(title: NSLocalizedString("Country", bundle: .mpolKit, comment: ""), value: licence.country ?? "-").width(.column(3))
+                builder += ValueFormItem(title: NSLocalizedString("Status", bundle: .mpolKit, comment: ""), value: licence.status ?? "-").width(.column(3))
+
+                var progress: Float = 0
+                if let expiryDate = licence.expiryDate {
+                    progress = Float((Date().timeIntervalSince1970 / expiryDate.timeIntervalSince1970))
+                }
+
+                builder += ProgressFormItem(title: NSLocalizedString("Valid until", bundle: .mpolKit, comment: ""))
+                    .value({
+                        if let effectiveDate = licence.expiryDate {
+                            return DateFormatter.preferredDateStyle.string(from: effectiveDate)
+                        } else {
+                            return NSLocalizedString("Expiry date unknown", bundle: .mpolKit, comment: "")
+                        }
+                        }())
+                    .progress(progress)
+                    .progressTintColor(progress > 1.0 ? #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1) : #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1))
+                    .isProgressHidden(licence.expiryDate == nil)
+                    .width(.column(2))
+
+                builder += ValueFormItem(title: NSLocalizedString("Conditions", bundle: .mpolKit, comment: ""), value: licence.conditions?.compactMap { $0.displayValue() }.joined(separator: "\n")).width(.column(1))
             }
-            
-            builder += ProgressFormItem(title: NSLocalizedString("Valid until", bundle: .mpolKit, comment: ""))
-                .value({
-                    if let effectiveDate = licence.expiryDate {
-                        return DateFormatter.preferredDateStyle.string(from: effectiveDate)
-                    } else {
-                        return NSLocalizedString("Expiry date unknown", bundle: .mpolKit, comment: "")
-                    }
-                }())
-                .progress(progress)
-                .progressTintColor(progress > 1.0 ? #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1) : #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1))
-                .isProgressHidden(licence.expiryDate == nil)
-                .width(.column(2))
-            
-            builder += ValueFormItem(title: NSLocalizedString("Conditions", bundle: .mpolKit, comment: ""), value: licence.conditions?.compactMap { $0.displayValue() }.joined(separator: "\n")).width(.column(1))
         }
         
         // ---------- ALIASES ----------
