@@ -26,7 +26,7 @@ public class PersonPSCoreDetailsSectionsDataSource: EntityDetailSectionsDataSour
 
     public init(baseEntity: Entity, delegate: SearchDelegate?) {
         self.entity = baseEntity
-        self.detailViewControllers = [ EntityDetailFormViewController(viewModel: PersonInfoViewModel()),
+        self.detailViewControllers = [ EntityDetailFormViewController(viewModel: PersonInfoViewModel(showingLicenceDetails: false)),
                                        EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
                                        EntityDetailFormViewController(viewModel: EntityRetrievedEventsViewModel()),
@@ -53,7 +53,7 @@ public class PersonNATDetailsSectionsDataSource: EntityDetailSectionsDataSource 
 
     public init(baseEntity: Entity, delegate: SearchDelegate?) {
         self.entity = baseEntity
-        self.detailViewControllers = [ EntityDetailFormViewController(viewModel: PersonInfoViewModel()),
+        self.detailViewControllers = [ EntityDetailFormViewController(viewModel: PersonInfoViewModel(showingLicenceDetails: false)),
                                        EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
                                        EntityDetailFormViewController(viewModel: EntityRetrievedEventsViewModel()),
@@ -81,7 +81,7 @@ public class PersonRDADetailsSectionsDataSource: EntityDetailSectionsDataSource 
 
     public init(baseEntity: Entity, delegate: SearchDelegate?) {
         self.entity = baseEntity
-        self.detailViewControllers = [ EntityDetailFormViewController(viewModel: PersonInfoViewModel()),
+        self.detailViewControllers = [ EntityDetailFormViewController(viewModel: PersonInfoViewModel(showingLicenceDetails: true)),
                                        EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate))]
     }
