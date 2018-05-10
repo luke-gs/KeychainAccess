@@ -216,7 +216,6 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
             throw error
         }.done {
             UserSession.startSession(user: User(username: username), token: lToken!)
-            NotificationManager.shared.resetPushKey()
             self.updateInterfaceForUserSession(animated: true)
         }.then { [unowned self] () -> Promise<Void> in
             return self.postAuthenticateChain()

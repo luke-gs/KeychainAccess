@@ -41,6 +41,46 @@
     },
     {
         "active": true,
+        "category": "Equipment",
+        "id": "equipment6",
+        "subtitle": "",
+        "title": "Sexual Offence Kit",
+        "value": "Sexual Offence Kit"
+    },
+    {
+        "active": true,
+        "category": "Equipment",
+        "id": "equipment7",
+        "subtitle": "",
+        "title": "Breach Kit",
+        "value": "Breach Kit"
+    },
+    {
+        "active": true,
+        "category": "Equipment",
+        "id": "equipment8",
+        "subtitle": "",
+        "title": "Radio",
+        "value": "Radio"
+    },
+    {
+        "active": true,
+        "category": "Equipment",
+        "id": "equipment9",
+        "subtitle": "",
+        "title": "Riot Control Helmet",
+        "value": "Riot Control Helmet"
+    },
+    {
+        "active": true,
+        "category": "Equipment",
+        "id": "equipment10",
+        "subtitle": "",
+        "title": "Ballistic Vest",
+        "value": "Ballistic Vest"
+    },
+    {
+        "active": true,
         "additionalData": null,
         "category": "PatrolGroup",
         "dateCreated": "2017-11-16T10:00:00Z",
