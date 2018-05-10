@@ -20,8 +20,8 @@ public enum CADIncidentStatusCore: String, CADIncidentStatusType {
     public static let allCases: [CADIncidentStatusType] = [
         CADIncidentStatusCore.current,
         CADIncidentStatusCore.assigned,
+        CADIncidentStatusCore.unresourced,
         CADIncidentStatusCore.resourced,
-        CADIncidentStatusCore.unresourced
     ]
 
     /// The case for when incident is the current incident
