@@ -16,8 +16,8 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
     }
     
     private var criminalHistory: [CriminalHistory] {
-        var history: [CriminalHistory] = filteredOffenderCharges
-        history.append(contentsOf: filteredOffenderConvictions)
+        var history: [CriminalHistory] = offenderCharges
+        history.append(contentsOf: offenderConvictions)
         return history
     }
 
@@ -62,7 +62,7 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
             }
         }
         
-        delegate?.updateLoadingState(criminalHistory.isEmpty ? .noContent : .loaded)
+        delegate?.updateLoadingState(filteredCriminalHistory.isEmpty ? .noContent : .loaded)
     }
     
     open override var title: String? {
@@ -120,6 +120,12 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
     var filteredOffenderConvictions: [OffenderConviction] {
         return filteredCriminalHistory(from: offenderConvictions)
     }
+
+    private var filteredCriminalHistory: [CriminalHistory] {
+        var history: [CriminalHistory] = filteredOffenderCharges
+        history.append(contentsOf: filteredOffenderConvictions)
+        return history
+    }
     
     open override var isFilterApplied: Bool {
         return filterDateRange != nil || sorting != .newest
@@ -157,11 +163,11 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
     }
 
     open func headerForConvictions() -> String? {
-        return String.localizedStringWithFormat(NSLocalizedString("%d Conviction(s)", comment: ""), offenderConvictions.count)
+        return String.localizedStringWithFormat(NSLocalizedString("%d Conviction(s)", comment: ""), filteredOffenderConvictions.count)
     }
 
     open func headerForCharges() -> String? {
-        return String.localizedStringWithFormat(NSLocalizedString("%d Charge(s)", comment: ""), offenderCharges.count)
+        return String.localizedStringWithFormat(NSLocalizedString("%d Charge(s)", comment: ""), filteredOffenderCharges.count)
     }
     
     open func title(for item: CriminalHistory) -> String? {
