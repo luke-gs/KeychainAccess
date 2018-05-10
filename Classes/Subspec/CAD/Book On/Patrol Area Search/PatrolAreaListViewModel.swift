@@ -23,7 +23,7 @@ open class PatrolAreaListViewModel: DefaultSearchDisplayableViewModel {
     
     public convenience init() {
         var items: [CustomSearchDisplayable] = []
-        for patrolArea in CADStateManager.shared.patrolGroups() {
+        for patrolArea in CADStateManager.shared.patrolGroups().sorted(using: [SortDescriptor<ManifestEntry> { $0.title }]) {
             if let title = patrolArea.title {
                 let viewModel = PatrolAreaListItemViewModel(patrolArea: title)
                 items.append(viewModel)
@@ -44,7 +44,7 @@ open class PatrolAreaListViewModel: DefaultSearchDisplayableViewModel {
     
     open func reloadItems() {
         var items: [CustomSearchDisplayable] = []
-        for patrolArea in CADStateManager.shared.patrolGroups() {
+        for patrolArea in CADStateManager.shared.patrolGroups().sorted(using: [SortDescriptor<ManifestEntry> { $0.title }]) {
             if let title = patrolArea.title {
                 let viewModel = PatrolAreaListItemViewModel(patrolArea: title)
                 items.append(viewModel)
