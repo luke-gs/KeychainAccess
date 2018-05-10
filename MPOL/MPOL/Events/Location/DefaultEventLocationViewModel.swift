@@ -15,7 +15,11 @@ public class DefaultEventLocationViewModel {
         self.report = report
     }
 
-    public func tabColour() -> UIColor {
-        return report.evaluator.isComplete == true ? .midGreen : .red
+    var tabColors: (defaultColor: UIColor, selectedColor: UIColor) {
+        if report.evaluator.isComplete {
+            return (defaultColor: .midGreen, selectedColor: .midGreen)
+        } else {
+            return (defaultColor: .secondaryGray, selectedColor: .tabBarWhite)
+        }
     }
 }

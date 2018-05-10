@@ -26,6 +26,8 @@ public class EventEntitiesListReport : Reportable, Evaluatable {
     public init(event: Event) {
         self.event = event
 
+        evaluator.addObserver(event)
+
         evaluator.registerKey(.valid) {
             let reportsValid = self.entityDetailReports.reduce(true, { (result, report) -> Bool in
                 return result && report.evaluator.isComplete
@@ -41,6 +43,5 @@ public class EventEntitiesListReport : Reportable, Evaluatable {
     
     //MARK: Eval
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        self.evaluator.updateEvaluation(for: [.valid])
     }
 }

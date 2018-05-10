@@ -26,7 +26,8 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
         sidebarItem.regularTitle = title
         sidebarItem.compactTitle = title
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.list)!
-        sidebarItem.color = viewModel.tabColor
+        sidebarItem.color = viewModel.tabColors.defaultColor
+        sidebarItem.selectedColor = viewModel.tabColors.selectedColor
 
         loadingManager.noContentView.titleLabel.text = "No Entities Added"
         loadingManager.noContentView.subtitleLabel.text = "This report requires at least one person or vehicle"
@@ -39,10 +40,6 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
 
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLUnimplemented()
-    }
-
-    open override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
     }
 
     override open func construct(builder: FormBuilder) {
@@ -74,7 +71,8 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        sidebarItem.color = evaluator.isComplete == true ? .midGreen : .red
+        sidebarItem.color = viewModel.tabColors.defaultColor
+        sidebarItem.selectedColor = viewModel.tabColors.selectedColor
     }
 
     // MARK: - PRIVATE

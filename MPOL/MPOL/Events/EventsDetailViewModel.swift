@@ -35,22 +35,18 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
             let header = SidebarHeaderView()
             header.subtitleLabel.text =  "Saved as Draft"
             header.subtitleLabel.font =  UIFont.systemFont(ofSize: 13)
-            header.iconView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconHeaderEdit)
-            header.iconView.contentMode = .center
-
-            // Update the header to whatever you need it to be
-            let report = event.reports.filter { $0 is IncidentListReport }.first as? IncidentListReport
-            header.titleLabel.text = report?.incidents.first?.displayable?.title ?? incidentsHeaderDefaultTitle
-            header.captionLabel.text = incidentsHeaderDefaultSubtitle
             return header
         }()
+
+        // Update the header to whatever you need it to be
+        updateHeaderImage(with: event.evaluator.isComplete)
+
+        setUpdateHeaderDelegate()
 
         event.evaluator.addObserver(self)
         evaluator.registerKey(.eventReadyToSubmit) {
             return self.readyToSubmit
         }
-
-        setUpdateHeaderDelegate()
     }
 
     private func setUpdateHeaderDelegate() {
@@ -72,6 +68,7 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
             header.captionLabel.text = "COMPLETED"
             header.captionLabel.textColor = UIColor.midGreen
             header.iconView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconHeaderFinalise)
+            header.iconView.contentMode = .center
             header.iconView.backgroundColor = UIColor.midGreen
             header.iconView.tintColor = UIColor.sidebarBlack
         } else {
@@ -80,6 +77,7 @@ public class EventsDetailViewModel: EventDetailViewModelType, Evaluatable {
             header.iconView.backgroundColor = UIColor.sidebarGray
             header.iconView.tintColor = UIColor.secondaryGray
             header.iconView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconHeaderEdit)
+            header.iconView.contentMode = .center
         }
         headerUpdated?()
     }

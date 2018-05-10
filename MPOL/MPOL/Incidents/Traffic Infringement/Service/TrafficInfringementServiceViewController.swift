@@ -18,6 +18,7 @@ open class TrafficInfringementServiceViewController: FormBuilderViewController, 
 
     public init(viewModel: TrafficInfringementServiceViewModel) {
         self.viewModel = viewModel
+
         super.init()
         viewModel.report.evaluator.addObserver(self)
 
@@ -26,7 +27,8 @@ open class TrafficInfringementServiceViewController: FormBuilderViewController, 
         sidebarItem.regularTitle = title
         sidebarItem.compactTitle = title
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.service)!
-        sidebarItem.color = viewModel.tabColor
+        sidebarItem.color = viewModel.tabColors.defaultColor
+        sidebarItem.selectedColor = viewModel.tabColors.selectedColor
 
         loadingManager.noContentView.titleLabel.text = "No Entities Added"
         loadingManager.noContentView.subtitleLabel.text = "Service requires a person or organisation"
@@ -106,6 +108,7 @@ open class TrafficInfringementServiceViewController: FormBuilderViewController, 
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        sidebarItem.color = viewModel.tabColor
+        sidebarItem.color = viewModel.tabColors.defaultColor
+        sidebarItem.selectedColor = viewModel.tabColors.selectedColor
     }
 }

@@ -21,7 +21,8 @@ class EventEntityDescriptionViewController: FormBuilderViewController, Evaluatio
         sidebarItem.regularTitle = self.title
         sidebarItem.compactTitle = self.title
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.info)!
-        sidebarItem.color = viewModel.tintColour()
+        sidebarItem.color = viewModel.tabColors.defaultColor
+        sidebarItem.selectedColor = viewModel.tabColors.selectedColor
 
         viewModel.report.evaluator.addObserver(self)
     }
@@ -51,7 +52,8 @@ class EventEntityDescriptionViewController: FormBuilderViewController, Evaluatio
     }
 
     func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        sidebarItem.color = viewModel.tintColour()
+        sidebarItem.color = viewModel.tabColors.defaultColor
+        sidebarItem.selectedColor = viewModel.tabColors.selectedColor
     }
 }
 

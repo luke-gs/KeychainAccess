@@ -22,8 +22,12 @@ public class TrafficInfringementOffencesViewModel {
         return String.localizedStringWithFormat(NSLocalizedString("%d offences", comment: ""), report.offences.count)
     }
 
-    public var tabColor: UIColor {
-      return report.evaluator.isComplete ? .midGreen : .red
+    var tabColors: (defaultColor: UIColor, selectedColor: UIColor) {
+        if report.evaluator.isComplete {
+            return (defaultColor: .midGreen, selectedColor: .midGreen)
+        } else {
+            return (defaultColor: .secondaryGray, selectedColor: .tabBarWhite)
+        }
     }
 
     public func addOffence(offence: Offence) {
