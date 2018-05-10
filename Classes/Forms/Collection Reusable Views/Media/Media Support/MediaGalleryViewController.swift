@@ -341,7 +341,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
         let numberOfItems = indexPaths.count
 
-        let deleteTitle = String.localizedStringWithFormat(NSLocalizedString("Delete %1$d Asset(s)", comment: "Action to delete selected assets"), numberOfItems)
+        let deleteTitle = String.localizedStringWithFormat(NSLocalizedString("Delete %1$d Media", comment: "Action to delete selected media"), numberOfItems)
 
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: deleteTitle, style: .destructive, handler: { [weak self] (action) in
