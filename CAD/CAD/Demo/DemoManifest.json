@@ -12,29 +12,21 @@
         "category": "Equipment",
         "id": "equipment2",
         "subtitle": "",
-        "title": "Sexual Offence Kit",
-        "value": "Sexual Offence Kit"
-    },
-    {
-        "active": true,
-        "category": "Equipment",
-        "id": "equipment3",
-        "subtitle": "",
         "title": "Shotgun",
         "value": "Shotgun"
     },
     {
         "active": true,
         "category": "Equipment",
-        "id": "equipment4",
+        "id": "equipment3",
         "subtitle": "",
-        "title": "Taser",
-        "value": "Taser"
+        "title": "Tyre Deflation Device",
+        "value": "Tyre Deflation Device"
     },
     {
         "active": true,
         "category": "Equipment",
-        "id": "equipment5",
+        "id": "equipment4",
         "subtitle": "",
         "title": "Traffic Direction Cones",
         "value": "Traffic Direction Cones"
@@ -42,10 +34,18 @@
     {
         "active": true,
         "category": "Equipment",
+        "id": "equipment5",
+        "subtitle": "",
+        "title": "Taser",
+        "value": "Taser"
+    },
+    {
+        "active": true,
+        "category": "Equipment",
         "id": "equipment6",
         "subtitle": "",
-        "title": "Tyre Deflation Device",
-        "value": "Tyre Deflation Device"
+        "title": "Sexual Offence Kit",
+        "value": "Sexual Offence Kit"
     },
     {
         "active": true,
