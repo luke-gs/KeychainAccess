@@ -57,7 +57,12 @@ open class CallsignStatusViewModel: CADStatusViewModel {
 
             // Requires reason needs further details
             if requiresReason {
-                promise = promise.map { self.promptForStatusReason() }
+                promise = promise.then { _ in
+                    self.promptForStatusReason().then { _ in
+                        // TODO: do something with reason
+                        return Promise<Void>()
+                    }
+                }
             }
             switch newStatus.rawValue {
             case CADClientModelTypes.resourceStatus.trafficStopCase.rawValue:
