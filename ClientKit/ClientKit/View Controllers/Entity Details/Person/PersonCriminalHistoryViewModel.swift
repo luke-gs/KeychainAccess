@@ -9,11 +9,6 @@
 import Foundation
 import MPOLKit
 
-
-public protocol CriminalHistoryDisplayable: DetailFormItemDisplayable {
-
-}
-
 open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
     
     private var person: Person? {
@@ -21,8 +16,8 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
     }
     
     private var criminalHistory: [CriminalHistory] {
-        var history: [CriminalHistory] = offenderCharges
-        history.append(contentsOf: offenderConvictions)
+        var history: [CriminalHistory] = filteredOffenderCharges
+        history.append(contentsOf: filteredOffenderConvictions)
         return history
     }
 
@@ -37,33 +32,32 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
     // MARK: - EntityDetailFormViewModel
     
     open override func construct(for viewController: FormBuilderViewController, with builder: FormBuilder) {
-        let criminalHistory = filteredCriminalHistory
-        
+
         builder.title = title
         builder.forceLinearLayout = true
-        
+
+        let offenderCharges = filteredOffenderCharges
         if !offenderCharges.isEmpty {
             builder += HeaderFormItem(text: headerForCharges())
             
             for item in offenderCharges {
 
                 let display = OffenderChargeDisplay(item)
-                builder += DetailFormItem(title: display.title, subtitle: display.subtitle, detail: display.detail)
+                builder += display.formItem()
                     .highlightStyle(.fade)
-                    .selectionStyle(.fade)
                     .accessory(ItemAccessory(style: .disclosure))
             }
         }
 
+        let offenderConvictions = filteredOffenderConvictions
         if !offenderConvictions.isEmpty {
             builder += HeaderFormItem(text: headerForConvictions())
 
             for item in offenderConvictions {
 
                 let display = OffenderConvictionDisplay(item)
-                builder += DetailFormItem(title: display.title, subtitle: display.subtitle, detail: display.detail)
+                builder += display.formItem()
                     .highlightStyle(.fade)
-                    .selectionStyle(.fade)
                     .accessory(ItemAccessory(style: .disclosure))
             }
         }
@@ -99,24 +93,32 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
     
     fileprivate var filterDateRange: FilterDateRange?
     fileprivate var sorting: DateSorting = .newest
-    
-    var filteredCriminalHistory: [CriminalHistory] {
-        var filtered = self.criminalHistory
-        var filters: [FilterDescriptor<CriminalHistory>] = []
+
+    func filteredCriminalHistory<T: CriminalHistory>(from criminalHistory: [T]) -> [T] {
+        var filtered = criminalHistory
+        var filters: [FilterDescriptor<T>] = []
         if let dateRange = self.filterDateRange {
-            filters.append(FilterRangeDescriptor<CriminalHistory, Date>(key: { $0.occurredDate }, start: dateRange.startDate, end: dateRange.endDate))
+            filters.append(FilterRangeDescriptor<T, Date>(key: { $0.occurredDate }, start: dateRange.startDate, end: dateRange.endDate))
         }
 
-        let sort: SortDescriptor<CriminalHistory>
+        let sort: SortDescriptor<T>
         switch self.sorting {
         case .newest, .oldest:
-            sort = SortDescriptor<CriminalHistory>(ascending: self.sorting == .oldest) { $0.occurredDate }
+            sort = SortDescriptor<T>(ascending: self.sorting == .oldest) { $0.occurredDate }
         }
 
         filtered = filtered.filter(using: filters)
         filtered = filtered.sorted(using: [sort])
-        
+
         return filtered
+    }
+
+    var filteredOffenderCharges: [OffenderCharge] {
+        return filteredCriminalHistory(from: offenderCharges)
+    }
+
+    var filteredOffenderConvictions: [OffenderConviction] {
+        return filteredCriminalHistory(from: offenderConvictions)
     }
     
     open override var isFilterApplied: Bool {
@@ -178,7 +180,7 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
 
 }
 
-public struct OffenderConvictionDisplay: CriminalHistoryDisplayable {
+public struct OffenderConvictionDisplay: DetailDisplayable, FormItemable {
     let offenderConviction: OffenderConviction
 
     public init(_ offenderConviction: OffenderConviction) {
@@ -210,7 +212,7 @@ public struct OffenderConvictionDisplay: CriminalHistoryDisplayable {
     }
 }
 
-public struct OffenderChargeDisplay: CriminalHistoryDisplayable {
+public struct OffenderChargeDisplay: DetailDisplayable, FormItemable {
     let offenderCharge: OffenderCharge
 
     public init(_ offenderCharge: OffenderCharge) {
