@@ -47,9 +47,11 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
     }
 
     override open func reloadFromModel() {
-        // Reload resource for incident if current incident
+        // Reload resource for incident if current incident, or clear
         if incident?.identifier == CADStateManager.shared.currentIncident?.identifier {
             resource = CADStateManager.shared.currentResource
+        } else {
+            resource = nil
         }
 
         if let incident = incident {
