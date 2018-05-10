@@ -23,7 +23,8 @@ class EventEntityRelationshipsViewController: FormBuilderViewController, Evaluat
         sidebarItem.regularTitle = self.title
         sidebarItem.compactTitle = self.title
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.association)!
-        sidebarItem.color = viewModel.tintColour()
+        sidebarItem.color = viewModel.tabColors.defaultColor
+        sidebarItem.selectedColor = viewModel.tabColors.selectedColor
         
         loadingManager.noContentView.titleLabel.text = "No Entities"
         loadingManager.noContentView.subtitleLabel.text = "There are no relationships that need to be defined"
@@ -31,13 +32,13 @@ class EventEntityRelationshipsViewController: FormBuilderViewController, Evaluat
         
         viewModel.report.evaluator.addObserver(self)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.report.viewed = true
         loadingManager.state = viewModel.loadingManagerState()
     }
-    
+
     override func construct(builder: FormBuilder) {
         viewModel.dataSources.forEach { datasource in
             builder += HeaderFormItem(text: datasource.header)
@@ -99,7 +100,8 @@ class EventEntityRelationshipsViewController: FormBuilderViewController, Evaluat
     }
     
     func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        sidebarItem.color = viewModel.tintColour()
+        sidebarItem.color = viewModel.tabColors.defaultColor
+        sidebarItem.selectedColor = viewModel.tabColors.selectedColor
     }
 }
 

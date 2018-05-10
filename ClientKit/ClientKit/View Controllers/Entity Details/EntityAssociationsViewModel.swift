@@ -19,10 +19,15 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
     private var vehicles: [Vehicle] {
         return entity?.associatedVehicles ?? []
     }
+
+    /// Associated locations
+    private var locations: [Address] {
+        return entity?.addresses ?? []
+    }
     
     /// Total associations count
     private var count: Int {
-        return persons.count + vehicles.count
+        return persons.count + vehicles.count + locations.count
     }
 
     private weak var searchDelegate: SearchDelegate?
@@ -42,30 +47,47 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
         builder.title = title
         
         if !persons.isEmpty {
-            builder += HeaderFormItem(text: String(format: (count == 1 ? "%d PERSON" : "%d PEOPLE"), persons.count), style: .collapsible)
+            let count = persons.count
+            builder += HeaderFormItem(text: String.localizedStringWithFormat(NSLocalizedString("%d PEOPLE", comment: ""), count), style: .collapsible)
             
             for person in persons {
                 let displayable = PersonSummaryDisplayable(person)
                 builder += displayable.summaryFormItem(isCompact: isCompact || !wantsThumbnails)
-                    .onSelection({ [weak self] _ in
+                    .onSelection { [weak self] _ in
                         if let presentable = self?.summaryDisplayFormatter.presentableForEntity(person) {
                             self?.searchDelegate?.handlePresentable(presentable)
                         }
-                    })
+                }
             }
         }
         
         if !vehicles.isEmpty {
-            builder += HeaderFormItem(text: String(format: (count == 1 ? "%d VEHICLE" : "%d VEHICLES"), vehicles.count), style: .collapsible)
+            let count = vehicles.count
+            builder += HeaderFormItem(text: String.localizedStringWithFormat(NSLocalizedString("%d VEHICLE(S)", comment: ""), count), style: .collapsible)
             
             for vehicle in vehicles {
                 let displayable = VehicleSummaryDisplayable(vehicle)
                 builder += displayable.summaryFormItem(isCompact: isCompact || !wantsThumbnails)
-                    .onSelection({ [weak self] _ in
+                    .onSelection { [weak self] _ in
                         if let presentable = self?.summaryDisplayFormatter.presentableForEntity(vehicle) {
                             self?.searchDelegate?.handlePresentable(presentable)
                         }
-                    })
+                }
+            }
+        }
+
+        if !locations.isEmpty {
+            let count = locations.count
+            builder += HeaderFormItem(text: String.localizedStringWithFormat(NSLocalizedString("%d LOCATION(S)", comment: ""), count), style: .collapsible)
+
+            for location in locations {
+                let displayable = AddressSummaryDisplayable(location)
+                builder += displayable.summaryFormItem(isCompact: isCompact || !wantsThumbnails)
+                    .onSelection { [weak self] _ in
+                        if let presentable = self?.summaryDisplayFormatter.presentableForEntity(location) {
+                            self?.searchDelegate?.handlePresentable(presentable)
+                        }
+                }
             }
         }
         

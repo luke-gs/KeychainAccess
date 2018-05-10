@@ -22,9 +22,13 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
     public var headerText: String {
         return String.localizedStringWithFormat(NSLocalizedString("%d entities", comment: ""), report.entityDetailReports.count)
     }
-    
-    public func tabColour() -> UIColor {
-        return evaluator.isComplete ? .midGreen : .red
+
+    var tabColors: (defaultColor: UIColor, selectedColor: UIColor) {
+        if report.evaluator.isComplete {
+            return (defaultColor: .midGreen, selectedColor: .midGreen)
+        } else {
+            return (defaultColor: .secondaryGray, selectedColor: .tabBarWhite)
+        }
     }
 
     public func reportFor(_ indexPath: IndexPath) -> EventEntityDetailReport {
@@ -78,7 +82,9 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
     }
 
     //MARK: Eval
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+
+    }
 
     //MARK: EntityBucketDelegate
     public func entitiesDidChange() {

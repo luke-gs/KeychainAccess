@@ -31,6 +31,14 @@ public class EventOfficerListViewModel {
         officerDisplayables = report.officers.map { OfficerSummaryDisplayable($0) }
     }
 
+    var tabColors: (defaultColor: UIColor, selectedColor: UIColor) {
+        if report.evaluator.isComplete {
+            return (defaultColor: .midGreen, selectedColor: .midGreen)
+        } else {
+            return (defaultColor: .secondaryGray, selectedColor: .tabBarWhite)
+        }
+    }
+
     public var title: String? {
         return "Officers"
     }

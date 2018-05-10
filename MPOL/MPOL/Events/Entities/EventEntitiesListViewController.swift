@@ -21,7 +21,8 @@ public class EventEntitiesListViewController : FormBuilderViewController, Evalua
         sidebarItem.regularTitle = self.title
         sidebarItem.compactTitle = self.title
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.list)!
-        sidebarItem.color = viewModel.tabColour()
+        sidebarItem.color = viewModel.tabColors.defaultColor
+        sidebarItem.selectedColor = viewModel.tabColors.selectedColor
 
         viewModel.evaluator.addObserver(self)
     }
@@ -35,7 +36,6 @@ public class EventEntitiesListViewController : FormBuilderViewController, Evalua
 
         viewModel.updateReports()
         self.loadingManager.state = viewModel.loadingManagerState()
-        sidebarItem.color = viewModel.tabColour()
         reloadForm()
     }
     
@@ -81,6 +81,7 @@ public class EventEntitiesListViewController : FormBuilderViewController, Evalua
 
     //MARK: Eval
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        self.sidebarItem.color = viewModel.tabColour()
+        sidebarItem.color = viewModel.tabColors.defaultColor
+        sidebarItem.selectedColor = viewModel.tabColors.selectedColor
     }
 }

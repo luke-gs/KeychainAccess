@@ -26,7 +26,8 @@ open class TrafficInfringementOffencesViewController: FormBuilderViewController,
         sidebarItem.regularTitle = title
         sidebarItem.compactTitle = title
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.alert)!
-        sidebarItem.color = self.viewModel.tabColor
+        sidebarItem.color = viewModel.tabColors.defaultColor
+        sidebarItem.selectedColor = viewModel.tabColors.selectedColor
     }
     
     open override func viewDidLoad() {
@@ -88,7 +89,8 @@ open class TrafficInfringementOffencesViewController: FormBuilderViewController,
     }
     
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        sidebarItem.color = viewModel.tabColor
+        sidebarItem.color = viewModel.tabColors.defaultColor
+        sidebarItem.selectedColor = viewModel.tabColors.selectedColor
     }
 
     @objc func presentOffenceSearchVC() {

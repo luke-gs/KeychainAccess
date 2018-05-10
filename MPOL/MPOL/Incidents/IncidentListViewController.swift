@@ -20,7 +20,8 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
         sidebarItem.regularTitle = "Incidents"
         sidebarItem.compactTitle = "Incidents"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.document)!
-        sidebarItem.color = viewModel.report.evaluator.isComplete == true ? .midGreen : .red
+        sidebarItem.color = viewModel.tabColors.defaultColor
+        sidebarItem.selectedColor = viewModel.tabColors.selectedColor
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -78,7 +79,8 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        sidebarItem.color = evaluator.isComplete == true ? .midGreen : .red
+        sidebarItem.color = viewModel.tabColors.defaultColor
+        sidebarItem.selectedColor = viewModel.tabColors.selectedColor
     }
 
     // MARK: - PRIVATE

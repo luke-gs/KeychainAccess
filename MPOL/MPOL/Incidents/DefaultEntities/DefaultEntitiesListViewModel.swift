@@ -32,8 +32,12 @@ public class DefaultEntitiesListViewModel {
         return entities.isEmpty ? .noContent : .loaded
     }
 
-    var tabColor: UIColor {
-        return report.evaluator.isComplete ? .midGreen : .red
+    var tabColors: (defaultColor: UIColor, selectedColor: UIColor) {
+        if report.evaluator.isComplete {
+            return (defaultColor: .midGreen, selectedColor: .midGreen)
+        } else {
+            return (defaultColor: .secondaryGray, selectedColor: .tabBarWhite)
+        }
     }
 
     func addEntity(_ entity: MPOLKitEntity, with involvements: [Involvement]) {

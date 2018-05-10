@@ -44,8 +44,9 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         sidebarItem.regularTitle = title
         sidebarItem.compactTitle = title
         sidebarItem.image = AssetManager.shared.image(forKey: .resourceGeneral)
-        sidebarItem.color = viewModel.report.evaluator.isComplete ? .midGreen : .red
         sidebarItem.count = UInt(viewModel.officerDisplayables.count)
+        sidebarItem.color = viewModel.tabColors.defaultColor
+        sidebarItem.selectedColor = viewModel.tabColors.selectedColor
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped(sender:)))
     }
@@ -113,7 +114,8 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
     // MARK: - Evaluation
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        sidebarItem.color = evaluator.isComplete == true ? .midGreen : .red
+        sidebarItem.color = viewModel.tabColors.defaultColor
+        sidebarItem.selectedColor = viewModel.tabColors.selectedColor
     }
 
 }

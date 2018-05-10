@@ -32,6 +32,14 @@ public class EventsListViewModel {
         self.eventsManager = eventsManager
         self.title = "Events"
     }
+
+    func image(for displayable: EventListDisplayable) -> UIImage {
+        let eval = event(for: displayable)?.evaluator.isComplete ?? false
+        guard let image = AssetManager.shared.image(forKey: .event)?.surroundWithCircle(diameter: 48, color: eval ? .midGreen : .red) else {
+            fatalError()
+        }
+        return image
+    }
     
     public func event(for displayable: EventListDisplayable) -> Event? {
         return eventsManager.event(for: displayable.eventId)

@@ -26,6 +26,14 @@ open class IncidentListViewModel: IncidentListViewModelType {
         }
     }
 
+    var tabColors: (defaultColor: UIColor, selectedColor: UIColor) {
+        if report.evaluator.isComplete {
+            return (defaultColor: .midGreen, selectedColor: .midGreen)
+        } else {
+            return (defaultColor: .secondaryGray, selectedColor: .tabBarWhite)
+        }
+    }
+
     // ViewModelType
 
     public func incident(for displayable: IncidentListDisplayable) -> Incident? {
