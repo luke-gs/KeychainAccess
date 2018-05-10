@@ -20,13 +20,13 @@ open class DefaultEventNotesMediaViewController: FormBuilderViewController, Eval
         sidebarItem.regularTitle = "Notes and Media"
         sidebarItem.compactTitle = "Notes and Media"
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.attachment)!
-        sidebarItem.color = viewModel.tabColour()
+        sidebarItem.color = viewModel.tabColors.defaultColor
+        sidebarItem.selectedColor = viewModel.tabColors.selectedColor
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
         MPLUnimplemented()
     }
-    
     
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -68,6 +68,7 @@ open class DefaultEventNotesMediaViewController: FormBuilderViewController, Eval
     }
     
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        sidebarItem.color = evaluator.isComplete == true ? .midGreen : .red
+        sidebarItem.color = viewModel.tabColors.defaultColor
+        sidebarItem.selectedColor = viewModel.tabColors.selectedColor
     }
 }
