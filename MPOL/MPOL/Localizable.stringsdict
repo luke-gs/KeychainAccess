@@ -210,5 +210,59 @@
 			<string>%d Orders</string>
 		</dict>
 	</dict>
+	<key>%d PEOPLE</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@PEOPLE@</string>
+		<key>PEOPLE</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>NO PEOPLE</string>
+			<key>one</key>
+			<string>%d PERSON</string>
+			<key>other</key>
+			<string>%d PEOPLE</string>
+		</dict>
+	</dict>
+	<key>%d VEHICLE(S)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@VEHICLES@</string>
+		<key>VEHICLES</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>NO VEHICLES</string>
+			<key>one</key>
+			<string>%d VEHICLE</string>
+			<key>other</key>
+			<string>%d VEHICLES</string>
+		</dict>
+	</dict>
+	<key>%d LOCATION(S)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@LOCATIONS@</string>
+		<key>LOCATIONS</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>NO LOCATIONS</string>
+			<key>one</key>
+			<string>%d LOCATION</string>
+			<key>other</key>
+			<string>%d LOCATIONS</string>
+		</dict>
+	</dict>
 </dict>
 </plist>
