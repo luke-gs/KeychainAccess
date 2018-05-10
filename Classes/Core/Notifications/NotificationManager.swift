@@ -53,8 +53,16 @@ open class NotificationManager: NSObject {
 
         // Generate initial push key
         resetPushKey()
+
+        // Observe session changes to update device registration
+        NotificationCenter.default.addObserver(self, selector: #selector(userSessionDidStart), name: .userSessionStarted, object: nil)
     }
-    
+
+    @objc private func userSessionDidStart() {
+        // User session was started or restored, register device if ready
+        registerPushToken()
+    }
+
     /// Checks notification authorization status and requests if not authorized
     @discardableResult
     open func requestAuthorizationIfNeeded() -> Promise<Void> {
