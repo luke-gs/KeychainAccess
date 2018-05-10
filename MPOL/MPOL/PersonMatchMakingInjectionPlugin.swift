@@ -10,6 +10,8 @@ import Alamofire
 import PromiseKit
 import ClientKit
 
+// TODO: Remove me when I'm no longer needed.
+// I am a sad existence that will serve this one purpose of injecting demo data one time.
 struct PersonMatchMakingInjectionPlugin: PluginType {
 
     func processResponse(_ response: Alamofire.DataResponse<Data>) -> Promise<Alamofire.DataResponse<Data>> {
