@@ -43,6 +43,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             plugins.append(NetworkLoggingPlugin().allowAll())
         #endif
 
+        // FIXME: - Remove this injection business when the time is right.
+        // Only injecting data for demo purpose.
+        plugins.append(PersonMatchMakingInjectionPlugin.defaultPersonMatchMakingInjectionPlugin)
+
         // Set the application key for app specific user settings
         User.applicationKey = "Search"
 
