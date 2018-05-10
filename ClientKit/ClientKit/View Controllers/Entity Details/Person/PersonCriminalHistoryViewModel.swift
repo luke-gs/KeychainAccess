@@ -16,31 +16,53 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
     }
     
     private var criminalHistory: [CriminalHistory] {
-        return person?.criminalHistory ?? []
+        var history: [CriminalHistory] = offenderCharges
+        history.append(contentsOf: offenderConvictions)
+        return history
+    }
+
+    private var offenderCharges: [OffenderCharge] {
+        return person?.offenderCharges ?? []
+    }
+
+    private var offenderConvictions: [OffenderConviction] {
+        return person?.offenderConvictions ?? []
     }
     
     // MARK: - EntityDetailFormViewModel
     
     open override func construct(for viewController: FormBuilderViewController, with builder: FormBuilder) {
-        let criminalHistory = filteredCriminalHistory
-        
+
         builder.title = title
         builder.forceLinearLayout = true
-        
-        if !criminalHistory.isEmpty {
-            builder += HeaderFormItem(text: header())
+
+        let offenderCharges = filteredOffenderCharges
+        if !offenderCharges.isEmpty {
+            builder += HeaderFormItem(text: headerForCharges())
             
-            for item in criminalHistory {
-                builder += SubtitleFormItem()
+            for item in offenderCharges {
+
+                let display = OffenderChargeDisplay(item)
+                builder += display.formItem()
                     .highlightStyle(.fade)
-                    .selectionStyle(.fade)
-                    .title(title(for: item))
-                    .subtitle(subtitle(for: item))
+                    .accessory(ItemAccessory(style: .disclosure))
+            }
+        }
+
+        let offenderConvictions = filteredOffenderConvictions
+        if !offenderConvictions.isEmpty {
+            builder += HeaderFormItem(text: headerForConvictions())
+
+            for item in offenderConvictions {
+
+                let display = OffenderConvictionDisplay(item)
+                builder += display.formItem()
+                    .highlightStyle(.fade)
                     .accessory(ItemAccessory(style: .disclosure))
             }
         }
         
-        delegate?.updateLoadingState(criminalHistory.isEmpty ? .noContent : .loaded)
+        delegate?.updateLoadingState(filteredCriminalHistory.isEmpty ? .noContent : .loaded)
     }
     
     open override var title: String? {
@@ -48,19 +70,12 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
     }
     
     open override var noContentTitle: String? {
-        return NSLocalizedString("No Criminal History Found", bundle: .mpolKit, comment: "")
+        return NSLocalizedString("No Records Found", bundle: .mpolKit, comment: "")
     }
     
     open override var noContentSubtitle: String? {
         if criminalHistory.isEmpty {
-            let name: String
-            if let entity = person {
-                name = type(of: entity).localizedDisplayName.localizedLowercase
-            } else {
-                name = NSLocalizedString("entity", bundle: .mpolKit, comment: "")
-            }
-            
-            return String(format: NSLocalizedString("This %@ has no criminal history", bundle: .mpolKit, comment: ""), name)
+            return NSLocalizedString("There is no Criminal History information available", comment: "")
         } else {
             return NSLocalizedString("This filter has no matching history", comment: "")
         }
@@ -77,36 +92,48 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
     // MARK: - Filtering
     
     fileprivate var filterDateRange: FilterDateRange?
-    fileprivate var sorting: Sorting = .dateNewest
-    
-    var filteredCriminalHistory: [CriminalHistory] {
-        var filtered = self.criminalHistory
-        var filters: [FilterDescriptor<CriminalHistory>] = []
+    fileprivate var sorting: DateSorting = .newest
+
+    func filteredCriminalHistory<T: CriminalHistory>(from criminalHistory: [T]) -> [T] {
+        var filtered = criminalHistory
+        var filters: [FilterDescriptor<T>] = []
         if let dateRange = self.filterDateRange {
-            filters.append(FilterRangeDescriptor<CriminalHistory, Date>(key: { $0.lastOccurred }, start: dateRange.startDate, end: dateRange.endDate))
+            filters.append(FilterRangeDescriptor<T, Date>(key: { $0.occurredDate }, start: dateRange.startDate, end: dateRange.endDate))
         }
 
-        let sort: SortDescriptor<CriminalHistory>
+        let sort: SortDescriptor<T>
         switch self.sorting {
-        case .dateNewest, .dateOldest:
-            sort = SortDescriptor<CriminalHistory>(ascending: self.sorting == .dateOldest) { $0.lastOccurred }
-        case .title:
-            sort = SortDescriptor<CriminalHistory>(ascending: true) { $0.offenceDescription }
+        case .newest, .oldest:
+            sort = SortDescriptor<T>(ascending: self.sorting == .oldest) { $0.occurredDate }
         }
 
         filtered = filtered.filter(using: filters)
         filtered = filtered.sorted(using: [sort])
-        
+
         return filtered
+    }
+
+    var filteredOffenderCharges: [OffenderCharge] {
+        return filteredCriminalHistory(from: offenderCharges)
+    }
+
+    var filteredOffenderConvictions: [OffenderConviction] {
+        return filteredCriminalHistory(from: offenderConvictions)
+    }
+
+    private var filteredCriminalHistory: [CriminalHistory] {
+        var history: [CriminalHistory] = filteredOffenderCharges
+        history.append(contentsOf: filteredOffenderConvictions)
+        return history
     }
     
     open override var isFilterApplied: Bool {
-        return filterDateRange != nil || sorting != .dateNewest
+        return filterDateRange != nil || sorting != .newest
     }
     
     open override var filterOptions: [FilterOption] {
         let dateRange = filterDateRange ?? FilterDateRange(title: NSLocalizedString("Date Range", comment: ""), startDate: nil, endDate: nil, requiresStartDate: false, requiresEndDate: false)
-        let sorting = FilterList(title: NSLocalizedString("Sort By", comment: ""), displayStyle: .list, options: Sorting.allCases, selectedIndexes: Sorting.allCases.indexes(where: { self.sorting == $0 }))
+        let sorting = FilterList(title: NSLocalizedString("Sort By", comment: ""), displayStyle: .list, options: DateSorting.allCases, selectedIndexes: DateSorting.allCases.indexes(where: { self.sorting == $0 }))
         
         return [dateRange, sorting]
     }
@@ -118,8 +145,8 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
         
         controller.filterOptions.forEach {
             switch $0 {
-            case let filterList as FilterList where filterList.options.first is Sorting:
-                self.sorting = filterList.options[filterList.selectedIndexes].first as? Sorting ?? self.sorting
+            case let filterList as FilterList where filterList.options.first is DateSorting:
+                self.sorting = filterList.options[filterList.selectedIndexes].first as? DateSorting ?? self.sorting
             case let dateRange as FilterDateRange:
                 if dateRange.startDate == nil && dateRange.endDate == nil {
                     self.filterDateRange = nil
@@ -134,70 +161,98 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
         delegate?.updateBarButtonItems()
         delegate?.reloadData()
     }
-    
-    // MARK: - Internal
-    
-    open func header() -> String? {
-        let count = criminalHistory.count
-        if count > 0 {
-            let baseString = count > 1 ? NSLocalizedString("%d ITEMS", bundle: .mpolKit, comment: "") : NSLocalizedString("%d ITEM", bundle: .mpolKit, comment: "")
-            return String(format: baseString, count)
-        }
-        return nil
+
+    open func headerForConvictions() -> String? {
+        return String.localizedStringWithFormat(NSLocalizedString("%d Conviction(s)", comment: ""), filteredOffenderConvictions.count)
+    }
+
+    open func headerForCharges() -> String? {
+        return String.localizedStringWithFormat(NSLocalizedString("%d Charge(s)", comment: ""), filteredOffenderCharges.count)
     }
     
     open func title(for item: CriminalHistory) -> String? {
-        var offenceCount = ""
-        if let count = item.offenceCount {
-            offenceCount = "(\(count)) "
-        }
-        return offenceCount + (item.offenceDescription?.ifNotEmpty() ?? NSLocalizedString("Unknown Offence", bundle: .mpolKit, comment: ""))
+        return item.primaryCharge?.ifNotEmpty() ?? NSLocalizedString("Unknown Offence", comment: "")
     }
     
     open func subtitle(for item: CriminalHistory) -> String? {
         let lastOccurred: String
-        if let date = item.lastOccurred {
+        if let date = item.occurredDate {
             lastOccurred = DateFormatter.preferredDateStyle.string(from: date)
         } else {
             lastOccurred = NSLocalizedString("Unknown", bundle: .mpolKit, comment: "Unknown date")
         }
         return String(format: NSLocalizedString("Last occurred: %@", bundle: .mpolKit, comment: ""), lastOccurred)
     }
-    
-    // MARK: - Sorting
-    // TODO: Refactor
-    
-    public enum Sorting: Pickable {
-        case dateNewest
-        case dateOldest
-        case title
-        
-        func compare(_ h1: CriminalHistory, _ h2: CriminalHistory) -> Bool {
-            switch self {
-            case .dateNewest:
-                return DateSorting.newest.compare(h1.lastOccurred ?? .distantPast, h2.lastOccurred ?? .distantPast)
-            case .dateOldest:
-                return DateSorting.oldest.compare(h1.lastOccurred ?? .distantPast, h2.lastOccurred ?? .distantPast)
-            case .title:
-                if let h2Title = h2.offenceDescription {
-                    return h1.offenceDescription?.localizedStandardCompare(h2Title) == .orderedAscending
-                }
-                return h1.offenceDescription != nil
-            }
+
+}
+
+public struct OffenderConvictionDisplay: DetailDisplayable, FormItemable {
+    let offenderConviction: OffenderConviction
+
+    public init(_ offenderConviction: OffenderConviction) {
+        self.offenderConviction = offenderConviction
+    }
+
+    public var title: StringSizing? {
+        let title = offenderConviction.primaryCharge?.ifNotEmpty() ?? NSLocalizedString("Unknown Offence", comment: "")
+        return title.sizing(withNumberOfLines: 0)
+    }
+
+    public var subtitle: StringSizing? {
+        guard let courtName = offenderConviction.courtName else {
+            return NSLocalizedString("Unknown conviction information", comment: "").sizing(withNumberOfLines: 0)
         }
-        
-        public var title: String? {
-            switch self {
-            case .dateNewest: return NSLocalizedString("Newest", comment: "")
-            case .dateOldest: return NSLocalizedString("Oldest", comment: "")
-            case .title: return NSLocalizedString("Title", comment: "")
-            }
+
+        let dateString: String
+        if let date = offenderConviction.occurredDate {
+            dateString = DateFormatter.preferredDateStyle.string(from: date)
+        } else {
+            dateString = NSLocalizedString("Unknown date", comment: "Unknown date")
         }
-        
-        public var subtitle: String? {
-            return nil
+        return String(format: NSLocalizedString("Convicted by %@ on %@", comment: ""), courtName, dateString).sizing(withNumberOfLines: 0)
+    }
+
+    public var detail: StringSizing? {
+        let title = offenderConviction.offenceDescription?.ifNotEmpty() ?? NSLocalizedString("Unknown Offence", comment: "")
+        return title.sizing(withNumberOfLines: 0)
+    }
+}
+
+public struct OffenderChargeDisplay: DetailDisplayable, FormItemable {
+    let offenderCharge: OffenderCharge
+
+    public init(_ offenderCharge: OffenderCharge) {
+        self.offenderCharge = offenderCharge
+    }
+
+
+    public var title: StringSizing? {
+        let title = offenderCharge.primaryCharge?.ifNotEmpty() ?? NSLocalizedString("Unknown Offence", comment: "")
+        return title.sizing(withNumberOfLines: 0)
+    }
+
+    public var subtitle: StringSizing? {
+        guard let courtName = offenderCharge.courtName else {
+            return NSLocalizedString("Unknown charge information", comment: "").sizing(withNumberOfLines: 0)
         }
-        
-        static let allCases: [Sorting] = [.dateNewest, .dateOldest, .title]
+
+        let dateString: String
+        if let date = offenderCharge.occurredDate {
+            dateString = DateFormatter.preferredDateStyle.string(from: date)
+        } else {
+            dateString = NSLocalizedString("Unknown date", comment: "Unknown date")
+        }
+        return String(format: NSLocalizedString("Charged by %@ on %@", comment: ""), courtName, dateString).sizing(withNumberOfLines: 0)
+    }
+
+    public var detail: StringSizing? {
+
+        let next: String
+        if let date = offenderCharge.nextCourtDate {
+            next = DateFormatter.preferredDateStyle.string(from: date)
+        } else {
+            next = NSLocalizedString("Unknown date", comment: "Unknown date")
+        }
+        return String(format: NSLocalizedString("Next Court Date: %@", comment: ""), next).sizing(withNumberOfLines: 0)
     }
 }

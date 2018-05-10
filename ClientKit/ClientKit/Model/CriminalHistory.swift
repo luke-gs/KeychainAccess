@@ -10,41 +10,88 @@ import Foundation
 import MPOLKit
 import Unbox
 
-open class CriminalHistory: NSObject, Serialisable {
-    
-    public static var supportsSecureCoding: Bool { return true }
-    open static var modelVersion: Int { return 0 }
-    
-    var offenceDescription: String?
-    var offenceCount: Int?
-    var lastOccurred: Date?
-    
-    public required init(unboxer: Unboxer) {
-        offenceDescription = unboxer.unbox(key: "offence")
-        offenceCount = unboxer.unbox(key: "offenceCount")
-        lastOccurred = unboxer.unbox(key: "offenceDate", formatter: ISO8601DateTransformer.shared)
+@objc (MPLCrimimalHistory)
+open class CriminalHistory: Entity {
+
+    let offenceDescription: String?
+    let primaryCharge: String?
+    let occurredDate: Date?
+    let courtName: String?
+
+    public required init(unboxer: Unboxer) throws {
+        offenceDescription = unboxer.unbox(key: CodingKeys.offenceDescription.rawValue)
+        primaryCharge = unboxer.unbox(key: CodingKeys.primaryCharge.rawValue)
+        occurredDate = unboxer.unbox(key: CodingKeys.occurredDate.rawValue, formatter: ISO8601DateTransformer.shared)
+        courtName = unboxer.unbox(key: CodingKeys.courtName.rawValue)
+
+        try super.init(unboxer: unboxer)
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        super.init()
-        offenceDescription = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.offenceDescription.rawValue) as String?
-        offenceCount = aDecoder.decodeInteger(forKey: CodingKey.offenceCount.rawValue)
-        lastOccurred = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.lastOccurred.rawValue) as Date?
+        offenceDescription = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.offenceDescription.rawValue) as String?
+        primaryCharge = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.primaryCharge.rawValue) as String?
+        occurredDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.occurredDate.rawValue) as Date?
+        courtName = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.courtName.rawValue) as String?
+
+        super.init(coder: aDecoder)
     }
     
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(CriminalHistory.modelVersion, forKey: CodingKey.version.rawValue)
+    override open func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
 
-        aCoder.encode(offenceDescription, forKey: CodingKey.offenceDescription.rawValue)
-        aCoder.encode(offenceCount, forKey: CodingKey.offenceCount.rawValue)
-        aCoder.encode(lastOccurred, forKey: CodingKey.lastOccurred.rawValue)
+        aCoder.encode(offenceDescription, forKey: CodingKeys.offenceDescription.rawValue)
+        aCoder.encode(primaryCharge, forKey: CodingKeys.primaryCharge.rawValue)
+        aCoder.encode(occurredDate, forKey: CodingKeys.occurredDate.rawValue)
+        aCoder.encode(courtName, forKey: CodingKeys.courtName.rawValue)
+
     }
 
-    private enum CodingKey: String {
-        case version
-        case offenceDescription
-        case offenceCount
-        case lastOccurred
+    override open static var modelVersion: Int {
+        return 1
     }
-    
+
+    private enum CodingKeys: String, CodingKey {
+        case primaryCharge
+        case offenceDescription = "description"
+        case occurredDate = "occurred"
+        case courtName
+    }
+
+}
+
+open class OffenderCharge: CriminalHistory {
+    let nextCourtDate: Date?
+
+    public required init(unboxer: Unboxer) throws {
+        nextCourtDate = unboxer.unbox(key: CodingKeys.nextCourtDate.rawValue, formatter: ISO8601DateTransformer.shared)
+        try super.init(unboxer: unboxer)
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+        nextCourtDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.nextCourtDate.rawValue) as Date?
+        super.init(coder: aDecoder)
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case nextCourtDate
+    }
+
+}
+
+open class OffenderConviction: CriminalHistory {
+    let finalCourtDate: Date?
+
+    public required init(unboxer: Unboxer) throws {
+        finalCourtDate = unboxer.unbox(key: CodingKeys.finalCourtDate.rawValue, formatter: ISO8601DateTransformer.shared)
+        try super.init(unboxer: unboxer)
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+        finalCourtDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.finalCourtDate.rawValue) as Date?
+        super.init(coder: aDecoder)
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case finalCourtDate
+    }
 }

@@ -10,34 +10,54 @@ import MPOLKit
 import Unbox
 
 @objc(MPLOrder)
-open class Order: NSObject, Serialisable {
+open class Order: Entity {
 
     open var type: String?
+    open var status: String?
+    open var issuingAuthority: String?
+    open var orderDescription: String?
 
-    open var eventDescription: String?
-    open var occurredDate: Date?
+    open var issuedDate: Date?
 
     public required init(unboxer: Unboxer) throws {
         type = unboxer.unbox(key: CodingKeys.type.rawValue)
+        status = unboxer.unbox(key: CodingKeys.status.rawValue)
+        issuingAuthority = unboxer.unbox(key: CodingKeys.issuingAuthority.rawValue)
+        orderDescription = unboxer.unbox(key: CodingKeys.orderDescription.rawValue)
+        issuedDate = unboxer.unbox(key: CodingKeys.issuedDate.rawValue, formatter: ISO8601DateTransformer.shared)
+
+        try super.init(unboxer: unboxer)
     }
 
     public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+
         type = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.type.rawValue) as String?
+        status = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.status.rawValue) as String?
+        issuingAuthority = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.issuingAuthority.rawValue) as String?
+        orderDescription = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.orderDescription.rawValue) as String?
+        issuedDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKeys.issuedDate.rawValue) as Date?
     }
 
-    open func encode(with aCoder: NSCoder) {
+    override open func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+        
         aCoder.encode(type, forKey: CodingKeys.type.rawValue)
+        aCoder.encode(status, forKey: CodingKeys.status.rawValue)
+        aCoder.encode(issuingAuthority, forKey: CodingKeys.issuingAuthority.rawValue)
+        aCoder.encode(orderDescription, forKey: CodingKeys.orderDescription.rawValue)
+        aCoder.encode(issuedDate, forKey: CodingKeys.issuedDate.rawValue)
     }
 
-    public static var supportsSecureCoding: Bool {
-        return true
-    }
-
-    open class var modelVersion: Int {
+    override open class var modelVersion: Int {
         return 1
     }
 }
 
 private enum CodingKeys: String, CodingKey {
     case type
+    case status
+    case issuingAuthority
+    case orderDescription = "description"
+    case issuedDate = "dateIssued"
 }
