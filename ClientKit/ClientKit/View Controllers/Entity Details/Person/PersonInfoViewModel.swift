@@ -58,10 +58,11 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
         
         let sortedLicences = person.licences?.sorted(using: [SortDescriptor<Licence>(ascending: false) { $0.expiryDate }])
         if let licence = sortedLicences?.first {
-            builder += HeaderFormItem(text: header(for: .licence), style: .collapsible)
-            builder += ValueFormItem(title: NSLocalizedString("Licence number", bundle: .mpolKit, comment: ""), value: licence.number ?? "-").width(.column(3))
 
             if showingLicenceDetails {
+                builder += HeaderFormItem(text: header(for: .licence), style: .collapsible)
+                builder += ValueFormItem(title: NSLocalizedString("Licence number", bundle: .mpolKit, comment: ""), value: licence.number ?? "-").width(.column(3))
+
                 builder += ValueFormItem(title: NSLocalizedString("State", bundle: .mpolKit, comment: ""), value: licence.state ?? "-").width(.column(3))
                 builder += ValueFormItem(title: NSLocalizedString("Country", bundle: .mpolKit, comment: ""), value: licence.country ?? "-").width(.column(3))
                 builder += ValueFormItem(title: NSLocalizedString("Status", bundle: .mpolKit, comment: ""), value: licence.status ?? "-").width(.column(3))
@@ -85,6 +86,9 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                     .width(.column(2))
 
                 builder += ValueFormItem(title: NSLocalizedString("Conditions", bundle: .mpolKit, comment: ""), value: licence.conditions?.compactMap { $0.displayValue() }.joined(separator: "\n")).width(.column(1))
+            } else {
+                builder += HeaderFormItem(text: header(for: .details), style: .collapsible)
+                builder += ValueFormItem(title: NSLocalizedString("Identification Number", comment: ""), value: licence.number ?? "-").width(.column(1))
             }
         }
         
@@ -177,13 +181,16 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
     }
     
     // MARK: - Internal
-    
+
+    // TODO: - Probably refactor this thing.
+    // Enum probably is not the best place to do "text" presentation.
     private enum Section {
         case header
         case licence
         case aliases
         case addresses
         case contact
+        case details
     }
     
     private func header(for section: Section) -> String? {
@@ -218,6 +225,8 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
             }
         case .contact:
             return NSLocalizedString("CONTACT DETAILS", bundle: .mpolKit, comment: "")
+        case .details:
+            return NSLocalizedString("DETAILS", comment: "")
         }
     }
 }
