@@ -47,7 +47,7 @@ open class SidebarHeaderView: UIView {
         preservesSuperviewLayoutMargins = true
         accessibilityTraits |= UIAccessibilityTraitHeader
         
-        let secondaryColor = #colorLiteral(red: 0.5561795831, green: 0.5791077614, blue: 0.6335693598, alpha: 1)
+        let secondaryColor = #colorLiteral(red: 0.5568627451, green: 0.5568627451, blue: 0.5764705882, alpha: 1)
         
         iconView.translatesAutoresizingMaskIntoConstraints = false
         iconView.contentMode = .scaleAspectFit
