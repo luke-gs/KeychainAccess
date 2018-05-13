@@ -18,9 +18,9 @@ enum EventLocationSearchOption {
 
     var title: String {
         switch self {
-        case .manual: return "Enter location manually"
-        case .map: return "Search on map"
-        case .current: return "Current location"
+        case .manual: return "Enter Location Manually"
+        case .map: return "Search on Map"
+        case .current: return "Current Location"
         }
     }
 
@@ -61,7 +61,7 @@ class EventLocationSearchViewModel<T: EventSearchableViewModelDelegate>: NSObjec
 
     private let locationManager: CLLocationManager = CLLocationManager()
 
-    init(title: String = "Select location", recentLocations: [LookupAddress]) {
+    init(title: String = "Select Location", recentLocations: [LookupAddress]) {
         recentLocationDisplayables = recentLocations
         self.title = title
 
@@ -79,7 +79,7 @@ class EventLocationSearchViewModel<T: EventSearchableViewModelDelegate>: NSObjec
             builder += searchResults.map { address in
                 let item = SubtitleFormItem(title: address.fullAddress, subtitle: "Calculating", image: AssetManager.shared.image(forKey: .location), style: .default)
                     .accessory(ItemAccessory.disclosure)
-                    .imageTintColor(.gray)
+                    .imageTintColor(.black)
                     .onSelection { _ in
                         self.delegate?.didSelectSearchable(address)
                     }
@@ -99,7 +99,7 @@ class EventLocationSearchViewModel<T: EventSearchableViewModelDelegate>: NSObjec
             SubtitleFormItem(title: address.fullAddress, image: AssetManager.shared.image(forKey: .location), style: .default)
                 .subtitle("Calculating")
                 .accessory(ItemAccessory.disclosure)
-                .imageTintColor(.gray)
+                .imageTintColor(.black)
                 .onSelection { _ in
                     self.delegate?.didSelectSearchable(address)
             }
@@ -117,7 +117,7 @@ class EventLocationSearchViewModel<T: EventSearchableViewModelDelegate>: NSObjec
     private func formItems(for options: [EventLocationSearchOption]) -> [SubtitleFormItem] {
         return options.map { option in
             SubtitleFormItem(title: option.title, image: option.image?.withRenderingMode(.alwaysTemplate))
-                .imageTintColor(.gray)
+                .imageTintColor(.black)
                 .accessory(ItemAccessory.disclosure)
                 .onSelection { _ in
                     self.delegate?.didSelectOption(option)

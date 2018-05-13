@@ -17,7 +17,7 @@ public class InterceptReportIncidentBuilder: IncidentBuilding {
         incident.add(report: IncidentTestReport(event: event, incident: incident))
 
         let displayable = IncidentListDisplayable(title: type.rawValue,
-                                                  subtitle: "Not yet started",
+                                                  subtitle: "Not yet Started",
                                                   icon: AssetManager.shared.image(forKey: AssetManager.ImageKey.event))
         displayable.incidentId = incident.id
         return (incident: incident, displayable: displayable)

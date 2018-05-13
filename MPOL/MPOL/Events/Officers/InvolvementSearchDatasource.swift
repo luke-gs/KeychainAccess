@@ -42,7 +42,7 @@ public class InvolvementSearchDatasource: CustomSearchPickerDatasource {
     public func updateHeader(for objects: [Pickable]) {
         let config = headerConfiguration
         let subtitle = objects.map { $0.title }.joined(separator: ", ")
-        let displayText: String = self.title == nil ? "" : "No selected \(self.title!.lowercased())"
+        let displayText: String = self.title == nil ? "" : "No Selected \(self.title!.capitalized)"
         header?.displayView?.update(with: config?.title, subtitle: subtitle.ifNotEmpty() ?? displayText, image: config?.image)
     }
 }
