@@ -47,7 +47,7 @@ class PersonSearchParametersTests: XCTestCase {
             "givenName":    "Herli",
             "middleNames":  "Harem Harembe Junior Random Text",
             "gender":       "Female",
-            "dateOfBirth":  "16-01-1990"
+            "dateOfBirth":  "1990-01-16"
         ]
         
         XCTAssertEqual(actualResults, expectedResults)
@@ -69,7 +69,7 @@ class PersonSearchParametersTests: XCTestCase {
         let actualResults   = search.parameters as! [String: String]
         let expectedResults = [
             "familyName":   "Halim",
-            "dateOfBirth":  "01-1990"
+            "dateOfBirth":  "1990-01"
         ]
 
         XCTAssertEqual(actualResults, expectedResults)
