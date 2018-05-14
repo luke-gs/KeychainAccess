@@ -29,7 +29,7 @@ class PersonSearchParametersTests: XCTestCase {
         // Given
         let familyName  = "Halim"
         let givenName   = "Herli"
-        let middleNames = "Harem Harembe"
+        let middleNames = "Harem Harembe Junior Random Text"
         let gender      = "Female"
         let dateOfBirth = "16/01/1990"
         
@@ -45,11 +45,55 @@ class PersonSearchParametersTests: XCTestCase {
         let expectedResults = [
             "familyName":   "Halim",
             "givenName":    "Herli",
-            "middleNames":  "Harem Harembe",
+            "middleNames":  "Harem Harembe Junior Random Text",
             "gender":       "Female",
-            "dateOfBirth":  "16/01/1990"
+            "dateOfBirth":  "16-01-1990"
         ]
         
+        XCTAssertEqual(actualResults, expectedResults)
+    }
+
+    func testThatItCreatesSearchParametersWithOptionalDayDate() {
+        // Given
+        let familyName  = "Halim"
+        let dateOfBirth = "01/1990"
+
+        // When
+        let search = PersonSearchParameters(familyName:  familyName,
+                                            givenName:   nil,
+                                            middleNames: nil,
+                                            gender:      nil,
+                                            dateOfBirth: dateOfBirth)
+
+        // Then
+        let actualResults   = search.parameters as! [String: String]
+        let expectedResults = [
+            "familyName":   "Halim",
+            "dateOfBirth":  "01-1990"
+        ]
+
+        XCTAssertEqual(actualResults, expectedResults)
+    }
+
+    func testThatItCreatesSearchParametersWithOnlyYearDate() {
+        // Given
+        let familyName  = "Halim"
+        let dateOfBirth = "1990"
+
+        // When
+        let search = PersonSearchParameters(familyName:  familyName,
+                                            givenName:   nil,
+                                            middleNames: nil,
+                                            gender:      nil,
+                                            dateOfBirth: dateOfBirth)
+
+        // Then
+        let actualResults   = search.parameters as! [String: String]
+        let expectedResults = [
+            "familyName":   "Halim",
+            "dateOfBirth":  "1990"
+        ]
+
         XCTAssertEqual(actualResults, expectedResults)
     }
     
