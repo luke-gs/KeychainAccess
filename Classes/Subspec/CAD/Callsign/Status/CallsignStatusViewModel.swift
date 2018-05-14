@@ -89,7 +89,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
             }.then { _ -> Promise<CADResourceStatusType> in
                 // Update UI
                 self.selectedIndexPath = indexPath
-                CADStateManager.shared.updateCallsignStatus(status: newStatus, incident: self.incident)
+                CADStateManager.shared.updateCallsignStatus(status: newStatus, incident: self.incident, comments: nil, locationComments: nil)
                 return Promise.value(newStatus)
             }
         } else {

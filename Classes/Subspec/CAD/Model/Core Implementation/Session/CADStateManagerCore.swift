@@ -206,7 +206,7 @@ open class CADStateManagerCore: CADStateManagerType {
     }
 
     /// Update the status of our callsign
-    open func updateCallsignStatus(status: CADResourceStatusType, incident: CADIncidentType?) {
+    open func updateCallsignStatus(status: CADResourceStatusType, incident: CADIncidentType?, comments: String?, locationComments: String?) -> Promise<Void> {
         var newStatus = status
         var newIncident = incident
 
@@ -248,6 +248,8 @@ open class CADStateManagerCore: CADStateManagerType {
             }
         }
         NotificationCenter.default.post(name: .CADCallsignChanged, object: self)
+        
+        return Promise<Void>()
     }
 
     // MARK: - Manifest
