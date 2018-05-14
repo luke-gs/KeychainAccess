@@ -83,7 +83,7 @@ public protocol CADStateManagerType {
     func bookOff() -> Promise<Void>
 
     /// Update the status of our callsign
-    func updateCallsignStatus(status: CADResourceStatusType, incident: CADIncidentType?)
+    func updateCallsignStatus(status: CADResourceStatusType, incident: CADIncidentType?, comments: String?, locationComments: String?) -> Promise<Void>
 
     // MARK: - Manifest
 
