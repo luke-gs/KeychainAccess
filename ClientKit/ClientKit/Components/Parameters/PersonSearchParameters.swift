@@ -12,7 +12,7 @@ import Wrap
 
 public class PersonSearchParameters: EntitySearchRequest<Person> {
 
-    // Expected DOB format is dd/MM/yyyy as `String`, output is in dd-MM-yyyy
+    // Expected DOB format is dd/MM/yyyy as `String`, output is in yyyy-MM-dd
     // where dd and MM are optional.
     public init(familyName: String, givenName: String? = nil, middleNames: String? = nil, gender: String? = nil, dateOfBirth: String? = nil, age: String? = nil) {
         let parameterisable = SearchParameters(familyName: familyName,
@@ -58,15 +58,15 @@ public class PersonSearchParameters: EntitySearchRequest<Person> {
 
         var components: [String] = []
 
-        if let day = dateComponents.day {
-            components.append(day)
-        }
+        components.append(dateComponents.year)
 
         if let month = dateComponents.month {
             components.append(month)
         }
 
-        components.append(dateComponents.year)
+        if let day = dateComponents.day {
+            components.append(day)
+        }
 
         return components.joined(separator: "-")
     }
