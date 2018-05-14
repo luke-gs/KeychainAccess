@@ -112,18 +112,14 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                     var searchParameters: EntitySearchRequest<Person>?
 
                     if definition is PersonParserDefinition {
-                        var dobSearch: String?
-
-                        if let dateOfBirthString = personParserResults[PersonParserDefinition.DateOfBirthKey],
-                            let dateOfBirth = PersonSearchDataSource.inputDateFormatter.date(from: dateOfBirthString) {
-                            dobSearch =  PersonSearchDataSource.outputDateFormatter.string(from: dateOfBirth)
-                        }
 
                         searchParameters = PersonSearchParameters(familyName: personParserResults[PersonParserDefinition.SurnameKey]!,
                                                                   givenName: personParserResults[PersonParserDefinition.GivenNameKey],
                                                                   middleNames: personParserResults[PersonParserDefinition.MiddleNamesKey],
                                                                   gender: personParserResults[PersonParserDefinition.GenderKey],
-                                                                  dateOfBirth: dobSearch)
+                                                                  dateOfBirth: personParserResults[PersonParserDefinition.DateOfBirthKey],
+                                                                  age: personParserResults[PersonParserDefinition.AgeRangeKey])
+
                     } else if definition is LicenceParserDefinition {
                         let personParserResults = try QueryParser(parserDefinition: definition).parseString(query: searchTerm)
                         searchParameters = LicenceSearchParameters(licenceNumber: personParserResults[LicenceParserDefinition.licenceKey]!)
