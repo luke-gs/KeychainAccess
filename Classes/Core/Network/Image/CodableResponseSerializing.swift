@@ -13,12 +13,14 @@ public class CodableResponseSerializing<T: Codable>: ResponseSerializing {
 
     public typealias ResultType = T
     public let keyPath: String?
-    public init(keyPath: String? = nil) {
+    public let decoder: JSONDecoder?
+    public init(keyPath: String? = nil, decoder: JSONDecoder? = nil) {
         self.keyPath = keyPath
+        self.decoder = decoder
     }
 
     public func serializedResponse(from dataResponse: DataResponse<Data>) -> Result<ResultType> {
-        return DataRequest.serializeResponseCodable(keyPath: keyPath, response: dataResponse.response, data: dataResponse.data, error: dataResponse.error)
+        return DataRequest.serializeResponseCodable(keyPath: keyPath, response: dataResponse.response, data: dataResponse.data, error: dataResponse.error, decoder: decoder)
     }
 }
 
@@ -33,7 +35,8 @@ extension Request {
     ///   - data: The data returned from the server.
     ///   - error: The error already encountered if it exists.
     /// - Returns: The result data type.
-    public static func serializeResponseCodable<T: Codable>(keyPath: String?, options: JSONSerialization.ReadingOptions = .allowFragments, response: HTTPURLResponse?, data: Data?, error: Error?) -> Result<T> {
+    public static func serializeResponseCodable<T: Codable>(keyPath: String?, options: JSONSerialization.ReadingOptions = .allowFragments, response: HTTPURLResponse?, data: Data?, error: Error?, decoder: JSONDecoder?) -> Result<T> {
+        
         if let error = error {
             return .failure(error)
         }
@@ -41,8 +44,13 @@ extension Request {
             return .failure(ResourceError.invalidResourceData)
         }
 
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
+        // Use a default JSON Decoder if one was not provided
+        var decoder: JSONDecoder! = decoder
+        if decoder == nil {
+            decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = ISO8601DateTransformer.jsonDateDecodingStrategy()
+        }
+        
         do {
             return .success(try decoder.decode(T.self, from: data))
         } catch let error {
