@@ -156,6 +156,7 @@ extension AssetManager {
         public static let association    = ImageKey("iconGeneralAssociation")
         public static let event          = ImageKey("iconGeneralEvent")
         public static let document       = ImageKey("iconGeneralDocument")
+        public static let documentFilled = ImageKey("iconGeneralDocumentFilled")
         public static let direction      = ImageKey("iconGeneralDirection")
         public static let service        = ImageKey("iconGeneralService")
         public static let attachment     = ImageKey("iconGeneralAttachment")
@@ -274,6 +275,8 @@ extension AssetManager {
         public static let iconRelationships   = ImageKey("iconGeneralRelationships")
         public static let iconHeaderFinalise  = ImageKey("icon40StatusFinalise")
         public static let iconHeaderEdit      = ImageKey("icon40SystemEdit")
+        public static let eventDateTime       = ImageKey("iconSystemDateAndTime")
+        public static let eventLocation       = ImageKey("entityLocation")
 
         // Dialog images
         public static let dialogAlert = ImageKey("dialogAlert")
