@@ -8,9 +8,6 @@
 import UIKit
 import MPOLKit
 
-fileprivate extension EvaluatorKey {
-    static let viewed = EvaluatorKey("viewed")
-}
 open class TrafficInfringementOffencesViewController: FormBuilderViewController, EvaluationObserverable {
     
     var viewModel: TrafficInfringementOffencesViewModel

@@ -9,9 +9,6 @@ import UIKit
 import MPOLKit
 import ClientKit
 
-fileprivate extension EvaluatorKey {
-    static let viewed = EvaluatorKey("viewed")
-}
 open class TrafficInfringementServiceViewController: FormBuilderViewController, EvaluationObserverable {
 
     let viewModel: TrafficInfringementServiceViewModel

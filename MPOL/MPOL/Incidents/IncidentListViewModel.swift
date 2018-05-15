@@ -48,6 +48,8 @@ open class IncidentListViewModel: IncidentListViewModelType {
             return IncidentDetailViewModel(incident: incident, builder: TrafficInfringementScreenBuilder())
         case .interceptReport:
             return IncidentDetailViewModel(incident: incident, builder: InterceptReportScreenBuilder())
+        case .domesticViolence:
+            return IncidentDetailViewModel(incident: incident, builder: DomesticViolenceScreenBuilder())
         default:
             fatalError("IncidentListViewModel Error: incident type is not a valid InccidentType")
         }
