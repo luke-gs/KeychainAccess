@@ -36,10 +36,17 @@ open class NotificationManager: NSObject {
     /// The current Apple issued push token
     open private(set) var pushToken: String?
     
-    /// The current AES key for push notification payload decryption
-    open private(set) var pushKey: Data! {
-        didSet {
-            try? keychain.set(pushKey, key: PushKeyKeychainKey)
+    /// The current AES key for push notification payload decryption. This is generated on device to allow server
+    /// to securely communicate to this device over APNS. The key is cycled whenever the user session changes.
+    open var pushKey: Data {
+        get {
+            guard let keyData = try? keychain.getData(PushKeyKeychainKey), let key = keyData else {
+                let cipher = AESBlockCipher.AES_256
+                let pushKey = CryptoUtils.generateKey(for: cipher) ?? Data(repeating: 0, count: cipher.keySize)
+                try? keychain.set(pushKey, key: PushKeyKeychainKey)
+                return pushKey
+            }
+            return key
         }
     }
 
@@ -51,16 +58,22 @@ open class NotificationManager: NSObject {
 
         notificationCenter.delegate = self
 
-        // Generate initial push key
-        resetPushKey()
-
         // Observe session changes to update device registration
-        NotificationCenter.default.addObserver(self, selector: #selector(userSessionDidStart), name: .userSessionStarted, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(userSessionStarted), name: .userSessionStarted, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(userSessionEnded), name: .userSessionEnded, object: nil)
     }
 
-    @objc private func userSessionDidStart() {
-        // User session was started or restored, register device if ready
+    @objc private func userSessionStarted() {
+        // Note: we don't cycle the key when starting sessions, as that happens often when switching between apps
+        // and we don't want key changing while logged in as an inflight notification will not be able to be decrypted
+
+        // Register the current push token and key for the user if available
         registerPushToken()
+    }
+
+    @objc private func userSessionEnded() {
+        // Remove the push key, so it is re-generated next time a user session starts
+        try? keychain.remove(PushKeyKeychainKey)
     }
 
     /// Checks notification authorization status and requests if not authorized
@@ -125,15 +138,6 @@ open class NotificationManager: NSObject {
 
     // MARK: - Remote
 
-    /// Reset the current push key, use this method to cycle the key between users
-    open func resetPushKey() {
-        // Generate a unique key for server to securely communicate to this device over APNS
-        pushKey = CryptoUtils.generateKey(for: AESBlockCipher.AES_256)
-
-        // Update device registration if we have an active user session and token
-        registerPushToken()
-    }
-
     /// Update current push token and register it if user logged in
     open func updatePushToken(_ deviceToken: Data) {
         // Convert data token to a string
@@ -157,7 +161,7 @@ open class NotificationManager: NSObject {
         request.deviceType = "iOS"
 
         // Send the unique key for our server to securely communicate to this device over APNS
-        request.pushKey = pushKey?.base64EncodedString()
+        request.pushKey = pushKey.base64EncodedString()
 
         #if DEBUG
         request.appVersion = "debug"
@@ -189,8 +193,6 @@ open class NotificationManager: NSObject {
     /// Decrypt the contents of an encrypted push notification
     open func decryptContentAsData(_ content: String) -> Data? {
         guard let data = Data(base64Encoded: content) else { return nil }
-        guard let pushKey = pushKey else { return nil }
-
         return CryptoUtils.decryptCipher(AESBlockCipher.AES_256, dataWithIV: data, keyData: pushKey)
     }
 
