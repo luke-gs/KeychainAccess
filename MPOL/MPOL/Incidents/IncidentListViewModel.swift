@@ -53,6 +53,19 @@ open class IncidentListViewModel: IncidentListViewModelType {
         }
     }
 
+    func subtitle(for displayable: IncidentListDisplayable) -> String {
+        let eval = incident(for: displayable)?.evaluator.isComplete ?? false
+        return eval ? "COMPLETE" : "IN PROGRESS"
+    }
+
+    func image(for displayable: IncidentListDisplayable) -> UIImage {
+        let eval = incident(for: displayable)?.evaluator.isComplete ?? false
+        guard let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.documentFilled)?
+            .withCircleBackground(tintColor: .black,
+                                  circleColor: eval ? .midGreen : .disabledGray,
+                                  style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false)) else { fatalError() }
+        return image
+    }
 
     // Form
 
@@ -68,15 +81,6 @@ open class IncidentListViewModel: IncidentListViewModelType {
     func sectionHeaderTitle() -> String {
         let string = String.localizedStringWithFormat(NSLocalizedString("%d Incidents", comment: ""), incidentList.count)
         return string.uppercased()
-    }
-    
-    func image(for displayable: IncidentListDisplayable) -> UIImage {
-        let eval = incident(for: displayable)?.evaluator.isComplete ?? false
-        guard let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.document)?
-            .withCircleBackground(tintColor: .black,
-                                  circleColor: eval ? .midGreen : .red,
-                                  style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false)) else { fatalError() }
-        return image
     }
 
     // Utility
