@@ -506,6 +506,8 @@
 		96F77281201FFB40000FE0D0 /* CreateActivityLogItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F77280201FFB40000FE0D0 /* CreateActivityLogItemViewController.swift */; };
 		96F77284202031E4000FE0D0 /* RelativeDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F77283202031E4000FE0D0 /* RelativeDateFormatter.swift */; };
 		96F77286202A75D6000FE0D0 /* DialogActionButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F77285202A75D6000FE0D0 /* DialogActionButtonsView.swift */; };
+		96FC1BF920AA4468005840CD /* CallsignStatusCollectionViewFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FC1BF820AA4468005840CD /* CallsignStatusCollectionViewFormCell.swift */; };
+		96FC1BFB20AA4496005840CD /* CallsignStatusFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FC1BFA20AA4496005840CD /* CallsignStatusFormItem.swift */; };
 		9936C6781F9573B50091A61C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9936C6771F9573B50091A61C /* CoreLocation.framework */; };
 		9936C6791F9580500091A61C /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9936C6761F956D0E0091A61C /* LocationManager.swift */; };
 		9936C67D1F96C5580091A61C /* GeolocationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9936C67C1F96C5580091A61C /* GeolocationPlugin.swift */; };
@@ -1379,6 +1381,8 @@
 		96F77280201FFB40000FE0D0 /* CreateActivityLogItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateActivityLogItemViewController.swift; sourceTree = "<group>"; };
 		96F77283202031E4000FE0D0 /* RelativeDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelativeDateFormatter.swift; sourceTree = "<group>"; };
 		96F77285202A75D6000FE0D0 /* DialogActionButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogActionButtonsView.swift; sourceTree = "<group>"; };
+		96FC1BF820AA4468005840CD /* CallsignStatusCollectionViewFormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignStatusCollectionViewFormCell.swift; sourceTree = "<group>"; };
+		96FC1BFA20AA4496005840CD /* CallsignStatusFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignStatusFormItem.swift; sourceTree = "<group>"; };
 		9936C6761F956D0E0091A61C /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		9936C6771F9573B50091A61C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		9936C67C1F96C5580091A61C /* GeolocationPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeolocationPlugin.swift; sourceTree = "<group>"; };
@@ -2888,6 +2892,8 @@
 				96C51C8F1FD9EB35002C4640 /* CallsignStatusViewController.swift */,
 				96ED81001FD9F2E100C7C960 /* CallsignStatusViewModel.swift */,
 				9672C7E6200429C1005DE6BE /* StatusChangeReasonViewController.swift */,
+				96FC1BF820AA4468005840CD /* CallsignStatusCollectionViewFormCell.swift */,
+				96FC1BFA20AA4496005840CD /* CallsignStatusFormItem.swift */,
 			);
 			path = Status;
 			sourceTree = "<group>";
@@ -4625,6 +4631,7 @@
 				BC9C7E501F0DED6600DFFE83 /* EntityThumbnailView.swift in Sources */,
 				BC0EA3F41F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift in Sources */,
 				EA32A85A1FBD1A7900CC37FB /* MediaPreviewHandler.swift in Sources */,
+				96FC1BF920AA4468005840CD /* CallsignStatusCollectionViewFormCell.swift in Sources */,
 				461F7A9F2022BE5B00885E93 /* AudioOutputFormatter.swift in Sources */,
 				BC9C7E481F0DED6600DFFE83 /* SourceBarCell.swift in Sources */,
 				E283D2841FEB6BFA0040702C /* Template.swift in Sources */,
@@ -5094,6 +5101,7 @@
 				193ED0851FDE02ED002F2837 /* PluginFilterRules.swift in Sources */,
 				BC9C7E0E1F0DED6600DFFE83 /* CollectionViewFormLayoutAttributes.swift in Sources */,
 				279B057D200D591200C3EFB0 /* ActivityLogDateCollectionSectionViewModel.swift in Sources */,
+				96FC1BFB20AA4496005840CD /* CallsignStatusFormItem.swift in Sources */,
 				2744E3922051DD8500561A8F /* CADIncidentStatusCore.swift in Sources */,
 				2744EECA1FBEA523008DFA7F /* MapFilterOption.swift in Sources */,
 				125EAE0A2092CFD800C09FED /* DefaultNotesMedaReport.swift in Sources */,
