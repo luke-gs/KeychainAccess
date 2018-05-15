@@ -178,6 +178,8 @@ open class NotificationManager: NSObject {
     open func didReceiveRemoteNotification(userInfo: [AnyHashable : Any]) -> Promise<UIBackgroundFetchResult> {
         guard let handler = handler else { return Promise<UIBackgroundFetchResult>.value( .noData) }
 
+        print("Received silent push notification: \(LogUtils.string(from: userInfo))")
+
         // Defer processing to handler
         return handler.handleSilentNotification(userInfo: userInfo)
     }
@@ -186,10 +188,10 @@ open class NotificationManager: NSObject {
 
     /// Decrypt the contents of an encrypted push notification
     open func decryptContentAsData(_ content: String) -> Data? {
-        guard let pushKey = pushKey, let encryptedData = Data(base64Encoded: content) else { return nil }
+        guard let data = Data(base64Encoded: content) else { return nil }
+        guard let pushKey = pushKey else { return nil }
 
-        // Decrypt the content
-        return CryptoUtils.performCipher(AESBlockCipher.AES_256, operation: .decrypt, data: encryptedData, keyData: pushKey)
+        return CryptoUtils.decryptCipher(AESBlockCipher.AES_256, dataWithIV: data, keyData: pushKey)
     }
 
     /// Decrypt the contents of an encrypted push notification, returning as a dictionary
