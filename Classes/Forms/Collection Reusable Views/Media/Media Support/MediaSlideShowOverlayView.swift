@@ -122,7 +122,7 @@ public class MediaSlideShowOverlayView: UIView, MediaOverlayViewable, MediaDetai
         if let preview = preview,
             let viewModel = slideShowViewController?.viewModel,
             let index = viewModel.indexOfPreview(preview) {
-            slideShowViewController?.navigationItem.title = String.localizedStringWithFormat("Asset %1$d of %2$d", index + 1, viewModel.previews.count)
+            slideShowViewController?.navigationItem.title = String.localizedStringWithFormat("Media %1$d of %2$d", index + 1, viewModel.previews.count)
             
             titleLabel.text = preview.title
             commentLabel.text = preview.comments
