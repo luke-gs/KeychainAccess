@@ -6,7 +6,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 source 'https://github.com/Gridstone/SpecRepo-iOS.git'
 
 workspace 'MPOL'
-project 'MPOL.xcodeproj'
+project 'MPOL.xcodeproj', 'External-Debug' => :debug, 'Internal-Debug' => :debug
 project '../ClientKit/ClientKit.xcodeproj'
 
 def mpol_kit
