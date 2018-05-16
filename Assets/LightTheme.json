@@ -5,8 +5,8 @@
     "colors": {
         "tint":                   "#007AFF",
         "navigationBarTint":      "#FFFFFF",
-        "primaryText":            "#3D3E45",
-        "secondaryText":          "#75828D",
+        "primaryText":            "#000000",
+        "secondaryText":          "#8E8E93",
         "placeholderText":        "#BFC4C8",
         "background":             "#FFFFFF",
         "separator":              "#E4E4E6",

@@ -23,6 +23,9 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
 
     open private(set) lazy var loadingManager: LoadingStateManager = LoadingStateManager()
 
+    /// Defaults to true. If true, any selection is cleared in `viewWillAppear:`
+    open var clearsSelectionOnViewWillAppear: Bool = true
+
     // MARK: - Form Builder
 
     public let builder = FormBuilder()
@@ -289,6 +292,16 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         super.viewDidLoad()
         reloadForm()
         apply(ThemeManager.shared.theme(for: userInterfaceStyle))
+    }
+
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if clearsSelectionOnViewWillAppear {
+            collectionView?.indexPathsForSelectedItems?.forEach {
+                collectionView?.deselectItem(at: $0, animated: animated)
+            }
+        }
     }
 
     open override func viewDidLayoutSubviews() {
