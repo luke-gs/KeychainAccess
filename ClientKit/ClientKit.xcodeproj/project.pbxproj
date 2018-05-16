@@ -11,10 +11,12 @@
 		125EAE192099336900C09FED /* EventSubmissionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE182099336900C09FED /* EventSubmissionResponse.swift */; };
 		19191C8B2092CBD800767A5F /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19191C8A2092CBD800767A5F /* Order.swift */; };
 		19191C8D2092CE2B00767A5F /* PersonOrdersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19191C8C2092CE2800767A5F /* PersonOrdersViewModel.swift */; };
+		1937186E20AA653B00C891E2 /* PersonTrafficHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1937186D20AA653B00C891E2 /* PersonTrafficHistoryViewModel.swift */; };
 		193ED08F1FDEA190002F2837 /* DefaultFilterRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193ED08E1FDEA190002F2837 /* DefaultFilterRules.swift */; };
 		198465B8208E101F0076E1A4 /* RetrievedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198465B7208E101F0076E1A4 /* RetrievedEvent.swift */; };
 		198465BA208EAF630076E1A4 /* EntityRetrievedEventsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198465B9208EAF630076E1A4 /* EntityRetrievedEventsViewModel.swift */; };
 		199ECE9E1FAA5ACD0065E425 /* PersonImageSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199ECE9D1FAA5ACD0065E425 /* PersonImageSizing.swift */; };
+		19F2CF6420A967F8006E6253 /* TrafficHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F2CF6320A967F8006E6253 /* TrafficHistory.swift */; };
 		19FA22AF1F8603F000BE0E03 /* MatchMakers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12048FCA1F788EC20014748E /* MatchMakers.swift */; };
 		19FA22B01F86041800BE0E03 /* Matches.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12048FCC1F788ECA0014748E /* Matches.swift */; };
 		1A159F0D1F4B1C7500075330 /* PersonFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A159F0C1F4B1C7500075330 /* PersonFetchRequest.swift */; };
@@ -113,10 +115,12 @@
 		125EAE182099336900C09FED /* EventSubmissionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSubmissionResponse.swift; sourceTree = "<group>"; };
 		19191C8A2092CBD800767A5F /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		19191C8C2092CE2800767A5F /* PersonOrdersViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonOrdersViewModel.swift; sourceTree = "<group>"; };
+		1937186D20AA653B00C891E2 /* PersonTrafficHistoryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonTrafficHistoryViewModel.swift; sourceTree = "<group>"; };
 		193ED08E1FDEA190002F2837 /* DefaultFilterRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFilterRules.swift; sourceTree = "<group>"; };
 		198465B7208E101F0076E1A4 /* RetrievedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrievedEvent.swift; sourceTree = "<group>"; };
 		198465B9208EAF630076E1A4 /* EntityRetrievedEventsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityRetrievedEventsViewModel.swift; sourceTree = "<group>"; };
 		199ECE9D1FAA5ACD0065E425 /* PersonImageSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonImageSizing.swift; sourceTree = "<group>"; };
+		19F2CF6320A967F8006E6253 /* TrafficHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrafficHistory.swift; sourceTree = "<group>"; };
 		1A159F0C1F4B1C7500075330 /* PersonFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonFetchRequest.swift; sourceTree = "<group>"; };
 		1A159F0E1F4B1CA700075330 /* VehicleFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleFetchRequest.swift; sourceTree = "<group>"; };
 		1A159F141F4B1DE200075330 /* VehicleDetailsSectionsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleDetailsSectionsDataSource.swift; sourceTree = "<group>"; };
@@ -345,6 +349,7 @@
 				1A2E8A6F1F37E3380062FEA5 /* PersonDescriptionViewModel.swift */,
 				1A2E8A731F3835CB0062FEA5 /* PersonCriminalHistoryViewModel.swift */,
 				19191C8C2092CE2800767A5F /* PersonOrdersViewModel.swift */,
+				1937186D20AA653B00C891E2 /* PersonTrafficHistoryViewModel.swift */,
 			);
 			path = Person;
 			sourceTree = "<group>";
@@ -388,6 +393,7 @@
 				BCAEFE6B1F03150800C97F9C /* PersonDescription.swift */,
 				BCAEFE6C1F03150800C97F9C /* PhoneNumber.swift */,
 				BCAEFE721F03150800C97F9C /* TelephoneNumber.swift */,
+				19F2CF6320A967F8006E6253 /* TrafficHistory.swift */,
 				BCAEFE731F03150800C97F9C /* Vehicle.swift */,
 				1A290C851F3F097E00DD9ED5 /* Media.swift */,
 				46E0B89E202C13E200B40DF2 /* Officer.swift */,
@@ -790,7 +796,9 @@
 				46A192FD1FB93A4000FED201 /* LocationFetchRequest.swift in Sources */,
 				46E0B8B62033A21500B40DF2 /* OfficerSearchDisplayable.swift in Sources */,
 				1A2E8A7A1F39734E0062FEA5 /* EntityAssociationsViewModel.swift in Sources */,
+				1937186E20AA653B00C891E2 /* PersonTrafficHistoryViewModel.swift in Sources */,
 				19191C8B2092CBD800767A5F /* Order.swift in Sources */,
+				19F2CF6420A967F8006E6253 /* TrafficHistory.swift in Sources */,
 				4421347620031575009A931A /* EntityDetailFilterableFormViewModel.swift in Sources */,
 				1A2E8A701F37E3380062FEA5 /* PersonDescriptionViewModel.swift in Sources */,
 				1A290C841F3D649500DD9ED5 /* VehicleFetchParameter.swift in Sources */,

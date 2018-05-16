@@ -36,7 +36,6 @@ open class Licence: NSObject, Serialisable {
     
     open var licenceClass: [LicenceClass]?
     open var conditions: [Condition]?
-    open var restrictions: [Restriction]?
 
     public required init(id: String = UUID().uuidString) {
         self.id = id
@@ -75,7 +74,6 @@ open class Licence: NSObject, Serialisable {
         
         licenceClass = unboxer.unbox(key: "licenceClass")
         conditions = unboxer.unbox(key: "conditions")
-        restrictions = unboxer.unbox(key: "restrictions")
         
         super.init()
     }
@@ -110,7 +108,6 @@ open class Licence: NSObject, Serialisable {
 
         licenceClass = aDecoder.decodeObject(of: NSArray.self, forKey: CodingKey.status.rawValue) as? [LicenceClass]
         conditions = aDecoder.decodeObject(of: NSArray.self, forKey: CodingKey.status.rawValue) as? [Condition]
-        restrictions = aDecoder.decodeObject(of: NSArray.self, forKey: CodingKey.status.rawValue) as? [Restriction]
     }
     
     open func encode(with aCoder: NSCoder) {
@@ -137,7 +134,6 @@ open class Licence: NSObject, Serialisable {
 
         aCoder.encode(licenceClass, forKey: CodingKey.licenceClass.rawValue)
         aCoder.encode(conditions, forKey: CodingKey.conditions.rawValue)
-        aCoder.encode(restrictions, forKey: CodingKey.restrictions.rawValue)
     }
     
     open static var supportsSecureCoding: Bool {
@@ -405,111 +401,6 @@ extension Licence {
             case isSummary
             case source
             case condition
-        }
-    }
-    
-    /// Licence Restriction
-    @objc(MPLRestriction)
-    public class Restriction: NSObject, Serialisable {
-        
-        open let id: String
-        
-        open var dateCreated: Date?
-        open var dateUpdated: Date?
-        open var createdBy: String?
-        open var updatedBy: String?
-        open var effectiveDate: Date?
-        open var expiryDate: Date?
-        open var entityType: String?
-        open var isSummary: Bool = false
-        open var source: MPOLSource?
-        
-        open var restriction: String?
-        
-        open static var supportsSecureCoding: Bool {
-            return true
-        }
-
-        open static var modelVersion: Int {
-            return 0
-        }
-
-        public required init(id: String = UUID().uuidString) {
-            self.id = id
-            super.init()
-        }
-        
-        public required init(unboxer: Unboxer) throws {
-            
-            guard let id: String = unboxer.unbox(key: "id") else {
-                throw ParsingError.missingRequiredField
-            }
-            
-            self.id = id
-            
-            dateCreated = unboxer.unbox(key: "dateCreated", formatter: Licence.dateTransformer)
-            dateUpdated = unboxer.unbox(key: "dateLastUpdated", formatter: Licence.dateTransformer)
-            createdBy = unboxer.unbox(key: "createdBy")
-            updatedBy = unboxer.unbox(key: "updatedBy")
-            effectiveDate = unboxer.unbox(key: "effectiveDate", formatter: Licence.dateTransformer)
-            expiryDate = unboxer.unbox(key: "expiryDate", formatter: Licence.dateTransformer)
-            entityType = unboxer.unbox(key: "entityType")
-            isSummary = unboxer.unbox(key: "isSummary") ?? false
-            source = unboxer.unbox(key: "source")
-            
-            restriction = unboxer.unbox(key: "restriction")
-            
-            super.init()
-        }
-
-        public required init?(coder aDecoder: NSCoder) {
-            self.id = (aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.id.rawValue) as String?)!
-
-            super.init()
-
-            dateCreated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateCreated.rawValue) as Date?
-            dateUpdated = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateUpdated.rawValue) as Date?
-            effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.effectiveDate.rawValue) as Date?
-            expiryDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.expiryDate.rawValue) as Date?
-            createdBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.createdBy.rawValue) as String?
-            updatedBy = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.updatedBy.rawValue) as String?
-            entityType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.entityType.rawValue) as String?
-            isSummary = aDecoder.decodeBool(forKey: CodingKey.isSummary.rawValue)
-
-            if let source = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.source.rawValue) as String? {
-                self.source = MPOLSource(rawValue: source)
-            }
-
-            restriction = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.restriction.rawValue) as String?
-        }
-
-        open func encode(with aCoder: NSCoder) {
-            aCoder.encode(Restriction.modelVersion, forKey: CodingKey.version.rawValue)
-            aCoder.encode(id, forKey: CodingKey.id.rawValue)
-            aCoder.encode(dateCreated, forKey: CodingKey.dateCreated.rawValue)
-            aCoder.encode(dateUpdated, forKey: CodingKey.dateUpdated.rawValue)
-            aCoder.encode(expiryDate, forKey: CodingKey.expiryDate.rawValue)
-            aCoder.encode(createdBy, forKey: CodingKey.createdBy.rawValue)
-            aCoder.encode(updatedBy, forKey: CodingKey.updatedBy.rawValue)
-            aCoder.encode(entityType, forKey: CodingKey.entityType.rawValue)
-            aCoder.encode(isSummary, forKey: CodingKey.isSummary.rawValue)
-            aCoder.encode(source?.rawValue, forKey: CodingKey.source.rawValue)
-            aCoder.encode(restriction, forKey: CodingKey.restriction.rawValue)
-        }
-
-        private enum CodingKey: String {
-            case version
-            case id
-            case dateCreated
-            case dateUpdated
-            case createdBy
-            case updatedBy
-            case expiryDate
-            case effectiveDate
-            case entityType
-            case isSummary
-            case source
-            case restriction
         }
     }
     

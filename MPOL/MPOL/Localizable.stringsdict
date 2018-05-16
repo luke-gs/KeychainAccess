@@ -300,5 +300,23 @@
 			<string>No Charges</string>
 		</dict>
 	</dict>
+	<key>%d RECORD(s)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@RECORDS@</string>
+		<key>RECORDS</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>other</key>
+			<string>%d RECORDS</string>
+			<key>one</key>
+			<string>%d RECORD</string>
+			<key>zero</key>
+			<string>NO RECORDS</string>
+		</dict>
+	</dict>
 </dict>
 </plist>
