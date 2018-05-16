@@ -66,7 +66,7 @@ open class CreateIncidentViewController: ThemedPopoverViewController {
         scrollView.addSubview(contentView)
         
         callsignStatusVC = viewModel.createStatusViewController()
-        callsignStatusVC.collectionView.isScrollEnabled = false
+        callsignStatusVC.collectionView?.isScrollEnabled = false
         addChildViewController(callsignStatusVC, toView: contentView)
         
         detailsFormVC = viewModel.createFormViewController()

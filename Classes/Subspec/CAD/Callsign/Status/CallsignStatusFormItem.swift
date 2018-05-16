@@ -17,11 +17,11 @@ open class CallsignStatusFormItem: BaseFormItem {
         super.init(cellType: CallsignStatusCollectionViewFormCell.self, reuseIdentifier: CallsignStatusCollectionViewFormCell.defaultReuseIdentifier)
     }
 
-    public convenience init(text: StringSizable?, textColor: UIColor? = nil, separatorColor: UIColor? = nil) {
+    public convenience init(text: StringSizable?, image: UIImage?, textColor: UIColor? = nil) {
         self.init()
         self.text = text
         self.textColor = textColor
-        self.separatorColor = separatorColor
+        self.image = image
     }
 
     open override func configure(_ cell: CollectionViewFormCell) {
@@ -34,7 +34,7 @@ open class CallsignStatusFormItem: BaseFormItem {
             cell.titleLabel.apply(sizable: text, defaultFont: CallsignStatusCollectionViewFormCell.defaultFont, defaultNumberOfLines: 0)
         }
         cell.imageView.image = image
-        cell.separatorStyle == .none
+        cell.separatorStyle = .none
     }
 
     open override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
@@ -46,26 +46,28 @@ open class CallsignStatusFormItem: BaseFormItem {
     }
 
     open override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
-        var size: CGFloat = 0
+        var size: CGFloat = CallsignStatusCollectionViewFormCell.minimumHeight
+        guard let text = text else { return size }
 
-        if let text = text {
-            size = text.sizing(defaultNumberOfLines: 0,
-                               defaultFont: CallsignStatusCollectionViewFormCell.defaultFont)
-                .minimumHeight(inWidth: contentWidth, compatibleWith: traitCollection)
-            size += CallsignStatusCollectionViewFormCell.minimumHeight
+        if traitCollection.horizontalSizeClass == .compact {
+            // Image and text are shown horizontally
+            // size += layout.itemLayoutMargins.top + layout.itemLayoutMargins.bottom
+        } else {
+            // Image and text are shown vertically
+            size += text.sizing(defaultNumberOfLines: 0, defaultFont: CallsignStatusCollectionViewFormCell.defaultFont).minimumHeight(
+                inWidth: contentWidth, compatibleWith: traitCollection)
+            size += CallsignStatusCollectionViewFormCell.imagePadding
         }
-        return max(size, CallsignStatusCollectionViewFormCell.minimumHeight)
+        return size
     }
 
     open override func intrinsicWidth(in collectionView: UICollectionView, layout: CollectionViewFormLayout, sectionEdgeInsets: UIEdgeInsets, for traitCollection: UITraitCollection) -> CGFloat {
-        let availableWidth = collectionView.bounds.width - layout.itemLayoutMargins.left - layout.itemLayoutMargins.right
+        let availableWidth = collectionView.bounds.width - sectionEdgeInsets.left - sectionEdgeInsets.right
         if traitCollection.horizontalSizeClass == .compact {
-            return availableWidth / 2
+            return (availableWidth / 2) - layout.itemLayoutMargins.left - layout.itemLayoutMargins.right
         } else {
-            return availableWidth / 4
+            return (availableWidth / 4) - layout.itemLayoutMargins.left - layout.itemLayoutMargins.right
         }
-
-        return collectionView.bounds.width
     }
 
 }

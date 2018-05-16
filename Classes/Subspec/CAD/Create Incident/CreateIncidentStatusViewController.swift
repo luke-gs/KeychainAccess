@@ -26,7 +26,7 @@ open class CreateIncidentStatusViewController: CADStatusViewController {
     
     // MARK: - UICollectionViewDelegate
     
-    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    open override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: false)
         
         if indexPath != createIncidentStatusViewModel.selectedIndexPath {

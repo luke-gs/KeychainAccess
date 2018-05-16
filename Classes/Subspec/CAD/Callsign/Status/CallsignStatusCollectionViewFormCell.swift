@@ -10,8 +10,9 @@ import Foundation
 open class CallsignStatusCollectionViewFormCell: CollectionViewFormCell {
 
     public static let imageSize: CGFloat = 32
+    public static let imagePadding: CGFloat = 20
     public static let minimumHeight: CGFloat = imageSize
-    public static let defaultFont: UIFont = .preferredFont(forTextStyle: .body)
+    public static let defaultFont: UIFont = UIFont.systemFont(ofSize: 15, weight: .regular)
 
     open let titleLabel = UILabel()
     open let imageView = UIImageView(frame: .zero)
@@ -43,36 +44,40 @@ open class CallsignStatusCollectionViewFormCell: CollectionViewFormCell {
 
     private var commonConstraints: [NSLayoutConstraint] {
         return [
-            imageView.topAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.topAnchor),
-            imageView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.leadingAnchor),
-            imageView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.layoutMarginsGuide.trailingAnchor),
             imageView.widthAnchor.constraint(equalToConstant: CallsignStatusCollectionViewFormCell.imageSize),
             imageView.heightAnchor.constraint(equalToConstant: CallsignStatusCollectionViewFormCell.imageSize),
 
-            titleLabel.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.layoutMarginsGuide.trailingAnchor),
+            imageView.topAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.topAnchor).withPriority(.almostRequired),
+            imageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.layoutMarginsGuide.bottomAnchor).withPriority(.almostRequired),
+            imageView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor),
+            imageView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor),
+
+            titleLabel.topAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.topAnchor).withPriority(.almostRequired),
+            titleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.layoutMarginsGuide.bottomAnchor).withPriority(.almostRequired),
+            titleLabel.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor),
         ]
     }
 
     private var regularConstraints: [NSLayoutConstraint] {
         return [
+            imageView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             imageView.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -10),
             imageView.centerXAnchor.constraint(equalTo: titleLabel.centerXAnchor),
 
-            titleLabel.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
-            titleLabel.centerXAnchor.constraint(equalTo: contentView.layoutMarginsGuide.centerXAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
         ]
     }
 
     private var compactConstraints: [NSLayoutConstraint] {
         return [
             imageView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-            imageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.layoutMarginsGuide.bottomAnchor),
             imageView.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
-            imageView.trailingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: -20),
+            imageView.trailingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: -CallsignStatusCollectionViewFormCell.imagePadding),
 
-            titleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.layoutMarginsGuide.bottomAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: contentView.layoutMarginsGuide.centerYAnchor),
+            titleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
         ]
     }
 
