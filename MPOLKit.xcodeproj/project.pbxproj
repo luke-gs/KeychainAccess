@@ -190,8 +190,6 @@
 		273DE2DB1FEA0713000C46DD /* CreateIncidentFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2DA1FEA0713000C46DD /* CreateIncidentFormViewModel.swift */; };
 		273DE2DD1FEA0F89000C46DD /* CreateIncidentStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2DC1FEA0F89000C46DD /* CreateIncidentStatusViewModel.swift */; };
 		273DE2DF1FEA1047000C46DD /* CreateIncidentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2DE1FEA1047000C46DD /* CreateIncidentStatusViewController.swift */; };
-		273DE2E11FEA1199000C46DD /* CADStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2E01FEA1199000C46DD /* CADStatusViewController.swift */; };
-		273DE2E51FEB266F000C46DD /* CADStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2E41FEB266F000C46DD /* CADStatusViewModel.swift */; };
 		2742CD2F1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2742CD2E1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift */; };
 		2744E38C2051DD8500561A8F /* CADTaskListSourceCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E36B2051DD8500561A8F /* CADTaskListSourceCore.swift */; };
 		2744E38D2051DD8500561A8F /* CADPatrolStatusCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E36E2051DD8500561A8F /* CADPatrolStatusCore.swift */; };
@@ -423,7 +421,6 @@
 		96435CBE203248FC00C77A75 /* CADResourceStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96435CBD203248FC00C77A75 /* CADResourceStatusType.swift */; };
 		9644B1D21F6785E200D031F2 /* CompactFormSheetNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */; };
 		964B8CC0203E3EB200550311 /* CADTaskListSourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964B8CBF203E3EB200550311 /* CADTaskListSourceType.swift */; };
-		9650CA151F958B320087F5C9 /* CallsignStatusViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA121F958B2D0087F5C9 /* CallsignStatusViewCell.swift */; };
 		9650CA161F958B330087F5C9 /* ManageCallsignStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA131F958B2D0087F5C9 /* ManageCallsignStatusViewController.swift */; };
 		9650CA171F958B330087F5C9 /* ManageCallsignStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA141F958B2D0087F5C9 /* ManageCallsignStatusViewModel.swift */; };
 		9650CA1B1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA1A1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift */; };
@@ -1062,8 +1059,6 @@
 		273DE2DA1FEA0713000C46DD /* CreateIncidentFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateIncidentFormViewModel.swift; sourceTree = "<group>"; };
 		273DE2DC1FEA0F89000C46DD /* CreateIncidentStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateIncidentStatusViewModel.swift; sourceTree = "<group>"; };
 		273DE2DE1FEA1047000C46DD /* CreateIncidentStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateIncidentStatusViewController.swift; sourceTree = "<group>"; };
-		273DE2E01FEA1199000C46DD /* CADStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADStatusViewController.swift; sourceTree = "<group>"; };
-		273DE2E41FEB266F000C46DD /* CADStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADStatusViewModel.swift; sourceTree = "<group>"; };
 		2742CD2E1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = IntrinsicHeightCollectionView.swift; path = Classes/UI/IntrinsicHeightCollectionView.swift; sourceTree = SOURCE_ROOT; };
 		2744E36B2051DD8500561A8F /* CADTaskListSourceCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADTaskListSourceCore.swift; sourceTree = "<group>"; };
 		2744E36E2051DD8500561A8F /* CADPatrolStatusCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADPatrolStatusCore.swift; sourceTree = "<group>"; };
@@ -1297,7 +1292,6 @@
 		96435CBD203248FC00C77A75 /* CADResourceStatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADResourceStatusType.swift; sourceTree = "<group>"; };
 		9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactFormSheetNavigationController.swift; sourceTree = "<group>"; };
 		964B8CBF203E3EB200550311 /* CADTaskListSourceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADTaskListSourceType.swift; sourceTree = "<group>"; };
-		9650CA121F958B2D0087F5C9 /* CallsignStatusViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignStatusViewCell.swift; sourceTree = "<group>"; };
 		9650CA131F958B2D0087F5C9 /* ManageCallsignStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignStatusViewController.swift; sourceTree = "<group>"; };
 		9650CA141F958B2D0087F5C9 /* ManageCallsignStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignStatusViewModel.swift; sourceTree = "<group>"; };
 		9650CA1A1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Subtitle.swift"; sourceTree = "<group>"; };
@@ -2886,14 +2880,11 @@
 		966F3503200C4BE600661870 /* Status */ = {
 			isa = PBXGroup;
 			children = (
-				273DE2E01FEA1199000C46DD /* CADStatusViewController.swift */,
-				273DE2E41FEB266F000C46DD /* CADStatusViewModel.swift */,
-				9650CA121F958B2D0087F5C9 /* CallsignStatusViewCell.swift */,
+				96FC1BF820AA4468005840CD /* CallsignStatusCollectionViewFormCell.swift */,
+				96FC1BFA20AA4496005840CD /* CallsignStatusFormItem.swift */,
 				96C51C8F1FD9EB35002C4640 /* CallsignStatusViewController.swift */,
 				96ED81001FD9F2E100C7C960 /* CallsignStatusViewModel.swift */,
 				9672C7E6200429C1005DE6BE /* StatusChangeReasonViewController.swift */,
-				96FC1BF820AA4468005840CD /* CallsignStatusCollectionViewFormCell.swift */,
-				96FC1BFA20AA4496005840CD /* CallsignStatusFormItem.swift */,
 			);
 			path = Status;
 			sourceTree = "<group>";
@@ -4682,7 +4673,6 @@
 				273DE2D31FE9DAC7000C46DD /* CreateIncidentFormViewController.swift in Sources */,
 				BC9C7DF41F0DED6600DFFE83 /* CollectionViewFormCell.swift in Sources */,
 				EA4806B01F56939100B42313 /* LocationBasicSearchOptions.swift in Sources */,
-				273DE2E51FEB266F000C46DD /* CADStatusViewModel.swift in Sources */,
 				BC9C7E261F0DED6600DFFE83 /* EntityListCollectionViewCell.swift in Sources */,
 				1972FCCD1FA6A7FC00CB68EA /* ImageError.swift in Sources */,
 				19B49BBA1F665F2A00502F51 /* SidebarDelegate.swift in Sources */,
@@ -4826,7 +4816,6 @@
 				BC1B25BA1F2707270090C0AA /* MPOLBarButtonItems.swift in Sources */,
 				19B49BBB1F665F2A00502F51 /* CompactSidebarItemView.swift in Sources */,
 				96179295209A92D4001DD4CB /* CADSyncResponseType.swift in Sources */,
-				9650CA151F958B320087F5C9 /* CallsignStatusViewCell.swift in Sources */,
 				2744E3902051DD8500561A8F /* CADResourceUnitCore.swift in Sources */,
 				DBD626271FDA25D200C3E809 /* QuantityPickerViewModel.swift in Sources */,
 				EA32A85E1FBD564200CC37FB /* MediaDetailViewController.swift in Sources */,
@@ -5073,7 +5062,6 @@
 				19F8DDB11F4D7CB800D84DA1 /* LookupAddress.swift in Sources */,
 				2744E39C2051DD8500561A8F /* CADIncidentCore.swift in Sources */,
 				EA42F67A1FE3585300130DA5 /* EntitySummaryRecentsViewModel.swift in Sources */,
-				273DE2E11FEA1199000C46DD /* CADStatusViewController.swift in Sources */,
 				BCBA82141F19D7E8000BBF82 /* StringSizing.swift in Sources */,
 				2744E3932051DD8500561A8F /* CADEmployeeDetailsResponseCore.swift in Sources */,
 				27CBC7561F8B277E00E387C3 /* TimelineCollectionViewFormLayout.swift in Sources */,

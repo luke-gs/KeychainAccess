@@ -102,6 +102,7 @@ open class CreateIncidentViewController: ThemedPopoverViewController {
             callsignStatusView.topAnchor.constraint(equalTo: contentView.topAnchor),
             callsignStatusView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             callsignStatusView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            callsignStatusView.heightAnchor.constraint(equalToConstant: 400),
             
             detailsFormView.topAnchor.constraint(equalTo: callsignStatusView.bottomAnchor),
             detailsFormView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),

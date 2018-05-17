@@ -7,63 +7,28 @@
 //
 
 import UIKit
+import PromiseKit
 
 /// View model for the status section in the create incident screen
-open class CreateIncidentStatusViewModel: CADStatusViewModel {
+open class CreateIncidentStatusViewModel: CallsignStatusViewModel {
 
-    /// The current status
-    open var currentStatus: CADResourceStatusType? {
-        if let selectedIndexPath = selectedIndexPath {
-            return statusForIndexPath(selectedIndexPath)
-        }
-        return nil
-    }
-    
-    /// Init with sectioned statuses to display, and current selection
-    public init(sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>],
-                selectedStatus: CADResourceStatusType) {
-        super.init()
-        
-        self.sections = sections
-        self.selectedIndexPath = indexPathForStatus(selectedStatus)
-    }
-    
+    // MARK: - Override
+
     /// Create the view controller for this view model
-    public func createViewController() -> CreateIncidentStatusViewController {
+    open override func createViewController() -> CreateIncidentStatusViewController {
         let vc = CreateIncidentStatusViewController(viewModel: self)
         self.delegate = vc
         return vc
     }
     
     /// Attempt to select a new status
-    open func setSelectedIndexPath(_ indexPath: IndexPath) {
+    open override func setSelectedIndexPath(_ indexPath: IndexPath) -> Promise<CADResourceStatusType> {
         self.selectedIndexPath = indexPath
+        let newStatus = statusForIndexPath(indexPath)
+        return Promise.value(newStatus)
     }
-    
-    open func statusForIndexPath(_ indexPath: IndexPath) -> CADResourceStatusType {
-        return sections[indexPath.section].items[indexPath.item].status
-    }
-    
-    open func indexPathForStatus(_ status: CADResourceStatusType) -> IndexPath? {
-        // Find the status in the section data
-        for (sectionIndex, section) in sections.enumerated() {
-            for (itemIndex, item) in section.items.enumerated() {
-                if item.status == status {
-                    return IndexPath(item: itemIndex, section: sectionIndex)
-                }
-            }
-        }
-        return nil
-    }
-    
-    // MARK: - Override
-    
+
     open override func navTitle() -> String {
         return "Initial Status"
-    }
-    
-    /// Hide arrows
-    open override func shouldShowExpandArrow() -> Bool {
-        return false
     }
 }

@@ -10,7 +10,13 @@ import UIKit
 import PromiseKit
 
 /// View model for the callsign status screen
-open class CallsignStatusViewModel: CADStatusViewModel {
+open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignStatusItemViewModel> {
+
+    /// The currently selected state, can be nil
+    open var selectedIndexPath: IndexPath?
+
+    /// Whether statuses should be horizontally aligned in compact. `true` by defualt.
+    open var showsCompactHorizontal: Bool = true
 
     /// The incident related to the resource status
     open private(set) var incident: CADIncidentType?
@@ -25,7 +31,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
 
     /// Init with sectioned statuses to display, and current selection
     public init(sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>],
-                selectedStatus: CADResourceStatusType?, incident: CADIncidentType?) {
+                selectedStatus: CADResourceStatusType?, incident: CADIncidentType? = nil) {
         super.init()
 
         self.sections = sections
