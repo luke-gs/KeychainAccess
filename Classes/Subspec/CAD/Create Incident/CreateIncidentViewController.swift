@@ -7,41 +7,15 @@
 //
 
 import UIKit
+import PromiseKit
 
-open class CreateIncidentViewController: ThemedPopoverViewController {
+open class CreateIncidentViewController: IntrinsicHeightFormBuilderViewController {
 
     open let viewModel: CreateIncidentViewModel
 
-    /// Scroll view for content view
-    open var scrollView: UIScrollView!
-    
-    /// Content view for all content
-    open var contentView: UIView!
-
-    /// Collection of callsign statuses
-    open var callsignStatusVC: CreateIncidentStatusViewController!
-    
-    /// Form for details
-    open var detailsFormVC: CreateIncidentFormViewController!
-    
-    open let loadingManager = LoadingStateManager()
-
-    
-    override open var wantsTransparentBackground: Bool {
-        didSet {
-            /// Apply transparent background to child VCs
-            callsignStatusVC.wantsTransparentBackground = wantsTransparentBackground
-            detailsFormVC.wantsTransparentBackground = wantsTransparentBackground
-        }
-    }
-
     public init(viewModel: CreateIncidentViewModel) {
         self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-        
-        setupViews()
-        setupConstraints()
-        setupNavigationBarButtons()
+        super.init()
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -52,63 +26,9 @@ open class CreateIncidentViewController: ThemedPopoverViewController {
         super.viewDidLoad()
         
         title = viewModel.navTitle()
-    }
-    
-    /// Creates and styles views
-    private func setupViews() {
-        scrollView = UIScrollView()
-        scrollView.alwaysBounceVertical = true
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(scrollView)
 
-        contentView = UIView()
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(contentView)
-        
-        callsignStatusVC = viewModel.createStatusViewController()
-        callsignStatusVC.collectionView?.isScrollEnabled = false
-        addChildViewController(callsignStatusVC, toView: contentView)
-        
-        detailsFormVC = viewModel.createFormViewController()
-        detailsFormVC.collectionView?.isScrollEnabled = false
-        addChildViewController(detailsFormVC, toView: contentView)
-        
-        loadingManager.baseView = view
-        loadingManager.contentView = scrollView
+        setupNavigationBarButtons()
         viewModel.configureLoadingManager(loadingManager)
-        // TOOD: Add support for cancel and retry actions buttons
-    }
-    
-    /// Activates view constraints
-    private func setupConstraints() {
-        let callsignStatusView = callsignStatusVC.view!
-        callsignStatusView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let detailsFormView = detailsFormVC.view!
-        detailsFormView.translatesAutoresizingMaskIntoConstraints = false
-
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
-
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            
-            callsignStatusView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            callsignStatusView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            callsignStatusView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            callsignStatusView.heightAnchor.constraint(equalToConstant: 400),
-            
-            detailsFormView.topAnchor.constraint(equalTo: callsignStatusView.bottomAnchor),
-            detailsFormView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            detailsFormView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            detailsFormView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-        ])
     }
     
     open func setupNavigationBarButtons() {
@@ -120,8 +40,6 @@ open class CreateIncidentViewController: ThemedPopoverViewController {
     }
 
     @objc private func doneButtonTapped(_ button: UIBarButtonItem) {
-        let builder = detailsFormVC.builder
-        
         var result = builder.validate()
         #if DEBUG
             if true {
@@ -143,10 +61,123 @@ open class CreateIncidentViewController: ThemedPopoverViewController {
             }
         }
     }
+
+    // MARK: - Form
+
+    override open func construct(builder: FormBuilder) {
+
+        let statusViewModel = viewModel.statusViewModel
+
+        // Show callsign statuses
+        for sectionIndex in 0..<statusViewModel.numberOfSections() {
+            // Show header if text
+            if let headerText = statusViewModel.headerText(at: sectionIndex), !headerText.isEmpty {
+                builder += HeaderFormItem(text: headerText)
+            }
+
+            // Add each status item
+            for rowIndex in 0..<statusViewModel.numberOfItems(for: sectionIndex) {
+                let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
+                if let item = statusViewModel.item(at: indexPath) {
+                    builder += CallsignStatusFormItem(text: item.title, image: item.image)
+                        .layoutMargins(UIEdgeInsets(top: 16.0, left: 24.0, bottom: 0.0, right: 24.0))
+                        .selected(statusViewModel.selectedIndexPath == indexPath)
+                        .onSelection { [weak self] cell in
+                            self?.selectCallsignStatus(at: indexPath)
+                    }
+                }
+            }
+        }
+
+        builder += HeaderFormItem(text: NSLocalizedString("Incident Details", comment: "").uppercased())
+
+        builder += DropDownFormItem(title: NSLocalizedString("Priority", comment: ""))
+            .options(viewModel.priorityOptions)
+            .selectedValue([viewModel.contentViewModel.priority?.rawValue].removeNils())
+            .placeholder("Select")
+            .required("Priority is required.")
+            .allowsMultipleSelection(false)
+            .width(.column(4))
+            .onValueChanged { [unowned self] in
+                if let value = $0?.first {
+                    self.viewModel.contentViewModel.priority = CADClientModelTypes.incidentGrade.init(rawValue: value)
+                }
+        }
+
+        builder += DropDownFormItem(title: NSLocalizedString("Primary Code", comment: ""))
+            .options(viewModel.primaryCodeOptions)
+            .selectedValue([viewModel.contentViewModel.primaryCode].removeNils())
+            .placeholder("Select")
+            .required("Primary Code is required.")
+            .allowsMultipleSelection(false)
+            .width(.column(3))
+            .onValueChanged { [unowned self] in
+                self.viewModel.contentViewModel.primaryCode = $0?.first
+        }
+
+        builder += DropDownFormItem(title: NSLocalizedString("Secondary Code", comment: ""))
+            .options(viewModel.secondaryCodeOptions)
+            .selectedValue([viewModel.contentViewModel.secondaryCode].removeNils())
+            .allowsMultipleSelection(false)
+            .width(.column(3))
+            .onValueChanged { [unowned self] in
+                self.viewModel.contentViewModel.secondaryCode = $0?.first
+        }
+
+        builder += ValueFormItem() // TODO: Implement selecting location
+            .title(NSLocalizedString("Address", comment: ""))
+            .value(viewModel.contentViewModel.location)
+            .accessory(FormAccessoryView(style: .disclosure))
+            .width(.column(1))
+
+        builder += TextFieldFormItem(title: NSLocalizedString("Description", comment: ""))
+            .placeholder("Required")
+            .text(viewModel.contentViewModel.description)
+            .required("Description is required")
+            .onValueChanged { [unowned self] in
+                self.viewModel.contentViewModel.description = $0
+            }
+            .width(.column(1))
+
+        builder += HeaderFormItem(text: NSLocalizedString("Informant Details", comment: "").uppercased())
+        builder += TextFieldFormItem(title: NSLocalizedString("Full Name", comment: ""))
+            .placeholder("Required")
+            .text(viewModel.contentViewModel.informantName)
+            .required("Name is required")
+            .onValueChanged { [unowned self] in
+                self.viewModel.contentViewModel.informantName = $0
+            }
+            .width(.column(2))
+
+        builder += TextFieldFormItem(title: NSLocalizedString("Contact Number", comment: ""))
+            .required("A contact number is required")
+            .strictValidate(CharacterSetSpecification.decimalDigits, message: "Contact number must be a number")
+            .text(viewModel.contentViewModel.informantPhone)
+            .keyboardType(.numberPad)
+            .onValueChanged { [unowned self] in
+                self.viewModel.contentViewModel.informantPhone = $0
+            }
+            .width(.column(2))
+    }
+
+    open func selectCallsignStatus(at indexPath: IndexPath) {
+        let statusViewModel = viewModel.statusViewModel
+        guard indexPath != statusViewModel.selectedIndexPath else { return }
+
+        // Update the selected index path and process any user input required
+        firstly {
+            return statusViewModel.setSelectedIndexPath(indexPath)
+        }.done { [weak self] _ in
+            self?.reloadForm()
+        }.catch { error in
+            AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
+        }
+    }
+
 }
 
 extension CreateIncidentViewController: CreateIncidentViewModelDelegate {
     public func contentChanged() {
-        self.detailsFormVC.reloadForm()
+        reloadForm()
     }
 }

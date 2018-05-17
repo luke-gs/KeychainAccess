@@ -17,11 +17,6 @@ open class ManageCallsignStatusViewController: FormBuilderViewController, Manage
     /// Stack view for action buttons
     open var buttonsView: DialogActionButtonsView!
 
-    /// Return the theme to use, based on current interface style
-    open var theme: Theme {
-        return ThemeManager.shared.theme(for: userInterfaceStyle)
-    }
-
     // MARK: - Initializers
 
     public init(viewModel: ManageCallsignStatusViewModel) {
@@ -47,6 +42,7 @@ open class ManageCallsignStatusViewController: FormBuilderViewController, Manage
         setTitleView(title: viewModel.navTitle(), subtitle: viewModel.navSubtitle())
 
         // Set initial background color (this may change in wantsTransparentBackground)
+        let theme = ThemeManager.shared.theme(for: userInterfaceStyle)
         view.backgroundColor = theme.color(forKey: .background)!
         setupNavigationBarButtons()
     }

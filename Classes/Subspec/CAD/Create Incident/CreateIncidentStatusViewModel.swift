@@ -14,13 +14,6 @@ open class CreateIncidentStatusViewModel: CallsignStatusViewModel {
 
     // MARK: - Override
 
-    /// Create the view controller for this view model
-    open override func createViewController() -> CreateIncidentStatusViewController {
-        let vc = CreateIncidentStatusViewController(viewModel: self)
-        self.delegate = vc
-        return vc
-    }
-    
     /// Attempt to select a new status
     open override func setSelectedIndexPath(_ indexPath: IndexPath) -> Promise<CADResourceStatusType> {
         self.selectedIndexPath = indexPath
