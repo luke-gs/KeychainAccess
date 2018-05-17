@@ -160,6 +160,7 @@ open class ManageCallsignStatusViewController: FormBuilderViewController, Manage
                 if let item = viewModel.callsignViewModel.item(at: indexPath) {
                     let item = CallsignStatusFormItem(text: item.title, image: item.image)
                         .selected(viewModel.callsignViewModel.selectedIndexPath == indexPath)
+                        .highlightStyle(.fade)
                         .onSelection { [weak self] cell in
                             self?.selectCallsignStatus(at: indexPath)
                         }

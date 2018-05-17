@@ -9,6 +9,7 @@
 import UIKit
 import PromiseKit
 
+/// View controller for showing callsign statuses as a collection view
 open class CallsignStatusViewController: IntrinsicHeightFormBuilderViewController {
 
     open let viewModel: CallsignStatusViewModel
@@ -75,44 +76,30 @@ open class CallsignStatusViewController: IntrinsicHeightFormBuilderViewControlle
                 if let item = viewModel.item(at: indexPath) {
                     builder += CallsignStatusFormItem(text: item.title, image: item.image)
                         .selected(viewModel.selectedIndexPath == indexPath)
+                        .highlightStyle(.fade)
                         .displayMode(viewModel.displayMode)
+                        .onSelection { [weak self] cell in
+                            self?.selectCallsignStatus(at: indexPath)
+                    }
                 }
             }
         }
     }
 
-    // MARK: - UICollectionViewDelegate
-
-    open override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: false)
+    open func selectCallsignStatus(at indexPath: IndexPath) {
+        guard indexPath != viewModel.selectedIndexPath else { return }
 
         if indexPath != viewModel.selectedIndexPath {
             firstly {
                 // Attempt to change state
                 return viewModel.setSelectedIndexPath(indexPath)
-                }.done { [weak self] _ in
-                    // Reload the collection view to show new selection. The manage callsign view will update
-                    // in response to the callsign being changed, but the incident popover wont
-                    self?.reloadForm()
-                }.catch { error in
-                    AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
+            }.done { [weak self] _ in
+                // Reload the collection view to show new selection. The manage callsign view will update
+                // in response to the callsign being changed, but the incident popover wont
+                self?.reloadForm()
+            }.catch { error in
+                AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
             }
-        }
-    }
-}
-
-// MARK: - UICollectionViewDelegate
-extension CallsignStatusViewController {
-
-    open func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath), indexPath != viewModel.selectedIndexPath {
-            cell.contentView.alpha = 0.5
-        }
-    }
-
-    open func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) {
-            cell.contentView.alpha = 1
         }
     }
 }
