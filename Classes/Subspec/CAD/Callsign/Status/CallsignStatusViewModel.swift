@@ -85,7 +85,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
 
             return promise.then {
                 // TODO: Submit callsign request
-                return after(seconds: 1.0)
+                return after(seconds: 0.0)
             }.then { _ -> Promise<CADResourceStatusType> in
                 // Update UI
                 self.selectedIndexPath = indexPath

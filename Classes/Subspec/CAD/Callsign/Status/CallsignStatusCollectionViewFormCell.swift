@@ -12,7 +12,7 @@ open class CallsignStatusCollectionViewFormCell: CollectionViewFormCell {
     public static let imageSize: CGFloat = 32
     public static let imagePadding: CGFloat = 20
     public static let minimumHeight: CGFloat = imageSize
-    public static let defaultFont: UIFont = UIFont.systemFont(ofSize: 15, weight: .regular)
+    public static let defaultFont: UIFont = UIFont.systemFont(ofSize: 13, weight: .regular)
 
     open let titleLabel = UILabel()
     open let imageView = UIImageView(frame: .zero)

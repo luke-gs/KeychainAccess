@@ -74,34 +74,24 @@ open class CADStatusViewController: FormBuilderViewController {
     }
 
     open override func construct(builder: FormBuilder) {
+        // We show items in 2 columns when compact
         builder.forceLinearLayoutWhenCompact = false
 
         for sectionIndex in 0..<viewModel.numberOfSections() {
-            builder += HeaderFormItem(text: viewModel.headerText(at: sectionIndex))
-//            header.layoutMargins = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
-//            headerView.tintColor = theme.color(forKey: .secondaryText)
-//            headerView.separatorColor = theme.color(forKey: .separator)
+            // Show header if text
+            if let headerText = viewModel.headerText(at: sectionIndex), !headerText.isEmpty {
+                builder += HeaderFormItem(text: headerText)
+            }
 
-
+            // Add each status item
             for rowIndex in 0..<viewModel.numberOfItems(for: sectionIndex) {
-                if let item = viewModel.item(at: IndexPath(row: rowIndex, section: sectionIndex)) {
-                    builder += CallsignStatusFormItem(text: item.title, image: item.image)
+                let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
+                if let item = viewModel.item(at: indexPath) {
+                    builder += CallsignStatusFormItem(text: item.title, image: item.image).selected(viewModel.selectedIndexPath == indexPath)
                 }
             }
         }
     }
-
-//    open func decorate(cell: CallsignStatusViewCell, with viewModel: ManageCallsignStatusItemViewModel, selected: Bool) {
-//        cell.showsCompactHorizontal = self.viewModel.showsCompactHorizontal
-//        cell.titleLabel.text = viewModel.title
-//        cell.titleLabel.font = .systemFont(ofSize: 13.0, weight: selected ? UIFont.Weight.semibold : UIFont.Weight.regular)
-//        cell.titleLabel.textColor = theme.color(forKey: .secondaryText)!
-//
-//        cell.imageView.image = viewModel.image
-//        cell.imageView.tintColor = theme.color(forKey: selected ? .tint : .secondaryText)!
-//
-//        cell.spinner.color = theme.color(forKey: .tint)
-//    }
 
 }
 

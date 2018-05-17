@@ -10,17 +10,16 @@ import UIKit
 open class CallsignStatusFormItem: BaseFormItem {
 
     public var text: StringSizable?
-    public var textColor: UIColor?
     public var image: UIImage?
+    public var selected: Bool?
 
     public init() {
         super.init(cellType: CallsignStatusCollectionViewFormCell.self, reuseIdentifier: CallsignStatusCollectionViewFormCell.defaultReuseIdentifier)
     }
 
-    public convenience init(text: StringSizable?, image: UIImage?, textColor: UIColor? = nil) {
+    public convenience init(text: StringSizable?, image: UIImage?) {
         self.init()
         self.text = text
-        self.textColor = textColor
         self.image = image
     }
 
@@ -40,9 +39,8 @@ open class CallsignStatusFormItem: BaseFormItem {
     open override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
         guard let cell = cell as? CallsignStatusCollectionViewFormCell else { return }
 
-        if text?.sizing(defaultNumberOfLines: 0, defaultFont: CallsignStatusCollectionViewFormCell.defaultFont).attributedString == nil {
-            cell.titleLabel.textColor = textColor ?? theme.color(forKey: .primaryText)
-        }
+        cell.imageView.tintColor = selected.isTrue ? theme.color(forKey: .primaryText) : theme.color(forKey: .secondaryText)
+        cell.titleLabel.textColor = cell.imageView.tintColor
     }
 
     open override func intrinsicHeight(in collectionView: UICollectionView, layout: CollectionViewFormLayout, givenContentWidth contentWidth: CGFloat, for traitCollection: UITraitCollection) -> CGFloat {
@@ -51,7 +49,6 @@ open class CallsignStatusFormItem: BaseFormItem {
 
         if traitCollection.horizontalSizeClass == .compact {
             // Image and text are shown horizontally
-            // size += layout.itemLayoutMargins.top + layout.itemLayoutMargins.bottom
         } else {
             // Image and text are shown vertically
             size += text.sizing(defaultNumberOfLines: 0, defaultFont: CallsignStatusCollectionViewFormCell.defaultFont).minimumHeight(
@@ -83,14 +80,14 @@ extension CallsignStatusFormItem {
     }
 
     @discardableResult
-    public func textColor(_ textColor: UIColor?) -> Self {
-        self.textColor = textColor
+    public func image(_ image: UIImage?) -> Self {
+        self.image = image
         return self
     }
 
     @discardableResult
-    public func image(_ image: UIImage?) -> Self {
-        self.image = image
+    public func selected(_ selected: Bool?) -> Self {
+        self.selected = selected
         return self
     }
 }
