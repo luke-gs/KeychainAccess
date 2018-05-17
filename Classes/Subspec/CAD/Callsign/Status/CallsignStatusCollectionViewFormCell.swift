@@ -61,7 +61,7 @@ open class CallsignStatusCollectionViewFormCell: CollectionViewFormCell {
 
     private var regularConstraints: [NSLayoutConstraint] {
         return [
-            imageView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor, constant: 10),
+            imageView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             imageView.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -10),
             imageView.centerXAnchor.constraint(equalTo: titleLabel.centerXAnchor),
 
@@ -71,13 +71,12 @@ open class CallsignStatusCollectionViewFormCell: CollectionViewFormCell {
 
     private var compactConstraints: [NSLayoutConstraint] {
         return [
+            imageView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-            imageView.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             imageView.trailingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: -CallsignStatusCollectionViewFormCell.imagePadding),
 
-            titleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
         ]
     }
 

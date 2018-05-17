@@ -64,7 +64,7 @@ open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignSta
             // Requires reason needs further details
             if requiresReason {
                 promise = promise.then { _ in
-                    self.promptForStatusReason().then { _ in
+                    return self.promptForStatusReason().then { _ in
                         // TODO: do something with reason
                         return Promise<Void>()
                     }

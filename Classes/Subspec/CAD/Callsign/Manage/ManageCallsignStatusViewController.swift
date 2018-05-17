@@ -125,7 +125,8 @@ open class ManageCallsignStatusViewController: FormBuilderViewController, Manage
         builder.forceLinearLayoutWhenCompact = false
 
         // Show current incident with header if set
-        if let listViewModel = viewModel.incidentListViewModel {
+        let listViewModel = viewModel.incidentListViewModel
+        if let listViewModel = listViewModel {
             builder += HeaderFormItem(text: NSLocalizedString("Current Incident", comment: "").uppercased(), style: .plain)
             builder += IncidentSummaryFormItem(viewModel: listViewModel)
                 .separatorStyle(.none)
@@ -150,11 +151,29 @@ open class ManageCallsignStatusViewController: FormBuilderViewController, Manage
             for rowIndex in 0..<viewModel.callsignViewModel.numberOfItems(for: sectionIndex) {
                 let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
                 if let item = viewModel.callsignViewModel.item(at: indexPath) {
-                    builder += CallsignStatusFormItem(text: item.title, image: item.image)
+                    let item = CallsignStatusFormItem(text: item.title, image: item.image)
                         .selected(viewModel.callsignViewModel.selectedIndexPath == indexPath)
+                        .onSelection { [unowned self] cell in
+                            guard indexPath != self.viewModel.callsignViewModel.selectedIndexPath else { return }
+                            // Update the selected index path and process any user input required
+                            firstly {
+                                return self.viewModel.callsignViewModel.setSelectedIndexPath(indexPath)
+                            }.done { [weak self] _ in
+                                self?.reloadForm()
+                            }.catch { error in
+                                AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
+                            }
+                        }
+
+                    // Remove top padding for first section if incident shown
+                    if sectionIndex == 0 && listViewModel != nil {
+                        item.layoutMargins = UIEdgeInsets(top: 0.0, left: 24.0, bottom: 0.0, right: 24.0)
+                    } else {
+                        item.layoutMargins = UIEdgeInsets(top: 16.0, left: 24.0, bottom: 0.0, right: 24.0)
+                    }
+                    builder += item
                 }
             }
         }
     }
-
 }

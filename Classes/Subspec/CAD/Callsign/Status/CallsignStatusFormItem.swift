@@ -12,6 +12,7 @@ open class CallsignStatusFormItem: BaseFormItem {
     public var text: StringSizable?
     public var image: UIImage?
     public var selected: Bool?
+    public var layoutMargins: UIEdgeInsets?
 
     public init() {
         super.init(cellType: CallsignStatusCollectionViewFormCell.self, reuseIdentifier: CallsignStatusCollectionViewFormCell.defaultReuseIdentifier)
@@ -25,6 +26,12 @@ open class CallsignStatusFormItem: BaseFormItem {
 
     open override func configure(_ cell: CollectionViewFormCell) {
         guard let cell = cell as? CallsignStatusCollectionViewFormCell else { return }
+
+        cell.overridesLayoutMargins = layoutMargins == nil
+
+        if let layoutMargins = layoutMargins {
+            cell.contentView.layoutMargins = layoutMargins
+        }
 
         if let sizing = text?.sizing(), let attributedText = sizing.attributedString {
             cell.titleLabel.attributedText = attributedText
@@ -88,6 +95,12 @@ extension CallsignStatusFormItem {
     @discardableResult
     public func selected(_ selected: Bool?) -> Self {
         self.selected = selected
+        return self
+    }
+
+    @discardableResult
+    public func layoutMargins(_ layoutMargins: UIEdgeInsets?) -> Self {
+        self.layoutMargins = layoutMargins
         return self
     }
 }
