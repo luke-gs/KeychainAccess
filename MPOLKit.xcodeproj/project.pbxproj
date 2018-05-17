@@ -136,6 +136,8 @@
 		19EFD2FA1F4D5C6300422F2A /* LookupAddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EFD2F91F4D5C6300422F2A /* LookupAddressTests.swift */; };
 		19EFD2FD1F4D5F8700422F2A /* LookupAddress.json in Resources */ = {isa = PBXBuildFile; fileRef = 19EFD2FC1F4D5D1000422F2A /* LookupAddress.json */; };
 		19F2579E1FBB98F700769B26 /* Bundle+URLSchemeVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F2579D1FBB98F700769B26 /* Bundle+URLSchemeVerifier.swift */; };
+		19F2CF6120A95A42006E6253 /* TrafficHistoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F2CF5F20A95A42006E6253 /* TrafficHistoryCollectionViewCell.swift */; };
+		19F2CF6220A95A42006E6253 /* TrafficHistoryOverviewFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F2CF6020A95A42006E6253 /* TrafficHistoryOverviewFormItem.swift */; };
 		19F8DDB01F4D7C9600D84DA1 /* APIManager+LookupAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F8DDAF1F4D7C9600D84DA1 /* APIManager+LookupAddress.swift */; };
 		19F8DDB11F4D7CB800D84DA1 /* LookupAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F8DDAE1F4D7C7D00D84DA1 /* LookupAddress.swift */; };
 		19F8DDB21F4D7D2400D84DA1 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63408501F30D4CA000747B0 /* APIManager.swift */; };
@@ -1007,6 +1009,8 @@
 		19EFD2F91F4D5C6300422F2A /* LookupAddressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupAddressTests.swift; sourceTree = "<group>"; };
 		19EFD2FC1F4D5D1000422F2A /* LookupAddress.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LookupAddress.json; sourceTree = "<group>"; };
 		19F2579D1FBB98F700769B26 /* Bundle+URLSchemeVerifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+URLSchemeVerifier.swift"; sourceTree = "<group>"; };
+		19F2CF5F20A95A42006E6253 /* TrafficHistoryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficHistoryCollectionViewCell.swift; sourceTree = "<group>"; };
+		19F2CF6020A95A42006E6253 /* TrafficHistoryOverviewFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficHistoryOverviewFormItem.swift; sourceTree = "<group>"; };
 		19F8DDAE1F4D7C7D00D84DA1 /* LookupAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupAddress.swift; sourceTree = "<group>"; };
 		19F8DDAF1F4D7C9600D84DA1 /* APIManager+LookupAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIManager+LookupAddress.swift"; sourceTree = "<group>"; };
 		19FE28CC1F53BF3000D70DBD /* LookupAddressSearchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupAddressSearchRequest.swift; sourceTree = "<group>"; };
@@ -2048,6 +2052,15 @@
 				19EFD2F91F4D5C6300422F2A /* LookupAddressTests.swift */,
 			);
 			path = LookupAddressTests;
+			sourceTree = "<group>";
+		};
+		19F2CF5E20A959FD006E6253 /* TrafficHistory */ = {
+			isa = PBXGroup;
+			children = (
+				19F2CF5F20A95A42006E6253 /* TrafficHistoryCollectionViewCell.swift */,
+				19F2CF6020A95A42006E6253 /* TrafficHistoryOverviewFormItem.swift */,
+			);
+			path = TrafficHistory;
 			sourceTree = "<group>";
 		};
 		19F8DDAD1F4D7C7D00D84DA1 /* TypeAheadSearch */ = {
@@ -4316,6 +4329,7 @@
 				EA4806AB1F56935000B42313 /* LocationSearch */,
 				EAAEB3461F6617E0002D6C65 /* Presenter */,
 				EA85BFE81F678945002EEB49 /* ThemeGesture */,
+				19F2CF5E20A959FD006E6253 /* TrafficHistory */,
 				19F8DDAD1F4D7C7D00D84DA1 /* TypeAheadSearch */,
 			);
 			path = Subspec;
@@ -4737,6 +4751,7 @@
 				27256FF3205B27D9005930CB /* BaseDelimitedStringCountSpecification.swift in Sources */,
 				BC9C7DEB1F0DED6600DFFE83 /* EntitySource.swift in Sources */,
 				BC9C7DC91F0DED6600DFFE83 /* FileManager+URL.swift in Sources */,
+				19F2CF6120A95A42006E6253 /* TrafficHistoryCollectionViewCell.swift in Sources */,
 				EABAB8021F3429D90071A401 /* AggregatedSearch.swift in Sources */,
 				96CF32271F8C34F800140AF8 /* TasksListIncidentViewModel.swift in Sources */,
 				12ABD564207F194C004D0C9F /* EventsManager.swift in Sources */,
@@ -5061,6 +5076,7 @@
 				BC9C7DCD1F0DED6600DFFE83 /* ArchivedManifestEntry.swift in Sources */,
 				2768C0481F86D60A008532ED /* MapSettingsViewController.swift in Sources */,
 				2753292420338B4B00CFA97B /* TasksListBasicSummaryView.swift in Sources */,
+				19F2CF6220A95A42006E6253 /* TrafficHistoryOverviewFormItem.swift in Sources */,
 				DB2A05E11FD9142E005B7BFD /* HapticHelper.swift in Sources */,
 				BCC6F74E1F2FF91200F05F65 /* MapCollectionViewController.swift in Sources */,
 				19F8DDB11F4D7CB800D84DA1 /* LookupAddress.swift in Sources */,
