@@ -15,7 +15,9 @@ open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignSta
     /// The currently selected state, can be nil
     open var selectedIndexPath: IndexPath?
 
-    /// Whether statuses should be horizontally aligned in compact. `true` by defualt.
+    /// The display mode of cells when in compact mode
+    open var displayMode: CallsignStatusDisplayMode = .auto
+
     open var showsCompactHorizontal: Bool = true
 
     /// The incident related to the resource status

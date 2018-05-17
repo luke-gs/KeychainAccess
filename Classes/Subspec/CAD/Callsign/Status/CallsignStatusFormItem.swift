@@ -13,6 +13,7 @@ open class CallsignStatusFormItem: BaseFormItem {
     public var image: UIImage?
     public var selected: Bool?
     public var layoutMargins: UIEdgeInsets?
+    public var displayMode: CallsignStatusDisplayMode = .auto
 
     public init() {
         super.init(cellType: CallsignStatusCollectionViewFormCell.self, reuseIdentifier: CallsignStatusCollectionViewFormCell.defaultReuseIdentifier)
@@ -41,6 +42,7 @@ open class CallsignStatusFormItem: BaseFormItem {
         }
         cell.imageView.image = image
         cell.separatorStyle = .none
+        cell.displayMode = displayMode
     }
 
     open override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
@@ -54,7 +56,7 @@ open class CallsignStatusFormItem: BaseFormItem {
         var size: CGFloat = CallsignStatusCollectionViewFormCell.minimumHeight
         guard let text = text else { return size }
 
-        if traitCollection.horizontalSizeClass == .compact {
+        if displayMode.isCompact(for: traitCollection) {
             // Image and text are shown horizontally
         } else {
             // Image and text are shown vertically
@@ -67,10 +69,10 @@ open class CallsignStatusFormItem: BaseFormItem {
 
     open override func intrinsicWidth(in collectionView: UICollectionView, layout: CollectionViewFormLayout, sectionEdgeInsets: UIEdgeInsets, for traitCollection: UITraitCollection) -> CGFloat {
         let availableWidth = collectionView.bounds.width - sectionEdgeInsets.left - sectionEdgeInsets.right
-        if traitCollection.horizontalSizeClass == .compact {
-            return (availableWidth / 2) - layout.itemLayoutMargins.left - layout.itemLayoutMargins.right
+        if displayMode.isCompact(for: traitCollection) {
+            return max(100, (availableWidth / 2) - layout.itemLayoutMargins.left - layout.itemLayoutMargins.right)
         } else {
-            return (availableWidth / 4) - layout.itemLayoutMargins.left - layout.itemLayoutMargins.right
+            return max(100, (availableWidth / 4) - layout.itemLayoutMargins.left - layout.itemLayoutMargins.right)
         }
     }
 
@@ -101,6 +103,12 @@ extension CallsignStatusFormItem {
     @discardableResult
     public func layoutMargins(_ layoutMargins: UIEdgeInsets?) -> Self {
         self.layoutMargins = layoutMargins
+        return self
+    }
+
+    @discardableResult
+    public func displayMode(_ displayMode: CallsignStatusDisplayMode) -> Self {
+        self.displayMode = displayMode
         return self
     }
 }

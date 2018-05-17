@@ -7,6 +7,17 @@
 
 import Foundation
 
+/// The display mode of the cell
+public enum CallsignStatusDisplayMode {
+    case regular
+    case compact
+    case auto
+
+    public func isCompact(for traitCollection: UITraitCollection) -> Bool {
+        return (self == .compact || (self == .auto && traitCollection.horizontalSizeClass == .compact))
+    }
+}
+
 open class CallsignStatusCollectionViewFormCell: CollectionViewFormCell {
 
     public static let imageSize: CGFloat = 32
@@ -34,7 +45,7 @@ open class CallsignStatusCollectionViewFormCell: CollectionViewFormCell {
         MPLCodingNotSupported()
     }
 
-    open var showsCompactHorizontal: Bool = true {
+    open var displayMode: CallsignStatusDisplayMode = .auto {
         didSet {
             configureConstraints()
         }
@@ -82,7 +93,7 @@ open class CallsignStatusCollectionViewFormCell: CollectionViewFormCell {
 
     private func configureConstraints() {
         NSLayoutConstraint.deactivate(currentConstraints)
-        if super.traitCollection.horizontalSizeClass == .compact && showsCompactHorizontal {
+        if displayMode.isCompact(for: super.traitCollection) {
             currentConstraints = commonConstraints + compactConstraints
         } else {
             currentConstraints = commonConstraints + regularConstraints

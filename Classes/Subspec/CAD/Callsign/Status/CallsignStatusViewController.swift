@@ -75,6 +75,7 @@ open class CallsignStatusViewController: IntrinsicHeightFormBuilderViewControlle
                 if let item = viewModel.item(at: indexPath) {
                     builder += CallsignStatusFormItem(text: item.title, image: item.image)
                         .selected(viewModel.selectedIndexPath == indexPath)
+                        .displayMode(viewModel.displayMode)
                 }
             }
         }
