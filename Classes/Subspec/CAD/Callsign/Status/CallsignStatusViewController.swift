@@ -10,7 +10,7 @@ import UIKit
 import PromiseKit
 
 /// View controller for showing callsign statuses as a collection view
-open class CallsignStatusViewController: IntrinsicHeightFormBuilderViewController {
+open class CallsignStatusViewController: FormBuilderViewController {
 
     open let viewModel: CallsignStatusViewModel
 
@@ -33,6 +33,7 @@ open class CallsignStatusViewController: IntrinsicHeightFormBuilderViewControlle
         // Set title and initial background color
         title = viewModel.navTitle()
 
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancelButton(_:)))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton(_:)))
 
         let theme = ThemeManager.shared.theme(for: userInterfaceStyle)
@@ -105,6 +106,10 @@ open class CallsignStatusViewController: IntrinsicHeightFormBuilderViewControlle
         }
     }
 
+    @objc private func didTapCancelButton(_ button: UIBarButtonItem) {
+        dismissAnimated()
+    }
+
     @objc private func didTapDoneButton(_ button: UIBarButtonItem) {
         setLoadingState(.loading)
         _ = viewModel.submit().done { [weak self] in
@@ -120,7 +125,7 @@ open class CallsignStatusViewController: IntrinsicHeightFormBuilderViewControlle
         }
     }
 
-    func setLoadingState(_ state: LoadingStateManager.State) {
+    open func setLoadingState(_ state: LoadingStateManager.State) {
         loadingManager.state = state
         navigationItem.rightBarButtonItem?.isEnabled = state == .loaded
         navigationItem.leftBarButtonItem?.isEnabled = state == .loaded || state == .error
