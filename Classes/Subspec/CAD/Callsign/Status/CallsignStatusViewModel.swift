@@ -18,8 +18,6 @@ open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignSta
     /// The display mode of cells when in compact mode
     open var displayMode: CallsignStatusDisplayMode = .auto
 
-    open var showsCompactHorizontal: Bool = true
-
     /// The incident related to the resource status
     open private(set) var incident: CADIncidentType?
 
@@ -91,14 +89,9 @@ open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignSta
                 break
             }
 
-            return promise.then {
-                // TODO: Submit callsign request
-                return after(seconds: 0.0)
-            }.then { _ -> Promise<CADResourceStatusType> in
-                // Update UI
+            return promise.map { _ in
                 self.selectedIndexPath = indexPath
-                CADStateManager.shared.updateCallsignStatus(status: newStatus, incident: self.incident, comments: nil, locationComments: nil)
-                return Promise.value(newStatus)
+                return newStatus
             }
         } else {
             let message = NSLocalizedString("Selection not allowed from this state", comment: "")

@@ -41,10 +41,11 @@ open class ManageCallsignStatusViewController: FormBuilderViewController, Manage
 
         setTitleView(title: viewModel.navTitle(), subtitle: viewModel.navSubtitle())
 
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton(_:)))
+
         // Set initial background color (this may change in wantsTransparentBackground)
         let theme = ThemeManager.shared.theme(for: userInterfaceStyle)
         view.backgroundColor = theme.color(forKey: .background)!
-        setupNavigationBarButtons()
     }
 
     override open func viewWillAppear(_ animated: Bool) {
@@ -58,7 +59,6 @@ open class ManageCallsignStatusViewController: FormBuilderViewController, Manage
 
         // Update the title view based on current traits
         setTitleView(title: viewModel.navTitle(), subtitle: viewModel.navSubtitle())
-        setupNavigationBarButtons()
     }
 
     override open func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -66,18 +66,7 @@ open class ManageCallsignStatusViewController: FormBuilderViewController, Manage
         coordinator.animate(alongsideTransition: { (context) in
             // Update the item size and title view based on new traits
             self.setTitleView(title: self.viewModel.navTitle(), subtitle: self.viewModel.navSubtitle())
-            self.setupNavigationBarButtons()
         }, completion: nil)
-    }
-
-    /// Adds or removes bar button items for the curernt presented state
-    open func setupNavigationBarButtons() {
-        // Create done button
-        if presentingViewController != nil {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton(_:)))
-        } else {
-            navigationItem.rightBarButtonItem = nil
-        }
     }
 
     open func createSubviews() {
@@ -110,8 +99,27 @@ open class ManageCallsignStatusViewController: FormBuilderViewController, Manage
     }
 
     @objc private func didTapDoneButton(_ button: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
+        setLoadingState(.loading)
+        _ = viewModel.submit().done { [weak self] in
+            self?.setLoadingState(.loaded)
+            self?.dismissAnimated()
+        }.catch { [weak self] error in
+            guard let `self` = self else { return }
+            self.loadingManager.state = .error
+            self.loadingManager.errorView.titleLabel.text = NSLocalizedString("Failed to Update Status", comment: "")
+            self.loadingManager.errorView.subtitleLabel.text = error.localizedDescription
+            self.loadingManager.errorView.actionButton.setTitle(NSLocalizedString("Try Again", comment: ""), for: .normal)
+            self.loadingManager.errorView.actionButton.addTarget(self, action: #selector(self.didTapDoneButton), for: .touchUpInside)
+        }
     }
+
+    func setLoadingState(_ state: LoadingStateManager.State) {
+        loadingManager.state = state
+        navigationItem.rightBarButtonItem?.isEnabled = state == .loaded
+        navigationItem.leftBarButtonItem?.isEnabled = state == .loaded || state == .error
+        buttonsView.isHidden = state != .loaded
+    }
+
 
     public func callsignDidChange() {
         reloadForm()
