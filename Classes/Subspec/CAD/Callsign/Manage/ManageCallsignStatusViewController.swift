@@ -30,6 +30,9 @@ open class ManageCallsignStatusViewController: FormBuilderViewController, Manage
 
         createSubviews()
         createConstraints()
+
+        // Update when callsign view model changes
+        viewModel.callsignViewModel.delegate = self
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -153,16 +156,8 @@ open class ManageCallsignStatusViewController: FormBuilderViewController, Manage
                 if let item = viewModel.callsignViewModel.item(at: indexPath) {
                     let item = CallsignStatusFormItem(text: item.title, image: item.image)
                         .selected(viewModel.callsignViewModel.selectedIndexPath == indexPath)
-                        .onSelection { [unowned self] cell in
-                            guard indexPath != self.viewModel.callsignViewModel.selectedIndexPath else { return }
-                            // Update the selected index path and process any user input required
-                            firstly {
-                                return self.viewModel.callsignViewModel.setSelectedIndexPath(indexPath)
-                            }.done { [weak self] _ in
-                                self?.reloadForm()
-                            }.catch { error in
-                                AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
-                            }
+                        .onSelection { [weak self] cell in
+                            self?.selectCallsignStatus(at: indexPath)
                         }
 
                     // Remove top padding for first section if incident shown
@@ -176,4 +171,26 @@ open class ManageCallsignStatusViewController: FormBuilderViewController, Manage
             }
         }
     }
+
+    open func selectCallsignStatus(at indexPath: IndexPath) {
+        guard indexPath != self.viewModel.callsignViewModel.selectedIndexPath else { return }
+
+        // Update the selected index path and process any user input required
+        firstly {
+            return self.viewModel.callsignViewModel.setSelectedIndexPath(indexPath)
+        }.done { [weak self] _ in
+            self?.reloadForm()
+        }.catch { error in
+            AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
+        }
+    }
 }
+
+// MARK: - CADFormCollectionViewModelDelegate
+extension ManageCallsignStatusViewController: CADFormCollectionViewModelDelegate {
+
+    open func sectionsUpdated() {
+        reloadForm()
+    }
+}
+
