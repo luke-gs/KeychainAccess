@@ -163,14 +163,4 @@ open class ManageCallsignStatusViewModel {
         return sections
     }
 
-    // MARK: - Submit
-
-    func submit() -> Promise<Void> {
-        // Update unit status if selected
-        if let selectedStatus = callsignViewModel.currentStatus {
-            return CADStateManager.shared.updateCallsignStatus(status: selectedStatus, incident: callsignViewModel.incident, comments: nil, locationComments: nil)
-        }
-        return Promise<Void>()
-    }
-
 }

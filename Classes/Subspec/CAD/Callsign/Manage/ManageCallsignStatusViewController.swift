@@ -100,7 +100,7 @@ open class ManageCallsignStatusViewController: FormBuilderViewController, Manage
 
     @objc private func didTapDoneButton(_ button: UIBarButtonItem) {
         setLoadingState(.loading)
-        _ = viewModel.submit().done { [weak self] in
+        _ = viewModel.callsignViewModel.submit().done { [weak self] in
             self?.setLoadingState(.loaded)
             self?.dismissAnimated()
         }.catch { [weak self] error in
@@ -119,7 +119,6 @@ open class ManageCallsignStatusViewController: FormBuilderViewController, Manage
         navigationItem.leftBarButtonItem?.isEnabled = state == .loaded || state == .error
         buttonsView.isHidden = state != .loaded
     }
-
 
     public func callsignDidChange() {
         reloadForm()

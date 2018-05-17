@@ -175,4 +175,15 @@ open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignSta
     open override func shouldShowExpandArrow() -> Bool {
         return false
     }
+
+    // MARK: - Submit
+
+    func submit() -> Promise<Void> {
+        // Update unit status if selected
+        if let selectedStatus = currentStatus {
+            return CADStateManager.shared.updateCallsignStatus(status: selectedStatus, incident: incident, comments: nil, locationComments: nil)
+        }
+        return Promise<Void>()
+    }
+
 }

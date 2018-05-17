@@ -33,6 +33,8 @@ open class CallsignStatusViewController: IntrinsicHeightFormBuilderViewControlle
         // Set title and initial background color
         title = viewModel.navTitle()
 
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton(_:)))
+
         let theme = ThemeManager.shared.theme(for: userInterfaceStyle)
         view.backgroundColor = theme.color(forKey: .background)!
     }
@@ -101,6 +103,27 @@ open class CallsignStatusViewController: IntrinsicHeightFormBuilderViewControlle
                 AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
             }
         }
+    }
+
+    @objc private func didTapDoneButton(_ button: UIBarButtonItem) {
+        setLoadingState(.loading)
+        _ = viewModel.submit().done { [weak self] in
+            self?.setLoadingState(.loaded)
+            self?.dismissAnimated()
+        }.catch { [weak self] error in
+            guard let `self` = self else { return }
+            self.loadingManager.state = .error
+            self.loadingManager.errorView.titleLabel.text = NSLocalizedString("Failed to Update Status", comment: "")
+            self.loadingManager.errorView.subtitleLabel.text = error.localizedDescription
+            self.loadingManager.errorView.actionButton.setTitle(NSLocalizedString("Try Again", comment: ""), for: .normal)
+            self.loadingManager.errorView.actionButton.addTarget(self, action: #selector(self.didTapDoneButton), for: .touchUpInside)
+        }
+    }
+
+    func setLoadingState(_ state: LoadingStateManager.State) {
+        loadingManager.state = state
+        navigationItem.rightBarButtonItem?.isEnabled = state == .loaded
+        navigationItem.leftBarButtonItem?.isEnabled = state == .loaded || state == .error
     }
 }
 
