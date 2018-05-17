@@ -38,7 +38,18 @@ open class DomesticViolenceGeneralDetailsViewController: FormBuilderViewControll
 
     override open func construct(builder: FormBuilder) {
         builder.title = title
-        builder.forceLinearLayout = true
+
+        builder += HeaderFormItem(text: "Details")
+
+        builder += StepperFormItem(title: "Number of Children in this Relationship")
+
+        builder += OptionFormItem(title: "Child/Children to be Named").width(.column(2))
+
+        builder += OptionFormItem(title: "Relative/Associate to be Named").width(.column(2))
+
+        builder += TextViewFormItem(title: "Grounds on Which Domestic Violence has been Committed")
+
+        builder += TextViewFormItem(title: "Remarks")
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
