@@ -18,6 +18,9 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
         super.init()
         viewModel.addObserver(self)
 
+        //set initial loading manager state
+        self.setLoadingManagerState()
+
         title = "Property"
 
         sidebarItem.regularTitle = title
@@ -25,6 +28,10 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
         sidebarItem.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.list)!
         sidebarItem.color = viewModel.tabColors.defaultColor
         sidebarItem.selectedColor = viewModel.tabColors.selectedColor
+
+        loadingManager.noContentView.titleLabel.text = "No Property Added"
+        loadingManager.noContentView.subtitleLabel.text = "Optional"
+        loadingManager.noContentView.actionButton.setTitle("Add Property", for: .normal)
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -39,6 +46,10 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
     override open func construct(builder: FormBuilder) {
         builder.title = title
         builder.forceLinearLayout = true
+    }
+
+    private func setLoadingManagerState() {
+        self.loadingManager.state = viewModel.hasProperty ? .loaded : .noContent
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {

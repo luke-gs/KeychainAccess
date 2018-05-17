@@ -25,6 +25,10 @@ public class DomesticViolencePropertyViewModel {
         }
     }
 
+    public var hasProperty: Bool {
+        return !report.propertyList.isEmpty
+    }
+
     func addObserver(_ observer: EvaluationObserverable) {
         report.evaluator.addObserver(observer)
     }

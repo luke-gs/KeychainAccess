@@ -16,6 +16,9 @@ fileprivate extension EvaluatorKey {
 class DomesticViolencePropertyReport: Reportable {
     weak var event: Event?
     weak var incident: Incident?
+
+    private(set)var propertyList: [Property] = []
+
     let evaluator: Evaluator = Evaluator()
 
     public var viewed: Bool = false {
@@ -38,6 +41,10 @@ class DomesticViolencePropertyReport: Reportable {
         evaluator.registerKey(.viewed) {
             return self.viewed
         }
+    }
+
+    public func addProperty(property: Property) {
+        self.propertyList.append(property)
     }
 
     func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
