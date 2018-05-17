@@ -10,41 +10,23 @@ import UIKit
 import PromiseKit
 
 /// View controller for managing the current callsign status
-open class ManageCallsignStatusViewController: ThemedPopoverViewController, ManageCallsignStatusViewModelDelegate {
+open class ManageCallsignStatusViewController: FormBuilderViewController, ManageCallsignStatusViewModelDelegate {
 
     open let viewModel: ManageCallsignStatusViewModel
-
-    /// Scroll view for content view
-    open var scrollView: UIScrollView!
-
-    /// Content view for all content above buttons
-    open var contentView: UIView!
 
     /// Stack view for action buttons
     open var buttonsView: DialogActionButtonsView!
 
-    /// Form for displaying the current incident (or nothing)
-    open var incidentFormVC: ManageCallsignIncidentFormViewController!
-
-    /// Collection of callsign statuses
-    open var callsignStatusVC: CallsignStatusViewController!
-
-    /// Height constraint for current incident form
-    open var incidentFormHeight: NSLayoutConstraint!
-
-    override open var wantsTransparentBackground: Bool {
-        didSet {
-            /// Apply transparent background to child VCs
-            incidentFormVC.wantsTransparentBackground = wantsTransparentBackground
-            callsignStatusVC.wantsTransparentBackground = wantsTransparentBackground
-        }
+    /// Return the theme to use, based on current interface style
+    open var theme: Theme {
+        return ThemeManager.shared.theme(for: userInterfaceStyle)
     }
 
     // MARK: - Initializers
 
     public init(viewModel: ManageCallsignStatusViewModel) {
         self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
+        super.init()
 
         createSubviews()
         createConstraints()
@@ -53,7 +35,6 @@ open class ManageCallsignStatusViewController: ThemedPopoverViewController, Mana
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-
 
     // MARK: - View lifecycle
 
@@ -79,8 +60,6 @@ open class ManageCallsignStatusViewController: ThemedPopoverViewController, Mana
         // Update the title view based on current traits
         setTitleView(title: viewModel.navTitle(), subtitle: viewModel.navSubtitle())
         setupNavigationBarButtons()
-
-        incidentFormHeight.constant = viewModel.shouldShowIncident ? incidentFormVC.calculatedContentHeight() : 0
     }
 
     override open func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -101,28 +80,8 @@ open class ManageCallsignStatusViewController: ThemedPopoverViewController, Mana
             navigationItem.rightBarButtonItem = nil
         }
     }
-    
-    
-    open func reloadIncident() {
-        incidentFormVC.listViewModel = viewModel.incidentListViewModel
-        incidentFormVC.reloadForm()
-    }
 
     open func createSubviews() {
-        scrollView = UIScrollView(frame: .zero)
-        view.addSubview(scrollView)
-
-        contentView = UIView(frame: .zero)
-        scrollView.addSubview(contentView)
-
-        callsignStatusVC = viewModel.callsignViewModel.createViewController()
-        addChildViewController(callsignStatusVC, toView: contentView)
-
-        // Add incident form after callsign status, to make sure it's on top if overlap caused by reducing vertical whitespace
-        incidentFormVC = ManageCallsignIncidentFormViewController(listViewModel: viewModel.incidentListViewModel)
-        incidentFormVC.view.backgroundColor = UIColor.clear
-        addChildViewController(incidentFormVC, toView: contentView)
-
         var actions = [DialogAction]()
         for (index, buttonText) in viewModel.actionButtons.enumerated() {
             actions.append(DialogAction(title: buttonText, handler: { [weak self] (action) in
@@ -134,46 +93,20 @@ open class ManageCallsignStatusViewController: ThemedPopoverViewController, Mana
     }
 
     open func createConstraints() {
-        let incidentFormView = incidentFormVC.view!
-        incidentFormView.translatesAutoresizingMaskIntoConstraints = false
-
-        let callsignStatusView = callsignStatusVC.view!
-        callsignStatusView.translatesAutoresizingMaskIntoConstraints = false
-
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.translatesAutoresizingMaskIntoConstraints = false
+        guard let collectionView = collectionView else { return }
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         buttonsView.translatesAutoresizingMaskIntoConstraints = false
-
         buttonsView.setContentCompressionResistancePriority(.required, for: .vertical)
-        incidentFormView.setContentCompressionResistancePriority(.required, for: .vertical)
 
-        incidentFormHeight = incidentFormView.heightAnchor.constraint(equalToConstant: 0)
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: buttonsView.topAnchor),
-
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-
-            incidentFormView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            incidentFormView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            incidentFormView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            incidentFormHeight,
-
-            callsignStatusView.topAnchor.constraint(equalTo: incidentFormView.bottomAnchor, constant: -20),
-            callsignStatusView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            callsignStatusView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            callsignStatusView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
-            callsignStatusView.heightAnchor.constraint(equalToConstant: 400),
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: buttonsView.topAnchor),
 
             buttonsView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
             buttonsView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
-            buttonsView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
+            buttonsView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
         ])
     }
 
@@ -182,6 +115,46 @@ open class ManageCallsignStatusViewController: ThemedPopoverViewController, Mana
     }
 
     public func callsignDidChange() {
-        reloadIncident()
+        reloadForm()
     }
+
+    // MARK: - Form
+
+    override open func construct(builder: FormBuilder) {
+        // We show items in 2 columns when compact
+        builder.forceLinearLayoutWhenCompact = false
+
+        // Show current incident with header if set
+        if let listViewModel = viewModel.incidentListViewModel {
+            builder += HeaderFormItem(text: NSLocalizedString("Current Incident", comment: "").uppercased(), style: .plain)
+            builder += IncidentSummaryFormItem(viewModel: listViewModel)
+                .separatorStyle(.none)
+                .selectionStyle(.none)
+                .accessory(ItemAccessory.disclosure)
+                .onSelection({ [unowned self] cell in
+                    // Present the incident split view controller
+                    if let viewModel = listViewModel.createItemViewModel() {
+                        self.present(TaskItemScreen.landing(viewModel: viewModel))
+                    }
+                })
+        }
+
+        // Show callsign statuses
+        for sectionIndex in 0..<viewModel.callsignViewModel.numberOfSections() {
+            // Show header if text
+            if let headerText = viewModel.callsignViewModel.headerText(at: sectionIndex), !headerText.isEmpty {
+                builder += HeaderFormItem(text: headerText)
+            }
+
+            // Add each status item
+            for rowIndex in 0..<viewModel.callsignViewModel.numberOfItems(for: sectionIndex) {
+                let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
+                if let item = viewModel.callsignViewModel.item(at: indexPath) {
+                    builder += CallsignStatusFormItem(text: item.title, image: item.image)
+                        .selected(viewModel.callsignViewModel.selectedIndexPath == indexPath)
+                }
+            }
+        }
+    }
+
 }

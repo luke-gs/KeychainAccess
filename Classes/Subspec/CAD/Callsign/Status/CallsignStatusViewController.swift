@@ -9,7 +9,7 @@
 import UIKit
 import PromiseKit
 
-open class CallsignStatusViewController: FormBuilderViewController {
+open class CallsignStatusViewController: IntrinsicHeightFormBuilderViewController {
 
     open let viewModel: CallsignStatusViewModel
 
@@ -29,28 +29,11 @@ open class CallsignStatusViewController: FormBuilderViewController {
     override open func viewDidLoad() {
         super.viewDidLoad()
 
-        calculatesContentHeight = true
-        setupConstraints()
-
         // Set title and initial background color
         title = viewModel.navTitle()
 
         let theme = ThemeManager.shared.theme(for: userInterfaceStyle)
         view.backgroundColor = theme.color(forKey: .background)!
-    }
-
-    private func setupConstraints() {
-        guard let formCollectionView = collectionView else { return }
-
-        // Change collection view to not use autoresizing mask constraints so it uses intrinsic content height
-        formCollectionView.translatesAutoresizingMaskIntoConstraints = false
-
-        NSLayoutConstraint.activate([
-            formCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            formCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            formCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            formCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            ])
     }
 
     /// We need to override viewDidLayoutSubviews as well as willTransition due to behaviour of popover controller
@@ -74,6 +57,8 @@ open class CallsignStatusViewController: FormBuilderViewController {
         self.formLayout.invalidateLayout()
     }
 
+    // MARK: - Form
+
     open override func construct(builder: FormBuilder) {
         // We show items in 2 columns when compact
         builder.forceLinearLayoutWhenCompact = false
@@ -88,7 +73,8 @@ open class CallsignStatusViewController: FormBuilderViewController {
             for rowIndex in 0..<viewModel.numberOfItems(for: sectionIndex) {
                 let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
                 if let item = viewModel.item(at: indexPath) {
-                    builder += CallsignStatusFormItem(text: item.title, image: item.image).selected(viewModel.selectedIndexPath == indexPath)
+                    builder += CallsignStatusFormItem(text: item.title, image: item.image)
+                        .selected(viewModel.selectedIndexPath == indexPath)
                 }
             }
         }

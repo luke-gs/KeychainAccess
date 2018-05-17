@@ -489,7 +489,6 @@
 		96CF32321F8D7C3400140AF8 /* TasksListHeaderRegularViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32311F8D7C3400140AF8 /* TasksListHeaderRegularViewController.swift */; };
 		96CF32341F8D7C7700140AF8 /* TasksListHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32331F8D7C7700140AF8 /* TasksListHeaderViewModel.swift */; };
 		96D3415C2005D38000CEDDFF /* StandardSearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D3415B2005D38000CEDDFF /* StandardSearchBarView.swift */; };
-		96D731731FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D731721FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift */; };
 		96E19CAB2069A9A70021DB42 /* DraggableCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E19CAA2069A9A70021DB42 /* DraggableCardView.swift */; };
 		96E19CAE206C98A50021DB42 /* ClusterTasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E19CAD206C98A50021DB42 /* ClusterTasksViewController.swift */; };
 		96E19CB0206C98B60021DB42 /* ClusterTasksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E19CAF206C98B60021DB42 /* ClusterTasksViewModel.swift */; };
@@ -1361,7 +1360,6 @@
 		96CF32311F8D7C3400140AF8 /* TasksListHeaderRegularViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListHeaderRegularViewController.swift; sourceTree = "<group>"; };
 		96CF32331F8D7C7700140AF8 /* TasksListHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListHeaderViewModel.swift; sourceTree = "<group>"; };
 		96D3415B2005D38000CEDDFF /* StandardSearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardSearchBarView.swift; sourceTree = "<group>"; };
-		96D731721FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignIncidentFormViewController.swift; sourceTree = "<group>"; };
 		96E19CAA2069A9A70021DB42 /* DraggableCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableCardView.swift; sourceTree = "<group>"; };
 		96E19CAD206C98A50021DB42 /* ClusterTasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterTasksViewController.swift; sourceTree = "<group>"; };
 		96E19CAF206C98B60021DB42 /* ClusterTasksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterTasksViewModel.swift; sourceTree = "<group>"; };
@@ -2900,7 +2898,6 @@
 		966F3505200C4CBB00661870 /* Manage */ = {
 			isa = PBXGroup;
 			children = (
-				96D731721FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift */,
 				9650CA131F958B2D0087F5C9 /* ManageCallsignStatusViewController.swift */,
 				9650CA141F958B2D0087F5C9 /* ManageCallsignStatusViewModel.swift */,
 			);
@@ -4882,7 +4879,6 @@
 				9668DC342085A18B00D7C419 /* LogUtils.swift in Sources */,
 				46D95AC220198A7D00DCE6A5 /* UIImage+CircleCreation.swift in Sources */,
 				125EAE1B2099417200C09FED /* EventSubmittable.swift in Sources */,
-				96D731731FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift in Sources */,
 				BC9C7E4C1F0DED6600DFFE83 /* ViewControllerAnimationOptionTransition.swift in Sources */,
 				BC9C7E331F0DED6600DFFE83 /* UITextView+NotificationWorkaround.m in Sources */,
 				EA69F8271F7C875D0092380B /* SelectionAction.swift in Sources */,
