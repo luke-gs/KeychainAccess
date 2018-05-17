@@ -251,6 +251,8 @@ open class CADStateManagerCore: CADStateManagerType {
             }
             NotificationCenter.default.post(name: .CADCallsignChanged, object: self)
         }
+
+        // TODO: Call method from API manager
         return after(seconds: 1.0).done {}
     }
 

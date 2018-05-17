@@ -115,7 +115,6 @@ extension CallsignStatusViewController {
             cell.contentView.alpha = 1
         }
     }
-
 }
 
 // MARK: - CADFormCollectionViewModelDelegate

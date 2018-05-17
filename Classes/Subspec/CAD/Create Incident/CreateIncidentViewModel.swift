@@ -21,7 +21,7 @@ open class CreateIncidentViewModel {
         return CreateIncidentFormViewModel()
     }()
 
-    open lazy var statusViewModel: CreateIncidentStatusViewModel = {
+    open lazy var statusViewModel: CallsignStatusViewModel = {
         let incidentItems = CADClientModelTypes.resourceStatus.incidentCases.map {
             return ManageCallsignStatusItemViewModel($0)
         }
@@ -29,7 +29,7 @@ open class CreateIncidentViewModel {
             title: NSLocalizedString("Initial Status", comment: "").uppercased(),
             items: incidentItems)
         ]
-        return CreateIncidentStatusViewModel(sections: sections, selectedStatus: initialStatus)
+        return CallsignStatusViewModel(sections: sections, selectedStatus: initialStatus)
     }()
 
     public init() {
