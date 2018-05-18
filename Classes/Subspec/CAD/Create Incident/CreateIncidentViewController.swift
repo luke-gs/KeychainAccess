@@ -32,11 +32,6 @@ open class CreateIncidentViewController: SubmissionFormBuilderViewController {
         super.viewDidLoad()
     }
 
-    /// Perform actual submit logic
-    open override func performSubmit() -> Promise<Void> {
-        return viewModel.submitForm()
-    }
-
     // MARK: - Form
 
     override open func construct(builder: FormBuilder) {
@@ -147,6 +142,13 @@ open class CreateIncidentViewController: SubmissionFormBuilderViewController {
         }.catch { error in
             AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
         }
+    }
+
+    // MARK: - SubmissionFormBuilderViewController
+
+    /// Perform actual submit logic
+    open override func performSubmit() -> Promise<Void> {
+        return viewModel.submitForm()
     }
 
 }

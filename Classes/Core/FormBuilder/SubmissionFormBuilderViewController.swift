@@ -59,11 +59,16 @@ open class SubmissionFormBuilderViewController: FormBuilderViewController {
     }
 
     @objc open func didTapCancelButton(_ button: UIBarButtonItem) {
-        dismissAnimated()
+        // If showing error, allow cancel to go back to editing form
+        if loadingManager.state == .error {
+            setLoadingState(.loaded)
+        } else {
+            performClose(submitted: false)
+        }
     }
 
     @objc open func didTapDoneButton(_ button: UIBarButtonItem) {
-        var result = builder.validate()
+        var result = performValidation()
 
         #if DEBUG
         // Disable form validation for developers in a hurry :)
@@ -83,7 +88,7 @@ open class SubmissionFormBuilderViewController: FormBuilderViewController {
             }.done { [weak self] in
                 guard let `self` = self else { return }
                 self.setLoadingState(.loaded)
-                self.dismissAnimated()
+                self.performClose(submitted: true)
             }.catch { [weak self] error in
                 guard let `self` = self else { return }
                 self.loadingManager.errorView.subtitleLabel.text = error.localizedDescription
@@ -103,9 +108,18 @@ open class SubmissionFormBuilderViewController: FormBuilderViewController {
         navigationItem.rightBarButtonItem?.isEnabled = state == .loaded
     }
 
+    open func performValidation() -> FormBuilder.FormValidationResult {
+        return builder.validate()
+    }
+
     /// Perform actual submit logic, override in subclass
     open func performSubmit() -> Promise<Void> {
         MPLRequiresConcreteImplementation()
+    }
+
+    open func performClose(submitted: Bool) {
+        // By default just dismiss the dialog
+        dismissAnimated()
     }
 
 }

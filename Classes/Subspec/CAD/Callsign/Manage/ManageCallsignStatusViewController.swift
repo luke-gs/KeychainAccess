@@ -10,7 +10,7 @@ import UIKit
 import PromiseKit
 
 /// View controller for managing the current callsign status
-open class ManageCallsignStatusViewController: SubmissionFormBuilderViewController, ManageCallsignStatusViewModelDelegate {
+open class ManageCallsignStatusViewController: SubmissionFormBuilderViewController {
 
     open let viewModel: ManageCallsignStatusViewModel
 
@@ -73,21 +73,6 @@ open class ManageCallsignStatusViewController: SubmissionFormBuilderViewControll
             buttonsView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
             buttonsView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
         ])
-    }
-
-    /// Override loading state handling to also disable buttons
-    open override func setLoadingState(_ state: LoadingStateManager.State) {
-        super.setLoadingState(state)
-        buttonsView.isHidden = state != .loaded
-    }
-
-    /// Perform actual submit logic
-    open override func performSubmit() -> Promise<Void> {
-        return viewModel.callsignViewModel.submit()
-    }
-
-    open func callsignDidChange() {
-        reloadForm()
     }
 
     // MARK: - Form
@@ -153,6 +138,26 @@ open class ManageCallsignStatusViewController: SubmissionFormBuilderViewControll
         }.catch { error in
             AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
         }
+    }
+
+    // MARK: - SubmissionFormBuilderViewController
+
+    /// Override loading state handling to also disable buttons
+    open override func setLoadingState(_ state: LoadingStateManager.State) {
+        super.setLoadingState(state)
+        buttonsView.isHidden = state != .loaded
+    }
+
+    /// Perform actual submit logic
+    open override func performSubmit() -> Promise<Void> {
+        return viewModel.callsignViewModel.submit()
+    }
+}
+
+// MARK: - ManageCallsignStatusViewModelDelegate
+extension ManageCallsignStatusViewController: ManageCallsignStatusViewModelDelegate {
+    open func callsignDidChange() {
+        reloadForm()
     }
 }
 

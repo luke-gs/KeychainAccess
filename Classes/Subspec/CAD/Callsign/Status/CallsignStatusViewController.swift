@@ -35,11 +35,6 @@ open class CallsignStatusViewController: SubmissionFormBuilderViewController {
         super.viewDidLoad()
     }
 
-    open override func updateForLayoutOrTraitChange() {
-        // Invalidate the layout so new sizing is performed for callsign status items
-        formLayout.invalidateLayout()
-    }
-
     // MARK: - Form
 
     open override func construct(builder: FormBuilder) {
@@ -83,6 +78,13 @@ open class CallsignStatusViewController: SubmissionFormBuilderViewController {
                 AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
             }
         }
+    }
+
+    // MARK: - SubmissionFormBuilderViewController
+
+    open override func updateForLayoutOrTraitChange() {
+        // Invalidate the layout so new sizing is performed for callsign status items
+        formLayout.invalidateLayout()
     }
 
     /// Perform actual submit logic
