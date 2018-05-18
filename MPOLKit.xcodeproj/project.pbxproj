@@ -395,6 +395,7 @@
 		47BC24DD1FE886F900BAB46C /* EntitySummarySearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BC24DC1FE886F900BAB46C /* EntitySummarySearchViewModel.swift */; };
 		4E719ECA2022F08600D45F52 /* TextTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E719EC92022F08600D45F52 /* TextTemplate.swift */; };
 		8CDAFFA6E9DC54A4594C01FE /* Pods_MPOLKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE1AAA01D6AE18F86693DF8 /* Pods_MPOLKitTests.framework */; };
+		9609401B20AE493800177E1F /* SubmissionFormBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9609401A20AE493800177E1F /* SubmissionFormBuilderViewController.swift */; };
 		960CBB441FEA191E00A33E95 /* ThemeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960CBB431FEA191E00A33E95 /* ThemeConstants.swift */; };
 		96179295209A92D4001DD4CB /* CADSyncResponseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96179294209A92D4001DD4CB /* CADSyncResponseType.swift */; };
 		96179297209A985E001DD4CB /* CADSyncRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96179296209A985E001DD4CB /* CADSyncRequestType.swift */; };
@@ -1247,6 +1248,7 @@
 		70E8FDF2F522A8C05328E451 /* Pods-MPOLKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitTests/Pods-MPOLKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		792BA6D7922A9D3748B70A23 /* Pods-MPOLKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.release.xcconfig"; sourceTree = "<group>"; };
 		9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9609401A20AE493800177E1F /* SubmissionFormBuilderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmissionFormBuilderViewController.swift; sourceTree = "<group>"; };
 		960CBB431FEA191E00A33E95 /* ThemeConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeConstants.swift; sourceTree = "<group>"; };
 		96179294209A92D4001DD4CB /* CADSyncResponseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADSyncResponseType.swift; sourceTree = "<group>"; };
 		96179296209A985E001DD4CB /* CADSyncRequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADSyncRequestType.swift; sourceTree = "<group>"; };
@@ -4249,6 +4251,7 @@
 				EAC025731FDE667A00E45DB6 /* FormCollectionViewHandler.swift */,
 				BC79A13A2E4AC301834EB111 /* MapFormBuilderViewController.swift */,
 				460B276E204526DC00B56D0B /* FormBuilderSearchViewController.swift */,
+				9609401A20AE493800177E1F /* SubmissionFormBuilderViewController.swift */,
 			);
 			path = FormBuilder;
 			sourceTree = "<group>";
@@ -4713,6 +4716,7 @@
 				2744E3A12051DD8500561A8F /* CADBookOffRequestCore.swift in Sources */,
 				27F9C96C1FA2D7E300825F88 /* CompactCallsignContainerViewController.swift in Sources */,
 				962F177C2089512600156247 /* CADEnumIntType.swift in Sources */,
+				9609401B20AE493800177E1F /* SubmissionFormBuilderViewController.swift in Sources */,
 				EA32A8581FBD1A7900CC37FB /* MediaCell.swift in Sources */,
 				9650CA1B1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift in Sources */,
 				BC9C7DEE1F0DED6600DFFE83 /* Serialisable.swift in Sources */,
