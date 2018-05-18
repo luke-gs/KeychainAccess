@@ -9,7 +9,7 @@
 import UIKit
 import PromiseKit
 
-open class CreateIncidentViewController: IntrinsicHeightFormBuilderViewController {
+open class CreateIncidentViewController: SubmissionFormBuilderViewController {
 
     open let viewModel: CreateIncidentViewModel
 
@@ -22,44 +22,19 @@ open class CreateIncidentViewController: IntrinsicHeightFormBuilderViewControlle
         MPLCodingNotSupported()
     }
     
+    // MARK: - View lifecycle
+
     open override func viewDidLoad() {
-        super.viewDidLoad()
-        
+        // Set super properties
         title = viewModel.navTitle()
+        loadingManager.errorView.titleLabel.text = NSLocalizedString("Failed to Create Incident", comment: "")
 
-        setupNavigationBarButtons()
-        viewModel.configureLoadingManager(loadingManager)
-    }
-    
-    open func setupNavigationBarButtons() {
-        // Create cancel button
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(dismissAnimated))
-        
-        // Create done button
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped(_:)))
+        super.viewDidLoad()
     }
 
-    @objc private func doneButtonTapped(_ button: UIBarButtonItem) {
-        var result = builder.validate()
-        #if DEBUG
-            if true {
-                result = .valid
-            }
-        #endif
-        
-        switch result {
-        case .invalid(_, let message):
-            builder.validateAndUpdateUI()
-            AlertQueue.shared.addErrorAlert(message: message)
-        case .valid:
-            loadingManager.state = .loading
-            _ = viewModel.submitForm().ensure {
-                self.dismissAnimated()
-            }.catch { error in
-                self.loadingManager.state = .error
-                self.loadingManager.errorView.subtitleLabel.text = error.localizedDescription
-            }
-        }
+    /// Perform actual submit logic
+    open override func performSubmit() -> Promise<Void> {
+        return viewModel.submitForm()
     }
 
     // MARK: - Form

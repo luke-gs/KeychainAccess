@@ -8,7 +8,8 @@
 import UIKit
 import PromiseKit
 
-/// A `FormBuilderViewController` subclass that provides OOTB behaviour for modal forms that submit data.
+/// A `FormBuilderViewController` subclass that provides generally useful OOTB behaviour for forms presented
+/// modally that submit data. This includes form validation, loading states and nav buttons
 open class SubmissionFormBuilderViewController: FormBuilderViewController {
 
     /// Optional title and subtitle display in navigation bar
@@ -62,17 +63,32 @@ open class SubmissionFormBuilderViewController: FormBuilderViewController {
     }
 
     @objc open func didTapDoneButton(_ button: UIBarButtonItem) {
-        setLoadingState(.loading)
-        firstly {
-            return performSubmit()
-        }.done { [weak self] in
-            guard let `self` = self else { return }
-            self.setLoadingState(.loaded)
-            self.dismissAnimated()
-        }.catch { [weak self] error in
-            guard let `self` = self else { return }
-            self.loadingManager.errorView.subtitleLabel.text = error.localizedDescription
-            self.setLoadingState(.error)
+        var result = builder.validate()
+
+        #if DEBUG
+        // Disable form validation for developers in a hurry :)
+        if true {
+            result = .valid
+        }
+        #endif
+
+        switch result {
+        case .invalid(_, let message):
+            builder.validateAndUpdateUI()
+            AlertQueue.shared.addErrorAlert(message: message)
+        case .valid:
+            setLoadingState(.loading)
+            firstly {
+                return performSubmit()
+            }.done { [weak self] in
+                guard let `self` = self else { return }
+                self.setLoadingState(.loaded)
+                self.dismissAnimated()
+            }.catch { [weak self] error in
+                guard let `self` = self else { return }
+                self.loadingManager.errorView.subtitleLabel.text = error.localizedDescription
+                self.setLoadingState(.error)
+            }
         }
     }
 
