@@ -25,8 +25,10 @@ public class InterceptReportScreenBuilder: IncidentScreenBuilding {
 
         //TODO: Remove non-incident reports from here and replace with actual incident reports
         switch report {
-        case let report as IncidentTestReport:
-            return IncidentTestViewController(report: report)
+        case let report as DefaultEntitiesListReport:
+            return DefaultEntitiesListViewController(viewModel: DefaultEntitiesListViewModel(report: report))
+        case let report as InterceptReportGeneralDetailsReport:
+            return InterceptReportGeneralDetailsViewController(viewModel: InterceptReportGeneralDetailsViewModel(report: report))
         default:
             fatalError("No ViewController found for reportable: \(report.self)")
         }
