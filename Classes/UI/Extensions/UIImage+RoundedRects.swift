@@ -171,4 +171,22 @@ public extension UIImage {
         UIGraphicsEndImageContext()
         return result
     }
+    
+    public func overlayed(with image: UIImage, offset: CGPoint) -> UIImage? {
+        
+        UIGraphicsBeginImageContextWithOptions(self.size, false, 0)
+        
+        let selfRect = CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height)
+        self.draw(in: selfRect)
+        
+        let midPoint = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
+        
+        let imageRect = CGRect(x: midPoint.x + offset.x, y: midPoint.y + offset.y, width: image.size.width, height: image.size.height)
+        image.draw(in: imageRect)
+        
+        let result = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return result
+
+    }
 }
