@@ -121,7 +121,7 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
     /// Hides or shows compact change status bar based on trait collection, and configures views
     open func configureCompactChangeStatusBar() {
         // Only show if compact horizontal and NOT compact vertical (no room)
-        guard isCompact(.horizontal) && !isCompact(.vertical) else {
+        guard isCompact(.horizontal) && !isCompact(.vertical) && detailViewModel.showCompactGlassBar else {
             compactStatusChangeBar?.removeFromSuperview()
             compactStatusChangeBar = nil
             return
