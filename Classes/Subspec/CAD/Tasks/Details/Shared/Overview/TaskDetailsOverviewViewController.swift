@@ -53,10 +53,11 @@ open class TaskDetailsOverviewViewController: UIViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        // Minimise card if compact vertical
         if mapViewController == nil {
+            // Maximise card if no map
             cardView.currentState = .maximised
         } else if isCompact(.vertical) {
+            // Minimise card if compact vertical
             cardView.currentState = .minimised
             DispatchQueue.main.async {
                 // Workaround for Roddy manual layout bug
