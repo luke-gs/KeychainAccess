@@ -95,10 +95,10 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         let title = NSLocalizedString("Category", comment: "")
         return DropDownFormItem(title: title)
             // TODO: get these from manifest
-            .options(["1. Marked Intercept Sedan or Motorcycle",
-                      "2. Intercept unmarked Sedan or Motorcycle",
-                      "3. Marked Intercept Van, 4WD",
-                      "4. Unmarked non-intercept vehicle"])
+            .options(["1. e.g. Marked Intercept Sedan or Motorcycle",
+                      "2. e.g. Intercept unmarked Sedan or Motorcycle",
+                      "3. e.g. Marked Intercept Van, 4WD",
+                      "4. e.g. Unmarked non-intercept vehicle"])
             .required("Category is required.")
             .width(.column(1))
             .selectedValue([viewModel.content.category].removeNils())
