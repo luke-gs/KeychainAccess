@@ -17,8 +17,6 @@ class DefaultEntitiesListReport: Reportable {
     weak var event: Event?
     weak var incident: Incident?
     let evaluator: Evaluator = Evaluator()
-    // Dictionary of entityId's and Involvements
-    var entityInvolvements = [String: [Involvement]]()
     
     init(event: Event, incident: Incident) {
         self.event = event
@@ -33,9 +31,9 @@ class DefaultEntitiesListReport: Reportable {
 
         evaluator.registerKey(.trafficInfringmentHasEntity) {
             guard let event = self.event else { return false }
-            // TODO: create entity manager to determine link between entities and incident
-            // TODO: use event.entityManger to return incident specific entities and the check
-            return !event.entityBucket.entities.filter { $0 is Person }.isEmpty
+            guard let incident = self.incident else { return false }
+            guard !event.entityManager.relationships(for: incident).isEmpty else { return false }
+            return true
         }
     }
 

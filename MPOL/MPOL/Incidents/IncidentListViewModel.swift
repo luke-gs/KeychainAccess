@@ -13,7 +13,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
     public var incidentsManager: IncidentsManager
     private(set) var report: IncidentListReport
     public var incidentList: [IncidentListDisplayable] {
-        return report.incidents.map{ $0.displayable! }
+        return report.incidents.map { $0.displayable! }
     }
 
     public required init(report: Reportable, incidentsManager: IncidentsManager) {
@@ -77,7 +77,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
     }
 
     func searchHeaderSubtitle() -> String {
-        return incidentList.map{ $0.title }.joined(separator: ", ")
+        return incidentList.map { $0.title }.joined(separator: ", ")
     }
 
     func sectionHeaderTitle() -> String {
@@ -88,11 +88,9 @@ open class IncidentListViewModel: IncidentListViewModelType {
     // Utility
 
     func removeIncident(at indexPath: IndexPath) {
+        let incident = report.incidents[indexPath.item]
+        report.event?.entityManager.removeAllRelationships(for: incident)
         report.incidents.remove(at: indexPath.item)
-
-        // TODO: create entity manager on event that will handle the links between entities and incidents
-        // TODO: use event.entity manager to remove entities linked to this event
-        report.event?.entityBucket.removeAll()
     }
 
     func add(_ incidents: [String]) {

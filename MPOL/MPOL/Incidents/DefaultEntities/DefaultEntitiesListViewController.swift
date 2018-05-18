@@ -45,12 +45,9 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
 
         builder += HeaderFormItem(text: viewModel.headerText).actionButton(title: "Add", handler: newEntityHandler(_:))
 
-        let entities = viewModel.entities
-
-
-        builder += entities.map { entity in
+        builder += viewModel.entities.map { entity in
             return viewModel.displayable(for: entity).summaryListFormItem()
-                .subtitle(viewModel.retrieveInvolvements(for: entity.id).compactMap({$0.rawValue}).joined(separator: ", "))
+                .subtitle(viewModel.retrieveInvolvements(for: entity)?.joined(separator: ", "))
                 .accessory(nil)
                 .badgeColor(nil)
                 .badge(0)
@@ -117,8 +114,9 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
                                                      tintColor: displayable.iconColor,
                                                      borderColor: displayable.borderColor)
 
+        let selectedObjects = viewModel.retrieveInvolvements(for: entity) ?? []
         let datasource = InvolvementSearchDatasource(objects: Involvement.casesFor(entity),
-                                                     selectedObjects: viewModel.retrieveInvolvements(for: entity.id),
+                                                     selectedObjects: selectedObjects,
                                                             configuration: headerConfig)
         datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
         let viewController = CustomPickerController(datasource: datasource)
@@ -133,9 +131,9 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
                 .compactMap({ $0.element as? Involvement })
             
                 if editingEntity {
-                    self.viewModel.updateEntity(entity.id, with: involvements)
+                    self.viewModel.update(involvements.map { $0.rawValue }, for: entity)
                 } else {
-                    self.viewModel.addEntity(entity, with: involvements)
+                    self.viewModel.addEntity(entity, with: involvements.map { $0.rawValue })
                 }
 
             self.updateLoadingManager()

@@ -8,7 +8,7 @@
 import Foundation
 import MPOLKit
 
-public class EventEntitiesListViewController : FormBuilderViewController, EvaluationObserverable {
+public class EventEntitiesListViewController: FormBuilderViewController, EvaluationObserverable {
 
     let viewModel: EventEntitiesListViewModel
     
@@ -47,8 +47,6 @@ public class EventEntitiesListViewController : FormBuilderViewController, Evalua
 
         let reports = viewModel.report.entityDetailReports
 
-
-
         builder += reports.enumerated().map { (itemIndex, report) in
             return viewModel.displayable(for: report.entity)
                 .summaryListFormItem()
@@ -66,7 +64,7 @@ public class EventEntitiesListViewController : FormBuilderViewController, Evalua
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        //text and image for "noContent" state
+        // Text and image for "noContent" state
         loadingManager.noContentView.titleLabel.text = "No Entities Added"
         loadingManager.noContentView.subtitleLabel.text = "Entities added to an incident will appear here"
         loadingManager.noContentView.imageView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.dialogAlert)
@@ -79,7 +77,7 @@ public class EventEntitiesListViewController : FormBuilderViewController, Evalua
         self.parent?.navigationController?.pushViewController(viewController, animated: true)
     }
 
-    //MARK: Eval
+    // MARK: Eval
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
         sidebarItem.color = viewModel.tabColors.defaultColor
         sidebarItem.selectedColor = viewModel.tabColors.selectedColor
