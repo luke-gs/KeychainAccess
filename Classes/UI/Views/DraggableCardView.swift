@@ -54,6 +54,9 @@ open class DraggableCardView: UIView {
     /// The tap gesture for restoring card
     open private(set) var tapGesture: UITapGestureRecognizer!
 
+    /// The set of enabled states, in order of heights
+    open var enabledStates: [CardState] = [.minimised, .normal, .maximised]
+
     /// The current display state of the card
     open var currentState: CardState = .normal {
         didSet {
@@ -183,12 +186,13 @@ open class DraggableCardView: UIView {
 
     /// Calculate nearest card state based on current state and release velocity
     open func nearestStateWithVelocity(_ velocity: CGFloat) -> CardState {
-        guard let delegate = delegate else { return .normal }
+        guard let delegate = delegate else { return currentState }
+        guard enabledStates.count > 1 else { return currentState }
 
         // Get heights from delegate
-        let normalCardHeight = delegate.heightForCardViewInState(.normal)
-        let minimisedCardHeight = delegate.heightForCardViewInState(.minimised)
-        let maximisedCardHeight = delegate.heightForCardViewInState(.maximised)
+        let heights = enabledStates.map {
+            return delegate.heightForCardViewInState($0)
+        }
 
         // Once going past a threshold in the right direction, move to next state
         let threshold = 30 as CGFloat
@@ -196,23 +200,20 @@ open class DraggableCardView: UIView {
 
         if velocity <= 0 {
             // Card is moving up
-            if cardHeight > normalCardHeight + threshold {
-                return .maximised
-            } else  if cardHeight > minimisedCardHeight + threshold {
-                return .normal
-            } else {
-                return .minimised
+            for index in (0..<enabledStates.count-1).reversed() {
+                if cardHeight > heights[index] + threshold {
+                    return enabledStates[index + 1]
+                }
             }
-
+            return enabledStates.first!
         } else {
             // Card is moving down
-            if cardHeight < normalCardHeight - threshold {
-                return .minimised
-            } else  if cardHeight < maximisedCardHeight - threshold {
-                return .normal
-            } else {
-                return .maximised
+            for index in (1..<enabledStates.count) {
+                if cardHeight < heights[index] - threshold {
+                    return enabledStates[index - 1]
+                }
             }
+            return enabledStates.last!
         }
     }
 
@@ -257,7 +258,9 @@ open class DraggableCardView: UIView {
         guard gestureRecognizer.isEqual(tapGesture) else { return }
 
         if gestureRecognizer.state == .ended && currentState == .minimised {
-            currentState = .normal
+            if let index = enabledStates.index(of: currentState) {
+                currentState = enabledStates[ifExists: index+1] ?? currentState
+            }
             delegate?.didFinishDragCardView()
         }
     }
