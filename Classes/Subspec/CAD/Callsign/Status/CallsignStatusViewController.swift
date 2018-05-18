@@ -10,7 +10,7 @@ import UIKit
 import PromiseKit
 
 /// View controller for showing callsign statuses as a collection view
-open class CallsignStatusViewController: FormBuilderViewController {
+open class CallsignStatusViewController: SubmissionFormBuilderViewController {
 
     open let viewModel: CallsignStatusViewModel
 
@@ -27,38 +27,17 @@ open class CallsignStatusViewController: FormBuilderViewController {
 
     // MARK: - View lifecycle
 
-    override open func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Set title and initial background color
+    open override func viewDidLoad() {
+        // Set super properties
         title = viewModel.navTitle()
+        loadingManager.errorView.titleLabel.text = NSLocalizedString("Failed to Update Status", comment: "")
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancelButton(_:)))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton(_:)))
-
-        let theme = ThemeManager.shared.theme(for: userInterfaceStyle)
-        view.backgroundColor = theme.color(forKey: .background)!
+        super.viewDidLoad()
     }
 
-    /// We need to override viewDidLayoutSubviews as well as willTransition due to behaviour of popover controller
-    override open func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        // Update the item size
-        self.updateItemSizeForTraits()
-    }
-
-    override open func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.willTransition(to: newCollection, with: coordinator)
-        coordinator.animate(alongsideTransition: { (context) in
-            // Update the item size
-            self.updateItemSizeForTraits()
-        }, completion: nil)
-    }
-
-    /// Update the item size based on size class
-    open func updateItemSizeForTraits() {
-        self.formLayout.invalidateLayout()
+    open override func updateForLayoutOrTraitChange() {
+        // Invalidate the layout so new sizing is performed for callsign status items
+        formLayout.invalidateLayout()
     }
 
     // MARK: - Form
@@ -106,30 +85,11 @@ open class CallsignStatusViewController: FormBuilderViewController {
         }
     }
 
-    @objc private func didTapCancelButton(_ button: UIBarButtonItem) {
-        dismissAnimated()
+    /// Perform actual submit logic
+    open override func performSubmit() -> Promise<Void> {
+        return viewModel.submit()
     }
 
-    @objc private func didTapDoneButton(_ button: UIBarButtonItem) {
-        setLoadingState(.loading)
-        _ = viewModel.submit().done { [weak self] in
-            self?.setLoadingState(.loaded)
-            self?.dismissAnimated()
-        }.catch { [weak self] error in
-            guard let `self` = self else { return }
-            self.loadingManager.state = .error
-            self.loadingManager.errorView.titleLabel.text = NSLocalizedString("Failed to Update Status", comment: "")
-            self.loadingManager.errorView.subtitleLabel.text = error.localizedDescription
-            self.loadingManager.errorView.actionButton.setTitle(NSLocalizedString("Try Again", comment: ""), for: .normal)
-            self.loadingManager.errorView.actionButton.addTarget(self, action: #selector(self.didTapDoneButton), for: .touchUpInside)
-        }
-    }
-
-    open func setLoadingState(_ state: LoadingStateManager.State) {
-        loadingManager.state = state
-        navigationItem.rightBarButtonItem?.isEnabled = state == .loaded
-        navigationItem.leftBarButtonItem?.isEnabled = state == .loaded || state == .error
-    }
 }
 
 // MARK: - CADFormCollectionViewModelDelegate

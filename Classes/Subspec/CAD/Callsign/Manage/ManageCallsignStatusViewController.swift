@@ -10,7 +10,7 @@ import UIKit
 import PromiseKit
 
 /// View controller for managing the current callsign status
-open class ManageCallsignStatusViewController: FormBuilderViewController, ManageCallsignStatusViewModelDelegate {
+open class ManageCallsignStatusViewController: SubmissionFormBuilderViewController, ManageCallsignStatusViewModelDelegate {
 
     open let viewModel: ManageCallsignStatusViewModel
 
@@ -22,6 +22,16 @@ open class ManageCallsignStatusViewController: FormBuilderViewController, Manage
     public init(viewModel: ManageCallsignStatusViewModel) {
         self.viewModel = viewModel
         super.init()
+    }
+
+    // MARK: - View lifecycle
+
+    override open func viewDidLoad() {
+        // Set super properties
+        navTitles = (viewModel.navTitle(), viewModel.navSubtitle())
+        loadingManager.errorView.titleLabel.text = NSLocalizedString("Failed to Update Status", comment: "")
+
+        super.viewDidLoad()
 
         createSubviews()
         createConstraints()
@@ -35,40 +45,6 @@ open class ManageCallsignStatusViewController: FormBuilderViewController, Manage
     }
 
     // MARK: - View lifecycle
-
-    open override func viewDidLoad() {
-        super.viewDidLoad()
-
-        setTitleView(title: viewModel.navTitle(), subtitle: viewModel.navSubtitle())
-
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancelButton(_:)))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton(_:)))
-
-        // Set initial background color (this may change in wantsTransparentBackground)
-        let theme = ThemeManager.shared.theme(for: userInterfaceStyle)
-        view.backgroundColor = theme.color(forKey: .background)!
-    }
-
-    override open func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setTitleView(title: viewModel.navTitle(), subtitle: viewModel.navSubtitle())
-    }
-
-    /// We need to override viewDidLayoutSubviews as well as willTransition due to behaviour of popover controller
-    override open func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        // Update the title view based on current traits
-        setTitleView(title: viewModel.navTitle(), subtitle: viewModel.navSubtitle())
-    }
-
-    override open func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.willTransition(to: newCollection, with: coordinator)
-        coordinator.animate(alongsideTransition: { (context) in
-            // Update the item size and title view based on new traits
-            self.setTitleView(title: self.viewModel.navTitle(), subtitle: self.viewModel.navSubtitle())
-        }, completion: nil)
-    }
 
     open func createSubviews() {
         var actions = [DialogAction]()
@@ -99,30 +75,15 @@ open class ManageCallsignStatusViewController: FormBuilderViewController, Manage
         ])
     }
 
-    @objc private func didTapCancelButton(_ button: UIBarButtonItem) {
-        dismissAnimated()
-    }
-
-    @objc private func didTapDoneButton(_ button: UIBarButtonItem) {
-        setLoadingState(.loading)
-        _ = viewModel.callsignViewModel.submit().done { [weak self] in
-            self?.setLoadingState(.loaded)
-            self?.dismissAnimated()
-        }.catch { [weak self] error in
-            guard let `self` = self else { return }
-            self.loadingManager.state = .error
-            self.loadingManager.errorView.titleLabel.text = NSLocalizedString("Failed to Update Status", comment: "")
-            self.loadingManager.errorView.subtitleLabel.text = error.localizedDescription
-            self.loadingManager.errorView.actionButton.setTitle(NSLocalizedString("Try Again", comment: ""), for: .normal)
-            self.loadingManager.errorView.actionButton.addTarget(self, action: #selector(self.didTapDoneButton), for: .touchUpInside)
-        }
-    }
-
-    open func setLoadingState(_ state: LoadingStateManager.State) {
-        loadingManager.state = state
-        navigationItem.rightBarButtonItem?.isEnabled = state == .loaded
-        navigationItem.leftBarButtonItem?.isEnabled = state == .loaded || state == .error
+    /// Override loading state handling to also disable buttons
+    open override func setLoadingState(_ state: LoadingStateManager.State) {
+        super.setLoadingState(state)
         buttonsView.isHidden = state != .loaded
+    }
+
+    /// Perform actual submit logic
+    open override func performSubmit() -> Promise<Void> {
+        return viewModel.callsignViewModel.submit()
     }
 
     open func callsignDidChange() {

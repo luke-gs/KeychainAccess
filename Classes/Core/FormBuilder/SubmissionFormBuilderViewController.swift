@@ -17,8 +17,6 @@ open class SubmissionFormBuilderViewController: FormBuilderViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        updateNavTitle()
-
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancelButton(_:)))
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDoneButton(_:)))
@@ -33,29 +31,30 @@ open class SubmissionFormBuilderViewController: FormBuilderViewController {
         self.loadingManager.errorView.actionButton.addTarget(self, action: #selector(self.didTapDoneButton), for: .touchUpInside)
     }
 
-    open func updateNavTitle() {
-        if let navTitles = navTitles {
-            setTitleView(title: navTitles.title, subtitle: navTitles.subtitle)
-        }
-    }
-
     override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        updateNavTitle()
+        updateForLayoutOrTraitChange()
     }
 
-    /// We need to override viewDidLayoutSubviews as well as willTransition to update nav title
+    /// We need to override viewDidLayoutSubviews as well as willTransition for any layout based updates
     /// due to the behaviour of PopoverNavigationController
     override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        updateNavTitle()
+        updateForLayoutOrTraitChange()
     }
 
     override open func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
         coordinator.animate(alongsideTransition: { (context) in
-            self.updateNavTitle()
+            self.updateForLayoutOrTraitChange()
         }, completion: nil)
+    }
+
+    open func updateForLayoutOrTraitChange() {
+        // Update title view if used
+        if let navTitles = navTitles {
+            setTitleView(title: navTitles.title, subtitle: navTitles.subtitle)
+        }
     }
 
     @objc open func didTapCancelButton(_ button: UIBarButtonItem) {
@@ -84,7 +83,7 @@ open class SubmissionFormBuilderViewController: FormBuilderViewController {
         // Enable cancel if not submitting
         navigationItem.leftBarButtonItem?.isEnabled = state == .loaded || state == .error
 
-        // Enable submit if not submitting or error
+        // Enable submit if not submitting and not error
         navigationItem.rightBarButtonItem?.isEnabled = state == .loaded
     }
 
