@@ -23,6 +23,7 @@ pod "MPOLKit"
 * Components
   * [Asset Manager](Documentation/AssetManager.md)
   * [Data Matching](Documentation/DataMatching.md)
+  * [Form Builder](Documentation/FormBuilder.md)
   * [Manifest](Documentation/Manifest.md)
   * [User Storage](Documentation/UserStorage.md)
   * [Validation](Documentation/Validation.md)
