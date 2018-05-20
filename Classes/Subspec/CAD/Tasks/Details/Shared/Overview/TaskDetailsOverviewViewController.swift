@@ -53,9 +53,13 @@ open class TaskDetailsOverviewViewController: UIViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        // Minimise card if compact vertical
-        if isCompact(.vertical) {
+        if mapViewController == nil {
+            // Maximise card if no map
+            cardView.currentState = .maximised
+        } else if isCompact(.vertical) {
+            // Minimise card and disable normal state if compact vertical
             cardView.currentState = .minimised
+            cardView.enabledStates = [.minimised, .maximised]
             DispatchQueue.main.async {
                 // Workaround for Roddy manual layout bug
                 self.formViewController.reloadForm()
@@ -243,12 +247,14 @@ extension TaskDetailsOverviewViewController: DraggableCardViewDelegate {
             // 50% of view
             return view.bounds.height * 0.5
         case .maximised:
-            if isCompact(.vertical) {
-                // Full screen
-                return view.bounds.height
+            // We cannot use view height for fullscreen, as card may not align to bottom (glass bar view)
+            // Instead we use it's maxY to make sure it goes from where it is now up to top
+            let fullScreenHeight = cardView.frame.maxY
+            if isCompact(.horizontal) || isCompact(.vertical) {
+                return fullScreenHeight
             }
-            // Almost full screen
-            return view.bounds.height - 2 * LayoutConstants.minimumCardHeight
+            // Almost full screen, showing some of map when enough space
+            return fullScreenHeight - 2 * LayoutConstants.minimumCardHeight
         }
     }
 
