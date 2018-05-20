@@ -68,7 +68,7 @@ public class TaskItemPresenter: Presenter {
 
         case .resourceStatus(_, _):
             // Present resource status form sheet with custom size and done button
-            let size = from.isCompact() ? CGSize(width: 312, height: 224) : CGSize(width: 540, height: 150)
+            let size = UIViewController.isWindowCompact() ? CGSize(width: 312, height: 224) : CGSize(width: 540, height: 150)
             if let vc = to as? CallsignStatusViewController {
                 // Disable loading text for small modal dialog
                 vc.loadingManager.loadingView.titleLabel.text = nil
