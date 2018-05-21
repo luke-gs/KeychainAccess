@@ -22,8 +22,7 @@ open class TasksMapViewController: MapViewController {
     private var zPositionObservers: [NSKeyValueObservation] = []
 
     public let viewModel: TasksMapViewModel
-    public var mapLayerFilterButton: UIBarButtonItem!
-    
+
     private let clusterManager: ClusterManager = {
         let clusterManager = ClusterManager()
         clusterManager.cellSize = nil
@@ -33,6 +32,15 @@ open class TasksMapViewController: MapViewController {
         return clusterManager
     }()
     
+    /// Button for showing map layer filter
+    private var filterButton: UIBarButtonItem {
+        var image = AssetManager.shared.image(forKey: .filter)
+        if let filterViewModel = viewModel.splitViewModel?.filterViewModel, !filterViewModel.isDefaultState {
+            image = AssetManager.shared.image(forKey: .filterFilled)
+        }
+        return UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(showMapLayerFilter))
+    }
+
     public init(viewModel: TasksMapViewModel, initialLoadZoomStyle: InitialLoadZoomStyle, startingRegion: MKCoordinateRegion? = nil, settingsViewModel: MapSettingsViewModel = MapSettingsViewModel()) {
         self.viewModel = viewModel
         super.init(initialLoadZoomStyle: initialLoadZoomStyle, startingRegion: startingRegion, settingsViewModel: settingsViewModel)
@@ -63,8 +71,7 @@ open class TasksMapViewController: MapViewController {
             mapView.register(BroadcastAnnotationView.self, forAnnotationViewWithReuseIdentifier: BroadcastAnnotationView.defaultReuseIdentifier)
         }
         
-        mapLayerFilterButton = UIBarButtonItem.init(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: self, action: #selector(showMapLayerFilter))
-        navigationItem.rightBarButtonItem = mapLayerFilterButton
+        navigationItem.rightBarButtonItem = filterButton
         
         viewModel.loadTasks()
         addAnnotations(viewModel.filteredAnnotations)
@@ -250,11 +257,7 @@ extension TasksMapViewController: TasksMapViewModelDelegate {
 
     public func annotationsChanged() {
         // Update filter icon
-        if let filterViewModel = viewModel.splitViewModel?.filterViewModel {
-            mapLayerFilterButton.image = filterViewModel.isDefaultState ?
-                AssetManager.shared.image(forKey: .filter) :
-                AssetManager.shared.image(forKey: .filterFilled)
-        }
+        navigationItem.rightBarButtonItem = filterButton
 
         // Zoom to anotations if they have changed due to change to book on or filter
         performedInitialLoadAction = false

@@ -69,14 +69,19 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
     private var sourceBarWidthConstraint: NSLayoutConstraint!
 
     /// Button for toggling full screen
-    private lazy var fullScreenButton: UIBarButtonItem = {
-        return UIBarButtonItem(image: AssetManager.shared.image(forKey: .list), style: .plain, target: self, action: #selector(toggleFullScreen))
-    }()
+    private var fullScreenButton: UIBarButtonItem {
+        let image = AssetManager.shared.image(forKey: isFullScreen ? .map : .list)
+        return UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(toggleFullScreen))
+    }
 
     /// Button for showing map layer filter
-    private lazy var filterButton: UIBarButtonItem = {
-        return UIBarButtonItem(image: AssetManager.shared.image(forKey: .filterFilled), style: .plain, target: self, action: #selector(showMapLayerFilter))
-    }()
+    private var filterButton: UIBarButtonItem {
+        var image = AssetManager.shared.image(forKey: .filter)
+        if let filterViewModel = viewModel.splitViewModel?.filterViewModel, !filterViewModel.isDefaultState {
+            image = AssetManager.shared.image(forKey: .filterFilled)
+        }
+        return UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(showMapLayerFilter))
+    }
 
     /// The current sources available to display
     open var sourceItems: [SourceItem] = [] {
@@ -108,8 +113,8 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
     public init(viewModel: TasksListContainerViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        // Add navigation bar buttons
-        navigationItem.rightBarButtonItems = [fullScreenButton]
+
+        updateNavigationButtons()
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -250,6 +255,7 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         super.viewWillTransition(to: size, with: coordinator)
         coordinator.animate(alongsideTransition: { [unowned self] (context) in
             self.updateConstraintsForSizeChange()
+            self.updateNavigationButtons()
             }, completion: nil)
     }
     
@@ -275,17 +281,21 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
         
         // Tell VC that we have toggled
         isFullScreen = !isFullScreen
-        
-        fullScreenButton.image = AssetManager.shared.image(forKey: isFullScreen ? .map : .list)
-        
-        let buttons = isFullScreen ? [filterButton, fullScreenButton] : [fullScreenButton]
-        navigationItem.rightBarButtonItems = buttons
+
+        updateNavigationButtons()
     }
-    
+
     @objc public func showMapLayerFilter() {
         present(TaskListScreen.mapFilter(delegate: viewModel.splitViewModel))
     }
     
+    open func updateNavigationButtons() {
+        let buttons = UIViewController.isWindowCompact() ?
+            [filterButton] : isFullScreen ?
+                [filterButton, fullScreenButton] : [fullScreenButton]
+        navigationItem.rightBarButtonItems = buttons
+    }
+
     open func refreshTasks() {
         // Refresh the task list from the network
         firstly {
@@ -303,6 +313,9 @@ extension TasksListContainerViewController: TasksListContainerViewModelDelegate 
     open func updateSourceItems() {
         sourceItems = viewModel.sourceItems
         selectedSourceIndex = viewModel.selectedSourceIndex
+
+        // Update filter button
+        updateNavigationButtons()
     }
 
     open func updateSelectedSourceIndex() {
