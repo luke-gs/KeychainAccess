@@ -9,7 +9,7 @@
 import UIKit
 
 public class TasksMapFilterViewModelCore: TasksMapFilterViewModel {
-    
+
     public var sections: [MapFilterSection] = []
     
     public let defaultSections: [MapFilterSection] = [

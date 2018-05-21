@@ -63,7 +63,7 @@ open class TasksMapViewController: MapViewController {
             mapView.register(BroadcastAnnotationView.self, forAnnotationViewWithReuseIdentifier: BroadcastAnnotationView.defaultReuseIdentifier)
         }
         
-        mapLayerFilterButton = UIBarButtonItem.init(image: AssetManager.shared.image(forKey: .filterFilled), style: .plain, target: self, action: #selector(showMapLayerFilter))
+        mapLayerFilterButton = UIBarButtonItem.init(image: AssetManager.shared.image(forKey: .filter), style: .plain, target: self, action: #selector(showMapLayerFilter))
         navigationItem.rightBarButtonItem = mapLayerFilterButton
         
         viewModel.loadTasks()
@@ -249,6 +249,13 @@ extension TasksMapViewController: TasksSplitViewControllerDelegate {
 extension TasksMapViewController: TasksMapViewModelDelegate {
 
     public func annotationsChanged() {
+        // Update filter icon
+        if let filterViewModel = viewModel.splitViewModel?.filterViewModel {
+            mapLayerFilterButton.image = filterViewModel.isDefaultState ?
+                AssetManager.shared.image(forKey: .filter) :
+                AssetManager.shared.image(forKey: .filterFilled)
+        }
+
         // Zoom to anotations if they have changed due to change to book on or filter
         performedInitialLoadAction = false
 
