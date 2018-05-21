@@ -98,7 +98,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
 
     // Returns a list of model items that are filtered based on current filter settings
     public func filteredItems(filterViewModel: TasksMapFilterViewModel) -> [CADTaskListItemModelType] {
-        guard CADStateManager.shared.lastSyncTime != nil else { return [] }
+        guard let lastSyncTime = CADStateManager.shared.lastSyncTime else { return [] }
 
         // Return cached items if no change to filter or sync data to improve performance
         if let filteredItems = CADTaskListSourceCore.filteredItemsCache[self],
@@ -177,7 +177,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
         // Cache the result
         CADTaskListSourceCore.filteredItemsCache[self] = CacheData(
             filter: filterViewModel.sections.copy(),
-            syncTime: CADStateManager.shared.lastSyncTime ?? Date(),
+            syncTime: lastSyncTime,
             items: result)
         return result
     }
