@@ -29,3 +29,10 @@ open class MapFilterToggleRow {
         self.inline = inline
     }
 }
+
+extension MapFilterToggleRow : Equatable {
+    public static func == (lhs: MapFilterToggleRow, rhs: MapFilterToggleRow) -> Bool {
+        return lhs.title == rhs.title &&
+            lhs.options == rhs.options
+    }
+}

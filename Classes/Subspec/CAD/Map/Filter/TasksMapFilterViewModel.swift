@@ -15,4 +15,7 @@ public protocol TasksMapFilterViewModel: MapFilterViewModel {
     
     /// Whether to show results outside the patrol area
     var showResultsOutsidePatrolArea: Bool { get }
+
+    /// Whether filter is in default state
+    var isDefaultState: Bool { get }
 }

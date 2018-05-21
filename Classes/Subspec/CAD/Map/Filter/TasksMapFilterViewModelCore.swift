@@ -10,6 +10,11 @@ import UIKit
 
 public class TasksMapFilterViewModelCore: TasksMapFilterViewModel {
     
+    /// Whether filter is in default state
+    open var isDefaultState: Bool {
+        return sections == defaultSections
+    }
+
     public var sections: [MapFilterSection] = []
     
     public let defaultSections: [MapFilterSection] = [
