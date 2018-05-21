@@ -10,7 +10,7 @@ import UIKit
 import PromiseKit
 
 /// View controller for the book on details form screen
-open class BookOnDetailsFormViewController: FormBuilderViewController {
+open class BookOnDetailsFormViewController: SubmissionFormBuilderViewController {
 
     private var viewModel: BookOnDetailsFormViewModel
 
@@ -23,9 +23,10 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         super.init()
 
         createButtonViewIfNecessary()
+    }
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""), style: .plain, target: self, action: #selector(cancelFormTapped))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: .done, target: self, action: #selector(submitFormTapped))
+    public required convenience init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
     }
 
     open func createButtonViewIfNecessary() {
@@ -58,22 +59,13 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         }
     }
 
-    public required convenience init?(coder aDecoder: NSCoder) {
-        MPLCodingNotSupported()
-    }
-
     // MARK: - View lifecycle
 
-    override open func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setTitleView(title: viewModel.navTitle(), subtitle: viewModel.navSubtitle())
-    }
+    open override func viewDidLoad() {
+        // Set super properties
+        navTitles = (viewModel.navTitle(), viewModel.navSubtitle())
 
-    override open func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.willTransition(to: newCollection, with: coordinator)
-        coordinator.animate(alongsideTransition: { (context) in
-            self.setTitleView(title: self.viewModel.navTitle(), subtitle: self.viewModel.navSubtitle())
-        }, completion: nil)
+        super.viewDidLoad()
     }
 
     // MARK: - Form
@@ -240,6 +232,51 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         updateDuration()
     }
 
+    // MARK: - SubmissionFormBuilderViewController
+
+    open override func setLoadingState(_ state: LoadingStateManager.State) {
+        super.setLoadingState(state)
+        buttonsView?.alpha = state == .loaded ? 1 : 0
+    }
+
+    open override func performSubmit() -> Promise<Void> {
+        return viewModel.submitForm()
+    }
+
+    open override func performClose(submitted: Bool) {
+        // If pushed view, dismiss the modal if we are booking on and got presented, go back to previous screen otherwise
+        if navigationController?.viewControllers.count ?? 0 > 1 {
+            if submitted && !viewModel.isEditing && presentingViewController != nil {
+                dismiss(animated: true, completion: nil)
+            } else {
+                navigationController?.popViewController(animated: true)
+            }
+        } else {
+            // Not pushed, so dismiss
+            if presentingViewController != nil {
+                dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+
+    open override func performValidation() -> FormBuilder.FormValidationResult {
+        // Check officer forms are valid as well as main form
+        for (index, officer) in viewModel.content.officers.enumerated() {
+            if officer.inComplete {
+                return .invalid(item: builder.formItems[index],
+                                message: NSLocalizedString("Please complete details for officers", comment: ""))
+            }
+        }
+        return super.performValidation()
+    }
+
+    open override func didTapDoneButton(_ button: UIBarButtonItem) {
+        // Set the book on loading error here rather than init, in case it has been overriden by terminate action
+        loadingManager.errorView.titleLabel.text = NSLocalizedString("Failed to Book On", comment: "")
+
+        super.didTapDoneButton(button)
+    }
+
     // MARK: - Internal
 
     /// Date formatter for duration field
@@ -270,103 +307,19 @@ open class BookOnDetailsFormViewController: FormBuilderViewController {
         durationItem.reloadItem()
     }
 
-    @objc private func cancelFormTapped() {
-        if loadingManager.state == .error {
-            loadingManager.state = .loaded
-            navigationItem.rightBarButtonItem?.isEnabled = true
-            buttonsView?.alpha = 1
-        } else {
-            closeForm(submitted: false)
-        }
-    }
-
-    @objc private func submitFormTapped() {
-        #if DEBUG
-            // Skip validation when debug, to keep devs happy
-            self.submitForm()
-            if view != nil { return }
-        #endif
-
-        let result = builder.validate()
-
-        switch result {
-        case .invalid(_, let message):
-            builder.validateAndUpdateUI()
-            AlertQueue.shared.addErrorAlert(message: message)
-        case .valid:
-            // Check officer forms are also valid
-            for officer in viewModel.content.officers {
-                if officer.inComplete {
-                    AlertQueue.shared.addErrorAlert(message: NSLocalizedString("Please complete details for officers", comment: ""))
-                    return
-                }
-            }
-            self.submitForm()
-        }
-    }
-
     @objc private func terminateShift() {
-        // Show progress overlay
-        loadingManager.state = .loading
-        navigationItem.leftBarButtonItem?.isEnabled = false
-        navigationItem.rightBarButtonItem?.isEnabled = false
-        buttonsView?.alpha = 0
-
+        setLoadingState(.loading)
         firstly {
             return viewModel.terminateShift()
-        }.done { [weak self] status in
-            self?.closeForm(submitted: false)
+        }.done { [weak self] in
+            guard let `self` = self else { return }
+            self.setLoadingState(.loaded)
+            self.performClose(submitted: true)
         }.catch { [weak self] error in
-            // Update progress overlay to show error
-            self?.loadingManager.state = .error
-            self?.navigationItem.leftBarButtonItem?.isEnabled = true
-            self?.navigationItem.rightBarButtonItem?.isEnabled = false
-
-            self?.loadingManager.errorView.titleLabel.text = "Unable to Terminate Shift"
-            self?.loadingManager.errorView.subtitleLabel.text = error.localizedDescription
-            self?.loadingManager.errorView.actionButton.setTitle("Try Again", for: .normal)
-            self?.loadingManager.errorView.actionButton.addTarget(self, action: #selector(self?.terminateShift), for: .touchUpInside)
-        }
-    }
-
-    @objc private func submitForm() {
-        // Show progress overlay
-        loadingManager.state = .loading
-        navigationItem.leftBarButtonItem?.isEnabled = false
-        navigationItem.rightBarButtonItem?.isEnabled = false
-        buttonsView?.alpha = 0
-
-        firstly {
-            return viewModel.submitForm()
-        }.done { [weak self] status in
-            self?.closeForm(submitted: true)
-        }.catch { [weak self] error in
-            // Update progress overlay to show error
-            self?.loadingManager.state = .error
-            self?.navigationItem.leftBarButtonItem?.isEnabled = true
-            self?.navigationItem.rightBarButtonItem?.isEnabled = false
-
-            // TODO: Provide actual error to the user?
-            self?.loadingManager.errorView.subtitleLabel.text = NSLocalizedString("There was an error while attempting to Book On", comment: "")
-
-            self?.loadingManager.errorView.actionButton.setTitle("Try Again", for: .normal)
-            self?.loadingManager.errorView.actionButton.addTarget(self, action: #selector(self?.submitForm), for: .touchUpInside)
-        }
-    }
-
-    private func closeForm(submitted: Bool) {
-        // If pushed view, dismiss the modal if we are booking on and got presented, go back to previous screen otherwise
-        if navigationController?.viewControllers.count ?? 0 > 1 {
-            if submitted && !viewModel.isEditing && presentingViewController != nil {
-                dismiss(animated: true, completion: nil)
-            } else {
-                navigationController?.popViewController(animated: true)
-            }
-        } else {
-            // Not pushed, so dismiss
-            if presentingViewController != nil {
-                dismiss(animated: true, completion: nil)
-            }
+            guard let `self` = self else { return }
+            self.loadingManager.errorView.titleLabel.text = "Unable to Terminate Shift"
+            self.loadingManager.errorView.subtitleLabel.text = error.localizedDescription
+            self.setLoadingState(.error)
         }
     }
 

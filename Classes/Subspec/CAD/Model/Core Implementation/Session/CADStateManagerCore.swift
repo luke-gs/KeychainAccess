@@ -207,49 +207,53 @@ open class CADStateManagerCore: CADStateManagerType {
 
     /// Update the status of our callsign
     open func updateCallsignStatus(status: CADResourceStatusType, incident: CADIncidentType?, comments: String?, locationComments: String?) -> Promise<Void> {
-        var newStatus = status
-        var newIncident = incident
 
         // TODO: Remove all hacks below when we have a real CAD system
+        // We delay update to simulate receiving push notification
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            var newStatus = status
+            var newIncident = incident
 
-        // Finalise incident clears the current incident and sets state to On Air
-        if newStatus == CADResourceStatusCore.finalise {
-            finaliseIncident()
-            newStatus = CADResourceStatusCore.onAir
-            newIncident = nil
-        }
+            // Finalise incident clears the current incident and sets state to On Air
+            if newStatus == CADResourceStatusCore.finalise {
+                self.finaliseIncident()
+                newStatus = CADResourceStatusCore.onAir
+                newIncident = nil
+            }
 
-        // Clear incident if changing to non incident status
-        if (currentResource?.status.isChangingToGeneralStatus(newStatus)).isTrue {
-            // Clear the current incident
-            clearIncident()
-            newIncident = nil
-        }
+            // Clear incident if changing to non incident status
+            if (self.currentResource?.status.isChangingToGeneralStatus(newStatus)).isTrue {
+                // Clear the current incident
+                self.clearIncident()
+                newIncident = nil
+            }
 
-        currentResource?.status = newStatus
+            self.currentResource?.status = newStatus
 
-        // Update current incident if setting status without one
-        if let newIncident = newIncident, currentIncident == nil {
-            if let syncDetails = lastSync, let resource = currentResource as? CADResourceCore {
-                resource.currentIncident = newIncident.identifier
+            // Update current incident if setting status without one
+            if let newIncident = newIncident, self.currentIncident == nil {
+                if let syncDetails = self.lastSync, let resource = self.currentResource as? CADResourceCore {
+                    resource.currentIncident = newIncident.identifier
 
-                // Make sure incident is also assigned to resource
-                var assignedIncidents = resource.assignedIncidents
-                if !assignedIncidents.contains(newIncident.identifier) {
-                    assignedIncidents.append(newIncident.identifier)
-                    resource.assignedIncidents = assignedIncidents
-                }
+                    // Make sure incident is also assigned to resource
+                    var assignedIncidents = resource.assignedIncidents
+                    if !assignedIncidents.contains(newIncident.identifier) {
+                        assignedIncidents.append(newIncident.identifier)
+                        resource.assignedIncidents = assignedIncidents
+                    }
 
-                // Reposition resource at top so it is first one found assigned to incident
-                if let index = syncDetails.resources.index(where: { $0 == resource }) {
-                    syncDetails.resources.remove(at: index)
-                    syncDetails.resources.insert(resource, at: 0)
+                    // Reposition resource at top so it is first one found assigned to incident
+                    if let index = syncDetails.resources.index(where: { $0 == resource }) {
+                        syncDetails.resources.remove(at: index)
+                        syncDetails.resources.insert(resource, at: 0)
+                    }
                 }
             }
+            NotificationCenter.default.post(name: .CADCallsignChanged, object: self)
         }
-        NotificationCenter.default.post(name: .CADCallsignChanged, object: self)
-        
-        return Promise<Void>()
+
+        // TODO: Call method from API manager
+        return after(seconds: 1.0).done {}
     }
 
     // MARK: - Manifest

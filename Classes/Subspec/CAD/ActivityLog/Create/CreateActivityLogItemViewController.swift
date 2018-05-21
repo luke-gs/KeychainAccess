@@ -6,9 +6,10 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import PromiseKit
 
-open class CreateActivityLogItemViewController: IntrinsicHeightFormBuilderViewController {
+open class CreateActivityLogItemViewController: SubmissionFormBuilderViewController {
 
     // MARK: - Properties
 
@@ -18,19 +19,10 @@ open class CreateActivityLogItemViewController: IntrinsicHeightFormBuilderViewCo
     public init(viewModel: CreateActivityLogItemViewModel) {
         self.viewModel = viewModel
         super.init()
-        setupNavigationBarButtons()
     }
 
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
-    }
-
-    open func setupNavigationBarButtons() {
-        // Create cancel button
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonTapped(_:)))
-
-        // Create done button
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped(_:)))
     }
 
     /// Form builder implementation
@@ -97,20 +89,10 @@ open class CreateActivityLogItemViewController: IntrinsicHeightFormBuilderViewCo
         }
     }
 
+    // MARK: - SubmissionFormBuilderViewController
 
-    @objc private func cancelButtonTapped(_ button: UIBarButtonItem) {
-        viewModel.cancel()
-    }
-
-    @objc private func doneButtonTapped(_ button: UIBarButtonItem) {
-        let result = builder.validate()
-
-        switch result {
-        case .invalid(_, let message):
-            builder.validateAndUpdateUI()
-            AlertQueue.shared.addErrorAlert(message: message)
-        case .valid:
-            viewModel.submit()
-        }
+    /// Perform actual submit logic
+    open override func performSubmit() -> Promise<Void> {
+        return viewModel.submit()
     }
 }

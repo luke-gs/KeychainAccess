@@ -162,4 +162,5 @@ open class ManageCallsignStatusViewModel {
         
         return sections
     }
+
 }

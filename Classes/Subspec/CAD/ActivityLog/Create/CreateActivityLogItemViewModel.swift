@@ -7,11 +7,9 @@
 //
 
 import Foundation
+import PromiseKit
 
 open class CreateActivityLogItemViewModel {
-
-    /// The completion handler for creating new activity log entry
-    open var completionHandler: (() -> Void)?
 
     // Model representing UI
     open var activityType: String?
@@ -48,13 +46,10 @@ open class CreateActivityLogItemViewModel {
         return nil
     }
 
-    /// MARK: - Actions
+    // MARK: - Submit
 
-    open func submit() {
-        completionHandler?()
+    func submit() -> Promise<Void> {
+        return after(seconds: 1).done {}
     }
 
-    open func cancel() {
-        completionHandler?()
-    }
 }
