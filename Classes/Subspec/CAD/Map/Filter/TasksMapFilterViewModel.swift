@@ -19,3 +19,11 @@ public protocol TasksMapFilterViewModel: MapFilterViewModel {
     /// Whether filter is in default state
     var isDefaultState: Bool { get }
 }
+
+/// Extension for default implementation
+extension TasksMapFilterViewModel {
+
+    public var isDefaultState: Bool {
+        return sections == defaultSections
+    }
+}
