@@ -90,8 +90,8 @@ open class SidebarHeaderView: UIView {
         updateSubtitleFont()
         
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: iconView, attribute: .width,  relatedBy: .equal, toConstant: 64.0).withPriority(UILayoutPriority.defaultHigh),
-            NSLayoutConstraint(item: iconView, attribute: .height, relatedBy: .equal, toConstant: 64.0).withPriority(UILayoutPriority.defaultHigh),
+            NSLayoutConstraint(item: iconView, attribute: .width,  relatedBy: .equal, toConstant: 64.0).withPriority(UILayoutPriority.almostRequired),
+            NSLayoutConstraint(item: iconView, attribute: .height, relatedBy: .equal, toConstant: 64.0).withPriority(UILayoutPriority.almostRequired),
             NSLayoutConstraint(item: iconView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX),
             NSLayoutConstraint(item: iconView, attribute: .top,     relatedBy: .equal, toItem: self, attribute: .top, constant: 22.0),
             
