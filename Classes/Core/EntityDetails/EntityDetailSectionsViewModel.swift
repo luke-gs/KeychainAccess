@@ -16,6 +16,7 @@ public protocol Fetchable {
 
 public protocol EntityDetailSectionsDelegate: class {
 
+    func entityDetailSectionsDidAddResults(_ entityDetailSectionsViewModel: EntityDetailSectionsViewModel)
     func entityDetailSectionsDidUpdateResults(_ entityDetailSectionsViewModel: EntityDetailSectionsViewModel)
     func entityDetailSectionDidSelectRetryDownload(_ entityDetailSectionsViewModel: EntityDetailSectionsViewModel)
 }
@@ -131,7 +132,7 @@ extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
         let source = request.source
         results[source.serverSourceName] = EntityFetchResult(entity: result.entity, state: result.state, error: result.error)
 
-        self.delegate?.entityDetailSectionsDidUpdateResults(self)
+        self.delegate?.entityDetailSectionsDidAddResults(self)
     }
 
     public func entityDetailFetch<T>(_ entityDetailFetch: EntityDetailFetch<T>, didFinishFetch request: EntityDetailFetchRequest<T>) {
@@ -148,12 +149,6 @@ extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
         }
 
         self.delegate?.entityDetailSectionsDidUpdateResults(self)
-
-//        if let entity = fetchResult.entity {
-//            if let entityManager = self.recentlyViewed?.entityManager {
-//                entityManager.addEntity(entity)
-//            }
-//        }
     }
 
     @objc

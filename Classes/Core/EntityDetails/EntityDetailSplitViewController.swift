@@ -63,12 +63,11 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
         let source = detailViewModel.sources[index]
         guard source != detailViewModel.selectedSource else { return }
 
-        updateEverything()
-
         if let result = detailViewModel.results[source.serverSourceName] {
             detailViewModel.selectedSource = source
             detailViewModel.setSelectedResult(fetchResult: result)
         }
+        updateEverything()
     }
 
     open override func sidebarViewController(_ controller: UIViewController, didRequestToLoadSourceAt index: Int) {
@@ -220,6 +219,12 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 // MARK: - DetailViewModel Delegate
 
 extension EntityDetailSplitViewController: EntityDetailSectionsDelegate {
+
+    public func entityDetailSectionsDidAddResults(_ entityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
+        updateRepresentations()
+        updateSourceItems()
+        updateHeaderView()
+    }
 
     public func entityDetailSectionsDidUpdateResults(_ entityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
         updateRepresentations()

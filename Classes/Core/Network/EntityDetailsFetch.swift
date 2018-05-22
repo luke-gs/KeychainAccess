@@ -57,7 +57,7 @@ public class EntityDetailFetch<T: MPOLKitEntity>: Fetchable {
 
     public func performFetch() {
         guard state != .fetching else { return }
-        
+
         for request in requests {
             fetch(for: request)
         }
@@ -75,7 +75,6 @@ public class EntityDetailFetch<T: MPOLKitEntity>: Fetchable {
     }
     
     private func beginFetch(for request: EntityDetailFetchRequest<T>) {
-        
         let result = FetchResult(request: request, entity: nil, state: .fetching, error: nil)
         
         if let index = results.index(where: { $0.request === request }) {
@@ -91,7 +90,6 @@ public class EntityDetailFetch<T: MPOLKitEntity>: Fetchable {
     
     
     private func endFetch(for request: EntityDetailFetchRequest<T>, entity: T) {
-        
         guard let index = results.index(where: { $0.request === request }) else { return }
         
         let result = FetchResult(request: request, entity: entity, state: .finished, error: nil)
