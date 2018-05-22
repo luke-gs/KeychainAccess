@@ -91,7 +91,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
     }
     
     public func thumbnail() -> UIImage? {
-        if let initials = initials {
+        if let initials = initials?.ifNotEmpty() {
             return UIImage.thumbnail(withInitials: initials).withCircleBackground(tintColor: nil,
                                                                                   circleColor: .disabledGray,
                                                                                   style: .fixed(size: CGSize(width: 48, height: 48),
