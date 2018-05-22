@@ -125,7 +125,9 @@ extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
 
     public func entityDetailFetch<T>(_ entityDetailFetch: EntityDetailFetch<T>, didBeginFetch request: EntityDetailFetchRequest<T>) {
         guard let result = entityDetailFetch.results.first(where: { $0.request === request }) else { return }
-        detailSectionsViewControllers?.forEach { $0.loadingManager.state = .loading }
+        if selectedSource == request.source {
+            detailSectionsViewControllers?.forEach { $0.loadingManager.state = .loading }
+        }
 
         let source = request.source
         results[source.serverSourceName] = EntityFetchResult(entity: result.entity, state: result.state, error: result.error)
