@@ -243,8 +243,8 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
         // Work out major content positions
         let centerYOfContent: CGFloat
 
-        let halfContent = max(titleSize.height, valueSize.height, stepperSize.height, accessorySize.height) / 2.0
-        let minimumContentCenterY = contentRect.minY + halfContent
+        let halfContent = contentRect.height / 2.0
+        let minimumContentCenterY = contentRect.midY
         switch contentMode {
         case .bottom, .bottomLeft, .bottomRight:
             centerYOfContent = max(minimumContentCenterY, contentRect.maxY - halfContent)
