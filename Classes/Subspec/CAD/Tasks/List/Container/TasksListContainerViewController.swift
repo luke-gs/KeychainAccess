@@ -310,12 +310,15 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
 
 // MARK: - TasksListContainerViewModelDelegate
 extension TasksListContainerViewController: TasksListContainerViewModelDelegate {
+
+    open func filterChanged() {
+        // Update filter button
+        updateNavigationButtons()
+    }
+
     open func updateSourceItems() {
         sourceItems = viewModel.sourceItems
         selectedSourceIndex = viewModel.selectedSourceIndex
-
-        // Update filter button
-        updateNavigationButtons()
     }
 
     open func updateSelectedSourceIndex() {

@@ -255,10 +255,12 @@ extension TasksMapViewController: TasksSplitViewControllerDelegate {
 // MARK: - TasksMapViewModelDelegate
 extension TasksMapViewController: TasksMapViewModelDelegate {
 
-    public func annotationsChanged() {
+    public func filterChanged() {
         // Update filter icon
         navigationItem.rightBarButtonItem = filterButton
+    }
 
+    public func annotationsChanged() {
         // Zoom to anotations if they have changed due to change to book on or filter
         performedInitialLoadAction = false
 

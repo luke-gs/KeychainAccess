@@ -40,6 +40,12 @@ open class TasksMapViewModel {
     
     // MARK: - Annotations
     
+    /// Applies the filter to the map
+    open func applyFilter() {
+        loadTasks()
+        delegate?.filterChanged()
+    }
+
     /// Loads the tasks from the sync and filters them
     @objc open func loadTasks() {
         guard let splitViewModel = self.splitViewModel else { return }
@@ -85,6 +91,9 @@ open class TasksMapViewModel {
 }
 
 public protocol TasksMapViewModelDelegate: class {
+
+    /// Called when the filter is changed
+    func filterChanged()
 
     /// Called when the annotations have changed
     func annotationsChanged()
