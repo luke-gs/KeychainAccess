@@ -16,8 +16,8 @@ public protocol Fetchable {
 
 public protocol EntityDetailSectionsDelegate: class {
 
-    func entityDetailSectionsDidUpdateResults(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel)
-    func entityDetailSectionDidSelectRetryDownload(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel)
+    func entityDetailSectionsDidUpdateResults(_ entityDetailSectionsViewModel: EntityDetailSectionsViewModel)
+    func entityDetailSectionDidSelectRetryDownload(_ entityDetailSectionsViewModel: EntityDetailSectionsViewModel)
 }
 
 public struct EntityFetchResult {
@@ -32,7 +32,8 @@ public class EntityDetailSectionsViewModel {
     public weak var delegate: EntityDetailSectionsDelegate?
     public var selectedSource: EntitySource
     public var recentlyViewed: EntityBucket?
-    public var showsActionButton: Bool = true 
+    public var showsActionButton: Bool = true
+    public var shouldAutomaticallyFetchFromSubsequentDatasources: Bool = false
 
     public var detailSectionsViewControllers: [EntityDetailSectionUpdatable]? {
         return detailSectionsDataSources.filter{$0.source == selectedSource}.first?.detailViewControllers
@@ -57,6 +58,7 @@ public class EntityDetailSectionsViewModel {
     private var matchMaker: MatchMaker?
     private var detailSectionsDataSources: [EntityDetailSectionsDataSource]
     private var entityFetch: Fetchable?
+    private var subsequentFetches: [Fetchable]?
     fileprivate let initialSource: EntitySource
 
     public let summaryDisplayFormatter: EntitySummaryDisplayFormatter
@@ -77,9 +79,11 @@ public class EntityDetailSectionsViewModel {
     }
 
     public func performSubsequentFetch(for source: EntitySource) {
-        entityFetch = matchMaker?.findMatch(for: currentEntity, withInitialSource: initialSource, andDestinationSource: source)
-        entityFetch?.delegate = self
-        entityFetch?.performFetch()
+        subsequentFetches = subsequentFetches ?? []
+        guard var fetchable = matchMaker?.findMatch(for: currentEntity, withInitialSource: initialSource, andDestinationSource: source) else { return }
+        subsequentFetches!.append(fetchable)
+        fetchable.delegate = self
+        fetchable.performFetch()
     }
 
     public func setSelectedResult(fetchResult: EntityFetchResult) {
@@ -119,8 +123,9 @@ public class EntityDetailSectionsViewModel {
 extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
 
     public func entityDetailFetch<T>(_ entityDetailFetch: EntityDetailFetch<T>, didBeginFetch request: EntityDetailFetchRequest<T>) {
-
-        detailSectionsViewControllers?.forEach { $0.loadingManager.state = .loading }
+        if selectedSource == request.source {
+            detailSectionsViewControllers?.forEach { $0.loadingManager.state = .loading }
+        }
 
         guard let result = entityDetailFetch.results.first(where: { $0.request === request }) else {
             return
@@ -134,10 +139,7 @@ extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
     }
 
     public func entityDetailFetch<T>(_ entityDetailFetch: EntityDetailFetch<T>, didFinishFetch request: EntityDetailFetchRequest<T>) {
-
-        guard let result = entityDetailFetch.results.first(where: { $0.request === request }) else {
-            return
-        }
+        guard let result = entityDetailFetch.results.first(where: { $0.request === request }) else { return }
 
         let source = request.source
         let fetchResult = EntityFetchResult(entity: result.entity,
