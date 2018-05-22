@@ -87,7 +87,7 @@ public class EntityDetailSectionsViewModel {
     }
 
     public func setSelectedResult(fetchResult: EntityFetchResult) {
-        if let recentlyViewed = recentlyViewed {
+        if let recentlyViewed = recentlyViewed, initialSource == selectedSource {
             if let entity = fetchResult.entity, fetchResult.error == nil {
                 if recentlyViewed.contains(entity) {
                     recentlyViewed.remove(entity)
@@ -123,16 +123,12 @@ public class EntityDetailSectionsViewModel {
 extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
 
     public func entityDetailFetch<T>(_ entityDetailFetch: EntityDetailFetch<T>, didBeginFetch request: EntityDetailFetchRequest<T>) {
+        guard let result = entityDetailFetch.results.first(where: { $0.request === request }) else { return }
         if selectedSource == request.source {
             detailSectionsViewControllers?.forEach { $0.loadingManager.state = .loading }
         }
 
-        guard let result = entityDetailFetch.results.first(where: { $0.request === request }) else {
-            return
-        }
-
         let source = request.source
-
         results[source.serverSourceName] = EntityFetchResult(entity: result.entity, state: result.state, error: result.error)
 
         self.delegate?.entityDetailSectionsDidUpdateResults(self)
@@ -153,11 +149,11 @@ extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
 
         self.delegate?.entityDetailSectionsDidUpdateResults(self)
 
-        if let entity = fetchResult.entity {
-            if let entityManager = self.recentlyViewed?.entityManager {
-                entityManager.addEntity(entity)
-            }
-        }
+//        if let entity = fetchResult.entity {
+//            if let entityManager = self.recentlyViewed?.entityManager {
+//                entityManager.addEntity(entity)
+//            }
+//        }
     }
 
     @objc
