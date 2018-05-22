@@ -74,7 +74,31 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
     }
     
     open override func construct(builder: FormBuilder) {
-       viewModel.construct(builder: builder)
+        builder += HeaderFormItem(text: viewModel.header)
+        let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
+
+        viewModel.officerDisplayables.forEach { displayable in
+            builder += SummaryListFormItem()
+                .title(displayable.title)
+                .subtitle(displayable.detail1)
+                .width(.column(1))
+                .image(displayable.thumbnail(ofSize: .small))
+                .selectionStyle(.none)
+                .imageStyle(.circle)
+                .accessory(CustomItemAccessory(onCreate: { () -> UIView in
+                    let imageView = UIImageView(image: image)
+                    imageView.contentMode = .scaleAspectFit
+                    return imageView
+                }, size: image?.size ?? .zero))
+                .onSelection({ (cell) in
+                    let officer = displayable.officer
+                    self.viewModel.delegate?.didSelectOfficer(officer: officer)
+                })
+                .editActions(viewModel.officerDisplayables.count == 1 ? [] : [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (cell, indexPath) in
+                    self.viewModel.removeOfficer(at: indexPath)
+                    self.viewModel.delegate?.officerListDidUpdate()
+                })])
+        }
     }
 
     // MARK: - Officer model delegate 
