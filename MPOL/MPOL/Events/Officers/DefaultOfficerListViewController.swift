@@ -93,8 +93,8 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
         viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
 
         viewController.finishUpdateHandler = { controller, index in
-            let newInvolvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
-            self.viewModel.report.officers.first(where: { $0.employeeNumber == officer.employeeNumber })?.involvements = newInvolvements
+            let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
+            self.viewModel.add(involvements, to: officer)
             self.reloadForm()
         }
 
@@ -121,7 +121,6 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
 }
 
 extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
-
     public typealias Object = Officer
 
     public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: Officer) {
@@ -140,8 +139,9 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
 
         let involvementsViewController = CustomPickerController(datasource: involvementDatasource)
         involvementsViewController.finishUpdateHandler = { controller, index in
-            officer.involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
+            let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
             self.viewModel.add(officer: officer)
+            self.viewModel.add(involvements, to: officer)
             self.reloadForm()
         }
         viewController.navigationController?.pushViewController(involvementsViewController, animated: true)

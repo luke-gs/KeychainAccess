@@ -52,7 +52,6 @@ public class EventOfficerListViewModel {
 
         let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
 
-
         officerDisplayables.enumerated().forEach { index, displayable in
             builder += SummaryListFormItem()
                 .title(displayable.title)
@@ -92,6 +91,19 @@ public class EventOfficerListViewModel {
         guard report.officers.index(where: {$0 == officer}) == nil else { return }
         officerDisplayables.append(OfficerSummaryDisplayable(officer))
         report.officers.append(officer)
+    }
+
+    public func add(_ involvements: [String], to officer: Officer) {
+        let reportingOfficerInvolvement = "Reporting Officer"
+        
+        if involvements.contains(reportingOfficerInvolvement) {
+            let reportingOfficer = self.officerDisplayables.map{$0.officer}
+                .filter{$0.involvements.contains(reportingOfficerInvolvement)}.first
+            reportingOfficer?.involvements = reportingOfficer?.involvements.filter{$0 != reportingOfficerInvolvement} ?? []
+        }
+
+        officer.involvements = involvements
+        report.evaluator.updateEvaluation(for: .officers)
     }
 
     func removeOfficer(at indexPath: IndexPath) {
