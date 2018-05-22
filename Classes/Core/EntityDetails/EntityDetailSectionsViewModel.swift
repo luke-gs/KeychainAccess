@@ -79,7 +79,7 @@ public class EntityDetailSectionsViewModel {
         entityFetch?.performFetch()
     }
 
-    public func performSubsequentFetch(for source: EntitySource) {
+    public func performSubsequentFetchFor(_ source: EntitySource) {
         subsequentFetches = subsequentFetches ?? []
         guard var fetchable = matchMaker?.findMatch(for: currentEntity, withInitialSource: initialSource, andDestinationSource: source) else { return }
         subsequentFetches!.append(fetchable)
@@ -125,9 +125,7 @@ extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
 
     public func entityDetailFetch<T>(_ entityDetailFetch: EntityDetailFetch<T>, didBeginFetch request: EntityDetailFetchRequest<T>) {
         guard let result = entityDetailFetch.results.first(where: { $0.request === request }) else { return }
-        if selectedSource == request.source {
-            detailSectionsViewControllers?.forEach { $0.loadingManager.state = .loading }
-        }
+        detailSectionsViewControllers?.forEach { $0.loadingManager.state = .loading }
 
         let source = request.source
         results[source.serverSourceName] = EntityFetchResult(entity: result.entity, state: result.state, error: result.error)
@@ -153,7 +151,7 @@ extension EntityDetailSectionsViewModel: EntityDetailFetchDelegate {
 
     @objc
     fileprivate func newSearchButtonDidSelect(_ button: UIButton) {
-        initialSource == selectedSource ? performFetch() : performSubsequentFetch(for: selectedSource)
+        initialSource == selectedSource ? performFetch() : performSubsequentFetchFor(selectedSource)
         delegate?.entityDetailSectionDidSelectRetryDownload(self)
     }
 

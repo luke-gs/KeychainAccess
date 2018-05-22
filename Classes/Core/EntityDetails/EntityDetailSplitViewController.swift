@@ -62,17 +62,16 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
     open override func sidebarViewController(_ controller: UIViewController, didSelectSourceAt index: Int) {
         let source = detailViewModel.sources[index]
         guard source != detailViewModel.selectedSource else { return }
-
-        if let result = detailViewModel.results[source.serverSourceName] {
-            detailViewModel.selectedSource = source
-            detailViewModel.setSelectedResult(fetchResult: result)
-        }
+        updateResultFor(source)
         updateEverything()
     }
 
     open override func sidebarViewController(_ controller: UIViewController, didRequestToLoadSourceAt index: Int) {
         let source = detailViewModel.sources[index]
+        detailViewModel.selectedSource = source
         fetchEntityDetailsFor(source)
+        sidebarViewController(controller, didSelectSourceAt: index)
+        updateEverything()
     }
     
     /// Used to perform any last checks/tasks when back button is pressed
@@ -102,6 +101,12 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
     // MARK: - Private methods
 
+    fileprivate func updateResultFor(_ source: EntitySource) {
+        guard let result = detailViewModel.results[source.serverSourceName] else { return }
+        detailViewModel.selectedSource = source
+        detailViewModel.setSelectedResult(fetchResult: result)
+    }
+
     fileprivate func fetchDetailsForAllOtherSources() {
         guard detailViewModel.shouldAutomaticallyFetchFromSubsequentDatasources == true else { return }
         guard detailViewModel.results[detailViewModel.selectedSource.serverSourceName]?.state == .finished else { return }
@@ -115,9 +120,8 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
     }
 
     fileprivate func fetchEntityDetailsFor(_ source: EntitySource) {
-        detailViewModel.performSubsequentFetch(for: source)
+        detailViewModel.performSubsequentFetchFor(source)
     }
-
 
     fileprivate func updateEverything() {
         detailViewControllers = detailViewModel.detailSectionsViewControllers as! [UIViewController]
