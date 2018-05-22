@@ -24,8 +24,8 @@ public protocol CADSyncPatrolGroupRequestType: CADSyncRequestType {
 public protocol CADSyncBoundingBoxRequestType: CADSyncRequestType {
 
     // MARK: - Request Parameters
-    var northWestLatitude: Int { get }
-    var northWestLongitude: Int { get }
-    var southEastLatitude: Int { get }
-    var southEastLongitude: Int { get }
+    var northWestLatitude: Double { get }
+    var northWestLongitude: Double { get }
+    var southEastLatitude: Double { get }
+    var southEastLongitude: Double { get }
 }
