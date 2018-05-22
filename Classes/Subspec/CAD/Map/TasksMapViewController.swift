@@ -147,7 +147,7 @@ open class TasksMapViewController: MapViewController {
         }
     }
     
-    public func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+    open func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         // Animate and reload clusters
         UIView.transition(with: mapView, duration: 0.1, options: .transitionCrossDissolve, animations: {
             self.clusterManager.reload(mapView, visibleMapRect: mapView.visibleMapRect)
