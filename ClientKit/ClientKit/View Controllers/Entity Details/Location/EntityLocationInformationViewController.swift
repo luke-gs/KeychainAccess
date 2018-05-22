@@ -24,8 +24,8 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
 
     public let viewModel: LocationEntityDetailFormViewModel
 
-    open private(set) var mapViewController: MapViewController?
-    open private(set) var formViewController: FormBuilderViewController!
+    open private(set) var mapViewController: MapViewController!
+    open private(set) var formViewController: EntityDetailFormViewController!
     open private(set) var cardView: DraggableCardView!
 
     // MARK: - Constraints
@@ -52,6 +52,8 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
         super.init(nibName: nil, bundle: nil)
 
         formViewController = EntityDetailFormViewController(viewModel: viewModel)
+        // Take the delegate back!! No one is allowed to take it away.
+        viewModel.delegate = self
         viewModel.traitCollectionDidChange(traitCollection, previousTraitCollection: nil)
 
         title = viewModel.title
@@ -114,14 +116,25 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
         self.updateCardBottomIfInSplit()
     }
 
-    private func resetViews() {
+    private func resetupViews() {
 
-        let mapViewController = MapViewController()
-        addChildViewController(mapViewController, toView: view)
-        mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        self.mapViewController = mapViewController
+        let mapView = mapViewController.mapView
+        mapView.removeAnnotations(mapView.annotations)
 
-        cardView.dragBar.isHidden = (self.mapViewController == nil)
+        if let mapDisplayable = viewModel.mapSummaryDisplayable() {
+
+            let newAnnotation = EntityMapSummaryAnnotation()
+            newAnnotation.mapSummaryDisplayable = mapDisplayable
+
+            mapView.addAnnotation(newAnnotation)
+
+            if let coordinate = mapDisplayable.coordinate, coordinate != kCLLocationCoordinate2DInvalid {
+                mapViewController.zoomAndCenter(to: coordinate, animated: true)
+            } else {
+                mapViewController.zoomAndCenterToUserLocation(animated: true)
+            }
+
+        }
     }
 
     /// Creates and styles views
@@ -149,7 +162,7 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
     private func setupConstraints() {
         guard let formCollectionView = formViewController.collectionView else { return }
         guard let formView = formViewController.view else { return }
-        let mapView = mapViewController?.view
+        let mapView = mapViewController.mapView
 
         // Change collection view to not use autoresizing mask constraints so it uses intrinsic content height
         formCollectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -167,44 +180,34 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
             formView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor),
         ])
 
-        if let mapView = mapView, let mapViewController = mapViewController {
-            // Show both map and form
-            mapView.translatesAutoresizingMaskIntoConstraints = false
-            cardHeightConstraint = cardView.heightAnchor.constraint(equalToConstant: LayoutConstants.minimumCardHeight)
-            cardBottomConstraint = cardView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
-            mapCenterYConstraint = mapView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        // Show both map and form
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+        cardHeightConstraint = cardView.heightAnchor.constraint(equalToConstant: LayoutConstants.minimumCardHeight)
+        cardBottomConstraint = cardView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
+        mapCenterYConstraint = mapView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
 
-            // Remove existing constraints for map controls by re-adding to view hierarchy
-            mapViewController.mapControlView.removeFromSuperview()
-            mapViewController.view.addSubview(mapViewController.mapControlView)
+        // Remove existing constraints for map controls by re-adding to view hierarchy
+        mapViewController.mapControlView.removeFromSuperview()
+        mapViewController.view.addSubview(mapViewController.mapControlView)
 
-            NSLayoutConstraint.activate([
-                // Use full size for map even when obscured, so we can manipulate center position without zooming
-                mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                mapView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 2, constant: 0),
-                mapCenterYConstraint!,
+        NSLayoutConstraint.activate([
+            // Use full size for map even when obscured, so we can manipulate center position without zooming
+            mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            mapView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 2, constant: 0),
+            mapCenterYConstraint!,
 
-                // Position map controls relative to our view, not map view which might be off screen
-                mapViewController.mapControlView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: 16),
-                mapViewController.mapControlView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor, constant: -16),
+            // Position map controls relative to our view, not map view which might be off screen
+            mapViewController.mapControlView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: 16),
+            mapViewController.mapControlView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor, constant: -16),
 
-                // Position card view at bottom
-                cardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                cardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                cardHeightConstraint!,
-                cardBottomConstraint!,
-            ])
-        } else {
-            // Show just form
-            NSLayoutConstraint.activate([
-                cardView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
-                cardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                cardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                cardView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
-                cardView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            ])
-        }
+            // Position card view at bottom
+            cardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            cardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            cardHeightConstraint!,
+            cardBottomConstraint!,
+        ])
+
     }
 
     open func updateCardBottomIfInSplit() {
@@ -237,7 +240,7 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
     }
 
     public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if let annotation = annotation as? MKPointAnnotation {
+        if let annotation = annotation as? EntityMapSummaryAnnotation {
 
             let pinView: LocationAnnotationView
             let identifier = MapSummaryAnnotationViewIdentifier.single.rawValue
@@ -248,7 +251,7 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
                 pinView = LocationAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             }
 
-            pinView.borderColor = viewModel.mapSummaryDisplayable()?.borderColor ?? .gray
+            pinView.borderColor = annotation.mapSummaryDisplayable?.borderColor ?? .gray
 
             return pinView
         }
@@ -297,6 +300,36 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
             // Animate showing or hiding map buttons
             self.updateMapInteraction()
         }
+    }
+
+}
+
+extension EntityLocationInformationViewController: EntityDetailFormViewModelDelegate {
+
+    // Just foward it to formViewController. I'm a MANAGER.
+    open func updateSidebarItemCount(_ count: UInt?) {
+        formViewController.updateSidebarItemCount(count)
+    }
+
+    open func updateSidebarAlertColor(_ color: UIColor?) {
+        formViewController.updateSidebarAlertColor(color)
+    }
+
+    open func updateLoadingState(_ state: LoadingStateManager.State) {
+        formViewController.updateLoadingState(state)
+    }
+
+    open func reloadData() {
+        formViewController.reloadData()
+        resetupViews()
+    }
+
+    open func updateNoContentDetails(title: String?, subtitle: String? = nil) {
+        formViewController.updateNoContentDetails(title: title, subtitle: subtitle)
+    }
+
+    open func updateBarButtonItems() {
+        formViewController.updateBarButtonItems()
     }
 
 }
