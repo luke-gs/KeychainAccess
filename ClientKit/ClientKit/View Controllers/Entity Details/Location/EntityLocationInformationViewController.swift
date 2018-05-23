@@ -116,27 +116,6 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
         self.updateCardBottomIfInSplit()
     }
 
-    private func resetupViews() {
-
-        let mapView = mapViewController.mapView
-        mapView.removeAnnotations(mapView.annotations)
-
-        if let mapDisplayable = viewModel.mapSummaryDisplayable() {
-
-            let newAnnotation = EntityMapSummaryAnnotation()
-            newAnnotation.mapSummaryDisplayable = mapDisplayable
-
-            mapView.addAnnotation(newAnnotation)
-
-            if let coordinate = mapDisplayable.coordinate, coordinate != kCLLocationCoordinate2DInvalid {
-                mapViewController.zoomAndCenter(to: coordinate, animated: true)
-            } else {
-                mapViewController.zoomAndCenterToUserLocation(animated: true)
-            }
-
-        }
-    }
-
     /// Creates and styles views
     private func setupViews() {
         edgesForExtendedLayout = []
@@ -239,25 +218,6 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
         }
     }
 
-    public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if let annotation = annotation as? EntityMapSummaryAnnotation {
-
-            let pinView: LocationAnnotationView
-            let identifier = MapSummaryAnnotationViewIdentifier.single.rawValue
-            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? LocationAnnotationView {
-                dequeuedView.annotation = annotation
-                pinView = dequeuedView
-            } else {
-                pinView = LocationAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            }
-
-            pinView.borderColor = annotation.mapSummaryDisplayable?.borderColor ?? .gray
-
-            return pinView
-        }
-        return nil
-    }
-
     // MARK: - DraggableCardViewDelegate
 
     public func heightForCardViewInState(_ state: DraggableCardView.CardState) -> CGFloat {
@@ -302,6 +262,36 @@ public class EntityLocationInformationViewController: UIViewController, EntityDe
         }
     }
 
+    private func zoom(to mapDisplayable: EntityMapSummaryDisplayable?, animated: Bool) {
+
+        if let mapDisplayable = mapDisplayable, let coordinate = mapDisplayable.coordinate, coordinate != kCLLocationCoordinate2DInvalid {
+            mapViewController.zoomAndCenter(to: coordinate, animated: true)
+        } else {
+            mapViewController.zoomAndCenterToUserLocation(animated: true)
+        }
+
+    }
+
+    // MARK: - MKMapViewDelegate
+
+    public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if let annotation = annotation as? EntityMapSummaryAnnotation {
+
+            let pinView: LocationAnnotationView
+            let identifier = MapSummaryAnnotationViewIdentifier.single.rawValue
+            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? LocationAnnotationView {
+                dequeuedView.annotation = annotation
+                pinView = dequeuedView
+            } else {
+                pinView = LocationAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            }
+
+            pinView.borderColor = annotation.mapSummaryDisplayable?.borderColor ?? .gray
+
+            return pinView
+        }
+        return nil
+    }
 }
 
 extension EntityLocationInformationViewController: EntityDetailFormViewModelDelegate {
@@ -321,8 +311,19 @@ extension EntityLocationInformationViewController: EntityDetailFormViewModelDele
 
     open func reloadData() {
         formViewController.reloadData()
-        resetupViews()
+
+        let mapView = mapViewController.mapView
+        mapView.removeAnnotations(mapView.annotations)
+
+        let mapDisplayable = viewModel.mapSummaryDisplayable()
+        if let mapDisplayable = mapDisplayable {
+            let newAnnotation = EntityMapSummaryAnnotation()
+            newAnnotation.mapSummaryDisplayable = mapDisplayable
+            mapView.addAnnotation(newAnnotation)
+        }
+        zoom(to: mapDisplayable, animated: true)
     }
+    
 
     open func updateNoContentDetails(title: String?, subtitle: String? = nil) {
         formViewController.updateNoContentDetails(title: title, subtitle: subtitle)
