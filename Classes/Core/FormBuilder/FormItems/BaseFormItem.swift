@@ -165,7 +165,6 @@ open class BaseFormItem: NSObject, FormItem {
 
     func cell(forItemAt indexPath: IndexPath, inCollectionView collectionView: UICollectionView) -> CollectionViewFormCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CollectionViewFormCell
-        reload(cell)
         return cell
     }
 
@@ -216,9 +215,7 @@ open class BaseFormItem: NSObject, FormItem {
         onThemeChanged?(cell, theme)
     }
 
-    // MARK: - Private
-
-    private func reload(_ cell: CollectionViewFormCell) {
+    func reload(_ cell: CollectionViewFormCell) {
         cell.contentMode = contentMode
 
         // Apply style
@@ -239,6 +236,8 @@ open class BaseFormItem: NSObject, FormItem {
         // Custom configuration if any
         onConfigured?(cell)
     }
+
+    // MARK: - Private
 
 
     /// Minimum item width.
