@@ -153,6 +153,10 @@ open class TasksMapViewController: MapViewController {
             self.clusterManager.reload(mapView, visibleMapRect: mapView.visibleMapRect)
         }, completion: nil)
 
+        if (viewModel.splitViewModel?.filterViewModel.showResultsOutsidePatrolArea).isTrue {
+            CADStateManager.shared.mapBoundingBox = mapView.boundingBox()
+        }
+
         // Keep resource annotations on top by bringing subview to front
         // This is needed for iOS 10
         if #available(iOS 11.0, *) { return }
@@ -170,10 +174,6 @@ open class TasksMapViewController: MapViewController {
             else { continue }
 
             annotationView.superview?.bringSubview(toFront: annotationView)
-        }
-        
-        if (viewModel.splitViewModel?.filterViewModel.showResultsOutsidePatrolArea).isTrue {
-            CADStateManager.shared.syncBoundingBox(mapView.boundingBox(), force: false)
         }
     }
     
@@ -258,6 +258,10 @@ extension TasksMapViewController: TasksSplitViewControllerDelegate {
 
 // MARK: - TasksMapViewModelDelegate
 extension TasksMapViewController: TasksMapViewModelDelegate {
+
+    public func boundingBox() -> MKMapView.BoundingBox {
+        return mapView.boundingBox()
+    }
 
     public func filterChanged() {
         // Update filter icon

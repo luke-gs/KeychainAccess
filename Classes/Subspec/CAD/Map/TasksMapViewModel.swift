@@ -92,6 +92,9 @@ open class TasksMapViewModel {
 
 public protocol TasksMapViewModelDelegate: class {
 
+    // Return the bounding box of the map view
+    func boundingBox() -> MKMapView.BoundingBox
+
     /// Called when the filter is changed
     func filterChanged()
 

@@ -9,13 +9,17 @@ import Foundation
 import UIKit
 
 extension MKMapView {
-    public typealias BoundingBox = (northWest: CLLocationCoordinate2D, southEast: CLLocationCoordinate2D)
-    
+
+    public struct BoundingBox: Equatable {
+        var northWest: CLLocationCoordinate2D
+        var southEast: CLLocationCoordinate2D
+    }
+
     public func boundingBox() -> BoundingBox {
         let nwPoint = MKMapPoint(x: MKMapRectGetMinX(visibleMapRect), y: visibleMapRect.origin.y)
         let sePoint = MKMapPoint(x: MKMapRectGetMaxX(visibleMapRect), y: MKMapRectGetMaxY(visibleMapRect))
         let nwCoordinate = MKCoordinateForMapPoint(nwPoint)
         let seCoordinate = MKCoordinateForMapPoint(sePoint)
-        return (northWest: nwCoordinate, southEast: seCoordinate)
+        return BoundingBox(northWest: nwCoordinate, southEast: seCoordinate)
     }
 }

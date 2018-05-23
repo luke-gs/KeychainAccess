@@ -12,11 +12,6 @@ import PromiseKit
 /// PSCore implementation of CAD state manager
 open class CADStateManagerCore: CADStateManagerType {
 
-    /// Enum for state manager errors
-    public enum StateManagerError: Error {
-        case notBookedOn
-    }
-
     /// The API manager to use, by default system one
     open static var apiManager: CADAPIManagerType!
 
@@ -40,14 +35,17 @@ open class CADStateManagerCore: CADStateManagerType {
     open var officerDetails: CADEmployeeDetailsResponseType?
     
     /// The patrol group
-    // TODO: Find out when to set/clear this value and where it's coming from
     open var patrolGroup: String? = "Collingwood"
 
-    /// Whether the map is set to show results outside the patrol group
-    open var showsResultsOutsidePatrolGroup: Bool = false
-    
-    /// Current bounding box of the main CAD map
-    open var mapBoundingBox: MKMapView.BoundingBox? = nil
+    /// The map bounding box to sync, or nil if using patrol group
+    open var mapBoundingBox: MKMapView.BoundingBox? = nil {
+        didSet {
+            if mapBoundingBox != oldValue {
+                // Sync if moving bounding box or switching back to patrol group
+                _ = syncDetails()
+            }
+        }
+    }
     
     /// The last book on data
     open private(set) var lastBookOn: CADBookOnRequestType? {
@@ -67,6 +65,9 @@ open class CADStateManagerCore: CADStateManagerType {
     
     /// The last manifest sync time
     open private(set) var lastManifestSyncTime: Date?
+
+    /// The last synced bounding box
+    open private(set) var lastSyncMapBoundingBox: MKMapView.BoundingBox? = nil
 
     /// Incidents retrieved in last sync, in order
     public var incidents: [CADIncidentType] {
@@ -202,7 +203,7 @@ open class CADStateManagerCore: CADStateManagerType {
 
     /// Terminate shift
     open func bookOff() -> Promise<Void> {
-        guard let lastBookOn = lastBookOn else { return Promise<Void>(error: StateManagerError.notBookedOn) }
+        guard let lastBookOn = lastBookOn else { return Promise<Void>(error: CADStateManagerError.notBookedOn) }
         let request = CADBookOffRequestCore(callsign: lastBookOn.callsign)
 
         return CADStateManagerCore.apiManager.cadBookOff(with: request).done { [unowned self] in
@@ -319,33 +320,44 @@ open class CADStateManagerCore: CADStateManagerType {
         return firstly {
             return after(seconds: 1.0)
         }.then { _ -> Promise<Void> in
-            if let mapBoundingBox = self.mapBoundingBox, self.showsResultsOutsidePatrolGroup {
-                return self.syncBoundingBox(mapBoundingBox, force: true)
+            if let lastSync = self.lastSync {
+                // TODO: Remove this. For demos, we only get fresh data the first time
+//                return Promise<CADSyncResponseCore>.value(lastSync).done { [unowned self] summaries -> Void in
+//                    self.processSyncResponse(summaries)
+//                }
+            }
+
+            if self.mapBoundingBox != nil {
+                // Sync the map bounding box
+                return self.syncBoundingBox(force: true)
             } else {
-                // Perform sync and keep result
-                return self.syncPatrolGroup(self.patrolGroup!)
+                // Sync the patrol group
+                return self.syncPatrolGroup()
             }
         }
     }
     
-    public func syncPatrolGroup(_ patrolGroup: String) -> Promise<Void> {
-        var promise: Promise<CADSyncResponseCore>
-        // TODO: Remove this. For demos, we only get fresh data the first time
-        if let lastSync = self.lastSync {
-            promise = Promise<CADSyncResponseCore>.value(lastSync)
-        } else {
-            promise = CADStateManagerCore.apiManager.cadSyncSummaries(with: CADSyncPatrolGroupRequestCore(patrolGroup: self.patrolGroup!))
-        }
-        return promise.done { [unowned self] summaries -> Void in
+    private func syncPatrolGroup() -> Promise<Void> {
+        guard let patrolGroup = self.patrolGroup else { return Promise(error: CADStateManagerError.invalidSyncMode) }
+
+        // Clear bounding box state
+        self.lastSyncMapBoundingBox = nil
+
+        return firstly {
+            return CADStateManagerCore.apiManager.cadSyncSummaries(with: CADSyncPatrolGroupRequestCore(patrolGroup: patrolGroup))
+        }.done { [unowned self] summaries -> Void in
             self.processSyncResponse(summaries)
         }
     }
     
-    public func syncBoundingBox(_ boundingBox: MKMapView.BoundingBox, force: Bool) -> Promise<Void> {
-        self.mapBoundingBox = boundingBox
+    private func syncBoundingBox(force: Bool) -> Promise<Void> {
+        guard let mapBoundingBox = self.mapBoundingBox else { return Promise(error: CADStateManagerError.invalidSyncMode) }
+
         // TODO: Calculate whether it's worth moving
-        let request = CADSyncBoundingBoxRequestCore(northWestCoordinate: boundingBox.northWest,
-                                                  southEastCoordinate: boundingBox.southEast)
+        self.lastSyncMapBoundingBox = mapBoundingBox
+
+        let request = CADSyncBoundingBoxRequestCore(northWestCoordinate: mapBoundingBox.northWest,
+                                                    southEastCoordinate: mapBoundingBox.southEast)
         return firstly {
             return CADStateManagerCore.apiManager.cadSyncSummaries(with: request)
         }.done { [unowned self] (summaries: CADSyncResponseCore) -> Void in
