@@ -11,7 +11,7 @@ import MPOLKit
 
 public class OfficerSummaryDisplayable: OfficerSearchDisplayable {
     override public var detail1: String? {
-        return officer.involvements.joined(separator: ", ")
+        return !officer.involvements.isEmpty ? officer.involvements.joined(separator: ", ") : "No involvements"
     }
 
     public override func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {

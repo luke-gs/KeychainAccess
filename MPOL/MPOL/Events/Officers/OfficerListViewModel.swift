@@ -47,36 +47,6 @@ public class EventOfficerListViewModel {
         return report.officers[indexPath.row]
     }
 
-    public func construct(builder: FormBuilder) {
-        builder += HeaderFormItem(text: header)
-
-        let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
-
-
-        officerDisplayables.enumerated().forEach { index, displayable in
-            builder += SummaryListFormItem()
-                .title(displayable.title)
-                .subtitle(displayable.detail1)
-                .width(.column(1))
-                .image(displayable.thumbnail(ofSize: .small))
-                .selectionStyle(.none)
-                .imageStyle(.circle)
-                .accessory(CustomItemAccessory(onCreate: { () -> UIView in
-                    let imageView = UIImageView(image: image)
-                    imageView.contentMode = .scaleAspectFit
-                    return imageView
-                }, size: image?.size ?? .zero))
-                .onSelection({ (cell) in
-                    let officer = displayable.officer
-                    self.delegate?.didSelectOfficer(officer: officer)
-                })
-                .editActions(self.officerDisplayables.count == 1 ? [] : [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (cell, indexPath) in
-                    self.removeOfficer(at: indexPath)
-                    self.delegate?.officerListDidUpdate()
-                })])
-        }
-    }
-
     public var header: String? {
         return String.localizedStringWithFormat(NSLocalizedString("%d OFFICERS", comment: ""), report.officers.count)
     }
@@ -92,6 +62,19 @@ public class EventOfficerListViewModel {
         guard report.officers.index(where: {$0 == officer}) == nil else { return }
         officerDisplayables.append(OfficerSummaryDisplayable(officer))
         report.officers.append(officer)
+    }
+
+    public func add(_ involvements: [String], to officer: Officer) {
+        let reportingOfficerInvolvement = "Reporting Officer"
+        
+        if involvements.contains(reportingOfficerInvolvement) {
+            let reportingOfficer = self.officerDisplayables.map{$0.officer}
+                .filter{$0.involvements.contains(reportingOfficerInvolvement)}.first
+            reportingOfficer?.involvements = reportingOfficer?.involvements.filter{$0 != reportingOfficerInvolvement} ?? []
+        }
+
+        officer.involvements = involvements
+        report.evaluator.updateEvaluation(for: .officers)
     }
 
     func removeOfficer(at indexPath: IndexPath) {
