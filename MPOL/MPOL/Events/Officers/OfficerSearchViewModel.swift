@@ -12,25 +12,22 @@ import ClientKit
 import PromiseKit
 
 class OfficerSearchViewModel: SearchDisplayableViewModel {
-
     typealias Object = Officer
 
     var title: String = "Add Officer"
-
     var cancelToken: PromiseCancellationToken?
+    var hasSections: Bool = false
 
     private var objectDisplayMap: [Object: CustomSearchDisplayable] = [:]
-    public private(set) var items: [Object] = []
+    public private(set) var items: [Object]
     var searchText: String?
 
     public init(items: [Object] = []) {
         self.items = items
     }
 
-    var hasSections: Bool = false
-
     func numberOfSections() -> Int {
-        return 1
+        return items.count
     }
 
     func numberOfRows(in section: Int) -> Int {
@@ -87,7 +84,6 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     func searchAction() -> Promise<Void>? {
         guard let searchText = searchText, !searchText.isEmpty else { return nil }
 
-
         let definition = OfficerParserDefinition()
         let personParserResults = try? QueryParser(parserDefinition: definition).parseString(query: searchText)
         let parameters = OfficerSearchParameters(familyName: personParserResults?[OfficerParserDefinition.SurnameKey] ?? searchText,
@@ -100,5 +96,13 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         return request.searchPromise(withCancellationToken: cancelToken).done {
             self.items = $0.results
         }
+    }
+
+    func loadingStateText() -> String? {
+        return "Searching"
+    }
+
+    func emptyStateText() -> String? {
+        return "No Recently Used Officers"
     }
 }

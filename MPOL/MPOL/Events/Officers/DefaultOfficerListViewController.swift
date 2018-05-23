@@ -57,7 +57,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
 
     @objc private func addTapped(sender: UIBarButtonItem) {
 
-        let viewModel = OfficerSearchViewModel(items: [])
+        let viewModel = OfficerSearchViewModel()
         let officerSearchController = SearchDisplayableViewController<DefaultEventOfficerListViewController, OfficerSearchViewModel>(viewModel: viewModel)
         officerSearchController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
         officerSearchController.delegate = self
