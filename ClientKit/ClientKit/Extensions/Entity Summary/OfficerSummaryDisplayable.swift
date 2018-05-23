@@ -15,15 +15,8 @@ public class OfficerSummaryDisplayable: OfficerSearchDisplayable {
     }
 
     public override func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
-        if let image = image {
-            return image
-        }
-
+        if let image = image { return image }
         let imageSizing = OfficerImageSizing(entity: officer)
-        imageSizing.loadImage { (image) in
-            self.image = image.sizing()
-        }
-
         return imageSizing
     }
 }
