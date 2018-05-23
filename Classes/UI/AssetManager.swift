@@ -276,7 +276,7 @@ extension AssetManager {
         public static let iconHeaderFinalise  = ImageKey("icon40StatusFinalise")
         public static let iconHeaderEdit      = ImageKey("icon40SystemEdit")
         public static let eventDateTime       = ImageKey("iconSystemDateAndTime")
-        public static let eventLocation       = ImageKey("entityLocation")
+        public static let eventLocation       = ImageKey("iconEntityLocation")
 
         // Dialog images
         public static let dialogAlert = ImageKey("dialogAlert")

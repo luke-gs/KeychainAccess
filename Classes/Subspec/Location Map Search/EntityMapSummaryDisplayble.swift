@@ -14,3 +14,17 @@ public protocol EntityMapSummaryDisplayable: EntitySummaryDisplayable {
     var coordinate: CLLocationCoordinate2D? { get }
 
 }
+
+open class EntityMapSummaryAnnotation: MKPointAnnotation {
+
+    open var mapSummaryDisplayable: EntityMapSummaryDisplayable? {
+        didSet {
+            if let coordinate = mapSummaryDisplayable?.coordinate {
+                self.coordinate = coordinate
+            } else {
+                self.coordinate = kCLLocationCoordinate2DInvalid
+            }
+        }
+    }
+
+}
