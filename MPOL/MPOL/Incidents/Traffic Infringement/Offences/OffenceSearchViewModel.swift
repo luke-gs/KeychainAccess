@@ -10,11 +10,9 @@ import PromiseKit
 import MPOLKit
 
 public class OffenceSearchViewModel : SearchDisplayableViewModel {
-
     public typealias Object = Offence
 
     public var title: String = "Add Offence"
-
     public var hasSections: Bool = false
 
     private var objectDisplayMap: [Object: CustomSearchDisplayable] = [:]
@@ -87,5 +85,11 @@ public class OffenceSearchViewModel : SearchDisplayableViewModel {
         return nil
     }
 
+    public func loadingStateText() -> String? {
+        return nil
+    }
 
+    public func emptyStateText() -> String? {
+        return "No Recently Used Offences"
+    }
 }

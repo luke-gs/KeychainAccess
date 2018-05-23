@@ -9,7 +9,7 @@
 #include "../Pods/Target Support Files/Pods-MPOL/Pods-MPOL.internal-debug.xcconfig"
 
 PRODUCT_NAME=Search
-CONFIG_HOST_URL=dev-api.pscore.mobi
+CONFIG_HOST_URL=dev-demo-api.pscore.mobi
 
 APP_GROUP_ID=group.enterprise.gridstone.pscore
 
