@@ -293,6 +293,7 @@
 		27D6814A202CFCE7003F3D14 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D68149202CFCE7003F3D14 /* NotificationManager.swift */; };
 		27DC60971FD513D80033BC0B /* DisableableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DC60961FD513D80033BC0B /* DisableableButton.swift */; };
 		27DC609B1FD60F3D0033BC0B /* ResourceOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DC609A1FD60F3D0033BC0B /* ResourceOverviewViewModel.swift */; };
+		27E2EAE120B4E50000A5F952 /* MKMapView+BoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E2EAE020B4E50000A5F952 /* MKMapView+BoundingBox.swift */; };
 		27E424401FDE10BC00B5BE47 /* InteractivePopRecognizerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E4243F1FDE10BC00B5BE47 /* InteractivePopRecognizerDelegate.swift */; };
 		27E81E542034E1AF000D5D1C /* TaskDetailsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E81E532034E1AF000D5D1C /* TaskDetailsOverviewViewController.swift */; };
 		27E81E562034E539000D5D1C /* TaskDetailsOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E81E552034E539000D5D1C /* TaskDetailsOverviewViewModel.swift */; };
@@ -1145,6 +1146,7 @@
 		27D68149202CFCE7003F3D14 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		27DC60961FD513D80033BC0B /* DisableableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisableableButton.swift; sourceTree = "<group>"; };
 		27DC609A1FD60F3D0033BC0B /* ResourceOverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceOverviewViewModel.swift; sourceTree = "<group>"; };
+		27E2EAE020B4E50000A5F952 /* MKMapView+BoundingBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMapView+BoundingBox.swift"; sourceTree = "<group>"; };
 		27E4243F1FDE10BC00B5BE47 /* InteractivePopRecognizerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractivePopRecognizerDelegate.swift; sourceTree = "<group>"; };
 		27E81E532034E1AF000D5D1C /* TaskDetailsOverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsOverviewViewController.swift; sourceTree = "<group>"; };
 		27E81E552034E539000D5D1C /* TaskDetailsOverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsOverviewViewModel.swift; sourceTree = "<group>"; };
@@ -3328,6 +3330,7 @@
 				9650CA1A1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift */,
 				BC9C7D1F1F0DED6600DFFE83 /* UnboxableAlamofireResponseSerializer.swift */,
 				BC9C7D201F0DED6600DFFE83 /* UserDefaults+MPOL.swift */,
+				27E2EAE020B4E50000A5F952 /* MKMapView+BoundingBox.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -5159,6 +5162,7 @@
 				EADC4FF31F81E0810066AA2F /* OptionGroupFormItem.swift in Sources */,
 				BC9C7DF01F0DED6600DFFE83 /* EpochDateTransformer+UnboxFormatter.swift in Sources */,
 				9617929D209AA726001DD4CB /* CADEmployeeDetailsResponseType.swift in Sources */,
+				27E2EAE120B4E50000A5F952 /* MKMapView+BoundingBox.swift in Sources */,
 				2744E3A62051DD8500561A8F /* CADStateManagerCore.swift in Sources */,
 				2744E39B2051DD8500561A8F /* CADIncidentPersonCore.swift in Sources */,
 				46C430D01FC544310047396B /* RemoteResourceDownloader.swift in Sources */,

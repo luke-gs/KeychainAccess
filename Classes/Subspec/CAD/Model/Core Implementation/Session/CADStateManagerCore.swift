@@ -43,6 +43,12 @@ open class CADStateManagerCore: CADStateManagerType {
     // TODO: Find out when to set/clear this value and where it's coming from
     open var patrolGroup: String? = "Collingwood"
 
+    /// Whether the map is set to show results outside the patrol group
+    open var showsResultsOutsidePatrolGroup: Bool = false
+    
+    /// Current bounding box of the main CAD map
+    open var mapBoundingBox: MKMapView.BoundingBox? = nil
+    
     /// The last book on data
     open private(set) var lastBookOn: CADBookOnRequestType? {
         didSet {
@@ -312,18 +318,40 @@ open class CADStateManagerCore: CADStateManagerType {
         // Perform sync and keep result
         return firstly {
             return after(seconds: 1.0)
-        }.then { _ -> Promise<CADSyncResponseCore> in
-            // TODO: Remove this. For demos, we only get fresh data the first time
-            if let lastSync = self.lastSync {
-                return Promise<CADSyncResponseCore>.value(lastSync)
-            }
-            return CADStateManagerCore.apiManager.cadSyncSummaries(with: CADSyncPatrolGroupRequestCore(patrolGroup: self.patrolGroup!))
-        }.done { [unowned self] summaries -> Void in
-            self.lastSync = summaries
-            self.lastSyncTime = Date()
-            self.processSyncItems()
-            NotificationCenter.default.post(name: .CADSyncChanged, object: self)
+        }.then {
+            return self.syncPatrolGroup(self.patrolGroup!)
         }
+    }
+    
+    public func syncPatrolGroup(_ patrolGroup: String) -> Promise<Void> {
+        var promise: Promise<CADSyncResponseCore>
+        // TODO: Remove this. For demos, we only get fresh data the first time
+        if let lastSync = self.lastSync {
+            promise = Promise<CADSyncResponseCore>.value(lastSync)
+        } else {
+            promise = CADStateManagerCore.apiManager.cadSyncSummaries(with: CADSyncPatrolGroupRequestCore(patrolGroup: self.patrolGroup!))
+        }
+        return promise.done { [unowned self] summaries -> Void in
+            self.processSyncResponse(summaries)
+        }
+    }
+    
+    public func syncBoundingBox(_ boundingBox: MKMapView.BoundingBox, force: Bool) -> Promise<Void> {
+        // TODO: Calculate whether it's worth moving
+        let request = CADSyncBoundingBoxRequestCore(northWestCoordinate: boundingBox.northWest,
+                                                  southEastCoordinate: boundingBox.southEast)
+        return firstly {
+            return CADStateManagerCore.apiManager.cadSyncSummaries(with: request)
+        }.done { [unowned self] (summaries: CADSyncResponseCore) -> Void in
+            self.processSyncResponse(summaries)
+        }
+    }
+    
+    private func processSyncResponse(_ response: CADSyncResponseCore) {
+        self.lastSync = response
+        self.lastSyncTime = Date()
+        self.processSyncItems()
+        NotificationCenter.default.post(name: .CADSyncChanged, object: self)
     }
 
     /// Perform initial sync after login or launching app

@@ -24,6 +24,12 @@ public protocol CADStateManagerType {
     /// The current patrol group
     var patrolGroup: String? { get set }
 
+    /// Whether the map is set to show results outside the patrol group
+    var showsResultsOutsidePatrolGroup: Bool { get set }
+    
+    /// Current bounding box of the main CAD map
+    var mapBoundingBox: MKMapView.BoundingBox? { get set }
+
     /// The last book on data
     var lastBookOn: CADBookOnRequestType? { get }
 
@@ -106,6 +112,12 @@ public protocol CADStateManagerType {
 
     /// Sync the latest task summaries
     func syncDetails() -> Promise<Void>
+    
+    // Sync based on patrol group
+    func syncPatrolGroup(_ patrolGroup: String) -> Promise<Void>
+    
+    // Sync based on bounding box. Use `force` to force a sync regardless of move distancee
+    func syncBoundingBox(_ boundingBox: MKMapView.BoundingBox, force: Bool) -> Promise<Void>
 
     /// Perform initial sync after login or launching app
     func syncInitial() -> Promise<Void>

@@ -195,13 +195,3 @@ extension MapViewController: MapSettingsViewModelDelegate {
         mapView.showsTraffic = showsTraffic
     }
 }
-
-extension MKMapView {
-    public func boundingBox() -> (northWest: CLLocationCoordinate2D, southEast: CLLocationCoordinate2D) {
-        let nwPoint = MKMapPoint(x: MKMapRectGetMinX(visibleMapRect), y: visibleMapRect.origin.y)
-        let sePoint = MKMapPoint(x: MKMapRectGetMaxX(visibleMapRect), y: MKMapRectGetMaxY(visibleMapRect))
-        let nwCoordinate = MKCoordinateForMapPoint(nwPoint)
-        let seCoordinate = MKCoordinateForMapPoint(sePoint)
-        return (northWest: nwCoordinate, southEast: seCoordinate)
-    }
-}
