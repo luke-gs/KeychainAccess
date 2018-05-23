@@ -80,6 +80,8 @@ open class TasksSplitViewModel {
         delegate?.dismiss(animated: true, completion: nil)
         mapViewModel.applyFilter()
         listContainerViewModel.applyFilter()
+        
+        CADStateManager.shared.showsResultsOutsidePatrolGroup = filterViewModel.showResultsOutsidePatrolArea
     }
 }
 

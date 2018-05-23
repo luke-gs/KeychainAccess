@@ -171,6 +171,10 @@ open class TasksMapViewController: MapViewController {
 
             annotationView.superview?.bringSubview(toFront: annotationView)
         }
+        
+        if (viewModel.splitViewModel?.filterViewModel.showResultsOutsidePatrolArea).isTrue {
+            CADStateManager.shared.syncBoundingBox(mapView.boundingBox(), force: false)
+        }
     }
     
     /// Zooms to the annotations when they are loaded for the first time
