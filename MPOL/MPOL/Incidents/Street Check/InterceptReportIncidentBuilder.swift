@@ -14,7 +14,8 @@ public class InterceptReportIncidentBuilder: IncidentBuilding {
         let incident = Incident(event: event, type: type)
 
         // Add reports here
-        incident.add(report: IncidentTestReport(event: event, incident: incident))
+        incident.add(report: DefaultEntitiesListReport(event: event, incident: incident))
+        incident.add(report: InterceptReportGeneralDetailsReport(event: event, incident: incident))
 
         let displayable = IncidentListDisplayable(title: type.rawValue,
                                                   subtitle: "Not yet Started",

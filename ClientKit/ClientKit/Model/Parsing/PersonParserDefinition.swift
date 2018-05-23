@@ -7,45 +7,6 @@
 
 import MPOLKit
 
-public enum PersonParserError: LocalizedError {
-    case surnameIsNotFirst(surname: String)
-    case surnameExceedsMaxLength(surname: String, maxLength: Int)
-    case givenNameExceedsMaxLength(givenName: String, maxLength: Int)
-    case middleNameExistsWithoutGivenName(foundName: String)
-    case nameMatchesGenderType(gender: String)
-    case middleNamesExceedsMaxLength(middleNames: String, maxLength: Int)
-    case ageGapWrongOrder(ageGap: String)
-    case dobInvalidValues(dob: String)
-    case dobDateOutOfBounds(dob: String)
-    
-    public var errorDescription: String? {
-        var message = ""
-        
-        switch self {
-        case PersonParserError.surnameIsNotFirst(let surname):
-            message = "Potential Surname '\(surname)' found. Surname must be first. Refer to search help."
-        case PersonParserError.surnameExceedsMaxLength(let surname, let maxLength):
-            message = "Surname '\(surname)' exceeds maximum length of \(maxLength) characters."
-        case PersonParserError.givenNameExceedsMaxLength(let givenName, let maxLength):
-            message = "Given name '\(givenName)' exceeds maximum length of \(maxLength) characters."
-        case PersonParserError.middleNameExistsWithoutGivenName(let middleName):
-            message = "Middle name '\(middleName)' exists without a given name."
-        case PersonParserError.middleNamesExceedsMaxLength(let middleName, let maxLength):
-            message = "Middle name '\(middleName)' exceeds maximum length of \(maxLength) characters."
-        case PersonParserError.ageGapWrongOrder(let ageGap):
-            message = "Age gap '\(ageGap)' in wrong order."
-        case PersonParserError.nameMatchesGenderType(let gender):
-            message = "Gender '\(gender)' is invalid."
-        case PersonParserError.dobInvalidValues(let dob):
-            message = "'\(dob)' is not a recognised DOB. Please ensure date is valid."
-        case PersonParserError.dobDateOutOfBounds(let dob):
-            message = "'\(dob)' must be a past date."
-        }
-
-        return message
-    }
-}
-
 public class PersonParserDefinition: QueryParserDefinition {
 
     private let surnameDefinition: QueryTokenDefinition
@@ -76,9 +37,11 @@ public class PersonParserDefinition: QueryParserDefinition {
         middleNamesDefinition = QueryTokenDefinition(key: PersonParserDefinition.MiddleNamesKey,
                                  required: false, typeCheck: PersonParserDefinition.nameTypeCheck,
                                  validate: { (token, index, map) in
-                                    if PersonParserDefinition.genderTypeCheck(token) && map["gender"] == nil { throw PersonParserError.nameMatchesGenderType(gender: token)
+                                    if PersonParserDefinition.genderTypeCheck(token) && map["gender"] == nil {
+                                        throw PersonParserError.nameMatchesGenderType(gender: token)
                                     }
-                                    if map[PersonParserDefinition.GivenNameKey] == nil { throw PersonParserError.middleNameExistsWithoutGivenName(foundName: token)
+                                    if map[PersonParserDefinition.GivenNameKey] == nil {
+                                        throw PersonParserError.middleNameExistsWithoutGivenName(foundName: token)
                                     }
                                     if token.count > maxMiddleNamesLength {
                                         throw PersonParserError.middleNamesExceedsMaxLength(middleNames: token, maxLength: maxMiddleNamesLength)
@@ -112,7 +75,7 @@ public class PersonParserDefinition: QueryParserDefinition {
             givenNameDefinition,
             middleNamesDefinition,
             genderDefinition,
-            dobDefinition,
+            PersonParserDefinition.dobDefinition,
             ageGapDefinition
         ]
     }
@@ -124,7 +87,7 @@ public class PersonParserDefinition: QueryParserDefinition {
             PersonParserDefinition.MiddleNamesKey:  NSLocalizedString("Middle Names", comment: "") as String,
             PersonParserDefinition.GenderKey:       NSLocalizedString("Gender", comment: "") as String,
             PersonParserDefinition.DateOfBirthKey:  NSLocalizedString("Date Of Birth", comment: "") as String,
-            PersonParserDefinition.AgeGapKey:       NSLocalizedString("Age Gap", comment: "") as String
+            PersonParserDefinition.AgeRangeKey:       NSLocalizedString("Age Gap", comment: "") as String
         ]
     }
     
@@ -136,7 +99,7 @@ public class PersonParserDefinition: QueryParserDefinition {
     public static let MiddleNamesKey    = "middleNames"
     public static let GenderKey         = "gender"
     public static let DateOfBirthKey    = "dateOfBirth"
-    public static let AgeGapKey         = "ageGap"
+    public static let AgeRangeKey       = "ageRange"
     
     private let genderDefinition: QueryTokenDefinition = {
         QueryTokenDefinition(key: PersonParserDefinition.GenderKey,
@@ -144,40 +107,45 @@ public class PersonParserDefinition: QueryParserDefinition {
                              typeCheck: genderTypeCheck)
     }()
     
-    private let dobDefinition: QueryTokenDefinition = {
+    public static let dobDefinition: QueryTokenDefinition = {
         QueryTokenDefinition(key: PersonParserDefinition.DateOfBirthKey,
                              required: false,
                              typeCheck: { (token) in
-                                let token = token.replacingOccurrences(of: "-", with: "—")
                                 return dateOfBirthRegex.numberOfMatches(in: token, range: NSRange(location: 0, length: token.count)) == 1
         },
                              validate: { (token, index, map) in
-                                // We already know that there is only one match for the token because typeCheck returned true by this point
-                                let token = token.replacingOccurrences(of: "-", with: "—")
-                                let match = dateOfBirthRegex.matches(in: token, range: NSRange(location: 0, length: token.count)).first!
-                                
-                                // Get date components ranges
-                                let dayRange = match.range(at: 1)
-                                let monthRange = match.range(at: 2)
-                                let yearRange = match.range(at: 3)
-                                
-                                // Get date components
-                                let day = Int((token as NSString).substring(with: dayRange)) ?? 1
-                                let month = Int((token as NSString).substring(with: monthRange)) ?? 1
-                                let year = Int((token as NSString).substring(with: yearRange))!
-                                
+                                let stringComponents: (day: String?, month: String?, year: String) = PersonSearchDateParser.dateComponents(from: token)
+
+                                // Day must be DD
+                                if let day = stringComponents.day?.count, day != 2 {
+                                    throw PersonParserError.dobIncorrectFormat(dob: token)
+                                }
+
+                                // Month must be MM
+                                if let month = stringComponents.month?.count, month != 2 {
+                                    throw PersonParserError.dobIncorrectFormat(dob: token)
+                                }
+
+                                if stringComponents.year.count != 4 {
+                                    throw PersonParserError.dobIncorrectFormat(dob: token)
+                                }
+
+                                let day = Int(stringComponents.day ?? "1")!
+                                let month = Int(stringComponents.month ?? "1")!
+                                let year = Int(stringComponents.year)!
+
                                 guard validateDate(day: day, month: month, year: year) else { throw PersonParserError.dobInvalidValues(dob: token) }
-                                
+
                                 let components = DateComponents(year: year, month: month, day: day)
                                 let date = calendar.date(from: components)!
-                                
+
                                 // Should there be a minimum age for DOB search?
                                 if date > Date() { throw PersonParserError.dobDateOutOfBounds(dob: token) }
         })
     }()
     
     private let ageGapDefinition: QueryTokenDefinition = {
-        QueryTokenDefinition(key: PersonParserDefinition.AgeGapKey,
+        QueryTokenDefinition(key: PersonParserDefinition.AgeRangeKey,
                              required: false,
                              typeCheck: { (token) in
                                 return ageGapRegex.numberOfMatches(in: token, range: NSRange(location: 0, length: token.count)) == 1
@@ -209,10 +177,10 @@ public class PersonParserDefinition: QueryParserDefinition {
 
     private static let SurnameIndex = 0
     
-    private static let ageGapRegex = try! NSRegularExpression(pattern: RegexPattern.ageGap.rawValue)
-    private static let dateOfBirthRegex = try! NSRegularExpression(pattern: RegexPattern.dateOfBirth.rawValue)
+    private static let ageGapRegex = try! NSRegularExpression(pattern: PersonParserRegexPattern.ageGap.rawValue)
+    private static let dateOfBirthRegex = try! NSRegularExpression(pattern: PersonParserRegexPattern.dateOfBirth.rawValue)
     
-    
+
     private static let nameTypeCheck: (_ string: String) -> Bool = { (token) in
         guard !token.isEmpty else { return false }
         let allowedCharacters = CharacterSet.letters.union(.whitespaces).union(CharacterSet(charactersIn: "’'-"))
@@ -232,19 +200,62 @@ public class PersonParserDefinition: QueryParserDefinition {
     private static let calendar: Calendar = Calendar(identifier: .gregorian)
         
     private static func validateDate(day: Int, month: Int, year: Int) -> Bool {
-        
         let components = DateComponents(year: year, month: month, day: day)
         guard let resultDate = calendar.date(from: components) else {
             return false
         }
-        
+
+        // Make a date using calendar and DateComponents
         let checkedComponents = calendar.dateComponents([.year, .month, .day], from: resultDate)
+        // If it's still the result is the same, then the date is valid, otherwise the date components
+        // will be adjusted.
         return checkedComponents.year == year && checkedComponents.month == month && checkedComponents.day == day
     }
 }
 
+public enum PersonParserError: LocalizedError {
+    case surnameIsNotFirst(surname: String)
+    case surnameExceedsMaxLength(surname: String, maxLength: Int)
+    case givenNameExceedsMaxLength(givenName: String, maxLength: Int)
+    case middleNameExistsWithoutGivenName(foundName: String)
+    case nameMatchesGenderType(gender: String)
+    case middleNamesExceedsMaxLength(middleNames: String, maxLength: Int)
+    case ageGapWrongOrder(ageGap: String)
+    case dobInvalidValues(dob: String)
+    case dobIncorrectFormat(dob: String)
+    case dobDateOutOfBounds(dob: String)
 
-fileprivate enum RegexPattern: String {
+    public var errorDescription: String? {
+        var message = ""
+
+        switch self {
+        case PersonParserError.surnameIsNotFirst(let surname):
+            message = "Potential Surname '\(surname)' found. Surname must be first. Refer to search help."
+        case PersonParserError.surnameExceedsMaxLength(let surname, let maxLength):
+            message = "Surname '\(surname)' exceeds maximum length of \(maxLength) characters."
+        case PersonParserError.givenNameExceedsMaxLength(let givenName, let maxLength):
+            message = "Given name '\(givenName)' exceeds maximum length of \(maxLength) characters."
+        case PersonParserError.middleNameExistsWithoutGivenName(let middleName):
+            message = "Middle name '\(middleName)' exists without a given name."
+        case PersonParserError.middleNamesExceedsMaxLength(let middleName, let maxLength):
+            message = "Middle name '\(middleName)' exceeds maximum length of \(maxLength) characters."
+        case PersonParserError.ageGapWrongOrder(let ageGap):
+            message = "Age gap '\(ageGap)' in wrong order."
+        case PersonParserError.nameMatchesGenderType(let gender):
+            message = "Gender '\(gender)' is invalid."
+        case PersonParserError.dobInvalidValues(let dob):
+            message = "'\(dob)' is not a recognised DOB. Please ensure date is valid."
+        case PersonParserError.dobDateOutOfBounds(let dob):
+            message = "'\(dob)' must be a past date."
+        case .dobIncorrectFormat(dob: let dob):
+            message = "'\(dob)' is in incorrect format."
+        }
+
+        return message
+    }
+}
+
+public enum PersonParserRegexPattern: String {
     case ageGap = "^([0-9]+)(-([0-9]+))?$"
-    case dateOfBirth = "^([\\d]{1,2}|–)\\/([\\d]{1,2}|(?<=–\\/)–)\\/(\\d{4})$"
+    case dateOfBirth = "^((?:\\d{1,2})\\/)?((?:\\d{1,2})\\/)?(\\d{2,4})$"
 }

@@ -42,14 +42,36 @@ open class DomesticViolenceGeneralDetailsViewController: FormBuilderViewControll
         builder += HeaderFormItem(text: "Details")
 
         builder += StepperFormItem(title: "Number of Children in this Relationship")
+                    .value(Double(viewModel.report.childCount))
+                    .onValueChanged({ value in
+                        self.viewModel.report.childCount = Int(value)
+                    })
 
-        builder += OptionFormItem(title: "Child/Children to be Named").width(.column(2))
+        builder += OptionFormItem(title: "Child/Children to be Named")
+                    .width(.column(2))
+                    .isChecked(viewModel.report.childrenToBeNamed)
+                    .onValueChanged({ value in
+                        self.viewModel.report.childrenToBeNamed = value
+                    })
 
-        builder += OptionFormItem(title: "Relative/Associate to be Named").width(.column(2))
+        builder += OptionFormItem(title: "Relative/Associate to be Named")
+                    .width(.column(2))
+                    .isChecked(viewModel.report.associateToBeNamed)
+                    .onValueChanged({ value in
+                        self.viewModel.report.associateToBeNamed = value
+                    })
 
         builder += TextViewFormItem(title: "Grounds on Which Domestic Violence has been Committed")
+                    .text(viewModel.report.details)
+                    .onValueChanged({ text in
+                        self.viewModel.report.details = text
+                    })
 
         builder += TextViewFormItem(title: "Remarks")
+                    .text(viewModel.report.remarks)
+                    .onValueChanged({ text in
+                        self.viewModel.report.remarks = text
+                    })
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {

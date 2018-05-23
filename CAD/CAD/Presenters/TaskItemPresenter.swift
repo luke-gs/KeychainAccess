@@ -26,7 +26,7 @@ public class TaskItemPresenter: Presenter {
             }
             let sections = [CADFormCollectionSectionViewModel(title: "", items: incidentItems)]
             let viewModel = CallsignStatusViewModel(sections: sections, selectedStatus: initialStatus, incident: incident)
-            viewModel.showsCompactHorizontal = false
+            viewModel.displayMode = .regular
             return viewModel.createViewController()
 
         case .addressLookup(_, let coordinate, let address):
@@ -68,8 +68,11 @@ public class TaskItemPresenter: Presenter {
 
         case .resourceStatus(_, _):
             // Present resource status form sheet with custom size and done button
-            let size = from.isCompact() ? CGSize(width: 312, height: 224) : CGSize(width: 540, height: 120)
-            to.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: from, action: #selector(UIViewController.dismissAnimated))
+            let size = UIViewController.isWindowCompact() ? CGSize(width: 312, height: 224) : CGSize(width: 540, height: 150)
+            if let vc = to as? CallsignStatusViewController {
+                // Disable loading text for small modal dialog
+                vc.loadingManager.loadingView.titleLabel.text = nil
+            }
             from.presentFormSheet(to, animated: true, size: size, forced: true)
 
         case .addressLookup(let source, _, _):

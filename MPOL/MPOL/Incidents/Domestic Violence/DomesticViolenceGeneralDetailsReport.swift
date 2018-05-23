@@ -18,6 +18,12 @@ class DomesticViolenceGeneralDetailsReport: Reportable {
     weak var incident: Incident?
     let evaluator: Evaluator = Evaluator()
 
+    var childCount: Int = 0
+    var childrenToBeNamed: Bool = false
+    var associateToBeNamed: Bool = false
+    var details: String? = nil
+    var remarks: String? = nil
+
     public var viewed: Bool = false{
         didSet {
             evaluator.updateEvaluation(for: .viewed)

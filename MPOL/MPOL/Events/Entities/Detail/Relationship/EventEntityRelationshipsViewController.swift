@@ -13,7 +13,9 @@ class EventEntityRelationshipsViewController: FormBuilderViewController, Evaluat
     
     let viewModel: EventEntityRelationshipsViewModel
     
-    required convenience init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
+    required convenience init?(coder aDecoder: NSCoder) {
+        MPLUnimplemented()
+    }
     public required init(viewModel: EventEntityRelationshipsViewModel) {
         self.viewModel = viewModel
         super.init()
@@ -63,11 +65,7 @@ class EventEntityRelationshipsViewController: FormBuilderViewController, Evaluat
 
         let objects: [Pickable] = RelationshipReason.reasonsFor(viewModel.report.entity!, entity)
 
-        var selectedObjects: [Pickable] = []
-        if let currentRelationship = viewModel.relationshipWith(relatedEntity: entity) {
-            selectedObjects = currentRelationship.reasons
-        }
-
+        let selectedObjects: [Pickable] = viewModel.relationshipWith(relatedEntity: entity)?.reasons ?? []
         let datasource = RelationshipSearchDatasource(objects: objects,
                                                      selectedObjects: selectedObjects,
                                                      title: "Relationships")

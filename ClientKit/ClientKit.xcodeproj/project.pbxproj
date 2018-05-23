@@ -17,6 +17,7 @@
 		198465B8208E101F0076E1A4 /* RetrievedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198465B7208E101F0076E1A4 /* RetrievedEvent.swift */; };
 		198465BA208EAF630076E1A4 /* EntityRetrievedEventsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198465B9208EAF630076E1A4 /* EntityRetrievedEventsViewModel.swift */; };
 		199ECE9E1FAA5ACD0065E425 /* PersonImageSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199ECE9D1FAA5ACD0065E425 /* PersonImageSizing.swift */; };
+		19EC766D20A939D0001965FF /* PersonSearchDateParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EC766C20A939D0001965FF /* PersonSearchDateParser.swift */; };
 		19FA22AF1F8603F000BE0E03 /* MatchMakers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12048FCA1F788EC20014748E /* MatchMakers.swift */; };
 		19FA22B01F86041800BE0E03 /* Matches.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12048FCC1F788ECA0014748E /* Matches.swift */; };
 		1A159F0D1F4B1C7500075330 /* PersonFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A159F0C1F4B1C7500075330 /* PersonFetchRequest.swift */; };
@@ -121,6 +122,7 @@
 		198465B7208E101F0076E1A4 /* RetrievedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrievedEvent.swift; sourceTree = "<group>"; };
 		198465B9208EAF630076E1A4 /* EntityRetrievedEventsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityRetrievedEventsViewModel.swift; sourceTree = "<group>"; };
 		199ECE9D1FAA5ACD0065E425 /* PersonImageSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonImageSizing.swift; sourceTree = "<group>"; };
+		19EC766C20A939D0001965FF /* PersonSearchDateParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonSearchDateParser.swift; sourceTree = "<group>"; };
 		1A159F0C1F4B1C7500075330 /* PersonFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonFetchRequest.swift; sourceTree = "<group>"; };
 		1A159F0E1F4B1CA700075330 /* VehicleFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleFetchRequest.swift; sourceTree = "<group>"; };
 		1A159F141F4B1DE200075330 /* VehicleDetailsSectionsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleDetailsSectionsDataSource.swift; sourceTree = "<group>"; };
@@ -373,6 +375,7 @@
 		BCA179391F03542900AD1F5F /* Parsing */ = {
 			isa = PBXGroup;
 			children = (
+				19EC766C20A939D0001965FF /* PersonSearchDateParser.swift */,
 				BCA1793A1F03542900AD1F5F /* PersonParserDefinition.swift */,
 				C681A3841F21AEA800F4AC13 /* LicenceParserDefinition.swift */,
 				EA1CC2501F3D91E800FE8BAE /* RegistrationParserDefinition.swift */,
@@ -790,6 +793,7 @@
 				4421347220030416009A931A /* EntityDetailFormViewController.swift in Sources */,
 				968B5EF81FBA8C750097B3F9 /* AppGroupLandingPresenter.swift in Sources */,
 				BCAEFE981F03150800C97F9C /* Email.swift in Sources */,
+				19EC766D20A939D0001965FF /* PersonSearchDateParser.swift in Sources */,
 				46E0B8BC2033AC1700B40DF2 /* OfficerSearchParameters.swift in Sources */,
 				BCAEFEAF1F03150800C97F9C /* Vehicle.swift in Sources */,
 				BCAEFEAE1F03150800C97F9C /* TelephoneNumber.swift in Sources */,

@@ -16,7 +16,7 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
 
     public init(report: EventEntitiesListReport) {
         self.report = report
-        report.event?.entityBucket.delegate = self
+        report.event?.entityManager.delegate = self
     }
 
     public var headerText: String {
@@ -53,15 +53,19 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
     public func updateReports() {
         var reports = self.report.entityDetailReports
 
-        //Remove reports that no longer have entities
+        // Remove reports that no longer have entities
         for report in reports {
-            if self.report.event?.entityBucket.contains(report.entity) == false {
+            if self.report.event?.entityManager.incidentRelationships.contains(where: {$0.baseObject == report.entity}) == false {
                 reports.remove(at: reports.index(where: {$0 == report})!)
             }
         }
 
-        //Create and add new entities
-        for entity in report.event?.entityBucket.entities ?? [] {
+        // Create and add new entities
+        guard let entities = self.report.event?.entityManager.incidentRelationships.compactMap({ $0.baseObject }) else {
+            return
+        }
+
+        for entity in entities {
             if !reports.contains(where: {$0.entity == entity}) {
                 let report = EventEntityDetailReport(entity: entity, event: self.report.event)
                 report.evaluator.addObserver(report)
@@ -76,20 +80,20 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
         return report.entityDetailReports[item].evaluator.isComplete ? nil : "Unspecified Relationships"
     }
 
-    //This can always return red because if relationships are valid then the status is a nil string, meaning no text is displayed
+    // This can always return red because if relationships are valid then the status is a nil string, meaning no text is displayed
     public func invalidRelationshipsColor() -> Theme.ColorKey {
         return .redText
     }
 
-    //MARK: Eval
+    // MARK: Eval
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
 
     }
 
-    //MARK: EntityBucketDelegate
+    // MARK: EntityBucketDelegate
     public func entitiesDidChange() {
-        //Reset validation of relationship report if entities have changed
-        report.entityDetailReports.forEach{$0.relationshipsReport.viewed = false}
+        // Reset validation of relationship report if entities have changed
+        report.entityDetailReports.forEach{ $0.relationshipsReport.viewed = false }
 
         updateReports()
     }

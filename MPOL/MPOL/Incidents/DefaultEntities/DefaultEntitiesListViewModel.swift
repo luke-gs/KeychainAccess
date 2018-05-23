@@ -22,10 +22,8 @@ public class DefaultEntitiesListViewModel {
     }
 
     var entities: [MPOLKitEntity] {
-        // return entities involved in this incident
-        return report.event?.entityBucket.entities.filter {
-            report.entityInvolvements[$0.id] != nil
-        } ?? []
+        guard let incident = report.incident else { fatalError("Incident Doesn't Exist") }
+        return report.event?.entityManager.relationships(for: incident).map{ $0.baseObject } ?? []
     }
 
     var currentLoadingManagerState: LoadingStateManager.State {
@@ -40,24 +38,25 @@ public class DefaultEntitiesListViewModel {
         }
     }
 
-    func addEntity(_ entity: MPOLKitEntity, with involvements: [Involvement]) {
-
+    func addEntity(_ entity: MPOLKitEntity, with involvements: [String]) {
+        guard let incident = report.incident else { fatalError("Incident Doesn't Exist") }
         if !entities.contains(entity) {
-            report.event?.entityBucket.add(entity)
-            report.entityInvolvements[entity.id] = involvements
+            report.event?.entityManager.add(entity, to: incident, with: involvements)
             report.evaluator.updateEvaluation(for: EvaluatorKey.trafficInfringmentHasEntity)
         }
     }
 
-    func updateEntity(_ entityId: String, with involvements: [Involvement]) {
-
-        report.entityInvolvements[entityId] = involvements
+    func update(_ involvements: [String], for entity: MPOLKitEntity) {
+        guard let incident = report.incident else { fatalError("Incident Doesn't Exist") }
+        report.event?.entityManager.update(involvements, between: entity, and: incident)
     }
 
-    func removeEntity(_ entity: MPOLKitEntity){
-        report.event?.entityBucket.remove(entity)
-        report.entityInvolvements[entity.id] = nil
-        report.evaluator.updateEvaluation(for: EvaluatorKey.trafficInfringmentHasEntity)
+    func removeEntity(_ entity: MPOLKitEntity) {
+        guard let incident = report.incident else { fatalError("Incident Doesn't Exist") }
+        if entities.contains(entity) {
+            report.event?.entityManager.remove(entity, from: incident)
+            report.evaluator.updateEvaluation(for: EvaluatorKey.trafficInfringmentHasEntity)
+        }
     }
 
     func addObserver(_ observer: EvaluationObserverable) {
@@ -75,7 +74,8 @@ public class DefaultEntitiesListViewModel {
         }
     }
 
-    func retrieveInvolvements(for entityId: String) -> [Involvement] {
-        return report.entityInvolvements[entityId] ?? []
+    func retrieveInvolvements(for entity: MPOLKitEntity) -> [String]? {
+        guard let incident = report.incident else { fatalError("Incident Doesn't Exist") }
+        return report.event?.entityManager.relationship(between: entity, and: incident)?.reasons
     }
 }
