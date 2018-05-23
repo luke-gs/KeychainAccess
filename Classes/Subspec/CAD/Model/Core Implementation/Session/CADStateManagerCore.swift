@@ -37,16 +37,16 @@ open class CADStateManagerCore: CADStateManagerType {
     /// The patrol group
     open var patrolGroup: String? = "Collingwood"
 
-    /// The map bounding box to sync, or nil if using patrol group
-    open var mapBoundingBox: MKMapView.BoundingBox? = nil {
+    /// The current sync mode
+    open var syncMode: SyncMode = .patrolGroup {
         didSet {
-            if mapBoundingBox != oldValue {
+            if syncMode != oldValue {
                 // Sync if moving bounding box or switching back to patrol group
                 _ = syncDetails()
             }
         }
     }
-    
+
     /// The last book on data
     open private(set) var lastBookOn: CADBookOnRequestType? {
         didSet {
@@ -322,23 +322,22 @@ open class CADStateManagerCore: CADStateManagerType {
         }.then { _ -> Promise<Void> in
             if let lastSync = self.lastSync {
                 // TODO: Remove this. For demos, we only get fresh data the first time
-//                return Promise<CADSyncResponseCore>.value(lastSync).done { [unowned self] summaries -> Void in
-//                    self.processSyncResponse(summaries)
-//                }
+                return Promise<CADSyncResponseCore>.value(lastSync).done { [unowned self] summaries -> Void in
+                    self.processSyncResponse(summaries)
+                }
             }
 
-            if self.mapBoundingBox != nil {
-                // Sync the map bounding box
-                return self.syncBoundingBox(force: true)
-            } else {
-                // Sync the patrol group
-                return self.syncPatrolGroup()
+            // Sync based on the current sync mode
+            switch self.syncMode {
+            case .patrolGroup:
+                return self.syncPatrolGroup(self.patrolGroup!)
+            case .map(let boundingBox):
+                return self.syncBoundingBox(boundingBox)
             }
         }
     }
     
-    private func syncPatrolGroup() -> Promise<Void> {
-        guard let patrolGroup = self.patrolGroup else { return Promise(error: CADStateManagerError.invalidSyncMode) }
+    private func syncPatrolGroup(_ patrolGroup: String) -> Promise<Void> {
 
         // Clear bounding box state
         self.lastSyncMapBoundingBox = nil
@@ -350,14 +349,12 @@ open class CADStateManagerCore: CADStateManagerType {
         }
     }
     
-    private func syncBoundingBox(force: Bool) -> Promise<Void> {
-        guard let mapBoundingBox = self.mapBoundingBox else { return Promise(error: CADStateManagerError.invalidSyncMode) }
-
+    private func syncBoundingBox(_ boundingBox: MKMapView.BoundingBox, force: Bool = false) -> Promise<Void> {
         // TODO: Calculate whether it's worth moving
-        self.lastSyncMapBoundingBox = mapBoundingBox
+        self.lastSyncMapBoundingBox = boundingBox
 
-        let request = CADSyncBoundingBoxRequestCore(northWestCoordinate: mapBoundingBox.northWest,
-                                                    southEastCoordinate: mapBoundingBox.southEast)
+        let request = CADSyncBoundingBoxRequestCore(northWestCoordinate: boundingBox.northWest,
+                                                    southEastCoordinate: boundingBox.southEast)
         return firstly {
             return CADStateManagerCore.apiManager.cadSyncSummaries(with: request)
         }.done { [unowned self] (summaries: CADSyncResponseCore) -> Void in

@@ -9,15 +9,32 @@
 import Foundation
 import PromiseKit
 
+/// Enum for state manager errors
 public enum CADStateManagerError: Error {
     case notLoggedIn
     case notBookedOn
-    case invalidSyncMode
+}
+
+/// Enum for different sync modes
+public enum SyncMode: Equatable {
+    case patrolGroup
+    case map(boundingBox: MKMapView.BoundingBox)
+
+    public static func ==(lhs: SyncMode, rhs: SyncMode) -> Bool {
+        switch (lhs, rhs) {
+        case (.patrolGroup, .patrolGroup):
+            return true
+        case (let .map(boundingBox1), let .map(boundingBox2)):
+            return boundingBox1 == boundingBox2
+        default:
+            return false
+        }
+    }
 }
 
 /// Protocol defining a CAD state manager. To be implemented in ClientKit and set as shared on CADStateManager class below
 public protocol CADStateManagerType {
-    
+
     // MARK: - Synced State
 
     /// The logged in officer details
@@ -26,8 +43,8 @@ public protocol CADStateManagerType {
     /// The current patrol group
     var patrolGroup: String? { get set }
 
-    /// The map bounding box to sync, or nil if using patrol group
-    var mapBoundingBox: MKMapView.BoundingBox? { get set }
+    /// The current sync mode
+    var syncMode: SyncMode { get set }
     
     /// The last book on data
     var lastBookOn: CADBookOnRequestType? { get }

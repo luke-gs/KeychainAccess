@@ -154,7 +154,7 @@ open class TasksMapViewController: MapViewController {
         }, completion: nil)
 
         if (viewModel.splitViewModel?.filterViewModel.showResultsOutsidePatrolArea).isTrue {
-            CADStateManager.shared.mapBoundingBox = mapView.boundingBox()
+            CADStateManager.shared.syncMode = .map(boundingBox: mapView.boundingBox())
         }
 
         // Keep resource annotations on top by bringing subview to front
