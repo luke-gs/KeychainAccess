@@ -318,8 +318,13 @@ open class CADStateManagerCore: CADStateManagerType {
         // Perform sync and keep result
         return firstly {
             return after(seconds: 1.0)
-        }.then {
-            return self.syncPatrolGroup(self.patrolGroup!)
+        }.then { _ -> Promise<Void> in
+            if let mapBoundingBox = self.mapBoundingBox, self.showsResultsOutsidePatrolGroup {
+                return self.syncBoundingBox(mapBoundingBox, force: true)
+            } else {
+                // Perform sync and keep result
+                return self.syncPatrolGroup(self.patrolGroup!)
+            }
         }
     }
     
@@ -337,6 +342,7 @@ open class CADStateManagerCore: CADStateManagerType {
     }
     
     public func syncBoundingBox(_ boundingBox: MKMapView.BoundingBox, force: Bool) -> Promise<Void> {
+        self.mapBoundingBox = boundingBox
         // TODO: Calculate whether it's worth moving
         let request = CADSyncBoundingBoxRequestCore(northWestCoordinate: boundingBox.northWest,
                                                   southEastCoordinate: boundingBox.southEast)
