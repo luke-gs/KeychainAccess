@@ -88,7 +88,7 @@ public class EntityDetailSectionsViewModel {
     }
 
     public func setSelectedResult(fetchResult: EntityFetchResult) {
-        if let recentlyViewed = recentlyViewed, initialSource == selectedSource {
+        if let recentlyViewed = recentlyViewed {
             if let entity = fetchResult.entity, fetchResult.error == nil {
                 if recentlyViewed.contains(entity) {
                     recentlyViewed.remove(entity)
