@@ -5,6 +5,8 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
+import Foundation
+
 import MPOLKit
 
 public class RelationshipSearchDatasource: CustomSearchPickerDatasource {
