@@ -11,7 +11,7 @@ import MPOLKit
 public class IncidentSearchDataSource: CustomSearchPickerDatasource {
 
     public var objects: [Pickable] = []
-    public var selectedObjects: [Pickable] = []
+    public var selectedObjects: [Pickable]?
 
     public var title: String?
 
@@ -21,7 +21,7 @@ public class IncidentSearchDataSource: CustomSearchPickerDatasource {
     public var allowsMultipleSelection: Bool
 
     public init(objects: [Pickable],
-                selectedObjects: [Pickable] = [],
+                selectedObjects: [Pickable]? = nil,
                 title: String? = "Incidents",
                 allowsMultipleSelection: Bool = true,
                 configuration: SearchHeaderConfiguration? = nil) {
@@ -35,7 +35,7 @@ public class IncidentSearchDataSource: CustomSearchPickerDatasource {
     }
 
     public func allowsSelection(of object: Pickable) -> Bool {
-        if selectedObjects.contains(where: {$0.title == object.title}) {
+        if selectedObjects?.contains(where: {$0.title == object.title}) == true {
             return false
         }
 
@@ -55,6 +55,6 @@ public class IncidentSearchDataSource: CustomSearchPickerDatasource {
     }
 
     func searchHeaderSubtitle(with objects: [Pickable]) -> String {
-        return objects.map{ $0.title }.joined(separator: ", ")
+        return objects.map { $0.title }.joined(separator: ", ")
     }
 }
