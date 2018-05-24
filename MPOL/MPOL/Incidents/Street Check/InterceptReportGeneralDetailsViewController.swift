@@ -33,17 +33,42 @@ public class InterceptReportGeneralDetailsViewController: FormBuilderViewControl
 
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        viewModel.report.viewed = true
         reloadForm()
-        loadingManager.state = viewModel.loadingManagerState
+        loadingManager.state = .loaded
     }
 
 
     override public func construct(builder: FormBuilder) {
         builder.title = title
-        builder.forceLinearLayout = true
+        builder.forceLinearLayout = false
         builder += HeaderFormItem(text: viewModel.headerFormItemTitle)
+
+        builder += DropDownFormItem(title: "Subject")
+            .required()
+            .options(viewModel.subjectOptions)
+            .selectedValue([viewModel.report.selectedSubject ?? ""])
+            .width(.column(2))
+            .onValueChanged({ (value) in
+                guard let value = value?.first else { return }
+                self.viewModel.report.selectedSubject = value
+            })
+
+        builder += DropDownFormItem(title: "Secondary Subject")
+            .required()
+            .options(viewModel.secondarySubjectOptions)
+            .selectedValue([viewModel.report.selectedSecondarySubject ?? ""])
+            .width(.column(2))
+            .onValueChanged({ (value) in
+                guard let value = value?.first else { return }
+                self.viewModel.report.selectedSecondarySubject = value
+            })
+
+        builder += TextViewFormItem(title: "Remarks")
+            .text(viewModel.report.remarks ?? "")
+            .onValueChanged({ (value) in
+                guard let value = value else { return }
+                self.viewModel.report.remarks = value
+            })
     }
 
     // MARK: Eval

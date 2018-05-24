@@ -52,7 +52,9 @@ public class OfficerListReport: Reportable {
 
         evaluator.registerKey(.officers) {
             return self.viewed == true
-                && self.officers.count > 0
+                && self.officers.reduce(true, { (result, officer) -> Bool in
+                    return result && !officer.involvements.isEmpty
+                })
         }
     }
 
