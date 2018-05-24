@@ -297,7 +297,7 @@ open class CADStateManagerCore: CADStateManagerType {
                                                    updateType: .dateTime)
         return CADStateManagerCore.apiManager.fetchManifest(with: manifestRequest).then { result -> Promise<Void> in
             return Manifest.shared.saveManifest(with: result, at:checkedAtDate)
-        }.done { _ in
+        }.done { [unowned self] _ in
             self.lastManifestSyncTime = Date()
         }
     }
@@ -313,7 +313,7 @@ open class CADStateManagerCore: CADStateManagerType {
                                                    method: .post, updateType: .dateTime)
         return CADStateManagerCore.apiManager.fetchManifest(with: manifestRequest).then { result -> Promise<Void> in
             return Manifest.shared.saveManifest(with: result, at:checkedAtDate)
-        }.done { _ in
+        }.done { [unowned self] _ in
             self.lastManifestSyncTime = Date()
         }
     }
@@ -324,7 +324,9 @@ open class CADStateManagerCore: CADStateManagerType {
     open func syncDetails(force: Bool = false) -> Promise<Void> {
         // TODO: Remove this. For demos, we only get fresh data the first time
         if let lastSync = self.lastSync {
-            return Promise<CADSyncResponseCore>.value(lastSync).done { [unowned self] summaries -> Void in
+            return after(seconds: 1).map {
+                return lastSync
+            }.done { [unowned self] summaries in
                 self.processSyncResponse(summaries)
             }
         }
@@ -334,7 +336,7 @@ open class CADStateManagerCore: CADStateManagerType {
 
             // If already running a sync, chain off that sync
             if let pendingSync = self.pendingSync {
-                self.pendingSync = pendingSync.then {
+                self.pendingSync = pendingSync.then { [unowned self] in
                     return self.syncDetails()
                 }
                 return self.pendingSync!
@@ -348,7 +350,7 @@ open class CADStateManagerCore: CADStateManagerType {
                 self.pendingSync = self.syncBoundingBox(boundingBox, force: force)
             }
 
-            return self.pendingSync!.done(on: self.syncQueue, {
+            return self.pendingSync!.done(on: self.syncQueue, { [unowned self] in
                 // No longer performing sync operation
                 self.pendingSync = nil
             })
@@ -371,7 +373,7 @@ open class CADStateManagerCore: CADStateManagerType {
 
         // Calculate whether it's worth performing new sync if not forced
         if let prevBoundingBox = lastSyncMapBoundingBox, !force {
-            // Check how far map has moved
+            // Check how far map has moved or been resized
             let prevSize = prevBoundingBox.northWestLocation.distance(from: prevBoundingBox.southEastLocation)
             let newSize = boundingBox.northWestLocation.distance(from: boundingBox.southEastLocation)
             let movedFactor = boundingBox.northWestLocation.distance(from: prevBoundingBox.northWestLocation) / prevSize
@@ -411,7 +413,7 @@ open class CADStateManagerCore: CADStateManagerType {
         }.then { [unowned self] _ in
             // Get sync details
             return self.syncDetails()
-        }.done { _ -> Void in
+        }.done { [unowned self] _ -> Void in
             // Clear any outstanding shift ending notifications if we aren't booked on
             if self.lastBookOn == nil {
                 NotificationManager.shared.removeLocalNotification(CADLocalNotifications.shiftEnding)
