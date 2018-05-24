@@ -315,25 +315,20 @@ open class CADStateManagerCore: CADStateManagerType {
     // MARK: - Sync
 
     /// Sync the latest task summaries
-    open func syncDetails() -> Promise<Void> {
-        // Perform sync and keep result
-        return firstly {
-            return after(seconds: 1.0)
-        }.then { _ -> Promise<Void> in
-            if let lastSync = self.lastSync {
-                // TODO: Remove this. For demos, we only get fresh data the first time
-                return Promise<CADSyncResponseCore>.value(lastSync).done { [unowned self] summaries -> Void in
-                    self.processSyncResponse(summaries)
-                }
+    open func syncDetails(force: Bool = false) -> Promise<Void> {
+        // TODO: Remove this. For demos, we only get fresh data the first time
+        if let lastSync = self.lastSync {
+            return Promise<CADSyncResponseCore>.value(lastSync).done { [unowned self] summaries -> Void in
+                self.processSyncResponse(summaries)
             }
+        }
 
-            // Sync based on the current sync mode
-            switch self.syncMode {
-            case .patrolGroup:
-                return self.syncPatrolGroup(self.patrolGroup!)
-            case .map(let boundingBox):
-                return self.syncBoundingBox(boundingBox)
-            }
+        // Sync based on the current sync mode
+        switch self.syncMode {
+        case .patrolGroup:
+            return self.syncPatrolGroup(self.patrolGroup!)
+        case .map(let boundingBox):
+            return self.syncBoundingBox(boundingBox, force: force)
         }
     }
     
@@ -350,9 +345,22 @@ open class CADStateManagerCore: CADStateManagerType {
     }
     
     private func syncBoundingBox(_ boundingBox: MKMapView.BoundingBox, force: Bool = false) -> Promise<Void> {
-        // TODO: Calculate whether it's worth moving
-        self.lastSyncMapBoundingBox = boundingBox
 
+        // Calculate whether it's worth performing new sync if not forced
+        if let prevBoundingBox = lastSyncMapBoundingBox, !force {
+            // Check how far map has moved
+            let prevSize = prevBoundingBox.northWestLocation.distance(from: prevBoundingBox.southEastLocation)
+            let newSize = boundingBox.northWestLocation.distance(from: boundingBox.southEastLocation)
+            let movedFactor = boundingBox.northWestLocation.distance(from: prevBoundingBox.northWestLocation) / prevSize
+            let sizeFactor = abs(1 - (prevSize / newSize))
+            if movedFactor < 0.05 && sizeFactor < 0.05 {
+                // If less than 5% movement and size change since last sync, ignore
+                return Promise<Void>()
+            }
+        }
+
+        // Perform sync
+        self.lastSyncMapBoundingBox = boundingBox
         let request = CADSyncBoundingBoxRequestCore(northWestCoordinate: boundingBox.northWest,
                                                     southEastCoordinate: boundingBox.southEast)
         return firstly {

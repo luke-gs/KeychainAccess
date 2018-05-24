@@ -127,7 +127,7 @@ public protocol CADStateManagerType {
     // MARK: - Sync
 
     /// Sync the latest task summaries
-    func syncDetails() -> Promise<Void>
+    func syncDetails(force: Bool) -> Promise<Void>
     
     /// Perform initial sync after login or launching app
     func syncInitial() -> Promise<Void>

@@ -141,7 +141,7 @@ open class TasksListContainerViewModel {
 
     // Refresh all tasks list data
     open func refreshTaskList() -> Promise<Void> {
-        return CADStateManager.shared.syncDetails()
+        return CADStateManager.shared.syncDetails(force: true)
     }
 
     /// Applies the filter to the map

@@ -13,6 +13,14 @@ extension MKMapView {
     public struct BoundingBox: Equatable {
         var northWest: CLLocationCoordinate2D
         var southEast: CLLocationCoordinate2D
+
+        var northWestLocation: CLLocation {
+            return CLLocation(latitude: northWest.latitude, longitude: northWest.longitude)
+        }
+
+        var southEastLocation: CLLocation {
+            return CLLocation(latitude: southEast.latitude, longitude: southEast.longitude)
+        }
     }
 
     public func boundingBox() -> BoundingBox {
