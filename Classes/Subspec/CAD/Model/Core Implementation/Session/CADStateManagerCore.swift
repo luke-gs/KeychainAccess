@@ -57,6 +57,12 @@ open class CADStateManagerCore: CADStateManagerType {
         }
     }
 
+    /// Queue to get and set sync promise in thread safe manner
+    open private(set) var syncQueue: DispatchQueue = DispatchQueue(label: "au.com.gridstone.CADStateManagerCore")
+
+    /// The currently pending sync promise
+    open private(set) var pendingSync: Promise<Void>?
+
     /// The last sync data
     open private(set) var lastSync: CADSyncResponseCore?
 
@@ -323,13 +329,30 @@ open class CADStateManagerCore: CADStateManagerType {
             }
         }
 
-        // Sync based on the current sync mode
-        switch self.syncMode {
-        case .patrolGroup:
-            return self.syncPatrolGroup(self.patrolGroup!)
-        case .map(let boundingBox):
-            return self.syncBoundingBox(boundingBox, force: force)
-        }
+        // Dispatch to serial queue for checking/updating pendingSync promise
+        return Promise<Void>().then(on: syncQueue, { _ -> Promise<Void> in
+
+            // If already running a sync, chain off that sync
+            if let pendingSync = self.pendingSync {
+                self.pendingSync = pendingSync.then {
+                    return self.syncDetails()
+                }
+                return self.pendingSync!
+            }
+
+            // Sync based on the current sync mode
+            switch self.syncMode {
+            case .patrolGroup:
+                self.pendingSync = self.syncPatrolGroup(self.patrolGroup!)
+            case .map(let boundingBox):
+                self.pendingSync = self.syncBoundingBox(boundingBox, force: force)
+            }
+
+            return self.pendingSync!.done(on: self.syncQueue, {
+                // No longer performing sync operation
+                self.pendingSync = nil
+            })
+        })
     }
     
     private func syncPatrolGroup(_ patrolGroup: String) -> Promise<Void> {
