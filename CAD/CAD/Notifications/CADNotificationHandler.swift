@@ -19,7 +19,7 @@ class CADNotificationHandler: NotificationHandler {
     func handleForegroundNotification(_ notification: UNNotification) -> Promise<UNNotificationPresentationOptions> {
 
         // Perform sync in background (don't force display of notification to wait)
-        _ = CADStateManager.shared.syncDetails()
+        _ = CADStateManager.shared.syncDetails(force: false)
 
         // Complete with presentation options so notification is shown in app
         return Promise<UNNotificationPresentationOptions>.value([.alert, .sound])
@@ -52,7 +52,7 @@ class CADNotificationHandler: NotificationHandler {
     func handleSilentNotification(userInfo: [AnyHashable: Any]) -> Promise<UIBackgroundFetchResult> {
 
         // Perform sync
-        return CADStateManager.shared.syncDetails().then { _ in
+        return CADStateManager.shared.syncDetails(force: false).then { _ in
             return Promise<UIBackgroundFetchResult>.value(.newData)
         }
     }
