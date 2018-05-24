@@ -61,11 +61,15 @@ open class DemoAPIManager: CADAPIManagerType {
     }
 
     open func cadSyncSummaries<ResponseType: CADSyncResponseType>(with request: CADSyncRequestType, pathTemplate: String?) -> Promise<ResponseType> {
+        print("Syncing summaries:\n\(LogUtils.string(from: request.parameters))")
+
         if let data = loadDemoFileAsData(name: "DemoSync") {
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = ISO8601DateTransformer.jsonDateDecodingStrategy()
             let response = try! decoder.decode(CADSyncResponseCore.self, from: data)
-            return Promise<CADSyncResponseCore>.value(response) as! Promise<ResponseType>
+            return after(seconds: 1).then {
+                return Promise<CADSyncResponseCore>.value(response) as! Promise<ResponseType>
+            }
         }
         return Promise<ResponseType>(error: APIError.fileNotFound)
     }
