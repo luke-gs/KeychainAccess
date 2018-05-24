@@ -30,3 +30,4 @@ open class CADEmployeeDetailsRequestCore: CADEmployeeDetailsRequestType {
         try container.encode(employeeNumber, forKey: CodingKeys.employeeNumber)
     }
 }
+

@@ -28,6 +28,7 @@ open class SearchDisplayableViewController<T: SearchDisplayableDelegate, U: Sear
 
     open override func viewDidLoad() {
         super.viewDidLoad()
+        setupLoadingManager()
 
         searchBarView.searchBar.delegate = self
         view.addSubview(searchBarView)
@@ -59,8 +60,6 @@ open class SearchDisplayableViewController<T: SearchDisplayableDelegate, U: Sear
                 }
             }
         }
-        // Update loading state based on whether there is any content
-        loadingManager.state = builder.formItems.isEmpty ? .noContent : .loaded
     }
 
     open override func viewDidLayoutSubviews() {
@@ -77,6 +76,12 @@ open class SearchDisplayableViewController<T: SearchDisplayableDelegate, U: Sear
         view.layoutIfNeeded()
     }
 
+    private func setupLoadingManager() {
+        loadingManager.state = viewModel.numberOfSections() == 0 ? .noContent : .loaded
+        loadingManager.noContentView.titleLabel.text = viewModel.emptyStateText() ?? loadingManager.noContentView.titleLabel.text
+        loadingManager.loadingView.titleLabel.text = viewModel.loadingStateText() ?? loadingManager.loadingView.titleLabel.text
+    }
+
     // MARK: Searchbar delegate
 
     public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -86,7 +91,9 @@ open class SearchDisplayableViewController<T: SearchDisplayableDelegate, U: Sear
 
     public func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let action = viewModel.searchAction() else { return }
+        self.loadingManager.state = .loading
         action.done {
+            self.loadingManager.state = .loaded
             self.reloadForm()
         }.catch { _ in
             self.loadingManager.state = .error

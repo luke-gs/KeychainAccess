@@ -138,6 +138,14 @@ open class DefaultSearchDisplayableViewModel: SearchDisplayableViewModel {
     public func searchAction() -> Promise<Void>? {
         MPLRequiresConcreteImplementation()
     }
+
+    public func loadingStateText() -> String? {
+        return nil
+    }
+
+    public func emptyStateText() -> String? {
+        return nil
+    }
 }
 
 /// Generic Search View Model definition
@@ -220,6 +228,16 @@ public protocol SearchDisplayableViewModel {
     /// Returns an optional promise that can be used to reload the form
     /// after recieving data
     func searchAction() -> Promise<Void>?
+
+    /// The text for the loading state
+    ///
+    /// - Returns: the loading state text
+    func loadingStateText() -> String?
+
+    /// The text for the empty state
+    ///
+    /// - Returns: the empty state text
+    func emptyStateText() -> String?
 }
 
 /// A generic searchable object

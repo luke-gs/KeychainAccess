@@ -159,6 +159,10 @@ open class MPOLSplitViewController: PushableSplitViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateNavigationBarForTraitChange()
+        
+        // In the case where we launch app in compact mode using this as root VC, we do not know size class of
+        // UIWindow yet during creation, so we need to re-update split VC to use correct size class after creation.
+        updateSplitViewControllerForTraitChange()
 
         // If by the time this view controller is about to be presented, but `selectedViewController`
         // is not yet set, then set it to default.

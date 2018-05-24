@@ -161,7 +161,7 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
         guard let number = number else { return  false }
         let decimalCount = numberOfDecimalPlaces + (numberOfDecimalPlaces > 0 ? 1 : 0)
         let maxCount = max("\(Int(stepper.minimumValue))".count + decimalCount, "\(Int(stepper.maximumValue))".count + decimalCount)
-        return number.stringValue.count <= maxCount
+        return number.stringValue.count <= maxCount && number.doubleValue <= stepper.maximumValue
     }
 
     @objc private func textFieldTextDidChange(_ textField: UITextField) {
@@ -243,8 +243,8 @@ open class CollectionViewFormStepperCell: CollectionViewFormCell, UITextFieldDel
         // Work out major content positions
         let centerYOfContent: CGFloat
 
-        let halfContent = max(titleSize.height, valueSize.height, stepperSize.height, accessorySize.height) / 2.0
-        let minimumContentCenterY = contentRect.minY + halfContent
+        let halfContent = contentRect.height / 2.0
+        let minimumContentCenterY = contentRect.midY
         switch contentMode {
         case .bottom, .bottomLeft, .bottomRight:
             centerYOfContent = max(minimumContentCenterY, contentRect.maxY - halfContent)
