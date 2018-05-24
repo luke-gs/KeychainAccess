@@ -11,7 +11,7 @@ import Foundation
 public class DefaultSearchDatasource: CustomSearchPickerDatasource {
 
     public var objects: [Pickable] = []
-    public var selectedObjects: [Pickable] = []
+    public var selectedObjects: [Pickable]?
 
     public var title: String?
 
@@ -21,7 +21,7 @@ public class DefaultSearchDatasource: CustomSearchPickerDatasource {
     public var allowsMultipleSelection: Bool
 
     public init(objects: [Pickable],
-                selectedObjects: [Pickable] = [],
+                selectedObjects: [Pickable]? = nil,
                 title: String? = nil    ,
                 allowsMultipleSelection: Bool = false,
                 configuration: SearchHeaderConfiguration? = nil) {

@@ -12,7 +12,7 @@ fileprivate let cellID = "CellID"
 
 public protocol CustomSearchPickerDatasource {
     var objects: [Pickable] { get set }
-    var selectedObjects: [Pickable] { get set }
+    var selectedObjects: [Pickable]? { get set }
     var title: String? { get }
     var allowsMultipleSelection: Bool { get }
 
@@ -37,7 +37,7 @@ public extension CustomSearchPickerDatasource {
 
     public func selectedIndexes() -> [Int] {
         return objects.enumerated().filter { (index, object) -> Bool in
-            return selectedObjects.contains(where: { $0.isEqual(to: object) } )
+            return selectedObjects?.contains(where: { $0.isEqual(to: object) }) == true
         }.map { $0.offset }
     }
 }
