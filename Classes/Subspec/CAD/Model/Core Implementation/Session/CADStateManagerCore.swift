@@ -41,8 +41,17 @@ open class CADStateManagerCore: CADStateManagerType {
     open var syncMode: SyncMode = .patrolGroup {
         didSet {
             if syncMode != oldValue {
+                // Force a sync unless just updating the map bounds
+                let force: Bool
+                switch (oldValue, syncMode) {
+                case (.map(_), .map(_)):
+                    force = false
+                default:
+                    force = true
+                }
+
                 // Sync if moving bounding box or switching back to patrol group
-                _ = syncDetails()
+                _ = syncDetails(force: force)
             }
         }
     }
@@ -320,8 +329,13 @@ open class CADStateManagerCore: CADStateManagerType {
 
     // MARK: - Sync
 
+    open func syncDetails() -> Promise<Void> {
+        // Force a new sync be default
+        return syncDetails(force: true)
+    }
+
     /// Sync the latest task summaries
-    open func syncDetails(force: Bool = false) -> Promise<Void> {
+    open func syncDetails(force: Bool) -> Promise<Void> {
         // TODO: Remove this. For demos, we only get fresh data the first time
         if let lastSync = self.lastSync {
             return after(seconds: 1).map {
@@ -345,6 +359,7 @@ open class CADStateManagerCore: CADStateManagerType {
             // Sync based on the current sync mode
             switch self.syncMode {
             case .patrolGroup:
+                self.lastSyncMapBoundingBox = nil
                 self.pendingSync = self.syncPatrolGroup(self.patrolGroup!)
             case .map(let boundingBox):
                 self.pendingSync = self.syncBoundingBox(boundingBox, force: force)
@@ -358,10 +373,6 @@ open class CADStateManagerCore: CADStateManagerType {
     }
     
     private func syncPatrolGroup(_ patrolGroup: String) -> Promise<Void> {
-
-        // Clear bounding box state
-        self.lastSyncMapBoundingBox = nil
-
         return firstly {
             return CADStateManagerCore.apiManager.cadSyncSummaries(with: CADSyncPatrolGroupRequestCore(patrolGroup: patrolGroup))
         }.done { [unowned self] summaries -> Void in

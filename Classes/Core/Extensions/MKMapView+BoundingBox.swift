@@ -11,14 +11,14 @@ import UIKit
 extension MKMapView {
 
     public struct BoundingBox: Equatable {
-        var northWest: CLLocationCoordinate2D
-        var southEast: CLLocationCoordinate2D
+        public var northWest: CLLocationCoordinate2D
+        public var southEast: CLLocationCoordinate2D
 
-        var northWestLocation: CLLocation {
+        public var northWestLocation: CLLocation {
             return CLLocation(latitude: northWest.latitude, longitude: northWest.longitude)
         }
 
-        var southEastLocation: CLLocation {
+        public var southEastLocation: CLLocation {
             return CLLocation(latitude: southEast.latitude, longitude: southEast.longitude)
         }
     }
