@@ -61,7 +61,7 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
     open override func sidebarViewController(_ controller: UIViewController, didSelectSourceAt index: Int) {
         let source = detailViewModel.sources[index]
-        guard source != detailViewModel.selectedSource else { return }
+        guard !(source == detailViewModel.selectedSource) else { return }
         updateResultFor(source)
         updateEverything()
     }
@@ -113,7 +113,7 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
         let sources = detailViewModel.sources.filter { source in
             guard let fetchState = detailViewModel.results[source.serverSourceName]?.state else { return true }
-            return source != detailViewModel.selectedSource && fetchState == .idle
+            return !(source == detailViewModel.selectedSource) && fetchState == .idle
         }
 
         sources.forEach { fetchEntityDetailsFor($0) }

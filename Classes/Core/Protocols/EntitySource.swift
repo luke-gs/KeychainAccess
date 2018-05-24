@@ -26,9 +26,3 @@ func ==(lhs: EntitySource, rhs: EntitySource) -> Bool {
         lhs.localizedBadgeTitle == rhs.localizedBadgeTitle &&
         lhs.localizedBarTitle == rhs.localizedBarTitle
 }
-
-func !=(lhs: EntitySource, rhs: EntitySource) -> Bool {
-    return lhs.serverSourceName != rhs.serverSourceName ||
-        lhs.localizedBadgeTitle != rhs.localizedBadgeTitle ||
-        lhs.localizedBarTitle != rhs.localizedBarTitle
-}
