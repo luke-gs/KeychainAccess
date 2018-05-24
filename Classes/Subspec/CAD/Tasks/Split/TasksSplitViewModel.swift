@@ -80,8 +80,13 @@ open class TasksSplitViewModel {
         delegate?.dismiss(animated: true, completion: nil)
         mapViewModel.applyFilter()
         listContainerViewModel.applyFilter()
-        
-        CADStateManager.shared.showsResultsOutsidePatrolGroup = filterViewModel.showResultsOutsidePatrolArea
+
+        // Set the bounding box for sync if showing outside patrol area
+        if let boundingBox = mapViewModel.delegate?.boundingBox(), filterViewModel.showResultsOutsidePatrolArea {
+            CADStateManager.shared.syncMode = .map(boundingBox: boundingBox)
+        } else {
+            CADStateManager.shared.syncMode = .patrolGroup
+        }
     }
 }
 
