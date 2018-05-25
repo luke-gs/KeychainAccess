@@ -18,7 +18,6 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
 
         self.navTitle = NSLocalizedString("Patrol details", comment: "")
         self.compactNavTitle = itemName
-        self.showCompactGlassBar = false
 
         self.viewModels = [
             PatrolOverviewViewModel(identifier: patrolNumber)

@@ -16,8 +16,7 @@ open class GlassBarView: UIControl {
     public let titleLabel: UILabel
     public let subtitleLabel: UILabel
     public let imageView: UIImageView
-    public let actionImageView: UIImageView
-    
+
     public init(blurEffectStyle: UIBlurEffectStyle, frame: CGRect = .zero) {
         self.blurEffect = UIBlurEffect(style: blurEffectStyle)
         self.backgroundView = UIVisualEffectView(effect: blurEffect)
@@ -26,8 +25,7 @@ open class GlassBarView: UIControl {
         self.titleLabel = UILabel()
         self.subtitleLabel = UILabel()
         self.imageView = UIImageView()
-        self.actionImageView = UIImageView()
-        
+
         super.init(frame: frame)
 
         addSubview(backgroundView)
@@ -47,10 +45,6 @@ open class GlassBarView: UIControl {
         labelStackView.translatesAutoresizingMaskIntoConstraints = false
         backgroundView.contentView.addSubview(labelStackView)
         
-        actionImageView.tintColor = .secondaryGray
-        actionImageView.translatesAutoresizingMaskIntoConstraints = false
-        backgroundView.contentView.addSubview(actionImageView)
-        
         NSLayoutConstraint.activate([
             backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
             backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -64,12 +58,7 @@ open class GlassBarView: UIControl {
             
             labelStackView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 18),
             labelStackView.centerYAnchor.constraint(equalTo: backgroundView.contentView.centerYAnchor),
-            labelStackView.trailingAnchor.constraint(equalTo: actionImageView.leadingAnchor),
-            
-            actionImageView.trailingAnchor.constraint(equalTo: backgroundView.contentView.trailingAnchor, constant: -24),
-            actionImageView.centerYAnchor.constraint(equalTo: backgroundView.contentView.centerYAnchor),
-            actionImageView.widthAnchor.constraint(equalToConstant: 20),
-            actionImageView.heightAnchor.constraint(equalToConstant: 20),
+            labelStackView.trailingAnchor.constraint(equalTo: backgroundView.contentView.trailingAnchor, constant: -24),
         ])
     }
     
