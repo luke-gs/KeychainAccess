@@ -95,7 +95,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
             additionalIncidents.forEach { displayable in
                 builder += SummaryListFormItem()
                     .title(displayable.title)
-                    .subtitle("Not Yet Started")
+                    .subtitle(viewModel.subtitle(for: displayable))
                     .width(.column(1))
                     .image(viewModel.image(for: displayable))
                     .selectionStyle(.none)

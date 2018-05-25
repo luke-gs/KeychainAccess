@@ -65,8 +65,8 @@ open class IncidentListViewModel: IncidentListViewModelType {
     }
 
     func subtitle(for displayable: IncidentListDisplayable) -> String {
-        let eval = incident(for: displayable)?.evaluator.isComplete ?? false
-        return eval ? "Complete" : "In Progress"
+        guard let incident = self.incident(for: displayable) else { return "" }
+        return incident.evaluator.isComplete ? "Complete" : "Incomplete"
     }
 
     func image(for displayable: IncidentListDisplayable) -> UIImage {
