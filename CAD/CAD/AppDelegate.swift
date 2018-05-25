@@ -43,10 +43,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let host = APP_HOST_URL
         APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)", plugins: plugins, trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
-        CADStateManager.shared = CADStateManagerCore()
 
         // Use demo data
-        CADStateManagerCore.apiManager = DemoAPIManager.shared
+        CADStateManager.shared = CADStateManagerCore(apiManager: DemoAPIManager.shared)
 
         landingPresenter = LandingPresenter()
         landingPresenter.wantsBiometricAuthentication = true
