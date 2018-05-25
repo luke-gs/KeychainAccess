@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class IncidentNarrativeViewModel: DatedActivityLogViewModel, TaskDetailsViewModel {
+open class IncidentNarrativeViewModel: DatedActivityLogViewModel, TaskDetailsViewModel {
     
     /// The identifier for this incident
     open let incidentNumber: String
