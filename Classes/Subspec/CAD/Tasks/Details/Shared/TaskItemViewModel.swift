@@ -38,7 +38,13 @@ open class TaskItemViewModel {
     open var subtitleText: String?
 
     /// Whether to show the glass bar overlay that allows changing sidebar state in compact mode
-    open var showCompactGlassBar: Bool = true
+    open var showCompactGlassBar: Bool
+
+    /// The compact title shown in compact glass bar (e.g. 'Currently Resourced')
+    open var compactTitle: String?
+
+    /// The compact subtitle shown in compact glass bar (e.g. 'Respond to this incident')
+    open var compactSubtitle: String?
 
     /// View controllers to show in the list
     open func detailViewControllers() -> [UIViewController] {
@@ -69,6 +75,9 @@ open class TaskItemViewModel {
         self.itemName = itemName
         self.viewModels = viewModels
         self.subtitleText = subtitleText
+        self.compactTitle = statusText
+        self.compactSubtitle = subtitleText
+        self.showCompactGlassBar = false
     }
 
     /// Called when the view model data should be refreshed from model data

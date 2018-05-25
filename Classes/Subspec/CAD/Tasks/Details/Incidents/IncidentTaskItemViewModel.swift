@@ -18,7 +18,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         let captionText = "#\(incidentNumber)"
         super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, subtitleText: captionText)
 
-        self.navTitle =  NSLocalizedString("Incident details", comment: "")
+        self.navTitle = NSLocalizedString("Incident details", comment: "")
         self.compactNavTitle = itemName
 
         self.viewModels = [
@@ -38,8 +38,9 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
                   itemName: [incident.type, incident.resourceCountString].joined())
         self.incident = incident
         self.resource = resource
+        updateGlassBar()
     }
-    
+
     open override func createViewController() -> UIViewController {
         let vc = TaskItemSidebarSplitViewController(viewModel: self)
         delegate = vc
@@ -64,6 +65,30 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
             viewModels.forEach {
                 $0.reloadFromModel()
             }
+            updateGlassBar()
+        }
+    }
+
+    open func updateGlassBar() {
+        if let incident = incident, allowChangeResourceStatus() {
+            // Only show compact glass bar if we can change status
+            showCompactGlassBar = true
+
+            // Customise text based on current state
+            if CADStateManager.shared.currentResource == resource {
+                compactTitle = statusText
+                compactSubtitle = NSLocalizedString("Change status", comment: "")
+            } else {
+                let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier)
+                if resources.count > 0 {
+                    compactTitle = NSLocalizedString("Currently Resourced", comment: "")
+                } else {
+                    compactTitle = NSLocalizedString("Currently Unresourced", comment: "")
+                }
+                compactSubtitle = NSLocalizedString("Respond to this incident", comment: "")
+            }
+        } else {
+            showCompactGlassBar = false
         }
     }
 

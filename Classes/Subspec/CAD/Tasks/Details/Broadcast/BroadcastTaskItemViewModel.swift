@@ -18,7 +18,6 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
         
         self.navTitle = NSLocalizedString("Broadcast details", comment: "")
         self.compactNavTitle = itemName
-        self.showCompactGlassBar = false
         
         self.viewModels = [
             BroadcastOverviewViewModel(identifier: broadcastNumber)

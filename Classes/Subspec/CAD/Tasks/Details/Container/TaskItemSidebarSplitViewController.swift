@@ -142,16 +142,13 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
             self.compactStatusChangeBar = compactStatusChangeBar
         }
         
-        compactStatusChangeBar?.titleLabel.text = detailViewModel.statusText
-        // TODO: Add subtitle label
-        compactStatusChangeBar?.subtitleLabel.isHidden = true
+        compactStatusChangeBar?.titleLabel.text = detailViewModel.compactTitle
+        compactStatusChangeBar?.subtitleLabel.text = detailViewModel.compactSubtitle
         compactStatusChangeBar?.imageView.image = detailViewModel.iconImage
         
         if detailViewModel.allowChangeResourceStatus() == true {
-            compactStatusChangeBar?.actionImageView.image = AssetManager.shared.image(forKey: .editCell)
             compactStatusChangeBar?.addTarget(self, action: #selector(didTapStatusChangeButton), for: .touchUpInside)
         } else {
-            compactStatusChangeBar?.actionImageView.image = nil
             compactStatusChangeBar?.removeTarget(self, action: #selector(didTapStatusChangeButton), for: .touchUpInside)
         }
     }
