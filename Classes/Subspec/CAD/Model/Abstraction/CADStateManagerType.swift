@@ -9,33 +9,11 @@
 import Foundation
 import PromiseKit
 
-/// Enum for state manager errors
-public enum CADStateManagerError: Error {
-    case notLoggedIn
-    case notBookedOn
-}
-
-/// Enum for different sync modes
-public enum SyncMode: Equatable {
-    case patrolGroup
-    case map(boundingBox: MKMapView.BoundingBox)
-
-    public static func ==(lhs: SyncMode, rhs: SyncMode) -> Bool {
-        switch (lhs, rhs) {
-        case (.patrolGroup, .patrolGroup):
-            return true
-        case (let .map(boundingBox1), let .map(boundingBox2)):
-            return boundingBox1 == boundingBox2
-        default:
-            return false
-        }
-    }
-}
-
-/// Protocol defining a CAD state manager. To be implemented in ClientKit and set as shared on CADStateManager class below
+/// Protocol defining a CAD state manager. A base implementation is provided in MPOLKit but customisations
+/// or separate implementation should be implemented in ClientKit and set as shared on CADStateManager class below
 public protocol CADStateManagerType {
 
-    // MARK: - Synced State
+    // MARK: - Properties
 
     /// The logged in officer details
     var officerDetails: CADEmployeeDetailsResponseType? { get }
@@ -44,7 +22,7 @@ public protocol CADStateManagerType {
     var patrolGroup: String? { get set }
 
     /// The current sync mode
-    var syncMode: SyncMode { get set }
+    var syncMode: CADSyncMode { get set }
     
     /// The last book on data
     var lastBookOn: CADBookOnRequestType? { get }
@@ -91,22 +69,6 @@ public protocol CADStateManagerType {
     /// The current incident for my callsign
     var currentIncident: CADIncidentType? { get }
 
-    // MARK: - Officer
-
-    /// Fetch the logged in officer's details
-    func fetchCurrentOfficerDetails() -> Promise<CADEmployeeDetailsResponseType>
-
-    // MARK: - Shift
-
-    /// Book on to a shift
-    func bookOn(request: CADBookOnRequestType) -> Promise<Void>
-
-    /// Terminate shift
-    func bookOff() -> Promise<Void>
-
-    /// Update the status of our callsign
-    func updateCallsignStatus(status: CADResourceStatusType, incident: CADIncidentType?, comments: String?, locationComments: String?) -> Promise<Void>
-
     // MARK: - Manifest
 
     /// Fetch the officer capabilities
@@ -118,20 +80,17 @@ public protocol CADStateManagerType {
     /// Fetch the patrol groups
     func patrolGroups() -> [ManifestEntry]
 
-    /// Sync the latest manifest items
-    func syncManifestItems() -> Promise<Void>
-    
-    /// Sync the latest manifest items matching the specified categories
-    func syncManifestItems(categories: [String]) -> Promise<Void>
+    /// Sync the latest manifest items, optionally matching the specified categories
+    func syncManifestItems(categories: [String]?) -> Promise<Void>
 
     // MARK: - Sync
+
+    /// Perform initial sync after login or launching app
+    func syncInitial() -> Promise<Void>
 
     /// Sync the latest task summaries
     func syncDetails() -> Promise<Void>
     
-    /// Perform initial sync after login or launching app
-    func syncInitial() -> Promise<Void>
-
     /// Return all resources linked to an incident
     func resourcesForIncident(incidentNumber: String) -> [CADResourceType]
 
@@ -141,10 +100,21 @@ public protocol CADStateManagerType {
     /// Return all officers linked to a resource
     func officersForResource(callsign: String) -> [CADOfficerType]
 
-    // MARK: - Notifications
+    // MARK: - Officer
 
-    /// Adds or removes scheduled local notifications
-    func updateScheduledNotifications()
+    /// Fetch the logged in officer's details
+    func fetchCurrentOfficerDetails() -> Promise<CADEmployeeDetailsResponseType>
+
+    // MARK: - Book On
+
+    /// Book on to a shift
+    func bookOn(request: CADBookOnRequestType) -> Promise<Void>
+
+    /// Terminate shift
+    func bookOff() -> Promise<Void>
+
+    /// Update the status of our callsign
+    func updateCallsignStatus(status: CADResourceStatusType, incident: CADIncidentType?, comments: String?, locationComments: String?) -> Promise<Void>
 }
 
 /// Concrete class to provide static access to current state manager
@@ -189,3 +159,27 @@ public extension ManifestCollection {
 open class CADLocalNotifications {
     public static let shiftEnding = "CADShiftEndingNotification"
 }
+
+/// Enum for state manager errors
+public enum CADStateManagerError: Error {
+    case notLoggedIn
+    case notBookedOn
+}
+
+/// Enum for different sync modes
+public enum CADSyncMode: Equatable {
+    case patrolGroup
+    case map(boundingBox: MKMapView.BoundingBox)
+
+    public static func ==(lhs: CADSyncMode, rhs: CADSyncMode) -> Bool {
+        switch (lhs, rhs) {
+        case (.patrolGroup, .patrolGroup):
+            return true
+        case (let .map(boundingBox1), let .map(boundingBox2)):
+            return boundingBox1 == boundingBox2
+        default:
+            return false
+        }
+    }
+}
+

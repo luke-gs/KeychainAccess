@@ -395,6 +395,7 @@
 		4E719ECA2022F08600D45F52 /* TextTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E719EC92022F08600D45F52 /* TextTemplate.swift */; };
 		8CDAFFA6E9DC54A4594C01FE /* Pods_MPOLKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE1AAA01D6AE18F86693DF8 /* Pods_MPOLKitTests.framework */; };
 		9609401B20AE493800177E1F /* SubmissionFormBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9609401A20AE493800177E1F /* SubmissionFormBuilderViewController.swift */; };
+		9609402520B77BD700177E1F /* CADStateManagerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9609402420B77BD700177E1F /* CADStateManagerBase.swift */; };
 		960CBB441FEA191E00A33E95 /* ThemeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960CBB431FEA191E00A33E95 /* ThemeConstants.swift */; };
 		96179295209A92D4001DD4CB /* CADSyncResponseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96179294209A92D4001DD4CB /* CADSyncResponseType.swift */; };
 		96179297209A985E001DD4CB /* CADSyncRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96179296209A985E001DD4CB /* CADSyncRequestType.swift */; };
@@ -1250,6 +1251,7 @@
 		792BA6D7922A9D3748B70A23 /* Pods-MPOLKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.release.xcconfig"; sourceTree = "<group>"; };
 		9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9609401A20AE493800177E1F /* SubmissionFormBuilderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmissionFormBuilderViewController.swift; sourceTree = "<group>"; };
+		9609402420B77BD700177E1F /* CADStateManagerBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADStateManagerBase.swift; sourceTree = "<group>"; };
 		960CBB431FEA191E00A33E95 /* ThemeConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeConstants.swift; sourceTree = "<group>"; };
 		96179294209A92D4001DD4CB /* CADSyncResponseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADSyncResponseType.swift; sourceTree = "<group>"; };
 		96179296209A985E001DD4CB /* CADSyncRequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADSyncRequestType.swift; sourceTree = "<group>"; };
@@ -2267,6 +2269,7 @@
 			isa = PBXGroup;
 			children = (
 				2744E38B2051DD8500561A8F /* CADStateManagerCore.swift */,
+				9609402420B77BD700177E1F /* CADStateManagerBase.swift */,
 			);
 			path = Session;
 			sourceTree = "<group>";
@@ -4880,6 +4883,7 @@
 				BCA6FD771F22E0AE00EE8F7A /* SearchFieldButton.swift in Sources */,
 				EA4806B51F56A00600B42313 /* LocationSearchConfiguration.swift in Sources */,
 				12D3702020200DBD00D79DDB /* ObjectBucket.swift in Sources */,
+				9609402520B77BD700177E1F /* CADStateManagerBase.swift in Sources */,
 				2744E3A42051DD8500561A8F /* CADBookOnRequestCore.swift in Sources */,
 				274C89791F997F94005B9CF8 /* CADStatusTabBarViewModel.swift in Sources */,
 				BC9C7E161F0DED6600DFFE83 /* CheckBox.swift in Sources */,
