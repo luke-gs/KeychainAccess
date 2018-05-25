@@ -13,6 +13,9 @@ import MapKit
 /// Protocol for notifying UI of updated view model data
 public protocol TasksListContainerViewModelDelegate: class {
 
+    /// Called when the filter is changed
+    func filterChanged()
+
     // Called when source items are updated
     func updateSourceItems()
 
@@ -141,7 +144,11 @@ open class TasksListContainerViewModel {
         return CADStateManager.shared.syncDetails()
     }
 
-    // MARK: - Internal methods
+    /// Applies the filter to the map
+    open func applyFilter() {
+        updateSections()
+        delegate?.filterChanged()
+    }
 
     /// Update the task list data
     open func updateSections() {

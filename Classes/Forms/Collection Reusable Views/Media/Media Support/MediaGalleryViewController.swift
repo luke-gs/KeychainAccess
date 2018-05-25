@@ -263,7 +263,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
 
     private lazy var trashItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteTapped(_:)))
 
-    private lazy var beginSelectItem = UIBarButtonItem(title: NSLocalizedString("Select", comment: "Action to select assets"), style: .plain, target: self, action: #selector(beginSelectTapped(_:)))
+    private lazy var beginSelectItem = UIBarButtonItem(title: NSLocalizedString("Select", comment: "Action to select media"), style: .plain, target: self, action: #selector(beginSelectTapped(_:)))
 
     private lazy var endSelectItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(endSelectTapped(_:)))
 
@@ -314,7 +314,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
     }
 
     @objc private func addButtonTapped() {
-        let alertController = UIAlertController(title: NSLocalizedString("Choose Asset", comment: ""), message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: NSLocalizedString("Choose Media", comment: ""), message: nil, preferredStyle: .actionSheet)
 
         pickerSources.forEach({ source in
             let action = UIAlertAction(title: source.title, style: .default, handler: { _ in

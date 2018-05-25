@@ -22,8 +22,7 @@ open class TasksMapViewController: MapViewController {
     private var zPositionObservers: [NSKeyValueObservation] = []
 
     public let viewModel: TasksMapViewModel
-    public var mapLayerFilterButton: UIBarButtonItem!
-    
+
     private let clusterManager: ClusterManager = {
         let clusterManager = ClusterManager()
         clusterManager.cellSize = nil
@@ -33,6 +32,15 @@ open class TasksMapViewController: MapViewController {
         return clusterManager
     }()
     
+    /// Button for showing map layer filter
+    private var filterButton: UIBarButtonItem {
+        var image = AssetManager.shared.image(forKey: .filter)
+        if let filterViewModel = viewModel.splitViewModel?.filterViewModel, !filterViewModel.isDefaultState {
+            image = AssetManager.shared.image(forKey: .filterFilled)
+        }
+        return UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(showMapLayerFilter))
+    }
+
     public init(viewModel: TasksMapViewModel, initialLoadZoomStyle: InitialLoadZoomStyle, startingRegion: MKCoordinateRegion? = nil, settingsViewModel: MapSettingsViewModel = MapSettingsViewModel()) {
         self.viewModel = viewModel
         super.init(initialLoadZoomStyle: initialLoadZoomStyle, startingRegion: startingRegion, settingsViewModel: settingsViewModel)
@@ -63,8 +71,7 @@ open class TasksMapViewController: MapViewController {
             mapView.register(BroadcastAnnotationView.self, forAnnotationViewWithReuseIdentifier: BroadcastAnnotationView.defaultReuseIdentifier)
         }
         
-        mapLayerFilterButton = UIBarButtonItem.init(image: AssetManager.shared.image(forKey: .filterFilled), style: .plain, target: self, action: #selector(showMapLayerFilter))
-        navigationItem.rightBarButtonItem = mapLayerFilterButton
+        navigationItem.rightBarButtonItem = filterButton
         
         viewModel.loadTasks()
         addAnnotations(viewModel.filteredAnnotations)
@@ -140,11 +147,15 @@ open class TasksMapViewController: MapViewController {
         }
     }
     
-    public func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+    open func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         // Animate and reload clusters
         UIView.transition(with: mapView, duration: 0.1, options: .transitionCrossDissolve, animations: {
             self.clusterManager.reload(mapView, visibleMapRect: mapView.visibleMapRect)
         }, completion: nil)
+
+        if (viewModel.splitViewModel?.filterViewModel.showResultsOutsidePatrolArea).isTrue {
+            CADStateManager.shared.syncMode = .map(boundingBox: mapView.boundingBox())
+        }
 
         // Keep resource annotations on top by bringing subview to front
         // This is needed for iOS 10
@@ -247,6 +258,15 @@ extension TasksMapViewController: TasksSplitViewControllerDelegate {
 
 // MARK: - TasksMapViewModelDelegate
 extension TasksMapViewController: TasksMapViewModelDelegate {
+
+    public func boundingBox() -> MKMapView.BoundingBox {
+        return mapView.boundingBox()
+    }
+
+    public func filterChanged() {
+        // Update filter icon
+        navigationItem.rightBarButtonItem = filterButton
+    }
 
     public func annotationsChanged() {
         // Zoom to anotations if they have changed due to change to book on or filter

@@ -335,6 +335,8 @@ public final class Manifest: NSObject {
                             let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
                         {
                             entry.additionalDetails = json
+                        } else {
+                            entry.additionalDetails = entryDict[ManifestItemKeys.additionalData.rawValue] as? [String: Any]
                         }
                         
                         if var additionalData = entry.additionalDetails {

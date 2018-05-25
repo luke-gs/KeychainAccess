@@ -31,3 +31,10 @@ open class MapFilterOption {
         self.isOn = isOn
     }
 }
+
+extension MapFilterOption : Equatable {
+    public static func == (lhs: MapFilterOption, rhs: MapFilterOption) -> Bool {
+        return lhs.text == rhs.text &&
+            lhs.isOn == rhs.isOn
+    }
+}

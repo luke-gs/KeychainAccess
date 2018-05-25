@@ -10,7 +10,13 @@ import UIKit
 import PromiseKit
 
 /// View model for the callsign status screen
-open class CallsignStatusViewModel: CADStatusViewModel {
+open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignStatusItemViewModel> {
+
+    /// The currently selected state, can be nil
+    open var selectedIndexPath: IndexPath?
+
+    /// The display mode of cells when in compact mode
+    open var displayMode: CallsignStatusDisplayMode = .auto
 
     /// The incident related to the resource status
     open private(set) var incident: CADIncidentType?
@@ -25,7 +31,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
 
     /// Init with sectioned statuses to display, and current selection
     public init(sections: [CADFormCollectionSectionViewModel<ManageCallsignStatusItemViewModel>],
-                selectedStatus: CADResourceStatusType?, incident: CADIncidentType?) {
+                selectedStatus: CADResourceStatusType?, incident: CADIncidentType? = nil) {
         super.init()
 
         self.sections = sections
@@ -58,7 +64,7 @@ open class CallsignStatusViewModel: CADStatusViewModel {
             // Requires reason needs further details
             if requiresReason {
                 promise = promise.then { _ in
-                    self.promptForStatusReason().then { _ in
+                    return self.promptForStatusReason().then { _ in
                         // TODO: do something with reason
                         return Promise<Void>()
                     }
@@ -83,14 +89,9 @@ open class CallsignStatusViewModel: CADStatusViewModel {
                 break
             }
 
-            return promise.then {
-                // TODO: Submit callsign request
-                return after(seconds: 1.0)
-            }.then { _ -> Promise<CADResourceStatusType> in
-                // Update UI
+            return promise.map { _ in
                 self.selectedIndexPath = indexPath
-                CADStateManager.shared.updateCallsignStatus(status: newStatus, incident: self.incident, comments: nil, locationComments: nil)
-                return Promise.value(newStatus)
+                return newStatus
             }
         } else {
             let message = NSLocalizedString("Selection not allowed from this state", comment: "")
@@ -174,4 +175,15 @@ open class CallsignStatusViewModel: CADStatusViewModel {
     open override func shouldShowExpandArrow() -> Bool {
         return false
     }
+
+    // MARK: - Submit
+
+    open func submit() -> Promise<Void> {
+        // Update unit status if selected
+        if let selectedStatus = currentStatus {
+            return CADStateManager.shared.updateCallsignStatus(status: selectedStatus, incident: incident, comments: nil, locationComments: nil)
+        }
+        return Promise<Void>()
+    }
+
 }

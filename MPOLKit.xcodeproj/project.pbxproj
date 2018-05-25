@@ -41,8 +41,6 @@
 		12D8E2A01F9ED12100EEE214 /* GenericSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12BDF9151F95CCD50033E60B /* GenericSearchViewController.swift */; };
 		12D8E2A11F9ED12100EEE214 /* GenericSearchDefaultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D8E29D1F9EC6D800EEE214 /* GenericSearchDefaultViewModel.swift */; };
 		12EA561920327E130051DDEC /* EventLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EA561820327E130051DDEC /* EventLocation.swift */; };
-		12EF6626208D716900739924 /* RelationshipManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF6625208D716900739924 /* RelationshipManager.swift */; };
-		12EF664120917FAC00739924 /* Relationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF664020917FAC00739924 /* Relationship.swift */; };
 		12F0571E1F3AE5FC00CAD6F6 /* HTTPAuthenticationModeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0571D1F3AE5FC00CAD6F6 /* HTTPAuthenticationModeTests.swift */; };
 		12F057201F3BF6CF00CAD6F6 /* SourceItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F0571F1F3BF6CF00CAD6F6 /* SourceItemTests.swift */; };
 		12F057241F3BFCBC00CAD6F6 /* SearchResultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F057231F3BFCBC00CAD6F6 /* SearchResultsTests.swift */; };
@@ -186,14 +184,9 @@
 		273C538C1FE866B700BF994B /* TasksListResourceCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273C538B1FE866B700BF994B /* TasksListResourceCollectionViewCell.swift */; };
 		273C538F1FE8688F00BF994B /* TasksListResourceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273C538E1FE8688F00BF994B /* TasksListResourceViewModel.swift */; };
 		273DE2D11FE9D855000C46DD /* CreateIncidentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2D01FE9D855000C46DD /* CreateIncidentViewModel.swift */; };
-		273DE2D31FE9DAC7000C46DD /* CreateIncidentFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2D21FE9DAC7000C46DD /* CreateIncidentFormViewController.swift */; };
 		273DE2D51FE9DE4B000C46DD /* CreateIncidentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2D41FE9DE4B000C46DD /* CreateIncidentViewController.swift */; };
 		273DE2D91FEA0355000C46DD /* IntrinsicHeightFormBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2D81FEA0355000C46DD /* IntrinsicHeightFormBuilderViewController.swift */; };
 		273DE2DB1FEA0713000C46DD /* CreateIncidentFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2DA1FEA0713000C46DD /* CreateIncidentFormViewModel.swift */; };
-		273DE2DD1FEA0F89000C46DD /* CreateIncidentStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2DC1FEA0F89000C46DD /* CreateIncidentStatusViewModel.swift */; };
-		273DE2DF1FEA1047000C46DD /* CreateIncidentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2DE1FEA1047000C46DD /* CreateIncidentStatusViewController.swift */; };
-		273DE2E11FEA1199000C46DD /* CADStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2E01FEA1199000C46DD /* CADStatusViewController.swift */; };
-		273DE2E51FEB266F000C46DD /* CADStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273DE2E41FEB266F000C46DD /* CADStatusViewModel.swift */; };
 		2742CD2F1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2742CD2E1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift */; };
 		2744E38C2051DD8500561A8F /* CADTaskListSourceCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E36B2051DD8500561A8F /* CADTaskListSourceCore.swift */; };
 		2744E38D2051DD8500561A8F /* CADPatrolStatusCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2744E36E2051DD8500561A8F /* CADPatrolStatusCore.swift */; };
@@ -302,6 +295,7 @@
 		27D6814A202CFCE7003F3D14 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D68149202CFCE7003F3D14 /* NotificationManager.swift */; };
 		27DC60971FD513D80033BC0B /* DisableableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DC60961FD513D80033BC0B /* DisableableButton.swift */; };
 		27DC609B1FD60F3D0033BC0B /* ResourceOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DC609A1FD60F3D0033BC0B /* ResourceOverviewViewModel.swift */; };
+		27E2EAE120B4E50000A5F952 /* MKMapView+BoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E2EAE020B4E50000A5F952 /* MKMapView+BoundingBox.swift */; };
 		27E424401FDE10BC00B5BE47 /* InteractivePopRecognizerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E4243F1FDE10BC00B5BE47 /* InteractivePopRecognizerDelegate.swift */; };
 		27E81E542034E1AF000D5D1C /* TaskDetailsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E81E532034E1AF000D5D1C /* TaskDetailsOverviewViewController.swift */; };
 		27E81E562034E539000D5D1C /* TaskDetailsOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E81E552034E539000D5D1C /* TaskDetailsOverviewViewModel.swift */; };
@@ -402,6 +396,8 @@
 		47BC24DD1FE886F900BAB46C /* EntitySummarySearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BC24DC1FE886F900BAB46C /* EntitySummarySearchViewModel.swift */; };
 		4E719ECA2022F08600D45F52 /* TextTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E719EC92022F08600D45F52 /* TextTemplate.swift */; };
 		8CDAFFA6E9DC54A4594C01FE /* Pods_MPOLKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE1AAA01D6AE18F86693DF8 /* Pods_MPOLKitTests.framework */; };
+		9609401B20AE493800177E1F /* SubmissionFormBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9609401A20AE493800177E1F /* SubmissionFormBuilderViewController.swift */; };
+		9609402520B77BD700177E1F /* CADStateManagerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9609402420B77BD700177E1F /* CADStateManagerBase.swift */; };
 		960CBB441FEA191E00A33E95 /* ThemeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960CBB431FEA191E00A33E95 /* ThemeConstants.swift */; };
 		96179295209A92D4001DD4CB /* CADSyncResponseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96179294209A92D4001DD4CB /* CADSyncResponseType.swift */; };
 		96179297209A985E001DD4CB /* CADSyncRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96179296209A985E001DD4CB /* CADSyncRequestType.swift */; };
@@ -425,7 +421,6 @@
 		96435CBE203248FC00C77A75 /* CADResourceStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96435CBD203248FC00C77A75 /* CADResourceStatusType.swift */; };
 		9644B1D21F6785E200D031F2 /* CompactFormSheetNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */; };
 		964B8CC0203E3EB200550311 /* CADTaskListSourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964B8CBF203E3EB200550311 /* CADTaskListSourceType.swift */; };
-		9650CA151F958B320087F5C9 /* CallsignStatusViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA121F958B2D0087F5C9 /* CallsignStatusViewCell.swift */; };
 		9650CA161F958B330087F5C9 /* ManageCallsignStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA131F958B2D0087F5C9 /* ManageCallsignStatusViewController.swift */; };
 		9650CA171F958B330087F5C9 /* ManageCallsignStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA141F958B2D0087F5C9 /* ManageCallsignStatusViewModel.swift */; };
 		9650CA1B1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9650CA1A1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift */; };
@@ -494,7 +489,6 @@
 		96CF32321F8D7C3400140AF8 /* TasksListHeaderRegularViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32311F8D7C3400140AF8 /* TasksListHeaderRegularViewController.swift */; };
 		96CF32341F8D7C7700140AF8 /* TasksListHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CF32331F8D7C7700140AF8 /* TasksListHeaderViewModel.swift */; };
 		96D3415C2005D38000CEDDFF /* StandardSearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D3415B2005D38000CEDDFF /* StandardSearchBarView.swift */; };
-		96D731731FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D731721FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift */; };
 		96E19CAB2069A9A70021DB42 /* DraggableCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E19CAA2069A9A70021DB42 /* DraggableCardView.swift */; };
 		96E19CAE206C98A50021DB42 /* ClusterTasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E19CAD206C98A50021DB42 /* ClusterTasksViewController.swift */; };
 		96E19CB0206C98B60021DB42 /* ClusterTasksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E19CAF206C98B60021DB42 /* ClusterTasksViewModel.swift */; };
@@ -508,6 +502,8 @@
 		96F77281201FFB40000FE0D0 /* CreateActivityLogItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F77280201FFB40000FE0D0 /* CreateActivityLogItemViewController.swift */; };
 		96F77284202031E4000FE0D0 /* RelativeDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F77283202031E4000FE0D0 /* RelativeDateFormatter.swift */; };
 		96F77286202A75D6000FE0D0 /* DialogActionButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F77285202A75D6000FE0D0 /* DialogActionButtonsView.swift */; };
+		96FC1BF920AA4468005840CD /* CallsignStatusCollectionViewFormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FC1BF820AA4468005840CD /* CallsignStatusCollectionViewFormCell.swift */; };
+		96FC1BFB20AA4496005840CD /* CallsignStatusFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FC1BFA20AA4496005840CD /* CallsignStatusFormItem.swift */; };
 		9936C6781F9573B50091A61C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9936C6771F9573B50091A61C /* CoreLocation.framework */; };
 		9936C6791F9580500091A61C /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9936C6761F956D0E0091A61C /* LocationManager.swift */; };
 		9936C67D1F96C5580091A61C /* GeolocationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9936C67C1F96C5580091A61C /* GeolocationPlugin.swift */; };
@@ -520,8 +516,11 @@
 		99FF8C041F982A22003A8A4B /* AuditPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FF8C031F982A21003A8A4B /* AuditPlugin.swift */; };
 		AA1B06D22099798E00F5B390 /* ImageCodeableResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B06D12099798E00F5B390 /* ImageCodeableResponseSerializer.swift */; };
 		AA1B3A422092D4460009B00C /* OptionDisplayableFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A412092D4450009B00C /* OptionDisplayableFormItem.swift */; };
-		AA29BCAD20999E1600C2EC6D /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA29BCAC20999E1500C2EC6D /* ServiceType.swift */; };
+		AA1CFA9720AA65AE0032A30E /* EventEntityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1CFA9620AA65AE0032A30E /* EventEntityManager.swift */; };
+		AA1CFA9C20AA67990032A30E /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1CFA9B20AA67990032A30E /* ServiceType.swift */; };
 		AA792CCE20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA792CCD20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift */; };
+		AA7F795320AABC4A00985705 /* Relationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F795120AABC4A00985705 /* Relationship.swift */; };
+		AA7F795420AABC4A00985705 /* RelationshipManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F795220AABC4A00985705 /* RelationshipManager.swift */; };
 		BA6FEAA4EFE7F66EBAE4C2DC /* Pods_MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */; };
 		BC0448941F219A70005FB857 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0448931F219A70005FB857 /* AssetManager.swift */; };
 		BC0EA3F41F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */; };
@@ -913,8 +912,6 @@
 		12D566F51F5790BC001E74CA /* UserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		12D8E29D1F9EC6D800EEE214 /* GenericSearchDefaultViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericSearchDefaultViewModel.swift; sourceTree = "<group>"; };
 		12EA561820327E130051DDEC /* EventLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventLocation.swift; sourceTree = "<group>"; };
-		12EF6625208D716900739924 /* RelationshipManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipManager.swift; sourceTree = "<group>"; };
-		12EF664020917FAC00739924 /* Relationship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Relationship.swift; sourceTree = "<group>"; };
 		12F0571D1F3AE5FC00CAD6F6 /* HTTPAuthenticationModeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPAuthenticationModeTests.swift; sourceTree = "<group>"; };
 		12F0571F1F3BF6CF00CAD6F6 /* SourceItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceItemTests.swift; sourceTree = "<group>"; };
 		12F057231F3BFCBC00CAD6F6 /* SearchResultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsTests.swift; sourceTree = "<group>"; };
@@ -1058,14 +1055,9 @@
 		273C538B1FE866B700BF994B /* TasksListResourceCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListResourceCollectionViewCell.swift; sourceTree = "<group>"; };
 		273C538E1FE8688F00BF994B /* TasksListResourceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListResourceViewModel.swift; sourceTree = "<group>"; };
 		273DE2D01FE9D855000C46DD /* CreateIncidentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateIncidentViewModel.swift; sourceTree = "<group>"; };
-		273DE2D21FE9DAC7000C46DD /* CreateIncidentFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateIncidentFormViewController.swift; sourceTree = "<group>"; };
 		273DE2D41FE9DE4B000C46DD /* CreateIncidentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateIncidentViewController.swift; sourceTree = "<group>"; };
 		273DE2D81FEA0355000C46DD /* IntrinsicHeightFormBuilderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrinsicHeightFormBuilderViewController.swift; sourceTree = "<group>"; };
 		273DE2DA1FEA0713000C46DD /* CreateIncidentFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateIncidentFormViewModel.swift; sourceTree = "<group>"; };
-		273DE2DC1FEA0F89000C46DD /* CreateIncidentStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateIncidentStatusViewModel.swift; sourceTree = "<group>"; };
-		273DE2DE1FEA1047000C46DD /* CreateIncidentStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateIncidentStatusViewController.swift; sourceTree = "<group>"; };
-		273DE2E01FEA1199000C46DD /* CADStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADStatusViewController.swift; sourceTree = "<group>"; };
-		273DE2E41FEB266F000C46DD /* CADStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADStatusViewModel.swift; sourceTree = "<group>"; };
 		2742CD2E1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = IntrinsicHeightCollectionView.swift; path = Classes/UI/IntrinsicHeightCollectionView.swift; sourceTree = SOURCE_ROOT; };
 		2744E36B2051DD8500561A8F /* CADTaskListSourceCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADTaskListSourceCore.swift; sourceTree = "<group>"; };
 		2744E36E2051DD8500561A8F /* CADPatrolStatusCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CADPatrolStatusCore.swift; sourceTree = "<group>"; };
@@ -1159,6 +1151,7 @@
 		27D68149202CFCE7003F3D14 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		27DC60961FD513D80033BC0B /* DisableableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisableableButton.swift; sourceTree = "<group>"; };
 		27DC609A1FD60F3D0033BC0B /* ResourceOverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceOverviewViewModel.swift; sourceTree = "<group>"; };
+		27E2EAE020B4E50000A5F952 /* MKMapView+BoundingBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMapView+BoundingBox.swift"; sourceTree = "<group>"; };
 		27E4243F1FDE10BC00B5BE47 /* InteractivePopRecognizerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractivePopRecognizerDelegate.swift; sourceTree = "<group>"; };
 		27E81E532034E1AF000D5D1C /* TaskDetailsOverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsOverviewViewController.swift; sourceTree = "<group>"; };
 		27E81E552034E539000D5D1C /* TaskDetailsOverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsOverviewViewModel.swift; sourceTree = "<group>"; };
@@ -1261,6 +1254,8 @@
 		70E8FDF2F522A8C05328E451 /* Pods-MPOLKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKitTests/Pods-MPOLKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		792BA6D7922A9D3748B70A23 /* Pods-MPOLKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MPOLKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MPOLKit/Pods-MPOLKit.release.xcconfig"; sourceTree = "<group>"; };
 		9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9609401A20AE493800177E1F /* SubmissionFormBuilderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmissionFormBuilderViewController.swift; sourceTree = "<group>"; };
+		9609402420B77BD700177E1F /* CADStateManagerBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADStateManagerBase.swift; sourceTree = "<group>"; };
 		960CBB431FEA191E00A33E95 /* ThemeConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeConstants.swift; sourceTree = "<group>"; };
 		96179294209A92D4001DD4CB /* CADSyncResponseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADSyncResponseType.swift; sourceTree = "<group>"; };
 		96179296209A985E001DD4CB /* CADSyncRequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADSyncRequestType.swift; sourceTree = "<group>"; };
@@ -1299,7 +1294,6 @@
 		96435CBD203248FC00C77A75 /* CADResourceStatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADResourceStatusType.swift; sourceTree = "<group>"; };
 		9644B1D11F6785E100D031F2 /* CompactFormSheetNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactFormSheetNavigationController.swift; sourceTree = "<group>"; };
 		964B8CBF203E3EB200550311 /* CADTaskListSourceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADTaskListSourceType.swift; sourceTree = "<group>"; };
-		9650CA121F958B2D0087F5C9 /* CallsignStatusViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignStatusViewCell.swift; sourceTree = "<group>"; };
 		9650CA131F958B2D0087F5C9 /* ManageCallsignStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignStatusViewController.swift; sourceTree = "<group>"; };
 		9650CA141F958B2D0087F5C9 /* ManageCallsignStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignStatusViewModel.swift; sourceTree = "<group>"; };
 		9650CA1A1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Subtitle.swift"; sourceTree = "<group>"; };
@@ -1369,7 +1363,6 @@
 		96CF32311F8D7C3400140AF8 /* TasksListHeaderRegularViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListHeaderRegularViewController.swift; sourceTree = "<group>"; };
 		96CF32331F8D7C7700140AF8 /* TasksListHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListHeaderViewModel.swift; sourceTree = "<group>"; };
 		96D3415B2005D38000CEDDFF /* StandardSearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardSearchBarView.swift; sourceTree = "<group>"; };
-		96D731721FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCallsignIncidentFormViewController.swift; sourceTree = "<group>"; };
 		96E19CAA2069A9A70021DB42 /* DraggableCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableCardView.swift; sourceTree = "<group>"; };
 		96E19CAD206C98A50021DB42 /* ClusterTasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterTasksViewController.swift; sourceTree = "<group>"; };
 		96E19CAF206C98B60021DB42 /* ClusterTasksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterTasksViewModel.swift; sourceTree = "<group>"; };
@@ -1383,6 +1376,8 @@
 		96F77280201FFB40000FE0D0 /* CreateActivityLogItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateActivityLogItemViewController.swift; sourceTree = "<group>"; };
 		96F77283202031E4000FE0D0 /* RelativeDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelativeDateFormatter.swift; sourceTree = "<group>"; };
 		96F77285202A75D6000FE0D0 /* DialogActionButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogActionButtonsView.swift; sourceTree = "<group>"; };
+		96FC1BF820AA4468005840CD /* CallsignStatusCollectionViewFormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignStatusCollectionViewFormCell.swift; sourceTree = "<group>"; };
+		96FC1BFA20AA4496005840CD /* CallsignStatusFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignStatusFormItem.swift; sourceTree = "<group>"; };
 		9936C6761F956D0E0091A61C /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		9936C6771F9573B50091A61C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		9936C67C1F96C5580091A61C /* GeolocationPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeolocationPlugin.swift; sourceTree = "<group>"; };
@@ -1395,8 +1390,11 @@
 		99FF8C031F982A21003A8A4B /* AuditPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuditPlugin.swift; sourceTree = "<group>"; };
 		AA1B06D12099798E00F5B390 /* ImageCodeableResponseSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCodeableResponseSerializer.swift; sourceTree = "<group>"; };
 		AA1B3A412092D4450009B00C /* OptionDisplayableFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionDisplayableFormItem.swift; sourceTree = "<group>"; };
-		AA29BCAC20999E1500C2EC6D /* ServiceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceType.swift; path = Classes/Subspec/Events/Service/ServiceType.swift; sourceTree = SOURCE_ROOT; };
+		AA1CFA9620AA65AE0032A30E /* EventEntityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntityManager.swift; sourceTree = "<group>"; };
+		AA1CFA9B20AA67990032A30E /* ServiceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceType.swift; path = Classes/Subspec/Events/Service/ServiceType.swift; sourceTree = SOURCE_ROOT; };
 		AA792CCD20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormOptionStackViewCell.swift; sourceTree = "<group>"; };
+		AA7F795120AABC4A00985705 /* Relationship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Relationship.swift; path = Classes/Subspec/RelationshipManager/Relationship.swift; sourceTree = SOURCE_ROOT; };
+		AA7F795220AABC4A00985705 /* RelationshipManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RelationshipManager.swift; path = Classes/Subspec/RelationshipManager/RelationshipManager.swift; sourceTree = SOURCE_ROOT; };
 		BC0448931F219A70005FB857 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
 		BC0EA3F31F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionViewSidebarLayout.swift; sourceTree = "<group>"; };
 		BC1B25B91F2707270090C0AA /* MPOLBarButtonItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPOLBarButtonItems.swift; sourceTree = "<group>"; };
@@ -1829,7 +1827,8 @@
 		12D3700E20200B5A00D79DDB /* Events */ = {
 			isa = PBXGroup;
 			children = (
-				AA29BCA720999DA500C2EC6D /* Service */,
+				AA1CFA9D20AA79280032A30E /* EntityManager */,
+				AA1CFA9A20AA67800032A30E /* Service */,
 				125EAE0F2092FCE200C09FED /* Submission */,
 				12D3700F20200B5A00D79DDB /* Event.swift */,
 				12ABD55F207F194C004D0C9F /* EventListDisplayable.swift */,
@@ -1862,15 +1861,6 @@
 				12D4450A2047BAFB00A4D4C1 /* IncidentSplitViewController.swift */,
 			);
 			path = Incidents;
-			sourceTree = "<group>";
-		};
-		12EF6624208D715500739924 /* RelationshipManager */ = {
-			isa = PBXGroup;
-			children = (
-				12EF6625208D716900739924 /* RelationshipManager.swift */,
-				12EF664020917FAC00739924 /* Relationship.swift */,
-			);
-			path = RelationshipManager;
 			sourceTree = "<group>";
 		};
 		1908EF841F57CDCB00382B1C /* Authentication */ = {
@@ -2186,9 +2176,6 @@
 			isa = PBXGroup;
 			children = (
 				273DE2DA1FEA0713000C46DD /* CreateIncidentFormViewModel.swift */,
-				273DE2D21FE9DAC7000C46DD /* CreateIncidentFormViewController.swift */,
-				273DE2DE1FEA1047000C46DD /* CreateIncidentStatusViewController.swift */,
-				273DE2DC1FEA0F89000C46DD /* CreateIncidentStatusViewModel.swift */,
 				273DE2D41FE9DE4B000C46DD /* CreateIncidentViewController.swift */,
 				273DE2D01FE9D855000C46DD /* CreateIncidentViewModel.swift */,
 			);
@@ -2295,6 +2282,7 @@
 			isa = PBXGroup;
 			children = (
 				2744E38B2051DD8500561A8F /* CADStateManagerCore.swift */,
+				9609402420B77BD700177E1F /* CADStateManagerBase.swift */,
 			);
 			path = Session;
 			sourceTree = "<group>";
@@ -2895,9 +2883,8 @@
 		966F3503200C4BE600661870 /* Status */ = {
 			isa = PBXGroup;
 			children = (
-				273DE2E01FEA1199000C46DD /* CADStatusViewController.swift */,
-				273DE2E41FEB266F000C46DD /* CADStatusViewModel.swift */,
-				9650CA121F958B2D0087F5C9 /* CallsignStatusViewCell.swift */,
+				96FC1BF820AA4468005840CD /* CallsignStatusCollectionViewFormCell.swift */,
+				96FC1BFA20AA4496005840CD /* CallsignStatusFormItem.swift */,
 				96C51C8F1FD9EB35002C4640 /* CallsignStatusViewController.swift */,
 				96ED81001FD9F2E100C7C960 /* CallsignStatusViewModel.swift */,
 				9672C7E6200429C1005DE6BE /* StatusChangeReasonViewController.swift */,
@@ -2916,7 +2903,6 @@
 		966F3505200C4CBB00661870 /* Manage */ = {
 			isa = PBXGroup;
 			children = (
-				96D731721FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift */,
 				9650CA131F958B2D0087F5C9 /* ManageCallsignStatusViewController.swift */,
 				9650CA141F958B2D0087F5C9 /* ManageCallsignStatusViewModel.swift */,
 			);
@@ -3223,13 +3209,21 @@
 			path = Manifest;
 			sourceTree = "<group>";
 		};
-		AA29BCA720999DA500C2EC6D /* Service */ = {
+		AA1CFA9A20AA67800032A30E /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				AA29BCAC20999E1500C2EC6D /* ServiceType.swift */,
+				AA1CFA9B20AA67990032A30E /* ServiceType.swift */,
 			);
 			name = Service;
 			path = "New Group";
+			sourceTree = "<group>";
+		};
+		AA1CFA9D20AA79280032A30E /* EntityManager */ = {
+			isa = PBXGroup;
+			children = (
+				AA1CFA9620AA65AE0032A30E /* EventEntityManager.swift */,
+			);
+			path = EntityManager;
 			sourceTree = "<group>";
 		};
 		AA792CCF2098323B008C7606 /* Recovered References */ = {
@@ -3237,6 +3231,16 @@
 			children = (
 			);
 			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		AA7F795020AABC3100985705 /* RelationshipManager */ = {
+			isa = PBXGroup;
+			children = (
+				AA7F795120AABC4A00985705 /* Relationship.swift */,
+				AA7F795220AABC4A00985705 /* RelationshipManager.swift */,
+			);
+			name = RelationshipManager;
+			path = "New Group1";
 			sourceTree = "<group>";
 		};
 		AB742C85EFCBDE4BA2B497CE /* Pods */ = {
@@ -3342,6 +3346,7 @@
 				9650CA1A1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift */,
 				BC9C7D1F1F0DED6600DFFE83 /* UnboxableAlamofireResponseSerializer.swift */,
 				BC9C7D201F0DED6600DFFE83 /* UserDefaults+MPOL.swift */,
+				27E2EAE020B4E50000A5F952 /* MKMapView+BoundingBox.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -4277,6 +4282,7 @@
 				EAC025731FDE667A00E45DB6 /* FormCollectionViewHandler.swift */,
 				BC79A13A2E4AC301834EB111 /* MapFormBuilderViewController.swift */,
 				460B276E204526DC00B56D0B /* FormBuilderSearchViewController.swift */,
+				9609401A20AE493800177E1F /* SubmissionFormBuilderViewController.swift */,
 			);
 			path = FormBuilder;
 			sourceTree = "<group>";
@@ -4316,18 +4322,18 @@
 		EA8B66691F393A0000F09716 /* Subspec */ = {
 			isa = PBXGroup;
 			children = (
-				96707B432091D7F700C4BFDC /* Crypto */,
-				12EF6624208D715500739924 /* RelationshipManager */,
 				19A2E1252075FE980033ADA3 /* Activities */,
 				9624A4581F83555A00CAE056 /* CAD */,
-				EA8B666A1F393A2000F09716 /* EntitySearch */,
+				96707B432091D7F700C4BFDC /* Crypto */,
 				192F679820A2CDDB00015E86 /* Displayable */,
+				EA8B666A1F393A2000F09716 /* EntitySearch */,
 				12D3700E20200B5A00D79DDB /* Events */,
 				19D8D7941FB520140002332D /* ExternalAuthenticator */,
 				12D445062047BAFB00A4D4C1 /* Incidents */,
 				4634B43B1FBD6FA200D71E7F /* Location Map Search */,
 				EA4806AB1F56935000B42313 /* LocationSearch */,
 				EAAEB3461F6617E0002D6C65 /* Presenter */,
+				AA7F795020AABC3100985705 /* RelationshipManager */,
 				EA85BFE81F678945002EEB49 /* ThemeGesture */,
 				19F2CF5E20A959FD006E6253 /* TrafficHistory */,
 				19F8DDAD1F4D7C7D00D84DA1 /* TypeAheadSearch */,
@@ -4619,6 +4625,7 @@
 				19A2E1272075FEBF0033ADA3 /* AppLaunchActivity.swift in Sources */,
 				461F7AAA2023CD6C00885E93 /* AudioSessionConfigurer.swift in Sources */,
 				4634B4451FBD6FD200D71E7F /* SearchResultMapViewController.swift in Sources */,
+				AA7F795320AABC4A00985705 /* Relationship.swift in Sources */,
 				4426162A1FF5C9A7008EBF84 /* PatrolAreaListViewModel.swift in Sources */,
 				EA85C0061F68BAAE002EEB49 /* FormBuilder.swift in Sources */,
 				BC9C7DF61F0DED6600DFFE83 /* CollectionViewFormDetailCell.swift in Sources */,
@@ -4639,6 +4646,7 @@
 				BC9C7E501F0DED6600DFFE83 /* EntityThumbnailView.swift in Sources */,
 				BC0EA3F41F375BBE00A91B60 /* MapCollectionViewSidebarLayout.swift in Sources */,
 				EA32A85A1FBD1A7900CC37FB /* MediaPreviewHandler.swift in Sources */,
+				96FC1BF920AA4468005840CD /* CallsignStatusCollectionViewFormCell.swift in Sources */,
 				461F7A9F2022BE5B00885E93 /* AudioOutputFormatter.swift in Sources */,
 				BC9C7E481F0DED6600DFFE83 /* SourceBarCell.swift in Sources */,
 				E283D2841FEB6BFA0040702C /* Template.swift in Sources */,
@@ -4655,7 +4663,6 @@
 				2744E3952051DD8500561A8F /* CADResourceCore.swift in Sources */,
 				96EB4BE92043792800AFCAA0 /* TaskListScreen.swift in Sources */,
 				EA32A8541FBD1A7900CC37FB /* MediaPreviewViewController.swift in Sources */,
-				273DE2DD1FEA0F89000C46DD /* CreateIncidentStatusViewModel.swift in Sources */,
 				EA32A8571FBD1A7900CC37FB /* MediaGalleryTransitionAnimator.swift in Sources */,
 				EA5E7EC520354DB400D31155 /* ReadableDataStore.swift in Sources */,
 				BC9C7DFA1F0DED6600DFFE83 /* CollectionViewFormSubtitleCell.swift in Sources */,
@@ -4686,10 +4693,8 @@
 				2744EEC51FBEA523008DFA7F /* MapFilterSectionView.swift in Sources */,
 				BC9C7E1E1F0DED6600DFFE83 /* FormCollectionViewController.swift in Sources */,
 				C65927741F33045300854C60 /* Lottie+MPOLAnimationStyle.swift in Sources */,
-				273DE2D31FE9DAC7000C46DD /* CreateIncidentFormViewController.swift in Sources */,
 				BC9C7DF41F0DED6600DFFE83 /* CollectionViewFormCell.swift in Sources */,
 				EA4806B01F56939100B42313 /* LocationBasicSearchOptions.swift in Sources */,
-				273DE2E51FEB266F000C46DD /* CADStatusViewModel.swift in Sources */,
 				BC9C7E261F0DED6600DFFE83 /* EntityListCollectionViewCell.swift in Sources */,
 				1972FCCD1FA6A7FC00CB68EA /* ImageError.swift in Sources */,
 				19B49BBA1F665F2A00502F51 /* SidebarDelegate.swift in Sources */,
@@ -4744,6 +4749,7 @@
 				2744E3A12051DD8500561A8F /* CADBookOffRequestCore.swift in Sources */,
 				27F9C96C1FA2D7E300825F88 /* CompactCallsignContainerViewController.swift in Sources */,
 				962F177C2089512600156247 /* CADEnumIntType.swift in Sources */,
+				9609401B20AE493800177E1F /* SubmissionFormBuilderViewController.swift in Sources */,
 				EA32A8581FBD1A7900CC37FB /* MediaCell.swift in Sources */,
 				9650CA1B1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift in Sources */,
 				BC9C7DEE1F0DED6600DFFE83 /* Serialisable.swift in Sources */,
@@ -4834,7 +4840,6 @@
 				BC1B25BA1F2707270090C0AA /* MPOLBarButtonItems.swift in Sources */,
 				19B49BBB1F665F2A00502F51 /* CompactSidebarItemView.swift in Sources */,
 				96179295209A92D4001DD4CB /* CADSyncResponseType.swift in Sources */,
-				9650CA151F958B320087F5C9 /* CallsignStatusViewCell.swift in Sources */,
 				2744E3902051DD8500561A8F /* CADResourceUnitCore.swift in Sources */,
 				DBD626271FDA25D200C3E809 /* QuantityPickerViewModel.swift in Sources */,
 				EA32A85E1FBD564200CC37FB /* MediaDetailViewController.swift in Sources */,
@@ -4845,7 +4850,6 @@
 				BC9C7E421F0DED6600DFFE83 /* ScrollViewInsetManager.swift in Sources */,
 				463694E7200ED68F00C51BB4 /* SketchControlPanelDelegate.swift in Sources */,
 				969959661FC2334300CB51EB /* ColorPalette.swift in Sources */,
-				AA29BCAD20999E1600C2EC6D /* ServiceType.swift in Sources */,
 				2744E39F2051DD8500561A8F /* CADIncidentInformantCore.swift in Sources */,
 				191BC4D31F7C203B00C8C218 /* HelpContent.swift in Sources */,
 				4E719ECA2022F08600D45F52 /* TextTemplate.swift in Sources */,
@@ -4891,23 +4895,23 @@
 				276C21081F60C44B0003B860 /* MapOverlayImageButton.swift in Sources */,
 				BC9C7E3F1F0DED6600DFFE83 /* PopoverSheetPresentationController.swift in Sources */,
 				DB308E40203122940029DCA0 /* UserStorage.swift in Sources */,
-				12EF6626208D716900739924 /* RelationshipManager.swift in Sources */,
 				BCA6FD771F22E0AE00EE8F7A /* SearchFieldButton.swift in Sources */,
 				EA4806B51F56A00600B42313 /* LocationSearchConfiguration.swift in Sources */,
 				12D3702020200DBD00D79DDB /* ObjectBucket.swift in Sources */,
+				9609402520B77BD700177E1F /* CADStateManagerBase.swift in Sources */,
 				2744E3A42051DD8500561A8F /* CADBookOnRequestCore.swift in Sources */,
 				274C89791F997F94005B9CF8 /* CADStatusTabBarViewModel.swift in Sources */,
 				BC9C7E161F0DED6600DFFE83 /* CheckBox.swift in Sources */,
 				9668DC342085A18B00D7C419 /* LogUtils.swift in Sources */,
 				46D95AC220198A7D00DCE6A5 /* UIImage+CircleCreation.swift in Sources */,
 				125EAE1B2099417200C09FED /* EventSubmittable.swift in Sources */,
-				96D731731FD535EA0068F3AF /* ManageCallsignIncidentFormViewController.swift in Sources */,
 				BC9C7E4C1F0DED6600DFFE83 /* ViewControllerAnimationOptionTransition.swift in Sources */,
 				BC9C7E331F0DED6600DFFE83 /* UITextView+NotificationWorkaround.m in Sources */,
 				EA69F8271F7C875D0092380B /* SelectionAction.swift in Sources */,
 				EA70ADF41F7B41100040E34B /* CollectionViewFormFooterView.swift in Sources */,
 				EA09A05C1F78E80900BC3C0E /* OptionFormItem.swift in Sources */,
 				19B49BBF1F665F2A00502F51 /* RegularSidebarTableViewCell.swift in Sources */,
+				AA1CFA9720AA65AE0032A30E /* EventEntityManager.swift in Sources */,
 				1908EF831F57CAFC00382B1C /* AuthenticationPlugin.swift in Sources */,
 				2753292220329C0000CFA97B /* TasksListBasicViewModel.swift in Sources */,
 				27094CC51FAFFBDA00D4C3D4 /* ResourceOfficerListViewModel.swift in Sources */,
@@ -5026,7 +5030,6 @@
 				1972FCD21FA6C4E300CB68EA /* ResourceDownloadTicket.swift in Sources */,
 				19DBD5D11FA8EA7400205EEC /* APIManager+Unboxable.swift in Sources */,
 				BC9C7E2A1F0DED6600DFFE83 /* DateFormatter+Static.swift in Sources */,
-				273DE2DF1FEA1047000C46DD /* CreateIncidentStatusViewController.swift in Sources */,
 				9663D0061F86DCDA006DB672 /* MPOLSplitViewController.swift in Sources */,
 				BC9C7DD11F0DED6600DFFE83 /* ManifestEntry.swift in Sources */,
 				DBCD01031FD76B270000E0DF /* SearchHeaderView.swift in Sources */,
@@ -5082,7 +5085,6 @@
 				19F8DDB11F4D7CB800D84DA1 /* LookupAddress.swift in Sources */,
 				2744E39C2051DD8500561A8F /* CADIncidentCore.swift in Sources */,
 				EA42F67A1FE3585300130DA5 /* EntitySummaryRecentsViewModel.swift in Sources */,
-				273DE2E11FEA1199000C46DD /* CADStatusViewController.swift in Sources */,
 				BCBA82141F19D7E8000BBF82 /* StringSizing.swift in Sources */,
 				2744E3932051DD8500561A8F /* CADEmployeeDetailsResponseCore.swift in Sources */,
 				27CBC7561F8B277E00E387C3 /* TimelineCollectionViewFormLayout.swift in Sources */,
@@ -5091,7 +5093,6 @@
 				12EA561920327E130051DDEC /* EventLocation.swift in Sources */,
 				EA85BFF21F6797C1002EEB49 /* UINavigationController+Theme.m in Sources */,
 				DB88BCD91F42CFFC0056FD69 /* SearchDataSource.swift in Sources */,
-				12EF664120917FAC00739924 /* Relationship.swift in Sources */,
 				1923275E1FCCDFB80001D623 /* PromiseCancellationToken.swift in Sources */,
 				DBE24C3F1F593BEF0088D19B /* EntityDetailDisplayable.swift in Sources */,
 				BC9C7E301F0DED6600DFFE83 /* UIImage+StatusDot.swift in Sources */,
@@ -5110,6 +5111,7 @@
 				193ED0851FDE02ED002F2837 /* PluginFilterRules.swift in Sources */,
 				BC9C7E0E1F0DED6600DFFE83 /* CollectionViewFormLayoutAttributes.swift in Sources */,
 				279B057D200D591200C3EFB0 /* ActivityLogDateCollectionSectionViewModel.swift in Sources */,
+				96FC1BFB20AA4496005840CD /* CallsignStatusFormItem.swift in Sources */,
 				2744E3922051DD8500561A8F /* CADIncidentStatusCore.swift in Sources */,
 				2744EECA1FBEA523008DFA7F /* MapFilterOption.swift in Sources */,
 				125EAE0A2092CFD800C09FED /* DefaultNotesMedaReport.swift in Sources */,
@@ -5180,6 +5182,7 @@
 				EADC4FF31F81E0810066AA2F /* OptionGroupFormItem.swift in Sources */,
 				BC9C7DF01F0DED6600DFFE83 /* EpochDateTransformer+UnboxFormatter.swift in Sources */,
 				9617929D209AA726001DD4CB /* CADEmployeeDetailsResponseType.swift in Sources */,
+				27E2EAE120B4E50000A5F952 /* MKMapView+BoundingBox.swift in Sources */,
 				2744E3A62051DD8500561A8F /* CADStateManagerCore.swift in Sources */,
 				2744E39B2051DD8500561A8F /* CADIncidentPersonCore.swift in Sources */,
 				46C430D01FC544310047396B /* RemoteResourceDownloader.swift in Sources */,
@@ -5197,6 +5200,7 @@
 				BC9C7E041F0DED6600DFFE83 /* UIColor+ActionColors.swift in Sources */,
 				1955CCCD20A15C53009488A3 /* DefaultNSCopying.swift in Sources */,
 				BC9C7DD01F0DED6600DFFE83 /* ManifestEntry+Location.swift in Sources */,
+				AA7F795420AABC4A00985705 /* RelationshipManager.swift in Sources */,
 				4677EE241FFDAB0B004634B5 /* AnimationStyle.swift in Sources */,
 				2744EEC61FBEA523008DFA7F /* MapFilterToggleRowView.swift in Sources */,
 				BC9C7DCC1F0DED6600DFFE83 /* UserDefaults+MPOL.swift in Sources */,
@@ -5237,6 +5241,7 @@
 				BC9C7E471F0DED6600DFFE83 /* SourceBar.swift in Sources */,
 				960CBB441FEA191E00A33E95 /* ThemeConstants.swift in Sources */,
 				BC9C7E0F1F0DED6600DFFE83 /* DefaultReusable.swift in Sources */,
+				AA1CFA9C20AA67990032A30E /* ServiceType.swift in Sources */,
 				9625ACD2207C27A100EFCC8C /* RegisterDeviceRequest.swift in Sources */,
 				463694E0200EA9A700C51BB4 /* ControlPanelPenView.swift in Sources */,
 				27E81E582034E576000D5D1C /* TaskDetailsOverviewFormViewController.swift in Sources */,

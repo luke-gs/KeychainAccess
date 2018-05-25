@@ -49,6 +49,11 @@ open class CADStatusTabBarController: StatusTabBarController {
         applyTheme()
     }
 
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        statusView?.isHidden = isCompact()
+    }
+    
     @objc open func syncChanged() {
         if tabBarContainerController.view.isHidden {
             tabBarContainerController.view.isHidden = false

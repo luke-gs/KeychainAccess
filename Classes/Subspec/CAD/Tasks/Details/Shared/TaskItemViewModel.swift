@@ -37,6 +37,9 @@ open class TaskItemViewModel {
     /// Text for the caption to display below the item name
     open var subtitleText: String?
 
+    /// Whether to show the glass bar overlay that allows changing sidebar state in compact mode
+    open var showCompactGlassBar: Bool = true
+
     /// View controllers to show in the list
     open func detailViewControllers() -> [UIViewController] {
         return viewModels.map {

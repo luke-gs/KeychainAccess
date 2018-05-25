@@ -30,3 +30,11 @@ open class MapFilterSection {
         self.toggleRows = toggleRows
     }
 }
+
+extension MapFilterSection : Equatable {
+    public static func == (lhs: MapFilterSection, rhs: MapFilterSection) -> Bool {
+        return lhs.title == rhs.title &&
+            lhs.isOn == rhs.isOn &&
+            lhs.toggleRows == rhs.toggleRows
+    }
+}

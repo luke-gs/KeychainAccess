@@ -61,6 +61,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
 
     /// Return the source bar item of this type based on the current filter
     public func sourceItem(filterViewModel: TasksMapFilterViewModel) -> SourceItem {
+        let modelItems = self.filteredItems(filterViewModel: filterViewModel)
         let count = modelItems.count
         var color: UIColor? = nil
 
@@ -97,9 +98,19 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
 
     // Returns a list of model items that are filtered based on current filter settings
     public func filteredItems(filterViewModel: TasksMapFilterViewModel) -> [CADTaskListItemModelType] {
+        guard let lastSyncTime = CADStateManager.shared.lastSyncTime else { return [] }
+
+        // Return cached items if no change to filter or sync data to improve performance
+        if let filteredItems = CADTaskListSourceCore.filteredItemsCache[self],
+            filteredItems.syncTime == CADStateManager.shared.lastSyncTime,
+            filteredItems.filter == filterViewModel.sections {
+            return filteredItems.items
+        }
+
+        let result: [CADTaskListItemModelType]
         switch self {
         case .incident:
-            return CADStateManager.shared.incidents.filter { incident in
+            result = CADStateManager.shared.incidents.filter { incident in
                 // TODO: remove this once filtered by CAD system
                 if !filterViewModel.showResultsOutsidePatrolArea && incident.patrolGroup != CADStateManager.shared.patrolGroup {
                     return false
@@ -131,7 +142,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
                 return isCurrent || hasResourceInDuress || (priorityFilter && (resourcedFilter || isOther))
             }
         case .patrol:
-            return CADStateManager.shared.patrols.filter { patrol in
+            result = CADStateManager.shared.patrols.filter { patrol in
                 // TODO: remove this once filtered by CAD system
                 if !filterViewModel.showResultsOutsidePatrolArea && patrol.patrolGroup != CADStateManager.shared.patrolGroup {
                     return false
@@ -139,9 +150,9 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
                 return true
             }
         case .broadcast:
-            return CADStateManager.shared.broadcasts
+            result = CADStateManager.shared.broadcasts
         case .resource:
-            return CADStateManager.shared.resources.filter { resource in
+            result = CADStateManager.shared.resources.filter { resource in
                 // TODO: remove this once filtered by CAD system
                 if !filterViewModel.showResultsOutsidePatrolArea && resource.patrolGroup != CADStateManager.shared.patrolGroup {
                     return false
@@ -163,6 +174,12 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
                 }
             }
         }
+        // Cache the result
+        CADTaskListSourceCore.filteredItemsCache[self] = CacheData(
+            filter: filterViewModel.sections.copy(),
+            syncTime: lastSyncTime,
+            items: result)
+        return result
     }
 
     // Return all annotations of this type based on the current filter and source selection
@@ -260,6 +277,22 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
         return nil
     }
 
+
+    // MARK: - Cache
+
+    private struct CacheData {
+        /// The filter used when creating cached results
+        var filter: [MapFilterSection]
+
+        /// The sync time when creating cached results
+        var syncTime: Date
+
+        /// The cached items
+        var items: [CADTaskListItemModelType]
+    }
+
+    /// Cache of filtered items
+    private static var filteredItemsCache: [CADTaskListSourceCore: CacheData] = [:]
 
     // MARK: - Internal
 

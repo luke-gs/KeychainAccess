@@ -32,10 +32,6 @@ open class TasksSplitViewController: MPOLSplitViewController {
 
     open private(set) var syncIntervalTimer: Timer?
 
-    private var filterButton: UIBarButtonItem {
-        return UIBarButtonItem(image: AssetManager.shared.image(forKey: .filterFilled), style: .plain, target: self, action: #selector(showMapLayerFilter))
-    }
-    
     public required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
@@ -87,7 +83,6 @@ open class TasksSplitViewController: MPOLSplitViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        configureSegmentedControlForTraitCollection()
 
         self.performInitialSync()
     }
@@ -126,13 +121,6 @@ open class TasksSplitViewController: MPOLSplitViewController {
         }
     }
 
-    open override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.willTransition(to: newCollection, with: coordinator)
-        coordinator.animate(alongsideTransition: { (context) in
-            self.configureSegmentedControlForTraitCollection()
-        }, completion: nil)
-    }
-    
     open override func masterNavTitleSuitable(for traitCollection: UITraitCollection) -> String {
         return viewModel.navTitle()
     }
@@ -220,28 +208,13 @@ open class TasksSplitViewController: MPOLSplitViewController {
     }
 
     // MARK: - Segmented control
-    
-    /// Shows or hides the segmented control based on trait collection.
-    private func configureSegmentedControlForTraitCollection() {
-        if isCompact()  {
-            masterVC.navigationItem.rightBarButtonItem = filterButton
-            detailVC.navigationItem.rightBarButtonItem = filterButton
-        } else {
-            masterVC.navigationItem.rightBarButtonItems = masterRightButtonItems
-            masterVC.navigationItem.titleView = nil
-        }
-    }
-    
+
     /// Called when the segmented control value changed
     @objc private func didChangeSegmentedControl() {
         shouldHideMasterWhenCompact = segmentedControl.selectedSegmentIndex != 0
         if shouldHideMasterWhenCompact {
             selectedViewController = nil
         }
-    }
-    
-    @objc private func showMapLayerFilter() {
-        present(TaskListScreen.mapFilter(delegate: viewModel))
     }
 }
 

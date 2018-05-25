@@ -12,7 +12,7 @@ fileprivate extension EvaluatorKey {
 /// The implementation of an Incident.
 /// All it really is, is an array of reports with some basic business logic
 /// to check if all reports are valid through the evaluator
-final public class Incident: NSSecureCoding, Evaluatable {
+final public class Incident: NSSecureCoding, Evaluatable, Equatable {
 
     public let id: String
     public var incidentType: IncidentType
@@ -85,6 +85,11 @@ final public class Incident: NSSecureCoding, Evaluatable {
         allValid = reports.reduce(true, { result, report in
             return result && report.evaluator.isComplete
         })
+    }
+
+    // MARK: Equatable
+    public static func == (lhs: Incident, rhs: Incident) -> Bool {
+        return lhs.id == rhs.id
     }
 }
 

@@ -37,6 +37,19 @@ public class CryptoUtils {
         }
     }
 
+    /// Convenience cipher method to decrypt using data prefixed with the IV
+    public static func decryptCipher(_ cipher: BlockCipherType, dataWithIV: Data, keyData: Data) -> Data? {
+        // Extract first block size of data as the unencrypted IV
+        let ivLength = cipher.blockSize
+        let ivData = dataWithIV.subdata(in: 0..<ivLength)
+
+        // Use remaining as encrypted data to be decrypted
+        let encryptedData = dataWithIV.subdata(in: ivLength..<dataWithIV.count)
+
+        // Decrypt
+        return performCipher(cipher, operation: .decrypt, data: encryptedData, keyData: keyData, ivData: ivData)
+    }
+
     /// Perform a block based cipher operation on data
     public static func performCipher(_ cipher: BlockCipherType, operation: BlockCipherOperation, data: Data, keyData: Data, ivData: Data? = nil) -> Data? {
 

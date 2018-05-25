@@ -322,7 +322,7 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
 
     public func handleDeletePreviewButtonTapped(_ item: UIBarButtonItem) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("Delete Asset", comment: ""), style: .destructive, handler: { (action) in
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("Delete Media", comment: ""), style: .destructive, handler: { (action) in
             self.deleteCurrentPreview()
         }))
         alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
@@ -465,8 +465,14 @@ public class MediaSlideShowViewController: UIViewController, MediaSlideShowable,
         guard isViewLoaded else { return }
         collectionView.reloadData()
 
-        updateCurrentPreviewViewController()
-        showPreview(currentPreview, animated: true)
+        // TODO: Workaround in the meantime.
+        // There is out of order execution issues.
+        // CollectionView reload not completed yet by the time the below is executed.
+        // Causing items count to go out of sync and crash.
+        DispatchQueue.main.async {
+            self.updateCurrentPreviewViewController()
+            self.showPreview(self.currentPreview, animated: true)
+        }
     }
 
     private func setupThumbnailSlideShow() {

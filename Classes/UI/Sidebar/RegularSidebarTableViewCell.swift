@@ -63,6 +63,7 @@ open class RegularSidebarTableViewCell: UITableViewCell, DefaultReusable {
         backgroundColor = .clear
         selectedBackgroundView = UIView(frame: .zero)
         reloadFonts()
+        imageView?.tintAdjustmentMode = .normal
     }
     
     

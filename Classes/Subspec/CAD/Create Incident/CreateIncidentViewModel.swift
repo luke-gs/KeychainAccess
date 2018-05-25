@@ -15,10 +15,23 @@ public protocol CreateIncidentViewModelDelegate: class {
 
 open class CreateIncidentViewModel {
 
-    open let contentViewModel = CreateIncidentFormViewModel()
-
     open weak var delegate: CreateIncidentViewModelDelegate?
     
+    open lazy var contentViewModel: CreateIncidentFormViewModel = {
+        return CreateIncidentFormViewModel()
+    }()
+
+    open lazy var statusViewModel: CallsignStatusViewModel = {
+        let incidentItems = CADClientModelTypes.resourceStatus.incidentCases.map {
+            return ManageCallsignStatusItemViewModel($0)
+        }
+        let sections = [CADFormCollectionSectionViewModel(
+            title: NSLocalizedString("Initial Status", comment: "").uppercased(),
+            items: incidentItems)
+        ]
+        return CallsignStatusViewModel(sections: sections, selectedStatus: initialStatus)
+    }()
+
     public init() {
         getLocation()
     }
@@ -58,23 +71,6 @@ open class CreateIncidentViewModel {
         return NSLocalizedString("Create New Incident", comment: "")
     }
 
-    open func createStatusViewController() -> CreateIncidentStatusViewController {
-        let incidentItems = CADClientModelTypes.resourceStatus.incidentCases.map {
-            return ManageCallsignStatusItemViewModel($0)
-        }
-        let sections = [CADFormCollectionSectionViewModel(
-            title: NSLocalizedString("Initial Status", comment: "").uppercased(),
-            items: incidentItems)
-        ]
-        let viewModel = CreateIncidentStatusViewModel(sections: sections, selectedStatus: initialStatus)
-        
-        return viewModel.createViewController()
-    }
-
-    open func createFormViewController() -> CreateIncidentFormViewController {
-        return CreateIncidentFormViewController(viewModel: self)
-    }
-    
     open func createViewController() -> CreateIncidentViewController {
         let vc = CreateIncidentViewController(viewModel: self)
         delegate = vc

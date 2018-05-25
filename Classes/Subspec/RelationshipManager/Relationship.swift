@@ -7,36 +7,40 @@
 
 import UIKit
 
+/// A relationship object used to relate two Relatables
+public class Relationship<Base: Equatable, Related: Equatable>: Equatable {
 
-/// A relationship object used to relate to entities
-public class Relationship: Equatable {
+    /// The base object of the relationship
+    public var baseObject: Base
 
-    /// The base entity of the relationship
-    public var baseEntity: MPOLKitEntity
+    /// The object that is related to the baseObject
+    public var relatedObject: Related
 
-    /// The entity that is related to the baseEntity
-    public var relatedEntity: MPOLKitEntity
+    /// The reasons how the objects are related
+    public var reasons: [String]
 
-    /// The reasons how the entities are related
-    public var reasons: [String] = [String]()
-
-    /// Create a new relationship between entities
+    /// Create a new relationship between objects
     ///
     /// - Parameters:
-    ///   - baseEntity: the base entity of the relationship
-    ///   - relatedEntity: the entity that is related to the baseEntity
-    ///   - reasons: the reasons how the entities are related
-    public init(baseEntity: MPOLKitEntity, relatedEntity: MPOLKitEntity, reasons: [String] = []) {
-        self.baseEntity = baseEntity
-        self.relatedEntity = relatedEntity
+    ///   - baseObject: the base object of the relationship
+    ///   - relatedObject: the object that is related to the baseObject
+    ///   - reasons: the reasons how the objects are related
+    public init(baseObject: Base, relatedObject: Related, reasons: [String] = []) {
+        self.baseObject = baseObject
+        self.relatedObject = relatedObject
         self.reasons = reasons
     }
 
     //Equality
     public static func == (lhs: Relationship, rhs: Relationship) -> Bool {
-        return lhs.baseEntity == rhs.baseEntity
-            && lhs.relatedEntity == lhs.relatedEntity
-            && lhs.reasons == rhs.reasons
+        return lhs.baseObject == rhs.baseObject
+            && lhs.relatedObject == rhs.relatedObject
     }
+}
 
+extension Relationship where Base == Related {
+
+    public func contains(_ object: Base) -> Bool {
+        return baseObject == object || relatedObject == object
+    }
 }
