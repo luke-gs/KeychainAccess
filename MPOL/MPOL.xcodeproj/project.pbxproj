@@ -53,6 +53,8 @@
 		12EF663F208D83DA00739924 /* EventEntityDescriptionReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF663E208D83DA00739924 /* EventEntityDescriptionReport.swift */; };
 		192F679720A1E6D500015E86 /* PersonMatchMakingInjectionPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192F679620A1E6D500015E86 /* PersonMatchMakingInjectionPlugin.swift */; };
 		1987C2AC20846766007F7273 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1987C2AB20846766007F7273 /* Localizable.strings */; };
+		1988306F20BB79DB006FE165 /* APIURLManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1988306E20BB79DA006FE165 /* APIURLManager.swift */; };
+		1988307020BB82FE006FE165 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1988306B20BB77B5006FE165 /* Settings.bundle */; };
 		19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3894207A5F3A00855651 /* SupportedShortcut.swift */; };
 		19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */; };
 		371AB13720A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */; };
@@ -165,6 +167,8 @@
 		12EF663E208D83DA00739924 /* EventEntityDescriptionReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntityDescriptionReport.swift; sourceTree = "<group>"; };
 		192F679620A1E6D500015E86 /* PersonMatchMakingInjectionPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonMatchMakingInjectionPlugin.swift; sourceTree = "<group>"; };
 		1987C2AB20846766007F7273 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = ../../Localizable.strings; sourceTree = "<group>"; };
+		1988306B20BB77B5006FE165 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		1988306E20BB79DA006FE165 /* APIURLManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIURLManager.swift; sourceTree = "<group>"; };
 		19CB3894207A5F3A00855651 /* SupportedShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedShortcut.swift; sourceTree = "<group>"; };
 		19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Shortcuts.swift"; sourceTree = "<group>"; };
 		371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewController.swift; sourceTree = "<group>"; };
@@ -502,6 +506,7 @@
 		BCD4EA8B1E515ACE000B993D /* MPOL */ = {
 			isa = PBXGroup;
 			children = (
+				1988306E20BB79DA006FE165 /* APIURLManager.swift */,
 				BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */,
 				19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */,
 				BCD4EA931E515ACE000B993D /* Assets.xcassets */,
@@ -541,6 +546,7 @@
 		EA3C89041F32E31500F38461 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1988306B20BB77B5006FE165 /* Settings.bundle */,
 				EA3C89051F32E34300F38461 /* termsandconditions.html */,
 				445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */,
 				445A8A391F673C8B005ABEB8 /* LocationSearchHelp.json */,
@@ -645,6 +651,7 @@
 			files = (
 				BCD4EA9F1E515ADE000B993D /* LaunchScreen.storyboard in Resources */,
 				445A8A381F667A56005ABEB8 /* PersonSearchHelp.json in Resources */,
+				1988307020BB82FE006FE165 /* Settings.bundle in Resources */,
 				445A8A3D1F673C8B005ABEB8 /* OrganisationSearchHelp.json in Resources */,
 				BCD4EA941E515ACE000B993D /* Assets.xcassets in Resources */,
 				1987C2AC20846766007F7273 /* Localizable.strings in Resources */,
@@ -822,6 +829,7 @@
 				12EF6639208D7D2F00739924 /* EventEntityRelationshipsViewController.swift in Sources */,
 				12ABD575207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift in Sources */,
 				3727C4C42088193000F7A887 /* OffencePointAndFineTotalsView.swift in Sources */,
+				1988306F20BB79DB006FE165 /* APIURLManager.swift in Sources */,
 				12EF65E62086D52200739924 /* IncidentListViewController.swift in Sources */,
 				192F679720A1E6D500015E86 /* PersonMatchMakingInjectionPlugin.swift in Sources */,
 				12EF65DB2086D52200739924 /* TrafficInfringementOffencesReport.swift in Sources */,
