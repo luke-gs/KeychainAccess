@@ -15,4 +15,5 @@ public protocol CADIncidentInformantType: class {
     var fullName : String? { get set }
     var primaryPhone : String? { get set }
     var secondaryPhone : String? { get set }
+    var address: String? { get set }
 }

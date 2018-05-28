@@ -18,6 +18,8 @@ open class CADIncidentInformantCore: Codable, CADIncidentInformantType {
     open var primaryPhone: String?
 
     open var secondaryPhone: String?
+    
+    open var address: String?
 
     // MARK: - Codable
 
@@ -25,6 +27,7 @@ open class CADIncidentInformantCore: Codable, CADIncidentInformantType {
         case fullName = "fullName"
         case primaryPhone = "primaryPhone"
         case secondaryPhone = "secondaryPhone"
+        case address = "fullAddress"
     }
 
     public required init(from decoder: Decoder) throws {
@@ -32,6 +35,7 @@ open class CADIncidentInformantCore: Codable, CADIncidentInformantType {
         fullName = try values.decodeIfPresent(String.self, forKey: .fullName)
         primaryPhone = try values.decodeIfPresent(String.self, forKey: .primaryPhone)
         secondaryPhone = try values.decodeIfPresent(String.self, forKey: .secondaryPhone)
+        address = try values.decodeIfPresent(String.self, forKey: .address)
     }
 
     public func encode(to encoder: Encoder) throws {
