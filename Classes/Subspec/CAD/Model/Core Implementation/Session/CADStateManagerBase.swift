@@ -259,7 +259,7 @@ open class CADStateManagerBase: CADStateManagerType {
         if let syncDetails = lastSync {
             incidentsById.removeAll()
             for incident in syncDetails.incidents {
-                incidentsById[incident.identifier] = incident
+                incidentsById[incident.incidentNumber] = incident
             }
             patrolsById.removeAll()
             for patrol in syncDetails.patrols {

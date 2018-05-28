@@ -36,7 +36,7 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
                                                                               width: .column(4)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Primary Code",
-                                                                              value: incident.identifier,
+                                                                              value: incident.incidentNumber,
                                                                               width: .column(4)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Secondary Code",
