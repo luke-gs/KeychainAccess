@@ -200,7 +200,10 @@ open class TasksMapViewController: MapViewController {
             // Inset the map rect to make a buffer around the annotations (more horizontal for labels on map items)
             zoomRect = MKMapRectInset(zoomRect, -zoomRect.size.width * 0.2, -zoomRect.size.height * 0.1)
 
-            mapView.setVisibleMapRect(zoomRect, animated: annotationsInitialLoadZoomStyle.animated)
+            // Dispatch the actual zooming as the map can't handle zoom while loading :(
+            DispatchQueue.main.async {
+                self.mapView.setVisibleMapRect(zoomRect, animated: annotationsInitialLoadZoomStyle.animated)
+            }
             performedInitialLoadAction = true
         }
     }
