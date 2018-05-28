@@ -16,5 +16,5 @@ public protocol CADIncidentInformantType: class {
     var primaryPhone : String? { get set }
     var secondaryPhone : String? { get set }
     var address: String? { get set }
-    var shouldFollowUp: String? { get set }
+    var shouldFollowUp: Bool? { get set }
 }
