@@ -13,6 +13,10 @@
 		1211E36B1F3ADC300012E2E6 /* OAuthAuthorizationGrantTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1211E36A1F3ADC300012E2E6 /* OAuthAuthorizationGrantTests.swift */; };
 		1211E36D1F3AE0E50012E2E6 /* MiscTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1211E36C1F3AE0E50012E2E6 /* MiscTests.swift */; };
 		1212B54D1F60F2ED00F90CA0 /* TestingDirective.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1212B54C1F60F2ED00F90CA0 /* TestingDirective.swift */; };
+		121A9DCB20BBBAE800690327 /* DefaultPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121A9DC820BBBAE800690327 /* DefaultPropertyViewController.swift */; };
+		121A9DCC20BBBAE800690327 /* DefaultPropertyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121A9DC920BBBAE800690327 /* DefaultPropertyViewModel.swift */; };
+		121A9DCD20BBBAE800690327 /* DefaultPropertyReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121A9DCA20BBBAE800690327 /* DefaultPropertyReport.swift */; };
+		121A9DCF20BBC71900690327 /* PropertyAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121A9DCE20BBC71900690327 /* PropertyAction.swift */; };
 		122234911F9ED961008CE3C4 /* GenericSearchViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122234901F9ED961008CE3C4 /* GenericSearchViewModelTests.swift */; };
 		12353410207F167A008256AA /* DefaultEventDateTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1235340F207F167A008256AA /* DefaultEventDateTimeViewController.swift */; };
 		12353412207F1695008256AA /* DefaultEventDateTimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12353411207F1695008256AA /* DefaultEventDateTimeViewModel.swift */; };
@@ -881,6 +885,10 @@
 		1211E36A1F3ADC300012E2E6 /* OAuthAuthorizationGrantTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthAuthorizationGrantTests.swift; sourceTree = "<group>"; };
 		1211E36C1F3AE0E50012E2E6 /* MiscTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscTests.swift; sourceTree = "<group>"; };
 		1212B54C1F60F2ED00F90CA0 /* TestingDirective.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingDirective.swift; sourceTree = "<group>"; };
+		121A9DC820BBBAE800690327 /* DefaultPropertyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPropertyViewController.swift; sourceTree = "<group>"; };
+		121A9DC920BBBAE800690327 /* DefaultPropertyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPropertyViewModel.swift; sourceTree = "<group>"; };
+		121A9DCA20BBBAE800690327 /* DefaultPropertyReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPropertyReport.swift; sourceTree = "<group>"; };
+		121A9DCE20BBC71900690327 /* PropertyAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyAction.swift; sourceTree = "<group>"; };
 		122234901F9ED961008CE3C4 /* GenericSearchViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericSearchViewModelTests.swift; sourceTree = "<group>"; };
 		1235340F207F167A008256AA /* DefaultEventDateTimeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventDateTimeViewController.swift; sourceTree = "<group>"; };
 		12353411207F1695008256AA /* DefaultEventDateTimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEventDateTimeViewModel.swift; sourceTree = "<group>"; };
@@ -1772,6 +1780,17 @@
 			path = Lottie;
 			sourceTree = "<group>";
 		};
+		121A9DC720BBBABB00690327 /* Property */ = {
+			isa = PBXGroup;
+			children = (
+				121A9DC820BBBAE800690327 /* DefaultPropertyViewController.swift */,
+				121A9DC920BBBAE800690327 /* DefaultPropertyViewModel.swift */,
+				121A9DCA20BBBAE800690327 /* DefaultPropertyReport.swift */,
+				121A9DCE20BBC71900690327 /* PropertyAction.swift */,
+			);
+			path = Property;
+			sourceTree = "<group>";
+		};
 		1235340E207F167A008256AA /* DateTime */ = {
 			isa = PBXGroup;
 			children = (
@@ -1823,6 +1842,7 @@
 		12D3700E20200B5A00D79DDB /* Events */ = {
 			isa = PBXGroup;
 			children = (
+				121A9DC720BBBABB00690327 /* Property */,
 				AA1CFA9D20AA79280032A30E /* EntityManager */,
 				AA1CFA9A20AA67800032A30E /* Service */,
 				125EAE0F2092FCE200C09FED /* Submission */,
@@ -4620,6 +4640,7 @@
 				9663D00D1F8AF6F5006DB672 /* TasksSplitViewModel.swift in Sources */,
 				965CD8AD1F8F14E5007C3EEA /* TasksListHeaderCompactViewController.swift in Sources */,
 				BC9C7DF11F0DED6600DFFE83 /* EpochDateTransformer.swift in Sources */,
+				121A9DCD20BBBAE800690327 /* DefaultPropertyReport.swift in Sources */,
 				BC9C7DD31F0DED6600DFFE83 /* OAuthAuthorizationGrant.swift in Sources */,
 				4677EE2A1FFDAB29004634B5 /* UnderlineStyle.swift in Sources */,
 				1948A7B51FBBDB45005AB301 /* OAuth2Error.swift in Sources */,
@@ -5149,6 +5170,7 @@
 				27373797208D83F800FE1050 /* RoundedRectButtonFormItem.swift in Sources */,
 				DB88BCE51F42D01C0056FD69 /* SortDescriptor.swift in Sources */,
 				192F679A20A2D04700015E86 /* DetailDisplayable.swift in Sources */,
+				121A9DCC20BBBAE800690327 /* DefaultPropertyViewModel.swift in Sources */,
 				274C89731F984CD0005B9CF8 /* CallsignListViewModel.swift in Sources */,
 				27E81E542034E1AF000D5D1C /* TaskDetailsOverviewViewController.swift in Sources */,
 				12D4450B2047BAFC00A4D4C1 /* Incident.swift in Sources */,
@@ -5287,6 +5309,7 @@
 				2744E3A82051DE7700561A8F /* PhotoPreview.swift in Sources */,
 				467EAFB020193C2700B4CCC3 /* WaveformView.swift in Sources */,
 				BC5C11EF1F2806890048CBBF /* LoadingStateNoContentView.swift in Sources */,
+				121A9DCB20BBBAE800690327 /* DefaultPropertyViewController.swift in Sources */,
 				EA4806B71F56A0DC00B42313 /* LocationSearchStrategy.swift in Sources */,
 				BC9C7E021F0DED6600DFFE83 /* NSLayoutConstraint+Conveniences.swift in Sources */,
 				46DDAB451F78CF1300ED72DC /* FormAccessoryImageView.swift in Sources */,
@@ -5327,6 +5350,7 @@
 				EA950E4C1F8DBF5700B5A349 /* SubmissionValidationVisitor.swift in Sources */,
 				BC79A57977498E8F0201AB62 /* MapFormBuilderViewController.swift in Sources */,
 				463694E2200EAE1C00C51BB4 /* NibSize.swift in Sources */,
+				121A9DCF20BBC71900690327 /* PropertyAction.swift in Sources */,
 				194C0C2C203173B700CD5AA8 /* MKMapView+MKMapView_NightMode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

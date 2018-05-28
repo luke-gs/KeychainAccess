@@ -18,17 +18,15 @@ public protocol CustomSearchPickable: Pickable {
     
 }
 
-
-extension String: CustomSearchPickable {
-
+extension String: CustomSearchDisplayable {
+    public var section: String? { return nil }
+    public var image: UIImage? { return nil }
     public var title: String? { return self }
-
     public var subtitle: String? { return nil }
 
     public func contains(_ searchText: String) -> Bool {
         return self.range(of: searchText) != nil
     }
-
 }
 
 
