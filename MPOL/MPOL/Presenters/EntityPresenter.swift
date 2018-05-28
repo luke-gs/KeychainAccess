@@ -48,6 +48,7 @@ public class EntityPresenter: Presenter {
                 let viewModel = EntityDetailSectionsViewModel(initialSource: entity.source!,
                                                               dataSources: dataSources,
                                                               andMatchMaker: PersonMatchMaker())
+                viewModel.shouldAutomaticallyFetchFromSubsequentDatasources = true
                 viewModel.recentlyViewed = UserSession.current.recentlyViewed
 
                 let entityDetailViewController = EntityDetailSplitViewController<EntityDetailsDisplayable, PersonSummaryDisplayable>(viewModel: viewModel)
@@ -64,6 +65,7 @@ public class EntityPresenter: Presenter {
                                                               dataSources: dataSources,
                                                               andMatchMaker: VehicleMatchMaker())
                 viewModel.recentlyViewed = UserSession.current.recentlyViewed
+                viewModel.shouldAutomaticallyFetchFromSubsequentDatasources = true
 
                 let entityDetailViewController = EntityDetailSplitViewController<EntityDetailsDisplayable, VehicleSummaryDisplayable>(viewModel: viewModel)
                  entityDetailViewController.delegate = self
