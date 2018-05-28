@@ -37,6 +37,8 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
         regularSidebarViewController.title = title
         regularSidebarViewController.headerView = headerView
+
+        detailViewModel.selectedSource = viewModel.selectedSource
     }
 
     open override func viewDidLoad() {
@@ -59,28 +61,17 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
     open override func sidebarViewController(_ controller: UIViewController, didSelectSourceAt index: Int) {
         let source = detailViewModel.sources[index]
-
-        guard source.serverSourceName != detailViewModel.selectedSource.serverSourceName else { return }
-
-        updateEverything(for: source)
-
-        if let result = detailViewModel.results[source.serverSourceName] {
-            detailViewModel.setSelectedResult(fetchResult: result)
-        }
+        guard !(source == detailViewModel.selectedSource) else { return }
+        updateResultFor(source)
+        updateEverything()
     }
 
     open override func sidebarViewController(_ controller: UIViewController, didRequestToLoadSourceAt index: Int) {
         let source = detailViewModel.sources[index]
-
-        guard source.serverSourceName != detailViewModel.selectedSource.serverSourceName else { return }
-
-        detailViewModel.performSubsequentFetch(for: source)
-
-        if let result = detailViewModel.results[source.serverSourceName] {
-            detailViewModel.setSelectedResult(fetchResult: result)
-        }
-
-        updateEverything(for: source)
+        detailViewModel.selectedSource = source
+        fetchEntityDetailsFor(source)
+        sidebarViewController(controller, didSelectSourceAt: index)
+        updateEverything()
     }
     
     /// Used to perform any last checks/tasks when back button is pressed
@@ -110,9 +101,29 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
     // MARK: - Private methods
 
-    fileprivate func updateEverything(for source: EntitySource) {
+    fileprivate func updateResultFor(_ source: EntitySource) {
+        guard let result = detailViewModel.results[source.serverSourceName] else { return }
         detailViewModel.selectedSource = source
+        detailViewModel.setSelectedResult(fetchResult: result)
+    }
 
+    fileprivate func fetchDetailsForAllOtherSources() {
+        guard detailViewModel.shouldAutomaticallyFetchFromSubsequentDatasources == true else { return }
+        guard detailViewModel.results[detailViewModel.selectedSource.serverSourceName]?.state == .finished else { return }
+
+        let sources = detailViewModel.sources.filter { source in
+            guard let fetchState = detailViewModel.results[source.serverSourceName]?.state else { return true }
+            return !(source == detailViewModel.selectedSource) && fetchState == .idle
+        }
+
+        sources.forEach { fetchEntityDetailsFor($0) }
+    }
+
+    fileprivate func fetchEntityDetailsFor(_ source: EntitySource) {
+        detailViewModel.performSubsequentFetchFor(source)
+    }
+
+    fileprivate func updateEverything() {
         detailViewControllers = detailViewModel.detailSectionsViewControllers as! [UIViewController]
         selectedViewController = detailViewControllers.first
 
@@ -129,7 +140,10 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
             let source = $0.serverSourceName
             if let result = detailViewModel.results[source] {
                 updateDetailSectionsAvailability(result.state == .finished)
-                if result.state == .finished, detailViewModel.selectedSource == $0, let entity = result.entity {
+                if result.state == .finished,
+                    detailViewModel.selectedSource == $0,
+                    let entity = result.entity,
+                    detailViewModel.currentEntity == entity {
                     delegate?.entityDetailSplitViewController(self, didPresentEntity: entity)
                 }
             }
@@ -210,18 +224,24 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
 extension EntityDetailSplitViewController: EntityDetailSectionsDelegate {
 
-    public func entityDetailSectionsDidUpdateResults(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
+    public func entityDetailSectionsDidAddResults(_ entityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
         updateRepresentations()
         updateSourceItems()
         updateHeaderView()
     }
 
-    public func entityDetailSectionDidSelectRetryDownload(_ EntityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
+    public func entityDetailSectionsDidUpdateResults(_ entityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
+        updateRepresentations()
+        updateSourceItems()
+        updateHeaderView()
+        fetchDetailsForAllOtherSources()
+    }
+
+    public func entityDetailSectionDidSelectRetryDownload(_ entityDetailSectionsViewModel: EntityDetailSectionsViewModel) {
         updateRepresentations()
         updateSourceItems()
         updateHeaderView()
     }
-
 }
 
 @objc public protocol DismissEntityDetailsControllerProtocol: class {
