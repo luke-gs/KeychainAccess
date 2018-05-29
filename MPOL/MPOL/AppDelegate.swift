@@ -30,6 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     var navigator: AppURLNavigator!
 
+    var plugins: [Plugin]?
+
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         MPOLKitInitialize()
@@ -47,6 +49,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Only injecting data for demo purpose.
         plugins.append(PersonMatchMakingInjectionPlugin.defaultPersonMatchMakingInjectionPlugin)
 
+        self.plugins = plugins
+
         // Set the application key for app specific user settings
         User.applicationKey = "Search"
 
@@ -62,7 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         Director.shared = director
 
-        APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)", plugins: plugins, trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
+        APIManager.shared = apiManager(with: APIURLManager.serverURL)
 
         NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
 
@@ -114,6 +118,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         // Reload user session and update UI to match current state
         updateAppForUserSession()
+
+        if let url = try? APIURLManager.serverURL.asURL(), let currentURL = try? APIManager.shared.configuration.url.asURL(),
+            url != currentURL {
+            if UserSession.current.isActive {
+                logOut()
+            }
+            APIManager.shared = apiManager(with: url)
+        }
+
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -221,6 +234,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 UIView.transition(with: window, duration: 0.2, options: .transitionCrossDissolve, animations: nil, completion: nil)
             }
         }
+    }
+
+    private func apiManager(with urlConvertible: URLConvertible) -> APIManager {
+
+        // App won't work without, no recovery from here if it's not correct.
+        let url = try! urlConvertible.asURL()
+        let host = url.host!
+
+        let trustPolicyManager: ServerTrustPolicyManager?
+        #if DEBUG
+            trustPolicyManager = ServerTrustPolicyManager(policies: [host: .disableEvaluation])
+        #else
+            trustPolicyManager = nil
+        #endif
+
+        return APIManager(configuration: APIManagerDefaultConfiguration(url: url, plugins: plugins, trustPolicyManager: trustPolicyManager))
     }
 
     private func applyCurrentTheme() {
