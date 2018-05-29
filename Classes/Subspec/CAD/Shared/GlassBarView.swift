@@ -53,8 +53,8 @@ open class GlassBarView: UIControl {
             
             imageView.leadingAnchor.constraint(equalTo: backgroundView.contentView.leadingAnchor, constant: 24),
             imageView.centerYAnchor.constraint(equalTo: backgroundView.contentView.centerYAnchor),
-            imageView.widthAnchor.constraint(equalToConstant: 20),
-            imageView.heightAnchor.constraint(equalToConstant: 20),
+            imageView.widthAnchor.constraint(equalToConstant: 24),
+            imageView.heightAnchor.constraint(equalToConstant: 24),
             
             labelStackView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 18),
             labelStackView.centerYAnchor.constraint(equalTo: backgroundView.contentView.centerYAnchor),

@@ -14,6 +14,12 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
     open private(set) var incident: CADIncidentType?
     open private(set) var resource: CADResourceType?
 
+    open static var infoIcon: UIImage? = {
+        // Use larger version of standard info icon for sidebar/glass view
+        let infoIcon = AssetManager.shared.image(forKey: .info)
+        return infoIcon?.resizeImageWith(newSize: CGSize(width: 32, height: 32), renderMode: .alwaysTemplate)
+    }()
+
     public init(incidentNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
         let captionText = "#\(incidentNumber)"
         super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, subtitleText: captionText)
@@ -31,7 +37,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
 
     public convenience init(incident: CADIncidentType, resource: CADResourceType?) {
         self.init(incidentNumber: incident.incidentNumber,
-                  iconImage: resource?.status.icon ?? CADClientModelTypes.resourceStatus.defaultCase.icon,
+                  iconImage: resource?.status.icon ?? IncidentTaskItemViewModel.infoIcon,
                   iconTintColor: resource?.status.iconColors.icon ?? .white,
                   color: resource?.status.iconColors.background,
                   statusText: resource?.status.title ?? incident.status.title,
@@ -56,7 +62,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         }
 
         if let incident = incident {
-            iconImage = resource?.status.icon ?? CADClientModelTypes.resourceStatus.defaultCase.icon
+            iconImage = resource?.status.icon ?? IncidentTaskItemViewModel.infoIcon
             iconTintColor = resource?.status.iconColors.icon ?? .white
             color = resource?.status.iconColors.background
             statusText = resource?.status.title ?? incident.status.title
