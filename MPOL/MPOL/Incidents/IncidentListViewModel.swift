@@ -122,7 +122,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
 
     // Incident action helpers
 
-    func actionDefinitionStructForType(type: IncidentActionType, context: IncidentListViewController) -> IncidentActionDefiniton {
+    func definition(for type: IncidentActionType, from context: IncidentListViewController) -> IncidentActionDefiniton {
         switch type {
         case .add:
             return AddIncidentDefinition(for: context)

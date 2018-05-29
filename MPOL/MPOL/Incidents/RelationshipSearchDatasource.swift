@@ -20,11 +20,13 @@ public class RelationshipSearchDatasource: CustomSearchPickerDatasource {
 
     public var header: CustomisableSearchHeaderView?
     public var allowsMultipleSelection: Bool
+    public var dismissOnFinish: Bool
 
     public init(objects: [Pickable],
                 selectedObjects: [Pickable]? = nil,
                 title: String? = "Relationships",
                 allowsMultipleSelection: Bool = true,
+                dismissOnFinish: Bool = true,
                 configuration: SearchHeaderConfiguration? = nil) {
 
         self.objects = objects.sorted(using: [SortDescriptor<Pickable>(ascending: true, key: {$0.title }),
@@ -32,6 +34,7 @@ public class RelationshipSearchDatasource: CustomSearchPickerDatasource {
         self.selectedObjects = selectedObjects
         self.title = title
         self.allowsMultipleSelection = allowsMultipleSelection
+        self.dismissOnFinish = dismissOnFinish
         self.headerConfiguration = configuration
     }
 

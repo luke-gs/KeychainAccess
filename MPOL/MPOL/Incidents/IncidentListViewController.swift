@@ -118,7 +118,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
 
     func performIncidentAction(actionType: IncidentActionType) {
 
-        let actionDefinition = viewModel.actionDefinitionStructForType(type: actionType, context: self)
+        let actionDefinition = viewModel.definition(for: actionType, from: self)
 
         let viewController = CustomPickerController(datasource: actionDefinition.datasource)
 
