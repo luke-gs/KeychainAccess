@@ -16,6 +16,14 @@ public struct ActivityLogItemViewModel {
     public let title: String?
     public let subtitle: String?
 
+    public init(dotFillColor: UIColor, dotStrokeColor: UIColor, timestamp: Date, title: String?, subtitle: String?) {
+        self.dotFillColor = dotFillColor
+        self.dotStrokeColor = dotStrokeColor
+        self.timestamp = timestamp
+        self.title = title
+        self.subtitle = subtitle
+    }
+
     public func dotImage() -> UIImage {
         return UIImage.statusDot(withColor: dotFillColor, strokeColor: dotStrokeColor)
     }
