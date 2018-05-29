@@ -108,7 +108,7 @@ public protocol Reportable: NSSecureCoding, Evaluatable {
 
     /// A reference to the event object
     /// Make sure this is weak in implementation.
-    var event: Event? { get set }
+    var event: Event? { get }
 
     /// A weak reference to the incident object
     /// Make sure this is weak in implementation as well

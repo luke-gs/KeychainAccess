@@ -15,9 +15,16 @@ fileprivate let cellID = "CellID"
 public protocol CustomSearchPickable: Pickable {
     
     func contains(_ searchText: String) -> Bool
-    
 }
 
+public struct IconPickable: Pickable {
+    public var title: String?
+
+    public var subtitle: String?
+
+    public var icon: UIImage?
+    public var tintColor: UIColor?
+}
 
 extension String: CustomSearchPickable {
 
@@ -49,6 +56,8 @@ open class PickerTableViewController<T: Pickable>: FormSearchTableViewController
             updateFilter()
         }
     }
+
+    open var accessoryType: UITableViewCellAccessoryType = .checkmark
     
     
     /// The current selected item indexes from the list.
@@ -266,6 +275,13 @@ open class PickerTableViewController<T: Pickable>: FormSearchTableViewController
             cell.detailTextLabel?.text = item.subtitle
             isSelected = selectedIndexes.contains(itemIndex)
             cell.selectionStyle = .default
+            if let iconItem = item as? IconPickable {
+                cell.imageView?.image = iconItem.icon
+                cell.imageView?.tintColor = iconItem.tintColor ?? UIColor.black
+                cell.imageView?.contentMode = .scaleAspectFit
+            } else {
+                cell.imageView?.image = nil
+            }
         } else {
             if allowsMultipleSelection {
                 if selectedIndexes.count < items.count {
@@ -279,6 +295,7 @@ open class PickerTableViewController<T: Pickable>: FormSearchTableViewController
             cell.detailTextLabel?.text = nil
             isSelected = false
             cell.selectionStyle = .none
+            cell.imageView?.image = nil
         }
         
         if let textLabel = cell.textLabel {
@@ -287,7 +304,7 @@ open class PickerTableViewController<T: Pickable>: FormSearchTableViewController
             textLabel.numberOfLines = 0
         }
     
-        cell.accessoryType = isSelected ? .checkmark : .none
+        cell.accessoryType = isSelected ? self.accessoryType : .none
         
         return cell
     }
@@ -310,7 +327,7 @@ open class PickerTableViewController<T: Pickable>: FormSearchTableViewController
         
         func updateCurrentCell(checked: Bool) {
             if let cell = tableView.cellForRow(at: indexPath) {
-                cell.accessoryType = checked ? .checkmark : .none
+                cell.accessoryType = checked ? self.accessoryType : .none
                 cell.setNeedsLayout()
                 cell.layoutIfNeeded()
                 self.tableView(tableView, willDisplay: cell, forRowAt: indexPath)
