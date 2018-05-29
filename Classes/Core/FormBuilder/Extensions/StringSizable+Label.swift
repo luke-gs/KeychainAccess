@@ -54,6 +54,9 @@ extension UILabel {
             numberOfLines = sizable.numberOfLines
         }
 
+        if let attributedText = sizable?.sizing().attributedString {
+            self.attributedText = attributedText
+        }
         self.text = text
         self.font = font ?? defaultFont
         self.numberOfLines = numberOfLines ?? defaultNumberOfLines
