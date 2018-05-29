@@ -49,7 +49,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
 
     override open func reloadFromModel() {
         // Reload resource for incident if current incident, or clear
-        if incident?.identifier == CADStateManager.shared.currentIncident?.identifier {
+        if incident?.incidentNumber == CADStateManager.shared.currentIncident?.incidentNumber {
             resource = CADStateManager.shared.currentResource
         } else {
             resource = nil
@@ -79,7 +79,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
                 compactTitle = statusText
                 compactSubtitle = NSLocalizedString("Change status", comment: "")
             } else {
-                let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier)
+                let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.incidentNumber)
                 if resources.count > 0 {
                     compactTitle = NSLocalizedString("Currently Resourced", comment: "")
                 } else {
@@ -103,8 +103,8 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         // or we have no current incident, allow changing resource state
         // ... but only if incident is within our patrol group
         if CADStateManager.shared.lastBookOn != nil && incident?.patrolGroup == CADStateManager.shared.patrolGroup {
-            let currentIncidentId = CADStateManager.shared.currentIncident?.identifier
-            if let incident = incident, (incident.identifier == currentIncidentId || currentIncidentId == nil) {
+            let currentIncidentId = CADStateManager.shared.currentIncident?.incidentNumber
+            if let incident = incident, (incident.incidentNumber == currentIncidentId || currentIncidentId == nil) {
                 return true
             }
         }

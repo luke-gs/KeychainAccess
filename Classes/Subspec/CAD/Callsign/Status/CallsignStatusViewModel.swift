@@ -142,7 +142,7 @@ open class CallsignStatusViewModel: CADFormCollectionViewModel<ManageCallsignSta
                 resolver.reject(PMKError.cancelled)
             }
         }
-        delegate?.present(BookOnScreen.finaliseDetails(primaryCode: incident?.identifier ?? "", completionHandler: completionHandler))
+        delegate?.present(BookOnScreen.finaliseDetails(primaryCode: incident?.incidentNumber ?? "", completionHandler: completionHandler))
         return promise
     }
 
