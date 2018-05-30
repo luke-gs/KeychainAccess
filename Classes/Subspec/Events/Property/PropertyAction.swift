@@ -6,23 +6,25 @@
 //
 
 class PropertyAction: ValueSelectionAction<String> {
-    var viewModel: DefaultPropertyViewModel
-    var delegate: DefaultPropertyViewControllerSelectionHandler
+    let delegate: DefaultPropertyViewControllerSelectionHandler
+    let displayTextLol: String?
+    let items: [String]?
 
-    init(viewModel: DefaultPropertyViewModel, delegate: DefaultPropertyViewControllerSelectionHandler) {
-        self.viewModel = viewModel
+    init(displayText: String?, items: [String]?, delegate: DefaultPropertyViewControllerSelectionHandler) {
         self.delegate = delegate
+        self.displayTextLol = displayText
+        self.items = items
         super.init()
     }
 
     public override func viewController() -> UIViewController {
-        let viewModel = DefaultSearchDisplayableViewModel(items: self.viewModel.types())
+        let viewModel = DefaultSearchDisplayableViewModel(items: items ?? [])
         let viewController = SearchDisplayableViewController<DefaultPropertyViewControllerSelectionHandler, DefaultSearchDisplayableViewModel>(viewModel: viewModel)
         viewController.delegate = delegate
         return viewController
     }
 
     override func displayText() -> String? {
-        return viewModel.report.type
+        return displayTextLol
     }
 }
