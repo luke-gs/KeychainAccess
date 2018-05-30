@@ -48,28 +48,28 @@ open class PersonTrafficHistoryViewModel: EntityDetailFilterableFormViewModel {
         builder.title = title
         builder.forceLinearLayout = true
 
+        let trafficHistory = self.filteredTrafficHistory
+
         if !trafficHistory.isEmpty {
 
             builder += HeaderFormItem(text: NSLocalizedString("Overview", comment: ""), style: .collapsible)
 
+            let trafficHistoryOverview = TrafficHistoryOverviewDisplay(trafficHistory)
+
             if viewController.isCompact() {
-
-                builder += SubtitleFormItem(title: "CRAP".sizing(withNumberOfLines: 0, font: UIFont.preferredFont(forTextStyle: .body)), subtitle: "Crap".sizing(withNumberOfLines: 0, font: UIFont.preferredFont(forTextStyle: .body)), image: nil, style: .value)
-                builder += SubtitleFormItem(title: "CRAP".sizing(withNumberOfLines: 0, font: UIFont.preferredFont(forTextStyle: .body)), subtitle: "Crap".sizing(withNumberOfLines: 0, font: UIFont.preferredFont(forTextStyle: .body)), image: nil, style: .value)
-                builder += SubtitleFormItem(title: "CRAP".sizing(withNumberOfLines: 0, font: UIFont.preferredFont(forTextStyle: .body)), subtitle: "Crap".sizing(withNumberOfLines: 0, font: UIFont.preferredFont(forTextStyle: .body)), image: nil, style: .value)
-                builder += SubtitleFormItem(title: "CRAP".sizing(withNumberOfLines: 0, font: UIFont.preferredFont(forTextStyle: .body)), subtitle: "Crap".sizing(withNumberOfLines: 0, font: UIFont.preferredFont(forTextStyle: .body)), image: nil, style: .value)
-             
+                for item in TrafficHistoryOverviewItem.allCases {
+                    let title = trafficHistoryOverview.title(for: item).sizing(withNumberOfLines: 0, font: UIFont.systemFont(ofSize: 13))
+                    let subtitleText = trafficHistoryOverview.value(for: item)
+                    let attributedText = NSAttributedString(string: subtitleText, attributes: [ .foregroundColor : UIColor.black ])
+                    builder += SubtitleFormItem(title: title, subtitle: attributedText.sizing(defaultNumberOfLines: 0, defaultFont: UIFont.systemFont(ofSize: 13)), image: nil, style: .value)
+                }
             } else {
-                builder += TrafficHistoryOverviewFormItem(text: nil, items: [
-                    TrafficHistoryCollectionViewCell.Item(number: "1", title: "Demerit Points"),
-                    TrafficHistoryCollectionViewCell.Item(number: "2", title: "Demerit Points"),
-                    TrafficHistoryCollectionViewCell.Item(number: "3", title: "Demerit Points"),
-                    TrafficHistoryCollectionViewCell.Item(number: "4", title: "Demerit Points"),
-                    TrafficHistoryCollectionViewCell.Item(number: "5", title: "Demerit Points"),
-                    ])
+                var cellItems: [TrafficHistoryCollectionViewCell.Item] = []
+                for item in TrafficHistoryOverviewItem.allCases {
+                    cellItems.append(TrafficHistoryCollectionViewCell.Item(number: trafficHistoryOverview.value(for: item), title: trafficHistoryOverview.title(for: item)))
+                }
+                builder += TrafficHistoryOverviewFormItem(text: nil, items: cellItems)
             }
-
-
 
             builder += HeaderFormItem(text: headerTitle, style: .collapsible)
             for trafficHistory in filteredTrafficHistory {
@@ -84,10 +84,6 @@ open class PersonTrafficHistoryViewModel: EntityDetailFilterableFormViewModel {
 
     private var filterEventTypes: Set<String>?
 
-    private var filterTypeOptions: Set<String> {
-        return Set(trafficHistory.compactMap { $0.name } )
-    }
-
     private var filterDateRange: FilterDateRange?
 
     private var dateSorting: DateSorting = .newest
@@ -95,24 +91,21 @@ open class PersonTrafficHistoryViewModel: EntityDetailFilterableFormViewModel {
 
     open var filteredTrafficHistory: [TrafficHistory] {
         var filtered = self.trafficHistory
-//        var filters: [FilterDescriptor<Order>] = []
-//
-//        if let filterTypes = filterEventTypes {
-//            filters.append(FilterValueDescriptor<Order, String>(key: { $0.type }, values: filterTypes))
-//        }
-//
-//        if let dateRange = filterDateRange {
-//            filters.append(FilterRangeDescriptor<Order, Date>(key: { $0.issuedDate }, start: dateRange.startDate, end: dateRange.endDate))
-//        }
-//
-//        filtered = filtered.filter(using: filters)
-//        filtered = filtered.sorted(using: self.sorts)
+        var filters: [FilterDescriptor<TrafficHistory>] = []
+
+        if let dateRange = filterDateRange {
+            filters.append(FilterRangeDescriptor<TrafficHistory, Date>(key: { $0.issuedDate }, start: dateRange.startDate, end: dateRange.endDate))
+        }
+
+        filtered = filtered.sorted(using: self.sorts)
+        filtered = filtered.filter(using: filters)
 
         return filtered
     }
 
     open override func traitCollectionDidChange(_ traitCollection: UITraitCollection, previousTraitCollection: UITraitCollection?) {
-
+        super.traitCollectionDidChange(traitCollection, previousTraitCollection: previousTraitCollection)
+        delegate?.reloadData()
     }
 
     open var sorts: [SortDescriptor<TrafficHistory>] {
@@ -125,13 +118,6 @@ open class PersonTrafficHistoryViewModel: EntityDetailFilterableFormViewModel {
 
     open override var filterOptions: [FilterOption] {
 
-        let filterList = FilterList(title: String(format: NSLocalizedString("%@ Types", comment: ""), title!),
-                                    displayStyle: .detailList,
-                                    options: allTypes,
-                                    selectedIndexes: selectedTypesIndexes,
-                                    allowsNoSelection: true,
-                                    allowsMultipleSelection: true)
-
         let dateRange = FilterDateRange(title: NSLocalizedString("Date Range", comment: ""),
                                         startDate: filterDateRange?.startDate,
                                         endDate: filterDateRange?.endDate,
@@ -142,28 +128,8 @@ open class PersonTrafficHistoryViewModel: EntityDetailFilterableFormViewModel {
                                      options: sortingOptions,
                                      selectedIndexes: [sortingOptions.index(of: dateSorting) ?? 0])
 
-        return [filterList, dateRange, sortingList]
+        return [dateRange, sortingList]
 
-    }
-
-    var allTypes: [String] {
-        return filterTypeOptions.sorted { $0.localizedStandardCompare($1) == .orderedAscending }
-    }
-
-    var selectedTypesIndexes: IndexSet {
-        var selectedIndexes: IndexSet
-
-        if let filterTypes = filterEventTypes {
-            if filterTypes.isEmpty == false {
-                selectedIndexes = allTypes.indexes(where: { filterTypes.contains($0) })
-            } else {
-                selectedIndexes = IndexSet()
-            }
-        } else {
-            selectedIndexes = IndexSet(integersIn: 0..<filterTypeOptions.count)
-        }
-
-        return selectedIndexes
     }
 
     open override func filterViewControllerDidFinish(_ controller: FilterViewController, applyingChanges: Bool) {
@@ -173,18 +139,6 @@ open class PersonTrafficHistoryViewModel: EntityDetailFilterableFormViewModel {
 
         controller.filterOptions.forEach {
             switch $0 {
-            case let filterList as FilterList where filterList.options.first is String:
-                let selectedIndexes = filterList.selectedIndexes
-                let indexCount = selectedIndexes.count
-                if indexCount != filterList.options.count {
-                    if indexCount == 0 {
-                        filterEventTypes = []
-                    } else {
-                        filterEventTypes = Set(filterList.options[selectedIndexes] as! [String])
-                    }
-                } else {
-                    filterEventTypes = nil
-                }
             case let filterList as FilterList where filterList.options.first is DateSorting:
                 guard let selectedIndex = filterList.selectedIndexes.first else {
                     self.dateSorting = .newest
@@ -249,4 +203,74 @@ public struct TrafficHistoryDisplay: DetailDisplayable, FormItemable {
         let text = trafficHistory.trafficHistoryDescription ?? NSLocalizedString("Unknown Traffic History information", comment: "")
         return text.sizing(withNumberOfLines: 0)
     }
+}
+
+public enum TrafficHistoryOverviewItem {
+    case demeritPoints
+    case licenceSurrendered
+    case licenceRefused
+    case licenceCancelled
+
+    static var allCases: [TrafficHistoryOverviewItem] {
+        return [ .demeritPoints, .licenceSurrendered, .licenceRefused, .licenceCancelled]
+    }
+}
+
+public struct TrafficHistoryOverviewDisplay {
+
+    let trafficHistory: [TrafficHistory]
+
+    let finalisedDemeritPoints: Int
+    let licenceSurrenderedCount: Int
+    let licenceCancelledCount: Int
+
+    public init(_ trafficHistory: [TrafficHistory]) {
+        self.trafficHistory = trafficHistory
+
+        var finalisedDemeritPoints = 0
+        var licenceSurrenderedCount = 0
+        var licenceCancelledCount = 0
+
+        for item in trafficHistory {
+            if item.isLicenceCancelled {
+                licenceCancelledCount += 1
+            }
+            if item.isLicenceSurrendered {
+                licenceSurrenderedCount += 1
+            }
+            finalisedDemeritPoints += item.demeritPoint
+        }
+
+        self.finalisedDemeritPoints = finalisedDemeritPoints
+        self.licenceCancelledCount = licenceCancelledCount
+        self.licenceSurrenderedCount = licenceSurrenderedCount
+    }
+
+    public func value(for item: TrafficHistoryOverviewItem) -> String {
+        switch item {
+        case .demeritPoints:
+            return String(finalisedDemeritPoints)
+        case .licenceSurrendered:
+            return String(licenceSurrenderedCount)
+        case .licenceCancelled:
+            return String(licenceCancelledCount)
+        case .licenceRefused:
+            return "0"
+        }
+    }
+
+    public func title(for item: TrafficHistoryOverviewItem) -> String {
+
+        switch item {
+        case .demeritPoints:
+            return NSLocalizedString("Finalised Demerit Points", comment: "")
+        case .licenceSurrendered:
+            return NSLocalizedString("Times Licence Surrendered", comment: "")
+        case .licenceCancelled:
+            return NSLocalizedString("Times Licence Refused", comment: "")
+        case .licenceRefused:
+            return NSLocalizedString("Times Licence Cancelled", comment: "")
+        }
+    }
+
 }
