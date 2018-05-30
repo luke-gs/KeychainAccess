@@ -6,8 +6,6 @@
 //  Copyright © 2017 Gridstone. All rights reserved.
 //
 
-import MPOLKit
-
 public class TrafficHistoryOverviewFormItem: BaseFormItem {
     
     // MARK: - Detail properties
