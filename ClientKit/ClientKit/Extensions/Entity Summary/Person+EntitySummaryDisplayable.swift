@@ -118,3 +118,81 @@ public struct PersonSummaryDisplayable: EntitySummaryDisplayable {
         return nil
     }
 }
+
+public struct PersonDetailsDisplayable: EntitySummaryDisplayable {
+
+    private var person: Person
+    private var displayable: PersonSummaryDisplayable
+
+    public init(_ entity: MPOLKitEntity) {
+        person = entity as! Person
+        displayable = PersonSummaryDisplayable(person)
+    }
+
+    public var category: String? {
+        return person.source?.localizedBadgeTitle
+    }
+
+    public var title: String? {
+        return formattedName ?? NSLocalizedString("Name Unknown", comment: "")
+    }
+
+    public var detail1: String? {
+        return displayable.detail1
+    }
+
+    public var detail2: String? {
+        return displayable.detail2
+    }
+
+    public var borderColor: UIColor? {
+        return displayable.borderColor
+    }
+
+    public var iconColor: UIColor? {
+        return displayable.iconColor
+    }
+
+    public var badge: UInt {
+        return displayable.badge
+    }
+
+    public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
+        return displayable.thumbnail(ofSize: size)
+    }
+
+    public var priority: Int {
+        return displayable.priority
+    }
+
+    // MARK: - Private
+
+    private var formattedName: String? {
+        var formattedName: String = ""
+
+        if person.isAlias ?? false {
+            formattedName += "@ "
+        }
+
+        if let surname = person.familyName?.ifNotEmpty() {
+            formattedName += surname
+
+            if person.givenName?.isEmpty ?? true == false || person.middleNames?.isEmpty ?? true == false {
+                formattedName += ", "
+            }
+        }
+        if let givenName = person.givenName?.ifNotEmpty() {
+            formattedName += givenName
+
+            if person.middleNames?.isEmpty ?? true == false {
+                formattedName += " "
+            }
+        }
+
+        if let middleNames = person.middleNames {
+            formattedName += middleNames
+        }
+
+        return formattedName
+    }
+}
