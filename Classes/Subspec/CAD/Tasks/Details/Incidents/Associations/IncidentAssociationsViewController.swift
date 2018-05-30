@@ -92,12 +92,13 @@ open class IncidentAssociationsViewController: CADFormCollectionViewController<I
     override open func decorate(cell: CollectionViewFormCell, with viewModel: IncidentAssociationItemViewModel) {
         cell.highlightStyle = .fade
         cell.selectionStyle = .fade
-        cell.separatorStyle = .indented
         cell.accessoryView = nil
         
         if let cell = cell as? EntityListCollectionViewCell {
+            cell.separatorStyle = .indented
             cell.decorate(with: viewModel)
         } else if let cell = cell as? EntityCollectionViewCell {
+            cell.separatorStyle = .none
             cell.decorate(with: viewModel)
         }
     }
