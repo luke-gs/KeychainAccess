@@ -32,6 +32,7 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
         loadingManager.noContentView.titleLabel.text = "No Property Added"
         loadingManager.noContentView.subtitleLabel.text = "Optional"
         loadingManager.noContentView.actionButton.setTitle("Add Property", for: .normal)
+        loadingManager.noContentView.actionButton.addTarget(self, action: #selector(addProperty), for: .touchUpInside)
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -55,5 +56,12 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
         sidebarItem.color = viewModel.tabColors.defaultColor
         sidebarItem.selectedColor = viewModel.tabColors.selectedColor
+    }
+
+    @objc public func addProperty() {
+        let viewController = AddPropertyViewController(viewModel: DefaultPropertyViewModel(report: DefaultPropertyReport(event: viewModel.report.event!, incident: viewModel.report.incident)))
+        let navigationController = PopoverNavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .pageSheet
+        present(navigationController, animated: true, completion: nil)
     }
 }
