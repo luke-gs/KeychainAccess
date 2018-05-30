@@ -173,8 +173,8 @@ open class FormCollectionViewHandler: NSObject, UICollectionViewDataSource, Coll
             let theme = ThemeManager.shared.theme(for: userInterfaceStyle)
             item.cell = cell
 
-            item.reload(cell)
             item.decorate(cell, withTheme: theme)
+            item.reload(cell)
 
             if let accessoryView = cell.accessoryView {
                 item.accessory?.apply(theme: theme, toView: accessoryView)
