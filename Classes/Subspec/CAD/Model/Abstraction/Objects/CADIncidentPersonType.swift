@@ -13,14 +13,13 @@ public protocol CADIncidentPersonType: class, CADIncidentAssociationType {
 
     // MARK: - Network
     var alertLevel: CADAlertLevelType? { get set }
-    var associatedAlertLevel: CADAlertLevelType? { get set }
     var dateOfBirth: Date? { get set }
     var firstName: String? { get set }
     var fullAddress: String? { get set }
     var gender: CADIncidentPersonGenderType? { get set }
     var lastName: String? { get set }
     var middleNames: String? { get set }
-    var thumbnail: String? { get set }
+    var thumbnailUrl: String? { get set }
 
     // MARK: - Generated
     var fullName: String { get }
