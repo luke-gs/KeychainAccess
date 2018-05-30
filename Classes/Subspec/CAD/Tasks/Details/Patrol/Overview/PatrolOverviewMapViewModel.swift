@@ -11,20 +11,20 @@ import MapKit
 
 open class PatrolOverviewMapViewModel: TasksMapViewModel {
 
-    private let patrolNumber: String
+    private var patrol: CADPatrolType?
     
-    public init(patrolNumber: String) {
-        self.patrolNumber = patrolNumber
+    open func reloadFromModel(_ model: CADPatrolType) {
+        self.patrol = model
     }
     
     override open func loadTasks() {
-        guard let patrol = CADStateManager.shared.patrolsById[patrolNumber] else { return }
+        guard let patrol = patrol else { return }
         
         filteredAnnotations = [patrol.createAnnotation()].removeNils()
     }
     
     override open func createViewController() -> TasksMapViewController {
-        if let coordinate = CADStateManager.shared.patrolsById[patrolNumber]?.location?.coordinate {
+        if let coordinate = patrol?.location?.coordinate {
             let viewController = TasksMapViewController(viewModel: self, initialLoadZoomStyle: .coordinate(coordinate, animated : false))
             viewController.defaultZoomDistance = defaultZoomDistance
             return viewController

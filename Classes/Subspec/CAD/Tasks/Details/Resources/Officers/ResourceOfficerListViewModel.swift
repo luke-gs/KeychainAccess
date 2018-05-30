@@ -10,28 +10,15 @@ import UIKit
 
 open class ResourceOfficerListViewModel: CADFormCollectionViewModel<ResourceOfficerViewModel>, TaskDetailsViewModel {
     
-    /// The identifier for this resource
-    open let callsign: String
-    
-    public init(callsign: String) {
-        self.callsign = callsign
-        super.init()
-        loadData()
-    }
-
     /// Create the view controller for this view model
     open func createViewController() -> TaskDetailsViewController {
         return ResourceOfficerListViewController(viewModel: self)
     }
     
-    open func reloadFromModel() {
-        loadData()
-    }
-
-    open func loadData() {
-        guard let resource = CADStateManager.shared.resourcesById[callsign] else { return }
+    open func reloadFromModel(_ model: CADTaskListItemModelType) {
+        guard let resource = model as? CADResourceType else { return }
         
-        let officers = CADStateManager.shared.officersForResource(callsign: callsign)
+        let officers = CADStateManager.shared.officersForResource(callsign: resource.callsign)
         
         let officerViewModels = officers.map { officer in
             return ResourceOfficerViewModel(officer: officer, resource: resource)

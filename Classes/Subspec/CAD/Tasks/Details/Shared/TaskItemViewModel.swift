@@ -13,6 +13,9 @@ open class TaskItemViewModel {
 
     open weak var delegate: PopoverPresenter?
 
+    /// The identifier for the task item
+    open var taskItemIdentifier: String
+    
     /// The navigation title for this type of task item details
     open var navTitle: String?
 
@@ -53,6 +56,9 @@ open class TaskItemViewModel {
         }
     }
     
+    /// The split view controller
+    open var viewController: TaskItemSidebarSplitViewController?
+    
     open var viewModels: [TaskDetailsViewModel]
     
     open func createViewController() -> UIViewController {
@@ -67,7 +73,8 @@ open class TaskItemViewModel {
     ///   - color: Color to use for the icon image background and status text
     ///   - statusText: Status text to display below the icon
     ///   - itemName: Name of the item
-    public init(iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?, subtitleText: String?, viewModels: [TaskDetailsViewModel] = []) {
+    public init(taskItemIdentifier: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?, subtitleText: String?, viewModels: [TaskDetailsViewModel] = []) {
+        self.taskItemIdentifier = taskItemIdentifier
         self.iconImage = iconImage
         self.iconTintColor = iconTintColor
         self.color = color
@@ -80,6 +87,10 @@ open class TaskItemViewModel {
         self.showCompactGlassBar = false
     }
 
+    open func loadTask() -> Promise<Void> {
+        MPLRequiresConcreteImplementation()
+    }
+    
     /// Called when the view model data should be refreshed from model data
     open func reloadFromModel() {
     }

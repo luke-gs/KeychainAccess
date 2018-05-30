@@ -10,16 +10,16 @@ import UIKit
 import MapKit
 
 open class IncidentOverviewMapViewModel: TasksMapViewModel {
-
-    private let incidentNumber: String
+    public var incident: CADIncidentType?
     
-    public init(incidentNumber: String) {
-        self.incidentNumber = incidentNumber
+    public func reloadFromModel(_ model: CADIncidentType) {
+        self.incident = model
+        loadTasks()
     }
     
     override open func loadTasks() {
-        guard let incident = CADStateManager.shared.incidentsById[incidentNumber] else { return }
-        let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: incidentNumber)
+        guard let incident = incident else { return }
+        let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.incidentNumber)
         
         var annotations: [TaskAnnotation] = []
         annotations += [incident.createAnnotation()].removeNils()
@@ -29,7 +29,7 @@ open class IncidentOverviewMapViewModel: TasksMapViewModel {
     }
     
     override open func createViewController() -> TasksMapViewController {
-        if let coordinate = CADStateManager.shared.incidentsById[incidentNumber]?.location?.coordinate {
+        if let coordinate = incident?.location?.coordinate {
             let viewController = TasksMapViewController(viewModel: self, initialLoadZoomStyle: .coordinate(coordinate, animated : false))
             viewController.defaultZoomDistance = defaultZoomDistance
             return viewController

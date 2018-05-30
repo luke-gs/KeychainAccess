@@ -28,7 +28,7 @@ open class ResourceOverviewFormViewController: IntrinsicHeightFormBuilderViewCon
                 .accessory(ItemAccessory.disclosure)
                 .separatorStyle(.fullWidth)
                 .onSelection({ [unowned self] cell in
-                    guard let resource = CADStateManager.shared.resourcesById[self.viewModel.identifier],
+                    guard let resource = self.viewModel.resource,
                         let incident = CADStateManager.shared.incidentsById[currentIncident.identifier]
                     else {
                         return

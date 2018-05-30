@@ -11,8 +11,8 @@ import PromiseKit
 
 open class IncidentTaskItemViewModel: TaskItemViewModel {
 
-    open private(set) var incident: CADIncidentType?
-    open private(set) var resource: CADResourceType?
+    open var incident: CADIncidentType?
+    open var resource: CADResourceType?
 
     open static var infoIcon: UIImage? = {
         // Use larger version of standard info icon for sidebar/glass view
@@ -22,16 +22,22 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
 
     public init(incidentNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
         let captionText = "#\(incidentNumber)"
-        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, subtitleText: captionText)
-
+        super.init(taskItemIdentifier: incidentNumber,
+                   iconImage: iconImage,
+                   iconTintColor: iconTintColor,
+                   color: color,
+                   statusText: statusText,
+                   itemName: itemName,
+                   subtitleText: captionText)
+        
         self.navTitle = NSLocalizedString("Incident details", comment: "")
         self.compactNavTitle = itemName
 
         self.viewModels = [
-            IncidentOverviewViewModel(identifier: incidentNumber),
-            IncidentAssociationsViewModel(incidentNumber: incidentNumber),
-            IncidentResourcesViewModel(incidentNumber: incidentNumber),
-            IncidentNarrativeViewModel(incidentNumber: incidentNumber),
+            IncidentOverviewViewModel(),
+            IncidentAssociationsViewModel(),
+            IncidentResourcesViewModel(),
+            IncidentNarrativeViewModel(),
         ]
     }
 
@@ -42,15 +48,23 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
                   color: resource?.status.iconColors.background,
                   statusText: resource?.status.title ?? incident.status.title,
                   itemName: [incident.type, incident.resourceCountString].joined())
-        self.incident = incident
         self.resource = resource
-        updateGlassBar()
     }
 
     open override func createViewController() -> UIViewController {
         let vc = TaskItemSidebarSplitViewController(viewModel: self)
         delegate = vc
+        viewController = vc
         return vc
+    }
+    
+    open override func loadTask() -> Promise<Void> {
+        viewController?.setLoadingState(.loading)
+        self.incident = CADStateManager.shared.incidentsById[taskItemIdentifier]
+        viewController?.setLoadingState(.loaded)
+        self.reloadFromModel()
+        self.updateGlassBar()
+        return Promise<Void>()
     }
 
     override open func reloadFromModel() {
@@ -69,7 +83,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
             itemName = [incident.type, incident.resourceCountString].joined()
 
             viewModels.forEach {
-                $0.reloadFromModel()
+                $0.reloadFromModel(incident)
             }
             updateGlassBar()
         }

@@ -10,18 +10,20 @@ import UIKit
 
 open class ResourceOverviewViewModel: TaskDetailsOverviewViewModel {
 
+    open var resource: CADResourceType?
+    
     override open func createFormViewController() -> FormBuilderViewController {
         return ResourceOverviewFormViewController(viewModel: self)
     }
     
-    public override init(identifier: String) {
-        super.init(identifier: identifier)
-        mapViewModel = ResourceOverviewMapViewModel(callsign: identifier)
+    public override init() {
+        super.init()
+        mapViewModel = ResourceOverviewMapViewModel()
     }
 
 
     open var currentIncidentViewModel: TasksListIncidentViewModel? {
-        guard let resource = CADStateManager.shared.resourcesById[identifier],
+        guard let resource = resource,
             let incidentNumber = resource.currentIncident,
             let incident = CADStateManager.shared.incidentsById[incidentNumber]
         else {
@@ -31,8 +33,10 @@ open class ResourceOverviewViewModel: TaskDetailsOverviewViewModel {
         return TasksListIncidentViewModel(incident: incident, source: source, showsDescription: false, showsResources: false, hasUpdates: false)
     }
     
-    override open func loadData() {
-        guard let resource = CADStateManager.shared.resourcesById[identifier] else { return }
+    open override func reloadFromModel(_ model: CADTaskListItemModelType) {
+        guard let resource = model as? CADResourceType else { return }
+        self.resource = resource
+        (mapViewModel as? ResourceOverviewMapViewModel)?.reloadFromModel(resource)
         
         sections = [
             CADFormCollectionSectionViewModel(title: NSLocalizedString("Shift Details", comment: ""),
@@ -89,7 +93,7 @@ open class ResourceOverviewViewModel: TaskDetailsOverviewViewModel {
     }
 
     open func showManageButton() -> Bool {
-        if let bookOn = CADStateManager.shared.lastBookOn, bookOn.callsign == identifier {
+        if let bookOn = CADStateManager.shared.lastBookOn, bookOn.callsign == resource?.callsign {
             return true
         }
         return false

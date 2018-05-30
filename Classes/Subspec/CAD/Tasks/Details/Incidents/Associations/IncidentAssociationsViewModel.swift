@@ -10,26 +10,13 @@ import UIKit
 
 public class IncidentAssociationsViewModel: CADFormCollectionViewModel<IncidentAssociationItemViewModel>, TaskDetailsViewModel {
     
-    /// The identifier for this incident
-    open let incidentNumber: String
-    
-    public init(incidentNumber: String) {
-        self.incidentNumber = incidentNumber
-        super.init()
-        loadData()
-    }
-    
     /// Create the view controller for this view model
     open func createViewController() -> TaskDetailsViewController {
         return IncidentAssociationsViewController(viewModel: self)
     }
 
-    open func reloadFromModel() {
-        loadData()
-    }
-
-    open func loadData() {
-        guard let incident = CADStateManager.shared.incidentsById[incidentNumber] else { return }
+    public func reloadFromModel(_ model: CADTaskListItemModelType) {
+        guard let incident = model as? CADIncidentType else { return }
 
         var sections: [CADFormCollectionSectionViewModel<IncidentAssociationItemViewModel>] = []
         
