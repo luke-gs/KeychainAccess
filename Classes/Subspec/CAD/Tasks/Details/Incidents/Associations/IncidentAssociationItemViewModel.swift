@@ -11,7 +11,7 @@ import UIKit
 public class IncidentAssociationItemViewModel: EntitySummaryDisplayable {
     
     public enum EntityType {
-        case person(initials: String)
+        case person(initials: String, thumbnailUrl: String?)
         case vehicle
     }
     
@@ -53,9 +53,8 @@ public class IncidentAssociationItemViewModel: EntitySummaryDisplayable {
         let thumbnailImage: UIImage?
         let contentMode: UIViewContentMode
         switch entityType {
-        case let .person(initials):
-            thumbnailImage = UIImage.thumbnail(withInitials: initials)
-            contentMode = .scaleAspectFill
+        case let .person(initials, thumbnailUrl):
+            return CADPersonImageSizing(initials: initials, thumbnailUrl: thumbnailUrl)
         case .vehicle:
             let imageName: String
             
@@ -79,4 +78,31 @@ public class IncidentAssociationItemViewModel: EntitySummaryDisplayable {
         return nil
     }
 
+}
+
+/// Async Image Loading class for loading person thumbnails
+public class CADPersonImageSizing: AsynchronousImageSizing {
+
+    public let initials: String
+    public let thumbnailUrl: String?
+
+    public init(initials: String, thumbnailUrl: String?) {
+        self.initials = initials
+        self.thumbnailUrl = thumbnailUrl
+
+        let image = UIImage.thumbnail(withInitials: initials)
+        let thumbnailSizing = ImageSizing(image: image, size: image.size, contentMode: .scaleAspectFill)
+        super.init(placeholderImage: thumbnailSizing)
+    }
+
+    public override func loadImage(completion: @escaping (ImageSizable) -> ()) {
+
+        // Code to retrieve image goes here
+        if let thumbnailUrl = thumbnailUrl, let url = URL(string: thumbnailUrl) {
+            _ = ImageDownloader.default.fetch(for: url).done { image -> Void in
+                let sizing = ImageSizing(image: image, size: image.size, contentMode: .scaleAspectFit)
+                completion(sizing)
+            }.cauterize()
+        }
+    }
 }

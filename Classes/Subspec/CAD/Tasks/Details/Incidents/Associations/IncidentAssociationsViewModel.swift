@@ -37,7 +37,7 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<IncidentA
             return IncidentAssociationItemViewModel(
                 association: person,
                 category: "DS1",
-                entityType: .person(initials: person.initials),
+                entityType: .person(initials: person.initials, thumbnailUrl: person.thumbnailUrl),
                 title: person.fullName,
                 detail1: formattedDOBAgeGender(person),
                 detail2: person.fullAddress,
