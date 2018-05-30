@@ -59,7 +59,9 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
     }
 
     @objc public func addProperty() {
-        let viewController = AddPropertyViewController(viewModel: DefaultPropertyViewModel(report: DefaultPropertyReport(event: viewModel.report.event!, incident: viewModel.report.incident)))
+        let detailsReport = PropertyDetailsReport(event: viewModel.report.event!, incident: viewModel.report.incident)
+        let detailsViewModel = PropertyDetailsViewModel(report: detailsReport)
+        let viewController = PropertyDetailsViewController(viewModel: detailsViewModel)
         let navigationController = PopoverNavigationController(rootViewController: viewController)
         navigationController.modalPresentationStyle = .pageSheet
         present(navigationController, animated: true, completion: nil)
