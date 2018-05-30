@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct PropertyDetailsViewControllerDecorator {
+class PropertyDetailsViewControllerDecorator {
 
     let addPropertyView: UIView
     let detailsScrollView: UIScrollView
@@ -17,6 +17,8 @@ struct PropertyDetailsViewControllerDecorator {
         self.addPropertyView = addPropertyView
         self.detailsScrollView = detailsScrollView
         self.stackView = stackView
+
+        setupViews()
     }
 
     private func setupViews() {
@@ -25,7 +27,7 @@ struct PropertyDetailsViewControllerDecorator {
         stackView.distribution = .fillProportionally
     }
 
-    func constrain(viewController: UIViewController) {
+    func constrain(_ viewController: UIViewController) {
         addPropertyView.translatesAutoresizingMaskIntoConstraints = false
         detailsScrollView.translatesAutoresizingMaskIntoConstraints = false
         stackView.translatesAutoresizingMaskIntoConstraints = false

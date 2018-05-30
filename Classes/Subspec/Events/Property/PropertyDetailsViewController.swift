@@ -9,7 +9,6 @@ import UIKit
 
 protocol AddPropertyDelegate {
     func didTapOnAddProperty()
-    func didAddProperty()
 }
 
 private enum AddPropertyState {
@@ -20,13 +19,14 @@ private enum AddPropertyState {
 public class PropertyDetailsViewController: ThemedPopoverViewController, EvaluationObserverable {
 
     private(set) var addPropertyViewController: SearchDisplayableViewController<PropertyDetailsViewController, DefaultSearchDisplayableViewModel>!
-    private(set) var addPropertyGeneralViewController: IntrinsicHeightFormBuilderViewController!
-    private(set) var addPropertyMediaViewController: IntrinsicHeightFormBuilderViewController!
-    private(set) var addPropertyDetailsViewController: IntrinsicHeightFormBuilderViewController!
+    private(set) var propertyDetailsGeneralViewController: IntrinsicHeightFormBuilderViewController!
+    private(set) var propertyDetailsMediaViewController: IntrinsicHeightFormBuilderViewController!
+    private(set) var propertyDetailsDetailsViewController: IntrinsicHeightFormBuilderViewController!
 
     private var addPropertyView = UIView()
     private let scrollView = UIScrollView()
     private let containerStackView = UIStackView()
+
     private lazy var decorator = {
         PropertyDetailsViewControllerDecorator(addPropertyView: addPropertyView,
                                                detailsScrollView: scrollView,
@@ -40,16 +40,21 @@ public class PropertyDetailsViewController: ThemedPopoverViewController, Evaluat
         addPropertyViewController = SearchDisplayableViewController<PropertyDetailsViewController, DefaultSearchDisplayableViewModel>(viewModel: DefaultSearchDisplayableViewModel(items: Array(repeating: "TEST", count: 20)))
         addPropertyViewController.delegate = self
 
-        addPropertyGeneralViewController = DefaultPropertyViewController(plugins: [AddPropertyGeneralPlugin(viewModel: viewModel, delegate: self)])
-        //        self.addPropertyMediaViewController = DefaultPropertyViewController(plugins: [])
-        //        self.addPropertyDetailsViewController = DefaultPropertyViewController(plugins: [])
+        propertyDetailsGeneralViewController = DefaultPropertyViewController(plugins: [AddPropertyGeneralPlugin(viewModel: viewModel, delegate: self)])
+        propertyDetailsMediaViewController = DefaultPropertyViewController(plugins: [AddPropertyMediaPlugin(viewModel: viewModel, delegate: self)])
+        propertyDetailsDetailsViewController = DefaultPropertyViewController(plugins: [AddPropertyDetailsPlugin(viewModel: viewModel, delegate: self)])
     }
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        decorator.constrain(viewController: self)
+
         addMainViewController()
-        addContentController(addPropertyGeneralViewController)
+        addContentController(propertyDetailsGeneralViewController)
+        addContentController(propertyDetailsDetailsViewController)
+        addContentController(propertyDetailsMediaViewController)
+
+        decorator.constrain(self)
+        decorator.constrainChild(addPropertyViewController)
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
@@ -58,13 +63,18 @@ public class PropertyDetailsViewController: ThemedPopoverViewController, Evaluat
 
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        switchTo(.add)
+        switchTo(.display)
     }
 
     // MARK: Private
 
     private func switchTo(_ state: AddPropertyState) {
-        //TODO: ANIMATE THIS SHIT
+        let animator = UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut) {
+            self.addPropertyView.alpha = state == .add ? 1.0 : 0.0
+            self.scrollView.alpha = state == .display ? 1.0 : 0.0
+        }
+        animator.startAnimation()
+
         switch state {
         case .add:
             view.bringSubview(toFront: addPropertyView)
@@ -75,7 +85,6 @@ public class PropertyDetailsViewController: ThemedPopoverViewController, Evaluat
 
     private func addMainViewController() {
         addChildViewController(addPropertyViewController)
-        decorator.constrainChild(addPropertyViewController)
         addPropertyViewController.didMove(toParentViewController: self)
     }
 
@@ -95,25 +104,22 @@ public class PropertyDetailsViewController: ThemedPopoverViewController, Evaluat
 
 extension PropertyDetailsViewController: AddPropertyDelegate {
     func didTapOnAddProperty() {
-
-    }
-
-    func didAddProperty() {
-
+        switchTo(.add)
     }
 }
 
 extension PropertyDetailsViewController: SearchDisplayableDelegate {
     public typealias Object = CustomSearchDisplayable
 
-    public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: CustomSearchDisplayable) {
+    public func genericSearchViewController(_ viewController: UIViewController,
+                                            didSelectRowAt indexPath: IndexPath,
+                                            withObject object: CustomSearchDisplayable) {
         switchTo(.display)
     }
 }
 
 
 public class DefaultPropertyViewController: IntrinsicHeightFormBuilderViewController, EvaluationObserverable {
-
     let plugins: [FormBuilderPlugin]
 
     public required convenience init?(coder aDecoder: NSCoder) { MPLUnimplemented() }

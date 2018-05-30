@@ -42,6 +42,7 @@ public struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
 
     public func formItems() -> [FormItem] {
         return [
+            HeaderFormItem(text: "General", style: .plain),
             ValueFormItem(title: "Type",
                           value: viewModel.report.type)
                 .accessory(ItemAccessory.dropDown)
@@ -71,7 +72,71 @@ public struct AddPropertyGeneralPluginPresenter: FormBuilderPluginPresenter {
 
 // Media
 
+public struct AddPropertyMediaPlugin: FormBuilderPlugin {
+    public var decorator: FormBuilderPluginDecorator
+    public var presenter: FormBuilderPluginPresenter
+
+    init(viewModel: PropertyDetailsViewModel, delegate: AddPropertyDelegate) {
+        decorator = AddPropertyMediaPluginDecorator(viewModel: viewModel, delegate: delegate)
+        presenter = AddPropertyMediaPluginPresenter()
+    }
+}
+
+
+public struct AddPropertyMediaPluginDecorator: FormBuilderPluginDecorator {
+
+    var viewModel: PropertyDetailsViewModel
+    var delegate: AddPropertyDelegate
+
+    init(viewModel: PropertyDetailsViewModel, delegate: AddPropertyDelegate) {
+        self.viewModel = viewModel
+        self.delegate = delegate
+    }
+
+    public func formItems() -> [FormItem] {
+        return [
+            HeaderFormItem(text: "Details", style: .plain)
+
+        ]
+    }
+}
+
+public struct AddPropertyMediaPluginPresenter: FormBuilderPluginPresenter {
+
+}
 
 
 // Details
 
+public struct AddPropertyDetailsPlugin: FormBuilderPlugin {
+    public var decorator: FormBuilderPluginDecorator
+    public var presenter: FormBuilderPluginPresenter
+
+    init(viewModel: PropertyDetailsViewModel, delegate: AddPropertyDelegate) {
+        decorator = AddPropertyDetailsPluginDecorator(viewModel: viewModel, delegate: delegate)
+        presenter = AddPropertyDetailPluginPresenter()
+    }
+}
+
+
+public struct AddPropertyDetailsPluginDecorator: FormBuilderPluginDecorator {
+
+    var viewModel: PropertyDetailsViewModel
+    var delegate: AddPropertyDelegate
+
+    init(viewModel: PropertyDetailsViewModel, delegate: AddPropertyDelegate) {
+        self.viewModel = viewModel
+        self.delegate = delegate
+    }
+
+    public func formItems() -> [FormItem] {
+        return [
+            HeaderFormItem(text: "Details", style: .plain)
+
+        ]
+    }
+}
+
+public struct AddPropertyDetailPluginPresenter: FormBuilderPluginPresenter {
+
+}
