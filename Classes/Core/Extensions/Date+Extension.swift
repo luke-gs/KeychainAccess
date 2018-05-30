@@ -137,7 +137,7 @@ public extension Date {
     }
 
     /// Return a time interval as a human friendly string
-    public func elapsedTimeIntervalForHuman() -> String? {
+    public func elapsedTimeIntervalForHuman(allowsSeconds: Bool = false) -> String? {
 
         let calendar = Calendar.current
         let formatter = DateComponentsFormatter()
@@ -148,7 +148,7 @@ public extension Date {
         let now = Date()
 
         // Calculate the time interval as a single date component
-        let interval = calendar.dateComponents([.year, .month, .weekOfYear, .day, .hour, .minute], from: self, to: now)
+        let interval = calendar.dateComponents([.year, .month, .weekOfYear, .day, .hour, .minute, .second], from: self, to: now)
         if let year = interval.year, year != 0 {
             // 1 year
             formatter.allowedUnits = [.year]
@@ -167,6 +167,9 @@ public extension Date {
         } else if let minute = interval.minute, minute != 0 {
             // 6 minutes
             formatter.allowedUnits = [.minute]
+        } else if allowsSeconds, let second = interval.second, second != 0 {
+            // 7 seconds
+            formatter.allowedUnits = [.second]
         } else {
             return NSLocalizedString("just now", comment: "Time interval just now")
         }
