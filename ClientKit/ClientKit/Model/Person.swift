@@ -29,6 +29,7 @@ open class Person: Entity, Identifiable {
         case offenderCharges
         case offenderConvictions
         case orders = "orders"
+        case trafficHistory
     }
 
     override open class var serverTypeRepresentation: String {
@@ -83,6 +84,8 @@ open class Person: Entity, Identifiable {
     open var offenderCharges: [OffenderCharge]?
     open var offenderConvictions: [OffenderConviction]?
 
+    open var trafficHistory: [TrafficHistory]?
+
     open var isAlias: Bool?
     open var thumbnail: UIImage?
 
@@ -118,6 +121,7 @@ open class Person: Entity, Identifiable {
 
         offenderCharges = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.orders.rawValue) as? [OffenderCharge]
         offenderConvictions = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.orders.rawValue) as? [OffenderConviction]
+        trafficHistory = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.trafficHistory.rawValue) as? [TrafficHistory]
     }
 
     public required override init(id: String = UUID().uuidString) {
@@ -153,6 +157,7 @@ open class Person: Entity, Identifiable {
 
         offenderCharges = unboxer.unbox(key: Coding.offenderCharges.rawValue)
         offenderConvictions = unboxer.unbox(key: Coding.offenderConvictions.rawValue)
+        trafficHistory = unboxer.unbox(key: Coding.trafficHistory.rawValue)
     }
     
     open override func encode(with aCoder: NSCoder) {
@@ -174,6 +179,7 @@ open class Person: Entity, Identifiable {
         aCoder.encode(orders, forKey: Coding.orders.rawValue)
         aCoder.encode(offenderCharges, forKey: Coding.offenderCharges.rawValue)
         aCoder.encode(offenderConvictions, forKey: Coding.offenderConvictions.rawValue)
+        aCoder.encode(trafficHistory, forKey: Coding.trafficHistory.rawValue)
     }
     
     // MARK: - Model Versionable

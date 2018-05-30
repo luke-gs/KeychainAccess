@@ -77,7 +77,7 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
         if criminalHistory.isEmpty {
             return NSLocalizedString("There is no Criminal History information available", comment: "")
         } else {
-            return NSLocalizedString("This filter has no matching history", comment: "")
+            return NSLocalizedString("This filter has no matching Criminal History", comment: "")
         }
     }
     
