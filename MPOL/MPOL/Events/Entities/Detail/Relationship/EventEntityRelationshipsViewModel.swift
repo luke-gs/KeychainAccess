@@ -82,7 +82,7 @@ class EventEntityRelationshipsViewModel {
     }
 
     func relationshipStatus(forEntity entity: MPOLKitEntity) -> String? {
-        return relationshipWith(relatedEntity: entity)?.reasons.joined(separator: ", ") ?? "No Relationships"
+        return relationshipWith(relatedEntity: entity)?.reasons?.joined(separator: ", ") ?? "No Relationships"
     }
 
     // MARK: Private
@@ -102,13 +102,13 @@ class EventEntityRelationshipsViewModel {
 
         switch entityType {
         case is Person.Type:
-            relationships = relationships.filter{$0.baseObject is Person}.filter{ $0.baseObject != self.report.entity }
+            relationships = relationships.filter { $0.baseObject is Person }.filter { $0.baseObject != self.report.entity }
         case is Vehicle.Type:
-            relationships = relationships.filter{$0.baseObject is Vehicle}.filter{ $0.baseObject != self.report.entity }
+            relationships = relationships.filter { $0.baseObject is Vehicle }.filter { $0.baseObject != self.report.entity }
         default:
             fatalError("No such entity \(entityType)")
         }
-        return Array(Set(relationships.compactMap{ $0.baseObject }))
+        return Array(Set(relationships.compactMap { $0.baseObject }))
     }
 }
 

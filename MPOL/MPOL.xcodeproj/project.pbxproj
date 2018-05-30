@@ -23,8 +23,6 @@
 		12EF65DD2086D52200739924 /* TrafficInfringementIncidentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65C62086D52200739924 /* TrafficInfringementIncidentBuilder.swift */; };
 		12EF65DE2086D52200739924 /* TrafficInfringementScreenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65C72086D52200739924 /* TrafficInfringementScreenBuilder.swift */; };
 		12EF65DF2086D52200739924 /* TrafficInfringementServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65C92086D52200739924 /* TrafficInfringementServiceViewController.swift */; };
-		12EF65E12086D52200739924 /* DefaultEntitiesListReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65CC2086D52200739924 /* DefaultEntitiesListReport.swift */; };
-		12EF65E22086D52200739924 /* DefaultEntitiesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65CD2086D52200739924 /* DefaultEntitiesListViewController.swift */; };
 		12EF65E32086D52200739924 /* IncidentTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65CF2086D52200739924 /* IncidentTestViewController.swift */; };
 		12EF65E42086D52200739924 /* IncidentTestReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D02086D52200739924 /* IncidentTestReport.swift */; };
 		12EF65E52086D52200739924 /* IncidentDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D12086D52200739924 /* IncidentDetailViewModel.swift */; };
@@ -36,7 +34,6 @@
 		12EF65EB2086D52200739924 /* IncidentSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D82086D52200739924 /* IncidentSelectViewController.swift */; };
 		12EF65EC2086D52200739924 /* IncidentListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D92086D52200739924 /* IncidentListViewModel.swift */; };
 		12EF65ED2086D52200739924 /* IncidentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65DA2086D52200739924 /* IncidentTypes.swift */; };
-		12EF66002087071800739924 /* InvolvementSearchDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FA2087071800739924 /* InvolvementSearchDatasource.swift */; };
 		12EF66012087071800739924 /* OfficerParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FB2087071800739924 /* OfficerParserDefinition.swift */; };
 		12EF66022087071800739924 /* OfficerListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FC2087071800739924 /* OfficerListViewModel.swift */; };
 		12EF66032087071800739924 /* OfficerSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65FD2087071800739924 /* OfficerSearchViewModel.swift */; };
@@ -53,11 +50,14 @@
 		12EF663F208D83DA00739924 /* EventEntityDescriptionReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF663E208D83DA00739924 /* EventEntityDescriptionReport.swift */; };
 		192F679720A1E6D500015E86 /* PersonMatchMakingInjectionPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192F679620A1E6D500015E86 /* PersonMatchMakingInjectionPlugin.swift */; };
 		1987C2AC20846766007F7273 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1987C2AB20846766007F7273 /* Localizable.strings */; };
+		1988306F20BB79DB006FE165 /* APIURLManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1988306E20BB79DA006FE165 /* APIURLManager.swift */; };
+		1988307020BB82FE006FE165 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1988306B20BB77B5006FE165 /* Settings.bundle */; };
 		19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3894207A5F3A00855651 /* SupportedShortcut.swift */; };
 		19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */; };
 		371AB13720A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */; };
 		371AB13820A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13520A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift */; };
 		371AB13920A916FA008D0E57 /* InterceptReportGeneralDetailsReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13620A916FA008D0E57 /* InterceptReportGeneralDetailsReport.swift */; };
+		371AB13B20AA839F008D0E57 /* RelationshipSearchDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13A20AA839F008D0E57 /* RelationshipSearchDatasource.swift */; };
 		37235FAD20AE738E0021850B /* DomesticViolenceGeneralDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37235FA520AE738D0021850B /* DomesticViolenceGeneralDetailsViewController.swift */; };
 		37235FAE20AE738E0021850B /* DomesticViolenceGeneralDetailsReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37235FA620AE738D0021850B /* DomesticViolenceGeneralDetailsReport.swift */; };
 		37235FAF20AE738E0021850B /* DomesticViolencePropertyReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37235FA720AE738D0021850B /* DomesticViolencePropertyReport.swift */; };
@@ -67,12 +67,12 @@
 		37235FB320AE738E0021850B /* DomesticViolenceIncidentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37235FAB20AE738D0021850B /* DomesticViolenceIncidentBuilder.swift */; };
 		37235FB420AE738E0021850B /* DomesticViolenceScreenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37235FAC20AE738E0021850B /* DomesticViolenceScreenBuilder.swift */; };
 		37235FB620AE759B0021850B /* Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37235FB520AE759B0021850B /* Property.swift */; };
-		37251F4120999AA400D1A6B9 /* RelationshipSearchDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37251F4020999AA400D1A6B9 /* RelationshipSearchDatasource.swift */; };
 		3727C4BC2088191E00F7A887 /* TrafficInfringementOffencesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3727C4BB2088191E00F7A887 /* TrafficInfringementOffencesViewModel.swift */; };
 		3727C4C12088193000F7A887 /* OffenceListDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3727C4BD2088193000F7A887 /* OffenceListDisplayable.swift */; };
 		3727C4C22088193000F7A887 /* OffenceSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3727C4BE2088193000F7A887 /* OffenceSearchViewModel.swift */; };
 		3727C4C32088193000F7A887 /* Offence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3727C4BF2088193000F7A887 /* Offence.swift */; };
 		3727C4C42088193000F7A887 /* OffencePointAndFineTotalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3727C4C02088193000F7A887 /* OffencePointAndFineTotalsView.swift */; };
+		3745B14020B3C14F008AA94F /* IncidentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3745B13F20B3C14F008AA94F /* IncidentAction.swift */; };
 		37F3A3BE208475650077998C /* EventEntitiesListReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F3A3BD208475650077998C /* EventEntitiesListReport.swift */; };
 		37F3A3C0208477420077998C /* EventEntitiesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F3A3BF208477420077998C /* EventEntitiesListViewController.swift */; };
 		37F3A3C2208480190077998C /* EventEntitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F3A3C1208480190077998C /* EventEntitiesListViewModel.swift */; };
@@ -85,9 +85,8 @@
 		96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */; };
 		AA1B3A3E2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A3D2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift */; };
 		AA1B3A402092D3EF0009B00C /* TrafficInfringementServiceReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A3F2092D3EE0009B00C /* TrafficInfringementServiceReport.swift */; };
-		AAEC4C3120919F8000F5AC59 /* EntityPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEC4C2C20919F7F00F5AC59 /* EntityPickerViewModel.swift */; };
-		AAEC4C3320919F8000F5AC59 /* EntityPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEC4C2E20919F8000F5AC59 /* EntityPickerViewController.swift */; };
-		AAEC4C3420919F8000F5AC59 /* DefaultEntitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEC4C2F20919F8000F5AC59 /* DefaultEntitiesListViewModel.swift */; };
+		AA7B25D420B27F51005A23F0 /* DefaultEntitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25D320B27F51005A23F0 /* DefaultEntitiesListViewModel.swift */; };
+		AA7B25D820B28965005A23F0 /* DefaultEntityPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25D720B28965005A23F0 /* DefaultEntityPickerViewModel.swift */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
 		BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E81101EBEE38400188181 /* SettingsViewController.swift */; };
 		BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */; };
@@ -133,8 +132,6 @@
 		12EF65C62086D52200739924 /* TrafficInfringementIncidentBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementIncidentBuilder.swift; sourceTree = "<group>"; };
 		12EF65C72086D52200739924 /* TrafficInfringementScreenBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementScreenBuilder.swift; sourceTree = "<group>"; };
 		12EF65C92086D52200739924 /* TrafficInfringementServiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementServiceViewController.swift; sourceTree = "<group>"; };
-		12EF65CC2086D52200739924 /* DefaultEntitiesListReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListReport.swift; sourceTree = "<group>"; };
-		12EF65CD2086D52200739924 /* DefaultEntitiesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListViewController.swift; sourceTree = "<group>"; };
 		12EF65CF2086D52200739924 /* IncidentTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentTestViewController.swift; sourceTree = "<group>"; };
 		12EF65D02086D52200739924 /* IncidentTestReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentTestReport.swift; sourceTree = "<group>"; };
 		12EF65D12086D52200739924 /* IncidentDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentDetailViewModel.swift; sourceTree = "<group>"; };
@@ -146,7 +143,6 @@
 		12EF65D82086D52200739924 /* IncidentSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentSelectViewController.swift; sourceTree = "<group>"; };
 		12EF65D92086D52200739924 /* IncidentListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentListViewModel.swift; sourceTree = "<group>"; };
 		12EF65DA2086D52200739924 /* IncidentTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentTypes.swift; sourceTree = "<group>"; };
-		12EF65FA2087071800739924 /* InvolvementSearchDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvolvementSearchDatasource.swift; sourceTree = "<group>"; };
 		12EF65FB2087071800739924 /* OfficerParserDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerParserDefinition.swift; sourceTree = "<group>"; };
 		12EF65FC2087071800739924 /* OfficerListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerListViewModel.swift; sourceTree = "<group>"; };
 		12EF65FD2087071800739924 /* OfficerSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfficerSearchViewModel.swift; sourceTree = "<group>"; };
@@ -164,11 +160,14 @@
 		12EF663E208D83DA00739924 /* EventEntityDescriptionReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntityDescriptionReport.swift; sourceTree = "<group>"; };
 		192F679620A1E6D500015E86 /* PersonMatchMakingInjectionPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonMatchMakingInjectionPlugin.swift; sourceTree = "<group>"; };
 		1987C2AB20846766007F7273 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = ../../Localizable.strings; sourceTree = "<group>"; };
+		1988306B20BB77B5006FE165 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		1988306E20BB79DA006FE165 /* APIURLManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIURLManager.swift; sourceTree = "<group>"; };
 		19CB3894207A5F3A00855651 /* SupportedShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedShortcut.swift; sourceTree = "<group>"; };
 		19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Shortcuts.swift"; sourceTree = "<group>"; };
 		371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewController.swift; sourceTree = "<group>"; };
 		371AB13520A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewModel.swift; sourceTree = "<group>"; };
 		371AB13620A916FA008D0E57 /* InterceptReportGeneralDetailsReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsReport.swift; sourceTree = "<group>"; };
+		371AB13A20AA839F008D0E57 /* RelationshipSearchDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipSearchDatasource.swift; sourceTree = "<group>"; };
 		37235FA520AE738D0021850B /* DomesticViolenceGeneralDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomesticViolenceGeneralDetailsViewController.swift; sourceTree = "<group>"; };
 		37235FA620AE738D0021850B /* DomesticViolenceGeneralDetailsReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomesticViolenceGeneralDetailsReport.swift; sourceTree = "<group>"; };
 		37235FA720AE738D0021850B /* DomesticViolencePropertyReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomesticViolencePropertyReport.swift; sourceTree = "<group>"; };
@@ -178,12 +177,12 @@
 		37235FAB20AE738D0021850B /* DomesticViolenceIncidentBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomesticViolenceIncidentBuilder.swift; sourceTree = "<group>"; };
 		37235FAC20AE738E0021850B /* DomesticViolenceScreenBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomesticViolenceScreenBuilder.swift; sourceTree = "<group>"; };
 		37235FB520AE759B0021850B /* Property.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Property.swift; sourceTree = "<group>"; };
-		37251F4020999AA400D1A6B9 /* RelationshipSearchDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipSearchDatasource.swift; sourceTree = "<group>"; };
 		3727C4BB2088191E00F7A887 /* TrafficInfringementOffencesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementOffencesViewModel.swift; sourceTree = "<group>"; };
 		3727C4BD2088193000F7A887 /* OffenceListDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OffenceListDisplayable.swift; sourceTree = "<group>"; };
 		3727C4BE2088193000F7A887 /* OffenceSearchViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OffenceSearchViewModel.swift; sourceTree = "<group>"; };
 		3727C4BF2088193000F7A887 /* Offence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Offence.swift; sourceTree = "<group>"; };
 		3727C4C02088193000F7A887 /* OffencePointAndFineTotalsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OffencePointAndFineTotalsView.swift; sourceTree = "<group>"; };
+		3745B13F20B3C14F008AA94F /* IncidentAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentAction.swift; sourceTree = "<group>"; };
 		37F3A3BD208475650077998C /* EventEntitiesListReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntitiesListReport.swift; sourceTree = "<group>"; };
 		37F3A3BF208477420077998C /* EventEntitiesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntitiesListViewController.swift; sourceTree = "<group>"; };
 		37F3A3C1208480190077998C /* EventEntitiesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntitiesListViewModel.swift; sourceTree = "<group>"; };
@@ -203,9 +202,8 @@
 		98286F47FF0E675D611C2782 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA1B3A3D2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementServiceViewModel.swift; sourceTree = "<group>"; };
 		AA1B3A3F2092D3EE0009B00C /* TrafficInfringementServiceReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementServiceReport.swift; sourceTree = "<group>"; };
-		AAEC4C2C20919F7F00F5AC59 /* EntityPickerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPickerViewModel.swift; sourceTree = "<group>"; };
-		AAEC4C2E20919F8000F5AC59 /* EntityPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPickerViewController.swift; sourceTree = "<group>"; };
-		AAEC4C2F20919F8000F5AC59 /* DefaultEntitiesListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListViewModel.swift; sourceTree = "<group>"; };
+		AA7B25D320B27F51005A23F0 /* DefaultEntitiesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListViewModel.swift; sourceTree = "<group>"; };
+		AA7B25D720B28965005A23F0 /* DefaultEntityPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEntityPickerViewModel.swift; sourceTree = "<group>"; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		BC4E81101EBEE38400188181 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		BCD4EA891E515ACE000B993D /* Search.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Search.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -277,6 +275,7 @@
 		12EF65C12086D52200739924 /* Incidents */ = {
 			isa = PBXGroup;
 			children = (
+				AA7B25D220B27F43005A23F0 /* Entities */,
 				37235FA420AE736E0021850B /* Domestic Violence */,
 				12EF65D12086D52200739924 /* IncidentDetailViewModel.swift */,
 				12EF65D32086D52200739924 /* IncidentListReport.swift */,
@@ -285,10 +284,11 @@
 				12EF65D72086D52200739924 /* IncidentSearchDataSource.swift */,
 				12EF65D82086D52200739924 /* IncidentSelectViewController.swift */,
 				12EF65DA2086D52200739924 /* IncidentTypes.swift */,
-				12EF65CB2086D52200739924 /* DefaultEntities */,
 				12EF65D42086D52200739924 /* Street Check */,
 				12EF65CE2086D52200739924 /* Test */,
 				12EF65C22086D52200739924 /* Traffic Infringement */,
+				371AB13A20AA839F008D0E57 /* RelationshipSearchDatasource.swift */,
+				3745B13F20B3C14F008AA94F /* IncidentAction.swift */,
 			);
 			path = Incidents;
 			sourceTree = "<group>";
@@ -328,18 +328,6 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
-		12EF65CB2086D52200739924 /* DefaultEntities */ = {
-			isa = PBXGroup;
-			children = (
-				AAEC4C2E20919F8000F5AC59 /* EntityPickerViewController.swift */,
-				AAEC4C2C20919F7F00F5AC59 /* EntityPickerViewModel.swift */,
-				AAEC4C2F20919F8000F5AC59 /* DefaultEntitiesListViewModel.swift */,
-				12EF65CC2086D52200739924 /* DefaultEntitiesListReport.swift */,
-				12EF65CD2086D52200739924 /* DefaultEntitiesListViewController.swift */,
-			);
-			path = DefaultEntities;
-			sourceTree = "<group>";
-		};
 		12EF65CE2086D52200739924 /* Test */ = {
 			isa = PBXGroup;
 			children = (
@@ -364,7 +352,6 @@
 		12EF65F92087071800739924 /* Officers */ = {
 			isa = PBXGroup;
 			children = (
-				12EF65FA2087071800739924 /* InvolvementSearchDatasource.swift */,
 				12EF65FB2087071800739924 /* OfficerParserDefinition.swift */,
 				12EF65FC2087071800739924 /* OfficerListViewModel.swift */,
 				12EF65FD2087071800739924 /* OfficerSearchViewModel.swift */,
@@ -392,7 +379,6 @@
 				12EF662E208D7D2F00739924 /* EventEntityRelationshipsReport.swift */,
 				12EF6630208D7D2F00739924 /* EventEntityRelationshipsViewController.swift */,
 				12EF662F208D7D2F00739924 /* EventEntityRelationshipsViewModel.swift */,
-				37251F4020999AA400D1A6B9 /* RelationshipSearchDatasource.swift */,
 			);
 			path = Relationship;
 			sourceTree = "<group>";
@@ -468,6 +454,15 @@
 			path = Notifications;
 			sourceTree = "<group>";
 		};
+		AA7B25D220B27F43005A23F0 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				AA7B25D320B27F51005A23F0 /* DefaultEntitiesListViewModel.swift */,
+				AA7B25D720B28965005A23F0 /* DefaultEntityPickerViewModel.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
 		BC0D8E821E94067800EDFC45 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -499,6 +494,7 @@
 		BCD4EA8B1E515ACE000B993D /* MPOL */ = {
 			isa = PBXGroup;
 			children = (
+				1988306E20BB79DA006FE165 /* APIURLManager.swift */,
 				BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */,
 				19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */,
 				BCD4EA931E515ACE000B993D /* Assets.xcassets */,
@@ -538,6 +534,7 @@
 		EA3C89041F32E31500F38461 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1988306B20BB77B5006FE165 /* Settings.bundle */,
 				EA3C89051F32E34300F38461 /* termsandconditions.html */,
 				445A8A371F667A56005ABEB8 /* PersonSearchHelp.json */,
 				445A8A391F673C8B005ABEB8 /* LocationSearchHelp.json */,
@@ -642,6 +639,7 @@
 			files = (
 				BCD4EA9F1E515ADE000B993D /* LaunchScreen.storyboard in Resources */,
 				445A8A381F667A56005ABEB8 /* PersonSearchHelp.json in Resources */,
+				1988307020BB82FE006FE165 /* Settings.bundle in Resources */,
 				445A8A3D1F673C8B005ABEB8 /* OrganisationSearchHelp.json in Resources */,
 				BCD4EA941E515ACE000B993D /* Assets.xcassets in Resources */,
 				1987C2AC20846766007F7273 /* Localizable.strings in Resources */,
@@ -748,7 +746,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				37235FB120AE738E0021850B /* DomesticViolencePropertyViewModel.swift in Sources */,
-				12EF65E22086D52200739924 /* DefaultEntitiesListViewController.swift in Sources */,
+				3745B14020B3C14F008AA94F /* IncidentAction.swift in Sources */,
 				12EF65ED2086D52200739924 /* IncidentTypes.swift in Sources */,
 				12EF6637208D7D2F00739924 /* EventEntityRelationshipsReport.swift in Sources */,
 				12EF66052087071800739924 /* DefaultOfficerListViewController.swift in Sources */,
@@ -757,7 +755,6 @@
 				127801F3202AB1F0007D0BBB /* EventBuilder.swift in Sources */,
 				12EF65EA2086D52200739924 /* IncidentSearchDataSource.swift in Sources */,
 				12ABD576207F1FE9004D0C9F /* DefaultEventLocationViewController.swift in Sources */,
-				12EF65E12086D52200739924 /* DefaultEntitiesListReport.swift in Sources */,
 				12EF65DF2086D52200739924 /* TrafficInfringementServiceViewController.swift in Sources */,
 				12EF65E42086D52200739924 /* IncidentTestReport.swift in Sources */,
 				3727C4C32088193000F7A887 /* Offence.swift in Sources */,
@@ -766,9 +763,10 @@
 				BC4E81111EBEE38400188181 /* SettingsViewController.swift in Sources */,
 				12EF663B208D7D2F00739924 /* EventEntityDescriptionViewController.swift in Sources */,
 				12EF663A208D7D2F00739924 /* EventEntityDescriptionViewModel.swift in Sources */,
+				AA7B25D820B28965005A23F0 /* DefaultEntityPickerViewModel.swift in Sources */,
+				AA7B25D420B27F51005A23F0 /* DefaultEntitiesListViewModel.swift in Sources */,
 				12EF65EC2086D52200739924 /* IncidentListViewModel.swift in Sources */,
 				12EF66042087071800739924 /* OfficerListReport.swift in Sources */,
-				37251F4120999AA400D1A6B9 /* RelationshipSearchDatasource.swift in Sources */,
 				37235FAD20AE738E0021850B /* DomesticViolenceGeneralDetailsViewController.swift in Sources */,
 				12EF663F208D83DA00739924 /* EventEntityDescriptionReport.swift in Sources */,
 				EAAEB34A1F664705002D6C65 /* EntityPresenter.swift in Sources */,
@@ -779,17 +777,15 @@
 				127801F5202AB255007D0BBB /* EventsDetailViewModel.swift in Sources */,
 				37235FB620AE759B0021850B /* Property.swift in Sources */,
 				37235FB320AE738E0021850B /* DomesticViolenceIncidentBuilder.swift in Sources */,
-				AAEC4C3420919F8000F5AC59 /* DefaultEntitiesListViewModel.swift in Sources */,
 				EA7194DD1FC5098200A2980B /* EventPresenter.swift in Sources */,
-				AAEC4C3120919F8000F5AC59 /* EntityPickerViewModel.swift in Sources */,
 				12EF65DC2086D52200739924 /* TrafficInfringementOffencesViewController.swift in Sources */,
 				19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */,
 				19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */,
 				3727C4C12088193000F7A887 /* OffenceListDisplayable.swift in Sources */,
 				12EF65EB2086D52200739924 /* IncidentSelectViewController.swift in Sources */,
-				AAEC4C3320919F8000F5AC59 /* EntityPickerViewController.swift in Sources */,
 				37235FAE20AE738E0021850B /* DomesticViolenceGeneralDetailsReport.swift in Sources */,
 				12EF65E52086D52200739924 /* IncidentDetailViewModel.swift in Sources */,
+				371AB13B20AA839F008D0E57 /* RelationshipSearchDatasource.swift in Sources */,
 				12EF66002087071800739924 /* InvolvementSearchDatasource.swift in Sources */,
 				3727C4C22088193000F7A887 /* OffenceSearchViewModel.swift in Sources */,
 				12EF65E82086D52200739924 /* InterceptReportIncidentBuilder.swift in Sources */,
@@ -818,6 +814,7 @@
 				12EF6639208D7D2F00739924 /* EventEntityRelationshipsViewController.swift in Sources */,
 				12ABD575207F1FE9004D0C9F /* DefaultEventLocationSearchViewController.swift in Sources */,
 				3727C4C42088193000F7A887 /* OffencePointAndFineTotalsView.swift in Sources */,
+				1988306F20BB79DB006FE165 /* APIURLManager.swift in Sources */,
 				12EF65E62086D52200739924 /* IncidentListViewController.swift in Sources */,
 				192F679720A1E6D500015E86 /* PersonMatchMakingInjectionPlugin.swift in Sources */,
 				12EF65DB2086D52200739924 /* TrafficInfringementOffencesReport.swift in Sources */,

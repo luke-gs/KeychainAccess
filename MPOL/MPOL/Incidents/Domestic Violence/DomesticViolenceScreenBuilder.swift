@@ -24,7 +24,7 @@ public class DomesticViolenceScreenBuilder: IncidentScreenBuilding {
     private func viewController(for report: Reportable) -> UIViewController? {
         switch report {
         case let report as DefaultEntitiesListReport:
-            return DefaultEntitiesListViewController(viewModel: DefaultEntitiesListViewModel(report: report))
+            return DefaultEntitiesListViewController(viewModel: DefaultEntitiesListViewModel(report: report, incidentType: .domesticViolence))
         case let report as DomesticViolencePropertyReport:
             return DomesticViolencePropertyViewController(viewModel: DomesticViolencePropertyViewModel(report: report))
         case let report as DomesticViolenceGeneralDetailsReport:

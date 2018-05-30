@@ -55,6 +55,7 @@ public class OfficerListReport: Reportable {
                 && self.officers.reduce(true, { (result, officer) -> Bool in
                     return result && !officer.involvements.isEmpty
                 })
+                && self.officers.flatMap{$0.involvements}.contains("Reporting Officer")
         }
     }
 

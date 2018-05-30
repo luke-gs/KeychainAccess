@@ -12,8 +12,17 @@ open class IncidentListViewModel: IncidentListViewModelType {
     public var title: String
     public var incidentsManager: IncidentsManager
     private(set) var report: IncidentListReport
+
     public var incidentList: [IncidentListDisplayable] {
         return report.incidents.map { $0.displayable! }
+    }
+
+    public var primaryIncident: IncidentListDisplayable? {
+        return incidentList.first
+    }
+
+    public var additionalIncidents: [IncidentListDisplayable]? {
+        return Array(incidentList.dropFirst())
     }
 
     public required init(report: Reportable, incidentsManager: IncidentsManager) {
@@ -56,8 +65,8 @@ open class IncidentListViewModel: IncidentListViewModelType {
     }
 
     func subtitle(for displayable: IncidentListDisplayable) -> String {
-        let eval = incident(for: displayable)?.evaluator.isComplete ?? false
-        return eval ? "COMPLETE" : "IN PROGRESS"
+        guard let incident = self.incident(for: displayable) else { return "" }
+        return incident.evaluator.isComplete ? "Complete" : "Incomplete"
     }
 
     func image(for displayable: IncidentListDisplayable) -> UIImage {
@@ -80,17 +89,18 @@ open class IncidentListViewModel: IncidentListViewModelType {
         return incidentList.map { $0.title }.joined(separator: ", ")
     }
 
-    func sectionHeaderTitle() -> String {
-        let string = String.localizedStringWithFormat(NSLocalizedString("%d Incidents", comment: ""), incidentList.count)
-        return string.uppercased()
+    func additionalIndicentsSectionHeaderTitle() -> String {
+        let count = additionalIncidents?.count ?? 0
+
+        // TODO: Change this to use NSLocalizedString to handle plurals
+        return (additionalIncidents?.isEmpty)! ? "No Additional Incidents" : ("\(count) Additional Incident" + (count > 1 ? "s" : ""))
     }
 
     // Utility
 
-    func removeIncident(at indexPath: IndexPath) {
-        let incident = report.incidents[indexPath.item]
+    func removeIncident(_ incident: Incident) {
         report.event?.entityManager.removeAllRelationships(for: incident)
-        report.incidents.remove(at: indexPath.item)
+        report.incidents = report.incidents.filter({$0 != incident})
     }
 
     func add(_ incidents: [String]) {
@@ -102,6 +112,24 @@ open class IncidentListViewModel: IncidentListViewModelType {
             if !(report.incidents.contains(where: {$0.incidentType == incident.incidentType}) == true) {
                 report.incidents.append(incident)
             }
+        }
+    }
+
+    func changePrimaryIncident(_ index: Int) {
+        let newPrimaryIncident = report.incidents.remove(at: index)
+        report.incidents.insert(newPrimaryIncident, at: 0)
+    }
+
+    // Incident action helpers
+
+    func definition(for type: IncidentActionType, from context: IncidentListViewController) -> IncidentActionDefiniton {
+        switch type {
+        case .add:
+            return AddIncidentDefinition(for: context)
+        case .choosePrimary:
+            return ChoosePrimaryIncidentDefinition(for: context)
+        case .deletePrimary:
+            return DeletePrimaryIncidentDefinition(for: context)
         }
     }
 }

@@ -65,7 +65,7 @@ class EventEntityRelationshipsViewController: FormBuilderViewController, Evaluat
 
         let objects: [Pickable] = RelationshipReason.reasonsFor(viewModel.report.entity!, entity)
 
-        let selectedObjects: [Pickable] = viewModel.relationshipWith(relatedEntity: entity)?.reasons ?? []
+        let selectedObjects: [Pickable]? = viewModel.relationshipWith(relatedEntity: entity)?.reasons
         let datasource = RelationshipSearchDatasource(objects: objects,
                                                      selectedObjects: selectedObjects,
                                                      title: "Relationships")

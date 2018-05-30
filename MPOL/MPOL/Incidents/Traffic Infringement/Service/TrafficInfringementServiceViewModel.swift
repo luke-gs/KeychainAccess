@@ -20,7 +20,6 @@ public class TrafficInfringementServiceViewModel {
     }
 
     var currentLoadingManagerState: LoadingStateManager.State {
-
         return people.isEmpty ? .noContent : .loaded 
     }
 
@@ -38,10 +37,8 @@ public class TrafficInfringementServiceViewModel {
         return contacts.filter { $0.type == .mobile }.compactMap { $0.value }
     }
 
-    // TODO: change when backend sets up full Address variable 
     open var allFullAddresses: [String] {
-
-        return people.compactMap { $0.addresses }.flatMap { $0 }.compactMap { $0.displayAddress }
+        return people.compactMap { $0.addresses }.flatMap { $0 }.compactMap { $0.fullAddress }
     }
 
     var tabColors: (defaultColor: UIColor, selectedColor: UIColor) {

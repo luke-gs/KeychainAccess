@@ -62,20 +62,42 @@ class SettingsViewController: FormTableViewController {
         
         guard let tableView = self.tableView else { return }
         
-        let bundle = Bundle.main
-        let bundleVersion = bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown"
-        let buildNumber   = bundle.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "Unknown"
-        
-        let label = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: 320.0, height: 30.0))
-        label.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
-        label.textColor = .gray
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        label.text = "Version: " + bundleVersion + " #" + buildNumber
-        tableView.tableFooterView = label
+        tableView.tableFooterView = tableFooterView()
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: buttonCellID)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: switchCellID)
+    }
+
+    func tableFooterView() -> UIStackView {
+        let stackView = UIStackView(frame: CGRect(x: 0.0, y: 0.0, width: 310.0, height: 80.0))
+        stackView.axis = .vertical
+        stackView.alignment = .center
+
+        let bundle = Bundle.main
+        let appName         = bundle.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "Unknown"
+        let bundleVersion   = bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown"
+        let buildNumber     = bundle.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "Unknown"
+        let serverURL       = try! APIManager.shared.configuration.url.asURL().absoluteString
+
+        func footerLabel() -> UILabel {
+            let label = UILabel()
+            label.font = UIFont.preferredFont(forTextStyle: .body)
+            label.textColor = .gray
+            label.textAlignment = .center
+            label.numberOfLines = 0
+            return label
+        }
+
+        let versionLabel = footerLabel()
+        versionLabel.text = appName + " Version: " + bundleVersion + " #" + buildNumber
+        stackView.addArrangedSubview(versionLabel)
+
+        let urlLabel = footerLabel()
+        urlLabel.text = "Server URL: " + serverURL
+        urlLabel.lineBreakMode = .byWordWrapping
+        stackView.addArrangedSubview(urlLabel)
+
+        return stackView
     }
 
     

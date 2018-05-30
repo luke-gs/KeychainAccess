@@ -35,9 +35,7 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
         loadingManager.noContentView.subtitleLabel.text = "This report requires at least one incident"
         loadingManager.noContentView.imageView.image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconDocument)
         loadingManager.noContentView.actionButton.setTitle("Add Incident", for: .normal)
-        loadingManager.noContentView.actionButton.addTarget(self, action: #selector(newIncidentHandler), for: .touchUpInside)
-
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(newIncidentHandler))
+        loadingManager.noContentView.actionButton.addTarget(self, action: #selector(performAddIncidentAction), for: .touchUpInside)
     }
 
     open override func viewWillAppear(_ animated: Bool) {
@@ -53,29 +51,91 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
         builder.title = "Incidents"
         builder.forceLinearLayout = true
 
-        builder += HeaderFormItem(text: viewModel.sectionHeaderTitle())
+        if let primaryIncident = viewModel.primaryIncident {
+            let headerItem = HeaderFormItem(text: "Primary Incident")
+            if viewModel.incidentList.count > 1 {
+                headerItem.actionButton(title: "Change", handler: choosePrimaryIncidentHandler(_:))
+            }
 
-        viewModel.incidentList.forEach { displayable in
+            builder += headerItem
+            // We only want to allow the user to remove the primary incident if there are any additional incidents
+            let primaryEditActions = viewModel.additionalIncidents?.isEmpty ?? true ? [] : [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (cell, indexPath) in
+
+                guard let incident = self.viewModel.incident(for: primaryIncident), let count = self.viewModel.additionalIncidents?.count else { return }
+                // If there is more than one additional incident, we want the user to choose which incident will become the new primary
+                if count > 1 {
+                    self.performDeletePrimaryAction()
+                } else {
+                    self.viewModel.removeIncident(incident)
+                }
+
+                self.updateLoadingManager()
+                self.reloadForm()
+            })]
+
             builder += SummaryListFormItem()
-                .title(displayable.title)
-                .subtitle(viewModel.subtitle(for: displayable))
+                .title(primaryIncident.title)
+                .subtitle(viewModel.subtitle(for: primaryIncident))
                 .width(.column(1))
-                .image(viewModel.image(for: displayable))
+                .image(viewModel.image(for: primaryIncident))
                 .selectionStyle(.none)
                 .imageStyle(.circle)
                 .accessory(ItemAccessory.disclosure)
-                .editActions([CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (cell, indexPath) in
-                    self.viewModel.removeIncident(at: indexPath)
-                    self.updateLoadingManager()
-                    self.reloadForm()
-                })])
+                .editActions(primaryEditActions)
                 .onSelection { cell in
-                    guard let indexPath = self.collectionView?.indexPath(for: cell) else { return }
-                    guard let incident = self.viewModel.incident(for: self.viewModel.incidentList[indexPath.row]) else { return }
+                    guard let incident = self.viewModel.incident(for: primaryIncident) else { return }
                     let vc = IncidentSplitViewController(viewModel: self.viewModel.detailsViewModel(for: incident))
                     self.parent?.navigationController?.pushViewController(vc, animated: true)
             }
         }
+
+        builder += HeaderFormItem(text: viewModel.additionalIndicentsSectionHeaderTitle()).actionButton(title: "Add", handler: newIncidentHandler(_:))
+
+        if let additionalIncidents = viewModel.additionalIncidents, !additionalIncidents.isEmpty {
+            additionalIncidents.forEach { displayable in
+                builder += SummaryListFormItem()
+                    .title(displayable.title)
+                    .subtitle(viewModel.subtitle(for: displayable))
+                    .width(.column(1))
+                    .image(viewModel.image(for: displayable))
+                    .selectionStyle(.none)
+                    .imageStyle(.circle)
+                    .accessory(ItemAccessory.disclosure)
+                    .editActions([CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (cell, indexPath) in
+                        guard let incident = self.viewModel.incident(for: displayable) else { return }
+                        self.viewModel.removeIncident(incident)
+                        self.updateLoadingManager()
+                        self.reloadForm()
+                    })])
+                    .onSelection { cell in
+                        guard let incident = self.viewModel.incident(for: displayable) else { return }
+                        let vc = IncidentSplitViewController(viewModel: self.viewModel.detailsViewModel(for: incident))
+                        self.parent?.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+        }
+    }
+
+    func performIncidentAction(actionType: IncidentActionType) {
+
+        let actionDefinition = viewModel.definition(for: actionType, from: self)
+
+        let viewController = CustomPickerController(datasource: actionDefinition.datasource)
+
+        viewController.allowsMultipleSelection = actionDefinition.canSelectMultiple
+
+        viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel",
+                                                                          style: .plain,
+                                                                          target: self,
+                                                                          action: #selector(cancelTapped))
+
+        viewController.finishUpdateHandler = actionDefinition.completion
+
+
+        let navController = PopoverNavigationController(rootViewController: viewController)
+        navController.modalPresentationStyle = .formSheet
+        present(navController, animated: true, completion: nil)
+
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
@@ -83,49 +143,33 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
         sidebarItem.selectedColor = viewModel.tabColors.selectedColor
     }
 
+    public func updateLoadingManager() {
+        loadingManager.state = viewModel.incidentList.isEmpty ? .noContent : .loaded
+    }
+
     // MARK: - PRIVATE
 
-    @objc private func newIncidentHandler() {
-        let headerConfig = SearchHeaderConfiguration(title: viewModel.searchHeaderTitle(),
-                                                     subtitle: viewModel.searchHeaderSubtitle(),
-                                                     image: AssetManager.shared.image(forKey: .iconPencil)?
-                                                        .withCircleBackground(tintColor: .white,
-                                                                              circleColor: .primaryGray,
-                                                                              style: .fixed(size: CGSize(width: 48, height: 48),
-                                                                                            padding: .zero)),
-                                                     imageStyle: .circle)
+    @objc private func newIncidentHandler(_ sender: UIButton) {
+        performAddIncidentAction()
+    }
 
-        let datasource = IncidentSearchDataSource(objects: IncidentType.allIncidentTypes().map { $0.rawValue },
-                                                  selectedObjects: viewModel.report.incidents.map { $0.displayable.title! },
-                                                  configuration: headerConfig)
-        
-        datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
+    @objc private func choosePrimaryIncidentHandler(_ sender: UIButton) {
+        performChoosePrimaryAction()
+    }
 
-        let viewController = CustomPickerController(datasource: datasource)
+    @objc private func performAddIncidentAction() {
+        performIncidentAction(actionType: .add)
+    }
 
-        viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel",
-                                                                          style: .plain,
-                                                                          target: self,
-                                                                          action: #selector(cancelTapped))
+    @objc private func performChoosePrimaryAction() {
+        performIncidentAction(actionType: .choosePrimary)
+    }
 
-        viewController.finishUpdateHandler = { controller, index in
-            let incidents = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
-            self.viewModel.add(incidents)
-            self.updateLoadingManager()
-            self.reloadForm()
-        }
-
-        let navController = PopoverNavigationController(rootViewController: viewController)
-        navController.modalPresentationStyle = .formSheet
-
-        present(navController, animated: true, completion: nil)
+    @objc private func performDeletePrimaryAction() {
+        performIncidentAction(actionType: .deletePrimary)
     }
 
     @objc private func cancelTapped() {
         dismissAnimated()
-    }
-
-    private func updateLoadingManager() {
-        loadingManager.state = viewModel.incidentList.isEmpty ? .noContent : .loaded
     }
 }
