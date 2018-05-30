@@ -27,8 +27,6 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
             .width(.column(1)).highlightStyle(.fade)
         builder += ValueFormItem(title: NSLocalizedString("Latitude, Longitude", comment: ""), value: coordinateText(for: location))
             .width(.column(2))
-        builder += ValueFormItem(title: NSLocalizedString("Suitable for Habitation", comment: ""), value: suitableForHabitationText(for: location))
-            .width(.column(2))
     }
 
     open override var title: String? {
