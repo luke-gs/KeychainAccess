@@ -8,7 +8,7 @@
 import UIKit
 import PromiseKit
 
-open class SearchDisplayableViewController<T: SearchDisplayableDelegate, U: SearchDisplayableViewModel>: FormBuilderViewController, UISearchBarDelegate where T.Object == U.Object {
+open class SearchDisplayableViewController<T: SearchDisplayableDelegate, U: SearchDisplayableViewModel>: IntrinsicHeightFormBuilderViewController, UISearchBarDelegate where T.Object == U.Object {
 
     /// The delegate for the collection view touches
     public var delegate: T?

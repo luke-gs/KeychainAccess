@@ -1,5 +1,5 @@
 //
-//  DefaultPropertyReport.swift
+//  PropertyDetailsReport.swift
 //  MPOLKit
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -9,7 +9,7 @@ fileprivate extension EvaluatorKey {
     static let viewed = EvaluatorKey("viewed")
 }
 
-open class DefaultPropertyReport: Reportable {
+open class PropertyDetailsReport: Reportable {
 
     public weak var event: Event?
     public weak var incident: Incident?

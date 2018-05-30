@@ -1,5 +1,5 @@
 //
-//  DefaultPropertyViewModel.swift
+//  PropertyDetailsViewModel.swift
 //  MPOLKit
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -7,15 +7,15 @@
 
 import Foundation
 
-public class DefaultPropertyViewModel {
+public class PropertyDetailsViewModel {
     
     public let title: String
-    public let report: DefaultPropertyReport
+    public let report: PropertyDetailsReport
 	var loadingManagerState: LoadingStateManager.State {
 		return .noContent
 	}
 
-    public required init(report: DefaultPropertyReport) {
+    public required init(report: PropertyDetailsReport) {
         self.report = report
         self.title = "DefaultPropertyViewModel"
     }
