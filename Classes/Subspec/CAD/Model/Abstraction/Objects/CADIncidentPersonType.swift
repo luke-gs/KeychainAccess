@@ -19,7 +19,7 @@ public protocol CADIncidentPersonType: class, CADIncidentAssociationType {
     var gender: CADIncidentPersonGenderType? { get set }
     var lastName: String? { get set }
     var middleNames: String? { get set }
-    var thumbnailUrl: String? { get set }
+    var thumbnailUrl: URL? { get set }
 
     // MARK: - Generated
     var fullName: String { get }

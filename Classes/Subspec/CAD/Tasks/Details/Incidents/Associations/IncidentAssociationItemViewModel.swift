@@ -11,7 +11,7 @@ import UIKit
 public class IncidentAssociationItemViewModel: EntitySummaryDisplayable {
     
     public enum EntityType {
-        case person(initials: String, thumbnailUrl: String?)
+        case person(initials: String, thumbnailUrl: URL?)
         case vehicle
     }
     
@@ -84,9 +84,9 @@ public class IncidentAssociationItemViewModel: EntitySummaryDisplayable {
 public class CADPersonImageSizing: AsynchronousImageSizing {
 
     public let initials: String
-    public let thumbnailUrl: String?
+    public let thumbnailUrl: URL?
 
-    public init(initials: String, thumbnailUrl: String?) {
+    public init(initials: String, thumbnailUrl: URL?) {
         self.initials = initials
         self.thumbnailUrl = thumbnailUrl
 
@@ -98,8 +98,8 @@ public class CADPersonImageSizing: AsynchronousImageSizing {
     public override func loadImage(completion: @escaping (ImageSizable) -> ()) {
 
         // Code to retrieve image goes here
-        if let thumbnailUrl = thumbnailUrl, let url = URL(string: thumbnailUrl) {
-            _ = ImageDownloader.default.fetch(for: url).done { image -> Void in
+        if let thumbnailUrl = thumbnailUrl {
+            _ = ImageDownloader.default.fetch(for: thumbnailUrl).done { image -> Void in
                 let sizing = ImageSizing(image: image, size: image.size, contentMode: .scaleAspectFit)
                 completion(sizing)
             }.cauterize()

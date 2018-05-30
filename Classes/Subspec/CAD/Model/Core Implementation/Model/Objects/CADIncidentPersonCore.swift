@@ -35,7 +35,7 @@ open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
 
     open var source: String?
 
-    open var thumbnailUrl: String?
+    open var thumbnailUrl: URL?
 
     // MARK: - Generated
 
@@ -76,7 +76,7 @@ open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
         lastName = try values.decodeIfPresent(String.self, forKey: .lastName)
         middleNames = try values.decodeIfPresent(String.self, forKey: .middleNames)
         source = try values.decodeIfPresent(String.self, forKey: .source)
-        thumbnailUrl = try values.decodeIfPresent(String.self, forKey: .thumbnailUrl)
+        thumbnailUrl = try values.decodeIfPresent(URL.self, forKey: .thumbnailUrl)
     }
 
     public func encode(to encoder: Encoder) throws {
