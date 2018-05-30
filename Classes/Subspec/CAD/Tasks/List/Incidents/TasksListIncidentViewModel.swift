@@ -42,7 +42,7 @@ open class TasksListIncidentViewModel: TasksListItemViewModel {
     }
     
     public convenience init(incident: CADIncidentType, source: CADTaskListSourceType, showsDescription: Bool = true, showsResources: Bool = true, hasUpdates: Bool) {
-        let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier).map {
+        let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.incidentNumber).map {
             return TasksListInformationRowViewModel(with: $0)
         }
         
@@ -51,7 +51,7 @@ open class TasksListIncidentViewModel: TasksListItemViewModel {
             source: source,
             title: [incident.type, incident.resourceCountString].joined(),
             subtitle: incident.location?.fullAddress,
-            caption: incident.identifier,
+            caption: incident.incidentNumber,
             priority: incident.grade.title,
             description: showsDescription ? incident.details : nil,
             resources: showsResources ? resources : nil,

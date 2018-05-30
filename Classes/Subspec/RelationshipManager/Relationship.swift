@@ -17,7 +17,7 @@ public class Relationship<Base: Equatable, Related: Equatable>: Equatable {
     public var relatedObject: Related
 
     /// The reasons how the objects are related
-    public var reasons: [String]
+    public var reasons: [String]?
 
     /// Create a new relationship between objects
     ///
@@ -25,7 +25,7 @@ public class Relationship<Base: Equatable, Related: Equatable>: Equatable {
     ///   - baseObject: the base object of the relationship
     ///   - relatedObject: the object that is related to the baseObject
     ///   - reasons: the reasons how the objects are related
-    public init(baseObject: Base, relatedObject: Related, reasons: [String] = []) {
+    public init(baseObject: Base, relatedObject: Related, reasons: [String]? = nil) {
         self.baseObject = baseObject
         self.relatedObject = relatedObject
         self.reasons = reasons

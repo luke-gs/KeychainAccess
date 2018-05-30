@@ -11,59 +11,104 @@ import PromiseKit
 
 open class IncidentTaskItemViewModel: TaskItemViewModel {
 
-    open private(set) var incident: CADIncidentType?
-    open private(set) var resource: CADResourceType?
+    open var incident: CADIncidentType?
+    open var resource: CADResourceType?
+
+    open static var infoIcon: UIImage? = {
+        // Use larger version of standard info icon for sidebar/glass view
+        let infoIcon = AssetManager.shared.image(forKey: .info)
+        return infoIcon?.resizeImageWith(newSize: CGSize(width: 32, height: 32), renderMode: .alwaysTemplate)
+    }()
 
     public init(incidentNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
         let captionText = "#\(incidentNumber)"
-        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, subtitleText: captionText)
-
-        self.navTitle =  NSLocalizedString("Incident details", comment: "")
+        super.init(taskItemIdentifier: incidentNumber,
+                   iconImage: iconImage,
+                   iconTintColor: iconTintColor,
+                   color: color,
+                   statusText: statusText,
+                   itemName: itemName,
+                   subtitleText: captionText)
+        
+        self.navTitle = NSLocalizedString("Incident details", comment: "")
         self.compactNavTitle = itemName
 
         self.viewModels = [
-            IncidentOverviewViewModel(identifier: incidentNumber),
-            IncidentAssociationsViewModel(incidentNumber: incidentNumber),
-            IncidentResourcesViewModel(incidentNumber: incidentNumber),
-            IncidentNarrativeViewModel(incidentNumber: incidentNumber),
+            IncidentOverviewViewModel(),
+            IncidentAssociationsViewModel(),
+            IncidentResourcesViewModel(),
+            IncidentNarrativeViewModel(),
         ]
     }
 
     public convenience init(incident: CADIncidentType, resource: CADResourceType?) {
         self.init(incidentNumber: incident.incidentNumber,
-                  iconImage: resource?.status.icon ?? CADClientModelTypes.resourceStatus.defaultCase.icon,
+                  iconImage: resource?.status.icon ?? IncidentTaskItemViewModel.infoIcon,
                   iconTintColor: resource?.status.iconColors.icon ?? .white,
                   color: resource?.status.iconColors.background,
                   statusText: resource?.status.title ?? incident.status.title,
                   itemName: [incident.type, incident.resourceCountString].joined())
-        self.incident = incident
         self.resource = resource
     }
-    
+
     open override func createViewController() -> UIViewController {
         let vc = TaskItemSidebarSplitViewController(viewModel: self)
         delegate = vc
+        viewController = vc
         return vc
+    }
+    
+    open override func loadTask() -> Promise<Void> {
+        viewController?.setLoadingState(.loading)
+        self.incident = CADStateManager.shared.incidentsById[taskItemIdentifier]
+        viewController?.setLoadingState(.loaded)
+        self.reloadFromModel()
+        self.updateGlassBar()
+        return Promise<Void>()
     }
 
     override open func reloadFromModel() {
         // Reload resource for incident if current incident, or clear
-        if incident?.identifier == CADStateManager.shared.currentIncident?.identifier {
+        if incident?.incidentNumber == CADStateManager.shared.currentIncident?.incidentNumber {
             resource = CADStateManager.shared.currentResource
         } else {
             resource = nil
         }
 
         if let incident = incident {
-            iconImage = resource?.status.icon ?? CADClientModelTypes.resourceStatus.defaultCase.icon
+            iconImage = resource?.status.icon ?? IncidentTaskItemViewModel.infoIcon
             iconTintColor = resource?.status.iconColors.icon ?? .white
             color = resource?.status.iconColors.background
             statusText = resource?.status.title ?? incident.status.title
             itemName = [incident.type, incident.resourceCountString].joined()
 
             viewModels.forEach {
-                $0.reloadFromModel()
+                $0.reloadFromModel(incident)
             }
+            updateGlassBar()
+        }
+    }
+
+    open func updateGlassBar() {
+        if let incident = incident, allowChangeResourceStatus() {
+            // Only show compact glass bar if we can change status
+            showCompactGlassBar = true
+
+            // Customise text based on current state
+            if CADStateManager.shared.currentResource == resource {
+                compactTitle = statusText
+                compactSubtitle = NSLocalizedString("Change status", comment: "")
+            } else {
+                let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.incidentNumber)
+                if resources.count > 0 {
+                    compactTitle = NSLocalizedString("Currently Resourced", comment: "")
+                } else {
+                    compactTitle = NSLocalizedString("Currently Unresourced", comment: "")
+                }
+                compactSubtitle = NSLocalizedString("Respond to this incident", comment: "")
+            }
+        } else {
+            showCompactGlassBar = false
         }
     }
 
@@ -78,8 +123,8 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         // or we have no current incident, allow changing resource state
         // ... but only if incident is within our patrol group
         if CADStateManager.shared.lastBookOn != nil && incident?.patrolGroup == CADStateManager.shared.patrolGroup {
-            let currentIncidentId = CADStateManager.shared.currentIncident?.identifier
-            if let incident = incident, (incident.identifier == currentIncidentId || currentIncidentId == nil) {
+            let currentIncidentId = CADStateManager.shared.currentIncident?.incidentNumber
+            if let incident = incident, (incident.incidentNumber == currentIncidentId || currentIncidentId == nil) {
                 return true
             }
         }

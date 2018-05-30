@@ -162,6 +162,8 @@ open class TasksListContainerViewModel {
             // We set otherSections before sections as UI updates are triggered when sections prop changes
             if listContent.count > 1 {
                 listViewModel.otherSections = listContent[1]
+            } else {
+                listViewModel.otherSections = []
             }
             listViewModel.sections = listContent.first ?? []
 

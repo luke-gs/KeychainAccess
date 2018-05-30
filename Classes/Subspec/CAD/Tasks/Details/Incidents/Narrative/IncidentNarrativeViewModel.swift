@@ -8,17 +8,8 @@
 
 import UIKit
 
-public class IncidentNarrativeViewModel: DatedActivityLogViewModel, TaskDetailsViewModel {
-    
-    /// The identifier for this incident
-    open let incidentNumber: String
-    
-    public init(incidentNumber: String) {
-        self.incidentNumber = incidentNumber
-        super.init()
-        loadData()
-    }
-    
+open class IncidentNarrativeViewModel: DatedActivityLogViewModel, TaskDetailsViewModel {
+ 
     /// Create the view controller for this view model
     open func createViewController() -> TaskDetailsViewController {
         let vc = IncidentNarrativeViewController(viewModel: self)
@@ -26,12 +17,8 @@ public class IncidentNarrativeViewModel: DatedActivityLogViewModel, TaskDetailsV
         return vc
     }
     
-    open func reloadFromModel() {
-        loadData()
-    }
-
-    open func loadData() {
-        guard let incident = CADStateManager.shared.incidentsById[incidentNumber] else { return }
+    open func reloadFromModel(_ model: CADTaskListItemModelType) {
+        guard let incident = model as? CADIncidentType else { return }
 
         let activityLogItemsViewModels = incident.narrative.map { item in
             return ActivityLogItemViewModel(dotFillColor: item.color,

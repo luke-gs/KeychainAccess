@@ -119,12 +119,12 @@ open class CADStateManagerCore: CADStateManagerBase {
             // Update current incident if setting status without one
             if let newIncident = newIncident, self.currentIncident == nil {
                 if let syncDetails = self.lastSync, let resource = self.currentResource as? CADResourceCore {
-                    resource.currentIncident = newIncident.identifier
+                    resource.currentIncident = newIncident.incidentNumber
 
                     // Make sure incident is also assigned to resource
                     var assignedIncidents = resource.assignedIncidents
-                    if !assignedIncidents.contains(newIncident.identifier) {
-                        assignedIncidents.append(newIncident.identifier)
+                    if !assignedIncidents.contains(newIncident.incidentNumber) {
+                        assignedIncidents.append(newIncident.incidentNumber)
                         resource.assignedIncidents = assignedIncidents
                     }
 
@@ -156,7 +156,7 @@ open class CADStateManagerCore: CADStateManagerBase {
 
             // Remove incident from being assigned to resource
             var assignedIncidents = resource.assignedIncidents
-            if let index = assignedIncidents.index(of: incident.identifier) {
+            if let index = assignedIncidents.index(of: incident.incidentNumber) {
                 assignedIncidents.remove(at: index)
                 resource.assignedIncidents = assignedIncidents
             }

@@ -15,6 +15,7 @@ public protocol CustomSearchPickerDatasource {
     var selectedObjects: [Pickable]? { get set }
     var title: String? { get }
     var allowsMultipleSelection: Bool { get }
+    var dismissOnFinish: Bool { get }
 
     var header: CustomisableSearchHeaderView? { get }
 
@@ -180,9 +181,10 @@ public class CustomPickerController: FormTableViewController {
         datasource.header?.searchHandler = {
             self.searchTerm = $0
         }
+        let button: UIBarButtonItem
+        button = UIBarButtonItem(title: datasource.dismissOnFinish ? "Done": "Next", style: .plain, target: self, action: #selector(doneTapped(sender:)))
 
-        let button = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneTapped(sender:)))
-        button.isEnabled = false
+        button.isEnabled = datasource.isValidSelection(for: [])
         navigationItem.rightBarButtonItem = button
     }
 
@@ -192,7 +194,9 @@ public class CustomPickerController: FormTableViewController {
 
     @objc private func doneTapped(sender: UIBarButtonItem) {
         finishUpdateHandler?(self, selectedIndexes)
-        dismiss(animated: true, completion: nil)
+        if datasource.dismissOnFinish {
+            dismiss(animated: true, completion: nil)
+        }
     }
 
 

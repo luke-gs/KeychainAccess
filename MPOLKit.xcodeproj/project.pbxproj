@@ -371,6 +371,7 @@
 		46884206202BB186009D0406 /* MediaFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46884205202BB186009D0406 /* MediaFileManager.swift */; };
 		469EB5811F452FAB0005CAF7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469EB5801F452FAB0005CAF7 /* LoginViewController.swift */; };
 		469EB5831F45320A0005CAF7 /* LoginHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */; };
+		46A0A2AB20BCDFB2007AAAA8 /* Conceal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A0A2AA20BCDFB2007AAAA8 /* Conceal.swift */; };
 		46A60F5A1FCFAF0D00EE32CA /* Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A60F591FCFAF0D00EE32CA /* Evaluator.swift */; };
 		46A60F5C1FCFAF4A00EE32CA /* EvaluationObserverable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A60F5B1FCFAF4A00EE32CA /* EvaluationObserverable.swift */; };
 		46A60F5E1FCFAFAF00EE32CA /* Evaluatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A60F5D1FCFAFAF00EE32CA /* Evaluatable.swift */; };
@@ -518,7 +519,19 @@
 		AA1B3A422092D4460009B00C /* OptionDisplayableFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A412092D4450009B00C /* OptionDisplayableFormItem.swift */; };
 		AA1CFA9720AA65AE0032A30E /* EventEntityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1CFA9620AA65AE0032A30E /* EventEntityManager.swift */; };
 		AA1CFA9C20AA67990032A30E /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1CFA9B20AA67990032A30E /* ServiceType.swift */; };
+		AA1D4F4D20ACEFA800A3A8A4 /* SubItemFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1D4F4C20ACEFA800A3A8A4 /* SubItemFormItem.swift */; };
+		AA1D4F4F20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1D4F4E20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift */; };
+		AA51409020B68EFD008FA7DD /* AdditionalAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA51408F20B68EFD008FA7DD /* AdditionalAction.swift */; };
 		AA792CCE20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA792CCD20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift */; };
+		AA7A3C3520B7E21900C1CF24 /* entityPickerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7A3C3420B7E21900C1CF24 /* entityPickerType.swift */; };
+		AA7B25C820B27491005A23F0 /* EntityPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25C320B27491005A23F0 /* EntityPickerViewModel.swift */; };
+		AA7B25C920B27491005A23F0 /* DefaultEntitiesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25C420B27491005A23F0 /* DefaultEntitiesListViewController.swift */; };
+		AA7B25CA20B27491005A23F0 /* EntityPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25C520B27491005A23F0 /* EntityPickerViewController.swift */; };
+		AA7B25CB20B27491005A23F0 /* EntitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25C620B27491005A23F0 /* EntitiesListViewModel.swift */; };
+		AA7B25CC20B27491005A23F0 /* DefaultEntitiesListReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25C720B27491005A23F0 /* DefaultEntitiesListReport.swift */; };
+		AA7B25D020B274CA005A23F0 /* VehicleTowReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25CE20B274CA005A23F0 /* VehicleTowReport.swift */; };
+		AA7B25D120B274CA005A23F0 /* PersonSearchReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25CF20B274CA005A23F0 /* PersonSearchReport.swift */; };
+		AA7B25D620B28659005A23F0 /* DefaultPickableSearchDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25D520B28659005A23F0 /* DefaultPickableSearchDatasource.swift */; };
 		AA7F795320AABC4A00985705 /* Relationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F795120AABC4A00985705 /* Relationship.swift */; };
 		AA7F795420AABC4A00985705 /* RelationshipManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F795220AABC4A00985705 /* RelationshipManager.swift */; };
 		BA6FEAA4EFE7F66EBAE4C2DC /* Pods_MPOLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9215372B17F43A2FDEB28AD0 /* Pods_MPOLKit.framework */; };
@@ -1227,6 +1240,7 @@
 		46884205202BB186009D0406 /* MediaFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaFileManager.swift; sourceTree = "<group>"; };
 		469EB5801F452FAB0005CAF7 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHeaderView.swift; sourceTree = "<group>"; };
+		46A0A2AA20BCDFB2007AAAA8 /* Conceal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conceal.swift; sourceTree = "<group>"; };
 		46A60F591FCFAF0D00EE32CA /* Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Evaluator.swift; sourceTree = "<group>"; };
 		46A60F5B1FCFAF4A00EE32CA /* EvaluationObserverable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationObserverable.swift; sourceTree = "<group>"; };
 		46A60F5D1FCFAFAF00EE32CA /* Evaluatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Evaluatable.swift; sourceTree = "<group>"; };
@@ -1392,7 +1406,19 @@
 		AA1B3A412092D4450009B00C /* OptionDisplayableFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionDisplayableFormItem.swift; sourceTree = "<group>"; };
 		AA1CFA9620AA65AE0032A30E /* EventEntityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntityManager.swift; sourceTree = "<group>"; };
 		AA1CFA9B20AA67990032A30E /* ServiceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceType.swift; path = Classes/Subspec/Events/Service/ServiceType.swift; sourceTree = SOURCE_ROOT; };
+		AA1D4F4C20ACEFA800A3A8A4 /* SubItemFormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubItemFormItem.swift; sourceTree = "<group>"; };
+		AA1D4F4E20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubItemCollectionViewCell.swift; sourceTree = "<group>"; };
+		AA51408F20B68EFD008FA7DD /* AdditionalAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalAction.swift; sourceTree = "<group>"; };
 		AA792CCD20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormOptionStackViewCell.swift; sourceTree = "<group>"; };
+		AA7A3C3420B7E21900C1CF24 /* entityPickerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = entityPickerType.swift; sourceTree = "<group>"; };
+		AA7B25C320B27491005A23F0 /* EntityPickerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPickerViewModel.swift; sourceTree = "<group>"; };
+		AA7B25C420B27491005A23F0 /* DefaultEntitiesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListViewController.swift; sourceTree = "<group>"; };
+		AA7B25C520B27491005A23F0 /* EntityPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPickerViewController.swift; sourceTree = "<group>"; };
+		AA7B25C620B27491005A23F0 /* EntitiesListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitiesListViewModel.swift; sourceTree = "<group>"; };
+		AA7B25C720B27491005A23F0 /* DefaultEntitiesListReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListReport.swift; sourceTree = "<group>"; };
+		AA7B25CE20B274CA005A23F0 /* VehicleTowReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleTowReport.swift; sourceTree = "<group>"; };
+		AA7B25CF20B274CA005A23F0 /* PersonSearchReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchReport.swift; sourceTree = "<group>"; };
+		AA7B25D520B28659005A23F0 /* DefaultPickableSearchDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultPickableSearchDatasource.swift; sourceTree = "<group>"; };
 		AA7F795120AABC4A00985705 /* Relationship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Relationship.swift; path = Classes/Subspec/RelationshipManager/Relationship.swift; sourceTree = SOURCE_ROOT; };
 		AA7F795220AABC4A00985705 /* RelationshipManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RelationshipManager.swift; path = Classes/Subspec/RelationshipManager/RelationshipManager.swift; sourceTree = SOURCE_ROOT; };
 		BC0448931F219A70005FB857 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
@@ -1837,6 +1863,7 @@
 				12ABD560207F194C004D0C9F /* EventsManager.swift */,
 				12ABD561207F194C004D0C9F /* EventSplitViewController.swift */,
 				12FB2F0020326653000CA863 /* StackMapLayout.swift */,
+				AA7B25C220B2746E005A23F0 /* Entities */,
 				1235340E207F167A008256AA /* DateTime */,
 				12ABD566207F1966004D0C9F /* Location */,
 				12ABD551207F1920004D0C9F /* NotesPhotos */,
@@ -2666,6 +2693,15 @@
 			path = "Cell Animations";
 			sourceTree = "<group>";
 		};
+		4685862E20BE6F5B000319DA /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				46A0A2AA20BCDFB2007AAAA8 /* Conceal.swift */,
+				96707B432091D7F700C4BFDC /* Crypto */,
+			);
+			path = Security;
+			sourceTree = "<group>";
+		};
 		469EB57F1F452F950005CAF7 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -3215,7 +3251,6 @@
 				AA1CFA9B20AA67990032A30E /* ServiceType.swift */,
 			);
 			name = Service;
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 		AA1CFA9D20AA79280032A30E /* EntityManager */ = {
@@ -3233,6 +3268,30 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
+		AA7B25C220B2746E005A23F0 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				AA7B25C720B27491005A23F0 /* DefaultEntitiesListReport.swift */,
+				AA7B25C420B27491005A23F0 /* DefaultEntitiesListViewController.swift */,
+				AA7B25C620B27491005A23F0 /* EntitiesListViewModel.swift */,
+				AA7B25C520B27491005A23F0 /* EntityPickerViewController.swift */,
+				AA7B25C320B27491005A23F0 /* EntityPickerViewModel.swift */,
+				AA7A3C3420B7E21900C1CF24 /* entityPickerType.swift */,
+				AA7B25CD20B2749B005A23F0 /* AdditionalActions */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		AA7B25CD20B2749B005A23F0 /* AdditionalActions */ = {
+			isa = PBXGroup;
+			children = (
+				AA7B25CF20B274CA005A23F0 /* PersonSearchReport.swift */,
+				AA7B25CE20B274CA005A23F0 /* VehicleTowReport.swift */,
+				AA51408F20B68EFD008FA7DD /* AdditionalAction.swift */,
+			);
+			path = AdditionalActions;
+			sourceTree = "<group>";
+		};
 		AA7F795020AABC3100985705 /* RelationshipManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -3240,7 +3299,6 @@
 				AA7F795220AABC4A00985705 /* RelationshipManager.swift */,
 			);
 			name = RelationshipManager;
-			path = "New Group1";
 			sourceTree = "<group>";
 		};
 		AB742C85EFCBDE4BA2B497CE /* Pods */ = {
@@ -3605,6 +3663,7 @@
 				BC9C7D8E1F0DED6600DFFE83 /* GalleryCollectionViewCell.swift */,
 				19C9C74D1FC2898B003C8CE4 /* LocationMapDirectionCollectionViewCell.swift */,
 				BC9C7D8F1F0DED6600DFFE83 /* StatsOverviewCollectionViewCell.swift */,
+				AA1D4F4E20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -3652,6 +3711,7 @@
 				DB6C89EB1FD4D818006F9AD2 /* QuantityPickerViewController.swift */,
 				DBD626261FDA25D200C3E809 /* QuantityPickerViewModel.swift */,
 				46E0B8A62030F06200B40DF2 /* CustomPickerController.swift */,
+				AA7B25D520B28659005A23F0 /* DefaultPickableSearchDatasource.swift */,
 				46E0B8AE20324CF400B40DF2 /* DefaultSearchPickerDatasource.swift */,
 			);
 			path = "Picker View Controllers";
@@ -4315,6 +4375,7 @@
 				96699BCB1FDDE547006BB024 /* QuantityPickerFormItem.swift */,
 				278F1D4820688DA40091C2BD /* LabelFormItem.swift */,
 				27373796208D83F800FE1050 /* RoundedRectButtonFormItem.swift */,
+				AA1D4F4C20ACEFA800A3A8A4 /* SubItemFormItem.swift */,
 			);
 			path = FormItems;
 			sourceTree = "<group>";
@@ -4322,9 +4383,9 @@
 		EA8B66691F393A0000F09716 /* Subspec */ = {
 			isa = PBXGroup;
 			children = (
+				4685862E20BE6F5B000319DA /* Security */,
 				19A2E1252075FE980033ADA3 /* Activities */,
 				9624A4581F83555A00CAE056 /* CAD */,
-				96707B432091D7F700C4BFDC /* Crypto */,
 				192F679820A2CDDB00015E86 /* Displayable */,
 				EA8B666A1F393A2000F09716 /* EntitySearch */,
 				12D3700E20200B5A00D79DDB /* Events */,
@@ -4683,6 +4744,7 @@
 				BC9C7DEC1F0DED6600DFFE83 /* ModelVersionable.swift in Sources */,
 				2715D63F1FD505D500BD0E95 /* IncidentResourcesViewController.swift in Sources */,
 				27F7477820182CFA009D47AB /* FinaliseDetailsViewModel.swift in Sources */,
+				AA7B25D620B28659005A23F0 /* DefaultPickableSearchDatasource.swift in Sources */,
 				96B9183E1F9D68DE005DEB1A /* BookOnDetailsFormViewController.swift in Sources */,
 				BC9C7E101F0DED6600DFFE83 /* TableViewFormCell.swift in Sources */,
 				2742CD2F1F849BE900D08DCF /* IntrinsicHeightCollectionView.swift in Sources */,
@@ -4725,6 +4787,7 @@
 				19A6A82520732BD7008EAC95 /* ActivityHandler.swift in Sources */,
 				9689CA4B203646E60001D993 /* CADResourceUnitType.swift in Sources */,
 				96F77286202A75D6000FE0D0 /* DialogActionButtonsView.swift in Sources */,
+				AA7B25CC20B27491005A23F0 /* DefaultEntitiesListReport.swift in Sources */,
 				BC39A6831F18A6EC005CA8EE /* LabeledAccessoryView.swift in Sources */,
 				9617929B209AA6B0001DD4CB /* CADEmployeeDetailsRequestCore.swift in Sources */,
 				EAB38FFC1F70A73700341BAF /* HeaderFormItem.swift in Sources */,
@@ -4735,6 +4798,7 @@
 				2744E38C2051DD8500561A8F /* CADTaskListSourceCore.swift in Sources */,
 				19A6A82120730CE5008EAC95 /* SearchActivity.swift in Sources */,
 				DB88BCE21F42D0110056FD69 /* SearchResultErrorCell.swift in Sources */,
+				AA7B25CB20B27491005A23F0 /* EntitiesListViewModel.swift in Sources */,
 				275F0A681FA19694002BB9C5 /* BookOnDetailsFormContentMainViewModel.swift in Sources */,
 				DB88BCE11F42D0110056FD69 /* SearchFieldCollectionViewCell.swift in Sources */,
 				27094CC41FAFFBDA00D4C3D4 /* ResourceActivityLogViewModel.swift in Sources */,
@@ -4743,8 +4807,10 @@
 				BC9C7E111F0DED6600DFFE83 /* TableViewFormCheckboxCell.swift in Sources */,
 				E28566B220154A9200266472 /* TemplateHandler.swift in Sources */,
 				463F88DA200C6EDF0007A311 /* SimpleColorPicker.swift in Sources */,
+				AA1D4F4F20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift in Sources */,
 				EA69F8291F7C8EAD0092380B /* PickerFormItem.swift in Sources */,
 				4633455A206369060048D5C9 /* MediaDataStore.swift in Sources */,
+				AA7B25C820B27491005A23F0 /* EntityPickerViewModel.swift in Sources */,
 				96BFD1B01FE8B322009AF6B5 /* BookOnDetailsFormContentOfficerViewModel.swift in Sources */,
 				2744E3A12051DD8500561A8F /* CADBookOffRequestCore.swift in Sources */,
 				27F9C96C1FA2D7E300825F88 /* CompactCallsignContainerViewController.swift in Sources */,
@@ -4752,6 +4818,7 @@
 				9609401B20AE493800177E1F /* SubmissionFormBuilderViewController.swift in Sources */,
 				EA32A8581FBD1A7900CC37FB /* MediaCell.swift in Sources */,
 				9650CA1B1F96FA7B0087F5C9 /* UIViewController+Subtitle.swift in Sources */,
+				AA7B25CA20B27491005A23F0 /* EntityPickerViewController.swift in Sources */,
 				BC9C7DEE1F0DED6600DFFE83 /* Serialisable.swift in Sources */,
 				12353412207F1695008256AA /* DefaultEventDateTimeViewModel.swift in Sources */,
 				27256FF3205B27D9005930CB /* BaseDelimitedStringCountSpecification.swift in Sources */,
@@ -4835,6 +4902,7 @@
 				DB528ED120046C13008914EB /* ValidationResults.swift in Sources */,
 				9936C67D1F96C5580091A61C /* GeolocationPlugin.swift in Sources */,
 				4634B4471FBD6FD200D71E7F /* TravelEstimationPlugin.swift in Sources */,
+				AA7A3C3520B7E21900C1CF24 /* entityPickerType.swift in Sources */,
 				199D18D2203AD3CD00A9C072 /* UIView+AnimationPromiseChain.swift in Sources */,
 				27DC609B1FD60F3D0033BC0B /* ResourceOverviewViewModel.swift in Sources */,
 				BC1B25BA1F2707270090C0AA /* MPOLBarButtonItems.swift in Sources */,
@@ -4980,6 +5048,7 @@
 				274753F41FC67F6E00D5FA98 /* TasksListInformationRowViewModel.swift in Sources */,
 				2744E3982051DD8500561A8F /* CADPatrolCore.swift in Sources */,
 				EA53B2771F9EF92B00B891D8 /* NotNilSpecification.swift in Sources */,
+				AA7B25D120B274CA005A23F0 /* PersonSearchReport.swift in Sources */,
 				96F77281201FFB40000FE0D0 /* CreateActivityLogItemViewController.swift in Sources */,
 				46E0B8B220326FB500B40DF2 /* Pickable.swift in Sources */,
 				96361676204F8A0C0012AEC4 /* BroadcastAnnotation.swift in Sources */,
@@ -5121,6 +5190,7 @@
 				96B918401F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift in Sources */,
 				2744EED01FC289F5008DFA7F /* Collection+MapFilterSectionCopy.swift in Sources */,
 				DB88BCE41F42D0150056FD69 /* QueryParserDefinitionSelector.swift in Sources */,
+				AA7B25D020B274CA005A23F0 /* VehicleTowReport.swift in Sources */,
 				9625ACD7207C280100EFCC8C /* UpdateDeviceLocationRequest.swift in Sources */,
 				AA792CCE20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift in Sources */,
 				9644B1D21F6785E200D031F2 /* CompactFormSheetNavigationController.swift in Sources */,
@@ -5152,6 +5222,7 @@
 				EAA7BA422060ACA7004043F6 /* MediaThumbnailSlideshowViewController.swift in Sources */,
 				BC9C7E151F0DED6600DFFE83 /* TableViewFormTextViewCell.swift in Sources */,
 				DB168CDE20032B6B00322F7F /* Validator.swift in Sources */,
+				46A0A2AB20BCDFB2007AAAA8 /* Conceal.swift in Sources */,
 				967BFAB8203B90E500A9C789 /* SelectStoppedEntityViewController.swift in Sources */,
 				2744E3AA2051E68200561A8F /* CADAPIManagerType.swift in Sources */,
 				198307302068B38B0028BA9E /* SearchActivityLauncher.swift in Sources */,
@@ -5291,8 +5362,10 @@
 				EA2189EF1F5FB2280057048E /* MapResultViewModelable.swift in Sources */,
 				96E19CAB2069A9A70021DB42 /* DraggableCardView.swift in Sources */,
 				BC9C7E561F0DED6600DFFE83 /* TabStripView.swift in Sources */,
+				AA7B25C920B27491005A23F0 /* DefaultEntitiesListViewController.swift in Sources */,
 				19F2579E1FBB98F700769B26 /* Bundle+URLSchemeVerifier.swift in Sources */,
 				967BFABB203B90E500A9C789 /* TrafficStopViewModel.swift in Sources */,
+				AA51409020B68EFD008FA7DD /* AdditionalAction.swift in Sources */,
 				EA11F01F1F830D0E00BF8BCA /* StringSizable+Label.swift in Sources */,
 				460B5BC22007186D00AB7D12 /* PathBuilder.swift in Sources */,
 				AA1B3A422092D4460009B00C /* OptionDisplayableFormItem.swift in Sources */,
@@ -5311,6 +5384,7 @@
 				46B3FE7B1F5E3B0C0012476A /* FileLogger.swift in Sources */,
 				96ED81031FDA0AAF00C7C960 /* ThemedPopoverViewController.swift in Sources */,
 				DBE24C3B1F593BEF0088D19B /* EntityDetailSectionsDataSource.swift in Sources */,
+				AA1D4F4D20ACEFA800A3A8A4 /* SubItemFormItem.swift in Sources */,
 				191BC4D61F7C203B00C8C218 /* TagCollectionView.swift in Sources */,
 				12ABD56B207F1967004D0C9F /* LocationMapSelectionViewController.swift in Sources */,
 				EAB38FFA1F70A73700341BAF /* DetailFormItem.swift in Sources */,

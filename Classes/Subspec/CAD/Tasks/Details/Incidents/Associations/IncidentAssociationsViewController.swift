@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class IncidentAssociationsViewController: CADFormCollectionViewController<IncidentAssociationItemViewModel> {
+open class IncidentAssociationsViewController: CADFormCollectionViewController<IncidentAssociationItemViewModel>, TaskDetailsLoadable {
     
     private let listStateItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .list), style: .plain, target: nil, action: nil)
 

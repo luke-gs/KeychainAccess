@@ -15,7 +15,7 @@ final public class RelationshipManager<Base: Equatable, Related: Equatable> {
     }
 
     public func add(_ reason: String, toRelationship relationship: Relationship<Base, Related>) {
-        relationships.first(where: {$0 == relationship})?.reasons.append(reason)
+        relationships.first(where: {$0 == relationship})?.reasons?.append(reason)
     }
 
     // MARK: Remove
@@ -30,7 +30,7 @@ final public class RelationshipManager<Base: Equatable, Related: Equatable> {
 
     // MARK: Update
 
-    public func update(_ reasons: [String], in relationship: Relationship<Base, Related>) {
+    public func update(_ reasons: [String]?, in relationship: Relationship<Base, Related>) {
         guard let relationship = relationships.first(where: { $0 == relationship }) else { return }
         relationship.reasons = reasons
     }

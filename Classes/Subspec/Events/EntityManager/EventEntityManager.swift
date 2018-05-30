@@ -30,14 +30,14 @@ final public class EventEntityManager {
         return incidentRelationshipManager.relationship(between: entity, and: incident)
     }
 
-    public func add(_ entity: MPOLKitEntity, to incident: Incident, with involvements: [String]) {
+    public func add(_ entity: MPOLKitEntity, to incident: Incident, with involvements: [String]?) {
         entityBucket.add(entity)
 
         let incidentRelationship = Relationship(baseObject: entity, relatedObject: incident, reasons: involvements)
         incidentRelationshipManager.add(incidentRelationship)
     }
 
-    public func update(_ reasons: [String], between entity: MPOLKitEntity, and incident: Incident) {
+    public func update(_ reasons: [String]?, between entity: MPOLKitEntity, and incident: Incident) {
         if let incidentRelationship = incidentRelationshipManager.relationship(between: entity, and: incident) {
             incidentRelationshipManager.update(reasons, in: incidentRelationship)
         }

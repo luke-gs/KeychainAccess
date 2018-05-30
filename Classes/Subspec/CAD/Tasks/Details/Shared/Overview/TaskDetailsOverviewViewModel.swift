@@ -11,9 +11,6 @@ import MapKit
 
 open class TaskDetailsOverviewViewModel: TaskDetailsViewModel {
 
-    /// The identifier for this task
-    open let identifier: String
-
     /// The location of this task, if applicable
     open var location: CADLocationType?
     
@@ -26,31 +23,21 @@ open class TaskDetailsOverviewViewModel: TaskDetailsViewModel {
         }
     }
     
-    public init(identifier: String) {
-        self.identifier = identifier
-        loadData()
-    }
-    
     open func createViewController() -> TaskDetailsViewController {
         return TaskDetailsOverviewViewController(viewModel: self)
     }
     
-    open func reloadFromModel() {
-        loadData()
+    open func reloadFromModel(_ model: CADTaskListItemModelType) {
+        MPLRequiresConcreteImplementation()
     }
     
     open func createFormViewController() -> FormBuilderViewController {
         return TaskDetailsOverviewFormViewController(viewModel: self)
     }
     
-    
     open lazy var mapViewModel: TasksMapViewModel? = {
         return TasksMapViewModel()
     }()
-
-    open func loadData() {
-        MPLRequiresConcreteImplementation()
-    }
     
     /// The title to use in the navigation bar
     open func navTitle() -> String {

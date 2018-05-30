@@ -133,7 +133,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
 
                 var hasResourceInDuress: Bool = false
 
-                for resource in CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier) {
+                for resource in CADStateManager.shared.resourcesForIncident(incidentNumber: incident.incidentNumber) {
                     if resource.status.isDuress {
                         hasResourceInDuress = true
                         break
@@ -254,7 +254,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
         case .incident:
             if let incident = CADStateManager.shared.incidentsById[identifier] {
                 // Show details of our resource if we are assigned to incident
-                let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.identifier)
+                let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.incidentNumber)
                 var resource: CADResourceType? = nil
                 if let currentResource = CADStateManager.shared.currentResource {
                     resource = resources.contains(where: { $0 == currentResource }) ? currentResource : nil

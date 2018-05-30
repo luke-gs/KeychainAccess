@@ -69,6 +69,7 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         apply(ThemeManager.shared.theme(for: userInterfaceStyle))
+        _ = detailViewModel.loadTask()
     }
     
     open override func viewDidAppear(_ animated: Bool) {
@@ -142,16 +143,13 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
             self.compactStatusChangeBar = compactStatusChangeBar
         }
         
-        compactStatusChangeBar?.titleLabel.text = detailViewModel.statusText
-        // TODO: Add subtitle label
-        compactStatusChangeBar?.subtitleLabel.isHidden = true
+        compactStatusChangeBar?.titleLabel.text = detailViewModel.compactTitle
+        compactStatusChangeBar?.subtitleLabel.text = detailViewModel.compactSubtitle
         compactStatusChangeBar?.imageView.image = detailViewModel.iconImage
         
         if detailViewModel.allowChangeResourceStatus() == true {
-            compactStatusChangeBar?.actionImageView.image = AssetManager.shared.image(forKey: .editCell)
             compactStatusChangeBar?.addTarget(self, action: #selector(didTapStatusChangeButton), for: .touchUpInside)
         } else {
-            compactStatusChangeBar?.actionImageView.image = nil
             compactStatusChangeBar?.removeTarget(self, action: #selector(didTapStatusChangeButton), for: .touchUpInside)
         }
     }
@@ -160,11 +158,6 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
         detailViewModel.reloadFromModel()
         configureCompactChangeStatusBar()
         updateHeaderView()
-
-        // Dismiss change state dialog if we no longer have an incident
-        if let modal = presentedViewController, CADStateManager.shared.currentIncident == nil {
-            modal.dismiss(animated: true, completion: nil)
-        }
     }
 
     @objc open func didTapStatusChangeButton() {
@@ -178,6 +171,14 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
         }.catch { error in
             AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
         }
+    }
+    
+    func setLoadingState(_ state: LoadingStateManager.State) {
+        (detailViewControllers as? [TaskDetailsViewController])?.forEach { vc in
+            vc.loadingManager.state = state
+        }
+        
+        allowDetailSelection = state != .loading
     }
 }
 

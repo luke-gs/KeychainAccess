@@ -11,13 +11,15 @@ import MapKit
 
 open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
 
-    public override init(identifier: String) {
-        super.init(identifier: identifier)
-        mapViewModel = IncidentOverviewMapViewModel(incidentNumber: identifier)
+    public override init() {
+        super.init()
+        mapViewModel = IncidentOverviewMapViewModel()
     }
 
-    override open func loadData() {
-        guard let incident = CADStateManager.shared.incidentsById[identifier] else { return }
+    open override func reloadFromModel(_ model: CADTaskListItemModelType) {
+        guard let incident = model as? CADIncidentType else { return }
+        (mapViewModel as? IncidentOverviewMapViewModel)?.reloadFromModel(incident)
+        
         location = incident.location
 
         sections = [
@@ -36,7 +38,7 @@ open class IncidentOverviewViewModel: TaskDetailsOverviewViewModel {
                                                                               width: .column(4)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Primary Code",
-                                                                              value: incident.identifier,
+                                                                              value: incident.incidentNumber,
                                                                               width: .column(4)),
                                                 
                                                 TaskDetailsOverviewItemViewModel(title: "Secondary Code",

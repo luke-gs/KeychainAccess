@@ -23,6 +23,6 @@ public protocol EntitySource {
 
 func ==(lhs: EntitySource, rhs: EntitySource) -> Bool {
     return lhs.serverSourceName == rhs.serverSourceName &&
-    lhs.localizedBadgeTitle == rhs.localizedBadgeTitle &&
-    lhs.localizedBarTitle == rhs.localizedBarTitle
+        lhs.localizedBadgeTitle == rhs.localizedBadgeTitle &&
+        lhs.localizedBarTitle == rhs.localizedBarTitle
 }
