@@ -144,9 +144,9 @@ open class VehicleInfoViewModel: EntityDetailFormViewModel {
             }
             return String(format: NSLocalizedString("LAST UPDATED: %@", bundle: .mpolKit, comment: ""), lastUpdated)
         case .vehicleDetails:
-            return NSLocalizedString("REGISTRATION DETAILS", comment: "")
-        case .registrationDetails:
             return NSLocalizedString("VEHICLE DETAILS", comment: "")
+        case .registrationDetails:
+            return NSLocalizedString("REGISTRATION DETAILS", comment: "")
         }
     }
 
