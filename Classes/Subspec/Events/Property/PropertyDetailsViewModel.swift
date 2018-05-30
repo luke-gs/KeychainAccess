@@ -5,8 +5,6 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-import Foundation
-
 public class PropertyDetailsViewModel {
     
     public let title: String
@@ -28,19 +26,29 @@ public class PropertyDetailsViewModel {
       return report.evaluator.isComplete ? .midGreen : .red
     }
 
-    public func types() -> [String] {
-        return Array(repeating: "Property Type", count: 10)
-    }
-    
-    public func subtypes() -> [String] {
-        return Array(repeating: "Sub Type", count: 10)
+    public func properties() -> [Property] {
+        return props
     }
 
     public func involvements() -> [String] {
-        return Array(repeating: "Involvement", count: 10)
-    }
-
-    public func details() -> [String] {
-        return Array(repeating: "Detail", count: 10)
+        return involvs
     }
 }
+
+//TODO: FIX THIS SHIT
+private let props: [Property] = [
+    Property(type: "General", subType: "Mobile Phone", detailNames: ["Make", "Model", "Model Year", "Serial Number"]),
+    Property(type: "General", subType: "Clock"),
+    Property(type: "General", subType: "Furniture", detailNames: ["Broken", "Colour"]),
+    Property(type: "General", subType: "Electrical materials"),
+    Property(type: "General", subType: "Laptop computer", detailNames: ["Make", "Model", "Serial Number"]),
+    Property(type: "Drug", subType: "Oil - Cannabis", detailNames: ["Weight", "Type"]),
+    Property(type: "Drug", subType: "Hashish - Cannabis", detailNames: ["Weight", "Type"]),
+    Property(type: "Drug", subType: "LSD trips - Amphetamine/methylphetamine", detailNames: ["Quantity"]),
+    Property(type: "Firearm", subType: "Air rifle", detailNames: ["Category", "Condition"]),
+    Property(type: "Firearm", subType: "Shotgun - Category B", detailNames: ["Category", "Condition", "Loaded"]),
+    Property(type: "Animal", subType: "Dog - Pitbull", detailNames: ["Colour", "Markings", "Gender"])
+]
+
+//TODO: FIX THIS SHIT
+private let involvs: [String] = ["Broken", "Damaged", "Lost", "Killed"]

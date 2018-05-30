@@ -18,6 +18,8 @@
 		121A9DCD20BBBAE800690327 /* PropertyDetailsReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121A9DCA20BBBAE800690327 /* PropertyDetailsReport.swift */; };
 		1220D03D20BE68E200967D88 /* PropertyDetailsViewControllerDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1220D03C20BE68E200967D88 /* PropertyDetailsViewControllerDecorator.swift */; };
 		1220D03F20BE6E4400967D88 /* PropertyDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1220D03E20BE6E4400967D88 /* PropertyDetailsPresenter.swift */; };
+		1220D04120BE9D8800967D88 /* Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1220D04020BE9D8800967D88 /* Property.swift */; };
+		1220D04320BEB38E00967D88 /* PropertySearchDisplayableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1220D04220BEB38E00967D88 /* PropertySearchDisplayableViewModel.swift */; };
 		122234911F9ED961008CE3C4 /* GenericSearchViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122234901F9ED961008CE3C4 /* GenericSearchViewModelTests.swift */; };
 		12353410207F167A008256AA /* DefaultEventDateTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1235340F207F167A008256AA /* DefaultEventDateTimeViewController.swift */; };
 		12353412207F1695008256AA /* DefaultEventDateTimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12353411207F1695008256AA /* DefaultEventDateTimeViewModel.swift */; };
@@ -892,6 +894,8 @@
 		121A9DCA20BBBAE800690327 /* PropertyDetailsReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyDetailsReport.swift; sourceTree = "<group>"; };
 		1220D03C20BE68E200967D88 /* PropertyDetailsViewControllerDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyDetailsViewControllerDecorator.swift; sourceTree = "<group>"; };
 		1220D03E20BE6E4400967D88 /* PropertyDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyDetailsPresenter.swift; sourceTree = "<group>"; };
+		1220D04020BE9D8800967D88 /* Property.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Property.swift; sourceTree = "<group>"; };
+		1220D04220BEB38E00967D88 /* PropertySearchDisplayableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertySearchDisplayableViewModel.swift; sourceTree = "<group>"; };
 		122234901F9ED961008CE3C4 /* GenericSearchViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericSearchViewModelTests.swift; sourceTree = "<group>"; };
 		1235340F207F167A008256AA /* DefaultEventDateTimeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventDateTimeViewController.swift; sourceTree = "<group>"; };
 		12353411207F1695008256AA /* DefaultEventDateTimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEventDateTimeViewModel.swift; sourceTree = "<group>"; };
@@ -1787,12 +1791,14 @@
 		121A9DC720BBBABB00690327 /* Property */ = {
 			isa = PBXGroup;
 			children = (
-				121A9DC820BBBAE800690327 /* PropertyDetailsViewController.swift */,
-				121A9DC920BBBAE800690327 /* PropertyDetailsViewModel.swift */,
-				121A9DCA20BBBAE800690327 /* PropertyDetailsReport.swift */,
+				1220D04020BE9D8800967D88 /* Property.swift */,
 				12F7078A20BD47C7006E4B34 /* PropertyDetailsPlugins.swift */,
-				1220D03C20BE68E200967D88 /* PropertyDetailsViewControllerDecorator.swift */,
 				1220D03E20BE6E4400967D88 /* PropertyDetailsPresenter.swift */,
+				121A9DCA20BBBAE800690327 /* PropertyDetailsReport.swift */,
+				121A9DC820BBBAE800690327 /* PropertyDetailsViewController.swift */,
+				1220D03C20BE68E200967D88 /* PropertyDetailsViewControllerDecorator.swift */,
+				121A9DC920BBBAE800690327 /* PropertyDetailsViewModel.swift */,
+				1220D04220BEB38E00967D88 /* PropertySearchDisplayableViewModel.swift */,
 			);
 			path = Property;
 			sourceTree = "<group>";
@@ -5126,6 +5132,7 @@
 				BC9C7E0E1F0DED6600DFFE83 /* CollectionViewFormLayoutAttributes.swift in Sources */,
 				279B057D200D591200C3EFB0 /* ActivityLogDateCollectionSectionViewModel.swift in Sources */,
 				96FC1BFB20AA4496005840CD /* CallsignStatusFormItem.swift in Sources */,
+				1220D04120BE9D8800967D88 /* Property.swift in Sources */,
 				2744E3922051DD8500561A8F /* CADIncidentStatusCore.swift in Sources */,
 				2744EECA1FBEA523008DFA7F /* MapFilterOption.swift in Sources */,
 				125EAE0A2092CFD800C09FED /* DefaultNotesMedaReport.swift in Sources */,
@@ -5221,6 +5228,7 @@
 				BC9C7DCC1F0DED6600DFFE83 /* UserDefaults+MPOL.swift in Sources */,
 				27CBC75A1F8B27B100E387C3 /* ActivityLogItemCell.swift in Sources */,
 				19F8DDB01F4D7C9600D84DA1 /* APIManager+LookupAddress.swift in Sources */,
+				1220D04320BEB38E00967D88 /* PropertySearchDisplayableViewModel.swift in Sources */,
 				2709617B1FE0CBFB00D19F40 /* ColumnInfo.swift in Sources */,
 				9674E0E71FC68015000702F8 /* LoadingStateLoadingView.swift in Sources */,
 				966CE9BB2036562900646A6A /* CADEnumStringType.swift in Sources */,

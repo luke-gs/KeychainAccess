@@ -48,7 +48,7 @@ public struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
                 .accessory(ItemAccessory.dropDown)
                 .width(.column(2))
                 .onSelection { _ in
-                    self.delegate.didTapOnAddProperty()
+                    self.delegate.didTapOnPropertyType()
             },
 
             ValueFormItem(title: "Sub Type",
@@ -56,12 +56,17 @@ public struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
                 .accessory(ItemAccessory.dropDown)
                 .width(.column(2))
                 .onSelection { _ in
-                    self.delegate.didTapOnAddProperty()
+                    self.delegate.didTapOnPropertySubtype()
             },
 
-            ValueFormItem(title: "Involvements",
-                          value: viewModel.report.involvements?.joined(separator: ", "))
+            DropDownFormItem(title: "Involvements")
+                .allowsMultipleSelection(true)
+                .options(viewModel.involvements())
+                .selectedValue(viewModel.report.involvements)
                 .width(.column(1))
+                .onValueChanged { value in
+                    self.viewModel.report.involvements = value
+                }
         ]
     }
 }
@@ -95,7 +100,7 @@ public struct AddPropertyMediaPluginDecorator: FormBuilderPluginDecorator {
 
     public func formItems() -> [FormItem] {
         return [
-            HeaderFormItem(text: "Details", style: .plain)
+            HeaderFormItem(text: "Media", style: .plain)
 
         ]
     }

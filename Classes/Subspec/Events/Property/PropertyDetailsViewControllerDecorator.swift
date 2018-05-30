@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PropertyDetailsViewControllerDecorator {
+struct PropertyDetailsViewControllerDecorator {
 
     let addPropertyView: UIView
     let detailsScrollView: UIScrollView
