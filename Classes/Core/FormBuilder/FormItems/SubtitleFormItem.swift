@@ -58,7 +58,7 @@ public class SubtitleFormItem: BaseFormItem {
                                                                    inWidth: contentWidth,
                                                                    compatibleWith: traitCollection,
                                                                    imageSize: image?.size ?? .zero,
-                                                                   style: .default,
+                                                                   style: style,
                                                                    imageSeparation: imageSeparation,
                                                                    labelSeparation: labelSeparation,
                                                                    accessoryViewSize: accessory?.size ?? .zero)
@@ -69,7 +69,7 @@ public class SubtitleFormItem: BaseFormItem {
                                                                   subtitle: defaultSubtitle(for: traitCollection),
                                                                   compatibleWith: traitCollection,
                                                                   imageSize: image?.size ?? .zero,
-                                                                  style: .default,
+                                                                  style: style,
                                                                   imageSeparation: imageSeparation,
                                                                   labelSeparation: labelSeparation,
                                                                   accessoryViewSize: accessory?.size ?? .zero)
