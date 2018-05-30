@@ -9,28 +9,18 @@
 import UIKit
 
 open class ResourceActivityLogViewModel: DatedActivityLogViewModel, TaskDetailsViewModel {
-   
-    /// The identifier for this resource
-    open let callsign: String
     
-    public init(callsign: String) {
-        self.callsign = callsign
-        super.init()
-        loadData()
-    }
+    open private(set) var resource: CADResourceType?
     
     /// Create the view controller for this view model
     open func createViewController() -> TaskDetailsViewController {
         return ResourceActivityLogViewController(viewModel: self)
     }
     
-    open func reloadFromModel() {
-        loadData()
-    }
-
-    open func loadData() {
-        guard let resource = CADStateManager.shared.resourcesById[callsign] else { return }
-
+    open func reloadFromModel(_ model: CADTaskListItemModelType) {
+        guard let resource = model as? CADResourceType else { return }
+        self.resource = resource
+        
         let activityLogItemsViewModels = resource.activityLog.map { item in
             return ActivityLogItemViewModel(dotFillColor: item.color,
                                             dotStrokeColor: .clear,
@@ -58,7 +48,7 @@ open class ResourceActivityLogViewModel: DatedActivityLogViewModel, TaskDetailsV
 
     open override func allowCreate() -> Bool {
         // Only allow adding activity log entries if our resource
-        return CADStateManager.shared.currentResource?.callsign == callsign
+        return CADStateManager.shared.currentResource?.callsign == resource?.callsign
     }
 }
 

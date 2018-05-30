@@ -11,20 +11,20 @@ import MapKit
 
 open class BroadcastOverviewMapViewModel: TasksMapViewModel {
 
-    private let broadcastNumber: String
+    private var broadcast: CADBroadcastType?
 
-    public init(broadcastNumber: String) {
-        self.broadcastNumber = broadcastNumber
+    public func reloadFromModel(_ model: CADBroadcastType) {
+        self.broadcast = model
     }
 
     override open func loadTasks() {
-        guard let broadcast = CADStateManager.shared.broadcastsById[broadcastNumber] else { return }
+        guard let broadcast = broadcast else { return }
 
         filteredAnnotations = [broadcast.createAnnotation()].removeNils()
     }
 
     override open func createViewController() -> TasksMapViewController {
-        if let coordinate = CADStateManager.shared.broadcastsById[broadcastNumber]?.location?.coordinate {
+        if let coordinate = broadcast?.location?.coordinate {
             let viewController = TasksMapViewController(viewModel: self, initialLoadZoomStyle: .coordinate(coordinate, animated : false))
             viewController.defaultZoomDistance = defaultZoomDistance
             return viewController

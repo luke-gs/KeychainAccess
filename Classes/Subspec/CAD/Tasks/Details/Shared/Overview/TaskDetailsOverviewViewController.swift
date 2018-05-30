@@ -8,7 +8,9 @@
 
 import UIKit
 
-open class TaskDetailsOverviewViewController: UIViewController {
+open class TaskDetailsOverviewViewController: UIViewController, TaskDetailsLoadable {
+    public var loadingManager: LoadingStateManager = LoadingStateManager()
+    
 
     fileprivate struct LayoutConstants {
         static let defaultMapHeight: CGFloat = 280
@@ -231,7 +233,7 @@ extension TaskDetailsOverviewViewController: CADFormCollectionViewModelDelegate 
     
     public func sectionsUpdated() {
         // Reload content
-        formViewController.reloadForm()
+        formViewController?.reloadForm()
     }
 }
 

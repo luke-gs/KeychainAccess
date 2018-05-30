@@ -14,7 +14,7 @@ open class ResourceTaskItemViewModel: TaskItemViewModel {
     open var resource: CADResourceType?
     
     public init(callsign: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
-        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, subtitleText: nil)
+        super.init(taskItemIdentifier: callsign, iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, subtitleText: nil)
 
         if callsign == CADStateManager.shared.currentResource?.callsign {
             self.navTitle = NSLocalizedString("My call sign", comment: "")
@@ -25,9 +25,9 @@ open class ResourceTaskItemViewModel: TaskItemViewModel {
         self.compactNavTitle = itemName
 
         self.viewModels = [
-            ResourceOverviewViewModel(identifier: callsign),
-            ResourceOfficerListViewModel(callsign: callsign),
-            ResourceActivityLogViewModel(callsign: callsign)
+            ResourceOverviewViewModel(),
+            ResourceOfficerListViewModel(),
+            ResourceActivityLogViewModel()
         ]
     }
     
@@ -47,6 +47,14 @@ open class ResourceTaskItemViewModel: TaskItemViewModel {
             itemName: [resource.callsign, resource.officerCountString].joined())
         self.resource = resource
     }
+    
+    open override func loadTask() -> Promise<Void> {
+        viewController?.setLoadingState(.loading)
+        self.resource = CADStateManager.shared.resourcesById[taskItemIdentifier]
+        viewController?.setLoadingState(.loaded)
+        self.reloadFromModel()
+        return Promise<Void>()
+    }
 
     open override func reloadFromModel() {
         if let resource = resource {
@@ -57,7 +65,7 @@ open class ResourceTaskItemViewModel: TaskItemViewModel {
             itemName = [resource.callsign, resource.officerCountString].joined()
 
             viewModels.forEach {
-                $0.reloadFromModel()
+                $0.reloadFromModel(resource)
             }
         }
     }

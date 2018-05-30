@@ -14,13 +14,13 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
     
     public init(patrolNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
         let captionText = "#\(patrolNumber)"
-        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, subtitleText: captionText)
+        super.init(taskItemIdentifier: patrolNumber, iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, subtitleText: captionText)
 
         self.navTitle = NSLocalizedString("Patrol details", comment: "")
         self.compactNavTitle = itemName
 
         self.viewModels = [
-            PatrolOverviewViewModel(identifier: patrolNumber)
+            PatrolOverviewViewModel()
         ]
     }
     
@@ -40,9 +40,20 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
         return vc
     }
     
+    
+    open override func loadTask() -> Promise<Void> {
+        viewController?.setLoadingState(.loading)
+        self.patrol = CADStateManager.shared.patrolsById[taskItemIdentifier]
+        viewController?.setLoadingState(.loaded)
+        reloadFromModel()
+        return Promise<Void>()
+    }
+    
     override open func reloadFromModel() {
-        viewModels.forEach {
-            $0.reloadFromModel()
+        if let patrol = patrol {
+            viewModels.forEach {
+                $0.reloadFromModel(patrol)
+            }
         }
     }
     

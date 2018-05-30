@@ -10,13 +10,14 @@ import UIKit
 
 open class PatrolOverviewViewModel: TaskDetailsOverviewViewModel {
     
-    public override init(identifier: String) {
-        super.init(identifier: identifier)
-        mapViewModel = PatrolOverviewMapViewModel(patrolNumber: identifier)
+    public override init() {
+        super.init()
+        mapViewModel = PatrolOverviewMapViewModel()
     }
 
-    override open func loadData() {
-        guard let patrol = CADStateManager.shared.patrolsById[identifier] else { return }
+    open override func reloadFromModel(_ model: CADTaskListItemModelType) {
+        guard let patrol = model as? CADPatrolType else { return }
+        (mapViewModel as? PatrolOverviewMapViewModel)?.reloadFromModel(patrol)
         location = patrol.location
 
         sections = [
