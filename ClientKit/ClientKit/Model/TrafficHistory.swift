@@ -42,7 +42,7 @@ public class TrafficHistory: NSObject, Serialisable {
     public required init?(coder aDecoder: NSCoder) {
 
         guard let id = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.id.rawValue) as String?,
-              let sourceString = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.id.rawValue) as String?,
+              let sourceString = aDecoder.decodeObject(of: NSString.self, forKey: CodingKeys.source.rawValue) as String?,
               let source = MPOLSource(rawValue: sourceString) else {
             return nil
         }
