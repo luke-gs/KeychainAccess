@@ -170,9 +170,5 @@ class DemeritPinView: UIView {
     required init?(coder aDecoder: NSCoder) {
         MPLCodingNotSupported()
     }
-    
-    @objc private func themeDidChange() {
-        
-    }
-    
+
 }
