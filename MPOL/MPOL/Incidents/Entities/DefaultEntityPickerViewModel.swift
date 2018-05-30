@@ -1,31 +1,20 @@
 //
-//  EntityPickerViewModel.swift
+//  DefaultEntityPickerViewModel.swift
 //  MPOL
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-import Foundation
 import MPOLKit
 import ClientKit
 
-protocol EntityPickerDelegate: class {
-    func finishedPicking(_ entity: MPOLKitEntity)
-}
+class DefaultEntityPickerViewModel: EntityPickerViewModel {
 
-public class EntityPickerViewModel {
-
-    open var entities = [MPOLKitEntity]()
+    let entities: [MPOLKitEntity]
     weak var delegate: EntityPickerDelegate?
 
-    var currentLoadingManagerState: LoadingStateManager.State {
-        return entities.isEmpty ? .noContent : .loaded
-    }
-
-    init() {
-        for entity in UserSession.current.recentlyViewed.entities {
-            entities.append(entity)
-        }
+    required init() {
+        entities = UserSession.current.recentlyViewed.entities
     }
 
     func displayable(for entity: MPOLKitEntity) -> EntitySummaryDisplayable {

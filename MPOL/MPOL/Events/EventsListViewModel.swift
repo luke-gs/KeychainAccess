@@ -32,17 +32,23 @@ public class EventsListViewModel {
         self.eventsManager = eventsManager
         self.title = "Events"
     }
-
-    func image(for displayable: EventListDisplayable) -> UIImage {
-        let eval = event(for: displayable)?.evaluator.isComplete ?? false
-        guard let image = AssetManager.shared.image(forKey: .event)?.surroundWithCircle(diameter: 48, color: eval ? .midGreen : .red) else {
-            fatalError()
-        }
-        return image
-    }
     
     public func event(for displayable: EventListDisplayable) -> Event? {
         return eventsManager.event(for: displayable.eventId)
+    }
+
+    func subtitle(for displayable: EventListDisplayable) -> String {
+        let eval = event(for: displayable)?.evaluator.isComplete ?? false
+        return eval ? "READY TO SUBMIT" : "IN PROGRESS"
+    }
+
+    func image(for displayable: EventListDisplayable) -> UIImage {
+        let eval = event(for: displayable)?.evaluator.isComplete ?? false
+        guard let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.event)?
+            .withCircleBackground(tintColor: .black,
+                                  circleColor: eval ? .midGreen : .disabledGray,
+                                  style: .auto(padding: CGSize(width: 24, height: 24), shrinkImage: false)) else { fatalError() }
+        return image
     }
     
     public func detailsViewModel(for event: Event) -> EventDetailViewModelType {
@@ -52,6 +58,7 @@ public class EventsListViewModel {
         // Add IncidentBuilders here
         incidentsManager.add(TrafficInfringementIncidentBuilder(), for: .trafficInfringement)
         incidentsManager.add(InterceptReportIncidentBuilder(), for: .interceptReport)
+        incidentsManager.add(DomesticViolenceIncidentBuilder(), for: .domesticViolence)
 
         if let incidentType = incidentType {
             let _ = incidentsManager.create(incidentType: incidentType, in: event)

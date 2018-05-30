@@ -14,13 +14,12 @@ public class TrafficInfringementServiceViewModel {
     private(set) var report: TrafficInfringementServiceReport
 
     var people: [Person] {
-        // TODO: do this check for entities related to this incident when entity manager set up
-        let entities = report.event?.entityBucket.entities ?? []
-        return entities.compactMap { $0 as? Person }
+        guard let incident = report.incident else { fatalError("Incident Doesn't Exist") }
+        let entities = report.event?.entityManager.relationships(for: incident).map { $0.baseObject }
+        return entities?.compactMap { $0 as? Person } ?? []
     }
 
     var currentLoadingManagerState: LoadingStateManager.State {
-
         return people.isEmpty ? .noContent : .loaded 
     }
 
@@ -38,17 +37,8 @@ public class TrafficInfringementServiceViewModel {
         return contacts.filter { $0.type == .mobile }.compactMap { $0.value }
     }
 
-    private var allAddresses: [Address] {
-
-        let people = report.event?.entityBucket.entities.compactMap { $0 as? Person } ?? [Person]()
-
-        return people.compactMap { $0.addresses }.flatMap { $0 }
-    }
-
-    // Temporary, dependning on what back end decides to do with fullAddress
     open var allFullAddresses: [String] {
-
-        return allAddresses.compactMap { $0.displayAddress }
+        return people.compactMap { $0.addresses }.flatMap { $0 }.compactMap { $0.fullAddress }
     }
 
     var tabColors: (defaultColor: UIColor, selectedColor: UIColor) {

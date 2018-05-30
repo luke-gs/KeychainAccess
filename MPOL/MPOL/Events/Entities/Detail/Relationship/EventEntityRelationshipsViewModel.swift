@@ -29,8 +29,9 @@ class EventEntityRelationshipsViewModel {
         }
     }
 
-    public func relationshipWith(relatedEntity: MPOLKitEntity) -> Relationship? {
-        return report.event?.relationshipManager.relationships.first(where: {$0.baseEntity == report.entity && $0.relatedEntity == relatedEntity})
+    public func relationshipWith(relatedEntity: MPOLKitEntity) -> Relationship<MPOLKitEntity, MPOLKitEntity>? {
+        guard let entity = report.entity else { return nil }
+        return report.event?.entityManager.relationship(between: entity, and: relatedEntity)
     }
 
     private func hasRelationshipWith(relatedEntity: MPOLKitEntity) -> Bool {
@@ -39,25 +40,25 @@ class EventEntityRelationshipsViewModel {
 
     public func addRelationship(relatedEntity: MPOLKitEntity, reasons: [String]) {
         guard let baseEntity = report.entity else { fatalError("Report did not contain a base entity") }
-        report.event?.relationshipManager.add(Relationship(baseEntity: baseEntity, relatedEntity: relatedEntity, reasons: reasons))
+        report.event?.entityManager.addRelationship(between: baseEntity, and: relatedEntity, with: reasons)
     }
 
     public func removeRelationship(forEntity: MPOLKitEntity) {
         guard report.entity != nil else { fatalError("Report did not contain a base entity") }
         guard let relationshipToRemove = relationshipWith(relatedEntity: forEntity) else { fatalError("Could not find a relationship between the specified entities") }
-        report.event?.relationshipManager.remove(relationshipToRemove)
+        report.event?.entityManager.removeRelationship(relationshipToRemove)
     }
 
     public func applyRelationship(relatedEntity: MPOLKitEntity, reasons: [String]) {
 
         if reasons.isEmpty {
-            //handle if reaons is empty, either remove existing relationship if there is one or do nothing
+            // Handle if reaons is empty, either remove existing relationship if there is one or do nothing
             if hasRelationshipWith(relatedEntity: relatedEntity) {
                 removeRelationship(forEntity: relatedEntity)
             }
         } else {
             addRelationship(relatedEntity: relatedEntity, reasons: reasons)
-            //handle either updating the current relationship or adding a new one
+            // Handle either updating the current relationship or adding a new one
             if hasRelationshipWith(relatedEntity: relatedEntity) {
                 if let relationshipToUpdate = relationshipWith(relatedEntity: relatedEntity) {
                     relationshipToUpdate.reasons = reasons
@@ -81,10 +82,10 @@ class EventEntityRelationshipsViewModel {
     }
 
     func relationshipStatus(forEntity entity: MPOLKitEntity) -> String? {
-       return relationshipWith(relatedEntity: entity)?.reasons.joined(separator: ", ") ?? "No Relationships"
+        return relationshipWith(relatedEntity: entity)?.reasons?.joined(separator: ", ") ?? "No Relationships"
     }
 
-    //MARK: Private
+    // MARK: Private
 
     private func createDatasources() {
         if let entities = entitesFor(Person.self), !entities.isEmpty {
@@ -96,15 +97,18 @@ class EventEntityRelationshipsViewModel {
         }
     }
 
-    private func entitesFor(_ entityType: AnyClass) -> [MPOLKitEntity]? {
+    private func entitesFor(_ entityType: Any) -> [MPOLKitEntity]? {
+        guard var relationships = report.event?.entityManager.incidentRelationships else { return nil }
+
         switch entityType {
         case is Person.Type:
-            return report.event?.entityBucket.entities(for: Person.self).filter{$0 != self.report.entity!}
+            relationships = relationships.filter { $0.baseObject is Person }.filter { $0.baseObject != self.report.entity }
         case is Vehicle.Type:
-            return report.event?.entityBucket.entities(for: Vehicle.self).filter{$0 != self.report.entity!}
+            relationships = relationships.filter { $0.baseObject is Vehicle }.filter { $0.baseObject != self.report.entity }
         default:
             fatalError("No such entity \(entityType)")
         }
+        return Array(Set(relationships.compactMap { $0.baseObject }))
     }
 }
 

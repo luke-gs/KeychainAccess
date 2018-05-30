@@ -27,7 +27,10 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable {
     }
     
     public var detail1: String? {
-        return nil
+        guard let coordinate = coordinate else {
+            return nil
+        }
+        return "\(coordinate.latitude), \(coordinate.longitude)"
     }
     
     public var detail2: String? {
@@ -35,11 +38,13 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable {
     }
     
     public var borderColor: UIColor? {
-        return address.alertLevel?.color
+        return address.associatedAlertLevel?.color
     }
 
     public var iconColor: UIColor? {
-        return nil
+        // Return .black because the current implementation use `tintColor`.
+        // nil means use system's.
+        return address.alertLevel?.color ?? .black
     }
     
     public var badge: UInt {
@@ -58,9 +63,21 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable {
     }
     
     public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
-        if let image = AssetManager.shared.image(forKey: .location) {
+        let imageName: String
+
+        switch size {
+        case .small:
+            imageName = "iconEntityLocation"
+        case .medium:
+            imageName = "iconEntityLocation48"
+        case .large:
+            imageName = "iconEntityLocation96"
+        }
+
+        if let image = UIImage(named: imageName, in: .mpolKit, compatibleWith: nil) {
             return ImageSizing(image: image, size: image.size, contentMode: .center)
         }
+
         return nil
     }
     

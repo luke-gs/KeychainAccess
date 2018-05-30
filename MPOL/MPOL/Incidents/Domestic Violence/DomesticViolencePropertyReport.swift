@@ -1,5 +1,5 @@
 //
-//  DefaultEntitiesListReport.swift
+//  DomesticViolencePropertyReport.swift
 //  MPOL
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -9,17 +9,24 @@ import UIKit
 import MPOLKit
 import ClientKit
 
-extension EvaluatorKey {
-    static let trafficInfringmentHasEntity = EvaluatorKey("hasEntity")
+fileprivate extension EvaluatorKey {
+    static let viewed = EvaluatorKey("viewed")
 }
 
-class DefaultEntitiesListReport: Reportable {
+class DomesticViolencePropertyReport: Reportable {
     weak var event: Event?
     weak var incident: Incident?
+
+    private(set)var propertyList: [Property] = []
+
     let evaluator: Evaluator = Evaluator()
-    // Dictionary of entityId's and Involvements
-    var entityInvolvements = [String: [Involvement]]()
-    
+
+    public var viewed: Bool = false {
+        didSet {
+            evaluator.updateEvaluation(for: .viewed)
+        }
+    }
+
     init(event: Event, incident: Incident) {
         self.event = event
         self.incident = incident
@@ -31,16 +38,17 @@ class DefaultEntitiesListReport: Reportable {
             evaluator.addObserver(incident)
         }
 
-        evaluator.registerKey(.trafficInfringmentHasEntity) {
-            guard let event = self.event else { return false }
-            // TODO: create entity manager to determine link between entities and incident
-            // TODO: use event.entityManger to return incident specific entities and the check
-            return !event.entityBucket.entities.filter { $0 is Person }.isEmpty
+        evaluator.registerKey(.viewed) {
+            return self.viewed
         }
     }
 
+    public func addProperty(property: Property) {
+        self.propertyList.append(property)
+    }
+
     func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-        
+
     }
 
     // MARK: CODING

@@ -16,8 +16,8 @@ public class EventEntityRelationshipsReport: Reportable {
     public weak var incident: Incident?
     public weak var entity: MPOLKitEntity?
     
-    public var relationships: [Relationship]? {
-        return event?.relationshipManager.relationshipsFor(entity!).relatedEntityRelationships
+    public var relationships: [Relationship<MPOLKitEntity, MPOLKitEntity>]? {
+        return event?.entityManager.entityRelationships
     }
     
     public var viewed: Bool = false {
@@ -35,12 +35,18 @@ public class EventEntityRelationshipsReport: Reportable {
         }
     }
     
-    //MARK: Eval
+    // MARK: Eval
     public var evaluator: Evaluator = Evaluator()
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
+
+    }
     
-    //MARK: Coding
+    // MARK: Coding
     public static var supportsSecureCoding: Bool = true
-    public required init?(coder aDecoder: NSCoder) { MPLCodingNotSupported() }
-    public func encode(with aCoder: NSCoder) { }
+    public required init?(coder aDecoder: NSCoder) {
+        MPLCodingNotSupported()
+    }
+    public func encode(with aCoder: NSCoder) {
+
+    }
 }

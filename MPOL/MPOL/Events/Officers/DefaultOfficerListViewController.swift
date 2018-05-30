@@ -57,7 +57,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
 
     @objc private func addTapped(sender: UIBarButtonItem) {
 
-        let viewModel = OfficerSearchViewModel(items: [])
+        let viewModel = OfficerSearchViewModel()
         let officerSearchController = SearchDisplayableViewController<DefaultEventOfficerListViewController, OfficerSearchViewModel>(viewModel: viewModel)
         officerSearchController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
         officerSearchController.delegate = self
@@ -74,7 +74,31 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
     }
     
     open override func construct(builder: FormBuilder) {
-       viewModel.construct(builder: builder)
+        builder += HeaderFormItem(text: viewModel.header)
+        let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
+
+        viewModel.officerDisplayables.forEach { displayable in
+            builder += SummaryListFormItem()
+                .title(displayable.title)
+                .subtitle(displayable.detail1)
+                .width(.column(1))
+                .image(displayable.thumbnail(ofSize: .small))
+                .selectionStyle(.none)
+                .imageStyle(.circle)
+                .accessory(CustomItemAccessory(onCreate: { () -> UIView in
+                    let imageView = UIImageView(image: image)
+                    imageView.contentMode = .scaleAspectFit
+                    return imageView
+                }, size: image?.size ?? .zero))
+                .onSelection({ (cell) in
+                    let officer = displayable.officer
+                    self.viewModel.delegate?.didSelectOfficer(officer: officer)
+                })
+                .editActions(viewModel.officerDisplayables.count == 1 ? [] : [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (cell, indexPath) in
+                    self.viewModel.removeOfficer(at: indexPath)
+                    self.viewModel.delegate?.officerListDidUpdate()
+                })])
+        }
     }
 
     // MARK: - Officer model delegate 
@@ -85,16 +109,17 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                                                      subtitle: displayable.detail1 ?? "No involvements selected",
                                                      image: displayable.thumbnail(ofSize: .small),
                                                      imageStyle: .circle)
-        let datasource = InvolvementSearchDatasource(objects: involvements,
+        let datasource = DefaultPickableSearchDatasource(objects: involvements,
                                                             selectedObjects: officer.involvements,
+                                                            title: "Involvements",
                                                             configuration: headerConfig)
         datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
         let viewController = CustomPickerController(datasource: datasource)
         viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
 
         viewController.finishUpdateHandler = { controller, index in
-            let newInvolvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
-            self.viewModel.report.officers.first(where: { $0.employeeNumber == officer.employeeNumber })?.involvements = newInvolvements
+            let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
+            self.viewModel.add(involvements, to: officer)
             self.reloadForm()
         }
 
@@ -121,7 +146,6 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
 }
 
 extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
-
     public typealias Object = Officer
 
     public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: Officer) {
@@ -132,16 +156,18 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
                                                      subtitle: displayable.detail1 ?? "No involvements selected",
                                                      image: displayable.thumbnail(ofSize: .small)?.sizing().image)
 
-        let involvementDatasource = InvolvementSearchDatasource(
+        let involvementDatasource = DefaultPickableSearchDatasource(
             objects: involvements,
             selectedObjects: officer.involvements,
+            title: "Involvements",
             configuration: headerConfig)
         involvementDatasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
 
         let involvementsViewController = CustomPickerController(datasource: involvementDatasource)
         involvementsViewController.finishUpdateHandler = { controller, index in
-            officer.involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
+            let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
             self.viewModel.add(officer: officer)
+            self.viewModel.add(involvements, to: officer)
             self.reloadForm()
         }
         viewController.navigationController?.pushViewController(involvementsViewController, animated: true)

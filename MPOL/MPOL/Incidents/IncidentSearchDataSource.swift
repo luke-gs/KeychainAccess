@@ -11,7 +11,7 @@ import MPOLKit
 public class IncidentSearchDataSource: CustomSearchPickerDatasource {
 
     public var objects: [Pickable] = []
-    public var selectedObjects: [Pickable] = []
+    public var selectedObjects: [Pickable]?
 
     public var title: String?
 
@@ -19,11 +19,13 @@ public class IncidentSearchDataSource: CustomSearchPickerDatasource {
 
     public var header: CustomisableSearchHeaderView?
     public var allowsMultipleSelection: Bool
+    public var dismissOnFinish: Bool
 
     public init(objects: [Pickable],
-                selectedObjects: [Pickable] = [],
+                selectedObjects: [Pickable]? = nil,
                 title: String? = "Incidents",
                 allowsMultipleSelection: Bool = true,
+                dismissOnFinish: Bool = true,
                 configuration: SearchHeaderConfiguration? = nil) {
 
         self.objects = objects.sorted(using: [SortDescriptor<Pickable>(ascending: true, key: {$0.title }),
@@ -31,11 +33,12 @@ public class IncidentSearchDataSource: CustomSearchPickerDatasource {
         self.selectedObjects = selectedObjects
         self.title = title
         self.allowsMultipleSelection = allowsMultipleSelection
+        self.dismissOnFinish = dismissOnFinish
         self.headerConfiguration = configuration
     }
 
     public func allowsSelection(of object: Pickable) -> Bool {
-        if selectedObjects.contains(where: {$0.title == object.title}) {
+        if selectedObjects?.contains(where: {$0.title == object.title}) == true {
             return false
         }
 
@@ -55,6 +58,6 @@ public class IncidentSearchDataSource: CustomSearchPickerDatasource {
     }
 
     func searchHeaderSubtitle(with objects: [Pickable]) -> String {
-        return objects.map{ $0.title }.joined(separator: ", ")
+        return objects.map { $0.title }.joined(separator: ", ")
     }
 }

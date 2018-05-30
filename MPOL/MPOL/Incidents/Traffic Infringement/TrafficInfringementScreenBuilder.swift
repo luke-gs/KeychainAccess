@@ -25,7 +25,7 @@ public class TrafficInfringementScreenBuilder: IncidentScreenBuilding {
 
         switch report {
         case let report as DefaultEntitiesListReport:
-            let viewModel = DefaultEntitiesListViewModel(report: report)
+            let viewModel = DefaultEntitiesListViewModel(report: report, incidentType: .trafficInfringement)
             return DefaultEntitiesListViewController(viewModel: viewModel)
         case let report as TrafficInfringementOffencesReport:
             return TrafficInfringementOffencesViewController(viewModel: TrafficInfringementOffencesViewModel(report: report))

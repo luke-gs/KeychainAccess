@@ -195,7 +195,14 @@ open class Entity: MPOLKitEntity {
     open var summaryDetail2: String? {
         return "-"
     }
-    
+
+    override open func isEssentiallyTheSameAs(otherEntity: MPOLKitEntityProtocol) -> Bool {
+        guard let otherEntity = otherEntity as? Entity else {
+            return false
+        }
+        let isEssentiallyTheSame = super.isEssentiallyTheSameAs(otherEntity: otherEntity)
+        return isEssentiallyTheSame && self.source == otherEntity.source
+    }
 }
 
 // FIXME: This and archieving model version could probably be moved to the Kit.
