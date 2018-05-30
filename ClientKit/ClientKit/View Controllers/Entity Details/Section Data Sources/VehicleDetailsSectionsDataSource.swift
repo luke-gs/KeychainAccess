@@ -26,7 +26,7 @@ public class VehiclePSCoreDetailsSectionsDataSource: EntityDetailSectionsDataSou
 
     public init(baseEntity: Entity, delegate: SearchDelegate?) {
         self.entity = baseEntity
-        self.detailViewControllers =  [ EntityDetailFormViewController(viewModel: VehicleInfoViewModel()),
+        self.detailViewControllers =  [ EntityDetailFormViewController(viewModel: VehicleInfoViewModel(showsRegistrationDetails: false)),
                                         EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
                                         EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
                                         EntityDetailFormViewController(viewModel: EntityRetrievedEventsViewModel()),
@@ -52,7 +52,7 @@ public class VehicleNATDetailsSectionsDataSource: EntityDetailSectionsDataSource
 
     public init(baseEntity: Entity, delegate: SearchDelegate?) {
         self.entity = baseEntity
-        self.detailViewControllers =  [ EntityDetailFormViewController(viewModel: VehicleInfoViewModel()),
+        self.detailViewControllers =  [ EntityDetailFormViewController(viewModel: VehicleInfoViewModel(showsRegistrationDetails: false)),
                                         EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
         ]
     }
@@ -76,7 +76,7 @@ public class VehicleRDADetailsSectionsDataSource: EntityDetailSectionsDataSource
 
     public init(baseEntity: Entity, delegate: SearchDelegate?) {
         self.entity = baseEntity
-        self.detailViewControllers =  [ EntityDetailFormViewController(viewModel: VehicleInfoViewModel()),
+        self.detailViewControllers =  [ EntityDetailFormViewController(viewModel: VehicleInfoViewModel(showsRegistrationDetails: true)),
                                         EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
         ]
     }
