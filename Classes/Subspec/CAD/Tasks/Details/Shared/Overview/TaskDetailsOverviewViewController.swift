@@ -9,8 +9,8 @@
 import UIKit
 
 open class TaskDetailsOverviewViewController: UIViewController, TaskDetailsLoadable {
-    public var loadingManager: LoadingStateManager = LoadingStateManager()
     
+    public let loadingManager: LoadingStateManager = LoadingStateManager()
 
     fileprivate struct LayoutConstants {
         static let defaultMapHeight: CGFloat = 280
@@ -47,7 +47,8 @@ open class TaskDetailsOverviewViewController: UIViewController, TaskDetailsLoada
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-        
+        loadingManager.baseView = view
+        loadingManager.contentView = view
         setupViews()
         setupConstraints()
     }
