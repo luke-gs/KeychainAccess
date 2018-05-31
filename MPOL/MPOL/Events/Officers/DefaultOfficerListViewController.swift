@@ -74,7 +74,9 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
     }
     
     open override func construct(builder: FormBuilder) {
-        builder += HeaderFormItem(text: viewModel.header)
+        builder += LargeTextHeaderFormItem(text: viewModel.header)
+            .separatorColor(.clear)
+        
         let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
 
         viewModel.officerDisplayables.forEach { displayable in

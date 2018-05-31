@@ -47,7 +47,8 @@ open class TrafficInfringementServiceViewController: FormBuilderViewController, 
         builder.title = title
         builder.forceLinearLayout = true
 
-        builder += HeaderFormItem(text: "Service Type")
+        builder += LargeTextHeaderFormItem(text: "Service Type")
+            .separatorColor(.clear)
         builder += OptionDisplayableFormItem(options: [ServiceType.email, ServiceType.mms, ServiceType.post])
             .selectedIndex(viewModel.report.selectedServiceType?.rawValue)
             .selectionHandler({ (index) in
@@ -59,7 +60,8 @@ open class TrafficInfringementServiceViewController: FormBuilderViewController, 
             })
 
         if let selectedServiceType = viewModel.report.selectedServiceType {
-            builder += HeaderFormItem(text: "Details")
+            builder += LargeTextHeaderFormItem(text: "Details")
+                .separatorColor(.clear)
             
             switch selectedServiceType {
             case .email:

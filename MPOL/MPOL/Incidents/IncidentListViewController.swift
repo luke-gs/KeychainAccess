@@ -52,7 +52,9 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
         builder.forceLinearLayout = true
 
         if let primaryIncident = viewModel.primaryIncident {
-            let headerItem = HeaderFormItem(text: "Primary Incident")
+            let headerItem = LargeTextHeaderFormItem(text: "Primary Incident")
+                .separatorColor(.clear)
+
             if viewModel.incidentList.count > 1 {
                 headerItem.actionButton(title: "Change", handler: choosePrimaryIncidentHandler(_:))
             }
@@ -89,7 +91,9 @@ open class IncidentListViewController: FormBuilderViewController, EvaluationObse
             }
         }
 
-        builder += HeaderFormItem(text: viewModel.additionalIndicentsSectionHeaderTitle()).actionButton(title: "Add", handler: newIncidentHandler(_:))
+        builder += LargeTextHeaderFormItem(text: viewModel.additionalIndicentsSectionHeaderTitle())
+            .separatorColor(.clear)
+            .actionButton(title: "Add", handler: newIncidentHandler(_:))
 
         if let additionalIncidents = viewModel.additionalIncidents, !additionalIncidents.isEmpty {
             additionalIncidents.forEach { displayable in

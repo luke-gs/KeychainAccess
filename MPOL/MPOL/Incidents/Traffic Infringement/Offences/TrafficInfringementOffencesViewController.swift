@@ -63,7 +63,8 @@ open class TrafficInfringementOffencesViewController: FormBuilderViewController,
         builder.title = title
         builder.forceLinearLayout = true
 
-        builder += HeaderFormItem(text: viewModel.headerFormItemTitle)
+        builder += LargeTextHeaderFormItem(text: viewModel.headerFormItemTitle)
+            .separatorColor(.clear)
             .actionButton(title: "Add", handler: {_ in
                 self.presentOffenceSearchVC()
             })
