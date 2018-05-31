@@ -59,11 +59,38 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
     }
 
     @objc public func addProperty() {
-        let detailsReport = PropertyDetailsReport(event: viewModel.report.event!, incident: viewModel.report.incident)
-        let detailsViewModel = PropertyDetailsViewModel(report: detailsReport)
+        let detailsViewModel = PropertyDetailsViewModel(properties: props, involvements: involvs)
         let viewController = PropertyDetailsViewController(viewModel: detailsViewModel)
         let navigationController = PopoverNavigationController(rootViewController: viewController)
         navigationController.modalPresentationStyle = .pageSheet
         present(navigationController, animated: true, completion: nil)
     }
 }
+
+//TODO: FIX THIS SHIT WITH PROPER PROPERTIES
+private let props: [Property] = [
+    Property(type: "General", subType: "Mobile Phone", detailNames: [("Make", .picker(options: ["Apple", "Google"])),
+                                                                     ("Model", .text),
+                                                                     ("Model Year", .text),
+                                                                     ("Serial Number", .text)]),
+    Property(type: "General", subType: "Clock"),
+    Property(type: "General", subType: "Furniture", detailNames: [("Colour", .picker(options: ["Black", "Blue", "Green"]))]),
+    Property(type: "General", subType: "Electrical materials"),
+    Property(type: "General", subType: "Laptop computer", detailNames: [("Make", .picker(options: ["HP", "Alienware"])),
+                                                                        ("Model", .text),
+                                                                        ("Serial Number", .text)]),
+    Property(type: "Drug", subType: "Oil - Cannabis", detailNames: [("Weight", .text)]),
+    Property(type: "Drug", subType: "Hashish - Cannabis", detailNames: [("Weight", .text)]),
+    Property(type: "Drug", subType: "LSD strips - Amphetamine/methylphetamine", detailNames: [("Quantity", .text)]),
+    Property(type: "Firearm", subType: "Air rifle", detailNames: [("Category", .picker(options: ["A", "B", "C"])),
+                                                                  ("Condition", .picker(options: ["New", "Old", "Used", "Broken"]))]),
+    Property(type: "Firearm", subType: "Shotgun - Category B", detailNames: [("Category", .picker(options: ["Combat", "Combination", "Sports"])),
+                                                                             ("Condition", .text),
+                                                                             ("Loaded", .picker(options: ["Yes", "No"]))]),
+    Property(type: "Animal", subType: "Dog - Pitbull", detailNames: [("Colour", .picker(options: ["Black", "Fawn", "Blue", "Brindle"])),
+                                                                     ("Markings", .text),
+                                                                     ("Gender", .picker(options: ["Male", "Female", "Unknown"]))])
+]
+
+//TODO: FIX THIS SHIT WITH PROPER INVOLVEMENTS
+private let involvs: [String] = ["Broken", "Damaged", "Lost", "Killed"]
