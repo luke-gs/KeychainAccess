@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BCD4EA881E515ACE000B993D"
-               BuildableName = "Search.app"
+               BuildableName = "PS Core Search.app"
                BlueprintName = "MPOL"
                ReferencedContainer = "container:MPOL.xcodeproj">
             </BuildableReference>
@@ -44,7 +44,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BCD4EA881E515ACE000B993D"
-            BuildableName = "Search.app"
+            BuildableName = "PS Core Search.app"
             BlueprintName = "MPOL"
             ReferencedContainer = "container:MPOL.xcodeproj">
          </BuildableReference>
@@ -67,7 +67,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BCD4EA881E515ACE000B993D"
-            BuildableName = "Search.app"
+            BuildableName = "PS Core Search.app"
             BlueprintName = "MPOL"
             ReferencedContainer = "container:MPOL.xcodeproj">
          </BuildableReference>
@@ -86,7 +86,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BCD4EA881E515ACE000B993D"
-            BuildableName = "Search.app"
+            BuildableName = "PS Core Search.app"
             BlueprintName = "MPOL"
             ReferencedContainer = "container:MPOL.xcodeproj">
          </BuildableReference>

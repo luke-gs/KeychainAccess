@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9624A4111F7C550B00CAE056"
-               BuildableName = "Tasks.app"
+               BuildableName = "PS Core Tasks.app"
                BlueprintName = "CAD"
                ReferencedContainer = "container:CAD.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9624A4111F7C550B00CAE056"
-            BuildableName = "Tasks.app"
+            BuildableName = "PS Core Tasks.app"
             BlueprintName = "CAD"
             ReferencedContainer = "container:CAD.xcodeproj">
          </BuildableReference>
@@ -56,7 +56,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9624A4111F7C550B00CAE056"
-            BuildableName = "Tasks.app"
+            BuildableName = "PS Core Tasks.app"
             BlueprintName = "CAD"
             ReferencedContainer = "container:CAD.xcodeproj">
          </BuildableReference>
@@ -75,7 +75,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9624A4111F7C550B00CAE056"
-            BuildableName = "Tasks.app"
+            BuildableName = "PS Core Tasks.app"
             BlueprintName = "CAD"
             ReferencedContainer = "container:CAD.xcodeproj">
          </BuildableReference>

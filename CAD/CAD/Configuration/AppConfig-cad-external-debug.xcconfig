@@ -7,7 +7,7 @@
 
 #include "../../Pods/Target Support Files/Pods-CAD/Pods-CAD.external-debug.xcconfig"
 
-PRODUCT_NAME=Tasks
+PRODUCT_NAME=PS Core Tasks
 CONFIG_HOST_URL=client-demo-api.pscore.mobi
 
 APP_GROUP_ID=group.enterprise.gridstone.pscore.external
