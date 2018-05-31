@@ -54,7 +54,6 @@
 		1988307020BB82FE006FE165 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1988306B20BB77B5006FE165 /* Settings.bundle */; };
 		19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3894207A5F3A00855651 /* SupportedShortcut.swift */; };
 		19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */; };
-		3718191120BD22D4005287D8 /* DefaultEntitiesListReport+Summarisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3718191020BD22D4005287D8 /* DefaultEntitiesListReport+Summarisable.swift */; };
 		371AB13720A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */; };
 		371AB13820A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13520A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift */; };
 		371AB13920A916FA008D0E57 /* InterceptReportGeneralDetailsReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13620A916FA008D0E57 /* InterceptReportGeneralDetailsReport.swift */; };
@@ -86,6 +85,7 @@
 		96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */; };
 		AA1B3A3E2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A3D2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift */; };
 		AA1B3A402092D3EF0009B00C /* TrafficInfringementServiceReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A3F2092D3EE0009B00C /* TrafficInfringementServiceReport.swift */; };
+		AA1C0B1B20BFB666009862FD /* OfficerSelectionAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1C0B1A20BFB666009862FD /* OfficerSelectionAction.swift */; };
 		AA7B25D420B27F51005A23F0 /* DefaultEntitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25D320B27F51005A23F0 /* DefaultEntitiesListViewModel.swift */; };
 		AA7B25D820B28965005A23F0 /* DefaultEntityPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25D720B28965005A23F0 /* DefaultEntityPickerViewModel.swift */; };
 		BC45C4471EEB56D2001F5747 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */; };
@@ -165,7 +165,6 @@
 		1988306E20BB79DA006FE165 /* APIURLManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIURLManager.swift; sourceTree = "<group>"; };
 		19CB3894207A5F3A00855651 /* SupportedShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedShortcut.swift; sourceTree = "<group>"; };
 		19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Shortcuts.swift"; sourceTree = "<group>"; };
-		3718191020BD22D4005287D8 /* DefaultEntitiesListReport+Summarisable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DefaultEntitiesListReport+Summarisable.swift"; sourceTree = "<group>"; };
 		371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewController.swift; sourceTree = "<group>"; };
 		371AB13520A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewModel.swift; sourceTree = "<group>"; };
 		371AB13620A916FA008D0E57 /* InterceptReportGeneralDetailsReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsReport.swift; sourceTree = "<group>"; };
@@ -204,6 +203,7 @@
 		98286F47FF0E675D611C2782 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA1B3A3D2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementServiceViewModel.swift; sourceTree = "<group>"; };
 		AA1B3A3F2092D3EE0009B00C /* TrafficInfringementServiceReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementServiceReport.swift; sourceTree = "<group>"; };
+		AA1C0B1A20BFB666009862FD /* OfficerSelectionAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficerSelectionAction.swift; sourceTree = "<group>"; };
 		AA7B25D320B27F51005A23F0 /* DefaultEntitiesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListViewModel.swift; sourceTree = "<group>"; };
 		AA7B25D720B28965005A23F0 /* DefaultEntityPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEntityPickerViewModel.swift; sourceTree = "<group>"; };
 		BC45C4461EEB56D2001F5747 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
@@ -261,13 +261,13 @@
 		12EB8099202AAC0000405F5C /* Events */ = {
 			isa = PBXGroup;
 			children = (
-				3718190F20BD22B3005287D8 /* Summary */,
 				127801F2202AB1F0007D0BBB /* EventBuilder.swift */,
 				12EB809A202AAC2100405F5C /* EventScreenBuilder.swift */,
 				127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */,
 				121777B020631BF6007189A7 /* EventsListViewController.swift */,
 				127801F0202AAF09007D0BBB /* EventsListViewModel.swift */,
 				46F8E9A4203A9C2200024EF7 /* LocationAction.swift */,
+				AA1C0B1A20BFB666009862FD /* OfficerSelectionAction.swift */,
 				37F3A3BC2084754A0077998C /* Entities */,
 				12ABD571207F1FE9004D0C9F /* Location */,
 				12EF65F92087071800739924 /* Officers */,
@@ -394,14 +394,6 @@
 				12EF6632208D7D2F00739924 /* EventEntityDescriptionViewModel.swift */,
 			);
 			path = Description;
-			sourceTree = "<group>";
-		};
-		3718190F20BD22B3005287D8 /* Summary */ = {
-			isa = PBXGroup;
-			children = (
-				3718191020BD22D4005287D8 /* DefaultEntitiesListReport+Summarisable.swift */,
-			);
-			path = Summary;
 			sourceTree = "<group>";
 		};
 		37235FA420AE736E0021850B /* Domestic Violence */ = {
@@ -796,6 +788,7 @@
 				12EF65EB2086D52200739924 /* IncidentSelectViewController.swift in Sources */,
 				37235FAE20AE738E0021850B /* DomesticViolenceGeneralDetailsReport.swift in Sources */,
 				12EF65E52086D52200739924 /* IncidentDetailViewModel.swift in Sources */,
+				AA1C0B1B20BFB666009862FD /* OfficerSelectionAction.swift in Sources */,
 				371AB13B20AA839F008D0E57 /* RelationshipSearchDatasource.swift in Sources */,
 				3727C4C22088193000F7A887 /* OffenceSearchViewModel.swift in Sources */,
 				12EF65E82086D52200739924 /* InterceptReportIncidentBuilder.swift in Sources */,
@@ -804,7 +797,6 @@
 				37235FB020AE738E0021850B /* DomesticViolenceGeneralDetailsViewModel.swift in Sources */,
 				AA1B3A3E2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift in Sources */,
 				12EF6638208D7D2F00739924 /* EventEntityRelationshipsViewModel.swift in Sources */,
-				3718191120BD22D4005287D8 /* DefaultEntitiesListReport+Summarisable.swift in Sources */,
 				371AB13720A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift in Sources */,
 				12EF66012087071800739924 /* OfficerParserDefinition.swift in Sources */,
 				12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */,
