@@ -20,6 +20,7 @@
 		1220D03F20BE6E4400967D88 /* PropertyDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1220D03E20BE6E4400967D88 /* PropertyDetailsPresenter.swift */; };
 		1220D04120BE9D8800967D88 /* Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1220D04020BE9D8800967D88 /* Property.swift */; };
 		1220D04320BEB38E00967D88 /* PropertySearchDisplayableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1220D04220BEB38E00967D88 /* PropertySearchDisplayableViewModel.swift */; };
+		1220D04520BFB66100967D88 /* DefaultPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1220D04420BFB66100967D88 /* DefaultPropertyViewController.swift */; };
 		122234911F9ED961008CE3C4 /* GenericSearchViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122234901F9ED961008CE3C4 /* GenericSearchViewModelTests.swift */; };
 		12353410207F167A008256AA /* DefaultEventDateTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1235340F207F167A008256AA /* DefaultEventDateTimeViewController.swift */; };
 		12353412207F1695008256AA /* DefaultEventDateTimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12353411207F1695008256AA /* DefaultEventDateTimeViewModel.swift */; };
@@ -896,6 +897,7 @@
 		1220D03E20BE6E4400967D88 /* PropertyDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyDetailsPresenter.swift; sourceTree = "<group>"; };
 		1220D04020BE9D8800967D88 /* Property.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Property.swift; sourceTree = "<group>"; };
 		1220D04220BEB38E00967D88 /* PropertySearchDisplayableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertySearchDisplayableViewModel.swift; sourceTree = "<group>"; };
+		1220D04420BFB66100967D88 /* DefaultPropertyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPropertyViewController.swift; sourceTree = "<group>"; };
 		122234901F9ED961008CE3C4 /* GenericSearchViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericSearchViewModelTests.swift; sourceTree = "<group>"; };
 		1235340F207F167A008256AA /* DefaultEventDateTimeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventDateTimeViewController.swift; sourceTree = "<group>"; };
 		12353411207F1695008256AA /* DefaultEventDateTimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEventDateTimeViewModel.swift; sourceTree = "<group>"; };
@@ -1799,6 +1801,7 @@
 				1220D03C20BE68E200967D88 /* PropertyDetailsViewControllerDecorator.swift */,
 				121A9DC920BBBAE800690327 /* PropertyDetailsViewModel.swift */,
 				1220D04220BEB38E00967D88 /* PropertySearchDisplayableViewModel.swift */,
+				1220D04420BFB66100967D88 /* DefaultPropertyViewController.swift */,
 			);
 			path = Property;
 			sourceTree = "<group>";
@@ -4736,6 +4739,7 @@
 				27F9C96E1FA2D9D000825F88 /* UIViewController+ChildViewController.swift in Sources */,
 				BC1B26111F20BBD7009674B7 /* UIViewController+ParentSearching.swift in Sources */,
 				BC9C7E491F0DED6600DFFE83 /* SourceItem.swift in Sources */,
+				1220D04520BFB66100967D88 /* DefaultPropertyViewController.swift in Sources */,
 				2744E39A2051DD8500561A8F /* CADEquipmentCore.swift in Sources */,
 				BC9C7E1B1F0DED6600DFFE83 /* MPOLAssert.swift in Sources */,
 				9689CA0C2032646C0001D993 /* CADClientModelTypes.swift in Sources */,

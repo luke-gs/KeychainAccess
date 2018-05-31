@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct PropertyDetailsViewControllerDecorator {
+internal struct PropertyDetailsViewControllerDecorator {
 
     let addPropertyView: UIView
     let detailsScrollView: UIScrollView
@@ -17,7 +17,7 @@ struct PropertyDetailsViewControllerDecorator {
         self.addPropertyView = addPropertyView
         self.detailsScrollView = detailsScrollView
         self.stackView = stackView
-
+        
         setupViews()
     }
 

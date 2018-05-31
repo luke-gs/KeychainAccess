@@ -5,32 +5,25 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-public protocol FormBuilderPluginDecorator {
+internal protocol FormBuilderPluginDecorator {
     func formItems() -> [FormItem]
 }
 
-public protocol FormBuilderPluginPresenter {
-
-}
-
-public protocol FormBuilderPlugin {
+internal protocol FormBuilderPlugin {
     var decorator: FormBuilderPluginDecorator { get }
-    var presenter: FormBuilderPluginPresenter { get }
 }
 
 // General
 
-public struct AddPropertyGeneralPlugin: FormBuilderPlugin {
+internal struct AddPropertyGeneralPlugin: FormBuilderPlugin {
     public var decorator: FormBuilderPluginDecorator
-    public var presenter: FormBuilderPluginPresenter
 
     init(viewModel: PropertyDetailsViewModel, delegate: AddPropertyDelegate) {
         decorator = AddPropertyGeneralPluginDecorator(viewModel: viewModel, delegate: delegate)
-        presenter = AddPropertyGeneralPluginPresenter()
     }
 }
 
-public struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
+internal struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
 
     var viewModel: PropertyDetailsViewModel
     var delegate: AddPropertyDelegate
@@ -44,7 +37,7 @@ public struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
         return [
             HeaderFormItem(text: "General", style: .plain),
             ValueFormItem(title: "Type",
-                          value: viewModel.report.type)
+                          value: viewModel.report.property?.type)
                 .accessory(ItemAccessory.dropDown)
                 .width(.column(2))
                 .onSelection { _ in
@@ -52,7 +45,7 @@ public struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
             },
 
             ValueFormItem(title: "Sub Type",
-                          value: viewModel.report.subtype)
+                          value: viewModel.report.property?.subType)
                 .accessory(ItemAccessory.dropDown)
                 .width(.column(2))
                 .onSelection { _ in
@@ -61,34 +54,27 @@ public struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
 
             DropDownFormItem(title: "Involvements")
                 .allowsMultipleSelection(true)
-                .options(viewModel.involvements())
+                .options(viewModel.involvements)
                 .selectedValue(viewModel.report.involvements)
                 .width(.column(1))
                 .onValueChanged { value in
                     self.viewModel.report.involvements = value
-                }
+            }
         ]
     }
 }
 
-public struct AddPropertyGeneralPluginPresenter: FormBuilderPluginPresenter {
-
-}
-
 // Media
 
-public struct AddPropertyMediaPlugin: FormBuilderPlugin {
+internal struct AddPropertyMediaPlugin: FormBuilderPlugin {
     public var decorator: FormBuilderPluginDecorator
-    public var presenter: FormBuilderPluginPresenter
 
     init(viewModel: PropertyDetailsViewModel, delegate: AddPropertyDelegate) {
         decorator = AddPropertyMediaPluginDecorator(viewModel: viewModel, delegate: delegate)
-        presenter = AddPropertyMediaPluginPresenter()
     }
 }
 
-
-public struct AddPropertyMediaPluginDecorator: FormBuilderPluginDecorator {
+internal struct AddPropertyMediaPluginDecorator: FormBuilderPluginDecorator {
 
     var viewModel: PropertyDetailsViewModel
     var delegate: AddPropertyDelegate
@@ -101,47 +87,54 @@ public struct AddPropertyMediaPluginDecorator: FormBuilderPluginDecorator {
     public func formItems() -> [FormItem] {
         return [
             HeaderFormItem(text: "Media", style: .plain)
-
         ]
     }
 }
-
-public struct AddPropertyMediaPluginPresenter: FormBuilderPluginPresenter {
-
-}
-
 
 // Details
 
-public struct AddPropertyDetailsPlugin: FormBuilderPlugin {
+internal struct AddPropertyDetailsPlugin: FormBuilderPlugin {
     public var decorator: FormBuilderPluginDecorator
-    public var presenter: FormBuilderPluginPresenter
 
-    init(viewModel: PropertyDetailsViewModel, delegate: AddPropertyDelegate) {
-        decorator = AddPropertyDetailsPluginDecorator(viewModel: viewModel, delegate: delegate)
-        presenter = AddPropertyDetailPluginPresenter()
+    init(property: Property, viewModel: PropertyDetailsViewModel) {
+        decorator = AddPropertyDetailsPluginDecorator(property: property, viewModel: viewModel)
     }
 }
 
-
-public struct AddPropertyDetailsPluginDecorator: FormBuilderPluginDecorator {
-
+internal struct AddPropertyDetailsPluginDecorator: FormBuilderPluginDecorator {
     var viewModel: PropertyDetailsViewModel
-    var delegate: AddPropertyDelegate
+    var property: Property
 
-    init(viewModel: PropertyDetailsViewModel, delegate: AddPropertyDelegate) {
+    init(property: Property, viewModel: PropertyDetailsViewModel) {
         self.viewModel = viewModel
-        self.delegate = delegate
+        self.property = property
     }
 
     public func formItems() -> [FormItem] {
-        return [
-            HeaderFormItem(text: "Details", style: .plain)
+        guard let details = property.detailNames else { return [] }
+        var formItems = [FormItem]()
 
-        ]
+        for detail in details {
+            formItems.append(formItem(for: detail))
+        }
+
+        return [HeaderFormItem(text: "Details", style: .plain)] + formItems
+    }
+
+    private func formItem(for propertyDetail: PropertyDetail) -> FormItem {
+        switch propertyDetail.type {
+        case let .picker(options):
+            return DropDownFormItem(title: propertyDetail.title)
+                .options(options)
+                .width(.column(3))
+        case .text:
+            return TextFieldFormItem(title: propertyDetail.title)
+                .text(self.viewModel.report.details[propertyDetail.title])
+                .width(.column(3))
+                .onValueChanged { text in
+                    self.viewModel.report.details[propertyDetail.title] = text
+            }
+        }
     }
 }
 
-public struct AddPropertyDetailPluginPresenter: FormBuilderPluginPresenter {
-
-}

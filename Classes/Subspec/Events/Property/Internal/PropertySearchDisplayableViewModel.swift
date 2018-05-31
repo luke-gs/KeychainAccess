@@ -8,7 +8,7 @@
 import UIKit
 import PromiseKit
 
-class PropertySearchDisplayableViewModel: SearchDisplayableViewModel {
+internal class PropertySearchDisplayableViewModel: SearchDisplayableViewModel {
     typealias Object = Property
 
     var title: String = "Property"
@@ -69,10 +69,29 @@ class PropertySearchDisplayableViewModel: SearchDisplayableViewModel {
         filteredProperties = properties.filter{$0.fullType.lowercased().contains(searchString.lowercased())}
     }
 
+    func emptyStateText() -> String? {
+        return "No Property Found"
+    }
+
     func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? { return nil }
     func description(for indexPath: IndexPath) -> String? { return nil }
     func image(for indexPath: IndexPath) -> UIImage? { return nil }
     func searchAction() -> Promise<Void>? { return nil }
     func loadingStateText() -> String? { return nil }
-    func emptyStateText() -> String? { return nil }
+}
+
+internal struct PropertyDisplayable: CustomSearchDisplayable {
+    public var title: String?
+    public var subtitle: String?
+    public var section: String?
+    public var image: UIImage?
+
+    public init(property: Property) {
+        title = property.fullType
+        section = property.type
+    }
+
+    public func contains(_ searchText: String) -> Bool {
+        return title?.contains(searchText) ?? false
+    }
 }

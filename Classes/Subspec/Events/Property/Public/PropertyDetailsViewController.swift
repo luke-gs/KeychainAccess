@@ -10,9 +10,9 @@ import UIKit
 public class PropertyDetailsViewController: ThemedPopoverViewController, EvaluationObserverable {
 
     private(set) var addPropertyViewController: SearchDisplayableViewController<PropertyDetailsViewController, PropertySearchDisplayableViewModel>!
-    private(set) var propertyDetailsGeneralViewController: IntrinsicHeightFormBuilderViewController!
-    private(set) var propertyDetailsMediaViewController: IntrinsicHeightFormBuilderViewController!
-    private(set) var propertyDetailsDetailsViewController: IntrinsicHeightFormBuilderViewController!
+    private(set) var propertyDetailsGeneralViewController: DefaultPropertyViewController!
+    private(set) var propertyDetailsMediaViewController: DefaultPropertyViewController!
+    private(set) var propertyDetailsDetailsViewController: DefaultPropertyViewController!
 
     let viewModel: PropertyDetailsViewModel
 
@@ -20,13 +20,13 @@ public class PropertyDetailsViewController: ThemedPopoverViewController, Evaluat
     private let scrollView = UIScrollView()
     private let containerStackView = UIStackView()
 
-    private lazy var decorator = {
+    lazy var decorator = {
         PropertyDetailsViewControllerDecorator(addPropertyView: addPropertyView,
                                                detailsScrollView: scrollView,
                                                stackView: containerStackView)
     }()
 
-    private lazy var presenter = {
+    lazy var presenter = {
         PropertyDetailsPresenter(containerViewController: self,
                                  addPropertyView: addPropertyView,
                                  displayPropertyView: scrollView)
@@ -36,16 +36,19 @@ public class PropertyDetailsViewController: ThemedPopoverViewController, Evaluat
     public init(viewModel: PropertyDetailsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        title = "Add Property"
 
-        let searchViewModel = PropertySearchDisplayableViewModel(properties: viewModel.properties())
-
+        let searchViewModel = PropertySearchDisplayableViewModel(properties: viewModel.properties)
         addPropertyViewController = SearchDisplayableViewController<PropertyDetailsViewController, PropertySearchDisplayableViewModel>(viewModel: searchViewModel)
         addPropertyViewController.delegate = self
-        addPropertyViewController.title = "Property"
 
-        propertyDetailsGeneralViewController = DefaultPropertyViewController(plugins: [AddPropertyGeneralPlugin(viewModel: viewModel, delegate: self)])
-        propertyDetailsMediaViewController = DefaultPropertyViewController(plugins: [AddPropertyMediaPlugin(viewModel: viewModel, delegate: self)])
-        propertyDetailsDetailsViewController = DefaultPropertyViewController(plugins: [AddPropertyDetailsPlugin(viewModel: viewModel, delegate: self)])
+        let generalPlugins: [FormBuilderPlugin] = [AddPropertyGeneralPlugin(viewModel: viewModel, delegate: self)]
+        propertyDetailsGeneralViewController = DefaultPropertyViewController(plugins: generalPlugins)
+
+        let mediaPlugins: [FormBuilderPlugin] = [AddPropertyMediaPlugin(viewModel: viewModel, delegate: self)]
+        propertyDetailsMediaViewController = DefaultPropertyViewController(plugins: mediaPlugins)
+
+        propertyDetailsDetailsViewController = DefaultPropertyViewController(plugins: [])
     }
 
     public override func viewDidLoad() {
@@ -53,8 +56,8 @@ public class PropertyDetailsViewController: ThemedPopoverViewController, Evaluat
 
         addMainViewController()
         addContentController(propertyDetailsGeneralViewController)
-        addContentController(propertyDetailsDetailsViewController)
         addContentController(propertyDetailsMediaViewController)
+        addContentController(propertyDetailsDetailsViewController)
 
         decorator.constrain(self)
         decorator.constrainChild(addPropertyViewController)
@@ -85,6 +88,9 @@ public class PropertyDetailsViewController: ThemedPopoverViewController, Evaluat
     }
 }
 
+
+// MARK: AddPropertyDelegate
+
 extension PropertyDetailsViewController: AddPropertyDelegate {
     func didTapOnPropertyType() {
         presenter.switchState()
@@ -95,48 +101,18 @@ extension PropertyDetailsViewController: AddPropertyDelegate {
     }
 }
 
+
+// MARK: SearchDisplayableDelegate
+
 extension PropertyDetailsViewController: SearchDisplayableDelegate {
     public typealias Object = Property
 
     public func genericSearchViewController(_ viewController: UIViewController,
                                             didSelectRowAt indexPath: IndexPath,
                                             withObject object: Property) {
-        viewModel.report.type = object.type
-        viewModel.report.subtype = object.subType
-
+        viewModel.updateDetails(with: object)
+        propertyDetailsDetailsViewController.plugins = [AddPropertyDetailsPlugin(property: object, viewModel: viewModel)]
+        propertyDetailsGeneralViewController.plugins = [AddPropertyGeneralPlugin(viewModel: viewModel, delegate: self)]
         presenter.switchState()
-        propertyDetailsGeneralViewController.reloadForm()
-        propertyDetailsDetailsViewController.reloadForm()
     }
 }
-
-public class DefaultPropertyViewController: IntrinsicHeightFormBuilderViewController, EvaluationObserverable {
-    let plugins: [FormBuilderPlugin]
-
-    public required convenience init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
-    public init(plugins: [FormBuilderPlugin]) {
-        self.plugins = plugins
-        super.init()
-    }
-
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        collectionView?.isScrollEnabled = false
-    }
-
-    override public func construct(builder: FormBuilder) {
-        builder.title = title
-        plugins.forEach{builder += $0.decorator.formItems()}
-    }
-
-    // MARK: Eval
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-
-    }
-}
-
-protocol AddPropertyDelegate {
-    func didTapOnPropertyType()
-    func didTapOnPropertySubtype()
-}
-
