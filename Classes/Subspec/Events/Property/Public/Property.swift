@@ -12,6 +12,7 @@ public enum PropertyDetailsType {
     case picker(options: [String])
 }
 
+// TODO: Either make this a class or a protocol to be overriden/extend in the app
 public struct Property {
     public var type: String
     public var subType: String?
