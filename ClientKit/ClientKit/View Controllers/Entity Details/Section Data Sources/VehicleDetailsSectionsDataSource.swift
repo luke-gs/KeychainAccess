@@ -77,6 +77,7 @@ public class VehicleRDADetailsSectionsDataSource: EntityDetailSectionsDataSource
     public init(baseEntity: Entity, delegate: SearchDelegate?) {
         self.entity = baseEntity
         self.detailViewControllers =  [ EntityDetailFormViewController(viewModel: VehicleInfoViewModel(showsRegistrationDetails: true)),
+                                        EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
                                         EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
         ]
     }
