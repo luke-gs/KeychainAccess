@@ -59,7 +59,7 @@
 	<key>%d incidents selected</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>%1$#@incidents@ selected</string>
+		<string>%1$#@incidents@ Selected</string>
 		<key>incidents</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>
@@ -67,11 +67,11 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>d</string>
 			<key>one</key>
-			<string>%1$d incident</string>
+			<string>%1$d Incident</string>
 			<key>zero</key>
-			<string>No incident</string>
+			<string>No Incident</string>
 			<key>other</key>
-			<string>%1$d incidents</string>
+			<string>%1$d Incidents</string>
 		</dict>
 	</dict>
 	<key>%d entities</key>
