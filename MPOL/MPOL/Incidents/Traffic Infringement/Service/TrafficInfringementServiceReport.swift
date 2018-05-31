@@ -51,4 +51,20 @@ class TrafficInfringementServiceReport: Reportable {
     public func encode(with aCoder: NSCoder) {}
 }
 
-
+extension TrafficInfringementServiceReport: Summarisable {
+    var formItems: [FormItem] {
+        var items = [FormItem]()
+        if let email = selectedEmail {
+            items.append(RowDetailFormItem(title: "Email", detail: email))
+        }
+        if let mobile = selectedMobile {
+            items.append(RowDetailFormItem(title: "Mobile", detail: mobile))
+        }
+        if let address = selectedAddress {
+            items.append(RowDetailFormItem(title: "Address", detail: address))
+        } else if items.isEmpty {
+            items.append(RowDetailFormItem(title: "No Service Details Set", detail: nil))
+        }
+        return items
+    }
+}

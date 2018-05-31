@@ -54,6 +54,7 @@
 		1988307020BB82FE006FE165 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1988306B20BB77B5006FE165 /* Settings.bundle */; };
 		19CB3895207A5F3A00855651 /* SupportedShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3894207A5F3A00855651 /* SupportedShortcut.swift */; };
 		19CB3897207A5FB200855651 /* AppDelegate+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */; };
+		3718191120BD22D4005287D8 /* DefaultEntitiesListReport+Summarisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3718191020BD22D4005287D8 /* DefaultEntitiesListReport+Summarisable.swift */; };
 		371AB13720A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */; };
 		371AB13820A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13520A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift */; };
 		371AB13920A916FA008D0E57 /* InterceptReportGeneralDetailsReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371AB13620A916FA008D0E57 /* InterceptReportGeneralDetailsReport.swift */; };
@@ -164,6 +165,7 @@
 		1988306E20BB79DA006FE165 /* APIURLManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIURLManager.swift; sourceTree = "<group>"; };
 		19CB3894207A5F3A00855651 /* SupportedShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedShortcut.swift; sourceTree = "<group>"; };
 		19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Shortcuts.swift"; sourceTree = "<group>"; };
+		3718191020BD22D4005287D8 /* DefaultEntitiesListReport+Summarisable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DefaultEntitiesListReport+Summarisable.swift"; sourceTree = "<group>"; };
 		371AB13420A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewController.swift; sourceTree = "<group>"; };
 		371AB13520A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsViewModel.swift; sourceTree = "<group>"; };
 		371AB13620A916FA008D0E57 /* InterceptReportGeneralDetailsReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterceptReportGeneralDetailsReport.swift; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 		12EB8099202AAC0000405F5C /* Events */ = {
 			isa = PBXGroup;
 			children = (
+				3718190F20BD22B3005287D8 /* Summary */,
 				127801F2202AB1F0007D0BBB /* EventBuilder.swift */,
 				12EB809A202AAC2100405F5C /* EventScreenBuilder.swift */,
 				127801F4202AB255007D0BBB /* EventsDetailViewModel.swift */,
@@ -391,6 +394,14 @@
 				12EF6632208D7D2F00739924 /* EventEntityDescriptionViewModel.swift */,
 			);
 			path = Description;
+			sourceTree = "<group>";
+		};
+		3718190F20BD22B3005287D8 /* Summary */ = {
+			isa = PBXGroup;
+			children = (
+				3718191020BD22D4005287D8 /* DefaultEntitiesListReport+Summarisable.swift */,
+			);
+			path = Summary;
 			sourceTree = "<group>";
 		};
 		37235FA420AE736E0021850B /* Domestic Violence */ = {
@@ -786,7 +797,6 @@
 				37235FAE20AE738E0021850B /* DomesticViolenceGeneralDetailsReport.swift in Sources */,
 				12EF65E52086D52200739924 /* IncidentDetailViewModel.swift in Sources */,
 				371AB13B20AA839F008D0E57 /* RelationshipSearchDatasource.swift in Sources */,
-				12EF66002087071800739924 /* InvolvementSearchDatasource.swift in Sources */,
 				3727C4C22088193000F7A887 /* OffenceSearchViewModel.swift in Sources */,
 				12EF65E82086D52200739924 /* InterceptReportIncidentBuilder.swift in Sources */,
 				12EB809B202AAC2100405F5C /* EventScreenBuilder.swift in Sources */,
@@ -794,6 +804,7 @@
 				37235FB020AE738E0021850B /* DomesticViolenceGeneralDetailsViewModel.swift in Sources */,
 				AA1B3A3E2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift in Sources */,
 				12EF6638208D7D2F00739924 /* EventEntityRelationshipsViewModel.swift in Sources */,
+				3718191120BD22D4005287D8 /* DefaultEntitiesListReport+Summarisable.swift in Sources */,
 				371AB13720A916FA008D0E57 /* InterceptReportGeneralDetailsViewController.swift in Sources */,
 				12EF66012087071800739924 /* OfficerParserDefinition.swift in Sources */,
 				12ADD43A1F32C0FA00CA8B4D /* VehicleSearchDataSource.swift in Sources */,

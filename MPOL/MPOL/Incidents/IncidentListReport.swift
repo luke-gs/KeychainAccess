@@ -81,7 +81,21 @@ open class IncidentListReport: Reportable, SideBarHeaderUpdateable {
 
     // Evaluation
 
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-    }
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {}
 }
 
+extension IncidentListReport: Summarisable {
+
+    public var formItems: [FormItem] {
+        var items = [FormItem]()
+        incidents.forEach { (incident) in
+            items.append(LargeTextHeaderFormItem(text: incident.displayable.title))
+            incident.reports.forEach({ (report) in
+                if let report = report as? Summarisable {
+                    items += report.formItems
+                }
+            })
+        }
+        return items
+    }
+}

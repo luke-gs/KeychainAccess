@@ -83,3 +83,17 @@ public class OfficerListReport: Reportable {
 
     }
 }
+
+extension OfficerListReport: Summarisable {
+    
+    public var formItems: [FormItem] {
+        var items = [FormItem]()
+        items.append(LargeTextHeaderFormItem(text: "Officers"))
+        officers.forEach { (officer) in
+            if let givenName = officer.givenName, let familyName = officer.familyName {
+                items.append(RowDetailFormItem(title: givenName + " " + familyName, detail: officer.involvements.map {$0}.joined(separator: ", ")))
+            }
+        }
+        return items
+    }
+}
