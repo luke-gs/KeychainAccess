@@ -41,7 +41,8 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
         builder.title = title
         builder.forceLinearLayout = true
 
-        builder += HeaderFormItem(text: viewModel.headerText)
+        builder += LargeTextHeaderFormItem(text: viewModel.headerText)
+            .separatorColor(.clear)
             .actionButton(title: "Add", handler: newEntityHandler(_:))
 
         for entity in viewModel.entities {

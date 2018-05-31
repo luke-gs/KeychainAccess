@@ -34,7 +34,8 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
     }
 
     override open func construct(builder: FormBuilder) {
-        builder += HeaderFormItem(text: "REPORTED ON")
+        builder += LargeTextHeaderFormItem(text: "Reported On")
+            .separatorColor(.clear)
 
         builder += DateFormItem()
             .title("Date and Time")
@@ -47,7 +48,8 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
             .onValueChanged(viewModel.reportedOnDateTimeChanged)
             .required()
 
-        builder += HeaderFormItem(text: "TOOK PLACE FROM")
+        builder +=  LargeTextHeaderFormItem(text: "Took Place From")
+            .separatorColor(.clear)
 
         builder += DateFormItem()
             .title("Start Time")

@@ -37,6 +37,19 @@ open class DefaultEventNotesMediaViewController: FormBuilderViewController, Eval
         builder.title = sidebarItem.regularTitle
         builder.forceLinearLayout = true
 
+        // General Section
+        builder += LargeTextHeaderFormItem(text: "General")
+            .separatorColor(.clear)
+        builder += TextFieldFormItem(title: "Operation Name", text: viewModel.report.operationName)
+            .onValueChanged(viewModel.operationNameChanged)
+
+        // Summary Section
+        builder += LargeTextHeaderFormItem(text: "Summary / Notes")
+            .separatorColor(.clear)
+            .actionButton(title: "Use Template", handler: { _ in })
+        builder += TextFieldFormItem(title: "Free Text", text: viewModel.report.freeText)
+            .onValueChanged(viewModel.freeTextChanged)
+
         // Media Section
         let localStore = DataStoreCoordinator(dataStore: MediaStorageDatastore(items: viewModel.report.media, container: viewModel.report))
         let gallery = MediaGalleryCoordinatorViewModel(storeCoordinator: localStore)
@@ -49,22 +62,14 @@ open class DefaultEventNotesMediaViewController: FormBuilderViewController, Eval
         if let viewController = UIApplication.shared.keyWindow?.rootViewController {
             mediaItem.previewingController(viewController)
         }
-        builder += HeaderFormItem(text: "MEDIA").actionButton(title: "EDIT", handler: { button in
-            if let viewController = mediaItem.delegate?.viewControllerForGalleryViewModel(gallery) {
-                self.present(viewController, animated: true, completion: nil)
-            }
-        })
+        builder += LargeTextHeaderFormItem(text: "Media")
+            .separatorColor(.clear)
+            .actionButton(title: "Manage", handler: { button in
+                if let viewController = mediaItem.delegate?.viewControllerForGalleryViewModel(gallery) {
+                    self.present(viewController, animated: true, completion: nil)
+                }
+            })
         builder += mediaItem
-
-        // General Section
-        builder += HeaderFormItem(text: "GENERAL")
-        builder += TextFieldFormItem(title: "Operation Name", text: viewModel.report.operationName)
-            .onValueChanged(viewModel.operationNameChanged)
-
-        // Summary Section
-        builder += HeaderFormItem(text: "SUMMARY / NOTES").actionButton(title: "USE TEMPLATE", handler: { _ in })
-        builder += TextFieldFormItem(title: "Free Text", text: viewModel.report.freeText)
-            .onValueChanged(viewModel.freeTextChanged)
     }
     
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
