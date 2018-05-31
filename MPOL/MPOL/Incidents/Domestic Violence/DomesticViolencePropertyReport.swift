@@ -56,3 +56,12 @@ class DomesticViolencePropertyReport: Reportable {
     public required init?(coder aDecoder: NSCoder) {}
     public func encode(with aCoder: NSCoder) {}
 }
+
+extension DomesticViolencePropertyReport: Summarisable {
+    // TODO: Implement Summary Form Items once other functionality is complete
+    var formItems: [FormItem] {
+        var items = [FormItem]()
+        items.append(RowDetailFormItem(title: "Property", detail: "Not Yet Implemented"))
+        return items
+    }
+}

@@ -60,6 +60,20 @@ open class InterceptReportGeneralDetailsReport: Reportable {
 
     // Evaluation
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
+
+}
+
+extension InterceptReportGeneralDetailsReport: Summarisable {
+    
+    public var formItems: [FormItem] {
+        var items = [FormItem]()
+        items.append(RowDetailFormItem(title: "Subject", detail: selectedSubject ?? "Not Set").detailColorKey(selectedSubject == nil ? .redText : nil))
+        items.append(RowDetailFormItem(title: "Seconday Subject", detail: selectedSecondarySubject ?? "Not Set").detailColorKey(selectedSecondarySubject == nil ? .redText : nil))
+        if let remarks = remarks {
+            items.append(RowDetailFormItem(title: "Remarks", detail: remarks))
+        }
+        return items
+    }
 }
 
 

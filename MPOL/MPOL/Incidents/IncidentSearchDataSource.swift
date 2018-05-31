@@ -38,10 +38,6 @@ public class IncidentSearchDataSource: CustomSearchPickerDatasource {
     }
 
     public func allowsSelection(of object: Pickable) -> Bool {
-        if selectedObjects?.contains(where: {$0.title == object.title}) == true {
-            return false
-        }
-
         return true
     }
 
@@ -53,8 +49,7 @@ public class IncidentSearchDataSource: CustomSearchPickerDatasource {
     }
 
     func searchHeaderTitle(with objects: [Pickable]) -> String {
-        let string = String.localizedStringWithFormat(NSLocalizedString("%d incidents selected", comment: ""), objects.count)
-        return string
+        return String.localizedStringWithFormat(NSLocalizedString("%d incidents selected", comment: ""), objects.count)
     }
 
     func searchHeaderSubtitle(with objects: [Pickable]) -> String {

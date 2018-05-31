@@ -51,7 +51,9 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         let viewModel = LocationSelectionViewModel(location: self.viewModel.report.eventLocation)
         viewModel.delegate = self
 
-        builder += HeaderFormItem(text: "LOCATIONS")
+        builder += LargeTextHeaderFormItem(text: "Locations")
+            .separatorColor(.clear)
+        
         builder += PickerFormItem(pickerAction: LocationAction(viewModel: viewModel))
             .title("Event Location")
             .selectedValue(self.viewModel.report.eventLocation)

@@ -135,75 +135,57 @@
       "persons": [
         {
           "alertLevel": 2, 
-          "associatedAlertLevel": 2, 
-          "dateLastUpdated": "2017-08-31T14:13:08Z", 
-          "dateOfBirth": "1995-03-01",
-          "familyName": "Kaine", 
-          "fullAddress": "20 Derby St, Collingwood 3066", 
-          "gender": "F", 
-          "givenName": "Aimee", 
-          "id": "554ca38e-ab00-4c5c-8e58-1c87ef09b958", 
-          "locations": [], 
-          "middleNames": "Ethel", 
-          "source": "pscore", 
-          "thumbnail": null
-        }, 
-        {
-          "alertLevel": 2, 
-          "associatedAlertLevel": 2, 
-          "dateLastUpdated": "2016-01-12T14:32:00Z", 
-          "dateOfBirth": "1988-02-20T11:22:38Z", 
-          "familyName": "Grant", 
-          "fullAddress": "40 Stawell St, Richmond 3121", 
-          "gender": "M", 
-          "givenName": "Guy", 
-          "id": "66c36afa-505d-49b2-a8dd-fbf929b5dba3", 
-          "locations": [], 
-          "middleNames": "David", 
-          "source": "pscore", 
-          "thumbnail": null
-        }, 
-        {
-          "dateLastUpdated": "2018-01-09T14:32:00Z", 
-          "dateOfBirth": "1973-11-10T00:00:00Z", 
-          "familyName": "Adams", 
-          "fullAddress": "Floor 3, 66-76 Swantson St, Melbourne 3000", 
+          "dateOfBirth": "1987-05-08", 
+          "familyName": "Doe", 
+          "fullAddress": "4 Bundalohn Court, St Kilda VIC 3182", 
           "gender": "M", 
           "givenName": "John", 
-          "id": "e2423463-1026-4eed-a7e4-b98ae49c96aa", 
-          "locations": [], 
+          "id": "2ff46c89-6388-435b-8bcf-df16e0785127", 
+          "middleNames": "Robert", 
           "source": "pscore", 
-          "thumbnail": null
+          "thumbnailUrl": "http://client-demo-api.pscore.mobi/pscore/entity/media/23cd5d9f-39d7-4fbb-a98f-034befca820d/file"
+        }, 
+        {
+          "dateOfBirth": "1988-02-27", 
+          "familyName": "Lazeron", 
+          "fullAddress": "17 Corsair Street, Richmond VIC 3121", 
+          "gender": "M", 
+          "givenName": "Timo", 
+          "id": "de123344-55b4-4a15-a318-5fdf0fb4b522", 
+          "middleNames": "Kerbasi", 
+          "source": "pscore", 
+          "thumbnailUrl": "http://dev-demo-api.pscore.mobi/pscore/entity/media/d875fcdb-6ab0-48d2-a36e-3aef9c220735/file"
+        }, 
+        {
+          "dateOfBirth": "1981-09-23", 
+          "familyName": "Wang", 
+          "fullAddress": "302 Chandler Road, Keysborough VIC 3173", 
+          "gender": "M", 
+          "givenName": "Rocky", 
+          "id": "3aa138b3-99b4-4672-a7d4-d9ded2bf091c", 
+          "middleNames": "Tao", 
+          "source": "pscore"
         }
       ], 
       "secondaryCode": "MP0001517", 
       "type": "Bank Robbery", 
       "vehicles": [
         {
-          "alertLevel": 0, 
-          "bodyType": "Prime Mover", 
-          "color": "Red", 
-          "dateLastUpdated": "2018-02-07T14:32:00Z", 
-          "id": "07d022f7-8a26-4209-be02-93833bf45d57", 
-          "plateNumber": "AQQ142", 
+          "alertLevel": 2, 
+          "associatedAlertLevel": 2, 
+          "id": "16213074-3b79-4732-b4e0-615e5066a723", 
+          "plateNumber": "ABC123", 
+          "primaryColour": "Blue", 
           "source": "pscore", 
-          "stolen": true, 
-          "vehicleDescription": "2016 Kenworth T909", 
-          "vehicleType": "Prime Mover"
+          "vehicleDescription": "2016 Ford Falcon XR8"
         }, 
         {
-          "alertLevel": 1, 
-          "associatedAlertLevel": 1, 
-          "bodyType": "Sedan", 
-          "color": "Blue", 
-          "dateLastUpdated": "2018-01-09T14:32:00Z", 
-          "id": "58530e3e-830b-4f57-a99a-779e0eaedb47", 
-          "make": "BMW", 
-          "plateNumber": "MOCK01", 
+          "alertLevel": 0, 
+          "id": "06259e0f-cdc4-4149-89a6-ea9731ebf0e2", 
+          "plateNumber": "ABC124", 
+          "primaryColour": "Red", 
           "source": "pscore", 
-          "stolen": true, 
-          "vehicleDescription": "2015 BMW 320i", 
-          "vehicleType": "Car"
+          "vehicleDescription": "2017 Ford Mustang"
         }
       ]
     }, 
@@ -248,51 +230,39 @@
       "persons": [
         {
           "alertLevel": 2, 
-          "associatedAlertLevel": 2, 
-          "dateLastUpdated": "2018-01-09T14:32:00Z", 
-          "dateOfBirth": "1995-03-01T11:22:29Z", 
-          "familyName": "Kaine", 
-          "fullAddress": "Australia", 
-          "gender": "F", 
-          "givenName": "Aimee", 
-          "id": "745687", 
-          "locations": [], 
-          "middleNames": "Ethel", 
-          "source": "fnc", 
-          "thumbnail": null
+          "dateOfBirth": "1987-05-08", 
+          "familyName": "Doe", 
+          "fullAddress": "4 Bundalohn Court, St Kilda VIC 3182", 
+          "gender": "M", 
+          "givenName": "John", 
+          "id": "2ff46c89-6388-435b-8bcf-df16e0785127", 
+          "middleNames": "Robert", 
+          "source": "pscore", 
+          "thumbnailUrl": "http://client-demo-api.pscore.mobi/pscore/entity/media/23cd5d9f-39d7-4fbb-a98f-034befca820d/file"
         }, 
         {
-          "alertLevel": 2, 
-          "associatedAlertLevel": 2, 
-          "dateLastUpdated": "2018-01-09T14:32:00Z", 
-          "dateOfBirth": "1988-02-20T11:22:38Z", 
-          "familyName": "Grant", 
-          "fullAddress": "40 Stawell St, Richmond 3121", 
-          "gender": "M", 
-          "givenName": "Guy", 
-          "id": "66c36afa-505d-49b2-a8dd-fbf929b5dba3", 
-          "locations": [], 
-          "middleNames": "David", 
+          "dateOfBirth": "1989-02-20", 
+          "familyName": "Doe", 
+          "fullAddress": "32 Glenmorgan Street, Brunswick VIC 3056", 
+          "gender": "F", 
+          "givenName": "Jane", 
+          "id": "b01ea4ed-9acd-47d0-9163-db344dc93b8e", 
+          "middleNames": "Tabatha", 
           "source": "pscore", 
-          "thumbnail": null
+          "thumbnailUrl": "http://client-demo-api.pscore.mobi/pscore/entity/media/601ac8d4-6d9d-4b10-9eb5-8a69113237bd/file"
         }
       ], 
       "secondaryCode": "MP0001517", 
       "type": "Public Disturbance", 
       "vehicles": [
         {
-          "alertLevel": 1, 
+          "alertLevel": 2, 
           "associatedAlertLevel": 2, 
-          "bodyType": "Hatch", 
-          "color": "Red", 
-          "dateLastUpdated": "2018-01-09T14:32:00Z", 
-          "id": "fc39a4c5-c863-4ff7-93cc-87b8ac4e4f4b", 
-          "make": "Mazda", 
-          "plateNumber": "AEE123", 
+          "id": "16213074-3b79-4732-b4e0-615e5066a723", 
+          "plateNumber": "ABC123", 
+          "primaryColour": "Blue", 
           "source": "pscore", 
-          "stolen": true, 
-          "vehicleDescription": "2010 Mazda 3", 
-          "vehicleType": "Car"
+          "vehicleDescription": "2016 Ford Falcon XR8"
         }
       ]
     }, 
@@ -337,53 +307,29 @@
       "patrolGroup": "Collingwood", 
       "persons": [
         {
-          "alertLevel": 2, 
-          "associatedAlertLevel": 2, 
-          "dateLastUpdated": "2018-01-09T14:32:00Z", 
-          "dateOfBirth": "1995-03-01T11:22:29Z", 
-          "familyName": "Kaine", 
-          "fullAddress": "Australia", 
-          "gender": "F", 
-          "givenName": "Aimee", 
-          "id": "745687", 
-          "locations": [], 
-          "middleNames": "Ethel", 
-          "source": "fnc", 
-          "thumbnail": null
+          "dateOfBirth": "1998-04-02", 
+          "familyName": "Doe", 
+          "fullAddress": "20-22 Avoca Avenue, Elwood VIC 3184", 
+          "gender": "M", 
+          "givenName": "John", 
+          "id": "cad8b6d7-a74e-4b2a-8112-8223479f3afa", 
+          "middleNames": "Michael", 
+          "source": "pscore"
+        }, 
+        {
+          "dateOfBirth": "1976-11-16", 
+          "familyName": "Doe", 
+          "fullAddress": "7-9 Raymond Court, Ringwood East VIC 3135", 
+          "gender": "M", 
+          "givenName": "John", 
+          "id": "32213589-2cec-4d28-98ce-9dba585ef140", 
+          "middleNames": "Kelly", 
+          "source": "pscore"
         }
       ], 
       "secondaryCode": "MP0001517", 
       "type": "Public Nuisance", 
-      "vehicles": [
-        {
-          "alertLevel": 1, 
-          "associatedAlertLevel": 2, 
-          "bodyType": "Hatch", 
-          "color": "Red", 
-          "dateLastUpdated": "2018-01-09T14:32:00Z", 
-          "id": "fc39a4c5-c863-4ff7-93cc-87b8ac4e4f4b", 
-          "make": "Mazda", 
-          "plateNumber": "AEE123", 
-          "source": "pscore", 
-          "stolen": true, 
-          "vehicleDescription": "2010 Mazda 3", 
-          "vehicleType": "Car"
-        }, 
-        {
-          "alertLevel": 2, 
-          "associatedAlertLevel": 2, 
-          "bodyType": "SUV", 
-          "color": "Grey", 
-          "dateLastUpdated": "2018-01-09T14:32:00Z", 
-          "id": "c4ad9ed4-e261-40d4-a50c-9160b089542b", 
-          "make": "Honda", 
-          "plateNumber": "ABC456", 
-          "source": "pscore", 
-          "stolen": true, 
-          "vehicleDescription": "2009 Honda DRV", 
-          "vehicleType": "Car"
-        }
-      ]
+      "vehicles": []
     }, 
     {
       "createdAt": "2017-12-01T23:41:07Z", 
@@ -468,62 +414,46 @@
       "patrolGroup": "Collingwood", 
       "persons": [
         {
-          "alertLevel": 2, 
-          "associatedAlertLevel": 2, 
-          "dateLastUpdated": "2018-01-09T14:32:00Z", 
-          "dateOfBirth": "1988-02-20T11:22:38Z", 
-          "familyName": "Grant", 
-          "fullAddress": "40 Stawell St, Richmond 3121", 
+          "dateOfBirth": "1988-02-27", 
+          "familyName": "Lazeron", 
+          "fullAddress": "17 Corsair Street, Richmond VIC 3121", 
           "gender": "M", 
-          "givenName": "Guy", 
-          "id": "66c36afa-505d-49b2-a8dd-fbf929b5dba3", 
-          "locations": [], 
-          "middleNames": "David", 
+          "givenName": "Timo", 
+          "id": "de123344-55b4-4a15-a318-5fdf0fb4b522", 
+          "middleNames": "Kerbasi", 
           "source": "pscore", 
-          "thumbnail": null
+          "thumbnailUrl": "http://dev-demo-api.pscore.mobi/pscore/entity/media/d875fcdb-6ab0-48d2-a36e-3aef9c220735/file"
+        }, 
+        {
+          "dateOfBirth": "1981-09-23", 
+          "familyName": "Wang", 
+          "fullAddress": "302 Chandler Road, Keysborough VIC 3173", 
+          "gender": "M", 
+          "givenName": "Rocky", 
+          "id": "3aa138b3-99b4-4672-a7d4-d9ded2bf091c", 
+          "middleNames": "Tao", 
+          "source": "pscore"
         }
       ], 
       "secondaryCode": "MP0001517", 
       "type": "Traffic Crash No Injury", 
       "vehicles": [
         {
-          "alertLevel": 0, 
-          "bodyType": "Prime Mover", 
-          "color": "Red", 
-          "dateLastUpdated": "2018-02-07T14:32:00Z", 
-          "id": "07d022f7-8a26-4209-be02-93833bf45d57", 
-          "plateNumber": "AQQ142", 
+          "alertLevel": 2, 
+          "associatedAlertLevel": 2, 
+          "id": "16213074-3b79-4732-b4e0-615e5066a723", 
+          "plateNumber": "ABC123", 
+          "primaryColour": "Blue", 
           "source": "pscore", 
-          "stolen": true, 
-          "vehicleDescription": "2016 Kenworth T909", 
-          "vehicleType": "Prime Mover"
-        }, 
-        {
-          "alertLevel": 1, 
-          "associatedAlertLevel": 1, 
-          "bodyType": "Sedan", 
-          "color": "Blue", 
-          "dateLastUpdated": "2018-01-09T14:32:00Z", 
-          "id": "58530e3e-830b-4f57-a99a-779e0eaedb47", 
-          "make": "BMW", 
-          "plateNumber": "MOCK01", 
-          "source": "pscore", 
-          "stolen": true, 
-          "vehicleDescription": "2015 BMW 320i", 
-          "vehicleType": "Car"
+          "vehicleDescription": "2016 Ford Falcon XR8"
         }, 
         {
           "alertLevel": 0, 
-          "bodyType": "Motorcycle", 
-          "color": "Black", 
-          "dateLastUpdated": "2018-01-09T14:32:00Z", 
-          "id": "7e7e9499-9c53-4ec1-9229-0c8269f3be43", 
-          "make": "Harley Davidson", 
-          "plateNumber": "2B1AA", 
+          "id": "06259e0f-cdc4-4149-89a6-ea9731ebf0e2", 
+          "plateNumber": "ABC124", 
+          "primaryColour": "Red", 
           "source": "pscore", 
-          "stolen": true, 
-          "vehicleDescription": "2017 Harley Davidson Street Rod", 
-          "vehicleType": "Motorcycle"
+          "vehicleDescription": "2017 Ford Mustang"
         }
       ]
     }, 
@@ -565,22 +495,30 @@
         }
       ], 
       "patrolGroup": "Collingwood", 
-      "persons": [], 
+      "persons": [
+        {
+          "dateOfBirth": "1988-02-27", 
+          "familyName": "Lazeron", 
+          "fullAddress": "17 Corsair Street, Richmond VIC 3121", 
+          "gender": "M", 
+          "givenName": "Timo", 
+          "id": "de123344-55b4-4a15-a318-5fdf0fb4b522", 
+          "middleNames": "Kerbasi", 
+          "source": "pscore", 
+          "thumbnailUrl": "http://dev-demo-api.pscore.mobi/pscore/entity/media/d875fcdb-6ab0-48d2-a36e-3aef9c220735/file"
+        }
+      ], 
       "secondaryCode": "MP0001517", 
       "type": "Industrial Accident", 
       "vehicles": [
         {
-          "alertLevel": 0, 
-          "bodyType": "Motorcycle", 
-          "color": "Black", 
-          "dateLastUpdated": "2018-01-09T14:32:00Z", 
-          "id": "7e7e9499-9c53-4ec1-9229-0c8269f3be43", 
-          "make": "Harley Davidson", 
-          "plateNumber": "2B1AA", 
+          "alertLevel": 2, 
+          "associatedAlertLevel": 2, 
+          "id": "16213074-3b79-4732-b4e0-615e5066a723", 
+          "plateNumber": "ABC123", 
+          "primaryColour": "Blue", 
           "source": "pscore", 
-          "stolen": true, 
-          "vehicleDescription": "2017 Harley Davidson Street Rod", 
-          "vehicleType": "Motorcycle"
+          "vehicleDescription": "2016 Ford Falcon XR8"
         }
       ]
     }, 
@@ -623,68 +561,10 @@
         }
       ], 
       "patrolGroup": "Collingwood", 
-      "persons": [
-        {
-          "alertLevel": 2, 
-          "associatedAlertLevel": 2, 
-          "dateLastUpdated": "2018-01-09T14:32:00Z", 
-          "dateOfBirth": "1995-03-01T11:22:29Z", 
-          "familyName": "Kaine", 
-          "fullAddress": "Australia", 
-          "gender": "F", 
-          "givenName": "Aimee", 
-          "id": "745687", 
-          "locations": [], 
-          "middleNames": "Ethel", 
-          "source": "fnc", 
-          "thumbnail": null
-        }, 
-        {
-          "alertLevel": 2, 
-          "associatedAlertLevel": 2, 
-          "dateLastUpdated": "2018-01-09T14:32:00Z", 
-          "dateOfBirth": "1988-02-20T11:22:38Z", 
-          "familyName": "Grant", 
-          "fullAddress": "40 Stawell St, Richmond 3121", 
-          "gender": "M", 
-          "givenName": "Guy", 
-          "id": "66c36afa-505d-49b2-a8dd-fbf929b5dba3", 
-          "locations": [], 
-          "middleNames": "David", 
-          "source": "pscore", 
-          "thumbnail": null
-        }, 
-        {
-          "dateLastUpdated": "2018-01-09T14:32:00Z", 
-          "dateOfBirth": "1973-11-10T00:00:00Z", 
-          "familyName": "Adams", 
-          "fullAddress": "Floor 3, 66-76 Swantson St, Melbourne 3000", 
-          "gender": "M", 
-          "givenName": "John", 
-          "id": "e2423463-1026-4eed-a7e4-b98ae49c96aa", 
-          "locations": [], 
-          "source": "pscore", 
-          "thumbnail": null
-        }
-      ], 
+      "persons": [], 
       "secondaryCode": "MP0001517", 
       "type": "Stealing Offences", 
-      "vehicles": [
-        {
-          "alertLevel": 2, 
-          "associatedAlertLevel": 2, 
-          "bodyType": "SUV", 
-          "color": "Grey", 
-          "dateLastUpdated": "2018-01-09T14:32:00Z", 
-          "id": "c4ad9ed4-e261-40d4-a50c-9160b089542b", 
-          "make": "Honda", 
-          "plateNumber": "ABC456", 
-          "source": "pscore", 
-          "stolen": true, 
-          "vehicleDescription": "2009 Honda DRV", 
-          "vehicleType": "Car"
-        }
-      ]
+      "vehicles": []
     }, 
     {
       "createdAt": "2017-12-01T23:41:07Z", 
@@ -770,21 +650,7 @@
       "persons": [], 
       "secondaryCode": "", 
       "type": "Steal Motor Vehicle", 
-      "vehicles": [
-        {
-          "alertLevel": 1, 
-          "associatedAlertLevel": 1, 
-          "bodyType": "Sedan", 
-          "color": "Blue", 
-          "dateLastUpdated": "2018-01-09T14:32:00Z", 
-          "id": "58530e3e-830b-4f57-a99a-779e0eaedb47", 
-          "plateNumber": "MOCK01", 
-          "source": "pscore", 
-          "stolen": true, 
-          "vehicleDescription": "2015 BMW 320i", 
-          "vehicleType": "Car"
-        }
-      ]
+      "vehicles": []
     }
   ], 
   "officers": [
@@ -794,12 +660,12 @@
         "Public Order Qualified"
       ], 
       "contactNumber": "0491 570 156", 
+      "employeeNumber": "777122", 
       "firstName": "Tina", 
       "lastName": "Bailey", 
       "licenceTypeId": "Gold Licence", 
       "middleName": "F.", 
       "patrolGroup": "Collingwood", 
-      "employeeNumber": "777122", 
       "radioId": "38754276", 
       "rank": "Senior Constable", 
       "remarks": "", 
@@ -811,12 +677,12 @@
         "LIDAR Qualified"
       ], 
       "contactNumber": "0491 570 110", 
+      "employeeNumber": "777453", 
       "firstName": "Darren", 
       "lastName": "Fisher", 
       "licenceTypeId": "Silver Licence", 
       "middleName": "A.", 
       "patrolGroup": "Collingwood", 
-      "employeeNumber": "777453", 
       "radioId": "82654386", 
       "rank": "First Constable", 
       "remarks": "", 
@@ -827,12 +693,12 @@
         "Negotiator"
       ], 
       "contactNumber": "0491 570 157", 
+      "employeeNumber": "777032", 
       "firstName": "Bill", 
       "lastName": "Cooper", 
       "licenceTypeId": "Gold Licence", 
       "middleName": "O.", 
       "patrolGroup": "Collingwood", 
-      "employeeNumber": "777032", 
       "radioId": "19975433", 
       "rank": "Leading Senior Constable", 
       "remarks": "", 
@@ -843,12 +709,12 @@
         "Public Order Qualified"
       ], 
       "contactNumber": "0467 933 518", 
+      "employeeNumber": "777001", 
       "firstName": "Joel", 
       "lastName": "Burnell", 
       "licenceTypeId": "Gold Licence", 
       "middleName": "F.", 
       "patrolGroup": "Collingwood", 
-      "employeeNumber": "777001", 
       "radioId": "09769388", 
       "rank": "Sergeant", 
       "remarks": "", 
@@ -859,12 +725,12 @@
         "TDD Qualified"
       ], 
       "contactNumber": "0240 796 388", 
+      "employeeNumber": "777019", 
       "firstName": "Hamish", 
       "lastName": "Gadget", 
       "licenceTypeId": "Silver Licence", 
       "middleName": "Whittingham", 
       "patrolGroup": "Collingwood", 
-      "employeeNumber": "777019", 
       "radioId": "13975544", 
       "rank": "Inspector", 
       "remarks": "", 
@@ -876,12 +742,12 @@
         "Negotiator"
       ], 
       "contactNumber": "0240 745 026", 
+      "employeeNumber": "777202", 
       "firstName": "Eva", 
       "lastName": "Saltau", 
       "licenceTypeId": "Silver Licence", 
       "middleName": "", 
       "patrolGroup": "Collingwood", 
-      "employeeNumber": "777202", 
       "radioId": "87247643", 
       "rank": "First Constable", 
       "remarks": "", 
@@ -892,12 +758,12 @@
         "Public Order Qualified"
       ], 
       "contactNumber": "0240 894 617", 
+      "employeeNumber": "777791", 
       "firstName": "Taj", 
       "lastName": "Singh", 
       "licenceTypeId": "Gold Licence", 
       "middleName": "Rajesh", 
       "patrolGroup": "Collingwood", 
-      "employeeNumber": "777791", 
       "radioId": "65476229", 
       "rank": "Leading Senior Constable", 
       "remarks": "", 
@@ -906,12 +772,12 @@
     {
       "capabilities": [], 
       "contactNumber": "0202 111 903", 
+      "employeeNumber": "777199", 
       "firstName": "Jack", 
       "lastName": "Smart", 
       "licenceTypeId": "Gold Licence", 
       "middleName": "", 
       "patrolGroup": "Collingwood", 
-      "employeeNumber": "777199", 
       "radioId": "18654354", 
       "rank": "Leading Senior Constable", 
       "remarks": "", 
@@ -920,12 +786,12 @@
     {
       "capabilities": [], 
       "contactNumber": "0240 758 258", 
+      "employeeNumber": "773678", 
       "firstName": "Jeff", 
       "lastName": "Brand", 
       "licenceTypeId": "Gold Licence", 
       "middleName": "", 
       "patrolGroup": "Collingwood", 
-      "employeeNumber": "773678", 
       "radioId": "82626288", 
       "rank": "Leading Senior Constable", 
       "remarks": "", 
@@ -934,12 +800,12 @@
     {
       "capabilities": [], 
       "contactNumber": "0202 021 032", 
+      "employeeNumber": "182732", 
       "firstName": "Scott", 
       "lastName": "Garett", 
       "licenceTypeId": "Silver Licence", 
       "middleName": "Warwick", 
       "patrolGroup": "South Melbourne", 
-      "employeeNumber": "182732", 
       "radioId": "83646297", 
       "rank": "First Constable", 
       "remarks": "", 
@@ -948,12 +814,12 @@
     {
       "capabilities": [], 
       "contactNumber": "0200 513 188", 
+      "employeeNumber": "183728", 
       "firstName": "James", 
       "lastName": "Logan", 
       "licenceTypeId": "Gold Licence", 
       "middleName": "James", 
       "patrolGroup": "South Melbourne", 
-      "employeeNumber": "183728", 
       "radioId": "92747297", 
       "rank": "Leading Senior Constable", 
       "remarks": "", 
@@ -964,12 +830,12 @@
         "Negotiator"
       ], 
       "contactNumber": "0202 190 404", 
+      "employeeNumber": "182992", 
       "firstName": "Riccardo", 
       "lastName": "Lopez", 
       "licenceTypeId": "Bronze Licence", 
       "middleName": "", 
       "patrolGroup": "South Melbourne", 
-      "employeeNumber": "182992", 
       "radioId": "28462827", 
       "rank": "Senior Constable", 
       "remarks": "", 
@@ -981,12 +847,12 @@
         "LIDAR Qualified"
       ], 
       "contactNumber": "0200 990 332", 
+      "employeeNumber": "188278", 
       "firstName": "Diana", 
       "lastName": "Wales", 
       "licenceTypeId": "Silver Licence", 
       "middleName": "E", 
       "patrolGroup": "South Melbourne", 
-      "employeeNumber": "188278", 
       "radioId": "93462834", 
       "rank": "Inspector", 
       "remarks": "", 
@@ -995,12 +861,12 @@
     {
       "capabilities": [], 
       "contactNumber": "0182 322 102", 
+      "employeeNumber": "172645", 
       "firstName": "Luke", 
       "lastName": "Ivenson", 
       "licenceTypeId": "Gold Licence", 
       "middleName": "", 
       "patrolGroup": "Collingwood", 
-      "employeeNumber": "172645", 
       "radioId": "92746261", 
       "rank": "Inspector", 
       "remarks": "", 
@@ -1011,12 +877,12 @@
         "TDD Qualified"
       ], 
       "contactNumber": "0204 776 726", 
+      "employeeNumber": "182638", 
       "firstName": "John", 
       "lastName": "Dread", 
       "licenceTypeId": "Silver Licence", 
       "middleName": "Savage", 
       "patrolGroup": "Collingwood", 
-      "employeeNumber": "182638", 
       "radioId": "92747182", 
       "rank": "Senior Constable", 
       "remarks": "", 
@@ -1028,12 +894,12 @@
         "LIDAR Qualified"
       ], 
       "contactNumber": "0202 930 412", 
+      "employeeNumber": "192632", 
       "firstName": "Meetu", 
       "lastName": "Singh", 
       "licenceTypeId": "Gold Licence", 
       "middleName": "", 
       "patrolGroup": "Collingwood", 
-      "employeeNumber": "192632", 
       "radioId": "92648263", 
       "rank": "Inspector", 
       "remarks": "", 
@@ -1042,12 +908,12 @@
     {
       "capabilities": [], 
       "contactNumber": "0212 421 188", 
+      "employeeNumber": "782737", 
       "firstName": "Nick", 
       "lastName": "Fury", 
       "licenceTypeId": "Gold Licence", 
       "middleName": "", 
       "patrolGroup": "Collingwood", 
-      "employeeNumber": "782737", 
       "radioId": "92747263", 
       "rank": "First Constable", 
       "remarks": "", 
@@ -1586,8 +1452,8 @@
       ], 
       "assignedIncidents": [], 
       "callsign": "SS20", 
-      "driver": "182992", 
       "category": "1", 
+      "driver": "182992", 
       "equipment": [], 
       "lastUpdated": "2017-12-02T01:28:00Z", 
       "location": {
@@ -1602,11 +1468,11 @@
         "streetType": "Street", 
         "suburb": "South Melbourne"
       }, 
+      "odometer": "1234", 
       "patrolGroup": "South Melbourne", 
       "payrollIds": [
         "182992"
       ], 
-      "odometer": "1234", 
       "remarks": "", 
       "serial": "DOR1101", 
       "shiftEnd": "2017-12-02T12:00:00Z", 

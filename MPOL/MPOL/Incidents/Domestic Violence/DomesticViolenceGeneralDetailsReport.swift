@@ -55,3 +55,19 @@ class DomesticViolenceGeneralDetailsReport: Reportable {
     public required init?(coder aDecoder: NSCoder) {}
     public func encode(with aCoder: NSCoder) {}
 }
+
+extension DomesticViolenceGeneralDetailsReport: Summarisable {
+    var formItems: [FormItem] {
+        var items = [FormItem]()
+        items.append(RowDetailFormItem(title: "Number of Children", detail: "\(childCount)"))
+        items.append(RowDetailFormItem(title: "Children to be Named", detail: childrenToBeNamed ? "Yes" : "No"))
+        items.append(RowDetailFormItem(title: "Relative/Associate to be Named", detail: associateToBeNamed ? "Yes" : "No"))
+        if let details = details {
+            items.append(RowDetailFormItem(title: "Details", detail: details))
+        }
+        if let remarks = remarks {
+            items.append(RowDetailFormItem(title: "Remarks", detail: remarks))
+        }
+        return items
+    }
+}

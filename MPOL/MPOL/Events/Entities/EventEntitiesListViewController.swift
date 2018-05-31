@@ -43,7 +43,8 @@ public class EventEntitiesListViewController: FormBuilderViewController, Evaluat
         builder.title = self.title
         builder.forceLinearLayout = true
 
-        builder += HeaderFormItem(text: viewModel.headerText)
+        builder += LargeTextHeaderFormItem(text: viewModel.headerText)
+            .separatorColor(.clear)
 
         let reports = viewModel.report.entityDetailReports
 
