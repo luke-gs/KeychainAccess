@@ -52,5 +52,16 @@ open class DefaultLocationReport: Reportable {
     // Evaluation
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
+
+}
+
+extension DefaultLocationReport: Summarisable {
+
+    public var formItems: [FormItem] {
+        var items = [FormItem]()
+        items.append(LargeTextHeaderFormItem(text: "Locations"))
+        items.append(RowDetailFormItem(title: "Event Location", detail: eventLocation?.addressString ?? "Not Set").detailColorKey(eventLocation == nil ? .redText : nil))
+        return items
+    }
 }
 

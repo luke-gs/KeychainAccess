@@ -88,3 +88,31 @@ public class DefaultNotesMediaReport: Reportable, MediaContainer {
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
 }
+
+extension DefaultNotesMediaReport: Summarisable {
+    public var formItems: [FormItem] {
+        var items = [FormItem]()
+        items.append(LargeTextHeaderFormItem(text: "Media and Notes"))
+        
+        var photoCount = 0
+        var audioCount = 0
+        var videoCount = 0
+
+        media.forEach { (mediaItem) in
+            switch mediaItem.type {
+            case .photo:
+                photoCount += 1
+            case .audio:
+                audioCount += 1
+            case .video:
+                videoCount += 1
+            }
+        }
+
+        items.append(RowDetailFormItem(title: "Photo Count", detail: "\(photoCount)"))
+        items.append(RowDetailFormItem(title: "Audio Count", detail: "\(audioCount)"))
+        items.append(RowDetailFormItem(title: "Video Count", detail: "\(videoCount)"))
+
+        return items
+    }
+}

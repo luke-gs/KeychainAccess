@@ -64,5 +64,27 @@ public class DefaultDateTimeReport: Reportable {
     // Evaluation
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) { }
+
+}
+
+extension DefaultDateTimeReport: Summarisable {
+
+    public var formItems: [FormItem] {
+        var items = [FormItem]()
+
+        items.append(LargeTextHeaderFormItem(text: "Date and Time"))
+
+        let dateReported = self.reportedOnDateTime?.asPreferredDateTimeString()
+        let dateStart = self.tookPlaceFromStartDateTime?.asPreferredDateTimeString()
+
+        items.append(RowDetailFormItem(title: "Reported On", detail: dateReported ?? "Not Set").detailColorKey(dateReported == nil ? .redText : nil))
+        items.append(RowDetailFormItem(title: "Start Date", detail: dateStart ?? "Not Set").detailColorKey(dateStart == nil ? .redText : nil))
+
+        if let dateEnd = self.tookPlaceFromEndDateTime?.asPreferredDateTimeString() {
+            items.append(RowDetailFormItem(title: "End Date", detail: dateEnd))
+        }
+
+        return items
+    }
 }
 
