@@ -14,10 +14,7 @@ public protocol CADIncidentVehicleType: class, CADIncidentAssociationType {
     // MARK: - Network
     var alertLevel : CADAlertLevelType? { get set }
     var associatedAlertLevel: CADAlertLevelType? { get set }
-    var bodyType: String? { get set }
-    var color: String? { get set }
+    var primaryColour: String? { get set }
     var plateNumber : String? { get set }
-    var stolen: Bool? { get set }
     var vehicleDescription : String? { get set }
-    var vehicleType : String? { get set }
 }

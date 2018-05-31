@@ -24,7 +24,7 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<IncidentA
             return IncidentAssociationItemViewModel(
                 association: person,
                 category: "DS1",
-                entityType: .person(initials: person.initials),
+                entityType: .person(initials: person.initials, thumbnailUrl: person.thumbnailUrl),
                 title: person.fullName,
                 detail1: formattedDOBAgeGender(person),
                 detail2: person.fullAddress,
@@ -40,7 +40,7 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<IncidentA
                 entityType: .vehicle,
                 title: vehicle.plateNumber,
                 detail1: vehicle.vehicleDescription,
-                detail2: [vehicle.bodyType, vehicle.color].joined(separator: ThemeConstants.dividerSeparator),
+                detail2: vehicle.primaryColour,
                 borderColor: vehicle.associatedAlertLevel?.color,
                 iconColor: vehicle.alertLevel?.color,
                 badge: 0)

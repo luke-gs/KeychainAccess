@@ -21,9 +21,7 @@ open class CADIncidentVehicleCore: Codable, CADIncidentVehicleType {
 
     open var associatedAlertLevel: CADAlertLevelType?
 
-    open var bodyType: String?
-
-    open var color: String?
+    open var primaryColour: String?
 
     open var id: String?
 
@@ -31,39 +29,29 @@ open class CADIncidentVehicleCore: Codable, CADIncidentVehicleType {
 
     open var source: String?
 
-    open var stolen: Bool?
-
     open var vehicleDescription: String?
-
-    open var vehicleType: String?
 
     // MARK: - Codable
 
     enum CodingKeys: String, CodingKey {
         case alertLevel = "alertLevel"
         case associatedAlertLevel = "associatedAlertLevel"
-        case bodyType = "bodyType"
-        case color = "color"
+        case primaryColour = "primaryColour"
         case id = "id"
         case plateNumber = "plateNumber"
         case source = "source"
-        case stolen = "stolen"
         case vehicleDescription = "vehicleDescription"
-        case vehicleType = "vehicleType"
     }
 
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         alertLevel = try values.decodeIfPresent(CADAlertLevelCore.self, forKey: .alertLevel)
         associatedAlertLevel = try values.decodeIfPresent(CADAlertLevelCore.self, forKey: .associatedAlertLevel)
-        bodyType = try values.decodeIfPresent(String.self, forKey: .bodyType)
-        color = try values.decodeIfPresent(String.self, forKey: .color)
+        primaryColour = try values.decodeIfPresent(String.self, forKey: .primaryColour)
         id = try values.decodeIfPresent(String.self, forKey: .id)
         plateNumber = try values.decodeIfPresent(String.self, forKey: .plateNumber)
         source = try values.decodeIfPresent(String.self, forKey: .source)
-        stolen = try values.decodeIfPresent(Bool.self, forKey: .stolen)
         vehicleDescription = try values.decodeIfPresent(String.self, forKey: .vehicleDescription)
-        vehicleType = try values.decodeIfPresent(String.self, forKey: .vehicleType)
     }
 
     public func encode(to encoder: Encoder) throws {

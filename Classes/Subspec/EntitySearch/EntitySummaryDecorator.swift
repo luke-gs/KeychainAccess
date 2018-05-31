@@ -45,9 +45,16 @@ extension EntityListCollectionViewCell: EntitySummaryDecoratable {
 
         if let thumbnailInfo = entitySummary.thumbnail(ofSize: .small) {
             self.thumbnailView.imageView.setImage(with: thumbnailInfo)
+
+            thumbnailInfo.loadImage(completion: { [weak self] (imageSizable) in
+                let sizing = imageSizable.sizing()
+                self?.thumbnailView.imageView.image = sizing.image
+                self?.thumbnailView.imageView.contentMode = sizing.contentMode ?? .center
+            })
         } else {
             thumbnailView.imageView.image = nil
         }
+        
         
         thumbnailView.borderColor = entitySummary.borderColor
         thumbnailView.tintColor = entitySummary.iconColor
