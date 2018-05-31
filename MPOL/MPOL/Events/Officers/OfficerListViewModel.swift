@@ -48,7 +48,7 @@ public class EventOfficerListViewModel {
     }
 
     public var header: String? {
-        return String.localizedStringWithFormat(NSLocalizedString("%d OFFICERS", comment: ""), report.officers.count)
+        return String.localizedStringWithFormat(NSLocalizedString("%d Officers", comment: ""), report.officers.count)
     }
 
     public func displayable(for officer: Officer) -> OfficerSummaryDisplayable? {

@@ -27,7 +27,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     var window: UIWindow?
     var landingPresenter: LandingPresenter!
-
     var navigator: AppURLNavigator!
 
     var plugins: [Plugin]?
@@ -72,7 +71,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         let window = UIWindow()
         self.window = window
-        
+
         applyCurrentTheme()
 
         updateAppForUserSession()
@@ -115,7 +114,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Reload interface style incase it has changed
         ThemeManager.shared.loadInterfaceStyle()
-        
+
         // Reload user session and update UI to match current state
         updateAppForUserSession()
 
@@ -135,6 +134,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         } else {
             removeShortcuts(from: application)
         }
+        if let window = window {
+            Concealer.default.conceal(window, from: .springboard)
+        }
+    }
+
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        guard let window = window else { return }
+        Concealer.default.reveal(window, from: .springboard)
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
@@ -180,7 +187,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Failed to register for push notification: \(error)")
     }
-    
+
     private func attemptRefresh(response: DataResponse<Data>) -> Promise<Void> {
 
         let promise: Promise<Void>

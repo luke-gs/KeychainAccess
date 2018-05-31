@@ -80,3 +80,50 @@ public struct VehicleSummaryDisplayable: EntitySummaryDisplayable {
     
 }
 
+
+public struct VehicleDetailsDisplayable: EntitySummaryDisplayable {
+
+    private var vehicle: Vehicle
+    private var summaryDisplayable: VehicleSummaryDisplayable
+
+    public init(_ entity: MPOLKitEntity) {
+        vehicle = entity as! Vehicle
+        summaryDisplayable = VehicleSummaryDisplayable(vehicle)
+    }
+
+    public var category: String? {
+        return vehicle.source?.localizedBadgeTitle
+    }
+
+    public var title: String? {
+        return summaryDisplayable.title
+    }
+
+    public var detail1: String? {
+        return summaryDisplayable.detail1
+    }
+
+    public var detail2: String? {
+        return summaryDisplayable.detail2
+    }
+
+    public var borderColor: UIColor? {
+        return summaryDisplayable.borderColor
+    }
+
+    public var iconColor: UIColor? {
+        return summaryDisplayable.iconColor
+    }
+
+    public var badge: UInt {
+        return summaryDisplayable.badge
+    }
+
+    public var priority: Int {
+        return summaryDisplayable.priority
+    }
+
+    public func thumbnail(ofSize size: EntityThumbnailView.ThumbnailSize) -> ImageLoadable? {
+        return summaryDisplayable.thumbnail(ofSize: size)
+    }
+}

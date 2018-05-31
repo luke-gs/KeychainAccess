@@ -74,7 +74,9 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
     }
     
     open override func construct(builder: FormBuilder) {
-        builder += HeaderFormItem(text: viewModel.header)
+        builder += LargeTextHeaderFormItem(text: viewModel.header)
+            .separatorColor(.clear)
+        
         let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
 
         viewModel.officerDisplayables.forEach { displayable in
@@ -109,8 +111,9 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                                                      subtitle: displayable.detail1 ?? "No involvements selected",
                                                      image: displayable.thumbnail(ofSize: .small),
                                                      imageStyle: .circle)
-        let datasource = InvolvementSearchDatasource(objects: involvements,
+        let datasource = DefaultPickableSearchDatasource(objects: involvements,
                                                             selectedObjects: officer.involvements,
+                                                            title: "Involvements",
                                                             configuration: headerConfig)
         datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
         let viewController = CustomPickerController(datasource: datasource)
@@ -155,9 +158,10 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
                                                      subtitle: displayable.detail1 ?? "No involvements selected",
                                                      image: displayable.thumbnail(ofSize: .small)?.sizing().image)
 
-        let involvementDatasource = InvolvementSearchDatasource(
+        let involvementDatasource = DefaultPickableSearchDatasource(
             objects: involvements,
             selectedObjects: officer.involvements,
+            title: "Involvements",
             configuration: headerConfig)
         involvementDatasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
 
