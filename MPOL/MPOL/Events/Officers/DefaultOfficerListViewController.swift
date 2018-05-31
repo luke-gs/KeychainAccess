@@ -98,6 +98,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                 })
                 .editActions(viewModel.officerDisplayables.count == 1 ? [] : [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (cell, indexPath) in
                     self.viewModel.removeOfficer(at: indexPath)
+                    self.sidebarItem.count = UInt(self.viewModel.officerDisplayables.count)
                     self.viewModel.delegate?.officerListDidUpdate()
                 })])
         }
@@ -170,6 +171,7 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
             let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
             self.viewModel.add(officer: officer)
             self.viewModel.add(involvements, to: officer)
+            self.sidebarItem.count = UInt(self.viewModel.officerDisplayables.count)
             self.reloadForm()
         }
         viewController.navigationController?.pushViewController(involvementsViewController, animated: true)
