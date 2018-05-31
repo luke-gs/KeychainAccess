@@ -14,7 +14,7 @@ open class IncidentResourcesViewModel: CADFormCollectionViewModel<IncidentResour
         return IncidentResourcesViewController(viewModel: self)
     }
 
-    public func reloadFromModel(_ model: CADTaskListItemModelType) {
+    open func reloadFromModel(_ model: CADTaskListItemModelType) {
         guard let incident = model as? CADIncidentType else { return }
 
         let resourceViewModels = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.incidentNumber)
