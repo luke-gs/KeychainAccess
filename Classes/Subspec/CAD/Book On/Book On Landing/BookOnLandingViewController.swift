@@ -16,9 +16,6 @@ open class BookOnLandingViewController: FormBuilderViewController {
         static let topMargin: CGFloat = 24
         static let bottomMargin: CGFloat = 16
         static let horizontalMargin: CGFloat = 40
-        
-        // MARK: - Header
-        static let footerHeight: CGFloat = DialogActionButtonsView.LayoutConstants.defaultHeight
     }
     
     // MARK: - Views
@@ -75,7 +72,7 @@ open class BookOnLandingViewController: FormBuilderViewController {
             collectionView?.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
             collectionView?.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
             collectionView?.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
-            collectionView?.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor, constant: -LayoutConstants.footerHeight).withPriority(.almostRequired),
+            collectionView?.bottomAnchor.constraint(equalTo: buttonsView.topAnchor).withPriority(.almostRequired),
 
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: LayoutConstants.topMargin),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),

@@ -58,7 +58,7 @@ open class SelectStoppedEntityViewController: CADFormCollectionViewController<Se
             collectionView?.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
             collectionView?.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
             collectionView?.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
-            collectionView?.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor, constant: -DialogActionButtonsView.LayoutConstants.defaultHeight).withPriority(.almostRequired)
+            collectionView?.bottomAnchor.constraint(equalTo: buttonsView.topAnchor).withPriority(.almostRequired)
         ].removeNils())
     }
     

@@ -50,7 +50,7 @@ open class BookOnDetailsFormViewController: SubmissionFormBuilderViewController 
                 collectionView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
                 collectionView.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
                 collectionView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
-                collectionView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor, constant: -DialogActionButtonsView.LayoutConstants.defaultHeight).withPriority(.almostRequired),
+                collectionView.bottomAnchor.constraint(equalTo: buttonsView.topAnchor).withPriority(.almostRequired),
 
                 buttonsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 buttonsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),

@@ -57,7 +57,7 @@ open class PSCAlertView: UIView {
     public var contentLeadingConstraint: NSLayoutConstraint?
     public var contentTrailingConstraint: NSLayoutConstraint?
     
-    public init(frame: CGRect = .zero, title: String?, message: String?, image: UIImage?, actions: [PSCAlertAction]) {
+    public init(frame: CGRect = .zero, title: String?, message: String?, image: UIImage?, actions: [DialogAction]) {
         super.init(frame: frame)
         setupViews(title: title, message: message, image: image, actions: actions)
         setupConstraints()
@@ -78,7 +78,7 @@ open class PSCAlertView: UIView {
     }
     
     /// Creates and styles views
-    private func setupViews(title: String?, message: String?, image: UIImage?, actions: [PSCAlertAction]) {
+    private func setupViews(title: String?, message: String?, image: UIImage?, actions: [DialogAction]) {
         layer.cornerRadius = 12
         layer.masksToBounds = true
         backgroundColor = UIColor.white.withAlphaComponent(0.9)
@@ -115,7 +115,7 @@ open class PSCAlertView: UIView {
         
         // Add action views
         for (index, action) in actions.enumerated() {
-            let actionView = PSCAlertActionView(action: action)
+            let actionView = DialogActionView(action: action)
             actionView.delegate = self
             // If 2 items and this is the first, give it a side divider
             if index == 0 && actions.count == 2 {
@@ -155,7 +155,7 @@ open class PSCAlertView: UIView {
     }
 }
 
-extension PSCAlertView: PSCAlertActionViewDelegate {
+extension PSCAlertView: DialogActionViewDelegate {
     public func shouldDismiss() {
         delegate?.shouldDismiss()
     }

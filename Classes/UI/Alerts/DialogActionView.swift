@@ -1,5 +1,5 @@
 //
-//  PSCAlertActionView.swift
+//  DialogActionView.swift
 //  MPOLKit
 //
 //  Created by Kyle May on 6/2/18.
@@ -8,15 +8,15 @@
 
 import UIKit
 
-public protocol PSCAlertActionViewDelegate: class {
+public protocol DialogActionViewDelegate: class {
     func shouldDismiss()
 }
 
 /// View for an action button in a `PSCAlertView`
-open class PSCAlertActionView: UIControl {
+open class DialogActionView: UIControl {
 
-    open weak var delegate: PSCAlertActionViewDelegate?
-    private var action: PSCAlertAction
+    open weak var delegate: DialogActionViewDelegate?
+    private var action: DialogAction
     
     // MARK: - Views
     
@@ -38,12 +38,11 @@ open class PSCAlertActionView: UIControl {
     
     // MARK: - Setup
     
-    public init(frame: CGRect = .zero, action: PSCAlertAction) {
+    public init(frame: CGRect = .zero, action: DialogAction) {
         self.action = action
         super.init(frame: frame)
         setupViews()
         setupConstraints()
-        applyTheme()
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -53,13 +52,13 @@ open class PSCAlertActionView: UIControl {
     /// Creates and styles views
     private func setupViews() {
         topDivider = UIView()
-        topDivider.backgroundColor = .disabledGray
+        topDivider.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
         topDivider.translatesAutoresizingMaskIntoConstraints = false
         addSubview(topDivider)
         
         sideDivider = UIView()
         sideDivider.isHidden = !showsSideDivider
-        sideDivider.backgroundColor = .disabledGray
+        sideDivider.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
         sideDivider.translatesAutoresizingMaskIntoConstraints = false
         addSubview(sideDivider)
         
@@ -88,17 +87,11 @@ open class PSCAlertActionView: UIControl {
             sideDivider.trailingAnchor.constraint(equalTo: trailingAnchor),
             
             titleLabel.topAnchor.constraint(equalTo: topDivider.bottomAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
             titleLabel.heightAnchor.constraint(equalToConstant: 64)
         ])
-    }
-    
-    private func applyTheme() {
-        let theme = ThemeManager.shared.theme(for: .current)
-        topDivider.backgroundColor = theme.color(forKey: .separator)
-        sideDivider.backgroundColor = theme.color(forKey: .separator)
     }
     
     /// Called when the button has been selected
