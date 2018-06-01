@@ -55,19 +55,25 @@ extension UIViewController {
 
     /// Is the key window being rendered in compact environment
     private static func isWindowCompactHorizontal() -> Bool {
-        if let traitCollection = UIApplication.shared.keyWindow?.rootViewController?.traitCollection,
-            traitCollection.horizontalSizeClass == .compact {
-            return true
-        }
-        return false
+        return windowTraitCollection.horizontalSizeClass == .compact
     }
 
     /// Is the key window being rendered in compact environment
     private static func isWindowCompactVertical() -> Bool {
-        if let traitCollection = UIApplication.shared.keyWindow?.rootViewController?.traitCollection,
-            traitCollection.verticalSizeClass == .compact {
-            return true
-        }
-        return false
+        return windowTraitCollection.verticalSizeClass == .compact
     }
+
+    private static var windowTraitCollection: UITraitCollection {
+        // Return the key window's trait collection if the app has finished launching
+        if let keyWindow = UIApplication.shared.keyWindow {
+            return keyWindow.traitCollection
+        }
+
+        // Fallback to a temp window trait collection for cases where we are still constructing views for the main
+        // window's root view controller when needing to know if they will render in a compact environment
+        return tempWindow.traitCollection
+    }
+
+    /// Lazily created temp window for checking traits when no keyWindow
+    private static var tempWindow: UIWindow = UIWindow()
 }
