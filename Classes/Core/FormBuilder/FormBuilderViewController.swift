@@ -356,7 +356,8 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         guard let view = self.viewIfLoaded, let collectionView = self.collectionView else { return }
 
         view.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
-
+        collectionView.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
+        
         collectionView.apply(theme)
     }
 

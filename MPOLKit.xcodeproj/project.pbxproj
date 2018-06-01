@@ -520,6 +520,7 @@
 		9988CE671FAAD965007BE261 /* ManifestCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9988CE661FAAD965007BE261 /* ManifestCollectionTests.swift */; };
 		99DB7B0D1FB00622009B936B /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99DB7B0C1FB00622009B936B /* NetworkMonitor.swift */; };
 		99FF8C041F982A22003A8A4B /* AuditPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FF8C031F982A21003A8A4B /* AuditPlugin.swift */; };
+		AA19D88120BE08880082E326 /* AdditionalActionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA19D88020BE08880082E326 /* AdditionalActionManager.swift */; };
 		AA1B06D22099798E00F5B390 /* ImageCodeableResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B06D12099798E00F5B390 /* ImageCodeableResponseSerializer.swift */; };
 		AA1B3A422092D4460009B00C /* OptionDisplayableFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A412092D4450009B00C /* OptionDisplayableFormItem.swift */; };
 		AA1CFA9720AA65AE0032A30E /* EventEntityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1CFA9620AA65AE0032A30E /* EventEntityManager.swift */; };
@@ -534,8 +535,6 @@
 		AA7B25CA20B27491005A23F0 /* EntityPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25C520B27491005A23F0 /* EntityPickerViewController.swift */; };
 		AA7B25CB20B27491005A23F0 /* EntitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25C620B27491005A23F0 /* EntitiesListViewModel.swift */; };
 		AA7B25CC20B27491005A23F0 /* DefaultEntitiesListReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25C720B27491005A23F0 /* DefaultEntitiesListReport.swift */; };
-		AA7B25D020B274CA005A23F0 /* VehicleTowReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25CE20B274CA005A23F0 /* VehicleTowReport.swift */; };
-		AA7B25D120B274CA005A23F0 /* PersonSearchReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25CF20B274CA005A23F0 /* PersonSearchReport.swift */; };
 		AA7B25D620B28659005A23F0 /* DefaultPickableSearchDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25D520B28659005A23F0 /* DefaultPickableSearchDatasource.swift */; };
 		AA7F795320AABC4A00985705 /* Relationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F795120AABC4A00985705 /* Relationship.swift */; };
 		AA7F795420AABC4A00985705 /* RelationshipManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F795220AABC4A00985705 /* RelationshipManager.swift */; };
@@ -1412,6 +1411,7 @@
 		9988CE661FAAD965007BE261 /* ManifestCollectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManifestCollectionTests.swift; sourceTree = "<group>"; };
 		99DB7B0C1FB00622009B936B /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		99FF8C031F982A21003A8A4B /* AuditPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuditPlugin.swift; sourceTree = "<group>"; };
+		AA19D88020BE08880082E326 /* AdditionalActionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalActionManager.swift; sourceTree = "<group>"; };
 		AA1B06D12099798E00F5B390 /* ImageCodeableResponseSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCodeableResponseSerializer.swift; sourceTree = "<group>"; };
 		AA1B3A412092D4450009B00C /* OptionDisplayableFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionDisplayableFormItem.swift; sourceTree = "<group>"; };
 		AA1CFA9620AA65AE0032A30E /* EventEntityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntityManager.swift; sourceTree = "<group>"; };
@@ -1426,8 +1426,6 @@
 		AA7B25C520B27491005A23F0 /* EntityPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPickerViewController.swift; sourceTree = "<group>"; };
 		AA7B25C620B27491005A23F0 /* EntitiesListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitiesListViewModel.swift; sourceTree = "<group>"; };
 		AA7B25C720B27491005A23F0 /* DefaultEntitiesListReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListReport.swift; sourceTree = "<group>"; };
-		AA7B25CE20B274CA005A23F0 /* VehicleTowReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleTowReport.swift; sourceTree = "<group>"; };
-		AA7B25CF20B274CA005A23F0 /* PersonSearchReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonSearchReport.swift; sourceTree = "<group>"; };
 		AA7B25D520B28659005A23F0 /* DefaultPickableSearchDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultPickableSearchDatasource.swift; sourceTree = "<group>"; };
 		AA7F795120AABC4A00985705 /* Relationship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Relationship.swift; path = Classes/Subspec/RelationshipManager/Relationship.swift; sourceTree = SOURCE_ROOT; };
 		AA7F795220AABC4A00985705 /* RelationshipManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RelationshipManager.swift; path = Classes/Subspec/RelationshipManager/RelationshipManager.swift; sourceTree = SOURCE_ROOT; };
@@ -3305,9 +3303,8 @@
 		AA7B25CD20B2749B005A23F0 /* AdditionalActions */ = {
 			isa = PBXGroup;
 			children = (
-				AA7B25CF20B274CA005A23F0 /* PersonSearchReport.swift */,
-				AA7B25CE20B274CA005A23F0 /* VehicleTowReport.swift */,
 				AA51408F20B68EFD008FA7DD /* AdditionalAction.swift */,
+				AA19D88020BE08880082E326 /* AdditionalActionManager.swift */,
 			);
 			path = AdditionalActions;
 			sourceTree = "<group>";
@@ -5049,6 +5046,7 @@
 				274C89861F9E91B8005B9CF8 /* OfficerDetailsViewController.swift in Sources */,
 				27CBC7611F8B27C700E387C3 /* TasksMapViewModel.swift in Sources */,
 				2766CE331FEB5C5400895B3A /* CallsignCollectionViewCell.swift in Sources */,
+				AA19D88120BE08880082E326 /* AdditionalActionManager.swift in Sources */,
 				DBE24C3D1F593BEF0088D19B /* EntityDetailSectionsViewModel.swift in Sources */,
 				27C9C7611F95692400799855 /* BookOnLandingViewController.swift in Sources */,
 				DB528ECF20046BFC008914EB /* ValidationRules.swift in Sources */,
@@ -5074,7 +5072,6 @@
 				274753F41FC67F6E00D5FA98 /* TasksListInformationRowViewModel.swift in Sources */,
 				2744E3982051DD8500561A8F /* CADPatrolCore.swift in Sources */,
 				EA53B2771F9EF92B00B891D8 /* NotNilSpecification.swift in Sources */,
-				AA7B25D120B274CA005A23F0 /* PersonSearchReport.swift in Sources */,
 				96F77281201FFB40000FE0D0 /* CreateActivityLogItemViewController.swift in Sources */,
 				46E0B8B220326FB500B40DF2 /* Pickable.swift in Sources */,
 				96361676204F8A0C0012AEC4 /* BroadcastAnnotation.swift in Sources */,
@@ -5217,7 +5214,6 @@
 				96B918401F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift in Sources */,
 				2744EED01FC289F5008DFA7F /* Collection+MapFilterSectionCopy.swift in Sources */,
 				DB88BCE41F42D0150056FD69 /* QueryParserDefinitionSelector.swift in Sources */,
-				AA7B25D020B274CA005A23F0 /* VehicleTowReport.swift in Sources */,
 				9625ACD7207C280100EFCC8C /* UpdateDeviceLocationRequest.swift in Sources */,
 				AA792CCE20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift in Sources */,
 				9644B1D21F6785E200D031F2 /* CompactFormSheetNavigationController.swift in Sources */,

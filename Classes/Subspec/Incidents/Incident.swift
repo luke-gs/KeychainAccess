@@ -17,7 +17,7 @@ final public class Incident: NSSecureCoding, Evaluatable, Equatable {
     public let id: String
     public var incidentType: IncidentType
     public var evaluator: Evaluator = Evaluator()
-    public let additionalActionRelationshipManager = RelationshipManager<MPOLKitEntity, AdditionalAction>()
+    public let additionalActionManager = AdditionalActionManager()
 
     public weak var event: Event?
     public weak var displayable: IncidentListDisplayable!

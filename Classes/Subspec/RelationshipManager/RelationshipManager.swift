@@ -14,6 +14,10 @@ final public class RelationshipManager<Base: Equatable, Related: Equatable> {
         relationships.append(relationship)
     }
 
+    public func addRelationship(baseObject: Base, relatedObject: Related, reasons: [String]) {
+        add(Relationship(baseObject: baseObject, relatedObject: relatedObject, reasons: reasons))
+    }
+
     public func add(_ reason: String, toRelationship relationship: Relationship<Base, Related>) {
         relationships.first(where: {$0 == relationship})?.reasons?.append(reason)
     }

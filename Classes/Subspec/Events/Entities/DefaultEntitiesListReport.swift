@@ -9,6 +9,7 @@ import UIKit
 
 extension EvaluatorKey {
     static let hasEntity = EvaluatorKey("hasEntity")
+    static let additionalActionsComplete = EvaluatorKey("additionalActionsComplete")
 }
 
 public class DefaultEntitiesListReport: Reportable {
@@ -31,6 +32,10 @@ public class DefaultEntitiesListReport: Reportable {
             guard let event = self.event else { return false }
             guard let incident = self.incident else { return false }
             return !event.entityManager.relationships(for: incident).isEmpty
+        }
+        evaluator.registerKey(.additionalActionsComplete) {
+            guard let incident = self.incident else { return false }
+            return incident.additionalActionManager.allValid
         }
     }
 

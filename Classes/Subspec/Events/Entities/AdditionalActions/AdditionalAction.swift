@@ -5,6 +5,15 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
+/// Reportable to be used for additional action
+public protocol ActionReportable: Reportable {
+
+    /// A weak reference to the additional action object
+    /// Make sure this is weak in implementation as well
+    var additionalAction: AdditionalAction? { get }
+
+}
+
 fileprivate extension EvaluatorKey {
     static let allValid = EvaluatorKey(rawValue: "allValid")
 }
@@ -74,8 +83,8 @@ final public class AdditionalAction: NSSecureCoding, Evaluatable, Equatable {
         reports.append(report)
     }
 
-    public func reportable(for reportableType: AnyClass) -> Reportable? {
-        return reports.filter{type(of: $0) == reportableType}.first
+    public func reportable(atIndex index: Int) -> Reportable? {
+        return reports[index]
     }
 
     //MARK: Evaluation
@@ -111,4 +120,30 @@ public struct AdditionalActionType: RawRepresentable, Hashable {
         return lhs.rawValue == rhs.rawValue
     }
 }
+
+/// Builder for additional action
+///
+/// Used to define what an additional action should look like for a specific incident type
+/// in terms of the reports it should have
+public protocol AdditionalActionBuilding {
+
+    /// Create an additional action, injecting any reports that you need.
+    ///
+    /// - Parameter type: the type of additional action that is being asked to be created.
+    func createAdditionalAction(for type: AdditionalActionType, on incident: Incident) -> AdditionalAction
+}
+
+/// Screen builder for the additional action
+///
+/// Used to provide a viewcontroller for the reportables
+public protocol AdditionalActionScreenBuilding {
+
+    /// Constructs an array of view controllers depending on what reportables are passed in
+    ///
+    /// - Parameter reportables: the array of reports to construct view controllers for
+    /// - Returns: an array of viewController constucted for the reports
+    func viewControllers(for reports: [Reportable]) -> [UIViewController] 
+}
+
+
 
