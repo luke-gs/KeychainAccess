@@ -173,7 +173,7 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
         }
     }
     
-    func setLoadingState(_ state: LoadingStateManager.State) {
+    open func setLoadingState(_ state: LoadingStateManager.State) {
         (detailViewControllers as? [TaskDetailsViewController])?.forEach { vc in
             vc.loadingManager.state = state
         }
