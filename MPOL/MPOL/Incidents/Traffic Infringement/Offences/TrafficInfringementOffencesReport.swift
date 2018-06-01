@@ -13,6 +13,10 @@ fileprivate extension EvaluatorKey {
 }
 
 class TrafficInfringementOffencesReport: Reportable {
+
+    let weakEvent: Weak<Event>
+    let weakIncident: Weak<Incident>
+
     weak var event: Event?
     weak var incident: Incident?
 
@@ -25,8 +29,8 @@ class TrafficInfringementOffencesReport: Reportable {
     let evaluator: Evaluator = Evaluator()
 
     init(event: Event, incident: Incident) {
-        self.event = event
-        self.incident = incident
+        self.weakEvent = Weak(event)
+        self.weakIncident = Weak(incident)
 
         if let event = self.event {
             evaluator.addObserver(event)
@@ -42,10 +46,22 @@ class TrafficInfringementOffencesReport: Reportable {
 
     func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {}
 
-    //MARK: CODING
+    // MARK: CODING
+    private enum Coding: String {
+        case event
+        case incident
+    }
+
     public static var supportsSecureCoding: Bool = true
-    public required init?(coder aDecoder: NSCoder) {}
-    public func encode(with aCoder: NSCoder) {}
+
+    public required init?(coder aDecoder: NSCoder) {
+        weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
+        weakIncident = aDecoder.decodeWeakObject(forKey: Coding.incident.rawValue)
+    }
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encodeWeakObject(weakObject: weakEvent, forKey: Coding.event.rawValue)
+        aCoder.encodeWeakObject(weakObject: weakIncident, forKey: Coding.incident.rawValue)
+    }
 }
 
 extension TrafficInfringementOffencesReport: Summarisable {

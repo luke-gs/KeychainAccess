@@ -65,9 +65,10 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
             return
         }
 
+        guard let event = report.event else { return }
         for entity in entities {
             if !reports.contains(where: {$0.entity == entity}) {
-                let report = EventEntityDetailReport(entity: entity, event: self.report.event)
+                let report = EventEntityDetailReport(entity: entity, event: event)
                 report.evaluator.addObserver(report)
                 reports.append(report)
             }
@@ -93,7 +94,7 @@ public class EventEntitiesListViewModel: Evaluatable, EntityBucketDelegate {
     // MARK: EntityBucketDelegate
     public func entitiesDidChange() {
         // Reset validation of relationship report if entities have changed
-        report.entityDetailReports.forEach{ $0.relationshipsReport.viewed = false }
+        report.entityDetailReports.forEach { $0.relationshipsReport.viewed = false }
 
         updateReports()
     }

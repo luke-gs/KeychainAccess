@@ -23,8 +23,6 @@
 		12EF65DD2086D52200739924 /* TrafficInfringementIncidentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65C62086D52200739924 /* TrafficInfringementIncidentBuilder.swift */; };
 		12EF65DE2086D52200739924 /* TrafficInfringementScreenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65C72086D52200739924 /* TrafficInfringementScreenBuilder.swift */; };
 		12EF65DF2086D52200739924 /* TrafficInfringementServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65C92086D52200739924 /* TrafficInfringementServiceViewController.swift */; };
-		12EF65E32086D52200739924 /* IncidentTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65CF2086D52200739924 /* IncidentTestViewController.swift */; };
-		12EF65E42086D52200739924 /* IncidentTestReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D02086D52200739924 /* IncidentTestReport.swift */; };
 		12EF65E52086D52200739924 /* IncidentDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D12086D52200739924 /* IncidentDetailViewModel.swift */; };
 		12EF65E62086D52200739924 /* IncidentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D22086D52200739924 /* IncidentListViewController.swift */; };
 		12EF65E72086D52200739924 /* IncidentListReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12EF65D32086D52200739924 /* IncidentListReport.swift */; };
@@ -140,8 +138,6 @@
 		12EF65C62086D52200739924 /* TrafficInfringementIncidentBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementIncidentBuilder.swift; sourceTree = "<group>"; };
 		12EF65C72086D52200739924 /* TrafficInfringementScreenBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementScreenBuilder.swift; sourceTree = "<group>"; };
 		12EF65C92086D52200739924 /* TrafficInfringementServiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementServiceViewController.swift; sourceTree = "<group>"; };
-		12EF65CF2086D52200739924 /* IncidentTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentTestViewController.swift; sourceTree = "<group>"; };
-		12EF65D02086D52200739924 /* IncidentTestReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentTestReport.swift; sourceTree = "<group>"; };
 		12EF65D12086D52200739924 /* IncidentDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentDetailViewModel.swift; sourceTree = "<group>"; };
 		12EF65D22086D52200739924 /* IncidentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentListViewController.swift; sourceTree = "<group>"; };
 		12EF65D32086D52200739924 /* IncidentListReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentListReport.swift; sourceTree = "<group>"; };
@@ -302,7 +298,6 @@
 				12EF65D82086D52200739924 /* IncidentSelectViewController.swift */,
 				12EF65DA2086D52200739924 /* IncidentTypes.swift */,
 				12EF65D42086D52200739924 /* Street Check */,
-				12EF65CE2086D52200739924 /* Test */,
 				12EF65C22086D52200739924 /* Traffic Infringement */,
 				371AB13A20AA839F008D0E57 /* RelationshipSearchDatasource.swift */,
 				3745B13F20B3C14F008AA94F /* IncidentAction.swift */,
@@ -343,15 +338,6 @@
 				AA1B3A3D2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift */,
 			);
 			path = Service;
-			sourceTree = "<group>";
-		};
-		12EF65CE2086D52200739924 /* Test */ = {
-			isa = PBXGroup;
-			children = (
-				12EF65CF2086D52200739924 /* IncidentTestViewController.swift */,
-				12EF65D02086D52200739924 /* IncidentTestReport.swift */,
-			);
-			path = Test;
 			sourceTree = "<group>";
 		};
 		12EF65D42086D52200739924 /* Street Check */ = {
@@ -805,7 +791,6 @@
 				12EF65EA2086D52200739924 /* IncidentSearchDataSource.swift in Sources */,
 				12ABD576207F1FE9004D0C9F /* DefaultEventLocationViewController.swift in Sources */,
 				12EF65DF2086D52200739924 /* TrafficInfringementServiceViewController.swift in Sources */,
-				12EF65E42086D52200739924 /* IncidentTestReport.swift in Sources */,
 				3727C4C32088193000F7A887 /* Offence.swift in Sources */,
 				12EF663D208D7D2F00739924 /* EventEntityDetailReport.swift in Sources */,
 				46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */,
@@ -860,7 +845,6 @@
 				12EF65DE2086D52200739924 /* TrafficInfringementScreenBuilder.swift in Sources */,
 				12EF66032087071800739924 /* OfficerSearchViewModel.swift in Sources */,
 				96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */,
-				12EF65E32086D52200739924 /* IncidentTestViewController.swift in Sources */,
 				3727C4BC2088191E00F7A887 /* TrafficInfringementOffencesViewModel.swift in Sources */,
 				12EF663C208D7D2F00739924 /* EventEntityDetailViewModel.swift in Sources */,
 				12EF65E72086D52200739924 /* IncidentListReport.swift in Sources */,

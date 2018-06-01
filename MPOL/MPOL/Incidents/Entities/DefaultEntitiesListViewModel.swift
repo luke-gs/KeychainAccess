@@ -54,7 +54,7 @@ class DefaultEntitiesListViewModel: EntitiesListViewModel {
         return types.map { $0.rawValue }
     }
 
-    func report(for action: AdditionalAction) -> Reportable {
+    func report(for action: AdditionalAction) -> ActionReportable {
         switch action.additionalActionType {
         case .personSearch:
             return PersonSearchReport(incident: report.incident, additionalAction: action)

@@ -9,7 +9,7 @@ import MPOLKit
 
 public class InterceptReportScreenBuilder: IncidentScreenBuilding {
 
-    public func viewControllers(for reportables: [Reportable]) -> [UIViewController] {
+    public func viewControllers(for reportables: [IncidentReportable]) -> [UIViewController] {
         var viewControllers = [UIViewController]()
 
         for report in reportables {
@@ -21,9 +21,8 @@ public class InterceptReportScreenBuilder: IncidentScreenBuilding {
         return viewControllers
     }
 
-    private func viewController(for report: Reportable) -> UIViewController? {
+    private func viewController(for report: IncidentReportable) -> UIViewController? {
 
-        //TODO: Remove non-incident reports from here and replace with actual incident reports
         switch report {
         case let report as DefaultEntitiesListReport:
             return DefaultEntitiesListViewController(viewModel: DefaultEntitiesListViewModel(report: report, incidentType: .interceptReport))

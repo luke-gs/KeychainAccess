@@ -51,7 +51,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
 
     // Init
 
-    public required init(report: Reportable, incidentsManager: IncidentsManager) {
+    public required init(report: EventReportable, incidentsManager: IncidentsManager) {
         self.report = report as! IncidentListReport
         self.incidentsManager = incidentsManager
         self.title = "Incidents"
@@ -121,7 +121,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
 
     func removeIncident(_ incident: Incident) {
         report.event?.entityManager.removeAllRelationships(for: incident)
-        report.incidents = report.incidents.filter({$0 != incident})
+        report.incidents = report.incidents.filter {$0 != incident } 
     }
 
     func add(_ incidents: [String]) {

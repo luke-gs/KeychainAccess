@@ -11,7 +11,7 @@ public class EventScreenBuilder: EventScreenBuilding {
 
     var incidentsManager: IncidentsManager!
 
-    public func viewControllers(for reportables: [Reportable]) -> [UIViewController] {
+    public func viewControllers(for reportables: [EventReportable]) -> [UIViewController] {
         var viewControllers = [UIViewController]()
 
         for report in reportables {
@@ -21,7 +21,7 @@ public class EventScreenBuilder: EventScreenBuilding {
         return viewControllers
     }
 
-    private func viewController(for report: Reportable) -> UIViewController {
+    private func viewController(for report: EventReportable) -> UIViewController {
         switch report {
         case let report as DefaultDateTimeReport:
             return DefaultEventDateTimeViewController(viewModel: DefaultDateTimeViewModel(report: report))
@@ -32,7 +32,7 @@ public class EventScreenBuilder: EventScreenBuilding {
         case let report as DefaultNotesMediaReport:
             return DefaultEventNotesMediaViewController(viewModel: DefaultEventNotesMediaViewModel(report: report))
         case let report as IncidentListReport:
-            report.incidents.forEach{incidentsManager.add(incident: $0)}
+            report.incidents.forEach { incidentsManager.add(incident: $0) }
             return IncidentListViewController(viewModel: IncidentListViewModel(report: report, incidentsManager: incidentsManager))
         case let report as EventEntitiesListReport:
             return EventEntitiesListViewController(viewModel: EventEntitiesListViewModel(report: report))

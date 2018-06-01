@@ -12,9 +12,8 @@ fileprivate extension EvaluatorKey {
     static let valid = EvaluatorKey("valid")
 }
 
-public class EventEntitiesListReport : Reportable, Evaluatable {
-    public weak var event: Event?
-    public weak var incident: Incident?
+public class EventEntitiesListReport : EventReportable, Evaluatable {
+    public let weakEvent: Weak<Event>
     
     public let evaluator: Evaluator = Evaluator()
     public var entityDetailReports: [EventEntityDetailReport] = [EventEntityDetailReport]() {
@@ -24,7 +23,7 @@ public class EventEntitiesListReport : Reportable, Evaluatable {
     }
     
     public init(event: Event) {
-        self.event = event
+        self.weakEvent = Weak(event)
 
         evaluator.addObserver(event)
 
@@ -36,12 +35,13 @@ public class EventEntitiesListReport : Reportable, Evaluatable {
         }
     }
     
-    //MARK: Coding
+    // MARK: Coding
     public static var supportsSecureCoding: Bool { return true }
-    public func encode(with aCoder: NSCoder) { }
+    public func encode(with aCoder: NSCoder) {}
+
     public required init?(coder aDecoder: NSCoder) { MPLCodingNotSupported() }
     
-    //MARK: Eval
+    // MARK: Eval
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
     }
 }

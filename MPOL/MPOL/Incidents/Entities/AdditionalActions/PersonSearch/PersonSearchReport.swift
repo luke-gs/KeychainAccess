@@ -12,10 +12,8 @@ fileprivate extension EvaluatorKey {
 }
 
 public class PersonSearchReport: ActionReportable {
-
-    public private(set) weak var event: Event?
-    public private(set) weak var incident: Incident?
-    public private(set) weak var additionalAction: AdditionalAction?
+    public let weakAdditionalAction: Weak<AdditionalAction>
+    public let weakIncident: Weak<Incident>
 
     public let evaluator: Evaluator = Evaluator()
 
@@ -27,9 +25,8 @@ public class PersonSearchReport: ActionReportable {
 
 
     public init(incident: Incident?, additionalAction: AdditionalAction) {
-
-        self.incident = incident
-        self.additionalAction = additionalAction
+        self.weakIncident = Weak(incident)
+        self.weakAdditionalAction = Weak(additionalAction)
 
         if let incident = self.incident {
             evaluator.addObserver(incident)
@@ -47,9 +44,21 @@ public class PersonSearchReport: ActionReportable {
     }
 
     // MARK: CODING
+    private enum Coding: String {
+        case incident
+        case action
+    }
+
     public static var supportsSecureCoding: Bool = true
-    public required init?(coder aDecoder: NSCoder) {}
-    public func encode(with aCoder: NSCoder) {}
+
+    public required init?(coder aDecoder: NSCoder) {
+        weakAdditionalAction = aDecoder.decodeWeakObject(forKey: Coding.action.rawValue)
+        weakIncident = aDecoder.decodeWeakObject(forKey: Coding.incident.rawValue)
+    }
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encodeWeakObject(weakObject: weakAdditionalAction, forKey: Coding.action.rawValue)
+        aCoder.encodeWeakObject(weakObject: weakIncident, forKey: Coding.incident.rawValue)
+    }
 }
 
 extension AdditionalActionType {

@@ -17,7 +17,7 @@ public class DefaultAdditionalActionBuilding: AdditionalActionBuilding {
 
 public class DefaultAdditionalActionScreenBuilding: AdditionalActionScreenBuilding {
 
-    public func viewControllers(for reports: [Reportable]) -> [UIViewController] {
+    public func viewControllers(for reports: [IncidentReportable]) -> [UIViewController] {
 
         var viewControllers = [UIViewController]()
         reports.forEach{
