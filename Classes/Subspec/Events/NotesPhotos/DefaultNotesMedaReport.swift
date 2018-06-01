@@ -21,7 +21,7 @@ public class DefaultNotesMediaReport: EventReportable, MediaContainer {
         }
     }
 
-    var media: [MediaAsset] = []
+    public var media: [MediaAsset] = []
     var operationName: String?
     var freeText: String?
 
@@ -68,7 +68,7 @@ public class DefaultNotesMediaReport: EventReportable, MediaContainer {
     }
 
     // Media
-    func add(_ media: [MediaAsset]) {
+   public func add(_ media: [MediaAsset]) {
         media.forEach {
             if !self.media.contains($0) {
                 self.media.append($0)
@@ -76,7 +76,7 @@ public class DefaultNotesMediaReport: EventReportable, MediaContainer {
         }
     }
 
-    func remove(_ media: [MediaAsset]) {
+   public func remove(_ media: [MediaAsset]) {
         media.forEach { asset in
             if let index = self.media.index(where: { $0 == asset }) {
                 self.media.remove(at: index)

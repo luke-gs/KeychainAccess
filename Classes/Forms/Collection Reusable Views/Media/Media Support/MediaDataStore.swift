@@ -9,17 +9,17 @@
 import Foundation
 import PromiseKit
 
-protocol MediaContainer {
+public protocol MediaContainer {
     var media: [MediaAsset] { get set }
 
     func add(_ media: [MediaAsset])
     func remove(_ media: [MediaAsset])
 }
 
-class MediaStorageDatastore<T: MediaAsset>: WritableDataStore {
+public class MediaStorageDatastore<T: MediaAsset>: WritableDataStore {
 
     typealias ArrayLiteralElement = T
-    typealias Result = LocalDataResults<T>
+    public typealias Result = LocalDataResults<T>
 
     private var container: MediaContainer
 
@@ -36,12 +36,12 @@ class MediaStorageDatastore<T: MediaAsset>: WritableDataStore {
         self.container = container
     }
 
-    func retrieveItems(withLastKnownResults results: LocalDataResults<T>?, cancelToken: PromiseCancellationToken?) -> Promise<LocalDataResults<T>> {
+    public func retrieveItems(withLastKnownResults results: LocalDataResults<T>?, cancelToken: PromiseCancellationToken?) -> Promise<LocalDataResults<T>> {
         return Promise.value(LocalDataResults(items: items))
     }
 
 
-    func addItems(_ toBeAddedItems: [MediaStorageDatastore<T>.Result.Item]) -> Promise<[MediaStorageDatastore<T>.Result.Item]> {
+    public func addItems(_ toBeAddedItems: [MediaStorageDatastore<T>.Result.Item]) -> Promise<[MediaStorageDatastore<T>.Result.Item]> {
         return Promise { [unowned self] resolver in
             let indexes = toBeAddedItems.indexes(where: { toBeAdded in
                 self.items.contains(where: { toBeCompared -> Bool in
@@ -71,7 +71,7 @@ class MediaStorageDatastore<T: MediaAsset>: WritableDataStore {
         }
     }
 
-    func removeItems(_ toBeRemovedItems: [MediaStorageDatastore<T>.Result.Item]) -> Promise<[MediaStorageDatastore<T>.Result.Item]> {
+    public func removeItems(_ toBeRemovedItems: [MediaStorageDatastore<T>.Result.Item]) -> Promise<[MediaStorageDatastore<T>.Result.Item]> {
         return Promise { [unowned self] resolver in
 
             let indexes = toBeRemovedItems.indexes(where: { toBeRemoved in
