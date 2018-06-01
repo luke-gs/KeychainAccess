@@ -54,7 +54,7 @@ open class CADIncidentVehicleCore: Codable, CADIncidentVehicleType {
         primaryColour = try values.decodeIfPresent(String.self, forKey: .primaryColour)
         plateNumber = try values.decodeIfPresent(String.self, forKey: .plateNumber)
         source = try values.decodeIfPresent(String.self, forKey: .source)
-        year = try values.decodeIfPresent(String.self, forKey: .year)
+        year = (try values.decodeIfPresent(Int.self, forKey: .year))?.description
     }
 
     public func encode(to encoder: Encoder) throws {
