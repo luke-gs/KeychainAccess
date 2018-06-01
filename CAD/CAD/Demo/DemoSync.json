@@ -180,7 +180,7 @@
           "plateNumber": "ABC123", 
           "primaryColour": "Blue", 
           "source": "pscore", 
-          "year": "2016"
+          "year": 2016
         }, 
         {
           "alertLevel": 0, 
@@ -191,7 +191,7 @@
           "plateNumber": "ABC124", 
           "primaryColour": "Red", 
           "source": "pscore", 
-          "year": "2016"
+          "year": 2016
         }
       ]
     }, 
@@ -271,7 +271,7 @@
           "plateNumber": "ABC123", 
           "primaryColour": "Blue", 
           "source": "pscore", 
-          "year": "2016"
+          "year": 2016
         }
       ]
     }, 
@@ -457,7 +457,7 @@
           "plateNumber": "ABC123", 
           "primaryColour": "Blue", 
           "source": "pscore", 
-          "year": "2016"
+          "year": 2016
         }, 
         {
           "alertLevel": 0, 
@@ -468,7 +468,7 @@
           "plateNumber": "ABC124", 
           "primaryColour": "Red", 
           "source": "pscore", 
-          "year": "2016"
+          "year": 2016
         }
       ]
     }, 
@@ -536,7 +536,7 @@
           "plateNumber": "ABC123", 
           "primaryColour": "Blue", 
           "source": "pscore", 
-          "year": "2016"
+          "year": 2016
         }
       ]
     }, 
