@@ -55,6 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         // Set the application specific notification handler
         NotificationManager.shared.handler = SearchNotificationHandler()
+
         registerPushNotifications(application)
 
         landingPresenter = LandingPresenter()
@@ -126,6 +127,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             APIManager.shared = apiManager(with: url)
         }
 
+        guard let window = window else { return }
+        Concealer.default.reveal(window, from: .springboard)
+    }
+
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        if let window = window {
+            Concealer.default.conceal(window, from: .springboard)
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -134,16 +143,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         } else {
             removeShortcuts(from: application)
         }
-        if let window = window {
-            Concealer.default.conceal(window, from: .springboard)
-        }
     }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        guard let window = window else { return }
-        Concealer.default.reveal(window, from: .springboard)
-    }
-
+    
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         if navigator.isRegistered(url) {
             return navigator.handle(url)
