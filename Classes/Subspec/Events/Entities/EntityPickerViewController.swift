@@ -10,16 +10,9 @@ import UIKit
 open class EntityPickerViewController: FormBuilderViewController {
 
     let viewModel: EntityPickerViewModel
-    private(set) var buttonsView: DialogActionButtonsView
 
     required public init(viewModel: EntityPickerViewModel) {
         self.viewModel = viewModel
-
-        let action = DialogAction(title: "Search for Entity") { _ in
-            // TODO: code to search for another entity
-        }
-        buttonsView = DialogActionButtonsView(actions: [action])
-
         super.init()
         title = "Entities"
     }
@@ -33,6 +26,13 @@ open class EntityPickerViewController: FormBuilderViewController {
 
         loadingManager.noContentView.titleLabel.text = "There are no recently used Entities"
         loadingManager.state = viewModel.currentLoadingManagerState
+
+        let action = DialogAction(title: "Search for Entity") { _ in
+            self.dismiss(animated: false) {
+                self.presentEntitySearch()
+            }
+        }
+        let buttonsView = DialogActionButtonsView(actions: [action])
 
         guard let collectionView = collectionView else { return }
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -57,6 +57,19 @@ open class EntityPickerViewController: FormBuilderViewController {
         super.viewWillAppear(animated)
         updateEmptyState()
         reloadForm()
+    }
+
+    private func presentEntitySearch() {
+        do {
+            try SearchActivityLauncher.default.launch(.searchEntity(term: Searchable()), using: AppURLNavigator.default)
+        } catch {
+            let alertController = UIAlertController(title: "An Error Has Occurred", message: "Failed To Launch Entity Search", preferredStyle: .alert)
+            let action = UIAlertAction(title: "Ok", style: .default, handler: { (action) in
+                self.dismissAnimated()
+            })
+            alertController.addAction(action)
+            AlertQueue.shared.add(alertController)
+        }
     }
 
     open override func construct(builder: FormBuilder) {
