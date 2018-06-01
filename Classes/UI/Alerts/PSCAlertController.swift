@@ -28,7 +28,7 @@ open class PSCAlertController: ThemedPopoverViewController {
     private var image: UIImage?
     
     /// Actions
-    open private(set) var actions: [PSCAlertAction] = []
+    open private(set) var actions: [DialogAction] = []
     
     
     // MARK: - Views
@@ -105,13 +105,13 @@ open class PSCAlertController: ThemedPopoverViewController {
     }
     
     /// Adds an action to the alert view. This should only be called before presenting the view controller.
-    public func addAction(_ action: PSCAlertAction) {
+    public func addAction(_ action: DialogAction) {
         assert(alertView == nil, "You cannot add an action to a PSCAlertController after the view has loaded")
         actions.append(action)
     }
     
     /// Adds actions to the alert view. This should only be called before presenting the view controller.
-    public func addActions(_ actions: [PSCAlertAction]) {
+    public func addActions(_ actions: [DialogAction]) {
         assert(alertView == nil, "You cannot add an action to a PSCAlertController after the view has loaded")
         self.actions += actions
     }

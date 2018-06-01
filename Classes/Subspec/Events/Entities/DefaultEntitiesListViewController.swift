@@ -68,19 +68,23 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
             for action in viewModel.retrieveAdditionalActions(for: entity) ?? [] {
                 builder += SubItemFormItem()
                     .title(action.additionalActionType.rawValue)
-                    .detail("Incomplete")
+                    .detail(action.evaluator.isComplete ? "Complete" : "Incomplete")
                     .detailFont(UIFont.systemFont(ofSize: 13, weight: .semibold))
-                    .detailColorKey(.redText)
+                    .detailColorKey(action.evaluator.isComplete ? .secondaryText : .redText)
                     .image(AssetManager.shared.image(forKey: .documentFilled))
                     .imageTintColor(UIColor.black)
                     .selectionStyle(.none)
                     .actionButton(title: "Open", handler: { (sender) in
+                        self.presentAdditionalAction(reports: action.reports)
                     })
                     .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in
                         self.viewModel.removeAdditionalAction(entity: entity, action: action)
                         self.updateLoadingManager()
                         self.reloadForm()
                     })])
+                    .onSelection({ cell in
+                        self.presentAdditionalAction(reports: action.reports)
+                    })
             }
         }
 
@@ -110,7 +114,17 @@ open class DefaultEntitiesListViewController: FormBuilderViewController, Evaluat
         present(navController, animated: true, completion: nil)
     }
 
-    @objc private func openReport(_ sender: UIButton) {
+    private func presentAdditionalAction(reports: [IncidentReportable]) {
+        guard let viewController = self.viewModel.screenBuilding.viewControllers(for: reports).first else {
+            return
+        }
+        let navController = PopoverNavigationController(rootViewController: viewController)
+        navController.modalPresentationStyle = .pageSheet
+        navController.dismissHandler = { animated in
+            self.reloadForm()
+            self.viewModel.report.evaluator.updateEvaluation(for: .additionalActionsComplete)
+        }
+        self.present(navController, animated: true, completion: nil)
     }
 
     @objc private func cancelTapped() {

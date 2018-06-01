@@ -82,7 +82,7 @@ public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitV
         let detail = error?.localizedDescription ?? result?.detail
 
         let alert = PSCAlertController(title: title, message: detail, image: nil)
-        let action = PSCAlertAction(title: "OK", style: .cancel) { _ in
+        let action = DialogAction(title: "OK", style: .cancel) { _ in
             self.delegate?.eventSubmittedFor(eventId: eventId, response: result, error: error)
             self.navigationController?.popViewController(animated: true)
         }

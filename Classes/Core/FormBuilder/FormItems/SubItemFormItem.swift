@@ -43,6 +43,8 @@ public class SubItemFormItem: BaseFormItem {
         cell.imageView.contentMode = sizing?.contentMode ?? .right
 
         cell.actionButton = actionButton
+        cell.actionButton?.setTitleColor(cell.tintColor, for: .normal)
+        cell.actionButton?.setTitleColor(cell.tintColor?.withAlphaComponent(0.5), for: .highlighted)
     }
 
     public override func intrinsicWidth(in collectionView: UICollectionView, layout: CollectionViewFormLayout, sectionEdgeInsets: UIEdgeInsets, for traitCollection: UITraitCollection) -> CGFloat {
@@ -59,11 +61,10 @@ public class SubItemFormItem: BaseFormItem {
     }
 
     public override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
-        let primaryTextColor = theme.color(forKey: .primaryText)
         let tintColor = theme.color(forKey: .tint)
 
         let cell = cell as! SubItemCollectionViewCell
-        cell.titleLabel.textColor = theme.color(forKey: .secondaryText)
+        cell.titleLabel.textColor = UIColor.black
         cell.detailLabel.textColor = theme.color(forKey: detailColorKey ?? .secondaryText)
 
         cell.actionButton?.setTitleColor(tintColor, for: .normal)

@@ -11,9 +11,13 @@ public protocol EntitiesListViewModel {
 
     var report: DefaultEntitiesListReport { get }
 
+    var building: AdditionalActionBuilding { get }
+
+    var screenBuilding: AdditionalActionScreenBuilding { get }
+
     var entityPickerViewModel: EntityPickerViewModel { get }
 
-    var tempInvolvements: [String]? { get set }
+    var selectedInvolvements: [String]? { get set }
 
     var headerText: String { get }
 
@@ -48,6 +52,8 @@ public protocol EntitiesListViewModel {
     func editItems(for entity: MPOLKitEntity) -> [IconPickable]
 
     func definition(for type: EntityPickerType, from context: DefaultEntitiesListViewController, with entity: MPOLKitEntity) -> EntityPickerTypeDefiniton
+
+    func report(for action: AdditionalAction) -> ActionReportable
 }
 
 public extension EntitiesListViewModel {
@@ -77,7 +83,7 @@ public extension EntitiesListViewModel {
     }
 
     func retrieveAdditionalActions(for entity: MPOLKitEntity) -> [AdditionalAction]?  {
-        return report.incident!.additionalActionRelationshipManager.relationships(for: entity, and: AdditionalAction.self).compactMap { $0.relatedObject }
+        return report.incident?.additionalActionManager.actionRelationships(for: entity).compactMap { $0.relatedObject }
     }
 
     func addObserver(_ observer: EvaluationObserverable) {
@@ -89,9 +95,11 @@ public extension EntitiesListViewModel {
             report.event?.entityManager.add(entity, to: report.incident!, with: involvements)
 
             for action in actions ?? [] {
-                report.incident!.additionalActionRelationshipManager.add(Relationship(baseObject: entity, relatedObject: action))
+                action.add(report: report(for: action))
+                report.incident?.additionalActionManager.add(action, to: entity)
             }
             report.evaluator.updateEvaluation(for: EvaluatorKey.hasEntity)
+            report.evaluator.updateEvaluation(for: EvaluatorKey.additionalActionsComplete)
         }
     }
 
@@ -105,8 +113,10 @@ public extension EntitiesListViewModel {
             removeAdditionalAction(entity: entity, action: action)
         }
         actions.forEach {
-            report.incident!.additionalActionRelationshipManager.add(Relationship(baseObject: entity, relatedObject: $0))
+            $0.add(report: report(for: $0))
+            report.incident?.additionalActionManager.add($0, to: entity)
         }
+        report.evaluator.updateEvaluation(for: EvaluatorKey.additionalActionsComplete)
     }
 
     func removeEntity(_ entity: MPOLKitEntity) {
@@ -116,11 +126,13 @@ public extension EntitiesListViewModel {
                 removeAdditionalAction(entity: entity, action: action)
             }
             report.evaluator.updateEvaluation(for: EvaluatorKey.hasEntity)
+            report.evaluator.updateEvaluation(for: EvaluatorKey.additionalActionsComplete)
         }
     }
 
     func removeAdditionalAction(entity: MPOLKitEntity, action: AdditionalAction) {
-        report.incident!.additionalActionRelationshipManager.remove(Relationship(baseObject: entity, relatedObject: action))
+        report.incident?.additionalActionManager.remove(action, from: entity)
+        report.evaluator.updateEvaluation(for: EvaluatorKey.additionalActionsComplete)
     }
 
     func editItems(for entity: MPOLKitEntity) -> [IconPickable] {

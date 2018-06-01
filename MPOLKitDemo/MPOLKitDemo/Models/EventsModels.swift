@@ -52,7 +52,7 @@ class DemoScreenBuilder: EventScreenBuilding {
 
     init() { }
 
-    func viewControllers(for reportables: [Reportable]) -> [UIViewController] {
+    func viewControllers(for reportables: [EventReportable]) -> [UIViewController] {
         var viewControllers = [UIViewController]()
 
         for report in reportables {

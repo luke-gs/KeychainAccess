@@ -1,5 +1,5 @@
 //
-//  entityPickerType.swift
+//  EntityPickerType.swift
 //  MPOLKit
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -72,11 +72,11 @@ internal struct InvolvementPickerDefinition : EntityPickerTypeDefiniton {
                 context.reloadForm()
                 context.dismissAnimated()
             } else {
-                viewModel.tempInvolvements = involvements
+                viewModel.selectedInvolvements = involvements
                 if !viewModel.additionalActions(for: self.entity).isEmpty {
                     context.presentPickerViewController(type: .additionalAction, entity: self.entity)
                 } else {
-                    viewModel.addEntity(self.entity, with: context.viewModel.tempInvolvements, and: nil )
+                    viewModel.addEntity(self.entity, with: context.viewModel.selectedInvolvements, and: nil )
                     context.updateLoadingManager()
                     context.reloadForm()
                     context.dismissAnimated()
@@ -131,9 +131,11 @@ internal struct AdditionalActionPickerDefinition : EntityPickerTypeDefiniton {
             let isEditingEntity = viewModel.entities.contains(entity)
 
             if isEditingEntity {
-                viewModel.updateActions(for: entity, with: actions)
+                if actionTypes != context.viewModel.retrieveAdditionalActions(for: entity)?.compactMap({ $0.additionalActionType}) {
+                    viewModel.updateActions(for: entity, with: actions)
+                }
             } else {
-                viewModel.addEntity(entity, with: viewModel.tempInvolvements, and: actions )
+                viewModel.addEntity(entity, with: viewModel.selectedInvolvements, and: actions )
             }
 
             context.updateLoadingManager()

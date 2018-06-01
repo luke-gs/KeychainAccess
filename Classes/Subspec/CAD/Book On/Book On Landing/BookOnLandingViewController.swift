@@ -9,21 +9,18 @@
 import UIKit
 
 open class BookOnLandingViewController: FormBuilderViewController {
-
+    
     /// Layout sizing constants
     public struct LayoutConstants {
         // MARK: - Margins
         static let topMargin: CGFloat = 24
         static let bottomMargin: CGFloat = 16
         static let horizontalMargin: CGFloat = 40
-        
-        // MARK: - Header
-        static let footerHeight: CGFloat = DialogActionButtonsView.LayoutConstants.defaultHeight
     }
     
     // MARK: - Views
     
-    open var titleLabel: UILabel!
+    open var titleLabel = UILabel()
     open var buttonsView: DialogActionButtonsView!
 
     /// `super.viewModel` typecasted to our type
@@ -35,6 +32,7 @@ open class BookOnLandingViewController: FormBuilderViewController {
         self.viewModel = viewModel
         super.init()
         
+        wantsTransparentBackground = true
         title = viewModel.navTitle()
         setupViews()
         setupConstraints()
@@ -46,7 +44,6 @@ open class BookOnLandingViewController: FormBuilderViewController {
 
     /// Creates and styles views
     open func setupViews() {
-        titleLabel = UILabel()
         titleLabel.font = UIFont.systemFont(ofSize: 15)
         titleLabel.text = viewModel.headerText()
         titleLabel.textColor = ThemeManager.shared.theme(for: .current).color(forKey: .primaryText)
@@ -75,7 +72,7 @@ open class BookOnLandingViewController: FormBuilderViewController {
             collectionView?.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
             collectionView?.leadingAnchor.constraint(equalTo: view.safeAreaOrFallbackLeadingAnchor),
             collectionView?.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor),
-            collectionView?.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor, constant: -LayoutConstants.footerHeight).withPriority(.almostRequired),
+            collectionView?.bottomAnchor.constraint(equalTo: buttonsView.topAnchor).withPriority(.almostRequired),
 
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: LayoutConstants.topMargin),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
