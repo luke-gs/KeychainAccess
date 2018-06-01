@@ -10,12 +10,10 @@ import ClientKit
 
 class DefaultEntityPickerViewModel: EntityPickerViewModel {
 
-    let entities: [MPOLKitEntity]
-    weak var delegate: EntityPickerDelegate?
-
-    required init() {
-        entities = UserSession.current.recentlyViewed.entities
+    var entities: [MPOLKitEntity] {
+        return UserSession.current.recentlyViewed.entities
     }
+    weak var delegate: EntityPickerDelegate?
 
     func displayable(for entity: MPOLKitEntity) -> EntitySummaryDisplayable {
 

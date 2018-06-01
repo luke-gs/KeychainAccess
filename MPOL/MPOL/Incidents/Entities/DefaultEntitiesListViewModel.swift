@@ -9,11 +9,13 @@ import MPOLKit
 import ClientKit
 
 class DefaultEntitiesListViewModel: EntitiesListViewModel {
-
+    
     let report: DefaultEntitiesListReport
     let incidentType: IncidentType
     var entityPickerViewModel: EntityPickerViewModel = DefaultEntityPickerViewModel()
-    var tempInvolvements: [String]? = nil
+    var selectedInvolvements: [String]?
+    var building: AdditionalActionBuilding = DefaultAdditionalActionBuilding()
+    var screenBuilding: AdditionalActionScreenBuilding = DefaultAdditionalActionScreenBuilding()
 
     required init(report: DefaultEntitiesListReport, incidentType: IncidentType) {
         self.report = report
@@ -50,6 +52,16 @@ class DefaultEntitiesListViewModel: EntitiesListViewModel {
             break
         }
         return types.map { $0.rawValue }
+    }
 
+    func report(for action: AdditionalAction) -> Reportable {
+        switch action.additionalActionType {
+        case .personSearch:
+            return PersonSearchReport(incident: report.incident, additionalAction: action)
+        case .vehicleTow:
+            return VehicleTowReport(incident: report.incident, additionalAction: action)
+        default:
+            fatalError("Invalid AdditionActionType")
+        }
     }
 }
