@@ -52,7 +52,7 @@ public enum DialogActionStyle {
     }
 }
 
-typealias PSCAlertAction = DialogAction
+public typealias PSCAlertAction = DialogAction
 
 /// An action for a PSCAlertController. This class mimics `UIKit`'s `UIAlertAction`.
 open class DialogAction {
