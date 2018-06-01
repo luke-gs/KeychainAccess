@@ -174,11 +174,13 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
     }
     
     open func setLoadingState(_ state: LoadingStateManager.State) {
-        (detailViewControllers as? [TaskDetailsViewController])?.forEach { vc in
-            vc.loadingManager.state = state
+        DispatchQueue.main.async {
+            (self.detailViewControllers as? [TaskDetailsViewController])?.forEach { vc in
+                vc.loadingManager.state = state
+            }
+            
+            self.allowDetailSelection = state != .loading
         }
-        
-        allowDetailSelection = state != .loading
     }
 }
 

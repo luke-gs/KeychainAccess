@@ -38,7 +38,7 @@ open class SidebarSplitViewController: MPOLSplitViewController, SidebarDelegate 
         didSet {
             // Disable table selection if not available
             regularSidebarViewController.sidebarTableView?.allowsSelection = allowDetailSelection
-
+            
             // Disable selection from compact sidebar, or scroll pagination if not available
             compactSidebarViewController.view.isUserInteractionEnabled = allowDetailSelection
             pageViewController.scrollView?.isScrollEnabled = allowDetailSelection

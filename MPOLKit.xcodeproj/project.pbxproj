@@ -166,7 +166,7 @@
 		2715D6411FD505F300BD0E95 /* IncidentResourcesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715D6401FD505F300BD0E95 /* IncidentResourcesViewModel.swift */; };
 		2715D6431FD5064C00BD0E95 /* IncidentResourceItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715D6421FD5064C00BD0E95 /* IncidentResourceItemViewModel.swift */; };
 		271F8509202901E8006DF977 /* PSCAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271F8508202901E8006DF977 /* PSCAlertController.swift */; };
-		271F850B202901FB006DF977 /* PSCAlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271F850A202901FB006DF977 /* PSCAlertAction.swift */; };
+		271F850B202901FB006DF977 /* DialogAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271F850A202901FB006DF977 /* DialogAction.swift */; };
 		271F850D202902AC006DF977 /* PSCAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271F850C202902AC006DF977 /* PSCAlertView.swift */; };
 		27206B361F8198CD005303A8 /* IncidentAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27206B351F8198CD005303A8 /* IncidentAnnotationView.swift */; };
 		27256FF3205B27D9005930CB /* BaseDelimitedStringCountSpecification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27256FF2205B27D9005930CB /* BaseDelimitedStringCountSpecification.swift */; };
@@ -250,7 +250,7 @@
 		275329322033B68400CFA97B /* BroadcastTaskItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275329312033B68400CFA97B /* BroadcastTaskItemViewModel.swift */; };
 		275329352033B69500CFA97B /* BroadcastOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275329342033B69500CFA97B /* BroadcastOverviewViewModel.swift */; };
 		275F0A681FA19694002BB9C5 /* BookOnDetailsFormContentMainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275F0A671FA19694002BB9C5 /* BookOnDetailsFormContentMainViewModel.swift */; };
-		2764713520295A40008F26A1 /* PSCAlertActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2764713420295A40008F26A1 /* PSCAlertActionView.swift */; };
+		2764713520295A40008F26A1 /* DialogActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2764713420295A40008F26A1 /* DialogActionView.swift */; };
 		2766CE331FEB5C5400895B3A /* CallsignCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2766CE321FEB5C5400895B3A /* CallsignCollectionViewCell.swift */; };
 		2768C0461F85EB2A008532ED /* MapSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2768C0451F85EB2A008532ED /* MapSettingsViewModel.swift */; };
 		2768C0481F86D60A008532ED /* MapSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2768C0471F86D60A008532ED /* MapSettingsViewController.swift */; };
@@ -1055,7 +1055,7 @@
 		2715D6401FD505F300BD0E95 /* IncidentResourcesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentResourcesViewModel.swift; sourceTree = "<group>"; };
 		2715D6421FD5064C00BD0E95 /* IncidentResourceItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentResourceItemViewModel.swift; sourceTree = "<group>"; };
 		271F8508202901E8006DF977 /* PSCAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSCAlertController.swift; sourceTree = "<group>"; };
-		271F850A202901FB006DF977 /* PSCAlertAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSCAlertAction.swift; sourceTree = "<group>"; };
+		271F850A202901FB006DF977 /* DialogAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogAction.swift; sourceTree = "<group>"; };
 		271F850C202902AC006DF977 /* PSCAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSCAlertView.swift; sourceTree = "<group>"; };
 		27206B351F8198CD005303A8 /* IncidentAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentAnnotationView.swift; sourceTree = "<group>"; };
 		27256FF2205B27D9005930CB /* BaseDelimitedStringCountSpecification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDelimitedStringCountSpecification.swift; sourceTree = "<group>"; };
@@ -1139,7 +1139,7 @@
 		275329312033B68400CFA97B /* BroadcastTaskItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastTaskItemViewModel.swift; sourceTree = "<group>"; };
 		275329342033B69500CFA97B /* BroadcastOverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastOverviewViewModel.swift; sourceTree = "<group>"; };
 		275F0A671FA19694002BB9C5 /* BookOnDetailsFormContentMainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookOnDetailsFormContentMainViewModel.swift; sourceTree = "<group>"; };
-		2764713420295A40008F26A1 /* PSCAlertActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSCAlertActionView.swift; sourceTree = "<group>"; };
+		2764713420295A40008F26A1 /* DialogActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogActionView.swift; sourceTree = "<group>"; };
 		2766CE321FEB5C5400895B3A /* CallsignCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallsignCollectionViewCell.swift; sourceTree = "<group>"; };
 		2768C0451F85EB2A008532ED /* MapSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettingsViewModel.swift; sourceTree = "<group>"; };
 		2768C0471F86D60A008532ED /* MapSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSettingsViewController.swift; sourceTree = "<group>"; };
@@ -2179,10 +2179,10 @@
 		271F8507202901A3006DF977 /* Alerts */ = {
 			isa = PBXGroup;
 			children = (
+				271F850A202901FB006DF977 /* DialogAction.swift */,
+				2764713420295A40008F26A1 /* DialogActionView.swift */,
 				271F8508202901E8006DF977 /* PSCAlertController.swift */,
-				271F850A202901FB006DF977 /* PSCAlertAction.swift */,
 				271F850C202902AC006DF977 /* PSCAlertView.swift */,
-				2764713420295A40008F26A1 /* PSCAlertActionView.swift */,
 			);
 			path = Alerts;
 			sourceTree = "<group>";
@@ -5167,7 +5167,7 @@
 				276C21061F60C2100003B860 /* MapViewController.swift in Sources */,
 				EA1B3C9A1F721A5F00574A41 /* CustomFormItem.swift in Sources */,
 				27094CC91FAFFBDA00D4C3D4 /* ResourceActivityLogViewController.swift in Sources */,
-				271F850B202901FB006DF977 /* PSCAlertAction.swift in Sources */,
+				271F850B202901FB006DF977 /* DialogAction.swift in Sources */,
 				BC9C7E531F0DED6600DFFE83 /* GradientView.swift in Sources */,
 				469EB5811F452FAB0005CAF7 /* LoginViewController.swift in Sources */,
 				EABAB8041F342E450071A401 /* AggregatedSearchRequest.swift in Sources */,
@@ -5428,7 +5428,7 @@
 				96707B4F2096930700C4BFDC /* APIManager+CAD.swift in Sources */,
 				27FDABB71FB91B02003466AF /* OfficerCommunicationsView.swift in Sources */,
 				962F179B208F081E00156247 /* CryptoUtils.swift in Sources */,
-				2764713520295A40008F26A1 /* PSCAlertActionView.swift in Sources */,
+				2764713520295A40008F26A1 /* DialogActionView.swift in Sources */,
 				965CD8A81F8ECDBA007C3EEA /* TasksListContainerViewController.swift in Sources */,
 				273A5C1A2005B8DC0009D9A0 /* GlassBarView.swift in Sources */,
 				2704CEFB207AD6760001A3DE /* MPOLMarkerAnnotationView.swift in Sources */,
