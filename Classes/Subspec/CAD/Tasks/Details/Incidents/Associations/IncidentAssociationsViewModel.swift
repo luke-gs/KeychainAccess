@@ -39,8 +39,8 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<IncidentA
                 category: "DS1",
                 entityType: .vehicle,
                 title: vehicle.plateNumber,
-                detail1: vehicle.vehicleDescription,
-                detail2: vehicle.primaryColour,
+                detail1: [vehicle.year, vehicle.make, vehicle.model].joined(),
+                detail2: [vehicle.primaryColour, vehicle.bodyType].joined(),
                 borderColor: vehicle.associatedAlertLevel?.color,
                 iconColor: vehicle.alertLevel?.color,
                 badge: 0)
