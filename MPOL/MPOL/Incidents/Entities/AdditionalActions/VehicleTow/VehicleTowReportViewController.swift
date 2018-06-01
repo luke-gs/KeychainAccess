@@ -9,7 +9,7 @@ import UIKit
 import MPOLKit
 import ClientKit
 
-open class VehicleTowReportViewController: FormBuilderViewController, EvaluationObserverable {
+public class VehicleTowReportViewController: FormBuilderViewController, EvaluationObserverable {
 
     public let viewModel: VehicleTowReportViewModel
 

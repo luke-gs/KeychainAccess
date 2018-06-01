@@ -4,11 +4,11 @@
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
-
 import MPOLKit
+import ClientKit
 
 fileprivate extension EvaluatorKey {
-    static let viewed = EvaluatorKey("viewed")
+    static let hasRequiredData = EvaluatorKey("hasRequiredData")
 }
 
 public class PersonSearchReport: ActionReportable {
@@ -17,12 +17,50 @@ public class PersonSearchReport: ActionReportable {
 
     public let evaluator: Evaluator = Evaluator()
 
-    public var viewed = false {
+    public var searchType: String?
+    public var detainedStart: Date? {
         didSet {
-            evaluator.updateEvaluation(for: .viewed)
+            evaluator.updateEvaluation(for: .hasRequiredData)
         }
     }
-
+    public var detainedEnd: Date?
+    public var searchStart: Date? {
+        didSet {
+            evaluator.updateEvaluation(for: .hasRequiredData)
+        }
+    }
+    public var searchEnd: Date?
+    public var location: EventLocation? {
+        didSet {
+            evaluator.updateEvaluation(for: .hasRequiredData)
+        }
+    }
+    public var officerDisplayables = [OfficerSummaryDisplayable]() {
+        didSet {
+            evaluator.updateEvaluation(for: .hasRequiredData)
+        }
+    }
+    public var legalPower: String? {
+        didSet {
+            evaluator.updateEvaluation(for: .hasRequiredData)
+        }
+    }
+    public var searchReason: String? {
+        didSet {
+            evaluator.updateEvaluation(for: .hasRequiredData)
+        }
+    }
+    public var outcome: String? {
+        didSet {
+            evaluator.updateEvaluation(for: .hasRequiredData)
+        }
+    }
+    public var clothingRemoved: Bool? {
+        didSet {
+            evaluator.updateEvaluation(for: .hasRequiredData)
+        }
+    }
+    public var remarks: String?
 
     public init(incident: Incident?, additionalAction: AdditionalAction) {
         self.weakIncident = Weak(incident)
@@ -35,8 +73,12 @@ public class PersonSearchReport: ActionReportable {
             evaluator.addObserver(additionalAction)
         }
 
-        evaluator.registerKey(.viewed) {
-            return self.viewed
+        evaluator.registerKey(.hasRequiredData) {
+
+            return self.detainedStart != nil && self.searchStart != nil
+                && self.location != nil && !self.officerDisplayables.isEmpty
+                && self.legalPower != nil && self.searchReason != nil
+                && self.outcome != nil && self.clothingRemoved != nil
         }
     }
 
@@ -64,3 +106,4 @@ public class PersonSearchReport: ActionReportable {
 extension AdditionalActionType {
     public static let personSearch = AdditionalActionType(rawValue: "Person Search Report")
 }
+
