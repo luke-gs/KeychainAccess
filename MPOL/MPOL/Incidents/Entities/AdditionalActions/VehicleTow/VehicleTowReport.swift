@@ -4,24 +4,38 @@
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
+
 import MPOLKit
+import ClientKit
 
 fileprivate extension EvaluatorKey {
-    static let viewed = EvaluatorKey("viewed")
+    static let hasRequiredData = EvaluatorKey("hasRequiredData")
 }
 
-public class VehicleTowReport: ActionReportable {
+public class VehicleTowReport: ActionReportable, MediaContainer {
     
     public let weakAdditionalAction: Weak<AdditionalAction>
     public let weakIncident: Weak<Incident>
 
     public let evaluator: Evaluator = Evaluator()
 
-    public var viewed = false {
+    var location: EventLocation? {
         didSet {
-            evaluator.updateEvaluation(for: .viewed)
+            evaluator.updateEvaluation(for: .hasRequiredData)
         }
     }
+    var towReason: String?
+    var authorisingOfficer: Officer?
+    var notifyingOfficer: Officer?
+    var date: Date?
+    var hold: Bool? {
+        didSet {
+            evaluator.updateEvaluation(for: .hasRequiredData)
+        }
+    }
+    var holdReason: String?
+    var holdRemarks: String?
+    public var media: [MediaAsset] = []
 
     public init(incident: Incident?, additionalAction: AdditionalAction) {
 
@@ -35,8 +49,9 @@ public class VehicleTowReport: ActionReportable {
             evaluator.addObserver(additionalAction)
         }
 
-        evaluator.registerKey(.viewed) {
-            return self.viewed
+        evaluator.registerKey(.hasRequiredData) {
+            return self.location != nil
+                && self.hold != nil
         }
     }
 
@@ -59,9 +74,25 @@ public class VehicleTowReport: ActionReportable {
         aCoder.encodeWeakObject(weakObject: weakAdditionalAction, forKey: Coding.action.rawValue)
         aCoder.encodeWeakObject(weakObject: weakIncident, forKey: Coding.incident.rawValue)
     }
+
+    // Media Container
+    public func add(_ media: [MediaAsset]) {
+        media.forEach {
+            if !self.media.contains($0) {
+                self.media.append($0)
+            }
+        }
+    }
+
+    public func remove(_ media: [MediaAsset]) {
+        media.forEach { asset in
+            if let index = self.media.index(where: { $0 == asset }) {
+                self.media.remove(at: index)
+            }
+        }
+    }
 }
 
 extension AdditionalActionType {
     public static let vehicleTow = AdditionalActionType(rawValue: "Vehicle Tow Report")
 }
-

@@ -34,7 +34,6 @@ class DefaultEntitiesListViewModel: EntitiesListViewModel {
     }
 
     func involvements(for entity: MPOLKitEntity) -> [String] {
-
         return incidentType.involvements(for: entity)
     }
 
