@@ -534,7 +534,7 @@
 		AA1D4F4F20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1D4F4E20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift */; };
 		AA51409020B68EFD008FA7DD /* AdditionalAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA51408F20B68EFD008FA7DD /* AdditionalAction.swift */; };
 		AA792CCE20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA792CCD20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift */; };
-		AA7A3C3520B7E21900C1CF24 /* entityPickerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7A3C3420B7E21900C1CF24 /* entityPickerType.swift */; };
+		AA7A3C3520B7E21900C1CF24 /* EntityPickerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7A3C3420B7E21900C1CF24 /* EntityPickerType.swift */; };
 		AA7B25C820B27491005A23F0 /* EntityPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25C320B27491005A23F0 /* EntityPickerViewModel.swift */; };
 		AA7B25C920B27491005A23F0 /* DefaultEntitiesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25C420B27491005A23F0 /* DefaultEntitiesListViewController.swift */; };
 		AA7B25CA20B27491005A23F0 /* EntityPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B25C520B27491005A23F0 /* EntityPickerViewController.swift */; };
@@ -1432,7 +1432,7 @@
 		AA1D4F4E20ACF42500A3A8A4 /* SubItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		AA51408F20B68EFD008FA7DD /* AdditionalAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalAction.swift; sourceTree = "<group>"; };
 		AA792CCD20981D65008C7606 /* CollectionViewFormOptionStackViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFormOptionStackViewCell.swift; sourceTree = "<group>"; };
-		AA7A3C3420B7E21900C1CF24 /* entityPickerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = entityPickerType.swift; sourceTree = "<group>"; };
+		AA7A3C3420B7E21900C1CF24 /* EntityPickerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityPickerType.swift; sourceTree = "<group>"; };
 		AA7B25C320B27491005A23F0 /* EntityPickerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPickerViewModel.swift; sourceTree = "<group>"; };
 		AA7B25C420B27491005A23F0 /* DefaultEntitiesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEntitiesListViewController.swift; sourceTree = "<group>"; };
 		AA7B25C520B27491005A23F0 /* EntityPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityPickerViewController.swift; sourceTree = "<group>"; };
@@ -2754,15 +2754,6 @@
 			path = "Cell Animations";
 			sourceTree = "<group>";
 		};
-		4685862E20BE6F5B000319DA /* Security */ = {
-			isa = PBXGroup;
-			children = (
-				46A0A2AA20BCDFB2007AAAA8 /* Conceal.swift */,
-				96707B432091D7F700C4BFDC /* Crypto */,
-			);
-			path = Security;
-			sourceTree = "<group>";
-		};
 		46A0A2B420BE4E3B007AAAA8 /* Weak */ = {
 			isa = PBXGroup;
 			children = (
@@ -3131,16 +3122,6 @@
 			path = Tasks;
 			sourceTree = "<group>";
 		};
-		96707B432091D7F700C4BFDC /* Crypto */ = {
-			isa = PBXGroup;
-			children = (
-				96707B462091D88600C4BFDC /* AESBlockCipher.swift */,
-				96707B442091D85200C4BFDC /* BlockCipherType.swift */,
-				962F179A208F081E00156247 /* CryptoUtils.swift */,
-			);
-			path = Crypto;
-			sourceTree = "<group>";
-		};
 		9674E0E51FC67FC7000702F8 /* Loading */ = {
 			isa = PBXGroup;
 			children = (
@@ -3338,7 +3319,7 @@
 				AA7B25C620B27491005A23F0 /* EntitiesListViewModel.swift */,
 				AA7B25C520B27491005A23F0 /* EntityPickerViewController.swift */,
 				AA7B25C320B27491005A23F0 /* EntityPickerViewModel.swift */,
-				AA7A3C3420B7E21900C1CF24 /* entityPickerType.swift */,
+				AA7A3C3420B7E21900C1CF24 /* EntityPickerType.swift */,
 				AA7B25CD20B2749B005A23F0 /* AdditionalActions */,
 			);
 			path = Entities;
@@ -4972,7 +4953,7 @@
 				DB528ED120046C13008914EB /* ValidationResults.swift in Sources */,
 				9936C67D1F96C5580091A61C /* GeolocationPlugin.swift in Sources */,
 				4634B4471FBD6FD200D71E7F /* TravelEstimationPlugin.swift in Sources */,
-				AA7A3C3520B7E21900C1CF24 /* entityPickerType.swift in Sources */,
+				AA7A3C3520B7E21900C1CF24 /* EntityPickerType.swift in Sources */,
 				199D18D2203AD3CD00A9C072 /* UIView+AnimationPromiseChain.swift in Sources */,
 				27DC609B1FD60F3D0033BC0B /* ResourceOverviewViewModel.swift in Sources */,
 				BC1B25BA1F2707270090C0AA /* MPOLBarButtonItems.swift in Sources */,
