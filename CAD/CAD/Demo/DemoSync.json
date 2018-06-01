@@ -173,19 +173,25 @@
         {
           "alertLevel": 2, 
           "associatedAlertLevel": 2, 
+          "bodyType": "Sedan", 
           "id": "16213074-3b79-4732-b4e0-615e5066a723", 
+          "make": "Ford", 
+          "model": "Falcon", 
           "plateNumber": "ABC123", 
           "primaryColour": "Blue", 
           "source": "pscore", 
-          "vehicleDescription": "2016 Ford Falcon XR8"
+          "year": "2016"
         }, 
         {
           "alertLevel": 0, 
+          "bodyType": "Coupe", 
           "id": "06259e0f-cdc4-4149-89a6-ea9731ebf0e2", 
+          "make": "Ford", 
+          "model": "Mustang", 
           "plateNumber": "ABC124", 
           "primaryColour": "Red", 
           "source": "pscore", 
-          "vehicleDescription": "2017 Ford Mustang"
+          "year": "2016"
         }
       ]
     }, 
@@ -258,11 +264,14 @@
         {
           "alertLevel": 2, 
           "associatedAlertLevel": 2, 
+          "bodyType": "Sedan", 
           "id": "16213074-3b79-4732-b4e0-615e5066a723", 
+          "make": "Ford", 
+          "model": "Falcon", 
           "plateNumber": "ABC123", 
           "primaryColour": "Blue", 
           "source": "pscore", 
-          "vehicleDescription": "2016 Ford Falcon XR8"
+          "year": "2016"
         }
       ]
     }, 
@@ -441,19 +450,25 @@
         {
           "alertLevel": 2, 
           "associatedAlertLevel": 2, 
+          "bodyType": "Sedan", 
           "id": "16213074-3b79-4732-b4e0-615e5066a723", 
+          "make": "Ford", 
+          "model": "Falcon", 
           "plateNumber": "ABC123", 
           "primaryColour": "Blue", 
           "source": "pscore", 
-          "vehicleDescription": "2016 Ford Falcon XR8"
+          "year": "2016"
         }, 
         {
           "alertLevel": 0, 
+          "bodyType": "Coupe", 
           "id": "06259e0f-cdc4-4149-89a6-ea9731ebf0e2", 
+          "make": "Ford", 
+          "model": "Mustang", 
           "plateNumber": "ABC124", 
           "primaryColour": "Red", 
           "source": "pscore", 
-          "vehicleDescription": "2017 Ford Mustang"
+          "year": "2016"
         }
       ]
     }, 
@@ -514,11 +529,14 @@
         {
           "alertLevel": 2, 
           "associatedAlertLevel": 2, 
+          "bodyType": "Sedan", 
           "id": "16213074-3b79-4732-b4e0-615e5066a723", 
+          "make": "Ford", 
+          "model": "Falcon", 
           "plateNumber": "ABC123", 
           "primaryColour": "Blue", 
           "source": "pscore", 
-          "vehicleDescription": "2016 Ford Falcon XR8"
+          "year": "2016"
         }
       ]
     }, 
