@@ -12,7 +12,8 @@ fileprivate extension EvaluatorKey {
     static let viewed = EvaluatorKey("viewed")
 }
 
-public class DefaultNotesMediaReport: Reportable, MediaContainer {
+public class DefaultNotesMediaReport: EventReportable, MediaContainer {
+    public let weakEvent: Weak<Event>
 
     var viewed: Bool = false {
         didSet {
@@ -24,13 +25,10 @@ public class DefaultNotesMediaReport: Reportable, MediaContainer {
     var operationName: String?
     var freeText: String?
 
-    public weak var event: Event?
-    public weak var incident: Incident?
-
     public var evaluator: Evaluator = Evaluator()
 
     public required init(event: Event) {
-        self.event = event
+        self.weakEvent = Weak(event)
         commonInit()
     }
 
@@ -46,17 +44,19 @@ public class DefaultNotesMediaReport: Reportable, MediaContainer {
     // Coding
 
     public static var supportsSecureCoding: Bool = true
+
     private enum Coding: String {
         case media
         case operationName
         case freeText
+        case event
     }
-
 
     public required init?(coder aDecoder: NSCoder) {
         media = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.media.rawValue) as! [MediaAsset]
         operationName = aDecoder.decodeObject(of: NSString.self, forKey: Coding.operationName.rawValue) as String?
         freeText = aDecoder.decodeObject(of: NSString.self, forKey: Coding.freeText.rawValue) as String?
+        weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
         commonInit()
     }
 

@@ -19,10 +19,10 @@ final public class Incident: NSSecureCoding, Evaluatable, Equatable {
     public var evaluator: Evaluator = Evaluator()
     public let additionalActionManager = AdditionalActionManager()
 
-    public weak var event: Event?
+    public let weakEvent: Weak<Event>
     public weak var displayable: IncidentListDisplayable!
 
-    private(set) public var reports: [Reportable] = [Reportable]() {
+    private(set) public var reports: [IncidentReportable] = [IncidentReportable]() {
         didSet {
             evaluator.updateEvaluation(for: .allValid)
         }
@@ -35,7 +35,7 @@ final public class Incident: NSSecureCoding, Evaluatable, Equatable {
     }
 
     public init(event: Event, type: IncidentType) {
-        self.event = event
+        self.weakEvent = Weak(event)
         self.incidentType = type
         self.id = UUID().uuidString
         self.evaluator.registerKey(.allValid) {
@@ -50,13 +50,14 @@ final public class Incident: NSSecureCoding, Evaluatable, Equatable {
         case id
         case incidentType
         case reports
+        case event
     }
-
 
     public required init?(coder aDecoder: NSCoder) {
         id = aDecoder.decodeObject(of: NSString.self, forKey: Coding.id.rawValue)! as String
         incidentType = IncidentType(rawValue: aDecoder.decodeObject(of: NSString.self, forKey: Coding.incidentType.rawValue)! as String)
-        reports = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.reports.rawValue) as! [Reportable]
+        reports = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.reports.rawValue) as! [IncidentReportable]
+        weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
     }
 
 
@@ -64,19 +65,20 @@ final public class Incident: NSSecureCoding, Evaluatable, Equatable {
         aCoder.encode(id, forKey: Coding.id.rawValue)
         aCoder.encode(incidentType.rawValue, forKey: Coding.incidentType.rawValue)
         aCoder.encode(reports, forKey: Coding.reports.rawValue)
+        aCoder.encodeWeakObject(weakObject: weakEvent, forKey: Coding.event.rawValue)
     }
 
     //MARK: Utility
 
-    public func add(reports: [Reportable]) {
+    public func add(reports: [IncidentReportable]) {
         self.reports.append(contentsOf: reports)
     }
 
-    public func add(report: Reportable) {
+    public func add(report: IncidentReportable) {
         reports.append(report)
     }
 
-    public func reportable(for reportableType: AnyClass) -> Reportable? {
+    public func reportable(for reportableType: AnyClass) -> IncidentReportable? {
         return reports.filter{type(of: $0) == reportableType}.first
     }
 
@@ -142,6 +144,6 @@ public protocol IncidentScreenBuilding {
     ///
     /// - Parameter reportables: the array of reports to construct view controllers for
     /// - Returns: an array of viewController constucted for the reports
-    func viewControllers(for reportables: [Reportable]) -> [UIViewController]
+    func viewControllers(for reportables: [IncidentReportable]) -> [UIViewController]
 }
 

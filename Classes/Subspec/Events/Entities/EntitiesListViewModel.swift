@@ -53,7 +53,7 @@ public protocol EntitiesListViewModel {
 
     func definition(for type: EntityPickerType, from context: DefaultEntitiesListViewController, with entity: MPOLKitEntity) -> EntityPickerTypeDefiniton
 
-    func report(for action: AdditionalAction) -> Reportable
+    func report(for action: AdditionalAction) -> ActionReportable
 }
 
 public extension EntitiesListViewModel {

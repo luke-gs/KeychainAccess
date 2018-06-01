@@ -29,7 +29,7 @@ class GenericSearchViewModelTests: XCTestCase {
     }
 
     func testNumberOfValidSections() {
-        let numberOfSections = Set(items.flatMap{$0.section}).count
+        let numberOfSections = Set(items.compactMap{$0.section}).count
         XCTAssertEqual(viewModel.numberOfSections(), numberOfSections)
     }
 
@@ -37,7 +37,7 @@ class GenericSearchViewModelTests: XCTestCase {
         let items: [CustomSearchDisplayable] = Array<CustomSearchDisplayable>(repeating: Test(), count: 10) + Array<CustomSearchDisplayable>(repeating: Test2(), count: 2)
         let viewModel = DefaultSearchDisplayableViewModel(items: items)
 
-        let numberOfSections = Set(items.flatMap{$0.section}).count
+        let numberOfSections = Set(items.compactMap{$0.section}).count
         XCTAssertNotEqual(viewModel.numberOfSections(), numberOfSections)
         XCTAssertEqual(viewModel.numberOfSections(), numberOfSections + 1)
     }

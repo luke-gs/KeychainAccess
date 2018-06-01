@@ -5,15 +5,6 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-/// Reportable to be used for additional action
-public protocol ActionReportable: Reportable {
-
-    /// A weak reference to the additional action object
-    /// Make sure this is weak in implementation as well
-    var additionalAction: AdditionalAction? { get }
-
-}
-
 fileprivate extension EvaluatorKey {
     static let allValid = EvaluatorKey(rawValue: "allValid")
 }
@@ -27,9 +18,9 @@ final public class AdditionalAction: NSSecureCoding, Evaluatable, Equatable {
     public var additionalActionType: AdditionalActionType
     public var evaluator: Evaluator = Evaluator()
 
-    public weak var incident: Incident?
+    public let weakIncident: Weak<Incident>
 
-    private(set) public var reports: [Reportable] = [Reportable]() {
+    private(set) public var reports: [IncidentReportable] = [IncidentReportable]() {
         didSet {
             evaluator.updateEvaluation(for: .allValid)
         }
@@ -42,7 +33,7 @@ final public class AdditionalAction: NSSecureCoding, Evaluatable, Equatable {
     }
 
     public init(incident: Incident, type: AdditionalActionType) {
-        self.incident = incident
+        self.weakIncident = Weak(incident)
         self.additionalActionType = type
         self.id = UUID().uuidString
         self.evaluator.registerKey(.allValid) {
@@ -57,33 +48,35 @@ final public class AdditionalAction: NSSecureCoding, Evaluatable, Equatable {
         case id
         case additionalActionType
         case reports
+        case incident
     }
 
 
     public required init?(coder aDecoder: NSCoder) {
         id = aDecoder.decodeObject(of: NSString.self, forKey: Coding.id.rawValue)! as String
         additionalActionType = AdditionalActionType(rawValue: aDecoder.decodeObject(of: NSString.self, forKey: Coding.additionalActionType.rawValue)! as String)
-        reports = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.reports.rawValue) as! [Reportable]
+        reports = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.reports.rawValue) as! [IncidentReportable]
+        weakIncident = aDecoder.decodeWeakObject(forKey: Coding.incident.rawValue)
     }
-
 
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(id, forKey: Coding.id.rawValue)
         aCoder.encode(additionalActionType.rawValue, forKey: Coding.additionalActionType.rawValue)
         aCoder.encode(reports, forKey: Coding.reports.rawValue)
+        aCoder.encodeWeakObject(weakObject: weakIncident, forKey: Coding.incident.rawValue)
     }
 
     //MARK: Utility
 
-    public func add(reports: [Reportable]) {
+    public func add(reports: [IncidentReportable]) {
         self.reports.append(contentsOf: reports)
     }
 
-    public func add(report: Reportable) {
+    public func add(report: IncidentReportable) {
         reports.append(report)
     }
 
-    public func reportable(atIndex index: Int) -> Reportable? {
+    public func reportable(atIndex index: Int) -> IncidentReportable? {
         return reports[index]
     }
 
@@ -142,7 +135,7 @@ public protocol AdditionalActionScreenBuilding {
     ///
     /// - Parameter reportables: the array of reports to construct view controllers for
     /// - Returns: an array of viewController constucted for the reports
-    func viewControllers(for reports: [Reportable]) -> [UIViewController] 
+    func viewControllers(for reports: [IncidentReportable]) -> [UIViewController] 
 }
 
 
