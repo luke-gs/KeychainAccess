@@ -217,7 +217,9 @@ open class TasksMapViewController: MapViewController {
         if viewModel.shouldCluster() {
             clusterManager.add(annotations)
             UIView.transition(with: mapView, duration: 0.1, options: .transitionCrossDissolve, animations: {
-                self.clusterManager.reload(self.mapView, visibleMapRect: self.mapView.visibleMapRect)
+                if self.mapView.visibleMapRect.origin.x >= 0 && self.mapView.visibleMapRect.origin.y >= 0 {
+                    self.clusterManager.reload(self.mapView, visibleMapRect: self.mapView.visibleMapRect)
+                }
             }, completion: nil)
         } else {
             mapView.addAnnotations(annotations)
