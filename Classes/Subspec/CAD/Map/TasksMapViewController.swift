@@ -217,7 +217,10 @@ open class TasksMapViewController: MapViewController {
         if viewModel.shouldCluster() {
             clusterManager.add(annotations)
             UIView.transition(with: mapView, duration: 0.1, options: .transitionCrossDissolve, animations: {
-                self.clusterManager.reload(self.mapView, visibleMapRect: self.mapView.visibleMapRect)
+                // Cluster manager crashes app if visible map rect origin is < 0. Most likely Tim Cook's direct fault. 
+                if self.mapView.visibleMapRect.origin.x >= 0 && self.mapView.visibleMapRect.origin.y >= 0 {
+                    self.clusterManager.reload(self.mapView, visibleMapRect: self.mapView.visibleMapRect)
+                }
             }, completion: nil)
         } else {
             mapView.addAnnotations(annotations)
