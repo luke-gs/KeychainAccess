@@ -11,7 +11,7 @@ import Foundation
 /// A `CollectionViewFormMediaCell`'s delegate protocol.
 ///
 /// Implement this protocol to provide custom behaviours on selection of media item in the `CollectionViewFormMediaCell`.
-public protocol MediaGalleryDelegate: class {
+public protocol MediaGalleryDelegate {
 
     // MARK: - Controllers creation
 

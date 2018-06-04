@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PromiseKit
 
 public class PropertyDetailsViewController: ThemedPopoverViewController, EvaluationObserverable {
 
@@ -37,19 +38,23 @@ public class PropertyDetailsViewController: ThemedPopoverViewController, Evaluat
         let searchViewModel = PropertySearchDisplayableViewModel(properties: viewModel.properties)
         addPropertyViewController = SearchDisplayableViewController<PropertyDetailsViewController, PropertySearchDisplayableViewModel>(viewModel: searchViewModel)
         addPropertyViewController.delegate = self
-
-        let generalPlugins: [FormBuilderPlugin] = [AddPropertyGeneralPlugin(viewModel: viewModel, delegate: self)]
-        propertyDetailsGeneralViewController = DefaultPropertyViewController(plugins: generalPlugins)
-
-        let mediaPlugins: [FormBuilderPlugin] = [AddPropertyMediaPlugin(viewModel: viewModel, delegate: self)]
-        propertyDetailsMediaViewController = DefaultPropertyViewController(plugins: mediaPlugins)
-
-        let detailPlugins: [FormBuilderPlugin] = [AddPropertyDetailsPlugin(viewModel: viewModel)]
-        propertyDetailsDetailsViewController = DefaultPropertyViewController(plugins: detailPlugins)
     }
 
     public override func viewDidLoad() {
         super.viewDidLoad()
+
+        presenter = PropertyDetailsPresenter(containerViewController: self,
+                                             addPropertyView: addPropertyView,
+                                             displayPropertyView: scrollView)
+
+        let generalPlugins: [FormBuilderPlugin] = [AddPropertyGeneralPlugin(viewModel: viewModel, delegate: self)]
+        propertyDetailsGeneralViewController = DefaultPropertyViewController(plugins: generalPlugins)
+
+        let mediaPlugins: [FormBuilderPlugin] = [AddPropertyMediaPlugin(viewModel: viewModel, context: self)]
+        propertyDetailsMediaViewController = DefaultPropertyViewController(plugins: mediaPlugins)
+
+        let detailPlugins: [FormBuilderPlugin] = [AddPropertyDetailsPlugin(viewModel: viewModel)]
+        propertyDetailsDetailsViewController = DefaultPropertyViewController(plugins: detailPlugins)
 
         addMainViewController()
         addContentController(propertyDetailsGeneralViewController)
@@ -58,11 +63,6 @@ public class PropertyDetailsViewController: ThemedPopoverViewController, Evaluat
 
         decorator.constrain(self)
         decorator.constrainChild(addPropertyViewController)
-
-
-        presenter = PropertyDetailsPresenter(containerViewController: self,
-                                             addPropertyView: addPropertyView,
-                                             displayPropertyView: scrollView)
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {

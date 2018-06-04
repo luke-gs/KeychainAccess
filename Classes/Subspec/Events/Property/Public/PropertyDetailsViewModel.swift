@@ -17,7 +17,7 @@ public class PropertyDetailsViewModel {
         self.properties = properties
 
         if let report = report {
-            self.report = report
+            self.report = PropertyDetailsReport(copyingReport: report)
         }
     }
 

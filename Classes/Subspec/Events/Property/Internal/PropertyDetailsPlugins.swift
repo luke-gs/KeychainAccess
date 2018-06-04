@@ -69,24 +69,44 @@ internal struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
 internal struct AddPropertyMediaPlugin: FormBuilderPlugin {
     public var decorator: FormBuilderPluginDecorator
 
-    init(viewModel: PropertyDetailsViewModel, delegate: AddPropertyDelegate) {
-        decorator = AddPropertyMediaPluginDecorator(viewModel: viewModel, delegate: delegate)
+    init(viewModel: PropertyDetailsViewModel, context: UIViewController) {
+        decorator = AddPropertyMediaPluginDecorator(viewModel: viewModel, context: context)
     }
 }
 
 internal struct AddPropertyMediaPluginDecorator: FormBuilderPluginDecorator {
 
+    weak var context: UIViewController?
     var viewModel: PropertyDetailsViewModel
-    var delegate: AddPropertyDelegate
 
-    init(viewModel: PropertyDetailsViewModel, delegate: AddPropertyDelegate) {
+    init(viewModel: PropertyDetailsViewModel, context: UIViewController) {
         self.viewModel = viewModel
-        self.delegate = delegate
+        self.context = context
     }
 
     public func formItems() -> [FormItem] {
+
+        let localStore = DataStoreCoordinator(dataStore: MediaStorageDatastore(items: viewModel.report.media, container: viewModel.report))
+        let gallery = MediaGalleryCoordinatorViewModel(storeCoordinator: localStore)
+
+        let mediaItem = MediaFormItem()
+            .dataSource(gallery)
+            .emptyStateContents(EmptyStateContents(
+                title: "No Media",
+                subtitle: "Edit media by tapping on 'Edit' button."))
+
+        if let viewController = UIApplication.shared.keyWindow?.rootViewController {
+            mediaItem.previewingController(viewController)
+        }
+        let header = HeaderFormItem(text: "Media").actionButton(title: "Manage", handler: { button in
+            if let viewController = mediaItem.delegate?.viewControllerForGalleryViewModel(gallery) {
+                self.context?.present(viewController, animated: true, completion: nil)
+            }
+        })
+
         return [
-            HeaderFormItem(text: "Media", style: .plain)
+            header,
+            mediaItem
         ]
     }
 }
@@ -129,7 +149,7 @@ internal struct AddPropertyDetailsPluginDecorator: FormBuilderPluginDecorator {
                 .onValueChanged { value in
                     guard let value = value?.first else { return }
                     self.viewModel.report.details[propertyDetail.title] = value
-                }
+            }
         case .text:
             return TextFieldFormItem(title: propertyDetail.title)
                 .text(self.viewModel.report.details[propertyDetail.title])

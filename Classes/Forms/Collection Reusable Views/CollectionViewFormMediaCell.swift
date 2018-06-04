@@ -46,7 +46,7 @@ open class CollectionViewFormMediaCell: CollectionViewFormCell, UICollectionView
         }
     }
 
-    public weak var delegate: MediaGalleryDelegate?
+    public var delegate: MediaGalleryDelegate?
 
     public let collectionView: UICollectionView
 

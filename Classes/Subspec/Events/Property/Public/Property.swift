@@ -33,6 +33,5 @@ public struct Property: Equatable {
     public static func == (lhs: Property, rhs: Property) -> Bool {
         return lhs.id == rhs.id
     }
-
 }
 
