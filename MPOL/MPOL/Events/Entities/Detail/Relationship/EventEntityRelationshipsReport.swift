@@ -11,9 +11,9 @@ fileprivate extension EvaluatorKey {
     static let viewed = EvaluatorKey("viewed")
 }
 
-public class EventEntityRelationshipsReport: Reportable {
-    public weak var event: Event?
-    public weak var incident: Incident?
+public class EventEntityRelationshipsReport: EventReportable {
+    public let weakEvent: Weak<Event>
+
     public weak var entity: MPOLKitEntity?
     
     public var relationships: [Relationship<MPOLKitEntity, MPOLKitEntity>]? {
@@ -26,8 +26,8 @@ public class EventEntityRelationshipsReport: Reportable {
         }
     }
     
-    public init(event: Event?, entity: MPOLKitEntity) {
-        self.event = event
+    public init(event: Event, entity: MPOLKitEntity) {
+        self.weakEvent = Weak(event)
         self.entity = entity
         
         evaluator.registerKey(.viewed) {

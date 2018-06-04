@@ -12,7 +12,8 @@ fileprivate extension EvaluatorKey {
     static let incidents = EvaluatorKey("incidents")
 }
 
-open class IncidentListReport: Reportable, SideBarHeaderUpdateable {
+open class IncidentListReport: EventReportable, SideBarHeaderUpdateable {
+    public let weakEvent: Weak<Event>
 
     var viewed: Bool = false {
         didSet {
@@ -31,21 +32,15 @@ open class IncidentListReport: Reportable, SideBarHeaderUpdateable {
 
     public weak var delegate: SideBarHeaderUpdateDelegate?
     private(set) public var evaluator: Evaluator = Evaluator()
-    public weak var event: Event?
-    public weak var incident: Incident?
 
-    public required init(event: Event, incident: Incident? = nil) {
-        self.event = event
-        self.incident = incident
+    public required init(event: Event) {
+        self.weakEvent = Weak(event)
         commonInit()
     }
 
     private func commonInit() {
         if let event = event {
             evaluator.addObserver(event)
-        }
-        if let incident = incident {
-            evaluator.addObserver(incident)
         }
 
         evaluator.registerKey(.viewed) {
@@ -59,29 +54,46 @@ open class IncidentListReport: Reportable, SideBarHeaderUpdateable {
         }
     }
 
-    // Coding
+    // MARK: - Coding
     public static var supportsSecureCoding: Bool = true
     private enum Coding: String {
         case incidents
+        case event
     }
 
     public required init?(coder aDecoder: NSCoder) {
         incidents = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.incidents.rawValue) as! [Incident]
+        weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
+        commonInit()
     }
 
     public func encode(with aCoder: NSCoder) {
         aCoder.encode(incidents, forKey: Coding.incidents.rawValue)
+        aCoder.encodeWeakObject(weakObject: weakEvent, forKey: Coding.event.rawValue)
     }
 
-    // Utility
+    // MARK: - Utility
 
     public func updateEval() {
         evaluator.updateEvaluation(for: [.incidents, .viewed])
     }
 
-    // Evaluation
-
-    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
-    }
+    // MARK: - Evaluation
+    public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {}
 }
 
+extension IncidentListReport: Summarisable {
+
+    public var formItems: [FormItem] {
+        var items = [FormItem]()
+        incidents.forEach { (incident) in
+            items.append(LargeTextHeaderFormItem(text: incident.displayable.title))
+            incident.reports.forEach({ (report) in
+                if let report = report as? Summarisable {
+                    items += report.formItems
+                }
+            })
+        }
+        return items
+    }
+}

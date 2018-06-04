@@ -39,7 +39,8 @@ open class DomesticViolenceGeneralDetailsViewController: FormBuilderViewControll
     override open func construct(builder: FormBuilder) {
         builder.title = title
 
-        builder += HeaderFormItem(text: "Details")
+        builder += LargeTextHeaderFormItem(text: "Details")
+            .separatorColor(.clear)
 
         builder += StepperFormItem(title: "Number of Children in this Relationship")
                     .value(Double(viewModel.report.childCount))

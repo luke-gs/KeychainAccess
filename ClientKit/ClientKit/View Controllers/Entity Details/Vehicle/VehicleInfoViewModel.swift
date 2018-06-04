@@ -10,7 +10,13 @@ import Foundation
 import MPOLKit
 
 open class VehicleInfoViewModel: EntityDetailFormViewModel {
-    
+
+    public let showsRegistrationDetails: Bool
+
+    public init(showsRegistrationDetails: Bool) {
+        self.showsRegistrationDetails = showsRegistrationDetails
+    }
+
     private var vehicle: Vehicle? {
         return entity as? Vehicle
     }
@@ -24,7 +30,7 @@ open class VehicleInfoViewModel: EntityDetailFormViewModel {
         
         // ---------- HEADER ----------
         
-        let displayable = VehicleSummaryDisplayable(vehicle)
+        let displayable = VehicleDetailsDisplayable(vehicle)
         
         builder += HeaderFormItem(text: header(for: .header), style: .collapsible)
         let thumbnailSize: EntityThumbnailView.ThumbnailSize = displaysCompact(in: viewController) ? .medium : .large
@@ -32,35 +38,14 @@ open class VehicleInfoViewModel: EntityDetailFormViewModel {
             .category(displayable.category)
             .title(displayable.title)
             .subtitle(displayable.detail1)
-            .detail(vehicle.vehicleDescription ?? "No Description")
             .borderColor(displayable.borderColor)
             .imageTintColor(displayable.iconColor)
             .image(displayable.thumbnail(ofSize: thumbnailSize))
-        
-        // ---------- DETAILS ----------
-        
-        builder += HeaderFormItem(text: header(for: .details), style: .collapsible)
-        builder += ValueFormItem(title: NSLocalizedString("Status", bundle: .mpolKit, comment: ""), value: vehicle.registrationStatus ?? "-")
-            .width(.column(3))
-        
-        var progress: Float = 0
-        if let date = vehicle.registrationExpiryDate {
-            progress = Float((Date().timeIntervalSince1970 / date.timeIntervalSince1970))
-        }
-        
-        builder += ProgressFormItem(title: NSLocalizedString("Valid until", bundle: .mpolKit, comment: ""))
-            .value({
-                if let date = vehicle.registrationExpiryDate {
-                    return DateFormatter.preferredDateStyle.string(from: date)
-                }
-                return "-"
-                }())
-            .progress(progress)
-            .progressTintColor(progress > 1.0 ? #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1) : #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1))
-            .isProgressHidden(vehicle.registrationExpiryDate == nil)
-            .width(.column(2))
-        
-        builder += ValueFormItem(title: NSLocalizedString("Manufactured in", bundle: .mpolKit, comment: ""), value: vehicle.year ?? "-")
+
+        // ---------- VEHICLE DETAILS ----------
+        builder += HeaderFormItem(text: header(for: .vehicleDetails), style: .collapsible)
+
+        builder += ValueFormItem(title: NSLocalizedString("Year of Manufacture", bundle: .mpolKit, comment: ""), value: vehicle.year ?? "-")
             .width(.column(3))
         builder += ValueFormItem(title: NSLocalizedString("Make", bundle: .mpolKit, comment: ""), value: vehicle.make ?? "-")
             .width(.column(3))
@@ -72,25 +57,56 @@ open class VehicleInfoViewModel: EntityDetailFormViewModel {
             .width(.column(3))
         builder += ValueFormItem(title: NSLocalizedString("Engine Number", bundle: .mpolKit, comment: ""), value: vehicle.engineNumber ?? "-")
             .width(.column(3))
-        builder += ValueFormItem(title: NSLocalizedString("Fuel Type", bundle: .mpolKit, comment: ""), value: "-")
-            .width(.column(3))
         builder += ValueFormItem(title: NSLocalizedString("Transmission", bundle: .mpolKit, comment: ""), value: vehicle.transmission ?? "-")
             .width(.column(3))
         builder += ValueFormItem(title: NSLocalizedString("Primary Colour", bundle: .mpolKit, comment: ""), value: vehicle.primaryColor ?? "-")
             .width(.column(3))
         builder += ValueFormItem(title: NSLocalizedString("Secondary Colour", bundle: .mpolKit, comment: ""), value: vehicle.secondaryColor ?? "-")
             .width(.column(3))
+        builder += ValueFormItem(title: NSLocalizedString("Seating Capacity", bundle: .mpolKit, comment: ""), value: {
+            guard let seatCapacity = vehicle.seatingCapacity, seatCapacity > 0 else { return "-" }
+            return String(describing: seatCapacity)
+        }())
+            .width(.column(3))
+        builder += ValueFormItem(title: NSLocalizedString("TARE", bundle: .mpolKit, comment: ""), value: "-")
+            .width(.column(3))
         builder += ValueFormItem(title: NSLocalizedString("Gross Vehicle Mass", bundle: .mpolKit, comment: ""), value: {
             guard let weight = vehicle.weight, weight > 0 else { return "-" }
             return "\(weight) kg"
         }())
             .width(.column(3))
-        builder += ValueFormItem(title: NSLocalizedString("TARE", bundle: .mpolKit, comment: ""), value: "-")
-            .width(.column(3))
-        builder += ValueFormItem(title: NSLocalizedString("Seating Capacity", bundle: .mpolKit, comment: ""), value: {
-            guard let seatCapacity = vehicle.seatingCapacity, seatCapacity > 0 else { return "-" }
-            return String(describing: seatCapacity)
-        }()).width(.column(3))
+
+        // ---------- REGISTRATION DETAILS ----------
+        if showsRegistrationDetails {
+
+            builder += HeaderFormItem(text: header(for: .registrationDetails), style: .collapsible)
+            builder += ValueFormItem(title: NSLocalizedString("State", comment: ""), value: vehicle.registrationState ?? "-")
+                .width(.column(3))
+            builder += ValueFormItem(title: NSLocalizedString("Status", comment: ""), value: vehicle.registrationStatus ?? "-")
+                .width(.column(3))
+            builder += ValueFormItem(title: NSLocalizedString("Valid until", comment: ""))
+                .value({
+                    if let date = vehicle.registrationExpiryDate {
+                        return DateFormatter.preferredDateStyle.string(from: date)
+                    }
+                    return "-"
+                }())
+                .width(.column(3))
+
+
+            let address = vehicle.addresses?.first
+            let addressText = address?.fullAddress ?? "-"
+            builder += ValueFormItem(title: NSLocalizedString("Address", comment: ""), value: addressText)
+                .width(.column(1))
+            
+            // TODO: - Implement a proper way to present / delegate the presentation of options.
+            /*
+            let attributedValue = NSAttributedString(string: addressText, attributes: [ .foregroundColor : UIColor.brightBlue ])
+            builder += ValueFormItem(title: NSLocalizedString("Address", comment: ""), value: attributedValue)
+                .width(.column(1))
+             */
+        }
+
     }
     
     open override var title: String? {
@@ -113,7 +129,8 @@ open class VehicleInfoViewModel: EntityDetailFormViewModel {
     
     private enum Section {
         case header
-        case details
+        case vehicleDetails
+        case registrationDetails
     }
     
     private func header(for section: Section) -> String? {
@@ -126,8 +143,10 @@ open class VehicleInfoViewModel: EntityDetailFormViewModel {
                 lastUpdated = NSLocalizedString("UNKNOWN", bundle: .mpolKit, comment: "Unknown Date")
             }
             return String(format: NSLocalizedString("LAST UPDATED: %@", bundle: .mpolKit, comment: ""), lastUpdated)
-        case .details:
-            return NSLocalizedString("REGISTRATION DETAILS", bundle: .mpolKit, comment: "")
+        case .vehicleDetails:
+            return NSLocalizedString("VEHICLE DETAILS", comment: "")
+        case .registrationDetails:
+            return NSLocalizedString("REGISTRATION DETAILS", comment: "")
         }
     }
 

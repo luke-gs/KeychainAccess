@@ -82,7 +82,8 @@ public class PersonRDADetailsSectionsDataSource: EntityDetailSectionsDataSource 
         self.entity = baseEntity
         self.detailViewControllers = [ EntityDetailFormViewController(viewModel: PersonInfoViewModel(showingLicenceDetails: true)),
                                        EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
-                                       EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate))]
+                                       EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
+                                       EntityDetailFormViewController(viewModel: PersonTrafficHistoryViewModel())]
     }
 
 }

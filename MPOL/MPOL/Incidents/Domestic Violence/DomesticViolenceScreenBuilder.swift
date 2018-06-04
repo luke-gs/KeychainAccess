@@ -9,7 +9,7 @@ import MPOLKit
 
 public class DomesticViolenceScreenBuilder: IncidentScreenBuilding {
 
-    public func viewControllers(for reportables: [Reportable]) -> [UIViewController] {
+    public func viewControllers(for reportables: [IncidentReportable]) -> [UIViewController] {
         var viewControllers = [UIViewController]()
 
         for report in reportables {
@@ -21,10 +21,10 @@ public class DomesticViolenceScreenBuilder: IncidentScreenBuilding {
         return viewControllers
     }
 
-    private func viewController(for report: Reportable) -> UIViewController? {
+    private func viewController(for report: IncidentReportable) -> UIViewController? {
         switch report {
         case let report as DefaultEntitiesListReport:
-            return DefaultEntitiesListViewController(viewModel: DefaultEntitiesListViewModel(report: report))
+            return DefaultEntitiesListViewController(viewModel: DefaultEntitiesListViewModel(report: report, incidentType: .domesticViolence))
         case let report as DomesticViolencePropertyReport:
             return DomesticViolencePropertyViewController(viewModel: DomesticViolencePropertyViewModel(report: report))
         case let report as DomesticViolenceGeneralDetailsReport:

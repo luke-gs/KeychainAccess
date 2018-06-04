@@ -93,7 +93,7 @@ open class Contact: NSObject, Serialisable {
             self.source = MPOLSource(rawValue: source)
         }
 
-        if let type = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.type.rawValue) as? String {
+        if let type = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.type.rawValue) as String? {
             self.type = ContactType(rawValue: type)
         }
 

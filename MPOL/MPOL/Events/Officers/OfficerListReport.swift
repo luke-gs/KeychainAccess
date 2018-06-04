@@ -10,7 +10,8 @@ import Foundation
 import MPOLKit
 import ClientKit
 
-public class OfficerListReport: Reportable {
+public class OfficerListReport: EventReportable {
+    public let weakEvent: Weak<Event>
 
     public enum CodingKeys: String, CodingKey {
         case officers
@@ -31,11 +32,8 @@ public class OfficerListReport: Reportable {
         }
     }
 
-    public weak var event: Event?
-    public weak var incident: Incident?
-
     public required init(event: Event) {
-        self.event = event
+        self.weakEvent = Weak(event)
 
         let testOfficer = UserSession.current.userStorage?.retrieve(key: UserSession.currentOfficerKey) as! Officer
         testOfficer.involvements = ["Reporting Officer"]
@@ -55,6 +53,7 @@ public class OfficerListReport: Reportable {
                 && self.officers.reduce(true, { (result, officer) -> Bool in
                     return result && !officer.involvements.isEmpty
                 })
+                && self.officers.flatMap{$0.involvements}.contains("Reporting Officer")
         }
     }
 
@@ -67,18 +66,32 @@ public class OfficerListReport: Reportable {
 
 
     public required init?(coder aDecoder: NSCoder) {
-        event = aDecoder.decodeObject(of: Event.self, forKey: Coding.event.rawValue)
+        weakEvent = aDecoder.decodeWeakObject(forKey: Coding.event.rawValue)
         commonInit()
     }
 
 
     public func encode(with aCoder: NSCoder) {
-        aCoder.encode(event, forKey: Coding.event.rawValue)
+        aCoder.encodeWeakObject(weakObject: weakEvent, forKey: Coding.event.rawValue)
     }
 
     // Evaluation
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
 
+    }
+}
+
+extension OfficerListReport: Summarisable {
+    
+    public var formItems: [FormItem] {
+        var items = [FormItem]()
+        items.append(LargeTextHeaderFormItem(text: "Officers"))
+        officers.forEach { (officer) in
+            if let givenName = officer.givenName, let familyName = officer.familyName {
+                items.append(RowDetailFormItem(title: givenName + " " + familyName, detail: officer.involvements.map {$0}.joined(separator: ", ")))
+            }
+        }
+        return items
     }
 }

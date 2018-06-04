@@ -49,14 +49,23 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         builder.forceLinearLayout = true
 
         let viewModel = LocationSelectionViewModel(location: self.viewModel.report.eventLocation)
-        viewModel.delegate = self
 
-        builder += HeaderFormItem(text: "LOCATIONS")
+        builder += LargeTextHeaderFormItem(text: "Locations")
+            .separatorColor(.clear)
+        
         builder += PickerFormItem(pickerAction: LocationAction(viewModel: viewModel))
             .title("Event Location")
             .selectedValue(self.viewModel.report.eventLocation)
             .accessory(ImageAccessoryItem(image: AssetManager.shared.image(forKey: .iconPencil)!))
             .required()
+            .onValueChanged({ (location) in
+                if let location = location {
+                    self.viewModel.report.eventLocation = location
+                    self.updateAnnotation()
+                    self.updateRegion()
+                }
+                self.reloadForm()
+            })
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
@@ -71,17 +80,6 @@ open class DefaultEventLocationViewController: MapFormBuilderViewController, Eva
         alertController.addAction(UIAlertAction(title: "Okay",
                                                 style: .default))
         AlertQueue.shared.add(alertController)
-    }
-}
-
-extension DefaultEventLocationViewController: LocationSelectionViewModelDelegate {
-    public func didSelect(location: EventLocation?) {
-        if let location = location {
-            viewModel.report.eventLocation = location
-            updateAnnotation()
-            updateRegion()
-        }
-        reloadForm()
     }
 
     private func updateAnnotation() {

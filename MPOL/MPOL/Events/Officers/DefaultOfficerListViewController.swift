@@ -74,7 +74,9 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
     }
     
     open override func construct(builder: FormBuilder) {
-        builder += HeaderFormItem(text: viewModel.header)
+        builder += LargeTextHeaderFormItem(text: viewModel.header)
+            .separatorColor(.clear)
+        
         let image = AssetManager.shared.image(forKey: AssetManager.ImageKey.iconPencil)
 
         viewModel.officerDisplayables.forEach { displayable in
@@ -96,6 +98,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                 })
                 .editActions(viewModel.officerDisplayables.count == 1 ? [] : [CollectionViewFormEditAction(title: "Remove", color: UIColor.red, handler: { (cell, indexPath) in
                     self.viewModel.removeOfficer(at: indexPath)
+                    self.sidebarItem.count = UInt(self.viewModel.officerDisplayables.count)
                     self.viewModel.delegate?.officerListDidUpdate()
                 })])
         }
@@ -109,8 +112,9 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                                                      subtitle: displayable.detail1 ?? "No involvements selected",
                                                      image: displayable.thumbnail(ofSize: .small),
                                                      imageStyle: .circle)
-        let datasource = InvolvementSearchDatasource(objects: involvements,
+        let datasource = DefaultPickableSearchDatasource(objects: involvements,
                                                             selectedObjects: officer.involvements,
+                                                            title: "Involvements",
                                                             configuration: headerConfig)
         datasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
         let viewController = CustomPickerController(datasource: datasource)
@@ -155,9 +159,10 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
                                                      subtitle: displayable.detail1 ?? "No involvements selected",
                                                      image: displayable.thumbnail(ofSize: .small)?.sizing().image)
 
-        let involvementDatasource = InvolvementSearchDatasource(
+        let involvementDatasource = DefaultPickableSearchDatasource(
             objects: involvements,
             selectedObjects: officer.involvements,
+            title: "Involvements",
             configuration: headerConfig)
         involvementDatasource.header = CustomisableSearchHeaderView(displayView: DefaultSearchHeaderDetailView(configuration: headerConfig))
 
@@ -166,6 +171,7 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
             let involvements = controller.objects.enumerated().filter { index.contains($0.offset) }.compactMap { $0.element.title }
             self.viewModel.add(officer: officer)
             self.viewModel.add(involvements, to: officer)
+            self.sidebarItem.count = UInt(self.viewModel.officerDisplayables.count)
             self.reloadForm()
         }
         viewController.navigationController?.pushViewController(involvementsViewController, animated: true)

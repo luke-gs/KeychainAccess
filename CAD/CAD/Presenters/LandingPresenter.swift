@@ -166,8 +166,11 @@ public class LandingPresenter: AppGroupLandingPresenter {
         // Create encrypted content for notification
         let content = CADNotificationContent(type: "incident", operation: "updated", identifier: incident.incidentNumber)
         let json = try! JSONEncoder().encode(content)
-        let encryptedContent = CryptoUtils.performCipher(AESBlockCipher.AES_256, operation: .encrypt, data: json, keyData: NotificationManager.shared.pushKey)!.base64EncodedString()
-        let userInfo = [ "content": encryptedContent ]
+        let ivData = Data(repeating: 0, count: AESBlockCipher.AES_256.blockSize)
+        let encryptedData = CryptoUtils.performCipher(AESBlockCipher.AES_256, operation: .encrypt, data: json, keyData: NotificationManager.shared.pushKey, ivData: ivData)!
+
+        let payloadData = ivData + encryptedData
+        let userInfo = [ "content": payloadData.base64EncodedString() ]
 
         NotificationManager.shared.postLocalNotification(withTitle: title,
                                                          body: message,

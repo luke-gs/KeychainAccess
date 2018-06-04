@@ -27,8 +27,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     var window: UIWindow?
     var landingPresenter: LandingPresenter!
-
     var navigator: AppURLNavigator!
+
+    var plugins: [Plugin]?
 
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
@@ -47,11 +48,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Only injecting data for demo purpose.
         plugins.append(PersonMatchMakingInjectionPlugin.defaultPersonMatchMakingInjectionPlugin)
 
+        self.plugins = plugins
+
         // Set the application key for app specific user settings
         User.applicationKey = "Search"
 
         // Set the application specific notification handler
         NotificationManager.shared.handler = SearchNotificationHandler()
+
         registerPushNotifications(application)
 
         landingPresenter = LandingPresenter()
@@ -62,13 +66,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         Director.shared = director
 
-        APIManager.shared = APIManager(configuration: APIManagerDefaultConfiguration(url: "https://\(host)", plugins: plugins, trustPolicyManager: ServerTrustPolicyManager(policies: [host: .disableEvaluation])))
+        APIManager.shared = apiManager(with: APIURLManager.serverURL)
 
         NotificationCenter.default.addObserver(self, selector: #selector(interfaceStyleDidChange), name: .interfaceStyleDidChange, object: nil)
 
         let window = UIWindow()
         self.window = window
-        
+
         applyCurrentTheme()
 
         updateAppForUserSession()
@@ -111,9 +115,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Reload interface style incase it has changed
         ThemeManager.shared.loadInterfaceStyle()
-        
+
         // Reload user session and update UI to match current state
         updateAppForUserSession()
+
+        if let url = try? APIURLManager.serverURL.asURL(), let currentURL = try? APIManager.shared.configuration.url.asURL(),
+            url != currentURL {
+            if UserSession.current.isActive {
+                logOut()
+            }
+            APIManager.shared = apiManager(with: url)
+        }
+
+        guard let window = window else { return }
+        Concealer.default.reveal(window, from: .springboard)
+    }
+
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        if let window = window {
+            Concealer.default.conceal(window, from: .springboard)
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -123,7 +144,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             removeShortcuts(from: application)
         }
     }
-
+    
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         if navigator.isRegistered(url) {
             return navigator.handle(url)
@@ -167,7 +188,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Failed to register for push notification: \(error)")
     }
-    
+
     private func attemptRefresh(response: DataResponse<Data>) -> Promise<Void> {
 
         let promise: Promise<Void>
@@ -221,6 +242,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 UIView.transition(with: window, duration: 0.2, options: .transitionCrossDissolve, animations: nil, completion: nil)
             }
         }
+    }
+
+    private func apiManager(with urlConvertible: URLConvertible) -> APIManager {
+
+        // App won't work without, no recovery from here if it's not correct.
+        let url = try! urlConvertible.asURL()
+        let host = url.host!
+
+        let trustPolicyManager: ServerTrustPolicyManager?
+        #if DEBUG
+            trustPolicyManager = ServerTrustPolicyManager(policies: [host: .disableEvaluation])
+        #else
+            trustPolicyManager = nil
+        #endif
+
+        return APIManager(configuration: APIManagerDefaultConfiguration(url: url, plugins: plugins, trustPolicyManager: trustPolicyManager))
     }
 
     private func applyCurrentTheme() {

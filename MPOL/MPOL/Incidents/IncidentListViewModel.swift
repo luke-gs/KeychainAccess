@@ -25,7 +25,33 @@ open class IncidentListViewModel: IncidentListViewModelType {
         return Array(incidentList.dropFirst())
     }
 
-    public required init(report: Reportable, incidentsManager: IncidentsManager) {
+
+    // Incident Unique Identification
+    
+    private var incidentCounts: [String:Int] = [:]
+
+    public func addCount(to incident: Incident, count: Int) {
+        incidentCounts[incident.id] = count
+        setUniqueTitle(for: incident.displayable)
+    }
+
+    public func count(for incident: Incident) -> Int? {
+        return incidentCounts[incident.id]
+    }
+
+    private func setUniqueTitle(for incidentDisplayable: IncidentListDisplayable) {
+        if let baseTitle = incidentDisplayable.title {
+            if let count = self.count(for: incident(for: incidentDisplayable)!) {
+               incidentDisplayable.title = baseTitle + " \(count)"
+            }
+        } else {
+            fatalError("Incident supplied does not have a valid title.")
+        }
+    }
+
+    // Init
+
+    public required init(report: EventReportable, incidentsManager: IncidentsManager) {
         self.report = report as! IncidentListReport
         self.incidentsManager = incidentsManager
         self.title = "Incidents"
@@ -81,12 +107,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
     // Form
 
     func searchHeaderTitle() -> String {
-        let string = String.localizedStringWithFormat(NSLocalizedString("%d incidents selected", comment: ""), incidentList.count)
-        return string
-    }
-
-    func searchHeaderSubtitle() -> String {
-        return incidentList.map { $0.title }.joined(separator: ", ")
+        return String.localizedStringWithFormat(NSLocalizedString("%d incidents selected", comment: ""), 0)
     }
 
     func additionalIndicentsSectionHeaderTitle() -> String {
@@ -100,7 +121,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
 
     func removeIncident(_ incident: Incident) {
         report.event?.entityManager.removeAllRelationships(for: incident)
-        report.incidents = report.incidents.filter({$0 != incident})
+        report.incidents = report.incidents.filter {$0 != incident } 
     }
 
     func add(_ incidents: [String]) {
@@ -109,9 +130,18 @@ open class IncidentListViewModel: IncidentListViewModelType {
             let type = IncidentType(rawValue: incident)
             let incidentType = IncidentType.allIncidentTypes().contains(type) ? type : .blank
             guard let incident = incidentsManager.create(incidentType: incidentType, in: event) else { continue }
-            if !(report.incidents.contains(where: {$0.incidentType == incident.incidentType}) == true) {
-                report.incidents.append(incident)
+            let existingIncidentsOfSameType = report.incidents.filter({$0.incidentType == incident.incidentType})
+            let duplicateCount = existingIncidentsOfSameType.count
+            // If the count is exactly 1 and there is currently no display count set on it, then we are adding our first duplicate, so we need to rename the original to have a reference
+            if duplicateCount == 1 && count(for: existingIncidentsOfSameType.first!) == nil {
+                addCount(to: existingIncidentsOfSameType.first!, count: 1)
             }
+            if !existingIncidentsOfSameType.isEmpty {
+                if let trailingNumber = existingIncidentsOfSameType.compactMap({count(for: $0)}).max(){
+                    addCount(to: incident, count: trailingNumber + 1)
+                }
+            }
+            report.incidents.append(incident)
         }
     }
 
@@ -122,7 +152,7 @@ open class IncidentListViewModel: IncidentListViewModelType {
 
     // Incident action helpers
 
-    func actionDefinitionStructForType(type: IncidentActionType, context: IncidentListViewController) -> IncidentActionDefiniton {
+    func definition(for type: IncidentActionType, from context: IncidentListViewController) -> IncidentActionDefiniton {
         switch type {
         case .add:
             return AddIncidentDefinition(for: context)

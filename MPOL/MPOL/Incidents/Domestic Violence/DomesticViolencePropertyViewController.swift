@@ -48,7 +48,7 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
         builder.title = title
         builder.forceLinearLayout = true
 
-        builder += HeaderFormItem(text: viewModel.headerTitle, style: .plain)
+        builder += LargeTextHeaderFormItem(text: viewModel.headerTitle).separatorColor(.clear)
             .actionButton(title: "Add", handler: { _ in
                 self.addProperty()
             })

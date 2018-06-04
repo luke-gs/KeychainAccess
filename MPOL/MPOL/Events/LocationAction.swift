@@ -8,12 +8,14 @@
 import UIKit
 import MPOLKit
 
-class LocationAction<T: EventLocation>: ValueSelectionAction<T> {
+class LocationAction<T: EventLocation>: ValueSelectionAction<T>, LocationSelectionViewModelDelegate {
+
     var viewModel: LocationSelectionViewModel
 
     init(viewModel: LocationSelectionViewModel) {
         self.viewModel = viewModel
         super.init()
+        viewModel.delegate = self
     }
 
     public override func viewController() -> UIViewController {
@@ -26,5 +28,13 @@ class LocationAction<T: EventLocation>: ValueSelectionAction<T> {
     override func displayText() -> String? {
         guard let selectedValue = selectedValue else { return nil }
         return selectedValue.addressString
+    }
+
+    // LocationSelectionViewModelDelegate Method
+    func didSelect(location: EventLocation?) {
+        if let location = location as? T {
+            self.selectedValue = location
+            updateHandler?()
+        }
     }
 }

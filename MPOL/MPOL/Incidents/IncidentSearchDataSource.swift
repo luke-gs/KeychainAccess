@@ -19,11 +19,13 @@ public class IncidentSearchDataSource: CustomSearchPickerDatasource {
 
     public var header: CustomisableSearchHeaderView?
     public var allowsMultipleSelection: Bool
+    public var dismissOnFinish: Bool
 
     public init(objects: [Pickable],
                 selectedObjects: [Pickable]? = nil,
                 title: String? = "Incidents",
                 allowsMultipleSelection: Bool = true,
+                dismissOnFinish: Bool = true,
                 configuration: SearchHeaderConfiguration? = nil) {
 
         self.objects = objects.sorted(using: [SortDescriptor<Pickable>(ascending: true, key: {$0.title }),
@@ -31,14 +33,11 @@ public class IncidentSearchDataSource: CustomSearchPickerDatasource {
         self.selectedObjects = selectedObjects
         self.title = title
         self.allowsMultipleSelection = allowsMultipleSelection
+        self.dismissOnFinish = dismissOnFinish
         self.headerConfiguration = configuration
     }
 
     public func allowsSelection(of object: Pickable) -> Bool {
-        if selectedObjects?.contains(where: {$0.title == object.title}) == true {
-            return false
-        }
-
         return true
     }
 
@@ -50,8 +49,7 @@ public class IncidentSearchDataSource: CustomSearchPickerDatasource {
     }
 
     func searchHeaderTitle(with objects: [Pickable]) -> String {
-        let string = String.localizedStringWithFormat(NSLocalizedString("%d incidents selected", comment: ""), objects.count)
-        return string
+        return String.localizedStringWithFormat(NSLocalizedString("%d incidents selected", comment: ""), objects.count)
     }
 
     func searchHeaderSubtitle(with objects: [Pickable]) -> String {

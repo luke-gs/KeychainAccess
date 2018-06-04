@@ -37,7 +37,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
         let isDetailPlaceholder = count == 0
         let buttonTitle = count <= 1 ? nil : "\(count - 1) MORE DESCRIPTION\(count != 2 ? "S" : "")"
         
-        let displayable = PersonSummaryDisplayable(person)
+        let displayable = PersonDetailsDisplayable(person)
         
         builder += HeaderFormItem(text: header(for: .header), style: .collapsible)
         builder += SummaryDetailFormItem()

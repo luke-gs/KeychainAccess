@@ -34,6 +34,4 @@ public struct EntityDetailsDisplayable: EntityDetailDisplayable {
         let lastUpdatedString = DateFormatter.preferredDateStyle.string(from: lastUpdated)
         return lastUpdatedString
     }
-
-
 }
