@@ -13,6 +13,6 @@ open class VehicleWildcardParserDefinition: RangeParserDefinition {
     static public let allowedCharacterSet: CharacterSet = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "*"))
 
     public init(range: CountableClosedRange<Int>, definitionKey: String, errorClosure: @escaping InvalidLengthErrorClosure) {
-        super.init(range: range, definitionKey: definitionKey, allowedCharacterSet: VehicleParserDefinition.allowedCharacterSet, errorClosure: errorClosure)
+        super.init(range: range, definitionKey: definitionKey, allowedCharacterSet: VehicleWildcardParserDefinition.allowedCharacterSet, errorClosure: errorClosure)
     }
 }
