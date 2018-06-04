@@ -52,45 +52,32 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
             .imageTintColor(displayable.iconColor)
             .onButtonTapped {
                 self.didTapAdditionalDetails()
-            }
+        }
         
         // ---------- LICENCE ----------
         
-        let sortedLicences = person.licences?.sorted(using: [SortDescriptor<Licence>(ascending: false) { $0.expiryDate }])
-        if let licence = sortedLicences?.first {
+        let sortedLicences = person.licences?.sorted(using: [SortDescriptor<Licence>(ascending: false) { $0.expiryDate }]) ?? []
 
-            if showingLicenceDetails {
-                builder += HeaderFormItem(text: header(for: .licence), style: .collapsible)
-                builder += ValueFormItem(title: NSLocalizedString("Licence number", bundle: .mpolKit, comment: ""), value: licence.number ?? "-").width(.column(3))
 
-                builder += ValueFormItem(title: NSLocalizedString("State", bundle: .mpolKit, comment: ""), value: licence.state ?? "-").width(.column(3))
-                builder += ValueFormItem(title: NSLocalizedString("Country", bundle: .mpolKit, comment: ""), value: licence.country ?? "-").width(.column(3))
-                builder += ValueFormItem(title: NSLocalizedString("Status", bundle: .mpolKit, comment: ""), value: licence.status ?? "-").width(.column(3))
+        if showingLicenceDetails {
 
-                var progress: Float = 0
-                if let expiryDate = licence.expiryDate {
-                    progress = Float((Date().timeIntervalSince1970 / expiryDate.timeIntervalSince1970))
+            for licence in sortedLicences {
+
+                let formatter = LicenceFormatter(licence: licence)
+                builder += HeaderFormItem(text: formatter.headerText, style: .collapsible)
+
+                for formItem in formatter.classesFormItems {
+                    builder += formItem
                 }
+            }
 
-                builder += ProgressFormItem(title: NSLocalizedString("Valid until", bundle: .mpolKit, comment: ""))
-                    .value({
-                        if let effectiveDate = licence.expiryDate {
-                            return DateFormatter.preferredDateStyle.string(from: effectiveDate)
-                        } else {
-                            return NSLocalizedString("Expiry date unknown", bundle: .mpolKit, comment: "")
-                        }
-                        }())
-                    .progress(progress)
-                    .progressTintColor(progress > 1.0 ? #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1) : #colorLiteral(red: 0.2980392157, green: 0.6862745098, blue: 0.3137254902, alpha: 1))
-                    .isProgressHidden(licence.expiryDate == nil)
-                    .width(.column(2))
-
-                builder += ValueFormItem(title: NSLocalizedString("Conditions", bundle: .mpolKit, comment: ""), value: licence.conditions?.compactMap { $0.displayValue() }.joined(separator: "\n")).width(.column(1))
-            } else {
+        } else {
+            if let licence = sortedLicences.first {
                 builder += HeaderFormItem(text: header(for: .details), style: .collapsible)
                 builder += ValueFormItem(title: NSLocalizedString("Identification Number", comment: ""), value: licence.number ?? "-").width(.column(1))
             }
         }
+
         
         // ---------- ALIASES ----------
         
@@ -204,7 +191,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
             }
             return String(format: NSLocalizedString("LAST UPDATED: %@", bundle: .mpolKit, comment: ""), lastUpdated)
         case .licence:
-            return NSLocalizedString("LICENCE", bundle: .mpolKit, comment: "")
+            return ""
         case .aliases:
             let count = person?.aliases?.count ?? 0
             switch count {
@@ -240,5 +227,95 @@ fileprivate extension Alias {
         } else {
             return NSLocalizedString("DOB Unknown", bundle: .mpolKit, comment: "")
         }
+    }
+}
+
+struct LicenceFormatter {
+    let licence: Licence
+    let classesFormItems: [DetailFormItem]
+
+    init(licence: Licence) {
+        self.licence = licence
+        if let licenceClasses = licence.licenceClasses {
+            classesFormItems = licenceClasses.map { LicenceClassFormatter(licenceClass: $0, isSuspended: licence.isSuspended).formItem() }
+        } else {
+            classesFormItems = []
+        }
+
+    }
+
+    var headerText: String {
+        if let number = licence.number {
+            return String(format: NSLocalizedString("LICENCE #%@", comment: ""), number)
+        } else {
+            return NSLocalizedString("LICENCE", comment: "")
+        }
+    }
+}
+
+struct LicenceClassFormatter: DetailDisplayable, FormItemable {
+
+    let calendar: Calendar = Calendar.current
+
+    let hasExpired: Bool
+    let licenceClass: Licence.LicenceClass
+
+    let validLicence: Bool
+
+    private let _subtitle: StringSizing?
+
+    init(licenceClass: Licence.LicenceClass, isSuspended: Bool) {
+        self.licenceClass = licenceClass
+        hasExpired = false
+
+        var valid = true
+
+        if isSuspended  {
+            valid = false
+            _subtitle = NSAttributedString(string: NSLocalizedString("Suspended", comment: ""), attributes: [ .foregroundColor: UIColor.orangeRed ]).sizing(withNumberOfLines: 0)
+        } else {
+            if let expiryDate = licenceClass.expiryDate {
+                let dayComponent = Calendar.current.dateComponents([.day], from: Date(), to: expiryDate)
+                if let day = dayComponent.day {
+                    if day > 0 {
+                        let text = String(format: NSLocalizedString("Valid Until %@", comment: ""), DateFormatter.preferredDateStyle.string(from: expiryDate))
+                        _subtitle = text.sizing(withNumberOfLines: 0)
+                    } else {
+                        let text = String(format: NSLocalizedString("Expired Since %@ (%d days)", comment: ""), DateFormatter.preferredDateStyle.string(from: expiryDate), abs(day))
+                        _subtitle = NSAttributedString(string: text, attributes: [ .foregroundColor: UIColor.orangeRed ]).sizing(withNumberOfLines: 0)
+                        valid = false
+                    }
+                } else {
+                    _subtitle = nil
+                }
+
+            } else {
+                _subtitle = nil
+            }
+        }
+        validLicence = valid
+    }
+
+    var image: UIImage? {
+        if validLicence {
+            return UIImage.statusDot(withColor: .midGreen)
+        } else {
+            return UIImage.statusDot(withColor: .orangeRed)
+        }
+    }
+
+    var title: StringSizing? {
+        let text = licenceClass.code ?? NSLocalizedString("Unknown", comment: "")
+        return text.sizing(withNumberOfLines: 0)
+    }
+
+    var subtitle: StringSizing? {
+        return _subtitle
+    }
+
+    var detail: StringSizing? {
+        let conditions = licenceClass.conditions?.compactMap { $0.condition } ?? []
+        let conditionText = conditions.joined(separator: ", ")
+        return String(format: NSLocalizedString("Conditions: %@", comment: ""), conditionText).sizing(withNumberOfLines: 0)
     }
 }
