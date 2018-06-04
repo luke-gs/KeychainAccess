@@ -55,6 +55,7 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
             .required()
             .width(.column(2))
             .selectedValue(viewModel.report.detainedStart)
+            .withNowButton(true)
             .onValueChanged({ (date) in
                 self.viewModel.report.detainedStart = date
             })
@@ -62,6 +63,7 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
         builder += DateFormItem(title: "Detained Ended At")
             .width(.column(2))
             .selectedValue(viewModel.report.detainedEnd)
+            .withNowButton(true)
             .placeholder("Optional")
             .onValueChanged({ (date) in
                 self.viewModel.report.detainedEnd = date
@@ -71,6 +73,7 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
             .required()
             .width(.column(2))
             .selectedValue(viewModel.report.searchStart)
+            .withNowButton(true)
             .onValueChanged({ (date) in
                 self.viewModel.report.searchStart = date
             })
@@ -78,6 +81,7 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
         builder += DateFormItem(title: "Search Ended At")
             .width(.column(2))
             .selectedValue(viewModel.report.searchEnd)
+            .withNowButton(true)
             .placeholder("Optional")
             .onValueChanged({ (date) in
                 self.viewModel.report.searchEnd = date

@@ -87,6 +87,7 @@ public class VehicleTowReportViewController: FormBuilderViewController, Evaluati
         builder += DateFormItem(title: "Date Notified")
             .width(.column(2))
             .selectedValue(viewModel.report.date)
+            .withNowButton(true)
             .placeholder("Optional")
             .onValueChanged({ (date) in
                 self.viewModel.report.date = date
