@@ -43,14 +43,6 @@ class DomesticViolencePropertyReport: Reportable {
         }
     }
 
-    public func add(_ propertyDetailsReport: PropertyDetailsReport) {
-        if let existingPropertyIndex = propertyList.index(where: {$0.property == propertyDetailsReport.property}) {
-            propertyList[existingPropertyIndex] = propertyDetailsReport
-        } else {
-            self.propertyList.append(propertyDetailsReport)
-        }
-    }
-
     func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
 
     }

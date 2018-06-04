@@ -36,4 +36,12 @@ public class DomesticViolencePropertyViewModel {
     func addObserver(_ observer: EvaluationObserverable) {
         report.evaluator.addObserver(observer)
     }
+
+    func add(_ propertyDetailsReport: PropertyDetailsReport) {
+        if let existingPropertyIndex = report.propertyList.index(where: {$0.property == propertyDetailsReport.property}) {
+            report.propertyList[existingPropertyIndex] = propertyDetailsReport
+        } else {
+            report.propertyList.append(propertyDetailsReport)
+        }
+    }
 }

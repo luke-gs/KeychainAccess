@@ -90,7 +90,7 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
 
     private func present(with viewModel: PropertyDetailsViewModel) {
         viewModel.completion = { [unowned self] propertyDetails in
-            self.viewModel.report.add(propertyDetails)
+            self.viewModel.add(propertyDetails)
             self.updateLoadingManagerState()
             self.reloadForm()
         }
