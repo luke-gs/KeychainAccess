@@ -24,7 +24,7 @@ open class EntityPickerViewController: FormBuilderViewController {
     override open func viewDidLoad() {
         super.viewDidLoad()
 
-        loadingManager.noContentView.titleLabel.text = "There are no recently used Entities"
+        loadingManager.noContentView.titleLabel.text = "There are no recently viewed Entities"
         loadingManager.state = viewModel.currentLoadingManagerState
 
         let action = DialogAction(title: "Search for Entity") { _ in
