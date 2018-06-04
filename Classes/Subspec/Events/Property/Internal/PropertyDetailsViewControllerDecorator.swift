@@ -21,6 +21,8 @@ internal class PropertyDetailsViewControllerDecorator {
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.distribution = .fillProportionally
+        
+        apply(ThemeManager.shared.theme(for: .current))
     }
 
     func constrain(_ viewController: UIViewController) {
