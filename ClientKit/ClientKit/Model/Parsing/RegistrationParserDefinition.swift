@@ -9,7 +9,6 @@
 import Foundation
 import MPOLKit
 
-
 public enum RegistrationParserError: LocalizedError {
     case invalidLength(query: String, requiredLengthRange: CountableClosedRange<Int>)
     
@@ -21,16 +20,13 @@ public enum RegistrationParserError: LocalizedError {
     }
 }
 
-public class RegistrationParserDefinition: QueryParserDefinition {
+public class RegistrationParserDefinition: VehicleParserDefinition {
     
     public static let registrationKey = "registration"
-    
-    public let tokenDefinitions: [QueryTokenDefinition]
-    
+
     public init(range: CountableClosedRange<Int>) {
-        let definition = QueryTokenDefinition(key: RegistrationParserDefinition.registrationKey, required: true, typeCheck: { token -> Bool in
-            let allowedCharacters = CharacterSet.alphanumerics
-            let extra = token.trimmingCharacters(in: allowedCharacters)
+        let definition = QueryTokenDefinition(key: RegistrationParserDefinition.registrationKey, required: true, typeCheck: { [allowedCharacterSet = VehicleParserDefinition.allowedCharacterSet] token -> Bool in
+            let extra = token.trimmingCharacters(in: allowedCharacterSet)
             return extra.count == 0
         }) { (token, index, map) in
             let length = token.count
@@ -38,12 +34,8 @@ public class RegistrationParserDefinition: QueryParserDefinition {
                 throw RegistrationParserError.invalidLength(query: token, requiredLengthRange: range)
             }
         }
-        
-        tokenDefinitions = [definition]
-    }
-    
-    public func tokensFrom(query: String) -> [String] {
-        return [query.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)]
+
+        super.init(tokenDefinitions: [definition])
     }
 }
 

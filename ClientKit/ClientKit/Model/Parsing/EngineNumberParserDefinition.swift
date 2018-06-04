@@ -20,15 +20,12 @@ public enum EngineNumberParserError: LocalizedError {
     }
 }
 
-public class EngineNumberParserDefinition: QueryParserDefinition {
+public class EngineNumberParserDefinition: VehicleParserDefinition {
     public static let engineNumberKey = "engineNumber"
-    
-    public let tokenDefinitions: [QueryTokenDefinition]
-    
+
     public init(range: CountableClosedRange<Int>) {
-        let definition = QueryTokenDefinition(key: EngineNumberParserDefinition.engineNumberKey, required: true, typeCheck: { token -> Bool in
-            let allowedCharacters = CharacterSet.alphanumerics
-            let extra = token.trimmingCharacters(in: allowedCharacters)
+        let definition = QueryTokenDefinition(key: EngineNumberParserDefinition.engineNumberKey, required: true, typeCheck: { [allowedCharacterSet = VehicleParserDefinition.allowedCharacterSet] token -> Bool in
+            let extra = token.trimmingCharacters(in: allowedCharacterSet)
             return extra.count == 0
         }) { (token, index, map) in
             let length = token.count
@@ -37,12 +34,9 @@ public class EngineNumberParserDefinition: QueryParserDefinition {
             }
         }
         
-        tokenDefinitions = [definition]
+        super.init(tokenDefinitions: [definition])
     }
-    
-    public func tokensFrom(query: String) -> [String] {
-        return [query.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)]
-    }
+
 }
 
 
