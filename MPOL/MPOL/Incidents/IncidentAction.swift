@@ -94,7 +94,7 @@ struct ChoosePrimaryIncidentDefinition : IncidentActionDefiniton {
             
             let datasource = DefaultSearchDatasource(objects: context.viewModel.incidentList.map {$0.title!},
                                                      selectedObjects: [(context.viewModel.primaryIncident?.title!)!],
-                                                     title: "Choose Primary Incident")
+                                                     title: "Select Primary Incident")
             datasource.header = CustomisableSearchHeaderView()
             return datasource
         } else {
@@ -141,7 +141,7 @@ struct DeletePrimaryIncidentDefinition : IncidentActionDefiniton {
     var datasource: CustomSearchPickerDatasource {
         if let context = context {
             let datasource = DefaultSearchDatasource(objects: context.viewModel.additionalIncidents!.map {$0.title!},
-                                                     title: "Choose New Primary Incident")
+                                                     title: "Select New Primary Incident")
             datasource.header = CustomisableSearchHeaderView()
 
             return datasource
