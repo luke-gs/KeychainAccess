@@ -18,6 +18,7 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
         super.init()
         self.title = "Person Search Report"
         wantsTransparentBackground = false
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(doneSelected))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneSelected))
         viewModel.report.evaluator.addObserver(self)
     }
@@ -54,7 +55,6 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
             .required()
             .width(.column(2))
             .selectedValue(viewModel.report.detainedStart)
-            .placeholder("Optional")
             .onValueChanged({ (date) in
                 self.viewModel.report.detainedStart = date
             })
@@ -71,7 +71,6 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
             .required()
             .width(.column(2))
             .selectedValue(viewModel.report.searchStart)
-            .placeholder("Optional")
             .onValueChanged({ (date) in
                 self.viewModel.report.searchStart = date
             })
@@ -98,6 +97,7 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
 
 
         builder += LargeTextHeaderFormItem(text: "Searching Officers")
+            .sectionIsRequired(true)
             .separatorColor(.clear)
             .actionButton(title: "Add") { button in
                 self.addTapped()
@@ -132,7 +132,6 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
         builder += DropDownFormItem(title: "Legal Power")
             .required()
             .width(.column(4))
-            .placeholder("Optional")
             .options(legalOptions)
             .selectedValue([viewModel.report.legalPower ?? ""])
             .onValueChanged({ values in
@@ -147,7 +146,6 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
         builder += DropDownFormItem(title: "Reasons for Search")
             .required()
             .width(.column(4))
-            .placeholder("Optional")
             .options(reasonsOptions)
             .selectedValue([viewModel.report.searchReason ?? ""])
             .onValueChanged({ values in
@@ -161,7 +159,6 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
         builder += DropDownFormItem(title: "Outcome")
             .required()
             .width(.column(4))
-            .placeholder("Optional")
             .options(outcomeOptions)
             .selectedValue([viewModel.report.outcome ?? ""])
             .onValueChanged({ values in

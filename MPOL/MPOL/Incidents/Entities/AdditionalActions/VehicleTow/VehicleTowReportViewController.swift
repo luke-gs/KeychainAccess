@@ -18,6 +18,7 @@ public class VehicleTowReportViewController: FormBuilderViewController, Evaluati
         super.init()
         self.title = "Vehicle Tow Report"
         wantsTransparentBackground = false
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(doneSelected))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneSelected))
         viewModel.report.evaluator.addObserver(self)
     }
