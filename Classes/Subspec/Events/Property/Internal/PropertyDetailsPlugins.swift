@@ -5,15 +5,17 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
+/// Provide the form items for the form builder to render
 internal protocol FormBuilderPluginDecorator {
     func formItems() -> [FormItem]
 }
 
+/// Acts as a kind of viewModel for the formbuilder
 internal protocol FormBuilderPlugin {
     var decorator: FormBuilderPluginDecorator { get }
 }
 
-// General
+// General section
 
 internal struct AddPropertyGeneralPlugin: FormBuilderPlugin {
     public var decorator: FormBuilderPluginDecorator
@@ -66,7 +68,7 @@ internal struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
     }
 }
 
-// Media
+// Media Section
 
 internal struct AddPropertyMediaPlugin: FormBuilderPlugin {
     public var decorator: FormBuilderPluginDecorator
@@ -105,7 +107,7 @@ internal struct AddPropertyMediaPluginDecorator: FormBuilderPluginDecorator {
 
         let header = LargeTextHeaderFormItem(text: "Media")
             .separatorColor(.clear)
-            .actionButton(title: "Manage", handler: { [context] button in
+            .actionButton(title: "Manage", handler: { [mediaItem, context] button in
                 if let viewController = mediaItem.delegate?.viewControllerForGalleryViewModel(gallery) {
                     context.present(viewController, animated: true, completion: nil)
                 }
@@ -118,7 +120,7 @@ internal struct AddPropertyMediaPluginDecorator: FormBuilderPluginDecorator {
     }
 }
 
-// Details
+// Details Section
 
 internal struct AddPropertyDetailsPlugin: FormBuilderPlugin {
     public var decorator: FormBuilderPluginDecorator
