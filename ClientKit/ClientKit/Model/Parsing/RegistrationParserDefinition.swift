@@ -20,27 +20,30 @@ public enum RegistrationParserError: LocalizedError {
     }
 }
 
-fileprivate var invalidLengthError: RangeParserDefinition.InvalidLengthErrorClosure {
-    return {  (query, requiredLengthRange) -> LocalizedError in
-        return RegistrationParserError.invalidLength(query: query, requiredLengthRange: requiredLengthRange)
-    }
+public protocol RegistrationDefinitionType {
+    static var registrationKey: String { get }
 }
 
-public class RegistrationParserDefinition: VehicleParserDefinition {
+public class RegistrationParserDefinition: VehicleParserDefinition, RegistrationDefinitionType {
     
     public static let registrationKey = "registration"
 
     public init(range: CountableClosedRange<Int>) {
         super.init(range: range, definitionKey: RegistrationParserDefinition.registrationKey, errorClosure: invalidLengthError)
     }
-
 }
 
-public class RegistrationWildcardParserDefinition: VehicleWildcardParserDefinition {
+public class RegistrationWildcardParserDefinition: VehicleWildcardParserDefinition, RegistrationDefinitionType  {
 
     public static let registrationKey = "registration"
 
     public init(range: CountableClosedRange<Int>) {
-        super.init(range: range, definitionKey: RegistrationParserDefinition.registrationKey, errorClosure: invalidLengthError)
+        super.init(range: range, definitionKey: RegistrationWildcardParserDefinition.registrationKey, errorClosure: invalidLengthError)
+    }
+}
+
+fileprivate var invalidLengthError: RangeParserDefinition.InvalidLengthErrorClosure {
+    return {  (query, requiredLengthRange) -> LocalizedError in
+        return RegistrationParserError.invalidLength(query: query, requiredLengthRange: requiredLengthRange)
     }
 }

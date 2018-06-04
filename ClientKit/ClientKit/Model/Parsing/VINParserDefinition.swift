@@ -20,13 +20,11 @@ public enum VINParserError: LocalizedError {
     }
 }
 
-fileprivate var invalidLengthError: RangeParserDefinition.InvalidLengthErrorClosure {
-    return {  (query, requiredLengthRange) -> LocalizedError in
-        return VINParserError.invalidLength(query: query, requiredLengthRange: requiredLengthRange)
-    }
+public protocol VINDefinitionType {
+    static var vinKey: String { get }
 }
 
-public class VINParserDefinition: VehicleParserDefinition {
+public class VINParserDefinition: VehicleParserDefinition, VINDefinitionType {
     
     public static let vinKey = "vin"
     
@@ -35,11 +33,17 @@ public class VINParserDefinition: VehicleParserDefinition {
     }
 }
 
-public class VINWildcardParserDefinition: VehicleWildcardParserDefinition {
+public class VINWildcardParserDefinition: VehicleWildcardParserDefinition, VINDefinitionType {
 
-    public static let registrationKey = "vin"
+    public static let vinKey = "vin"
 
     public init(range: CountableClosedRange<Int>) {
-        super.init(range: range, definitionKey: VINParserDefinition.vinKey, errorClosure: invalidLengthError)
+        super.init(range: range, definitionKey: VINWildcardParserDefinition.vinKey, errorClosure: invalidLengthError)
+    }
+}
+
+fileprivate var invalidLengthError: RangeParserDefinition.InvalidLengthErrorClosure {
+    return {  (query, requiredLengthRange) -> LocalizedError in
+        return VINParserError.invalidLength(query: query, requiredLengthRange: requiredLengthRange)
     }
 }
