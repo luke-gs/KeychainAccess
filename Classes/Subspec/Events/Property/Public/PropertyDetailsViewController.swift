@@ -67,6 +67,13 @@ public class PropertyDetailsViewController: ThemedPopoverViewController, Evaluat
 
     }
 
+    // MARK: Internal
+
+    @objc func didTapOnDone() {
+        dismissAnimated()
+        viewModel.completion?(viewModel.report)
+    }
+
     // MARK: Private
 
     private func addMainViewController() {
@@ -78,13 +85,6 @@ public class PropertyDetailsViewController: ThemedPopoverViewController, Evaluat
         addChildViewController(child)
         containerStackView.addArrangedSubview(child.view)
         child.didMove(toParentViewController: self)
-    }
-
-    private func removeContentController(_ child: IntrinsicHeightFormBuilderViewController) {
-        child.willMove(toParentViewController: nil)
-        containerStackView.removeArrangedSubview(child.view)
-        child.view.removeFromSuperview()
-        child.removeFromParentViewController()
     }
 }
 

@@ -7,6 +7,7 @@
 
 public typealias PropertyDetail = (title: String, type: PropertyDetailsType)
 
+// TODO: Expand on these types depending on designs
 public enum PropertyDetailsType {
     case text
     case picker(options: [String])

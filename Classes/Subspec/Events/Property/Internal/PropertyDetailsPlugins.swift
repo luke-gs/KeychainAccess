@@ -127,6 +127,10 @@ internal struct AddPropertyDetailsPluginDecorator: FormBuilderPluginDecorator {
             return DropDownFormItem(title: propertyDetail.title)
                 .options(options)
                 .width(.column(3))
+                .onValueChanged { value in
+                    guard let value = value?.first else { return }
+                    self.viewModel.report.details[propertyDetail.title] = value
+                }
         case .text:
             return TextFieldFormItem(title: propertyDetail.title)
                 .text(self.viewModel.report.details[propertyDetail.title])

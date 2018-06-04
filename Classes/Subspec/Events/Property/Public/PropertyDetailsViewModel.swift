@@ -8,12 +8,9 @@
 public class PropertyDetailsViewModel {
     
     public var report = PropertyDetailsReport()
+    public var completion: ((PropertyDetailsReport) -> ())?
     let involvements: [String]
     let properties: [Property]
-
-    var loadingManagerState: LoadingStateManager.State {
-        return .noContent
-    }
 
     public required init(properties: [Property], involvements: [String]) {
         self.involvements = involvements
