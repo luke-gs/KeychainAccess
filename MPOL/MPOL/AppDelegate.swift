@@ -14,7 +14,7 @@ import Lottie
 import ClientKit
 import Alamofire
 
-#if INTERNAL
+#if INTERNAL || EXTERNAL
     import HockeySDK
 #endif
 
@@ -79,16 +79,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         window.makeKeyAndVisible()
 
-        #if INTERNAL
+        #if INTERNAL || EXTERNAL
             let manager = BITHockeyManager.shared()
-            manager.configure(withIdentifier: "f9141bb9072344a5b316f83f2b2417a4")
+            manager.configure(withIdentifier: HOCKEY_APP_IDENTIFIER)
             manager.start()
 
             manager.updateManager.updateSetting = .checkStartup
             manager.crashManager.crashManagerStatus = .autoSend
 
             let authenticator = manager.authenticator
-            authenticator.authenticationSecret = "5de18549749959214aa44495e09faad5"
+            authenticator.authenticationSecret = HOCKEY_SECRET
             authenticator.identificationType = .hockeyAppEmail
             authenticator.authenticateInstallation()
         #endif
