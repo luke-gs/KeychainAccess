@@ -19,6 +19,20 @@ public class PropertyDetailsReport: MediaContainer {
         self.details = copyingReport.details
         self.involvements = copyingReport.involvements
         self.media = copyingReport.media
+
+
+        // Do a quick check to see that the media items even exist on the system
+        // TODO: Create a datastore which doesn't delete items from the system until onDone
+        // TODO: FIX THIS SHIT
+        var items = [MediaAsset]()
+        for item in copyingReport.media {
+            if FileManager.default.fileExists(at: item.url) {
+                items.append(item)
+            } else {
+                copyingReport.remove([item])
+            }
+        }
+        self.media = items
     }
 
     func add(_ media: [MediaAsset]) {
