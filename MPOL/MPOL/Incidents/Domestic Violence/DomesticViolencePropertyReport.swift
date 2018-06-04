@@ -17,7 +17,7 @@ class DomesticViolencePropertyReport: Reportable {
     weak var event: Event?
     weak var incident: Incident?
 
-    private(set)var propertyList: [Property] = []
+    var propertyList: [PropertyDetailsReport] = []
 
     let evaluator: Evaluator = Evaluator()
 
@@ -43,8 +43,8 @@ class DomesticViolencePropertyReport: Reportable {
         }
     }
 
-    public func addProperty(property: Property) {
-        self.propertyList.append(property)
+    public func add(_ propertyDetailsReport: PropertyDetailsReport) {
+        self.propertyList.append(propertyDetailsReport)
     }
 
     func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {

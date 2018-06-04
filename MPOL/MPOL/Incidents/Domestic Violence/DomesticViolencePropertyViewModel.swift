@@ -13,8 +13,12 @@ public class DomesticViolencePropertyViewModel {
 
     let report: DomesticViolencePropertyReport
 
-    init(report: DomesticViolencePropertyReport) {
-        self.report = report
+    public var hasProperty: Bool {
+        return !report.propertyList.isEmpty
+    }
+
+    public var headerTitle: String {
+        return String.localizedStringWithFormat(NSLocalizedString("%d properties", comment: ""), report.propertyList.count)
     }
 
     var tabColors: (defaultColor: UIColor, selectedColor: UIColor) {
@@ -25,8 +29,8 @@ public class DomesticViolencePropertyViewModel {
         }
     }
 
-    public var hasProperty: Bool {
-        return !report.propertyList.isEmpty
+    init(report: DomesticViolencePropertyReport) {
+        self.report = report
     }
 
     func addObserver(_ observer: EvaluationObserverable) {

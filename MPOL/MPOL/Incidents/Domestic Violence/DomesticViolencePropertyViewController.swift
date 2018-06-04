@@ -19,7 +19,7 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
         viewModel.addObserver(self)
 
         //set initial loading manager state
-        self.setLoadingManagerState()
+        self.updateLoadingManagerState()
 
         title = "Property"
 
@@ -47,10 +47,27 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
     override open func construct(builder: FormBuilder) {
         builder.title = title
         builder.forceLinearLayout = true
-    }
 
-    private func setLoadingManagerState() {
-        self.loadingManager.state = viewModel.hasProperty ? .loaded : .noContent
+        builder += HeaderFormItem(text: viewModel.headerTitle, style: .plain)
+            .actionButton(title: "Add", handler: { _ in
+                self.addProperty()
+            })
+
+        for property in viewModel.report.propertyList {
+            builder += DetailFormItem(title: property.property?.subType,
+                                      subtitle: property.property?.type,
+                                      detail: property.involvements?.joined(separator: ", "),
+                                      image: nil)
+                .accessory(FormAccessoryView(style: .pencil))
+                .editActions([CollectionViewFormEditAction(title: "Delete", color: .orangeRed, handler: { cell, indexPath in
+                    self.viewModel.report.propertyList.remove(at: indexPath.row)
+                    self.updateLoadingManagerState()
+                    self.reloadForm()
+                })])
+                .onSelection { _ in
+                    // TODO: Edit Property
+            }
+        }
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
@@ -60,10 +77,22 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
 
     @objc public func addProperty() {
         let detailsViewModel = PropertyDetailsViewModel(properties: props, involvements: involvs)
+        detailsViewModel.completion = { [unowned self] propertyDetails in
+            self.viewModel.report.add(propertyDetails)
+            self.updateLoadingManagerState()
+            self.reloadForm()
+        }
+
         let viewController = PropertyDetailsViewController(viewModel: detailsViewModel)
         let navigationController = PopoverNavigationController(rootViewController: viewController)
         navigationController.modalPresentationStyle = .pageSheet
         present(navigationController, animated: true, completion: nil)
+    }
+
+    // MARK: Private
+
+    private func updateLoadingManagerState() {
+        self.loadingManager.state = viewModel.hasProperty ? .loaded : .noContent
     }
 }
 
