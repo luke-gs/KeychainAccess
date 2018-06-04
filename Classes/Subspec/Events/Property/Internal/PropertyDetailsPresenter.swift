@@ -24,10 +24,13 @@ internal struct PropertyDetailsPresenter {
         self.displayPropertyView = displayPropertyView
 
         updateNavigationBar()
+
+        currentState = containerViewController.viewModel.report.property == nil ? .add : .display
+        switchTo(currentState)
     }
 
-    internal mutating func switchState() {
-        currentState = currentState == .add ? .display : .add
+    internal mutating func switchTo(_ state: AddPropertyState) {
+        currentState = state
 
         let animator = UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut) { [self, addPropertyView, displayPropertyView, currentState] in
             addPropertyView.alpha = currentState == .add ? 1.0 : 0.0
@@ -43,6 +46,10 @@ internal struct PropertyDetailsPresenter {
         case .display:
             containerViewController.view.bringSubview(toFront: displayPropertyView)
         }
+    }
+
+    internal mutating func switchState() {
+        switchTo(currentState == .add ? .display : .add)
     }
 
     private func updateNavigationBar() {
@@ -71,7 +78,7 @@ internal struct PropertyDetailsPresenter {
     }
 }
 
-private enum AddPropertyState {
+internal enum AddPropertyState {
     case add
     case display
 }

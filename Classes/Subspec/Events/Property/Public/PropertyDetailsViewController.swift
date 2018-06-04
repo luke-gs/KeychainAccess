@@ -19,6 +19,7 @@ public class PropertyDetailsViewController: ThemedPopoverViewController, Evaluat
     private var addPropertyView = UIView()
     private let scrollView = UIScrollView()
     private let containerStackView = UIStackView()
+    private var presenter: PropertyDetailsPresenter!
 
     lazy var decorator = {
         PropertyDetailsViewControllerDecorator(addPropertyView: addPropertyView,
@@ -26,11 +27,6 @@ public class PropertyDetailsViewController: ThemedPopoverViewController, Evaluat
                                                stackView: containerStackView)
     }()
 
-    lazy var presenter = {
-        PropertyDetailsPresenter(containerViewController: self,
-                                 addPropertyView: addPropertyView,
-                                 displayPropertyView: scrollView)
-    }()
 
     required public init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
     public init(viewModel: PropertyDetailsViewModel) {
@@ -48,7 +44,8 @@ public class PropertyDetailsViewController: ThemedPopoverViewController, Evaluat
         let mediaPlugins: [FormBuilderPlugin] = [AddPropertyMediaPlugin(viewModel: viewModel, delegate: self)]
         propertyDetailsMediaViewController = DefaultPropertyViewController(plugins: mediaPlugins)
 
-        propertyDetailsDetailsViewController = DefaultPropertyViewController(plugins: [])
+        let detailPlugins: [FormBuilderPlugin] = [AddPropertyDetailsPlugin(viewModel: viewModel)]
+        propertyDetailsDetailsViewController = DefaultPropertyViewController(plugins: detailPlugins)
     }
 
     public override func viewDidLoad() {
@@ -61,6 +58,11 @@ public class PropertyDetailsViewController: ThemedPopoverViewController, Evaluat
 
         decorator.constrain(self)
         decorator.constrainChild(addPropertyViewController)
+
+
+        presenter = PropertyDetailsPresenter(containerViewController: self,
+                                             addPropertyView: addPropertyView,
+                                             displayPropertyView: scrollView)
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
@@ -111,7 +113,7 @@ extension PropertyDetailsViewController: SearchDisplayableDelegate {
                                             didSelectRowAt indexPath: IndexPath,
                                             withObject object: Property) {
         viewModel.updateDetails(with: object)
-        propertyDetailsDetailsViewController.plugins = [AddPropertyDetailsPlugin(property: object, viewModel: viewModel)]
+        propertyDetailsDetailsViewController.plugins = [AddPropertyDetailsPlugin(viewModel: viewModel)]
         propertyDetailsGeneralViewController.plugins = [AddPropertyGeneralPlugin(viewModel: viewModel, delegate: self)]
         presenter.switchState()
     }

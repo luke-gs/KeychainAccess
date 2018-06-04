@@ -96,22 +96,20 @@ internal struct AddPropertyMediaPluginDecorator: FormBuilderPluginDecorator {
 internal struct AddPropertyDetailsPlugin: FormBuilderPlugin {
     public var decorator: FormBuilderPluginDecorator
 
-    init(property: Property, viewModel: PropertyDetailsViewModel) {
-        decorator = AddPropertyDetailsPluginDecorator(property: property, viewModel: viewModel)
+    init(viewModel: PropertyDetailsViewModel) {
+        decorator = AddPropertyDetailsPluginDecorator(viewModel: viewModel)
     }
 }
 
 internal struct AddPropertyDetailsPluginDecorator: FormBuilderPluginDecorator {
     var viewModel: PropertyDetailsViewModel
-    var property: Property
 
-    init(property: Property, viewModel: PropertyDetailsViewModel) {
+    init(viewModel: PropertyDetailsViewModel) {
         self.viewModel = viewModel
-        self.property = property
     }
 
     public func formItems() -> [FormItem] {
-        guard let details = property.detailNames else { return [] }
+        guard let details = viewModel.report.property?.detailNames else { return [] }
         var formItems = [FormItem]()
 
         for detail in details {
@@ -127,6 +125,7 @@ internal struct AddPropertyDetailsPluginDecorator: FormBuilderPluginDecorator {
             return DropDownFormItem(title: propertyDetail.title)
                 .options(options)
                 .width(.column(3))
+                .selectedValue([viewModel.report.details[propertyDetail.title] ?? ""])
                 .onValueChanged { value in
                     guard let value = value?.first else { return }
                     self.viewModel.report.details[propertyDetail.title] = value

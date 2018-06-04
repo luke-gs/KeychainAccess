@@ -12,9 +12,13 @@ public class PropertyDetailsViewModel {
     let involvements: [String]
     let properties: [Property]
 
-    public required init(properties: [Property], involvements: [String]) {
+    public init(properties: [Property], involvements: [String], report: PropertyDetailsReport? = nil) {
         self.involvements = involvements
         self.properties = properties
+
+        if let report = report {
+            self.report = report
+        }
     }
 
     public func updateDetails(with property: Property) {

@@ -14,7 +14,8 @@ public enum PropertyDetailsType {
 }
 
 // TODO: Either make this a class or a protocol to be overriden/extend in the app
-public struct Property {
+public struct Property: Equatable {
+    private var id: String = UUID().uuidString
     public var type: String
     public var subType: String?
     public var detailNames: [PropertyDetail]?
@@ -28,5 +29,10 @@ public struct Property {
         self.subType = subType
         self.detailNames = detailNames
     }
+
+    public static func == (lhs: Property, rhs: Property) -> Bool {
+        return lhs.id == rhs.id
+    }
+
 }
 
