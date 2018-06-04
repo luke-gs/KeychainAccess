@@ -9,7 +9,6 @@
 import Foundation
 import MPOLKit
 
-
 public enum VINParserError: LocalizedError {
     case invalidLength(query: String, requiredLengthRange: CountableClosedRange<Int>)
     
@@ -21,24 +20,26 @@ public enum VINParserError: LocalizedError {
     }
 }
 
+fileprivate var invalidLengthError: RangeParserDefinition.InvalidLengthErrorClosure {
+    return {  (query, requiredLengthRange) -> LocalizedError in
+        return VINParserError.invalidLength(query: query, requiredLengthRange: requiredLengthRange)
+    }
+}
 
 public class VINParserDefinition: VehicleParserDefinition {
     
     public static let vinKey = "vin"
     
     public init(range: CountableClosedRange<Int>) {
-        let definition = QueryTokenDefinition(key: VINParserDefinition.vinKey, required: true, typeCheck: { [allowedCharacterSet = VehicleParserDefinition.allowedCharacterSet] token -> Bool in
-            let extra = token.trimmingCharacters(in: allowedCharacterSet)
-            return extra.count == 0
-        }) { (token, index, map) in
-            let length = token.count
-            if range.contains(length) == false {
-                throw VINParserError.invalidLength(query: token, requiredLengthRange: range)
-            }
-        }
-
-        super.init(tokenDefinitions: [definition])
+        super.init(range: range, definitionKey: VINParserDefinition.vinKey, errorClosure: invalidLengthError)
     }
-
 }
 
+public class VINWildcardParserDefinition: VehicleWildcardParserDefinition {
+
+    public static let registrationKey = "vin"
+
+    public init(range: CountableClosedRange<Int>) {
+        super.init(range: range, definitionKey: VINParserDefinition.vinKey, errorClosure: invalidLengthError)
+    }
+}
