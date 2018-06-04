@@ -7,21 +7,27 @@
 
 import UIKit
 
-internal struct PropertyDetailsViewControllerDecorator {
+internal class PropertyDetailsViewControllerDecorator {
 
-    let addPropertyView: UIView
-    let detailsScrollView: UIScrollView
-    let stackView: UIStackView
+    let addPropertyView: Weak<UIView>
+    let detailsScrollView: Weak<UIScrollView>
+    let stackView: Weak<UIStackView>
 
     init(addPropertyView: UIView, detailsScrollView: UIScrollView, stackView: UIStackView) {
-        self.addPropertyView = addPropertyView
-        self.detailsScrollView = detailsScrollView
-        self.stackView = stackView
-        
-        setupViews()
+        self.addPropertyView = Weak(addPropertyView)
+        self.detailsScrollView = Weak(detailsScrollView)
+        self.stackView = Weak(stackView)
+
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fillProportionally
     }
 
     func constrain(_ viewController: UIViewController) {
+        guard let addPropertyView = addPropertyView.object else { return }
+        guard let detailsScrollView = detailsScrollView.object else { return }
+        guard let stackView = stackView.object else { return }
+
         addPropertyView.translatesAutoresizingMaskIntoConstraints = false
         detailsScrollView.translatesAutoresizingMaskIntoConstraints = false
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -48,8 +54,9 @@ internal struct PropertyDetailsViewControllerDecorator {
     }
 
     func constrainChild(_ childViewController: UIViewController) {
-        childViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        guard let addPropertyView = addPropertyView.object else { return }
 
+        childViewController.view.translatesAutoresizingMaskIntoConstraints = false
         addPropertyView.addSubview(childViewController.view)
 
         NSLayoutConstraint.activate([
@@ -61,15 +68,7 @@ internal struct PropertyDetailsViewControllerDecorator {
     }
 
     func apply(_ theme: Theme) {
-        self.detailsScrollView.backgroundColor = theme.color(forKey: .background)
-    }
-
-    // MARK: Private
-
-    private func setupViews() {
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .fillProportionally
-        detailsScrollView.backgroundColor = .white
+        guard let detailsScrollView = detailsScrollView.object else { return }
+        detailsScrollView.backgroundColor = theme.color(forKey: .background)
     }
 }

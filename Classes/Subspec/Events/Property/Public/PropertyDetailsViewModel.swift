@@ -25,7 +25,7 @@ public class PropertyDetailsViewModel {
         report.property = property
         report.involvements = nil
         let keys = property.detailNames?.compactMap{$0.title}
-        guard let validKeys = keys  else { return }
+        guard let validKeys = keys else { return }
         let values = Array(repeating: "", count: validKeys.count)
         report.details = Dictionary(uniqueKeysWithValues: zip(validKeys, values))
     }

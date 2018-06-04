@@ -102,10 +102,6 @@ extension PropertyDetailsViewController: AddPropertyDelegate {
     func didTapOnPropertyType() {
         presenter.switchState()
     }
-
-    func didTapOnPropertySubtype() {
-        presenter.switchState()
-    }
 }
 
 

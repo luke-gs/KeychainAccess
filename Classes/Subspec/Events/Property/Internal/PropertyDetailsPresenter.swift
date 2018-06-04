@@ -7,11 +7,11 @@
 
 import UIKit
 
-internal struct PropertyDetailsPresenter {
+internal class PropertyDetailsPresenter {
 
-    let containerViewController: PropertyDetailsViewController
-    let addPropertyView: UIView
-    let displayPropertyView: UIView
+    let containerViewController: Weak<PropertyDetailsViewController>
+    let addPropertyView: Weak<UIView>
+    let displayPropertyView: Weak<UIView>
 
     private var currentState: AddPropertyState = .add
 
@@ -19,38 +19,46 @@ internal struct PropertyDetailsPresenter {
          addPropertyView: UIView,
          displayPropertyView: UIView)
     {
-        self.containerViewController = containerViewController
-        self.addPropertyView = addPropertyView
-        self.displayPropertyView = displayPropertyView
+        self.containerViewController = Weak(containerViewController)
+        self.addPropertyView = Weak(addPropertyView)
+        self.displayPropertyView = Weak(displayPropertyView)
 
         currentState = containerViewController.viewModel.report.property == nil ? .add : .display
         switchTo(currentState)
     }
 
-    internal mutating func switchTo(_ state: AddPropertyState) {
-        currentState = state
+    internal func switchTo(_ state: AddPropertyState) {
+        guard let addPropertyView = addPropertyView.object else { return }
+        guard let displayPropertyView = displayPropertyView.object else { return }
+        guard let containerViewController = containerViewController.object else { return }
 
-        let animator = UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut) { [self, addPropertyView, displayPropertyView, currentState] in
-            addPropertyView.alpha = currentState == .add ? 1.0 : 0.0
-            displayPropertyView.alpha = currentState == .display ? 1.0 : 0.0
-
-            self.updateNavigationBar()
+        let animator = UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut) { [addPropertyView, displayPropertyView] in
+            addPropertyView.alpha = state == .add ? 1.0 : 0.0
+            displayPropertyView.alpha = state == .display ? 1.0 : 0.0
         }
+
         animator.startAnimation()
 
-        switch currentState {
+        switch state {
         case .add:
             containerViewController.view.bringSubview(toFront: addPropertyView)
         case .display:
             containerViewController.view.bringSubview(toFront: displayPropertyView)
         }
+
+        currentState = state
+        updateNavigationBar()
     }
 
-    internal mutating func switchState() {
+    internal func switchState() {
         switchTo(currentState == .add ? .display : .add)
     }
 
+    // MARK: Private
+
     private func updateNavigationBar() {
+        guard let containerViewController = containerViewController.object else { return }
+
         var rightItem: UIBarButtonItem?
 
         switch currentState {

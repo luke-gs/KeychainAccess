@@ -53,7 +53,7 @@ internal struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
                 .accessory(ItemAccessory.dropDown)
                 .width(.column(2))
                 .onSelection { [delegate] _ in
-                    delegate.didTapOnPropertySubtype()
+                    delegate.didTapOnPropertyType()
             },
 
             DropDownFormItem(title: "Involvements")

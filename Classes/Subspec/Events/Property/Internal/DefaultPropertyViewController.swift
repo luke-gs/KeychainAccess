@@ -9,7 +9,6 @@ import UIKit
 
 internal protocol AddPropertyDelegate {
     func didTapOnPropertyType()
-    func didTapOnPropertySubtype()
 }
 
 internal class DefaultPropertyViewController: IntrinsicHeightFormBuilderViewController, EvaluationObserverable {
