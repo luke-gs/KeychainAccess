@@ -15,6 +15,7 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
     public var separatorColor: UIColor?
     public var actionButton: UIButton?
     private var actionButtonHandler: ((UIButton) -> Void)?
+    public var sectionIsRequired: Bool = false
 
     public init() {
         super.init(viewType: CollectionViewFormLargeTextLabelCell.self, kind: UICollectionElementKindSectionHeader, reuseIdentifier: CollectionViewFormLargeTextLabelCell.defaultReuseIdentifier)
@@ -55,6 +56,10 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
                 cell.titleLabel.apply(sizable: text, defaultFont: cell.titleLabel.font)
             }
 
+            if sectionIsRequired {
+                cell.titleLabel.makeRequired(with: text)
+            }
+
             cell.separatorView.backgroundColor = separatorColor ?? iOSStandardSeparatorColor
 
             // Set or remove action button
@@ -68,6 +73,10 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
         if let cell = view as? CollectionViewFormLargeTextLabelCell {
             if text?.sizing().attributedString == nil {
                 cell.titleLabel.textColor = theme.color(forKey: .primaryText)
+            }
+
+            if sectionIsRequired {
+                cell.titleLabel.makeRequired(with: text)
             }
 
             actionButton?.setTitleColor(view.tintColor, for: .normal)
@@ -107,6 +116,12 @@ extension LargeTextHeaderFormItem {
         button.addTarget(self, action: #selector(actionButtonTapped(button:)), for: .touchUpInside)
         self.actionButton = button
         self.actionButtonHandler = handler
+        return self
+    }
+
+    @discardableResult
+    public func sectionIsRequired(_ sectionIsRequired: Bool) -> Self {
+        self.sectionIsRequired = sectionIsRequired
         return self
     }
 
