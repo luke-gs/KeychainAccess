@@ -64,8 +64,9 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
                     self.updateLoadingManagerState()
                     self.reloadForm()
                 })])
-                .onSelection { _ in
-                    // TODO: Edit Property
+                .onSelection { cell in
+                    guard let indexPath = self.collectionView?.indexPath(for: cell) else { return }
+                    self.update(self.viewModel.report.propertyList[indexPath.row])
             }
         }
     }
@@ -77,19 +78,28 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
 
     @objc public func addProperty() {
         let detailsViewModel = PropertyDetailsViewModel(properties: props, involvements: involvs)
-        detailsViewModel.completion = { [unowned self] propertyDetails in
+        present(with: detailsViewModel)
+    }
+
+    public func update(_ propertyDetails: PropertyDetailsReport) {
+        let detailsViewModel = PropertyDetailsViewModel(properties: props, involvements: involvs, report: propertyDetails)
+        present(with: detailsViewModel)
+    }
+
+    // MARK: Private
+
+    private func present(with viewModel: PropertyDetailsViewModel) {
+        viewModel.completion = { [unowned self] propertyDetails in
             self.viewModel.report.add(propertyDetails)
             self.updateLoadingManagerState()
             self.reloadForm()
         }
 
-        let viewController = PropertyDetailsViewController(viewModel: detailsViewModel)
+        let viewController = PropertyDetailsViewController(viewModel: viewModel)
         let navigationController = PopoverNavigationController(rootViewController: viewController)
         navigationController.modalPresentationStyle = .pageSheet
         present(navigationController, animated: true, completion: nil)
     }
-
-    // MARK: Private
 
     private func updateLoadingManagerState() {
         self.loadingManager.state = viewModel.hasProperty ? .loaded : .noContent
