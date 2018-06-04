@@ -11,15 +11,16 @@
 		125EAE192099336900C09FED /* EventSubmissionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE182099336900C09FED /* EventSubmissionResponse.swift */; };
 		19191C8B2092CBD800767A5F /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19191C8A2092CBD800767A5F /* Order.swift */; };
 		19191C8D2092CE2B00767A5F /* PersonOrdersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19191C8C2092CE2800767A5F /* PersonOrdersViewModel.swift */; };
-		1937186E20AA653B00C891E2 /* PersonTrafficHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1937186D20AA653B00C891E2 /* PersonTrafficHistoryViewModel.swift */; };
 		191E183E20B246CB0086B545 /* EntityLocationInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191E183D20B246CB0086B545 /* EntityLocationInformationViewController.swift */; };
 		191E184120B24B370086B545 /* LocationInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191E184020B24B370086B545 /* LocationInfoViewModel.swift */; };
+		1937186E20AA653B00C891E2 /* PersonTrafficHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1937186D20AA653B00C891E2 /* PersonTrafficHistoryViewModel.swift */; };
 		193ED08F1FDEA190002F2837 /* DefaultFilterRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193ED08E1FDEA190002F2837 /* DefaultFilterRules.swift */; };
+		194E009D20C4C79B00F5571A /* VehicleParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E009C20C4C79B00F5571A /* VehicleParserDefinition.swift */; };
 		198465B8208E101F0076E1A4 /* RetrievedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198465B7208E101F0076E1A4 /* RetrievedEvent.swift */; };
-		19F2CF6420A967F8006E6253 /* TrafficHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F2CF6320A967F8006E6253 /* TrafficHistory.swift */; };
 		198465BA208EAF630076E1A4 /* EntityRetrievedEventsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198465B9208EAF630076E1A4 /* EntityRetrievedEventsViewModel.swift */; };
 		199ECE9E1FAA5ACD0065E425 /* PersonImageSizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199ECE9D1FAA5ACD0065E425 /* PersonImageSizing.swift */; };
 		19EC766D20A939D0001965FF /* PersonSearchDateParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EC766C20A939D0001965FF /* PersonSearchDateParser.swift */; };
+		19F2CF6420A967F8006E6253 /* TrafficHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F2CF6320A967F8006E6253 /* TrafficHistory.swift */; };
 		19FA22AF1F8603F000BE0E03 /* MatchMakers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12048FCA1F788EC20014748E /* MatchMakers.swift */; };
 		19FA22B01F86041800BE0E03 /* Matches.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12048FCC1F788ECA0014748E /* Matches.swift */; };
 		1A159F0D1F4B1C7500075330 /* PersonFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A159F0C1F4B1C7500075330 /* PersonFetchRequest.swift */; };
@@ -115,18 +116,19 @@
 		12048FCA1F788EC20014748E /* MatchMakers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchMakers.swift; sourceTree = "<group>"; };
 		12048FCC1F788ECA0014748E /* Matches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matches.swift; sourceTree = "<group>"; };
 		125EAE16209932F800C09FED /* EventSubmissionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSubmissionRequest.swift; sourceTree = "<group>"; };
-		1937186D20AA653B00C891E2 /* PersonTrafficHistoryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonTrafficHistoryViewModel.swift; sourceTree = "<group>"; };
 		125EAE182099336900C09FED /* EventSubmissionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSubmissionResponse.swift; sourceTree = "<group>"; };
 		19191C8A2092CBD800767A5F /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		19191C8C2092CE2800767A5F /* PersonOrdersViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonOrdersViewModel.swift; sourceTree = "<group>"; };
 		191E183D20B246CB0086B545 /* EntityLocationInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityLocationInformationViewController.swift; sourceTree = "<group>"; };
-		19F2CF6320A967F8006E6253 /* TrafficHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrafficHistory.swift; sourceTree = "<group>"; };
 		191E184020B24B370086B545 /* LocationInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfoViewModel.swift; sourceTree = "<group>"; };
+		1937186D20AA653B00C891E2 /* PersonTrafficHistoryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonTrafficHistoryViewModel.swift; sourceTree = "<group>"; };
 		193ED08E1FDEA190002F2837 /* DefaultFilterRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFilterRules.swift; sourceTree = "<group>"; };
+		194E009C20C4C79B00F5571A /* VehicleParserDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleParserDefinition.swift; sourceTree = "<group>"; };
 		198465B7208E101F0076E1A4 /* RetrievedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrievedEvent.swift; sourceTree = "<group>"; };
 		198465B9208EAF630076E1A4 /* EntityRetrievedEventsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityRetrievedEventsViewModel.swift; sourceTree = "<group>"; };
 		199ECE9D1FAA5ACD0065E425 /* PersonImageSizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonImageSizing.swift; sourceTree = "<group>"; };
 		19EC766C20A939D0001965FF /* PersonSearchDateParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonSearchDateParser.swift; sourceTree = "<group>"; };
+		19F2CF6320A967F8006E6253 /* TrafficHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrafficHistory.swift; sourceTree = "<group>"; };
 		1A159F0C1F4B1C7500075330 /* PersonFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonFetchRequest.swift; sourceTree = "<group>"; };
 		1A159F0E1F4B1CA700075330 /* VehicleFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleFetchRequest.swift; sourceTree = "<group>"; };
 		1A159F141F4B1DE200075330 /* VehicleDetailsSectionsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleDetailsSectionsDataSource.swift; sourceTree = "<group>"; };
@@ -384,6 +386,7 @@
 				BCA1793A1F03542900AD1F5F /* PersonParserDefinition.swift */,
 				C681A3841F21AEA800F4AC13 /* LicenceParserDefinition.swift */,
 				EA1CC2501F3D91E800FE8BAE /* RegistrationParserDefinition.swift */,
+				194E009C20C4C79B00F5571A /* VehicleParserDefinition.swift */,
 				EA1CC2531F4132D200FE8BAE /* VINParserDefinition.swift */,
 				EA1CC2551F41347100FE8BAE /* EngineNumberParserDefinition.swift */,
 			);
@@ -821,6 +824,7 @@
 				1A2E8A701F37E3380062FEA5 /* PersonDescriptionViewModel.swift in Sources */,
 				1A290C841F3D649500DD9ED5 /* VehicleFetchParameter.swift in Sources */,
 				EA8B66551F381CBA00F09716 /* VehicleSearchRequest.swift in Sources */,
+				194E009D20C4C79B00F5571A /* VehicleParserDefinition.swift in Sources */,
 				BCAEFEA81F03150800C97F9C /* PhoneNumber.swift in Sources */,
 				1A159F0F1F4B1CA700075330 /* VehicleFetchRequest.swift in Sources */,
 				46E0B89D202C13AB00B40DF2 /* OfficerSummaryDisplayable.swift in Sources */,
