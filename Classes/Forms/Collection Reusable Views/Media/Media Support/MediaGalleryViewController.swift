@@ -310,6 +310,7 @@ public class MediaGalleryViewController: UIViewController, UICollectionViewDeleg
     }
 
     @objc private func closeTapped() {
+        
         dismiss(animated: true, completion: nil)
     }
 

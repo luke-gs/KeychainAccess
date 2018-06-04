@@ -69,6 +69,11 @@ public class PropertyDetailsViewController: ThemedPopoverViewController, Evaluat
 
     }
 
+    public override func apply(_ theme: Theme) {
+        super.apply(theme)
+        decorator.apply(theme)
+    }
+
     // MARK: Internal
 
     @objc func didTapOnDone() {

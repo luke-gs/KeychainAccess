@@ -21,12 +21,6 @@ internal struct PropertyDetailsViewControllerDecorator {
         setupViews()
     }
 
-    private func setupViews() {
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .fillProportionally
-    }
-
     func constrain(_ viewController: UIViewController) {
         addPropertyView.translatesAutoresizingMaskIntoConstraints = false
         detailsScrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -64,5 +58,18 @@ internal struct PropertyDetailsViewControllerDecorator {
             childViewController.view.trailingAnchor.constraint(equalTo: addPropertyView.trailingAnchor),
             childViewController.view.leadingAnchor.constraint(equalTo: addPropertyView.leadingAnchor),
             ])
+    }
+
+    func apply(_ theme: Theme) {
+        self.detailsScrollView.backgroundColor = theme.color(forKey: .background)
+    }
+
+    // MARK: Private
+
+    private func setupViews() {
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fillProportionally
+        detailsScrollView.backgroundColor = .white
     }
 }

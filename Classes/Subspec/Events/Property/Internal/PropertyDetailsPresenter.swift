@@ -23,8 +23,6 @@ internal struct PropertyDetailsPresenter {
         self.addPropertyView = addPropertyView
         self.displayPropertyView = displayPropertyView
 
-        updateNavigationBar()
-
         currentState = containerViewController.viewModel.report.property == nil ? .add : .display
         switchTo(currentState)
     }
@@ -53,28 +51,23 @@ internal struct PropertyDetailsPresenter {
     }
 
     private func updateNavigationBar() {
-        var leftItem: UIBarButtonItem?
         var rightItem: UIBarButtonItem?
 
         switch currentState {
         case .add:
             containerViewController.title = "Add Property"
-            leftItem = UIBarButtonItem(barButtonSystemItem: .cancel,
-                                       target: containerViewController,
-                                       action: #selector(UIViewController.dismissAnimated))
             rightItem = nil
         case .display:
             containerViewController.title = "Create Details"
-            leftItem = UIBarButtonItem(barButtonSystemItem: .cancel,
-                                       target: containerViewController,
-                                       action: #selector(UIViewController.dismissAnimated))
             rightItem = UIBarButtonItem(barButtonSystemItem: .done,
                                         target: containerViewController,
                                         action: #selector(PropertyDetailsViewController.didTapOnDone))
         }
 
-        containerViewController.navigationItem.leftBarButtonItem = leftItem
         containerViewController.navigationItem.rightBarButtonItem = rightItem
+        containerViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
+                                                                                   target: containerViewController,
+                                                                                   action: #selector(UIViewController.dismissAnimated))
     }
 }
 
