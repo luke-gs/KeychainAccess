@@ -281,7 +281,7 @@ struct LicenceClassFormatter: DetailDisplayable, FormItemable {
                         let text = String(format: NSLocalizedString("Valid Until %@", comment: ""), DateFormatter.preferredDateStyle.string(from: expiryDate))
                         _subtitle = text.sizing(withNumberOfLines: 0)
                     } else {
-                        let text = String(format: NSLocalizedString("Expired Since %@ (%d days)", comment: ""), DateFormatter.preferredDateStyle.string(from: expiryDate), abs(day))
+                        let text = String(format: NSLocalizedString("Expired Since %1$@ (%2$d day(s))", comment: ""), DateFormatter.preferredDateStyle.string(from: expiryDate), abs(day))
                         _subtitle = NSAttributedString(string: text, attributes: [ .foregroundColor: UIColor.orangeRed ]).sizing(withNumberOfLines: 0)
                         valid = false
                     }
