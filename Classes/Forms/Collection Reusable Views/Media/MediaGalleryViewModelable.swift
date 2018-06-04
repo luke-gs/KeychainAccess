@@ -26,16 +26,10 @@ public enum MediaGalleryRetrieveStyle {
 
 public protocol MediaGalleryViewModelable: class {
 
-    /// The current state of the media gallery
     var state: MediaGalleryState { get }
 
-    /// A list of previewables to display
     var previews: [MediaPreviewable] { get }
 
-    /// The controller to present from when previewing a previewable
-    ///
-    /// - Parameter preview: the previewable
-    /// - Returns: the controller to present from
     func controllerForPreview(_ preview: MediaPreviewable) -> UIViewController?
 
     func retrievePreviews(style: MediaGalleryRetrieveStyle)
