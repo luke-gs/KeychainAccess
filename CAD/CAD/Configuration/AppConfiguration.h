@@ -12,3 +12,5 @@
 /// The server endpoint
 static const NSString * APP_HOST_URL = CONFIG_HOST_URL;
 static const NSString * SEARCH_APP_SCHEME = SEARCH_URL_TYPE_SCHEME;
+static const NSString * HOCKEY_APP_IDENTIFIER = CONFIG_HOCKEY_APP_IDENTIFIER;
+static const NSString * HOCKEY_SECRET = CONFIG_HOCKEY_SECRET;
