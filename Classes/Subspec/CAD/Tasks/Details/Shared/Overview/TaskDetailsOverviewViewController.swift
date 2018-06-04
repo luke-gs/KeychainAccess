@@ -8,7 +8,9 @@
 
 import UIKit
 
-open class TaskDetailsOverviewViewController: UIViewController {
+open class TaskDetailsOverviewViewController: UIViewController, TaskDetailsLoadable {
+    
+    public let loadingManager: LoadingStateManager = LoadingStateManager()
 
     fileprivate struct LayoutConstants {
         static let defaultMapHeight: CGFloat = 280
@@ -16,6 +18,8 @@ open class TaskDetailsOverviewViewController: UIViewController {
     }
 
     open let viewModel: TaskDetailsOverviewViewModel
+    
+    private var contentView: UIView = UIView()
 
     open private(set) var mapViewController: MapViewController?
     open private(set) var formViewController: FormBuilderViewController!
@@ -45,7 +49,8 @@ open class TaskDetailsOverviewViewController: UIViewController {
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-        
+        loadingManager.baseView = view
+        loadingManager.contentView = contentView
         setupViews()
         setupConstraints()
     }
@@ -111,10 +116,12 @@ open class TaskDetailsOverviewViewController: UIViewController {
         edgesForExtendedLayout = []
         
         view.backgroundColor = .white
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(contentView)
 
         if let mapViewModel = viewModel.mapViewModel {
             let mapViewController = mapViewModel.createViewController()
-            addChildViewController(mapViewController, toView: view)
+            addChildViewController(mapViewController, toView: contentView)
             mapViewController.view.translatesAutoresizingMaskIntoConstraints = false
             self.mapViewController = mapViewController
         }
@@ -126,7 +133,7 @@ open class TaskDetailsOverviewViewController: UIViewController {
         cardView.delegate = self
         cardView.translatesAutoresizingMaskIntoConstraints = false
         cardView.dragBar.isHidden = (self.mapViewController == nil)
-        view.addSubview(cardView)
+        contentView.addSubview(cardView)
 
         formViewController = viewModel.createFormViewController()
         addChildViewController(formViewController, toView: cardView.contentView)
@@ -144,6 +151,11 @@ open class TaskDetailsOverviewViewController: UIViewController {
         formView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
+            contentView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
+            contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
+            
             formCollectionView.topAnchor.constraint(equalTo: formView.topAnchor),
             formCollectionView.leadingAnchor.constraint(equalTo: formView.leadingAnchor),
             formCollectionView.trailingAnchor.constraint(equalTo: formView.trailingAnchor),
@@ -159,8 +171,8 @@ open class TaskDetailsOverviewViewController: UIViewController {
             // Show both map and form
             mapView.translatesAutoresizingMaskIntoConstraints = false
             cardHeightConstraint = cardView.heightAnchor.constraint(equalToConstant: LayoutConstants.minimumCardHeight)
-            cardBottomConstraint = cardView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor)
-            mapCenterYConstraint = mapView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            cardBottomConstraint = cardView.bottomAnchor.constraint(equalTo: contentView.safeAreaOrFallbackBottomAnchor)
+            mapCenterYConstraint = mapView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
 
             // Remove existing constraints for map controls by re-adding to view hierarchy
             mapViewController.mapControlView.removeFromSuperview()
@@ -168,29 +180,29 @@ open class TaskDetailsOverviewViewController: UIViewController {
 
             NSLayoutConstraint.activate([
                 // Use full size for map even when obscured, so we can manipulate center position without zooming
-                mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                mapView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 2, constant: 0),
+                mapView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                mapView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                mapView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 2, constant: 0),
                 mapCenterYConstraint!,
 
                 // Position map controls relative to our view, not map view which might be off screen
-                mapViewController.mapControlView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor, constant: 16),
-                mapViewController.mapControlView.trailingAnchor.constraint(equalTo: view.safeAreaOrFallbackTrailingAnchor, constant: -16),
+                mapViewController.mapControlView.topAnchor.constraint(equalTo: contentView.safeAreaOrFallbackTopAnchor, constant: 16),
+                mapViewController.mapControlView.trailingAnchor.constraint(equalTo: contentView.safeAreaOrFallbackTrailingAnchor, constant: -16),
 
                 // Position card view at bottom
-                cardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                cardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                cardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                cardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                 cardHeightConstraint!,
                 cardBottomConstraint!
             ])
         } else {
             // Show just form
             NSLayoutConstraint.activate([
-                cardView.topAnchor.constraint(equalTo: view.safeAreaOrFallbackTopAnchor),
-                cardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                cardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                cardView.bottomAnchor.constraint(equalTo: view.safeAreaOrFallbackBottomAnchor),
-                cardView.widthAnchor.constraint(equalTo: view.widthAnchor),
+                cardView.topAnchor.constraint(equalTo: contentView.safeAreaOrFallbackTopAnchor),
+                cardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                cardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                cardView.bottomAnchor.constraint(equalTo: contentView.safeAreaOrFallbackBottomAnchor),
+                cardView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
             ])
         }
     }
@@ -231,7 +243,7 @@ extension TaskDetailsOverviewViewController: CADFormCollectionViewModelDelegate 
     
     public func sectionsUpdated() {
         // Reload content
-        formViewController.reloadForm()
+        formViewController?.reloadForm()
     }
 }
 

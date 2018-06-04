@@ -19,7 +19,7 @@ final public class Event: NSObject, NSSecureCoding, Evaluatable {
     public weak var displayable: EventListDisplayable?
     public let entityManager = EventEntityManager()
 
-    private(set) public var reports: [Reportable] = [Reportable]() {
+    private(set) public var reports: [EventReportable] = [EventReportable]() {
         didSet {
             evaluator.updateEvaluation(for: .allValid)
         }
@@ -48,7 +48,7 @@ final public class Event: NSObject, NSSecureCoding, Evaluatable {
 
     required public init?(coder aDecoder: NSCoder) {
         id = aDecoder.decodeObject(of: NSString.self, forKey: Coding.id.rawValue)! as String
-        reports = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.reports.rawValue) as! [Reportable]
+        reports = aDecoder.decodeObject(of: NSArray.self, forKey: Coding.reports.rawValue) as! [EventReportable]
     }
 
     public func encode(with aCoder: NSCoder) {
@@ -58,15 +58,15 @@ final public class Event: NSObject, NSSecureCoding, Evaluatable {
 
     //MARK: Utility
 
-    public func add(reports: [Reportable]) {
+    public func add(reports: [EventReportable]) {
         self.reports.append(contentsOf: reports)
     }
 
-    public func add(report: Reportable) {
+    public func add(report: EventReportable) {
         reports.append(report)
     }
 
-    public func reportable(for reportableType: AnyClass) -> Reportable? {
+    public func reportable(for reportableType: AnyClass) -> EventReportable? {
         return reports.filter{type(of: $0) == reportableType}.first
     }
 
@@ -77,68 +77,4 @@ final public class Event: NSObject, NSSecureCoding, Evaluatable {
             return result && report.evaluator.isComplete
         })
     }
-}
-
-/// A bunch of event types
-/// This can later be expanded upon to build different types of events
-/// via the app
-public struct EventType: RawRepresentable, Hashable {
-
-    //Define default EventTypes
-    public static let blank = EventType(rawValue: "blank")
-
-    public var rawValue: String
-
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
-    public var hashValue: Int {
-        return rawValue.hashValue
-    }
-
-    public static func ==(lhs: EventType, rhs: EventType) -> Bool {
-        return lhs.rawValue == rhs.rawValue
-    }
-}
-
-/// Anything can be reportable
-/// Used to define something in the event object
-public protocol Reportable: NSSecureCoding, Evaluatable {
-
-    /// A reference to the event object
-    /// Make sure this is weak in implementation.
-    var event: Event? { get set }
-
-    /// A weak reference to the incident object
-    /// Make sure this is weak in implementation as well
-    var incident: Incident? { get }
-}
-
-/// Builder for event
-///
-/// Used to define what an event should look like for a specific event type
-/// in terms of the reports it should have
-public protocol EventBuilding {
-
-    /// Create an event, injecting any reports that you need.
-    ///
-    /// - Parameter type: the type of event that is being asked to be created.
-    /// - Returns: a tuple of an event and it's list view representation
-    func createEvent(for type: EventType) -> (event: Event, displayable: EventListDisplayable)
-}
-
-/// Screen builder for the event
-///
-/// Used to provide a viewcontroller for the reportables
-///
-/// Can be used to provide different view controllers for OOTB reports
-/// - ie. DateTimeReport
-public protocol EventScreenBuilding {
-
-    /// Constructs an array of view controllers depending on what reportables are passed in
-    ///
-    /// - Parameter reportables: the array of reports to construct view controllers for
-    /// - Returns: an array of viewController constucted for the reports
-    func viewControllers(for reportables: [Reportable]) -> [UIViewController]
 }

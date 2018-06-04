@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class ResourceOfficerListViewController: CADFormCollectionViewController<ResourceOfficerViewModel> {
+open class ResourceOfficerListViewController: CADFormCollectionViewController<ResourceOfficerViewModel>, TaskDetailsLoadable {
     
     override public init(viewModel: CADFormCollectionViewModel<ResourceOfficerViewModel>) {
         super.init(viewModel: viewModel)

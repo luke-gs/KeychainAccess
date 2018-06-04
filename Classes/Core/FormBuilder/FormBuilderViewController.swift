@@ -356,7 +356,8 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
         guard let view = self.viewIfLoaded, let collectionView = self.collectionView else { return }
 
         view.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
-
+        collectionView.backgroundColor = wantsTransparentBackground ? .clear : backgroundColor
+        
         collectionView.apply(theme)
     }
 
@@ -442,8 +443,8 @@ open class FormBuilderViewController: UIViewController, UICollectionViewDataSour
             let theme = ThemeManager.shared.theme(for: userInterfaceStyle)
             item.cell = cell
 
-            item.reload(cell)
             item.decorate(cell, withTheme: theme)
+            item.reload(cell)
 
             if let accessoryView = cell.accessoryView {
                 item.accessory?.apply(theme: theme, toView: accessoryView)

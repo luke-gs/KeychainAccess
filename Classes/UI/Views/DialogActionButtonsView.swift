@@ -8,31 +8,11 @@
 
 import Foundation
 
-open class DialogAction {
-
-    /// The title to use when displaying the action
-    open let title: String
-
-    /// Completion handler upon selecting the action
-    open let handler: ((DialogAction) -> Swift.Void)
-
-    public init(title: String, handler: @escaping ((DialogAction) -> Swift.Void)) {
-        self.title = title
-        self.handler = handler
-    }
-
-    /// Called when the action has been selected
-    public func didSelect() {
-        handler(self)
-    }
-}
-
 /// View for showing actions buttons at the bottom of a form modal dialog
 open class DialogActionButtonsView: UIView {
 
     /// Layout sizing constants
     public struct LayoutConstants {
-        public static let defaultHeight: CGFloat = 64
         public static let verticalPadding: CGFloat = 24
         public static let horizontalPadding: CGFloat = 24
         public static let centerOffset: CGFloat = 3
@@ -40,7 +20,7 @@ open class DialogActionButtonsView: UIView {
 
     /// The action buttons to be displayed
     open let actions: [DialogAction]
-    open private(set) var buttons: [UIButton] = []
+    open private(set) var buttons: [DialogActionView] = []
 
     // MARK: - Subviews
 
@@ -68,64 +48,40 @@ open class DialogActionButtonsView: UIView {
     open func createSubviews() {
         buttonStackView = UIStackView(frame: .zero)
         buttonStackView.axis = .horizontal
-        buttonStackView.distribution = .equalSpacing
+        buttonStackView.distribution = .fillEqually
         buttonStackView.spacing = 0
         buttonStackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(buttonStackView)
 
         // Create buttons
         for (index, action) in actions.enumerated() {
-            let button = createButton(title: action.title)
-            button.tag = index
-            buttonStackView.addArrangedSubview(button)
-            buttons.append(button)
+            let actionView = DialogActionView(action: action)
+            // If multiple items and this is not the last, give it a side divider
+            if index != actions.count - 1 && actions.count > 1 {
+                actionView.showsSideDivider = true
+            }
+            buttonStackView.addArrangedSubview(actionView)
+            buttons.append(actionView)
         }
-
-        // Add footer view, above stackview
-        footerDivider = UIView()
-        footerDivider.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
-        footerDivider.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(footerDivider)
     }
 
     /// Activates view constraints
     open func createConstraints() {
         NSLayoutConstraint.activate([
-            heightAnchor.constraint(equalToConstant: LayoutConstants.defaultHeight).withPriority(.defaultHigh),
-
-            footerDivider.topAnchor.constraint(equalTo: topAnchor),
-            footerDivider.leadingAnchor.constraint(equalTo: leadingAnchor),
-            footerDivider.trailingAnchor.constraint(equalTo: trailingAnchor),
-            footerDivider.heightAnchor.constraint(equalToConstant: 1),
-
+            buttonStackView.topAnchor.constraint(equalTo: topAnchor),
             buttonStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             buttonStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             buttonStackView.bottomAnchor.constraint(equalTo: safeAreaOrFallbackBottomAnchor),
         ])
     }
 
-    open func createButton(title: String) -> UIButton {
-        let theme = ThemeManager.shared.theme(for: .current)
-        let tintColor = theme.color(forKey: .tint)!
-
-        let button = UIButton()
-        button.contentEdgeInsets = UIEdgeInsets(top: LayoutConstants.verticalPadding,
-                                                left: LayoutConstants.horizontalPadding,
-                                                bottom: LayoutConstants.verticalPadding - LayoutConstants.centerOffset,
-                                                right: LayoutConstants.horizontalPadding)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        button.setTitleColor(tintColor, for: .normal)
-        button.setTitleColor(tintColor.withAlphaComponent(0.5), for: .highlighted)
-        button.setTitleColor(.lightGray, for: .disabled)
-        button.setTitle(title, for: .normal)
-        button.addTarget(self, action: #selector(didSelectButton(button:)), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }
-
-    @objc open func didSelectButton(button: UIButton) {
-        let action = actions[ifExists: button.tag]
-        action?.didSelect()
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if traitCollection.horizontalSizeClass == .compact && actions.count > 2 {
+            buttonStackView.axis = .vertical
+        } else {
+            buttonStackView.axis = .horizontal
+        }
     }
 
 }

@@ -69,6 +69,7 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         apply(ThemeManager.shared.theme(for: userInterfaceStyle))
+        _ = detailViewModel.loadTask()
     }
     
     open override func viewDidAppear(_ animated: Bool) {
@@ -169,6 +170,16 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
             self.refreshControl.endRefreshing()
         }.catch { error in
             AlertQueue.shared.addErrorAlert(message: error.localizedDescription)
+        }
+    }
+    
+    open func setLoadingState(_ state: LoadingStateManager.State) {
+        DispatchQueue.main.async {
+            (self.detailViewControllers as? [TaskDetailsViewController])?.forEach { vc in
+                vc.loadingManager.state = state
+            }
+            
+            self.allowDetailSelection = state != .loading
         }
     }
 }

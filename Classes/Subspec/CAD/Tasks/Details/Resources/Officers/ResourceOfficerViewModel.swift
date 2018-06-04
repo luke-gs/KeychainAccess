@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class ResourceOfficerViewModel {
+open class ResourceOfficerViewModel {
     
     public var title: String
     public var subtitle: String
@@ -39,7 +39,7 @@ public class ResourceOfficerViewModel {
         )
     }
     
-    public func thumbnail() -> ImageLoadable? {
+    open func thumbnail() -> ImageLoadable? {
         guard let initials = initials, let image = UIImage.thumbnail(withInitials: initials).withCircleBackground(tintColor: nil,
                                                                                    circleColor: .disabledGray,
                                                                                    style: .fixed(size: CGSize(width: 48, height: 48),

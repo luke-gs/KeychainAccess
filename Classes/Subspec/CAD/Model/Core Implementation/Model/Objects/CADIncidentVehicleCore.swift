@@ -18,24 +18,15 @@ open class CADIncidentVehicleCore: Codable, CADIncidentVehicleType {
     // MARK: - Network
 
     open var alertLevel: CADAlertLevelType?
-
     open var associatedAlertLevel: CADAlertLevelType?
-
-    open var bodyType: String?
-
-    open var color: String?
-
+    open var bodyType : String?
     open var id: String?
-
+    open var make : String?
+    open var model : String?
+    open var primaryColour: String?
     open var plateNumber: String?
-
     open var source: String?
-
-    open var stolen: Bool?
-
-    open var vehicleDescription: String?
-
-    open var vehicleType: String?
+    open var year : String?
 
     // MARK: - Codable
 
@@ -43,13 +34,13 @@ open class CADIncidentVehicleCore: Codable, CADIncidentVehicleType {
         case alertLevel = "alertLevel"
         case associatedAlertLevel = "associatedAlertLevel"
         case bodyType = "bodyType"
-        case color = "color"
         case id = "id"
+        case make = "make"
+        case model = "model"
+        case primaryColour = "primaryColour"
         case plateNumber = "plateNumber"
         case source = "source"
-        case stolen = "stolen"
-        case vehicleDescription = "vehicleDescription"
-        case vehicleType = "vehicleType"
+        case year = "year"
     }
 
     public required init(from decoder: Decoder) throws {
@@ -57,13 +48,13 @@ open class CADIncidentVehicleCore: Codable, CADIncidentVehicleType {
         alertLevel = try values.decodeIfPresent(CADAlertLevelCore.self, forKey: .alertLevel)
         associatedAlertLevel = try values.decodeIfPresent(CADAlertLevelCore.self, forKey: .associatedAlertLevel)
         bodyType = try values.decodeIfPresent(String.self, forKey: .bodyType)
-        color = try values.decodeIfPresent(String.self, forKey: .color)
         id = try values.decodeIfPresent(String.self, forKey: .id)
+        make = try values.decodeIfPresent(String.self, forKey: .make)
+        model = try values.decodeIfPresent(String.self, forKey: .model)
+        primaryColour = try values.decodeIfPresent(String.self, forKey: .primaryColour)
         plateNumber = try values.decodeIfPresent(String.self, forKey: .plateNumber)
         source = try values.decodeIfPresent(String.self, forKey: .source)
-        stolen = try values.decodeIfPresent(Bool.self, forKey: .stolen)
-        vehicleDescription = try values.decodeIfPresent(String.self, forKey: .vehicleDescription)
-        vehicleType = try values.decodeIfPresent(String.self, forKey: .vehicleType)
+        year = (try values.decodeIfPresent(Int.self, forKey: .year))?.description
     }
 
     public func encode(to encoder: Encoder) throws {

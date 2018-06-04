@@ -16,7 +16,7 @@ open class IncidentResourceItemViewModel {
     open let icon: UIImage?
     open let officers: [ResourceOfficerViewModel]
     
-    init(callsign: String, title: String, subtitle: String, icon: UIImage?, officers: [ResourceOfficerViewModel]) {
+    public init(callsign: String, title: String, subtitle: String, icon: UIImage?, officers: [ResourceOfficerViewModel]) {
         self.callsign = callsign
         self.title = title
         self.subtitle = subtitle

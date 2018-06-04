@@ -10,27 +10,14 @@ import UIKit
 
 open class IncidentResourcesViewModel: CADFormCollectionViewModel<IncidentResourceItemViewModel>, TaskDetailsViewModel {
 
-    /// The identifier for this incident
-    open let incidentNumber: String
-    
-    public init(incidentNumber: String) {
-        self.incidentNumber = incidentNumber
-        super.init()
-        loadData()
-    }
-    
     open func createViewController() -> TaskDetailsViewController {
         return IncidentResourcesViewController(viewModel: self)
     }
 
-    open func reloadFromModel() {
-        loadData()
-    }
+    open func reloadFromModel(_ model: CADTaskListItemModelType) {
+        guard let incident = model as? CADIncidentType else { return }
 
-    open func loadData() {
-        guard CADStateManager.shared.incidentsById[incidentNumber] != nil else { return }
-
-        let resourceViewModels = CADStateManager.shared.resourcesForIncident(incidentNumber: incidentNumber)
+        let resourceViewModels = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.incidentNumber)
             .map { resource -> CADFormCollectionSectionViewModel<IncidentResourceItemViewModel> in
                 let officerViewModels = CADStateManager.shared.officersForResource(callsign: resource.callsign).map { officer in
                     return ResourceOfficerViewModel(officer: officer, resource: resource)

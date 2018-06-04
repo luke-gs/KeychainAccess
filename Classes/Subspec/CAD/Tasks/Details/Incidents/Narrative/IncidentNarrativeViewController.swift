@@ -1,4 +1,4 @@
-    //
+//
 //  IncidentNarrativeViewController.swift
 //  MPOLKit
 //
@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class IncidentNarrativeViewController: ActivityLogViewController {
+public class IncidentNarrativeViewController: ActivityLogViewController, TaskDetailsLoadable {
 
     public init(viewModel: IncidentNarrativeViewModel) {
         super.init(viewModel: viewModel)

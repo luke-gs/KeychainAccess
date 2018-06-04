@@ -12,20 +12,18 @@ open class BroadcastOverviewViewModel: TaskDetailsOverviewViewModel {
 
     open var addressText: String?
 
-    public override init(identifier: String) {
-        super.init(identifier: identifier)
+    open override func reloadFromModel(_ model: CADTaskListItemModelType) {
+        guard let broadcast = model as? CADBroadcastType else { return }
         
         // Only show map if we have a location
-        if let broadcast = CADStateManager.shared.broadcastsById[identifier], broadcast.location?.coordinate != nil
-        {
-            mapViewModel = BroadcastOverviewMapViewModel(broadcastNumber: identifier)
+        if broadcast.location?.coordinate != nil {
+            let mapViewModel = BroadcastOverviewMapViewModel()
+            mapViewModel.reloadFromModel(broadcast)
+            self.mapViewModel = mapViewModel
         } else {
             mapViewModel = nil
         }
-    }
-
-    override open func loadData() {
-        guard let broadcast = CADStateManager.shared.broadcastsById[identifier] else { return }
+        
         location = broadcast.location
 
         let locationItem = broadcast.location?.coordinate != nil ?

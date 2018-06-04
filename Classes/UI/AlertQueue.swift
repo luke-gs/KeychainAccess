@@ -111,16 +111,16 @@ public final class AlertQueue: NSObject {
     }
 
     /// Add a simple alert with OK button using PSCAlertController
-    public func addSimpleAlert(title: String?, message: String?, handler: ((PSCAlertAction) -> ())? = nil) {
+    public func addSimpleAlert(title: String?, message: String?, handler: ((DialogAction) -> ())? = nil) {
         let buttonTitle = NSLocalizedString("OK", comment: "Alert OK button")
         let alertController = PSCAlertController(title: title, message: message, image: nil)
-        let action = PSCAlertAction(title: buttonTitle, style: .default, handler: handler)
+        let action = DialogAction(title: buttonTitle, style: .default, handler: handler)
         alertController.addAction(action)
         AlertQueue.shared.add(alertController)
     }
     
     /// Add a simple alert with custom button using PSCAlertController
-    public func addSimpleAlert(title: String?, message: String?, action: PSCAlertAction) {
+    public func addSimpleAlert(title: String?, message: String?, action: DialogAction) {
         let alertController = PSCAlertController(title: title, message: message, image: nil)
         alertController.addAction(action)
         AlertQueue.shared.add(alertController)

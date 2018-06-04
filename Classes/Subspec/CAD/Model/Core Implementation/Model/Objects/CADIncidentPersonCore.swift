@@ -19,8 +19,6 @@ open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
 
     open var alertLevel: CADAlertLevelType?
 
-    open var associatedAlertLevel: CADAlertLevelType?
-
     open var dateOfBirth: Date?
 
     open var firstName: String?
@@ -37,7 +35,7 @@ open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
 
     open var source: String?
 
-    open var thumbnail: String?
+    open var thumbnailUrl: URL?
 
     // MARK: - Generated
 
@@ -56,7 +54,6 @@ open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
 
     enum CodingKeys: String, CodingKey {
         case alertLevel = "alertLevel"
-        case associatedAlertLevel = "associatedAlertLevel"
         case dateOfBirth = "dateOfBirth"
         case firstName = "givenName"
         case fullAddress = "fullAddress"
@@ -65,12 +62,12 @@ open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
         case lastName = "familyName"
         case middleNames = "middleNames"
         case source = "source"
+        case thumbnailUrl = "thumbnailUrl"
     }
 
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         alertLevel = try values.decodeIfPresent(CADAlertLevelCore.self, forKey: .alertLevel)
-        associatedAlertLevel = try values.decodeIfPresent(CADAlertLevelCore.self, forKey: .associatedAlertLevel)
         dateOfBirth = try values.decodeIfPresent(Date.self, forKey: .dateOfBirth)
         firstName = try values.decodeIfPresent(String.self, forKey: .firstName)
         fullAddress = try values.decodeIfPresent(String.self, forKey: .fullAddress)
@@ -79,6 +76,7 @@ open class CADIncidentPersonCore: Codable, CADIncidentPersonType {
         lastName = try values.decodeIfPresent(String.self, forKey: .lastName)
         middleNames = try values.decodeIfPresent(String.self, forKey: .middleNames)
         source = try values.decodeIfPresent(String.self, forKey: .source)
+        thumbnailUrl = try values.decodeIfPresent(URL.self, forKey: .thumbnailUrl)
     }
 
     public func encode(to encoder: Encoder) throws {

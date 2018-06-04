@@ -14,13 +14,13 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
     
     public init(broadcastNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
         let captionText = "#\(broadcastNumber)"
-        super.init(iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, subtitleText: captionText)
+        super.init(taskItemIdentifier: broadcastNumber, iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, subtitleText: captionText)
         
         self.navTitle = NSLocalizedString("Broadcast details", comment: "")
         self.compactNavTitle = itemName
         
         self.viewModels = [
-            BroadcastOverviewViewModel(identifier: broadcastNumber)
+            BroadcastOverviewViewModel()
         ]
     }
     
@@ -40,9 +40,20 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
         return vc
     }
     
+    
+    open override func loadTask() -> Promise<Void> {
+        viewController?.setLoadingState(.loading)
+        self.broadcast = CADStateManager.shared.broadcastsById[taskItemIdentifier]
+        viewController?.setLoadingState(.loaded)
+        reloadFromModel()
+        return Promise<Void>()
+    }
+    
     override open func reloadFromModel() {
-        viewModels.forEach {
-            $0.reloadFromModel()
+        if let broadcast = broadcast {
+            viewModels.forEach {
+                $0.reloadFromModel(broadcast)
+            }
         }
     }
     

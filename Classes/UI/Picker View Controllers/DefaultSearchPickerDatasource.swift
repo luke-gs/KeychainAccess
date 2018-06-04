@@ -19,17 +19,20 @@ public class DefaultSearchDatasource: CustomSearchPickerDatasource {
 
     public var header: CustomisableSearchHeaderView?
     public var allowsMultipleSelection: Bool
+    public var dismissOnFinish: Bool = true
 
     public init(objects: [Pickable],
                 selectedObjects: [Pickable]? = nil,
                 title: String? = nil    ,
                 allowsMultipleSelection: Bool = false,
+                dismissOnFinish: Bool = true,
                 configuration: SearchHeaderConfiguration? = nil) {
 
         self.objects = objects
         self.selectedObjects = selectedObjects
         self.title = title
         self.allowsMultipleSelection = allowsMultipleSelection
+        self.dismissOnFinish = dismissOnFinish
         self.headerConfiguration = configuration
     }
 

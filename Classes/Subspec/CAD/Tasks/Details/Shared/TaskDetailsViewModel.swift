@@ -9,7 +9,11 @@
 import Foundation
 
 /// Type alias for a task view model delegate
-public typealias TaskDetailsViewController = UIViewController & CADFormCollectionViewModelDelegate
+public typealias TaskDetailsViewController = UIViewController & CADFormCollectionViewModelDelegate & TaskDetailsLoadable
+
+public protocol TaskDetailsLoadable: class {
+    var loadingManager: LoadingStateManager { get }
+}
 
 /// Protocol for all task details view models
 public protocol TaskDetailsViewModel: class {
@@ -21,7 +25,7 @@ public protocol TaskDetailsViewModel: class {
     func createViewController() -> TaskDetailsViewController
 
     /// Reload the content of view model from data model
-    func reloadFromModel()
+    func reloadFromModel(_ model: CADTaskListItemModelType)
 }
 
 extension TaskDetailsViewModel {

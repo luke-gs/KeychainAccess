@@ -22,7 +22,7 @@ open class BaseActivityLauncher<T: ActivityType>: ActivityLauncherType {
     }
 
     open func launch(_ activity: T, using navigator: AppURLNavigator) throws {
-        try? navigator.open(scheme, host: nil, path: activity.name, parameters: activity.parameters, completionHandler: nil)
+        try navigator.open(scheme, host: nil, path: activity.name, parameters: activity.parameters, completionHandler: nil)
     }
 }
 

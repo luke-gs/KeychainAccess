@@ -11,14 +11,11 @@ import MapKit
 
 open class ResourceOverviewMapViewModel: TasksMapViewModel {
     
-    public let callsign: String
+    public var resource: CADResourceType?
     
-    public init(callsign: String) {
-        self.callsign = callsign
-    }
     
-    override open func loadTasks() {
-        guard let resource = CADStateManager.shared.resourcesById[callsign] else { return }
+    open func reloadFromModel(_ model: CADResourceType) {
+        guard let resource = resource else { return }
         
         var annotations: [TaskAnnotation] = []
         annotations += [resource.createAnnotation()].removeNils()
@@ -36,7 +33,7 @@ open class ResourceOverviewMapViewModel: TasksMapViewModel {
     }
     
     override open func createViewController() -> TasksMapViewController {
-        if let coordinate = CADStateManager.shared.resourcesById[callsign]?.location?.coordinate {
+        if let coordinate = resource?.location?.coordinate {
             let viewController = TasksMapViewController(viewModel: self, initialLoadZoomStyle: .coordinate(coordinate, animated : false))
             viewController.defaultZoomDistance = defaultZoomDistance
             return viewController

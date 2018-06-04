@@ -12,7 +12,8 @@ public extension EvaluatorKey {
     static let eventReadyToSubmit = EvaluatorKey(rawValue: "eventReadyToSubmit")
 }
 
-public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitViewController, EvaluationObserverable {
+public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitViewController, EvaluationObserverable, EventSummaryViewControllerDelegate {
+
     public let viewModel: EventDetailViewModelType
     public var delegate: EventsSubmissionDelegate?
     public var loadingViewBuilder: LoadingViewBuilder<Response>?
@@ -27,7 +28,7 @@ public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitV
         regularSidebarViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Submit",
                                                                                          style: .plain,
                                                                                          target: self,
-                                                                                         action: #selector(submitEvent))
+                                                                                         action: #selector(presentEventSummary))
         
         viewModel.evaluator.addObserver(self)
         viewModel.headerUpdated = { [weak self] in
@@ -58,8 +59,16 @@ public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitV
     }
     
     @objc
-    private func submitEvent() {
-        guard let builder = loadingViewBuilder else { return }
+    private func presentEventSummary() {
+        let summaryController = EventSummaryViewController(viewModel: EventSummaryViewModel(event: viewModel.event), submitButtonIsEnabled: viewModel.evaluator.isComplete)
+        summaryController.delegate = self
+        let popoverController = PopoverNavigationController(rootViewController: summaryController)
+        popoverController.modalPresentationStyle = .pageSheet
+        present(popoverController, animated: true)
+    }
+
+    func submitEvent(controller: EventSummaryViewController) {
+        guard let builder = self.loadingViewBuilder else { return }
         LoadingViewController.presentWith(builder, from: self)?
             .done { result in
                 self.eventSubmittedFor(eventId: self.viewModel.event.id, result: result, error: nil)
@@ -73,7 +82,7 @@ public class EventSplitViewController<Response: EventSubmittable>: SidebarSplitV
         let detail = error?.localizedDescription ?? result?.detail
 
         let alert = PSCAlertController(title: title, message: detail, image: nil)
-        let action = PSCAlertAction(title: "OK", style: .cancel) { _ in
+        let action = DialogAction(title: "OK", style: .cancel) { _ in
             self.delegate?.eventSubmittedFor(eventId: eventId, response: result, error: error)
             self.navigationController?.popViewController(animated: true)
         }

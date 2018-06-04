@@ -29,7 +29,13 @@ public class OptionGroupFormItem: BaseFormItem, FormItemContainer, FormValidatab
         }
     }
 
-    public var selectedIndexes: IndexSet = IndexSet()
+    public var selectedIndexes: IndexSet = IndexSet() {
+        didSet {
+            optionItems.enumerated().forEach { index, item in
+                item.isChecked = selectedIndexes.contains(index)
+            }
+        }
+    }
 
     public var isRequired: Bool {
         return requiredSpecification != nil

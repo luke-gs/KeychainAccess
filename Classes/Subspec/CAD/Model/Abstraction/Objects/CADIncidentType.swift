@@ -36,3 +36,13 @@ public protocol CADIncidentType: class, CADTaskListItemModelType {
     var resourceCountString: String? { get }
     var createdAtString: String? { get }
 }
+
+/// Equality check without conforming to Equatable, to prevent need for type erasure
+public func ==(lhs: CADIncidentType?, rhs: CADIncidentType?) -> Bool {
+    return lhs?.incidentNumber == rhs?.incidentNumber
+}
+
+/// Inquality check (required when not using Equatable)
+public func !=(lhs: CADIncidentType?, rhs: CADIncidentType?) -> Bool {
+    return !(lhs?.incidentNumber == rhs?.incidentNumber)
+}

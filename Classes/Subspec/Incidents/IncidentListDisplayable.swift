@@ -82,7 +82,7 @@ public protocol IncidentListViewModelType {
     /// - Parameters:
     ///   - report: the report for the incident view model
     ///   - incidentManager: the incident manager
-    init(report: Reportable, incidentsManager: IncidentsManager)
+    init(report: EventReportable, incidentsManager: IncidentsManager)
 
     /// Gets an incident for a particular displayable
     ///

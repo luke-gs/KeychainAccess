@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class ResourceActivityLogViewController: ActivityLogViewController {
+open class ResourceActivityLogViewController: ActivityLogViewController, TaskDetailsLoadable {
 
     public init(viewModel: ResourceActivityLogViewModel) {
         super.init(viewModel: viewModel)

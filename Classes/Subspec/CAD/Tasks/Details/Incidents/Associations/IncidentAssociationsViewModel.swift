@@ -10,26 +10,13 @@ import UIKit
 
 public class IncidentAssociationsViewModel: CADFormCollectionViewModel<IncidentAssociationItemViewModel>, TaskDetailsViewModel {
     
-    /// The identifier for this incident
-    open let incidentNumber: String
-    
-    public init(incidentNumber: String) {
-        self.incidentNumber = incidentNumber
-        super.init()
-        loadData()
-    }
-    
     /// Create the view controller for this view model
     open func createViewController() -> TaskDetailsViewController {
         return IncidentAssociationsViewController(viewModel: self)
     }
 
-    open func reloadFromModel() {
-        loadData()
-    }
-
-    open func loadData() {
-        guard let incident = CADStateManager.shared.incidentsById[incidentNumber] else { return }
+    public func reloadFromModel(_ model: CADTaskListItemModelType) {
+        guard let incident = model as? CADIncidentType else { return }
 
         var sections: [CADFormCollectionSectionViewModel<IncidentAssociationItemViewModel>] = []
         
@@ -37,7 +24,7 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<IncidentA
             return IncidentAssociationItemViewModel(
                 association: person,
                 category: "DS1",
-                entityType: .person(initials: person.initials),
+                entityType: .person(initials: person.initials, thumbnailUrl: person.thumbnailUrl),
                 title: person.fullName,
                 detail1: formattedDOBAgeGender(person),
                 detail2: person.fullAddress,
@@ -52,8 +39,8 @@ public class IncidentAssociationsViewModel: CADFormCollectionViewModel<IncidentA
                 category: "DS1",
                 entityType: .vehicle,
                 title: vehicle.plateNumber,
-                detail1: vehicle.vehicleDescription,
-                detail2: [vehicle.bodyType, vehicle.color].joined(separator: ThemeConstants.dividerSeparator),
+                detail1: [vehicle.year, vehicle.make, vehicle.model].joined(),
+                detail2: [vehicle.primaryColour, vehicle.bodyType].joined(),
                 borderColor: vehicle.associatedAlertLevel?.color,
                 iconColor: vehicle.alertLevel?.color,
                 badge: 0)

@@ -21,7 +21,7 @@ public class PropertyDetailsReport: MediaContainer {
         self.media = copyingReport.media
 
 
-        // Do a quick check to see that the media items even exist on the system
+        // Do a quick check to see that the media items even exist
         // TODO: Create a datastore which doesn't delete items from the system until onDone
         // TODO: FIX THIS SHIT
         var items = [MediaAsset]()
@@ -35,13 +35,13 @@ public class PropertyDetailsReport: MediaContainer {
         self.media = items
     }
 
-    func add(_ media: [MediaAsset]) {
+    public func add(_ media: [MediaAsset]) {
         self.media.append(contentsOf: media)
     }
 
-    func remove(_ media: [MediaAsset]) {
+    public func remove(_ media: [MediaAsset]) {
         for item in media {
-            guard let index = self.media.index(of: item) else { return }
+            guard let index = self.media.index(of: item) else { continue }
             self.media.remove(at: index)
         }
     }
