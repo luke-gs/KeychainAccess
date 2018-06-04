@@ -11,7 +11,10 @@ import MPOLKit
 import ClientKit
 import CoreLocation
 import Alamofire
+
+#if !DEBUG
 import HockeySDK
+#endif
 
 let TermsAndConditionsVersion = "1.0"
 let WhatsNewVersion = "1.0"

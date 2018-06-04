@@ -17,7 +17,7 @@ end
 target 'CAD' do
     project 'CAD.xcodeproj'
     mpol_kit
-    pod "HockeySDK", :configurations => ['internal-release', 'internal-debug', 'external-release', 'external-debug']
+    pod "HockeySDK", :configurations => ['release', 'external-release', 'external-debug']
 end
 
 post_install do |installer|
