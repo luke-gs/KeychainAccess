@@ -85,19 +85,19 @@ open class CADStateManagerBase: CADStateManagerType {
     }
 
     /// Incidents retrieved in last sync, keyed by incidentNumber
-    open private(set) var incidentsById: [String: CADIncidentType] = [:]
+    open var incidentsById: [String: CADIncidentType] = [:]
 
     /// Resources retrieved in last sync, keyed by callsign
-    open private(set) var resourcesById: [String: CADResourceType] = [:]
+    open var resourcesById: [String: CADResourceType] = [:]
 
     /// Officers retrieved in last sync, keyed by payrollId
-    open private(set) var officersById: [String: CADOfficerType] = [:]
+    open var officersById: [String: CADOfficerType] = [:]
 
     /// Patrols retrieved in last sync, keyed by patrolNumber
-    open private(set) var patrolsById: [String: CADPatrolType] = [:]
+    open var patrolsById: [String: CADPatrolType] = [:]
 
     /// Broadcasts retrieved in last sync, keyed by callsign
-    open private(set) var broadcastsById: [String: CADBroadcastType] = [:]
+    open var broadcastsById: [String: CADBroadcastType] = [:]
 
     /// The currently booked on resource
     open var currentResource: CADResourceType? {
