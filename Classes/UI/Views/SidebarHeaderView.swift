@@ -49,15 +49,6 @@ open class SidebarHeaderView: UIView {
     }
 
     private func commonInit() {
-        // If the title caption label gets used, we need to update the subtitle label's offset so we don't have a huge gap when it's not used
-        titleCaptionLabelTextObserver = titleCaptionLabel.observe(\.text) { [weak self] (label, value) in
-            if let value = value.newValue??.ifNotEmpty() as? String? {
-                self?.subtitleLabelTopConstraint.constant = 8
-            } else {
-                self?.subtitleLabelTopConstraint.constant = 0
-            }
-        }
-        
         preservesSuperviewLayoutMargins = true
         accessibilityTraits |= UIAccessibilityTraitHeader
         
@@ -140,6 +131,15 @@ open class SidebarHeaderView: UIView {
             NSLayoutConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual,    toItem: self, attribute: .trailingMargin),
             NSLayoutConstraint(item: subtitleLabel, attribute: .bottom,  relatedBy: .equal, toItem: self, attribute: .bottom, constant: -52.0).withPriority(UILayoutPriority.defaultHigh)
         ])
+        
+        // If the title caption label gets used, we need to update the subtitle label's offset so we don't have a huge gap when it's not used
+        titleCaptionLabelTextObserver = titleCaptionLabel.observe(\.text) { [weak self] (label, value) in
+            if let value = value.newValue??.ifNotEmpty() as? String? {
+                self?.subtitleLabelTopConstraint.constant = 8
+            } else {
+                self?.subtitleLabelTopConstraint.constant = 0
+            }
+        }
     }
     
     deinit {
