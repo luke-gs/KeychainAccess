@@ -22,23 +22,13 @@ public class PropertyDetailsViewController: FormBuilderViewController {
         title = "Add Property"
     }
 
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reloadForm()
+    }
+
     public override func construct(builder: FormBuilder) {
         builder.title = title
         viewModel.plugins?.forEach{builder += $0.decorator.formItems()}
-    }
-}
-
-// MARK: SearchDisplayableDelegate
-
-extension PropertyDetailsViewController: SearchDisplayableDelegate {
-    public typealias Object = Property
-
-    public func genericSearchViewController(_ viewController: UIViewController,
-                                            didSelectRowAt indexPath: IndexPath,
-                                            withObject object: Property) {
-//        viewModel.updateDetails(with: object)
-//        propertyDetailsDetailsViewController.plugins = [AddPropertyDetailsPlugin(viewModel: viewModel)]
-//        propertyDetailsGeneralViewController.plugins = [AddPropertyGeneralPlugin(viewModel: viewModel, delegate: self)]
-//        presenter.switchState()
     }
 }

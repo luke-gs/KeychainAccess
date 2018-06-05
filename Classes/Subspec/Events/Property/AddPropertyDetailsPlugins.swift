@@ -1,32 +1,22 @@
 //
-//  PropertyDetailsPlugins.swift
+//  AddPropertyDetailsPlugins.swift
 //  MPOLKit
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
-/// Provide the form items for the form builder to render
-public protocol FormBuilderPluginDecorator {
-    func formItems() -> [FormItem]
-}
-
-/// Acts as a kind of viewModel for the formbuilder
-public protocol FormBuilderPlugin {
-    var decorator: FormBuilderPluginDecorator { get }
-}
 
 // General section
 
 public struct AddPropertyGeneralPlugin: FormBuilderPlugin {
+    public var plugins: [FormBuilderPlugin]?
     public let decorator: FormBuilderPluginDecorator
-
     public init(viewModel: PropertyDetailsViewModel, delegate: AddPropertyDelegate) {
         decorator = AddPropertyGeneralPluginDecorator(viewModel: viewModel, delegate: delegate)
     }
 }
 
 public struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
-
     let viewModel: Weak<PropertyDetailsViewModel>
     let delegate: AddPropertyDelegate
 
@@ -71,9 +61,10 @@ public struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
 // Media Section
 
 public struct AddPropertyMediaPlugin: FormBuilderPlugin {
+    public var plugins: [FormBuilderPlugin]?
     public let decorator: FormBuilderPluginDecorator
 
-    init(viewModel: PropertyDetailsViewModel, context: UIViewController) {
+    public init(viewModel: PropertyDetailsViewModel, context: UIViewController) {
         decorator = AddPropertyMediaPluginDecorator(viewModel: viewModel, context: context)
     }
 }
@@ -83,7 +74,7 @@ public struct AddPropertyMediaPluginDecorator: FormBuilderPluginDecorator {
     let context: Weak<UIViewController>
     let viewModel: Weak<PropertyDetailsViewModel>
 
-    init(viewModel: PropertyDetailsViewModel, context: UIViewController) {
+    public init(viewModel: PropertyDetailsViewModel, context: UIViewController) {
         self.viewModel = Weak(viewModel)
         self.context = Weak(context)
     }
@@ -123,9 +114,9 @@ public struct AddPropertyMediaPluginDecorator: FormBuilderPluginDecorator {
 // Details Section
 
 public struct AddPropertyDetailsPlugin: FormBuilderPlugin {
+    public var plugins: [FormBuilderPlugin]?
     public let decorator: FormBuilderPluginDecorator
-
-    init(viewModel: PropertyDetailsViewModel) {
+    public init(viewModel: PropertyDetailsViewModel) {
         decorator = AddPropertyDetailsPluginDecorator(viewModel: viewModel)
     }
 }

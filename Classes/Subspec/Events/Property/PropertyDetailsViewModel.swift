@@ -33,11 +33,4 @@ public class PropertyDetailsViewModel {
     }
 }
 
-// MARK: AddPropertyDelegate
-
-extension PropertyDetailsViewModel: AddPropertyDelegate {
-    public func didTapOnPropertyType() {
-
-    }
-}
 
