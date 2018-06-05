@@ -181,19 +181,20 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     // MARK: - Private
 
     private func parser(forType type: SearchType, text: String) -> QueryParser {
+        let containsWildcard = text.contains("*")
         switch type {
         case .registration:
-            if text.contains("*") {
+            if containsWildcard {
                 return wildcardRegistrationParser
             }
             return registrationParser
         case .vin:
-            if text.contains("*") {
+            if containsWildcard {
                 return wildcardVINParser
             }
             return vinParser
         case .engineNumber:
-            if text.contains("*") {
+            if containsWildcard {
                 return wildcardEngineParser
             }
             return engineParser
