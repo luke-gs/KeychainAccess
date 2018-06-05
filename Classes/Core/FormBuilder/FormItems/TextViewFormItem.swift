@@ -149,6 +149,11 @@ public class TextViewFormItem: BaseFormItem, FormValidatable {
 
     public var textContentType: UITextContentType? = nil
 
+    // The y position of the last character in the textView
+    // Used to compare after text changes, to determine if the text
+    // has jumped to a new line, and we should re-layout the textView
+    private var previousY: CGFloat = 0.0
+
 }
 
 extension TextViewFormItem: UITextViewDelegate {
@@ -164,6 +169,25 @@ extension TextViewFormItem: UITextViewDelegate {
 
         validator.validateAndUpdateErrorIfNeeded(newText?.ifNotEmpty(), shouldInstallTimer: true, checkSubmitRule: false, forItem: self)
         onValueChanged?(newText)
+
+        // check if the textView has added/ deleted a new line
+        // if relayout the collectionView so textView height will change
+        //also scroll the collectionView to the textViews cursor
+        if case .intrinsic = height {
+            let lastCharPosition: UITextPosition = textView.endOfDocument
+            let currentRect: CGRect = textView.caretRect(for: lastCharPosition)
+            let currentY = currentRect.origin.y
+
+            if currentY != previousY {
+                collectionView?.collectionViewLayout.invalidateLayout()
+
+                let cursorRect = textView.caretRect(for: textView.selectedTextRange!.start)
+                if let convertedCursorRect = collectionView?.convert(cursorRect, from: textView) {
+                    collectionView?.scrollRectToVisible(convertedCursorRect, animated: false)
+                }
+            }
+            previousY = currentY
+        }
     }
 
     public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

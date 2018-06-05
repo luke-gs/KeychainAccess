@@ -279,7 +279,7 @@ open class CollectionViewFormTextViewCell: CollectionViewFormCell {
         let placeholderHeight = placeholderSizing.minimumHeight(inWidth: availableWidth, allowingZeroHeight: false, compatibleWith: traitCollection)
         let separation = titleHeight >~ 0.0 ? labelSeparation.ceiled(toScale: traitCollection.currentDisplayScale) : 0.0
         
-        return max(titleHeight + max(textHeight, placeholderHeight) + separation, accessoryViewSize.height)
+        return max(titleHeight.rounded(.up) + max(textHeight, placeholderHeight).rounded(.up) + separation.rounded(.up), accessoryViewSize.height)
     }
     
 }
