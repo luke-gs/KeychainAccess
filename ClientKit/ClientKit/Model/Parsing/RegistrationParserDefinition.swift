@@ -20,23 +20,30 @@ public enum RegistrationParserError: LocalizedError {
     }
 }
 
-public class RegistrationParserDefinition: VehicleParserDefinition {
+public protocol RegistrationDefinitionType {
+    static var registrationKey: String { get }
+}
+
+public class RegistrationParserDefinition: VehicleParserDefinition, RegistrationDefinitionType {
     
     public static let registrationKey = "registration"
 
     public init(range: CountableClosedRange<Int>) {
-        let definition = QueryTokenDefinition(key: RegistrationParserDefinition.registrationKey, required: true, typeCheck: { [allowedCharacterSet = VehicleParserDefinition.allowedCharacterSet] token -> Bool in
-            let extra = token.trimmingCharacters(in: allowedCharacterSet)
-            return extra.count == 0
-        }) { (token, index, map) in
-            let length = token.count
-            if range.contains(length) == false {
-                throw RegistrationParserError.invalidLength(query: token, requiredLengthRange: range)
-            }
-        }
-
-        super.init(tokenDefinitions: [definition])
+        super.init(range: range, definitionKey: RegistrationParserDefinition.registrationKey, errorClosure: invalidLengthError)
     }
 }
 
+public class RegistrationWildcardParserDefinition: VehicleWildcardParserDefinition, RegistrationDefinitionType  {
 
+    public static let registrationKey = "registration"
+
+    public init(range: CountableClosedRange<Int>) {
+        super.init(range: range, definitionKey: RegistrationWildcardParserDefinition.registrationKey, errorClosure: invalidLengthError)
+    }
+}
+
+fileprivate var invalidLengthError: RangeParserDefinition.InvalidLengthErrorClosure {
+    return {  (query, requiredLengthRange) -> LocalizedError in
+        return RegistrationParserError.invalidLength(query: query, requiredLengthRange: requiredLengthRange)
+    }
+}

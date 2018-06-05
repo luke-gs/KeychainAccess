@@ -8,18 +8,11 @@
 import Foundation
 import MPOLKit
 
-open class VehicleParserDefinition: QueryParserDefinition {
+open class VehicleParserDefinition: RangeParserDefinition {
 
-    public let tokenDefinitions: [QueryTokenDefinition]
     static public let allowedCharacterSet: CharacterSet = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "?"))
-    private let whitespacesAndNewlinesCharacterSet = CharacterSet.whitespacesAndNewlines
 
-    public init(tokenDefinitions: [QueryTokenDefinition]) {
-        self.tokenDefinitions = tokenDefinitions
+    public init(range: CountableClosedRange<Int>, definitionKey: String, errorClosure: @escaping InvalidLengthErrorClosure) {
+        super.init(range: range, definitionKey: definitionKey, allowedCharacterSet: VehicleParserDefinition.allowedCharacterSet, errorClosure: errorClosure)
     }
-
-    public func tokensFrom(query: String) -> [String] {
-        return [query.trimmingCharacters(in: whitespacesAndNewlinesCharacterSet)]
-    }
-
 }
