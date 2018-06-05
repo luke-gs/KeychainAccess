@@ -142,12 +142,6 @@ open class SidebarHeaderView: UIView {
         }
     }
     
-    deinit {
-        titleCaptionLabelTextObserver?.invalidate()
-        titleCaptionLabelTextObserver = nil
-    }
-    
-    
     // MARK: - Updates
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
