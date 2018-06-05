@@ -12,6 +12,8 @@ public class PropertyDetailsViewModel {
     let involvements: [String]
     let properties: [Property]
 
+    public var plugins: [FormBuilderPlugin]?
+
     public init(properties: [Property], involvements: [String], report: PropertyDetailsReport? = nil) {
         self.involvements = involvements
         self.properties = properties
@@ -30,3 +32,12 @@ public class PropertyDetailsViewModel {
         report.details = Dictionary(uniqueKeysWithValues: zip(validKeys, values))
     }
 }
+
+// MARK: AddPropertyDelegate
+
+extension PropertyDetailsViewModel: AddPropertyDelegate {
+    public func didTapOnPropertyType() {
+
+    }
+}
+

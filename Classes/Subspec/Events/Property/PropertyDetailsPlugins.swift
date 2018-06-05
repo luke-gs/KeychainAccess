@@ -6,31 +6,31 @@
 //
 
 /// Provide the form items for the form builder to render
-internal protocol FormBuilderPluginDecorator {
+public protocol FormBuilderPluginDecorator {
     func formItems() -> [FormItem]
 }
 
 /// Acts as a kind of viewModel for the formbuilder
-internal protocol FormBuilderPlugin {
+public protocol FormBuilderPlugin {
     var decorator: FormBuilderPluginDecorator { get }
 }
 
 // General section
 
-internal struct AddPropertyGeneralPlugin: FormBuilderPlugin {
+public struct AddPropertyGeneralPlugin: FormBuilderPlugin {
     public let decorator: FormBuilderPluginDecorator
 
-    init(viewModel: PropertyDetailsViewModel, delegate: AddPropertyDelegate) {
+    public init(viewModel: PropertyDetailsViewModel, delegate: AddPropertyDelegate) {
         decorator = AddPropertyGeneralPluginDecorator(viewModel: viewModel, delegate: delegate)
     }
 }
 
-internal struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
+public struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
 
     let viewModel: Weak<PropertyDetailsViewModel>
     let delegate: AddPropertyDelegate
 
-    init(viewModel: PropertyDetailsViewModel, delegate: AddPropertyDelegate) {
+    public init(viewModel: PropertyDetailsViewModel, delegate: AddPropertyDelegate) {
         self.viewModel = Weak(viewModel)
         self.delegate = delegate
     }
@@ -70,7 +70,7 @@ internal struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
 
 // Media Section
 
-internal struct AddPropertyMediaPlugin: FormBuilderPlugin {
+public struct AddPropertyMediaPlugin: FormBuilderPlugin {
     public let decorator: FormBuilderPluginDecorator
 
     init(viewModel: PropertyDetailsViewModel, context: UIViewController) {
@@ -78,7 +78,7 @@ internal struct AddPropertyMediaPlugin: FormBuilderPlugin {
     }
 }
 
-internal struct AddPropertyMediaPluginDecorator: FormBuilderPluginDecorator {
+public struct AddPropertyMediaPluginDecorator: FormBuilderPluginDecorator {
 
     let context: Weak<UIViewController>
     let viewModel: Weak<PropertyDetailsViewModel>
@@ -122,7 +122,7 @@ internal struct AddPropertyMediaPluginDecorator: FormBuilderPluginDecorator {
 
 // Details Section
 
-internal struct AddPropertyDetailsPlugin: FormBuilderPlugin {
+public struct AddPropertyDetailsPlugin: FormBuilderPlugin {
     public let decorator: FormBuilderPluginDecorator
 
     init(viewModel: PropertyDetailsViewModel) {
@@ -130,10 +130,10 @@ internal struct AddPropertyDetailsPlugin: FormBuilderPlugin {
     }
 }
 
-internal struct AddPropertyDetailsPluginDecorator: FormBuilderPluginDecorator {
+public struct AddPropertyDetailsPluginDecorator: FormBuilderPluginDecorator {
     let viewModel: Weak<PropertyDetailsViewModel>
 
-    init(viewModel: PropertyDetailsViewModel) {
+    public init(viewModel: PropertyDetailsViewModel) {
         self.viewModel = Weak(viewModel)
     }
 

@@ -8,11 +8,11 @@
 import UIKit
 import PromiseKit
 
-internal class PropertySearchDisplayableViewModel: SearchDisplayableViewModel {
-    typealias Object = Property
+public class PropertySearchDisplayableViewModel: SearchDisplayableViewModel {
+    public typealias Object = Property
 
-    var title: String = "Property"
-    var hasSections: Bool = true
+    public var title: String = "Property"
+    public var hasSections: Bool = true
 
     let properties: [Property]
     private var filteredProperties: [Property] = []
@@ -27,39 +27,39 @@ internal class PropertySearchDisplayableViewModel: SearchDisplayableViewModel {
         self.filteredProperties = properties
     }
 
-    func numberOfSections() -> Int {
+    public func numberOfSections() -> Int {
         return sectionOrder.count
     }
 
-    func numberOfRows(in section: Int) -> Int {
+    public func numberOfRows(in section: Int) -> Int {
         let section = sectionOrder[section]
         return filteredProperties.filter{$0.type == section}.count
     }
 
-    func isSectionHidden(_ section: Int) -> Bool {
+    public func isSectionHidden(_ section: Int) -> Bool {
         guard isSearching == true else { return false }
         let section = sectionOrder[section]
         return filteredProperties.filter{$0.type == section}.count == 0
     }
 
-    func title(for section: Int) -> String {
+    public func title(for section: Int) -> String {
         return sectionOrder[section]
     }
 
-    func title(for indexPath: IndexPath) -> String? {
+    public func title(for indexPath: IndexPath) -> String? {
         return object(for: indexPath).fullType
     }
 
-    func object(for indexPath: IndexPath) -> Property {
+    public func object(for indexPath: IndexPath) -> Property {
         let section = sectionOrder[indexPath.section]
         return filteredProperties.filter{$0.type == section}[indexPath.row]
     }
 
-    func searchable(for object: Property) -> CustomSearchDisplayable {
+    public func searchable(for object: Property) -> CustomSearchDisplayable {
         return PropertyDisplayable(property: object)
     }
 
-    func searchTextChanged(to searchString: String) {
+    public func searchTextChanged(to searchString: String) {
         guard !searchString.isEmpty else {
             isSearching = false
             filteredProperties = properties
@@ -69,15 +69,15 @@ internal class PropertySearchDisplayableViewModel: SearchDisplayableViewModel {
         filteredProperties = properties.filter{$0.fullType.lowercased().contains(searchString.lowercased())}
     }
 
-    func emptyStateText() -> String? {
+    public func emptyStateText() -> String? {
         return "No Property Found"
     }
 
-    func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? { return nil }
-    func description(for indexPath: IndexPath) -> String? { return nil }
-    func image(for indexPath: IndexPath) -> UIImage? { return nil }
-    func searchAction() -> Promise<Void>? { return nil }
-    func loadingStateText() -> String? { return nil }
+    public func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? { return nil }
+    public func description(for indexPath: IndexPath) -> String? { return nil }
+    public func image(for indexPath: IndexPath) -> UIImage? { return nil }
+    public func searchAction() -> Promise<Void>? { return nil }
+    public func loadingStateText() -> String? { return nil }
 }
 
 internal struct PropertyDisplayable: CustomSearchDisplayable {
