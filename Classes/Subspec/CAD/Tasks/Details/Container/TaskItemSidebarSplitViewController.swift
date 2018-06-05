@@ -69,9 +69,16 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         apply(ThemeManager.shared.theme(for: userInterfaceStyle))
+    }
+
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // Load the task now we are ready to appear. Loading the task in viewDidLoad is too soon as the
+        // viewController on the detail view model may not be set yet
         _ = detailViewModel.loadTask()
     }
-    
+
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         updateHeaderView()
