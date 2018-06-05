@@ -168,13 +168,14 @@ public enum CADStateManagerError: Error {
 
 /// Enum for different sync modes
 public enum CADSyncMode: Equatable {
-    case patrolGroup
+    case none
+    case patrolGroup(patrolGroup: String)
     case map(boundingBox: MKMapView.BoundingBox)
 
     public static func ==(lhs: CADSyncMode, rhs: CADSyncMode) -> Bool {
         switch (lhs, rhs) {
-        case (.patrolGroup, .patrolGroup):
-            return true
+        case (let .patrolGroup(patrolGroup1), let .patrolGroup(patrolGroup2)):
+            return patrolGroup1 == patrolGroup2
         case (let .map(boundingBox1), let .map(boundingBox2)):
             return boundingBox1 == boundingBox2
         default:

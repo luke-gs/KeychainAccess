@@ -40,7 +40,7 @@ open class CADStateManagerBase: CADStateManagerType {
     open var patrolGroup: String?
 
     /// The current sync mode
-    open var syncMode: CADSyncMode = .patrolGroup {
+    open var syncMode: CADSyncMode = .none {
         didSet {
             didChangeCADSyncMode(from: oldValue)
         }
@@ -217,9 +217,11 @@ open class CADStateManagerBase: CADStateManagerType {
 
             // Sync based on the current sync mode
             switch self.syncMode {
-            case .patrolGroup:
+            case .none:
+                return Promise<Void>()
+            case .patrolGroup(let patrolGroup):
                 self.lastSyncMapBoundingBox = nil
-                self.pendingSync = self.syncPatrolGroup(self.patrolGroup!)
+                self.pendingSync = self.syncPatrolGroup(patrolGroup)
             case .map(let boundingBox):
                 self.pendingSync = self.syncBoundingBox(boundingBox, force: force)
             }
