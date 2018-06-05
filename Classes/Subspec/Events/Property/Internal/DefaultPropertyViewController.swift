@@ -12,14 +12,14 @@ internal protocol AddPropertyDelegate {
 }
 
 internal class DefaultPropertyViewController: IntrinsicHeightFormBuilderViewController, EvaluationObserverable {
-    var plugins: [FormBuilderPlugin] {
+    var plugins: [FormBuilderPlugin]? {
         didSet {
             reloadForm()
         }
     }
 
     public required convenience init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
-    public init(plugins: [FormBuilderPlugin]) {
+    public init(plugins: [FormBuilderPlugin]? = nil) {
         self.plugins = plugins
         super.init()
     }
@@ -31,7 +31,7 @@ internal class DefaultPropertyViewController: IntrinsicHeightFormBuilderViewCont
 
     override public func construct(builder: FormBuilder) {
         builder.title = title
-        plugins.forEach{builder += $0.decorator.formItems()}
+        plugins?.forEach{builder += $0.decorator.formItems()}
     }
 
     // MARK: Eval

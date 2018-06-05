@@ -26,9 +26,7 @@ public struct IconPickable: Pickable {
     public var tintColor: UIColor?
 }
 
-extension String: CustomSearchDisplayable {
-    public var section: String? { return nil }
-    public var image: UIImage? { return nil }
+extension String: CustomSearchPickable {
     public var title: String? { return self }
     public var subtitle: String? { return nil }
 

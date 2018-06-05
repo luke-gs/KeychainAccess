@@ -10,17 +10,17 @@ import PromiseKit
 
 public class PropertyDetailsViewController: ThemedPopoverViewController, EvaluationObserverable {
 
-    private(set) var addPropertyViewController: SearchDisplayableViewController<PropertyDetailsViewController, PropertySearchDisplayableViewModel>!
-    private(set) var propertyDetailsGeneralViewController: DefaultPropertyViewController!
-    private(set) var propertyDetailsMediaViewController: DefaultPropertyViewController!
-    private(set) var propertyDetailsDetailsViewController: DefaultPropertyViewController!
+    private(set) var addPropertyViewController: SearchDisplayableViewController<PropertyDetailsViewController, PropertySearchDisplayableViewModel>
+    private(set) var propertyDetailsGeneralViewController: DefaultPropertyViewController
+    private(set) var propertyDetailsMediaViewController: DefaultPropertyViewController
+    private(set) var propertyDetailsDetailsViewController: DefaultPropertyViewController
 
     let viewModel: PropertyDetailsViewModel
 
+    private var presenter: PropertyDetailsPresenter!
     private var addPropertyView = UIView()
     private let scrollView = UIScrollView()
     private let containerStackView = UIStackView()
-    private var presenter: PropertyDetailsPresenter!
 
     lazy var decorator = {
         PropertyDetailsViewControllerDecorator(addPropertyView: addPropertyView,
@@ -32,29 +32,30 @@ public class PropertyDetailsViewController: ThemedPopoverViewController, Evaluat
     required public init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
     public init(viewModel: PropertyDetailsViewModel) {
         self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-        title = "Add Property"
 
         let searchViewModel = PropertySearchDisplayableViewModel(properties: viewModel.properties)
         addPropertyViewController = SearchDisplayableViewController<PropertyDetailsViewController, PropertySearchDisplayableViewModel>(viewModel: searchViewModel)
-        addPropertyViewController.delegate = self
-    }
 
-    public override func viewDidLoad() {
-        super.viewDidLoad()
+        propertyDetailsGeneralViewController = DefaultPropertyViewController()
+        propertyDetailsMediaViewController = DefaultPropertyViewController()
+        propertyDetailsDetailsViewController = DefaultPropertyViewController()
+
+        super.init(nibName: nil, bundle: nil)
+        title = "Add Property"
+        
+        propertyDetailsGeneralViewController.plugins = [AddPropertyGeneralPlugin(viewModel: viewModel, delegate: self)]
+        propertyDetailsMediaViewController.plugins = [AddPropertyMediaPlugin(viewModel: viewModel, context: self)]
+        propertyDetailsDetailsViewController.plugins = [AddPropertyDetailsPlugin(viewModel: viewModel)]
+
+        addPropertyViewController.delegate = self
 
         presenter = PropertyDetailsPresenter(containerViewController: self,
                                              addPropertyView: addPropertyView,
                                              displayPropertyView: scrollView)
+    }
 
-        let generalPlugins: [FormBuilderPlugin] = [AddPropertyGeneralPlugin(viewModel: viewModel, delegate: self)]
-        propertyDetailsGeneralViewController = DefaultPropertyViewController(plugins: generalPlugins)
-
-        let mediaPlugins: [FormBuilderPlugin] = [AddPropertyMediaPlugin(viewModel: viewModel, context: self)]
-        propertyDetailsMediaViewController = DefaultPropertyViewController(plugins: mediaPlugins)
-
-        let detailPlugins: [FormBuilderPlugin] = [AddPropertyDetailsPlugin(viewModel: viewModel)]
-        propertyDetailsDetailsViewController = DefaultPropertyViewController(plugins: detailPlugins)
+    public override func viewDidLoad() {
+        super.viewDidLoad()
 
         addMainViewController()
         addContentController(propertyDetailsGeneralViewController)

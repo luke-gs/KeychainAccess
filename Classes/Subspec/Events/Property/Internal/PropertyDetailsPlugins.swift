@@ -18,7 +18,7 @@ internal protocol FormBuilderPlugin {
 // General section
 
 internal struct AddPropertyGeneralPlugin: FormBuilderPlugin {
-    public var decorator: FormBuilderPluginDecorator
+    public let decorator: FormBuilderPluginDecorator
 
     init(viewModel: PropertyDetailsViewModel, delegate: AddPropertyDelegate) {
         decorator = AddPropertyGeneralPluginDecorator(viewModel: viewModel, delegate: delegate)
@@ -71,7 +71,7 @@ internal struct AddPropertyGeneralPluginDecorator: FormBuilderPluginDecorator {
 // Media Section
 
 internal struct AddPropertyMediaPlugin: FormBuilderPlugin {
-    public var decorator: FormBuilderPluginDecorator
+    public let decorator: FormBuilderPluginDecorator
 
     init(viewModel: PropertyDetailsViewModel, context: UIViewController) {
         decorator = AddPropertyMediaPluginDecorator(viewModel: viewModel, context: context)
@@ -123,7 +123,7 @@ internal struct AddPropertyMediaPluginDecorator: FormBuilderPluginDecorator {
 // Details Section
 
 internal struct AddPropertyDetailsPlugin: FormBuilderPlugin {
-    public var decorator: FormBuilderPluginDecorator
+    public let decorator: FormBuilderPluginDecorator
 
     init(viewModel: PropertyDetailsViewModel) {
         decorator = AddPropertyDetailsPluginDecorator(viewModel: viewModel)
@@ -140,13 +140,7 @@ internal struct AddPropertyDetailsPluginDecorator: FormBuilderPluginDecorator {
     public func formItems() -> [FormItem] {
         guard let viewModel = viewModel.object else { return [] }
         guard let details = viewModel.report.property?.detailNames else { return [] }
-        var formItems = [FormItem]()
-
-        for detail in details {
-            formItems.append(formItem(for: detail)!)
-        }
-
-        return [LargeTextHeaderFormItem(text: "Property Details").separatorColor(.clear)] + formItems
+        return [LargeTextHeaderFormItem(text: "Property Details").separatorColor(.clear)] + details.compactMap{formItem(for: $0)}
     }
 
     private func formItem(for propertyDetail: PropertyDetail) -> FormItem? {
