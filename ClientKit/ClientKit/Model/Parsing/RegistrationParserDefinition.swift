@@ -33,15 +33,6 @@ public class RegistrationParserDefinition: VehicleParserDefinition, Registration
     }
 }
 
-public class RegistrationWildcardParserDefinition: VehicleWildcardParserDefinition, RegistrationDefinitionType  {
-
-    public static let registrationKey = "registration"
-
-    public init(range: CountableClosedRange<Int>) {
-        super.init(range: range, definitionKey: RegistrationWildcardParserDefinition.registrationKey, errorClosure: invalidLengthError)
-    }
-}
-
 fileprivate var invalidLengthError: RangeParserDefinition.InvalidLengthErrorClosure {
     return {  (query, requiredLengthRange) -> LocalizedError in
         return RegistrationParserError.invalidLength(query: query, requiredLengthRange: requiredLengthRange)

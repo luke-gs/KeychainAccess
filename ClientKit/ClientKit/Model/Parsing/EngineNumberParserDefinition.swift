@@ -32,14 +32,6 @@ public class EngineNumberParserDefinition: VehicleParserDefinition, EngineNumber
     }
 }
 
-public class EngineNumberWildcardParserDefinition: VehicleWildcardParserDefinition, EngineNumberDefinitionType {
-    public static let engineNumberKey = "engineNumber"
-
-    public init(range: CountableClosedRange<Int>) {
-        super.init(range: range, definitionKey: EngineNumberWildcardParserDefinition.engineNumberKey, errorClosure: invalidLengthError)
-    }
-}
-
 fileprivate var invalidLengthError: RangeParserDefinition.InvalidLengthErrorClosure {
     return {  (query, requiredLengthRange) -> LocalizedError in
         return EngineNumberParserError.invalidLength(query: query, requiredLengthRange: requiredLengthRange)
