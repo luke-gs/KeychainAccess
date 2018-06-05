@@ -10,6 +10,11 @@ import UIKit
 
 /// A header view for displaying general MPOL content in a sidebar.
 open class SidebarHeaderView: UIView {
+    /// Top constraint for subtitle label
+    private var subtitleLabelTopConstraint: NSLayoutConstraint!
+    
+    /// Observer for title caption label text changes
+    private var titleCaptionLabelTextObserver: NSKeyValueObservation?
     
     // MARK: Public properties
     
@@ -19,14 +24,14 @@ open class SidebarHeaderView: UIView {
     /// `contentMode` property to get the desired appearance.
     public let iconView: UIImageView = UIImageView(frame: .zero)
     
-    
     /// The caption label below the icon.
     public let captionLabel: UILabel = UILabel(frame: .zero)
-    
     
     /// The title label.
     public let titleLabel: UILabel = UILabel(frame: .zero)
     
+    /// A label below the title but above the subtitle...
+    public let titleCaptionLabel: UILabel = UILabel(frame: .zero)
     
     /// The subtitle label.
     public let subtitleLabel: UILabel = UILabel(frame: .zero)
@@ -44,6 +49,15 @@ open class SidebarHeaderView: UIView {
     }
 
     private func commonInit() {
+        // If the title caption label gets used, we need to update the subtitle label's offset so we don't have a huge gap when it's not used
+        titleCaptionLabelTextObserver = titleCaptionLabel.observe(\.text) { [weak self] (label, value) in
+            if let value = value.newValue??.ifNotEmpty() as? String? {
+                self?.subtitleLabelTopConstraint.constant = 8
+            } else {
+                self?.subtitleLabelTopConstraint.constant = 0
+            }
+        }
+        
         preservesSuperviewLayoutMargins = true
         accessibilityTraits |= UIAccessibilityTraitHeader
         
@@ -79,6 +93,15 @@ open class SidebarHeaderView: UIView {
         titleLabel.textAlignment = .center
         addSubview(titleLabel)
         
+        titleCaptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleCaptionLabel.adjustsFontSizeToFitWidth = true
+        titleCaptionLabel.adjustsFontForContentSizeCategory = true
+        titleCaptionLabel.numberOfLines = 0
+        titleCaptionLabel.textAlignment = .center
+        titleCaptionLabel.font = .systemFont(ofSize: 16, weight: UIFont.Weight.bold)
+        titleCaptionLabel.textColor = .white
+        addSubview(titleCaptionLabel)
+        
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         subtitleLabel.adjustsFontSizeToFitWidth = true
         subtitleLabel.adjustsFontForContentSizeCategory = true
@@ -88,7 +111,8 @@ open class SidebarHeaderView: UIView {
         addSubview(subtitleLabel)
         
         updateSubtitleFont()
-        
+        subtitleLabelTopConstraint = NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .equal, toItem: titleCaptionLabel, attribute: .bottom, constant: 0)
+
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: iconView, attribute: .width,  relatedBy: .equal, toConstant: 64.0).withPriority(UILayoutPriority.almostRequired),
             NSLayoutConstraint(item: iconView, attribute: .height, relatedBy: .equal, toConstant: 64.0).withPriority(UILayoutPriority.almostRequired),
@@ -104,13 +128,23 @@ open class SidebarHeaderView: UIView {
             NSLayoutConstraint(item: titleLabel, attribute: .centerX,  relatedBy: .equal, toItem: self, attribute: .centerX),
             NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .greaterThanOrEqual, toItem: self, attribute: .leadingMargin),
             NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual,    toItem: self, attribute: .trailingMargin),
-            
-            NSLayoutConstraint(item: subtitleLabel, attribute: .top,      relatedBy: .equal, toItem: titleLabel, attribute: .bottom, constant: 8.0),
+
+            NSLayoutConstraint(item: titleCaptionLabel, attribute: .top,      relatedBy: .equal, toItem: titleLabel, attribute: .bottom, constant: 8),
+            NSLayoutConstraint(item: titleCaptionLabel, attribute: .centerX,  relatedBy: .equal, toItem: self, attribute: .centerX),
+            NSLayoutConstraint(item: titleCaptionLabel, attribute: .leading,  relatedBy: .greaterThanOrEqual, toItem: self, attribute: .leadingMargin),
+            NSLayoutConstraint(item: titleCaptionLabel, attribute: .trailing, relatedBy: .lessThanOrEqual,    toItem: self, attribute: .trailingMargin),
+
+            subtitleLabelTopConstraint,
             NSLayoutConstraint(item: subtitleLabel, attribute: .centerX,  relatedBy: .equal, toItem: self, attribute: .centerX),
             NSLayoutConstraint(item: subtitleLabel, attribute: .leading,  relatedBy: .greaterThanOrEqual, toItem: self, attribute: .leadingMargin),
             NSLayoutConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual,    toItem: self, attribute: .trailingMargin),
             NSLayoutConstraint(item: subtitleLabel, attribute: .bottom,  relatedBy: .equal, toItem: self, attribute: .bottom, constant: -52.0).withPriority(UILayoutPriority.defaultHigh)
         ])
+    }
+    
+    deinit {
+        titleCaptionLabelTextObserver?.invalidate()
+        titleCaptionLabelTextObserver = nil
     }
     
     
