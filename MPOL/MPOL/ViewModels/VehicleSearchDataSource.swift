@@ -147,9 +147,9 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     let vinParser          = QueryParser(parserDefinition: VINParserDefinition(range: 10...17))
     let engineParser       = QueryParser(parserDefinition: EngineNumberParserDefinition(range: 10...20))
 
-    let wildcardRegistrationParser = QueryParser(parserDefinition: RegistrationWildcardParserDefinition(range: 1...9))
-    let wildcardVINParser          = QueryParser(parserDefinition: VINWildcardParserDefinition(range: 1...17))
-    let wildcardEngineParser       = QueryParser(parserDefinition: EngineNumberWildcardParserDefinition(range: 1...20))
+    let wildcardRegistrationParser = QueryParser(parserDefinition: RegistrationParserDefinition(range: 1...9))
+    let wildcardVINParser          = QueryParser(parserDefinition: VINParserDefinition(range: 1...17))
+    let wildcardEngineParser       = QueryParser(parserDefinition: EngineNumberParserDefinition(range: 1...20))
 
     weak var updatingDelegate: (SearchDataSourceUpdating & UIViewController)?
 
