@@ -96,6 +96,8 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
         }
 
         let viewController = PropertyDetailsViewController(viewModel: viewModel)
+        viewModel.plugins = [AddPropertyPlugin(viewModel: viewModel, context: viewController)]
+
         let navigationController = PopoverNavigationController(rootViewController: viewController)
         navigationController.modalPresentationStyle = .pageSheet
         present(navigationController, animated: true, completion: nil)
