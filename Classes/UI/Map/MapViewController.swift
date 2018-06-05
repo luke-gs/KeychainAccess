@@ -45,7 +45,7 @@ open class MapViewController: UIViewController, MKMapViewDelegate {
     
     open private(set) var mapView = MKMapView()
 
-    open let mapControlView = MapControlView()
+    public let mapControlView = MapControlView()
     
     // MARK: - Properties
     

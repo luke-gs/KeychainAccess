@@ -9,7 +9,7 @@
 import UIKit
 
 open class IncidentResourcesViewController: FormBuilderViewController, TaskDetailsLoadable {
-    open let viewModel: CADFormCollectionViewModel<IncidentResourceItemViewModel>
+    public let viewModel: CADFormCollectionViewModel<IncidentResourceItemViewModel>
     
     public init(viewModel: CADFormCollectionViewModel<IncidentResourceItemViewModel>) {
         self.viewModel = viewModel

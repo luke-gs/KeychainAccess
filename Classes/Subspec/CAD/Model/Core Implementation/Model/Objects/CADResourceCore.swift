@@ -106,13 +106,13 @@ open class CADResourceCore: Codable, CADResourceType {
 
     // MARK: - Static
 
-    open static var shiftTimeFormatter: DateFormatter = {
+    public static var shiftTimeFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"
         return formatter
     }()
 
-    open static var durationTimeFormatter: DateComponentsFormatter = {
+    public static var durationTimeFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.day, .hour, .minute]
         formatter.unitsStyle = .short

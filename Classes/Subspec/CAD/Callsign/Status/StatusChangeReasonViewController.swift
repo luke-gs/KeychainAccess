@@ -11,8 +11,8 @@ import Foundation
 /// View controller for entering a reason for changing callsign status
 open class StatusChangeReasonViewController: ThemedPopoverViewController {
 
-    open let textView: UITextView = UITextView(frame: .zero)
-    open let placeholder: UILabel = UILabel(frame: .zero)
+    public let textView: UITextView = UITextView(frame: .zero)
+    public let placeholder: UILabel = UILabel(frame: .zero)
 
     open var completionHandler: ((String?) -> Void)?
 

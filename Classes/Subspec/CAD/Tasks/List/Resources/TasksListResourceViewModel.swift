@@ -10,10 +10,10 @@ import UIKit
 
 open class TasksListResourceViewModel: TasksListItemViewModel {
 
-    open let resourceImage: UIImage?
-    open let statusImage: UIImage?
-    open let informationRows: [TasksListInformationRowViewModel]?
-    open let incidentViewModel: TasksListIncidentViewModel?
+    public let resourceImage: UIImage?
+    public let statusImage: UIImage?
+    public let informationRows: [TasksListInformationRowViewModel]?
+    public let incidentViewModel: TasksListIncidentViewModel?
     
     public var hasInformationRows: Bool {
         return informationRows?.count ?? 0 > 0

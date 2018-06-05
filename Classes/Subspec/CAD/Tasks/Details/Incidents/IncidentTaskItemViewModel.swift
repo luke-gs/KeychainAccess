@@ -14,7 +14,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
     open var incident: CADIncidentType?
     open var resource: CADResourceType?
 
-    open static var infoIcon: UIImage? = {
+    public static var infoIcon: UIImage? = {
         // Use larger version of standard info icon for sidebar/glass view
         let infoIcon = AssetManager.shared.image(forKey: .info)
         return infoIcon?.resizeImageWith(newSize: CGSize(width: 32, height: 32), renderMode: .alwaysTemplate)

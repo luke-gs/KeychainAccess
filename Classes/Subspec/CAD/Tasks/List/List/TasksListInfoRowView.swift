@@ -20,13 +20,13 @@ open class TasksListInfoRowView: UIView {
     // MARK: - Views
     
     /// The image view showing the resource
-    open let imageView = UIImageView()
+    public let imageView = UIImageView()
     
     /// The title label for callsign
-    open let titleLabel = UILabel()
+    public let titleLabel = UILabel()
     
     /// The subtitle label for status
-    open let subtitleLabel = UILabel()
+    public let subtitleLabel = UILabel()
     
     // MARK: - Setup
     

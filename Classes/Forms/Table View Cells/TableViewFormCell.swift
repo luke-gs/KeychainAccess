@@ -33,7 +33,7 @@ open class TableViewFormCell: UITableViewCell, DefaultReusable {
     ///
     /// Subclasses should position their content with this layout guide, rather than the content
     /// view's layout margins.
-    open let contentModeLayoutGuide: UILayoutGuide = UILayoutGuide()
+    public let contentModeLayoutGuide: UILayoutGuide = UILayoutGuide()
     
     
     // MARK: - Private properties

@@ -17,7 +17,7 @@ open class TasksListDetailView: UIView {
     // MARK: - Views
     
     /// The label for the middle details section of the cell where space is available
-    open let detailLabel = UILabel()
+    public let detailLabel = UILabel()
 
     // MARK: - Setup
     

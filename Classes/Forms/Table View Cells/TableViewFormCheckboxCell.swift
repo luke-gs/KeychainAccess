@@ -22,7 +22,7 @@ import UIKit
 open class TableViewFormCheckboxCell: TableViewFormCell {
     
     /// The checkbox for the cell.
-    open let checkbox = CheckBox(frame: .zero)
+    public let checkbox = CheckBox(frame: .zero)
     
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

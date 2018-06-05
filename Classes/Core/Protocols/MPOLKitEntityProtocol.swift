@@ -14,7 +14,7 @@ open class MPOLKitEntity: NSObject, Serialisable, MPOLKitEntityProtocol {
         MPLRequiresConcreteImplementation()
     }
 
-    open let id: String
+    public let id: String
 
     public required init(unboxer: Unboxer) throws {
         guard let id: String = unboxer.unbox(key: "id") else {
@@ -38,7 +38,7 @@ open class MPOLKitEntity: NSObject, Serialisable, MPOLKitEntityProtocol {
         aCoder.encode(id, forKey: CodingKey.id.rawValue)
     }
 
-    open static var supportsSecureCoding: Bool {
+    public static var supportsSecureCoding: Bool {
         return true
     }
 

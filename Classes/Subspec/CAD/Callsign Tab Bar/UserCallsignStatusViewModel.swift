@@ -11,7 +11,7 @@ import UIKit
 /// View model for the user callsign status view in the tab bar
 open class UserCallsignStatusViewModel {
     
-    open static var defaultUnassignedIcon: UIImage? = AssetManager.shared.image(forKey: .iconStatusUnavailable)
+    public static var defaultUnassignedIcon: UIImage? = AssetManager.shared.image(forKey: .iconStatusUnavailable)
     
     open weak var delegate: UserCallsignStatusViewModelDelegate?
     

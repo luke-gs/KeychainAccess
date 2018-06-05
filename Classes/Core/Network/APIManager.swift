@@ -14,7 +14,7 @@ import PromiseKit
 /// The APIManager doesn't assume anything in regards to model.
 open class APIManager {
 
-    open let configuration: APIManagerConfigurable
+    public let configuration: APIManagerConfigurable
 
     private let baseURL: URL
     private let errorMapper: ErrorMapper?

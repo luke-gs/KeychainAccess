@@ -25,8 +25,8 @@ open class CallsignStatusCollectionViewFormCell: CollectionViewFormCell {
     public static let minimumHeight: CGFloat = imageSize
     public static let defaultFont: UIFont = UIFont.systemFont(ofSize: 13, weight: .regular)
 
-    open let titleLabel = UILabel()
-    open let imageView = UIImageView(frame: .zero)
+    public let titleLabel = UILabel()
+    public let imageView = UIImageView(frame: .zero)
 
     public override init(frame: CGRect) {
         super.init(frame: frame)

@@ -14,7 +14,7 @@ import UIKit
 /// priority level.
 open class RoundedRectLabel : UILabel {
     
-    open static let defaultLayoutMargins = UIEdgeInsets(top: 2.0 + (1.0 / UIScreen.main.scale), left: 10.0, bottom: 2.0, right: 10.0)
+    public static let defaultLayoutMargins = UIEdgeInsets(top: 2.0 + (1.0 / UIScreen.main.scale), left: 10.0, bottom: 2.0, right: 10.0)
     
     open var cornerRadius: CGFloat = 2.0 {
         didSet {

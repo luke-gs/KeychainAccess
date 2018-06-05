@@ -12,7 +12,7 @@ import PromiseKit
 /// View controller for managing the current callsign status
 open class ManageCallsignStatusViewController: SubmissionFormBuilderViewController {
 
-    open let viewModel: ManageCallsignStatusViewModel
+    public let viewModel: ManageCallsignStatusViewModel
 
     /// Stack view for action buttons
     open var buttonsView: DialogActionButtonsView!

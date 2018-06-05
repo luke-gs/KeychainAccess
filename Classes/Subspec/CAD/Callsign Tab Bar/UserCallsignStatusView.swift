@@ -11,7 +11,7 @@ import UIKit
 /// User callsign status view in the tab bar
 open class UserCallsignStatusView: UIControl {
     
-    open let viewModel: UserCallsignStatusViewModel
+    public let viewModel: UserCallsignStatusViewModel
     
     // MARK: - Constants
     

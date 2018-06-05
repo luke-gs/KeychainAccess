@@ -51,7 +51,7 @@ open class BookOnLandingItemViewModel {
 
 /// View model of callsign section of not booked on screen
 open class BookOnLandingCallsignItemViewModel: BookOnLandingItemViewModel {
-    open let resource: CADResourceType
+    public let resource: CADResourceType
 
     open var callsign: String
     open var status: CADResourceStatusType?

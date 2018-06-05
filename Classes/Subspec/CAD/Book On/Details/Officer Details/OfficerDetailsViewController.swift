@@ -11,7 +11,7 @@ import PromiseKit
 
 open class OfficerDetailsViewController: FormBuilderViewController {
     
-    open static var contactPhoneValidation: (specification: Specification, message: String) = (
+    public static var contactPhoneValidation: (specification: Specification, message: String) = (
         specification: AustralianPhoneSpecification(),
         message: NSLocalizedString("Contact number must be a valid Australian phone number", comment: "")
     )

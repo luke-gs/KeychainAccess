@@ -37,13 +37,13 @@ open class TasksListBasicCollectionViewCell: CollectionViewFormCell {
     private let columnContainer = ColumnContainerView()
     
     /// View for showing updates indicator
-    open let updatesIndicator = UIImageView()
+    public let updatesIndicator = UIImageView()
     
     /// View for summary column
-    open let summaryView = TasksListBasicSummaryView()
+    public let summaryView = TasksListBasicSummaryView()
     
     /// View for details
-    open let detailView = TasksListDetailView()
+    public let detailView = TasksListDetailView()
     
     // MARK: - Properties
     

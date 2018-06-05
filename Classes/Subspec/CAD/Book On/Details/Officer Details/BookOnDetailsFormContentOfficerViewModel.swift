@@ -86,7 +86,7 @@ open class BookOnDetailsFormContentOfficerViewModel: Equatable {
         }
     }
 
-    open static func ==(lhs: BookOnDetailsFormContentOfficerViewModel, rhs: BookOnDetailsFormContentOfficerViewModel) -> Bool {
+    public static func ==(lhs: BookOnDetailsFormContentOfficerViewModel, rhs: BookOnDetailsFormContentOfficerViewModel) -> Bool {
         return lhs.officerId == rhs.officerId
     }
     

@@ -13,7 +13,7 @@ class FinaliseDetailsViewController: IntrinsicHeightFormBuilderViewController {
     // MARK: - Properties
     
     /// View model of the view controller
-    open let viewModel: FinaliseDetailsViewModel
+    public let viewModel: FinaliseDetailsViewModel
     
     public init(viewModel: FinaliseDetailsViewModel) {
         self.viewModel = viewModel

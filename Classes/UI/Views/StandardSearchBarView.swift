@@ -24,7 +24,7 @@ open class StandardSearchBarView: UIView {
     }
 
     // Actual search bar
-    open let searchBar: UISearchBar = UISearchBar(frame: .zero)
+    public let searchBar: UISearchBar = UISearchBar(frame: .zero)
 
     // MARK: - Initializers
 

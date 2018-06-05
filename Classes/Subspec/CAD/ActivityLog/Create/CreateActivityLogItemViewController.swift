@@ -14,7 +14,7 @@ open class CreateActivityLogItemViewController: SubmissionFormBuilderViewControl
     // MARK: - Properties
 
     /// View model of the view controller
-    open let viewModel: CreateActivityLogItemViewModel
+    public let viewModel: CreateActivityLogItemViewModel
 
     public init(viewModel: CreateActivityLogItemViewModel) {
         self.viewModel = viewModel

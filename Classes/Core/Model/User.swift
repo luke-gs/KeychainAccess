@@ -12,7 +12,7 @@ import Foundation
 open class User: NSObject, NSSecureCoding, ModelVersionable {
 
     // The application specific key for app settings. Required to be set if accessing appSettings
-    open static var applicationKey: String!
+    public static var applicationKey: String!
 
     /// The username, fixed across apps and required after init completes
     public var username: String!

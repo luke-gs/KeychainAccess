@@ -14,7 +14,7 @@ import Foundation
 /// This cell only contains an image view, and automatically request image on setting the media item.
 open class MediaPreviewableCell: UICollectionViewCell, DefaultReusable {
 
-    open let imageView = UIImageView(frame: .zero)
+    public let imageView = UIImageView(frame: .zero)
 
     open var media: MediaPreviewable? {
         didSet {

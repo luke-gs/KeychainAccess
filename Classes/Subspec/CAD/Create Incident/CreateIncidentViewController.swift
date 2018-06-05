@@ -11,7 +11,7 @@ import PromiseKit
 
 open class CreateIncidentViewController: SubmissionFormBuilderViewController {
 
-    open let viewModel: CreateIncidentViewModel
+    public let viewModel: CreateIncidentViewModel
 
     public init(viewModel: CreateIncidentViewModel) {
         self.viewModel = viewModel

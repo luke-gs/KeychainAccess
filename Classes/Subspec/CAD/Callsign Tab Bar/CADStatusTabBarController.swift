@@ -11,7 +11,7 @@ import UIKit
 /// CAD implementation of status tab bar with callsign status
 open class CADStatusTabBarController: StatusTabBarController {
     
-    open let viewModel: CADStatusTabBarViewModel
+    public let viewModel: CADStatusTabBarViewModel
     open var userCallsignStatusView: UserCallsignStatusView!
     
     open override var defaultSelectedViewControllerIndex: Int {

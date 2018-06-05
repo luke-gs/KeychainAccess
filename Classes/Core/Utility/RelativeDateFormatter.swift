@@ -15,13 +15,13 @@ import Foundation
 open class RelativeDateFormatter: DateFormatter {
 
     /// The localized date formatter
-    open let dateFormatter: DateFormatter
+    public let dateFormatter: DateFormatter
 
     /// The localized time formatter, optional
-    open let timeFormatter: DateFormatter?
+    public let timeFormatter: DateFormatter?
 
     /// The separator to use when joining date and time
-    open let separator: String
+    public let separator: String
 
     public init(dateFormatter: DateFormatter, timeFormatter: DateFormatter?, separator: String = " ") {
         self.dateFormatter = dateFormatter

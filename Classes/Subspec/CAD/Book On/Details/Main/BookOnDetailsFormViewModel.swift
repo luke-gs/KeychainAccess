@@ -39,10 +39,10 @@ open class BookOnDetailsFormViewModel {
     open private(set) var resource: CADResourceType
 
     /// Whether we are editing an existing bookon
-    open let isEditing: Bool
+    public let isEditing: Bool
 
     /// Whether to show vehicle fields
-    open let showVehicleFields: Bool = true
+    public let showVehicleFields: Bool = true
 
     // Array of default equipment items, manifest items with zero counts
     open var defaultEquipment: [QuantityPicked] {

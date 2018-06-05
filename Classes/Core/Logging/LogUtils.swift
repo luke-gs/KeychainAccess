@@ -11,7 +11,7 @@ import Foundation
 open class LogUtils {
 
     /// Convert a dictionary to a string for logging
-    open static func string(from dictionary: [AnyHashable: Any]) -> String {
+    public static func string(from dictionary: [AnyHashable: Any]) -> String {
         return dictionary.asJSONString() ?? dictionary.debugDescription
     }
 

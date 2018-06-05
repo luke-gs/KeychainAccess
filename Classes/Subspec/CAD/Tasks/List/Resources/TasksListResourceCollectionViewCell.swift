@@ -41,16 +41,16 @@ open class TasksListResourceCollectionViewCell: CollectionViewFormCell {
     private let columnContainer = ColumnContainerView()
     
     /// View for showing updates indicator
-    open let updatesIndicator = UIImageView()
+    public let updatesIndicator = UIImageView()
     
     /// View for summary column
-    open let summaryView = TasksListResourceSummaryView()
+    public let summaryView = TasksListResourceSummaryView()
     
     /// View for incident
-    open let incidentView = TasksListIncidentSummaryView()
+    public let incidentView = TasksListIncidentSummaryView()
     
     /// View for status rows
-    open let informationRowView = TasksListInfoRowStackView(maxViews: 3)
+    public let informationRowView = TasksListInfoRowStackView(maxViews: 3)
     
     // MARK: - Properties
     

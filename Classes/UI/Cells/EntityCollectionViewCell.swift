@@ -146,27 +146,27 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
     
     
     /// The thumbnail view for the cell.
-    open let thumbnailView = EntityThumbnailView(frame: .zero)
+    public let thumbnailView = EntityThumbnailView(frame: .zero)
     
     
     /// The title label. This should be used for details such as the driver's name,
     /// vehicle's registration, etc.
-    open let titleLabel = UILabel(frame: .zero)
+    public let titleLabel = UILabel(frame: .zero)
     
     
     /// The subtitle label. This should be used for ancillery entity details.
-    open let subtitleLabel = UILabel(frame: .zero)
+    public let subtitleLabel = UILabel(frame: .zero)
     
     
     /// The detail label. This should be any secondary details.
-    open let detailLabel = UILabel(frame: .zero)
+    public let detailLabel = UILabel(frame: .zero)
     
     
     /// The source label.
     ///
     /// This label is positioned over the image view's bottom left corner, and
     /// indicates the data source the entity was fetched from.
-    open let sourceLabel = RoundedRectLabel(frame: .zero)
+    public let sourceLabel = RoundedRectLabel(frame: .zero)
     
     
     /// The badge count for the entity.

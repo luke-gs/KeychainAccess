@@ -15,11 +15,11 @@ open class CollectionViewFormTextFieldCell: CollectionViewFormCell {
     // MARK: Public properties
     
     /// The title label for the cell. This sits directly above the text field.
-    open let titleLabel = UILabel(frame: .zero)
+    public let titleLabel = UILabel(frame: .zero)
     
     
     /// The text field for the cell.
-    open let textField = FormTextField(frame: .zero)
+    public let textField = FormTextField(frame: .zero)
     
     
     /// The vertical separation between the label and the text field.

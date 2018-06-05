@@ -22,10 +22,10 @@ open class NotificationManager: NSObject {
     }
 
     /// Singleton
-    open static var shared = NotificationManager()
+    public static var shared = NotificationManager()
 
     /// Convenience for notification center
-    open let notificationCenter = UNUserNotificationCenter.current()
+    public let notificationCenter = UNUserNotificationCenter.current()
 
     /// Keychain to use when storing sensitive configuration
     open var keychain: Keychain

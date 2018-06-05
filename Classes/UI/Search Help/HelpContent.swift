@@ -88,10 +88,10 @@ open class HelpSection: Unboxable {
     // MARK: - Properties
     
     /// The title of the section
-    open let title: String
+    public let title: String
     
     /// The detail of the section (standard subtitle or array of strings displayed like tags)
-    open let detail: HelpDetail
+    public let detail: HelpDetail
     
     
     // MARK: - Lifecycle
