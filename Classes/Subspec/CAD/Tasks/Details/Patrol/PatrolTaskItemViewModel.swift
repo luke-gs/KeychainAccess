@@ -54,8 +54,8 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
             viewModels.forEach {
                 $0.reloadFromModel(patrol)
             }
-            delegate?.didUpdateModel()
         }
+        super.reloadFromModel()
     }
     
     open override func refreshTask() -> Promise<Void> {

@@ -54,8 +54,8 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
             viewModels.forEach {
                 $0.reloadFromModel(broadcast)
             }
-            delegate?.didUpdateModel()
         }
+        super.reloadFromModel()
     }
     
     open override func refreshTask() -> Promise<Void> {

@@ -97,6 +97,7 @@ open class TaskItemViewModel {
     
     /// Called when the view model data should be refreshed from model data
     open func reloadFromModel() {
+        delegate?.didUpdateModel()
     }
 
     /// Called when a user taps the task status of a task item
