@@ -62,7 +62,7 @@ open class DomesticViolenceGeneralDetailsViewController: FormBuilderViewControll
                         self.viewModel.report.associateToBeNamed = value
                     })
 
-        builder += TextViewFormItem(title: "Grounds on Which Domestic Violence has been Committed")
+        builder += TextFieldFormItem(title: "Grounds on Which Domestic Violence has been Committed")
                     .text(viewModel.report.details)
                     .onValueChanged({ text in
                         self.viewModel.report.details = text

@@ -147,6 +147,10 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     let vinParser          = QueryParser(parserDefinition: VINParserDefinition(range: 10...17))
     let engineParser       = QueryParser(parserDefinition: EngineNumberParserDefinition(range: 10...20))
 
+    let wildcardRegistrationParser = QueryParser(parserDefinition: RegistrationWildcardParserDefinition(range: 1...9))
+    let wildcardVINParser          = QueryParser(parserDefinition: VINWildcardParserDefinition(range: 1...17))
+    let wildcardEngineParser       = QueryParser(parserDefinition: EngineNumberWildcardParserDefinition(range: 1...20))
+
     weak var updatingDelegate: (SearchDataSourceUpdating & UIViewController)?
 
     var localizedDisplayName: String {
@@ -176,11 +180,23 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
 
     // MARK: - Private
 
-    private func parser(forType type: SearchType) -> QueryParser {
+    private func parser(forType type: SearchType, text: String) -> QueryParser {
         switch type {
-        case .registration: return self.registrationParser
-        case .vin: return self.vinParser
-        case .engineNumber: return self.engineParser
+        case .registration:
+            if text.contains("*") {
+                return wildcardRegistrationParser
+            }
+            return registrationParser
+        case .vin:
+            if text.contains("*") {
+                return wildcardVINParser
+            }
+            return vinParser
+        case .engineNumber:
+            if text.contains("*") {
+                return wildcardEngineParser
+            }
+            return engineParser
         }
     }
 
@@ -194,17 +210,25 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                 throw NSError(domain: "MPOL.VehicleSearchDataSource", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unsupported query."])
             }
 
-            let queryParser = parser(forType: type)
+            let queryParser = parser(forType: type, text: searchTerm)
             let parserResults = try queryParser.parseString(query: searchTerm)
 
             var searchParameters: EntitySearchRequest<Vehicle>?
 
-            if queryParser === registrationParser {
+            let parserDefinition = queryParser.parser
+
+            switch parserDefinition {
+            case is RegistrationDefinitionType:
                 searchParameters = VehicleSearchParameters(registration: parserResults[RegistrationParserDefinition.registrationKey]!)
-            } else if queryParser === vinParser {
+            case is VINDefinitionType:
                 searchParameters = VehicleSearchParameters(vin: parserResults[VINParserDefinition.vinKey]!)
-            } else if queryParser === engineParser {
+            case is EngineNumberDefinitionType:
                 searchParameters = VehicleSearchParameters(engineNumber: parserResults[EngineNumberParserDefinition.engineNumberKey]!)
+            default:
+                #if DEBUG
+                fatalError("No parser definition found. Ensure that all combinations are covered.")
+                #endif
+                break
             }
 
             if let searchParameters = searchParameters {

@@ -943,7 +943,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 463D402A1F4BC7D4005F9A1C /* AppConfig-internal-debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
@@ -1020,7 +1019,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 463D402C1F4BC84F005F9A1C /* AppConfig-external-release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
@@ -1105,7 +1103,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 463D402B1F4BC844005F9A1C /* AppConfig-external-debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
@@ -1183,7 +1180,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 463D40291F4BC784005F9A1C /* AppConfig-internal-release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
@@ -1322,7 +1318,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DB0CA7D21F720185006EB1A7 /* AppConfig-mpol-debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
@@ -1348,7 +1343,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DB0CA7D31F720186006EB1A7 /* AppConfig-mpol-release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;

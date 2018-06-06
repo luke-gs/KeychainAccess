@@ -9,7 +9,6 @@
 import Foundation
 import MPOLKit
 
-
 public enum VINParserError: LocalizedError {
     case invalidLength(query: String, requiredLengthRange: CountableClosedRange<Int>)
     
@@ -21,29 +20,30 @@ public enum VINParserError: LocalizedError {
     }
 }
 
+public protocol VINDefinitionType {
+    static var vinKey: String { get }
+}
 
-public class VINParserDefinition: QueryParserDefinition {
+public class VINParserDefinition: VehicleParserDefinition, VINDefinitionType {
     
     public static let vinKey = "vin"
-    public let tokenDefinitions: [QueryTokenDefinition]
     
     public init(range: CountableClosedRange<Int>) {
-        let definition = QueryTokenDefinition(key: VINParserDefinition.vinKey, required: true, typeCheck: { token -> Bool in
-            let allowedCharacters = CharacterSet.alphanumerics
-            let extra = token.trimmingCharacters(in: allowedCharacters)
-            return extra.count == 0
-        }) { (token, index, map) in
-            let length = token.count
-            if range.contains(length) == false {
-                throw VINParserError.invalidLength(query: token, requiredLengthRange: range)
-            }
-        }
-        
-        tokenDefinitions = [definition]
-    }
-    
-    public func tokensFrom(query: String) -> [String] {
-        return [query.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)]
+        super.init(range: range, definitionKey: VINParserDefinition.vinKey, errorClosure: invalidLengthError)
     }
 }
 
+public class VINWildcardParserDefinition: VehicleWildcardParserDefinition, VINDefinitionType {
+
+    public static let vinKey = "vin"
+
+    public init(range: CountableClosedRange<Int>) {
+        super.init(range: range, definitionKey: VINWildcardParserDefinition.vinKey, errorClosure: invalidLengthError)
+    }
+}
+
+fileprivate var invalidLengthError: RangeParserDefinition.InvalidLengthErrorClosure {
+    return {  (query, requiredLengthRange) -> LocalizedError in
+        return VINParserError.invalidLength(query: query, requiredLengthRange: requiredLengthRange)
+    }
+}

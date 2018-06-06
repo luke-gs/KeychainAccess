@@ -20,29 +20,28 @@ public enum EngineNumberParserError: LocalizedError {
     }
 }
 
-public class EngineNumberParserDefinition: QueryParserDefinition {
+public protocol EngineNumberDefinitionType {
+    static var engineNumberKey: String { get }
+}
+
+public class EngineNumberParserDefinition: VehicleParserDefinition, EngineNumberDefinitionType {
     public static let engineNumberKey = "engineNumber"
-    
-    public let tokenDefinitions: [QueryTokenDefinition]
-    
+
     public init(range: CountableClosedRange<Int>) {
-        let definition = QueryTokenDefinition(key: EngineNumberParserDefinition.engineNumberKey, required: true, typeCheck: { token -> Bool in
-            let allowedCharacters = CharacterSet.alphanumerics
-            let extra = token.trimmingCharacters(in: allowedCharacters)
-            return extra.count == 0
-        }) { (token, index, map) in
-            let length = token.count
-            if range.contains(length) == false {
-                throw EngineNumberParserError.invalidLength(query: token, requiredLengthRange: range)
-            }
-        }
-        
-        tokenDefinitions = [definition]
-    }
-    
-    public func tokensFrom(query: String) -> [String] {
-        return [query.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)]
+        super.init(range: range, definitionKey: EngineNumberParserDefinition.engineNumberKey, errorClosure: invalidLengthError)
     }
 }
 
+public class EngineNumberWildcardParserDefinition: VehicleWildcardParserDefinition, EngineNumberDefinitionType {
+    public static let engineNumberKey = "engineNumber"
 
+    public init(range: CountableClosedRange<Int>) {
+        super.init(range: range, definitionKey: EngineNumberWildcardParserDefinition.engineNumberKey, errorClosure: invalidLengthError)
+    }
+}
+
+fileprivate var invalidLengthError: RangeParserDefinition.InvalidLengthErrorClosure {
+    return {  (query, requiredLengthRange) -> LocalizedError in
+        return EngineNumberParserError.invalidLength(query: query, requiredLengthRange: requiredLengthRange)
+    }
+}
