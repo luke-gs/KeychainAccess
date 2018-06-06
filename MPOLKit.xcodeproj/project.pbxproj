@@ -18,8 +18,6 @@
 		12353412207F1695008256AA /* DefaultEventDateTimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12353411207F1695008256AA /* DefaultEventDateTimeViewModel.swift */; };
 		12353414207F16C4008256AA /* DefaultDateTimeReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12353413207F16C4008256AA /* DefaultDateTimeReport.swift */; };
 		12413C281F1F23B0001B0B41 /* spinner.json in Resources */ = {isa = PBXBuildFile; fileRef = 12413C271F1F23B0001B0B41 /* spinner.json */; };
-		1249E3BF20C6592D00A0D8F2 /* AddPropertyDetailsPlugins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1249E3BE20C6592D00A0D8F2 /* AddPropertyDetailsPlugins.swift */; };
-		1249E3C120C665B300A0D8F2 /* AddPropertyPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1249E3C020C665B300A0D8F2 /* AddPropertyPlugin.swift */; };
 		125EAE082092CFD700C09FED /* DefaultEventNotesMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE052092CFD700C09FED /* DefaultEventNotesMediaViewController.swift */; };
 		125EAE092092CFD800C09FED /* DefaultEventNotesMediaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE062092CFD700C09FED /* DefaultEventNotesMediaViewModel.swift */; };
 		125EAE0A2092CFD800C09FED /* DefaultNotesMedaReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE072092CFD700C09FED /* DefaultNotesMedaReport.swift */; };
@@ -34,6 +32,7 @@
 		12ABD56B207F1967004D0C9F /* LocationMapSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD568207F1966004D0C9F /* LocationMapSelectionViewController.swift */; };
 		12ABD56C207F1967004D0C9F /* DefaultLocationReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD569207F1966004D0C9F /* DefaultLocationReport.swift */; };
 		12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */; };
+		12BAD2FE20C7947700F1E929 /* AddPropertyDetailsPlugins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12BAD2FD20C7947700F1E929 /* AddPropertyDetailsPlugins.swift */; };
 		12C64A8220C4DB6E005AB996 /* PropertySearchDisplayableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C64A7820C4DB6D005AB996 /* PropertySearchDisplayableViewModel.swift */; };
 		12C64A8320C4DB6E005AB996 /* PropertyDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C64A7A20C4DB6D005AB996 /* PropertyDetailsViewModel.swift */; };
 		12C64A8420C4DB6E005AB996 /* Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C64A7B20C4DB6D005AB996 /* Property.swift */; };
@@ -917,8 +916,6 @@
 		12353411207F1695008256AA /* DefaultEventDateTimeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEventDateTimeViewModel.swift; sourceTree = "<group>"; };
 		12353413207F16C4008256AA /* DefaultDateTimeReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDateTimeReport.swift; sourceTree = "<group>"; };
 		12413C271F1F23B0001B0B41 /* spinner.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = spinner.json; sourceTree = "<group>"; };
-		1249E3BE20C6592D00A0D8F2 /* AddPropertyDetailsPlugins.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPropertyDetailsPlugins.swift; sourceTree = "<group>"; };
-		1249E3C020C665B300A0D8F2 /* AddPropertyPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPropertyPlugin.swift; sourceTree = "<group>"; };
 		125EAE052092CFD700C09FED /* DefaultEventNotesMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesMediaViewController.swift; sourceTree = "<group>"; };
 		125EAE062092CFD700C09FED /* DefaultEventNotesMediaViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultEventNotesMediaViewModel.swift; sourceTree = "<group>"; };
 		125EAE072092CFD700C09FED /* DefaultNotesMedaReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultNotesMedaReport.swift; sourceTree = "<group>"; };
@@ -933,6 +930,7 @@
 		12ABD568207F1966004D0C9F /* LocationMapSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapSelectionViewController.swift; sourceTree = "<group>"; };
 		12ABD569207F1966004D0C9F /* DefaultLocationReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultLocationReport.swift; sourceTree = "<group>"; };
 		12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLKitProtocols.swift; sourceTree = "<group>"; };
+		12BAD2FD20C7947700F1E929 /* AddPropertyDetailsPlugins.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPropertyDetailsPlugins.swift; sourceTree = "<group>"; };
 		12BDF9151F95CCD50033E60B /* GenericSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericSearchViewController.swift; sourceTree = "<group>"; };
 		12C64A7820C4DB6D005AB996 /* PropertySearchDisplayableViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertySearchDisplayableViewModel.swift; sourceTree = "<group>"; };
 		12C64A7A20C4DB6D005AB996 /* PropertyDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyDetailsViewModel.swift; sourceTree = "<group>"; };
@@ -1888,8 +1886,7 @@
 		12C64A7220C4DB6D005AB996 /* Property */ = {
 			isa = PBXGroup;
 			children = (
-				1249E3BE20C6592D00A0D8F2 /* AddPropertyDetailsPlugins.swift */,
-				1249E3C020C665B300A0D8F2 /* AddPropertyPlugin.swift */,
+				12BAD2FD20C7947700F1E929 /* AddPropertyDetailsPlugins.swift */,
 				12C64A7B20C4DB6D005AB996 /* Property.swift */,
 				12C64A7D20C4DB6D005AB996 /* PropertyDetailsReport.swift */,
 				12C64A7C20C4DB6D005AB996 /* PropertyDetailsViewController.swift */,
@@ -4948,6 +4945,7 @@
 				96ED81011FD9F2E100C7C960 /* CallsignStatusViewModel.swift in Sources */,
 				96AADABD20081D24003E215E /* BookOnScreen.swift in Sources */,
 				BC9C7E311F0DED6600DFFE83 /* UITableView+SectionHeaderFooterFetch.swift in Sources */,
+				12BAD2FE20C7947700F1E929 /* AddPropertyDetailsPlugins.swift in Sources */,
 				27256FF7205B288C005930CB /* DelimitedStringItemsCountSpecification.swift in Sources */,
 				19C625C21F55143900504BD9 /* NetworkRequest.swift in Sources */,
 				C6CD6A181F31663500771B8C /* EntitySearchRequest.swift in Sources */,
@@ -5264,7 +5262,6 @@
 				12D4450C2047BAFC00A4D4C1 /* IncidentListDisplayable.swift in Sources */,
 				DB88BCE31F42D0110056FD69 /* SearchResultLoadingCell.swift in Sources */,
 				2784FDBB1FA1549D007B18B2 /* Optional+Extension.swift in Sources */,
-				1249E3BF20C6592D00A0D8F2 /* AddPropertyDetailsPlugins.swift in Sources */,
 				96E19CB0206C98B60021DB42 /* ClusterTasksViewModel.swift in Sources */,
 				193ED0851FDE02ED002F2837 /* PluginFilterRules.swift in Sources */,
 				BC9C7E0E1F0DED6600DFFE83 /* CollectionViewFormLayoutAttributes.swift in Sources */,
@@ -5278,7 +5275,6 @@
 				46A0A2B320BE446D007AAAA8 /* EventType.swift in Sources */,
 				27CBC7581F8B277E00E387C3 /* TimelineView.swift in Sources */,
 				2744E3942051DD8500561A8F /* CADSyncResponseCore.swift in Sources */,
-				1249E3C120C665B300A0D8F2 /* AddPropertyPlugin.swift in Sources */,
 				96B918401F9D68FD005DEB1A /* BookOnDetailsFormViewModel.swift in Sources */,
 				2744EED01FC289F5008DFA7F /* Collection+MapFilterSectionCopy.swift in Sources */,
 				DB88BCE41F42D0150056FD69 /* QueryParserDefinitionSelector.swift in Sources */,
