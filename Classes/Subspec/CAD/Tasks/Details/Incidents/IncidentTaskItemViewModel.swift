@@ -87,6 +87,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
             }
             updateGlassBar()
         }
+        super.reloadFromModel()
     }
 
     open func updateGlassBar() {

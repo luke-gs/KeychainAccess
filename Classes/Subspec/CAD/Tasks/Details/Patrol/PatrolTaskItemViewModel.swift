@@ -55,6 +55,7 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
                 $0.reloadFromModel(patrol)
             }
         }
+        super.reloadFromModel()
     }
     
     open override func refreshTask() -> Promise<Void> {

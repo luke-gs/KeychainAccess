@@ -68,6 +68,7 @@ open class ResourceTaskItemViewModel: TaskItemViewModel {
                 $0.reloadFromModel(resource)
             }
         }
+        super.reloadFromModel()
     }
 
     override open func didTapTaskStatus() {

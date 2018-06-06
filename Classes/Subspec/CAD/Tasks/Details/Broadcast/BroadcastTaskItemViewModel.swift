@@ -55,6 +55,7 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
                 $0.reloadFromModel(broadcast)
             }
         }
+        super.reloadFromModel()
     }
     
     open override func refreshTask() -> Promise<Void> {
