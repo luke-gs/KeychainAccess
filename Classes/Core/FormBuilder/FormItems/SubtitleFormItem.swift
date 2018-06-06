@@ -83,6 +83,9 @@ public class SubtitleFormItem: BaseFormItem {
 
         cell.titleLabel.textColor = primaryTextColor
         cell.subtitleLabel.textColor = secondaryTextColor
+
+        imageTintColor = theme.color(forKey: .primaryText)
+        reloadItem()
     }
     
     private func defaultTitle(for traitCollection: UITraitCollection) -> StringSizable? {
