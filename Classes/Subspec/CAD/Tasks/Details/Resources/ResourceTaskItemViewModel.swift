@@ -49,8 +49,8 @@ open class ResourceTaskItemViewModel: TaskItemViewModel {
     }
     
     open override func loadTaskItem() -> Promise<CADTaskListItemModelType> {
-        let resource = CADStateManager.shared.resourcesById[taskItemIdentifier]!
-        return Promise<CADTaskListItemModelType>.value(resource)
+        resource = CADStateManager.shared.resourcesById[taskItemIdentifier]
+        return Promise<CADTaskListItemModelType>.value(resource!)
     }
 
     open override func reloadFromModel() {

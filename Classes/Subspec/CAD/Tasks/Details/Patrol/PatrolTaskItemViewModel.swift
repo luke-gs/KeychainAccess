@@ -39,10 +39,10 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
         delegate = vc
         return vc
     }
-        
+
     open override func loadTaskItem() -> Promise<CADTaskListItemModelType> {
-        let patrol = CADStateManager.shared.patrolsById[taskItemIdentifier]!
-        return Promise<CADTaskListItemModelType>.value(patrol)
+        patrol = CADStateManager.shared.patrolsById[taskItemIdentifier]
+        return Promise<CADTaskListItemModelType>.value(patrol!)
     }
 
     override open func reloadFromModel() {

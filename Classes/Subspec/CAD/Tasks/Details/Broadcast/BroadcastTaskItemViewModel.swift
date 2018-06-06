@@ -41,8 +41,8 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
     }
 
     open override func loadTaskItem() -> Promise<CADTaskListItemModelType> {
-        let broadcast = CADStateManager.shared.broadcastsById[taskItemIdentifier]!
-        return Promise<CADTaskListItemModelType>.value(broadcast)
+        broadcast = CADStateManager.shared.broadcastsById[taskItemIdentifier]
+        return Promise<CADTaskListItemModelType>.value(broadcast!)
     }
 
     override open func reloadFromModel() {
