@@ -5,14 +5,51 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
+/// Provide the form items for the form builder to render
+public protocol FormBuilderPluginDecorator {
+    func formItems() -> [FormItem]
+}
+
+/// Acts as a kind of viewModel for the formbuilder
+public protocol FormBuilderPlugin {
+    var plugins: [FormBuilderPlugin]? { get set }
+    var decorator: FormBuilderPluginDecorator { get }
+}
 
 // General section
 
-public struct AddPropertyGeneralPlugin: FormBuilderPlugin {
+public struct AddPropertyGeneralPlugin: FormBuilderPlugin, AddPropertyDelegate, SearchDisplayableDelegate {
+    let viewModel: Weak<PropertyDetailsViewModel>
+    let context: Weak<UIViewController>
+
     public var plugins: [FormBuilderPlugin]?
-    public let decorator: FormBuilderPluginDecorator
-    public init(viewModel: PropertyDetailsViewModel, delegate: AddPropertyDelegate) {
-        decorator = AddPropertyGeneralPluginDecorator(viewModel: viewModel, delegate: delegate)
+    public var decorator: FormBuilderPluginDecorator {
+        return AddPropertyGeneralPluginDecorator(viewModel: viewModel.object!, delegate: self)
+    }
+
+    public init(viewModel: PropertyDetailsViewModel, context: UIViewController) {
+        self.viewModel = Weak(viewModel)
+        self.context = Weak(context)
+    }
+
+    // MARK: Presenting Delegates
+
+    public func didTapOnPropertyType() {
+        guard let viewModel = self.viewModel.object else { return }
+        guard let context = self.context.object else { return }
+
+        let displayableViewModel = PropertySearchDisplayableViewModel(properties: viewModel.properties)
+        let viewController = SearchDisplayableViewController<AddPropertyGeneralPlugin, PropertySearchDisplayableViewModel>(viewModel: displayableViewModel)
+        viewController.wantsTransparentBackground = false
+        viewController.delegate = self
+        context.show(viewController, sender: self)
+    }
+
+    public func genericSearchViewController(_ viewController: UIViewController, didSelectRowAt indexPath: IndexPath, withObject object: Property) {
+        guard let viewModel = self.viewModel.object else { return }
+        guard let context = self.context.object else { return }
+        viewModel.updateDetails(with: object)
+        context.navigationController?.popViewController(animated: true)
     }
 }
 
@@ -64,26 +101,26 @@ public struct AddPropertyMediaPlugin: FormBuilderPlugin {
     public var plugins: [FormBuilderPlugin]?
     public let decorator: FormBuilderPluginDecorator
 
-    public init(viewModel: PropertyDetailsViewModel, context: UIViewController) {
-        decorator = AddPropertyMediaPluginDecorator(viewModel: viewModel, context: context)
+    public init(report: PropertyDetailsReport, context: UIViewController) {
+        decorator = AddPropertyMediaPluginDecorator(report: report, context: context)
     }
 }
 
 public struct AddPropertyMediaPluginDecorator: FormBuilderPluginDecorator {
 
     let context: Weak<UIViewController>
-    let viewModel: Weak<PropertyDetailsViewModel>
+    let report: Weak<PropertyDetailsReport>
 
-    public init(viewModel: PropertyDetailsViewModel, context: UIViewController) {
-        self.viewModel = Weak(viewModel)
+    public init(report: PropertyDetailsReport, context: UIViewController) {
+        self.report = Weak(report)
         self.context = Weak(context)
     }
 
     public func formItems() -> [FormItem] {
-        guard let viewModel = viewModel.object else { return [] }
+        guard let report = report.object else { return [] }
         guard let context = context.object else { return [] }
 
-        let localStore = DataStoreCoordinator(dataStore: MediaStorageDatastore(items: viewModel.report.media, container: viewModel.report))
+        let localStore = DataStoreCoordinator(dataStore: MediaStorageDatastore(items: report.media, container: report))
         let gallery = MediaGalleryCoordinatorViewModel(storeCoordinator: localStore)
 
         let mediaItem = MediaFormItem()
@@ -116,43 +153,45 @@ public struct AddPropertyMediaPluginDecorator: FormBuilderPluginDecorator {
 public struct AddPropertyDetailsPlugin: FormBuilderPlugin {
     public var plugins: [FormBuilderPlugin]?
     public let decorator: FormBuilderPluginDecorator
-    public init(viewModel: PropertyDetailsViewModel) {
-        decorator = AddPropertyDetailsPluginDecorator(viewModel: viewModel)
+    public init(report: PropertyDetailsReport) {
+        decorator = AddPropertyDetailsPluginDecorator(report: report)
     }
 }
 
 public struct AddPropertyDetailsPluginDecorator: FormBuilderPluginDecorator {
-    let viewModel: Weak<PropertyDetailsViewModel>
+    let report: Weak<PropertyDetailsReport>
 
-    public init(viewModel: PropertyDetailsViewModel) {
-        self.viewModel = Weak(viewModel)
+    public init(report: PropertyDetailsReport) {
+        self.report = Weak(report)
     }
 
     public func formItems() -> [FormItem] {
-        guard let viewModel = viewModel.object else { return [] }
-        guard let details = viewModel.report.property?.detailNames else { return [] }
+        guard let report = report.object else { return [] }
+        guard let details = report.property?.detailNames else { return [] }
         return [LargeTextHeaderFormItem(text: "Property Details").separatorColor(.clear)] + details.compactMap{formItem(for: $0)}
     }
 
+    // MARK: Private
+
     private func formItem(for propertyDetail: PropertyDetail) -> FormItem? {
-        guard let viewModel = viewModel.object else { return nil }
+        guard let report = report.object else { return nil }
 
         switch propertyDetail.type {
         case let .picker(options):
             return DropDownFormItem(title: propertyDetail.title)
                 .options(options)
                 .width(.column(3))
-                .selectedValue([viewModel.report.details[propertyDetail.title] ?? ""])
-                .onValueChanged { [viewModel] value in
+                .selectedValue([report.details[propertyDetail.title] ?? ""])
+                .onValueChanged { [report] value in
                     guard let value = value?.first else { return }
-                    viewModel.report.details[propertyDetail.title] = value
+                    report.details[propertyDetail.title] = value
             }
         case .text:
             return TextFieldFormItem(title: propertyDetail.title)
-                .text(viewModel.report.details[propertyDetail.title])
+                .text(report.details[propertyDetail.title])
                 .width(.column(3))
-                .onValueChanged { [viewModel] text in
-                    viewModel.report.details[propertyDetail.title] = text
+                .onValueChanged { [report] text in
+                    report.details[propertyDetail.title] = text
             }
         }
     }

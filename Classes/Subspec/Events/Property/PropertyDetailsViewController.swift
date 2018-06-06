@@ -20,6 +20,17 @@ public class PropertyDetailsViewController: FormBuilderViewController {
         self.viewModel = viewModel
         super.init()
         title = "Add Property"
+        wantsTransparentBackground = false
+    }
+
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
+                                                            target: self,
+                                                            action: #selector(doneHandler))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
+                                                           target: self,
+                                                           action: #selector(dismissAnimated))
     }
 
     public override func viewWillAppear(_ animated: Bool) {
@@ -30,5 +41,10 @@ public class PropertyDetailsViewController: FormBuilderViewController {
     public override func construct(builder: FormBuilder) {
         builder.title = title
         viewModel.plugins?.forEach{builder += $0.decorator.formItems()}
+    }
+
+    @objc public func doneHandler() {
+        dismissAnimated()
+        viewModel.completion?(viewModel.report)
     }
 }

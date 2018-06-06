@@ -17,7 +17,7 @@ public class PropertySearchDisplayableViewModel: SearchDisplayableViewModel {
     let properties: [Property]
     private var filteredProperties: [Property] = []
     private lazy var sectionOrder: [String] = {
-        return Array(Set(filteredProperties.map({$0.type})))
+        return Array(Set(filteredProperties.map({$0.type}))).sorted(by: <)
     }()
 
     var isSearching: Bool = false
