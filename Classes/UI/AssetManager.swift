@@ -223,6 +223,8 @@ extension AssetManager {
         public static let resourceDog           = ImageKey("iconResourceDog") // woof woof
         public static let resourceSegway        = ImageKey("iconResourceSegway")
 
+        public static let resourceCarLarge      = ImageKey("icon32ResourceCar")
+
         // Sketch
         public static let penStub = ImageKey("penStub")
         public static let penNib = ImageKey("penNib")
