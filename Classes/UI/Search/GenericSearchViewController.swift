@@ -99,11 +99,6 @@ open class SearchDisplayableViewController<T: SearchDisplayableDelegate, U: Sear
             self.loadingManager.state = .error
         }
     }
-
-    open override func apply(_ theme: Theme) {
-        super.apply(theme)
-        searchBarView.apply(theme)
-    }
 }
 
 /// The generic search delegate

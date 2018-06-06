@@ -68,7 +68,7 @@ open class StandardSearchBarView: UIView {
         apply(ThemeManager.shared.theme(for: .current))
     }
 
-    public func apply(_ theme: Theme) {
+    private func apply(_ theme: Theme) {
         searchBar.textField?.backgroundColor = theme.color(forKey: .searchField)
         backgroundColor = theme.color(forKey: .searchFieldBackground)
         searchBar.textField?.textColor = theme.color(forKey: .primaryText)
