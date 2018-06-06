@@ -21,6 +21,7 @@ open class CompactCallsignContainerViewController: UIViewController, PopToRootab
 
     override open func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         NotificationCenter.default.addObserver(self, selector: #selector(updateChildViewControllerIfRequired), name: .CADBookOnChanged, object: nil)
     }
 

@@ -37,12 +37,16 @@ open class CADStateManagerBase: CADStateManagerType {
     open var officerDetails: CADEmployeeDetailsResponseType?
 
     /// The patrol group
-    open var patrolGroup: String?
+    open var patrolGroup: String? {
+        didSet {
+            didChangePatrolGroup(from: oldValue)
+        }
+    }
 
     /// The current sync mode
-    open var syncMode: CADSyncMode = .patrolGroup {
+    open var syncMode: CADSyncMode = .none {
         didSet {
-            didChangeCADSyncMode(from: oldValue)
+            didChangeSyncMode(from: oldValue)
         }
     }
 
@@ -85,19 +89,19 @@ open class CADStateManagerBase: CADStateManagerType {
     }
 
     /// Incidents retrieved in last sync, keyed by incidentNumber
-    open private(set) var incidentsById: [String: CADIncidentType] = [:]
+    open var incidentsById: [String: CADIncidentType] = [:]
 
     /// Resources retrieved in last sync, keyed by callsign
-    open private(set) var resourcesById: [String: CADResourceType] = [:]
+    open var resourcesById: [String: CADResourceType] = [:]
 
     /// Officers retrieved in last sync, keyed by payrollId
-    open private(set) var officersById: [String: CADOfficerType] = [:]
+    open var officersById: [String: CADOfficerType] = [:]
 
     /// Patrols retrieved in last sync, keyed by patrolNumber
-    open private(set) var patrolsById: [String: CADPatrolType] = [:]
+    open var patrolsById: [String: CADPatrolType] = [:]
 
     /// Broadcasts retrieved in last sync, keyed by callsign
-    open private(set) var broadcastsById: [String: CADBroadcastType] = [:]
+    open var broadcastsById: [String: CADBroadcastType] = [:]
 
     /// The currently booked on resource
     open var currentResource: CADResourceType? {
@@ -131,7 +135,16 @@ open class CADStateManagerBase: CADStateManagerType {
 
     // MARK: - Property changes
 
-    open func didChangeCADSyncMode(from oldValue: CADSyncMode) {
+    open func didChangePatrolGroup(from oldValue: String?) {
+        // By default set the sync mode based on whether we have a patrol group
+        if let patrolGroup = self.patrolGroup {
+            self.syncMode = .patrolGroup(patrolGroup: patrolGroup)
+        } else {
+            self.syncMode = .none
+        }
+    }
+
+    open func didChangeSyncMode(from oldValue: CADSyncMode) {
         guard syncMode != oldValue else { return }
 
         // Force a sync unless just updating the map bounds
@@ -217,9 +230,11 @@ open class CADStateManagerBase: CADStateManagerType {
 
             // Sync based on the current sync mode
             switch self.syncMode {
-            case .patrolGroup:
+            case .none:
+                return Promise<Void>()
+            case .patrolGroup(let patrolGroup):
                 self.lastSyncMapBoundingBox = nil
-                self.pendingSync = self.syncPatrolGroup(self.patrolGroup!)
+                self.pendingSync = self.syncPatrolGroup(patrolGroup)
             case .map(let boundingBox):
                 self.pendingSync = self.syncBoundingBox(boundingBox, force: force)
             }

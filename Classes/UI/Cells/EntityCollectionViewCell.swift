@@ -304,9 +304,10 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
             
             switch style {
             case .hero:
+                let width = EntityCollectionViewCell.minimumContentWidth(forStyle: style)
                 styleConstraints = [
-                    NSLayoutConstraint(item: thumbnailView, attribute: .width,   relatedBy: .equal, toConstant: 184.0),
-                    NSLayoutConstraint(item: thumbnailView, attribute: .height,  relatedBy: .equal, toConstant: 160.0),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .width,   relatedBy: .equal, toConstant: width),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .height,  relatedBy: .equal, toConstant: width),
                     NSLayoutConstraint(item: thumbnailView, attribute: .top,     relatedBy: .equal, toItem: contentView, attribute: .topMargin),
                     NSLayoutConstraint(item: thumbnailView, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: contentView, attribute: .leading),
                     NSLayoutConstraint(item: thumbnailView, attribute: .centerX, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerX, priority: .almostRequired),

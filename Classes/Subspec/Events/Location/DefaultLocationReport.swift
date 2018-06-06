@@ -61,7 +61,7 @@ extension DefaultLocationReport: Summarisable {
     public var formItems: [FormItem] {
         var items = [FormItem]()
         items.append(LargeTextHeaderFormItem(text: "Locations"))
-        items.append(RowDetailFormItem(title: "Event Location", detail: eventLocation?.addressString ?? "Not Set").detailColorKey(eventLocation == nil ? .redText : nil))
+        items.append(RowDetailFormItem(title: "Event Location", detail: eventLocation?.addressString ?? "Required").detailColorKey(eventLocation == nil ? .redText : nil))
         return items
     }
 }

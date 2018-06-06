@@ -79,8 +79,8 @@ extension DefaultDateTimeReport: Summarisable {
         let dateReported = self.reportedOnDateTime?.asPreferredDateTimeString()
         let dateStart = self.tookPlaceFromStartDateTime?.asPreferredDateTimeString()
 
-        items.append(RowDetailFormItem(title: "Reported On", detail: dateReported ?? "Not Set").detailColorKey(dateReported == nil ? .redText : nil))
-        items.append(RowDetailFormItem(title: "Start Date", detail: dateStart ?? "Not Set").detailColorKey(dateStart == nil ? .redText : nil))
+        items.append(RowDetailFormItem(title: "Reported On", detail: dateReported ?? "Required").detailColorKey(dateReported == nil ? .redText : nil))
+        items.append(RowDetailFormItem(title: "Start Date", detail: dateStart ?? "Required").detailColorKey(dateStart == nil ? .redText : nil))
 
         if let dateEnd = self.tookPlaceFromEndDateTime?.asPreferredDateTimeString() {
             items.append(RowDetailFormItem(title: "End Date", detail: dateEnd))
