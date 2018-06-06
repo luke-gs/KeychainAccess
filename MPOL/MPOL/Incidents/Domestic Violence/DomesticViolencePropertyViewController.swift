@@ -88,15 +88,19 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
 
     // MARK: Private
 
-    private func present(with viewModel: PropertyDetailsViewModel) {
-        viewModel.completion = { [unowned self] propertyDetails in
+    private func present(with detailsViewModel: PropertyDetailsViewModel) {
+        detailsViewModel.completion = { [unowned self] propertyDetails in
             self.viewModel.add(propertyDetails)
             self.updateLoadingManagerState()
             self.reloadForm()
         }
 
-        let viewController = PropertyDetailsViewController(viewModel: viewModel)
-        viewModel.plugins = [AddPropertyPlugin(viewModel: viewModel, context: viewController)]
+        let viewController = PropertyDetailsViewController(viewModel: detailsViewModel)
+        detailsViewModel.plugins = [
+            AddPropertyGeneralPlugin(viewModel: detailsViewModel, context: viewController),
+            AddPropertyMediaPlugin(report: detailsViewModel.report, context: viewController),
+            AddPropertyDetailsPlugin(report: detailsViewModel.report)
+        ]
 
         let navigationController = PopoverNavigationController(rootViewController: viewController)
         navigationController.modalPresentationStyle = .pageSheet
@@ -106,6 +110,13 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
     private func updateLoadingManagerState() {
         self.loadingManager.state = viewModel.hasProperty ? .loaded : .noContent
     }
+}
+extension DomesticViolencePropertyViewController: AddPropertyDelegate {
+    public func didTapOnPropertyType() {
+
+    }
+
+
 }
 
 //TODO: FIX THIS SHIT WITH PROPER PROPERTIES
@@ -134,4 +145,4 @@ private let props: [Property] = [
 ]
 
 //TODO: FIX THIS SHIT WITH PROPER INVOLVEMENTS
-private let involvs: [String] = ["Broken", "Damaged", "Lost", "Killed"]
+private let involvs: [String] = ["Broken", "Damaged", "Lost", "Killed", "Stolen"]
