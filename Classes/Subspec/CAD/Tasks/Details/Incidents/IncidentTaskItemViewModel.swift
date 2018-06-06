@@ -86,6 +86,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
                 $0.reloadFromModel(incident)
             }
             updateGlassBar()
+            delegate?.didUpdateModel()
         }
     }
 

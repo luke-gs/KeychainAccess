@@ -9,9 +9,13 @@
 import UIKit
 import PromiseKit
 
+public protocol TaskItemViewModelDelegate: class {
+    func didUpdateModel()
+}
+
 open class TaskItemViewModel {
 
-    open weak var delegate: PopoverPresenter?
+    open weak var delegate: (PopoverPresenter & TaskItemViewModelDelegate)?
 
     /// The identifier for the task item
     open var taskItemIdentifier: String

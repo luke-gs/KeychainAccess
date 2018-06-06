@@ -191,3 +191,8 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
     }
 }
 
+extension TaskItemSidebarSplitViewController: TaskItemViewModelDelegate {
+    public func didUpdateModel() {
+        updateHeaderView()
+    }
+}

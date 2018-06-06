@@ -67,6 +67,7 @@ open class ResourceTaskItemViewModel: TaskItemViewModel {
             viewModels.forEach {
                 $0.reloadFromModel(resource)
             }
+            delegate?.didUpdateModel()
         }
     }
 

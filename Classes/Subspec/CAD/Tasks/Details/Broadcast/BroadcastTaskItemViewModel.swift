@@ -54,6 +54,7 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
             viewModels.forEach {
                 $0.reloadFromModel(broadcast)
             }
+            delegate?.didUpdateModel()
         }
     }
     
