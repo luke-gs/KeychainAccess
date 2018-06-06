@@ -100,6 +100,10 @@ open class SearchDisplayableViewController<T: SearchDisplayableDelegate, U: Sear
         }
     }
 
+    open override func apply(_ theme: Theme) {
+        super.apply(theme)
+        searchBarView.apply(theme)
+    }
 }
 
 /// The generic search delegate

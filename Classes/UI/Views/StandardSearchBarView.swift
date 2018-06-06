@@ -68,9 +68,10 @@ open class StandardSearchBarView: UIView {
         apply(ThemeManager.shared.theme(for: .current))
     }
 
-    private func apply(_ theme: Theme) {
+    public func apply(_ theme: Theme) {
         searchBar.textField?.backgroundColor = theme.color(forKey: .searchField)
         backgroundColor = theme.color(forKey: .searchFieldBackground)
+        searchBar.textField?.textColor = theme.color(forKey: .primaryText)
 
         // Restore the clear background image, as the changes above remove it!
         searchBar.backgroundImage = UIImage()
