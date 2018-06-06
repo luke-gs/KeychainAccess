@@ -28,14 +28,10 @@ open class ResourceOverviewFormViewController: IntrinsicHeightFormBuilderViewCon
                 .accessory(ItemAccessory.disclosure)
                 .separatorStyle(.fullWidth)
                 .onSelection({ [unowned self] cell in
-                    guard let resource = self.viewModel.resource,
-                        let incident = CADStateManager.shared.incidentsById[currentIncident.identifier]
-                    else {
-                        return
-                    }
+                    guard let incident = CADStateManager.shared.incidentsById[currentIncident.identifier] else { return }
                     
                     // Present the resource split view controller
-                    let viewModel = IncidentTaskItemViewModel(incident: incident, resource: resource)
+                    let viewModel = IncidentTaskItemViewModel(incident: incident)
                     self.present(TaskItemScreen.landing(viewModel: viewModel))
                 })
         }

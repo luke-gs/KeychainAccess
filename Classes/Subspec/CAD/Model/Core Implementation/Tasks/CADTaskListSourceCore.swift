@@ -253,13 +253,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
         switch self {
         case .incident:
             if let incident = CADStateManager.shared.incidentsById[identifier] {
-                // Show details of our resource if we are assigned to incident
-                let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: incident.incidentNumber)
-                var resource: CADResourceType? = nil
-                if let currentResource = CADStateManager.shared.currentResource {
-                    resource = resources.contains(where: { $0 == currentResource }) ? currentResource : nil
-                }
-                return IncidentTaskItemViewModel(incident: incident, resource: resource)
+                return IncidentTaskItemViewModel(incident: incident)
             }
         case .patrol:
             if let patrol = CADStateManager.shared.patrolsById[identifier] {

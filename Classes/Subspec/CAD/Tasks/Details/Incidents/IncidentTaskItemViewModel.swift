@@ -11,45 +11,55 @@ import PromiseKit
 
 open class IncidentTaskItemViewModel: TaskItemViewModel {
 
-    open var incident: CADIncidentType?
-    open var resource: CADResourceType?
-
     open static var infoIcon: UIImage? = {
         // Use larger version of standard info icon for sidebar/glass view
         let infoIcon = AssetManager.shared.image(forKey: .info)
         return infoIcon?.resizeImageWith(newSize: CGSize(width: 32, height: 32), renderMode: .alwaysTemplate)
     }()
 
-    public init(incidentNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
-        let captionText = "#\(incidentNumber)"
+    /// The optional incident summary provided during construction
+    open var incidentSummary: CADIncidentType?
+
+    // MARK: - Init
+
+    public init(incidentNumber: String) {
         super.init(taskItemIdentifier: incidentNumber,
-                   iconImage: iconImage,
-                   iconTintColor: iconTintColor,
-                   color: color,
-                   statusText: statusText,
-                   itemName: itemName,
-                   subtitleText: captionText)
-        
+                   viewModels: [IncidentOverviewViewModel(),
+                                IncidentAssociationsViewModel(),
+                                IncidentResourcesViewModel(),
+                                IncidentNarrativeViewModel()])
+
         self.navTitle = NSLocalizedString("Incident details", comment: "")
-        self.compactNavTitle = itemName
-
-        self.viewModels = [
-            IncidentOverviewViewModel(),
-            IncidentAssociationsViewModel(),
-            IncidentResourcesViewModel(),
-            IncidentNarrativeViewModel(),
-        ]
+        self.subtitleText = "#\(incidentNumber)"
     }
 
-    public convenience init(incident: CADIncidentType, resource: CADResourceType?) {
-        self.init(incidentNumber: incident.incidentNumber,
-                  iconImage: resource?.status.icon ?? IncidentTaskItemViewModel.infoIcon,
-                  iconTintColor: resource?.status.iconColors.icon ?? .white,
-                  color: resource?.status.iconColors.background,
-                  statusText: resource?.status.title ?? incident.status.title,
-                  itemName: [incident.type, incident.resourceCountString].joined())
-        self.resource = resource
+    public convenience init(incident: CADIncidentType) {
+        self.init(incidentNumber: incident.incidentNumber)
+
+        // Show info from the summary object while the details are loaded
+        self.incidentSummary = incident
+        reloadFromModel()
     }
+
+    // MARK: - Generated properties
+
+    /// Return the loaded incident details
+    open var incidentDetails: CADIncidentType? {
+        return taskItemDetails as? CADIncidentType
+    }
+
+    /// Return the loaded incident details or the summary if available
+    open var incidentDetailsOrSummary: CADIncidentType? {
+        return taskItemDetails as? CADIncidentType ?? incidentSummary
+    }
+
+    /// Our callsign resource if assigned to incident
+    open var resourceIfAssigned: CADResourceType? {
+        let resources = CADStateManager.shared.resourcesForIncident(incidentNumber: taskItemIdentifier)
+        return resources.filter { $0 == CADStateManager.shared.currentResource }.first
+    }
+
+    // MARK: - Methods
 
     open override func createViewController() -> UIViewController {
         let vc = TaskItemSidebarSplitViewController(viewModel: self)
@@ -58,41 +68,41 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
     }
 
     open override func loadTaskItem() -> Promise<CADTaskListItemModelType> {
-        incident = CADStateManager.shared.incidentsById[taskItemIdentifier]
+        // TODO: fetch from network
+        incidentSummary = CADStateManager.shared.incidentsById[taskItemIdentifier]
         updateGlassBar()
-        return Promise<CADTaskListItemModelType>.value(incident!)
+        return Promise<CADTaskListItemModelType>.value(incidentSummary!)
     }
 
     override open func reloadFromModel() {
-        // Reload resource for incident if current incident, or clear
-        if incident?.incidentNumber == CADStateManager.shared.currentIncident?.incidentNumber {
-            resource = CADStateManager.shared.currentResource
-        } else {
-            resource = nil
-        }
+        let incident = self.incidentDetailsOrSummary
+        let resource = self.resourceIfAssigned
 
-        if let incident = incident {
-            iconImage = resource?.status.icon ?? IncidentTaskItemViewModel.infoIcon
-            iconTintColor = resource?.status.iconColors.icon ?? .white
-            color = resource?.status.iconColors.background
-            statusText = resource?.status.title ?? incident.status.title
-            itemName = [incident.type, incident.resourceCountString].joined()
+        iconImage = resource?.status.icon ?? IncidentTaskItemViewModel.infoIcon
+        iconTintColor = resource?.status.iconColors.icon ?? .white
+        color = resource?.status.iconColors.background
+        statusText = resource?.status.title ?? incident?.status.title
+        itemName = [incident?.type, incident?.resourceCountString].joined()
+        compactNavTitle = itemName
+        compactTitle = statusText
+        compactSubtitle = subtitleText
 
+        if let incidentDetails = incidentDetails {
             viewModels.forEach {
-                $0.reloadFromModel(incident)
+                $0.reloadFromModel(incidentDetails)
             }
-            updateGlassBar()
         }
+        updateGlassBar()
         super.reloadFromModel()
     }
 
     open func updateGlassBar() {
-        if let incident = incident, allowChangeResourceStatus() {
+        if let incident = incidentSummary, allowChangeResourceStatus() {
             // Only show compact glass bar if we can change status
             showCompactGlassBar = true
 
             // Customise text based on current state
-            if CADStateManager.shared.currentResource == resource {
+            if resourceIfAssigned != nil {
                 compactTitle = statusText
                 compactSubtitle = NSLocalizedString("Change status", comment: "")
             } else {
@@ -111,7 +121,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
 
     override open func didTapTaskStatus() {
         if allowChangeResourceStatus() {
-            delegate?.present(TaskItemScreen.resourceStatus(initialStatus: resource?.status, incident: incident))
+            delegate?.present(TaskItemScreen.resourceStatus(initialStatus: resourceIfAssigned?.status, incident: incidentDetailsOrSummary))
         }
     }
 
@@ -119,6 +129,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         // If this task is the current incident for our booked on resource,
         // or we have no current incident, allow changing resource state
         // ... but only if incident is within our patrol group
+        let incident = self.incidentDetailsOrSummary
         if CADStateManager.shared.lastBookOn != nil && incident?.patrolGroup == CADStateManager.shared.patrolGroup {
             let currentIncidentId = CADStateManager.shared.currentIncident?.incidentNumber
             if let incident = incident, (incident.incidentNumber == currentIncidentId || currentIncidentId == nil) {

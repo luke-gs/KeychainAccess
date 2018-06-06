@@ -70,25 +70,9 @@ open class TaskItemViewModel {
         MPLRequiresConcreteImplementation()
     }
     
-    /// Init
-    ///
-    /// - Parameters:
-    ///   - iconImage: Icon image to display in the header
-    ///   - iconTintColor: Icon image color
-    ///   - color: Color to use for the icon image background and status text
-    ///   - statusText: Status text to display below the icon
-    ///   - itemName: Name of the item
-    public init(taskItemIdentifier: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?, subtitleText: String?, viewModels: [TaskDetailsViewModel] = []) {
+    public init(taskItemIdentifier: String, viewModels: [TaskDetailsViewModel] = []) {
         self.taskItemIdentifier = taskItemIdentifier
-        self.iconImage = iconImage
-        self.iconTintColor = iconTintColor
-        self.color = color
-        self.statusText = statusText
-        self.itemName = itemName
         self.viewModels = viewModels
-        self.subtitleText = subtitleText
-        self.compactTitle = statusText
-        self.compactSubtitle = subtitleText
         self.showCompactGlassBar = false
     }
 
