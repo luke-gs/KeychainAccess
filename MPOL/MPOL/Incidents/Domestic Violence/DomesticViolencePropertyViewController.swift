@@ -111,13 +111,6 @@ open class DomesticViolencePropertyViewController: FormBuilderViewController, Ev
         self.loadingManager.state = viewModel.hasProperty ? .loaded : .noContent
     }
 }
-extension DomesticViolencePropertyViewController: AddPropertyDelegate {
-    public func didTapOnPropertyType() {
-
-    }
-
-
-}
 
 //TODO: FIX THIS SHIT WITH PROPER PROPERTIES
 private let props: [Property] = [
