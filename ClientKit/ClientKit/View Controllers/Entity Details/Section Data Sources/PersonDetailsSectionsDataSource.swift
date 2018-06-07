@@ -58,6 +58,7 @@ public class PersonNATDetailsSectionsDataSource: EntityDetailSectionsDataSource 
                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
                                        EntityDetailFormViewController(viewModel: EntityRetrievedEventsViewModel()),
                                        EntityDetailFormViewController(viewModel: PersonOrdersViewModel()),
+                                       EntityDetailFormViewController(viewModel: PersonCriminalHistoryViewModel())
                                        ]
     }
 
