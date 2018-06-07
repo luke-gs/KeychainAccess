@@ -16,7 +16,6 @@
 		1937186E20AA653B00C891E2 /* PersonTrafficHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1937186D20AA653B00C891E2 /* PersonTrafficHistoryViewModel.swift */; };
 		193ED08F1FDEA190002F2837 /* DefaultFilterRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193ED08E1FDEA190002F2837 /* DefaultFilterRules.swift */; };
 		194E009D20C4C79B00F5571A /* VehicleParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E009C20C4C79B00F5571A /* VehicleParserDefinition.swift */; };
-		194E009F20C4CF7C00F5571A /* VehicleWildcardParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E009E20C4CF7C00F5571A /* VehicleWildcardParserDefinition.swift */; };
 		194E00A120C4DA0D00F5571A /* RangeParserDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E00A020C4DA0D00F5571A /* RangeParserDefinition.swift */; };
 		198465B8208E101F0076E1A4 /* RetrievedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198465B7208E101F0076E1A4 /* RetrievedEvent.swift */; };
 		198465BA208EAF630076E1A4 /* EntityRetrievedEventsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198465B9208EAF630076E1A4 /* EntityRetrievedEventsViewModel.swift */; };
@@ -126,7 +125,6 @@
 		1937186D20AA653B00C891E2 /* PersonTrafficHistoryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonTrafficHistoryViewModel.swift; sourceTree = "<group>"; };
 		193ED08E1FDEA190002F2837 /* DefaultFilterRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFilterRules.swift; sourceTree = "<group>"; };
 		194E009C20C4C79B00F5571A /* VehicleParserDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleParserDefinition.swift; sourceTree = "<group>"; };
-		194E009E20C4CF7C00F5571A /* VehicleWildcardParserDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleWildcardParserDefinition.swift; sourceTree = "<group>"; };
 		194E00A020C4DA0D00F5571A /* RangeParserDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeParserDefinition.swift; sourceTree = "<group>"; };
 		198465B7208E101F0076E1A4 /* RetrievedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrievedEvent.swift; sourceTree = "<group>"; };
 		198465B9208EAF630076E1A4 /* EntityRetrievedEventsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityRetrievedEventsViewModel.swift; sourceTree = "<group>"; };
@@ -392,7 +390,6 @@
 				194E00A020C4DA0D00F5571A /* RangeParserDefinition.swift */,
 				EA1CC2501F3D91E800FE8BAE /* RegistrationParserDefinition.swift */,
 				194E009C20C4C79B00F5571A /* VehicleParserDefinition.swift */,
-				194E009E20C4CF7C00F5571A /* VehicleWildcardParserDefinition.swift */,
 				EA1CC2531F4132D200FE8BAE /* VINParserDefinition.swift */,
 				EA1CC2551F41347100FE8BAE /* EngineNumberParserDefinition.swift */,
 			);
@@ -800,7 +797,6 @@
 				46E0B89F202C13E200B40DF2 /* Officer.swift in Sources */,
 				1A159F0D1F4B1C7500075330 /* PersonFetchRequest.swift in Sources */,
 				EA8B66671F38473400F09716 /* Vehicle+EntitySummaryDisplayable.swift in Sources */,
-				194E009F20C4CF7C00F5571A /* VehicleWildcardParserDefinition.swift in Sources */,
 				EA8B66531F381BC000F09716 /* PersonSearchRequest.swift in Sources */,
 				1A2E8A801F397E2B0062FEA5 /* VehicleInfoViewModel.swift in Sources */,
 				464977C4203685E500590DC3 /* Identifiable.swift in Sources */,
