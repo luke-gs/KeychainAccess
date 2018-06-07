@@ -27,7 +27,7 @@ public final class LoginHeaderView: UIView {
         super.init(frame: frame)
 
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = .systemFont(ofSize: 48.0, weight: UIFont.Weight.bold)
+        titleLabel.font = .systemFont(ofSize: 28.0, weight: UIFont.Weight.bold)
         titleLabel.textColor = .white
         titleLabel.adjustsFontSizeToFitWidth = true
 
