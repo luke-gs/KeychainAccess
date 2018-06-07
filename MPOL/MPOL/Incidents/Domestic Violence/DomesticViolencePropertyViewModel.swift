@@ -38,8 +38,8 @@ public class DomesticViolencePropertyViewModel {
     }
 
     func add(_ propertyDetailsReport: PropertyDetailsReport) {
-        if let existingPropertyIndex = report.propertyList.index(where: {$0.property == propertyDetailsReport.property}) {
-            report.propertyList[existingPropertyIndex] = propertyDetailsReport
+        if let indexOfExistingProperty = report.propertyList.index(where: {$0.property == propertyDetailsReport.property}) {
+            report.propertyList[indexOfExistingProperty] = propertyDetailsReport
         } else {
             report.propertyList.append(propertyDetailsReport)
         }
