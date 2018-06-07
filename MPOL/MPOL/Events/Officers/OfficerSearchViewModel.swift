@@ -16,7 +16,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
 
     var title: String = "Add Officer"
     var cancelToken: PromiseCancellationToken?
-    var hasSections: Bool = false
+    var hasSections: Bool = true
 
     private var objectDisplayMap: [Object: CustomSearchDisplayable] = [:]
     public private(set) var items: [Object]
@@ -27,7 +27,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     }
 
     func numberOfSections() -> Int {
-        return items.count
+        return 1
     }
 
     func numberOfRows(in section: Int) -> Int {
@@ -39,7 +39,7 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
     }
 
     func title(for section: Int) -> String {
-        return ""
+        return "Recently Used"
     }
 
     func title(for indexPath: IndexPath) -> String? {
@@ -93,8 +93,16 @@ class OfficerSearchViewModel: SearchDisplayableViewModel {
         cancelToken?.cancel()
         cancelToken = PromiseCancellationToken()
 
-        return request.searchPromise(withCancellationToken: cancelToken).done {
-            self.items = $0.results
+        return request.searchPromise(withCancellationToken: cancelToken).done { [weak self] in
+
+            if let context = self {
+                context.items = $0.results
+
+                // Once we complete a search, remove the sections (i.e. the Recently Used text)
+                if context.hasSections {
+                    context.hasSections = false
+                }
+            }
         }
     }
 
