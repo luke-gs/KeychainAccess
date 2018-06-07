@@ -72,22 +72,20 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
     }
 
     override open func reloadFromModel() {
-        let incident = self.incidentDetailsOrSummary
+        guard let incident = self.incidentDetailsOrSummary else { return }
         let resource = self.resourceIfAssigned
 
         iconImage = resource?.status.icon ?? IncidentTaskItemViewModel.infoIcon
         iconTintColor = resource?.status.iconColors.icon ?? .white
         color = resource?.status.iconColors.background
-        statusText = resource?.status.title ?? incident?.status.title
-        itemName = [incident?.type, incident?.resourceCountString].joined()
+        statusText = resource?.status.title ?? incident.status.title
+        itemName = [incident.type, incident.resourceCountString].joined()
         compactNavTitle = itemName
         compactTitle = statusText
         compactSubtitle = subtitleText
 
-        if let incidentDetails = incidentDetails {
-            viewModels.forEach {
-                $0.reloadFromModel(incidentDetails)
-            }
+        viewModels.forEach {
+            $0.reloadFromModel(incident)
         }
         updateGlassBar()
         super.reloadFromModel()
@@ -136,8 +134,4 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         return false
     }
     
-    open override func refreshTask() -> Promise<Void> {
-        // TODO: Add method to CADStateManager to fetch individual incident
-        return Promise<Void>()
-    }
 }

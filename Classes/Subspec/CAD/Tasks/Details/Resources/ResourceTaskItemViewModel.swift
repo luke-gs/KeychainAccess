@@ -62,21 +62,19 @@ open class ResourceTaskItemViewModel: TaskItemViewModel {
     }
 
     open override func reloadFromModel() {
-        let resource = self.resourceDetailsOrSummary
+        guard let resource = self.resourceDetailsOrSummary else { return }
 
-        iconImage = resource?.status.icon
-        iconTintColor = resource?.status.iconColors.icon
-        color = resource?.status.iconColors.background
-        statusText = resource?.status.title
-        itemName = [resource?.callsign, resource?.officerCountString].joined()
+        iconImage = resource.status.icon
+        iconTintColor = resource.status.iconColors.icon
+        color = resource.status.iconColors.background
+        statusText = resource.status.title
+        itemName = [resource.callsign, resource.officerCountString].joined()
         compactNavTitle = itemName
         compactTitle = statusText
         compactSubtitle = subtitleText
 
-        if let resourceDetails = resourceDetails {
-            viewModels.forEach {
-                $0.reloadFromModel(resourceDetails)
-            }
+        viewModels.forEach {
+            $0.reloadFromModel(resource)
         }
         super.reloadFromModel()
     }
@@ -96,8 +94,4 @@ open class ResourceTaskItemViewModel: TaskItemViewModel {
         return false
     }
 
-    open override func refreshTask() -> Promise<Void> {
-        // TODO: Add method to CADStateManager to fetch individual resource
-        return Promise<Void>()
-    }
 }

@@ -56,28 +56,21 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
     }
 
     override open func reloadFromModel() {
-        let broadcast = self.broadcastDetailsOrSummary
+        guard let broadcast = self.broadcastDetailsOrSummary else { return }
 
         iconImage = AssetManager.shared.image(forKey: .tabBarTasks)
         iconTintColor = .disabledGray
         color = .primaryGray
         statusText = NSLocalizedString("Broadcast", comment: "").uppercased()
-        itemName = broadcast?.title
+        itemName = broadcast.title
         compactNavTitle = itemName
         compactTitle = statusText
         compactSubtitle = subtitleText
 
-        if let broadcastDetails = broadcastDetails {
-            viewModels.forEach {
-                $0.reloadFromModel(broadcastDetails)
-            }
+        viewModels.forEach {
+            $0.reloadFromModel(broadcast)
         }
         super.reloadFromModel()
     }
     
-    open override func refreshTask() -> Promise<Void> {
-        // TODO: Add method to CADStateManager to fetch individual broadcast
-        return Promise<Void>()
-    }
-
 }

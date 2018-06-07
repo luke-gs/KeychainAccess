@@ -109,6 +109,6 @@ open class TaskItemViewModel {
     
     // Called when a user pulls to refresh on the sidebar
     open func refreshTask() -> Promise<Void> {
-        MPLRequiresConcreteImplementation()
+        return loadTask()
     }
 }

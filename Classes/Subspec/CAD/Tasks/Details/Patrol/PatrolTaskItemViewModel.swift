@@ -56,28 +56,21 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
     }
 
     override open func reloadFromModel() {
-        let patrol = self.patrolDetailsOrSummary
+        guard let patrol = self.patrolDetailsOrSummary else { return }
 
         iconImage = AssetManager.shared.image(forKey: .tabBarTasks)
         iconTintColor = .disabledGray
         color = .primaryGray
         statusText = NSLocalizedString("Patrol", comment: "").uppercased()
-        itemName = patrol?.type
+        itemName = patrol.type
         compactNavTitle = itemName
         compactTitle = statusText
         compactSubtitle = subtitleText
 
-        if let patrolDetails = patrolDetails {
-            viewModels.forEach {
-                $0.reloadFromModel(patrolDetails)
-            }
+        viewModels.forEach {
+            $0.reloadFromModel(patrol)
         }
         super.reloadFromModel()
-    }
-    
-    open override func refreshTask() -> Promise<Void> {
-        // TODO: Add method to CADStateManager to fetch individual patrol
-        return Promise<Void>()
     }
     
 }
