@@ -254,17 +254,12 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
         case .incident:
             return IncidentTaskItemViewModel(incidentNumber: identifier)
         case .patrol:
-            if let patrol = CADStateManager.shared.patrolsById[identifier] {
-                return PatrolTaskItemViewModel(patrol: patrol)
-            }
+            return PatrolTaskItemViewModel(patrolNumber: identifier)
         case .broadcast:
-            if let broadcast = CADStateManager.shared.broadcastsById[identifier] {
-                return BroadcastTaskItemViewModel(broadcast: broadcast)
-            }
+            return BroadcastTaskItemViewModel(broadcastNumber: identifier)
         case .resource:
             return ResourceTaskItemViewModel(callsign: identifier)
         }
-        return nil
     }
 
 
