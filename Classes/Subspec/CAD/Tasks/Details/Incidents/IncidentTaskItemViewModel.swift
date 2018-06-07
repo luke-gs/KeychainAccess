@@ -48,7 +48,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
 
     /// Return the loaded incident details or the summary if available
     open var incidentDetailsOrSummary: CADIncidentType? {
-        return taskItemDetails as? CADIncidentType ?? incidentSummary
+        return incidentDetails ?? incidentSummary
     }
 
     /// Our callsign resource if assigned to incident

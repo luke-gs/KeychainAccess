@@ -39,7 +39,7 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
 
     /// Return the loaded details or the summary if available
     open var broadcastDetailsOrSummary: CADBroadcastType? {
-        return taskItemDetails as? CADBroadcastType ?? broadcastDetails
+        return broadcastDetails ?? broadcastSummary
     }
 
     // MARK: - Methods

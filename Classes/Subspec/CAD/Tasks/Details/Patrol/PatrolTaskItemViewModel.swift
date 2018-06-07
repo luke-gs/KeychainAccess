@@ -39,7 +39,7 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
 
     /// Return the loaded details or the summary if available
     open var patrolDetailsOrSummary: CADPatrolType? {
-        return taskItemDetails as? CADPatrolType ?? patrolDetails
+        return patrolDetails ?? patrolSummary
     }
 
     // MARK: - Methods

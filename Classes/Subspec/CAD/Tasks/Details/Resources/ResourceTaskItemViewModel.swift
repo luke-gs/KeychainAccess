@@ -45,7 +45,7 @@ open class ResourceTaskItemViewModel: TaskItemViewModel {
 
     /// Return the loaded details or the summary if available
     open var resourceDetailsOrSummary: CADResourceType? {
-        return taskItemDetails as? CADResourceType ?? resourceSummary
+        return resourceDetails ?? resourceSummary
     }
 
     // MARK: - Methods
