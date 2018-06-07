@@ -23,8 +23,7 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
         super.init(detailViewControllers: detailViewModel.detailViewControllers())
         
         title = "Details"
-        updateHeaderView()
-        
+
         // Add gesture for tapping icon header
         headerView.isUserInteractionEnabled = true
         headerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapStatusChangeButton)))
@@ -129,9 +128,13 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
         // Hide pencil icon if is compact or view model doesn't allow status changes
         pencilCircleView.isHidden = isCompact() || !detailViewModel.allowChangeResourceStatus()
 
-        // Force the table view to recalculate sizing without reloading
-        regularSidebarViewController.sidebarTableView?.beginUpdates()
-        regularSidebarViewController.sidebarTableView?.endUpdates()
+        // Resize the sidebar table as content size may have changed, and keep selection
+        if let sidebarTableView = regularSidebarViewController.sidebarTableView {
+            DispatchQueue.main.async {
+                sidebarTableView.beginUpdates()
+                sidebarTableView.endUpdates()
+            }
+        }
     }
 
     /// Hides or shows compact change status bar based on trait collection, and configures views
