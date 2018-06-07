@@ -46,7 +46,11 @@ public class SubtitleFormItem: BaseFormItem {
         cell.titleLabel.apply(sizable: title, defaultFont: .preferredFont(forTextStyle: .headline, compatibleWith: cell.traitCollection))
         cell.subtitleLabel.apply(sizable: subtitle, defaultFont: .preferredFont(forTextStyle: .footnote, compatibleWith: cell.traitCollection), defaultNumberOfLines: 0)
         cell.imageView.image = image
-        cell.imageView.tintColor = imageTintColor
+
+        if imageTintColor != nil {
+            cell.imageView.tintColor = imageTintColor
+        }
+        
         cell.style = style
         cell.imageSeparation = imageSeparation
         cell.labelSeparation = labelSeparation
@@ -83,6 +87,7 @@ public class SubtitleFormItem: BaseFormItem {
 
         cell.titleLabel.textColor = primaryTextColor
         cell.subtitleLabel.textColor = secondaryTextColor
+        cell.imageView.tintColor = theme.color(forKey: .primaryText)
     }
     
     private func defaultTitle(for traitCollection: UITraitCollection) -> StringSizable? {
