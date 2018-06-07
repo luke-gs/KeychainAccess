@@ -17,7 +17,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
         return infoIcon?.resizeImageWith(newSize: CGSize(width: 32, height: 32), renderMode: .alwaysTemplate)
     }()
 
-    /// The optional incident summary provided during construction
+    /// The optional summary loaded during construction
     open var incidentSummary: CADIncidentType?
 
     // MARK: - Init
@@ -31,14 +31,12 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
 
         self.navTitle = NSLocalizedString("Incident details", comment: "")
         self.subtitleText = "#\(incidentNumber)"
-    }
 
-    public convenience init(incident: CADIncidentType) {
-        self.init(incidentNumber: incident.incidentNumber)
-
-        // Show info from the summary object while the details are loaded
-        self.incidentSummary = incident
-        reloadFromModel()
+        // Load the summary if available
+        incidentSummary = CADStateManager.shared.incidentsById[incidentNumber]
+        if incidentSummary != nil {
+            reloadFromModel()
+        }
     }
 
     // MARK: - Generated properties

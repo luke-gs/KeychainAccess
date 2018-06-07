@@ -252,9 +252,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
     public func createItemViewModel(identifier: String) -> TaskItemViewModel? {
         switch self {
         case .incident:
-            if let incident = CADStateManager.shared.incidentsById[identifier] {
-                return IncidentTaskItemViewModel(incident: incident)
-            }
+            return IncidentTaskItemViewModel(incidentNumber: identifier)
         case .patrol:
             if let patrol = CADStateManager.shared.patrolsById[identifier] {
                 return PatrolTaskItemViewModel(patrol: patrol)
@@ -264,9 +262,7 @@ public enum CADTaskListSourceCore: Int, CADTaskListSourceType {
                 return BroadcastTaskItemViewModel(broadcast: broadcast)
             }
         case .resource:
-            if let resource = CADStateManager.shared.resourcesById[identifier] {
-                return ResourceTaskItemViewModel(resource: resource)
-            }
+            return ResourceTaskItemViewModel(callsign: identifier)
         }
         return nil
     }
