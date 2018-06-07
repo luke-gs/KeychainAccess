@@ -33,15 +33,6 @@ public class VINParserDefinition: VehicleParserDefinition, VINDefinitionType {
     }
 }
 
-public class VINWildcardParserDefinition: VehicleWildcardParserDefinition, VINDefinitionType {
-
-    public static let vinKey = "vin"
-
-    public init(range: CountableClosedRange<Int>) {
-        super.init(range: range, definitionKey: VINWildcardParserDefinition.vinKey, errorClosure: invalidLengthError)
-    }
-}
-
 fileprivate var invalidLengthError: RangeParserDefinition.InvalidLengthErrorClosure {
     return {  (query, requiredLengthRange) -> LocalizedError in
         return VINParserError.invalidLength(query: query, requiredLengthRange: requiredLengthRange)
