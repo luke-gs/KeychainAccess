@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 
 /// PSCore implementation of class representing a resource (aka callsign)
-open class CADResourceCore: Codable, CADResourceType {
+open class CADResourceCore: Codable, CADResourceDetailsType {
 
     // MARK: - Network
 

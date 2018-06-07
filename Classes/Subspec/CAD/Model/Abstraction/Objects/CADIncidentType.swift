@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-/// Protocol for a class representing an incident
+/// Protocol for a class representing basic details of an incident
 public protocol CADIncidentType: class, CADTaskListItemModelType {
 
     // MARK: - Network
@@ -27,7 +27,6 @@ public protocol CADIncidentType: class, CADTaskListItemModelType {
     var locations: [CADLocationType] { get set }
     var persons: [CADIncidentPersonType] { get set }
     var vehicles: [CADIncidentVehicleType] { get set }
-    var narrative: [CADActivityLogItemType] { get set }
 
     // MARK: - Generated
     var status: CADIncidentStatusType { get }
@@ -36,6 +35,17 @@ public protocol CADIncidentType: class, CADTaskListItemModelType {
     var resourceCountString: String? { get }
     var createdAtString: String? { get }
 }
+
+
+/// Protocol for a class representing the full details for an incident.
+///
+/// This information only gets loaded when viewing an individual incident.
+public protocol CADIncidentDetailsType: CADIncidentType {
+
+    // MARK: - Network
+    var narrative: [CADActivityLogItemType] { get set }
+}
+
 
 /// Equality check without conforming to Equatable, to prevent need for type erasure
 public func ==(lhs: CADIncidentType?, rhs: CADIncidentType?) -> Bool {

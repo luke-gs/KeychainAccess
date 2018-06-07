@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 
 /// PSCore implementation of class representing an incident task
-open class CADIncidentCore: Codable, CADIncidentType {
+open class CADIncidentCore: Codable, CADIncidentDetailsType {
 
     // MARK: - Network
 

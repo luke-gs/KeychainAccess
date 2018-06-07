@@ -18,7 +18,7 @@ open class IncidentNarrativeViewModel: DatedActivityLogViewModel, TaskDetailsVie
     }
     
     open func reloadFromModel(_ model: CADTaskListItemModelType) {
-        guard let incident = model as? CADIncidentType else { return }
+        guard let incident = model as? CADIncidentDetailsType else { return }
 
         let activityLogItemsViewModels = incident.narrative.map { item in
             return ActivityLogItemViewModel(dotFillColor: item.color,

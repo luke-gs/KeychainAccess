@@ -18,7 +18,7 @@ open class ResourceActivityLogViewModel: DatedActivityLogViewModel, TaskDetailsV
     }
     
     open func reloadFromModel(_ model: CADTaskListItemModelType) {
-        guard let resource = model as? CADResourceType else { return }
+        guard let resource = model as? CADResourceDetailsType else { return }
         self.resource = resource
         
         let activityLogItemsViewModels = resource.activityLog.map { item in
