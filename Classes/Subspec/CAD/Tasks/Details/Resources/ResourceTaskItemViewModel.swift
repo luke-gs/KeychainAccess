@@ -11,10 +11,17 @@ import PromiseKit
 
 open class ResourceTaskItemViewModel: TaskItemViewModel {
     
-    open var resource: CADResourceType?
-    
-    public init(callsign: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
-        super.init(taskItemIdentifier: callsign, iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, subtitleText: nil)
+    /// The optional summary loaded during construction
+    open var resourceSummary: CADResourceType?
+
+    // MARK: - Init
+
+    public init(callsign: String) {
+        super.init(taskItemIdentifier: callsign,
+                   viewModels: [ResourceOverviewViewModel(),
+                                ResourceOfficerListViewModel(),
+                                ResourceActivityLogViewModel()
+            ])
 
         if callsign == CADStateManager.shared.currentResource?.callsign {
             self.navTitle = NSLocalizedString("My call sign", comment: "")
@@ -22,69 +29,69 @@ open class ResourceTaskItemViewModel: TaskItemViewModel {
             self.navTitle = NSLocalizedString("Resource details", comment: "")
         }
 
-        self.compactNavTitle = itemName
-
-        self.viewModels = [
-            ResourceOverviewViewModel(),
-            ResourceOfficerListViewModel(),
-            ResourceActivityLogViewModel()
-        ]
+        // Load the summary if available
+        resourceSummary = CADStateManager.shared.resourcesById[callsign]
+        if resourceSummary != nil {
+            reloadFromModel()
+        }
     }
     
+    // MARK: - Generated properties
+
+    /// Return the loaded details
+    open var resourceDetails: CADResourceType? {
+        return taskItemDetails as? CADResourceType
+    }
+
+    /// Return the loaded details or the summary if available
+    open var resourceDetailsOrSummary: CADResourceType? {
+        return resourceDetails ?? resourceSummary
+    }
+
+    // MARK: - Methods
+
     open override func createViewController() -> UIViewController {
         let vc = TaskItemSidebarSplitViewController(viewModel: self)
         delegate = vc
         return vc
     }
 
-    public convenience init(resource: CADResourceType) {
-        self.init(
-            callsign: resource.callsign,
-            iconImage: resource.status.icon,
-            iconTintColor: resource.status.iconColors.icon,
-            color: resource.status.iconColors.background,
-            statusText: resource.status.title,
-            itemName: [resource.callsign, resource.officerCountString].joined())
-        self.resource = resource
-    }
-    
     open override func loadTaskItem() -> Promise<CADTaskListItemModelType> {
-        resource = CADStateManager.shared.resourcesById[taskItemIdentifier]
-        return Promise<CADTaskListItemModelType>.value(resource!)
+        // TODO: fetch from network
+        return Promise<CADTaskListItemModelType>.value(resourceSummary!)
     }
 
     open override func reloadFromModel() {
-        if let resource = resource {
-            iconImage = resource.status.icon
-            iconTintColor = resource.status.iconColors.icon
-            color = resource.status.iconColors.background
-            statusText = resource.status.title
-            itemName = [resource.callsign, resource.officerCountString].joined()
+        guard let resource = self.resourceDetailsOrSummary else { return }
 
-            viewModels.forEach {
-                $0.reloadFromModel(resource)
-            }
+        iconImage = resource.status.icon
+        iconTintColor = resource.status.iconColors.icon
+        color = resource.status.iconColors.background
+        statusText = resource.status.title
+        itemName = [resource.callsign, resource.officerCountString].joined()
+        compactNavTitle = itemName
+        compactTitle = statusText
+        compactSubtitle = subtitleText
+
+        viewModels.forEach {
+            $0.reloadFromModel(resource)
         }
         super.reloadFromModel()
     }
 
     override open func didTapTaskStatus() {
-        if let resource = resource, allowChangeResourceStatus() {
+        if let resource = resourceDetailsOrSummary, allowChangeResourceStatus() {
             delegate?.present(TaskItemScreen.resourceStatus(initialStatus: resource.status, incident: nil))
         }
     }
 
     open override func allowChangeResourceStatus() -> Bool {
         // If this resource is our booked on callsign and we have an incident, allow edit
-        if let currentResource = CADStateManager.shared.currentResource, resource == currentResource,
+        if let currentResource = CADStateManager.shared.currentResource, resourceDetailsOrSummary == currentResource,
             CADStateManager.shared.currentIncident != nil {
             return true
         }
         return false
     }
 
-    open override func refreshTask() -> Promise<Void> {
-        // TODO: Add method to CADStateManager to fetch individual resource
-        return Promise<Void>()
-    }
 }
