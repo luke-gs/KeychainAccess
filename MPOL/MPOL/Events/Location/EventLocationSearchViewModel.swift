@@ -79,7 +79,6 @@ class EventLocationSearchViewModel<T: EventSearchableViewModelDelegate>: NSObjec
             builder += searchResults.map { address in
                 let item = SubtitleFormItem(title: address.fullAddress, subtitle: "Calculating", image: AssetManager.shared.image(forKey: .location), style: .default)
                     .accessory(ItemAccessory.disclosure)
-                    .imageTintColor(.black)
                     .onSelection { _ in
                         self.delegate?.didSelectSearchable(address)
                     }
@@ -99,7 +98,6 @@ class EventLocationSearchViewModel<T: EventSearchableViewModelDelegate>: NSObjec
             SubtitleFormItem(title: address.fullAddress, image: AssetManager.shared.image(forKey: .location), style: .default)
                 .subtitle("Calculating")
                 .accessory(ItemAccessory.disclosure)
-                .imageTintColor(.black)
                 .onSelection { _ in
                     self.delegate?.didSelectSearchable(address)
             }
@@ -117,7 +115,6 @@ class EventLocationSearchViewModel<T: EventSearchableViewModelDelegate>: NSObjec
     private func formItems(for options: [EventLocationSearchOption]) -> [SubtitleFormItem] {
         return options.map { option in
             SubtitleFormItem(title: option.title, image: option.image?.withRenderingMode(.alwaysTemplate))
-                .imageTintColor(.black)
                 .accessory(ItemAccessory.disclosure)
                 .onSelection { _ in
                     self.delegate?.didSelectOption(option)
