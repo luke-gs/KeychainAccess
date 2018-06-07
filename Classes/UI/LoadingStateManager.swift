@@ -40,7 +40,13 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         case error
     }
     
-    public init() { }
+    public init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(applyTheme), name: .interfaceStyleDidChange, object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .interfaceStyleDidChange, object: nil)
+    }
     
     
     // MARK: - Public properties
@@ -114,7 +120,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     open private(set) lazy var loadingView: LoadingStateLoadingView = { [unowned self] in
         self.loadingViewLoaded = true
         return LoadingStateLoadingView(frame: .zero)
-    }()
+        }()
 
     /// The no content view.
     ///
@@ -123,7 +129,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     open private(set) lazy var noContentView: LoadingStateNoContentView = { [unowned self] in
         self.noContentViewLoaded = true
         return LoadingStateNoContentView(frame: .zero)
-    }()
+        }()
 
     /// The no content view.
     ///
@@ -132,7 +138,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     open private(set) lazy var errorView: LoadingStateErrorView = { [unowned self] in
         self.errorViewLoaded = true
         return LoadingStateErrorView(frame: .zero)
-    }()
+        }()
 
     /// The color for both title and subtitle labels.
     open var noContentColor: UIColor! = .secondaryGray {
@@ -162,7 +168,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
         tracker.isHidden = true
         tracker.delegate = self
         return tracker
-    }()
+        }()
     
     private var containerScrollView: UIScrollView?
     
@@ -368,7 +374,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
                 contentInsetRightConstraint!,
                 contentInsetTopConstraint!,
                 contentInsetBottomConstraint!
-            ])
+                ])
         } else {
             contentInsetGuide = nil
             contentInsetLeftConstraint = nil
@@ -395,7 +401,20 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     fileprivate func traitCollectionTracker(_ tracker: TraitCollectionTracker, traitCollectionDidChange previousTraitCollection: UITraitCollection?) {
         containerWidthConstraint?.isActive = baseView?.traitCollection.horizontalSizeClass ?? .regular == .regular
     }
-    
+
+    @objc private func applyTheme() {
+        let theme = ThemeManager.shared.theme(for: .current)
+
+        loadingView.loadingIndicatorView.color = theme.color(forKey: .tint)
+        loadingView.titleLabel.textColor = titleColor
+        loadingView.subtitleLabel.textColor = subtitleColor
+
+        noContentView.titleLabel.textColor = theme.color(forKey: .primaryText)
+        noContentView.subtitleLabel.textColor = theme.color(forKey: .secondaryText)
+
+        errorView.titleLabel.textColor = theme.color(forKey: .primaryText)
+        errorView.subtitleLabel.textColor = theme.color(forKey: .secondaryText)
+    }
 }
 
 /// A private class so we can detect when the trait collection changes on the view.
