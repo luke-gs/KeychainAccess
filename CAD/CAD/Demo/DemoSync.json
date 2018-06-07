@@ -804,14 +804,28 @@
     {
       "capabilities": [], 
       "contactNumber": "0240 758 258", 
-      "employeeNumber": "773678", 
-      "firstName": "Jeff", 
-      "lastName": "Brand", 
+      "employeeNumber": "GS005", 
+      "firstName": "Jackson", 
+      "lastName": "Smith", 
       "licenceTypeId": "Gold Licence", 
       "middleName": "", 
       "patrolGroup": "Collingwood", 
       "radioId": "82626288", 
-      "rank": "Leading Senior Constable", 
+      "rank": "Detective", 
+      "remarks": "", 
+      "station": "Collingwood"
+    }, 
+    {
+      "capabilities": [], 
+      "contactNumber": "0240 547 378", 
+      "employeeNumber": "GS002", 
+      "firstName": "Carl", 
+      "lastName": "Johnson", 
+      "licenceTypeId": "Bronze Licence", 
+      "middleName": "", 
+      "patrolGroup": "Collingwood", 
+      "radioId": "74985904", 
+      "rank": "Constable", 
       "remarks": "", 
       "station": "Collingwood"
     }, 
@@ -936,12 +950,26 @@
       "rank": "First Constable", 
       "remarks": "", 
       "station": "Frankston"
+    }, 
+    {
+      "capabilities": [], 
+      "contactNumber": "0425 584 678", 
+      "employeeNumber": "777086", 
+      "firstName": "Gavin", 
+      "lastName": "Raisin", 
+      "licenceTypeId": "Gold Licence", 
+      "middleName": "", 
+      "patrolGroup": "Collingwood", 
+      "radioId": "92757488", 
+      "rank": "Senior Constable", 
+      "remarks": "", 
+      "station": "Collingwood Station"
     }
   ], 
   "patrols": [
     {
       "createdAt": "2018-01-05T23:41:07Z", 
-      "details": "St Joseph\u2019s Primary School fete is occuring between 10:30 and 17:00 on 15/06/2018. Request walk through patrols from crews during these times. Contact person is Rory Cleland, 0408 905 247.", 
+      "details": "St Joseph\u2019s Primary School fete is occurring between 10:30 and 17:00 on 15/06/2018. Request walk through patrols from crews during these times. Contact person is Rory Cleland, 0408 905 247.", 
       "identifier": "PS20180615003", 
       "lastUpdated": "2018-02-11T23:41:07Z", 
       "location": {
