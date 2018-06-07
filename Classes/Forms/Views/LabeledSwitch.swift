@@ -20,13 +20,13 @@ open class LabeledSwitch: UIControl {
     // MARK: - State
     
     /// Possible switch states
-    public enum LabeledSwitchState {
+    public enum SwitchState {
         case on
         case off
     }
     
     /// Current state of the switch
-    private var switchState: LabeledSwitchState = .off
+    private var switchState: SwitchState = .off
     
     /// Whether the switch is in the on state
     public var isOn: Bool {
@@ -140,7 +140,7 @@ open class LabeledSwitch: UIControl {
     // MARK: - Appearance setting
     
     /// Set title color for state
-    open func setTitle(_ title: String?, for state: LabeledSwitchState) {
+    open func setTitle(_ title: String?, for state: SwitchState) {
         if title != nil && titleLabel == nil {
             // Create the title label if it doesn't exist
             titleLabel = UILabel()
@@ -163,7 +163,7 @@ open class LabeledSwitch: UIControl {
     }
     
     /// Sets the title color for state
-    open func setTitleColor(_ color: UIColor?, for state: LabeledSwitchState) {
+    open func setTitleColor(_ color: UIColor?, for state: SwitchState) {
         switch state {
         case .on:
             onTitleColor = color
@@ -179,7 +179,7 @@ open class LabeledSwitch: UIControl {
     }
     
     /// Sets the image color for state
-    open func setImageColor(_ color: UIColor?, for state: LabeledSwitchState) {
+    open func setImageColor(_ color: UIColor?, for state: SwitchState) {
         switch state {
         case .on:
             onImageColor = color
@@ -377,14 +377,14 @@ open class LabeledSwitch: UIControl {
     }
     
     /// Gets the rect to use to position the thumb
-    private func getThumbRect(for state: LabeledSwitchState, in rect: CGRect) -> CGRect {
+    private func getThumbRect(for state: SwitchState, in rect: CGRect) -> CGRect {
         let thumbSize = rect.height - (2 * LayoutConstants.thumbPadding)
         let thumbX = state == .on ? frame.width - thumbSize - LayoutConstants.thumbPadding : LayoutConstants.thumbPadding
         return CGRect(x: thumbX, y: LayoutConstants.thumbPadding, width: thumbSize, height: thumbSize)
     }
     
     /// Gets the point to use to position the title
-    private func getTitlePoint(for state: LabeledSwitchState, in rect: CGRect) -> CGPoint {
+    private func getTitlePoint(for state: SwitchState, in rect: CGRect) -> CGPoint {
         guard let titleLabel = titleLabel else { return .zero }
         
         let titleX = state == .on ? LayoutConstants.textPadding : frame.width - titleLabel.frame.width - LayoutConstants.textPadding

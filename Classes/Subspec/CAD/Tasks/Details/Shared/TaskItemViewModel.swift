@@ -11,11 +11,15 @@ import PromiseKit
 
 public protocol TaskItemViewModelDelegate: PopoverPresenter {
     func didUpdateModel()
+    func setLoadingState(_ state: LoadingStateManager.State)
 }
 
 open class TaskItemViewModel {
 
     open weak var delegate: TaskItemViewModelDelegate?
+
+    /// The task item details that have been loaded
+    open var taskItemDetails: CADTaskListItemModelType?
 
     /// The identifier for the task item
     open var taskItemIdentifier: String
@@ -60,9 +64,6 @@ open class TaskItemViewModel {
         }
     }
     
-    /// The split view controller
-    open var viewController: TaskItemSidebarSplitViewController?
-    
     open var viewModels: [TaskDetailsViewModel]
     
     open func createViewController() -> UIViewController {
@@ -92,9 +93,21 @@ open class TaskItemViewModel {
     }
 
     open func loadTask() -> Promise<Void> {
+        delegate?.setLoadingState(.loading)
+        return firstly {
+            return loadTaskItem()
+        }.then { [weak self] item -> Promise<Void> in
+            self?.delegate?.setLoadingState(.loaded)
+            self?.taskItemDetails = item
+            self?.reloadFromModel()
+            return Promise<Void>()
+        }
+    }
+
+    open func loadTaskItem() -> Promise<CADTaskListItemModelType> {
         MPLRequiresConcreteImplementation()
     }
-    
+
     /// Called when the view model data should be refreshed from model data
     open func reloadFromModel() {
         delegate?.didUpdateModel()

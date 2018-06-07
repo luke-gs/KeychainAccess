@@ -54,17 +54,13 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
     open override func createViewController() -> UIViewController {
         let vc = TaskItemSidebarSplitViewController(viewModel: self)
         delegate = vc
-        viewController = vc
         return vc
     }
-    
-    open override func loadTask() -> Promise<Void> {
-        viewController?.setLoadingState(.loading)
-        self.incident = CADStateManager.shared.incidentsById[taskItemIdentifier]
-        viewController?.setLoadingState(.loaded)
-        self.reloadFromModel()
-        self.updateGlassBar()
-        return Promise<Void>()
+
+    open override func loadTaskItem() -> Promise<CADTaskListItemModelType> {
+        incident = CADStateManager.shared.incidentsById[taskItemIdentifier]
+        updateGlassBar()
+        return Promise<CADTaskListItemModelType>.value(incident!)
     }
 
     override open func reloadFromModel() {

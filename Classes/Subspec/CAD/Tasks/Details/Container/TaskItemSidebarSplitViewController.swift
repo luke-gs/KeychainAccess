@@ -74,9 +74,13 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        // Load the task now we are ready to appear. Loading the task in viewDidLoad is too soon as the
-        // viewController on the detail view model may not be set yet
-        _ = detailViewModel.loadTask()
+        // Load the task if not previously loaded. Loading the task in viewDidLoad is too soon as the
+        // delegate on the detail view model may not be set yet
+        if detailViewModel.taskItemDetails == nil {
+            detailViewModel.loadTask().catch { [weak self] error in
+                self?.setLoadingState(.error)
+            }
+        }
     }
 
     open override func viewDidAppear(_ animated: Bool) {

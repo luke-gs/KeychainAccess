@@ -99,7 +99,6 @@ open class SearchDisplayableViewController<T: SearchDisplayableDelegate, U: Sear
             self.loadingManager.state = .error
         }
     }
-
 }
 
 /// The generic search delegate
