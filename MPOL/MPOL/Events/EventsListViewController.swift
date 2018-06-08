@@ -78,6 +78,7 @@ open class EventsListViewController: FormBuilderViewController, EventsManagerDel
         }
 
         let navigationController = PopoverNavigationController(rootViewController: viewController)
+        navigationController.wantsTransparentBackground = false
         navigationController.modalPresentationStyle = .formSheet
         present(navigationController, animated: true, completion: nil)
     }

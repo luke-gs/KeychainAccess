@@ -1,10 +1,14 @@
 {
-    "employeeNumber": "777086",
-    "rank": "Acting Inspector",
-    "firstName": "Gavin",
-    "middleName": "P.",
-    "lastName": "Raison",
-    "patrolGroup": "Collingwood",
-    "station": "Collingwood Station",
-    "licenceTypeId": "Gold Licence",
+  "capabilities": [], 
+  "contactNumber": "0425 584 678", 
+  "employeeNumber": "777086", 
+  "firstName": "Gavin", 
+  "lastName": "Raisin", 
+  "licenceTypeId": "Gold Licence", 
+  "middleName": "", 
+  "patrolGroup": "Collingwood", 
+  "radioId": "92757488", 
+  "rank": "Senior Constable", 
+  "remarks": "", 
+  "station": "Collingwood Station"
 }
