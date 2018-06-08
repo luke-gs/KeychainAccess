@@ -279,6 +279,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             if isLoading == oldValue || isViewLoaded == false { return }
             
             if isLoading {
+                loginStackView?.alignment = .center
                 loadingIndicator?.isHidden = false
                 loadingIndicator?.play()
                 loginButton.isHidden = true
@@ -287,6 +288,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
                 
                 view.isUserInteractionEnabled = false
             } else {
+                loginStackView?.alignment = .fill
                 loadingIndicator?.isHidden = true
                 loadingIndicator?.pause()
                 loginButton.isHidden = false
