@@ -32,7 +32,6 @@ open class BookOnLandingViewController: FormBuilderViewController {
         self.viewModel = viewModel
         super.init()
         
-        wantsTransparentBackground = true
         title = viewModel.navTitle()
         setupViews()
         setupConstraints()
