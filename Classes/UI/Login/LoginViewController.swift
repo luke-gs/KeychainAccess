@@ -22,13 +22,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    // Branding image that sits in top left corner
-    open var topLeftImage: UIImage? {
-        didSet {
-            topLeftImageView = UIImageView(image: topLeftImage)
-        }
-    }
-
     // Branding image that sits in bottom left corner
     open var bottomLeftImage: UIImage? {
         didSet {
@@ -156,7 +149,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         let button = UIButton(type: UIButtonType.system)
         button.setTitle("Forgot Your Password?", for: .normal)
         button.setTitleColor(UIColor.brightBlue, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 15.0, weight: UIFont.Weight.medium)
+        button.titleLabel?.font = .systemFont(ofSize: 11.0, weight: UIFont.Weight.medium)
         button.addTarget(self, action: #selector(forgotPasswordButtonTriggered), for: .primaryActionTriggered)
         if case LoginMode.externalAuth = loginMode {
             button.isHidden = true
@@ -199,7 +192,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     ///
     /// To default background image for this button is a template image and will adapt to the standard tintColor.
     open private(set) lazy var loginButton: UIButton = { [unowned self] in
-        let buttonBackground = UIImage.resizableRoundedImage(cornerRadius: 22.0, borderWidth: 15.0, borderColor: nil, fillColor: .white)
+        let buttonBackground = UIImage.resizableRoundedImage(cornerRadius: 6.0, borderWidth: 0.0, borderColor: nil, fillColor: .white)
         
         let button = UIButton(type: .custom)
         button.titleLabel?.font = .systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
@@ -219,11 +212,11 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     /// The terms and conditions string to present at the bottom of login window.
     open private(set) lazy var termsAndConditionsLabel: UILabel = {
         let label = UILabel(frame: .zero)
-        label.text = "By continuing you are agreeing to the Terms and Conditions of Use previously presented to you."
-        label.font = .systemFont(ofSize: 17.0)
+        label.text = "By continuing you indicate that you have read and agree to the Terms of Service."
+        label.font = .systemFont(ofSize: 13.0)
         label.numberOfLines = 0
         label.textAlignment = .center
-        label.textColor = UIColor.white
+        label.textColor = UIColor(white: 1.0, alpha: 0.4)
         return label
     }()
     
@@ -279,7 +272,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             if isLoading == oldValue || isViewLoaded == false { return }
             
             if isLoading {
-                loginStackView?.alignment = .center
                 loadingIndicator?.isHidden = false
                 loadingIndicator?.play()
                 loginButton.isHidden = true
@@ -288,7 +280,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
                 
                 view.isUserInteractionEnabled = false
             } else {
-                loginStackView?.alignment = .fill
                 loadingIndicator?.isHidden = true
                 loadingIndicator?.pause()
                 loginButton.isHidden = false
@@ -360,8 +351,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     private var _prefersStatusBarHidden: Bool = false
 
     private var backgroundView: UIImageView?
-
-    private var topLeftImageView: UIImageView?
 
     private var bottomLeftImageView: UIImageView?
     
@@ -480,14 +469,14 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         
         let loginStackView = UIStackView(arrangedSubviews: [loginButton, changeUserButton, termsAndConditionsLabel])
         loginStackView.axis      = .vertical
-        loginStackView.alignment = .fill
+        loginStackView.alignment = .center
         loginStackView.spacing   = 20.0
         
         let contentViews = [headerView, credentialsView, loginStackView].removeNils()
         let contentStackView = UIStackView(arrangedSubviews: contentViews)
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         contentStackView.axis = .vertical
-        contentStackView.alignment = .fill
+        contentStackView.alignment = .center
         contentStackView.spacing   = 43.0
         contentStackView.setContentCompressionResistancePriority(UILayoutPriority.required, for: .vertical)
         contentView.addSubview(contentStackView)
@@ -535,37 +524,22 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             accessoryView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24.0),
             showingAccessoryConstraint,
 
-            termsAndConditionsLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 416),
+            termsAndConditionsLabel.widthAnchor.constraint(equalToConstant: 256.0),
 
-            loginButton.widthAnchor.constraint(lessThanOrEqualToConstant: 384.0),
-            loginButton.heightAnchor.constraint(equalToConstant: 64.0).withPriority(UILayoutPriority.defaultHigh),
+            loginButton.widthAnchor.constraint(equalToConstant: 256.0),
+            loginButton.heightAnchor.constraint(equalToConstant: 48.0).withPriority(UILayoutPriority.defaultHigh),
 
             changeUserButton.widthAnchor.constraint(equalTo: loginButton.widthAnchor),
             changeUserButton.heightAnchor.constraint(equalToConstant: 20.0),
 
             loginStackView.leadingAnchor.constraint(greaterThanOrEqualTo: view.readableContentGuide.leadingAnchor),
-            loginStackView.trailingAnchor.constraint(lessThanOrEqualTo: view.readableContentGuide.trailingAnchor)
-        ]
-
-        if let topLeftImageView = self.topLeftImageView {
-            topLeftImageView.translatesAutoresizingMaskIntoConstraints = false
-            contentView.addSubview(topLeftImageView)
-
-            constraints += [
-                NSLayoutConstraint(item: topLeftImageView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal,
-                                   toItem: topLeftImageView,attribute: NSLayoutAttribute.width,
-                                   multiplier: topLeftImageView.frame.size.height / topLeftImageView.frame.size.width).withPriority(.required),
-                topLeftImageView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.safeAreaOrFallbackLeadingAnchor, constant: 24).withPriority(.almostRequired),
-                topLeftImageView.topAnchor.constraint(equalTo: contentView.safeAreaOrFallbackTopAnchor, constant: 24).withPriority(.almostRequired),
-                topLeftImageView.bottomAnchor.constraint(lessThanOrEqualTo: headerView!.topAnchor, constant: -40).withPriority(.required),
-                topLeftImageView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.safeAreaOrFallbackTrailingAnchor, constant: contentView.frame.width * 0.666).withPriority(.required)
+            loginStackView.trailingAnchor.constraint(lessThanOrEqualTo: view.readableContentGuide.trailingAnchor),
             ]
-        }
 
         if let credentialsView = self.credentialsView {
             constraints += [
                 credentialsView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 20.0),
-                credentialsView.widthAnchor.constraint(lessThanOrEqualToConstant: 416.0),
+                credentialsView.widthAnchor.constraint(equalToConstant: 256.0),
                 usernameField.widthAnchor.constraint(equalTo: credentialsView.widthAnchor),
                 usernameField.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor)
             ]
@@ -601,7 +575,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             usernameField.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
             usernameField.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
 
-            passwordField.topAnchor.constraint(equalTo: usernameField.bottomAnchor),
+            passwordField.topAnchor.constraint(equalTo: usernameField.bottomAnchor, constant: 18),
             passwordField.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
             passwordField.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
 
