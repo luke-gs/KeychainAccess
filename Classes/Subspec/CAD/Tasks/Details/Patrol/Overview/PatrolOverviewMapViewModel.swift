@@ -15,6 +15,7 @@ open class PatrolOverviewMapViewModel: TasksMapViewModel {
     
     open func reloadFromModel(_ model: CADPatrolType) {
         self.patrol = model
+        loadTasks()
     }
     
     override open func loadTasks() {

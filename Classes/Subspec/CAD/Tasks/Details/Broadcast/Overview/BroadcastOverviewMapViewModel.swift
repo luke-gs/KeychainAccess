@@ -15,6 +15,7 @@ open class BroadcastOverviewMapViewModel: TasksMapViewModel {
 
     public func reloadFromModel(_ model: CADBroadcastType) {
         self.broadcast = model
+        loadTasks()
     }
 
     override open func loadTasks() {
