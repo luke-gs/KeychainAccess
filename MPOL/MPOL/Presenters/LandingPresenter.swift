@@ -60,8 +60,8 @@ public class LandingPresenter: AppGroupLandingPresenter {
             loginViewController.minimumPasswordLength = 1
 
             loginViewController.backgroundImage = #imageLiteral(resourceName: "Login")
-            loginViewController.headerView = LoginHeaderView(title: NSLocalizedString("Login to Continue", comment: "Login screen header title"), subtitle: nil, image: nil)
-            loginViewController.topLeftImage = #imageLiteral(resourceName: "MPOLIcon")
+            loginViewController.headerView = LoginHeaderView(title: NSLocalizedString("PSCore", comment: "Login screen header title"),
+                                                             subtitle: NSLocalizedString("Public Safety Mobile Platform", comment: "Login screen header subtitle"), image: #imageLiteral(resourceName: "MPOLIcon"))
             loginViewController.bottomLeftImage = #imageLiteral(resourceName: "GSMotoLogo")
 
 
