@@ -10,30 +10,40 @@ import UIKit
 import PromiseKit
 
 open class BroadcastTaskItemViewModel: TaskItemViewModel {
-    open private(set) var broadcast: CADBroadcastType?
-    
-    public init(broadcastNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
-        let captionText = "#\(broadcastNumber)"
-        super.init(taskItemIdentifier: broadcastNumber, iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, subtitleText: captionText)
+
+    /// The optional summary loaded during construction
+    open var broadcastSummary: CADBroadcastType?
+
+    // MARK: - Init
+
+    public init(broadcastNumber: String) {
+        super.init(taskItemIdentifier: broadcastNumber,
+                   viewModels: [BroadcastOverviewViewModel()])
         
         self.navTitle = NSLocalizedString("Broadcast details", comment: "")
-        self.compactNavTitle = itemName
-        
-        self.viewModels = [
-            BroadcastOverviewViewModel()
-        ]
+        self.subtitleText = "#\(broadcastNumber)"
+
+        // Load the summary if available
+        broadcastSummary = CADStateManager.shared.broadcastsById[broadcastNumber]
+        if broadcastSummary != nil {
+            reloadFromModel()
+        }
     }
     
-    public convenience init(broadcast: CADBroadcastType) {
-        self.init(broadcastNumber: broadcast.identifier,
-                  iconImage: AssetManager.shared.image(forKey: .tabBarTasks),
-                  iconTintColor: .disabledGray,
-                  color: .primaryGray,
-                  statusText: NSLocalizedString("Broadcast", comment: "").uppercased(),
-                  itemName: broadcast.title)
-        self.broadcast = broadcast
+    // MARK: - Generated properties
+
+    /// Return the loaded details
+    open var broadcastDetails: CADBroadcastType? {
+        return taskItemDetails as? CADBroadcastType
     }
-    
+
+    /// Return the loaded details or the summary if available
+    open var broadcastDetailsOrSummary: CADBroadcastType? {
+        return broadcastDetails ?? broadcastSummary
+    }
+
+    // MARK: - Methods
+
     open override func createViewController() -> UIViewController {
         let vc = TaskItemSidebarSplitViewController(viewModel: self)
         delegate = vc
@@ -41,22 +51,26 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
     }
 
     open override func loadTaskItem() -> Promise<CADTaskListItemModelType> {
-        broadcast = CADStateManager.shared.broadcastsById[taskItemIdentifier]
-        return Promise<CADTaskListItemModelType>.value(broadcast!)
+        // TODO: fetch from network
+        return Promise<CADTaskListItemModelType>.value(broadcastSummary!)
     }
 
     override open func reloadFromModel() {
-        if let broadcast = broadcast {
-            viewModels.forEach {
-                $0.reloadFromModel(broadcast)
-            }
+        guard let broadcast = self.broadcastDetailsOrSummary else { return }
+
+        iconImage = AssetManager.shared.image(forKey: .tabBarTasks)
+        iconTintColor = .disabledGray
+        color = .primaryGray
+        statusText = NSLocalizedString("Broadcast", comment: "").uppercased()
+        itemName = broadcast.title
+        compactNavTitle = itemName
+        compactTitle = statusText
+        compactSubtitle = subtitleText
+
+        viewModels.forEach {
+            $0.reloadFromModel(broadcast)
         }
         super.reloadFromModel()
     }
     
-    open override func refreshTask() -> Promise<Void> {
-        // TODO: Add method to CADStateManager to fetch individual broadcast
-        return Promise<Void>()
-    }
-
 }

@@ -25,11 +25,12 @@ open class LabeledTextField: UIView {
 
         label.translatesAutoresizingMaskIntoConstraints = false
         label.isAccessibilityElement = false
-        label.font = .systemFont(ofSize: 14.0, weight: UIFont.Weight.regular)
+        label.font = .systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
         addSubview(label)
 
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.font = .systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
+        textField.textAlignment = .right
         addSubview(textField)
 
         separator.translatesAutoresizingMaskIntoConstraints = false
@@ -37,17 +38,21 @@ open class LabeledTextField: UIView {
         addSubview(separator)
 
         NSLayoutConstraint.activate([
+
+            self.heightAnchor.constraint(equalToConstant: 64),
+
             label.leadingAnchor.constraint(equalTo: leadingAnchor),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor),
-            label.topAnchor.constraint(equalTo: topAnchor),
-            label.bottomAnchor.constraint(equalTo: textField.topAnchor, constant: -4),
+            label.trailingAnchor.constraint(equalTo: textField.leadingAnchor),
+            label.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            label.heightAnchor.constraint(equalToConstant: 19),
             
-            textField.leadingAnchor.constraint(equalTo: label.leadingAnchor),
-            textField.trailingAnchor.constraint(equalTo: label.trailingAnchor),
-            textField.bottomAnchor.constraint(equalTo: separator.topAnchor, constant: -11),
+            textField.leadingAnchor.constraint(equalTo: label.trailingAnchor),
+            textField.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            textField.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            textField.heightAnchor.constraint(equalToConstant: 19),
             
-            separator.leadingAnchor.constraint(equalTo: label.leadingAnchor),
-            separator.trailingAnchor.constraint(equalTo: label.trailingAnchor),
+            separator.leadingAnchor.constraint(equalTo: leadingAnchor),
+            separator.trailingAnchor.constraint(equalTo: trailingAnchor),
             separator.heightAnchor.constraint(equalToConstant: 1.0 / traitCollection.currentDisplayScale),
             separator.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])

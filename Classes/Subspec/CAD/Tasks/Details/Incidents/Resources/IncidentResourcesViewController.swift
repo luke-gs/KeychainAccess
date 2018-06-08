@@ -40,10 +40,8 @@ open class IncidentResourcesViewController: FormBuilderViewController, TaskDetai
             for item in section.items {
                 builder += SubtitleFormItem(title: item.title, subtitle: item.subtitle, image: item.icon).width(.column(1))
                     .onSelection { _ in
-                        if let resource = CADStateManager.shared.resourcesById[item.callsign] {
-                            let viewModel = ResourceTaskItemViewModel(resource: resource)
-                            self.present(TaskItemScreen.landing(viewModel: viewModel))
-                        }
+                        let viewModel = ResourceTaskItemViewModel(callsign: item.callsign)
+                        self.present(TaskItemScreen.landing(viewModel: viewModel))
                 }
                 for officer in item.officers {
                     builder += CustomFormItem(cellType: OfficerCell.self, reuseIdentifier: "OfficerCell")

@@ -37,7 +37,7 @@ open class SearchDisplayableViewController<T: SearchDisplayableDelegate, U: Sear
         NSLayoutConstraint.activate([
             searchBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchBarView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
+            ])
     }
 
     override open func construct(builder: FormBuilder) {
@@ -46,7 +46,8 @@ open class SearchDisplayableViewController<T: SearchDisplayableDelegate, U: Sear
 
         for section in 0..<viewModel.numberOfSections() {
             if viewModel.hasSections == true && viewModel.isSectionHidden(section) == false {
-                builder += HeaderFormItem(text: viewModel.title(for: section))
+                builder += LargeTextHeaderFormItem(text: viewModel.title(for: section))
+                    .separatorColor(.clear)
             }
             for row in 0..<viewModel.numberOfRows(in: section) {
                 let indexPath = IndexPath(row: row, section: section)
@@ -91,6 +92,7 @@ open class SearchDisplayableViewController<T: SearchDisplayableDelegate, U: Sear
 
     public func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let action = viewModel.searchAction() else { return }
+        searchBar.resignFirstResponder()
         self.loadingManager.state = .loading
         action.done {
             self.loadingManager.state = .loaded

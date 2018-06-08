@@ -10,30 +10,40 @@ import UIKit
 import PromiseKit
 
 open class PatrolTaskItemViewModel: TaskItemViewModel {
-    open private(set) var patrol: CADPatrolType?
-    
-    public init(patrolNumber: String, iconImage: UIImage?, iconTintColor: UIColor?, color: UIColor?, statusText: String?, itemName: String?) {
-        let captionText = "#\(patrolNumber)"
-        super.init(taskItemIdentifier: patrolNumber, iconImage: iconImage, iconTintColor: iconTintColor, color: color, statusText: statusText, itemName: itemName, subtitleText: captionText)
+
+    /// The optional summary loaded during construction
+    open var patrolSummary: CADPatrolType?
+
+    // MARK: - Init
+
+    public init(patrolNumber: String) {
+        super.init(taskItemIdentifier: patrolNumber,
+                   viewModels: [PatrolOverviewViewModel()])
 
         self.navTitle = NSLocalizedString("Patrol details", comment: "")
-        self.compactNavTitle = itemName
+        self.subtitleText = "#\(patrolNumber)"
 
-        self.viewModels = [
-            PatrolOverviewViewModel()
-        ]
+        // Load the summary if available
+        patrolSummary = CADStateManager.shared.patrolsById[patrolNumber]
+        if patrolSummary != nil {
+            reloadFromModel()
+        }
     }
     
-    public convenience init(patrol: CADPatrolType) {
-        self.init(patrolNumber: patrol.identifier,
-                  iconImage: AssetManager.shared.image(forKey: .tabBarTasks),
-                  iconTintColor: .disabledGray,
-                  color: .primaryGray,
-                  statusText: NSLocalizedString("Patrol", comment: "").uppercased(),
-                  itemName: patrol.type)
-        self.patrol = patrol
+    // MARK: - Generated properties
+
+    /// Return the loaded details
+    open var patrolDetails: CADPatrolType? {
+        return taskItemDetails as? CADPatrolType
     }
-    
+
+    /// Return the loaded details or the summary if available
+    open var patrolDetailsOrSummary: CADPatrolType? {
+        return patrolDetails ?? patrolSummary
+    }
+
+    // MARK: - Methods
+
     open override func createViewController() -> UIViewController {
         let vc = TaskItemSidebarSplitViewController(viewModel: self)
         delegate = vc
@@ -41,22 +51,26 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
     }
 
     open override func loadTaskItem() -> Promise<CADTaskListItemModelType> {
-        patrol = CADStateManager.shared.patrolsById[taskItemIdentifier]
-        return Promise<CADTaskListItemModelType>.value(patrol!)
+        // TODO: fetch from network
+        return Promise<CADTaskListItemModelType>.value(patrolSummary!)
     }
 
     override open func reloadFromModel() {
-        if let patrol = patrol {
-            viewModels.forEach {
-                $0.reloadFromModel(patrol)
-            }
+        guard let patrol = self.patrolDetailsOrSummary else { return }
+
+        iconImage = AssetManager.shared.image(forKey: .tabBarTasks)
+        iconTintColor = .disabledGray
+        color = .primaryGray
+        statusText = NSLocalizedString("Patrol", comment: "").uppercased()
+        itemName = patrol.type
+        compactNavTitle = itemName
+        compactTitle = statusText
+        compactSubtitle = subtitleText
+
+        viewModels.forEach {
+            $0.reloadFromModel(patrol)
         }
         super.reloadFromModel()
-    }
-    
-    open override func refreshTask() -> Promise<Void> {
-        // TODO: Add method to CADStateManager to fetch individual patrol
-        return Promise<Void>()
     }
     
 }
