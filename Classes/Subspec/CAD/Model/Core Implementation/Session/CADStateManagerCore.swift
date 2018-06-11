@@ -28,7 +28,7 @@ open class CADStateManagerCore: CADStateManagerBase {
 
     open override func fetchCurrentOfficerDetails() -> Promise<CADEmployeeDetailsType> {
         if let username = UserSession.current.user?.username {
-            let request = CADEmployeeDetailsRequestCore(identifier: username)
+            let request = CADGetDetailsRequestCore(identifier: username)
             let promise: Promise<CADEmployeeDetailsCore> = apiManager.cadEmployeeDetails(with: request, pathTemplate: nil)
             return promise.map { [unowned self] details in
                 self.officerDetails = details

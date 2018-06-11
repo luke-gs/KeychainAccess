@@ -1,5 +1,5 @@
 //
-//  CADBaseDetailsRequestCore.swift
+//  CADGetDetailsRequestCore.swift
 //  MPOLKit
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -7,8 +7,8 @@
 
 import Foundation
 
-/// PSCore base implementation for a details request based on an identifier
-open class CADBaseDetailsRequestCore: Codable {
+/// PSCore implementation for a generic get details request, that fetches details based on an identifier
+open class CADGetDetailsRequestCore: CADGetDetailsRequestType {
 
     public init(identifier: String) {
         self.identifier = identifier

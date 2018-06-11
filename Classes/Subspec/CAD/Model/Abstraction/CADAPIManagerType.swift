@@ -32,13 +32,13 @@ public protocol CADAPIManagerType {
     func cadSyncSummaries<ResponseType: CADSyncResponseType>(with request: CADSyncRequestType, pathTemplate: String?) -> Promise<ResponseType>
 
     /// Fetch details about an employee
-    func cadEmployeeDetails<ResponseType: CADEmployeeDetailsType>(with request: CADEmployeeDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType>
+    func cadEmployeeDetails<ResponseType: CADEmployeeDetailsType>(with request: CADGetDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType>
 
     /// Fetch details about an incident
-    func cadIncidentDetails<ResponseType: CADIncidentDetailsType>(with request: CADIncidentDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType>
+    func cadIncidentDetails<ResponseType: CADIncidentDetailsType>(with request: CADGetDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType>
 
     /// Fetch details about a resource
-    func cadResourceDetails<ResponseType: CADResourceDetailsType>(with request: CADResourceDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType>
+    func cadResourceDetails<ResponseType: CADResourceDetailsType>(with request: CADGetDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType>
 }
 
 // Convenience extension for default paths (since you cant have default params in protocol)
@@ -56,15 +56,15 @@ public extension CADAPIManagerType {
         return cadSyncSummaries(with: request, pathTemplate: nil)
     }
 
-    func cadEmployeeDetails<ResponseType: CADEmployeeDetailsType>(with request: CADEmployeeDetailsRequestType) -> Promise<ResponseType> {
+    func cadEmployeeDetails<ResponseType: CADEmployeeDetailsType>(with request: CADGetDetailsRequestType) -> Promise<ResponseType> {
         return cadEmployeeDetails(with: request, pathTemplate: nil)
     }
 
-    func cadIncidentDetails<ResponseType: CADIncidentDetailsType>(with request: CADIncidentDetailsRequestType) -> Promise<ResponseType> {
+    func cadIncidentDetails<ResponseType: CADIncidentDetailsType>(with request: CADGetDetailsRequestType) -> Promise<ResponseType> {
         return cadIncidentDetails(with: request, pathTemplate: nil)
     }
 
-    func cadResourceDetails<ResponseType: CADResourceDetailsType>(with request: CADResourceDetailsRequestType) -> Promise<ResponseType> {
+    func cadResourceDetails<ResponseType: CADResourceDetailsType>(with request: CADGetDetailsRequestType) -> Promise<ResponseType> {
         return cadResourceDetails(with: request, pathTemplate: nil)
     }
 
