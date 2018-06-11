@@ -458,6 +458,9 @@
 		96707B4F2096930700C4BFDC /* APIManager+CAD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96707B4E2096930600C4BFDC /* APIManager+CAD.swift */; };
 		96728C0820CF2B1200B82A53 /* CADIncidentDetailsRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96728C0720CF2B1200B82A53 /* CADIncidentDetailsRequestType.swift */; };
 		96728C0A20CF2B3400B82A53 /* CADResourceDetailsRequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96728C0920CF2B3400B82A53 /* CADResourceDetailsRequestType.swift */; };
+		96728C0C20CF37A600B82A53 /* CADBaseDetailsRequestCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96728C0B20CF37A600B82A53 /* CADBaseDetailsRequestCore.swift */; };
+		96728C0E20CF389F00B82A53 /* CADIncidentDetailsRequestCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96728C0D20CF389F00B82A53 /* CADIncidentDetailsRequestCore.swift */; };
+		96728C1020CF38AF00B82A53 /* CADResourceDetailsRequestCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96728C0F20CF38AF00B82A53 /* CADResourceDetailsRequestCore.swift */; };
 		9672C7E7200429C1005DE6BE /* StatusChangeReasonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9672C7E6200429C1005DE6BE /* StatusChangeReasonViewController.swift */; };
 		9674E0E71FC68015000702F8 /* LoadingStateLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9674E0E61FC68015000702F8 /* LoadingStateLoadingView.swift */; };
 		9674E0E91FC68031000702F8 /* LoadingStateErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9674E0E81FC68031000702F8 /* LoadingStateErrorView.swift */; };
@@ -1357,6 +1360,9 @@
 		96707B4E2096930600C4BFDC /* APIManager+CAD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+CAD.swift"; sourceTree = "<group>"; };
 		96728C0720CF2B1200B82A53 /* CADIncidentDetailsRequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADIncidentDetailsRequestType.swift; sourceTree = "<group>"; };
 		96728C0920CF2B3400B82A53 /* CADResourceDetailsRequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADResourceDetailsRequestType.swift; sourceTree = "<group>"; };
+		96728C0B20CF37A600B82A53 /* CADBaseDetailsRequestCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADBaseDetailsRequestCore.swift; sourceTree = "<group>"; };
+		96728C0D20CF389F00B82A53 /* CADIncidentDetailsRequestCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADIncidentDetailsRequestCore.swift; sourceTree = "<group>"; };
+		96728C0F20CF38AF00B82A53 /* CADResourceDetailsRequestCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CADResourceDetailsRequestCore.swift; sourceTree = "<group>"; };
 		9672C7E6200429C1005DE6BE /* StatusChangeReasonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusChangeReasonViewController.swift; sourceTree = "<group>"; };
 		9674E0E61FC68015000702F8 /* LoadingStateLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStateLoadingView.swift; sourceTree = "<group>"; };
 		9674E0E81FC68031000702F8 /* LoadingStateErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStateErrorView.swift; sourceTree = "<group>"; };
@@ -2326,9 +2332,12 @@
 		2744E3832051DD8500561A8F /* Requests */ = {
 			isa = PBXGroup;
 			children = (
+				96728C0B20CF37A600B82A53 /* CADBaseDetailsRequestCore.swift */,
 				2744E3852051DD8500561A8F /* CADBookOffRequestCore.swift */,
 				2744E3882051DD8500561A8F /* CADBookOnRequestCore.swift */,
 				9617929A209AA6B0001DD4CB /* CADEmployeeDetailsRequestCore.swift */,
+				96728C0D20CF389F00B82A53 /* CADIncidentDetailsRequestCore.swift */,
+				96728C0F20CF38AF00B82A53 /* CADResourceDetailsRequestCore.swift */,
 				2744E3842051DD8500561A8F /* CADSyncRequestCore.swift */,
 			);
 			path = Requests;
@@ -5006,6 +5015,7 @@
 				EA76ECF11F578DCA00524830 /* LocationAdvanceOptions.swift in Sources */,
 				12A8DB471F5FD63400A06005 /* DirectoryManager.swift in Sources */,
 				27C9C7651F95736500799855 /* BookOnLandingViewModel.swift in Sources */,
+				96728C1020CF38AF00B82A53 /* CADResourceDetailsRequestCore.swift in Sources */,
 				EA8B66481F38014000F09716 /* EntitySummaryDisplayable.swift in Sources */,
 				19FEC9891F440326005692A9 /* NetworkErrorDefinition.swift in Sources */,
 				BC9C7DCE1F0DED6600DFFE83 /* Manifest.swift in Sources */,
@@ -5089,6 +5099,7 @@
 				27C9C7611F95692400799855 /* BookOnLandingViewController.swift in Sources */,
 				DB528ECF20046BFC008914EB /* ValidationRules.swift in Sources */,
 				4650F3172018172300D9A3E6 /* AVMediaViewController.swift in Sources */,
+				96728C0C20CF37A600B82A53 /* CADBaseDetailsRequestCore.swift in Sources */,
 				BC9C7E1A1F0DED6600DFFE83 /* SelectableButton.swift in Sources */,
 				46CF4F8F20281B5C00DD040A /* MediaAssetCache.swift in Sources */,
 				BC9C7E251F0DED6600DFFE83 /* EntityCollectionViewCell.swift in Sources */,
@@ -5370,6 +5381,7 @@
 				EA2189ED1F5FAF110057048E /* SearchResultModelable.swift in Sources */,
 				19F8DDB31F4D7D2400D84DA1 /* APIManagerConfigurable.swift in Sources */,
 				9689CA512036492F0001D993 /* CADIncidentType.swift in Sources */,
+				96728C0E20CF389F00B82A53 /* CADIncidentDetailsRequestCore.swift in Sources */,
 				EA3BA38A1F7A1555000E4AD8 /* ReloadValidationStateVisitor.swift in Sources */,
 				BC9C7E471F0DED6600DFFE83 /* SourceBar.swift in Sources */,
 				960CBB441FEA191E00A33E95 /* ThemeConstants.swift in Sources */,
