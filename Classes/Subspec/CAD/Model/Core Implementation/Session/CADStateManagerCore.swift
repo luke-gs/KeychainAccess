@@ -26,10 +26,10 @@ open class CADStateManagerCore: CADStateManagerBase {
 
     // MARK: - Officer
 
-    open override func fetchCurrentOfficerDetails() -> Promise<CADEmployeeDetailsResponseType> {
+    open override func fetchCurrentOfficerDetails() -> Promise<CADEmployeeDetailsType> {
         if let username = UserSession.current.user?.username {
-            let request = CADEmployeeDetailsRequestCore(employeeNumber: username)
-            let promise: Promise<CADEmployeeDetailsResponseCore> = apiManager.cadEmployeeDetails(with: request, pathTemplate: nil)
+            let request = CADEmployeeDetailsRequestCore(identifier: username)
+            let promise: Promise<CADEmployeeDetailsCore> = apiManager.cadEmployeeDetails(with: request, pathTemplate: nil)
             return promise.map { [unowned self] details in
                 self.officerDetails = details
                 return details

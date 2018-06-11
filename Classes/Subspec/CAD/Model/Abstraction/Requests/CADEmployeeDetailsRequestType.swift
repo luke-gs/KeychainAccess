@@ -11,6 +11,8 @@ import Foundation
 public protocol CADEmployeeDetailsRequestType: CodableRequestParameters {
 
     // MARK: - Request Parameters
-    var employeeNumber : String { get }
+
+    /// The identifier for this incident, could be uuid or employeeNumber, depending on client
+    var identifier: String { get }
 
 }

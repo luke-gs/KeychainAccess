@@ -37,8 +37,19 @@ extension APIManager: CADAPIManagerType {
     }
 
     /// Fetch details about an employee
-    public func cadEmployeeDetails<ResponseType: CADEmployeeDetailsResponseType>(with request: CADEmployeeDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType> {
-        return performRequest(request, pathTemplate: pathTemplate ?? "/cad/officer/username/{employeeNumber}")
+    public func cadEmployeeDetails<ResponseType: CADEmployeeDetailsType>(with request: CADEmployeeDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType> {
+        return performRequest(request, pathTemplate: pathTemplate ?? "/cad/officer/username/{identifier}", method: .get)
     }
+
+    /// Fetch details about an incident
+    public func cadIncidentDetails<ResponseType: CADIncidentDetailsType>(with request: CADIncidentDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType> {
+        return performRequest(request, pathTemplate: pathTemplate ?? "/cad/incident/{identifier}", method: .get)
+    }
+
+    /// Fetch details about a resource
+    public func cadResourceDetails<ResponseType: CADResourceDetailsType>(with request: CADResourceDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType> {
+        return performRequest(request, pathTemplate: pathTemplate ?? "/cad/resource/{identifier}", method: .get)
+    }
+
 }
 

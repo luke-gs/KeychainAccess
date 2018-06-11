@@ -34,7 +34,7 @@ open class CADStateManagerBase: CADStateManagerType {
     // MARK: - CADStateManagerType Properties
 
     /// The logged in officer details
-    open var officerDetails: CADEmployeeDetailsResponseType?
+    open var officerDetails: CADEmployeeDetailsType?
 
     /// The patrol group
     open var patrolGroup: String? {
@@ -352,7 +352,7 @@ open class CADStateManagerBase: CADStateManagerType {
     }
 
     /// Fetch the logged in officer's details
-    open func fetchCurrentOfficerDetails() -> Promise<CADEmployeeDetailsResponseType> {
+    open func fetchCurrentOfficerDetails() -> Promise<CADEmployeeDetailsType> {
         MPLRequiresConcreteImplementation()
     }
 
