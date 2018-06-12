@@ -9,17 +9,17 @@
 import UIKit
 
 
-internal struct KeyboardAnimationDetails {
-    let startFrame: CGRect
-    let endFrame: CGRect
-    let duration: TimeInterval
-    let curve: UIViewAnimationOptions
+public struct KeyboardAnimationDetails {
+    public let startFrame: CGRect
+    public let endFrame: CGRect
+    public let duration: TimeInterval
+    public let curve: UIViewAnimationOptions
 }
 
-internal extension Notification {
+public extension Notification {
     
     /// Returns the keyboard animation details from the notification, if it is a keyboard update notification.
-    func keyboardAnimationDetails() -> KeyboardAnimationDetails? {
+    public func keyboardAnimationDetails() -> KeyboardAnimationDetails? {
         guard let userInfo = self.userInfo,
             let startFrame = userInfo[UIKeyboardFrameBeginUserInfoKey] as? CGRect,
             let endframe   = userInfo[UIKeyboardFrameEndUserInfoKey] as? CGRect,
