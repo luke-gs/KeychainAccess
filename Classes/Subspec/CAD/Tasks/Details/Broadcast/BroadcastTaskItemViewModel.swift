@@ -55,7 +55,7 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
         if let broadcastSummary = broadcastSummary {
             return Promise<CADTaskListItemModelType>.value(broadcastSummary)
         }
-        return Promise(error: TaskItemViewModelError.itemNotFound)
+        return Promise(error: CADStateManagerError.itemNotFound)
     }
 
     override open func reloadFromModel() {

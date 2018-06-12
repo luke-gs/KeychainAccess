@@ -55,7 +55,7 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
         if let patrolSummary = patrolSummary {
             return Promise<CADTaskListItemModelType>.value(patrolSummary)
         }
-        return Promise(error: TaskItemViewModelError.itemNotFound)
+        return Promise(error: CADStateManagerError.itemNotFound)
     }
 
     override open func reloadFromModel() {

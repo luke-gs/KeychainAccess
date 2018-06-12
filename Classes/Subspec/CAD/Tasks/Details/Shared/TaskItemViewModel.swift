@@ -112,15 +112,3 @@ open class TaskItemViewModel {
         return loadTask()
     }
 }
-
-/// Enum for task item view model errors
-public enum TaskItemViewModelError: LocalizedError {
-    case itemNotFound
-
-    public var errorDescription: String? {
-        switch self {
-        case .itemNotFound:
-            return NSLocalizedString("The requested item was not found.", comment: "")
-        }
-    }
-}

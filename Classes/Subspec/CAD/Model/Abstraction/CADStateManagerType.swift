@@ -167,11 +167,22 @@ open class CADLocalNotifications {
 }
 
 /// Enum for state manager errors
-public enum CADStateManagerError: Error {
+public enum CADStateManagerError: LocalizedError {
     case notLoggedIn
     case notBookedOn
-}
+    case itemNotFound
 
+    public var errorDescription: String? {
+        switch self {
+        case .notLoggedIn:
+            return NSLocalizedString("You must be logged on to perform this action.", comment: "")
+        case .notBookedOn:
+            return NSLocalizedString("You must be booked on to perform this action.", comment: "")
+        case .itemNotFound:
+            return NSLocalizedString("The requested item was not found.", comment: "")
+        }
+    }
+}
 /// Enum for different sync modes
 public enum CADSyncMode: Equatable {
     case none
