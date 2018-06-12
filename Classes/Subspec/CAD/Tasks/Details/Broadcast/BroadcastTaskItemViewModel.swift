@@ -51,8 +51,11 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
     }
 
     open override func loadTaskItem() -> Promise<CADTaskListItemModelType> {
-        // TODO: fetch from network
-        return Promise<CADTaskListItemModelType>.value(broadcastSummary!)
+        // No additional information needs to be fetched
+        if let broadcastSummary = broadcastSummary {
+            return Promise<CADTaskListItemModelType>.value(broadcastSummary)
+        }
+        return Promise(error: TaskItemViewModelError.itemNotFound)
     }
 
     override open func reloadFromModel() {

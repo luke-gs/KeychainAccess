@@ -51,8 +51,11 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
     }
 
     open override func loadTaskItem() -> Promise<CADTaskListItemModelType> {
-        // TODO: fetch from network
-        return Promise<CADTaskListItemModelType>.value(patrolSummary!)
+        // No additional information needs to be fetched
+        if let patrolSummary = patrolSummary {
+            return Promise<CADTaskListItemModelType>.value(patrolSummary)
+        }
+        return Promise(error: TaskItemViewModelError.itemNotFound)
     }
 
     override open func reloadFromModel() {

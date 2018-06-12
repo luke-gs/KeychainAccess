@@ -66,9 +66,10 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
     }
 
     open override func loadTaskItem() -> Promise<CADTaskListItemModelType> {
-        // TODO: fetch from network
-        updateGlassBar()
-        return Promise<CADTaskListItemModelType>.value(incidentSummary!)
+        return CADStateManager.shared.getIncidentDetails(identifier: taskItemIdentifier).map { [weak self] incident in
+            self?.updateGlassBar()
+            return incident
+        }
     }
 
     override open func reloadFromModel() {

@@ -57,8 +57,10 @@ open class ResourceTaskItemViewModel: TaskItemViewModel {
     }
 
     open override func loadTaskItem() -> Promise<CADTaskListItemModelType> {
-        // TODO: fetch from network
-        return Promise<CADTaskListItemModelType>.value(resourceSummary!)
+        // Use map to convert resource to CADTaskListItemModelType and keep compiler happy
+        return CADStateManager.shared.getResourceDetails(identifier: taskItemIdentifier).map { resource in
+            return resource
+        }
     }
 
     open override func reloadFromModel() {
