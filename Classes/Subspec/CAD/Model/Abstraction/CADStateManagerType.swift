@@ -100,10 +100,16 @@ public protocol CADStateManagerType {
     /// Return all officers linked to a resource
     func officersForResource(callsign: String) -> [CADOfficerType]
 
-    // MARK: - Officer
+    // MARK: - Get Details
 
-    /// Fetch the logged in officer's details
-    func fetchCurrentOfficerDetails() -> Promise<CADEmployeeDetailsType>
+    /// Fetch details for a specific employee, or nil for current user
+    func getEmployeeDetails(identifier: String?) -> Promise<CADEmployeeDetailsType>
+
+    /// Fetch details for a specific incident
+    func getIncidentDetails(identifier: String) -> Promise<CADIncidentDetailsType>
+
+    /// Fetch details for a specific resource
+    func getResourceDetails(identifier: String) -> Promise<CADResourceDetailsType>
 
     // MARK: - Book On
 
