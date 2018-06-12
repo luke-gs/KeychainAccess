@@ -10,10 +10,9 @@ import Foundation
 import CoreLocation
 
 /// Protocol for a class representing a resource (aka callsign)
-public protocol CADResourceType: class, CADTaskListItemModelType {
+public protocol CADResourceType: class, Codable, CADTaskListItemModelType {
 
     // MARK: - Network
-    var activityLog: [CADActivityLogItemType] { get set }
     var assignedIncidents: [String] { get set}
     var callsign: String { get set }
     var category: String? { get set }
@@ -52,6 +51,17 @@ public protocol CADResourceType: class, CADTaskListItemModelType {
     /// Equipment list as a string delimited by `separator`. `nil` if no `equipment` count
     func equipmentListString(separator: String) -> String?
 }
+
+
+/// Protocol for a class representing the full details for a resource.
+///
+/// This information only gets loaded when viewing an individual resource.
+public protocol CADResourceDetailsType: CADResourceType {
+
+    // MARK: - Network
+    var activityLog: [CADActivityLogItemType] { get set }
+}
+
 
 // MARK: - Equality
 public func ==(lhs: CADResourceType?, rhs: CADResourceType?) -> Bool {

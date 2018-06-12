@@ -16,7 +16,7 @@ public protocol CADStateManagerType {
     // MARK: - Properties
 
     /// The logged in officer details
-    var officerDetails: CADEmployeeDetailsResponseType? { get }
+    var officerDetails: CADEmployeeDetailsType? { get }
 
     /// The current patrol group
     var patrolGroup: String? { get set }
@@ -100,10 +100,16 @@ public protocol CADStateManagerType {
     /// Return all officers linked to a resource
     func officersForResource(callsign: String) -> [CADOfficerType]
 
-    // MARK: - Officer
+    // MARK: - Get Details
 
-    /// Fetch the logged in officer's details
-    func fetchCurrentOfficerDetails() -> Promise<CADEmployeeDetailsResponseType>
+    /// Fetch details for a specific employee, or nil for current user
+    func getEmployeeDetails(identifier: String?) -> Promise<CADEmployeeDetailsType>
+
+    /// Fetch details for a specific incident
+    func getIncidentDetails(identifier: String) -> Promise<CADIncidentDetailsType>
+
+    /// Fetch details for a specific resource
+    func getResourceDetails(identifier: String) -> Promise<CADResourceDetailsType>
 
     // MARK: - Book On
 
@@ -161,11 +167,22 @@ open class CADLocalNotifications {
 }
 
 /// Enum for state manager errors
-public enum CADStateManagerError: Error {
+public enum CADStateManagerError: LocalizedError {
     case notLoggedIn
     case notBookedOn
-}
+    case itemNotFound
 
+    public var errorDescription: String? {
+        switch self {
+        case .notLoggedIn:
+            return NSLocalizedString("You must be logged on to perform this action.", comment: "")
+        case .notBookedOn:
+            return NSLocalizedString("You must be booked on to perform this action.", comment: "")
+        case .itemNotFound:
+            return NSLocalizedString("The requested item was not found.", comment: "")
+        }
+    }
+}
 /// Enum for different sync modes
 public enum CADSyncMode: Equatable {
     case none

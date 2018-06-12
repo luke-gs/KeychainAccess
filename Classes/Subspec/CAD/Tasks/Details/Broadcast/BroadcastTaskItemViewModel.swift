@@ -17,8 +17,7 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
     // MARK: - Init
 
     public init(broadcastNumber: String) {
-        super.init(taskItemIdentifier: broadcastNumber,
-                   viewModels: [BroadcastOverviewViewModel()])
+        super.init(taskItemIdentifier: broadcastNumber)
         
         self.navTitle = NSLocalizedString("Broadcast details", comment: "")
         self.subtitleText = "#\(broadcastNumber)"
@@ -44,6 +43,10 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
 
     // MARK: - Methods
 
+    open override func createViewModels() -> [TaskDetailsViewModel] {
+        return [BroadcastOverviewViewModel()]
+    }
+
     open override func createViewController() -> UIViewController {
         let vc = TaskItemSidebarSplitViewController(viewModel: self)
         delegate = vc
@@ -51,8 +54,11 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
     }
 
     open override func loadTaskItem() -> Promise<CADTaskListItemModelType> {
-        // TODO: fetch from network
-        return Promise<CADTaskListItemModelType>.value(broadcastSummary!)
+        // No additional information needs to be fetched
+        if let broadcastSummary = broadcastSummary {
+            return Promise<CADTaskListItemModelType>.value(broadcastSummary)
+        }
+        return Promise(error: CADStateManagerError.itemNotFound)
     }
 
     override open func reloadFromModel() {

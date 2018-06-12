@@ -17,11 +17,7 @@ open class ResourceTaskItemViewModel: TaskItemViewModel {
     // MARK: - Init
 
     public init(callsign: String) {
-        super.init(taskItemIdentifier: callsign,
-                   viewModels: [ResourceOverviewViewModel(),
-                                ResourceOfficerListViewModel(),
-                                ResourceActivityLogViewModel()
-            ])
+        super.init(taskItemIdentifier: callsign)
 
         if callsign == CADStateManager.shared.currentResource?.callsign {
             self.navTitle = NSLocalizedString("My call sign", comment: "")
@@ -50,6 +46,12 @@ open class ResourceTaskItemViewModel: TaskItemViewModel {
 
     // MARK: - Methods
 
+    open override func createViewModels() -> [TaskDetailsViewModel] {
+        return [ResourceOverviewViewModel(),
+                ResourceOfficerListViewModel(),
+                ResourceActivityLogViewModel()]
+    }
+
     open override func createViewController() -> UIViewController {
         let vc = TaskItemSidebarSplitViewController(viewModel: self)
         delegate = vc
@@ -57,8 +59,10 @@ open class ResourceTaskItemViewModel: TaskItemViewModel {
     }
 
     open override func loadTaskItem() -> Promise<CADTaskListItemModelType> {
-        // TODO: fetch from network
-        return Promise<CADTaskListItemModelType>.value(resourceSummary!)
+        // Use map to convert resource to CADTaskListItemModelType and keep compiler happy
+        return CADStateManager.shared.getResourceDetails(identifier: taskItemIdentifier).map { resource in
+            return resource
+        }
     }
 
     open override func reloadFromModel() {

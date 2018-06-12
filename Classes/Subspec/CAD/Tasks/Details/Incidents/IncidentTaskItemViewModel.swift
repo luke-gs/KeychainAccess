@@ -23,11 +23,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
     // MARK: - Init
 
     public init(incidentNumber: String) {
-        super.init(taskItemIdentifier: incidentNumber,
-                   viewModels: [IncidentOverviewViewModel(),
-                                IncidentAssociationsViewModel(),
-                                IncidentResourcesViewModel(),
-                                IncidentNarrativeViewModel()])
+        super.init(taskItemIdentifier: incidentNumber)
 
         self.navTitle = NSLocalizedString("Incident details", comment: "")
         self.subtitleText = "#\(incidentNumber)"
@@ -59,6 +55,13 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
 
     // MARK: - Methods
 
+    open override func createViewModels() -> [TaskDetailsViewModel] {
+        return [IncidentOverviewViewModel(),
+                IncidentAssociationsViewModel(),
+                IncidentResourcesViewModel(),
+                IncidentNarrativeViewModel()]
+    }
+
     open override func createViewController() -> UIViewController {
         let vc = TaskItemSidebarSplitViewController(viewModel: self)
         delegate = vc
@@ -66,9 +69,10 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
     }
 
     open override func loadTaskItem() -> Promise<CADTaskListItemModelType> {
-        // TODO: fetch from network
-        updateGlassBar()
-        return Promise<CADTaskListItemModelType>.value(incidentSummary!)
+        return CADStateManager.shared.getIncidentDetails(identifier: taskItemIdentifier).map { [weak self] incident in
+            self?.updateGlassBar()
+            return incident
+        }
     }
 
     override open func reloadFromModel() {

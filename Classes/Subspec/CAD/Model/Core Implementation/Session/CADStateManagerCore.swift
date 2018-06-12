@@ -24,21 +24,6 @@ open class CADStateManagerCore: CADStateManagerBase {
         updateScheduledNotifications()
     }
 
-    // MARK: - Officer
-
-    open override func fetchCurrentOfficerDetails() -> Promise<CADEmployeeDetailsResponseType> {
-        if let username = UserSession.current.user?.username {
-            let request = CADEmployeeDetailsRequestCore(employeeNumber: username)
-            let promise: Promise<CADEmployeeDetailsResponseCore> = apiManager.cadEmployeeDetails(with: request, pathTemplate: nil)
-            return promise.map { [unowned self] details in
-                self.officerDetails = details
-                return details
-            }
-        }
-        
-        return Promise(error: CADStateManagerError.notLoggedIn)
-    }
-
     // MARK: - Book On
 
     /// Book on to a shift
@@ -164,24 +149,60 @@ open class CADStateManagerCore: CADStateManagerBase {
         }
     }
 
+    // MARK: - Get Details
+
+    /// Fetch details for a specific employee, or nil for current user
+    open override func getEmployeeDetails(identifier: String? = nil) -> Promise<CADEmployeeDetailsType> {
+        if let username = identifier ?? UserSession.current.user?.username {
+            let request = CADGetDetailsRequestCore(identifier: username)
+            // Provide specific core model type information to generic call via map with explicit type
+            return apiManager.cadEmployeeDetails(with: request).map({ (details: CADEmployeeDetailsCore) -> CADEmployeeDetailsType in
+                return details
+            })
+        }
+        return Promise(error: CADStateManagerError.notLoggedIn)
+    }
+
+    /// Fetch details for a specific incident
+    open override func getIncidentDetails(identifier: String) -> Promise<CADIncidentDetailsType> {
+        let request = CADGetDetailsRequestCore(identifier: identifier)
+        // Provide specific core model type information to generic call via map with explicit type
+        return apiManager.cadIncidentDetails(with: request).map({ (details: CADIncidentCore) -> CADIncidentDetailsType in
+            return details
+        })
+    }
+
+    /// Fetch details for a specific resource
+    open override func getResourceDetails(identifier: String) -> Promise<CADResourceDetailsType> {
+        let request = CADGetDetailsRequestCore(identifier: identifier)
+        // Provide specific core model type information to generic call via map with explicit type
+        return apiManager.cadResourceDetails(with: request).map({ (details: CADResourceCore) -> CADResourceDetailsType in
+            return details
+        })
+    }
+
     // MARK: - Sync
 
     /// Perform initial sync after login or launching app
     open override func syncInitial() -> Promise<Void> {
         return firstly {
             // Get details about logged in user
-            return self.fetchCurrentOfficerDetails()
-            }.then { [unowned self] _ in
-                // Get new manifest items
-                return self.syncManifestItems(categories: nil)
-            }.then { [unowned self] _ in
-                // Get sync details
-                return self.syncDetails()
-            }.done { [unowned self] _ -> Void in
-                // Clear any outstanding shift ending notifications if we aren't booked on
-                if self.lastBookOn == nil {
-                    NotificationManager.shared.removeLocalNotification(CADLocalNotifications.shiftEnding)
-                }
+            return getEmployeeDetails()
+        }.map { [unowned self] details -> CADEmployeeDetailsType in
+            // Store officer details
+            self.officerDetails = details
+            return details
+        }.then { [unowned self] _ in
+            // Get new manifest items
+            return self.syncManifestItems(categories: nil)
+        }.then { [unowned self] _ in
+            // Get sync details
+            return self.syncDetails()
+        }.done { [unowned self] _ -> Void in
+            // Clear any outstanding shift ending notifications if we aren't booked on
+            if self.lastBookOn == nil {
+                NotificationManager.shared.removeLocalNotification(CADLocalNotifications.shiftEnding)
+            }
         }
     }
 

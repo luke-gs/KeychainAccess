@@ -17,8 +17,7 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
     // MARK: - Init
 
     public init(patrolNumber: String) {
-        super.init(taskItemIdentifier: patrolNumber,
-                   viewModels: [PatrolOverviewViewModel()])
+        super.init(taskItemIdentifier: patrolNumber)
 
         self.navTitle = NSLocalizedString("Patrol details", comment: "")
         self.subtitleText = "#\(patrolNumber)"
@@ -44,6 +43,10 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
 
     // MARK: - Methods
 
+    open override func createViewModels() -> [TaskDetailsViewModel] {
+        return [PatrolOverviewViewModel()]
+    }
+
     open override func createViewController() -> UIViewController {
         let vc = TaskItemSidebarSplitViewController(viewModel: self)
         delegate = vc
@@ -51,8 +54,11 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
     }
 
     open override func loadTaskItem() -> Promise<CADTaskListItemModelType> {
-        // TODO: fetch from network
-        return Promise<CADTaskListItemModelType>.value(patrolSummary!)
+        // No additional information needs to be fetched
+        if let patrolSummary = patrolSummary {
+            return Promise<CADTaskListItemModelType>.value(patrolSummary)
+        }
+        return Promise(error: CADStateManagerError.itemNotFound)
     }
 
     override open func reloadFromModel() {
