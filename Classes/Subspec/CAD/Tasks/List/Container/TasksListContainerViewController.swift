@@ -12,13 +12,13 @@ import PromiseKit
 /// Container view controller for showing task list, source bar and dynamic header
 open class TasksListContainerViewController: UIViewController, LoadableViewController {
 
-    open let viewModel: TasksListContainerViewModel
+    public let viewModel: TasksListContainerViewModel
 
     /// The loading state manager for when tasks are being loaded
-    open let loadingManager: LoadingStateManager = LoadingStateManager()
+    public let loadingManager: LoadingStateManager = LoadingStateManager()
 
     /// The content view that is shown once data is loaded
-    open let contentView: UIView = UIView(frame: .zero)
+    public let contentView: UIView = UIView(frame: .zero)
 
     /// The list of tasks
     open private(set) var tasksListViewController: TasksListViewController!

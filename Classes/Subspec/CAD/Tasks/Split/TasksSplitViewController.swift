@@ -21,12 +21,12 @@ open class TasksSplitViewController: MPOLSplitViewController {
     public static let defaultSplitWidth: CGFloat = 320
     public let extendedNavbarHeight: CGFloat = 44
     
-    open let viewModel: TasksSplitViewModel
+    public let viewModel: TasksSplitViewModel
 
-    open let masterVC: UIViewController
-    open let detailVC: UIViewController
-    open let segmentedControl: UISegmentedControl
-    open let tasksListContainer: LoadableViewController?
+    public let masterVC: UIViewController
+    public let detailVC: UIViewController
+    public let segmentedControl: UISegmentedControl
+    public let tasksListContainer: LoadableViewController?
     open var masterRightButtonItems: [UIBarButtonItem]?
     private var compactNavBarExtension: NavigationBarExtension?
 

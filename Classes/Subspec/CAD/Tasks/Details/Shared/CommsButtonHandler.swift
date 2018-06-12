@@ -11,7 +11,7 @@ import UIKit
 open class CommsButtonHandler {
     
     /// Displays an action sheet with the comms buttons
-    open static func didSelectCompactCommsButton(for contactNumber: String, enabled: (text: Bool, call: Bool)) {
+    public static func didSelectCompactCommsButton(for contactNumber: String, enabled: (text: Bool, call: Bool)) {
         let actionSheet = UIAlertController(title: contactNumber, message: nil, preferredStyle: .actionSheet)
         let text = UIAlertAction(title: "Message", style: .default) { _ in
             self.didSelectMessage(for: contactNumber)
@@ -35,7 +35,7 @@ open class CommsButtonHandler {
     }
     
     /// Opens the phone or FaceTime app or throws an error if the device does not support calling
-    @objc open static func didSelectCall(for contactNumber: String) {
+    @objc public static func didSelectCall(for contactNumber: String) {
         if let contactNumber = contactNumber.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
             let url = URL(string: "tel://\(contactNumber)"), UIApplication.shared.canOpenURL(url)
         {
@@ -46,7 +46,7 @@ open class CommsButtonHandler {
     }
     
     /// Opens the message app or throws an error if the device does not support calling
-    @objc open static func didSelectMessage(for contactNumber: String) {
+    @objc public static func didSelectMessage(for contactNumber: String) {
         if let contactNumber = contactNumber.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
             let url = URL(string: "sms:\(contactNumber)"), UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)

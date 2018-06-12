@@ -17,25 +17,25 @@ open class TasksListResourceSummaryView: UIView {
     }
     
     /// Image view for the resource image
-    open let resourceImageView = UIImageView()
+    public let resourceImageView = UIImageView()
     
     /// Label for the resource title
-    open let titleLabel = UILabel()
+    public let titleLabel = UILabel()
     
     /// Label for the resource location
-    open let subtitleLabel = UILabel()
+    public let subtitleLabel = UILabel()
 
     /// Stack view for the priority and caption labels
-    open let priorityCaptionView = UIStackView()
+    public let priorityCaptionView = UIStackView()
     
     /// Priority rounded rect label
-    open let priorityLabel = RoundedRectLabel()
+    public let priorityLabel = RoundedRectLabel()
 
     /// Label for the resource status
-    open let captionLabel = UILabel()
+    public let captionLabel = UILabel()
     
     /// Image view for the status image
-    open let statusImageView = UIImageView()
+    public let statusImageView = UIImageView()
     
     private var statusImageWidthConstraint: NSLayoutConstraint?
     private var statusImageTrailingConstraint: NSLayoutConstraint?

@@ -17,19 +17,19 @@ open class TasksListIncidentSummaryView: UIView {
     // MARK: - Views
     
     /// The title label
-    open let titleLabel = UILabel()
+    public let titleLabel = UILabel()
     
     /// The subtitle label
-    open let subtitleLabel = UILabel()
+    public let subtitleLabel = UILabel()
     
     /// Stack view for the priority and caption labels
-    open let priorityCaptionView = UIStackView()
+    public let priorityCaptionView = UIStackView()
     
     /// Priority rounded rect label
-    open let priorityLabel = RoundedRectLabel()
+    public let priorityLabel = RoundedRectLabel()
     
     /// Label next to priority icon
-    open let captionLabel = UILabel()
+    public let captionLabel = UILabel()
     
     // MARK: - Setup
     

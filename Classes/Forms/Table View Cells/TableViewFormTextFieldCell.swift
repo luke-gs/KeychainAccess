@@ -13,9 +13,9 @@ fileprivate var kvoContext = 1
 
 open class TableViewFormTextFieldCell: TableViewFormCell {
     
-    open let titleLabel: UILabel = UILabel(frame: .zero)
+    public let titleLabel: UILabel = UILabel(frame: .zero)
     
-    open let textField: FormTextField = FormTextField(frame: .zero)
+    public let textField: FormTextField = FormTextField(frame: .zero)
     
     private var titleDetailSeparationConstraint: NSLayoutConstraint!
     

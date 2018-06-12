@@ -16,13 +16,13 @@ open class TasksListBasicSummaryView: UIView {
     }
     
     /// Label for the title
-    open let titleLabel = UILabel()
+    public let titleLabel = UILabel()
     
     /// Label for the location
-    open let subtitleLabel = UILabel()
+    public let subtitleLabel = UILabel()
     
     /// Label for the identifier
-    open let captionLabel = UILabel()
+    public let captionLabel = UILabel()
     
     public override init(frame: CGRect) {
         super.init(frame: frame)

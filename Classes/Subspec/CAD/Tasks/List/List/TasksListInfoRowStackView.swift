@@ -17,7 +17,7 @@ open class TasksListInfoRowStackView: UIView {
     // MARK: - Views
     
     /// Stack view for resources
-    open let stackView = UIStackView()
+    public let stackView = UIStackView()
     
     // MARK: - Properties
     

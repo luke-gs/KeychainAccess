@@ -12,7 +12,7 @@ import UIKit
 open class ColorPalette: NSObject {
 
     /// Shared color palette which can be overriden
-    open static var shared = ColorPalette()
+    public static var shared = ColorPalette()
 
     open var orangeRed         = #colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1)
     open var sunflowerYellow   = #colorLiteral(red: 1, green: 0.8, blue: 0, alpha: 1)
@@ -33,18 +33,18 @@ open class ColorPalette: NSObject {
 /// Convenience extension to UIColor
 extension UIColor {
 
-    open static var orangeRed         = ColorPalette.shared.orangeRed
-    open static var midGreen          = ColorPalette.shared.midGreen
-    open static var sunflowerYellow   = ColorPalette.shared.sunflowerYellow
-    open static var brightBlue        = ColorPalette.shared.brightBlue
-    open static var skyBlue           = ColorPalette.shared.skyBlue
+    public static var orangeRed         = ColorPalette.shared.orangeRed
+    public static var midGreen          = ColorPalette.shared.midGreen
+    public static var sunflowerYellow   = ColorPalette.shared.sunflowerYellow
+    public static var brightBlue        = ColorPalette.shared.brightBlue
+    public static var skyBlue           = ColorPalette.shared.skyBlue
 
-    open static var primaryGray       = ColorPalette.shared.primaryGray
-    open static var secondaryGray     = ColorPalette.shared.secondaryGray
-    open static var disabledGray      = ColorPalette.shared.disabledGray
-    open static var sidebarBlack      = ColorPalette.shared.sidebarBlack
-    open static var sidebarGray      = ColorPalette.shared.sidebarGray
+    public static var primaryGray       = ColorPalette.shared.primaryGray
+    public static var secondaryGray     = ColorPalette.shared.secondaryGray
+    public static var disabledGray      = ColorPalette.shared.disabledGray
+    public static var sidebarBlack      = ColorPalette.shared.sidebarBlack
+    public static var sidebarGray       = ColorPalette.shared.sidebarGray
     
-    open static var tabBarWhite       = ColorPalette.shared.tabBarWhite
-    open static var tabBarBlack       = ColorPalette.shared.tabBarBlack
+    public static var tabBarWhite       = ColorPalette.shared.tabBarWhite
+    public static var tabBarBlack       = ColorPalette.shared.tabBarBlack
 }

@@ -32,6 +32,13 @@
 		12ABD56B207F1967004D0C9F /* LocationMapSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD568207F1966004D0C9F /* LocationMapSelectionViewController.swift */; };
 		12ABD56C207F1967004D0C9F /* DefaultLocationReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD569207F1966004D0C9F /* DefaultLocationReport.swift */; };
 		12ADD4221F32A50B00CA8B4D /* MPOLKitProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */; };
+		12BAD2FE20C7947700F1E929 /* AddPropertyDetailsPlugins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12BAD2FD20C7947700F1E929 /* AddPropertyDetailsPlugins.swift */; };
+		12C64A8220C4DB6E005AB996 /* PropertySearchDisplayableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C64A7820C4DB6D005AB996 /* PropertySearchDisplayableViewModel.swift */; };
+		12C64A8320C4DB6E005AB996 /* PropertyDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C64A7A20C4DB6D005AB996 /* PropertyDetailsViewModel.swift */; };
+		12C64A8420C4DB6E005AB996 /* Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C64A7B20C4DB6D005AB996 /* Property.swift */; };
+		12C64A8520C4DB6E005AB996 /* PropertyDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C64A7C20C4DB6D005AB996 /* PropertyDetailsViewController.swift */; };
+		12C64A8620C4DB6E005AB996 /* PropertyDetailsReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C64A7D20C4DB6D005AB996 /* PropertyDetailsReport.swift */; };
+		12C64A8820C52CDA005AB996 /* Reportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C64A8720C52CDA005AB996 /* Reportable.swift */; };
 		12D3701720200B5B00D79DDB /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3700F20200B5A00D79DDB /* Event.swift */; };
 		12D3702020200DBD00D79DDB /* ObjectBucket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D3701F20200DBD00D79DDB /* ObjectBucket.swift */; };
 		12D4450B2047BAFC00A4D4C1 /* Incident.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D445072047BAFB00A4D4C1 /* Incident.swift */; };
@@ -381,7 +388,6 @@
 		467EAFB2201942B400B4CCC3 /* AudioRecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467EAFB1201942B400B4CCC3 /* AudioRecordingViewController.swift */; };
 		46884206202BB186009D0406 /* MediaFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46884205202BB186009D0406 /* MediaFileManager.swift */; };
 		46A0A2AD20BD2751007AAAA8 /* Weak.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A0A2AC20BD2751007AAAA8 /* Weak.swift */; };
-		46A0A2AF20BE4314007AAAA8 /* Reportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A0A2AE20BE4314007AAAA8 /* Reportable.swift */; };
 		46A0A2B120BE4444007AAAA8 /* EventBuilding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A0A2B020BE4444007AAAA8 /* EventBuilding.swift */; };
 		46A0A2B320BE446D007AAAA8 /* EventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A0A2B220BE446D007AAAA8 /* EventType.swift */; };
 		46A0A2B620BE4E48007AAAA8 /* WeakTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A0A2B520BE4E48007AAAA8 /* WeakTests.swift */; };
@@ -924,7 +930,14 @@
 		12ABD568207F1966004D0C9F /* LocationMapSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapSelectionViewController.swift; sourceTree = "<group>"; };
 		12ABD569207F1966004D0C9F /* DefaultLocationReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultLocationReport.swift; sourceTree = "<group>"; };
 		12ADD4211F32A50B00CA8B4D /* MPOLKitProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPOLKitProtocols.swift; sourceTree = "<group>"; };
+		12BAD2FD20C7947700F1E929 /* AddPropertyDetailsPlugins.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPropertyDetailsPlugins.swift; sourceTree = "<group>"; };
 		12BDF9151F95CCD50033E60B /* GenericSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericSearchViewController.swift; sourceTree = "<group>"; };
+		12C64A7820C4DB6D005AB996 /* PropertySearchDisplayableViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertySearchDisplayableViewModel.swift; sourceTree = "<group>"; };
+		12C64A7A20C4DB6D005AB996 /* PropertyDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyDetailsViewModel.swift; sourceTree = "<group>"; };
+		12C64A7B20C4DB6D005AB996 /* Property.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Property.swift; sourceTree = "<group>"; };
+		12C64A7C20C4DB6D005AB996 /* PropertyDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyDetailsViewController.swift; sourceTree = "<group>"; };
+		12C64A7D20C4DB6D005AB996 /* PropertyDetailsReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyDetailsReport.swift; sourceTree = "<group>"; };
+		12C64A8720C52CDA005AB996 /* Reportable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reportable.swift; sourceTree = "<group>"; };
 		12D3700F20200B5A00D79DDB /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		12D3701F20200DBD00D79DDB /* ObjectBucket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectBucket.swift; sourceTree = "<group>"; };
 		12D445072047BAFB00A4D4C1 /* Incident.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Incident.swift; sourceTree = "<group>"; };
@@ -1870,28 +1883,42 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
+		12C64A7220C4DB6D005AB996 /* Property */ = {
+			isa = PBXGroup;
+			children = (
+				12BAD2FD20C7947700F1E929 /* AddPropertyDetailsPlugins.swift */,
+				12C64A7B20C4DB6D005AB996 /* Property.swift */,
+				12C64A7D20C4DB6D005AB996 /* PropertyDetailsReport.swift */,
+				12C64A7C20C4DB6D005AB996 /* PropertyDetailsViewController.swift */,
+				12C64A7A20C4DB6D005AB996 /* PropertyDetailsViewModel.swift */,
+				12C64A7820C4DB6D005AB996 /* PropertySearchDisplayableViewModel.swift */,
+			);
+			path = Property;
+			sourceTree = "<group>";
+		};
 		12D3700E20200B5A00D79DDB /* Events */ = {
 			isa = PBXGroup;
 			children = (
-				AA1CFA9D20AA79280032A30E /* EntityManager */,
-				AA1CFA9A20AA67800032A30E /* Service */,
-				125EAE0F2092FCE200C09FED /* Submission */,
-				46A0A2AE20BE4314007AAAA8 /* Reportable.swift */,
 				12D3700F20200B5A00D79DDB /* Event.swift */,
 				46A0A2B020BE4444007AAAA8 /* EventBuilding.swift */,
-				46A0A2B220BE446D007AAAA8 /* EventType.swift */,
 				12ABD55F207F194C004D0C9F /* EventListDisplayable.swift */,
 				12EA561820327E130051DDEC /* EventLocation.swift */,
 				12ABD55E207F194C004D0C9F /* EventSearchableViewModel.swift */,
 				12ABD560207F194C004D0C9F /* EventsManager.swift */,
 				12ABD561207F194C004D0C9F /* EventSplitViewController.swift */,
-				12FB2F0020326653000CA863 /* StackMapLayout.swift */,
-				AA7B25C220B2746E005A23F0 /* Entities */,
-				1235340E207F167A008256AA /* DateTime */,
-				12ABD566207F1966004D0C9F /* Location */,
-				12ABD551207F1920004D0C9F /* NotesPhotos */,
 				37D718FB20B7CA15004C3F0B /* EventSummaryViewController.swift */,
 				37D7190320BBB8B5004C3F0B /* EventSummaryViewModel.swift */,
+				46A0A2B220BE446D007AAAA8 /* EventType.swift */,
+				12C64A8720C52CDA005AB996 /* Reportable.swift */,
+				12FB2F0020326653000CA863 /* StackMapLayout.swift */,
+				1235340E207F167A008256AA /* DateTime */,
+				AA7B25C220B2746E005A23F0 /* Entities */,
+				AA1CFA9D20AA79280032A30E /* EntityManager */,
+				12ABD566207F1966004D0C9F /* Location */,
+				12ABD551207F1920004D0C9F /* NotesPhotos */,
+				12C64A7220C4DB6D005AB996 /* Property */,
+				AA1CFA9A20AA67800032A30E /* Service */,
+				125EAE0F2092FCE200C09FED /* Submission */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -3307,6 +3334,7 @@
 			children = (
 				469EB5801F452FAB0005CAF7 /* LoginViewController.swift */,
 				469EB5821F45320A0005CAF7 /* LoginHeaderView.swift */,
+				46A0A2AE20BE4314007AAAA8 /* Reportable.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -4725,6 +4753,7 @@
 				DB88BCDD1F42D0080056FD69 /* SearchResultsListViewController.swift in Sources */,
 				4677EE261FFDAB0E004634B5 /* EnlargeStyle.swift in Sources */,
 				1923D5A020687589006E14F9 /* AppURLNavigator.swift in Sources */,
+				12C64A8320C4DB6E005AB996 /* PropertyDetailsViewModel.swift in Sources */,
 				96CF32231F8C349700140AF8 /* TasksListViewModel.swift in Sources */,
 				4657CAD11F5D0DA9000295F6 /* NetworkLoggingPlugin.swift in Sources */,
 				44621FF61F59239C007C3150 /* FilterRangeDescriptor.swift in Sources */,
@@ -4825,6 +4854,7 @@
 				EA6CF5421F7494C1002063D8 /* TextViewFormItem.swift in Sources */,
 				27F9C96E1FA2D9D000825F88 /* UIViewController+ChildViewController.swift in Sources */,
 				BC1B26111F20BBD7009674B7 /* UIViewController+ParentSearching.swift in Sources */,
+				12C64A8620C4DB6E005AB996 /* PropertyDetailsReport.swift in Sources */,
 				BC9C7E491F0DED6600DFFE83 /* SourceItem.swift in Sources */,
 				2744E39A2051DD8500561A8F /* CADEquipmentCore.swift in Sources */,
 				BC9C7E1B1F0DED6600DFFE83 /* MPOLAssert.swift in Sources */,
@@ -4915,6 +4945,7 @@
 				96ED81011FD9F2E100C7C960 /* CallsignStatusViewModel.swift in Sources */,
 				96AADABD20081D24003E215E /* BookOnScreen.swift in Sources */,
 				BC9C7E311F0DED6600DFFE83 /* UITableView+SectionHeaderFooterFetch.swift in Sources */,
+				12BAD2FE20C7947700F1E929 /* AddPropertyDetailsPlugins.swift in Sources */,
 				27256FF7205B288C005930CB /* DelimitedStringItemsCountSpecification.swift in Sources */,
 				19C625C21F55143900504BD9 /* NetworkRequest.swift in Sources */,
 				C6CD6A181F31663500771B8C /* EntitySearchRequest.swift in Sources */,
@@ -5236,6 +5267,7 @@
 				BC9C7E0E1F0DED6600DFFE83 /* CollectionViewFormLayoutAttributes.swift in Sources */,
 				279B057D200D591200C3EFB0 /* ActivityLogDateCollectionSectionViewModel.swift in Sources */,
 				96FC1BFB20AA4496005840CD /* CallsignStatusFormItem.swift in Sources */,
+				12C64A8420C4DB6E005AB996 /* Property.swift in Sources */,
 				2744E3922051DD8500561A8F /* CADIncidentStatusCore.swift in Sources */,
 				2744EECA1FBEA523008DFA7F /* MapFilterOption.swift in Sources */,
 				125EAE0A2092CFD800C09FED /* DefaultNotesMedaReport.swift in Sources */,
@@ -5314,13 +5346,13 @@
 				9689CA6D20364CE80001D993 /* CADOfficerType.swift in Sources */,
 				962AA8191F8DD37D0087D534 /* PopoverPresenter.swift in Sources */,
 				2768C0491F86E78A008532ED /* TasksMapViewController.swift in Sources */,
-				46A0A2AF20BE4314007AAAA8 /* Reportable.swift in Sources */,
 				BC1ECEBF1F24CC40002C2A68 /* LoadingStateManager.swift in Sources */,
 				19B49BC11F665F2A00502F51 /* CompactSidebarSourceViewController.swift in Sources */,
 				9689CA532036493C0001D993 /* CADResourceType.swift in Sources */,
 				19DBD5CF1FA8E22B00205EEC /* UnboxResponseSerializer.swift in Sources */,
 				96CF322E1F8C429D00140AF8 /* CADFormCollectionViewController.swift in Sources */,
 				99DB7B0D1FB00622009B936B /* NetworkMonitor.swift in Sources */,
+				12C64A8220C4DB6E005AB996 /* PropertySearchDisplayableViewModel.swift in Sources */,
 				27CBC7671F8B27D500E387C3 /* UserCallsignStatusViewModel.swift in Sources */,
 				BC9C7E171F0DED6600DFFE83 /* FormTextField.swift in Sources */,
 				BC9C7E041F0DED6600DFFE83 /* UIColor+ActionColors.swift in Sources */,
@@ -5336,6 +5368,7 @@
 				2709617B1FE0CBFB00D19F40 /* ColumnInfo.swift in Sources */,
 				9674E0E71FC68015000702F8 /* LoadingStateLoadingView.swift in Sources */,
 				966CE9BB2036562900646A6A /* CADEnumStringType.swift in Sources */,
+				12C64A8520C4DB6E005AB996 /* PropertyDetailsViewController.swift in Sources */,
 				9689CA6B20364C3E0001D993 /* CADEquipmentType.swift in Sources */,
 				BC9C7E341F0DED6600DFFE83 /* UIViewAnimationCurve+OptionConversion.swift in Sources */,
 				460B5BC72007187600AB7D12 /* SketchEraser.swift in Sources */,
@@ -5426,6 +5459,7 @@
 				AA1B3A422092D4460009B00C /* OptionDisplayableFormItem.swift in Sources */,
 				C6F640ED1F333D4F003D73B9 /* NSArchiver+SecureArchiver.swift in Sources */,
 				BC9C7E411F0DED6600DFFE83 /* PopoverViewController.swift in Sources */,
+				12C64A8820C52CDA005AB996 /* Reportable.swift in Sources */,
 				966CE9D120368DB800646A6A /* CADPatrolStatusType.swift in Sources */,
 				273C538F1FE8688F00BF994B /* TasksListResourceViewModel.swift in Sources */,
 				2744E3A82051DE7700561A8F /* PhotoPreview.swift in Sources */,

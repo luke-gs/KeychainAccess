@@ -30,17 +30,17 @@ public final class LocationManager: NSObject {
     public static let shared = LocationManager()
     
     /// Used to see the last time a location was retrieved
-    open var lastLocationTime: Date? {
+    public var lastLocationTime: Date? {
         get {
             return lastLocation?.timestamp
         }
     }
 
-    open var errorManager: LocationErrorManageable = LocationErrorManager()
+    public var errorManager: LocationErrorManageable = LocationErrorManager()
     
     /// Used to get the last saved location.
-    open var lastLocation: CLLocation? = nil
-    open var lastPlacemark: CLPlacemark? = nil
+    public var lastLocation: CLLocation? = nil
+    public var lastPlacemark: CLPlacemark? = nil
     
     private override init() {
         super.init()
@@ -52,7 +52,7 @@ public final class LocationManager: NSObject {
     ///     - A promise with a Location
     ///
     @discardableResult
-    open func requestLocation() -> Promise<CLLocation> {
+    public func requestLocation() -> Promise<CLLocation> {
         return CLLocationManager.requestLocation().lastValue.map { location -> CLLocation in
             self.lastLocation = location
             NotificationCenter.default.post(name: .LocationDidUpdate, object: self)
@@ -62,7 +62,7 @@ public final class LocationManager: NSObject {
     
     /// Requests authorization from the CLLocationManager
     @discardableResult
-    open func requestWhenInUseAuthorization() -> Promise<Void> {
+    public func requestWhenInUseAuthorization() -> Promise<Void> {
         let (promise, resolver) = Promise<Void>.pending()
         
         _ = CLLocationManager.requestAuthorization().then { status -> Promise<Void> in
@@ -82,7 +82,7 @@ public final class LocationManager: NSObject {
     /// - Return:
     ///     - A promise with a Placemark
     ///
-    open func requestPlacemark(from location: CLLocation) -> Promise<CLPlacemark> {
+    public func requestPlacemark(from location: CLLocation) -> Promise<CLPlacemark> {
         return CLGeocoder().reverseGeocode(location: location).firstValue
     }
     
@@ -92,7 +92,7 @@ public final class LocationManager: NSObject {
     ///     - A promise with a Placemark
     ///
     @discardableResult
-    open func requestPlacemark() -> Promise<CLPlacemark> {
+    public func requestPlacemark() -> Promise<CLPlacemark> {
         return self.requestLocation().then { location in
             return CLGeocoder().reverseGeocode(location: location).firstValue.map { placemark -> CLPlacemark in
                 self.lastPlacemark = placemark

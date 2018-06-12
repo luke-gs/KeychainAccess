@@ -30,16 +30,16 @@ open class PSCAlertView: UIView {
     // MARK: - Views
     
     /// Label for the title text
-    open let titleLabel = UILabel()
+    public let titleLabel = UILabel()
     
     /// Label for the message text
-    open let messageLabel = UILabel()
+    public let messageLabel = UILabel()
     
     /// Stack view for the text and image
     private let contentStackView = UIStackView()
     
     /// View for the image
-    open let imageView = UIImageView()
+    public let imageView = UIImageView()
     
     /// Stack view for the action buttons
     private let actionsStackView = UIStackView()

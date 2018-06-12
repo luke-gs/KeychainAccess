@@ -12,9 +12,9 @@ import UIKit
 open class ThemeConstants {
 
     // Default UI separator used when joining sequence of different data
-    open static var dividerSeparator = "  •  "
+    public static var dividerSeparator = "  •  "
     
     // Long (1 em) dash, usually used to indicate no data in a field
-    open static var longDash = "—"
+    public static var longDash = "—"
 
 }

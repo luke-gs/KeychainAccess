@@ -20,20 +20,20 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
 
 
     /// The source label.
-    open let sourceLabel = RoundedRectLabel(frame: .zero)
+    public let sourceLabel = RoundedRectLabel(frame: .zero)
 
 
     /// The title label. This should be used for details such as the driver's name,
     /// vehicle's registration, etc.
-    open let titleLabel = UILabel(frame: .zero)
+    public let titleLabel = UILabel(frame: .zero)
 
 
     /// The subtitle label. This should be used for ancillery entity details.
-    open let subtitleLabel = UILabel(frame: .zero)
+    public let subtitleLabel = UILabel(frame: .zero)
 
 
     /// The description label. This should be a description of the entity, attributes etc.
-    open let descriptionLabel = UILabel(frame: .zero)
+    public let descriptionLabel = UILabel(frame: .zero)
 
     open var isDescriptionPlaceholder: Bool = false {
         didSet {
@@ -54,7 +54,7 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
     open var additionalDetailsButtonActionHandler: ((EntityDetailCollectionViewCell) -> Void)?
     
     /// The gallery button that sits in the bottom right corner of the thumbanil.
-    open let galleryButton = GalleryButton(frame: .zero)
+    public let galleryButton = GalleryButton(frame: .zero)
     
     /// The gallery button action method.
     ///

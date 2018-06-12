@@ -13,7 +13,7 @@ import MapKit
 /// without weird layout issues that are most prominent in iOS 10
 open class AutoLayoutAnnotationView: MKAnnotationView {
 
-    open let contentView = UIView()
+    public let contentView = UIView()
     
     public override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)

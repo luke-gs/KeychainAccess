@@ -10,10 +10,10 @@ import UIKit
 
 open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
 
-    open let headerView = SidebarHeaderView(frame: .zero)
-    open let detailViewModel: TaskItemViewModel
-    open let pencilCircleView = UIImageView()
-    open let refreshControl = UIRefreshControl()
+    public let headerView = SidebarHeaderView(frame: .zero)
+    public let detailViewModel: TaskItemViewModel
+    public let pencilCircleView = UIImageView()
+    public let refreshControl = UIRefreshControl()
     open var compactStatusChangeBar: GlassBarView?
 
     public init(viewModel: TaskItemViewModel) {

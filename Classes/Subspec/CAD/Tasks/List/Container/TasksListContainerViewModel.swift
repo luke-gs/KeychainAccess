@@ -35,8 +35,8 @@ open class TasksListContainerViewModel {
     // MARK: - Properties
     
     // Child view models
-    open let headerViewModel: TasksListHeaderViewModel
-    open let listViewModel: TasksListViewModel
+    public let headerViewModel: TasksListHeaderViewModel
+    public let listViewModel: TasksListViewModel
 
     /// The search filter text
     open var searchText: String? {

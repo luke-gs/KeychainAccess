@@ -34,7 +34,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
     // MARK: - Public properties
     
     /// The style for the table view.
-    open let tableViewStyle: UITableViewStyle
+    public let tableViewStyle: UITableViewStyle
     
     
     /// The table view for the controller. This is lazily loaded with the view.

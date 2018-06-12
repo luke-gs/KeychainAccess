@@ -11,7 +11,7 @@ import UIKit
 /// View model for the CAD status tab bar
 open class CADStatusTabBarViewModel {
     
-    open let userCallsignStatusViewModel: UserCallsignStatusViewModel
+    public let userCallsignStatusViewModel: UserCallsignStatusViewModel
     
     public init(userCallsignStatusViewModel: UserCallsignStatusViewModel) {
         self.userCallsignStatusViewModel = userCallsignStatusViewModel

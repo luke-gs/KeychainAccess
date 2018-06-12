@@ -52,7 +52,7 @@ open class NetworkErrorDefinition: ErrorMappable {
         return nil
     }
 
-    open static var supportedType: Error.Type {
+    public static var supportedType: Error.Type {
         return SupportedTypeError.self
     }
 }

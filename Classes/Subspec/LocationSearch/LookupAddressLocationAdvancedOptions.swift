@@ -95,7 +95,7 @@ open class LookupAddressLocationAdvancedOptions: LocationAdvancedOptions {
 
     public var requiredFields: [LocationAdvancedItem] = []
 
-    open let headerText: String? = NSLocalizedString("EDIT ADDRESS", comment: "Location Search - Edit address")
+    public let headerText: String? = NSLocalizedString("EDIT ADDRESS", comment: "Location Search - Edit address")
 
     public let validator: LookupAddressValidator?
     

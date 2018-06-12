@@ -22,7 +22,7 @@ open class LocationErrorDefinition: ErrorMappable {
         }
     }
     
-    open static var supportedType: Error.Type {
+    public static var supportedType: Error.Type {
         return SupportedTypeError.self
     }
 }

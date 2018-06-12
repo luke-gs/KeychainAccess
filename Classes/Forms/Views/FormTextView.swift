@@ -12,7 +12,7 @@ fileprivate var kvoContext = 1
 
 open class FormTextView: UITextView {
 
-    open let placeholderLabel: UILabel = UILabel(frame: .zero)
+    public let placeholderLabel: UILabel = UILabel(frame: .zero)
     
     
     // MARK: - Initializers

@@ -26,12 +26,12 @@ open class TableViewFormTextViewCell: TableViewFormCell {
     // MARK: - Public properties
     
     /// The title label for the cell. This is guaranteed to be non-nil.
-    open let titleLabel = UILabel()
+    public let titleLabel = UILabel()
     
     
     /// The text view for the cell. You are welcome to become the delegate and/or observe
     /// notifications from the text view in response to editing events.
-    open let textView = FormTextView(frame: .zero, textContainer: nil)
+    public let textView = FormTextView(frame: .zero, textContainer: nil)
     
     
     // MARK: - Private properties

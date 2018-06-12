@@ -14,7 +14,7 @@ open class HelpViewController: UIViewController {
     
     // MARK: - Properties
     
-    open let content: HelpContent
+    public let content: HelpContent
     
     private var stackView: UIStackView?
     

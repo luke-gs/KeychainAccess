@@ -42,7 +42,7 @@ public protocol StatusTabBarDelegate {
 /// if required.
 open class StatusTabBarController: UIViewController, UITabBarDelegate {
 
-    open let tabBarItemHeight: CGFloat = 48
+    public let tabBarItemHeight: CGFloat = 48
 
     open var statusTabBarDelegate: StatusTabBarDelegate?
     
@@ -178,7 +178,7 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
     
     // MARK: - Private properties
     
-    open let tabBarContainerController: UIViewController
+    public let tabBarContainerController: UIViewController
     
     private lazy var tabBarBackground = UITabBar(frame: .zero)
     

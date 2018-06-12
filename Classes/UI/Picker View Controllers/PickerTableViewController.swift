@@ -27,15 +27,12 @@ public struct IconPickable: Pickable {
 }
 
 extension String: CustomSearchPickable {
-
     public var title: String? { return self }
-
     public var subtitle: String? { return nil }
 
     public func contains(_ searchText: String) -> Bool {
         return self.range(of: searchText) != nil
     }
-
 }
 
 

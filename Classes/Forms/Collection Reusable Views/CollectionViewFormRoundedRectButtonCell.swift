@@ -10,7 +10,7 @@ import UIKit
 /// A cell that contains a centred `RoundedRectButton`
 open class CollectionViewFormRoundedRectButtonCell: CollectionViewFormCell {
     
-    open let button = RoundedRectButton()
+    public let button = RoundedRectButton()
     
     open override func commonInit() {
         super.commonInit()

@@ -17,7 +17,7 @@ open class TaskDetailsOverviewViewController: UIViewController, TaskDetailsLoada
         static let minimumCardHeight: CGFloat = 42
     }
 
-    open let viewModel: TaskDetailsOverviewViewModel
+    public let viewModel: TaskDetailsOverviewViewModel
     
     private var contentView: UIView = UIView()
 

@@ -19,7 +19,7 @@ open class DialogActionButtonsView: UIView {
     }
 
     /// The action buttons to be displayed
-    open let actions: [DialogAction]
+    public let actions: [DialogAction]
     open private(set) var buttons: [DialogActionView] = []
 
     // MARK: - Subviews

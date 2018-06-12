@@ -17,35 +17,35 @@ open class CADClientModelTypes {
     // MARK: - Requests, so they can be created polymorphically in mpolkit using client kit versions
 
     /// The type used for officer details
-    static open var officerDetails: CADOfficerType.Type!
+    static public var officerDetails: CADOfficerType.Type!
 
     /// The type used for officer details
-    static open var equipmentDetails: CADEquipmentType.Type!
+    static public var equipmentDetails: CADEquipmentType.Type!
 
     // MARK: - Enums
 
     /// The type used for task list sources
-    static open var taskListSources: CADTaskListSourceType.Type!
+    static public var taskListSources: CADTaskListSourceType.Type!
 
     /// The type used for a resource status
-    static open var resourceStatus: CADResourceStatusType.Type!
+    static public var resourceStatus: CADResourceStatusType.Type!
 
     /// The type used for a resource unit type
-    static open var resourceUnit: CADResourceUnitType.Type!
+    static public var resourceUnit: CADResourceUnitType.Type!
 
     /// The type used for an incident grade
-    static open var incidentGrade: CADIncidentGradeType.Type!
+    static public var incidentGrade: CADIncidentGradeType.Type!
 
     /// The type used for an incident grade
-    static open var incidentStatus: CADIncidentStatusType.Type!
+    static public var incidentStatus: CADIncidentStatusType.Type!
 
     /// The type used for a broadcast category
-    static open var broadcastCategory: CADBroadcastCategoryType.Type!
+    static public var broadcastCategory: CADBroadcastCategoryType.Type!
 
     /// The type used for a patrol status
-    static open var patrolStatus: CADPatrolStatusType.Type!
+    static public var patrolStatus: CADPatrolStatusType.Type!
 
     /// The type used for association alert levels
-    static open var alertLevel: CADAlertLevelType.Type!
+    static public var alertLevel: CADAlertLevelType.Type!
 
 }

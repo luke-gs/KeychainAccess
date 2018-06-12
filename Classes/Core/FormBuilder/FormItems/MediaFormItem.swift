@@ -51,6 +51,11 @@ public class MediaFormItem: BaseFormItem {
         return CollectionViewFormMediaCellMinimumItemHeight
     }
 
+    open override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
+        guard let cell = cell as? CollectionViewFormMediaCell else { return }
+        cell.loadingManager.noContentView.titleLabel.textColor = theme.color(forKey: .headerTitleText)
+        cell.loadingManager.noContentView.subtitleLabel.textColor = theme.color(forKey: .headerSubtitleText)
+    }
 }
 
 extension MediaFormItem {

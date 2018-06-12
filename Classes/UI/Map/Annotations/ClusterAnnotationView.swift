@@ -12,7 +12,7 @@ import Cluster
 
 open class ClusterAnnotationView: MKAnnotationView, DefaultReusable {
 
-    open let label = UILabel()
+    public let label = UILabel()
 
     open var color: UIColor = .gray {
         didSet {

@@ -47,7 +47,7 @@ open class CADOfficerCore: Codable, CADOfficerType {
         return CADOfficerCore.nameFormatter.string(from: nameComponents)
     }
 
-    open static var nameFormatter: PersonNameComponentsFormatter = {
+    public static var nameFormatter: PersonNameComponentsFormatter = {
         let nameFormatter = PersonNameComponentsFormatter()
         nameFormatter.style = .medium
         return nameFormatter

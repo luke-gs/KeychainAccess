@@ -11,7 +11,7 @@ import PromiseKit
 
 open class AuthenticationPlugin: PluginType {
 
-    open let authenticationMode: HTTPAuthenticationMode
+    public let authenticationMode: HTTPAuthenticationMode
 
     public init(authenticationMode: HTTPAuthenticationMode) {
         self.authenticationMode = authenticationMode
