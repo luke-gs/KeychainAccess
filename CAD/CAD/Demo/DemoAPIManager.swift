@@ -23,6 +23,8 @@ open class DemoAPIManager: CADAPIManagerType {
 
     open static let shared = DemoAPIManager()
 
+    let delayTime: TimeInterval = 1
+
     // MARK: - Shared
 
     open func accessTokenRequest(for grant: OAuthAuthorizationGrant) -> Promise<OAuthAccessToken> {
@@ -44,18 +46,36 @@ open class DemoAPIManager: CADAPIManagerType {
 
     public func cadBookOn(with request: CADBookOnRequestType, pathTemplate: String?) -> Promise<Void> {
         print("\(LogUtils.string(from: request.parameters))")
-        return after(seconds: 1).done {}
+        return after(seconds: delayTime).done {}
     }
 
     public func cadBookOff(with request: CADBookOffRequestType, pathTemplate: String?) -> Promise<Void> {
         print("\(LogUtils.string(from: request.parameters))")
-        return after(seconds: 1).done {}
+        return after(seconds: delayTime).done {}
     }
 
-    open func cadEmployeeDetails<ResponseType: CADEmployeeDetailsResponseType>(with request: CADEmployeeDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType> {
+    open func cadEmployeeDetails<ResponseType: CADEmployeeDetailsType>(with request: CADGetDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType> {
         if let data = loadDemoFileAsData(name: "DemoOfficer") {
-            let response = try! JSONDecoder.decode(data, to: CADEmployeeDetailsResponseCore.self)
-            return Promise<CADEmployeeDetailsResponseCore>.value(response) as! Promise<ResponseType>
+            let response = try! JSONDecoder.decode(data, to: CADEmployeeDetailsCore.self)
+            return Promise<CADEmployeeDetailsCore>.value(response) as! Promise<ResponseType>
+        }
+        return Promise<ResponseType>(error: APIError.fileNotFound)
+    }
+
+    public func cadIncidentDetails<ResponseType>(with request: CADGetDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType> {
+        if let incident = CADStateManager.shared.incidentsById[request.identifier] as? CADIncidentCore {
+            return after(seconds: delayTime).then {
+                return Promise<CADIncidentCore>.value(incident) as! Promise<ResponseType>
+            }
+        }
+        return Promise<ResponseType>(error: APIError.fileNotFound)
+    }
+
+    public func cadResourceDetails<ResponseType>(with request: CADGetDetailsRequestType, pathTemplate: String?) -> Promise<ResponseType> {
+        if let resource = CADStateManager.shared.resourcesById[request.identifier] as? CADResourceCore {
+            return after(seconds: delayTime).then {
+                return Promise<CADResourceCore>.value(resource) as! Promise<ResponseType>
+            }
         }
         return Promise<ResponseType>(error: APIError.fileNotFound)
     }
@@ -67,7 +87,7 @@ open class DemoAPIManager: CADAPIManagerType {
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = ISO8601DateTransformer.jsonDateDecodingStrategy()
             let response = try! decoder.decode(CADSyncResponseCore.self, from: data)
-            return after(seconds: 1).then {
+            return after(seconds: delayTime).then {
                 return Promise<CADSyncResponseCore>.value(response) as! Promise<ResponseType>
             }
         }
