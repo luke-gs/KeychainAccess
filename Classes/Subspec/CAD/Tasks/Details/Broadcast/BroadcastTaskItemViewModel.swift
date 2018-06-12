@@ -17,8 +17,7 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
     // MARK: - Init
 
     public init(broadcastNumber: String) {
-        super.init(taskItemIdentifier: broadcastNumber,
-                   viewModels: [BroadcastOverviewViewModel()])
+        super.init(taskItemIdentifier: broadcastNumber)
         
         self.navTitle = NSLocalizedString("Broadcast details", comment: "")
         self.subtitleText = "#\(broadcastNumber)"
@@ -43,6 +42,10 @@ open class BroadcastTaskItemViewModel: TaskItemViewModel {
     }
 
     // MARK: - Methods
+
+    open override func createViewModels() -> [TaskDetailsViewModel] {
+        return [BroadcastOverviewViewModel()]
+    }
 
     open override func createViewController() -> UIViewController {
         let vc = TaskItemSidebarSplitViewController(viewModel: self)

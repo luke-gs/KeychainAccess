@@ -23,11 +23,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
     // MARK: - Init
 
     public init(incidentNumber: String) {
-        super.init(taskItemIdentifier: incidentNumber,
-                   viewModels: [IncidentOverviewViewModel(),
-                                IncidentAssociationsViewModel(),
-                                IncidentResourcesViewModel(),
-                                IncidentNarrativeViewModel()])
+        super.init(taskItemIdentifier: incidentNumber)
 
         self.navTitle = NSLocalizedString("Incident details", comment: "")
         self.subtitleText = "#\(incidentNumber)"
@@ -58,6 +54,13 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
     }
 
     // MARK: - Methods
+
+    open override func createViewModels() -> [TaskDetailsViewModel] {
+        return [IncidentOverviewViewModel(),
+                IncidentAssociationsViewModel(),
+                IncidentResourcesViewModel(),
+                IncidentNarrativeViewModel()]
+    }
 
     open override func createViewController() -> UIViewController {
         let vc = TaskItemSidebarSplitViewController(viewModel: self)

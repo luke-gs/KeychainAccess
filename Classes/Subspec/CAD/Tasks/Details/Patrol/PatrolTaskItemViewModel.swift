@@ -17,8 +17,7 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
     // MARK: - Init
 
     public init(patrolNumber: String) {
-        super.init(taskItemIdentifier: patrolNumber,
-                   viewModels: [PatrolOverviewViewModel()])
+        super.init(taskItemIdentifier: patrolNumber)
 
         self.navTitle = NSLocalizedString("Patrol details", comment: "")
         self.subtitleText = "#\(patrolNumber)"
@@ -43,6 +42,10 @@ open class PatrolTaskItemViewModel: TaskItemViewModel {
     }
 
     // MARK: - Methods
+
+    open override func createViewModels() -> [TaskDetailsViewModel] {
+        return [PatrolOverviewViewModel()]
+    }
 
     open override func createViewController() -> UIViewController {
         let vc = TaskItemSidebarSplitViewController(viewModel: self)

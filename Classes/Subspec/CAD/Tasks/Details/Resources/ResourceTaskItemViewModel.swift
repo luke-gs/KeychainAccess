@@ -17,11 +17,7 @@ open class ResourceTaskItemViewModel: TaskItemViewModel {
     // MARK: - Init
 
     public init(callsign: String) {
-        super.init(taskItemIdentifier: callsign,
-                   viewModels: [ResourceOverviewViewModel(),
-                                ResourceOfficerListViewModel(),
-                                ResourceActivityLogViewModel()
-            ])
+        super.init(taskItemIdentifier: callsign)
 
         if callsign == CADStateManager.shared.currentResource?.callsign {
             self.navTitle = NSLocalizedString("My call sign", comment: "")
@@ -49,6 +45,12 @@ open class ResourceTaskItemViewModel: TaskItemViewModel {
     }
 
     // MARK: - Methods
+
+    open override func createViewModels() -> [TaskDetailsViewModel] {
+        return [ResourceOverviewViewModel(),
+                ResourceOfficerListViewModel(),
+                ResourceActivityLogViewModel()]
+    }
 
     open override func createViewController() -> UIViewController {
         let vc = TaskItemSidebarSplitViewController(viewModel: self)

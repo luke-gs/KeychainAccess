@@ -63,16 +63,22 @@ open class TaskItemViewModel {
             $0.createDelegateViewController()
         }
     }
-    
-    open var viewModels: [TaskDetailsViewModel]
-    
+
+    /// The sidebar detail view models
+    open private(set) lazy var viewModels: [TaskDetailsViewModel] = {
+        return createViewModels()
+    }()
+
+    open func createViewModels() -> [TaskDetailsViewModel] {
+        MPLRequiresConcreteImplementation()
+    }
+
     open func createViewController() -> UIViewController {
         MPLRequiresConcreteImplementation()
     }
     
-    public init(taskItemIdentifier: String, viewModels: [TaskDetailsViewModel] = []) {
+    public init(taskItemIdentifier: String) {
         self.taskItemIdentifier = taskItemIdentifier
-        self.viewModels = viewModels
         self.showCompactGlassBar = false
     }
 
