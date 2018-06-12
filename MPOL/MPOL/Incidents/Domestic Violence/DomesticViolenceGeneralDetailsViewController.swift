@@ -43,6 +43,7 @@ open class DomesticViolenceGeneralDetailsViewController: FormBuilderViewControll
             .separatorColor(.clear)
 
         builder += StepperFormItem(title: "Number of Children in this Relationship")
+                    .maximumValue(99.0)
                     .value(Double(viewModel.report.childCount))
                     .onValueChanged({ value in
                         self.viewModel.report.childCount = Int(value)
