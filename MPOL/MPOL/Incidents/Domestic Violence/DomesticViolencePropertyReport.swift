@@ -17,7 +17,7 @@ class DomesticViolencePropertyReport: Reportable {
     let weakEvent: Weak<Event>
     let weakIncident: Weak<Incident>
 
-    private(set)var propertyList: [Property] = []
+    var propertyList: [PropertyDetailsReport] = []
 
     let evaluator: Evaluator = Evaluator()
 
@@ -41,10 +41,6 @@ class DomesticViolencePropertyReport: Reportable {
         evaluator.registerKey(.viewed) {
             return self.viewed
         }
-    }
-
-    public func addProperty(property: Property) {
-        self.propertyList.append(property)
     }
 
     func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
@@ -71,10 +67,14 @@ class DomesticViolencePropertyReport: Reportable {
 }
 
 extension DomesticViolencePropertyReport: Summarisable {
-    // TODO: Implement Summary Form Items once other functionality is complete
-    var formItems: [FormItem] {
-        var items = [FormItem]()
-        items.append(RowDetailFormItem(title: "Property", detail: "Not Yet Implemented"))
-        return items
+    public var formItems: [FormItem] {
+        return [RowDetailFormItem(title: "Property", detail: "\(propertyList.count)")]
+            + propertyList.compactMap { property in
+                return DetailFormItem(title: property.property?.subType,
+                                      subtitle: property.property?.type,
+                                      detail: nil,
+                                      image: nil)
+        }
     }
 }
+

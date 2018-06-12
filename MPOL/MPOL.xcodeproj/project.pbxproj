@@ -64,7 +64,6 @@
 		37235FB220AE738E0021850B /* DomesticViolencePropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37235FAA20AE738D0021850B /* DomesticViolencePropertyViewController.swift */; };
 		37235FB320AE738E0021850B /* DomesticViolenceIncidentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37235FAB20AE738D0021850B /* DomesticViolenceIncidentBuilder.swift */; };
 		37235FB420AE738E0021850B /* DomesticViolenceScreenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37235FAC20AE738E0021850B /* DomesticViolenceScreenBuilder.swift */; };
-		37235FB620AE759B0021850B /* Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37235FB520AE759B0021850B /* Property.swift */; };
 		3727C4BC2088191E00F7A887 /* TrafficInfringementOffencesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3727C4BB2088191E00F7A887 /* TrafficInfringementOffencesViewModel.swift */; };
 		3727C4C12088193000F7A887 /* OffenceListDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3727C4BD2088193000F7A887 /* OffenceListDisplayable.swift */; };
 		3727C4C22088193000F7A887 /* OffenceSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3727C4BE2088193000F7A887 /* OffenceSearchViewModel.swift */; };
@@ -821,7 +820,6 @@
 				371AB13820A916FA008D0E57 /* InterceptReportGeneralDetailsViewModel.swift in Sources */,
 				BCD4EA8D1E515ACE000B993D /* AppDelegate.swift in Sources */,
 				127801F5202AB255007D0BBB /* EventsDetailViewModel.swift in Sources */,
-				37235FB620AE759B0021850B /* Property.swift in Sources */,
 				AA1C0B0F20BF9981009862FD /* PersonSearchReport.swift in Sources */,
 				37235FB320AE738E0021850B /* DomesticViolenceIncidentBuilder.swift in Sources */,
 				EA7194DD1FC5098200A2980B /* EventPresenter.swift in Sources */,
