@@ -100,7 +100,7 @@ class OptionFormItemTests: XCTestCase {
         item.apply(theme: theme, toCell: view)
 
         // Then
-        XCTAssertEqual(view.titleLabel.textColor, theme.color(forKey: .secondaryText))
+        XCTAssertEqual(view.titleLabel.textColor, theme.color(forKey: .primaryText))
         XCTAssertEqual(view.subtitleLabel.textColor, theme.color(forKey: .primaryText))
     }
 

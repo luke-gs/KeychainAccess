@@ -79,11 +79,10 @@ public class OptionFormItem: BaseFormItem {
 
     public override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
         let primaryTextColor = theme.color(forKey: .primaryText)
-        let secondaryTextColor = theme.color(forKey: .secondaryText)
         
         let cell = cell as! CollectionViewFormOptionCell
 
-        cell.titleLabel.textColor = secondaryTextColor
+        cell.titleLabel.textColor = primaryTextColor
         cell.subtitleLabel.textColor = primaryTextColor
     }
 

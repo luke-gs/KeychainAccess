@@ -70,11 +70,10 @@ public class StepperFormItem: BaseFormItem {
 
     public override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
         let primaryTextColor = theme.color(forKey: .primaryText)
-        let secondaryTextColor = theme.color(forKey: .secondaryText)
 
         let cell = cell as! CollectionViewFormStepperCell
 
-        cell.titleLabel.textColor = secondaryTextColor
+        cell.titleLabel.textColor = primaryTextColor
         cell.textField.textColor = primaryTextColor
     }
 }

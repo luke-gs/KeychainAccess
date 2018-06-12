@@ -109,7 +109,7 @@ class StepperFormItemTests: XCTestCase {
         item.apply(theme: theme, toCell: view)
 
         // Then
-        XCTAssertEqual(view.titleLabel.textColor, theme.color(forKey: .secondaryText))
+        XCTAssertEqual(view.titleLabel.textColor, theme.color(forKey: .primaryText))
         XCTAssertEqual(view.textField.textColor, theme.color(forKey: .primaryText))
     }
 
