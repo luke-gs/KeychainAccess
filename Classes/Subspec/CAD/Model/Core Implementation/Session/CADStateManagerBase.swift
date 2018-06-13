@@ -127,6 +127,9 @@ open class CADStateManagerBase: CADStateManagerType {
     /// The currently pending sync promise
     open var pendingSync: Promise<Void>?
 
+    /// Whether there is currently a queued sync operation
+    open var isQueuedSync: Bool = false
+
     /// The last sync data
     open var lastSync: CADSyncResponseType?
 
@@ -218,14 +221,21 @@ open class CADStateManagerBase: CADStateManagerType {
     /// Sync the latest task summaries
     open func syncDetails(force: Bool) -> Promise<Void> {
         // Dispatch to serial queue for checking/updating pendingSync promise
-        return Promise<Void>().then(on: syncQueue, { _ -> Promise<Void> in
-
-            // If already running a sync, chain off that sync
+        return Promise<Void>().then(on: syncQueue, { [unowned self] _ -> Promise<Void> in
+            // Check if already syncing
             if let pendingSync = self.pendingSync {
-                self.pendingSync = pendingSync.then { [unowned self] in
-                    return self.syncDetails()
+                if self.isQueuedSync {
+                    // If there is already a queued sync, no need to chain another new sync
+                    return pendingSync
+                } else {
+                    // If already running a sync, chain a new queued sync
+                    self.isQueuedSync = true
+                    self.pendingSync = pendingSync.then(on: self.syncQueue, { [unowned self] _ -> Promise<Void> in
+                        self.isQueuedSync = false
+                        return self.syncDetails()
+                    })
+                    return self.pendingSync!
                 }
-                return self.pendingSync!
             }
 
             // Sync based on the current sync mode
