@@ -14,6 +14,11 @@ def mpol_kit
     pod 'MPOLKit', :path => '../../mPolKit-iOS', :inhibit_warnings => false
 end
 
+def mpol_kit_crypto
+    #pod 'MPOLKitCrypto', :git=> 'https://github.com/Gridstone/mPolKit-iOS'
+    pod 'MPOLKitCrypto', :path => '../../mPolKit-iOS'
+end
+
 target 'ClientKit' do
     project '../ClientKit/ClientKit.xcodeproj'
     mpol_kit
@@ -29,6 +34,13 @@ target 'MPOL' do
     pod "HockeySDK", :configurations => ['internal-release', 'internal-debug', 'external-release', 'external-debug']
     pod "HyperioniOS", :configurations => ['Debug']
 end
+
+target 'APNS Extension' do
+    project 'MPOL.xcodeproj'
+    mpol_kit_crypto
+    pod 'KeychainAccess'
+end
+
 
 # Workaround, swift is hard...
 swift_32 = ['Alamofire', 'Unbox', 'Wrap']

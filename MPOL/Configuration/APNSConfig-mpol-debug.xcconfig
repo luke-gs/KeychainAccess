@@ -1,0 +1,14 @@
+//
+//  AppConfig-Internal.xcconfig
+//  MPOL
+//
+//  Created by QHMW64 on 22/8/17.
+//  Copyright © 2017 Gridstone. All rights reserved.
+//
+
+#include "../Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.debug.xcconfig"
+
+APP_GROUP_ID=group.enterprise.gridstone.pscore
+SHARED_KEYCHAIN_ACCESS_GROUP=enterprise.gridstone.pscore.shared
+
+OTHER_SWIFT_FLAGS = $(inherited)

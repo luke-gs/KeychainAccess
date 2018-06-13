@@ -40,6 +40,8 @@ PODS:
     - PromiseKit/CoreLocation
     - Unbox (= 2.5.0)
     - Wrap (= 2.1.1)
+  - MPOLKitCrypto (0.0.1):
+    - KeychainAccess (~> 3.1.1)
   - PromiseKit (6.2.4):
     - PromiseKit/CorePromise (= 6.2.4)
     - PromiseKit/Foundation (= 6.2.4)
@@ -57,7 +59,9 @@ PODS:
 DEPENDENCIES:
   - HockeySDK
   - HyperioniOS
+  - KeychainAccess
   - MPOLKit (from `../../mPolKit-iOS`)
+  - MPOLKitCrypto (from `../../mPolKit-iOS`)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -75,6 +79,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   MPOLKit:
     :path: "../../mPolKit-iOS"
+  MPOLKitCrypto:
+    :path: "../../mPolKit-iOS"
 
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
@@ -85,10 +91,11 @@ SPEC CHECKSUMS:
   KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
   lottie-ios: 836cdbba92f62f3c6a00e37a4ce485321fe317cf
   MPOLKit: 91210d9256c3904923719458017e0a1237c6dc13
+  MPOLKitCrypto: 2090eed622f2169a3bdd9b0b1defbb9fc69e2973
   PromiseKit: 625b1fc69944fc839503748101c5968cf54b527b
   Unbox: 30e437e6151a6de16139375fd4e8dd9a664cfbf7
   Wrap: 9cc7da7551bb81d0846cb3df9fb624c6c32d267d
 
-PODFILE CHECKSUM: 5541714cc1851f0bd978d4dc7b2272cc11820990
+PODFILE CHECKSUM: b301e69497cf4d8bc142ce914a6ef38c184bd2f1
 
 COCOAPODS: 1.5.0

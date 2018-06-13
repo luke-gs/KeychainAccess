@@ -80,6 +80,11 @@
 		445A8A3D1F673C8B005ABEB8 /* OrganisationSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A3A1F673C8B005ABEB8 /* OrganisationSearchHelp.json */; };
 		445A8A3E1F673C8B005ABEB8 /* VehicleSearchHelp.json in Resources */ = {isa = PBXBuildFile; fileRef = 445A8A3B1F673C8B005ABEB8 /* VehicleSearchHelp.json */; };
 		46F8E9A5203A9C2200024EF7 /* LocationAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F8E9A4203A9C2200024EF7 /* LocationAction.swift */; };
+		47C5752F47D810CD24C7CCF9 /* Pods_APNS_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE220253A1DC404B8C6A12ED /* Pods_APNS_Extension.framework */; };
+		96728C2120D0B25600B82A53 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96728C2020D0B25600B82A53 /* NotificationService.swift */; };
+		96728C2520D0B25600B82A53 /* APNS Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 96728C1E20D0B25600B82A53 /* APNS Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		96728C2F20D0C24F00B82A53 /* SearchNotificationContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96728C2E20D0C24F00B82A53 /* SearchNotificationContent.swift */; };
+		96728C3020D0C24F00B82A53 /* SearchNotificationContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96728C2E20D0C24F00B82A53 /* SearchNotificationContent.swift */; };
 		96BE10EB2080406F005D4BAA /* SearchNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */; };
 		AA1B3A3E2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A3D2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift */; };
 		AA1B3A402092D3EF0009B00C /* TrafficInfringementServiceReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B3A3F2092D3EE0009B00C /* TrafficInfringementServiceReport.swift */; };
@@ -107,7 +112,28 @@
 		EAAEB34A1F664705002D6C65 /* EntityPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAEB3491F664705002D6C65 /* EntityPresenter.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		96728C2320D0B25600B82A53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCD4EA811E515ACE000B993D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 96728C1D20D0B25600B82A53;
+			remoteInfo = "APNS Extension";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
+		96728C2D20D0B25600B82A53 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				96728C2520D0B25600B82A53 /* APNS Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BCEEA5631F03205800C884A4 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -197,12 +223,26 @@
 		445A8A391F673C8B005ABEB8 /* LocationSearchHelp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LocationSearchHelp.json; sourceTree = "<group>"; };
 		445A8A3A1F673C8B005ABEB8 /* OrganisationSearchHelp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OrganisationSearchHelp.json; sourceTree = "<group>"; };
 		445A8A3B1F673C8B005ABEB8 /* VehicleSearchHelp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = VehicleSearchHelp.json; sourceTree = "<group>"; };
+		4497AC4175CD3574373AA8DE /* Pods-APNS Extension.external-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.external-debug.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.external-debug.xcconfig"; sourceTree = "<group>"; };
 		463D40291F4BC784005F9A1C /* AppConfig-internal-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-internal-release.xcconfig"; sourceTree = "<group>"; };
 		463D402A1F4BC7D4005F9A1C /* AppConfig-internal-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-internal-debug.xcconfig"; sourceTree = "<group>"; };
 		463D402B1F4BC844005F9A1C /* AppConfig-external-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-external-debug.xcconfig"; sourceTree = "<group>"; };
 		463D402C1F4BC84F005F9A1C /* AppConfig-external-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-external-release.xcconfig"; sourceTree = "<group>"; };
 		46F8E9A4203A9C2200024EF7 /* LocationAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAction.swift; sourceTree = "<group>"; };
+		529AB1548D476574512067C1 /* Pods-APNS Extension.internal-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.internal-release.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.internal-release.xcconfig"; sourceTree = "<group>"; };
+		54BB035E2FDC03F44C5450F1 /* Pods-APNS Extension.internal-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.internal-debug.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.internal-debug.xcconfig"; sourceTree = "<group>"; };
+		832C9E65AF102E6EE92DCF82 /* Pods-APNS Extension.external-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.external-release.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.external-release.xcconfig"; sourceTree = "<group>"; };
 		9625ACDB207F1C6200EFCC8C /* SearchNotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNotificationHandler.swift; sourceTree = "<group>"; };
+		96728C1E20D0B25600B82A53 /* APNS Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "APNS Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		96728C2020D0B25600B82A53 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		96728C2220D0B25600B82A53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		96728C2E20D0C24F00B82A53 /* SearchNotificationContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNotificationContent.swift; sourceTree = "<group>"; };
+		96728C3120D0D07F00B82A53 /* APNSConfig-external-release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "APNSConfig-external-release.xcconfig"; sourceTree = "<group>"; };
+		96728C3220D0D07F00B82A53 /* APNSConfig-mpol-debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "APNSConfig-mpol-debug.xcconfig"; sourceTree = "<group>"; };
+		96728C3320D0D07F00B82A53 /* APNSConfig-internal-release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "APNSConfig-internal-release.xcconfig"; sourceTree = "<group>"; };
+		96728C3420D0D08000B82A53 /* APNSConfig-mpol-release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "APNSConfig-mpol-release.xcconfig"; sourceTree = "<group>"; };
+		96728C3520D0D08000B82A53 /* APNSConfig-internal-debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "APNSConfig-internal-debug.xcconfig"; sourceTree = "<group>"; };
+		96728C3620D0D08000B82A53 /* APNSConfig-external-debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "APNSConfig-external-debug.xcconfig"; sourceTree = "<group>"; };
 		96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchNotificationHandler.swift; sourceTree = "<group>"; };
 		98286F47FF0E675D611C2782 /* Pods_MPOL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MPOL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA1B3A3D2092D3DB0009B00C /* TrafficInfringementServiceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrafficInfringementServiceViewModel.swift; sourceTree = "<group>"; };
@@ -225,10 +265,13 @@
 		BCD4EA981E515ACE000B993D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BCD4EA9E1E515ADE000B993D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BCEEA5601F03205800C884A4 /* ClientKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ClientKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D55548341F4DC664F254C922 /* Pods-APNS Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.debug.xcconfig"; sourceTree = "<group>"; };
 		DB0CA7D21F720185006EB1A7 /* AppConfig-mpol-debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-mpol-debug.xcconfig"; sourceTree = "<group>"; };
 		DB0CA7D31F720186006EB1A7 /* AppConfig-mpol-release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "AppConfig-mpol-release.xcconfig"; sourceTree = "<group>"; };
 		DB26793D1F70F59400F87410 /* AppConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppConfiguration.h; sourceTree = "<group>"; };
 		DB26793E1F70FAD300F87410 /* PSCore-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PSCore-Bridging-Header.h"; sourceTree = "<group>"; };
+		DE220253A1DC404B8C6A12ED /* Pods_APNS_Extension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_APNS_Extension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E7C6697FCC6827A87ADFC7F1 /* Pods-APNS Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-APNS Extension.release.xcconfig"; path = "Pods/Target Support Files/Pods-APNS Extension/Pods-APNS Extension.release.xcconfig"; sourceTree = "<group>"; };
 		EA2189F51F60F64A0057048E /* LandingPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingPresenter.swift; sourceTree = "<group>"; };
 		EA3C89051F32E34300F38461 /* termsandconditions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = termsandconditions.html; sourceTree = "<group>"; };
 		EA7194DC1FC5098200A2980B /* EventPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPresenter.swift; sourceTree = "<group>"; };
@@ -236,6 +279,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		96728C1B20D0B25600B82A53 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				47C5752F47D810CD24C7CCF9 /* Pods_APNS_Extension.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BCD4EA861E515ACE000B993D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -436,6 +487,12 @@
 		3C534FA68E46E1F1622CC13C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
+				D55548341F4DC664F254C922 /* Pods-APNS Extension.debug.xcconfig */,
+				4497AC4175CD3574373AA8DE /* Pods-APNS Extension.external-debug.xcconfig */,
+				54BB035E2FDC03F44C5450F1 /* Pods-APNS Extension.internal-debug.xcconfig */,
+				E7C6697FCC6827A87ADFC7F1 /* Pods-APNS Extension.release.xcconfig */,
+				529AB1548D476574512067C1 /* Pods-APNS Extension.internal-release.xcconfig */,
+				832C9E65AF102E6EE92DCF82 /* Pods-APNS Extension.external-release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -446,8 +503,18 @@
 				BCEEA5601F03205800C884A4 /* ClientKit.framework */,
 				397B77001E52CEDA00696677 /* UserNotifications.framework */,
 				98286F47FF0E675D611C2782 /* Pods_MPOL.framework */,
+				DE220253A1DC404B8C6A12ED /* Pods_APNS_Extension.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		96728C1F20D0B25600B82A53 /* APNS Extension */ = {
+			isa = PBXGroup;
+			children = (
+				96728C2020D0B25600B82A53 /* NotificationService.swift */,
+				96728C2220D0B25600B82A53 /* Info.plist */,
+			);
+			path = "APNS Extension";
 			sourceTree = "<group>";
 		};
 		96BE10E820803F4B005D4BAA /* Recovered References */ = {
@@ -463,6 +530,7 @@
 			isa = PBXGroup;
 			children = (
 				96BE10EA2080406E005D4BAA /* SearchNotificationHandler.swift */,
+				96728C2E20D0C24F00B82A53 /* SearchNotificationContent.swift */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -519,6 +587,7 @@
 			isa = PBXGroup;
 			children = (
 				BCD4EA8B1E515ACE000B993D /* MPOL */,
+				96728C1F20D0B25600B82A53 /* APNS Extension */,
 				BCD4EA8A1E515ACE000B993D /* Products */,
 				81566B659C78AD148E9B8520 /* Frameworks */,
 				DB88BCE81F43CBC00056FD69 /* Configuration */,
@@ -531,6 +600,7 @@
 			isa = PBXGroup;
 			children = (
 				BCD4EA891E515ACE000B993D /* PS Core Search.app */,
+				96728C1E20D0B25600B82A53 /* APNS Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -563,13 +633,19 @@
 		DB88BCE81F43CBC00056FD69 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				DB26793D1F70F59400F87410 /* AppConfiguration.h */,
-				DB0CA7D31F720186006EB1A7 /* AppConfig-mpol-release.xcconfig */,
-				DB0CA7D21F720185006EB1A7 /* AppConfig-mpol-debug.xcconfig */,
-				463D40291F4BC784005F9A1C /* AppConfig-internal-release.xcconfig */,
-				463D402A1F4BC7D4005F9A1C /* AppConfig-internal-debug.xcconfig */,
-				463D402C1F4BC84F005F9A1C /* AppConfig-external-release.xcconfig */,
+				96728C3620D0D08000B82A53 /* APNSConfig-external-debug.xcconfig */,
+				96728C3120D0D07F00B82A53 /* APNSConfig-external-release.xcconfig */,
+				96728C3520D0D08000B82A53 /* APNSConfig-internal-debug.xcconfig */,
+				96728C3320D0D07F00B82A53 /* APNSConfig-internal-release.xcconfig */,
+				96728C3220D0D07F00B82A53 /* APNSConfig-mpol-debug.xcconfig */,
+				96728C3420D0D08000B82A53 /* APNSConfig-mpol-release.xcconfig */,
 				463D402B1F4BC844005F9A1C /* AppConfig-external-debug.xcconfig */,
+				463D402C1F4BC84F005F9A1C /* AppConfig-external-release.xcconfig */,
+				463D402A1F4BC7D4005F9A1C /* AppConfig-internal-debug.xcconfig */,
+				463D40291F4BC784005F9A1C /* AppConfig-internal-release.xcconfig */,
+				DB0CA7D21F720185006EB1A7 /* AppConfig-mpol-debug.xcconfig */,
+				DB0CA7D31F720186006EB1A7 /* AppConfig-mpol-release.xcconfig */,
+				DB26793D1F70F59400F87410 /* AppConfiguration.h */,
 				DB26793E1F70FAD300F87410 /* PSCore-Bridging-Header.h */,
 			);
 			path = Configuration;
@@ -601,6 +677,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		96728C1D20D0B25600B82A53 /* APNS Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 96728C2C20D0B25600B82A53 /* Build configuration list for PBXNativeTarget "APNS Extension" */;
+			buildPhases = (
+				8B71FE9FF7FFCA71C69316A1 /* [CP] Check Pods Manifest.lock */,
+				96728C1A20D0B25600B82A53 /* Sources */,
+				96728C1B20D0B25600B82A53 /* Frameworks */,
+				96728C1C20D0B25600B82A53 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "APNS Extension";
+			productName = "APNS Extension";
+			productReference = 96728C1E20D0B25600B82A53 /* APNS Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		BCD4EA881E515ACE000B993D /* MPOL */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BCD4EA9B1E515ACE000B993D /* Build configuration list for PBXNativeTarget "MPOL" */;
@@ -613,10 +707,12 @@
 				DB3E2AE81F568C8D00E35300 /* ShellScript */,
 				D7D445236626DC052A83995E /* [CP] Embed Pods Frameworks */,
 				3EF16DC44624F0BC932A6527 /* [CP] Copy Pods Resources */,
+				96728C2D20D0B25600B82A53 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				96728C2420D0B25600B82A53 /* PBXTargetDependency */,
 			);
 			name = MPOL;
 			productName = MPOL;
@@ -629,10 +725,14 @@
 		BCD4EA811E515ACE000B993D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0820;
+				LastSwiftUpdateCheck = 0930;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = Gridstone;
 				TargetAttributes = {
+					96728C1D20D0B25600B82A53 = {
+						CreatedOnToolsVersion = 9.3;
+						ProvisioningStyle = Manual;
+					};
 					BCD4EA881E515ACE000B993D = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = QJQ4TBYRPA;
@@ -672,11 +772,19 @@
 			projectRoot = "";
 			targets = (
 				BCD4EA881E515ACE000B993D /* MPOL */,
+				96728C1D20D0B25600B82A53 /* APNS Extension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		96728C1C20D0B25600B82A53 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BCD4EA871E515ACE000B993D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -715,6 +823,24 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MPOL/Pods-MPOL-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		8B71FE9FF7FFCA71C69316A1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-APNS Extension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		D7D445236626DC052A83995E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -732,6 +858,7 @@
 				"${BUILT_PRODUCTS_DIR}/Wrap/Wrap.framework",
 				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
 				"${BUILT_PRODUCTS_DIR}/HyperioniOS/HyperioniOS.framework",
+				"${BUILT_PRODUCTS_DIR}/MPOLKitCrypto/MPOLKitCrypto.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -745,6 +872,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Wrap.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HyperioniOS.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MPOLKitCrypto.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -785,6 +913,15 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		96728C1A20D0B25600B82A53 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96728C3020D0C24F00B82A53 /* SearchNotificationContent.swift in Sources */,
+				96728C2120D0B25600B82A53 /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BCD4EA851E515ACE000B993D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -870,6 +1007,7 @@
 				37235FB420AE738E0021850B /* DomesticViolenceScreenBuilder.swift in Sources */,
 				12EF66022087071800739924 /* OfficerListViewModel.swift in Sources */,
 				12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */,
+				96728C2F20D0C24F00B82A53 /* SearchNotificationContent.swift in Sources */,
 				12EF6636208D7D2F00739924 /* EventEntityDetailsSplitViewController.swift in Sources */,
 				37235FAF20AE738E0021850B /* DomesticViolencePropertyReport.swift in Sources */,
 				AA1C0B1520BF9993009862FD /* VehicleTowReport.swift in Sources */,
@@ -877,6 +1015,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		96728C2420D0B25600B82A53 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 96728C1D20D0B25600B82A53 /* APNS Extension */;
+			targetProxy = 96728C2320D0B25600B82A53 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		463D401F1F4BC64E005F9A1C /* Internal-Debug */ = {
@@ -943,7 +1089,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 463D402A1F4BC7D4005F9A1C /* AppConfig-internal-debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
 				ENABLE_BITCODE = NO;
@@ -1019,7 +1167,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 463D402C1F4BC84F005F9A1C /* AppConfig-external-release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
@@ -1103,6 +1253,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 463D402B1F4BC844005F9A1C /* AppConfig-external-debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
@@ -1180,7 +1331,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 463D40291F4BC784005F9A1C /* AppConfig-internal-release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
@@ -1200,6 +1353,150 @@
 				SWIFT_VERSION = 4.0;
 			};
 			name = "Internal-Release";
+		};
+		96728C2620D0B25600B82A53 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 96728C3220D0D07F00B82A53 /* APNSConfig-mpol-debug.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "APNS Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "${SEARCH_URL_TYPE_ID}.apns";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		96728C2720D0B25600B82A53 /* External-Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 96728C3620D0D08000B82A53 /* APNSConfig-external-debug.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "APNS Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "${SEARCH_URL_TYPE_ID}.apns";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "External-Debug";
+		};
+		96728C2820D0B25600B82A53 /* Internal-Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 96728C3520D0D08000B82A53 /* APNSConfig-internal-debug.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "APNS Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "${SEARCH_URL_TYPE_ID}.apns";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Internal-Debug";
+		};
+		96728C2920D0B25600B82A53 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 96728C3420D0D08000B82A53 /* APNSConfig-mpol-release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "APNS Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "${SEARCH_URL_TYPE_ID}.apns";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		96728C2A20D0B25600B82A53 /* Internal-Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 96728C3320D0D07F00B82A53 /* APNSConfig-internal-release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "APNS Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "${SEARCH_URL_TYPE_ID}.apns";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Internal-Release";
+		};
+		96728C2B20D0B25600B82A53 /* External-Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 96728C3120D0D07F00B82A53 /* APNSConfig-external-release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "APNS Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "${SEARCH_URL_TYPE_ID}.apns";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "External-Release";
 		};
 		BCD4EA991E515ACE000B993D /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1318,6 +1615,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DB0CA7D21F720185006EB1A7 /* AppConfig-mpol-debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
@@ -1343,7 +1641,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DB0CA7D31F720186006EB1A7 /* AppConfig-mpol-release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_ENTITLEMENTS = MPOL/MPOL.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = QJQ4TBYRPA;
@@ -1366,6 +1666,19 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		96728C2C20D0B25600B82A53 /* Build configuration list for PBXNativeTarget "APNS Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				96728C2620D0B25600B82A53 /* Debug */,
+				96728C2720D0B25600B82A53 /* External-Debug */,
+				96728C2820D0B25600B82A53 /* Internal-Debug */,
+				96728C2920D0B25600B82A53 /* Release */,
+				96728C2A20D0B25600B82A53 /* Internal-Release */,
+				96728C2B20D0B25600B82A53 /* External-Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		BCD4EA841E515ACE000B993D /* Build configuration list for PBXProject "MPOL" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
