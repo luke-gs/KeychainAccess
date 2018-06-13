@@ -5,6 +5,11 @@
 //  Copyright © 2018 Gridstone. All rights reserved.
 //
 
+internal extension EvaluatorKey {
+    static let reportedOnDateTime = EvaluatorKey(rawValue: "reportedOnDateTime")
+    static let tookPlaceFromStartDateTime = EvaluatorKey(rawValue: "tookPlaceFromStartDateTime")
+}
+
 public class DefaultDateTimeReport: EventReportable {
     public let weakEvent: Weak<Event>
 

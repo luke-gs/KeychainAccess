@@ -7,11 +7,6 @@
 
 import UIKit
 
-internal extension EvaluatorKey {
-    static let reportedOnDateTime = EvaluatorKey(rawValue: "reportedOnDateTime")
-    static let tookPlaceFromStartDateTime = EvaluatorKey(rawValue: "tookPlaceFromStartDateTime")
-}
-
 /// The OOTB DateTime viewController
 open class DefaultEventDateTimeViewController: FormBuilderViewController, EvaluationObserverable {
 
@@ -34,46 +29,58 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
     }
 
     override open func construct(builder: FormBuilder) {
+
+        // pre-declare formItems to allow other form items access to them
+        let reportedOn = DateFormItem()
+        let startTime = DateFormItem()
+        let endTime = DateFormItem()
+
         builder += LargeTextHeaderFormItem(text: "Reported On")
             .separatorColor(.clear)
 
-        builder += DateFormItem()
-            .title("Date and Time")
+        // reportedOn datePicker
+        reportedOn.title("Date and Time")
             .selectedValue(viewModel.report?.reportedOnDateTime)
             .datePickerMode(.dateAndTime)
             .withNowButton(true)
             .width(.column(2))
             .maximumDate(Date())
             .selectedValue(viewModel.report?.reportedOnDateTime)
-            .onValueChanged(viewModel.reportedOnDateTimeChanged)
+            .onValueChanged({ [viewModel] date in
+                viewModel.reportedOnDateTimeChanged(date)
+                startTime.minimumDate(date)
+            })
             .required()
+        builder += reportedOn
 
         builder +=  LargeTextHeaderFormItem(text: "Took Place From")
             .separatorColor(.clear)
 
-        builder += DateFormItem()
-            .title("Start Time")
+        // startTime datePicker
+        startTime.title("Start Time")
             .selectedValue(viewModel.report?.tookPlaceFromStartDateTime)
             .datePickerMode(.dateAndTime)
             .withNowButton(true)
             .width(.column(2))
+            .minimumDate(viewModel.report?.reportedOnDateTime)
             .selectedValue(viewModel.report?.tookPlaceFromStartDateTime)
             .onValueChanged { [viewModel] date in
-                guard let formItem = self.builder.formItem(for: "tookPlaceFromEndDateTime") as? DateFormItem else { return }
-                viewModel.adjustEndTime(for: date, in: formItem)
+                viewModel.adjustEndTime(for: date, in: endTime)
                 viewModel.tookPlaceFromStartDateTimeChanged(date)
             }
             .required()
+        builder += startTime
 
-        builder +=  DateFormItem()
-            .title("End Time")
+        // endTime datePicker
+        endTime.title("End Time")
             .selectedValue(viewModel.report?.tookPlaceFromEndDateTime)
             .datePickerMode(.dateAndTime)
             .width(.column(2))
             .elementIdentifier("tookPlaceFromEndDateTime")
             .minimumDate(Date())
             .onValueChanged(viewModel.tookPlaceFromEndDateTimeChanged)
-        
+         builder += endTime
+
     }
 
     public func evaluationChanged(in evaluator: Evaluator, for key: EvaluatorKey, evaluationState: Bool) {
