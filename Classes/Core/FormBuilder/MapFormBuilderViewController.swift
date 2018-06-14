@@ -113,8 +113,11 @@ open class MapFormBuilderViewController: FormBuilderViewController {
     }
 
     open override func apply(_ theme: Theme) {
-        super.apply(theme)
+        let currentInterfaceStyle = ThemeManager.shared.currentInterfaceStyle
+        let isDark = currentInterfaceStyle.isDark
+        mapView?.mpl_setNightModeEnabled(isDark)
 
+        super.apply(theme)
         layout?.apply(theme)
     }
 
