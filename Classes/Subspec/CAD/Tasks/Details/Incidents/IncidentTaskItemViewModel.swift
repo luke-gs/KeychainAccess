@@ -70,6 +70,7 @@ open class IncidentTaskItemViewModel: TaskItemViewModel {
 
     open override func loadTaskItem() -> Promise<CADTaskListItemModelType> {
         return CADStateManager.shared.getIncidentDetails(identifier: taskItemIdentifier).map { [weak self] incident in
+            self?.lastDetailLoadTime = Date()
             self?.updateGlassBar()
             return incident
         }

@@ -104,10 +104,7 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
     }
 
     open override func masterNavSubtitleSuitable(for traitCollection: UITraitCollection) -> String? {
-        if let intervalString = CADStateManager.shared.lastSyncTime?.elapsedTimeIntervalForHuman() {
-            return "Updated \(intervalString)"
-        }
-        return nil
+        return detailViewModel.lastUpdatedText()
     }
 
     /// Updates the header view with the details for the latest selected representation.

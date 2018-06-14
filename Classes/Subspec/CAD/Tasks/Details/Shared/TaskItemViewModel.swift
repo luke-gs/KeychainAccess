@@ -18,6 +18,9 @@ open class TaskItemViewModel {
 
     open weak var delegate: TaskItemViewModelDelegate?
 
+    /// The last time the details object was loaded from the network
+    open var lastDetailLoadTime: Date?
+    
     /// The task item details that have been loaded
     open var taskItemDetails: CADTaskListItemModelType?
 
@@ -56,6 +59,14 @@ open class TaskItemViewModel {
 
     /// The compact subtitle shown in compact glass bar (e.g. 'Respond to this incident')
     open var compactSubtitle: String?
+    
+    /// The text to show for the last update
+    open func lastUpdatedText() -> String? {
+        if let syncTimeString = CADStateManager.shared.lastSyncTime?.elapsedTimeIntervalForHuman() {
+            return "Updated \(lastDetailLoadTime?.elapsedTimeIntervalForHuman() ?? syncTimeString)"
+        }
+        return nil
+    }
 
     /// View controllers to show in the list
     open func detailViewControllers() -> [UIViewController] {
