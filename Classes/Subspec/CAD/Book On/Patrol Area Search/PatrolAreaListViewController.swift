@@ -22,6 +22,12 @@ open class PatrolAreaListViewController: SearchDisplayableViewController<PatrolA
 
         // Set delegate to internal selection handler
         delegate = PatrolAreaListViewControllerSelectionHandler(self)
+        
+        if let selectedIndex = viewModel.indexOfSelectedItem() {
+            DispatchQueue.main.async {
+                self.collectionView?.scrollToItem(at: IndexPath(item: selectedIndex, section: 0), at: .centeredVertically, animated: false)
+            }
+        }
     }
 
     open override func construct(builder: FormBuilder) {
