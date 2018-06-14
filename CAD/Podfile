@@ -9,7 +9,7 @@ workspace 'CAD'
 project 'CAD.xcodeproj'
 
 def mpol_kit
-    #pod 'MPOLKit', :git=> 'https://github.com/Gridstone/mPolKit-iOS'
+    #pod 'MPOLKit', :git=> 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
     pod 'MPOLKit/CAD', :path => '../../mPolKit-iOS', :inhibit_warnings => false
     pod 'ClientKit', :path => '../ClientKit', :inhibit_warnings => false
 end
