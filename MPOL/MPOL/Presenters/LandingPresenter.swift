@@ -19,6 +19,7 @@ public enum Screen {
 public class LandingPresenter: AppGroupLandingPresenter {
 
     public var searchViewController: SearchViewController!
+    private var tasksProxyViewController: AppProxyViewController!
 
     override public var termsAndConditionsVersion: String {
         return TermsAndConditionsVersion
@@ -146,6 +147,10 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 ])
             
             let searchViewController = SearchViewController(viewModel: viewModel)
+            // Define a SearchNoContentView and add target to the tasksButton so that it opens CAD
+            let searchNoContentView = SearchNoContentView()
+            searchNoContentView.tasksButton.addTarget(self, action: #selector(openTasks), for: .touchUpInside)
+            searchViewController.recentsViewController.viewModel.customNoContentView = searchNoContentView
             searchViewController.set(leftBarButtonItem: settingsBarButtonItem())
 
             let eventsManager = EventsManager(eventBuilder: EventBuilder())
@@ -156,7 +161,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let searchNavController = UINavigationController(rootViewController: searchViewController)
             let eventListNavController = UINavigationController(rootViewController: eventListVC)
 
-            let tasksProxyViewController = AppProxyViewController(appURLScheme: CAD_APP_SCHEME)
+            tasksProxyViewController = AppProxyViewController(appURLScheme: CAD_APP_SCHEME)
             tasksProxyViewController.tabBarItem.title = NSLocalizedString("Tasks", comment: "Tab Bar Item title")
             tasksProxyViewController.tabBarItem.image = AssetManager.shared.image(forKey: .tabBarTasks)
 
@@ -226,9 +231,12 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
         tabBarController?.show(settingsNavController, sender: self)
     }
+
+    @objc private func openTasks() {
+        guard let controller = tabBarController else { return }
+            _ = controller.delegate?.tabBarController?(controller, shouldSelect: tasksProxyViewController)
+    }
 }
-
-
 
 // MARK: - UITabBarControllerDelegate
 extension LandingPresenter: UITabBarControllerDelegate {

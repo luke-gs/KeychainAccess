@@ -71,6 +71,7 @@
 		3727C4C42088193000F7A887 /* OffencePointAndFineTotalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3727C4C02088193000F7A887 /* OffencePointAndFineTotalsView.swift */; };
 		3745B14020B3C14F008AA94F /* IncidentAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3745B13F20B3C14F008AA94F /* IncidentAction.swift */; };
 		379869B620C4BF0F00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379869B520C4BF0E00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift */; };
+		37F1B3B120CF9694007F263B /* SearchNoContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F1B3B020CF9694007F263B /* SearchNoContentView.swift */; };
 		37F3A3BE208475650077998C /* EventEntitiesListReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F3A3BD208475650077998C /* EventEntitiesListReport.swift */; };
 		37F3A3C0208477420077998C /* EventEntitiesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F3A3BF208477420077998C /* EventEntitiesListViewController.swift */; };
 		37F3A3C2208480190077998C /* EventEntitiesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F3A3C1208480190077998C /* EventEntitiesListViewModel.swift */; };
@@ -188,6 +189,7 @@
 		3727C4C02088193000F7A887 /* OffencePointAndFineTotalsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OffencePointAndFineTotalsView.swift; sourceTree = "<group>"; };
 		3745B13F20B3C14F008AA94F /* IncidentAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncidentAction.swift; sourceTree = "<group>"; };
 		379869B520C4BF0E00E1FEAF /* DefaultEntitiesListReport+Summarisable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DefaultEntitiesListReport+Summarisable.swift"; sourceTree = "<group>"; };
+		37F1B3B020CF9694007F263B /* SearchNoContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNoContentView.swift; sourceTree = "<group>"; };
 		37F3A3BD208475650077998C /* EventEntitiesListReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntitiesListReport.swift; sourceTree = "<group>"; };
 		37F3A3BF208477420077998C /* EventEntitiesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntitiesListViewController.swift; sourceTree = "<group>"; };
 		37F3A3C1208480190077998C /* EventEntitiesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEntitiesListViewModel.swift; sourceTree = "<group>"; };
@@ -422,6 +424,14 @@
 			path = Summary;
 			sourceTree = "<group>";
 		};
+		37F1B3AF20CF9676007F263B /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				37F1B3B020CF9694007F263B /* SearchNoContentView.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		37F3A3BC2084754A0077998C /* Entities */ = {
 			isa = PBXGroup;
 			children = (
@@ -538,6 +548,7 @@
 		BCD4EA8B1E515ACE000B993D /* MPOL */ = {
 			isa = PBXGroup;
 			children = (
+				37F1B3AF20CF9676007F263B /* Search */,
 				1988306E20BB79DA006FE165 /* APIURLManager.swift */,
 				BCD4EA8C1E515ACE000B993D /* AppDelegate.swift */,
 				19CB3896207A5FB200855651 /* AppDelegate+Shortcuts.swift */,
@@ -867,6 +878,7 @@
 				192F679720A1E6D500015E86 /* PersonMatchMakingInjectionPlugin.swift in Sources */,
 				12EF65DB2086D52200739924 /* TrafficInfringementOffencesReport.swift in Sources */,
 				37F3A3C2208480190077998C /* EventEntitiesListViewModel.swift in Sources */,
+				37F1B3B120CF9694007F263B /* SearchNoContentView.swift in Sources */,
 				37235FB420AE738E0021850B /* DomesticViolenceScreenBuilder.swift in Sources */,
 				12EF66022087071800739924 /* OfficerListViewModel.swift in Sources */,
 				12ABD579207F20EA004D0C9F /* DefaultEventLocationViewModel.swift in Sources */,
