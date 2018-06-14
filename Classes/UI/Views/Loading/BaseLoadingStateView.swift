@@ -23,12 +23,12 @@ private var hiddenContext = 2
 /// Prior to iOS 11, spacers are used to insert custom space between the image
 /// and title, and subtitle and button. On iOS 11 and later, this is managed
 /// by the UIStackView custom spacing methods.
-open class BaseLoadingStateView: UIStackView {
+open class BaseLoadingStateView: UIStackView, LoadingState {
 
     // MARK: - Public properties
 
     /// The image container view, for an image or progress indicator.
-    public let imageContainerView = UIView(frame: .zero)
+    public let containerView = UIView(frame: .zero)
 
     /// The title label.
     public let titleLabel = UILabel(frame: .zero)
@@ -70,7 +70,7 @@ open class BaseLoadingStateView: UIStackView {
     private func commonInit() {
         let theme = ThemeManager.shared.theme(for: .current)
 
-        imageContainerView.isHidden = true
+        containerView.isHidden = true
         titleLabel.isHidden = true
         subtitleLabel.isHidden = true
         actionButton.isHidden = true
@@ -102,7 +102,7 @@ open class BaseLoadingStateView: UIStackView {
         axis = .vertical
         spacing = 16
 
-        addArrangedSubview(imageContainerView)
+        addArrangedSubview(containerView)
         addArrangedSubview(titleLabel)
         addArrangedSubview(subtitleLabel)
         addArrangedSubview(actionButton)
@@ -125,7 +125,7 @@ open class BaseLoadingStateView: UIStackView {
 
         insertArrangedSubview(buttonSpacer, at: 4)
 
-        imageContainerView.addObserver(self, forKeyPath: #keyPath(UIView.isHidden), context: &hiddenContext)
+        containerView.addObserver(self, forKeyPath: #keyPath(UIView.isHidden), context: &hiddenContext)
         actionButton.addObserver(self, forKeyPath: #keyPath(UIButton.isHidden), context: &hiddenContext)
     }
 
@@ -141,7 +141,7 @@ open class BaseLoadingStateView: UIStackView {
             return
         }
 
-        imageContainerView.removeObserver(self, forKeyPath: #keyPath(UIView.isHidden), context: &hiddenContext)
+        containerView.removeObserver(self, forKeyPath: #keyPath(UIView.isHidden), context: &hiddenContext)
         actionButton.removeObserver(self, forKeyPath: #keyPath(UIButton.isHidden), context: &hiddenContext)
     }
 
@@ -170,5 +170,15 @@ open class BaseLoadingStateView: UIStackView {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
+
+
+    public func applyTheme(theme: Theme) {
+        titleLabel.textColor = theme.color(forKey: .primaryText)
+        subtitleLabel.textColor = theme.color(forKey: .secondaryText)
+    }
+
+    public func appeared() { }
+    
+    public func disappeared() { }
 
 }

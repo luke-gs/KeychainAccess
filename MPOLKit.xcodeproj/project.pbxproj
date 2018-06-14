@@ -321,6 +321,7 @@
 		37D718FC20B7CA15004C3F0B /* EventSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D718FB20B7CA15004C3F0B /* EventSummaryViewController.swift */; };
 		37D718FE20BBB2F1004C3F0B /* Summarisable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D718FD20BBB2F1004C3F0B /* Summarisable.swift */; };
 		37D7190420BBB8B5004C3F0B /* EventSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D7190320BBB8B5004C3F0B /* EventSummaryViewModel.swift */; };
+		37F4233120CF69050051D853 /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F4233020CF69050051D853 /* LoadingState.swift */; };
 		44020FD61FE86C5800EA057C /* ForcedPopoverPresentationControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44020FD51FE86C5800EA057C /* ForcedPopoverPresentationControllerDelegate.swift */; };
 		4420D2801F66428D00E20304 /* Sequence+Nils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4420D27F1F66428D00E20304 /* Sequence+Nils.swift */; };
 		4426162A1FF5C9A7008EBF84 /* PatrolAreaListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442616271FF5C9A7008EBF84 /* PatrolAreaListViewModel.swift */; };
@@ -1205,6 +1206,7 @@
 		37D718FB20B7CA15004C3F0B /* EventSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSummaryViewController.swift; sourceTree = "<group>"; };
 		37D718FD20BBB2F1004C3F0B /* Summarisable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Summarisable.swift; sourceTree = "<group>"; };
 		37D7190320BBB8B5004C3F0B /* EventSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSummaryViewModel.swift; sourceTree = "<group>"; };
+		37F4233020CF69050051D853 /* LoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingState.swift; sourceTree = "<group>"; };
 		44020FD51FE86C5800EA057C /* ForcedPopoverPresentationControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForcedPopoverPresentationControllerDelegate.swift; sourceTree = "<group>"; };
 		4420D27F1F66428D00E20304 /* Sequence+Nils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence+Nils.swift"; sourceTree = "<group>"; };
 		442616271FF5C9A7008EBF84 /* PatrolAreaListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatrolAreaListViewModel.swift; sourceTree = "<group>"; };
@@ -3155,6 +3157,7 @@
 				9674E0E81FC68031000702F8 /* LoadingStateErrorView.swift */,
 				9674E0E61FC68015000702F8 /* LoadingStateLoadingView.swift */,
 				BC5C11EE1F2806890048CBBF /* LoadingStateNoContentView.swift */,
+				37F4233020CF69050051D853 /* LoadingState.swift */,
 			);
 			path = Loading;
 			sourceTree = "<group>";
@@ -5036,6 +5039,7 @@
 				196ED03A1F7C0207005F3F7C /* UILayoutPriority+Math.swift in Sources */,
 				46F77072200D688600BA6614 /* PixelWidthSelectionViewController.swift in Sources */,
 				19B025642074B91A00B7529F /* AnyActivityLauncher.swift in Sources */,
+				37F4233120CF69050051D853 /* LoadingState.swift in Sources */,
 				12353410207F167A008256AA /* DefaultEventDateTimeViewController.swift in Sources */,
 				96C51C901FD9EB35002C4640 /* CallsignStatusViewController.swift in Sources */,
 				465A944C2002D9B900C1749F /* LocationErrorManager.swift in Sources */,

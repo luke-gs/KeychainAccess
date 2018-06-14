@@ -59,7 +59,7 @@ public class SearchRecentsViewController: FormBuilderViewController, SearchRecen
         }
     }
 
-    private var viewModel: SearchRecentsViewModel
+    public private(set) var viewModel: SearchRecentsViewModel
 
     private let recentlyViewedBuilder = FormBuilder()
 
@@ -87,15 +87,20 @@ public class SearchRecentsViewController: FormBuilderViewController, SearchRecen
 
         // Setup the no content view.
 
-        let noContentView = loadingManager.noContentView
-        noContentView.imageView.image = AssetManager.shared.image(forKey: .refresh)
-        noContentView.imageView.tintColor = #colorLiteral(red: 0.6044161711, green: 0.6313971979, blue: 0.6581829122, alpha: 0.6420554578)
+        if let customNoContentView = viewModel.customNoContentView {
+            loadingManager.noContentView = customNoContentView
+        } else {
+            let noContentView = loadingManager.noContentView
+            noContentView.imageView.image = AssetManager.shared.image(forKey: .refresh)
+            noContentView.imageView.tintColor = #colorLiteral(red: 0.6044161711, green: 0.6313971979, blue: 0.6581829122, alpha: 0.6420554578)
 
-        noContentView.titleLabel.text = NSLocalizedString("You don't have any recently viewed entities or recent searches right now.", comment: "")
+            noContentView.titleLabel.text = NSLocalizedString("You don't have any recently viewed entities or recent searches right now.", comment: "")
 
-        let actionButton = noContentView.actionButton
-        actionButton.setTitle(NSLocalizedString("New Search", comment: ""), for: .normal)
-        actionButton.addTarget(self, action: #selector(newSearchButtonDidSelect(_:)), for: .primaryActionTriggered)
+            let actionButton = noContentView.actionButton
+            actionButton.setTitle(NSLocalizedString("New Search", comment: ""), for: .normal)
+        }
+
+        loadingManager.noContentView.actionButton.addTarget(self, action: #selector(newSearchButtonDidSelect(_:)), for: .primaryActionTriggered)
 
         updateLoadingManagerState()
 

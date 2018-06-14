@@ -58,7 +58,9 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     open var state: State = .loaded {
         didSet {
             if state != oldValue && baseView != nil {
+                containerView(for: oldValue)?.disappeared()
                 updateViewState()
+                containerView(for: state)?.appeared()
                 delegate?.loadingStateManager(self, didChangeState: state)
             }
         }
@@ -117,28 +119,34 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     ///
     /// This stack view is lazily loaded as needed. You can adjust the internal
     /// views for whatever effect you like, adding views etc where appropriate.
-    open private(set) lazy var loadingView: LoadingStateLoadingView = { [unowned self] in
-        self.loadingViewLoaded = true
-        return LoadingStateLoadingView(frame: .zero)
-        }()
+    public var loadingView: UIView & LoadingState = LoadingStateLoadingView(frame: .zero) {
+        didSet {
+            self.loadingViewLoaded = true
+            self.updateViewState()
+        }
+    }
 
     /// The no content view.
     ///
     /// This stack view is lazily loaded as needed. You can adjust the internal
     /// views for whatever effect you like, adding views etc where appropriate.
-    open private(set) lazy var noContentView: LoadingStateNoContentView = { [unowned self] in
-        self.noContentViewLoaded = true
-        return LoadingStateNoContentView(frame: .zero)
-        }()
+    public var noContentView: UIView & LoadingStateNoContent = LoadingStateNoContentView(frame: .zero) {
+        didSet {
+            self.noContentViewLoaded = true
+            self.updateViewState()
+        }
+    }
 
     /// The no content view.
     ///
     /// This stack view is lazily loaded as needed. You can adjust the internal
     /// views for whatever effect you like, adding views etc where appropriate.
-    open private(set) lazy var errorView: LoadingStateErrorView = { [unowned self] in
-        self.errorViewLoaded = true
-        return LoadingStateErrorView(frame: .zero)
-        }()
+    public var errorView: UIView & LoadingState = LoadingStateErrorView(frame: .zero) {
+        didSet {
+            self.errorViewLoaded = true
+            self.updateViewState()
+        }
+    }
 
     /// The color for both title and subtitle labels.
     open var noContentColor: UIColor! = .secondaryGray {
@@ -196,7 +204,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     // MARK: - Private methods
 
     /// Return the container view for the given state
-    private func containerViewForState(_ state: LoadingStateManager.State) -> BaseLoadingStateView? {
+    private func containerView(for state: LoadingStateManager.State) -> (UIView & LoadingState)? {
         switch state {
         case .loading:
             return loadingView
@@ -256,13 +264,7 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     }
 
     private func updateViewState() {
-        // Update loading indicator
-        if state == .loading {
-            loadingView.loadingIndicatorView.play()
-        } else if loadingViewLoaded {
-            loadingView.loadingIndicatorView.stop()
-        }
-        
+
         // If we have now loaded content, remove all container UI. Otherwise we re-use what
         // has already been created but swap out the container for current state
         if state == .loaded {
@@ -288,13 +290,16 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
 
         // Remove old container from scroll view
         for view in scrollView.subviews {
-            if view != contentGuide as? UIView {
+            if let view = view as? UIView & LoadingState {
                 view.removeFromSuperview()
             }
         }
 
         // Load the container view for the current state and add to scroll view
-        let containerView: BaseLoadingStateView! = containerViewForState(state)
+        let view: (UIView & LoadingState)? = containerView(for: state)
+
+        guard let containerView = view else { return }
+
         containerView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(containerView)
 
@@ -405,15 +410,9 @@ open class LoadingStateManager: TraitCollectionTrackerDelegate {
     @objc private func applyTheme() {
         let theme = ThemeManager.shared.theme(for: .current)
 
-        loadingView.loadingIndicatorView.color = theme.color(forKey: .tint)
-        loadingView.titleLabel.textColor = titleColor
-        loadingView.subtitleLabel.textColor = subtitleColor
-
-        noContentView.titleLabel.textColor = theme.color(forKey: .primaryText)
-        noContentView.subtitleLabel.textColor = theme.color(forKey: .secondaryText)
-
-        errorView.titleLabel.textColor = theme.color(forKey: .primaryText)
-        errorView.subtitleLabel.textColor = theme.color(forKey: .secondaryText)
+        loadingView.applyTheme(theme: theme)
+        noContentView.applyTheme(theme: theme)
+        errorView.applyTheme(theme: theme)
     }
 }
 

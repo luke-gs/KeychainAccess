@@ -11,6 +11,8 @@ import Foundation
 
 /// Default implementation of recents view model.
 open class EntitySummaryRecentsViewModel: SearchRecentsViewModel {
+    
+    public var customNoContentView: (UIView & LoadingStateNoContent)?
 
     public let recentlyViewed: EntityBucket
 

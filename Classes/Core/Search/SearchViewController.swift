@@ -24,7 +24,7 @@ fileprivate let navigationItemKeyPaths: [String] = [
 
 public class SearchViewController: UIViewController, SearchDelegate, SearchOptionsViewControllerDelegate {
 
-    private var recentsViewController: SearchRecentsViewController
+    public var recentsViewController: SearchRecentsViewController
     public var viewModel: SearchViewModel
 
     @objc dynamic private(set) var currentResultsViewController: UIViewController? {
@@ -107,8 +107,6 @@ public class SearchViewController: UIViewController, SearchDelegate, SearchOptio
         tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
         
         recentsViewController.delegate = self
-        addChildViewController(recentsViewController)
-        recentsViewController.didMove(toParentViewController: self)
         
         let recentsNavItem = recentsViewController.navigationItem
         let optionsNavItem = searchOptionsViewController.navigationItem
@@ -144,6 +142,9 @@ public class SearchViewController: UIViewController, SearchDelegate, SearchOptio
     
     override public func viewDidLoad() {
         super.viewDidLoad()
+
+        addChildViewController(recentsViewController)
+        recentsViewController.didMove(toParentViewController: self)
         
         let currentVC = currentResultsViewController ?? recentsViewController
         let currentVCView = currentVC.view!
