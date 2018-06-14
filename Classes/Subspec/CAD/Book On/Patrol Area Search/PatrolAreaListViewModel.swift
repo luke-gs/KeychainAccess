@@ -80,7 +80,7 @@ open class PatrolAreaListViewModel: DefaultSearchDisplayableViewModel {
     }
     
     public func indexOfSelectedItem() -> Int? {
-        return items.firstIndex(where: { $0.title == selectedPatrolArea })
+        return items.indexes(where: { $0.title == selectedPatrolArea }).first
     }
     
     public override func accessory(for searchable: CustomSearchDisplayable) -> ItemAccessorisable? {
