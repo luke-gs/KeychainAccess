@@ -1,0 +1,69 @@
+platform :ios, '10.0'
+use_frameworks!
+inhibit_all_warnings!
+
+source 'https://github.com/CocoaPods/Specs.git'
+source 'https://github.com/Gridstone/SpecRepo-iOS.git'
+
+workspace 'MPOL'
+project 'MPOL.xcodeproj', 'External-Debug' => :debug, 'Internal-Debug' => :debug
+project '../ClientKit/ClientKit.xcodeproj'
+
+def mpol_kit
+    pod 'MPOLKit', :git=> 'https://github.com/Gridstone/mPolKit-iOS'
+    #pod 'MPOLKit', :path => '../../mPolKit-iOS', :inhibit_warnings => false
+end
+
+def mpol_kit_crypto
+    pod 'MPOLKitCrypto', :git=> 'https://github.com/Gridstone/mPolKit-iOS'
+    #pod 'MPOLKitCrypto', :path => '../../mPolKit-iOS'
+end
+
+target 'ClientKit' do
+    project '../ClientKit/ClientKit.xcodeproj'
+    mpol_kit
+    
+    target 'ClientKitTests' do
+        inherit! :search_paths
+    end
+end
+
+target 'MPOL' do
+    project 'MPOL.xcodeproj'
+    mpol_kit
+    pod "HockeySDK", :configurations => ['internal-release', 'internal-debug', 'external-release', 'external-debug']
+    pod "HyperioniOS", :configurations => ['Debug']
+end
+
+target 'APNS Extension' do
+    project 'MPOL.xcodeproj'
+    mpol_kit_crypto
+    pod 'KeychainAccess'
+end
+
+
+# Workaround, swift is hard...
+swift_32 = ['Alamofire', 'Unbox', 'Wrap']
+swift4 = ['MPOLKit', 'PromiseKit', 'KeychainAccess']
+
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+
+        swift_version = nil
+
+        if swift_32.include?(target.name)
+            swift_version = '3.2'
+        end
+
+        if swift4.include?(target.name)
+            swift_version = '4.0'
+        end
+
+        target.build_configurations.each do |config|
+            config.build_settings['ENABLE_BITCODE'] = 'NO'
+            if swift_version
+                config.build_settings['SWIFT_VERSION'] = swift_version
+            end
+        end
+    end
+end
