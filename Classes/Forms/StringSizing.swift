@@ -159,10 +159,18 @@ public struct StringSizing: StringSizable {
             return font.lineHeight.ceiled(toScale: displayScale)
         }
         
+        var attributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.font: font]
+        
+        if let attributedString = attributedString {
+            for (key, value) in attributedString.attributes(at: 0, effectiveRange: nil) {
+                attributes[key] = value
+            }
+        }
+        
         let maximumHeight = font.height(forNumberOfLines: numberOfLines).ceiled(toScale: traitCollection.currentDisplayScale)
         let size = (string as NSString).boundingRect(with: CGSize(width: width, height: maximumHeight),
                                                      options: .usesLineFragmentOrigin,
-                                                     attributes: [NSAttributedStringKey.font: font],
+                                                     attributes: attributes,
                                                      context: nil)
         
         return min(size.height.ceiled(toScale: traitCollection.currentDisplayScale), maximumHeight)
