@@ -60,7 +60,8 @@ open class ResourceTaskItemViewModel: TaskItemViewModel {
 
     open override func loadTaskItem() -> Promise<CADTaskListItemModelType> {
         // Use map to convert resource to CADTaskListItemModelType and keep compiler happy
-        return CADStateManager.shared.getResourceDetails(identifier: taskItemIdentifier).map { resource in
+        return CADStateManager.shared.getResourceDetails(identifier: taskItemIdentifier).map { [weak self] resource in
+            self?.lastDetailLoadTime = Date()
             return resource
         }
     }
