@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// Model object for encrypted push notification content
+/// Model object for encrypted push notification content used in Search
 public struct SearchNotificationContent: Codable {
     let type: String
     let operation: String

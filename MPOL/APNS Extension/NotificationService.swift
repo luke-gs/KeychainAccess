@@ -27,6 +27,10 @@ class NotificationService: UNNotificationServiceExtension {
         // Decrypt the content
         if let encryptedContent = userInfo["content"] as? String {
             if let data = decryptContentAsData(encryptedContent) {
+
+                // Store decrypted data in message for app to use
+                mutableContent.userInfo["decrypted"] = data.base64EncodedString()
+
                 // Parse content into model object
                 if let content = try? JSONDecoder().decode(SearchNotificationContent.self, from: data) {
                     switch content.type {
