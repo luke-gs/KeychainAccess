@@ -24,6 +24,12 @@ open class NotificationManager: NSObject {
     /// Singleton
     public static var shared = NotificationManager()
 
+    /// User info key for encrypted content, can be overridden
+    public static var encryptedContentKey = "content"
+
+    /// User info key for decrypted content, can be overridden
+    public static var decryptedContentKey = "decrypted"
+
     /// Convenience for notification center
     public let notificationCenter = UNUserNotificationCenter.current()
 
@@ -191,23 +197,31 @@ open class NotificationManager: NSObject {
     // MARK: - Decryption
 
     /// Decrypt the contents of an encrypted push notification
-    open func decryptContentAsData(_ content: String) -> Data? {
-        guard let data = Data(base64Encoded: content) else { return nil }
-        return CryptoUtils.decryptCipher(AESBlockCipher.AES_256, dataWithIV: data, keyData: pushKey)
-    }
+    open func decryptUserInfo<ContentType: Codable>(_ userInfo: [AnyHashable : Any]) -> ContentType? {
+        // Decrypt the content of the message
+        var data: Data? = nil
+        if let decryptedContent = userInfo[NotificationManager.decryptedContentKey] as? String {
+            // Content has already been decrypted by notification extension, so just use it
+            data = Data(base64Encoded: decryptedContent)
+        } else if let encryptedContent = userInfo[NotificationManager.encryptedContentKey] as? String {
+            // Content requires decryption (eg silent notification)
+            data = decryptContent(encryptedContent)
+        }
 
-    /// Decrypt the contents of an encrypted push notification, returning as a dictionary
-    open func decryptContentAsDictionary(_ content: String) -> [String: AnyObject]? {
-        // Decrypt the content
-        if let decryptedData = decryptContentAsData(content) {
-            // JSON decode the result
-            if let json = try? JSONSerialization.jsonObject(with: decryptedData, options: []) as? [String: AnyObject]  {
-                return json
+        // Decode message from data
+        if let data = data {
+            if let message = try? JSONDecoder().decode(ContentType.self, from: data) {
+                return message
             }
         }
         return nil
     }
 
+    /// Decrypt a Base64 encoded string containing encrypted data from an encrypted push notification
+    open func decryptContent(_ content: String) -> Data? {
+        guard let data = Data(base64Encoded: content) else { return nil }
+        return CryptoUtils.decryptCipher(AESBlockCipher.AES_256, dataWithIV: data, keyData: pushKey)
+    }
 }
 
 // MARK: - UNUserNotificationCenterDelegate
