@@ -29,20 +29,15 @@ class CADNotificationHandler: NotificationHandler {
     func handleNotificationAction(_ action: NotificationAction, notification: UNNotification) -> Promise<Void> {
         let userInfo = notification.request.content.userInfo
 
-        // Decrypt the content
-        if let encryptedContent = userInfo["content"] as? String {
-            if let data = NotificationManager.shared.decryptContentAsData(encryptedContent) {
-                // Parse content into model object
-                if let content = try? JSONDecoder().decode(CADNotificationContent.self, from: data) {
-                    switch content.type {
-                    case "incident":
-                        if let identifier = content.identifier {
-                            openIncident(identifier)
-                        }
-                    default:
-                        break
-                    }
+        // Decrypt the content of the message
+        if let content: CADNotificationContent = NotificationManager.shared.decryptUserInfo(userInfo) {
+            switch content.type {
+            case "incident":
+                if let identifier = content.identifier {
+                    openIncident(identifier)
                 }
+            default:
+                break
             }
         }
         return Promise<Void>()
