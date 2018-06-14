@@ -23,7 +23,7 @@ class NotificationService: UNNotificationServiceExtension {
         return CryptoUtils.decryptCipher(AESBlockCipher.AES_256, dataWithIV: data, keyData: pushKey)
     }
 
-    open func updateContent(mutableContent: UNMutableNotificationContent, userInfo: [AnyHashable : Any]) {
+    open func updateContent(mutableContent: UNMutableNotificationContent, userInfo: [AnyHashable: Any]) {
         // Decrypt the content
         if let encryptedContent = userInfo["content"] as? String {
             if let data = decryptContentAsData(encryptedContent) {
