@@ -12,9 +12,6 @@ import KeychainAccess
 class NotificationService: UNNotificationServiceExtension {
 
     private let PushKeyKeychainKey = "NotificationManager.pushKey"
-
-    // This should probably use Configuration.keychain, but then we would need to pull client kit into extension
-    // For now, these are the same anyway
     private let keychain: Keychain = SharedKeychainCapability.defaultKeychain
 
     var contentHandler: ((UNNotificationContent) -> Void)?
@@ -23,7 +20,6 @@ class NotificationService: UNNotificationServiceExtension {
     open func decryptContentAsData(_ content: String) -> Data? {
         guard let data = Data(base64Encoded: content) else { return nil }
         guard let pushKeyData = try? keychain.getData(PushKeyKeychainKey), let pushKey = pushKeyData else { return nil }
-
         return CryptoUtils.decryptCipher(AESBlockCipher.AES_256, dataWithIV: data, keyData: pushKey)
     }
 
@@ -34,28 +30,16 @@ class NotificationService: UNNotificationServiceExtension {
                 // Parse content into model object
                 if let content = try? JSONDecoder().decode(SearchNotificationContent.self, from: data) {
                     switch content.type {
-                    case "incident":
-                        guard let identifier = content.identifier else { break }
-                        mutableContent.title = identifier
-                        mutableContent.body = "Event has been updated"
-                    case "resource":
-                        guard let identifier = content.identifier else { break }
-                        switch content.operation {
-                        case "updated":
-                            mutableContent.title = identifier
-                            mutableContent.body = "Unit has been updated"
-                        case "bookOff":
-                            mutableContent.title = identifier
-                            mutableContent.body = "Unit has been booked off"
-                        default:
-                            break
-                        }
+                    // TODO: handle Search app loud notification types
+                    // case "hothit":
+                    //    mutableContent.title = "Hot Hit"
+                    //    mutableContent.body = "something blah"
                     default:
                         break
                     }
                 } else {
-                    mutableContent.title = "Decrypted"
-                    mutableContent.body = String(data: data, encoding: .ascii) ?? ""
+                    // If not matching expected object, just show decrypted content as message
+                    mutableContent.body = String(data: data, encoding: .utf8) ?? ""
                 }
             }
         }
@@ -78,15 +62,5 @@ class NotificationService: UNNotificationServiceExtension {
         if let contentHandler = contentHandler, let bestAttemptContent =  bestAttemptContent {
             contentHandler(bestAttemptContent)
         }
-    }
-
-}
-
-// MARK: - Data extension
-
-/// Convenience private extension for converting data to hex string
-fileprivate extension Data {
-    func hexString() -> String {
-        return map { String(format: "%02.2hhx", $0) }.joined()
     }
 }
