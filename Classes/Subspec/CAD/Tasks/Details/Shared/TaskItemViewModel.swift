@@ -62,8 +62,10 @@ open class TaskItemViewModel {
     
     /// The text to show for the last update
     open func lastUpdatedText() -> String? {
-        if let syncTimeString = CADStateManager.shared.lastSyncTime?.elapsedTimeIntervalForHuman() {
-            return "Updated \(lastDetailLoadTime?.elapsedTimeIntervalForHuman() ?? syncTimeString)"
+        if let lastDetailLoadTime = lastDetailLoadTime?.elapsedTimeIntervalForHuman() {
+            return "Updated \(lastDetailLoadTime)"
+        } else if let syncTimeString = CADStateManager.shared.lastSyncTime?.elapsedTimeIntervalForHuman() {
+            return "Updated \(syncTimeString)"
         }
         return nil
     }
