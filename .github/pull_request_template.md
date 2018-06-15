@@ -13,6 +13,13 @@ List any dependencies that are required for this change.
 - [ ] Breaking change
 - [ ] Refactoring
 
+## Implemented for project
+
+- [ ] PS Core
+- [ ] VicPol
+- [ ] DTMR
+- [ ] Other
+
 ## Implements JIRA (if applicable)
 https://gridstone.atlassian.net/browse/MPOLA-1546
 
