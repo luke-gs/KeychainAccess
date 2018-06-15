@@ -10,13 +10,13 @@ project 'MPOL.xcodeproj', 'External-Debug' => :debug, 'Internal-Debug' => :debug
 project '../ClientKit/ClientKit.xcodeproj'
 
 def mpol_kit
-    #pod 'MPOLKit', :git=> 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
-    pod 'MPOLKit', :path => '../../mPolKit-iOS', :inhibit_warnings => false
+    pod 'MPOLKit', :git=> 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
+    #pod 'MPOLKit', :path => '../../mPolKit-iOS', :inhibit_warnings => false
 end
 
 def mpol_kit_crypto
-    #pod 'MPOLKitCrypto', :git=> 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
-    pod 'MPOLKitCrypto', :path => '../../mPolKit-iOS'
+    pod 'MPOLKitCrypto', :git=> 'https://github.com/Gridstone/mPolKit-iOS', :branch => 'development'
+    #pod 'MPOLKitCrypto', :path => '../../mPolKit-iOS'
 end
 
 target 'ClientKit' do
