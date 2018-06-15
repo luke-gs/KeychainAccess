@@ -48,7 +48,7 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
             .selectedValue(viewModel.report?.reportedOnDateTime)
             .onValueChanged({ [viewModel] date in
                 viewModel.reportedOnDateTimeChanged(date)
-                startTime.minimumDate(date)
+                startTime.maximumDate(date)
             })
             .required()
         builder += reportedOn
@@ -62,7 +62,7 @@ open class DefaultEventDateTimeViewController: FormBuilderViewController, Evalua
             .datePickerMode(.dateAndTime)
             .withNowButton(true)
             .width(.column(2))
-            .minimumDate(viewModel.report?.reportedOnDateTime)
+            .maximumDate(viewModel.report?.reportedOnDateTime)
             .selectedValue(viewModel.report?.tookPlaceFromStartDateTime)
             .onValueChanged { [viewModel] date in
                 viewModel.adjustEndTime(for: date, in: endTime)
