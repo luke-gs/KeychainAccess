@@ -15,12 +15,22 @@ open class LogUtils {
         return dictionary.asJSONString() ?? dictionary.debugDescription
     }
 
+    /// Convert an array of dictionaries to a string for logging
+    public static func string(from array: [[AnyHashable: Any]]) -> String {
+        return array.asJSONString() ?? array.debugDescription
+    }
+
     // Add any other type conversions here...
 }
 
-/// Internal extension for pretty JSON formatting of dictionaries
-fileprivate extension Dictionary {
+/// Internal extension for pretty JSON formatting of JSON objects
+fileprivate protocol JSONObjectType {
 
+    // Convert the object to a pretty formatted string
+    func asJSONString() -> String?
+}
+
+fileprivate extension JSONObjectType {
     func asJSONString() -> String? {
         if let jsonData = try? JSONSerialization.data(withJSONObject: self, options: .prettyPrinted) {
             if let jsonString = String(data: jsonData, encoding: .utf8) {
@@ -30,3 +40,6 @@ fileprivate extension Dictionary {
         return nil
     }
 }
+
+extension Dictionary: JSONObjectType {}
+extension Array: JSONObjectType {}
