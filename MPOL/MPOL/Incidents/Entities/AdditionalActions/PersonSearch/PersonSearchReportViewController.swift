@@ -17,7 +17,6 @@ public class PersonSearchReportViewController: FormBuilderViewController, Evalua
         self.viewModel = viewModel
         super.init()
         self.title = "Person Search Report"
-        wantsTransparentBackground = false
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(doneSelected))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneSelected))
         viewModel.report.evaluator.addObserver(self)
