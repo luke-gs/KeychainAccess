@@ -55,27 +55,63 @@ public class LandingPresenter: AppGroupLandingPresenter {
             } else {
                 mode = .usernamePassword(delegate: self)
             }
+
             let loginViewController = LoginViewController(mode: mode)
 
             loginViewController.minimumUsernameLength = 1
             loginViewController.minimumPasswordLength = 1
 
-            loginViewController.backgroundImage = #imageLiteral(resourceName: "Login")
-            loginViewController.headerView = LoginHeaderView(title: NSLocalizedString("PSCore", comment: "Login screen header title"),
-                                                             subtitle: NSLocalizedString("Public Safety Mobile Platform", comment: "Login screen header subtitle"), image: #imageLiteral(resourceName: "MPOLIcon"))
-            loginViewController.bottomLeftImage = #imageLiteral(resourceName: "GSMotoLogo")
-
-
             #if DEBUG
-                loginViewController.usernameField.textField.text = "gridstone"
-                loginViewController.passwordField.textField.text = "mock"
+            loginViewController.usernameField.textField.text = "gridstone"
+            loginViewController.passwordField.textField.text = "mock"
             #endif
 
             if let username = retrievedUsername {
                 loginViewController.usernameField.textField.text = username
             }
 
-            return loginViewController
+            let loginContainer = LoginContainerViewController()
+            let header = FancyLoginHeaderView()
+
+            let loginHeader = LoginHeaderView(title: NSLocalizedString("PSCore", comment: "Login screen header title"),
+                                        subtitle: NSLocalizedString("Public Safety Mobile Platform", comment: "Login screen header subtitle"), image: #imageLiteral(resourceName: "MPOLIcon"))
+            header.addToStackView(loginHeader)
+            header.addToStackView(SpacerView())
+            header.addToStackView(SpacerView())
+
+            let footer = FancyLoginFooterView()
+
+            /// The version number
+             var versionLabel: UILabel = {
+                let label = UILabel(frame: .zero)
+                label.font = .systemFont(ofSize: 13.0, weight: UIFont.Weight.bold)
+                label.textColor = UIColor(white: 1.0, alpha: 0.64)
+
+                if let info = Bundle.main.infoDictionary {
+                    let version = info["CFBundleShortVersionString"] as? String ?? ""
+                    let build   = info["CFBundleVersion"] as? String ?? ""
+
+                    label.text = "Version \(version) #\(build)"
+                }
+
+                label.textAlignment = .right
+                return label
+            }()
+
+            let imageView = UIImageView(image: #imageLiteral(resourceName: "GSMotoLogo"))
+            imageView.contentMode = .bottomLeft
+
+            footer.addToStackView(imageView)
+            footer.addToStackView(SpacerView())
+            footer.addToStackView(versionLabel)
+
+            loginContainer.backgroundImage = #imageLiteral(resourceName: "Login")
+
+            loginContainer.addContentViewController(loginViewController)
+            loginContainer.addHeaderView(header)
+            loginContainer.addFooterView(footer)
+
+            return loginContainer
 
         case .termsAndConditions:
             let tsAndCsVC = TermsConditionsViewController(fileURL: Bundle.main.url(forResource: "termsandconditions", withExtension: "html")!)
