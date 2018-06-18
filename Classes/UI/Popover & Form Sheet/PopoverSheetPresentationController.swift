@@ -143,6 +143,15 @@ public class PopoverSheetPresentationController: UIPresentationController, UIVie
             positionedRect.origin.y = ((containerHeightWithoutKeyboard - presentedViewSize.height) / 2.0).floored(toScale: displayScale)
         }
         
+        let statusBarHeightWithPadding = UIApplication.shared.statusBarFrame.height + 4
+        
+        // If the rect is equal to or bigger than the screen size minus the status bar height and we have no offset,
+        // we need to manually offset it to be below the status bar and cut the size accordingly
+        if presentedViewSize.height >= UIScreen.main.bounds.height - statusBarHeightWithPadding && positionedRect.origin.y <= statusBarHeightWithPadding {
+            positionedRect.origin.y = statusBarHeightWithPadding
+            positionedRect.size.height -= statusBarHeightWithPadding
+        }
+        
         positionedRect.origin.y = max(positionedRect.origin.y, presentingViewController.topLayoutGuide.length)
         return positionedRect
     }
