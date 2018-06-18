@@ -96,7 +96,7 @@ open class OfficerDetailsViewController: FormBuilderViewController {
         }
 
         builder += DropDownFormItem(title: NSLocalizedString("Capabilities", comment: ""))
-            .options(CADStateManager.shared.capabilityItems().compactMap {return $0.title})
+            .options(CADStateManager.shared.manifestEntries(for: .capability).compactMap {return $0.title})
             .width(.column(1))
             .selectedValue(viewModel.content.capabilities)
             .allowsMultipleSelection(true)

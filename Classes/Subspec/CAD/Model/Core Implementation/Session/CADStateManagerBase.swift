@@ -172,19 +172,9 @@ open class CADStateManagerBase: CADStateManagerType {
 
     // MARK: - Manifest
 
-    /// Fetch the officer capabilities
-    open func capabilityItems() -> [ManifestEntry] {
-        return Manifest.shared.entries(for: .CapabilityCollection) ?? []
-    }
-
-    /// Fetch the book on equipment items
-    open func equipmentItems() -> [ManifestEntry] {
-        return Manifest.shared.entries(for: .EquipmentCollection) ?? []
-    }
-
-    /// Fetch the patrol groups
-    open func patrolGroups() -> [ManifestEntry] {
-        return Manifest.shared.entries(for: .PatrolGroupCollection) ?? []
+    /// Fetch manifest entries
+    open func manifestEntries(for collection: ManifestCollection) -> [ManifestEntry] {
+        return Manifest.shared.entries(for: collection) ?? []
     }
 
     /// Sync the latest manifest items, optionally matching the specified categories

@@ -71,14 +71,8 @@ public protocol CADStateManagerType {
 
     // MARK: - Manifest
 
-    /// Fetch the officer capabilities
-    func capabilityItems() -> [ManifestEntry]
-
-    /// Fetch the book on equipment items
-    func equipmentItems() -> [ManifestEntry]
-
-    /// Fetch the patrol groups
-    func patrolGroups() -> [ManifestEntry]
+    /// Fetch manifest entries
+    func manifestEntries(for collection: ManifestCollection) -> [ManifestEntry]
 
     /// Sync the latest manifest items, optionally matching the specified categories
     func syncManifestItems(categories: [String]?) -> Promise<Void>
@@ -156,9 +150,27 @@ public extension NSNotification.Name {
 
 // Extension for custom manifest categories
 public extension ManifestCollection {
-    static let CapabilityCollection = ManifestCollection(rawValue: "Capability")
-    static let EquipmentCollection = ManifestCollection(rawValue: "Equipment")
-    static let PatrolGroupCollection = ManifestCollection(rawValue: "PatrolGroup")
+
+    // CAD
+    static var activityLogType = ManifestCollection(rawValue: "ActivityLogType")
+    static var capability = ManifestCollection(rawValue: "Capability")
+    static var equipment = ManifestCollection(rawValue: "Equipment")
+    static var incidentType = ManifestCollection(rawValue: "IncidentType")
+    static var officerLicenceType = ManifestCollection(rawValue: "OfficerLicenceType")
+    static var officerCapability = ManifestCollection(rawValue: "OfficerCapability")
+    static var patrolGroup = ManifestCollection(rawValue: "PatrolGroup")
+    static var patrolType = ManifestCollection(rawValue: "PatrolType")
+    static var vehicleCatgory = ManifestCollection(rawValue: "VehicleCategory")
+    static var welfareCheckReason = ManifestCollection(rawValue: "WelfareCheckReason")
+
+    // Search
+    static var personBuild = ManifestCollection(rawValue: "PersonBuild")
+    static var personHairColour = ManifestCollection(rawValue: "PersonHairColour")
+    static var personEyeColour = ManifestCollection(rawValue: "PersonEyeColour")
+    static var personRace = ManifestCollection(rawValue: "PersonRace")
+    static var eventLocationInvolvementType = ManifestCollection(rawValue: "EventLocationInvolvementType")
+    static var eventOfficerInvolvement = ManifestCollection(rawValue: "EventOfficerInvolvement")
+    static var eventEntityRelationship = ManifestCollection(rawValue: "EventEntityRelationship")
 }
 
 /// Extendable class for defining CAD specific local notifications
