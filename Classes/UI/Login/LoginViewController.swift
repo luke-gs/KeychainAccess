@@ -12,94 +12,7 @@ import LocalAuthentication
 
 fileprivate var kvoContext = 1
 
-
 open class LoginViewController: UIViewController, UITextFieldDelegate {
-
-    /// The image to present behind the login screen.
-    open var backgroundImage: UIImage? {
-        didSet {
-            backgroundView?.image = backgroundImage
-        }
-    }
-
-    // Branding image that sits in bottom left corner
-    open var bottomLeftImage: UIImage? {
-        didSet {
-            leftAccessoryView = UIImageView(image: bottomLeftImage)
-        }
-    }
-    
-    /// The header view to show above the login credentials section.
-    ///
-    /// This view is generally used to present branding for the MPOL product,
-    /// and will be positioned by AutoLayout.
-    open var headerView: UIView? {
-        didSet {
-            if headerView == oldValue { return }
-            
-            headerView?.alpha = isHeaderAndAccessoryViewHidden ? 0.0 : 1.0
-            
-            guard let contentStackView = self.contentStackView else { return }
-            
-            if oldValue?.superview == contentStackView {
-                oldValue?.removeFromSuperview()
-            }
-            
-            if let newHeader = headerView {
-                contentStackView.insertArrangedSubview(newHeader, at: 0)
-            }
-        }
-    }
-    
-    open var leftAccessoryView: UIView? {
-        didSet {
-            if oldValue == leftAccessoryView { return }
-            
-            // Remove previous leftView from superview
-            if let oldValue = oldValue {
-                oldValue.removeFromSuperview()
-            }
-            
-            if let leftView = leftAccessoryView, let accessoryView = accessoryView {
-                // Setup leftView for autolayout
-                leftView.translatesAutoresizingMaskIntoConstraints = false
-                accessoryView.addSubview(leftView)
-                
-                // Add constraints to pin to left in accessoryView
-                NSLayoutConstraint.activate([
-                    leftView.leadingAnchor.constraint(equalTo: accessoryView.leadingAnchor),
-                    leftView.bottomAnchor.constraint(equalTo: accessoryView.bottomAnchor),
-                    leftView.topAnchor.constraint(greaterThanOrEqualTo: accessoryView.topAnchor),
-                    leftView.trailingAnchor.constraint(lessThanOrEqualTo: accessoryView.centerXAnchor, constant: -5.0)
-                    ])
-            }
-        }
-    }
-    
-    open var rightAccessoryView: UIView? {
-        didSet {
-            if oldValue == rightAccessoryView { return }
-            
-            // Remove previous rightView from superview
-            if let oldValue = oldValue {
-                oldValue.removeFromSuperview()
-            }
-            
-            if let rightView = rightAccessoryView, let accessoryView = accessoryView {
-                // Setup rightView for autolayout
-                rightView.translatesAutoresizingMaskIntoConstraints = false
-                accessoryView.addSubview(rightView)
-                
-                // Add constraints to pin to right in accessoryView
-                NSLayoutConstraint.activate([
-                    rightView.leadingAnchor.constraint(greaterThanOrEqualTo: accessoryView.centerXAnchor, constant: 5.0),
-                    rightView.bottomAnchor.constraint(equalTo: accessoryView.bottomAnchor),
-                    rightView.topAnchor.constraint(greaterThanOrEqualTo: accessoryView.topAnchor),
-                    rightView.trailingAnchor.constraint(equalTo: accessoryView.trailingAnchor)
-                    ])
-            }
-        }
-    }
 
     open private(set) lazy var credentialsView: UIView? = nil
 
@@ -220,23 +133,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         return label
     }()
     
-    
-    /// The version number
-    open private(set) lazy var versionLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.font = .systemFont(ofSize: 13.0, weight: UIFont.Weight.bold)
-        label.textColor = UIColor(white: 1.0, alpha: 0.64)
-        
-        if let info = Bundle.main.infoDictionary {
-            let version = info["CFBundleShortVersionString"] as? String ?? ""
-            let build   = info["CFBundleVersion"] as? String ?? ""
-            
-            label.text = "Version \(version) #\(build)"
-        }
-        
-        return label
-    }()
-    
+
+
     /// The minimum length of the username before the login button is enabled.
     ///
     /// The default is `0`.
@@ -350,10 +248,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     
     private var _prefersStatusBarHidden: Bool = false
 
-    private var backgroundView: UIImageView?
-
-    private var bottomLeftImageView: UIImageView?
-    
     private var scrollView: UIScrollView?
     
     private var contentView: UIView?
@@ -361,9 +255,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     private var contentStackView: UIStackView?
     
     private var loginStackView: UIStackView?
-    
-    private var accessoryView: UIView?
-    
+
     private lazy var loadingIndicator: LOTAnimationView? = {
         let spinner = MPOLSpinnerView(style: .regular)
         spinner.isHidden = true
@@ -381,11 +273,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     }()
     
     private var preferredLayoutGuideBottomConstraint: NSLayoutConstraint?
-    
-    private var showingHeaderConstraint: NSLayoutConstraint?
-    
-    private var showingAccessoryConstraint: NSLayoutConstraint?
-    
+
     private var separatorHeightConstraint: NSLayoutConstraint?
     
     private var forgotPasswordSeparation: NSLayoutConstraint?
@@ -403,18 +291,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     private var isPasswordFieldLoaded: Bool = false
     
     private var isLoginButtonLoaded: Bool = false
-    
-    private var isHeaderAndAccessoryViewHidden: Bool = false {
-        didSet {
-            if isHeaderAndAccessoryViewHidden == oldValue { return }
-            
-            headerView?.alpha = isHeaderAndAccessoryViewHidden ? 0.0 : 1.0
-            accessoryView?.alpha = isHeaderAndAccessoryViewHidden ? 0.0 : 1.0
-            showingHeaderConstraint?.isActive = isHeaderAndAccessoryViewHidden == false
-            showingAccessoryConstraint?.isActive = isHeaderAndAccessoryViewHidden == false
-        }
-    }
-    
+
     private lazy var authenticationContext = LAContext()
     
     // MARK: - Initializers
@@ -448,14 +325,11 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     // MARK: - View lifecycle
     
     open override func loadView() {
-        let backgroundView = UIImageView(image: backgroundImage)
-        backgroundView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        backgroundView.contentMode = .scaleAspectFill
-        backgroundView.isUserInteractionEnabled = true
-        
-        let scrollView = UIScrollView(frame: backgroundView.bounds)
+        super.loadView()
+
+        let scrollView = UIScrollView(frame: view.bounds)
         scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        backgroundView.addSubview(scrollView)
+        view.addSubview(scrollView)
         
         let contentView = UIView()
         contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -463,16 +337,12 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         
         let credentialsView: UIView = createCredentialsView()
 
-        let versionLabel = self.versionLabel
-        versionLabel.translatesAutoresizingMaskIntoConstraints = false
-        backgroundView.addSubview(versionLabel)
-        
         let loginStackView = UIStackView(arrangedSubviews: [loginButton, changeUserButton, termsAndConditionsLabel])
         loginStackView.axis      = .vertical
         loginStackView.alignment = .center
         loginStackView.spacing   = 20.0
         
-        let contentViews = [headerView, credentialsView, loginStackView].removeNils()
+        let contentViews = [credentialsView, loginStackView]
         let contentStackView = UIStackView(arrangedSubviews: contentViews)
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         contentStackView.axis = .vertical
@@ -480,25 +350,14 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         contentStackView.spacing   = 43.0
         contentStackView.setContentCompressionResistancePriority(UILayoutPriority.required, for: .vertical)
         contentView.addSubview(contentStackView)
-        
-        let accessoryView = createAccessoryView()
-        contentView.addSubview(accessoryView)
-        
-        self.backgroundView    = backgroundView
+
         self.scrollView        = scrollView
         self.contentView       = contentView
         self.contentStackView  = contentStackView
-        self.accessoryView     = accessoryView
         self.credentialsView   = credentialsView
         self.loginStackView    = loginStackView
-        
-        self.view = backgroundView
-        self.rightAccessoryView = versionLabel
-        
-        let preferredLayoutGuideBottomConstraint = contentView.heightAnchor.constraint(equalTo: backgroundView.heightAnchor, constant: -20.0).withPriority(.defaultHigh - 1)
-        
-        let showingHeaderConstraint = contentStackView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 20.0)
-        let showingAccessoryConstraint = accessoryView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24.0)
+
+        let preferredLayoutGuideBottomConstraint = contentView.heightAnchor.constraint(equalTo: view.heightAnchor, constant: -20.0).withPriority(.defaultHigh - 1)
 
         var constraints = [
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -513,18 +372,10 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             preferredLayoutGuideBottomConstraint,
 
-            showingHeaderConstraint,
             contentStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             contentStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).withPriority(.defaultHigh - 2),
             contentStackView.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, constant: -20.0),
             contentStackView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -20.0),
-
-            accessoryView.topAnchor.constraint(greaterThanOrEqualTo: contentStackView.bottomAnchor, constant: 15.0),
-            accessoryView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24.0),
-            accessoryView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24.0),
-            showingAccessoryConstraint,
-
-            termsAndConditionsLabel.widthAnchor.constraint(equalToConstant: 256.0),
 
             loginButton.widthAnchor.constraint(equalToConstant: 256.0),
             loginButton.heightAnchor.constraint(equalToConstant: 48.0).withPriority(UILayoutPriority.defaultHigh),
@@ -548,8 +399,6 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         NSLayoutConstraint.activate(constraints)
         
         self.preferredLayoutGuideBottomConstraint = preferredLayoutGuideBottomConstraint
-        self.showingHeaderConstraint              = showingHeaderConstraint
-        self.showingAccessoryConstraint           = showingAccessoryConstraint
     }
     
     private func createCredentialsView() -> UIView {
@@ -591,43 +440,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         
         return credentialsView
     }
-    
-    private func createAccessoryView() -> UIView {
-        let accessoryView = UIView()
-        accessoryView.translatesAutoresizingMaskIntoConstraints = false
-        accessoryView.setContentHuggingPriority(UILayoutPriority.required, for: .vertical)
-        
-        var constraints: [NSLayoutConstraint] = []
-        
-        if let leftView = leftAccessoryView {
-            leftView.translatesAutoresizingMaskIntoConstraints = false
-            accessoryView.addSubview(leftView)
-            
-            constraints += [
-                leftView.leadingAnchor.constraint(equalTo: accessoryView.leadingAnchor),
-                leftView.bottomAnchor.constraint(equalTo: accessoryView.bottomAnchor),
-                leftView.topAnchor.constraint(greaterThanOrEqualTo: accessoryView.topAnchor),
-                leftView.trailingAnchor.constraint(lessThanOrEqualTo: accessoryView.centerXAnchor, constant: -5.0)
-            ]
-        }
-        
-        if let rightView = rightAccessoryView {
-            rightView.translatesAutoresizingMaskIntoConstraints = false
-            accessoryView.addSubview(rightView)
-            
-            constraints += [
-                rightView.leadingAnchor.constraint(greaterThanOrEqualTo: accessoryView.centerXAnchor, constant: 5.0),
-                rightView.bottomAnchor.constraint(equalTo: accessoryView.bottomAnchor),
-                rightView.topAnchor.constraint(greaterThanOrEqualTo: accessoryView.topAnchor),
-                rightView.trailingAnchor.constraint(equalTo: accessoryView.trailingAnchor)
-            ]
-        }
-        
-        NSLayoutConstraint.activate(constraints)
-        
-        return accessoryView
-    }
-    
+
     open override func viewDidLoad() {
         super.viewDidLoad()
         updateLoginMode()
@@ -646,16 +459,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         
         super.viewWillLayoutSubviews()
     }
-    
-    open override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        let topLayoutInset    = topLayoutGuide.length
-        let bottomLayoutInset = max(bottomLayoutGuide.length, statusTabBarInset, keyboardInset)
-        
-        isHeaderAndAccessoryViewHidden = keyboardInset >~ 0.0 && (view.frame.height - topLayoutInset - bottomLayoutInset < (contentStackView?.frame.height ?? 0.0))
-    }
-    
+
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         

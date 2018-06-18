@@ -58,6 +58,7 @@
 		12F869EE1F5FD24B0006EC5C /* OAuthAccessToken.json in Resources */ = {isa = PBXBuildFile; fileRef = 19DE98CE1F4265540063F394 /* OAuthAccessToken.json */; };
 		12F869EF1F5FD47E0006EC5C /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D566F51F5790BC001E74CA /* UserSession.swift */; };
 		12FB2F0120326653000CA863 /* StackMapLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12FB2F0020326653000CA863 /* StackMapLayout.swift */; };
+		12FFFC5920D7519C00711A38 /* LoginContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12FFFC5820D7519C00711A38 /* LoginContainerViewController.swift */; };
 		190503EC1FCFDB09002EBC89 /* RefreshTokenPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190503EB1FCFDB09002EBC89 /* RefreshTokenPlugin.swift */; };
 		1908EF831F57CAFC00382B1C /* AuthenticationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1908EF821F57CAFC00382B1C /* AuthenticationPlugin.swift */; };
 		1908EF861F57CDEB00382B1C /* AuthenticationPluginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1908EF851F57CDEB00382B1C /* AuthenticationPluginTests.swift */; };
@@ -956,6 +957,7 @@
 		12F869EA1F5FD2340006EC5C /* NewUserSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewUserSessionTests.swift; sourceTree = "<group>"; };
 		12F869EB1F5FD2350006EC5C /* ActiveUserSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveUserSessionTests.swift; sourceTree = "<group>"; };
 		12FB2F0020326653000CA863 /* StackMapLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackMapLayout.swift; sourceTree = "<group>"; };
+		12FFFC5820D7519C00711A38 /* LoginContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginContainerViewController.swift; sourceTree = "<group>"; };
 		190503EB1FCFDB09002EBC89 /* RefreshTokenPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshTokenPlugin.swift; sourceTree = "<group>"; };
 		1908EF821F57CAFC00382B1C /* AuthenticationPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationPlugin.swift; sourceTree = "<group>"; };
 		1908EF851F57CDEB00382B1C /* AuthenticationPluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationPluginTests.swift; sourceTree = "<group>"; };
@@ -2696,6 +2698,7 @@
 			children = (
 				463BDD1420BF673C0074B99C /* LoginHeaderView.swift */,
 				463BDD1320BF673C0074B99C /* LoginViewController.swift */,
+				12FFFC5820D7519C00711A38 /* LoginContainerViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -4949,6 +4952,7 @@
 				BC9C7E311F0DED6600DFFE83 /* UITableView+SectionHeaderFooterFetch.swift in Sources */,
 				12BAD2FE20C7947700F1E929 /* AddPropertyDetailsPlugins.swift in Sources */,
 				27256FF7205B288C005930CB /* DelimitedStringItemsCountSpecification.swift in Sources */,
+				12FFFC5920D7519C00711A38 /* LoginContainerViewController.swift in Sources */,
 				19C625C21F55143900504BD9 /* NetworkRequest.swift in Sources */,
 				C6CD6A181F31663500771B8C /* EntitySearchRequest.swift in Sources */,
 				9689CA5F20364AD30001D993 /* CADIncidentInformantType.swift in Sources */,
