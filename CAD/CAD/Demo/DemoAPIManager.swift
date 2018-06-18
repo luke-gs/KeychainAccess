@@ -36,10 +36,11 @@ open class DemoAPIManager: CADAPIManagerType {
     }
 
     open func fetchManifest(with request: ManifestFetchRequest) -> Promise<ManifestFetchRequest.ResultClass> {
-        if let json = loadDemoFileAsJson(name: "DemoManifest") as? ManifestFetchRequest.ResultClass {
-            return Promise<ManifestFetchRequest.ResultClass>.value(json)
-        }
-        return Promise<ManifestFetchRequest.ResultClass>.value([[:]])
+        return APIManager.shared.fetchManifest(with: request)
+//        if let json = loadDemoFileAsJson(name: "DemoManifest") as? ManifestFetchRequest.ResultClass {
+//            return Promise<ManifestFetchRequest.ResultClass>.value(json)
+//        }
+//        return Promise<ManifestFetchRequest.ResultClass>.value([[:]])
     }
 
     // MARK: - CAD
