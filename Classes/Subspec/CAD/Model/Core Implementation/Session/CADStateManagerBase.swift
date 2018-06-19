@@ -347,6 +347,26 @@ open class CADStateManagerBase: CADStateManagerType {
         return officers
     }
 
+    /// Clears all session data properties
+    open func clearSession() {
+        self.officerDetails = nil
+        self.patrolGroup = nil
+        self.lastBookOn = nil
+        self.lastSync = nil
+        self.lastSyncTime = nil
+        self.pendingSync = nil
+        self.isQueuedSync = false
+        self.lastSyncMapBoundingBox = nil
+        
+        self.syncMode = .none
+        
+        self.incidentsById.removeAll()
+        self.resourcesById.removeAll()
+        self.officersById.removeAll()
+        self.patrolsById.removeAll()
+        self.broadcastsById.removeAll()
+    }
+    
     // MARK: - Subclass
 
     /// Perform initial sync after login or launching app
