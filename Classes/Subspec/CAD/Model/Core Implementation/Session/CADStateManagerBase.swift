@@ -172,6 +172,18 @@ open class CADStateManagerBase: CADStateManagerType {
 
     // MARK: - Manifest
 
+    /// The manifest collections to fetch when syncing
+    open var manifestCollections: [ManifestCollection] = [.activityLogType,
+                                                          .capability,
+                                                          .equipment,
+                                                          .incidentType,
+                                                          .officerLicenceType,
+                                                          .officerCapability,
+                                                          .patrolGroup,
+                                                          .patrolType,
+                                                          .vehicleCatgory,
+                                                          .welfareCheckReason]
+
     /// Fetch manifest entries
     open func manifestEntries(for collection: ManifestCollection) -> [ManifestEntry] {
         return Manifest.shared.entries(for: collection) ?? []
@@ -179,11 +191,12 @@ open class CADStateManagerBase: CADStateManagerType {
 
     /// Sync the latest manifest items, optionally matching the specified categories
     /// We use our own implementation of update here, so we can use custom API manager
-    open func syncManifestItems(categories: [String]?) -> Promise<Void> {
+    open func syncManifestItems(collections: [ManifestCollection]?) -> Promise<Void> {
         let checkedAtDate = Date()
 
         let manifestRequest: ManifestFetchRequest
-        if let categories = categories {
+        if let collections = collections {
+            let categories = collections.map { $0.rawValue }
             manifestRequest = ManifestFetchRequest(date: Manifest.shared.lastUpdateDate,
                                                    path: "manifest/manifest/categories",
                                                    parameters: ["categories": categories],

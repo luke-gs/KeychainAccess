@@ -71,11 +71,14 @@ public protocol CADStateManagerType {
 
     // MARK: - Manifest
 
+    /// The manifest collections to fetch when syncing
+    var manifestCollections: [ManifestCollection] { get }
+
     /// Fetch manifest entries
     func manifestEntries(for collection: ManifestCollection) -> [ManifestEntry]
 
     /// Sync the latest manifest items, optionally matching the specified categories
-    func syncManifestItems(categories: [String]?) -> Promise<Void>
+    func syncManifestItems(collections: [ManifestCollection]?) -> Promise<Void>
 
     // MARK: - Sync
 
