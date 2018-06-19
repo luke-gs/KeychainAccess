@@ -58,11 +58,11 @@ open class CreateIncidentViewModel {
     }
     
     open var primaryCodeOptions: [String] {
-        return CADStateManager.shared.manifestEntries(for: .incidentType).compactMap {return $0.rawValue}
+        return CADStateManager.shared.manifestEntries(for: .incidentType).rawValues()
     }
     
     open var secondaryCodeOptions: [String] {
-        return CADStateManager.shared.manifestEntries(for: .incidentType).compactMap {return $0.rawValue}
+        return CADStateManager.shared.manifestEntries(for: .incidentType).rawValues()
     }
     
     open func navTitle() -> String {

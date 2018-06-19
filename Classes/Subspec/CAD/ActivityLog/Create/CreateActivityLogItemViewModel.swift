@@ -19,7 +19,7 @@ open class CreateActivityLogItemViewModel {
     open var remarks: String?
 
     open var activityTypeOptions: [String] {
-        return CADStateManager.shared.manifestEntries(for: .activityLogType).compactMap {return $0.rawValue}
+        return CADStateManager.shared.manifestEntries(for: .activityLogType).rawValues()
     }
 
     open var eventReferenceOptions: [String] {

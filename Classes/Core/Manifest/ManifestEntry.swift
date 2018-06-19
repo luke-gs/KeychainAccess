@@ -50,9 +50,16 @@ public class ManifestEntry: NSManagedObject {
     
 }
 
-// Convenience extension for getting manifest items keyed by unique value
+// Convenience extension for getting manifest info from array
 extension Array where Element == ManifestEntry {
-    public func entriesByValue() -> [String: ManifestEntry] {
+
+    // Get all manifest item values as an array, commonly used for drop downs
+    public func rawValues() -> [String] {
+        return self.compactMap { return $0.rawValue }
+    }
+
+    // Get all manifest entries keyed by their unique rawValue, for fast lookup
+    public func rawValueDict() -> [String: ManifestEntry] {
         var result: [String: ManifestEntry] = [:]
         for item in self {
             if let value = item.rawValue {

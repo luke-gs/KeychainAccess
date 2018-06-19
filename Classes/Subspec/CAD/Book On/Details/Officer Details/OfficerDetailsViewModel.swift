@@ -18,11 +18,11 @@ open class OfficerDetailsViewModel {
     public var content: BookOnDetailsFormContentOfficerViewModel
 
     open var licenseOptions: [String] {
-        return CADStateManager.shared.manifestEntries(for: .officerLicenceType).compactMap {return $0.rawValue}
+        return CADStateManager.shared.manifestEntries(for: .officerLicenceType).rawValues()
     }
 
     open var capabilitiesOptions: [String] {
-        return CADStateManager.shared.manifestEntries(for: .officerCapability).compactMap {return $0.rawValue}
+        return CADStateManager.shared.manifestEntries(for: .officerCapability).rawValues()
     }
 
     public init(officer: BookOnDetailsFormContentOfficerViewModel) {
