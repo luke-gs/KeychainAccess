@@ -15,8 +15,14 @@ final public class LoginContainerViewController: UIViewController {
         }
     }
 
-    private(set) var headerContainer = UIView()
-    private(set) var footerContainer = UIView()
+    private(set) var headerViewLeft = UIView()
+    private(set) var headerViewCenter = UIView()
+    private(set) var headerViewRight = UIView()
+
+    private(set) var footerViewLeft = UIView()
+    private(set) var footerViewCenter = UIView()
+    private(set) var footerViewRight = UIView()
+
     private(set) var contentViewController: UIViewController?
 
     private var backgroundImageView = UIImageView()
@@ -25,6 +31,9 @@ final public class LoginContainerViewController: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        setupHeaderFooter()
+        view.sendSubview(toBack: backgroundImageView)
+        view.bringSubview(toFront: contentView)
     }
 
     public func addContentViewController(_ contentViewController: UIViewController) {
@@ -34,24 +43,36 @@ final public class LoginContainerViewController: UIViewController {
         contentViewController.didMove(toParentViewController: self)
     }
 
-    public func addHeaderView(_ view: UIView) {
-        headerContainer = view
+    public func setHeaderView(_ view: UIView, at position: LoginViewPosition) {
+        switch position {
+        case .left:
+            headerViewLeft = view
+        case .center:
+            headerViewCenter = view
+        case .right:
+            headerViewRight = view
+        }
+        view.clipsToBounds = true
     }
 
-    public func addFooterView(_ view: UIView) {
-        footerContainer = view
+    public func setFooterView(_ view: UIView, at position: LoginViewPosition) {
+        switch position {
+        case .left:
+            footerViewLeft = view
+        case .center:
+            footerViewCenter = view
+        case .right:
+            footerViewRight = view
+        }
+        view.clipsToBounds = true
     }
 
     // MARK: Private
     private func setupViews() {
         backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
-        headerContainer.translatesAutoresizingMaskIntoConstraints = false
-        footerContainer.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(backgroundImageView)
-        view.addSubview(headerContainer)
-        view.addSubview(footerContainer)
         view.addSubview(contentView)
 
         NSLayoutConstraint.activate([
@@ -60,97 +81,65 @@ final public class LoginContainerViewController: UIViewController {
             backgroundImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             backgroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 
-            headerContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
-            headerContainer.heightAnchor.constraint(equalToConstant: 60),
-            headerContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 64),
-            headerContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -64),
-
-            footerContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
-            footerContainer.heightAnchor.constraint(equalToConstant: 60),
-            footerContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 64),
-            footerContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -64),
-
-            contentView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            contentView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            contentView.heightAnchor.constraint(lessThanOrEqualToConstant: 500),
-            contentView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 64),
-            contentView.trailingAnchor.constraint(greaterThanOrEqualTo: view.trailingAnchor, constant: -64)
+            contentView.centerXAnchor.constraint(equalTo: view.centerXAnchor).withPriority(.required),
+            contentView.centerYAnchor.constraint(equalTo: view.centerYAnchor).withPriority(.required),
+            contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 300).withPriority(.required),
+            contentView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 16),
+            contentView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -16),
+            contentView.widthAnchor.constraint(lessThanOrEqualToConstant: 420)
+            
             ])
 
-        view.sendSubview(toBack: backgroundImageView)
+        contentView.setContentHuggingPriority(.required, for: .horizontal)
+        contentView.setContentHuggingPriority(.required, for: .vertical)
+    }
+
+    private func setupHeaderFooter() {
+        let headers = [
+            headerViewLeft,
+            headerViewCenter,
+            headerViewRight,
+            ]
+
+        let footers = [
+            footerViewLeft,
+            footerViewCenter,
+            footerViewRight,
+            ]
+
+        (headers+footers).forEach { subView in
+            subView.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(subView)
+        }
+
+        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-60-[hl][hc(<=hl)][hr(<=hc)]-60-|",
+                                                         options: [],
+                                                         metrics: nil,
+                                                         views: ["hl": headerViewLeft,
+                                                                 "hc": headerViewCenter,
+                                                                 "hr": headerViewRight])
+
+
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-60-[fl][fc(<=fl)][fr(<=fc)]-60-|",
+                                                      options: [],
+                                                      metrics: nil,
+                                                      views: ["fl": footerViewLeft,
+                                                              "fc": footerViewCenter,
+                                                              "fr": footerViewRight])
+
+        constraints += headers.map{$0.topAnchor.constraint(equalTo: view.topAnchor, constant: 64)}
+        constraints += headers.map{$0.heightAnchor.constraint(lessThanOrEqualToConstant: 60)}
+
+        constraints += footers.map{$0.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -64)}
+        constraints += footers.map{$0.heightAnchor.constraint(lessThanOrEqualToConstant: 60)}
+        constraints += footers.map{$0.topAnchor.constraint(greaterThanOrEqualTo: contentView.bottomAnchor, constant: -16)}
+
+        NSLayoutConstraint.activate(constraints)
     }
 }
 
-open class FancyLoginHeaderView: UIView {
-
-    private var stackView = UIStackView()
-
-    required public init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
-    public init() {
-        super.init(frame: .zero)
-        setupViews()
-        setupStackView()
-    }
-
-    public func addToStackView(_ subview: UIView) {
-        stackView.addArrangedSubview(subview)
-    }
-
-    // MARK: Private
-
-    private func setupViews() {
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(stackView)
-
-        NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            ])
-    }
-
-
-    private func setupStackView() {
-        stackView.alignment = .leading
-        stackView.distribution = .fillEqually
-        stackView.axis = .horizontal
-    }
-}
-
-open class FancyLoginFooterView: UIView {
-
-    private var stackView = UIStackView()
-
-    required public init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
-    public init() {
-        super.init(frame: .zero)
-        setupViews()
-        setupStackView()
-    }
-
-
-    public func addToStackView(_ subview: UIView) {
-        stackView.addArrangedSubview(subview)
-    }
-
-    // MARK: Private
-
-    private func setupViews() {
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(stackView)
-
-        NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            ])
-    }
-
-    private func setupStackView() {
-        stackView.alignment = .trailing
-        stackView.distribution = .fillEqually
-        stackView.axis = .horizontal
-    }
+public enum LoginViewPosition {
+    case left
+    case center
+    case right
 }

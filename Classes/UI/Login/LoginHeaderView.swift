@@ -44,19 +44,19 @@ public final class LoginHeaderView: UIView {
         addSubview(titleLabel)
         addSubview(subtitleLabel)
 
-        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[hi(48)]-[hl]|",
+        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[hi(48)]-[hl]->=0@500-|",
                                                          options: [],
                                                          metrics: nil,
                                                          views: ["hi": imageView, "hl": titleLabel, "sl": subtitleLabel])
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|[hi]-[sl]|",
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|[hi]-[sl]->=0@500-|",
                                                       options: [],
                                                       metrics: nil,
                                                       views: ["hi": imageView, "hl": titleLabel, "sl": subtitleLabel])
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[hi(48)]|",
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[hi(48)]->=0@500-|",
                                                       options: [],
                                                       metrics: nil,
                                                       views: ["hi": imageView, "hl": titleLabel, "sl": subtitleLabel])
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[hl]-[sl]|",
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[hl][sl]->=0@500-|",
                                                       options: [],
                                                       metrics: nil,
                                                       views: ["hi": imageView, "hl": titleLabel, "sl": subtitleLabel])

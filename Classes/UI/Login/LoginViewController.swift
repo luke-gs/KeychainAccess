@@ -19,7 +19,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     open private(set) lazy var usernameField: LabeledTextField = {
         let field = LabeledTextField()
         
-        field.label.text = NSLocalizedString("ID Number", comment: "")
+        field.label.text = NSLocalizedString("Identification Number", comment: "")
         field.label.textColor = .white
 
         let textField = field.textField

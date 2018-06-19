@@ -25,11 +25,11 @@ open class LabeledTextField: UIView {
 
         label.translatesAutoresizingMaskIntoConstraints = false
         label.isAccessibilityElement = false
-        label.font = .systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
+        label.font = .systemFont(ofSize: 17.0, weight: UIFont.Weight.regular)
         addSubview(label)
 
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.font = .systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
+        textField.font = .systemFont(ofSize: 17.0, weight: UIFont.Weight.regular)
         textField.textAlignment = .right
         addSubview(textField)
 
