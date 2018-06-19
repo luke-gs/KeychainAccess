@@ -185,6 +185,7 @@ open class CADStateManagerBase: CADStateManagerType {
 
     /// Fetch manifest entries
     open func manifestEntries(for collection: ManifestCollection) -> [ManifestEntry] {
+        // Just forward this to standard manifest by default. Clients can override if needed
         return Manifest.shared.entries(for: collection) ?? []
     }
 

@@ -51,6 +51,10 @@ open class BookOnDetailsFormViewModel {
         }
     }
 
+    open var categoryOptions: [String] {
+        return CADStateManager.shared.manifestEntries(for: .vehicleCategory).compactMap {return $0.rawValue}
+    }
+
     public init(resource: CADResourceType) {
         self.resource = resource
 
