@@ -48,7 +48,7 @@ open class BookOnDetailsFormViewModel {
     open var defaultEquipment: [QuantityPicked] {
         return CADStateManager.shared.manifestEntries(for: .equipment).map { entry in
             return QuantityPicked(object: PickableManifestEntry(entry), count: 0)
-        }.sorted(using: [SortDescriptor<QuantityPicked>(ascending: true) { $0.object.title }])
+        }
     }
 
     public init(resource: CADResourceType) {

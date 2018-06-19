@@ -174,14 +174,13 @@ open class CADStateManagerBase: CADStateManagerType {
 
     /// The manifest collections to fetch when syncing
     open var manifestCollections: [ManifestCollection] = [.activityLogType,
-                                                          .capability,
                                                           .equipment,
                                                           .incidentType,
                                                           .officerLicenceType,
                                                           .officerCapability,
                                                           .patrolGroup,
                                                           .patrolType,
-                                                          .vehicleCatgory,
+                                                          .vehicleCategory,
                                                           .welfareCheckReason]
 
     /// Fetch manifest entries

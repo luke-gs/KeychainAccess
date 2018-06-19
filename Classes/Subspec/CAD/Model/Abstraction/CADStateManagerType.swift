@@ -156,14 +156,13 @@ public extension ManifestCollection {
 
     // CAD
     static var activityLogType = ManifestCollection(rawValue: "ActivityLogType")
-    static var capability = ManifestCollection(rawValue: "Capability")
     static var equipment = ManifestCollection(rawValue: "Equipment")
     static var incidentType = ManifestCollection(rawValue: "IncidentType")
     static var officerLicenceType = ManifestCollection(rawValue: "OfficerLicenceType")
     static var officerCapability = ManifestCollection(rawValue: "OfficerCapability")
-    static var patrolGroup = ManifestCollection(rawValue: "PatrolGroup")
+    static var patrolGroup = ManifestCollection(rawValue: "PatrolArea")
     static var patrolType = ManifestCollection(rawValue: "PatrolType")
-    static var vehicleCatgory = ManifestCollection(rawValue: "VehicleCategory")
+    static var vehicleCategory = ManifestCollection(rawValue: "VehicleCategory")
     static var welfareCheckReason = ManifestCollection(rawValue: "WelfareCheckReason")
 
     // Search
