@@ -181,7 +181,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         collectionView.register(CollectionViewFormTextFieldCell.self)
         collectionView.register(CollectionViewFormSubtitleCell.self)
         collectionView.register(SearchFieldAdvanceCell.self, forCellWithReuseIdentifier: CellIdentifier.advance.rawValue)
-        collectionView.register(CollectionViewFormHeaderView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
+        collectionView.register(CollectionViewFormLargeTextLabelCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader)
         collectionView.alwaysBounceVertical = false
         collectionView.allowsMultipleSelection = false
         
@@ -422,9 +422,8 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionElementKindSectionHeader:
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormHeaderView.self, for: indexPath)
-            header.showsExpandArrow = false
-            header.text = selectedDataSource.options!.headerText
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormLargeTextLabelCell.self, for: indexPath)
+            header.titleLabel.text = selectedDataSource.options!.headerText
             return header
         default:
             return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
