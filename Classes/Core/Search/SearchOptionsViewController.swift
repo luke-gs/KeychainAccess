@@ -424,6 +424,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         case UICollectionElementKindSectionHeader:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormLargeTextLabelCell.self, for: indexPath)
             header.titleLabel.text = selectedDataSource.options!.headerText
+            header.separatorView.backgroundColor = .clear
             return header
         default:
             return super.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
