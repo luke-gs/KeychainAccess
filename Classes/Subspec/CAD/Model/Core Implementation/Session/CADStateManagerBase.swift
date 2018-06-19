@@ -184,9 +184,9 @@ open class CADStateManagerBase: CADStateManagerType {
                                                           .welfareCheckReason]
 
     /// Fetch manifest entries
-    open func manifestEntries(for collection: ManifestCollection) -> [ManifestEntry] {
+    open func manifestEntries(for collection: ManifestCollection, activeOnly: Bool, sortedBy: [NSSortDescriptor]?) -> [ManifestEntry] {
         // Just forward this to standard manifest by default. Clients can override if needed
-        return Manifest.shared.entries(for: collection) ?? []
+        return Manifest.shared.entries(for: collection, activeOnly: activeOnly, sortedBy: sortedBy) ?? []
     }
 
     /// Sync the latest manifest items, optionally matching the specified categories

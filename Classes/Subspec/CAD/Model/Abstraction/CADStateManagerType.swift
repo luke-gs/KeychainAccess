@@ -75,7 +75,7 @@ public protocol CADStateManagerType {
     var manifestCollections: [ManifestCollection] { get }
 
     /// Fetch manifest entries
-    func manifestEntries(for collection: ManifestCollection) -> [ManifestEntry]
+    func manifestEntries(for collection: ManifestCollection, activeOnly: Bool, sortedBy: [NSSortDescriptor]?) -> [ManifestEntry]
 
     /// Sync the latest manifest items, optionally matching the specified categories
     func syncManifestItems(collections: [ManifestCollection]?) -> Promise<Void>
@@ -119,6 +119,18 @@ public protocol CADStateManagerType {
     /// Update the status of our callsign
     func updateCallsignStatus(status: CADResourceStatusType, incident: CADIncidentType?, comments: String?, locationComments: String?) -> Promise<Void>
 }
+    
+// Extension for default parameters
+extension CADStateManagerType {
+
+    public func manifestEntries(for collection: ManifestCollection) -> [ManifestEntry] {
+        return manifestEntries(for: collection, activeOnly: true, sortedBy: [NSSortDescriptor(key: "sortOrder", ascending: true)])
+    }
+
+    public func manifestEntries(for collection: ManifestCollection, sortedBy: [NSSortDescriptor]?) -> [ManifestEntry] {
+        return manifestEntries(for: collection, activeOnly: true, sortedBy: sortedBy)
+    }
+}
 
 /// Concrete class to provide static access to current state manager
 open class CADStateManager {
@@ -153,8 +165,6 @@ public extension NSNotification.Name {
 
 // Extension for custom manifest categories
 public extension ManifestCollection {
-
-    // CAD
     static var activityLogType = ManifestCollection(rawValue: "ActivityLogType")
     static var equipment = ManifestCollection(rawValue: "Equipment")
     static var incidentType = ManifestCollection(rawValue: "IncidentType")
@@ -164,15 +174,6 @@ public extension ManifestCollection {
     static var patrolType = ManifestCollection(rawValue: "PatrolType")
     static var vehicleCategory = ManifestCollection(rawValue: "VehicleCategory")
     static var welfareCheckReason = ManifestCollection(rawValue: "WelfareCheckReason")
-
-    // Search
-    static var personBuild = ManifestCollection(rawValue: "PersonBuild")
-    static var personHairColour = ManifestCollection(rawValue: "PersonHairColour")
-    static var personEyeColour = ManifestCollection(rawValue: "PersonEyeColour")
-    static var personRace = ManifestCollection(rawValue: "PersonRace")
-    static var eventLocationInvolvementType = ManifestCollection(rawValue: "EventLocationInvolvementType")
-    static var eventOfficerInvolvement = ManifestCollection(rawValue: "EventOfficerInvolvement")
-    static var eventEntityRelationship = ManifestCollection(rawValue: "EventEntityRelationship")
 }
 
 /// Extendable class for defining CAD specific local notifications
@@ -197,6 +198,7 @@ public enum CADStateManagerError: LocalizedError {
         }
     }
 }
+
 /// Enum for different sync modes
 public enum CADSyncMode: Equatable {
     case none

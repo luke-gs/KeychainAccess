@@ -35,10 +35,12 @@ open class PatrolAreaListViewModel: DefaultSearchDisplayableViewModel {
     
     open func reloadItems() {
         var items: [CustomSearchDisplayable] = []
-        let patrolAreas = CADStateManager.shared.manifestEntries(for: .patrolGroup)
 
-        // Sort items alphabetically by title rather than manifest sortOrder
-        for patrolArea in patrolAreas.sorted(using: [SortDescriptor<ManifestEntry> { $0.rawValue }]) {
+        // Sort items alphabetically by value rather than manifest sortOrder
+        let sortedBy = [NSSortDescriptor(key: "rawValue", ascending: true)]
+        let patrolAreas = CADStateManager.shared.manifestEntries(for: .patrolGroup, sortedBy: sortedBy)
+
+        for patrolArea in patrolAreas {
             if let title = patrolArea.rawValue {
                 let viewModel = PatrolAreaListItemViewModel(patrolArea: title)
                 items.append(viewModel)
