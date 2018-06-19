@@ -56,30 +56,21 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 mode = .usernamePassword(delegate: self)
             }
 
-            let loginViewController = LoginViewController(mode: mode)
+//            let loginViewController = LoginViewController(mode: mode)
+//
+//            loginViewController.minimumUsernameLength = 1
+//            loginViewController.minimumPasswordLength = 1
+//
+//            #if DEBUG
+//            loginViewController.usernameField.textField.text = "gridstone"
+//            loginViewController.passwordField.textField.text = "mock"
+//            #endif
+//
+//            if let username = retrievedUsername {
+//                loginViewController.usernameField.textField.text = username
+//            }
 
-            loginViewController.minimumUsernameLength = 1
-            loginViewController.minimumPasswordLength = 1
-
-            #if DEBUG
-            loginViewController.usernameField.textField.text = "gridstone"
-            loginViewController.passwordField.textField.text = "mock"
-            #endif
-
-            if let username = retrievedUsername {
-                loginViewController.usernameField.textField.text = username
-            }
-
-            let loginContainer = LoginContainerViewController()
-            let header = FancyLoginHeaderView()
-
-            let loginHeader = LoginHeaderView(title: NSLocalizedString("PSCore", comment: "Login screen header title"),
-                                        subtitle: NSLocalizedString("Public Safety Mobile Platform", comment: "Login screen header subtitle"), image: #imageLiteral(resourceName: "MPOLIcon"))
-            header.addToStackView(loginHeader)
-            header.addToStackView(SpacerView())
-            header.addToStackView(SpacerView())
-
-            let footer = FancyLoginFooterView()
+            let loginViewController = FancyLoginViewController(mode: mode)
 
             /// The version number
              var versionLabel: UILabel = {
@@ -101,15 +92,16 @@ public class LandingPresenter: AppGroupLandingPresenter {
             let imageView = UIImageView(image: #imageLiteral(resourceName: "GSMotoLogo"))
             imageView.contentMode = .bottomLeft
 
-            footer.addToStackView(imageView)
-            footer.addToStackView(SpacerView())
-            footer.addToStackView(versionLabel)
+            let loginHeader = LoginHeaderView(title: NSLocalizedString("PSCore", comment: "Login screen header title"),
+                                              subtitle: NSLocalizedString("Public Safety Mobile Platform", comment: "Login screen header subtitle"), image: #imageLiteral(resourceName: "MPOLIcon"))
 
+            let loginContainer = LoginContainerViewController()
             loginContainer.backgroundImage = #imageLiteral(resourceName: "Login")
 
+            loginContainer.setHeaderView(loginHeader, at: .left)
+            loginContainer.setFooterView(imageView, at: .left)
+            loginContainer.setFooterView(versionLabel, at: .right)
             loginContainer.addContentViewController(loginViewController)
-            loginContainer.addHeaderView(header)
-            loginContainer.addFooterView(footer)
 
             return loginContainer
 
