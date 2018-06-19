@@ -50,10 +50,6 @@ public class ManifestEntry: NSManagedObject {
     
 }
 
-
-extension ManifestEntry: Pickable {
-}
-
 // Convenience extension for getting manifest items keyed by unique value
 extension Array where Element == ManifestEntry {
     public func entriesByValue() -> [String: ManifestEntry] {

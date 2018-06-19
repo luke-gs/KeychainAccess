@@ -107,8 +107,8 @@ extension Array where Element == CADEquipmentType {
     public func quantityPicked() -> [QuantityPicked] {
         let equipmentItemsByValue = CADStateManager.shared.manifestEntries(for: .equipment).entriesByValue()
         return self.compactMap { item in
-            if let pickable = equipmentItemsByValue[item.description] {
-                return QuantityPicked(object: pickable, count: item.count)
+            if let entry = equipmentItemsByValue[item.description] {
+                return QuantityPicked(object: PickableManifestEntry(entry), count: item.count)
             }
             return nil
         }
