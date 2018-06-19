@@ -22,22 +22,12 @@ open class PatrolAreaListViewModel: DefaultSearchDisplayableViewModel {
     // MARK: - Setup
     
     public convenience init() {
-        var items: [CustomSearchDisplayable] = []
-        let patrolAreas = CADStateManager.shared.manifestEntries(for: .patrolGroup)
-        for patrolArea in patrolAreas.sorted(using: [SortDescriptor<ManifestEntry> { $0.title }]) {
-            if let title = patrolArea.title {
-                let viewModel = PatrolAreaListItemViewModel(patrolArea: title)
-                items.append(viewModel)
-            }
-        }
-        
-        self.init(items: items)
+        self.init(items: [])
+        reloadItems()
     }
     
     public required init(items: [CustomSearchDisplayable]) {
-        // Sort items alphabetically by title
-        let sorted = items.sorted(using: [SortDescriptor<CustomSearchDisplayable> { $0.title }])
-        super.init(items: sorted)
+        super.init(items: items)
         
         title = navTitle()
         hasSections = false
@@ -46,8 +36,9 @@ open class PatrolAreaListViewModel: DefaultSearchDisplayableViewModel {
     open func reloadItems() {
         var items: [CustomSearchDisplayable] = []
         let patrolAreas = CADStateManager.shared.manifestEntries(for: .patrolGroup)
-        for patrolArea in patrolAreas.sorted(using: [SortDescriptor<ManifestEntry> { $0.title }]) {
-            if let title = patrolArea.title {
+        // Sort items alphabetically by title
+        for patrolArea in patrolAreas.sorted(using: [SortDescriptor<ManifestEntry> { $0.rawValue }]) {
+            if let title = patrolArea.rawValue {
                 let viewModel = PatrolAreaListItemViewModel(patrolArea: title)
                 items.append(viewModel)
             }
