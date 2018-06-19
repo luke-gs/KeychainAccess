@@ -267,8 +267,8 @@ public extension SearchDataSource {
 
 /// Default implementations of the SearchOptions
 public extension SearchOptions {
-    /// Default header text is 'SEARCH FILTER'.
-    var headerText: String? { return NSLocalizedString("SEARCH FILTER", comment: "Search - Search Filter title") }
+    /// Default header text is 'Search Options'.
+    var headerText: String? { return NSLocalizedString("Search Options", comment: "Search - Search Options title") }
     
     /// Gets the current state of the search options.
     ///
