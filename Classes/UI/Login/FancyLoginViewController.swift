@@ -167,7 +167,7 @@ final public class FancyLoginViewController: UIViewController {
             view.addSubview(subView)
         }
 
-        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[tl]-[stv]-13-[csv]-24-[bb]-32-[lb(48)]-24-[dtv]|",
+        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[tl]-[stv]-13-[csv]-24-[bb]-32-[lb(48)]-24-[dtv]->=0-|",
                                                          options: [],
                                                          metrics: nil,
                                                          views: ["tl": titleLabel,
