@@ -82,7 +82,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                     let version = info["CFBundleShortVersionString"] as? String ?? ""
                     let build   = info["CFBundleVersion"] as? String ?? ""
 
-                    label.text = "Version \(version) #\(build)"
+                    label.text = "v\(version) #\(build)"
                 }
 
                 label.textAlignment = .right
