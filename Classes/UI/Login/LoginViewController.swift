@@ -63,7 +63,7 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         button.setTitle("Forgot Your Password?", for: .normal)
         button.setTitleColor(UIColor.brightBlue, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 11.0, weight: UIFont.Weight.medium)
-        button.addTarget(self, action: #selector(forgotPasswordButtonTriggered), for: .primaryActionTriggered)
+//        button.addTarget(self, action: #selector(forgotPasswordButtonTriggered), for: .primaryActionTriggered)
         if case LoginMode.externalAuth = loginMode {
             button.isHidden = true
         }
@@ -472,14 +472,14 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
 
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        switch loginMode {
-        case .usernamePassword(let delegate):
-            delegate?.loginViewControllerDidAppear(self)
-        case .externalAuth(let delegate):
-            delegate?.loginViewControllerDidAppear(self)
-        case .usernamePasswordWithBiometric(let delegate):
-            delegate?.loginViewControllerDidAppear(self)
-        }
+//        switch loginMode {
+//        case .usernamePassword(let delegate):
+//            delegate?.loginViewControllerDidAppear(self)
+//        case .externalAuth(let delegate):
+//            delegate?.loginViewControllerDidAppear(self)
+//        case .usernamePasswordWithBiometric(let delegate):
+//            delegate?.loginViewControllerDidAppear(self)
+//        }
     }
     
     open override func viewDidDisappear(_ animated: Bool) {
@@ -589,8 +589,8 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     @objc private func changeUserButtonTriggered() {
         HapticHelper.shared.trigger(.medium)
 
-        guard case .usernamePasswordWithBiometric(let delegate) = loginMode else { return }
-        loginMode = .usernamePassword(delegate: delegate)
+        guard case .credentialsWithBiometric(let delegate) = loginMode else { return }
+        loginMode = .credentials(delegate: delegate)
     }
 
     @objc private func changeUserButtonTouchDown() {
@@ -604,26 +604,26 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     @objc private func loginButtonTriggered() {
         HapticHelper.shared.trigger(.medium)
 
-        switch loginMode {
-        case .usernamePassword(let delegate):
-            guard let username = usernameField.textField.text, let password = passwordField.textField.text else { return }
-            view.endEditing(true)
-            delegate?.loginViewController(self, didFinishWithUsername: username, password: password)
-        case .usernamePasswordWithBiometric(let delegate):
-            guard let username = usernameField.textField.text, let password = passwordField.textField.text else { return }
-            view.endEditing(true)
-            delegate?.loginViewController(self, didFinishWithUsername: username, password: password)
-        case .externalAuth(let delegate):
-            delegate?.loginViewControllerDidCommenceExternalAuth(self)
-        }
+//        switch loginMode {
+//        case .usernamePassword(let delegate):
+//            guard let username = usernameField.textField.text, let password = passwordField.textField.text else { return }
+//            view.endEditing(true)
+//            delegate?.loginViewController(self, didFinishWithUsername: username, password: password)
+//        case .usernamePasswordWithBiometric(let delegate):
+//            guard let username = usernameField.textField.text, let password = passwordField.textField.text else { return }
+//            view.endEditing(true)
+//            delegate?.loginViewController(self, didFinishWithUsername: username, password: password)
+//        case .externalAuth(let delegate):
+//            delegate?.loginViewControllerDidCommenceExternalAuth(self)
+//        }
     }
-    
-    @objc private func forgotPasswordButtonTriggered() {
-        if case let LoginMode.usernamePassword(delegate: delegate) = loginMode {
-            delegate?.loginViewController(self, didTapForgotPasswordButton: forgotPasswordButton)
-        }
-    }
-    
+
+//    @objc private func forgotPasswordButtonTriggered() {
+//        if case let LoginMode.usernamePassword(delegate: delegate) = loginMode {
+//            delegate?.loginViewController(self, didTapForgotPasswordButton: forgotPasswordButton)
+//        }
+//    }
+
     @objc private func textFieldTextDidChange(_ textField: UITextField) {
         if (isUsernameFieldLoaded && textField == usernameField.textField) || (isPasswordFieldLoaded && textField == passwordField.textField) {
             updateLoginButtonState()
@@ -634,18 +634,18 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
         if isLoginButtonLoaded == false { return }
 
         switch loginMode {
-        case .usernamePassword(let delegate):
+        case .credentials(let delegate):
             let isUsernameValid: Bool = isUsernameFieldLoaded && usernameField.textField.text?.count ?? 0 >= minimumUsernameLength
             let isPasswordValid: Bool = isPasswordFieldLoaded && passwordField.textField.text?.count ?? 0 >= minimumPasswordLength
 
             loginButton.isEnabled = isUsernameValid && isPasswordValid
-            forgotPasswordButton.isHidden = !(delegate?.wantsForgotPassword ?? true)
-        case .usernamePasswordWithBiometric(let delegate):
+//            forgotPasswordButton.isHidden = !(delegate?.wantsForgotPassword ?? true)
+        case .credentialsWithBiometric(let delegate):
             let isUsernameValid: Bool = isUsernameFieldLoaded && usernameField.textField.text?.count ?? 0 >= minimumUsernameLength
             let isPasswordValid: Bool = isPasswordFieldLoaded && passwordField.textField.text?.count ?? 0 >= minimumPasswordLength
 
             loginButton.isEnabled = isUsernameValid && isPasswordValid
-            forgotPasswordButton.isHidden = !(delegate?.wantsForgotPassword ?? true)
+//            forgotPasswordButton.isHidden = !(delegate?.wantsForgotPassword ?? true)
         case .externalAuth:
             loginButton.isEnabled = true
         }
@@ -662,14 +662,14 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
 
     private func updateLoginMode() {
         switch loginMode {
-        case .usernamePassword(_):
+        case .credentials(_):
             credentialsView?.isHidden = false
             usernameField.textField.isEnabled = true
             passwordField.textField.rightView = nil
             usernameField.textField.textColor = .white
 
             changeUserButton.isHidden = true
-        case .usernamePasswordWithBiometric(_):
+        case .credentialsWithBiometric(_):
             credentialsView?.isHidden = false
             usernameField.textField.isEnabled = false
             usernameField.textField.textColor = .lightGray
@@ -690,53 +690,15 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Biometric authentication
 
     private func authenticateWithBiometric(title: String) {
-        guard case .usernamePasswordWithBiometric(let delegate) = loginMode else { return }
+        guard case .credentialsWithBiometric(let delegate) = loginMode else { return }
 
         authenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: title, reply: { [weak self] (success, error) in
             guard let `self` = self else { return }
             DispatchQueue.main.async {
-                if success {
-                    delegate?.loginViewControllerDidAuthenticateWithBiometric(self, context: self.authenticationContext)
-                }
+//                if success {
+//                    delegate?.loginViewControllerDidAuthenticateWithBiometric(self, context: self.authenticationContext)
+//                }
             }
         })
     }
-
-}
-
-// MARK: - Login Mode and Delegates
-
-public enum LoginMode {
-    case usernamePassword(delegate: UsernamePasswordDelegate?)
-    case usernamePasswordWithBiometric(delegate: BiometricDelegate?)
-    case externalAuth(delegate: ExternalAuthDelegate?)
-}
-
-public protocol LoginViewControllerDelegate {
-    func loginViewControllerDidAppear(_ controller: LoginViewController)
-}
-
-public protocol UsernamePasswordDelegate: LoginViewControllerDelegate {
-
-    var wantsForgotPassword: Bool { get }
-
-    func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String)
-    func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton)
-    
-}
-
-public protocol BiometricDelegate: UsernamePasswordDelegate {
-    func loginViewControllerDidAuthenticateWithBiometric(_ controller: LoginViewController, context: LAContext)
-}
-
-public extension UsernamePasswordDelegate {
-
-    public var wantsForgotPassword: Bool {
-        return true
-    }
-
-}
-
-public protocol ExternalAuthDelegate: LoginViewControllerDelegate {
-    func loginViewControllerDidCommenceExternalAuth(_ controller: LoginViewController)
 }

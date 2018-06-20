@@ -38,15 +38,11 @@ open class LabeledTextField: UIView {
         addSubview(separator)
 
         NSLayoutConstraint.activate([
-
-            self.heightAnchor.constraint(equalToConstant: 64),
-
             label.leadingAnchor.constraint(equalTo: leadingAnchor),
             label.trailingAnchor.constraint(equalTo: textField.leadingAnchor),
             label.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             label.heightAnchor.constraint(equalToConstant: 19),
-            
-            textField.leadingAnchor.constraint(equalTo: label.trailingAnchor),
+
             textField.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             textField.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             textField.heightAnchor.constraint(equalToConstant: 19),

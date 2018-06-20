@@ -30,15 +30,12 @@ final public class LoginContainerViewController: UIViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+
         setupViews()
         setupHeaderFooter()
+
         view.sendSubview(toBack: backgroundImageView)
         view.bringSubview(toFront: contentView)
-    }
-
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        view.layoutIfNeeded()
     }
 
     public func addContentViewController(_ contentViewController: UIViewController) {
@@ -73,6 +70,7 @@ final public class LoginContainerViewController: UIViewController {
     }
 
     // MARK: Private
+
     private func setupViews() {
         backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -88,9 +86,9 @@ final public class LoginContainerViewController: UIViewController {
 
             contentView.centerXAnchor.constraint(equalTo: view.centerXAnchor).withPriority(.required),
             contentView.centerYAnchor.constraint(equalTo: view.centerYAnchor).withPriority(.required),
-            contentView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 16),
-            contentView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -16),
-            contentView.widthAnchor.constraint(lessThanOrEqualToConstant: 420)
+            contentView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 16).withPriority(.required),
+            contentView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -16).withPriority(.required),
+            contentView.widthAnchor.constraint(equalToConstant: 420).withPriority(.almostRequired)
             
             ])
 
@@ -99,19 +97,16 @@ final public class LoginContainerViewController: UIViewController {
     }
 
     private func setupHeaderFooter() {
-        let headers = [
+        let views = [
             headerViewLeft,
             headerViewCenter,
             headerViewRight,
-            ]
-
-        let footers = [
             footerViewLeft,
             footerViewCenter,
-            footerViewRight,
+            footerViewRight
             ]
 
-        (headers+footers).forEach { subView in
+       views.forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(subView)
         }
@@ -138,8 +133,7 @@ final public class LoginContainerViewController: UIViewController {
                                                               "fvl": footerViewLeft])
         NSLayoutConstraint.activate(constraints)
 
-        headers.forEach{$0.setContentHuggingPriority(.required, for: .horizontal)}
-        footers.forEach{$0.setContentHuggingPriority(.required, for: .horizontal)}
+        views.forEach{$0.setContentHuggingPriority(.required, for: .horizontal)}
     }
 }
 

@@ -7,24 +7,22 @@
 
 import UIKit
 import LocalAuthentication
+import Lottie
+
+fileprivate var kvoContext = 1
 
 final public class FancyLoginViewController: UIViewController {
 
-    public let mode: LoginMode
+    public let loginMode: LoginMode
 
     public let titleLabel: UILabel = UILabel()
     public let loginButton: UIButton = UIButton()
     public let subtitleTextView: HighlightingTextView = HighlightingTextView()
     public let detailTextView: HighlightingTextView = HighlightingTextView()
-
-    public var subtitleContainer: HighlightTextContainerThing?
-    public var credentials: [LabeledTextField]?
-    public var detailContainer: HighlightTextContainerThing?
     public var shouldUseBiometric: Bool = false
 
-    private let credentialsStackView: UIStackView = UIStackView()
-
     private lazy var authenticationContext = LAContext()
+    private(set) var credentialsStackView: UIStackView = UIStackView()
     private(set) lazy var biometricButton: UIButton = { [unowned self] in
         let button = UIButton(type: .system)
 
@@ -35,123 +33,111 @@ final public class FancyLoginViewController: UIViewController {
         if #available(iOS 11.0.1, *) {
             if authenticationContext.biometryType == .faceID {
                 imageKey = .faceId
-                buttonText = " or user Face ID"
+                buttonText = " or use Face ID"
             }
         }
 
         button.setImage(AssetManager.shared.image(forKey: imageKey), for: .normal)
         button.setTitle(buttonText, for: .normal)
-//        button.addTarget(self, action: #selector(biometricButtonTriggered), for: .primaryActionTriggered)
-//        button.addTarget(self, action: #selector(biometricButtonTouchDown), for: .touchDown)
         button.tintColor = UIColor(red:0.35, green:0.78, blue:0.98, alpha:1)
 
         return button
         }()
 
+    public var credentials: [LoginCredential]? {
+        didSet {
+            credentialsStackView.arrangedSubviews.forEach{$0.removeFromSuperview()}
+            credentials?.forEach { credential in
+                credentialsStackView.addArrangedSubview(credential.inputField)
+            }
+            setupCredentialActions()
+        }
+    }
+
+    private var keyboardInset: CGFloat = 0.0 {
+        didSet {
+            if keyboardInset ==~ oldValue { return }
+            viewIfLoaded?.setNeedsLayout()
+        }
+    }
+
+    private lazy var loadingIndicator: LOTAnimationView? = {
+        let spinner = MPOLSpinnerView(style: .regular)
+        spinner.isHidden = true
+
+        let heightConstraint = spinner.heightAnchor.constraint(equalToConstant: 48.0)
+        heightConstraint.priority = UILayoutPriority.defaultHigh
+
+        NSLayoutConstraint.activate([
+            heightConstraint,
+            spinner.widthAnchor.constraint(equalToConstant: 48.0),
+            spinner.centerXAnchor.constraint(equalTo: loginButton.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: loginButton.centerYAnchor)
+            ])
+
+        return spinner
+    }()
+
+    /// A boolean value indicating whether the content is currently loading.
+    ///
+    /// When loading, the login fields are hidden and an activity indicator is
+    /// displayed. Setting this property directly performs the update without
+    /// an animation.
+    private var isLoading: Bool = false {
+        didSet {
+            if isLoading == oldValue || isViewLoaded == false { return }
+
+            if isLoading {
+                loadingIndicator?.isHidden = false
+                loadingIndicator?.play()
+                loginButton.isHidden = true
+                view.endEditing(true)
+                view.isUserInteractionEnabled = false
+            } else {
+                loadingIndicator?.isHidden = true
+                loadingIndicator?.pause()
+                loginButton.isHidden = false
+                view.isUserInteractionEnabled = true
+            }
+        }
+    }
 
     required public init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
     public init(mode: LoginMode) {
-        self.mode = mode
+        self.loginMode = mode
         super.init(nibName: nil, bundle: nil)
 
-        subtitleContainer = HighlightTextContainerThing(text: "By continuing you are agreeing to the Terms and Conditions of Use previously presented to you.",
-                                                        highlightText: "Terms and Conditions of Use") { vc in
-                                                            print("HELLO!!")
-        }
-
-        detailContainer = HighlightTextContainerThing(text: "Forgot Your Password?",
-                                                      highlightText: "Forgot Your Password?") { vc in
-                                                        print("HELLO PASSWORD!!")
-        }
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(keyboardDidHide(_:)),  name: .UIKeyboardDidHide,  object: nil)
     }
 
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        setupDefaults()
+        setupStackView()
+        setupActions()
+    }
+
+    /// Updates the view controller's `isLoading` state with an optional animation.
+    ///
+    /// - Parameters:
+    ///   - loading:  The new loading state
+    ///   - animated: A boolean value indicating whether the update should be animated.
+    public func setLoading(_ loading: Bool, animated: Bool) {
+        if loading == isLoading { return }
+        self.isLoading = loading
+        if animated {
+            UIView.transition(with: view, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
+        }
+    }
+
+    public func resetFields() {
+        credentials?.forEach{$0.inputField.textField.text = nil}
     }
 
     // MARK: Private
-
-    private func setupDefaults() {
-        titleLabel.textColor = .white
-        titleLabel.text = self.title
-        titleLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
-        titleLabel.textAlignment = .center
-        titleLabel.text = "Login to Continue"
-
-        subtitleTextView.highlightContainerThing = subtitleContainer
-        subtitleTextView.textColor = .white
-        subtitleTextView.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        subtitleTextView.textAlignment = .center
-        subtitleTextView.delegate = self
-
-        detailTextView.highlightContainerThing = detailContainer
-        detailTextView.textColor = .white
-        detailTextView.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        detailTextView.textAlignment = .center
-        detailTextView.delegate = self
-
-        credentialsStackView.alignment = .fill
-        credentialsStackView.distribution = .fillEqually
-        credentialsStackView.axis = .vertical
-
-        var usernameField: LabeledTextField {
-            let field = LabeledTextField()
-
-            field.label.text = NSLocalizedString("Identification Number", comment: "")
-            field.label.textColor = .white
-
-            let textField = field.textField
-            textField.accessibilityLabel = NSLocalizedString("Username Field", comment: "Accessibility")
-            textField.returnKeyType = .next
-            //            textField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
-            //            textField.addObserver(self, forKeyPath: #keyPath(UITextField.text), context: &kvoContext)
-            textField.autocapitalizationType = .none
-            textField.delegate = self
-            textField.textColor = .white
-            textField.autocorrectionType = .no
-            //            self.isUsernameFieldLoaded = true
-
-            return field
-        }
-
-        var passwordField: LabeledTextField {
-            let field = LabeledTextField()
-
-            field.label.textColor = .white
-            field.label.text = NSLocalizedString("Password", comment: "")
-
-            let textField = field.textField
-            textField.accessibilityLabel = NSLocalizedString("Password Field", comment: "Accessibility")
-            textField.isSecureTextEntry = true
-            textField.delegate = self
-            textField.returnKeyType = .done
-            textField.clearsOnBeginEditing = true
-            textField.textColor = .white
-            //            textField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
-            //            textField.addObserver(self, forKeyPath: #keyPath(UITextField.text), context: &kvoContext)
-            textField.autocapitalizationType = .none
-            textField.autocorrectionType = .no
-            //            self.isPasswordFieldLoaded = true
-
-            return field
-        }
-
-        credentialsStackView.addArrangedSubview(usernameField)
-        credentialsStackView.addArrangedSubview(passwordField)
-
-        let buttonBackground = UIImage.resizableRoundedImage(cornerRadius: 24, borderWidth: 0.0, borderColor: nil, fillColor: .white)
-        loginButton.titleLabel?.font = .systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
-        loginButton.setBackgroundImage(buttonBackground.withRenderingMode(.alwaysTemplate), for: .normal)
-        loginButton.setTitle("Login Now", for: .normal)
-        loginButton.setTitleColor(.white, for: .normal)
-        loginButton.setTitleColor(UIColor(white: 1.0, alpha: 0.5), for: .disabled)
-        loginButton.adjustsImageWhenDisabled = true
-//        loginButton.addTarget(self, action: #selector(loginButtonTriggered), for: .primaryActionTriggered)
-//        loginButton.addTarget(self, action: #selector(loginButtonTouchDown), for: .touchDown)
-    }
-
     private func setupViews() {
         let views = [
             titleLabel,
@@ -168,7 +154,7 @@ final public class FancyLoginViewController: UIViewController {
         }
 
         var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[tl]-[stv]-13-[csv]-24-[bb]-32-[lb(48)]-24-[dtv]->=0-|",
-                                                         options: [],
+                                                         options: [.alignAllLeading, .alignAllTrailing],
                                                          metrics: nil,
                                                          views: ["tl": titleLabel,
                                                                  "stv": subtitleTextView,
@@ -177,65 +163,218 @@ final public class FancyLoginViewController: UIViewController {
                                                                  "lb": loginButton,
                                                                  "dtv": detailTextView])
 
-        constraints += views.map{$0.leadingAnchor.constraint(equalTo: view.leadingAnchor)}
-        constraints += views.map{$0.trailingAnchor.constraint(equalTo: view.trailingAnchor)}
+        constraints += [
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ]
 
         NSLayoutConstraint.activate(constraints)
+    }
+
+    private func setupStackView() {
+        credentialsStackView.alignment = .fill
+        credentialsStackView.distribution = .fillEqually
+        credentialsStackView.axis = .vertical
+    }
+
+    private func setupActions() {
+        loginButton.addTarget(self, action: #selector(loginButtonTriggered), for: .primaryActionTriggered)
+        loginButton.addTarget(self, action: #selector(loginButtonTouchDown), for: .touchDown)
+        biometricButton.addTarget(self, action: #selector(biometricButtonTriggered), for: .primaryActionTriggered)
+        biometricButton.addTarget(self, action: #selector(biometricButtonTouchDown), for: .touchDown)
+    }
+
+    private func setupCredentialActions() {
+        credentials?.forEach { credential in
+            credential.inputField.textField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
+            credential.inputField.textField.addObserver(self, forKeyPath: #keyPath(UITextField.text), context: &kvoContext)
+        }
+    }
+
+    private func updateLoginButtonState() {
+        switch loginMode {
+        case .credentials:
+            loginButton.isEnabled = areCredentialsValid()
+        case .credentialsWithBiometric:
+            loginButton.isEnabled = areCredentialsValid()
+        case .externalAuth:
+            loginButton.isEnabled = true
+        }
+    }
+
+    private func authenticateWithBiometric(title: String) {
+        guard case .credentialsWithBiometric(let delegate) = loginMode else { return }
+
+        authenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: title, reply: { [weak self] (success, error) in
+            guard let `self` = self else { return }
+            DispatchQueue.main.async {
+                if success {
+                    delegate?.loginViewControllerDidAuthenticateWithBiometric(self, context: self.authenticationContext)
+                }
+            }
+        })
+    }
+
+    private func areCredentialsValid() -> Bool {
+        guard let credentials = credentials else { return false }
+        guard credentials.reduce(true, { (result, cred) -> Bool in
+            let isValid = !cred.isRequired ? true : cred.isValid
+            return result && isValid
+        }) else { return false }
+
+        return true
+    }
+
+    @objc private func biometricButtonTriggered() {
+        //TODO: THIS
+        //        authenticateWithBiometric(title: "Login to account \"\(usernameField.textField.text!)\"")
+    }
+
+    @objc private func biometricButtonTouchDown() {
+        HapticHelper.shared.prepare(.medium)
+    }
+
+    @objc private func loginButtonTouchDown() {
+        HapticHelper.shared.prepare(.medium)
+    }
+
+    @objc private func loginButtonTriggered() {
+        HapticHelper.shared.trigger(.medium)
+
+        switch loginMode {
+        case .credentials(let delegate):
+            guard let credentials = credentials else { return }
+            guard credentials.reduce(true, { (result, cred) -> Bool in
+                let isValid = !cred.isRequired ? true : cred.isValid
+                return result && isValid
+            }) else { return }
+
+            view.endEditing(true)
+            delegate?.loginViewController(self, didFinishWithCredentials: credentials)
+        case .credentialsWithBiometric(let delegate):
+            guard let credentials = credentials else { return }
+            guard credentials.reduce(true, { (result, cred) -> Bool in
+                let isValid = !cred.isRequired ? true : cred.isValid
+                return result && isValid
+            }) else { return }
+
+            view.endEditing(true)
+            delegate?.loginViewController(self, didFinishWithCredentials: credentials)
+        case .externalAuth(let delegate):
+            delegate?.loginViewControllerDidCommenceExternalAuth(self)
+        }
+    }
+
+    @objc private func textFieldTextDidChange(_ textField: UITextField) {
+        updateLoginButtonState()
     }
 }
 
 extension FancyLoginViewController: UITextViewDelegate, UITextFieldDelegate {
 
     public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
-        print("INTERACTED WITH URL!! \(URL)")
-
-        if textView == self.subtitleTextView {
-            subtitleContainer?.action?(self)
-        } else if textView == self.detailTextView {
-            detailContainer?.action?(self)
+        if textView == subtitleTextView {
+            subtitleTextView.highlightContainerThing?.action?(self)
+        } else if textView == detailTextView {
+            detailTextView.highlightContainerThing?.action?(self)
         }
         return false
     }
 
     public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        print("INTERACTED WITH URL!! \(URL)")
 
-        if textView == self.subtitleTextView {
-            subtitleContainer?.action?(self)
-        } else if textView == self.detailTextView {
-            detailContainer?.action?(self)
+        if textView == subtitleTextView {
+            subtitleTextView.highlightContainerThing?.action?(self)
+        } else if textView == detailTextView {
+            detailTextView.highlightContainerThing?.action?(self)
         }
         return false
     }
+
+    // MARK: - Text field delegate
+
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        //        if isUsernameFieldLoaded && textField == usernameField.textField {
+        //            passwordField.textField.becomeFirstResponder()
+        //        } else if isPasswordFieldLoaded && textField == passwordField.textField {
+        //            passwordField.textField.resignFirstResponder()
+        //
+        //            if loginButton.isEnabled {
+        //                loginButtonTriggered()
+        //            }
+        //        }
+        return false
+    }
+
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        //        if textField == passwordField.textField {
+        //            let text = textField.text as NSString?
+        //            let newText = text?.replacingCharacters(in: range, with: string)
+        //            textField.text = newText
+        //            return false
+        //        }
+        return true
+    }
 }
 
-public struct HighlightTextContainerThing {
-    var text: String
-    var highlightText: String
-    var action: ((UIViewController)->())?
+// MARK: KVO
+
+extension FancyLoginViewController {
+
+    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if context == &kvoContext {
+            if keyPath == #keyPath(UITextField.text), let field = object as? UITextField {
+                textFieldTextDidChange(field)
+            }
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
+    }
 }
 
-public class HighlightingTextView: UITextView {
-    public var highlightContainerThing: HighlightTextContainerThing? {
-        didSet {
-            guard let highlightContainerThing = highlightContainerThing else { return }
+// MARK: - Keyboard notifications
 
-            let text = NSMutableAttributedString(string: highlightContainerThing.text)
-            let range = text.mutableString.range(of: highlightContainerThing.highlightText)
+extension FancyLoginViewController {
 
-            text.addAttribute(.link, value: "", range: range)
-            text.addAttribute(.foregroundColor, value: ThemeManager.shared.theme(for: .current).color(forKey: .tint)!, range: range)
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(resetKeyboardInset), object: nil)
 
-            self.attributedText = text
+        guard let animationDetails = notification.keyboardAnimationDetails() else { return }
+
+        let rectInViewCoordinates = view.convert(animationDetails.endFrame, from: nil)
+        let inset = max(0.0, view.bounds.maxY - rectInViewCoordinates.minY)
+
+        setKeyboardInset(inset, animationDuration: animationDetails.duration, curve: animationDetails.curve)
+    }
+
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        if let animationDetails = notification.keyboardAnimationDetails(), animationDetails.duration >~ 0.0 {
+            setKeyboardInset(0.0, animationDuration: animationDetails.duration, curve: animationDetails.curve)
         }
     }
 
-    required public init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
-    public init() {
-        super.init(frame: .zero, textContainer: nil)
-        self.isEditable = false
-        self.isSelectable = true
-        self.isScrollEnabled = false
-        self.backgroundColor = .clear
+    @objc private func keyboardDidHide(_ notification: Notification) {
+        if let animationDetails = notification.keyboardAnimationDetails(), animationDetails.duration >~ 0.0 {
+            return
+        }
+        perform(#selector(resetKeyboardInset), with: nil, afterDelay: 0.1, inModes: [.commonModes])
+    }
+
+    // MARK: - Private methods
+
+    private func setKeyboardInset(_ inset: CGFloat, animationDuration: TimeInterval, curve: UIViewAnimationOptions) {
+        if keyboardInset == inset { return }
+        keyboardInset = inset
+
+        if let view = viewIfLoaded {
+            UIView.animate(withDuration: animationDuration, delay: 0.0, options: [curve, .beginFromCurrentState], animations: {
+                view.setNeedsLayout()
+                view.layoutIfNeeded()
+            })
+        }
+    }
+
+    @objc private func resetKeyboardInset() {
+        setKeyboardInset(0.0, animationDuration: 0.0, curve: .curveLinear)
     }
 }
