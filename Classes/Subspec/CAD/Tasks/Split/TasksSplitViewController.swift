@@ -204,6 +204,9 @@ open class TasksSplitViewController: MPOLSplitViewController {
             self?.tasksListContainer?.loadingManager.state = .error
             self?.tasksListContainer?.loadingManager.errorView.subtitleLabel.text = error.localizedDescription
             print("Failed to sync: \(error)")
+
+            // Enable navigation bar items, for logout
+            barButtonItems.forEach { $0.isEnabled = true }
         }
     }
 

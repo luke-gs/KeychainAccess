@@ -105,10 +105,10 @@ open class BookOnDetailsFormContentMainViewModel {
 extension Array where Element == CADEquipmentType {
 
     public func quantityPicked() -> [QuantityPicked] {
-        let equipmentItemsByTitle = CADStateManager.shared.equipmentItems().itemsByTitle()
+        let itemsByValue = CADStateManager.shared.manifestEntries(for: .equipment).rawValueDict()
         return self.compactMap { item in
-            if let pickable = equipmentItemsByTitle[item.description] {
-                return QuantityPicked(object: pickable, count: item.count)
+            if let entry = itemsByValue[item.description] {
+                return QuantityPicked(object: PickableManifestEntry(entry), count: item.count)
             }
             return nil
         }

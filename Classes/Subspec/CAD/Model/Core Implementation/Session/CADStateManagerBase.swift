@@ -172,28 +172,20 @@ open class CADStateManagerBase: CADStateManagerType {
 
     // MARK: - Manifest
 
-    /// Fetch the officer capabilities
-    open func capabilityItems() -> [ManifestEntry] {
-        return Manifest.shared.entries(for: .CapabilityCollection) ?? []
-    }
-
-    /// Fetch the book on equipment items
-    open func equipmentItems() -> [ManifestEntry] {
-        return Manifest.shared.entries(for: .EquipmentCollection) ?? []
-    }
-
-    /// Fetch the patrol groups
-    open func patrolGroups() -> [ManifestEntry] {
-        return Manifest.shared.entries(for: .PatrolGroupCollection) ?? []
+    /// Fetch manifest entries
+    open func manifestEntries(for collection: ManifestCollection, activeOnly: Bool, sortedBy: [NSSortDescriptor]?) -> [ManifestEntry] {
+        // Just forward this to standard manifest by default. Clients can override if needed
+        return Manifest.shared.entries(for: collection, activeOnly: activeOnly, sortedBy: sortedBy) ?? []
     }
 
     /// Sync the latest manifest items, optionally matching the specified categories
     /// We use our own implementation of update here, so we can use custom API manager
-    open func syncManifestItems(categories: [String]?) -> Promise<Void> {
+    open func syncManifestItems(collections: [ManifestCollection]?) -> Promise<Void> {
         let checkedAtDate = Date()
 
         let manifestRequest: ManifestFetchRequest
-        if let categories = categories {
+        if let collections = collections {
+            let categories = collections.map { $0.rawValue }
             manifestRequest = ManifestFetchRequest(date: Manifest.shared.lastUpdateDate,
                                                    path: "manifest/manifest/categories",
                                                    parameters: ["categories": categories],

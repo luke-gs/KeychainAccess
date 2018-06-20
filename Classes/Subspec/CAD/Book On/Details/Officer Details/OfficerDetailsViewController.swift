@@ -64,11 +64,7 @@ open class OfficerDetailsViewController: FormBuilderViewController {
         builder += HeaderFormItem(text: NSLocalizedString("OFFICER DETAILS", comment: ""), style: .plain)
         
         builder += DropDownFormItem(title: NSLocalizedString("Licence", comment: ""))
-            // TODO: get these from manifest
-            .options([NSLocalizedString("Gold Licence", comment: ""),
-                      NSLocalizedString("Silver Licence", comment: ""),
-                      NSLocalizedString("Bronze Licence", comment: ""),
-                      NSLocalizedString("Nil", comment: "")])
+            .options(viewModel.licenceOptions)
             .required("Licence is required.")
             .allowsMultipleSelection(false)
             .width(.column(1))
@@ -96,7 +92,7 @@ open class OfficerDetailsViewController: FormBuilderViewController {
         }
 
         builder += DropDownFormItem(title: NSLocalizedString("Capabilities", comment: ""))
-            .options(CADStateManager.shared.capabilityItems().compactMap {return $0.title})
+            .options(viewModel.capabilitiesOptions)
             .width(.column(1))
             .selectedValue(viewModel.content.capabilities)
             .allowsMultipleSelection(true)

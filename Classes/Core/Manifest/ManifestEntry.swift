@@ -50,17 +50,20 @@ public class ManifestEntry: NSManagedObject {
     
 }
 
-
-extension ManifestEntry: Pickable {
-}
-
-// Convenience extension for getting manifest items by title
+// Convenience extension for getting manifest info from array
 extension Array where Element == ManifestEntry {
-    public func itemsByTitle() -> [String: ManifestEntry] {
+
+    // Get all manifest item values as an array, commonly used for drop downs
+    public func rawValues() -> [String] {
+        return self.compactMap { return $0.rawValue }
+    }
+
+    // Get all manifest entries keyed by their unique rawValue, for fast lookup
+    public func rawValueDict() -> [String: ManifestEntry] {
         var result: [String: ManifestEntry] = [:]
         for item in self {
-            if let title = item.title {
-                result[title] = item
+            if let value = item.rawValue {
+                result[value] = item
             }
         }
         return result

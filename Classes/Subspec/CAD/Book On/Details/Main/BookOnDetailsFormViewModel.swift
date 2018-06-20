@@ -46,9 +46,13 @@ open class BookOnDetailsFormViewModel {
 
     // Array of default equipment items, manifest items with zero counts
     open var defaultEquipment: [QuantityPicked] {
-        return CADStateManager.shared.equipmentItems().map { item in
-            return QuantityPicked(object: item, count: 0)
-        }.sorted(using: [SortDescriptor<QuantityPicked>(ascending: true) { $0.object.title }])
+        return CADStateManager.shared.manifestEntries(for: .equipment).map { entry in
+            return QuantityPicked(object: PickableManifestEntry(entry), count: 0)
+        }
+    }
+
+    open var categoryOptions: [String] {
+        return CADStateManager.shared.manifestEntries(for: .vehicleCategory).rawValues()
     }
 
     public init(resource: CADResourceType) {

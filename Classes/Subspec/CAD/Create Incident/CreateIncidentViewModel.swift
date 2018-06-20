@@ -58,13 +58,11 @@ open class CreateIncidentViewModel {
     }
     
     open var primaryCodeOptions: [String] {
-        // TODO: Get from manifest
-        return ["221 Traffic Hazard", "612 Wanted/Suspect Person", "620 Property Dispute"]
+        return CADStateManager.shared.manifestEntries(for: .incidentType).rawValues()
     }
     
     open var secondaryCodeOptions: [String] {
-        // TODO: Get from manifest
-        return ["Traffic", "Crash", "Other"]
+        return CADStateManager.shared.manifestEntries(for: .incidentType).rawValues()
     }
     
     open func navTitle() -> String {
