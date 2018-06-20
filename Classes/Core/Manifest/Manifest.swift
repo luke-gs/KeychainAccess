@@ -370,20 +370,33 @@ public final class Manifest: NSObject {
     }
     
     // MARK: - Update manifest
-    
+
+    /// Uses the APIManager to connect and retrieve the latest manifest data for the given categories
+    public func update(collections: [ManifestCollection]) -> Promise<Void> {
+        let categories = collections.map { $0.rawValue }
+        let request = ManifestFetchRequest(date: lastUpdateDate,
+                                           path: "manifest/manifest/categories",
+                                           parameters: ["categories": categories],
+                                           method: .post,
+                                           updateType: .dateTime)
+        return update(request: request)
+    }
+
     /// Uses the APIManager to connect and retrive the latest manifest, using the lastUpdateDate as a Delta
     ///
     /// - Return: A promise that returns the successful result once complete
     ///
-    public func update() -> Promise<Void> {
+    public func update(request: ManifestFetchRequest? = nil) -> Promise<Void> {
         objc_sync_enter(self)
         defer { objc_sync_exit(self) }
         if let currentPromise = self.currenUpdatingPromise {
             return currentPromise
         } else {
             let checkedAtDate = Date()
-            
-            let newPromise = APIManager.shared.fetchManifest(with: ManifestFetchRequest(date: self.lastUpdateDate)).then { [weak self] result -> Promise<Void> in
+
+            // Use the provided manifest request or fallback to the old format used by DTMR
+            let request = request ?? ManifestFetchRequest(date: self.lastUpdateDate)
+            let newPromise = APIManager.shared.fetchManifest(with: request).then { [weak self] result -> Promise<Void> in
                 guard let `self` = self else { return Promise<Void>.value(()) }
                 guard result.isEmpty == false else {
                     self.lastUpdateDate = checkedAtDate
