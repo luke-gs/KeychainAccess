@@ -126,19 +126,22 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
         return currentViewController
     }
 
-    open func loginViewControllerDidAppear(_ controller: LoginViewController) {
+    open func loginViewControllerDidAppear(_ controller: FancyLoginViewController) {
 
     }
 
-    open func loginViewController(_ controller: LoginViewController, didFinishWithUsername username: String, password: String) {
+    open func loginViewController(_ controller: FancyLoginViewController, didFinishWithCredentials credentials: [LoginCredential]) {
+        let usernameCred = credentials.filter{$0.name == "Username"}.first
+        let passwordCred = credentials.filter{$0.name == "Password"}.last
+        guard let username = usernameCred?.value, let password = passwordCred?.value else { return }
         authenticateWithUsername(username, password: password, inController: controller)
     }
 
-    open func loginViewController(_ controller: LoginViewController, didTapForgotPasswordButton button: UIButton) {
+    open func loginViewController(_ controller: FancyLoginViewController, didTapForgotPasswordButton button: UIButton) {
         // Haha, good luck! Implemented next year maybe.
     }
 
-    open func loginViewControllerDidAuthenticateWithBiometric(_ controller: LoginViewController, context: LAContext) {
+    open func loginViewControllerDidAuthenticateWithBiometric(_ controller: FancyLoginViewController, context: LAContext) {
 
         if let handler = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain) {
             handler.password(context: context).done { [weak self] password -> Void in
@@ -162,7 +165,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
 
     }
 
-    public func authenticateWithUsername(_ username: String, password: String, inController controller: LoginViewController, context: LAContext? = nil) {
+    public func authenticateWithUsername(_ username: String, password: String, inController controller: FancyLoginViewController, context: LAContext? = nil) {
         controller.setLoading(true, animated: true)
 
         // `lToken` is added so we could start the session slightly later.

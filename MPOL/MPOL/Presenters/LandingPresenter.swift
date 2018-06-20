@@ -40,67 +40,28 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
         case .login:
             let mode: LoginMode
-            // This is the app wants to authenticate with biometric
+
+            // Check if the user wants to authenticate with biometric and it's possible.
+            // Can't check for password, because the `password` would require user permission.
             var retrievedUsername: String?
             if wantsBiometricAuthentication {
-                // Check if the user wants to authenticate with biometric and it's possible.
-                // Can't check for password, because the `password` would require user permission.
                 if let currentUser = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain),
                     currentUser.useBiometric == .agreed {
-                    mode = .usernamePasswordWithBiometric(delegate: self)
+                    mode = .credentialsWithBiometric(delegate: self)
                     retrievedUsername = currentUser.username
                 } else {
-                    mode = .usernamePassword(delegate: self)
+                    mode = .credentials(delegate: self)
                 }
             } else {
-                mode = .usernamePassword(delegate: self)
+                mode = .credentials(delegate: self)
             }
 
-//            let loginViewController = LoginViewController(mode: mode)
-//
-//            loginViewController.minimumUsernameLength = 1
-//            loginViewController.minimumPasswordLength = 1
-//
-//            #if DEBUG
-//            loginViewController.usernameField.textField.text = "gridstone"
-//            loginViewController.passwordField.textField.text = "mock"
-//            #endif
-//
-//            if let username = retrievedUsername {
-//                loginViewController.usernameField.textField.text = username
-//            }
-
             let loginViewController = FancyLoginViewController(mode: mode)
-
-            /// The version number
-             var versionLabel: UILabel = {
-                let label = UILabel(frame: .zero)
-                label.font = .systemFont(ofSize: 13.0, weight: UIFont.Weight.bold)
-                label.textColor = UIColor(white: 1.0, alpha: 0.64)
-
-                if let info = Bundle.main.infoDictionary {
-                    let version = info["CFBundleShortVersionString"] as? String ?? ""
-                    let build   = info["CFBundleVersion"] as? String ?? ""
-
-                    label.text = "v\(version) #\(build)"
-                }
-
-                label.textAlignment = .right
-                return label
-            }()
-
-            let imageView = UIImageView(image: #imageLiteral(resourceName: "GSMotoLogo"))
-            imageView.contentMode = .bottomLeft
-
-            let loginHeader = LoginHeaderView(title: NSLocalizedString("PSCore", comment: "Login screen header title"),
-                                              subtitle: NSLocalizedString("Public Safety Mobile Platform", comment: "Login screen header subtitle"), image: #imageLiteral(resourceName: "MPOLIcon"))
+            loginViewController.setupDefaultStyle(with: retrievedUsername)
 
             let loginContainer = LoginContainerViewController()
-            loginContainer.backgroundImage = #imageLiteral(resourceName: "Login")
+            loginContainer.setupDefaultStyle()
 
-            loginContainer.setHeaderView(loginHeader, at: .left)
-            loginContainer.setFooterView(imageView, at: .left)
-            loginContainer.setFooterView(versionLabel, at: .right)
             loginContainer.addContentViewController(loginViewController)
 
             return loginContainer
