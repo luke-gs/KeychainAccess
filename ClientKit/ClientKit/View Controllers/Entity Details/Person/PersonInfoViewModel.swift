@@ -300,7 +300,7 @@ struct LicenceClassFormatter: DetailDisplayable, FormItemable {
         if validLicence {
             return UIImage.statusDot(withColor: .midGreen)
         } else {
-            return UIImage.statusDot(withColor: .orangeRed)
+            return UIImage.statusDot(withColor: .brightBlue)
         }
     }
 
