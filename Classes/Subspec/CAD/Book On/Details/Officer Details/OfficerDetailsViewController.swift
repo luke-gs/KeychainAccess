@@ -64,7 +64,7 @@ open class OfficerDetailsViewController: FormBuilderViewController {
         builder += HeaderFormItem(text: NSLocalizedString("OFFICER DETAILS", comment: ""), style: .plain)
         
         builder += DropDownFormItem(title: NSLocalizedString("Licence", comment: ""))
-            .options(viewModel.licenseOptions)
+            .options(viewModel.licenceOptions)
             .required("Licence is required.")
             .allowsMultipleSelection(false)
             .width(.column(1))
