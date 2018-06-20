@@ -424,7 +424,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         case UICollectionElementKindSectionHeader:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, class: CollectionViewFormLargeTextLabelCell.self, for: indexPath)
             header.titleLabel.text = selectedDataSource.options!.headerText
-            //Match filters insets.
+            // Match filters insets.
             header.layoutMargins = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
             header.separatorView.backgroundColor = .clear
             return header
