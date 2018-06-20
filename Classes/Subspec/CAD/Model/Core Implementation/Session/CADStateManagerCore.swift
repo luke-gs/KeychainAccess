@@ -194,7 +194,7 @@ open class CADStateManagerCore: CADStateManagerBase {
             return details
         }.then { [unowned self] _ in
             // Get new manifest items
-            return self.syncManifestItems(collections: self.manifestCollections)
+            return self.syncManifestItems(collections: ManifestCollection.cadCollections)
         }.then { [unowned self] _ in
             // Get sync details
             return self.syncDetails()

@@ -172,17 +172,6 @@ open class CADStateManagerBase: CADStateManagerType {
 
     // MARK: - Manifest
 
-    /// The manifest collections to fetch when syncing
-    open var manifestCollections: [ManifestCollection] = [.activityLogType,
-                                                          .equipment,
-                                                          .incidentType,
-                                                          .officerLicenceType,
-                                                          .officerCapability,
-                                                          .patrolGroup,
-                                                          .patrolType,
-                                                          .vehicleCategory,
-                                                          .welfareCheckReason]
-
     /// Fetch manifest entries
     open func manifestEntries(for collection: ManifestCollection, activeOnly: Bool, sortedBy: [NSSortDescriptor]?) -> [ManifestEntry] {
         // Just forward this to standard manifest by default. Clients can override if needed

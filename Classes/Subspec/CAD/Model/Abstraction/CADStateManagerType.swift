@@ -71,9 +71,6 @@ public protocol CADStateManagerType {
 
     // MARK: - Manifest
 
-    /// The manifest collections to fetch when syncing
-    var manifestCollections: [ManifestCollection] { get }
-
     /// Fetch manifest entries
     func manifestEntries(for collection: ManifestCollection, activeOnly: Bool, sortedBy: [NSSortDescriptor]?) -> [ManifestEntry]
 
@@ -161,19 +158,6 @@ public extension NSNotification.Name {
 
     /// Notification posted when sync changes
     static let CADSyncChanged = NSNotification.Name(rawValue: "CAD_SyncChanged")
-}
-
-// Extension for custom manifest categories
-public extension ManifestCollection {
-    static var activityLogType = ManifestCollection(rawValue: "ActivityLogType")
-    static var equipment = ManifestCollection(rawValue: "Equipment")
-    static var incidentType = ManifestCollection(rawValue: "IncidentType")
-    static var officerLicenceType = ManifestCollection(rawValue: "OfficerLicenceType")
-    static var officerCapability = ManifestCollection(rawValue: "OfficerCapability")
-    static var patrolGroup = ManifestCollection(rawValue: "PatrolArea")
-    static var patrolType = ManifestCollection(rawValue: "PatrolType")
-    static var vehicleCategory = ManifestCollection(rawValue: "VehicleCategory")
-    static var welfareCheckReason = ManifestCollection(rawValue: "WelfareCheckReason")
 }
 
 /// Extendable class for defining CAD specific local notifications
