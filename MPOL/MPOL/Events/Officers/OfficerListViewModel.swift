@@ -43,6 +43,10 @@ public class EventOfficerListViewModel {
         return "Officers"
     }
 
+    public var officerInvolvementOptions: [Pickable] {
+        return Manifest.shared.entries(for: .eventOfficerInvolvement)?.pickableList() ?? []
+    }
+
     public func officer(at indexPath: IndexPath) -> Officer {
         return report.officers[indexPath.row]
     }
