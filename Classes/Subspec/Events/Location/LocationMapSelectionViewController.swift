@@ -20,7 +20,7 @@ open class LocationMapSelectionViewController: MapFormBuilderViewController, Eva
 
     public init(viewModel: LocationSelectionViewModel) {
         self.viewModel = viewModel
-        self.viewModel.type = "Event Location"
+        self.viewModel.type = viewModel.locationTypeOptions.first
 
         super.init(layout: StackMapLayout())
         
@@ -71,7 +71,7 @@ open class LocationMapSelectionViewController: MapFormBuilderViewController, Eva
 
         builder += HeaderFormItem(text: "LOCATION DETAILS")
         builder += DropDownFormItem(title: "Type")
-            .options(["Event Location"])
+            .options(viewModel.locationTypeOptions)
             .selectedValue(viewModel.selectedValues())
             .allowsMultipleSelection(false)
             .onValueChanged { values in

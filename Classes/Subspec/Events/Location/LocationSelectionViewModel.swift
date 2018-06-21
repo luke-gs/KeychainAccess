@@ -30,10 +30,14 @@ open class LocationSelectionViewModel: Evaluatable {
             evaluator.updateEvaluation(for: .locationType)
         }
     }
-    public var type: String? {
+    public var type: PickableManifestEntry? {
         didSet {
             evaluator.updateEvaluation(for: .locationType)
         }
+    }
+
+    public var locationTypeOptions: [PickableManifestEntry] {
+        return Manifest.shared.entries(for: .eventLocationInvolvementType)?.pickableList() ?? []
     }
 
     public init(location: EventLocation? = nil) {
@@ -43,7 +47,7 @@ open class LocationSelectionViewModel: Evaluatable {
         }
     }
 
-    public func selectedValues() -> [String] {
+    public func selectedValues() -> [PickableManifestEntry] {
         guard let type = type else { return [] }
         return [type]
     }
