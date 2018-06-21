@@ -144,9 +144,9 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
 
             NSLayoutConstraint(item: detailLabel, attribute: .bottom, relatedBy: .equal, toItem: textLayoutGuide, attribute: .bottom),
 
-            sourceSubtitleHorizontalConstraint
-            ])
-        
+            sourceSubtitleHorizontalConstraint,
+        ])
+
         sourceLabel.addObserver(self, forKeyPath: #keyPath(UILabel.text), context: &kvoContext)
         sourceLabel.addObserver(self, forKeyPath: #keyPath(UILabel.attributedText), context: &kvoContext)
     }
@@ -158,6 +158,13 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
     
     
     // MARK: - Overrides
+
+    open override func layoutSubviews() {
+        if separatorStyle == .indented {
+            self.customSeparatorInsets = UIEdgeInsets(top: 0.0, left: titleLabel.frame.minX, bottom: 0.0, right: 0.0)
+        }
+        super.layoutSubviews()
+    }
     
     open override var accessibilityLabel: String? {
         get {
