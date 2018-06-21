@@ -53,7 +53,12 @@ public class ManifestEntry: NSManagedObject {
 // Convenience extension for getting manifest info from array
 extension Array where Element == ManifestEntry {
 
-    // Get all manifest item values as an array, commonly used for drop downs
+    // Convert manifest items to pickable array, commonly used for drop downs
+    public func pickableList() -> [PickableManifestEntry] {
+        return self.map { return PickableManifestEntry($0) }
+    }
+
+    // Get all manifest item values as an array
     public func rawValues() -> [String] {
         return self.compactMap { return $0.rawValue }
     }

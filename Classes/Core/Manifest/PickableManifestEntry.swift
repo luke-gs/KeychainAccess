@@ -9,7 +9,7 @@ import Foundation
 
 /// Utility ManifestEntry wrapper class that conforms to Pickable
 /// Note: we don't just make Manifest Entry conform to Pickable due to different meaning of 'title' property.
-open class PickableManifestEntry: Pickable {
+open class PickableManifestEntry: Pickable, Equatable {
 
     public let entry: ManifestEntry
 
@@ -27,4 +27,9 @@ open class PickableManifestEntry: Pickable {
         // Subtitle of manifest item is the title of the sub category, not displayed in app
         return nil
     }
+
+    public static func == (lhs: PickableManifestEntry, rhs: PickableManifestEntry) -> Bool {
+        return lhs.entry == rhs.entry
+    }
+
 }
