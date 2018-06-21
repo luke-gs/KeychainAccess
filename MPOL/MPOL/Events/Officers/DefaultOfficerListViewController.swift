@@ -16,17 +16,6 @@ extension EvaluatorKey {
 
 open class DefaultEventOfficerListViewController: FormBuilderViewController, EvaluationObserverable, EventOfficerListViewModelDelegate {
 
-    // TEMP INVOLVEMENTS
-    fileprivate let involvements = [
-        "Reporting Officer", 
-        "Assisting Officer",
-        "Case Officer",
-        "Forensic Intelligence Officer",
-        "Interviewing Officer",
-        "Accident Officer",
-        "Action Officer",
-    ]
-
     let viewModel: EventOfficerListViewModel
 
     public init(viewModel: EventOfficerListViewModel) {
@@ -125,7 +114,7 @@ open class DefaultEventOfficerListViewController: FormBuilderViewController, Eva
                                                      subtitle: displayable.detail1 ?? "No involvements selected",
                                                      image: displayable.thumbnail(ofSize: .small),
                                                      imageStyle: .circle)
-        let datasource = DefaultPickableSearchDatasource(objects: involvements,
+        let datasource = DefaultPickableSearchDatasource(objects: viewModel.officerInvolvementOptions,
                                                             selectedObjects: officer.involvements,
                                                             title: "Involvements",
                                                             configuration: headerConfig)
@@ -173,7 +162,7 @@ extension DefaultEventOfficerListViewController: SearchDisplayableDelegate {
                                                      image: displayable.thumbnail(ofSize: .small)?.sizing().image)
 
         let involvementDatasource = DefaultPickableSearchDatasource(
-            objects: involvements,
+            objects: viewModel.officerInvolvementOptions,
             selectedObjects: officer.involvements,
             title: "Involvements",
             configuration: headerConfig)
