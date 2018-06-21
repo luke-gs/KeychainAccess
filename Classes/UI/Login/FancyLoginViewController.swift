@@ -49,6 +49,7 @@ final public class FancyLoginViewController: UIViewController {
             credentialsStackView.arrangedSubviews.forEach{$0.removeFromSuperview()}
             credentials?.forEach { credential in
                 credentialsStackView.addArrangedSubview(credential.inputField)
+                credential.inputField.textField.text = credential.value
             }
             setupCredentialActions()
         }
@@ -64,13 +65,13 @@ final public class FancyLoginViewController: UIViewController {
     private lazy var loadingIndicator: LOTAnimationView? = {
         let spinner = MPOLSpinnerView(style: .regular)
         spinner.isHidden = true
+        spinner.translatesAutoresizingMaskIntoConstraints = false
 
-        let heightConstraint = spinner.heightAnchor.constraint(equalToConstant: 48.0)
-        heightConstraint.priority = UILayoutPriority.defaultHigh
+        view.addSubview(spinner)
 
         NSLayoutConstraint.activate([
-            heightConstraint,
-            spinner.widthAnchor.constraint(equalToConstant: 48.0),
+            spinner.heightAnchor.constraint(equalToConstant: 48),
+            spinner.widthAnchor.constraint(equalToConstant: 48),
             spinner.centerXAnchor.constraint(equalTo: loginButton.centerXAnchor),
             spinner.centerYAnchor.constraint(equalTo: loginButton.centerYAnchor)
             ])
@@ -78,11 +79,6 @@ final public class FancyLoginViewController: UIViewController {
         return spinner
     }()
 
-    /// A boolean value indicating whether the content is currently loading.
-    ///
-    /// When loading, the login fields are hidden and an activity indicator is
-    /// displayed. Setting this property directly performs the update without
-    /// an animation.
     private var isLoading: Bool = false {
         didSet {
             if isLoading == oldValue || isViewLoaded == false { return }
@@ -266,6 +262,8 @@ final public class FancyLoginViewController: UIViewController {
     }
 
     @objc private func textFieldTextDidChange(_ textField: UITextField) {
+        var credentialField = credentials?.filter{$0.inputField == textField}.first
+        credentialField?.value = textField.text
         updateLoginButtonState()
     }
 }
