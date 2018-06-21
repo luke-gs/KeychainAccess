@@ -182,6 +182,7 @@ final public class FancyLoginViewController: UIViewController {
 
     private func setupCredentialActions() {
         credentials?.forEach { credential in
+            credential.inputField.textField.delegate = self
             credential.inputField.textField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
             credential.inputField.textField.addObserver(self, forKeyPath: #keyPath(UITextField.text), context: &kvoContext)
         }
@@ -222,8 +223,8 @@ final public class FancyLoginViewController: UIViewController {
     }
 
     @objc private func biometricButtonTriggered() {
-        //TODO: THIS
-        //        authenticateWithBiometric(title: "Login to account \"\(usernameField.textField.text!)\"")
+        guard let credential = credentials?.first?.name else { return }
+        authenticateWithBiometric(title: "Login to account \"\(credential)\"")
     }
 
     @objc private func biometricButtonTouchDown() {
@@ -280,7 +281,6 @@ extension FancyLoginViewController: UITextViewDelegate, UITextFieldDelegate {
     }
 
     public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-
         if textView == subtitleTextView {
             subtitleTextView.highlightContainerThing?.action?(self)
         } else if textView == detailTextView {
@@ -292,25 +292,27 @@ extension FancyLoginViewController: UITextViewDelegate, UITextFieldDelegate {
     // MARK: - Text field delegate
 
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        //        if isUsernameFieldLoaded && textField == usernameField.textField {
-        //            passwordField.textField.becomeFirstResponder()
-        //        } else if isPasswordFieldLoaded && textField == passwordField.textField {
-        //            passwordField.textField.resignFirstResponder()
-        //
-        //            if loginButton.isEnabled {
-        //                loginButtonTriggered()
-        //            }
-        //        }
+        guard let validCreds = credentials else { return false }
+        guard let currentCredentialFieldIndex = validCreds.index(where: {$0.inputField.textField == textField}) else { return false }
+
+        if currentCredentialFieldIndex == (validCreds.count - 1) {
+            if loginButton.isEnabled {
+                loginButtonTriggered()
+            }
+        } else {
+            let nextCredentialField = validCreds[currentCredentialFieldIndex + 1]
+            nextCredentialField.inputField.textField.becomeFirstResponder()
+        }
         return false
     }
 
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        //        if textField == passwordField.textField {
-        //            let text = textField.text as NSString?
-        //            let newText = text?.replacingCharacters(in: range, with: string)
-        //            textField.text = newText
-        //            return false
-        //        }
+        if textField.isSecureTextEntry {
+            let text = textField.text as NSString?
+            let newText = text?.replacingCharacters(in: range, with: string)
+            textField.text = newText
+            return false
+        }
         return true
     }
 }
