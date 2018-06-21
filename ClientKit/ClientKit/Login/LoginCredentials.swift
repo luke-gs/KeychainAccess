@@ -7,7 +7,7 @@
 
 import MPOLKit
 
-public struct UsernameCredential: LoginCredential {
+public class UsernameCredential: LoginCredential {
     public var name: String = "Username"
     public var value: String?
     public var isRequired: Bool = true
@@ -39,7 +39,7 @@ public struct UsernameCredential: LoginCredential {
     }
 }
 
-public struct PasswordCredential: LoginCredential {
+public class PasswordCredential: LoginCredential {
     public var name: String = "Password"
     public var value: String?
     public var isRequired: Bool = true

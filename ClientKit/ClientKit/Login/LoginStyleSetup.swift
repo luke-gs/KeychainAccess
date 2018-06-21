@@ -39,10 +39,16 @@ public extension FancyLoginViewController {
 
         let usernameCred = UsernameCredential(username: username)
         let passwordCred = PasswordCredential()
-        
+        let passwordCred2 = PasswordCredential()
+        let passwordCred3 = PasswordCredential()
+        let passwordCred4 = PasswordCredential()
+
         credentials = [
             usernameCred,
-            passwordCred
+            passwordCred,
+            passwordCred2,
+            passwordCred3,
+            passwordCred4
         ]
 
         let buttonBackground = UIImage.resizableRoundedImage(cornerRadius: 24, borderWidth: 0.0, borderColor: nil, fillColor: .white)
