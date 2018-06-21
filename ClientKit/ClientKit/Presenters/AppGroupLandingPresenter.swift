@@ -133,12 +133,9 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
     open func loginViewController(_ controller: FancyLoginViewController, didFinishWithCredentials credentials: [LoginCredential]) {
         let usernameCred = credentials.filter{$0.name == "Username"}.first
         let passwordCred = credentials.filter{$0.name == "Password"}.last
-        guard let username = usernameCred?.value, let password = passwordCred?.value else { return }
+        guard let username = usernameCred?.inputField.textField.text,
+            let password = passwordCred?.inputField.textField.text else { return }
         authenticateWithUsername(username, password: password, inController: controller)
-    }
-
-    open func loginViewController(_ controller: FancyLoginViewController, didTapForgotPasswordButton button: UIButton) {
-        // Haha, good luck! Implemented next year maybe.
     }
 
     open func loginViewControllerDidAuthenticateWithBiometric(_ controller: FancyLoginViewController, context: LAContext) {

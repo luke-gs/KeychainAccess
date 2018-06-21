@@ -37,16 +37,9 @@ public extension FancyLoginViewController {
         detailTextView.textAlignment = .center
         detailTextView.delegate = self
 
-        let usernameCred = UsernameCredential()
+        let usernameCred = UsernameCredential(username: username)
         let passwordCred = PasswordCredential()
-
-        usernameCred.inputField.textField.text = username
-
-        #if DEBUG
-        usernameCred.inputField.textField.text = "gridstone"
-        passwordCred.inputField.textField.text = "mock"
-        #endif
-
+        
         credentials = [
             usernameCred,
             passwordCred

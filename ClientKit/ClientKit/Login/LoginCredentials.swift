@@ -11,27 +11,31 @@ public struct UsernameCredential: LoginCredential {
     public var name: String = "Username"
     public var value: String?
     public var isRequired: Bool = true
+    public var inputField: LabeledTextField
     public var isValid: Bool {
         guard let value = value else { return false }
         return value.count > 1
     }
 
-    public var inputField: LabeledTextField {
-        let field = LabeledTextField()
+    public init(username: String?) {
+        inputField = LabeledTextField()
 
-        field.label.text = NSLocalizedString("Identification Number", comment: "")
-        field.label.textColor = .white
+        inputField.label.text = NSLocalizedString("Identification Number", comment: "")
+        inputField.label.textColor = .white
 
-        let textField = field.textField
+        let textField = inputField.textField
         textField.accessibilityLabel = NSLocalizedString("Username Field", comment: "Accessibility")
         textField.returnKeyType = .next
         textField.autocapitalizationType = .none
         textField.textColor = .white
         textField.autocorrectionType = .no
 
-        NSLayoutConstraint.activate([field.heightAnchor.constraint(equalToConstant: 60)])
+        NSLayoutConstraint.activate([inputField.heightAnchor.constraint(equalToConstant: 60)])
 
-        return field
+        value = username
+        #if DEBUG
+        value = "gridstone"
+        #endif
     }
 }
 
@@ -39,18 +43,19 @@ public struct PasswordCredential: LoginCredential {
     public var name: String = "Password"
     public var value: String?
     public var isRequired: Bool = true
+    public var inputField: LabeledTextField
     public var isValid: Bool {
         guard let value = value else { return false }
         return value.count > 1
     }
 
-    public var inputField: LabeledTextField {
-        let field = LabeledTextField()
+    public init() {
+        inputField = LabeledTextField()
 
-        field.label.textColor = .white
-        field.label.text = NSLocalizedString("Password", comment: "")
+        inputField.label.textColor = .white
+        inputField.label.text = NSLocalizedString("Password", comment: "")
 
-        let textField = field.textField
+        let textField = inputField.textField
         textField.accessibilityLabel = NSLocalizedString("Password Field", comment: "Accessibility")
         textField.isSecureTextEntry = true
         textField.returnKeyType = .done
@@ -59,8 +64,10 @@ public struct PasswordCredential: LoginCredential {
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
 
-        NSLayoutConstraint.activate([field.heightAnchor.constraint(equalToConstant: 60)])
+        NSLayoutConstraint.activate([inputField.heightAnchor.constraint(equalToConstant: 60)])
 
-        return field
+        #if DEBUG
+        value = "mock"
+        #endif
     }
 }
