@@ -7,7 +7,7 @@
 
 import LocalAuthentication
 
-public protocol LoginCredential {
+public protocol LoginCredential: class {
     var name: String { get }
     var value: String? { get set }
     var isRequired: Bool { get }

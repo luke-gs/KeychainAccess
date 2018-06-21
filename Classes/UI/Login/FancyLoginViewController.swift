@@ -55,13 +55,6 @@ final public class FancyLoginViewController: UIViewController {
         }
     }
 
-    private var keyboardInset: CGFloat = 0.0 {
-        didSet {
-            if keyboardInset ==~ oldValue { return }
-            viewIfLoaded?.setNeedsLayout()
-        }
-    }
-
     private lazy var loadingIndicator: LOTAnimationView? = {
         let spinner = MPOLSpinnerView(style: .regular)
         spinner.isHidden = true
@@ -98,15 +91,14 @@ final public class FancyLoginViewController: UIViewController {
         }
     }
 
+    private lazy var keyboardManager: KeyboardManager = {
+        return KeyboardManager(managedView: self.view)
+    }()
+
     required public init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
     public init(mode: LoginMode) {
         self.loginMode = mode
         super.init(nibName: nil, bundle: nil)
-
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(keyboardDidHide(_:)),  name: .UIKeyboardDidHide,  object: nil)
     }
 
     public override func viewDidLoad() {
@@ -114,6 +106,8 @@ final public class FancyLoginViewController: UIViewController {
         setupViews()
         setupStackView()
         setupActions()
+
+        let _ = keyboardManager
     }
 
     /// Updates the view controller's `isLoading` state with an optional animation.
@@ -263,8 +257,8 @@ final public class FancyLoginViewController: UIViewController {
     }
 
     @objc private func textFieldTextDidChange(_ textField: UITextField) {
-        var credentialField = credentials?.filter{$0.inputField == textField}.first
-        credentialField?.value = textField.text
+        let credential = credentials?.first(where: {$0.inputField.textField == textField})
+        credential?.value = textField.text
         updateLoginButtonState()
     }
 }
@@ -329,52 +323,5 @@ extension FancyLoginViewController {
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
-    }
-}
-
-// MARK: - Keyboard notifications
-
-extension FancyLoginViewController {
-
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(resetKeyboardInset), object: nil)
-
-        guard let animationDetails = notification.keyboardAnimationDetails() else { return }
-
-        let rectInViewCoordinates = view.convert(animationDetails.endFrame, from: nil)
-        let inset = max(0.0, view.bounds.maxY - rectInViewCoordinates.minY)
-
-        setKeyboardInset(inset, animationDuration: animationDetails.duration, curve: animationDetails.curve)
-    }
-
-    @objc private func keyboardWillHide(_ notification: Notification) {
-        if let animationDetails = notification.keyboardAnimationDetails(), animationDetails.duration >~ 0.0 {
-            setKeyboardInset(0.0, animationDuration: animationDetails.duration, curve: animationDetails.curve)
-        }
-    }
-
-    @objc private func keyboardDidHide(_ notification: Notification) {
-        if let animationDetails = notification.keyboardAnimationDetails(), animationDetails.duration >~ 0.0 {
-            return
-        }
-        perform(#selector(resetKeyboardInset), with: nil, afterDelay: 0.1, inModes: [.commonModes])
-    }
-
-    // MARK: - Private methods
-
-    private func setKeyboardInset(_ inset: CGFloat, animationDuration: TimeInterval, curve: UIViewAnimationOptions) {
-        if keyboardInset == inset { return }
-        keyboardInset = inset
-
-        if let view = viewIfLoaded {
-            UIView.animate(withDuration: animationDuration, delay: 0.0, options: [curve, .beginFromCurrentState], animations: {
-                view.setNeedsLayout()
-                view.layoutIfNeeded()
-            })
-        }
-    }
-
-    @objc private func resetKeyboardInset() {
-        setKeyboardInset(0.0, animationDuration: 0.0, curve: .curveLinear)
     }
 }
