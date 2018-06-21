@@ -32,9 +32,17 @@ public class TaskItemPresenter: Presenter {
         case .addressLookup(_, let coordinate, let address):
             return ActionSheetViewController(buttons: [
                 ActionSheetButton(title: "Directions", icon: AssetManager.shared.image(forKey: .route), action: {
-                    let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coordinate, addressDictionary:nil))
-                    mapItem.name = address
-                    mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving])
+                    if let coordinate = coordinate {
+                        let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coordinate, addressDictionary:nil))
+                        mapItem.name = address
+                        mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving])
+                    } else if let address = address?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+                        let url = URL(string: "http://maps.apple.com/?address=\(address)")
+                    {
+                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    } else {
+                        AlertQueue.shared.addErrorAlert(message: "No valid location data was found")
+                    }
                 }),
                 ActionSheetButton(title: "Street View", icon: AssetManager.shared.image(forKey: .streetView), action: nil),
                 ActionSheetButton(title: "Search", icon: AssetManager.shared.image(forKey: .tabBarSearch), action: {
