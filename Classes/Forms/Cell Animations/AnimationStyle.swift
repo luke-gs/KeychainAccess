@@ -22,6 +22,8 @@ public enum AnimationStyle: Equatable {
             return true
         case (.underline, .underline):
             return true
+        case (.tableView, .tableView):
+            return true
         default:
             return false
         }
@@ -35,6 +37,7 @@ public enum AnimationStyle: Equatable {
     case fade
     case enlarge
     case underline
+    case tableView
 
     /// Called to configure the cell when it is either highlighted or selected
     /// The app can provide its own custom animations with .animated, or use
@@ -56,6 +59,8 @@ public enum AnimationStyle: Equatable {
             FadeStyle.configure(cell, isFocused: focused)
         case .underline:
             UnderlineStyle.configure(cell, isFocused: focused)
+        case .tableView:
+            TableViewStyle.configure(cell, isFocused: focused)
         }
     }
 }

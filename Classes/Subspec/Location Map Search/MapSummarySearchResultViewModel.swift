@@ -244,7 +244,8 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
 
     open func headerItemForSection(_ section: SearchResultSection) -> LargeTextHeaderFormItem {
         let string = StringSizing(string: section.title, numberOfLines: 2)
-        return LargeTextHeaderFormItem(text: string).separatorColor(.clear)
+        return LargeTextHeaderFormItem(text: string)
+            .separatorColor(.clear)
     }
 
     open func summaryItemsForSection(_ section: SearchResultSection) -> [FormItem] {
@@ -258,6 +259,7 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
             guard let summary = summaryDisplayFormatter.summaryDisplayForEntity(entity) as? EntityMapSummaryDisplayable else { return nil }
 
             let summaryItem = summary.summaryListFormItem()
+                .selectionStyle(.tableView)
                 .accessory(nil)
                 .separatorStyle(.indented)
                 .subtitle(NSLocalizedString("Unknown", comment: ""))
