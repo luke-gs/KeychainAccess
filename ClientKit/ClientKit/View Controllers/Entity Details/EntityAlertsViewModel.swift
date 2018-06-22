@@ -31,7 +31,8 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
         
         for alerts in filteredAlerts {
             if !alerts.isEmpty {
-                builder += HeaderFormItem(text: header(for: alerts), style: .collapsible)
+                builder += LargeTextHeaderFormItem(text: header(for: alerts))
+                    .separatorColor(.clear)
                 for alert in alerts {
                     builder += DetailFormItem()
                         .title(alert.title)
@@ -40,7 +41,9 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
                         .image(image(for: alert))
                         .highlightStyle(.fade)
                         .selectionStyle(.fade)
+                        .accessory(ItemAccessory.disclosure)
                         .onSelection({ [weak self] _ in
+                            // TODO: Present a formsheet when creatives approved
                             self?.updateExpanded(for: alert)
                             self?.delegate?.reloadData()
                         })
@@ -75,7 +78,7 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
     }
     
     open override var sidebarImage: UIImage? {
-        return AssetManager.shared.image(forKey: .alert)
+        return AssetManager.shared.image(forKey: .alertFilled)
     }
     
     open override var sidebarCount: UInt? {
@@ -170,11 +173,10 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
     // MARK: - Internal
     
     private var statusDotCache: [Alert.Level: UIImage] = [:]
-    private var expandedAlerts: Set<Alert> = []
     
     private func header(for alerts: [Alert]) -> String? {
         if let level = alerts.first?.level, let levelDescription = level.localizedDescription() {
-            return "\(alerts.count) \(levelDescription.localizedUppercase) "
+            return "\(alerts.count) \(levelDescription) "
         }
         
         return nil
@@ -182,16 +184,10 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
     
     private func subtitle(for alert: Alert) -> String? {
         if let date = alert.effectiveDate {
-            return NSLocalizedString("Effective from ", bundle: .mpolKit, comment: "") + DateFormatter.preferredDateStyle.string(from: date)
+            return NSLocalizedString("Issued on ", bundle: .mpolKit, comment: "") + DateFormatter.preferredDateStyle.string(from: date)
         } else {
-            return NSLocalizedString("Effective date unknown", bundle: .mpolKit, comment: "")
+            return NSLocalizedString("Issued date unknown", bundle: .mpolKit, comment: "")
         }
-    }
-    
-    private func detail(for alert: Alert) -> StringSizable? {
-        let details = alert.details ?? NSLocalizedString("No Description", bundle: .mpolKit, comment: "")
-        let numberOfLines = expandedAlerts.contains(alert) ? 0 : 2
-        return details.sizing(withNumberOfLines: numberOfLines)
     }
     
     private func image(for alert: Alert) -> UIImage? {
@@ -207,7 +203,17 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
         
         return nil
     }
+
+    // TODO: Remove Below code when updating cell selection to Present a formsheet
+
+    private var expandedAlerts: Set<Alert> = []
     
+    private func detail(for alert: Alert) -> StringSizable? {
+        let details = alert.details ?? NSLocalizedString("No Description", bundle: .mpolKit, comment: "")
+        let numberOfLines = expandedAlerts.contains(alert) ? 0 : 2
+        return details.sizing(withNumberOfLines: numberOfLines)
+    }
+
     private func updateExpanded(for alert: Alert) {
         if expandedAlerts.remove(alert) == nil {
             expandedAlerts.insert(alert)

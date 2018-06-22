@@ -38,27 +38,27 @@ open class PersonCriminalHistoryViewModel: EntityDetailFilterableFormViewModel {
 
         let offenderCharges = filteredOffenderCharges
         if !offenderCharges.isEmpty {
-            builder += HeaderFormItem(text: headerForCharges())
+            builder += LargeTextHeaderFormItem(text: headerForCharges())
+                .separatorColor(.clear)
             
             for item in offenderCharges {
 
                 let display = OffenderChargeDisplay(item)
                 builder += display.formItem()
                     .highlightStyle(.fade)
-                    .accessory(ItemAccessory(style: .disclosure))
             }
         }
 
         let offenderConvictions = filteredOffenderConvictions
         if !offenderConvictions.isEmpty {
-            builder += HeaderFormItem(text: headerForConvictions())
+            builder += LargeTextHeaderFormItem(text: headerForConvictions())
+                .separatorColor(.clear)
 
             for item in offenderConvictions {
 
                 let display = OffenderConvictionDisplay(item)
                 builder += display.formItem()
                     .highlightStyle(.fade)
-                    .accessory(ItemAccessory(style: .disclosure))
             }
         }
         

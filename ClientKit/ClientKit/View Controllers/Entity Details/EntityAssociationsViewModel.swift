@@ -113,7 +113,7 @@ open class EntityAssociationViewModel: EntityDetailFilterableFormViewModel {
     }
     
     open override var sidebarImage: UIImage? {
-        return AssetManager.shared.image(forKey: .alert)
+        return AssetManager.shared.image(forKey: .association)
     }
     
     open override var sidebarCount: UInt? {

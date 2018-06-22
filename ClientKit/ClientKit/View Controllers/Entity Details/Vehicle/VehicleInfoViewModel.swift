@@ -122,7 +122,7 @@ open class VehicleInfoViewModel: EntityDetailFormViewModel {
     }
     
     open override var sidebarImage: UIImage? {
-        return AssetManager.shared.image(forKey: .info)
+        return AssetManager.shared.image(forKey: .infoFilled)
     }
     
     // MARK: - Internal

@@ -42,7 +42,7 @@ open class EntityRetrievedEventsViewModel: EntityDetailFilterableFormViewModel {
     }
 
     open override var sidebarImage: UIImage? {
-        return AssetManager.shared.image(forKey: .event)
+        return AssetManager.shared.image(forKey: .list)
     }
 
     open override var sidebarCount: UInt? {
@@ -54,9 +54,16 @@ open class EntityRetrievedEventsViewModel: EntityDetailFilterableFormViewModel {
         builder.forceLinearLayout = true
 
         if !events.isEmpty {
-            builder += HeaderFormItem(text: headerTitle, style: .collapsible)
+            builder += LargeTextHeaderFormItem(text: headerTitle)
+                .separatorColor(.clear)
             for event in filteredEvents {
-                builder += DetailFormItem(title: event.name, subtitle: subtitle(for: event), detail: event.eventDescription?.ifNotEmpty())
+                builder += DetailFormItem(title: event.type, subtitle: subtitle(for: event), detail: detail(for: event))
+                    .accessory(ItemAccessory.disclosure)
+                    .onSelection({ [weak self] _ in
+                        // TODO: Present a formsheet when creatives approved
+                        self?.updateExpanded(for: event)
+                        self?.delegate?.reloadData()
+                    })
             }
         }
 
@@ -68,7 +75,7 @@ open class EntityRetrievedEventsViewModel: EntityDetailFilterableFormViewModel {
     private var filterEventTypes: Set<String>?
 
     private var filterTypeOptions: Set<String> {
-        return Set(events.compactMap { $0.type } )
+        return Set(events.compactMap { $0.type })
     }
 
     private var filterDateRange: FilterDateRange?
@@ -199,6 +206,22 @@ open class EntityRetrievedEventsViewModel: EntityDetailFilterableFormViewModel {
             return NSLocalizedString("Recorded on ", comment: "") + DateFormatter.preferredDateStyle.string(from: date)
         } else {
             return NSLocalizedString("Recorded date unknown", comment: "")
+        }
+    }
+
+    // TODO: Remove Below code when updating cell selection to Present a formsheet 
+
+    private var expandedEvents: Set<RetrievedEvent> = []
+
+    private func detail(for event: RetrievedEvent) -> StringSizable? {
+        let details = event.eventDescription?.ifNotEmpty() 
+        let numberOfLines = expandedEvents.contains(event) ? 0 : 2
+        return details?.sizing(withNumberOfLines: numberOfLines)
+    }
+
+    private func updateExpanded(for event: RetrievedEvent) {
+        if expandedEvents.remove(event) == nil {
+            expandedEvents.insert(event)
         }
     }
 

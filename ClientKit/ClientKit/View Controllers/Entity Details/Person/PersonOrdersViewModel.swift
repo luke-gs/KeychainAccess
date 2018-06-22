@@ -44,7 +44,7 @@ open class PersonOrdersViewModel: EntityDetailFilterableFormViewModel {
     }
 
     open override var sidebarImage: UIImage? {
-        return AssetManager.shared.image(forKey: .event)
+        return AssetManager.shared.image(forKey: .list)
     }
 
     open override var sidebarCount: UInt? {
@@ -56,9 +56,16 @@ open class PersonOrdersViewModel: EntityDetailFilterableFormViewModel {
         builder.forceLinearLayout = true
 
         if !orders.isEmpty {
-            builder += HeaderFormItem(text: headerTitle, style: .collapsible)
+            builder += LargeTextHeaderFormItem(text: headerTitle)
+                .separatorColor(.clear)
             for order in filteredOrders {
-                builder += DetailFormItem(title: order.type, subtitle: subtitle(for: order), detail: order.orderDescription)
+                builder += DetailFormItem(title: order.type, subtitle: subtitle(for: order), detail: detail(for: order))
+                    .accessory(ItemAccessory.disclosure)
+                    .onSelection({ [weak self] _ in
+                        // TODO: Present a formsheet when creatives approved
+                        self?.updateExpanded(for: order)
+                        self?.delegate?.reloadData()
+                    })
             }
         }
 
@@ -70,7 +77,7 @@ open class PersonOrdersViewModel: EntityDetailFilterableFormViewModel {
     private var filterEventTypes: Set<String>?
 
     private var filterTypeOptions: Set<String> {
-        return Set(orders.compactMap { $0.type } )
+        return Set(orders.compactMap { $0.type })
     }
 
     private var filterDateRange: FilterDateRange?
@@ -195,10 +202,26 @@ open class PersonOrdersViewModel: EntityDetailFilterableFormViewModel {
     }
 
     private func subtitle(for event: Order) -> String? {
-        if let date = event.issuedDate {
-            return NSLocalizedString("Recorded on ", comment: "") + DateFormatter.preferredDateStyle.string(from: date)
+        // TODO: request start and end date from back end
+        if let startDate = event.issuedDate, let endDate = event.issuedDate {
+            return NSLocalizedString("Active from ", comment: "") + DateFormatter.preferredDateStyle.string(from: startDate) + " - " + DateFormatter.preferredDateStyle.string(from: endDate)
         } else {
-            return NSLocalizedString("Recorded date unknown", comment: "")
+            return NSLocalizedString("Active date range unknown", comment: "")
+        }
+    }
+
+    // TODO: Remove Below code when updating cell selection to Present a formsheet 
+    private var expandedOrders: Set<Order> = []
+
+    private func detail(for order: Order) -> StringSizable? {
+        let details = order.orderDescription
+        let numberOfLines = expandedOrders.contains(order) ? 0 : 2
+        return details?.sizing(withNumberOfLines: numberOfLines)
+    }
+
+    private func updateExpanded(for order: Order) {
+        if expandedOrders.remove(order) == nil {
+            expandedOrders.insert(order)
         }
     }
 

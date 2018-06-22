@@ -38,9 +38,9 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
         let buttonTitle = count <= 1 ? nil : "\(count - 1) MORE DESCRIPTION\(count != 2 ? "S" : "")"
         
         let displayable = PersonDetailsDisplayable(person)
-        
-        builder += HeaderFormItem(text: header(for: .header), style: .collapsible)
+
         builder += SummaryDetailFormItem()
+            .separatorColor(.clear)
             .category(displayable.category)
             .title(displayable.title)
             .subtitle(displayable.detail1)
@@ -52,7 +52,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
             .imageTintColor(displayable.iconColor)
             .onButtonTapped {
                 self.didTapAdditionalDetails()
-        }
+            }
         
         // ---------- LICENCE ----------
         
@@ -64,7 +64,8 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
             for licence in sortedLicences {
 
                 let formatter = LicenceFormatter(licence: licence)
-                builder += HeaderFormItem(text: formatter.headerText, style: .collapsible)
+                builder += LargeTextHeaderFormItem(text: formatter.headerText)
+                    .separatorColor(.clear)
 
                 for formItem in formatter.classesFormItems {
                     builder += formItem
@@ -73,8 +74,12 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
 
         } else {
             if let licence = sortedLicences.first {
-                builder += HeaderFormItem(text: header(for: .details), style: .collapsible)
-                builder += ValueFormItem(title: NSLocalizedString("Identification Number", comment: ""), value: licence.number ?? "-").width(.column(1))
+                builder += LargeTextHeaderFormItem(text: header(for: .details))
+                    .separatorColor(.clear)
+                let title = StringSizing(string: NSLocalizedString("Identification Number", comment: ""), font: UIFont.preferredFont(forTextStyle: .subheadline))
+                let value = StringSizing(string: licence.number ?? "-", font: UIFont.preferredFont(forTextStyle: .subheadline))
+                builder += ValueFormItem(title: title, value: value)
+                    .width(.column(1))
             }
         }
 
@@ -82,18 +87,26 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
         // ---------- ALIASES ----------
         
         if let aliases = person.aliases, !aliases.isEmpty {
-            builder += HeaderFormItem(text: header(for: .aliases), style: .collapsible)
+            builder += LargeTextHeaderFormItem(text: header(for: .aliases))
+                .separatorColor(.clear)
             
             for alias in aliases {
                 SubtitleFormItem(title: alias.formattedName, subtitle: alias.formattedDOBAgeGender()).width(.column(1))
-                builder += ValueFormItem(value: alias.formattedName, image: nil)
-                    .title({
-                        if let date = alias.dateCreated {
-                            return String(format: NSLocalizedString("%@ - Recorded as at %@", bundle: .mpolKit, comment: ""), alias.type ?? "Unknown", DateFormatter.preferredDateStyle.string(from: date))
-                        } else {
-                            return String(format: NSLocalizedString("%@ - Recorded date unknown", bundle: .mpolKit, comment: ""), alias.type ?? "Unknown")
-                        }
-                    }()).width(.column(1))
+
+                let value = StringSizing(string: alias.formattedName ?? "", font: UIFont.preferredFont(forTextStyle: .subheadline))
+                let title: StringSizing = {
+                    let title: String
+                    if let date = alias.dateCreated {
+                        title = String(format: NSLocalizedString("Recorded on %@", bundle: .mpolKit, comment: ""), DateFormatter.preferredDateStyle.string(from: date))
+                    } else {
+                        title = NSLocalizedString("Recorded date unknown", bundle: .mpolKit, comment: "")
+                    }
+                    return StringSizing(string: title, font: UIFont.preferredFont(forTextStyle: .subheadline))
+                }()
+
+                builder += ValueFormItem(value: value, image: nil)
+                    .title(title)
+                    .width(.column(1))
             }
         }
         
@@ -103,42 +116,69 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
             let sort = SortDescriptor<Address>(ascending: false) { $0.reportDate ?? Date.distantPast }
             let sorted = addresses.sorted(using: [sort])
             
-            builder += HeaderFormItem(text: header(for: .addresses), style: .collapsible)
+            builder += LargeTextHeaderFormItem(text: header(for: .addresses))
+                .separatorColor(.clear)
             
             for address in sorted {
-                builder += ValueFormItem(value: address.formatted(), image: AssetManager.shared.image(forKey: .location))
-                    .title({
-                        if let date = address.reportDate {
-                            return String(format: NSLocalizedString("%@ - Recorded as at %@", bundle: .mpolKit, comment: ""), address.type ?? "Unknown", DateFormatter.preferredDateStyle.string(from: date))
-                        } else {
-                            return String(format: NSLocalizedString("%@ - Recorded date unknown", bundle: .mpolKit, comment: ""), address.type ?? "Unknown")
-                        }
-                        }())
+
+                let title = StringSizing(string: address.type ?? "Unknown", font: UIFont.preferredFont(forTextStyle: .subheadline))
+                let subtitle = StringSizing(string: address.formatted() ?? "", font: UIFont.preferredFont(forTextStyle: .subheadline))
+
+                let detail: StringSizing = {
+                    let detail: String
+                    if let date = address.reportDate {
+                        detail = String(format: NSLocalizedString("Recorded on %@", bundle: .mpolKit, comment: ""), DateFormatter.preferredDateStyle.string(from: date))
+                    } else {
+                        detail = NSLocalizedString("Recorded date unknown", bundle: .mpolKit, comment: "")
+                    }
+                    return StringSizing(string: detail, font: UIFont.preferredFont(forTextStyle: .footnote))
+                }()
+                builder += DetailLinkFormItem()
+                    .title(title)
+                    .subtitle(subtitle)
+                    .detail(detail)
                     .width(.column(1))
+                    .onSelection({ cell in
+                        // TODO: add actual functionality when tapping address when it is decided
+                        print(address.fullAddress)
+                    })
             }
         }
         
         // ---------- CONTACT ----------
         
         if let contacts = person.contacts, !contacts.isEmpty {
-            builder += HeaderFormItem(text: header(for: .contact), style: .collapsible)
+            builder += LargeTextHeaderFormItem(text: header(for: .contact))
+                .separatorColor(.clear)
             
             for contact in contacts {
-                builder += ValueFormItem()
-                    .title([contact.type?.localizedDescription(), contact.subType].joined(separator: " - "))
-                    .value(contact.value?.ifNotEmpty() ?? "-")
-                    .image({
-                        if let type = contact.type {
-                            switch type {
-                            case .phone, .mobile:
-                                return AssetManager.shared.image(forKey: .audioCall)
-                            case .email:
-                                return AssetManager.shared.image(forKey: .email)
+                let title = StringSizing(string: [contact.type?.localizedDescription(), contact.subType].joined(separator: " - "), font: UIFont.preferredFont(forTextStyle: .subheadline))
+                let subtitle = StringSizing(string: contact.value?.ifNotEmpty() ?? "-", font: UIFont.preferredFont(forTextStyle: .subheadline))
+
+                let detail: StringSizing = {
+                    let detail: String
+                    if let date = contact.dateCreated {
+                        detail = String(format: NSLocalizedString("Recorded on %@", bundle: .mpolKit, comment: ""), DateFormatter.preferredDateStyle.string(from: Date()))
+                    } else {
+                        detail = NSLocalizedString("Recorded date unknown", bundle: .mpolKit, comment: "")
+                    }
+                    return StringSizing(string: detail, font: UIFont.preferredFont(forTextStyle: .footnote))
+                }()
+
+                builder += DetailLinkFormItem()
+                    .title(title)
+                    .subtitle(subtitle)
+                    .detail(detail)
+                    .width(.column(2))
+                    .onSelection({
+                        if contact.type == .email {
+                            return { cell in
+                                // TODO: add actual functionality when tapping email when it is decided
+                                print(contact.value)
                             }
                         }
                         return nil
                     }())
-                    .width(.column(2))
             }
         }
     }
@@ -156,7 +196,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
     }
     
     open override var sidebarImage: UIImage? {
-        return AssetManager.shared.image(forKey: .info)
+        return AssetManager.shared.image(forKey: .infoFilled)
     }
     
     // MARK: - Actions
@@ -173,47 +213,27 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
     // Enum probably is not the best place to do "text" presentation.
     private enum Section {
         case header
+        case details
         case licence
         case aliases
         case addresses
         case contact
-        case details
     }
     
     private func header(for section: Section) -> String? {
         switch section {
         case .header:
-            let lastUpdated: String
-            if let date = person?.lastUpdated {
-                lastUpdated = DateFormatter.preferredDateStyle.string(from: date)
-            } else {
-                lastUpdated = NSLocalizedString("UNKNOWN", bundle: .mpolKit, comment: "Unknown Date")
-            }
-            return String(format: NSLocalizedString("LAST UPDATED: %@", bundle: .mpolKit, comment: ""), lastUpdated)
-        case .licence:
-            return ""
-        case .aliases:
-            let count = person?.aliases?.count ?? 0
-            switch count {
-            case 1:
-                return NSLocalizedString("1 ALIAS", bundle: .mpolKit, comment: "")
-            default:
-                return String(format: NSLocalizedString("%@ ALIASES", bundle: .mpolKit, comment: ""),
-                              count > 0 ? "\(count)" : "NO")
-            }
-        case .addresses:
-            let count = person?.addresses?.count ?? 0
-            switch count {
-            case 1:
-                return NSLocalizedString("1 ADDRESS", bundle: .mpolKit, comment: "")
-            default:
-                return String(format: NSLocalizedString("%@ ADDRESSES", bundle: .mpolKit, comment: ""),
-                              count > 0 ? "\(count)" : "NO")
-            }
-        case .contact:
-            return NSLocalizedString("CONTACT DETAILS", bundle: .mpolKit, comment: "")
+            return nil
         case .details:
-            return NSLocalizedString("DETAILS", comment: "")
+            return NSLocalizedString("Details", comment: "")
+        case .licence:
+            return nil
+        case .aliases:
+            return NSLocalizedString("Aliases", bundle: .mpolKit, comment: "")
+        case .addresses:
+            return NSLocalizedString("Addresses", bundle: .mpolKit, comment: "")
+        case .contact:
+            return NSLocalizedString("Contact Details", bundle: .mpolKit, comment: "")
         }
     }
 }

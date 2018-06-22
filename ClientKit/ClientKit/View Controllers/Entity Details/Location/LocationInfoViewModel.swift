@@ -42,7 +42,7 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
     }
 
     open override var sidebarImage: UIImage? {
-        return AssetManager.shared.image(forKey: .info)
+        return AssetManager.shared.image(forKey: .infoFilled)
     }
 
     // MARK - Private
