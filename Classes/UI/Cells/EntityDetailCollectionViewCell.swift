@@ -35,13 +35,7 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
     /// The description label. This should be a description of the entity, attributes etc.
     public let descriptionLabel = UILabel(frame: .zero)
 
-    open var isDescriptionPlaceholder: Bool = false {
-        didSet {
-            let textStyle: UIFontTextStyle = isDescriptionPlaceholder ? .subheadline : .headline
-            descriptionLabel.font = .preferredFont(forTextStyle: textStyle, compatibleWith: traitCollection)
-        }
-    }
-
+    open var isDescriptionPlaceholder: Bool = false 
 
     /// A button for selecting/entering additional details.
     open var additionalDetailsButton = UIButton(type: .system)
@@ -70,11 +64,11 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
 
     private var regularWidthConstraints: [NSLayoutConstraint] = []
 
-    private var sourceToTitleConstraint: NSLayoutConstraint!
-
     private var titleToSubtitleConstraint: NSLayoutConstraint!
 
-    private var subtitleToDescriptionConstraint: NSLayoutConstraint!
+    private var subtitleToSourceConstraint: NSLayoutConstraint!
+
+    private var sourceToDescriptionConstraint: NSLayoutConstraint!
 
     private var descriptionToMoreRegularConstraint: NSLayoutConstraint!
 
@@ -111,6 +105,9 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
         sourceLabel.font = .systemFont(ofSize: 11.0, weight: UIFont.Weight.bold)
         sourceLabel.translatesAutoresizingMaskIntoConstraints = false
         sourceLabel.isHidden = true
+        sourceLabel.textColor = UIColor.secondaryGray
+        sourceLabel.backgroundColor = UIColor.white
+        sourceLabel.borderColor = UIColor.secondaryGray
 
         titleLabel.font  = .systemFont(ofSize: 28.0, weight: UIFont.Weight.bold)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -124,7 +121,7 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
 
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.numberOfLines = 0
-        descriptionLabel.font = .preferredFont(forTextStyle: .headline)
+        descriptionLabel.font = .preferredFont(forTextStyle: .subheadline)
         descriptionLabel.isHidden = true
 
         additionalDetailsButton.translatesAutoresizingMaskIntoConstraints = false
@@ -160,25 +157,26 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
         contentView.addLayoutGuide(mainLabelLayoutGuide)
         contentView.addLayoutGuide(detailLabelLayoutGuide)
 
-        sourceToTitleConstraint   = NSLayoutConstraint(item: titleLabel,    attribute: .top, relatedBy: .equal, toItem: sourceLabel, attribute: .bottom) // 6.0 with content
         titleToSubtitleConstraint = NSLayoutConstraint(item: subtitleLabel, attribute: .top, relatedBy: .equal, toItem: titleLabel,  attribute: .bottom) // 3.0 with content
-        subtitleToDescriptionConstraint = NSLayoutConstraint(item: descriptionLabel, attribute: .top, relatedBy: .equal, toItem: subtitleLabel, attribute: .bottom) // 16.0 with content. Only active in regular mode.
+        subtitleToSourceConstraint = NSLayoutConstraint(item: sourceLabel, attribute: .top, relatedBy: .equal, toItem: subtitleLabel, attribute: .bottom) // 6.0 with content
+        sourceToDescriptionConstraint = NSLayoutConstraint(item: descriptionLabel, attribute: .top, relatedBy: .equal, toItem: sourceLabel, attribute: .bottom) // 34.0.0 with content. Only active in regular mode.
         descriptionToMoreRegularConstraint = NSLayoutConstraint(item: additionalDetailsButton, attribute: .top, relatedBy: .equal, toItem: descriptionLabel, attribute: .bottom) // 16.0 with content
         descriptionToMoreCompactConstraint = NSLayoutConstraint(item: additionalDetailsButton, attribute: .top, relatedBy: .equal, toItem: descriptionLabel, attribute: .bottom) // 9.0 with content
 
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: sourceLabel, attribute: .leading,  relatedBy: .equal,           toItem: mainLabelLayoutGuide, attribute: .leading),
-            NSLayoutConstraint(item: sourceLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: mainLabelLayoutGuide, attribute: .trailing),
-            NSLayoutConstraint(item: sourceLabel, attribute: .top, relatedBy: .equal, toItem: mainLabelLayoutGuide, attribute: .top),
-            sourceToTitleConstraint,
 
             NSLayoutConstraint(item: titleLabel, attribute: .leading,  relatedBy: .equal,           toItem: mainLabelLayoutGuide, attribute: .leading),
             NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: mainLabelLayoutGuide, attribute: .trailing),
-
+            NSLayoutConstraint(item: titleLabel, attribute: .top, relatedBy: .equal, toItem: mainLabelLayoutGuide, attribute: .top),
             titleToSubtitleConstraint,
+
             NSLayoutConstraint(item: subtitleLabel, attribute: .leading,  relatedBy: .equal,           toItem: mainLabelLayoutGuide, attribute: .leading),
             NSLayoutConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .equal, toItem: mainLabelLayoutGuide, attribute: .trailing),
-            NSLayoutConstraint(item: subtitleLabel, attribute: .bottom, relatedBy: .equal, toItem: mainLabelLayoutGuide, attribute: .bottom),
+            subtitleToSourceConstraint,
+
+            NSLayoutConstraint(item: sourceLabel, attribute: .leading,  relatedBy: .equal,           toItem: mainLabelLayoutGuide, attribute: .leading),
+            NSLayoutConstraint(item: sourceLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: mainLabelLayoutGuide, attribute: .trailing),
+            NSLayoutConstraint(item: sourceLabel, attribute: .bottom, relatedBy: .equal, toItem: mainLabelLayoutGuide, attribute: .bottom),
 
             NSLayoutConstraint(item: descriptionLabel, attribute: .top,      relatedBy: .equal,           toItem: detailLabelLayoutGuide, attribute: .top),
             NSLayoutConstraint(item: descriptionLabel, attribute: .leading,  relatedBy: .equal,           toItem: detailLabelLayoutGuide, attribute: .leading),
@@ -207,12 +205,12 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: galleryButton, attribute: .bottom, relatedBy: .equal, toItem: thumbnailView, attribute: .bottom, constant: -16.0),
             NSLayoutConstraint(item: galleryButton, attribute: .height, relatedBy: .equal, toConstant: 40),
 
-            NSLayoutConstraint(item: mainLabelLayoutGuide, attribute: .top, relatedBy: .equal, toItem: thumbnailView, attribute: .top, constant: 17.0),
+            NSLayoutConstraint(item: mainLabelLayoutGuide, attribute: .top, relatedBy: .equal, toItem: thumbnailView, attribute: .top),
 
             NSLayoutConstraint(item: detailLabelLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: mainLabelLayoutGuide, attribute: .leading),
             
 
-            subtitleToDescriptionConstraint,
+            sourceToDescriptionConstraint,
             descriptionToMoreRegularConstraint,
         ]
         NSLayoutConstraint.activate(regularWidthConstraints)
@@ -232,8 +230,7 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: thumbnailView, attribute: .top, relatedBy: .equal, toItem: compactMainContentGuide, attribute: .top),
             NSLayoutConstraint(item: thumbnailView, attribute: .bottom, relatedBy: .lessThanOrEqual, toItem: compactMainContentGuide, attribute: .bottom),
 
-            NSLayoutConstraint(item: mainLabelLayoutGuide, attribute: .height, relatedBy: .lessThanOrEqual, toItem: compactMainContentGuide, attribute: .height),
-            NSLayoutConstraint(item: mainLabelLayoutGuide, attribute: .centerY, relatedBy: .equal, toItem: compactMainContentGuide, attribute: .centerY),
+            NSLayoutConstraint(item: mainLabelLayoutGuide, attribute: .top, relatedBy: .equal, toItem: thumbnailView, attribute: .top),
 
             NSLayoutConstraint(item: detailLabelLayoutGuide, attribute: .top, relatedBy: .equal, toItem: compactMainContentGuide, attribute: .bottom, constant: 9.0),
             NSLayoutConstraint(item: detailLabelLayoutGuide, attribute: .leading, relatedBy: .equal, toItem: contentModeLayoutGuide, attribute: .leading),
@@ -307,19 +304,19 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
 
             if let object = object as? NSObject {
                 switch object {
-                case sourceLabel:
-                    sourceLabel.isHidden                     = hasSource == false
-                    sourceToTitleConstraint.constant         = hasSource ? 6.0 : 0.0
                 case titleLabel:
                     titleLabel.isHidden                      = hasTitle == false
                     titleToSubtitleConstraint.constant       = hasTitle && hasSubtitle ? 3.0 : 0.0
                 case subtitleLabel:
                     subtitleLabel.isHidden                   = hasSubtitle == false
                     titleToSubtitleConstraint.constant       = hasTitle && hasSubtitle ? 3.0 : 0.0
-                    subtitleToDescriptionConstraint.constant = (hasTitle || hasSubtitle) && hasDescription ? 16.0 : 0.0
+                    subtitleToSourceConstraint.constant = (hasTitle || hasSubtitle) && hasSource ? 6.0 : 0.0
+                case sourceLabel:
+                    sourceLabel.isHidden                     = hasSource == false
+                    sourceToDescriptionConstraint.constant   = hasSource ? 34.0 : 0.0
                 case descriptionLabel:
                     descriptionLabel.isHidden                = hasDescription == false
-                    subtitleToDescriptionConstraint.constant = (hasTitle || hasSubtitle) && hasDescription ? 16.0 : 0.0
+                    sourceToDescriptionConstraint.constant = (hasTitle || hasSubtitle || hasSource) && hasDescription ? 34.0 : 0.0
                 default:
                     descriptionToMoreRegularConstraint.constant = (hasTitle || hasSubtitle || hasDescription) && hasMoreDescription ? 16.0 : 0.0
                     descriptionToMoreCompactConstraint.constant = hasDescription && hasMoreDescription ? 8.0 : 0.0
@@ -375,8 +372,7 @@ open class EntityDetailCollectionViewCell: CollectionViewFormCell {
         var detailsHeight: CGFloat
         let detailsSize = CGSize(width: displayAsCompact ? width : maxMainTextSize.width, height: CGFloat.greatestFiniteMagnitude)
         if let descriptionText = (description ?? descriptionPlaceholder) as NSString?, descriptionText.length > 0 {
-            let textStyle: UIFontTextStyle = description == nil ? .subheadline : .headline
-            let descriptionFont: UIFont = .preferredFont(forTextStyle: textStyle, compatibleWith: traitCollection)
+            let descriptionFont: UIFont = .preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
 
             hasDescription = true
 

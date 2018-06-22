@@ -12,7 +12,7 @@ public class GalleryButton: UIControl {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = .white
+        backgroundColor = .brightBlue
         translatesAutoresizingMaskIntoConstraints = false
         
         // Add slight shadow
@@ -24,6 +24,7 @@ public class GalleryButton: UIControl {
         // Add gallery icon
         let icon = UIImageView(image: AssetManager.shared.image(forKey: .gallery))
         icon.translatesAutoresizingMaskIntoConstraints = false
+        icon.tintColor = .white
         addSubview(icon)
         
         // Create constraints

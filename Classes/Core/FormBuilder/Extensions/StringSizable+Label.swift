@@ -56,9 +56,11 @@ extension UILabel {
 
         if let attributedText = sizable?.sizing().attributedString {
             self.attributedText = attributedText
+        } else {
+            self.text = text
+            self.font = font ?? defaultFont
         }
-        self.text = text
-        self.font = font ?? defaultFont
+
         self.numberOfLines = numberOfLines ?? defaultNumberOfLines
     }
 
@@ -94,8 +96,12 @@ extension FormTextField {
             font = sizable.font
         }
 
-        self.text = text
-        self.font = font ?? defaultFont
+        if let attributedText = sizable?.sizing().attributedString {
+            self.attributedText = attributedText
+        } else {
+            self.text = text
+            self.font = font ?? defaultFont
+        }
     }
 
     public func applyPlaceholder(sizable: StringSizable?, defaultFont: UIFont) {
@@ -109,8 +115,12 @@ extension FormTextField {
             font = sizable.font
         }
 
-        self.placeholder = text
-        self.placeholderFont = font ?? defaultFont
+        if let attributedText = sizable?.sizing().attributedString {
+            self.attributedText = attributedText
+        } else {
+            self.placeholder = text
+            self.placeholderFont = font ?? defaultFont
+        }
     }
 
 }
@@ -128,8 +138,12 @@ extension FormTextView {
             font = sizable.font
         }
 
-        self.text = text
-        self.font = font ?? defaultFont
+        if let attributedText = sizable?.sizing().attributedString {
+            self.attributedText = attributedText
+        } else {
+            self.text = text
+            self.font = font ?? defaultFont
+        }
     }
 
 }

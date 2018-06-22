@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public class DetailFormItem: BaseFormItem {
 
     public var title: StringSizable?
@@ -61,7 +60,6 @@ public class DetailFormItem: BaseFormItem {
         cell.subtitleLabel.textColor = secondaryTextColor
         cell.detailLabel.textColor = primaryTextColor
     }
-
 }
 
 // MARK: - Chaining methods

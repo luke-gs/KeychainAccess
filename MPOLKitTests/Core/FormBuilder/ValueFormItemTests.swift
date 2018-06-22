@@ -98,7 +98,7 @@ class ValueFormItemTests: XCTestCase {
 
         // Then
         XCTAssertEqual(view.titleLabel.textColor, theme.color(forKey: .secondaryText))
-        XCTAssertEqual(view.valueLabel.textColor, theme.color(forKey: .secondaryText))
+        XCTAssertEqual(view.valueLabel.textColor, theme.color(forKey: .primaryText))
     }
 
 }

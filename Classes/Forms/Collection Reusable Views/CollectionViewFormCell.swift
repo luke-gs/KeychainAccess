@@ -75,6 +75,7 @@ open class CollectionViewFormCell: UICollectionViewCell, DefaultReusable, Collec
     
     @NSCopying open var separatorColor: UIColor? = iOSStandardSeparatorColor {
         didSet {
+            separatorView.backgroundColor = separatorColor
             if requiresValidation && validationColor != nil {
                 return
             }

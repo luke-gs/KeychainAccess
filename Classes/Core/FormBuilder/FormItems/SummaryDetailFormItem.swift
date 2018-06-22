@@ -104,13 +104,12 @@ public class SummaryDetailFormItem: BaseFormItem {
 
     public override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
         let primaryTextColor = theme.color(forKey: .primaryText)
-        let secondaryTextColor = theme.color(forKey: .secondaryText)
         let placeholderTextColor = theme.color(forKey: .placeholderText)
 
         let cell = cell as! EntityDetailCollectionViewCell
         cell.titleLabel.textColor       = primaryTextColor
-        cell.subtitleLabel.textColor    = secondaryTextColor
-        cell.descriptionLabel.textColor = isDetailPlaceholder ? placeholderTextColor : secondaryTextColor
+        cell.subtitleLabel.textColor    = primaryTextColor
+        cell.descriptionLabel.textColor = isDetailPlaceholder ? placeholderTextColor : primaryTextColor
     }
 
     @objc private func imageTapped() {
