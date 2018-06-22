@@ -39,16 +39,10 @@ public extension FancyLoginViewController {
 
         let usernameCred = UsernameCredential(username: username)
         let passwordCred = PasswordCredential()
-        let passwordCred2 = PasswordCredential()
-        let passwordCred3 = PasswordCredential()
-        let passwordCred4 = PasswordCredential()
 
         credentials = [
             usernameCred,
-            passwordCred,
-            passwordCred2,
-            passwordCred3,
-            passwordCred4
+            passwordCred
         ]
 
         let buttonBackground = UIImage.resizableRoundedImage(cornerRadius: 24, borderWidth: 0.0, borderColor: nil, fillColor: .white)
@@ -63,8 +57,8 @@ public extension FancyLoginViewController {
 
 public extension LoginContainerViewController {
     public func setupDefaultStyle() {
-
-        var versionLabel: UILabel = {
+        
+        let versionLabel: UILabel = {
             let label = UILabel(frame: .zero)
             label.font = .systemFont(ofSize: 13.0, weight: UIFont.Weight.bold)
             label.textColor = UIColor(white: 1.0, alpha: 0.64)
