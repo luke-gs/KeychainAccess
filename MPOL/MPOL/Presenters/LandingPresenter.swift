@@ -226,8 +226,8 @@ public class LandingPresenter: AppGroupLandingPresenter {
     public weak var tabBarController: UITabBarController?
 
     @objc private func settingsButtonItemDidSelect(_ item: UIBarButtonItem) {
-        let settingsNavController = PopoverNavigationController(rootViewController: SettingsViewController())
-        settingsNavController.modalPresentationStyle = .popover
+        let settingsNavController = ThemedNavigationController(rootViewController: SettingsViewController())
+        settingsNavController.modalPresentationStyle = .formSheet
 
         if let popoverController = settingsNavController.popoverPresentationController {
             popoverController.barButtonItem = item
