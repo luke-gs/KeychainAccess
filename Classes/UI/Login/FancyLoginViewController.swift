@@ -251,20 +251,12 @@ final public class FancyLoginViewController: UIViewController {
         switch loginMode {
         case .credentials(let delegate):
             guard let credentials = credentials else { return }
-            guard credentials.reduce(true, { (result, cred) -> Bool in
-                let isValid = !cred.isRequired ? true : cred.isValid
-                return result && isValid
-            }) else { return }
-
+            guard areCredentialsValid() else { return }
             view.endEditing(true)
             delegate?.loginViewController(self, didFinishWithCredentials: credentials)
         case .credentialsWithBiometric(let delegate):
             guard let credentials = credentials else { return }
-            guard credentials.reduce(true, { (result, cred) -> Bool in
-                let isValid = !cred.isRequired ? true : cred.isValid
-                return result && isValid
-            }) else { return }
-
+            guard areCredentialsValid() else { return }
             view.endEditing(true)
             delegate?.loginViewController(self, didFinishWithCredentials: credentials)
         case .externalAuth(let delegate):
