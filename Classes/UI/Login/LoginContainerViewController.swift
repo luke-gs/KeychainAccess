@@ -86,8 +86,6 @@ final public class LoginContainerViewController: UIViewController {
 
             contentView.centerXAnchor.constraint(equalTo: view.centerXAnchor).withPriority(.required),
             contentView.centerYAnchor.constraint(equalTo: view.centerYAnchor).withPriority(.required),
-            contentView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 16).withPriority(.required),
-            contentView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -16).withPriority(.required),
             contentView.widthAnchor.constraint(equalToConstant: 420).withPriority(.almostRequired)
             
             ])
@@ -104,33 +102,43 @@ final public class LoginContainerViewController: UIViewController {
             footerViewLeft,
             footerViewCenter,
             footerViewRight
-            ]
+        ]
 
-       views.forEach { subView in
+        views.forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(subView)
         }
 
-        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-60-[hl][hc(<=hl@500)][hr(<=hc@200)]-60-|",
+        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(maxMargin@600,>=minMargin@1000)-[hl][hc(<=hl@500)][hr(<=hc@200)]-(maxMargin@600,>=minMargin@900)-|",
                                                          options: [.alignAllTop],
-                                                         metrics: nil,
+                                                         metrics: ["maxMargin": 60,
+                                                                   "minMargin": 32],
                                                          views: ["hl": headerViewLeft,
                                                                  "hc": headerViewCenter,
                                                                  "hr": headerViewRight])
 
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-60-[fl][fc(<=fl@500)][fr(<=fc@200)]-60-|",
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-(maxMargin@600,>=minMargin@1000)-[fl][fc(<=fl@500)][fr(<=fc@200)]-(maxMargin@600,>=minMargin@900)-|",
                                                       options: [.alignAllBottom],
-                                                      metrics: nil,
+                                                      metrics: ["maxMargin": 60,
+                                                                "minMargin": 32],
                                                       views: ["fl": footerViewLeft,
                                                               "fc": footerViewCenter,
                                                               "fr": footerViewRight])
 
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-64@900-[hvl(<=60@400)]->=16-[cv]->=16-[fvl(<=60@400)]-64@900-|",
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-(maxMargin@600,>=minMargin@900)-[hvl(height@400)]->=16-[cv]->=16-[fvl(height@400)]-(maxMargin@600,>=minMargin@900)-|",
                                                       options: [],
-                                                      metrics: nil,
+                                                      metrics: ["maxMargin": 64,
+                                                                "minMargin": 32,
+                                                                "height": 60],
                                                       views: ["cv": contentView,
                                                               "hvl": headerViewLeft,
                                                               "fvl": footerViewLeft])
+
+        constraints += [
+            contentView.leadingAnchor.constraint(greaterThanOrEqualTo: headerViewLeft.leadingAnchor).withPriority(.required),
+            contentView.trailingAnchor.constraint(lessThanOrEqualTo: headerViewRight.trailingAnchor).withPriority(.required)
+        ]
+
         NSLayoutConstraint.activate(constraints)
 
         views.forEach{$0.setContentHuggingPriority(.required, for: .horizontal)}

@@ -159,7 +159,7 @@ final public class FancyLoginViewController: UIViewController {
             contentView.heightAnchor.constraint(lessThanOrEqualTo: view.heightAnchor),
         ]
 
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[tl]-[stv]-13-[csv]-24-[bb]-32-[lb(48)]-24-[dtv]-|",
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[tl]-[stv]-13-[csv]-24-[bb]-32-[lb(48)]-24-[dtv]|",
                                                          options: [.alignAllLeading, .alignAllTrailing],
                                                          metrics: nil,
                                                          views: ["tl": titleLabel,
