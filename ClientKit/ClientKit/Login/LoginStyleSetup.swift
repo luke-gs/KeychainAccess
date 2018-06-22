@@ -7,7 +7,7 @@
 
 import MPOLKit
 
-public extension FancyLoginViewController {
+public extension LoginViewController {
     public func setupDefaultStyle(with username: String?) {
         let subtitleContainer = HighlightTextContainerThing(text: "By continuing you are agreeing to the Terms and Conditions of Use previously presented to you.",
                                                             highlightText: "Terms and Conditions of Use") { vc in

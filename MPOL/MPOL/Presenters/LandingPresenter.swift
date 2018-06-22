@@ -56,7 +56,7 @@ public class LandingPresenter: AppGroupLandingPresenter {
                 mode = .credentials(delegate: self)
             }
 
-            let loginViewController = FancyLoginViewController(mode: mode)
+            let loginViewController = LoginViewController(mode: mode)
             loginViewController.setupDefaultStyle(with: retrievedUsername)
 
             let loginContainer = LoginContainerViewController()

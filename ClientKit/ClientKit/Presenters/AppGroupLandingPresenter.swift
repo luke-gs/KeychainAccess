@@ -126,11 +126,11 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
         return currentViewController
     }
 
-    open func loginViewControllerDidAppear(_ controller: FancyLoginViewController) {
+    open func loginViewControllerDidAppear(_ controller: LoginViewController) {
 
     }
 
-    open func loginViewController(_ controller: FancyLoginViewController, didFinishWithCredentials credentials: [LoginCredential]) {
+    open func loginViewController(_ controller: LoginViewController, didFinishWithCredentials credentials: [LoginCredential]) {
         let usernameCred = credentials.filter{$0.name == "Username"}.first
         let passwordCred = credentials.filter{$0.name == "Password"}.last
         guard let username = usernameCred?.inputField.textField.text,
@@ -138,7 +138,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
         authenticateWithUsername(username, password: password, inController: controller)
     }
 
-    open func loginViewControllerDidAuthenticateWithBiometric(_ controller: FancyLoginViewController, context: LAContext) {
+    open func loginViewControllerDidAuthenticateWithBiometric(_ controller: LoginViewController, context: LAContext) {
 
         if let handler = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain) {
             handler.password(context: context).done { [weak self] password -> Void in
@@ -162,7 +162,7 @@ open class AppGroupLandingPresenter: NSObject, Presenter, BiometricDelegate {
 
     }
 
-    public func authenticateWithUsername(_ username: String, password: String, inController controller: FancyLoginViewController, context: LAContext? = nil) {
+    public func authenticateWithUsername(_ username: String, password: String, inController controller: LoginViewController, context: LAContext? = nil) {
         controller.setLoading(true, animated: true)
 
         // `lToken` is added so we could start the session slightly later.
