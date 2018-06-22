@@ -8,8 +8,11 @@
 final class KeyboardManager {
     let managedView: Weak<UIView>
 
-    private var offset : CGFloat = 0
     private let padding: CGFloat = 24
+    private lazy var originalOrigin: CGFloat = {
+        let localRect = managedView.object!.convert(UIApplication.shared.keyWindow!.frame, to: nil)
+        return localRect.origin.y
+    }()
 
     init(managedView: UIView) {
         self.managedView = Weak(managedView)
@@ -25,33 +28,29 @@ final class KeyboardManager {
     @objc private func keyboardWillShow(_ notification: Notification) {
         guard let window = UIApplication.shared.keyWindow else { return }
         guard let managedView = managedView.object else { return }
-        guard let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
-        guard let keyboardDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber else { return }
+        guard let keyboardDetails = notification.keyboardAnimationDetails() else { return }
         guard let responder = UIResponder.currentFirstResponder as? UIView else { return }
 
         let localRect = responder.convert(window.frame, to: nil)
-        let originHeight = localRect.origin.y + responder.frame.size.height
-        let difference = originHeight - keyboardSize.origin.y
-
-        print(difference)
+        let bottomOfFrame = localRect.origin.y + responder.frame.size.height
+        let difference = bottomOfFrame - keyboardDetails.endFrame.origin.y
 
         if difference > 0 {
-            offset = difference + padding
-            UIView.animate(withDuration: keyboardDuration.doubleValue) { [offset] in
-                managedView.frame.origin.y -= offset
+            let offset = difference + padding
+            UIView.animate(withDuration: keyboardDetails.duration) { [originalOrigin, offset] in
+                managedView.frame.origin.y = originalOrigin - offset
             }
         }
     }
 
     @objc private func keyboardWillHide(_ notification: Notification) {
         guard let managedView = managedView.object else { return }
-        guard let keyboardDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber else { return }
+        guard let keyboardDetails = notification.keyboardAnimationDetails() else { return }
 
-        if offset > 0 {
-            UIView.animate(withDuration: keyboardDuration.doubleValue) { [offset] in
-                managedView.frame.origin.y += offset
+        if managedView.frame.origin.y != originalOrigin {
+            UIView.animate(withDuration: keyboardDetails.duration) { [originalOrigin] in
+                managedView.frame.origin.y = originalOrigin
             }
-            offset = 0
         }
     }
 }

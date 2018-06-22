@@ -110,11 +110,6 @@ final public class FancyLoginViewController: UIViewController {
         let _ = keyboardManager
     }
 
-    /// Updates the view controller's `isLoading` state with an optional animation.
-    ///
-    /// - Parameters:
-    ///   - loading:  The new loading state
-    ///   - animated: A boolean value indicating whether the update should be animated.
     public func setLoading(_ loading: Bool, animated: Bool) {
         if loading == isLoading { return }
         self.isLoading = loading
@@ -290,6 +285,7 @@ extension FancyLoginViewController: UITextViewDelegate, UITextFieldDelegate {
         guard let currentCredentialFieldIndex = validCreds.index(where: {$0.inputField.textField == textField}) else { return false }
 
         if currentCredentialFieldIndex == (validCreds.count - 1) {
+            textField.resignFirstResponder()
             if loginButton.isEnabled {
                 loginButtonTriggered()
             }
