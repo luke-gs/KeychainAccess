@@ -7,37 +7,59 @@
 
 import UIKit
 
+/// The Login container encompassing the headers and footers
+///
+/// Can provide your own content view controller
 final public class LoginContainerViewController: UIViewController {
 
+    // MARK: Start public interfaces
+
+    /// The background image
     public var backgroundImage: UIImage? {
         didSet {
             backgroundImageView.image = backgroundImage
         }
     }
 
-    private(set) var headerViewLeft = UIView()
-    private(set) var headerViewCenter = UIView()
-    private(set) var headerViewRight = UIView()
+    /// The left header view
+    ///
+    /// use `setHeaderView(_ view: UIView, at position: LoginViewPosition)` to set the header
+    private(set) public var headerViewLeft = UIView()
 
-    private(set) var footerViewLeft = UIView()
-    private(set) var footerViewCenter = UIView()
-    private(set) var footerViewRight = UIView()
+    /// The center header view
+    ///
+    /// use `setHeaderView(_ view: UIView, at position: LoginViewPosition)` to set the header
+    private(set) public var headerViewCenter = UIView()
 
-    private(set) var contentViewController: UIViewController?
+    /// The right header view
+    ///
+    /// use `setHeaderView(_ view: UIView, at position: LoginViewPosition)` to set the header
+    private(set) public var headerViewRight = UIView()
 
-    private var backgroundImageView = UIImageView()
-    private var contentView = UIView()
+    /// The left footer view
+    ///
+    /// use `setFooterView(_ view: UIView, at position: LoginViewPosition)` to set the footer
+    private(set) public var footerViewLeft = UIView()
 
-    override public func viewDidLoad() {
-        super.viewDidLoad()
+    /// The center footer view
+    ///
+    /// use `setFooterView(_ view: UIView, at position: LoginViewPosition)` to set the footer
+    private(set) public var footerViewCenter = UIView()
 
-        setupViews()
-        setupHeaderFooter()
+    /// The right footer view
+    ///
+    /// use `setFooterView(_ view: UIView, at position: LoginViewPosition)` to set the footer
+    private(set) public var footerViewRight = UIView()
 
-        view.sendSubview(toBack: backgroundImageView)
-        view.bringSubview(toFront: contentView)
-    }
+    /// The content view controller
+    ///
+    /// use `addContentViewController(_ contentViewController: UIViewController)` to set the content
+    private(set) public var contentViewController: UIViewController?
 
+    /// Add the content view controller
+    /// This function will automatically do all viewController containment for you
+    ///
+    /// - Parameter contentViewController: your content view controller
     public func addContentViewController(_ contentViewController: UIViewController) {
         self.contentViewController = contentViewController
         self.contentView = contentViewController.view
@@ -45,6 +67,13 @@ final public class LoginContainerViewController: UIViewController {
         contentViewController.didMove(toParentViewController: self)
     }
 
+    /// Set a view to one of the 3 available headers
+    ///
+    /// note: the maximum height of the header is 60.
+    ///
+    /// - Parameters:
+    ///   - view: the view to set the header to
+    ///   - position: which position to set the header to
     public func setHeaderView(_ view: UIView, at position: LoginViewPosition) {
         switch position {
         case .left:
@@ -57,6 +86,13 @@ final public class LoginContainerViewController: UIViewController {
         view.clipsToBounds = true
     }
 
+    /// Set a view to one of the 3 available footers
+    ///
+    /// note: the maximum height of the footer is 60.
+    ///
+    /// - Parameters:
+    ///   - view: the view to set the footer to
+    ///   - position: which position to set the footer to
     public func setFooterView(_ view: UIView, at position: LoginViewPosition) {
         switch position {
         case .left:
@@ -67,6 +103,21 @@ final public class LoginContainerViewController: UIViewController {
             footerViewRight = view
         }
         view.clipsToBounds = true
+    }
+
+    // MARK: End public interfaces
+
+    private var backgroundImageView = UIImageView()
+    private var contentView = UIView()
+
+    override public func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupViews()
+        setupHeaderFooter()
+
+        view.sendSubview(toBack: backgroundImageView)
+        view.bringSubview(toFront: contentView)
     }
 
     // MARK: Private
@@ -145,6 +196,11 @@ final public class LoginContainerViewController: UIViewController {
     }
 }
 
+/// The position of the headers and footer of the login container
+///
+/// - left: left view
+/// - center: center view
+/// - right: right view
 public enum LoginViewPosition {
     case left
     case center

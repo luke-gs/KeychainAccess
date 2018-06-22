@@ -11,8 +11,8 @@ import Lottie
 
 fileprivate var kvoContext = 1
 
-
-/// The default login view controller
+/// The default login view controller used to populate the contentVC of
+/// the `LoginContainerViewController`
 final public class LoginViewController: UIViewController {
 
     // MARK: Start public interfaces
