@@ -2,180 +2,85 @@
 //  LoginViewController.swift
 //  MPOLKit
 //
-//  Created by Rod Brown on 9/4/17.
-//  Copyright © 2017 Gridstone. All rights reserved.
+//  Copyright © 2018 Gridstone. All rights reserved.
 //
 
 import UIKit
-import Lottie
 import LocalAuthentication
+import Lottie
 
 fileprivate var kvoContext = 1
 
-open class LoginViewController: UIViewController, UITextFieldDelegate {
+final public class LoginViewController: UIViewController {
 
-    open private(set) lazy var credentialsView: UIView? = nil
+    public let loginMode: LoginMode
 
-    open private(set) lazy var usernameField: LabeledTextField = {
-        let field = LabeledTextField()
-        
-        field.label.text = NSLocalizedString("Identification Number", comment: "")
-        field.label.textColor = .white
+    public let titleLabel: UILabel = UILabel()
+    public let loginButton: UIButton = UIButton()
+    public let subtitleTextView: HighlightingTextView = HighlightingTextView()
+    public let detailTextView: HighlightingTextView = HighlightingTextView()
+    public var shouldUseBiometric: Bool = false
 
-        let textField = field.textField
-        textField.accessibilityLabel = NSLocalizedString("Username Field", comment: "Accessibility")
-        textField.returnKeyType = .next
-        textField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
-        textField.addObserver(self, forKeyPath: #keyPath(UITextField.text), context: &kvoContext)
-        textField.autocapitalizationType = .none
-        textField.delegate = self
-        textField.textColor = .white
-        textField.autocorrectionType = .no
-        self.isUsernameFieldLoaded = true
-
-        return field
-    }()
-
-    open private(set) lazy var passwordField: LabeledTextField = {
-        let field = LabeledTextField()
-
-        field.label.textColor = .white
-        field.label.text = NSLocalizedString("Password", comment: "")
-
-        let textField = field.textField
-        textField.accessibilityLabel = NSLocalizedString("Password Field", comment: "Accessibility")
-        textField.isSecureTextEntry = true
-        textField.delegate = self
-        textField.returnKeyType = .done
-        textField.clearsOnBeginEditing = true
-        textField.textColor = .white
-        textField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
-        textField.addObserver(self, forKeyPath: #keyPath(UITextField.text), context: &kvoContext)
-        textField.autocapitalizationType = .none
-        textField.autocorrectionType = .no
-        self.isPasswordFieldLoaded = true
-
-        return field
-    }()
-
-    open private(set) lazy var forgotPasswordButton: UIButton = { [unowned self] in
-        let button = UIButton(type: UIButtonType.system)
-        button.setTitle("Forgot Your Password?", for: .normal)
-        button.setTitleColor(UIColor.brightBlue, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 11.0, weight: UIFont.Weight.medium)
-//        button.addTarget(self, action: #selector(forgotPasswordButtonTriggered), for: .primaryActionTriggered)
-        if case LoginMode.externalAuth = loginMode {
-            button.isHidden = true
-        }
-
-        return button
-        }()
-
-    open private(set) lazy var biometricButton: UIButton = { [unowned self] in
+    private lazy var authenticationContext = LAContext()
+    private(set) var credentialsStackView: UIStackView = UIStackView()
+    private(set) lazy var biometricButton: UIButton = { [unowned self] in
         let button = UIButton(type: .system)
 
         var imageKey: AssetManager.ImageKey = .touchId
+        var buttonText = " or use Touch ID"
         // Apple lies, it's not @available(iOS 11.0, *), it's later.
         // Crash on iOS 11.0
         if #available(iOS 11.0.1, *) {
             if authenticationContext.biometryType == .faceID {
                 imageKey = .faceId
+                buttonText = " or use Face ID"
             }
         }
 
         button.setImage(AssetManager.shared.image(forKey: imageKey), for: .normal)
-        button.addTarget(self, action: #selector(biometricButtonTriggered), for: .primaryActionTriggered)
-        button.addTarget(self, action: #selector(biometricButtonTouchDown), for: .touchDown)
-        button.tintColor = .white
+        button.setTitle(buttonText, for: .normal)
+        button.tintColor = UIColor(red:0.35, green:0.78, blue:0.98, alpha:1)
+
         return button
-    }()
+        }()
 
-    open private(set) lazy var changeUserButton: UIButton = { [unowned self] in
-        let button = UIButton(type: .system)
-        button.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .medium)
-        button.setTitle("Not you? Change username.", for: .normal)
-        button.setTitleColor(UIColor(white: 1.0, alpha: 0.64), for: .normal)
-
-        button.addTarget(self, action: #selector(changeUserButtonTriggered), for: .primaryActionTriggered)
-        button.addTarget(self, action: #selector(changeUserButtonTouchDown), for: .touchDown)
-        return button
-    }()
-
-    /// The login button.
-    ///
-    /// To default background image for this button is a template image and will adapt to the standard tintColor.
-    open private(set) lazy var loginButton: UIButton = { [unowned self] in
-        let buttonBackground = UIImage.resizableRoundedImage(cornerRadius: 6.0, borderWidth: 0.0, borderColor: nil, fillColor: .white)
-        
-        let button = UIButton(type: .custom)
-        button.titleLabel?.font = .systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
-        button.setBackgroundImage(buttonBackground.withRenderingMode(.alwaysTemplate), for: .normal)
-        button.setTitle("Login Now", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.setTitleColor(UIColor(white: 1.0, alpha: 0.5), for: .disabled)
-        button.adjustsImageWhenDisabled = true
-        button.addTarget(self, action: #selector(loginButtonTriggered), for: .primaryActionTriggered)
-        button.addTarget(self, action: #selector(loginButtonTouchDown), for: .touchDown)
-
-        self.isLoginButtonLoaded = true
-        return button
-    }()
-    
-    
-    /// The terms and conditions string to present at the bottom of login window.
-    open private(set) lazy var termsAndConditionsLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.text = "By continuing you indicate that you have read and agree to the Terms of Service."
-        label.font = .systemFont(ofSize: 13.0)
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        label.textColor = UIColor(white: 1.0, alpha: 0.4)
-        return label
-    }()
-    
-
-
-    /// The minimum length of the username before the login button is enabled.
-    ///
-    /// The default is `0`.
-    open var minimumUsernameLength: Int = 0 {
+    public var credentials: [LoginCredential]? {
         didSet {
-            if minimumUsernameLength != oldValue {
-                updateLoginButtonState()
+            credentialsStackView.arrangedSubviews.forEach{$0.removeFromSuperview()}
+            credentials?.forEach { credential in
+                credentialsStackView.addArrangedSubview(credential.inputField)
+                credential.inputField.textField.text = credential.value
             }
+            setupCredentialActions()
         }
     }
-    
-    
-    /// The minimum length of the password before the login button is enabled.
-    ///
-    /// The default is `0`.
-    open var minimumPasswordLength: Int = 0 {
-        didSet {
-            if minimumPasswordLength != oldValue {
-                updateLoginButtonState()
-            }
-        }
-    }
-    
-    
-    
-    /// A boolean value indicating whether the content is currently loading.
-    ///
-    /// When loading, the login fields are hidden and an activity indicator is
-    /// displayed. Setting this property directly performs the update without
-    /// an animation.
-    open var isLoading: Bool = false {
+
+    private lazy var loadingIndicator: LOTAnimationView? = {
+        let spinner = MPOLSpinnerView(style: .regular)
+        spinner.isHidden = true
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(spinner)
+
+        NSLayoutConstraint.activate([
+            spinner.heightAnchor.constraint(equalToConstant: 48),
+            spinner.widthAnchor.constraint(equalToConstant: 48),
+            spinner.centerXAnchor.constraint(equalTo: loginButton.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: loginButton.centerYAnchor)
+            ])
+
+        return spinner
+    }()
+
+    private var isLoading: Bool = false {
         didSet {
             if isLoading == oldValue || isViewLoaded == false { return }
-            
+
             if isLoading {
                 loadingIndicator?.isHidden = false
                 loadingIndicator?.play()
                 loginButton.isHidden = true
-                
-                scrollView?.endEditing(true)
-                
+                view.endEditing(true)
                 view.isUserInteractionEnabled = false
             } else {
                 loadingIndicator?.isHidden = true
@@ -185,179 +90,60 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             }
         }
     }
-    
-    
-    /// Updates the view controller's `isLoading` state with an optional animation.
-    ///
-    /// - Parameters:
-    ///   - loading:  The new loading state
-    ///   - animated: A boolean value indicating whether the update should be animated.
-    open func setLoading(_ loading: Bool, animated: Bool) {
-        if loading == isLoading { return }
-        
-        self.isLoading = loading
-        
-        if animated, let scrollView = self.scrollView {
-            UIView.transition(with: scrollView, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
-        }
-    }
-    
-    /// The preferred status bar style for the view controller.
-    ///
-    /// The default is `.lightContent`.
-    /// `LoginViewController` extends UIViewController to allow setting this property.
-    open override var preferredStatusBarStyle: UIStatusBarStyle {
-        get {
-            return _preferredStatusBarStyle
-        }
-        set {
-            if newValue == _preferredStatusBarStyle { return }
-            
-            _preferredStatusBarStyle = newValue
-            setNeedsStatusBarAppearanceUpdate()
-        }
-    }
-    
-    /// Specifies whether the view controller prefers the status bar to be hidden or shown.
-    ///
-    /// The default is `false`.
-    /// `LoginViewController` extends UIViewController to allow setting this property.
-    open override var prefersStatusBarHidden: Bool {
-        get {
-            return _prefersStatusBarHidden
-        }
-        set {
-            if newValue == _prefersStatusBarHidden { return }
-            
-            _prefersStatusBarHidden = newValue
-            setNeedsStatusBarAppearanceUpdate()
-        }
-    }
 
-    /// Specifies whether the credentials view is added to the view hierarchy.
-    public var loginMode: LoginMode {
-        didSet {
-            guard isViewLoaded else { return }
-            updateLoginMode()
-        }
-    }
-    
-    // MARK: - Private properties
-    
-    private var _preferredStatusBarStyle: UIStatusBarStyle = .lightContent
-    
-    private var _prefersStatusBarHidden: Bool = false
+    private var scrollView = UIScrollView()
+    private var contentView = UIView()
+    private lazy var insetManager: ScrollViewInsetManager = ScrollViewInsetManager(scrollView: scrollView)
 
-    private var scrollView: UIScrollView?
-    
-    private var contentView: UIView?
-    
-    private var contentStackView: UIStackView?
-    
-    private var loginStackView: UIStackView?
-
-    private lazy var loadingIndicator: LOTAnimationView? = {
-        let spinner = MPOLSpinnerView(style: .regular)
-        spinner.isHidden = true
-        
-        let heightConstraint = spinner.heightAnchor.constraint(equalToConstant: 48.0)
-        heightConstraint.priority = UILayoutPriority.defaultHigh
-        
-        NSLayoutConstraint.activate([
-            heightConstraint,
-            spinner.widthAnchor.constraint(equalToConstant: 48.0)
-        ])
-        
-        self.loginStackView?.insertArrangedSubview(spinner, at: 0)
-        return spinner
-    }()
-    
-    private var preferredLayoutGuideBottomConstraint: NSLayoutConstraint?
-
-    private var separatorHeightConstraint: NSLayoutConstraint?
-    
-    private var forgotPasswordSeparation: NSLayoutConstraint?
-    
-    private var keyboardInset: CGFloat = 0.0 {
-        didSet {
-            if keyboardInset ==~ oldValue { return }
-            
-            viewIfLoaded?.setNeedsLayout()
-        }
-    }
-    
-    private var isUsernameFieldLoaded: Bool = false
-    
-    private var isPasswordFieldLoaded: Bool = false
-    
-    private var isLoginButtonLoaded: Bool = false
-
-    private lazy var authenticationContext = LAContext()
-    
-    // MARK: - Initializers
-
+    required public init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
     public init(mode: LoginMode) {
-        loginMode = mode
+        self.loginMode = mode
         super.init(nibName: nil, bundle: nil)
-        
-        automaticallyAdjustsScrollViewInsets = false
-        
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(keyboardDidHide(_:)),  name: .UIKeyboardDidHide,  object: nil)
+    }
 
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        setupViews()
+        setupStackView()
+        setupActions()
+
+        insetManager.standardContentInset    = .zero
+        insetManager.standardIndicatorInset  = .zero
     }
-    
-    public required convenience init(coder aDecoder: NSCoder) {
-        MPLCodingNotSupported()
-    }
-    
-    deinit {
-        if isUsernameFieldLoaded {
-            usernameField.textField.removeObserver(self, forKeyPath:#keyPath(UITextField.text), context: &kvoContext)
-        }
-        if isPasswordFieldLoaded {
-            passwordField.textField.removeObserver(self, forKeyPath:#keyPath(UITextField.text), context: &kvoContext)
+
+    public func setLoading(_ loading: Bool, animated: Bool) {
+        if loading == isLoading { return }
+        self.isLoading = loading
+        if animated {
+            UIView.transition(with: view, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
         }
     }
-    
-    // MARK: - View lifecycle
-    
-    open override func loadView() {
-        super.loadView()
 
-        let scrollView = UIScrollView(frame: view.bounds)
-        scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(scrollView)
-        
-        let contentView = UIView()
+    public func resetFields() {
+        credentials?.forEach{$0.inputField.textField.text = nil}
+    }
+
+    // MARK: Private
+    private func setupViews() {
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        
-        let credentialsView: UIView = createCredentialsView()
 
-        let loginStackView = UIStackView(arrangedSubviews: [loginButton, changeUserButton, termsAndConditionsLabel])
-        loginStackView.axis      = .vertical
-        loginStackView.alignment = .center
-        loginStackView.spacing   = 20.0
-        
-        let contentViews = [credentialsView, loginStackView]
-        let contentStackView = UIStackView(arrangedSubviews: contentViews)
-        contentStackView.translatesAutoresizingMaskIntoConstraints = false
-        contentStackView.axis = .vertical
-        contentStackView.alignment = .center
-        contentStackView.spacing   = 43.0
-        contentStackView.setContentCompressionResistancePriority(UILayoutPriority.required, for: .vertical)
-        contentView.addSubview(contentStackView)
+        let views = [
+            titleLabel,
+            subtitleTextView,
+            credentialsStackView,
+            biometricButton,
+            loginButton,
+            detailTextView
+        ]
 
-        self.scrollView        = scrollView
-        self.contentView       = contentView
-        self.contentStackView  = contentStackView
-        self.credentialsView   = credentialsView
-        self.loginStackView    = loginStackView
-
-        let preferredLayoutGuideBottomConstraint = contentView.heightAnchor.constraint(equalTo: view.heightAnchor, constant: -20.0).withPriority(.defaultHigh - 1)
+        views.forEach { subView in
+            subView.translatesAutoresizingMaskIntoConstraints = false
+            contentView.addSubview(subView)
+        }
 
         var constraints = [
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -370,230 +156,88 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            preferredLayoutGuideBottomConstraint,
-
-            contentStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            contentStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).withPriority(.defaultHigh - 2),
-            contentStackView.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, constant: -20.0),
-            contentStackView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -20.0),
-
-            loginButton.widthAnchor.constraint(equalToConstant: 256.0),
-            loginButton.heightAnchor.constraint(equalToConstant: 48.0).withPriority(UILayoutPriority.defaultHigh),
-
-            changeUserButton.widthAnchor.constraint(equalTo: loginButton.widthAnchor),
-            changeUserButton.heightAnchor.constraint(equalToConstant: 20.0),
-
-            loginStackView.leadingAnchor.constraint(greaterThanOrEqualTo: view.readableContentGuide.leadingAnchor),
-            loginStackView.trailingAnchor.constraint(lessThanOrEqualTo: view.readableContentGuide.trailingAnchor),
-            ]
-
-        if let credentialsView = self.credentialsView {
-            constraints += [
-                credentialsView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 20.0),
-                credentialsView.widthAnchor.constraint(equalToConstant: 256.0),
-                usernameField.widthAnchor.constraint(equalTo: credentialsView.widthAnchor),
-                usernameField.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor)
-            ]
-        }
-
-        NSLayoutConstraint.activate(constraints)
-        
-        self.preferredLayoutGuideBottomConstraint = preferredLayoutGuideBottomConstraint
-    }
-    
-    private func createCredentialsView() -> UIView {
-        let credentialsView = UIView(frame: .zero)
-        
-        // Creating views
-        let forgotPasswordButton = self.forgotPasswordButton
-
-        credentialsView.translatesAutoresizingMaskIntoConstraints = false
-        usernameField.translatesAutoresizingMaskIntoConstraints = false
-        passwordField.translatesAutoresizingMaskIntoConstraints = false
-        forgotPasswordButton.translatesAutoresizingMaskIntoConstraints = false
-
-        credentialsView.addSubview(usernameField)
-        credentialsView.addSubview(passwordField)
-        credentialsView.addSubview(forgotPasswordButton)
-        
-        // Creating constraints
-        let forgotPasswordSeparation = forgotPasswordButton.topAnchor.constraint(equalTo: passwordField.bottomAnchor, constant: forgotPasswordButton.isHidden ? 0.0 : 14.0)
-        
-        let constraints = [
-            usernameField.topAnchor.constraint(equalTo: credentialsView.topAnchor),
-            usernameField.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
-            usernameField.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
-
-            passwordField.topAnchor.constraint(equalTo: usernameField.bottomAnchor, constant: 18),
-            passwordField.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
-            passwordField.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
-
-            forgotPasswordButton.topAnchor.constraint(greaterThanOrEqualTo: passwordField.bottomAnchor),
-            forgotPasswordButton.leadingAnchor.constraint(equalTo: credentialsView.leadingAnchor),
-            forgotPasswordButton.trailingAnchor.constraint(equalTo: credentialsView.trailingAnchor),
-            forgotPasswordButton.bottomAnchor.constraint(equalTo: credentialsView.bottomAnchor),
-            forgotPasswordSeparation
+            contentView.heightAnchor.constraint(lessThanOrEqualTo: view.heightAnchor),
         ]
-        
+
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[tl]-[stv]-13-[csv]-24-[bb]-32-[lb(48)]-24-[dtv]|",
+                                                         options: [.alignAllLeading, .alignAllTrailing],
+                                                         metrics: nil,
+                                                         views: ["tl": titleLabel,
+                                                                 "stv": subtitleTextView,
+                                                                 "csv": credentialsStackView,
+                                                                 "bb": biometricButton,
+                                                                 "lb": loginButton,
+                                                                 "dtv": detailTextView])
+
+        constraints += [
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        ]
+
         NSLayoutConstraint.activate(constraints)
-        self.forgotPasswordSeparation  = forgotPasswordSeparation
-        
-        return credentialsView
     }
 
-    open override func viewDidLoad() {
-        super.viewDidLoad()
-        updateLoginMode()
-        updateLoginButtonState()
-    }
-    
-    open override func viewWillLayoutSubviews() {
-        let topLayoutInset    = topLayoutGuide.length
-        let bottomLayoutInset = max(bottomLayoutGuide.length, statusTabBarInset, keyboardInset)
-        
-        preferredLayoutGuideBottomConstraint?.constant = (bottomLayoutInset + topLayoutInset) * -1.0
-        
-        let insets = UIEdgeInsets(top: topLayoutInset, left: 0.0, bottom: bottomLayoutInset, right: 0.0)
-        scrollView?.contentInset = insets
-        scrollView?.scrollIndicatorInsets = insets
-        
-        super.viewWillLayoutSubviews()
+    private func setupStackView() {
+        credentialsStackView.alignment = .fill
+        credentialsStackView.distribution = .fillEqually
+        credentialsStackView.axis = .vertical
     }
 
-    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        
-        separatorHeightConstraint?.constant = 1.0 / traitCollection.currentDisplayScale
-    }
-    
-    open override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    private func setupActions() {
+        loginButton.addTarget(self, action: #selector(loginButtonTriggered), for: .primaryActionTriggered)
+        loginButton.addTarget(self, action: #selector(loginButtonTouchDown), for: .touchDown)
+        biometricButton.addTarget(self, action: #selector(biometricButtonTriggered), for: .primaryActionTriggered)
+        biometricButton.addTarget(self, action: #selector(biometricButtonTouchDown), for: .touchDown)
     }
 
-    open override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-//        switch loginMode {
-//        case .usernamePassword(let delegate):
-//            delegate?.loginViewControllerDidAppear(self)
-//        case .externalAuth(let delegate):
-//            delegate?.loginViewControllerDidAppear(self)
-//        case .usernamePasswordWithBiometric(let delegate):
-//            delegate?.loginViewControllerDidAppear(self)
-//        }
+    private func setupCredentialActions() {
+        credentials?.forEach { credential in
+            credential.inputField.textField.delegate = self
+            credential.inputField.textField.addTarget(self, action: #selector(textFieldTextDidChange(_:)), for: .editingChanged)
+            credential.inputField.textField.addObserver(self, forKeyPath: #keyPath(UITextField.text), context: &kvoContext)
+        }
     }
-    
-    open override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+
+    private func updateLoginButtonState() {
+        switch loginMode {
+        case .credentials:
+            loginButton.isEnabled = areCredentialsValid()
+        case .credentialsWithBiometric:
+            loginButton.isEnabled = areCredentialsValid()
+        case .externalAuth:
+            loginButton.isEnabled = true
+        }
     }
-    
-    // MARK: - Action
-    
-    open func resetFields() {
-        usernameField.textField.text = nil
-        passwordField.textField.text = nil
-    }
-    
-    
-    // MARK: - Text field delegate
-    
-    open func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if isUsernameFieldLoaded && textField == usernameField.textField {
-            passwordField.textField.becomeFirstResponder()
-        } else if isPasswordFieldLoaded && textField == passwordField.textField {
-            passwordField.textField.resignFirstResponder()
-            
-            if loginButton.isEnabled {
-                loginButtonTriggered()
+
+    private func authenticateWithBiometric(title: String) {
+        guard case .credentialsWithBiometric(let delegate) = loginMode else { return }
+
+        authenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: title, reply: { [weak self] (success, error) in
+            guard let `self` = self else { return }
+            DispatchQueue.main.async {
+                if success {
+                    delegate?.loginViewControllerDidAuthenticateWithBiometric(self, context: self.authenticationContext)
+                }
             }
-        }
-        return false
+        })
     }
-    
-    open func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == passwordField.textField {
-            let text = textField.text as NSString?
-            let newText = text?.replacingCharacters(in: range, with: string)
-            textField.text = newText
-            return false
-        }
+
+    private func areCredentialsValid() -> Bool {
+        guard let credentials = credentials else { return false }
+        guard credentials.reduce(true, { (result, cred) -> Bool in
+            let isValid = !cred.isRequired ? true : cred.isValid
+            return result && isValid
+        }) else { return false }
+
         return true
-    }
-    
-    // MARK: - Overrides
-    
-    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if context == &kvoContext {
-            if keyPath == #keyPath(UITextField.text), let field = object as? UITextField {
-                textFieldTextDidChange(field)
-            }
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
-    }
-    
-    
-    // MARK: - Keyboard notifications
-    
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(resetKeyboardInset), object: nil)
-        
-        guard let animationDetails = notification.keyboardAnimationDetails() else { return }
-        
-        let rectInViewCoordinates = view.convert(animationDetails.endFrame, from: nil)
-        let inset = max(0.0, view.bounds.maxY - rectInViewCoordinates.minY)
-        
-        setKeyboardInset(inset, animationDuration: animationDetails.duration, curve: animationDetails.curve)
-    }
-    
-    @objc private func keyboardWillHide(_ notification: Notification) {
-        if let animationDetails = notification.keyboardAnimationDetails(), animationDetails.duration >~ 0.0 {
-            setKeyboardInset(0.0, animationDuration: animationDetails.duration, curve: animationDetails.curve)
-        }
-    }
-    
-    @objc private func keyboardDidHide(_ notification: Notification) {
-        if let animationDetails = notification.keyboardAnimationDetails(), animationDetails.duration >~ 0.0 {
-            // we already animated this.
-            return
-        }
-        perform(#selector(resetKeyboardInset), with: nil, afterDelay: 0.1, inModes: [.commonModes])
-    }
-    
-    
-    // MARK: - Private methods
-    
-    private func setKeyboardInset(_ inset: CGFloat, animationDuration: TimeInterval, curve: UIViewAnimationOptions) {
-        if keyboardInset == inset { return }
-        keyboardInset = inset
-        
-        if let view = viewIfLoaded {
-            UIView.animate(withDuration: animationDuration, delay: 0.0, options: [curve, .beginFromCurrentState], animations: {
-                view.setNeedsLayout()
-                view.layoutIfNeeded()
-            })
-        }
-    }
-    
-    @objc private func resetKeyboardInset() {
-        setKeyboardInset(0.0, animationDuration: 0.0, curve: .curveLinear)
     }
 
     @objc private func biometricButtonTriggered() {
-        authenticateWithBiometric(title: "Login to account \"\(usernameField.textField.text!)\"")
+        guard let credential = credentials?.first?.name else { return }
+        authenticateWithBiometric(title: "Login to account \"\(credential)\"")
     }
 
     @objc private func biometricButtonTouchDown() {
-        HapticHelper.shared.prepare(.medium)
-    }
-
-    @objc private func changeUserButtonTriggered() {
-        HapticHelper.shared.trigger(.medium)
-
-        guard case .credentialsWithBiometric(let delegate) = loginMode else { return }
-        loginMode = .credentials(delegate: delegate)
-    }
-
-    @objc private func changeUserButtonTouchDown() {
         HapticHelper.shared.prepare(.medium)
     }
 
@@ -604,101 +248,89 @@ open class LoginViewController: UIViewController, UITextFieldDelegate {
     @objc private func loginButtonTriggered() {
         HapticHelper.shared.trigger(.medium)
 
-//        switch loginMode {
-//        case .usernamePassword(let delegate):
-//            guard let username = usernameField.textField.text, let password = passwordField.textField.text else { return }
-//            view.endEditing(true)
-//            delegate?.loginViewController(self, didFinishWithUsername: username, password: password)
-//        case .usernamePasswordWithBiometric(let delegate):
-//            guard let username = usernameField.textField.text, let password = passwordField.textField.text else { return }
-//            view.endEditing(true)
-//            delegate?.loginViewController(self, didFinishWithUsername: username, password: password)
-//        case .externalAuth(let delegate):
-//            delegate?.loginViewControllerDidCommenceExternalAuth(self)
-//        }
-    }
-
-//    @objc private func forgotPasswordButtonTriggered() {
-//        if case let LoginMode.usernamePassword(delegate: delegate) = loginMode {
-//            delegate?.loginViewController(self, didTapForgotPasswordButton: forgotPasswordButton)
-//        }
-//    }
-
-    @objc private func textFieldTextDidChange(_ textField: UITextField) {
-        if (isUsernameFieldLoaded && textField == usernameField.textField) || (isPasswordFieldLoaded && textField == passwordField.textField) {
-            updateLoginButtonState()
-        }
-    }
-    
-    private func updateLoginButtonState() {
-        if isLoginButtonLoaded == false { return }
-
         switch loginMode {
         case .credentials(let delegate):
-            let isUsernameValid: Bool = isUsernameFieldLoaded && usernameField.textField.text?.count ?? 0 >= minimumUsernameLength
-            let isPasswordValid: Bool = isPasswordFieldLoaded && passwordField.textField.text?.count ?? 0 >= minimumPasswordLength
-
-            loginButton.isEnabled = isUsernameValid && isPasswordValid
-//            forgotPasswordButton.isHidden = !(delegate?.wantsForgotPassword ?? true)
+            guard let credentials = credentials else { return }
+            guard areCredentialsValid() else { return }
+            view.endEditing(true)
+            delegate?.loginViewController(self, didFinishWithCredentials: credentials)
         case .credentialsWithBiometric(let delegate):
-            let isUsernameValid: Bool = isUsernameFieldLoaded && usernameField.textField.text?.count ?? 0 >= minimumUsernameLength
-            let isPasswordValid: Bool = isPasswordFieldLoaded && passwordField.textField.text?.count ?? 0 >= minimumPasswordLength
-
-            loginButton.isEnabled = isUsernameValid && isPasswordValid
-//            forgotPasswordButton.isHidden = !(delegate?.wantsForgotPassword ?? true)
-        case .externalAuth:
-            loginButton.isEnabled = true
-        }
-    }
-    
-    private func newTextField() -> UITextField {
-        let textField = UITextField(frame: .zero)
-        textField.font                 = .systemFont(ofSize: 17.0, weight: UIFont.Weight.semibold)
-        textField.textColor            = .white
-        textField.clearButtonMode      = .whileEditing
-        textField.autocorrectionType   = .no
-        return textField
-    }
-
-    private func updateLoginMode() {
-        switch loginMode {
-        case .credentials(_):
-            credentialsView?.isHidden = false
-            usernameField.textField.isEnabled = true
-            passwordField.textField.rightView = nil
-            usernameField.textField.textColor = .white
-
-            changeUserButton.isHidden = true
-        case .credentialsWithBiometric(_):
-            credentialsView?.isHidden = false
-            usernameField.textField.isEnabled = false
-            usernameField.textField.textColor = .lightGray
-            changeUserButton.isHidden = false
-
-            if authenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
-                biometricButton.sizeToFit()
-                passwordField.textField.rightView = biometricButton
-                passwordField.textField.rightViewMode = .unlessEditing
-            }
-        case .externalAuth(_):
-            credentialsView?.isHidden = true
-            usernameField.textField.isEnabled = true
-            changeUserButton.isHidden = true
+            guard let credentials = credentials else { return }
+            guard areCredentialsValid() else { return }
+            view.endEditing(true)
+            delegate?.loginViewController(self, didFinishWithCredentials: credentials)
+        case .externalAuth(let delegate):
+            delegate?.loginViewControllerDidCommenceExternalAuth(self)
         }
     }
 
-    // MARK: - Biometric authentication
+    @objc private func textFieldTextDidChange(_ textField: UITextField) {
+        let credential = credentials?.first(where: {$0.inputField.textField == textField})
+        credential?.value = textField.text
+        updateLoginButtonState()
+    }
+}
 
-    private func authenticateWithBiometric(title: String) {
-        guard case .credentialsWithBiometric(let delegate) = loginMode else { return }
+extension LoginViewController: UITextViewDelegate, UITextFieldDelegate {
 
-        authenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: title, reply: { [weak self] (success, error) in
-            guard let `self` = self else { return }
-            DispatchQueue.main.async {
-//                if success {
-//                    delegate?.loginViewControllerDidAuthenticateWithBiometric(self, context: self.authenticationContext)
-//                }
+    public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
+        if textView == subtitleTextView {
+            subtitleTextView.highlightContainerThing?.action?(self)
+        } else if textView == detailTextView {
+            detailTextView.highlightContainerThing?.action?(self)
+        }
+        return false
+    }
+
+    public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        if textView == subtitleTextView {
+            subtitleTextView.highlightContainerThing?.action?(self)
+        } else if textView == detailTextView {
+            detailTextView.highlightContainerThing?.action?(self)
+        }
+        return false
+    }
+
+    // MARK: - Text field delegate
+
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        guard let validCreds = credentials else { return false }
+        guard let currentCredentialFieldIndex = validCreds.index(where: {$0.inputField.textField == textField}) else { return false }
+
+        if currentCredentialFieldIndex == (validCreds.count - 1) {
+            textField.resignFirstResponder()
+            if loginButton.isEnabled {
+                loginButtonTriggered()
             }
-        })
+        } else {
+            let nextCredentialField = validCreds[currentCredentialFieldIndex + 1]
+            nextCredentialField.inputField.textField.becomeFirstResponder()
+        }
+        return false
+    }
+
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField.isSecureTextEntry {
+            let text = textField.text as NSString?
+            let newText = text?.replacingCharacters(in: range, with: string)
+            textField.text = newText
+            return false
+        }
+        return true
+    }
+}
+
+// MARK: KVO
+
+extension LoginViewController {
+
+    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if context == &kvoContext {
+            if keyPath == #keyPath(UITextField.text), let field = object as? UITextField {
+                textFieldTextDidChange(field)
+            }
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
     }
 }

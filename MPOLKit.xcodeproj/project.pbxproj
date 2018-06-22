@@ -61,7 +61,7 @@
 		12F869EF1F5FD47E0006EC5C /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D566F51F5790BC001E74CA /* UserSession.swift */; };
 		12FB2F0120326653000CA863 /* StackMapLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12FB2F0020326653000CA863 /* StackMapLayout.swift */; };
 		12FFFC5920D7519C00711A38 /* LoginContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12FFFC5820D7519C00711A38 /* LoginContainerViewController.swift */; };
-		12FFFC5B20D7AAF900711A38 /* FancyLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12FFFC5A20D7AAF900711A38 /* FancyLoginViewController.swift */; };
+		12FFFC5B20D7AAF900711A38 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12FFFC5A20D7AAF900711A38 /* LoginViewController.swift */; };
 		190503EC1FCFDB09002EBC89 /* RefreshTokenPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190503EB1FCFDB09002EBC89 /* RefreshTokenPlugin.swift */; };
 		1908EF831F57CAFC00382B1C /* AuthenticationPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1908EF821F57CAFC00382B1C /* AuthenticationPlugin.swift */; };
 		1908EF861F57CDEB00382B1C /* AuthenticationPluginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1908EF851F57CDEB00382B1C /* AuthenticationPluginTests.swift */; };
@@ -366,7 +366,6 @@
 		463694E7200ED68F00C51BB4 /* SketchControlPanelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463694E6200ED68F00C51BB4 /* SketchControlPanelDelegate.swift */; };
 		463694E9200ED8D000C51BB4 /* ColorPickable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463694E8200ED8D000C51BB4 /* ColorPickable.swift */; };
 		463694EB200ED96400C51BB4 /* Sketchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463694EA200ED96400C51BB4 /* Sketchable.swift */; };
-		463BDD1520BF673D0074B99C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463BDD1320BF673C0074B99C /* LoginViewController.swift */; };
 		463BDD1620BF673D0074B99C /* LoginHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463BDD1420BF673C0074B99C /* LoginHeaderView.swift */; };
 		463BDD1B20BF67700074B99C /* Conceal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463BDD1A20BF676F0074B99C /* Conceal.swift */; };
 		463BDD1F20BF67770074B99C /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463BDD1C20BF67770074B99C /* CryptoUtils.swift */; };
@@ -963,7 +962,7 @@
 		12F869EB1F5FD2350006EC5C /* ActiveUserSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveUserSessionTests.swift; sourceTree = "<group>"; };
 		12FB2F0020326653000CA863 /* StackMapLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackMapLayout.swift; sourceTree = "<group>"; };
 		12FFFC5820D7519C00711A38 /* LoginContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginContainerViewController.swift; sourceTree = "<group>"; };
-		12FFFC5A20D7AAF900711A38 /* FancyLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyLoginViewController.swift; sourceTree = "<group>"; };
+		12FFFC5A20D7AAF900711A38 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		190503EB1FCFDB09002EBC89 /* RefreshTokenPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshTokenPlugin.swift; sourceTree = "<group>"; };
 		1908EF821F57CAFC00382B1C /* AuthenticationPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationPlugin.swift; sourceTree = "<group>"; };
 		1908EF851F57CDEB00382B1C /* AuthenticationPluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationPluginTests.swift; sourceTree = "<group>"; };
@@ -1255,7 +1254,6 @@
 		463694E6200ED68F00C51BB4 /* SketchControlPanelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SketchControlPanelDelegate.swift; sourceTree = "<group>"; };
 		463694E8200ED8D000C51BB4 /* ColorPickable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickable.swift; sourceTree = "<group>"; };
 		463694EA200ED96400C51BB4 /* Sketchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sketchable.swift; sourceTree = "<group>"; };
-		463BDD1320BF673C0074B99C /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		463BDD1420BF673C0074B99C /* LoginHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHeaderView.swift; sourceTree = "<group>"; };
 		463BDD1A20BF676F0074B99C /* Conceal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conceal.swift; sourceTree = "<group>"; };
 		463BDD1C20BF67770074B99C /* CryptoUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CryptoUtils.swift; path = Crypto/CryptoUtils.swift; sourceTree = "<group>"; };
@@ -2703,9 +2701,8 @@
 			isa = PBXGroup;
 			children = (
 				463BDD1420BF673C0074B99C /* LoginHeaderView.swift */,
-				463BDD1320BF673C0074B99C /* LoginViewController.swift */,
 				12FFFC5820D7519C00711A38 /* LoginContainerViewController.swift */,
-				12FFFC5A20D7AAF900711A38 /* FancyLoginViewController.swift */,
+				12FFFC5A20D7AAF900711A38 /* LoginViewController.swift */,
 				12B556BB20D9FEB80001FFD6 /* HighlightingTextContainer.swift */,
 				1288D83520DA2F5C00FA6EB0 /* LoginProtocols.swift */,
 			);
@@ -4883,7 +4880,6 @@
 				96F77286202A75D6000FE0D0 /* DialogActionButtonsView.swift in Sources */,
 				AA7B25CC20B27491005A23F0 /* DefaultEntitiesListReport.swift in Sources */,
 				BC39A6831F18A6EC005CA8EE /* LabeledAccessoryView.swift in Sources */,
-				463BDD1520BF673D0074B99C /* LoginViewController.swift in Sources */,
 				EAB38FFC1F70A73700341BAF /* HeaderFormItem.swift in Sources */,
 				464A5E951FD4ACEB00B4C0F9 /* ImageDownloader.swift in Sources */,
 				27FDABB51FB90FF6003466AF /* TaskDetailsViewModel.swift in Sources */,
@@ -5425,7 +5421,7 @@
 				27E81E582034E576000D5D1C /* TaskDetailsOverviewFormViewController.swift in Sources */,
 				19C9C7501FC289BC003C8CE4 /* CustomSubtitleButton.swift in Sources */,
 				EAFACCBC1F4BACE900B93CBA /* SearchFieldAdvanceCell.swift in Sources */,
-				12FFFC5B20D7AAF900711A38 /* FancyLoginViewController.swift in Sources */,
+				12FFFC5B20D7AAF900711A38 /* LoginViewController.swift in Sources */,
 				19BFE10A209FD753003740FA /* ObjC.m in Sources */,
 				27FB4B6A2069F1B000B05F84 /* TasksMapFilterViewModel.swift in Sources */,
 				96CF32301F8C4AD300140AF8 /* CADFormCollectionSectionViewModel.swift in Sources */,

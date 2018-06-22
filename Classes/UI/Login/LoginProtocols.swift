@@ -22,18 +22,18 @@ public enum LoginMode {
 }
 
 public protocol LoginViewControllerDelegate {
-    func loginViewControllerDidAppear(_ controller: FancyLoginViewController)
+    func loginViewControllerDidAppear(_ controller: LoginViewController)
 }
 
 public protocol CredentialsDelegate: LoginViewControllerDelegate {
-    func loginViewController(_ controller: FancyLoginViewController, didFinishWithCredentials: [LoginCredential])
+    func loginViewController(_ controller: LoginViewController, didFinishWithCredentials: [LoginCredential])
 }
 
 public protocol BiometricDelegate: CredentialsDelegate {
-    func loginViewControllerDidAuthenticateWithBiometric(_ controller: FancyLoginViewController, context: LAContext)
+    func loginViewControllerDidAuthenticateWithBiometric(_ controller: LoginViewController, context: LAContext)
 }
 
 public protocol ExternalAuthDelegate: LoginViewControllerDelegate {
-    func loginViewControllerDidCommenceExternalAuth(_ controller: FancyLoginViewController)
+    func loginViewControllerDidCommenceExternalAuth(_ controller: LoginViewController)
 }
 
