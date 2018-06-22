@@ -91,9 +91,9 @@ final public class FancyLoginViewController: UIViewController {
         }
     }
 
-    private lazy var keyboardManager: KeyboardManager = {
-        return KeyboardManager(managedView: self.view)
-    }()
+    private var scrollView = UIScrollView()
+    private var contentView = UIView()
+    private lazy var insetManager: ScrollViewInsetManager = ScrollViewInsetManager(scrollView: scrollView)
 
     required public init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
     public init(mode: LoginMode) {
@@ -107,7 +107,8 @@ final public class FancyLoginViewController: UIViewController {
         setupStackView()
         setupActions()
 
-        let _ = keyboardManager
+        insetManager.standardContentInset    = .zero
+        insetManager.standardIndicatorInset  = .zero
     }
 
     public func setLoading(_ loading: Bool, animated: Bool) {
@@ -124,6 +125,12 @@ final public class FancyLoginViewController: UIViewController {
 
     // MARK: Private
     private func setupViews() {
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+
         let views = [
             titleLabel,
             subtitleTextView,
@@ -135,10 +142,24 @@ final public class FancyLoginViewController: UIViewController {
 
         views.forEach { subView in
             subView.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview(subView)
+            contentView.addSubview(subView)
         }
 
-        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[tl]-[stv]-13-[csv]-24-[bb]-32-[lb(48)]-24-[dtv]->=0-|",
+        var constraints = [
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            contentView.heightAnchor.constraint(lessThanOrEqualTo: view.heightAnchor),
+        ]
+
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[tl]-[stv]-13-[csv]-24-[bb]-32-[lb(48)]-24-[dtv]-|",
                                                          options: [.alignAllLeading, .alignAllTrailing],
                                                          metrics: nil,
                                                          views: ["tl": titleLabel,
@@ -149,8 +170,8 @@ final public class FancyLoginViewController: UIViewController {
                                                                  "dtv": detailTextView])
 
         constraints += [
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ]
 
         NSLayoutConstraint.activate(constraints)
