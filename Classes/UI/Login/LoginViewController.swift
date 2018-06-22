@@ -11,16 +11,79 @@ import Lottie
 
 fileprivate var kvoContext = 1
 
+
+/// The default login view controller
 final public class LoginViewController: UIViewController {
 
+    // MARK: Start public interfaces
+
+    /// The type of login mode to use
     public let loginMode: LoginMode
 
+    /// The primary title label. Customise to your hearts content.
     public let titleLabel: UILabel = UILabel()
-    public let loginButton: UIButton = UIButton()
-    public let subtitleTextView: HighlightingTextView = HighlightingTextView()
-    public let detailTextView: HighlightingTextView = HighlightingTextView()
-    public var shouldUseBiometric: Bool = false
 
+    /// The login button. Customise to your hearts content.
+    public let loginButton: UIButton = UIButton()
+
+    /// The subtitle text view. Customise to your hearts content.
+    /// Make sure to provide a `HighlightTextContainerThing` to specify the text to highlight and the action
+    /// to perform when tapped.
+    public let subtitleTextView: HighlightingTextView = HighlightingTextView()
+
+    /// The detail text view. Customise to your hearts content.
+    /// Make sure to provide a `HighlightTextContainerThing` to specify the text to highlight and the action
+    /// to perform when tapped.
+    public let detailTextView: HighlightingTextView = HighlightingTextView()
+
+    /// An array of credentials to use
+    public var credentials: [LoginCredential]? {
+        didSet {
+            credentialsStackView.arrangedSubviews.forEach{$0.removeFromSuperview()}
+            credentials?.forEach { credential in
+                credentialsStackView.addArrangedSubview(credential.inputField)
+                credential.inputField.textField.text = credential.value
+            }
+            setupCredentialActions()
+        }
+    }
+
+    /// Whether to allow biometrics
+    ///
+    /// Defaults to `true`
+    public var usesBiometrics: Bool = true
+
+    /// Inititalise the view controller with a login mode
+    ///
+    /// - Parameter mode: the login mode to use
+    public init(mode: LoginMode) {
+        self.loginMode = mode
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    /// Set the loading state of the view controller
+    ///
+    /// - Parameters:
+    ///   - loading: true if loading is required
+    ///   - animated: true if animation is required
+    public func setLoading(_ loading: Bool, animated: Bool) {
+        if loading == isLoading { return }
+        self.isLoading = loading
+        if animated {
+            UIView.transition(with: view, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
+        }
+    }
+
+    /// Reset all the credential fields
+    public func resetFields() {
+        credentials?.forEach{$0.inputField.textField.text = nil}
+    }
+
+    // MARK: End public interfaces
+
+    private lazy var insetManager: ScrollViewInsetManager = ScrollViewInsetManager(scrollView: scrollView)
+    private var scrollView = UIScrollView()
+    private var contentView = UIView()
     private lazy var authenticationContext = LAContext()
     private(set) var credentialsStackView: UIStackView = UIStackView()
     private(set) lazy var biometricButton: UIButton = { [unowned self] in
@@ -39,21 +102,12 @@ final public class LoginViewController: UIViewController {
 
         button.setImage(AssetManager.shared.image(forKey: imageKey), for: .normal)
         button.setTitle(buttonText, for: .normal)
-        button.tintColor = UIColor(red:0.35, green:0.78, blue:0.98, alpha:1)
+        button.tintColor = ColorPalette.shared.skyBlue
+
+        button.clipsToBounds = true
 
         return button
         }()
-
-    public var credentials: [LoginCredential]? {
-        didSet {
-            credentialsStackView.arrangedSubviews.forEach{$0.removeFromSuperview()}
-            credentials?.forEach { credential in
-                credentialsStackView.addArrangedSubview(credential.inputField)
-                credential.inputField.textField.text = credential.value
-            }
-            setupCredentialActions()
-        }
-    }
 
     private lazy var loadingIndicator: LOTAnimationView? = {
         let spinner = MPOLSpinnerView(style: .regular)
@@ -91,16 +145,11 @@ final public class LoginViewController: UIViewController {
         }
     }
 
-    private var scrollView = UIScrollView()
-    private var contentView = UIView()
-    private lazy var insetManager: ScrollViewInsetManager = ScrollViewInsetManager(scrollView: scrollView)
+    private lazy var biometricHeightConstraint: NSLayoutConstraint = {
+        return biometricButton.heightAnchor.constraint(equalToConstant: 0).withPriority(.required)
+    }()
 
     required public init?(coder aDecoder: NSCoder) { MPLUnimplemented() }
-    public init(mode: LoginMode) {
-        self.loginMode = mode
-        super.init(nibName: nil, bundle: nil)
-    }
-
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -109,21 +158,13 @@ final public class LoginViewController: UIViewController {
 
         insetManager.standardContentInset    = .zero
         insetManager.standardIndicatorInset  = .zero
-    }
 
-    public func setLoading(_ loading: Bool, animated: Bool) {
-        if loading == isLoading { return }
-        self.isLoading = loading
-        if animated {
-            UIView.transition(with: view, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
+        if usesBiometrics == false {
+            biometricButton.isHidden = true
+            biometricHeightConstraint.isActive = true
         }
     }
 
-    public func resetFields() {
-        credentials?.forEach{$0.inputField.textField.text = nil}
-    }
-
-    // MARK: Private
     private func setupViews() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
