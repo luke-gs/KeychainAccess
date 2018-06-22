@@ -245,6 +245,7 @@
 		274F10F11FCE0A86001A59A5 /* IncidentAssociationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274F10E91FCE0A85001A59A5 /* IncidentAssociationsViewModel.swift */; };
 		274F10F41FCE0A86001A59A5 /* IncidentNarrativeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274F10EC1FCE0A86001A59A5 /* IncidentNarrativeViewController.swift */; };
 		274F10F71FCE0B88001A59A5 /* IncidentAssociationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274F10F61FCE0B88001A59A5 /* IncidentAssociationsViewController.swift */; };
+		274F8AAB20DC71E10034B947 /* DurationFormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274F8AAA20DC71E00034B947 /* DurationFormItem.swift */; };
 		2753291620327E3F00CFA97B /* PatrolTaskItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2753291520327E3F00CFA97B /* PatrolTaskItemViewModel.swift */; };
 		27532919203280CB00CFA97B /* PatrolOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27532918203280CB00CFA97B /* PatrolOverviewViewModel.swift */; };
 		2753291D2032855800CFA97B /* PatrolOverviewMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2753291C2032855800CFA97B /* PatrolOverviewMapViewModel.swift */; };
@@ -1149,6 +1150,7 @@
 		274F10E91FCE0A85001A59A5 /* IncidentAssociationsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentAssociationsViewModel.swift; sourceTree = "<group>"; };
 		274F10EC1FCE0A86001A59A5 /* IncidentNarrativeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentNarrativeViewController.swift; sourceTree = "<group>"; };
 		274F10F61FCE0B88001A59A5 /* IncidentAssociationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentAssociationsViewController.swift; sourceTree = "<group>"; };
+		274F8AAA20DC71E00034B947 /* DurationFormItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DurationFormItem.swift; sourceTree = "<group>"; };
 		2753291520327E3F00CFA97B /* PatrolTaskItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatrolTaskItemViewModel.swift; sourceTree = "<group>"; };
 		27532918203280CB00CFA97B /* PatrolOverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatrolOverviewViewModel.swift; sourceTree = "<group>"; };
 		2753291C2032855800CFA97B /* PatrolOverviewMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatrolOverviewMapViewModel.swift; sourceTree = "<group>"; };
@@ -4454,6 +4456,7 @@
 		EA8904B31F6A2FD00050DB84 /* FormItems */ = {
 			isa = PBXGroup;
 			children = (
+				274F8AAA20DC71E00034B947 /* DurationFormItem.swift */,
 				EA09A05B1F78E80900BC3C0E /* OptionFormItem.swift */,
 				EADC4FF21F81E0810066AA2F /* OptionGroupFormItem.swift */,
 				EA1B3C991F721A5F00574A41 /* CustomFormItem.swift */,
@@ -4769,6 +4772,7 @@
 				47732BC62058CCBD00A59892 /* MediaGalleryCell.swift in Sources */,
 				BC9C7E371F0DED6600DFFE83 /* KeyboardAnimationDetails.swift in Sources */,
 				EA3BA38C1F7B2B5D000E4AD8 /* FooterFormItem.swift in Sources */,
+				274F8AAB20DC71E10034B947 /* DurationFormItem.swift in Sources */,
 				46A8AA2720157CEA00F24B37 /* SketchNavigationController.swift in Sources */,
 				965176141FC792FD003B1B85 /* BaseLoadingStateView.swift in Sources */,
 				27094CCB1FAFFBDA00D4C3D4 /* TaskItemViewModel.swift in Sources */,
