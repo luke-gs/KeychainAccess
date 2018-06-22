@@ -24,7 +24,6 @@
 		125EAE112092FCE200C09FED /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE102092FCE200C09FED /* LoadingViewController.swift */; };
 		125EAE1B2099417200C09FED /* EventSubmittable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE1A2099417200C09FED /* EventSubmittable.swift */; };
 		1288D83620DA2F5C00FA6EB0 /* LoginProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1288D83520DA2F5C00FA6EB0 /* LoginProtocols.swift */; };
-		1288D83A20DB82C800FA6EB0 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1288D83920DB82C800FA6EB0 /* KeyboardManager.swift */; };
 		12A8DB471F5FD63400A06005 /* DirectoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A8DB461F5FD63400A06005 /* DirectoryManager.swift */; };
 		12ABD562207F194C004D0C9F /* EventSearchableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD55E207F194C004D0C9F /* EventSearchableViewModel.swift */; };
 		12ABD563207F194C004D0C9F /* EventListDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12ABD55F207F194C004D0C9F /* EventListDisplayable.swift */; };
@@ -928,7 +927,6 @@
 		125EAE102092FCE200C09FED /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		125EAE1A2099417200C09FED /* EventSubmittable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSubmittable.swift; sourceTree = "<group>"; };
 		1288D83520DA2F5C00FA6EB0 /* LoginProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginProtocols.swift; sourceTree = "<group>"; };
-		1288D83920DB82C800FA6EB0 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
 		12A8DB461F5FD63400A06005 /* DirectoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryManager.swift; sourceTree = "<group>"; };
 		12ABD55E207F194C004D0C9F /* EventSearchableViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSearchableViewModel.swift; sourceTree = "<group>"; };
 		12ABD55F207F194C004D0C9F /* EventListDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListDisplayable.swift; sourceTree = "<group>"; };
@@ -3784,7 +3782,6 @@
 			children = (
 				BC9C7D9E1F0DED6600DFFE83 /* KeyboardInputManager.swift */,
 				BC9C7D9F1F0DED6600DFFE83 /* KeyboardNumberBar.swift */,
-				1288D83920DB82C800FA6EB0 /* KeyboardManager.swift */,
 			);
 			path = "Keyboard Input";
 			sourceTree = "<group>";
@@ -5350,7 +5347,6 @@
 				27E424401FDE10BC00B5BE47 /* InteractivePopRecognizerDelegate.swift in Sources */,
 				19AF434F2080590C005C0F97 /* SharedKeychainCapability.swift in Sources */,
 				965CD8AF1F902872007C3EEA /* TasksListContainerViewModel.swift in Sources */,
-				1288D83A20DB82C800FA6EB0 /* KeyboardManager.swift in Sources */,
 				273DE2D91FEA0355000C46DD /* IntrinsicHeightFormBuilderViewController.swift in Sources */,
 				46A60F5E1FCFAFAF00EE32CA /* Evaluatable.swift in Sources */,
 				1212B54D1F60F2ED00F90CA0 /* TestingDirective.swift in Sources */,
