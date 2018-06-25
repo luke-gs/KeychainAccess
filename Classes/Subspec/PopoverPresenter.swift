@@ -43,11 +43,11 @@ extension UIViewController: PopoverPresenter, NavigationPresenter, TargetActionD
     }
     
     public func presentFormSheet(_ viewController: UIViewController, animated: Bool, size: CGSize?, forced: Bool) {
-        self.presentFormSheet(viewController, animated: animated, size: size, forced: forced, capSizeToParent: false, lightTransparentBackground: nil)
+        self.presentFormSheet(viewController, animated: animated, size: size, forced: forced, capSizeToParent: true, lightTransparentBackground: nil)
     }
 
     public func presentFormSheet(_ viewController: UIViewController, animated: Bool, size: CGSize?, forced: Bool, lightTransparentBackground: UIColor?) {
-        self.presentFormSheet(viewController, animated: animated, size: size, forced: forced, capSizeToParent: false, lightTransparentBackground: lightTransparentBackground)
+        self.presentFormSheet(viewController, animated: animated, size: size, forced: forced, capSizeToParent: true, lightTransparentBackground: lightTransparentBackground)
     }
 
     public func presentFormSheet(_ viewController: UIViewController, animated: Bool, size: CGSize?, forced: Bool, capSizeToParent: Bool, lightTransparentBackground: UIColor?) {
@@ -60,7 +60,7 @@ extension UIViewController: PopoverPresenter, NavigationPresenter, TargetActionD
         }
         
         if var size = size {
-            if !capSizeToParent {
+            if capSizeToParent {
                 // Cap form sheet width at 90% of parent width
                 size.width = min(size.width, view.bounds.width * 0.9)
             }

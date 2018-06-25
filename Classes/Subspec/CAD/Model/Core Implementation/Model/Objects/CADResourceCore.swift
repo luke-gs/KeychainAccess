@@ -32,7 +32,7 @@ open class CADResourceCore: Codable, CADResourceDetailsType {
 
     open var location: CADLocationType?
 
-    open var odometer: String?
+    open var odometer: Int?
 
     open var patrolGroup: String?
 
@@ -155,7 +155,7 @@ open class CADResourceCore: Codable, CADResourceDetailsType {
         equipment = try values.decodeIfPresent([CADEquipmentCore].self, forKey: .equipment) ?? []
         lastUpdated = try values.decodeIfPresent(Date.self, forKey: .lastUpdated)
         location = try values.decodeIfPresent(CADLocationCore.self, forKey: .location)
-        odometer = try values.decodeIfPresent(String.self, forKey: .odometer)
+        odometer = try values.decodeIfPresent(Int.self, forKey: .odometer)
         patrolGroup = try values.decodeIfPresent(String.self, forKey: .patrolGroup)
         payrollIds = try values.decodeIfPresent([String].self, forKey: .payrollIds) ?? []
         remarks = try values.decodeIfPresent(String.self, forKey: .remarks)
