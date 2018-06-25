@@ -20,6 +20,7 @@ public protocol PopoverPresenter: class {
     func presentFormSheet(_ viewController: UIViewController, animated: Bool)
     func presentFormSheet(_ viewController: UIViewController, animated: Bool, size: CGSize?, forced: Bool)
     func presentFormSheet(_ viewController: UIViewController, animated: Bool, size: CGSize?, forced: Bool, lightTransparentBackground: UIColor?)
+    func presentFormSheet(_ viewController: UIViewController, animated: Bool, size: CGSize?, forced: Bool, capSizeToParent: Bool, lightTransparentBackground: UIColor?)
     func presentActionSheetPopover(_ actionSheet: ActionSheetViewController, sourceView: UIView, sourceRect: CGRect, animated: Bool)
 }
 
@@ -42,10 +43,14 @@ extension UIViewController: PopoverPresenter, NavigationPresenter, TargetActionD
     }
     
     public func presentFormSheet(_ viewController: UIViewController, animated: Bool, size: CGSize?, forced: Bool) {
-        self.presentFormSheet(viewController, animated: animated, size: size, forced: forced, lightTransparentBackground: nil)
+        self.presentFormSheet(viewController, animated: animated, size: size, forced: forced, capSizeToParent: false, lightTransparentBackground: nil)
     }
 
     public func presentFormSheet(_ viewController: UIViewController, animated: Bool, size: CGSize?, forced: Bool, lightTransparentBackground: UIColor?) {
+        self.presentFormSheet(viewController, animated: animated, size: size, forced: forced, capSizeToParent: false, lightTransparentBackground: lightTransparentBackground)
+    }
+
+    public func presentFormSheet(_ viewController: UIViewController, animated: Bool, size: CGSize?, forced: Bool, capSizeToParent: Bool, lightTransparentBackground: UIColor?) {
         let nav = PopoverNavigationController(rootViewController: viewController)
         nav.modalPresentationStyle = .formSheet
         nav.lightTransparentBackground = lightTransparentBackground
@@ -55,8 +60,10 @@ extension UIViewController: PopoverPresenter, NavigationPresenter, TargetActionD
         }
         
         if var size = size {
-            // Cap form sheet width at 90% of parent width
-            size.width = min(size.width, view.bounds.width * 0.9)
+            if !capSizeToParent {
+                // Cap form sheet width at 90% of parent width
+                size.width = min(size.width, view.bounds.width * 0.9)
+            }
             nav.preferredContentSize = size
         }
         
