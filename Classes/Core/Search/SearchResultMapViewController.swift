@@ -284,8 +284,8 @@ public class SearchResultMapViewController: MapFormBuilderViewController, MapRes
     public func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let circleOverlay = overlay as? MKCircle {
             let circleRenderer = MKCircleRenderer(overlay: circleOverlay)
-            circleRenderer.fillColor = #colorLiteral(red: 0.5782904958, green: 0.8795785133, blue: 1, alpha: 0.15)
-            circleRenderer.strokeColor = #colorLiteral(red: 0.4895583987, green: 0.7623061538, blue: 1, alpha: 1)
+            circleRenderer.fillColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 0.08)
+            circleRenderer.strokeColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
             circleRenderer.lineWidth = 1
             return circleRenderer
         }
