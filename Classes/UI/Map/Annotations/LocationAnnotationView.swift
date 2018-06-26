@@ -44,6 +44,9 @@ open class LocationAnnotationView: MKAnnotationView {
 
         backgroundImageView.image = AssetManager.shared.image(forKey: .pinLocation)
         backgroundImageView.frame = bounds
+        backgroundImageView.layer.shadowColor = UIColor.black.cgColor
+        backgroundImageView.layer.shadowOpacity = 0.1
+        backgroundImageView.layer.shadowOffset = CGSize(width: 0.0, height: 5)
 
         outerCircleView.frame = CGRect(x: 0.0, y: 0.0, width: outerCircleViewDiameter, height: outerCircleViewDiameter)
         outerCircleView.center = center
