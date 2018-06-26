@@ -12,6 +12,7 @@ import PromiseKit
 public protocol TaskItemViewModelDelegate: PopoverPresenter {
     func didUpdateModel()
     func setLoadingState(_ state: LoadingStateManager.State)
+    func setLoadingState(_ state: LoadingStateManager.State, error: Error?)
 }
 
 open class TaskItemViewModel {

@@ -77,7 +77,8 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
         // delegate on the detail view model may not be set yet
         if detailViewModel.taskItemDetails == nil {
             detailViewModel.loadTask().catch { [weak self] error in
-                self?.setLoadingState(.error)
+                self?.setLoadingState(.error, error: error)
+                
             }
         }
     }
@@ -189,9 +190,16 @@ open class TaskItemSidebarSplitViewController: SidebarSplitViewController {
     }
     
     open func setLoadingState(_ state: LoadingStateManager.State) {
+        self.setLoadingState(state, error: nil)
+    }
+    
+    open func setLoadingState(_ state: LoadingStateManager.State, error: Error?) {
         DispatchQueue.main.async {
             (self.detailViewControllers as? [TaskDetailsViewController])?.forEach { vc in
                 vc.loadingManager.state = state
+                if let error = error {
+                    vc.loadingManager.errorView.subtitleLabel.text = error.localizedDescription
+                }
             }
             
             self.allowDetailSelection = state != .loading
