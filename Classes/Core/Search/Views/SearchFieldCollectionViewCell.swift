@@ -17,6 +17,8 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
     
     
     // MARK: - Properties
+
+    public let imageView = UIImageView(frame: .zero)
     
     public let textField = UITextField(frame: .zero)
     
@@ -53,6 +55,12 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
         super.commonInit()
         
         selectionStyle = .underline
+
+        imageView.image = AssetManager.shared.image(forKey: .tabBarSearch)?.withRenderingMode(.alwaysTemplate)
+        imageView.tintColor = ThemeManager.shared.theme(for: .current).color(forKey: .primaryText)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.setContentHuggingPriority(.required, for: .horizontal)
+        imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         clearButton.setImage(AssetManager.shared.image(forKey: .clearText), for: .normal)
         clearButton.frame = CGRect(x: 0, y: 0, width: 22, height: 15)   // Extra width to give it a bit of padding
@@ -71,23 +79,36 @@ class SearchFieldCollectionViewCell: CollectionViewFormCell {
                                                              attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 28.0, weight: UIFont.Weight.light), NSAttributedStringKey.foregroundColor: UIColor.lightGray])
        
         buttonStackView.axis = .horizontal
-        buttonStackView.spacing = 18.0
+        buttonStackView.spacing = 18
         buttonStackView.translatesAutoresizingMaskIntoConstraints = false
-        
         let contentView = self.contentView
         contentView.addSubview(textField)
         contentView.addSubview(buttonStackView)
 
-        NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: textField, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, constant: 3.0),
-            NSLayoutConstraint(item: textField, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading),
-            
-            NSLayoutConstraint(item: buttonStackView, attribute: .leading, relatedBy: .equal, toItem: textField, attribute: .trailing, constant: 5.0, priority: .defaultHigh + 1),
-            NSLayoutConstraint(item: buttonStackView, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing),
-            NSLayoutConstraint(item: buttonStackView, attribute: .centerY, relatedBy: .equal, toItem: textField, attribute: .centerY),
-            NSLayoutConstraint(item: buttonStackView, attribute: .height, relatedBy: .equal, toConstant: 28),
+        var constraints = [NSLayoutConstraint]()
 
-        ])
+        constraints += [
+            NSLayoutConstraint(item: textField, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, constant: 3.0),
+            NSLayoutConstraint(item: textField, attribute: .trailing, relatedBy: .equal, toItem: buttonStackView, attribute: .leading, constant: -18),
+            NSLayoutConstraint(item: buttonStackView, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing, constant: -18),
+            NSLayoutConstraint(item: buttonStackView, attribute: .centerY, relatedBy: .equal, toItem: textField, attribute: .centerY),
+            NSLayoutConstraint(item: buttonStackView, attribute: .height, relatedBy: .equal, toConstant: 28)
+        ]
+
+        if imageView.image != nil {
+            contentView.addSubview(imageView)
+            constraints += [
+                NSLayoutConstraint(item: imageView, attribute: .centerY, relatedBy: .equal, toItem: textField, attribute: .centerY),
+                NSLayoutConstraint(item: imageView, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading),
+                NSLayoutConstraint(item: textField, attribute: .leading, relatedBy: .equal, toItem: imageView, attribute: .trailing, constant: 12),
+            ]
+        } else {
+            constraints += [
+                NSLayoutConstraint(item: textField, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, constant: 18),
+            ]
+        }
+
+        NSLayoutConstraint.activate(constraints)
 
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidBeginEditing(_:)), name: .UITextFieldTextDidBeginEditing, object: textField)
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidEndEditing(_:)),   name: .UITextFieldTextDidEndEditing,   object: textField)

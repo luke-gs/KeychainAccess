@@ -14,6 +14,7 @@ public enum Style {
     case checkmark
     case overflow
     case pencil
+
     
     var image: UIImage? {
         let key: AssetManager.ImageKey

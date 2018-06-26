@@ -9,8 +9,7 @@ import Foundation
 public enum LocationBasicSearchResultType: String {
     case lookup
     case advance = "Advanced Search"
-    case map = "Search on a Map"
-    case currentLocation = "Current Location"
+    case map = "Search on Map"
 }
 
 /// Implementation of basic search options that allows results to be provided the client.
@@ -20,13 +19,13 @@ open class LocationBasicSearchOptions: SearchOptions {
     }
 
     open var headerText: String? {
-        return results.count > 0 ? NSLocalizedString("SELECT AN ADDRESS TO CONTINUE", comment: "Location Search - type ahead results") : NSLocalizedString("SEARCH OPTIONS", comment: "Location Search - others")
+        return nil
     }
 
     public init() {}
 
     open var results: [LookupResult] = []
-    open var others: [LocationBasicSearchResultType] = [.currentLocation, .map, .advance]
+    open var others: [LocationBasicSearchResultType] = [.map, .advance]
     
     open weak var delegate: LocationBasicSearchOptionsDelegate?
 
@@ -50,6 +49,7 @@ open class LocationBasicSearchOptions: SearchOptions {
     open func value(at index: Int) -> String? {
         let numberOfResults = results.count
 
+        // Will trigger this block if the index is not one of the "others" options i.e. current location, search on map and advanced search
         if numberOfResults > index {
             return results[index].subtitle
         }
@@ -69,7 +69,7 @@ open class LocationBasicSearchOptions: SearchOptions {
         let numberOfResults = results.count
 
         if numberOfResults > index {
-            return .action(image: AssetManager.shared.image(forKey: .location), buttonTitle: "Edit Address", buttonHandler: { [weak self] in
+            return .action(image: AssetManager.shared.image(forKey: .eventLocation), buttonTitle: "Edit Address", buttonHandler: { [weak self] in
                 guard let `self` = self else { return }
                 let result = self.results[index]
                 self.delegate?.locationBasicSearchOptions(self, didEditResult: result)
@@ -79,31 +79,14 @@ open class LocationBasicSearchOptions: SearchOptions {
 
             let other = others[otherIndex]
             switch other {
-            case .currentLocation:
-                return .action(image: AssetManager.shared.image(forKey: .mapUserLocation), buttonTitle: nil, buttonHandler:nil)
             case .map:
-                return .action(image: AssetManager.shared.image(forKey: .generalLocation), buttonTitle: nil, buttonHandler:nil)
+                return .action(image: AssetManager.shared.image(forKey: .map), buttonTitle: nil, buttonHandler:nil)
             case .advance:
                 return .action(image: AssetManager.shared.image(forKey: .advancedSearch), buttonTitle: nil, buttonHandler: nil)
             case .lookup:
                 return .picker
             }
         }
-    }
-
-    open func isEnabled(at index: Int) -> Bool {
-        let numberOfResults = results.count
-
-        if numberOfResults > index {
-            return true
-        }
-
-        let otherIndex = index - numberOfResults
-        if others[otherIndex] == .currentLocation {
-            return currentLocationActive
-        }
-
-        return true
     }
 
     open func reset() {

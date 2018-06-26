@@ -36,7 +36,7 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
     private var additionalSearchButtons: [UIButton] {
         let helpButton = UIButton(type: .system)
         helpButton.addTarget(self, action: #selector(didTapHelpButton), for: .touchUpInside)
-        helpButton.setImage(AssetManager.shared.image(forKey: .info), for: .normal)
+        helpButton.setImage(AssetManager.shared.image(forKey: .infoFilled), for: .normal)
         return [helpButton]
     }
     
@@ -156,8 +156,6 @@ public class LocationSearchDataSource<T: LocationAdvancedOptions, U: LocationSea
             switch options.resultType(at: index) {
             case .lookup:
                 performSearchOnLocation(withResult: options.results[index])
-            case .currentLocation:
-                didTapCurrentLocation()
             case .advance:
                 didTapAdvanceButton()
             case .map:
