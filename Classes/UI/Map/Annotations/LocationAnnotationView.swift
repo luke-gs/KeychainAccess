@@ -66,8 +66,8 @@ open class LocationAnnotationView: MKAnnotationView {
         innerCircleLayer.cornerRadius = innerCircleViewDiameter * 0.5
         innerCircleLayer.masksToBounds = true
 
-        iconImageView.frame = CGRect(x: 0.0, y: 0.0, width: 16.0, height: 16.0)
         iconImageView.image = AssetManager.shared.image(forKey: .eventLocation)
+        iconImageView.frame = CGRect(x: 0.0, y: 0.0, width: 24.0, height: 24.0)
         iconImageView.center = center
         iconImageView.contentMode = .scaleAspectFit
 
@@ -104,6 +104,7 @@ open class LocationAnnotationView: MKAnnotationView {
                 transform = transform.scaledBy(x: 1.2, y: 1.2)
             }
             self.transform = transform
+            self.iconImageView.transform = transform.inverted()
             self.detailView.alpha = selected ? 1.0 : 0.0
         })
     }
