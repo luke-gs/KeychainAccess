@@ -1055,7 +1055,7 @@
         "streetType": "Street", 
         "suburb": "Fitzroy"
       }, 
-      "odometer": "1234", 
+      "odometer": 1234,
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777122", 
@@ -1119,7 +1119,7 @@
         "streetType": "Street", 
         "suburb": "Fitzroy"
       }, 
-      "odometer": "1234", 
+      "odometer": 1234,
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777032"
@@ -1174,7 +1174,7 @@
         "streetType": "Street", 
         "suburb": "Collingwood"
       }, 
-      "odometer": "1234", 
+      "odometer": 1234,
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777001", 
@@ -1239,7 +1239,7 @@
         "streetType": "Crescent", 
         "suburb": "Abbotsford"
       }, 
-      "odometer": "1234", 
+      "odometer": 1234,
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777019", 
@@ -1286,7 +1286,7 @@
         "streetType": "Street", 
         "suburb": "Collingwood"
       }, 
-      "odometer": "1234", 
+      "odometer": 1234,
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777202"
@@ -1341,7 +1341,7 @@
         "streetType": "Street", 
         "suburb": "Collingwood"
       }, 
-      "odometer": "1234", 
+      "odometer": 1234,
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777791"
@@ -1396,7 +1396,7 @@
         "streetType": "Street", 
         "suburb": "Collingwood"
       }, 
-      "odometer": "1234", 
+      "odometer": 1234,
       "patrolGroup": "Collingwood", 
       "payrollIds": [
         "777199"
@@ -1472,7 +1472,7 @@
         "streetType": "Street", 
         "suburb": "Southbank"
       }, 
-      "odometer": "1234", 
+      "odometer": 1234,
       "patrolGroup": "South Melbourne", 
       "payrollIds": [
         "182732", 
@@ -1514,7 +1514,7 @@
         "streetType": "Street", 
         "suburb": "South Melbourne"
       }, 
-      "odometer": "1234", 
+      "odometer": 1234,
       "patrolGroup": "South Melbourne", 
       "payrollIds": [
         "182992"
@@ -1561,7 +1561,7 @@
         "streetType": "Street", 
         "suburb": "Collingwood"
       }, 
-      "odometer": "1234", 
+      "odometer": 1234,
       "patrolGroup": "South Melbourne", 
       "payrollIds": [
         "188278"
