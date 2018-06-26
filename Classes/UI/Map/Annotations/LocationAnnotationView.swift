@@ -13,7 +13,7 @@ open class LocationAnnotationView: MKAnnotationView {
 
     open var borderColor = UIColor(displayP3Red: 0.337, green: 0.337, blue: 0.384, alpha: 1.0) {
         didSet {
-            outerCircleView.backgroundColor = borderColor
+            updatePinUI()
         }
     }
 
@@ -115,6 +115,24 @@ open class LocationAnnotationView: MKAnnotationView {
         let size = detailView.sizeThatFits(CGSize(width: UILayoutFittingCompressedSize.width, height: 20.0))
         detailView.frame.size = CGSize(width: min(size.width, 200.0), height: 20.0)
         detailView.center = CGPoint(x: bounds.width * 0.5, y: bounds.maxY + 12)
+    }
+    
+    private func updatePinUI() {
+        if isSelected {
+            backgroundImageView.tintColor = .white
+            backgroundImageView.image = AssetManager.shared.image(forKey: .pinLocation)
+            outerCircleView.backgroundColor = borderColor
+            circleView.backgroundColor = .white
+            innerCircleView.backgroundColor = UIColor(displayP3Red: 0.843, green: 0.843, blue: 0.850, alpha: 1.0)
+            iconImageView.tintColor = borderColor
+        } else {
+            backgroundImageView.tintColor = borderColor
+            backgroundImageView.image = AssetManager.shared.image(forKey: .pinDefault)
+            outerCircleView.backgroundColor = .clear
+            innerCircleView.backgroundColor = borderColor
+            circleView.backgroundColor = borderColor
+            iconImageView.tintColor = .black
+        }
     }
 
 }
