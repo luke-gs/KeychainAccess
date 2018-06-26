@@ -114,7 +114,7 @@ open class LocationAnnotationView: MKAnnotationView {
 
         let size = detailView.sizeThatFits(CGSize(width: UILayoutFittingCompressedSize.width, height: 20.0))
         detailView.frame.size = CGSize(width: min(size.width, 200.0), height: 20.0)
-        detailView.center = CGPoint(x: bounds.width * 0.5, y: -12.0)
+        detailView.center = CGPoint(x: bounds.width * 0.5, y: bounds.maxY + 12)
     }
 
 }
