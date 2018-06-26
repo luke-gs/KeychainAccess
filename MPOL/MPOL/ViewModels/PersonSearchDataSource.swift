@@ -23,7 +23,7 @@ class PersonSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
     private var additionalSearchButtons: [UIButton] {
         let helpButton = UIButton(type: .system)
         helpButton.addTarget(self, action: #selector(didTapHelpButton(_:)), for: .touchUpInside)
-        helpButton.setImage(AssetManager.shared.image(forKey: .info), for: .normal)
+        helpButton.setImage(AssetManager.shared.image(forKey: .infoFilled), for: .normal)
         return [helpButton]
     }
 
