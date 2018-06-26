@@ -27,6 +27,8 @@ open class RoundedRectButtonFormItem: BaseFormItem {
             if let radius = radius {
                 cell.button.layer.cornerRadius = radius
             }
+            
+            cell.button.addTarget(self, action: #selector(didTapButton(_:)), for: .primaryActionTriggered)
         }
     }
     
@@ -56,5 +58,10 @@ open class RoundedRectButtonFormItem: BaseFormItem {
     public func cornerRadius(_ radius: CGFloat) -> Self {
         self.radius = radius
         return self
+    }
+    
+    @objc private func didTapButton(_ button: UIButton) {
+        guard let cell = cell else { return }
+        onSelection?(cell)
     }
 }

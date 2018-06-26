@@ -112,7 +112,7 @@ open class TasksListHeaderViewModel {
     // MARK: - Internal
 
     /// Shows the add new form sheet
-    @objc private func showAdd() {
+    @objc open func showAdd() {
         if let resource = CADStateManager.shared.currentResource {
             guard CADStateManager.shared.currentIncident == nil && resource.status.canCreateIncident else {
                 AlertQueue.shared.addSimpleAlert(title: NSLocalizedString("Unable to Create Incident", comment: ""),

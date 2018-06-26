@@ -11,7 +11,7 @@ import UIKit
 open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
 
     public var text: StringSizable?
-    public var layoutMargins: UIEdgeInsets? = UIEdgeInsets(top: 16, left: 24, bottom: 24, right: 24)
+    public var layoutMargins: UIEdgeInsets? = UIEdgeInsets(top: 12, left: 24, bottom: 12, right: 24)
     public var separatorColor: UIColor?
     public var actionButton: UIButton?
     private var actionButtonHandler: ((UIButton) -> Void)?

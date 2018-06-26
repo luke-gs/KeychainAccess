@@ -16,7 +16,13 @@ public enum ImageStyle {
     func cornerRadius(for size: CGSize) -> CGFloat {
         switch self {
         case .roundedRect, .entity:
-            return ((min(size.width, size.height) + 300.0) / 80.0).rounded(toScale: UIScreen.main.scale)
+            if max(size.width, size.height) >= 192 {
+                // Magic Calculation - 10px corner radius
+                return ((min(size.width, size.height) + 300.0) / 30.0).rounded(toScale: UIScreen.main.scale)
+            } else {
+                // Magic Calculation - 4px corner radius
+                return ((min(size.width, size.height) + 300.0) / 80.0).rounded(toScale: UIScreen.main.scale)
+            }
         case .circle:
             return (size.width * 0.5).rounded(toScale: UIScreen.main.scale)
         }

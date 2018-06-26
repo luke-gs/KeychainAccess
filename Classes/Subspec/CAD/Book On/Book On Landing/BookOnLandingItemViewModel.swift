@@ -90,4 +90,12 @@ open class BookOnLandingCallsignItemViewModel: BookOnLandingItemViewModel {
 
         super.init(title: title, subtitle: subtitle, image: resource.type.icon, imageColor: imageColor, imageBackgroundColor: imageBackgroundColor)
     }
+    
+    public init(resource: CADResourceType, callsign: String, title: String, subtitle: String?, image: UIImage?, imageColor: UIColor?, imageBackgroundColor: UIColor?) {
+        self.resource = resource
+        self.callsign = resource.callsign
+
+        super.init(title: title, subtitle: subtitle, image: resource.type.icon, imageColor: imageColor, imageBackgroundColor: imageBackgroundColor)
+    }
+
 }

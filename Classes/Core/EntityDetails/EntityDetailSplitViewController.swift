@@ -31,7 +31,7 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
 
         detailViewModel.delegate = self
 
-        title = NSLocalizedString("Details", comment: "")
+        title = nil
         updateSourceItems()
         updateHeaderView()
 
@@ -206,7 +206,7 @@ open class EntityDetailSplitViewController<Details: EntityDetailDisplayable, Sum
         }
 
         if let lastUpdated = detailDisplayable.lastUpdatedString {
-            headerView.subtitleLabel.text = NSLocalizedString("Last Updated: ", comment: "") + lastUpdated
+            headerView.subtitleLabel.text = NSLocalizedString("Updated ", comment: "") + lastUpdated
         } else {
             headerView.subtitleLabel.text = nil
         }

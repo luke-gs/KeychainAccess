@@ -131,6 +131,7 @@ extension AssetManager {
         public static let edit           = ImageKey("iconSystemEdit")
         public static let editCell       = ImageKey("iconSystemEditCell")
         public static let info           = ImageKey("iconSystemInfo")
+        public static let infoFilled     = ImageKey("iconSystemInfoFilled")
         public static let time           = ImageKey("iconSystemTime")
         public static let date           = ImageKey("iconSystemDate")
         public static let location       = ImageKey("iconSystemLocation")
@@ -140,6 +141,8 @@ extension AssetManager {
         public static let overflow       = ImageKey("iconSystemOverflow")
         public static let advancedSearch = ImageKey("iconSystemAdvancedSearch")
         public static let login          = ImageKey("iconSystemLogin")
+        public static let nightMode      = ImageKey("iconSystemNightMode")
+        public static let keyboard       = ImageKey("iconSystemKeyboard")
 
         public static let faceId         = ImageKey("iconBiometricFaceId")
         public static let touchId        = ImageKey("iconBiometricTouchId")
@@ -153,6 +156,7 @@ extension AssetManager {
 
         // General
         public static let alert          = ImageKey("iconGeneralAlert")
+        public static let alertFilled    = ImageKey("iconGeneralAlertFilled")
         public static let association    = ImageKey("iconGeneralAssociation")
         public static let event          = ImageKey("iconGeneralEvent")
         public static let document       = ImageKey("iconGeneralDocument")

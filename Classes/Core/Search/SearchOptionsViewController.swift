@@ -35,9 +35,11 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     
     private let searchSeparator = UIView(frame: .zero)
     
-    private let searchField = SearchFieldCollectionViewCell()
+    private let searchField = SearchFieldCollectionViewCell(frame: CGRect(origin: .zero, size: CGSize(width: 500, height: 200)))
     
     private let buttonField = SearchFieldAdvanceCell()
+
+    private var cellImageColor: UIColor?
     
     // MARK: - Private methods
     
@@ -225,6 +227,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             searchContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 
             searchField.heightAnchor.constraint(equalToConstant: SearchFieldCollectionViewCell.cellContentHeight),
+
             buttonField.heightAnchor.constraint(equalToConstant: SearchFieldAdvanceCell.cellContentHeight),
 
             NSLayoutConstraint(item: searchField, attribute: .width, relatedBy: .equal, toConstant: SearchFieldCollectionViewCell.preferredWidth, priority: UILayoutPriority.defaultHigh)
@@ -396,6 +399,18 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
         
         searchField.clearButton.tintColor = theme.color(forKey: .secondaryText)
         searchField.textField.textColor = theme.color(forKey: .primaryText)
+        // Workaround required to change the textColor in 11.1, might be required for other versions as well but not sure, haven't tested
+        searchField.textField.text = searchField.textField.text
+
+        searchField.imageView.tintColor = theme.color(forKey: .primaryText)
+
+        cellImageColor = theme.color(forKey: .primaryText)
+
+        collectionView?.visibleCells.forEach({ (cell) in
+            if let cell = cell as? CollectionViewFormSubtitleCell {
+                cell.imageView.tintColor = cellImageColor
+            }
+        })
 
     }
 
@@ -491,7 +506,7 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
                 return filterCell
             case .action(let image, let buttonTitle, let buttonHandler):
                 let filterCell = collectionView.dequeueReusableCell(of: CollectionViewFormSubtitleCell.self, for: indexPath)
-                
+                filterCell.imageView.tintColor = cellImageColor
                 filterCell.isUserInteractionEnabled = isEnabled
                 filterCell.isHighlighted = !isEnabled
                 filterCell.style = .value
@@ -584,7 +599,11 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40.0
+        if selectedDataSource.options!.headerText != nil {
+            return 40.0
+        } else {
+            return 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: CollectionViewFormLayout, minimumContentWidthForItemAt indexPath: IndexPath, sectionEdgeInsets: UIEdgeInsets) -> CGFloat {
@@ -720,10 +739,9 @@ class SearchOptionsViewController: FormCollectionViewController, UITextFieldDele
             
             NSLayoutConstraint.activate([
                 NSLayoutConstraint(item: searchField, attribute: .top, relatedBy: .equal, toItem: searchContainer, attribute: .topMargin, constant: 0.0),
-                NSLayoutConstraint(item: searchField, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: searchContainer, attribute: .leadingMargin, constant: 0.0),
-                NSLayoutConstraint(item: searchField, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: searchContainer, attribute: .trailingMargin, constant: 0.0),
+                NSLayoutConstraint(item: searchField, attribute: .leadingMargin, relatedBy: .equal, toItem: searchContainer, attribute: .leadingMargin, constant: 0.0),
+                NSLayoutConstraint(item: searchField, attribute: .trailing, relatedBy: .equal, toItem: searchContainer, attribute: .trailing, constant: 0.0),
                 NSLayoutConstraint(item: searchField, attribute: .bottom, relatedBy: .equal, toItem: searchContainer, attribute: .bottomMargin, constant: 0.0),
-                NSLayoutConstraint(item: searchField, attribute: .centerX, relatedBy: .equal, toItem: searchContainer, attribute: .centerX, constant: 0.0)
             ])
         }
     }
@@ -818,5 +836,4 @@ private extension SearchFieldStyle {
         case .button: return UIEdgeInsets(top: 20.0, left: 24.0, bottom: 20.0, right: 16.0)
         }
     }
-    
 }

@@ -306,12 +306,14 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         
         for index in tableView.indexesForVisibleSectionHeaders {
             if let headerView = tableView.headerView(forSection: index) {
+                headerView.textLabel?.textColor = primaryTextColor
                 self.tableView(tableView, willDisplayHeaderView: headerView, forSection: index)
             }
         }
         
         for index in tableView.indexesForVisibleSectionFooters {
             if let headerView = tableView.footerView(forSection: index) {
+                headerView.textLabel?.textColor = primaryTextColor
                 self.tableView(tableView, willDisplayFooterView: headerView, forSection: index)
             }
         }
@@ -429,6 +431,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         default:
             cell.textLabel?.textColor = primaryTextColor
             cell.detailTextLabel?.textColor = secondaryTextColor
+            cell.imageView?.tintColor = primaryTextColor
         }
     }
     
@@ -500,6 +503,7 @@ open class FormTableViewController: UIViewController, UITableViewDataSource, UIT
         guard let tableView = self.tableView else { return }
         
         let newColor: UIColor?
+
         if wantsTransparentBackground {
 
             if userInterfaceStyle.isDark && UIDevice.current.userInterfaceIdiom == .phone {

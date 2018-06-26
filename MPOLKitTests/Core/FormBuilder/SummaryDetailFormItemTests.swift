@@ -124,8 +124,8 @@ class SummaryDetailFormItemTests: XCTestCase {
 
         // Then
         XCTAssertEqual(view.titleLabel.textColor, theme.color(forKey: .primaryText))
-        XCTAssertEqual(view.subtitleLabel.textColor, theme.color(forKey: .secondaryText))
-        XCTAssertEqual(view.descriptionLabel.textColor, theme.color(forKey: .secondaryText))
+        XCTAssertEqual(view.subtitleLabel.textColor, theme.color(forKey: .primaryText))
+        XCTAssertEqual(view.descriptionLabel.textColor, theme.color(forKey: .primaryText))
     }
 
     func testThatItAppliesThemeWhenThereIsDetailPlaceholder() {
@@ -139,7 +139,7 @@ class SummaryDetailFormItemTests: XCTestCase {
 
         // Then
         XCTAssertEqual(view.titleLabel.textColor, theme.color(forKey: .primaryText))
-        XCTAssertEqual(view.subtitleLabel.textColor, theme.color(forKey: .secondaryText))
+        XCTAssertEqual(view.subtitleLabel.textColor, theme.color(forKey: .primaryText))
         XCTAssertEqual(view.descriptionLabel.textColor, theme.color(forKey: .placeholderText))
     }
 

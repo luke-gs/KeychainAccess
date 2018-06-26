@@ -167,9 +167,10 @@ open class WhatsNewViewController: UIViewController, UIPageViewControllerDataSou
     // MARK: - Actions
     
     @objc private func doneButtonTapped(button: UIButton) {
-        self.dismiss(animated: true, completion: nil)
         if let delegate = delegate {
             delegate.whatsNewViewControllerDidTapDoneButton?(self)
+        } else {
+            self.dismiss(animated: true, completion: nil)
         }
     }
     

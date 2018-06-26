@@ -66,11 +66,12 @@ public class ValueFormItem: BaseFormItem {
 
     public override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
         let secondaryTextColor = theme.color(forKey: .secondaryText)
+        let primaryTextColor = theme.color(forKey: .primaryText)
 
         let cell = cell as! CollectionViewFormValueFieldCell
 
         cell.titleLabel.textColor = secondaryTextColor
-        cell.valueLabel.textColor = secondaryTextColor
+        cell.valueLabel.textColor = primaryTextColor
     }
     
     private func defaultTitle(for traitCollection: UITraitCollection) -> StringSizable? {

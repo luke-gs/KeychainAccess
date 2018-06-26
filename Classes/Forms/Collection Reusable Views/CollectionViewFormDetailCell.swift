@@ -11,7 +11,7 @@ import UIKit
 
 fileprivate var kvoContext = 1
 
-fileprivate let titleDetailSeparation: CGFloat = 7.0
+fileprivate let titleDetailSeparation: CGFloat = 14.0
 
 
 open class CollectionViewFormDetailCell: CollectionViewFormCell {
@@ -98,7 +98,7 @@ open class CollectionViewFormDetailCell: CollectionViewFormCell {
         let titleLabel    = self.titleLabel
         let subtitleLabel = self.subtitleLabel
         let detailLabel   = self.detailLabel
-        
+
         titleLabel.adjustsFontForContentSizeCategory    = true
         subtitleLabel.adjustsFontForContentSizeCategory = true
         detailLabel.adjustsFontForContentSizeCategory   = true

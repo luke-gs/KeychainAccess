@@ -13,6 +13,7 @@ import CoreLocation
 public protocol CADResourceType: class, Codable, CADTaskListItemModelType {
 
     // MARK: - Network
+    
     var assignedIncidents: [String] { get set}
     var callsign: String { get set }
     var category: String? { get set }
@@ -21,7 +22,7 @@ public protocol CADResourceType: class, Codable, CADTaskListItemModelType {
     var equipment: [CADEquipmentType] { get set }
     var lastUpdated : Date? { get set }
     var location: CADLocationType? { get set }
-    var odometer: String? { get set }
+    var odometer: Int? { get set }
     var patrolGroup: String? { get set }
     var payrollIds: [String] { get set }
     var remarks : String? { get set }

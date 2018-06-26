@@ -27,7 +27,7 @@ open class LoadingStateErrorView: LoadingStateNoContentView {
 
     private func commonInit() {
         // Set default error text
-        titleLabel.text = NSLocalizedString("An error occured", bundle: .mpolKit, comment: "Default loading error title")
+        titleLabel.text = NSLocalizedString("An error occurred", bundle: .mpolKit, comment: "Default loading error title")
 
         // Set default loading failed image
         imageView.image = AssetManager.shared.image(forKey: .iconLoadingFailed)

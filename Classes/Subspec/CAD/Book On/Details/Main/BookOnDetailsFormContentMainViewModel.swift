@@ -31,7 +31,11 @@ open class BookOnDetailsFormContentMainViewModel {
     public init(withModel request: CADBookOnRequestType) {
         self.serial = request.serial
         self.category = request.category
-        self.odometer = String(request.odometer ?? 0)
+        if let odometer = request.odometer {
+            self.odometer = String(odometer)
+        } else {
+            self.odometer = nil
+        }
         self.remarks = request.remarks
         self.startTime = request.shiftStart
         self.endTime = request.shiftEnd
@@ -48,7 +52,11 @@ open class BookOnDetailsFormContentMainViewModel {
     public init(withResource resource: CADResourceType) {
         self.serial = resource.serial
         self.category = resource.category
-        self.odometer = resource.odometer
+        if let odometer = resource.odometer {
+            self.odometer = String(odometer)
+        } else {
+            self.odometer = nil
+        }
         self.remarks = resource.remarks
         self.startTime = resource.shiftStart
         self.endTime = resource.shiftEnd
