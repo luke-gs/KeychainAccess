@@ -123,19 +123,19 @@ open class LocationAnnotationView: MKAnnotationView {
     
     private func updatePinUI() {
         if isSelected {
-            backgroundImageView.tintColor = .white
-            backgroundImageView.image = AssetManager.shared.image(forKey: .pinLocation)
+            backgroundImageView.tintColor   = .white
+            backgroundImageView.image       = AssetManager.shared.image(forKey: .pinLocation)
             outerCircleView.backgroundColor = borderColor
-            circleView.backgroundColor = .white
+            circleView.backgroundColor      = .white
             innerCircleView.backgroundColor = UIColor(displayP3Red: 0.843, green: 0.843, blue: 0.850, alpha: 1.0)
-            iconImageView.tintColor = borderColor
+            iconImageView.tintColor         = borderColor
         } else {
-            backgroundImageView.tintColor = borderColor
-            backgroundImageView.image = AssetManager.shared.image(forKey: .pinDefault)
+            backgroundImageView.tintColor   = borderColor
+            backgroundImageView.image       = AssetManager.shared.image(forKey: .pinDefault)
             outerCircleView.backgroundColor = .clear
             innerCircleView.backgroundColor = borderColor
-            circleView.backgroundColor = borderColor
-            iconImageView.tintColor = .black
+            circleView.backgroundColor      = borderColor
+            iconImageView.tintColor         = .black
         }
     }
 
