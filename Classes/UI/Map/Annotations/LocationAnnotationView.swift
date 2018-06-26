@@ -106,6 +106,7 @@ open class LocationAnnotationView: MKAnnotationView {
             self.transform = transform
             self.iconImageView.transform = transform.inverted()
             self.detailView.alpha = selected ? 1.0 : 0.0
+            self.updatePinUI()
         })
     }
 
