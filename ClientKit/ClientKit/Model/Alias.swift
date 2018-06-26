@@ -39,6 +39,7 @@ open class Alias: NSObject, Serialisable {
     open var dateOfBirth: Date?
     open var ethnicity: String?
     open var title: String?
+    open var jurisdiction: String?
     
     public required init(id: String = UUID().uuidString) {
         self.id = id
@@ -71,6 +72,7 @@ open class Alias: NSObject, Serialisable {
         dateOfBirth = unboxer.unbox(key: "dateOfBirth", formatter: Alias.dateTransformer)
         ethnicity = unboxer.unbox(key: "ethnicity")
         title = unboxer.unbox(key: "title")
+        jurisdiction = unboxer.unbox(key: "jurisdiction")
         super.init()
     }
     
@@ -99,6 +101,7 @@ open class Alias: NSObject, Serialisable {
         dateOfBirth = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.dateOfBirth.rawValue) as Date?
         ethnicity = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.ethnicity.rawValue) as String?
         title = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.title.rawValue) as String?
+        jurisdiction = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.jurisdiction.rawValue) as String?
     }
     
     open func encode(with aCoder: NSCoder) {
@@ -121,6 +124,7 @@ open class Alias: NSObject, Serialisable {
         aCoder.encode(dateOfBirth, forKey: CodingKey.dateOfBirth.rawValue)
         aCoder.encode(ethnicity, forKey: CodingKey.ethnicity.rawValue)
         aCoder.encode(title, forKey: CodingKey.title.rawValue)
+        aCoder.encode(title, forKey: CodingKey.jurisdiction.rawValue)
     }
     
     
@@ -172,5 +176,6 @@ open class Alias: NSObject, Serialisable {
         case dateOfBirth
         case ethnicity
         case title
+        case jurisdiction
     }
 }

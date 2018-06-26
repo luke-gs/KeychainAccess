@@ -97,7 +97,9 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                 let title: StringSizing = {
                     let title: String
                     if let date = alias.dateCreated {
-                        title = String(format: NSLocalizedString("Recorded on %@", bundle: .mpolKit, comment: ""), DateFormatter.preferredDateStyle.string(from: date))
+
+                        let locationString = alias.jurisdiction != nil ? " (\(alias.jurisdiction!))": ""
+                        title =  String(format: NSLocalizedString("Recorded on %@%@", bundle: .mpolKit, comment: ""), DateFormatter.preferredDateStyle.string(from: date), locationString)
                     } else {
                         title = NSLocalizedString("Recorded date unknown", bundle: .mpolKit, comment: "")
                     }
@@ -127,7 +129,9 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                 let detail: StringSizing = {
                     let detail: String
                     if let date = address.reportDate {
-                        detail = String(format: NSLocalizedString("Recorded on %@", bundle: .mpolKit, comment: ""), DateFormatter.preferredDateStyle.string(from: date))
+                        
+                        let locationString = address.jurisdiction != nil ? " (\(address.jurisdiction!))": ""
+                        detail =  String(format: NSLocalizedString("Recorded on %@%@", bundle: .mpolKit, comment: ""), DateFormatter.preferredDateStyle.string(from: date), locationString)
                     } else {
                         detail = NSLocalizedString("Recorded date unknown", bundle: .mpolKit, comment: "")
                     }
@@ -158,7 +162,9 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
                 let detail: StringSizing = {
                     let detail: String
                     if let date = contact.dateCreated {
-                        detail = String(format: NSLocalizedString("Recorded on %@", bundle: .mpolKit, comment: ""), DateFormatter.preferredDateStyle.string(from: Date()))
+                        
+                        let locationString = contact.jurisdiction != nil ? " (\(contact.jurisdiction!))": ""
+                        detail = String(format: NSLocalizedString("Recorded on %@%@", bundle: .mpolKit, comment: ""), DateFormatter.preferredDateStyle.string(from: Date()), locationString)
                     } else {
                         detail = NSLocalizedString("Recorded date unknown", bundle: .mpolKit, comment: "")
                     }

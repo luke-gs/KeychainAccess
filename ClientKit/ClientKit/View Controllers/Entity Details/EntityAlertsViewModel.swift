@@ -184,7 +184,9 @@ open class EntityAlertsViewModel: EntityDetailFilterableFormViewModel {
     
     private func subtitle(for alert: Alert) -> String? {
         if let date = alert.effectiveDate {
-            return NSLocalizedString("Issued on ", bundle: .mpolKit, comment: "") + DateFormatter.preferredDateStyle.string(from: date)
+            
+            let locationString = alert.jurisdiction != nil ? " (\(alert.jurisdiction!))": ""
+            return NSLocalizedString("Issued on ", bundle: .mpolKit, comment: "") + DateFormatter.preferredDateStyle.string(from: date) + locationString
         } else {
             return NSLocalizedString("Issued date unknown", bundle: .mpolKit, comment: "")
         }

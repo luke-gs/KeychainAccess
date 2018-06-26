@@ -41,6 +41,7 @@ open class Contact: NSObject, Serialisable {
     open var type: Contact.ContactType?
     open var subType: String?
     open var value: String?
+    open var jurisdiction: String?
     
     private static let dateTransformer: ISO8601DateTransformer = ISO8601DateTransformer.shared
 
@@ -72,6 +73,7 @@ open class Contact: NSObject, Serialisable {
         type = unboxer.unbox(key: "type")
         subType = unboxer.unbox(key: "contactSubType")
         value = unboxer.unbox(key: "value")
+        jurisdiction = unboxer.unbox(key: "jurisdiction")
         super.init()
     }
     
@@ -99,6 +101,7 @@ open class Contact: NSObject, Serialisable {
 
         subType = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.subType.rawValue) as String?
         value = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.value.rawValue) as String?
+        jurisdiction = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.jurisdiction.rawValue) as String?
     }
     
     open func encode(with aCoder: NSCoder) {
@@ -119,6 +122,7 @@ open class Contact: NSObject, Serialisable {
 
         aCoder.encode(subType, forKey: CodingKey.subType.rawValue)
         aCoder.encode(value, forKey: CodingKey.value.rawValue)
+        aCoder.encode(jurisdiction, forKey: CodingKey.jurisdiction.rawValue)
     }
     
     open static var supportsSecureCoding: Bool {
@@ -147,4 +151,5 @@ private enum CodingKey: String {
     case type
     case subType
     case value
+    case jurisdiction
 }

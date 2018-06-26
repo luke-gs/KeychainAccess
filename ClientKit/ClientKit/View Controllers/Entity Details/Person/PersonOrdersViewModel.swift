@@ -201,10 +201,11 @@ open class PersonOrdersViewModel: EntityDetailFilterableFormViewModel {
         return String.localizedStringWithFormat(NSLocalizedString("%d Order(s)", comment: ""), count)
     }
 
-    private func subtitle(for event: Order) -> String? {
-        // TODO: request start and end date from back end
-        if let startDate = event.issuedDate, let endDate = event.issuedDate {
-            return NSLocalizedString("Active from ", comment: "") + DateFormatter.preferredDateStyle.string(from: startDate) + " - " + DateFormatter.preferredDateStyle.string(from: endDate)
+    private func subtitle(for order: Order) -> String? {
+        if let startDate = order.issuedDate, let endDate = order.expiryDate {
+
+            let locationString = order.jurisdiction != nil ? " (\(order.jurisdiction!))": ""
+            return NSLocalizedString("Active from ", comment: "") + DateFormatter.preferredDateStyle.string(from: startDate) + " - " + DateFormatter.preferredDateStyle.string(from: endDate) + locationString
         } else {
             return NSLocalizedString("Active date range unknown", comment: "")
         }

@@ -59,7 +59,7 @@ public class PersonNATDetailsSectionsDataSource: EntityDetailSectionsDataSource 
                                        EntityDetailFormViewController(viewModel: EntityRetrievedEventsViewModel()),
                                        EntityDetailFormViewController(viewModel: PersonOrdersViewModel()),
                                        EntityDetailFormViewController(viewModel: PersonCriminalHistoryViewModel())
-                                       ]
+                                    ]
     }
 
 }
@@ -84,7 +84,8 @@ public class PersonRDADetailsSectionsDataSource: EntityDetailSectionsDataSource 
         self.detailViewControllers = [ EntityDetailFormViewController(viewModel: PersonInfoViewModel(showingLicenceDetails: true)),
                                        EntityDetailFormViewController(viewModel: EntityAlertsViewModel()),
                                        EntityDetailFormViewController(viewModel: EntityAssociationViewModel(delegate: delegate)),
-                                       EntityDetailFormViewController(viewModel: PersonTrafficHistoryViewModel())]
+                                       EntityDetailFormViewController(viewModel: PersonTrafficHistoryViewModel())
+                                    ]
     }
 
 }

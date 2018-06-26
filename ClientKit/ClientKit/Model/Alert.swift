@@ -55,6 +55,7 @@ open class Alert: NSObject, Serialisable {
     open var source: MPOLSource?
     open var title: String?
     open var details: String?
+    open var jurisdiction: String?
     
     
     // MARK: - Equality
@@ -99,6 +100,7 @@ open class Alert: NSObject, Serialisable {
         source        = unboxer.unbox(key: "source")
         title         = unboxer.unbox(key: "title")
         details       = unboxer.unbox(key: "remarks")
+        jurisdiction  = unboxer.unbox(key: "jurisdiction")
         
         super.init()
     }
@@ -117,6 +119,7 @@ open class Alert: NSObject, Serialisable {
 
         title = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.title.rawValue) as String?
         details = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.details.rawValue) as String?
+        jurisdiction = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.jurisdiction.rawValue) as String?
         effectiveDate = aDecoder.decodeObject(of: NSDate.self, forKey: CodingKey.effectiveDate.rawValue) as Date?
         
         if aDecoder.containsValue(forKey: CodingKey.level.rawValue),
@@ -139,7 +142,7 @@ open class Alert: NSObject, Serialisable {
     open func encode(with aCoder: NSCoder) {
         aCoder.encode(Alert.modelVersion, forKey: CodingKey.version.rawValue)
         aCoder.encode(id, forKey: CodingKey.id.rawValue)
-
+        aCoder.encode(jurisdiction, forKey: CodingKey.jurisdiction.rawValue)
         if let level = level?.rawValue {
             aCoder.encode(level, forKey: CodingKey.level.rawValue)
         }
@@ -182,6 +185,7 @@ private enum CodingKey: String {
     case level
     case title
     case details
+    case jurisdiction
     case effectiveDate
     case dateCreated
     case dateUpdated

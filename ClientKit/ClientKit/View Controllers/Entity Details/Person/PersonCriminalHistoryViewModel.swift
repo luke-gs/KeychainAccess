@@ -209,7 +209,9 @@ public struct OffenderConvictionDisplay: DetailDisplayable, FormItemable {
         } else {
             dateString = NSLocalizedString("Unknown date", comment: "Unknown date")
         }
-        return String(format: NSLocalizedString("Convicted by %@ on %@", comment: ""), courtName, dateString).sizing(withNumberOfLines: 0)
+        
+        let locationString = offenderConviction.jurisdiction != nil ? " (\(offenderConviction.jurisdiction!))": ""
+        return String(format: NSLocalizedString("Convicted by %@ on %@%@", comment: ""), courtName, dateString, locationString).sizing(withNumberOfLines: 0)
     }
 
     public var detail: StringSizing? {
