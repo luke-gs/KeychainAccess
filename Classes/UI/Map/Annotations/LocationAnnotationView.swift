@@ -23,7 +23,7 @@ open class LocationAnnotationView: MKAnnotationView {
         }
     }
 
-    private let detailView = RoundedRectLabel()
+    private let detailView = OutlineLabel()
     private let iconImageView = UIImageView()
     private let backgroundImageView = UIImageView()
     private let innerCircleView = UIView()
