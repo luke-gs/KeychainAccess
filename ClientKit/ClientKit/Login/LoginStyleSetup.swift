@@ -9,14 +9,14 @@ import MPOLKit
 
 public extension LoginViewController {
     public func setupDefaultStyle(with username: String?) {
-        let subtitleContainer = HighlightTextContainerThing(text: "By continuing you are agreeing to the Terms and Conditions of Use previously presented to you.",
-                                                            highlightText: "Terms and Conditions of Use") { vc in
-                                                                print("HELLO!!")
+        let subtitleContainer = HighlightTextModel(text: "By continuing you are agreeing to the Terms and Conditions of Use previously presented to you.",
+                                                   highlightText: "Terms and Conditions of Use") { vc in
+                                                    print("HELLO!!")
         }
 
-        let detailContainer = HighlightTextContainerThing(text: "Forgot Your Password?",
-                                                          highlightText: "Forgot Your Password?") { vc in
-                                                            print("HELLO PASSWORD!!")
+        let detailContainer = HighlightTextModel(text: "Forgot Your Password?",
+                                                 highlightText: "Forgot Your Password?") { vc in
+                                                    print("HELLO PASSWORD!!")
         }
 
         titleLabel.textColor = .white
@@ -73,7 +73,7 @@ public extension LoginContainerViewController {
             label.textAlignment = .right
             return label
         }()
-
+        
         let imageView = UIImageView(image: #imageLiteral(resourceName: "GSMotoLogo"))
         imageView.contentMode = .bottomLeft
 
