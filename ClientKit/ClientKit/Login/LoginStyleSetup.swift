@@ -25,13 +25,13 @@ public extension LoginViewController {
         titleLabel.textAlignment = .center
         titleLabel.text = "Login to Continue"
 
-        subtitleTextView.highlightContainerThing = subtitleContainer
+        subtitleTextView.highlightTextModel = subtitleContainer
         subtitleTextView.textColor = .white
         subtitleTextView.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         subtitleTextView.textAlignment = .center
         subtitleTextView.delegate = self
 
-        detailTextView.highlightContainerThing = detailContainer
+        detailTextView.highlightTextModel = detailContainer
         detailTextView.textColor = .white
         detailTextView.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         detailTextView.textAlignment = .center
@@ -73,7 +73,7 @@ public extension LoginContainerViewController {
             label.textAlignment = .right
             return label
         }()
-        
+
         let imageView = UIImageView(image: #imageLiteral(resourceName: "GSMotoLogo"))
         imageView.contentMode = .bottomLeft
 
