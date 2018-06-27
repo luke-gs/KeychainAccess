@@ -13,7 +13,9 @@ import UIKit
 open class CompactCallsignContainerViewController: UIViewController, PopToRootable {
 
     private var callsignViewController = UIViewController()
-    private var navController: UINavigationController?
+    private var navController: PopoverNavigationController?
+    
+    private weak var statusTabController: StatusTabBarController?
     
     open override var preferredStatusBarStyle: UIStatusBarStyle {
         return UIStatusBarStyle.lightContent
@@ -23,6 +25,7 @@ open class CompactCallsignContainerViewController: UIViewController, PopToRootab
         super.viewDidLoad()
         view.backgroundColor = .white
         NotificationCenter.default.addObserver(self, selector: #selector(updateChildViewControllerIfRequired), name: .CADBookOnChanged, object: nil)
+        self.statusTabController = statusTabBarController
     }
 
     override open func viewWillAppear(_ animated: Bool) {
@@ -30,6 +33,16 @@ open class CompactCallsignContainerViewController: UIViewController, PopToRootab
         updateChildViewControllerIfRequired()
     }
 
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        // If we move to regular, show as a popover
+        if (traitCollection.horizontalSizeClass == .unspecified || traitCollection.horizontalSizeClass == .regular), let navController = self.navController {
+            removeChildViewController(navController)
+            navController.view.translatesAutoresizingMaskIntoConstraints = true
+            navController.modalPresentationStyle = .formSheet
+            navController.lightTransparentBackground = UIColor(white: 1, alpha: 0.5)
+            statusTabController?.present(navController, animated: true, completion: nil)
+        }
+    }
     
     @objc private func updateChildViewControllerIfRequired() {
         let newCallsignViewController: UIViewController
@@ -40,15 +53,18 @@ open class CompactCallsignContainerViewController: UIViewController, PopToRootab
             newCallsignViewController = Director.shared.viewController(forPresentable: BookOnScreen.manageBookOn)
         }
         
-        // Do nothing if new VC is the same type as the old one
-        guard type(of: callsignViewController) != type(of: newCallsignViewController) else { return }
+        // Do nothing if new VC is the same type as the old one, and it is already the child
+        if type(of: callsignViewController) == type(of: newCallsignViewController), let navController = self.navController, childViewControllers.contains(navController) {
+            return
+        }
         
         removeChildViewController(callsignViewController)
         if let navController = self.navController {
             removeChildViewController(navController)
         }
         
-        let navController = UINavigationController(rootViewController: newCallsignViewController)
+        let navController = PopoverNavigationController(rootViewController: newCallsignViewController)
+        navController.wantsTransparentBackground = false
         navController.delegate = self
         
         addChildViewController(navController, toView: view)

@@ -60,7 +60,7 @@ open class StatusTabBarController: UIViewController, UITabBarDelegate {
                 vc.didMove(toParentViewController: self)
             }
             
-            tabBar.items = viewControllers.map { $0.tabBarItem }
+            tabBar.setItems(viewControllers.map({ $0.tabBarItem }), animated: true)
             
             if let selectedViewController = self.selectedViewController {
                 if !viewControllers.contains(selectedViewController) {
