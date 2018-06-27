@@ -312,25 +312,16 @@ final public class LoginViewController: UIViewController {
 
 extension LoginViewController: UITextViewDelegate, UITextFieldDelegate {
 
-    public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
-        if textView == subtitleTextView {
-            subtitleTextView.highlightContainerThing?.action?(self)
-        } else if textView == detailTextView {
-            detailTextView.highlightContainerThing?.action?(self)
-        }
-        return false
-    }
+    // MARK: - UITextViewDelegate
 
     public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        if textView == subtitleTextView {
-            subtitleTextView.highlightContainerThing?.action?(self)
-        } else if textView == detailTextView {
-            detailTextView.highlightContainerThing?.action?(self)
+        if let textView = textView as? HighlightingTextView {
+            textView.highlightTextModel?.action?(self)
         }
         return false
     }
 
-    // MARK: - Text field delegate
+    // MARK: - UITextFieldDelegate
 
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard let validCreds = credentials else { return false }

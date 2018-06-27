@@ -40,9 +40,9 @@ public struct HighlightTextModel {
 public class HighlightingTextView: UITextView {
 
     /// The text highlight container
-    public var highlightContainerThing: HighlightTextModel? {
+    public var highlightTextModel: HighlightTextModel? {
         didSet {
-            guard let highlightContainerThing = highlightContainerThing else { return }
+            guard let highlightContainerThing = highlightTextModel else { return }
 
             let text = NSMutableAttributedString(string: highlightContainerThing.text)
             let range = text.mutableString.range(of: highlightContainerThing.highlightText)
