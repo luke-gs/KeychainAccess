@@ -265,12 +265,10 @@ final public class LoginViewController: UIViewController {
 
     private func areCredentialsValid() -> Bool {
         guard let credentials = credentials else { return false }
-        guard credentials.reduce(true, { (result, cred) -> Bool in
+        return credentials.reduce(true, { (result, cred) -> Bool in
             let isValid = !cred.isRequired ? true : cred.isValid
             return result && isValid
-        }) else { return false }
-
-        return true
+        })
     }
 
     @objc private func biometricButtonTriggered() {
