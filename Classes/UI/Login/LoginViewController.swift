@@ -27,12 +27,12 @@ final public class LoginViewController: UIViewController {
     public let loginButton: UIButton = UIButton()
 
     /// The subtitle text view. Customise to your hearts content.
-    /// Make sure to provide a `HighlightTextContainerThing` to specify the text to highlight and the action
+    /// Make sure to provide a `HighlightTextModel` to specify the text to highlight and the action
     /// to perform when tapped.
     public let subtitleTextView: HighlightingTextView = HighlightingTextView()
 
     /// The detail text view. Customise to your hearts content.
-    /// Make sure to provide a `HighlightTextContainerThing` to specify the text to highlight and the action
+    /// Make sure to provide a `HighlightTextModel` to specify the text to highlight and the action
     /// to perform when tapped.
     public let detailTextView: HighlightingTextView = HighlightingTextView()
 

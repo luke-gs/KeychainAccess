@@ -1,5 +1,5 @@
 //
-//  HighlightingTextContainer.swift
+//  HighlightingTextView.swift
 //  MPOLKit
 //
 //  Copyright © 2018 Gridstone. All rights reserved.
@@ -7,7 +7,7 @@
 
 /// A struct used to wrap the required information
 /// for the `HighlightingTextView`
-public struct HighlightTextContainerThing {
+public struct HighlightTextModel {
 
     /// The text to display
     public var text: String
@@ -40,7 +40,7 @@ public struct HighlightTextContainerThing {
 public class HighlightingTextView: UITextView {
 
     /// The text highlight container
-    public var highlightContainerThing: HighlightTextContainerThing? {
+    public var highlightContainerThing: HighlightTextModel? {
         didSet {
             guard let highlightContainerThing = highlightContainerThing else { return }
 
