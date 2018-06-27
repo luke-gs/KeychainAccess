@@ -274,7 +274,7 @@ final public class LoginViewController: UIViewController {
     }
 
     @objc private func biometricButtonTriggered() {
-        guard let credential = credentials?.first?.name else { return }
+        guard let credential = credentials?.first?.value else { return }
         authenticateWithBiometric(title: "Login to account \"\(credential)\"")
     }
 
