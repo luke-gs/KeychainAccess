@@ -286,7 +286,12 @@ open class TasksListContainerViewController: UIViewController, LoadableViewContr
     }
 
     @objc public func showMapLayerFilter() {
-        present(TaskListScreen.mapFilter(delegate: viewModel.splitViewModel))
+        if var topController = UIApplication.shared.keyWindow?.rootViewController {
+            while let presentedViewController = topController.presentedViewController {
+                topController = presentedViewController
+            }
+            topController.present(TaskListScreen.mapFilter(delegate: viewModel.splitViewModel))
+        }
     }
     
     open func updateNavigationButtons() {
