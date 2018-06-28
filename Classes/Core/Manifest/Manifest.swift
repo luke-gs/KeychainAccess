@@ -287,6 +287,7 @@ public final class Manifest: NSObject {
             managedObjectContext.perform { [weak managedObjectContext] in
                 guard manifestItems.isEmpty ==  false, let context = managedObjectContext else {
                     seal.fulfill(())
+                    self.isSaving = false
                     return
                 }
                 
