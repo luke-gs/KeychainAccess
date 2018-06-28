@@ -9,14 +9,14 @@
 import Foundation
 
 /// View model for a single Activity Log item
-public struct ActivityLogItemViewModel {
+open class ActivityLogItemViewModel {
     public let dotFillColor: UIColor
     public let dotStrokeColor: UIColor
     public let timestamp: Date
     public let title: String?
     public let subtitle: String?
 
-    public init(dotFillColor: UIColor, dotStrokeColor: UIColor, timestamp: Date, title: String?, subtitle: String?) {
+    public init(dotFillColor: UIColor = .clear, dotStrokeColor: UIColor = .clear, timestamp: Date, title: String?, subtitle: String?) {
         self.dotFillColor = dotFillColor
         self.dotStrokeColor = dotStrokeColor
         self.timestamp = timestamp

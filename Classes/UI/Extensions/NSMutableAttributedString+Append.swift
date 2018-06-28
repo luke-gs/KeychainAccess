@@ -38,4 +38,22 @@ extension NSMutableAttributedString {
         self.append(attributedString)
         return self
     }
+    
+    @discardableResult
+    public func setLink(for textToFind: String?, url: URL?) -> NSMutableAttributedString {
+        
+        let range: NSRange
+        
+        if let text = textToFind {
+            range = self.mutableString.range(of: text, options: .caseInsensitive)
+        } else {
+            range = NSMakeRange(0, self.length)
+        }
+        
+        if range.location != NSNotFound {
+            addAttribute(.link, value: url, range: range)
+        }
+        
+        return self
+    }
 }
