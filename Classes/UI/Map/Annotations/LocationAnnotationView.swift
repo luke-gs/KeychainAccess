@@ -13,7 +13,7 @@ open class LocationAnnotationView: MKAnnotationView {
 
     open var borderColor = UIColor(displayP3Red: 0.337, green: 0.337, blue: 0.384, alpha: 1.0) {
         didSet {
-            outerCircleView.backgroundColor = borderColor
+            updatePinUI()
         }
     }
 
@@ -23,7 +23,7 @@ open class LocationAnnotationView: MKAnnotationView {
         }
     }
 
-    private let detailView = RoundedRectLabel()
+    private let detailView = OutlineLabel()
     private let iconImageView = UIImageView()
     private let backgroundImageView = UIImageView()
     private let innerCircleView = UIView()
@@ -38,33 +38,40 @@ open class LocationAnnotationView: MKAnnotationView {
         layer.anchorPoint = CGPoint(x: 0.5, y: 1.0)
 
         let center = CGPoint(x: 24.0, y: 24.5)
+        let outerCircleViewDiameter: CGFloat = 38.0
+        let innerCircleViewDiameter: CGFloat = 35.0
+        let circleViewDiameter: CGFloat = 32.0
 
         backgroundImageView.image = AssetManager.shared.image(forKey: .pinLocation)
+        backgroundImageView.tintAdjustmentMode = .normal
         backgroundImageView.frame = bounds
+        backgroundImageView.layer.shadowColor = UIColor.black.cgColor
+        backgroundImageView.layer.shadowOpacity = 0.1
+        backgroundImageView.layer.shadowOffset = CGSize(width: 0.0, height: 5)
 
-        outerCircleView.frame = CGRect(x: 0.0, y: 0.0, width: 36.0, height: 36.0)
+        outerCircleView.frame = CGRect(x: 0.0, y: 0.0, width: outerCircleViewDiameter, height: outerCircleViewDiameter)
         outerCircleView.center = center
 
         let outerCircleLayer = outerCircleView.layer
-        outerCircleLayer.cornerRadius = 18.0
+        outerCircleLayer.cornerRadius = outerCircleViewDiameter * 0.5
         outerCircleLayer.masksToBounds = true
 
-        circleView.frame = CGRect(x: 0.0, y: 0.0, width: 32.0, height: 32.0)
+        circleView.frame = CGRect(x: 0.0, y: 0.0, width: circleViewDiameter, height: circleViewDiameter)
         circleView.center = center
 
         let circleLayer = circleView.layer
-        circleLayer.cornerRadius = 16.0
+        circleLayer.cornerRadius = circleViewDiameter * 0.5
         circleLayer.masksToBounds = true
 
-        innerCircleView.frame = CGRect(x: 0.0, y: 0.0, width: 28.0, height: 28.0)
+        innerCircleView.frame = CGRect(x: 0.0, y: 0.0, width: innerCircleViewDiameter, height: innerCircleViewDiameter)
         innerCircleView.center = center
 
         let innerCircleLayer = innerCircleView.layer
-        innerCircleLayer.cornerRadius = 14.0
+        innerCircleLayer.cornerRadius = innerCircleViewDiameter * 0.5
         innerCircleLayer.masksToBounds = true
 
-        iconImageView.image = AssetManager.shared.image(forKey: .location)
-        iconImageView.frame = CGRect(x: 0.0, y: 0.0, width: 16.0, height: 16.0)
+        iconImageView.image = AssetManager.shared.image(forKey: .eventLocation)
+        iconImageView.frame = CGRect(x: 0.0, y: 0.0, width: 24.0, height: 24.0)
         iconImageView.center = center
         iconImageView.contentMode = .scaleAspectFit
 
@@ -101,7 +108,9 @@ open class LocationAnnotationView: MKAnnotationView {
                 transform = transform.scaledBy(x: 1.2, y: 1.2)
             }
             self.transform = transform
+            self.iconImageView.transform = transform.inverted()
             self.detailView.alpha = selected ? 1.0 : 0.0
+            self.updatePinUI()
         })
     }
 
@@ -110,7 +119,25 @@ open class LocationAnnotationView: MKAnnotationView {
 
         let size = detailView.sizeThatFits(CGSize(width: UILayoutFittingCompressedSize.width, height: 20.0))
         detailView.frame.size = CGSize(width: min(size.width, 200.0), height: 20.0)
-        detailView.center = CGPoint(x: bounds.width * 0.5, y: -12.0)
+        detailView.center = CGPoint(x: bounds.width * 0.5, y: bounds.maxY + 12)
+    }
+    
+    private func updatePinUI() {
+        if isSelected {
+            backgroundImageView.tintColor   = .white
+            backgroundImageView.image       = AssetManager.shared.image(forKey: .pinLocation)
+            outerCircleView.backgroundColor = borderColor
+            circleView.backgroundColor      = .white
+            innerCircleView.backgroundColor = UIColor(displayP3Red: 0.843, green: 0.843, blue: 0.850, alpha: 1.0)
+            iconImageView.tintColor         = borderColor
+        } else {
+            backgroundImageView.tintColor   = borderColor
+            backgroundImageView.image       = AssetManager.shared.image(forKey: .pinDefault)
+            outerCircleView.backgroundColor = .clear
+            innerCircleView.backgroundColor = borderColor
+            circleView.backgroundColor      = borderColor
+            iconImageView.tintColor         = .black
+        }
     }
 
 }

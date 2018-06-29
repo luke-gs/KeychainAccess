@@ -242,8 +242,10 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
 
     // MARK: - Subclass can override these methods
 
-    open func headerItemForSection(_ section: SearchResultSection) -> HeaderFormItem {
-        return HeaderFormItem(text: section.title)
+    open func headerItemForSection(_ section: SearchResultSection) -> LargeTextHeaderFormItem {
+        let string = StringSizing(string: section.title, numberOfLines: 2)
+        return LargeTextHeaderFormItem(text: string)
+            .separatorColor(.clear)
     }
 
     open func summaryItemsForSection(_ section: SearchResultSection) -> [FormItem] {
@@ -257,7 +259,9 @@ open class MapSummarySearchResultViewModel<T: MPOLKitEntity>: MapResultViewModel
             guard let summary = summaryDisplayFormatter.summaryDisplayForEntity(entity) as? EntityMapSummaryDisplayable else { return nil }
 
             let summaryItem = summary.summaryListFormItem()
+                .selectionStyle(.tableView)
                 .accessory(nil)
+                .separatorStyle(.indented)
                 .subtitle(NSLocalizedString("Unknown", comment: ""))
                 .onSelection { [weak self] _ in
                     guard let `self` = self, let presentable = self.summaryDisplayFormatter.presentableForEntity(entity) else { return }

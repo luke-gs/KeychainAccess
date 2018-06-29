@@ -94,6 +94,7 @@ public class EntityThumbnailView: UIControl {
         addSubview(backgroundImageView)
         
         imageView.frame = backgroundImageView.bounds
+        imageView.tintAdjustmentMode = .normal
         imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         backgroundImageView.addSubview(imageView)
         
