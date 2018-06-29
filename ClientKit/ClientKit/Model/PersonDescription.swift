@@ -36,6 +36,8 @@ open class PersonDescription: NSObject, Serialisable {
     
     open var imageThumbnail: Media?
     open var image: Media?
+
+    open var jurisdiction: String?
     
     open static var supportsSecureCoding: Bool { return true }
     open static var modelVersion: Int { return 0 }
@@ -66,6 +68,8 @@ open class PersonDescription: NSObject, Serialisable {
         remarks = unboxer.unbox(key: "remarks")
         imageThumbnail = unboxer.unbox(key: "imageThumbnail")
         image = unboxer.unbox(key: "image")
+
+        jurisdiction = unboxer.unbox(key: "jurisdiction")
         
         super.init()
     }
@@ -108,6 +112,8 @@ open class PersonDescription: NSObject, Serialisable {
 
         imageThumbnail = aDecoder.decodeObject(of: Media.self, forKey: CodingKey.imageThumbnail.rawValue)
         image = aDecoder.decodeObject(of: Media.self, forKey: CodingKey.image.rawValue)
+
+        jurisdiction = aDecoder.decodeObject(of: NSString.self, forKey: CodingKey.jurisdiction.rawValue) as String?
     }
     
     open func encode(with aCoder: NSCoder) {
@@ -138,6 +144,8 @@ open class PersonDescription: NSObject, Serialisable {
 
         aCoder.encode(imageThumbnail, forKey: CodingKey.imageThumbnail.rawValue)
         aCoder.encode(image, forKey: CodingKey.image.rawValue)
+
+        aCoder.encode(jurisdiction, forKey: CodingKey.jurisdiction.rawValue)
     }
     
     public func formatted() -> String? {
@@ -182,8 +190,8 @@ open class PersonDescription: NSObject, Serialisable {
         if formattedComponents.isEmpty {
             return nil
         }
-
-        return formattedComponents.joined(separator: ", ")
+        let locationString = jurisdiction != nil ? " (\(jurisdiction!))" : ""
+        return formattedComponents.joined(separator: ", ") + locationString
     }
 
     private enum CodingKey: String {
@@ -210,6 +218,7 @@ open class PersonDescription: NSObject, Serialisable {
         case remarks
         case imageThumbnail
         case image
+        case jurisdiction
     }
 
 }
