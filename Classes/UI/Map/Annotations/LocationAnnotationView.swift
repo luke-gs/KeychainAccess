@@ -43,6 +43,7 @@ open class LocationAnnotationView: MKAnnotationView {
         let circleViewDiameter: CGFloat = 32.0
 
         backgroundImageView.image = AssetManager.shared.image(forKey: .pinLocation)
+        backgroundImageView.tintAdjustmentMode = .normal
         backgroundImageView.frame = bounds
         backgroundImageView.layer.shadowColor = UIColor.black.cgColor
         backgroundImageView.layer.shadowOpacity = 0.1
