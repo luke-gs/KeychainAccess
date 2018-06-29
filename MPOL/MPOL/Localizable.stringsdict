@@ -160,7 +160,7 @@
 			<string>%1$d RESULTS</string>
 		</dict>
 	</dict>
-	<key>%1$d Result(s) in %2$@</key>
+	<key>%1$d Result(s) from %2$@</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
 		<string>%#@results@</string>
@@ -171,9 +171,9 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>d</string>
 			<key>one</key>
-			<string>%1$d RESULT IN %2$@</string>
+			<string>%1$d Result from: %2$@</string>
 			<key>other</key>
-			<string>%1$d RESULTS IN %2$@</string>
+			<string>%1$d Results from: %2$@</string>
 		</dict>
 	</dict>
 	<key>%d Event(s)</key>

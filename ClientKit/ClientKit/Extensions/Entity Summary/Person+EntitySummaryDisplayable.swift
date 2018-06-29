@@ -30,7 +30,7 @@ public struct PersonSummaryDisplayable: EntitySummaryDisplayable {
     }
     
     public var detail2: String? {
-        return formattedSuburbStatePostcode()
+        return formattedAddress()
     }
     
     public var borderColor: UIColor? {
@@ -104,14 +104,22 @@ public struct PersonSummaryDisplayable: EntitySummaryDisplayable {
         }
     }
     
-    private func formattedSuburbStatePostcode() -> String? {
+    private func formattedAddress() -> String? {
         let address = person.addresses?.first
         
         if let address = address {
-            
-            let components = [address.county, address.suburb, address.state, address.postcode].compactMap { $0 }
-            if components.isEmpty == false {
-                return components.joined(separator: ", ")
+            var street: String?
+            var area: String?
+            let streetComponents = [address.streetNumberFirst, address.streetName, address.streetType]
+            if !streetComponents.isEmpty {
+                street = streetComponents.joined(separator: " ")
+            }
+            let areaComponents = [address.county, address.suburb, address.state?.uppercased(), address.postcode].compactMap { $0 }
+            if !areaComponents.isEmpty {
+                area = areaComponents.joined(separator: " ")
+            }
+            if let street = street, let area = area {
+                return street + ", " + area
             }
         }
         

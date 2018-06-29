@@ -238,6 +238,7 @@ class VehicleSearchDataSource: NSObject, SearchDataSource, UITextFieldDelegate {
                 let rdaRequest = VehicleSearchRequest(source: .rda, request: searchParameters)
 
                 let resultModel = EntitySummarySearchResultViewModel<Vehicle>(title: searchTerm, aggregatedSearch: AggregatedSearch(requests: [request, rdaRequest]))
+                resultModel.limitBehaviour = EntitySummarySearchResultViewModel.ResultLimitBehaviour.minimum(counts: [SearchResultStyle.grid: 4, SearchResultStyle.list: 3])
                 resultModel.additionalBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAddButtonTapped(_:)))]
                 completion(resultModel, nil)
             }
