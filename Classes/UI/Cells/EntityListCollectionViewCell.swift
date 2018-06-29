@@ -17,7 +17,7 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
     public let thumbnailView: EntityThumbnailView = EntityThumbnailView(frame: .zero)
     
     public let sourceLabel: RoundedRectLabel = RoundedRectLabel(frame: .zero)
-    
+
     public let titleLabel: UILabel = UILabel(frame: .zero)
     
     public let subtitleLabel: UILabel = UILabel(frame: .zero)
@@ -59,13 +59,15 @@ open class EntityListCollectionViewCell: CollectionViewFormCell {
         super.commonInit()
         
         accessibilityTraits |= UIAccessibilityTraitStaticText
-        
+
         let contentView       = self.contentView
         let borderedImageView = self.thumbnailView
         let sourceLabel       = self.sourceLabel
         let titleLabel        = self.titleLabel
         let subtitleLabel     = self.subtitleLabel
         let detailLabel       = self.detailLabel
+
+        sourceLabel.layoutMargins = UIEdgeInsets(top: 2.0 + (1.0 / UIScreen.main.scale), left: 6.0, bottom: 2.0, right: 6.0)
 
         badgeView.translatesAutoresizingMaskIntoConstraints         = false
         borderedImageView.translatesAutoresizingMaskIntoConstraints = false

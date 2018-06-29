@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "iconSystemAdd.png",
+      "filename" : "iconNavBarThumbnailSelected.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "iconSystemAdd@2x.png",
+      "filename" : "iconNavBarThumbnailSelected@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "iconSystemAdd@3x.png",
+      "filename" : "iconNavBarThumbnailSelected@3x.png",
       "scale" : "3x"
     }
   ],

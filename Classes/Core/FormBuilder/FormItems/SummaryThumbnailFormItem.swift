@@ -53,8 +53,8 @@ public class SummaryThumbnailFormItem: BaseFormItem {
 
         cell.style = style
         cell.sourceLabel.text = category
-        cell.titleLabel.apply(sizable: title, defaultFont: defaultTitleFont(for: cell.traitCollection), defaultNumberOfLines: 1)
-        cell.subtitleLabel.apply(sizable: subtitle, defaultFont: defaultSubtitleFont(for: cell.traitCollection), defaultNumberOfLines: 1)
+        cell.titleLabel.apply(sizable: title, defaultFont: defaultTitleFont(for: cell.traitCollection).withSize(20), defaultNumberOfLines: 1)
+        cell.subtitleLabel.apply(sizable: subtitle, defaultFont: defaultSubtitleFont(for: cell.traitCollection).withSize(15), defaultNumberOfLines: 1)
         cell.detailLabel.apply(sizable: detail, defaultFont: defaultDetailFont(for: cell.traitCollection), defaultNumberOfLines: 2)
         cell.borderColor = badgeColor
         cell.badgeCount = badge
@@ -89,7 +89,7 @@ public class SummaryThumbnailFormItem: BaseFormItem {
 
     public override func apply(theme: Theme, toCell cell: CollectionViewFormCell) {
         let primaryTextColor = titleTextColor ?? theme.color(forKey: .primaryText)
-        let secondaryTextColor = subtitleTextColor ?? theme.color(forKey: .secondaryText)
+        let secondaryTextColor = subtitleTextColor ?? theme.color(forKey: style == .detail ? .primaryText : .secondaryText)
         let tertiaryTextColor = detailTextColor ?? theme.color(forKey: .secondaryText)
 
         let cell = cell as! EntityCollectionViewCell

@@ -34,7 +34,7 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
         didSet {
             if wantsThumbnails == oldValue { return }
 
-            listStateItem.image = AssetManager.shared.image(forKey: wantsThumbnails ? .list : .thumbnail)
+            listStateItem.image = AssetManager.shared.image(forKey: wantsThumbnails ? .navBarThumbnailSelected : .navBarThumbnail)
 
             viewModel?.style = wantsThumbnails ? .grid : .list
 
@@ -44,7 +44,7 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
         }
     }
 
-    private let listStateItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .list), style: .plain, target: nil, action: nil)
+    private let listStateItem = UIBarButtonItem(image: AssetManager.shared.image(forKey: .navBarThumbnailSelected), style: .plain, target: nil, action: nil)
 
     private var searchFieldButton: SearchFieldButton?
 
@@ -171,7 +171,7 @@ public class SearchResultsListViewController: FormBuilderViewController, SearchR
         let isCompact = traitCollection.horizontalSizeClass == .compact
         if var buttons = viewModel?.additionalBarButtonItems {
             if !isCompact {
-                buttons.insert(listStateItem, at: 0)
+                buttons.insert(listStateItem, at: 1)
             }
             navigationItem.rightBarButtonItems = buttons
         } else if !isCompact {

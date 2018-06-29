@@ -74,7 +74,7 @@ extension EntitySummaryDisplayable {
     /// - Parameter isCompact: Indicates the style of the form item.
     /// - Returns: A BaseFormItem
     public func summaryFormItem(isCompact: Bool) -> BaseFormItem {
-        return isCompact ? summaryListFormItem() : summaryThumbnailFormItem(with: .hero)
+        return isCompact ? summaryListFormItem() : summaryThumbnailFormItem(with: .detail)
     }
 
 
@@ -85,6 +85,7 @@ extension EntitySummaryDisplayable {
     public func summaryThumbnailFormItem(with style: EntityCollectionViewCell.Style) -> SummaryThumbnailFormItem {
         return SummaryThumbnailFormItem()
             .style(style)
+            .width(.column(2))
             .category(category)
             .title(title?.sizing(withNumberOfLines: style == .hero ? 0 : 1))
             .subtitle(detail1?.sizing(withNumberOfLines: style == .hero ? 0 : 1))

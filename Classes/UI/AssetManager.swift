@@ -144,8 +144,11 @@ extension AssetManager {
         public static let nightMode      = ImageKey("iconSystemNightMode")
         public static let keyboard       = ImageKey("iconSystemKeyboard")
 
-        public static let faceId         = ImageKey("iconBiometricFaceId")
-        public static let touchId        = ImageKey("iconBiometricTouchId")
+        public static let faceId  = ImageKey("iconBiometricFaceId")
+        public static let touchId = ImageKey("iconBiometricTouchId")
+
+        public static let navBarThumbnail         = ImageKey("iconNavBarThumbnail")
+        public static let navBarThumbnailSelected = ImageKey("iconNavBarThumbnailSelected")
 
         // Media
         public static let play           = ImageKey("iconMediaPlay")

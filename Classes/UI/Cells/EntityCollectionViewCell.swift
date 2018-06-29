@@ -52,7 +52,7 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
     open class func minimumContentWidth(forStyle style: Style) -> CGFloat {
         switch style {
         case .hero:      return 182.0
-        case .detail:    return 250.0
+        case .detail:    return 288.0
         case .thumbnail: return 96.0
         }
     }
@@ -117,7 +117,7 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
         case .hero:
             return 173.0 + textHeight
         case .detail:
-            return max(96.0, textHeight)
+            return max(128.0, textHeight)
         case .thumbnail:
             return 96.0
         }
@@ -168,7 +168,6 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
     /// indicates the data source the entity was fetched from.
     public let sourceLabel = RoundedRectLabel(frame: .zero)
     
-    
     /// The badge count for the entity.
     ///
     /// This configures a badge in the top left corner.
@@ -213,7 +212,7 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
         super.commonInit()
         
         separatorStyle = .none
-        
+
         let contentView    = self.contentView
         let thumbnailView  = self.thumbnailView
         let titleLabel     = self.titleLabel
@@ -222,6 +221,8 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
         let badgeView      = self.badgeView
         let sourceLabel    = self.sourceLabel
         let textLabelGuide = self.textLabelGuide
+
+        sourceLabel.layoutMargins = UIEdgeInsets(top: 2.0 + (1.0 / UIScreen.main.scale), left: 6.0, bottom: 2.0, right: 6.0)
         
         thumbnailView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints    = false
@@ -260,9 +261,9 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
             NSLayoutConstraint(item: badgeView, attribute: .centerX, relatedBy: .equal, toItem: thumbnailView, attribute: .trailing, constant: -2.0),
             NSLayoutConstraint(item: badgeView, attribute: .centerY, relatedBy: .equal, toItem: thumbnailView, attribute: .top,      constant: 2.0),
             
-            NSLayoutConstraint(item: sourceLabel, attribute: .leading,  relatedBy: .equal,           toItem: thumbnailView, attribute: .leading,  constant: 6.0),
-            NSLayoutConstraint(item: sourceLabel, attribute: .bottom,   relatedBy: .equal,           toItem: thumbnailView, attribute: .bottom,   constant: -6.0),
-            NSLayoutConstraint(item: sourceLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: thumbnailView, attribute: .trailing, constant: -6.0),
+            NSLayoutConstraint(item: sourceLabel, attribute: .leading,  relatedBy: .equal,           toItem: thumbnailView, attribute: .leading,  constant: 10.0),
+            NSLayoutConstraint(item: sourceLabel, attribute: .bottom,   relatedBy: .equal,           toItem: thumbnailView, attribute: .bottom,   constant: -10.0),
+            NSLayoutConstraint(item: sourceLabel, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: thumbnailView, attribute: .trailing, constant: -10.0),
             
             NSLayoutConstraint(item: titleLabel,    attribute: .leading,  relatedBy: .equal,           toItem: textLabelGuide, attribute: .leading),
             NSLayoutConstraint(item: subtitleLabel, attribute: .leading,  relatedBy: .equal,           toItem: textLabelGuide, attribute: .leading),
@@ -319,15 +320,15 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
                 ]
             case .detail:
                 styleConstraints = [
-                    NSLayoutConstraint(item: thumbnailView, attribute: .width,   relatedBy: .equal, toConstant: 96.0),
-                    NSLayoutConstraint(item: thumbnailView, attribute: .height,  relatedBy: .equal, toConstant: 96.0),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .width,   relatedBy: .equal, toConstant: 128.0),
+                    NSLayoutConstraint(item: thumbnailView, attribute: .height,  relatedBy: .equal, toConstant: 128.0),
                     NSLayoutConstraint(item: thumbnailView, attribute: .leading, relatedBy: .equal, toItem: contentModeGuide, attribute: .leading),
                     NSLayoutConstraint(item: thumbnailView, attribute: .centerY, relatedBy: .equal, toItem: contentModeGuide, attribute: .centerY, priority: .almostRequired),
                     NSLayoutConstraint(item: thumbnailView, attribute: .top,     relatedBy: .greaterThanOrEqual, toItem: contentModeGuide, attribute: .top),
-                    
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .leading,  relatedBy: .equal, toItem: thumbnailView, attribute: .trailing, constant: 10.0),
-                    NSLayoutConstraint(item: textLabelGuide, attribute: .top,      relatedBy: .equal, toItem: thumbnailView, attribute: .top, constant: 10.0),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .leading,  relatedBy: .equal, toItem: thumbnailView, attribute: .trailing, constant: 16.0),
+                    NSLayoutConstraint(item: textLabelGuide, attribute: .centerY, relatedBy: .equal, toItem: thumbnailView, attribute: .centerY),
                     NSLayoutConstraint(item: textLabelGuide, attribute: .trailing, relatedBy: .lessThanOrEqual,    toItem: contentModeGuide, attribute: .trailing),
+                    NSLayoutConstraint(item: detailLabel, attribute: .width, relatedBy: .equal, toConstant: 170)
                 ]
             case .thumbnail:
                 styleConstraints = [
@@ -368,8 +369,8 @@ open class EntityCollectionViewCell: CollectionViewFormCell {
                 let hasNoSubtitle = subtitleLabel.text?.isEmpty ?? true
                 let hasNoDetail   = detailLabel.text?.isEmpty   ?? true
                 
-                titleToSubtitleConstraint.constant  = hasNoSubtitle && hasNoDetail ? 0.0 : 2.0
-                subtitleToDetailConstraint.constant = hasNoDetail || hasNoSubtitle ? 0.0 : 2.0
+                titleToSubtitleConstraint.constant  = hasNoSubtitle && hasNoDetail ? 0.0 : 6.0
+                subtitleToDetailConstraint.constant = hasNoDetail || hasNoSubtitle ? 0.0 : 10.0
                 
                 subtitleLabel.isHidden = hasNoSubtitle
                 detailLabel.isHidden   = hasNoDetail

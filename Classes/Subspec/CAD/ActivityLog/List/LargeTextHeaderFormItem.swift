@@ -14,6 +14,7 @@ open class LargeTextHeaderFormItem: BaseSupplementaryFormItem {
     public var layoutMargins: UIEdgeInsets? = UIEdgeInsets(top: 12, left: 24, bottom: 12, right: 24)
     public var separatorColor: UIColor?
     public var actionButton: UIButton?
+    //public var isExpanded: Bool = true
     private var actionButtonHandler: ((UIButton) -> Void)?
     public var sectionIsRequired: Bool = false
 
@@ -115,6 +116,12 @@ extension LargeTextHeaderFormItem {
         button.contentEdgeInsets = UIEdgeInsetsMake(16, 16, 16, 16)
         button.addTarget(self, action: #selector(actionButtonTapped(button:)), for: .touchUpInside)
         self.actionButton = button
+        self.actionButtonHandler = handler
+        return self
+    }
+
+    @discardableResult
+    public func actionButtonHandler(_ handler: @escaping ((UIButton) -> Void)) -> Self {
         self.actionButtonHandler = handler
         return self
     }

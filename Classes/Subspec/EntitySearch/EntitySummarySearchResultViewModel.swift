@@ -18,25 +18,49 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
     /// - always:   Limit the results and always show button.
     public enum ResultLimitBehaviour {
         case never
-        case minimum(count: Int)
+        case minimum(counts: [SearchResultStyle: Int])
         case always(count: Int)
         
-        public func shouldShowButton(for entityCount: Int) -> Bool {
+        public func shouldShowButton(for entityCount: Int, with style: SearchResultStyle) -> Bool {
             switch self {
             case .never:
                 return false
-            case .minimum(let count):
-                return entityCount > count
+            case .minimum(let counts):
+                switch style {
+                case .grid:
+                    if let count = counts[.grid] {
+                        return entityCount > count
+                    }
+                    return false
+                case .list:
+                    if let count = counts[.list] {
+                        return entityCount > count
+                    }
+                    return false
+                }
             case .always(_):
                 return true
             }
         }
         
-        public var initialCount: Int {
+        public func initialCount(for style: SearchResultStyle) -> Int {
             switch self {
             case .never:
                 return 0
-            case .minimum(let count), .always(let count):
+            case .minimum(let counts):
+                switch style {
+                case .grid:
+                    if let count = counts[.grid] {
+                        return count
+                    }
+                    return 0
+                case .list:
+                    if let count = counts[.list] {
+                        return count
+                    }
+                    return 0
+                }
+            case .always(let count):
                 return count
             }
         }
@@ -100,56 +124,48 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
 
     // MARK: - Subclass can override these methods
 
-    open func headerItemForSection(_ section: SearchResultSection) -> HeaderFormItem {
-        let header = HeaderFormItem(text: section.title, style: .collapsible)
-            .isExpanded(section.isExpanded)
-        
-        let updateExpanded = { [weak self, weak header] in
-            guard let `self` = self, let header = header else { return }
+    open func headerItemForSection(_ section: SearchResultSection) -> LargeTextHeaderFormItem {
+        let header = LargeTextHeaderFormItem(text: section.title, separatorColor: .clear)
+
+        let updateExpanded = { [weak self] in
+            guard let `self` = self else { return }
 
             if let index = self.results.index(of: section) {
-                self.results[index].isExpanded = header.isExpanded
+                self.results[index].isExpanded = section.isExpanded
             }
         }
 
-        if section.state == .finished && !section.entities.isEmpty && limitBehaviour.shouldShowButton(for: section.entities.count) {
+        if section.state == .finished && !section.entities.isEmpty && limitBehaviour.shouldShowButton(for: section.entities.count, with: style) {
             let updateHeader = { [weak header, weak self] in
                 guard let `self` = self, let header = header else { return }
 
-                if header.isExpanded {
-                    let buttonTitle = self.fullResultSectionsShown.contains(section) ? NSLocalizedString("SHOW LESS", comment: "[Search result screen] - Show less results") : NSLocalizedString("SHOW ALL", comment: "[Search result screen] - Show all results")
-                    header.actionButton(title: buttonTitle, handler: { (button) in
-                        if let index = self.fullResultSectionsShown.index(of: section) {
-                            self.fullResultSectionsShown.remove(at: index)
-                        } else {
-                            self.fullResultSectionsShown.append(section)
-                        }
-                        self.delegate?.searchResultViewModelDidUpdateResults(self)
-                    })
-                } else {
-                    header.actionButton = nil
-                }
+
+                let buttonTitle = self.fullResultSectionsShown.contains(section) ? NSLocalizedString("See Less", comment: "[Search result screen] - Show less results") : NSLocalizedString("See All", comment: "[Search result screen] - Show all results")
+                header.actionButton(title: buttonTitle, handler: { (button) in
+                    if let index = self.fullResultSectionsShown.index(of: section) {
+                        self.fullResultSectionsShown.remove(at: index)
+                    } else {
+                        self.fullResultSectionsShown.append(section)
+                    }
+                    self.delegate?.searchResultViewModelDidUpdateResults(self)
+                })
 
                 header.reloadItem()
             }
 
-            header.tapHandler = {
+            header.actionButtonHandler { (button) in
                 updateExpanded()
                 updateHeader()
             }
 
             updateHeader()
-        } else {
-            header.tapHandler = {
-                updateExpanded()
-            }
         }
 
         return header
     }
 
     open func summaryItemsForSection(_ section: SearchResultSection) -> [FormItem] {
-        let count = limitBehaviour.initialCount
+        let count = limitBehaviour.initialCount(for: style)
         let entities = count > 0 && !fullResultSectionsShown.contains(section) ? Array(section.entities.prefix(count)) : section.entities
 
         return entities.compactMap { entity in
@@ -248,19 +264,13 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
         let previousResults = self.results
         let processedResults: [SearchResultSection] = rawResults.enumerated().map { (index, rawResult) -> SearchResultSection in
             let entities = summarySearchResultsHandler(rawResult.entities)
-            return SearchResultSection(title: titleForResult(rawResult),
-                                       entities: entities,
-                                       isExpanded: {
-                                           if let previous = previousResults[ifExists: index] {
-                                               return rawResult.state != previous.state || previous.isExpanded
-                                           }
-                                           return true
-                                       }(),
-                                       state: rawResult.state,
-                                       error: rawResult.error,
-                                       source: rawResult.request.source)
+            return SearchResultSection(title: titleForResult(rawResult), entities: entities, isExpanded: {
+                if let previous = previousResults[ifExists: index] {
+                        return rawResult.state != previous.state || previous.isExpanded
+                    }
+                return true
+            }(), state: rawResult.state, error: rawResult.error, source: rawResult.request.source)
         }
-        
         return processedResults
     }
 
@@ -286,13 +296,13 @@ open class EntitySummarySearchResultViewModel<T: MPOLKitEntity>: NSObject, Searc
     public func titleForResult(_ result: AggregatedResult<T>) -> String {
         switch result.state {
         case .idle:
-            return String.localizedStringWithFormat(NSLocalizedString("%2$@", comment: ""), result.request.source.localizedBadgeTitle.uppercased(with: .current))
+            return String.localizedStringWithFormat(NSLocalizedString("%2$@", comment: ""), result.request.source.localizedBadgeTitle.capitalized(with: .current))
         case .searching:
-            return String.localizedStringWithFormat(NSLocalizedString("SEARCHING %2$@", comment: ""), result.request.source.localizedBadgeTitle.uppercased(with: .current))
+            return String.localizedStringWithFormat(NSLocalizedString("Searching %2$@", comment: ""), result.request.source.localizedBadgeTitle.capitalized(with: .current))
         case .failed:
-            return String.localizedStringWithFormat(NSLocalizedString("%2$@", comment: ""), result.request.source.localizedBadgeTitle.uppercased(with: .current))
+            return String.localizedStringWithFormat(NSLocalizedString("%2$@", comment: ""), result.request.source.localizedBadgeTitle.capitalized(with: .current))
         case .finished:
-            return String.localizedStringWithFormat(NSLocalizedString("%1$d Result(s) in %2$@", comment: ""), result.entities.count, result.request.source.localizedBadgeTitle.uppercased(with: .current))
+            return String.localizedStringWithFormat(NSLocalizedString("%1$d Result(s) from %2$@", comment: ""), result.entities.count, result.request.source.localizedBadgeTitle.capitalized(with: .current))
         }
     }
 }

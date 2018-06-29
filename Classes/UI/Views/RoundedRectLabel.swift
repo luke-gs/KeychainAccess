@@ -68,8 +68,8 @@ open class RoundedRectLabel : UILabel {
         textColor       = .white
         textAlignment   = .center
         isOpaque        = false
-        backgroundColor =  UIColor(white: 0.3, alpha: 0.9)
-        
+        backgroundColor = UIColor(white: 0.3, alpha: 0.9)
+
         // Visually this appears slightly different on devices depending on scale. We vary the numbers depending on the screen scale.
         layoutMargins = RoundedRectLabel.defaultLayoutMargins
     }
