@@ -13,7 +13,7 @@ public class TableViewStyle: CellSelectionAnimatable {
         if ThemeManager.shared.currentInterfaceStyle.isDark {
             cell.backgroundColor = focused ? .sidebarGray : .clear
         } else {
-            cell.backgroundColor = focused ? #colorLiteral(red: 0.9150436521, green: 0.9147670865, blue: 0.9054462314, alpha: 1) : .clear
+            cell.backgroundColor = focused ? .selectedGray : .clear
         }
 
         let validationColor: UIColor? = cell.requiresValidation ? cell.validationColor : nil
