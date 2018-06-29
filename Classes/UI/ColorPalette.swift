@@ -44,7 +44,7 @@ extension UIColor {
 
     public static var primaryGray       = ColorPalette.shared.primaryGray
     public static var secondaryGray     = ColorPalette.shared.secondaryGray
-    public static var selectedGray      = ColorPalette.shared.secondaryGray
+    public static var selectedGray      = ColorPalette.shared.selectedGray
     public static var disabledGray      = ColorPalette.shared.disabledGray
     public static var sidebarBlack      = ColorPalette.shared.sidebarBlack
     public static var sidebarGray       = ColorPalette.shared.sidebarGray
