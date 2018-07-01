@@ -1,12 +1,13 @@
 //
 //  APIManager+CAD.swift
-//  Alamofire
+//  MPOLKit
 //
 //  Created by Trent Fitzgibbon on 30/4/18.
 //
 
 import Foundation
 import PromiseKit
+import Alamofire
 
 /// Extension for APIManager for CAD specific network requests
 extension APIManager: CADAPIManagerType {
@@ -24,6 +25,8 @@ extension APIManager: CADAPIManagerType {
     /// Sync all summary details for a patrol group or bounding box
     open func cadSyncSummaries<ResponseType: CADSyncResponseType>(with request: CADSyncRequestType, pathTemplate: String?) -> Promise<ResponseType> {
 
+        var encoding: ParameterEncoding = JSONEncoding.default
+        
         // Use explicit path or construct based on type of sync
         var pathTemplate = pathTemplate
         if pathTemplate == nil {
@@ -31,9 +34,10 @@ extension APIManager: CADAPIManagerType {
                 pathTemplate = "cad/sync/patrolgroup/{patrolGroup}"
             } else {
                 pathTemplate = "cad/sync/boundingbox"
+                encoding =  URLEncoding.queryString
             }
         }
-        return performRequest(request, pathTemplate: pathTemplate!, method: .get)
+        return performRequest(request, pathTemplate: pathTemplate!, method: .get, parameterEncoding: encoding)
     }
 
     /// Fetch details about an employee
