@@ -163,6 +163,8 @@ final public class LoginViewController: UIViewController {
             biometricButton.isHidden = true
             biometricHeightConstraint.isActive = true
         }
+
+        scrollView.showsVerticalScrollIndicator = false
     }
 
     private func setupViews() {
@@ -195,13 +197,13 @@ final public class LoginViewController: UIViewController {
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            contentView.heightAnchor.constraint(lessThanOrEqualTo: view.heightAnchor),
+            contentView.bottomAnchor.constraint(lessThanOrEqualTo: scrollView.bottomAnchor),
+
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ]
 
         constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[tl]-[stv]-13-[csv]-24-[bb]-32-[lb(48)]-24-[dtv]|",
-                                                         options: [.alignAllLeading, .alignAllTrailing],
+                                                         options: [.alignAllLeading, .alignAllTrailing,],
                                                          metrics: nil,
                                                          views: ["tl": titleLabel,
                                                                  "stv": subtitleTextView,

@@ -138,7 +138,7 @@ final public class LoginContainerViewController: UIViewController {
             contentView.centerXAnchor.constraint(equalTo: view.centerXAnchor).withPriority(.required),
             contentView.centerYAnchor.constraint(equalTo: view.centerYAnchor).withPriority(.required),
             contentView.widthAnchor.constraint(equalToConstant: 420).withPriority(.almostRequired)
-            
+
             ])
 
         contentView.setContentHuggingPriority(.required, for: .horizontal)
@@ -160,7 +160,7 @@ final public class LoginContainerViewController: UIViewController {
             view.addSubview(subView)
         }
 
-        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(maxMargin@600,>=minMargin@1000)-[hl][hc(<=hl@500)][hr(<=hc@200)]-(maxMargin@600,>=minMargin@900)-|",
+        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(maxMargin@600,>=minMargin@1000)-[hl]-[hc(<=hl@500)]-[hr(<=hc@400)]-(maxMargin@600,>=minMargin@1000)-|",
                                                          options: [.alignAllTop],
                                                          metrics: ["maxMargin": 60,
                                                                    "minMargin": 32],
@@ -168,7 +168,7 @@ final public class LoginContainerViewController: UIViewController {
                                                                  "hc": headerViewCenter,
                                                                  "hr": headerViewRight])
 
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-(maxMargin@600,>=minMargin@1000)-[fl][fc(<=fl@500)][fr(<=fc@200)]-(maxMargin@600,>=minMargin@900)-|",
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "[fl]-[fc(<=fl@500)]-[fr(<=fc@400)]-(maxMargin@600,>=minMargin@1000)-|",
                                                       options: [.alignAllBottom],
                                                       metrics: ["maxMargin": 60,
                                                                 "minMargin": 32],
@@ -176,7 +176,7 @@ final public class LoginContainerViewController: UIViewController {
                                                               "fc": footerViewCenter,
                                                               "fr": footerViewRight])
 
-        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-(maxMargin@600,>=minMargin@900)-[hvl(height@400)]->=16-[cv]->=16-[fvl(height@400)]-(maxMargin@600,>=minMargin@900)-|",
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-(maxMargin@200,>=minMargin@1000)-[hvl(height@900)]->=16-[cv(>=120@900,500@500)]->=16-[fvl(height@900)]-(maxMargin@200,>=minMargin@900)-|",
                                                       options: [],
                                                       metrics: ["maxMargin": 64,
                                                                 "minMargin": 32,
@@ -187,7 +187,8 @@ final public class LoginContainerViewController: UIViewController {
 
         constraints += [
             contentView.leadingAnchor.constraint(greaterThanOrEqualTo: headerViewLeft.leadingAnchor).withPriority(.required),
-            contentView.trailingAnchor.constraint(lessThanOrEqualTo: headerViewRight.trailingAnchor).withPriority(.required)
+            contentView.trailingAnchor.constraint(lessThanOrEqualTo: headerViewRight.trailingAnchor).withPriority(.required),
+            footerViewLeft.leadingAnchor.constraint(equalTo: headerViewLeft.leadingAnchor)
         ]
 
         NSLayoutConstraint.activate(constraints)
