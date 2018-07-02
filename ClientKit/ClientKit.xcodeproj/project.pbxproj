@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		125EAE17209932F800C09FED /* EventSubmissionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE16209932F800C09FED /* EventSubmissionRequest.swift */; };
 		125EAE192099336900C09FED /* EventSubmissionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125EAE182099336900C09FED /* EventSubmissionResponse.swift */; };
+		1288D83820DA3DA300FA6EB0 /* LoginCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1288D83720DA3DA300FA6EB0 /* LoginCredentials.swift */; };
+		12B556C420DA07620001FFD6 /* LoginStyleSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B556C320DA07620001FFD6 /* LoginStyleSetup.swift */; };
 		19191C8B2092CBD800767A5F /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19191C8A2092CBD800767A5F /* Order.swift */; };
 		19191C8D2092CE2B00767A5F /* PersonOrdersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19191C8C2092CE2800767A5F /* PersonOrdersViewModel.swift */; };
 		191E183E20B246CB0086B545 /* EntityLocationInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191E183D20B246CB0086B545 /* EntityLocationInformationViewController.swift */; };
@@ -118,6 +120,8 @@
 		12048FCC1F788ECA0014748E /* Matches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matches.swift; sourceTree = "<group>"; };
 		125EAE16209932F800C09FED /* EventSubmissionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSubmissionRequest.swift; sourceTree = "<group>"; };
 		125EAE182099336900C09FED /* EventSubmissionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSubmissionResponse.swift; sourceTree = "<group>"; };
+		1288D83720DA3DA300FA6EB0 /* LoginCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCredentials.swift; sourceTree = "<group>"; };
+		12B556C320DA07620001FFD6 /* LoginStyleSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStyleSetup.swift; sourceTree = "<group>"; };
 		19191C8A2092CBD800767A5F /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		19191C8C2092CE2800767A5F /* PersonOrdersViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonOrdersViewModel.swift; sourceTree = "<group>"; };
 		191E183D20B246CB0086B545 /* EntityLocationInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityLocationInformationViewController.swift; sourceTree = "<group>"; };
@@ -253,6 +257,15 @@
 			path = Matches;
 			sourceTree = "<group>";
 		};
+		12B556C220DA07510001FFD6 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				12B556C320DA07620001FFD6 /* LoginStyleSetup.swift */,
+				1288D83720DA3DA300FA6EB0 /* LoginCredentials.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		191E183F20B24B0C0086B545 /* Location */ = {
 			isa = PBXGroup;
 			children = (
@@ -321,6 +334,7 @@
 		BC12DC8E1F023EF0001A5BB7 /* ClientKit */ = {
 			isa = PBXGroup;
 			children = (
+				12B556C220DA07510001FFD6 /* Login */,
 				968B5EF61FBA8C4C0097B3F9 /* Presenters */,
 				EA8B66571F381F8100F09716 /* Configuration */,
 				BCAEFE761F03150800C97F9C /* View Controllers */,
@@ -776,11 +790,13 @@
 				BCAEFEA31F03150800C97F9C /* Licence.swift in Sources */,
 				19FA22AF1F8603F000BE0E03 /* MatchMakers.swift in Sources */,
 				46E0B8BA2033AAE600B40DF2 /* OfficerSearchRequest.swift in Sources */,
+				12B556C420DA07620001FFD6 /* LoginStyleSetup.swift in Sources */,
 				EA8B66621F3831C900F09716 /* LicenceSearchParameters.swift in Sources */,
 				46E0B8A1202D0BAF00B40DF2 /* EntityImageSizing.swift in Sources */,
 				199ECE9E1FAA5ACD0065E425 /* PersonImageSizing.swift in Sources */,
 				EAE12B051FC2A66500851619 /* VehicleEditViewController.swift in Sources */,
 				198465BA208EAF630076E1A4 /* EntityRetrievedEventsViewModel.swift in Sources */,
+				1288D83820DA3DA300FA6EB0 /* LoginCredentials.swift in Sources */,
 				EA8B66651F38471500F09716 /* Person+EntitySummaryDisplayable.swift in Sources */,
 				198465B8208E101F0076E1A4 /* RetrievedEvent.swift in Sources */,
 				1AB8251A1F5E485F001C4BCE /* LocationMapSearchRequest.swift in Sources */,

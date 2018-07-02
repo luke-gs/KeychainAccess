@@ -34,23 +34,15 @@ public class LandingPresenter: AppGroupLandingPresenter {
         switch presentable {
 
         case .login:
-            let loginViewController = LoginViewController(mode: .usernamePassword(delegate: self))
+            let loginViewController = LoginViewController(mode: .credentials(delegate: self))
+            loginViewController.setupDefaultStyle(with: nil)
 
-            loginViewController.minimumUsernameLength = 1
-            loginViewController.minimumPasswordLength = 1
+            let loginContainer = LoginContainerViewController()
+            loginContainer.setupDefaultStyle()
 
-            loginViewController.backgroundImage = #imageLiteral(resourceName: "Login")
-            loginViewController.bottomLeftImage = #imageLiteral(resourceName: "GSMotoLogo")
-            loginViewController.headerView = LoginHeaderView(title: NSLocalizedString("PSCore", comment: "Login screen header title"),
-                                                             subtitle: NSLocalizedString("Public Safety Mobile Platform", comment: "Login screen header subtitle"), image: #imageLiteral(resourceName: "MPOLIcon"))
+            loginContainer.addContentViewController(loginViewController)
 
-            #if DEBUG
-                loginViewController.usernameField.textField.text = "gridstone"
-                loginViewController.passwordField.textField.text = "mock"
-            #endif
-
-            return loginViewController
-
+            return loginContainer
         case .termsAndConditions:
             let tsAndCsVC = TermsConditionsViewController(fileURL: Bundle.main.url(forResource: "termsandconditions", withExtension: "html")!)
             tsAndCsVC.delegate = self

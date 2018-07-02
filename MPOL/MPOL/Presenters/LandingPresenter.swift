@@ -40,42 +40,31 @@ public class LandingPresenter: AppGroupLandingPresenter {
 
         case .login:
             let mode: LoginMode
-            // This is the app wants to authenticate with biometric
+
+            // Check if the user wants to authenticate with biometric and it's possible.
+            // Can't check for password, because the `password` would require user permission.
             var retrievedUsername: String?
             if wantsBiometricAuthentication {
-                // Check if the user wants to authenticate with biometric and it's possible.
-                // Can't check for password, because the `password` would require user permission.
                 if let currentUser = BiometricUserHandler.currentUser(in: SharedKeychainCapability.defaultKeychain),
                     currentUser.useBiometric == .agreed {
-                    mode = .usernamePasswordWithBiometric(delegate: self)
+                    mode = .credentialsWithBiometric(delegate: self)
                     retrievedUsername = currentUser.username
                 } else {
-                    mode = .usernamePassword(delegate: self)
+                    mode = .credentials(delegate: self)
                 }
             } else {
-                mode = .usernamePassword(delegate: self)
+                mode = .credentials(delegate: self)
             }
+
             let loginViewController = LoginViewController(mode: mode)
+            loginViewController.setupDefaultStyle(with: retrievedUsername)
 
-            loginViewController.minimumUsernameLength = 1
-            loginViewController.minimumPasswordLength = 1
+            let loginContainer = LoginContainerViewController()
+            loginContainer.setupDefaultStyle()
 
-            loginViewController.backgroundImage = #imageLiteral(resourceName: "Login")
-            loginViewController.headerView = LoginHeaderView(title: NSLocalizedString("PSCore", comment: "Login screen header title"),
-                                                             subtitle: NSLocalizedString("Public Safety Mobile Platform", comment: "Login screen header subtitle"), image: #imageLiteral(resourceName: "MPOLIcon"))
-            loginViewController.bottomLeftImage = #imageLiteral(resourceName: "GSMotoLogo")
+            loginContainer.addContentViewController(loginViewController)
 
-
-            #if DEBUG
-                loginViewController.usernameField.textField.text = "gridstone"
-                loginViewController.passwordField.textField.text = "mock"
-            #endif
-
-            if let username = retrievedUsername {
-                loginViewController.usernameField.textField.text = username
-            }
-
-            return loginViewController
+            return loginContainer
 
         case .termsAndConditions:
             let tsAndCsVC = TermsConditionsViewController(fileURL: Bundle.main.url(forResource: "termsandconditions", withExtension: "html")!)
