@@ -11,6 +11,9 @@ import MPOLKit
 
 private let switchCellID = "SwitchCell"
 private let buttonCellID = "ButtonCell"
+private let standardCellID = "StandardCell"
+fileprivate let manifestLastUpdateKey = "Manifest_LastUpdate"
+
 
 class SettingsViewController: FormTableViewController, WhatsNewViewControllerDelegate, TermsConditionsViewControllerDelegate {
 
@@ -145,6 +148,16 @@ class SettingsViewController: FormTableViewController, WhatsNewViewControllerDel
         let setting = sections[indexPath.section].items[indexPath.row]
         
         switch setting.style {
+        case .none:
+            var cell = tableView.dequeueReusableCell(withIdentifier: standardCellID)
+            if cell == nil {
+                cell = UITableViewCell(style: .subtitle, reuseIdentifier: standardCellID)
+            }
+            cell?.textLabel?.text = setting.localizedTitle
+            cell?.detailTextLabel?.text = setting.localizedSubtitle
+            cell?.imageView?.image = setting.image?.withRenderingMode(.alwaysTemplate)
+
+            return cell!
         case .button:
             var cell = tableView.dequeueReusableCell(withIdentifier: buttonCellID)
             if cell == nil {
@@ -189,7 +202,7 @@ class SettingsViewController: FormTableViewController, WhatsNewViewControllerDel
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let setting = sections[indexPath.section].items[indexPath.row]
         
-        if setting.style == .button {
+        if setting.style == .button || setting.style == .none {
             tableView.deselectRow(at: indexPath, animated: true)
 
             if setting == .askBiometric {
@@ -197,7 +210,22 @@ class SettingsViewController: FormTableViewController, WhatsNewViewControllerDel
                     UserSession.current.user?.setAppSettingValue(nil, forKey: .useBiometric)
                 })
             } else if setting == .updateManifest {
-                // TODO: Implement this
+                let cell = tableView.cellForRow(at: indexPath)
+                let loadingAccessory = MPOLSpinnerView(style: .regular, color: tintColor)
+                cell?.accessoryView = loadingAccessory
+                cell?.detailTextLabel?.text = NSLocalizedString("Downloading...", comment: "")
+                loadingAccessory.play()
+                Manifest.shared.update(collections: ManifestCollection.cadCollections).ensure {
+                    loadingAccessory.stop()
+                    cell?.accessoryView = nil
+                }.done {
+                    tableView.reloadData()
+                }.catch { (error) in
+                    let alertImageView = ImageAccessoryItem(image: AssetManager.shared.image(forKey: .alert)!).view()
+                    (alertImageView as! UIImageView).tintColor = UIColor.orangeRed
+                    cell?.accessoryView = alertImageView
+                    cell?.detailTextLabel?.text = "An issue occured. Tap to try again."
+                }
             } else if setting == .support {
                 // TODO: Implement this
             } else if setting == .termsOfService {
@@ -243,6 +271,7 @@ class SettingsViewController: FormTableViewController, WhatsNewViewControllerDel
     private enum SettingStyle {
         case switchControl
         case button
+        case none
     }
     
     private enum Setting {
@@ -258,7 +287,9 @@ class SettingsViewController: FormTableViewController, WhatsNewViewControllerDel
         
         var style: SettingStyle {
             switch self {
-            case .askBiometric, .editSignature, .updateManifest, .support, .termsOfService, .whatsNew:
+            case .updateManifest:
+                return .none
+            case .askBiometric, .editSignature, .support, .termsOfService, .whatsNew:
                 return .button
             case .darkMode, .biometric, .numericKeyboard:
                 return .switchControl
@@ -286,7 +317,9 @@ class SettingsViewController: FormTableViewController, WhatsNewViewControllerDel
         var localizedSubtitle: String? {
             switch self {
             // TODO: Fix this, currently hard coded.
-            case .updateManifest:  return NSLocalizedString("Updated 2 mins ago",   comment: "")
+            case .updateManifest:
+                let date = UserDefaults.standard.object(forKey: manifestLastUpdateKey) as? Date ?? Date()
+                return NSLocalizedString("Updated \(timeToNow(from: date))",   comment: "")
             case .support:
                 let bundle = Bundle.main
                 let bundleVersion   = bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown"
@@ -340,6 +373,28 @@ class SettingsViewController: FormTableViewController, WhatsNewViewControllerDel
                     break
                 }
             }
+        }
+
+        private func timeToNow(from date: Date) -> String {
+
+            let now = Date()
+            let calendar: Calendar = Calendar.current
+
+            let dateComponents = calendar.dateComponents([.day, .hour, .minute, .second], from: date, to: now)
+
+            guard let days = dateComponents.day, let hours = dateComponents.hour, let min = dateComponents.minute, let sec = dateComponents.second else { return "" }
+
+            if (days > 0) {
+                 return "\(days) Day\(days > 1 ? "s" : "") Ago"
+            } else if (hours > 0) {
+                return "\(hours) Hour\(hours > 1 ? "s" : "") Ago"
+            }  else if (min > 0) {
+                return "\(min) Minute\(min > 1 ? "s" : "") Ago"
+            } else if (sec > 0) {
+                return "\(sec) Second\(sec > 1 ? "s" : "") Ago"
+            }
+
+            return ""
         }
     }
     
