@@ -20,6 +20,8 @@ public final class LoginHeaderView: UIView {
         titleLabel.text = title
         subtitleLabel.text = subtitle
         imageView.image = image
+
+        imageView.contentMode = .scaleAspectFit
     }
 
     public override init(frame: CGRect) {
@@ -30,7 +32,6 @@ public final class LoginHeaderView: UIView {
         titleLabel.font = .systemFont(ofSize: 28.0, weight: UIFont.Weight.bold)
         titleLabel.textColor = .white
         titleLabel.adjustsFontSizeToFitWidth = true
-
 
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         subtitleLabel.font = .systemFont(ofSize: 13.0, weight: UIFont.Weight.semibold)
@@ -43,8 +44,22 @@ public final class LoginHeaderView: UIView {
         addSubview(titleLabel)
         addSubview(subtitleLabel)
 
-        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[hi]-(==16@900)-[hl][sl]|", options: [.alignAllCenterX], metrics: nil, views: ["hi": imageView, "hl": titleLabel, "sl": subtitleLabel])
-        constraints.append(NSLayoutConstraint(item: imageView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX))
+        var constraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[hi(48)]-[hl]->=0@500-|",
+                                                         options: [],
+                                                         metrics: nil,
+                                                         views: ["hi": imageView, "hl": titleLabel, "sl": subtitleLabel])
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|[hi]-[sl]->=0@500-|",
+                                                      options: [],
+                                                      metrics: nil,
+                                                      views: ["hi": imageView, "hl": titleLabel, "sl": subtitleLabel])
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[hi(48)]->=0@500-|",
+                                                      options: [],
+                                                      metrics: nil,
+                                                      views: ["hi": imageView, "hl": titleLabel, "sl": subtitleLabel])
+        constraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|[hl][sl]->=0@500-|",
+                                                      options: [],
+                                                      metrics: nil,
+                                                      views: ["hi": imageView, "hl": titleLabel, "sl": subtitleLabel])
         NSLayoutConstraint.activate(constraints)
     }
     
