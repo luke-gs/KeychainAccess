@@ -124,7 +124,7 @@ open class PersonInfoViewModel: EntityDetailFormViewModel {
             for address in sorted {
 
                 let title = StringSizing(string: address.type ?? "Unknown", font: UIFont.preferredFont(forTextStyle: .subheadline))
-                let subtitle = StringSizing(string: address.formatted() ?? "", font: UIFont.preferredFont(forTextStyle: .subheadline))
+                let subtitle = StringSizing(string: AddressFormatter().formattedString(from: address) ?? "", font: UIFont.preferredFont(forTextStyle: .subheadline))
 
                 let detail: StringSizing = {
                     let detail: String

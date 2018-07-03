@@ -38,7 +38,7 @@ public struct PersonSummaryDisplayable: EntitySummaryDisplayable {
     }
 
     public var iconColor: UIColor? {
-        return UIColor(white: 0.2, alpha: 1.0)
+        return nil
     }
     
     public var badge: UInt {
@@ -105,25 +105,11 @@ public struct PersonSummaryDisplayable: EntitySummaryDisplayable {
     }
     
     private func formattedAddress() -> String? {
-        let address = person.addresses?.first
-        
-        if let address = address {
-            var street: String?
-            var area: String?
-            let streetComponents = [address.streetNumberFirst, address.streetName, address.streetType]
-            if !streetComponents.isEmpty {
-                street = streetComponents.joined(separator: " ")
-            }
-            let areaComponents = [address.county, address.suburb, address.state?.uppercased(), address.postcode].compactMap { $0 }
-            if !areaComponents.isEmpty {
-                area = areaComponents.joined(separator: " ")
-            }
-            if let street = street, let area = area {
-                return street + ", " + area
-            }
-        }
-        
-        return nil
+        guard let address = person.addresses?.first else { return nil }
+        guard let shortAddressForm = AddressFormatter(style: .short).formattedString(from: address) else { return nil }
+        let components = [address.county, address.suburb, address.state?.uppercased(), address.postcode].compactMap { $0 }
+        guard components.isEmpty == false else { return nil }
+        return shortAddressForm + "," + "\n" + components.joined(separator: " ")
     }
 }
 

@@ -23,7 +23,7 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable {
     }
     
     public var title: String? {
-        return shortFormattedAddress()
+        return AddressFormatter(style: .short).formattedString(from: address)
     }
     
     public var detail1: String? {
@@ -79,49 +79,5 @@ public struct AddressSummaryDisplayable: EntityMapSummaryDisplayable {
         }
 
         return nil
-    }
-    
-    private func shortFormattedAddress() -> String? {
-        var lines: [[String]] = []
-        var line: [String] = []
-        
-        if let unitNumber = address.unit?.ifNotEmpty() {
-            line.append("Unit \(unitNumber)")
-        }
-        
-        if let floor = address.floor?.ifNotEmpty() {
-            line.append("Floor \(floor)")
-        }
-        
-        if line.isEmpty == false {
-            lines.append(line)
-            line.removeAll()
-        }
-        
-        if let streetNumber = address.streetNumberFirst?.ifNotEmpty() {
-            line.append(streetNumber)
-        }
-        
-        if let streetName = address.streetName?.ifNotEmpty() {
-            line.append(streetName)
-        }
-        
-        if let streetType = address.streetType?.ifNotEmpty() {
-            line.append(streetType)
-        }
-        
-        if let streetDirectional = address.streetDirectional?.ifNotEmpty() {
-            line.append(streetDirectional)
-        }
-        
-        if line.isEmpty == false {
-            if lines.isEmpty == false && line.joined(separator: " ") == address.commonName {
-                _ = lines.remove(at: 0)
-            }
-            lines.append(line)
-            line.removeAll()
-        }
-        
-        return lines.compactMap { $0.isEmpty == false ? $0.joined(separator: " ") : nil }.joined(separator: " ")
     }
 }

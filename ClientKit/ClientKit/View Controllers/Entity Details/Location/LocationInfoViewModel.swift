@@ -53,7 +53,7 @@ open class LocationInfoViewModel: EntityDetailFormViewModel {
             return text
         }
 
-        if let text = address.formatted() {
+        if let text = AddressFormatter().formattedString(from: address) {
             return text
         }
 
